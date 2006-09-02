@@ -1,0 +1,151 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ERY.AgateLib</RootNamespace>
+    <AssemblyName>AgateLib</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\bin\Release\AgateLib.xml</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio.cs" />
+    <Compile Include="ImplBase\AudioImpl.cs" />
+    <Compile Include="Core.cs" />
+    <Compile Include="FileManager.cs" />
+    <Compile Include="InputCommand.cs" />
+    <Compile Include="InputState.cs" />
+    <Compile Include="NullInputImpl.cs" />
+    <Compile Include="NullSoundImpl.cs" />
+    <Compile Include="Origin.cs" />
+    <Compile Include="Registrar.cs" />
+    <Compile Include="SearchPath.cs" />
+    <Compile Include="Utility\DisplayWindowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\DisplayWindowForm.designer.cs">
+      <DependentUpon>DisplayWindowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImplBase\RenderTargetImpl.cs" />
+    <Compile Include="Color.cs" />
+    <Compile Include="Point.cs" />
+    <Compile Include="PointF.cs" />
+    <Compile Include="Rectangle.cs" />
+    <Compile Include="RectangleF.cs" />
+    <Compile Include="Size.cs" />
+    <Compile Include="SizeF.cs" />
+    <Compile Include="Input.cs" />
+    <Compile Include="ImplBase\InputImpl.cs" />
+    <Compile Include="Joystick.cs" />
+    <Compile Include="ImplBase\JoystickImpl.cs" />
+    <Compile Include="Display.cs" />
+    <Compile Include="DisplayWindow.cs" />
+    <Compile Include="ImplBase\DisplayImpl.cs" />
+    <Compile Include="ImplBase\DisplayWindowImpl.cs">
+    </Compile>
+    <Compile Include="FontSurface.cs" />
+    <Compile Include="ImplBase\FontSurfaceImpl.cs" />
+    <Compile Include="RenderTarget.cs" />
+    <Compile Include="Utility\SetSystemsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\SetSystemsForm.Designer.cs">
+      <DependentUpon>SetSystemsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpriteContainer.cs" />
+    <Compile Include="Utility\SurfacePacker.cs" />
+    <Compile Include="PlatformSpecific\Platform.cs" />
+    <Compile Include="PlatformSpecific\Win32.cs" />
+    <Compile Include="Keyboard.cs" />
+    <Compile Include="Mouse.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Utility\DisplayWindowForm.resx">
+      <DependentUpon>DisplayWindowForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utility\SetSystemsForm.resx">
+      <DependentUpon>SetSystemsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="ClassDiagram1.cd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Resource.cs" />
+    <Compile Include="ResourceManager.cs" />
+    <Compile Include="AgateSetup.cs" />
+    <Compile Include="Utility\Ref.cs" />
+    <Compile Include="Sprite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Surface.cs" />
+    <Compile Include="ImplBase\SurfaceImpl.cs" />
+    <Compile Include="Timing.cs" />
+    <Compile Include="SpriteFrame.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AgateLib.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
