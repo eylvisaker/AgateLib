@@ -1,3 +1,6 @@
+// The contents of this file are public domain.
+// You may use them as you wish.
+//
 namespace PerformanceTester
 {
     partial class frmPerformanceTester
