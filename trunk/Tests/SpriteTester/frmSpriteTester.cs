@@ -1,3 +1,6 @@
+// The contents of this file are public domain.
+// You may use them as you wish.
+//
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -55,11 +58,15 @@ namespace ERY.SpriteTester
             // setup the display
             mDisplaySetup = new AgateSetup();
             mDisplaySetup.AskUser = true;
+            mDisplaySetup.UseAudio = false;
+            mDisplaySetup.UseInput = false;
 
             mDisplaySetup.InitializeDisplay();
 
             if (mDisplaySetup.Cancel)
                 throw new Exception("User pressed cancel");
+
+            Sprite.UseSpriteCache = false;
 
             // This will create a display "window" that renders to the graphics
             // control on this form
@@ -70,7 +77,7 @@ namespace ERY.SpriteTester
 
             SetSprite(new Sprite(@"Images\attacke.png", 96, 96));
 
-            Display.PackAllSurfaces();
+            //Display.PackAllSurfaces();
 
             return true;
 

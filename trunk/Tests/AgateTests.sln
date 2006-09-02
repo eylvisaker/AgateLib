@@ -23,11 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioTester", "AudioTester\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputTester", "InputTester\InputTester.csproj", "{80D386EF-7EC4-44D0-A354-6B9E7B65FAEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurfaceRectTester", "SurfaceRectTester\SurfaceRectTester.csproj", "{A2040292-235F-43D4-A5F2-6AA81BA443A7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputStateTester", "InputStateTester\InputStateTester.csproj", "{959485C0-5749-43C6-A184-3D31627EE42F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurfacePackerTester", "SurfacePackerTester\SurfacePackerTester.csproj", "{82554282-9B1D-4EED-86F9-37D09FA4A81C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateDrawing", "..\drivers\AgateDrawing\AgateDrawing.csproj", "{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}"
 EndProject
@@ -83,18 +79,10 @@ Global
 		{80D386EF-7EC4-44D0-A354-6B9E7B65FAEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80D386EF-7EC4-44D0-A354-6B9E7B65FAEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80D386EF-7EC4-44D0-A354-6B9E7B65FAEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2040292-235F-43D4-A5F2-6AA81BA443A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2040292-235F-43D4-A5F2-6AA81BA443A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2040292-235F-43D4-A5F2-6AA81BA443A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2040292-235F-43D4-A5F2-6AA81BA443A7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{959485C0-5749-43C6-A184-3D31627EE42F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{959485C0-5749-43C6-A184-3D31627EE42F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{959485C0-5749-43C6-A184-3D31627EE42F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{959485C0-5749-43C6-A184-3D31627EE42F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82554282-9B1D-4EED-86F9-37D09FA4A81C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82554282-9B1D-4EED-86F9-37D09FA4A81C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82554282-9B1D-4EED-86F9-37D09FA4A81C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82554282-9B1D-4EED-86F9-37D09FA4A81C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}.Release|Any CPU.ActiveCfg = Release|Any CPU
