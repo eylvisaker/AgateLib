@@ -37,7 +37,7 @@ namespace ERY.AgateLib
         private bool mCancel = false;
         private bool mAskUser = false;
         private bool mAlreadyAsked = false;
-        private string mTitle;
+        private string mTitle = "AgateLib";
 
         private bool mUseDisplay = true;
         private bool mUseAudio = true;
@@ -65,6 +65,14 @@ namespace ERY.AgateLib
             Registrar.Initialize();
 
             mTitle = title;
+        }
+        /// <summary>
+        /// Constructs a Setup object.
+        /// </summary>
+        /// <param name="args">Command line arguments to the program.</param>        
+        public AgateSetup(string[] args)
+            : this("AgateLib", args)
+        {
         }
         /// <summary>
         /// Constructs a Setup object.
