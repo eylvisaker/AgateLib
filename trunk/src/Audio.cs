@@ -178,7 +178,11 @@ namespace ERY.AgateLib
         public SoundBuffer(string filename)
             : this()
         {
-            impl = Audio.Impl.CreateSoundBuffer(filename);
+            string fn = FileManager.SoundPath.FindFileName(filename);
+            if (string.IsNullOrEmpty(fn))
+                throw new System.IO.FileNotFoundException(filename);
+
+            impl = Audio.Impl.CreateSoundBuffer(fn);
             mFilename = filename;
         }
         /// <summary>
@@ -523,7 +527,11 @@ namespace ERY.AgateLib
         /// </summary>
         public Music(string filename)
         {
-            impl = Audio.Impl.CreateMusic(filename);
+            string fn = FileManager.MusicPath.FindFileName(filename);
+            if (string.IsNullOrEmpty(fn))
+                throw new System.IO.FileNotFoundException(filename);
+
+            impl = Audio.Impl.CreateMusic(fn);
             mFilename = filename;
         }
         /// <summary>

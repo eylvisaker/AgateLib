@@ -18,20 +18,20 @@ namespace FontTester
             using (AgateSetup setupDisplay = new AgateSetup())
             {
                 setupDisplay.AskUser = true;
-                setupDisplay.InitializeDisplay();
+                setupDisplay.Initialize(true, false, false);
 
                 if (setupDisplay.Cancel)
                     return;
 
                 DisplayWindow wind = new DisplayWindow("Font Tester", 640, 480, false, true);
                 FontSurface font = new FontSurface("Arial", 12);
+                FontSurface bitmapFont = FontSurface.BitmapMonospace("font.png", new Size(16, 16));
 
                 int frame = 0;
 
                 while (wind.Closed == false)
                 {
                     Display.BeginFrame();
-
                     Display.Clear(Color.DarkGray);
 
                     // test the color changing
@@ -82,6 +82,22 @@ namespace FontTester
                     // draw something which moves to let us know the program is running
                     Display.FillRect(new Rectangle(
                         10, 200, 70 + (int)( 50 * Math.Cos(frame / 10.0)), 50), Color.Red);
+
+                    // do some bitmap font stuff
+                    bitmapFont.DrawText(10, 350, "THIS IS BITMAP FONT TEXT.");
+
+                    bitmapFont.Color = Color.Red;
+                    bitmapFont.DrawText(10, 366, "THIS IS RED TEXT.");
+                    bitmapFont.Color = Color.White;
+
+                    bitmapFont.SetScale(3, 2);
+                    bitmapFont.DrawText(10, 382, "THIS IS BIGG.");
+                    bitmapFont.SetScale(1, 1);
+
+                    Display.FillRect(new Rectangle(95, 425, 10, 10), Color.Blue);
+                    bitmapFont.DisplayAlignment = OriginAlignment.Center;
+                    bitmapFont.DrawText(100, 430, "CHECK");
+                    bitmapFont.DisplayAlignment = OriginAlignment.TopLeft;
 
                     // and we're done.
                     Display.EndFrame();

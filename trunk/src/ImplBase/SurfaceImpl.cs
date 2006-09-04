@@ -27,8 +27,6 @@ namespace ERY.AgateLib.ImplBase
     /// </summary>
     public abstract class SurfaceImpl : IRenderTargetImpl, IDisposable
     {
-        //private Surface mSurface;
-        
         #region --- Private Fields ---
 
         private bool mIsDisposed = false;

@@ -1,0 +1,13 @@
+AgateLib 0.1.8 Release Notes
+======================================
+
+Requires .NET 2.0 or Mono.
+
+Deployment procedure, with respect to DirectX runtime files is unknown at the moment.  I 
+have included what I think is the minimum required files for the DirectX runtime distributable
+to work with the AgateMDX library in the dxredist directory of the archives.
+
+Known Issues:
+* VSync is not properly supported in the Direct3D driver.
+* There's a problem with Display.PackAllSurfaces where it does not copy surfaces correctly.
+* Direct3D driver does not work with Mono.  If you are running in Mono, delete AgateMDX.dll from your application directory.

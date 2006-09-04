@@ -31,7 +31,7 @@ namespace ERY.AgateLib.ImplBase
         private Color mColor = Color.White;
         private double mScaleWidth = 1.0;
         private double mScaleHeight = 1.0;
-
+        
         /// <summary>
         /// Measures the width of the given string.
         /// </summary>
@@ -54,29 +54,29 @@ namespace ERY.AgateLib.ImplBase
         /// <summary>
         /// Draws the specified string at the specified location.
         /// </summary>
-        /// <param name="dest_x"></param>
-        /// <param name="dest_y"></param>
+        /// <param name="destX"></param>
+        /// <param name="destY"></param>
         /// <param name="text"></param>
-        public abstract void DrawText(int dest_x, int dest_y, string text);
+        public abstract void DrawText(int destX, int destY, string text);
         /// <summary>
         /// Draws the specified string at the specified location.
         /// </summary>
-        /// <param name="dest_x"></param>
-        /// <param name="dest_y"></param>
+        /// <param name="destX"></param>
+        /// <param name="destY"></param>
         /// <param name="text"></param>
-        public abstract void DrawText(double dest_x, double dest_y, string text);
+        public abstract void DrawText(double destX, double destY, string text);
         /// <summary>
         /// Draws the specified string at the specified location.
         /// </summary>
-        /// <param name="dest_pt"></param>
+        /// <param name="destPt"></param>
         /// <param name="text"></param>
-        public abstract void DrawText(Point dest_pt, string text);
+        public abstract void DrawText(Point destPt, string text);
         /// <summary>
         /// Draws the specified string at the specified location.
         /// </summary>
-        /// <param name="dest_pt"></param>
+        /// <param name="destPt"></param>
         /// <param name="text"></param>
-        public abstract void DrawText(PointF dest_pt, string text);
+        public abstract void DrawText(PointF destPt, string text);
 
         /// <summary>
         /// Sets how to interpret the point given to DrawText methods.

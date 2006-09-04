@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateDrawing", "..\drivers\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateMDX", "..\drivers\AgateMDX\AgateMDX.csproj", "{852EB9A0-5DCB-492F-9630-9D4198B81FA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontLineTester", "FontLineTester\FontLineTester.csproj", "{F9F434DF-BC60-4526-87C0-450BD50DC330}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{852EB9A0-5DCB-492F-9630-9D4198B81FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{852EB9A0-5DCB-492F-9630-9D4198B81FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{852EB9A0-5DCB-492F-9630-9D4198B81FA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9F434DF-BC60-4526-87C0-450BD50DC330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9F434DF-BC60-4526-87C0-450BD50DC330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9F434DF-BC60-4526-87C0-450BD50DC330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9F434DF-BC60-4526-87C0-450BD50DC330}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

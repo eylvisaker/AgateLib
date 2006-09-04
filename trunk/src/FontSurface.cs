@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -23,12 +23,14 @@ using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib
 {
+
     /// <summary>
     /// Class which represents a Font to draw on the screen.
     /// </summary>
     public class FontSurface : IDisposable
     {
         internal FontSurfaceImpl impl;
+        private StringTransformer mTransformer = StringTransformer.None;
 
         /// <summary>
         /// Creates a FontSurface object from the given fontFamily.
@@ -41,6 +43,31 @@ namespace ERY.AgateLib
 
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
         }
+
+        /// <summary>
+        /// Private initializer to tell it what impl to use.
+        /// </summary>
+        /// <param name="implToUse"></param>
+        private FontSurface(FontSurfaceImpl implToUse)
+        {
+            impl = implToUse;
+        }
+
+        /// <summary>
+        /// This function loads a monospace bitmap font from the specified image file.
+        /// Only the character size is given.  It is assumed that all ASCII characters 
+        /// are present, in order from left to right, and top to bottom.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="characterSize"></param>
+        /// <returns></returns>
+        public static FontSurface BitmapMonospace(string filename, Size characterSize)
+        {
+            FontSurfaceImpl impl = new BitmapFontImpl(filename, characterSize);
+
+            return new FontSurface(impl);
+        }
+
         /// <summary>
         /// Destroys this object.
         /// </summary>
@@ -64,6 +91,23 @@ namespace ERY.AgateLib
 
             if (disposing)
                 GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Gets or sets how strings are transformed when they are drawn to the screen.
+        /// This is useful for bitmap fonts which contain only all uppercase letters, for
+        /// example.
+        /// </summary>
+        public StringTransformer StringTransformer
+        {
+            get { return mTransformer; }
+            set
+            {
+                mTransformer = value;
+
+                if (value == null)
+                    mTransformer = StringTransformer.None;
+            }
         }
 
         /// <summary>
@@ -155,33 +199,46 @@ namespace ERY.AgateLib
         /// <param name="destX"></param>
         /// <param name="destY"></param>
         /// <param name="text"></param>
-        public void DrawText(int destX, int destY, string text) { impl.DrawText(destX, destY, text); }
+        public void DrawText(int destX, int destY, string text) 
+        {
+            impl.DrawText(destX, destY, mTransformer.Transform(text)); 
+        }
         /// <summary>
         /// Draws the specified string at the specified location.
         /// </summary>
         /// <param name="destX"></param>
         /// <param name="destY"></param>
         /// <param name="text"></param>
-        public void DrawText(double destX, double destY, string text) { impl.DrawText(destX, destY, text); }
+        public void DrawText(double destX, double destY, string text) 
+        {
+            impl.DrawText(destX, destY, mTransformer.Transform(text)); 
+        }
         /// <summary>
         /// Draws the specified string at the specified location.
         /// </summary>
         /// <param name="destPt"></param>
         /// <param name="text"></param>
-        public void DrawText(Point destPt, string text) { impl.DrawText(destPt.X, destPt.Y, text); }
+        public void DrawText(Point destPt, string text) 
+        {
+            impl.DrawText(destPt.X, destPt.Y, mTransformer.Transform(text)); 
+        }
         /// <summary>
         /// Draws the specified string at the specified location.
         /// </summary>
         /// <param name="destPt"></param>
         /// <param name="text"></param>
-        public void DrawText(PointF destPt, string text) { impl.DrawText(destPt.X, destPt.Y, text); }
+        public void DrawText(PointF destPt, string text) 
+        { 
+            impl.DrawText(destPt.X, destPt.Y, mTransformer.Transform(text)); 
+        }
         /// <summary>
         /// Draws the specified string at the origin.
         /// </summary>
         /// <param name="text"></param>
-        public void DrawText(string text) { impl.DrawText(0, 0, text); }
-
-
+        public void DrawText(string text) 
+        {
+            impl.DrawText(0, 0, mTransformer.Transform(text));
+        }
 
     }
    

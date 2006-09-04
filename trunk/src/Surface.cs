@@ -465,6 +465,7 @@ namespace ERY.AgateLib
         {
             impl.Draw(srcRect, destRect);
         }
+
         /// <summary>
         /// Draws this surface to the specified destination
         /// rectangle.  
@@ -479,6 +480,16 @@ namespace ERY.AgateLib
             impl.Draw(destRect);
         }
 
+        /// <summary>
+        /// Draws the surface using an array of source and destination rectangles.
+        /// This method will throw an exception if the two arrays are not the same size.
+        /// </summary>
+        /// <param name="srcRects"></param>
+        /// <param name="destRects"></param>
+        public void DrawRects(Rectangle[] srcRects, Rectangle[] destRects)
+        {
+            impl.DrawRects(srcRects, destRects);
+        }
         #endregion
  
         #region --- Surface Data Manipulation ---

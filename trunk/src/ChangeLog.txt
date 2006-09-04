@@ -1,0 +1,15 @@
+
+Current Changes
+===================
+* Added a BitmapFontImpl class, to handle bitmap fonts.
+* Added FontSurface.BitmapMonospace method to create a monospace bitmap font.
+* Added Surface.DrawRects, it was mistakenly missing.
+* Fixed a bug in AgateMDX.Surface.DrawRects which was from using TriangleStrips instead of TriangleLists., and updated it to use the DrawBuffer.
+* Fixed a bug where SoundBuffer and Music objects weren't using the FileManager search paths.
+* Added Keyboard.AnyKeyPressed to check to see if the user has hit a key.  
+* Changed Keyboard.ClearAllKeys to call an internal KeyState method.
+
+Version 0.1.8
+===================
+
+Initial Release
