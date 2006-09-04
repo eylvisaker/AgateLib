@@ -115,7 +115,7 @@ namespace ERY.AgateLib.MDX
         public override Size StringDisplaySize(string text)
         {
             Rectangle result = new Rectangle(mD3DFont.MeasureString(null, text, 
-                DrawTextFormat.SingleLine, Color.ToArgb()));
+                DrawTextFormat.None, Color.ToArgb()));
             
             double scalex, scaley;
 

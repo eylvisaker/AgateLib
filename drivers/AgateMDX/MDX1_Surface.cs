@@ -534,21 +534,36 @@ namespace ERY.AgateLib.MDX
             
             CustomVertex.TransformedColoredTextured[] verts = 
                 new CustomVertex.TransformedColoredTextured[srcRects.Length * 4];
+            short[] indices = new short[srcRects.Length * 6];
 
             int startIndex = 0;
+            int indexIndex = 0;
 
             for (int i = 0; i < srcRects.Length; i++)
             {
                 AddRectToVB(verts, startIndex, srcRects[i], destRects[i]);
 
+                indices[indexIndex] = (short)startIndex;
+                indices[indexIndex + 1] = (short)(startIndex + 1);
+                indices[indexIndex + 2] = (short)(startIndex + 2);
+                indices[indexIndex + 3] = (short)(startIndex + 1);
+                indices[indexIndex + 4] = (short)(startIndex + 2);
+                indices[indexIndex + 5] = (short)(startIndex + 3);
+
+
                 startIndex += 4;
+                indexIndex += 6;
             }
 
-            mDevice.SetDeviceStateTexture(mTexture.Value);
-            mDevice.AlphaBlend = true;
+            mDevice.DrawBuffer.CacheDrawIndexedTriangles(verts, indices, mTexture.Value, true);
 
-            mDevice.VertexFormat = CustomVertex.TransformedColoredTextured.Format;
-            mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2 * srcRects.Length, verts);
+            //mDevice.SetDeviceStateTexture(mTexture.Value);
+            //mDevice.AlphaBlend = true;
+
+            //mDevice.VertexFormat = CustomVertex.TransformedColoredTextured.Format;
+            ////mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleList, 2 * srcRects.Length, verts);
+            //mDevice.Device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, indexIndex,
+            //    srcRects.Length * 2, indices, true, verts);
         }
 
         #endregion

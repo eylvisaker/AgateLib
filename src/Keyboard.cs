@@ -801,9 +801,10 @@ namespace ERY.AgateLib
                     if (this[id] != value)
                     {
                         mKeyState[(int)id] = value;
+                        System.Diagnostics.Debug.Print("Set key {0} to {1}.", id, value);
 
                         if (value)
-                            Keyboard.OnKeyDown(id, 
+                            Keyboard.OnKeyDown(id,
                                 new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]));
                         else
                             Keyboard.OnKeyUp(id,
@@ -843,7 +844,7 @@ namespace ERY.AgateLib
 
                 // sometimes windows reports Shift and sometimes ShiftKey.. what gives?
                 switch (id)
-                {                       
+                {
                     case System.Windows.Forms.Keys.Alt:
                     case System.Windows.Forms.Keys.Menu:
                         myvalue = KeyCode.Alt;
@@ -865,7 +866,23 @@ namespace ERY.AgateLib
                 }
                 return myvalue;
             }
-            
+
+            internal bool AnyKeyPressed
+            {
+                get
+                {
+                    for (int i = 0; i < mKeyState.Length; i++)
+                        if (mKeyState[i])
+                            return true;
+
+                    return false;
+                }
+            }
+            internal void ClearAllKeys()
+            {
+                for (int i = 0; i < mKeyState.Length; i++)
+                    this[(KeyCode)i] = false;
+            }
         }
 
         /// <summary>
@@ -882,10 +899,19 @@ namespace ERY.AgateLib
         /// </summary>
         public static void ClearAllKeys()
         {
-            foreach (KeyCode value in Enum.GetValues(typeof(KeyCode)))
-                Keys[value] = false;
+            mKeyState.ClearAllKeys();
         }
 
+        /// <summary>
+        /// Checks to see if the user pressed the "Any" key.
+        /// </summary>
+        public static bool AnyKeyPressed
+        {
+            get
+            {
+                return Keys.AnyKeyPressed;
+            }
+        }
         private static void OnKeyDown(KeyCode id, KeyModifiers mods)
         {
             if (KeyDown != null)

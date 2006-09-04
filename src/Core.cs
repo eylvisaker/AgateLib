@@ -103,6 +103,12 @@ namespace ERY.AgateLib
                 {
                     System.Threading.Thread.Sleep(25);
                     System.Windows.Forms.Application.DoEvents();
+
+                    if (Display.CurrentWindow == null)
+                        break;
+                    else if (Display.CurrentWindow.Closed)
+                        break;
+
                 }
             }
 

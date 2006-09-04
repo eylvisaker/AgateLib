@@ -47,6 +47,7 @@
     <Compile Include="ImplBase\AudioImpl.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="FileManager.cs" />
+    <Compile Include="ImplBase\BitmapFontImpl.cs" />
     <Compile Include="InputCommand.cs" />
     <Compile Include="InputState.cs" />
     <Compile Include="NullInputImpl.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Origin.cs" />
     <Compile Include="Registrar.cs" />
     <Compile Include="SearchPath.cs" />
+    <Compile Include="StringTransformer.cs" />
     <Compile Include="Utility\DisplayWindowForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +140,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AgateLib.ico" />
+    <Content Include="ChangeLog.txt" />
+    <Content Include="ReleaseNotes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
