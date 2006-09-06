@@ -386,13 +386,26 @@ namespace ERY.AgateLib
 
             foreach (string file in files)
             {
-                Assembly ass = Assembly.LoadFrom(file);
+                Assembly ass;
+                Type[] types;
 
-                // the library DLL should be in the same directory, make sure to skip it.
-                if (ass == Assembly.GetExecutingAssembly())
+                try
+                {
+                    ass = Assembly.LoadFrom(file);
+
+                    // the library DLL should be in the same directory, make sure to skip it.
+                    if (ass == Assembly.GetExecutingAssembly())
+                        continue;
+
+                    types = ass.GetTypes();
+                }
+                catch(Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine("Error loading assembly " + file);
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+
                     continue;
-
-                Type[] types = ass.GetTypes();
+                }
 
                 foreach (Type t in types)
                 {

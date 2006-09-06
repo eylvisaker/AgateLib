@@ -4,10 +4,19 @@ Current Changes
 * Added a BitmapFontImpl class, to handle bitmap fonts.
 * Added FontSurface.BitmapMonospace method to create a monospace bitmap font.
 * Added Surface.DrawRects, it was mistakenly missing.
-* Fixed a bug in AgateMDX.Surface.DrawRects which was from using TriangleStrips instead of TriangleLists., and updated it to use the DrawBuffer.
-* Fixed a bug where SoundBuffer and Music objects weren't using the FileManager search paths.
 * Added Keyboard.AnyKeyPressed to check to see if the user has hit a key.  
-* Changed Keyboard.ClearAllKeys to call an internal KeyState method.
+* Added StringTransformer class to allow FontSurfaces to transform strings before they are drawn.
+* Added the Serializable attribute to Point, PointF, Rectangle, RectangleF, Size, SizeF structures.
+* Added some code to make the Registrar a little more robust, if non .NET dll's are present.
+
+* Renamed Keyboard.ClearAllKeys to Keyboard.ReleaseAllKeys.  Old version is there, but deprecated.
+* Changed Keyboard.ReleaseAllKeys to call an internal KeyState method.
+* Changed behavior of Keyboard.ReleaseAllKeys to mark keys which are already depressed so that KeyDown events are not generated for them until the are physically released.
+
+* Fixed a bug in AgateMDX.Surface.DrawRects which was from using TriangleStrips instead of TriangleLists, and updated it to use the DrawBuffer.
+* Fixed a bug where SoundBuffer and Music objects weren't using the FileManager search paths.
+* Fixed a bug where Display.AutoPause would cause the program to go in an infinite loop and never exit when the window was closed.
+
 
 Version 0.1.8
 ===================

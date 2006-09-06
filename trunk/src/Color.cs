@@ -26,6 +26,7 @@ namespace ERY.AgateLib
     /// Replacement for System.Drawing.Color structure.
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
+    [Serializable]
     public struct Color
     {
 

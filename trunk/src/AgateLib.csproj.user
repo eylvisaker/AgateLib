@@ -5,6 +5,8 @@
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <StartWorkingDirectory>E:\Devel\CShapGameLibrary\</StartWorkingDirectory>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>
 </Project>

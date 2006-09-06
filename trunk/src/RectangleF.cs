@@ -25,6 +25,7 @@ namespace ERY.AgateLib
     /// <summary>
     /// Replacement for System.Drawing.RectangleF structure.
     /// </summary>
+    [Serializable]
     public struct RectangleF
     {
         PointF pt;

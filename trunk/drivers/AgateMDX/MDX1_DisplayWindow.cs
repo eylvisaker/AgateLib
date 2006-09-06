@@ -268,7 +268,7 @@ namespace ERY.AgateLib.MDX
 
         public override void ToggleFullScreen()
         {
-            Keyboard.ClearAllKeys();
+            Keyboard.ReleaseAllKeys(true);
 
             bool wasFullscreen = IsFullScreen;
             Size size = new Size( frm.ClientSize);

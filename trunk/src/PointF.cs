@@ -25,6 +25,7 @@ namespace ERY.AgateLib
     /// <summary>
     /// Replacement for System.Drawing.PointF structure.
     /// </summary>
+    [Serializable]
     public struct PointF
     {
         float x, y;
