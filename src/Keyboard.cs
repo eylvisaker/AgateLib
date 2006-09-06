@@ -701,6 +701,7 @@ namespace ERY.AgateLib
     {
         KeyCode mKeyId;
         KeyModifiers mModifiers;
+        int mRepeatCount;
         string mKeyString;
         Point mMousePosition;
         Mouse.MouseButtons mButtons;
@@ -716,6 +717,11 @@ namespace ERY.AgateLib
             mModifiers = mods;
 
             Initialize();
+        }
+        internal InputEventArgs(KeyCode keyID, KeyModifiers mods, int repeatCount)
+            : this(keyID, mods)
+        {
+            mRepeatCount = repeatCount;
         }
 
         internal InputEventArgs(Mouse.MouseButtons mouseButtons)
@@ -756,6 +762,16 @@ namespace ERY.AgateLib
         }
 
         /// <summary>
+        /// Gets how many times the keypress has been repeated.
+        /// This is zero for the first time a key is pressed, and increases
+        /// as the key is held down and KeyDown events are generated after that.
+        /// </summary>
+        public int RepeatCount
+        {
+            get { return mRepeatCount; }
+        }
+
+        /// <summary>
         /// Gets which mouse buttons were pressed.
         /// </summary>
         public Mouse.MouseButtons MouseButtons
@@ -778,11 +794,13 @@ namespace ERY.AgateLib
         [CLSCompliant(true)]
         public class KeyState
         {
-            private static bool[] mKeyState;
+            private static int[] mKeyState;
+            private static bool[] mWaitForKeyUp;
 
             internal KeyState()
             {
-                mKeyState = new bool[256];
+                mKeyState = new int[256];
+                mWaitForKeyUp = new bool[256];
             }
 
             /// <summary>
@@ -794,23 +812,58 @@ namespace ERY.AgateLib
             {
                 get
                 {
-                    return mKeyState[(int)id];
+                    if (mKeyState[(int)id] > 0)
+                        return true;
+                    else
+                        return false;
                 }
                 set
                 {
-                    if (this[id] != value)
-                    {
-                        mKeyState[(int)id] = value;
-                        System.Diagnostics.Debug.Print("Set key {0} to {1}.", id, value);
+                    int intID = (int)id;
 
-                        if (value)
-                            Keyboard.OnKeyDown(id,
-                                new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]));
-                        else
-                            Keyboard.OnKeyUp(id,
-                                new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]));
+                    if (value == true)
+                    {
+                        if (mKeyState[intID] == 0 && mWaitForKeyUp[intID])
+                            return;
+
+                        mKeyState[intID]++;
+                        mWaitForKeyUp[intID] = true;
+
+                        System.Diagnostics.Debug.Print("Set key {0} to {1}, repeat count {2}.",
+                            id, value, mKeyState[(int)id] - 1);
+
+                        Keyboard.OnKeyDown(id,
+                                new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]),
+                                mKeyState[(int)id]-1);
+                    }
+                        // value is false here:
+                    else if (mKeyState[(int)id] > 0)
+                    {
+                        ReleaseKey(id, false);
+                    }
+                    else
+                    {
+                        mWaitForKeyUp[intID] = false;
                     }
                 }
+            }
+
+            /// <summary>
+            /// Clears the key-down status of a key, and generates a KeyUp event.  
+            /// If waitKeyUp is true, the key is marked so that KeydDown events will not be generated until 
+            /// it has been physically released by the user.
+            /// </summary>
+            /// <param name="id">KeyCode identifier of key to release.</param>
+            /// <param name="waitKeyUp">Boolean flag indicating whether or not
+            /// keydown events should be suppressed until the key is physically released.</param>
+            private void ReleaseKey(KeyCode id, bool waitKeyUp)
+            {
+                mKeyState[(int)id] = 0;
+                mWaitForKeyUp[(int)id] = waitKeyUp;
+                System.Diagnostics.Debug.Print("Set key {0} to {1}.", id, false);
+
+                Keyboard.OnKeyUp(id,
+                      new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]));
             }
             /// <summary>
             /// Gets the state of a key using the System.Windows.Forms.Keys enum values.
@@ -872,16 +925,27 @@ namespace ERY.AgateLib
                 get
                 {
                     for (int i = 0; i < mKeyState.Length; i++)
-                        if (mKeyState[i])
+                        if (mKeyState[i] > 0)
                             return true;
 
                     return false;
                 }
             }
-            internal void ClearAllKeys()
+
+            /// <summary>
+            /// Resets all keys to being in the up state (not pushed).
+            /// Does generate KeyUp events.
+            /// 
+            /// This also makes it so any keys which were depressed must be released
+            /// before KeyDown events are raised again.
+            /// </summary>
+            internal void ReleaseAllKeys(bool waitForKeyUp)
             {
                 for (int i = 0; i < mKeyState.Length; i++)
-                    this[(KeyCode)i] = false;
+                {
+                    if (mKeyState[i] > 0)
+                        ReleaseKey((KeyCode)i, waitForKeyUp);
+                }
             }
         }
 
@@ -896,10 +960,38 @@ namespace ERY.AgateLib
         /// <summary>
         /// Resets all keys to being in the up state (not pushed).
         /// Does generate KeyUp events.
+        /// 
+        /// This also makes it so any keys which were depressed must be released
+        /// before KeyDown events are raised again.
         /// </summary>
+        public static void ReleaseAllKeys()
+        {
+            mKeyState.ReleaseAllKeys(true);
+        }
+        /// <summary>
+        /// Resets all keys to being in the up state (not pushed).
+        /// Does generate KeyUp events.
+        /// 
+        /// This can also make it so any keys which were depressed must be released
+        /// before KeyDown events are raised again.
+        /// </summary>
+        /// <param name="waitForKeyUp">If true, then keys currently depressed will 
+        /// not generate KeyDown events until they are released.</param>
+        public static void ReleaseAllKeys(bool waitForKeyUp)
+        {
+            mKeyState.ReleaseAllKeys(waitForKeyUp);
+        }
+
+        /// <summary>
+        /// Resets all keys to being in the up state (not pushed).
+        /// Does generate KeyUp events.
+        /// 
+        /// Deprecated.  Use ReleaseAllKeys(false) instead.
+        /// </summary>
+        [Obsolete("Use ReleaseAllKeys(false) instead.")]
         public static void ClearAllKeys()
         {
-            mKeyState.ClearAllKeys();
+            ReleaseAllKeys(false);
         }
 
         /// <summary>
@@ -912,10 +1004,10 @@ namespace ERY.AgateLib
                 return Keys.AnyKeyPressed;
             }
         }
-        private static void OnKeyDown(KeyCode id, KeyModifiers mods)
+        private static void OnKeyDown(KeyCode id, KeyModifiers mods, int repeatCount)
         {
             if (KeyDown != null)
-                KeyDown(new InputEventArgs(id, mods));
+                KeyDown(new InputEventArgs(id, mods, repeatCount));
         }
         private static void OnKeyUp(KeyCode id, KeyModifiers mods)
         {

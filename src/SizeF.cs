@@ -25,6 +25,7 @@ namespace ERY.AgateLib
     /// <summary>
     /// SizeF structure.
     /// </summary>
+    [Serializable]
     public struct SizeF
     {
         float width, height;

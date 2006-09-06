@@ -103,5 +103,10 @@ namespace InputTester
                 "KeyValue: " + e.KeyValue.ToString() + "\r\n" +
                 "KeyValueChar: " + ((char)e.KeyValue).ToString();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Keyboard.ReleaseAllKeys();
+        }
     }
 }

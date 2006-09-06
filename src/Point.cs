@@ -24,6 +24,7 @@ namespace ERY.AgateLib
     /// <summary>
     /// Replacement for System.Drawing.Point structure.
     /// </summary>
+    [Serializable]
     public struct Point
     {
         int x, y;
