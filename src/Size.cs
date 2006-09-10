@@ -84,6 +84,34 @@ namespace ERY.AgateLib
             get { return width == 0 && height == 0; }
         }
 
+
+        #region --- Operator Overloads ---
+
+        /// <summary>
+        /// Equality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(Size a, Size b)
+        {
+            return a.Equals(b);
+        }
+        /// <summary>
+        /// Inequality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(Size a, Size b)
+        {
+            return !a.Equals(b);
+        }
+
+        #endregion
+
+        #region --- Object Overrides ---
+
         /// <summary>
         /// Converts to a string.
         /// </summary>
@@ -92,6 +120,33 @@ namespace ERY.AgateLib
         {
             return string.Format("{0}Width={1},Height={2}{3}", "{", width, height, "}");
         }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is Size)
+                return Equals((Size)obj);
+            else
+                return base.Equals(obj);
+        }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool Equals(Size obj)
+        {
+            if (width == obj.width && height == obj.height)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
+
         /// <summary>
         /// Empty Size.
         /// </summary>

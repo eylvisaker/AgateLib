@@ -41,7 +41,8 @@ namespace ERY.AgateLib
         /// Creates a DisplayWindow object using the specified System.Windows.Forms.Control
         /// object as a render context.
         /// </summary>
-        /// <param name="renderTarget"></param>
+        /// <param name="renderTarget">Windows.Forms control which should be used as the
+        /// render target.</param>
         public DisplayWindow(System.Windows.Forms.Control renderTarget)
         {
             impl = Display.Impl.CreateDisplayWindow(renderTarget);
@@ -62,13 +63,63 @@ namespace ERY.AgateLib
 
         }
         /// <summary>
+        /// Creates a DisplayWindow object by creating a windowed Form.
+        /// By default, this window does not allow the user to resize it.
+        /// </summary>
+        /// <param name="title">Title of the window.</param>
+        /// <param name="clientWidth">Width of the drawing area in pixels.</param>
+        /// <param name="clientHeight">Height of the drawing area in pixels.</param>
+        /// <param name="iconFile">File name of a Win32 .ico file to use for the window icon.  Pass
+        /// null or "" to not use an icon.</param>
+        public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile)
+            : this(title, clientWidth, clientHeight, false, false)
+        {
+
+        }
+        /// <summary>
         /// Creates a DisplayWindow object by creating a windowed or fullscreen Form.
         /// By default, this window does not allow the user to resize it.
         /// </summary>
-        /// <param name="title"></param>
-        /// <param name="clientWidth"></param>
-        /// <param name="clientHeight"></param>
-        /// <param name="startFullscreen"></param>
+        /// <param name="title">Title of the window.</param>
+        /// <param name="clientWidth">Width of the drawing area in pixels.</param>
+        /// <param name="clientHeight">Height of the drawing area in pixels.</param>
+        /// <param name="iconFile">File name of a Win32 .ico file to use for the window icon.</param>
+        /// <param name="startFullscreen">True to start as a full screen window.</param>
+        public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen)
+            : this(title, clientWidth, clientHeight, iconFile, startFullscreen, false)
+        {
+
+        }
+        /// <summary>
+        /// Creates a DisplayWindow object by creating a windowed or fullscreen Form.
+        /// </summary>
+        /// <param name="title">Title of the window.</param>
+        /// <param name="clientWidth">Width of the drawing area in pixels.</param>
+        /// <param name="clientHeight">Height of the drawing area in pixels.</param>
+        /// <param name="iconFile">File name of a Win32 .ico file to use for the window icon.</param>
+        /// <param name="startFullscreen">True to start as a full screen window.</param>
+        /// <param name="allowResize">True to allow the user to manually resize the window by
+        /// dragging the border.</param>
+        public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen, bool allowResize)
+        {
+            impl = Display.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, 
+                FileManager.ImagePath.FindFileName(iconFile), startFullscreen, allowResize);
+
+            Display.RenderTarget = this;
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+        }
+
+        /// <summary>
+        /// Creates a DisplayWindow object by creating a windowed or fullscreen Form.
+        /// By default, this window does not allow the user to resize it.
+        /// 
+        /// <para><b>Deprecated.</b>  Use an overload which includes the icon File argument.</para>
+        /// </summary>
+        /// <param name="title">Title of the window.</param>
+        /// <param name="clientWidth">Width of the drawing area in pixels.</param>
+        /// <param name="clientHeight">Height of the drawing area in pixels.</param>
+        /// <param name="startFullscreen">True to start as a full screen window.</param>
+        [Obsolete("Use an overload which includes the iconFile argument.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, bool startFullscreen)
             : this(title, clientWidth, clientHeight, startFullscreen, false)
         {
@@ -83,12 +134,14 @@ namespace ERY.AgateLib
         /// <param name="startFullscreen"></param>
         /// <param name="allowResize"></param>
         public DisplayWindow(string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize)
+            : this(title, clientWidth, clientHeight, "", startFullscreen, allowResize)
         {
-            impl = Display.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, startFullscreen, allowResize);
+            //impl = Display.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, "", startFullscreen, allowResize);
 
-            Display.RenderTarget = this;
-            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            //Display.RenderTarget = this;
+            //Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
         }
+        
         /// <summary>
         /// Destructs a DisplayWindow
         /// </summary>

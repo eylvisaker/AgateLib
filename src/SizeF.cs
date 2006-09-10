@@ -87,5 +87,69 @@ namespace ERY.AgateLib
         /// Empty SizeF structure.
         /// </summary>
         public static readonly SizeF Empty = new SizeF(0, 0);
+
+
+        #region --- Operator Overloads ---
+
+        /// <summary>
+        /// Equality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(SizeF a, SizeF b)
+        {
+            return a.Equals(b);
+        }
+        /// <summary>
+        /// Inequality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(SizeF a, SizeF b)
+        {
+            return !a.Equals(b);
+        }
+
+        #endregion
+
+        #region --- Object Overrides ---
+
+        /// <summary>
+        /// Converts to a string.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("{0}Width={1},Height={2}{3}", "{", width, height, "}");
+        }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is SizeF)
+                return Equals((SizeF)obj);
+            else
+                return base.Equals(obj);
+        }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool Equals(SizeF obj)
+        {
+            if (width == obj.width && height == obj.height)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
+
     }
 }

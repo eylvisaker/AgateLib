@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
+using ERY.AgateLib;
 
 namespace ERY.SurfaceTester
 {
@@ -21,25 +22,25 @@ namespace ERY.SurfaceTester
 
             frmSurfaceTester form = new frmSurfaceTester();
 
-            try
+            using (AgateSetup displaySetup = new AgateSetup())
             {
+                displaySetup.AskUser = true;
+                displaySetup.Initialize(true, false, false);
+                if (displaySetup.Cancel)
+                    return;
+
                 form.Show();
+
+                int frame = 0;
+
+                while (form.Visible)
+                {
+                    form.UpdateDisplay();
+
+                    frame++;
+
+                }
             }
-            catch (Exception e)
-            {
-                MessageBox.Show("Failed to start:\n\n" + e.Message);
-            }
-
-            int frame = 0;
-
-            while (form.Visible)
-            {
-                form.UpdateDisplay();
-               
-                frame++;
-
-            }
-
             
         }
 

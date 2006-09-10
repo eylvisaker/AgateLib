@@ -32,10 +32,12 @@ namespace ERY.SpriteTester
         private void InitializeComponent()
         {
             this.pctGraphics = new System.Windows.Forms.PictureBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.nudTimePerFrame = new System.Windows.Forms.NumericUpDown();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.nudAngle = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cboRotation = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.nudScale = new System.Windows.Forms.NumericUpDown();
             this.btnRestart = new System.Windows.Forms.Button();
@@ -58,17 +60,13 @@ namespace ERY.SpriteTester
             this.cboAlignment = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
-            this.label8 = new System.Windows.Forms.Label();
-            this.nudAngle = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cboRotation = new System.Windows.Forms.ComboBox();
+            this.lblFrameRate = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pctGraphics)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTimePerFrame)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAngle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudScale)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudAngle)).BeginInit();
             this.SuspendLayout();
             // 
             // pctGraphics
@@ -81,22 +79,6 @@ namespace ERY.SpriteTester
             this.pctGraphics.Size = new System.Drawing.Size(290, 357);
             this.pctGraphics.TabIndex = 0;
             this.pctGraphics.TabStop = false;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 372);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(539, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(109, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // nudTimePerFrame
             // 
@@ -147,6 +129,57 @@ namespace ERY.SpriteTester
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(219, 357);
             this.panel1.TabIndex = 3;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 58);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(77, 13);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "Rotation Angle";
+            // 
+            // nudAngle
+            // 
+            this.nudAngle.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.nudAngle.Location = new System.Drawing.Point(109, 56);
+            this.nudAngle.Maximum = new decimal(new int[] {
+            720,
+            0,
+            0,
+            0});
+            this.nudAngle.Minimum = new decimal(new int[] {
+            720,
+            0,
+            0,
+            -2147483648});
+            this.nudAngle.Name = "nudAngle";
+            this.nudAngle.Size = new System.Drawing.Size(62, 20);
+            this.nudAngle.TabIndex = 21;
+            this.nudAngle.ValueChanged += new System.EventHandler(this.nudAngle_ValueChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(3, 85);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(81, 13);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "Rotation Center";
+            // 
+            // cboRotation
+            // 
+            this.cboRotation.FormattingEnabled = true;
+            this.cboRotation.Location = new System.Drawing.Point(109, 82);
+            this.cboRotation.MaxDropDownItems = 9;
+            this.cboRotation.Name = "cboRotation";
+            this.cboRotation.Size = new System.Drawing.Size(107, 21);
+            this.cboRotation.TabIndex = 23;
+            this.cboRotation.SelectedIndexChanged += new System.EventHandler(this.cboRotation_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -375,79 +408,34 @@ namespace ERY.SpriteTester
             this.label1.TabIndex = 3;
             this.label1.Text = "Milliseconds per Frame";
             // 
-            // label8
+            // lblFrameRate
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 58);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(77, 13);
-            this.label8.TabIndex = 20;
-            this.label8.Text = "Rotation Angle";
-            // 
-            // nudAngle
-            // 
-            this.nudAngle.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.nudAngle.Location = new System.Drawing.Point(109, 56);
-            this.nudAngle.Maximum = new decimal(new int[] {
-            720,
-            0,
-            0,
-            0});
-            this.nudAngle.Minimum = new decimal(new int[] {
-            720,
-            0,
-            0,
-            -2147483648});
-            this.nudAngle.Name = "nudAngle";
-            this.nudAngle.Size = new System.Drawing.Size(62, 20);
-            this.nudAngle.TabIndex = 21;
-            this.nudAngle.ValueChanged += new System.EventHandler(this.nudAngle_ValueChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 85);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(81, 13);
-            this.label9.TabIndex = 22;
-            this.label9.Text = "Rotation Center";
-            // 
-            // cboRotation
-            // 
-            this.cboRotation.FormattingEnabled = true;
-            this.cboRotation.Location = new System.Drawing.Point(109, 82);
-            this.cboRotation.MaxDropDownItems = 9;
-            this.cboRotation.Name = "cboRotation";
-            this.cboRotation.Size = new System.Drawing.Size(107, 21);
-            this.cboRotation.TabIndex = 23;
-            this.cboRotation.SelectedIndexChanged += new System.EventHandler(this.cboRotation_SelectedIndexChanged);
+            this.lblFrameRate.AutoSize = true;
+            this.lblFrameRate.Location = new System.Drawing.Point(12, 372);
+            this.lblFrameRate.Name = "lblFrameRate";
+            this.lblFrameRate.Size = new System.Drawing.Size(54, 13);
+            this.lblFrameRate.TabIndex = 24;
+            this.lblFrameRate.Text = "Framerate";
             // 
             // frmSpriteTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(539, 394);
+            this.Controls.Add(this.lblFrameRate);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.pctGraphics);
             this.Name = "frmSpriteTester";
             this.Text = "Sprite Tester";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmSpriteTester_FormClosed);
             this.Load += new System.EventHandler(this.frmSpriteTester_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pctGraphics)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTimePerFrame)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAngle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudScale)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudAngle)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -456,8 +444,6 @@ namespace ERY.SpriteTester
         #endregion
 
         private System.Windows.Forms.PictureBox pctGraphics;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.NumericUpDown nudTimePerFrame;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
@@ -486,6 +472,7 @@ namespace ERY.SpriteTester
         private System.Windows.Forms.NumericUpDown nudAngle;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cboRotation;
+        private System.Windows.Forms.Label lblFrameRate;
     }
 }
 

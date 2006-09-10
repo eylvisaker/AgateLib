@@ -191,44 +191,7 @@ namespace ERY.AgateLib
             else
                 return false;
         }
-        /// <summary>
-        /// Gets a hash code.
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return (Left + Top + Bottom + Right);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is Rectangle)
-            {
-                return Equals((Rectangle)obj);
-            }
-            else
-                return base.Equals(obj);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
-        public bool Equals(Rectangle rect)
-        {
-            if (this.X == rect.X &&
-                this.Y == rect.Y &&
-                this.Width == rect.Width &&
-                this.Height == rect.Height)
-
-                return true;
-            else
-                return false;
-        }
+        
         /// <summary>
         /// Returns true if this intersects another rectangle.
         /// </summary>
@@ -251,6 +214,42 @@ namespace ERY.AgateLib
             get { return pt.IsEmpty && sz.IsEmpty; }
         }
 
+
+        #region --- Operator Overloads ---
+
+        /// <summary>
+        /// Equality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(Rectangle a, Rectangle b)
+        {
+            return a.Equals(b);
+        }
+        /// <summary>
+        /// Inequality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(Rectangle a, Rectangle b)
+        {
+            return !a.Equals(b);
+        }
+
+        #endregion
+        #region --- Object Overrides ---
+
+        /// <summary>
+        /// Gets a hash code.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return (Left + Top + Bottom + Right);
+        }
+        
         /// <summary>
         /// Creates a string representing this rectangle.
         /// </summary>
@@ -259,6 +258,33 @@ namespace ERY.AgateLib
         {
             return string.Format("{0}X={1},Y={2},Width={3},Height={4}", "{", X, Y, Width, Height, "}");
         }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is Rectangle )
+                return Equals((Rectangle)obj);
+            else
+                return base.Equals(obj);
+        }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool Equals(Rectangle obj)
+        {
+            if (pt == obj.pt && sz == obj.sz)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
+
         /// <summary>
         /// Empty rectangle
         /// </summary>

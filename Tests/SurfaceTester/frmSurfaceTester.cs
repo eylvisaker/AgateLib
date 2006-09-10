@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -15,11 +14,18 @@ namespace ERY.SurfaceTester
     public partial class frmSurfaceTester : Form
     {
         Surface mSurface;
-        AgateSetup mDisplaySetup;
-
+        
         public frmSurfaceTester()
         {
             InitializeComponent();
+
+            try
+            {
+                Icon = new Icon(@"..\..\src\AgateLib.ico");
+            }
+            catch
+            {
+            }
         }
         
         
@@ -43,14 +49,6 @@ namespace ERY.SurfaceTester
 
         private void InitDisplay()
         { 
-            // setup the display
-            mDisplaySetup = new ERY.AgateLib.AgateSetup();
-            mDisplaySetup.AskUser = true;
-
-            //if (mDisplaySetup.InitializeDisplay(true) == false)
-            //    throw new Exception("User pressed cancel.");
-            mDisplaySetup.InitializeDisplay();
-
             // This will create a display "window" that renders to the graphics
             // control on this form
             DisplayWindow wind = new DisplayWindow(pctGraphics);
@@ -162,12 +160,6 @@ namespace ERY.SurfaceTester
                 colorBox.BackColor = colorDialog1.Color;
             }
         }
-
-        private void frmSurfaceTester_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            mDisplaySetup.Dispose();
-        }
-
 
     }
 }

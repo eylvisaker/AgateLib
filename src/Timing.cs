@@ -238,6 +238,14 @@ namespace ERY.AgateLib
 
                 Resume();
             }
+
+            /// <summary>
+            /// Gets whether or not this StopWatch is paused.
+            /// </summary>
+            public bool IsPaused
+            {
+                get { return mPause > 0; }
+            }
         }
     }
 }
