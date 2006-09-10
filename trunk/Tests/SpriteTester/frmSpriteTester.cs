@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -17,11 +16,8 @@ namespace ERY.SpriteTester
         public frmSpriteTester()
         {
             InitializeComponent();
-
-            toolStripStatusLabel1.Text = "";
         }
 
-        AgateSetup mDisplaySetup;
         Sprite mSprite;
         DisplayWindow wind;
 
@@ -50,22 +46,20 @@ namespace ERY.SpriteTester
             }
 
             nudTimePerFrame.Value = 50;
+
+            try
+            {
+                Icon = new Icon(@"..\..\src\AgateLib.ico");
+            }
+            catch
+            {
+            }
+
         }
 
 
         private bool InitDisplay()
         {
-            // setup the display
-            mDisplaySetup = new AgateSetup();
-            mDisplaySetup.AskUser = true;
-            mDisplaySetup.UseAudio = false;
-            mDisplaySetup.UseInput = false;
-
-            mDisplaySetup.InitializeDisplay();
-
-            if (mDisplaySetup.Cancel)
-                throw new Exception("User pressed cancel");
-
             Sprite.UseSpriteCache = false;
 
             // This will create a display "window" that renders to the graphics
@@ -170,7 +164,7 @@ namespace ERY.SpriteTester
 
             Display.EndFrame();
 
-            toolStripStatusLabel1.Text = Display.FramesPerSecond.ToString();
+            lblFrameRate.Text = "Frame Rate: " + Display.FramesPerSecond.ToString();
         }
 
         private void nudTimePerFrame_ValueChanged(object sender, EventArgs e)
@@ -248,11 +242,6 @@ namespace ERY.SpriteTester
         private void cboRotation_SelectedIndexChanged(object sender, EventArgs e)
         {
             mSprite.RotationCenter = (OriginAlignment)cboRotation.SelectedItem;
-        }
-
-        private void frmSpriteTester_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            mDisplaySetup.Dispose();
         }
 
     }

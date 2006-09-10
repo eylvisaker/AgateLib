@@ -364,7 +364,6 @@ namespace ERY.SurfaceTester
             this.Name = "frmSurfaceTester";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Surface Tester";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmSurfaceTester_FormClosed);
             this.Load += new System.EventHandler(this.frmImageRotation_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pctGraphics)).EndInit();
             this.panel1.ResumeLayout(false);

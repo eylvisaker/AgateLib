@@ -99,6 +99,69 @@ namespace ERY.AgateLib
 
         #endregion
 
+        #region --- Operator Overloads ---
+
+        /// <summary>
+        /// Equality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(PointF a, PointF b)
+        {
+            return a.Equals(b);
+        }
+        /// <summary>
+        /// Inequality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(PointF a, PointF b)
+        {
+            return !a.Equals(b);
+        }
+
+        #endregion
+
+
+        #region --- Object Overrides ---
+
+        /// <summary>
+        /// Creates a string representing this object.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("{0}X={1},Y={2}{3}", "{", x, y, "}");
+        }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is PointF)
+                return Equals((PointF)obj);
+            else
+                return base.Equals(obj);
+        }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool Equals(PointF obj)
+        {
+            if (x == obj.x && y == obj.y)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
+
         #region --- Static Methods and Fields ---
 
         /// <summary>

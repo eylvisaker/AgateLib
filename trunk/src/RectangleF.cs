@@ -191,44 +191,79 @@ namespace ERY.AgateLib
             else
                 return false;
         }
+        
+
+        #region --- Operator Overloads ---
+
+        /// <summary>
+        /// Equality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(RectangleF a, RectangleF b)
+        {
+            return a.Equals(b);
+        }
+        /// <summary>
+        /// Inequality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(RectangleF a, RectangleF b)
+        {
+            return !a.Equals(b);
+        }
+
+        #endregion
+        #region --- Object Overrides ---
+
         /// <summary>
         /// Gets a hash code.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return (int)(Left + Top + Bottom + Right);
+            return pt.GetHashCode() + sz.GetHashCode();
+        }
+
+        /// <summary>
+        /// Creates a string representing this RectangleF.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("{0}X={1},Y={2},Width={3},Height={4}", "{", X, Y, Width, Height, "}");
         }
         /// <summary>
-        /// 
+        /// Equality test.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj is RectangleF)
-            {
                 return Equals((RectangleF)obj);
-            }
             else
                 return base.Equals(obj);
         }
         /// <summary>
-        /// 
+        /// Equality test.
         /// </summary>
-        /// <param name="rect"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
-        public bool Equals(RectangleF rect)
+        public bool Equals(RectangleF obj)
         {
-            if (this.X == rect.X &&
-                this.Y == rect.Y &&
-                this.Width == rect.Width &&
-                this.Height == rect.Height)
-
+            if (pt == obj.pt && sz == obj.sz)
                 return true;
             else
                 return false;
         }
+
+        #endregion
+
+
         /// <summary>
         /// Returns true if this intersects another RectangleF.
         /// </summary>
@@ -251,14 +286,7 @@ namespace ERY.AgateLib
             get { return pt.IsEmpty && sz.IsEmpty; }
         }
 
-        /// <summary>
-        /// Creates a string representing this RectangleF.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return string.Format("{0}X={1},Y={2},Width={3},Height={4}", "{", X, Y, Width, Height, "}");
-        }
+        
         /// <summary>
         /// Empty RectangleF
         /// </summary>

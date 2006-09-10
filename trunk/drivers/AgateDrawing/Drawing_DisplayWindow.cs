@@ -26,19 +26,25 @@ using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.SystemDrawing
 {
-
     class Drawing_DisplayWindow : DisplayWindowImpl, Drawing_IRenderTarget 
     {
         Form frm;
         Control mRenderTarget;
         bool mClosed = false;
 
+        Icon mIcon;
         Bitmap mBackBuffer;
 
-        public Drawing_DisplayWindow(string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize)
+        public Drawing_DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile,
+            bool startFullscreen, bool allowResize)
         {
             InitializeWindowsForm(out frm, out mRenderTarget, title, clientWidth, clientHeight, startFullscreen, allowResize);
 
+            if (string.IsNullOrEmpty(iconFile) == false)
+            {
+                mIcon = new Icon(iconFile);
+                frm.Icon = mIcon;
+            }
        
             // finally, show the form
             frm.Show();

@@ -552,7 +552,11 @@ namespace ERY.AgateLib
 
         private void Dispose(bool disposing)
         {
-            impl.Dispose();
+            if (impl != null)
+            {
+                impl.Dispose();
+                impl = null;
+            }
 
             if (disposing)
                 GC.SuppressFinalize(this);

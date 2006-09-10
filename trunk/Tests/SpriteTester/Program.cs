@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using ERY.AgateLib;
 
 namespace ERY.SpriteTester
 {
@@ -20,15 +21,25 @@ namespace ERY.SpriteTester
 
             frmSpriteTester form = new frmSpriteTester();
 
-            form.Show();
-        
 
-            while (form.Visible)
+            AgateSetup displaySetup = new AgateSetup();
+
+            using (displaySetup)
             {
-                form.UpdateDisplay();
+                displaySetup.AskUser = true;
+                displaySetup.Initialize(true, false, false);
+                if (displaySetup.Cancel)
+                    return;
 
-                System.Threading.Thread.Sleep(10);
-                ERY.AgateLib.Core.KeepAlive();
+                form.Show();
+
+                while (form.Visible)
+                {
+                    form.UpdateDisplay();
+
+                    System.Threading.Thread.Sleep(10);
+                    ERY.AgateLib.Core.KeepAlive();
+                }
             }
         }
     }

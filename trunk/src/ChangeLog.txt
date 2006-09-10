@@ -8,6 +8,10 @@ Current Changes
 * Added StringTransformer class to allow FontSurfaces to transform strings before they are drawn.
 * Added the Serializable attribute to Point, PointF, Rectangle, RectangleF, Size, SizeF structures.
 * Added some code to make the Registrar a little more robust, if non .NET dll's are present.
+* Added Timing.StopWatch.IsPaused as a read-only property.
+* Added Object.Equals overrides in Point and Size structures.
+* Added operator == and operator != in Point, Size and Rectangle structures.
+* Added DisplayWindow constructor overloads that allow specification of a .ico file for the window icon.
 
 * Renamed Keyboard.ClearAllKeys to Keyboard.ReleaseAllKeys.  Old version is there, but deprecated.
 * Changed Keyboard.ReleaseAllKeys to call an internal KeyState method.
@@ -16,7 +20,9 @@ Current Changes
 * Fixed a bug in AgateMDX.Surface.DrawRects which was from using TriangleStrips instead of TriangleLists, and updated it to use the DrawBuffer.
 * Fixed a bug where SoundBuffer and Music objects weren't using the FileManager search paths.
 * Fixed a bug where Display.AutoPause would cause the program to go in an infinite loop and never exit when the window was closed.
-
+* Fixed a bug where a NullReferenceException would occur if a new Music object was created and failed to open the media file, and then was subsequently finalized. 
+* Corrected version information in AgateDrawing and AgateMDX.
+* Fixed SpriteTester and SurfaceTester to work with Mono.
 
 Version 0.1.8
 ===================

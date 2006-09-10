@@ -23,7 +23,9 @@ namespace FontTester
                 if (setupDisplay.Cancel)
                     return;
 
-                DisplayWindow wind = new DisplayWindow("Font Tester", 640, 480, false, true);
+                DisplayWindow wind = new DisplayWindow("Font Tester", 640, 480,
+                    @"..\..\src\AgateLib.ico", false, true);
+
                 FontSurface font = new FontSurface("Arial", 12);
                 FontSurface bitmapFont = FontSurface.BitmapMonospace("font.png", new Size(16, 16));
 

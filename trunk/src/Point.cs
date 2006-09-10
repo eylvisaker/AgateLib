@@ -98,6 +98,41 @@ namespace ERY.AgateLib
 
         #endregion
 
+        #region --- Operator Overloads ---
+
+        /// <summary>
+        /// Equality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator == (Point a, Point b)
+        {
+            return a.Equals(b);
+        }
+        /// <summary>
+        /// Inequality comparison test.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(Point a, Point b)
+        {
+            return !a.Equals(b);
+        }
+
+        #endregion
+
+        #region --- Object Overrides ---
+
+        /// <summary>
+        /// Gets a hash code
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return x.GetHashCode() + y.GetHashCode();
+        }
         /// <summary>
         /// Creates a string representing this object.
         /// </summary>
@@ -106,6 +141,32 @@ namespace ERY.AgateLib
         {
             return string.Format("{0}X={1},Y={2}{3}", "{", x, y, "}");
         }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is Point)
+                return Equals((Point)obj);
+            else
+                return base.Equals(obj);
+        }
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool Equals(Point obj)
+        {
+            if (x == obj.x && y == obj.y)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
 
         #region --- Static Methods and Fields ---
 

@@ -42,6 +42,7 @@ namespace ERY.AgateLib.MDX
         int mChooseWidth;
         int mChooseHeight;
         int mChooseBitDepth;
+        Icon mIcon;
         bool mChooseFullscreen = false;
         bool mChooseResize = false;
         string mTitle = "";
@@ -51,8 +52,11 @@ namespace ERY.AgateLib.MDX
         #region --- Creation / Destruction ---
 
         public MDX1_DisplayWindow(string title, int clientWidth, int clientHeight, 
-            bool startFullscreen, bool allowResize)
+            string iconFile, bool startFullscreen, bool allowResize)
         {
+            if (iconFile != null)
+                mIcon = new Icon(iconFile);
+
             mTitle = title;
             mChooseFullscreen = startFullscreen;
             mChooseWidth = clientWidth;
@@ -354,6 +358,8 @@ namespace ERY.AgateLib.MDX
 
             frm = newform;
             mRenderTarget = renderTarget;
+
+            frm.Icon = mIcon;
 
             // show the form and attach events.
             frm.Show();
