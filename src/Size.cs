@@ -121,6 +121,14 @@ namespace ERY.AgateLib
             return string.Format("{0}Width={1},Height={2}{3}", "{", width, height, "}");
         }
         /// <summary>
+        /// Gets a hash code.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return width.GetHashCode() + height.GetHashCode();
+        }
+        /// <summary>
         /// Equality test.
         /// </summary>
         /// <param name="obj"></param>

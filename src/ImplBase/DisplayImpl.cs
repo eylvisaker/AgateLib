@@ -81,8 +81,9 @@ namespace ERY.AgateLib.ImplBase
         /// <param name="title"></param>
         /// <param name="clientWidth"></param>
         /// <param name="clientHeight"></param>
-        /// <param name="startFullScreen"></param>
         /// <param name="allowResize"></param>
+        /// <param name="iconFile"></param>
+        /// <param name="startFullscreen"></param>
         /// <returns></returns>
         public abstract DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen, bool allowResize);
         /// <summary>

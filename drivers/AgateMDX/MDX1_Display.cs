@@ -45,8 +45,8 @@ namespace ERY.AgateLib.MDX
         //Vector2[] mDrawLinePts = new Vector2[4];
         CustomVertex.TransformedColored[] mFillRectVerts = new CustomVertex.TransformedColored[6];
 
-        
-        
+
+
         #endregion
         #region --- Creation / Destruction ---
 
@@ -112,7 +112,7 @@ namespace ERY.AgateLib.MDX
             mDevice.Dispose();
         }
 
-       #endregion
+        #endregion
 
         #region --- Implementation Specific Public Properties ---
 
@@ -184,7 +184,7 @@ namespace ERY.AgateLib.MDX
 
         #region --- Creation of objects ---
 
-        public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, 
+        public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight,
             string iconFile, bool startFullScreen, bool allowResize)
         {
             return new MDX1_DisplayWindow(title, clientWidth, clientHeight, iconFile, startFullScreen, allowResize);
@@ -202,13 +202,13 @@ namespace ERY.AgateLib.MDX
             return new MDX1_Surface(surfaceSize);
         }
 
-        public override FontSurfaceImpl CreateFont(  string fontFamily, float sizeInPoints)
+        public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints)
         {
-            return new MDX1_FontSurface( fontFamily, sizeInPoints);
+            return new MDX1_FontSurface(fontFamily, sizeInPoints);
         }
 
-        #endregion  
- 
+        #endregion
+
         #region --- BeginFrame stuff and DeltaTime ---
 
         protected override void OnBeginFrame()
@@ -219,7 +219,7 @@ namespace ERY.AgateLib.MDX
 
             mDevice.Set2DDrawState();
 
-            
+
         }
 
         protected override void OnEndFrame(bool waitVSync)
@@ -229,7 +229,7 @@ namespace ERY.AgateLib.MDX
             while (mClipRects.Count > 0)
                 PopClipRect();
 
-            
+
             mRenderTarget.EndRender(waitVSync);
 
         }
@@ -341,8 +341,8 @@ namespace ERY.AgateLib.MDX
 
             for (int i = 0; i < pt.Length; i++)
                 pts[i] = new Vector2(pt[i].X, pt[i].Y);
-            
-            
+
+
             mLine.Begin();
             mLine.Draw(pts, color.ToArgb());
             mLine.End();
@@ -351,7 +351,7 @@ namespace ERY.AgateLib.MDX
         public override void DrawRect(Rectangle rect, Color color)
         {
             mDevice.DrawBuffer.Flush();
-       
+
             Vector2[] pts = new Vector2[5];
 
             pts[0] = new Vector2(rect.X, rect.Y);
@@ -372,10 +372,10 @@ namespace ERY.AgateLib.MDX
             mFillRectVerts[0].Position = new Vector4(rect.Left, rect.Top, 0f, 1f);
             mFillRectVerts[0].Color = clr;
 
-            mFillRectVerts[1].Position = new Vector4(rect.Right, rect.Top , 0f, 1f);
+            mFillRectVerts[1].Position = new Vector4(rect.Right, rect.Top, 0f, 1f);
             mFillRectVerts[1].Color = clr;
 
-            mFillRectVerts[2].Position = new Vector4(rect.Left , rect.Bottom, 0f, 1f);
+            mFillRectVerts[2].Position = new Vector4(rect.Left, rect.Bottom, 0f, 1f);
             mFillRectVerts[2].Color = clr;
 
             mFillRectVerts[3] = mFillRectVerts[1];
@@ -404,16 +404,16 @@ namespace ERY.AgateLib.MDX
             mDevice.DrawBuffer.Flush();
 
             mDevice.AlphaBlend = true;
-            
+
             mDevice.SetDeviceStateTexture(null);
             mDevice.AlphaArgument1 = TextureArgument.Diffuse;
-            
+
             mDevice.VertexFormat = CustomVertex.TransformedColored.Format;
             mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleList, 2, mFillRectVerts);
-              
+
         }
 
-        
+
 
 
         #endregion
@@ -433,7 +433,7 @@ namespace ERY.AgateLib.MDX
 
         protected override void OnRenderTargetResize()
         {
-            
+
         }
         protected override void OnRenderTargetChange(IRenderTarget oldRenderTarget)
         {
@@ -441,7 +441,7 @@ namespace ERY.AgateLib.MDX
             mDevice.RenderTarget = mRenderTarget;
         }
 
-        internal void CreateSwapChain(MDX1_DisplayWindow displayWindow, 
+        internal void CreateSwapChain(MDX1_DisplayWindow displayWindow,
             int width, int height, int bpp, bool fullScreen)
         {
             bool wasFullScreen = displayWindow.IsFullScreen;
@@ -459,8 +459,8 @@ namespace ERY.AgateLib.MDX
                 System.Diagnostics.Debug.Print("{0} Going to full screen...", DateTime.Now);
                 mDevice.Device.Reset(present);
                 System.Diagnostics.Debug.Print("{0} Full screen success.", DateTime.Now);
-                
-                
+
+
                 displayWindow.mSwap = mDevice.Device.GetSwapChain(0);
                 displayWindow.mBackBuffer = displayWindow.mSwap.GetBackBuffer(0, BackBufferType.Mono);
 
@@ -495,7 +495,7 @@ namespace ERY.AgateLib.MDX
                     DisposeFullScreenWindow();
 
 
-                    
+
                     present = CreateWindowedPresentParameters(displayWindow, width, height);
 
                     /*
@@ -516,7 +516,7 @@ namespace ERY.AgateLib.MDX
                     displayWindow.Size = new Size(width, height);
             }
 
-            
+
         }
 
         private PresentParameters CreateFullScreenPresentParameters(MDX1_DisplayWindow displayWindow,
@@ -530,7 +530,7 @@ namespace ERY.AgateLib.MDX
             mFullScreenWindow.MouseUp += new System.Windows.Forms.MouseEventHandler(mFullScreenWindow_MouseUp);
             mFullScreenWindow.MouseDown += new System.Windows.Forms.MouseEventHandler(mFullScreenWindow_MouseDown);
             mFullScreenWindow.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(mFullScreenWindow_MouseDoubleClick);
-            
+
             PresentParameters present = new PresentParameters();
 
             present.BackBufferCount = 1;
@@ -678,11 +678,9 @@ namespace ERY.AgateLib.MDX
 
         #endregion
 
-
         public override Size MaxSurfaceSize
         {
             get { return mDevice.MaxSurfaceSize; }
         }
     }
-
 }

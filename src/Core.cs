@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -18,11 +18,44 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using ERY.AgateLib.PlatformSpecific;
 
 namespace ERY.AgateLib
 {
+    /// <summary>
+    /// Used by AgateLib.Core class's error reporting functions
+    /// to indicate how severe an error is.
+    /// </summary>
+    public enum ErrorLevel
+    {
+
+        /// <summary>
+        /// Indicates an message is just a comment, and safe to ignore.
+        /// </summary>
+        Comment ,
+        /// <summary>
+        /// Indicates that the error message is not severe, and the program may
+        /// continue.  However, unexpected behavior may occur due to the result of
+        /// this error.
+        /// </summary>
+        Warning ,
+        /// <summary>
+        /// Indicates that the error condition is too severe and the program 
+        /// may not continue.
+        /// </summary>
+        Fatal,
+
+
+        /// <summary>
+        /// Indicates the error condition indicates some assumption
+        /// has not held that should have.  This should only be used
+        /// if the condition is caused by a bug in the code.
+        /// </summary>
+        Bug,
+    }
+
     /// <summary>
     /// Class which contains objects commonly used by the entire library.
     /// </summary>
@@ -31,7 +64,7 @@ namespace ERY.AgateLib
         private static Platform mPlatform;
         private static bool mAutoPause = false;
         private static bool mIsActive = true;
-
+        
         static Core()
         {
             mPlatform = Platform.CreatePlatformMethods();
@@ -118,5 +151,167 @@ namespace ERY.AgateLib
 
         }
 
+        #region --- Error Reporting ---
+
+        private static string mErrorFile = "errorlog.txt";
+        private static bool mAutoStackTrace = false;
+        private static bool mWroteHeader = false;
+
+        /// <summary>
+        /// Gets or sets the file name to which errors are recorded.  Defaults
+        /// to "errorlog.txt"
+        /// </summary>
+        public static string ErrorFile
+        {
+            get { return Core.mErrorFile; }
+            set { Core.mErrorFile = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether or not a stack trace is automatically used.
+        /// </summary>
+        /// <example>
+        /// You may find it useful to turn this on during a debug build, and
+        /// then turn if off when building the release version.  The following
+        /// code accomplishes that.
+        /// <code>
+        /// #if _DEBUG
+        ///     ERY.AgateLib.Core.AutoStackTrace = true;
+        /// #endif
+        /// </code>
+        /// </example>
+        public static bool AutoStackTrace
+        {
+            get { return Core.mAutoStackTrace; }
+            set { Core.mAutoStackTrace = value; }
+        }
+
+        /// <summary>
+        /// Saves an error message to the ErrorFile.
+        /// Outputs a stack trace if 
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="level"></param>
+        public static void ReportError(Exception e, ErrorLevel level)
+        {
+            switch (level)
+            {
+                case ErrorLevel.Bug:
+                case ErrorLevel.Fatal:
+                    ReportError(e, level, true, true);
+                    break;
+
+                case ErrorLevel.Comment:
+                case ErrorLevel.Warning:
+                    ReportError(e, level, AutoStackTrace, false);
+                    break;
+            }
+        }
+        /// <summary>
+        /// Saves an error message to the ErrorFile.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="level"></param>
+        /// <param name="printStackTrace">Bool value indicating whether or not 
+        /// a stack trace should be written out.  </param>
+        /// <param name="showDialog">Bool value indicating whether or not a 
+        /// message box should pop up with an OK button, informing the user about the 
+        /// error.  If false, the error is silently written to the ErrorFile.</param>
+        public static void ReportError(Exception e, ErrorLevel level, bool printStackTrace, bool showDialog)
+        {
+            StreamWriter writer = OpenErrorFile();
+
+            writer.Write(LevelText(level) + ": ");
+
+            writer.WriteLine(e.Message);
+
+            if (printStackTrace)
+                writer.WriteLine(e.StackTrace);
+
+            writer.WriteLine("");
+
+            writer.Flush();
+            writer.Dispose();
+
+            if (showDialog)
+            {
+                DialogReport(e, level);
+            }
+        }
+
+        private static StreamWriter OpenErrorFile()
+        {
+            if (mWroteHeader == true)
+            {
+                FileStream stream = File.Open(ErrorFile, FileMode.Append, FileAccess.Write);
+
+                return new StreamWriter(stream);
+            }
+            else
+            {
+                FileStream stream = File.Open(ErrorFile, FileMode.Create, FileAccess.Write);
+                StreamWriter writer = new StreamWriter(stream);
+
+                WriteHeader(writer);
+
+                mWroteHeader = true;
+
+                return writer;
+            }
+        }
+
+        private static void WriteHeader(StreamWriter writer )
+        {
+            writer.WriteLine("Error Log started " + DateTime.Now.ToString());
+            writer.WriteLine("");
+        }
+
+        private static void DialogReport(Exception e, ErrorLevel level)
+        {
+            System.Windows.Forms.MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.OK ;
+            System.Windows.Forms.MessageBoxIcon icon = System.Windows.Forms.MessageBoxIcon.Asterisk;
+
+            switch(level)
+            {
+                case ErrorLevel.Comment:
+                    icon = System.Windows.Forms.MessageBoxIcon.Information;
+                    break;
+
+                case ErrorLevel.Warning:
+                    icon = System.Windows.Forms.MessageBoxIcon.Warning;
+                    break;
+
+                case ErrorLevel.Fatal:
+                    icon = System.Windows.Forms.MessageBoxIcon.Error;
+                    break;
+
+                case ErrorLevel.Bug:
+                    icon = System.Windows.Forms.MessageBoxIcon.Hand;
+
+                    break;
+            }
+
+            System.Windows.Forms.MessageBox.Show
+                ("An error has occured: \r\n" + e.Message, level.ToString(), buttons, icon);
+        }
+
+        private static string LevelText(ErrorLevel level)
+        {
+            switch (level)
+            {
+                case ErrorLevel.Comment:
+                    return "COMMENT";
+                case ErrorLevel.Warning:
+                    return "WARNING";
+                case ErrorLevel.Fatal:
+                    return "ERROR";
+                case ErrorLevel.Bug:
+                    return "BUG";
+            }
+
+            return "ERROR";
+        }
+
+        #endregion
     }
 }
