@@ -136,6 +136,14 @@ namespace ERY.AgateLib
             return string.Format("{0}X={1},Y={2}{3}", "{", x, y, "}");
         }
         /// <summary>
+        /// Gets a hash code.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return x.GetHashCode() + y.GetHashCode();
+        }
+        /// <summary>
         /// Equality test.
         /// </summary>
         /// <param name="obj"></param>

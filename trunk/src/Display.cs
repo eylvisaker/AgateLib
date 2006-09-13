@@ -33,6 +33,8 @@ namespace ERY.AgateLib
     /// 
     /// Display.Dispose() must be called before the program exits.
     /// 
+    /// </summary>
+    /// 
     /// <example> This example shows how a basic render loop works.
     /// <code>
     /// void MyRenderLoop()
@@ -47,7 +49,6 @@ namespace ERY.AgateLib
     /// }
     /// </code>
     /// </example>
-    /// </summary>
     public static class Display 
     {
         private static DisplayImpl impl;
