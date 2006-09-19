@@ -188,7 +188,7 @@ namespace ERY.AgateLib
 
         /// <summary>
         /// Saves an error message to the ErrorFile.
-        /// Outputs a stack trace if 
+        /// Outputs a stack trace and shows a dialog box if the ErrorLevel is Bug or Fatal.
         /// </summary>
         /// <param name="e"></param>
         /// <param name="level"></param>
