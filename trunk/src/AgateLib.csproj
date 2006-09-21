@@ -48,6 +48,7 @@
     <Compile Include="Core.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="ImplBase\BitmapFontImpl.cs" />
+    <Compile Include="ImplBase\DriverImplBase.cs" />
     <Compile Include="InputCommand.cs" />
     <Compile Include="InputState.cs" />
     <Compile Include="NullInputImpl.cs" />

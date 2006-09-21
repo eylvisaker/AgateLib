@@ -53,7 +53,7 @@ namespace ERY.AgateLib
         {
             Core.Initialize();
 
-            impl = Registrar.CreateInputDriver(inputType);
+            impl = Registrar.InputDriverInfo.CreateDriver(inputType);
 
             InitializeJoysticks();
         }

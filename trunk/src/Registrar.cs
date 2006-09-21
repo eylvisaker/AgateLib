@@ -24,157 +24,297 @@ using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib
 {
+    public abstract class DriverTypeIDBase
+        : IEquatable<int>
+    {
+        #region --- IEquatable<int> Members ---
+
+        public abstract bool Equals(int other);
+
+        #endregion
+    }
     /// <summary>
     /// List of identifiers of known or planned display drivers.
     /// </summary>
-    public enum DisplayTypeID
+    public class DisplayTypeID:DriverTypeIDBase , IEquatable <DisplayTypeID >
     {
+        private int value;
+
+        private DisplayTypeID ()
+        {}
+        private DisplayTypeID (int value)
+        {
+            this.value = value;
+        }
+
+        public override bool Equals(int other)
+        {
+            return value == other;
+        }
+        public bool Equals(DisplayTypeID other)
+        {
+            return Equals(other.value);
+        }
+
         /// <summary>
         /// Specifies that the Registrar should automatically select the best available
         /// display driver for the system.
         /// </summary>
-        AutoSelect = 0,
+        public static DisplayTypeID AutoSelect 
+        {
+            get {return new DisplayTypeID ( 0);}
+        }
         /// <summary>
         /// The reference driver is implemented using System.Drawing.  This is useful for
         /// debugging the development of a new driver, as it should behave exactly like the
         /// reference driver (but hopefully be much faster).
         /// </summary>
-        Reference = 1,
+        public static  DisplayTypeID Reference 
+        {
+            get {return new DisplayTypeID (1);}
+        }
+        
 
         /// <summary>
         /// Driver Implementation using Managed DirectX 1.1.
         /// </summary>
-        Direct3D_MDX_1_1 = 0x100,
+        public static DisplayTypeID Direct3D_MDX_1_1
+        {
+            get
+            {
+                return new DisplayTypeID(0x100);
+            }
+        }
 
         /// <summary>
         /// Driver implementation using Managed DirectX 2.0 beta.  Since Microsoft has discontinued
-        /// development on MDX2.0 in favor of the XNA framework, this driver is obsolete.
+        /// development on MDX2.0 in favor of the XNA framework);}} this driver is obsolete.
         /// </summary>
         [Obsolete]
-        Direct3D_MDX_2_0_Beta = 0x101,
+        public static DisplayTypeID Direct3D_MDX_2_0_Beta {
+            get { return new DisplayTypeID(0x101); } }
 
         /// <summary>
         /// Driver Implementation using XNA Studio.
         /// </summary>
-        Direct3D_XNA = 0x110,
+        public static DisplayTypeID Direct3D_XNA
+        { 
+            get { return new DisplayTypeID(0x110); } }
 
         /// <summary>
-        /// Driver implementation using OpenGL, with WGL for creation of windows and management of
+        /// Driver implementation using OpenGL);}} with WGL for creation of windows and management of
         /// memory.
         /// </summary>
-        WGL = 0x200,
+        public static DisplayTypeID WGL
+        {    
+           get {return new DisplayTypeID ( 0x200);}}
 
         /// <summary>
-        /// Driver implememtation using OpenGL, with some platform-independent library for window
+        /// Driver implememtation using OpenGL);}} with some platform-independent library for window
         /// creation.
         /// </summary>
-        OpenGL = 0x210,
+        public static DisplayTypeID OpenGL { get { return new DisplayTypeID(0x210); } }
 
         /// <summary>
         /// Driver implementation using SDL.  SDL.NET does not support many of the basic features
-        /// of this library (notably, rotation of images) so is not considered an adequate driver
+        /// of this library (notably);}} rotation of images) so is not considered an adequate driver
         /// for general purpose use.
         /// </summary>
         [Obsolete]
-        SDL = 0x300,
+        public static DisplayTypeID SDL { get { return new DisplayTypeID(0x300); } }
 
     };
 
     /// <summary>
     /// List of identifiers of known or planned audio drivers.
     /// </summary>
-    public enum AudioTypeID
+    public class AudioTypeID : DriverTypeIDBase, IEquatable<AudioTypeID>
     {
+
+        private int value;
+
+        private AudioTypeID ()
+        {}
+        private AudioTypeID(int value)
+        {
+            this.value = value;
+        }
+
+        public override bool Equals(int other)
+        {
+            return value == other;
+        }
+        public bool Equals(AudioTypeID other)
+        {
+            return Equals(other.value);
+        }
         /// <summary>
         /// Specifies that the Registrar should automatically select the best available
         /// audio driver for the system.
         /// </summary>
-        AutoSelect = 0,
+        public static AudioTypeID AutoSelect { get { return new AudioTypeID(0); } }
 
         /// <summary>
         /// A driver which does nothing.
         /// </summary>
-        Silent = -0x100,
+        public static AudioTypeID Silent { get { return new AudioTypeID(-0x100); } }
 
         /// <summary>
         /// A DirectSound implementation.
         /// </summary>
-        DirectSound = 0x100,
+        public static AudioTypeID DirectSound { get { return new AudioTypeID(0x100); } }
         /// <summary>
         /// Implementation using XNA Studio
-        /// (what will this be called, anyway?)
+        /// (what will this be called);}} anyway?)
         /// </summary>
-        XAct = 0x110,
+        public static AudioTypeID XAct { get { return new AudioTypeID(0x110); } }
 
         /// <summary>
         /// Implementation using the cross-platform OpenAL library.
         /// </summary>
-        OpenAL = 0x200,
+        public static AudioTypeID OpenAL { get { return new AudioTypeID(0x200); } }
     }
 
     /// <summary>
     /// List of identifiers of known or planned input drivers.
     /// </summary>
-    public enum InputTypeID
+    public class InputTypeID : DriverTypeIDBase, IEquatable<InputTypeID>
     {
+
+        private int value;
+
+        private InputTypeID ()
+        {}
+        private InputTypeID(int value)
+        {
+            this.value = value;
+        }
+
+        public override bool Equals(int other)
+        {
+            return value == other;
+        }
+        public bool Equals(InputTypeID  other)
+        {
+            return Equals(other.value);
+        }
+
         /// <summary>
         /// Specifies that the Registrar should automatically select the best available
         /// audio driver for the system.
         /// </summary>
-        AutoSelect = 0,
+        public static InputTypeID AutoSelect { get { return new InputTypeID(0); } }
 
         /// <summary>
         /// A driver with no joysticks.
         /// </summary>
-        Silent = -0x100,
+        public static InputTypeID Silent { get { return new InputTypeID(-0x100); } }
 
         /// <summary>
         /// A DirectSound implementation.
         /// </summary>
-        DirectInput = 0x100,
+        public static InputTypeID DirectInput { get { return new InputTypeID(0x100); } }
         /// <summary>
         /// Implementation using the XNA framework.
         /// </summary>
-        XInput = 0x110,
+        public static InputTypeID XInput { get { return new InputTypeID(0x110); } }
     }
 
     /// <summary>
+    /// List of identifiers for known or planned platforms to support.
+    /// </summary>
+    public class PlatformTypeID : DriverTypeIDBase, IEquatable<PlatformTypeID>
+    {
+
+
+        private int value;
+
+        private PlatformTypeID ()
+        {}
+        private PlatformTypeID(int value)
+        {
+            this.value = value;
+        }
+
+        public override bool Equals(int other)
+        {
+            return value == other;
+        }
+        public bool Equals(PlatformTypeID other)
+        {
+            return Equals(other.value);
+        }
+
+        /// <summary>
+        /// Indicates that no platform specific methods are available.
+        /// Managed equivalents are used where available.
+        /// </summary>
+        public static PlatformTypeID None { get { return new PlatformTypeID(0); } }
+        /// <summary>
+        /// Indicates that Windows platform specific methods are provided
+        /// by the driver.
+        /// </summary>
+        public static PlatformTypeID Windows { get { return new PlatformTypeID(1); } }
+        /// <summary>
+        /// indicates that X-Windows provides windowing functions.
+        /// </summary>
+        public static PlatformTypeID Linux { get { return new PlatformTypeID(2); } }
+    }
+    /// <summary>
     /// Class which describes what's required to instantiate a driver.
     /// </summary>
-    public abstract class DriverInfo
+    public abstract class DriverInfo<T>
+        // \cond
+        where T : DriverTypeIDBase ,IEquatable<T >
+    // \endcond
     {
         private Type mMyClass;
         private string mName;
         private int mPriority = 1;
+        private T mTypeID;
+
+        /// <summary>
+        /// Gets or sets the driver type identifier.
+        /// </summary>
+        public T TypeID
+        {
+            get { return mTypeID; }
+            set { mTypeID = value; }
+        }
 
         /// <summary>
         /// Constructs a DisplayDriverInfo object.
         /// </summary>
         public DriverInfo()
         { }
+
         /// <summary>
         /// Constructs a DisplayDriverInfo object.
         /// </summary>
-        public DriverInfo(Type myClass)
+        public DriverInfo(Type myClass, T type)
         {
             mMyClass = myClass;
+            mTypeID = type;
         }
+
         /// <summary>
         /// Constructs a DisplayDriverInfo object.
         /// </summary>
-        public DriverInfo(Type myClass, string name)
+        public DriverInfo(Type myClass, T type, string name)
         {
             mMyClass = myClass;
             mName = name;
+            mTypeID = type;
         }
         /// <summary>
         /// Constructs a DisplayDriverInfo object.
         /// </summary>
-        public DriverInfo(Type myClass, string name, int priority)
+        public DriverInfo(Type myClass, T type, string name, int priority)
         {
             mMyClass = myClass;
             mName = name;
             mPriority = priority;
+            mTypeID = type;
         }
 
         /// <summary>
@@ -212,9 +352,8 @@ namespace ERY.AgateLib
     /// <summary>
     /// Class which describes what's required to instantiate a display driver.
     /// </summary>
-    public class DisplayDriverInfo : DriverInfo
+    public class DisplayDriverInfo : DriverInfo<DisplayTypeID>
     {
-        private DisplayTypeID mDisplayTypeID;
 
         /// <summary>
         /// Constructs a DisplayDriverInfo object.
@@ -225,42 +364,32 @@ namespace ERY.AgateLib
         /// Constructs a DisplayDriverInfo object.
         /// </summary>
         public DisplayDriverInfo(Type myDisplayClass, DisplayTypeID displayTypeID)
-            : base(myDisplayClass)
+            : base(myDisplayClass, displayTypeID)
         {
-            mDisplayTypeID = displayTypeID;
         }
         /// <summary>
         /// Constructs a DisplayDriverInfo object.
         /// </summary>
         public DisplayDriverInfo(Type myDisplayClass, DisplayTypeID displayTypeID, string name)
-            : base(myDisplayClass, name)
+            : base(myDisplayClass, displayTypeID, name)
         {
-            mDisplayTypeID = displayTypeID;
+
         }
         /// <summary>
         /// Constructs a DisplayDriverInfo object.
         /// </summary>
         public DisplayDriverInfo(Type myDisplayClass, DisplayTypeID displayTypeID, string name, int priority)
-            : base(myDisplayClass, name, priority)
+            : base(myDisplayClass, displayTypeID, name, priority)
         {
-            mDisplayTypeID = displayTypeID;
+
         }
 
-        /// <summary>
-        /// The unique identifier for the display implementation.
-        /// </summary>
-        public DisplayTypeID DisplayTypeID
-        {
-            get { return mDisplayTypeID; }
-            set { mDisplayTypeID = value; }
-        }
     }
     /// <summary>
     /// Class which describes what's required to instantiate a audio driver.
     /// </summary>
-    public class AudioDriverInfo : DriverInfo
+    public class AudioDriverInfo : DriverInfo<AudioTypeID>
     {
-        private AudioTypeID mAudioTypeID;
 
         /// <summary>
         /// Constructs a AudioDriverInfo object.
@@ -270,43 +399,33 @@ namespace ERY.AgateLib
         /// <summary>
         /// Constructs a AudioDriverInfo object.
         /// </summary>
-        public AudioDriverInfo(Type myAudioClass, AudioTypeID AudioTypeID)
-            : base(myAudioClass)
+        public AudioDriverInfo(Type myAudioClass, AudioTypeID audioTypeID)
+            : base(myAudioClass, audioTypeID)
         {
-            mAudioTypeID = AudioTypeID;
         }
         /// <summary>
         /// Constructs a AudioDriverInfo object.
         /// </summary>
-        public AudioDriverInfo(Type myAudioClass, AudioTypeID AudioTypeID, string name)
-            : base(myAudioClass, name)
+        public AudioDriverInfo(Type myAudioClass, AudioTypeID audioTypeID, string name)
+            : base(myAudioClass, audioTypeID, name)
         {
-            mAudioTypeID = AudioTypeID;
+
         }
         /// <summary>
         /// Constructs a AudioDriverInfo object.
         /// </summary>
-        public AudioDriverInfo(Type myAudioClass, AudioTypeID AudioTypeID, string name, int priority)
-            : base(myAudioClass, name, priority)
+        public AudioDriverInfo(Type myAudioClass, AudioTypeID audioTypeID, string name, int priority)
+            : base(myAudioClass, audioTypeID, name, priority)
         {
-            mAudioTypeID = AudioTypeID;
+
         }
 
-        /// <summary>
-        /// The unique identifier for the Audio implementation.
-        /// </summary>
-        public AudioTypeID AudioTypeID
-        {
-            get { return mAudioTypeID; }
-            set { mAudioTypeID = value; }
-        }
     }
     /// <summary>
     /// Class which describes what's required to instantiate an input driver.
     /// </summary>
-    public class InputDriverInfo : DriverInfo
+    public class InputDriverInfo : DriverInfo<InputTypeID>
     {
-        private InputTypeID mInputTypeID;
 
         /// <summary>
         /// Constructs a InputDriverInfo object.
@@ -316,35 +435,97 @@ namespace ERY.AgateLib
         /// <summary>
         /// Constructs a InputDriverInfo object.
         /// </summary>
-        public InputDriverInfo(Type myInputClass, InputTypeID InputTypeID)
-            : base(myInputClass)
+        public InputDriverInfo(Type myInputClass, InputTypeID inputTypeID)
+            : base(myInputClass, inputTypeID)
         {
-            mInputTypeID = InputTypeID;
         }
         /// <summary>
         /// Constructs a InputDriverInfo object.
         /// </summary>
-        public InputDriverInfo(Type myInputClass, InputTypeID InputTypeID, string name)
-            : base(myInputClass, name)
+        public InputDriverInfo(Type myInputClass, InputTypeID inputTypeID, string name)
+            : base(myInputClass, inputTypeID, name)
         {
-            mInputTypeID = InputTypeID;
         }
         /// <summary>
         /// Constructs a InputDriverInfo object.
         /// </summary>
-        public InputDriverInfo(Type myInputClass, InputTypeID InputTypeID, string name, int priority)
-            : base(myInputClass, name, priority)
+        public InputDriverInfo(Type myInputClass, InputTypeID inputTypeID, string name, int priority)
+            : base(myInputClass, inputTypeID, name, priority)
         {
-            mInputTypeID = InputTypeID;
         }
 
-        /// <summary>
-        /// The unique identifier for the Input implementation.
+    }
+
+    /// <summary>
+    /// Class which contains a list of drivers and the code required to
+    /// instantiate them.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class DriverInfoList<TBase, T> : List<DriverInfo<T>>
+        // \cond
+        where T : DriverTypeIDBase, IEquatable<T>
+        where TBase : DriverImplBase 
+    // \endcond
+    {
+        T mCreatedTypeID;
+            
+            /// <summary>
+        /// Instantiates the chosen  driver.
         /// </summary>
-        public InputTypeID InputTypeID
+        /// <param name="Type"></param>
+        /// <returns></returns>
+        internal TBase CreateDriver(T type)
         {
-            get { return mInputTypeID; }
-            set { mInputTypeID = value; }
+            if (Count == 0)
+                throw new Exception("No  Drivers registered.");
+
+            if (type.Equals (0)) 
+            {
+                Sort(
+                    delegate(DriverInfo<T> a, DriverInfo<T> b)
+                    {
+                        return a.Priority.CompareTo(b.Priority);
+                    }
+                    );
+
+                return InstantiateDriver(this[Count - 1]);
+            }
+            else
+            {
+                DriverInfo<T> selected = Find(
+                    delegate(DriverInfo<T> info)
+                    {
+                        if (info.TypeID == type)
+                            return true;
+                        else
+                            return false;
+                    });
+
+                if (selected != null)
+                {
+                    return InstantiateDriver(selected);
+                }
+                else
+                {
+                    throw new Exception(" Implementation not supported.\n" +
+                        "Either a reference has been left out or the implementation needs to have" +
+                        "its setup routine called.");
+                }
+            }
+        }
+
+        private TBase InstantiateDriver(DriverInfo<T> driverInfo)
+        {
+            // get default constructor
+            ConstructorInfo constructor = driverInfo.MyClass.GetConstructor(Type.EmptyTypes);
+
+            mCreatedTypeID = driverInfo.TypeID;
+
+            // do the instantiation
+            TBase result = constructor.Invoke(new object[] { }) as TBase;
+            result.Initialize();
+
+            return result;
         }
     }
 
@@ -354,13 +535,13 @@ namespace ERY.AgateLib
     /// </summary>
     public static class Registrar
     {
-        private static List<DisplayDriverInfo> mDisplayDrivers = new List<DisplayDriverInfo>();
-        private static List<AudioDriverInfo> mAudioDrivers = new List<AudioDriverInfo>();
-        private static List<InputDriverInfo> mInputDrivers = new List<InputDriverInfo>();
+        private static DriverInfoList<DisplayImpl, DisplayTypeID> mDisplayDrivers = new DriverInfoList<DisplayImpl, DisplayTypeID>();
+            private static DriverInfoList<AudioImpl ,AudioTypeID> mAudioDrivers = new DriverInfoList<AudioImpl,AudioTypeID>();
+        private static DriverInfoList<InputImpl, InputTypeID> mInputDrivers = new DriverInfoList<InputImpl, InputTypeID>();
 
-        private static DisplayTypeID mCreatedDisplayTypeID = 0;
-        private static AudioTypeID mCreatedAudioTypeID = 0;
-        private static InputTypeID mCreatedInputTypeID = 0;
+        private static DisplayTypeID mCreatedDisplayTypeID = null ;
+        private static AudioTypeID mCreatedAudioTypeID = null;
+        private static InputTypeID mCreatedInputTypeID = null;
 
         private static bool mIsInitialized = false;
 
@@ -399,7 +580,7 @@ namespace ERY.AgateLib
 
                     types = ass.GetTypes();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     System.Diagnostics.Debug.WriteLine("Error loading assembly " + file);
                     System.Diagnostics.Debug.WriteLine(e.Message);
@@ -441,9 +622,12 @@ namespace ERY.AgateLib
         /// registered display drivers.
         /// </summary>
         /// <returns></returns>
-        public static ICollection<DisplayDriverInfo> GetAllDisplayDriverInfo()
+        public static DriverInfoList<DisplayImpl, DisplayTypeID> DisplayDriverInfo
         {
-            return mDisplayDrivers;
+            get
+            {
+                return mDisplayDrivers;
+            }
         }
 
         /// <summary>
@@ -451,9 +635,12 @@ namespace ERY.AgateLib
         /// registered display drivers.
         /// </summary>
         /// <returns></returns>
-        public static ICollection<AudioDriverInfo> GetAllAudioDriverInfo()
+        public static DriverInfoList<AudioImpl, AudioTypeID> AudioDriverInfo
         {
-            return mAudioDrivers;
+            get
+            {
+                return mAudioDrivers;
+            }
         }
 
         /// <summary>
@@ -461,9 +648,12 @@ namespace ERY.AgateLib
         /// registered display drivers.
         /// </summary>
         /// <returns></returns>
-        public static ICollection<InputDriverInfo> GetAllInputDriverInfo()
+        public static DriverInfoList<InputImpl, InputTypeID> InputDriverInfo
         {
-            return mInputDrivers;
+            get
+            {
+                return mInputDrivers;
+            }
         }
 
         /// <summary>
@@ -494,65 +684,8 @@ namespace ERY.AgateLib
             mInputDrivers.Add(info);
         }
 
-        /// <summary>
-        /// Instantiates the chosen display driver.
-        /// </summary>
-        /// <param name="displayType"></param>
-        /// <returns></returns>
-        internal static DisplayImpl CreateDisplayDriver(DisplayTypeID displayType)
-        {
-            if (mDisplayDrivers.Count == 0)
-                throw new Exception("No Display Drivers registered.");
 
-            if (displayType == DisplayTypeID.AutoSelect)
-            {
-                mDisplayDrivers.Sort(
-                    delegate(DisplayDriverInfo a, DisplayDriverInfo b)
-                    {
-                        return a.Priority.CompareTo(b.Priority);
-                    }
-                    );
-
-                return InstantiateDisplayDriver(mDisplayDrivers[mDisplayDrivers.Count - 1]);
-            }
-            else
-            {
-                DisplayDriverInfo selected = mDisplayDrivers.Find(
-                    delegate(DisplayDriverInfo info)
-                    {
-                        if (info.DisplayTypeID == displayType)
-                            return true;
-                        else
-                            return false;
-                    });
-
-                if (selected != null)
-                {
-                    return InstantiateDisplayDriver(selected);
-                }
-                else
-                {
-                    throw new Exception("Display Implementation not supported.\n" +
-                        "Either a reference has been left out or the implementation needs to have" +
-                        "its setup routine called.");
-                }
-            }
-        }
-
-        private static DisplayImpl InstantiateDisplayDriver(DisplayDriverInfo displayDriverInfo)
-        {
-            // get default constructor
-            ConstructorInfo constructor = displayDriverInfo.MyClass.GetConstructor(new Type[] { });
-
-            mCreatedDisplayTypeID = displayDriverInfo.DisplayTypeID;
-
-            // do the instantiation
-            DisplayImpl result = constructor.Invoke(new object[] { }) as DisplayImpl;
-            result.Initialize();
-
-            return result;
-        }
-
+        /*
         /// <summary>
         /// Instantiates the chosen audio driver.
         /// </summary>
@@ -664,6 +797,7 @@ namespace ERY.AgateLib
 
             return result;
         }
+        */
 
         /// <summary>
         /// Allows the user to select which drivers to use.
@@ -676,14 +810,14 @@ namespace ERY.AgateLib
         /// <param name="selectedDisplay"></param>
         /// <param name="selectedInput"></param>
         /// <returns></returns>
-        public static bool UserSelectDrivers(bool chooseDisplay, bool chooseAudio, bool chooseInput, 
+        public static bool UserSelectDrivers(bool chooseDisplay, bool chooseAudio, bool chooseInput,
             out DisplayTypeID selectedDisplay, out AudioTypeID selectedAudio, out InputTypeID selectedInput)
         {
             SetSystemsForm frm = new SetSystemsForm(chooseDisplay, chooseAudio, chooseInput);
             DisplayDriverInfo highestDisplay = null;
             AudioDriverInfo highestAudio = null;
             InputDriverInfo highestInput = null;
-            
+
             // set default values.
             selectedDisplay = DisplayTypeID.AutoSelect;
             selectedAudio = AudioTypeID.AutoSelect;
@@ -732,7 +866,7 @@ namespace ERY.AgateLib
 
             return true;
 
-        }        
+        }
         /// <summary>
         /// Returns the identifier for the DisplayImpl which was actually
         /// created.

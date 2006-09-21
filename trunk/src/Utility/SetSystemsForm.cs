@@ -129,19 +129,19 @@ namespace ERY.AgateLib
             if (mChooseDisplay)
             {
                 DisplayDriverInfo display = displayList.SelectedItem as DisplayDriverInfo;
-                mDisplayType = display.DisplayTypeID;
+                mDisplayType = display.TypeID;
             }
 
             if (mChooseAudio)
             {
                 AudioDriverInfo audio = audioList.SelectedItem as AudioDriverInfo;
-                mAudioType = audio.AudioTypeID;
+                mAudioType = audio.TypeID;
             }
 
             if (mChooseInput)
             {
                 InputDriverInfo input = inputList.SelectedItem as InputDriverInfo;
-                mInputType = input.InputTypeID;
+                mInputType = input.TypeID;
             }
 
         }
