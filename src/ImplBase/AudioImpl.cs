@@ -25,17 +25,8 @@ namespace ERY.AgateLib.ImplBase
     /// <summary>
     /// Implements Audio class factory.
     /// </summary>
-    public abstract class AudioImpl : IDisposable
+    public abstract class AudioImpl : DriverImplBase
     {
-        /// <summary>
-        /// Initialize the Audio object.
-        /// </summary>
-        public abstract void Initialize();
-        /// <summary>
-        /// Dispose
-        /// </summary>
-        public abstract void Dispose();
-
         /// <summary>
         /// Creates a SoundBufferImpl object.
         /// </summary>

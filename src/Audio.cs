@@ -49,7 +49,7 @@ namespace ERY.AgateLib
         {
             Core.Initialize();
 
-            impl = Registrar.CreateAudioDriver(audioType);
+            impl = Registrar.AudioDriverInfo.CreateDriver (audioType);
 
         }
         /// <summary>

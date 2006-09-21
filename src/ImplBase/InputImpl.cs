@@ -25,17 +25,8 @@ namespace ERY.AgateLib.ImplBase
     /// <summary>
     /// Implementation for Input Manager.
     /// </summary>
-    public abstract class InputImpl : IDisposable 
+    public abstract class InputImpl : DriverImplBase 
     {
-        /// <summary>
-        /// Initializes
-        /// </summary>
-        public abstract void Initialize();
-        /// <summary>
-        /// Destroyes
-        /// </summary>
-        public abstract void Dispose();
-
         /// <summary>
         /// Polls and counts joysticks
         /// </summary>

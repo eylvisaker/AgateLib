@@ -29,19 +29,19 @@ namespace PerformanceTester
         static void Main()
         {
             ERY.AgateLib.MDX.MDX1_Display.Register();
-            
-            IEnumerable<DisplayDriverInfo> drivers = Registrar.GetAllDisplayDriverInfo();
+
+            ICollection < DriverInfo < DisplayTypeID > > drivers = Registrar.DisplayDriverInfo;
 
             frmPerformanceTester frm = new frmPerformanceTester();
             frm.Show();
 
-            foreach (DisplayDriverInfo info in drivers)
+            foreach (DriverInfo<DisplayTypeID> info in drivers)
             {
                 Trace.WriteLine(string.Format("Starting driver {0}...", info.Name));
                 Trace.Indent();
-                double fps;
+                double fps;     
 
-                Display.Initialize(info.DisplayTypeID);
+                Display.Initialize(info.TypeID);
                 DisplayWindow wind = new DisplayWindow("Performance Test", 300, 300);
                 font = new FontSurface("Arial", 11);
 

@@ -80,7 +80,7 @@ namespace ERY.AgateLib
         {
             Core.Initialize();
 
-            impl = Registrar.CreateDisplayDriver(displayType);
+            impl = Registrar.DisplayDriverInfo.CreateDriver(displayType);
 
             mSurfacePacker = new SurfacePacker();
 

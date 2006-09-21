@@ -1,6 +1,10 @@
 
 Current Changes
 ===================
+* Restructured storage for registered drivers in Registrar class to allow easier addition of new types of drivers.
+
+Version 0.2.0
+===================
 * Added a BitmapFontImpl class, to handle bitmap fonts.
 * Added FontSurface.BitmapMonospace method to create a monospace bitmap font.
 * Added Surface.DrawRects, it was mistakenly missing.

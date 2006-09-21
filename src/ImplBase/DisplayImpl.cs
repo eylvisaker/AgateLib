@@ -26,20 +26,12 @@ namespace ERY.AgateLib.ImplBase
     /// <summary>
     /// Abstract base class for implementing the Display object.
     /// </summary>
-    public abstract class DisplayImpl : IDisposable
+    public abstract class DisplayImpl : DriverImplBase
     {
         private double mAlphaThreshold = 5.0 / 255.0;
 
         private IRenderTarget mRenderTarget;
 
-        /// <summary>
-        /// Initialization beyond what the constructor does.
-        /// </summary>
-        public abstract void Initialize();
-        /// <summary>
-        /// Disposes of unmanaged resources.
-        /// </summary>
-        public abstract void Dispose();
 
         /// <summary>
         /// Gets or sets the current render target.
