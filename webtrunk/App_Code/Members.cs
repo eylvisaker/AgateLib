@@ -445,15 +445,21 @@ CREATE TABLE Users
             /*
             OleDbConnection conn = new OleDbConnection(connectionString);
             OleDbCommand cmd = new OleDbCommand("INSERT INTO Users " +
-                  " (UserID, Username, Password, Email, PasswordQuestion, " +
+                  " (Username, [Password], Email, PasswordQuestion, " +
                   " PasswordAnswer, IsApproved," +
                   " Comment, CreationDate, LastPasswordChangedDate, LastActivityDate," +
                   " ApplicationName, IsLockedOut, LastLockedOutDate," +
                   " FailedPasswordAttemptCount, FailedPasswordAttemptWindowStart, " +
                   " FailedPasswordAnswerAttemptCount, FailedPasswordAnswerAttemptWindowStart)" +
-                  " Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", conn);
+                  " Values" +
+                  " (@Username, @Password, Email, PasswordQuestion, " +
+                  " @PasswordAnswer, @IsApproved," +
+                  " @Comment, @CreationDate, @LastPasswordChangedDate, @LastActivityDate," +
+                  " @ApplicationName, @IsLockedOut, @LastLockedOutDate," +
+                  " @FailedPasswordAttemptCount, @FailedPasswordAttemptWindowStart, " +
+                  " @FailedPasswordAnswerAttemptCount, @FailedPasswordAnswerAttemptWindowStart)"
+                    , conn);
 
-            cmd.Parameters.Add("@UserID", OleDbType.Guid).Value = providerUserKey;
             cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
             cmd.Parameters.Add("@Password", OleDbType.VarChar, 255).Value = EncodePassword(password);
             cmd.Parameters.Add("@Email", OleDbType.VarChar, 128).Value = email;
@@ -471,36 +477,27 @@ CREATE TABLE Users
             cmd.Parameters.Add("@FailedPasswordAttemptWindowStart", OleDbType.Date).Value = createDate;
             cmd.Parameters.Add("@FailedPasswordAnswerAttemptCount", OleDbType.Integer).Value = 0;
             cmd.Parameters.Add("@FailedPasswordAnswerAttemptWindowStart", OleDbType.Date).Value = createDate;
-            
-             * */
+             */
+            string createDateString = createDate.ToString();
 
             OleDbConnection conn = new OleDbConnection(connectionString);
             OleDbCommand cmd = new OleDbCommand("INSERT INTO Users " +
-                  " (Username, Password, Email, PasswordQuestion, " +
+                  " (Username, [Password], Email, PasswordQuestion, " +
                   " PasswordAnswer, IsApproved," +
                   " Comment, CreationDate, LastPasswordChangedDate, LastActivityDate," +
                   " ApplicationName, IsLockedOut, LastLockedOutDate," +
                   " FailedPasswordAttemptCount, FailedPasswordAttemptWindowStart, " +
                   " FailedPasswordAnswerAttemptCount, FailedPasswordAnswerAttemptWindowStart)" +
-                  " Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", conn);
+                  " Values" +
+                  " ('"+username+"', '"+EncodePassword(password)+"', '"+email+"', '"+passwordQuestion+"', " +
+                  " '"+EncodePassword(passwordAnswer)+"', "+isApproved+"," +
+                  " '', #"+createDateString+"#, #"+createDateString+"#, #"+createDateString+"#," +
+                  " '"+pApplicationName+"', false, #"+createDateString+"#," +
+                  " 0, #"+createDateString+"#, " +
+                  " 0, #"+createDateString+"# )"
+                    , conn);
+            
 
-            cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-            cmd.Parameters.Add("@Password", OleDbType.VarChar, 255).Value = EncodePassword(password);
-            cmd.Parameters.Add("@Email", OleDbType.VarChar, 128).Value = email;
-            cmd.Parameters.Add("@PasswordQuestion", OleDbType.VarChar, 255).Value = passwordQuestion;
-            cmd.Parameters.Add("@PasswordAnswer", OleDbType.VarChar, 255).Value = EncodePassword(passwordAnswer);
-            cmd.Parameters.Add("@IsApproved", OleDbType.Boolean).Value = isApproved;
-            cmd.Parameters.Add("@Comment", OleDbType.VarChar, 255).Value = "";
-            cmd.Parameters.Add("@CreationDate", OleDbType.Date).Value = createDate;
-            cmd.Parameters.Add("@LastPasswordChangedDate", OleDbType.Date).Value = createDate;
-            cmd.Parameters.Add("@LastActivityDate", OleDbType.Date).Value = createDate;
-            cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
-            cmd.Parameters.Add("@IsLockedOut", OleDbType.Boolean).Value = false;
-            cmd.Parameters.Add("@LastLockedOutDate", OleDbType.Date).Value = createDate;
-            cmd.Parameters.Add("@FailedPasswordAttemptCount", OleDbType.Integer).Value = 0;
-            cmd.Parameters.Add("@FailedPasswordAttemptWindowStart", OleDbType.Date).Value = createDate;
-            cmd.Parameters.Add("@FailedPasswordAnswerAttemptCount", OleDbType.Integer).Value = 0;
-            cmd.Parameters.Add("@FailedPasswordAnswerAttemptWindowStart", OleDbType.Date).Value = createDate;
             try
             {
                 conn.Open();

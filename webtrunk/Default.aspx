@@ -9,8 +9,12 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    
-    </div>
+        <asp:HyperLink ID="WikiLink" runat="server" NavigateUrl="~/Wiki">Go to Wiki</asp:HyperLink>
+        <br />
+        <asp:HyperLink ID="ForumLink" runat="server" NavigateUrl="~/Forum">Go to Forum</asp:HyperLink><br />
+        <asp:HyperLink ID="RegisterLink" runat="server" NavigateUrl="~/Register.aspx">Register</asp:HyperLink>
+        <br />
+        <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/testdb.aspx">TestDB</asp:HyperLink></div>
     </form>
 </body>
 </html>
