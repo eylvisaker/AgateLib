@@ -1,0 +1,64 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="wiki.master.cs" Inherits="Wiki_wiki" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Untitled Page</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        &nbsp;<table>
+            <tr>
+                <td valign="top" align="left" >
+                    &nbsp;<asp:Image ID="Image1" runat="server" ImageUrl="~/Images/logo.png" /></td>
+                <td align="left" style="width: 96%" valign="top">
+                </td>
+                <td style="width: 35px">
+                    <asp:LoginStatus ID="LoginStatus1" runat="server" />
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td style="height: 315px" colspan="3">
+                    <table>
+                        <tr>
+                            <td style="height: 261px; width: 571px;" valign="top">
+                                &nbsp;<asp:SqlDataSource ID="menuData" runat="server" ConnectionString="<%$ ConnectionStrings:Access %>"
+                                ProviderName="<%$ ConnectionStrings:Access.ProviderName %>"
+                                    SelectCommand="SELECT MenuName,PageName FROM WikiPages WHERE (MainMenu <> 0)"></asp:SqlDataSource>
+                                <asp:Repeater ID="Repeater1" runat="server" DataSourceID="menuData">
+                                <ItemTemplate><a href="wiki.aspx?page=<%# Eval("PageName") %>"><%# Eval("MenuName") %></a>
+                                </ItemTemplate>                                
+                                </asp:Repeater>
+                                &nbsp;
+                                <asp:Panel ID="Panel1" runat="server" BorderStyle="Groove" BorderWidth="2" DefaultButton="searchButton"
+                                    Font-Italic="false" Width="100px">
+                                    Search:
+                                    <asp:TextBox ID="searchBox" runat="server" Width="95%"></asp:TextBox><br />
+                                    <asp:Button ID="searchButton" runat="server" Text="Button" />&nbsp;
+                                </asp:Panel>
+                                <asp:Login ID="Login1" runat="server" BackColor="#F7F6F3" BorderColor="#E6E2D8" BorderPadding="4"
+                                    BorderStyle="Solid" BorderWidth="1px" Font-Names="Verdana" Font-Size="0.8em"
+                                    ForeColor="#333333" Width="150px">
+                                    <TitleTextStyle BackColor="#5D7B9D" Font-Bold="True" Font-Size="0.9em" ForeColor="White" />
+                                    <InstructionTextStyle Font-Italic="True" ForeColor="Black" />
+                                    <TextBoxStyle Font-Size="0.8em" />
+                                    <LoginButtonStyle BackColor="#FFFBFF" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px"
+                                        Font-Names="Verdana" Font-Size="0.8em" ForeColor="#284775" />
+                                </asp:Login>
+                                &nbsp;&nbsp;
+                            </td>
+                            <td style="height: 261px; width: 100%">
+                                <asp:Panel ID="Panel2" runat="server" BorderStyle="Outset" Width="98%" Height="100%">
+                                    <asp:ContentPlaceHolder ID="pageContent" runat="server">
+                                        ;ljkl;kjlk;</asp:ContentPlaceHolder>
+                                </asp:Panel>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="height: 315px; width: 3px;">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
