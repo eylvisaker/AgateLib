@@ -9,16 +9,10 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 
-public partial class Wiki_wiki : System.Web.UI.MasterPage
+public partial class Wiki_history : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        
-    }
-    protected void AccessDataSource1_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
-    {
-        
-    }
 
-    
+    }
 }

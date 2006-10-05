@@ -15,33 +15,34 @@ public partial class Wiki_Default : System.Web.UI.Page
     {
         string pageName = Request.QueryString["page"];
         int id;
+        
+        WikiRenderer.SetConnectionString(pageContentData.ConnectionString);
 
         if (string.IsNullOrEmpty(pageName))
         {
             pageName = "Default";
         }
 
+        DataView view;
         try
         {
-            DataView view;
 
             if (int.TryParse(pageName, out id))
             {
                 pageContentData.SelectCommand = "Select * from pages where ID = " + id;
                 view = (DataView)pageContentData.Select(new DataSourceSelectArguments());
-                
+
                 pageName = (string)view.Table.Rows[0]["PageName"];
             }
             else
             {
-                pageContentData.SelectCommand =
-                    "Select Top 1 * from WikiPages where PageName = '" + pageName + "' Order By Date Desc";
+                pageContentData.SelectCommand = WikiRenderer.SelectPageCommand(pageName);
                 view = (DataView)pageContentData.Select(new DataSourceSelectArguments());
 
             }
 
-            content.Text = view.Table.Rows[0]["Content"].ToString();
-
+            if (view.Table.Rows.Count == 0)
+                throw new Exception("Page not found.");
         }
         catch
         {
@@ -49,6 +50,17 @@ public partial class Wiki_Default : System.Web.UI.Page
             Response.Redirect("notfound.aspx?page=" + pageName);
             return;
         }
+
+        content.Text = WikiRenderer.RenderWikiText(view.Table.Rows[0]["Content"].ToString());
+
+        editPageLink.NavigateUrl = "edit.aspx?page=" + pageName;
+
+
+        BindComments(pageName);
+    }
+
+    private void BindComments(string pageName)
+    {
 
         commentsData.SelectCommand =
             "Select WikiComments.*, UserName from WikiComments left join Users " +

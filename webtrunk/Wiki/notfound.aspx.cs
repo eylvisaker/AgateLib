@@ -14,5 +14,6 @@ public partial class Wiki_Default2 : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         pageName.Text = Request.QueryString["page"];
+        editLink.NavigateUrl = "edit.aspx?page=" + pageName.Text;
     }
 }

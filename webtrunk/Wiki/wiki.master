@@ -4,58 +4,50 @@
 <head runat="server">
     <title>Untitled Page</title>
 </head>
-<body>
+<body class="Wiki">
     <form id="form1" runat="server">
         &nbsp;<table>
             <tr>
-                <td valign="top" align="left" >
-                    &nbsp;<asp:Image ID="Image1" runat="server" ImageUrl="~/Images/logo.png" /></td>
-                <td align="left" style="width: 96%" valign="top">
+                <td valign="top" align="left" rowspan="2">
+                    <asp:HyperLink ID="homeLink" runat="server" NavigateUrl="~/Wiki">
+                    <asp:Image ID="logo" runat="server" ImageUrl="~/Images/logo.png" Height="96px" Width="120px" BorderWidth="0" />
+                    </asp:HyperLink>
+                    <br />
+                    <br />
+                    <asp:SqlDataSource ID="menuData" runat="server" ConnectionString="<%$ ConnectionStrings:Access %>"
+                        ProviderName="<%$ ConnectionStrings:Access.ProviderName %>" SelectCommand="SELECT MenuName,PageName FROM WikiPages WHERE (MainMenu <> 0)">
+                    </asp:SqlDataSource>
+                    &nbsp;
+                    <asp:Repeater ID="Repeater1" runat="server" DataSourceID="menuData">
+                        <ItemTemplate>
+                            <a href="wiki.aspx?page=<%# Eval("PageName") %>">
+                                <%# Eval("MenuName") %>
+                            </a>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                    &nbsp;
+                    <asp:Panel ID="Panel1" runat="server" BorderStyle="Groove" BorderWidth="2" DefaultButton="searchButton"
+                        Font-Italic="false" Width="100px">
+                        Search:
+                        <asp:TextBox ID="searchBox" runat="server" Width="95%"></asp:TextBox><br />
+                        <asp:Button ID="searchButton" runat="server" Text="Button" />&nbsp;
+                    </asp:Panel>
+                    &nbsp; &nbsp;&nbsp;
                 </td>
-                <td style="width: 35px">
-                    <asp:LoginStatus ID="LoginStatus1" runat="server" />
-                    &nbsp;</td>
+                <td>
+                    <asp:Panel ID="Panel3" runat="server" Height="50px" HorizontalAlign="Right" Width="100%">
+                        <asp:LoginStatus ID="LoginStatus1" runat="server" />
+                    </asp:Panel>
+                    <asp:Panel ID="Panel2" runat="server" Width="100%">
+                        <asp:ContentPlaceHolder ID="pageHeader" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </asp:Panel>
+                </td>
             </tr>
             <tr>
-                <td style="height: 315px" colspan="3">
-                    <table>
-                        <tr>
-                            <td style="height: 261px; width: 571px;" valign="top">
-                                &nbsp;<asp:SqlDataSource ID="menuData" runat="server" ConnectionString="<%$ ConnectionStrings:Access %>"
-                                ProviderName="<%$ ConnectionStrings:Access.ProviderName %>"
-                                    SelectCommand="SELECT MenuName,PageName FROM WikiPages WHERE (MainMenu <> 0)"></asp:SqlDataSource>
-                                <asp:Repeater ID="Repeater1" runat="server" DataSourceID="menuData">
-                                <ItemTemplate><a href="wiki.aspx?page=<%# Eval("PageName") %>"><%# Eval("MenuName") %></a>
-                                </ItemTemplate>                                
-                                </asp:Repeater>
-                                &nbsp;
-                                <asp:Panel ID="Panel1" runat="server" BorderStyle="Groove" BorderWidth="2" DefaultButton="searchButton"
-                                    Font-Italic="false" Width="100px">
-                                    Search:
-                                    <asp:TextBox ID="searchBox" runat="server" Width="95%"></asp:TextBox><br />
-                                    <asp:Button ID="searchButton" runat="server" Text="Button" />&nbsp;
-                                </asp:Panel>
-                                <asp:Login ID="Login1" runat="server" BackColor="#F7F6F3" BorderColor="#E6E2D8" BorderPadding="4"
-                                    BorderStyle="Solid" BorderWidth="1px" Font-Names="Verdana" Font-Size="0.8em"
-                                    ForeColor="#333333" Width="150px">
-                                    <TitleTextStyle BackColor="#5D7B9D" Font-Bold="True" Font-Size="0.9em" ForeColor="White" />
-                                    <InstructionTextStyle Font-Italic="True" ForeColor="Black" />
-                                    <TextBoxStyle Font-Size="0.8em" />
-                                    <LoginButtonStyle BackColor="#FFFBFF" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px"
-                                        Font-Names="Verdana" Font-Size="0.8em" ForeColor="#284775" />
-                                </asp:Login>
-                                &nbsp;&nbsp;
-                            </td>
-                            <td style="height: 261px; width: 100%">
-                                <asp:Panel ID="Panel2" runat="server" BorderStyle="Outset" Width="98%" Height="100%">
-                                    <asp:ContentPlaceHolder ID="pageContent" runat="server">
-                                        ;ljkl;kjlk;</asp:ContentPlaceHolder>
-                                </asp:Panel>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-                <td style="height: 315px; width: 3px;">
+                <td style="background-color: White; width: 100%; border-right: #dddddd thin outset; border-top: gray thin outset; border-left: gray thin outset; border-bottom: gray thin outset; padding-right: 8px; padding-left: 8px; padding-bottom: 8px; padding-top: 8px;" valign="top" bordercolor="#000000">
+                    <asp:ContentPlaceHolder ID="pageContent" runat="server">
+                            ;ljkl;kjlk;</asp:ContentPlaceHolder>
                 </td>
             </tr>
         </table>

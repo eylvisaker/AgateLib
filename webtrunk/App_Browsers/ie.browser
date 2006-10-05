@@ -1,0 +1,19 @@
+<!--
+    You can find existing browser definitions at
+    <windir>\Microsoft.NET\Framework\<ver>\CONFIG\Browsers
+-->
+<browsers>
+  <browser refID="IE55">
+    <controlAdapters>
+      <adapter controlType="System.Web.UI.WebControls.Image" adapterType="ImageControlAdapter" />
+    </controlAdapters>
+  </browser>
+  <browser id="IE6" parentID="IE6to9">
+    <identification>
+      <capability name="majorversion" match="6" />
+    </identification>
+    <controlAdapters>
+      <adapter controlType="System.Web.UI.WebControls.Image" adapterType="ImageControlAdapter" />
+    </controlAdapters>
+  </browser>
+</browsers>

@@ -3,7 +3,9 @@
     Page "<asp:Literal ID="pageName" runat="server"></asp:Literal>"
     was not found.<br />
     <br />
-    The page you requested was not found.&nbsp; If this error came from a link you clicked
+    The page you requested was not found.&nbsp; You can
+    <asp:HyperLink ID="editLink" runat="server">edit</asp:HyperLink>
+    it to create a new page. this error came from a link you clicked
     on this site, please notify the webmaster.<br />
     <br />
     <asp:HyperLink ID="linkhome" runat="server" NavigateUrl="wiki.aspx">Return to Wiki</asp:HyperLink>

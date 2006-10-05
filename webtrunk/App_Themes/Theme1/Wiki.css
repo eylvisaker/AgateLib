@@ -1,0 +1,47 @@
+﻿body.Wiki
+{
+	font-family: Verdana;
+	color: Black;
+	background-color: #f8f8f8;
+}
+h1.Wiki
+{
+	border-bottom: gray thin solid;
+	font-weight: bold;
+	font-size: 16pt;
+}
+h2.Wiki
+{
+	border-bottom: gray thin solid;
+	font-weight: bold;
+	font-size: 14pt;
+}
+a.Wiki
+{
+	color: teal;
+}
+a.WikiNew
+{
+	color: red;
+}
+ul.Wiki
+{
+	list-style-position: outside;
+	list-style-type: square;
+	left: -20px;
+	position: relative;
+}
+pre.Wiki
+{
+	border-right: blue 1px dashed;
+	padding-right: 8px;
+	border-top: blue 1px dashed;
+	padding-left: 8px;
+	padding-bottom: 8px;
+	border-left: blue 1px dashed;
+	padding-top: 8px;
+	border-bottom: blue 1px dashed;
+	background-color: #f0f0f0;
+	font-family: Courier New;
+	font-size: 10pt;
+}
