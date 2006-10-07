@@ -44,17 +44,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio.cs" />
+    <Compile Include="Drivers\TypeID.cs" />
+    <Compile Include="Drivers\DriverInfo.cs" />
+    <Compile Include="Drivers\DriverInfoList.cs" />
+    <Compile Include="Drivers\DriverTypeIDBase.cs" />
     <Compile Include="ImplBase\AudioImpl.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="ImplBase\BitmapFontImpl.cs" />
-    <Compile Include="ImplBase\DriverImplBase.cs" />
+    <Compile Include="Drivers\DriverImplBase.cs" />
     <Compile Include="InputCommand.cs" />
     <Compile Include="InputState.cs" />
-    <Compile Include="NullInputImpl.cs" />
-    <Compile Include="NullSoundImpl.cs" />
+    <Compile Include="Drivers\NullInputImpl.cs" />
+    <Compile Include="Drivers\NullSoundImpl.cs" />
     <Compile Include="Origin.cs" />
-    <Compile Include="Registrar.cs" />
+    <Compile Include="Drivers\Registrar.cs" />
     <Compile Include="SearchPath.cs" />
     <Compile Include="StringTransformer.cs" />
     <Compile Include="Utility\DisplayWindowForm.cs">
@@ -65,12 +69,12 @@
     </Compile>
     <Compile Include="ImplBase\RenderTargetImpl.cs" />
     <Compile Include="Color.cs" />
-    <Compile Include="Point.cs" />
-    <Compile Include="PointF.cs" />
-    <Compile Include="Rectangle.cs" />
-    <Compile Include="RectangleF.cs" />
-    <Compile Include="Size.cs" />
-    <Compile Include="SizeF.cs" />
+    <Compile Include="Geometry\Point.cs" />
+    <Compile Include="Geometry\PointF.cs" />
+    <Compile Include="Geometry\Rectangle.cs" />
+    <Compile Include="Geometry\RectangleF.cs" />
+    <Compile Include="Geometry\Size.cs" />
+    <Compile Include="Geometry\SizeF.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="ImplBase\InputImpl.cs" />
     <Compile Include="Joystick.cs" />
@@ -92,7 +96,6 @@
     <Compile Include="SpriteContainer.cs" />
     <Compile Include="Utility\SurfacePacker.cs" />
     <Compile Include="PlatformSpecific\Platform.cs" />
-    <Compile Include="PlatformSpecific\Win32.cs" />
     <Compile Include="Keyboard.cs" />
     <Compile Include="Mouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,10 +117,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ClassDiagram1.cd">
-      <SubType>
-      </SubType>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

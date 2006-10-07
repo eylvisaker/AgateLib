@@ -4,8 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-//using System.Windows.Forms;
 
+using ERY.AgateLib.Drivers;
 using ERY.AgateLib;
 
 namespace PerformanceTester
@@ -28,9 +28,11 @@ namespace PerformanceTester
         [STAThread]
         static void Main()
         {
-            ERY.AgateLib.MDX.MDX1_Display.Register();
+            //ERY.AgateLib.MDX.MDX1_Display.Register();
+            //ERY.AgateLib.PlatformSpecific.Win32Platform.Register();
+            Registrar.Initialize();
 
-            ICollection < DriverInfo < DisplayTypeID > > drivers = Registrar.DisplayDriverInfo;
+            ICollection<DriverInfo<DisplayTypeID>> drivers = Registrar.DisplayDriverInfo;
 
             frmPerformanceTester frm = new frmPerformanceTester();
             frm.Show();
@@ -39,7 +41,7 @@ namespace PerformanceTester
             {
                 Trace.WriteLine(string.Format("Starting driver {0}...", info.Name));
                 Trace.Indent();
-                double fps;     
+                double fps;
 
                 Display.Initialize(info.TypeID);
                 DisplayWindow wind = new DisplayWindow("Performance Test", 300, 300);

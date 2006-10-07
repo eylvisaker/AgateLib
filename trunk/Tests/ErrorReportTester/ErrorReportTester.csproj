@@ -4,17 +4,17 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{781A52BD-2AB6-476D-AC41-6238CAE49EAB}</ProjectGuid>
+    <ProjectGuid>{0FD96BA8-E1BC-4C1E-AEFB-BB79FBC5919E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PerformanceTester</RootNamespace>
-    <AssemblyName>PerformanceTester</AssemblyName>
+    <RootNamespace>ErrorReportTester</RootNamespace>
+    <AssemblyName>ErrorReportTester</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>.\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -36,17 +36,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmPerformanceTester.cs">
+    <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPerformanceTester.Designer.cs">
-      <DependentUpon>frmPerformanceTester.cs</DependentUpon>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmPerformanceTester.resx">
+    <EmbeddedResource Include="Form1.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>frmPerformanceTester.cs</DependentUpon>
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -68,14 +68,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\drivers\AgateMDX\AgateMDX.csproj">
-      <Project>{852EB9A0-5DCB-492F-9630-9D4198B81FA2}</Project>
-      <Name>AgateMDX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\drivers\AgateWindows\AgateWindows.csproj">
-      <Project>{43FCCAD7-4B2C-43BA-897A-F16061C1891A}</Project>
-      <Name>AgateWindows</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\AgateLib.csproj">
       <Project>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</Project>
       <Name>AgateLib</Name>

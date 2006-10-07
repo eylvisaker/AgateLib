@@ -23,6 +23,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+
+using ERY.AgateLib.Drivers;
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.SystemDrawing
@@ -196,7 +198,7 @@ namespace ERY.AgateLib.SystemDrawing
         public static void Register()
         {
             Registrar.RegisterDisplayDriver(
-                new DisplayDriverInfo(typeof(Drawing_Display), DisplayTypeID.Reference,
+                new DriverInfo<DisplayTypeID>(typeof(Drawing_Display), DisplayTypeID.Reference,
                 "System.Drawing", 0));
         }
     

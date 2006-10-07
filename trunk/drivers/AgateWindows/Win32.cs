@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using ERY.AgateLib.Drivers;
+
 namespace ERY.AgateLib.PlatformSpecific
 {
     /// <summary>
@@ -37,7 +39,6 @@ namespace ERY.AgateLib.PlatformSpecific
         private struct Message
         {
             public IntPtr hWnd;
-            // public WindowMessage msg;
             public int msg;
             public IntPtr wParam;
             public IntPtr lParam;
@@ -70,8 +71,21 @@ namespace ERY.AgateLib.PlatformSpecific
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
+        
         [DllImport("kernel32.dll")]
         extern static short QueryPerformanceFrequency(out long x);
+        
+        
+        /// <summary>
+        /// Registers the Win32 platform interop class with the Registrar.
+        /// </summary>
+        public static void Register()
+        {
+            // first, set up the delegates.  if this failes, an exception will be thrown
+            // and we won't register.
+            Registrar.RegisterPlatformDriver( new DriverInfo<PlatformTypeID>(
+                typeof(Win32Platform), PlatformTypeID.Windows, "Windows", 1));
+        }
 
         /// <summary>
         /// Returns true if there are no messages waiting.

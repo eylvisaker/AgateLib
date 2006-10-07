@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+
+using ERY.AgateLib.Drivers;
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib
@@ -204,7 +206,7 @@ namespace ERY.AgateLib
         /// </summary>
         public static void Register()
         {
-            Registrar.RegisterAudioDriver(new AudioDriverInfo(
+            Registrar.RegisterAudioDriver(new DriverInfo<AudioTypeID>(
                 typeof(NullSoundImpl), AudioTypeID.Silent, "Silent", -100));
         }
         /// <summary>
