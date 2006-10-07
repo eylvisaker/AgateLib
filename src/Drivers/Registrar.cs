@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -52,7 +52,7 @@ namespace ERY.AgateLib.Drivers
         /// are loaded and searched for classes which derive from DisplayImpl, AudioImpl, etc.
         /// 
         /// </summary>
-        public static void Initialize()
+        internal static void Initialize()
         {
             if (mIsInitialized)
                 return;
@@ -125,7 +125,7 @@ namespace ERY.AgateLib.Drivers
         }
 
         /// <summary>
-        /// Returns a collection with all the DriverInfo<AudioTypeID> structures for
+        /// Returns a collection with all the DriverInfo&lt;AudioTypeID&gt; structures for
         /// registered display drivers.
         /// </summary>
         /// <returns></returns>

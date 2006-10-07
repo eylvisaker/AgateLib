@@ -35,7 +35,7 @@ namespace ERY.AgateLib.MDX
         }
         public override void Initialize()
         {
-
+            System.Diagnostics.Trace.WriteLine("Using Managed DirectX implementation of InputImpl.");
         }
 
         public override void Dispose()

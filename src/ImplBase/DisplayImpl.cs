@@ -195,6 +195,14 @@ namespace ERY.AgateLib.ImplBase
                     mFrames = 0;
 
                 }
+
+                // hack to make sure delta time is never zero.
+                if (mDeltaTime == 0.0)
+                {
+                    System.Threading.Thread.Sleep(1);
+                    CalcDeltaTime();
+                    return;
+                }
             }
             else
             {

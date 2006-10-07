@@ -106,6 +106,7 @@ namespace ERY.AgateLib.PlatformSpecific
         {
             // this just tells windows to make the form and controls look nice on WinXP
             System.Windows.Forms.Application.EnableVisualStyles();
+            System.Diagnostics.Trace.WriteLine("Using Windows platform-specific methods.");
 
             long freq;
 

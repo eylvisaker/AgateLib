@@ -30,7 +30,7 @@ namespace PerformanceTester
         {
             //ERY.AgateLib.MDX.MDX1_Display.Register();
             //ERY.AgateLib.PlatformSpecific.Win32Platform.Register();
-            Registrar.Initialize();
+            Core.Initialize();
 
             ICollection<DriverInfo<DisplayTypeID>> drivers = Registrar.DisplayDriverInfo;
 

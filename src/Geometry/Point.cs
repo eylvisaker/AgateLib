@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -21,6 +21,23 @@ using System.Collections.Generic;
 
 namespace ERY.AgateLib
 {
+    // \cond doxygenignore
+    namespace Geometry
+    {
+        /// <summary>
+        /// This class exists as a placeholder to make sure the Geometry class
+        /// is not optimized away.  Do not use it.
+        /// </summary>
+        public class GeometryDummyClass 
+        { 
+            /// <summary>
+            /// Dummy value
+            /// </summary>
+            public int val; 
+        }
+    }
+    // \endcond
+
     /// <summary>
     /// Replacement for System.Drawing.Point structure.
     /// </summary>

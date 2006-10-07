@@ -54,6 +54,8 @@ namespace ERY.AgateLib.MDX
 
         public override void Initialize()
         {
+            System.Diagnostics.Trace.WriteLine("Using Managed DirectX 1.1 implementation of DisplayImpl.");
+
             Sprite.UseSpriteCache = true;
         }
 

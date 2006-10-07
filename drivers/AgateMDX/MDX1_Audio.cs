@@ -48,6 +48,7 @@ namespace ERY.AgateLib.MDX
 
         public override void Initialize()
         {
+            System.Diagnostics.Trace.WriteLine("Using Managed DirectX implementation of AudioImpl.");
             mDevice = new DirectSound.Device();
         }
         public override void Dispose()

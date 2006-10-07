@@ -67,15 +67,23 @@ namespace ERY.AgateLib
         
         static Core()
         {
-            mPlatform = Platform.CreatePlatformMethods();
-            mPlatform.Initialize();
-
+            
         }
         /// <summary>
         /// Initializes Core class.
         /// Can be called multiple times.
         /// </summary>
-        public static void Initialize() { }
+        public static void Initialize()
+        {
+            if (mPlatform != null)
+            {
+                return;
+            }
+
+            Drivers.Registrar.Initialize();
+
+            mPlatform = Platform.CreatePlatformMethods();
+        }
 
         /// <summary>
         /// Gets platform-specific methods.

@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using ERY.AgateLib.Resources;
 
 namespace ERY.AgateLib
 {
@@ -77,7 +78,9 @@ namespace ERY.AgateLib
             OnceHoldLast,
             /// <summary>
             /// Specifies that the sprite animation should go from
-            /// frame 0 to the end, and then disappear.
+            /// frame 0 to the end, and then disappear.  The Visible
+            /// property of the Sprite object is set to false once
+            /// the animation is complete.
             /// </summary>
             OnceDisappear,
 
@@ -219,7 +222,7 @@ namespace ERY.AgateLib
 
             foreach (SpriteFrame f in mFrames)
             {
-                retval.mFrames.Add(f);
+                retval.mFrames.Add(f.Clone());
             }
 
             return retval;
@@ -443,7 +446,7 @@ namespace ERY.AgateLib
             for (int i = 0; i < mFrames.Count; i++)
             {
                 SpriteFrame frame = mFrames[i];
-                string frameFile = cacheInfoPath + string.Format(".frame{0}.png", i);
+                string frameFile = cacheInfoPath.Replace('\\', '/') + string.Format(".frame{0}.png", i);
 
                 System.Xml.XmlElement element = doc.CreateElement("Frame");
 
@@ -840,7 +843,6 @@ namespace ERY.AgateLib
         /// <summary>
         /// Gets or sets whether or not the sprite should be drawn when Draw is called.
         /// </summary>
-        [Obsolete()]
         public bool Visible
         {
             get { return mVisible; }
