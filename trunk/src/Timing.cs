@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -113,7 +113,7 @@ namespace ERY.AgateLib
         /// </summary>
         public class StopWatch : IDisposable
         {
-            double mStartTime = Core.Platform.GetTime();
+            double mStartTime;
             int mPause = 0;
             double mPauseTime = 0;
 
@@ -124,6 +124,17 @@ namespace ERY.AgateLib
             public StopWatch()
                 : this(true)
             {
+                try
+                {
+                    mStartTime = Core.Platform.GetTime();
+                }
+                catch (NullReferenceException e)
+                {
+                    GC.KeepAlive(e);
+
+                    Core.Initialize();
+                    mStartTime = Core.Platform.GetTime();
+                }
 
             }
             /// <summary>

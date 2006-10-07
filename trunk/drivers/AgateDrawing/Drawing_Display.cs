@@ -77,6 +77,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         public override void Initialize()
         {
+            System.Diagnostics.Trace.WriteLine("Using System.Drawing implementation of DisplayImpl.");
         }
         public override void Dispose() 
         {

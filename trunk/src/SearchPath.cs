@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -95,6 +95,8 @@ namespace ERY.AgateLib
         /// <returns>The full path of the file, if it exists.  Null if no file is found.</returns>
         public string FindFileName(string filename)
         {
+            DebugCrossPlatform(filename);
+
             foreach (string dir in mSearchPaths)
             {
                 string path = Path.Combine(dir, filename);
@@ -105,6 +107,8 @@ namespace ERY.AgateLib
 
             return null;
         }
+
+
 
         /// <summary>
         /// Gets all files in all paths.
@@ -136,6 +140,16 @@ namespace ERY.AgateLib
             }
 
             return files;
+        }
+
+
+        private void DebugCrossPlatform(string filename)
+        {
+            if (FileManager.CheckCrossPlatform(filename) == false)
+            {
+                System.Diagnostics.Debug.WriteLine("The path \"" + filename + "\" is not entered in a cross-platform manner.");
+                System.Diagnostics.Debug.WriteLine("Avoid using the following characters:  " + FileManager.NonCrossPlatformChars);
+            }
         }
 
         #region --- ICollection<string> Members ---

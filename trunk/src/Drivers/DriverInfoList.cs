@@ -1,3 +1,21 @@
+//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -12,7 +30,7 @@ namespace ERY.AgateLib.Drivers
     /// instantiate them.
     /// </summary>
     /// <typeparam name="TBase">Base class of the main driver class factory. (DisplayImpl, etc.)</typeparam>
-    /// <typeparam name="T">DriverTypeID class</typeparam>
+    /// <typeparam name="T">DriverTypeID derived class.  This should emulate an enum.</typeparam>
     public class DriverInfoList<TBase, T> : List<DriverInfo<T>>
         // \cond
         where T : DriverTypeIDBase, IEquatable<T>
@@ -35,7 +53,8 @@ namespace ERY.AgateLib.Drivers
         /// <summary>
         /// Instantiates the chosen  driver.
         /// </summary>
-        /// <param name="Type"></param>
+        /// <param name="type">A member of the "enum" class T, usually one
+        /// of the static members of T.</param>
         /// <returns></returns>
         internal TBase CreateDriver(T type)
         {

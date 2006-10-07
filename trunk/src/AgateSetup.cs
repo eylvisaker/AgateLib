@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -74,7 +74,6 @@ namespace ERY.AgateLib
         public AgateSetup()
         {
             Core.Initialize();
-            Registrar.Initialize();
         }
         /// <summary>
         /// Constructs a Setup object.
@@ -82,7 +81,7 @@ namespace ERY.AgateLib
         /// <param name="title"></param>
         public AgateSetup(string title)
         {
-            Registrar.Initialize();
+            Core.Initialize();
 
             mTitle = title;
         }
@@ -101,7 +100,7 @@ namespace ERY.AgateLib
         /// <param name="args">Command line arguments to the program.</param>
         public AgateSetup(string title, string[] args)
         {
-            Registrar.Initialize();
+            Core.Initialize();
 
             mTitle = title;
 

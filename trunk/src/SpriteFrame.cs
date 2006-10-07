@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -29,15 +29,21 @@ namespace ERY.AgateLib
     /// object which is transparent is not drawn.  This is taken advantage of if 
     /// surfaces are packed to create a tighter packing and fit more objects on
     /// the same texture.
+    /// 
+    /// SpriteFrame contains a reference count.  If you manually copy it, be sure
+    /// to call AddRef unless you use the Clone method.
     /// </summary>
     public class SpriteFrame : IDisposable
     {
         Surface mSurface;
         Point mOffset = new Point(0, 0);
         bool mIsBlank = true;
+        bool mIsDisposed = false;
 
         Size mOriginalSize;
         Size mDisplaySize;
+
+        private int mRefCount = 1;
 
         internal SpriteFrame()
         {
@@ -51,7 +57,8 @@ namespace ERY.AgateLib
         }
 
         /// <summary>
-        /// Disposes of unmanaged resources.
+        /// Reduces the reference counter for this class, and disposes of unmanaged
+        /// resources if the counter hits zero.
         /// </summary>
         public void Dispose()
         {
@@ -60,17 +67,47 @@ namespace ERY.AgateLib
 
         private void Dispose(bool disposing)
         {
+            if (disposing)
+            {
+                mRefCount--;
+
+                if (mRefCount >= 0)
+                    return;
+
+                
+                GC.SuppressFinalize(this);
+            }
 
             if (mSurface != null)
             {
                 mSurface.Dispose();
                 mSurface = null;
+                mIsDisposed = true;
 
                 mOriginalSize = new Size(-1, -1);
             }
 
-            if (disposing)
-                GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Adds one to the reference counter.
+        /// </summary>
+        public void AddRef()
+        {
+            mRefCount++;
+        }
+
+        /// <summary>
+        /// Copies this object.
+        /// 
+        /// Actually, this just increases the reference counter and returns this
+        /// object.  Be sure to Dispose the result when finished with it.
+        /// </summary>
+        /// <returns></returns>
+        public SpriteFrame Clone()
+        {
+            AddRef();
+            return this;
         }
 
         /// <summary>

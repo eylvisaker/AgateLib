@@ -1,3 +1,35 @@
+AgateLib 0.2.1  Release Notes
+======================================
+
+AgateLib applications should run under Linux now.  I have successfully tested them using the 
+Mono VMWare SuSE image on my computer.  Unfortunately, this is the limit to my ability to test
+on Linux at the moment.  The serious development of an OpenGL driver is postponed until the next
+version of Tao, so hardware support under Linux will not be available until then.
+
+Windows platform-specific P/Invoke methods have been moved to the AgateWindows.dll assembly.
+This was required for Linux support.  Using AgateWindows.dll should provide a speed-up and
+greater memory efficiency by providing access to PeekMessage and high-resolution timers.
+This benefit may be negligible; more testing needs to be done.
+
+The source code has been restructured a bit.  In the version 0.2.2 the System.Drawing replacement
+structures Color, Point, PointF, Rectangle, RectangleF, Size, SizeF will be moved to the ERY.AgateLib.Geometry
+namespace.  You can prepare for this by adding a using statement for this namespace now.  This change
+will help prevent naming conflicts which occur when mixing Windows.Forms components with AgateLib.
+This should not be an issue for game applications, but it is an issue for tools.  
+
+The resource classes ResourceManager and Resource have been moved to the ERY.AgateLib.Resources 
+namespace.
+
+Display.DeltaTime will now never return zero, so it's safe to divide by it.  However, due to the nature
+of this hack, if a high resolution platform-dependent timer is unavailable (such as the one in AgateWindows),
+this will cap your framerate at whatever the resolution of System.Environment.GetTickCount() is.
+On my test machine, this is 64 fps.
+
+Known Issues:
+* No hardware acceleration support in Mono.
+
+
+
 AgateLib 0.2.0  Release Notes
 ======================================
 
