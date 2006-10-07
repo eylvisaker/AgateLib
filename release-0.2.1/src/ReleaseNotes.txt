@@ -1,0 +1,73 @@
+AgateLib 0.2.1  Release Notes
+======================================
+
+AgateLib applications should run under Linux now.  I have successfully tested them using the 
+Mono VMWare SuSE image on my computer.  Unfortunately, this is the limit to my ability to test
+on Linux at the moment.  The serious development of an OpenGL driver is postponed until the next
+version of Tao, so hardware support under Linux will not be available until then.
+
+Windows platform-specific P/Invoke methods have been moved to the AgateWindows.dll assembly.
+This was required for Linux support.  Using AgateWindows.dll should provide a speed-up and
+greater memory efficiency by providing access to PeekMessage and high-resolution timers.
+This benefit may be negligible; more testing needs to be done.
+
+The source code has been restructured a bit.  In the version 0.2.2 the System.Drawing replacement
+structures Color, Point, PointF, Rectangle, RectangleF, Size, SizeF will be moved to the ERY.AgateLib.Geometry
+namespace.  You can prepare for this by adding a using statement for this namespace now.  This change
+will help prevent naming conflicts which occur when mixing Windows.Forms components with AgateLib.
+This should not be an issue for game applications, but it is an issue for tools.  
+
+The resource classes ResourceManager and Resource have been moved to the ERY.AgateLib.Resources 
+namespace.
+
+Display.DeltaTime will now never return zero, so it's safe to divide by it.  However, due to the nature
+of this hack, if a high resolution platform-dependent timer is unavailable (such as the one in AgateWindows),
+this will cap your framerate at whatever the resolution of System.Environment.GetTickCount() is.
+On my test machine, this is 64 fps.
+
+Known Issues:
+* No hardware acceleration support in Mono.
+* Playing .mid files as music won't play more than one.  In the future, the implementation will probably switch to FMOD instead of DirectX.AudioVideoPlayback.
+
+
+
+AgateLib 0.2.0  Release Notes
+======================================
+
+Deployment issues, I think are resolved.  In order to develop with AgateLib, it is recommended
+that you have a .NET 2.0 development environment (such as Visual C# Express 2005 or SharpDevelop 2.0).
+If you are developing a game, your game only needs references to mscorlib, System.DLL, and AgateLib.dll.
+No reference to System.Drawing.dll or System.Windows.Forms.dll is required.
+
+If you're developing a game authoring tool, your application should be developed using System.Windows.Forms.
+You can develop an application with a rich user interface and instruct AgateLib to render to multiple 
+child controls by creating DisplayWindows for each of those controls and changing the Display.RenderTarget
+to them.
+
+If you want to deploy an application using AgateLib, of course you need to make sure that a client machine
+has the .NET 2.0 framework installed.  At the moment, the only hardware acceleration supported is provided by
+Managed DirectX.  As such you must also make sure that the client machine has the DirectX 9.0c runtime
+install.  The files required for the June 2006 MDX update are in the dxredist folder in the AgateLib source
+trunk.  These must also be installed on the client machine.  This can be done silently during the setup procedure
+according to Microsoft.
+
+Known Issues:
+* Doesn't run under Linux right now.
+* No hardware acceleration support in Mono.
+
+
+
+AgateLib 0.1.8 Release Notes
+======================================
+
+Requires .NET 2.0 or Mono.
+
+Deployment procedure, with respect to DirectX runtime files is unknown at the moment.  I 
+have included what I think is the minimum required files for the DirectX runtime distributable
+to work with the AgateMDX library in the dxredist directory of the archives.
+
+Known Issues:
+* VSync is not properly supported in the Direct3D driver.
+* There's a problem with Display.PackAllSurfaces where it does not copy surfaces correctly.
+* Direct3D driver does not work with Mono.  If you are running in Mono, delete AgateMDX.dll from your application directory.
+ 
