@@ -9,6 +9,7 @@ Version 0.2.1
 * Registrar.Initialize is now internal instead of public.  If you are calling it, use Core.Initialize instead.
 * Added a hack to make sure the Display.DeltaTime never returns zero.
 * Fixed a Sprite bug where if a Clone'd sprite was Dispose'd, the shared surface data would also be disposed.  Now SpriteFrames are reference counted to resolve this.
+* Fixed a bug in Sound and Music objects where they might not respond to StopAllSounds/Music.
 
 Version 0.2.0
 ===================

@@ -206,6 +206,9 @@ namespace ERY.AgateLib
 
         private void Dispose(bool disposing)
         {
+            if (disposing)
+                GC.SuppressFinalize(this);
+
             // trick to keep the list from changing while we iterate through it.
             List<SoundBufferSession> sessions = mSessions;
             mSessions = null;
@@ -213,9 +216,11 @@ namespace ERY.AgateLib
             foreach (SoundBufferSession s in sessions)
                 s.Dispose();
 
-            impl.Dispose(); 
-            if (disposing)
-                GC.SuppressFinalize(this);
+            if (impl != null)
+            {
+                impl.Dispose();
+                impl = null;
+            }
 
             mIsDisposed = true;
         }
@@ -385,6 +390,7 @@ namespace ERY.AgateLib
             impl = Audio.Impl.CreateSoundBufferSession(source.Impl);
 
             mSource = source;
+            mSource.StopEvent += new Audio.AudioCoreEventDelegate(Stop);
 
             Initialize();
 
@@ -527,7 +533,7 @@ namespace ERY.AgateLib
         /// <summary>
         /// Constructs a Music object.
         /// </summary>
-        public Music(string filename)
+        public Music(string filename) : this()
         {
             string fn = FileManager.MusicPath.FindFileName(filename);
             if (string.IsNullOrEmpty(fn))
@@ -587,7 +593,8 @@ namespace ERY.AgateLib
         /// </summary>
         public void Stop()
         {
-            impl.Stop();
+            if (impl != null)
+                impl.Stop();
         }
         /// <summary>
         /// The name of the file this was loaded from.

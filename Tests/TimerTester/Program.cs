@@ -18,28 +18,21 @@ namespace TimerTester
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
             Form1 frm = new Form1();
             frm.Show();
 
-            using (AgateSetup setup = new AgateSetup())
+            Core.Initialize();
+
+            double startTime = Timing.TotalMilliseconds;
+
+            while (frm.Visible)
             {
-                setup.InitializeDisplay();
-             
-                // fake out the display with an off-screen render target
-                Surface surf = new Surface(10, 10);
-                Display.RenderTarget = surf;
+                frm.UpdateControls(Timing.TotalMilliseconds - startTime);
 
-                while (frm.Visible)
-                {
-                    Display.BeginFrame();
-                    Display.EndFrame();
-
-                    frm.UpdateControls(Display.DeltaTime);
-
-                    Application.DoEvents();
-                }
+                Application.DoEvents();
             }
+
         }
     }
 }

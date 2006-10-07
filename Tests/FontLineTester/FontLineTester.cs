@@ -8,7 +8,9 @@ namespace FontLineTester
     {
         static List<FontSurface> fonts = new List<FontSurface>();
         static int currentFont = 0;
-        static string text = "This text is a test\nof multiline text.  How\ndid it work?";
+        static string text = "This text is a test\nof multiline text.  How\ndid it work?\n\n"+
+            "You can type into this box with the keyboard.\nThe rectangle is drawn by calling "+
+            "the\nStringDisplaySize function to get the size of the text.";
 
 
         /// <summary>
@@ -32,8 +34,8 @@ namespace FontLineTester
                 FileManager.ImagePath.Add("../../");
 
                 fonts.Add(new FontSurface("Arial", 12));
-                fonts.Add(FontSurface.BitmapMonospace("font.png", new Size(16, 16)));
-                fonts[1].StringTransformer = StringTransformer.ToUpper;
+                //fonts.Add(FontSurface.BitmapMonospace("font.png", new Size(16, 16)));
+                //fonts[1].StringTransformer = StringTransformer.ToUpper;
 
                 while (wind.Closed == false)
                 {
@@ -46,7 +48,7 @@ namespace FontLineTester
 
                     Display.DrawRect(drawRect, Color.Red);
 
-                    fonts[0].DrawText(0, drawRect.Bottom + 20, 
+                    fonts[0].DrawText(0, 450, 
                         "Measured size was: " + drawRect.Size.ToString());
 
                     Display.EndFrame();

@@ -27,6 +27,7 @@ On my test machine, this is 64 fps.
 
 Known Issues:
 * No hardware acceleration support in Mono.
+* Playing .mid files as music won't play more than one.  In the future, the implementation will probably switch to FMOD instead of DirectX.AudioVideoPlayback.
 
 
 

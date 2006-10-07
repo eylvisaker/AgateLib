@@ -21,7 +21,7 @@ namespace ERY.AudioTester
         {
             InitializeComponent();
 
-            toolStripStatusLabel1.Text = "";
+            statusLabel.Text = "";
         }
 
         private void frmAudioTester_Load(object sender, EventArgs e)
@@ -49,7 +49,7 @@ namespace ERY.AudioTester
             }
             catch (Exception error)
             {
-                toolStripStatusLabel1.Text = "Error: " + error.Message;
+                statusLabel.Text = "Error: " + error.Message;
             }
         }
 
@@ -71,7 +71,7 @@ namespace ERY.AudioTester
             }
             catch (Exception error)
             {
-                toolStripStatusLabel1.Text = "Error: " + error.Message;
+                statusLabel.Text = "Error: " + error.Message;
             }
 
         }
@@ -93,7 +93,7 @@ namespace ERY.AudioTester
             {
                 string ext = Path.GetExtension(filename);
 
-                if (extensions.Contains(ext))
+                if (extensions.Contains(ext.ToLower()))
                 {
                     lstFiles.Items.Add(Path.GetFileName(filename));
                 }
@@ -115,6 +115,21 @@ namespace ERY.AudioTester
                 mSound.Pan = (double)panValue.Value;
             if (mMusic != null)
                 mMusic.Pan = (double)panValue.Value;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            folderBrowser.SelectedPath = Directory.GetCurrentDirectory();
+
+            if (folderBrowser.ShowDialog() == DialogResult.OK)
+            {
+                Directory.SetCurrentDirectory(folderBrowser.SelectedPath);
+
+                AgateLib.FileManager.SoundPath = new ERY.AgateLib.SearchPath(".");
+                AgateLib.FileManager.MusicPath = new ERY.AgateLib.SearchPath(".");
+
+                FillMusicListBox();
+            }
         }
 
 

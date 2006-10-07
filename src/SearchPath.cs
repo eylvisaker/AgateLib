@@ -35,8 +35,8 @@ namespace ERY.AgateLib
 
         /// <summary>
         /// Constructs a SearchPath object.  No default paths are added
-        /// (You might want to consider using SearchPath(".") for the 
-        /// path the application is contained in.)
+        /// (You might want to consider using SearchPath(".") instead to include
+        /// the current directory.)
         /// </summary>
         public SearchPath()
         {
@@ -95,6 +95,9 @@ namespace ERY.AgateLib
         /// <returns>The full path of the file, if it exists.  Null if no file is found.</returns>
         public string FindFileName(string filename)
         {
+            if (filename == null)
+                return null;
+
             DebugCrossPlatform(filename);
 
             foreach (string dir in mSearchPaths)
@@ -145,6 +148,9 @@ namespace ERY.AgateLib
 
         private void DebugCrossPlatform(string filename)
         {
+            if (filename == null)
+                return;
+
             if (FileManager.CheckCrossPlatform(filename) == false)
             {
                 System.Diagnostics.Debug.WriteLine("The path \"" + filename + "\" is not entered in a cross-platform manner.");
