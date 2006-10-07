@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using System.Text;
 using DirectSound = Microsoft.DirectX.DirectSound;
 using AV = Microsoft.DirectX.AudioVideoPlayback;
+
+using ERY.AgateLib.Drivers;
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.MDX
@@ -35,7 +37,7 @@ namespace ERY.AgateLib.MDX
         }
         public static void Register()
         {
-            Registrar.RegisterAudioDriver(new AudioDriverInfo(
+            Registrar.RegisterAudioDriver(new DriverInfo<AudioTypeID>(
                 typeof(MDX1_Audio), AudioTypeID.DirectSound, "Managed DirectSound 1.1", 100));
         }
 

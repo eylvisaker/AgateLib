@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+
+using ERY.AgateLib.Drivers;
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib
@@ -28,7 +30,7 @@ namespace ERY.AgateLib
 
         public static void Register()
         {
-            Registrar.RegisterInputDriver(new InputDriverInfo(
+            Registrar.RegisterInputDriver(new DriverInfo<InputTypeID>(
                 typeof(NullInputImpl), InputTypeID.Silent, "Silent", -100));
         }
 

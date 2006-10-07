@@ -22,6 +22,8 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 
+using ERY.AgateLib.Drivers;
+
 namespace ERY.AgateLib
 {
     public partial class SetSystemsForm : Form
@@ -78,7 +80,7 @@ namespace ERY.AgateLib
         /// Sets default.
         /// </summary>
         /// <param name="mode"></param>
-        public void SetDefaultDisplay(DisplayDriverInfo mode)
+        public void SetDefaultDisplay(DriverInfo<DisplayTypeID> mode)
         {
             displayList.SelectedItem = mode;
         }
@@ -86,7 +88,7 @@ namespace ERY.AgateLib
         /// Sets default.
         /// </summary>
         /// <param name="mode"></param>
-        public void SetDefaultAudio(AudioDriverInfo mode)
+        public void SetDefaultAudio(DriverInfo<AudioTypeID> mode)
         {
             audioList.SelectedItem = mode;
         }
@@ -94,7 +96,7 @@ namespace ERY.AgateLib
         /// Sets default.
         /// </summary>
         /// <param name="mode"></param>
-        public void SetDefaultInput(InputDriverInfo mode)
+        public void SetDefaultInput(DriverInfo<InputTypeID> mode)
         {
             inputList.SelectedItem = mode;
         }
@@ -103,7 +105,7 @@ namespace ERY.AgateLib
         /// Adds.
         /// </summary>
         /// <param name="info"></param>
-        public void AddDisplayType(DisplayDriverInfo info)
+        public void AddDisplayType(DriverInfo<DisplayTypeID> info)
         {
             displayList.Items.Add(info);
         }
@@ -111,7 +113,7 @@ namespace ERY.AgateLib
         /// Adds.
         /// </summary>
         /// <param name="info"></param>
-        public void AddAudioType(AudioDriverInfo info)
+        public void AddAudioType(DriverInfo<AudioTypeID> info)
         {
             audioList.Items.Add(info);
         }
@@ -119,7 +121,7 @@ namespace ERY.AgateLib
         /// Adds.
         /// </summary>
         /// <param name="info"></param>
-        public void AddInputType(InputDriverInfo info)
+        public void AddInputType(DriverInfo<InputTypeID> info)
         {
             inputList.Items.Add(info);
         }
@@ -128,19 +130,19 @@ namespace ERY.AgateLib
         {
             if (mChooseDisplay)
             {
-                DisplayDriverInfo display = displayList.SelectedItem as DisplayDriverInfo;
+                DriverInfo<DisplayTypeID> display = displayList.SelectedItem as DriverInfo<DisplayTypeID>;
                 mDisplayType = display.TypeID;
             }
 
             if (mChooseAudio)
             {
-                AudioDriverInfo audio = audioList.SelectedItem as AudioDriverInfo;
+                DriverInfo<AudioTypeID> audio = audioList.SelectedItem as DriverInfo<AudioTypeID>;
                 mAudioType = audio.TypeID;
             }
 
             if (mChooseInput)
             {
-                InputDriverInfo input = inputList.SelectedItem as InputDriverInfo;
+                DriverInfo<InputTypeID> input = inputList.SelectedItem as DriverInfo<InputTypeID>;
                 mInputType = input.TypeID;
             }
 

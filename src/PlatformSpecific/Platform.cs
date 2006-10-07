@@ -21,6 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using ERY.AgateLib.Drivers;
+
 namespace ERY.AgateLib.PlatformSpecific
 {
     /// <summary>
@@ -28,7 +30,7 @@ namespace ERY.AgateLib.PlatformSpecific
     /// each platform given.  It provides default implementations that 
     /// are "most conservative."
     /// </summary>
-    public class Platform
+    public class Platform : DriverImplBase 
     {
         /// <summary>
         /// Only sub classes are allowed to initialized this class.
@@ -42,19 +44,17 @@ namespace ERY.AgateLib.PlatformSpecific
         /// <returns></returns>
         public static Platform CreatePlatformMethods()
         {
-            // TODO: It'd be nice to have some nifty #if statements
-            // that detect whether we are compiling on MS .NET, 
-            // Mono on Windows, Linux, etc. to choose the correct
-            // set of methods.
+            DriverInfoList<Platform, PlatformTypeID> drivers = Registrar.PlatformDriverInfo;
 
-            if (true)
-                return new PlatformSpecific.Win32Platform();
+            if (drivers.Count == 0)
+                // no platform specific methods are available.
+                return new Platform();
 
-            // if no platform specific implementation is available, this
-            // class should provide some default routines which allow
-            // for correct behavior.
-            //else
-             //   return new Platform();
+            else
+            {
+                return drivers.CreateDriver();
+            }
+
         }
 
         /// <summary>
@@ -75,7 +75,13 @@ namespace ERY.AgateLib.PlatformSpecific
         /// Contains platform-specific methods which are required for the initialization
         /// of the application.
         /// </summary>
-        public virtual void Initialize()
+        public override void Initialize()
+        {
+        }
+        /// <summary>
+        /// Dipsoses of the platform-specific methods.
+        /// </summary>
+        public override void Dispose()
         {
         }
         /// <summary>

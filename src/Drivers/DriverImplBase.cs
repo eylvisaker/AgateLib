@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib.ImplBase
+namespace ERY.AgateLib
 {
+    /// <summary>
+    /// Base class all driver classes should implement.
+    /// </summary>
     public abstract class DriverImplBase: IDisposable 
     {
         /// <summary>

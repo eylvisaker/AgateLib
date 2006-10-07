@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.DirectX.DirectInput;
+
+using ERY.AgateLib.Drivers;
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.MDX
@@ -28,7 +30,7 @@ namespace ERY.AgateLib.MDX
     {
         public static void Register()
         {
-            Registrar.RegisterInputDriver(new InputDriverInfo(
+            Registrar.RegisterInputDriver(new DriverInfo<InputTypeID>(
                 typeof(MDX1_Input), InputTypeID.DirectInput, "Managed DirectInput", 100));
         }
         public override void Initialize()

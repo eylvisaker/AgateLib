@@ -24,6 +24,8 @@ using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 using CustomVertex = Microsoft.DirectX.Direct3D.CustomVertex;
+
+using ERY.AgateLib.Drivers;
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.MDX
@@ -423,7 +425,7 @@ namespace ERY.AgateLib.MDX
         public static void Register()
         {
             Registrar.RegisterDisplayDriver(
-                new DisplayDriverInfo(typeof(MDX1_Display), DisplayTypeID.Direct3D_MDX_1_1,
+                new DriverInfo<DisplayTypeID>(typeof(MDX1_Display), DisplayTypeID.Direct3D_MDX_1_1,
                 "Managed DirectX 1.1", 110));
         }
 

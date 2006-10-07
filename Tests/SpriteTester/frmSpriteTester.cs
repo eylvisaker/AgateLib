@@ -49,7 +49,7 @@ namespace ERY.SpriteTester
 
             try
             {
-                Icon = new Icon(@"..\..\src\AgateLib.ico");
+                Icon = new Icon(@"../../src/AgateLib.ico");
             }
             catch
             {
@@ -69,7 +69,7 @@ namespace ERY.SpriteTester
             wind = new DisplayWindow(pctGraphics);
             
 
-            SetSprite(new Sprite(@"Images\attacke.png", 96, 96));
+            SetSprite(new Sprite(@"Images/attacke.png", 96, 96));
 
             //Display.PackAllSurfaces();
 

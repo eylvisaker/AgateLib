@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using ERY.AgateLib.Drivers;
+
 namespace ERY.AgateLib
 {
     /// <summary>
