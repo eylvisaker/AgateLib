@@ -111,6 +111,14 @@ namespace ERY.AgateLib
         }
 
         /// <summary>
+        /// Returns true if the internal unmanaged resources have been disposed.
+        /// This happens when Dispose is called until the reference count is zero.
+        /// </summary>
+        public bool IsDisposed
+        {
+            get { return mIsDisposed; }
+        }
+        /// <summary>
         /// Sets the frame of this object, and does not trim it.
         /// </summary>
         /// <param name="srcSurface"></param>

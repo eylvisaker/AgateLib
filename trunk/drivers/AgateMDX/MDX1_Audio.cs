@@ -199,6 +199,9 @@ namespace ERY.AgateLib.MDX
         {
             mAudio = audio;
 
+            if (System.IO.Path.GetExtension(filename) == ".mp3")
+                throw new Exception("MP3 files cannot be played due to license restrictions.");
+
             mAVAudio = new Microsoft.DirectX.AudioVideoPlayback.Audio(filename);
             mAVAudio.Ending += new EventHandler(mAVAudio_Ending);
 
@@ -270,7 +273,15 @@ namespace ERY.AgateLib.MDX
             }
             set
             {
-                mAVAudio.Balance = (int)(value * 10000.0);
+                try
+                {
+                    mAVAudio.Balance = (int)(value * 10000.0);
+                }
+                catch (Microsoft.DirectX.DirectXException e)
+                {
+                    if (e.ErrorCode != -2147220909)
+                        throw e;
+                }
             }
         }
     }

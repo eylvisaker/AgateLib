@@ -28,13 +28,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AgateDrawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AgateDrawing, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\CreateWindowTest\AgateDrawing.dll</HintPath>
+      <HintPath>..\..\bin\Release\AgateDrawing.dll</HintPath>
     </Reference>
-    <Reference Include="AgateLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AgateLib, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\CreateWindowTest\AgateLib.dll</HintPath>
+      <HintPath>..\..\bin\Release\AgateLib.dll</HintPath>
+    </Reference>
+    <Reference Include="AgateWindows, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Release\AgateWindows.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />

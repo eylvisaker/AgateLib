@@ -410,10 +410,10 @@ namespace ERY.SpriteTester
             // 
             // lblFrameRate
             // 
-            this.lblFrameRate.AutoSize = true;
+            this.lblFrameRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblFrameRate.Location = new System.Drawing.Point(12, 372);
             this.lblFrameRate.Name = "lblFrameRate";
-            this.lblFrameRate.Size = new System.Drawing.Size(54, 13);
+            this.lblFrameRate.Size = new System.Drawing.Size(290, 27);
             this.lblFrameRate.TabIndex = 24;
             this.lblFrameRate.Text = "Framerate";
             // 
@@ -426,6 +426,7 @@ namespace ERY.SpriteTester
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pctGraphics);
             this.Name = "frmSpriteTester";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Sprite Tester";
             this.Load += new System.EventHandler(this.frmSpriteTester_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pctGraphics)).EndInit();
@@ -437,7 +438,6 @@ namespace ERY.SpriteTester
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

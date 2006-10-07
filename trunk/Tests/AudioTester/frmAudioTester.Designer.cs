@@ -31,8 +31,6 @@ namespace ERY.AudioTester
         /// </summary>
         private void InitializeComponent()
         {
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnStopAll = new System.Windows.Forms.Button();
             this.btnSound = new System.Windows.Forms.Button();
             this.lstFiles = new System.Windows.Forms.ListBox();
@@ -41,31 +39,17 @@ namespace ERY.AudioTester
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.panValue = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.statusStrip1.SuspendLayout();
+            this.button1 = new System.Windows.Forms.Button();
+            this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+            this.statusLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panValue)).BeginInit();
             this.SuspendLayout();
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 244);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(347, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(109, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-            // 
             // btnStopAll
             // 
             this.btnStopAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStopAll.Location = new System.Drawing.Point(260, 206);
+            this.btnStopAll.Location = new System.Drawing.Point(260, 219);
             this.btnStopAll.Name = "btnStopAll";
             this.btnStopAll.Size = new System.Drawing.Size(75, 23);
             this.btnStopAll.TabIndex = 7;
@@ -76,7 +60,7 @@ namespace ERY.AudioTester
             // btnSound
             // 
             this.btnSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSound.Location = new System.Drawing.Point(224, 148);
+            this.btnSound.Location = new System.Drawing.Point(224, 161);
             this.btnSound.Name = "btnSound";
             this.btnSound.Size = new System.Drawing.Size(111, 23);
             this.btnSound.TabIndex = 6;
@@ -98,7 +82,7 @@ namespace ERY.AudioTester
             // btnMusic
             // 
             this.btnMusic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMusic.Location = new System.Drawing.Point(224, 177);
+            this.btnMusic.Location = new System.Drawing.Point(224, 190);
             this.btnMusic.Name = "btnMusic";
             this.btnMusic.Size = new System.Drawing.Size(111, 23);
             this.btnMusic.TabIndex = 4;
@@ -176,11 +160,34 @@ namespace ERY.AudioTester
             this.label2.TabIndex = 10;
             this.label2.Text = "Pan";
             // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(224, 117);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "Browse...";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.statusLabel.Location = new System.Drawing.Point(12, 240);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(206, 40);
+            this.statusLabel.TabIndex = 13;
+            this.statusLabel.Text = "label3";
+            // 
             // frmAudioTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 266);
+            this.ClientSize = new System.Drawing.Size(347, 279);
+            this.Controls.Add(this.statusLabel);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panValue);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.numericUpDown1);
@@ -189,12 +196,9 @@ namespace ERY.AudioTester
             this.Controls.Add(this.btnSound);
             this.Controls.Add(this.lstFiles);
             this.Controls.Add(this.btnMusic);
-            this.Controls.Add(this.statusStrip1);
             this.Name = "frmAudioTester";
             this.Text = "Audio Tester";
             this.Load += new System.EventHandler(this.frmAudioTester_Load);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panValue)).EndInit();
             this.ResumeLayout(false);
@@ -204,8 +208,6 @@ namespace ERY.AudioTester
 
         #endregion
 
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Button btnStopAll;
         private System.Windows.Forms.Button btnSound;
         private System.Windows.Forms.ListBox lstFiles;
@@ -214,6 +216,9 @@ namespace ERY.AudioTester
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.NumericUpDown panValue;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowser;
+        private System.Windows.Forms.Label statusLabel;
     }
 }
 
