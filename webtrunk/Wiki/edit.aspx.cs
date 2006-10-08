@@ -26,7 +26,7 @@ public partial class Wiki_edit : System.Web.UI.Page
         }
 
         // see if we've already loaded the page
-        if (string.IsNullOrEmpty(editContent.Text) == false)
+        if (Page.IsPostBack)
             return;
 
         try

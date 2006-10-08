@@ -13,63 +13,32 @@ public partial class Wiki_Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        string pageName = Request.QueryString["page"];
         int id;
+        DataRow row;
+
+        // hack to do late binding, because C# doesn't support it like VB does.
+        string pageName = (string)Master.GetType().InvokeMember("PageName",
+            System.Reflection.BindingFlags.GetProperty, null, Master, null);
         
-        WikiRenderer.SetConnectionString(pageContentData.ConnectionString);
-
-        if (string.IsNullOrEmpty(pageName))
-        {
-            pageName = "Default";
-        }
-
-        DataView view;
         try
         {
-
-            if (int.TryParse(pageName, out id))
-            {
-                pageContentData.SelectCommand = "Select * from pages where ID = " + id;
-                view = (DataView)pageContentData.Select(new DataSourceSelectArguments());
-
-                pageName = (string)view.Table.Rows[0]["PageName"];
-            }
-            else
-            {
-                pageContentData.SelectCommand = WikiRenderer.SelectPageCommand(pageName);
-                view = (DataView)pageContentData.Select(new DataSourceSelectArguments());
-
-            }
-
-            if (view.Table.Rows.Count == 0)
-                throw new Exception("Page not found.");
+            row = (DataRow)Master.GetType().InvokeMember("GetPageData",
+                System.Reflection.BindingFlags.InvokeMethod, null, Master, new object[] { });
         }
-        catch
+        catch (Exception ee)
         {
             // occurs if the page was not found, I hope.
             Response.Redirect("notfound.aspx?page=" + pageName);
             return;
         }
 
-        content.Text = WikiRenderer.RenderWikiText(view.Table.Rows[0]["Content"].ToString());
+        content.Text = "<h1 class=\"Wiki\">" + pageName.Replace('_', ' ') + "</h1>";
+        content.Text += WikiRenderer.RenderWikiText(row["Content"].ToString());
+
+        Page.Title = pageName.Replace('_', ' ');
 
         editPageLink.NavigateUrl = "edit.aspx?page=" + pageName;
 
-
-        BindComments(pageName);
     }
 
-    private void BindComments(string pageName)
-    {
-
-        commentsData.SelectCommand =
-            "Select WikiComments.*, UserName from WikiComments left join Users " +
-            "On WikiComments.UserID = Users.UserID where PageName = '" + pageName + "' Order By Date";
-
-        DataView commentsView = (DataView)commentsData.Select(new DataSourceSelectArguments());
-
-        this.DataList1.DataSource = commentsView.Table.Rows;
-
-        DataList1.DataBind();
-    }
 }

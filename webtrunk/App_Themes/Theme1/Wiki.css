@@ -8,7 +8,9 @@ h1.Wiki
 {
 	border-bottom: gray thin solid;
 	font-weight: bold;
-	font-size: 16pt;
+	font-size: 18pt;
+	margin-top: 0px;
+	padding-top: 0px;
 }
 h2.Wiki
 {
@@ -41,7 +43,7 @@ pre.Wiki
 	border-left: blue 1px dashed;
 	padding-top: 8px;
 	border-bottom: blue 1px dashed;
-	background-color: #f0f0f0;
+	background-color: #f8f8f8;
 	font-family: Courier New;
 	font-size: 10pt;
 }

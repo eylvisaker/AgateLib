@@ -1,4 +1,4 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeFile="wiki.master.cs" Inherits="Wiki_wiki" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="wiki.master.cs" Inherits="WikiMasterPage" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -9,7 +9,7 @@
         &nbsp;<table>
             <tr>
                 <td valign="top" align="left" rowspan="2">
-                    <asp:HyperLink ID="homeLink" runat="server" NavigateUrl="~/Wiki">
+                    <asp:HyperLink ID="homeLink" runat="server" NavigateUrl="~/Wiki/wiki.aspx">
                     <asp:Image ID="logo" runat="server" ImageUrl="~/Images/logo.png" Height="96px" Width="120px" BorderWidth="0" />
                     </asp:HyperLink>
                     <br />
@@ -26,11 +26,12 @@
                         </ItemTemplate>
                     </asp:Repeater>
                     &nbsp;
-                    <asp:Panel ID="Panel1" runat="server" BorderStyle="Groove" BorderWidth="2" DefaultButton="searchButton"
-                        Font-Italic="false" Width="100px">
+                    <asp:Panel ID="Panel1" runat="server" SkinID="searchBoxSkin" DefaultButton="searchButton">
                         Search:
                         <asp:TextBox ID="searchBox" runat="server" Width="95%"></asp:TextBox><br />
-                        <asp:Button ID="searchButton" runat="server" Text="Button" />&nbsp;
+                        <div align="right">
+                            <asp:Button ID="searchButton" runat="server" Text="Go" OnClick="searchButton_Click" />
+                        </div>
                     </asp:Panel>
                     &nbsp; &nbsp;&nbsp;
                 </td>
@@ -45,9 +46,8 @@
                 </td>
             </tr>
             <tr>
-                <td style="background-color: White; width: 100%; border-right: #dddddd thin outset; border-top: gray thin outset; border-left: gray thin outset; border-bottom: gray thin outset; padding-right: 8px; padding-left: 8px; padding-bottom: 8px; padding-top: 8px;" valign="top" bordercolor="#000000">
-                    <asp:ContentPlaceHolder ID="pageContent" runat="server">
-                            ;ljkl;kjlk;</asp:ContentPlaceHolder>
+                <td style="background-color: White; width: 100%; border-right: #dddddd thin outset; border-top: gray thin outset; border-left: gray thin outset; border-bottom: gray thin outset; padding-right: 8px; padding-left: 8px; padding-bottom: 8px; padding-top: 8px; height: 236px;" valign="top" bordercolor="#000000">
+                    <asp:ContentPlaceHolder ID="pageContent" runat="server"></asp:ContentPlaceHolder>
                 </td>
             </tr>
         </table>

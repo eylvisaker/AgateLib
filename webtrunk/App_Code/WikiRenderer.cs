@@ -42,6 +42,10 @@ public static class WikiRenderer
 		//
 	}
 
+    public static string ConnectionString
+    {
+        get { return connectionString; }
+    }
     public static void SetConnectionString(string conn)
     {
         connectionString = conn;   
@@ -69,10 +73,29 @@ public static class WikiRenderer
         }
     }
 
+    public static bool HasPage(string page)
+    {
+        WikiRendererState rs = new WikiRendererState();
+
+        FillAvailablePages(rs);
+
+        foreach (string key in rs.availablePages.Keys)
+        {
+            if (key.ToLowerInvariant() == page.ToLowerInvariant())
+                return true;
+        }
+
+        return false;
+    }
     public static string SelectPageCommand(string pageName)
     {
         return "Select Top 1 * from WikiPages where PageName = '" + pageName + "' Order By Date Desc";
     }
+    public static string SelectPageCommand(int pageID)
+    {
+        return "Select * from pages where ID = " + pageID;
+    }
+
     public static string RenderWikiText(string text)
     {
         string[] lines = text.Trim().Split('\n');
