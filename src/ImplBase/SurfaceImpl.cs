@@ -259,6 +259,33 @@ namespace ERY.AgateLib.ImplBase
         /// <param name="srcRect"></param>
         public abstract void SetSourceSurface(SurfaceImpl surf, Rectangle srcRect);
 
+
+        /// <summary>
+        /// Creates a PixelBuffer object with a copy of the pixel data, in the specified format.
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public abstract PixelBuffer ReadPixels(PixelFormat format);
+        /// <summary>
+        /// Creates a PixelBuffer object with a copy of the pixel data in the 
+        /// specified rectangle, in the specified format.
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        public abstract PixelBuffer ReadPixels(PixelFormat format, Rectangle rect);
+        /// <summary>
+        /// Writes pixel data to the surface.
+        /// </summary>
+        /// <param name="buffer"></param>
+        public abstract void WritePixels(PixelBuffer buffer);
+        /// <summary>
+        /// Writes pixel data to the surface.
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="startPoint"></param>
+        public abstract void WritePixels(PixelBuffer buffer, Point startPoint);
+
         #endregion
 
 
@@ -613,6 +640,7 @@ namespace ERY.AgateLib.ImplBase
         }
 
         #endregion
+
 
 
 

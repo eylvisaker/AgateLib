@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using ERY.AgateLib.Geometry;
@@ -53,6 +54,11 @@ namespace ERY.AgateLib
         /// 
         /// </summary>
         XRGB8888,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        XBGR8888,
 
         #endregion
 
@@ -111,10 +117,13 @@ namespace ERY.AgateLib
         /// <summary>
         /// static constructor to test pixel formats.
         /// </summary>
-        static PixelBuffer()
+        static void TestPixelFormatStrides()
         {
             foreach (PixelFormat format in Enum.GetValues(typeof(PixelFormat)))
             {
+                if (format == PixelFormat.Any)
+                    continue;
+
                 int test = GetPixelStride(format);
             }
         }
@@ -126,10 +135,11 @@ namespace ERY.AgateLib
         /// <param name="format">The raw data format of the pixels to be contained
         /// in the pixel buffer.  PixelFormat.Any is not a valid parameter.</param>
         public PixelBuffer(PixelFormat format, Size size)
-            : this(format, size, new byte[size.Width * size.Height])
+            : this(format, size, new byte[size.Width * size.Height * GetPixelStride(format)])
         { }
         /// <summary>
         /// Constructs a PixelBuffer object. 
+        /// Data passed is not copied; it is referenced.
         /// </summary>
         /// <param name="size">The size of the image data in pixels.</param>
         /// <param name="format">The raw data format of the pixels to be contained
@@ -137,6 +147,23 @@ namespace ERY.AgateLib
         /// <param name="data">Raw pixel data.  It must be the correct size
         /// for the format passed.</param>
         public PixelBuffer(PixelFormat format, Size size, byte[] data)
+            : this(format, size, data, false)
+        { }
+        /// <summary>
+        /// Constructs a PixelBuffer object. 
+        /// This overload performs automatic conversion of the data
+        /// passed to match the format specified for the pixel buffer.
+        /// The data is always copied in memory, even if it is of the
+        /// same type as the format parameter.
+        /// </summary>
+        /// <param name="size">The size of the image data in pixels.</param>
+        /// <param name="format">The raw data format of the pixels to be contained
+        /// in the pixel buffer.  PixelFormat.Any is not a valid parameter.</param>
+        /// <param name="data">Raw pixel data.  It must be the correct size
+        /// for the format passed.</param>
+        /// <param name="dataFormat">Format of the raw pixel data.</param>
+        public PixelBuffer(PixelFormat format, Size size, byte[] data, PixelFormat dataFormat)
+            : this(format, size)
         {
             if (format == PixelFormat.Any)
                 throw new Exception("A specific pixel format and must be specified."
@@ -145,7 +172,8 @@ namespace ERY.AgateLib
             mFormat = format;
             mSize = size;
 
-            Data = data;
+            SetData(data, dataFormat);
+
         }
         /// <summary>
         /// Constructs a PixelBuffer object. 
@@ -158,6 +186,7 @@ namespace ERY.AgateLib
         { }
         /// <summary>
         /// Constructs a PixelBuffer object. 
+        /// Data passed is not copied; it is referenced.
         /// </summary>
         /// <param name="width">The width of the image data in pixels.</param>
         /// <param name="height">The height of the image data in pixels.</param>
@@ -168,6 +197,37 @@ namespace ERY.AgateLib
         public PixelBuffer(PixelFormat format, int width, int height, byte[] data)
             : this(format, new Size(width, height), data)
         { }
+
+                /// <summary>
+        /// Constructs a PixelBuffer object. 
+        /// Data passed is not copied; it is referenced.
+        /// </summary>
+        /// <param name="size">The size of the image data in pixels.</param>
+        /// <param name="format">The raw data format of the pixels to be contained
+        /// in the pixel buffer.  PixelFormat.Any is not a valid parameter.</param>
+        /// <param name="data">Raw pixel data.  It must be the correct size
+        /// for the format passed.</param>
+        public PixelBuffer(PixelFormat format, Size size, byte[] data, bool copyData)
+        {
+            TestPixelFormatStrides();
+
+            if (format == PixelFormat.Any)
+                throw new Exception("A specific pixel format and must be specified."
+                    + "PixelFormat.Any is not valid.");
+
+            mFormat = format;
+            mSize = size;
+
+            if (copyData == false)
+                Data = data;
+            else
+            {
+                byte[] newData = new byte[data.Length];
+                data.CopyTo(newData, 0);
+
+                Data = newData;
+            }
+        }
 
         #endregion
 
@@ -186,6 +246,7 @@ namespace ERY.AgateLib
         /// Gets or sets the raw pixel data, in the format indicated by PixelFormat. 
         /// An exception is thrown when setting Data if the length of the array passed is 
         /// not Width * Height * PixelStride.
+        /// The data is not copied, it is only referenced.
         /// </summary>
         public byte[] Data
         {
@@ -196,8 +257,8 @@ namespace ERY.AgateLib
 
                 if (correctLen != value.Length)
                     throw new ArgumentException("PixelBuffer Data must be set with the correct length."
-                        + "Length expected: " + correctLen.ToString()
-                        + "Length of data passed: " + value.Length);
+                        + "\r\nLength expected: " + correctLen.ToString()
+                        + "\r\nLength of data passed: " + value.Length);
 
                 mData = value;
             }
@@ -243,7 +304,6 @@ namespace ERY.AgateLib
         }
 
         #endregion
-
         #region --- Public Methods ---
 
         /// <summary>
@@ -260,9 +320,15 @@ namespace ERY.AgateLib
             int sourceIndex = 0;
             int destIndex = 0;
 
-            if (Width * Height *  sourceStride != data.Length)
+            if (Width * Height * sourceStride != data.Length)
                 throw new ArgumentException("Source data does not have the right amount of data" +
                     " for the format specified.");
+
+            if (srcFormat == this.PixelFormat)
+            {
+                data.CopyTo(mData, 0);
+                return;
+            }
 
             for (int i = 0; i < Width * Height; i++)
             {
@@ -286,7 +352,20 @@ namespace ERY.AgateLib
         /// <param name="srcFormat">The format of the pixel data in the source array.</param>
         public static void ConvertPixel(byte[] dest, int destIndex, PixelFormat destFormat, byte[] src, int srcIndex, PixelFormat srcFormat)
         {
-            throw new Exception(" Method not implemented.");
+            // check for trivial case.
+            //if (destFormat == srcFormat)
+            //{
+            //    for (int i = 0; i < GetPixelStride(destFormat); i++)
+            //        dest[destIndex + i] = src[srcIndex + i];
+
+            //    return;
+            //}
+
+            double A, R, G, B;
+
+            GetSourcePixelAttributes(src, srcIndex, srcFormat, out A, out R, out G, out B);
+
+            SetDestPixelAttributes(dest, destIndex, destFormat, A, R, G, B);
         }
 
         /// <summary>
@@ -306,6 +385,7 @@ namespace ERY.AgateLib
                 case PixelFormat.BGRA8888:
                 case PixelFormat.RGBA8888:
                 case PixelFormat.XRGB8888:
+                case PixelFormat.XBGR8888:
                     return 4;
 
                 case PixelFormat.RGB888:
@@ -323,7 +403,87 @@ namespace ERY.AgateLib
             }
 
         }
+
+        /// <summary>
+        /// Creates a new PixelBuffer and copies the data in this pixel buffer,
+        /// performing automatic conversion.
+        /// </summary>
+        /// <param name="pixelFormat"></param>
+        /// <returns></returns>
+        public PixelBuffer ConvertTo(PixelFormat pixelFormat)
+        {
+            return new PixelBuffer(pixelFormat, Size, this.Data, this.PixelFormat);
+        }
+
         #endregion
 
+        #region --- Private pixel conversion helpers ---
+
+        private static void SetDestPixelAttributes(byte[] dest, int destIndex, PixelFormat destFormat, double A, double R, double G, double B)
+        {
+            switch (destFormat)
+            {
+                case PixelFormat.ARGB8888:
+                    SetARGB8(A, R, G, B, dest, destIndex + 3, destIndex + 2, destIndex + 1, destIndex);
+                    break;
+            }
+        }
+
+
+        private static void GetSourcePixelAttributes(byte[] src, int srcIndex, PixelFormat srcFormat, out double A, out double R, out double G, out double B)
+        {
+            switch (srcFormat)
+            {
+                case PixelFormat.ARGB8888:
+                    GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex + 2, srcIndex + 1, srcIndex);
+                    break;
+                case PixelFormat.ABGR8888:
+                    GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex, srcIndex + 1, srcIndex + 2);
+                    break;
+
+                case PixelFormat.RGBA8888:
+                    GetARGB8(out A, out R, out G, out B, src, srcIndex, srcIndex + 3, srcIndex + 2, srcIndex + 1);
+                    break;
+
+                case PixelFormat.BGRA8888:
+                    GetARGB8(out A, out R, out G, out B, src, srcIndex, srcIndex + 1, srcIndex + 2, srcIndex + 3);
+                    break;
+
+                case PixelFormat.XRGB8888:
+                    GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex + 2, srcIndex + 1, srcIndex);
+                    A = 1.0;
+                    break;
+
+                case PixelFormat.XBGR8888:
+                    GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex, srcIndex + 1, srcIndex + 2);
+                    A = 1.0;
+                    break;
+
+
+                default:
+                    throw new Exception("Unrecongized PixelFormat: " + srcFormat.ToString());
+            }
+
+        }
+
+
+        private static void SetARGB8(double A, double R, double G, double B,
+            byte[] dest, int Aindex, int Rindex, int Gindex, int Bindex)
+        {
+            dest[Aindex] = (byte)(A * 255.0 + 0.5);
+            dest[Rindex] = (byte)(R * 255.0 + 0.5);
+            dest[Gindex] = (byte)(G * 255.0 + 0.5);
+            dest[Bindex] = (byte)(B * 255.0 + 0.5);
+        }
+
+        private static void GetARGB8(out double A, out double R, out double G, out double B,
+            byte[] src, int Aindex, int Rindex, int Gindex, int Bindex)
+        {
+            A = src[Aindex] / 255.0;
+            R = src[Rindex] / 255.0;
+            G = src[Gindex] / 255.0;
+            B = src[Bindex] / 255.0;
+        }
+#endregion
     }
 }
