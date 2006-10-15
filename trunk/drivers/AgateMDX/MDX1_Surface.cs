@@ -719,6 +719,26 @@ namespace ERY.AgateLib.MDX
 
         #endregion
 
+
+        public override PixelBuffer ReadPixels(PixelFormat format)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override void WritePixels(PixelBuffer buffer)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override void WritePixels(PixelBuffer buffer, Point startPoint)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
     }
 
 }

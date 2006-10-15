@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using ERY.AgateLib.ImplBase;
@@ -214,6 +215,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         #endregion
 
+        #region --- Surface Data Manipulations ---
 
         public override SurfaceImpl CarveSubSurface(Surface surf, Geometry.Rectangle srcRect)
         {
@@ -286,6 +288,68 @@ namespace ERY.AgateLib.SystemDrawing
         }
 
 
+        public override void SetSourceSurface(SurfaceImpl surf, Geometry.Rectangle srcRect)
+        {
+            mImage.Dispose();
+
+            mImage = new Bitmap(srcRect.Width, srcRect.Height);
+            Graphics g = Graphics.FromImage(mImage);
+
+            g.DrawImage((surf as Drawing_Surface).mImage,
+                new Rectangle(Point.Empty, (Size)srcRect.Size),
+                (Rectangle)srcRect, GraphicsUnit.Pixel);
+
+            g.Dispose();
+
+        }
+
+        public override PixelBuffer ReadPixels(PixelFormat format)
+        {
+            return ReadPixels(format, new Geometry.Rectangle(Geometry.Point.Empty, SurfaceSize));
+        }
+
+        public override PixelBuffer ReadPixels(PixelFormat format, Geometry.Rectangle rect)
+        {
+            BitmapData data = mImage.LockBits((Rectangle)rect, ImageLockMode.ReadOnly, 
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            if (format == PixelFormat.Any)
+                format = PixelFormat.ARGB8888;
+
+            PixelBuffer buffer = new PixelBuffer(format, rect.Size);
+            byte[] bytes = new byte[4 * rect.Width * rect.Height];
+
+            Marshal.Copy(data.Scan0, bytes, 0, bytes.Length);
+
+            mImage.UnlockBits(data);
+
+            buffer.SetData(bytes, PixelFormat.ARGB8888);
+
+            return buffer;
+        }
+
+        public override void WritePixels(PixelBuffer buffer)
+        {
+            BitmapData data = mImage.LockBits(new Rectangle(Point.Empty, (Size)SurfaceSize),
+                ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            if (buffer.PixelFormat != PixelFormat.ARGB8888)
+            {
+                buffer = buffer.ConvertTo(PixelFormat.ARGB8888);
+            }
+
+            Marshal.Copy(buffer.Data, 0, data.Scan0, buffer.Data.Length);
+
+            mImage.UnlockBits(data);
+        }
+
+        public override void WritePixels(PixelBuffer buffer, ERY.AgateLib.Geometry.Point startPoint)
+        {
+            
+        }
+    
+        #endregion
+
         #region --- Drawing_IRenderTarget Members ---
 
         public override void BeginRender()
@@ -303,20 +367,5 @@ namespace ERY.AgateLib.SystemDrawing
 
         #endregion
 
-
-        public override void SetSourceSurface(SurfaceImpl surf, Geometry.Rectangle srcRect)
-        {
-            mImage.Dispose();
-
-            mImage = new Bitmap(srcRect.Width, srcRect.Height);
-            Graphics g = Graphics.FromImage(mImage);
-
-            g.DrawImage((surf as Drawing_Surface).mImage,
-                new Rectangle(Point.Empty, (Size)srcRect.Size),
-                (Rectangle)srcRect, GraphicsUnit.Pixel);
-
-            g.Dispose();
-
-        }
-    }
+}
 }

@@ -26,7 +26,7 @@ namespace ERY.AgateLib.Geometry
     /// Replacement for System.Drawing.Size object.
     /// </summary>
     [Serializable]
-    public struct Size
+    public partial struct Size
     {
         int width, height;
 

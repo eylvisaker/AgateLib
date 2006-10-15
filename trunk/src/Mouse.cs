@@ -107,7 +107,7 @@ namespace ERY.AgateLib
                     else
                     {
                         // clear the flags passed
-                        mMouseButtons = ~((~mMouseButtons) & id);
+                        mMouseButtons = ~((~mMouseButtons) | id);
 
 
                         Mouse.OnMouseUp(id);

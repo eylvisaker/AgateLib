@@ -548,6 +548,70 @@ namespace ERY.AgateLib
         {
             impl.SetSourceSurface(surf.impl, srcRect);
         }
+
+        /// <summary>
+        /// Returns a pixel buffer which contains a copy of the pixel data in the surface. 
+        /// The format of the pixel data is the same as of the raw data in the surface. 
+        /// </summary>
+        /// <returns></returns>
+        public PixelBuffer ReadPixels()
+        {
+            return ReadPixels(PixelFormat.Any);
+        }
+        /// <summary>
+        /// Returns a pixel buffer which contains a copy of the pixel data in the surface. 
+        /// </summary>
+        /// <param name="format">Format of the pixel data wanted.  Automatic conversion is
+        /// performed, if necessary.  Use PixelFormat.Any to retrieve data in its original format,
+        /// without conversion.</param>
+        /// <returns></returns>
+        public PixelBuffer ReadPixels(PixelFormat format)
+        {
+            return impl.ReadPixels(format);
+        }
+        /// <summary>
+        /// Returns a pixel buffer which contains a copy of the pixel data in the surface,
+        /// inside the rectangle requested.
+        /// </summary>
+        /// <param name="format">Format of the pixel data wanted.  Automatic conversion is
+        /// performed, if necessary.  Use PixelFormat.Any to retrieve data in its original format,
+        /// without conversion.</param>
+        /// <param name="rect">Area of the Surface from which to retrieve data.</param>
+        /// <returns></returns>
+        public PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
+        {
+            return impl.ReadPixels(format, rect);
+        }
+
+        /// <summary>
+        /// Copies the data directly from PixelBuffer. The PixelBuffer must be the same width 
+        /// and height as the Surface's SurfaceWidth and SurfaceHeight.
+        /// </summary>
+        /// <param name="buffer">The PixelBuffer which contains pixel data to copy from.</param>
+        public void WritePixels(PixelBuffer buffer)
+        {
+            if (buffer.Width != SurfaceWidth || buffer.Height != SurfaceHeight)
+                throw new ArgumentOutOfRangeException(
+                    "PixelBuffer is not the correct size to write to entire surface!");
+
+            impl.WritePixels(buffer);
+        }
+        /// <summary>
+        /// Copies the data directly from PixelBuffer, overwriting a portion of the surface's 
+        /// pixel data.  The PixelBuffer must fit within the surface.
+        /// </summary>
+        /// <param name="buffer">The PixelBuffer which contains pixel data to copy from.</param>
+        /// <param name="startPoint"></param>
+        public void WritePixels(PixelBuffer buffer, Point startPoint)
+        {
+            if (startPoint.X + buffer.Width > SurfaceWidth ||
+                startPoint.Y + buffer.Height > SurfaceHeight)
+                throw new ArgumentOutOfRangeException(
+                    "PixelBuffer is too large!");
+
+            impl.WritePixels(buffer, startPoint);
+        }
+
         #endregion
 
         /// <summary>

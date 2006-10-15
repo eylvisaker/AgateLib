@@ -10,6 +10,8 @@ Non-breaking Changes:
 * Added PixelBuffer class for direct modification of Surface data.
 * Added Licensing information to some files where it was missing.
 
+* Found bug in storage of Mouse state.  Fixed?
+
 Version 0.2.1
 ===================
 * Restructured storage for registered drivers in Registrar class to allow easier addition of new types of drivers.
