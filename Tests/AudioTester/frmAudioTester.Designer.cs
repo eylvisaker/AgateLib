@@ -42,6 +42,7 @@ namespace ERY.AudioTester
             this.button1 = new System.Windows.Forms.Button();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.statusLabel = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panValue)).BeginInit();
             this.SuspendLayout();
@@ -49,7 +50,7 @@ namespace ERY.AudioTester
             // btnStopAll
             // 
             this.btnStopAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStopAll.Location = new System.Drawing.Point(260, 219);
+            this.btnStopAll.Location = new System.Drawing.Point(321, 275);
             this.btnStopAll.Name = "btnStopAll";
             this.btnStopAll.Size = new System.Drawing.Size(75, 23);
             this.btnStopAll.TabIndex = 7;
@@ -60,7 +61,7 @@ namespace ERY.AudioTester
             // btnSound
             // 
             this.btnSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSound.Location = new System.Drawing.Point(224, 161);
+            this.btnSound.Location = new System.Drawing.Point(285, 217);
             this.btnSound.Name = "btnSound";
             this.btnSound.Size = new System.Drawing.Size(111, 23);
             this.btnSound.TabIndex = 6;
@@ -76,13 +77,13 @@ namespace ERY.AudioTester
             this.lstFiles.FormattingEnabled = true;
             this.lstFiles.Location = new System.Drawing.Point(12, 12);
             this.lstFiles.Name = "lstFiles";
-            this.lstFiles.Size = new System.Drawing.Size(206, 225);
+            this.lstFiles.Size = new System.Drawing.Size(228, 277);
             this.lstFiles.TabIndex = 5;
             // 
             // btnMusic
             // 
             this.btnMusic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMusic.Location = new System.Drawing.Point(224, 190);
+            this.btnMusic.Location = new System.Drawing.Point(285, 246);
             this.btnMusic.Name = "btnMusic";
             this.btnMusic.Size = new System.Drawing.Size(111, 23);
             this.btnMusic.TabIndex = 4;
@@ -94,7 +95,7 @@ namespace ERY.AudioTester
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(224, 14);
+            this.label1.Location = new System.Drawing.Point(285, 14);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(42, 13);
             this.label1.TabIndex = 8;
@@ -109,7 +110,7 @@ namespace ERY.AudioTester
             0,
             0,
             131072});
-            this.numericUpDown1.Location = new System.Drawing.Point(272, 12);
+            this.numericUpDown1.Location = new System.Drawing.Point(333, 12);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1,
             0,
@@ -134,7 +135,7 @@ namespace ERY.AudioTester
             0,
             0,
             131072});
-            this.panValue.Location = new System.Drawing.Point(272, 38);
+            this.panValue.Location = new System.Drawing.Point(333, 38);
             this.panValue.Maximum = new decimal(new int[] {
             1,
             0,
@@ -154,7 +155,7 @@ namespace ERY.AudioTester
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(224, 40);
+            this.label2.Location = new System.Drawing.Point(285, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(26, 13);
             this.label2.TabIndex = 10;
@@ -163,7 +164,7 @@ namespace ERY.AudioTester
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(224, 117);
+            this.button1.Location = new System.Drawing.Point(321, 173);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 12;
@@ -175,17 +176,27 @@ namespace ERY.AudioTester
             // 
             this.statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.statusLabel.Location = new System.Drawing.Point(12, 240);
+            this.statusLabel.Location = new System.Drawing.Point(12, 296);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(206, 40);
+            this.statusLabel.Size = new System.Drawing.Size(267, 40);
             this.statusLabel.TabIndex = 13;
             this.statusLabel.Text = "label3";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(246, 147);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(150, 20);
+            this.textBox1.TabIndex = 14;
+            this.textBox1.Text = "e:\\my documents\\my music\\wav";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // frmAudioTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 279);
+            this.ClientSize = new System.Drawing.Size(408, 335);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.panValue);
@@ -219,6 +230,7 @@ namespace ERY.AudioTester
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowser;
         private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

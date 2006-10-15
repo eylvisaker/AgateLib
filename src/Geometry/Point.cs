@@ -19,25 +19,8 @@
 using System;
 using System.Collections.Generic;
 
-namespace ERY.AgateLib
+namespace ERY.AgateLib.Geometry
 {
-    // \cond doxygenignore
-    namespace Geometry
-    {
-        /// <summary>
-        /// This class exists as a placeholder to make sure the Geometry class
-        /// is not optimized away.  Do not use it.
-        /// </summary>
-        public class GeometryDummyClass 
-        { 
-            /// <summary>
-            /// Dummy value
-            /// </summary>
-            public int val; 
-        }
-    }
-    // \endcond
-
     /// <summary>
     /// Replacement for System.Drawing.Point structure.
     /// </summary>

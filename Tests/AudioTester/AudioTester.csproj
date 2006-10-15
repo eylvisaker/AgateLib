@@ -69,6 +69,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\drivers\AgateFMOD\AgateFMOD.csproj">
+      <Project>{85A045AF-224D-473A-9630-4638C72CD8C7}</Project>
+      <Name>AgateFMOD</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\drivers\AgateMDX\AgateMDX.csproj">
       <Project>{852EB9A0-5DCB-492F-9630-9D4198B81FA2}</Project>
       <Name>AgateMDX</Name>

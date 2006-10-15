@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+
+using ERY.AgateLib.Geometry;
 using ERY.AgateLib.Utility;
 
 namespace ERY.AgateLib.ImplBase

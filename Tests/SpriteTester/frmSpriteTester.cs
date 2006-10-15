@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+
 using ERY.AgateLib;
 
 namespace ERY.SpriteTester
@@ -21,7 +22,7 @@ namespace ERY.SpriteTester
         Sprite mSprite;
         DisplayWindow wind;
 
-        ERY.AgateLib.Point mSpritePosition = new ERY.AgateLib.Point(96, 96);
+        AgateLib.Geometry.Point mSpritePosition = new AgateLib.Geometry.Point(96, 96);
     
         private void frmSpriteTester_Load(object sender, EventArgs e)
         {
@@ -139,25 +140,25 @@ namespace ERY.SpriteTester
                 return;
 
             Display.BeginFrame();
-            Display.Clear(ERY.AgateLib.Color.Green);
+            Display.Clear(AgateLib.Geometry.Color.Green);
 
 
             // draw the grid
-            ERY.AgateLib.Color clr = ERY.AgateLib.Color.FromArgb(0, 164, 0);
+            AgateLib.Geometry.Color clr = AgateLib.Geometry.Color.FromArgb(0, 164, 0);
 
             for (int x = 0; x < pctGraphics.Width; x += 16)
-                Display.DrawRect(new ERY.AgateLib.Rectangle(0, 0, x, Display.RenderTarget.Height), clr);
+                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, x, Display.RenderTarget.Height), clr);
 
             for (int y = 0; y < pctGraphics.Height; y += 16)
-                Display.DrawRect(new ERY.AgateLib.Rectangle(0, 0, Display.RenderTarget.Width, y), clr);
+                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, Display.RenderTarget.Width, y), clr);
 
 
             int crossSize = 5;
 
-            Display.DrawRect(new ERY.AgateLib.Rectangle(mSpritePosition, mSprite.DisplaySize), ERY.AgateLib.Color.Red);
+            Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition, mSprite.DisplaySize), AgateLib.Geometry.Color.Red);
 
-            Display.DrawRect(new ERY.AgateLib.Rectangle(mSpritePosition.X - crossSize, mSpritePosition.Y, crossSize * 2, 0), ERY.AgateLib.Color.White);
-            Display.DrawRect(new ERY.AgateLib.Rectangle(mSpritePosition.X, mSpritePosition.Y - crossSize, 0, crossSize * 2), ERY.AgateLib.Color.White);
+            Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X - crossSize, mSpritePosition.Y, crossSize * 2, 0), AgateLib.Geometry.Color.White);
+            Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X, mSpritePosition.Y - crossSize, 0, crossSize * 2), AgateLib.Geometry.Color.White);
 
             mSprite.Update();
             mSprite.Draw(mSpritePosition);

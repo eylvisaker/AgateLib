@@ -1,4 +1,15 @@
 
+Current Changes
+===================
+
+Breaking Changes:
+* Moved System.Drawing replacement classes (Color, Rectangle, Point, Size and floating-point versions) to ERY.AgateLib.Geometry namespace.  
+
+Non-breaking Changes:
+* Created FMOD driver for audio support.
+* Added PixelBuffer class for direct modification of Surface data.
+* Added Licensing information to some files where it was missing.
+
 Version 0.2.1
 ===================
 * Restructured storage for registered drivers in Registrar class to allow easier addition of new types of drivers.

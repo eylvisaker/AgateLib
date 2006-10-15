@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using ERY.AgateLib.Geometry;
 using ERY.AgateLib.Drivers;
 
 namespace ERY.AgateLib.PlatformSpecific

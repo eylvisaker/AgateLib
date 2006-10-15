@@ -22,6 +22,8 @@ namespace ERY.AudioTester
             InitializeComponent();
 
             statusLabel.Text = "";
+
+            textBox1_TextChanged(this, EventArgs.Empty);
         }
 
         private void frmAudioTester_Load(object sender, EventArgs e)
@@ -38,19 +40,19 @@ namespace ERY.AudioTester
             if (string.IsNullOrEmpty(text))
                 return;
 
-            try
-            {
+            //try
+            //{
                 AgateLib.Music music = new ERY.AgateLib.Music(text);
                 mMusic = music;
 
                 music.Volume = (double)numericUpDown1.Value;
                 music.Pan = (double)panValue.Value;
                 music.Play();
-            }
-            catch (Exception error)
-            {
-                statusLabel.Text = "Error: " + error.Message;
-            }
+            //}
+            //catch (Exception error)
+            //{
+            //    statusLabel.Text = "Error: " + error.Message;
+            //}
         }
 
         private void btnSound_Click(object sender, EventArgs e)
@@ -60,19 +62,21 @@ namespace ERY.AudioTester
             if (string.IsNullOrEmpty(text))
                 return;
 
-            try
-            {
+            //try
+            //{
                 AgateLib.SoundBuffer snd = new AgateLib.SoundBuffer(text);
-                mSound = snd;
 
                 snd.Volume = (double)numericUpDown1.Value; 
                 snd.Pan = (double)panValue.Value;
                 snd.Play();
-            }
-            catch (Exception error)
-            {
-                statusLabel.Text = "Error: " + error.Message;
-            }
+
+                mSound = snd;
+
+            //}
+            //catch (Exception error)
+            //{
+            //    statusLabel.Text = "Error: " + error.Message;
+            //}
 
         }
 
@@ -123,13 +127,22 @@ namespace ERY.AudioTester
 
             if (folderBrowser.ShowDialog() == DialogResult.OK)
             {
-                Directory.SetCurrentDirectory(folderBrowser.SelectedPath);
+                textBox1.Text = folderBrowser.SelectedPath;
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Directory.SetCurrentDirectory(textBox1.Text);
 
                 AgateLib.FileManager.SoundPath = new ERY.AgateLib.SearchPath(".");
                 AgateLib.FileManager.MusicPath = new ERY.AgateLib.SearchPath(".");
 
                 FillMusicListBox();
             }
+            catch { }
         }
 
 

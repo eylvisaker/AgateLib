@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
+
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.SystemDrawing
@@ -38,14 +39,14 @@ namespace ERY.AgateLib.SystemDrawing
             mFont = null;
         }
 
-        public override void DrawText(Point dest_pt, string text)
+        public override void DrawText(Geometry.Point dest_pt, string text)
         {
-            DrawText(new PointF((float)dest_pt.X, (float)dest_pt.Y), text);
+            DrawText(new Geometry.PointF((float)dest_pt.X, (float)dest_pt.Y), text);
 
         }
-        public override void DrawText(PointF dest_pt, string text)
+        public override void DrawText(Geometry.PointF dest_pt, string text)
         {
-            PointF dest = Origin.CalcF(DisplayAlignment, StringDisplaySize(text));
+            Geometry.PointF dest = Origin.CalcF(DisplayAlignment, StringDisplaySize(text));
 
             dest_pt.X -= dest.X;
             dest_pt.Y -= dest.Y;
@@ -61,32 +62,20 @@ namespace ERY.AgateLib.SystemDrawing
             g.TranslateTransform(dest_pt.X, dest_pt.Y);
             g.ScaleTransform((float)scalex, (float)scaley);
 
-            g.DrawString(text, mFont, new SolidBrush((System.Drawing.Color)Color), System.Drawing.Point.Empty);
+            g.DrawString(text, mFont, 
+                new SolidBrush((Color)Color), Point.Empty);
 
             g.Restore(state);
 
         }
         public override void DrawText(int dest_x, int dest_y, string text)
         {
-            DrawText(new PointF((float)dest_x, (float)dest_y), text);
+            DrawText(new Geometry.PointF((float)dest_x, (float)dest_y), text);
         }
         public override void DrawText(double dest_x, double dest_y, string text)
         {
-            DrawText(new PointF((float)dest_x, (float)dest_y), text);
+            DrawText(new Geometry.PointF((float)dest_x, (float)dest_y), text);
         }
-        /*
-        public override void DrawText(int dest_x, int dest_y, string text, CanvasImpl c)
-        {
-            Drawing_Canvas canvas = c as Drawing_Canvas;
-
-            canvas.Graphics.DrawString(text, mFont, new SolidBrush(mOwner.Color), (float)dest_x, (float)dest_y);
-        }
-
-        public override void DrawText(Point dest_pt, string text, CanvasImpl c)
-        {
-            DrawText(dest_pt.X, dest_pt.Y, text, c);
-        }
-        */
 
         public override int StringDisplayWidth(string text)
         {
@@ -96,7 +85,7 @@ namespace ERY.AgateLib.SystemDrawing
         {
             return StringDisplaySize(text).Height;
         }
-        public override Size StringDisplaySize(string text)
+        public override Geometry.Size StringDisplaySize(string text)
         {
             Drawing_Display disp = Display.Impl as Drawing_Display;
             Graphics g = disp.FrameGraphics;
@@ -121,7 +110,7 @@ namespace ERY.AgateLib.SystemDrawing
             result.Height *= (float)scalex;
             result.Width *= (float)scaley;
 
-            return new Size((int)result.Width, (int)result.Height);
+            return new Geometry.Size((int)result.Width, (int)result.Height);
         }
 
     }

@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -22,6 +22,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Text;
+
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.SystemDrawing
@@ -55,13 +56,13 @@ namespace ERY.AgateLib.SystemDrawing
             Graphics g = Graphics.FromImage(mImage);
 
             g.DrawImage(image,
-                new System.Drawing.Rectangle(0, 0, sourceRect.Width, sourceRect.Height),
-                (System.Drawing.Rectangle)sourceRect, GraphicsUnit.Pixel);
+                new Rectangle(0, 0, sourceRect.Width, sourceRect.Height),
+                (Rectangle)sourceRect, GraphicsUnit.Pixel);
 
             g.Dispose();
 
         }
-        public Drawing_Surface(Size sz)
+        public Drawing_Surface(Geometry.Size sz)
         {
             mDisplay = Display.Impl as Drawing_Display;
 
@@ -83,13 +84,14 @@ namespace ERY.AgateLib.SystemDrawing
         #endregion
         #region --- Protected Drawing helper methods ---
 
-        protected Rectangle SrcRect
+        protected Geometry.Rectangle SrcRect
         {
-            get { return new Rectangle(new Point(0, 0), new Size(mImage.Size)); }
+            get { return new Geometry.Rectangle(Geometry.Point.Empty, 
+                new ERY.AgateLib.Geometry.Size(mImage.Size)); }
         }
-        protected Rectangle DestRect(int dest_x, int dest_y)
+        protected Geometry.Rectangle DestRect(int dest_x, int dest_y)
         {
-            return new Rectangle(dest_x, dest_y, DisplayWidth, DisplayHeight);
+            return new Geometry.Rectangle(dest_x, dest_y, DisplayWidth, DisplayHeight);
         }
         #endregion
         #region --- Draw to Screen Methods ---
@@ -106,7 +108,7 @@ namespace ERY.AgateLib.SystemDrawing
             Drawing_Display disp = Display.Impl as Drawing_Display;
             Graphics g = disp.FrameGraphics;
             GraphicsState state = g.Save();
-            PointF translatePoint = Origin.CalcF(DisplayAlignment, DisplaySize);
+            Geometry.PointF translatePoint = Origin.CalcF(DisplayAlignment, DisplaySize);
 
 
             if (DisplaySize.Width < 0)
@@ -126,7 +128,7 @@ namespace ERY.AgateLib.SystemDrawing
             g.TranslateTransform(destPt.X - translatePoint.X,
                                  destPt.Y - translatePoint.Y, MatrixOrder.Append);
 
-            if (Color != Color.White)
+            if (Color != Geometry.Color.White)
             {
                 ImageAttributes imageAttributes = new ImageAttributes();
 
@@ -139,7 +141,7 @@ namespace ERY.AgateLib.SystemDrawing
 
                 imageAttributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-                g.DrawImage(mImage, (System.Drawing.Rectangle)DestRect(0, 0),
+                g.DrawImage(mImage, (Rectangle)DestRect(0, 0),
                     SrcRect.X,
                     SrcRect.Y,
                     SrcRect.Width,
@@ -149,33 +151,33 @@ namespace ERY.AgateLib.SystemDrawing
 
             }
             else
-                g.DrawImage(mImage, (System.Drawing.Rectangle)DestRect(0, 0),
-                    (System.Drawing.Rectangle)SrcRect, GraphicsUnit.Pixel);
+                g.DrawImage(mImage, (Rectangle)DestRect(0, 0),
+                    (Rectangle)SrcRect, GraphicsUnit.Pixel);
 
             g.Restore(state);
         }
         public override void Draw(float destX, float destY)
         {
-            PointF rotatePoint = Origin.CalcF(RotationCenter, DisplaySize);
+            Geometry.PointF rotatePoint = Origin.CalcF(RotationCenter, DisplaySize);
 
             Draw(destX, destY, rotatePoint.X, rotatePoint.Y);
 
         }
-        public override void Draw(Rectangle destRect)
+        public override void Draw(Geometry.Rectangle destRect)
         {
             Draw(SrcRect, destRect);
         }
-        public override void Draw(Rectangle srcRect, Rectangle destRect)
+        public override void Draw(Geometry.Rectangle srcRect, Geometry.Rectangle destRect)
         {
             mDisplay.CheckInFrame("Surface.Draw");
             System.Diagnostics.Debug.Assert(mImage != null);
 
             Graphics g = mDisplay.FrameGraphics;
 
-            g.DrawImage(mImage, (System.Drawing.Rectangle)destRect,
-                (System.Drawing.Rectangle)srcRect, GraphicsUnit.Pixel);
+            g.DrawImage(mImage, (Rectangle)destRect,
+                (Rectangle)srcRect, GraphicsUnit.Pixel);
         }
-        public override void DrawRects(Rectangle[] src_rects, Rectangle[] dest_rects)
+        public override void DrawRects(Geometry.Rectangle[] src_rects, Geometry.Rectangle[] dest_rects)
         {
             mDisplay.CheckInFrame("Surface.Draw");
             System.Diagnostics.Debug.Assert(mImage != null);
@@ -186,7 +188,7 @@ namespace ERY.AgateLib.SystemDrawing
             for (int i = 0; i < src_rects.Length; i++)
                 Draw(src_rects[i], dest_rects[i]);
         }
-        public override void DrawPoints(Point[] destPts)
+        public override void DrawPoints(Geometry.Point[] destPts)
         {
             mDisplay.CheckInFrame("Surface.Draw");
             System.Diagnostics.Debug.Assert(mImage != null);
@@ -194,10 +196,10 @@ namespace ERY.AgateLib.SystemDrawing
             Drawing_Display disp = Display.Impl as Drawing_Display;
             Graphics g = disp.FrameGraphics;
 
-            System.Drawing.Point[] pts = new System.Drawing.Point[destPts.Length];
+            Point[] pts = new Point[destPts.Length];
 
             for (int i = 0; i < pts.Length; i++)
-                pts[i] = (System.Drawing.Point)destPts[i];
+                pts[i] = (Point)destPts[i];
 
             g.DrawImage(mImage, pts);
         }
@@ -205,17 +207,17 @@ namespace ERY.AgateLib.SystemDrawing
         #endregion
         #region --- Public overriden properties ---
 
-        public override Size SurfaceSize
+        public override Geometry.Size SurfaceSize
         {
-            get { return new Size(mImage.Size); }
+            get { return new Geometry.Size(mImage.Size); }
         }
 
         #endregion
 
 
-        public override SurfaceImpl CarveSubSurface(Surface surf, Rectangle srcRect)
+        public override SurfaceImpl CarveSubSurface(Surface surf, Geometry.Rectangle srcRect)
         {
-            return new Drawing_Surface(mImage, srcRect);
+            return new Drawing_Surface(mImage, (Rectangle)srcRect);
         }
 
         public override bool IsSurfaceBlank()
@@ -235,8 +237,8 @@ namespace ERY.AgateLib.SystemDrawing
 
         public override bool IsRowBlank(int row)
         {
-            BitmapData bmp = mImage.LockBits(new System.Drawing.Rectangle(0, 0, mImage.Width, mImage.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            BitmapData bmp = mImage.LockBits(new Rectangle(0, 0, mImage.Width, mImage.Height),
+                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
 
             bool retval = IsRowBlankScanARGB(bmp.Scan0, row, bmp.Width, bmp.Stride,
@@ -248,8 +250,8 @@ namespace ERY.AgateLib.SystemDrawing
         }
         public override bool IsColumnBlank(int col)
         {
-            BitmapData bmp = mImage.LockBits(new System.Drawing.Rectangle(0, 0, mImage.Width, mImage.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            BitmapData bmp = mImage.LockBits(new Rectangle(0, 0, mImage.Width, mImage.Height),
+                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
 
             bool retval = IsColBlankScanARGB(bmp.Scan0, col, bmp.Height, bmp.Stride,
@@ -302,8 +304,7 @@ namespace ERY.AgateLib.SystemDrawing
         #endregion
 
 
-        [Obsolete("duh")]
-        public override void SetSourceSurface(SurfaceImpl surf, Rectangle srcRect)
+        public override void SetSourceSurface(SurfaceImpl surf, Geometry.Rectangle srcRect)
         {
             mImage.Dispose();
 
@@ -311,8 +312,8 @@ namespace ERY.AgateLib.SystemDrawing
             Graphics g = Graphics.FromImage(mImage);
 
             g.DrawImage((surf as Drawing_Surface).mImage,
-                new System.Drawing.Rectangle(System.Drawing.Point.Empty, (System.Drawing.Size)srcRect.Size),
-                (System.Drawing.Rectangle)srcRect, GraphicsUnit.Pixel);
+                new Rectangle(Point.Empty, (Size)srcRect.Size),
+                (Rectangle)srcRect, GraphicsUnit.Pixel);
 
             g.Dispose();
 

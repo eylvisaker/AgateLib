@@ -5,8 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-using ERY.AgateLib.Drivers;
 using ERY.AgateLib;
+using ERY.AgateLib.Drivers;
+using ERY.AgateLib.Geometry;
 
 namespace PerformanceTester
 {

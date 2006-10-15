@@ -77,16 +77,16 @@ namespace ERY.SurfaceTester
                 return;
 
             Display.BeginFrame();
-            Display.Clear(ERY.AgateLib.Color.LightGray);
+            Display.Clear(AgateLib.Geometry.Color.LightGray);
 
             // draw the grid
-            ERY.AgateLib.Color clr = ERY.AgateLib.Color.Gray;
+            AgateLib.Geometry.Color clr = AgateLib.Geometry.Color.Gray;
 
             for (int x = 0; x < pctGraphics.Width; x += 30)
-                Display.DrawRect(new ERY.AgateLib.Rectangle(0, 0, x, pctGraphics.Height), clr);
+                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, x, pctGraphics.Height), clr);
 
             for (int y = 0; y < pctGraphics.Height; y += 30)
-                Display.DrawRect(new ERY.AgateLib.Rectangle(0, 0, pctGraphics.Width, y), clr);
+                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, pctGraphics.Width, y), clr);
 
             if (mSurface != null)
             {
@@ -100,7 +100,7 @@ namespace ERY.SurfaceTester
                 // this is to test to make sure that RotationCenter does not have
                 // any effect on a displayed, unrotated sprite.
                 mSurface.RotationAngleDegrees = 0;
-                mSurface.DisplayAlignment = ERY.AgateLib.OriginAlignment.TopLeft;
+                mSurface.DisplayAlignment = OriginAlignment.TopLeft;
                 mSurface.Alpha = 1.0;
                 mSurface.SetScale(1.0, 1.0);
 
@@ -110,8 +110,8 @@ namespace ERY.SurfaceTester
 
             // box around sprite point to check alignment
             const int rectsize = 3;
-            Display.DrawRect(new ERY.AgateLib.Rectangle((int)nudX.Value - rectsize, (int)nudY.Value - rectsize,
-                2 * rectsize, 2 * rectsize), ERY.AgateLib.Color.Fuchsia);
+            Display.DrawRect(new AgateLib.Geometry.Rectangle((int)nudX.Value - rectsize, (int)nudY.Value - rectsize,
+                2 * rectsize, 2 * rectsize), AgateLib.Geometry.Color.Fuchsia);
 
             
             Display.EndFrame();
@@ -125,7 +125,7 @@ namespace ERY.SurfaceTester
             mSurface.DisplayAlignment = (AgateLib.OriginAlignment)cboAlignment.SelectedItem;
             mSurface.RotationCenter = (AgateLib.OriginAlignment)cboRotation.SelectedItem;
             mSurface.SetScale((double)nudScaleWidth.Value / 100.0, (double)nudScaleHeight.Value / 100.0);
-            mSurface.Color = ERY.AgateLib.Color.FromArgb(colorBox.BackColor.ToArgb());
+            mSurface.Color = AgateLib.Geometry.Color.FromArgb(colorBox.BackColor.ToArgb());
             mSurface.Alpha = (double)nudAlpha.Value / 100.0;
         }
 

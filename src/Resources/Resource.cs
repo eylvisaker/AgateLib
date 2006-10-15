@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
+using ERY.AgateLib.Geometry;
+
 namespace ERY.AgateLib.Resources
 {
     /// <summary>

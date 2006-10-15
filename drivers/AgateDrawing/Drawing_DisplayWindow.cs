@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -22,6 +22,7 @@ using System.Drawing;
 using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
+
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.SystemDrawing
@@ -224,28 +225,28 @@ namespace ERY.AgateLib.SystemDrawing
             get { return mClosed; }
         }
 
-        public override Size Size
+        public override Geometry.Size Size
         {
             get
             {
-                return new Size( mRenderTarget.ClientSize);
+                return new Geometry.Size(mRenderTarget.ClientSize);
             }
             set
             {
                 if (frm != null)
-                    frm.ClientSize = (System.Drawing.Size)value;
+                    frm.ClientSize = (Size)value;
             }
         }
 
-        public override Point MousePosition
+        public override Geometry.Point MousePosition
         {
             get
             {
-                return new Point(frm.PointToClient(Cursor.Position));
+                return new Geometry.Point(frm.PointToClient(Cursor.Position));
             }
             set
             {
-                Cursor.Position = frm.PointToScreen((System.Drawing.Point)value);
+                Cursor.Position = frm.PointToScreen((Point)value);
             }
         }
 
@@ -269,7 +270,7 @@ namespace ERY.AgateLib.SystemDrawing
         {
             Graphics g = RenderTarget.CreateGraphics();
 
-            g.DrawImage(BackBuffer, new System.Drawing.Rectangle(new System.Drawing.Point(0, 0), BackBuffer.Size));
+            g.DrawImage(BackBuffer, new Rectangle(new Point(0, 0), BackBuffer.Size));
             g.Dispose();
         }
 

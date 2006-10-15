@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 
+using ERY.AgateLib.Geometry;
+
 namespace ERY.AgateLib
 {
     /// <summary>

@@ -19,13 +19,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 using CustomVertex = Microsoft.DirectX.Direct3D.CustomVertex;
 
 using ERY.AgateLib.Drivers;
+using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.MDX
@@ -201,7 +201,7 @@ namespace ERY.AgateLib.MDX
         {
             return new MDX1_Surface(fileName);
         }
-        public override SurfaceImpl CreateSurface(ERY.AgateLib.Size surfaceSize)
+        public override SurfaceImpl CreateSurface(Size surfaceSize)
         {
             return new MDX1_Surface(surfaceSize);
         }

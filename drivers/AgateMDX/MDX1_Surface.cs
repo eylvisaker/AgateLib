@@ -18,13 +18,15 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using Drawing = System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 using CustomVertex = Microsoft.DirectX.Direct3D.CustomVertex;
+
+using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 using ERY.AgateLib.Utility;
 
@@ -143,7 +145,7 @@ namespace ERY.AgateLib.MDX
                 return;
 
             string path = mFileName;
-            Bitmap bitmap = new Bitmap(path);
+            Drawing.Bitmap bitmap = new Drawing.Bitmap(path);
 
             mSrcRect = new Rectangle(Point.Empty, new Size(bitmap.Size));
             /*
