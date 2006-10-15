@@ -22,6 +22,7 @@ using System.IO;
 using System.Text;
 
 using ERY.AgateLib.Drivers;
+using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 using ERY.AgateLib.Utility;
 

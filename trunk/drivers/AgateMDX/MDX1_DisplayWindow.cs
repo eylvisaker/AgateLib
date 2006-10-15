@@ -18,17 +18,18 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using Drawing = System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
+
+using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.MDX
 {
-
     public class MDX1_DisplayWindow : DisplayWindowImpl, MDX1_IRenderTarget
     {
         Form frm;
@@ -42,7 +43,7 @@ namespace ERY.AgateLib.MDX
         int mChooseWidth;
         int mChooseHeight;
         int mChooseBitDepth;
-        Icon mIcon;
+        System.Drawing.Icon mIcon;
         bool mChooseFullscreen = false;
         bool mChooseResize = false;
         string mTitle = "";
@@ -55,7 +56,7 @@ namespace ERY.AgateLib.MDX
             string iconFile, bool startFullscreen, bool allowResize)
         {
             if (iconFile != null)
-                mIcon = new Icon(iconFile);
+                mIcon = new Drawing.Icon(iconFile);
 
             mTitle = title;
             mChooseFullscreen = startFullscreen;

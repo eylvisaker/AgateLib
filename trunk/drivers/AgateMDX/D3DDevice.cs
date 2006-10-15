@@ -24,6 +24,8 @@ using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 using CustomVertex = Microsoft.DirectX.Direct3D.CustomVertex;
 
+using ERY.AgateLib.Geometry;
+
 namespace ERY.AgateLib.MDX
 {
     public class D3DDevice : IDisposable

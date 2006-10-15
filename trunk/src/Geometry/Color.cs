@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace ERY.AgateLib
+namespace ERY.AgateLib.Geometry
 {
     /// <summary>
     /// Replacement for System.Drawing.Color structure.

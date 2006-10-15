@@ -7,7 +7,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+
 using ERY.AgateLib;
+using ERY.AgateLib.Geometry;
 using ERY.AgateLib.Utility;
 
 namespace TestPacker

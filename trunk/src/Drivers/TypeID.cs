@@ -179,7 +179,7 @@ namespace ERY.AgateLib.Drivers
         public static AudioTypeID DirectSound { get { return new AudioTypeID(0x100); } }
         /// <summary>
         /// Implementation using XNA Studio
-        /// (what will this be called);}} anyway?)
+        /// (what will this be called), anyway?)
         /// </summary>
         public static AudioTypeID XAct { get { return new AudioTypeID(0x110); } }
 
@@ -187,6 +187,11 @@ namespace ERY.AgateLib.Drivers
         /// Implementation using the cross-platform OpenAL library.
         /// </summary>
         public static AudioTypeID OpenAL { get { return new AudioTypeID(0x200); } }
+
+        /// <summary>
+        /// Implementation using the cross-platform FMod library.
+        /// </summary>
+        public static AudioTypeID FMod { get { return new AudioTypeID(0x300); } }
     }
 
     /// <summary>

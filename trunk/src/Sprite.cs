@@ -18,9 +18,10 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Text;
+
+using ERY.AgateLib.Geometry;
 using ERY.AgateLib.Resources;
 
 namespace ERY.AgateLib

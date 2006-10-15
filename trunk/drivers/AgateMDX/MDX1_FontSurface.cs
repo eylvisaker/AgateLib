@@ -18,11 +18,12 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Text;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
+
+using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.MDX

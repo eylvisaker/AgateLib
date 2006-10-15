@@ -1,4 +1,4 @@
-//     ``The contents of this file are subject to the Mozilla Public License
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -32,11 +32,14 @@ namespace ERY.AgateLib.SystemDrawing
     class Drawing_Display : DisplayImpl
     {
         #region --- Private variables ---
-
+            
         private Graphics mGraphics;
         private Drawing_IRenderTarget mRenderTarget;
 
         private bool mInFrame = false;
+
+        private Stack<Geometry.Rectangle> mClipRects = new Stack<Geometry.Rectangle>();
+        private Geometry.Rectangle mCurrentClipRect;
 
         #endregion 
 
@@ -88,9 +91,9 @@ namespace ERY.AgateLib.SystemDrawing
             return new Drawing_Surface(fileName);
 
         }
-        public override SurfaceImpl CreateSurface( Size surfaceSize)
+        public override SurfaceImpl CreateSurface(Geometry.Size surfaceSize)
         {
-            return new Drawing_Surface( surfaceSize);   
+            return new Drawing_Surface(surfaceSize);
         }
         public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullScreen, bool allowResize)
         {
@@ -108,43 +111,44 @@ namespace ERY.AgateLib.SystemDrawing
         #endregion 
         #region --- Direct modification of the back buffer ---
 
-        public override void Clear(Color color)
+        public override void Clear(Geometry.Color color)
         {
             CheckInFrame("Clear");
 
-            mGraphics.Clear((System.Drawing.Color)color);
+            mGraphics.Clear((Color)color);
         }
-        public override void Clear(Color color, Rectangle dest_rect)
+        public override void Clear(Geometry.Color color, Geometry.Rectangle dest_rect)
         {
             CheckInFrame("Clear");
 
-            mGraphics.FillRectangle(new SolidBrush((System.Drawing.Color)color), (System.Drawing.Rectangle)dest_rect);
+            mGraphics.FillRectangle(
+                new SolidBrush((Color)color), (Rectangle)dest_rect);
         }
 
-        public override void DrawLine(int x1, int y1, int x2, int y2, Color color)
+        public override void DrawLine(int x1, int y1, int x2, int y2, Geometry.Color color)
         {
             CheckInFrame("DrawLine");
 
-            mGraphics.DrawLine(new Pen((System.Drawing.Color)color), x1, y1, x2, y2);
+            mGraphics.DrawLine(new Pen((Color)color), x1, y1, x2, y2);
         }
-        public override void DrawLine(Point a, Point b, Color color)
+        public override void DrawLine(Geometry.Point a, Geometry.Point b, Geometry.Color color)
         {
             CheckInFrame("DrawLine");
 
-            mGraphics.DrawLine(new Pen((System.Drawing.Color)color), (System.Drawing.Point)a, (System.Drawing.Point)b);
+            mGraphics.DrawLine(new Pen((Color)color), (Point)a, (Point)b);
         }
 
-        public override void DrawRect(Rectangle rect, Color color)
+        public override void DrawRect(Geometry.Rectangle rect, Geometry.Color color)
         {
             CheckInFrame("DrawRect");
 
-            mGraphics.DrawRectangle(new Pen((System.Drawing.Color)color), (System.Drawing.Rectangle)rect);
+            mGraphics.DrawRectangle(new Pen((Color)color), (Rectangle)rect);
         }
-        public override void FillRect(Rectangle rect, Color color)
+        public override void FillRect(Geometry.Rectangle rect, Geometry.Color color)
         {
             CheckInFrame("FillRect");
 
-            mGraphics.FillRectangle(new SolidBrush((System.Drawing.Color)color), (System.Drawing.Rectangle)rect);
+            mGraphics.FillRectangle(new SolidBrush((Color)color), (Rectangle)rect);
         }
 
         #endregion
@@ -169,12 +173,12 @@ namespace ERY.AgateLib.SystemDrawing
         #endregion
         #region --- Clip Rect Stuff ---
 
-        public override void SetClipRect(Rectangle newClipRect)
+        public override void SetClipRect(Geometry.Rectangle newClipRect)
         {
-            mGraphics.SetClip((System.Drawing.Rectangle)newClipRect);
+            mGraphics.SetClip((Rectangle)newClipRect);
             mCurrentClipRect = newClipRect;
         }
-        public override void PushClipRect(Rectangle newClipRect)
+        public override void PushClipRect(Geometry.Rectangle newClipRect)
         {
             mClipRects.Push(mCurrentClipRect);
             SetClipRect(newClipRect);
@@ -189,9 +193,7 @@ namespace ERY.AgateLib.SystemDrawing
             SetClipRect(mClipRects.Pop());
         }
 
-        private Stack<Rectangle> mClipRects = new Stack<Rectangle>();
-        private Rectangle mCurrentClipRect;
-
+        
         #endregion 
 
     
@@ -202,10 +204,10 @@ namespace ERY.AgateLib.SystemDrawing
                 new DriverInfo<DisplayTypeID>(typeof(Drawing_Display), DisplayTypeID.Reference,
                 "System.Drawing", 0));
         }
-    
-        public override Size MaxSurfaceSize
+
+        public override Geometry.Size MaxSurfaceSize
         {
-            get { return new Size(1024, 1024); }
+            get { return new Geometry.Size(1024, 1024); }
         }
     }
 
