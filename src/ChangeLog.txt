@@ -10,7 +10,7 @@ Non-breaking Changes:
 * Added PixelBuffer class for direct modification of Surface data.
 * Added Licensing information to some files where it was missing.
 
-* Found bug in storage of Mouse state.  Fixed?
+* Found bug in storage of Mouse button state.  Fixed?
 
 Version 0.2.1
 ===================

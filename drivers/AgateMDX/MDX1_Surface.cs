@@ -724,7 +724,6 @@ namespace ERY.AgateLib.MDX
         {
             throw new Exception("The method or operation is not implemented.");
         }
-
         public override PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
         {
             throw new Exception("The method or operation is not implemented.");
@@ -734,7 +733,6 @@ namespace ERY.AgateLib.MDX
         {
             throw new Exception("The method or operation is not implemented.");
         }
-
         public override void WritePixels(PixelBuffer buffer, Point startPoint)
         {
             throw new Exception("The method or operation is not implemented.");
