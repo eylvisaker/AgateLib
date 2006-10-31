@@ -9,6 +9,8 @@
     <mkdir dir="bin" /> 
     <nant target="AgateLib" buildfile="nant.build" />
     <nant target="AgateDrawing" buildfile="nant.build"/>
+    <nant target="AgateOTK" buildfile="nant.build"/>
+    <nant target="AgateFMOD" buildfile="nant.build"/>
   </target>
   <target name="AgateLib" description="Compiles the core AgateLib.dll library">
     <csc target="library" output="bin/AgateLib.dll" debug="${debug}" unsafe="true">
@@ -43,6 +45,38 @@
         <include name="drivers/AgateDrawing/*.cs" />
         <include name="drivers/AgateDrawing/Properties/*.cs" />
       </sources>
+    </csc>
+  </target>
+  <target name="AgateOTK" depends="AgateLib" description="Compiles the OpenTK.OpenGL implementation of Agate.">
+    <csc target="library" output="bin/AgateOTK.dll" debug="${debug}">
+       <references>
+          <include name="System.dll"/>
+          <include name="System.Drawing.dll"/>
+          <include name="System.Windows.Forms.dll"/>
+          <include name="bin/AgateLib.dll"/>
+          <include name="deps/OpenTK.OpenGL.dll"/>
+       </references>
+       <sources>
+          <include name="drivers/AgateOTK/*.cs" />
+          <include name="drivers/AgateOTK/Properties/*.cs" />
+       </sources>
+    </csc>
+  </target>
+  <target name="AgateFMOD" depends="AgateLib" description="Compiles the FMOD implementation of Agate's audio system.">
+    <csc target="library" output="bin/AgateFMOD.dll" debug="${debug}">
+       <references>
+          <include name="System.dll"/>
+          <include name="System.Drawing.dll"/>
+          <include name="System.Windows.Forms.dll"/>
+          <include name="bin/AgateLib.dll"/>
+       </references>
+       <sources>
+          <include name="drivers/AgateFMOD/*.cs" />
+          <include name="drivers/AgateFMOD/FMOD/fmod.cs" />
+          <include name="drivers/AgateFMOD/FMOD/fmod_dsp.cs" />
+          <include name="drivers/AgateFMOD/FMOD/fmod_errors.cs" />
+          <include name="drivers/AgateFMOD/Properties/*.cs" />
+       </sources>
     </csc>
   </target>
   <!-- Building AgateMDX with Nant doesn't work right now. 
