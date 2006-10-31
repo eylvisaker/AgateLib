@@ -21,10 +21,11 @@ namespace ERY.SurfaceTester
 
             try
             {
-                Icon = new Icon(@"..\..\src\AgateLib.ico");
+                Icon = new Icon(@"../../src/AgateLib.ico");
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine("Could not load icon.  Error: {0}", e);
             }
         }
         
@@ -54,20 +55,20 @@ namespace ERY.SurfaceTester
             DisplayWindow wind = new DisplayWindow(pctGraphics);
             
             // load an image
-            string fileName = @"test.jpg";
+            string fileName = @"test.png";
 
             
-            try
-            {
+            //try
+            //{
                 mSurface = new Surface(fileName);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error: Could not load surface " + fileName + "\n" + e.Message, 
-                    "Error initializing display", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show("Error: Could not load surface " + fileName + "\n" + e.Message, 
+            //        "Error initializing display", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                throw e;
-            }
+            //    throw e;
+            //}
 
         }
 

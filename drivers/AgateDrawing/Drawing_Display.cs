@@ -29,7 +29,7 @@ using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.SystemDrawing
 {
-    class Drawing_Display : DisplayImpl
+    public class Drawing_Display : DisplayImpl
     {
         #region --- Private variables ---
             

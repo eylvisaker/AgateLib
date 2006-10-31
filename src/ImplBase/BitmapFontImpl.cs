@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using Drawing = System.Drawing;
 using System.Text;
 
 using ERY.AgateLib.Geometry;
@@ -37,7 +38,7 @@ namespace ERY.AgateLib.ImplBase
         /// <summary>
         /// Stores source rectangles for all characters.
         /// </summary>
-        Dictionary<char, Rectangle> mSrcRects = new Dictionary<char, Rectangle>();
+        Dictionary<char, RectangleF> mSrcRects = new Dictionary<char, RectangleF>();
 
         int mCharHeight;
         double mAverageCharWidth;
@@ -57,6 +58,23 @@ namespace ERY.AgateLib.ImplBase
         }
 
         /// <summary>
+        /// Constructs a BitmapFontImpl, taking the passed surface as the source for
+        /// the characters.  The source rectangles for each character are passed in.
+        /// </summary>
+        /// <param name="surface">Surface which contains the image data for the font glyphs.</param>
+        /// <param name="srcRects">An object implementing the IDictionary&lt;char, Rectangle&gr;
+        /// interface, containing the source rectangles on the surface for each font glyph.</param>
+        public BitmapFontImpl(Surface surface, IDictionary<char, RectangleF> srcRects)
+        {
+            mSurface = surface;
+
+            foreach (KeyValuePair<char, RectangleF> kvp in srcRects)
+            {
+                mSrcRects.Add(kvp.Key, kvp.Value);
+            }
+        }
+
+        /// <summary>
         /// Disposes of the object.
         /// </summary>
         public override void Dispose()
@@ -72,7 +90,7 @@ namespace ERY.AgateLib.ImplBase
 
             while (y + characterSize.Height <= mSurface.SurfaceHeight)
             {
-                Rectangle src = new Rectangle(x, y, characterSize.Width, characterSize.Height);
+                RectangleF src = new RectangleF(x, y, characterSize.Width, characterSize.Height);
 
                 mSrcRects[val] = src;
 
@@ -89,13 +107,104 @@ namespace ERY.AgateLib.ImplBase
             CalcAverageCharWidth();
         }
 
+        /// <summary>
+        /// Creates a bitmap font by loading an OS font, and drawing it to 
+        /// a bitmap to use as a Surface object.
+        /// </summary>
+        /// <param name="fontFamily"></param>
+        /// <param name="sizeInPoints"></param>
+        /// <returns></returns>
+        public static FontSurfaceImpl FromOSFont(string fontFamily, float sizeInPoints)
+        {
+            Drawing.Font font = new Drawing.Font(fontFamily, sizeInPoints);
+
+            Drawing.Bitmap bmp = new System.Drawing.Bitmap(512, 512);
+            Drawing.Graphics g = Drawing.Graphics.FromImage(bmp);
+
+            // first calculate the size of image we need
+            Dictionary<char, RectangleF> glyphs = new Dictionary<char, RectangleF>();
+
+            char startChar = ' ';
+            char endChar = (char)256;
+
+            float x = 0, y = 0;
+            float height = 0;
+
+            for (char i = startChar; i < endChar; i++)
+            {
+                SizeF size = new SizeF(g.MeasureString(i.ToString(), font));
+
+                glyphs[i] = new RectangleF(0, 0, size.Width, size.Height);
+
+                x += (float)Math.Ceiling(glyphs[i].Width);
+
+                if (glyphs[i].Height > height)
+                    height = glyphs[i].Height;
+
+                if (x > 512)
+                {
+                    x = glyphs[i].Width;
+                    y += (float) Math.Ceiling(height);
+                    height = 0;
+                }
+            }
+
+            int maxHeight = (int)y;
+            if (maxHeight > 512)
+            {
+                g.Dispose();
+                bmp.Dispose();
+
+                bmp = new System.Drawing.Bitmap(512, 1024);
+                g = Drawing.Graphics.FromImage(bmp);
+            }
+
+            Drawing.Brush brush = Drawing.Brushes.White;
+
+            x = 0;
+            y = 0;
+            height = 0;
+
+            for (char i = startChar; i < endChar ; i++)
+            {
+                if (x + glyphs[i].Width > 512)
+                {
+                    x = 0;
+                    y += (float)Math.Ceiling(height);
+                    height = 0;
+                }
+
+                g.DrawString(i.ToString(), font, brush, new System.Drawing.PointF(x, y));
+                glyphs[i]= new RectangleF(new PointF(x, y), glyphs[i].Size);
+
+                x += (float)Math.Ceiling(glyphs[i].Width);
+
+                if (glyphs[i].Height > height)
+                    height = glyphs[i].Height;
+                
+            }
+
+            g.Dispose();
+
+            string tempFile = System.IO.Path.GetTempFileName() + ".png";
+            bmp.Save("yourmom.png", Drawing.Imaging.ImageFormat.Png);
+            bmp.Save(tempFile, Drawing.Imaging.ImageFormat.Png);
+
+            bmp.Dispose();
+
+            Surface surf = new Surface(tempFile);
+            return new BitmapFontImpl(surf, glyphs);
+
+            //throw new NotImplementedException();
+        }
+
         private void CalcAverageCharWidth()
         {
-            IEnumerable<Rectangle> rects = mSrcRects.Values;
-            int total = 0;
+            IEnumerable<RectangleF> rects = mSrcRects.Values;
+            float total = 0;
             int count = 0;
 
-            foreach (Rectangle r in rects)
+            foreach (RectangleF r in rects)
             {
                 total += r.Width;
                 count++;
@@ -127,14 +236,14 @@ namespace ERY.AgateLib.ImplBase
         /// <returns></returns>
         public override int StringDisplayWidth(string text)
         {
-            int highestLineWidth = 0;
+            double highestLineWidth = 0;
             
             string[] lines = text.Split('\n');
 
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i].TrimEnd();
-                int lineWidth = 0;
+                double lineWidth = 0;
 
                 for (int j = 0; j < line.Length; j++)
                 {
@@ -146,7 +255,7 @@ namespace ERY.AgateLib.ImplBase
 
             }
 
-            return highestLineWidth;
+            return (int)Math.Ceiling(highestLineWidth);
         }
         /// <summary>
         /// Measures the height of the text
@@ -206,7 +315,7 @@ namespace ERY.AgateLib.ImplBase
                         break;
 
                     default:
-                        srcRects[i] = mSrcRects[text[i]];
+                        srcRects[i] = Rectangle.Ceiling(mSrcRects[text[i]]);
                         destRects[i] =
                             new Rectangle(destX, destY,
                             (int)(srcRects[i].Width * ScaleWidth + 0.5),
@@ -279,6 +388,7 @@ namespace ERY.AgateLib.ImplBase
         {
             DrawText(destPt.X, destPt.Y, text);
         }
+
 
     }
 }

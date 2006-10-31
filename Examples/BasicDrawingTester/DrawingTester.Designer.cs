@@ -3,7 +3,7 @@
 //
 namespace BasicDrawingTester
 {
-    partial class Form1
+    partial class DrawingTester
     {
         /// <summary>
         /// Required designer variable.
@@ -160,7 +160,7 @@ namespace BasicDrawingTester
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.Text = "Form1";
+            this.Text = "Drawing Tester";
             ((System.ComponentModel.ISupportInitialize)(this.nudAlpha)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

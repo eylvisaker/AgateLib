@@ -152,8 +152,10 @@ namespace ERY.AgateLib.SystemDrawing
 
             }
             else
+            {
                 g.DrawImage(mImage, (Rectangle)DestRect(0, 0),
                     (Rectangle)SrcRect, GraphicsUnit.Pixel);
+            }
 
             g.Restore(state);
         }
@@ -345,7 +347,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         public override void WritePixels(PixelBuffer buffer, ERY.AgateLib.Geometry.Point startPoint)
         {
-            
+            throw new NotImplementedException("Method not implemented.");
         }
     
         #endregion

@@ -161,6 +161,16 @@ namespace ERY.AgateLib.Geometry
         public static readonly Size Empty = new Size(0, 0);
 
         /// <summary>
+        /// Rounds the SizeF structure up.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static Size Ceiling(SizeF a)
+        {
+            return new Size((int)Math.Ceiling(a.Width), (int)Math.Ceiling(a.Height));
+        }
+
+        /// <summary>
         /// Explicit conversion for System.Drawing interop.
         /// </summary>
         /// <param name="size"></param>

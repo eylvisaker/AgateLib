@@ -109,6 +109,14 @@ namespace ERY.AgateLib.Drivers
             set { mPriority = value; }
         }
 
+        /// <summary>
+        /// Returns the name of this driver.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
 }

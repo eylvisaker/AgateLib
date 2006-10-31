@@ -124,18 +124,6 @@ namespace ERY.AgateLib
             public StopWatch()
                 : this(true)
             {
-                try
-                {
-                    mStartTime = Core.Platform.GetTime();
-                }
-                catch (NullReferenceException e)
-                {
-                    GC.KeepAlive(e);
-
-                    Core.Initialize();
-                    mStartTime = Core.Platform.GetTime();
-                }
-
             }
             /// <summary>
             /// Constructs a timer object.
@@ -150,11 +138,24 @@ namespace ERY.AgateLib
                 ResumeAllTimersEvent += Resume;
                 ForceResumeAllTimersEvent += ForceResume;
 
+
+                try
+                {
+                    mStartTime = Core.Platform.GetTime();
+                }
+                catch (NullReferenceException e)
+                {
+                    GC.KeepAlive(e);
+
+                    Core.Initialize();
+                    mStartTime = Core.Platform.GetTime();
+                }
+
+
                 if (autostart == false)
                 {
                     Pause();
                 }
-
 
             }
 

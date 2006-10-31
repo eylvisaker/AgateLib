@@ -26,13 +26,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>..\bin\Release\AgateLib.xml</DocumentationFile>
+    <DocumentationFile>..\bin\AgateLib.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
@@ -60,6 +60,7 @@
     <Compile Include="Origin.cs" />
     <Compile Include="Drivers\Registrar.cs" />
     <Compile Include="PixelBuffer.cs" />
+    <Compile Include="PlatformSpecific\Win32.cs" />
     <Compile Include="SearchPath.cs" />
     <Compile Include="StringTransformer.cs" />
     <Compile Include="Utility\DisplayWindowForm.cs">

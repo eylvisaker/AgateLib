@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using ERY.AgateLib;
+using ERY.AgateLib.Geometry;
 
 namespace MultipleWindowTest
 {
@@ -22,7 +23,7 @@ namespace MultipleWindowTest
                 setup.Initialize(true, false, false);
                 if (setup.Cancel) return;
 
-                Form1 myForm = new Form1();
+                MultipleRenderTargetExample myForm = new MultipleRenderTargetExample();
                 myForm.Show();
 
                 // create three display windows

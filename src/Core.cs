@@ -227,44 +227,68 @@ namespace ERY.AgateLib
         /// error.  If false, the error is silently written to the ErrorFile.</param>
         public static void ReportError(Exception e, ErrorLevel level, bool printStackTrace, bool showDialog)
         {
-            StreamWriter writer = OpenErrorFile();
+            StringWriter writer = new StringWriter();
 
+            
             writer.Write(LevelText(level) + ": ");
-
             writer.WriteLine(e.Message);
 
             if (printStackTrace)
                 writer.WriteLine(e.StackTrace);
 
-            writer.WriteLine("");
-
+            writer.WriteLine();
             writer.Flush();
+
+            string text = writer.ToString();
             writer.Dispose();
 
             if (showDialog)
             {
                 DialogReport(e, level);
             }
+
+            using (StreamWriter filewriter = OpenErrorFile())
+            {
+                if (filewriter != null)
+                    filewriter.Write(text);
+            }
+
+            Console.Write(text);
         }
 
         private static StreamWriter OpenErrorFile()
         {
-            if (mWroteHeader == true)
+            try
             {
-                FileStream stream = File.Open(ErrorFile, FileMode.Append, FileAccess.Write);
+                if (mWroteHeader == true)
+                {
+                    FileStream stream = File.Open(ErrorFile, FileMode.Append, FileAccess.Write);
 
-                return new StreamWriter(stream);
+                    return new StreamWriter(stream);
+                }
+                else
+                {
+                    FileStream stream = File.Open(ErrorFile, FileMode.Create, FileAccess.Write);
+                    StreamWriter writer = new StreamWriter(stream);
+
+                    WriteHeader(writer);
+
+                    mWroteHeader = true;
+
+                    return writer;
+                }
             }
-            else
+            catch (Exception e)
             {
-                FileStream stream = File.Open(ErrorFile, FileMode.Create, FileAccess.Write);
-                StreamWriter writer = new StreamWriter(stream);
+                string message = "Could not open file " + ErrorFile + ".\r\n" + 
+                    "Error message: " + e.Message + "\r\n" + 
+                    "Errors cannot be saved to a text file.";
 
-                WriteHeader(writer);
+                Console.WriteLine(message);
+                System.Diagnostics.Debug.WriteLine(message);
+                System.Diagnostics.Trace.WriteLine(message);
 
-                mWroteHeader = true;
-
-                return writer;
+                return null;
             }
         }
 

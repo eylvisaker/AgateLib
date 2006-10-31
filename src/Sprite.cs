@@ -991,7 +991,7 @@ namespace ERY.AgateLib
                         // the reflection at the end.
                         value %= (mFrames.Count * 2);
 
-                        if (value > mFrames.Count)
+                        if (value >= mFrames.Count)
                             value = 2 * mFrames.Count - 1 - value;
 
                         mCurrentFrameIndex = value;

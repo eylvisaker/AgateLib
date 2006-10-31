@@ -10,18 +10,18 @@ namespace ERY.AgateLib
     /// <summary>
     /// Enum which describes different pixel formats.
     /// Order of the characters in the constant name specifies the
-    /// ordering of the bytes for the pixel data, from most to least significant.
+    /// ordering of the bytes for the pixel data, from least to most significant.
     /// See remarks for more information.
     /// </summary>
     /// <remarks>
     /// Order of the characters in the constant name specifies the
-    /// ordering of the bytes for the pixel data, from most to least significant.
+    /// ordering of the bytes for the pixel data, from least to most significant on 
+    /// a little-endian architecture.  In other words, the first character indicates
+    /// the meaning of the first byte or bits in memory.
     /// 
-    /// For example, ARGB8888 indicates that the blue channel is the least significant,
-    /// the alpha channel is most significant, and each channel is eight bits long.
-    /// Bytes are stored in little endian order, so for ARGB8888, the blue channel for
-    /// a pixel is stored in the lowest memory address, followed by green, red, and finally
-    /// alpha.
+    /// For example, ARGB8888 indicates that the alpha channel is the least significant,
+    /// the blue channel is most significant, and each channel is eight bits long.
+    /// The alpha channel is stored first in memory, followed by red, green and blue.
     /// </remarks>
     public enum PixelFormat
     {
@@ -175,6 +175,7 @@ namespace ERY.AgateLib
             SetData(data, dataFormat);
 
         }
+        /*
         /// <summary>
         /// Constructs a PixelBuffer object. 
         /// </summary>
@@ -197,22 +198,23 @@ namespace ERY.AgateLib
         public PixelBuffer(PixelFormat format, int width, int height, byte[] data)
             : this(format, new Size(width, height), data)
         { }
-
-                /// <summary>
+        */
+        /// <summary>
         /// Constructs a PixelBuffer object. 
-        /// Data passed is not copied; it is referenced.
+        /// Data passed is not copied; it is referenced, unless the copyData flag is true.
         /// </summary>
         /// <param name="size">The size of the image data in pixels.</param>
         /// <param name="format">The raw data format of the pixels to be contained
         /// in the pixel buffer.  PixelFormat.Any is not a valid parameter.</param>
         /// <param name="data">Raw pixel data.  It must be the correct size
         /// for the format passed.</param>
+        /// <param name="copyData">True if the data should be copied into the pixel buffer.</param>
         public PixelBuffer(PixelFormat format, Size size, byte[] data, bool copyData)
         {
             TestPixelFormatStrides();
 
             if (format == PixelFormat.Any)
-                throw new Exception("A specific pixel format and must be specified."
+                throw new Exception("A specific pixel format and must be specified.  "
                     + "PixelFormat.Any is not valid.");
 
             mFormat = format;
@@ -227,6 +229,33 @@ namespace ERY.AgateLib
 
                 Data = newData;
             }
+        }
+
+        /// <summary>
+        /// Constructs a PixelBuffer object.  Copies data from an unmanaged memory location
+        /// in the specified format.
+        /// </summary>
+        /// <param name="format">The format the pixel buffer should be stored in.</param>
+        /// <param name="size">The size (width and height) in pixels the pixel buffer
+        /// should contain.</param>
+        /// <param name="data">Pointer to an unmanaged memory location which contains the pixel
+        /// data.  This data must be the same size in pixels as the size parameter.</param>
+        /// <param name="sourceFormat">The pixelformat of the source data.</param>
+        /// <param name="srcRowStride">The number of bytes from the beginning of one row
+        /// to the next.</param>
+        public PixelBuffer(PixelFormat format, Size size, IntPtr data, PixelFormat sourceFormat, int srcRowStride)
+        {
+            TestPixelFormatStrides();
+
+            if (format == PixelFormat.Any)
+                throw new Exception("A specific pixel format and must be specified.  "
+                    + "PixelFormat.Any is not valid.");
+
+            mFormat = format;
+            mSize = size;
+            mData = new byte[size.Width * size.Height * PixelStride];
+
+            SetData(data, sourceFormat, srcRowStride);
         }
 
         #endregion
@@ -340,6 +369,57 @@ namespace ERY.AgateLib
         }
 
         /// <summary>
+        /// Copies the data from the unmanaged memory pointer passed in into the internal pixel 
+        /// buffer array. Automatic conversion is performed if the format the data 
+        /// is in (indicated by format parameter) differs from the format the
+        /// pixel buffer is in.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="srcFormat"></param>
+        /// <param name="srcRowStride"></param>
+        public void SetData(IntPtr data, PixelFormat srcFormat, int srcRowStride)
+        {
+            int sourceStride = GetPixelStride(srcFormat);
+
+            if (srcFormat == this.PixelFormat)
+            {
+                // optimized copy for same type of data
+                int startIndex = 0;
+                int rowLength = sourceStride * Width;
+                IntPtr rowPtr = data;
+
+                for (int y = 0; y < Height; y++)
+                {
+                    Marshal.Copy(rowPtr, mData, startIndex, rowLength);
+
+                    startIndex += RowStride;
+                    rowPtr = (IntPtr)((int)rowPtr + srcRowStride);
+                }
+            }
+            else
+            {
+                byte[] srcPixel = new byte[sourceStride];
+                int destIndex = 0;
+                IntPtr rowPtr = data;
+                IntPtr pixelPtr = rowPtr;
+
+                for (int y = 0; y < Height; y++)
+                {
+                    for (int x = 0; x < Width; x++)
+                    {
+                        Marshal.Copy(pixelPtr, srcPixel, 0, sourceStride);
+                        ConvertPixel(mData, destIndex, this.PixelFormat, srcPixel, 0, srcFormat);
+
+                        pixelPtr = (IntPtr)((int)pixelPtr + sourceStride);
+                        destIndex += PixelStride;
+                    }
+
+                    rowPtr = (IntPtr)((int)rowPtr + srcRowStride);
+                    pixelPtr = rowPtr;
+                }
+            }
+        }
+        /// <summary>
         /// Converts a single pixel in the specified format at the specified location 
         /// from the source array and writes it to the specified location in the 
         /// destination array.
@@ -419,49 +499,66 @@ namespace ERY.AgateLib
 
         #region --- Private pixel conversion helpers ---
 
-        private static void SetDestPixelAttributes(byte[] dest, int destIndex, PixelFormat destFormat, double A, double R, double G, double B)
+        private static void SetDestPixelAttributes(byte[] dest, int destIndex, PixelFormat destFormat, 
+            double A, double R, double G, double B)
         {
             switch (destFormat)
             {
                 case PixelFormat.ARGB8888:
+                    SetARGB8(A, R, G, B, dest, destIndex, destIndex + 1, destIndex + 2, destIndex + 3);
+                    break;
+                case PixelFormat.ABGR8888:
+                    SetARGB8(A, R, G, B, dest, destIndex, destIndex + 3, destIndex + 2, destIndex + 1);
+                    break;
+
+                case PixelFormat.RGBA8888:
+                    SetARGB8(A, R, G, B, dest, destIndex + 3, destIndex, destIndex + 1, destIndex + 2);
+                    break;
+                case PixelFormat.BGRA8888:
                     SetARGB8(A, R, G, B, dest, destIndex + 3, destIndex + 2, destIndex + 1, destIndex);
                     break;
+
+                default:
+                    throw new Exception(string.Format("Conversions to PixelFormat {0} not currently supported.",
+                        destFormat));
             }
         }
 
 
-        private static void GetSourcePixelAttributes(byte[] src, int srcIndex, PixelFormat srcFormat, out double A, out double R, out double G, out double B)
+        private static void GetSourcePixelAttributes(byte[] src, int srcIndex, PixelFormat srcFormat, 
+            out double A, out double R, out double G, out double B)
         {
             switch (srcFormat)
             {
                 case PixelFormat.ARGB8888:
-                    GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex + 2, srcIndex + 1, srcIndex);
+                    GetARGB8(out A, out R, out G, out B, src, srcIndex, srcIndex + 1, srcIndex + 2, srcIndex + 3);
                     break;
                 case PixelFormat.ABGR8888:
-                    GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex, srcIndex + 1, srcIndex + 2);
-                    break;
-
-                case PixelFormat.RGBA8888:
                     GetARGB8(out A, out R, out G, out B, src, srcIndex, srcIndex + 3, srcIndex + 2, srcIndex + 1);
                     break;
 
+                case PixelFormat.RGBA8888:
+                    GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex, srcIndex + 1, srcIndex + 2);
+                    break;
+
                 case PixelFormat.BGRA8888:
-                    GetARGB8(out A, out R, out G, out B, src, srcIndex, srcIndex + 1, srcIndex + 2, srcIndex + 3);
+                    GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex + 2, srcIndex + 1, srcIndex);
                     break;
 
                 case PixelFormat.XRGB8888:
-                    GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex + 2, srcIndex + 1, srcIndex);
+                    GetARGB8(out A, out R, out G, out B, src, srcIndex, srcIndex + 1, srcIndex + 2, srcIndex + 3);
                     A = 1.0;
                     break;
 
                 case PixelFormat.XBGR8888:
-                    GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex, srcIndex + 1, srcIndex + 2);
+                    GetARGB8(out A, out R, out G, out B, src, srcIndex, srcIndex + 3, srcIndex + 2, srcIndex + 1);
                     A = 1.0;
                     break;
 
 
                 default:
-                    throw new Exception("Unrecongized PixelFormat: " + srcFormat.ToString());
+                    throw new Exception(string.Format("Conversions from PixelFormat {0} not currently supported.",
+                        srcFormat));
             }
 
         }

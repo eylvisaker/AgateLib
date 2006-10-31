@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using ERY.AgateLib;
+using ERY.AgateLib.Geometry;
 
 namespace BasicDrawingTester
 {
@@ -58,7 +59,7 @@ namespace BasicDrawingTester
 
         static List<Shape> shapes = new List<Shape>();
         static Random random = new Random();
-        static Form1 frm;
+        static DrawingTester frm;
 
         /// <summary>
         /// The main entry point for the application.
@@ -82,7 +83,7 @@ namespace BasicDrawingTester
                 if (setup.Cancel)
                     return;
 
-                frm = new Form1();
+                frm = new DrawingTester();
 
                 frm.btnClear.Click += new EventHandler(btnClear_Click);
                 frm.btnDrawLine.Click += new EventHandler(btnDrawLine_Click);

@@ -34,13 +34,14 @@ namespace TestPacker
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnMany = new System.Windows.Forms.Button();
             this.btnOne = new System.Windows.Forms.Button();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnClear = new System.Windows.Forms.Button();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnLotsSorted = new System.Windows.Forms.Button();
+            this.statusBar1 = new System.Windows.Forms.StatusBar();
+            this.statusBarPanel1 = new System.Windows.Forms.StatusBarPanel();
+            this.statusBarPanel2 = new System.Windows.Forms.StatusBarPanel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel2)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -72,23 +73,6 @@ namespace TestPacker
             this.btnOne.UseVisualStyleBackColor = true;
             this.btnOne.Click += new System.EventHandler(this.btnOne_Click);
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 420);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(517, 22);
-            this.statusStrip1.TabIndex = 3;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(109, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-            // 
             // btnClear
             // 
             this.btnClear.Location = new System.Drawing.Point(437, 388);
@@ -98,12 +82,6 @@ namespace TestPacker
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(109, 17);
-            this.toolStripStatusLabel2.Text = "toolStripStatusLabel2";
             // 
             // btnLotsSorted
             // 
@@ -115,14 +93,36 @@ namespace TestPacker
             this.btnLotsSorted.UseVisualStyleBackColor = true;
             this.btnLotsSorted.Click += new System.EventHandler(this.btnLotsSorted_Click);
             // 
+            // statusBar1
+            // 
+            this.statusBar1.Location = new System.Drawing.Point(0, 420);
+            this.statusBar1.Name = "statusBar1";
+            this.statusBar1.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
+            this.statusBarPanel1,
+            this.statusBarPanel2});
+            this.statusBar1.ShowPanels = true;
+            this.statusBar1.Size = new System.Drawing.Size(517, 22);
+            this.statusBar1.TabIndex = 6;
+            this.statusBar1.Text = "statusBar1";
+            // 
+            // statusBarPanel1
+            // 
+            this.statusBarPanel1.Text = "statusBarPanel1";
+            this.statusBarPanel1.Width = 200;
+            // 
+            // statusBarPanel2
+            // 
+            this.statusBarPanel2.Text = "statusBarPanel2";
+            this.statusBarPanel2.Width = 200;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(517, 442);
+            this.Controls.Add(this.statusBar1);
             this.Controls.Add(this.btnLotsSorted);
             this.Controls.Add(this.btnClear);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnOne);
             this.Controls.Add(this.btnMany);
             this.Controls.Add(this.pictureBox1);
@@ -130,10 +130,9 @@ namespace TestPacker
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.statusBarPanel2)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -142,11 +141,11 @@ namespace TestPacker
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnMany;
         private System.Windows.Forms.Button btnOne;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.Button btnLotsSorted;
+        private System.Windows.Forms.StatusBar statusBar1;
+        private System.Windows.Forms.StatusBarPanel statusBarPanel1;
+        private System.Windows.Forms.StatusBarPanel statusBarPanel2;
     }
 }
 

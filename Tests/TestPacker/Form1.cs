@@ -85,10 +85,10 @@ namespace TestPacker
             if (packer.FindEmptySpace(sz, out rect))
             {
                 packer.AddRect(rect, null);
-                toolStripStatusLabel2.Text = "Added rect: " + rect.ToString();
+                statusBar1.Panels[1].Text = "Added rect: " + rect.ToString();
             }
             else
-                toolStripStatusLabel2.Text = "Failed to add rect of size " + sz.ToString();
+                statusBar1.Panels[1].Text = "Failed to add rect of size " + sz.ToString();
 
             Redraw();
         }
@@ -112,7 +112,7 @@ namespace TestPacker
 
             pictureBox1.Image = img;
 
-            toolStripStatusLabel1.Text = "Percentage Used: " + (int)(packer.PixelsUsedPercentage * 100 + 0.5);
+            statusBar1.Panels[0].Text = "Percentage Used: " + (int)(packer.PixelsUsedPercentage * 100 + 0.5);
 
         }
 

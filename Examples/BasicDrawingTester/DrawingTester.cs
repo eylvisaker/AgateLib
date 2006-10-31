@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace BasicDrawingTester
 {
-    public partial class Form1 : Form
+    public partial class DrawingTester : Form
     {
-        public Form1()
+        public DrawingTester()
         {
             InitializeComponent();
         }

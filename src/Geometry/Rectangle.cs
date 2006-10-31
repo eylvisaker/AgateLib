@@ -309,6 +309,15 @@ namespace ERY.AgateLib.Geometry
                 return Empty;
         }
         /// <summary>
+        /// Rounds the coordinates in the rectangle up.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static Rectangle Ceiling(RectangleF a)
+        {
+            return new Rectangle(Point.Ceiling(a.Location), Size.Ceiling(a.Size));
+        }
+        /// <summary>
         /// For inter-op with System.Drawing.
         /// </summary>
         /// <param name="rect"></param>

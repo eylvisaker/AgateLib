@@ -68,13 +68,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\drivers\AgateDrawing\AgateDrawing.csproj">
+      <Project>{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}</Project>
+      <Name>AgateDrawing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\drivers\AgateMDX\AgateMDX.csproj">
       <Project>{852EB9A0-5DCB-492F-9630-9D4198B81FA2}</Project>
       <Name>AgateMDX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\drivers\AgateWindows\AgateWindows.csproj">
-      <Project>{43FCCAD7-4B2C-43BA-897A-F16061C1891A}</Project>
-      <Name>AgateWindows</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\AgateLib.csproj">
       <Project>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</Project>
