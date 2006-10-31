@@ -3,7 +3,7 @@
 //
 namespace MultipleWindowTest
 {
-    partial class Form1
+    partial class MultipleRenderTargetExample
     {
         /// <summary>
         /// Required designer variable.
@@ -92,9 +92,9 @@ namespace MultipleWindowTest
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(179, 25);
+            this.pictureBox3.Location = new System.Drawing.Point(182, 35);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(195, 143);
+            this.pictureBox3.Size = new System.Drawing.Size(195, 150);
             this.pictureBox3.TabIndex = 4;
             this.pictureBox3.TabStop = false;
             this.pictureBox3.Tag = "Red Window";
@@ -109,7 +109,7 @@ namespace MultipleWindowTest
             this.toolTip1.SetToolTip(this.button1, "Tests using a surface as a render target\r\nby drawing directly to the surface.");
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // MultipleRenderTargetExample
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -121,9 +121,9 @@ namespace MultipleWindowTest
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
-            this.Name = "Form1";
+            this.Name = "MultipleRenderTargetExample";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.Text = "Form1";
+            this.Text = "Multiple Render Targets Example";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();

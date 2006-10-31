@@ -58,7 +58,7 @@ namespace ERY.AgateLib
         /// <summary>
         /// This function loads a monospace bitmap font from the specified image file.
         /// Only the character size is given.  It is assumed that all ASCII characters 
-        /// are present, in order from left to right, and top to bottom.
+        /// from 0 to 255 are present, in order from left to right, and top to bottom.
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="characterSize"></param>
@@ -66,6 +66,20 @@ namespace ERY.AgateLib
         public static FontSurface BitmapMonospace(string filename, Size characterSize)
         {
             FontSurfaceImpl impl = new BitmapFontImpl(filename, characterSize);
+
+            return new FontSurface(impl);
+        }
+
+        /// <summary>
+        /// This function creates a font from the specified font family by loading it
+        /// with System.Drawing and creating a texture from the characters.
+        /// </summary>
+        /// <param name="fontFamily"></param>
+        /// <param name="sizeInPoints"></param>
+        /// <returns></returns>
+        public static FontSurface BitmapFont(string fontFamily, float sizeInPoints)
+        {
+            FontSurfaceImpl impl = BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints);
 
             return new FontSurface(impl);
         }

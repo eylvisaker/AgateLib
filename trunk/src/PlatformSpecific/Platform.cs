@@ -44,16 +44,19 @@ namespace ERY.AgateLib.PlatformSpecific
         /// <returns></returns>
         public static Platform CreatePlatformMethods()
         {
-            DriverInfoList<Platform, PlatformTypeID> drivers = Registrar.PlatformDriverInfo;
-
-            if (drivers.Count == 0)
-                // no platform specific methods are available.
-                return new Platform();
-
-            else
+            switch (Environment.OSVersion.Platform)
             {
-                return drivers.CreateDriver();
+                case PlatformID.Win32NT:
+                case PlatformID.Win32Windows:
+                    return new Win32Platform();
+
+                case (PlatformID)128:
+                case PlatformID.Unix:
+                    //return new UnixPlatform();
+                    return new Platform();
             }
+
+            return new Platform();
 
         }
 

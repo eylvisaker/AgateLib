@@ -29,9 +29,8 @@ namespace PerformanceTester
         [STAThread]
         static void Main()
         {
-            //ERY.AgateLib.MDX.MDX1_Display.Register();
-            //ERY.AgateLib.PlatformSpecific.Win32Platform.Register();
             Core.Initialize();
+            Registrar.Initialize();
 
             ICollection<DriverInfo<DisplayTypeID>> drivers = Registrar.DisplayDriverInfo;
 
@@ -40,6 +39,7 @@ namespace PerformanceTester
 
             foreach (DriverInfo<DisplayTypeID> info in drivers)
             {
+                Console.WriteLine(string.Format("Starting driver {0}...", info.Name));
                 Trace.WriteLine(string.Format("Starting driver {0}...", info.Name));
                 Trace.Indent();
                 double fps;

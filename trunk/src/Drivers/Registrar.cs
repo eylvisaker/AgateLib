@@ -25,8 +25,6 @@ using ERY.AgateLib.PlatformSpecific;
 
 namespace ERY.AgateLib.Drivers
 {
-
-
     /// <summary>
     /// Static class with which drivers register themselves so that the library can
     /// instantiate them.
@@ -36,7 +34,7 @@ namespace ERY.AgateLib.Drivers
         private static DriverInfoList<DisplayImpl, DisplayTypeID> mDisplayDrivers = new DriverInfoList<DisplayImpl, DisplayTypeID>();
         private static DriverInfoList<AudioImpl, AudioTypeID> mAudioDrivers = new DriverInfoList<AudioImpl, AudioTypeID>();
         private static DriverInfoList<InputImpl, InputTypeID> mInputDrivers = new DriverInfoList<InputImpl, InputTypeID>();
-        private static DriverInfoList<Platform, PlatformTypeID> mPlatformDrivers = new DriverInfoList<Platform, PlatformTypeID>();
+        //private static DriverInfoList<Platform, PlatformTypeID> mPlatformDrivers = new DriverInfoList<Platform, PlatformTypeID>();
 
         private static DisplayTypeID mCreatedDisplayTypeID = null;
         private static AudioTypeID mCreatedAudioTypeID = null;
@@ -52,7 +50,7 @@ namespace ERY.AgateLib.Drivers
         /// are loaded and searched for classes which derive from DisplayImpl, AudioImpl, etc.
         /// 
         /// </summary>
-        internal static void Initialize()
+        public static void Initialize()
         {
             if (mIsInitialized)
                 return;
@@ -69,6 +67,20 @@ namespace ERY.AgateLib.Drivers
                 Assembly ass;
                 Type[] types;
 
+                // hack, because mono crashes if AgateMDX.dll is present.
+                // annoying, because it should report a failure to load the types in the
+                // assembly, and then the try catch should continue after that.
+                if ((Environment.OSVersion.Platform == PlatformID.Unix ||
+                     Environment.OSVersion.Platform == (PlatformID)128) &&
+                    System.IO.Path.GetFileNameWithoutExtension(file).ToLower().Contains("agatemdx"))
+                {
+                    Core.ReportError(new Exception(
+                        "DirectX not supported on Linux.  Remove " + System.IO.Path.GetFileName(file) + 
+                        " to eliminate this message."), ErrorLevel.Comment);
+
+                    continue;
+                }
+
                 try
                 {
                     ass = Assembly.LoadFrom(file);
@@ -78,33 +90,34 @@ namespace ERY.AgateLib.Drivers
                         continue;
 
                     types = ass.GetTypes();
+
+
+                    foreach (Type t in types)
+                    {
+                        if (t.BaseType == null || t.BaseType == typeof(Object))
+                            continue;
+
+                        if (typeof(DriverImplBase).IsAssignableFrom(t))
+                        {
+                            MethodInfo m = t.GetMethod("Register", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+
+                            if (m == null)
+                            {
+                                throw new Exception("Error:  The assembly " + System.IO.Path.GetFileName(file) +
+                                    " has class " + t + " which derives from " + t.BaseType.Name + ", but does not " +
+                                    "have a static Register() method!");
+                            }
+
+                            m.Invoke(null, new object[] { });
+
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
-                    System.Diagnostics.Debug.WriteLine("Error loading assembly " + file);
-                    System.Diagnostics.Debug.WriteLine(e.Message);
+                    Core.ReportError(e, ErrorLevel.Warning);
 
                     continue;
-                }
-
-                foreach (Type t in types)
-                {
-                    if (t.BaseType == null || t.BaseType == typeof(Object))
-                        continue;
-
-                    if (typeof(DriverImplBase).IsAssignableFrom(t))
-                    {
-                        MethodInfo m = t.GetMethod("Register", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-
-                        if (m == null)
-                        {
-                            throw new Exception("Error:  The assembly " + System.IO.Path.GetFileName(file) +
-                                " has class " + t + " which derives from " + t.BaseType.Name + ", but does not " +
-                                "have a static Register() method!");
-                        }
-
-                        m.Invoke(null, new object[] { });
-                    }
                 }
             }
 
@@ -154,13 +167,13 @@ namespace ERY.AgateLib.Drivers
         /// Returns a collection with all the DriverInfo&lt;PlatformTypeID&gt; structures
         /// for registered platform drivers.
         /// </summary>
-        public static DriverInfoList<Platform, PlatformTypeID> PlatformDriverInfo
-        {
-            get
-            {
-                return mPlatformDrivers;
-            }
-        }
+        //public static DriverInfoList<Platform, PlatformTypeID> PlatformDriverInfo
+        //{
+        //    get
+        //    {
+        //        return mPlatformDrivers;
+        //    }
+        //}
 
         /// <summary>
         /// Registers a display driver as being available.
@@ -195,10 +208,10 @@ namespace ERY.AgateLib.Drivers
         /// </summary>
         /// <param name="info">Structure which contains enough information to instantiate
         /// the platform specific method class.</param>
-        public static void RegisterPlatformDriver(DriverInfo<PlatformTypeID> info)
-        {
-            mPlatformDrivers.Add(info);
-        }
+        //public static void RegisterPlatformDriver(DriverInfo<PlatformTypeID> info)
+        //{
+        //    mPlatformDrivers.Add(info);
+        //}
 
         /// <summary>
         /// Asks the user to select which drivers to use.

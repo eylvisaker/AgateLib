@@ -61,7 +61,8 @@ namespace PixelBufferTest
                 PixelBuffer buffer = image.ReadPixels();
                 int pixelLocation = pt.Y * buffer.RowStride + pt.X * buffer.PixelStride;
 
-                buffer.Data[pixelLocation] = 0xff;
+                buffer.Data[pixelLocation + 1] = 0xff;
+                buffer.Data[pixelLocation + 2] = 0xff;
                 buffer.Data[pixelLocation + 3] = 0xff;
 
                 image.WritePixels(buffer);

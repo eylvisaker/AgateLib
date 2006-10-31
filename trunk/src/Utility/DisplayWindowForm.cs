@@ -38,7 +38,7 @@ namespace ERY.AgateLib.Utility
              //   Tao.Platform.Windows.User.CS_HREDRAW | Tao.Platform.Windows.User.CS_VREDRAW | Tao.Platform.Windows.User.CS_OWNDC;
 
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);            // No Need To Erase Form Background
-            SetStyle(ControlStyles.DoubleBuffer, true);                    // Buffer Control
+            //SetStyle(ControlStyles.DoubleBuffer, true);                    // Buffer Control
             SetStyle(ControlStyles.Opaque, true);                          // No Need To Draw Form Background
             SetStyle(ControlStyles.ResizeRedraw, true);                    // Redraw On Resize
             SetStyle(ControlStyles.UserPaint, true);                       // We'll Handle Painting Ourselves

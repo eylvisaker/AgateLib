@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace MultipleWindowTest
 {
-    public partial class Form1 : Form
+    public partial class MultipleRenderTargetExample : Form
     {
-        public Form1()
+        public MultipleRenderTargetExample()
         {
             InitializeComponent();
         }

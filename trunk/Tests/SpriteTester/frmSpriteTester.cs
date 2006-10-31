@@ -19,6 +19,7 @@ namespace ERY.SpriteTester
             InitializeComponent();
         }
 
+        Surface srcSurf;
         Sprite mSprite;
         DisplayWindow wind;
 
@@ -68,7 +69,8 @@ namespace ERY.SpriteTester
             // It doesn't matter if this goes out of scope, because a reference
             // will be maintained by the Display object.
             wind = new DisplayWindow(pctGraphics);
-            
+
+            //srcSurf = new Surface();
 
             SetSprite(new Sprite(@"Images/attacke.png", 96, 96));
 
@@ -163,6 +165,8 @@ namespace ERY.SpriteTester
             mSprite.Update();
             mSprite.Draw(mSpritePosition);
 
+            //srcSurf.Draw(10, 300);
+
             Display.EndFrame();
 
             lblFrameRate.Text = "Frame Rate: " + Display.FramesPerSecond.ToString();
@@ -170,11 +174,20 @@ namespace ERY.SpriteTester
 
         private void nudTimePerFrame_ValueChanged(object sender, EventArgs e)
         {
+            if (mSprite == null)
+                return;
+
             mSprite.TimePerFrame = (int)nudTimePerFrame.Value;
         }
 
         private void cboAlignment_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (mSprite == null)
+                return;
+            if (cboAlignment.SelectedItem == null)
+                return;
+
+
             mSprite.DisplayAlignment = (OriginAlignment)cboAlignment.SelectedItem;
         }
 
@@ -208,40 +221,66 @@ namespace ERY.SpriteTester
 
         private void chkAnimating_CheckedChanged(object sender, EventArgs e)
         {
+            if (mSprite == null)
+                return;
+
             mSprite.Animating = chkAnimating.Checked;
         }
         private void chkPlayReverse_CheckedChanged(object sender, EventArgs e)
         {
+            if (mSprite == null)
+                return;
+
             mSprite.PlayReverse = chkPlayReverse.Checked;
         }
 
         private void cboAnimationType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (mSprite == null)
+                return;
+            if (cboAnimationType.SelectedItem == null)
+                return;
+
             mSprite.AnimationType = (Sprite.AnimType)cboAnimationType.SelectedItem;
         }
 
         private void btnRestart_Click(object sender, EventArgs e)
         {
+            if (mSprite == null)
+                return;
+
             mSprite.StartAnimation();
         }
 
         private void cboFrame_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (mSprite == null)
+                return;
+
             mSprite.CurrentFrameIndex = (int)cboFrame.SelectedItem;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
+            if (mSprite == null)
+                return;
+
             mSprite.SetScale((double)nudScale.Value, (double)nudScale.Value);
         }
 
         private void nudAngle_ValueChanged(object sender, EventArgs e)
         {
+            if (mSprite == null)
+                return;
+
             mSprite.RotationAngleDegrees = (double)nudAngle.Value;
         }
 
         private void cboRotation_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (mSprite == null)
+                return;
+
             mSprite.RotationCenter = (OriginAlignment)cboRotation.SelectedItem;
         }
 
