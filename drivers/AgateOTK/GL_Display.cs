@@ -174,6 +174,7 @@ namespace ERY.AgateLib.OpenGL
         }
         public override void Initialize()
         {
+            Report("OpenTK / OpenGL driver instantiated for display.");
         }
         internal void Initialize(GL_DisplayWindow gL_DisplayWindow)
         {

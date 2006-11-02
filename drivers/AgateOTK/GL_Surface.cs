@@ -16,7 +16,7 @@ using Gl = OpenTK.OpenGL.GL;
 
 namespace ERY.AgateLib.OpenGL
 {
-    public class GL_Surface : SurfaceImpl
+    public class GL_Surface : SurfaceImpl, GL_IRenderTarget
     {
         /// <summary>
         /// Structure to contain source texture coordinates for drawing.
@@ -65,7 +65,30 @@ namespace ERY.AgateLib.OpenGL
 
         public GL_Surface(Size size)
         {
-            throw new NotImplementedException("GL_Surface(Size size) not implemented.");
+            mDisplay = Display.Impl as GL_Display;
+            mSourceRect = new Rectangle(Point.Empty, size);
+
+            mTextureSize = new Size(NextPowerOfTwo(size.Width), NextPowerOfTwo(size.Height));
+
+            int[] array = new int[1];
+            Gl.GenTextures(1, array);
+            
+            AddTextureRef(array[0]);
+
+            int[] fake = new int[mTextureSize.Width * mTextureSize.Height];
+
+            // Typical Texture Generation Using Data From The Bitmap
+            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
+            Gl.TexImage2D(Enums.TextureTarget.TEXTURE_2D, 0, (int)Enums.PixelFormat.RGBA,
+                mTextureSize.Width, mTextureSize.Height, 0, Enums.PixelFormat.RGBA,//, Gl.GL_BGRA, 
+                Enums.PixelType.UNSIGNED_BYTE, fake);
+
+            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
+                             Enums.TextureParameterName.TEXTURE_MIN_FILTER, (int)Enums.TextureMinFilter.LINEAR);
+            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
+                             Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
+
+
         }
 
         private GL_Surface(int textureID, Rectangle sourceRect, Size textureSize)
@@ -121,6 +144,8 @@ namespace ERY.AgateLib.OpenGL
             TextureCoordinates texcoords = GetTextureCoords(srcRect);
 
             Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
+
+            mDisplay.SetGLColor(Color);
 
             Gl.Begin(Enums.BeginMode.QUADS);
 
@@ -244,13 +269,34 @@ namespace ERY.AgateLib.OpenGL
 
         public override void BeginRender()
         {
-            throw new Exception("The method or operation is not implemented.");
+            // clear the framebuffer and draw this texture to it.
+            Gl.ClearColor(0, 0, 0, 0);
+            Gl.Clear(Enums.ClearBufferMask.COLOR_BUFFER_BIT | Enums.ClearBufferMask.DEPTH_BUFFER_BIT);
+            
+            Gl.Viewport(0, 0, mSourceRect.Width, mSourceRect.Height);
+
+            Draw();
         }
 
         public override void EndRender(bool waitVSync)
         {
-            throw new Exception("The method or operation is not implemented.");
+            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
+
+            Gl.CopyTexSubImage2D(Enums.TextureTarget.TEXTURE_2D,
+                0, 0, 0, 0, 0, mSourceRect.Width, mSourceRect.Height);
+            //Gl.CopyTexImage2D(Enums.TextureTarget.TEXTURE_2D, 0, Enums.PixelInternalFormat.RGBA8,
+            //    0, 0, mSourceRect.Width, mSourceRect.Height, 0);
+
         }
+
+        #region GL_IRenderTarget Members
+
+        public void MakeCurrent()
+        {
+            
+        }
+
+        #endregion
 
 
         private void Load()
@@ -330,10 +376,10 @@ namespace ERY.AgateLib.OpenGL
         private TextureCoordinates GetTextureCoords(Rectangle srcRect)
         {
             TextureCoordinates coords = new TextureCoordinates(
-                srcRect.Left / (float)mTextureSize.Width,
-                srcRect.Top / (float)mTextureSize.Height,
-                srcRect.Right / (float)mTextureSize.Width,
-                srcRect.Bottom / (float)mTextureSize.Height);
+                (srcRect.Left+ 0.5f) / (float)mTextureSize.Width,
+                (srcRect.Top+ 0.5f) / (float)mTextureSize.Height,
+                (srcRect.Right - 0.5f)/ (float)mTextureSize.Width,
+                (srcRect.Bottom - 0.5f) / (float)mTextureSize.Height);
 
             return coords;
         }

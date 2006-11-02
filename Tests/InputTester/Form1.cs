@@ -91,8 +91,9 @@ namespace InputTester
             this.lblKeyString.Text = "Pressed key string [" + e.KeyString + "]";
         }
 
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        protected override void OnFormClosed(FormClosedEventArgs e)
         {
+            base.OnFormClosed(e);
             Display.Dispose();
         }
 

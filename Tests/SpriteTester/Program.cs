@@ -21,7 +21,6 @@ namespace ERY.SpriteTester
 
             frmSpriteTester form = new frmSpriteTester();
 
-
             AgateSetup displaySetup = new AgateSetup();
 
             using (displaySetup)

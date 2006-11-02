@@ -35,5 +35,16 @@ namespace ERY.AgateLib
         /// Disposes of unmanaged resources.
         /// </summary>
         public abstract void Dispose();
+
+        /// <summary>
+        /// Called by drivers in their Initialize routine to report
+        /// which driver was instantiated.
+        /// </summary>
+        /// <param name="?"></param>
+        protected void Report(string text)
+        {
+            Console.WriteLine(text);
+            System.Diagnostics.Trace.WriteLine(text);
+        }
     }
 }

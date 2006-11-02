@@ -242,11 +242,11 @@ namespace ERY.AgateLib.SystemDrawing
         {
             get
             {
-                return new Geometry.Point(frm.PointToClient(Cursor.Position));
+                return new Geometry.Point(mRenderTarget.PointToClient(Cursor.Position));
             }
             set
             {
-                Cursor.Position = frm.PointToScreen((Point)value);
+                Cursor.Position = mRenderTarget.PointToScreen((Point)value);
             }
         }
 
