@@ -72,10 +72,28 @@ namespace ERY.AgateLib.PlatformSpecific
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        
         [DllImport("kernel32.dll")]
         extern static short QueryPerformanceFrequency(out long x);
-        
+
+        /// <summary>
+        /// Initializes Win32 specific methods.
+        /// </summary>
+        public Win32Platform()
+        {
+            // this just tells windows to make the form and controls look nice on WinXP
+            System.Windows.Forms.Application.EnableVisualStyles();
+            Console.WriteLine("Created Windows platform driver.");
+            System.Diagnostics.Trace.WriteLine("Created Windows platform driver.");
+
+            long freq;
+
+            if (QueryPerformanceFrequency(out freq) != 0)
+            {
+                performanceFrequency = 1000.0 / freq;
+
+                QueryPerformanceCounter(out start);
+            }
+        }
         
         /// <summary>
         /// Returns true if there are no messages waiting.
@@ -89,24 +107,7 @@ namespace ERY.AgateLib.PlatformSpecific
                 return !PeekMessage(out msg, IntPtr.Zero, 0, 0, 0);
             }
         }
-        /// <summary>
-        /// Initializes Win32 specific methods.
-        /// </summary>
-        public override void Initialize()
-        {
-            // this just tells windows to make the form and controls look nice on WinXP
-            System.Windows.Forms.Application.EnableVisualStyles();
-            System.Diagnostics.Trace.WriteLine("Using Windows platform-specific methods.");
-
-            long freq;
-
-            if (QueryPerformanceFrequency(out freq) != 0)
-            {
-                performanceFrequency = 1000.0 / freq;
-
-                QueryPerformanceCounter(out start);
-            }
-        }
+        
 
         double performanceFrequency = 0;
         long start = 0;

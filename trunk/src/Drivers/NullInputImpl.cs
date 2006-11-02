@@ -36,7 +36,7 @@ namespace ERY.AgateLib
 
         public override void Initialize()
         {
-            
+            Report("No input driver found.  Joysticks will not work.");            
         }
 
         public override void Dispose()

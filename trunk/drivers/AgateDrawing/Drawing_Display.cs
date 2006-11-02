@@ -80,7 +80,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         public override void Initialize()
         {
-            System.Diagnostics.Trace.WriteLine("Using System.Drawing implementation of DisplayImpl.");
+            Report("System.Drawing driver instantiated for display.");
         }
         public override void Dispose() 
         {

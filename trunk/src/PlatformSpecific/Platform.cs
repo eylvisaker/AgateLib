@@ -23,20 +23,26 @@ using System.Text;
 
 using ERY.AgateLib.Drivers;
 
-namespace ERY.AgateLib.PlatformSpecific
+namespace ERY.AgateLib.PlatformSpecific 
 {
     /// <summary>
     /// This class encapsulates methods which much be implemented for
     /// each platform given.  It provides default implementations that 
     /// are "most conservative."
     /// </summary>
-    public class Platform : DriverImplBase 
+    public class Platform  : IDisposable 
     {
         /// <summary>
         /// Only sub classes are allowed to initialized this class.
         /// </summary>
         protected Platform()
         {
+            // only do this if we are this class, not a derivative of it.
+            if (this.GetType().Equals(typeof(Platform)))
+            {
+                Console.WriteLine("Created Platform Independent platform driver.");
+                System.Diagnostics.Trace.WriteLine("Created Platform Independent platform driver.");
+            }
         }
         /// <summary>
         /// Creates an object which encapsulates platform specific methods.
@@ -52,12 +58,23 @@ namespace ERY.AgateLib.PlatformSpecific
 
                 case (PlatformID)128:
                 case PlatformID.Unix:
-                    //return new UnixPlatform();
-                    return new Platform();
+                    return new X11Platform();
+
+                default:
+                    Console.WriteLine("Encountered unsupported platform ID: {0} = {1}",
+                        Environment.OSVersion.Platform, (int)Environment.OSVersion.Platform);
+                    break;
             }
 
             return new Platform();
 
+        }
+
+        /// <summary>
+        /// Dipsoses of the platform-specific methods.
+        /// </summary>
+        public virtual void Dispose()
+        {
         }
 
         /// <summary>
@@ -74,19 +91,7 @@ namespace ERY.AgateLib.PlatformSpecific
                 return false;
             }
         }
-        /// <summary>
-        /// Contains platform-specific methods which are required for the initialization
-        /// of the application.
-        /// </summary>
-        public override void Initialize()
-        {
-        }
-        /// <summary>
-        /// Dipsoses of the platform-specific methods.
-        /// </summary>
-        public override void Dispose()
-        {
-        }
+        
         /// <summary>
         /// Returns the current time in milliseconds.
         /// This may be the amount of time since the application began, the system started,

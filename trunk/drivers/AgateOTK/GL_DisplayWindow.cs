@@ -115,8 +115,39 @@ namespace ERY.AgateLib.OpenGL
         {
             mRenderTarget.Resize += new EventHandler(mRenderTarget_Resize);
             mRenderTarget.Disposed += new EventHandler(mRenderTarget_Disposed);
+
+            mRenderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
+            mRenderTarget.MouseDown += new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
+            mRenderTarget.MouseUp += new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
+            //mRenderTarget.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(pct_MouseDoubleClick);
+            mRenderTarget.DoubleClick += new EventHandler(mRenderTarget_DoubleClick);
+            System.Windows.Forms.Form form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
+
+            form.KeyPreview = true;
+            form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
+            form.KeyUp += new System.Windows.Forms.KeyEventHandler(form_KeyUp);
+
+            //form.FormClosed += new System.Windows.Forms.FormClosedEventHandler(form_FormClosed);
         }
 
+
+        Mouse.MouseButtons GetButtons(System.Windows.Forms.MouseButtons buttons)
+        {
+            Mouse.MouseButtons retval = Mouse.MouseButtons.None;
+
+            if ((buttons & System.Windows.Forms.MouseButtons.Left) != 0)
+                retval |= Mouse.MouseButtons.Primary;
+            if ((buttons & System.Windows.Forms.MouseButtons.Right) != 0)
+                retval |= Mouse.MouseButtons.Secondary;
+            if ((buttons & System.Windows.Forms.MouseButtons.Middle) != 0)
+                retval |= Mouse.MouseButtons.Middle;
+            if ((buttons & System.Windows.Forms.MouseButtons.XButton1) != 0)
+                retval |= Mouse.MouseButtons.ExtraButton1;
+            if ((buttons & System.Windows.Forms.MouseButtons.XButton2) != 0)
+                retval |= Mouse.MouseButtons.ExtraButton2;
+
+            return retval;
+        }
         void mRenderTarget_Disposed(object sender, EventArgs e)
         {
             mClosed = true;
@@ -128,6 +159,45 @@ namespace ERY.AgateLib.OpenGL
            
         }
 
+
+        void mRenderTarget_DoubleClick(object sender, EventArgs e)
+        {
+            Mouse.OnMouseDoubleClick(Mouse.MouseButtons.Primary);
+        }
+        void pct_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            Mouse.MouseButtons btn = GetButtons(e.Button);
+
+            Mouse.Buttons[btn] = false;
+        }
+        void pct_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            Mouse.MouseButtons btn = GetButtons(e.Button);
+
+            Mouse.Buttons[btn] = true;
+        }
+        void pct_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            Mouse.OnMouseMove();
+        }
+        void renderTarget_Disposed(object sender, EventArgs e)
+        {
+            mClosed = true;
+        }
+
+
+        void form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            mClosed = true;
+        }
+        void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            Keyboard.Keys.SetWinFormsKey(e.KeyCode, false);
+        }
+        void form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            Keyboard.Keys.SetWinFormsKey(e.KeyCode, true);
+        }
         public override bool Closed
         {
             get { return mClosed; }

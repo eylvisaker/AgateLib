@@ -59,6 +59,9 @@ namespace ERY.AgateLib.AgateFMOD
             // create and initialize the FMOD system.
             CheckFMODResult(FMOD.Factory.System_Create(ref mSystem));
             CheckFMODResult(mSystem.init(1000, FMOD.INITFLAG._3D_RIGHTHANDED, IntPtr.Zero));
+
+            Report("AgateFMOD driver instantiated for audio.");
+
         }
         public override void Dispose()
         {

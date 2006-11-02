@@ -214,6 +214,7 @@ namespace ERY.AgateLib
         /// </summary>
         public override void Initialize()
         {
+            Report("No audio driver found.  Audio will not be heard."); 
         }
 
         /// <summary>

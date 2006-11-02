@@ -116,8 +116,8 @@ namespace ERY.AgateLib.ImplBase
         /// <returns></returns>
         public static FontSurfaceImpl FromOSFont(string fontFamily, float sizeInPoints)
         {
-            Drawing.Font font = new Drawing.Font(fontFamily, sizeInPoints);
-
+            Drawing.Font font = new Drawing.Font(fontFamily, sizeInPoints, System.Drawing.FontStyle.Bold);
+            
             Drawing.Bitmap bmp = new System.Drawing.Bitmap(512, 512);
             Drawing.Graphics g = Drawing.Graphics.FromImage(bmp);
 
