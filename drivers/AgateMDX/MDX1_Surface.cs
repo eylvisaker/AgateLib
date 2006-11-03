@@ -301,7 +301,8 @@ namespace ERY.AgateLib.MDX
         }
         protected void DrawWithoutVB(float destX, float destY, 
             float rotationCenterX, float rotationCenterY, bool alphaBlend)
-        {   
+        {
+            
             if (DisplayWidth < 0)
             {
                 destX -= DisplayWidth;
@@ -379,8 +380,8 @@ namespace ERY.AgateLib.MDX
         private void SetVertsPosition(CustomVertex.TransformedColoredTextured[] verts, int index,
             RectangleF dest, float rotationCenterX, float rotationCenterY)
         {
-            float destX = dest.X;
-            float destY = dest.Y;
+            float destX = dest.X - 0.5f;
+            float destY = dest.Y - 0.5f;
             float destWidth = dest.Width;
             float destHeight = dest.Height;
 

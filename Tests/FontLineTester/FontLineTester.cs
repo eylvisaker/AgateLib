@@ -36,6 +36,12 @@ namespace FontLineTester
                 FileManager.ImagePath.Add("../../");
 
                 fonts.Add(new FontSurface("Arial", 12));
+                fonts.Add(new FontSurface("Arial", 20));
+                fonts.Add(new FontSurface("Times", 12));
+                fonts.Add(new FontSurface("Times", 20));
+                fonts.Add(new FontSurface("Tahoma", 14));
+                fonts.Add(new FontSurface("Comic", 16));
+
                 //fonts.Add(FontSurface.BitmapMonospace("font.png", new Size(16, 16)));
                 //fonts[1].StringTransformer = StringTransformer.ToUpper;
 
@@ -50,6 +56,7 @@ namespace FontLineTester
 
                     Display.DrawRect(drawRect, Color.Red);
 
+                    fonts[0].DrawText(0, 420, "Use numeric keypad to switch fonts.");
                     fonts[0].DrawText(0, 450, 
                         "Measured size was: " + drawRect.Size.ToString());
 

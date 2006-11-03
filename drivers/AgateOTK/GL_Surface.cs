@@ -88,6 +88,7 @@ namespace ERY.AgateLib.OpenGL
             Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
                              Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
 
+            mTexCoord = GetTextureCoords(mSourceRect);
 
         }
 
@@ -186,6 +187,8 @@ namespace ERY.AgateLib.OpenGL
 
             Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
 
+            Gl.PushMatrix();
+
             Gl.Translatef(-translatePoint.X, -translatePoint.Y, 0);
             Gl.Rotatef((float)-RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
 
@@ -199,8 +202,7 @@ namespace ERY.AgateLib.OpenGL
             Gl.End();
 
             // restore the matrix
-            Gl.Rotatef((float)RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
-            Gl.Translatef(translatePoint.X, translatePoint.Y, 0);
+            Gl.PopMatrix();
         }
 
         public override void SaveTo(string filename, ImageFileFormat format)
@@ -269,24 +271,47 @@ namespace ERY.AgateLib.OpenGL
 
         public override void BeginRender()
         {
+            Gl.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
+
+            mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight-1, SurfaceWidth-1, 0));
+
+
             // clear the framebuffer and draw this texture to it.
             Gl.ClearColor(0, 0, 0, 0);
-            Gl.Clear(Enums.ClearBufferMask.COLOR_BUFFER_BIT | Enums.ClearBufferMask.DEPTH_BUFFER_BIT);
-            
-            Gl.Viewport(0, 0, mSourceRect.Width, mSourceRect.Height);
+            Gl.Clear(Enums.ClearBufferMask.COLOR_BUFFER_BIT | 
+                     Enums.ClearBufferMask.DEPTH_BUFFER_BIT);
+
+
+            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D, Enums.TextureParameterName.TEXTURE_MIN_FILTER,
+                (int)Enums.TextureMinFilter.LINEAR);
+            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D, Enums.TextureParameterName.TEXTURE_MAG_FILTER,
+                (int)Enums.TextureMagFilter.LINEAR);
 
             Draw();
+
+
+            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
+                             Enums.TextureParameterName.TEXTURE_MIN_FILTER, (int)Enums.TextureMinFilter.LINEAR);
+            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
+                             Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
+            
         }
 
         public override void EndRender(bool waitVSync)
         {
+           // Gl.Disable(Enums.EnableCap.TEXTURE_2D);
             Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
 
             Gl.CopyTexSubImage2D(Enums.TextureTarget.TEXTURE_2D,
                 0, 0, 0, 0, 0, mSourceRect.Width, mSourceRect.Height);
             //Gl.CopyTexImage2D(Enums.TextureTarget.TEXTURE_2D, 0, Enums.PixelInternalFormat.RGBA8,
             //    0, 0, mSourceRect.Width, mSourceRect.Height, 0);
-
+            
+            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
+                             Enums.TextureParameterName.TEXTURE_MIN_FILTER, (int)Enums.TextureMinFilter.LINEAR);
+            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
+                             Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
+            
         }
 
         #region GL_IRenderTarget Members

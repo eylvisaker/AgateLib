@@ -20,6 +20,7 @@ namespace MultipleWindowTest
 
             using (AgateSetup setup = new AgateSetup())
             {
+                setup.AskUser = true;
                 setup.Initialize(true, false, false);
                 if (setup.Cancel) return;
 
@@ -30,13 +31,14 @@ namespace MultipleWindowTest
                 DisplayWindow wnd_1 = new DisplayWindow(myForm.pictureBox1);
                 DisplayWindow wnd_2 = new DisplayWindow(myForm.pictureBox2);
                 DisplayWindow wnd_3 = new DisplayWindow(myForm.pictureBox3);
+                //DisplayWindow wnd_4 = new DisplayWindow(myForm.pictureBox4);
 
                 // create a surface for drawing
-                surf = new Surface(300, 300);
+                surf = new Surface(200, 150);
 
                 // this is the code that will be called when the button is pressed
                 myForm.button1.Click += new EventHandler(button1_Click);
-
+                myForm.button2.Click += new EventHandler(button2_Click);
                 while (myForm.Visible)
                 {
                     // Render targets must be set before the call to BeginFrame,
@@ -64,6 +66,10 @@ namespace MultipleWindowTest
                     surf.Draw(0, 0);
                     Display.EndFrame();
 
+                    //Display.RenderTarget = wnd_4;
+                    //Display.BeginFrame();
+                    //Display.EndFrame();
+
                     Core.KeepAlive();
                     //System.Threading.Thread.Sleep(250);
 
@@ -72,6 +78,15 @@ namespace MultipleWindowTest
             }
 
 
+        }
+
+        static void button2_Click(object sender, EventArgs e)
+        {
+            Display.RenderTarget = surf;
+
+            Display.BeginFrame();
+            Display.Clear(0, 0, 0, 0);
+            Display.EndFrame();
         }
 
         static void button1_Click(object sender, EventArgs e)
@@ -85,7 +100,7 @@ namespace MultipleWindowTest
                 rand.Next(-10, 140),
                 rand.Next(20, 100),
                 rand.Next(20, 100));
-            Color clr = Color.FromArgb(rand.Next(200, 256), rand.Next(0, 256),
+            Color clr = Color.FromArgb(255 /*rand.Next(200, 256)*/, rand.Next(0, 256),
                     rand.Next(0, 256), rand.Next(0, 256));
 
             Display.FillRect(rect, clr);

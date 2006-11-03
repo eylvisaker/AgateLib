@@ -66,12 +66,18 @@ namespace ERY.AgateLib.ImplBase
         /// interface, containing the source rectangles on the surface for each font glyph.</param>
         public BitmapFontImpl(Surface surface, IDictionary<char, RectangleF> srcRects)
         {
-            mSurface = surface;
+            float maxHeight = 0;
 
             foreach (KeyValuePair<char, RectangleF> kvp in srcRects)
             {
                 mSrcRects.Add(kvp.Key, kvp.Value);
+
+                if (kvp.Value.Height > maxHeight)
+                    maxHeight = kvp.Value.Height;
             }
+
+            mCharHeight = (int)Math.Ceiling(maxHeight);
+            mSurface = surface;
         }
 
         /// <summary>
@@ -109,14 +115,16 @@ namespace ERY.AgateLib.ImplBase
 
         /// <summary>
         /// Creates a bitmap font by loading an OS font, and drawing it to 
-        /// a bitmap to use as a Surface object.
+        /// a bitmap to use as a Surface object.  You should only use this method
+        /// if writing a driver.
         /// </summary>
+        /// <seealso cref="FontSurface.BitmapFont"/>
         /// <param name="fontFamily"></param>
         /// <param name="sizeInPoints"></param>
         /// <returns></returns>
         public static FontSurfaceImpl FromOSFont(string fontFamily, float sizeInPoints)
         {
-            Drawing.Font font = new Drawing.Font(fontFamily, sizeInPoints, System.Drawing.FontStyle.Bold);
+            Drawing.Font font = new Drawing.Font(fontFamily, sizeInPoints);
             
             Drawing.Bitmap bmp = new System.Drawing.Bitmap(512, 512);
             Drawing.Graphics g = Drawing.Graphics.FromImage(bmp);
@@ -127,16 +135,35 @@ namespace ERY.AgateLib.ImplBase
             char startChar = ' ';
             char endChar = (char)256;
 
+            // amount of space between characters on the texture.
+            int bitmapPadding = 2;
+
             float x = 0, y = 0;
             float height = 0;
+            float padding = 0;
 
+            // apparently .NET does this stupid thing on Windows
+            // where is reports extra padded space around the characters drawn.
+            // Fortunately, this padding is equal the reported size of the
+            // space character, which is not drawn when by itself.
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                SizeF padSize = new SizeF(g.MeasureString(" ", font));
+
+                padding = padSize.Width - 1;
+            }
             for (char i = startChar; i < endChar; i++)
             {
                 SizeF size = new SizeF(g.MeasureString(i.ToString(), font));
+                size.Width -= padding;
+
+                // for space character on windows.
+                if (i == ' ' && padding > 0.0)
+                    size.Width = padding;
 
                 glyphs[i] = new RectangleF(0, 0, size.Width, size.Height);
 
-                x += (float)Math.Ceiling(glyphs[i].Width);
+                x += (float)Math.Ceiling(glyphs[i].Width) + bitmapPadding;
 
                 if (glyphs[i].Height > height)
                     height = glyphs[i].Height;
@@ -161,6 +188,7 @@ namespace ERY.AgateLib.ImplBase
 
             Drawing.Brush brush = Drawing.Brushes.White;
 
+            
             x = 0;
             y = 0;
             height = 0;
@@ -175,11 +203,13 @@ namespace ERY.AgateLib.ImplBase
                 }
 
                 g.DrawString(i.ToString(), font, brush, new System.Drawing.PointF(x, y));
-                glyphs[i]= new RectangleF(new PointF(x, y), glyphs[i].Size);
+                glyphs[i] = new RectangleF(
+                    new PointF(x + padding / 4f, y), 
+                    glyphs[i].Size);
 
-                x += (float)Math.Ceiling(glyphs[i].Width);
+                x += (float)Math.Ceiling(glyphs[i].Width) + bitmapPadding;
 
-                if (glyphs[i].Height > height)
+             if (glyphs[i].Height > height)
                     height = glyphs[i].Height;
                 
             }
@@ -187,7 +217,7 @@ namespace ERY.AgateLib.ImplBase
             g.Dispose();
 
             string tempFile = System.IO.Path.GetTempFileName() + ".png";
-            bmp.Save("yourmom.png", Drawing.Imaging.ImageFormat.Png);
+            bmp.Save("testfont.png", Drawing.Imaging.ImageFormat.Png);
             bmp.Save(tempFile, Drawing.Imaging.ImageFormat.Png);
 
             bmp.Dispose();
@@ -195,7 +225,6 @@ namespace ERY.AgateLib.ImplBase
             Surface surf = new Surface(tempFile);
             return new BitmapFontImpl(surf, glyphs);
 
-            //throw new NotImplementedException();
         }
 
         private void CalcAverageCharWidth()
@@ -301,8 +330,8 @@ namespace ERY.AgateLib.ImplBase
             srcRects = new Rectangle[text.Length];
             destRects = new Rectangle[text.Length];
 
-            int destX = 0;
-            int destY = 0;
+            double destX = 0;
+            double destY = 0;
             int height = mCharHeight;
 
             for (int i = 0; i < text.Length; i++)
@@ -317,11 +346,11 @@ namespace ERY.AgateLib.ImplBase
                     default:
                         srcRects[i] = Rectangle.Ceiling(mSrcRects[text[i]]);
                         destRects[i] =
-                            new Rectangle(destX, destY,
-                            (int)(srcRects[i].Width * ScaleWidth + 0.5),
-                            (int)(srcRects[i].Height * ScaleHeight + 0.5));
+                            new Rectangle((int)destX, (int)destY,
+                            (int)Math.Ceiling(srcRects[i].Width * ScaleWidth),
+                            (int)Math.Ceiling(srcRects[i].Height * ScaleHeight));
 
-                        destX += destRects[i].Width;
+                        destX += mSrcRects[text[i]].Width * ScaleWidth;
                         break;
                 }
             }
