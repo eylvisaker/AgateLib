@@ -59,19 +59,23 @@ namespace ERY.AgateLib.OpenGL
             return BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints);
         }
 
-        protected override void OnBeginFrame()
+        internal void SetupGLOrtho(Rectangle ortho)
         {
-            mRenderTarget.BeginRender();
-
-
             Gl.MatrixMode(Enums.MatrixMode.PROJECTION);
             Gl.LoadIdentity();
-            Glu.Ortho2D(0, mRenderTarget.Width, mRenderTarget.Height, 0);
+            Glu.Ortho2D(ortho.Left, ortho.Right, ortho.Bottom, ortho.Top);
 
             Gl.Enable(Enums.EnableCap.TEXTURE_2D);
 
             Gl.Enable(Enums.EnableCap.BLEND);
             Gl.BlendFunc(Enums.BlendingFactorSrc.SRC_ALPHA, Enums.BlendingFactorDest.ONE_MINUS_SRC_ALPHA);
+
+            Gl.MatrixMode(Enums.MatrixMode.MODELVIEW);
+            Gl.LoadIdentity();
+        }
+        protected override void OnBeginFrame()
+        {
+            mRenderTarget.BeginRender();
         }
 
         protected override void OnEndFrame(bool waitVSync)

@@ -19,6 +19,7 @@ namespace TilingTest
         {
             using (AgateSetup setup = new AgateSetup("Tiling Test", args))
             {
+                setup.AskUser = true;
                 setup.Initialize(true, false, false);
 
                 if (setup.Cancel)

@@ -223,6 +223,11 @@ namespace ERY.AgateLib
         /// Gets or sets a bool value which indicates whether or not the user
         /// should be asked which driver(s) to use when Agate is initialized.
         /// </summary>
+        /// <remarks>
+        /// This setting can be useful for debugging, especially when comparing 
+        /// OpenGL vs. DirectX behavior and performance.  
+        /// It is recommended to have AskUser turned off for release builds, however.
+        /// </remarks>
         public bool AskUser
         {
             get { return mAskUser; }

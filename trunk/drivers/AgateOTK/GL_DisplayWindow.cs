@@ -261,6 +261,8 @@ namespace ERY.AgateLib.OpenGL
         public override void BeginRender()
         {
             mContext.MakeCurrent();
+
+            mDisplay.SetupGLOrtho(new Rectangle(0, 0, Width, Height));
         }
 
         public override void EndRender(bool waitVSync)
