@@ -20,6 +20,7 @@ namespace ERY.AudioTester
 
             using (ERY.AgateLib.AgateSetup setup = new ERY.AgateLib.AgateSetup("Agate Audio Tester", args))
             {
+                setup.AskUser = true;
                 setup.Initialize(false, true, false);
                 if (setup.Cancel)
                     return;

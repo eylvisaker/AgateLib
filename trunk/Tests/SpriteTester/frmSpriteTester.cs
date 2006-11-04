@@ -19,7 +19,6 @@ namespace ERY.SpriteTester
             InitializeComponent();
         }
 
-        Surface srcSurf;
         Sprite mSprite;
         DisplayWindow wind;
 

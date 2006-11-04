@@ -40,7 +40,7 @@ namespace ERY.AgateLib
         /// Called by drivers in their Initialize routine to report
         /// which driver was instantiated.
         /// </summary>
-        /// <param name="?"></param>
+        /// <param name="text"></param>
         protected void Report(string text)
         {
             Console.WriteLine(text);

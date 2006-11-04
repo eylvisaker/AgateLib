@@ -62,7 +62,7 @@ namespace ERY.AgateLib.ImplBase
         /// the characters.  The source rectangles for each character are passed in.
         /// </summary>
         /// <param name="surface">Surface which contains the image data for the font glyphs.</param>
-        /// <param name="srcRects">An object implementing the IDictionary&lt;char, Rectangle&gr;
+        /// <param name="srcRects">An object implementing the IDictionary&lt;char, Rectangle&gt;
         /// interface, containing the source rectangles on the surface for each font glyph.</param>
         public BitmapFontImpl(Surface surface, IDictionary<char, RectangleF> srcRects)
         {
@@ -216,6 +216,8 @@ namespace ERY.AgateLib.ImplBase
 
             g.Dispose();
 
+            PostProcessFont(bmp);
+
             string tempFile = System.IO.Path.GetTempFileName() + ".png";
             bmp.Save("testfont.png", Drawing.Imaging.ImageFormat.Png);
             bmp.Save(tempFile, Drawing.Imaging.ImageFormat.Png);
@@ -225,6 +227,48 @@ namespace ERY.AgateLib.ImplBase
             Surface surf = new Surface(tempFile);
             return new BitmapFontImpl(surf, glyphs);
 
+        }
+
+        private static void PostProcessFont(System.Drawing.Bitmap bmp)
+        {
+            Drawing.Imaging.BitmapData data = bmp.LockBits(
+                new Drawing.Rectangle(Drawing.Point.Empty, bmp.Size),
+                Drawing.Imaging.ImageLockMode.ReadWrite, Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            PixelFormat bitmapFormat = PixelFormat.BGRA8888;
+
+            PixelBuffer buffer = new PixelBuffer(bitmapFormat, new Size(bmp.Size), data.Scan0,
+                bitmapFormat, data.Stride);
+
+            // now convert pixels to gray scale.
+            for (int j = 0; j < buffer.Height; j++)
+            {
+                for (int i = 0; i < buffer.Width; i++)
+                {
+                    Color clr = buffer.GetPixel(i, j);
+                    if (clr.ToArgb() == 0)
+                        continue;
+
+                    int alpha = clr.A;
+                    int value_i = (int)(0.30 * clr.R + 0.59 * clr.G + 0.11 * clr.B);
+                    byte value = (byte)value_i;
+
+                    System.Diagnostics.Debug.Assert(alpha == 0 || alpha == 255);
+                    System.Diagnostics.Debug.Assert(0 <= value_i && value_i <= 255);
+
+                    clr = Color.FromArgb(value, Color.White);
+                    //clr.R = clr.B = clr.G = value;
+                    //clr.A = clr.R = clr.B = clr.G = value;
+
+                    buffer.SetPixel(i, j, clr);
+                }
+            }
+
+
+            System.Runtime.InteropServices.Marshal.Copy(
+                buffer.Data, 0, data.Scan0, buffer.Data.Length);
+
+            bmp.UnlockBits(data);
         }
 
         private void CalcAverageCharWidth()

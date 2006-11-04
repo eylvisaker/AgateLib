@@ -169,7 +169,7 @@ namespace ERY.AgateLib
         public void InitializeAudio()
         {
             DoAskUser();
-            InitializeAudio(AudioTypeID.AutoSelect);
+            InitializeAudio(mSelectAudio);
         }
         /// <summary>
         /// Initializes the Audio subsystem, to the specified driver.
@@ -190,7 +190,7 @@ namespace ERY.AgateLib
         public void InitializeInput()
         {
             DoAskUser();
-            InitializeInput(InputTypeID.AutoSelect);
+            InitializeInput(mSelectInput);
         }
         /// <summary>
         /// Initializes the Input subsystem, to the specified driver.
