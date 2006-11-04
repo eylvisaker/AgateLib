@@ -5,18 +5,22 @@ Current Changes
 AgateOTK has been added for OpenGL support, and AgateFMOD has been added to use the FMOD ex library to play audio.
 Both are being tested on Windows with .NET and Linux with Mono.
 
-Breaking Changes:
+Important Breaking Changes:
 * Moved System.Drawing replacement classes (Color, Rectangle, Point, Size and floating-point versions) to ERY.AgateLib.Geometry namespace.  
 
-Non-breaking Changes:
+Additions:
 * Created OpenGL driver using the OpenTK library to add hardware accelerated support when running under Linux.
 * Created FMOD driver for audio support.
 * Added PixelBuffer class for direct modification of Surface data.
 * Added Licensing information to some files where it was missing.
+* Added code to create bitmap fonts from fonts provided by the operating system.  These are default for creating fonts in DX and OGL, because they look better than other options.
+
+Fixes:
 * Various minor bugs fixed.
+* Various issues associated with running under Mono on Linux have been fixed.
 * Reorganized source tree for AgateLib, and moved stuff which is not critical for use by external programs to namespaces under ERY.AgateLib.
 * Reabsorbed the platform-specific drivers back into AgateLib.dll.  AgateWindows.dll will not be missed.
-* Various issues associated with running under Mono on Linux have been fixed.
+
 
 Version 0.2.1
 ===================

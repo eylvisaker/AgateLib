@@ -163,17 +163,6 @@ namespace ERY.AgateLib.Drivers
             }
         }
 
-        /// <summary>
-        /// Returns a collection with all the DriverInfo&lt;PlatformTypeID&gt; structures
-        /// for registered platform drivers.
-        /// </summary>
-        //public static DriverInfoList<Platform, PlatformTypeID> PlatformDriverInfo
-        //{
-        //    get
-        //    {
-        //        return mPlatformDrivers;
-        //    }
-        //}
 
         /// <summary>
         /// Registers a display driver as being available.
@@ -203,15 +192,6 @@ namespace ERY.AgateLib.Drivers
             mInputDrivers.Add(info);
         }
 
-        /// <summary>
-        /// Registers a platform driver as being available.
-        /// </summary>
-        /// <param name="info">Structure which contains enough information to instantiate
-        /// the platform specific method class.</param>
-        //public static void RegisterPlatformDriver(DriverInfo<PlatformTypeID> info)
-        //{
-        //    mPlatformDrivers.Add(info);
-        //}
 
         /// <summary>
         /// Asks the user to select which drivers to use.

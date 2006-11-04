@@ -270,7 +270,6 @@ namespace ERY.AgateLib
             get { return mFormat; }
         }
 
-
         /// <summary>
         /// Gets or sets the raw pixel data, in the format indicated by PixelFormat. 
         /// An exception is thrown when setting Data if the length of the array passed is 
@@ -334,6 +333,72 @@ namespace ERY.AgateLib
 
         #endregion
         #region --- Public Methods ---
+
+        /// <summary>
+        /// Gets the index of the first byte in the pixel in the Data array
+        /// at the specified point.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public int GetPixelIndex(int x, int y)
+        {
+            return y * RowStride + x * PixelStride;
+        }
+
+        /// <summary>
+        /// Copies pixel data from the specified location to a Color structure.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public Color GetPixel(int x, int y)
+        {
+            int index = GetPixelIndex(x, y);
+
+            switch (PixelFormat)
+            {
+                case PixelFormat.ARGB8888:
+                    return Color.FromArgb(Data[index], Data[index + 1], Data[index + 2], Data[index + 3]);
+                case PixelFormat.BGRA8888:
+                    return Color.FromArgb(Data[index + 3], Data[index + 2], Data[index + 1], Data[index]);
+
+                default:
+                    throw new NotSupportedException("Pixel format not supported by GetPixel.");
+            }
+        }
+
+        /// <summary>
+        /// Sets the color at a particular pixel.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="clr"></param>
+        public void SetPixel(int x, int y, Color clr)
+        {
+            int index = GetPixelIndex(x, y);
+            double A = clr.A / 255.0;
+            double R = clr.R / 255.0;
+            double G = clr.G / 255.0;
+            double B = clr.B / 255.0;
+
+            switch (PixelFormat)
+            {
+                case PixelFormat.ARGB8888:
+                    SetARGB8(A, R, G, B, Data,
+                        index, index + 1, index + 2, index + 3);
+                    break;
+
+                case PixelFormat.BGRA8888:
+                    SetARGB8(A, R, G, B, Data,
+                        index+3, index + 2, index + 1, index + 0);
+                    break;
+
+                default:
+                    throw new NotSupportedException("Pixel format not supported by SetPixel.");
+
+            }
+        }
 
         /// <summary>
         /// Copies the data from the array passed in into the internal pixel 
