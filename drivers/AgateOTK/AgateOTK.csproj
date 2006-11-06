@@ -32,7 +32,7 @@
   <ItemGroup>
     <Reference Include="OpenTK.OpenGL, Version=0.3.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\opentk\Source\OpenGL\OpenGL\bin\Release\OpenTK.OpenGL.dll</HintPath>
+      <HintPath>..\..\deps\OpenTK.OpenGL.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

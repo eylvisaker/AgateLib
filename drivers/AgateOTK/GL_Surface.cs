@@ -170,7 +170,6 @@ namespace ERY.AgateLib.OpenGL
         {
             PointF translatePoint = Origin.CalcF(DisplayAlignment, DisplaySize);
 
-
             if (DisplaySize.Width < 0)
                 translatePoint.X += DisplaySize.Width;
 
@@ -273,7 +272,7 @@ namespace ERY.AgateLib.OpenGL
         {
             Gl.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
 
-            mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight-1, SurfaceWidth-1, 0));
+            mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
 
 
             // clear the framebuffer and draw this texture to it.
@@ -401,10 +400,10 @@ namespace ERY.AgateLib.OpenGL
         private TextureCoordinates GetTextureCoords(Rectangle srcRect)
         {
             TextureCoordinates coords = new TextureCoordinates(
-                (srcRect.Left+ 0.5f) / (float)mTextureSize.Width,
-                (srcRect.Top+ 0.5f) / (float)mTextureSize.Height,
-                (srcRect.Right - 0.5f)/ (float)mTextureSize.Width,
-                (srcRect.Bottom - 0.5f) / (float)mTextureSize.Height);
+                (srcRect.Left) / (float)mTextureSize.Width,
+                (srcRect.Top) / (float)mTextureSize.Height,
+                (srcRect.Right) / (float)mTextureSize.Width,
+                (srcRect.Bottom) / (float)mTextureSize.Height);
 
             return coords;
         }
