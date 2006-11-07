@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="GL_Display.cs" />
     <Compile Include="GL_DisplayWindow.cs" />
-    <Compile Include="GL_FontSurface.cs" />
     <Compile Include="GL_IRenderTarget.cs" />
     <Compile Include="GL_Surface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

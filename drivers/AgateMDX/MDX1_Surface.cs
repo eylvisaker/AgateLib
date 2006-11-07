@@ -626,7 +626,8 @@ namespace ERY.AgateLib.MDX
             Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
 
             int stride;
-            GraphicsStream stm = surf.LockRectangle((System.Drawing.Rectangle)mSrcRect, LockFlags.ReadOnly, out stride);
+            GraphicsStream stm = surf.LockRectangle((System.Drawing.Rectangle)mSrcRect, 
+                LockFlags.ReadOnly, out stride);
 
             bool retval = this.IsColBlankScanARGB(stm.InternalData, col, this.SurfaceHeight,
                 stride, (int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
@@ -721,22 +722,93 @@ namespace ERY.AgateLib.MDX
         #endregion
 
 
-        public override PixelBuffer ReadPixels(PixelFormat format)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
         public override PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
         {
-            throw new Exception("The method or operation is not implemented.");
+            Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
+
+            int stride;
+            int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
+
+            PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
+
+            GraphicsStream stm = surf.LockRectangle(
+                (Drawing.Rectangle)rect, LockFlags.ReadOnly, out stride);
+
+            byte[] array = new byte[SurfaceWidth * SurfaceHeight * pixelPitch];
+            int length = SurfaceWidth * pixelPitch;
+            int index = 0;
+
+            for (int i = rect.Top; i < rect.Bottom; i++)
+            {
+                IntPtr ptr = (IntPtr)((int)stm.InternalData + i * stride);
+                Marshal.Copy(ptr, array, index, length);
+
+                index += length;
+            }
+
+            surf.UnlockRectangle();
+            surf.Dispose();
+
+            return new PixelBuffer(pixelFormat, rect.Size, array);
+
         }
 
         public override void WritePixels(PixelBuffer buffer)
         {
-            throw new Exception("The method or operation is not implemented.");
+            Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
+
+            int pitch;
+            int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
+            PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
+
+            surf.Dispose();
+
+            GraphicsStream stm = mTexture.Value.LockRectangle(0, 0, out pitch);
+
+            if (buffer.PixelFormat != pixelFormat)
+                buffer = buffer.ConvertTo(pixelFormat);
+
+
+            for (int i = 0; i < SurfaceHeight; i++)
+            {
+                int startIndex = buffer.GetPixelIndex(0, i);
+                int rowStride = buffer.RowStride;
+                IntPtr dest = (IntPtr)((int)stm.InternalData + i * pitch);
+
+                Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
+            }
+
+            mTexture.Value.UnlockRectangle(0);
+            
         }
+        // TODO: Test this method:
         public override void WritePixels(PixelBuffer buffer, Point startPoint)
         {
-            throw new Exception("The method or operation is not implemented.");
+            Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
+            Rectangle updateRect = new Rectangle(startPoint, buffer.Size);
+
+            int pitch;
+            int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
+            PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
+
+            surf.Dispose();
+
+            GraphicsStream stm = mTexture.Value.LockRectangle(0, (Drawing.Rectangle)updateRect, 0, out pitch);
+
+            if (buffer.PixelFormat != pixelFormat)
+                buffer = buffer.ConvertTo(pixelFormat);
+
+
+            for (int i = updateRect.Top; i < updateRect.Bottom; i++)
+            {
+                int startIndex = buffer.GetPixelIndex(0, i);
+                int rowStride = buffer.RowStride;
+                IntPtr dest = (IntPtr)((int)stm.InternalData + i * pitch + updateRect.Left * pixelPitch);
+
+                Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
+            }
+
+            mTexture.Value.UnlockRectangle(0);
         }
     }
 

@@ -27,14 +27,14 @@ namespace ERY.AgateLib
 {
     /// <summary>
     /// A class representing a screen region which is used as a RenderTarget.
-    /// 
+    /// </summary>
+    /// <remarks>
     /// Creating a DisplayWindow can be done in two ways.  By specifying
     /// a title and width and height, the DisplayWindow will create and manage
     /// a window.
     /// 
     /// Alternatively, a control may be specified to render into.
-    /// 
-    /// </summary>
+    /// </remarks>
     public class DisplayWindow : IRenderTarget, IDisposable
     {
         DisplayWindowImpl impl;

@@ -145,7 +145,8 @@ namespace ERY.AgateLib
         /// <param name="format">The raw data format of the pixels to be contained
         /// in the pixel buffer.  PixelFormat.Any is not a valid parameter.</param>
         /// <param name="data">Raw pixel data.  It must be the correct size
-        /// for the format passed.</param>
+        /// for the format passed.  This data will not be copied; it will be
+        /// referenced.</param>
         public PixelBuffer(PixelFormat format, Size size, byte[] data)
             : this(format, size, data, false)
         { }
@@ -161,7 +162,8 @@ namespace ERY.AgateLib
         /// in the pixel buffer.  PixelFormat.Any is not a valid parameter.</param>
         /// <param name="data">Raw pixel data.  It must be the correct size
         /// for the format passed.</param>
-        /// <param name="dataFormat">Format of the raw pixel data.</param>
+        /// <param name="dataFormat">Format of the raw pixel data.  This data will be 
+        /// copied into the PixelBuffer.</param>
         public PixelBuffer(PixelFormat format, Size size, byte[] data, PixelFormat dataFormat)
             : this(format, size)
         {
@@ -175,33 +177,10 @@ namespace ERY.AgateLib
             SetData(data, dataFormat);
 
         }
-        /*
         /// <summary>
         /// Constructs a PixelBuffer object. 
-        /// </summary>
-        /// <param name="format"></param>
-        /// <param name="width">The width of the image data in pixels.</param>
-        /// <param name="height">The height of the image data in pixels.</param>
-        public PixelBuffer(PixelFormat format, int width, int height)
-            : this(format, new Size(width, height))
-        { }
-        /// <summary>
-        /// Constructs a PixelBuffer object. 
-        /// Data passed is not copied; it is referenced.
-        /// </summary>
-        /// <param name="width">The width of the image data in pixels.</param>
-        /// <param name="height">The height of the image data in pixels.</param>
-        /// <param name="format">The raw data format of the pixels to be contained
-        /// in the pixel buffer.  PixelFormat.Any is not a valid parameter.</param>
-        /// <param name="data">Raw pixel data.  It must be the correct size
-        /// for the format passed.</param>
-        public PixelBuffer(PixelFormat format, int width, int height, byte[] data)
-            : this(format, new Size(width, height), data)
-        { }
-        */
-        /// <summary>
-        /// Constructs a PixelBuffer object. 
-        /// Data passed is not copied; it is referenced, unless the copyData flag is true.
+        /// This overload allows you to specify whether or not the 
+        /// data parameter should be copied.
         /// </summary>
         /// <param name="size">The size of the image data in pixels.</param>
         /// <param name="format">The raw data format of the pixels to be contained
@@ -334,6 +313,7 @@ namespace ERY.AgateLib
         #endregion
         #region --- Public Methods ---
 
+        
         /// <summary>
         /// Gets the index of the first byte in the pixel in the Data array
         /// at the specified point.
@@ -343,7 +323,36 @@ namespace ERY.AgateLib
         /// <returns></returns>
         public int GetPixelIndex(int x, int y)
         {
+            if (IsPointValid(x, y) == false)
+                throw new IndexOutOfRangeException();
+
             return y * RowStride + x * PixelStride;
+        }
+
+        /// <summary>
+        /// Returns true if the specified point is within the pixel buffer.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool IsPointValid(int x, int y)
+        {
+            if (x < 0) return false;
+            if (y < 0) return false;
+            if (x >= Width) return false;
+            if (y >= Height) return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Returns true if the specified point is within the pixel buffer.
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        public bool IsPointValid(Point pt)
+        {
+            return IsPointValid(pt.X, pt.Y);
         }
 
         /// <summary>
@@ -360,9 +369,12 @@ namespace ERY.AgateLib
             {
                 case PixelFormat.ARGB8888:
                     return Color.FromArgb(Data[index], Data[index + 1], Data[index + 2], Data[index + 3]);
+                case PixelFormat.ABGR8888:
+                    return Color.FromArgb(Data[index], Data[index + 3], Data[index + 2], Data[index + 1]);
                 case PixelFormat.BGRA8888:
                     return Color.FromArgb(Data[index + 3], Data[index + 2], Data[index + 1], Data[index]);
-
+                case PixelFormat.RGBA8888:
+                    return Color.FromArgb(Data[index + 3], Data[index], Data[index + 1], Data[index + 2]);
                 default:
                     throw new NotSupportedException("Pixel format not supported by GetPixel.");
             }
@@ -389,9 +401,19 @@ namespace ERY.AgateLib
                         index, index + 1, index + 2, index + 3);
                     break;
 
+                case PixelFormat.ABGR8888:
+                    SetARGB8(A, R, G, B, Data,
+                        index, index + 3, index + 2, index + 1);
+                    break;
+
                 case PixelFormat.BGRA8888:
                     SetARGB8(A, R, G, B, Data,
-                        index+3, index + 2, index + 1, index + 0);
+                        index + 3, index + 2, index + 1, index);
+                    break;
+
+                case PixelFormat.RGBA8888:
+                    SetARGB8(A, R, G, B, Data,
+                        index + 3, index, index + 1, index + 2);
                     break;
 
                 default:
@@ -531,6 +553,7 @@ namespace ERY.AgateLib
                 case PixelFormat.RGBA8888:
                 case PixelFormat.XRGB8888:
                 case PixelFormat.XBGR8888:
+                    
                     return 4;
 
                 case PixelFormat.RGB888:
@@ -558,6 +581,56 @@ namespace ERY.AgateLib
         public PixelBuffer ConvertTo(PixelFormat pixelFormat)
         {
             return new PixelBuffer(pixelFormat, Size, this.Data, this.PixelFormat);
+        }
+
+        /// <summary>
+        /// Creates a new PixelBuffer of the specified size, with the
+        /// data in this PixelBuffer copied to the upper left corner.
+        /// </summary>
+        /// <param name="mTextureSize"></param>
+        /// <returns></returns>
+        public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size mTextureSize)
+        {
+            return ConvertTo(pixelFormat, mTextureSize, Point.Empty);
+        }
+
+        /// <summary>
+        /// Creates a new PixelBuffer of the specified size, with the
+        /// data in this PixelBuffer copied so that the upper left corner
+        /// is specified by point.
+        /// </summary>
+        /// <param name="mTextureSize"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size mTextureSize, Point point)
+        {
+            PixelBuffer retval = new PixelBuffer(pixelFormat, mTextureSize);
+
+            for (int y = 0; y < Height; y++)
+            {
+                int srcIndex = RowStride * y;
+                int destIndex = retval.RowStride *y + point.X;
+
+                // same format copy, no conversion necessary.
+                if (pixelFormat == PixelFormat)
+                {
+
+                    for (int x = 0; x < Width * PixelStride; x++)
+                    {
+                        retval.Data[destIndex + x] = Data[srcIndex + x];
+                    }
+                }
+                else
+                {
+                    // different formats must convert.
+                    for (int x = 0; x < Width; x++)
+                    {
+                        retval.SetPixel(x, y, GetPixel(x, y));
+                    }
+                }
+            }
+
+            return retval;
         }
 
         #endregion
@@ -646,6 +719,8 @@ namespace ERY.AgateLib
             G = src[Gindex] / 255.0;
             B = src[Bindex] / 255.0;
         }
-#endregion
+
+        #endregion
+
     }
 }
