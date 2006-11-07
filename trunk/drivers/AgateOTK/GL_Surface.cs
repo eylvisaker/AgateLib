@@ -158,14 +158,12 @@ namespace ERY.AgateLib.OpenGL
             Gl.End();
 
         }
-
         public override void Draw(float destX, float destY)
         {
             Point rotatePoint = Origin.Calc(RotationCenter, DisplaySize);
 
             Draw(destX, destY, rotatePoint.X, rotatePoint.Y);
         }
-
         public override void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
         {
             PointF translatePoint = Origin.CalcF(DisplayAlignment, DisplaySize);
@@ -206,7 +204,7 @@ namespace ERY.AgateLib.OpenGL
 
         public override void SaveTo(string filename, ImageFileFormat format)
         {
-            throw new Exception("The method or operation is not implemented.");
+            
         }
 
         public override SurfaceImpl CarveSubSurface(Surface surface, Rectangle srcRect)
@@ -225,19 +223,60 @@ namespace ERY.AgateLib.OpenGL
 
         public override PixelBuffer ReadPixels(PixelFormat format)
         {
-            throw new Exception("The method or operation is not implemented.");
+            return ReadPixels(format, new Rectangle(Point.Empty, SurfaceSize));
         }
-
         public override PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (format == PixelFormat.Any)
+                format = PixelFormat.RGBA8888;
+
+            int pixelStride = 4;
+            int size = mTextureSize.Width * mTextureSize.Height * pixelStride;
+            int memStride = pixelStride * mTextureSize.Width;
+            IntPtr memory = Marshal.AllocHGlobal(size);
+
+            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
+            Gl.GetTexImage(Enums.TextureTarget.TEXTURE_2D, 0, Enums.PixelFormat.RGBA,
+                 Enums.PixelType.UNSIGNED_BYTE, memory);
+
+            byte[] data = new byte[rect.Width * rect.Height * pixelStride];
+
+            for (int i = 0; i < SurfaceHeight; i++)
+            {
+                int dataIndex = i * pixelStride * rect.Width;
+                IntPtr memPtr = (IntPtr)((int)memory + i * memStride + rect.Left * pixelStride);
+
+                Marshal.Copy(memPtr, data, dataIndex, pixelStride * rect.Width);
+            }
+
+            Marshal.FreeHGlobal(memory);
+
+            if (format == PixelFormat.RGBA8888)
+                return new PixelBuffer(format, SurfaceSize, data);
+            else
+                return new PixelBuffer(format, SurfaceSize, data, PixelFormat.RGBA8888);
         }
 
         public override void WritePixels(PixelBuffer buffer)
         {
-            throw new Exception("The method or operation is not implemented.");
-        }
+            if (buffer.PixelFormat != PixelFormat.RGBA8888 ||
+                buffer.Size.Equals(mTextureSize) == false)
+            {
+                buffer = buffer.ConvertTo(PixelFormat.RGBA8888, mTextureSize);
+            }
 
+            // Typical Texture Generation Using Data From The Bitmap
+            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
+            Gl.TexImage2D(Enums.TextureTarget.TEXTURE_2D, 0, (int)Enums.PixelFormat.RGBA,
+                mTextureSize.Width, mTextureSize.Height, 0, Enums.PixelFormat.RGBA,//, Gl.GL_BGRA, 
+                Enums.PixelType.UNSIGNED_BYTE, buffer.Data);
+
+            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
+                             Enums.TextureParameterName.TEXTURE_MIN_FILTER, (int)Enums.TextureMinFilter.LINEAR);
+            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
+                             Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
+
+        }
         public override void WritePixels(PixelBuffer buffer, Point startPoint)
         {
             throw new Exception("The method or operation is not implemented.");
@@ -252,17 +291,14 @@ namespace ERY.AgateLib.OpenGL
         {
             return false;
         }
-
         public override bool IsSurfaceBlank(int alphaThreshold)
         {
             return false;
         }
-
         public override bool IsRowBlank(int row)
         {
             return false;
         }
-
         public override bool IsColumnBlank(int col)
         {
             return false;
@@ -368,17 +404,7 @@ namespace ERY.AgateLib.OpenGL
 
             AddTextureRef(array[0]);
 
-            // Typical Texture Generation Using Data From The Bitmap
-            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D , mTextureID);
-            Gl.TexImage2D(Enums.TextureTarget.TEXTURE_2D, 0, (int)Enums.PixelFormat.RGBA,
-                textureImage.Width, textureImage.Height, 0, Enums.PixelFormat.RGBA,//, Gl.GL_BGRA, 
-                Enums.PixelType.UNSIGNED_BYTE, buffer.Data );
-            
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D, 
-                             Enums.TextureParameterName.TEXTURE_MIN_FILTER, (int)Enums.TextureMinFilter.LINEAR);
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D, 
-                             Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
-
+            WritePixels(buffer);
 
             textureImage.UnlockBits(bitmapData);                     // Unlock The Pixel Data From Memory
             textureImage.Dispose();                                  // Dispose The Bitmap

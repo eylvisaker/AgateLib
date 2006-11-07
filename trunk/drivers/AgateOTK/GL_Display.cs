@@ -18,6 +18,7 @@ namespace ERY.AgateLib.OpenGL
     public class GL_Display : DisplayImpl
     {
         GL_IRenderTarget mRenderTarget;
+        Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 
         protected override void OnRenderTargetChange(IRenderTarget oldRenderTarget)
         {
@@ -88,19 +89,24 @@ namespace ERY.AgateLib.OpenGL
             get { throw new Exception("The method or operation is not implemented."); }
         }
 
+        // TODO: Test clip rect stuff.
         public override void SetClipRect(Rectangle newClipRect)
         {
-            throw new Exception("The method or operation is not implemented.");
+            Gl.Viewport(newClipRect.X, newClipRect.Y, newClipRect.Width, newClipRect.Height);
         }
 
         public override void PushClipRect(Rectangle newClipRect)
         {
-            throw new Exception("The method or operation is not implemented.");
+            mClipRects.Push(newClipRect);
+
+            SetClipRect(newClipRect);
         }
 
         public override void PopClipRect()
         {
-            throw new Exception("The method or operation is not implemented.");
+            mClipRects.Pop();
+
+            SetClipRect(mClipRects.Peek());
         }
 
         public override void Clear(Color color)

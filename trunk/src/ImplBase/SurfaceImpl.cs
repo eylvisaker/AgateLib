@@ -265,7 +265,10 @@ namespace ERY.AgateLib.ImplBase
         /// </summary>
         /// <param name="format"></param>
         /// <returns></returns>
-        public abstract PixelBuffer ReadPixels(PixelFormat format);
+        public virtual PixelBuffer ReadPixels(PixelFormat format)
+        {
+            return ReadPixels(format, new Rectangle(0, 0, SurfaceWidth, SurfaceHeight));
+        }
         /// <summary>
         /// Creates a PixelBuffer object with a copy of the pixel data in the 
         /// specified rectangle, in the specified format.

@@ -316,7 +316,7 @@ namespace ERY.AgateLib.SystemDrawing
                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             if (format == PixelFormat.Any)
-                format = PixelFormat.ARGB8888;
+                format = PixelFormat.BGRA8888;
 
             PixelBuffer buffer = new PixelBuffer(format, rect.Size);
             byte[] bytes = new byte[4 * rect.Width * rect.Height];
@@ -325,7 +325,7 @@ namespace ERY.AgateLib.SystemDrawing
 
             mImage.UnlockBits(data);
 
-            buffer.SetData(bytes, PixelFormat.ARGB8888);
+            buffer.SetData(bytes, PixelFormat.BGRA8888);
 
             return buffer;
         }
@@ -335,9 +335,9 @@ namespace ERY.AgateLib.SystemDrawing
             BitmapData data = mImage.LockBits(new Rectangle(Point.Empty, (Size)SurfaceSize),
                 ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            if (buffer.PixelFormat != PixelFormat.ARGB8888)
+            if (buffer.PixelFormat != PixelFormat.BGRA8888)
             {
-                buffer = buffer.ConvertTo(PixelFormat.ARGB8888);
+                buffer = buffer.ConvertTo(PixelFormat.BGRA8888);
             }
 
             Marshal.Copy(buffer.Data, 0, data.Scan0, buffer.Data.Length);

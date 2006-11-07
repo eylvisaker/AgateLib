@@ -687,5 +687,37 @@ namespace ERY.AgateLib.MDX
         {
             get { return mDevice.MaxSurfaceSize; }
         }
+
+        internal int GetPixelPitch(Format format)
+        {
+            switch (format)
+            {
+                case Format.A8R8G8B8:
+                case Format.A8B8G8R8:
+                case Format.X8B8G8R8:
+                    return 4;
+
+                case Format.R8G8B8:
+                    return 3;
+
+                default:
+                    throw new NotSupportedException("Format not supported.");
+            }
+        }
+
+        internal PixelFormat GetPixelFormat(Format format)
+        {
+            switch (format)
+            {
+                case Format.A8R8G8B8: return PixelFormat.BGRA8888;
+                case Format.A8B8G8R8: return PixelFormat.RGBA8888;
+                case Format.X8B8G8R8: return PixelFormat.RGBA8888; // TODO: fix this one
+                case Format.X8R8G8B8: return PixelFormat.BGRA8888; // TODO: fix this one
+
+                default:
+                    throw new NotSupportedException("Format not supported.");
+
+            }
+        }
     }
 }
