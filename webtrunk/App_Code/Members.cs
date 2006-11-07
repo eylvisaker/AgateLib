@@ -1293,6 +1293,8 @@ CREATE TABLE Users
                     updateCmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
 
                     updateCmd.ExecuteNonQuery();
+
+                    return true;
                 }
             }
             else
