@@ -220,8 +220,7 @@ namespace ERY.AgateLib.MDX
         {
             mRenderTarget.BeginRender();
 
-            if (mRenderTarget.Width != 0 && mRenderTarget.Height != 0)
-                SetClipRect(new Rectangle(new Point(0, 0), mRenderTarget.Size));
+            SetClipRect(new Rectangle(new Point(0, 0), mRenderTarget.Size));
 
             mDevice.Set2DDrawState();
 
@@ -247,7 +246,6 @@ namespace ERY.AgateLib.MDX
 
         public override void SetClipRect(Rectangle newClipRect)
         {
-
             if (newClipRect.X < 0)
             {
                 newClipRect.Width += newClipRect.X;
@@ -267,6 +265,8 @@ namespace ERY.AgateLib.MDX
                 newClipRect.Height -= newClipRect.Bottom - mRenderTarget.Height;
             }
 
+            if (mRenderTarget.Width == 0 || mRenderTarget.Height == 0)
+                return;
             
             Viewport view = new Viewport();
 
