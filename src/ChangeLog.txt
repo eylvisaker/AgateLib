@@ -20,7 +20,11 @@ Fixes:
 * Various issues associated with running under Mono on Linux have been fixed.
 * Reorganized source tree for AgateLib, and moved stuff which is not critical for use by external programs to namespaces under ERY.AgateLib.
 * Reabsorbed the platform-specific drivers back into AgateLib.dll.  AgateWindows.dll will not be missed.
+* Fixed Display.PackAllSurfaces bug.
 
+Changes:
+* Packing surfaces is now done entirely in managed memory spaces, so it should be much more robust than the render-to-texture method used previously.
+* Is*Blank methods of the Surface class are obsolete now; instead use ReadPixels and then methods on the resulting PixelBuffer.
 
 Version 0.2.1
 ===================

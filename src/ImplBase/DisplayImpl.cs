@@ -60,6 +60,11 @@ namespace ERY.AgateLib.ImplBase
         }
 
         /// <summary>
+        /// The pixelformat that created surfaces should use.
+        /// </summary>
+        public abstract PixelFormat DefaultSurfaceFormat { get; }
+
+        /// <summary>
         /// Event raised when the current render target is changed.
         /// </summary>
         /// <param name="oldRenderTarget"></param>
@@ -431,6 +436,28 @@ namespace ERY.AgateLib.ImplBase
         /// <returns></returns>
         public virtual Surface BuildPackedSurface(Size size, SurfacePacker.RectPacker<Surface> packedRects)
         {
+            PixelBuffer buffer = new PixelBuffer(Display.DefaultSurfaceFormat, size);
+
+            foreach (SurfacePacker.RectHolder<Surface> rect in packedRects)
+            {
+                Surface surf = rect.Tag;
+                Rectangle dest = rect.Rect;
+
+                PixelBuffer pixels = surf.ReadPixels();
+
+                buffer.CopyFrom(pixels, new Rectangle(Point.Empty, surf.SurfaceSize),
+                    dest.Location, false);
+            }
+
+            Surface retval = new Surface(buffer);
+
+            foreach (SurfacePacker.RectHolder<Surface> rect in packedRects)
+            {
+                rect.Tag.SetSourceSurface(retval, rect.Rect);
+            }
+
+            return retval;
+            /*
             Surface retval = new Surface(size);
 
             IRenderTarget old = Display.RenderTarget;
@@ -453,6 +480,7 @@ namespace ERY.AgateLib.ImplBase
             }
 
             return retval;
+             * */
         }
 
 

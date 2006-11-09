@@ -220,7 +220,8 @@ namespace ERY.AgateLib.MDX
         {
             mRenderTarget.BeginRender();
 
-            SetClipRect(new Rectangle(new Point(0, 0), mRenderTarget.Size));
+            if (mRenderTarget.Width != 0 && mRenderTarget.Height != 0)
+                SetClipRect(new Rectangle(new Point(0, 0), mRenderTarget.Size));
 
             mDevice.Set2DDrawState();
 
@@ -266,6 +267,7 @@ namespace ERY.AgateLib.MDX
                 newClipRect.Height -= newClipRect.Bottom - mRenderTarget.Height;
             }
 
+            
             Viewport view = new Viewport();
 
             view.X = newClipRect.X;
@@ -718,6 +720,11 @@ namespace ERY.AgateLib.MDX
                     throw new NotSupportedException("Format not supported.");
 
             }
+        }
+
+        public override PixelFormat DefaultSurfaceFormat
+        {
+            get { return PixelFormat.RGBA8888; }
         }
     }
 }

@@ -153,7 +153,15 @@ namespace ERY.AgateLib
             }
         }
 
-
+        /// <summary>
+        /// Returns the PixelFormat of Surfaces which are created to be compatible
+        /// with the display mode.  If you want to create a PixelBuffer which does
+        /// not require a conversion when written to a Surface, use this format.
+        /// </summary>
+        public static PixelFormat DefaultSurfaceFormat
+        {
+            get { return impl.DefaultSurfaceFormat; }
+        }
 
         /// <summary>
         /// Gets or sets the current render target.
@@ -190,8 +198,7 @@ namespace ERY.AgateLib
         /// <summary>
         /// Gets or sets the threshold value for alpha transparency below which
         /// pixels are considered completely transparent, and may not be drawn.
-        /// 
-        /// Whether or not this flag is actually used is driver-dependent.
+        /// Acceptable values are within the range of 0 to 1.
         /// </summary>
         public static double AlphaThreshold
         {
