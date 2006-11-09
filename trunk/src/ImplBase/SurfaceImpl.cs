@@ -267,7 +267,7 @@ namespace ERY.AgateLib.ImplBase
         /// <returns></returns>
         public virtual PixelBuffer ReadPixels(PixelFormat format)
         {
-            return ReadPixels(format, new Rectangle(0, 0, SurfaceWidth, SurfaceHeight));
+            return ReadPixels(format, new Rectangle(Point.Empty, SurfaceSize));
         }
         /// <summary>
         /// Creates a PixelBuffer object with a copy of the pixel data in the 

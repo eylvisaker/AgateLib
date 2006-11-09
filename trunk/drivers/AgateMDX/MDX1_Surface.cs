@@ -380,8 +380,8 @@ namespace ERY.AgateLib.MDX
         private void SetVertsPosition(CustomVertex.TransformedColoredTextured[] verts, int index,
             RectangleF dest, float rotationCenterX, float rotationCenterY)
         {
-            float destX = dest.X - 0.5f;
-            float destY = dest.Y - 0.5f;
+            float destX = dest.X;// -0.5f;
+            float destY = dest.Y;// -0.5f;
             float destWidth = dest.Width;
             float destHeight = dest.Height;
 
@@ -497,6 +497,9 @@ namespace ERY.AgateLib.MDX
         }
         public override void Draw(Rectangle srcRect, Rectangle destRect)
         {
+            srcRect.X += mSrcRect.X;
+            srcRect.Y += mSrcRect.Y;
+
             //DrawWithoutVBNoRotation(srcRect, destRect, true);
             if (mRotationCos != 1.0f)
             {
@@ -726,13 +729,20 @@ namespace ERY.AgateLib.MDX
         {
             Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
 
+            rect.X += mSrcRect.X;
+            rect.Y += mSrcRect.Y;
+
             int stride;
             int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
 
             PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
 
+            if (format == PixelFormat.Any)
+                format = pixelFormat;
+
             GraphicsStream stm = surf.LockRectangle(
-                (Drawing.Rectangle)rect, LockFlags.ReadOnly, out stride);
+                new Drawing.Rectangle(0, 0, mTextureSize.Width, mTextureSize.Height),
+                LockFlags.ReadOnly, out stride);
 
             byte[] array = new byte[SurfaceWidth * SurfaceHeight * pixelPitch];
             int length = SurfaceWidth * pixelPitch;
@@ -740,7 +750,7 @@ namespace ERY.AgateLib.MDX
 
             for (int i = rect.Top; i < rect.Bottom; i++)
             {
-                IntPtr ptr = (IntPtr)((int)stm.InternalData + i * stride);
+                IntPtr ptr = (IntPtr)((int)stm.InternalData + i * stride + rect.Left * pixelPitch);
                 Marshal.Copy(ptr, array, index, length);
 
                 index += length;
@@ -749,7 +759,7 @@ namespace ERY.AgateLib.MDX
             surf.UnlockRectangle();
             surf.Dispose();
 
-            return new PixelBuffer(pixelFormat, rect.Size, array);
+            return new PixelBuffer(format, rect.Size, array, pixelFormat);
 
         }
 

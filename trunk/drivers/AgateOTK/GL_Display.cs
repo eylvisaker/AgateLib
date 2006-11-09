@@ -33,6 +33,10 @@ namespace ERY.AgateLib.OpenGL
 
         }
 
+        public override PixelFormat DefaultSurfaceFormat
+        {
+            get { return PixelFormat.RGBA8888; }
+        }
         public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, 
             string iconFile, bool startFullscreen, bool allowResize)
         {
@@ -84,9 +88,10 @@ namespace ERY.AgateLib.OpenGL
             mRenderTarget.EndRender(waitVSync);
         }
 
+        // TODO: Make this not hardcoded
         public override Size MaxSurfaceSize
         {
-            get { throw new Exception("The method or operation is not implemented."); }
+            get { return new Size(1024, 1024); }
         }
 
         // TODO: Test clip rect stuff.

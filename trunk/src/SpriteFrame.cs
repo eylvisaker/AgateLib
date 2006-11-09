@@ -176,10 +176,13 @@ namespace ERY.AgateLib
         private void Private_SetFrame(Surface srcSurface, Rectangle rect, bool trim)
         {
             // copy the source surface to a new memory surface
-            Surface surface = srcSurface.CarveSubSurface(rect); 
-            
+            Surface surface = srcSurface.CarveSubSurface(rect);
+            PixelBuffer pixels = surface.ReadPixels();
+
+            //pixels.SaveTo("test.png", ImageFileFormat.Png);
+
             // check to see if this frame is completely blank
-            if (surface.IsSurfaceBlank())
+            if (pixels.IsBlank())
             {
                 surface.Dispose();
                 mSurface = null;
@@ -191,11 +194,17 @@ namespace ERY.AgateLib
             mSurface = surface;
 
             if (trim)
-                TrimFrame();
+                TrimFrame(pixels);
         }
 
-        private void TrimFrame()
+        //static bool inTrimFrame = false;
+
+        private void TrimFrame(PixelBuffer pixels)
         {
+            //if (inTrimFrame)
+            //    return;
+            //inTrimFrame = true;
+
             Rectangle startRect = new Rectangle(0, 0, mSurface.SurfaceWidth, mSurface.SurfaceHeight);
 
             //mSurface.SaveTo("Test.png");
@@ -203,7 +212,7 @@ namespace ERY.AgateLib
             // now get rid of extra junk
             Rectangle newRect = startRect;
 
-            while (mSurface.IsRowBlank(newRect.Top))
+            while (pixels.IsRowBlank(newRect.Top))
             {
                 newRect.Y++;
                 newRect.Height--;
@@ -215,7 +224,7 @@ namespace ERY.AgateLib
                     return;
                 }
             }
-            while (mSurface.IsRowBlank(newRect.Bottom - 1))
+            while (pixels.IsRowBlank(newRect.Bottom - 1))
             {
                 newRect.Height--;
 
@@ -226,7 +235,7 @@ namespace ERY.AgateLib
                     return;
                 }
             }
-            while (mSurface.IsColumnBlank(newRect.Left))
+            while (pixels.IsColumnBlank(newRect.Left))
             {
                 newRect.X++;
                 newRect.Width--;
@@ -239,7 +248,7 @@ namespace ERY.AgateLib
                     return;
                 }
             }
-            while (mSurface.IsColumnBlank(newRect.Right - 1))
+            while (pixels.IsColumnBlank(newRect.Right - 1))
             {
                 newRect.Width--;
 
@@ -250,19 +259,29 @@ namespace ERY.AgateLib
                     return;
                 }
             }
-            /*
+            
             // make sure there's a one pixel border of blanks, if possible.
-            if (newRect.Height < mSurface.SurfaceHeight)
+            if (newRect.X > 0)
             {
-                newRect.Y--;
-                newRect.Height += 2;
+                newRect.X--;
+                newRect.Width++;
             }
             if (newRect.Width < mSurface.SurfaceWidth)
             {
-                newRect.X--;
-                newRect.Width += 2;
+                newRect.Width += 1;
             }
-            */
+
+            if (newRect.Y > 0)
+            {
+                newRect.Y--;
+                newRect.Height++;
+            }
+            else if (newRect.Height < mSurface.SurfaceHeight)
+            {
+                newRect.Height++;
+            }
+            
+            
             mIsBlank = false;
 
             // now check to see if we need to redefine our existing rect.
@@ -279,6 +298,8 @@ namespace ERY.AgateLib
                 oldSurface.Dispose();
 
             }
+            //inTrimFrame = false;
+
         }
 
         /// <summary>

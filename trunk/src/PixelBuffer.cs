@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Drawing = System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -310,10 +311,149 @@ namespace ERY.AgateLib
             get { return Width * PixelStride; }
         }
 
+        /// <summary>
+        /// Checks to see if this PixelBuffer contains only transparent pixels.
+        /// Pixels with an alpha value of less than Display.AlphaThreshold are considered
+        /// transparent.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsBlank()
+        {
+            return IsBlank(Display.AlphaThreshold);
+        }
+        /// <summary>
+        /// Checks to see if this PixelBuffer contains only transparent pixels.
+        /// This overload allows the alpha tolerance to be specified explicitly.
+        /// </summary>
+        /// <param name="alphaTolerance"></param>
+        /// <returns></returns>
+        public bool IsBlank(double alphaTolerance)
+        {
+            for (int i = 0; i < Height; i++)
+            {
+                if (IsRowBlank(i, alphaTolerance) == false)
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks to see if the selected row of this PixelBuffer contains only
+        /// transparent pixels.
+        /// Pixels with an alpha value of less than Display.AlphaThreshold are considered
+        /// transparent.
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        public bool IsRowBlank(int row)
+        {
+            return IsRowBlank(row, Display.AlphaThreshold);
+        }
+        /// <summary>
+        /// Checks to see if the selected row of this PixelBuffer contains only
+        /// transparent pixels.
+        /// This overload allows the alpha tolerance to be specified explicitly.
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="alphaTolerance"></param>
+        /// <returns></returns>
+        public bool IsRowBlank(int row, double alphaTolerance)
+        {
+            if (FormatHasAlpha(PixelFormat) == false)
+                return false;
+            
+            for (int i = 0; i < Width; i++)
+            {
+                Color clr = GetPixel(i, row);
+
+                if (clr.A / 255.0 > alphaTolerance)
+                    return false;
+            }
+
+            return true;
+        }
+        /// <summary>
+        /// Checks to see if the selected row of this PixelBuffer contains only
+        /// transparent pixels.
+        /// Pixels with an alpha value of less than Display.AlphaThreshold are considered
+        /// transparent.
+        /// </summary>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        public bool IsColumnBlank(int col)
+        {
+            return IsColumnBlank(col, Display.AlphaThreshold);
+        }
+        /// <summary>
+        /// Checks to see if the selected row of this PixelBuffer contains only
+        /// transparent pixels.
+        /// This overload allows the alpha tolerance to be specified explicitly.
+        /// </summary>
+        /// <param name="col"></param>
+        /// <param name="alphaTolerance"></param>
+        /// <returns></returns>
+        public bool IsColumnBlank(int col, double alphaTolerance)
+        {
+            if (FormatHasAlpha(PixelFormat) == false)
+                return false;
+
+            for (int i = 0; i < Height; i++)
+            {
+                Color clr = GetPixel(col, i);
+
+                if (clr.A / 255.0 > alphaTolerance)
+                    return false;
+            }
+
+            return true;
+        }
+
         #endregion
         #region --- Public Methods ---
 
-        
+        /// <summary>
+        /// Copies pixel data from the specified PixelBuffer.
+        /// </summary>
+        /// <param name="buffer">The pixel buffer to copy from.</param>
+        /// <param name="srcRect"></param>
+        /// <param name="destPt"></param>
+        /// <param name="clip">If true, the copied region will automatically
+        /// be clipped.  If false, this method will throw an exception if the area
+        /// being copied to is out of range.</param>
+        public void CopyFrom(PixelBuffer buffer, Rectangle srcRect, Point destPt, bool clip)
+        {
+            if (!clip)
+            {
+                if (srcRect.Width + destPt.X >= this.Width)
+                    throw new ArgumentOutOfRangeException("Attempt to copy area to invalid region.");
+                if (srcRect.Height + destPt.Y >= this.Height)
+                    throw new ArgumentOutOfRangeException("Attempt to copy area to invalid region.");
+            }
+
+            if (srcRect.X < 0 || srcRect.Y < 0 || srcRect.Right > buffer.Width || srcRect.Bottom > buffer.Height)
+                throw new ArgumentOutOfRangeException("Source rectangle outside size of buffer!");
+
+            for (int y = 0; y < srcRect.Height; y++)
+            {
+                for (int x = 0; x < srcRect.Width; x++)
+                {
+                    if (buffer.PixelFormat == PixelFormat)
+                    {
+                        int destIndex = GetPixelIndex(x + destPt.X, y + destPt.Y);
+                        int srcIndex = buffer.GetPixelIndex(x + srcRect.X, y + srcRect.Y);
+
+                        for (int i = 0; i < PixelStride; i++)
+                            Data[destIndex + i] = buffer.Data[srcIndex + i];
+                    }
+                    else
+                    {
+                        Color pixel = buffer.GetPixel(x + srcRect.X, y + srcRect.Y);
+                        SetPixel(x + destPt.X, y + destPt.Y, pixel);
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Gets the index of the first byte in the pixel in the Data array
         /// at the specified point.
@@ -506,6 +646,118 @@ namespace ERY.AgateLib
                 }
             }
         }
+
+        
+        /// <summary>
+        /// Creates a new PixelBuffer and copies the data in this PixelBuffer,
+        /// performing automatic conversion.
+        /// </summary>
+        /// <param name="pixelFormat">PixelFormat that the newly created PixelBuffer should have.</param>
+        /// <returns></returns>
+        public PixelBuffer ConvertTo(PixelFormat pixelFormat)
+        {
+            return new PixelBuffer(pixelFormat, Size, this.Data, this.PixelFormat);
+        }
+
+        /// <summary>
+        /// Creates a new PixelBuffer of the specified size, with the
+        /// data in this PixelBuffer copied to the upper left corner.
+        /// </summary>
+        /// <param name="pixelFormat">PixelFormat that the newly created PixelBuffer should have.</param>
+        /// <param name="mTextureSize"></param>
+        /// <returns></returns>
+        public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size mTextureSize)
+        {
+            return ConvertTo(pixelFormat, mTextureSize, Point.Empty);
+        }
+
+        /// <summary>
+        /// Creates a new PixelBuffer of the specified size, with the
+        /// data in this PixelBuffer copied so that the upper left corner
+        /// is specified by point.
+        /// </summary>
+        /// <param name="pixelFormat">PixelFormat that the newly created PixelBuffer should have.</param>
+        /// <param name="mTextureSize"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size mTextureSize, Point point)
+        {
+            PixelBuffer retval = new PixelBuffer(pixelFormat, mTextureSize);
+
+            for (int y = 0; y < Height; y++)
+            {
+                int srcIndex = RowStride * y;
+                int destIndex = retval.RowStride *y + point.X;
+
+                // same format copy, no conversion necessary.
+                if (pixelFormat == PixelFormat)
+                {
+
+                    for (int x = 0; x < Width * PixelStride; x++)
+                    {
+                        retval.Data[destIndex + x] = Data[srcIndex + x];
+                    }
+                }
+                else
+                {
+                    // different formats must convert.
+                    for (int x = 0; x < Width; x++)
+                    {
+                        retval.SetPixel(x, y, GetPixel(x, y));
+                    }
+                }
+            }
+
+            return retval;
+        }
+
+        /// <summary>
+        /// Saves the data in the PixelBuffer for to an image file.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="format"></param>
+        public void SaveTo(string filename, ImageFileFormat format)
+        {
+            Drawing.Bitmap bmp = new System.Drawing.Bitmap(Width, Height);
+
+            Drawing.Imaging.BitmapData data = bmp.LockBits(
+                new Drawing.Rectangle(Drawing.Point.Empty, (Drawing.Size)Size),
+                Drawing.Imaging.ImageLockMode.WriteOnly, 
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            PixelBuffer buffer = this;
+
+            if (PixelFormat != PixelFormat.BGRA8888)
+            {
+                buffer = ConvertTo(PixelFormat.BGRA8888);
+            }
+
+            Marshal.Copy(buffer.Data, 0, data.Scan0, buffer.Data.Length);
+
+            bmp.UnlockBits(data);
+
+            switch(format)
+            {
+                case ImageFileFormat.Bmp:
+                    bmp.Save(filename, Drawing.Imaging.ImageFormat.Bmp);
+                    break;
+
+                case ImageFileFormat.Jpg:
+                    bmp.Save(filename, Drawing.Imaging.ImageFormat.Jpeg);
+                    break;
+                    
+                case ImageFileFormat.Png:
+                    bmp.Save(filename, Drawing.Imaging.ImageFormat.Png);
+                    break;
+                    
+            }
+
+        }
+
+        #endregion
+
+        #region --- Public Static Methods ---
+
         /// <summary>
         /// Converts a single pixel in the specified format at the specified location 
         /// from the source array and writes it to the specified location in the 
@@ -540,9 +792,11 @@ namespace ERY.AgateLib
         /// specified format.
         /// </summary>
         /// <param name="format">Which format to look up.</param>
-        /// <returns>The number of bytes used by the format.  This is always
+        /// <returns>
+        /// The number of bytes used by the format.  This is always
         /// either 2 for 15 or 16 bit formats, 3 for 24 bit formats, and 4 for
-        /// 32 bit formats.</returns>
+        /// 32 bit formats.
+        /// </returns>
         public static int GetPixelStride(PixelFormat format)
         {
             switch (format)
@@ -553,7 +807,6 @@ namespace ERY.AgateLib
                 case PixelFormat.RGBA8888:
                 case PixelFormat.XRGB8888:
                 case PixelFormat.XBGR8888:
-                    
                     return 4;
 
                 case PixelFormat.RGB888:
@@ -573,64 +826,40 @@ namespace ERY.AgateLib
         }
 
         /// <summary>
-        /// Creates a new PixelBuffer and copies the data in this pixel buffer,
-        /// performing automatic conversion.
+        /// Returns true if the specified PixelFormat contains an
+        /// alpha channel.
         /// </summary>
-        /// <param name="pixelFormat"></param>
+        /// <param name="format"></param>
         /// <returns></returns>
-        public PixelBuffer ConvertTo(PixelFormat pixelFormat)
+        public static bool FormatHasAlpha(PixelFormat format)
         {
-            return new PixelBuffer(pixelFormat, Size, this.Data, this.PixelFormat);
-        }
-
-        /// <summary>
-        /// Creates a new PixelBuffer of the specified size, with the
-        /// data in this PixelBuffer copied to the upper left corner.
-        /// </summary>
-        /// <param name="mTextureSize"></param>
-        /// <returns></returns>
-        public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size mTextureSize)
-        {
-            return ConvertTo(pixelFormat, mTextureSize, Point.Empty);
-        }
-
-        /// <summary>
-        /// Creates a new PixelBuffer of the specified size, with the
-        /// data in this PixelBuffer copied so that the upper left corner
-        /// is specified by point.
-        /// </summary>
-        /// <param name="mTextureSize"></param>
-        /// <param name="point"></param>
-        /// <returns></returns>
-        public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size mTextureSize, Point point)
-        {
-            PixelBuffer retval = new PixelBuffer(pixelFormat, mTextureSize);
-
-            for (int y = 0; y < Height; y++)
+            switch (format)
             {
-                int srcIndex = RowStride * y;
-                int destIndex = retval.RowStride *y + point.X;
+                case PixelFormat.ABGR8888:
+                case PixelFormat.ARGB8888:
+                case PixelFormat.BGRA8888:
+                case PixelFormat.RGBA8888:
+                    return true;
 
-                // same format copy, no conversion necessary.
-                if (pixelFormat == PixelFormat)
-                {
+                case PixelFormat.XRGB8888:
+                case PixelFormat.XBGR8888:
+                    return false;
 
-                    for (int x = 0; x < Width * PixelStride; x++)
-                    {
-                        retval.Data[destIndex + x] = Data[srcIndex + x];
-                    }
-                }
-                else
-                {
-                    // different formats must convert.
-                    for (int x = 0; x < Width; x++)
-                    {
-                        retval.SetPixel(x, y, GetPixel(x, y));
-                    }
-                }
+                case PixelFormat.RGB888:
+                case PixelFormat.BGR888:
+                    return false;
+
+                case PixelFormat.BGR565:
+                case PixelFormat.XBGR1555:
+                case PixelFormat.XRGB1555:
+                case PixelFormat.RGB565:
+                    return false;
+
+                default:
+                    throw new ArgumentOutOfRangeException("FormatHasAlpha parameter format " +
+                        "unrecognized.");
+
             }
-
-            return retval;
         }
 
         #endregion

@@ -195,6 +195,8 @@ namespace ERY.AgateLib.MDX
         {
             if (creatingSwapChain)
                 return;
+            if (mChooseWidth == 0 || mChooseHeight == 0)
+                return;
 
             // create swap chain
             creatingSwapChain = true;

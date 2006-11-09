@@ -363,7 +363,7 @@ namespace ERY.AgateLib.Utility
                 mPackingSurface = Display.BuildPackedSurface(mRects.ContainerSize, RectPacker);
 
 
-                mPackingSurface.SaveTo("test.png", ImageFileFormat.Png);
+                mPackingSurface.SaveTo("testpackedsurface.png", ImageFileFormat.Png);
 
             }
         }

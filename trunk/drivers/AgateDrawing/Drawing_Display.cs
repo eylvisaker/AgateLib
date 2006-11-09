@@ -197,6 +197,10 @@ namespace ERY.AgateLib.SystemDrawing
         #endregion 
 
     
+        public override PixelFormat DefaultSurfaceFormat
+        {
+            get { return PixelFormat.BGRA8888; }
+        }
     
         public static void Register()
         {

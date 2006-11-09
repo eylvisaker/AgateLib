@@ -118,6 +118,15 @@ namespace ERY.AgateLib
             Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
         }
         /// <summary>
+        /// Constructs a surface object from the specified PixelBuffer object.
+        /// </summary>
+        /// <param name="pixels"></param>
+        public Surface(PixelBuffer pixels)
+            : this(pixels.Size)
+        {
+            WritePixels(pixels);
+        }
+        /// <summary>
         /// Creates a surface object and to be ready to attach to an implemented object.
         /// Throws an Exception if there is a passed impl.
         /// (This is not intended for use by applications).
@@ -348,6 +357,7 @@ namespace ERY.AgateLib
         /// display object..
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Use ReadPixels and PixelBuffer.Is*Blank methods instead.")]
         public bool IsSurfaceBlank() { return impl.IsSurfaceBlank(); }
         /// <summary>
         /// Checks to see whether the surface pixels all have
@@ -356,6 +366,7 @@ namespace ERY.AgateLib
         /// <param name="alphaThreshold">The alpha value below which to consider 
         /// a pixel blank.  In the range 0 &lt;= alphaThreshold &lt;= 255.</param>
         /// <returns></returns>
+        [Obsolete("Use ReadPixels and PixelBuffer.Is*Blank methods instead.")]
         public bool IsSurfaceBlank(int alphaThreshold) { return impl.IsSurfaceBlank(alphaThreshold); }
 
         /// <summary>
@@ -364,6 +375,7 @@ namespace ERY.AgateLib
         /// </summary>
         /// <param name="row">Which row.  Valid range is between 0 and SurfaceSize.Height - 1.</param>
         /// <returns></returns>
+        [Obsolete("Use ReadPixels and PixelBuffer.Is*Blank methods instead.")]
         public bool IsRowBlank(int row) { return impl.IsRowBlank(row); }
         /// <summary>
         /// Checks to see whether all the pixels along the given column are all
@@ -371,6 +383,7 @@ namespace ERY.AgateLib
         /// </summary>
         /// <param name="col">Which column.  Valid range is between 0 and SurfaceSize.Width - 1.</param>
         /// <returns></returns>
+        [Obsolete("Use ReadPixels and PixelBuffer.Is*Blank methods instead.")]
         public bool IsColumnBlank(int col) { return impl.IsColumnBlank(col); }
 
         #endregion

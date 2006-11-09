@@ -109,6 +109,11 @@ namespace ERY.AgateLib.OpenGL
         public void MakeCurrent()
         {
             mContext.MakeCurrent();
+
+            Gl.Viewport(0, 0, Width, Height);
+
+            mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, Height, Width, 0));
+
         }
 
         private void AttachEvents()

@@ -274,6 +274,7 @@ namespace ERY.AgateLib
             using (Surface surf = new Surface(filename))
             {
                 surf.ShouldBePacked = false;
+
                 AddFrames(surf);
             }
 
@@ -286,7 +287,7 @@ namespace ERY.AgateLib
         /// <param name="surface"></param>
         public void AddFrames(Surface surface)
         {
-            AddFrames(surface, new Point(0, 0), new Point(0, 0), true);
+            AddFrames(surface, Point.Empty, Point.Empty, true);
         }
         /// <summary>
         /// Adds frames from the given filename, using the size of this sprite.
@@ -1091,6 +1092,18 @@ namespace ERY.AgateLib
                     doEvent = true;
 
                 mAnimating = value;
+
+                if (value &&
+                    (AnimationType == AnimType.Once || AnimationType == AnimType.OnceDisappear ||
+                     AnimationType == AnimType.OnceHoldLast))
+                {
+                    
+                    if (this.PlayReverse && mCurrentFrameIndex == 0)
+                        mCurrentFrameIndex = mFrames.Count - 1;
+                    else if (mCurrentFrameIndex == mFrames.Count - 1)
+                        mCurrentFrameIndex = 0;
+                    
+                }
 
                 if (doEvent)
                 {

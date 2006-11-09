@@ -205,6 +205,9 @@ namespace ERY.AgateLib.SystemDrawing
 
         private void OnResize()
         {
+            if (mRenderTarget.ClientSize.Width == 0 || mRenderTarget.ClientSize.Height == 0)
+                return;
+
             mBackBuffer = new Bitmap(mRenderTarget.ClientSize.Width, mRenderTarget.ClientSize.Height);
         }
 

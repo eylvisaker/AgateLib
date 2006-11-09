@@ -73,7 +73,7 @@ namespace ERY.SpriteTester
 
             SetSprite(new Sprite(@"Images/attacke.png", 96, 96));
 
-            //Display.PackAllSurfaces();
+            Display.PackAllSurfaces();
 
             return true;
 
@@ -158,8 +158,11 @@ namespace ERY.SpriteTester
 
             Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition, mSprite.DisplaySize), AgateLib.Geometry.Color.Red);
 
-            Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X - crossSize, mSpritePosition.Y, crossSize * 2, 0), AgateLib.Geometry.Color.White);
-            Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X, mSpritePosition.Y - crossSize, 0, crossSize * 2), AgateLib.Geometry.Color.White);
+            // draw cross
+            Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X - crossSize, mSpritePosition.Y, crossSize * 2+1, 1), 
+                AgateLib.Geometry.Color.White);
+            Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X, mSpritePosition.Y - crossSize, 1, crossSize * 2+1), 
+                AgateLib.Geometry.Color.White);
 
             mSprite.Update();
             mSprite.Draw(mSpritePosition);

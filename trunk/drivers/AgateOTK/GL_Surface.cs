@@ -62,7 +62,6 @@ namespace ERY.AgateLib.OpenGL
 
             Load();
         }
-
         public GL_Surface(Size size)
         {
             mDisplay = Display.Impl as GL_Display;
@@ -91,7 +90,6 @@ namespace ERY.AgateLib.OpenGL
             mTexCoord = GetTextureCoords(mSourceRect);
 
         }
-
         private GL_Surface(int textureID, Rectangle sourceRect, Size textureSize)
         {
             mDisplay = Display.Impl as GL_Display;
@@ -139,10 +137,14 @@ namespace ERY.AgateLib.OpenGL
            
         }
 
-
+        public override void Draw(Rectangle destRect)
+        {
+            Draw(mSourceRect, destRect);
+        }
         public override void Draw(Rectangle srcRect, Rectangle destRect)
         {
             TextureCoordinates texcoords = GetTextureCoords(srcRect);
+            RectangleF dest = new RectangleF(destRect.X, destRect.Y, destRect.Width, destRect.Height);
 
             Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
 
@@ -150,10 +152,10 @@ namespace ERY.AgateLib.OpenGL
 
             Gl.Begin(Enums.BeginMode.QUADS);
 
-            Gl.TexCoord2f(texcoords.Left, texcoords.Top); Gl.Vertex2f(destRect.Left, destRect.Top);
-            Gl.TexCoord2f(texcoords.Right, texcoords.Top); Gl.Vertex2f(destRect.Right, destRect.Top);
-            Gl.TexCoord2f(texcoords.Right, texcoords.Bottom); Gl.Vertex2f(destRect.Right, destRect.Bottom);
-            Gl.TexCoord2f(texcoords.Left, texcoords.Bottom); Gl.Vertex2f(destRect.Left, destRect.Bottom);
+            Gl.TexCoord2f(texcoords.Left, texcoords.Top); Gl.Vertex2f(dest.Left, dest.Top);
+            Gl.TexCoord2f(texcoords.Right, texcoords.Top); Gl.Vertex2f(dest.Right, dest.Top);
+            Gl.TexCoord2f(texcoords.Right, texcoords.Bottom); Gl.Vertex2f(dest.Right, dest.Bottom);
+            Gl.TexCoord2f(texcoords.Left, texcoords.Bottom); Gl.Vertex2f(dest.Left, dest.Bottom);
 
             Gl.End();
 
@@ -167,6 +169,7 @@ namespace ERY.AgateLib.OpenGL
         public override void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
         {
             PointF translatePoint = Origin.CalcF(DisplayAlignment, DisplaySize);
+
 
             if (DisplaySize.Width < 0)
                 translatePoint.X += DisplaySize.Width;
@@ -204,17 +207,24 @@ namespace ERY.AgateLib.OpenGL
 
         public override void SaveTo(string filename, ImageFileFormat format)
         {
-            
+            PixelBuffer buffer = ReadPixels(PixelFormat.Any);
+            buffer.SaveTo(filename, format);
         }
 
         public override SurfaceImpl CarveSubSurface(Surface surface, Rectangle srcRect)
         {
+            srcRect.X += mSourceRect.X;
+            srcRect.Y += mSourceRect.Y;
+
             return new GL_Surface(mTextureID, srcRect, mTextureSize);
         }
 
         public override void SetSourceSurface(SurfaceImpl surf, Rectangle srcRect)
         {
+            ReleaseTextureRef();
             AddTextureRef((surf as GL_Surface).mTextureID);
+
+            mTextureSize = (surf as GL_Surface).mTextureSize;
             mSourceRect = srcRect;
 
             mTexCoord = GetTextureCoords(mSourceRect);
@@ -230,6 +240,9 @@ namespace ERY.AgateLib.OpenGL
             if (format == PixelFormat.Any)
                 format = PixelFormat.RGBA8888;
 
+            rect.X += mSourceRect.X;
+            rect.Y += mSourceRect.Y;
+
             int pixelStride = 4;
             int size = mTextureSize.Width * mTextureSize.Height * pixelStride;
             int memStride = pixelStride * mTextureSize.Width;
@@ -241,9 +254,9 @@ namespace ERY.AgateLib.OpenGL
 
             byte[] data = new byte[rect.Width * rect.Height * pixelStride];
 
-            for (int i = 0; i < SurfaceHeight; i++)
+            for (int i = rect.Top; i < rect.Bottom; i++)
             {
-                int dataIndex = i * pixelStride * rect.Width;
+                int dataIndex = (i - rect.Top) * pixelStride * rect.Width;
                 IntPtr memPtr = (IntPtr)((int)memory + i * memStride + rect.Left * pixelStride);
 
                 Marshal.Copy(memPtr, data, dataIndex, pixelStride * rect.Width);
@@ -331,7 +344,6 @@ namespace ERY.AgateLib.OpenGL
                              Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
             
         }
-
         public override void EndRender(bool waitVSync)
         {
            // Gl.Disable(Enums.EnableCap.TEXTURE_2D);
@@ -428,8 +440,8 @@ namespace ERY.AgateLib.OpenGL
             TextureCoordinates coords = new TextureCoordinates(
                 (srcRect.Left) / (float)mTextureSize.Width,
                 (srcRect.Top) / (float)mTextureSize.Height,
-                (srcRect.Right) / (float)mTextureSize.Width,
-                (srcRect.Bottom) / (float)mTextureSize.Height);
+                (srcRect.Right ) / (float)mTextureSize.Width,
+                (srcRect.Bottom ) / (float)mTextureSize.Height);
 
             return coords;
         }
