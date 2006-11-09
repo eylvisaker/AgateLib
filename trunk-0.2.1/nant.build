@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<project name="AgateGL" default="build" basedir=".">
+  <description>The Hello World of build files.</description>
+  <property name="debug" value="true" overwrite="false" />
+  <target name="clean" description="Remove all generated files">
+    <delete file="bin\Nant\*.dll" failonerror="false" />
+  </target>
+  <target name="build" description="Builds Agate and drivers.">
+    <nant target="AgateLib" buildfile="nant.build" />
+    <nant target="AgateDrawing" buildfile="nant.build"/>
+  </target>
+  <target name="AgateLib" description="Compiles the core AgateLib.dll library">
+    <csc target="library" output="bin\Nant\AgateLib.dll" debug="${debug}" unsafe="true">
+      <sources>
+        <include name="src\*.cs" />
+        <include name="src\ImplBase\*.cs" />
+        <include name="src\PlatformSpecific\*.cs" />
+        <include name="src\Utility\*.cs" />
+        <include name="src\Properties\*.cs" />
+      </sources>
+    </csc>
+  </target>
+  <target name="AgateDrawing" depends="AgateLib" description="Compiles the System.Drawing implementation of Agate.">
+    <csc target="library" output="bin\Nant\AgateDrawing.dll" debug="${debug}">
+      <references>
+        <include name="bin\Nant\AgateLib.dll"/>
+      </references>
+      <sources>
+        <include name="drivers\AgateDrawing\*.cs" />
+        <include name="drivers\AgateDrawing\Properties\*.cs" />
+      </sources>
+    </csc>
+  </target>
+  <!-- Building AgateMDX with Nant doesn't work right now.  Use Visual Studio. -->
+  <target name="AgateMDX" depends="AgateLib" description="Compiles the MDX 1.1 implementation of Agate.">
+    <csc target="library" output="bin\Nant\AgateMDX.dll" debug="${debug}">
+      <sources>
+        <include name="drivers\AgateMDX\*.cs" />
+        <include name="drivers\AgateMDX\Properties\*.cs" />
+      </sources>
+    </csc>
+  </target>
+</project>
+
