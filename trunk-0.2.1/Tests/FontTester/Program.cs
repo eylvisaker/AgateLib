@@ -27,7 +27,16 @@ namespace FontTester
                     @"..\..\src\AgateLib.ico", false, true);
 
                 FontSurface font = new FontSurface("Arial", 12);
-                FontSurface bitmapFont = FontSurface.BitmapMonospace("font.png", new Size(16, 16));
+                FontSurface bitmapFont = null;
+
+                try
+                {
+                    bitmapFont = FontSurface.BitmapMonospace("font.png", new Size(16, 16));
+                }
+                catch (System.IO.FileNotFoundException e)
+                {
+                    System.Diagnostics.Debug.WriteLine("font.png file not found.  " + e.Message);
+                }
 
                 int frame = 0;
 
@@ -86,20 +95,23 @@ namespace FontTester
                         10, 200, 70 + (int)( 50 * Math.Cos(frame / 10.0)), 50), Color.Red);
 
                     // do some bitmap font stuff
-                    bitmapFont.DrawText(10, 350, "THIS IS BITMAP FONT TEXT.");
+                    if (bitmapFont != null)
+                    {
+                        bitmapFont.DrawText(10, 350, "THIS IS BITMAP FONT TEXT.");
 
-                    bitmapFont.Color = Color.Red;
-                    bitmapFont.DrawText(10, 366, "THIS IS RED TEXT.");
-                    bitmapFont.Color = Color.White;
+                        bitmapFont.Color = Color.Red;
+                        bitmapFont.DrawText(10, 366, "THIS IS RED TEXT.");
+                        bitmapFont.Color = Color.White;
 
-                    bitmapFont.SetScale(3, 2);
-                    bitmapFont.DrawText(10, 382, "THIS IS BIGG.");
-                    bitmapFont.SetScale(1, 1);
+                        bitmapFont.SetScale(3, 2);
+                        bitmapFont.DrawText(10, 382, "THIS IS BIGG.");
+                        bitmapFont.SetScale(1, 1);
 
-                    Display.FillRect(new Rectangle(95, 425, 10, 10), Color.Blue);
-                    bitmapFont.DisplayAlignment = OriginAlignment.Center;
-                    bitmapFont.DrawText(100, 430, "CHECK");
-                    bitmapFont.DisplayAlignment = OriginAlignment.TopLeft;
+                        Display.FillRect(new Rectangle(95, 425, 10, 10), Color.Blue);
+                        bitmapFont.DisplayAlignment = OriginAlignment.Center;
+                        bitmapFont.DrawText(100, 430, "CHECK");
+                        bitmapFont.DisplayAlignment = OriginAlignment.TopLeft;
+                    }
 
                     // and we're done.
                     Display.EndFrame();

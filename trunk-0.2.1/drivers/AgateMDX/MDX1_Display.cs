@@ -265,6 +265,9 @@ namespace ERY.AgateLib.MDX
                 newClipRect.Height -= newClipRect.Bottom - mRenderTarget.Height;
             }
 
+            if (newClipRect.Width == 0 || newClipRect.Height == 0)
+                return;
+
             Viewport view = new Viewport();
 
             view.X = newClipRect.X;

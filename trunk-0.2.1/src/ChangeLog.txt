@@ -1,4 +1,8 @@
 
+Version 0.2.1a
+===================
+* Fixed bugs in the MDX and System.Drawing drivers where an Exception was thrown if the application was minimized.
+
 Version 0.2.1
 ===================
 * Restructured storage for registered drivers in Registrar class to allow easier addition of new types of drivers.
