@@ -18,26 +18,12 @@ namespace ERY.AgateLib.OpenGL
 {
     public class GL_Surface : SurfaceImpl, GL_IRenderTarget
     {
-        /// <summary>
-        /// Structure to contain source texture coordinates for drawing.
-        /// </summary>
-        struct TextureCoordinates
-        {
-            public TextureCoordinates(float left, float top, float right, float bottom)
-            {
-                Top = top;
-                Left = left;
-                Bottom = bottom;
-                Right = right;
-            }
-            public float Top;
-            public float Bottom;
-            public float Left;
-            public float Right;
-        }
+ 
 
 
         GL_Display mDisplay;
+        GLState mState;
+
         string mFilename;
 
         /// <summary>
@@ -61,6 +47,8 @@ namespace ERY.AgateLib.OpenGL
         public GL_Surface(string filename)
         {
             mDisplay = Display.Impl as GL_Display;
+            mState = mDisplay.State;
+
             mFilename = filename;
 
             Load();
@@ -68,6 +56,8 @@ namespace ERY.AgateLib.OpenGL
         public GL_Surface(Size size)
         {
             mDisplay = Display.Impl as GL_Display;
+            mState = mDisplay.State;
+
             mSourceRect = new Rectangle(Point.Empty, size);
 
             mTextureSize = new Size(NextPowerOfTwo(size.Width), NextPowerOfTwo(size.Height));
@@ -96,6 +86,7 @@ namespace ERY.AgateLib.OpenGL
         private GL_Surface(int textureID, Rectangle sourceRect, Size textureSize)
         {
             mDisplay = Display.Impl as GL_Display;
+            mState = mDisplay.State;
 
             AddTextureRef(textureID);
 
@@ -165,21 +156,26 @@ namespace ERY.AgateLib.OpenGL
         }
         public override void Draw(Rectangle srcRect, Rectangle destRect)
         {
+            srcRect.X += mSourceRect.X;
+            srcRect.Y += mSourceRect.Y;
+
             TextureCoordinates texcoords = GetTextureCoords(srcRect);
             RectangleF dest = new RectangleF(destRect.X, destRect.Y, destRect.Width, destRect.Height);
 
-            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
+            mState.DrawBuffer.AddQuad(mTextureID, Color, texcoords, dest);
 
-            mDisplay.SetGLColor(Color);
+            //Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
 
-            Gl.Begin(Enums.BeginMode.QUADS);
+            //mState.SetGLColor(Color);
 
-            Gl.TexCoord2f(texcoords.Left, texcoords.Top); Gl.Vertex2f(dest.Left, dest.Top);
-            Gl.TexCoord2f(texcoords.Right, texcoords.Top); Gl.Vertex2f(dest.Right, dest.Top);
-            Gl.TexCoord2f(texcoords.Right, texcoords.Bottom); Gl.Vertex2f(dest.Right, dest.Bottom);
-            Gl.TexCoord2f(texcoords.Left, texcoords.Bottom); Gl.Vertex2f(dest.Left, dest.Bottom);
+            //Gl.Begin(Enums.BeginMode.QUADS);
 
-            Gl.End();
+            //Gl.TexCoord2f(texcoords.Left, texcoords.Top); Gl.Vertex2f(dest.Left, dest.Top);
+            //Gl.TexCoord2f(texcoords.Right, texcoords.Top); Gl.Vertex2f(dest.Right, dest.Top);
+            //Gl.TexCoord2f(texcoords.Right, texcoords.Bottom); Gl.Vertex2f(dest.Right, dest.Bottom);
+            //Gl.TexCoord2f(texcoords.Left, texcoords.Bottom); Gl.Vertex2f(dest.Left, dest.Bottom);
+
+            //Gl.End();
 
         }
         public override void Draw(float destX, float destY)
@@ -199,7 +195,7 @@ namespace ERY.AgateLib.OpenGL
             // order is 
             //  1 -- 2
             //  |    |
-            //  3 -- 4
+            //  4 -- 3
             PointF[] pt = new PointF[4];
 
             SetPoints(pt, destX, destY,
@@ -208,23 +204,14 @@ namespace ERY.AgateLib.OpenGL
             RectangleF destRect = new RectangleF(new PointF(-rotationCenterX, -rotationCenterY),
                                  new SizeF(DisplayWidth, DisplayHeight));
 
-            mDisplay.SetGLColor(Color);
 
-            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
+            mState.DrawBuffer.AddQuad(mTextureID, Color, mTexCoord, pt);
 
             //Gl.PushMatrix();
 
             //Gl.Translatef(-translatePoint.X, -translatePoint.Y, 0);
             //Gl.Rotatef((float)-RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
 
-            Gl.Begin(Enums.BeginMode.QUADS);
-
-            Gl.TexCoord2f(mTexCoord.Left, mTexCoord.Top); Gl.Vertex2f(pt[0].X, pt[0].Y);
-            Gl.TexCoord2f(mTexCoord.Right, mTexCoord.Top); Gl.Vertex2f(pt[1].X, pt[1].Y);
-            Gl.TexCoord2f(mTexCoord.Right, mTexCoord.Bottom); Gl.Vertex2f(pt[3].X, pt[3].Y);
-            Gl.TexCoord2f(mTexCoord.Left, mTexCoord.Bottom); Gl.Vertex2f(pt[2].X, pt[2].Y);
-
-            Gl.End();
 
             // restore the matrix
             //Gl.PopMatrix();
@@ -253,19 +240,20 @@ namespace ERY.AgateLib.OpenGL
             pt[index + 1].Y = -mRotationSin * (-rotationCenterX + destWidth) +
                           mRotationCos * (-rotationCenterY) + destY;
 
-            // Point at (0, DisplayHeight) local coordinates
-            pt[index + 2].X = mRotationCos * (-rotationCenterX) +
+            // Point at (DisplayWidth, DisplayHeight) local coordinates
+            pt[index + 2].X = mRotationCos * (-rotationCenterX + destWidth) +
                          mRotationSin * (-rotationCenterY + destHeight) + destX;
 
-            pt[index + 2].Y = (-mRotationSin * (-rotationCenterX) +
+            pt[index + 2].Y = -mRotationSin * (-rotationCenterX + destWidth) +
+                          mRotationCos * (-rotationCenterY + destHeight) + destY;
+
+            // Point at (0, DisplayHeight) local coordinates
+            pt[index + 3].X = mRotationCos * (-rotationCenterX) +
+                         mRotationSin * (-rotationCenterY + destHeight) + destX;
+
+            pt[index + 3].Y = (-mRotationSin * (-rotationCenterX) +
                            mRotationCos * (-rotationCenterY + destHeight)) + destY;
 
-            // Point at (DisplayWidth, DisplayHeight) local coordinates
-            pt[index + 3].X = mRotationCos * (-rotationCenterX + destWidth) +
-                         mRotationSin * (-rotationCenterY + destHeight) + destX;
-
-            pt[index + 3].Y = -mRotationSin * (-rotationCenterX + destWidth) +
-                          mRotationCos * (-rotationCenterY + destHeight) + destY;
         }
 
         public override void SaveTo(string filename, ImageFileFormat format)

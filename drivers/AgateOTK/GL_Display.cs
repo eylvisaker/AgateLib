@@ -18,6 +18,7 @@ namespace ERY.AgateLib.OpenGL
     public class GL_Display : DisplayImpl
     {
         GL_IRenderTarget mRenderTarget;
+        GLState mState;
         Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 
         protected override void OnRenderTargetChange(IRenderTarget oldRenderTarget)
@@ -85,7 +86,14 @@ namespace ERY.AgateLib.OpenGL
 
         protected override void OnEndFrame(bool waitVSync)
         {
+            mState.DrawBuffer.Flush();
+
             mRenderTarget.EndRender(waitVSync);
+        }
+
+        internal GLState State
+        {
+            get { return mState; }
         }
 
         // TODO: Make this not hardcoded
@@ -127,7 +135,7 @@ namespace ERY.AgateLib.OpenGL
 
         public override void DrawLine(int x1, int y1, int x2, int y2, Color color)
         {
-           SetGLColor(color);
+            mState.SetGLColor(color);
 
             Gl.Disable(Enums.EnableCap.TEXTURE_2D);
             Gl.Begin(Enums.BeginMode.LINES);
@@ -146,7 +154,7 @@ namespace ERY.AgateLib.OpenGL
 
         public override void DrawRect(Rectangle rect, Color color)
         {
-            SetGLColor(color);
+            mState.SetGLColor(color);
 
             Gl.Disable(Enums.EnableCap.TEXTURE_2D);
             Gl.Begin(Enums.BeginMode.LINES);
@@ -169,7 +177,7 @@ namespace ERY.AgateLib.OpenGL
 
         public override void FillRect(Rectangle rect, Color color)
         {
-            SetGLColor(color);
+            mState.SetGLColor(color);
 
             Gl.Disable(Enums.EnableCap.TEXTURE_2D);
 
@@ -183,12 +191,11 @@ namespace ERY.AgateLib.OpenGL
             Gl.Enable(Enums.EnableCap.TEXTURE_2D);
         }
 
-        public void SetGLColor(Color color)
-        {
-            Gl.Color4f(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-        }
+
         public override void Initialize()
         {
+            mState = new GLState();
+
             Report("OpenTK / OpenGL driver instantiated for display.");
         }
         internal void Initialize(GL_DisplayWindow gL_DisplayWindow)
