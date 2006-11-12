@@ -58,7 +58,7 @@ namespace ERY.AgateLib.Geometry
             this.width = width;
             this.height = height;
         }
-
+        
         /// <summary>
         /// Gets or sets the width.
         /// </summary>
@@ -75,7 +75,7 @@ namespace ERY.AgateLib.Geometry
             get { return height; }
             set { height = value; }
         }
-
+        
         /// <summary>
         /// True if width and height are zero.
         /// </summary>

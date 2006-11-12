@@ -124,17 +124,23 @@ namespace ERY.AgateLib.OpenGL
 
         public override void Clear(Color color)
         {
+            mState.DrawBuffer.Flush();
+
             Gl.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, 1.0f);
             Gl.Clear(Enums.ClearBufferMask.DEPTH_BUFFER_BIT | Enums.ClearBufferMask.COLOR_BUFFER_BIT);   
         }
 
         public override void Clear(Color color, Rectangle dest)
         {
+            mState.DrawBuffer.Flush();
+
             DrawRect(dest, Color.FromArgb(255, color));
         }
 
         public override void DrawLine(int x1, int y1, int x2, int y2, Color color)
         {
+            mState.DrawBuffer.Flush();
+
             mState.SetGLColor(color);
 
             Gl.Disable(Enums.EnableCap.TEXTURE_2D);
@@ -149,11 +155,15 @@ namespace ERY.AgateLib.OpenGL
 
         public override void DrawLine(Point a, Point b, Color color)
         {
+            mState.DrawBuffer.Flush();
+
             DrawLine(a.X, a.Y, b.X, b.Y, color);
         }
 
         public override void DrawRect(Rectangle rect, Color color)
         {
+            mState.DrawBuffer.Flush();
+
             mState.SetGLColor(color);
 
             Gl.Disable(Enums.EnableCap.TEXTURE_2D);
@@ -177,6 +187,8 @@ namespace ERY.AgateLib.OpenGL
 
         public override void FillRect(Rectangle rect, Color color)
         {
+            mState.DrawBuffer.Flush();
+
             mState.SetGLColor(color);
 
             Gl.Disable(Enums.EnableCap.TEXTURE_2D);
