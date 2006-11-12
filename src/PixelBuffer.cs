@@ -625,24 +625,24 @@ namespace ERY.AgateLib
             }
             else
             {
-                byte[] srcPixel = new byte[sourceStride];
+                byte[] srcPixel = new byte[srcRowStride];
                 int destIndex = 0;
                 IntPtr rowPtr = data;
-                IntPtr pixelPtr = rowPtr;
+                //IntPtr pixelPtr = rowPtr;
 
                 for (int y = 0; y < Height; y++)
                 {
+                    Marshal.Copy(rowPtr, srcPixel, 0, srcRowStride);
+
                     for (int x = 0; x < Width; x++)
                     {
-                        Marshal.Copy(pixelPtr, srcPixel, 0, sourceStride);
-                        ConvertPixel(mData, destIndex, this.PixelFormat, srcPixel, 0, srcFormat);
+                        //Marshal.Copy(pixelPtr, srcPixel, 0, sourceStride);
+                        ConvertPixel(mData, destIndex, this.PixelFormat, srcPixel, x * sourceStride, srcFormat);
 
-                        pixelPtr = (IntPtr)((int)pixelPtr + sourceStride);
                         destIndex += PixelStride;
                     }
 
                     rowPtr = (IntPtr)((int)rowPtr + srcRowStride);
-                    pixelPtr = rowPtr;
                 }
             }
         }

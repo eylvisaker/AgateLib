@@ -135,6 +135,9 @@ namespace ERY.AgateLib.OpenGL
 
         public void Flush()
         {
+            if (mIndex == 0)
+                return;
+
             Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mCurrentTexture);
 
             Gl.EnableClientState(Enums.EnableCap.TEXTURE_COORD_ARRAY);

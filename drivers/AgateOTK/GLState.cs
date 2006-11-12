@@ -15,7 +15,6 @@ namespace ERY.AgateLib.OpenGL
     {
         #region --- Private variables for state management ---
 
-        private int mLastTextureID = 0;
         private GLDrawBuffer mDrawBuffer;
 
         #endregion

@@ -71,7 +71,7 @@ namespace ERY.AgateLib.Geometry
 
         #endregion
         #region --- Public Properties ---
-
+        
         /// <summary>
         /// Gets or sets the X value.
         /// </summary>
@@ -88,6 +88,7 @@ namespace ERY.AgateLib.Geometry
             get { return y; }
             set { y = value; }
         }
+        
         /// <summary>
         /// Returns true if X and Y are zero.
         /// </summary>
