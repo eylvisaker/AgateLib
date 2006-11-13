@@ -71,7 +71,7 @@ public class CategoryDB
         DbConnection conn = new DbConnection(conn_string);
 
         String query_string = "INSERT INTO ForumCategories "+
-            " (Name, Position, CreationDate)" +
+            " (Name, [Position], CreationDate)" +
             " Values('" + cat_details.Name + "'," + cat_details.Position + ",'" + DateTime.Now.ToString() + "')";
 
         DbCommand cmd = new DbCommand(query_string, conn);
