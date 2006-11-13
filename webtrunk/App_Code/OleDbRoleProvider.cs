@@ -1,3 +1,9 @@
+/*
+ * This provider was adapted from the example on MSDN at http://msdn2.microsoft.com/en-us/library/tksy7hd7.aspx
+ *
+ */
+
+
 using System.Web.Security;
 using System.Configuration.Provider;
 using System.Collections.Specialized;
