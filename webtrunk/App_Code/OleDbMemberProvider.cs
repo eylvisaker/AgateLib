@@ -1,3 +1,8 @@
+/*
+ * This provider was adapted from the example on MSDN at http://msdn2.microsoft.com/en-us/library/6tc47t75(VS.80).aspx
+ *
+ */
+
 using System.Web.Security;
 using System.Configuration.Provider;
 using System.Collections.Specialized;
@@ -15,7 +20,7 @@ using System.Web.Configuration;
 /// <summary>
 /// Summary description for Members
 /// </summary>
-public sealed class Members : System.Web.Security.MembershipProvider
+public sealed class OleDbMemberProvider : System.Web.Security.MembershipProvider
 {
     /*
 
