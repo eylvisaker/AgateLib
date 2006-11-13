@@ -15,6 +15,16 @@ using System.Diagnostics;
 using System.Web;
 using System.Globalization;
 
+
+    /* Genericize the DB connection so that we can more easily switch between drivers */
+using DbConnection = System.Data.OleDb.OleDbConnection;
+using DbCommand = System.Data.OleDb.OleDbCommand;
+using DbType = System.Data.OleDb.OleDbType;
+using DbDataReader = System.Data.OleDb.OleDbDataReader;
+using DbParameter = System.Data.OleDb.OleDbParameter;
+using DbTransaction = System.Data.OleDb.OleDbTransaction;
+using DbException = System.Data.OleDb.OleDbException;
+
 /*
 
 This provider works with the following schema for the tables of role data.
@@ -114,7 +124,7 @@ public sealed class OleDbRoleProvider : RoleProvider
 
 
         //
-        // Initialize OleDbConnection.
+        // Initialize DbConnection.
         //
 
         pConnectionStringSettings = ConfigurationManager.
@@ -179,16 +189,16 @@ public sealed class OleDbRoleProvider : RoleProvider
         }
 
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("INSERT INTO UsersInRoles " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("INSERT INTO UsersInRoles " +
                 " (Username, Rolename, ApplicationName) " +
                 " Values(?, ?, ?)", conn);
 
-        OleDbParameter userParm = cmd.Parameters.Add("@Username", OleDbType.VarChar, 255);
-        OleDbParameter roleParm = cmd.Parameters.Add("@Rolename", OleDbType.VarChar, 255);
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        DbParameter userParm = cmd.Parameters.Add("@Username", DbType.VarChar, 255);
+        DbParameter roleParm = cmd.Parameters.Add("@Rolename", DbType.VarChar, 255);
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
-        OleDbTransaction tran = null;
+        DbTransaction tran = null;
 
         try
         {
@@ -208,7 +218,7 @@ public sealed class OleDbRoleProvider : RoleProvider
 
             tran.Commit();
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             try
             {
@@ -249,13 +259,13 @@ public sealed class OleDbRoleProvider : RoleProvider
             throw new ProviderException("Role name already exists.");
         }
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("INSERT INTO Roles " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("INSERT INTO Roles " +
                 " (Rolename, ApplicationName) " +
                 " Values(?, ?)", conn);
 
-        cmd.Parameters.Add("@Rolename", OleDbType.VarChar, 255).Value = rolename;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        cmd.Parameters.Add("@Rolename", DbType.VarChar, 255).Value = rolename;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
         try
         {
@@ -263,7 +273,7 @@ public sealed class OleDbRoleProvider : RoleProvider
 
             cmd.ExecuteNonQuery();
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -297,21 +307,21 @@ public sealed class OleDbRoleProvider : RoleProvider
             throw new ProviderException("Cannot delete a populated role.");
         }
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("DELETE FROM Roles " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("DELETE FROM Roles " +
                  " WHERE Rolename = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Rolename", OleDbType.VarChar, 255).Value = rolename;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        cmd.Parameters.Add("@Rolename", DbType.VarChar, 255).Value = rolename;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
 
-        OleDbCommand cmd2 = new OleDbCommand("DELETE FROM UsersInRoles " +
+        DbCommand cmd2 = new DbCommand("DELETE FROM UsersInRoles " +
                  " WHERE Rolename = ? AND ApplicationName = ?", conn);
 
-        cmd2.Parameters.Add("@Rolename", OleDbType.VarChar, 255).Value = rolename;
-        cmd2.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        cmd2.Parameters.Add("@Rolename", DbType.VarChar, 255).Value = rolename;
+        cmd2.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
-        OleDbTransaction tran = null;
+        DbTransaction tran = null;
 
         try
         {
@@ -325,7 +335,7 @@ public sealed class OleDbRoleProvider : RoleProvider
 
             tran.Commit();
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             try
             {
@@ -362,13 +372,13 @@ public sealed class OleDbRoleProvider : RoleProvider
     {
         string tmpRoleNames = "";
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT Rolename FROM Roles " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT Rolename FROM Roles " +
                   " WHERE ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
 
         try
         {
@@ -381,7 +391,7 @@ public sealed class OleDbRoleProvider : RoleProvider
                 tmpRoleNames += reader.GetString(0) + ",";
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -417,14 +427,14 @@ public sealed class OleDbRoleProvider : RoleProvider
     {
         string tmpRoleNames = "";
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT Rolename FROM UsersInRoles " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT Rolename FROM UsersInRoles " +
                 " WHERE Username = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
 
         try
         {
@@ -437,7 +447,7 @@ public sealed class OleDbRoleProvider : RoleProvider
                 tmpRoleNames += reader.GetString(0) + ",";
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -473,14 +483,14 @@ public sealed class OleDbRoleProvider : RoleProvider
     {
         string tmpUserNames = "";
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT Username FROM UsersInRoles " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT Username FROM UsersInRoles " +
                   " WHERE Rolename = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Rolename", OleDbType.VarChar, 255).Value = rolename;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        cmd.Parameters.Add("@Rolename", DbType.VarChar, 255).Value = rolename;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
 
         try
         {
@@ -493,7 +503,7 @@ public sealed class OleDbRoleProvider : RoleProvider
                 tmpUserNames += reader.GetString(0) + ",";
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -529,13 +539,13 @@ public sealed class OleDbRoleProvider : RoleProvider
     {
         bool userIsInRole = false;
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM UsersInRoles " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT COUNT(*) FROM UsersInRoles " +
                 " WHERE Username = ? AND Rolename = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-        cmd.Parameters.Add("@Rolename", OleDbType.VarChar, 255).Value = rolename;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+        cmd.Parameters.Add("@Rolename", DbType.VarChar, 255).Value = rolename;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
         try
         {
@@ -548,7 +558,7 @@ public sealed class OleDbRoleProvider : RoleProvider
                 userIsInRole = true;
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -594,15 +604,15 @@ public sealed class OleDbRoleProvider : RoleProvider
         }
 
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("DELETE FROM UsersInRoles " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("DELETE FROM UsersInRoles " +
                 " WHERE Username = ? AND Rolename = ? AND ApplicationName = ?", conn);
 
-        OleDbParameter userParm = cmd.Parameters.Add("@Username", OleDbType.VarChar, 255);
-        OleDbParameter roleParm = cmd.Parameters.Add("@Rolename", OleDbType.VarChar, 255);
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        DbParameter userParm = cmd.Parameters.Add("@Username", DbType.VarChar, 255);
+        DbParameter roleParm = cmd.Parameters.Add("@Rolename", DbType.VarChar, 255);
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
-        OleDbTransaction tran = null;
+        DbTransaction tran = null;
 
         try
         {
@@ -622,7 +632,7 @@ public sealed class OleDbRoleProvider : RoleProvider
 
             tran.Commit();
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             try
             {
@@ -655,12 +665,12 @@ public sealed class OleDbRoleProvider : RoleProvider
     {
         bool exists = false;
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT COUNT(*) FROM Roles " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT COUNT(*) FROM Roles " +
                   " WHERE Rolename = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Rolename", OleDbType.VarChar, 255).Value = rolename;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        cmd.Parameters.Add("@Rolename", DbType.VarChar, 255).Value = rolename;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
         try
         {
@@ -673,7 +683,7 @@ public sealed class OleDbRoleProvider : RoleProvider
                 exists = true;
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -698,15 +708,15 @@ public sealed class OleDbRoleProvider : RoleProvider
 
     public override string[] FindUsersInRole(string rolename, string usernameToMatch)
     {
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT Username FROM UsersInRoles  " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT Username FROM UsersInRoles  " +
                   "WHERE Username LIKE ? AND RoleName = ? AND ApplicationName = ?", conn);
-        cmd.Parameters.Add("@UsernameSearch", OleDbType.VarChar, 255).Value = usernameToMatch;
-        cmd.Parameters.Add("@RoleName", OleDbType.VarChar, 255).Value = rolename;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@UsernameSearch", DbType.VarChar, 255).Value = usernameToMatch;
+        cmd.Parameters.Add("@RoleName", DbType.VarChar, 255).Value = rolename;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
         string tmpUserNames = "";
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
 
         try
         {
@@ -719,7 +729,7 @@ public sealed class OleDbRoleProvider : RoleProvider
                 tmpUserNames += reader.GetString(0) + ",";
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -756,7 +766,7 @@ public sealed class OleDbRoleProvider : RoleProvider
     // thrown by the caller.
     //
 
-    private void WriteToEventLog(OleDbException e, string action)
+    private void WriteToEventLog(DbException e, string action)
     {
         EventLog log = new EventLog();
         log.Source = eventSource;

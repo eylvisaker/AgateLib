@@ -17,6 +17,17 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web.Configuration;
 
+/* Genericize the DB connection so that we can more easily switch between drivers */
+using DbConnection = System.Data.OleDb.OleDbConnection;
+using DbCommand = System.Data.OleDb.OleDbCommand;
+using DbType = System.Data.OleDb.OleDbType;
+using DbDataReader = System.Data.OleDb.OleDbDataReader;
+using DbParameter = System.Data.OleDb.OleDbParameter;
+using DbTransaction = System.Data.OleDb.OleDbTransaction;
+using DbException = System.Data.OleDb.OleDbException;
+
+
+
 /// <summary>
 /// Summary description for Members
 /// </summary>
@@ -291,15 +302,15 @@ CREATE TABLE Users
                 throw new MembershipPasswordException("Change password canceled due to new password validation failure.");
 
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("UPDATE Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("UPDATE Users " +
                 " SET Password = ?, LastPasswordChangedDate = ? " +
                 " WHERE Username = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Password", OleDbType.VarChar , 255).Value = EncodePassword(newPwd);
-        cmd.Parameters.Add("@LastPasswordChangedDate", OleDbType.Date).Value = DateTime.Now;
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@Password", DbType.VarChar , 255).Value = EncodePassword(newPwd);
+        cmd.Parameters.Add("@LastPasswordChangedDate", DbType.Date).Value = DateTime.Now;
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
 
         int rowsAffected = 0;
@@ -310,7 +321,7 @@ CREATE TABLE Users
 
             rowsAffected = cmd.ExecuteNonQuery();
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -350,15 +361,15 @@ CREATE TABLE Users
         if (!ValidateUser(username, password))
             return false;
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("UPDATE Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("UPDATE Users " +
                 " SET PasswordQuestion = ?, PasswordAnswer = ?" +
                 " WHERE Username = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Question", OleDbType.VarChar, 255).Value = newPwdQuestion;
-        cmd.Parameters.Add("@Answer", OleDbType.VarChar, 255).Value = EncodePassword(newPwdAnswer);
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@Question", DbType.VarChar, 255).Value = newPwdQuestion;
+        cmd.Parameters.Add("@Answer", DbType.VarChar, 255).Value = EncodePassword(newPwdAnswer);
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
 
         int rowsAffected = 0;
@@ -369,7 +380,7 @@ CREATE TABLE Users
 
             rowsAffected = cmd.ExecuteNonQuery();
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -448,8 +459,8 @@ CREATE TABLE Users
                 }
             }
             /*
-            OleDbConnection conn = new OleDbConnection(connectionString);
-            OleDbCommand cmd = new OleDbCommand("INSERT INTO Users " +
+            DbConnection conn = new DbConnection(connectionString);
+            DbCommand cmd = new DbCommand("INSERT INTO Users " +
                   " (Username, [Password], Email, PasswordQuestion, " +
                   " PasswordAnswer, IsApproved," +
                   " Comment, CreationDate, LastPasswordChangedDate, LastActivityDate," +
@@ -465,28 +476,28 @@ CREATE TABLE Users
                   " @FailedPasswordAnswerAttemptCount, @FailedPasswordAnswerAttemptWindowStart)"
                     , conn);
 
-            cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-            cmd.Parameters.Add("@Password", OleDbType.VarChar, 255).Value = EncodePassword(password);
-            cmd.Parameters.Add("@Email", OleDbType.VarChar, 128).Value = email;
-            cmd.Parameters.Add("@PasswordQuestion", OleDbType.VarChar, 255).Value = passwordQuestion;
-            cmd.Parameters.Add("@PasswordAnswer", OleDbType.VarChar, 255).Value = EncodePassword(passwordAnswer);
-            cmd.Parameters.Add("@IsApproved", OleDbType.Boolean).Value = isApproved;
-            cmd.Parameters.Add("@Comment", OleDbType.VarChar, 255).Value = "";
-            cmd.Parameters.Add("@CreationDate", OleDbType.Date).Value = createDate;
-            cmd.Parameters.Add("@LastPasswordChangedDate", OleDbType.Date).Value = createDate;
-            cmd.Parameters.Add("@LastActivityDate", OleDbType.Date).Value = createDate;
-            cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
-            cmd.Parameters.Add("@IsLockedOut", OleDbType.Boolean).Value = false;
-            cmd.Parameters.Add("@LastLockedOutDate", OleDbType.Date).Value = createDate;
-            cmd.Parameters.Add("@FailedPasswordAttemptCount", OleDbType.Integer).Value = 0;
-            cmd.Parameters.Add("@FailedPasswordAttemptWindowStart", OleDbType.Date).Value = createDate;
-            cmd.Parameters.Add("@FailedPasswordAnswerAttemptCount", OleDbType.Integer).Value = 0;
-            cmd.Parameters.Add("@FailedPasswordAnswerAttemptWindowStart", OleDbType.Date).Value = createDate;
+            cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+            cmd.Parameters.Add("@Password", DbType.VarChar, 255).Value = EncodePassword(password);
+            cmd.Parameters.Add("@Email", DbType.VarChar, 128).Value = email;
+            cmd.Parameters.Add("@PasswordQuestion", DbType.VarChar, 255).Value = passwordQuestion;
+            cmd.Parameters.Add("@PasswordAnswer", DbType.VarChar, 255).Value = EncodePassword(passwordAnswer);
+            cmd.Parameters.Add("@IsApproved", DbType.Boolean).Value = isApproved;
+            cmd.Parameters.Add("@Comment", DbType.VarChar, 255).Value = "";
+            cmd.Parameters.Add("@CreationDate", DbType.Date).Value = createDate;
+            cmd.Parameters.Add("@LastPasswordChangedDate", DbType.Date).Value = createDate;
+            cmd.Parameters.Add("@LastActivityDate", DbType.Date).Value = createDate;
+            cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
+            cmd.Parameters.Add("@IsLockedOut", DbType.Boolean).Value = false;
+            cmd.Parameters.Add("@LastLockedOutDate", DbType.Date).Value = createDate;
+            cmd.Parameters.Add("@FailedPasswordAttemptCount", DbType.Integer).Value = 0;
+            cmd.Parameters.Add("@FailedPasswordAttemptWindowStart", DbType.Date).Value = createDate;
+            cmd.Parameters.Add("@FailedPasswordAnswerAttemptCount", DbType.Integer).Value = 0;
+            cmd.Parameters.Add("@FailedPasswordAnswerAttemptWindowStart", DbType.Date).Value = createDate;
              */
             string createDateString = createDate.ToString();
 
-            OleDbConnection conn = new OleDbConnection(connectionString);
-            OleDbCommand cmd = new OleDbCommand("INSERT INTO Users " +
+            DbConnection conn = new DbConnection(connectionString);
+            DbCommand cmd = new DbCommand("INSERT INTO Users " +
                   " (Username, [Password], Email, PasswordQuestion, " +
                   " PasswordAnswer, IsApproved," +
                   " Comment, CreationDate, LastPasswordChangedDate, LastActivityDate," +
@@ -518,7 +529,7 @@ CREATE TABLE Users
                     status = MembershipCreateStatus.UserRejected;
                 }
             }
-            catch (OleDbException e)
+            catch (DbException e)
             {
                 if (WriteExceptionsToEventLog)
                 {
@@ -552,12 +563,12 @@ CREATE TABLE Users
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
     {
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("DELETE FROM Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("DELETE FROM Users " +
                 " WHERE Username = ? AND Applicationname = ?", conn);
 
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
         int rowsAffected = 0;
 
@@ -572,7 +583,7 @@ CREATE TABLE Users
                 // Process commands to delete all data for the user in the database.
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -604,14 +615,14 @@ CREATE TABLE Users
 
     public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
     {
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT Count(*) FROM Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT Count(*) FROM Users " +
                                           "WHERE ApplicationName = ?", conn);
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
         MembershipUserCollection users = new MembershipUserCollection();
 
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
         totalRecords = 0;
 
         try
@@ -647,7 +658,7 @@ CREATE TABLE Users
                 counter++;
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -680,12 +691,12 @@ CREATE TABLE Users
         TimeSpan onlineSpan = new TimeSpan(0, System.Web.Security.Membership.UserIsOnlineTimeWindow, 0);
         DateTime compareTime = DateTime.Now.Subtract(onlineSpan);
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT Count(*) FROM Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT Count(*) FROM Users " +
                 " WHERE LastActivityDate > ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@CompareDate", OleDbType.Date).Value = compareTime;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@CompareDate", DbType.Date).Value = compareTime;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
         int numOnline = 0;
 
@@ -695,7 +706,7 @@ CREATE TABLE Users
 
             numOnline = (int)cmd.ExecuteScalar();
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -734,16 +745,16 @@ CREATE TABLE Users
             throw new ProviderException("Cannot retrieve Hashed passwords.");
         }
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT Password, PasswordAnswer, IsLockedOut FROM Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT Password, PasswordAnswer, IsLockedOut FROM Users " +
               " WHERE Username = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
         string password = "";
         string passwordAnswer = "";
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
 
         try
         {
@@ -766,7 +777,7 @@ CREATE TABLE Users
                 throw new MembershipPasswordException("The supplied user name is not found.");
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -810,17 +821,17 @@ CREATE TABLE Users
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
     {
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT UserID, Username, Email, PasswordQuestion," +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT UserID, Username, Email, PasswordQuestion," +
              " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," +
              " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate" +
              " FROM Users WHERE Username = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
         MembershipUser u = null;
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
 
         try
         {
@@ -835,20 +846,20 @@ CREATE TABLE Users
 
                 if (userIsOnline)
                 {
-                    OleDbCommand updateCmd = new OleDbCommand("UPDATE Users " +
+                    DbCommand updateCmd = new DbCommand("UPDATE Users " +
                               "SET LastActivityDate = ? " +
                               "WHERE Username = ? AND Applicationname = ?", conn);
 
-                    updateCmd.Parameters.Add("@LastActivityDate", OleDbType.Date).Value = DateTime.Now;
-                    updateCmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-                    updateCmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+                    updateCmd.Parameters.Add("@LastActivityDate", DbType.Date).Value = DateTime.Now;
+                    updateCmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+                    updateCmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
                     updateCmd.ExecuteNonQuery();
                 }
             }
 
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -878,16 +889,16 @@ CREATE TABLE Users
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
     {
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT UserID, Username, Email, PasswordQuestion," +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT UserID, Username, Email, PasswordQuestion," +
               " Comment, IsApproved, IsLockedOut, CreationDate, LastLoginDate," +
               " LastActivityDate, LastPasswordChangedDate, LastLockedOutDate" +
               " FROM Users WHERE UserID = ?", conn);
 
-        cmd.Parameters.Add("@UserID", OleDbType.Integer).Value = providerUserKey;
+        cmd.Parameters.Add("@UserID", DbType.Integer).Value = providerUserKey;
 
         MembershipUser u = null;
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
 
         try
         {
@@ -902,19 +913,19 @@ CREATE TABLE Users
 
                 if (userIsOnline)
                 {
-                    OleDbCommand updateCmd = new OleDbCommand("UPDATE Users " +
+                    DbCommand updateCmd = new DbCommand("UPDATE Users " +
                               "SET LastActivityDate = ? " +
                               "WHERE UserID = ?", conn);
 
-                    updateCmd.Parameters.Add("@LastActivityDate", OleDbType.Date).Value = DateTime.Now;
-                    updateCmd.Parameters.Add("@UserID", OleDbType.Guid).Value = providerUserKey;
+                    updateCmd.Parameters.Add("@LastActivityDate", DbType.Date).Value = DateTime.Now;
+                    updateCmd.Parameters.Add("@UserID", DbType.Guid).Value = providerUserKey;
 
                     updateCmd.ExecuteNonQuery();
                 }
             }
 
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -940,12 +951,12 @@ CREATE TABLE Users
 
     //
     // GetUserFromReader
-    //    A helper function that takes the current row from the OleDbDataReader
+    //    A helper function that takes the current row from the DbDataReader
     // and hydrates a MembershiUser from the values. Called by the 
     // MembershipUser.GetUser implementation.
     //
 
-    private MembershipUser GetUserFromReader(OleDbDataReader reader)
+    private MembershipUser GetUserFromReader(DbDataReader reader)
     {
         object providerUserKey = reader.GetValue(0);
         string username = reader.GetString(1);
@@ -998,14 +1009,14 @@ CREATE TABLE Users
 
     public override bool UnlockUser(string username)
     {
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("UPDATE Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("UPDATE Users " +
                                           " SET IsLockedOut = False, LastLockedOutDate = ? " +
                                           " WHERE Username = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@LastLockedOutDate", OleDbType.Date).Value = DateTime.Now;
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@LastLockedOutDate", DbType.Date).Value = DateTime.Now;
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
         int rowsAffected = 0;
 
@@ -1015,7 +1026,7 @@ CREATE TABLE Users
 
             rowsAffected = cmd.ExecuteNonQuery();
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -1046,12 +1057,12 @@ CREATE TABLE Users
 
     public override string GetUserNameByEmail(string email)
     {
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT Username" +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT Username" +
               " FROM Users WHERE Email = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Email", OleDbType.VarChar, 128).Value = email;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@Email", DbType.VarChar, 128).Value = email;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
         string username = "";
 
@@ -1061,7 +1072,7 @@ CREATE TABLE Users
 
             username = (string)cmd.ExecuteScalar();
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -1122,16 +1133,16 @@ CREATE TABLE Users
                 throw new MembershipPasswordException("Reset password canceled due to password validation failure.");
 
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT PasswordAnswer, IsLockedOut FROM Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT PasswordAnswer, IsLockedOut FROM Users " +
               " WHERE Username = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
         int rowsAffected = 0;
         string passwordAnswer = "";
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
 
         try
         {
@@ -1160,18 +1171,18 @@ CREATE TABLE Users
                 throw new MembershipPasswordException("Incorrect password answer.");
             }
 
-            OleDbCommand updateCmd = new OleDbCommand("UPDATE Users " +
+            DbCommand updateCmd = new DbCommand("UPDATE Users " +
                 " SET Password = ?, LastPasswordChangedDate = ?" +
                 " WHERE Username = ? AND ApplicationName = ? AND IsLockedOut = False", conn);
 
-            updateCmd.Parameters.Add("@Password", OleDbType.VarChar, 255).Value = EncodePassword(newPassword);
-            updateCmd.Parameters.Add("@LastPasswordChangedDate", OleDbType.Date).Value = DateTime.Now;
-            updateCmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-            updateCmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+            updateCmd.Parameters.Add("@Password", DbType.VarChar, 255).Value = EncodePassword(newPassword);
+            updateCmd.Parameters.Add("@LastPasswordChangedDate", DbType.Date).Value = DateTime.Now;
+            updateCmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+            updateCmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
             rowsAffected = updateCmd.ExecuteNonQuery();
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -1207,17 +1218,17 @@ CREATE TABLE Users
 
     public override void UpdateUser(MembershipUser user)
     {
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("UPDATE Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("UPDATE Users " +
                 " SET Email = ?, Comment = ?," +
                 " IsApproved = ?" +
                 " WHERE Username = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Email", OleDbType.VarChar, 128).Value = user.Email;
-        cmd.Parameters.Add("@Comment", OleDbType.VarChar, 255).Value = user.Comment;
-        cmd.Parameters.Add("@IsApproved", OleDbType.Boolean ).Value = user.IsApproved;
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = user.UserName;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@Email", DbType.VarChar, 128).Value = user.Email;
+        cmd.Parameters.Add("@Comment", DbType.VarChar, 255).Value = user.Comment;
+        cmd.Parameters.Add("@IsApproved", DbType.Boolean ).Value = user.IsApproved;
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = user.UserName;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
 
         try
@@ -1226,7 +1237,7 @@ CREATE TABLE Users
 
             cmd.ExecuteNonQuery();
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -1254,14 +1265,14 @@ CREATE TABLE Users
     {
         bool isValid = false;
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT Password, IsApproved FROM Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT Password, IsApproved FROM Users " +
                 " WHERE Username = ? AND ApplicationName = ? AND IsLockedOut = False", conn);
 
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
         bool isApproved = false;
         string pwd = "";
 
@@ -1290,12 +1301,12 @@ CREATE TABLE Users
                 {
                     isValid = true;
 
-                    OleDbCommand updateCmd = new OleDbCommand("UPDATE Users SET LastLoginDate = ?" +
+                    DbCommand updateCmd = new DbCommand("UPDATE Users SET LastLoginDate = ?" +
                                                             " WHERE Username = ? AND ApplicationName = ?", conn);
 
-                    updateCmd.Parameters.Add("@LastLoginDate", OleDbType.Date).Value = DateTime.Now;
-                    updateCmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-                    updateCmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+                    updateCmd.Parameters.Add("@LastLoginDate", DbType.Date).Value = DateTime.Now;
+                    updateCmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+                    updateCmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
                     updateCmd.ExecuteNonQuery();
 
@@ -1309,7 +1320,7 @@ CREATE TABLE Users
                 UpdateFailureCount(username, "password");
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -1340,18 +1351,18 @@ CREATE TABLE Users
 
     private void UpdateFailureCount(string username, string failureType)
     {
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT FailedPasswordAttemptCount, " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT FailedPasswordAttemptCount, " +
                                           "  FailedPasswordAttemptWindowStart, " +
                                           "  FailedPasswordAnswerAttemptCount, " +
                                           "  FailedPasswordAnswerAttemptWindowStart " +
                                           "  FROM Users " +
                                           "  WHERE Username = ? AND ApplicationName = ?", conn);
 
-        cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
         DateTime windowStart = new DateTime();
         int failureCount = 0;
 
@@ -1401,10 +1412,10 @@ CREATE TABLE Users
 
                 cmd.Parameters.Clear();
 
-                cmd.Parameters.Add("@Count", OleDbType.Integer).Value = 1;
-                cmd.Parameters.Add("@WindowStart", OleDbType.Date).Value = DateTime.Now;
-                cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-                cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+                cmd.Parameters.Add("@Count", DbType.Integer).Value = 1;
+                cmd.Parameters.Add("@WindowStart", DbType.Date).Value = DateTime.Now;
+                cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+                cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
                 if (cmd.ExecuteNonQuery() < 0)
                     throw new ProviderException("Unable to update failure count and window start.");
@@ -1422,10 +1433,10 @@ CREATE TABLE Users
 
                     cmd.Parameters.Clear();
 
-                    cmd.Parameters.Add("@IsLockedOut", OleDbType.Boolean).Value = true;
-                    cmd.Parameters.Add("@LastLockedOutDate", OleDbType.Date).Value = DateTime.Now;
-                    cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-                    cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+                    cmd.Parameters.Add("@IsLockedOut", DbType.Boolean).Value = true;
+                    cmd.Parameters.Add("@LastLockedOutDate", DbType.Date).Value = DateTime.Now;
+                    cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+                    cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
                     if (cmd.ExecuteNonQuery() < 0)
                         throw new ProviderException("Unable to lock out user.");
@@ -1447,16 +1458,16 @@ CREATE TABLE Users
 
                     cmd.Parameters.Clear();
 
-                    cmd.Parameters.Add("@Count", OleDbType.Integer).Value = failureCount;
-                    cmd.Parameters.Add("@Username", OleDbType.VarChar, 255).Value = username;
-                    cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+                    cmd.Parameters.Add("@Count", DbType.Integer).Value = failureCount;
+                    cmd.Parameters.Add("@Username", DbType.VarChar, 255).Value = username;
+                    cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
                     if (cmd.ExecuteNonQuery() < 0)
                         throw new ProviderException("Unable to update failure count.");
                 }
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -1587,15 +1598,15 @@ CREATE TABLE Users
     public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
     {
 
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT Count(*) FROM Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT Count(*) FROM Users " +
                   "WHERE Username LIKE ? AND ApplicationName = ?", conn);
-        cmd.Parameters.Add("@UsernameSearch", OleDbType.VarChar, 255).Value = usernameToMatch;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = pApplicationName;
+        cmd.Parameters.Add("@UsernameSearch", DbType.VarChar, 255).Value = usernameToMatch;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = pApplicationName;
 
         MembershipUserCollection users = new MembershipUserCollection();
 
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
 
         try
         {
@@ -1630,7 +1641,7 @@ CREATE TABLE Users
                 counter++;
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
@@ -1659,15 +1670,15 @@ CREATE TABLE Users
 
     public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
     {
-        OleDbConnection conn = new OleDbConnection(connectionString);
-        OleDbCommand cmd = new OleDbCommand("SELECT Count(*) FROM Users " +
+        DbConnection conn = new DbConnection(connectionString);
+        DbCommand cmd = new DbCommand("SELECT Count(*) FROM Users " +
                                           "WHERE Email LIKE ? AND ApplicationName = ?", conn);
-        cmd.Parameters.Add("@EmailSearch", OleDbType.VarChar, 255).Value = emailToMatch;
-        cmd.Parameters.Add("@ApplicationName", OleDbType.VarChar, 255).Value = ApplicationName;
+        cmd.Parameters.Add("@EmailSearch", DbType.VarChar, 255).Value = emailToMatch;
+        cmd.Parameters.Add("@ApplicationName", DbType.VarChar, 255).Value = ApplicationName;
 
         MembershipUserCollection users = new MembershipUserCollection();
 
-        OleDbDataReader reader = null;
+        DbDataReader reader = null;
         totalRecords = 0;
 
         try
@@ -1703,7 +1714,7 @@ CREATE TABLE Users
                 counter++;
             }
         }
-        catch (OleDbException e)
+        catch (DbException e)
         {
             if (WriteExceptionsToEventLog)
             {
