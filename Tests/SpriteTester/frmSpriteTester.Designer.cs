@@ -61,6 +61,7 @@ namespace ERY.SpriteTester
             this.label1 = new System.Windows.Forms.Label();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.lblFrameRate = new System.Windows.Forms.Label();
+            this.chkVSync = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pctGraphics)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTimePerFrame)).BeginInit();
             this.panel1.SuspendLayout();
@@ -417,11 +418,26 @@ namespace ERY.SpriteTester
             this.lblFrameRate.TabIndex = 24;
             this.lblFrameRate.Text = "Framerate";
             // 
+            // chkVSync
+            // 
+            this.chkVSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkVSync.AutoSize = true;
+            this.chkVSync.Checked = true;
+            this.chkVSync.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkVSync.Location = new System.Drawing.Point(245, 371);
+            this.chkVSync.Name = "chkVSync";
+            this.chkVSync.Size = new System.Drawing.Size(57, 17);
+            this.chkVSync.TabIndex = 25;
+            this.chkVSync.Text = "VSync";
+            this.chkVSync.UseVisualStyleBackColor = true;
+            this.chkVSync.CheckedChanged += new System.EventHandler(this.chkVSync_CheckedChanged);
+            // 
             // frmSpriteTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(539, 394);
+            this.Controls.Add(this.chkVSync);
             this.Controls.Add(this.lblFrameRate);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pctGraphics);
@@ -438,6 +454,7 @@ namespace ERY.SpriteTester
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -473,6 +490,7 @@ namespace ERY.SpriteTester
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cboRotation;
         private System.Windows.Forms.Label lblFrameRate;
+        public System.Windows.Forms.CheckBox chkVSync;
     }
 }
 

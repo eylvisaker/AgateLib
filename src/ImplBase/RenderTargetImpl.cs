@@ -39,7 +39,7 @@ namespace ERY.AgateLib.ImplBase
         /// Utility functions that can be called by the rendering system
         /// when rendering starts and ends.
         /// </summary>
-        void EndRender(bool waitVSync);
+        void EndRender();
         /// <summary>
         /// Gets the Size of the render target, in pixels.
         /// </summary>

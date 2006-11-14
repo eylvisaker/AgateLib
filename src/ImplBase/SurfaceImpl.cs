@@ -624,8 +624,7 @@ namespace ERY.AgateLib.ImplBase
         /// <summary>
         /// Utility function which can be called by EndFrame to end a render pass.
         /// </summary>
-        /// <param name="waitVSync"></param>
-        public abstract void EndRender(bool waitVSync);
+        public abstract void EndRender();
 
         Size IRenderTargetImpl.Size
         {

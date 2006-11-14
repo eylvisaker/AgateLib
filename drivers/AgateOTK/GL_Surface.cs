@@ -395,7 +395,7 @@ namespace ERY.AgateLib.OpenGL
                              Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
             
         }
-        public override void EndRender(bool waitVSync)
+        public override void EndRender()
         {
            // Gl.Disable(Enums.EnableCap.TEXTURE_2D);
             Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);

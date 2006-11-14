@@ -34,7 +34,7 @@ namespace ERY.AgateLib.MDX
     {
         Form frm;
         Control mRenderTarget;
-        bool mClosed = false;
+        bool mIsClosed = false;
         bool mIsFullscreen = false;
 
         internal SwapChain mSwap;
@@ -42,7 +42,7 @@ namespace ERY.AgateLib.MDX
 
         int mChooseWidth;
         int mChooseHeight;
-        int mChooseBitDepth;
+        int mChooseBitDepth = 32;
         System.Drawing.Icon mIcon;
         bool mChooseFullscreen = false;
         bool mChooseResize = false;
@@ -96,7 +96,7 @@ namespace ERY.AgateLib.MDX
                 frm = null;
             }
 
-            mClosed = true;
+            mIsClosed = true;
         }
 
         #endregion
@@ -126,7 +126,7 @@ namespace ERY.AgateLib.MDX
 
         void form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {
-            mClosed = true;
+            mIsClosed = true;
         }
         void form_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
         {
@@ -165,13 +165,13 @@ namespace ERY.AgateLib.MDX
         }
         void renderTarget_Disposed(object sender, EventArgs e)
         {
-            mClosed = true;
+            mIsClosed = true;
         }
 
 
         void frm_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {
-            mClosed = true;
+            mIsClosed = true;
         }
         void frm_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
@@ -213,7 +213,8 @@ namespace ERY.AgateLib.MDX
             Form myform;
             Control myRenderTarget;
 
-            InitializeWindowsForm(out myform, out myRenderTarget, mTitle, mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize);
+            InitializeWindowsForm(out myform, out myRenderTarget, mTitle, 
+                mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize);
 
             ReplaceForm(myform, myRenderTarget);
         }
@@ -222,9 +223,9 @@ namespace ERY.AgateLib.MDX
         {
             get { return mRenderTarget; }
         }
-        public override bool Closed
+        public override bool IsClosed
         {
-            get { return mClosed; }
+            get { return mIsClosed; }
         }
         public override Size Size
         {
@@ -272,7 +273,7 @@ namespace ERY.AgateLib.MDX
         {
             get { return mIsFullscreen; }
         }
-
+        /*
         public override void ToggleFullScreen()
         {
             Keyboard.ReleaseAllKeys(true);
@@ -297,6 +298,37 @@ namespace ERY.AgateLib.MDX
 
             ToggleFullScreen();
         }
+        */
+
+        public override void SetFullScreen()
+        {
+            SetFullScreen(mChooseWidth, mChooseHeight, mChooseBitDepth);
+        }
+        public override void SetFullScreen(int width, int height, int bpp)
+        {
+            if (frm == null)
+                throw new InvalidOperationException("This DisplayWindow was created on a " +
+                    "System.Windows.Forms.Control object, and cannot be set to full screen.");
+
+            ScreenMode mode = ScreenMode.SelectBestMode(width, height, bpp);
+
+            if (mode == null)
+                return;
+
+            mChooseWidth = mode.Width;
+            mChooseHeight = mode.Height;
+            mChooseBitDepth = mode.Bpp;
+
+            mChooseFullscreen = true;
+
+            OnResize();
+        }
+        public override void SetWindowed()
+        {
+            mChooseFullscreen = false;
+
+            OnResize();
+        }
 
         #region --- MDX1_IRenderTarget Members ---
 
@@ -305,7 +337,7 @@ namespace ERY.AgateLib.MDX
             mDisplay.D3D_Device.Device.SetRenderTarget(0, mBackBuffer);
             mDisplay.D3D_Device.Device.BeginScene();
         }
-        public override void EndRender(bool waitVSync)
+        public override void EndRender()
         {
             mDisplay.D3D_Device.Device.EndScene();
 
@@ -313,14 +345,14 @@ namespace ERY.AgateLib.MDX
             {
                 //mSwap.Present(Present.DoNotWait);
 
-                if (waitVSync == false)
+                if (mDisplay.VSync == false)
                 {
                     mSwap.PresentParameters.PresentationInterval = PresentInterval.Immediate;
-                    mSwap.Present(Present.DoNotWait);
+                    mSwap.Present();
                 }
                 else
                 {
-                    mSwap.PresentParameters.PresentationInterval = PresentInterval.Default;
+                    mSwap.PresentParameters.PresentationInterval = PresentInterval.One;
                     mSwap.Present();
                 }
 

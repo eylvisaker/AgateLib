@@ -165,14 +165,13 @@ namespace ERY.AgateLib.ImplBase
         /// This version allows the caller to indicate to the implementation whether or
         /// not it is preferred to wait for the vertical blank to do the drawing.
         /// </summary>
-        /// <param name="waitVSync"></param>
-        public void EndFrame(bool waitVSync)
+        public void EndFrame()
         {
             CheckInFrame("EndFrame");
 
 
             
-            OnEndFrame(waitVSync);
+            OnEndFrame();
 
             mFrames++;
             mInFrame = false;
@@ -232,7 +231,7 @@ namespace ERY.AgateLib.ImplBase
         /// Called by EndFrame to let the driver know that it's time to swap buffers or whatever
         /// is required to finish rendering the frame.
         /// </summary>
-        protected abstract void OnEndFrame(bool waitVSync);
+        protected abstract void OnEndFrame();
 
         /// <summary>
         /// Checks to see whether or not we are currently inside a
@@ -483,6 +482,24 @@ namespace ERY.AgateLib.ImplBase
              * */
         }
 
+        /// <summary>
+        /// Gets or sets VSync flag.
+        /// There is no need to call base.VSync if overriding this member.
+        /// </summary>
+        public virtual bool VSync
+        {
+            get { return true; }
+            set { }
+        }
 
+
+        /// <summary>
+        /// Enumerates a list of screen modes.
+        /// </summary>
+        /// <returns></returns>
+        public virtual ScreenMode[] EnumScreenModes()
+        {
+            return new ScreenMode[] { };
+        }
     }
 }

@@ -277,7 +277,7 @@ namespace ERY.AgateLib
         /// </summary>
         public static void EndFrame()
         {
-            impl.EndFrame(true);
+            impl.EndFrame();
         }
         /// <summary>
         /// A version of EndFrame must be called at the end of each frame.
@@ -286,9 +286,12 @@ namespace ERY.AgateLib
         /// The driver may or may not honor the value of waitVSync.
         /// </summary>
         /// <param name="waitVSync"></param>
+        [Obsolete("Use the Display.VSync property to get/set VSync instead.")]
         public static void EndFrame(bool waitVSync)
         {
-            impl.EndFrame(waitVSync);
+            Display.VSync = waitVSync;
+
+            impl.EndFrame();
         }
 
         /// <summary>
@@ -370,6 +373,19 @@ namespace ERY.AgateLib
         }
 
         /// <summary>
+        /// Returns an array containing information about all available full-screen modes.
+        /// If full screen mode switching is not supported, the array returned has a
+        /// Length of zero.
+        /// </summary>
+        /// <returns>An array of available full-screen modes.</returns>
+        public static ScreenMode[] EnumScreenModes()
+        {
+            return impl.EnumScreenModes();
+        }
+
+        
+
+        /// <summary>
         /// Event fired when PackAllSurfacesEvent
         /// </summary>
         internal static event EventHandler PackAllSurfacesEvent;
@@ -381,6 +397,16 @@ namespace ERY.AgateLib
 
             return retval;
             
+        }
+
+        /// <summary>
+        /// Gets or sets the VSync flag.  If VSync is off, tearing might occur.
+        /// If VSync is on, the framerate will be capped at the monitor's refresh rate.
+        /// </summary>
+        public static bool VSync
+        {
+            get { return impl.VSync; }
+            set { impl.VSync = value; }
         }
 
         #region --- Drawing Functions ---

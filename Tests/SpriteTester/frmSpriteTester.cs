@@ -286,5 +286,10 @@ namespace ERY.SpriteTester
             mSprite.RotationCenter = (OriginAlignment)cboRotation.SelectedItem;
         }
 
+        private void chkVSync_CheckedChanged(object sender, EventArgs e)
+        {
+            Display.VSync = chkVSync.Checked;
+        }
+
     }
 }

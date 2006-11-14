@@ -693,6 +693,15 @@ namespace ERY.AgateLib.Geometry
             return new Color(a, r, g, b);
         }
 
+        /// <summary>
+        /// Converts a System.Drawing.Color structure to an ERY.AgateLib.Geometry.Color structure.
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static Color FromArgb(System.Drawing.Color color)
+        {
+            return new Color(color);
+        }
         private static void ValidateByteValue(ref int val)
         {
             if (val > 255)
@@ -700,6 +709,7 @@ namespace ERY.AgateLib.Geometry
             else if (val < 0)
                 val = 0;
         }
+
         #endregion
         #region --- Public Properties ---
 

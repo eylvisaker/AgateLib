@@ -8,6 +8,11 @@ Both are being tested on Windows with .NET and Linux with Mono.
 Important Breaking Changes:
 * Moved System.Drawing replacement classes (Color, Rectangle, Point, Size and floating-point versions) to ERY.AgateLib.Geometry namespace.  
 
+Obsolete API's:
+* Display.EndFrame(bool waitVSync) - Set the Display.VSync flag to indicate whether or not the vertical blank should be waited for.
+* DisplayWindow.Closed - Read the DisplayWindow.IsClosed property instead.
+* DisplayWindow.ToggleFullScreen - Use SetWindowed and SetFullScreen instead (old version did not allow for changing resolutions when full screen.)
+
 Additions:
 * Created OpenGL driver using the OpenTK library to add hardware accelerated support when running under Linux.
 * Created FMOD driver for audio support.

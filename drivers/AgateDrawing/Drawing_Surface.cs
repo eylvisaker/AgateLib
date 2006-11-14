@@ -358,7 +358,7 @@ namespace ERY.AgateLib.SystemDrawing
         {
         }
 
-        public override void EndRender(bool waitVSync)
+        public override void EndRender()
         {
         }
 

@@ -62,6 +62,7 @@
     <Compile Include="PixelBuffer.cs" />
     <Compile Include="PlatformSpecific\Win32.cs" />
     <Compile Include="PlatformSpecific\X11.cs" />
+    <Compile Include="ScreenMode.cs" />
     <Compile Include="SearchPath.cs" />
     <Compile Include="StringTransformer.cs" />
     <Compile Include="Utility\DisplayWindowForm.cs">
