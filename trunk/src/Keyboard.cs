@@ -858,7 +858,7 @@ namespace ERY.AgateLib
             /// <param name="id">KeyCode identifier of key to release.</param>
             /// <param name="waitKeyUp">Boolean flag indicating whether or not
             /// keydown events should be suppressed until the key is physically released.</param>
-            private void ReleaseKey(KeyCode id, bool waitKeyUp)
+            internal void ReleaseKey(KeyCode id, bool waitKeyUp)
             {
                 mKeyState[(int)id] = 0;
                 mWaitForKeyUp[(int)id] = waitKeyUp;
@@ -949,6 +949,8 @@ namespace ERY.AgateLib
                         ReleaseKey((KeyCode)i, waitForKeyUp);
                 }
             }
+
+            
         }
 
         /// <summary>
@@ -973,15 +975,42 @@ namespace ERY.AgateLib
         /// <summary>
         /// Resets all keys to being in the up state (not pushed).
         /// Does generate KeyUp events.
-        /// 
+        /// <para>
         /// This can also make it so any keys which were depressed must be released
         /// before KeyDown events are raised again.
+        /// </para>
         /// </summary>
         /// <param name="waitForKeyUp">If true, then keys currently depressed will 
         /// not generate KeyDown events until they are released.</param>
         public static void ReleaseAllKeys(bool waitForKeyUp)
         {
             mKeyState.ReleaseAllKeys(waitForKeyUp);
+        }
+
+        /// <summary>
+        /// Resets a particular key to being in the up state (not pushed).  
+        /// Generates a KeyUp event for that key.
+        /// <para>
+        /// This also makes it so that the key must be physically depressed by the user
+        /// before it will register a KeyDown event again.  If it is already depressed,
+        /// it must be released first.
+        /// </para>
+        /// </summary>
+        /// <param name="key"></param>
+        public static void ReleaseKey(KeyCode key)
+        {
+            mKeyState.ReleaseKey(key, true);
+        }
+        /// <summary>
+        /// Resets a particular key to being in the up state (not pushed).  
+        /// Generates a KeyUp event for that key.
+        /// </summary>
+        /// <param name="key">The key to be released.</param>
+        /// <param name="waitForKeyUp">If true, then keys currently depressed will 
+        /// not generate KeyDown events until they are released.</param>
+        public static void ReleaseKey(KeyCode key, bool waitForKeyUp)
+        {
+            mKeyState.ReleaseKey(key, waitForKeyUp);
         }
 
         /// <summary>

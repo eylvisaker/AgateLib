@@ -20,6 +20,11 @@ namespace ERY.AgateLib.OpenGL
         GL_IRenderTarget mRenderTarget;
         GLState mState;
         Stack<Rectangle> mClipRects = new Stack<Rectangle>();
+        Rectangle mCurrentClip = Rectangle.Empty;
+        private bool mVSync = true;
+
+        frmFullScreen mFullScreenForm;
+        DisplayWindow mFullScreenWindow;
 
         protected override void OnRenderTargetChange(IRenderTarget oldRenderTarget)
         {
@@ -84,11 +89,11 @@ namespace ERY.AgateLib.OpenGL
             mRenderTarget.BeginRender();
         }
 
-        protected override void OnEndFrame(bool waitVSync)
+        protected override void OnEndFrame()
         {
             mState.DrawBuffer.Flush();
 
-            mRenderTarget.EndRender(waitVSync);
+            mRenderTarget.EndRender();
         }
 
         internal GLState State
@@ -105,21 +110,26 @@ namespace ERY.AgateLib.OpenGL
         // TODO: Test clip rect stuff.
         public override void SetClipRect(Rectangle newClipRect)
         {
-            Gl.Viewport(newClipRect.X, newClipRect.Y, newClipRect.Width, newClipRect.Height);
+            Gl.Viewport(newClipRect.X, mRenderTarget.Height - newClipRect.Bottom,
+                newClipRect.Width, newClipRect.Height );
+
+            SetupGLOrtho(newClipRect);
+
+            mCurrentClip = newClipRect;
         }
 
         public override void PushClipRect(Rectangle newClipRect)
         {
-            mClipRects.Push(newClipRect);
+            mClipRects.Push(mCurrentClip);
 
             SetClipRect(newClipRect);
         }
 
         public override void PopClipRect()
         {
-            mClipRects.Pop();
-
             SetClipRect(mClipRects.Peek());
+
+            mClipRects.Pop();
         }
 
         public override void Clear(Color color)
@@ -203,6 +213,12 @@ namespace ERY.AgateLib.OpenGL
             Gl.Enable(Enums.EnableCap.TEXTURE_2D);
         }
 
+
+        public override bool VSync
+        {
+            get { return mVSync; }
+            set { mVSync = value; }
+        }
 
         public override void Initialize()
         {

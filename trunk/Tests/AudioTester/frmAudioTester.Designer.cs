@@ -43,6 +43,7 @@ namespace ERY.AudioTester
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.statusLabel = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btnPlayLastSound = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panValue)).BeginInit();
             this.SuspendLayout();
@@ -164,7 +165,7 @@ namespace ERY.AudioTester
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(321, 173);
+            this.button1.Location = new System.Drawing.Point(321, 128);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 12;
@@ -184,18 +185,30 @@ namespace ERY.AudioTester
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(246, 147);
+            this.textBox1.Location = new System.Drawing.Point(246, 102);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(150, 20);
             this.textBox1.TabIndex = 14;
             this.textBox1.Text = "e:\\my documents\\my music\\wav";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
+            // btnPlayLastSound
+            // 
+            this.btnPlayLastSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPlayLastSound.Location = new System.Drawing.Point(266, 170);
+            this.btnPlayLastSound.Name = "btnPlayLastSound";
+            this.btnPlayLastSound.Size = new System.Drawing.Size(130, 23);
+            this.btnPlayLastSound.TabIndex = 15;
+            this.btnPlayLastSound.Text = "Play Last Sound";
+            this.btnPlayLastSound.UseVisualStyleBackColor = true;
+            this.btnPlayLastSound.Click += new System.EventHandler(this.btnPlayLastSound_Click);
+            // 
             // frmAudioTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(408, 335);
+            this.Controls.Add(this.btnPlayLastSound);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.button1);
@@ -231,6 +244,7 @@ namespace ERY.AudioTester
         private System.Windows.Forms.FolderBrowserDialog folderBrowser;
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btnPlayLastSound;
     }
 }
 

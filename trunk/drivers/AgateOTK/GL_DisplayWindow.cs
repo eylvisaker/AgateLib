@@ -22,12 +22,13 @@ namespace ERY.AgateLib.OpenGL
         GLContext mContext;
         GL_Display mDisplay;
         Drawing.Icon mIcon;
-        bool mClosed = false;
+        bool mIsClosed = false;
 
         string mTitle;
         bool mChooseFullscreen;
         int mChooseWidth;
         int mChooseHeight;
+        int mChooseBitDepth = 32;
         bool mChooseResize;
 
         public GL_DisplayWindow(string title, int clientWidth, int clientHeight,
@@ -42,13 +43,17 @@ namespace ERY.AgateLib.OpenGL
             mChooseHeight = clientHeight;
             mChooseResize = allowResize;
 
-            CreateWindowedDisplay();
+            if (!startFullscreen)
+                CreateWindowedDisplay();
+            else 
+                CreateFullScreenDisplay();
 
             mDisplay = Display.Impl as GL_Display;
             mDisplay.Initialize(this);
 
             // and create the back buffer
             //OnResize();
+
         }
 
 
@@ -67,11 +72,37 @@ namespace ERY.AgateLib.OpenGL
 
             AttachEvents();
             //OnResize();
+
+
         }
 
+        private void CreateFullScreenDisplay()
+        {
+            if (frm != null)
+                frm.Dispose();
+
+            frm = new frmFullScreen();
+            frm.Show();
+            
+            frm.Icon = mIcon;
+            frm.Location = System.Drawing.Point.Empty;
+            frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
+            
+            mRenderTarget = frm;
+
+            AttachEvents();
+
+            mContext = GLContext.Create(frm, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8), 16, 0);
+            mContext.SetFullScreen(mChooseWidth, mChooseHeight, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8));
+
+            mIsClosed = false;
+        }
 
         private void CreateWindowedDisplay()
         {
+            if (frm != null)
+                frm.Dispose();
+
             Form myform;
             Control myRenderTarget;
 
@@ -88,6 +119,8 @@ namespace ERY.AgateLib.OpenGL
             AttachEvents();
 
             mContext = GLContext.Create(mRenderTarget, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8), 16, 0);
+
+            mIsClosed = false;
         }
 
 
@@ -155,7 +188,7 @@ namespace ERY.AgateLib.OpenGL
         }
         void mRenderTarget_Disposed(object sender, EventArgs e)
         {
-            mClosed = true;
+            mIsClosed = true;
         }
 
         void mRenderTarget_Resize(object sender, EventArgs e)
@@ -187,13 +220,13 @@ namespace ERY.AgateLib.OpenGL
         }
         void renderTarget_Disposed(object sender, EventArgs e)
         {
-            mClosed = true;
+            mIsClosed = true;
         }
 
 
         void form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {
-            mClosed = true;
+            mIsClosed = true;
         }
         void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
@@ -203,9 +236,9 @@ namespace ERY.AgateLib.OpenGL
         {
             Keyboard.Keys.SetWinFormsKey(e.KeyCode, true);
         }
-        public override bool Closed
+        public override bool IsClosed
         {
-            get { return mClosed; }
+            get { return mIsClosed; }
         }
 
         public override bool IsFullScreen
@@ -213,15 +246,6 @@ namespace ERY.AgateLib.OpenGL
             get { return mContext.IsFullscreen;}
         }
 
-        public override void ToggleFullScreen()
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public override void ToggleFullScreen(int width, int height, int bpp)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
 
         public override Size Size
         {
@@ -267,14 +291,48 @@ namespace ERY.AgateLib.OpenGL
         {
             mContext.MakeCurrent();
 
-            mDisplay.SetupGLOrtho(new Rectangle(0, 0, Width, Height));
+            mDisplay.SetClipRect(new Rectangle(0, 0, Width, Height));
+            
         }
 
-        public override void EndRender(bool waitVSync)
+        public override void EndRender()
         {
+            mContext.EnableVSync = mDisplay.VSync;
             mContext.SwapBuffers();
         }
 
+        public override void SetFullScreen()
+        {
+            SetFullScreen(mChooseWidth, mChooseHeight, mChooseBitDepth);   
+        }
+        public override void SetFullScreen(int width, int height, int bpp)
+        {
+            if (frm == null)
+                throw new InvalidOperationException("This DisplayWindow was created on a " +
+                    "System.Windows.Forms.Control object, and cannot be set to full screen.");
+
+            ScreenMode mode = ScreenMode.SelectBestMode(width, height, bpp);
+            GLContext oldcontext = mContext;
+
+            Keyboard.ReleaseAllKeys();
+
+            CreateFullScreenDisplay();
+
+
+            oldcontext.Dispose();
+        }
+        public override void SetWindowed()
+        {
+            mContext.SetWindowed();
+            GLContext oldcontext = mContext;
+
+            CreateWindowedDisplay();
+
+            Keyboard.ReleaseAllKeys();
+
+            oldcontext.Dispose();
+
+        }
 
         /*
         Form frm;

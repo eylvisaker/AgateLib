@@ -55,6 +55,12 @@ namespace ERY.AudioTester
             //}
         }
 
+
+        private void btnPlayLastSound_Click(object sender, EventArgs e)
+        {
+            mSound.Play();
+        }
+
         private void btnSound_Click(object sender, EventArgs e)
         {
             string text = lstFiles.SelectedItem as string;
@@ -144,6 +150,7 @@ namespace ERY.AudioTester
             }
             catch { }
         }
+
 
 
     }

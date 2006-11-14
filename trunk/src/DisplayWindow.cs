@@ -41,7 +41,8 @@ namespace ERY.AgateLib
 
         /// <summary>
         /// Creates a DisplayWindow object using the specified System.Windows.Forms.Control
-        /// object as a render context.
+        /// object as a render context.  A DisplayWindow made in this manner cannot be made
+        /// into a full-screen DisplayWindow.
         /// </summary>
         /// <param name="renderTarget">Windows.Forms control which should be used as the
         /// render target.</param>
@@ -60,7 +61,7 @@ namespace ERY.AgateLib
         /// <param name="clientWidth"></param>
         /// <param name="clientHeight"></param>
         public DisplayWindow(string title, int clientWidth, int clientHeight)
-            : this(title, clientWidth, clientHeight, false, false)
+            : this(title, clientWidth, clientHeight, "", false, false)
         {
 
         }
@@ -74,7 +75,7 @@ namespace ERY.AgateLib
         /// <param name="iconFile">File name of a Win32 .ico file to use for the window icon.  Pass
         /// null or "" to not use an icon.</param>
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile)
-            : this(title, clientWidth, clientHeight, false, false)
+            : this(title, clientWidth, clientHeight, "", false, false)
         {
 
         }
@@ -121,7 +122,7 @@ namespace ERY.AgateLib
         /// <param name="clientWidth">Width of the drawing area in pixels.</param>
         /// <param name="clientHeight">Height of the drawing area in pixels.</param>
         /// <param name="startFullscreen">True to start as a full screen window.</param>
-        [Obsolete("Use an overload which includes the iconFile argument.")]
+        [Obsolete("Use an overload which includes the iconFile argument, and pass an empty string.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, bool startFullscreen)
             : this(title, clientWidth, clientHeight, startFullscreen, false)
         {
@@ -135,6 +136,7 @@ namespace ERY.AgateLib
         /// <param name="clientHeight"></param>
         /// <param name="startFullscreen"></param>
         /// <param name="allowResize"></param>
+        [Obsolete("Use an overload which includes the iconFile argument.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize)
             : this(title, clientWidth, clientHeight, "", startFullscreen, allowResize)
         {
@@ -171,12 +173,24 @@ namespace ERY.AgateLib
         /// by a call to Dispose(), or perhaps the user clicked the close
         /// box in a form.
         /// </summary>
-        public bool Closed
+        public bool IsClosed
         {
             get
             {
-                return impl.Closed;
+                return impl.IsClosed;
             }
+        }
+        /// <summary>
+        /// OBSOLETE: Use IsClosed property instead. 
+        /// <para>
+        /// Returns true if this DisplayWindow has been closed, either
+        /// by a call to Dispose(), or perhaps the user clicked the close
+        /// box in a form.</para>
+        /// </summary>
+        [Obsolete("Use IsClosed property instead.")]
+        public bool Closed
+        {
+            get { return IsClosed; }
         }
         /// <summary>
         /// Gets or sets the size of the client area in pixels.
@@ -261,9 +275,48 @@ namespace ERY.AgateLib
         /// fullscreen displays.  If this fails it returns without any error
         /// thrown.  Check to see if it worked by examining IsFullScreen property.
         /// </summary>
+        [Obsolete("Use SetWindowed / SetFullScreen instead.")]
         public void ToggleFullScreen(int width, int height, int bpp)
         {
             impl.ToggleFullScreen(width, height, bpp);
+        }
+
+        /// <summary>
+        /// Sets the display to windowed.  Does nothing if the display is already
+        /// windowed.  The DisplayWindow retains the same height and width as the
+        /// previous full screen resolution.
+        /// </summary>
+        public void SetWindowed()
+        {
+
+        }
+
+        /// <summary>
+        /// Sets the display to a full screen display.  The resolution chosen is 
+        /// driver/video card/monitor dependent, but it should be fairly close to
+        /// the current size of the DisplayWindow.        
+        /// This call is not guaranteed to work; some drivers (eg. GDI) don't support 
+        /// fullscreen displays.  If this fails it returns without any error
+        /// thrown.  Check to see if it worked by examining IsFullScreen property.
+        /// </summary>
+        public void SetFullScreen()
+        {
+
+        }
+        /// <summary>
+        /// Sets the display to a full screen display.  The resolution chosen is 
+        /// driver/video card/monitor dependent, but it should be fairly close to
+        /// values specified.
+        /// This call is not guaranteed to work; some drivers (eg. GDI) don't support 
+        /// fullscreen displays.  If this fails it returns without any error
+        /// thrown.  Check to see if it worked by examining IsFullScreen property.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="bpp"></param>
+        public void SetFullScreen(int width, int height, int bpp)
+        {
+
         }
 
         #region --- IRenderTarget Members ---

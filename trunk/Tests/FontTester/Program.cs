@@ -25,7 +25,7 @@ namespace FontTester
                 if (setupDisplay.Cancel)
                     return;
 
-                DisplayWindow wind = new DisplayWindow("Font Tester", 640, 480,
+                DisplayWindow wind = new DisplayWindow("Font Tester", 800, 600,
                     @"..\..\src\AgateLib.ico", false, true);
 
                 FontSurface font = new FontSurface("Arial", 12);
@@ -33,7 +33,7 @@ namespace FontTester
 
                 int frame = 0;
 
-                while (wind.Closed == false)
+                while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();
                     Display.Clear(Color.DarkGray);
@@ -71,7 +71,8 @@ namespace FontTester
 
 
                     // this draws a white background behind the text we want to display.
-                    text = "Press F5 to toggle Windowed / Fullscreen";
+                    text = "F2: Toggle VSync   F5:  Toggle Windowed / Fullscreen      ";
+                    text += "FPS: " + Display.FramesPerSecond.ToString("0.00");
 
                     // figure out how big the displayed text will be
                     textSize = font.StringDisplaySize(text);
@@ -113,6 +114,11 @@ namespace FontTester
                     if (Keyboard.Keys[KeyCode.F5])
                     {
                         Display.CurrentWindow.ToggleFullScreen();
+                    }
+                    else if (Keyboard.Keys[KeyCode.F2])
+                    {
+                        Display.VSync = !Display.VSync;
+                        Keyboard.ReleaseKey(KeyCode.F2);
                     }
                     else if (Keyboard.Keys[KeyCode.Escape])
                     {

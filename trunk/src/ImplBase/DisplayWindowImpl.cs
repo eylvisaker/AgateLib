@@ -40,7 +40,7 @@ namespace ERY.AgateLib.ImplBase
         /// Returns true if the DisplayWindowImpl has been closed.
         /// This happens if the user clicks the close box, or Dispose is called.
         /// </summary>
-        public abstract bool Closed { get; }
+        public abstract bool IsClosed { get; }
         /// <summary>
         /// Returns true if this DisplayWindowImpl is being used as a full-screen
         /// device.
@@ -52,7 +52,14 @@ namespace ERY.AgateLib.ImplBase
         /// If this is unsupported, this method should silently return
         /// (do not throw an error).
         /// </summary>
-        public abstract void ToggleFullScreen();
+        public void ToggleFullScreen()
+        {
+            if (IsFullScreen)
+                SetWindowed();
+            else
+                SetFullScreen();
+        }
+
         /// <summary>
         /// Toggles windowed/fullscreen.
         /// If this is unsupported, this method should silently return
@@ -63,7 +70,42 @@ namespace ERY.AgateLib.ImplBase
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="bpp"></param>
-        public abstract void ToggleFullScreen(int width, int height, int bpp);
+        public void ToggleFullScreen(int width, int height, int bpp)
+        {
+            if (IsFullScreen)
+                SetWindowed();
+            else
+                SetFullScreen(width, height, bpp);
+        }
+
+        /// <summary>
+        /// Sets the display to windowed.  Does nothing if the display is already
+        /// windowed.  The DisplayWindow retains the same height and width as the
+        /// previous full screen resolution.
+        /// </summary>
+        public abstract void SetWindowed();
+
+        /// <summary>
+        /// Sets the display to a full screen display.  The resolution chosen is 
+        /// driver/video card/monitor dependent, but it should be fairly close to
+        /// the current size of the DisplayWindow.        
+        /// This call is not guaranteed to work; some drivers (eg. GDI) don't support 
+        /// fullscreen displays.  If this fails it returns without any error
+        /// thrown.  Check to see if it worked by examining IsFullScreen property.
+        /// </summary>
+        public abstract void SetFullScreen();
+        /// <summary>
+        /// Sets the display to a full screen display.  The resolution chosen is 
+        /// driver/video card/monitor dependent, but it should be fairly close to
+        /// values specified.
+        /// This call is not guaranteed to work; some drivers (eg. GDI) don't support 
+        /// fullscreen displays.  If this fails it returns without any error
+        /// thrown.  Check to see if it worked by examining IsFullScreen property.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="bpp"></param>
+        public abstract  void SetFullScreen(int width, int height, int bpp);
 
         /// <summary>
         /// Creates a System.Windows.Forms.Form object for rendering to.
@@ -76,8 +118,8 @@ namespace ERY.AgateLib.ImplBase
         /// <param name="startFullscreen">True if we should start with a full-screen window.</param>
         /// <param name="allowResize">True if we should allow the user to resize the window.</param>
         protected static void InitializeWindowsForm(
-            out Form frm, 
-            out Control renderTarget, 
+            out Form frm,
+            out Control renderTarget,
             string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize)
         {
             DisplayWindowForm mainForm = new DisplayWindowForm();
@@ -86,7 +128,7 @@ namespace ERY.AgateLib.ImplBase
             frm = mainForm;
             renderTarget = mainForm.RenderTarget;
 
-            
+
             // set properties
             frm.Text = title;
             frm.ClientSize = new System.Drawing.Size(clientWidth, clientHeight);
@@ -102,7 +144,8 @@ namespace ERY.AgateLib.ImplBase
         /// <summary>
         /// Gets or sets the size of the render area.
         /// </summary>
-        public abstract Size Size { get;            set;      }
+        public abstract Size Size { get;set;}
+
         /// <summary>
         /// Gets or sets the width of the render area.
         /// </summary>
@@ -145,8 +188,7 @@ namespace ERY.AgateLib.ImplBase
         /// Utility function which may be called by the DisplayImpl when 
         /// rendering is done.
         /// </summary>
-        /// <param name="waitVSync"></param>
-        public abstract void EndRender(bool waitVSync);
+        public abstract void EndRender();
 
         #endregion
 

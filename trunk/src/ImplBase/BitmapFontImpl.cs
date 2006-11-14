@@ -328,7 +328,7 @@ namespace ERY.AgateLib.ImplBase
 
             }
 
-            return (int)Math.Ceiling(highestLineWidth);
+            return (int)Math.Ceiling(highestLineWidth * ScaleWidth);
         }
         /// <summary>
         /// Measures the height of the text
@@ -357,7 +357,7 @@ namespace ERY.AgateLib.ImplBase
             if (text[text.Length - 1] == '\n')
                 CRcount--;
 
-            return mCharHeight * (CRcount+1);
+            return (int)(mCharHeight * (CRcount + 1) * ScaleHeight);
         }
         /// <summary>
         /// Measures the size of the text.

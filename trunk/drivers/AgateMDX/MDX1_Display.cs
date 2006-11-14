@@ -65,6 +65,11 @@ namespace ERY.AgateLib.MDX
             if (mInitialized)
                 return;
 
+            if (window.RenderTarget.TopLevelControl == null)
+                throw new ArgumentException("The specified render target does not have a Form object yet.  " +
+                    "It's TopLevelControl property is null.  You may not create DisplayWindow objects before " +
+                    "the control to render to is added to the Form.");
+
             mInitialized = true;
 
             // ok, create D3D device
@@ -227,7 +232,7 @@ namespace ERY.AgateLib.MDX
 
         }
 
-        protected override void OnEndFrame(bool waitVSync)
+        protected override void OnEndFrame()
         {
             mDevice.DrawBuffer.Flush();
 
@@ -235,7 +240,7 @@ namespace ERY.AgateLib.MDX
                 PopClipRect();
 
 
-            mRenderTarget.EndRender(waitVSync);
+            mRenderTarget.EndRender();
 
         }
 
@@ -549,7 +554,7 @@ namespace ERY.AgateLib.MDX
             present.SwapEffect = SwapEffect.Discard;
             present.Windowed = false;
             present.PresentFlag = PresentFlag.LockableBackBuffer;
-
+            
             SelectBestDisplayMode(present);
 
             return present;
@@ -573,6 +578,44 @@ namespace ERY.AgateLib.MDX
             present.PresentationInterval = PresentInterval.Immediate;
 
             return present;
+        }
+        public override ScreenMode[] EnumScreenModes()
+        {
+            List<ScreenMode> modes = new List<ScreenMode>();
+
+            DisplayModeCollection dxmodes = Direct3D.Manager.Adapters[0].SupportedDisplayModes;
+
+            foreach (DisplayMode mode in dxmodes)
+            {
+                int bits;
+
+                switch (mode.Format)
+                {
+                    case Format.A8B8G8R8:
+                    case Format.X8B8G8R8:
+                    case Format.X8R8G8B8:
+                    case Format.A8R8G8B8:
+                        bits = 32;
+                        break;
+
+                    case Format.R8G8B8:
+                        bits = 24;
+                        break;
+
+                    case Format.R5G6B5:
+                    case Format.X4R4G4B4:
+                    case Format.X1R5G5B5:
+                        bits = 16;
+                        break;
+
+                    default:
+                        continue;
+                }
+
+                modes.Add(new ScreenMode(mode.Width, mode.Height, bits));
+            }
+
+            return modes.ToArray();
         }
         private void SelectBestDisplayMode(PresentParameters present)
         {

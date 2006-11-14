@@ -31,7 +31,7 @@ namespace ERY.AgateLib.SystemDrawing
     {
         Form frm;
         Control mRenderTarget;
-        bool mClosed = false;
+        bool mIsClosed = false;
 
         Icon mIcon;
         Bitmap mBackBuffer;
@@ -140,7 +140,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         public void form_FormClosed(object sender, EventArgs e)
         {
-            mClosed = true;
+            mIsClosed = true;
         }
         public void form_FormClosing(object sender, EventArgs e)
         {
@@ -183,7 +183,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         void renderTarget_Disposed(object sender, EventArgs e)
         {
-            mClosed = true;
+            mIsClosed = true;
         }
 
         public override void Dispose()
@@ -191,7 +191,7 @@ namespace ERY.AgateLib.SystemDrawing
             if (frm != null)
                 frm.Dispose();
 
-            mClosed = true;
+            mIsClosed = true;
         }
 
         void frm_Paint(object sender, PaintEventArgs e)
@@ -223,9 +223,9 @@ namespace ERY.AgateLib.SystemDrawing
             get { return mBackBuffer; }
         }
 
-        public override bool Closed
+        public override bool IsClosed
         {
-            get { return mClosed; }
+            get { return mIsClosed; }
         }
 
         public override Geometry.Size Size
@@ -258,18 +258,11 @@ namespace ERY.AgateLib.SystemDrawing
             get { return false; }
         }
 
-        public override void ToggleFullScreen()
-        {
-        }
-        public override void ToggleFullScreen(int width, int height, int bpp)
-        {
-        }
-
         public override void BeginRender()
         {
         }
 
-        public override void EndRender(bool waitVSync)
+        public override void EndRender()
         {
             Graphics g = RenderTarget.CreateGraphics();
 
@@ -292,6 +285,18 @@ namespace ERY.AgateLib.SystemDrawing
                 if (frm != null)
                     frm.Text = value;                    
             }
+        }
+
+        public override void SetWindowed()
+        {
+        }
+
+        public override void SetFullScreen()
+        {
+        }
+
+        public override void SetFullScreen(int width, int height, int bpp)
+        {
         }
     }
 }

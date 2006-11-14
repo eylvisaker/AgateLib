@@ -41,6 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmFullScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFullScreen.Designer.cs">
+      <DependentUpon>frmFullScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="GLDrawBuffer.cs" />
     <Compile Include="GLState.cs" />
     <Compile Include="GL_Display.cs" />
@@ -48,6 +54,10 @@
     <Compile Include="GL_IRenderTarget.cs" />
     <Compile Include="GL_Surface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmFullScreen.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmFullScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

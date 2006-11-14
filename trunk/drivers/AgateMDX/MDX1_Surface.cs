@@ -688,10 +688,9 @@ namespace ERY.AgateLib.MDX
             mTexture = new Ref<Texture>(t);
 
         }
-        public override void EndRender(bool waitVSync)
+        public override void EndRender()
         {
             mRenderToSurface.EndScene(Filter.None);
-            
         }
 
         #endregion

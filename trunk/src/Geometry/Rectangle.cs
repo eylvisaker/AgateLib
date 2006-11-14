@@ -317,6 +317,31 @@ namespace ERY.AgateLib.Geometry
         {
             return new Rectangle(Point.Ceiling(a.Location), Size.Ceiling(a.Size));
         }
+
+        /// <summary>
+        /// Creates a new rectangle which contains all the area of the two passed in rectangles.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Rectangle Union(Rectangle a, Rectangle b)
+        {
+            Rectangle retval = a;
+
+            if (b.Top < a.Top)
+                retval.Y = b.Y;
+            if (b.Left < a.Left)
+                retval.X = b.X;
+
+            if (b.Right > a.Right)
+                retval.Width = b.Right - retval.Left;
+            if (b.Bottom > a.Bottom)
+                retval.Height = b.Right - retval.Left;
+
+            return retval;
+
+        }
+
         /// <summary>
         /// For inter-op with System.Drawing.
         /// </summary>
@@ -327,5 +352,6 @@ namespace ERY.AgateLib.Geometry
             return new System.Drawing.Rectangle(
                 rect.X, rect.Y, rect.Width, rect.Height);
         }
+
     }
 }

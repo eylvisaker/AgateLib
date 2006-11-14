@@ -158,7 +158,7 @@ namespace ERY.AgateLib.SystemDrawing
         {
             mGraphics = Graphics.FromImage(mRenderTarget.BackBuffer);
         }
-        protected override void OnEndFrame(bool waitVSync)
+        protected override void OnEndFrame()
         {
             mGraphics.Dispose();
             mGraphics = null;
@@ -167,7 +167,7 @@ namespace ERY.AgateLib.SystemDrawing
                 PopClipRect();
 
             Drawing_IRenderTarget renderTarget = RenderTarget.Impl as Drawing_IRenderTarget;
-            renderTarget.EndRender(waitVSync);
+            renderTarget.EndRender();
 
         }
         #endregion

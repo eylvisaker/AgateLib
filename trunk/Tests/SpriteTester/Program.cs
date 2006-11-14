@@ -36,7 +36,7 @@ namespace ERY.SpriteTester
                 {
                     form.UpdateDisplay();
 
-                    System.Threading.Thread.Sleep(10);
+                    //System.Threading.Thread.Sleep(10);
                     ERY.AgateLib.Core.KeepAlive();
                 }
             }

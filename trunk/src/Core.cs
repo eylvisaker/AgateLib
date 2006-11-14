@@ -147,7 +147,7 @@ namespace ERY.AgateLib
 
                     if (Display.CurrentWindow == null)
                         break;
-                    else if (Display.CurrentWindow.Closed)
+                    else if (Display.CurrentWindow.IsClosed)
                         break;
 
                 }
