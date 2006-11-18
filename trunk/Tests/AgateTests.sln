@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelBufferTest", "PixelBuf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateOTK", "..\drivers\AgateOTK\AgateOTK.csproj", "{B8476DD4-981E-47CD-A8C2-9E28E84A156D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrthoProjectionTest", "OrthoProjectionTest\OrthoProjectionTest.csproj", "{206D1DD1-92DA-4B0F-8FB8-26525F763DF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{B8476DD4-981E-47CD-A8C2-9E28E84A156D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8476DD4-981E-47CD-A8C2-9E28E84A156D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8476DD4-981E-47CD-A8C2-9E28E84A156D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{206D1DD1-92DA-4B0F-8FB8-26525F763DF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{206D1DD1-92DA-4B0F-8FB8-26525F763DF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{206D1DD1-92DA-4B0F-8FB8-26525F763DF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{206D1DD1-92DA-4B0F-8FB8-26525F763DF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

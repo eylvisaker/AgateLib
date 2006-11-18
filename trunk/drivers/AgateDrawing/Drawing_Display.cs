@@ -213,6 +213,15 @@ namespace ERY.AgateLib.SystemDrawing
         {
             get { return new Geometry.Size(1024, 1024); }
         }
+
+        public override void FlushDrawBuffer()
+        {
+        }
+
+        public override void SetOrthoProjection(ERY.AgateLib.Geometry.Rectangle region)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
     }
 
     

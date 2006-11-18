@@ -70,8 +70,8 @@ namespace ERY.AgateLib.AgateFMOD
 
             CheckCreateChannel();
 
-            FMOD_Audio.CheckFMODResult(mChannel.setPaused(false));
-           
+            //FMOD_Audio.CheckFMODResult();
+            mChannel.setPaused(false);
         }
 
         public override void Stop()
@@ -124,19 +124,7 @@ namespace ERY.AgateLib.AgateFMOD
         {
             get
             {
-                if (mChannel == null)
-                    return false;
-
-                bool playing = false;
-                FMOD.RESULT result = mChannel.isPlaying(ref playing);
-
-                if (result != FMOD.RESULT.OK)
-                {
-                    mChannel = null;
-                    return false;
-                }
-
-                return playing;
+                return mAudio.IsChannelPlaying(ref mChannel);
             }
         }
     }

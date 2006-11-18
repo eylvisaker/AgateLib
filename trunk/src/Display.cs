@@ -409,6 +409,52 @@ namespace ERY.AgateLib
             set { impl.VSync = value; }
         }
 
+        /// <summary>
+        /// When using Direct3D or OpenGL, calls to Surface.Draw are cached to be sent to 
+        /// the 3D API all as a batch.  Calling Display.FlushDrawBuffer forces all cached
+        /// vertices to be sent to the rendering system.  You should not need to call this
+        /// function in normal operation of your application.
+        /// </summary>
+        public static void FlushDrawBuffer()
+        {
+            impl.FlushDrawBuffer();
+        }
+
+        /// <summary>
+        /// Sets the orthogonal projection for rendering.  This allows redefinition of the
+        /// coordinates used to address pixels in the window.  
+        /// </summary>
+        /// <remarks>Normally, the orthogonal projection used is 
+        /// set to (left, top) = (0,0), (right,bottom) = (RenderTarget.Width, RenderTarget.Height).
+        /// This function provides a handy way to program an application for multiple resolutions.
+        /// For example, if you set the OrthoProjection to (0,0,640,480), then all drawing calls
+        /// can be made as if you were drawing to a 640x480 window, but they would be scaled to fill
+        /// the entire window.
+        /// </remarks>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="right"></param>
+        /// <param name="bottom"></param>
+        public static void SetOrthoProjection(int left, int top, int right, int bottom)
+        {
+            SetOrthoProjection(Rectangle.FromLTRB(left, top, right, bottom));
+        }
+        /// <summary>
+        /// Sets the orthogonal projection for rendering.  This allows redefinition of the
+        /// coordinates used to address pixels in the window.  
+        /// </summary>
+        /// <remarks>Normally, the orthogonal projection used is 
+        /// set to (left, top) = (0,0), (right,bottom) = (RenderTarget.Width, RenderTarget.Height).
+        /// This function provides a handy way to program an application for multiple resolutions.
+        /// For example, if you set the OrthoProjection to (0,0,640,480), then all drawing calls
+        /// can be made as if you were drawing to a 640x480 window, but they would be scaled to fill
+        /// the entire window.
+        /// </remarks>
+        /// <param name="region"></param>
+        public static void SetOrthoProjection(Rectangle region)
+        {
+            impl.SetOrthoProjection(region);
+        }
         #region --- Drawing Functions ---
 
         /// <summary>

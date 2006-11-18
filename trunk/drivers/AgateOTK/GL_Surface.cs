@@ -16,7 +16,7 @@ using Gl = OpenTK.OpenGL.GL;
 
 namespace ERY.AgateLib.OpenGL
 {
-    public class GL_Surface : SurfaceImpl, GL_IRenderTarget
+    public sealed class GL_Surface : SurfaceImpl, GL_IRenderTarget
     {
  
 

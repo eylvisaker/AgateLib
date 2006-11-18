@@ -50,10 +50,10 @@ namespace ERY.AgateLib.MDX
         float mRotationCos = 1.0f;
         float mRotationSin = 0.0f;
 
-        CustomVertex.TransformedColoredTextured[] mVerts = new CustomVertex.TransformedColoredTextured[4];
+        CustomVertex.PositionColoredTextured[] mVerts = new CustomVertex.PositionColoredTextured[4];
         short[] mIndices = new short[] { 0, 1, 2, 1, 2, 3 };
 
-        CustomVertex.TransformedColoredTextured[] mExtraVerts = new CustomVertex.TransformedColoredTextured[4];
+        CustomVertex.PositionColoredTextured[] mExtraVerts = new CustomVertex.PositionColoredTextured[4];
         short[] mExtraIndices = new short[] { 0, 1, 2, 1, 2, 3 };
 
         #endregion
@@ -326,7 +326,7 @@ namespace ERY.AgateLib.MDX
 
         }
 
-        private void SetVertsTextureCoordinates(CustomVertex.TransformedColoredTextured[] verts, int startIndex,
+        private void SetVertsTextureCoordinates(CustomVertex.PositionColoredTextured[] verts, int startIndex,
             Rectangle srcRect)
         {
             // if you change these, besure to uncomment the divisions below.
@@ -357,11 +357,11 @@ namespace ERY.AgateLib.MDX
             verts[3].Tu = uRight;
             verts[3].Tv = vBottom;
 
-            for (int i = 0; i < 4; i++)
-                verts[i].Rhw = 1.0f;
+            //for (int i = 0; i < 4; i++)
+            //    verts[i].Rhw = 1.0f;
         }
 
-        private void SetVertsColor(CustomVertex.TransformedColoredTextured[] verts, int startIndex, int count)
+        private void SetVertsColor(CustomVertex.PositionColoredTextured[] verts, int startIndex, int count)
         {
             int color = Color.ToArgb();
 
@@ -370,14 +370,14 @@ namespace ERY.AgateLib.MDX
                 verts[i].Color = color;
             }
         }
-        private void SetVertsPosition(CustomVertex.TransformedColoredTextured[] verts, int index,
+        private void SetVertsPosition(CustomVertex.PositionColoredTextured[] verts, int index,
             Rectangle dest, float rotationCenterX, float rotationCenterY)
         {
             SetVertsPosition(verts, index, new RectangleF(dest.X, dest.Y, dest.Width, dest.Height),
                 rotationCenterX, rotationCenterY);
         }
-        
-        private void SetVertsPosition(CustomVertex.TransformedColoredTextured[] verts, int index,
+
+        private void SetVertsPosition(CustomVertex.PositionColoredTextured[] verts, int index,
             RectangleF dest, float rotationCenterX, float rotationCenterY)
         {
             float destX = dest.X;// -0.5f;
@@ -386,29 +386,29 @@ namespace ERY.AgateLib.MDX
             float destHeight = dest.Height;
 
             mCenterPoint = Origin.CalcF(DisplayAlignment, dest.Size);
-            
+
             destX += rotationCenterX - mCenterPoint.X;
             destY += rotationCenterY - mCenterPoint.Y;
 
             // Point at (0, 0) local coordinates
-            verts[index].X = mRotationCos * (-rotationCenterX) + 
+            verts[index].X = mRotationCos * (-rotationCenterX) +
                          mRotationSin * (-rotationCenterY) + destX;
 
-            verts[index].Y = -mRotationSin * (-rotationCenterX) + 
+            verts[index].Y = -mRotationSin * (-rotationCenterX) +
                           mRotationCos * (-rotationCenterY) + destY;
 
             // Point at (DisplayWidth, 0) local coordinates
-            verts[index + 1].X = mRotationCos * (-rotationCenterX + destWidth) + 
+            verts[index + 1].X = mRotationCos * (-rotationCenterX + destWidth) +
                          mRotationSin * (-rotationCenterY) + destX;
 
-            verts[index + 1].Y = -mRotationSin * (-rotationCenterX + destWidth) + 
+            verts[index + 1].Y = -mRotationSin * (-rotationCenterX + destWidth) +
                           mRotationCos * (-rotationCenterY) + destY;
 
             // Point at (0, DisplayHeight) local coordinates
-            verts[index+2].X = mRotationCos * (-rotationCenterX) +
+            verts[index + 2].X = mRotationCos * (-rotationCenterX) +
                          mRotationSin * (-rotationCenterY + destHeight) + destX;
 
-            verts[index+2].Y = (-mRotationSin * (-rotationCenterX) +
+            verts[index + 2].Y = (-mRotationSin * (-rotationCenterX) +
                            mRotationCos * (-rotationCenterY + destHeight)) + destY;
 
             // Point at (DisplayWidth, DisplayHeight) local coordinates
@@ -435,13 +435,13 @@ namespace ERY.AgateLib.MDX
             mDevice.SetDeviceStateTexture(mTexture.Value);
             mDevice.AlphaBlend =  alphaBlend;
 
-            mDevice.Device.VertexFormat = CustomVertex.TransformedColoredTextured.Format;
+            mDevice.Device.VertexFormat = CustomVertex.PositionColoredTextured.Format;
             mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, mVerts);
 
         }
 
         [Obsolete("Old DX method.")]
-        private void AddRectToVB(CustomVertex.TransformedColoredTextured[] verts, int startIndex, 
+        private void AddRectToVB(CustomVertex.PositionColoredTextured[] verts, int startIndex, 
                                 Rectangle srcRect, Rectangle destRect)
         {
             // find center
@@ -473,8 +473,8 @@ namespace ERY.AgateLib.MDX
 
             for (int i = 0; i < 4; i++)
             {
-                verts[startIndex + i] = new Direct3D.CustomVertex.TransformedColoredTextured(
-                   corners[i].X, corners[i].Y, 0.5F, 1.0f, Color.ToArgb(),
+                verts[startIndex + i] = new Direct3D.CustomVertex.PositionColoredTextured(
+                   corners[i].X, corners[i].Y, 0.5F, Color.ToArgb(),
                    uv[i].X / (float)mTextureSize.Width, uv[i].Y / (float)mTextureSize.Height);
             }
         }
@@ -537,9 +537,9 @@ namespace ERY.AgateLib.MDX
         /// <param name="destRects"></param>
         public override void DrawRects(Rectangle[] srcRects, Rectangle[] destRects)
         {
-            
-            CustomVertex.TransformedColoredTextured[] verts = 
-                new CustomVertex.TransformedColoredTextured[srcRects.Length * 4];
+
+            CustomVertex.PositionColoredTextured[] verts =
+                new CustomVertex.PositionColoredTextured[srcRects.Length * 4];
             short[] indices = new short[srcRects.Length * 6];
 
             int startIndex = 0;

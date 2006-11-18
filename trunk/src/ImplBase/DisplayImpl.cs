@@ -501,5 +501,17 @@ namespace ERY.AgateLib.ImplBase
         {
             return new ScreenMode[] { };
         }
+
+        /// <summary>
+        /// Flushes the 2D draw buffer, if applicable.
+        /// </summary>
+        public abstract void FlushDrawBuffer();
+       
+        /// <summary>
+        /// Sets the boundary coordinates of the window.
+        /// </summary>
+        /// <param name="region"></param>
+        public abstract void SetOrthoProjection(Rectangle region);
+        
     }
 }

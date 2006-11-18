@@ -86,21 +86,14 @@ namespace ERY.AgateLib.ImplBase
         public abstract void SetWindowed();
 
         /// <summary>
-        /// Sets the display to a full screen display.  The resolution chosen is 
-        /// driver/video card/monitor dependent, but it should be fairly close to
-        /// the current size of the DisplayWindow.        
-        /// This call is not guaranteed to work; some drivers (eg. GDI) don't support 
-        /// fullscreen displays.  If this fails it returns without any error
-        /// thrown.  Check to see if it worked by examining IsFullScreen property.
+        /// Sets the display to a full screen display.  This overload should use the
+        /// same resolution as the desktop environment.
         /// </summary>
         public abstract void SetFullScreen();
         /// <summary>
         /// Sets the display to a full screen display.  The resolution chosen is 
         /// driver/video card/monitor dependent, but it should be fairly close to
         /// values specified.
-        /// This call is not guaranteed to work; some drivers (eg. GDI) don't support 
-        /// fullscreen displays.  If this fails it returns without any error
-        /// thrown.  Check to see if it worked by examining IsFullScreen property.
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>

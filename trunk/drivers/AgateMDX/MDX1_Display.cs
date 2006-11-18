@@ -45,9 +45,9 @@ namespace ERY.AgateLib.MDX
         Direct3D.Line mLine;
 
         //Vector2[] mDrawLinePts = new Vector2[4];
-        CustomVertex.TransformedColored[] mFillRectVerts = new CustomVertex.TransformedColored[6];
+        CustomVertex.PositionColored[] mFillRectVerts = new CustomVertex.PositionColored[6];
 
-
+        private bool mVSync = true;
 
         #endregion
         #region --- Creation / Destruction ---
@@ -228,8 +228,7 @@ namespace ERY.AgateLib.MDX
             SetClipRect(new Rectangle(new Point(0, 0), mRenderTarget.Size));
 
             mDevice.Set2DDrawState();
-
-
+            
         }
 
         protected override void OnEndFrame()
@@ -381,20 +380,20 @@ namespace ERY.AgateLib.MDX
             int clr = color.ToArgb();
 
             // defining our screen sized quad, note the Z value of 1f to place it in the background
-            mFillRectVerts[0].Position = new Vector4(rect.Left, rect.Top, 0f, 1f);
+            mFillRectVerts[0].Position = new Vector3(rect.Left, rect.Top, 0f);
             mFillRectVerts[0].Color = clr;
 
-            mFillRectVerts[1].Position = new Vector4(rect.Right, rect.Top, 0f, 1f);
+            mFillRectVerts[1].Position = new Vector3(rect.Right, rect.Top, 0f);
             mFillRectVerts[1].Color = clr;
 
-            mFillRectVerts[2].Position = new Vector4(rect.Left, rect.Bottom, 0f, 1f);
+            mFillRectVerts[2].Position = new Vector3(rect.Left, rect.Bottom, 0f);
             mFillRectVerts[2].Color = clr;
 
             mFillRectVerts[3] = mFillRectVerts[1];
             //vert[3].Position = new Vector4(rect.Right, rect.Top, 0f, 1f);
             //vert[3].Color = clr;
 
-            mFillRectVerts[4].Position = new Vector4(rect.Right, rect.Bottom, 0f, 1f);
+            mFillRectVerts[4].Position = new Vector3(rect.Right, rect.Bottom, 0f);
             mFillRectVerts[4].Color = clr;
 
             mFillRectVerts[5] = mFillRectVerts[2];
@@ -420,7 +419,7 @@ namespace ERY.AgateLib.MDX
             mDevice.SetDeviceStateTexture(null);
             mDevice.AlphaArgument1 = TextureArgument.Diffuse;
 
-            mDevice.VertexFormat = CustomVertex.TransformedColored.Format;
+            mDevice.VertexFormat = CustomVertex.PositionColored.Format;
             mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleList, 2, mFillRectVerts);
 
         }
@@ -436,7 +435,7 @@ namespace ERY.AgateLib.MDX
         {
             Registrar.RegisterDisplayDriver(
                 new DriverInfo<DisplayTypeID>(typeof(MDX1_Display), DisplayTypeID.Direct3D_MDX_1_1,
-                "Managed DirectX 1.1", 110));
+                "Managed DirectX 1.1", 150));
         }
 
         #endregion
@@ -575,6 +574,7 @@ namespace ERY.AgateLib.MDX
             present.SwapEffect = SwapEffect.Copy;
             present.Windowed = true;
             present.PresentFlag = PresentFlag.LockableBackBuffer;
+            //present.PresentationInterval = PresentInterval.Default;
             present.PresentationInterval = PresentInterval.Immediate;
 
             return present;
@@ -728,6 +728,17 @@ namespace ERY.AgateLib.MDX
 
         #endregion
 
+        public override bool VSync
+        {
+            get
+            {
+                return mVSync;
+            }
+            set
+            {
+                mVSync = value;
+            }
+        }
         public override Size MaxSurfaceSize
         {
             get { return mDevice.MaxSurfaceSize; }
@@ -768,6 +779,16 @@ namespace ERY.AgateLib.MDX
         public override PixelFormat DefaultSurfaceFormat
         {
             get { return PixelFormat.RGBA8888; }
+        }
+
+        public override void FlushDrawBuffer()
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override void SetOrthoProjection(Rectangle region)
+        {
+            mDevice.SetOrthoProjection(region);
         }
     }
 }

@@ -49,37 +49,35 @@ namespace ERY.AgateLib.Utility
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.agateRenderTarget1 = new ERY.AgateLib.Utility.AgateRenderTarget();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // agateRenderTarget1
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(292, 266);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.agateRenderTarget1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.agateRenderTarget1.Location = new System.Drawing.Point(0, 0);
+            this.agateRenderTarget1.Name = "agateRenderTarget1";
+            this.agateRenderTarget1.Size = new System.Drawing.Size(292, 266);
+            this.agateRenderTarget1.TabIndex = 0;
             // 
             // DisplayWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 266);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.agateRenderTarget1);
             this.Name = "DisplayWindowForm";
             this.Text = "DisplayWindowForm";
             this.Deactivate += new System.EventHandler(this.DisplayWindowForm_Deactivate);
             this.Activated += new System.EventHandler(this.DisplayWindowForm_Activated);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private AgateRenderTarget agateRenderTarget1;
+
 
 
 

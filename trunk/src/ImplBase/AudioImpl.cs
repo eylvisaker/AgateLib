@@ -46,6 +46,15 @@ namespace ERY.AgateLib.ImplBase
         /// <returns></returns>
         public abstract SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer);
 
+
+        /// <summary>
+        /// This function is called once a frame to allow the Audio driver to update
+        /// information.  There is no need to call base.Update() if overriding this
+        /// function.
+        /// </summary>
+        public virtual void Update()
+        {
+        }
     }
 
     /// <summary>

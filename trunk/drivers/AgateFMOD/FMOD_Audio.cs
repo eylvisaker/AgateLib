@@ -26,7 +26,7 @@ using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.AgateFMOD
 {
-    public class FMOD_Audio : AudioImpl
+    public sealed class FMOD_Audio : AudioImpl
     {
         FMOD.System mSystem;
         bool mIsDisposed;
@@ -37,6 +37,10 @@ namespace ERY.AgateLib.AgateFMOD
                 typeof(FMOD_Audio), AudioTypeID.FMod, "FMOD Driver", 200));
         }
 
+        public override void Update()
+        {
+            CheckFMODResult(mSystem.update());
+        }
         public override SoundBufferImpl CreateSoundBuffer(string filename)
         {
             return new FMOD_SoundBuffer(this, filename);
@@ -88,5 +92,32 @@ namespace ERY.AgateLib.AgateFMOD
             set { mIsDisposed = value; }
         }
 
+
+        internal bool IsChannelPlaying(ref FMOD.Channel channel)
+        {
+            if (channel == null)
+                return false;
+
+            bool playing = false;
+            bool paused = false;
+            FMOD.RESULT result = channel.isPlaying(ref playing);
+
+            if (result != FMOD.RESULT.OK)
+            {
+                channel = null;
+                return false;
+            }
+
+            if (playing == false)
+                return playing;
+
+            if (channel.getPaused(ref paused) == FMOD.RESULT.OK)
+            {
+                return !paused;
+            }
+
+            channel = null;
+            return false;
+        }
     }
 }

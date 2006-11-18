@@ -128,10 +128,7 @@ namespace ERY.AgateLib.AgateFMOD
         {
             get
             {
-                bool playing = false;
-                FMOD_Audio.CheckFMODResult(mChannel.isPlaying(ref playing));
-
-                return playing;
+                return mAudio.IsChannelPlaying(ref mChannel);
             }
         }
 

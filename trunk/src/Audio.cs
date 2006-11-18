@@ -140,6 +140,17 @@ namespace ERY.AgateLib
         {
             return Math.Pow(1000, x - 1);
         }
+
+        /// <summary>
+        /// Updates audio information.  There is no need to call this explicitly
+        /// if you are calling Core.KeepAlive on a regular basis.
+        /// </summary>
+        public static void Update()
+        {
+            if (impl == null) return;
+
+            impl.Update();
+        }
     }
     /// <summary>
     /// A class which is used for loading and playing of sounds.

@@ -15,7 +15,7 @@ using Gl = OpenTK.OpenGL.GL;
 
 namespace ERY.AgateLib.OpenGL
 {
-    public class GL_Display : DisplayImpl
+    public sealed class GL_Display : DisplayImpl
     {
         GL_IRenderTarget mRenderTarget;
         GLState mState;
@@ -72,9 +72,7 @@ namespace ERY.AgateLib.OpenGL
 
         internal void SetupGLOrtho(Rectangle ortho)
         {
-            Gl.MatrixMode(Enums.MatrixMode.PROJECTION);
-            Gl.LoadIdentity();
-            Glu.Ortho2D(ortho.Left, ortho.Right, ortho.Bottom, ortho.Top);
+            SetOrthoProjection(ortho);
 
             Gl.Enable(Enums.EnableCap.TEXTURE_2D);
 
@@ -132,6 +130,19 @@ namespace ERY.AgateLib.OpenGL
             mClipRects.Pop();
         }
 
+
+        public override void FlushDrawBuffer()
+        {
+            mState.DrawBuffer.Flush();
+        }
+
+        public override void SetOrthoProjection(Rectangle region)
+        {
+            Gl.MatrixMode(Enums.MatrixMode.PROJECTION);
+            Gl.LoadIdentity();
+            Glu.Ortho2D(region.Left, region.Right, region.Bottom, region.Top);
+
+        }
         public override void Clear(Color color)
         {
             mState.DrawBuffer.Flush();
