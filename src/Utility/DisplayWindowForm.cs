@@ -51,7 +51,7 @@ namespace ERY.AgateLib.Utility
         /// </summary>
         public Control RenderTarget
         {
-            get { return pictureBox1; }
+            get { return agateRenderTarget1; }
         }
 
         private void DisplayWindowForm_Deactivate(object sender, EventArgs e)

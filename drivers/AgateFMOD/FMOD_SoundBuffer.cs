@@ -83,9 +83,9 @@ namespace ERY.AgateLib.AgateFMOD
             }
             set
             {
-                if (value < 0.0)                    mVolume = 0.0;
-                else if (value > 1.0)                    mVolume = 1.0;
-                else                    mVolume = value;
+                if (value < 0.0) mVolume = 0.0;
+                else if (value > 1.0) mVolume = 1.0;
+                else mVolume = value;
             }
         }
     }

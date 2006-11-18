@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using Drawing = System.Drawing;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
@@ -49,6 +50,7 @@ namespace ERY.AgateLib.MDX
         string mTitle = "";
 
         MDX1_Display mDisplay;
+
 
         #region --- Creation / Destruction ---
 
@@ -86,6 +88,7 @@ namespace ERY.AgateLib.MDX
 
             AttachEvents();
             OnResize();
+
         }
 
         public override void Dispose()
@@ -341,8 +344,8 @@ namespace ERY.AgateLib.MDX
         {
             mDisplay.D3D_Device.Device.EndScene();
 
-            try
-            {
+            //try
+            //{
                 //mSwap.Present(Present.DoNotWait);
 
                 if (mDisplay.VSync == false)
@@ -356,10 +359,12 @@ namespace ERY.AgateLib.MDX
                     mSwap.Present();
                 }
 
-            }
-            catch
-            {
-            }
+            //}
+            ////catch (Exception e)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(
+            //        "Present gave exception: " + e.ToString() + "\r\n" + e.Message);
+            //}
         }
 
         public Microsoft.DirectX.Direct3D.Surface RenderSurface

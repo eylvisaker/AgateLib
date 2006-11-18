@@ -33,7 +33,7 @@ namespace ERY.AgateLib.MDX
 
         D3DDevice mDevice;
 
-        CustomVertex.TransformedColoredTextured []mVerts;
+        CustomVertex.PositionColoredTextured[] mVerts;
         short[] mIndices;
 
         int mVertPointer = 0;
@@ -51,10 +51,10 @@ namespace ERY.AgateLib.MDX
 
         private void AllocateVerts()
         {
-            mVerts = new CustomVertex.TransformedColoredTextured[vertPageSize * pages];
+            mVerts = new CustomVertex.PositionColoredTextured[vertPageSize * pages];
             mIndices = new short[vertPageSize / 2 * 3 * pages];
         }
-        public void CacheDrawIndexedTriangles(CustomVertex.TransformedColoredTextured[] verts, short[] indices,
+        public void CacheDrawIndexedTriangles(CustomVertex.PositionColoredTextured[] verts, short[] indices,
             Texture texture, bool alphaBlend)
         {
             if (mTexture != texture || mAlphaBlend != alphaBlend)
@@ -93,7 +93,7 @@ namespace ERY.AgateLib.MDX
 
             mDevice.SetDeviceStateTexture(mTexture);
             mDevice.AlphaBlend = mAlphaBlend;
-            mDevice.VertexFormat = CustomVertex.TransformedColoredTextured.Format;
+            mDevice.VertexFormat = CustomVertex.PositionColoredTextured.Format;
 
             mDevice.Device.DrawIndexedUserPrimitives
                 (PrimitiveType.TriangleList, 0, mVertPointer, mIndexPointer / 3, mIndices, true, mVerts);

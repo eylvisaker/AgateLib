@@ -15,7 +15,7 @@ using Gl = OpenTK.OpenGL.GL;
 
 namespace ERY.AgateLib.OpenGL
 {
-    public class GL_DisplayWindow : DisplayWindowImpl, GL_IRenderTarget
+    public sealed class GL_DisplayWindow : DisplayWindowImpl, GL_IRenderTarget
     {
         Form frm;
         Control mRenderTarget;
@@ -73,21 +73,25 @@ namespace ERY.AgateLib.OpenGL
             AttachEvents();
             //OnResize();
 
-
         }
 
         private void CreateFullScreenDisplay()
         {
-            if (frm != null)
-                frm.Dispose();
 
+            DetachEvents();
+
+            Form oldForm = frm;
+            GLContext oldcontext = mContext;
+            
+            mContext = null;
+            
             frm = new frmFullScreen();
             frm.Show();
-            
+
+            frm.Text = mTitle;
             frm.Icon = mIcon;
-            frm.Location = System.Drawing.Point.Empty;
-            frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
-            
+            frm.TopLevel = true;
+
             mRenderTarget = frm;
 
             AttachEvents();
@@ -95,13 +99,27 @@ namespace ERY.AgateLib.OpenGL
             mContext = GLContext.Create(frm, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8), 16, 0);
             mContext.SetFullScreen(mChooseWidth, mChooseHeight, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8));
 
-            mIsClosed = false;
+            frm.Location = System.Drawing.Point.Empty;
+            frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
+            frm.Activate();
+            Core.IsActive = true;
+
+            System.Threading.Thread.Sleep(1000);
+
+
+            if (oldForm != null)
+                oldForm.Dispose();
+            if (oldcontext != null)
+                oldcontext.Dispose();
         }
 
         private void CreateWindowedDisplay()
         {
-            if (frm != null)
-                frm.Dispose();
+            DetachEvents();
+
+            Form oldForm = frm;
+            GLContext oldcontext = mContext;
+            mContext = null;
 
             Form myform;
             Control myRenderTarget;
@@ -120,7 +138,12 @@ namespace ERY.AgateLib.OpenGL
 
             mContext = GLContext.Create(mRenderTarget, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8), 16, 0);
 
-            mIsClosed = false;
+            Core.IsActive = true;
+
+            if (oldcontext != null)
+                oldcontext.Dispose();
+            if (oldForm != null)
+                oldForm.Dispose();
         }
 
 
@@ -151,13 +174,15 @@ namespace ERY.AgateLib.OpenGL
 
         private void AttachEvents()
         {
+            if (mRenderTarget == null)
+                return;
+
             mRenderTarget.Resize += new EventHandler(mRenderTarget_Resize);
             mRenderTarget.Disposed += new EventHandler(mRenderTarget_Disposed);
 
             mRenderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
             mRenderTarget.MouseDown += new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
             mRenderTarget.MouseUp += new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
-            //mRenderTarget.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(pct_MouseDoubleClick);
             mRenderTarget.DoubleClick += new EventHandler(mRenderTarget_DoubleClick);
             System.Windows.Forms.Form form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
 
@@ -165,9 +190,25 @@ namespace ERY.AgateLib.OpenGL
             form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
             form.KeyUp += new System.Windows.Forms.KeyEventHandler(form_KeyUp);
 
-            //form.FormClosed += new System.Windows.Forms.FormClosedEventHandler(form_FormClosed);
         }
+        private void DetachEvents()
+        {
+            if (mRenderTarget == null)
+                return;
 
+            mRenderTarget.Resize -= new EventHandler(mRenderTarget_Resize);
+            mRenderTarget.Disposed -= new EventHandler(mRenderTarget_Disposed);
+
+            mRenderTarget.MouseMove -= new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
+            mRenderTarget.MouseDown -= new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
+            mRenderTarget.MouseUp -= new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
+            mRenderTarget.DoubleClick -= new EventHandler(mRenderTarget_DoubleClick);
+            System.Windows.Forms.Form form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
+
+            form.KeyDown -= new System.Windows.Forms.KeyEventHandler(form_KeyDown);
+            form.KeyUp -= new System.Windows.Forms.KeyEventHandler(form_KeyUp);
+
+        }
 
         Mouse.MouseButtons GetButtons(System.Windows.Forms.MouseButtons buttons)
         {
@@ -312,26 +353,14 @@ namespace ERY.AgateLib.OpenGL
                     "System.Windows.Forms.Control object, and cannot be set to full screen.");
 
             ScreenMode mode = ScreenMode.SelectBestMode(width, height, bpp);
-            GLContext oldcontext = mContext;
-
-            Keyboard.ReleaseAllKeys();
-
+            
             CreateFullScreenDisplay();
-
-
-            oldcontext.Dispose();
+            Keyboard.ReleaseAllKeys();
         }
         public override void SetWindowed()
         {
-            mContext.SetWindowed();
-            GLContext oldcontext = mContext;
-
             CreateWindowedDisplay();
-
             Keyboard.ReleaseAllKeys();
-
-            oldcontext.Dispose();
-
         }
 
         /*

@@ -288,35 +288,38 @@ namespace ERY.AgateLib
         /// </summary>
         public void SetWindowed()
         {
-
+            impl.SetWindowed();
         }
 
         /// <summary>
-        /// Sets the display to a full screen display.  The resolution chosen is 
-        /// driver/video card/monitor dependent, but it should be fairly close to
-        /// the current size of the DisplayWindow.        
+        /// Sets the display to a full screen display.  This overload uses the
+        /// desktop resolution for the full-screen display.
+        /// </summary>
+        /// <remarks>
         /// This call is not guaranteed to work; some drivers (eg. GDI) don't support 
         /// fullscreen displays.  If this fails it returns without any error
         /// thrown.  Check to see if it worked by examining IsFullScreen property.
-        /// </summary>
+        /// </remarks>
         public void SetFullScreen()
         {
-
+            impl.SetFullScreen();
         }
         /// <summary>
         /// Sets the display to a full screen display.  The resolution chosen is 
         /// driver/video card/monitor dependent, but it should be fairly close to
         /// values specified.
+        /// </summary>
+        /// <remarks>
         /// This call is not guaranteed to work; some drivers (eg. GDI) don't support 
         /// fullscreen displays.  If this fails it returns without any error
         /// thrown.  Check to see if it worked by examining IsFullScreen property.
-        /// </summary>
+        /// </remarks>
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="bpp"></param>
         public void SetFullScreen(int width, int height, int bpp)
         {
-
+            impl.SetFullScreen(width, height, bpp);
         }
 
         #region --- IRenderTarget Members ---

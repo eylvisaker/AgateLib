@@ -153,6 +153,9 @@ namespace ERY.AgateLib
                 }
             }
 
+            // Update Audio Engine, if necessary
+            Audio.Update();
+
             // Poll joystick input, if the time is right.
             Input.PollTimer();
 

@@ -52,6 +52,7 @@ namespace ERY.AgateLib.MDX
         public D3DDevice(Device device)
         {
             mDevice = device;
+            mWorld2D = Matrix.Identity;
 
             mDrawBuffer = new DrawBuffer(this);
         }
@@ -174,22 +175,26 @@ namespace ERY.AgateLib.MDX
 
             SetView2D();
         }
-        private void DefaultWorldMatrix()
-        {
-            mWorld2D = Matrix.Translation(-RenderTarget.Width / 2, -RenderTarget.Height * 0.5f, 0);
-        }
 
+
+        public void SetOrthoProjection(Rectangle region)
+        {
+            Matrix orthoProj = Matrix.OrthoOffCenterRH(
+                region.Left, region.Right, region.Bottom, region.Top, -1, 1);
+
+            mDevice.SetTransform(TransformType.Projection, orthoProj);
+        }
 
         public void SetView2D()
         {
             Matrix world = mWorld2D;
-            Matrix orthoProj = Matrix.OrthoRH(RenderTarget.Width, -RenderTarget.Height, -1, 1);
-
+            //Matrix orthoProj = Matrix.OrthoRH(RenderTarget.Width, -RenderTarget.Height, -1, 1);
+            SetOrthoProjection(new Rectangle(0, 0, RenderTarget.Width, RenderTarget.Height));
 
             mDevice.SetRenderState(RenderStates.CullMode, (int)Cull.None);
             mDevice.SetRenderState(RenderStates.Lighting, false);
 
-            mDevice.SetTransform(TransformType.Projection, orthoProj);
+            //mDevice.SetTransform(TransformType.Projection, orthoProj);
             mDevice.SetTransform(TransformType.World, world);
             mDevice.SetTransform(TransformType.View, Matrix.Identity);
 
