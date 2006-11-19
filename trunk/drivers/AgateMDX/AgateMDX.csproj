@@ -72,6 +72,7 @@
     <Compile Include="MDX1_Input.cs" />
     <Compile Include="MDX1_IRenderTarget.cs" />
     <Compile Include="MDX1_Surface.cs" />
+    <Compile Include="PositionColorNormalTexture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

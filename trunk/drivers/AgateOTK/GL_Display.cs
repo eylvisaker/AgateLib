@@ -15,16 +15,13 @@ using Gl = OpenTK.OpenGL.GL;
 
 namespace ERY.AgateLib.OpenGL
 {
-    public sealed class GL_Display : DisplayImpl
+    public sealed class GL_Display : DisplayImpl, IDisplayCaps 
     {
         GL_IRenderTarget mRenderTarget;
         GLState mState;
         Stack<Rectangle> mClipRects = new Stack<Rectangle>();
         Rectangle mCurrentClip = Rectangle.Empty;
         private bool mVSync = true;
-
-        frmFullScreen mFullScreenForm;
-        DisplayWindow mFullScreenWindow;
 
         protected override void OnRenderTargetChange(IRenderTarget oldRenderTarget)
         {
@@ -260,238 +257,123 @@ namespace ERY.AgateLib.OpenGL
                 DisplayTypeID.OpenGL, "OpenGL with OpenTK", 120));
         }
 
-        /*
-        string mPath;
-
-
-        public override string ImagePath
+        public override void DoLighting(LightManager lights)
         {
-            get { return mPath; }
-            set { mPath = value; }
-        }
+            FlushDrawBuffer();
 
-        protected override void OnCurrentWindowChange()
-        {
-            mOGLWindow = mCurrentWindow.Impl as WGL_DisplayWindow;
-
-            // Try To Activate The Rendering Context
-            if (!Wgl.wglMakeCurrent(mOGLWindow.hDC, mOGLWindow.hRC))
-            {                                 
-                mOGLWindow.KillGLWindow();      // Reset The Display
-                throw new Exception("Can't Activate The GL Rendering Context.");
-            }
- 
-        }
-
-        public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, bool startFullScreen, bool allowResize)
-        {
-            GL_DisplayWindow retval = new GL_DisplayWindow(
-                title, clientWidth, clientHeight, startFullScreen, allowResize);
-
-
-            retval.InitializeGL();
-
-            return retval;
-        }
-        public override DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget)
-        {
-            return new WGL_DisplayWindow(renderTarget);
-        }
-
-        public override SurfaceImpl CreateSurface(Surface owner, string fileName)
-        {
-            return new WGL_Surface(owner, fileName);
-        }
-        public override SurfaceImpl CreateSurface(Surface owner, System.Drawing.Size surfaceSize)
-        {
-            return new WGL_Surface(owner, surfaceSize);
-        }
-
-        public override FontSurfaceImpl CreateFont(FontSurface owner, System.Drawing.Font font)
-        {
-            return new WGL_FontSurface(owner, font);
-        }
-
-
-        public override void BeginFrame()
-        {
-            DateTime now = System.DateTime.Now;
-
-            if (mRanOnce == false)
+            if (lights.Enabled == false)
             {
-                mRanOnce = true;
-
-                mDeltaTime = 0;
-                mLastTime = now;
-
-                mFPSStart = now;
-                mFrames = 0;
-
+                GL.Disable(Enums.EnableCap.LIGHTING);
+                return;
             }
-            else
+
+            float[] array = new float[4];
+
+            GL.Enable(Enums.EnableCap.LIGHTING);
+
+            SetArray(array, lights.Ambient);
+            GL.LightModelfv(Enums.LightModelParameter.LIGHT_MODEL_AMBIENT, array);
+
+            for (int i = 0; i < lights.Count; i++)
             {
-                TimeSpan delta = now - mLastTime;
-                mDeltaTime = delta.TotalMilliseconds;
-                mLastTime = now;
+                Enums.EnableCap lightID = (Enums.EnableCap)((int)Enums.EnableCap.LIGHT0 + i);
+                Enums.LightName lightName = (Enums.LightName)((int)Enums.LightName.LIGHT0 + i);
 
-                TimeSpan framesTime = now - mFPSStart;
-
-                if (framesTime.TotalMilliseconds > 100)
+                if (lights[i].Enabled == false)
                 {
-                    double time = framesTime.TotalSeconds;
-
-                    // average current framerate with that of the last update
-                    mFPS = 0.5 * (mFrames / time + mFPS);
-
-                    mFPSStart = now;
-                    mFrames = 0;
-
+                    GL.Disable(lightID);
+                    continue;
                 }
+
+                GL.Enable(lightID);
+
+                SetArray(array, lights[i].Diffuse);
+                GL.Lightfv(lightName, Enums.LightParameter.DIFFUSE, array);
+
+                SetArray(array, lights[i].Ambient);
+                GL.Lightfv(lightName, Enums.LightParameter.AMBIENT, array);
+
+                SetArray(array, lights[i].Position);
+                GL.Lightfv(lightName, Enums.LightParameter.POSITION, array);
+
+                GL.Lightf(lightName, Enums.LightParameter.CONSTANT_ATTENUATION, lights[i].AttenuationConstant);
+                GL.Lightf(lightName, Enums.LightParameter.LINEAR_ATTENUATION, lights[i].AttenuationLinear);
+                GL.Lightf(lightName, Enums.LightParameter.QUADRATIC_ATTENUATION, lights[i].AttenuationQuadratic);
+
             }
-
-
-            //SetClipRect(new Rectangle(new Point(0, 0), mD3DWindow.Size));
-            
         }
-
-        public override void EndFrame(bool waitVSync)
+        private void SetArray(float[] array, Vector3 vec)
         {
-            while (mClipRects.Count > 0)
-                PopClipRect();
+            array[0] = vec.X;
+            array[1] = vec.Y;
+            array[2] = vec.Z;
+        }
+        private void SetArray(float[] array,Color color)
+        {
+            array[0] = color.R / 255.0f;
+            array[1] = color.G / 255.0f;
+            array[2] = color.B / 255.0f;
+            array[3] = color.A / 255.0f;
+        } 
 
-            Gdi.SwapBuffers(mOGLWindow.hDC);                                   // Swap Buffers (Double Buffering)
-
-            mFrames++;
+        public override IDisplayCaps Caps
+        {
+            get { return this; }
         }
 
-        public override double DeltaTime
+        #region IDisplayCaps Members
+
+        bool IDisplayCaps.SupportsScaling
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsRotation
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsColor
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsSurfaceAlpha
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsPixelAlpha
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsLighting
+        {
+            get { return true; }
+        }
+
+        int IDisplayCaps.MaxLights
         {
             get
             {
-                return mDeltaTime;
+                int[] max = new int[1];
+                GL.GetIntegerv(Enums.GetPName.MAX_LIGHTS, max);
+
+                return max[0];
             }
         }
-        public override void SetDeltaTime(double deltaTime)
-        {
-            mDeltaTime = deltaTime;
-        }
-        public override double FramesPerSecond
-        {
-            get { return mFPS; }
-        }
-        private double mDeltaTime;
-        private DateTime mLastTime;
-        private bool mRanOnce = false;
 
-        private DateTime mFPSStart;
-        private int mFrames;
-        private double mFPS = 0;
-
-        private Stack<Rectangle> mClipRects = new Stack<Rectangle>();
-
-        public override void SetClipRect(System.Drawing.Rectangle newClipRect)
+        bool IDisplayCaps.IsHardwareAccelerated
         {
-            throw new Exception("The method or operation is not implemented.");
+            get { return true; }
         }
 
-        public override void PushClipRect(System.Drawing.Rectangle newClipRect)
+        bool IDisplayCaps.Supports3D
         {
-            throw new Exception("The method or operation is not implemented.");
+            get { return false; }
         }
 
-        public override void PopClipRect()
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public override void DrawLine(int x1, int y1, int x2, int y2, System.Drawing.Color color)
-        {
-            SetGLColor(color);
-
-            Gl.glDisable(Gl.GL_TEXTURE_2D);
-            Gl.glBegin(Gl.GL_LINES);
-
-            Gl.glVertex2d(x1, y1);
-            Gl.glVertex2d(x2, y2);
-
-            Gl.glEnd();
-            Gl.glEnable(Gl.GL_TEXTURE_2D);
-        }
-
-        public override void DrawLine(System.Drawing.Point a, System.Drawing.Point b, System.Drawing.Color color)
-        {
-            SetGLColor(color);
-
-            Gl.glDisable(Gl.GL_TEXTURE_2D);
-            Gl.glBegin(Gl.GL_LINE);
-
-            Gl.glVertex2d(a.X, a.Y);
-            Gl.glVertex2d(b.X, b.Y);
-            Gl.glEnable(Gl.GL_TEXTURE_2D);
-
-            Gl.glEnd();          
-        }
-
-        public override void DrawRect(System.Drawing.Rectangle rect, System.Drawing.Color color)
-        {
-            SetGLColor(color);
-
-
-            Gl.glDisable(Gl.GL_TEXTURE_2D);
-            Gl.glBegin(Gl.GL_LINES);
-
-            Gl.glVertex2d(rect.Left, rect.Top);
-            Gl.glVertex2d(rect.Right, rect.Top);
-
-            Gl.glVertex2d(rect.Right, rect.Top);
-            Gl.glVertex2d(rect.Right, rect.Bottom);
-
-            Gl.glVertex2d(rect.Right, rect.Bottom);
-            Gl.glVertex2d(rect.Left, rect.Bottom);
-
-            Gl.glVertex2d(rect.Left, rect.Bottom);
-            Gl.glVertex2d(rect.Left, rect.Top);
-
-            Gl.glEnd();
-            Gl.glEnable(Gl.GL_TEXTURE_2D);
-        }
-
-        public override void FillRect(System.Drawing.Rectangle rect, System.Drawing.Color color)
-        {
-            SetGLColor(color);
-
-            Gl.glDisable(Gl.GL_TEXTURE_2D);
-
-            Gl.glBegin(Gl.GL_QUADS);
-            Gl.glVertex3f(rect.Left, rect.Top, 0);                                        // Top Left
-            Gl.glVertex3f(rect.Right, rect.Top, 0);                                         // Top Right
-            Gl.glVertex3f(rect.Right, rect.Bottom, 0);                                        // Bottom Right
-            Gl.glVertex3f(rect.Left, rect.Bottom, 0);                                       // Bottom Left
-            Gl.glEnd();                                                         // Done Drawing The Quad
-
-            Gl.glEnable(Gl.GL_TEXTURE_2D);
-        }
-
-        
-        public override void Clear(System.Drawing.Color color)
-        {
-            Gl.glClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, 0.5f);
-            Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
-
-        }
-
-        public override void Clear(System.Drawing.Color color, System.Drawing.Rectangle dest)
-        {
-            DrawRect(dest, color);
-        }
-
-
-        public void SetGLColor(Color color)
-        {
-            Gl.glColor4f(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-        }
-        */
-
-
+        #endregion
     }
 }

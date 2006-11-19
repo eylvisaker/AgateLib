@@ -43,7 +43,20 @@ namespace ERY.AgateLib.OpenGL
                 a = clr.A / 255.0f;
             }
         }
+        [StructLayout(LayoutKind.Sequential)]
+        private struct NormalCoord
+        {
+            public float x;
+            public float y;
+            public float z;
 
+            public NormalCoord(float x, float y, float z)
+            {
+                this.x = x;
+                this.y = y;
+                this.z = z;
+            }
+        }
         #endregion
 
         GLState mState;
@@ -51,6 +64,7 @@ namespace ERY.AgateLib.OpenGL
         TexCoord[] mTexCoords;
         ColorCoord[] mColorCoords;
         VertexCoord[] mVertexCoords;
+        NormalCoord[] mNormalCoords;
 
         int mIndex;
         int mCurrentTexture;
@@ -67,6 +81,7 @@ namespace ERY.AgateLib.OpenGL
             mTexCoords = new TexCoord[size];
             mColorCoords = new ColorCoord[size];
             mVertexCoords = new VertexCoord[size];
+            mNormalCoords = new NormalCoord[size];
 
             mIndex = 0;
         }
@@ -115,6 +130,11 @@ namespace ERY.AgateLib.OpenGL
                 mVertexCoords[mIndex + i].y = pt[i].Y;
 
                 mColorCoords[mIndex + i] = new ColorCoord(color);
+
+                mNormalCoords[mIndex + i].x = 0;
+                mNormalCoords[mIndex + i].y = 0;
+                mNormalCoords[mIndex + i].z = -1;
+
             }
 
             mTexCoords[mIndex].u = texCoord.Left;
@@ -129,6 +149,7 @@ namespace ERY.AgateLib.OpenGL
             mTexCoords[mIndex + 3].u = texCoord.Left;
             mTexCoords[mIndex + 3].v = texCoord.Bottom;
 
+            
             mIndex += 4;
 
         }
@@ -143,6 +164,7 @@ namespace ERY.AgateLib.OpenGL
             Gl.EnableClientState(Enums.EnableCap.TEXTURE_COORD_ARRAY);
             Gl.EnableClientState(Enums.EnableCap.COLOR_ARRAY);
             GL.EnableClientState(Enums.EnableCap.VERTEX_ARRAY);
+            GL.EnableClientState(Enums.EnableCap.NORMAL_ARRAY);
 
             Gl.TexCoordPointer(2, Enums.TexCoordPointerType.FLOAT,
                                Marshal.SizeOf(typeof(TexCoord)), mTexCoords);
@@ -150,7 +172,8 @@ namespace ERY.AgateLib.OpenGL
                             Marshal.SizeOf(typeof(ColorCoord)), mColorCoords);
             Gl.VertexPointer(2, Enums.VertexPointerType.FLOAT,
                              Marshal.SizeOf(typeof(VertexCoord)), mVertexCoords);
-
+            Gl.NormalPointer(Enums.NormalPointerType.FLOAT,
+                             Marshal.SizeOf(typeof(NormalCoord)), mNormalCoords);
             Gl.DrawArrays(Enums.BeginMode.QUADS, 0, mIndex);
 
             mIndex = 0;

@@ -170,7 +170,7 @@ namespace ERY.AgateLib.ImplBase
             CheckInFrame("EndFrame");
 
 
-            
+
             OnEndFrame();
 
             mFrames++;
@@ -506,12 +506,22 @@ namespace ERY.AgateLib.ImplBase
         /// Flushes the 2D draw buffer, if applicable.
         /// </summary>
         public abstract void FlushDrawBuffer();
-       
+
         /// <summary>
         /// Sets the boundary coordinates of the window.
         /// </summary>
         /// <param name="region"></param>
         public abstract void SetOrthoProjection(Rectangle region);
-        
+
+        /// <summary>
+        /// Gets the capabilities of the Display object.
+        /// </summary>
+        public abstract IDisplayCaps Caps { get; }
+
+        /// <summary>
+        /// Gets all the light settings from the LightManager.
+        /// </summary>
+        /// <param name="lights"></param>
+        public abstract void DoLighting(LightManager lights);
     }
 }

@@ -22,7 +22,6 @@ using System.Text;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
-using CustomVertex = Microsoft.DirectX.Direct3D.CustomVertex;
 
 using ERY.AgateLib.Geometry;
 
@@ -191,8 +190,8 @@ namespace ERY.AgateLib.MDX
             //Matrix orthoProj = Matrix.OrthoRH(RenderTarget.Width, -RenderTarget.Height, -1, 1);
             SetOrthoProjection(new Rectangle(0, 0, RenderTarget.Width, RenderTarget.Height));
 
-            mDevice.SetRenderState(RenderStates.CullMode, (int)Cull.None);
-            mDevice.SetRenderState(RenderStates.Lighting, false);
+            mDevice.RenderState.CullMode = Cull.None;
+            mDevice.RenderState.Lighting = false;
 
             //mDevice.SetTransform(TransformType.Projection, orthoProj);
             mDevice.SetTransform(TransformType.World, world);
@@ -286,5 +285,55 @@ namespace ERY.AgateLib.MDX
         //}
 
 
+
+        internal void DoLighting(LightManager lights)
+        {
+            if (lights.Enabled == false)
+            {
+                mDevice.SetRenderState(RenderStates.Lighting, false);
+                return;
+            }
+
+            mDevice.RenderState.Lighting = true;
+            mDevice.RenderState.DiffuseMaterialSource = ColorSource.Color1;
+            mDevice.RenderState.AmbientMaterialSource = ColorSource.Color1;
+
+            mDevice.RenderState.AmbientColor = lights.Ambient.ToArgb();
+
+            //Material mat = new Material();
+            //mat.Diffuse = System.Drawing.Color.White;
+
+            //mDevice.Material = mat;
+
+            for (int i = 0; i < lights.Count; i++)
+            {
+                if (lights[i].Enabled == false)
+                {
+                    mDevice.Lights[i].Enabled = false;
+                    mDevice.Lights[i].Update();
+
+                    continue;
+                }
+
+                mDevice.Lights[i].Type = LightType.Point;
+
+                mDevice.Lights[i].Attenuation0 = lights[i].AttenuationConstant;
+                mDevice.Lights[i].Attenuation1 = lights[i].AttenuationLinear;
+                mDevice.Lights[i].Attenuation2 = lights[i].AttenuationQuadratic;
+                
+                mDevice.Lights[i].Diffuse = (System.Drawing.Color)lights[i].Diffuse;
+                mDevice.Lights[i].Ambient = (System.Drawing.Color)lights[i].Ambient;
+                //mDevice.Lights[i].Specular = (System.Drawing.Color)lights[i].Specular;
+
+                mDevice.Lights[i].Position = new Microsoft.DirectX.Vector3(
+                    lights[i].Position.X, lights[i].Position.Y, lights[i].Position.Z);
+
+                mDevice.Lights[i].Range = lights[i].Range;
+
+                mDevice.Lights[i].Enabled = true;
+                mDevice.Lights[i].Update();
+            }
+            
+        }
     }
 }

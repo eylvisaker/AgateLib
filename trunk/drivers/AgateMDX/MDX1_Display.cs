@@ -22,7 +22,6 @@ using System.Text;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
-using CustomVertex = Microsoft.DirectX.Direct3D.CustomVertex;
 
 using ERY.AgateLib.Drivers;
 using ERY.AgateLib.Geometry;
@@ -30,7 +29,7 @@ using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.MDX
 {
-    public class MDX1_Display : DisplayImpl
+    public class MDX1_Display : DisplayImpl, IDisplayCaps 
     {
         #region --- Private Variables ---
 
@@ -230,7 +229,6 @@ namespace ERY.AgateLib.MDX
             mDevice.Set2DDrawState();
             
         }
-
         protected override void OnEndFrame()
         {
             mDevice.DrawBuffer.Flush();
@@ -380,38 +378,26 @@ namespace ERY.AgateLib.MDX
             int clr = color.ToArgb();
 
             // defining our screen sized quad, note the Z value of 1f to place it in the background
-            mFillRectVerts[0].Position = new Vector3(rect.Left, rect.Top, 0f);
+            mFillRectVerts[0].Position = new Microsoft.DirectX.Vector3(rect.Left, rect.Top, 0f);
             mFillRectVerts[0].Color = clr;
 
-            mFillRectVerts[1].Position = new Vector3(rect.Right, rect.Top, 0f);
+            mFillRectVerts[1].Position = new Microsoft.DirectX.Vector3(rect.Right, rect.Top, 0f);
             mFillRectVerts[1].Color = clr;
 
-            mFillRectVerts[2].Position = new Vector3(rect.Left, rect.Bottom, 0f);
+            mFillRectVerts[2].Position = new Microsoft.DirectX.Vector3(rect.Left, rect.Bottom, 0f);
             mFillRectVerts[2].Color = clr;
 
             mFillRectVerts[3] = mFillRectVerts[1];
             //vert[3].Position = new Vector4(rect.Right, rect.Top, 0f, 1f);
             //vert[3].Color = clr;
 
-            mFillRectVerts[4].Position = new Vector3(rect.Right, rect.Bottom, 0f);
+            mFillRectVerts[4].Position = new Microsoft.DirectX.Vector3(rect.Right, rect.Bottom, 0f);
             mFillRectVerts[4].Color = clr;
 
             mFillRectVerts[5] = mFillRectVerts[2];
             //vert[5].Position = new Vector4(rect.Left, rect.Bottom, 0f, 1f);
             //vert[5].Color = clr;
 
-            //backgroundIndices = new short[] { 0, 1, 2, 1, 3, 2 };
-
-            //GraphicsBuffer buff = new GraphicsBuffer(6);
-            //Generic.GraphicsBuffer<CustomVertex.TransformedColored> gbuff = new Microsoft.DirectX.Generic.GraphicsBuffer<Microsoft.DirectX.Direct3D.CustomVertex.TransformedColored>(6);
-            //GraphicsStream gbuff = new GraphicsStream(backgroundVertices, 
-            //    backgroundVertices.Length * CustomVertex.TransformedColored.StrideSize, ;
-            //gbuff.Write(backgroundVertices);
-
-            // render our gradient background quad
-            //mDevice.SetStreamSource(0, null, 0);
-
-            //mDevice.SetDeviceStateTexture(null);
             mDevice.DrawBuffer.Flush();
 
             mDevice.AlphaBlend = true;
@@ -760,7 +746,6 @@ namespace ERY.AgateLib.MDX
                     throw new NotSupportedException("Format not supported.");
             }
         }
-
         internal PixelFormat GetPixelFormat(Format format)
         {
             switch (format)
@@ -775,7 +760,6 @@ namespace ERY.AgateLib.MDX
 
             }
         }
-
         public override PixelFormat DefaultSurfaceFormat
         {
             get { return PixelFormat.RGBA8888; }
@@ -783,12 +767,77 @@ namespace ERY.AgateLib.MDX
 
         public override void FlushDrawBuffer()
         {
-            throw new Exception("The method or operation is not implemented.");
+            mDevice.DrawBuffer.Flush();
         }
 
         public override void SetOrthoProjection(Rectangle region)
         {
             mDevice.SetOrthoProjection(region);
         }
+
+        public override void DoLighting(LightManager lights)
+        {
+            FlushDrawBuffer();
+            mDevice.DoLighting(lights);
+        }
+
+        public override IDisplayCaps Caps
+        {
+            get { return this; }
+        }
+
+        #region IDisplayCaps Members
+
+        bool IDisplayCaps.SupportsScaling
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsRotation
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsColor
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsSurfaceAlpha
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsPixelAlpha
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsLighting
+        {
+            get { return true; }
+        }
+
+        int IDisplayCaps.MaxLights
+        {
+            get 
+            {
+                Caps c = Direct3D.Manager.GetDeviceCaps(0, DeviceType.Hardware);
+
+                return c.MaxActiveLights;
+            }
+        }
+
+        bool IDisplayCaps.IsHardwareAccelerated
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.Supports3D
+        {
+            get { return false; }
+        }
+
+        #endregion
     }
 }

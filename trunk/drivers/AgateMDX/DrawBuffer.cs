@@ -22,7 +22,6 @@ using System.Text;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
-using CustomVertex = Microsoft.DirectX.Direct3D.CustomVertex;
 
 namespace ERY.AgateLib.MDX
 {
@@ -33,7 +32,7 @@ namespace ERY.AgateLib.MDX
 
         D3DDevice mDevice;
 
-        CustomVertex.PositionColoredTextured[] mVerts;
+        PositionColorNormalTexture[] mVerts;
         short[] mIndices;
 
         int mVertPointer = 0;
@@ -51,10 +50,10 @@ namespace ERY.AgateLib.MDX
 
         private void AllocateVerts()
         {
-            mVerts = new CustomVertex.PositionColoredTextured[vertPageSize * pages];
+            mVerts = new PositionColorNormalTexture[vertPageSize * pages];
             mIndices = new short[vertPageSize / 2 * 3 * pages];
         }
-        public void CacheDrawIndexedTriangles(CustomVertex.PositionColoredTextured[] verts, short[] indices,
+        public void CacheDrawIndexedTriangles(PositionColorNormalTexture[] verts, short[] indices,
             Texture texture, bool alphaBlend)
         {
             if (mTexture != texture || mAlphaBlend != alphaBlend)
@@ -93,7 +92,7 @@ namespace ERY.AgateLib.MDX
 
             mDevice.SetDeviceStateTexture(mTexture);
             mDevice.AlphaBlend = mAlphaBlend;
-            mDevice.VertexFormat = CustomVertex.PositionColoredTextured.Format;
+            mDevice.VertexFormat = PositionColorNormalTexture.Format;
 
             mDevice.Device.DrawIndexedUserPrimitives
                 (PrimitiveType.TriangleList, 0, mVertPointer, mIndexPointer / 3, mIndices, true, mVerts);
