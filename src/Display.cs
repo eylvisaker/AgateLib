@@ -543,6 +543,18 @@ namespace ERY.AgateLib
 
         #endregion
 
+        /// <summary>
+        /// Gets the capabilities of the Display object.
+        /// </summary>
+        public static IDisplayCaps Caps
+        {
+            get { return impl.Caps; }
+        }
+
+        internal static void DoLighting(LightManager lights)
+        {
+            impl.DoLighting(lights);
+        }
     }
 
 

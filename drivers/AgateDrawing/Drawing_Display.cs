@@ -29,7 +29,7 @@ using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.SystemDrawing
 {
-    public class Drawing_Display : DisplayImpl
+    public class Drawing_Display : DisplayImpl, IDisplayCaps 
     {
         #region --- Private variables ---
             
@@ -222,6 +222,63 @@ namespace ERY.AgateLib.SystemDrawing
         {
             throw new Exception("The method or operation is not implemented.");
         }
+        public override void DoLighting(LightManager lights)
+        {
+            throw new InvalidOperationException("Lighting is not supported.");
+        }
+        public override IDisplayCaps Caps
+        {
+            get { return this; }
+        }
+
+        #region IDisplayCaps Members
+
+        bool IDisplayCaps.SupportsScaling
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsRotation
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsColor
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsSurfaceAlpha
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsPixelAlpha
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsLighting
+        {
+            get { return false; }
+        }
+
+        int IDisplayCaps.MaxLights
+        {
+            get { return 0; }
+        }
+
+        bool IDisplayCaps.IsHardwareAccelerated
+        {
+            get { return false; }
+        }
+
+        bool IDisplayCaps.Supports3D
+        {
+            get { return false; }
+        }
+
+        #endregion
     }
 
     

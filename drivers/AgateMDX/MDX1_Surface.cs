@@ -24,7 +24,6 @@ using System.Text;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
-using CustomVertex = Microsoft.DirectX.Direct3D.CustomVertex;
 
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
@@ -50,11 +49,31 @@ namespace ERY.AgateLib.MDX
         float mRotationCos = 1.0f;
         float mRotationSin = 0.0f;
 
-        CustomVertex.PositionColoredTextured[] mVerts = new CustomVertex.PositionColoredTextured[4];
-        short[] mIndices = new short[] { 0, 1, 2, 1, 2, 3 };
+        PositionColorNormalTexture[] mVerts = new PositionColorNormalTexture[4];
+        short[] mIndices = new short[] { 0, 2, 1, 1, 2, 3 };
 
-        CustomVertex.PositionColoredTextured[] mExtraVerts = new CustomVertex.PositionColoredTextured[4];
-        short[] mExtraIndices = new short[] { 0, 1, 2, 1, 2, 3 };
+        PositionColorNormalTexture[] mExtraVerts = new PositionColorNormalTexture[4];
+        short[] mExtraIndices = new short[] { 0, 2, 1, 1, 2, 3 };
+
+        #endregion
+
+        #region --- TextureCoordinates structure
+
+        struct TextureCoordinates
+        {
+            public float Left;
+            public float Top;
+            public float Right;
+            public float Bottom;
+
+            public TextureCoordinates(float left, float top, float right, float bottom)
+            {
+                this.Left = left;
+                this.Top = top;
+                this.Right = right;
+                this.Bottom = bottom;
+            }
+        }
 
         #endregion
 
@@ -302,7 +321,6 @@ namespace ERY.AgateLib.MDX
         protected void DrawWithoutVB(float destX, float destY, 
             float rotationCenterX, float rotationCenterY, bool alphaBlend)
         {
-            
             if (DisplayWidth < 0)
             {
                 destX -= DisplayWidth;
@@ -312,22 +330,91 @@ namespace ERY.AgateLib.MDX
                 destY -= DisplayHeight;
             }
 
-            SetVertsPosition(mVerts, 0, new RectangleF(destX, destY, DisplayWidth, DisplayHeight), 
-                rotationCenterX, rotationCenterY);
+            if (TesselateFactor == 1)
+            {
+                SetVertsPosition(mVerts, 0, new RectangleF(destX, destY, DisplayWidth, DisplayHeight),
+                    rotationCenterX, rotationCenterY);
 
-            //mDevice.SetDeviceStateTexture(mTexture.Value);
-            //mDevice.AlphaBlend = alphaBlend;
+                mDevice.DrawBuffer.CacheDrawIndexedTriangles(mVerts, mIndices, mTexture.Value, alphaBlend);
+            }
+            else
+            {
+                TextureCoordinates texCoords = GetTextureCoordinates(mSrcRect);
+                float texWidth = texCoords.Right - texCoords.Left;
+                float texHeight = texCoords.Bottom - texCoords.Top;
 
-            //mDevice.VertexFormat = CustomVertex.TransformedColoredTextured.Format;
-            //mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, verts);
-            //mDevice.Device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, 6, 2, indices, true, verts);
-            mDevice.DrawBuffer.CacheDrawIndexedTriangles(mVerts, mIndices, mTexture.Value, alphaBlend);
+                float displayWidth = DisplayWidth / (float)TesselateFactor;
+                float displayHeight = DisplayHeight / (float)TesselateFactor;
 
+                SetVertsColor(mExtraVerts, 0, 4);
+
+                for (int j = 0; j < TesselateFactor; j++)
+                {
+                    TextureCoordinates coords = texCoords;
+                    coords.Top = texCoords.Top + j * texHeight / TesselateFactor;
+                    coords.Bottom = coords.Top + texHeight / TesselateFactor;
+
+                    for (int i = 0; i < TesselateFactor; i++)
+                    {
+                        coords.Left = texCoords.Left + i * texWidth / TesselateFactor;
+                        coords.Right = coords.Left + texWidth / TesselateFactor;
+
+                        float dx = destX + i * displayWidth * mRotationCos + j * displayHeight * mRotationSin;
+                        float dy = destY - i * displayWidth * mRotationSin + j * displayHeight * mRotationCos; 
+
+                        SetVertsPosition(mExtraVerts, 0,
+                            new RectangleF(dx, dy,
+                                           displayWidth, displayHeight),
+                                           rotationCenterX, rotationCenterY);
+
+                        SetVertsTextureCoordinates(mExtraVerts, 0, coords);
+
+                        mDevice.DrawBuffer.CacheDrawIndexedTriangles(
+                            mExtraVerts, mIndices, mTexture.Value, alphaBlend);
+                    }
+                }
+            }
 
         }
 
-        private void SetVertsTextureCoordinates(CustomVertex.PositionColoredTextured[] verts, int startIndex,
+        private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex,
             Rectangle srcRect)
+        {
+            TextureCoordinates texCoords = GetTextureCoordinates(srcRect);
+
+            SetVertsTextureCoordinates(verts, startIndex, texCoords);
+        }
+
+        private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex,
+            RectangleF srcRect)
+        {
+            TextureCoordinates texCoords = GetTextureCoordinates(srcRect);
+
+            SetVertsTextureCoordinates(verts, startIndex, texCoords);
+        }
+        private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex, 
+            TextureCoordinates texCoords)
+        {
+            verts[startIndex].Tu = texCoords.Left;
+            verts[startIndex].Tv = texCoords.Top;
+
+            verts[startIndex + 1].Tu = texCoords.Right;
+            verts[startIndex + 1].Tv = texCoords.Top;
+
+            verts[startIndex + 2].Tu = texCoords.Left;
+            verts[startIndex + 2].Tv = texCoords.Bottom;
+
+            verts[startIndex + 3].Tu = texCoords.Right;
+            verts[startIndex + 3].Tv = texCoords.Bottom;
+        }
+
+        private TextureCoordinates GetTextureCoordinates(Rectangle srcRect)
+        {
+            return GetTextureCoordinates(new RectangleF(
+                srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height));
+        }
+        
+        private TextureCoordinates GetTextureCoordinates(RectangleF srcRect)
         {
             // if you change these, besure to uncomment the divisions below.
             const float leftBias = 0.0f;
@@ -345,23 +432,11 @@ namespace ERY.AgateLib.MDX
             float uRight = srcRect.Right / (float)mTextureSize.Width + rightBias;
             float vBottom = srcRect.Bottom / (float)mTextureSize.Height + bottomBias;
 
-            verts[0].Tu = uLeft;
-            verts[0].Tv = vTop;
-
-            verts[1].Tu = uRight;
-            verts[1].Tv = vTop;
-
-            verts[2].Tu = uLeft;
-            verts[2].Tv = vBottom;
-
-            verts[3].Tu = uRight;
-            verts[3].Tv = vBottom;
-
-            //for (int i = 0; i < 4; i++)
-            //    verts[i].Rhw = 1.0f;
+            TextureCoordinates texCoords = new TextureCoordinates(uLeft, vTop, uRight, vBottom);
+            return texCoords;
         }
 
-        private void SetVertsColor(CustomVertex.PositionColoredTextured[] verts, int startIndex, int count)
+        private void SetVertsColor(PositionColorNormalTexture[] verts, int startIndex, int count)
         {
             int color = Color.ToArgb();
 
@@ -370,14 +445,14 @@ namespace ERY.AgateLib.MDX
                 verts[i].Color = color;
             }
         }
-        private void SetVertsPosition(CustomVertex.PositionColoredTextured[] verts, int index,
+        private void SetVertsPosition(PositionColorNormalTexture[] verts, int index,
             Rectangle dest, float rotationCenterX, float rotationCenterY)
         {
             SetVertsPosition(verts, index, new RectangleF(dest.X, dest.Y, dest.Width, dest.Height),
                 rotationCenterX, rotationCenterY);
         }
 
-        private void SetVertsPosition(CustomVertex.PositionColoredTextured[] verts, int index,
+        private void SetVertsPosition(PositionColorNormalTexture[] verts, int index,
             RectangleF dest, float rotationCenterX, float rotationCenterY)
         {
             float destX = dest.X;// -0.5f;
@@ -418,7 +493,14 @@ namespace ERY.AgateLib.MDX
             verts[index + 3].Y = -mRotationSin * (-rotationCenterX + destWidth) +
                           mRotationCos * (-rotationCenterY + destHeight) + destY;
 
+            for (int i = 0; i < 4; i++)
+            {
+                verts[index + i].nx = 0;
+                verts[index + i].ny = 0;
+                verts[index + i].nz = -1;
+            }
         }
+        
         [Obsolete("Old DX method.")]
         protected void DrawWithoutVBNoRotation(Rectangle destRect, bool alphaBlend)
         {
@@ -439,9 +521,10 @@ namespace ERY.AgateLib.MDX
             mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, mVerts);
 
         }
-
+        
+        
         [Obsolete("Old DX method.")]
-        private void AddRectToVB(CustomVertex.PositionColoredTextured[] verts, int startIndex, 
+        private void AddRectToVB(PositionColorNormalTexture[] verts, int startIndex, 
                                 Rectangle srcRect, Rectangle destRect)
         {
             // find center
@@ -473,12 +556,13 @@ namespace ERY.AgateLib.MDX
 
             for (int i = 0; i < 4; i++)
             {
-                verts[startIndex + i] = new Direct3D.CustomVertex.PositionColoredTextured(
+                verts[startIndex + i] = new PositionColorNormalTexture(
                    corners[i].X, corners[i].Y, 0.5F, Color.ToArgb(),
-                   uv[i].X / (float)mTextureSize.Width, uv[i].Y / (float)mTextureSize.Height);
+                   uv[i].X / (float)mTextureSize.Width, uv[i].Y / (float)mTextureSize.Height,
+                   0, 0, -1);
             }
         }
-
+        
 
         #endregion
         #region --- Drawing to screen functions ---
@@ -501,34 +585,60 @@ namespace ERY.AgateLib.MDX
             srcRect.Y += mSrcRect.Y;
 
             //DrawWithoutVBNoRotation(srcRect, destRect, true);
-            if (mRotationCos != 1.0f)
-            {
-                float oldcos = mRotationCos;
-                float oldsin = mRotationSin;
+            //if (mRotationCos != 1.0f)
+            //{
+            //    float oldcos = mRotationCos;
+            //    float oldsin = mRotationSin;
 
+            //    SetVertsColor(mExtraVerts, 0, 4);
+            //    SetVertsTextureCoordinates(mExtraVerts, 0, srcRect);
+            //    SetVertsPosition(mExtraVerts, 0, destRect, 0, 0);
+
+            //    mRotationCos = oldcos;
+            //    mRotationSin = oldsin;
+            //}
+            //else
+            //{
+            if (TesselateFactor == 1)
+            {
                 SetVertsColor(mExtraVerts, 0, 4);
                 SetVertsTextureCoordinates(mExtraVerts, 0, srcRect);
                 SetVertsPosition(mExtraVerts, 0, destRect, 0, 0);
 
-                mRotationCos = oldcos;
-                mRotationSin = oldsin;
+                mDevice.DrawBuffer.CacheDrawIndexedTriangles(mExtraVerts, mExtraIndices, mTexture.Value, true);
             }
             else
             {
                 SetVertsColor(mExtraVerts, 0, 4);
-                SetVertsTextureCoordinates(mExtraVerts, 0, srcRect);
-                SetVertsPosition(mExtraVerts, 0, destRect, 0, 0);
 
+                RectangleF src = new RectangleF();
+                RectangleF dest = new RectangleF();
+
+                for (int j = 0; j < TesselateFactor; j++)
+                {
+                    src.Y = srcRect.Top + j * srcRect.Height / (float)TesselateFactor;
+                    src.Height = srcRect.Height / (float)TesselateFactor;
+
+                    dest.Y = destRect.Top + j * destRect.Height / (float)TesselateFactor;
+                    dest.Height = destRect.Height / (float)TesselateFactor;
+
+                    for (int i = 0; i < TesselateFactor; i++)
+                    {
+                        src.X = srcRect.X + i * srcRect.Width / (float)TesselateFactor;
+                        src.Width = srcRect.Width / (float)TesselateFactor;
+
+                        dest.X = destRect.X + i * destRect.Width / (float)TesselateFactor;
+                        dest.Width = destRect.Width / (float)TesselateFactor;
+
+
+                        SetVertsColor(mExtraVerts, 0, 4);
+                        SetVertsTextureCoordinates(mExtraVerts, 0, src);
+                        SetVertsPosition(mExtraVerts, 0, dest, 0, 0);
+
+                        mDevice.DrawBuffer.CacheDrawIndexedTriangles(mExtraVerts, mExtraIndices, mTexture.Value, true);
+                    }
+                }
             }
-
-            //mDevice.SetDeviceStateTexture(mTexture.Value);
-            //mDevice.AlphaBlend = alphaBlend;
-
-            //mDevice.VertexFormat = CustomVertex.TransformedColoredTextured.Format;
-            //mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, verts);
-            //mDevice.Device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, 6, 2, indices, true, verts);
-            mDevice.DrawBuffer.CacheDrawIndexedTriangles(mExtraVerts, mExtraIndices, mTexture.Value, true);
-
         }
         /// <summary>
         /// This needs to be updated to use the same approach as Draw(Rectangle, Rectangle)
@@ -538,8 +648,8 @@ namespace ERY.AgateLib.MDX
         public override void DrawRects(Rectangle[] srcRects, Rectangle[] destRects)
         {
 
-            CustomVertex.PositionColoredTextured[] verts =
-                new CustomVertex.PositionColoredTextured[srcRects.Length * 4];
+            PositionColorNormalTexture[] verts =
+                new PositionColorNormalTexture[srcRects.Length * 4];
             short[] indices = new short[srcRects.Length * 6];
 
             int startIndex = 0;

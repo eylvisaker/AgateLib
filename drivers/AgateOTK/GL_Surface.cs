@@ -158,25 +158,43 @@ namespace ERY.AgateLib.OpenGL
         {
             srcRect.X += mSourceRect.X;
             srcRect.Y += mSourceRect.Y;
-
+            
             TextureCoordinates texcoords = GetTextureCoords(srcRect);
             RectangleF dest = new RectangleF(destRect.X, destRect.Y, destRect.Width, destRect.Height);
 
-            mState.DrawBuffer.AddQuad(mTextureID, Color, texcoords, dest);
+            if (TesselateFactor == 1)
+            {
+                mState.DrawBuffer.AddQuad(mTextureID, Color, texcoords, dest);
+            }
+            else
+            {
+                float texWidth = texcoords.Right - texcoords.Left;
+                float texHeight = texcoords.Bottom - texcoords.Top;
 
-            //Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
+                for (int j = 0; j < TesselateFactor; j++)
+                {
+                    RectangleF subRect = dest;
+                    TextureCoordinates coords = texcoords;
 
-            //mState.SetGLColor(Color);
+                    subRect.Y = dest.Top + j * dest.Height / (float)TesselateFactor;
+                    subRect.Height = dest.Height / (float)TesselateFactor;
 
-            //Gl.Begin(Enums.BeginMode.QUADS);
+                    coords.Top = texcoords.Top + texHeight * j / TesselateFactor;
+                    coords.Bottom = coords.Top + texHeight / TesselateFactor;
 
-            //Gl.TexCoord2f(texcoords.Left, texcoords.Top); Gl.Vertex2f(dest.Left, dest.Top);
-            //Gl.TexCoord2f(texcoords.Right, texcoords.Top); Gl.Vertex2f(dest.Right, dest.Top);
-            //Gl.TexCoord2f(texcoords.Right, texcoords.Bottom); Gl.Vertex2f(dest.Right, dest.Bottom);
-            //Gl.TexCoord2f(texcoords.Left, texcoords.Bottom); Gl.Vertex2f(dest.Left, dest.Bottom);
+                    for (int i = 0; i < TesselateFactor; i++)
+                    {
+                        subRect.X = dest.Left + i * dest.Width / (float)TesselateFactor;
+                        subRect.Width = dest.Width / (float)TesselateFactor;
 
-            //Gl.End();
+                        coords.Left = texcoords.Left + texWidth * i / TesselateFactor;
+                        coords.Right = coords.Left + texWidth / TesselateFactor;
 
+                        mState.DrawBuffer.AddQuad(mTextureID, Color, coords, subRect);
+                    }
+                }
+            }
+            
         }
         public override void Draw(float destX, float destY)
         {
@@ -192,21 +210,40 @@ namespace ERY.AgateLib.OpenGL
             if (DisplaySize.Height < 0)
                 destY -= DisplaySize.Height;
 
-            // order is 
-            //  1 -- 2
-            //  |    |
-            //  4 -- 3
-            PointF[] pt = new PointF[4];
+            if (TesselateFactor == 1)
+            {
+                BufferQuad(destX, destY, rotationCenterX, rotationCenterY,
+                    DisplayWidth, DisplayHeight, mTexCoord);
+            }
+            else
+            {
+                TextureCoordinates texCoord = new TextureCoordinates();
+                float texWidth = mTexCoord.Right - mTexCoord.Left;
+                float texHeight = mTexCoord.Bottom - mTexCoord.Top;
 
-            SetPoints(pt, destX, destY,
-                rotationCenterX, rotationCenterY, DisplayWidth, DisplayHeight);
-            
-            RectangleF destRect = new RectangleF(new PointF(-rotationCenterX, -rotationCenterY),
-                                 new SizeF(DisplayWidth, DisplayHeight));
+                float displayWidth = DisplayWidth / (float)TesselateFactor;
+                float displayHeight = DisplayHeight / (float)TesselateFactor;
 
+                for (int j = 0; j < TesselateFactor; j++)
+                {
+                    texCoord.Top = mTexCoord.Top + j * texHeight / TesselateFactor;
+                    texCoord.Bottom = mTexCoord.Top + (j + 1) * texHeight / TesselateFactor;
 
-            mState.DrawBuffer.AddQuad(mTextureID, Color, mTexCoord, pt);
+                    for (int i = 0; i < TesselateFactor; i++)
+                    {
+                        texCoord.Left = mTexCoord.Left + i * texWidth / TesselateFactor;
+                        texCoord.Right = mTexCoord.Left + (i+1) * texWidth / TesselateFactor;
 
+                        float dx = destX + i * displayWidth * mRotationCos + j * displayHeight * mRotationSin;
+                        float dy = destY - i * displayWidth * mRotationSin + j * displayHeight * mRotationCos;
+
+                        BufferQuad(dx, dy, 
+                            rotationCenterX, rotationCenterY,
+                            displayWidth, displayHeight, texCoord);
+
+                    }
+                }
+            }
             //Gl.PushMatrix();
 
             //Gl.Translatef(-translatePoint.X, -translatePoint.Y, 0);
@@ -217,11 +254,31 @@ namespace ERY.AgateLib.OpenGL
             //Gl.PopMatrix();
         }
 
+        private void BufferQuad(float destX, float destY, float rotationCenterX, float rotationCenterY,
+            float displayWidth, float displayHeight, TextureCoordinates texCoord)
+        {
+
+            // order is 
+            //  1 -- 2
+            //  |    |
+            //  4 -- 3
+            PointF[] pt = new PointF[4];
+
+            SetPoints(pt, destX, destY,
+                rotationCenterX, rotationCenterY, displayWidth, displayHeight);
+
+            RectangleF destRect = new RectangleF(new PointF(-rotationCenterX, -rotationCenterY),
+                                 new SizeF(displayWidth, displayHeight));
+
+
+            mState.DrawBuffer.AddQuad(mTextureID, Color, texCoord, pt);
+        }
+
         private void SetPoints(PointF[] pt, float destX, float destY, float rotationCenterX, float rotationCenterY, 
-                               int destWidth, int destHeight)
+                               float destWidth, float destHeight)
         {
             const int index = 0;
-            PointF centerPoint = Origin.CalcF(DisplayAlignment, new Size(destWidth, destHeight));
+            PointF centerPoint = Origin.CalcF(DisplayAlignment, new SizeF(destWidth, destHeight));
 
             destX += rotationCenterX - centerPoint.X;
             destY += rotationCenterY - centerPoint.Y;

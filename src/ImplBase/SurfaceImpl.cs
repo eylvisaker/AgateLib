@@ -37,6 +37,8 @@ namespace ERY.AgateLib.ImplBase
         private double mScaleWidth = 1.0;
         private double mScaleHeight = 1.0;
 
+        private int mTesselate = 1;
+
         private OriginAlignment mAlignment = OriginAlignment.TopLeft;
         private double mRotation = 0;
         private OriginAlignment mRotationSpot = OriginAlignment.Center;
@@ -294,6 +296,19 @@ namespace ERY.AgateLib.ImplBase
 
         #region --- Surface properties ---
 
+        /// <summary>
+        /// Gets or sets how many squares the surface should be broken into when drawn.
+        /// </summary>
+        public int TesselateFactor
+        {
+            get { return mTesselate; }
+            set
+            {
+                if (value < 1) value = 1;
+
+                mTesselate = value;
+            }
+        }
         /// <summary>
         /// Returns true if Dispose() has been called on this surface.
         /// </summary>
