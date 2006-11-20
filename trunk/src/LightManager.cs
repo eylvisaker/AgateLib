@@ -11,7 +11,19 @@ namespace ERY.AgateLib
         bool mEnabled = true;
         Color mAmbient = Color.Black;
 
+        public static readonly LightManager Empty;
+
+        static LightManager()
+        {
+            Empty = new LightManager();
+            Empty.Enabled = false;
+        }
+
         public int AddPointLight(Vector3 position, Color diffuse)
+        {
+            return AddPointLight(position, diffuse, Color.Black);
+        }
+        public int AddPointLight(Vector3 position, Color diffuse, Color ambient)
         {
             mLights.Add(new Light());
 
@@ -19,10 +31,11 @@ namespace ERY.AgateLib
 
             mLights[retval].Position = position;
             mLights[retval].Diffuse = diffuse;
+            mLights[retval].Ambient = ambient;
 
             return retval;
         }
-        public void SetLights()
+        public void DoLighting()
         {
             Display.DoLighting(this);
         }
@@ -65,7 +78,6 @@ namespace ERY.AgateLib
         }
 
         #endregion
-
         #region --- ICollection<Light> Members ---
 
         public void Add(Light item)
@@ -106,7 +118,6 @@ namespace ERY.AgateLib
         }
 
         #endregion
-
         #region --- IEnumerable<Light> Members ---
 
         public IEnumerator<Light> GetEnumerator()
@@ -115,7 +126,6 @@ namespace ERY.AgateLib
         }
 
         #endregion
-
         #region --- IEnumerable Members ---
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

@@ -74,7 +74,7 @@ namespace LightingTest
                     Display.Clear(Color.DarkRed);
 
                     lights.Enabled = frm.enableLightingCheck.Checked;
-                    lights.SetLights();
+                    lights.DoLighting();
 
                     image.TesselateFactor = (int)frm.nudTess.Value;
 
