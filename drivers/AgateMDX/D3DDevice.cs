@@ -42,6 +42,8 @@ namespace ERY.AgateLib.MDX
 
         private Matrix mWorld2D;
 
+        private int mMaxLightsUsed = 0;
+
         //VertexBuffer mSurfaceVB;
         //const int NumVertices = 1000;
         //int mSurfaceVBPointer = 0;
@@ -305,8 +307,15 @@ namespace ERY.AgateLib.MDX
 
             //mDevice.Material = mat;
 
-            for (int i = 0; i < lights.Count; i++)
+            for (int i = 0; i < mMaxLightsUsed || i < lights.Count; i++)
             {
+                if (i >= lights.Count)
+                {
+                    mDevice.Lights[i].Enabled = false;
+                    mDevice.Lights[i].Update();
+
+                    continue;
+                }
                 if (lights[i].Enabled == false)
                 {
                     mDevice.Lights[i].Enabled = false;
@@ -333,7 +342,8 @@ namespace ERY.AgateLib.MDX
                 mDevice.Lights[i].Enabled = true;
                 mDevice.Lights[i].Update();
             }
-            
+
+            mMaxLightsUsed = lights.Count;
         }
     }
 }

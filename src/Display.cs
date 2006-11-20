@@ -551,6 +551,14 @@ namespace ERY.AgateLib
             get { return impl.Caps; }
         }
 
+        /// <summary>
+        /// Turns lighting functions off.
+        /// </summary>
+        public static void DisableLighting()
+        {
+            DoLighting(LightManager.Empty);
+        }
+
         internal static void DoLighting(LightManager lights)
         {
             impl.DoLighting(lights);

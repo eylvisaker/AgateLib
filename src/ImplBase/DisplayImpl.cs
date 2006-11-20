@@ -169,8 +169,6 @@ namespace ERY.AgateLib.ImplBase
         {
             CheckInFrame("EndFrame");
 
-
-
             OnEndFrame();
 
             mFrames++;
