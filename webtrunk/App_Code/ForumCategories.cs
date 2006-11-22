@@ -23,20 +23,36 @@ using DbDataAdapter = System.Data.OleDb.OleDbDataAdapter;
  * 
  */
 
-public class CategoryDetails
+public class Category
 {
-    
+
+
+}
+
+public class CategoryList
+{
     public String Name;
     public int Position;
     public DateTime CreationDate;
 
     internal int pID;
 
-    public CategoryDetails()
+
+    private DataSet ds_category_list;
+
+    public CategoryList()
     {
+        ds_category_list = CategoryDB.GetAllCategories();
         // signifies that it hasn't been set yet
         pID = -1;
     }
+
+    public void Save()
+    {
+
+    }
+
+    
 
     public int ID
     {
@@ -46,35 +62,39 @@ public class CategoryDetails
 
 
 
-public class CategoryDB
+
+
+public static class CategoryDB
 {
     public static int max_category_name_length = 50;
 
-    private string conn_string;
+    private static string conn_string;
+    private static DbConnection connection;
 
     
 
-    public CategoryDB()
+    static CategoryDB()
     {
         
         conn_string = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["Access"].ConnectionString;
+        connection = new DbConnection(conn_string);
 
     }
 
-    public CategoryDetails GetCategory( String cat_name )
-    {
-        CategoryDetails tmpDetails = new CategoryDetails();
+    //public static CategoryDetails GetCategory( String cat_name )
+    //{
+        //CategoryDetails tmpDetails = new CategoryDetails();
 
 
-        return tmpDetails;
-    }
+//        return tmpDetails;
+  //  }
 
 
     //TODO: Implement roles based authority
     //PRECONDITIONS:
     //  cat_name is <= max_category_name_length
     //
-    public bool InsertCategory( String cat_name )
+    public static bool InsertCategory( String cat_name )
     {
         if (cat_name.Length >= max_category_name_length )
         {
@@ -82,9 +102,8 @@ public class CategoryDB
                 + cat_name.ToString(), "cat_name");
         }
 
-        
-        DbConnection conn = new DbConnection(conn_string);
-        DbCommand max_position_cmd = new DbCommand("SELECT MAX([Position]) FROM ForumCategories", conn);
+ 
+        DbCommand max_position_cmd = new DbCommand("SELECT MAX([Position]) FROM ForumCategories", connection);
 
         String insert_query_string = "INSERT INTO ForumCategories " +
             " (Name, [Position], CreationDate)" +
@@ -95,7 +114,7 @@ public class CategoryDB
         // Open connection, query for the max position, update db with new category of position + 1
         try
         {
-            conn.Open();
+            connection.Open();
             reader = max_position_cmd.ExecuteReader();
 
             // If there are no Categories in the table, this will be incremented to 0.
@@ -107,7 +126,7 @@ public class CategoryDB
                 max_position = reader.GetInt32(0);
             }
 
-            DbCommand cmd = new DbCommand(insert_query_string, conn);
+            DbCommand cmd = new DbCommand(insert_query_string, connection);
             cmd.Parameters.Add("@Name", DbType.WChar, 50).Value = cat_name;
             cmd.Parameters.Add("@Position", DbType.Integer).Value = max_position + 1;
             cmd.Parameters.Add("@CreationDate", DbType.Date).Value = DateTime.Now.ToString();
@@ -121,20 +140,20 @@ public class CategoryDB
         }
         finally
         {
-            conn.Close();
+            connection.Close();
         }
     }
 
-    public DataSet GetAllCategories()
+
+    public static DataSet GetAllCategories()
     {
-        DbConnection con = new DbConnection(conn_string);
         String sql = "SELECT * from ForumCategories";
-        DbDataAdapter da = new DbDataAdapter(sql, con);
+        DbDataAdapter da = new DbDataAdapter(sql, connection);
 
         DataSet ds = new DataSet();
         try
         {
-            con.Open();
+            connection.Open();
             da.Fill(ds, "ForumCategories");
 
             return ds;
@@ -145,7 +164,7 @@ public class CategoryDB
         }
         finally
         {
-            con.Close();
+            connection.Close();
         }
     }
 
@@ -154,9 +173,9 @@ public class CategoryDB
      *  Read in dataset, remove category, decrement all categories with positions > category just removed,
      *  write back out to database.
      */
-    public void DeleteCategory(String cat_name)
+    public static void DeleteCategory(String cat_name)
     {
-        DataSet ds = this.GetAllCategories();
+        DataSet ds = CategoryDB.GetAllCategories();
         DataRow[] dr_collection = ds.Tables[0].Select("Name = '"+cat_name+"'");
 
         // Must not have more than 1 row with the category name
@@ -176,5 +195,6 @@ public class CategoryDB
                 curr_position = (int)dr["Position"];
             }
         }
+        // if category was not 
     }
 }
