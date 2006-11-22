@@ -44,19 +44,36 @@ namespace ERY.AgateLib.AgateFMOD
             mSystem = mAudio.FMODSystem;
             mSound = mBuffer.FMODSound;
 
-            CheckCreateChannel();
+            //CheckCreateChannel();
+            CreateChannel();
 
             Volume = mBuffer.Volume;
         }
 
-        private void CheckCreateChannel()
+        private void CheckFMODResult(FMOD.RESULT result)
         {
-            if (mChannel == null)
+            if (result == FMOD.RESULT.ERR_INVALID_HANDLE)
             {
-                FMOD_Audio.CheckFMODResult(
-                    mSystem.playSound(FMOD.CHANNELINDEX.FREE, mSound, true, ref mChannel));
-
+                CreateChannel();
             }
+        }
+
+        private void CheckChannel()
+        {
+            bool p = false;
+            FMOD.RESULT result = mChannel.isPlaying(ref p);
+
+            if (result == FMOD.RESULT.ERR_INVALID_HANDLE || p == false)
+            {
+                CreateChannel();
+            }
+            else
+                FMOD_Audio.CheckFMODResult(result);
+        }
+        private void CreateChannel()
+        {
+            FMOD_Audio.CheckFMODResult(
+                mSystem.playSound(FMOD.CHANNELINDEX.FREE, mSound, true, ref mChannel));
         }
 
         public override void Dispose()
@@ -65,13 +82,10 @@ namespace ERY.AgateLib.AgateFMOD
 
         public override void Play()
         {
-            if (IsPlaying == false)
-                mChannel = null;
-
-            CheckCreateChannel();
+            CheckChannel();
 
             //FMOD_Audio.CheckFMODResult();
-            mChannel.setPaused(false);
+            FMOD_Audio.CheckFMODResult(mChannel.setPaused(false));
         }
 
         public override void Stop()
@@ -86,7 +100,7 @@ namespace ERY.AgateLib.AgateFMOD
         {
             get
             {
-                CheckCreateChannel();
+                CheckChannel();
 
                 float vol = 0.0f;
                 FMOD_Audio.CheckFMODResult(mChannel.getVolume(ref vol));
@@ -95,7 +109,7 @@ namespace ERY.AgateLib.AgateFMOD
             }
             set
             {
-                CheckCreateChannel();
+                CheckChannel();
 
                 FMOD_Audio.CheckFMODResult(
                     mChannel.setVolume((float)value));
@@ -106,7 +120,7 @@ namespace ERY.AgateLib.AgateFMOD
         {
             get
             {
-                CheckCreateChannel();
+                CheckChannel();
 
                 float pan = 0.0f;
                 FMOD_Audio.CheckFMODResult(mChannel.getPan(ref pan));
@@ -124,7 +138,7 @@ namespace ERY.AgateLib.AgateFMOD
         {
             get
             {
-                return mAudio.IsChannelPlaying(ref mChannel);
+                return mAudio.IsChannelPlaying(mChannel);
             }
         }
     }

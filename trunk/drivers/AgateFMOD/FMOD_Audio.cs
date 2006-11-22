@@ -37,10 +37,6 @@ namespace ERY.AgateLib.AgateFMOD
                 typeof(FMOD_Audio), AudioTypeID.FMod, "FMOD Driver", 200));
         }
 
-        public override void Update()
-        {
-            CheckFMODResult(mSystem.update());
-        }
         public override SoundBufferImpl CreateSoundBuffer(string filename)
         {
             return new FMOD_SoundBuffer(this, filename);
@@ -82,7 +78,10 @@ namespace ERY.AgateLib.AgateFMOD
         {
             if (result != FMOD.RESULT.OK)
             {
-                throw new Exception("An error has occurred in the FMOD library: " + result.ToString());
+                System.Diagnostics.Debug.WriteLine
+                    ("An error has occurred in the FMOD library: " + result.ToString());
+
+                //throw new Exception("An error has occurred in the FMOD library: " + result.ToString());
             }
         }
 
@@ -93,7 +92,7 @@ namespace ERY.AgateLib.AgateFMOD
         }
 
 
-        internal bool IsChannelPlaying(ref FMOD.Channel channel)
+        internal bool IsChannelPlaying( FMOD.Channel channel)
         {
             if (channel == null)
                 return false;
@@ -104,7 +103,6 @@ namespace ERY.AgateLib.AgateFMOD
 
             if (result != FMOD.RESULT.OK)
             {
-                channel = null;
                 return false;
             }
 
@@ -118,6 +116,11 @@ namespace ERY.AgateLib.AgateFMOD
 
             channel = null;
             return false;
+        }
+
+        public override void Update()
+        {
+            CheckFMODResult(mSystem.update());
         }
     }
 }

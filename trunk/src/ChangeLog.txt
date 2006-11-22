@@ -7,6 +7,7 @@ Both are being tested on Windows with .NET and Linux with Mono.
 
 Important Breaking Changes:
 * Moved System.Drawing replacement classes (Color, Rectangle, Point, Size and floating-point versions) to ERY.AgateLib.Geometry namespace.  
+* Removed ERY.AgateLib.Geometry.Color.FromArgb(System.Drawing.Color) static method.  To convert colors from System.Drawing structures, us the ToArgb method.
 
 Obsolete API's:
 * Display.EndFrame(bool waitVSync) - Set the Display.VSync flag to indicate whether or not the vertical blank should be waited for.
@@ -19,6 +20,7 @@ Additions:
 * Added PixelBuffer class for direct modification of Surface data.
 * Added Licensing information to some files where it was missing.
 * Added code to create bitmap fonts from fonts provided by the operating system.  These are default for creating fonts in DX and OGL, because they look better than other options.
+* Added the ability to introduce lighting effects.  Also Surfaces now have a TesselateFactor property which automatically divides them up into smaller rectangles for better lighting effects.
 
 Fixes:
 * Various minor bugs fixed.

@@ -267,8 +267,8 @@ namespace ERY.AgateLib.OpenGL
             SetPoints(pt, destX, destY,
                 rotationCenterX, rotationCenterY, displayWidth, displayHeight);
 
-            RectangleF destRect = new RectangleF(new PointF(-rotationCenterX, -rotationCenterY),
-                                 new SizeF(displayWidth, displayHeight));
+            //RectangleF destRect = new RectangleF(new PointF(-rotationCenterX, -rotationCenterY),
+            //                     new SizeF(displayWidth, displayHeight));
 
 
             mState.DrawBuffer.AddQuad(mTextureID, Color, texCoord, pt);
@@ -362,12 +362,15 @@ namespace ERY.AgateLib.OpenGL
 
             byte[] data = new byte[rect.Width * rect.Height * pixelStride];
 
-            for (int i = rect.Top; i < rect.Bottom; i++)
+            unsafe
             {
-                int dataIndex = (i - rect.Top) * pixelStride * rect.Width;
-                IntPtr memPtr = (IntPtr)((int)memory + i * memStride + rect.Left * pixelStride);
+                for (int i = rect.Top; i < rect.Bottom; i++)
+                {
+                    int dataIndex = (i - rect.Top) * pixelStride * rect.Width;
+                    IntPtr memPtr = (IntPtr)((byte*)memory + i * memStride + rect.Left * pixelStride);
 
-                Marshal.Copy(memPtr, data, dataIndex, pixelStride * rect.Width);
+                    Marshal.Copy(memPtr, data, dataIndex, pixelStride * rect.Width);
+                }
             }
 
             Marshal.FreeHGlobal(memory);

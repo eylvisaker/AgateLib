@@ -135,7 +135,6 @@ namespace ERY.AgateLib
             // not this is worth it when there lots of events being generated
             // (ie lots of mouse move events) but it does seem to speed up for
             // Direct3D.
-
             if (mPlatform.IsAppIdle == false)
             {
                 System.Windows.Forms.Application.DoEvents();
@@ -145,11 +144,13 @@ namespace ERY.AgateLib
                     System.Threading.Thread.Sleep(25);
                     System.Windows.Forms.Application.DoEvents();
 
+                    // Update Audio Engine, if necessary
+                    Audio.Update();
+
                     if (Display.CurrentWindow == null)
                         break;
                     else if (Display.CurrentWindow.IsClosed)
                         break;
-
                 }
             }
 

@@ -38,7 +38,7 @@ namespace ERY.AgateLib.AgateFMOD
             mAudio = audio;
             mSystem = mAudio.FMODSystem;
 
-            FMOD.RESULT result = mSystem.createSound(filename, FMOD.MODE.DEFAULT, ref mSound);
+            FMOD_Audio.CheckFMODResult(mSystem.createSound(filename, FMOD.MODE.DEFAULT, ref mSound));
 
         }
         ~FMOD_SoundBuffer()

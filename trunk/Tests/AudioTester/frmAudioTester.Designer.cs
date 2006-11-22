@@ -31,6 +31,7 @@ namespace ERY.AudioTester
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnStopAll = new System.Windows.Forms.Button();
             this.btnSound = new System.Windows.Forms.Button();
             this.lstFiles = new System.Windows.Forms.ListBox();
@@ -44,6 +45,7 @@ namespace ERY.AudioTester
             this.statusLabel = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnPlayLastSound = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panValue)).BeginInit();
             this.SuspendLayout();
@@ -203,6 +205,12 @@ namespace ERY.AudioTester
             this.btnPlayLastSound.UseVisualStyleBackColor = true;
             this.btnPlayLastSound.Click += new System.EventHandler(this.btnPlayLastSound_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 20;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // frmAudioTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -245,6 +253,7 @@ namespace ERY.AudioTester
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btnPlayLastSound;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

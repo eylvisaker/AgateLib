@@ -128,7 +128,7 @@ namespace ERY.AgateLib.AgateFMOD
         {
             get
             {
-                return mAudio.IsChannelPlaying(ref mChannel);
+                return mAudio.IsChannelPlaying(mChannel);
             }
         }
 

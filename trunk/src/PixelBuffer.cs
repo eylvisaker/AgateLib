@@ -608,41 +608,48 @@ namespace ERY.AgateLib
         {
             int sourceStride = GetPixelStride(srcFormat);
 
-            if (srcFormat == this.PixelFormat)
+            unsafe
             {
-                // optimized copy for same type of data
-                int startIndex = 0;
-                int rowLength = sourceStride * Width;
-                IntPtr rowPtr = data;
-
-                for (int y = 0; y < Height; y++)
+                if (srcFormat == this.PixelFormat)
                 {
-                    Marshal.Copy(rowPtr, mData, startIndex, rowLength);
+                    // optimized copy for same type of data
+                    int startIndex = 0;
+                    int rowLength = sourceStride * Width;
 
-                    startIndex += RowStride;
-                    rowPtr = (IntPtr)((int)rowPtr + srcRowStride);
-                }
-            }
-            else
-            {
-                byte[] srcPixel = new byte[srcRowStride];
-                int destIndex = 0;
-                IntPtr rowPtr = data;
-                //IntPtr pixelPtr = rowPtr;
+                    IntPtr rowPtr = data;
+                    byte* dataPtr = (byte*)data;
 
-                for (int y = 0; y < Height; y++)
-                {
-                    Marshal.Copy(rowPtr, srcPixel, 0, srcRowStride);
-
-                    for (int x = 0; x < Width; x++)
+                    for (int y = 0; y < Height; y++)
                     {
-                        //Marshal.Copy(pixelPtr, srcPixel, 0, sourceStride);
-                        ConvertPixel(mData, destIndex, this.PixelFormat, srcPixel, x * sourceStride, srcFormat);
+                        Marshal.Copy(rowPtr, mData, startIndex, rowLength);
 
-                        destIndex += PixelStride;
+                        startIndex += RowStride;
+                        dataPtr += srcRowStride;
+                        rowPtr = (IntPtr)dataPtr;
                     }
+                }
+                else
+                {
+                    byte[] srcPixel = new byte[srcRowStride];
+                    int destIndex = 0;
+                    IntPtr rowPtr = data;
+                    byte* dataPtr = (byte*)data;
 
-                    rowPtr = (IntPtr)((int)rowPtr + srcRowStride);
+                    for (int y = 0; y < Height; y++)
+                    {
+                        Marshal.Copy(rowPtr, srcPixel, 0, srcRowStride);
+
+                        for (int x = 0; x < Width; x++)
+                        {
+                            //Marshal.Copy(pixelPtr, srcPixel, 0, sourceStride);
+                            ConvertPixel(mData, destIndex, this.PixelFormat, srcPixel, x * sourceStride, srcFormat);
+
+                            destIndex += PixelStride;
+                        }
+
+                        dataPtr += srcRowStride;
+                        rowPtr = (IntPtr)dataPtr;
+                    }
                 }
             }
         }
