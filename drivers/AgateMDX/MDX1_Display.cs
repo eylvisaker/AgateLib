@@ -421,7 +421,7 @@ namespace ERY.AgateLib.MDX
         {
             Registrar.RegisterDisplayDriver(
                 new DriverInfo<DisplayTypeID>(typeof(MDX1_Display), DisplayTypeID.Direct3D_MDX_1_1,
-                "Managed DirectX 1.1", 150));
+                "Managed DirectX 1.1", 100));
         }
 
         #endregion

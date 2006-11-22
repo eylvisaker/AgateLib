@@ -65,8 +65,8 @@ namespace LightingTest
                                        (int)(120 + 110 * Math.Sin(time)));
 
                     lights[0].Position = new Vector3(ballPt.X, ballPt.Y, -1);
-                    lights[0].Ambient = Color.FromArgb(frm.btnAmbient.BackColor);
-                    lights[0].Diffuse = Color.FromArgb(frm.btnDiffuse.BackColor);
+                    lights[0].Ambient = Color.FromArgb(frm.btnAmbient.BackColor.ToArgb());
+                    lights[0].Diffuse = Color.FromArgb(frm.btnDiffuse.BackColor.ToArgb());
 
                     image.RotationAngleDegrees = (double)frm.nudAngle.Value;
 

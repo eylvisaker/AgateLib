@@ -857,12 +857,19 @@ namespace ERY.AgateLib.MDX
             int length = SurfaceWidth * pixelPitch;
             int index = 0;
 
-            for (int i = rect.Top; i < rect.Bottom; i++)
+            unsafe
             {
-                IntPtr ptr = (IntPtr)((int)stm.InternalData + i * stride + rect.Left * pixelPitch);
-                Marshal.Copy(ptr, array, index, length);
+                byte* ptr = (byte*)stm.InternalDataPointer;
 
-                index += length;
+                for (int i = rect.Top; i < rect.Bottom; i++)
+                {
+                    //IntPtr ptr = (IntPtr)((int)stm.InternalData + i * stride + rect.Left * pixelPitch);
+                    IntPtr mptr = (IntPtr)(ptr + i * stride + rect.Left * pixelPitch);
+
+                    Marshal.Copy(mptr, array, index, length);
+
+                    index += length;
+                }
             }
 
             surf.UnlockRectangle();
@@ -887,14 +894,16 @@ namespace ERY.AgateLib.MDX
             if (buffer.PixelFormat != pixelFormat)
                 buffer = buffer.ConvertTo(pixelFormat);
 
-
-            for (int i = 0; i < SurfaceHeight; i++)
+            unsafe
             {
-                int startIndex = buffer.GetPixelIndex(0, i);
-                int rowStride = buffer.RowStride;
-                IntPtr dest = (IntPtr)((int)stm.InternalData + i * pitch);
+                for (int i = 0; i < SurfaceHeight; i++)
+                {
+                    int startIndex = buffer.GetPixelIndex(0, i);
+                    int rowStride = buffer.RowStride;
+                    IntPtr dest = (IntPtr)((byte*)stm.InternalData + i * pitch);
 
-                Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
+                    Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
+                }
             }
 
             mTexture.Value.UnlockRectangle(0);
@@ -917,14 +926,16 @@ namespace ERY.AgateLib.MDX
             if (buffer.PixelFormat != pixelFormat)
                 buffer = buffer.ConvertTo(pixelFormat);
 
-
-            for (int i = updateRect.Top; i < updateRect.Bottom; i++)
+            unsafe
             {
-                int startIndex = buffer.GetPixelIndex(0, i);
-                int rowStride = buffer.RowStride;
-                IntPtr dest = (IntPtr)((int)stm.InternalData + i * pitch + updateRect.Left * pixelPitch);
+                for (int i = updateRect.Top; i < updateRect.Bottom; i++)
+                {
+                    int startIndex = buffer.GetPixelIndex(0, i);
+                    int rowStride = buffer.RowStride;
+                    IntPtr dest = (IntPtr)((byte*)stm.InternalData + i * pitch + updateRect.Left * pixelPitch);
 
-                Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
+                    Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
+                }
             }
 
             mTexture.Value.UnlockRectangle(0);

@@ -22,6 +22,7 @@ namespace ERY.AgateLib.OpenGL
         Stack<Rectangle> mClipRects = new Stack<Rectangle>();
         Rectangle mCurrentClip = Rectangle.Empty;
         private bool mVSync = true;
+        private int mMaxLightsUsed = 0;
 
         protected override void OnRenderTargetChange(IRenderTarget oldRenderTarget)
         {
@@ -181,14 +182,17 @@ namespace ERY.AgateLib.OpenGL
         public override void DrawRect(Rectangle rect, Color color)
         {
             mState.DrawBuffer.Flush();
-
             mState.SetGLColor(color);
+
+            // hacks here to make it come out right?
+            // rect.Y++ and rect.Right +1 down below.
+            rect.Y++;
 
             Gl.Disable(Enums.EnableCap.TEXTURE_2D);
             Gl.Begin(Enums.BeginMode.LINES);
 
             Gl.Vertex2d(rect.Left, rect.Top);
-            Gl.Vertex2d(rect.Right, rect.Top);
+            Gl.Vertex2d(rect.Right+1, rect.Top);
 
             Gl.Vertex2d(rect.Right, rect.Top);
             Gl.Vertex2d(rect.Right, rect.Bottom);
@@ -274,10 +278,20 @@ namespace ERY.AgateLib.OpenGL
             SetArray(array, lights.Ambient);
             GL.LightModelfv(Enums.LightModelParameter.LIGHT_MODEL_AMBIENT, array);
 
-            for (int i = 0; i < lights.Count; i++)
+            GL.Enable(Enums.EnableCap.COLOR_MATERIAL);
+            GL.ColorMaterial(Enums.MaterialFace.FRONT_AND_BACK, 
+                             Enums.ColorMaterialParameter.AMBIENT_AND_DIFFUSE);
+
+            for (int i = 0; i < lights.Count || i < mMaxLightsUsed; i++)
             {
                 Enums.EnableCap lightID = (Enums.EnableCap)((int)Enums.EnableCap.LIGHT0 + i);
                 Enums.LightName lightName = (Enums.LightName)((int)Enums.LightName.LIGHT0 + i);
+
+                if (i >= lights.Count)
+                {
+                    GL.Disable(lightID);
+                    continue;
+                }
 
                 if (lights[i].Enabled == false)
                 {
@@ -301,6 +315,9 @@ namespace ERY.AgateLib.OpenGL
                 GL.Lightf(lightName, Enums.LightParameter.QUADRATIC_ATTENUATION, lights[i].AttenuationQuadratic);
 
             }
+
+            mMaxLightsUsed = lights.Count;
+
         }
         private void SetArray(float[] array, Vector3 vec)
         {

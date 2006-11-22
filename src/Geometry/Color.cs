@@ -693,14 +693,61 @@ namespace ERY.AgateLib.Geometry
             return new Color(a, r, g, b);
         }
 
+
         /// <summary>
-        /// Converts a System.Drawing.Color structure to an ERY.AgateLib.Geometry.Color structure.
+        /// Converts a string to an ERY.AgateLib.Geometry.Color structure.
         /// </summary>
-        /// <param name="color"></param>
+        /// <param name="str">The string to convert.  It must be in one of the following formats
+        /// RRGGBB, AARRGGBB, 0xRRGGBB, 0xAARRGGBB where AA, RR, GG, BB are each a hexidecimal
+        /// number (such as "ff" or "8B").</param>
         /// <returns></returns>
-        public static Color FromArgb(System.Drawing.Color color)
+        public static Color FromArgb(string str)
         {
-            return new Color(color);
+            if (str.StartsWith("0x"))
+                str = str.Substring(2);
+
+            if (str.Length == 6)
+            {
+                byte r = ByteValueFromHex(str.Substring(0, 2));
+                byte g = ByteValueFromHex(str.Substring(2, 2));
+                byte b = ByteValueFromHex(str.Substring(4, 2));
+
+                return FromArgb(r, g, b);
+            }
+            else if (str.Length == 8)
+            {
+                byte a = ByteValueFromHex(str.Substring(0, 2));
+                byte r = ByteValueFromHex(str.Substring(2, 2));
+                byte g = ByteValueFromHex(str.Substring(4, 2));
+                byte b = ByteValueFromHex(str.Substring(6, 2));
+
+                return FromArgb(a, r, g, b);
+            }
+            else
+                throw new ArgumentException(string.Format(
+                    "Argument \"{0}\" is not a valid Color string.", str));
+        }
+
+        /// <summary>
+        /// Converts a string like "FF" to a byte value.  Throws an exception if the
+        /// string does not convert to a value which fits into a byte.
+        /// </summary>
+        /// <param name="hex"></param>
+        /// <returns></returns>
+        private static byte ByteValueFromHex(string hex)
+        {
+            int value;
+
+            if (int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out value))
+            {
+                if (value > 255 || value < 0)
+                    throw new InvalidOperationException(string.Format(
+                        "Invalid result.  Input Hex number: {0}, Result: {1}", hex, value));
+
+                return (byte)value;
+            }
+            else
+                throw new InvalidOperationException("Not a hex number.");
         }
         private static void ValidateByteValue(ref int val)
         {

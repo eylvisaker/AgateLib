@@ -58,6 +58,9 @@ namespace ERY.AudioTester
 
         private void btnPlayLastSound_Click(object sender, EventArgs e)
         {
+            if (mSound == null)
+                return;
+
             mSound.Play();
         }
 
@@ -149,6 +152,11 @@ namespace ERY.AudioTester
                 FillMusicListBox();
             }
             catch { }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            AgateLib.Core.KeepAlive();
         }
 
 
