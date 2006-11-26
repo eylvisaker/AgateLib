@@ -18,15 +18,15 @@ using DbException = System.Data.OleDb.OleDbException;
 using DbDataAdapter = System.Data.OleDb.OleDbDataAdapter;
 
 /*
- * The following class if *VERY* fragile.  There are many assumptions/requirements with regards to the data
+ * The following class is *VERY* fragile.  There are many assumptions/requirements with regards to the data
  *  that it handles.  If any of these are broken, or changed, it *will* result in unexpected behavior.
  * 
  * DATASET TABLE LAYOUT
  *  This requires a primary key column of "id" & a position identifier column of "Position", both of which are type int.
  *   These can be generalized to get around this requirement, but for the sake of brevity, it has not been done.
  * 
- *  POSITION COLUMN CONTAINS STRICTLY CONTIGUOUS INTEGERS
- *   This is very very important.  Every movement operation we do works under the assumption that everything the 
+ * POSITION COLUMN CONTAINS STRICTLY CONTIGUOUS INTEGERS
+ *   This is very very important.  Every movement operation we do works under the assumption that everything in the 
  *   position column data is contiguous.
  *   
  */
@@ -42,82 +42,168 @@ public class TreatAsListHelper
         table_name = tbl_name;
     }
 
-    public DataSet GetUnderlyingDataSet()
+    public DataSet GetDataSet()
     {
         return data_set;
     }
 
 
 
-    public void MoveToFirst(int row_id)
+    public void MoveToTop(int row_id)
     {
-        DataRow[] rows_with_id = data_set.Tables[table_name].Select("id = '" + row_id.ToString() + "'" );
+        DataRow row_to_be_moved = get_row_with_id(row_id);
 
-        if (rows_with_id.Length == 1)
+        int current_position = (int)row_to_be_moved["Position"];
+
+        // move up until on top
+        for (int i = current_position; i > 0; i--)
+            this.MoveUp(row_id);
+
+    }
+
+
+
+    public void MoveToBottom(int row_id)
+    {
+        DataRow row_to_be_moved = get_row_with_id(row_id);
+
+        int current_position = (int)row_to_be_moved["Position"];
+        int max_position = data_set.Tables[table_name].Rows.Count - 1;
+
+        // move down until in back
+        for (int i = current_position; i < max_position; i++)
+            this.MoveDown(row_id);
+    }
+
+
+    public void MoveUpN(int row_id, int n)
+    {
+        // move up until on top
+        for (int i = 0; i < n; i++)
+            this.MoveUp(row_id);
+    }
+
+
+    public void MoveDownN(int row_id, int n)
+    {
+        // move up until on top
+        for (int i = 0; i < n; i++)
+            this.MoveDown(row_id);
+    }
+
+
+   
+    public void MoveUp(int row_id)
+    {
+        DataRow current_row = get_row_with_id(row_id);
+
+        
+
+        if( current_row != null)
         {
-            DataRow row_to_be_moved = rows_with_id[0];
+            /*
+             * if current position is 0, return. if current_position > 0,
+             *  then get row with position of current_position - 1 (directly above it in the list) & swap their positions.
+             */
 
-            int current_position = (int)row_to_be_moved["Position"];
+            int current_position = (int)current_row["Position"];
 
-            if ( current_position > 0)
+            if( current_position == 0 )
+                return;
+
+            else if( current_position > 0 )
             {
-                String select_string = "Position < '" + current_position.ToString() + "'";
-                DataRow[] rows = data_set.Tables[table_name].Select( select_string );
+                DataRow upper_row = get_row_with_position( (int)current_row["Position"] - 1 );
 
-                foreach (DataRow row in rows)
-                    row["Position"] = (int)row["Position"] + 1;
-
-                row_to_be_moved["Position"] = 0;
+                if( upper_row != null)
+                {
+                    upper_row["Position"] = current_position;
+                    current_row["Position"] = current_position - 1;
+                }
+                else
+                    throw new System.ApplicationException("DataSet contains positions that are not contiguous");
             }
-        }
-        else if (rows_with_id.Length > 1)
-        {
-            throw new System.ApplicationException("DataSet is showing duplicated primary keys");
+            else
+                throw new System.ApplicationException("DataSet contains a negative position");
         }
     }
 
 
 
-    public void MoveToLast(int row_id)
+    public void MoveDown(int row_id)
+    {
+        DataRow current_row = get_row_with_id(row_id);
+        int max_position = data_set.Tables[table_name].Rows.Count - 1;
+
+        if (current_row != null)
+        {
+            /*
+             * if current position is max_position, return. if current_position < max_position,
+             *  then get row with position of current_position + 1 (directly below it in the list) & swap their positions.
+             */
+
+            int current_position = (int)current_row["Position"];
+
+            if (current_position == max_position)
+                return;
+
+
+            else if (current_position < max_position)
+            {
+                DataRow lower_row = get_row_with_position((int)current_row["Position"] + 1);
+
+                if (lower_row != null)
+                {
+                    lower_row["Position"] = current_position;
+                    current_row["Position"] = current_position + 1;
+                }
+                else
+                    throw new System.ApplicationException("DataSet contains positions that are not contiguous");
+            }
+            else
+                throw new System.ApplicationException("DataSet contains positions that are not contiguous");
+        }
+    }
+
+
+
+    // ///////////////////////// PRIVATE FUNCTIONS ///////////////////////
+
+    private DataRow get_row_with_id(int row_id)
     {
         DataRow[] rows_with_id = data_set.Tables[table_name].Select("id = '" + row_id.ToString() + "'");
 
         if (rows_with_id.Length == 1)
         {
-            DataRow row_to_be_moved = rows_with_id[0];
+            return rows_with_id[0];
 
-            int current_position = (int)row_to_be_moved["Position"];
-
-            // super ugly hack to get the number of rows in the table
-            if (current_position < data_set.Tables[table_name].Rows.Count - 1  )
-            {
-                String select_string = "Position > '" + current_position.ToString() + "'";
-                DataRow[] rows = data_set.Tables[table_name].Select(select_string);
-
-                foreach (DataRow row in rows)
-                    row["Position"] = (int)row["Position"] - 1;
-
-                row_to_be_moved["Position"] = data_set.Tables[table_name].Rows.Count - 1;
-            }
         }
         else if (rows_with_id.Length > 1)
         {
             throw new System.ApplicationException("DataSet is showing duplicated primary keys");
         }
+        else
+            return null;
     }
 
 
-    public DataSet MoveUp(int row_id)
+    private DataRow get_row_with_position(int position)
     {
-        return data_set;
+        DataRow[] rows_with_position = data_set.Tables[table_name].Select("Position = '" + position.ToString() + "'");
+
+        if (rows_with_position.Length == 1)
+        {
+            return rows_with_position[0];
+
+        }
+        else if (rows_with_position.Length > 1)
+        {
+            throw new System.ApplicationException("DataSet is showing multiple entries for the same position");
+        }
+        else
+            return null;
     }
 
-
-
-    public DataSet MoveDown(int row_id)
-    {
-        return data_set;
-    }
 }
 
 
