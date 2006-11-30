@@ -313,6 +313,38 @@ public static class BoardDAL
         }
     }
 
+
+    public static DataSet DataSet(int parent_id)
+    {
+        DbConnection connection = get_connection();
+
+        String sql = "SELECT * from " + table_name + " WHERE parent_id = " + parent_id.ToString();
+
+
+        DbDataAdapter da = new DbDataAdapter(sql, connection);
+
+        DataSet ds = new DataSet();
+
+
+
+        try
+        {
+            connection.Open();
+            da.Fill(ds, table_name);
+
+            return ds;
+        }
+        catch (DbException e)
+        {
+            throw;
+        }
+        finally
+        {
+            connection.Close();
+        }
+
+    }
+
     
 
     private static DbConnection get_connection()
