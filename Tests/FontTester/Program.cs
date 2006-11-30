@@ -72,7 +72,12 @@ namespace FontTester
 
                     // this draws a white background behind the text we want to display.
                     text = "F2: Toggle VSync   F5:  Toggle Windowed / Fullscreen      ";
-                    text += "FPS: " + Display.FramesPerSecond.ToString("0.00");
+                    text += "FPS: " + Display.FramesPerSecond.ToString("0.00") + "    ";
+
+                    if (Core.IsActive)
+                        text += "Active";
+                    else
+                        text += "Not Active";
 
                     // figure out how big the displayed text will be
                     textSize = font.StringDisplaySize(text);

@@ -51,7 +51,6 @@ namespace ERY.AgateLib.MDX
 
         MDX1_Display mDisplay;
 
-
         #region --- Creation / Destruction ---
 
         public MDX1_DisplayWindow(string title, int clientWidth, int clientHeight, 
@@ -66,13 +65,15 @@ namespace ERY.AgateLib.MDX
             mChooseHeight = clientHeight;
             mChooseResize = allowResize;
 
-            CreateWindowedDisplay();
+            CreateWindow();
 
             mDisplay = Display.Impl as MDX1_Display;
             mDisplay.Initialize(this);
-
+            mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
+            
             // and create the back buffer
-            OnResize();
+            CreateBackBuffer();
+
         }
 
         public MDX1_DisplayWindow(System.Windows.Forms.Control renderTarget)
@@ -85,9 +86,11 @@ namespace ERY.AgateLib.MDX
             
             mDisplay = Display.Impl as MDX1_Display;
             mDisplay.Initialize(this);
+            mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
 
             AttachEvents();
-            OnResize();
+
+            CreateBackBuffer();
 
         }
 
@@ -108,7 +111,6 @@ namespace ERY.AgateLib.MDX
 
         private void AttachEvents()
         {
-
             mRenderTarget.Resize += new EventHandler(frm_Resize);
 
             mRenderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
@@ -116,7 +118,12 @@ namespace ERY.AgateLib.MDX
             mRenderTarget.MouseUp += new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
             mRenderTarget.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(pct_MouseDoubleClick);
 
-            System.Windows.Forms.Form form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
+            System.Windows.Forms.Form form;
+
+            if (mRenderTarget is System.Windows.Forms.Form)
+                form = mRenderTarget as System.Windows.Forms.Form;
+            else
+                form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
 
             form.KeyPreview = true;
             form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
@@ -126,6 +133,33 @@ namespace ERY.AgateLib.MDX
             form.FormClosed += new System.Windows.Forms.FormClosedEventHandler(form_FormClosed);
 
         }
+        private void DetachEvents()
+        {
+            if (mRenderTarget == null)
+                return;
+
+            mRenderTarget.Resize -= new EventHandler(frm_Resize);
+
+            mRenderTarget.MouseMove -= new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
+            mRenderTarget.MouseDown -= new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
+            mRenderTarget.MouseUp -= new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
+            mRenderTarget.MouseDoubleClick -= new System.Windows.Forms.MouseEventHandler(pct_MouseDoubleClick);
+
+            System.Windows.Forms.Form form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
+
+            form.KeyDown -= new System.Windows.Forms.KeyEventHandler(form_KeyDown);
+            form.KeyUp -= new System.Windows.Forms.KeyEventHandler(form_KeyUp);
+
+            form.FormClosing -= new System.Windows.Forms.FormClosingEventHandler(form_FormClosing);
+            form.FormClosed -= new System.Windows.Forms.FormClosedEventHandler(form_FormClosed);
+        }
+
+
+        void mDisplay_VSyncChanged(object sender, EventArgs e)
+        {
+            CreateBackBuffer();
+        }
+
 
         void form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {
@@ -192,35 +226,107 @@ namespace ERY.AgateLib.MDX
             OnResize();
         }
 
-        bool creatingSwapChain = false;
 
         private void OnResize()
         {
-            if (creatingSwapChain)
-                return;
             if (mChooseWidth == 0 || mChooseHeight == 0)
                 return;
 
-            // create swap chain
-            creatingSwapChain = true;
+            CreateBackBuffer();
 
-            mDisplay.CreateSwapChain(this, mChooseWidth, mChooseHeight, mChooseBitDepth, mChooseFullscreen);
-
-            creatingSwapChain = false;
         }
 
         #endregion
 
-        internal void CreateWindowedDisplay()
+        private void CreateWindow()
         {
-            Form myform;
-            Control myRenderTarget;
-
-            InitializeWindowsForm(out myform, out myRenderTarget, mTitle, 
+            InitializeWindowsForm(out frm, out mRenderTarget, mTitle,
                 mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize);
 
-            ReplaceForm(myform, myRenderTarget);
+            frm.Icon = mIcon;
+
+            frm.Show();
+            AttachEvents();
         }
+
+        private void CreateWindowedDisplay()
+        {
+            DetachEvents();
+
+            Form oldForm = frm;
+
+            CreateWindow();
+            CreateBackBuffer();
+
+            if (oldForm != null)
+                oldForm.Dispose();
+
+            Core.IsActive = true;
+        }
+
+        private void CreateFullScreenDisplay()
+        {
+            DetachEvents();
+
+            Form oldForm = frm;
+
+            frm = new frmFullScreen();
+            frm.Show();
+
+            frm.Text = mTitle;
+            frm.Icon = mIcon;
+            frm.TopLevel = true;
+            frm.Activate();
+
+            mRenderTarget = frm;
+
+            AttachEvents();
+            try
+            {
+                CreateBackBuffer();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("{0}", e.Message);
+                System.Diagnostics.Debug.WriteLine("{0}", e.StackTrace);
+                throw;
+            }
+            System.Diagnostics.Debug.WriteLine("Created Full Screen buffer.");
+
+            frm.Location = System.Drawing.Point.Empty;
+            System.Diagnostics.Debug.WriteLine("Moved Form.");
+            
+            frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
+            System.Diagnostics.Debug.WriteLine("Resized Form.");
+            
+            frm.Activate();
+            System.Diagnostics.Debug.WriteLine("Activated Form.");
+
+            System.Threading.Thread.Sleep(1000);
+            System.Diagnostics.Debug.WriteLine("Sleeping.");
+
+            if (oldForm != null)
+                oldForm.Dispose();
+            System.Diagnostics.Debug.WriteLine("Disposed of old form.");
+
+            Core.IsActive = true;
+        }
+
+        private void CreateBackBuffer()
+        {
+            SwapChain oldChain = mSwap;
+            if (mBackBuffer != null)
+                mBackBuffer.Dispose();
+
+            mSwap = mDisplay.CreateSwapChain(this, mChooseWidth, mChooseHeight,
+                mChooseBitDepth, mChooseFullscreen);
+
+            mBackBuffer = mSwap.GetBackBuffer(0, BackBufferType.Mono);
+
+            if (oldChain != null)
+                oldChain.Dispose(); 
+        }
+
 
         public System.Windows.Forms.Control RenderTarget
         {
@@ -324,13 +430,14 @@ namespace ERY.AgateLib.MDX
 
             mChooseFullscreen = true;
 
-            OnResize();
+            CreateFullScreenDisplay();
         }
+
         public override void SetWindowed()
         {
             mChooseFullscreen = false;
 
-            OnResize();
+            CreateWindowedDisplay();
         }
 
         #region --- MDX1_IRenderTarget Members ---
@@ -391,19 +498,5 @@ namespace ERY.AgateLib.MDX
             }
         }
 
-        internal void ReplaceForm(Form newform, Control renderTarget)
-        {
-            if (frm != null)
-                frm.Dispose();
-
-            frm = newform;
-            mRenderTarget = renderTarget;
-
-            frm.Icon = mIcon;
-
-            // show the form and attach events.
-            frm.Show();
-            AttachEvents();
-        }
     }
 }
