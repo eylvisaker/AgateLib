@@ -31,7 +31,7 @@ namespace ERY.AgateLib
         public static void Register()
         {
             Registrar.RegisterInputDriver(new DriverInfo<InputTypeID>(
-                typeof(NullInputImpl), InputTypeID.Silent, "Silent", -100));
+                typeof(NullInputImpl), InputTypeID.Silent, "Keyboard and Mouse only", -100));
         }
 
         public override void Initialize()

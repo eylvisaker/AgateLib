@@ -436,17 +436,17 @@ namespace ERY.AgateLib
 
             for (int y = 0; y < srcRect.Height; y++)
             {
-                for (int x = 0; x < srcRect.Width; x++)
+                if (buffer.PixelFormat == PixelFormat)
                 {
-                    if (buffer.PixelFormat == PixelFormat)
-                    {
-                        int destIndex = GetPixelIndex(x + destPt.X, y + destPt.Y);
-                        int srcIndex = buffer.GetPixelIndex(x + srcRect.X, y + srcRect.Y);
+                    int destIndex = GetPixelIndex(destPt.X, y + destPt.Y);
+                    int srcIndex = buffer.GetPixelIndex(srcRect.X, y + srcRect.Y);
 
-                        for (int i = 0; i < PixelStride; i++)
-                            Data[destIndex + i] = buffer.Data[srcIndex + i];
-                    }
-                    else
+                    Array.Copy(buffer.Data, srcIndex,
+                               Data, destIndex, PixelStride * srcRect.Width);
+                }
+                else
+                {
+                    for (int x = 0; x < srcRect.Width; x++)
                     {
                         Color pixel = buffer.GetPixel(x + srcRect.X, y + srcRect.Y);
                         SetPixel(x + destPt.X, y + destPt.Y, pixel);
@@ -699,11 +699,13 @@ namespace ERY.AgateLib
                 // same format copy, no conversion necessary.
                 if (pixelFormat == PixelFormat)
                 {
-
-                    for (int x = 0; x < Width * PixelStride; x++)
-                    {
-                        retval.Data[destIndex + x] = Data[srcIndex + x];
-                    }
+                    
+                    //for (int x = 0; x < Width * PixelStride; x++)
+                    //{
+                    //    retval.Data[destIndex + x] = Data[srcIndex + x];
+                    //}
+                    Array.Copy(Data, srcIndex,
+                               retval.Data, destIndex, Width * PixelStride);
                 }
                 else
                 {

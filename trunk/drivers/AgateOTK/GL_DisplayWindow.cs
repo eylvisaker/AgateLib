@@ -77,7 +77,6 @@ namespace ERY.AgateLib.OpenGL
 
         private void CreateFullScreenDisplay()
         {
-
             DetachEvents();
 
             Form oldForm = frm;
@@ -102,15 +101,15 @@ namespace ERY.AgateLib.OpenGL
             frm.Location = System.Drawing.Point.Empty;
             frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
             frm.Activate();
-            Core.IsActive = true;
 
             System.Threading.Thread.Sleep(1000);
 
-
-            if (oldForm != null)
-                oldForm.Dispose();
             if (oldcontext != null)
                 oldcontext.Dispose();
+            if (oldForm != null)
+                oldForm.Dispose();
+
+            Core.IsActive = true;
         }
 
         private void CreateWindowedDisplay()
@@ -136,30 +135,32 @@ namespace ERY.AgateLib.OpenGL
             frm.Show();
             AttachEvents();
 
-            mContext = GLContext.Create(mRenderTarget, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8), 16, 0);
-
-            Core.IsActive = true;
+            mContext = GLContext.Create(mRenderTarget, 
+                new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8), 16, 0);
 
             if (oldcontext != null)
                 oldcontext.Dispose();
             if (oldForm != null)
                 oldForm.Dispose();
+
+            Core.IsActive = true;
         }
 
 
         public override void Dispose()
         {
+            if (mContext != null)
+            {
+                mContext.Dispose();
+                mContext = null;
+            }
+
             if (frm != null)
             {
                 frm.Close();
                 frm = null;
             }
 
-            if (mContext != null)
-            {
-                mContext.Dispose();
-                mContext = null;
-            }
         }
 
         public void MakeCurrent()

@@ -115,17 +115,19 @@ namespace ERY.AgateLib.MDX
         }
         public override Size StringDisplaySize(string text)
         {
-            Rectangle result = new Rectangle(mD3DFont.MeasureString(null, text, 
-                DrawTextFormat.None, Color.ToArgb()));
+            throw new NotImplementedException("StringDisplaySize not implemented with D3DX font.");
+
+            //Rectangle result = new Rectangle(mD3DFont.MeasureString(null, text, 
+            //    DrawTextFormat.None, Color.ToArgb()));
             
-            double scalex, scaley;
+            //double scalex, scaley;
 
-            GetScale(out scalex, out scaley);
+            //GetScale(out scalex, out scaley);
 
-            result.Height = (int)(scalex * result.Height);
-            result.Width = (int)(scaley * result.Width);
+            //result.Height = (int)(scalex * result.Height);
+            //result.Width = (int)(scaley * result.Width);
 
-            return result.Size;
+            //return result.Size;
         }
 
 

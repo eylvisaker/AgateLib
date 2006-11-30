@@ -487,6 +487,7 @@ namespace ERY.AgateLib.OpenGL
             if (mFilename == "")
                 return;
 
+            
             // Load The Bitmap
             Drawing.Bitmap sourceImage = new Drawing.Bitmap(mFilename);
 

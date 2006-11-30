@@ -36,7 +36,6 @@ namespace ERY.AgateLib.MDX
         private D3DDevice mDevice;
 
         private MDX1_IRenderTarget mRenderTarget;
-        private frmFullScreen mFullScreenWindow;
 
         private bool mInitialized = false;
 
@@ -421,7 +420,7 @@ namespace ERY.AgateLib.MDX
         {
             Registrar.RegisterDisplayDriver(
                 new DriverInfo<DisplayTypeID>(typeof(MDX1_Display), DisplayTypeID.Direct3D_MDX_1_1,
-                "Managed DirectX 1.1", 100));
+                "Managed DirectX 1.1", 200));
         }
 
         #endregion
@@ -438,45 +437,29 @@ namespace ERY.AgateLib.MDX
             mDevice.RenderTarget = mRenderTarget;
         }
 
-        internal void CreateSwapChain(MDX1_DisplayWindow displayWindow,
+        internal SwapChain CreateSwapChain(MDX1_DisplayWindow displayWindow,
             int width, int height, int bpp, bool fullScreen)
         {
-            bool wasFullScreen = displayWindow.IsFullScreen;
-
             if (fullScreen == true)
             {
                 PresentParameters present = CreateFullScreenPresentParameters(displayWindow, width, height, bpp);
 
                 OnDeviceAboutToReset();
 
-                displayWindow.ReplaceForm(mFullScreenWindow, mFullScreenWindow);
-
-                mFullScreenWindow.Activate();
-
                 System.Diagnostics.Debug.Print("{0} Going to full screen...", DateTime.Now);
                 mDevice.Device.Reset(present);
                 System.Diagnostics.Debug.Print("{0} Full screen success.", DateTime.Now);
 
-
-                displayWindow.mSwap = mDevice.Device.GetSwapChain(0);
-                displayWindow.mBackBuffer = displayWindow.mSwap.GetBackBuffer(0, BackBufferType.Mono);
-
+                return mDevice.Device.GetSwapChain(0);
             }
             else
             {
                 PresentParameters present = CreateWindowedPresentParameters(displayWindow, width, height);
 
-                if (displayWindow.mSwap != null && displayWindow.IsFullScreen == false)
-                {
-                    displayWindow.mSwap.Dispose();
-                }
-                else if (wasFullScreen)
+                if (displayWindow.mSwap != null && displayWindow.IsFullScreen == true)
                 {
                     // if we are in full screen mode already, we must
                     // reset the device before creating the windowed swap chain.
-
-                    displayWindow.CreateWindowedDisplay();
-
                     present.BackBufferHeight = 1;
                     present.BackBufferWidth = 1;
                     present.DeviceWindowHandle = displayWindow.RenderTarget.TopLevelControl.Handle;
@@ -489,63 +472,40 @@ namespace ERY.AgateLib.MDX
 
                     //displayWindow.RenderTarget.TopLevelControl.Visible = true;
 
-                    DisposeFullScreenWindow();
-
-
-
                     present = CreateWindowedPresentParameters(displayWindow, width, height);
 
-                    /*
-                    // do this to force Windows.Forms to update the unmanaged
-                    // Win32 resource for the window.  Otherwise there is a mismatch
-                    // between the stored window position and the actual on-screen position.
-                    displayWindow.RenderTarget.TopLevelControl.Left++;
-                    displayWindow.RenderTarget.TopLevelControl.Left--;
-                    displayWindow.RenderTarget.TopLevelControl.Width++;
-                    displayWindow.RenderTarget.TopLevelControl.Width--;
-                    */
                 }
 
-                displayWindow.mSwap = new Direct3D.SwapChain(mDevice.Device, present);
-                displayWindow.mBackBuffer = displayWindow.mSwap.GetBackBuffer(0, BackBufferType.Mono);
-
-                if (width > 0 && height > 0)
-                    displayWindow.Size = new Size(width, height);
+                return new Direct3D.SwapChain(mDevice.Device, present);
             }
-
-
         }
 
         private PresentParameters CreateFullScreenPresentParameters(MDX1_DisplayWindow displayWindow,
             int width, int height, int bpp)
         {
-            mFullScreenWindow = new frmFullScreen();
-            mFullScreenWindow.Text = displayWindow.Title;
-
-            mFullScreenWindow.KeyUp += new System.Windows.Forms.KeyEventHandler(mFullScreenWindow_KeyUp);
-            mFullScreenWindow.KeyDown += new System.Windows.Forms.KeyEventHandler(mFullScreenWindow_KeyDown);
-            mFullScreenWindow.MouseUp += new System.Windows.Forms.MouseEventHandler(mFullScreenWindow_MouseUp);
-            mFullScreenWindow.MouseDown += new System.Windows.Forms.MouseEventHandler(mFullScreenWindow_MouseDown);
-            mFullScreenWindow.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(mFullScreenWindow_MouseDoubleClick);
-
             PresentParameters present = new PresentParameters();
 
             present.BackBufferCount = 1;
             present.AutoDepthStencilFormat = DepthFormat.Unknown;
             present.EnableAutoDepthStencil = false;
-            present.DeviceWindow = mFullScreenWindow;
+            present.DeviceWindow = displayWindow.RenderTarget;
             present.BackBufferWidth = width;
             present.BackBufferHeight = height;
             present.SwapEffect = SwapEffect.Discard;
             present.Windowed = false;
             present.PresentFlag = PresentFlag.LockableBackBuffer;
-            
+
+            if (VSync)
+                present.PresentationInterval = PresentInterval.Default;
+            else
+                present.PresentationInterval = PresentInterval.Immediate;
+
             SelectBestDisplayMode(present);
 
             return present;
         }
 
-        private static PresentParameters CreateWindowedPresentParameters(MDX1_DisplayWindow displayWindow,
+        private PresentParameters CreateWindowedPresentParameters(MDX1_DisplayWindow displayWindow,
             int width, int height)
         {
             PresentParameters present = new PresentParameters();
@@ -560,8 +520,11 @@ namespace ERY.AgateLib.MDX
             present.SwapEffect = SwapEffect.Copy;
             present.Windowed = true;
             present.PresentFlag = PresentFlag.LockableBackBuffer;
-            //present.PresentationInterval = PresentInterval.Default;
-            present.PresentationInterval = PresentInterval.Immediate;
+            
+            if (VSync)
+                present.PresentationInterval = PresentInterval.Default;
+            else
+                present.PresentationInterval = PresentInterval.Immediate;
 
             return present;
         }
@@ -664,14 +627,6 @@ namespace ERY.AgateLib.MDX
 
         }
 
-        internal void DisposeFullScreenWindow()
-        {
-            if (mFullScreenWindow != null)
-            {
-                mFullScreenWindow.Dispose();
-                mFullScreenWindow = null;
-            }
-        }
 
         #endregion
         #region --- Full Screen Window Events ---
@@ -714,6 +669,12 @@ namespace ERY.AgateLib.MDX
 
         #endregion
 
+        internal event EventHandler VSyncChanged;
+        private void OnVSyncChanged()
+        {
+            if (VSyncChanged != null)
+                VSyncChanged(this, EventArgs.Empty);
+        }
         public override bool VSync
         {
             get
@@ -723,6 +684,8 @@ namespace ERY.AgateLib.MDX
             set
             {
                 mVSync = value;
+
+                OnVSyncChanged();
             }
         }
         public override Size MaxSurfaceSize
