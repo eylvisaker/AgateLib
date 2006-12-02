@@ -30,26 +30,27 @@ using DbDataAdapter = System.Data.OleDb.OleDbDataAdapter;
 
 
 
-
+/// <summary>
+///  Static Data Access Layer for the ForumCategories table
+/// </summary>
 public static class CategoryDAL
 {
     private static int max_name_length = 50;
     private static String table_name = "ForumCategories";
 
-    //TODO: Implement roles based authority
-    //PRECONDITIONS:
-    //  cat_name is <= max_category_name_length
-    //
-    public static bool Insert(String cat_name)
+
+    /// <summary>
+    /// Insert a Forum Category
+    /// </summary>
+    /// <param name="name"> Name of the Category</param>
+    ///
+    public static bool Insert(String name)
     {
+        if (!check_name(name))
+            throw new System.ArgumentException(name + " is an invalid name");
+        /////////////////////////////////////////////////////////////////////
+
         DbConnection connection = get_connection();
-
-        if (cat_name.Length >= max_name_length)
-        {
-            throw new System.ArgumentException("category name length must be less than "
-                + cat_name.ToString(), "cat_name");
-        }
-
 
         DbCommand max_position_cmd = new DbCommand("SELECT MAX([Position]) FROM " + table_name, connection);
 
@@ -75,7 +76,7 @@ public static class CategoryDAL
             }
 
             DbCommand cmd = new DbCommand(insert_query_string, connection);
-            cmd.Parameters.Add("@Name", DbType.WChar, max_name_length).Value = cat_name;
+            cmd.Parameters.Add("@Name", DbType.WChar, max_name_length).Value = name;
             cmd.Parameters.Add("@Position", DbType.Integer).Value = max_position + 1;
             cmd.Parameters.Add("@CreationDate", DbType.Date).Value = DateTime.Now.ToString();
             cmd.ExecuteNonQuery();
@@ -92,13 +93,65 @@ public static class CategoryDAL
         }
     }
 
-
-
-    public static void Update(int primary_id, String name)
+    /// <summary>
+    ///  Delete a single category from the table
+    /// </summary>
+    /// <param name="category_id">primary key for the category</param>
+    /// TODO: The deletion of the children should probably be done in a transaction
+    public static void Delete(int category_id)
     {
-        if (!CategoryDAL.Exists(primary_id))
-            throw new System.ArgumentException("Attempt to update a category that does not exist.");
+        if (!check_category_id(category_id))
+            throw new System.ArgumentException(category_id.ToString() + "is an Invalid ID number");
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        /*
+         * - retrieve data set, create list
+         * - move row to be deleted to the bottom (highest position) of the list
+         * - create data adaper & delete/update commands
+         * - delete all children( boards )
+         * - delete row
+         * - update
+         */
 
+
+        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
+
+        // Create an explicit UPDATE command
+        DbDataAdapter da = new DbDataAdapter();
+
+        da.UpdateCommand = update_command_for_delete_operation();
+        da.DeleteCommand = delete_command_for_delete_operation();
+
+        category_list.MoveToBottom(category_id);
+        DataRow row = category_list.GetRowByID(category_id);
+
+        if (BoardDAL.DeleteAllByParentID(category_id))
+        {
+            row.Delete();
+            da.Update(category_list.DataSet.Tables[table_name].GetChanges());
+        }
+    }
+
+
+
+    /// <summary>
+    ///  Update a category name
+    /// </summary>
+    /// <param name="category_id"></param>
+    /// <param name="name"></param>
+    public static void Update(int category_id, String name)
+    {
+        if (!check_category_id(category_id))
+            throw new System.ArgumentException(category_id.ToString() + "is an Invalid ID number");
+
+        if (!check_name(name))
+            throw new System.ArgumentException(name + " is an invalid name");
+        /////////////////////////////////////////////////////////////////////
+        /*
+        * - create command, set command text for query
+        * - bind parameter values
+        * - set command connection
+        * - open connection, execute query, close connection
+        */
 
         DbCommand update_cmd = new DbCommand();
         update_cmd.CommandText =
@@ -107,7 +160,7 @@ public static class CategoryDAL
             " WHERE id = ?";
 
         update_cmd.Parameters.Add("@Name", DbType.WChar, max_name_length).Value = name;
-        update_cmd.Parameters.Add("@id", DbType.Integer, 0).Value = primary_id;
+        update_cmd.Parameters.Add("@id", DbType.Integer, 0).Value = category_id;
 
         DbConnection connection = get_connection();
         update_cmd.Connection = connection;
@@ -127,37 +180,26 @@ public static class CategoryDAL
 
 
 
-    public static void Delete(int row_id)
+
+    /// <summary>
+    ///  Move the category to the top of the list (position 0)
+    /// </summary>
+    /// <param name="category_id">primary key of category</param>
+    public static void MoveToTop(int category_id)
     {
-        if (!CategoryDAL.Exists(row_id))
-            throw new System.ArgumentException("Attempt to delete a category that does not exist.");
+        if (!check_category_id(category_id))
+            throw new System.ArgumentException(category_id.ToString() + "is an Invalid ID number");
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        /*
+         * - retrieve data set, create list
+         * - move row to the top of the list
+         * - create update command, set text & bind parameters
+         * - create/set data adapter
+         * - update
+         */
 
         ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
-
-        // Create an explicit UPDATE command
-        DbDataAdapter da = new DbDataAdapter();
-
-        da.UpdateCommand = update_command_for_delete_operation();
-        da.DeleteCommand = delete_command_for_delete_operation();
-
-        category_list.MoveToBottom(row_id);
-        DataRow row = category_list.GetRowByID(row_id);
-
-        if( BoardDAL.DeleteAllByParentID( row_id ) )
-        {
-            row.Delete();
-            da.Update(category_list.DataSet.Tables[table_name].GetChanges());
-        }
-    }
-
-
-    public static void MoveToTop(int primary_id)
-    {
-        if (!CategoryDAL.Exists(primary_id))
-            throw new System.ArgumentException("Attempt to change the position of a category that does not exist.");
-
-        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
-        category_list.MoveToTop(primary_id);
+        category_list.MoveToTop(category_id);
 
         DbCommand update_cmd = new DbCommand();
         update_cmd.CommandText =
@@ -176,18 +218,29 @@ public static class CategoryDAL
 
         if( table != null )
             da.Update( table );
-
-
     }
 
-
-    public static void MoveToBottom(int primary_id)
+    /// <summary>
+    ///  Move the category to the bottom of the list (greatest position)
+    /// </summary>
+    /// <param name="category_id">primary key of category</param>
+    public static void MoveToBottom(int category_id)
     {
-        if (!CategoryDAL.Exists(primary_id))
-            throw new System.ArgumentException("Attempt to change the position of a category that does not exist.");
+        if (!check_category_id(category_id))
+            throw new System.ArgumentException(category_id.ToString() + "is an Invalid ID number");
+        ///////////////////////////////////////////////////////////////////////////////////////////
+
+        /*
+        * - retrieve data set, create list
+        * - move row to the bottom of the list
+        * - create update command, set text & bind parameters
+        * - create/set data adapter
+        * - update
+        */
+
 
         ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
-        category_list.MoveToBottom(primary_id);
+        category_list.MoveToBottom(category_id);
 
         DbCommand update_cmd = new DbCommand();
         update_cmd.CommandText =
@@ -209,13 +262,67 @@ public static class CategoryDAL
     }
 
 
-    public static void MoveUp(int primary_id)
+    /// <summary>
+    ///  Move the category up 1 position in the list (greatest position)
+    /// </summary>
+    /// <param name="category_id">primary key of category</param>
+    public static void MoveUp(int category_id)
     {
-        if (!CategoryDAL.Exists(primary_id))
-            throw new System.ArgumentException("Attempt to change the position of a category that does not exist.");
+        if (!check_category_id(category_id))
+            throw new System.ArgumentException(category_id.ToString() + "is an Invalid ID number");
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        /*
+        * - retrieve data set, create list
+        * - move row up 1 position in the list
+        * - create update command, set text & bind parameters
+        * - create/set data adapter
+        * - update
+        */
 
         ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
-        category_list.MoveUp(primary_id);
+        category_list.MoveUp(category_id);
+
+        DbCommand update_cmd = new DbCommand();
+        update_cmd.CommandText =
+            "UPDATE " + table_name +
+            " SET [Position] = ?" +
+            " WHERE id = ?";
+
+        update_cmd.Parameters.Add("@Position", DbType.Integer, 0, "position");
+        update_cmd.Parameters.Add("@id", DbType.Integer, 0, "id");
+        update_cmd.Connection = get_connection();
+
+        DbDataAdapter da = new DbDataAdapter();
+        da.UpdateCommand = update_cmd;
+
+        DataTable table = category_list.DataSet.Tables[table_name].GetChanges();
+
+        if (table != null)
+            da.Update(table);
+    }
+
+
+    /// <summary>
+    ///  Move the category down 1 position in the list (greatest position)
+    /// </summary>
+    /// <param name="category_id">primary key of category</param>
+    public static void MoveDown(int category_id)
+    {
+        if (!check_category_id(category_id))
+            throw new System.ArgumentException(category_id.ToString() + "is an Invalid ID number");
+        ///////////////////////////////////////////////////////////////////////////////////////////
+
+        /*
+         * - retrieve data set, create list
+         * - move row down 1 position in the list
+         * - create update command, set text & bind parameters
+         * - create/set data adapter
+         * - update
+         */
+
+
+        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
+        category_list.MoveDown(category_id);
 
         DbCommand update_cmd = new DbCommand();
         update_cmd.CommandText =
@@ -239,37 +346,10 @@ public static class CategoryDAL
     }
 
 
-    public static void MoveDown(int primary_id)
-    {
-        if (!CategoryDAL.Exists(primary_id))
-            throw new System.ArgumentException("Attempt to change the position of a category that does not exist.");
-
-        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
-        category_list.MoveDown(primary_id);
-
-        DbCommand update_cmd = new DbCommand();
-        update_cmd.CommandText =
-            "UPDATE " + table_name +
-            " SET [Position] = ?" +
-            " WHERE id = ?";
-
-        update_cmd.Parameters.Add("@Position", DbType.Integer, 0, "position");
-        update_cmd.Parameters.Add("@id", DbType.Integer, 0, "id");
-        update_cmd.Connection = get_connection();
-
-        DbDataAdapter da = new DbDataAdapter();
-        da.UpdateCommand = update_cmd;
-
-        DataTable table = category_list.DataSet.Tables[table_name].GetChanges();
-
-        if (table != null)
-            da.Update(table);
-
-
-    }
-
-
-
+    /// <summary>
+    /// dataset for the entire table
+    /// </summary>
+    /// <returns></returns>
     public static DataSet DataSet()
     {
         DbConnection connection = get_connection();
@@ -295,9 +375,14 @@ public static class CategoryDAL
         }
     }
 
-
+    /// <summary>
+    /// retrieve the category with the given id
+    /// </summary>
+    /// <param name="row_id"></param>
+    /// <returns></returns>
     public static DataRow GetRowByID(int row_id)
     {
+        // retrieve entire table, pull out corresponding row
         DataRow[] rows_with_id = DataSet().Tables[table_name].Select("id = '" + row_id.ToString() + "'");
 
         if (rows_with_id.Length == 1)
@@ -315,16 +400,77 @@ public static class CategoryDAL
 
 
 
-
+    /// <summary>
+    /// Tests to see if a category with the id exists
+    /// </summary>
+    /// <param name="primary_id"></param>
+    /// <returns></returns>
     public static bool Exists(int primary_id)
     {
         return (GetRowByID(primary_id) != null);
     }
 
 
+
+
+
     // ///////////////////////// PRIVATE FUNCTIONS ///////////////////////
 
 
+    /// <summary>
+    ///  returns the connection for the table
+    /// </summary>
+    /// <returns></returns>
+    private static DbConnection get_connection()
+    {
+        String conn_string = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["Access"].ConnectionString;
+        return new DbConnection(conn_string);
+    }
+
+
+    /// <summary>
+    ///  checks to see if the name is a valid Category name
+    /// </summary>
+    /// <remarks>
+    ///  length of name must be <= max_name_length
+    /// </remarks>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    /// 
+    /// TODO: We need to clean the name (check for security issues, etc)
+    private static bool check_name(String name)
+    {
+        if (name.Length > max_name_length)
+            return false;
+
+        return true;
+    }
+
+    /// <summary>
+    /// checks to see if Category id is valid
+    /// </summary>
+    /// <remarks>
+    /// board_id must be >= 0 and it must exist in the ForumBoards table
+    /// </remarks>
+    /// <param name="board_id"></param>
+    /// <returns></returns>
+    private static bool check_category_id(int category_id)
+    {
+        if( category_id < 0 || !CategoryDAL.Exists(category_id) )
+            return false;
+
+        return true;
+    }
+
+
+    /// <summary>
+    /// returns the update command for updating *all columns* in the table via a *dataset*
+    /// </summary>
+    /// <remarks>
+    ///  this method is meant for a very specific purpose and is not general in any sense of the word.
+    ///  use with caution
+    /// </remarks>
+    /// <returns></returns>
     private static DbCommand update_command_for_delete_operation()
     {
         DbCommand cmd = new DbCommand();
@@ -345,6 +491,14 @@ public static class CategoryDAL
     }
 
 
+    /// <summary>
+    /// returns the delete command for deleting a row in the table via a *dataset*
+    /// </summary>
+    /// <remarks>
+    ///  this method is meant for a very specific purpose and is not general in any sense of the word.
+    ///  use with caution
+    /// </remarks>
+    /// <returns></returns>
     private static DbCommand delete_command_for_delete_operation()
     {
         DbCommand cmd = new DbCommand();
@@ -359,9 +513,5 @@ public static class CategoryDAL
         return cmd;
     }
 
-    private static DbConnection get_connection()
-    {
-        String conn_string = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["Access"].ConnectionString;
-        return new DbConnection(conn_string);
-    }
+
 }
