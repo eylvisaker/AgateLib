@@ -277,7 +277,14 @@ namespace ERY.AgateLib.SystemDrawing
         {
             get { return false; }
         }
-
+        bool IDisplayCaps.SupportsFullScreen
+        {
+            get { return false; }
+        }
+        bool IDisplayCaps.SupportsFullScreenModeSwitching
+        {
+            get { return false; }
+        }
         #endregion
     }
 

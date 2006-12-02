@@ -94,9 +94,14 @@ namespace ERY.AgateLib.MDX
             mDevice.AlphaBlend = mAlphaBlend;
             mDevice.VertexFormat = PositionColorNormalTexture.Format;
 
-            mDevice.Device.DrawIndexedUserPrimitives
-                (PrimitiveType.TriangleList, 0, mVertPointer, mIndexPointer / 3, mIndices, true, mVerts);
-            
+            try
+            {
+                mDevice.Device.DrawIndexedUserPrimitives
+                    (PrimitiveType.TriangleList, 0, mVertPointer,
+                     mIndexPointer / 3, mIndices, true, mVerts);
+            }
+            catch { }
+
             mVertPointer = 0;
             mIndexPointer = 0;
 

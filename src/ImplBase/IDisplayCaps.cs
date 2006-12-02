@@ -10,6 +10,17 @@ namespace ERY.AgateLib.ImplBase
     public interface IDisplayCaps
     {
         /// <summary>
+        /// Indicates whether or not full screen windows can be created.
+        /// </summary>
+        bool SupportsFullScreen { get; }
+        /// <summary>
+        /// Indicates whether or not the screen resolution can be changed.
+        /// If the Display driver supports full screen but not mode switching,
+        /// then a DisplayWindow which is created with as a full screen window
+        /// cannot change resolutions after it is initially set.
+        /// </summary>
+        bool SupportsFullScreenModeSwitching { get; }
+        /// <summary>
         /// - Indicates whether setting Surface.SetScale has any visible effect.
         /// </summary>
         bool SupportsScaling { get; }
