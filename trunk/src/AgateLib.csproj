@@ -48,6 +48,7 @@
     <Compile Include="Drivers\DriverInfo.cs" />
     <Compile Include="Drivers\DriverInfoList.cs" />
     <Compile Include="Drivers\DriverTypeIDBase.cs" />
+    <Compile Include="Geometry\Converter.cs" />
     <Compile Include="Geometry\Vector3.cs" />
     <Compile Include="ImplBase\AudioImpl.cs" />
     <Compile Include="Core.cs" />
@@ -70,7 +71,7 @@
     <Compile Include="SearchPath.cs" />
     <Compile Include="StringTransformer.cs" />
     <Compile Include="Utility\AgateRenderTarget.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utility\AgateRenderTarget.Designer.cs">
       <DependentUpon>AgateRenderTarget.cs</DependentUpon>

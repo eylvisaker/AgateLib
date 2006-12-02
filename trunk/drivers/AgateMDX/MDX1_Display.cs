@@ -209,10 +209,10 @@ namespace ERY.AgateLib.MDX
             return new MDX1_Surface(surfaceSize);
         }
 
-        public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints)
+        public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyle style)
         {
             //return new MDX1_FontSurface(fontFamily, sizeInPoints);
-            return BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints);
+            return BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints, style);
         }
 
         #endregion

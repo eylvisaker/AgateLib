@@ -63,9 +63,9 @@ namespace ERY.AgateLib.OpenGL
             return new GL_Surface(surfaceSize);
         }
 
-        public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints)
+        public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyle style)
         {
-            return BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints);
+            return BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints, style);
         }
 
         internal void SetupGLOrtho(Rectangle ortho)

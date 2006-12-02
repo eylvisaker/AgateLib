@@ -29,6 +29,7 @@ namespace InputStateTester
         {
             using (AgateSetup setup = new AgateSetup("My app", args))
             {
+                setup.AskUser = true;
                 setup.UseAudio = false;
                 setup.InitializeAll();
 
@@ -54,7 +55,7 @@ namespace InputStateTester
 
                 double fontheight = font.StringDisplayHeight("X");
 
-                while (wind.Closed == false)
+                while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();
                     Display.Clear();

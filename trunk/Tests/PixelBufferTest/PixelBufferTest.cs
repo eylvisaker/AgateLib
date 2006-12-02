@@ -36,7 +36,7 @@ namespace PixelBufferTest
                 Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
                 Mouse.MouseMove += new InputEventHandler(Mouse_MouseMove);
 
-                while (wind.Closed == false)
+                while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();
                     Display.Clear();

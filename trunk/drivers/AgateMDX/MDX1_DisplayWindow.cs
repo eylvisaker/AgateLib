@@ -88,9 +88,7 @@ namespace ERY.AgateLib.MDX
             mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
 
             AttachEvents();
-
             CreateBackBuffer();
-
         }
 
         public override void Dispose()
@@ -98,11 +96,9 @@ namespace ERY.AgateLib.MDX
             if (frm != null && frm is frmFullScreen == false)
             {
                 frm.Dispose();
-                
             }
 
             frm = null;
-
             mIsClosed = true;
         }
 
@@ -239,6 +235,11 @@ namespace ERY.AgateLib.MDX
 
         #endregion
 
+        /// <summary>
+        /// Creates a window.  Events are not attached or detached in this method,
+        /// and the old form is not disposed.
+        /// </summary>
+        /// <param name="fullScreenForm"></param>
         private void CreateWindow(bool fullScreenForm)
         {
             if (fullScreenForm)
@@ -253,7 +254,6 @@ namespace ERY.AgateLib.MDX
                 mRenderTarget = frm;
 
                 frm.Location = System.Drawing.Point.Empty;
-                
             }
             else
             {
@@ -263,7 +263,6 @@ namespace ERY.AgateLib.MDX
                 frm.Icon = mIcon;
 
                 frm.Show();
-                AttachEvents();
             }
         }
         private void CreateWindowedDisplay()
@@ -278,9 +277,10 @@ namespace ERY.AgateLib.MDX
             if (oldForm != null)
                 oldForm.Dispose();
 
-            mIsFullscreen = false;
+            AttachEvents();
 
             Core.IsActive = true;
+            mIsFullscreen = false;
         }
 
         private void CreateFullScreenDisplay()
@@ -302,31 +302,17 @@ namespace ERY.AgateLib.MDX
             frm.Activate();
             frm.Refresh();
 
-            
-            //try
-            //{
-                CreateBackBuffer();
-            //}
-            //catch (Exception e)
-            //{
-            //    System.Diagnostics.Debug.WriteLine("{0}", e.Message);
-            //    System.Diagnostics.Debug.WriteLine("{0}", e.StackTrace);
-            //    throw;
-            //}
+            CreateBackBuffer();
 
             frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
 
-            mIsFullscreen = true;
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(500);
+
+
+            frm.Activate();
 
             AttachEvents();
-
-
-            //frm.Location = System.Drawing.Point.Empty;
-            //frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
-            //frm.Activate();
-
-
+            mIsFullscreen = true;
             Core.IsActive = true;
         }
 

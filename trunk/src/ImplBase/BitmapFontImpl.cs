@@ -118,13 +118,25 @@ namespace ERY.AgateLib.ImplBase
         /// a bitmap to use as a Surface object.  You should only use this method
         /// if writing a driver.
         /// </summary>
-        /// <seealso cref="FontSurface.BitmapFont"/>
+        /// <seealso cref="FontSurface.BitmapFont(string, float, FontStyle)"/>
         /// <param name="fontFamily"></param>
         /// <param name="sizeInPoints"></param>
+        /// <param name="style"></param>
         /// <returns></returns>
-        public static FontSurfaceImpl FromOSFont(string fontFamily, float sizeInPoints)
+        public static FontSurfaceImpl FromOSFont(string fontFamily, float sizeInPoints, FontStyle style)
         {
-            Drawing.Font font = new Drawing.Font(fontFamily, sizeInPoints);
+            System.Drawing.FontStyle drawingStyle = System.Drawing.FontStyle.Regular;
+
+            if ((style & FontStyle.Bold) > 0)
+                drawingStyle |= System.Drawing.FontStyle.Bold;
+            if ((style & FontStyle.Italic) > 0)
+                drawingStyle |= System.Drawing.FontStyle.Italic;
+            if ((style & FontStyle.Strikeout) > 0)
+                drawingStyle |= System.Drawing.FontStyle.Strikeout;
+            if ((style & FontStyle.Underline) > 0)
+                drawingStyle |= System.Drawing.FontStyle.Underline;
+
+            Drawing.Font font = new Drawing.Font(fontFamily, sizeInPoints, drawingStyle );
             
             Drawing.Bitmap bmp = new System.Drawing.Bitmap(512, 512);
             Drawing.Graphics g = Drawing.Graphics.FromImage(bmp);
