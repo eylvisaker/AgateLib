@@ -70,7 +70,10 @@
     <Compile Include="SearchPath.cs" />
     <Compile Include="StringTransformer.cs" />
     <Compile Include="Utility\AgateRenderTarget.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utility\AgateRenderTarget.Designer.cs">
+      <DependentUpon>AgateRenderTarget.cs</DependentUpon>
     </Compile>
     <Compile Include="Utility\DisplayWindowForm.cs">
       <SubType>Form</SubType>

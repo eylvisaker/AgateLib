@@ -470,8 +470,7 @@ namespace ERY.AgateLib.MDX
                     mDevice.Device.Reset(present);
                     System.Diagnostics.Debug.Print("{0} Windowed mode success.", DateTime.Now);
 
-                    //displayWindow.RenderTarget.TopLevelControl.Visible = true;
-
+                    
                     present = CreateWindowedPresentParameters(displayWindow, width, height);
 
                 }
@@ -485,22 +484,21 @@ namespace ERY.AgateLib.MDX
         {
             PresentParameters present = new PresentParameters();
 
-            present.BackBufferCount = 1;
             present.AutoDepthStencilFormat = DepthFormat.Unknown;
             present.EnableAutoDepthStencil = false;
-            present.DeviceWindow = displayWindow.RenderTarget;
+            present.DeviceWindowHandle = displayWindow.RenderTarget.Handle;
             present.BackBufferWidth = width;
             present.BackBufferHeight = height;
-            present.SwapEffect = SwapEffect.Discard;
+            present.SwapEffect = SwapEffect.Flip;
             present.Windowed = false;
-            present.PresentFlag = PresentFlag.LockableBackBuffer;
+            present.PresentFlag = PresentFlag.None;
 
             if (VSync)
                 present.PresentationInterval = PresentInterval.Default;
             else
                 present.PresentationInterval = PresentInterval.Immediate;
 
-            SelectBestDisplayMode(present);
+            SelectBestDisplayMode(present, bpp);
 
             return present;
         }
@@ -513,7 +511,7 @@ namespace ERY.AgateLib.MDX
             present.BackBufferCount = 1;
             present.AutoDepthStencilFormat = DepthFormat.Unknown;
             present.EnableAutoDepthStencil = false;
-            present.DeviceWindow = displayWindow.RenderTarget;
+            present.DeviceWindowHandle = displayWindow.RenderTarget.Handle;
             present.BackBufferWidth = width;
             present.BackBufferHeight = height;
             present.BackBufferFormat = Format.Unknown;
@@ -566,7 +564,7 @@ namespace ERY.AgateLib.MDX
 
             return modes.ToArray();
         }
-        private void SelectBestDisplayMode(PresentParameters present)
+        private void SelectBestDisplayMode(PresentParameters present, int bpp)
         {
             DisplayModeCollection modes = Direct3D.Manager.Adapters[0].SupportedDisplayModes;
 
@@ -595,9 +593,8 @@ namespace ERY.AgateLib.MDX
 
                     case Format.X8R8G8B8:
                     case Format.A8R8G8B8:
-                        bits = 24;
+                        bits = 32;
                         break;
-
 
                     case Format.R5G6B5:
                     case Format.X4R4G4B4:
@@ -609,6 +606,8 @@ namespace ERY.AgateLib.MDX
                         System.Diagnostics.Debug.Print("Unknown backbuffer format {0}.", mode.Format);
                         continue;
                 }
+
+                thisDiff += Math.Abs(bits - bpp);
 
                 // first mode by default, or any mode which is a better match.
                 if (selected.Height == 0 || thisDiff < diff)
@@ -629,42 +628,7 @@ namespace ERY.AgateLib.MDX
 
 
         #endregion
-        #region --- Full Screen Window Events ---
-
-        void mFullScreenWindow_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            Keyboard.Keys.SetWinFormsKey(e.KeyCode, false);
-        }
-        void mFullScreenWindow_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            Keyboard.Keys.SetWinFormsKey(e.KeyCode, true);
-        }
-
-        void mFullScreenWindow_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            Mouse.MouseButtons btn = MDX1_DisplayWindow.GetButtons(e.Button);
-
-            Mouse.OnMouseDoubleClick(btn);
-        }
-        void mFullScreenWindow_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            Mouse.MouseButtons btn = MDX1_DisplayWindow.GetButtons(e.Button);
-
-            Mouse.Buttons[btn] = false;
-        }
-        void mFullScreenWindow_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            Mouse.MouseButtons btn = MDX1_DisplayWindow.GetButtons(e.Button);
-
-            Mouse.Buttons[btn] = true;
-        }
-        void mFullScreenWindow_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            Mouse.OnMouseMove();
-        }
-
-        #endregion
-
+ 
         #region --- Drawing Helper Functions ---
 
         #endregion
@@ -801,6 +765,14 @@ namespace ERY.AgateLib.MDX
             get { return false; }
         }
 
+        bool IDisplayCaps.SupportsFullScreen
+        {
+            get { return true;}
+        }
+        bool IDisplayCaps.SupportsFullScreenModeSwitching
+        {
+            get { return true; }
+        }
         #endregion
     }
 }

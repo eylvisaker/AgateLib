@@ -390,6 +390,14 @@ namespace ERY.AgateLib.OpenGL
         {
             get { return false; }
         }
+        bool IDisplayCaps.SupportsFullScreen
+        {
+            get { return true; }
+        }
+        bool IDisplayCaps.SupportsFullScreenModeSwitching
+        {
+            get { return true; }
+        }
 
         #endregion
     }

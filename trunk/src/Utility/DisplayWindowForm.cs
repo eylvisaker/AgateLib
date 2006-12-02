@@ -63,5 +63,10 @@ namespace ERY.AgateLib.Utility
         {
             Core.IsActive = true;
         }
+
+        private void DisplayWindowForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

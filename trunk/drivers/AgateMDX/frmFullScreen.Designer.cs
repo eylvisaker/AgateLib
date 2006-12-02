@@ -34,6 +34,9 @@ namespace ERY.AgateLib.MDX
             if (disposing && (components != null))
             {
                 components.Dispose();
+            
+            
+            
             }
             base.Dispose(disposing);
         }

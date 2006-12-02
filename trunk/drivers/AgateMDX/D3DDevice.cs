@@ -55,14 +55,26 @@ namespace ERY.AgateLib.MDX
             mDevice = device;
             mWorld2D = Matrix.Identity;
 
+            mDevice.DeviceLost += new EventHandler(mDevice_DeviceLost);
             mDrawBuffer = new DrawBuffer(this);
         }
+
         ~D3DDevice()
         {
             Dispose(false);
         }
 
 
+        void mDevice_DeviceLost(object sender, EventArgs e)
+        {
+            // set weird values which will indicate that the device's
+            // render states need to be set.
+            mAlphaBlend = false;
+            mVertexFormat = VertexFormats.None;
+            mAlphaArgument1 = TextureArgument.Temp;
+            mAlphaArgument2 = TextureArgument.Temp;
+            mAlphaOperation = TextureOperation.Add;
+        }
 
         public void Dispose()
         {

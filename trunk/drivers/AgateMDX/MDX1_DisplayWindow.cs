@@ -65,15 +65,14 @@ namespace ERY.AgateLib.MDX
             mChooseHeight = clientHeight;
             mChooseResize = allowResize;
 
-            CreateWindow();
+            CreateWindow(startFullscreen);
 
             mDisplay = Display.Impl as MDX1_Display;
             mDisplay.Initialize(this);
             mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
-            
-            // and create the back buffer
-            CreateBackBuffer();
 
+            AttachEvents();
+            CreateBackBuffer();
         }
 
         public MDX1_DisplayWindow(System.Windows.Forms.Control renderTarget)
@@ -96,11 +95,13 @@ namespace ERY.AgateLib.MDX
 
         public override void Dispose()
         {
-            if (frm != null)
+            if (frm != null && frm is frmFullScreen == false)
             {
                 frm.Dispose();
-                frm = null;
+                
             }
+
+            frm = null;
 
             mIsClosed = true;
         }
@@ -238,28 +239,46 @@ namespace ERY.AgateLib.MDX
 
         #endregion
 
-        private void CreateWindow()
+        private void CreateWindow(bool fullScreenForm)
         {
-            InitializeWindowsForm(out frm, out mRenderTarget, mTitle,
-                mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize);
+            if (fullScreenForm)
+            {
+                frm = new frmFullScreen();
+                frm.Show();
 
-            frm.Icon = mIcon;
+                frm.Text = mTitle;
+                frm.Icon = mIcon;
+                frm.TopLevel = true;
 
-            frm.Show();
-            AttachEvents();
+                mRenderTarget = frm;
+
+                frm.Location = System.Drawing.Point.Empty;
+                
+            }
+            else
+            {
+                InitializeWindowsForm(out frm, out mRenderTarget, mTitle,
+                    mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize);
+
+                frm.Icon = mIcon;
+
+                frm.Show();
+                AttachEvents();
+            }
         }
-
         private void CreateWindowedDisplay()
         {
             DetachEvents();
 
             Form oldForm = frm;
 
-            CreateWindow();
+            CreateWindow(false);
             CreateBackBuffer();
 
             if (oldForm != null)
                 oldForm.Dispose();
+
+            mIsFullscreen = false;
 
             Core.IsActive = true;
         }
@@ -268,63 +287,61 @@ namespace ERY.AgateLib.MDX
         {
             DetachEvents();
 
-            Form oldForm = frm;
+            if (frm is frmFullScreen == false)
+            {
+                if (mBackBuffer != null)
+                    mBackBuffer.Dispose();
+                if (mSwap != null)
+                    mSwap.Dispose(); 
 
-            frm = new frmFullScreen();
-            frm.Show();
+                frm.Dispose();
 
-            frm.Text = mTitle;
-            frm.Icon = mIcon;
-            frm.TopLevel = true;
+                CreateWindow(true);
+            }
+
             frm.Activate();
+            frm.Refresh();
 
-            mRenderTarget = frm;
+            
+            //try
+            //{
+                CreateBackBuffer();
+            //}
+            //catch (Exception e)
+            //{
+            //    System.Diagnostics.Debug.WriteLine("{0}", e.Message);
+            //    System.Diagnostics.Debug.WriteLine("{0}", e.StackTrace);
+            //    throw;
+            //}
+
+            frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
+
+            mIsFullscreen = true;
+            System.Threading.Thread.Sleep(1000);
 
             AttachEvents();
-            try
-            {
-                CreateBackBuffer();
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("{0}", e.Message);
-                System.Diagnostics.Debug.WriteLine("{0}", e.StackTrace);
-                throw;
-            }
-            System.Diagnostics.Debug.WriteLine("Created Full Screen buffer.");
 
-            frm.Location = System.Drawing.Point.Empty;
-            System.Diagnostics.Debug.WriteLine("Moved Form.");
-            
-            frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
-            System.Diagnostics.Debug.WriteLine("Resized Form.");
-            
-            frm.Activate();
-            System.Diagnostics.Debug.WriteLine("Activated Form.");
 
-            System.Threading.Thread.Sleep(1000);
-            System.Diagnostics.Debug.WriteLine("Sleeping.");
+            //frm.Location = System.Drawing.Point.Empty;
+            //frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
+            //frm.Activate();
 
-            if (oldForm != null)
-                oldForm.Dispose();
-            System.Diagnostics.Debug.WriteLine("Disposed of old form.");
 
             Core.IsActive = true;
         }
 
+
         private void CreateBackBuffer()
         {
-            SwapChain oldChain = mSwap;
             if (mBackBuffer != null)
                 mBackBuffer.Dispose();
+            if (mSwap != null)
+                mSwap.Dispose(); 
 
             mSwap = mDisplay.CreateSwapChain(this, mChooseWidth, mChooseHeight,
                 mChooseBitDepth, mChooseFullscreen);
-
             mBackBuffer = mSwap.GetBackBuffer(0, BackBufferType.Mono);
 
-            if (oldChain != null)
-                oldChain.Dispose(); 
         }
 
 
@@ -382,32 +399,6 @@ namespace ERY.AgateLib.MDX
         {
             get { return mIsFullscreen; }
         }
-        /*
-        public override void ToggleFullScreen()
-        {
-            Keyboard.ReleaseAllKeys(true);
-
-            bool wasFullscreen = IsFullScreen;
-            Size size = new Size( frm.ClientSize);
-
-            mChooseFullscreen = !mChooseFullscreen;
-
-            OnResize();
-
-
-            mIsFullscreen = !mSwap.PresentParameters.Windowed;
-
-
-        }
-        public override void ToggleFullScreen(int width, int height, int bpp)
-        {
-            mChooseWidth = width;
-            mChooseHeight = height;
-            mChooseBitDepth = bpp;
-
-            ToggleFullScreen();
-        }
-        */
 
         public override void SetFullScreen()
         {
@@ -418,6 +409,8 @@ namespace ERY.AgateLib.MDX
             if (frm == null)
                 throw new InvalidOperationException("This DisplayWindow was created on a " +
                     "System.Windows.Forms.Control object, and cannot be set to full screen.");
+
+            //return;
 
             ScreenMode mode = ScreenMode.SelectBestMode(width, height, bpp);
 
@@ -431,6 +424,8 @@ namespace ERY.AgateLib.MDX
             mChooseFullscreen = true;
 
             CreateFullScreenDisplay();
+            Keyboard.ReleaseAllKeys();
+
         }
 
         public override void SetWindowed()
@@ -453,18 +448,12 @@ namespace ERY.AgateLib.MDX
 
             //try
             //{
-                //mSwap.Present(Present.DoNotWait);
-
-                if (mDisplay.VSync == false)
-                {
-                    mSwap.PresentParameters.PresentationInterval = PresentInterval.Immediate;
-                    mSwap.Present();
-                }
-                else
-                {
-                    mSwap.PresentParameters.PresentationInterval = PresentInterval.One;
-                    mSwap.Present();
-                }
+            try
+            {
+                mSwap.Present();
+            }
+            catch (DeviceLostException)
+            { }
 
             //}
             ////catch (Exception e)
