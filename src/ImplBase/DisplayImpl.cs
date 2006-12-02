@@ -111,8 +111,10 @@ namespace ERY.AgateLib.ImplBase
         /// </summary>
         /// <param name="fontFamily"></param>
         /// <param name="sizeInPoints"></param>
+        /// <param name="style"></param>
         /// <returns></returns>
-        public abstract FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints);
+        public abstract FontSurfaceImpl CreateFont(string fontFamily, 
+            float sizeInPoints, FontStyle style);
 
 
         /// <summary>

@@ -30,9 +30,20 @@ namespace ERY.AgateLib.SystemDrawing
     {
         Font mFont;
 
-        public Drawing_FontSurface(  string fontFamily, float sizeInPoints)
+        public Drawing_FontSurface(string fontFamily, float sizeInPoints, FontStyle style)
         {
-            mFont = new Font(fontFamily, sizeInPoints);
+            System.Drawing.FontStyle drawingStyle = System.Drawing.FontStyle.Regular;
+
+            if ((style & FontStyle.Bold) > 0)
+                drawingStyle |= System.Drawing.FontStyle.Bold;
+            if ((style & FontStyle.Italic) > 0)
+                drawingStyle |= System.Drawing.FontStyle.Italic;
+            if ((style & FontStyle.Strikeout) > 0)
+                drawingStyle |= System.Drawing.FontStyle.Strikeout;
+            if ((style & FontStyle.Underline) > 0)
+                drawingStyle |= System.Drawing.FontStyle.Underline;
+
+            mFont = new Font(fontFamily, sizeInPoints, drawingStyle);
         }
         public override void Dispose()
         {

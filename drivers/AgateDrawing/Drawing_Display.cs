@@ -103,9 +103,9 @@ namespace ERY.AgateLib.SystemDrawing
         {
             return new Drawing_DisplayWindow(renderTarget);
         }
-        public override FontSurfaceImpl CreateFont(  string fontFamily, float sizeInPoints)
+        public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyle style)
         {
-            return new Drawing_FontSurface( fontFamily, sizeInPoints);
+            return new Drawing_FontSurface(fontFamily, sizeInPoints, style);
         }
 
         #endregion 

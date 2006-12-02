@@ -11,7 +11,7 @@ namespace ERY.AgateLib.Utility
     /// <summary>
     /// A generic render target control for AgateLib to render to.
     /// </summary>
-    public partial class AgateRenderTarget : UserControl
+    public partial class AgateRenderTarget : Panel
     {
         /// <summary>
         /// Constructs an AgateRenderTarget.
@@ -26,6 +26,11 @@ namespace ERY.AgateLib.Utility
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Overrides the base class OnPaint method, to clear the
+        /// client area in the Visual Studio designer.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
             if (Display.Impl == null)

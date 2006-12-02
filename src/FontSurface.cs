@@ -25,9 +25,41 @@ using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib
 {
+    /// <summary>
+    /// Enumeration which allows selection of font styles when creating
+    /// a font from the OS.  This enum has the FlagsAttribute, so its members
+    /// can be combined in a bitwise fashion.
+    /// </summary>
+    [Flags]
+    public enum FontStyle
+    {
+        /// <summary>
+        /// No style is applied.
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// Make the font bold.
+        /// </summary>
+        Bold = 1,
+        /// <summary>
+        /// Use italics.
+        /// </summary>
+        Italic = 2,
+        /// <summary>
+        /// Strikeout through the font glyphs.
+        /// </summary>
+        Strikeout = 4,
+        /// <summary>
+        /// Underline beneath the glyps.
+        /// </summary>
+        Underline = 8,
+    }
 
     /// <summary>
-    /// Class which represents a Font to draw on the screen.
+    /// Class which represents a font to draw on the screen.
+    /// <remarks>When creating a FontSurface, if you are going to be
+    /// scaling the font, it usually looks much better to make a large font
+    /// and scale it to a smaller size, rather than vice-versa.</remarks>
     /// </summary>
     public class FontSurface : IDisposable
     {
@@ -40,8 +72,18 @@ namespace ERY.AgateLib
         /// <param name="fontFamily"></param>
         /// <param name="sizeInPoints"></param>
         public FontSurface(string fontFamily, float sizeInPoints)
+            : this(fontFamily, sizeInPoints, FontStyle.None)
+        {        }
+
+        /// <summary>
+        /// Creates a FontSurface object from the given fontFamily.
+        /// </summary>
+        /// <param name="fontFamily"></param>
+        /// <param name="sizeInPoints"></param>
+        /// <param name="style"></param>
+        public FontSurface(string fontFamily, float sizeInPoints, FontStyle style)
         {
-            impl = Display.Impl.CreateFont(fontFamily, sizeInPoints);
+            impl = Display.Impl.CreateFont(fontFamily, sizeInPoints, style);
 
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
         }
@@ -79,7 +121,19 @@ namespace ERY.AgateLib
         /// <returns></returns>
         public static FontSurface BitmapFont(string fontFamily, float sizeInPoints)
         {
-            FontSurfaceImpl impl = BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints);
+            return BitmapFont(fontFamily, sizeInPoints, FontStyle.None);
+        }
+        /// <summary>
+        /// This function creates a font from the specified font family by loading it
+        /// with System.Drawing and creating a texture from the characters.
+        /// </summary>
+        /// <param name="fontFamily"></param>
+        /// <param name="sizeInPoints"></param>
+        /// <param name="style"></param>
+        /// <returns></returns>
+        public static FontSurface BitmapFont(string fontFamily, float sizeInPoints, FontStyle style)
+        {
+            FontSurfaceImpl impl = BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints, style);
 
             return new FontSurface(impl);
         }
