@@ -37,8 +37,6 @@ public static class BoardDAL
 
         DbConnection connection = get_connection();
         
-        DbCommand max_position_cmd = new DbCommand("SELECT MAX([position]) FROM " + table_name, connection);
-
         String insert_query_string = "INSERT INTO " + table_name +
             " (name, [position], creation_date, parent_id, description)" +
             " Values(?,?,?,?,?)";
@@ -49,16 +47,9 @@ public static class BoardDAL
         try
         {
             connection.Open();
-            reader = max_position_cmd.ExecuteReader();
 
-            // If there are no Boards in the table, this will be incremented to 0.
-            int max_position = -1;
-
-            if (reader.Read() && !reader.IsDBNull(0))
-            {
-                //TODO: verify actual bit size of OleDb.Integer
-                max_position = reader.GetInt32(0);
-            }
+            // max position within category.  returns -1 if category is empty
+            int max_position = BoardDAL.MaxPosition( parent_id );
 
             DbCommand cmd = new DbCommand(insert_query_string, connection);
             cmd.Parameters.Add("@name", DbType.WChar, max_name_length).Value = name;
@@ -80,13 +71,17 @@ public static class BoardDAL
         }
     }
 
-
+    // TODO: GENERICIZE check_board_id
     public static void Delete(int board_id)
     {
+        check_board_id(board_id);
+
         if (!BoardDAL.Exists(board_id))
             throw new System.ArgumentException("Attempt to delete a Board that does not exist.");
 
-        ActAsList board_list = new ActAsList(BoardDAL.DataSet(), table_name);
+        int parent_id = GetParentID(board_id);
+
+        ActAsList board_list = new ActAsList(BoardDAL.DataSet(parent_id), table_name);
 
         // Create an explicit UPDATE command
         DbDataAdapter da = new DbDataAdapter();
@@ -99,6 +94,42 @@ public static class BoardDAL
 
         row.Delete();
         da.Update(board_list.DataSet.Tables[table_name].GetChanges());
+    }
+
+
+    // this should probably be transacted
+    public static bool DeleteAllByParentID( int parent_id )
+    {
+        check_parent_id(parent_id);
+
+        if( !CategoryDAL.Exists( parent_id) )
+            throw new System.ArgumentException("Attempt to delete by parent id with invalid parent id");
+
+        DbCommand cmd = new DbCommand();
+        cmd.CommandText =
+            "DELETE FROM " + table_name +
+            " WHERE parent_id = ?";
+
+        // Bind parameters to appropriate columns for DELETE command
+        cmd.Parameters.Add("@id", DbType.Integer).Value = parent_id;
+
+        cmd.Connection = get_connection();
+
+        try
+        {
+            cmd.Connection.Open();
+            cmd.ExecuteNonQuery();
+
+            return true;
+        }
+        catch (DbException e)
+        {
+            throw;
+        }
+        finally
+        {
+            cmd.Connection.Close();
+        }
     }
 
 
@@ -147,10 +178,14 @@ public static class BoardDAL
 
     public static void MoveToTop(int primary_id)
     {
+        check_board_id(primary_id);
+
         if (!BoardDAL.Exists(primary_id))
             throw new System.ArgumentException("Attempt to change the position of a category that does not exist.");
 
-        ActAsList board_list = new ActAsList(BoardDAL.DataSet(), table_name);
+        int parent_id = GetParentID(primary_id);
+
+        ActAsList board_list = new ActAsList(BoardDAL.DataSet(parent_id), table_name);
         board_list.MoveToTop(primary_id);
 
         DbCommand update_cmd = new DbCommand();
@@ -175,10 +210,14 @@ public static class BoardDAL
 
     public static void MoveToBottom(int primary_id)
     {
+        check_board_id(primary_id);
+
         if (!BoardDAL.Exists(primary_id))
             throw new System.ArgumentException("Attempt to change the position of a Board that does not exist.");
 
-        ActAsList board_list = new ActAsList(BoardDAL.DataSet(), table_name);
+        int parent_id = GetParentID(primary_id);
+
+        ActAsList board_list = new ActAsList(BoardDAL.DataSet(parent_id), table_name);
         board_list.MoveToBottom(primary_id);
 
         DbCommand update_cmd = new DbCommand();
@@ -203,10 +242,14 @@ public static class BoardDAL
 
     public static void MoveUp(int primary_id)
     {
+        check_board_id(primary_id);
+
         if (!BoardDAL.Exists(primary_id))
             throw new System.ArgumentException("Attempt to change the position of a Board that does not exist.");
 
-        ActAsList board_list = new ActAsList(BoardDAL.DataSet(), table_name);
+        int parent_id = GetParentID(primary_id);
+
+        ActAsList board_list = new ActAsList(BoardDAL.DataSet(parent_id), table_name);
         board_list.MoveUp(primary_id);
 
         DbCommand update_cmd = new DbCommand();
@@ -230,10 +273,14 @@ public static class BoardDAL
 
     public static void MoveDown(int primary_id)
     {
+        check_board_id(primary_id);
+
         if (!BoardDAL.Exists(primary_id))
             throw new System.ArgumentException("Attempt to change the position of a Board that does not exist.");
 
-        ActAsList board_list = new ActAsList(BoardDAL.DataSet(), table_name);
+        int parent_id = GetParentID(primary_id);
+
+        ActAsList board_list = new ActAsList(BoardDAL.DataSet(parent_id), table_name);
         board_list.MoveDown(primary_id);
 
         DbCommand update_cmd = new DbCommand();
@@ -265,6 +312,8 @@ public static class BoardDAL
 
     public static DataRow GetRowByID(int row_id)
     {
+        //int parent_id = GetParentID(row_id);
+
         DataRow[] rows_with_id = DataSet().Tables[table_name].Select("id = '" + row_id.ToString() + "'");
 
         if (rows_with_id.Length == 1)
@@ -288,7 +337,8 @@ public static class BoardDAL
     }
 
 
-    public static DataSet DataSet()
+    // pulls in the entire table
+    private static DataSet DataSet()
     {
         DbConnection connection = get_connection();
 
@@ -314,17 +364,16 @@ public static class BoardDAL
     }
 
 
+
     public static DataSet DataSet(int parent_id)
     {
         DbConnection connection = get_connection();
 
         String sql = "SELECT * from " + table_name + " WHERE parent_id = " + parent_id.ToString();
 
-
         DbDataAdapter da = new DbDataAdapter(sql, connection);
 
         DataSet ds = new DataSet();
-
 
 
         try
@@ -342,7 +391,85 @@ public static class BoardDAL
         {
             connection.Close();
         }
+    }
 
+
+
+
+
+
+
+
+
+    // throws an exception if 
+    private static int GetParentID(int board_id)
+    {
+        check_board_id(board_id);
+        DbConnection connection = get_connection();
+        
+        String sql = "SELECT parent_id FROM " + table_name + " WHERE id = " + board_id.ToString();
+        DbCommand cmd = new DbCommand(sql, connection);
+
+        DataSet ds = new DataSet();
+
+        try
+        {
+            connection.Open();
+            DbDataReader reader = cmd.ExecuteReader();
+
+            int parent_id = -1;
+            if ( reader.Read() && !reader.IsDBNull(0))
+            {
+                //TODO: verify actual bit size of OleDb.Integer
+                parent_id = reader.GetInt32(0);
+                check_parent_id(parent_id);
+
+                return parent_id;
+            }
+            else
+                throw new System.ApplicationException("Entry in Boards has no parent ID");
+        }
+        catch (DbException e)
+        {
+            throw;
+        }
+        finally
+        {
+            connection.Close();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // returns -1 for no max position
+    private static int MaxPosition(int parent_id)
+    {
+        DataSet ds = BoardDAL.DataSet(parent_id);
+
+        int max = -1;
+        int tmp = -1;
+        foreach (DataRow row in ds.Tables[table_name].Rows)
+        {
+            tmp = (int)row["position"];
+            if (tmp > max)
+                max = tmp;
+        }
+
+        return max;
     }
 
     
@@ -386,6 +513,18 @@ public static class BoardDAL
             throw new System.ArgumentException("Parent ID is negative");
         }
     }
+
+    private static void check_board_id(int board_id)
+    {
+        if (board_id < 0)
+            throw new System.ArgumentException("Parent ID is negative");
+
+        if (!BoardDAL.Exists(board_id))
+            throw new System.ArgumentException("Parent does not exist");
+    }
+        
+        
+
 
 
     private static DbCommand update_command_for_delete_operation()

@@ -142,8 +142,11 @@ public static class CategoryDAL
         category_list.MoveToBottom(row_id);
         DataRow row = category_list.GetRowByID(row_id);
 
-        row.Delete();
-        da.Update(category_list.DataSet.Tables["ForumCategories"].GetChanges());
+        if( BoardDAL.DeleteAllByParentID( row_id ) )
+        {
+            row.Delete();
+            da.Update(category_list.DataSet.Tables["ForumCategories"].GetChanges());
+        }
     }
 
 
