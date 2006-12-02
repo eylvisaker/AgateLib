@@ -34,6 +34,7 @@ using DbDataAdapter = System.Data.OleDb.OleDbDataAdapter;
 public static class CategoryDAL
 {
     private static int max_name_length = 50;
+    private static String table_name = "ForumCategories";
 
     //TODO: Implement roles based authority
     //PRECONDITIONS:
@@ -50,9 +51,9 @@ public static class CategoryDAL
         }
 
 
-        DbCommand max_position_cmd = new DbCommand("SELECT MAX([Position]) FROM ForumCategories", connection);
+        DbCommand max_position_cmd = new DbCommand("SELECT MAX([Position]) FROM " + table_name, connection);
 
-        String insert_query_string = "INSERT INTO ForumCategories " +
+        String insert_query_string = "INSERT INTO " + table_name +
             " (Name, [Position], CreationDate)" +
             " Values(?,?,?)";
 
@@ -101,9 +102,9 @@ public static class CategoryDAL
 
         DbCommand update_cmd = new DbCommand();
         update_cmd.CommandText =
-            "UPDATE ForumCategories " +
-            "SET Name = ?" +
-            "WHERE id = ?";
+            "UPDATE " + table_name +
+            " SET Name = ?" +
+            " WHERE id = ?";
 
         update_cmd.Parameters.Add("@Name", DbType.WChar, max_name_length).Value = name;
         update_cmd.Parameters.Add("@id", DbType.Integer, 0).Value = primary_id;
@@ -131,7 +132,7 @@ public static class CategoryDAL
         if (!CategoryDAL.Exists(row_id))
             throw new System.ArgumentException("Attempt to delete a category that does not exist.");
 
-        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), "ForumCategories");
+        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
 
         // Create an explicit UPDATE command
         DbDataAdapter da = new DbDataAdapter();
@@ -145,7 +146,7 @@ public static class CategoryDAL
         if( BoardDAL.DeleteAllByParentID( row_id ) )
         {
             row.Delete();
-            da.Update(category_list.DataSet.Tables["ForumCategories"].GetChanges());
+            da.Update(category_list.DataSet.Tables[table_name].GetChanges());
         }
     }
 
@@ -155,14 +156,14 @@ public static class CategoryDAL
         if (!CategoryDAL.Exists(primary_id))
             throw new System.ArgumentException("Attempt to change the position of a category that does not exist.");
 
-        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), "ForumCategories");
+        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
         category_list.MoveToTop(primary_id);
 
         DbCommand update_cmd = new DbCommand();
         update_cmd.CommandText =
-            "UPDATE ForumCategories " +
-            "SET [Position] = ?" +
-            "WHERE id = ?";
+            "UPDATE " + table_name +
+            " SET [Position] = ?" +
+            " WHERE id = ?";
 
         update_cmd.Parameters.Add("@Position", DbType.Integer, 0, "position");
         update_cmd.Parameters.Add("@id", DbType.Integer, 0, "id");
@@ -171,7 +172,7 @@ public static class CategoryDAL
         DbDataAdapter da = new DbDataAdapter();
         da.UpdateCommand = update_cmd;
 
-        DataTable table = category_list.DataSet.Tables["ForumCategories"].GetChanges();
+        DataTable table = category_list.DataSet.Tables[table_name].GetChanges();
 
         if( table != null )
             da.Update( table );
@@ -185,14 +186,14 @@ public static class CategoryDAL
         if (!CategoryDAL.Exists(primary_id))
             throw new System.ArgumentException("Attempt to change the position of a category that does not exist.");
 
-        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), "ForumCategories");
+        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
         category_list.MoveToBottom(primary_id);
 
         DbCommand update_cmd = new DbCommand();
         update_cmd.CommandText =
-            "UPDATE ForumCategories " +
-            "SET [Position] = ?" +
-            "WHERE id = ?";
+            "UPDATE " + table_name +
+            " SET [Position] = ?" +
+            " WHERE id = ?";
 
         update_cmd.Parameters.Add("@Position", DbType.Integer, 0, "position");
         update_cmd.Parameters.Add("@id", DbType.Integer, 0, "id");
@@ -201,25 +202,26 @@ public static class CategoryDAL
         DbDataAdapter da = new DbDataAdapter();
         da.UpdateCommand = update_cmd;
 
-        DataTable table = category_list.DataSet.Tables["ForumCategories"].GetChanges();
+        DataTable table = category_list.DataSet.Tables[table_name].GetChanges();
 
         if (table != null)
             da.Update(table);
     }
+
 
     public static void MoveUp(int primary_id)
     {
         if (!CategoryDAL.Exists(primary_id))
             throw new System.ArgumentException("Attempt to change the position of a category that does not exist.");
 
-        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), "ForumCategories");
+        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
         category_list.MoveUp(primary_id);
 
         DbCommand update_cmd = new DbCommand();
         update_cmd.CommandText =
-            "UPDATE ForumCategories " +
-            "SET [Position] = ?" +
-            "WHERE id = ?";
+            "UPDATE " + table_name +
+            " SET [Position] = ?" +
+            " WHERE id = ?";
 
         update_cmd.Parameters.Add("@Position", DbType.Integer, 0, "position");
         update_cmd.Parameters.Add("@id", DbType.Integer, 0, "id");
@@ -228,7 +230,7 @@ public static class CategoryDAL
         DbDataAdapter da = new DbDataAdapter();
         da.UpdateCommand = update_cmd;
 
-        DataTable table = category_list.DataSet.Tables["ForumCategories"].GetChanges();
+        DataTable table = category_list.DataSet.Tables[table_name].GetChanges();
 
         if (table != null)
             da.Update(table);
@@ -236,19 +238,20 @@ public static class CategoryDAL
 
     }
 
+
     public static void MoveDown(int primary_id)
     {
         if (!CategoryDAL.Exists(primary_id))
             throw new System.ArgumentException("Attempt to change the position of a category that does not exist.");
 
-        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), "ForumCategories");
+        ActAsList category_list = new ActAsList(CategoryDAL.DataSet(), table_name);
         category_list.MoveDown(primary_id);
 
         DbCommand update_cmd = new DbCommand();
         update_cmd.CommandText =
-            "UPDATE ForumCategories " +
-            "SET [Position] = ?" +
-            "WHERE id = ?";
+            "UPDATE " + table_name +
+            " SET [Position] = ?" +
+            " WHERE id = ?";
 
         update_cmd.Parameters.Add("@Position", DbType.Integer, 0, "position");
         update_cmd.Parameters.Add("@id", DbType.Integer, 0, "id");
@@ -257,7 +260,7 @@ public static class CategoryDAL
         DbDataAdapter da = new DbDataAdapter();
         da.UpdateCommand = update_cmd;
 
-        DataTable table = category_list.DataSet.Tables["ForumCategories"].GetChanges();
+        DataTable table = category_list.DataSet.Tables[table_name].GetChanges();
 
         if (table != null)
             da.Update(table);
@@ -271,14 +274,14 @@ public static class CategoryDAL
     {
         DbConnection connection = get_connection();
 
-        String sql = "SELECT * from ForumCategories";
+        String sql = "SELECT * from " + table_name;
         DbDataAdapter da = new DbDataAdapter(sql, connection);
 
         DataSet ds = new DataSet();
         try
         {
             connection.Open();
-            da.Fill(ds, "ForumCategories");
+            da.Fill(ds, table_name);
 
             return ds;
         }
@@ -292,9 +295,10 @@ public static class CategoryDAL
         }
     }
 
+
     public static DataRow GetRowByID(int row_id)
     {
-        DataRow[] rows_with_id = DataSet().Tables["ForumCategories"].Select("id = '" + row_id.ToString() + "'");
+        DataRow[] rows_with_id = DataSet().Tables[table_name].Select("id = '" + row_id.ToString() + "'");
 
         if (rows_with_id.Length == 1)
         {
@@ -325,9 +329,9 @@ public static class CategoryDAL
     {
         DbCommand cmd = new DbCommand();
         cmd.CommandText =
-            "UPDATE ForumCategories " +
-            "SET Name = ?, [Position] = ?" +
-            "WHERE id = ?";
+            "UPDATE " + table_name +
+            " SET Name = ?, [Position] = ?" +
+            " WHERE id = ?";
 
         // SET Name = ?, [Position] = ?, CreationDate = ?"
         cmd.Parameters.Add("@Name", DbType.WChar, 50, "Name");
@@ -345,8 +349,8 @@ public static class CategoryDAL
     {
         DbCommand cmd = new DbCommand();
         cmd.CommandText =
-            "DELETE FROM ForumCategories " +
-            "WHERE id = ?";
+            "DELETE FROM " + table_name +
+            " WHERE id = ?";
 
         // Bind parameters to appropriate columns for DELETE command
         cmd.Parameters.Add("@id", DbType.Integer, 0, "id");
