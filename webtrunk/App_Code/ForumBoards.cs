@@ -1,3 +1,5 @@
+//TODO: deleting of children, etc should be transacted in some way.
+
 using System;
 using System.Data;
 using System.Configuration;
@@ -85,6 +87,7 @@ public static class BoardDAL
         }
     }
 
+
     /// <summary>
     ///  Delete a single board from the table
     /// </summary>
@@ -117,8 +120,11 @@ public static class BoardDAL
         
         DataRow row = board_list.GetRowByID(board_id);
 
-        row.Delete();
-        da.Update(board_list.DataSet.Tables[table_name].GetChanges());
+        if (ThreadDAL.DeleteAllByParentID(board_id))
+        {
+            row.Delete();
+            da.Update(board_list.DataSet.Tables[table_name].GetChanges());
+        }
     }
 
 
@@ -139,19 +145,27 @@ public static class BoardDAL
          * - open connection, execute query, then close connection
          */
 
-        DbCommand cmd = new DbCommand();
-        cmd.CommandText =
+        DbCommand delete_cmd = new DbCommand();
+        delete_cmd.CommandText =
             "DELETE FROM " + table_name +
             " WHERE parent_id = ?";
 
-        cmd.Parameters.Add("@id", DbType.Integer).Value = parent_id;
+        delete_cmd.Parameters.Add("@id", DbType.Integer).Value = parent_id;
 
-        cmd.Connection = get_connection();
+        delete_cmd.Connection = get_connection();
+
+        DataSet ds = BoardDAL.DataSet(parent_id);
+
+        // delete all children
+        foreach (DataRow row in ds.Tables[table_name].Rows)
+        {
+            ThreadDAL.DeleteAllByParentID((int)row["id"]);
+        }
 
         try
         {
-            cmd.Connection.Open();
-            cmd.ExecuteNonQuery();
+            delete_cmd.Connection.Open();
+            delete_cmd.ExecuteNonQuery();
 
             return true;
         }
@@ -161,7 +175,7 @@ public static class BoardDAL
         }
         finally
         {
-            cmd.Connection.Close();
+            delete_cmd.Connection.Close();
         }
     }
 
