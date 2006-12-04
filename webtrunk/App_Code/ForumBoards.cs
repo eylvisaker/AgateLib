@@ -59,7 +59,6 @@ public static class BoardDAL
             " (name, [position], creation_date, parent_id, description)" +
             " Values(?,?,?,?,?)";
 
-        DbDataReader reader = null;
 
         // Open connection, query for the max position, update db with new Board of position + 1
         try

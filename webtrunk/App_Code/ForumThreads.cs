@@ -26,7 +26,14 @@ public static class ThreadDAL
     private static int max_priority_length = 3;
     private static string table_name = "ForumThreads";
 
-
+    /// <summary>
+    /// Insert a new thread
+    /// </summary>
+    /// <param name="parent_id"></param>
+    /// <param name="user_id"></param>
+    /// <param name="icon_index"></param>
+    /// <param name="priority"></param>
+    /// <param name="type"></param>
     public static void Insert(int parent_id, int user_id, int icon_index, String priority, String type)
     {
         priority = priority.ToUpper();
@@ -56,7 +63,7 @@ public static class ThreadDAL
             " (parent_id, user_id, icon_index, creation_date, priority, type)" +
             " Values(?,?,?,?,?,?)";
 
-        DbDataReader reader = null;
+        //DbDataReader reader = null;
 
         try
         {
@@ -86,11 +93,11 @@ public static class ThreadDAL
     /// <summary>
     ///  Delete a single thread from the table
     /// </summary>
-    /// <param name="board_id">primary key for the board</param>
+    /// <param name="thread_id">primary key for the thread</param>
     public static void Delete(int thread_id)
     {
         if (!validate_thread_id(thread_id))
-            throw new System.ArgumentException(thread_id.ToString() + " is an Invalid Board ID");
+            throw new System.ArgumentException(thread_id.ToString() + " is an Invalid Thread ID");
         /////////////////////////////////////////////////////////////////////////////////////////
 
         /* - create delete command, set command text, bind parameters, & set connection
@@ -163,12 +170,14 @@ public static class ThreadDAL
 
 
     /// <summary>
-    ///  Update a boards name, parent id, & description
+    /// Update a thread
     /// </summary>
-    /// <param name="board_id"></param>
-    /// <param name="name"></param>
-    /// <param name="parent_id"> primary id of category</param>
-    /// <param name="description"></param>
+    /// <param name="thread_id"></param>
+    /// <param name="parent_id"></param>
+    /// <param name="user_id"></param>
+    /// <param name="icon_index"></param>
+    /// <param name="priority"></param>
+    /// <param name="type"></param>
     public static void Update(int thread_id, int parent_id, int user_id, int icon_index, String priority, String type)
     {
         priority = priority.ToUpper();
@@ -196,12 +205,6 @@ public static class ThreadDAL
          * - set command connection
          * - open connection, execute query, close connection
          */
-
-        String insert_query_string = "INSERT INTO " + table_name +
-    " (parent_id, user_id, icon_index, creation_date, priority, type)" +
-    " Values(?,?,?,?,?,?)";
-
-
 
         DbCommand update_cmd = new DbCommand();
         update_cmd.CommandText =
@@ -289,7 +292,6 @@ public static class ThreadDAL
          * - open connection, execute reader
          * - if reader successfully executed, return true;
          */
-        bool exists = false;
         try
         {
             connection.Open();
@@ -380,7 +382,7 @@ public static class ThreadDAL
     /// <remarks>
     /// thread_id must be >= 0 and it must exist in the ForumThreads table
     /// </remarks>
-    /// <param name="board_id"></param>
+    /// <param name="thread_id"></param>
     /// <returns></returns>
     private static bool validate_thread_id(int thread_id)
     {
