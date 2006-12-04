@@ -116,6 +116,8 @@ public static class ThreadDAL
 
         try
         {
+            PostDAL.DeleteAllByParentID(thread_id);
+
             delete_cmd.Connection.Open();
             delete_cmd.ExecuteNonQuery();
         }
@@ -150,6 +152,14 @@ public static class ThreadDAL
         cmd.Parameters.Add("@id", DbType.Integer).Value = parent_id;
 
         cmd.Connection = get_connection();
+
+        DataSet ds = ThreadDAL.DataSet(parent_id);
+
+        // delete all children
+        foreach (DataRow row in ds.Tables[table_name].Rows)
+        {
+            PostDAL.DeleteAllByParentID((int)row["id"]);
+        }
 
         try
         {
