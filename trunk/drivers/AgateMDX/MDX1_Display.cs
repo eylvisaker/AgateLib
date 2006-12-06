@@ -279,6 +279,7 @@ namespace ERY.AgateLib.MDX
             mDevice.Device.Viewport = view;
             mCurrentClipRect = newClipRect;
 
+            
         }
         public override void PushClipRect(Rectangle newClipRect)
         {
