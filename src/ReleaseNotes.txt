@@ -47,6 +47,11 @@ Known Issues:
 the pixels are copied to the surface.
 * Mono on Windows is not supported.  It hasn't been tested, so I have no idea if it works or not.
 
+Thanks to:
+* Apviper, for his diligent testing efforts when I was trying to figure out how to get this to work on other machines
+* Skel1 for writing Ball: Buster in C++ in the first place and introducing me to ClanLib.
+* Ravuya for help with making Agate work on Mac OS X.
+
 AgateLib 0.2.1  Release Notes
 ======================================
 
