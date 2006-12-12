@@ -183,6 +183,7 @@ namespace ERY.AgateLib
                 return impl.IsClosed;
             }
         }
+        // \deprecated
         /// <summary>
         /// OBSOLETE: Use IsClosed property instead. 
         /// <para>
