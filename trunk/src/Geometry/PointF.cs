@@ -63,6 +63,9 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Constructs a PointF object.
         /// </summary>
+        /// <remarks>
+        /// [Experimental - The API is likely to change in the future.]
+        /// </remarks>
         /// <param name="pt"></param>
         public PointF(System.Drawing.PointF pt)
         {

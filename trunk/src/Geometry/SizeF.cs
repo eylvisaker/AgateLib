@@ -42,6 +42,9 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Constructs a SizeF structure.
         /// </summary>
+        /// <remarks>
+        /// [Experimental - The API is likely to change in the future.]
+        /// </remarks>
         /// <param name="size"></param>
         public SizeF(System.Drawing.SizeF size)
         {

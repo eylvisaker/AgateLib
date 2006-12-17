@@ -50,7 +50,7 @@ namespace ERY.AgateLib
         /// </summary>
         Strikeout = 4,
         /// <summary>
-        /// Underline beneath the glyps.
+        /// Underline beneath the glyphs.
         /// </summary>
         Underline = 8,
     }
@@ -102,6 +102,9 @@ namespace ERY.AgateLib
         /// Only the character size is given.  It is assumed that all ASCII characters 
         /// from 0 to 255 are present, in order from left to right, and top to bottom.
         /// </summary>
+        /// <remarks>
+        /// [Experimental - The API is likely to change in the future.]
+        /// </remarks>
         /// <param name="filename"></param>
         /// <param name="characterSize"></param>
         /// <returns></returns>
@@ -116,6 +119,9 @@ namespace ERY.AgateLib
         /// This function creates a font from the specified font family by loading it
         /// with System.Drawing and creating a texture from the characters.
         /// </summary>
+        /// <remarks>
+        /// [Experimental - The API is likely to change in the future.]
+        /// </remarks>
         /// <param name="fontFamily"></param>
         /// <param name="sizeInPoints"></param>
         /// <returns></returns>
@@ -127,6 +133,9 @@ namespace ERY.AgateLib
         /// This function creates a font from the specified font family by loading it
         /// with System.Drawing and creating a texture from the characters.
         /// </summary>
+        /// <remarks>
+        /// [Experimental - The API is likely to change in the future.]
+        /// </remarks>
         /// <param name="fontFamily"></param>
         /// <param name="sizeInPoints"></param>
         /// <param name="style"></param>

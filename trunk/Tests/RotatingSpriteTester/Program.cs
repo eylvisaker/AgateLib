@@ -33,7 +33,7 @@ namespace RotatingSpriteTester
                 sp.RotationAngleDegrees = 90;
                 sp.SetScale(2, 2);
 
-                while (wind.Closed == false)
+                while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();
                     Display.Clear(Color.Black);

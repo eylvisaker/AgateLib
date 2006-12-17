@@ -424,12 +424,15 @@ namespace ERY.AgateLib
         /// Sets the orthogonal projection for rendering.  This allows redefinition of the
         /// coordinates used to address pixels in the window.  
         /// </summary>
-        /// <remarks>Normally, the orthogonal projection used is 
+        /// <remarks>
+        /// [Experimental - This member is not fully tested and may have bugs.
+        /// The API is also likely to change in the future.]
+        /// <para>Normally, the orthogonal projection used is 
         /// set to (left, top) = (0,0), (right,bottom) = (RenderTarget.Width, RenderTarget.Height).
         /// This function provides a handy way to program an application for multiple resolutions.
         /// For example, if you set the OrthoProjection to (0,0,640,480), then all drawing calls
         /// can be made as if you were drawing to a 640x480 window, but they would be scaled to fill
-        /// the entire window.
+        /// the entire window.</para>
         /// </remarks>
         /// <param name="left"></param>
         /// <param name="top"></param>
@@ -443,12 +446,15 @@ namespace ERY.AgateLib
         /// Sets the orthogonal projection for rendering.  This allows redefinition of the
         /// coordinates used to address pixels in the window.  
         /// </summary>
-        /// <remarks>Normally, the orthogonal projection used is 
+        /// <remarks>
+        /// [Experimental - This member is not fully tested and may have bugs.
+        /// The API is also likely to change in the future.]
+        /// <para>Normally, the orthogonal projection used is 
         /// set to (left, top) = (0,0), (right,bottom) = (RenderTarget.Width, RenderTarget.Height).
         /// This function provides a handy way to program an application for multiple resolutions.
         /// For example, if you set the OrthoProjection to (0,0,640,480), then all drawing calls
         /// can be made as if you were drawing to a 640x480 window, but they would be scaled to fill
-        /// the entire window.
+        /// the entire window.</para>
         /// </remarks>
         /// <param name="region"></param>
         public static void SetOrthoProjection(Rectangle region)

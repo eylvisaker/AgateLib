@@ -24,8 +24,15 @@ using System.Windows.Forms;
 
 using ERY.AgateLib.Drivers;
 
-namespace ERY.AgateLib
+namespace ERY.AgateLib.Utility
 {
+    /// <summary>
+    /// A form which is used to ask the user which subsystems to use.
+    /// </summary>
+    /// <remarks>
+    /// [Experimental - This class will be moved to into a different assembly
+    /// in the future.]
+    /// </remarks>
     public partial class SetSystemsForm : Form
     {
         private bool mChooseDisplay, mChooseAudio, mChooseInput;

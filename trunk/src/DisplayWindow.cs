@@ -44,6 +44,9 @@ namespace ERY.AgateLib
         /// object as a render context.  A DisplayWindow made in this manner cannot be made
         /// into a full-screen DisplayWindow.
         /// </summary>
+        /// <remarks>
+        /// [Experimental - The API may be changed in the future.]
+        /// </remarks>
         /// <param name="renderTarget">Windows.Forms control which should be used as the
         /// render target.</param>
         public DisplayWindow(System.Windows.Forms.Control renderTarget)

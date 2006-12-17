@@ -223,7 +223,7 @@ namespace ERY.AgateLib.Drivers
         public static bool UserSelectDrivers(bool chooseDisplay, bool chooseAudio, bool chooseInput,
             out DisplayTypeID selectedDisplay, out AudioTypeID selectedAudio, out InputTypeID selectedInput)
         {
-            SetSystemsForm frm = new SetSystemsForm(chooseDisplay, chooseAudio, chooseInput);
+            Utility.SetSystemsForm frm = new Utility.SetSystemsForm(chooseDisplay, chooseAudio, chooseInput);
             DriverInfo<DisplayTypeID> highestDisplay = null;
             DriverInfo<AudioTypeID> highestAudio = null;
             DriverInfo<InputTypeID> highestInput = null;
