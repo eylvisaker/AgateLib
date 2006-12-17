@@ -45,7 +45,7 @@ namespace FontLineTester
                 //fonts.Add(FontSurface.BitmapMonospace("font.png", new Size(16, 16)));
                 //fonts[1].StringTransformer = StringTransformer.ToUpper;
 
-                while (wind.Closed == false)
+                while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();
                     Display.Clear(Color.Navy);

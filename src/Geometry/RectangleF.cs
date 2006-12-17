@@ -56,6 +56,9 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Constructs a RectangleF.
         /// </summary>
+        /// <remarks>
+        /// [Experimental - The API is likely to change in the future.]
+        /// </remarks>
         /// <param name="rect"></param>
         public RectangleF(System.Drawing.RectangleF rect)
         {

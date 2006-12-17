@@ -27,6 +27,9 @@ namespace ERY.AgateLib.Utility
     /// The object is disposed when the reference count drops to zero.  This class
     /// should not be used directly, instead use the Ref&lt;T&gt; structure.
     /// </summary>
+    /// <remarks>
+    /// [Experimental - This class may disappear in the future.]
+    /// </remarks>
     /// <typeparam name="T"></typeparam>
     public class RefCounter<T> : IDisposable where T : IDisposable  
     {

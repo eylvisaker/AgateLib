@@ -25,6 +25,13 @@ using System.Windows.Forms;
 
 namespace ERY.AgateLib.Utility
 {
+    /// <summary>
+    /// Form which is used fora generic display.
+    /// </summary>
+    /// <remarks>
+    /// [Experimental - This class will be moved to into a different assembly
+    /// in the future.]
+    /// </remarks>
     public partial class DisplayWindowForm : Form
     {
         

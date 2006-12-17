@@ -56,6 +56,9 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Constructs a rectangle.
         /// </summary>
+        /// <remarks>
+        /// [Experimental - The API is likely to change in the future.]
+        /// </remarks>
         /// <param name="rect"></param>
         public Rectangle(System.Drawing.Rectangle rect)
         {

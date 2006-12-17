@@ -11,6 +11,10 @@ namespace ERY.AgateLib.Utility
     /// <summary>
     /// A generic render target control for AgateLib to render to.
     /// </summary>
+    /// <remarks>
+    /// [Experimental - This class will be moved to into a different assembly
+    /// in the future.]
+    /// </remarks>
     public partial class AgateRenderTarget : Panel
     {
         /// <summary>

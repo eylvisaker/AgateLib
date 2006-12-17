@@ -7,6 +7,7 @@ namespace ERY.AgateLib
 {
     /// <summary>
     /// Class which represents a single light source.
+    /// Only point light sources are supported at the moment.
     /// </summary>
     public class Light
     {

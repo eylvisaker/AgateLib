@@ -134,6 +134,11 @@ namespace ERY.AgateLib
         /// a joystick which does nothing. (this is to avoid
         /// NullReferenceExceptions).
         /// </summary>
+        /// <remarks>
+        /// [Experimental - The API may be changed in the future, or this
+        /// feature may be removed.]
+        /// </remarks>
+
         public static int MinJoysticks
         {
             get { return mMinJoysticks; }

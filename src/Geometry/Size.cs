@@ -52,6 +52,9 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Constructs a Size.
         /// </summary>
+        /// <remarks>
+        /// [Experimental - The API is likely to change in the future.]
+        /// </remarks>
         /// <param name="size"></param>
         public Size(System.Drawing.Size size)
         {

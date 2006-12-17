@@ -62,6 +62,9 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Constructs a point.
         /// </summary>
+        /// <remarks>
+        /// [Experimental - The API is likely to change in the future.]
+        /// </remarks>
         /// <param name="pt"></param>
         public Point(System.Drawing.Point pt)
         {

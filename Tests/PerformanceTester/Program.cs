@@ -37,6 +37,8 @@ namespace PerformanceTester
             frmPerformanceTester frm = new frmPerformanceTester();
             frm.Show();
 
+            Display.VSync = false;
+
             foreach (DriverInfo<DisplayTypeID> info in drivers)
             {
                 Console.WriteLine(string.Format("Starting driver {0}...", info.Name));
@@ -48,6 +50,7 @@ namespace PerformanceTester
                 DisplayWindow wind = new DisplayWindow("Performance Test", 300, 300);
                 font = new FontSurface("Arial", 11);
 
+                
                 Trace.WriteLine("Doing Filled Rect test");
                 fps = FilledRectTest() * 1000;
                 Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.Name, fps));
@@ -78,7 +81,7 @@ namespace PerformanceTester
 
                 Trace.Unindent();
 
-                if (Display.CurrentWindow.Closed)
+                if (Display.CurrentWindow.IsClosed)
                 {
                     Display.Dispose();
                     return;
@@ -103,7 +106,7 @@ namespace PerformanceTester
 
             for (frames = 0; frames < totalFrames; frames++)
             {
-                if (Display.CurrentWindow.Closed)
+                if (Display.CurrentWindow.IsClosed)
                     return frames / (double)timer.TotalMilliseconds;
 
                 count = 1 + Math.Cos(frames / 60.0);
@@ -139,7 +142,7 @@ namespace PerformanceTester
                     font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
                 }
 
-                Display.EndFrame(false);
+                Display.EndFrame();
                 Core.KeepAlive();
 
                 if (timer.TotalSeconds > 30)
@@ -160,7 +163,7 @@ namespace PerformanceTester
 
             for (frames = 0; frames < totalFrames; frames++)
             {
-                if (Display.CurrentWindow.Closed)
+                if (Display.CurrentWindow.IsClosed)
                     return frames / (double)timer.TotalMilliseconds;
 
                 count = 1 + Math.Cos(frames / 60.0);
@@ -197,7 +200,7 @@ namespace PerformanceTester
                 } 
                 font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
 
-                Display.EndFrame(false);
+                Display.EndFrame();
                 Core.KeepAlive();
 
                 if (timer.TotalSeconds > 30)
@@ -225,7 +228,7 @@ namespace PerformanceTester
 
             for (frames = 0; frames < totalFrames; frames++)
             {
-                if (Display.CurrentWindow.Closed)
+                if (Display.CurrentWindow.IsClosed)
                     return frames / (double)timer.TotalMilliseconds; 
 
                 rects.Add(CreateRandomRects());
@@ -275,7 +278,7 @@ namespace PerformanceTester
 
             for (frames = 0; frames < totalFrames; frames++)
             {
-                if (Display.CurrentWindow.Closed)
+                if (Display.CurrentWindow.IsClosed)
                     return frames / (double)timer.TotalMilliseconds;
 
                 rects.Add(CreateRandomRects());
@@ -316,7 +319,7 @@ namespace PerformanceTester
 
             for (frames = 0; frames < totalFrames; frames++)
             {
-                if (Display.CurrentWindow.Closed)
+                if (Display.CurrentWindow.IsClosed)
                     return frames / (double)timer.TotalMilliseconds;
 
                 rects.Add(CreateRandomRects());
