@@ -74,9 +74,10 @@ namespace ERY.AgateLib.Drivers
                      Environment.OSVersion.Platform == (PlatformID)128) &&
                     System.IO.Path.GetFileNameWithoutExtension(file).ToLower().Contains("agatemdx"))
                 {
-                    Core.ReportError(new Exception(
-                        "DirectX not supported on Linux.  Remove " + System.IO.Path.GetFileName(file) + 
-                        " to eliminate this message."), ErrorLevel.Comment);
+                    Core.ReportError(ErrorLevel.Comment, 
+                        "DirectX not supported on Linux.  Remove " 
+                        + System.IO.Path.GetFileName(file) + 
+                        " to eliminate this message.", null);
 
                     continue;
                 }
@@ -103,7 +104,7 @@ namespace ERY.AgateLib.Drivers
 
                             if (m == null)
                             {
-                                throw new Exception("Error:  The assembly " + System.IO.Path.GetFileName(file) +
+                                throw new Exception("The assembly " + System.IO.Path.GetFileName(file) +
                                     " has class " + t + " which derives from " + t.BaseType.Name + ", but does not " +
                                     "have a static Register() method!");
                             }
@@ -113,9 +114,25 @@ namespace ERY.AgateLib.Drivers
                         }
                     }
                 }
+                catch (ReflectionTypeLoadException e)
+                {
+                    Core.ReportError(ErrorLevel.Warning,
+                        "An error occured while loading assembly " + file + ".  " +
+                        "The following " + e.LoaderExceptions.Length + " warnings are the LoaderExceptions.",
+                        e);
+
+                    for (int i = 0; i < e.LoaderExceptions.Length; i++)
+                    {
+                        Core.ReportError(ErrorLevel.Warning, 
+                            "LoaderException " + (i+1).ToString(),
+                            e.LoaderExceptions[i]);
+                    }
+
+                    continue;
+                }
                 catch (Exception e)
                 {
-                    Core.ReportError(e, ErrorLevel.Warning);
+                    Core.ReportError(ErrorLevel.Warning, "An error occured while loading assembly " + file + ".",e );
 
                     continue;
                 }
