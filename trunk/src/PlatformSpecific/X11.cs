@@ -50,20 +50,18 @@ namespace ERY.AgateLib.PlatformSpecific
                 {
                     GetXConnection();
 
-                    if (display.Equals(IntPtr.Zero))
+                    if (display.Equals(IntPtr.Zero) && XConnectionMessage == false)
                     {
-                        Core.ReportError(new Exception(
-                            "Could not get connection to the X Server.  Reverting to " +
-                            "platform independent methods."), ErrorLevel.Warning);
+                        Core.ReportError(ErrorLevel.Warning, "Could not get connection to the X Server.  Reverting to " +
+                            "platform independent methods.", null);
 
                         XConnectionMessage = true;
                         return base.IsAppIdle;
                     }
                     else if (XConnectionMessage)
                     {
-                        Core.ReportError(new Exception(
-                            "Connection to X server is now available.  Using platform " +
-                            "specific idle checking method."), ErrorLevel.Comment);
+                        Core.ReportError(ErrorLevel.Comment, "Connection to X server is now available.  Using platform " +
+                            "specific idle checking method.", null);
 
                         XConnectionMessage = false;
                     }

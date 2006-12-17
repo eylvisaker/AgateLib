@@ -83,8 +83,18 @@ namespace ERY.AgateLib
             Drivers.Registrar.Initialize();
 
             mPlatform = Platform.CreatePlatformMethods();
+
+            System.Threading.Thread.GetDomain().UnhandledException +=
+                new UnhandledExceptionEventHandler(Thread_UnhandledException);
         }
 
+        static void Thread_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            ReportError(ErrorLevel.Bug, "There was an unhandled exception.", 
+                e.ExceptionObject as Exception);
+
+        }
+        
         /// <summary>
         /// Gets platform-specific methods.
         /// </summary>
@@ -204,24 +214,43 @@ namespace ERY.AgateLib
         /// </summary>
         /// <param name="e"></param>
         /// <param name="level"></param>
+        [Obsolete("Obsolete overload.", true)]
         public static void ReportError(Exception e, ErrorLevel level)
         {
+            ReportError(level, null, e);
+        }
+
+        /// <summary>
+        /// Saves an error message to the ErrorFile.
+        /// Outputs a stack trace and shows a dialog box if the ErrorLevel 
+        /// is Bug or Fatal.
+        /// </summary>
+        /// <param name="message">A message to print out before the 
+        /// exception's message.</param>
+        /// <param name="e"></param>
+        /// <param name="level"></param>
+        public static void ReportError(ErrorLevel level, string message, Exception e)
+        {
+            
             switch (level)
             {
                 case ErrorLevel.Bug:
                 case ErrorLevel.Fatal:
-                    ReportError(e, level, true, true);
+                    ReportError(level, message, e, true, true);
                     break;
 
                 case ErrorLevel.Comment:
                 case ErrorLevel.Warning:
-                    ReportError(e, level, AutoStackTrace, false);
+                    ReportError(level, message, e, AutoStackTrace, false);
                     break;
             }
         }
+
         /// <summary>
         /// Saves an error message to the ErrorFile.
         /// </summary>
+        /// <param name="message">A message to print out before the 
+        /// exception's message.</param>
         /// <param name="e"></param>
         /// <param name="level"></param>
         /// <param name="printStackTrace">Bool value indicating whether or not 
@@ -229,16 +258,22 @@ namespace ERY.AgateLib
         /// <param name="showDialog">Bool value indicating whether or not a 
         /// message box should pop up with an OK button, informing the user about the 
         /// error.  If false, the error is silently written to the ErrorFile.</param>
-        public static void ReportError(Exception e, ErrorLevel level, bool printStackTrace, bool showDialog)
+        public static void ReportError(ErrorLevel level, string message, Exception e, bool printStackTrace, bool showDialog)
         {
             StringWriter writer = new StringWriter();
 
             
             writer.Write(LevelText(level) + ": ");
-            writer.WriteLine(e.Message);
+            writer.Write(message + "\r\n");
 
-            if (printStackTrace)
-                writer.WriteLine(e.StackTrace);
+            if (e != null)
+            {
+                writer.Write(e.GetType().Name + ": ");
+                writer.WriteLine(e.Message);
+
+                if (printStackTrace)
+                    writer.WriteLine(e.StackTrace);
+            }
 
             writer.WriteLine();
             writer.Flush();
@@ -248,7 +283,7 @@ namespace ERY.AgateLib
 
             if (showDialog)
             {
-                DialogReport(e, level);
+                DialogReport(message, e, level);
             }
 
             using (StreamWriter filewriter = OpenErrorFile())
@@ -302,7 +337,7 @@ namespace ERY.AgateLib
             writer.WriteLine("");
         }
 
-        private static void DialogReport(Exception e, ErrorLevel level)
+        private static void DialogReport(string message, Exception e, ErrorLevel level)
         {
             System.Windows.Forms.MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.OK ;
             System.Windows.Forms.MessageBoxIcon icon = System.Windows.Forms.MessageBoxIcon.Asterisk;
@@ -327,8 +362,12 @@ namespace ERY.AgateLib
                     break;
             }
 
+            string text = "An error has occured: \r\n";
+            text += message;
+            text += e.Message;
+
             System.Windows.Forms.MessageBox.Show
-                ("An error has occured: \r\n" + e.Message, level.ToString(), buttons, icon);
+                (text, level.ToString(), buttons, icon);
         }
 
         private static string LevelText(ErrorLevel level)

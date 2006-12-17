@@ -14,6 +14,7 @@ namespace ErrorReportTester
         public Form1()
         {
             InitializeComponent();
+            Core.Initialize();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -25,7 +26,7 @@ namespace ErrorReportTester
 
         private static void GenerateErrors()
         {
-            Core.ReportError(new Exception("Test comment about application condition"), ErrorLevel.Comment);
+            Core.ReportError(ErrorLevel.Comment, "Test comment about application condition", null);
 
             try
             {
@@ -33,7 +34,7 @@ namespace ErrorReportTester
             }
             catch (Exception e)
             {
-                Core.ReportError(e, ErrorLevel.Warning);
+                Core.ReportError(ErrorLevel.Warning, "File not there.", e);
             }
 
             try
@@ -42,7 +43,7 @@ namespace ErrorReportTester
             }
             catch (Exception e)
             {
-                Core.ReportError(e, ErrorLevel.Fatal );
+                Core.ReportError(ErrorLevel.Fatal, "Missing file", e);
             }
 
             try
@@ -51,9 +52,11 @@ namespace ErrorReportTester
             }
             catch (Exception e)
             {
-                Core.ReportError(e, ErrorLevel.Bug);
+                Core.ReportError(ErrorLevel.Bug, "Oops, a bug.", e);
             }
 
+            // unhandled error
+            throw new Exception("This exception is unhandled!");
         }
 
         private void FillTextBox()
