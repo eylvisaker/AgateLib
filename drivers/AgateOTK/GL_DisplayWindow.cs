@@ -58,7 +58,7 @@ namespace ERY.AgateLib.OpenGL
             }
             else
             {
-                if (windowParams.IconFile!= null)
+                if (string.IsNullOrEmpty(windowParams.IconFile) == false)
                     mIcon = new Drawing.Icon(windowParams.IconFile);
 
                 mTitle = windowParams.Title;
