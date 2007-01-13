@@ -298,6 +298,9 @@ namespace ERY.AgateLib.OpenGL
             set
             {
                 mRenderTarget.ClientSize = (Drawing.Size)value;
+
+                if (frm != null)
+                    frm.ClientSize = (Drawing.Size)value;
             }
         }
 

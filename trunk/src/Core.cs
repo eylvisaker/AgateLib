@@ -90,7 +90,7 @@ namespace ERY.AgateLib
 
         static void Thread_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            ReportError(ErrorLevel.Bug, "There was an unhandled exception.", 
+            ReportError(ErrorLevel.Bug, "There was an unhandled exception.\r\n\r\n", 
                 e.ExceptionObject as Exception);
 
         }
