@@ -61,7 +61,8 @@ namespace ERY.AgateLib
         /// </remarks>
         /// <param name="renderTarget">Windows.Forms control which should be used as the
         /// render target.</param>
-        public DisplayWindow(System.Windows.Forms.Control renderTarget)
+        [Obsolete("Use the CreateWindowParams overload")]
+        public DisplayWindow(System.Windows.Forms.Control renderTarget, bool ignored)
         {
             impl = Display.Impl.CreateDisplayWindow(CreateWindowParams.FromControl(renderTarget));
 
@@ -75,6 +76,7 @@ namespace ERY.AgateLib
         /// <param name="title"></param>
         /// <param name="clientWidth"></param>
         /// <param name="clientHeight"></param>
+        [Obsolete("Use the CreateWindowParams overload")]
         public DisplayWindow(string title, int clientWidth, int clientHeight)
             : this(title, clientWidth, clientHeight, "", false, false)
         {
@@ -89,6 +91,7 @@ namespace ERY.AgateLib
         /// <param name="clientHeight">Height of the drawing area in pixels.</param>
         /// <param name="iconFile">File name of a Win32 .ico file to use for the window icon.  Pass
         /// null or "" to not use an icon.</param>
+        [Obsolete("Use the CreateWindowParams overload")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile)
             : this(title, clientWidth, clientHeight, "", false, false)
         {
@@ -103,6 +106,7 @@ namespace ERY.AgateLib
         /// <param name="clientHeight">Height of the drawing area in pixels.</param>
         /// <param name="iconFile">File name of a Win32 .ico file to use for the window icon.</param>
         /// <param name="startFullscreen">True to start as a full screen window.</param>
+        [Obsolete("Use the CreateWindowParams overload")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen)
             : this(title, clientWidth, clientHeight, iconFile, startFullscreen, false)
         {
@@ -118,6 +122,7 @@ namespace ERY.AgateLib
         /// <param name="startFullscreen">True to start as a full screen window.</param>
         /// <param name="allowResize">True to allow the user to manually resize the window by
         /// dragging the border.</param>
+        [Obsolete("Use the CreateWindowParams overload")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen, bool allowResize)
         {
             //impl = Display.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, 
@@ -144,7 +149,7 @@ namespace ERY.AgateLib
         /// <param name="clientWidth">Width of the drawing area in pixels.</param>
         /// <param name="clientHeight">Height of the drawing area in pixels.</param>
         /// <param name="startFullscreen">True to start as a full screen window.</param>
-        [Obsolete("Use an overload which includes the iconFile argument, and pass an empty string.")]
+        [Obsolete("Use the CreateWindowParams overload")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, bool startFullscreen)
             : this(title, clientWidth, clientHeight, startFullscreen, false)
         {
@@ -158,7 +163,7 @@ namespace ERY.AgateLib
         /// <param name="clientHeight"></param>
         /// <param name="startFullscreen"></param>
         /// <param name="allowResize"></param>
-        [Obsolete("Use an overload which includes the iconFile argument.")]
+        [Obsolete("Use the CreateWindowParams overload")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize)
             : this(title, clientWidth, clientHeight, "", startFullscreen, allowResize)
         {
