@@ -59,7 +59,7 @@ namespace ERY.AgateLib.Drivers
         internal TBase CreateDriver(T type)
         {
             if (Count == 0)
-                throw new Exception("No  Drivers registered.");
+                throw new Exception("No " + type.GetType().ToString() + " drivers registered.");
 
             if (type.Equals(0))
             {
