@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio.cs" />
+    <Compile Include="CreateWindowParams.cs" />
     <Compile Include="Drivers\TypeID.cs" />
     <Compile Include="Drivers\DriverInfo.cs" />
     <Compile Include="Drivers\DriverInfoList.cs" />
