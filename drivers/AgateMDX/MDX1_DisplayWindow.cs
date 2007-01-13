@@ -47,6 +47,7 @@ namespace ERY.AgateLib.MDX
         System.Drawing.Icon mIcon;
         bool mChooseFullscreen = false;
         bool mChooseResize = false;
+        bool mHasFrame = true;
         string mTitle = "";
 
         MDX1_Display mDisplay;
@@ -75,7 +76,7 @@ namespace ERY.AgateLib.MDX
             }
             else
             {
-                if (windowParams.IconFile != null)
+                if (string.IsNullOrEmpty(windowParams.IconFile) == false)
                     mIcon = new Drawing.Icon(windowParams.IconFile);
 
                 mTitle = windowParams.Title;
@@ -83,6 +84,7 @@ namespace ERY.AgateLib.MDX
                 mChooseWidth = windowParams.Width;
                 mChooseHeight = windowParams.Height;
                 mChooseResize = windowParams.IsResizable;
+                mHasFrame = windowParams.HasFrame;
 
                 CreateWindow(mChooseFullscreen);
 
@@ -267,7 +269,7 @@ namespace ERY.AgateLib.MDX
             else
             {
                 InitializeWindowsForm(out frm, out mRenderTarget, mTitle,
-                    mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize);
+                    mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
 
                 frm.Icon = mIcon;
 

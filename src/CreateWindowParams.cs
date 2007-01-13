@@ -245,13 +245,15 @@ namespace ERY.AgateLib
         /// Creates a CreateWindowParams object which describes a desktop window with no frame or
         /// titlebar.  This is typical for showing a splashscreen as the application loads.
         /// </summary>
+        /// <param name="title"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        public static CreateWindowParams NoFrame(int width, int height)
+        public static CreateWindowParams NoFrame(string title, int width, int height)
         {
             CreateWindowParams retval = new CreateWindowParams();
 
+            retval.Title = title;
             retval.Width = width;
             retval.Height = height;
             retval.IsResizable = false;

@@ -110,10 +110,11 @@ namespace ERY.AgateLib.ImplBase
         /// <param name="clientHeight">Height of client area, in pixels.</param>
         /// <param name="startFullscreen">True if we should start with a full-screen window.</param>
         /// <param name="allowResize">True if we should allow the user to resize the window.</param>
+        /// <param name="hasFrame">True if a frame and title bar should be present.</param>
         protected static void InitializeWindowsForm(
             out Form frm,
             out Control renderTarget,
-            string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize)
+            string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize, bool hasFrame)
         {
             DisplayWindowForm mainForm = new DisplayWindowForm();
 
@@ -127,12 +128,13 @@ namespace ERY.AgateLib.ImplBase
             frm.ClientSize = new System.Drawing.Size(clientWidth, clientHeight);
             frm.KeyPreview = true;
 
-            if (allowResize == false)
+            if (hasFrame == false)
+                frm.FormBorderStyle = FormBorderStyle.None;
+            else if (allowResize == false)
             {
                 frm.FormBorderStyle = FormBorderStyle.FixedSingle;
                 frm.MaximizeBox = false;
             }
-
         }
         /// <summary>
         /// Gets or sets the size of the render area.
