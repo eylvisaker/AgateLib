@@ -30,6 +30,7 @@ namespace ERY.AgateLib.OpenGL
         int mChooseHeight;
         int mChooseBitDepth = 32;
         bool mChooseResize;
+        bool mHasFrame = true;
 
         public GL_DisplayWindow(CreateWindowParams windowParams)
         {
@@ -61,6 +62,7 @@ namespace ERY.AgateLib.OpenGL
                 mChooseWidth = windowParams.Width;
                 mChooseHeight = windowParams.Height;
                 mChooseResize = windowParams.IsResizable;
+                mHasFrame = windowParams.HasFrame;
 
                 if (mChooseFullscreen)
                     CreateFullScreenDisplay();
@@ -122,7 +124,7 @@ namespace ERY.AgateLib.OpenGL
             Control myRenderTarget;
 
             InitializeWindowsForm(out myform, out myRenderTarget, 
-                mTitle, mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize);
+                mTitle, mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
 
 
             frm = myform;

@@ -202,6 +202,9 @@ namespace ERY.AgateLib
         {
             get
             {
+                if (impl == null)
+                    return true;
+
                 return impl.IsClosed;
             }
         }
