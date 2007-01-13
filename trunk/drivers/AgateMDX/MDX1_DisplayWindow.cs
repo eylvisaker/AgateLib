@@ -53,42 +53,51 @@ namespace ERY.AgateLib.MDX
 
         #region --- Creation / Destruction ---
 
-        public MDX1_DisplayWindow(string title, int clientWidth, int clientHeight, 
-            string iconFile, bool startFullscreen, bool allowResize)
+        public MDX1_DisplayWindow(CreateWindowParams windowParams)
         {
-            if (iconFile != null)
-                mIcon = new Drawing.Icon(iconFile);
+            if (windowParams.RenderToControl)
+            {
+                if (typeof(Control).IsAssignableFrom(windowParams.RenderTarget.GetType()) == false)
+                    throw new ArgumentException("The specified render target does not derive from System.Windows.Forms.Control");
 
-            mTitle = title;
-            mChooseFullscreen = startFullscreen;
-            mChooseWidth = clientWidth;
-            mChooseHeight = clientHeight;
-            mChooseResize = allowResize;
+                mRenderTarget = (Control)windowParams.RenderTarget;
 
-            CreateWindow(startFullscreen);
+                mChooseFullscreen = false;
+                mChooseWidth = mRenderTarget.ClientSize.Width;
+                mChooseHeight = mRenderTarget.ClientSize.Height;
 
-            mDisplay = Display.Impl as MDX1_Display;
-            mDisplay.Initialize(this);
-            mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
+                mDisplay = Display.Impl as MDX1_Display;
+                mDisplay.Initialize(this);
+                mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
 
-            AttachEvents();
-            CreateBackBuffer();
+                AttachEvents();
+                CreateBackBuffer();
+            }
+            else
+            {
+                if (windowParams.IconFile != null)
+                    mIcon = new Drawing.Icon(windowParams.IconFile);
+
+                mTitle = windowParams.Title;
+                mChooseFullscreen = windowParams.IsFullScreen;
+                mChooseWidth = windowParams.Width;
+                mChooseHeight = windowParams.Height;
+                mChooseResize = windowParams.IsResizable;
+
+                CreateWindow(mChooseFullscreen);
+
+                mDisplay = Display.Impl as MDX1_Display;
+                mDisplay.Initialize(this);
+                mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
+
+                AttachEvents();
+                CreateBackBuffer();
+            }
         }
 
         public MDX1_DisplayWindow(System.Windows.Forms.Control renderTarget)
         {
-            mRenderTarget = renderTarget;
-
-            mChooseFullscreen = false;
-            mChooseWidth = renderTarget.ClientSize.Width;
-            mChooseHeight = renderTarget.ClientSize.Height;
             
-            mDisplay = Display.Impl as MDX1_Display;
-            mDisplay.Initialize(this);
-            mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
-
-            AttachEvents();
-            CreateBackBuffer();
         }
 
         public override void Dispose()

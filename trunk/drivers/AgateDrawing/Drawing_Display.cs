@@ -95,14 +95,18 @@ namespace ERY.AgateLib.SystemDrawing
         {
             return new Drawing_Surface(surfaceSize);
         }
-        public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullScreen, bool allowResize)
+        public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
         {
-            return new Drawing_DisplayWindow(title, clientWidth, clientHeight, iconFile, startFullScreen, allowResize );
+            return new Drawing_DisplayWindow(windowParams);
         }
-        public override DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget)
-        {
-            return new Drawing_DisplayWindow(renderTarget);
-        }
+        //public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullScreen, bool allowResize)
+        //{
+        //    return new Drawing_DisplayWindow(title, clientWidth, clientHeight, iconFile, startFullScreen, allowResize );
+        //}
+        //public override DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget)
+        //{
+        //    return new Drawing_DisplayWindow(renderTarget);
+        //}
         public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyle style)
         {
             return new Drawing_FontSurface(fontFamily, sizeInPoints, style);

@@ -31,48 +31,46 @@ namespace ERY.AgateLib.OpenGL
         int mChooseBitDepth = 32;
         bool mChooseResize;
 
-        public GL_DisplayWindow(string title, int clientWidth, int clientHeight,
-            string iconFile, bool startFullscreen, bool allowResize)
+        public GL_DisplayWindow(CreateWindowParams windowParams)
         {
-            if (iconFile != null)
-                mIcon = new Drawing.Icon(iconFile);
+            if (windowParams.RenderToControl)
+            {
+                if (typeof(Control).IsAssignableFrom(windowParams.RenderTarget.GetType()) == false)
+                    throw new ArgumentException("The specified render target does not derive from System.Windows.Forms.Control");
 
-            mTitle = title;
-            mChooseFullscreen = startFullscreen;
-            mChooseWidth = clientWidth;
-            mChooseHeight = clientHeight;
-            mChooseResize = allowResize;
+                mRenderTarget = (Control)windowParams.RenderTarget;
 
-            if (!startFullscreen)
-                CreateWindowedDisplay();
-            else 
-                CreateFullScreenDisplay();
+                mChooseFullscreen = false;
+                mChooseWidth = mRenderTarget.ClientSize.Width;
+                mChooseHeight = mRenderTarget.ClientSize.Height;
 
-            mDisplay = Display.Impl as GL_Display;
-            mDisplay.Initialize(this);
+                mDisplay = Display.Impl as GL_Display;
+                mDisplay.Initialize(this);
 
-            // and create the back buffer
-            //OnResize();
+                mContext = GLContext.Create(mRenderTarget, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8), 16, 0);
 
-        }
+                AttachEvents();
+            }
+            else
+            {
+                if (windowParams.IconFile!= null)
+                    mIcon = new Drawing.Icon(windowParams.IconFile);
 
+                mTitle = windowParams.Title;
+                mChooseFullscreen = windowParams.IsFullScreen;
+                mChooseWidth = windowParams.Width;
+                mChooseHeight = windowParams.Height;
+                mChooseResize = windowParams.IsResizable;
 
-        public GL_DisplayWindow(System.Windows.Forms.Control renderTarget)
-        {
-            mRenderTarget = renderTarget;
+                if (mChooseFullscreen)
+                    CreateFullScreenDisplay();
+                else
+                    CreateWindowedDisplay();
 
-            mChooseFullscreen = false;
-            mChooseWidth = renderTarget.ClientSize.Width;
-            mChooseHeight = renderTarget.ClientSize.Height;
+                mDisplay = Display.Impl as GL_Display;
+                mDisplay.Initialize(this);
 
-            mDisplay = Display.Impl as GL_Display;
-            mDisplay.Initialize(this);
-
-            mContext = GLContext.Create(mRenderTarget, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8), 16, 0);
-
-            AttachEvents();
-            //OnResize();
-
+            }
         }
 
         private void CreateFullScreenDisplay()

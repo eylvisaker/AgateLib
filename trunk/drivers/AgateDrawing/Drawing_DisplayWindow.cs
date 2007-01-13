@@ -36,32 +36,42 @@ namespace ERY.AgateLib.SystemDrawing
         Icon mIcon;
         Bitmap mBackBuffer;
 
-        public Drawing_DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile,
-            bool startFullscreen, bool allowResize)
+        public Drawing_DisplayWindow(CreateWindowParams windowParams)
         {
-            InitializeWindowsForm(out frm, out mRenderTarget, title, clientWidth, clientHeight, startFullscreen, allowResize);
-
-            if (string.IsNullOrEmpty(iconFile) == false)
+            if (windowParams.RenderToControl == true)
             {
-                mIcon = new Icon(iconFile);
-                frm.Icon = mIcon;
+                if (typeof(Control).IsAssignableFrom(windowParams.RenderTarget.GetType()) == false)
+                    throw new ArgumentException("The specified render target does not derive from System.Windows.Forms.Control");
+
+                mRenderTarget = (Control)windowParams.RenderTarget;
+
+                AttachEvents();
+
+                OnResize();
             }
-       
-            // finally, show the form
-            frm.Show();
+            else
+            {
+                InitializeWindowsForm(out frm, out mRenderTarget, windowParams.Title,
+                    windowParams.Width, windowParams.Height, windowParams.IsFullScreen, windowParams.IsResizable);
 
-            AttachEvents();
+                if (string.IsNullOrEmpty(windowParams.IconFile) == false)
+                {
+                    mIcon = new Icon(windowParams.IconFile);
+                    frm.Icon = mIcon;
+                }
 
-            // and create the back buffer
-            OnResize();
+                // finally, show the form
+                frm.Show();
+
+                AttachEvents();
+
+                // and create the back buffer
+                OnResize();
+            }
         }
         public Drawing_DisplayWindow(Control renderTarget)
         {
-            mRenderTarget = renderTarget;
-
-            AttachEvents();
-
-            OnResize();
+            
         }
 
         private void AttachEvents()
