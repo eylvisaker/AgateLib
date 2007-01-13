@@ -151,11 +151,15 @@ namespace ERY.AgateLib
 
         /// <summary>
         /// Path to a .ico file to use for the window icon.
+        /// Setting this field resolves the path to the icon using the FileManager.ImagePath
         /// </summary>
         public string IconFile
         {
             get { return iconFile; }
-            set { iconFile = value; }
+            set
+            {
+                iconFile = FileManager.ImagePath.FindFileName(value);
+            }
         }
 
         /// <summary>
@@ -180,6 +184,21 @@ namespace ERY.AgateLib
         #endregion
 
         #region --- Statis creation methods ---
+
+        /// <summary>
+        /// Creates a CreateWindowParams object which describes rendering into a WinForms control.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        public static CreateWindowParams FromControl(object control)
+        {
+            CreateWindowParams retval = new CreateWindowParams();
+
+            retval.RenderToControl = true;
+            retval.RenderTarget = control;
+
+            return retval;
+        }
 
         /// <summary>
         /// Creates a CreateWindowParams object which describes a fullscreen window.

@@ -191,14 +191,18 @@ namespace ERY.AgateLib.MDX
 
         #region --- Creation of objects ---
 
-        public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight,
-            string iconFile, bool startFullScreen, bool allowResize)
+        //public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight,
+        //    string iconFile, bool startFullScreen, bool allowResize)
+        //{
+        //    return new MDX1_DisplayWindow(title, clientWidth, clientHeight, iconFile, startFullScreen, allowResize);
+        //}
+        //public override DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget)
+        //{
+        //    return new MDX1_DisplayWindow(renderTarget);
+        //}
+        public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
         {
-            return new MDX1_DisplayWindow(title, clientWidth, clientHeight, iconFile, startFullScreen, allowResize);
-        }
-        public override DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget)
-        {
-            return new MDX1_DisplayWindow(renderTarget);
+            return new MDX1_DisplayWindow(windowParams);
         }
         public override SurfaceImpl CreateSurface(string fileName)
         {

@@ -41,18 +41,21 @@ namespace ERY.AgateLib.OpenGL
         {
             get { return PixelFormat.RGBA8888; }
         }
-        public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, 
-            string iconFile, bool startFullscreen, bool allowResize)
-        {
-            return new GL_DisplayWindow(title, clientWidth, clientHeight,
-                iconFile, startFullscreen, allowResize);
-        }
 
-        public override DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget)
+        //public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, 
+        //    string iconFile, bool startFullscreen, bool allowResize)
+        //{
+        //    return new GL_DisplayWindow(title, clientWidth, clientHeight,
+        //        iconFile, startFullscreen, allowResize);
+        //}
+        //public override DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget)
+        //{
+        //    return new GL_DisplayWindow(renderTarget);
+        //}
+        public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
         {
-            return new GL_DisplayWindow(renderTarget);
+            return new GL_DisplayWindow(windowParams);
         }
-
         public override SurfaceImpl CreateSurface(string fileName)
         {
             return new GL_Surface(fileName);

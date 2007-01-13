@@ -74,21 +74,30 @@ namespace ERY.AgateLib.ImplBase
         /// </summary>
         protected abstract void OnRenderTargetResize();
 
+        ///// <summary>
+        ///// Creates a DisplayWindowImpl derived object.
+        ///// </summary>
+        ///// <param name="title"></param>
+        ///// <param name="clientWidth"></param>
+        ///// <param name="clientHeight"></param>
+        ///// <param name="allowResize"></param>
+        ///// <param name="iconFile"></param>
+        ///// <param name="startFullscreen"></param>
+        ///// <returns></returns>
+        //public abstract DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen, bool allowResize);
+        ///// <summary>
+        ///// Creates a DisplayWindowImpl derived object.
+        ///// </summary>
+        //public abstract DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget);
+       
         /// <summary>
         /// Creates a DisplayWindowImpl derived object.
         /// </summary>
-        /// <param name="title"></param>
-        /// <param name="clientWidth"></param>
-        /// <param name="clientHeight"></param>
-        /// <param name="allowResize"></param>
-        /// <param name="iconFile"></param>
-        /// <param name="startFullscreen"></param>
+        /// <param name="windowParams"></param>
         /// <returns></returns>
-        public abstract DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen, bool allowResize);
-        /// <summary>
-        /// Creates a DisplayWindowImpl derived object.
-        /// </summary>
-        public abstract DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget);
+        public abstract DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams);
+       
+
         /// <summary>
         /// Creates a SurfaceImpl derived object.
         /// </summary>

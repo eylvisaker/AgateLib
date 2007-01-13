@@ -40,6 +40,18 @@ namespace ERY.AgateLib
         DisplayWindowImpl impl;
 
         /// <summary>
+        /// Creates a DisplayWindow object using the specified CreateWindowParams to create
+        /// the window.
+        /// </summary>
+        /// <param name="windowParams"></param>
+        public DisplayWindow(CreateWindowParams windowParams)
+        {
+            impl = Display.Impl.CreateDisplayWindow(windowParams);
+
+            Display.RenderTarget = this;
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+        }
+        /// <summary>
         /// Creates a DisplayWindow object using the specified System.Windows.Forms.Control
         /// object as a render context.  A DisplayWindow made in this manner cannot be made
         /// into a full-screen DisplayWindow.
@@ -51,7 +63,7 @@ namespace ERY.AgateLib
         /// render target.</param>
         public DisplayWindow(System.Windows.Forms.Control renderTarget)
         {
-            impl = Display.Impl.CreateDisplayWindow(renderTarget);
+            impl = Display.Impl.CreateDisplayWindow(CreateWindowParams.FromControl(renderTarget));
 
             Display.RenderTarget = this;
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
@@ -108,8 +120,15 @@ namespace ERY.AgateLib
         /// dragging the border.</param>
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen, bool allowResize)
         {
-            impl = Display.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, 
-                FileManager.ImagePath.FindFileName(iconFile), startFullscreen, allowResize);
+            //impl = Display.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, 
+            //    FileManager.ImagePath.FindFileName(iconFile), startFullscreen, allowResize);
+
+            if (startFullscreen)
+                impl = Display.Impl.CreateDisplayWindow(
+                    CreateWindowParams.FullScreen(title, clientWidth, clientHeight, 32));
+            else
+                impl = Display.Impl.CreateDisplayWindow(
+                    CreateWindowParams.Windowed(title, clientWidth, clientHeight, iconFile, allowResize));
 
             Display.RenderTarget = this;
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
