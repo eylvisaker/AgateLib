@@ -51,8 +51,9 @@ namespace ERY.AgateLib.SystemDrawing
             }
             else
             {
-                InitializeWindowsForm(out frm, out mRenderTarget, windowParams.Title,
-                    windowParams.Width, windowParams.Height, windowParams.IsFullScreen, windowParams.IsResizable, windowParams.HasFrame);
+                InitializeWindowsForm(out frm, out mRenderTarget, windowParams.WindowPosition, windowParams.Title,
+                    windowParams.Width, windowParams.Height, windowParams.IsFullScreen, windowParams.IsResizable, 
+                    windowParams.HasFrame);
 
                 if (string.IsNullOrEmpty(windowParams.IconFile) == false)
                 {

@@ -114,6 +114,7 @@ namespace ERY.AgateLib.ImplBase
         protected static void InitializeWindowsForm(
             out Form frm,
             out Control renderTarget,
+            WindowPosition position,
             string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize, bool hasFrame)
         {
             DisplayWindowForm mainForm = new DisplayWindowForm();
@@ -121,7 +122,6 @@ namespace ERY.AgateLib.ImplBase
             // set output values
             frm = mainForm;
             renderTarget = mainForm.RenderTarget;
-
 
             // set properties
             frm.Text = title;
@@ -134,6 +134,28 @@ namespace ERY.AgateLib.ImplBase
             {
                 frm.FormBorderStyle = FormBorderStyle.FixedSingle;
                 frm.MaximizeBox = false;
+            }
+
+            Point centerPoint = new Point(
+                (Screen.PrimaryScreen.WorkingArea.Width - frm.Width) / 2,
+                (Screen.PrimaryScreen.WorkingArea.Height - frm.Height) / 2);
+
+            switch (position)
+            {
+                case WindowPosition.DefaultAgate:
+                case WindowPosition.AboveCenter:
+                    frm.StartPosition = FormStartPosition.Manual;
+                    frm.Location = new System.Drawing.Point(centerPoint.X, centerPoint.Y / 2);
+        
+                    break;
+                   
+                case WindowPosition.CenterScreen:
+                    frm.StartPosition = FormStartPosition.CenterScreen;
+                    break;
+
+                case WindowPosition.DefaultOS:
+                    frm.StartPosition = FormStartPosition.WindowsDefaultLocation;
+                    break;
             }
         }
         /// <summary>

@@ -11,16 +11,9 @@ namespace ERY.AgateLib
     public enum WindowPosition
     {
         /// <summary>
-        /// Center the window horizontally on screen, but vertically above center.
-        /// This often looks better because the vertical center of the monitor is usually 
-        /// positioned below eye-level.
-        /// </summary>
-        AboveCenter,
-
-        /// <summary>
         /// Lets AgateLib choose where to position the window.  
         /// </summary>
-        DefaultAgate = AboveCenter,
+        DefaultAgate,
 
         /// <summary>
         /// Let the runtime decide where the window is placed.
@@ -28,9 +21,18 @@ namespace ERY.AgateLib
         DefaultOS,
 
         /// <summary>
+        /// Center the window horizontally on screen, but vertically above center.
+        /// This often looks better because the vertical center of the monitor is usually 
+        /// positioned below eye-level.
+        /// </summary>
+        AboveCenter,
+
+        /// <summary>
         /// Center the window on the screen.
         /// </summary>
         CenterScreen,
+
+
 
     }
     /// <summary>
@@ -43,6 +45,7 @@ namespace ERY.AgateLib
 
         private bool isFullScreen = false;
         private Size size = new Size(1024, 768);
+        private WindowPosition position;
         private int bpp = 32;
         private bool isResizable = false;
         
@@ -100,6 +103,16 @@ namespace ERY.AgateLib
             get { return size.Height; }
             set { size.Height = value; }
         }
+        /// <summary>
+        /// Sets the initial position of the window.
+        /// </summary>
+        public WindowPosition WindowPosition
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
+
         /// <summary>
         /// Bit depth for the framebuffer for the window.  This defaults to 32.  This
         /// field is ignored if we are not creating a full-screen window.
