@@ -57,13 +57,13 @@ namespace ERY.AgateLib.Utility
             this.agateRenderTarget1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.agateRenderTarget1.Location = new System.Drawing.Point(0, 0);
             this.agateRenderTarget1.Name = "agateRenderTarget1";
-            this.agateRenderTarget1.Size = new System.Drawing.Size(300, 282);
+            this.agateRenderTarget1.Size = new System.Drawing.Size(292, 278);
             this.agateRenderTarget1.TabIndex = 0;
             // 
             // DisplayWindowForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(300, 282);
+            this.ClientSize = new System.Drawing.Size(292, 278);
             this.Controls.Add(this.agateRenderTarget1);
             this.KeyPreview = true;
             this.Name = "DisplayWindowForm";

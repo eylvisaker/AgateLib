@@ -52,7 +52,7 @@ namespace ERY.SurfaceTester
         { 
             // This will create a display "window" that renders to the graphics
             // control on this form
-            DisplayWindow wind = new DisplayWindow(pctGraphics);
+            DisplayWindow wind = new DisplayWindow(CreateWindowParams.FromControl(pctGraphics));
             
             // load an image
             string fileName = @"test.png";
