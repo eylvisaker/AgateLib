@@ -653,9 +653,9 @@ namespace ERY.AgateLib
     /// </summary>
     public struct KeyModifiers
     {
-        bool mAlt;
-        bool mControl;
-        bool mShift;
+        private bool mAlt;
+        private bool mControl;
+        private bool mShift;
 
         /// <summary>
         /// Constructs a KeyModifiers structure with the given
