@@ -28,7 +28,7 @@ namespace PixelBufferTest
                 frm = new PixelBufferForm();
                 frm.Show();
 
-                DisplayWindow wind = new DisplayWindow(frm.panel1);
+                DisplayWindow wind = new DisplayWindow(CreateWindowParams.FromControl(frm.panel1));
 
                 image = new Surface("image.png");
                 buffer = image.ReadPixels(PixelFormat.RGBA8888);

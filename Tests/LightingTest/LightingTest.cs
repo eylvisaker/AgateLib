@@ -28,7 +28,7 @@ namespace LightingTest
                 LightingTestForm frm = new LightingTestForm();
                 frm.Show();
 
-                DisplayWindow wnd = new DisplayWindow(frm.agateRenderTarget1);
+                DisplayWindow wnd = new DisplayWindow(CreateWindowParams.FromControl(frm.agateRenderTarget1));
 
                 Surface image = new Surface("test.png");
                 Surface ball = new Surface("ball.png");

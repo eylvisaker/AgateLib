@@ -31,7 +31,7 @@ namespace InputTester
             setup.InitializeDisplay();
             setup.InitializeInput();
 
-            new DisplayWindow(pictureBox1);
+            new DisplayWindow(CreateWindowParams.FromControl(pictureBox1));
 
             Application.Idle += new EventHandler(Application_Idle);
         }
