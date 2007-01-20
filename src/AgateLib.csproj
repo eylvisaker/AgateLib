@@ -50,6 +50,7 @@
     <Compile Include="Drivers\DriverInfoList.cs" />
     <Compile Include="Drivers\DriverTypeIDBase.cs" />
     <Compile Include="Geometry\Converter.cs" />
+    <Compile Include="Geometry\Gradient.cs" />
     <Compile Include="Geometry\Vector3.cs" />
     <Compile Include="ImplBase\AudioImpl.cs" />
     <Compile Include="Core.cs" />
