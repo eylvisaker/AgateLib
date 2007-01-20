@@ -42,7 +42,7 @@ namespace ERY.AgateLib.ImplBase
         private OriginAlignment mAlignment = OriginAlignment.TopLeft;
         private double mRotation = 0;
         private OriginAlignment mRotationSpot = OriginAlignment.Center;
-        private Color mColor = Color.White;
+        private Gradient mGradient = new Gradient(Color.White);
 
         #endregion
 
@@ -366,16 +366,15 @@ namespace ERY.AgateLib.ImplBase
         /// Alpha value for displaying this surface.
         /// Valid values range from 0.0 (completely transparent) to 1.0 (completely opaque).
         /// Internally stored as a byte, so granularity is only 1/255.0.
+        /// If a gradient is used, getting this property returns the alpha value for the top left
+        /// corner of the gradient.
         /// </summary>
         public double Alpha
         {
-            get { return mColor.A / 255.0; }
+            get { return Color.A / 255.0; }
             set
             {
-                if (value < 0) value = 0;
-                if (value > 1.0) value = 1.0;
-
-                Color = Color.FromArgb((int)(value * 255), mColor);
+                mGradient.SetAlpha(value);
             }
         }
         /// <summary>
@@ -469,17 +468,23 @@ namespace ERY.AgateLib.ImplBase
 
         /// <summary>
         /// Gets or sets the multiplicative color for this surface.
-        /// Remember, Color structures have an alpha field, so setting
-        /// this will override any value set by Alpha.  If you want to
-        /// set Alpha separately, set the Alpha property after the 
-        /// SurfaceColor property.
+        /// Setting this is equivalent to setting the ColorGradient property
+        /// with a gradient with the same color in all corners.  If a gradient
+        /// is being used, getting this property returns the top-left color in the gradient.
         /// </summary>
         public virtual Color Color
         {
-            get { return mColor; }
-            set { mColor = value; }
+            get { return mGradient.TopLeft; }
+            set { mGradient = new Gradient(value); }
         }
-
+        /// <summary>
+        /// Gets or sets the gradient for this surface.
+        /// </summary>
+        public virtual Gradient ColorGradient
+        {
+            get { return mGradient; }
+            set { mGradient = value; }
+        }
         /// <summary>
         /// Increments the rotation angle of this surface.
         /// </summary>

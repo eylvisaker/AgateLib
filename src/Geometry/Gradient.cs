@@ -86,7 +86,19 @@ namespace ERY.AgateLib.Geometry
                     (TopLeft.B + TopRight.B + BottomLeft.B + BottomRight.B) / 4);
             }
         }
+        /// <summary>
+        /// Sets the alpha value for all corners.
+        /// Valid values are 0.0 to 1.0.  Values outside this are clamped.
+        /// </summary>
+        /// <param name="alpha"></param>
+        public void SetAlpha(double alpha)
+        {
+            if (alpha < 0) alpha = 0;
+            if (alpha > 1) alpha = 1;
+            byte value = (byte)(alpha * 255);
 
+            mBottomRight.A = mBottomLeft.A = mTopRight.A = mTopLeft.A = value;
+        }
         /// <summary>
         /// Interpolates the color into the interior of the gradient.
         /// Parameters should be in the range 0.0 to 1.0; they are clamped
