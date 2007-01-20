@@ -348,15 +348,22 @@ namespace ERY.AgateLib
         
         /// <summary>
         /// Gets or sets the multiplicative color for this surface.
-        /// Remember, Color structures have an alpha field, so setting
-        /// this will override any value set by Alpha.  If you want to
-        /// set Alpha separately, set the Alpha property after the 
-        /// SurfaceColor property.
+        /// Setting this is equivalent to setting the ColorGradient property
+        /// with a gradient with the same color in all corners.  If a gradient
+        /// is being used, getting this property returns the top-left color in the gradient.
         /// </summary>
         public Color Color
         {
             get { return impl.Color; }
             set { impl.Color = value; }
+        }
+        /// <summary>
+        /// Gets or sets the gradient for this surface.
+        /// </summary>
+        public Gradient ColorGradient
+        {
+            get { return impl.ColorGradient; }
+            set { impl.ColorGradient = value; }
         }
 
         /// <summary>
