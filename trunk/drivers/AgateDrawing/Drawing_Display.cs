@@ -251,7 +251,10 @@ namespace ERY.AgateLib.SystemDrawing
         {
             get { return true; }
         }
-
+        bool IDisplayCaps.SupportsGradient
+        {
+            get { return false; }
+        }
         bool IDisplayCaps.SupportsSurfaceAlpha
         {
             get { return true; }

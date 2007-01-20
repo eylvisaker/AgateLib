@@ -734,7 +734,10 @@ namespace ERY.AgateLib.MDX
         {
             get { return true; }
         }
-
+        bool IDisplayCaps.SupportsGradient
+        {
+            get { return true; }
+        }
         bool IDisplayCaps.SupportsSurfaceAlpha
         {
             get { return true; }
