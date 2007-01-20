@@ -105,6 +105,7 @@ namespace ERY.AgateLib.ImplBase
         /// </summary>
         /// <param name="frm">Returns the created form.</param>
         /// <param name="renderTarget">Returns the control which is rendered into.</param>
+        /// <param name="position">Position of the window.</param>
         /// <param name="title">Title of the window.</param>
         /// <param name="clientWidth">Width of client area, in pixels.</param>
         /// <param name="clientHeight">Height of client area, in pixels.</param>

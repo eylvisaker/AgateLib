@@ -357,7 +357,10 @@ namespace ERY.AgateLib.OpenGL
         {
             get { return true; }
         }
-
+        bool IDisplayCaps.SupportsGradient
+        {
+            get { return true; }
+        }
         bool IDisplayCaps.SupportsSurfaceAlpha
         {
             get { return true; }

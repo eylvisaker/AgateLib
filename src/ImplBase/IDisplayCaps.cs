@@ -33,6 +33,12 @@ namespace ERY.AgateLib.ImplBase
         /// </summary>
         bool SupportsColor { get; }
         /// <summary>
+        /// Indicates whether Surface gradients are supported.  If not, then setting Surface.ColorGradient
+        /// color of a surface is the same as setting the Surface.Color with the average of the
+        /// gradient colors.
+        /// </summary>
+        bool SupportsGradient { get; }
+        /// <summary>
         /// Indicates whether setting Surface.Alpha has any visible effect.
         /// </summary>
         bool SupportsSurfaceAlpha { get; }
