@@ -345,8 +345,6 @@ namespace ERY.AgateLib.MDX
                 float displayWidth = DisplayWidth / (float)TesselateFactor;
                 float displayHeight = DisplayHeight / (float)TesselateFactor;
 
-                SetVertsColor(mExtraVerts, 0, 4);
-
                 for (int j = 0; j < TesselateFactor; j++)
                 {
                     TextureCoordinates coords = texCoords;
@@ -365,6 +363,8 @@ namespace ERY.AgateLib.MDX
                             new RectangleF(dx, dy,
                                            displayWidth, displayHeight),
                                            rotationCenterX, rotationCenterY);
+                        SetVertsColor(mExtraVerts, 0, 4,
+                            i / (double)TesselateFactor, j / (double)TesselateFactor, 1.0 / TesselateFactor, 1.0 / TesselateFactor);
 
                         SetVertsTextureCoordinates(mExtraVerts, 0, coords);
 
