@@ -114,7 +114,11 @@ namespace ERY.AgateLib.OpenGL
 
             AddQuad(textureID, color, texCoord, pt);
         }
-        public void AddQuad(int textureID, Color color, TextureCoordinates texCoord, PointF[] pt)
+        public void AddQuad(int textureID, Color color, TextureCoordinates texCoord, PointF[] pts)
+        {
+            AddQuad(textureID, new Gradient(color), texCoord, pts);
+        }
+        public void AddQuad(int textureID, Gradient color, TextureCoordinates texCoord, PointF[] pts)
         {
             SetTexture(textureID);
 
@@ -126,10 +130,8 @@ namespace ERY.AgateLib.OpenGL
 
             for (int i = 0; i < 4; i++)
             {
-                mVertexCoords[mIndex + i].x = pt[i].X;
-                mVertexCoords[mIndex + i].y = pt[i].Y;
-
-                mColorCoords[mIndex + i] = new ColorCoord(color);
+                mVertexCoords[mIndex + i].x = pts[i].X;
+                mVertexCoords[mIndex + i].y = pts[i].Y;
 
                 mNormalCoords[mIndex + i].x = 0;
                 mNormalCoords[mIndex + i].y = 0;
@@ -139,15 +141,19 @@ namespace ERY.AgateLib.OpenGL
 
             mTexCoords[mIndex].u = texCoord.Left;
             mTexCoords[mIndex].v = texCoord.Top;
+            mColorCoords[mIndex] = new ColorCoord(color.TopLeft);
 
             mTexCoords[mIndex + 1].u = texCoord.Right;
             mTexCoords[mIndex + 1].v = texCoord.Top;
+            mColorCoords[mIndex+1] = new ColorCoord(color.TopRight);
 
             mTexCoords[mIndex + 2].u = texCoord.Right;
             mTexCoords[mIndex + 2].v = texCoord.Bottom;
+            mColorCoords[mIndex+2] = new ColorCoord(color.BottomRight);
 
             mTexCoords[mIndex + 3].u = texCoord.Left;
             mTexCoords[mIndex + 3].v = texCoord.Bottom;
+            mColorCoords[mIndex+3] = new ColorCoord(color.BottomLeft);
 
             
             mIndex += 4;

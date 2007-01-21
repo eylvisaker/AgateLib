@@ -180,6 +180,11 @@ namespace ERY.AgateLib
         /// corners are calculated, and then the lighting is interpolated between
         /// the end points.
         /// <para>
+        /// Changing this value while using gradients can result in ugly transitions between
+        /// different tesselation values.  The reason is AgateLib will interpolate the gradient
+        /// color to the vertices used, and then this is capped to integer values.  So avoid
+        /// doing this.</para>
+        /// <para>
         /// Setting this value high may have a significant impact on performance.
         /// For each time a Surface.Draw() overload is called, the number of triangles
         /// which are calculated and sent to the rasterizer is 2 * TesselateFactor<sup>2</sup>.
