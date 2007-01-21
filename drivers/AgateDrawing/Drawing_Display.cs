@@ -154,6 +154,10 @@ namespace ERY.AgateLib.SystemDrawing
 
             mGraphics.FillRectangle(new SolidBrush((Color)color), (Rectangle)rect);
         }
+        public override void FillRect(ERY.AgateLib.Geometry.Rectangle rect, ERY.AgateLib.Geometry.Gradient color)
+        {
+            FillRect(rect, color.AverageColor);
+        }
 
         #endregion
         #region --- Begin/End Frame and DeltaTime ---
