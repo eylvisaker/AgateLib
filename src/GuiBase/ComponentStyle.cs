@@ -32,6 +32,14 @@ namespace ERY.AgateLib.GuiBase
         public virtual void Component_PaintBegin(object sender, EventArgs e)
         { }
 
+        public virtual bool IsPointInComponent(Point pt)
+        {
+            if (mComponent.Bounds.Contains(pt))
+                return true;
+            else
+                return false;
+        }
+
         public Component MyComponent
         {
             get { return mComponent; }

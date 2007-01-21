@@ -15,9 +15,9 @@ namespace ERY.AgateLib.Gui
         
         public Button(string text) 
         {
-
+            Text = text;
         }
-        public Button(Component parent, Rectangle bounds, string text)
+        public Button(Container parent, Rectangle bounds, string text)
             : base(parent, bounds)
         {
             Text = text;
