@@ -12,6 +12,7 @@ namespace ERY.AgateLib.Gui.Styles
         {
             PlainStyle style;
             Button btn;
+            Point[] lines = new Point[8];
 
             public PlainButton(PlainStyle style)
             {
@@ -24,24 +25,58 @@ namespace ERY.AgateLib.Gui.Styles
             }
             public override void Component_Paint(object sender, EventArgs e)
             {
-                Display.FillRect(btn.Bounds, Color.White);
+                Color dark = btn.BackColor;
+                dark.R = (byte)(0.8 * dark.R);
+                dark.G = (byte)(0.8 * dark.G);
+                dark.B = (byte)(0.8 * dark.B);
+
+                Gradient color = new Gradient(btn.BackColor, btn.BackColor, dark, dark);
+                Gradient reverse = new Gradient(dark, dark, btn.BackColor, btn.BackColor);
+
+                Rectangle rect = btn.Bounds;
+                rect.X++;
+                rect.Y++;
+                rect.Width -= 2;
+                rect.Height -= 2;
+                SetLines();
+
+                if (btn.DrawDown)
+                    Display.FillRect(btn.Bounds, reverse);
+                else
+                    Display.FillRect(btn.Bounds, color);
+
+                
+                Point textPt = new Point(
+                    btn.Bounds.Left + btn.Bounds.Width / 2, btn.Bounds.Top + btn.Bounds.Height / 2);
 
                 if (btn.DrawHover)
-                    Display.DrawRect(btn.Bounds, Color.Yellow);
-                if (btn.DrawDown)
-                    Display.DrawRect(btn.Bounds, Color.Blue);
+                {
+                    style.DrawText(textPt.X + 1, textPt.Y, Color.Yellow, OriginAlignment.Center, btn.Text);
+                    style.DrawText(textPt.X - 1, textPt.Y, Color.Yellow, OriginAlignment.Center, btn.Text);
+                    style.DrawText(textPt.X, textPt.Y + 1, Color.Yellow, OriginAlignment.Center, btn.Text);
+                    style.DrawText(textPt.X, textPt.Y - 1, Color.Yellow, OriginAlignment.Center, btn.Text);
+                }
 
-                style.Font.Color = Color.Black;
-                style.Font.DisplayAlignment = OriginAlignment.Center;
+                style.DrawText(textPt.X, textPt.Y, btn.ForeColor, OriginAlignment.Center, btn.Text);
 
-                style.Font.DrawText(btn.Bounds.Left + btn.Bounds.Width / 2, btn.Bounds.Top + btn.Bounds.Height / 2,
-                    btn.Text);
+                Display.DrawLines(lines, Color.Black);
+
             }
-            public override void Component_PaintEnd(object sender, EventArgs e)
+
+            private void SetLines()
             {
-            }
-            public override void Component_PaintBegin(object sender, EventArgs e)
-            {
+
+                lines[0] = new Point(btn.Bounds.X + 1, btn.Bounds.Y);
+                lines[1] = new Point(btn.Bounds.Right - 1, btn.Bounds.Y);
+
+                lines[2] = new Point(btn.Bounds.Right, btn.Bounds.Y + 1);
+                lines[3] = new Point(btn.Bounds.Right, btn.Bounds.Bottom - 1);
+
+                lines[4] = new Point(btn.Bounds.X + 1, btn.Bounds.Bottom);
+                lines[5] = new Point(btn.Bounds.Right - 1, btn.Bounds.Bottom);
+
+                lines[6] = new Point(btn.Bounds.X, btn.Bounds.Y + 1);
+                lines[7] = new Point(btn.Bounds.X, btn.Bounds.Bottom - 1);
             }
         }
 
@@ -62,6 +97,14 @@ namespace ERY.AgateLib.Gui.Styles
 
             else
                 throw new NotImplementedException("Style not available for component type " + componentType.ToString());
+        }
+
+        internal void DrawText(int x, int y, Color color, OriginAlignment align, string text)
+        {
+            Font.DisplayAlignment =align;
+            Font.Color = color;
+
+            Font.DrawText(x, y, text);
         }
     }
 }

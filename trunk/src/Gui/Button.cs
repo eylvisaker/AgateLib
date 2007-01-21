@@ -12,7 +12,7 @@ namespace ERY.AgateLib.Gui
         private bool mDrawDown;
         private bool mMouseClickIn;
         private bool mToggleButton;
-
+        
         public Button(string text) 
         {
 
