@@ -505,6 +505,19 @@ namespace ERY.AgateLib
             impl.DrawLines(pts, color);
         }
         /// <summary>
+        /// Draws a bunch of line segments.  Each pair of points represents
+        /// a line segment which is drawn.  No connections are made. 
+        /// </summary>
+        /// <param name="pts"></param>
+        /// <param name="color"></param>
+        public static void DrawLineSegments(Point[] pts, Color color)
+        {
+            if (pts.Length % 2 == 1)
+                throw new ArgumentException("pts argument is not an even number of points!");
+
+            impl.DrawLineSegments(pts, color);
+        }
+        /// <summary>
         /// Draws the outline of a rectangle.
         /// </summary>
         /// <param name="rect"></param>
