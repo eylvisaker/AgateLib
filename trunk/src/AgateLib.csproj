@@ -58,7 +58,10 @@
     <Compile Include="GuiBase\Container.cs" />
     <Compile Include="Gui\GuiManager.cs" />
     <Compile Include="GuiBase\StyleManager.cs" />
+    <Compile Include="Gui\Label.cs" />
     <Compile Include="Gui\Styles\PlainStyle.cs" />
+    <Compile Include="Gui\TextBox.cs" />
+    <Compile Include="Gui\Window.cs" />
     <Compile Include="ImplBase\AudioImpl.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="FileManager.cs" />

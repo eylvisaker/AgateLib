@@ -34,16 +34,15 @@ namespace ERY.AgateLib.Gui.Styles
                 Gradient reverse = new Gradient(dark, dark, btn.BackColor, btn.BackColor);
 
                 Rectangle rect = btn.Bounds;
-                rect.X++;
-                rect.Y++;
-                rect.Width -= 2;
-                rect.Height -= 2;
+                rect.X++;                rect.Y++;
+                rect.Width -= 2;                rect.Height -= 2;
+
                 SetLines();
 
                 if (btn.DrawDown)
-                    Display.FillRect(btn.Bounds, reverse);
+                    Display.FillRect(rect, reverse);
                 else
-                    Display.FillRect(btn.Bounds, color);
+                    Display.FillRect(rect, color);
 
                 
                 Point textPt = new Point(
@@ -59,12 +58,13 @@ namespace ERY.AgateLib.Gui.Styles
 
                 style.DrawText(textPt.X, textPt.Y, btn.ForeColor, OriginAlignment.Center, btn.Text);
 
-                Display.DrawLines(lines, Color.Black);
+                Display.DrawLineSegments(lines, Color.Black);
 
             }
 
             private void SetLines()
             {
+                // last point isn't used.
 
                 lines[0] = new Point(btn.Bounds.X + 1, btn.Bounds.Y);
                 lines[1] = new Point(btn.Bounds.Right - 1, btn.Bounds.Y);

@@ -152,8 +152,7 @@ namespace ERY.AgateLib.GuiBase
         // private data
         private Rectangle mClientArea;
         private Rectangle mBounds;
-        private Component mParent = null;
-        private List<Component> mChildren = new List<Component>();
+        private Container mParent = null;
         private bool mEnabled = true;
         private bool mVisible = true;
         private Anchor mAnchor = Anchor.Top | Anchor.Left;
@@ -183,7 +182,7 @@ namespace ERY.AgateLib.GuiBase
         /// Initialize a new Component object.
         /// </summary>
         /// <param name="parent">The Component containing this Component.</param>
-        public Component(Component parent)             
+        public Component(Container parent)             
         {
             mParent = parent;
             mParent.AddChild(this);
@@ -197,7 +196,7 @@ namespace ERY.AgateLib.GuiBase
         /// </summary>
         /// <param name="parent">The Component containing this Component.</param>
         /// <param name="bounds">The boundary rectangle for this component.</param>
-        public Component(Component parent, Rectangle bounds)
+        public Component(Container parent, Rectangle bounds)
             : this(parent)
         {
             mBounds = bounds;
@@ -216,11 +215,7 @@ namespace ERY.AgateLib.GuiBase
         /// </summary>
         public virtual void Dispose()
         {
-            for (int i = 0; i < mChildren.Count; i++)
-            {
-                mChildren[i].Dispose();
-            }
-
+            
             mParent.RemoveChild(this);
         }
 
@@ -282,7 +277,6 @@ namespace ERY.AgateLib.GuiBase
                     }
                 }
 
-                ResizeChildren(old);
 
             }
         }
@@ -367,79 +361,7 @@ namespace ERY.AgateLib.GuiBase
         }
 
 
-        /// <summary>
-        /// Resizes all children after a Size change event.
-        /// </summary>
-        /// <param name="oldSize">The old size of the control.  Used to update child positions
-        /// based on what their Anchor property is.</param>
-        protected void ResizeChildren(Size oldSize)
-        {
-            Size change = new Size(Size.Width - oldSize.Width, Size.Height - oldSize.Height);
-
-            foreach (Component c in Children)
-            {
-                Anchor a = c.Anchor;
-                int leftSpacing = c.Location.X;
-                int topSpacing = c.Location.Y;
-                int rightSpacing = oldSize.Width - c.Bounds.Right;
-                int bottomSpacing = oldSize.Height - c.Bounds.Bottom;
-                
-                Rectangle newBounds = new Rectangle(c.Location, c.Size);
-
-                // test left/right
-                Anchor lr = a & (Anchor.Left | Anchor.Right);
-
-                if (lr == Anchor.Left)
-                {
-                    // well, don't do anything here, since the left spot is staying where it's at.
-                }
-                else if (lr == Anchor.Right)
-                {
-                    // move the control, but don't resize it.
-                    newBounds.X += change.Width;
-                }
-                else if (lr == (Anchor.Left | Anchor.Right))
-                {
-                    // now we must resize the control to keep the left spacing and right spacing the same
-                    newBounds.Width = Size.Width - rightSpacing - leftSpacing;
-                }
-                else
-                {
-                    // move by half the change
-                    // mod the second part to make sure the control is still moved by the
-                    // same amount even if the size is changed by one pixel at a time.
-                    newBounds.X += (change.Width / 2) + Math.Sign(change.Width) * (Size.Width % 2);
-                }
-
-                // test top.bottom
-                Anchor tb = a & (Anchor.Top | Anchor.Bottom);
-
-                if (tb == Anchor.Top)
-                {
-                    // again, nothing here.
-                }
-                else if (tb == Anchor.Bottom)
-                {
-                    // move but don't resize
-                    newBounds.Y += change.Height;
-                }
-                else if (tb == (Anchor.Top | Anchor.Bottom))
-                {
-                    // now resize the control to keep top and bottom spacing the same
-                    newBounds.Height = Size.Height - topSpacing - bottomSpacing;
-                }
-                else
-                {
-                    // move by half the change
-                    // mod the second part to make sure the control is still moved by the
-                    // same amount even if the size is changed by one pixel at a time.
-                    newBounds.Y += (change.Height / 2) + Math.Sign(change.Height) * (Size.Height % 2);
-                }
-
-                c.Bounds = newBounds;
-            }
-        }
-
+       
         /// <summary>
         /// Sets focus on this control.
         /// </summary>
@@ -448,7 +370,7 @@ namespace ERY.AgateLib.GuiBase
             // if we can't set focus on this control, just exit
             // maybe this should throw an exception??
             if (!mCanHaveFocus)
-                return;
+                throw new Exception("Error: this component cannot have focus.");
 
             // tell parent to lose focus on all other children.
             mParent.ChildHasFocus(this);
@@ -464,29 +386,14 @@ namespace ERY.AgateLib.GuiBase
         /// <summary>
         /// Causes this control to lose focus (and all its children).
         /// </summary>
-        protected void LoseFocus()
+        protected internal void LoseFocus()
         {
             mHasFocus = false;
 
             if (LostFocus != null)
                 LostFocus(this, EventArgs.Empty);
         }
-        /// <summary>
-        /// This control responds 
-        /// </summary>
-        /// <param name="c"></param>
-        protected void ChildHasFocus(Component c)
-        {
-            SetFocus();
-
-            for (int i = 0; i < mChildren.Count; i++)
-            {
-                if (c != mChildren[i])
-                {
-                    mChildren[i].LoseFocus();
-                }
-            }
-        }
+        
 
         #endregion
         #region --- Coordinate transforms to the screen and back ---
@@ -568,10 +475,13 @@ namespace ERY.AgateLib.GuiBase
         /// <summary>
         /// Returns the control directly above this one.
         /// </summary>
-        public virtual Component Parent
+        internal virtual Container Parent
         {
             get { return mParent; }
-            set { mParent = value; }
+            set
+            {
+                mParent = value;
+            }
         }
 
         /// <summary>
@@ -591,82 +501,15 @@ namespace ERY.AgateLib.GuiBase
             }
         }
 
-        /// <summary>
-        /// Returns the list of child components belonging to this control.
-        /// Do not use this to add children.  Instead use the AddChild method,
-        /// or the constructor of the child control.
-        /// </summary>
-        public List<Component> Children
-        {
-            get { return mChildren; }
-        }
+        
 
-        public void AddChild(Component child)
-        {
-            // make sure we are not adding a component which is a parent somewhere of this control
-            if (IsAnyParent(child))
-                throw new Exception("Cannot add as a child a control which is a parent to this control.");
-            
-            
-            // don't add a null reference
-            if (child == null)
-                throw new Exception("Cannot add a null reference as a child.");
-
-            mChildren.Add(child);
-            child.mParent = this;
-        }
-        public void RemoveChild(Component child)
-        {
-            mChildren.Remove(child);
-        }
-        /// <summary>
-        /// Returns whether or not the given component is a child of this component.
-        /// Does not test recursivly within the children.  Use IsAnyChild for that functionality.
-        /// </summary>
-        /// <param name="test">The component to test.</param>
-        /// <returns>Returns true if the passed component is a child of this control.</returns>
-        public bool IsChild(Component test)
-        {
-            if (test == null)
-                return false;
-
-            for (int i = 0; i < mChildren.Count; i++)
-            {
-                if (mChildren[i] == test)
-                    return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Checks to see if the passed control is a child of this control, or any of its children.
-        /// </summary>
-        /// <param name="test">The component to test</param>
-        /// <returns>True if the passed component is a child of this control or recursively any
-        /// child of this control.  Returns false otherwise, or if test is null.</returns>
-        public bool IsAnyChild(Component test)
-        {
-            if (test == null)
-                return false;
-
-            for (int i = 0; i < mChildren.Count; i++)
-            {
-                if (mChildren[i] == test)
-                    return true;
-                else if (mChildren[i].IsAnyChild(test))
-                    return true;
-            }
-
-            return false;
-        }
         /// <summary>
         /// Checks to see if the passed control is a parent of this control, or any of its parents.
         /// </summary>
         /// <param name="test">The component to test.</param>
         /// <returns>True if the passed component is the parent of this control or any of its parents.
         /// False otherwise.  Also returns false if test is null.</returns>
-        public bool IsAnyParent(Component test)
+        public bool IsAnyParent(Container test)
         {
             if (test == null)
                 return false;
@@ -676,33 +519,6 @@ namespace ERY.AgateLib.GuiBase
             else return false;
         }
 
-        /// <summary>
-        /// Returns the component at the specified point within the client rectangle.
-        /// </summary>
-        /// <param name="x">X position in the client rect</param>
-        /// <param name="y">Y position in the client rect</param>
-        /// <returns>This object if there is no other component there.</returns>
-        public Component GetComponentAt(int x, int y)
-        {
-            return GetComponentAt(new Point(x, y));
-        }
-        /// <summary>
-        /// Returns the component at the specified point within the client rectangle.
-        /// </summary>
-        /// <param name="pt">position in the client rect to look at.</param>
-        /// <returns>This object if there is no other component there.</returns>
-        public Component GetComponentAt(Point pt)
-        {
-            for (int i = 0; i < mChildren.Count; i++)
-            {
-                if (mChildren[i].Bounds.Contains(pt))
-                {
-                    return mChildren[i].GetComponentAt(pt);
-                }
-            }
-
-            return this;
-        }
 
         #endregion
 
@@ -742,77 +558,6 @@ namespace ERY.AgateLib.GuiBase
             mParent.SendChildToBack(this);
         }
 
-        private void RaiseChild(Component c)
-        {
-            for (int i = 0; i < mChildren.Count; i++)
-            {
-                if (mChildren[i] == c)
-                {
-                    int j = i + 1;
-
-                    if (j < mChildren.Count)
-                    {
-                        mChildren.RemoveAt(i);
-                        mChildren.Insert(j, c);
-                    }
-
-                    return;
-                }
-            }
-
-            throw new Exception("BUG: The passed component is not a child of this control!");
-        }
-        private void LowerChild(Component c)
-        {
-            for (int i = 0; i < mChildren.Count; i++)
-            {
-                if (mChildren[i] == c)
-                {
-                    int j = i - 1;
-
-                    if (j >= 0)
-                    {
-                        mChildren.RemoveAt(i);
-                        mChildren.Insert(j, c);
-                    }
-
-                    return;
-                }
-            }
-
-            throw new Exception("BUG: The passed component is not a child of this control!");
-        }
-        private void BringChildToFront(Component c)
-        {
-            for (int i = 0; i < mChildren.Count; i++)
-            {
-                if (mChildren[i] == c)
-                {
-                    mChildren.RemoveAt(i);
-                    mChildren.Add(c);
-
-                    return;
-                }
-            }
-
-            throw new Exception("BUG: The passed component is not a child of this control!");
-        }
-        private void SendChildToBack(Component c)
-        {
-            for (int i = 0; i < mChildren.Count; i++)
-            {
-                if (mChildren[i] == c)
-                {
-                    mChildren.RemoveAt(i);
-                    mChildren.Insert(0, c);
-                
-                    return;
-                }
-            }
-
-            throw new Exception("BUG: The passed component is not a child of this control!");
-        }
-
         #endregion
 
         #region --- Drawing ---
@@ -829,8 +574,6 @@ namespace ERY.AgateLib.GuiBase
                 PaintEnd(this, EventArgs.Empty);
             }
 
-            for (int i = 0; i < mChildren.Count; i++)
-                mChildren[i].Draw();
         }
 
         public StyleManager GetStyleManager()
