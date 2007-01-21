@@ -76,6 +76,15 @@ namespace LightingTest
                     lights.Enabled = frm.enableLightingCheck.Checked;
                     lights.DoLighting();
 
+                    if (frm.chkSurfaceGradient.Checked)
+                    {
+                        Gradient g = new Gradient(Color.Red, Color.Blue, Color.Cyan, Color.Green);
+
+                        image.ColorGradient = g;
+                    }
+                    else
+                        image.Color = Color.White;
+
                     image.TesselateFactor = (int)frm.nudTess.Value;
 
                     image.Draw(50, 50);

@@ -29,28 +29,30 @@ namespace LightingTest
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.enableLightingCheck = new System.Windows.Forms.CheckBox();
-            this.nudTess = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.chkMoveLight = new System.Windows.Forms.CheckBox();
-            this.lblFPS = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnAmbient = new System.Windows.Forms.Button();
+            this.nudAngle = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
             this.btnDiffuse = new System.Windows.Forms.Button();
+            this.btnAmbient = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.chkMoveLight = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.nudTess = new System.Windows.Forms.NumericUpDown();
+            this.enableLightingCheck = new System.Windows.Forms.CheckBox();
+            this.lblFPS = new System.Windows.Forms.Label();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.agateRenderTarget1 = new ERY.AgateLib.Utility.AgateRenderTarget();
-            this.label4 = new System.Windows.Forms.Label();
-            this.nudAngle = new System.Windows.Forms.NumericUpDown();
+            this.chkSurfaceGradient = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAngle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTess)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.chkSurfaceGradient);
             this.panel1.Controls.Add(this.nudAngle);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.btnDiffuse);
@@ -61,126 +63,10 @@ namespace LightingTest
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.nudTess);
             this.panel1.Controls.Add(this.enableLightingCheck);
-            this.panel1.Location = new System.Drawing.Point(393, 0);
+            this.panel1.Location = new System.Drawing.Point(385, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(126, 356);
+            this.panel1.Size = new System.Drawing.Size(126, 352);
             this.panel1.TabIndex = 0;
-            // 
-            // enableLightingCheck
-            // 
-            this.enableLightingCheck.AutoSize = true;
-            this.enableLightingCheck.Checked = true;
-            this.enableLightingCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.enableLightingCheck.Location = new System.Drawing.Point(3, 3);
-            this.enableLightingCheck.Name = "enableLightingCheck";
-            this.enableLightingCheck.Size = new System.Drawing.Size(99, 17);
-            this.enableLightingCheck.TabIndex = 0;
-            this.enableLightingCheck.Text = "Enable Lighting";
-            this.enableLightingCheck.UseVisualStyleBackColor = true;
-            // 
-            // nudTess
-            // 
-            this.nudTess.Location = new System.Drawing.Point(65, 26);
-            this.nudTess.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudTess.Name = "nudTess";
-            this.nudTess.Size = new System.Drawing.Size(37, 20);
-            this.nudTess.TabIndex = 1;
-            this.nudTess.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Tessellate";
-            // 
-            // chkMoveLight
-            // 
-            this.chkMoveLight.AutoSize = true;
-            this.chkMoveLight.Checked = true;
-            this.chkMoveLight.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMoveLight.Location = new System.Drawing.Point(3, 80);
-            this.chkMoveLight.Name = "chkMoveLight";
-            this.chkMoveLight.Size = new System.Drawing.Size(79, 17);
-            this.chkMoveLight.TabIndex = 1;
-            this.chkMoveLight.Text = "Move Light";
-            this.chkMoveLight.UseVisualStyleBackColor = true;
-            // 
-            // lblFPS
-            // 
-            this.lblFPS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblFPS.Location = new System.Drawing.Point(12, 358);
-            this.lblFPS.Name = "lblFPS";
-            this.lblFPS.Size = new System.Drawing.Size(162, 23);
-            this.lblFPS.TabIndex = 3;
-            this.lblFPS.Text = "FPS:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 119);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Diffuse";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 149);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(45, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Ambient";
-            // 
-            // btnAmbient
-            // 
-            this.btnAmbient.BackColor = System.Drawing.Color.Green;
-            this.btnAmbient.Location = new System.Drawing.Point(51, 143);
-            this.btnAmbient.Name = "btnAmbient";
-            this.btnAmbient.Size = new System.Drawing.Size(20, 23);
-            this.btnAmbient.TabIndex = 6;
-            this.btnAmbient.UseVisualStyleBackColor = false;
-            this.btnAmbient.Click += new System.EventHandler(this.btnAmbient_Click);
-            // 
-            // btnDiffuse
-            // 
-            this.btnDiffuse.BackColor = System.Drawing.Color.White;
-            this.btnDiffuse.Location = new System.Drawing.Point(51, 114);
-            this.btnDiffuse.Name = "btnDiffuse";
-            this.btnDiffuse.Size = new System.Drawing.Size(20, 23);
-            this.btnDiffuse.TabIndex = 7;
-            this.btnDiffuse.UseVisualStyleBackColor = false;
-            this.btnDiffuse.Click += new System.EventHandler(this.btnDiffuse_Click);
-            // 
-            // agateRenderTarget1
-            // 
-            this.agateRenderTarget1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.agateRenderTarget1.Location = new System.Drawing.Point(0, 0);
-            this.agateRenderTarget1.Name = "agateRenderTarget1";
-            this.agateRenderTarget1.Size = new System.Drawing.Size(387, 329);
-            this.agateRenderTarget1.TabIndex = 0;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 185);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(39, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Rotate";
             // 
             // nudAngle
             // 
@@ -199,11 +85,137 @@ namespace LightingTest
             this.nudAngle.Size = new System.Drawing.Size(51, 20);
             this.nudAngle.TabIndex = 9;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 185);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Rotate";
+            // 
+            // btnDiffuse
+            // 
+            this.btnDiffuse.BackColor = System.Drawing.Color.White;
+            this.btnDiffuse.Location = new System.Drawing.Point(51, 114);
+            this.btnDiffuse.Name = "btnDiffuse";
+            this.btnDiffuse.Size = new System.Drawing.Size(20, 23);
+            this.btnDiffuse.TabIndex = 7;
+            this.btnDiffuse.UseVisualStyleBackColor = false;
+            this.btnDiffuse.Click += new System.EventHandler(this.btnDiffuse_Click);
+            // 
+            // btnAmbient
+            // 
+            this.btnAmbient.BackColor = System.Drawing.Color.Green;
+            this.btnAmbient.Location = new System.Drawing.Point(51, 143);
+            this.btnAmbient.Name = "btnAmbient";
+            this.btnAmbient.Size = new System.Drawing.Size(20, 23);
+            this.btnAmbient.TabIndex = 6;
+            this.btnAmbient.UseVisualStyleBackColor = false;
+            this.btnAmbient.Click += new System.EventHandler(this.btnAmbient_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 149);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(45, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Ambient";
+            // 
+            // chkMoveLight
+            // 
+            this.chkMoveLight.AutoSize = true;
+            this.chkMoveLight.Checked = true;
+            this.chkMoveLight.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkMoveLight.Location = new System.Drawing.Point(3, 80);
+            this.chkMoveLight.Name = "chkMoveLight";
+            this.chkMoveLight.Size = new System.Drawing.Size(79, 17);
+            this.chkMoveLight.TabIndex = 1;
+            this.chkMoveLight.Text = "Move Light";
+            this.chkMoveLight.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 119);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(40, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Diffuse";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(55, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Tessellate";
+            // 
+            // nudTess
+            // 
+            this.nudTess.Location = new System.Drawing.Point(65, 26);
+            this.nudTess.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudTess.Name = "nudTess";
+            this.nudTess.Size = new System.Drawing.Size(37, 20);
+            this.nudTess.TabIndex = 1;
+            this.nudTess.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // enableLightingCheck
+            // 
+            this.enableLightingCheck.AutoSize = true;
+            this.enableLightingCheck.Checked = true;
+            this.enableLightingCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.enableLightingCheck.Location = new System.Drawing.Point(3, 3);
+            this.enableLightingCheck.Name = "enableLightingCheck";
+            this.enableLightingCheck.Size = new System.Drawing.Size(99, 17);
+            this.enableLightingCheck.TabIndex = 0;
+            this.enableLightingCheck.Text = "Enable Lighting";
+            this.enableLightingCheck.UseVisualStyleBackColor = true;
+            // 
+            // lblFPS
+            // 
+            this.lblFPS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblFPS.Location = new System.Drawing.Point(12, 354);
+            this.lblFPS.Name = "lblFPS";
+            this.lblFPS.Size = new System.Drawing.Size(162, 23);
+            this.lblFPS.TabIndex = 3;
+            this.lblFPS.Text = "FPS:";
+            // 
+            // agateRenderTarget1
+            // 
+            this.agateRenderTarget1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.agateRenderTarget1.Location = new System.Drawing.Point(0, 0);
+            this.agateRenderTarget1.Name = "agateRenderTarget1";
+            this.agateRenderTarget1.Size = new System.Drawing.Size(379, 325);
+            this.agateRenderTarget1.TabIndex = 0;
+            // 
+            // chkSurfaceGradient
+            // 
+            this.chkSurfaceGradient.AutoSize = true;
+            this.chkSurfaceGradient.Location = new System.Drawing.Point(6, 220);
+            this.chkSurfaceGradient.Name = "chkSurfaceGradient";
+            this.chkSurfaceGradient.Size = new System.Drawing.Size(106, 17);
+            this.chkSurfaceGradient.TabIndex = 4;
+            this.chkSurfaceGradient.Text = "Surface Gradient";
+            this.chkSurfaceGradient.UseVisualStyleBackColor = true;
+            // 
             // LightingTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(522, 380);
+            this.ClientSize = new System.Drawing.Size(514, 376);
             this.Controls.Add(this.lblFPS);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.agateRenderTarget1);
@@ -212,8 +224,8 @@ namespace LightingTest
             this.Text = "Lighting Test";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTess)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAngle)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTess)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -234,6 +246,7 @@ namespace LightingTest
         public System.Windows.Forms.Button btnAmbient;
         private System.Windows.Forms.Label label4;
         public System.Windows.Forms.NumericUpDown nudAngle;
+        public System.Windows.Forms.CheckBox chkSurfaceGradient;
     }
 }
 
