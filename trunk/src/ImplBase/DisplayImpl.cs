@@ -419,6 +419,19 @@ namespace ERY.AgateLib.ImplBase
             for (int i = 0; i < pt.Length - 1; i++)
                 DrawLine(pt[i], pt[i + 1], color);
         }
+        /// <summary>
+        /// Draws a bunch of unconnected lines.
+        /// <para>
+        /// Info for developers:
+        /// pt should be an array whose length is even.</para>
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <param name="color"></param>
+        public virtual void DrawLineSegments(Point[] pt, Color color)
+        {
+            for (int i = 0; i < pt.Length; i += 2)
+                DrawLine(pt[i], pt[i + 1], color);
+        }
 
         /// <summary>
         /// Draws the outline of a rectangle.
