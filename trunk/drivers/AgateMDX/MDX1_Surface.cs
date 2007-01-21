@@ -670,8 +670,8 @@ namespace ERY.AgateLib.MDX
                 indices[indexIndex] = (short)startIndex;
                 indices[indexIndex + 1] = (short)(startIndex + 1);
                 indices[indexIndex + 2] = (short)(startIndex + 2);
-                indices[indexIndex + 3] = (short)(startIndex + 1);
-                indices[indexIndex + 4] = (short)(startIndex + 2);
+                indices[indexIndex + 3] = (short)(startIndex + 2);
+                indices[indexIndex + 4] = (short)(startIndex + 1);
                 indices[indexIndex + 5] = (short)(startIndex + 3);
 
 
