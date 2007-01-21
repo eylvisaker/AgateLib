@@ -52,6 +52,12 @@
     <Compile Include="Geometry\Converter.cs" />
     <Compile Include="Geometry\Gradient.cs" />
     <Compile Include="Geometry\Vector3.cs" />
+    <Compile Include="Gui\Button.cs" />
+    <Compile Include="GuiBase\Component.cs" />
+    <Compile Include="GuiBase\ComponentStyle.cs" />
+    <Compile Include="GuiBase\Container.cs" />
+    <Compile Include="Gui\GuiManager.cs" />
+    <Compile Include="GuiBase\StyleManager.cs" />
     <Compile Include="ImplBase\AudioImpl.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="FileManager.cs" />
