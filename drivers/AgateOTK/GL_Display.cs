@@ -168,8 +168,8 @@ namespace ERY.AgateLib.OpenGL
             Gl.Disable(Enums.EnableCap.TEXTURE_2D);
             Gl.Begin(Enums.BeginMode.LINES);
 
-            Gl.Vertex2d(x1, y1);
-            Gl.Vertex2d(x2, y2);
+            Gl.Vertex2d(x1, y1+0.5);
+            Gl.Vertex2d(x2, y2+0.5);
 
             Gl.End();
             Gl.Enable(Enums.EnableCap.TEXTURE_2D);

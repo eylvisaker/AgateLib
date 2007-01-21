@@ -160,6 +160,7 @@ namespace ERY.AgateLib.GuiBase
         private int mFocusChild = -1;
         private Color mBackColor = Color.White;
         private Color mForeColor = Color.Black;
+        private bool mAutoSize = true;
 
         // protected data
         protected bool mCanHaveFocus = true;
@@ -182,10 +183,10 @@ namespace ERY.AgateLib.GuiBase
         /// Initialize a new Component object.
         /// </summary>
         /// <param name="parent">The Component containing this Component.</param>
-        public Component(Container parent)             
+        public Component(Container parent, bool autoSize)             
         {
-            mParent = parent;
-            mParent.AddChild(this);
+            mAutoSize = autoSize;
+            parent.AddChild(this);
 
             LoadStyle();
         }
@@ -197,7 +198,7 @@ namespace ERY.AgateLib.GuiBase
         /// <param name="parent">The Component containing this Component.</param>
         /// <param name="bounds">The boundary rectangle for this component.</param>
         public Component(Container parent, Rectangle bounds)
-            : this(parent)
+            : this(parent, false)
         {
             mBounds = bounds;
 
@@ -209,20 +210,27 @@ namespace ERY.AgateLib.GuiBase
         {
             mStyleManager = mParent.GetStyleManager();
             mStyleManager.ConnectStyle(this.GetType(), this);
+
+            if (mAutoSize)
+                mStyle.DoAutoSize();
         }
         /// <summary>
         /// Disposes the control and all children.
         /// </summary>
         public virtual void Dispose()
         {
-            
             mParent.RemoveChild(this);
         }
 
         #endregion 
 
-        #region --- Display and layout ---
+        #region --- Display and layout properties ---
 
+        public virtual bool AutoSize
+        {
+            get { return mAutoSize; }
+            set { mAutoSize = value; }
+        }
         public virtual Rectangle ClientArea
         {
             get { return mClientArea; }
@@ -481,6 +489,8 @@ namespace ERY.AgateLib.GuiBase
             set
             {
                 mParent = value;
+
+                LoadStyle();
             }
         }
 
@@ -501,7 +511,12 @@ namespace ERY.AgateLib.GuiBase
             }
         }
 
-        
+
+        protected void CheckAutoSize()
+        {
+            if (AutoSize)
+                mStyle.DoAutoSize();
+        }
 
         /// <summary>
         /// Checks to see if the passed control is a parent of this control, or any of its parents.

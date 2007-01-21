@@ -48,20 +48,25 @@ namespace ERY.AgateLib.Gui.Styles
                 Point textPt = new Point(
                     btn.Bounds.Left + btn.Bounds.Width / 2, btn.Bounds.Top + btn.Bounds.Height / 2);
 
-                if (btn.DrawHover)
-                {
-                    style.DrawText(textPt.X + 1, textPt.Y, Color.Yellow, OriginAlignment.Center, btn.Text);
-                    style.DrawText(textPt.X - 1, textPt.Y, Color.Yellow, OriginAlignment.Center, btn.Text);
-                    style.DrawText(textPt.X, textPt.Y + 1, Color.Yellow, OriginAlignment.Center, btn.Text);
-                    style.DrawText(textPt.X, textPt.Y - 1, Color.Yellow, OriginAlignment.Center, btn.Text);
-                }
+                //if (btn.DrawHover)
+                //{
+                //    style.DrawText(textPt.X + 1, textPt.Y, Color.Yellow, OriginAlignment.Center, btn.Text);
+                //    style.DrawText(textPt.X - 1, textPt.Y, Color.Yellow, OriginAlignment.Center, btn.Text);
+                //    style.DrawText(textPt.X, textPt.Y + 1, Color.Yellow, OriginAlignment.Center, btn.Text);
+                //    style.DrawText(textPt.X, textPt.Y - 1, Color.Yellow, OriginAlignment.Center, btn.Text);
+                //}
 
                 style.DrawText(textPt.X, textPt.Y, btn.ForeColor, OriginAlignment.Center, btn.Text);
 
                 Display.DrawLineSegments(lines, Color.Black);
 
             }
+            public override void DoAutoSize()
+            {
+                Size size = style.Font.StringDisplaySize(btn.Text);
 
+                btn.Size = new Size(size.Width + 4, size.Height + 4);
+            }
             private void SetLines()
             {
                 // last point isn't used.
@@ -69,11 +74,11 @@ namespace ERY.AgateLib.Gui.Styles
                 lines[0] = new Point(btn.Bounds.X + 1, btn.Bounds.Y);
                 lines[1] = new Point(btn.Bounds.Right - 1, btn.Bounds.Y);
 
-                lines[2] = new Point(btn.Bounds.Right, btn.Bounds.Y + 1);
-                lines[3] = new Point(btn.Bounds.Right, btn.Bounds.Bottom - 1);
+                lines[2] = new Point(btn.Bounds.Right - 1, btn.Bounds.Y + 1);
+                lines[3] = new Point(btn.Bounds.Right - 1, btn.Bounds.Bottom - 1);
 
-                lines[4] = new Point(btn.Bounds.X + 1, btn.Bounds.Bottom);
-                lines[5] = new Point(btn.Bounds.Right - 1, btn.Bounds.Bottom);
+                lines[4] = new Point(btn.Bounds.X + 1, btn.Bounds.Bottom - 1);
+                lines[5] = new Point(btn.Bounds.Right - 1, btn.Bounds.Bottom - 1);
 
                 lines[6] = new Point(btn.Bounds.X, btn.Bounds.Y + 1);
                 lines[7] = new Point(btn.Bounds.X, btn.Bounds.Bottom - 1);
