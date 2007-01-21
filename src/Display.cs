@@ -546,6 +546,14 @@ namespace ERY.AgateLib
         {
             impl.FillRect(new Rectangle(x, y, width, height), color);
         }
+        public static void FillRect(Rectangle rect, Gradient color)
+        {
+            impl.FillRect(rect, color);
+        }
+        public static void FillRect(int x, int y, int width, int height, Gradient color)
+        {
+            impl.FillRect(new Rectangle(x, y, width, height), color);
+        }
 
         #endregion
 
