@@ -216,16 +216,15 @@ namespace ERY.AgateLib.MDX
 
         #region --- Overriden base class methods ---
 
-        public override Color Color
+        public override Gradient ColorGradient
         {
             get
             {
-                return base.Color;
+                return base.ColorGradient;
             }
             set
             {
-
-                base.Color = value;
+                base.ColorGradient = value;
 
                 SetVertsColor(mVerts, 0, 4);
             }
@@ -438,12 +437,18 @@ namespace ERY.AgateLib.MDX
 
         private void SetVertsColor(PositionColorNormalTexture[] verts, int startIndex, int count)
         {
-            int color = Color.ToArgb();
-
-            for (int i = startIndex; i < count; i++)
-            {
-                verts[i].Color = color;
-            }
+            verts[startIndex].Color = ColorGradient.TopLeft.ToArgb();
+            verts[startIndex + 1].Color = ColorGradient.TopRight.ToArgb();
+            verts[startIndex + 2].Color = ColorGradient.BottomLeft.ToArgb();
+            verts[startIndex + 3].Color = ColorGradient.BottomRight.ToArgb();
+        }
+        private void SetVertsColor(PositionColorNormalTexture[] verts, int startIndex, int count,
+            double x, double y, double width, double height)
+        {
+            verts[startIndex].Color = ColorGradient.Interpolate(x, y).ToArgb();
+            verts[startIndex + 1].Color = ColorGradient.Interpolate(x + width, y).ToArgb();
+            verts[startIndex + 2].Color = ColorGradient.Interpolate(x, y + height).ToArgb();
+            verts[startIndex + 3].Color = ColorGradient.Interpolate(x + width, y + height).ToArgb();
         }
         private void SetVertsPosition(PositionColorNormalTexture[] verts, int index,
             Rectangle dest, float rotationCenterX, float rotationCenterY)
@@ -631,7 +636,10 @@ namespace ERY.AgateLib.MDX
                         dest.Width = destRect.Width / (float)TesselateFactor;
 
 
-                        SetVertsColor(mExtraVerts, 0, 4);
+                        SetVertsColor(mExtraVerts, 0, 4, 
+                            i / (double)TesselateFactor, j / (double)TesselateFactor, 
+                            1.0 / TesselateFactor, 1.0 / TesselateFactor);
+
                         SetVertsTextureCoordinates(mExtraVerts, 0, src);
                         SetVertsPosition(mExtraVerts, 0, dest, 0, 0);
 

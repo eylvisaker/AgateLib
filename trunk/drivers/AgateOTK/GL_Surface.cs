@@ -213,7 +213,7 @@ namespace ERY.AgateLib.OpenGL
             if (TesselateFactor == 1)
             {
                 BufferQuad(destX, destY, rotationCenterX, rotationCenterY,
-                    DisplayWidth, DisplayHeight, mTexCoord);
+                    DisplayWidth, DisplayHeight, mTexCoord, ColorGradient);
             }
             else
             {
@@ -237,9 +237,18 @@ namespace ERY.AgateLib.OpenGL
                         float dx = destX + i * displayWidth * mRotationCos + j * displayHeight * mRotationSin;
                         float dy = destY - i * displayWidth * mRotationSin + j * displayHeight * mRotationCos;
 
+                        double cx = i / (double)TesselateFactor;
+                        double cy = j / (double)TesselateFactor;
+
+                        Gradient color = new Gradient(
+                            ColorGradient.Interpolate(cx, cy),
+                            ColorGradient.Interpolate(cx + 1.0 / TesselateFactor, cy),
+                            ColorGradient.Interpolate(cx, cy + 1.0 / TesselateFactor),
+                            ColorGradient.Interpolate(cx + 1.0 / TesselateFactor, cy + 1.0 / TesselateFactor));
+
                         BufferQuad(dx, dy, 
                             rotationCenterX, rotationCenterY,
-                            displayWidth, displayHeight, texCoord);
+                            displayWidth, displayHeight, texCoord, color);
 
                     }
                 }
@@ -255,7 +264,7 @@ namespace ERY.AgateLib.OpenGL
         }
 
         private void BufferQuad(float destX, float destY, float rotationCenterX, float rotationCenterY,
-            float displayWidth, float displayHeight, TextureCoordinates texCoord)
+            float displayWidth, float displayHeight, TextureCoordinates texCoord, Gradient color)
         {
 
             // order is 
@@ -271,7 +280,7 @@ namespace ERY.AgateLib.OpenGL
             //                     new SizeF(displayWidth, displayHeight));
 
 
-            mState.DrawBuffer.AddQuad(mTextureID, Color, texCoord, pt);
+            mState.DrawBuffer.AddQuad(mTextureID, color, texCoord, pt);
         }
 
         private void SetPoints(PointF[] pt, float destX, float destY, float rotationCenterX, float rotationCenterY, 
