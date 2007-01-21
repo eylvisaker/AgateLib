@@ -27,8 +27,10 @@ namespace ERY.AgateLib.GuiBase
         public abstract void InitializeAfterConnect();
 
         public abstract void Component_Paint(object sender, EventArgs e);
-        public abstract void Component_PaintEnd(object sender, EventArgs e);
-        public abstract void Component_PaintBegin(object sender, EventArgs e);
+        public virtual void Component_PaintEnd(object sender, EventArgs e)
+        { }
+        public virtual void Component_PaintBegin(object sender, EventArgs e)
+        { }
 
         public Component MyComponent
         {

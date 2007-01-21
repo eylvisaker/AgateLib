@@ -159,6 +159,8 @@ namespace ERY.AgateLib.GuiBase
         private Anchor mAnchor = Anchor.Top | Anchor.Left;
         private bool mHasFocus = false;
         private int mFocusChild = -1;
+        private Color mBackColor = Color.White;
+        private Color mForeColor = Color.Black;
 
         // protected data
         protected bool mCanHaveFocus = true;
@@ -302,6 +304,16 @@ namespace ERY.AgateLib.GuiBase
                     }
                 }
             }
+        }
+        public Color BackColor
+        {
+            get { return mBackColor; }
+            set { mBackColor = value; }
+        }
+        public Color ForeColor
+        {
+            get { return mForeColor; }
+            set { mForeColor = value; }
         }
 
         public bool MouseIn
