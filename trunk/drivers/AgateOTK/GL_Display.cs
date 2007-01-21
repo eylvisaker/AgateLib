@@ -227,7 +227,28 @@ namespace ERY.AgateLib.OpenGL
 
             Gl.Enable(Enums.EnableCap.TEXTURE_2D);
         }
+        public override void FillRect(Rectangle rect, Gradient color)
+        {
+            mState.DrawBuffer.Flush();
 
+            Gl.Disable(Enums.EnableCap.TEXTURE_2D);
+
+            Gl.Begin(Enums.BeginMode.QUADS);
+            mState.SetGLColor(color.TopLeft);
+            Gl.Vertex3f(rect.Left, rect.Top, 0);                                        // Top Left
+
+            mState.SetGLColor(color.TopRight);
+            Gl.Vertex3f(rect.Right, rect.Top, 0);                                         // Top Right
+
+            mState.SetGLColor(color.BottomRight);
+            Gl.Vertex3f(rect.Right, rect.Bottom, 0);                                        // Bottom Right
+
+            mState.SetGLColor(color.BottomLeft);
+            Gl.Vertex3f(rect.Left, rect.Bottom, 0);                                       // Bottom Left
+            Gl.End();                                                         // Done Drawing The Quad
+
+            Gl.Enable(Enums.EnableCap.TEXTURE_2D);
+        }
 
         public override bool VSync
         {

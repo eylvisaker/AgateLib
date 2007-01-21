@@ -379,24 +379,26 @@ namespace ERY.AgateLib.MDX
         }
         public override void FillRect(Rectangle rect, Color color)
         {
-            int clr = color.ToArgb();
-
+            FillRect(rect, new Gradient(color));
+        }
+        public override void FillRect(Rectangle rect, Gradient color)
+        {
             // defining our screen sized quad, note the Z value of 1f to place it in the background
             mFillRectVerts[0].Position = new Microsoft.DirectX.Vector3(rect.Left, rect.Top, 0f);
-            mFillRectVerts[0].Color = clr;
+            mFillRectVerts[0].Color = color.TopLeft.ToArgb();
 
             mFillRectVerts[1].Position = new Microsoft.DirectX.Vector3(rect.Right, rect.Top, 0f);
-            mFillRectVerts[1].Color = clr;
+            mFillRectVerts[1].Color = color.TopRight.ToArgb();
 
             mFillRectVerts[2].Position = new Microsoft.DirectX.Vector3(rect.Left, rect.Bottom, 0f);
-            mFillRectVerts[2].Color = clr;
+            mFillRectVerts[2].Color = color.BottomLeft.ToArgb();
 
             mFillRectVerts[3] = mFillRectVerts[1];
             //vert[3].Position = new Vector4(rect.Right, rect.Top, 0f, 1f);
             //vert[3].Color = clr;
 
             mFillRectVerts[4].Position = new Microsoft.DirectX.Vector3(rect.Right, rect.Bottom, 0f);
-            mFillRectVerts[4].Color = clr;
+            mFillRectVerts[4].Color = color.BottomRight.ToArgb();
 
             mFillRectVerts[5] = mFillRectVerts[2];
             //vert[5].Position = new Vector4(rect.Left, rect.Bottom, 0f, 1f);
