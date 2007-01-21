@@ -321,6 +321,9 @@ namespace ERY.AgateLib.ImplBase
         /// <returns></returns>
         public override int StringDisplayWidth(string text)
         {
+            if (string.IsNullOrEmpty(text))
+                return 0;
+
             double highestLineWidth = 0;
             
             string[] lines = text.Split('\n');

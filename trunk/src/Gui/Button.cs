@@ -16,20 +16,32 @@ namespace ERY.AgateLib.Gui
         public Button(string text) 
         {
             Text = text;
+            AttachEvents();
         }
         public Button(Container parent, Rectangle bounds, string text)
             : base(parent, bounds)
         {
             Text = text;
+            AttachEvents();
+        }
+        public Button(Container parent, Point location, string text)
+            : base(parent, true)
+        {
+            Text = text;
+            AttachEvents();
 
+            Location = location;
+
+            CheckAutoSize();
+        }
+
+        private void AttachEvents()
+        {
             MouseDown += new GuiInputEventHandler(Button_MouseDown);
             MouseEnter += new GuiInputEventHandler(Button_MouseEnter);
             MouseLeave += new GuiInputEventHandler(Button_MouseLeave);
             MouseUp += new GuiInputEventHandler(Button_MouseUp);
-
-            LoadStyle();
         }
-
         void Button_MouseUp(object sender, InputEventArgs e)
         {
             if (mDrawDown)
@@ -83,8 +95,11 @@ namespace ERY.AgateLib.Gui
 
                 if (TextChanged != null)
                     TextChanged(this, EventArgs.Empty);
+
+                CheckAutoSize();
             }
         }
+
 
         public event EventHandler Click;
         public event EventHandler TextChanged;

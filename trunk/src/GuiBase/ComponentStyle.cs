@@ -44,5 +44,7 @@ namespace ERY.AgateLib.GuiBase
         {
             get { return mComponent; }
         }
+
+        public abstract void DoAutoSize();
     }
 }

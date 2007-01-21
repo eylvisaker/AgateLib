@@ -28,9 +28,9 @@ namespace GuiTest
                 PlainStyle style = new PlainStyle();
                 GuiManager gui = new GuiManager(style);
                 Button btn = new Button(gui, new Rectangle(10, 10, 80, 20), "Hello world");
-                Button btn2 = new Button(gui, new Rectangle(10, 40, 80, 20), "Chonk");
+                //Button btn2 = new Button(gui, new Point(10, 40), "Chonk");
 
-                btn2.BackColor = Color.Red;
+                //btn2.BackColor = Color.Red;
 
                 btn.Click += new EventHandler(btn_Click);
 
