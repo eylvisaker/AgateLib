@@ -7,11 +7,10 @@ namespace ERY.AgateLib.Gui
 {
     public class GuiManager : Container 
     {
-        private bool mUserInterface = false;
+        private bool mUserInterface = true;
 
 
-         public GuiManager(StyleManager style)
-            : base("GUIManager")
+        public GuiManager(StyleManager style)
         {
             SetStyleManager(style);
 

@@ -161,10 +161,9 @@ namespace ERY.AgateLib.GuiBase
         private int mFocusChild = -1;
 
         // protected data
-        protected bool mFocusable = true;
+        protected bool mCanHaveFocus = true;
         protected ComponentStyle mStyle;
         protected StyleManager mStyleManager;
-        protected string mComponentType;
 
         protected bool mMouseIn = false;
 
@@ -175,22 +174,19 @@ namespace ERY.AgateLib.GuiBase
         /// <summary>
         /// Initialize a new Component object.
         /// </summary>
-        public Component(string componentType)
+        public Component()
         {
-            mComponentType = componentType;
         }
         /// <summary>
         /// Initialize a new Component object.
         /// </summary>
         /// <param name="parent">The Component containing this Component.</param>
-        public Component(string componentType, Component parent) 
-            : this(componentType)
+        public Component(Component parent)             
         {
             mParent = parent;
             mParent.AddChild(this);
 
             LoadStyle();
-           
         }
 
 
@@ -199,8 +195,8 @@ namespace ERY.AgateLib.GuiBase
         /// </summary>
         /// <param name="parent">The Component containing this Component.</param>
         /// <param name="bounds">The boundary rectangle for this component.</param>
-        public Component(string componentType, Component parent, Rectangle bounds)
-            : this(componentType, parent)
+        public Component(Component parent, Rectangle bounds)
+            : this(parent)
         {
             mBounds = bounds;
 
@@ -211,8 +207,7 @@ namespace ERY.AgateLib.GuiBase
         protected void LoadStyle()
         {
             mStyleManager = mParent.GetStyleManager();
-            mStyleManager.ConnectStyle(mComponentType, this);
-
+            mStyleManager.ConnectStyle(this.GetType(), this);
         }
         /// <summary>
         /// Disposes the control and all children.
@@ -348,7 +343,7 @@ namespace ERY.AgateLib.GuiBase
         /// </summary>
         public bool IsFocusable
         {
-            get { return mFocusable; }
+            get { return mCanHaveFocus; }
         }
 
         /// <summary>
@@ -440,7 +435,7 @@ namespace ERY.AgateLib.GuiBase
         {
             // if we can't set focus on this control, just exit
             // maybe this should throw an exception??
-            if (!mFocusable)
+            if (!mCanHaveFocus)
                 return;
 
             // tell parent to lose focus on all other children.
@@ -846,56 +841,57 @@ namespace ERY.AgateLib.GuiBase
             mStyle = style;
             mStyle.Attach(this);
         }
+
         #endregion
 
         #region --- Event handlers ---
 
-        public void OnMouseMove(InputEventArgs e)
+        internal virtual void OnMouseMove(InputEventArgs e)
         {
             if (MouseMove != null)
                 MouseMove(this, e);
         }
-        public void OnMouseDown(InputEventArgs e)
+        internal virtual void OnMouseDown(InputEventArgs e)
         {
             if (MouseDown != null)
                 MouseDown(this, e);
         }
-        public void OnMouseUp(InputEventArgs e)
+        internal virtual void OnMouseUp(InputEventArgs e)
         {
             if (MouseUp != null)
                 MouseUp(this, e);
         }
-        public void OnMouseEnter(InputEventArgs e)
+        internal virtual void OnMouseEnter(InputEventArgs e)
         {
             mMouseIn = true;
 
             if (MouseEnter != null)
                 MouseEnter(this, e);
         }
-        public void OnMouseLeave(InputEventArgs e)
+        internal virtual void OnMouseLeave(InputEventArgs e)
         {
             mMouseIn = false;
 
             if (MouseLeave != null)
                 MouseLeave(this, e);
         }
-        public void OnMouseClick(InputEventArgs e)
+        internal virtual void OnMouseClick(InputEventArgs e)
         {
             if (MouseClick != null)
                 MouseClick(this, e);
         }
-        public void OnMouseHover(InputEventArgs e)
+        internal virtual void OnMouseHover(InputEventArgs e)
         {
             if (MouseHover != null)
                 MouseHover(this, e);
         }
 
-        public void OnKeyDown(InputEventArgs e)
+        internal virtual void OnKeyDown(InputEventArgs e)
         {
             if (KeyDown != null)
                 KeyDown(this, e);
         }
-        public void OnKeyUp(InputEventArgs e)
+        internal virtual void OnKeyUp(InputEventArgs e)
         {
             if (KeyUp != null)
                 KeyUp(this, e);

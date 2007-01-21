@@ -6,15 +6,19 @@ using ERY.AgateLib.GuiBase;
 
 namespace ERY.AgateLib.Gui
 {
-    class Button : Component 
+    public class Button : Component 
     {
         private string mText;
         private bool mDrawDown;
         private bool mMouseClickIn;
         private bool mToggleButton;
-        
+
+        public Button(string text) 
+        {
+
+        }
         public Button(Component parent, Rectangle bounds, string text)
-            : base("button", parent, bounds)
+            : base(parent, bounds)
         {
             Text = text;
 
@@ -22,6 +26,8 @@ namespace ERY.AgateLib.Gui
             MouseEnter += new GuiInputEventHandler(Button_MouseEnter);
             MouseLeave += new GuiInputEventHandler(Button_MouseLeave);
             MouseUp += new GuiInputEventHandler(Button_MouseUp);
+
+            LoadStyle();
         }
 
         void Button_MouseUp(object sender, InputEventArgs e)
@@ -62,6 +68,10 @@ namespace ERY.AgateLib.Gui
         public bool DrawDown
         {
             get { return mDrawDown; }
+        }
+        public bool DrawHover
+        {
+            get { return mDrawDown == false && mMouseIn == true; }
         }
 
         public string Text

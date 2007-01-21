@@ -14,41 +14,23 @@ namespace ERY.AgateLib.GuiBase
 
         #region --- Construction / Destruction ---
 
-        public Container(string componentType)
-            : base(componentType)
+        public Container()
         {
-            
         }
+
+
         #endregion
 
         #region --- Event Handlers ---
 
-
-
-        void Keyboard_KeyUp(InputEventArgs e)
-        {
-        }
-        void Keyboard_KeyDown(InputEventArgs e)
-        {
-        }
-        void Mouse_MouseDown(InputEventArgs e)
-        {
-            mMouseDownControl = this.GetComponentAt(e.MousePosition);
-            mMouseDownControl.OnMouseDown(e);
-        }
-        void Mouse_MouseUp(InputEventArgs e)
-        {
-            if (mMouseDownControl == null) return;
-
-            mMouseDownControl.OnMouseUp(e);
-            mMouseDownControl = null;
-        }
-        void Mouse_MouseMove(InputEventArgs e)
+        //void Container_MouseMove(object sender, InputEventArgs e)
+        internal override void OnMouseMove(InputEventArgs e)
         {
             // If the mouse is already down in a control, then mouse motions 
             // are intercepted only by that control.
             if (mMouseDownControl == null)
             {
+                // check for mouse leave events
                 Component last = this.GetComponentAt(mLastMousePosition);
 
                 // go through these for mouseLeave events
@@ -62,7 +44,10 @@ namespace ERY.AgateLib.GuiBase
                 Component c = this.GetComponentAt(e.MousePosition);
 
                 if (c == this)
+                {
+                    base.OnMouseMove(e);
                     return;
+                }
 
                 if (!c.MouseIn)
                 {
@@ -96,7 +81,32 @@ namespace ERY.AgateLib.GuiBase
                 }
             }
         }
+        //void Container_MouseUp(object sender, InputEventArgs e)
+        internal override void  OnMouseUp(InputEventArgs e)
+        {
+            if (mMouseDownControl == null)
+            {
+                base.OnMouseUp(e);
+                return;
+            }
 
+            mMouseDownControl.OnMouseUp(e);
+            mMouseDownControl = null;
+        }
+        internal override void  OnMouseDown(InputEventArgs e)
+        {
+            mMouseDownControl = this.GetComponentAt(e.MousePosition);
+
+            if (mMouseDownControl == null || mMouseDownControl == this)
+            {
+                mMouseDownControl = null;
+                base.OnMouseDown(e);
+
+                return;
+            }
+
+            mMouseDownControl.OnMouseDown(e);
+        }
 
         public override void Draw()
         {
