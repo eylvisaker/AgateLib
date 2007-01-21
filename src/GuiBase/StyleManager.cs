@@ -7,6 +7,6 @@ namespace ERY.AgateLib.GuiBase
 {
     public abstract class StyleManager
     {
-        public abstract void ConnectStyle(string componentType, Component target);
+        public abstract void ConnectStyle(Type componentType, Component target);
     }
 }
