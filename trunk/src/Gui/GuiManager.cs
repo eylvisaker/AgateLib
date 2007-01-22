@@ -20,7 +20,9 @@ namespace ERY.AgateLib.Gui
             Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
             Keyboard.KeyUp += new InputEventHandler(Keyboard_KeyUp);
 
+            Core.KeepAliveEvent += new Core.KeepAliveDelegate(Update);
         }
+
 
         public override void Dispose()
         {
@@ -30,10 +32,13 @@ namespace ERY.AgateLib.Gui
             Keyboard.KeyDown -= Keyboard_KeyDown;
             Keyboard.KeyUp -= Keyboard_KeyUp;
 
+            Core.KeepAliveEvent -= Update;
+
             base.Dispose();
         }
 
 
+        
         public bool UserInterface
         {
             get { return mUserInterface; }
