@@ -91,7 +91,15 @@ namespace ERY.AgateLib.Geometry
         /// </summary>
         public static readonly SizeF Empty = new SizeF(0, 0);
 
-
+        /// <summary>
+        /// Conversion to Size casts height and width to integers.
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static explicit operator Size (SizeF size)
+        {
+            return new Size((int)size.width, (int)size.height);
+        }
         #region --- Operator Overloads ---
 
         /// <summary>
