@@ -230,7 +230,7 @@ namespace ERY.AgateLib.ImplBase
 
             PostProcessFont(bmp);
 
-            bmp.Save("testfont.png", Drawing.Imaging.ImageFormat.Png);
+            //bmp.Save("testfont.png", Drawing.Imaging.ImageFormat.Png);
 
             string tempFile = System.IO.Path.GetTempFileName() + ".png";
             tempFile = tempFile.Replace("\\", "/");

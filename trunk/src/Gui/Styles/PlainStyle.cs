@@ -33,7 +33,7 @@ namespace ERY.AgateLib.Gui.Styles
                 Gradient color = new Gradient(btn.BackColor, btn.BackColor, dark, dark);
                 Gradient reverse = new Gradient(dark, dark, btn.BackColor, btn.BackColor);
 
-                Rectangle rect = btn.Bounds;
+                Rectangle rect = btn.ScreenBounds;
                 rect.X++;                rect.Y++;
                 rect.Width -= 2;                rect.Height -= 2;
 
@@ -45,8 +45,7 @@ namespace ERY.AgateLib.Gui.Styles
                     Display.FillRect(rect, color);
 
                 
-                Point textPt = new Point(
-                    btn.Bounds.Left + btn.Bounds.Width / 2, btn.Bounds.Top + btn.Bounds.Height / 2);
+                Point textPt = btn.ClientToScreen(new Point(btn.Bounds.Width / 2, btn.Bounds.Height / 2));
 
                 //if (btn.DrawHover)
                 //{
@@ -69,19 +68,21 @@ namespace ERY.AgateLib.Gui.Styles
             }
             private void SetLines()
             {
-                // last point isn't used.
+                // last point isn't used.  so there are strange 1's where the should be 2's.
+                Rectangle bounds = btn.ScreenBounds;
 
-                lines[0] = new Point(btn.Bounds.X + 1, btn.Bounds.Y);
-                lines[1] = new Point(btn.Bounds.Right - 1, btn.Bounds.Y);
+                lines[0] = new Point(bounds.X + 1, bounds.Y);
+                lines[1] = new Point(bounds.Right - 1, bounds.Y);
 
-                lines[2] = new Point(btn.Bounds.Right - 1, btn.Bounds.Y + 1);
-                lines[3] = new Point(btn.Bounds.Right - 1, btn.Bounds.Bottom - 1);
+                lines[2] = new Point(bounds.Right - 1, bounds.Y + 1);
+                lines[3] = new Point(bounds.Right - 1, bounds.Bottom - 1);
 
-                lines[4] = new Point(btn.Bounds.X + 1, btn.Bounds.Bottom - 1);
-                lines[5] = new Point(btn.Bounds.Right - 1, btn.Bounds.Bottom - 1);
+                lines[4] = new Point(bounds.X + 1, bounds.Bottom - 1);
+                lines[5] = new Point(bounds.Right - 1, bounds.Bottom - 1);
 
-                lines[6] = new Point(btn.Bounds.X, btn.Bounds.Y + 1);
-                lines[7] = new Point(btn.Bounds.X, btn.Bounds.Bottom - 1);
+                lines[6] = new Point(bounds.X, bounds.Y + 1);
+                lines[7] = new Point(bounds.X, bounds.Bottom - 1);
+
             }
         }
         class PlainLabel : ComponentStyle
@@ -101,9 +102,9 @@ namespace ERY.AgateLib.Gui.Styles
             public override void Component_Paint(object sender, EventArgs e)
             {
                 if (label.BackColor.A > 0)
-                    Display.FillRect(label.Bounds, label.BackColor);
+                    Display.FillRect(label.ScreenBounds, label.BackColor);
 
-                style.DrawText(label.Location, label.ForeColor, OriginAlignment.TopLeft, label.Text);
+                style.DrawText(label.ScreenLocation, label.ForeColor, OriginAlignment.TopLeft, label.Text);
             }
 
             public override void DoAutoSize()
@@ -113,7 +114,50 @@ namespace ERY.AgateLib.Gui.Styles
                 label.Size = size;
             }
         }
+        class PlainWindow : ComponentStyle
+        {
+            PlainStyle style;
+            Window window;
 
+            public PlainWindow(PlainStyle style)
+            {
+                this.style = style;
+            }
+            public override void InitializeAfterConnect()
+            {
+                window = MyComponent as Window;
+
+                AddChildren();
+            }
+            public override void UpdateClientArea()
+            {
+                window.SetClientArea(new Rectangle(1, 20, window.Bounds.Width - 2, window.Bounds.Height - 21));
+            }
+
+            public override void Component_Paint(object sender, EventArgs e)
+            {
+                Display.FillRect(window.ScreenBounds, Color.LightGray);
+                Display.FillRect(window.ClientToScreen(new Rectangle(new Point(0, 0), window.ClientSize)), window.BackColor);
+
+                style.DrawText(window.ClientToScreen(3, -20), window.ForeColor, OriginAlignment.TopLeft, window.Title);
+            }
+
+            public override void DoAutoSize()
+            {
+            }
+
+
+            private void AddChildren()
+            {
+                DragAnchor anchor = new DragAnchor(window);
+
+                anchor.Location = new Point(-1, -20);
+                anchor.Size = new Size(window.Bounds.Width, 20);
+                anchor.Anchor = Anchor.Top | Anchor.Left | Anchor.Right;
+
+            }
+
+        }
 
         private FontSurface mFont;
         public FontSurface Font
@@ -130,6 +174,7 @@ namespace ERY.AgateLib.Gui.Styles
         {
             if (componentType.Equals(typeof(Button))) target.AttachStyle(new PlainButton(this));
             else if (componentType.Equals(typeof(Label))) target.AttachStyle(new PlainLabel(this));
+            else if (componentType.Equals(typeof(Window))) target.AttachStyle(new PlainWindow(this));
             else
                 throw new NotImplementedException("Style not available for component type " + componentType.ToString());
         }
