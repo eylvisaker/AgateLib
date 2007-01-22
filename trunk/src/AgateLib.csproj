@@ -53,13 +53,13 @@
     <Compile Include="Geometry\Gradient.cs" />
     <Compile Include="Geometry\Vector3.cs" />
     <Compile Include="Gui\Button.cs" />
-    <Compile Include="GuiBase\Component.cs" />
-    <Compile Include="GuiBase\ComponentStyle.cs" />
-    <Compile Include="GuiBase\Container.cs" />
+    <Compile Include="Gui\Component.cs" />
+    <Compile Include="Gui\ComponentStyle.cs" />
+    <Compile Include="Gui\Container.cs" />
     <Compile Include="Gui\DragAnchor.cs" />
     <Compile Include="Gui\GuiManager.cs" />
-    <Compile Include="GuiBase\StyleManager.cs" />
     <Compile Include="Gui\Label.cs" />
+    <Compile Include="Gui\StyleManager.cs" />
     <Compile Include="Gui\Styles\PlainStyle.cs" />
     <Compile Include="Gui\TextBox.cs" />
     <Compile Include="Gui\Window.cs" />
