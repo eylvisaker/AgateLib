@@ -56,6 +56,7 @@
     <Compile Include="GuiBase\Component.cs" />
     <Compile Include="GuiBase\ComponentStyle.cs" />
     <Compile Include="GuiBase\Container.cs" />
+    <Compile Include="Gui\DragAnchor.cs" />
     <Compile Include="Gui\GuiManager.cs" />
     <Compile Include="GuiBase\StyleManager.cs" />
     <Compile Include="Gui\Label.cs" />

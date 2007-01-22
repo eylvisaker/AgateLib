@@ -5,26 +5,29 @@ using ERY.AgateLib.Geometry;
 
 namespace ERY.AgateLib.GuiBase
 {
-   
+
     public class Container : Component
     {
         private List<Component> mMouseInControls = new List<Component>();
         private Point mLastMousePosition = new Point(0, 0);
         private Component mMouseDownControl = null;
         private Rectangle mClientArea;
-        
+
         private List<Component> mChildren = new List<Component>();
 
         #region --- Construction / Destruction ---
 
         public Container()
         {
-            this.SizeChanged += new ResizeEventHandler(Container_SizeChanged);
+            AttachEvents();
         }
+
         public Container(Container parent, Rectangle bounds)
             : base(parent, bounds)
         {
-            mClientArea = new Rectangle(new Point(0, 0), mBounds.Size);
+            AttachEvents();
+
+            mClientArea = new Rectangle(new Point(0, 0), Bounds.Size);
         }
 
         public override void Dispose()
@@ -38,12 +41,51 @@ namespace ERY.AgateLib.GuiBase
         }
 
         #endregion
+        #region --- Coordinate transforms
+
+        protected override Point ClientToParent(Point localCoord)
+        {
+            return new Point(Bounds.X + mClientArea.X + localCoord.X,
+                             Bounds.Y + mClientArea.Y + localCoord.Y);
+        }
+
+        protected override Point ParentToClient(Point parentCoord)
+        {
+            return new Point(parentCoord.X - mClientArea.X - Bounds.X,
+                             parentCoord.Y - mClientArea.Y - Bounds.Y);
+        }
+
+        #endregion
 
         #region --- Event Handlers ---
 
-        //void Container_MouseMove(object sender, InputEventArgs e)
+        private void AttachEvents()
+        {
+            this.SizeChanged += new ResizeEventHandler(Container_SizeChanged);
+            this.SizeChanged += new ResizeEventHandler(UpdateClientArea);
+        }
+
+        /// <summary>
+        /// Recalculates the client area after a resize event occurs.  This is automatically
+        /// called during a SizeChanged event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void UpdateClientArea(object sender, ResizeEventArgs e)
+        {
+            mStyle.UpdateClientArea();
+        }
+
+
+        void Container_SizeChanged(object sender, ResizeEventArgs e)
+        {
+            ResizeChildren(e.OldSize);
+        }
+
         internal override void OnMouseMove(InputEventArgs e)
         {
+            Point clientMouse = ScreenToClient(e.MousePosition);
+
             // If the mouse is already down in a control, then mouse motions 
             // are intercepted only by that control.
             if (mMouseDownControl == null)
@@ -52,14 +94,14 @@ namespace ERY.AgateLib.GuiBase
                 Component last = this.GetComponentAt(mLastMousePosition);
 
                 // go through these for mouseLeave events
-                while (last != this && !last.Bounds.Contains(e.MousePosition))
+                while (last != this && !last.Bounds.Contains(clientMouse))
                 {
                     last.OnMouseLeave(e);
                     last = last.Parent;
                 }
 
 
-                Component c = this.GetComponentAt(e.MousePosition);
+                Component c = this.GetComponentAt(clientMouse);
 
                 if (c == this)
                 {
@@ -77,15 +119,21 @@ namespace ERY.AgateLib.GuiBase
                     {
                         last.OnMouseEnter(e);
                     }
+
+                    c.OnMouseMove(e);
                 }
 
-                mLastMousePosition = e.MousePosition;
+                mLastMousePosition = clientMouse;
             }
             else
             {
-                Component last = this.GetComponentAt(e.MousePosition);
+                Component c = this.GetComponentAt(clientMouse);
 
-                if (last != mMouseDownControl)
+                mMouseDownControl.OnMouseMove(e);
+
+                c = this.GetComponentAt(clientMouse);
+
+                if (c != mMouseDownControl)
                 {
                     if (mMouseDownControl.MouseIn)
                         mMouseDownControl.OnMouseLeave(e);
@@ -95,12 +143,10 @@ namespace ERY.AgateLib.GuiBase
                     if (!mMouseDownControl.MouseIn)
                         mMouseDownControl.OnMouseEnter(e);
 
-                    mMouseDownControl.OnMouseMove(e);
                 }
             }
         }
-        //void Container_MouseUp(object sender, InputEventArgs e)
-        internal override void  OnMouseUp(InputEventArgs e)
+        internal override void OnMouseUp(InputEventArgs e)
         {
             if (mMouseDownControl == null)
             {
@@ -111,9 +157,11 @@ namespace ERY.AgateLib.GuiBase
             mMouseDownControl.OnMouseUp(e);
             mMouseDownControl = null;
         }
-        internal override void  OnMouseDown(InputEventArgs e)
+        internal override void OnMouseDown(InputEventArgs e)
         {
-            mMouseDownControl = this.GetComponentAt(e.MousePosition);
+            mMouseDownControl = this.GetComponentAt(ScreenToClient(e.MousePosition));
+
+
 
             if (mMouseDownControl == null || mMouseDownControl == this)
             {
@@ -139,6 +187,57 @@ namespace ERY.AgateLib.GuiBase
 
         #endregion
 
+        #region --- Properties ---
+
+        /// <summary>
+        /// Sets the client area for this control.
+        /// No automatic resizing takes place.
+        /// </summary>
+        /// <param name="rect"></param>
+        protected void SetClientArea(Rectangle rect)
+        {
+            mClientArea = rect;
+        }
+
+        /// <summary>
+        /// Gets the rectangle containing the client area.
+        /// </summary>
+        public Rectangle ClientArea
+        {
+            get { return mClientArea; }
+        }
+        /// <summary>
+        /// Gets or sets the client area for this control.
+        /// This automatically resizes the control so that the client area is the size given.
+        /// </summary>
+        public virtual Size ClientSize
+        {
+            get { return mClientArea.Size; }
+            set
+            {
+                Size = new Size(Size.Width + value.Width - mClientArea.Width,
+                                Size.Height + value.Height - mClientArea.Height);
+
+
+                //if (ClientAreaSizeChanged != null)
+                //{
+                //    if (old.Width != value.Width || old.Height != value.Height)
+                //    {
+                //        ClientAreaSizeChanged(this, new ResizeEventArgs(old.Size, value.Size));
+                //    }
+                //}
+
+                //if (ClientAreaLocationChanged != null)
+                //{
+                //    if (old.X != value.X || old.Y != value.Y)
+                //    {
+                //        ClientAreaLocationChanged(this, new MoveEventArgs(old.Location, value.Location));
+                //    }
+                //}
+            }
+        }
+        #endregion
+
         #region --- Managing child components ---
 
 
@@ -146,7 +245,7 @@ namespace ERY.AgateLib.GuiBase
         {
             if (child == null)
                 throw new NullReferenceException("Cannot add a null reference as a child.");
-            
+
             // make sure we are not adding a component which is a parent somewhere of this control
             if (child is Container)
             {
@@ -154,7 +253,7 @@ namespace ERY.AgateLib.GuiBase
                     throw new Exception("Cannot add as a child a control which is a parent to this control.");
             }
 
-            
+
             mChildren.Add(child);
             child.Parent = this;
         }
@@ -206,11 +305,6 @@ namespace ERY.AgateLib.GuiBase
 
             return false;
         }
-        void Container_SizeChanged(object sender, ResizeEventArgs e)
-        {
-            ResizeChildren(e.OldSize);
-        }
-
         protected internal void ChildHasFocus(Component c)
         {
             if (mChildren.Contains(c) == false)
@@ -249,10 +343,12 @@ namespace ERY.AgateLib.GuiBase
             {
                 if (mChildren[i].Bounds.Contains(pt))
                 {
-                    if (mChildren[i] is Container)
-                        return (mChildren[i] as Container).GetComponentAt(pt);
-                    else
-                        return mChildren[i];
+                    return mChildren[i];
+
+                    //if (mChildren[i] is Container)
+                    //    return (mChildren[i] as Container).GetComponentAt(pt);
+                    //else
+                    //    return mChildren[i];
                 }
             }
 

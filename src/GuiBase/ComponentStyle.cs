@@ -46,5 +46,15 @@ namespace ERY.AgateLib.GuiBase
         }
 
         public abstract void DoAutoSize();
+
+        /// <summary>
+        /// Calculates and sets the client area for the control.
+        /// This will only be called for controls deriving from the Container class.
+        /// </summary>
+        public virtual void UpdateClientArea()
+        {
+            if (MyComponent is Container == false)
+                throw new Exception("Error: UpdateClientArea called on a non-Container class.");
+        }
     }
 }

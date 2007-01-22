@@ -143,6 +143,7 @@ namespace ERY.AgateLib.GuiBase
         Left = 0x02,
         Right = 0x04,
         Bottom = 0x08,
+
     }
 
     public abstract class Component : IDisposable
@@ -150,7 +151,7 @@ namespace ERY.AgateLib.GuiBase
         #region --- Component data ---
 
         // private data
-        private Rectangle mBounds;
+        private Rectangle mBounds = new Rectangle(0, 0, 50, 40);
         private Container mParent = null;
         private bool mEnabled = true;
         private bool mVisible = true;
@@ -186,8 +187,6 @@ namespace ERY.AgateLib.GuiBase
         {
             mAutoSize = autoSize;
             parent.AddChild(this);
-
-            LoadStyle();
         }
 
 
@@ -199,16 +198,20 @@ namespace ERY.AgateLib.GuiBase
         public Component(Container parent, Rectangle bounds)
             : this(parent, false)
         {
-            mBounds = bounds;
+            Bounds = bounds;
         }
 
         protected void LoadStyle()
         {
-            mStyleManager = mParent.GetStyleManager();
-            mStyleManager.ConnectStyle(this.GetType(), this);
+            if (ConnectToStyle)
+            {
+                mStyleManager = mParent.GetStyleManager();
+                mStyleManager.ConnectStyle(this.GetType(), this);
 
-            if (mAutoSize)
-                mStyle.DoAutoSize();
+                if (mAutoSize)
+                    mStyle.DoAutoSize();
+            }
+
         }
         /// <summary>
         /// Disposes the control and all children.
@@ -227,31 +230,7 @@ namespace ERY.AgateLib.GuiBase
             get { return mAutoSize; }
             set { mAutoSize = value; }
         }
-        public virtual Rectangle ClientArea
-        {
-            get { return mClientArea; }
-            set 
-            {
-                Rectangle old = mClientArea;
-                mClientArea = value;
-
-                if (ClientAreaSizeChanged != null)
-                {
-                    if (old.Width != value.Width || old.Height != value.Height)
-                    {
-                        ClientAreaSizeChanged(this, new ResizeEventArgs(old.Size, value.Size));
-                    }
-                }
-
-                if (ClientAreaLocationChanged != null)
-                {
-                    if (old.X != value.X || old.Y != value.Y)
-                    {
-                        ClientAreaLocationChanged(this, new MoveEventArgs(old.Location, value.Location));
-                    }
-                }
-            }
-        }
+        
         public virtual Rectangle Bounds
         {
             get { return mBounds; }
@@ -270,8 +249,6 @@ namespace ERY.AgateLib.GuiBase
                 
                 mBounds.Width = value.Width;
                 mBounds.Height = value.Height;
-
-                mClientArea = mBounds;
 
                 if (SizeChanged != null)
                 {
@@ -364,6 +341,14 @@ namespace ERY.AgateLib.GuiBase
             get { return mHasFocus; }
         }
 
+        /// <summary>
+        /// Gets whether or not to automatically connect to a style when the component is
+        /// initialized.  This always returns true; it must be overriden to return false.
+        /// </summary>
+        protected internal virtual bool ConnectToStyle
+        {
+            get { return true; }
+        }
 
        
         /// <summary>
@@ -402,15 +387,15 @@ namespace ERY.AgateLib.GuiBase
         #endregion
         #region --- Coordinate transforms to the screen and back ---
 
-        protected Point ClientToParent(Point localCoord)
+        protected virtual Point ClientToParent(Point localCoord)
         {
-            return new Point(mBounds.X + mClientArea.X + localCoord.X,
-                             mBounds.Y + mClientArea.Y + localCoord.Y);
+            return new Point(mBounds.X + localCoord.X,
+                             mBounds.Y + localCoord.Y);
         }
-        protected Point ParentToClient(Point parentCoord)
+        protected virtual Point ParentToClient(Point parentCoord)
         {
-            return new Point(parentCoord.X - mClientArea.X - mBounds.X,
-                             parentCoord.Y - mClientArea.Y - mBounds.Y);
+            return new Point(parentCoord.X - mBounds.X,
+                             parentCoord.Y - mBounds.Y);
         }
 
         public Point ClientToScreen(int x, int y)
@@ -471,6 +456,15 @@ namespace ERY.AgateLib.GuiBase
 
             return retval;
 
+        }
+
+        public Point ScreenLocation
+        {
+            get { return Parent.ClientToScreen(Location); }
+        }
+        public Rectangle ScreenBounds
+        {
+            get { return Parent.ClientToScreen(Bounds); }
         }
 
         #endregion
