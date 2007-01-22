@@ -205,7 +205,7 @@ namespace ERY.AgateLib.ImplBase
             y = 0;
             height = 0;
 
-            for (char i = startChar; i < endChar ; i++)
+            for (char i = startChar; i < endChar; i++)
             {
                 if (x + glyphs[i].Width > 512)
                 {
@@ -216,19 +216,21 @@ namespace ERY.AgateLib.ImplBase
 
                 g.DrawString(i.ToString(), font, brush, new System.Drawing.PointF(x, y));
                 glyphs[i] = new RectangleF(
-                    new PointF(x + padding / 4f, y), 
+                    new PointF(x + padding / 4f, y),
                     glyphs[i].Size);
 
                 x += (float)Math.Ceiling(glyphs[i].Width) + bitmapPadding;
 
-             if (glyphs[i].Height > height)
+                if (glyphs[i].Height > height)
                     height = glyphs[i].Height;
-                
+
             }
 
             g.Dispose();
 
             PostProcessFont(bmp);
+
+            bmp.Save("testfont.png", Drawing.Imaging.ImageFormat.Png);
 
             string tempFile = System.IO.Path.GetTempFileName() + ".png";
             tempFile = tempFile.Replace("\\", "/");

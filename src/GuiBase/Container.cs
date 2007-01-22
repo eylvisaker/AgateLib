@@ -11,7 +11,8 @@ namespace ERY.AgateLib.GuiBase
         private List<Component> mMouseInControls = new List<Component>();
         private Point mLastMousePosition = new Point(0, 0);
         private Component mMouseDownControl = null;
-
+        private Rectangle mClientArea;
+        
         private List<Component> mChildren = new List<Component>();
 
         #region --- Construction / Destruction ---
@@ -19,6 +20,11 @@ namespace ERY.AgateLib.GuiBase
         public Container()
         {
             this.SizeChanged += new ResizeEventHandler(Container_SizeChanged);
+        }
+        public Container(Container parent, Rectangle bounds)
+            : base(parent, bounds)
+        {
+            mClientArea = new Rectangle(new Point(0, 0), mBounds.Size);
         }
 
         public override void Dispose()
