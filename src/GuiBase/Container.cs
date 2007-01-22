@@ -177,6 +177,12 @@ namespace ERY.AgateLib.GuiBase
         #endregion
         #region --- Drawing ---
 
+        protected internal override void Update()
+        {
+            for (int i = 0; i < mChildren.Count; i++)
+                mChildren[i].Update();
+        }
+
         public override void Draw()
         {
             base.Draw();
