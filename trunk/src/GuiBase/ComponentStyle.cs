@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ERY.AgateLib.Geometry;
 
-namespace ERY.AgateLib.GuiBase
+namespace ERY.AgateLib.Gui
 {
     public abstract class ComponentStyle
     {

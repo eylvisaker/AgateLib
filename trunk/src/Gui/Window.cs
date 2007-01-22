@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ERY.AgateLib.Geometry;
-using ERY.AgateLib.GuiBase;
 
 namespace ERY.AgateLib.Gui
 {
@@ -21,15 +20,14 @@ namespace ERY.AgateLib.Gui
             mTargetSize = Size;
         }
 
-        public Window(Container parent, Point location, string title)
-            : base(parent, new Rectangle(location, new Size(100, 100)))
+        public Window(Container parent, Rectangle bounds, string title)
+            : base(parent, bounds)
         {
             mTitle = title;
 
             mStyle.UpdateClientArea();
 
-            mInternalSize = new SizeF(Width, Height);
-            mTargetSize = Size;
+            SkipSizeTransition();
         }
 
 
@@ -47,22 +45,34 @@ namespace ERY.AgateLib.Gui
 
         protected internal override void Update()
         {
-            if (Size != mTargetSize)
+            if (base.Size.Equals(mTargetSize) == false && Display.DeltaTime > 0)
             {
-                double dW = (mTargetSize.Width - mInternalSize.Width) * Display.DeltaTime;
-                double dH = (mTargetSize.Height - mInternalSize.Height) * Display.DeltaTime;
+                double diffW = mTargetSize.Width - mInternalSize.Width;
+                double diffH = mTargetSize.Height - mInternalSize.Height;
+                double maxDelta = Display.DeltaTime * 0.001 * sizeVelocity;
 
-                mInternalSize.Width += (float)dW;
-                mInternalSize.Height += (float)dH;
+                Clamp(ref diffW, maxDelta);
+                Clamp(ref diffH, maxDelta);
 
-                Size = (Size)mInternalSize;
+                mInternalSize.Width += (float)diffW;
+                mInternalSize.Height += (float)diffH;
+
+                base.Size = (Size)mInternalSize;
             }
+        }
+
+        private void Clamp(ref double value, double max)
+        {
+            if (value > max)
+                value = max;
+            else if (value < -max)
+                value = -max;
         }
         public override Size Size
         {
             get
             {
-                return base.Size;
+                return mTargetSize;
             }
             set
             {

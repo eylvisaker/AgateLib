@@ -131,6 +131,15 @@ namespace ERY.AgateLib
             set { mAutoPause = value; }
         }
         /// <summary>
+        /// Delegate for types which attach to the KeepAliveEvent.
+        /// </summary>
+        public delegate void KeepAliveDelegate();
+        /// <summary>
+        /// Event which occurs when KeepAlive is called.
+        /// This allows subsystems (such as GUI, Input, Sound) to make updates each frame.
+        /// </summary>
+        public static event KeepAliveDelegate KeepAliveEvent;
+        /// <summary>
         /// Plays nice with the OS, by allowing events to be handled.
         /// This also handles user input events associated with the application,
         /// and polls joysticks if needed.
@@ -163,6 +172,9 @@ namespace ERY.AgateLib
                         break;
                 }
             }
+
+            if (KeepAliveEvent != null)
+                KeepAliveEvent();
 
             // Update Audio Engine, if necessary
             Audio.Update();
