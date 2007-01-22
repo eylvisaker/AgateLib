@@ -161,8 +161,6 @@ namespace ERY.AgateLib.Gui
         {
             mMouseDownControl = this.GetComponentAt(ScreenToClient(e.MousePosition));
 
-
-
             if (mMouseDownControl == null || mMouseDownControl == this)
             {
                 mMouseDownControl = null;
@@ -170,6 +168,9 @@ namespace ERY.AgateLib.Gui
 
                 return;
             }
+
+            if (mMouseDownControl.Enabled == false)
+                return;
 
             mMouseDownControl.OnMouseDown(e);
         }
@@ -345,8 +346,11 @@ namespace ERY.AgateLib.Gui
         /// <returns>This object if there is no other component there.</returns>
         public Component GetComponentAt(Point pt)
         {
-            for (int i = 0; i < mChildren.Count; i++)
+            for (int i = mChildren.Count - 1; i >= 0; i--)
             {
+                if (mChildren[i].Visible == false)
+                    continue;
+
                 if (mChildren[i].Bounds.Contains(pt))
                 {
                     return mChildren[i];
@@ -360,89 +364,82 @@ namespace ERY.AgateLib.Gui
 
             return this;
         }
-
+        /// <summary>
+        /// Moves a child component up by one entry.
+        /// </summary>
+        /// <param name="c"></param>
         public void RaiseChild(Component c)
         {
-            for (int i = 0; i < mChildren.Count; i++)
+            int i = mChildren.IndexOf(c);
+
+            if (i == -1)
+                throw new Exception("BUG: The passed component is not a child of this control!");
+
+            int j = i + 1;
+
+            if (j < mChildren.Count)
             {
-                if (mChildren[i] == c)
-                {
-                    int j = i + 1;
-
-                    if (j < mChildren.Count)
-                    {
-                        mChildren.RemoveAt(i);
-                        mChildren.Insert(j, c);
-                    }
-
-                    return;
-                }
+                mChildren.RemoveAt(i);
+                mChildren.Insert(j, c);
             }
 
-            throw new Exception("BUG: The passed component is not a child of this control!");
         }
         public void LowerChild(Component c)
         {
-            for (int i = 0; i < mChildren.Count; i++)
+            int i = mChildren.IndexOf(c);
+
+            if (i == -1)
+                throw new Exception("BUG: The passed component is not a child of this control!");
+
+            int j = i - 1;
+
+            if (j >= 0)
             {
-                if (mChildren[i] == c)
-                {
-                    int j = i - 1;
-
-                    if (j >= 0)
-                    {
-                        mChildren.RemoveAt(i);
-                        mChildren.Insert(j, c);
-                    }
-
-                    return;
-                }
+                mChildren.RemoveAt(i);
+                mChildren.Insert(j, c);
             }
 
-            throw new Exception("BUG: The passed component is not a child of this control!");
+
         }
         public void BringChildToFront(Component c)
         {
-            for (int i = 0; i < mChildren.Count; i++)
-            {
-                if (mChildren[i] == c)
-                {
-                    mChildren.RemoveAt(i);
-                    mChildren.Add(c);
+            if (mChildren.Contains(c) == false)
+                throw new Exception("BUG: The passed component is not a child of this control!");
 
-                    return;
-                }
-            }
+            mChildren.Remove(c);
+            mChildren.Add(c);
 
-            throw new Exception("BUG: The passed component is not a child of this control!");
         }
         public void SendChildToBack(Component c)
         {
-            for (int i = 0; i < mChildren.Count; i++)
-            {
-                if (mChildren[i] == c)
-                {
-                    mChildren.RemoveAt(i);
-                    mChildren.Insert(0, c);
+            if (mChildren.Contains(c) == false)
+                throw new Exception("BUG: The passed component is not a child of this control!");
 
-                    return;
-                }
-            }
+            mChildren.Remove(c);
+            mChildren.Insert(0, c);
 
-            throw new Exception("BUG: The passed component is not a child of this control!");
         }
 
-
+        /// <summary>
+        /// Resizes all children after a SizeChanged event.
+        /// </summary>
+        /// <param name="oldSize"></param>
+        protected virtual void ResizeChildren(Size oldSize)
+        {
+            ResizeChildren(Children, Size, oldSize);
+        }
         /// <summary>
         /// Resizes all children after a Size change event.
         /// </summary>
+        /// <param name="newSize">The new size of the control.  This should be the visual size
+        /// of the control, in the case of containers which gradually change size.</param>
         /// <param name="oldSize">The old size of the control.  Used to update child positions
         /// based on what their Anchor property is.</param>
-        protected void ResizeChildren(Size oldSize)
+        protected static void ResizeChildren(IEnumerable<Component> children, Size newSize, Size oldSize)
         {
-            Size change = new Size(Size.Width - oldSize.Width, Size.Height - oldSize.Height);
+            Size change = new Size(newSize.Width - oldSize.Width, newSize.Height - oldSize.Height);
 
-            foreach (Component c in Children)
+            foreach (Component c in children)
             {
                 Anchor a = c.Anchor;
                 int leftSpacing = c.Location.X;
@@ -467,14 +464,14 @@ namespace ERY.AgateLib.Gui
                 else if (lr == (Anchor.Left | Anchor.Right))
                 {
                     // now we must resize the control to keep the left spacing and right spacing the same
-                    newBounds.Width = Size.Width - rightSpacing - leftSpacing;
+                    newBounds.Width = newSize.Width - rightSpacing - leftSpacing;
                 }
                 else
                 {
                     // move by half the change
                     // mod the second part to make sure the control is still moved by the
                     // same amount even if the size is changed by one pixel at a time.
-                    newBounds.X += (change.Width / 2) + Math.Sign(change.Width) * (Size.Width % 2);
+                    newBounds.X += (change.Width / 2) + Math.Sign(change.Width) * (newSize.Width % 2);
                 }
 
                 // test top.bottom
@@ -492,14 +489,14 @@ namespace ERY.AgateLib.Gui
                 else if (tb == (Anchor.Top | Anchor.Bottom))
                 {
                     // now resize the control to keep top and bottom spacing the same
-                    newBounds.Height = Size.Height - topSpacing - bottomSpacing;
+                    newBounds.Height = newSize.Height - topSpacing - bottomSpacing;
                 }
                 else
                 {
                     // move by half the change
                     // mod the second part to make sure the control is still moved by the
                     // same amount even if the size is changed by one pixel at a time.
-                    newBounds.Y += (change.Height / 2) + Math.Sign(change.Height) * (Size.Height % 2);
+                    newBounds.Y += (change.Height / 2) + Math.Sign(change.Height) * (newSize.Height % 2);
                 }
 
                 c.Bounds = newBounds;

@@ -59,6 +59,7 @@
     <Compile Include="Gui\DragAnchor.cs" />
     <Compile Include="Gui\GuiManager.cs" />
     <Compile Include="Gui\Label.cs" />
+    <Compile Include="Gui\SizeAnchor.cs" />
     <Compile Include="Gui\StyleManager.cs" />
     <Compile Include="Gui\Styles\PlainStyle.cs" />
     <Compile Include="Gui\TextBox.cs" />

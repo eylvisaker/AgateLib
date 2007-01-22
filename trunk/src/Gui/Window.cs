@@ -39,8 +39,8 @@ namespace ERY.AgateLib.Gui
 
         public void SkipSizeTransition()
         {
-            base.Size = mTargetSize;
             mInternalSize = new SizeF(Width, Height);
+            base.Size = mTargetSize;
         }
 
         protected internal override void Update()
@@ -68,6 +68,12 @@ namespace ERY.AgateLib.Gui
             else if (value < -max)
                 value = -max;
         }
+
+        protected override void ResizeChildren(Size oldSize)
+        {
+            ResizeChildren(Children, (Size)mInternalSize, oldSize);
+        }
+        
         public override Size Size
         {
             get
@@ -88,6 +94,11 @@ namespace ERY.AgateLib.Gui
         public new void SetClientArea(Rectangle client)
         {
             base.SetClientArea(client);
+        }
+
+        public void Close()
+        {
+            Dispose();
         }
     }
 }

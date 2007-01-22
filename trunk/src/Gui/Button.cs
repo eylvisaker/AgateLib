@@ -11,8 +11,9 @@ namespace ERY.AgateLib.Gui
         private bool mDrawDown;
         private bool mMouseClickIn;
         private bool mToggleButton;
-        
-        public Button(string text) 
+
+        public Button(Container parent, string text)
+            : base(parent, true)
         {
             Text = text;
             AttachEvents();
