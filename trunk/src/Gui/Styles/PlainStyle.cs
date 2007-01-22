@@ -26,9 +26,9 @@ namespace ERY.AgateLib.Gui.Styles
             public override void Component_Paint(object sender, EventArgs e)
             {
                 Color dark = btn.BackColor;
-                dark.R = (byte)(0.8 * dark.R);
-                dark.G = (byte)(0.8 * dark.G);
-                dark.B = (byte)(0.8 * dark.B);
+                dark.R = (byte)(0.7 * dark.R);
+                dark.G = (byte)(0.7 * dark.G);
+                dark.B = (byte)(0.7 * dark.B);
 
                 Gradient color = new Gradient(btn.BackColor, btn.BackColor, dark, dark);
                 Gradient reverse = new Gradient(dark, dark, btn.BackColor, btn.BackColor);
@@ -84,6 +84,36 @@ namespace ERY.AgateLib.Gui.Styles
                 lines[7] = new Point(btn.Bounds.X, btn.Bounds.Bottom - 1);
             }
         }
+        class PlainLabel : ComponentStyle
+        {
+            PlainStyle style;
+            Label label;
+
+            public PlainLabel(PlainStyle style)
+            {
+                this.style = style;
+            }
+            public override void InitializeAfterConnect()
+            {
+                label = this.MyComponent as Label;    
+            }
+
+            public override void Component_Paint(object sender, EventArgs e)
+            {
+                if (label.BackColor.A > 0)
+                    Display.FillRect(label.Bounds, label.BackColor);
+
+                style.DrawText(label.Location, label.ForeColor, OriginAlignment.TopLeft, label.Text);
+            }
+
+            public override void DoAutoSize()
+            {
+                Size size = style.Font.StringDisplaySize(label.Text);
+
+                label.Size = size;
+            }
+        }
+
 
         private FontSurface mFont;
         public FontSurface Font
@@ -99,11 +129,15 @@ namespace ERY.AgateLib.Gui.Styles
         public override void ConnectStyle(Type componentType, Component target)
         {
             if (componentType.Equals(typeof(Button))) target.AttachStyle(new PlainButton(this));
-
+            else if (componentType.Equals(typeof(Label))) target.AttachStyle(new PlainLabel(this));
             else
                 throw new NotImplementedException("Style not available for component type " + componentType.ToString());
         }
 
+        internal void DrawText(Point pt, Color color, OriginAlignment align, string text)
+        {
+            DrawText(pt.X, pt.Y, color, align, text);
+        }
         internal void DrawText(int x, int y, Color color, OriginAlignment align, string text)
         {
             Font.DisplayAlignment =align;

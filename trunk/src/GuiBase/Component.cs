@@ -150,7 +150,6 @@ namespace ERY.AgateLib.GuiBase
         #region --- Component data ---
 
         // private data
-        private Rectangle mClientArea;
         private Rectangle mBounds;
         private Container mParent = null;
         private bool mEnabled = true;
@@ -201,9 +200,6 @@ namespace ERY.AgateLib.GuiBase
             : this(parent, false)
         {
             mBounds = bounds;
-
-            mClientArea = new Rectangle(new Point(0, 0), mBounds.Size);
-
         }
 
         protected void LoadStyle()
