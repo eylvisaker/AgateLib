@@ -38,7 +38,9 @@ namespace ERY.AgateLib.Gui.Styles
 
                 SetLines();
 
-                if (btn.DrawDown)
+                if (btn.Enabled == false)
+                    Display.FillRect(rect, color.AverageColor);
+                else if (btn.DrawDown)
                     Display.FillRect(rect, reverse);
                 else
                     Display.FillRect(rect, color);
@@ -54,7 +56,15 @@ namespace ERY.AgateLib.Gui.Styles
                 //    style.DrawText(textPt.X, textPt.Y - 1, Color.Yellow, OriginAlignment.Center, btn.Text);
                 //}
 
-                style.DrawText(textPt.X, textPt.Y, btn.ForeColor, OriginAlignment.Center, btn.Text);
+                if (btn.Enabled == true)
+                {
+                    style.DrawText(textPt.X, textPt.Y, OriginAlignment.Center, btn.ForeColor, btn.Text);
+                }
+                else
+                {
+                    style.DrawText(textPt.X + 1, textPt.Y + 1, OriginAlignment.Center, Color.White, btn.Text);
+                    style.DrawText(textPt.X, textPt.Y, OriginAlignment.Center, Color.Gray, btn.Text);
+                }
 
                 Display.DrawLineSegments(lines, Color.Black);
 
@@ -103,7 +113,7 @@ namespace ERY.AgateLib.Gui.Styles
                 if (label.BackColor.A > 0)
                     Display.FillRect(label.ScreenBounds, label.BackColor);
 
-                style.DrawText(label.ScreenLocation, label.ForeColor, OriginAlignment.TopLeft, label.Text);
+                style.DrawText(label.ScreenLocation, OriginAlignment.TopLeft, label.ForeColor, label.Text);
             }
 
             public override void DoAutoSize()
@@ -117,6 +127,11 @@ namespace ERY.AgateLib.Gui.Styles
         {
             PlainStyle style;
             Window window;
+            DragAnchor dragAnchor;
+            SizeAnchor sizeAnchor;
+            Button closeButton;
+            readonly Size closeSize = new Size(35, 18);
+            const int titleSize = 25;
 
             public PlainWindow(PlainStyle style)
             {
@@ -130,7 +145,12 @@ namespace ERY.AgateLib.Gui.Styles
             }
             public override void UpdateClientArea()
             {
-                window.SetClientArea(new Rectangle(1, 20, window.Bounds.Width - 2, window.Bounds.Height - 21));
+                window.SetClientArea(new Rectangle(1, titleSize, window.Bounds.Width - 2, window.Bounds.Height - titleSize - 1));
+
+                dragAnchor.Size = new Size(window.Bounds.Width, 20); 
+                closeButton.Location = new Point(window.ClientSize.Width - closeSize.Width - 8, -titleSize);
+                sizeAnchor.Location = new Point(window.ClientSize.Width - sizeAnchor.Width, 
+                                                window.ClientSize.Height -sizeAnchor.Height);
             }
 
             public override void Component_Paint(object sender, EventArgs e)
@@ -138,22 +158,27 @@ namespace ERY.AgateLib.Gui.Styles
                 Display.FillRect(window.ScreenBounds, Color.LightGray);
                 Display.FillRect(window.ClientToScreen(new Rectangle(new Point(0, 0), window.ClientSize)), window.BackColor);
 
-                style.DrawText(window.ClientToScreen(3, -20), window.ForeColor, OriginAlignment.TopLeft, window.Title);
+                style.DrawText(window.ClientToScreen(7, -titleSize / 2), OriginAlignment.CenterLeft,
+                    window.ForeColor, window.Title);
             }
 
             public override void DoAutoSize()
             {
             }
 
-
             private void AddChildren()
             {
-                DragAnchor anchor = new DragAnchor(window);
+                dragAnchor = new DragAnchor(window);
+                dragAnchor.Location = new Point(-1, -titleSize);
+                dragAnchor.Anchor = Anchor.Top | Anchor.Left | Anchor.Right;
 
-                anchor.Location = new Point(-1, -20);
-                anchor.Size = new Size(window.Bounds.Width, 20);
-                anchor.Anchor = Anchor.Top | Anchor.Left | Anchor.Right;
+                closeButton = new Button(window, "X");
+                closeButton.AutoSize = false;
+                closeButton.Size = closeSize;
+                closeButton.Anchor = Anchor.Top | Anchor.Right;
 
+                sizeAnchor = new SizeAnchor(window);
+                sizeAnchor.Anchor = Anchor.Bottom | Anchor.Right;
             }
 
         }
@@ -178,13 +203,13 @@ namespace ERY.AgateLib.Gui.Styles
                 throw new NotImplementedException("Style not available for component type " + componentType.ToString());
         }
 
-        internal void DrawText(Point pt, Color color, OriginAlignment align, string text)
+        internal void DrawText(Point pt, OriginAlignment align, Color color, string text)
         {
-            DrawText(pt.X, pt.Y, color, align, text);
+            DrawText(pt.X, pt.Y, align, color, text);
         }
-        internal void DrawText(int x, int y, Color color, OriginAlignment align, string text)
+        internal void DrawText(int x, int y, OriginAlignment align, Color color, string text)
         {
-            Font.DisplayAlignment =align;
+            Font.DisplayAlignment = align;
             Font.Color = color;
 
             Font.DrawText(x, y, text);
