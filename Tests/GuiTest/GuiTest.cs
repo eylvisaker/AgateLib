@@ -27,12 +27,32 @@ namespace GuiTest
 
                 PlainStyle style = new PlainStyle();
                 GuiManager gui = new GuiManager(style);
-                Button btn = new Button(gui, new Rectangle(10, 10, 80, 20), "Hello world");
-                //Button btn2 = new Button(gui, new Point(10, 40), "Chonk");
 
-                //btn2.BackColor = Color.Red;
+                Window window = new Window(gui, new Rectangle(300, 50, 300, 200), "Title");
 
-                btn.Click += new EventHandler(btn_Click);
+                Button btn = new Button(window, new Point(10, 10), "Hello world");
+                Label text = new Label(window, new Point(100, 10), "Test Label");
+
+                bool toggle = false;
+
+                btn.Anchor = Anchor.Bottom | Anchor.Left;
+                btn.Click += delegate(object sender, EventArgs args)
+                    {
+                        if (!toggle)
+                        {
+                            window.Width += 100;
+                            window.Height += 100;
+                        }
+                        else
+                        {
+                            window.Width -= 100;
+                            window.Height -= 100;
+                        }
+
+                        toggle = !toggle;
+                        window.SkipSizeTransition();
+
+                    };
 
                 while (wind.IsClosed == false)
                 {
