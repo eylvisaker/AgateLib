@@ -257,10 +257,19 @@ namespace ERY.AgateLib.GuiBase
                         SizeChanged(this, new ResizeEventArgs(old, value));
                     }
                 }
-
-
             }
         }
+        public int Height
+        {
+            get { return Size.Height; }
+            set { Size = new Size(Width, value); }
+        }
+        public int Width
+        {
+            get { return Size.Width; }
+            set { Size = new Size(value, Height); }
+        }
+
         public virtual Point Location
         {
             get { return mBounds.Location; }
@@ -566,6 +575,13 @@ namespace ERY.AgateLib.GuiBase
         #endregion
 
         #region --- Drawing ---
+
+        /// <summary>
+        /// Updates the control.  Called once each frame.
+        /// </summary>
+        protected internal virtual void Update()
+        {
+        }
 
         /// <summary>
         /// Draws this component and all its children.
