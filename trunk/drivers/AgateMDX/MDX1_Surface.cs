@@ -331,6 +331,7 @@ namespace ERY.AgateLib.MDX
 
             if (TesselateFactor == 1)
             {
+                SetVertsColor(mVerts, 0, 4);
                 SetVertsPosition(mVerts, 0, new RectangleF(destX, destY, DisplayWidth, DisplayHeight),
                     rotationCenterX, rotationCenterY);
 
