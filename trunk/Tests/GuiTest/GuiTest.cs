@@ -50,9 +50,10 @@ namespace GuiTest
                         }
 
                         toggle = !toggle;
-                        window.SkipSizeTransition();
-
+                        
                     };
+
+                btn.Enabled = false;
 
                 while (wind.IsClosed == false)
                 {
