@@ -73,7 +73,7 @@ namespace ERY.AgateLib
         /// <param name="sizeInPoints"></param>
         public FontSurface(string fontFamily, float sizeInPoints)
             : this(fontFamily, sizeInPoints, FontStyle.None)
-        {        }
+        { }
 
         /// <summary>
         /// Creates a FontSurface object from the given fontFamily.
@@ -97,6 +97,13 @@ namespace ERY.AgateLib
             impl = implToUse;
         }
 
+        /// <summary>
+        /// Returns the implementation object.
+        /// </summary>
+        public FontSurfaceImpl Impl
+        {
+            get { return impl; }
+        }
         /// <summary>
         /// This function loads a monospace bitmap font from the specified image file.
         /// Only the character size is given.  It is assumed that all ASCII characters 

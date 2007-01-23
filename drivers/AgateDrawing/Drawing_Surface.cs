@@ -170,15 +170,15 @@ namespace ERY.AgateLib.SystemDrawing
         {
             Draw(SrcRect, destRect);
         }
-        public override void Draw(Geometry.Rectangle srcRect, Geometry.Rectangle destRect)
+        public override void Draw(Geometry.RectangleF srcRect, Geometry.RectangleF destRect)
         {
             mDisplay.CheckInFrame("Surface.Draw");
             System.Diagnostics.Debug.Assert(mImage != null);
 
             Graphics g = mDisplay.FrameGraphics;
 
-            g.DrawImage(mImage, (Rectangle)destRect,
-                (Rectangle)srcRect, GraphicsUnit.Pixel);
+            g.DrawImage(mImage, (RectangleF)destRect,
+                (RectangleF)srcRect, GraphicsUnit.Pixel);
         }
         public override void DrawRects(Geometry.Rectangle[] src_rects, Geometry.Rectangle[] dest_rects)
         {

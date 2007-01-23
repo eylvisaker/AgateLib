@@ -45,6 +45,12 @@ namespace FontLineTester
                 //fonts.Add(FontSurface.BitmapMonospace("font.png", new Size(16, 16)));
                 //fonts[1].StringTransformer = StringTransformer.ToUpper;
 
+
+                if (fonts[0].Impl is ERY.AgateLib.ImplBase.BitmapFontImpl)
+                {
+                    (fonts[0].Impl as ERY.AgateLib.ImplBase.BitmapFontImpl).Save("fonttest.png", "fonttest.xml");
+                }
+
                 while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();

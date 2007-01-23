@@ -182,5 +182,15 @@ namespace ERY.AgateLib.Geometry
         {
             return new System.Drawing.Size(size.width, size.height);
         }
+
+        /// <summary>
+        /// Explicit conversion to SizeF structure.
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static explicit operator SizeF(Size size)
+        {
+            return new SizeF(size.width, size.height);
+        }
     }
 }

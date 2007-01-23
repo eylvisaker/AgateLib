@@ -103,11 +103,31 @@ namespace ERY.AgateLib.ImplBase
         /// all scaling, rotation and alignment state data.
         /// Color and Alpha are still to be used.
         /// 
+        /// This method automatically converts Rectangle structures into RectangleF 
+        /// structures and calls the Draw overload which takes them.  This can be 
+        /// overriden if the implementation is more natural to use integral values.
+        /// </summary>
+        /// <param name="srcRect"></param>
+        /// <param name="destRect"></param>
+        public virtual void Draw(Rectangle srcRect, Rectangle destRect)
+        {
+            Draw(new RectangleF(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height),
+                 new RectangleF(destRect.X, destRect.Y, destRect.Width, destRect.Height));
+        }
+        /// <summary>
+        /// For function use, see documentation of Surface.
+        /// 
+        /// Info for developers:
+        /// This method should draw a portion of the surface to the screen, ignoring
+        /// all scaling, rotation and alignment state data.
+        /// Color and Alpha are still to be used.
+        /// 
         /// This method must be overriden.
         /// </summary>
         /// <param name="srcRect"></param>
         /// <param name="destRect"></param>
-        public abstract void Draw(Rectangle srcRect, Rectangle destRect);
+        public abstract void Draw(RectangleF srcRect, RectangleF destRect);
+
         /// <summary>
         /// For function use, see documentation of Surface.
         /// 
@@ -192,6 +212,23 @@ namespace ERY.AgateLib.ImplBase
             }
         }
 
+        /// <summary>
+        /// For function use, see documentation of Surface.
+        /// 
+        /// Info for developers:
+        /// This method should draw the surface to the screen, with the same result
+        /// as if Draw was called once for each src and dest rect pairs.
+        /// It should be overridden, to minimize calls across managed/unmanaged boundaries.
+        /// </summary>
+        /// <param name="srcRects"></param>
+        /// <param name="destRects"></param>
+        public virtual void DrawRects(RectangleF[] srcRects, RectangleF[] destRects)
+        {
+            for (int i = 0; i < srcRects.Length; i++)
+            {
+                Draw(srcRects[i], destRects[i]);
+            }
+        }
         #endregion
         #region --- Queueing rects to draw to the screen ---
 
