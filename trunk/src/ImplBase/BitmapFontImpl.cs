@@ -230,7 +230,6 @@ namespace ERY.AgateLib.ImplBase
 
             Drawing.Brush brush = Drawing.Brushes.White;
 
-
             x = 0;
             y = 0;
             height = 0;
