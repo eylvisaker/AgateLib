@@ -542,6 +542,16 @@ namespace ERY.AgateLib
         {
             impl.DrawRects(srcRects, destRects);
         }
+        /// <summary>
+        /// Draws the surface using an array of source and destination rectangles.
+        /// This method will throw an exception if the two arrays are not the same size.
+        /// </summary>
+        /// <param name="srcRects"></param>
+        /// <param name="destRects"></param>
+        public void DrawRects(RectangleF[] srcRects, RectangleF[] destRects)
+        {
+            impl.DrawRects(srcRects, destRects);
+        }
         #endregion
  
         #region --- Surface Data Manipulation ---

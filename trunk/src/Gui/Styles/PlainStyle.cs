@@ -176,9 +176,14 @@ namespace ERY.AgateLib.Gui.Styles
                 closeButton.AutoSize = false;
                 closeButton.Size = closeSize;
                 closeButton.Anchor = Anchor.Top | Anchor.Right;
-
+                closeButton.Click += new EventHandler(closeButton_Click);
                 sizeAnchor = new SizeAnchor(window);
                 sizeAnchor.Anchor = Anchor.Bottom | Anchor.Right;
+            }
+
+            void closeButton_Click(object sender, EventArgs e)
+            {
+                window.Close();
             }
 
         }
@@ -191,7 +196,7 @@ namespace ERY.AgateLib.Gui.Styles
 
         public PlainStyle()
         {
-            mFont = new FontSurface("Arial", 10);
+            mFont = new FontSurface("Arial", 12);
         }
 
         public override void ConnectStyle(Type componentType, Component target)

@@ -505,14 +505,15 @@ namespace ERY.AgateLib.MDX
                 verts[index + i].nz = -1;
             }
         }
-        
+
         [Obsolete("Old DX method.")]
-        protected void DrawWithoutVBNoRotation(Rectangle destRect, bool alphaBlend)
+        protected void DrawWithoutVBNoRotation(RectangleF destRect, bool alphaBlend)
         {
-            DrawWithoutVBNoRotation(new Rectangle(new Point(0, 0), SurfaceSize), destRect, alphaBlend);
+            DrawWithoutVBNoRotation(new RectangleF(new PointF(0, 0), (SizeF)SurfaceSize),
+                destRect, alphaBlend);
         }
         [Obsolete("Old DX method.")]
-        protected void DrawWithoutVBNoRotation(Rectangle srcRect, Rectangle destRect, bool alphaBlend)
+        protected void DrawWithoutVBNoRotation(RectangleF srcRect, RectangleF destRect, bool alphaBlend)
         {
             //CustomVertex.TransformedColoredTextured[] verts = new CustomVertex.TransformedColoredTextured[4];
             int startIndex = 0;
@@ -530,7 +531,7 @@ namespace ERY.AgateLib.MDX
         
         [Obsolete("Old DX method.")]
         private void AddRectToVB(PositionColorNormalTexture[] verts, int startIndex, 
-                                Rectangle srcRect, Rectangle destRect)
+                                RectangleF srcRect, RectangleF destRect)
         {
             // find center
             PointF centerpt = Origin.CalcF(DisplayAlignment, DisplaySize);
@@ -584,7 +585,7 @@ namespace ERY.AgateLib.MDX
         {
             Draw(new Rectangle(0, 0, mSrcRect.Width, mSrcRect.Height), destRect);
         }
-        public override void Draw(Rectangle srcRect, Rectangle destRect)
+        public override void Draw(RectangleF srcRect, RectangleF destRect)
         {
             srcRect.X += mSrcRect.X;
             srcRect.Y += mSrcRect.Y;
@@ -648,12 +649,13 @@ namespace ERY.AgateLib.MDX
                 }
             }
         }
+        
         /// <summary>
         /// This needs to be updated to use the same approach as Draw(Rectangle, Rectangle)
         /// </summary>
         /// <param name="srcRects"></param>
         /// <param name="destRects"></param>
-        public override void DrawRects(Rectangle[] srcRects, Rectangle[] destRects)
+        public override void DrawRects(RectangleF[] srcRects, RectangleF[] destRects)
         {
 
             PositionColorNormalTexture[] verts =
@@ -800,7 +802,7 @@ namespace ERY.AgateLib.MDX
 
             mRenderToSurface.BeginScene(surfaceTarget, vp);
 
-            DrawWithoutVBNoRotation(new Rectangle(new Point(0, 0), SurfaceSize), false);
+            DrawWithoutVBNoRotation(new RectangleF(new PointF(0, 0), (SizeF)SurfaceSize), false);
 
             mTexture.Dispose();
             mTexture = new Ref<Texture>(t);

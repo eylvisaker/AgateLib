@@ -154,7 +154,7 @@ namespace ERY.AgateLib.OpenGL
         {
             Draw(mSourceRect, destRect);
         }
-        public override void Draw(Rectangle srcRect, Rectangle destRect)
+        public override void Draw(RectangleF srcRect, RectangleF destRect)
         {
             srcRect.X += mSourceRect.X;
             srcRect.Y += mSourceRect.Y;
@@ -566,7 +566,16 @@ namespace ERY.AgateLib.OpenGL
 
             return coords;
         }
+        private TextureCoordinates GetTextureCoords(RectangleF srcRect)
+        {
+            TextureCoordinates coords = new TextureCoordinates(
+                (srcRect.Left) / (float)mTextureSize.Width,
+                (srcRect.Top) / (float)mTextureSize.Height,
+                (srcRect.Right) / (float)mTextureSize.Width,
+                (srcRect.Bottom) / (float)mTextureSize.Height);
 
+            return coords;
+        }
 
         /*
        GL_Display mDisplay;

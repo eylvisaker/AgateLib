@@ -237,7 +237,7 @@ namespace ERY.AgateLib.Geometry
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0}X={1},Y={2},Width={3},Height={4}", "{", X, Y, Width, Height, "}");
+            return string.Format("{0}X={1},Y={2},Width={3},Height={4}{5}", "{", X, Y, Width, Height, "}");
         }
         /// <summary>
         /// Equality test.

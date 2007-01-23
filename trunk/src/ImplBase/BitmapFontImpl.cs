@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using Drawing = System.Drawing;
 using System.Text;
+using System.Xml;
 
 using ERY.AgateLib.Geometry;
 
@@ -113,6 +114,39 @@ namespace ERY.AgateLib.ImplBase
             CalcAverageCharWidth();
         }
 
+        public void Save(string imageFilename, string xmlFileName)
+        {
+            XmlDocument doc = new XmlDocument();
+
+            Save(imageFilename, doc, doc);
+
+            doc.Save(xmlFileName);
+        }
+        private void Save(string imageFilename, XmlNode node, XmlDocument doc)
+        {
+            mSurface.SaveTo(imageFilename);
+
+            XmlNode root = doc.CreateElement("Font");
+
+            foreach (char glyph in mSrcRects.Keys)
+            {
+                XmlNode current = doc.CreateElement("Glyph");
+
+                XmlAttribute ch = doc.CreateAttribute("Char");
+                ch.Value = glyph.ToString();
+
+                XmlAttribute rect = doc.CreateAttribute("Source");
+                rect.Value = mSrcRects[glyph].ToString();
+
+                current.Attributes.Append(ch);
+                current.Attributes.Append(rect);
+
+                root.AppendChild(current);
+            }
+
+            node.AppendChild(root);
+        }
+
         /// <summary>
         /// Creates a bitmap font by loading an OS font, and drawing it to 
         /// a bitmap to use as a Surface object.  You should only use this method
@@ -127,17 +161,13 @@ namespace ERY.AgateLib.ImplBase
         {
             System.Drawing.FontStyle drawingStyle = System.Drawing.FontStyle.Regular;
 
-            if ((style & FontStyle.Bold) > 0)
-                drawingStyle |= System.Drawing.FontStyle.Bold;
-            if ((style & FontStyle.Italic) > 0)
-                drawingStyle |= System.Drawing.FontStyle.Italic;
-            if ((style & FontStyle.Strikeout) > 0)
-                drawingStyle |= System.Drawing.FontStyle.Strikeout;
-            if ((style & FontStyle.Underline) > 0)
-                drawingStyle |= System.Drawing.FontStyle.Underline;
+            if ((style & FontStyle.Bold) > 0) drawingStyle |= System.Drawing.FontStyle.Bold;
+            if ((style & FontStyle.Italic) > 0) drawingStyle |= System.Drawing.FontStyle.Italic;
+            if ((style & FontStyle.Strikeout) > 0) drawingStyle |= System.Drawing.FontStyle.Strikeout;
+            if ((style & FontStyle.Underline) > 0) drawingStyle |= System.Drawing.FontStyle.Underline;
 
-            Drawing.Font font = new Drawing.Font(fontFamily, sizeInPoints, drawingStyle );
-            
+            Drawing.Font font = new Drawing.Font(fontFamily, sizeInPoints, drawingStyle);
+
             Drawing.Bitmap bmp = new System.Drawing.Bitmap(512, 512);
             Drawing.Graphics g = Drawing.Graphics.FromImage(bmp);
 
@@ -183,7 +213,7 @@ namespace ERY.AgateLib.ImplBase
                 if (x > 512)
                 {
                     x = glyphs[i].Width;
-                    y += (float) Math.Ceiling(height);
+                    y += (float)Math.Ceiling(height + 1);
                     height = 0;
                 }
             }
@@ -198,9 +228,10 @@ namespace ERY.AgateLib.ImplBase
                 g = Drawing.Graphics.FromImage(bmp);
             }
 
+            g.Clear(System.Drawing.Color.Red);
             Drawing.Brush brush = Drawing.Brushes.White;
 
-            
+
             x = 0;
             y = 0;
             height = 0;
@@ -210,13 +241,13 @@ namespace ERY.AgateLib.ImplBase
                 if (x + glyphs[i].Width > 512)
                 {
                     x = 0;
-                    y += (float)Math.Ceiling(height);
+                    y += (float)Math.Ceiling(height + 1);
                     height = 0;
                 }
 
                 g.DrawString(i.ToString(), font, brush, new System.Drawing.PointF(x, y));
                 glyphs[i] = new RectangleF(
-                    new PointF(x + padding / 4f, y),
+                    new PointF(x + padding / 2f, y),
                     glyphs[i].Size);
 
                 x += (float)Math.Ceiling(glyphs[i].Width) + bitmapPadding;
@@ -327,7 +358,7 @@ namespace ERY.AgateLib.ImplBase
                 return 0;
 
             double highestLineWidth = 0;
-            
+
             string[] lines = text.Split('\n');
 
             for (int i = 0; i < lines.Length; i++)
@@ -339,7 +370,7 @@ namespace ERY.AgateLib.ImplBase
                 {
                     lineWidth += mSrcRects[line[j]].Width;
                 }
-                
+
                 if (lineWidth > highestLineWidth)
                     highestLineWidth = lineWidth;
 
@@ -359,7 +390,7 @@ namespace ERY.AgateLib.ImplBase
 
             int CRcount = 0;
             int i = 0;
-            
+
             do
             {
                 i = text.IndexOf('\n', i + 1);
@@ -386,10 +417,10 @@ namespace ERY.AgateLib.ImplBase
             return new Size(StringDisplayWidth(text), StringDisplayHeight(text));
         }
 
-        private void GetRects(string text, out Rectangle[] srcRects, out Rectangle[] destRects)
+        private void GetRects(string text, out RectangleF[] srcRects, out RectangleF[] destRects)
         {
-            srcRects = new Rectangle[text.Length];
-            destRects = new Rectangle[text.Length];
+            srcRects = new RectangleF[text.Length];
+            destRects = new RectangleF[text.Length];
 
             double destX = 0;
             double destY = 0;
@@ -405,11 +436,10 @@ namespace ERY.AgateLib.ImplBase
                         break;
 
                     default:
-                        srcRects[i] = Rectangle.Ceiling(mSrcRects[text[i]]);
-                        destRects[i] =
-                            new Rectangle((int)destX, (int)destY,
-                            (int)Math.Ceiling(srcRects[i].Width * ScaleWidth),
-                            (int)Math.Ceiling(srcRects[i].Height * ScaleHeight));
+                        srcRects[i] = mSrcRects[text[i]];
+                        destRects[i] = new RectangleF((float)destX, (float)destY,
+                            (float)(srcRects[i].Width * ScaleWidth),
+                            (float)(srcRects[i].Height * ScaleHeight));
 
                         destX += mSrcRects[text[i]].Width * ScaleWidth;
                         break;
@@ -425,8 +455,8 @@ namespace ERY.AgateLib.ImplBase
         /// <param name="text"></param>
         public override void DrawText(int destX, int destY, string text)
         {
-            Rectangle[] srcRects;
-            Rectangle[] destRects;
+            RectangleF[] srcRects;
+            RectangleF[] destRects;
 
             GetRects(text, out srcRects, out destRects);
 
