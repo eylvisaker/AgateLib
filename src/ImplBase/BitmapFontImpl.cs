@@ -228,7 +228,6 @@ namespace ERY.AgateLib.ImplBase
                 g = Drawing.Graphics.FromImage(bmp);
             }
 
-            g.Clear(System.Drawing.Color.Red);
             Drawing.Brush brush = Drawing.Brushes.White;
 
 
