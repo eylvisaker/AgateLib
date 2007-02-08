@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<project name="AgateLib" default="build" basedir=".">
+  <description>Builds AgateLib and drivers.</description>
+  <property name="debug" value="true" overwrite="false" />
+  <target name="clean" description="Remove all generated files">
+    <delete file="bin/*.dll" failonerror="false" />
+  </target>
+  <target name="build" description="Builds Agate and drivers.">
+    <mkdir dir="bin" /> 
+    <nant target="AgateLib" buildfile="nant.build" />
+    <nant target="AgateDrawing" buildfile="nant.build"/>
+    <nant target="AgateOTK" buildfile="nant.build"/>
+    <nant target="AgateFMOD" buildfile="nant.build"/>
+  </target>
+  <target name="AgateLib" description="Compiles the core AgateLib.dll library">
+    <csc target="library" output="bin/AgateLib.dll" debug="${debug}" unsafe="true">
+      <references>
+        <include name="System.dll"/>
+        <include name="System.Data.dll"/>
+        <include name="System.Drawing.dll"/>
+        <include name="System.Windows.Forms.dll"/>
+        <include name="System.Xml.dll"/>
+      </references>
+      <sources>
+        <include name="src/*.cs" />
+        <include name="src/Drivers/*.cs" />
+        <include name="src/Geometry/*.cs" />
+        <include name="src/ImplBase/*.cs" />
+        <include name="src/PlatformSpecific/*.cs" />
+        <include name="src/Resources/*.cs" />
+        <include name="src/Properties/*.cs" />
+        <include name="src/Utility/*.cs" />
+      </sources>
+    </csc>
+  </target>
+  <target name="AgateDrawing" depends="AgateLib" description="Compiles the System.Drawing implementation of Agate.">
+    <csc target="library" output="bin/AgateDrawing.dll" debug="${debug}">
+      <references>
+        <include name="System.dll"/>
+        <include name="System.Drawing.dll"/>
+        <include name="System.Windows.Forms.dll"/>
+        <include name="bin/AgateLib.dll"/>
+      </references>
+      <sources>
+        <include name="drivers/AgateDrawing/*.cs" />
+        <include name="drivers/AgateDrawing/Properties/*.cs" />
+      </sources>
+    </csc>
+  </target>
+  <target name="AgateOTK" depends="AgateLib" description="Compiles the OpenTK.OpenGL implementation of Agate.">
+    <csc target="library" output="bin/AgateOTK.dll" debug="${debug}">
+       <references>
+          <include name="System.dll"/>
+          <include name="System.Drawing.dll"/>
+          <include name="System.Windows.Forms.dll"/>
+          <include name="bin/AgateLib.dll"/>
+          <include name="deps/OpenTK.OpenGL.dll"/>
+       </references>
+       <sources>
+          <include name="drivers/AgateOTK/*.cs" />
+          <include name="drivers/AgateOTK/Properties/*.cs" />
+       </sources>
+    </csc>
+  </target>
+  <target name="AgateFMOD" depends="AgateLib" description="Compiles the FMOD implementation of Agate's audio system.">
+    <csc target="library" output="bin/AgateFMOD.dll" debug="${debug}">
+       <references>
+          <include name="System.dll"/>
+          <include name="System.Drawing.dll"/>
+          <include name="System.Windows.Forms.dll"/>
+          <include name="bin/AgateLib.dll"/>
+       </references>
+       <sources>
+          <include name="drivers/AgateFMOD/*.cs" />
+          <include name="drivers/AgateFMOD/FMOD/fmod.cs" />
+          <include name="drivers/AgateFMOD/FMOD/fmod_dsp.cs" />
+          <include name="drivers/AgateFMOD/FMOD/fmod_errors.cs" />
+          <include name="drivers/AgateFMOD/Properties/*.cs" />
+       </sources>
+    </csc>
+  </target>
+  <!-- Building AgateMDX with Nant doesn't work right now. 
+       If you're on Windows, use Visual Studio.  Otherwise, AgateMDX doesn't work anyway. -->
+  <target name="AgateMDX" depends="AgateLib" description="Compiles the MDX 1.1 implementation of Agate.">
+    <csc target="library" output="bin/AgateMDX.dll" debug="${debug}">
+      <sources>
+        <include name="drivers/AgateMDX/*.cs" />
+        <include name="drivers/AgateMDX/Properties/*.cs" />
+      </sources>
+    </csc>
+  </target>
+</project>
+
