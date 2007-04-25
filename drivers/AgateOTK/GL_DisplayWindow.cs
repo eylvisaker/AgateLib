@@ -37,13 +37,18 @@ namespace ERY.AgateLib.OpenGL
         public GL_DisplayWindow(CreateWindowParams windowParams)
         {
             mChoosePosition = windowParams.WindowPosition;
-
+            
             if (windowParams.RenderToControl)
             {
                 if (typeof(Control).IsAssignableFrom(windowParams.RenderTarget.GetType()) == false)
                     throw new ArgumentException("The specified render target does not derive from System.Windows.Forms.Control");
 
                 mRenderTarget = (Control)windowParams.RenderTarget;
+
+                if (mRenderTarget.TopLevelControl == null)
+                    throw new ArgumentException("The specified render target does not have a Form object yet.  " +
+                        "It's TopLevelControl property is null.  You may not create DisplayWindow objects before " +
+                        "the control to render to is added to the Form.");
 
                 mChooseFullscreen = false;
                 mChooseWidth = mRenderTarget.ClientSize.Width;
