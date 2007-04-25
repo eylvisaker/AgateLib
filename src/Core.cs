@@ -84,8 +84,8 @@ namespace ERY.AgateLib
 
             mPlatform = Platform.CreatePlatformMethods();
 
-            System.Threading.Thread.GetDomain().UnhandledException +=
-                new UnhandledExceptionEventHandler(Thread_UnhandledException);
+        //    System.Threading.Thread.GetDomain().UnhandledException +=
+        //        new UnhandledExceptionEventHandler(Thread_UnhandledException);
         }
 
         static void Thread_UnhandledException(object sender, UnhandledExceptionEventArgs e)
