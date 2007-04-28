@@ -13,7 +13,6 @@ public partial class Wiki_Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        int id;
         DataRow row;
 
         // hack to do late binding, because C# doesn't support it like VB does.
@@ -25,7 +24,7 @@ public partial class Wiki_Default : System.Web.UI.Page
             row = (DataRow)Master.GetType().InvokeMember("GetPageData",
                 System.Reflection.BindingFlags.InvokeMethod, null, Master, new object[] { });
         }
-        catch (Exception ee)
+        catch
         {
             // occurs if the page was not found, I hope.
             Response.Redirect("notfound.aspx?page=" + pageName);
