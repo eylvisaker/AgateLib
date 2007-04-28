@@ -27,10 +27,17 @@ namespace DML
         }
 
         public static DML.ForumPost factory()
-        { return new DML.ForumPost(); }
+        {
+            DAL.ForumPostData data = new DAL.ForumPostData(DAL.ForumPost.invalid_post_id);
+            return factory(data);
+        }
 
         public static DML.ForumPost factory(DAL.ForumPostData param_post_data)
-        { return new DML.ForumPost(); }
+        {
+            DML.ForumPost post = new DML.ForumPost();
+            post.post_data = param_post_data;
+            return post;
+        }
 
         public int id
         {
@@ -39,8 +46,8 @@ namespace DML
 
         public MembershipUser user
         {
-            get { return Membership.GetUser(); }
-            set { }
+            get { return Membership.GetUser(post_data.user_id); }
+            set { post_data.user_id = Convert.ToInt32(value.ProviderUserKey); }
         }
 
         public int parent_thread_id
@@ -73,18 +80,34 @@ namespace DML
         }
 
         public bool is_deleted()
-        { return true; }
+        {
+            return post_data.is_deleted;
+        }
 
+        // need to find a method for getting the edited DateTime back
         public void save_general_info()
-        { }
+        {
+            DAL.ForumPost.update_gen_info(post_data.id, post_data.user_id, post_data.body);
+            post_data.edited_on = DAL.ForumPost.get_edited_on(post_data.id);
+        }
 
         public void save_rank_info()
-        { }
-
-        public void save_all()
-        { }
+        {
+            DAL.ForumPost.update_rank(post_data.id, post_data.rank, post_data.thread_id);
+            // update_rank doesn't currently update the edited_on field, but it may in the future
+            post_data.edited_on = DAL.ForumPost.get_edited_on(post_data.id);
+        }
 
         public void delete()
-        { }
+        {
+            post_data.is_deleted = true;
+            DAL.ForumPost.delete(post_data.id);
+        }
+
+        public void undelete()
+        {
+            post_data.is_deleted = false;
+            DAL.ForumPost.undelete(post_data.id);
+        }
     }
 }

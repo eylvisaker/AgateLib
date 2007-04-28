@@ -455,6 +455,30 @@ namespace DAL
             finally { conn.Close(); }
         }
 
+        public static DateTime get_edited_on(int post_id)
+        {
+            if (!exists(post_id))
+                throw new System.ArgumentException("Attempt to delete non-existent post with id: " + post_id.ToString());
+
+            DbConnection conn = ConnectionManager.get_default_connection();
+
+            try
+            {
+                string query = "SELECT [edited_on] FROM " + table_name +
+                    " WHERE [id] = @id";
+
+                DbCommand cmd = new DbCommand(query, conn);
+                cmd.Parameters.Add("@id", DbType.Integer).Value = post_id;
+
+                conn.Open();
+
+                DateTime edited_on = Convert.ToDateTime(cmd.ExecuteScalar().ToString());
+
+                return edited_on;
+            }
+            finally { conn.Close(); }
+        }
+
         /// <summary>
         /// fills a List<ForumPostData> object with all objects returned by the given reader
         /// NOTE:  Depends on the order: id,user_id,thread_id,created_on,edited_on,rank,body,is_deleted
