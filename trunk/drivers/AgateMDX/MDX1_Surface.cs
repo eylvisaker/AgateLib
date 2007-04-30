@@ -94,6 +94,11 @@ namespace ERY.AgateLib.MDX
             mDisplay = Display.Impl as MDX1_Display;
             mDevice = mDisplay.D3D_Device;
 
+            if (mDevice == null)
+            {
+                throw new Exception("Error: It appears that AgateLib has not been initialized yet.");
+            }
+
             LoadFromFile();
 
             mDevice.Device.DeviceReset += new EventHandler(mDevice_DeviceReset);
