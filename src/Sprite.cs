@@ -364,11 +364,36 @@ namespace ERY.AgateLib
         /// Slices and dices the image passed into frames and adds them.
         /// Frames are taken from the surface from left to right.
         /// </summary>
+        /// <param name="filename">Filename of the image to load.</param>
+        /// <param name="startPoint">The starting point in pixels from which to parse frames.</param>
+        /// <param name="size">The size of the image to cut out for each frame</param>
+        /// <param name="extraSpace">How many extra pixels to insert between each frame.</param>
+        /// <param name="array">How many frames to cut out.  eg. If array = {4, 1}, four frames will be
+        /// taken from left to right.</param>
+        public void AddFrames(string filename, Point startPoint, Point extraSpace, Size size, Size array)
+        {
+            if (SpriteIsCached(filename))
+            {
+                if (LoadFromCache(filename))
+                    return;
+            }
+
+            using (Surface surf = new Surface(filename))
+            {
+                AddFrames(surf, startPoint, extraSpace, size, array);
+            }
+
+            SaveToCache(filename);
+        }
+        /// <summary>
+        /// Slices and dices the image passed into frames and adds them.
+        /// Frames are taken from the surface from left to right.
+        /// </summary>
         /// <param name="surface">The surface to use to split up into the sprite frames.</param>
         /// <param name="startPoint">The starting point in pixels from which to parse frames.</param>
         /// <param name="size">The size of the image to cut out for each frame</param>
         /// <param name="extraSpace">How many extra pixels to insert between each frame.</param>
-        /// <param name="array">How many frames to cut out.  eg. If array = {4, 1}, four sprites will be
+        /// <param name="array">How many frames to cut out.  eg. If array = {4, 1}, four frames will be
         /// taken from left to right.</param>
         public void AddFrames(Surface surface, Point startPoint, Point extraSpace, Size size, Size array)
         {
