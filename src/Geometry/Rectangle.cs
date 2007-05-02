@@ -332,14 +332,19 @@ namespace ERY.AgateLib.Geometry
             Rectangle retval = a;
 
             if (b.Top < a.Top)
+            {
                 retval.Y = b.Y;
+            }
             if (b.Left < a.Left)
+            {
                 retval.X = b.X;
+            }
 
-            if (b.Right > a.Right)
-                retval.Width = b.Right - retval.Left;
-            if (b.Bottom > a.Bottom)
-                retval.Height = b.Right - retval.Left;
+            if (a.Right > retval.Right) retval.Width = a.Right - retval.Left;
+            if (b.Right > retval.Right) retval.Width = b.Right - retval.Left;
+
+            if (a.Bottom > retval.Bottom) retval.Height = a.Bottom - retval.Top;
+            if (b.Bottom > retval.Bottom) retval.Height = b.Bottom - retval.Top;
 
             return retval;
 
