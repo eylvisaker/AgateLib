@@ -74,7 +74,6 @@ namespace DAL
             else
                 return 0;
         }
-
     }
 
 
@@ -317,35 +316,81 @@ namespace DAL
             return true;
         }
 
-        private static bool change_rank(List<rank_tuple> list, int id, int new_rank, int current_max_rank)
+
+        private static List<rank_tuple> change_rank(List<rank_tuple> list, int id, int new_rank, int current_max_rank)
         {
             list.Sort(rank_tuple.CompareById);
 
             rank_tuple id_tuple = find_id_tuple(list, id);
 
             if (id_tuple == null)
-                return false;
+                return new List<rank_tuple>();
+
+            if (new_rank > current_max_rank)
+                throw new System.ArgumentException("The new rank being assigned is too large");
+            if (new_rank < 0)
+                throw new System.ArgumentException("The new rank being assigned is < 0 ");
+            if( !rank_exists(list, new_rank))
+                throw new System.ArgumentException("The new rank does not exist in the list.  Verify no gaps in ranks, et al ");
 
             int index = list.IndexOf(id_tuple);
 
 
-            // clamp the new rank value
-            if (new_rank > current_max_rank)
-                new_rank = current_max_rank;
-            else if (new_rank < 0)
-                new_rank = 0;
+            /*
+             * Algorithm:
+             *  Take the tuple who's rank is being changed(id_tuple) and swap it's current rank with the tuple that's "next in line".
+             *  Continue to do this until the id_tuple's rank is what we want it to be.
+             * 
+             * The reason we're using this algorithm rather than simply incrementing/decrementing all the relevant ranks is because the
+             * ranks may have gaps in them and we want to leave the gaps as they are.  Swapping them will result in leaving the gaps.
+             * 
+             * ie, we have ranks {1,2,4,5} so we're missing rank 3.  When we finish we want to still be missing rank 3 but we want the
+             * actual tuples that correspond to those ranks to have changed.
+             * 
+             */
 
-            int curr_rank = id_tuple.rank;
+            // if we need to decrement the rank
+            if (id_tuple.rank > new_rank)
+            {
+                int curr_index = index;
+                int tmp_rank;
+                while (id_tuple.rank > new_rank)
+                {
+                    curr_index--;
+                    if (curr_index >= 0)
+                    {
+                        // manual swap of list[index] & list[current_index]
+                        // C# makes creating a swap method for container elements a ridiculous PITA
+                        tmp_rank = list[index].rank;
+                        list[index].rank = list[curr_index].rank;
+                        list[curr_index].rank = tmp_rank;
+                    }
+                    else
+                        break;
+                }
+            }
 
-            if (curr_rank > new_rank)
-                ;
-
-
-            else if (curr_rank < new_rank)
-                ;
-
-
-            return true;
+            // if we need to increment the rank
+            else if (id_tuple.rank < new_rank)
+            {
+                int curr_index = index;
+                int tmp_rank;
+                while (id_tuple.rank < new_rank)
+                {
+                    curr_index++;
+                    if (curr_index <= current_max_rank)
+                    {
+                        // manual swap of list[index] & list[current_index]
+                        // C# makes creating a swap method for container elements a ridiculous PITA
+                        tmp_rank = list[index].rank;
+                        list[index].rank = list[curr_index].rank;
+                        list[curr_index].rank = tmp_rank;
+                    }
+                    else
+                        break;
+                }
+            }
+            return list;
         }
 
 
@@ -364,8 +409,16 @@ namespace DAL
             return id_tuple;
         }
 
+        private static bool rank_exists(List<rank_tuple> list, int new_rank)
+        {
+            foreach (rank_tuple curr_tuple in list)
+            {
+                if (curr_tuple.rank == new_rank)
+                    return true;
+            }
+            return false;
+        }
 
-        
     }
 
 
