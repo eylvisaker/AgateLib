@@ -64,6 +64,17 @@ namespace DAL
     {
         public int id;
         public int rank;
+
+        public static int CompareById(rank_tuple l, rank_tuple r)
+        {
+            if (l.id < r.id)
+                return -1;
+            else if (l.id > r.id)
+                return 1;
+            else
+                return 0;
+        }
+
     }
 
 
@@ -308,10 +319,33 @@ namespace DAL
 
         private static bool change_rank(List<rank_tuple> list, int id, int new_rank, int current_max_rank)
         {
+            list.Sort(rank_tuple.CompareById);
+
             rank_tuple id_tuple = find_id_tuple(list, id);
 
-            if (rank_tuple == null)
+            if (id_tuple == null)
                 return false;
+
+            int index = list.IndexOf(id_tuple);
+
+
+            // clamp the new rank value
+            if (new_rank > current_max_rank)
+                new_rank = current_max_rank;
+            else if (new_rank < 0)
+                new_rank = 0;
+
+            int curr_rank = id_tuple.rank;
+
+            if (curr_rank > new_rank)
+                ;
+
+
+            else if (curr_rank < new_rank)
+                ;
+
+
+            return true;
         }
 
 
@@ -330,6 +364,8 @@ namespace DAL
             return id_tuple;
         }
 
+
+        
     }
 
 
