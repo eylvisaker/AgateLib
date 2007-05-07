@@ -301,96 +301,196 @@ namespace DAL
             catch { throw; }
             finally { conn.Close(); }
         }
+    }
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    class RankManipulator
+    {
+        private string _table;
+        private string _ident;
+        private int _id;
+        private string _parent_id_column_name;
+        private int _parent_id;
 
-        public static bool increment_rank(List<rank_tuple> list, int id_to_change, int current_max_rank)
+        public RankManipulator(string table, string ident, int id, string parent_id_col, int parent_id)
+        {
+            _table = table;
+            _ident = ident;
+            _id = id;
+            _parent_id_column_name = parent_id_col;
+            _parent_id = parent_id;
+        }
+
+
+        public bool increment_rank()
         {
             return true;
         }
 
-        public static bool decrement_rank(List<rank_tuple> list, int id_to_change, int current_max_rank)
+        public bool decrement_rank()
         {
             return true;
         }
 
-
-        private static List<rank_tuple> change_rank(List<rank_tuple> list, int id, int new_rank, int current_max_rank)
+        public bool move_to_largest_rank()
         {
+            return change_rank(RankManager.current_max_rank(_table,_ident));
+        }
+
+        public bool move_to_smallest_rank()
+        {
+            return change_rank(0);
+        }
+
+
+        private bool change_rank(int new_rank)
+        {
+            int curr_max_rank = RankManager.current_max_rank(_table, _ident);
+            List<rank_tuple> list = fill_list_from_reader( get_reader() );
+
+            if (list.Count <= 0)
+                return false;
+
             list.Sort(rank_tuple.CompareById);
 
-            rank_tuple id_tuple = find_id_tuple(list, id);
+            rank_tuple id_tuple = find_id_tuple(list, _id);
 
             if (id_tuple == null)
-                return new List<rank_tuple>();
+                return false;
 
-            if (new_rank > current_max_rank)
+            if (new_rank > curr_max_rank)
                 throw new System.ArgumentException("The new rank being assigned is too large");
             if (new_rank < 0)
                 throw new System.ArgumentException("The new rank being assigned is < 0 ");
-            if( !rank_exists(list, new_rank))
+            if (!rank_exists(list, new_rank))
                 throw new System.ArgumentException("The new rank does not exist in the list.  Verify no gaps in ranks, et al ");
 
             int index = list.IndexOf(id_tuple);
 
-
-            /*
-             * Algorithm:
-             *  Take the tuple who's rank is being changed(id_tuple) and swap it's current rank with the tuple that's "next in line".
-             *  Continue to do this until the id_tuple's rank is what we want it to be.
-             * 
-             * The reason we're using this algorithm rather than simply incrementing/decrementing all the relevant ranks is because the
-             * ranks may have gaps in them and we want to leave the gaps as they are.  Swapping them will result in leaving the gaps.
-             * 
-             * ie, we have ranks {1,2,4,5} so we're missing rank 3.  When we finish we want to still be missing rank 3 but we want the
-             * actual tuples that correspond to those ranks to have changed.
-             * 
-             */
-
-            // if we need to decrement the rank
+            // decide which direction to go
             if (id_tuple.rank > new_rank)
+                return change_rank_decrement(ref list, index, new_rank, 0);
+            else if (id_tuple.rank < new_rank)
+                return change_rank_increment(ref list, index, new_rank, curr_max_rank);
+
+            update_from_list(list);
+            return true;
+        }
+
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region change rank implementation
+        /*
+         * Algorithm:
+         *  Take the tuple who's rank is being changed(id_tuple) and swap it's current rank with the tuple that's "next in line".
+         *  Continue to do this until the id_tuple's rank is what we want it to be.
+         * 
+         * The reason we're using this algorithm rather than simply incrementing/decrementing all the relevant ranks is because the
+         * ranks may have gaps in them and we want to leave the gaps as they are.  Swapping them will result in leaving the gaps.
+         * 
+         * ie, we have ranks {1,2,4,5} so we're missing rank 3.  When we finish we want to still be missing rank 3 but we want the
+         * actual tuples that correspond to those ranks to have changed.
+         * 
+         */
+
+        private bool change_rank_increment(ref List<rank_tuple> list, int index, int new_rank, int curr_max_rank)
+        {
+            int curr_index = index;
+            int tmp_rank;
+            rank_tuple id_tuple = list[index];
+            while (id_tuple.rank < new_rank)
             {
-                int curr_index = index;
-                int tmp_rank;
-                while (id_tuple.rank > new_rank)
+                curr_index++;
+                if (curr_index <= curr_max_rank)
                 {
-                    curr_index--;
-                    if (curr_index >= 0)
-                    {
-                        // manual swap of list[index] & list[current_index]
-                        // C# makes creating a swap method for container elements a ridiculous PITA
-                        tmp_rank = list[index].rank;
-                        list[index].rank = list[curr_index].rank;
-                        list[curr_index].rank = tmp_rank;
-                    }
-                    else
-                        break;
+                    // manual swap of list[index] && list[current_index]
+                    // C# makes creating a swap method for container elements a ridiculous PITA
+                    tmp_rank = list[index].rank;
+                    list[index].rank = list[curr_index].rank;
+                    list[curr_index].rank = tmp_rank;
                 }
+                else
+                    break;
             }
 
-            // if we need to increment the rank
-            else if (id_tuple.rank < new_rank)
+            return true;
+        }
+
+        private bool change_rank_decrement(ref List<rank_tuple> list, int index, int new_rank, int floor)
+        {
+            int curr_index = index;
+            int tmp_rank;
+            rank_tuple id_tuple = list[index];
+            while (id_tuple.rank > new_rank)
             {
-                int curr_index = index;
-                int tmp_rank;
-                while (id_tuple.rank < new_rank)
+                curr_index--;
+                if (curr_index >= floor)
                 {
-                    curr_index++;
-                    if (curr_index <= current_max_rank)
-                    {
-                        // manual swap of list[index] & list[current_index]
-                        // C# makes creating a swap method for container elements a ridiculous PITA
-                        tmp_rank = list[index].rank;
-                        list[index].rank = list[curr_index].rank;
-                        list[curr_index].rank = tmp_rank;
-                    }
-                    else
-                        break;
+                    // manual swap of list[index] & list[current_index]
+                    // C# makes creating a swap method for container elements a ridiculous PITA
+                    tmp_rank = list[index].rank;
+                    list[index].rank = list[curr_index].rank;
+                    list[curr_index].rank = tmp_rank;
                 }
+                else
+                    break;
             }
-            return list;
+            return true;
+        }
+        #endregion
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private DbDataReader get_reader()
+        {
+            DbConnection conn = ConnectionManager.get_default_connection();
+
+            try
+            {
+                // we avoid SELECT * so that we have control over the exact order that the attributes are returned in.
+                // Note that fill_list_from_reader depends on this order
+                string query = "SELECT [id],[rank] FROM " + _table + " " +
+                    "WHERE [id] = @id AND [" + _parent_id_column_name + "] = @parent_id";
+
+                DbCommand cmd = new DbCommand(query, conn);
+                cmd.Parameters.Add("@id", DbType.Integer).Value = _id;
+                cmd.Parameters.Add("@parent_id", DbType.Integer).Value = _parent_id;
+
+                conn.Open();
+                return cmd.ExecuteReader();
+            }
+            catch { throw; }
+            finally { conn.Close(); }
+        }
+
+
+        private List<rank_tuple> fill_list_from_reader(DbDataReader reader)
+        {
+            try
+            {
+                List<rank_tuple> list = new List<rank_tuple>();
+
+                if (!reader.HasRows)
+                    return list;
+
+                while (reader.Read())
+                {
+                    rank_tuple tuple = new rank_tuple();
+
+                    tuple.id = reader.GetInt32(0);
+                    tuple.rank = reader.GetInt32(1);
+
+                    list.Add(tuple);
+                }
+                return list;
+            }
+            finally { }
+
+        }
+
+        private void update_from_list(List<rank_tuple> list)
+        {
         }
 
 
@@ -420,38 +520,4 @@ namespace DAL
         }
 
     }
-
-
-    /*
-     * Hand it a list containing the id's & ranks and it returns an updated list containing the new id's and ranks
-     
-
-
-    public class RankModifier
-    {
-        private string where_column;
-        private string rank_column;
-        private string table;
-
-        public RankModifier(string _table, string _where_column, string _rank_column)
-        {
-            table = _table;
-            where_column = _where_column;
-            rank_column = _rank_column;
-        }
-
-        public bool increase_rank_by_1(int id)
-        {
-        }
-
-        public bool decrease_rank_by_1(int id)
-        {
-        }
-
-
-        private bool change_rank(int new_rank)
-        {
-        }
-    }
-     */
 }
