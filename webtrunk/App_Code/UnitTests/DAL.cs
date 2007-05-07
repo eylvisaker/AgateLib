@@ -51,7 +51,7 @@ namespace DAL.UnitTests
 
 
     // utils.cs
-    // DAL.MaxRankManager
+    // DAL.RankManager
     public class DALMaxRankManagerTests
     {
         public DALMaxRankManagerTests()
@@ -69,7 +69,7 @@ namespace DAL.UnitTests
 
         private void create_rank_test()
         {
-            string table_name = DAL.MaxRankManager.table_name;
+            string table_name = DAL.RankManager.table_name;
             DbConnection conn = DAL.ConnectionManager.get_testing_connection();
 
             try
@@ -79,7 +79,7 @@ namespace DAL.UnitTests
                 string query = "SELECT COUNT( * ) FROM " + table_name;
                 DbCommand cmd = new DbCommand(query, conn);
 
-                DAL.MaxRankManager.create(table_name, "test");
+                DAL.RankManager.create(table_name, "test");
 
                 conn.Open();
                 if (cmd.ExecuteScalar().ToString() != Convert.ToString(1))
@@ -93,7 +93,7 @@ namespace DAL.UnitTests
                 cmd.Parameters.Add("@table", DbType.Char, 255).Value = table_name;
                 cmd.Parameters.Add("@ident", DbType.Char, 20).Value = "test";
 
-                if (cmd.ExecuteScalar().ToString() != Convert.ToString(DAL.MaxRankManager.invalid_rank))
+                if (cmd.ExecuteScalar().ToString() != Convert.ToString(DAL.RankManager.invalid_rank))
                     throw new System.Exception("create failed to create a record with a default max_rank that is invalid");
             }
             finally { conn.Close(); }
@@ -101,13 +101,13 @@ namespace DAL.UnitTests
 
         private void current_max_rank_test()
         {
-            string table_name = DAL.MaxRankManager.table_name;
+            string table_name = DAL.RankManager.table_name;
             DbConnection conn = DAL.ConnectionManager.get_testing_connection();
 
             try
             {
                 testHelper.clear_table(table_name);
-                DAL.MaxRankManager.create(table_name, "test");
+                DAL.RankManager.create(table_name, "test");
 
                 string select_query = "SELECT([max_rank]) FROM `" + table_name + "`" +
                     " WHERE [table] = @table AND [ident] = @ident";
@@ -127,7 +127,7 @@ namespace DAL.UnitTests
 
                 conn.Open();
 
-                if (select_cmd.ExecuteScalar().ToString() != DAL.MaxRankManager.current_max_rank(table_name,"test").ToString())
+                if (select_cmd.ExecuteScalar().ToString() != DAL.RankManager.current_max_rank(table_name,"test").ToString())
                     throw new System.Exception("current_max_rank failed");
 
                 
@@ -135,7 +135,7 @@ namespace DAL.UnitTests
                 if ( update_cmd.ExecuteNonQuery() != 1 )
                     throw new System.Exception("An unexpected error occured when manually updating the max_rank");
 
-                int current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
+                int current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
                 if (select_cmd.ExecuteScalar().ToString() != current_max_rank.ToString() && current_max_rank == 10)
                     throw new System.Exception("current_max_rank failed");
 
@@ -151,7 +151,7 @@ namespace DAL.UnitTests
                 if (update_cmd.ExecuteNonQuery() != 1)
                     throw new System.Exception("An unexpected error occured when manually updating the max_rank");
 
-                current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
+                current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
                 if (select_cmd.ExecuteScalar().ToString() != current_max_rank.ToString() && current_max_rank == 50)
                     throw new System.Exception("current_max_rank failed");
 
@@ -164,7 +164,7 @@ namespace DAL.UnitTests
                 if (update_cmd.ExecuteNonQuery() != 1)
                     throw new System.Exception("An unexpected error occured when manually updating the max_rank");
 
-                current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
+                current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
                 if (select_cmd.ExecuteScalar().ToString() != current_max_rank.ToString() && current_max_rank == 100)
                     throw new System.Exception("current_max_rank failed");
 
@@ -176,7 +176,7 @@ namespace DAL.UnitTests
                 if (update_cmd.ExecuteNonQuery() != 1)
                     throw new System.Exception("An unexpected error occured when manually updating the max_rank");
 
-                current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
+                current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
                 if (select_cmd.ExecuteScalar().ToString() != current_max_rank.ToString() && current_max_rank == 15000)
                     throw new System.Exception("current_max_rank failed");
             }
@@ -185,30 +185,30 @@ namespace DAL.UnitTests
 
         private void exists_test()
         {
-            string table_name = DAL.MaxRankManager.table_name;
+            string table_name = DAL.RankManager.table_name;
 
             try
             {
                 testHelper.clear_table(table_name);
 
                 // table should be empty
-                if (DAL.MaxRankManager.exists(table_name, "test"))
+                if (DAL.RankManager.exists(table_name, "test"))
                     throw new System.Exception("exists found a non-existent record");
 
-                DAL.MaxRankManager.create(table_name, "test");
+                DAL.RankManager.create(table_name, "test");
 
                 // record should be found
-                if (!DAL.MaxRankManager.exists(table_name, "test"))
+                if (!DAL.RankManager.exists(table_name, "test"))
                     throw new System.Exception("exists failed to find an existing record");
 
                 // other record is non-existent
-                if (DAL.MaxRankManager.exists(table_name, "test_other"))
+                if (DAL.RankManager.exists(table_name, "test_other"))
                     throw new System.Exception("exists found a non-existent record with another record in the table");
 
-                DAL.MaxRankManager.create(table_name, "test_other");
+                DAL.RankManager.create(table_name, "test_other");
 
                 // other record should be found
-                if (!DAL.MaxRankManager.exists(table_name, "test_other"))
+                if (!DAL.RankManager.exists(table_name, "test_other"))
                     throw new System.Exception("exists failed to find an existing record with another record in the table");
             }
             finally { }
@@ -216,40 +216,40 @@ namespace DAL.UnitTests
 
         private void increment_test()
         {
-            string table_name = DAL.MaxRankManager.table_name;
+            string table_name = DAL.RankManager.table_name;
 
             try
             {
                 testHelper.clear_table(table_name);
 
-                DAL.MaxRankManager.create(table_name, "test");
-                DAL.MaxRankManager.increment_max_rank(table_name,"test");
+                DAL.RankManager.create(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name,"test");
 
-                int current_max_rank = DAL.MaxRankManager.current_max_rank(table_name,"test");
+                int current_max_rank = DAL.RankManager.current_max_rank(table_name,"test");
                 if (current_max_rank != 0)
                     throw new System.Exception("increment failed");
 
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
 
-                current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
+                current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
                 if (current_max_rank != 1)
                     throw new System.Exception("increment failed");
 
 
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
 
-                current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
+                current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
                 if (current_max_rank != 6)
                     throw new System.Exception("increment failed");
 
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
 
-                current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
+                current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
                 if (current_max_rank != 8)
                     throw new System.Exception("increment failed");
 
@@ -260,64 +260,64 @@ namespace DAL.UnitTests
 
         private void decrement_test()
         {
-            string table_name = DAL.MaxRankManager.table_name;
+            string table_name = DAL.RankManager.table_name;
 
             try
             {
                 testHelper.clear_table(table_name);
 
                 // check a bogus expected max rank
-                DAL.MaxRankManager.create(table_name, "test");
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.create(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
 
-                if (DAL.MaxRankManager.decrement_max_rank(table_name, "test", 100) != DAL.MaxRankManager.invalid_rank)
+                if (DAL.RankManager.decrement_max_rank(table_name, "test", 100) != DAL.RankManager.invalid_rank)
                     throw new System.Exception("decrement_max_rank decremented when the expected max_rank was wrong");
                 
                 // make sure a single decrement to an invalid rank works correctly
-                DAL.MaxRankManager.decrement_max_rank(table_name, "test", 0);
-                int current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
-                if (current_max_rank != DAL.MaxRankManager.invalid_rank)
+                DAL.RankManager.decrement_max_rank(table_name, "test", 0);
+                int current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
+                if (current_max_rank != DAL.RankManager.invalid_rank)
                     throw new System.Exception("decrement failed");
                 
                 
                 // check if a decrement to a valid rank works correctly
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
-                DAL.MaxRankManager.decrement_max_rank(table_name, "test",1);
+                DAL.RankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.decrement_max_rank(table_name, "test",1);
 
-                current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
+                current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
                 if (current_max_rank != 0)
                     throw new System.Exception("increment failed");
 
                 // another check
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
-                DAL.MaxRankManager.increment_max_rank(table_name, "test");
-                DAL.MaxRankManager.decrement_max_rank(table_name, "test",4);
+                DAL.RankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.increment_max_rank(table_name, "test");
+                DAL.RankManager.decrement_max_rank(table_name, "test",4);
 
-                current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
+                current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
                 if (current_max_rank != 3)
                     throw new System.Exception("increment failed");
 
 
                 // yet another check
-                DAL.MaxRankManager.decrement_max_rank(table_name, "test",3);
-                DAL.MaxRankManager.decrement_max_rank(table_name, "test",2);
+                DAL.RankManager.decrement_max_rank(table_name, "test",3);
+                DAL.RankManager.decrement_max_rank(table_name, "test",2);
 
-                current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
+                current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
                 if (current_max_rank != 1)
                     throw new System.Exception("increment failed");
 
                 // check to see if multiple decrements from an invalid state leave it in an invalid state
-                DAL.MaxRankManager.decrement_max_rank(table_name, "test",1);
-                DAL.MaxRankManager.decrement_max_rank(table_name, "test",0);
-                DAL.MaxRankManager.decrement_max_rank(table_name, "test",DAL.MaxRankManager.invalid_rank);
-                DAL.MaxRankManager.decrement_max_rank(table_name, "test", DAL.MaxRankManager.invalid_rank);
-                DAL.MaxRankManager.decrement_max_rank(table_name, "test", DAL.MaxRankManager.invalid_rank);
+                DAL.RankManager.decrement_max_rank(table_name, "test",1);
+                DAL.RankManager.decrement_max_rank(table_name, "test",0);
+                DAL.RankManager.decrement_max_rank(table_name, "test",DAL.RankManager.invalid_rank);
+                DAL.RankManager.decrement_max_rank(table_name, "test", DAL.RankManager.invalid_rank);
+                DAL.RankManager.decrement_max_rank(table_name, "test", DAL.RankManager.invalid_rank);
 
-                current_max_rank = DAL.MaxRankManager.current_max_rank(table_name, "test");
-                if (current_max_rank != DAL.MaxRankManager.invalid_rank)
+                current_max_rank = DAL.RankManager.current_max_rank(table_name, "test");
+                if (current_max_rank != DAL.RankManager.invalid_rank)
                     throw new System.Exception("increment failed");
             }
             finally { }
@@ -849,7 +849,7 @@ namespace DAL.UnitTests
             try
             {
                 testHelper.clear_table(table_name);
-                testHelper.clear_table(DAL.MaxRankManager.table_name);
+                testHelper.clear_table(DAL.RankManager.table_name);
 
                 List<DAL.ForumPostData> list;
 
@@ -906,7 +906,7 @@ namespace DAL.UnitTests
             try
             {
                 testHelper.clear_table(table_name);
-                testHelper.clear_table(DAL.MaxRankManager.table_name);
+                testHelper.clear_table(DAL.RankManager.table_name);
 
                 int id1 = DAL.ForumPost.create(1, 2, "test");
                 // create records with different thread_id's
@@ -955,7 +955,7 @@ namespace DAL.UnitTests
             try
             {
                 testHelper.clear_table(table_name);
-                testHelper.clear_table(DAL.MaxRankManager.table_name);
+                testHelper.clear_table(DAL.RankManager.table_name);
 
                 List<DAL.ForumPostData> list;
 
@@ -1014,7 +1014,7 @@ namespace DAL.UnitTests
             try
             {
                 testHelper.clear_table(table_name);
-                testHelper.clear_table(DAL.MaxRankManager.table_name);
+                testHelper.clear_table(DAL.RankManager.table_name);
 
                 int id1 = DAL.ForumPost.create(1, 2, "test");
                 // create records with different thread_id's

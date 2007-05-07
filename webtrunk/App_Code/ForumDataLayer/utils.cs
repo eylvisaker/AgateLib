@@ -3,6 +3,9 @@ using System.Data;
 using System.Configuration;
 using System.Web;
 
+
+using System.Collections.Generic;
+
 using DbConnection = System.Data.OleDb.OleDbConnection;
 using DbCommand = System.Data.OleDb.OleDbCommand;
 using DbType = System.Data.OleDb.OleDbType;
@@ -57,13 +60,20 @@ namespace DAL
 
 
 
+    public class rank_tuple
+    {
+        public int id;
+        public int rank;
+    }
+
+
 
     /// <remarks>
     /// Manages a "simulated autonumber column".
     /// 
     /// Uses optimistic concurrency to ensure uniqueness of increment/decrements
     /// </remarks>
-    public static class MaxRankManager
+    public static class RankManager
     {
         public const string table_name = "TrackMaxRanks";
         private static int max_tries = 10;
@@ -282,5 +292,77 @@ namespace DAL
             finally { conn.Close(); }
         }
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static bool increment_rank(List<rank_tuple> list, int id_to_change, int current_max_rank)
+        {
+            return true;
+        }
+
+        public static bool decrement_rank(List<rank_tuple> list, int id_to_change, int current_max_rank)
+        {
+            return true;
+        }
+
+        private static bool change_rank(List<rank_tuple> list, int id, int new_rank, int current_max_rank)
+        {
+            rank_tuple id_tuple = find_id_tuple(list, id);
+
+            if (rank_tuple == null)
+                return false;
+        }
+
+
+        private static rank_tuple find_id_tuple(List<rank_tuple> list, int id)
+        {
+            rank_tuple id_tuple = null;
+            foreach (rank_tuple curr_tuple in list)
+            {
+                if (curr_tuple.id == id)
+                {
+                    id_tuple = curr_tuple;
+                    break;
+                }
+            }
+
+            return id_tuple;
+        }
+
     }
+
+
+    /*
+     * Hand it a list containing the id's & ranks and it returns an updated list containing the new id's and ranks
+     
+
+
+    public class RankModifier
+    {
+        private string where_column;
+        private string rank_column;
+        private string table;
+
+        public RankModifier(string _table, string _where_column, string _rank_column)
+        {
+            table = _table;
+            where_column = _where_column;
+            rank_column = _rank_column;
+        }
+
+        public bool increase_rank_by_1(int id)
+        {
+        }
+
+        public bool decrease_rank_by_1(int id)
+        {
+        }
+
+
+        private bool change_rank(int new_rank)
+        {
+        }
+    }
+     */
 }

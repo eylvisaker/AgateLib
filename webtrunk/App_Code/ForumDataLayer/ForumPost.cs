@@ -75,7 +75,7 @@ namespace DAL
         public static int create(int user_id, int thread_id, string body)
         {
             int post_id = real_create(user_id, thread_id, body);
-            int max_rank = DAL.MaxRankManager.increment_max_rank(table_name, thread_id.ToString());
+            int max_rank = DAL.RankManager.increment_max_rank(table_name, thread_id.ToString());
 
             if ( max_rank < 0 || !update_rank(post_id, max_rank, thread_id))
             {
@@ -83,7 +83,7 @@ namespace DAL
                 // if decrement fails we'll simply have a gap in our ranks.
                 // decrement_max_rank will fail if someone else has already incremented the max rank between
                 // the time we incremented it and the time we attempted to decrement it.
-                DAL.MaxRankManager.decrement_max_rank(table_name, thread_id.ToString(), max_rank);
+                DAL.RankManager.decrement_max_rank(table_name, thread_id.ToString(), max_rank);
                 real_delete(post_id);
                 return invalid_post_id;
             }
