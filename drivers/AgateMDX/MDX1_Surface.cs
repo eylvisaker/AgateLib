@@ -879,6 +879,10 @@ namespace ERY.AgateLib.MDX
 
                 for (int i = rect.Top; i < rect.Bottom; i++)
                 {
+                    // hack if the size requested is too large.
+                    if (i >= mTextureSize.Height)
+                        break;
+
                     //IntPtr ptr = (IntPtr)((int)stm.InternalData + i * stride + rect.Left * pixelPitch);
                     IntPtr mptr = (IntPtr)(ptr + i * stride + rect.Left * pixelPitch);
 
