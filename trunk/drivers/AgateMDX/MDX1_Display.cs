@@ -283,7 +283,7 @@ namespace ERY.AgateLib.MDX
             mDevice.Device.Viewport = view;
             mCurrentClipRect = newClipRect;
 
-            
+            SetOrthoProjection(newClipRect);
         }
         public override void PushClipRect(Rectangle newClipRect)
         {
@@ -372,7 +372,7 @@ namespace ERY.AgateLib.MDX
             pts[2] = new Vector2(rect.X + rect.Width, rect.Y + rect.Height);
             pts[3] = new Vector2(rect.X, rect.Y + rect.Height);
             pts[4] = pts[0];
-
+             
             mLine.Begin();
             mLine.Draw(pts, color.ToArgb());
             mLine.End();
