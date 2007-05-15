@@ -48,7 +48,7 @@
     </csc>
   </target>
   <target name="AgateOTK" depends="AgateLib" description="Compiles the OpenTK.OpenGL implementation of Agate.">
-    <csc target="library" output="bin/AgateOTK.dll" debug="${debug}">
+    <csc target="library" output="bin/AgateOTK.dll" debug="${debug}" unsafe="true">
        <references>
           <include name="System.dll"/>
           <include name="System.Drawing.dll"/>
