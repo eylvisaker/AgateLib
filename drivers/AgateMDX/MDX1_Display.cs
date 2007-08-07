@@ -212,6 +212,10 @@ namespace ERY.AgateLib.MDX
         {
             return new MDX1_Surface(surfaceSize);
         }
+        public override SurfaceImpl CreateSurface(System.IO.Stream fileStream)
+        {
+            return new MDX1_Surface(fileStream);   
+        }
 
         public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyle style)
         {

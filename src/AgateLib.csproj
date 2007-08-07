@@ -51,6 +51,7 @@
     <Compile Include="Drivers\DriverTypeIDBase.cs" />
     <Compile Include="Geometry\Converter.cs" />
     <Compile Include="Geometry\Gradient.cs" />
+    <Compile Include="Geometry\TypeConverters.cs" />
     <Compile Include="Geometry\Vector3.cs" />
     <Compile Include="Gui\Button.cs" />
     <Compile Include="Gui\Component.cs" />

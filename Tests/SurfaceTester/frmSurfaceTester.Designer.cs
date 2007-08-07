@@ -100,7 +100,7 @@ namespace ERY.SurfaceTester
             // 
             // colorBox
             // 
-            this.colorBox.BackColor = System.Drawing.Color.Red;
+            this.colorBox.BackColor = System.Drawing.Color.White;
             this.colorBox.Location = new System.Drawing.Point(200, 86);
             this.colorBox.Name = "colorBox";
             this.colorBox.Size = new System.Drawing.Size(40, 28);

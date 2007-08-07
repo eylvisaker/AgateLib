@@ -60,7 +60,11 @@ namespace ERY.SurfaceTester
             
             //try
             //{
-                mSurface = new Surface(fileName);
+            //    mSurface = new Surface(fileName);
+            using (System.IO.FileStream s = System.IO.File.OpenRead(fileName))
+            {
+                mSurface = new Surface(s);
+            }
             //}
             //catch (Exception e)
             //{

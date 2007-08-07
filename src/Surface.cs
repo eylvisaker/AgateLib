@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 using ERY.AgateLib.Geometry;
@@ -92,6 +93,17 @@ namespace ERY.AgateLib
                 throw new System.IO.FileNotFoundException(filename);
 
             impl = Display.Impl.CreateSurface(fn);
+
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+        }
+        /// <summary>
+        /// Creates a surface object from the data in the specified stream.
+        /// </summary>
+        /// <param name="st"></param>
+        public Surface(Stream st)
+        {
+            impl = Display.Impl.CreateSurface(st);
 
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
             Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);

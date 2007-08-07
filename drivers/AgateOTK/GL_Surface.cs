@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Drawing = System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -53,6 +54,16 @@ namespace ERY.AgateLib.OpenGL
 
             Load();
         }
+        public GL_Surface(Stream st)
+        {
+            mDisplay = Display.Impl as GL_Display;
+            mState = mDisplay.State;
+
+            // Load The Bitmap
+            Drawing.Bitmap sourceImage = new Drawing.Bitmap(st);
+
+            LoadFromBitmap(sourceImage);
+        }
         public GL_Surface(Size size)
         {
             mDisplay = Display.Impl as GL_Display;
@@ -83,6 +94,7 @@ namespace ERY.AgateLib.OpenGL
             mTexCoord = GetTextureCoords(mSourceRect);
 
         }
+       
         private GL_Surface(int textureID, Rectangle sourceRect, Size textureSize)
         {
             mDisplay = Display.Impl as GL_Display;
@@ -500,6 +512,14 @@ namespace ERY.AgateLib.OpenGL
             // Load The Bitmap
             Drawing.Bitmap sourceImage = new Drawing.Bitmap(mFilename);
 
+            LoadFromBitmap(sourceImage);
+
+            sourceImage.Dispose();
+        }
+
+        private void LoadFromBitmap(Drawing.Bitmap sourceImage)
+        {
+
             mSourceRect.Size = new Size(sourceImage.Size);
 
             Size newSize = GetOGLSize(sourceImage);
@@ -528,9 +548,9 @@ namespace ERY.AgateLib.OpenGL
                 ImageLockMode.ReadOnly, Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             // use a pixelbuffer to do format conversion.
-            PixelBuffer buffer = new PixelBuffer(PixelFormat.RGBA8888, mTextureSize, 
+            PixelBuffer buffer = new PixelBuffer(PixelFormat.RGBA8888, mTextureSize,
                 bitmapData.Scan0, PixelFormat.BGRA8888, bitmapData.Stride);
-            
+
             // Create The GL Texture object
             int[] array = new int[1];
             Gl.GenTextures(1, array);
@@ -541,7 +561,6 @@ namespace ERY.AgateLib.OpenGL
 
             textureImage.UnlockBits(bitmapData);                     // Unlock The Pixel Data From Memory
             textureImage.Dispose();                                  // Dispose The Bitmap
-
         }
         
         private Size GetOGLSize(System.Drawing.Bitmap image)
