@@ -184,8 +184,6 @@ namespace ERY.AgateLib.MDX
 
             mSrcRect = new Rectangle(Point.Empty, new Size(bitmap.Size));
 
-            bitmap.Save("c:\\temp.bmp", Drawing.Imaging.ImageFormat.Bmp);
-
             // this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
             System.IO.MemoryStream stream = new System.IO.MemoryStream();
             bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
@@ -214,8 +212,6 @@ namespace ERY.AgateLib.MDX
             mTexture = new Ref<Texture>(TextureLoader.FromStream(mDevice.Device, 
                 stream, 0, 0, 1, Usage.None,
                 format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
-
-            TextureLoader.Save("c:\\tmp.bmp", Microsoft.DirectX.Direct3D.ImageFileFormat.Bmp, mTexture.Value);
 
             mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
                 mTexture.Value.GetSurfaceLevel(0).Description.Height);
