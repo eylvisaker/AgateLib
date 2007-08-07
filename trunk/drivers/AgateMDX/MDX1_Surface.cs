@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using Drawing = System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using Direct3D = Microsoft.DirectX.Direct3D;
@@ -105,6 +106,20 @@ namespace ERY.AgateLib.MDX
 
             InitVerts();
         }
+        public MDX1_Surface(Stream stream)
+        {
+            mDisplay = Display.Impl as MDX1_Display;
+            mDevice = mDisplay.D3D_Device;
+
+            if (mDevice == null)
+            {
+                throw new Exception("Error: It appears that AgateLib has not been initialized yet.");
+            }
+
+            LoadFromStream(stream);
+
+            InitVerts();
+        }
         public MDX1_Surface(Size size)
         {
             mSrcRect = new Rectangle(new Point(0, 0), size);
@@ -162,6 +177,50 @@ namespace ERY.AgateLib.MDX
         {
             SetVertsTextureCoordinates(mVerts, 0, mSrcRect);
             SetVertsColor(mVerts, 0, 4);
+        }
+        public void LoadFromStream(Stream st)
+        {
+            Drawing.Bitmap bitmap = new Drawing.Bitmap(st);
+
+            mSrcRect = new Rectangle(Point.Empty, new Size(bitmap.Size));
+
+            bitmap.Save("c:\\temp.bmp", Drawing.Imaging.ImageFormat.Bmp);
+
+            // this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
+            System.IO.MemoryStream stream = new System.IO.MemoryStream();
+            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+
+            stream.Position = 0;
+            
+            //mTexture = new Texture(mDevice, bitmap, Usage.None, Pool.Managed);
+            Format format;
+
+            switch (mDevice.Device.DisplayMode.Format)
+            {
+                case Format.X8R8G8B8:
+                    format = Format.A8R8G8B8;
+                    break;
+
+                case Format.X8B8G8R8:
+                    format = Format.A8B8G8R8;
+                    break;
+
+                default:
+                    System.Diagnostics.Debug.Assert(false);
+                    throw new Exception("What format do I use?");
+
+            }
+
+            mTexture = new Ref<Texture>(TextureLoader.FromStream(mDevice.Device, 
+                stream, 0, 0, 1, Usage.None,
+                format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
+
+            TextureLoader.Save("c:\\tmp.bmp", Microsoft.DirectX.Direct3D.ImageFileFormat.Bmp, mTexture.Value);
+
+            mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
+                mTexture.Value.GetSurfaceLevel(0).Description.Height);
+
+            bitmap.Dispose();
         }
         public void LoadFromFile()
         {

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -44,8 +45,31 @@ namespace ERY.AgateLib.SystemDrawing
             mDisplay = Display.Impl as Drawing_Display;
 
             mImage = (Bitmap)Image.FromFile(fileName);
+            ConvertImage();
 
             System.Diagnostics.Debug.Assert(mImage != null);
+        }
+        public Drawing_Surface(Stream st)
+        {
+            mDisplay = Display.Impl as Drawing_Display;
+
+            mImage = (Bitmap)Bitmap.FromStream(st);
+            ConvertImage();
+
+            System.Diagnostics.Debug.Assert(mImage != null);
+        }
+
+        private void ConvertImage()
+        {
+            Bitmap newImage = new Bitmap(mImage.Width, mImage.Height);
+
+            Graphics g = Graphics.FromImage(newImage);
+            g.DrawImage(mImage, new Rectangle(0, 0, mImage.Width, mImage.Height));
+
+            g.Dispose();
+            mImage.Dispose();
+
+            mImage = newImage;
         }
         public Drawing_Surface(Bitmap image, Rectangle sourceRect)
         {

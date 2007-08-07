@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 using ERY.AgateLib.Geometry;
@@ -102,6 +103,14 @@ namespace ERY.AgateLib.ImplBase
         /// Creates a SurfaceImpl derived object.
         /// </summary>
         public abstract SurfaceImpl CreateSurface(string fileName);
+        /// <summary>
+        /// Creates a SurfaceImpl derived object from a stream containing 
+        /// the file contents.
+        /// </summary>
+        /// <param name="fileStream"></param>
+        /// <returns></returns>
+        public abstract SurfaceImpl CreateSurface(Stream fileStream);
+
         /// <summary>
         /// Creates a SurfaceImpl derived object.
         /// </summary>

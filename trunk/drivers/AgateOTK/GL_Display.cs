@@ -65,7 +65,10 @@ namespace ERY.AgateLib.OpenGL
         {
             return new GL_Surface(surfaceSize);
         }
-
+        public override SurfaceImpl CreateSurface(System.IO.Stream fileStream)
+        {
+            return new GL_Surface(fileStream);
+        }
         public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyle style)
         {
             return BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints, style);

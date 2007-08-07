@@ -86,10 +86,13 @@ namespace ERY.AgateLib.SystemDrawing
         {
         }
 
-        public override SurfaceImpl CreateSurface(String fileName)
+        public override SurfaceImpl CreateSurface(string fileName)
         {
             return new Drawing_Surface(fileName);
-
+        }
+        public override SurfaceImpl CreateSurface(System.IO.Stream fileStream)
+        {
+            return new Drawing_Surface(fileStream);
         }
         public override SurfaceImpl CreateSurface(Geometry.Size surfaceSize)
         {
