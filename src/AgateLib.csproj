@@ -74,6 +74,7 @@
     <Compile Include="InputState.cs" />
     <Compile Include="Drivers\NullInputImpl.cs" />
     <Compile Include="Drivers\NullSoundImpl.cs" />
+    <Compile Include="ISurface.cs" />
     <Compile Include="Light.cs" />
     <Compile Include="LightManager.cs" />
     <Compile Include="Origin.cs" />
@@ -83,6 +84,8 @@
     <Compile Include="PlatformSpecific\X11.cs" />
     <Compile Include="ScreenMode.cs" />
     <Compile Include="SearchPath.cs" />
+    <Compile Include="Sprite2.cs" />
+    <Compile Include="SpriteFrame2.cs" />
     <Compile Include="StringTransformer.cs" />
     <Compile Include="Utility\AgateRenderTarget.cs">
       <SubType>Component</SubType>
@@ -122,7 +125,7 @@
     <Compile Include="Utility\SetSystemsForm.Designer.cs">
       <DependentUpon>SetSystemsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SpriteContainer.cs" />
+    <Compile Include="OldSprite\SpriteContainer.cs" />
     <Compile Include="Utility\SurfacePacker.cs" />
     <Compile Include="PlatformSpecific\Platform.cs" />
     <Compile Include="Keyboard.cs" />
@@ -159,13 +162,13 @@
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="AgateSetup.cs" />
     <Compile Include="Utility\Ref.cs" />
-    <Compile Include="Sprite.cs">
+    <Compile Include="OldSprite\Sprite.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Surface.cs" />
     <Compile Include="ImplBase\SurfaceImpl.cs" />
     <Compile Include="Timing.cs" />
-    <Compile Include="SpriteFrame.cs" />
+    <Compile Include="OldSprite\SpriteFrame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AgateLib.ico" />

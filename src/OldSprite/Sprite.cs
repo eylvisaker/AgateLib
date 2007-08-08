@@ -30,7 +30,7 @@ namespace ERY.AgateLib
     /// The Sprite class represents a series of frames which are used
     /// to create a single animation.
     /// </summary>
-    public class Sprite : IDisposable
+    public class Sprite : IDisposable, ISurface
     {
         List<SpriteFrame> mFrames = new List<SpriteFrame>();
         Size mSpriteSize;
@@ -40,7 +40,7 @@ namespace ERY.AgateLib
         private double mFrameTime = 0;
         private AnimType mAnimType = AnimType.Looping;
         private bool mPlayReverse = false;
-        private bool mAnimating = true;
+        private bool mIsAnimating = true;
         private bool mVisible = true;
 
         private double mScaleX = 1.0;
@@ -49,7 +49,7 @@ namespace ERY.AgateLib
         private OriginAlignment mAlignment = OriginAlignment.TopLeft;
         private double mRotation = 0;
         private OriginAlignment mRotationSpot = OriginAlignment.Center;
-        private Color mColor = Color.White;
+        private Gradient mGradient = new Gradient(Color.White);
 
         /// <summary>
         /// Enum indicating the different types of automatic animation that
@@ -145,6 +145,12 @@ namespace ERY.AgateLib
         {
             AddFrames(surface);
         }
+        /// <summary>
+        /// Constructs a Sprite object, of the specified width and height.
+        /// Frames are cut out from the given surface of the specified size.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="size"></param>
         public Sprite(Stream stream, Size size)
             : this(size)
         {
@@ -219,7 +225,7 @@ namespace ERY.AgateLib
             retval.mFrameTime = mFrameTime;
             retval.mAnimType = mAnimType;
             retval.mPlayReverse = mPlayReverse;
-            retval.mAnimating = mAnimating;
+            retval.mIsAnimating = mIsAnimating;
 
             retval.mScaleX = mScaleX;
             retval.mScaleY = mScaleY;
@@ -227,7 +233,7 @@ namespace ERY.AgateLib
             retval.mAlignment = mAlignment;
             retval.mRotation = mRotation;
             retval.mRotationSpot = mRotationSpot;
-            retval.mColor = mColor;
+            retval.mGradient = mGradient;
 
             foreach (SpriteFrame f in mFrames)
             {
@@ -744,6 +750,34 @@ namespace ERY.AgateLib
             }
         }
 
+        int ISurface.SurfaceWidth
+        {
+            get { return SpriteWidth; }
+        }
+        int ISurface.SurfaceHeight
+        {
+            get { return SpriteHeight; }
+        }
+        Size ISurface.SurfaceSize
+        {
+            get { return SpriteSize; }
+        }
+        /// <summary>
+        /// Gets or sets the amount the width is scaled.
+        /// </summary>
+        public double ScaleWidth
+        {
+            get { return mScaleX; }
+            set { mScaleX = value; }
+        }
+        /// <summary>
+        /// Gets or sets the amount the height is scaled.
+        /// </summary>
+        public double ScaleHeight
+        {
+            get { return mScaleY; }
+            set { mScaleY = value; }
+        }
         /// <summary>
         /// Gets the width of the sprite when displayed.
         /// </summary>
@@ -787,13 +821,10 @@ namespace ERY.AgateLib
         /// </summary>
         public double Alpha
         {
-            get { return mColor.A / 255.0; }
+            get { return Color.A / 255.0; }
             set
             {
-                if (value < 0) value = 0;
-                if (value > 1.0) value = 1.0;
-
-                mColor = Color.FromArgb((int)(value * 255), mColor);
+                mGradient.SetAlpha(value);
             }
         }
         /// <summary>
@@ -854,10 +885,17 @@ namespace ERY.AgateLib
         /// </summary>
         public Color Color
         {
-            get { return mColor; }
-            set { mColor = value; }
+            get { return mGradient.TopLeft; }
+            set { mGradient = new Gradient(value); }
         }
-
+        /// <summary>
+        /// Gets or sets the color gradient on the sprite.
+        /// </summary>
+        public Gradient ColorGradient
+        {
+            get { return mGradient; }
+            set { mGradient = value; }
+        }
         /// <summary>
         /// Increments the rotation angle by the specified number of radians.
         /// </summary>
@@ -1005,12 +1043,12 @@ namespace ERY.AgateLib
                         if (PlayReverse && value == 0)
                         {
                             mCurrentFrameIndex = 0;
-                            mAnimating = false;
+                            mIsAnimating = false;
                         }
                         else if (PlayReverse == false && value == mFrames.Count - 1)
                         {
                             mCurrentFrameIndex = mFrames.Count - 1;
-                            mAnimating = false;
+                            mIsAnimating = false;
                         }
                         else
                         {
@@ -1114,17 +1152,28 @@ namespace ERY.AgateLib
         /// True if the animation is running.
         /// False if a single frame will be shown indefinitely.
         /// </summary>
+        [Obsolete("Use IsAnimating property instead.")]
         public bool Animating
         {
-            get { return mAnimating; }
+            get { return IsAnimating; }
+            set { IsAnimating = value; }
+        }
+        /// <summary>
+        /// Gets or sets a flag which indicates:
+        /// True if the animation is running.
+        /// False if a single frame will be shown indefinitely.
+        /// </summary>
+        public bool IsAnimating
+        {
+            get { return mIsAnimating; }
             set
             {
                 bool doEvent = false;
 
-                if (value != mAnimating)
+                if (value != mIsAnimating)
                     doEvent = true;
 
-                mAnimating = value;
+                mIsAnimating = value;
 
                 if (value &&
                     (AnimationType == AnimType.Once || AnimationType == AnimType.OnceDisappear ||
@@ -1140,9 +1189,9 @@ namespace ERY.AgateLib
 
                 if (doEvent)
                 {
-                    if (mAnimating == true && AnimationStarted != null)
+                    if (mIsAnimating == true && AnimationStarted != null)
                         AnimationStarted(this);
-                    else if (mAnimating == false && AnimationStopped != null)
+                    else if (mIsAnimating == false && AnimationStopped != null)
                         AnimationStopped(this);
                 }
             }
@@ -1166,12 +1215,11 @@ namespace ERY.AgateLib
             else
                 CurrentFrameIndex = 0;
 
-            mAnimating = true;
+            mIsAnimating = true;
             mVisible = true;
         }
 
         #endregion
-
 
         #region --- Events ---
 
