@@ -145,6 +145,14 @@ namespace ERY.AgateLib
         {
             AddFrames(surface);
         }
+        public Sprite(Stream stream, Size size)
+            : this(size)
+        {
+            using (Surface surf = new Surface(stream))
+            {
+                AddFrames(surf);
+            }
+        }
         /// <summary>
         /// Constructs a Sprite object, of the specified width and height.
         /// Frames are cut out from the given surface of the specified size.
