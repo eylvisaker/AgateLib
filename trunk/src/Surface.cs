@@ -78,7 +78,7 @@ namespace ERY.AgateLib
     /// </code>
     /// </example>
     /// </summary>
-    public class Surface : IRenderTarget, IDisposable
+    public class Surface : IRenderTarget, IDisposable, ISurface
     {
         SurfaceImpl impl;
 
