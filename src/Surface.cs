@@ -770,5 +770,10 @@ namespace ERY.AgateLib
         }
 
         #endregion
+
+        internal void Draw(float x, float y, Rectangle srcRect, float rotationCenterX, float rotationCenterY)
+        {
+            impl.Draw(x, y, srcRect, rotationCenterX, rotationCenterY);
+        }
     }
 }

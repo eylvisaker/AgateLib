@@ -19,9 +19,6 @@ namespace ERY.AgateLib.OpenGL
 {
     public sealed class GL_Surface : SurfaceImpl, GL_IRenderTarget
     {
- 
-
-
         GL_Display mDisplay;
         GLState mState;
 
@@ -214,18 +211,31 @@ namespace ERY.AgateLib.OpenGL
 
             Draw(destX, destY, rotatePoint.X, rotatePoint.Y);
         }
+
+
         public override void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
         {
+            Draw(destX, destY, mSourceRect, rotationCenterX, rotationCenterY);
+        }
+
+        public override void Draw(float destX, float destY, Rectangle srcRect, float rotationCenterX, float rotationCenterY)
+        {
+            SizeF dispSize = new SizeF(
+                srcRect.Width * (float)ScaleWidth,
+                srcRect.Height * (float)ScaleHeight);
+            
             if (DisplaySize.Width < 0)
-                destX -= DisplaySize.Width;
+                destX -= dispSize.Width;
 
             if (DisplaySize.Height < 0)
-                destY -= DisplaySize.Height;
+                destY -= dispSize.Height;
+
+            mTexCoord = GetTextureCoords(srcRect);
 
             if (TesselateFactor == 1)
             {
                 BufferQuad(destX, destY, rotationCenterX, rotationCenterY,
-                    DisplayWidth, DisplayHeight, mTexCoord, ColorGradient);
+                    dispSize.Width, dispSize.Height, mTexCoord, ColorGradient);
             }
             else
             {

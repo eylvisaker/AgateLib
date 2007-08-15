@@ -114,6 +114,24 @@ namespace ERY.AgateLib.ImplBase
             Draw(new RectangleF(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height),
                  new RectangleF(destRect.X, destRect.Y, destRect.Width, destRect.Height));
         }
+
+
+        /// <summary>
+        /// For function use, see documentation of Surface.
+        /// 
+        /// Info for developers:
+        /// This method should draw a portion of the surface to the screen, using
+        /// all scaling, rotation and alignment state data.
+        /// 
+        /// This method must be overriden.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="srcRect"></param>
+        /// <param name="rotationCenterX"></param>
+        /// <param name="rotationCenterY"></param>
+        public abstract void Draw(float x, float y, Rectangle srcRect, float rotationCenterX, float rotationCenterY);
+
         /// <summary>
         /// For function use, see documentation of Surface.
         /// 
