@@ -375,9 +375,9 @@ namespace ERY.AgateLib.MDX
             // find center
            PointF rotation = Origin.CalcF(RotationCenter, DisplaySize);
 
-           DrawWithoutVB(destX, destY, rotation.X, rotation.Y, alphaBlend);
+           DrawWithoutVB(destX, destY, mSrcRect, rotation.X, rotation.Y, alphaBlend);
         }
-        protected void DrawWithoutVB(float destX, float destY, 
+        protected void DrawWithoutVB(float destX, float destY, Rectangle srcRect,
             float rotationCenterX, float rotationCenterY, bool alphaBlend)
         {
             if (DisplayWidth < 0)
@@ -391,8 +391,12 @@ namespace ERY.AgateLib.MDX
 
             if (TesselateFactor == 1)
             {
+                SetVertsTextureCoordinates(mVerts, 0, srcRect);
                 SetVertsColor(mVerts, 0, 4);
-                SetVertsPosition(mVerts, 0, new RectangleF(destX, destY, DisplayWidth, DisplayHeight),
+                SetVertsPosition(mVerts, 0, 
+                    new RectangleF(destX, destY, 
+                                   srcRect.Width * (float)ScaleWidth, 
+                                   srcRect.Height * (float)ScaleHeight),
                     rotationCenterX, rotationCenterY);
 
                 mDevice.DrawBuffer.CacheDrawIndexedTriangles(mVerts, mIndices, mTexture.Value, alphaBlend);
@@ -638,9 +642,14 @@ namespace ERY.AgateLib.MDX
         {
             DrawWithoutVB(destX, destY, true);            
         }
+
+        public override void Draw(float destX, float destY, Rectangle srcRect, float rotationCenterX, float rotationCenterY)
+        {
+            DrawWithoutVB(destX, destY, srcRect, rotationCenterX, rotationCenterY, true);
+        }
         public override void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
         {
-            DrawWithoutVB(destX, destY, rotationCenterX, rotationCenterY, true);
+            DrawWithoutVB(destX, destY, mSrcRect, rotationCenterX, rotationCenterY, true);
         }
         public override void Draw(Rectangle destRect)
         {
@@ -1015,6 +1024,7 @@ namespace ERY.AgateLib.MDX
 
             mTexture.Value.UnlockRectangle(0);
         }
+
     }
 
 }

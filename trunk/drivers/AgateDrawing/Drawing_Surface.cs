@@ -114,14 +114,20 @@ namespace ERY.AgateLib.SystemDrawing
             get { return new Geometry.Rectangle(Geometry.Point.Empty, 
                 new ERY.AgateLib.Geometry.Size(mImage.Size)); }
         }
-        protected Geometry.Rectangle DestRect(int dest_x, int dest_y)
+        protected Geometry.Rectangle DestRect(int dest_x, int dest_y, Geometry.Rectangle srcRect)
         {
-            return new Geometry.Rectangle(dest_x, dest_y, DisplayWidth, DisplayHeight);
+            return new Geometry.Rectangle(dest_x, dest_y, 
+                (int)(srcRect.Width * ScaleWidth),
+                (int)(srcRect.Height * ScaleHeight));
         }
         #endregion
         #region --- Draw to Screen Methods ---
 
         public override void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
+        {
+            Draw(destX, destY, SrcRect, rotationCenterX, rotationCenterY);
+        }
+        public override void Draw(float destX, float destY, Geometry.Rectangle srcRect, float rotationCenterX, float rotationCenterY)
         {
             mDisplay.CheckInFrame("Surface.Draw");
 
@@ -166,18 +172,18 @@ namespace ERY.AgateLib.SystemDrawing
 
                 imageAttributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-                g.DrawImage(mImage, (Rectangle)DestRect(0, 0),
-                    SrcRect.X,
-                    SrcRect.Y,
-                    SrcRect.Width,
-                    SrcRect.Height,
+                g.DrawImage(mImage, (Rectangle)DestRect(0, 0, srcRect),
+                    srcRect.X,
+                    srcRect.Y,
+                    srcRect.Width,
+                    srcRect.Height,
                     GraphicsUnit.Pixel,
                     imageAttributes);
 
             }
             else
             {
-                g.DrawImage(mImage, (Rectangle)DestRect(0, 0),
+                g.DrawImage(mImage, (Rectangle)DestRect(0, 0, srcRect),
                     (Rectangle)SrcRect, GraphicsUnit.Pixel);
             }
 
