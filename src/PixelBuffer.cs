@@ -360,12 +360,38 @@ namespace ERY.AgateLib
         /// <returns></returns>
         public bool IsRowBlank(int row, double alphaTolerance)
         {
+            return IsRowBlank(row, 0, Width, alphaTolerance);
+        }
+        /// <summary>
+        /// Checks to see if the selected row of this PixelBuffer contains only
+        /// transparent pixels.
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="left"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public bool IsRowBlank(int row, int left, int width)
+        {
+            return IsRowBlank(row, 0, Width, Display.AlphaTolerance);
+        }
+        /// <summary>
+        /// Checks to see if the selected row of this PixelBuffer contains only
+        /// transparent pixels.
+        /// This overload allows the alpha tolerance to be specified explicitly.
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="left"></param>
+        /// <param name="width"></param>
+        /// <param name="alphaTolerance"></param>
+        /// <returns></returns>
+        public bool IsRowBlank(int row, int left, int width, double alphaTolerance)
+        {
             if (FormatHasAlpha(PixelFormat) == false)
                 return false;
-            
-            for (int i = 0; i < Width; i++)
+
+            for (int i = 0; i < width; i++)
             {
-                Color clr = GetPixel(i, row);
+                Color clr = GetPixel(i + left, row);
 
                 if (clr.A / 255.0 > alphaTolerance)
                     return false;
@@ -395,6 +421,31 @@ namespace ERY.AgateLib
         /// <returns></returns>
         public bool IsColumnBlank(int col, double alphaTolerance)
         {
+            return IsColumnBlank(col, 0, Height, alphaTolerance);
+        }
+        /// <summary>
+        /// Checks to see if a portion of the selected row of this PixelBuffer contains only
+        /// transparent pixels.
+        /// </summary>
+        /// <param name="col"></param>
+        /// <param name="top"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public bool IsColumnBlank(int col, int top, int height)
+        {
+            return IsColumnBlank(col, top, height, Display.AlphaThreshold);
+        }
+        /// <summary>
+        /// Checks to see if a portion of the selected row of this PixelBuffer contains only
+        /// transparent pixels.
+        /// </summary>
+        /// <param name="col"></param>
+        /// <param name="top"></param>
+        /// <param name="height"></param>
+        /// <param name="alphaTolerance"></param>
+        /// <returns></returns>
+        public bool IsColumnBlank(int col, int top, int height, double alphaTolerance)
+        {
             if (FormatHasAlpha(PixelFormat) == false)
                 return false;
 
@@ -408,7 +459,6 @@ namespace ERY.AgateLib
 
             return true;
         }
-
         #endregion
         #region --- Public Methods ---
 
