@@ -372,7 +372,7 @@ namespace ERY.AgateLib
         /// <returns></returns>
         public bool IsRowBlank(int row, int left, int width)
         {
-            return IsRowBlank(row, 0, Width, Display.AlphaTolerance);
+            return IsRowBlank(row, 0, Width, Display.AlphaThreshold);
         }
         /// <summary>
         /// Checks to see if the selected row of this PixelBuffer contains only
