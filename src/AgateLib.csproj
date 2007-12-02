@@ -1,8 +1,8 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -11,6 +11,12 @@
     <AssemblyName>AgateLib</AssemblyName>
     <StartupObject>
     </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +58,7 @@
     <Compile Include="Geometry\Converter.cs" />
     <Compile Include="Geometry\Gradient.cs" />
     <Compile Include="Geometry\TypeConverters.cs" />
+    <Compile Include="Geometry\Vector2.cs" />
     <Compile Include="Geometry\Vector3.cs" />
     <Compile Include="Gui\Button.cs" />
     <Compile Include="Gui\Component.cs" />
@@ -64,12 +71,19 @@
     <Compile Include="Gui\StyleManager.cs" />
     <Compile Include="Gui\Styles\PlainStyle.cs" />
     <Compile Include="Gui\Window.cs" />
-    <Compile Include="ImplBase\AudioImpl.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="FileManager.cs" />
-    <Compile Include="ImplBase\BitmapFontImpl.cs" />
     <Compile Include="Drivers\DriverImplBase.cs" />
+    <Compile Include="ImplBase\AudioImpl.cs" />
+    <Compile Include="ImplBase\BitmapFontImpl.cs" />
+    <Compile Include="ImplBase\DisplayImpl.cs" />
+    <Compile Include="ImplBase\DisplayWindowImpl.cs" />
+    <Compile Include="ImplBase\FontSurfaceImpl.cs" />
     <Compile Include="ImplBase\IDisplayCaps.cs" />
+    <Compile Include="ImplBase\InputImpl.cs" />
+    <Compile Include="ImplBase\JoystickImpl.cs" />
+    <Compile Include="ImplBase\RenderTargetImpl.cs" />
+    <Compile Include="ImplBase\SurfaceImpl.cs" />
     <Compile Include="InputCommand.cs" />
     <Compile Include="InputState.cs" />
     <Compile Include="Drivers\NullInputImpl.cs" />
@@ -99,7 +113,6 @@
     <Compile Include="Utility\DisplayWindowForm.designer.cs">
       <DependentUpon>DisplayWindowForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImplBase\RenderTargetImpl.cs" />
     <Compile Include="Geometry\Color.cs" />
     <Compile Include="Geometry\Point.cs" />
     <Compile Include="Geometry\PointF.cs" />
@@ -108,16 +121,10 @@
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\SizeF.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="ImplBase\InputImpl.cs" />
     <Compile Include="Joystick.cs" />
-    <Compile Include="ImplBase\JoystickImpl.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="DisplayWindow.cs" />
-    <Compile Include="ImplBase\DisplayImpl.cs" />
-    <Compile Include="ImplBase\DisplayWindowImpl.cs">
-    </Compile>
     <Compile Include="FontSurface.cs" />
-    <Compile Include="ImplBase\FontSurfaceImpl.cs" />
     <Compile Include="RenderTarget.cs" />
     <Compile Include="Utility\SetSystemsForm.cs">
       <SubType>Form</SubType>
@@ -149,6 +156,19 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ImplBase\.svn\all-wcprops" />
+    <None Include="ImplBase\.svn\entries" />
+    <None Include="ImplBase\.svn\format" />
+    <None Include="ImplBase\.svn\text-base\AudioImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\BitmapFontImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\DisplayImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\DisplayWindowImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\FontSurfaceImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\IDisplayCaps.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\InputImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\JoystickImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\RenderTargetImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\SurfaceImpl.cs.svn-base" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -166,7 +186,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Surface.cs" />
-    <Compile Include="ImplBase\SurfaceImpl.cs" />
     <Compile Include="Timing.cs" />
     <Compile Include="OldSprite\SpriteFrame.cs" />
   </ItemGroup>
@@ -174,6 +193,13 @@
     <Content Include="AgateLib.ico" />
     <Content Include="ChangeLog.txt" />
     <Content Include="ReleaseNotes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ImplBase\.svn\prop-base\" />
+    <Folder Include="ImplBase\.svn\props\" />
+    <Folder Include="ImplBase\.svn\tmp\prop-base\" />
+    <Folder Include="ImplBase\.svn\tmp\props\" />
+    <Folder Include="ImplBase\.svn\tmp\text-base\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
