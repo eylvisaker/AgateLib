@@ -64,5 +64,10 @@ namespace ERY.AgateLib.Geometry
         /// Vector representing the origin.
         /// </summary>
         public static readonly Vector3 Empty = new Vector3();
+
+        public bool IsEmpty
+        {
+            get { return X == 0 && Y == 0 && Z == 0; }
+        }
     }
 }
