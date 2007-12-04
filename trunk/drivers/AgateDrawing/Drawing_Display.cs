@@ -154,7 +154,7 @@ namespace ERY.AgateLib.SystemDrawing
         public override void FillRect(Geometry.Rectangle rect, Geometry.Color color)
         {
             CheckInFrame("FillRect");
-
+            
             mGraphics.FillRectangle(new SolidBrush((Color)color), (Rectangle)rect);
         }
         public override void FillRect(ERY.AgateLib.Geometry.Rectangle rect, ERY.AgateLib.Geometry.Gradient color)
