@@ -326,6 +326,11 @@ namespace ERY.AgateLib
             impl.DrawText(0, 0, mTransformer.Transform(text));
         }
 
+
+        public void Save(string imageFile, string glyphDefsFile)
+        {
+            impl.Save(imageFile, glyphDefsFile);
+        }
     }
    
 }

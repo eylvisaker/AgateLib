@@ -153,6 +153,14 @@ namespace ERY.AgateLib.ImplBase
         /// Disposes of unmanaged resources.
         /// </summary>
         public abstract void Dispose();
+
+        /// <summary>
+        /// Saves the font to an image file and an xml file which
+        /// defines the glyphs.
+        /// </summary>
+        /// <param name="imageFile"></param>
+        /// <param name="glyphDefsFile"></param>
+        public abstract void Save(string imageFile, string glyphDefsFile);
     }
 
 }
