@@ -1,6 +1,11 @@
 
 Current Changes
 ===================
+* Added Vector2 and Vector3 types, with operator overloads.
+
+
+Version 0.2.5
+===================
 
 AgateOTK has been added for OpenGL support, and AgateFMOD has been added to use the FMOD ex library to play audio.
 Both are being tested on Windows with .NET and Linux with Mono.
