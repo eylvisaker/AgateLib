@@ -485,6 +485,16 @@ namespace ERY.AgateLib
         /// of this surface.
         /// </summary>
         /// <param name="destPt"></param>
+        public void Draw(Vector2 destPt)
+        {
+            impl.Draw(destPt.X, destPt.Y);
+        }
+        /// <summary>
+        /// Draws this surface to the screen at the specified point, 
+        /// using all the state information defined in the properties 
+        /// of this surface.
+        /// </summary>
+        /// <param name="destPt"></param>
         public void Draw(PointF destPt)
         {
             impl.Draw(destPt.X, destPt.Y);

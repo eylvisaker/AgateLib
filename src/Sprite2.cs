@@ -327,10 +327,16 @@ namespace ERY.AgateLib
             {
                 SpriteFrame2 currentFrame = new SpriteFrame2();
                 Rectangle currentRect = new Rectangle(location, size);
+                bool skip = false;
 
                 currentFrame.SrcRect = currentRect;
 
-                if (skipBlank == false || IsFrameBlank(pixels, currentFrame))
+                if (currentFrame.SrcRect.Right > pixels.Width) skip = true;
+                if (currentFrame.SrcRect.Bottom > pixels.Height) skip = true;
+
+                if (!skip && skipBlank && IsFrameBlank(pixels, currentFrame)) skip = true;
+
+                if (skip == false)
                     mFrames.Add(currentFrame);
 
                 location.X += size.Width;
@@ -498,7 +504,6 @@ namespace ERY.AgateLib
 
         #endregion
 
-
         #region --- Drawing the sprite to the screen ---
 
         /// <summary>
@@ -570,6 +575,14 @@ namespace ERY.AgateLib
         /// </summary>
         /// <param name="destPt"></param>
         public void Draw(Point destPt)
+        {
+            Draw((float)destPt.X, (float)destPt.Y);
+        }
+        /// <summary>
+        /// Draws the sprite at the specified position on screen.
+        /// </summary>
+        /// <param name="destPt"></param>
+        public void Draw(Vector2 destPt)
         {
             Draw((float)destPt.X, (float)destPt.Y);
         }
