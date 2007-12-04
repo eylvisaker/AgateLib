@@ -53,7 +53,7 @@ namespace GuiTest
                         
                     };
 
-                btn.Enabled = false;
+                btn.Enabled = true;
 
                 while (wind.IsClosed == false)
                 {
