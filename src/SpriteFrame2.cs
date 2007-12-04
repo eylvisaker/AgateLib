@@ -40,7 +40,6 @@ namespace ERY.AgateLib
         Point mOffset = new Point(0, 0);
         bool mIsBlank = true;
 
-        Size mOriginalSize;
         Size mDisplaySize;
         Rectangle mSrcRect;
 
@@ -279,13 +278,13 @@ namespace ERY.AgateLib
             get { return mDisplaySize; }
             set { mDisplaySize = value; }
         }
-        /// <summary>
-        /// Gets the original size of the frame.
-        /// </summary>
-        public Size OriginalSize
-        {
-            get { return mOriginalSize; }
-        }
+        //// <summary>
+        //// Gets the original size of the frame.
+        //// </summary>
+        //public Size OriginalSize
+        //{
+        //    get { return mOriginalSize; }
+        //}
 
         internal Point FrameOffset
         {
@@ -303,8 +302,8 @@ namespace ERY.AgateLib
         public void Draw(Surface surf, float dest_x, float dest_y, float rotationCenterX, float rotationCenterY)
         {
             // calculate scaling.
-            float scaleX = mDisplaySize.Width / (float)mOriginalSize.Width;
-            float scaleY = mDisplaySize.Height / (float)mOriginalSize.Height;
+            float scaleX = mDisplaySize.Width / (float)mSrcRect.Width;
+            float scaleY = mDisplaySize.Height / (float)mSrcRect.Height;
 
             surf.SetScale(scaleX, scaleY);
 
