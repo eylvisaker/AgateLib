@@ -174,10 +174,10 @@ namespace ERY.SurfaceTester
             // nudAngle
             // 
             this.nudAngle.Increment = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
-            0});
+            65536});
             this.nudAngle.Location = new System.Drawing.Point(250, 39);
             this.nudAngle.Maximum = new decimal(new int[] {
             720,
