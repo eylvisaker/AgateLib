@@ -114,7 +114,7 @@ namespace ERY.AgateLib.ImplBase
             CalcAverageCharWidth();
         }
 
-        public void Save(string imageFilename, string xmlFileName)
+        public override void Save(string imageFilename, string xmlFileName)
         {
             XmlDocument doc = new XmlDocument();
 
@@ -496,7 +496,6 @@ namespace ERY.AgateLib.ImplBase
             DrawText(destPt.X, destPt.Y, text);
         }
 
-
         /// <summary>
         /// Draws the text to the screen.
         /// </summary>
@@ -506,7 +505,6 @@ namespace ERY.AgateLib.ImplBase
         {
             DrawText(destPt.X, destPt.Y, text);
         }
-
-
+        
     }
 }
