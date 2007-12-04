@@ -5,7 +5,9 @@ using System.Text;
 namespace ERY.AgateLib.Geometry
 {
     /// <summary>
-    /// Structure which describes a vector in 3-space.
+    /// Structure which describes a vector in 2-space.  The Vector2 class 
+    /// contains overloads for mathematical operations to make computation expressions
+    /// involving the Vector2 simple and expressive.
     /// </summary>
     public struct Vector2
     {
@@ -76,7 +78,7 @@ namespace ERY.AgateLib.Geometry
             get { return (float)Math.Sqrt(MagnitudeSquared); }
         }
         /// <summary>
-        /// Returns a normalized version of this vector
+        /// Returns a vector pointing in the same direction as this one, with magnitude 1.
         /// </summary>
         /// <returns></returns>
         public Vector2 Normalize()
@@ -85,26 +87,6 @@ namespace ERY.AgateLib.Geometry
             retval /= Magnitude;
 
             return retval;
-        }
-        /// <summary>
-        /// Scales a vector by a scalar floating point value.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static Vector2 operator *(Vector2 a, float b)
-        {
-            return new Vector2(a.X * b, a.Y * b);
-        }
-        /// <summary>
-        /// Divides a vector's components by a floating point value.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static Vector2 operator /(Vector2 a, float b)
-        {
-            return a * (1.0f / b);
         }
         /// <summary>
         /// Adds two vectors.
@@ -135,6 +117,26 @@ namespace ERY.AgateLib.Geometry
         public static Vector2 operator -(Vector2 a)
         {
             return new Vector2(-a.X, -a.Y);
+        }
+        /// <summary>
+        /// Scales a vector by a scalar floating point value.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Vector2 operator *(Vector2 a, float b)
+        {
+            return new Vector2(a.X * b, a.Y * b);
+        }
+        /// <summary>
+        /// Divides a vector's components by a floating point value.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Vector2 operator /(Vector2 a, float b)
+        {
+            return a * (1.0f / b);
         }
 
         /// <summary>
