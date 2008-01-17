@@ -456,6 +456,9 @@ namespace ERY.AgateLib.ImplBase
             RectangleF[] srcRects;
             RectangleF[] destRects;
 
+            if (string.IsNullOrEmpty(text))
+                return;
+
             GetRects(text, out srcRects, out destRects);
 
             if (DisplayAlignment != OriginAlignment.TopLeft)
