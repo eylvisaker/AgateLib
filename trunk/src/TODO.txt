@@ -1,0 +1,67 @@
+AgateLib Todo
+=============
+
+High Priority (0.3.0 definitely)
+--------------------------------
+	General
+		* Deprecate unhandled exception dialog (keep the debug output)
+		* Seal consumer classes.
+		* Profile Agate
+		* Extract stuff to interfaces
+		* Find a way to detect if running on OS X.
+		* Rename Origin.cs
+		* Fix ReportError to use StringBuilder instead of StringWriter, and Environment.NewLine.
+		* Add ability for ReportError to suppress errors below a certain level.
+	Drivers
+		* Update AgateOTK to newer version of OpenTK
+		* Update AgateOTK to use Framebuffer extension for fast render-to-surface
+		* Fix MDX render-to-surface bug.
+		* Check base class and see if it can be replaced by an interface
+		* Check for necessity of PlatformTypeID class
+	Sprites
+		* Finish Sprite2 class and find a good name for it.
+		* Figure out what to do with the Sprite class (keep it for sure)
+		* Test Sprite2 class
+		* Test gradients with sprites, and calculate correct corner colors.
+	Fonts
+		* Finish FontSurface serialization
+		* Investigate nVidia bug with Bitmap Fonts and fix it
+	Surfaces
+		* Make sure that Images 
+	Audio
+		* Make sure that Audio can be loaded from Stream classes.
+	Input
+		* Eliminate all use of FlagsAttribute on MouseButtons enum.
+		* Deprecate Keyboard events in favor of events where a structure is passed which does not combine modifier keys into a Flags enum.
+		* Make sure analog joysticks work with more than 3 axes.
+		* Redesign Joystick input stuff
+	Gui
+		* Redesign GUI to use containers for automatic positioning
+		* Document GUI classes
+	Geometry
+		* Flesh out Vector2 and 3 classes, and include conversion from Point to Vector2.
+	Tests
+		* Categorize tests into solutions based on what subsystem they are testing
+
+Medium Priority (0.3.0 maybe, or by 0.3.1 for sure)
+---------------------------------------------------
+* Find or get platform specific ways to hide the mouse cursor
+* Research Zip libraries for SearchPath class.
+* Speed up the GUI classes by prerendering controls to a surface.
+* Provide overrides for Surface, Sprite and Display to use Vector2.
+* Z-ordering for Surfaces and Sprites, also 
+* Deprecate use of FileManager.PathChars 
+* Add more error reporting
+* Full screen window creation with a specified icon.
+* Interface to allow audio to be generated at runtime.
+
+
+Low Priority
+------------
+* Improve Icon
+* OpenAL driver, if it's available in OpenTK
+* Create a more stylish GUI renderer.
+* Experimental interfaces for vertex buffers and textures (surfaces?).
+* Make 15/16 bit screen resolutions work
+* Test 15/16 bit Pixel Buffers
+* Flesh out documentation on method parameters throught the library.
