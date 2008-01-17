@@ -1,0 +1,212 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ERY.AgateLib</RootNamespace>
+    <AssemblyName>AgateLib</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\bin\Debug\AgateLib.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\bin\AgateLib.xml</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio.cs" />
+    <Compile Include="CreateWindowParams.cs" />
+    <Compile Include="Drivers\TypeID.cs" />
+    <Compile Include="Drivers\DriverInfo.cs" />
+    <Compile Include="Drivers\DriverInfoList.cs" />
+    <Compile Include="Drivers\DriverTypeIDBase.cs" />
+    <Compile Include="Geometry\Converter.cs" />
+    <Compile Include="Geometry\Gradient.cs" />
+    <Compile Include="Geometry\TypeConverters.cs" />
+    <Compile Include="Geometry\Vector2.cs" />
+    <Compile Include="Geometry\Vector3.cs" />
+    <Compile Include="Gui\Button.cs" />
+    <Compile Include="Gui\Component.cs" />
+    <Compile Include="Gui\ComponentStyle.cs" />
+    <Compile Include="Gui\Container.cs" />
+    <Compile Include="Gui\DragAnchor.cs" />
+    <Compile Include="Gui\GuiManager.cs" />
+    <Compile Include="Gui\Label.cs" />
+    <Compile Include="Gui\SizeAnchor.cs" />
+    <Compile Include="Gui\StyleManager.cs" />
+    <Compile Include="Gui\Styles\PlainStyle.cs" />
+    <Compile Include="Gui\Window.cs" />
+    <Compile Include="Core.cs" />
+    <Compile Include="FileManager.cs" />
+    <Compile Include="Drivers\DriverImplBase.cs" />
+    <Compile Include="ImplBase\AudioImpl.cs" />
+    <Compile Include="ImplBase\BitmapFontImpl.cs" />
+    <Compile Include="ImplBase\DisplayImpl.cs" />
+    <Compile Include="ImplBase\DisplayWindowImpl.cs" />
+    <Compile Include="ImplBase\FontSurfaceImpl.cs" />
+    <Compile Include="ImplBase\IDisplayCaps.cs" />
+    <Compile Include="ImplBase\InputImpl.cs" />
+    <Compile Include="ImplBase\JoystickImpl.cs" />
+    <Compile Include="ImplBase\RenderTargetImpl.cs" />
+    <Compile Include="ImplBase\SurfaceImpl.cs" />
+    <Compile Include="InputCommand.cs" />
+    <Compile Include="InputState.cs" />
+    <Compile Include="Drivers\NullInputImpl.cs" />
+    <Compile Include="Drivers\NullSoundImpl.cs" />
+    <Compile Include="ISurface.cs" />
+    <Compile Include="Light.cs" />
+    <Compile Include="LightManager.cs" />
+    <Compile Include="Origin.cs" />
+    <Compile Include="Drivers\Registrar.cs" />
+    <Compile Include="PixelBuffer.cs" />
+    <Compile Include="PlatformSpecific\Win32.cs" />
+    <Compile Include="PlatformSpecific\X11.cs" />
+    <Compile Include="ScreenMode.cs" />
+    <Compile Include="SearchPath.cs" />
+    <Compile Include="Sprite2.cs" />
+    <Compile Include="SpriteFrame2.cs" />
+    <Compile Include="StringTransformer.cs" />
+    <Compile Include="Utility\AgateRenderTarget.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utility\AgateRenderTarget.Designer.cs">
+      <DependentUpon>AgateRenderTarget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\DisplayWindowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\DisplayWindowForm.designer.cs">
+      <DependentUpon>DisplayWindowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Geometry\Color.cs" />
+    <Compile Include="Geometry\Point.cs" />
+    <Compile Include="Geometry\PointF.cs" />
+    <Compile Include="Geometry\Rectangle.cs" />
+    <Compile Include="Geometry\RectangleF.cs" />
+    <Compile Include="Geometry\Size.cs" />
+    <Compile Include="Geometry\SizeF.cs" />
+    <Compile Include="Input.cs" />
+    <Compile Include="Joystick.cs" />
+    <Compile Include="Display.cs" />
+    <Compile Include="DisplayWindow.cs" />
+    <Compile Include="FontSurface.cs" />
+    <Compile Include="RenderTarget.cs" />
+    <Compile Include="Utility\SetSystemsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\SetSystemsForm.Designer.cs">
+      <DependentUpon>SetSystemsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OldSprite\SpriteContainer.cs" />
+    <Compile Include="Utility\SurfacePacker.cs" />
+    <Compile Include="PlatformSpecific\Platform.cs" />
+    <Compile Include="Keyboard.cs" />
+    <Compile Include="Mouse.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Utility\DisplayWindowForm.resx">
+      <DependentUpon>DisplayWindowForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utility\SetSystemsForm.resx">
+      <DependentUpon>SetSystemsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="ImplBase\.svn\all-wcprops" />
+    <None Include="ImplBase\.svn\entries" />
+    <None Include="ImplBase\.svn\format" />
+    <None Include="ImplBase\.svn\text-base\AudioImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\BitmapFontImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\DisplayImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\DisplayWindowImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\FontSurfaceImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\IDisplayCaps.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\InputImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\JoystickImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\RenderTargetImpl.cs.svn-base" />
+    <None Include="ImplBase\.svn\text-base\SurfaceImpl.cs.svn-base" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Resources\Resource.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="AgateSetup.cs" />
+    <Compile Include="Utility\Ref.cs" />
+    <Compile Include="OldSprite\Sprite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Surface.cs" />
+    <Compile Include="Timing.cs" />
+    <Compile Include="OldSprite\SpriteFrame.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AgateLib.ico" />
+    <Content Include="ChangeLog.txt" />
+    <Content Include="ReleaseNotes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ImplBase\.svn\prop-base\" />
+    <Folder Include="ImplBase\.svn\props\" />
+    <Folder Include="ImplBase\.svn\tmp\prop-base\" />
+    <Folder Include="ImplBase\.svn\tmp\props\" />
+    <Folder Include="ImplBase\.svn\tmp\text-base\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
