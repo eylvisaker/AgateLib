@@ -27,6 +27,8 @@ using ERY.AgateLib.Drivers;
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 
+using Vector2 = Microsoft.DirectX.Vector2;
+
 namespace ERY.AgateLib.MDX
 {
     public class MDX1_Display : DisplayImpl, IDisplayCaps 
