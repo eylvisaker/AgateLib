@@ -326,10 +326,33 @@ namespace ERY.AgateLib
             impl.DrawText(0, 0, mTransformer.Transform(text));
         }
 
+        /// <summary>
+        /// Returns true if this font can be saved to a file by calling the Save method.
+        /// </summary>
+        public bool CanSave
+        {
+            get
+            {
+                return impl is BitmapFontImpl;
+            }
+        }
 
+        /// <summary>
+        /// Saves the font information to a file to be reloaded later.  
+        /// This is only supported on Bitmap fonts.  An InvalidOperationException is thrown
+        /// if this is not a bitmap font.
+        /// </summary>
+        /// <remarks></remarks>
+        /// <param name="imageFile"></param>
+        /// <param name="glyphDefsFile"></param>
         public void Save(string imageFile, string glyphDefsFile)
         {
-            impl.Save(imageFile, glyphDefsFile);
+            if (CanSave == false)
+                throw new InvalidOperationException();
+
+            BitmapFontImpl bitFont = (BitmapFontImpl)impl;
+
+            bitFont.Save(imageFile, glyphDefsFile);
         }
     }
    
