@@ -59,5 +59,12 @@ namespace ERY.AgateLib.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Icon AgateLib {
+            get {
+                object obj = ResourceManager.GetObject("AgateLib", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

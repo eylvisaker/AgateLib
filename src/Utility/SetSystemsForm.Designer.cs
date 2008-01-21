@@ -49,6 +49,7 @@ namespace ERY.AgateLib.Utility
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetSystemsForm));
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.displayList = new System.Windows.Forms.ComboBox();
@@ -145,7 +146,7 @@ namespace ERY.AgateLib.Utility
             this.audioList.Size = new System.Drawing.Size(182, 21);
             this.audioList.TabIndex = 12;
             // 
-            // frmSetSystems
+            // SetSystemsForm
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -160,8 +161,9 @@ namespace ERY.AgateLib.Utility
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "frmSetSystems";
+            this.Name = "SetSystemsForm";
             this.Text = "Select Drivers";
             this.Load += new System.EventHandler(this.frmSetSystems_Load);
             this.ResumeLayout(false);

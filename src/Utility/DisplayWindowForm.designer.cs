@@ -49,6 +49,7 @@ namespace ERY.AgateLib.Utility
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DisplayWindowForm));
             this.agateRenderTarget1 = new ERY.AgateLib.Utility.AgateRenderTarget();
             this.SuspendLayout();
             // 
@@ -65,12 +66,13 @@ namespace ERY.AgateLib.Utility
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(252, 258);
             this.Controls.Add(this.agateRenderTarget1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "DisplayWindowForm";
             this.Text = "DisplayWindowForm";
             this.Deactivate += new System.EventHandler(this.DisplayWindowForm_Deactivate);
-            this.Activated += new System.EventHandler(this.DisplayWindowForm_Activated);
             this.Load += new System.EventHandler(this.DisplayWindowForm_Load);
+            this.Activated += new System.EventHandler(this.DisplayWindowForm_Activated);
             this.ResumeLayout(false);
 
         }
