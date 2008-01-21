@@ -196,7 +196,7 @@ namespace ERY.AgateLib
 
         #endregion
 
-        #region --- Statis creation methods ---
+        #region --- Static creation methods ---
 
         /// <summary>
         /// Creates a CreateWindowParams object which describes rendering into a WinForms control.
