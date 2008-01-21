@@ -7,7 +7,7 @@ using ERY.AgateLib;
 using ERY.AgateLib.Geometry;
 
 using OpenTK.OpenGL;
-using Gl = OpenTK.OpenGL.GL;
+using OpenTK.OpenGL.Enums;
 
 namespace ERY.AgateLib.OpenGL
 {
@@ -165,22 +165,22 @@ namespace ERY.AgateLib.OpenGL
             if (mIndex == 0)
                 return;
 
-            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mCurrentTexture);
+            GL.BindTexture(TextureTarget.Texture2d, mCurrentTexture);
 
-            Gl.EnableClientState(Enums.EnableCap.TEXTURE_COORD_ARRAY);
-            Gl.EnableClientState(Enums.EnableCap.COLOR_ARRAY);
-            GL.EnableClientState(Enums.EnableCap.VERTEX_ARRAY);
-            GL.EnableClientState(Enums.EnableCap.NORMAL_ARRAY);
+            GL.EnableClientState(EnableCap.TextureCoordArray);
+            GL.EnableClientState(EnableCap.ColorArray);
+            GL.EnableClientState(EnableCap.VertexArray);
+            GL.EnableClientState(EnableCap.NormalArray);
 
-            Gl.TexCoordPointer(2, Enums.TexCoordPointerType.FLOAT,
+            GL.TexCoordPointer(2, TexCoordPointerType.Float,
                                Marshal.SizeOf(typeof(TexCoord)), mTexCoords);
-            Gl.ColorPointer(4, Enums.ColorPointerType.FLOAT,
+            GL.ColorPointer(4, ColorPointerType.Float,
                             Marshal.SizeOf(typeof(ColorCoord)), mColorCoords);
-            Gl.VertexPointer(2, Enums.VertexPointerType.FLOAT,
+            GL.VertexPointer(2, VertexPointerType.Float,
                              Marshal.SizeOf(typeof(VertexCoord)), mVertexCoords);
-            Gl.NormalPointer(Enums.NormalPointerType.FLOAT,
+            GL.NormalPointer(NormalPointerType.Float,
                              Marshal.SizeOf(typeof(NormalCoord)), mNormalCoords);
-            Gl.DrawArrays(Enums.BeginMode.QUADS, 0, mIndex);
+            GL.DrawArrays(BeginMode.Quads, 0, mIndex);
 
             mIndex = 0;
         }
@@ -188,18 +188,18 @@ namespace ERY.AgateLib.OpenGL
         private void oldFlush()
         {
 
-            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mCurrentTexture);
+            GL.BindTexture(TextureTarget.Texture2d, mCurrentTexture);
 
-            Gl.Begin(Enums.BeginMode.QUADS);
+            GL.Begin(BeginMode.Quads);
 
             for (int i = 0; i < mIndex; i++)
             {
-                Gl.Color4f(mColorCoords[i].r, mColorCoords[i].g, mColorCoords[i].b, mColorCoords[i].a);
-                Gl.TexCoord2f(mTexCoords[i].u, mTexCoords[i].v);
-                Gl.Vertex2f(mVertexCoords[i].x, mVertexCoords[i].y);
+                GL.Color4(mColorCoords[i].r, mColorCoords[i].g, mColorCoords[i].b, mColorCoords[i].a);
+                GL.TexCoord2(mTexCoords[i].u, mTexCoords[i].v);
+                GL.Vertex2(mVertexCoords[i].x, mVertexCoords[i].y);
             }
 
-            Gl.End();
+            GL.End();
 
             mIndex = 0;
         }

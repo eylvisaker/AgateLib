@@ -10,13 +10,15 @@ using ERY.AgateLib.Drivers;
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 
+using OpenTK;
 using OpenTK.OpenGL;
-using Gl = OpenTK.OpenGL.GL;
+using OpenTK.Platform;
 
 namespace ERY.AgateLib.OpenGL
 {
     public sealed class GL_DisplayWindow : DisplayWindowImpl, GL_IRenderTarget
     {
+        
         Form frm;
         Control mRenderTarget;
         GLContext mContext;
@@ -55,9 +57,12 @@ namespace ERY.AgateLib.OpenGL
                 mChooseHeight = mRenderTarget.ClientSize.Height;
 
                 mDisplay = Display.Impl as GL_Display;
-                mDisplay.Initialize(this);
+                
+                WindowInfo windowInfo = new WindowInfo(mRenderTarget);
+                mContext = new GLContext(new DisplayMode(mRenderTarget.Width, mRenderTarget.Height, new ColorMode(8, 8, 8, 8)),
+                                         windowInfo);
 
-                mContext = GLContext.Create(mRenderTarget, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8), 16, 0);
+                mDisplay.Initialize(this);
 
                 AttachEvents();
             }
@@ -104,8 +109,10 @@ namespace ERY.AgateLib.OpenGL
 
             AttachEvents();
 
-            mContext = GLContext.Create(frm, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8), 16, 0);
-            mContext.SetFullScreen(mChooseWidth, mChooseHeight, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8));
+            mContext = new GLContext(new DisplayMode(mChooseWidth, mChooseHeight, new ColorMode(8, 8, 8, 8)),
+                new WindowInfo(frm));
+            
+            //mContext.SetFullScreen(mChooseWidth, mChooseHeight, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8));
 
             frm.Location = System.Drawing.Point.Empty;
             frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
@@ -144,8 +151,8 @@ namespace ERY.AgateLib.OpenGL
             frm.Show();
             AttachEvents();
 
-            mContext = GLContext.Create(mRenderTarget, 
-                new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8), 16, 0);
+            mContext = new GLContext(new DisplayMode(mChooseWidth, mChooseHeight, new ColorMode(8,8,8,8)),
+                new WindowInfo(myRenderTarget));
 
             if (oldcontext != null)
                 oldcontext.Dispose();
@@ -176,7 +183,7 @@ namespace ERY.AgateLib.OpenGL
         {
             mContext.MakeCurrent();
 
-            Gl.Viewport(0, 0, Width, Height);
+            GL.Viewport(0, 0, Width, Height);
 
             mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, Height, Width, 0));
 
@@ -244,7 +251,7 @@ namespace ERY.AgateLib.OpenGL
 
         void mRenderTarget_Resize(object sender, EventArgs e)
         {
-            Gl.Viewport(0, 0, mRenderTarget.Width, mRenderTarget.Height);
+            GL.Viewport(0, 0, mRenderTarget.Width, mRenderTarget.Height);
            
         }
 
@@ -294,7 +301,11 @@ namespace ERY.AgateLib.OpenGL
 
         public override bool IsFullScreen
         {
-            get { return mContext.IsFullscreen;}
+            get
+            {
+                return false;
+                //return mContext.IsFullscreen;
+            }
         }
 
 
@@ -351,7 +362,7 @@ namespace ERY.AgateLib.OpenGL
 
         public override void EndRender()
         {
-            mContext.EnableVSync = mDisplay.VSync;
+            //mContext.EnableVSync = mDisplay.VSync;
             mContext.SwapBuffers();
         }
 

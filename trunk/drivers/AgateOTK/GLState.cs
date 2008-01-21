@@ -32,7 +32,7 @@ namespace ERY.AgateLib.OpenGL
 
         public void SetGLColor(Color color)
         {
-            Gl.Color4f(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
+            Gl.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
         }
 
 
