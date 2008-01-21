@@ -173,6 +173,7 @@ namespace ERY.SurfaceTester
             // 
             // nudAngle
             // 
+            this.nudAngle.DecimalPlaces = 1;
             this.nudAngle.Increment = new decimal(new int[] {
             1,
             0,
