@@ -114,7 +114,7 @@ namespace ERY.AgateLib.ImplBase
             CalcAverageCharWidth();
         }
 
-        public override void Save(string imageFilename, string xmlFileName)
+        public void Save(string imageFilename, string xmlFileName)
         {
             XmlDocument doc = new XmlDocument();
 
