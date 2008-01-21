@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiTest", "GuiTest\GuiTest.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprite2Tester", "Sprite2Tester\Sprite2Tester.csproj", "{0CBBB080-8840-45CF-B48A-BA4582343C23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCapture", "ScreenCapture\ScreenCapture.csproj", "{AE0EFDE8-DED4-40D4-9224-1001DFAAF8BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,10 @@ Global
 		{0CBBB080-8840-45CF-B48A-BA4582343C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CBBB080-8840-45CF-B48A-BA4582343C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CBBB080-8840-45CF-B48A-BA4582343C23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE0EFDE8-DED4-40D4-9224-1001DFAAF8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE0EFDE8-DED4-40D4-9224-1001DFAAF8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE0EFDE8-DED4-40D4-9224-1001DFAAF8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE0EFDE8-DED4-40D4-9224-1001DFAAF8BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
