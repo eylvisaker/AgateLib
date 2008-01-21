@@ -91,7 +91,7 @@ namespace ERY.SpriteTester
             for (int i = 0; i < mSprite.Frames.Count; i++)
                 cboFrame.Items.Add(i);
 
-            chkAnimating.Checked = mSprite.Animating;
+            chkAnimating.Checked = mSprite.IsAnimating;
             chkPlayReverse.Checked = mSprite.PlayReverse;
             cboAlignment.SelectedItem = mSprite.DisplayAlignment;
             cboAnimationType.SelectedItem = mSprite.AnimationType;
@@ -102,6 +102,11 @@ namespace ERY.SpriteTester
             mSprite.GetScale(out scalex, out scaley);
             nudScale.Value = (decimal)scalex;
 
+            for (int i = 0; i < mSprite.Frames.Count; i++)
+            {
+                mSprite.Frames[i].Surface.SaveTo("frame" + i.ToString() + ".png", ImageFileFormat.Png);
+            }
+            
             GC.Collect();
         }
 
@@ -226,7 +231,7 @@ namespace ERY.SpriteTester
             if (mSprite == null)
                 return;
 
-            mSprite.Animating = chkAnimating.Checked;
+            mSprite.IsAnimating = chkAnimating.Checked;
         }
         private void chkPlayReverse_CheckedChanged(object sender, EventArgs e)
         {
