@@ -13,7 +13,8 @@ using ERY.AgateLib.ImplBase;
 using ERY.AgateLib.Utility;
 
 using OpenTK.OpenGL;
-using Gl = OpenTK.OpenGL.GL;
+using OpenTK.OpenGL.Enums;
+using OTKPixelFormat = OpenTK.OpenGL.Enums.PixelFormat;
 
 namespace ERY.AgateLib.OpenGL
 {
@@ -71,25 +72,34 @@ namespace ERY.AgateLib.OpenGL
             mTextureSize = new Size(NextPowerOfTwo(size.Width), NextPowerOfTwo(size.Height));
 
             int[] array = new int[1];
-            Gl.GenTextures(1, array);
+            GL.GenTextures(1, array);
             
             AddTextureRef(array[0]);
 
-            int[] fake = new int[mTextureSize.Width * mTextureSize.Height];
+            IntPtr fake = IntPtr.Zero;
 
-            // Typical Texture Generation Using Data From The Bitmap
-            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
-            Gl.TexImage2D(Enums.TextureTarget.TEXTURE_2D, 0, (int)Enums.PixelFormat.RGBA,
-                mTextureSize.Width, mTextureSize.Height, 0, Enums.PixelFormat.RGBA,//, Gl.GL_BGRA, 
-                Enums.PixelType.UNSIGNED_BYTE, fake);
+            try
+            {
+                fake = Marshal.AllocHGlobal(mTextureSize.Width * mTextureSize.Height * Marshal.SizeOf(typeof(int)));
 
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
-                             Enums.TextureParameterName.TEXTURE_MIN_FILTER, (int)Enums.TextureMinFilter.LINEAR);
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
-                             Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
+                // Typical Texture Generation Using Data From The Bitmap
+                GL.BindTexture(TextureTarget.Texture2d, mTextureID);
+                GL.TexImage2D(TextureTarget.Texture2d, 0, PixelInternalFormat.Rgba,
+                    mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,
+                    PixelType.UnsignedByte, fake);
 
-            mTexCoord = GetTextureCoords(mSourceRect);
+                GL.TexParameter(TextureTarget.Texture2d,
+                                TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2d,
+                                TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
+                mTexCoord = GetTextureCoords(mSourceRect);
+            }
+            finally
+            {
+                if (fake != IntPtr.Zero)
+                    Marshal.FreeHGlobal(fake);
+            }
         }
        
         private GL_Surface(int textureID, Rectangle sourceRect, Size textureSize)
@@ -127,7 +137,7 @@ namespace ERY.AgateLib.OpenGL
                 int[] array = new int[1];
                 array[0] = mTextureID;
 
-                Gl.DeleteTextures(1, array);
+                GL.DeleteTextures(1, array);
 
                 mTextureIDs.Remove(mTextureID);
             }
@@ -275,14 +285,14 @@ namespace ERY.AgateLib.OpenGL
                     }
                 }
             }
-            //Gl.PushMatrix();
+            //GL.PushMatrix();
 
-            //Gl.Translatef(-translatePoint.X, -translatePoint.Y, 0);
-            //Gl.Rotatef((float)-RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
+            //GL.Translatef(-translatePoint.X, -translatePoint.Y, 0);
+            //GL.Rotatef((float)-RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
 
 
             // restore the matrix
-            //Gl.PopMatrix();
+            //GL.PopMatrix();
         }
 
         private void BufferQuad(float destX, float destY, float rotationCenterX, float rotationCenterY,
@@ -387,9 +397,9 @@ namespace ERY.AgateLib.OpenGL
             int memStride = pixelStride * mTextureSize.Width;
             IntPtr memory = Marshal.AllocHGlobal(size);
 
-            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
-            Gl.GetTexImage(Enums.TextureTarget.TEXTURE_2D, 0, Enums.PixelFormat.RGBA,
-                 Enums.PixelType.UNSIGNED_BYTE, memory);
+            GL.BindTexture(TextureTarget.Texture2d, mTextureID);
+            GL.GetTexImage(TextureTarget.Texture2d, 0, OTKPixelFormat.Rgba,
+                 PixelType.UnsignedByte, memory);
 
             byte[] data = new byte[rect.Width * rect.Height * pixelStride];
 
@@ -420,17 +430,31 @@ namespace ERY.AgateLib.OpenGL
                 buffer = buffer.ConvertTo(PixelFormat.RGBA8888, mTextureSize);
             }
 
-            // Typical Texture Generation Using Data From The Bitmap
-            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
-            Gl.TexImage2D(Enums.TextureTarget.TEXTURE_2D, 0, (int)Enums.PixelFormat.RGBA,
-                mTextureSize.Width, mTextureSize.Height, 0, Enums.PixelFormat.RGBA,//, Gl.GL_BGRA, 
-                Enums.PixelType.UNSIGNED_BYTE, buffer.Data);
+            IntPtr unmanagedBuff = IntPtr.Zero;
 
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
-                             Enums.TextureParameterName.TEXTURE_MIN_FILTER, (int)Enums.TextureMinFilter.LINEAR);
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
-                             Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
+            try
+            {
+                int length = buffer.Width * buffer.Height * Marshal.SizeOf(typeof(int));
+                
+                unmanagedBuff = Marshal.AllocHGlobal(length);
+                Marshal.Copy(buffer.Data, 0, unmanagedBuff, length);
+ 
+                // Typical Texture Generation Using Data From The Bitmap
+                GL.BindTexture(TextureTarget.Texture2d, mTextureID);
+                GL.TexImage2D(TextureTarget.Texture2d, 0, PixelInternalFormat.Rgba,
+                    mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,//, GL.GL_BGRA, 
+                    PixelType.UnsignedByte, unmanagedBuff);
 
+                GL.TexParameter(TextureTarget.Texture2d,
+                                 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2d,
+                                 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            }
+            finally
+            {
+                if (unmanagedBuff != IntPtr.Zero)
+                    Marshal.FreeHGlobal(unmanagedBuff);
+            }
         }
         public override void WritePixels(PixelBuffer buffer, Point startPoint)
         {
@@ -461,45 +485,43 @@ namespace ERY.AgateLib.OpenGL
 
         public override void BeginRender()
         {
-            Gl.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
+            GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
 
             mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
 
 
             // clear the framebuffer and draw this texture to it.
-            Gl.ClearColor(0, 0, 0, 0);
-            Gl.Clear(Enums.ClearBufferMask.COLOR_BUFFER_BIT | 
-                     Enums.ClearBufferMask.DEPTH_BUFFER_BIT);
+            GL.ClearColor(0, 0, 0, 0);
+            GL.Clear(ClearBufferMask.ColorBufferBit | 
+                     ClearBufferMask.DepthBufferBit);
 
-
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D, Enums.TextureParameterName.TEXTURE_MIN_FILTER,
-                (int)Enums.TextureMinFilter.LINEAR);
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D, Enums.TextureParameterName.TEXTURE_MAG_FILTER,
-                (int)Enums.TextureMagFilter.LINEAR);
+            GL.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter,
+                (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter,
+                (int)TextureMagFilter.Linear);
 
             Draw();
 
-
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
-                             Enums.TextureParameterName.TEXTURE_MIN_FILTER, (int)Enums.TextureMinFilter.LINEAR);
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
-                             Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
+            GL.TexParameter(TextureTarget.Texture2d,
+                             TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2d,
+                             TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             
         }
         public override void EndRender()
         {
-           // Gl.Disable(Enums.EnableCap.TEXTURE_2D);
-            Gl.BindTexture(Enums.TextureTarget.TEXTURE_2D, mTextureID);
+           // GL.Disable(EnableCap.Texture2d);
+            GL.BindTexture(TextureTarget.Texture2d, mTextureID);
 
-            Gl.CopyTexSubImage2D(Enums.TextureTarget.TEXTURE_2D,
+            GL.CopyTexSubImage2D(TextureTarget.Texture2d,
                 0, 0, 0, 0, 0, mSourceRect.Width, mSourceRect.Height);
-            //Gl.CopyTexImage2D(Enums.TextureTarget.TEXTURE_2D, 0, Enums.PixelInternalFormat.RGBA8,
+            //GL.CopyTexImage2D(TextureTarget.Texture2d, 0, PixelInternalFormat.Rgba8,
             //    0, 0, mSourceRect.Width, mSourceRect.Height, 0);
             
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
-                             Enums.TextureParameterName.TEXTURE_MIN_FILTER, (int)Enums.TextureMinFilter.LINEAR);
-            Gl.TexParameteri(Enums.TextureTarget.TEXTURE_2D,
-                             Enums.TextureParameterName.TEXTURE_MAG_FILTER, (int)Enums.TextureMagFilter.LINEAR);
+            GL.TexParameter(TextureTarget.Texture2d,
+                             TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2d,
+                             TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             
         }
 
@@ -563,7 +585,7 @@ namespace ERY.AgateLib.OpenGL
 
             // Create The GL Texture object
             int[] array = new int[1];
-            Gl.GenTextures(1, array);
+            GL.GenTextures(1, array);
 
             AddTextureRef(array[0]);
 
@@ -703,23 +725,23 @@ namespace ERY.AgateLib.OpenGL
 
            mDisplay.SetGLColor(mSurface.Color);
 
-           Gl.glBindTexture(Gl.GL_TEXTURE_2D, mTextureID);
+           GL.glBindTexture(GL.GL_Texture2d, mTextureID);
 
-           Gl.glTranslatef(-translatePoint.X, -translatePoint.Y, 0);
-           Gl.glRotatef((float)-mSurface.RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
+           GL.glTranslatef(-translatePoint.X, -translatePoint.Y, 0);
+           GL.glRotatef((float)-mSurface.RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
 
-           Gl.glBegin(Gl.GL_QUADS);
+           GL.glBegin(GL.GL_QUADS);
 
-           Gl.glTexCoord2f(mTexCoord.Left, mTexCoord.Top); Gl.glVertex2f(destRect.Left, destRect.Top);
-           Gl.glTexCoord2f(mTexCoord.Right, mTexCoord.Top); Gl.glVertex2f(destRect.Right, destRect.Top);
-           Gl.glTexCoord2f(mTexCoord.Right, mTexCoord.Bottom); Gl.glVertex2f(destRect.Right, destRect.Bottom);
-           Gl.glTexCoord2f(mTexCoord.Left, mTexCoord.Bottom); Gl.glVertex2f(destRect.Left, destRect.Bottom);
+           GL.glTexCoord2f(mTexCoord.Left, mTexCoord.Top); GL.glVertex2f(destRect.Left, destRect.Top);
+           GL.glTexCoord2f(mTexCoord.Right, mTexCoord.Top); GL.glVertex2f(destRect.Right, destRect.Top);
+           GL.glTexCoord2f(mTexCoord.Right, mTexCoord.Bottom); GL.glVertex2f(destRect.Right, destRect.Bottom);
+           GL.glTexCoord2f(mTexCoord.Left, mTexCoord.Bottom); GL.glVertex2f(destRect.Left, destRect.Bottom);
 
-           Gl.glEnd();
+           GL.glEnd();
 
            // restore the matrix
-           Gl.glRotatef((float)mSurface.RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
-           Gl.glTranslatef(translatePoint.X, translatePoint.Y, 0);
+           GL.glRotatef((float)mSurface.RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
+           GL.glTranslatef(translatePoint.X, translatePoint.Y, 0);
        }
 
        public override void DrawRects(System.Drawing.Rectangle[] src_rects, System.Drawing.Rectangle[] dest_rects)
@@ -759,7 +781,7 @@ namespace ERY.AgateLib.OpenGL
 
        public override void Dispose()
        {
-           //Gl.glDeleteTextures(1, new int[] { mTextureID } );
+           //GL.glDeleteTextures(1, new int[] { mTextureID } );
        }
 */
 

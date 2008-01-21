@@ -11,7 +11,7 @@ using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 
 using OpenTK.OpenGL;
-using Gl = OpenTK.OpenGL.GL;
+using OpenTK.OpenGL.Enums;
 
 namespace ERY.AgateLib.OpenGL
 {
@@ -78,13 +78,13 @@ namespace ERY.AgateLib.OpenGL
         {
             SetOrthoProjection(ortho);
 
-            Gl.Enable(Enums.EnableCap.TEXTURE_2D);
+            GL.Enable(EnableCap.Texture2d);
 
-            Gl.Enable(Enums.EnableCap.BLEND);
-            Gl.BlendFunc(Enums.BlendingFactorSrc.SRC_ALPHA, Enums.BlendingFactorDest.ONE_MINUS_SRC_ALPHA);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-            Gl.MatrixMode(Enums.MatrixMode.MODELVIEW);
-            Gl.LoadIdentity();
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
         }
         protected override void OnBeginFrame()
         {
@@ -112,7 +112,7 @@ namespace ERY.AgateLib.OpenGL
         // TODO: Test clip rect stuff.
         public override void SetClipRect(Rectangle newClipRect)
         {
-            Gl.Viewport(newClipRect.X, mRenderTarget.Height - newClipRect.Bottom,
+            GL.Viewport(newClipRect.X, mRenderTarget.Height - newClipRect.Bottom,
                 newClipRect.Width, newClipRect.Height );
 
             SetupGLOrtho(newClipRect);
@@ -142,8 +142,8 @@ namespace ERY.AgateLib.OpenGL
 
         public override void SetOrthoProjection(Rectangle region)
         {
-            Gl.MatrixMode(Enums.MatrixMode.PROJECTION);
-            Gl.LoadIdentity();
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
             Glu.Ortho2D(region.Left, region.Right, region.Bottom, region.Top);
 
         }
@@ -151,8 +151,8 @@ namespace ERY.AgateLib.OpenGL
         {
             mState.DrawBuffer.Flush();
 
-            Gl.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, 1.0f);
-            Gl.Clear(Enums.ClearBufferMask.DEPTH_BUFFER_BIT | Enums.ClearBufferMask.COLOR_BUFFER_BIT);   
+            GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, 1.0f);
+            GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);   
         }
 
         public override void Clear(Color color, Rectangle dest)
@@ -168,14 +168,14 @@ namespace ERY.AgateLib.OpenGL
 
             mState.SetGLColor(color);
 
-            Gl.Disable(Enums.EnableCap.TEXTURE_2D);
-            Gl.Begin(Enums.BeginMode.LINES);
+            GL.Disable(EnableCap.Texture2d);
+            GL.Begin(BeginMode.Lines);
 
-            Gl.Vertex2d(x1, y1+0.5);
-            Gl.Vertex2d(x2, y2+0.5);
+            GL.Vertex2(x1, y1+0.5);
+            GL.Vertex2(x2, y2+0.5);
 
-            Gl.End();
-            Gl.Enable(Enums.EnableCap.TEXTURE_2D);
+            GL.End();
+            GL.Enable(EnableCap.Texture2d);
         }
 
         public override void DrawLine(Point a, Point b, Color color)
@@ -194,23 +194,23 @@ namespace ERY.AgateLib.OpenGL
             // rect.Y++ and rect.Right +1 down below.
             rect.Y++;
 
-            Gl.Disable(Enums.EnableCap.TEXTURE_2D);
-            Gl.Begin(Enums.BeginMode.LINES);
+            GL.Disable(EnableCap.Texture2d);
+            GL.Begin(BeginMode.Lines);
 
-            Gl.Vertex2d(rect.Left, rect.Top);
-            Gl.Vertex2d(rect.Right+1, rect.Top);
+            GL.Vertex2(rect.Left, rect.Top);
+            GL.Vertex2(rect.Right+1, rect.Top);
 
-            Gl.Vertex2d(rect.Right, rect.Top);
-            Gl.Vertex2d(rect.Right, rect.Bottom);
+            GL.Vertex2(rect.Right, rect.Top);
+            GL.Vertex2(rect.Right, rect.Bottom);
 
-            Gl.Vertex2d(rect.Right, rect.Bottom);
-            Gl.Vertex2d(rect.Left, rect.Bottom);
+            GL.Vertex2(rect.Right, rect.Bottom);
+            GL.Vertex2(rect.Left, rect.Bottom);
 
-            Gl.Vertex2d(rect.Left, rect.Bottom);
-            Gl.Vertex2d(rect.Left, rect.Top);
+            GL.Vertex2(rect.Left, rect.Bottom);
+            GL.Vertex2(rect.Left, rect.Top);
 
-            Gl.End();
-            Gl.Enable(Enums.EnableCap.TEXTURE_2D);
+            GL.End();
+            GL.Enable(EnableCap.Texture2d);
         }
 
         public override void FillRect(Rectangle rect, Color color)
@@ -219,38 +219,38 @@ namespace ERY.AgateLib.OpenGL
 
             mState.SetGLColor(color);
 
-            Gl.Disable(Enums.EnableCap.TEXTURE_2D);
+            GL.Disable(EnableCap.Texture2d);
 
-            Gl.Begin(Enums.BeginMode.QUADS);
-            Gl.Vertex3f(rect.Left, rect.Top, 0);                                        // Top Left
-            Gl.Vertex3f(rect.Right, rect.Top, 0);                                         // Top Right
-            Gl.Vertex3f(rect.Right, rect.Bottom, 0);                                        // Bottom Right
-            Gl.Vertex3f(rect.Left, rect.Bottom, 0);                                       // Bottom Left
-            Gl.End();                                                         // Done Drawing The Quad
+            GL.Begin(BeginMode.Quads);
+            GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
+            GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
+            GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
+            GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
+            GL.End();                                                         // Done Drawing The Quad
 
-            Gl.Enable(Enums.EnableCap.TEXTURE_2D);
+            GL.Enable(EnableCap.Texture2d);
         }
         public override void FillRect(Rectangle rect, Gradient color)
         {
             mState.DrawBuffer.Flush();
 
-            Gl.Disable(Enums.EnableCap.TEXTURE_2D);
+            GL.Disable(EnableCap.Texture2d);
 
-            Gl.Begin(Enums.BeginMode.QUADS);
+            GL.Begin(BeginMode.Quads);
             mState.SetGLColor(color.TopLeft);
-            Gl.Vertex3f(rect.Left, rect.Top, 0);                                        // Top Left
+            GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
 
             mState.SetGLColor(color.TopRight);
-            Gl.Vertex3f(rect.Right, rect.Top, 0);                                         // Top Right
+            GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
 
             mState.SetGLColor(color.BottomRight);
-            Gl.Vertex3f(rect.Right, rect.Bottom, 0);                                        // Bottom Right
+            GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
 
             mState.SetGLColor(color.BottomLeft);
-            Gl.Vertex3f(rect.Left, rect.Bottom, 0);                                       // Bottom Left
-            Gl.End();                                                         // Done Drawing The Quad
+            GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
+            GL.End();                                                         // Done Drawing The Quad
 
-            Gl.Enable(Enums.EnableCap.TEXTURE_2D);
+            GL.Enable(EnableCap.Texture2d);
         }
 
         public override bool VSync
@@ -267,13 +267,13 @@ namespace ERY.AgateLib.OpenGL
         }
         internal void Initialize(GL_DisplayWindow gL_DisplayWindow)
         {
-            Gl.ShadeModel(Enums.ShadingModel.SMOOTH);                         // Enable Smooth Shading
-            Gl.ClearColor(0, 0, 0, 1.0f);                                     // Black Background
-            Gl.ClearDepth(1);                                                 // Depth Buffer Setup
-            Gl.Enable(Enums.EnableCap.DEPTH_TEST);                            // Enables Depth Testing
-            Gl.DepthFunc(Enums.DepthFunction.LEQUAL);                         // The Type Of Depth Testing To Do
-            Gl.Hint(Enums.HintTarget.PERSPECTIVE_CORRECTION_HINT,             // Really Nice Perspective Calculations
-                Enums.HintMode.NICEST);
+            GL.ShadeModel(ShadingModel.Smooth);                         // Enable Smooth Shading
+            GL.ClearColor(0, 0, 0, 1.0f);                                     // Black Background
+            GL.ClearDepth(1);                                                 // Depth Buffer Setup
+            GL.Enable(EnableCap.DepthTest);                            // Enables Depth Testing
+            GL.DepthFunc(DepthFunction.Lequal);                         // The Type Of Depth Testing To Do
+            GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
+                HintMode.Nicest);
 
         }
  
@@ -285,7 +285,7 @@ namespace ERY.AgateLib.OpenGL
         {
             Registrar.RegisterDisplayDriver(
                 new DriverInfo<DisplayTypeID>(typeof(GL_Display),
-                DisplayTypeID.OpenGL, "OpenGL with OpenTK", 120));
+                DisplayTypeID.OpenGL, "OpenGL with OpenTK 0.9.0", 120));
         }
 
         public override void DoLighting(LightManager lights)
@@ -294,25 +294,25 @@ namespace ERY.AgateLib.OpenGL
 
             if (lights.Enabled == false)
             {
-                GL.Disable(Enums.EnableCap.LIGHTING);
+                GL.Disable(EnableCap.Lighting);
                 return;
             }
 
             float[] array = new float[4];
 
-            GL.Enable(Enums.EnableCap.LIGHTING);
+            GL.Enable(EnableCap.Lighting);
 
             SetArray(array, lights.Ambient);
-            GL.LightModelfv(Enums.LightModelParameter.LIGHT_MODEL_AMBIENT, array);
+            GL.LightModelv (LightModelParameter.LightModelAmbient, array);
 
-            GL.Enable(Enums.EnableCap.COLOR_MATERIAL);
-            GL.ColorMaterial(Enums.MaterialFace.FRONT_AND_BACK, 
-                             Enums.ColorMaterialParameter.AMBIENT_AND_DIFFUSE);
+            GL.Enable(EnableCap.ColorMaterial);
+            GL.ColorMaterial(MaterialFace.FrontAndBack, 
+                             ColorMaterialParameter.AmbientAndDiffuse);
 
             for (int i = 0; i < lights.Count || i < mMaxLightsUsed; i++)
             {
-                Enums.EnableCap lightID = (Enums.EnableCap)((int)Enums.EnableCap.LIGHT0 + i);
-                Enums.LightName lightName = (Enums.LightName)((int)Enums.LightName.LIGHT0 + i);
+                EnableCap lightID = (EnableCap)((int)EnableCap.Light0 + i);
+                LightName lightName = (LightName)((int)LightName.Light0 + i);
 
                 if (i >= lights.Count)
                 {
@@ -329,17 +329,17 @@ namespace ERY.AgateLib.OpenGL
                 GL.Enable(lightID);
 
                 SetArray(array, lights[i].Diffuse);
-                GL.Lightfv(lightName, Enums.LightParameter.DIFFUSE, array);
+                GL.Lightv(lightName, LightParameter.Diffuse, array);
 
                 SetArray(array, lights[i].Ambient);
-                GL.Lightfv(lightName, Enums.LightParameter.AMBIENT, array);
+                GL.Lightv(lightName, LightParameter.Ambient, array);
 
                 SetArray(array, lights[i].Position);
-                GL.Lightfv(lightName, Enums.LightParameter.POSITION, array);
+                GL.Lightv(lightName, LightParameter.Position, array);
 
-                GL.Lightf(lightName, Enums.LightParameter.CONSTANT_ATTENUATION, lights[i].AttenuationConstant);
-                GL.Lightf(lightName, Enums.LightParameter.LINEAR_ATTENUATION, lights[i].AttenuationLinear);
-                GL.Lightf(lightName, Enums.LightParameter.QUADRATIC_ATTENUATION, lights[i].AttenuationQuadratic);
+                GL.Light(lightName, LightParameter.ConstantAttenuation, lights[i].AttenuationConstant);
+                GL.Light(lightName, LightParameter.LinearAttenuation, lights[i].AttenuationLinear);
+                GL.Light(lightName, LightParameter.QuadraticAttenuation, lights[i].AttenuationQuadratic);
 
             }
 
@@ -405,7 +405,7 @@ namespace ERY.AgateLib.OpenGL
             get
             {
                 int[] max = new int[1];
-                GL.GetIntegerv(Enums.GetPName.MAX_LIGHTS, max);
+                GL.GetInteger(GetPName.MaxLights, max);
 
                 return max[0];
             }
