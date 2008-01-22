@@ -432,8 +432,6 @@ namespace ERY.AgateLib.OpenGL
                 buffer = buffer.ConvertTo(PixelFormat.RGBA8888, mTextureSize);
             }
 
-            IntPtr unmanagedBuff = IntPtr.Zero;
-
             unsafe
             {
                 fixed (byte* ptr = buffer.Data)
