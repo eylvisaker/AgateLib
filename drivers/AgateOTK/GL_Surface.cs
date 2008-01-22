@@ -71,10 +71,12 @@ namespace ERY.AgateLib.OpenGL
 
             mTextureSize = new Size(NextPowerOfTwo(size.Width), NextPowerOfTwo(size.Height));
 
-            int[] array = new int[1];
-            GL.GenTextures(1, array);
+            //int[] array = new int[1];
+            //GL.GenTextures(1, array);
+            int textureID;
+            GL.GenTextures(1, out textureID);
             
-            AddTextureRef(array[0]);
+            AddTextureRef(textureID);
 
             IntPtr fake = IntPtr.Zero;
 
@@ -432,28 +434,21 @@ namespace ERY.AgateLib.OpenGL
 
             IntPtr unmanagedBuff = IntPtr.Zero;
 
-            try
+            unsafe
             {
-                int length = buffer.Width * buffer.Height * Marshal.SizeOf(typeof(int));
-                
-                unmanagedBuff = Marshal.AllocHGlobal(length);
-                Marshal.Copy(buffer.Data, 0, unmanagedBuff, length);
- 
-                // Typical Texture Generation Using Data From The Bitmap
-                GL.BindTexture(TextureTarget.Texture2d, mTextureID);
-                GL.TexImage2D(TextureTarget.Texture2d, 0, PixelInternalFormat.Rgba,
-                    mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,//, GL.GL_BGRA, 
-                    PixelType.UnsignedByte, unmanagedBuff);
+                fixed (byte* ptr = buffer.Data)
+                {
+                    // Typical Texture Generation Using Data From The Bitmap
+                    GL.BindTexture(TextureTarget.Texture2d, mTextureID);
+                    GL.TexImage2D(TextureTarget.Texture2d, 0, PixelInternalFormat.Rgba,
+                        mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,//, GL.GL_BGRA, 
+                        PixelType.UnsignedByte, (IntPtr)ptr);
 
-                GL.TexParameter(TextureTarget.Texture2d,
-                                 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2d,
-                                 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            }
-            finally
-            {
-                if (unmanagedBuff != IntPtr.Zero)
-                    Marshal.FreeHGlobal(unmanagedBuff);
+                    GL.TexParameter(TextureTarget.Texture2d,
+                                     TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                    GL.TexParameter(TextureTarget.Texture2d,
+                                     TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+                }
             }
         }
         public override void WritePixels(PixelBuffer buffer, Point startPoint)
@@ -584,10 +579,10 @@ namespace ERY.AgateLib.OpenGL
                 bitmapData.Scan0, PixelFormat.BGRA8888, bitmapData.Stride);
 
             // Create The GL Texture object
-            int[] array = new int[1];
-            GL.GenTextures(1, array);
-
-            AddTextureRef(array[0]);
+            int textureID;
+            
+            GL.GenTextures(1, out textureID);
+            AddTextureRef(textureID);
 
             WritePixels(buffer);
 
