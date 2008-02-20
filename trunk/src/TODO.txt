@@ -12,8 +12,10 @@ High Priority (0.3.0 definitely)
 		* Rename Origin.cs
 		* Fix ReportError to use StringBuilder instead of StringWriter, and Environment.NewLine.
 		* Add ability for ReportError to suppress errors below a certain level.
+		* Remove reference to System.Windows.Forms from AgateLib.dll
+		* Remove reference to System.Drawing from AgateLib.dll
 	Drivers
-		* Update AgateOTK to newer version of OpenTK
+		D Update AgateOTK to newer version of OpenTK
 		* Update AgateOTK to use Framebuffer extension for fast render-to-surface
 		* Fix MDX render-to-surface bug.
 		* Check base class and see if it can be replaced by an interface
@@ -27,7 +29,7 @@ High Priority (0.3.0 definitely)
 		* Finish FontSurface serialization
 		* Investigate nVidia bug with Bitmap Fonts and fix it
 	Surfaces
-		* Make sure that Images 
+		* Make sure that Images ??
 	Audio
 		* Make sure that Audio can be loaded from Stream classes.
 	Input
