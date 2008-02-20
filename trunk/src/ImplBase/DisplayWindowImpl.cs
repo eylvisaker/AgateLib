@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.Utility;
@@ -100,65 +99,6 @@ namespace ERY.AgateLib.ImplBase
         /// <param name="bpp"></param>
         public abstract  void SetFullScreen(int width, int height, int bpp);
 
-        /// <summary>
-        /// Creates a System.Windows.Forms.Form object for rendering to.
-        /// </summary>
-        /// <param name="frm">Returns the created form.</param>
-        /// <param name="renderTarget">Returns the control which is rendered into.</param>
-        /// <param name="position">Position of the window.</param>
-        /// <param name="title">Title of the window.</param>
-        /// <param name="clientWidth">Width of client area, in pixels.</param>
-        /// <param name="clientHeight">Height of client area, in pixels.</param>
-        /// <param name="startFullscreen">True if we should start with a full-screen window.</param>
-        /// <param name="allowResize">True if we should allow the user to resize the window.</param>
-        /// <param name="hasFrame">True if a frame and title bar should be present.</param>
-        protected static void InitializeWindowsForm(
-            out Form frm,
-            out Control renderTarget,
-            WindowPosition position,
-            string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize, bool hasFrame)
-        {
-            DisplayWindowForm mainForm = new DisplayWindowForm();
-
-            // set output values
-            frm = mainForm;
-            renderTarget = mainForm.RenderTarget;
-
-            // set properties
-            frm.Text = title;
-            frm.ClientSize = new System.Drawing.Size(clientWidth, clientHeight);
-            frm.KeyPreview = true;
-
-            if (hasFrame == false)
-                frm.FormBorderStyle = FormBorderStyle.None;
-            else if (allowResize == false)
-            {
-                frm.FormBorderStyle = FormBorderStyle.FixedSingle;
-                frm.MaximizeBox = false;
-            }
-
-            Point centerPoint = new Point(
-                (Screen.PrimaryScreen.WorkingArea.Width - frm.Width) / 2,
-                (Screen.PrimaryScreen.WorkingArea.Height - frm.Height) / 2);
-
-            switch (position)
-            {
-                case WindowPosition.DefaultAgate:
-                case WindowPosition.AboveCenter:
-                    frm.StartPosition = FormStartPosition.Manual;
-                    frm.Location = new System.Drawing.Point(centerPoint.X, centerPoint.Y / 2);
-        
-                    break;
-                   
-                case WindowPosition.CenterScreen:
-                    frm.StartPosition = FormStartPosition.CenterScreen;
-                    break;
-
-                case WindowPosition.DefaultOS:
-                    frm.StartPosition = FormStartPosition.WindowsDefaultLocation;
-                    break;
-            }
-        }
         /// <summary>
         /// Gets or sets the size of the render area.
         /// </summary>

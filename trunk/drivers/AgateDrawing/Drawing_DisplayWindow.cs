@@ -24,6 +24,7 @@ using System.Reflection;
 using System.Windows.Forms;
 
 using ERY.AgateLib.ImplBase;
+using ERY.AgateLib.WinForms;
 
 namespace ERY.AgateLib.SystemDrawing
 {
@@ -51,7 +52,7 @@ namespace ERY.AgateLib.SystemDrawing
             }
             else
             {
-                InitializeWindowsForm(out frm, out mRenderTarget, windowParams.WindowPosition, windowParams.Title,
+                WinForms.FormUtil.InitializeWindowsForm(out frm, out mRenderTarget, windowParams.WindowPosition, windowParams.Title,
                     windowParams.Width, windowParams.Height, windowParams.IsFullScreen, windowParams.IsResizable, 
                     windowParams.HasFrame);
 
@@ -159,11 +160,11 @@ namespace ERY.AgateLib.SystemDrawing
         }
         void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            Keyboard.Keys.SetWinFormsKey(e.KeyCode, false);
+            Keyboard.Keys[FormUtil.TransformWinFormsKey(e.KeyCode)] = false;
         }
         void form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            Keyboard.Keys.SetWinFormsKey(e.KeyCode, true);
+            Keyboard.Keys[FormUtil.TransformWinFormsKey(e.KeyCode)] = true;
         }
 
         void pct_MouseDoubleClick(object sender, MouseEventArgs e)
