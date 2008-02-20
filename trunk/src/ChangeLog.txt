@@ -1,8 +1,10 @@
 
 Current Changes
 ===================
-* Added Vector2 and Vector3 types, with operator overloads.
+Breaking Changes:
+* Removed Obsolete API's
 
+* Added Vector2 and Vector3 types, with operator overloads.
 
 Version 0.2.5
 ===================

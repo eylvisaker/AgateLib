@@ -114,6 +114,12 @@ namespace ERY.AgateLib.ImplBase
             CalcAverageCharWidth();
         }
 
+        /// <summary>
+        /// Saves the bitmap font to two files, an image file which contains the
+        /// binary image data, and an XML file which contains all the glyph definitions.
+        /// </summary>
+        /// <param name="imageFilename"></param>
+        /// <param name="xmlFileName"></param>
         public void Save(string imageFilename, string xmlFileName)
         {
             XmlDocument doc = new XmlDocument();

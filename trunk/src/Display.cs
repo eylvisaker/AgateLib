@@ -545,10 +545,23 @@ namespace ERY.AgateLib
         {
             impl.FillRect(new Rectangle(x, y, width, height), color);
         }
+        /// <summary>
+        /// Draws a filled rectangle with a gradient.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="color"></param>
         public static void FillRect(Rectangle rect, Gradient color)
         {
             impl.FillRect(rect, color);
         }
+        /// <summary>
+        /// Draws a filled rectangle with a gradient.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="color"></param>
         public static void FillRect(int x, int y, int width, int height, Gradient color)
         {
             impl.FillRect(new Rectangle(x, y, width, height), color);
