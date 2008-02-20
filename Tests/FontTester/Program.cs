@@ -117,7 +117,10 @@ namespace FontTester
                     // toggle full screen if the user pressed F5;
                     if (Keyboard.Keys[KeyCode.F5])
                     {
-                        Display.CurrentWindow.ToggleFullScreen();
+                        if (Display.CurrentWindow.IsFullScreen)
+                            Display.CurrentWindow.SetFullScreen();
+                        else
+                            Display.CurrentWindow.SetWindowed();
                     }
                     else if (Keyboard.Keys[KeyCode.F2])
                     {
