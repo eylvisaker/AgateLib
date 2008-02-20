@@ -42,6 +42,8 @@ namespace ERY.AgateLib.Drivers
 
         private static bool mIsInitialized = false;
 
+        private static Type mUserSetSystemsType;
+
         static Registrar()
         {
         }
@@ -67,26 +69,27 @@ namespace ERY.AgateLib.Drivers
                 Assembly ass;
                 Type[] types;
 
-                // hack, because mono crashes if AgateMDX.dll is present.
-                // annoying, because it should report a failure to load the types in the
-                // assembly, and then the try catch should continue after that.
-                if ((Environment.OSVersion.Platform == PlatformID.Unix ||
-                     Environment.OSVersion.Platform == (PlatformID)128) &&
-                    System.IO.Path.GetFileNameWithoutExtension(file).ToLower().Contains("agatemdx"))
-                {
-                    Core.ReportError(ErrorLevel.Comment, 
-                        "DirectX not supported on Linux.  Remove " 
-                        + System.IO.Path.GetFileName(file) + 
-                        " to eliminate this message.", null);
-
-                    continue;
-                }
 
                 try
                 {
+                    // hack, because mono crashes if AgateMDX.dll is present.
+                    // annoying, because it should report a failure to load the types in the
+                    // assembly, and then the try catch should continue after that.
+                    if ((Environment.OSVersion.Platform == PlatformID.Unix ||
+                         Environment.OSVersion.Platform == (PlatformID)128) &&
+                        System.IO.Path.GetFileNameWithoutExtension(file).ToLower().Contains("agatemdx"))
+                    {
+                        Core.ReportError(ErrorLevel.Comment,
+                            "DirectX not supported on Linux.  Remove "
+                            + System.IO.Path.GetFileName(file) +
+                            " to eliminate this message.", null);
+
+                        continue;
+                    }
+
                     ass = Assembly.LoadFrom(file);
 
-                    // the library DLL should be in the same directory, make sure to skip it.
+                    // the AgateLib.dll file may be in the same directory, make sure to skip it.
                     if (ass == Assembly.GetExecutingAssembly())
                         continue;
 
@@ -110,7 +113,10 @@ namespace ERY.AgateLib.Drivers
                             }
 
                             m.Invoke(null, new object[] { });
-
+                        }
+                        else if (typeof(IUserSetSystems).IsAssignableFrom(t))
+                        {
+                            mUserSetSystemsType = t;
                         }
                     }
                 }
@@ -123,8 +129,8 @@ namespace ERY.AgateLib.Drivers
 
                     for (int i = 0; i < e.LoaderExceptions.Length; i++)
                     {
-                        Core.ReportError(ErrorLevel.Warning, 
-                            "LoaderException " + (i+1).ToString(),
+                        Core.ReportError(ErrorLevel.Warning,
+                            "LoaderException " + (i + 1).ToString(),
                             e.LoaderExceptions[i]);
                     }
 
@@ -132,7 +138,7 @@ namespace ERY.AgateLib.Drivers
                 }
                 catch (Exception e)
                 {
-                    Core.ReportError(ErrorLevel.Warning, "An error occured while loading assembly " + file + ".",e );
+                    Core.ReportError(ErrorLevel.Warning, "An error occured while loading assembly " + file + ".", e);
 
                     continue;
                 }
@@ -223,7 +229,10 @@ namespace ERY.AgateLib.Drivers
         public static bool UserSelectDrivers(bool chooseDisplay, bool chooseAudio, bool chooseInput,
             out DisplayTypeID selectedDisplay, out AudioTypeID selectedAudio, out InputTypeID selectedInput)
         {
-            Utility.SetSystemsForm frm = new Utility.SetSystemsForm(chooseDisplay, chooseAudio, chooseInput);
+            IUserSetSystems frm = (IUserSetSystems) Activator.CreateInstance(mUserSetSystemsType);
+            
+            frm.SetChoices(chooseDisplay, chooseAudio, chooseInput);
+
             DriverInfo<DisplayTypeID> highestDisplay = null;
             DriverInfo<AudioTypeID> highestAudio = null;
             DriverInfo<InputTypeID> highestInput = null;
@@ -265,7 +274,7 @@ namespace ERY.AgateLib.Drivers
             frm.SetDefaultAudio(highestAudio);
             frm.SetDefaultInput(highestInput);
 
-            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            if (frm.RunDialog() == SetSystemsDialogResult.Cancel)
             {
                 return false;
             }
