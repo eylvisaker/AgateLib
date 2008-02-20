@@ -65,6 +65,9 @@ namespace ERY.AgateLib.Geometry
         /// </summary>
         public static readonly Vector3 Empty = new Vector3();
 
+        /// <summary>
+        /// Returns true if this vector's components are all zero.
+        /// </summary>
         public bool IsEmpty
         {
             get { return X == 0 && Y == 0 && Z == 0; }

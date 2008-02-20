@@ -112,7 +112,6 @@ namespace ERY.AgateLib.Geometry
         /// Unary - operator: multiples vector by -1.
         /// </summary>
         /// <param name="a"></param>
-        /// <param name="b"></param>
         /// <returns></returns>
         public static Vector2 operator -(Vector2 a)
         {
