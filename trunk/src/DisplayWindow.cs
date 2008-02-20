@@ -213,19 +213,7 @@ namespace ERY.AgateLib
                 return impl.IsClosed;
             }
         }
-        // \deprecated
-        /// <summary>
-        /// OBSOLETE: Use IsClosed property instead. 
-        /// <para>
-        /// Returns true if this DisplayWindow has been closed, either
-        /// by a call to Dispose(), or perhaps the user clicked the close
-        /// box in a form.</para>
-        /// </summary>
-        [Obsolete("Use IsClosed property instead.")]
-        public bool Closed
-        {
-            get { return IsClosed; }
-        }
+        
         /// <summary>
         /// Gets or sets the size of the client area in pixels.
         /// </summary>
@@ -293,28 +281,6 @@ namespace ERY.AgateLib
         {
             get { return impl.IsFullScreen; }
         }
-        /// <summary>
-        /// Toggles windowed and full screen.
-        /// Not guaranteed to work; some drivers (eg. GDI) don't support 
-        /// fullscreen displays.  If this fails it returns without any error
-        /// thrown.  Check to see if it worked by examining IsFullScreen property.
-        /// </summary>
-        public void ToggleFullScreen()
-        {
-            impl.ToggleFullScreen();
-        }
-        /// <summary>
-        /// Toggles windowed and full screen.
-        /// Not guaranteed to work; some drivers (eg. GDI) don't support 
-        /// fullscreen displays.  If this fails it returns without any error
-        /// thrown.  Check to see if it worked by examining IsFullScreen property.
-        /// </summary>
-        [Obsolete("Use SetWindowed / SetFullScreen instead.")]
-        public void ToggleFullScreen(int width, int height, int bpp)
-        {
-            impl.ToggleFullScreen(width, height, bpp);
-        }
-
         /// <summary>
         /// Sets the display to windowed.  Does nothing if the display is already
         /// windowed.  The DisplayWindow retains the same height and width as the
