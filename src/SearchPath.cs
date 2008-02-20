@@ -145,7 +145,6 @@ namespace ERY.AgateLib
             return files;
         }
 
-
         private void DebugCrossPlatform(string filename)
         {
             if (filename == null)
@@ -158,6 +157,21 @@ namespace ERY.AgateLib
             }
         }
 
+        /// <summary>
+        /// Provides debugging information.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            string retval = "";
+
+            foreach (string s in mSearchPaths)
+            {
+                retval += "\"" + s + "\"; ";
+            }
+
+            return retval;
+        }
         #region --- ICollection<string> Members ---
         /// <summary>
         /// Adds a search path to the list.
