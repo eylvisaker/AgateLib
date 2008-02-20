@@ -28,6 +28,7 @@ using Microsoft.DirectX;
 
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
+using ERY.AgateLib.WinForms;
 
 namespace ERY.AgateLib.MDX
 {
@@ -180,13 +181,14 @@ namespace ERY.AgateLib.MDX
         {
 
         }
+
         void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            Keyboard.Keys.SetWinFormsKey(e.KeyCode, false);
+            Keyboard.Keys[FormUtil.TransformWinFormsKey(e.KeyCode)] = false;
         }
         void form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            Keyboard.Keys.SetWinFormsKey(e.KeyCode, true);
+            Keyboard.Keys[FormUtil.TransformWinFormsKey(e.KeyCode)] = true;
         }
 
         void pct_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -271,7 +273,7 @@ namespace ERY.AgateLib.MDX
             }
             else
             {
-                InitializeWindowsForm(out frm, out mRenderTarget, mChoosePosition, mTitle, 
+                WinForms.FormUtil.InitializeWindowsForm(out frm, out mRenderTarget, mChoosePosition, mTitle, 
                     mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
 
                 frm.Icon = mIcon;

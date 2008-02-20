@@ -69,6 +69,10 @@
       <Project>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AgateForms\AgateForms.csproj">
+      <Project>{5F029DD0-9017-4E5A-BE06-FD7D5D80E3B5}</Project>
+      <Name>AgateForms</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

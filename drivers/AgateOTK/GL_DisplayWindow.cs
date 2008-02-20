@@ -9,6 +9,7 @@ using ERY.AgateLib;
 using ERY.AgateLib.Drivers;
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
+using ERY.AgateLib.WinForms;
 
 using OpenTK;
 using OpenTK.OpenGL;
@@ -139,7 +140,7 @@ namespace ERY.AgateLib.OpenGL
             Form myform;
             Control myRenderTarget;
 
-            InitializeWindowsForm(out myform, out myRenderTarget, mChoosePosition,
+            WinForms.FormUtil.InitializeWindowsForm(out myform, out myRenderTarget, mChoosePosition,
                 mTitle, mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
 
 
@@ -288,11 +289,11 @@ namespace ERY.AgateLib.OpenGL
         }
         void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            Keyboard.Keys.SetWinFormsKey(e.KeyCode, false);
+            Keyboard.Keys[FormUtil.TransformWinFormsKey(e.KeyCode)] = false;
         }
         void form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            Keyboard.Keys.SetWinFormsKey(e.KeyCode, true);
+            Keyboard.Keys[FormUtil.TransformWinFormsKey(e.KeyCode)] = true;
         }
         public override bool IsClosed
         {
