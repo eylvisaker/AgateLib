@@ -295,6 +295,7 @@ namespace ERY.AgateLib
         /// Draws this surface at the specified destination point with the specified rotation
         /// center.
         /// </summary>
+        /// <param name="surf"></param>
         /// <param name="dest_x"></param>
         /// <param name="dest_y"></param>
         /// <param name="rotationCenterX"></param>
