@@ -940,7 +940,7 @@ namespace ERY.AgateLib
         /// <param name="time_ms">The amount of time to consider passed, in milliseconds.</param>
         public void Update(double time_ms)
         {
-            if (Animating == false)
+            if (IsAnimating == false)
                 return;
 
             mFrameTime += time_ms;
@@ -1008,12 +1008,12 @@ namespace ERY.AgateLib
                         if (PlayReverse && value == 0)
                         {
                             mCurrentFrameIndex = mFrames.Count - 1;
-                            Animating = false;
+                            IsAnimating = false;
                         }
                         else if (PlayReverse == false && value == mFrames.Count - 1)
                         {
                             mCurrentFrameIndex = 0;
-                            Animating = false;
+                            IsAnimating = false;
                         }
                         else
                         {
@@ -1146,17 +1146,6 @@ namespace ERY.AgateLib
         {
             get { return mAnimType; }
             set { mAnimType = value; }
-        }
-        /// <summary>
-        /// Gets or sets a flag which indicates:
-        /// True if the animation is running.
-        /// False if a single frame will be shown indefinitely.
-        /// </summary>
-        [Obsolete("Use IsAnimating property instead.")]
-        public bool Animating
-        {
-            get { return IsAnimating; }
-            set { IsAnimating = value; }
         }
         /// <summary>
         /// Gets or sets a flag which indicates:
