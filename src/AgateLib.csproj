@@ -60,11 +60,13 @@
     <Compile Include="Geometry\TypeConverters.cs" />
     <Compile Include="Geometry\Vector2.cs" />
     <Compile Include="Geometry\Vector3.cs" />
+    <Compile Include="Gui\Bin.cs" />
     <Compile Include="Gui\Button.cs" />
     <Compile Include="Gui\Component.cs" />
     <Compile Include="Gui\ComponentStyle.cs" />
     <Compile Include="Gui\Container.cs" />
     <Compile Include="Gui\DragAnchor.cs" />
+    <Compile Include="Gui\GridLayout.cs" />
     <Compile Include="Gui\GuiManager.cs" />
     <Compile Include="Gui\Label.cs" />
     <Compile Include="Gui\SizeAnchor.cs" />
@@ -101,18 +103,6 @@
     <Compile Include="Sprite2.cs" />
     <Compile Include="SpriteFrame2.cs" />
     <Compile Include="StringTransformer.cs" />
-    <Compile Include="Utility\AgateRenderTarget.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Utility\AgateRenderTarget.Designer.cs">
-      <DependentUpon>AgateRenderTarget.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utility\DisplayWindowForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utility\DisplayWindowForm.designer.cs">
-      <DependentUpon>DisplayWindowForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Geometry\Color.cs" />
     <Compile Include="Geometry\Point.cs" />
     <Compile Include="Geometry\PointF.cs" />
@@ -126,29 +116,16 @@
     <Compile Include="DisplayWindow.cs" />
     <Compile Include="FontSurface.cs" />
     <Compile Include="RenderTarget.cs" />
-    <Compile Include="Utility\SetSystemsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utility\SetSystemsForm.Designer.cs">
-      <DependentUpon>SetSystemsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="OldSprite\SpriteContainer.cs" />
+    <Compile Include="Drivers\IUserSetSystems.cs" />
     <Compile Include="Utility\SurfacePacker.cs" />
     <Compile Include="PlatformSpecific\Platform.cs" />
     <Compile Include="Keyboard.cs" />
     <Compile Include="Mouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Utility\DisplayWindowForm.resx">
-      <DependentUpon>DisplayWindowForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utility\SetSystemsForm.resx">
-      <DependentUpon>SetSystemsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
