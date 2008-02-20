@@ -8,7 +8,7 @@ namespace ERY.AgateLib.Geometry
     /// <summary>
     /// PointConverter.
     /// </summary>
-    public class PointConverter : ExpandableObjectConverter
+    class PointConverter : ExpandableObjectConverter
     {
         /// <summary>
         /// 
@@ -65,7 +65,7 @@ namespace ERY.AgateLib.Geometry
     /// <summary>
     /// 
     /// </summary>
-    public class SizeConverter : ExpandableObjectConverter
+    class SizeConverter : ExpandableObjectConverter
     {
         /// <summary>
         /// 
