@@ -279,20 +279,6 @@ namespace ERY.AgateLib
         {
             impl.EndFrame();
         }
-        /// <summary>
-        /// A version of EndFrame must be called at the end of each frame.
-        /// This version allows the caller to indicate to the driver whether 
-        /// it is preferred to wait for the vertical blank to do the drawing.
-        /// The driver may or may not honor the value of waitVSync.
-        /// </summary>
-        /// <param name="waitVSync"></param>
-        [Obsolete("Use the Display.VSync property to get/set VSync instead.")]
-        public static void EndFrame(bool waitVSync)
-        {
-            Display.VSync = waitVSync;
-
-            impl.EndFrame();
-        }
 
         /// <summary>
         /// Gets the amount of time in milliseconds that has passed between this frame
