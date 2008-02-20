@@ -164,10 +164,16 @@ namespace ERY.AgateLib
         public override string ToString()
         {
             string retval = "";
+            int count = 0;
 
             foreach (string s in mSearchPaths)
             {
-                retval += "\"" + s + "\"; ";
+                if (count > 0)
+                    retval += "; ";
+
+                retval += "\"" + s + "\"";
+
+                count++;
             }
 
             return retval;
