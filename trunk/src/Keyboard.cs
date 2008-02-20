@@ -872,6 +872,7 @@ namespace ERY.AgateLib
             /// </summary>
             /// <param name="id"></param>
             /// <returns></returns>
+            [Obsolete("Use AgateForms.dll::FormUtil.TransformWinFormsKey to convert key and call Keyboard.Keys[] with the value returned instead.")]
             public bool GetWinFormsKey(System.Windows.Forms.Keys id)
             {
                 return this[TransformWinFormsKey(id)];
@@ -883,6 +884,7 @@ namespace ERY.AgateLib
             /// <param name="id"></param>
             /// <param name="value"></param>
             /// <returns></returns>
+            [Obsolete("Use AgateForms.dll::FormUtil.TransformWinFormsKey to convert key and call Keyboard.Keys[] with the value returned instead.")]
             public void SetWinFormsKey(System.Windows.Forms.Keys id, bool value)
             {
                 this[TransformWinFormsKey(id)] = value;
@@ -893,6 +895,7 @@ namespace ERY.AgateLib
             /// </summary>
             /// <param name="id"></param>
             /// <returns></returns>
+            [Obsolete("Use AgateForms.dll::FormUtil.TransformWinFormsKey instead.")]
             public static KeyCode TransformWinFormsKey(System.Windows.Forms.Keys id)
             {
                 KeyCode myvalue;
