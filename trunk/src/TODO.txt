@@ -8,12 +8,9 @@ High Priority (0.3.0 definitely)
 		* Seal consumer classes.
 		* Profile Agate
 		* Extract stuff to interfaces
-		* Find a way to detect if running on OS X.
 		* Rename Origin.cs
 		* Fix ReportError to use StringBuilder instead of StringWriter, and Environment.NewLine.
 		* Add ability for ReportError to suppress errors below a certain level.
-		* Remove reference to System.Windows.Forms from AgateLib.dll
-		* Remove reference to System.Drawing from AgateLib.dll
 	Drivers
 		D Update AgateOTK to newer version of OpenTK
 		* Update AgateOTK to use Framebuffer extension for fast render-to-surface
@@ -70,3 +67,8 @@ Low Priority
 		* Make 15/16 bit screen resolutions work
 		* Test 15/16 bit Pixel Buffers
 		* Flesh out documentation on method parameters throught the library.
+		
+		* Find a way to detect if running on OS X.
+		
+		* Remove reference to System.Windows.Forms from AgateLib.dll
+		* Remove reference to System.Drawing from AgateLib.dll
