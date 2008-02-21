@@ -37,9 +37,7 @@ High Priority (0.3.0 definitely)
 		* Deprecate Keyboard events in favor of events where a structure is passed which does not combine modifier keys into a Flags enum.
 		* Make sure analog joysticks work with more than 3 axes.
 		* Redesign Joystick input stuff
-	Gui
-		* Redesign GUI to use containers for automatic positioning
-		* Document GUI classes
+		* Add support for POV hats on joysticks.
 	Geometry
 		* Flesh out Vector2 and 3 classes, and include conversion from Point to Vector2.
 	Tests
@@ -47,23 +45,28 @@ High Priority (0.3.0 definitely)
 
 Medium Priority (0.3.0 maybe, or by 0.3.1 for sure)
 ---------------------------------------------------
-* Find or get platform specific ways to hide the mouse cursor
-* Research Zip libraries for SearchPath class.
-* Speed up the GUI classes by prerendering controls to a surface.
-* Provide overrides for Surface, Sprite and Display to use Vector2.
-* Z-ordering for Surfaces and Sprites, also 
-* Deprecate use of FileManager.PathChars 
-* Add more error reporting
-* Full screen window creation with a specified icon.
-* Interface to allow audio to be generated at runtime.
+	General
+		* Find or get platform specific ways to hide the mouse cursor
+		* Research Zip libraries for SearchPath class.
+		* Speed up the GUI classes by prerendering controls to a surface.
+		* Provide overrides for Surface, Sprite and Display to use Vector2.
+		* Z-ordering for Surfaces and Sprites, also 
+		* Deprecate use of FileManager.PathChars 
+		* Add more error reporting
+		* Full screen window creation with a specified icon.
+		* Interface to allow audio to be generated at runtime.
+	Gui
+		* Redesign GUI to use containers for automatic positioning
+		* Document GUI classes
 
 
 Low Priority
 ------------
-* Improve Icon
-* OpenAL driver, if it's available in OpenTK
-* Create a more stylish GUI renderer.
-* Experimental interfaces for vertex buffers and textures (surfaces?).
-* Make 15/16 bit screen resolutions work
-* Test 15/16 bit Pixel Buffers
-* Flesh out documentation on method parameters throught the library.
+	General
+		* Improve Icon
+		* OpenAL driver, if it's available in OpenTK
+		* Create a more stylish GUI renderer.
+		* Experimental interfaces for vertex buffers and textures (surfaces?).
+		* Make 15/16 bit screen resolutions work
+		* Test 15/16 bit Pixel Buffers
+		* Flesh out documentation on method parameters throught the library.

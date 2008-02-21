@@ -1,6 +1,9 @@
 
 Current Changes
 ===================
+
+Added optional AgateForms.dll to encapsulate all references to System.Drawing and System.Windows.Forms.
+
 Breaking Changes:
 * Removed Obsolete API's
 
