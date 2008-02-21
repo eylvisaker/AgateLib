@@ -47,8 +47,17 @@ namespace InputTester
                 Joystick j = Input.Joysticks[(int)numericUpDown1.Value];
 
                 string text =
-                    "X: " + j.Xaxis.ToString() + "\r\n" +
-                    "Y: " + j.Yaxis.ToString() + "\r\n" +
+                    "Axis Count: " + j.AxisCount + Environment.NewLine;
+
+                for (int i = 0; i < j.AxisCount; i++)
+                {
+                    text += "Axis " + i.ToString() + ": " + j.Axes[i].ToString() + Environment.NewLine;
+                }
+
+                text += Environment.NewLine + 
+                    "X: " + j.Xaxis.ToString() + Environment.NewLine +
+                    "Y: " + j.Yaxis.ToString() + Environment.NewLine + 
+                    Environment.NewLine + 
                     "Buttons: ";
 
                 for (int i = 0; i < j.ButtonCount; i++)
