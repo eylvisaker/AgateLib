@@ -83,8 +83,7 @@ namespace ERY.AgateLib.Geometry
         /// <returns></returns>
         public Vector2 Normalize()
         {
-            Vector2 retval = this;
-            retval /= Magnitude;
+            Vector2 retval = this / Magnitude;
 
             return retval;
         }
