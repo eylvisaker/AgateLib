@@ -28,12 +28,46 @@ namespace ERY.AgateLib
     /// </summary>
     public class Joystick
     {
+        /// <summary>
+        /// AxisList is a class which simplifies access to the axes
+        /// of a joystick, by providing an list syntax.
+        /// </summary>
+        public class AxisList
+        {
+            Joystick owner;
+
+            internal AxisList(Joystick owner)
+            {
+                this.owner = owner;
+            }
+
+            /// <summary>
+            /// The total number of axes for the joystick.
+            /// </summary>
+            public int Count
+            {
+                get { return owner.AxisCount; }
+            }
+            /// <summary>
+            /// Gets the current value for the given axis.
+            /// Axis 0 is the x-axis, axis 1 is the y-axis.
+            /// </summary>
+            /// <param name="index"></param>
+            /// <returns></returns>
+            public double this[int index]
+            {
+                get { return owner.GetAxisValue(index); }
+            }
+        }
+
         JoystickImpl impl;
+        AxisList axes;
 
         internal Joystick(JoystickImpl i)
         {
             impl = i;
-
+            axes = new AxisList(this);
+    
             AxisThreshold = 0.02;
         }
 
@@ -45,6 +79,11 @@ namespace ERY.AgateLib
         /// Returns the number of buttons this joystick has.
         /// </summary>
         public int ButtonCount { get { return impl.ButtonCount; } }
+
+        /// <summary>
+        /// Returns a list of the axes that are available on this joystick.
+        /// </summary>
+        public AxisList Axes { get { return axes; } }
 
         /// <summary>
         /// Returns an array indicating whether or not the joystick buttons
