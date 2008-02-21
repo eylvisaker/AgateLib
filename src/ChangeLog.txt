@@ -3,6 +3,7 @@ Current Changes
 ===================
 
 Added optional AgateForms.dll to encapsulate all references to System.Drawing and System.Windows.Forms.
+AgateOTK has been updated to use OpenTK version 0.9.0.
 
 Breaking Changes:
 * Removed Obsolete API's
