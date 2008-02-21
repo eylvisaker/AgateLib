@@ -28,7 +28,7 @@ namespace ERY.AgateLib
     /// <summary>
     /// Class which provides a silent Audio implementation.
     /// </summary>
-    public class NullSoundImpl : AudioImpl 
+    class NullSoundImpl : AudioImpl 
     {
         /// <summary>
         /// 
