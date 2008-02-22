@@ -46,10 +46,28 @@ namespace ERY.AgateLib
         /// <param name="windowParams"></param>
         public DisplayWindow(CreateWindowParams windowParams)
         {
+            if (Display.Impl == null)
+                throw new NullReferenceException(
+                    "Display has not been initialized." + Environment.NewLine + 
+                    "Did you forget to call AgateSetup.Initialize or Display.Initialize?");
+
             impl = Display.Impl.CreateDisplayWindow(windowParams);
 
             Display.RenderTarget = this;
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+        }
+        /// <summary>
+        /// Creates a DisplayWindow object using the specified System.Windows.Forms.Control
+        /// object as a render context.  A DisplayWindow made in this manner cannot be made
+        /// into a full-screen DisplayWindow.
+        /// </summary>
+        /// <remarks>Calling this function is equivalent to calling
+        /// new DisplayWindow(CreateWindowParams.FromControl(control)).</remarks>
+        /// <param name="control">Windows.Forms control which should be used as the
+        /// render target.</param>
+        public static DisplayWindow FromControl(object control)
+        {
+            return new DisplayWindow(CreateWindowParams.FromControl(control));
         }
         /// <summary>
         /// Creates a DisplayWindow object using the specified System.Windows.Forms.Control
