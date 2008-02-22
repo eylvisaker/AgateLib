@@ -83,6 +83,9 @@ namespace ERY.AgateLib
         /// <param name="style"></param>
         public FontSurface(string fontFamily, float sizeInPoints, FontStyle style)
         {
+            if (sizeInPoints < 1)
+                throw new ArgumentException("Font size must be positive and non-zero.");
+
             impl = Display.Impl.CreateFont(fontFamily, sizeInPoints, style);
 
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
