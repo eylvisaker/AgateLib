@@ -445,7 +445,7 @@ namespace ERY.AgateLib.ImplBase
 
                     case '\n':
                         destX = 0;
-                        destY += height;
+                        destY += height * this.ScaleHeight;
                         break;
 
                     default:
