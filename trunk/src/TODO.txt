@@ -55,6 +55,8 @@ Medium Priority (0.3.0 maybe, or by 0.3.1 for sure)
 	Gui
 		* Redesign GUI to use containers for automatic positioning
 		* Document GUI classes
+	Fonts
+		* Fix italic fonts
 
 
 Low Priority
