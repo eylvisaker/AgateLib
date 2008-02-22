@@ -77,7 +77,7 @@ namespace InputTester
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox1.Location = new System.Drawing.Point(12, 109);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(216, 218);
+            this.pictureBox1.Size = new System.Drawing.Size(210, 215);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
@@ -138,7 +138,7 @@ namespace InputTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(454, 339);
+            this.ClientSize = new System.Drawing.Size(448, 336);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblJoystick);
             this.Controls.Add(this.label1);
