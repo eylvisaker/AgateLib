@@ -69,9 +69,9 @@
       <Project>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AgateForms\AgateForms.csproj">
+    <ProjectReference Include="..\AgateWinForms\AgateWinForms.csproj">
       <Project>{5F029DD0-9017-4E5A-BE06-FD7D5D80E3B5}</Project>
-      <Name>AgateForms</Name>
+      <Name>AgateWinForms</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
