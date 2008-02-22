@@ -434,6 +434,15 @@ namespace ERY.AgateLib.ImplBase
             {
                 switch (text[i])
                 {
+                    case '\r':
+                        // ignore '\r' characters that are followed by '\n', because
+                        // the line break on Windows is these two characters in succession.
+                        if (i + 1 < text.Length && text[i + 1] == '\n')
+                            break;
+
+                        // this '\r' is not followed by a '\n', so treat it like any other character.
+                        goto default;
+
                     case '\n':
                         destX = 0;
                         destY += height;
