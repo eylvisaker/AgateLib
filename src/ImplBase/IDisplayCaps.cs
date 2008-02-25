@@ -62,5 +62,11 @@ namespace ERY.AgateLib.ImplBase
         /// Indicates whether or not 3D drawing is supported.
         /// </summary>
         bool Supports3D { get; }
+
+        /// <summary>
+        /// Indicates whether the driver can create a bitmap font from an operatig
+        /// system font.
+        /// </summary>
+        bool CanCreateBitmapFont { get; }
     }
 }

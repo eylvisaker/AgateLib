@@ -726,7 +726,7 @@ namespace ERY.AgateLib.MDX
             get { return this; }
         }
 
-        #region IDisplayCaps Members
+        #region --- IDisplayCaps Members ---
 
         bool IDisplayCaps.SupportsScaling
         {
@@ -789,6 +789,12 @@ namespace ERY.AgateLib.MDX
         {
             get { return true; }
         }
+
+        bool IDisplayCaps.CanCreateBitmapFont
+        {
+            get { return true; }
+        }
+
         #endregion
     }
 }
