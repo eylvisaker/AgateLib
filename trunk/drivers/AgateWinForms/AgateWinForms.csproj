@@ -41,6 +41,7 @@
     <Compile Include="AgateRenderTarget.Designer.cs">
       <DependentUpon>AgateRenderTarget.cs</DependentUpon>
     </Compile>
+    <Compile Include="BitmapFontUtil.cs" />
     <Compile Include="DisplayWindowForm.cs">
       <SubType>Form</SubType>
     </Compile>
