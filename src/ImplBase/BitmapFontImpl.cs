@@ -391,6 +391,12 @@ namespace ERY.AgateLib.ImplBase
         /// the pixel.
         /// </summary>
         IntensityAlphaColor,
+
+        /// <summary>
+        /// Performs no processing on edges and leaves them as is.
+        /// Note that this will result in edges which are not at all transparent.
+        /// </summary>
+        None,
     }
     
     /// <summary>

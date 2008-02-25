@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ERY.AgateLib;
 using ERY.AgateLib.ImplBase;
+using ERY.AgateLib.Geometry;
 
 namespace FontCreator
 {
@@ -15,6 +16,7 @@ namespace FontCreator
         DisplayWindow wind;
         DisplayWindow zoomWind;
         FontSurface font;
+        Surface bgDark, bgLight;
 
         BitmapFontOptions mOptions = new BitmapFontOptions();
 
@@ -86,6 +88,26 @@ namespace FontCreator
             }
         }
 
+        private bool mDarkBackground;
+
+        private Color mColor;
+
+        public Color DisplayColor
+        {
+            get { return mColor; }
+            set { mColor = value; }
+        }
+	
+        public bool LightBackground
+        {
+            get { return mDarkBackground; }
+            set
+            {
+                mDarkBackground = value;
+                Draw();
+            }
+        }
+	
         public void SetRenderTarget(object render, object zoomRender)
         {
             mRenderTarget = render;
@@ -95,10 +117,17 @@ namespace FontCreator
             {
                 wind.Dispose();
                 zoomWind.Dispose();
+                bgDark.Dispose();
+                bgLight.Dispose();
             }
 
             wind = DisplayWindow.FromControl(render);
             zoomWind = DisplayWindow.FromControl(zoomRender);
+
+            bgDark = new Surface("bgDark.png");
+            bgLight = new Surface("bgLight.png");
+
+            DisplayColor = Color.White;
         }
 
         public void CreateFont()
@@ -123,6 +152,10 @@ namespace FontCreator
                     (Underline ? FontStyle.Underline : 0) |
                     (Strikeout ? FontStyle.Strikeout : 0);
             }
+        }
+        public BitmapFontOptions Options
+        {
+            get { return mOptions; }
         }
 
         public string Text
@@ -155,6 +188,8 @@ namespace FontCreator
             Display.Clear();
 
             font.SetScale(1.0, 1.0);
+
+            DrawBackground();
             DrawText();
 
             Display.EndFrame();
@@ -165,9 +200,27 @@ namespace FontCreator
             Display.Clear();
 
             font.SetScale(8.0, 8.0);
+
+            DrawBackground();
             DrawText();
 
             Display.EndFrame();
+
+            Core.KeepAlive();
+        }
+
+        private void DrawBackground()
+        {
+
+            Surface background = LightBackground ? bgLight : bgDark;
+
+            for (int x = 0; x < Display.RenderTarget.Width; x += background.DisplayWidth)
+            {
+                for (int y = 0; y < Display.RenderTarget.Height; y += background.DisplayHeight)
+                {
+                    background.Draw(x, y);
+                }
+            }
         }
 
         private void DrawText()
@@ -175,6 +228,7 @@ namespace FontCreator
             if (font == null)
                 return;
 
+            font.Color = DisplayColor;
             font.DrawText(Text);
         }
     }
