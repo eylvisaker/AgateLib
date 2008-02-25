@@ -82,6 +82,7 @@
     <Compile Include="LightManager.cs" />
     <Compile Include="Origin.cs" />
     <Compile Include="Drivers\Registrar.cs" />
+    <Compile Include="OriginAlignment.cs" />
     <Compile Include="PixelBuffer.cs" />
     <Compile Include="PlatformSpecific\Win32.cs" />
     <Compile Include="PlatformSpecific\X11.cs" />

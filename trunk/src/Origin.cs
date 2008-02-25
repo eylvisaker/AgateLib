@@ -24,52 +24,6 @@ using ERY.AgateLib.Geometry;
 namespace ERY.AgateLib
 {
     /// <summary>
-    /// OriginAlignment enum.  Used to specify how
-    /// points should be interpreted.
-    /// </summary>
-    public enum OriginAlignment
-    {
-        /// <summary>
-        /// Point indicates top-left.
-        /// </summary>
-        TopLeft = 0x11,
-        /// <summary>
-        /// Point indicates top-center.
-        /// </summary>
-        TopCenter = 0x12,
-        /// <summary>
-        /// Point indicates top-right.
-        /// </summary>
-        TopRight = 0x13,
-
-        /// <summary>
-        /// Point indicates center-left.
-        /// </summary>
-        CenterLeft = 0x21,
-        /// <summary>
-        /// Point indicates center.
-        /// </summary>
-        Center = 0x22,
-        /// <summary>
-        /// Point indicates center-right.
-        /// </summary>
-        CenterRight = 0x23,
-
-        /// <summary>
-        /// Point indicates bottom-left.
-        /// </summary>
-        BottomLeft = 0x31,
-        /// <summary>
-        /// Point indicates bottom-center.
-        /// </summary>
-        BottomCenter = 0x32,
-        /// <summary>
-        /// Point indicates bottom-right.
-        /// </summary>
-        BottomRight = 0x33,
-    }
-
-    /// <summary>
     /// Static class which performs necessary calculates based on OriginAlignment
     /// values.
     /// </summary>
