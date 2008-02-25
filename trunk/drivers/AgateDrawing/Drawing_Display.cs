@@ -242,7 +242,7 @@ namespace ERY.AgateLib.SystemDrawing
             get { return this; }
         }
 
-        #region IDisplayCaps Members
+        #region --- IDisplayCaps Members ---
 
         bool IDisplayCaps.SupportsScaling
         {
@@ -299,6 +299,12 @@ namespace ERY.AgateLib.SystemDrawing
         {
             get { return false; }
         }
+
+        bool IDisplayCaps.CanCreateBitmapFont
+        {
+            get { return true; }
+        }
+
         #endregion
     }
 

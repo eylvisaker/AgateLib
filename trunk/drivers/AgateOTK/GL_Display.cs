@@ -365,7 +365,7 @@ namespace ERY.AgateLib.OpenGL
             get { return this; }
         }
 
-        #region IDisplayCaps Members
+        #region --- IDisplayCaps Members ---
 
         bool IDisplayCaps.SupportsScaling
         {
@@ -425,6 +425,11 @@ namespace ERY.AgateLib.OpenGL
             get { return true; }
         }
         bool IDisplayCaps.SupportsFullScreenModeSwitching
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.CanCreateBitmapFont
         {
             get { return true; }
         }
