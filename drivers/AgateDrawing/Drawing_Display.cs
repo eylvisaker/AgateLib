@@ -114,6 +114,10 @@ namespace ERY.AgateLib.SystemDrawing
         {
             return new Drawing_FontSurface(fontFamily, sizeInPoints, style);
         }
+        public override FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
+        {
+            return WinForms.BitmapFontUtil.FromOSFont(bitmapOptions);
+        }
 
         #endregion 
         #region --- Direct modification of the back buffer ---

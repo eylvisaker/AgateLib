@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ERY.AgateLib;
+using ERY.AgateLib.ImplBase;
 
 namespace FontCreator
 {
@@ -10,64 +11,63 @@ namespace FontCreator
         private string mText;
         private object mRenderTarget;
         private object mZoomRenderTarget;
-        private string mFontFamily;
-        private float mFontSize = 10.0f;
-
+        
         DisplayWindow wind;
         DisplayWindow zoomWind;
         FontSurface font;
 
-        private bool mBold;
-        private bool mItalic;
-        private bool mStrike;
-        private bool mUnderline;
+        BitmapFontOptions mOptions = new BitmapFontOptions();
+
+
+        private void SetStyle(FontStyle fontStyle, bool value)
+        {
+            if (value)
+            {
+                mOptions.FontStyle = mOptions.FontStyle | fontStyle;
+            }
+            else
+            {
+                mOptions.FontStyle = mOptions.FontStyle & ~fontStyle;
+            }
+
+            CreateFont();
+        }
+
+        private bool StyleContains(FontStyle fontStyle)
+        {
+            return (mOptions.FontStyle & fontStyle) == fontStyle;
+        }
 
         public bool Underline
         {
-            get { return mUnderline; }
-            set
-            {
-                mUnderline = value;
-                CreateFont();
-            }
+            get { return StyleContains(FontStyle.Underline); }
+            set { SetStyle(FontStyle.Underline, value); }
         }
 
         public bool Strikeout
         {
-            get { return mStrike; }
-            set
-            {
-                mStrike = value;
-                CreateFont();
-            }
+            get { return StyleContains(FontStyle.Strikeout); }
+            set { SetStyle(FontStyle.Strikeout, value); }
         }
 
         public bool Italic
         {
-            get { return mItalic; }
-            set
-            {
-                mItalic = value;
-                CreateFont();
-            }
+            get { return StyleContains(FontStyle.Italic); }
+            set { SetStyle(FontStyle.Italic, value); }
         }
 
         public bool Bold
         {
-            get { return mBold; }
-            set
-            {
-                mBold = value;
-                CreateFont();
-            }
+            get { return StyleContains(FontStyle.Bold); }
+            set { SetStyle(FontStyle.Bold, value); }
         }
 
         public float FontSize
         {
-            get { return mFontSize; }
+            get { return mOptions.SizeInPoints; }
             set
             {
-                mFontSize = value;
+                mOptions.SizeInPoints = value;
                 CreateFont();
             }
         }
@@ -78,10 +78,10 @@ namespace FontCreator
         }
         public string FontFamily
         {
-            get { return mFontFamily; }
+            get { return mOptions.FontFamily; }
             set
             {
-                mFontFamily = value;
+                mOptions.FontFamily = value;
                 CreateFont();
             }
         }
@@ -101,14 +101,14 @@ namespace FontCreator
             zoomWind = DisplayWindow.FromControl(zoomRender);
         }
 
-        private void CreateFont()
+        public void CreateFont()
         {
-            if (string.IsNullOrEmpty(mFontFamily))
+            if (string.IsNullOrEmpty(FontFamily))
                 return;
             if (font != null)
                 font.Dispose();
 
-            font = new FontSurface(mFontFamily, mFontSize, Style);
+            font = new FontSurface(mOptions);
 
             Draw();
         }

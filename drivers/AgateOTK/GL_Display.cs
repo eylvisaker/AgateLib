@@ -71,7 +71,13 @@ namespace ERY.AgateLib.OpenGL
         }
         public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyle style)
         {
-            return BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints, style);
+            BitmapFontOptions options = new BitmapFontOptions(fontFamily, sizeInPoints, style);
+
+            return WinForms.BitmapFontUtil.FromOSFont(options);
+        }
+        public override FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
+        {
+            return WinForms.BitmapFontUtil.FromOSFont(bitmapOptions);
         }
 
         internal void SetupGLOrtho(Rectangle ortho)

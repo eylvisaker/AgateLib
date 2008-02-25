@@ -91,7 +91,7 @@ namespace ERY.Sprite2Tester
             for (int i = 0; i < mSprite.Frames.Count; i++)
                 cboFrame.Items.Add(i);
 
-            chkAnimating.Checked = mSprite.Animating;
+            chkAnimating.Checked = mSprite.IsAnimating;
             chkPlayReverse.Checked = mSprite.PlayReverse;
             cboAlignment.SelectedItem = mSprite.DisplayAlignment;
             cboAnimationType.SelectedItem = mSprite.AnimationType;
@@ -226,7 +226,7 @@ namespace ERY.Sprite2Tester
             if (mSprite == null)
                 return;
 
-            mSprite.Animating = chkAnimating.Checked;
+            mSprite.IsAnimating = chkAnimating.Checked;
         }
         private void chkPlayReverse_CheckedChanged(object sender, EventArgs e)
         {

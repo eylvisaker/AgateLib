@@ -92,6 +92,18 @@ namespace ERY.AgateLib
         }
 
         /// <summary>
+        /// Creates a bitmap font using the options passed in.  The Display driver
+        /// must be capable of this, which is indicated in Display.Caps.CanCreateBitmapFont.
+        /// </summary>
+        /// <param name="bitmapOptions"></param>
+        public FontSurface(BitmapFontOptions bitmapOptions)
+        {
+            impl = Display.Impl.CreateFont(bitmapOptions);
+
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+        }
+
+        /// <summary>
         /// Private initializer to tell it what impl to use.
         /// </summary>
         /// <param name="implToUse"></param>
@@ -135,9 +147,10 @@ namespace ERY.AgateLib
         /// <param name="fontFamily"></param>
         /// <param name="sizeInPoints"></param>
         /// <returns></returns>
+        [Obsolete("Use the FontSurface constructor")]
         public static FontSurface BitmapFont(string fontFamily, float sizeInPoints)
         {
-            return BitmapFont(fontFamily, sizeInPoints, FontStyle.None);
+            return new FontSurface(fontFamily, sizeInPoints);
         }
         /// <summary>
         /// This function creates a font from the specified font family by loading it
@@ -150,11 +163,10 @@ namespace ERY.AgateLib
         /// <param name="sizeInPoints"></param>
         /// <param name="style"></param>
         /// <returns></returns>
+        [Obsolete("Use the FontSurface constructor.", true)]
         public static FontSurface BitmapFont(string fontFamily, float sizeInPoints, FontStyle style)
         {
-            FontSurfaceImpl impl = BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints, style);
-
-            return new FontSurface(impl);
+            return new FontSurface(fontFamily, sizeInPoints, style);
         }
 
         /// <summary>
@@ -358,5 +370,4 @@ namespace ERY.AgateLib
             bitFont.Save(imageFile, glyphDefsFile);
         }
     }
-   
 }

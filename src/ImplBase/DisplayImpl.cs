@@ -134,6 +134,12 @@ namespace ERY.AgateLib.ImplBase
         public abstract FontSurfaceImpl CreateFont(string fontFamily, 
             float sizeInPoints, FontStyle style);
 
+        /// <summary>
+        /// Creates a BitmapFontImpl object from the specified options.
+        /// </summary>
+        /// <param name="bitmapOptions"></param>
+        /// <returns></returns>
+        public abstract FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions);
 
         /// <summary>
         /// Gets or sets the threshold value for alpha transparency below which
@@ -560,5 +566,6 @@ namespace ERY.AgateLib.ImplBase
         /// </summary>
         /// <param name="lights"></param>
         public abstract void DoLighting(LightManager lights);
+
     }
 }
