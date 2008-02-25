@@ -134,12 +134,11 @@ namespace ERY.AgateLib.WinForms
 
             string tempFile = System.IO.Path.GetTempFileName() + ".png";
             tempFile = tempFile.Replace("\\", "/");
-            bmp.Save(tempFile, Drawing.Imaging.ImageFormat.Png);
 
+            bmp.Save(tempFile, Drawing.Imaging.ImageFormat.Png);
             bmp.Dispose();
 
             Surface surf = new Surface(tempFile);
-
             System.IO.File.Delete(tempFile);
 
             return new BitmapFontImpl(surf, glyphs);
