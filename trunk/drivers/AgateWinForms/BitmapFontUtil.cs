@@ -10,27 +10,25 @@ namespace ERY.AgateLib.WinForms
 {
     public static class BitmapFontUtil
     {
-
         /// <summary>
         /// Creates a bitmap font by loading an OS font, and drawing it to 
         /// a bitmap to use as a Surface object.  You should only use this method
         /// if writing a driver.
         /// </summary>
-        /// <seealso cref="FontSurface.BitmapFont(string, float, FontStyle)"/>
         /// <param name="fontFamily"></param>
         /// <param name="sizeInPoints"></param>
         /// <param name="style"></param>
         /// <returns></returns>
-        public static FontSurfaceImpl FromOSFont(string fontFamily, float sizeInPoints, FontStyle style)
+        public static FontSurfaceImpl FromOSFont(BitmapFontOptions options)
         {
             System.Drawing.FontStyle drawingStyle = System.Drawing.FontStyle.Regular;
 
-            if ((style & FontStyle.Bold) > 0) drawingStyle |= System.Drawing.FontStyle.Bold;
-            if ((style & FontStyle.Italic) > 0) drawingStyle |= System.Drawing.FontStyle.Italic;
-            if ((style & FontStyle.Strikeout) > 0) drawingStyle |= System.Drawing.FontStyle.Strikeout;
-            if ((style & FontStyle.Underline) > 0) drawingStyle |= System.Drawing.FontStyle.Underline;
+            if ((options.FontStyle & FontStyle.Bold) > 0) drawingStyle |= System.Drawing.FontStyle.Bold;
+            if ((options.FontStyle & FontStyle.Italic) > 0) drawingStyle |= System.Drawing.FontStyle.Italic;
+            if ((options.FontStyle & FontStyle.Strikeout) > 0) drawingStyle |= System.Drawing.FontStyle.Strikeout;
+            if ((options.FontStyle & FontStyle.Underline) > 0) drawingStyle |= System.Drawing.FontStyle.Underline;
 
-            Drawing.Font font = new Drawing.Font(fontFamily, sizeInPoints, drawingStyle);
+            Drawing.Font font = new Drawing.Font(options.FontFamily, options.SizeInPoints, drawingStyle);
 
             Drawing.Bitmap bmp = new System.Drawing.Bitmap(512, 512);
             Drawing.Graphics g = Drawing.Graphics.FromImage(bmp);

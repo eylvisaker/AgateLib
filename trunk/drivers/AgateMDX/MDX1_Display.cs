@@ -221,8 +221,13 @@ namespace ERY.AgateLib.MDX
 
         public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyle style)
         {
-            //return new MDX1_FontSurface(fontFamily, sizeInPoints);
-            return BitmapFontImpl.FromOSFont(fontFamily, sizeInPoints, style);
+            BitmapFontOptions options = new BitmapFontOptions(fontFamily, sizeInPoints, style);
+
+            return WinForms.BitmapFontUtil.FromOSFont(options);
+        }
+        public override FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
+        {
+            return WinForms.BitmapFontUtil.FromOSFont(bitmapOptions);
         }
 
         #endregion

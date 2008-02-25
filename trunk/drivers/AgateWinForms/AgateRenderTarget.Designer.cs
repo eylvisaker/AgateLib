@@ -1,6 +1,6 @@
 namespace ERY.AgateLib.WinForms
 {
-    partial class AgateRenderTarget
+    public partial class AgateRenderTarget
     {
         /// <summary> 
         /// Required designer variable.

@@ -93,6 +93,17 @@ namespace FontCreator
             sample.Draw();
         }
 
+        private void btnColor_Click(object sender, EventArgs e)
+        {
+            colorDialog1.Color = btnColor.BackColor;
+
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                btnColor.BackColor = colorDialog1.Color;
+
+            }
+        }
+
 
     }
 }
