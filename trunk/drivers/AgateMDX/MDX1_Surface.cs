@@ -628,7 +628,7 @@ namespace ERY.AgateLib.MDX
             for (int i = 0; i < 4; i++)
             {
                 verts[startIndex + i] = new PositionColorNormalTexture(
-                   corners[i].X, corners[i].Y, 0.5F, Color.ToArgb(),
+                   corners[i].X, corners[i].Y, 0.0F, Color.ToArgb(),
                    uv[i].X / (float)mTextureSize.Width, uv[i].Y / (float)mTextureSize.Height,
                    0, 0, -1);
             }

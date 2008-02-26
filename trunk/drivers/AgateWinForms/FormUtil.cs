@@ -36,6 +36,7 @@ namespace ERY.AgateLib.WinForms
             frm.Text = title;
             frm.ClientSize = new System.Drawing.Size(clientWidth, clientHeight);
             frm.KeyPreview = true;
+            frm.Icon = Icons.AgateLib;
 
             if (hasFrame == false)
                 frm.FormBorderStyle = FormBorderStyle.None;
@@ -68,6 +69,13 @@ namespace ERY.AgateLib.WinForms
             }
         }
 
+        /// <summary>
+        /// Gets the official icon for AgateLib.
+        /// </summary>
+        public static Icon AgateLibIcon
+        {
+            get { return Icons.AgateLib; }
+        }
 
         /// <summary>
         /// Converts a System.Windows.Forms.Keys value to a KeyCode value.
