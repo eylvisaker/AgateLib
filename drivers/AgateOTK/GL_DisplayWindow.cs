@@ -147,7 +147,8 @@ namespace ERY.AgateLib.OpenGL
             frm = myform;
             mRenderTarget = myRenderTarget;
 
-            frm.Icon = mIcon;
+            if (mIcon != null)
+                frm.Icon = mIcon;
 
             frm.Show();
             AttachEvents();

@@ -276,7 +276,8 @@ namespace ERY.AgateLib.MDX
                 WinForms.FormUtil.InitializeWindowsForm(out frm, out mRenderTarget, mChoosePosition, mTitle, 
                     mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
 
-                frm.Icon = mIcon;
+                if (mIcon != null)
+                    frm.Icon = mIcon;
 
                 frm.Show();
             }
