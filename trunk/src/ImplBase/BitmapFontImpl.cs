@@ -461,7 +461,7 @@ namespace ERY.AgateLib.ImplBase
         private string mFamily;
         private float mSize;
         private FontStyle mStyle;
-        private bool mUseTextRenderer = true;
+        private bool mUseTextRenderer;
         private bool mCreateBorder;
         private Color mBorderColor = Color.Black;
         private BitmapFontEdgeOptions mEdgeOptions;
@@ -586,8 +586,9 @@ namespace ERY.AgateLib.ImplBase
         }
         /// <summary>
         /// Indicates whether to use System.Windows.Forms.TextRenderer instead of
-        /// System.Drawing.Graphics.  TextRenderer on Windows will produce 
-        /// nicer-looking characters than Graphics.
+        /// System.Drawing.Graphics.  TextRenderer on Windows will likely produce 
+        /// nicer-looking characters than Graphics, but it is much slower rendering
+        /// the characters.
         /// </summary>
         public bool UseTextRenderer
         {
