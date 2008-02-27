@@ -39,6 +39,8 @@ namespace FontCreator
             this.chkStrikeout = new System.Windows.Forms.CheckBox();
             this.txtSampleText = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.renderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
+            this.zoomRenderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkBorder = new System.Windows.Forms.CheckBox();
             this.btnBorderColor = new System.Windows.Forms.Button();
@@ -50,8 +52,6 @@ namespace FontCreator
             this.cboBg = new System.Windows.Forms.ComboBox();
             this.btnDisplayColor = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.renderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
-            this.zoomRenderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
             ((System.ComponentModel.ISupportInitialize)(this.nudSize)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -195,9 +195,29 @@ namespace FontCreator
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.zoomRenderTarget);
-            this.splitContainer1.Size = new System.Drawing.Size(641, 350);
-            this.splitContainer1.SplitterDistance = 239;
+            this.splitContainer1.Size = new System.Drawing.Size(635, 347);
+            this.splitContainer1.SplitterDistance = 236;
             this.splitContainer1.TabIndex = 11;
+            // 
+            // renderTarget
+            // 
+            this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.renderTarget.Location = new System.Drawing.Point(0, 0);
+            this.renderTarget.Name = "renderTarget";
+            this.renderTarget.Size = new System.Drawing.Size(236, 347);
+            this.renderTarget.TabIndex = 0;
+            this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+            // 
+            // zoomRenderTarget
+            // 
+            this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
+            this.zoomRenderTarget.Name = "zoomRenderTarget";
+            this.zoomRenderTarget.Size = new System.Drawing.Size(395, 347);
+            this.zoomRenderTarget.TabIndex = 1;
+            this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
             // 
             // groupBox1
             // 
@@ -321,31 +341,11 @@ namespace FontCreator
             this.label5.TabIndex = 11;
             this.label5.Text = "Text Color";
             // 
-            // renderTarget
-            // 
-            this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.renderTarget.Location = new System.Drawing.Point(0, 0);
-            this.renderTarget.Name = "renderTarget";
-            this.renderTarget.Size = new System.Drawing.Size(239, 350);
-            this.renderTarget.TabIndex = 0;
-            this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-            // 
-            // zoomRenderTarget
-            // 
-            this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
-            this.zoomRenderTarget.Name = "zoomRenderTarget";
-            this.zoomRenderTarget.Size = new System.Drawing.Size(398, 350);
-            this.zoomRenderTarget.TabIndex = 1;
-            this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-            // 
             // frmFontCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(667, 596);
+            this.ClientSize = new System.Drawing.Size(661, 593);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.splitContainer1);
