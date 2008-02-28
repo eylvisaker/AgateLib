@@ -525,11 +525,12 @@ namespace ERY.AgateLib.MDX
         private void SetVertsPosition(PositionColorNormalTexture[] verts, int index,
             RectangleF dest, float rotationCenterX, float rotationCenterY)
         {
-            float destX = dest.X;// -0.5f;
-            float destY = dest.Y;// -0.5f;
+            float destX = dest.X -0.5f;
+            float destY = dest.Y -0.5f;
             float destWidth = dest.Width;
             float destHeight = dest.Height;
 
+            
             mCenterPoint = Origin.CalcF(DisplayAlignment, dest.Size);
 
             destX += rotationCenterX - mCenterPoint.X;
@@ -872,7 +873,9 @@ namespace ERY.AgateLib.MDX
 
             mRenderToSurface.BeginScene(surfaceTarget, vp);
 
-            DrawWithoutVBNoRotation(new RectangleF(new PointF(0, 0), (SizeF)SurfaceSize), false);
+            Display.Clear();
+
+            Draw();
 
             mTexture.Dispose();
             mTexture = new Ref<Texture>(t);
