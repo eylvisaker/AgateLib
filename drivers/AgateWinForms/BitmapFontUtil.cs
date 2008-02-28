@@ -15,6 +15,7 @@ namespace ERY.AgateLib.WinForms
         {
             Drawing.Font Font { get; set; }
 
+            int Padding { get; }
             Size MeasureText(Drawing.Graphics g, string text);
             void DrawText(Drawing.Graphics g, string text, Point location, Drawing.Color clr);
         }
@@ -31,6 +32,10 @@ namespace ERY.AgateLib.WinForms
             {
                 get { return font; }
                 set { font = value; }
+            }
+            public int Padding
+            {
+                get { return 1; }
             }
             TextFormatFlags flags = TextFormatFlags.NoPadding;
             
@@ -65,6 +70,10 @@ namespace ERY.AgateLib.WinForms
                 set { font = value; }
             }
 
+            public int Padding
+            {
+                get { return (int)Math.Ceiling(padding); }
+            }
             void CalculatePadding(Drawing.Graphics g)
             {
                 // apparently .NET (or GDI+) does this stupid thing on Windows
@@ -90,11 +99,14 @@ namespace ERY.AgateLib.WinForms
                 if (text == " " && padding > 0)
                     size.Width = padding;
 
-                return new Size((int)(size.Width + 0.5), (int)(size.Height + 0.5));
+                return new Size((int)Math.Ceiling(size.Width + 0.5), (int)Math.Ceiling(size.Height + 0.5));
             }
 
             public void DrawText(Drawing.Graphics g, string text, Point location, Drawing.Color clr)
             {
+                // we need to adjust the position by half the padding
+                location.X -= (int)padding / 2;
+
                 using (Drawing.Brush brush = new Drawing.SolidBrush(clr))
                 {
                     g.DrawString(text, font, brush, new Drawing.Point(location.X, location.Y));
@@ -156,7 +168,7 @@ namespace ERY.AgateLib.WinForms
 
             const int bitmapPadding = 2;
 
-            int x = 1, y = 1;
+            int x = rend.Padding, y = 2;
             int height = 0;
 
             // first measure the required height of the image.
@@ -201,8 +213,8 @@ namespace ERY.AgateLib.WinForms
             Drawing.Bitmap borderBmp = new System.Drawing.Bitmap(bmp.Width, bmp.Height);
             Drawing.Graphics borderG = Drawing.Graphics.FromImage(borderBmp);
 
-            x = 1;
-            y = 1;
+            x = rend.Padding;
+            y = 2;
             height = 0;
             Drawing.Color borderColor = System.Drawing.Color.FromArgb(
                 options.BorderColor.A,  options.BorderColor.R, options.BorderColor.G, options.BorderColor.B);
@@ -213,7 +225,7 @@ namespace ERY.AgateLib.WinForms
                 {
                     if (x + glyphs[i].Width > 512)
                     {
-                        x = 1;
+                        x = rend.Padding;
                         y += height;
                         height = 0;
                     }
