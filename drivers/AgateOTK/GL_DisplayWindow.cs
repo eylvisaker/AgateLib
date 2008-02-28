@@ -19,7 +19,6 @@ namespace ERY.AgateLib.OpenGL
 {
     public sealed class GL_DisplayWindow : DisplayWindowImpl, GL_IRenderTarget
     {
-        
         Form frm;
         Control mRenderTarget;
         GLContext mContext;
@@ -60,9 +59,12 @@ namespace ERY.AgateLib.OpenGL
                 mDisplay = Display.Impl as GL_Display;
                 
                 WindowInfo windowInfo = new WindowInfo(mRenderTarget);
-                mContext = new GLContext(new DisplayMode(mRenderTarget.Width, mRenderTarget.Height, new ColorMode(8, 8, 8, 8)),
-                                         windowInfo);
 
+                mContext = new GLContext(
+                    new DisplayMode(mRenderTarget.Width, mRenderTarget.Height, 
+                    new ColorMode(8, 8, 8, 8)),
+                    windowInfo);
+                
                 mDisplay.Initialize(this);
 
                 AttachEvents();
@@ -153,7 +155,9 @@ namespace ERY.AgateLib.OpenGL
             frm.Show();
             AttachEvents();
 
-            mContext = new GLContext(new DisplayMode(mChooseWidth, mChooseHeight, new ColorMode(8,8,8,8)),
+            mContext = new GLContext(
+                new DisplayMode(mChooseWidth, mChooseHeight, 
+                new ColorMode(8,8,8,8)),
                 new WindowInfo(myRenderTarget));
 
             if (oldcontext != null)
