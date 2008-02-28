@@ -139,8 +139,8 @@ namespace ERY.AgateLib.ImplBase
                 XmlNode current = doc.CreateElement("Glyph");
 
                 XmlAttribute ch = doc.CreateAttribute("Char");
-                ch.Value = glyph.ToString();
-
+                ch.Value = ((int)glyph).ToString();
+                
                 XmlAttribute rect = doc.CreateAttribute("Source");
                 rect.Value = mSrcRects[glyph].ToString();
 
