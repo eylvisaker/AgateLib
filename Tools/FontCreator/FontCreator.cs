@@ -20,6 +20,10 @@ namespace FontCreator
 
         BitmapFontOptions mOptions = new BitmapFontOptions();
 
+        public FontSurface Font
+        {
+            get { return font; }
+        }
 
         private void SetStyle(FontStyle fontStyle, bool value)
         {
@@ -34,7 +38,6 @@ namespace FontCreator
 
             CreateFont();
         }
-
         private bool StyleContains(FontStyle fontStyle)
         {
             return (mOptions.FontStyle & fontStyle) == fontStyle;
@@ -45,19 +48,16 @@ namespace FontCreator
             get { return StyleContains(FontStyle.Underline); }
             set { SetStyle(FontStyle.Underline, value); }
         }
-
         public bool Strikeout
         {
             get { return StyleContains(FontStyle.Strikeout); }
             set { SetStyle(FontStyle.Strikeout, value); }
         }
-
         public bool Italic
         {
             get { return StyleContains(FontStyle.Italic); }
             set { SetStyle(FontStyle.Italic, value); }
         }
-
         public bool Bold
         {
             get { return StyleContains(FontStyle.Bold); }
@@ -121,8 +121,10 @@ namespace FontCreator
                 bgLight.Dispose();
             }
 
-            wind = DisplayWindow.FromControl(render);
-            zoomWind = DisplayWindow.FromControl(zoomRender);
+            //wind = DisplayWindow.FromControl(render);
+            //zoomWind = DisplayWindow.FromControl(zoomRender);
+            wind = new DisplayWindow(render);
+            zoomWind = new DisplayWindow(zoomRender);
 
             bgDark = new Surface("bgDark.png");
             bgLight = new Surface("bgLight.png");
@@ -211,7 +213,6 @@ namespace FontCreator
 
         private void DrawBackground()
         {
-
             Surface background = LightBackground ? bgLight : bgDark;
 
             for (int x = 0; x < Display.RenderTarget.Width; x += background.DisplayWidth)

@@ -28,6 +28,7 @@ namespace FontCreator
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFontCreator));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cboFamily = new System.Windows.Forms.ComboBox();
@@ -52,6 +53,8 @@ namespace FontCreator
             this.cboBg = new System.Windows.Forms.ComboBox();
             this.btnDisplayColor = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.btnViewFont = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nudSize)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -341,14 +344,38 @@ namespace FontCreator
             this.label5.TabIndex = 11;
             this.label5.Text = "Text Color";
             // 
+            // btnViewFont
+            // 
+            this.btnViewFont.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnViewFont.Location = new System.Drawing.Point(491, 193);
+            this.btnViewFont.Name = "btnViewFont";
+            this.btnViewFont.Size = new System.Drawing.Size(75, 35);
+            this.btnViewFont.TabIndex = 14;
+            this.btnViewFont.Text = "View Font Surface";
+            this.btnViewFont.UseVisualStyleBackColor = true;
+            this.btnViewFont.Click += new System.EventHandler(this.btnViewFont_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(572, 194);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 33);
+            this.btnSave.TabIndex = 15;
+            this.btnSave.Text = "Save Font";
+            this.btnSave.UseVisualStyleBackColor = true;
+            // 
             // frmFontCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(661, 593);
+            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnViewFont);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmFontCreator";
             this.Text = "Bitmap Font Creator";
             ((System.ComponentModel.ISupportInitialize)(this.nudSize)).EndInit();
@@ -389,6 +416,8 @@ namespace FontCreator
         private System.Windows.Forms.ComboBox cboBg;
         private System.Windows.Forms.Button btnDisplayColor;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnViewFont;
+        private System.Windows.Forms.Button btnSave;
     }
 }
 

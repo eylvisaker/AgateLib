@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace FontCreator
 {
@@ -161,6 +162,27 @@ namespace FontCreator
                cboEdges.SelectedItem;
 
             sample.CreateFont();
+        }
+
+        private void btnViewFont_Click(object sender, EventArgs e)
+        {
+            string tempImage = Path.GetTempFileName() + ".png";
+            string tempXml = Path.GetTempFileName() + ".xml";
+
+            sample.Font.Save(tempImage, tempXml);
+
+            frmViewFont frm = new frmViewFont();
+
+            frm.ShowDialog(this, tempImage, tempXml);
+            frm.Dispose();
+
+            try
+            {
+                File.Delete(tempXml);
+                File.Delete(tempImage);
+            }
+            catch { }
+
         }
 
 
