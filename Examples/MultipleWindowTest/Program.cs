@@ -15,10 +15,10 @@ namespace MultipleWindowTest
 
 
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
 
-            using (AgateSetup setup = new AgateSetup())
+            using (AgateSetup setup = new AgateSetup(args))
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
@@ -37,8 +37,9 @@ namespace MultipleWindowTest
                 surf = new Surface(200, 150);
 
                 // this is the code that will be called when the button is pressed
-                myForm.button1.Click += new EventHandler(button1_Click);
-                myForm.button2.Click += new EventHandler(button2_Click);
+                myForm.btnDraw.Click += new EventHandler(btnDraw_Click);
+                myForm.btnClearSurface.Click += new EventHandler(btnClear_Click);
+
                 while (myForm.Visible)
                 {
                     // Render targets must be set before the call to BeginFrame,
@@ -80,7 +81,7 @@ namespace MultipleWindowTest
 
         }
 
-        static void button2_Click(object sender, EventArgs e)
+        static void btnClear_Click(object sender, EventArgs e)
         {
             Display.RenderTarget = surf;
 
@@ -89,7 +90,7 @@ namespace MultipleWindowTest
             Display.EndFrame();
         }
 
-        static void button1_Click(object sender, EventArgs e)
+        static void btnDraw_Click(object sender, EventArgs e)
         {
             Display.RenderTarget = surf;
 

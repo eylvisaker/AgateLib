@@ -38,9 +38,9 @@ namespace MultipleWindowTest
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnDraw = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnClearSurface = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -100,32 +100,32 @@ namespace MultipleWindowTest
             this.pictureBox3.TabStop = false;
             this.pictureBox3.Tag = "Red Window";
             // 
-            // button1
+            // btnDraw
             // 
-            this.button1.Location = new System.Drawing.Point(299, 191);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 39);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Draw On Surface";
-            this.toolTip1.SetToolTip(this.button1, "Tests using a surface as a render target\r\nby drawing directly to the surface.");
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnDraw.Location = new System.Drawing.Point(299, 191);
+            this.btnDraw.Name = "btnDraw";
+            this.btnDraw.Size = new System.Drawing.Size(75, 39);
+            this.btnDraw.TabIndex = 6;
+            this.btnDraw.Text = "Draw On Surface";
+            this.toolTip1.SetToolTip(this.btnDraw, "Tests using a surface as a render target\r\nby drawing directly to the surface.");
+            this.btnDraw.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnClearSurface
             // 
-            this.button2.Location = new System.Drawing.Point(218, 191);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 39);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "Clear Surface";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnClearSurface.Location = new System.Drawing.Point(218, 191);
+            this.btnClearSurface.Name = "btnClearSurface";
+            this.btnClearSurface.Size = new System.Drawing.Size(75, 39);
+            this.btnClearSurface.TabIndex = 8;
+            this.btnClearSurface.Text = "Clear Surface";
+            this.btnClearSurface.UseVisualStyleBackColor = true;
             // 
             // MultipleRenderTargetExample
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 431);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnClearSurface);
+            this.Controls.Add(this.btnDraw);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.label2);
@@ -152,8 +152,8 @@ namespace MultipleWindowTest
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.ToolTip toolTip1;
-        public System.Windows.Forms.Button button1;
-        public System.Windows.Forms.Button button2;
+        public System.Windows.Forms.Button btnDraw;
+        public System.Windows.Forms.Button btnClearSurface;
     }
 }
 

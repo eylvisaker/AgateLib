@@ -19,6 +19,8 @@ namespace Pong
 
         FontSurface font;
         int[] score = new int[2];
+        string[] names = new string[] { "Player", "CPU" };
+
         Vector2 ball, ballvelocity;
         Vector2[] paddle = new Vector2[2];
         
@@ -52,7 +54,7 @@ namespace Pong
                 paddle[0] = new Vector2(50, displayHeight / 2);
                 paddle[1] = new Vector2(playAreaWidth - 50 - paddleWidth, displayHeight / 2);
                 ball = new Vector2(playAreaWidth / 2, displayHeight / 2);
-                ballvelocity = new Vector2(-50, 50);
+                ballvelocity = new Vector2(-70, 70);
 
                 while (wind.IsClosed == false)
                 {
@@ -81,7 +83,7 @@ namespace Pong
 
         private void DrawScore()
         {
-            int x = playAreaWidth + borderSize * 2;
+            int x = playAreaWidth + borderSize * 3 / 2;
             int y = borderSize * 2;
 
             font.DrawText(x, y, "Score");
@@ -89,6 +91,9 @@ namespace Pong
             for (int i = 0; i < 2; i++)
             {
                 y += font.StringDisplayHeight("M") * 2;
+                font.DrawText(x, y, names[i]);
+
+                y += font.StringDisplayHeight("M");
                 font.DrawText(x, y, score[i].ToString());
             }
         }
@@ -122,7 +127,7 @@ namespace Pong
             // check for paddles
             bool increaseSpeed = false;
 
-            if (ball.X < paddle[0].X + paddleWidth)
+            if (ball.X < paddle[0].X + paddleWidth && ballvelocity.X < 0)
             {
                 if (ball.Y + ballSize - 1 >= paddle[0].Y &&
                     ball.Y <= paddle[0].Y + paddleHeight)
@@ -131,7 +136,7 @@ namespace Pong
                     increaseSpeed = true;
                 }
             }
-            if (ball.X + ballSize >= paddle[1].X)
+            if (ball.X + ballSize >= paddle[1].X && ballvelocity.X > 0)
             {
                 if (ball.Y + ballSize - 1 >= paddle[1].Y &&
                     ball.Y <= paddle[1].Y + paddleHeight)
