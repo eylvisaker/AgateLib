@@ -7,7 +7,6 @@ using ERY.AgateLib;
 using ERY.AgateLib.Geometry;
 
 using OpenTK.OpenGL;
-using Gl = OpenTK.OpenGL.GL;
 
 namespace ERY.AgateLib.OpenGL
 {
@@ -32,7 +31,7 @@ namespace ERY.AgateLib.OpenGL
 
         public void SetGLColor(Color color)
         {
-            Gl.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
+            GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
         }
 
 
