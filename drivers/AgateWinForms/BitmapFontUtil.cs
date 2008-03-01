@@ -104,6 +104,8 @@ namespace ERY.AgateLib.WinForms
 
             public void DrawText(Drawing.Graphics g, string text, Point location, Drawing.Color clr)
             {
+                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+
                 // we need to adjust the position by half the padding
                 location.X -= (int)padding / 2;
 
@@ -218,7 +220,7 @@ namespace ERY.AgateLib.WinForms
             height = 0;
             Drawing.Color borderColor = System.Drawing.Color.FromArgb(
                 options.BorderColor.A,  options.BorderColor.R, options.BorderColor.G, options.BorderColor.B);
-
+            
             foreach (BitmapFontOptions.CharacterRange range in options.CharacterRanges)
             {
                 for (char i = range.StartChar; i <= range.EndChar; i++)
