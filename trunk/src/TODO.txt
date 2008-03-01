@@ -8,7 +8,7 @@ High Priority (0.3.0 definitely)
 		* Seal consumer classes.
 		* Profile Agate
 		* Extract stuff to interfaces
-		* Rename Origin.cs
+		D Rename Origin.cs
 		* Fix ReportError to use StringBuilder instead of StringWriter, and Environment.NewLine.
 		* Add ability for ReportError to suppress errors below a certain level.
 	Drivers
@@ -21,7 +21,6 @@ High Priority (0.3.0 definitely)
 		* Finish Sprite2 class and find a good name for it.
 		* Figure out what to do with the Sprite class (keep it for sure)
 		* Test Sprite2 class
-		* Test gradients with sprites, and calculate correct corner colors.
 	Fonts
 		* Finish FontSurface serialization
 		* Investigate nVidia bug with Bitmap Fonts and fix it
@@ -52,11 +51,15 @@ Medium Priority (0.3.0 maybe, or by 0.3.1 for sure)
 		* Add more error reporting
 		* Full screen window creation with a specified icon.
 		* Interface to allow audio to be generated at runtime.
+		* Convert AgateOTK to use vertex buffers instead of vertex arrays.
+		* Save surfaces in AgateMDX so that they can be recreated if the device is lost.
 	Gui
 		* Redesign GUI to use containers for automatic positioning
 		* Document GUI classes
 	Fonts
 		* Fix italic fonts
+	Sprites
+		* Test gradients with sprites, and calculate correct corner colors.
 
 
 Low Priority
