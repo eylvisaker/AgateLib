@@ -186,6 +186,9 @@ namespace ERY.AgateLib.MDX
             mDevice.SamplerState[0].AddressU = TextureAddress.Clamp;
             mDevice.SamplerState[0].AddressV = TextureAddress.Clamp;
 
+            mDevice.SamplerState[0].MinFilter = TextureFilter.Linear;
+            mDevice.SamplerState[0].MagFilter = TextureFilter.Linear;
+
             SetView2D();
         }
 
