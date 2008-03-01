@@ -40,6 +40,8 @@ namespace FontCreator
             this.chkStrikeout = new System.Windows.Forms.CheckBox();
             this.txtSampleText = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.renderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
+            this.zoomRenderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkBorder = new System.Windows.Forms.CheckBox();
             this.btnBorderColor = new System.Windows.Forms.Button();
@@ -53,8 +55,6 @@ namespace FontCreator
             this.label5 = new System.Windows.Forms.Label();
             this.btnViewFont = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.renderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
-            this.zoomRenderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
             ((System.ComponentModel.ISupportInitialize)(this.nudSize)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -203,6 +203,26 @@ namespace FontCreator
             this.splitContainer1.SplitterWidth = 8;
             this.splitContainer1.TabIndex = 11;
             // 
+            // renderTarget
+            // 
+            this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.renderTarget.Location = new System.Drawing.Point(0, 0);
+            this.renderTarget.Name = "renderTarget";
+            this.renderTarget.Size = new System.Drawing.Size(236, 347);
+            this.renderTarget.TabIndex = 0;
+            this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+            // 
+            // zoomRenderTarget
+            // 
+            this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
+            this.zoomRenderTarget.Name = "zoomRenderTarget";
+            this.zoomRenderTarget.Size = new System.Drawing.Size(391, 347);
+            this.zoomRenderTarget.TabIndex = 1;
+            this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.chkBorder);
@@ -271,6 +291,8 @@ namespace FontCreator
             // chkTextRenderer
             // 
             this.chkTextRenderer.AutoSize = true;
+            this.chkTextRenderer.Checked = true;
+            this.chkTextRenderer.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkTextRenderer.Location = new System.Drawing.Point(9, 126);
             this.chkTextRenderer.Name = "chkTextRenderer";
             this.chkTextRenderer.Size = new System.Drawing.Size(207, 17);
@@ -345,26 +367,6 @@ namespace FontCreator
             this.btnSave.TabIndex = 15;
             this.btnSave.Text = "Save Font";
             this.btnSave.UseVisualStyleBackColor = true;
-            // 
-            // renderTarget
-            // 
-            this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.renderTarget.Location = new System.Drawing.Point(0, 0);
-            this.renderTarget.Name = "renderTarget";
-            this.renderTarget.Size = new System.Drawing.Size(236, 347);
-            this.renderTarget.TabIndex = 0;
-            this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-            // 
-            // zoomRenderTarget
-            // 
-            this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
-            this.zoomRenderTarget.Name = "zoomRenderTarget";
-            this.zoomRenderTarget.Size = new System.Drawing.Size(391, 347);
-            this.zoomRenderTarget.TabIndex = 1;
-            this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
             // 
             // frmFontCreator
             // 

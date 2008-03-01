@@ -181,6 +181,8 @@ namespace FontCreator
             b.AppendLine("!@#$%^&*(),<.>/?;:'\"-_=+\\|");
 
             mText = b.ToString();
+
+            mOptions.UseTextRenderer = true;
         }
 
         public void Draw()
