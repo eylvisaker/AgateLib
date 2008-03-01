@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{206D1DD1-92DA-4B0F-8FB8-26525F763DF2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OrthoProjectionTest</RootNamespace>
+    <AssemblyName>OrthoProjectionTest</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>.\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="Ortho.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\drivers\AgateDrawing\AgateDrawing.csproj">
+      <Project>{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}</Project>
+      <Name>AgateDrawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\drivers\AgateMDX\AgateMDX.csproj">
+      <Project>{852EB9A0-5DCB-492F-9630-9D4198B81FA2}</Project>
+      <Name>AgateMDX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\drivers\AgateOTK\AgateOTK.csproj">
+      <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
+      <Name>AgateOTK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\AgateLib.csproj">
+      <Project>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</Project>
+      <Name>AgateLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
