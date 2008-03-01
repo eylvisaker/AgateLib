@@ -21,6 +21,7 @@ namespace FontCreator
 
             using (ERY.AgateLib.AgateSetup setup = new ERY.AgateLib.AgateSetup(args))
             {
+                setup.AskUser = true;
                 setup.Initialize(true, false, false);
                 if (setup.Cancel)
                     return;
@@ -41,7 +42,7 @@ namespace FontCreator
 
             foreach (FontFamily fam in FontFamily.Families)
             {
-                if (fam.Name.Contains("Times"))
+                if (fam.Name == "Arial" || fam.Name.Contains("Sans Serif") && index == 0)
                     index = cboFamily.Items.Count;
 
                 cboFamily.Items.Add(fam.Name);
