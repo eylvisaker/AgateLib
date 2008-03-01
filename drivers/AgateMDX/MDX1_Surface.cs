@@ -602,10 +602,10 @@ namespace ERY.AgateLib.MDX
             // find center
             PointF centerpt = Origin.CalcF(DisplayAlignment, DisplaySize);
 
-            float left = destRect.Left;
-            float top = destRect.Top;
-            float right = destRect.Right;// +(float)Math.Floor(destRect.Width / (float)srcRect.Width);
-            float bottom = destRect.Bottom;// +(float)Math.Floor(destRect.Height / (float)srcRect.Height);
+            float left = destRect.Left - 0.5f;
+            float top = destRect.Top - 0.5f;
+            float right = destRect.Right - 0.5f;// +(float)Math.Floor(destRect.Width / (float)srcRect.Width);
+            float bottom = destRect.Bottom - 0.5f;// +(float)Math.Floor(destRect.Height / (float)srcRect.Height);
 
             PointF[] corners = new PointF[4] 
             {   
