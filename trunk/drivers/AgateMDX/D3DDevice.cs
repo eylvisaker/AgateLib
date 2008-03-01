@@ -186,6 +186,9 @@ namespace ERY.AgateLib.MDX
             mDevice.SamplerState[0].AddressU = TextureAddress.Clamp;
             mDevice.SamplerState[0].AddressV = TextureAddress.Clamp;
 
+            mDevice.SamplerState[0].MagFilter = TextureFilter.Linear;
+            mDevice.SamplerState[0].MinFilter = TextureFilter.Linear;
+
             SetView2D();
         }
 
@@ -207,7 +210,8 @@ namespace ERY.AgateLib.MDX
             mDevice.RenderState.CullMode = Cull.None;
             mDevice.RenderState.Lighting = false;
 
-            //mDevice.SetTransform(TransformType.Projection, orthoProj);
+            
+
             mDevice.SetTransform(TransformType.World, world);
             mDevice.SetTransform(TransformType.View, Matrix.Identity);
 
