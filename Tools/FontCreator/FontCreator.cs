@@ -121,10 +121,10 @@ namespace FontCreator
                 bgLight.Dispose();
             }
 
-            //wind = DisplayWindow.FromControl(render);
-            //zoomWind = DisplayWindow.FromControl(zoomRender);
-            wind = new DisplayWindow(render);
-            zoomWind = new DisplayWindow(zoomRender);
+            zoomWind = DisplayWindow.FromControl(zoomRender);
+            wind = DisplayWindow.FromControl(render);
+            //wind = new DisplayWindow(render);
+            //zoomWind = new DisplayWindow(zoomRender);
 
             bgDark = new Surface("bgDark.png");
             bgLight = new Surface("bgLight.png");
@@ -185,6 +185,18 @@ namespace FontCreator
 
         public void Draw()
         {
+            Display.RenderTarget = zoomWind;
+            Display.BeginFrame();
+            Display.Clear();
+
+            font.SetScale(8.0, 8.0);
+
+            DrawBackground();
+            DrawText();
+
+            Display.EndFrame();
+
+
             Display.RenderTarget = wind;
             Display.BeginFrame();
             Display.Clear();
@@ -196,17 +208,6 @@ namespace FontCreator
 
             Display.EndFrame();
 
-
-            Display.RenderTarget = zoomWind;
-            Display.BeginFrame();
-            Display.Clear();
-
-            font.SetScale(8.0, 8.0);
-
-            DrawBackground();
-            DrawText();
-
-            Display.EndFrame();
 
             Core.KeepAlive();
         }
