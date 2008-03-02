@@ -391,8 +391,20 @@ namespace ERY.AgateLib
         /// </summary>
         public static bool VSync
         {
-            get { return impl.VSync; }
-            set { impl.VSync = value; }
+            get
+            {
+                if (impl == null)
+                    throw new NullReferenceException("Display has not been initialized.");
+
+                return impl.VSync;
+            }
+            set
+            {
+                if (impl == null)
+                    throw new NullReferenceException("Display has not been initialized.");
+
+                impl.VSync = value;
+            }
         }
 
         /// <summary>
