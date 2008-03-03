@@ -480,7 +480,7 @@ namespace ERY.AgateLib
 
             string cacheInfoPath = CacheInfoPath(filename);
 
-            System.Xml.XmlDataDocument doc = new System.Xml.XmlDataDocument();
+            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
             System.Xml.XmlNode rootNode = doc.CreateElement("SpriteCache");
             doc.AppendChild(rootNode);
 
@@ -507,7 +507,7 @@ namespace ERY.AgateLib
         {
             string cacheInfoPath = CacheInfoPath(filename);
 
-            System.Xml.XmlDataDocument doc = new System.Xml.XmlDataDocument();
+            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
             doc.Load(cacheInfoPath);
 
             System.Xml.XmlNode rootNode = doc.ChildNodes[0];
