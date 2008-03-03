@@ -31,7 +31,7 @@ namespace ERY.AgateLib.Resources
     /// </summary>
     public class ResourceManager
     {
-        XmlDataDocument mDoc;
+        XmlDocument mDoc;
         XmlNode mRootNode;
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace ERY.AgateLib.Resources
         /// <param name="xmlFile"></param>
         public ResourceManager(string xmlFile)
         {
-            mDoc = new XmlDataDocument();
+            mDoc = new XmlDocument();
             mDoc.Load(xmlFile);
 
             OnLoad();
@@ -51,7 +51,7 @@ namespace ERY.AgateLib.Resources
         /// <param name="stream"></param>
         public ResourceManager(System.IO.Stream stream)
         {
-            mDoc = new XmlDataDocument();
+            mDoc = new XmlDocument();
             mDoc.Load(stream);
 
             OnLoad();
