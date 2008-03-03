@@ -11,6 +11,7 @@ High Priority (0.3.0 definitely)
 		D Rename Origin.cs
 		* Fix ReportError to use StringBuilder instead of StringWriter, and Environment.NewLine.
 		* Add ability for ReportError to suppress errors below a certain level.
+		* Make sure all disposable classes correctly follow finalize/dispose pattern.
 	Drivers
 		D Update AgateOTK to newer version of OpenTK
 		* Update AgateOTK to use Framebuffer extension for fast render-to-surface
@@ -23,7 +24,7 @@ High Priority (0.3.0 definitely)
 		* Test Sprite2 class
 	Fonts
 		* Finish FontSurface serialization
-		* Investigate nVidia bug with Bitmap Fonts and fix it
+		D Investigate nVidia bug with Bitmap Fonts and fix it
 	Surfaces
 		* Make sure that Images ??
 	Audio
@@ -39,7 +40,7 @@ High Priority (0.3.0 definitely)
 	Tests
 		* Categorize tests into solutions based on what subsystem they are testing
 
-Medium Priority (0.3.0 maybe, or by 0.3.1 for sure)
+Medium Priority (0.3.0 maybe, or by 0.3.5 for sure)
 ---------------------------------------------------
 	General
 		* Find or get platform specific ways to hide the mouse cursor
@@ -53,6 +54,7 @@ Medium Priority (0.3.0 maybe, or by 0.3.1 for sure)
 		* Interface to allow audio to be generated at runtime.
 		* Convert AgateOTK to use vertex buffers instead of vertex arrays.
 		* Save surfaces in AgateMDX so that they can be recreated if the device is lost.
+		* XNA driver
 	Gui
 		* Redesign GUI to use containers for automatic positioning
 		* Document GUI classes
@@ -67,6 +69,7 @@ Low Priority
 	General
 		* Improve Icon
 		* OpenAL driver, if it's available in OpenTK
+		* SDL driver
 		* Create a more stylish GUI renderer.
 		* Experimental interfaces for vertex buffers and textures (surfaces?).
 		* Make 15/16 bit screen resolutions work
