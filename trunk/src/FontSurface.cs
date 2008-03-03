@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using ERY.AgateLib.BitmapFont;
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using ERY.AgateLib.BitmapFont;
 
 namespace FontCreator
 {
@@ -51,13 +52,13 @@ namespace FontCreator
             cboFamily.SelectedIndex = index;
             txtSampleText_TextChanged(null, null);
 
-            foreach (ERY.AgateLib.ImplBase.BitmapFontEdgeOptions opt in
-                Enum.GetValues(typeof(ERY.AgateLib.ImplBase.BitmapFontEdgeOptions)))
+            foreach (BitmapFontEdgeOptions opt in
+                Enum.GetValues(typeof(BitmapFontEdgeOptions)))
             {
                 cboEdges.Items.Add(opt);
             }
 
-            cboEdges.SelectedItem = ERY.AgateLib.ImplBase.BitmapFontEdgeOptions.IntensityAlphaWhite;
+            cboEdges.SelectedItem = BitmapFontEdgeOptions.IntensityAlphaWhite;
 
             cboBg.SelectedIndex = 0;
         }
@@ -159,8 +160,7 @@ namespace FontCreator
 
         private void cboEdges_SelectedIndexChanged(object sender, EventArgs e)
         {
-            sample.Options.EdgeOptions = (ERY.AgateLib.ImplBase.BitmapFontEdgeOptions)
-               cboEdges.SelectedItem;
+            sample.Options.EdgeOptions = (BitmapFontEdgeOptions)cboEdges.SelectedItem;
 
             sample.CreateFont();
         }

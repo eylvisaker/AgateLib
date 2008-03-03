@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using ERY.AgateLib;
 using ERY.AgateLib.Geometry;
-using ERY.AgateLib.ImplBase;
+using ERY.AgateLib.BitmapFont;
 
 namespace ERY.AgateLib.WinForms
 {
@@ -125,7 +125,7 @@ namespace ERY.AgateLib.WinForms
         /// <param name="sizeInPoints"></param>
         /// <param name="style"></param>
         /// <returns></returns>
-        public static FontSurfaceImpl FromOSFont(BitmapFontOptions options)
+        public static BitmapFontImpl FromOSFont(BitmapFontOptions options)
         {
             System.Drawing.FontStyle drawingStyle = System.Drawing.FontStyle.Regular;
 

@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -54,6 +55,9 @@
     <Compile Include="Drivers\DriverInfo.cs" />
     <Compile Include="Drivers\DriverInfoList.cs" />
     <Compile Include="Drivers\DriverTypeIDBase.cs" />
+    <Compile Include="BitmapFont\BitmapFontOptions.cs" />
+    <Compile Include="BitmapFont\FontMetrics.cs" />
+    <Compile Include="BitmapFont\GlyphMetrics.cs" />
     <Compile Include="Geometry\Converter.cs" />
     <Compile Include="Geometry\Gradient.cs" />
     <Compile Include="Geometry\TypeConverters.cs" />
@@ -63,7 +67,7 @@
     <Compile Include="FileManager.cs" />
     <Compile Include="Drivers\DriverImplBase.cs" />
     <Compile Include="ImplBase\AudioImpl.cs" />
-    <Compile Include="ImplBase\BitmapFontImpl.cs" />
+    <Compile Include="BitmapFont\BitmapFontImpl.cs" />
     <Compile Include="ImplBase\DisplayImpl.cs" />
     <Compile Include="ImplBase\DisplayWindowImpl.cs" />
     <Compile Include="ImplBase\FontSurfaceImpl.cs" />
