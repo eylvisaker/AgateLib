@@ -23,6 +23,7 @@ using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
+using ERY.AgateLib.BitmapFont;
 using ERY.AgateLib.Drivers;
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+using ERY.AgateLib.BitmapFont;
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.Utility;
 

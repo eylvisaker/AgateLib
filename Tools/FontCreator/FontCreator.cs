@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ERY.AgateLib;
+using ERY.AgateLib.BitmapFont;
 using ERY.AgateLib.ImplBase;
 using ERY.AgateLib.Geometry;
 

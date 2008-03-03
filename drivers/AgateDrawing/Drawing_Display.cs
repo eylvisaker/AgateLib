@@ -24,6 +24,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
+using ERY.AgateLib.BitmapFont;
 using ERY.AgateLib.Drivers;
 using ERY.AgateLib.ImplBase;
 

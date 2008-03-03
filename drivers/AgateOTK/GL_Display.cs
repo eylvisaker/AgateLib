@@ -6,6 +6,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 
 using ERY.AgateLib;
+using ERY.AgateLib.BitmapFont;
 using ERY.AgateLib.Drivers;
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
