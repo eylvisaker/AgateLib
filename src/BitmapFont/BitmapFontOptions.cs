@@ -92,7 +92,7 @@ namespace ERY.AgateLib.BitmapFont
             mFamily = fontFamily;
             mSize = sizeInPoints;
 
-            mRanges.Add(new CharacterRange(' ', (char)256));
+            mRanges.Add(new CharacterRange(' ', (char)165));
         }
         /// <summary>
         /// Constructs a BitmapFontOptions object.
