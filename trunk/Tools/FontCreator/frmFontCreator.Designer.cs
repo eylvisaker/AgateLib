@@ -40,8 +40,6 @@ namespace FontCreator
             this.chkStrikeout = new System.Windows.Forms.CheckBox();
             this.txtSampleText = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.renderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
-            this.zoomRenderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkBorder = new System.Windows.Forms.CheckBox();
             this.btnBorderColor = new System.Windows.Forms.Button();
@@ -55,12 +53,17 @@ namespace FontCreator
             this.label5 = new System.Windows.Forms.Label();
             this.btnViewFont = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.nudOpacity = new System.Windows.Forms.NumericUpDown();
+            this.renderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
+            this.zoomRenderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
             ((System.ComponentModel.ISupportInitialize)(this.nudSize)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudOpacity)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -203,28 +206,10 @@ namespace FontCreator
             this.splitContainer1.SplitterWidth = 8;
             this.splitContainer1.TabIndex = 11;
             // 
-            // renderTarget
-            // 
-            this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.renderTarget.Location = new System.Drawing.Point(0, 0);
-            this.renderTarget.Name = "renderTarget";
-            this.renderTarget.Size = new System.Drawing.Size(236, 347);
-            this.renderTarget.TabIndex = 0;
-            this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-            // 
-            // zoomRenderTarget
-            // 
-            this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
-            this.zoomRenderTarget.Name = "zoomRenderTarget";
-            this.zoomRenderTarget.Size = new System.Drawing.Size(391, 347);
-            this.zoomRenderTarget.TabIndex = 1;
-            this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-            // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.nudOpacity);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.chkBorder);
             this.groupBox1.Controls.Add(this.btnBorderColor);
             this.groupBox1.Controls.Add(this.cboEdges);
@@ -368,6 +353,53 @@ namespace FontCreator
             this.btnSave.Text = "Save Font";
             this.btnSave.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(147, 173);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(46, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Opacity:";
+            // 
+            // nudOpacity
+            // 
+            this.nudOpacity.Location = new System.Drawing.Point(150, 189);
+            this.nudOpacity.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nudOpacity.Name = "nudOpacity";
+            this.nudOpacity.Size = new System.Drawing.Size(54, 20);
+            this.nudOpacity.TabIndex = 17;
+            this.nudOpacity.Value = new decimal(new int[] {
+            128,
+            0,
+            0,
+            0});
+            this.nudOpacity.ValueChanged += new System.EventHandler(this.nudOpacity_ValueChanged);
+            // 
+            // renderTarget
+            // 
+            this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.renderTarget.Location = new System.Drawing.Point(0, 0);
+            this.renderTarget.Name = "renderTarget";
+            this.renderTarget.Size = new System.Drawing.Size(236, 347);
+            this.renderTarget.TabIndex = 0;
+            this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+            // 
+            // zoomRenderTarget
+            // 
+            this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
+            this.zoomRenderTarget.Name = "zoomRenderTarget";
+            this.zoomRenderTarget.Size = new System.Drawing.Size(391, 347);
+            this.zoomRenderTarget.TabIndex = 1;
+            this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+            // 
             // frmFontCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -389,6 +421,7 @@ namespace FontCreator
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudOpacity)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -421,6 +454,8 @@ namespace FontCreator
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnViewFont;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.NumericUpDown nudOpacity;
+        private System.Windows.Forms.Label label6;
     }
 }
 

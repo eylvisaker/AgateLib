@@ -37,10 +37,7 @@ namespace ERY.AgateLib.BitmapFont
     {
         Surface mSurface;
 
-        /// <summary>
-        /// Stores source rectangles for all characters.
-        /// </summary>
-        Dictionary<char, RectangleF> mSrcRects = new Dictionary<char, RectangleF>();
+        FontMetrics mFontMetrics;
 
         int mCharHeight;
         double mAverageCharWidth;
@@ -53,6 +50,8 @@ namespace ERY.AgateLib.BitmapFont
         /// <param name="characterSize"></param>
         public BitmapFontImpl(string filename, Size characterSize)
         {
+            mFontMetrics = new FontMetrics();
+
             mSurface = new Surface(filename);
             mCharHeight = characterSize.Height;
 
@@ -66,16 +65,15 @@ namespace ERY.AgateLib.BitmapFont
         /// <param name="surface">Surface which contains the image data for the font glyphs.</param>
         /// <param name="srcRects">An object implementing the IDictionary&lt;char, Rectangle&gt;
         /// interface, containing the source rectangles on the surface for each font glyph.</param>
-        public BitmapFontImpl(Surface surface, IDictionary<char, RectangleF> srcRects)
+        public BitmapFontImpl(Surface surface, FontMetrics fontMetrics)
         {
+            mFontMetrics = fontMetrics.Clone();
             float maxHeight = 0;
 
-            foreach (KeyValuePair<char, RectangleF> kvp in srcRects)
+            foreach (KeyValuePair<char, GlyphMetrics> kvp in mFontMetrics)
             {
-                mSrcRects.Add(kvp.Key, kvp.Value);
-
-                if (kvp.Value.Height > maxHeight)
-                    maxHeight = kvp.Value.Height;
+                if (kvp.Value.SourceRect.Height > maxHeight)
+                    maxHeight = kvp.Value.SourceRect.Height;
             }
 
             mCharHeight = (int)Math.Ceiling(maxHeight);
@@ -98,9 +96,9 @@ namespace ERY.AgateLib.BitmapFont
 
             while (y + characterSize.Height <= mSurface.SurfaceHeight)
             {
-                RectangleF src = new RectangleF(x, y, characterSize.Width, characterSize.Height);
+                Rectangle src = new Rectangle(x, y, characterSize.Width, characterSize.Height);
 
-                mSrcRects[val] = src;
+                mFontMetrics[val] = new GlyphMetrics(src);
 
                 val++;
                 x += characterSize.Width;
@@ -125,33 +123,14 @@ namespace ERY.AgateLib.BitmapFont
         {
             XmlDocument doc = new XmlDocument();
 
-            Save(imageFilename, doc, doc);
+            SaveImage(imageFilename);
+            mFontMetrics.Save(doc, doc);
 
             doc.Save(xmlFileName);
         }
-        private void Save(string imageFilename, XmlNode node, XmlDocument doc)
+        void SaveImage(string imageFilename)
         {
             mSurface.SaveTo(imageFilename);
-
-            XmlNode root = doc.CreateElement("Font");
-
-            foreach (char glyph in mSrcRects.Keys)
-            {
-                XmlNode current = doc.CreateElement("Glyph");
-
-                XmlAttribute ch = doc.CreateAttribute("Char");
-                ch.Value = ((int)glyph).ToString();
-                
-                XmlAttribute rect = doc.CreateAttribute("Source");
-                rect.Value = mSrcRects[glyph].ToString();
-
-                current.Attributes.Append(ch);
-                current.Attributes.Append(rect);
-
-                root.AppendChild(current);
-            }
-
-            node.AppendChild(root);
         }
 
         /// <summary>
@@ -172,13 +151,12 @@ namespace ERY.AgateLib.BitmapFont
 
         private void CalcAverageCharWidth()
         {
-            IEnumerable<RectangleF> rects = mSrcRects.Values;
-            float total = 0;
+            double total = 0;
             int count = 0;
 
-            foreach (RectangleF r in rects)
+            foreach (GlyphMetrics glyph in mFontMetrics.Values)
             {
-                total += r.Width;
+                total += glyph.SourceRect.Width;
                 count++;
             }
 
@@ -222,7 +200,7 @@ namespace ERY.AgateLib.BitmapFont
 
                 for (int j = 0; j < line.Length; j++)
                 {
-                    lineWidth += mSrcRects[line[j]].Width;
+                    lineWidth += mFontMetrics[line[j]].Width;
                 }
 
                 if (lineWidth > highestLineWidth)
@@ -271,11 +249,8 @@ namespace ERY.AgateLib.BitmapFont
             return new Size(StringDisplayWidth(text), StringDisplayHeight(text));
         }
 
-        private void GetRects(string text, out RectangleF[] srcRects, out RectangleF[] destRects)
+        private void GetRects(string text, RectangleF[] srcRects, RectangleF[] destRects)
         {
-            srcRects = new RectangleF[text.Length];
-            destRects = new RectangleF[text.Length];
-
             double destX = 0;
             double destY = 0;
             int height = mCharHeight;
@@ -299,12 +274,19 @@ namespace ERY.AgateLib.BitmapFont
                         break;
 
                     default:
-                        srcRects[i] = mSrcRects[text[i]];
+                        GlyphMetrics glyph = mFontMetrics[text[i]];
+
+                        destX = Math.Max(0, destX - glyph.LeftOverhang * ScaleWidth);
+
+                        srcRects[i] = new RectangleF(
+                            glyph.SourceRect.X, glyph.SourceRect.Y,
+                            glyph.SourceRect.Width, glyph.SourceRect.Height);
+
                         destRects[i] = new RectangleF((float)destX, (float)destY,
                             (float)(srcRects[i].Width * ScaleWidth),
                             (float)(srcRects[i].Height * ScaleHeight));
 
-                        destX += mSrcRects[text[i]].Width * ScaleWidth;
+                        destX += destRects[i].Width - glyph.RightOverhang * ScaleWidth;
                         break;
                 }
             }
@@ -318,13 +300,13 @@ namespace ERY.AgateLib.BitmapFont
         /// <param name="text"></param>
         public override void DrawText(int destX, int destY, string text)
         {
-            RectangleF[] srcRects;
-            RectangleF[] destRects;
+            RectangleF[] srcRects = new RectangleF[text.Length];
+            RectangleF[] destRects = new RectangleF[text.Length];
 
             if (string.IsNullOrEmpty(text))
                 return;
 
-            GetRects(text, out srcRects, out destRects);
+            GetRects(text, srcRects, destRects);
 
             if (DisplayAlignment != OriginAlignment.TopLeft)
             {

@@ -117,7 +117,7 @@ namespace ERY.AgateLib.SystemDrawing
         }
         public override FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
         {
-            return WinForms.BitmapFontUtil.FromOSFont(bitmapOptions);
+            return WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
         }
 
         #endregion 

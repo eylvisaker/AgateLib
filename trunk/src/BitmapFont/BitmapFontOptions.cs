@@ -71,7 +71,7 @@ namespace ERY.AgateLib.BitmapFont
         private FontStyle mStyle;
         private bool mUseTextRenderer;
         private bool mCreateBorder;
-        private Color mBorderColor = Color.Black;
+        private Color mBorderColor = Color.FromArgb(128, Color.Black);
         private BitmapFontEdgeOptions mEdgeOptions;
         private List<CharacterRange> mRanges = new List<CharacterRange>();
 
@@ -92,7 +92,7 @@ namespace ERY.AgateLib.BitmapFont
             mFamily = fontFamily;
             mSize = sizeInPoints;
 
-            mRanges.Add(new CharacterRange(' ', (char)165));
+            mRanges.Add(new CharacterRange(' ', '~'));
         }
         /// <summary>
         /// Constructs a BitmapFontOptions object.

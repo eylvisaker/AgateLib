@@ -37,12 +37,13 @@ namespace ERY.AgateLib.WinForms
             {
                 get { return 1; }
             }
-            TextFormatFlags flags = TextFormatFlags.NoPadding;
+            TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix | 
+                TextFormatFlags.GlyphOverhangPadding;
             
             public Size MeasureText(System.Drawing.Graphics g, string text)
             {
                 Drawing.Size size = TextRenderer.MeasureText(g, text,
-                           font, new System.Drawing.Size(512, 512), flags);
+                           font, new System.Drawing.Size(256, 256), flags);
 
                 return new Size(size.Width, size.Height);
             }
@@ -50,7 +51,7 @@ namespace ERY.AgateLib.WinForms
             public void DrawText(System.Drawing.Graphics g, string text, Point location, Drawing.Color clr)
             {
                 TextRenderer.DrawText(g, text, font,
-                        new System.Drawing.Rectangle(location.X, location.Y, 512, 512), 
+                        new System.Drawing.Rectangle(location.X, location.Y, 256, 256), 
                         clr, flags);
             }
 
@@ -125,7 +126,7 @@ namespace ERY.AgateLib.WinForms
         /// <param name="sizeInPoints"></param>
         /// <param name="style"></param>
         /// <returns></returns>
-        public static BitmapFontImpl FromOSFont(BitmapFontOptions options)
+        public static BitmapFontImpl ConstructFromOSFont(BitmapFontOptions options)
         {
             System.Drawing.FontStyle drawingStyle = System.Drawing.FontStyle.Regular;
 
@@ -136,7 +137,7 @@ namespace ERY.AgateLib.WinForms
 
             Drawing.Font font = new Drawing.Font(options.FontFamily, options.SizeInPoints, drawingStyle);
             Drawing.Bitmap bmp;
-            Dictionary<char, RectangleF> glyphs;
+            FontMetrics glyphs;
 
             ICharacterRenderer rend = options.UseTextRenderer ? 
                 (ICharacterRenderer)new TextRend(font) : 
@@ -160,55 +161,66 @@ namespace ERY.AgateLib.WinForms
         }
 
         private static void MakeBitmap(BitmapFontOptions options, ICharacterRenderer rend,
-            out Drawing.Bitmap bmp, out Dictionary<char, RectangleF> glyphs)
+            out Drawing.Bitmap bmp, out FontMetrics glyphs)
         {
-            Drawing.Font font = rend.Font;
-            bmp = new System.Drawing.Bitmap(512, 512);
+            Size bitmapSize = new Size(256, 64);
+            
+            bmp = new System.Drawing.Bitmap(bitmapSize.Width, bitmapSize.Height);
             Drawing.Graphics g = Drawing.Graphics.FromImage(bmp);
+            Drawing.Font font = rend.Font;
 
-            glyphs = new Dictionary<char, RectangleF>();
+            glyphs = new FontMetrics();
 
             const int bitmapPadding = 2;
 
             int x = rend.Padding, y = 2;
             int height = 0;
+            char lastChar = ' ';
 
             // first measure the required height of the image.
             foreach (BitmapFontOptions.CharacterRange range in options.CharacterRanges)
             {
                 for (char i = range.StartChar; i <= range.EndChar; i++)
                 {
-                    Size size = rend.MeasureText(g, i.ToString());
+                    
+                    Size sourceSize = rend.MeasureText(g, i.ToString());
                     if (options.CreateBorder)
                     {
-                        size.Width += 2;
-                        size.Height += 2;
+                        sourceSize.Width += 2;
+                        sourceSize.Height += 2;
                     }
 
-                    int thisWidth = size.Width + bitmapPadding;
+                    int thisWidth = sourceSize.Width + bitmapPadding;
                      
                     x += thisWidth;
 
-                    if (height < size.Height)
-                        height = size.Height;
+                    if (height < sourceSize.Height)
+                        height = sourceSize.Height;
 
-                    if (x > 512)
+                    if (x > bitmapSize.Width)
                     {
                         x = 1 + thisWidth;
-                        y += height + 1;
+                        y += height + bitmapPadding + 1;
                         height = 0;
                     }
 
-                    glyphs[i] = new RectangleF(0, 0, size.Width, size.Height);
+                    glyphs[i] = new GlyphMetrics(new Rectangle(0, 0, sourceSize.Width, sourceSize.Height));
+
+                    lastChar = i;
                 }
             }
 
-            if (y > 512)
+            y += glyphs[lastChar].Height;
+
+            if (y > bitmapSize.Height)
             {
+                while (y > bitmapSize.Height)
+                    bitmapSize.Height *= 2;
+
                 g.Dispose();
                 bmp.Dispose();
 
-                bmp = new System.Drawing.Bitmap(512, 1024);
+                bmp = new System.Drawing.Bitmap(bitmapSize.Width, bitmapSize.Height);
                 g = Drawing.Graphics.FromImage(bmp);
             }
 
@@ -225,10 +237,10 @@ namespace ERY.AgateLib.WinForms
             {
                 for (char i = range.StartChar; i <= range.EndChar; i++)
                 {
-                    if (x + glyphs[i].Width > 512)
+                    if (x + glyphs[i].Width > bitmapSize.Width)
                     {
                         x = rend.Padding;
-                        y += height;
+                        y += height + bitmapPadding + 1;
                         height = 0;
                     }
 
@@ -240,20 +252,25 @@ namespace ERY.AgateLib.WinForms
                         rend.DrawText(borderG, i.ToString(), new Point(x + 1, y + 2), borderColor);
 
                         rend.DrawText(g, i.ToString(), new Point(x+1, y+1), System.Drawing.Color.White);
+
+                        if (font.SizeInPoints >= 14.0)
+                            glyphs[i].LeftOverhang = 1;
+
+                        glyphs[i].RightOverhang = 1;
                     }
                     else
                     {
                         rend.DrawText(g, i.ToString(), new Point(x, y), System.Drawing.Color.White);
                     }
 
-                    glyphs[i] = new RectangleF(
-                        new PointF(x, y),
+                    glyphs[i].SourceRect = new Rectangle(
+                        new Point(x, y),
                         glyphs[i].Size);
 
-                    x += (int)Math.Ceiling(glyphs[i].Width) + bitmapPadding;
+                    x += glyphs[i].Width + bitmapPadding;
 
                     if (height < glyphs[i].Height)
-                        height = (int)Math.Ceiling(glyphs[i].Height);
+                        height = glyphs[i].Height;
 
                 }
             }

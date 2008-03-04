@@ -114,10 +114,21 @@ namespace FontCreator
                 btnBorderColor.BackColor = colorDialog.Color;
 
                 sample.Options.BorderColor = ConvertColor(colorDialog.Color);
+                sample.Options.BorderColor = ERY.AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
+
                 sample.Options.CreateBorder = true;
 
                 chkBorder.Checked = true;
 
+                sample.CreateFont();
+            }
+        }
+        private void nudOpacity_ValueChanged(object sender, EventArgs e)
+        {
+            sample.Options.BorderColor = ERY.AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
+
+            if (chkBorder.Checked)
+            {
                 sample.CreateFont();
             }
         }
