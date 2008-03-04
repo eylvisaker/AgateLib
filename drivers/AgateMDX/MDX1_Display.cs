@@ -224,11 +224,11 @@ namespace ERY.AgateLib.MDX
         {
             BitmapFontOptions options = new BitmapFontOptions(fontFamily, sizeInPoints, style);
 
-            return WinForms.BitmapFontUtil.FromOSFont(options);
+            return WinForms.BitmapFontUtil.ConstructFromOSFont(options);
         }
         public override FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
         {
-            return WinForms.BitmapFontUtil.FromOSFont(bitmapOptions);
+            return WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
         }
 
         #endregion

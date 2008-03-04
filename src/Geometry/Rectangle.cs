@@ -194,7 +194,7 @@ namespace ERY.AgateLib.Geometry
             else
                 return false;
         }
-        
+
         /// <summary>
         /// Returns true if this intersects another rectangle.
         /// </summary>
@@ -216,6 +216,7 @@ namespace ERY.AgateLib.Geometry
         {
             get { return pt.IsEmpty && sz.IsEmpty; }
         }
+
 
 
         #region --- Operator Overloads ---
@@ -252,7 +253,7 @@ namespace ERY.AgateLib.Geometry
         {
             return (Left + Top + Bottom + Right);
         }
-        
+
         /// <summary>
         /// Creates a string representing this rectangle.
         /// </summary>
@@ -268,7 +269,7 @@ namespace ERY.AgateLib.Geometry
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            if (obj is Rectangle )
+            if (obj is Rectangle)
                 return Equals((Rectangle)obj);
             else
                 return base.Equals(obj);
@@ -348,6 +349,54 @@ namespace ERY.AgateLib.Geometry
 
             return retval;
 
+        }
+
+        /// <summary>
+        /// Parses a string for a rectangle.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static Rectangle Parse(string text)
+        {
+            Rectangle retval;
+
+            if (TryParse(text, out retval) == false)
+                throw new FormatException();
+
+            return retval;
+        }
+        /// <summary>
+        /// Parses a string for a rectangle.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool TryParse(string text, out Rectangle value)
+        {
+            int x, y, width, height;
+            value = new Rectangle();
+
+            if (FindValue(text, "X=", out x) == false) return false;
+            if (FindValue(text, "Y=", out y) == false) return false;
+            if (FindValue(text, "Width=", out width) == false) return false;
+            if (FindValue(text, "Height=", out height) == false) return false;
+
+            value = new Rectangle(x, y, width, height);
+            return true;
+        }
+        static bool FindValue(string text, string name, out int value)
+        {
+            int index = text.IndexOf(name);
+            int comma = text.IndexOf(",", index);
+            if (comma == -1)
+                comma = text.IndexOf("}", index);
+
+            int start = index + name.Length;
+
+            if (int.TryParse(text.Substring(start, comma - start), out value) == false)
+                return false;
+            else
+                return true;
         }
 
         /// <summary>

@@ -56,6 +56,25 @@ namespace ERY.AgateLib.WinForms
                 return retval;
             }
         }
+
+        bool AnyDesignMode
+        {
+            get
+            {
+                Control p = this;
+
+                do
+                {
+                    if (p.Site != null && p.Site.DesignMode)
+                        return true;
+
+                    p = p.Parent;
+
+                } while (p != null);
+
+                return false;
+            }
+        }
         /// <summary>
         /// Overrides the base class OnPaint method, to clear the
         /// client area in the Visual Studio designer.
@@ -63,10 +82,8 @@ namespace ERY.AgateLib.WinForms
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (Display.Impl == null)
-            {
+            if (AnyDesignMode)
                 e.Graphics.Clear(BackColor);
-            }
            
             base.OnPaint(e);
 
