@@ -46,6 +46,7 @@ namespace ERY.AgateLib.Geometry
         /// [Experimental - The API is likely to change in the future.]
         /// </remarks>
         /// <param name="size"></param>
+        [Obsolete("Use AgateWinForms methods.")]
         public SizeF(System.Drawing.SizeF size)
         {
             this.width = size.Width;

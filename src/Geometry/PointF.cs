@@ -67,6 +67,7 @@ namespace ERY.AgateLib.Geometry
         /// [Experimental - The API is likely to change in the future.]
         /// </remarks>
         /// <param name="pt"></param>
+        [Obsolete("Use AgateWinForms methods.")]
         public PointF(System.Drawing.PointF pt)
         {
             this.x = pt.X;

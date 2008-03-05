@@ -60,6 +60,7 @@ namespace ERY.AgateLib.Geometry
         /// [Experimental - The API is likely to change in the future.]
         /// </remarks>
         /// <param name="rect"></param>
+        [Obsolete("Use AgateWinForms methods.")]
         public Rectangle(System.Drawing.Rectangle rect)
         {
             this.pt = new Point(rect.Location);
@@ -404,6 +405,7 @@ namespace ERY.AgateLib.Geometry
         /// </summary>
         /// <param name="rect"></param>
         /// <returns></returns>
+        [Obsolete("Use AgateWinForms methods.")]
         public static explicit operator System.Drawing.Rectangle(Rectangle rect)
         {
             return new System.Drawing.Rectangle(

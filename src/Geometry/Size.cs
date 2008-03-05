@@ -56,6 +56,7 @@ namespace ERY.AgateLib.Geometry
         /// [Experimental - The API is likely to change in the future.]
         /// </remarks>
         /// <param name="size"></param>
+        [Obsolete("Use AgateWinForms methods.")]
         public Size(System.Drawing.Size size)
         {
             width = size.Width;
@@ -178,6 +179,7 @@ namespace ERY.AgateLib.Geometry
         /// </summary>
         /// <param name="size"></param>
         /// <returns></returns>
+        [Obsolete("Use AgateWinForms methods.")]
         public static explicit operator System.Drawing.Size(Size size)
         {
             return new System.Drawing.Size(size.width, size.height);
