@@ -27,6 +27,7 @@ High Priority (0.3.0 definitely)
 		D Investigate nVidia bug with Bitmap Fonts and fix it
 	Surfaces
 		* Make sure that Images ??
+		* Move implementation of PixelBuffer.SaveTo to Display class or something.
 	Audio
 		* Make sure that Audio can be loaded from Stream classes.
 	Input
