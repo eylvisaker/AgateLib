@@ -57,7 +57,6 @@
     <Compile Include="BitmapFont\BitmapFontOptions.cs" />
     <Compile Include="BitmapFont\FontMetrics.cs" />
     <Compile Include="BitmapFont\GlyphMetrics.cs" />
-    <Compile Include="Geometry\Converter.cs" />
     <Compile Include="Geometry\Gradient.cs" />
     <Compile Include="Geometry\TypeConverters.cs" />
     <Compile Include="Geometry\Vector2.cs" />
