@@ -60,6 +60,7 @@ namespace ERY.AgateLib.Geometry
         /// [Experimental - The API is likely to change in the future.]
         /// </remarks>
         /// <param name="rect"></param>
+        [Obsolete("Use AgateWinForms methods.")]
         public RectangleF(System.Drawing.RectangleF rect)
         {
             this.pt = new PointF(rect.Location);
@@ -318,6 +319,7 @@ namespace ERY.AgateLib.Geometry
         /// </summary>
         /// <param name="rect"></param>
         /// <returns></returns>
+        [Obsolete("Use AgateWinForms methods.")]
         public static explicit operator System.Drawing.RectangleF(RectangleF rect)
         {
             return new System.Drawing.RectangleF(
