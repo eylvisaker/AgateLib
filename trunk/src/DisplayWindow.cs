@@ -79,7 +79,6 @@ namespace ERY.AgateLib
         /// </remarks>
         /// <param name="renderTarget">Windows.Forms control which should be used as the
         /// render target.</param>
-        [Obsolete("Use the CreateWindowParams overload")]
         public DisplayWindow(object renderTarget)
         {
             impl = Display.Impl.CreateDisplayWindow(CreateWindowParams.FromControl(renderTarget));
