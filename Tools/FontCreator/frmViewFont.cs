@@ -47,7 +47,7 @@ namespace FontCreator
                 char glyph = (char)lstItems.SelectedItem;
                 GlyphMetrics metric = font[glyph];
 
-                e.Graphics.DrawRectangle(Pens.Blue, FormsInterop.ToRectangle(metric.SourceRect));
+                e.Graphics.DrawRectangle(Pens.Blue, FormsInterop.ConvertRectangle(metric.SourceRect));
                 
             }
         }
