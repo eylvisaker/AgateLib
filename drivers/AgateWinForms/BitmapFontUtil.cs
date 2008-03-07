@@ -37,8 +37,7 @@ namespace ERY.AgateLib.WinForms
             {
                 get { return 1; }
             }
-            TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix | 
-                TextFormatFlags.GlyphOverhangPadding;
+            TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
             
             public Size MeasureText(System.Drawing.Graphics g, string text)
             {
@@ -100,7 +99,7 @@ namespace ERY.AgateLib.WinForms
                 if (text == " " && padding > 0)
                     size.Width = padding;
 
-                return new Size((int)Math.Ceiling(size.Width + 0.5), (int)Math.Ceiling(size.Height + 0.5));
+                return new Size((int)(size.Width), (int)(size.Height));
             }
 
             public void DrawText(Drawing.Graphics g, string text, Point location, Drawing.Color clr)
@@ -108,7 +107,7 @@ namespace ERY.AgateLib.WinForms
                 g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
                 // we need to adjust the position by half the padding
-                location.X -= (int)padding / 2;
+                location.X -= (int)Math.Ceiling(padding / 2);
 
                 using (Drawing.Brush brush = new Drawing.SolidBrush(clr))
                 {
