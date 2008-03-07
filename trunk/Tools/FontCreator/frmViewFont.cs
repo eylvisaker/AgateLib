@@ -46,9 +46,12 @@ namespace FontCreator
             {
                 char glyph = (char)lstItems.SelectedItem;
                 GlyphMetrics metric = font[glyph];
+                Color clr = Color.FromArgb(128, Color.Blue);
 
-                e.Graphics.DrawRectangle(Pens.Blue, FormsInterop.ConvertRectangle(metric.SourceRect));
-                
+                using (Pen p = new Pen(clr))
+                {
+                    e.Graphics.DrawRectangle(p, FormsInterop.ConvertRectangle(metric.SourceRect));
+                }
             }
         }
 
