@@ -368,7 +368,9 @@ namespace ERY.AgateLib.OpenGL
 
         public override void EndRender()
         {
-            //mContext.EnableVSync = mDisplay.VSync;
+            if (mContext.VSync != mDisplay.VSync)
+                mContext.VSync = mDisplay.VSync;
+
             mContext.SwapBuffers();
         }
 
