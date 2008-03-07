@@ -46,9 +46,9 @@ namespace FontLineTester
                 //fonts[1].StringTransformer = StringTransformer.ToUpper;
 
 
-                if (fonts[0].Impl is ERY.AgateLib.ImplBase.BitmapFontImpl)
+                if (fonts[0].Impl is ERY.AgateLib.BitmapFont.BitmapFontImpl)
                 {
-                    (fonts[0].Impl as ERY.AgateLib.ImplBase.BitmapFontImpl).Save("fonttest.png", "fonttest.xml");
+                    (fonts[0].Impl as ERY.AgateLib.BitmapFont.BitmapFontImpl).Save("fonttest.png", "fonttest.xml");
                 }
 
                 while (wind.IsClosed == false)
