@@ -116,6 +116,20 @@ namespace ERY.AgateLib.BitmapFont
         /// <summary>
         /// Saves the bitmap font to two files, an image file which contains the
         /// binary image data, and an XML file which contains all the glyph definitions.
+        /// The image filename is the same as the XML filename, with a ".png" file extension.
+        /// </summary>
+        /// <param name="xmlFileName"></param>
+        public void Save(string xmlFileName)
+        {
+            string filename = System.IO.Path.Combine(
+                System.IO.Path.GetDirectoryName(xmlFileName),
+                System.IO.Path.GetFileNameWithoutExtension(xmlFileName) + ".png");
+
+            Save(filename, xmlFileName);
+        }
+        /// <summary>
+        /// Saves the bitmap font to two files, an image file which contains the
+        /// binary image data, and an XML file which contains all the glyph definitions.
         /// </summary>
         /// <param name="imageFilename"></param>
         /// <param name="xmlFileName"></param>

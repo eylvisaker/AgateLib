@@ -359,6 +359,23 @@ namespace ERY.AgateLib
         /// if this is not a bitmap font.
         /// </summary>
         /// <remarks></remarks>
+        /// <param name="glyphDefsFile"></param>
+        public void Save(string glyphDefsFile)
+        {
+            if (CanSave == false)
+                throw new InvalidOperationException();
+
+            BitmapFontImpl bitFont = (BitmapFontImpl)impl;
+
+            bitFont.Save(glyphDefsFile);
+        }
+
+        /// <summary>
+        /// Saves the font information to a file to be reloaded later.  
+        /// This is only supported on Bitmap fonts.  An InvalidOperationException is thrown
+        /// if this is not a bitmap font.
+        /// </summary>
+        /// <remarks></remarks>
         /// <param name="imageFile"></param>
         /// <param name="glyphDefsFile"></param>
         public void Save(string imageFile, string glyphDefsFile)
@@ -369,6 +386,16 @@ namespace ERY.AgateLib
             BitmapFontImpl bitFont = (BitmapFontImpl)impl;
 
             bitFont.Save(imageFile, glyphDefsFile);
+        }
+
+        public static FontSurface LoadBitmapFont(string imageFile, string glyphDefsFile)
+        {
+            FontMetrics metrics = new FontMetrics();
+            metrics.Load(glyphDefsFile);
+
+            BitmapFontImpl bmpFont = new BitmapFontImpl(new Surface(imageFile), metrics);
+
+            return new FontSurface(bmpFont);
         }
     }
 }
