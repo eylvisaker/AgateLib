@@ -69,7 +69,7 @@ namespace ERY.AgateLib.BitmapFont
         private string mFamily;
         private float mSize;
         private FontStyle mStyle;
-        private bool mUseTextRenderer;
+        private bool mUseTextRenderer = true;
         private bool mCreateBorder;
         private Color mBorderColor = Color.FromArgb(128, Color.Black);
         private BitmapFontEdgeOptions mEdgeOptions;
@@ -79,7 +79,7 @@ namespace ERY.AgateLib.BitmapFont
         /// Constructs a BitmapFontOptions object using a 10-point sans serif font.
         /// </summary>
         public BitmapFontOptions()
-            : this("Sans Serif", 10.0f)
+            : this("Sans Serif", 14.0f)
         {
         }
         /// <summary>
