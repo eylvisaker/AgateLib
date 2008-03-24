@@ -1,0 +1,70 @@
+// The contents of this file are public domain.
+// You may use them as you wish.
+//
+using System;
+using System.Collections.Generic;
+using ERY.AgateLib;
+using ERY.AgateLib.Geometry;
+
+namespace RotatingSpriteTester
+{
+    static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            using (AgateSetup setup = new AgateSetup())
+            {
+                setup.AskUser = true;
+                setup.Initialize(true, false, false);
+
+                if (setup.Cancel)
+                    return;
+
+                DisplayWindow wind = new DisplayWindow("Rotating sprite", 500, 500, null, false);
+                Sprite sp = new Sprite("spike.png", 16, 16);
+
+                sp.RotationCenter = OriginAlignment.Center;
+                sp.DisplayAlignment = OriginAlignment.Center;
+
+                sp.RotationAngleDegrees = 90;
+                sp.SetScale(2, 2);
+
+                while (wind.IsClosed == false)
+                {
+                    Display.BeginFrame();
+                    Display.Clear(Color.Black);
+
+
+                    sp.RotationAngleDegrees += 1;
+                    sp.Draw(200, 200);
+
+                    Display.DrawRect(200, 200, 1, 1, Color.YellowGreen);
+
+                    Display.EndFrame();
+                    Core.KeepAlive();
+
+                    if (Keyboard.Keys[KeyCode.F5])
+                    {
+                        if (wind.IsFullScreen)
+                        {
+                            wind.SetWindowed();
+                            wind.Size = new Size(500, 500);
+                        }
+                        else
+                        {
+                            wind.SetFullScreen(800, 600, 32);
+                        }
+
+                        Keyboard.ReleaseKey(KeyCode.F5);
+                    }
+                    if (Keyboard.Keys[KeyCode.Escape])
+                        return;
+                }
+            }
+        }
+    }
+}
