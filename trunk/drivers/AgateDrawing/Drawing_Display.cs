@@ -212,6 +212,10 @@ namespace ERY.AgateLib.SystemDrawing
         
         #endregion 
 
+        protected override void ProcessEvents()
+        {
+            System.Windows.Forms.Application.DoEvents();
+        }
     
         public override PixelFormat DefaultSurfaceFormat
         {

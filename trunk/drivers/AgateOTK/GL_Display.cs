@@ -11,8 +11,7 @@ using ERY.AgateLib.Drivers;
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 
-using OpenTK.OpenGL;
-using OpenTK.OpenGL.Enums;
+using OpenTK.Graphics.OpenGL;
 
 namespace ERY.AgateLib.OpenGL
 {
@@ -24,6 +23,14 @@ namespace ERY.AgateLib.OpenGL
         Rectangle mCurrentClip = Rectangle.Empty;
         private bool mVSync = true;
         private int mMaxLightsUsed = 0;
+
+        internal event EventHandler ProcessEventsEvent;
+
+        protected override void ProcessEvents()
+        {
+            if (ProcessEventsEvent != null)
+                ProcessEventsEvent(this, EventArgs.Empty);
+        }
 
         protected override void OnRenderTargetChange(IRenderTarget oldRenderTarget)
         {
@@ -43,19 +50,16 @@ namespace ERY.AgateLib.OpenGL
             get { return PixelFormat.RGBA8888; }
         }
 
-        //public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, 
-        //    string iconFile, bool startFullscreen, bool allowResize)
-        //{
-        //    return new GL_DisplayWindow(title, clientWidth, clientHeight,
-        //        iconFile, startFullscreen, allowResize);
-        //}
-        //public override DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget)
-        //{
-        //    return new GL_DisplayWindow(renderTarget);
-        //}
         public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
         {
-            return new GL_DisplayWindow(windowParams);
+            if (windowParams.RenderToControl)
+            {
+                return new GL_DisplayControl(windowParams);
+            }
+            else
+            {
+                return new GL_GameWindow(windowParams);
+            }
         }
         public override SurfaceImpl CreateSurface(string fileName)
         {
@@ -85,7 +89,7 @@ namespace ERY.AgateLib.OpenGL
         {
             SetOrthoProjection(ortho);
 
-            GL.Enable(EnableCap.Texture2d);
+            GL.Enable(EnableCap.Texture2D);
 
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
@@ -175,14 +179,14 @@ namespace ERY.AgateLib.OpenGL
 
             mState.SetGLColor(color);
 
-            GL.Disable(EnableCap.Texture2d);
+            GL.Disable(EnableCap.Texture2D);
             GL.Begin(BeginMode.Lines);
 
             GL.Vertex2(x1, y1+0.5);
             GL.Vertex2(x2, y2+0.5);
 
             GL.End();
-            GL.Enable(EnableCap.Texture2d);
+            GL.Enable(EnableCap.Texture2D);
         }
 
         public override void DrawLine(Point a, Point b, Color color)
@@ -201,7 +205,7 @@ namespace ERY.AgateLib.OpenGL
             // rect.Y++ and rect.Right +1 down below.
             rect.Y++;
 
-            GL.Disable(EnableCap.Texture2d);
+            GL.Disable(EnableCap.Texture2D);
             GL.Begin(BeginMode.Lines);
 
             GL.Vertex2(rect.Left, rect.Top);
@@ -217,7 +221,7 @@ namespace ERY.AgateLib.OpenGL
             GL.Vertex2(rect.Left, rect.Top);
 
             GL.End();
-            GL.Enable(EnableCap.Texture2d);
+            GL.Enable(EnableCap.Texture2D);
         }
 
         public override void FillRect(Rectangle rect, Color color)
@@ -226,7 +230,7 @@ namespace ERY.AgateLib.OpenGL
 
             mState.SetGLColor(color);
 
-            GL.Disable(EnableCap.Texture2d);
+            GL.Disable(EnableCap.Texture2D);
 
             GL.Begin(BeginMode.Quads);
             GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
@@ -235,13 +239,13 @@ namespace ERY.AgateLib.OpenGL
             GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
             GL.End();                                                         // Done Drawing The Quad
 
-            GL.Enable(EnableCap.Texture2d);
+            GL.Enable(EnableCap.Texture2D);
         }
         public override void FillRect(Rectangle rect, Gradient color)
         {
             mState.DrawBuffer.Flush();
 
-            GL.Disable(EnableCap.Texture2d);
+            GL.Disable(EnableCap.Texture2D);
 
             GL.Begin(BeginMode.Quads);
             mState.SetGLColor(color.TopLeft);
@@ -257,7 +261,7 @@ namespace ERY.AgateLib.OpenGL
             GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
             GL.End();                                                         // Done Drawing The Quad
 
-            GL.Enable(EnableCap.Texture2d);
+            GL.Enable(EnableCap.Texture2D);
         }
 
         public override bool VSync
@@ -272,7 +276,7 @@ namespace ERY.AgateLib.OpenGL
 
             Report("OpenTK / OpenGL driver instantiated for display.");
         }
-        internal void Initialize(GL_DisplayWindow gL_DisplayWindow)
+        internal void InitializeGL()
         {
             GL.ShadeModel(ShadingModel.Smooth);                         // Enable Smooth Shading
             GL.ClearColor(0, 0, 0, 1.0f);                                     // Black Background
@@ -281,7 +285,6 @@ namespace ERY.AgateLib.OpenGL
             GL.DepthFunc(DepthFunction.Lequal);                         // The Type Of Depth Testing To Do
             GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
                 HintMode.Nicest);
-
         }
  
         public override void Dispose()
@@ -292,7 +295,7 @@ namespace ERY.AgateLib.OpenGL
         {
             Registrar.RegisterDisplayDriver(
                 new DriverInfo<DisplayTypeID>(typeof(GL_Display),
-                DisplayTypeID.OpenGL, "OpenGL with OpenTK 0.9.0", 120));
+                DisplayTypeID.OpenGL, "OpenGL with OpenTK 0.9.1", 1120));
         }
 
         public override void DoLighting(LightManager lights)

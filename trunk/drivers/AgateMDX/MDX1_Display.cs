@@ -652,6 +652,11 @@ namespace ERY.AgateLib.MDX
 
         #endregion
 
+        protected override void ProcessEvents()
+        {
+            System.Windows.Forms.Application.DoEvents();
+        }
+
         internal event EventHandler VSyncChanged;
         private void OnVSyncChanged()
         {
