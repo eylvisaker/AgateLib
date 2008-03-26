@@ -11,7 +11,8 @@ High Priority (0.3.0 definitely)
 		D Rename Origin.cs
 		* Fix ReportError to use StringBuilder instead of StringWriter, and Environment.NewLine.
 		* Add ability for ReportError to suppress errors below a certain level.
-		* Make sure all disposable classes correctly follow finalize/dispose pattern.
+		D Make sure all disposable classes correctly follow finalize/dispose pattern.
+		* Categorize AgateLib source code by subsystem
 	Drivers
 		D Update AgateOTK to newer version of OpenTK
 		* Update AgateOTK to use Framebuffer extension for fast render-to-surface
@@ -39,12 +40,12 @@ High Priority (0.3.0 definitely)
 	Geometry
 		* Flesh out Vector2 and 3 classes, and include conversion from Point to Vector2.
 	Tests
-		* Categorize tests into solutions based on what subsystem they are testing
+		D Categorize tests into solutions based on what subsystem they are testing
 
 Medium Priority (0.3.0 maybe, or by 0.3.5 for sure)
 ---------------------------------------------------
 	General
-		* Find or get platform specific ways to hide the mouse cursor
+		* Find or get platform specific ways to hide the mouse cursor (Needed for X11?)
 		* Research Zip libraries for SearchPath class.
 		* Speed up the GUI classes by prerendering controls to a surface.
 		* Provide overrides for Surface, Sprite and Display to use Vector2.
@@ -55,7 +56,8 @@ Medium Priority (0.3.0 maybe, or by 0.3.5 for sure)
 		* Interface to allow audio to be generated at runtime.
 		* Convert AgateOTK to use vertex buffers instead of vertex arrays.
 		* Save surfaces in AgateMDX so that they can be recreated if the device is lost.
-		* XNA driver
+		* XNA driver for Xbox 360 support
+		* SDL driver for GP2x support, plus audio and joystick support on other platforms
 	Gui
 		* Redesign GUI to use containers for automatic positioning
 		* Document GUI classes
@@ -73,6 +75,7 @@ Low Priority
 		* SDL driver
 		* Create a more stylish GUI renderer.
 		* Experimental interfaces for vertex buffers and textures (surfaces?).
+		* Shader support.
 		* Make 15/16 bit screen resolutions work
 		* Test 15/16 bit Pixel Buffers
 		* Flesh out documentation on method parameters throught the library.
@@ -81,3 +84,4 @@ Low Priority
 		
 		* Remove reference to System.Windows.Forms from AgateLib.dll
 		* Remove reference to System.Drawing from AgateLib.dll
+
