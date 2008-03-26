@@ -64,7 +64,7 @@ namespace ERY.AgateLib.Utility
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(156, 88);
+            this.btnOK.Location = new System.Drawing.Point(179, 101);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(54, 23);
             this.btnOK.TabIndex = 3;
@@ -76,7 +76,7 @@ namespace ERY.AgateLib.Utility
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(216, 88);
+            this.btnCancel.Location = new System.Drawing.Point(239, 101);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(54, 23);
             this.btnCancel.TabIndex = 7;
@@ -90,15 +90,15 @@ namespace ERY.AgateLib.Utility
             this.displayList.DisplayMember = "Name";
             this.displayList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.displayList.FormattingEnabled = true;
-            this.displayList.Location = new System.Drawing.Point(96, 6);
+            this.displayList.Location = new System.Drawing.Point(110, 12);
             this.displayList.Name = "displayList";
-            this.displayList.Size = new System.Drawing.Size(174, 21);
+            this.displayList.Size = new System.Drawing.Size(183, 21);
             this.displayList.TabIndex = 8;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(12, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(78, 13);
             this.label1.TabIndex = 9;
@@ -107,7 +107,7 @@ namespace ERY.AgateLib.Utility
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 63);
+            this.label2.Location = new System.Drawing.Point(12, 69);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 13);
             this.label2.TabIndex = 11;
@@ -120,15 +120,15 @@ namespace ERY.AgateLib.Utility
             this.inputList.DisplayMember = "Name";
             this.inputList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.inputList.FormattingEnabled = true;
-            this.inputList.Location = new System.Drawing.Point(96, 60);
+            this.inputList.Location = new System.Drawing.Point(110, 66);
             this.inputList.Name = "inputList";
-            this.inputList.Size = new System.Drawing.Size(174, 21);
+            this.inputList.Size = new System.Drawing.Size(183, 21);
             this.inputList.TabIndex = 10;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 36);
+            this.label3.Location = new System.Drawing.Point(12, 42);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 13;
@@ -141,9 +141,9 @@ namespace ERY.AgateLib.Utility
             this.audioList.DisplayMember = "Name";
             this.audioList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.audioList.FormattingEnabled = true;
-            this.audioList.Location = new System.Drawing.Point(96, 33);
+            this.audioList.Location = new System.Drawing.Point(110, 39);
             this.audioList.Name = "audioList";
-            this.audioList.Size = new System.Drawing.Size(174, 21);
+            this.audioList.Size = new System.Drawing.Size(183, 21);
             this.audioList.TabIndex = 12;
             // 
             // SetSystemsForm
@@ -151,15 +151,15 @@ namespace ERY.AgateLib.Utility
             this.AcceptButton = this.btnOK;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(282, 123);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.audioList);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(305, 136);
             this.Controls.Add(this.inputList);
+            this.Controls.Add(this.audioList);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.displayList);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
