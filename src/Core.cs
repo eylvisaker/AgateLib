@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using ERY.AgateLib.PlatformSpecific;
@@ -83,6 +84,8 @@ namespace ERY.AgateLib
             Drivers.Registrar.Initialize();
 
             mPlatform = Platform.CreatePlatformMethods();
+
+            Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
         //    System.Threading.Thread.GetDomain().UnhandledException +=
         //        new UnhandledExceptionEventHandler(Thread_UnhandledException);
@@ -154,9 +157,9 @@ namespace ERY.AgateLib
             // not this is worth it when there lots of events being generated
             // (ie lots of mouse move events) but it does seem to speed up for
             // Direct3D.
-            if (mPlatform.IsAppIdle == false)
+            if (Display.IsAppIdle == false)
             {
-                System.Windows.Forms.Application.DoEvents();
+                Display.ProcessEvents();
 
                 while (IsActive == false && AutoPause)
                 {

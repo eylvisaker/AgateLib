@@ -102,6 +102,16 @@ namespace ERY.AgateLib
             }
         }
 
+        internal static void ProcessEvents()
+        {
+            impl.ProcessEvents();
+        }
+        internal static bool IsAppIdle
+        {
+            get { return impl.IsAppIdle; }
+        }
+       
+
 
         /// <summary>
         /// Delegate type for functions which are called when Display.Dispose is called
@@ -182,7 +192,7 @@ namespace ERY.AgateLib
                 impl.RenderTarget = value;
 
                 if (value is DisplayWindow)
-                    mCurrentWindow = value as DisplayWindow;
+                    mCurrentWindow = (DisplayWindow)value;
                 
             }
         }
