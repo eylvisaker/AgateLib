@@ -166,7 +166,7 @@ namespace ERY.AgateLib
     /// 
     /// This class should support loading of .wav files, at the very least.
     /// </summary>
-    public class SoundBuffer 
+    public sealed class SoundBuffer 
     {
         private string mFilename;
         private SoundBufferImpl impl;
@@ -373,7 +373,7 @@ namespace ERY.AgateLib
     /// If you do this, you are responsible for freeing the unmanaged resources
     /// on the SoundBufferSession by calling its Dispose method.
     /// </summary>
-    public class SoundBufferSession
+    public sealed class SoundBufferSession
     {
         private SoundBuffer mSource;
         private SoundBufferSessionImpl impl;
@@ -502,7 +502,7 @@ namespace ERY.AgateLib
     /// 
     /// This class should support loading of .ogg and .mid files, at the very least.
     /// </summary>
-    public class Music
+    public sealed class Music
     {
         private MusicImpl impl;
         private string mFilename;

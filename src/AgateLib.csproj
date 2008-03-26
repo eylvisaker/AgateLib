@@ -104,7 +104,7 @@
     <Compile Include="Display.cs" />
     <Compile Include="DisplayWindow.cs" />
     <Compile Include="FontSurface.cs" />
-    <Compile Include="RenderTarget.cs" />
+    <Compile Include="IRenderTarget.cs" />
     <Compile Include="OldSprite\SpriteContainer.cs" />
     <Compile Include="Drivers\IUserSetSystems.cs" />
     <Compile Include="Utility\SurfacePacker.cs" />

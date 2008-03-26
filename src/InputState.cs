@@ -26,7 +26,7 @@ namespace ERY.AgateLib
     /// Class which encapsulates functionality associated with a set of commands.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class InputState<T> : IDisposable 
+    public sealed class InputState<T> : IDisposable 
         // \cond doxygenignore
         where T : struct
         // \endcond

@@ -52,7 +52,7 @@ namespace ERY.AgateLib
     /// </code>
     /// </example>
     /// </summary>
-    public class AgateSetup : IDisposable
+    public sealed class AgateSetup : IDisposable
     {
         private bool mCancel = false;
         private bool mAskUser = false;

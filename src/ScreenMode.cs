@@ -7,7 +7,7 @@ namespace ERY.AgateLib
     /// <summary>
     /// Class which contains information about an available screen mode.
     /// </summary>
-    public class ScreenMode
+    public sealed class ScreenMode
     {
         private int mWidth;
         private int mHeight;
