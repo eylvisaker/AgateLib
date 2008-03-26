@@ -568,5 +568,19 @@ namespace ERY.AgateLib.ImplBase
         /// <param name="lights"></param>
         public abstract void DoLighting(LightManager lights);
 
+        /// <summary>
+        /// Processes pending events.
+        /// </summary>
+        protected internal abstract void ProcessEvents();
+
+        /// <summary>
+        /// Returns true if the application is idle and processing of events can be skipped.
+        /// Base method just returns false to force processing of events at every frame.
+        /// </summary>
+        protected internal virtual bool IsAppIdle
+        {
+            get { return false; }
+        }
+       
     }
 }
