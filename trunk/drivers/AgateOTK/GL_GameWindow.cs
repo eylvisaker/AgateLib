@@ -12,6 +12,135 @@ namespace ERY.AgateLib.OpenGL
 {
     class GL_GameWindow : DisplayWindowImpl, GL_IRenderTarget
     {
+        static Dictionary<OpenTK.Input.Key, KeyCode> keyMap = new Dictionary<OpenTK.Input.Key, KeyCode>();
+
+        static GL_GameWindow()
+        {
+            keyMap.Add(OpenTK.Input.Key.A, KeyCode.A);
+            keyMap.Add(OpenTK.Input.Key.AltLeft, KeyCode.Alt);
+            keyMap.Add(OpenTK.Input.Key.AltRight, KeyCode.Alt);
+            keyMap.Add(OpenTK.Input.Key.B, KeyCode.B);
+            keyMap.Add(OpenTK.Input.Key.BackSlash, KeyCode.BackSlash);
+            keyMap.Add(OpenTK.Input.Key.BackSpace, KeyCode.BackSpace);
+            keyMap.Add(OpenTK.Input.Key.BracketLeft, KeyCode.OpenBracket);
+            keyMap.Add(OpenTK.Input.Key.BracketRight, KeyCode.CloseBracket);
+            keyMap.Add(OpenTK.Input.Key.C, KeyCode.C);
+            keyMap.Add(OpenTK.Input.Key.CapsLock, KeyCode.CapsLock);
+            keyMap.Add(OpenTK.Input.Key.Clear, KeyCode.Clear);
+            keyMap.Add(OpenTK.Input.Key.Comma, KeyCode.Comma);
+            keyMap.Add(OpenTK.Input.Key.ControlLeft, KeyCode.Control);
+            keyMap.Add(OpenTK.Input.Key.ControlRight, KeyCode.Control);
+            keyMap.Add(OpenTK.Input.Key.D, KeyCode.D);
+            keyMap.Add(OpenTK.Input.Key.Delete, KeyCode.Delete);
+            keyMap.Add(OpenTK.Input.Key.Down, KeyCode.Down);
+            keyMap.Add(OpenTK.Input.Key.E, KeyCode.E);
+            keyMap.Add(OpenTK.Input.Key.End, KeyCode.End);
+            keyMap.Add(OpenTK.Input.Key.Enter, KeyCode.Enter);
+            keyMap.Add(OpenTK.Input.Key.Escape, KeyCode.Escape);
+            keyMap.Add(OpenTK.Input.Key.F, KeyCode.F);
+            keyMap.Add(OpenTK.Input.Key.F1, KeyCode.F1);
+            keyMap.Add(OpenTK.Input.Key.F2, KeyCode.F2);
+            keyMap.Add(OpenTK.Input.Key.F3, KeyCode.F3);
+            keyMap.Add(OpenTK.Input.Key.F4, KeyCode.F4);
+            keyMap.Add(OpenTK.Input.Key.F5, KeyCode.F5);
+            keyMap.Add(OpenTK.Input.Key.F6, KeyCode.F6);
+            keyMap.Add(OpenTK.Input.Key.F7, KeyCode.F7);
+            keyMap.Add(OpenTK.Input.Key.F8, KeyCode.F8);
+            keyMap.Add(OpenTK.Input.Key.F9, KeyCode.F9);
+            keyMap.Add(OpenTK.Input.Key.F10, KeyCode.F10);
+            keyMap.Add(OpenTK.Input.Key.F11, KeyCode.F11);
+            keyMap.Add(OpenTK.Input.Key.F12, KeyCode.F12);
+            keyMap.Add(OpenTK.Input.Key.F13, KeyCode.F13);
+            keyMap.Add(OpenTK.Input.Key.F14, KeyCode.F14);
+            keyMap.Add(OpenTK.Input.Key.F15, KeyCode.F15);
+            keyMap.Add(OpenTK.Input.Key.F16, KeyCode.F16);
+            keyMap.Add(OpenTK.Input.Key.F17, KeyCode.F17);
+            keyMap.Add(OpenTK.Input.Key.F18, KeyCode.F18);
+            keyMap.Add(OpenTK.Input.Key.F19, KeyCode.F19);
+            keyMap.Add(OpenTK.Input.Key.F20, KeyCode.F20);
+            keyMap.Add(OpenTK.Input.Key.F21, KeyCode.F21);
+            keyMap.Add(OpenTK.Input.Key.F22, KeyCode.F22);
+            keyMap.Add(OpenTK.Input.Key.F23, KeyCode.F23);
+            keyMap.Add(OpenTK.Input.Key.F24, KeyCode.F24);
+            keyMap.Add(OpenTK.Input.Key.G, KeyCode.G);
+            keyMap.Add(OpenTK.Input.Key.H, KeyCode.H);
+            keyMap.Add(OpenTK.Input.Key.Home, KeyCode.Home);
+            keyMap.Add(OpenTK.Input.Key.I, KeyCode.I);
+            keyMap.Add(OpenTK.Input.Key.Insert, KeyCode.Insert);
+            keyMap.Add(OpenTK.Input.Key.J, KeyCode.J);
+            keyMap.Add(OpenTK.Input.Key.K, KeyCode.K);
+            keyMap.Add(OpenTK.Input.Key.Keypad0, KeyCode.NumPad0);
+            keyMap.Add(OpenTK.Input.Key.Keypad1, KeyCode.NumPad1);
+            keyMap.Add(OpenTK.Input.Key.Keypad2, KeyCode.NumPad2);
+            keyMap.Add(OpenTK.Input.Key.Keypad3, KeyCode.NumPad3);
+            keyMap.Add(OpenTK.Input.Key.Keypad4, KeyCode.NumPad4);
+            keyMap.Add(OpenTK.Input.Key.Keypad5, KeyCode.NumPad5);
+            keyMap.Add(OpenTK.Input.Key.Keypad6, KeyCode.NumPad6);
+            keyMap.Add(OpenTK.Input.Key.Keypad7, KeyCode.NumPad7);
+            keyMap.Add(OpenTK.Input.Key.Keypad8, KeyCode.NumPad8);
+            keyMap.Add(OpenTK.Input.Key.Keypad9, KeyCode.NumPad9);
+            keyMap.Add(OpenTK.Input.Key.KeypadAdd, KeyCode.NumPadPlus);
+            keyMap.Add(OpenTK.Input.Key.KeypadDecimal, KeyCode.NumPadPeriod);
+            keyMap.Add(OpenTK.Input.Key.KeypadDivide, KeyCode.NumPadSlash);
+            keyMap.Add(OpenTK.Input.Key.KeypadEnter, KeyCode.Enter); // fix this?
+            keyMap.Add(OpenTK.Input.Key.KeypadMultiply, KeyCode.NumPadMultiply);
+            keyMap.Add(OpenTK.Input.Key.KeypadSubtract, KeyCode.NumPadMinus);
+            keyMap.Add(OpenTK.Input.Key.L, KeyCode.L);
+            keyMap.Add(OpenTK.Input.Key.Left, KeyCode.Left);
+            keyMap.Add(OpenTK.Input.Key.M, KeyCode.M);
+            //keyMap.Add(OpenTK.Input.Key.MaxKeys, KeyCode ?)
+            keyMap.Add(OpenTK.Input.Key.Menu, KeyCode.Menu);
+            keyMap.Add(OpenTK.Input.Key.Minus, KeyCode.Minus);
+            keyMap.Add(OpenTK.Input.Key.N, KeyCode.N);
+            keyMap.Add(OpenTK.Input.Key.Number0, KeyCode.Digit0);
+            keyMap.Add(OpenTK.Input.Key.Number1, KeyCode.Digit1);
+            keyMap.Add(OpenTK.Input.Key.Number2, KeyCode.Digit2);
+            keyMap.Add(OpenTK.Input.Key.Number3, KeyCode.Digit3);
+            keyMap.Add(OpenTK.Input.Key.Number4, KeyCode.Digit4);
+            keyMap.Add(OpenTK.Input.Key.Number5, KeyCode.Digit5);
+            keyMap.Add(OpenTK.Input.Key.Number6, KeyCode.Digit6);
+            keyMap.Add(OpenTK.Input.Key.Number7, KeyCode.Digit7);
+            keyMap.Add(OpenTK.Input.Key.Number8, KeyCode.Digit8);
+            keyMap.Add(OpenTK.Input.Key.Number9, KeyCode.Digit9);
+            keyMap.Add(OpenTK.Input.Key.NumLock, KeyCode.NumLock);
+            keyMap.Add(OpenTK.Input.Key.O, KeyCode.O);
+            keyMap.Add(OpenTK.Input.Key.P, KeyCode.P);
+            keyMap.Add(OpenTK.Input.Key.PageDown, KeyCode.PageDown);
+            keyMap.Add(OpenTK.Input.Key.PageUp, KeyCode.PageUp);
+            keyMap.Add(OpenTK.Input.Key.Pause, KeyCode.Pause);
+            keyMap.Add(OpenTK.Input.Key.Period, KeyCode.Period);
+            keyMap.Add(OpenTK.Input.Key.Plus, KeyCode.Plus);
+            keyMap.Add(OpenTK.Input.Key.PrintScreen, KeyCode.PrintScreen);
+            keyMap.Add(OpenTK.Input.Key.Q, KeyCode.Q);
+            keyMap.Add(OpenTK.Input.Key.Quote, KeyCode.Quotes);
+            keyMap.Add(OpenTK.Input.Key.R, KeyCode.R);
+            keyMap.Add(OpenTK.Input.Key.Right, KeyCode.Right);
+            keyMap.Add(OpenTK.Input.Key.S, KeyCode.S);
+            keyMap.Add(OpenTK.Input.Key.ScrollLock, KeyCode.ScrollLock);
+            keyMap.Add(OpenTK.Input.Key.Semicolon, KeyCode.Semicolon);
+            keyMap.Add(OpenTK.Input.Key.ShiftLeft, KeyCode.Shift);
+            //keyMap.Add(OpenTK.Input.Key.ShiftRight, KeyCode.Shift);
+            keyMap.Add(OpenTK.Input.Key.Slash, KeyCode.Slash);
+            keyMap.Add(OpenTK.Input.Key.Sleep, KeyCode.Sleep);
+            keyMap.Add(OpenTK.Input.Key.Space, KeyCode.Space);
+            keyMap.Add(OpenTK.Input.Key.T, KeyCode.T);
+            keyMap.Add(OpenTK.Input.Key.Tab, KeyCode.Tab);
+            keyMap.Add(OpenTK.Input.Key.Tilde, KeyCode.Tilde);
+            keyMap.Add(OpenTK.Input.Key.U, KeyCode.U);
+            keyMap.Add(OpenTK.Input.Key.Up, KeyCode.Up);
+            keyMap.Add(OpenTK.Input.Key.V, KeyCode.V);
+            keyMap.Add(OpenTK.Input.Key.W, KeyCode.W);
+            keyMap.Add(OpenTK.Input.Key.WinLeft, KeyCode.WinLeft);
+            keyMap.Add(OpenTK.Input.Key.WinRight, KeyCode.WinRight);
+            keyMap.Add(OpenTK.Input.Key.X, KeyCode.X);
+            keyMap.Add(OpenTK.Input.Key.Y, KeyCode.Y);
+            keyMap.Add(OpenTK.Input.Key.Z, KeyCode.Z);
+
+
+        }
+
+        
+        
         GL_Display mDisplay;
         System.Drawing.Icon mIcon;
         GameWindow mWindow;
@@ -21,7 +150,6 @@ namespace ERY.AgateLib.OpenGL
         bool mAllowResize;
         bool mHasFrame;
         WindowPosition mCreatePosition;
-
         public GL_GameWindow(CreateWindowParams windowParams)
         {
             mCreatePosition = windowParams.WindowPosition;
@@ -82,17 +210,12 @@ namespace ERY.AgateLib.OpenGL
 
         private static KeyCode TransformKey(OpenTK.Input.Key key)
         {
-            KeyCode code = KeyCode.None;
+            if (keyMap.ContainsKey(key))
+                return keyMap[key];
+            else
+                System.Diagnostics.Debug.Print("Could not map key {0}.", key);
 
-            switch (key)
-            {
-                case OpenTK.Input.Key.Down: code = KeyCode.Down; break;
-                case OpenTK.Input.Key.Up: code = KeyCode.Up; break;
-                case OpenTK.Input.Key.Left: code = KeyCode.Left; break;
-                case OpenTK.Input.Key.Right: code = KeyCode.Right; break;
-                case OpenTK.Input.Key.Escape: code = KeyCode.Escape; break;
-            }
-            return code;
+            return KeyCode.None;
         }
         private static Mouse.MouseButtons TransformButton(OpenTK.Input.MouseButton button)
         {
@@ -159,11 +282,22 @@ namespace ERY.AgateLib.OpenGL
             AttachEvents();
         }
 
+        Point lastMouse;
         void mDisplay_ProcessEventsEvent(object sender, EventArgs e)
         {
             try
             {
+                
                 mWindow.ProcessEvents();
+
+                if (mWindow == null)
+                    return;
+
+                // simulate mouse move events
+                if (Mouse.Position != lastMouse)
+                    Mouse.OnMouseMove();
+
+                lastMouse = Mouse.Position;
             }
             catch (ApplicationException)
             {
@@ -188,7 +322,6 @@ namespace ERY.AgateLib.OpenGL
             {
                 if (mWindow == null)
                     return true;
-
 
                 return false;
             }
@@ -238,6 +371,9 @@ namespace ERY.AgateLib.OpenGL
         {
             get
             {
+                if (mWindow == null) 
+                    return Point.Empty;
+
                 return new Point(mWindow.Mouse.Position.X, mWindow.Mouse.Position.Y);
             }
             set
