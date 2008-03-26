@@ -35,13 +35,13 @@ namespace ERY.AgateLib
         /// <summary>
         /// Indicates an message is just a comment, and safe to ignore.
         /// </summary>
-        Comment ,
+        Comment,
         /// <summary>
         /// Indicates that the error message is not severe, and the program may
         /// continue.  However, unexpected behavior may occur due to the result of
         /// this error.
         /// </summary>
-        Warning ,
+        Warning,
         /// <summary>
         /// Indicates that the error condition is too severe and the program 
         /// may not continue.
