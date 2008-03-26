@@ -12,7 +12,7 @@ High Priority (0.3.0 definitely)
 		* Fix ReportError to use StringBuilder instead of StringWriter, and Environment.NewLine.
 		* Add ability for ReportError to suppress errors below a certain level.
 		D Make sure all disposable classes correctly follow finalize/dispose pattern.
-		* Categorize AgateLib source code by subsystem
+		D Categorize AgateLib source code by subsystem
 	Drivers
 		D Update AgateOTK to newer version of OpenTK
 		* Update AgateOTK to use Framebuffer extension for fast render-to-surface
