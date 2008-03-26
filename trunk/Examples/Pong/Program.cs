@@ -49,8 +49,6 @@ namespace Pong
 
                 font = new FontSurface("Sans Serif", 14);
 
-                Mouse.Hide();
-
                 paddle[0] = new Vector2(50, displayHeight / 2);
                 paddle[1] = new Vector2(playAreaWidth - 50 - paddleWidth, displayHeight / 2);
                 ball = new Vector2(playAreaWidth / 2, displayHeight / 2);
@@ -104,8 +102,13 @@ namespace Pong
 
             ball += ballvelocity * time_s;
 
-            if (ball.Y + ballSize > displayHeight - borderSize) ballvelocity.Y *= -1;
-            if (ball.Y < borderSize) ballvelocity.Y *= -1;
+            // collision with bottom wall
+            if (ball.Y + ballSize > displayHeight - borderSize && ballvelocity.Y > 0) 
+                ballvelocity.Y *= -1;
+            
+            // collision with top wall
+            if (ball.Y < borderSize && ballvelocity.Y < 0) 
+                ballvelocity.Y *= -1;
 
             if (ball.X < borderSize)
             {
