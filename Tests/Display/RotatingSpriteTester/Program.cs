@@ -3,6 +3,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using ERY.AgateLib;
 using ERY.AgateLib.Geometry;
 
@@ -18,7 +19,7 @@ namespace RotatingSpriteTester
         {
             using (AgateSetup setup = new AgateSetup())
             {
-                setup.AskUser = true;
+                //setup.AskUser = true;
                 setup.Initialize(true, false, false);
 
                 if (setup.Cancel)
@@ -33,16 +34,17 @@ namespace RotatingSpriteTester
                 sp.RotationAngleDegrees = 90;
                 sp.SetScale(2, 2);
 
+                Point location = new Point(400, 100);
+
                 while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();
-                    Display.Clear(Color.Black);
+                    Display.Clear(Color.DarkRed);
 
+                    sp.RotationAngleDegrees += 180 * Display.DeltaTime / 1000.0;
+                    sp.Draw(location);
 
-                    sp.RotationAngleDegrees += 1;
-                    sp.Draw(200, 200);
-
-                    Display.DrawRect(200, 200, 1, 1, Color.YellowGreen);
+                    Display.DrawRect(location.X, location.Y, 1, 1, Color.YellowGreen);
 
                     Display.EndFrame();
                     Core.KeepAlive();
