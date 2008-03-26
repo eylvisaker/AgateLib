@@ -6,8 +6,7 @@ using System.Text;
 using ERY.AgateLib;
 using ERY.AgateLib.Geometry;
 
-using OpenTK.OpenGL;
-using OpenTK.OpenGL.Enums;
+using OpenTK.Graphics.OpenGL;
 
 namespace ERY.AgateLib.OpenGL
 {
@@ -165,7 +164,7 @@ namespace ERY.AgateLib.OpenGL
             if (mIndex == 0)
                 return;
 
-            GL.BindTexture(TextureTarget.Texture2d, mCurrentTexture);
+            GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
 
             GL.EnableClientState(EnableCap.TextureCoordArray);
             GL.EnableClientState(EnableCap.ColorArray);
@@ -188,7 +187,7 @@ namespace ERY.AgateLib.OpenGL
         private void oldFlush()
         {
 
-            GL.BindTexture(TextureTarget.Texture2d, mCurrentTexture);
+            GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
 
             GL.Begin(BeginMode.Quads);
 
