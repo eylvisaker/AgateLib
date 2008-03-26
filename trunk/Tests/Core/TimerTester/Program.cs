@@ -23,6 +23,11 @@ namespace TimerTester
             frm.Show();
 
             Core.Initialize();
+            Timing.PauseAllTimers();
+
+
+            Application.DoEvents();
+            System.Threading.Thread.Sleep(0);
 
             double startTime = Timing.TotalMilliseconds;
 
@@ -31,6 +36,8 @@ namespace TimerTester
                 frm.UpdateControls(Timing.TotalMilliseconds - startTime);
 
                 Application.DoEvents();
+                System.Threading.Thread.Sleep(0);
+
             }
 
         }
