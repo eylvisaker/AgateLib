@@ -39,7 +39,7 @@ namespace ERY.AgateLib
     /// Class which describes how a DisplayWindow should be created.
     /// Several static methods exist to allow 
     /// </summary>
-    public class CreateWindowParams
+    public sealed class CreateWindowParams
     {
         #region --- Private Fields ---
 

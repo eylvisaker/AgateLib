@@ -32,6 +32,8 @@ namespace ERY.AgateLib.PlatformSpecific
     /// </summary>
     public class Platform  : IDisposable 
     {
+        System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+
         /// <summary>
         /// Only sub classes are allowed to initialized this class.
         /// </summary>
@@ -40,9 +42,10 @@ namespace ERY.AgateLib.PlatformSpecific
             // only do this if we are this class, not a derivative of it.
             if (this.GetType().Equals(typeof(Platform)))
             {
-                Console.WriteLine("Created Platform Independent platform driver.");
-                System.Diagnostics.Trace.WriteLine("Created Platform Independent platform driver.");
+                System.Diagnostics.Debug.WriteLine("Created Platform Independent platform driver.");
             }
+
+            watch.Start();
         }
         /// <summary>
         /// Creates an object which encapsulates platform specific methods.
@@ -58,11 +61,12 @@ namespace ERY.AgateLib.PlatformSpecific
 
                 case (PlatformID)128:
                 case PlatformID.Unix:
-                    return new X11Platform();
+                    //return new X11Platform();
 
                 default:
                     Console.WriteLine("Encountered unsupported platform ID: {0} = {1}",
                         Environment.OSVersion.Platform, (int)Environment.OSVersion.Platform);
+
                     break;
             }
 
@@ -91,7 +95,9 @@ namespace ERY.AgateLib.PlatformSpecific
                 return false;
             }
         }
-        
+
+        long lastTickCount;
+
         /// <summary>
         /// Returns the current time in milliseconds.
         /// This may be the amount of time since the application began, the system started,
@@ -100,7 +106,14 @@ namespace ERY.AgateLib.PlatformSpecific
         /// <returns></returns>
         public virtual double GetTime()
         {
-            return System.Environment.TickCount;
+
+            if (watch.ElapsedMilliseconds < lastTickCount)
+                throw new Exception(string.Format(
+                    "Tick count has gone down!  old: {0}   new: {1}",
+                    lastTickCount, watch.ElapsedMilliseconds));
+
+            lastTickCount = watch.ElapsedMilliseconds;
+            return lastTickCount;
         }
     }
 }

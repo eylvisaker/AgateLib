@@ -62,7 +62,7 @@ namespace ERY.AgateLib
     /// scaling the font, it usually looks much better to make a large font
     /// and scale it to a smaller size, rather than vice-versa.</remarks>
     /// </summary>
-    public class FontSurface : IDisposable
+    public sealed class FontSurface : IDisposable
     {
         internal FontSurfaceImpl impl;
         private StringTransformer mTransformer = StringTransformer.None;

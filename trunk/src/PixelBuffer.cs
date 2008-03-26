@@ -103,7 +103,7 @@ namespace ERY.AgateLib
     /// construct or modify surface data programmatically.
     /// </summary>
     [Serializable]
-    public class PixelBuffer
+    public sealed class PixelBuffer
     {
         #region --- Private Data ---
 

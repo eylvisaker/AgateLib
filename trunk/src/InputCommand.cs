@@ -27,7 +27,7 @@ namespace ERY.AgateLib
     /// all have the same function.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class InputCommand<T> 
+    public sealed class InputCommand<T> 
         // \cond doxygenignore
         where T : struct
         // \endcond

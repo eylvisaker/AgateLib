@@ -35,7 +35,7 @@ namespace ERY.AgateLib
     /// 
     /// Alternatively, a control may be specified to render into.
     /// </remarks>
-    public class DisplayWindow : IRenderTarget, IDisposable
+    public sealed class DisplayWindow : IRenderTarget, IDisposable
     {
         DisplayWindowImpl impl;
 

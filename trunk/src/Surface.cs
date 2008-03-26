@@ -78,7 +78,7 @@ namespace ERY.AgateLib
     /// </code>
     /// </example>
     /// </summary>
-    public class Surface : IRenderTarget, IDisposable, ISurface
+    public sealed class Surface : IRenderTarget, IDisposable, ISurface
     {
         SurfaceImpl impl;
 
@@ -271,7 +271,7 @@ namespace ERY.AgateLib
         /// Valid values range from 0.0 (completely transparent) to 1.0 (completely opaque).
         /// Internally stored as a byte, so granularity is only 1/255.0.
         /// </summary>
-        public virtual double Alpha
+        public double Alpha
         {
             get { return impl.Alpha; }
             set { impl.Alpha = value; }

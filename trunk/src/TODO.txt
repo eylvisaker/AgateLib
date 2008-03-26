@@ -5,7 +5,7 @@ High Priority (0.3.0 definitely)
 --------------------------------
 	General
 		* Deprecate unhandled exception dialog (keep the debug output)
-		* Seal consumer classes.
+		D Seal consumer classes.
 		* Profile Agate
 		* Extract stuff to interfaces
 		D Rename Origin.cs

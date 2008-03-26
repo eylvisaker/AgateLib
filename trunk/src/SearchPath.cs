@@ -29,7 +29,7 @@ namespace ERY.AgateLib
     /// item and retrieve it and have it be the same thing.
     /// <code></code>
     /// </summary>
-    public class SearchPath : ICollection<string>, IList<string>
+    public sealed class SearchPath : ICollection<string>, IList<string>
     {
         List<string> mSearchPaths = new List<string>();
 
