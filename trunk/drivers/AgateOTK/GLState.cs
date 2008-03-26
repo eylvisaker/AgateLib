@@ -6,7 +6,7 @@ using System.Text;
 using ERY.AgateLib;
 using ERY.AgateLib.Geometry;
 
-using OpenTK.OpenGL;
+using OpenTK.Graphics.OpenGL;
 
 namespace ERY.AgateLib.OpenGL
 {

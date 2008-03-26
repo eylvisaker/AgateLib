@@ -12,9 +12,8 @@ using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 using ERY.AgateLib.Utility;
 
-using OpenTK.OpenGL;
-using OpenTK.OpenGL.Enums;
-using OTKPixelFormat = OpenTK.OpenGL.Enums.PixelFormat;
+using OpenTK.Graphics.OpenGL;
+using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace ERY.AgateLib.OpenGL
 {
@@ -85,14 +84,14 @@ namespace ERY.AgateLib.OpenGL
                 fake = Marshal.AllocHGlobal(mTextureSize.Width * mTextureSize.Height * Marshal.SizeOf(typeof(int)));
 
                 // Typical Texture Generation Using Data From The Bitmap
-                GL.BindTexture(TextureTarget.Texture2d, mTextureID);
-                GL.TexImage2D(TextureTarget.Texture2d, 0, PixelInternalFormat.Rgba,
+                GL.BindTexture(TextureTarget.Texture2D, mTextureID);
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba,
                     mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,
                     PixelType.UnsignedByte, fake);
 
-                GL.TexParameter(TextureTarget.Texture2d,
+                GL.TexParameter(TextureTarget.Texture2D,
                                 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2d,
+                GL.TexParameter(TextureTarget.Texture2D,
                                 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
                 mTexCoord = GetTextureCoords(mSourceRect);
@@ -399,8 +398,8 @@ namespace ERY.AgateLib.OpenGL
             int memStride = pixelStride * mTextureSize.Width;
             IntPtr memory = Marshal.AllocHGlobal(size);
 
-            GL.BindTexture(TextureTarget.Texture2d, mTextureID);
-            GL.GetTexImage(TextureTarget.Texture2d, 0, OTKPixelFormat.Rgba,
+            GL.BindTexture(TextureTarget.Texture2D, mTextureID);
+            GL.GetTexImage(TextureTarget.Texture2D, 0, OTKPixelFormat.Rgba,
                  PixelType.UnsignedByte, memory);
 
             byte[] data = new byte[rect.Width * rect.Height * pixelStride];
@@ -437,14 +436,14 @@ namespace ERY.AgateLib.OpenGL
                 fixed (byte* ptr = buffer.Data)
                 {
                     // Typical Texture Generation Using Data From The Bitmap
-                    GL.BindTexture(TextureTarget.Texture2d, mTextureID);
-                    GL.TexImage2D(TextureTarget.Texture2d, 0, PixelInternalFormat.Rgba,
+                    GL.BindTexture(TextureTarget.Texture2D, mTextureID);
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba,
                         mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,//, GL.GL_BGRA, 
                         PixelType.UnsignedByte, (IntPtr)ptr);
 
-                    GL.TexParameter(TextureTarget.Texture2d,
+                    GL.TexParameter(TextureTarget.Texture2D,
                                      TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                    GL.TexParameter(TextureTarget.Texture2d,
+                    GL.TexParameter(TextureTarget.Texture2D,
                                      TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
                 }
             }
@@ -488,32 +487,32 @@ namespace ERY.AgateLib.OpenGL
             GL.Clear(ClearBufferMask.ColorBufferBit | 
                      ClearBufferMask.DepthBufferBit);
 
-            GL.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter,
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
                 (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter,
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
                 (int)TextureMagFilter.Linear);
 
             Draw();
 
-            GL.TexParameter(TextureTarget.Texture2d,
+            GL.TexParameter(TextureTarget.Texture2D,
                              TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2d,
+            GL.TexParameter(TextureTarget.Texture2D,
                              TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             
         }
         public override void EndRender()
         {
-           // GL.Disable(EnableCap.Texture2d);
-            GL.BindTexture(TextureTarget.Texture2d, mTextureID);
+           // GL.Disable(EnableCap.Texture2D);
+            GL.BindTexture(TextureTarget.Texture2D, mTextureID);
 
-            GL.CopyTexSubImage2D(TextureTarget.Texture2d,
+            GL.CopyTexSubImage2D(TextureTarget.Texture2D,
                 0, 0, 0, 0, 0, mSourceRect.Width, mSourceRect.Height);
-            //GL.CopyTexImage2D(TextureTarget.Texture2d, 0, PixelInternalFormat.Rgba8,
+            //GL.CopyTexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba8,
             //    0, 0, mSourceRect.Width, mSourceRect.Height, 0);
             
-            GL.TexParameter(TextureTarget.Texture2d,
+            GL.TexParameter(TextureTarget.Texture2D,
                              TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2d,
+            GL.TexParameter(TextureTarget.Texture2D,
                              TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             
         }
@@ -718,7 +717,7 @@ namespace ERY.AgateLib.OpenGL
 
            mDisplay.SetGLColor(mSurface.Color);
 
-           GL.glBindTexture(GL.GL_Texture2d, mTextureID);
+           GL.glBindTexture(GL.GL_Texture2D, mTextureID);
 
            GL.glTranslatef(-translatePoint.X, -translatePoint.Y, 0);
            GL.glRotatef((float)-mSurface.RotationAngleDegrees, 0.0f, 0.0f, 1.0f);

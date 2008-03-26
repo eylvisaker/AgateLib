@@ -11,20 +11,23 @@ using ERY.AgateLib.Geometry;
 using ERY.AgateLib.ImplBase;
 using ERY.AgateLib.WinForms;
 
-using OpenTK;
-using OpenTK.OpenGL;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
 
 namespace ERY.AgateLib.OpenGL
 {
-    public sealed class GL_DisplayWindow : DisplayWindowImpl, GL_IRenderTarget
+    public sealed class GL_DisplayControl : DisplayWindowImpl, GL_IRenderTarget
     {
         Form frm;
         Control mRenderTarget;
-        GLContext mContext;
+        GraphicsContext mContext;
+        IWindowInfo mWindowInfo;
+
         GL_Display mDisplay;
         Drawing.Icon mIcon;
         bool mIsClosed = false;
+        bool mIsFullScreen = false;
 
         string mTitle;
         bool mChooseFullscreen;
@@ -36,7 +39,7 @@ namespace ERY.AgateLib.OpenGL
 
         bool mHasFrame = true;
 
-        public GL_DisplayWindow(CreateWindowParams windowParams)
+        public GL_DisplayControl(CreateWindowParams windowParams)
         {
             mChoosePosition = windowParams.WindowPosition;
             
@@ -57,15 +60,15 @@ namespace ERY.AgateLib.OpenGL
                 mChooseHeight = mRenderTarget.ClientSize.Height;
 
                 mDisplay = Display.Impl as GL_Display;
-                
-                WindowInfo windowInfo = new WindowInfo(mRenderTarget);
 
-                mContext = new GLContext(
-                    new DisplayMode(mRenderTarget.Width, mRenderTarget.Height, 
-                    new ColorMode(8, 8, 8, 8)),
-                    windowInfo);
-                
-                mDisplay.Initialize(this);
+                mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
+                mContext = new GraphicsContext(
+                    new GraphicsMode(new ColorFormat(32)), mWindowInfo);
+
+                mContext.MakeCurrent(mWindowInfo);
+                ((IGraphicsContextInternal)mContext).LoadAll();
+
+                mDisplay.InitializeGL();
 
                 AttachEvents();
             }
@@ -87,9 +90,16 @@ namespace ERY.AgateLib.OpenGL
                     CreateWindowedDisplay();
 
                 mDisplay = Display.Impl as GL_Display;
-                mDisplay.Initialize(this);
+                mDisplay.InitializeGL();
 
             }
+
+            mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);
+        }
+
+        void mDisplay_ProcessEventsEvent(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.DoEvents();
         }
 
         private void CreateFullScreenDisplay()
@@ -97,8 +107,9 @@ namespace ERY.AgateLib.OpenGL
             DetachEvents();
 
             Form oldForm = frm;
-            GLContext oldcontext = mContext;
-            
+            GraphicsContext oldcontext = mContext;
+            IWindowInfo oldWindowInfo = mWindowInfo;
+
             mContext = null;
             
             frm = new frmFullScreen();
@@ -112,21 +123,27 @@ namespace ERY.AgateLib.OpenGL
 
             AttachEvents();
 
-            mContext = new GLContext(new DisplayMode(mChooseWidth, mChooseHeight, new ColorMode(8, 8, 8, 8)),
-                new WindowInfo(frm));
-            
-            //mContext.SetFullScreen(mChooseWidth, mChooseHeight, new OpenTK.OpenGL.ColorDepth(8, 8, 8, 8));
+            mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
+            mContext = new GraphicsContext(
+                new GraphicsMode(new ColorFormat(32)), mWindowInfo);
+            mContext.MakeCurrent(mWindowInfo);
+            ((IGraphicsContextInternal)mContext).LoadAll();
+
+            DisplayResolution resolution = DisplayDevice.Default.SelectResolution(
+                mChooseWidth, mChooseHeight, 32, 0);
+
+            DisplayDevice.Default.ChangeResolution(resolution);
 
             frm.Location = System.Drawing.Point.Empty;
             frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
             frm.Activate();
 
             System.Threading.Thread.Sleep(1000);
+            mIsFullScreen = true;
 
-            if (oldcontext != null)
-                oldcontext.Dispose();
-            if (oldForm != null)
-                oldForm.Dispose();
+            if (oldWindowInfo != null) oldWindowInfo.Dispose();
+            if (oldcontext != null)                oldcontext.Dispose();
+            if (oldForm != null)                oldForm.Dispose();
 
             Core.IsActive = true;
         }
@@ -136,15 +153,19 @@ namespace ERY.AgateLib.OpenGL
             DetachEvents();
 
             Form oldForm = frm;
-            GLContext oldcontext = mContext;
+            GraphicsContext oldcontext = mContext;
+            IWindowInfo oldWindowInfo = mWindowInfo;
+
             mContext = null;
+            mIsFullScreen = false;
 
             Form myform;
             Control myRenderTarget;
 
+            DisplayDevice.Default.RestoreResolution();
+
             WinForms.FormUtil.InitializeWindowsForm(out myform, out myRenderTarget, mChoosePosition,
                 mTitle, mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
-
 
             frm = myform;
             mRenderTarget = myRenderTarget;
@@ -155,15 +176,15 @@ namespace ERY.AgateLib.OpenGL
             frm.Show();
             AttachEvents();
 
-            mContext = new GLContext(
-                new DisplayMode(mChooseWidth, mChooseHeight, 
-                new ColorMode(8,8,8,8)),
-                new WindowInfo(myRenderTarget));
+            mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
+            mContext = new GraphicsContext(
+                new GraphicsMode(new ColorFormat(32)), mWindowInfo);
+            mContext.MakeCurrent(mWindowInfo);
+            ((IGraphicsContextInternal)mContext).LoadAll();
 
-            if (oldcontext != null)
-                oldcontext.Dispose();
-            if (oldForm != null)
-                oldForm.Dispose();
+            if (oldWindowInfo != null) oldWindowInfo.Dispose();
+            if (oldcontext != null) oldcontext.Dispose();
+            if (oldForm != null) oldForm.Dispose();
 
             Core.IsActive = true;
         }
@@ -171,6 +192,8 @@ namespace ERY.AgateLib.OpenGL
 
         public override void Dispose()
         {
+            mDisplay.ProcessEventsEvent -= mDisplay_ProcessEventsEvent;
+
             if (mContext != null)
             {
                 mContext.Dispose();
@@ -187,7 +210,7 @@ namespace ERY.AgateLib.OpenGL
 
         public void MakeCurrent()
         {
-            mContext.MakeCurrent();
+            mContext.MakeCurrent(mWindowInfo);
 
             GL.Viewport(0, 0, Width, Height);
 
@@ -309,8 +332,7 @@ namespace ERY.AgateLib.OpenGL
         {
             get
             {
-                return false;
-                //return mContext.IsFullscreen;
+                return mIsFullScreen;
             }
         }
 
@@ -360,7 +382,7 @@ namespace ERY.AgateLib.OpenGL
 
         public override void BeginRender()
         {
-            mContext.MakeCurrent();
+            mContext.MakeCurrent(mWindowInfo);
 
             mDisplay.SetClipRect(new Rectangle(0, 0, Width, Height));
             
@@ -385,7 +407,11 @@ namespace ERY.AgateLib.OpenGL
                     "System.Windows.Forms.Control object, and cannot be set to full screen.");
 
             ScreenMode mode = ScreenMode.SelectBestMode(width, height, bpp);
-            
+
+            mChooseWidth = width;
+            mChooseHeight = height;
+            mChooseBitDepth = bpp;
+
             CreateFullScreenDisplay();
             Keyboard.ReleaseAllKeys();
         }
