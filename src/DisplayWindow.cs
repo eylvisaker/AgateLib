@@ -191,29 +191,15 @@ namespace ERY.AgateLib
         }
         
         /// <summary>
-        /// Destructs a DisplayWindow
-        /// </summary>
-        ~DisplayWindow()
-        {
-            Dispose(false);
-        }
-        /// <summary>
         /// Disposes of unmanaged resources.
         /// </summary>
         public void Dispose()
-        {
-            Dispose(true);
-        }
-        private void Dispose(bool disposing)
         {
             if (impl != null)
             {
                 impl.Dispose();
                 impl = null;
             }
-
-            if (disposing)
-                GC.SuppressFinalize(this);
         }
         /// <summary>
         /// Returns true if this DisplayWindow has been closed, either

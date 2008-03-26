@@ -198,13 +198,6 @@ namespace ERY.AgateLib
             impl = Audio.Impl.CreateSoundBuffer(fn);
             mFilename = filename;
         }
-        /// <summary>
-        /// Destroys a SoundBuffer object.
-        /// </summary>
-        ~SoundBuffer()
-        {
-            Dispose(false);
-        }
 
         /// <summary>
         /// Disposes of the SoundBuffer object, and all SoundBufferSession objects
@@ -212,14 +205,6 @@ namespace ERY.AgateLib
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (disposing)
-                GC.SuppressFinalize(this);
-
             // trick to keep the list from changing while we iterate through it.
             List<SoundBufferSession> sessions = mSessions;
             mSessions = null;
@@ -412,29 +397,14 @@ namespace ERY.AgateLib
             Volume = mSource.Volume;
             Pan = mSource.Pan;
         }
-        /// <summary>
-        /// Destroyes a SoundBufferSession object.
-        /// </summary>
-        ~SoundBufferSession()
-        {
-            Dispose(false);
-        }
 
         /// <summary>
         /// Destroys the unmanaged resources associated with this object.
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
             impl.Dispose(); 
             mSource.RemoveSession(this);
-
-            if (disposing)
-                GC.SuppressFinalize(this);
         }
 
 
@@ -553,32 +523,17 @@ namespace ERY.AgateLib
             impl = Audio.Impl.CreateMusic(fn);
             mFilename = filename;
         }
-        /// <summary>
-        /// Destroyes a Music object.
-        /// </summary>
-        ~Music()
-        {
-            Dispose(false);
-        }
-
+        
         /// <summary>
         /// Destroys the unmanaged resources associated with this object.
         /// </summary>
         public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
         {
             if (impl != null)
             {
                 impl.Dispose();
                 impl = null;
             }
-
-            if (disposing)
-                GC.SuppressFinalize(this);
         }
 
         /// <summary>

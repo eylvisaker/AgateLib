@@ -171,28 +171,14 @@ namespace ERY.AgateLib
         }
 
         /// <summary>
-        /// Destroys this object.
-        /// </summary>
-        ~FontSurface()
-        {
-            Dispose(false);
-        }
-        /// <summary>
         /// Disposes of this object.
         /// </summary>
         public void Dispose()
-        {
-            Dispose(true);
-        }
-        private void Dispose(bool disposing)
         {
             if (impl != null)
                 impl.Dispose();
 
             impl = null;
-
-            if (disposing)
-                GC.SuppressFinalize(this);
         }
 
         /// <summary>

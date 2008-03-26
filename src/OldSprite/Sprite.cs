@@ -247,26 +247,12 @@ namespace ERY.AgateLib
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-        private void Dispose(bool disposing)
-        {
             foreach (SpriteFrame f in mFrames)
             {
                 f.Dispose();
             }
 
             mFrames.Clear();
-
-            if (disposing)
-                GC.SuppressFinalize(this);
-        }
-        /// <summary>
-        /// Destroyes this sprite object.
-        /// </summary>
-        ~Sprite()
-        {
-            Dispose(false);
         }
 
         #endregion

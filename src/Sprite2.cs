@@ -249,24 +249,8 @@ namespace ERY.AgateLib
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-        private void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (mOwnSurface)
-                    mSurface.Dispose();
-
-                GC.SuppressFinalize(this);
-            }
-        }
-        /// <summary>
-        /// Destroyes this sprite object.
-        /// </summary>
-        ~Sprite2()
-        {
-            Dispose(false);
+            if (mOwnSurface)
+                mSurface.Dispose();
         }
 
         #endregion

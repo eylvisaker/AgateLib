@@ -50,13 +50,6 @@ namespace ERY.AgateLib
         internal SpriteFrame()
         {
         }
-        /// <summary>
-        /// Destroys this SpriteFrame.
-        /// </summary>
-        ~SpriteFrame()
-        {
-            Dispose(false);
-        }
 
         /// <summary>
         /// Reduces the reference counter for this class, and disposes of unmanaged
@@ -64,21 +57,13 @@ namespace ERY.AgateLib
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
+            if (mRefCount == 0)
+                return;
 
-        private void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                mRefCount--;
+            mRefCount--;
 
-                if (mRefCount >= 0)
-                    return;
-
-                
-                GC.SuppressFinalize(this);
-            }
+            if (mRefCount >= 0)
+                return;
 
             if (mSurface != null)
             {
@@ -88,7 +73,6 @@ namespace ERY.AgateLib
 
                 mOriginalSize = new Size(-1, -1);
             }
-
         }
 
         /// <summary>
