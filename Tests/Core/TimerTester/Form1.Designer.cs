@@ -56,16 +56,16 @@ namespace TimerTester
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(48, 12);
+            this.label1.Location = new System.Drawing.Point(55, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 13);
+            this.label1.Size = new System.Drawing.Size(111, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Application Timer";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtTimer
             // 
-            this.txtTimer.Location = new System.Drawing.Point(142, 9);
+            this.txtTimer.Location = new System.Drawing.Point(172, 12);
             this.txtTimer.Name = "txtTimer";
             this.txtTimer.Size = new System.Drawing.Size(100, 20);
             this.txtTimer.TabIndex = 1;
@@ -74,7 +74,7 @@ namespace TimerTester
             // btnPause
             // 
             this.btnPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPause.Location = new System.Drawing.Point(259, 12);
+            this.btnPause.Location = new System.Drawing.Point(287, 12);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(75, 23);
             this.btnPause.TabIndex = 3;
@@ -85,7 +85,7 @@ namespace TimerTester
             // btnResume
             // 
             this.btnResume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnResume.Location = new System.Drawing.Point(259, 41);
+            this.btnResume.Location = new System.Drawing.Point(287, 41);
             this.btnResume.Name = "btnResume";
             this.btnResume.Size = new System.Drawing.Size(75, 23);
             this.btnResume.TabIndex = 4;
@@ -96,7 +96,7 @@ namespace TimerTester
             // btnForceResume
             // 
             this.btnForceResume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnForceResume.Location = new System.Drawing.Point(259, 70);
+            this.btnForceResume.Location = new System.Drawing.Point(287, 70);
             this.btnForceResume.Name = "btnForceResume";
             this.btnForceResume.Size = new System.Drawing.Size(75, 23);
             this.btnForceResume.TabIndex = 5;
@@ -106,17 +106,17 @@ namespace TimerTester
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(65, 171);
+            this.label2.Location = new System.Drawing.Point(72, 174);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 13);
+            this.label2.Size = new System.Drawing.Size(94, 13);
             this.label2.TabIndex = 6;
             this.label2.Text = "Custom Timer";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnCustomForceResume
             // 
             this.btnCustomForceResume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCustomForceResume.Location = new System.Drawing.Point(259, 253);
+            this.btnCustomForceResume.Location = new System.Drawing.Point(287, 253);
             this.btnCustomForceResume.Name = "btnCustomForceResume";
             this.btnCustomForceResume.Size = new System.Drawing.Size(75, 23);
             this.btnCustomForceResume.TabIndex = 11;
@@ -127,7 +127,7 @@ namespace TimerTester
             // btnCustomResume
             // 
             this.btnCustomResume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCustomResume.Location = new System.Drawing.Point(259, 224);
+            this.btnCustomResume.Location = new System.Drawing.Point(287, 224);
             this.btnCustomResume.Name = "btnCustomResume";
             this.btnCustomResume.Size = new System.Drawing.Size(75, 23);
             this.btnCustomResume.TabIndex = 10;
@@ -138,7 +138,7 @@ namespace TimerTester
             // btnCustomPause
             // 
             this.btnCustomPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCustomPause.Location = new System.Drawing.Point(259, 195);
+            this.btnCustomPause.Location = new System.Drawing.Point(287, 195);
             this.btnCustomPause.Name = "btnCustomPause";
             this.btnCustomPause.Size = new System.Drawing.Size(75, 23);
             this.btnCustomPause.TabIndex = 9;
@@ -149,7 +149,7 @@ namespace TimerTester
             // btnCustomReset
             // 
             this.btnCustomReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCustomReset.Location = new System.Drawing.Point(259, 166);
+            this.btnCustomReset.Location = new System.Drawing.Point(287, 166);
             this.btnCustomReset.Name = "btnCustomReset";
             this.btnCustomReset.Size = new System.Drawing.Size(75, 23);
             this.btnCustomReset.TabIndex = 8;
@@ -159,7 +159,7 @@ namespace TimerTester
             // 
             // txtCustomTimer
             // 
-            this.txtCustomTimer.Location = new System.Drawing.Point(142, 166);
+            this.txtCustomTimer.Location = new System.Drawing.Point(172, 169);
             this.txtCustomTimer.Name = "txtCustomTimer";
             this.txtCustomTimer.Size = new System.Drawing.Size(100, 20);
             this.txtCustomTimer.TabIndex = 7;
@@ -168,7 +168,7 @@ namespace TimerTester
             // btnPauseAll
             // 
             this.btnPauseAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnPauseAll.Location = new System.Drawing.Point(10, 304);
+            this.btnPauseAll.Location = new System.Drawing.Point(10, 336);
             this.btnPauseAll.Name = "btnPauseAll";
             this.btnPauseAll.Size = new System.Drawing.Size(75, 23);
             this.btnPauseAll.TabIndex = 12;
@@ -179,7 +179,7 @@ namespace TimerTester
             // btnResumeAll
             // 
             this.btnResumeAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnResumeAll.Location = new System.Drawing.Point(91, 304);
+            this.btnResumeAll.Location = new System.Drawing.Point(91, 336);
             this.btnResumeAll.Name = "btnResumeAll";
             this.btnResumeAll.Size = new System.Drawing.Size(75, 23);
             this.btnResumeAll.TabIndex = 13;
@@ -190,7 +190,7 @@ namespace TimerTester
             // btnForceAll
             // 
             this.btnForceAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnForceAll.Location = new System.Drawing.Point(172, 304);
+            this.btnForceAll.Location = new System.Drawing.Point(172, 336);
             this.btnForceAll.Name = "btnForceAll";
             this.btnForceAll.Size = new System.Drawing.Size(114, 23);
             this.btnForceAll.TabIndex = 14;
@@ -200,16 +200,16 @@ namespace TimerTester
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 35);
+            this.label3.Location = new System.Drawing.Point(19, 38);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(124, 13);
+            this.label3.Size = new System.Drawing.Size(147, 13);
             this.label3.TabIndex = 15;
             this.label3.Text = "- Environment.TickCount";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtEnv
             // 
-            this.txtEnv.Location = new System.Drawing.Point(142, 32);
+            this.txtEnv.Location = new System.Drawing.Point(172, 35);
             this.txtEnv.Name = "txtEnv";
             this.txtEnv.Size = new System.Drawing.Size(100, 20);
             this.txtEnv.TabIndex = 16;
@@ -217,16 +217,16 @@ namespace TimerTester
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(5, 70);
+            this.label4.Location = new System.Drawing.Point(12, 73);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(131, 13);
+            this.label4.Size = new System.Drawing.Size(154, 13);
             this.label4.TabIndex = 17;
             this.label4.Text = "Sum of Display.DeltaTime ";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtDeltaTime
             // 
-            this.txtDeltaTime.Location = new System.Drawing.Point(142, 67);
+            this.txtDeltaTime.Location = new System.Drawing.Point(172, 70);
             this.txtDeltaTime.Name = "txtDeltaTime";
             this.txtDeltaTime.Size = new System.Drawing.Size(100, 20);
             this.txtDeltaTime.TabIndex = 18;
@@ -234,7 +234,7 @@ namespace TimerTester
             // 
             // txtDeltaTimeAvg
             // 
-            this.txtDeltaTimeAvg.Location = new System.Drawing.Point(142, 93);
+            this.txtDeltaTimeAvg.Location = new System.Drawing.Point(172, 96);
             this.txtDeltaTimeAvg.Name = "txtDeltaTimeAvg";
             this.txtDeltaTimeAvg.Size = new System.Drawing.Size(100, 20);
             this.txtDeltaTimeAvg.TabIndex = 20;
@@ -242,18 +242,18 @@ namespace TimerTester
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(5, 96);
+            this.label5.Location = new System.Drawing.Point(12, 99);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(129, 13);
+            this.label5.Size = new System.Drawing.Size(152, 13);
             this.label5.TabIndex = 19;
             this.label5.Text = "Avg of Display.DeltaTime ";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 339);
+            this.ClientSize = new System.Drawing.Size(374, 371);
             this.Controls.Add(this.txtDeltaTimeAvg);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtDeltaTime);

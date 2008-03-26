@@ -37,9 +37,10 @@ namespace PerformanceTester
             frmPerformanceTester frm = new frmPerformanceTester();
             frm.Show();
 
+            Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
+
             foreach (DriverInfo<DisplayTypeID> info in drivers)
             {
-                Console.WriteLine(string.Format("Starting driver {0}...", info.Name));
                 Trace.WriteLine(string.Format("Starting driver {0}...", info.Name));
                 Trace.Indent();
                 double fps;
