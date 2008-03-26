@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TilingTest", "TilingTest\Ti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pong", "Pong\Pong.csproj", "{436641C4-846C-42D0-8E8F-95F70E211D22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallBuster.Net", "BallBuster.Net\BallBuster.Net.csproj", "{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{436641C4-846C-42D0-8E8F-95F70E211D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{436641C4-846C-42D0-8E8F-95F70E211D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{436641C4-846C-42D0-8E8F-95F70E211D22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
