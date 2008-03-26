@@ -314,6 +314,9 @@ namespace ERY.AgateLib.BitmapFont
         /// <param name="text"></param>
         public override void DrawText(int destX, int destY, string text)
         {
+            if (string.IsNullOrEmpty(text))
+                return;
+
             RectangleF[] srcRects = new RectangleF[text.Length];
             RectangleF[] destRects = new RectangleF[text.Length];
 

@@ -36,14 +36,7 @@ namespace ERY.AgateLib
         /// No key pressed.
         /// </summary>
         None = 0,
-        /*
-        LButton = 1,
-        RButton = 2,
-        Cancel = 3,
-        MButton = 4,
-        XButton1 = 5,
-        XButton2 = 6,
-         * */
+
         /// <summary>
         /// Backspace key.
         /// </summary>
@@ -146,45 +139,97 @@ namespace ERY.AgateLib
         /// ???
         /// </summary>
         Help = 47,
+
+        /// <summary>
+        /// Zero key on main keyboarDigit.
+        /// </summary>
+        Digit0 = 48,
+        /// <summary>
+        /// One key on main keyboarDigit
+        /// </summary>
+        Digit1 = 49,
+        /// <summary>
+        /// Two key on main keyboarDigit
+        /// </summary>
+        Digit2 = 50,
+        /// <summary>
+        /// Three key on main keyboarDigit
+        /// </summary>
+        Digit3 = 51,
+        /// <summary>
+        /// Four key on main keyboarDigit
+        /// </summary>
+        Digit4 = 52,
+        /// <summary>
+        /// Five key on main keyboarDigit
+        /// </summary>
+        Digit5 = 53,
+        /// <summary>
+        /// Six key on main keyboarDigit
+        /// </summary>
+        Digit6 = 54,
+        /// <summary>
+        /// Seven key on main keyboarDigit
+        /// </summary>
+        Digit7 = 55,
+        /// <summary>
+        /// Eight key on main keyboarDigit
+        /// </summary>
+        Digit8 = 56,
+        /// <summary>
+        /// Nine key on main keyboard
+        /// </summary>
+        Digit9 = 57,
+
         /// <summary>
         /// Zero key on main keyboard.
         /// </summary>
+        [Obsolete("Use Digit# instead.")]
         D0 = 48,
         /// <summary>
         /// One key on main keyboard
         /// </summary>
+        [Obsolete("Use Digit# instead.")]
         D1 = 49,
         /// <summary>
         /// Two key on main keyboard
         /// </summary>
+        [Obsolete("Use Digit# instead.")]
         D2 = 50,
         /// <summary>
         /// Three key on main keyboard
         /// </summary>
+        [Obsolete("Use Digit# instead.")]
         D3 = 51,
         /// <summary>
         /// Four key on main keyboard
         /// </summary>
+        [Obsolete("Use Digit# instead.")]
         D4 = 52,
         /// <summary>
         /// Five key on main keyboard
         /// </summary>
+        [Obsolete("Use Digit# instead.")]
         D5 = 53,
         /// <summary>
         /// Six key on main keyboard
         /// </summary>
+        [Obsolete("Use Digit# instead.")]
         D6 = 54,
         /// <summary>
         /// Seven key on main keyboard
         /// </summary>
+        [Obsolete("Use Digit# instead.")]
         D7 = 55,
         /// <summary>
         /// Eight key on main keyboard
         /// </summary>
+        [Obsolete("Use Digit# instead.")]
         D8 = 56,
         /// <summary>
         /// Nine key on main keyboard
         /// </summary>
+        [Obsolete("Use Digit# instead.")]
         D9 = 57,
         /// <summary>
         /// A key.
@@ -290,17 +335,33 @@ namespace ERY.AgateLib
         /// Z key.
         /// </summary>
         Z = 90,
+
+        /// <summary>
+        /// Left windows key 
+        /// </summary>
+        WinLeft = 91,
+        /// <summary>
+        /// Right windows key
+        /// </summary>
+        WinRight = 92,
+        /// <summary>
+        /// Menu key, usually between right windows key and right control key.
+        /// </summary>
+        Menu = 93,
         /// <summary>
         /// Left windows key
         /// </summary>
+        [Obsolete("Use WinLeft instead.")]
         LWin = 91,
         /// <summary>
         /// Right windows key
         /// </summary>
+        [Obsolete("Use WinRight instead.")]
         RWin = 92,
         /// <summary>
         /// Menu key, usually between right windows key and right control key.
         /// </summary>
+        [Obsolete("Use Menu instead.")]
         Apps = 93,
         /// <summary>
         /// ???
@@ -473,30 +534,59 @@ namespace ERY.AgateLib
         /// <summary>
         /// Scroll Lock key
         /// </summary>
+        ScrollLock = 145,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        ShiftLeft = 160,
+        /// <summary>
+        /// 
+        /// </summary>
+        ShiftRight = 161,
+        /// <summary>
+        /// 
+        /// </summary>
+        ControlLeft = 162,
+        /// <summary>
+        /// 
+        /// </summary>
+        ControlRight = 163,
+
+        /// <summary>
+        /// Scroll Lock key
+        /// </summary>
+        [Obsolete("Use ScrollLock instead.")]
         Scroll = 145,
         /// <summary>
         /// 
         /// </summary>
+        [Obsolete]
         LShiftKey = 160,
         /// <summary>
         /// 
         /// </summary>
+        [Obsolete]
         RShiftKey = 161,
         /// <summary>
         /// 
         /// </summary>
+        [Obsolete]
         LControlKey = 162,
         /// <summary>
         /// 
         /// </summary>
+        [Obsolete]
         RControlKey = 163,
         /// <summary>
         /// 
         /// </summary>
+        [Obsolete]
         LMenu = 164,
         /// <summary>
         /// 
         /// </summary>
+        [Obsolete]
         RMenu = 165,
         /// <summary>
         /// 
@@ -577,6 +667,7 @@ namespace ERY.AgateLib
         /// <summary>
         /// 
         /// </summary>
+        [Obsolete]
         Oem1 = 186,
         /// <summary>
         /// Plus and equals key
@@ -621,6 +712,7 @@ namespace ERY.AgateLib
         /// <summary>
         /// ???
         /// </summary>
+        [Obsolete]
         Oem8 = 223,
 
         

@@ -48,8 +48,8 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio.cs" />
-    <Compile Include="CreateWindowParams.cs" />
+    <Compile Include="Audio\Audio.cs" />
+    <Compile Include="Display\CreateWindowParams.cs" />
     <Compile Include="Drivers\TypeID.cs" />
     <Compile Include="Drivers\DriverInfo.cs" />
     <Compile Include="Drivers\DriverInfoList.cs" />
@@ -61,8 +61,8 @@
     <Compile Include="Geometry\TypeConverters.cs" />
     <Compile Include="Geometry\Vector2.cs" />
     <Compile Include="Geometry\Vector3.cs" />
-    <Compile Include="Core.cs" />
-    <Compile Include="FileManager.cs" />
+    <Compile Include="Core\Core.cs" />
+    <Compile Include="Core\FileManager.cs" />
     <Compile Include="Drivers\DriverImplBase.cs" />
     <Compile Include="ImplBase\AudioImpl.cs" />
     <Compile Include="BitmapFont\BitmapFontImpl.cs" />
@@ -74,24 +74,24 @@
     <Compile Include="ImplBase\JoystickImpl.cs" />
     <Compile Include="ImplBase\RenderTargetImpl.cs" />
     <Compile Include="ImplBase\SurfaceImpl.cs" />
-    <Compile Include="InputCommand.cs" />
-    <Compile Include="InputState.cs" />
+    <Compile Include="Input\InputCommand.cs" />
+    <Compile Include="Input\InputState.cs" />
     <Compile Include="Drivers\NullInputImpl.cs" />
     <Compile Include="Drivers\NullSoundImpl.cs" />
-    <Compile Include="ISurface.cs" />
-    <Compile Include="Light.cs" />
-    <Compile Include="LightManager.cs" />
-    <Compile Include="Origin.cs" />
+    <Compile Include="Display\ISurface.cs" />
+    <Compile Include="Display\Light.cs" />
+    <Compile Include="Display\LightManager.cs" />
+    <Compile Include="Display\Origin.cs" />
     <Compile Include="Drivers\Registrar.cs" />
-    <Compile Include="OriginAlignment.cs" />
-    <Compile Include="PixelBuffer.cs" />
+    <Compile Include="Display\OriginAlignment.cs" />
+    <Compile Include="Display\PixelBuffer.cs" />
     <Compile Include="PlatformSpecific\Win32.cs" />
     <Compile Include="PlatformSpecific\X11.cs" />
-    <Compile Include="ScreenMode.cs" />
-    <Compile Include="SearchPath.cs" />
-    <Compile Include="Sprite2.cs" />
-    <Compile Include="SpriteFrame2.cs" />
-    <Compile Include="StringTransformer.cs" />
+    <Compile Include="Display\ScreenMode.cs" />
+    <Compile Include="Core\SearchPath.cs" />
+    <Compile Include="Display\Sprite2.cs" />
+    <Compile Include="Display\SpriteFrame2.cs" />
+    <Compile Include="Core\StringTransformer.cs" />
     <Compile Include="Geometry\Color.cs" />
     <Compile Include="Geometry\Point.cs" />
     <Compile Include="Geometry\PointF.cs" />
@@ -99,18 +99,18 @@
     <Compile Include="Geometry\RectangleF.cs" />
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\SizeF.cs" />
-    <Compile Include="Input.cs" />
-    <Compile Include="Joystick.cs" />
-    <Compile Include="Display.cs" />
-    <Compile Include="DisplayWindow.cs" />
-    <Compile Include="FontSurface.cs" />
-    <Compile Include="IRenderTarget.cs" />
+    <Compile Include="Input\Input.cs" />
+    <Compile Include="Input\Joystick.cs" />
+    <Compile Include="Display\Display.cs" />
+    <Compile Include="Display\DisplayWindow.cs" />
+    <Compile Include="Display\FontSurface.cs" />
+    <Compile Include="Display\IRenderTarget.cs" />
     <Compile Include="OldSprite\SpriteContainer.cs" />
     <Compile Include="Drivers\IUserSetSystems.cs" />
     <Compile Include="Utility\SurfacePacker.cs" />
     <Compile Include="PlatformSpecific\Platform.cs" />
-    <Compile Include="Keyboard.cs" />
-    <Compile Include="Mouse.cs" />
+    <Compile Include="Input\Keyboard.cs" />
+    <Compile Include="Input\Mouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -133,13 +133,13 @@
     </Compile>
     <Compile Include="Resources\Resource.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
-    <Compile Include="AgateSetup.cs" />
+    <Compile Include="Core\AgateSetup.cs" />
     <Compile Include="Utility\Ref.cs" />
     <Compile Include="OldSprite\Sprite.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Surface.cs" />
-    <Compile Include="Timing.cs" />
+    <Compile Include="Display\Surface.cs" />
+    <Compile Include="Core\Timing.cs" />
     <Compile Include="OldSprite\SpriteFrame.cs" />
   </ItemGroup>
   <ItemGroup>
