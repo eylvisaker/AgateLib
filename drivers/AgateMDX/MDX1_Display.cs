@@ -335,7 +335,7 @@ namespace ERY.AgateLib.MDX
             mDevice.DrawBuffer.Flush();
 
             System.Drawing.Rectangle[] rects = new System.Drawing.Rectangle[1];
-            rects[0] = FormsInterop.ConvertRectangle(rect);
+            rects[0] = Interop.Convert(rect);
 
             mDevice.Clear(ClearFlags.Target, color.ToArgb(), 1.0f, 0, rects);
         }

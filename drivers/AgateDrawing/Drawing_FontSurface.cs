@@ -76,7 +76,7 @@ namespace ERY.AgateLib.SystemDrawing
             g.ScaleTransform((float)scalex, (float)scaley);
 
             g.DrawString(text, mFont, 
-                new SolidBrush(FormsInterop.ConvertColor(Color)), Point.Empty);
+                new SolidBrush(Interop.Convert(Color)), Point.Empty);
 
             g.Restore(state);
 

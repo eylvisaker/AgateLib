@@ -347,8 +347,8 @@ namespace ERY.AgateLib.MDX
                 mDevice.Lights[i].Attenuation1 = lights[i].AttenuationLinear;
                 mDevice.Lights[i].Attenuation2 = lights[i].AttenuationQuadratic;
 
-                mDevice.Lights[i].Diffuse = FormsInterop.ConvertColor(lights[i].Diffuse);
-                mDevice.Lights[i].Ambient = FormsInterop.ConvertColor(lights[i].Ambient);
+                mDevice.Lights[i].Diffuse = Interop.Convert(lights[i].Diffuse);
+                mDevice.Lights[i].Ambient = Interop.Convert(lights[i].Ambient);
                 //mDevice.Lights[i].Specular = (System.Drawing.Color)lights[i].Specular;
 
                 mDevice.Lights[i].Position = new Microsoft.DirectX.Vector3(

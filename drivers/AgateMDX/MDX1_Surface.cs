@@ -183,7 +183,7 @@ namespace ERY.AgateLib.MDX
         {
             Drawing.Bitmap bitmap = new Drawing.Bitmap(st);
 
-            mSrcRect = new Rectangle(Point.Empty, FormsInterop.ConvertSize(bitmap.Size));
+            mSrcRect = new Rectangle(Point.Empty, Interop.Convert(bitmap.Size));
 
             // this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
             System.IO.MemoryStream stream = new System.IO.MemoryStream();
@@ -227,7 +227,7 @@ namespace ERY.AgateLib.MDX
             string path = mFileName;
             Drawing.Bitmap bitmap = new Drawing.Bitmap(path);
 
-            mSrcRect = new Rectangle(Point.Empty, FormsInterop.ConvertSize(bitmap.Size));
+            mSrcRect = new Rectangle(Point.Empty, Interop.Convert(bitmap.Size));
             /*
             // this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
             System.IO.MemoryStream stream = new System.IO.MemoryStream();
@@ -807,7 +807,7 @@ namespace ERY.AgateLib.MDX
 
             int stride;
             GraphicsStream stm = surf.LockRectangle(
-                FormsInterop.ConvertRectangle(mSrcRect), LockFlags.ReadOnly, out stride);
+                Interop.Convert(mSrcRect), LockFlags.ReadOnly, out stride);
 
             bool retval = this.IsRowBlankScanARGB(stm.InternalData, row, this.SurfaceWidth,
                 stride, (int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
@@ -822,7 +822,7 @@ namespace ERY.AgateLib.MDX
             Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
 
             int stride;
-            GraphicsStream stm = surf.LockRectangle(FormsInterop.ConvertRectangle(mSrcRect),
+            GraphicsStream stm = surf.LockRectangle(Interop.Convert(mSrcRect),
                 LockFlags.ReadOnly, out stride);
 
             bool retval = this.IsColBlankScanARGB(stm.InternalData, col, this.SurfaceHeight,
@@ -846,7 +846,7 @@ namespace ERY.AgateLib.MDX
                 case ImageFileFormat.Tga: d3dformat = Direct3D.ImageFileFormat.Tga; break;
             }
 
-            SurfaceLoader.Save(frameFile, d3dformat, surf, FormsInterop.ConvertRectangle(mSrcRect));
+            SurfaceLoader.Save(frameFile, d3dformat, surf, Interop.Convert(mSrcRect));
         }
 
         #endregion
@@ -1010,7 +1010,7 @@ namespace ERY.AgateLib.MDX
 
             surf.Dispose();
 
-            GraphicsStream stm = mTexture.Value.LockRectangle(0,FormsInterop.ConvertRectangle(updateRect), 0, out pitch);
+            GraphicsStream stm = mTexture.Value.LockRectangle(0,Interop.Convert(updateRect), 0, out pitch);
 
             if (buffer.PixelFormat != pixelFormat)
                 buffer = buffer.ConvertTo(pixelFormat);

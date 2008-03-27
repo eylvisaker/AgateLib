@@ -82,7 +82,7 @@ namespace ERY.AgateLib.WinForms
                 // space character, which is not drawn when by itself.
                 if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                 {
-                    SizeF padSize = FormsInterop.ConvertSizeF(g.MeasureString(" ", font));
+                    SizeF padSize = Interop.Convert(g.MeasureString(" ", font));
 
                     padding = padSize.Width - 1;
                 }
@@ -300,7 +300,7 @@ namespace ERY.AgateLib.WinForms
 
             PixelFormat bitmapFormat = PixelFormat.BGRA8888;
 
-            PixelBuffer buffer = new PixelBuffer(bitmapFormat, FormsInterop.ConvertSize(bmp.Size), 
+            PixelBuffer buffer = new PixelBuffer(bitmapFormat, Interop.Convert(bmp.Size), 
                 data.Scan0, bitmapFormat, data.Stride);
 
             // now convert pixels to gray scale.

@@ -544,7 +544,7 @@ namespace ERY.AgateLib.OpenGL
         private void LoadFromBitmap(Drawing.Bitmap sourceImage)
         {
 
-            mSourceRect.Size = FormsInterop.ConvertSize(sourceImage.Size);
+            mSourceRect.Size = Interop.Convert(sourceImage.Size);
 
             Size newSize = GetOGLSize(sourceImage);
 
@@ -557,7 +557,7 @@ namespace ERY.AgateLib.OpenGL
             g.DrawImage(sourceImage, new Drawing.Rectangle(new Drawing.Point(0, 0), sourceImage.Size));
             g.Dispose();
 
-            mTextureSize = FormsInterop.ConvertSize(textureImage.Size);
+            mTextureSize = Interop.Convert(textureImage.Size);
 
             mTexCoord = GetTextureCoords(mSourceRect);
 
@@ -566,7 +566,7 @@ namespace ERY.AgateLib.OpenGL
             Rectangle rectangle = new Rectangle(0, 0, textureImage.Width, textureImage.Height);
 
             // Get The Bitmap's Pixel Data From The Locked Bitmap
-            BitmapData bitmapData = textureImage.LockBits(FormsInterop.ConvertRectangle(rectangle),
+            BitmapData bitmapData = textureImage.LockBits(Interop.Convert(rectangle),
                 ImageLockMode.ReadOnly, Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             // use a pixelbuffer to do format conversion.
