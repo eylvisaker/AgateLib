@@ -15,7 +15,7 @@ High Priority (0.3.0 definitely)
 		D Categorize AgateLib source code by subsystem
 	Drivers
 		D Update AgateOTK to newer version of OpenTK
-		* Update AgateOTK to use Framebuffer extension for fast render-to-surface
+		D Update AgateOTK to use Framebuffer extension for fast render-to-surface
 		D Fix MDX render-to-surface bug. (Apparently fixed?)
 		* Check base class and see if it can be replaced by an interface
 		* Check for necessity of PlatformTypeID class
