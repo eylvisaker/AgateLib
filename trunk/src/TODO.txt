@@ -20,6 +20,7 @@ High Priority (0.3.0 definitely)
 		* Check base class and see if it can be replaced by an interface
 		* Check for necessity of PlatformTypeID class
 	Sprites
+		* Create ISprite and ISpriteFrame interfaces
 		* Finish Sprite2 class and find a good name for it.
 		* Figure out what to do with the Sprite class (keep it for sure)
 		* Test Sprite2 class
