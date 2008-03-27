@@ -581,6 +581,16 @@ namespace ERY.AgateLib.ImplBase
         {
             get { return false; }
         }
-       
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pixelBuffer"></param>
+        /// <param name="filename"></param>
+        /// <param name="format"></param>
+        protected internal virtual void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
+        {
+            throw new InvalidOperationException("Display driver does not support saving pixel buffers.");
+        }
     }
 }

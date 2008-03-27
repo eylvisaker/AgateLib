@@ -777,39 +777,8 @@ namespace ERY.AgateLib
         /// <param name="format"></param>
         public void SaveTo(string filename, ImageFileFormat format)
         {
-            Drawing.Bitmap bmp = new System.Drawing.Bitmap(Width, Height);
+            Display.SavePixelBuffer(this, filename, format);
 
-            Drawing.Imaging.BitmapData data = bmp.LockBits(
-                new Drawing.Rectangle(Drawing.Point.Empty, (Drawing.Size)Size),
-                Drawing.Imaging.ImageLockMode.WriteOnly, 
-                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            PixelBuffer buffer = this;
-
-            if (PixelFormat != PixelFormat.BGRA8888)
-            {
-                buffer = ConvertTo(PixelFormat.BGRA8888);
-            }
-
-            Marshal.Copy(buffer.Data, 0, data.Scan0, buffer.Data.Length);
-
-            bmp.UnlockBits(data);
-
-            switch(format)
-            {
-                case ImageFileFormat.Bmp:
-                    bmp.Save(filename, Drawing.Imaging.ImageFormat.Bmp);
-                    break;
-
-                case ImageFileFormat.Jpg:
-                    bmp.Save(filename, Drawing.Imaging.ImageFormat.Jpeg);
-                    break;
-                    
-                case ImageFileFormat.Png:
-                    bmp.Save(filename, Drawing.Imaging.ImageFormat.Png);
-                    break;
-                    
-            }
 
         }
 

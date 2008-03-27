@@ -611,6 +611,11 @@ namespace ERY.AgateLib
         {
             impl.DoLighting(lights);
         }
+
+        internal static void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
+        {
+            impl.SavePixelBuffer(pixelBuffer, filename, format);
+        }
     }
 
 
