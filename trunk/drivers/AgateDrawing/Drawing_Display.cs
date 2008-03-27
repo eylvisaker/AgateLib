@@ -246,6 +246,12 @@ namespace ERY.AgateLib.SystemDrawing
         {
             throw new InvalidOperationException("Lighting is not supported.");
         }
+
+        protected override void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
+        {
+            WinForms.FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
+        }
+
         public override IDisplayCaps Caps
         {
             get { return this; }

@@ -368,7 +368,12 @@ namespace ERY.AgateLib.OpenGL
             array[1] = color.G / 255.0f;
             array[2] = color.B / 255.0f;
             array[3] = color.A / 255.0f;
-        } 
+        }
+
+        protected override void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
+        {
+            WinForms.FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
+        }
 
         public override IDisplayCaps Caps
         {
