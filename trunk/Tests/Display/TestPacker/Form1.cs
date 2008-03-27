@@ -29,13 +29,13 @@ namespace TestPacker
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            packer = new SurfacePacker.RectPacker<object>(FormsInterop.ConvertSize(pictureBox1.ClientSize));
+            packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
 
             Redraw();
         }
         private void btnLotsSorted_Click(object sender, EventArgs e)
         {
-            packer = new SurfacePacker.RectPacker<object>(FormsInterop.ConvertSize(pictureBox1.ClientSize));
+            packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
             Random rand = new Random();
 
             btnOne.Enabled = true;
@@ -53,7 +53,7 @@ namespace TestPacker
         }
         private void btnMany_Click(object sender, EventArgs e)
         {
-            packer = new SurfacePacker.RectPacker<object>(FormsInterop.ConvertSize(pictureBox1.ClientSize));
+            packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
             Random rand = new Random();
             bool done = false;
 
@@ -78,7 +78,7 @@ namespace TestPacker
         {
 
             if (packer == null)
-                packer = new SurfacePacker.RectPacker<object>(FormsInterop.ConvertSize(pictureBox1.ClientSize));
+                packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
 
             Random rand = new Random();
             Size sz = new Size(rand.Next(minSize, maxSize), rand.Next(minSize, maxSize));
@@ -106,8 +106,8 @@ namespace TestPacker
 
             foreach (SurfacePacker.RectHolder<object> r in packer)
             {
-                g.FillRectangle(brush, FormsInterop.ConvertRectangle(r.Rect));
-                g.DrawRectangle(pen, FormsInterop.ConvertRectangle(r.Rect));
+                g.FillRectangle(brush, Interop.Convert(r.Rect));
+                g.DrawRectangle(pen, Interop.Convert(r.Rect));
             }
 
             g.Dispose();

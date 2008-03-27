@@ -67,10 +67,6 @@
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\drivers\AgateMDX\AgateMDX.csproj">
-      <Project>{852EB9A0-5DCB-492F-9630-9D4198B81FA2}</Project>
-      <Name>AgateMDX</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\drivers\AgateOTK\AgateOTK.csproj">
       <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
       <Name>AgateOTK</Name>

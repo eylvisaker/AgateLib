@@ -341,14 +341,14 @@ namespace ERY.AgateLib.OpenGL
         {
             get
             {
-                return WinForms.FormsInterop.ConvertSize(mRenderTarget.ClientSize);
+                return WinForms.Interop.Convert(mRenderTarget.ClientSize);
             }
             set
             {
-                mRenderTarget.ClientSize = WinForms.FormsInterop.ConvertSize(value);
+                mRenderTarget.ClientSize = WinForms.Interop.Convert(value);
 
                 if (frm != null)
-                    frm.ClientSize = WinForms.FormsInterop.ConvertSize(value);
+                    frm.ClientSize = WinForms.Interop.Convert(value);
             }
         }
 
@@ -372,11 +372,11 @@ namespace ERY.AgateLib.OpenGL
         {
             get
             {
-                return WinForms.FormsInterop.ConvertPoint(mRenderTarget.PointToClient(Cursor.Position));
+                return WinForms.Interop.Convert(mRenderTarget.PointToClient(Cursor.Position));
             }
             set
             {
-                Cursor.Position = mRenderTarget.PointToScreen(WinForms.FormsInterop.ConvertPoint(value));
+                Cursor.Position = mRenderTarget.PointToScreen(WinForms.Interop.Convert(value));
             }
         }
 

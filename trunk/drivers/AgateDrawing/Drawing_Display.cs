@@ -129,43 +129,43 @@ namespace ERY.AgateLib.SystemDrawing
         {
             CheckInFrame("Clear");
 
-            mGraphics.Clear(FormsInterop.ConvertColor(color));
+            mGraphics.Clear(Interop.Convert(color));
         }
         public override void Clear(Geometry.Color color, Geometry.Rectangle dest_rect)
         {
             CheckInFrame("Clear");
 
             mGraphics.FillRectangle(
-                new SolidBrush(FormsInterop.ConvertColor(color)), FormsInterop.ConvertRectangle(dest_rect));
+                new SolidBrush(Interop.Convert(color)), Interop.Convert(dest_rect));
         }
 
         public override void DrawLine(int x1, int y1, int x2, int y2, Geometry.Color color)
         {
             CheckInFrame("DrawLine");
 
-            mGraphics.DrawLine(new Pen(FormsInterop.ConvertColor(color)), x1, y1, x2, y2);
+            mGraphics.DrawLine(new Pen(Interop.Convert(color)), x1, y1, x2, y2);
         }
         public override void DrawLine(Geometry.Point a, Geometry.Point b, Geometry.Color color)
         {
             CheckInFrame("DrawLine");
 
-            mGraphics.DrawLine(new Pen(FormsInterop.ConvertColor(color)),
-                FormsInterop.ConvertPoint(a), FormsInterop.ConvertPoint(b));
+            mGraphics.DrawLine(new Pen(Interop.Convert(color)),
+                Interop.Convert(a), Interop.Convert(b));
         }
 
         public override void DrawRect(Geometry.Rectangle rect, Geometry.Color color)
         {
             CheckInFrame("DrawRect");
 
-            mGraphics.DrawRectangle(new Pen(FormsInterop.ConvertColor(color)),
-                FormsInterop.ConvertRectangle(rect));
+            mGraphics.DrawRectangle(new Pen(Interop.Convert(color)),
+                Interop.Convert(rect));
         }
         public override void FillRect(Geometry.Rectangle rect, Geometry.Color color)
         {
             CheckInFrame("FillRect");
             
-            mGraphics.FillRectangle(new SolidBrush(FormsInterop.ConvertColor(color)), 
-                FormsInterop.ConvertRectangle(rect));
+            mGraphics.FillRectangle(new SolidBrush(Interop.Convert(color)), 
+                Interop.Convert(rect));
         }
         public override void FillRect(ERY.AgateLib.Geometry.Rectangle rect, ERY.AgateLib.Geometry.Gradient color)
         {
@@ -196,7 +196,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         public override void SetClipRect(Geometry.Rectangle newClipRect)
         {
-            mGraphics.SetClip(FormsInterop.ConvertRectangle(newClipRect));
+            mGraphics.SetClip(Interop.Convert(newClipRect));
             mCurrentClipRect = newClipRect;
         }
         public override void PushClipRect(Geometry.Rectangle newClipRect)

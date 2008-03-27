@@ -117,7 +117,7 @@ namespace ERY.AgateLib.WinForms
             Bitmap bmp = new Bitmap(buffer.Width, buffer.Height);
 
             System.Drawing.Imaging.BitmapData data = bmp.LockBits(
-                new Rectangle(Point.Empty, FormsInterop.ConvertSize(buffer.Size)),
+                new Rectangle(Point.Empty, Interop.Convert(buffer.Size)),
                 System.Drawing.Imaging.ImageLockMode.WriteOnly,
                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
