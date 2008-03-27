@@ -49,7 +49,7 @@ Medium Priority (0.3.0 maybe, or by 0.3.5 for sure)
 		* Research Zip libraries for SearchPath class.
 		* Speed up the GUI classes by prerendering controls to a surface.
 		* Provide overrides for Surface, Sprite and Display to use Vector2.
-		* Z-ordering for Surfaces and Sprites, also 
+		* Z-ordering for Surfaces and Sprites
 		* Deprecate use of FileManager.PathChars 
 		* Add more error reporting
 		* Full screen window creation with a specified icon.
