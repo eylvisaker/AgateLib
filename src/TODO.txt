@@ -39,7 +39,7 @@ High Priority (0.3.0 definitely)
 		* Redesign Joystick input stuff
 		* Add support for POV hats on joysticks.
 	Geometry
-		* Flesh out Vector2 and 3 classes, and include conversion from Point to Vector2.
+		D Flesh out Vector2 and 3 classes, and include conversion from Point to Vector2.
 	Tests
 		D Categorize tests into solutions based on what subsystem they are testing
 
