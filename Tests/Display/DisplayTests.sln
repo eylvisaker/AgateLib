@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPacker", "TestPacker\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileTester", "TileTester\TileTester.csproj", "{5D24FF74-7A26-4156-86C2-6B3C32EBBF1D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK", "..\..\..\..\OpenTK\trunk\Source\OpenTK\OpenTK.csproj", "{42245C5D-B877-4A90-8F11-83F01E31A1C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK.Utilities", "..\..\..\..\OpenTK\trunk\Source\Utilities\OpenTK.Utilities.csproj", "{37FE4A9C-93AA-484A-8567-863D261BF91C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +113,14 @@ Global
 		{5D24FF74-7A26-4156-86C2-6B3C32EBBF1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D24FF74-7A26-4156-86C2-6B3C32EBBF1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D24FF74-7A26-4156-86C2-6B3C32EBBF1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42245C5D-B877-4A90-8F11-83F01E31A1C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42245C5D-B877-4A90-8F11-83F01E31A1C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42245C5D-B877-4A90-8F11-83F01E31A1C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42245C5D-B877-4A90-8F11-83F01E31A1C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37FE4A9C-93AA-484A-8567-863D261BF91C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37FE4A9C-93AA-484A-8567-863D261BF91C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37FE4A9C-93AA-484A-8567-863D261BF91C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37FE4A9C-93AA-484A-8567-863D261BF91C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

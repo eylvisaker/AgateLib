@@ -25,7 +25,7 @@ namespace RotatingSpriteTester
                 if (setup.Cancel)
                     return;
 
-                DisplayWindow wind = new DisplayWindow("Rotating sprite", 500, 500, null, false);
+                DisplayWindow wind = new DisplayWindow("Rotating sprite", 500, 500);
                 Sprite sp = new Sprite("spike.png", 16, 16);
 
                 sp.RotationCenter = OriginAlignment.Center;

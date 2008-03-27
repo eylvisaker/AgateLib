@@ -23,10 +23,11 @@ using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
-using ERY.AgateLib.Geometry;
-
 namespace ERY.AgateLib.MDX
 {
+    using Geometry;
+    using WinForms;
+
     public class D3DDevice : IDisposable
     {
         private Device mDevice;
@@ -345,9 +346,9 @@ namespace ERY.AgateLib.MDX
                 mDevice.Lights[i].Attenuation0 = lights[i].AttenuationConstant;
                 mDevice.Lights[i].Attenuation1 = lights[i].AttenuationLinear;
                 mDevice.Lights[i].Attenuation2 = lights[i].AttenuationQuadratic;
-                
-                mDevice.Lights[i].Diffuse = (System.Drawing.Color)lights[i].Diffuse;
-                mDevice.Lights[i].Ambient = (System.Drawing.Color)lights[i].Ambient;
+
+                mDevice.Lights[i].Diffuse = FormsInterop.ConvertColor(lights[i].Diffuse);
+                mDevice.Lights[i].Ambient = FormsInterop.ConvertColor(lights[i].Ambient);
                 //mDevice.Lights[i].Specular = (System.Drawing.Color)lights[i].Specular;
 
                 mDevice.Lights[i].Position = new Microsoft.DirectX.Vector3(

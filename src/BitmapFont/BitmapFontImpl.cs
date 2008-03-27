@@ -18,7 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
-using Drawing = System.Drawing;
+//using Drawing = System.Drawing;
 using System.Text;
 using System.Xml;
 
@@ -63,8 +63,8 @@ namespace ERY.AgateLib.BitmapFont
         /// the characters.  The source rectangles for each character are passed in.
         /// </summary>
         /// <param name="surface">Surface which contains the image data for the font glyphs.</param>
-        /// <param name="srcRects">An object implementing the IDictionary&lt;char, Rectangle&gt;
-        /// interface, containing the source rectangles on the surface for each font glyph.</param>
+        /// <param name="fontMetrics">FontMetrics structure which describes how characters
+        /// are laid out.</param>
         public BitmapFontImpl(Surface surface, FontMetrics fontMetrics)
         {
             mFontMetrics = fontMetrics.Clone();

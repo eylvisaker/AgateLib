@@ -93,9 +93,8 @@ namespace ERY.AgateLib
         /// <param name="title"></param>
         /// <param name="clientWidth"></param>
         /// <param name="clientHeight"></param>
-        [Obsolete("Use the CreateWindowParams overload")]
         public DisplayWindow(string title, int clientWidth, int clientHeight)
-            : this(title, clientWidth, clientHeight, "", false, false)
+            : this(CreateWindowParams.Windowed(title, clientWidth, clientHeight, "", false))
         {
 
         }

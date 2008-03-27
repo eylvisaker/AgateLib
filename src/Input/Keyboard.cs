@@ -1176,7 +1176,7 @@ namespace ERY.AgateLib
 
                     // I'd love a better way of doing this:
                     // likely, this is not very friendly to non US keyboard layouts.
-                case KeyCode.D0:
+                case KeyCode.Digit0:
                     if (mods.Shift)
                         return ")";
                     else
@@ -1185,7 +1185,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad0:
                     return "0";
 
-                case KeyCode.D1:
+                case KeyCode.Digit1:
                     if (mods.Shift)
                         return "!";
                     else return "1";
@@ -1194,7 +1194,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad1:
                     return "1";
 
-                case KeyCode.D2:
+                case KeyCode.Digit2:
                     if (mods.Shift)
                         return "@";
                     else return "2";
@@ -1202,7 +1202,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad2:
                     return "2";
 
-                case KeyCode.D3:
+                case KeyCode.Digit3:
                     if (mods.Shift)
                         return "#";
                     else return "3";
@@ -1210,7 +1210,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad3:
                     return "3";
 
-                case KeyCode.D4:
+                case KeyCode.Digit4:
                     if (mods.Shift)
                         return "$";
                     else return "4";
@@ -1218,7 +1218,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad4:
                     return "4";
 
-                case KeyCode.D5:
+                case KeyCode.Digit5:
                     if (mods.Shift)
                         return "%";
                     else return "5";
@@ -1226,7 +1226,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad5:
                     return "5";
 
-                case KeyCode.D6:
+                case KeyCode.Digit6:
                     if (mods.Shift)
                         return "^";
                     else return "6";
@@ -1234,7 +1234,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad6:
                     return "6";
 
-                case KeyCode.D7:
+                case KeyCode.Digit7:
                     if (mods.Shift)
                         return "&";
                     else return "7";
@@ -1242,7 +1242,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad7:
                     return "7";
 
-                case KeyCode.D8:
+                case KeyCode.Digit8:
                     if (mods.Shift)
                         return "*";
                     else return "8";
@@ -1251,7 +1251,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad8:
                     return "8";
 
-                case KeyCode.D9:
+                case KeyCode.Digit9:
                     if (mods.Shift)
                         return "(";
                     else return "9";

@@ -26,6 +26,8 @@ using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.SystemDrawing
 {
+    using WinForms;
+
     class Drawing_FontSurface : FontSurfaceImpl
     {
         Font mFont;
@@ -74,7 +76,7 @@ namespace ERY.AgateLib.SystemDrawing
             g.ScaleTransform((float)scalex, (float)scaley);
 
             g.DrawString(text, mFont, 
-                new SolidBrush((Color)Color), Point.Empty);
+                new SolidBrush(FormsInterop.ConvertColor(Color)), Point.Empty);
 
             g.Restore(state);
 
