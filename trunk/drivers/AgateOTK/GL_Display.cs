@@ -39,7 +39,21 @@ namespace ERY.AgateLib.OpenGL
         Rectangle mCurrentClip = Rectangle.Empty;
         private bool mVSync = true;
         private int mMaxLightsUsed = 0;
+        private bool mSupportsFramebuffer;
+        private bool mNonPowerOf2Textures;
 
+        public bool NonPowerOf2Textures
+        {
+            get { return mNonPowerOf2Textures; }
+            set { mNonPowerOf2Textures = value; }
+        }
+	
+        public bool SupportsFramebuffer
+        {
+            get { return mSupportsFramebuffer; }
+            set { mSupportsFramebuffer = value; }
+        }
+	
         internal event EventHandler ProcessEventsEvent;
 
         protected override void ProcessEvents()
@@ -301,6 +315,8 @@ namespace ERY.AgateLib.OpenGL
             GL.DepthFunc(DepthFunction.Lequal);                         // The Type Of Depth Testing To Do
             GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
                 HintMode.Nicest);
+
+            mSupportsFramebuffer = GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
         }
  
         public override void Dispose()

@@ -48,6 +48,10 @@ namespace ERY.AgateLib.OpenGL
         static Dictionary<int, int> mTextureIDs = new Dictionary<int, int>();
         int mTextureID;
 
+        // Render to texture fields
+        int mFramebufferID; 
+        int mDepthBuffer;
+
         Rectangle mSourceRect;
 
         /// <summary>
@@ -495,44 +499,93 @@ namespace ERY.AgateLib.OpenGL
 
         public override void BeginRender()
         {
-            GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
+            if (mDisplay.SupportsFramebuffer)
+            {
+                // generate the frame buffer
+                GL.Ext.GenFramebuffers(1, out mFramebufferID);
+                GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
 
-            mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
+                // generate a depth buffer to render to
+                GL.Ext.GenRenderbuffers(1, out mDepthBuffer);
+                GL.Ext.BindRenderbuffer(RenderbufferTarget.RenderbufferExt, mDepthBuffer);
+
+                // hack here because RenderbufferStorage enum is incomplete.
+                GL.Ext.RenderbufferStorage(RenderbufferTarget.RenderbufferExt,
+                    (RenderbufferStorage)OTKPixelFormat.DepthComponent, 
+                    mTextureSize.Width, mTextureSize.Height);
+
+                // attach the depth buffer
+                GL.Ext.FramebufferRenderbuffer(FramebufferTarget.FramebufferExt,
+                    FramebufferAttachment.DepthAttachmentExt, RenderbufferTarget.RenderbufferExt,
+                    mDepthBuffer);
+
+                // attach the texture
+                GL.Ext.FramebufferTexture2D(FramebufferTarget.FramebufferExt,
+                     FramebufferAttachment.ColorAttachment0Ext, TextureTarget.Texture2D,
+                     mTextureID, 0);
+
+                FramebufferErrorCode code = 
+                    GL.Ext.CheckFramebufferStatus(FramebufferTarget.FramebufferExt);
+
+                GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
+                GL.PushAttrib(AttribMask.ViewportBit);
+
+                GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
+                mDisplay.SetupGLOrtho(
+                    Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
+
+            }
+            else
+            {
+                GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
+
+                mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
 
 
-            // clear the framebuffer and draw this texture to it.
-            GL.ClearColor(0, 0, 0, 0);
-            GL.Clear(ClearBufferMask.ColorBufferBit | 
-                     ClearBufferMask.DepthBufferBit);
+                // clear the framebuffer and draw this texture to it.
+                GL.ClearColor(0, 0, 0, 0);
+                GL.Clear(ClearBufferMask.ColorBufferBit |
+                         ClearBufferMask.DepthBufferBit);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                (int)TextureMagFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+                    (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+                    (int)TextureMagFilter.Linear);
 
-            Draw();
+                Draw();
 
-            GL.TexParameter(TextureTarget.Texture2D,
-                             TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D,
-                             TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            
+                GL.TexParameter(TextureTarget.Texture2D,
+                                 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D,
+                                 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            }
         }
         public override void EndRender()
         {
-           // GL.Disable(EnableCap.Texture2D);
-            GL.BindTexture(TextureTarget.Texture2D, mTextureID);
+            if (mDisplay.SupportsFramebuffer)
+            {
+                GL.PopAttrib();
+                GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
 
-            GL.CopyTexSubImage2D(TextureTarget.Texture2D,
-                0, 0, 0, 0, 0, mSourceRect.Width, mSourceRect.Height);
-            //GL.CopyTexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba8,
-            //    0, 0, mSourceRect.Width, mSourceRect.Height, 0);
-            
-            GL.TexParameter(TextureTarget.Texture2D,
-                             TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D,
-                             TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            
+                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+                GL.Ext.DeleteRenderbuffers(1, ref mDepthBuffer);
+                GL.Ext.DeleteFramebuffers(1, ref mFramebufferID);
+            }
+            else
+            {
+                mState.DrawBuffer.ResetTexture();
+
+                GL.BindTexture(TextureTarget.Texture2D, mTextureID);
+
+                GL.CopyTexSubImage2D(TextureTarget.Texture2D,
+                    0, 0, 0, 0, 0, mSourceRect.Width, mSourceRect.Height);
+
+                GL.TexParameter(TextureTarget.Texture2D,
+                                 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D,
+                                 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            }
         }
 
         #region GL_IRenderTarget Members
