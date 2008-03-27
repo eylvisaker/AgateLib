@@ -112,6 +112,12 @@ namespace ERY.AgateLib.OpenGL
 
             mCurrentTexture = textureID;
         }
+        public void ResetTexture()
+        {
+            Flush();
+
+            mCurrentTexture = 0;
+        }
 
         public void AddQuad(int textureID, Color color, TextureCoordinates texCoord, RectangleF destRect)
         {
