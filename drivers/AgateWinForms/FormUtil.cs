@@ -110,5 +110,44 @@ namespace ERY.AgateLib.WinForms
             }
             return myvalue;
         }
+
+        public static void SavePixelBuffer(PixelBuffer buffer, string filename, ImageFileFormat format)
+        {
+
+            Bitmap bmp = new Bitmap(buffer.Width, buffer.Height);
+
+            System.Drawing.Imaging.BitmapData data = bmp.LockBits(
+                new Rectangle(Point.Empty, FormsInterop.ConvertSize(buffer.Size)),
+                System.Drawing.Imaging.ImageLockMode.WriteOnly,
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            if (buffer.PixelFormat != PixelFormat.BGRA8888)
+            {
+                buffer = buffer.ConvertTo(PixelFormat.BGRA8888);
+            }
+
+            System.Runtime.InteropServices.Marshal.Copy(
+                buffer.Data, 0, data.Scan0, buffer.Data.Length);
+
+            bmp.UnlockBits(data);
+
+            switch (format)
+            {
+                case ImageFileFormat.Bmp:
+                    bmp.Save(filename, System.Drawing.Imaging.ImageFormat.Bmp);
+                    break;
+
+                case ImageFileFormat.Jpg:
+                    bmp.Save(filename, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    break;
+
+                case ImageFileFormat.Png:
+                    bmp.Save(filename, System.Drawing.Imaging.ImageFormat.Png);
+                    break;
+
+            }
+
+            bmp.Dispose();
+        }
     }
 }
