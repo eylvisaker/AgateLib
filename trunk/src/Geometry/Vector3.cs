@@ -91,7 +91,6 @@ namespace ERY.AgateLib.Geometry
             get { return X == 0 && Y == 0 && Z == 0; }
         }
 
-
         /// <summary>
         /// Returns the square of the length of the vector.
         /// </summary>
@@ -184,6 +183,29 @@ namespace ERY.AgateLib.Geometry
         public static float DotProduct(Vector3 a, Vector3 b)
         {
             return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+        }
+
+        /// <summary>
+        /// Returns the cross product of two vectors.
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public Vector3 CrossProduct(Vector3 b)
+        {
+            return CrossProduct(this, b);
+        }
+        /// <summary>
+        /// Returns the cross product of two vectors.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Vector3 CrossProduct(Vector3 a, Vector3 b)
+        {
+            return new Vector3(
+                a.Y * b.Z - a.Z * b.Y,
+                a.Z * b.X - a.X * b.Z,
+                a.X * b.Y - a.Y * b.X);
         }
     }
 }

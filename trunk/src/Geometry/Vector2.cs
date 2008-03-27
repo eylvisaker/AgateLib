@@ -69,6 +69,16 @@ namespace ERY.AgateLib.Geometry
         }
 
         /// <summary>
+        /// Converts to a Vector3 object, with a Z value of zero.
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static explicit operator Vector3(Vector2 v)
+        {
+            return new Vector3(v.X, v.Y, 0);
+        }
+
+        /// <summary>
         /// Vector representing the origin.
         /// </summary>
         public static readonly Vector2 Empty = new Vector2();
