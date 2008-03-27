@@ -360,23 +360,25 @@ namespace ERY.AgateLib.MDX
         {
             get
             {
-                return new Size(mRenderTarget.ClientSize);
+                return FormsInterop.ConvertSize(mRenderTarget.ClientSize);
             }
             set
             {
                 if (frm != null)
-                    frm.ClientSize = (System.Drawing.Size)value;
+                    frm.ClientSize = FormsInterop.ConvertSize(value);
             }
         }
         public override Point MousePosition
         {
             get
             {
-                return new Point(mRenderTarget.PointToClient((System.Drawing.Point)System.Windows.Forms.Cursor.Position));
+                return FormsInterop.ConvertPoint(mRenderTarget.PointToClient(
+                    System.Windows.Forms.Cursor.Position));
             }
             set
             {
-                System.Windows.Forms.Cursor.Position = mRenderTarget.PointToScreen((System.Drawing.Point)value);
+                System.Windows.Forms.Cursor.Position = mRenderTarget.PointToScreen(
+                    FormsInterop.ConvertPoint(value));
             }
         }
         internal static Mouse.MouseButtons GetButtons(System.Windows.Forms.MouseButtons buttons)

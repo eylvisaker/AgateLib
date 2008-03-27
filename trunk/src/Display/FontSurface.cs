@@ -374,6 +374,12 @@ namespace ERY.AgateLib
             bitFont.Save(imageFile, glyphDefsFile);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="imageFile"></param>
+        /// <param name="glyphDefsFile"></param>
+        /// <returns></returns>
         public static FontSurface LoadBitmapFont(string imageFile, string glyphDefsFile)
         {
             FontMetrics metrics = new FontMetrics();

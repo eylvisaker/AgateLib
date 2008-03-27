@@ -147,6 +147,10 @@ namespace ERY.AgateLib.BitmapFont
         #endregion
         #region IEnumerable<KeyValuePair<char,GlyphMetrics>> Members
 
+        /// <summary>
+        /// Creates an enumerator.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<KeyValuePair<char, GlyphMetrics>> GetEnumerator()
         {
             return mGlyphs.GetEnumerator();

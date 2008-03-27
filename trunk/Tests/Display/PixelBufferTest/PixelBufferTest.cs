@@ -64,7 +64,7 @@ namespace PixelBufferTest
 
             if (Mouse.Buttons[Mouse.MouseButtons.Primary])
             {
-                buffer.SetPixel(pt.X, pt.Y, (Color)(frm.btnColor.BackColor));
+                buffer.SetPixel(pt.X, pt.Y, Color.FromArgb(frm.btnColor.BackColor.ToArgb()));
                 image.WritePixels(buffer);
             }
 

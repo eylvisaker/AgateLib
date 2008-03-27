@@ -32,6 +32,8 @@ using Vector2 = Microsoft.DirectX.Vector2;
 
 namespace ERY.AgateLib.MDX
 {
+    using WinForms;
+
     public class MDX1_Display : DisplayImpl, IDisplayCaps 
     {
         #region --- Private Variables ---
@@ -333,7 +335,7 @@ namespace ERY.AgateLib.MDX
             mDevice.DrawBuffer.Flush();
 
             System.Drawing.Rectangle[] rects = new System.Drawing.Rectangle[1];
-            rects[0] = (System.Drawing.Rectangle)rect;
+            rects[0] = FormsInterop.ConvertRectangle(rect);
 
             mDevice.Clear(ClearFlags.Target, color.ToArgb(), 1.0f, 0, rects);
         }

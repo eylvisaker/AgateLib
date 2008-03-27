@@ -28,8 +28,10 @@ namespace InputTester
             Mouse.MouseUp += new InputEventHandler(Mouse_MouseUp);
             Mouse.MouseDoubleClickEvent += new InputEventHandler(Mouse_MouseDoubleClickEvent);
 
-            setup.InitializeDisplay();
-            setup.InitializeInput();
+            setup.AskUser = true;
+            setup.Initialize(true, false, true);
+            if (setup.Cancel)
+                throw new Exception();
 
             new DisplayWindow(CreateWindowParams.FromControl(pictureBox1));
 

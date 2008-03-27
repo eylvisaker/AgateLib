@@ -29,6 +29,8 @@ using ERY.AgateLib.ImplBase;
 
 namespace ERY.AgateLib.SystemDrawing
 {
+    using WinForms;
+
     class Drawing_Surface : SurfaceImpl, Drawing_IRenderTarget
     {
         #region --- Private variables ---
@@ -112,7 +114,7 @@ namespace ERY.AgateLib.SystemDrawing
         protected Geometry.Rectangle SrcRect
         {
             get { return new Geometry.Rectangle(Geometry.Point.Empty, 
-                new ERY.AgateLib.Geometry.Size(mImage.Size)); }
+                FormsInterop.ConvertSize(mImage.Size)); }
         }
         protected Geometry.Rectangle DestRect(int dest_x, int dest_y, Geometry.Rectangle srcRect)
         {
@@ -172,7 +174,7 @@ namespace ERY.AgateLib.SystemDrawing
 
                 imageAttributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-                g.DrawImage(mImage, (Rectangle)DestRect(0, 0, srcRect),
+                g.DrawImage(mImage, FormsInterop.ConvertRectangle(DestRect(0, 0, srcRect)),
                     srcRect.X,
                     srcRect.Y,
                     srcRect.Width,
@@ -183,8 +185,8 @@ namespace ERY.AgateLib.SystemDrawing
             }
             else
             {
-                g.DrawImage(mImage, (Rectangle)DestRect(0, 0, srcRect),
-                    (Rectangle)SrcRect, GraphicsUnit.Pixel);
+                g.DrawImage(mImage, FormsInterop.ConvertRectangle(DestRect(0, 0, srcRect)),
+                    FormsInterop.ConvertRectangle(SrcRect), GraphicsUnit.Pixel);
             }
 
             g.Restore(state);
@@ -207,8 +209,8 @@ namespace ERY.AgateLib.SystemDrawing
 
             Graphics g = mDisplay.FrameGraphics;
 
-            g.DrawImage(mImage, (RectangleF)destRect,
-                (RectangleF)srcRect, GraphicsUnit.Pixel);
+            g.DrawImage(mImage, FormsInterop.ConvertRectangleF(destRect),
+                FormsInterop.ConvertRectangleF(srcRect), GraphicsUnit.Pixel);
         }
         public override void DrawRects(Geometry.Rectangle[] src_rects, Geometry.Rectangle[] dest_rects)
         {
@@ -232,7 +234,7 @@ namespace ERY.AgateLib.SystemDrawing
             Point[] pts = new Point[destPts.Length];
 
             for (int i = 0; i < pts.Length; i++)
-                pts[i] = (Point)destPts[i];
+                pts[i] = FormsInterop.ConvertPoint(destPts[i]);
 
             g.DrawImage(mImage, pts);
         }
@@ -242,7 +244,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         public override Geometry.Size SurfaceSize
         {
-            get { return new Geometry.Size(mImage.Size); }
+            get { return FormsInterop.ConvertSize(mImage.Size); }
         }
 
         #endregion
@@ -251,7 +253,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         public override SurfaceImpl CarveSubSurface(Surface surf, Geometry.Rectangle srcRect)
         {
-            return new Drawing_Surface(mImage, (Rectangle)srcRect);
+            return new Drawing_Surface(mImage, FormsInterop.ConvertRectangle(srcRect));
         }
 
         public override bool IsSurfaceBlank()
@@ -328,8 +330,8 @@ namespace ERY.AgateLib.SystemDrawing
             Graphics g = Graphics.FromImage(mImage);
 
             g.DrawImage((surf as Drawing_Surface).mImage,
-                new Rectangle(Point.Empty, (Size)srcRect.Size),
-                (Rectangle)srcRect, GraphicsUnit.Pixel);
+                new Rectangle(Point.Empty, FormsInterop.ConvertSize(srcRect.Size)),
+                FormsInterop.ConvertRectangle(srcRect), GraphicsUnit.Pixel);
 
             g.Dispose();
 
@@ -342,7 +344,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         public override PixelBuffer ReadPixels(PixelFormat format, Geometry.Rectangle rect)
         {
-            BitmapData data = mImage.LockBits((Rectangle)rect, ImageLockMode.ReadOnly, 
+            BitmapData data = mImage.LockBits(FormsInterop.ConvertRectangle(rect), ImageLockMode.ReadOnly, 
                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             if (format == PixelFormat.Any)
@@ -362,7 +364,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         public override void WritePixels(PixelBuffer buffer)
         {
-            BitmapData data = mImage.LockBits(new Rectangle(Point.Empty, (Size)SurfaceSize),
+            BitmapData data = mImage.LockBits(new Rectangle(Point.Empty, FormsInterop.ConvertSize( SurfaceSize)),
                 ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             if (buffer.PixelFormat != PixelFormat.BGRA8888)

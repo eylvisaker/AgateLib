@@ -11,9 +11,11 @@ using System.Windows.Forms;
 using ERY.AgateLib;
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.Utility;
+using ERY.AgateLib.WinForms;
 
 namespace TestPacker
 {
+
     public partial class Form1 : Form
     {
         SurfacePacker.RectPacker<object> packer;
@@ -27,13 +29,13 @@ namespace TestPacker
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            packer = new SurfacePacker.RectPacker<object>(new Size(pictureBox1.ClientSize));
+            packer = new SurfacePacker.RectPacker<object>(FormsInterop.ConvertSize(pictureBox1.ClientSize));
 
             Redraw();
         }
         private void btnLotsSorted_Click(object sender, EventArgs e)
         {
-            packer = new SurfacePacker.RectPacker<object>(new Size(pictureBox1.ClientSize));
+            packer = new SurfacePacker.RectPacker<object>(FormsInterop.ConvertSize(pictureBox1.ClientSize));
             Random rand = new Random();
 
             btnOne.Enabled = true;
@@ -51,7 +53,7 @@ namespace TestPacker
         }
         private void btnMany_Click(object sender, EventArgs e)
         {
-            packer = new SurfacePacker.RectPacker<object>(new Size(pictureBox1.ClientSize));
+            packer = new SurfacePacker.RectPacker<object>(FormsInterop.ConvertSize(pictureBox1.ClientSize));
             Random rand = new Random();
             bool done = false;
 
@@ -74,10 +76,10 @@ namespace TestPacker
         }
         private void btnOne_Click(object sender, EventArgs e)
         {
-            
+
             if (packer == null)
-                packer = new SurfacePacker.RectPacker<object>(new Size(pictureBox1.ClientSize));
-            
+                packer = new SurfacePacker.RectPacker<object>(FormsInterop.ConvertSize(pictureBox1.ClientSize));
+
             Random rand = new Random();
             Size sz = new Size(rand.Next(minSize, maxSize), rand.Next(minSize, maxSize));
             Rectangle rect;
@@ -101,11 +103,11 @@ namespace TestPacker
             System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.Black);
             System.Drawing.Brush brush = new System.Drawing.Drawing2D.HatchBrush(
                 System.Drawing.Drawing2D.HatchStyle.DiagonalCross, System.Drawing.Color.Red);
-            
+
             foreach (SurfacePacker.RectHolder<object> r in packer)
             {
-                g.FillRectangle(brush, (System.Drawing.Rectangle)r.Rect );
-                g.DrawRectangle(pen, (System.Drawing.Rectangle)r.Rect);
+                g.FillRectangle(brush, FormsInterop.ConvertRectangle(r.Rect));
+                g.DrawRectangle(pen, FormsInterop.ConvertRectangle(r.Rect));
             }
 
             g.Dispose();

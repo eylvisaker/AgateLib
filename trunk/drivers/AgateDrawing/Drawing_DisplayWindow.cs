@@ -244,12 +244,12 @@ namespace ERY.AgateLib.SystemDrawing
         {
             get
             {
-                return new Geometry.Size(mRenderTarget.ClientSize);
+                return FormsInterop.ConvertSize(mRenderTarget.ClientSize);
             }
             set
             {
                 if (frm != null)
-                    frm.ClientSize = (Size)value;
+                    frm.ClientSize = FormsInterop.ConvertSize(value);
             }
         }
 
@@ -257,11 +257,11 @@ namespace ERY.AgateLib.SystemDrawing
         {
             get
             {
-                return new Geometry.Point(mRenderTarget.PointToClient(Cursor.Position));
+                return FormsInterop.ConvertPoint(mRenderTarget.PointToClient(Cursor.Position));
             }
             set
             {
-                Cursor.Position = mRenderTarget.PointToScreen((Point)value);
+                Cursor.Position = mRenderTarget.PointToScreen(FormsInterop.ConvertPoint(value));
             }
         }
 
