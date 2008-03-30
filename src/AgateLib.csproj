@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -64,16 +65,16 @@
     <Compile Include="Core\Core.cs" />
     <Compile Include="Core\FileManager.cs" />
     <Compile Include="Drivers\DriverImplBase.cs" />
-    <Compile Include="ImplBase\AudioImpl.cs" />
+    <Compile Include="Input\ImplBase\AudioImpl.cs" />
     <Compile Include="BitmapFont\BitmapFontImpl.cs" />
-    <Compile Include="ImplBase\DisplayImpl.cs" />
-    <Compile Include="ImplBase\DisplayWindowImpl.cs" />
-    <Compile Include="ImplBase\FontSurfaceImpl.cs" />
-    <Compile Include="ImplBase\IDisplayCaps.cs" />
-    <Compile Include="ImplBase\InputImpl.cs" />
-    <Compile Include="ImplBase\JoystickImpl.cs" />
-    <Compile Include="ImplBase\RenderTargetImpl.cs" />
-    <Compile Include="ImplBase\SurfaceImpl.cs" />
+    <Compile Include="Input\ImplBase\DisplayImpl.cs" />
+    <Compile Include="Input\ImplBase\DisplayWindowImpl.cs" />
+    <Compile Include="Input\ImplBase\FontSurfaceImpl.cs" />
+    <Compile Include="Input\ImplBase\IDisplayCaps.cs" />
+    <Compile Include="Input\ImplBase\InputImpl.cs" />
+    <Compile Include="Input\ImplBase\JoystickImpl.cs" />
+    <Compile Include="Input\ImplBase\RenderTargetImpl.cs" />
+    <Compile Include="Input\ImplBase\SurfaceImpl.cs" />
     <Compile Include="Input\InputCommand.cs" />
     <Compile Include="Input\InputState.cs" />
     <Compile Include="Drivers\NullInputImpl.cs" />
@@ -85,12 +86,16 @@
     <Compile Include="Drivers\Registrar.cs" />
     <Compile Include="Display\OriginAlignment.cs" />
     <Compile Include="Display\PixelBuffer.cs" />
+    <Compile Include="Display\ISprite.cs" />
     <Compile Include="PlatformSpecific\Win32.cs" />
     <Compile Include="PlatformSpecific\X11.cs" />
     <Compile Include="Display\ScreenMode.cs" />
     <Compile Include="Core\SearchPath.cs" />
-    <Compile Include="Display\Sprite2.cs" />
-    <Compile Include="Display\SpriteFrame2.cs" />
+    <Compile Include="Display\ISpriteFrame.cs" />
+    <Compile Include="Sprites\FrameList.cs" />
+    <Compile Include="Sprites\IFrameList.cs" />
+    <Compile Include="Sprites\PackedSprite.cs" />
+    <Compile Include="Sprites\PackedSpriteFrame.cs" />
     <Compile Include="Core\StringTransformer.cs" />
     <Compile Include="Geometry\Color.cs" />
     <Compile Include="Geometry\Point.cs" />
@@ -105,7 +110,7 @@
     <Compile Include="Display\DisplayWindow.cs" />
     <Compile Include="Display\FontSurface.cs" />
     <Compile Include="Display\IRenderTarget.cs" />
-    <Compile Include="OldSprite\SpriteContainer.cs" />
+    <Compile Include="Sprites\OldSprite\SpriteContainer.cs" />
     <Compile Include="Drivers\IUserSetSystems.cs" />
     <Compile Include="Utility\SurfacePacker.cs" />
     <Compile Include="PlatformSpecific\Platform.cs" />
@@ -135,12 +140,12 @@
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Core\AgateSetup.cs" />
     <Compile Include="Utility\Ref.cs" />
-    <Compile Include="OldSprite\Sprite.cs">
+    <Compile Include="Sprites\OldSprite\Sprite.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Display\Surface.cs" />
     <Compile Include="Core\Timing.cs" />
-    <Compile Include="OldSprite\SpriteFrame.cs" />
+    <Compile Include="Sprites\OldSprite\SpriteFrame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AgateLib.ico" />

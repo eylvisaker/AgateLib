@@ -24,22 +24,22 @@ using System.Text;
 using ERY.AgateLib.Geometry;
 using ERY.AgateLib.Resources;
 
-namespace ERY.AgateLib
+namespace ERY.AgateLib.Sprites
 {
     /// <summary>
     /// Sprite2 class.
     /// </summary>
-    public class Sprite2 : ISurface
+    public class PackedSprite : ISprite 
     {
         Surface mSurface;
         bool mOwnSurface;
-        List<SpriteFrame2> mFrames = new List<SpriteFrame2>();
+        FrameList<PackedSpriteFrame> mFrames = new FrameList<PackedSpriteFrame>();
         Size mSpriteSize;
 
         private double mTimePerFrame = 60;
         private int mCurrentFrameIndex = 0;
         private double mFrameTime = 0;
-        private AnimType mAnimType = AnimType.Looping;
+        private SpriteAnimType mAnimType = SpriteAnimType.Looping;
         private bool mPlayReverse = false;
         private bool mIsAnimating = true;
         private bool mVisible = true;
@@ -52,45 +52,6 @@ namespace ERY.AgateLib
         private OriginAlignment mRotationSpot = OriginAlignment.Center;
         private Gradient mGradient = new Gradient(Color.White);
 
-        /// <summary>
-        /// Enum indicating the different types of automatic animation that
-        /// take place.
-        /// </summary>
-        public enum AnimType
-        {
-            /// <summary>
-            /// Specifies that the sprite animation should go from
-            /// frame 0 to the end, and start back at frame 0.
-            /// </summary>
-            Looping,
-            /// <summary>
-            /// Specifies that the sprite animation should go from
-            /// frame 0 to the end, and then go back down to frame 0.
-            /// </summary>
-            PingPong,
-            /// <summary>
-            /// Specifies that the sprite animation should go from
-            /// frame 0 to the end and then back to frame 0, stopping there.
-            /// </summary>
-            Once,
-            /// <summary>
-            /// Specifies that the sprite animation should go from
-            /// frame 0 to the end and stop there.
-            /// </summary>
-            OnceHoldLast,
-            /// <summary>
-            /// Specifies that the sprite animation should go from
-            /// frame 0 to the end, and then disappear.  The Visible
-            /// property of the Sprite object is set to false once
-            /// the animation is complete.
-            /// </summary>
-            OnceDisappear,
-
-            /// <summary>
-            /// Specifies that the sprite animation should go twice
-            /// </summary>
-            Twice,
-        }
 
         #region --- Construction / Destruction ---
 
@@ -99,7 +60,7 @@ namespace ERY.AgateLib
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Sprite2(int width, int height)
+        public PackedSprite(int width, int height)
             : this(new Size(width, height))
         {
         }
@@ -107,7 +68,7 @@ namespace ERY.AgateLib
         /// Constructs a Sprite object, of the specified width and height.
         /// </summary>
         /// <param name="size"></param>
-        public Sprite2(Size size)
+        public PackedSprite(Size size)
         {
             mSpriteSize = size;
         }
@@ -118,7 +79,7 @@ namespace ERY.AgateLib
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="size"></param>
-        public Sprite2(string filename, Size size)
+        public PackedSprite(string filename, Size size)
             : this(size)
         {
             mSurface = new Surface(filename);
@@ -134,7 +95,7 @@ namespace ERY.AgateLib
         /// <param name="filename"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Sprite2(string filename, int width, int height)
+        public PackedSprite(string filename, int width, int height)
             : this(filename, new Size(width, height))
         {
         }
@@ -147,7 +108,7 @@ namespace ERY.AgateLib
         /// it is disposed when this Sprite is disposed.</param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Sprite2(Surface surface, bool ownSurface, int width, int height)
+        public PackedSprite(Surface surface, bool ownSurface, int width, int height)
             : this(surface, ownSurface, new Size(width, height))
         {
         }
@@ -159,7 +120,7 @@ namespace ERY.AgateLib
         /// <param name="ownSurface">True to indicate that this Sprite2 object owns the surface, so 
         /// it is disposed when this Sprite is disposed.</param>
         /// <param name="size"></param>
-        public Sprite2(Surface surface, bool ownSurface, Size size)
+        public PackedSprite(Surface surface, bool ownSurface, Size size)
             : this(size)
         {
             mSurface = surface;
@@ -173,7 +134,7 @@ namespace ERY.AgateLib
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="size"></param>
-        public Sprite2(Stream stream, Size size)
+        public PackedSprite(Stream stream, Size size)
             : this(new Surface(stream), true, size)
         {
         }
@@ -183,7 +144,7 @@ namespace ERY.AgateLib
         /// </summary>
         /// <param name="name"></param>
         /// <param name="resources"></param>
-        public Sprite2(string name, ResourceManager resources)
+        public PackedSprite(string name, ResourceManager resources)
         {
             throw new NotImplementedException();
             /*
@@ -225,9 +186,9 @@ namespace ERY.AgateLib
         /// Makes a copy of this sprite and returns it.
         /// </summary>
         /// <returns></returns>
-        public Sprite2 Clone()
+        public PackedSprite Clone()
         {
-            Sprite2 retval = new Sprite2(mSpriteSize.Width, mSpriteSize.Height);
+            PackedSprite retval = new PackedSprite(mSpriteSize.Width, mSpriteSize.Height);
 
             if (mOwnSurface)
             {
@@ -255,7 +216,7 @@ namespace ERY.AgateLib
             retval.mRotationSpot = mRotationSpot;
             retval.mGradient = mGradient;
 
-            foreach (SpriteFrame2 f in mFrames)
+            foreach (PackedSpriteFrame f in mFrames)
             {
                 retval.mFrames.Add(f.Clone());
             }
@@ -329,14 +290,14 @@ namespace ERY.AgateLib
 
             do
             {
-                SpriteFrame2 currentFrame = new SpriteFrame2();
+                PackedSpriteFrame currentFrame = new PackedSpriteFrame();
                 Rectangle currentRect = new Rectangle(location, size);
                 bool skip = false;
 
-                currentFrame.SrcRect = currentRect;
+                currentFrame.SourceRect = currentRect;
 
-                if (currentFrame.SrcRect.Right > pixels.Width) skip = true;
-                if (currentFrame.SrcRect.Bottom > pixels.Height) skip = true;
+                if (currentFrame.SourceRect.Right > pixels.Width) skip = true;
+                if (currentFrame.SourceRect.Bottom > pixels.Height) skip = true;
 
                 if (!skip && skipBlank && IsFrameBlank(pixels, currentFrame)) skip = true;
 
@@ -363,15 +324,15 @@ namespace ERY.AgateLib
         {
             PixelBuffer buffer = mSurface.ReadPixels();
 
-            foreach (SpriteFrame2 frame in mFrames)
+            foreach (PackedSpriteFrame frame in mFrames)
             {
                 CompressFrame(buffer, frame);
             }
         }
 
-        private void CompressFrame(PixelBuffer buffer, SpriteFrame2 frame)
+        private void CompressFrame(PixelBuffer buffer, PackedSpriteFrame frame)
         {
-            Rectangle newRect = frame.SrcRect;
+            Rectangle newRect = frame.SourceRect;
 
             while (buffer.IsRowBlank(newRect.Y, newRect.X, newRect.Width))
             {
@@ -396,28 +357,28 @@ namespace ERY.AgateLib
             }
 
             // add a border of blanks
-            if (newRect.X > frame.SrcRect.X)
+            if (newRect.X > frame.SourceRect.X)
             {
                 newRect.X--;
                 newRect.Width++;
             }
-            if (newRect.Width < frame.SrcRect.Width)
+            if (newRect.Width < frame.SourceRect.Width)
                 newRect.Width++;
 
-            if (newRect.Y > frame.SrcRect.Y)
+            if (newRect.Y > frame.SourceRect.Y)
             {
                 newRect.Y--;
                 newRect.Height++;
             }
-            if (newRect.Height < frame.SrcRect.Height)
+            if (newRect.Height < frame.SourceRect.Height)
                 newRect.Height++;
 
         done:
             Point offset = new Point(
-                newRect.X - frame.SrcRect.Location.X,
-                newRect.Y - frame.SrcRect.Location.Y);
+                newRect.X - frame.SourceRect.Location.X,
+                newRect.Y - frame.SourceRect.Location.Y);
 
-            frame.SrcRect = newRect;
+            frame.SourceRect = newRect;
             frame.Offset = offset;
         }
 
@@ -484,18 +445,18 @@ namespace ERY.AgateLib
         }
         */
 
-        private bool IsFrameBlank(SpriteFrame2 currentFrame)
+        private bool IsFrameBlank(PackedSpriteFrame currentFrame)
         {
             return IsFrameBlank(mSurface.ReadPixels(), currentFrame);
         }
 
-        private bool IsFrameBlank(PixelBuffer pixels, SpriteFrame2 currentFrame)
+        private bool IsFrameBlank(PixelBuffer pixels, PackedSpriteFrame currentFrame)
         {
-            for (int y = 0; y < currentFrame.SrcRect.Height; y++)
+            for (int y = 0; y < currentFrame.SourceRect.Height; y++)
             {
-                for (int x = 0; x < currentFrame.SrcRect.Width; x++)
+                for (int x = 0; x < currentFrame.SourceRect.Width; x++)
                 {
-                    Point pt = new Point(x + currentFrame.SrcRect.X, y + currentFrame.SrcRect.Y);
+                    Point pt = new Point(x + currentFrame.SourceRect.X, y + currentFrame.SourceRect.Y);
 
                     if (pixels.GetPixel(pt.X, pt.Y).A > Display.AlphaThreshold)
                         return false;
@@ -520,7 +481,7 @@ namespace ERY.AgateLib
             if (mFrames.Count == 0)
                 return;
 
-            SpriteFrame2 current = CurrentFrame;
+            PackedSpriteFrame current = CurrentFrame;
             Surface surf = mSurface;
 
             current.DisplaySize = destRect.Size;
@@ -558,7 +519,7 @@ namespace ERY.AgateLib
             if (mVisible == false)
                 return;
 
-            SpriteFrame2 current = CurrentFrame;
+            PackedSpriteFrame current = CurrentFrame;
             Surface surf = mSurface;
 
             current.DisplaySize = DisplaySize;
@@ -945,7 +906,7 @@ namespace ERY.AgateLib
 
                 switch (AnimationType)
                 {
-                    case AnimType.Looping:
+                    case SpriteAnimType.Looping:
 
                         while (value < 0)
                             value += mFrames.Count;
@@ -956,7 +917,7 @@ namespace ERY.AgateLib
 
                         break;
 
-                    case AnimType.Once:
+                    case SpriteAnimType.Once:
                         if (PlayReverse && value == 0)
                         {
                             mCurrentFrameIndex = mFrames.Count - 1;
@@ -974,16 +935,16 @@ namespace ERY.AgateLib
 
                         break;
 
-                    case AnimType.Twice:
+                    case SpriteAnimType.Twice:
                         if (PlayReverse && value == 0)
                         {
                             mCurrentFrameIndex = mFrames.Count - 1;
-                            mAnimType = AnimType.Once;
+                            mAnimType = SpriteAnimType.Once;
                         }
                         else if (PlayReverse == false && value == mFrames.Count - 1)
                         {
                             mCurrentFrameIndex = 0;
-                            mAnimType = AnimType.Once;
+                            mAnimType = SpriteAnimType.Once;
                         }
                         else
                         {
@@ -991,7 +952,7 @@ namespace ERY.AgateLib
                         }
 
                         break;
-                    case AnimType.OnceHoldLast:
+                    case SpriteAnimType.OnceHoldLast:
                         if (PlayReverse && value == 0)
                         {
                             mCurrentFrameIndex = 0;
@@ -1009,7 +970,7 @@ namespace ERY.AgateLib
 
                         break;
 
-                    case AnimType.PingPong:
+                    case SpriteAnimType.PingPong:
                         // this makes it so that you can have a 10 frame pingpong animation, 
                         // set it to frame 12, and it will actually show frame 8, because of 
                         // the reflection at the end.
@@ -1032,7 +993,7 @@ namespace ERY.AgateLib
 
                         break;
 
-                    case AnimType.OnceDisappear:
+                    case SpriteAnimType.OnceDisappear:
                         if (PlayReverse && value == 0)
                         {
                             mCurrentFrameIndex = value;
@@ -1061,9 +1022,13 @@ namespace ERY.AgateLib
         /// <summary>
         /// Gets the currently displaying frame.
         /// </summary>
-        public SpriteFrame2 CurrentFrame
+        public PackedSpriteFrame CurrentFrame
         {
             get { return mFrames[CurrentFrameIndex]; }
+        }
+        ISpriteFrame ISprite.CurrentFrame
+        {
+            get { return CurrentFrame; }
         }
 
         /// <summary>
@@ -1094,7 +1059,7 @@ namespace ERY.AgateLib
         /// Once - The animation plays once, and then shows its first frame.
         /// OnceHoldLast - The animation plays once, and leaves the last frame on.
         /// </summary>
-        public AnimType AnimationType
+        public SpriteAnimType AnimationType
         {
             get { return mAnimType; }
             set { mAnimType = value; }
@@ -1117,8 +1082,8 @@ namespace ERY.AgateLib
                 mIsAnimating = value;
 
                 if (value &&
-                    (AnimationType == AnimType.Once || AnimationType == AnimType.OnceDisappear ||
-                     AnimationType == AnimType.OnceHoldLast))
+                    (AnimationType == SpriteAnimType.Once || AnimationType == SpriteAnimType.OnceDisappear ||
+                     AnimationType == SpriteAnimType.OnceHoldLast))
                 {
                     
                     if (this.PlayReverse && mCurrentFrameIndex == 0)
@@ -1141,7 +1106,7 @@ namespace ERY.AgateLib
         /// <summary>
         /// Gets the list of SpriteFrame2 objects in this sprite.
         /// </summary>
-        public List<SpriteFrame2> Frames
+        public IFrameList Frames
         {
             get { return mFrames; }
         }
@@ -1163,12 +1128,6 @@ namespace ERY.AgateLib
         #endregion
 
         #region --- Events ---
-
-        /// <summary>
-        /// Event handler type for sprite events.
-        /// </summary>
-        /// <param name="sprite"></param>
-        public delegate void SpriteEventHandler(Sprite2 sprite);
 
         /// <summary>
         /// Event which is raised when the animation is stopped.
