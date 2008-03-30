@@ -24,7 +24,7 @@ using System.Windows.Forms;
 
 using ERY.AgateLib.Drivers;
 
-namespace ERY.AgateLib.Utility
+namespace ERY.AgateLib.WinForms
 {
     /// <summary>
     /// A form which is used to ask the user which subsystems to use.

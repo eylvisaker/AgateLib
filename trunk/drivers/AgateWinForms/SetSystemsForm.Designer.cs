@@ -16,7 +16,7 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-namespace ERY.AgateLib.Utility
+namespace ERY.AgateLib.WinForms
 {
     /// <summary>
     /// Form which allos the user to choose what drivers should be used.

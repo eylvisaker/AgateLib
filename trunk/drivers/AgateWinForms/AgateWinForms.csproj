@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ERY.AgateLib.WinForms</RootNamespace>
-    <AssemblyName>AgateForms</AssemblyName>
+    <AssemblyName>AgateWinForms</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,7 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\bin\AgateForms.XML</DocumentationFile>
+    <DocumentationFile>..\..\bin\AgateWinForms.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,6 +65,7 @@
     <Compile Include="SetSystemsForm.Designer.cs">
       <DependentUpon>SetSystemsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinFormsDriver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AgateLib.csproj">
