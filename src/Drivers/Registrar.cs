@@ -42,7 +42,7 @@ namespace ERY.AgateLib.Drivers
 
         private static bool mIsInitialized = false;
 
-        private static Type mUserSetSystemsType;
+        private static IWinForms mWinForms;
 
         static Registrar()
         {
@@ -98,7 +98,7 @@ namespace ERY.AgateLib.Drivers
 
                     foreach (Type t in types)
                     {
-                        if (t.BaseType == null || t.BaseType == typeof(Object))
+                        if (t.GetInterfaces().Length == 0 && t.BaseType == typeof(Object)) 
                             continue;
 
                         if (typeof(DriverImplBase).IsAssignableFrom(t))
@@ -114,9 +114,9 @@ namespace ERY.AgateLib.Drivers
 
                             m.Invoke(null, new object[] { });
                         }
-                        else if (typeof(IUserSetSystems).IsAssignableFrom(t))
+                        else if (typeof(IWinForms).IsAssignableFrom(t))
                         {
-                            mUserSetSystemsType = t;
+                            mWinForms = (IWinForms)Activator.CreateInstance(t);
                         }
                     }
                 }
@@ -229,7 +229,7 @@ namespace ERY.AgateLib.Drivers
         public static bool UserSelectDrivers(bool chooseDisplay, bool chooseAudio, bool chooseInput,
             out DisplayTypeID selectedDisplay, out AudioTypeID selectedAudio, out InputTypeID selectedInput)
         {
-            IUserSetSystems frm = (IUserSetSystems) Activator.CreateInstance(mUserSetSystemsType);
+            IUserSetSystems frm = mWinForms.CreateUserSetSystems();
             
             frm.SetChoices(chooseDisplay, chooseAudio, chooseInput);
 
@@ -311,5 +311,9 @@ namespace ERY.AgateLib.Drivers
             get { return mCreatedInputTypeID; }
         }
 
+        internal static IWinForms WinForms
+        {
+            get { return mWinForms; }
+        }
     }
 }

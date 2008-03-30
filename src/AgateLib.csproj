@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -50,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Audio\Audio.cs" />
     <Compile Include="Display\CreateWindowParams.cs" />
+    <Compile Include="Drivers\IWinForms.cs" />
     <Compile Include="Drivers\TypeID.cs" />
     <Compile Include="Drivers\DriverInfo.cs" />
     <Compile Include="Drivers\DriverInfoList.cs" />
