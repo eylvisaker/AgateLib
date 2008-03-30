@@ -108,6 +108,8 @@ namespace MultipleWindowTest
 
             Display.EndFrame();
 
+            surf.SaveTo("test.png", ImageFileFormat.Png);
+
             System.Diagnostics.Debug.Print("Wrote rectangle to {0} with color {1}.", rect, clr);
             System.Diagnostics.Debug.Flush();
         }

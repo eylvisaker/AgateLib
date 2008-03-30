@@ -34,14 +34,14 @@ namespace ERY.CreateWindowTest
 
                 // This creates the window that we will be drawing in.
                 // 640x480 are the dimensions of the screen area that we will write to
-                DisplayWindow wind = new DisplayWindow("Initialize Example", 640, 480, false, true);
-
+                DisplayWindow wind = new DisplayWindow(CreateWindowParams.Windowed(
+                    "Initialize Example", 640, 480, null, true));
 
                 // create a random number generation object 
                 // so that we can make pretty colors.
                 Random rand = new Random();
 
-                while (wind.Closed == false)
+                while (wind.IsClosed == false)
                 {
                     // Display.BeginFrame must be called before any rendering takes place.
                     Display.BeginFrame();
@@ -87,7 +87,10 @@ namespace ERY.CreateWindowTest
                     // toggle full screen if the user pressed F5
                     if (Keyboard.Keys[KeyCode.F5])
                     {
-                        Display.CurrentWindow.ToggleFullScreen();
+                        if (Display.CurrentWindow.IsFullScreen)
+                            Display.CurrentWindow.SetWindowed();
+                        else
+                            Display.CurrentWindow.SetFullScreen();
 
                         // make that we used this keypress
                         Keyboard.Keys[KeyCode.F5] = false;
