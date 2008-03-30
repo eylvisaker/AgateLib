@@ -20,16 +20,17 @@ High Priority (0.3.0 definitely)
 		* Check base class and see if it can be replaced by an interface
 		* Check for necessity of PlatformTypeID class
 	Sprites
-		* Create ISprite and ISpriteFrame interfaces
-		* Finish Sprite2 class and find a good name for it.
-		* Figure out what to do with the Sprite class (keep it for sure)
-		* Test Sprite2 class
+		D Create ISprite and ISpriteFrame interfaces
+		* Create ISprite compliant version of old Sprite class
+		* Finish PackedSprite class
+		* Deprecate old Sprite class
+		* Test PackedSprite class
 	Fonts
 		* Finish FontSurface serialization
 		D Investigate nVidia bug with Bitmap Fonts and fix it
 	Surfaces
 		* Make sure that Images ??
-		* Move implementation of PixelBuffer.SaveTo to Display class or something.
+		D Move implementation of PixelBuffer.SaveTo to Display class or something.
 	Audio
 		* Make sure that Audio can be loaded from Stream classes.
 	Input

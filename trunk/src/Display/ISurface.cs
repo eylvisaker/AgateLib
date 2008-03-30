@@ -24,7 +24,7 @@ namespace ERY.AgateLib
     /// <summary>
     /// Public Surface interface.
     /// </summary>
-    public interface ISurface
+    public interface ISurface : IDisposable 
     {
         /// <summary>
         /// Gets or sets the alpha value for the surface.

@@ -35,49 +35,75 @@ namespace ERY.AgateLib
     /// SpriteFrame contains a reference count.  If you manually copy it, be sure
     /// to call AddRef unless you use the Clone method.
     /// </summary>
-    public class SpriteFrame2
+    public class SpriteFrame : IDisposable, ISpriteFrame
     {
+        Surface mSurface;
         Point mOffset = new Point(0, 0);
         bool mIsBlank = true;
+        bool mIsDisposed = false;
 
+        Size mOriginalSize;
         Size mDisplaySize;
-        Rectangle mSrcRect;
 
-        internal SpriteFrame2()
+        private int mRefCount = 1;
+
+        internal SpriteFrame()
         {
+        }
+
+        /// <summary>
+        /// Reduces the reference counter for this class, and disposes of unmanaged
+        /// resources if the counter hits zero.
+        /// </summary>
+        public void Dispose()
+        {
+            if (mRefCount == 0)
+                return;
+
+            mRefCount--;
+
+            if (mRefCount >= 0)
+                return;
+
+            if (mSurface != null)
+            {
+                mSurface.Dispose();
+                mSurface = null;
+                mIsDisposed = true;
+
+                mOriginalSize = new Size(-1, -1);
+            }
+        }
+
+        /// <summary>
+        /// Adds one to the reference counter.
+        /// </summary>
+        public void AddRef()
+        {
+            mRefCount++;
         }
 
         /// <summary>
         /// Copies this object.
         /// 
-        /// Actually, this just returns this
+        /// Actually, this just increases the reference counter and returns this
         /// object.  Be sure to Dispose the result when finished with it.
         /// </summary>
         /// <returns></returns>
-        public SpriteFrame2 Clone()
+        public SpriteFrame Clone()
         {
+            AddRef();
             return this;
         }
 
         /// <summary>
-        /// Gets or sets the source rectangle for this frame.
+        /// Returns true if the internal unmanaged resources have been disposed.
+        /// This happens when Dispose is called until the reference count is zero.
         /// </summary>
-        public Rectangle SrcRect
+        public bool IsDisposed
         {
-            get { return mSrcRect; }
-            set { mSrcRect = value; }
+            get { return mIsDisposed; }
         }
-
-        /// <summary>
-        /// Gets or sets the offset for drawing this frame.
-        /// </summary>
-        public Point Offset
-        {
-            get { return mOffset; }
-            set { mOffset = value; }
-        }
-        
-        /*
         /// <summary>
         /// Sets the frame of this object, and does not trim it.
         /// </summary>
@@ -154,6 +180,7 @@ namespace ERY.AgateLib
             if (trim)
                 TrimFrame(pixels);
         }
+
         //static bool inTrimFrame = false;
 
         private void TrimFrame(PixelBuffer pixels)
@@ -216,7 +243,7 @@ namespace ERY.AgateLib
                     return;
                 }
             }
-
+            
             // make sure there's a one pixel border of blanks, if possible.
             if (newRect.X > 0)
             {
@@ -237,8 +264,8 @@ namespace ERY.AgateLib
             {
                 newRect.Height++;
             }
-
-
+            
+            
             mIsBlank = false;
 
             // now check to see if we need to redefine our existing rect.
@@ -258,18 +285,22 @@ namespace ERY.AgateLib
             //inTrimFrame = false;
 
         }
-        */
-
-
 
         /// <summary>
         /// Returns true if the entire frame is transparent.
         /// </summary>
-        public bool IsBlank()
+        public bool IsBlank
         {
-            return false;
+            get { return mIsBlank; }
         }
 
+        /// <summary>
+        /// Returns the surface object which is drawn.
+        /// </summary>
+        public Surface Surface
+        {
+            get { return mSurface; }
+        }
         /// <summary>
         /// Gets or sets the display size.
         /// </summary>
@@ -278,15 +309,18 @@ namespace ERY.AgateLib
             get { return mDisplaySize; }
             set { mDisplaySize = value; }
         }
-        //// <summary>
-        //// Gets the original size of the frame.
-        //// </summary>
-        //public Size OriginalSize
-        //{
-        //    get { return mOriginalSize; }
-        //}
+        /// <summary>
+        /// Gets the original size of the frame.
+        /// </summary>
+        public Size OriginalSize
+        {
+            get { return mOriginalSize; }
+        }
 
-        internal Point FrameOffset
+        /// <summary>
+        /// Gets the draw offset of the frame.
+        /// </summary>
+        public Point FrameOffset
         {
             get { return mOffset; }
         }
@@ -295,30 +329,32 @@ namespace ERY.AgateLib
         /// Draws this surface at the specified destination point with the specified rotation
         /// center.
         /// </summary>
-        /// <param name="surf"></param>
         /// <param name="dest_x"></param>
         /// <param name="dest_y"></param>
         /// <param name="rotationCenterX"></param>
         /// <param name="rotationCenterY"></param>
-        public void Draw(Surface surf, float dest_x, float dest_y, float rotationCenterX, float rotationCenterY)
+        public void Draw(float dest_x, float dest_y, float rotationCenterX, float rotationCenterY)
         {
             // calculate scaling.
-            float scaleX = mDisplaySize.Width / (float)mSrcRect.Width;
-            float scaleY = mDisplaySize.Height / (float)mSrcRect.Height;
+            float scaleX = mDisplaySize.Width / (float)mOriginalSize.Width;
+            float scaleY = mDisplaySize.Height / (float)mOriginalSize.Height;
 
-            surf.SetScale(scaleX, scaleY);
+            mSurface.SetScale(scaleX, scaleY);
 
-            surf.Draw(dest_x + (mOffset.X * scaleX),
-                      dest_y + (mOffset.Y * scaleY),
-                      mSrcRect,
-                      rotationCenterX - (mOffset.X * scaleX),
-                      rotationCenterY - (mOffset.Y * scaleY));
-
-            //mSurface.Draw(dest_x + (mOffset.X * scaleX),
-            //              dest_y + (mOffset.Y * scaleY),
-            //              rotationCenterX - (mOffset.X * scaleX),
-            //              rotationCenterY - (mOffset.Y * scaleY));
+            mSurface.Draw(dest_x + (mOffset.X * scaleX),
+                          dest_y + (mOffset.Y * scaleY),
+                          rotationCenterX - (mOffset.X * scaleX),
+                          rotationCenterY - (mOffset.Y * scaleY));
         }
+
+        #region ISpriteFrame Members
+
+        Rectangle ISpriteFrame.SourceRect
+        {
+            get { return new Rectangle(0, 0, mSurface.SurfaceWidth, mSurface.SurfaceHeight); }
+        }
+
+        #endregion
     }
 
 }

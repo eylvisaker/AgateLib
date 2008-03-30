@@ -26,13 +26,15 @@ using ERY.AgateLib.Resources;
 
 namespace ERY.AgateLib
 {
+    using Sprites;
+
     /// <summary>
     /// The Sprite class represents a series of frames which are used
     /// to create a single animation.
     /// </summary>
-    public class Sprite : IDisposable, ISurface
+    public class Sprite : ISprite, ISurface 
     {
-        List<SpriteFrame> mFrames = new List<SpriteFrame>();
+        FrameList<SpriteFrame> mFrames = new FrameList<SpriteFrame>();
         Size mSpriteSize;
 
         private double mTimePerFrame = 60;
@@ -1095,7 +1097,11 @@ namespace ERY.AgateLib
         /// <summary>
         /// Gets the currently displaying frame.
         /// </summary>
-        public SpriteFrame CurrentFrame
+        SpriteFrame CurrentFrame
+        {
+            get { return mFrames[CurrentFrameIndex]; }
+        }
+        ISpriteFrame ISprite.CurrentFrame
         {
             get { return mFrames[CurrentFrameIndex]; }
         }
@@ -1175,7 +1181,7 @@ namespace ERY.AgateLib
         /// <summary>
         /// Gets the list of SpriteFrame objects in this sprite.
         /// </summary>
-        public List<SpriteFrame> Frames
+        public IFrameList Frames
         {
             get { return mFrames; }
         }
@@ -1217,6 +1223,41 @@ namespace ERY.AgateLib
         /// in the PingPong type.
         /// </summary>
         public event SpriteEventHandler PlayDirectionChanged;
+
+        
+        #endregion
+
+        #region --- ISprite Members with different types --
+
+
+        event ERY.AgateLib.SpriteEventHandler ISprite.AnimationStarted
+        {
+            add { throw new Exception("The method or operation is not implemented."); }
+            remove { throw new Exception("The method or operation is not implemented."); }
+        }
+        event ERY.AgateLib.SpriteEventHandler ISprite.AnimationStopped
+        {
+            add { throw new Exception("The method or operation is not implemented."); }
+            remove { throw new Exception("The method or operation is not implemented."); }
+        }
+        event ERY.AgateLib.SpriteEventHandler ISprite.PlayDirectionChanged
+        {
+            add { throw new Exception("The method or operation is not implemented."); }
+            remove { throw new Exception("The method or operation is not implemented."); }
+        }
+
+
+        SpriteAnimType ISprite.AnimationType
+        {
+            get
+            {
+                return (SpriteAnimType)this.AnimationType;
+            }
+            set
+            {
+                this.AnimationType = (AnimType)value;
+            }
+        }
 
         #endregion
     }
