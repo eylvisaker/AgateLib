@@ -4,7 +4,7 @@ AgateLib Todo
 High Priority (0.3.0 definitely)
 --------------------------------
 	General
-		* Deprecate unhandled exception dialog (keep the debug output)
+		D Deprecate unhandled exception dialog (keep the debug output)
 		D Seal consumer classes.
 		* Profile Agate
 		* Extract stuff to interfaces
