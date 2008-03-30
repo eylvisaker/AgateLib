@@ -43,7 +43,7 @@ namespace ERY.AgateLib
         /// <param name="text"></param>
         protected void Report(string text)
         {
-            Console.WriteLine(text);
+            //Console.WriteLine(text);
             System.Diagnostics.Trace.WriteLine(text);
         }
     }

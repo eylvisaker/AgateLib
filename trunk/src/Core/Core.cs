@@ -87,17 +87,8 @@ namespace ERY.AgateLib
 
             Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
-        //    System.Threading.Thread.GetDomain().UnhandledException +=
-        //        new UnhandledExceptionEventHandler(Thread_UnhandledException);
         }
 
-        static void Thread_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            ReportError(ErrorLevel.Bug, "There was an unhandled exception.\r\n\r\n", 
-                e.ExceptionObject as Exception);
-
-        }
-        
         /// <summary>
         /// Gets platform-specific methods.
         /// </summary>
@@ -275,30 +266,30 @@ namespace ERY.AgateLib
         /// error.  If false, the error is silently written to the ErrorFile.</param>
         public static void ReportError(ErrorLevel level, string message, Exception e, bool printStackTrace, bool showDialog)
         {
-            StringWriter writer = new StringWriter();
-
+            StringBuilder b = new StringBuilder();
             
-            writer.Write(LevelText(level) + ": ");
-            writer.Write(message + "\r\n");
+            b.Append(LevelText(level));
+            b.Append(": ");
+            b.AppendLine(message);
 
             if (e != null)
             {
-                writer.Write(e.GetType().Name + ": ");
-                writer.WriteLine(e.Message);
+                b.Append(e.GetType().Name);
+                b.Append(": ");
+                b.AppendLine(e.Message);
 
                 if (printStackTrace)
-                    writer.WriteLine(e.StackTrace);
+                    b.AppendLine(e.StackTrace);
             }
 
-            writer.WriteLine();
-            writer.Flush();
+            b.AppendLine();
 
-            string text = writer.ToString();
-            writer.Dispose();
+            string text = b.ToString();
 
-            if (showDialog)
+            // show the error dialog if AgateWinForms.dll is present.
+            if (showDialog && Drivers.Registrar.WinForms != null)
             {
-                DialogReport(message, e, level);
+                Drivers.Registrar.WinForms.ShowErrorDialog(message, e, level);
             }
 
             using (StreamWriter filewriter = OpenErrorFile())
@@ -351,52 +342,14 @@ namespace ERY.AgateLib
             writer.WriteLine("Error Log started " + DateTime.Now.ToString());
             writer.WriteLine("");
         }
-
-        private static void DialogReport(string message, Exception e, ErrorLevel level)
-        {
-            System.Windows.Forms.MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.OK ;
-            System.Windows.Forms.MessageBoxIcon icon = System.Windows.Forms.MessageBoxIcon.Asterisk;
-
-            switch(level)
-            {
-                case ErrorLevel.Comment:
-                    icon = System.Windows.Forms.MessageBoxIcon.Information;
-                    break;
-
-                case ErrorLevel.Warning:
-                    icon = System.Windows.Forms.MessageBoxIcon.Warning;
-                    break;
-
-                case ErrorLevel.Fatal:
-                    icon = System.Windows.Forms.MessageBoxIcon.Error;
-                    break;
-
-                case ErrorLevel.Bug:
-                    icon = System.Windows.Forms.MessageBoxIcon.Hand;
-
-                    break;
-            }
-
-            string text = "An error has occured: \r\n";
-            text += message;
-            text += e.Message;
-
-            System.Windows.Forms.MessageBox.Show
-                (text, level.ToString(), buttons, icon);
-        }
-
         private static string LevelText(ErrorLevel level)
         {
             switch (level)
             {
-                case ErrorLevel.Comment:
-                    return "COMMENT";
-                case ErrorLevel.Warning:
-                    return "WARNING";
-                case ErrorLevel.Fatal:
-                    return "ERROR";
-                case ErrorLevel.Bug:
-                    return "BUG";
+                case ErrorLevel.Comment: return "COMMENT";
+                case ErrorLevel.Warning: return "WARNING";
+                case ErrorLevel.Fatal: return "ERROR";
+                case ErrorLevel.Bug: return "BUG";
             }
 
             return "ERROR";

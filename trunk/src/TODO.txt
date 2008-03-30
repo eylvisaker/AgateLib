@@ -9,7 +9,7 @@ High Priority (0.3.0 definitely)
 		* Profile Agate
 		* Extract stuff to interfaces
 		D Rename Origin.cs
-		* Fix ReportError to use StringBuilder instead of StringWriter, and Environment.NewLine.
+		D Fix ReportError to use StringBuilder instead of StringWriter, and Environment.NewLine.
 		* Add ability for ReportError to suppress errors below a certain level.
 		D Make sure all disposable classes correctly follow finalize/dispose pattern.
 		D Categorize AgateLib source code by subsystem
@@ -17,8 +17,7 @@ High Priority (0.3.0 definitely)
 		D Update AgateOTK to newer version of OpenTK
 		D Update AgateOTK to use Framebuffer extension for fast render-to-surface
 		D Fix MDX render-to-surface bug. (Apparently fixed?)
-		* Check base class and see if it can be replaced by an interface
-		* Check for necessity of PlatformTypeID class
+		D Remove PlatformTypeID class
 	Sprites
 		D Create ISprite and ISpriteFrame interfaces
 		* Create ISprite compliant version of old Sprite class
