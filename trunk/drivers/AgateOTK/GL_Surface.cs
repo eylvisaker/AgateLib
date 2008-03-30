@@ -499,6 +499,10 @@ namespace ERY.AgateLib.OpenGL
 
         public override void BeginRender()
         {
+            GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
+
+            mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
+
             if (mDisplay.SupportsFramebuffer)
             {
                 // generate the frame buffer
@@ -527,21 +531,19 @@ namespace ERY.AgateLib.OpenGL
                 FramebufferErrorCode code = 
                     GL.Ext.CheckFramebufferStatus(FramebufferTarget.FramebufferExt);
 
+                if (code != FramebufferErrorCode.FramebufferCompleteExt)
+                {
+                    throw new InvalidOperationException(
+                        "Could not complete framebuffer object.");
+                }
+
                 GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
                 GL.PushAttrib(AttribMask.ViewportBit);
-
-                GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
-                mDisplay.SetupGLOrtho(
-                    Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
-
+                
             }
             else
             {
-                GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
-
-                mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
-
-
+                
                 // clear the framebuffer and draw this texture to it.
                 GL.ClearColor(0, 0, 0, 0);
                 GL.Clear(ClearBufferMask.ColorBufferBit |
@@ -564,13 +566,13 @@ namespace ERY.AgateLib.OpenGL
         {
             if (mDisplay.SupportsFramebuffer)
             {
+                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
                 GL.PopAttrib();
                 GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
 
-                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
-                GL.Ext.DeleteRenderbuffers(1, ref mDepthBuffer);
-                GL.Ext.DeleteFramebuffers(1, ref mFramebufferID);
+                //GL.Ext.DeleteRenderbuffers(1, ref mDepthBuffer);
+                //GL.Ext.DeleteFramebuffers(1, ref mFramebufferID);
             }
             else
             {
