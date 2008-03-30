@@ -43,7 +43,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -65,16 +64,16 @@
     <Compile Include="Core\Core.cs" />
     <Compile Include="Core\FileManager.cs" />
     <Compile Include="Drivers\DriverImplBase.cs" />
-    <Compile Include="Input\ImplBase\AudioImpl.cs" />
+    <Compile Include="ImplBase\AudioImpl.cs" />
     <Compile Include="BitmapFont\BitmapFontImpl.cs" />
-    <Compile Include="Input\ImplBase\DisplayImpl.cs" />
-    <Compile Include="Input\ImplBase\DisplayWindowImpl.cs" />
-    <Compile Include="Input\ImplBase\FontSurfaceImpl.cs" />
-    <Compile Include="Input\ImplBase\IDisplayCaps.cs" />
-    <Compile Include="Input\ImplBase\InputImpl.cs" />
-    <Compile Include="Input\ImplBase\JoystickImpl.cs" />
-    <Compile Include="Input\ImplBase\RenderTargetImpl.cs" />
-    <Compile Include="Input\ImplBase\SurfaceImpl.cs" />
+    <Compile Include="ImplBase\DisplayImpl.cs" />
+    <Compile Include="ImplBase\DisplayWindowImpl.cs" />
+    <Compile Include="ImplBase\FontSurfaceImpl.cs" />
+    <Compile Include="ImplBase\IDisplayCaps.cs" />
+    <Compile Include="ImplBase\InputImpl.cs" />
+    <Compile Include="ImplBase\JoystickImpl.cs" />
+    <Compile Include="ImplBase\RenderTargetImpl.cs" />
+    <Compile Include="ImplBase\SurfaceImpl.cs" />
     <Compile Include="Input\InputCommand.cs" />
     <Compile Include="Input\InputState.cs" />
     <Compile Include="Drivers\NullInputImpl.cs" />
