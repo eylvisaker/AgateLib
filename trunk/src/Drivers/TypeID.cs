@@ -26,6 +26,13 @@ namespace ERY.AgateLib.Drivers
     /// <summary>
     /// List of identifiers of known or planned display drivers.
     /// </summary>
+    /// <remarks>
+    /// This really seems like an overengineered piece of garbage
+    /// designed just to use constraints in generic collections.
+    /// I'd get rid of the whole thing and replace it with enums, but
+    /// it's currently working, and I don't have any need to change it.
+    /// But if the need ever arises, I will redo this whole thing.
+    /// </remarks>
     public class DisplayTypeID : DriverTypeIDBase, IEquatable<DisplayTypeID>
     {
         private int value;
@@ -247,57 +254,6 @@ namespace ERY.AgateLib.Drivers
         /// Implementation using the XNA framework.
         /// </summary>
         public static InputTypeID XInput { get { return new InputTypeID(0x110); } }
-    }
-
-    /// <summary>
-    /// List of identifiers for known or planned platforms to support.
-    /// </summary>
-    public class PlatformTypeID : DriverTypeIDBase, IEquatable<PlatformTypeID>
-    {
-
-
-        private int value;
-
-        private PlatformTypeID()
-        { }
-        private PlatformTypeID(int value)
-        {
-            this.value = value;
-        }
-
-        /// <summary>
-        /// Implementation of IEquatable&lt;int&gt; from base class.
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public override bool Equals(int other)
-        {
-            return value == other;
-        }
-        /// <summary>
-        /// Implementation of IEquatable&lt;PlatformTypeID&gt;.
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Equals(PlatformTypeID other)
-        {
-            return Equals(other.value);
-        }
-
-        /// <summary>
-        /// Indicates that no platform specific methods are available.
-        /// Managed equivalents are used where available.
-        /// </summary>
-        public static PlatformTypeID None { get { return new PlatformTypeID(0); } }
-        /// <summary>
-        /// Indicates that Windows platform specific methods are provided
-        /// by the driver.
-        /// </summary>
-        public static PlatformTypeID Windows { get { return new PlatformTypeID(1); } }
-        /// <summary>
-        /// indicates that X-Windows provides windowing functions.
-        /// </summary>
-        public static PlatformTypeID Linux { get { return new PlatformTypeID(2); } }
     }
 
 }
