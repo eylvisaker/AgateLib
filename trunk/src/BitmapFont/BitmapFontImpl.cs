@@ -18,7 +18,6 @@
 //
 using System;
 using System.Collections.Generic;
-//using Drawing = System.Drawing;
 using System.Text;
 using System.Xml;
 
@@ -263,11 +262,13 @@ namespace ERY.AgateLib.BitmapFont
             return new Size(StringDisplayWidth(text), StringDisplayHeight(text));
         }
 
-        private void GetRects(string text, RectangleF[] srcRects, RectangleF[] destRects)
+        private void GetRects(string text, RectangleF[] srcRects, RectangleF[] destRects, out int rectCount)
         {
             double destX = 0;
             double destY = 0;
             int height = mCharHeight;
+
+            rectCount = 0;
 
             for (int i = 0; i < text.Length; i++)
             {
@@ -277,7 +278,9 @@ namespace ERY.AgateLib.BitmapFont
                         // ignore '\r' characters that are followed by '\n', because
                         // the line break on Windows is these two characters in succession.
                         if (i + 1 < text.Length && text[i + 1] == '\n')
+                        {
                             break;
+                        }
 
                         // this '\r' is not followed by a '\n', so treat it like any other character.
                         goto default;
@@ -292,19 +295,24 @@ namespace ERY.AgateLib.BitmapFont
 
                         destX = Math.Max(0, destX - glyph.LeftOverhang * ScaleWidth);
 
-                        srcRects[i] = new RectangleF(
+                        srcRects[rectCount] = new RectangleF(
                             glyph.SourceRect.X, glyph.SourceRect.Y,
                             glyph.SourceRect.Width, glyph.SourceRect.Height);
 
-                        destRects[i] = new RectangleF((float)destX, (float)destY,
-                            (float)(srcRects[i].Width * ScaleWidth),
-                            (float)(srcRects[i].Height * ScaleHeight));
+                        destRects[rectCount] = new RectangleF((float)destX, (float)destY,
+                            (float)(srcRects[rectCount].Width * ScaleWidth),
+                            (float)(srcRects[rectCount].Height * ScaleHeight));
 
-                        destX += destRects[i].Width - glyph.RightOverhang * ScaleWidth;
+                        destX += destRects[rectCount].Width - glyph.RightOverhang * ScaleWidth;
+
+                        rectCount++;
                         break;
                 }
             }
         }
+
+        RectangleF[] cacheSrcRects;
+        RectangleF[] cacheDestRects;
 
         /// <summary>
         /// Draws the text to the screen.
@@ -317,13 +325,26 @@ namespace ERY.AgateLib.BitmapFont
             if (string.IsNullOrEmpty(text))
                 return;
 
-            RectangleF[] srcRects = new RectangleF[text.Length];
-            RectangleF[] destRects = new RectangleF[text.Length];
+            if (cacheSrcRects == null || text.Length > cacheSrcRects.Length)
+            {
+                cacheSrcRects = new RectangleF[text.Length];
+                cacheDestRects = new RectangleF[text.Length];
+            }
 
-            if (string.IsNullOrEmpty(text))
-                return;
+            RectangleF[] srcRects = cacheSrcRects;
+            RectangleF[] destRects = cacheDestRects;
 
-            GetRects(text, srcRects, destRects);
+            DrawTextImpl(destX, destY, text, srcRects, destRects);
+        }
+
+        private void DrawTextImpl(int destX, int destY, string text, 
+            RectangleF[] srcRects, RectangleF[] destRects)
+        {
+            // this variable counts the number of rectangles actually used to display text.
+            // It may be less then text.Length because carriage return characters 
+            // don't need any rects.
+            int displayTextLength;
+            GetRects(text, srcRects, destRects, out displayTextLength);
 
             if (DisplayAlignment != OriginAlignment.TopLeft)
             {
@@ -333,13 +354,13 @@ namespace ERY.AgateLib.BitmapFont
                 destY -= value.Y;
             }
 
-            for (int i = 0; i < destRects.Length; i++)
+            for (int i = 0; i < displayTextLength; i++)
             {
                 destRects[i].X += destX;
                 destRects[i].Y += destY;
             }
 
-            mSurface.DrawRects(srcRects, destRects);
+            mSurface.DrawRects(srcRects, destRects, 0, displayTextLength);
         }
 
         /// <summary>

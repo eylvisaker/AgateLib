@@ -727,7 +727,7 @@ namespace ERY.AgateLib.MDX
         /// </summary>
         /// <param name="srcRects"></param>
         /// <param name="destRects"></param>
-        public override void DrawRects(RectangleF[] srcRects, RectangleF[] destRects)
+        public override void DrawRects(RectangleF[] srcRects, RectangleF[] destRects, int start, int length)
         {
 
             PositionColorNormalTexture[] verts =
@@ -737,7 +737,7 @@ namespace ERY.AgateLib.MDX
             int startIndex = 0;
             int indexIndex = 0;
 
-            for (int i = 0; i < srcRects.Length; i++)
+            for (int i = start; i < start + length; i++)
             {
                 AddRectToVB(verts, startIndex, srcRects[i], destRects[i]);
 

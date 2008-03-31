@@ -562,7 +562,12 @@ namespace ERY.AgateLib
         /// <param name="destRects"></param>
         public void DrawRects(Rectangle[] srcRects, Rectangle[] destRects)
         {
-            impl.DrawRects(srcRects, destRects);
+            if (srcRects.Length != destRects.Length)
+            {
+                throw new ArgumentException(
+                    "Source and dest rect arrays are not the same size!  Use overload which indicates length of arrays to use.");
+            }
+            impl.DrawRects(srcRects, destRects, 0, srcRects.Length);
         }
         /// <summary>
         /// Draws the surface using an array of source and destination rectangles.
@@ -572,8 +577,37 @@ namespace ERY.AgateLib
         /// <param name="destRects"></param>
         public void DrawRects(RectangleF[] srcRects, RectangleF[] destRects)
         {
-            impl.DrawRects(srcRects, destRects);
+            if (srcRects.Length != destRects.Length)
+            {
+                throw new ArgumentException(
+                    "Source and dest rect arrays are not the same size!  Use overload which indicates length of arrays to use.");
+            }
+            impl.DrawRects(srcRects, destRects, 0, srcRects.Length);
         }
+
+        /// <summary>
+        /// Draws the surface using an array of source and destination rectangles.
+        /// This method will throw an exception if the two arrays are not the same size.
+        /// </summary>
+        /// <param name="srcRects"></param>
+        /// <param name="destRects"></param>
+        /// <param name="length">Number of elements in the arrays to use.</param>
+        /// <param name="start">Element in the arrays to start at.</param>
+        public void DrawRects(Rectangle[] srcRects, Rectangle[] destRects, int start, int length)
+        {
+            impl.DrawRects(srcRects, destRects, start, length);
+        }
+        /// <summary>
+        /// Draws the surface using an array of source and destination rectangles.
+        /// This method will throw an exception if the two arrays are not the same size.
+        /// </summary>
+        /// <param name="srcRects"></param>
+        /// <param name="destRects"></param>
+        public void DrawRects(RectangleF[] srcRects, RectangleF[] destRects, int start, int length)
+        {
+            impl.DrawRects(srcRects, destRects, start, length);
+        }
+
         #endregion
  
         #region --- Surface Data Manipulation ---

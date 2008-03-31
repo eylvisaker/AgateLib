@@ -318,6 +318,8 @@ namespace ERY.AgateLib.OpenGL
             //GL.PopMatrix();
         }
 
+        PointF[] cachePt = new PointF[4];
+
         private void BufferQuad(float destX, float destY, float rotationCenterX, float rotationCenterY,
             float displayWidth, float displayHeight, TextureCoordinates texCoord, Gradient color)
         {
@@ -326,7 +328,7 @@ namespace ERY.AgateLib.OpenGL
             //  1 -- 2
             //  |    |
             //  4 -- 3
-            PointF[] pt = new PointF[4];
+            PointF[] pt = cachePt;
 
             SetPoints(pt, destX, destY,
                 rotationCenterX, rotationCenterY, displayWidth, displayHeight);

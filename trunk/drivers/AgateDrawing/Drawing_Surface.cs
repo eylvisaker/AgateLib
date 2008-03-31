@@ -212,7 +212,7 @@ namespace ERY.AgateLib.SystemDrawing
             g.DrawImage(mImage, Interop.Convert(destRect),
                 Interop.Convert(srcRect), GraphicsUnit.Pixel);
         }
-        public override void DrawRects(Geometry.Rectangle[] src_rects, Geometry.Rectangle[] dest_rects)
+        public override void DrawRects(Geometry.Rectangle[] src_rects, Geometry.Rectangle[] dest_rects, int start, int length)
         {
             mDisplay.CheckInFrame("Surface.Draw");
             System.Diagnostics.Debug.Assert(mImage != null);
@@ -220,7 +220,7 @@ namespace ERY.AgateLib.SystemDrawing
             if (src_rects.Length > dest_rects.Length)
                 return;
 
-            for (int i = 0; i < src_rects.Length; i++)
+            for (int i = start; i < start + length; i++)
                 Draw(src_rects[i], dest_rects[i]);
         }
         public override void DrawPoints(Geometry.Point[] destPts)

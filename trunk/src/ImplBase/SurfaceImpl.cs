@@ -222,11 +222,13 @@ namespace ERY.AgateLib.ImplBase
         /// </summary>
         /// <param name="srcRects"></param>
         /// <param name="destRects"></param>
-        public virtual void DrawRects(Rectangle[] srcRects, Rectangle[] destRects)
+        /// <param name="start">Element in the array to start with.</param>
+        /// <param name="length">Number of elements in the arrays to use.</param>
+        public virtual void DrawRects(Rectangle[] srcRects, Rectangle[] destRects, int start, int length)
         {
-            for (int i = 0; i < srcRects.Length; i++)
+            for (int i = 0; i < length; i++)
             {
-                Draw(srcRects[i], destRects[i]);
+                Draw(srcRects[i + start], destRects[i + start]);
             }
         }
 
@@ -240,11 +242,13 @@ namespace ERY.AgateLib.ImplBase
         /// </summary>
         /// <param name="srcRects"></param>
         /// <param name="destRects"></param>
-        public virtual void DrawRects(RectangleF[] srcRects, RectangleF[] destRects)
+        /// <param name="start">Element in the arrays to start with.</param>
+        /// <param name="length">Number of elements in the arrays to use.</param>
+        public virtual void DrawRects(RectangleF[] srcRects, RectangleF[] destRects, int start, int length)
         {
-            for (int i = 0; i < srcRects.Length; i++)
+            for (int i = 0; i < length; i++)
             {
-                Draw(srcRects[i], destRects[i]);
+                Draw(srcRects[i + start], destRects[i + start]);
             }
         }
         #endregion
@@ -285,7 +289,10 @@ namespace ERY.AgateLib.ImplBase
         /// </summary>
         public void EndQueueRects()
         {
-            DrawRects(srcRectList.ToArray(), destRectList.ToArray());
+            Rectangle[] srcRects = srcRectList.ToArray();
+            Rectangle[] destRects = destRectList.ToArray();
+
+            DrawRects(srcRects, destRects, 0, srcRects.Length);
 
             srcRectList = null;
             destRectList = null;

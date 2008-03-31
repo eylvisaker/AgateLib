@@ -38,6 +38,14 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OpenTK, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\deps\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Utilities, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\deps\OpenTK.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -85,14 +93,6 @@
     <Compile Include="TextureCoordinates.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\OpenTK\trunk\Source\OpenTK\OpenTK.csproj">
-      <Project>{42245C5D-B877-4A90-8F11-83F01E31A1C6}</Project>
-      <Name>OpenTK</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\OpenTK\trunk\Source\Utilities\OpenTK.Utilities.csproj">
-      <Project>{37FE4A9C-93AA-484A-8567-863D261BF91C}</Project>
-      <Name>OpenTK.Utilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\AgateLib.csproj">
       <Project>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</Project>
       <Name>AgateLib</Name>
