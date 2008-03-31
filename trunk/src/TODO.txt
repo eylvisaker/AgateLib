@@ -6,7 +6,7 @@ High Priority (0.3.0 definitely)
 	General
 		D Deprecate unhandled exception dialog (keep the debug output)
 		D Seal consumer classes.
-		* Profile Agate
+		D Profile Agate
 		* Extract stuff to interfaces
 		D Rename Origin.cs
 		D Fix ReportError to use StringBuilder instead of StringWriter, and Environment.NewLine.
@@ -28,7 +28,6 @@ High Priority (0.3.0 definitely)
 		* Finish FontSurface serialization
 		D Investigate nVidia bug with Bitmap Fonts and fix it
 	Surfaces
-		* Make sure that Images ??
 		D Move implementation of PixelBuffer.SaveTo to Display class or something.
 	Audio
 		* Make sure that Audio can be loaded from Stream classes.
@@ -57,13 +56,18 @@ Medium Priority (0.3.0 maybe, or by 0.3.5 for sure)
 		* Interface to allow audio to be generated at runtime.
 		* Convert AgateOTK to use vertex buffers instead of vertex arrays.
 		* Save surfaces in AgateMDX so that they can be recreated if the device is lost.
+		
+		* Remove reference to System.Windows.Forms from AgateLib.dll
+		* Remove reference to System.Drawing from AgateLib.dll
 		* XNA driver for Xbox 360 support
-		* SDL driver for GP2x support, plus audio and joystick support on other platforms
+		
+		* SDL driver for GP2X support, plus audio and joystick support on other platforms
 	Gui
 		* Redesign GUI to use containers for automatic positioning
 		* Document GUI classes
 	Fonts
 		* Fix italic fonts
+		* Add a StringTransformer derived class which provides language file lookups.
 	Sprites
 		* Test gradients with sprites, and calculate correct corner colors.
 
@@ -83,6 +87,3 @@ Low Priority
 		
 		* Find a way to detect if running on OS X.
 		
-		* Remove reference to System.Windows.Forms from AgateLib.dll
-		* Remove reference to System.Drawing from AgateLib.dll
-
