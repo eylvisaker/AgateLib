@@ -155,7 +155,7 @@ namespace ERY.AgateLib
                 while (IsActive == false && AutoPause)
                 {
                     System.Threading.Thread.Sleep(25);
-                    System.Windows.Forms.Application.DoEvents();
+                    Display.ProcessEvents();
 
                     // Update Audio Engine, if necessary
                     Audio.Update();

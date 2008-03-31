@@ -119,9 +119,11 @@ namespace ERY.AgateLib.OpenGL
             mCurrentTexture = 0;
         }
 
+        PointF[] cachePts = new PointF[4];
+
         public void AddQuad(int textureID, Color color, TextureCoordinates texCoord, RectangleF destRect)
         {
-            PointF[] pt = new PointF[4];
+            PointF[] pt = cachePts;
 
             pt[0].X = destRect.Left;
             pt[0].Y = destRect.Top;

@@ -255,7 +255,8 @@ namespace ERY.AgateLib.OpenGL
         {
             mWindow.CloseWindow += new EventHandler(mWindow_CloseWindow);
             mWindow.Resize += new OpenTK.Platform.ResizeEvent(mWindow_Resize);
-            
+
+            mWindow.Keyboard.KeyRepeat = true;
             mWindow.Keyboard.KeyDown += new OpenTK.Input.KeyDownEvent(Keyboard_KeyDown);
             mWindow.Keyboard.KeyUp += new OpenTK.Input.KeyUpEvent(Keyboard_KeyUp);
 

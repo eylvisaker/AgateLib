@@ -62,8 +62,8 @@ namespace FontLineTester
 
                     Display.DrawRect(drawRect, Color.Red);
 
-                    fonts[0].DrawText(0, 420, "Use numeric keypad to switch fonts.");
-                    fonts[0].DrawText(0, 450, 
+                    fonts[0].DrawText(0, 370, "Use numeric keypad to switch fonts.");
+                    fonts[0].DrawText(0, 400,
                         "Measured size was: " + drawRect.Size.ToString());
 
                     Display.EndFrame();
