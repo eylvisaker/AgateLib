@@ -43,13 +43,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\Audio.cs" />
+    <Compile Include="Audio\Music.cs" />
+    <Compile Include="Audio\SoundBuffer.cs" />
+    <Compile Include="Audio\SoundBufferSession.cs" />
     <Compile Include="Display\CreateWindowParams.cs" />
     <Compile Include="Drivers\IWinForms.cs" />
     <Compile Include="Drivers\TypeID.cs" />
