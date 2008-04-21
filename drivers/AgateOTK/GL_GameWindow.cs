@@ -24,7 +24,7 @@ using ERY.AgateLib.ImplBase;
 using ERY.AgateLib.Geometry;
 
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics;
 
 namespace ERY.AgateLib.OpenGL
 {

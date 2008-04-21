@@ -75,6 +75,10 @@ namespace FontCreator
         {
             sample.FontFamily = cboFamily.SelectedItem.ToString();
         }
+		
+        private void nudScale_ValueChanged(object sender, EventArgs e)
+        {
+        }
         private void nudSize_ValueChanged(object sender, EventArgs e)
         {
             sample.FontSize = (float)nudSize.Value;

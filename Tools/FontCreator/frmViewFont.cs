@@ -50,7 +50,7 @@ namespace FontCreator
 
                 using (Pen p = new Pen(clr))
                 {
-                    e.Graphics.DrawRectangle(p, FormsInterop.ConvertRectangle(metric.SourceRect));
+                    e.Graphics.DrawRectangle(p, Interop.Convert(metric.SourceRect));
                 }
             }
         }

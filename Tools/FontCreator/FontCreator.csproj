@@ -18,6 +18,11 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>FontCreator</AssemblyName>
+    <RootNamespace>FontCreator</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -26,6 +31,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>FontCreator</AssemblyName>
+    <DebugSymbols>true</DebugSymbols>
+    <RootNamespace>FontCreator</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -80,10 +91,6 @@
     <ProjectReference Include="..\..\drivers\AgateDrawing\AgateDrawing.csproj">
       <Project>{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}</Project>
       <Name>AgateDrawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\drivers\AgateMDX\AgateMDX.csproj">
-      <Project>{852EB9A0-5DCB-492F-9630-9D4198B81FA2}</Project>
-      <Name>AgateMDX</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\drivers\AgateOTK\AgateOTK.csproj">
       <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>

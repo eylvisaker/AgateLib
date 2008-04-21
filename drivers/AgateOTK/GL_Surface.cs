@@ -24,8 +24,8 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using OpenTK.Graphics.OpenGL;
-using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
+using OpenTK.Graphics;
+using OTKPixelFormat = OpenTK.Graphics.PixelFormat;
 
 namespace ERY.AgateLib.OpenGL
 {

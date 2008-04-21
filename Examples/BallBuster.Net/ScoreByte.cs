@@ -49,11 +49,6 @@ class CScoreByte
         this.scale = scale;
     }
 
-    ~CScoreByte()
-    {
-    }
-
-
     public void update(float time_s)
     {
         x += vx * time_s;

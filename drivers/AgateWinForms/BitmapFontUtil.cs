@@ -331,11 +331,13 @@ namespace ERY.AgateLib.WinForms
                         continue;
 
                     int alpha = clr.A;
-                    int intensity = (int)(0.30 * clr.R + 0.59 * clr.G + 0.11 * clr.B);
+                    int intensity = (int)Math.Round(0.30 * clr.R + 0.59 * clr.G + 0.11 * clr.B);
                     byte value = (byte)intensity;
 
-                    System.Diagnostics.Debug.Assert(alpha == 0 || alpha == 255);
                     System.Diagnostics.Debug.Assert(0 <= intensity && intensity <= 255);
+					if (intensity < 0) intensity = 0;
+					if (intensity > 255) intensity = 255;
+											
 
                     switch (options.EdgeOptions)
                     {
