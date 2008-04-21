@@ -41,6 +41,7 @@ namespace FontCreator
             this.txtSampleText = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.nudScale = new System.Windows.Forms.NumericUpDown();
             this.chkBorder = new System.Windows.Forms.CheckBox();
             this.btnBorderColor = new System.Windows.Forms.Button();
             this.cboEdges = new System.Windows.Forms.ComboBox();
@@ -54,6 +55,7 @@ namespace FontCreator
             this.btnViewFont = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
             this.nudOpacity = new System.Windows.Forms.NumericUpDown();
             this.renderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
             this.zoomRenderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
@@ -96,6 +98,24 @@ namespace FontCreator
             this.cboFamily.Size = new System.Drawing.Size(145, 21);
             this.cboFamily.TabIndex = 3;
             this.cboFamily.SelectedIndexChanged += new System.EventHandler(this.cboFamily_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(30, 173);
+            this.label7.Name = "label6";
+            this.label7.Size = new System.Drawing.Size(46, 13);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Scale:";
+			//
+			// nudScale
+			// 
+			this.nudScale.DecimalPlaces = 1;
+			this.nudScale.Location = new System.Drawing.Point(80, 70);
+			this.nudScale.Maximum = 20;
+			this.nudScale.Minimum = 0.1m;
+			this.nudScale.Value = 4;
+			this.nudScale.ValueChanged += new System.EventHandler(this.nudScale_ValueChanged);
             // 
             // nudSize
             // 
@@ -293,6 +313,7 @@ namespace FontCreator
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.txtSampleText);
+			this.groupBox2.Controls.Add(this.nudScale);
             this.groupBox2.Location = new System.Drawing.Point(253, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(302, 170);
@@ -456,6 +477,8 @@ namespace FontCreator
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.NumericUpDown nudOpacity;
         private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.NumericUpDown nudScale;
+		private System.Windows.Forms.Label label7;
     }
 }
 

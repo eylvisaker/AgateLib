@@ -24,7 +24,7 @@ using System.Text;
 using ERY.AgateLib;
 using ERY.AgateLib.Geometry;
 
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics;
 
 namespace ERY.AgateLib.OpenGL
 {

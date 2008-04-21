@@ -28,6 +28,10 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>..\bin\Debug\AgateLib.XML</DocumentationFile>
+    <OutputType>Library</OutputType>
+    <AssemblyName>AgateLib</AssemblyName>
+    <RootNamespace>ERY.AgateLib</RootNamespace>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,12 +44,16 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>..\bin\AgateLib.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
+    <OutputType>Library</OutputType>
+    <AssemblyName>AgateLib</AssemblyName>
+    <RootNamespace>ERY.AgateLib</RootNamespace>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.XML" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\Audio.cs" />

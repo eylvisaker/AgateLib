@@ -20,6 +20,11 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <OutputType>Library</OutputType>
+    <AssemblyName>AgateWinForms</AssemblyName>
+    <RootNamespace>ERY.AgateLib.WinForms</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +34,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\bin\AgateWinForms.xml</DocumentationFile>
+    <OutputType>Library</OutputType>
+    <AssemblyName>AgateWinForms</AssemblyName>
+    <DebugSymbols>true</DebugSymbols>
+    <RootNamespace>ERY.AgateLib.WinForms</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
