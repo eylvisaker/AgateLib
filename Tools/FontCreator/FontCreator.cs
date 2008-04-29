@@ -98,6 +98,13 @@ namespace FontCreator
             get { return mColor; }
             set { mColor = value; }
         }
+        private double mDisplayScale = 4.0;
+
+        public double DisplayScale
+        { 
+            get { return mDisplayScale; }
+            set { mDisplayScale = value; }
+        }
 	
         public bool LightBackground
         {
@@ -195,7 +202,7 @@ namespace FontCreator
             Display.BeginFrame();
             Display.Clear();
 
-            font.SetScale(8.0, 8.0);
+            font.SetScale(mDisplayScale, mDisplayScale);
 
             DrawBackground();
             DrawText();

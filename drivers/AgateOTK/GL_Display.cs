@@ -18,6 +18,8 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Runtime.InteropServices;
 
@@ -31,7 +33,7 @@ using OpenTK.Graphics;
 
 namespace ERY.AgateLib.OpenGL
 {
-    public sealed class GL_Display : DisplayImpl, IDisplayCaps 
+    public sealed class GL_Display : DisplayImpl, IDisplayCaps, PlatformSpecific.IPlatformServices 
     {
         GL_IRenderTarget mRenderTarget;
         GLState mState;
@@ -480,6 +482,79 @@ namespace ERY.AgateLib.OpenGL
         {
             get { return true; }
         }
+
+        #endregion
+
+        #region IPlatformServices Members
+
+        protected override ERY.AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
+        {
+            return this;
+        }
+        PlatformType ERY.AgateLib.PlatformSpecific.IPlatformServices.PlatformType
+        {
+            get
+            {
+                switch (Environment.OSVersion.Platform)
+                {
+                    case PlatformID.WinCE:
+                    case PlatformID.Win32NT:
+                    case PlatformID.Win32S:
+                    case PlatformID.Win32Windows:
+                        return PlatformType.Windows;
+
+                    case PlatformID.Unix:
+                        string kernel = DetectUnixKernel();
+
+                        if (kernel == "Darwin")
+                            return PlatformType.MacOS;
+                        else
+                            return PlatformType.Linux;
+                }
+
+                return PlatformType.Unknown;
+            }
+        }
+
+        #region DetectUnixKernel()
+
+        /// <summary>
+        /// Borrowed from OpenTK source
+        /// Executes "uname" which returns a string representing the name of the
+        /// underlying Unix kernel.
+        /// </summary>
+        /// <returns>"Unix", "Linux", "Darwin" or null.</returns>
+        /// <remarks>Source code from "Mono: A Developer's Notebook"</remarks>
+        private static string DetectUnixKernel()
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.Arguments = "-s";
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+            startInfo.UseShellExecute = false;
+            foreach (string unameprog in new string[] { "/usr/bin/uname", "/bin/uname", "uname" })
+            {
+                try
+                {
+                    startInfo.FileName = unameprog;
+                    Process uname = Process.Start(startInfo);
+                    StreamReader stdout = uname.StandardOutput;
+                    return stdout.ReadLine().Trim();
+                }
+                catch (System.IO.FileNotFoundException)
+                {
+                    // The requested executable doesn't exist, try next one.
+                    continue;
+                }
+                catch (System.ComponentModel.Win32Exception)
+                {
+                    continue;
+                }
+            }
+            return null;
+        }
+
+        #endregion
 
         #endregion
     }

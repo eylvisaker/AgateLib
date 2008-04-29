@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateDrawing", "..\drivers\AgateDrawing\AgateDrawing.csproj", "{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib", "..\src\AgateLib.csproj", "{C6B3EA23-0113-4E5D-B42E-4C715A25D084}"
@@ -10,6 +10,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateOTK", "..\drivers\AgateOTK\AgateOTK.csproj", "{B8476DD4-981E-47CD-A8C2-9E28E84A156D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateWinForms", "..\drivers\AgateWinForms\AgateWinForms.csproj", "{5F029DD0-9017-4E5A-BE06-FD7D5D80E3B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEditor", "ResourceEditor\ResourceEditor.csproj", "{C7582DCB-1313-4CCB-B7E8-E9AB1D89B4AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateMDX", "..\drivers\AgateMDX\AgateMDX.csproj", "{852EB9A0-5DCB-492F-9630-9D4198B81FA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,14 +25,6 @@ Global
 		{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F029DD0-9017-4E5A-BE06-FD7D5D80E3B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F029DD0-9017-4E5A-BE06-FD7D5D80E3B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F029DD0-9017-4E5A-BE06-FD7D5D80E3B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F029DD0-9017-4E5A-BE06-FD7D5D80E3B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B8476DD4-981E-47CD-A8C2-9E28E84A156D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8476DD4-981E-47CD-A8C2-9E28E84A156D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8476DD4-981E-47CD-A8C2-9E28E84A156D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8476DD4-981E-47CD-A8C2-9E28E84A156D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C6B3EA23-0113-4E5D-B42E-4C715A25D084}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C6B3EA23-0113-4E5D-B42E-4C715A25D084}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6B3EA23-0113-4E5D-B42E-4C715A25D084}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,8 +33,22 @@ Global
 		{F233AA04-DB50-4ABD-8EF7-0BCAEFE7E1BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F233AA04-DB50-4ABD-8EF7-0BCAEFE7E1BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F233AA04-DB50-4ABD-8EF7-0BCAEFE7E1BC}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
+		{B8476DD4-981E-47CD-A8C2-9E28E84A156D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8476DD4-981E-47CD-A8C2-9E28E84A156D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8476DD4-981E-47CD-A8C2-9E28E84A156D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8476DD4-981E-47CD-A8C2-9E28E84A156D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F029DD0-9017-4E5A-BE06-FD7D5D80E3B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F029DD0-9017-4E5A-BE06-FD7D5D80E3B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F029DD0-9017-4E5A-BE06-FD7D5D80E3B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F029DD0-9017-4E5A-BE06-FD7D5D80E3B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7582DCB-1313-4CCB-B7E8-E9AB1D89B4AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7582DCB-1313-4CCB-B7E8-E9AB1D89B4AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7582DCB-1313-4CCB-B7E8-E9AB1D89B4AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7582DCB-1313-4CCB-B7E8-E9AB1D89B4AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{852EB9A0-5DCB-492F-9630-9D4198B81FA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{852EB9A0-5DCB-492F-9630-9D4198B81FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{852EB9A0-5DCB-492F-9630-9D4198B81FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{852EB9A0-5DCB-492F-9630-9D4198B81FA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

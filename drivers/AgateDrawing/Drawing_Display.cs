@@ -27,12 +27,13 @@ using System.Runtime.InteropServices;
 using ERY.AgateLib.BitmapFont;
 using ERY.AgateLib.Drivers;
 using ERY.AgateLib.ImplBase;
+using ERY.AgateLib.PlatformSpecific;
 
 namespace ERY.AgateLib.SystemDrawing
 {
     using WinForms;
 
-    public class Drawing_Display : DisplayImpl, IDisplayCaps 
+    public class Drawing_Display : DisplayImpl, IDisplayCaps , IPlatformServices 
     {
         #region --- Private variables ---
             
@@ -323,6 +324,34 @@ namespace ERY.AgateLib.SystemDrawing
         bool IDisplayCaps.CanCreateBitmapFont
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region IPlatformServices Members
+
+        protected override IPlatformServices GetPlatformServices()
+        {
+            return this;
+        }
+        PlatformType IPlatformServices.PlatformType
+        {
+            get
+            {
+                switch (Environment.OSVersion.Platform)
+                {
+                    case PlatformID.Win32Windows:
+                    case PlatformID.Win32S:
+                    case PlatformID.Win32NT:
+                    case PlatformID.WinCE:
+                        return PlatformType.Windows;
+
+                    case PlatformID.Unix:
+                        return PlatformType.Linux;
+                }
+
+                return PlatformType.Unknown;
+            }
         }
 
         #endregion

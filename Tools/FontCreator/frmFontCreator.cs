@@ -78,6 +78,7 @@ namespace FontCreator
 		
         private void nudScale_ValueChanged(object sender, EventArgs e)
         {
+            sample.DisplayScale = (double)nudScale.Value;
         }
         private void nudSize_ValueChanged(object sender, EventArgs e)
         {

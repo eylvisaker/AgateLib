@@ -34,7 +34,7 @@ namespace TilingTest
                 tiles[0] = new Surface("tile1.png");
                 tiles[1] = new Surface("tile2.png");
 
-                while (wnd.Closed == false)
+                while (wnd.IsClosed == false)
                 {
                     Display.BeginFrame();
                     Display.Clear(Color.FromArgb(
