@@ -58,11 +58,12 @@ namespace ERY.AgateLib
     }
 
     /// <summary>
-    /// Class which contains objects commonly used by the entire library.
+    /// Class which contains methods commonly used by the entire library.
     /// </summary>
     public static class Core
     {
-        private static Platform mPlatform;
+        [Obsolete]
+        private static PlatformSpecific.Platform mPlatform;
         private static bool mAutoPause = false;
         private static bool mIsActive = true;
         
@@ -83,7 +84,7 @@ namespace ERY.AgateLib
 
             Drivers.Registrar.Initialize();
 
-            mPlatform = Platform.CreatePlatformMethods();
+            mPlatform = PlatformSpecific.Platform.CreatePlatformMethods();
 
             Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
@@ -92,7 +93,8 @@ namespace ERY.AgateLib
         /// <summary>
         /// Gets platform-specific methods.
         /// </summary>
-        public static Platform Platform
+        [Obsolete("Use methods in ERY.AgateLib.Platform instead.")]
+        public static PlatformSpecific.Platform Platform
         {
             get { return mPlatform; }
         }

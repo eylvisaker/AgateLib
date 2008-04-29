@@ -30,6 +30,7 @@ namespace ERY.AgateLib.PlatformSpecific
     /// each platform given.  It provides default implementations that 
     /// are "most conservative."
     /// </summary>
+    [Obsolete]
     public class Platform  : IDisposable 
     {
         System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();

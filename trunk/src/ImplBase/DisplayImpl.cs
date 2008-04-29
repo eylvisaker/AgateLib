@@ -592,5 +592,7 @@ namespace ERY.AgateLib.ImplBase
         {
             throw new InvalidOperationException("Display driver does not support saving pixel buffers.");
         }
+
+        protected internal abstract ERY.AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices();
     }
 }

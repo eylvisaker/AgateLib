@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -51,6 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -60,6 +61,7 @@
     <Compile Include="Audio\Music.cs" />
     <Compile Include="Audio\SoundBuffer.cs" />
     <Compile Include="Audio\SoundBufferSession.cs" />
+    <Compile Include="Core\Platform.cs" />
     <Compile Include="Display\CreateWindowParams.cs" />
     <Compile Include="Drivers\IWinForms.cs" />
     <Compile Include="Drivers\TypeID.cs" />
@@ -98,11 +100,16 @@
     <Compile Include="Display\OriginAlignment.cs" />
     <Compile Include="Display\PixelBuffer.cs" />
     <Compile Include="Display\ISprite.cs" />
+    <Compile Include="PlatformSpecific\IPlatformServices.cs" />
     <Compile Include="PlatformSpecific\Win32.cs" />
     <Compile Include="PlatformSpecific\X11.cs" />
     <Compile Include="Display\ScreenMode.cs" />
     <Compile Include="Core\SearchPath.cs" />
     <Compile Include="Display\ISpriteFrame.cs" />
+    <Compile Include="Resources\AgateResource.cs" />
+    <Compile Include="Resources\AgateResourceManager.cs" />
+    <Compile Include="Resources\ResourceGroup.cs" />
+    <Compile Include="Resources\StringTable.cs" />
     <Compile Include="Sprites\FrameList.cs" />
     <Compile Include="Sprites\IFrameList.cs" />
     <Compile Include="Sprites\PackedSprite.cs" />
@@ -147,8 +154,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Resources\Resource.cs" />
-    <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="OldResources\Resource.cs" />
+    <Compile Include="OldResources\ResourceManager.cs" />
     <Compile Include="Core\AgateSetup.cs" />
     <Compile Include="Utility\Ref.cs" />
     <Compile Include="Sprites\OldSprite\Sprite.cs">
@@ -157,11 +164,13 @@
     <Compile Include="Display\Surface.cs" />
     <Compile Include="Core\Timing.cs" />
     <Compile Include="Sprites\OldSprite\SpriteFrame.cs" />
+    <Compile Include="Resources\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AgateLib.ico" />
     <Content Include="ChangeLog.txt" />
     <Content Include="ReleaseNotes.txt" />
+    <Content Include="Resources\ResourceDefs.xml" />
     <Content Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

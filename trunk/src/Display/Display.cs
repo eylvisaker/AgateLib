@@ -616,6 +616,11 @@ namespace ERY.AgateLib
         {
             impl.SavePixelBuffer(pixelBuffer, filename, format);
         }
+
+        internal static ERY.AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
+        {
+            return impl.GetPlatformServices();
+        }
     }
 
 

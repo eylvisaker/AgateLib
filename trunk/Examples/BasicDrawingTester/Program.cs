@@ -96,7 +96,7 @@ namespace BasicDrawingTester
                 // 640x480 are the dimensions of the screen area that we will write to
                 DisplayWindow wind = new DisplayWindow(frm.panel1);
 
-                while (wind.Closed == false)
+                while (wind.IsClosed == false)
                 {
                     // Display.BeginFrame must be called before any rendering takes place.
                     Display.BeginFrame();

@@ -40,13 +40,17 @@ namespace FontCreator
             this.chkStrikeout = new System.Windows.Forms.CheckBox();
             this.txtSampleText = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.renderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
+            this.zoomRenderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.nudScale = new System.Windows.Forms.NumericUpDown();
+            this.nudOpacity = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
             this.chkBorder = new System.Windows.Forms.CheckBox();
             this.btnBorderColor = new System.Windows.Forms.Button();
             this.cboEdges = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.chkTextRenderer = new System.Windows.Forms.CheckBox();
+            this.nudScale = new System.Windows.Forms.NumericUpDown();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cboBg = new System.Windows.Forms.ComboBox();
@@ -54,18 +58,16 @@ namespace FontCreator
             this.label5 = new System.Windows.Forms.Label();
             this.btnViewFont = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
-            this.nudOpacity = new System.Windows.Forms.NumericUpDown();
-            this.renderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
-            this.zoomRenderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudSize)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudOpacity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudScale)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -98,24 +100,6 @@ namespace FontCreator
             this.cboFamily.Size = new System.Drawing.Size(145, 21);
             this.cboFamily.TabIndex = 3;
             this.cboFamily.SelectedIndexChanged += new System.EventHandler(this.cboFamily_SelectedIndexChanged);
-            // 
-            // label6
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(30, 173);
-            this.label7.Name = "label6";
-            this.label7.Size = new System.Drawing.Size(46, 13);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "Scale:";
-			//
-			// nudScale
-			// 
-			this.nudScale.DecimalPlaces = 1;
-			this.nudScale.Location = new System.Drawing.Point(80, 70);
-			this.nudScale.Maximum = 20;
-			this.nudScale.Minimum = 0.1m;
-			this.nudScale.Value = 4;
-			this.nudScale.ValueChanged += new System.EventHandler(this.nudScale_ValueChanged);
             // 
             // nudSize
             // 
@@ -226,6 +210,26 @@ namespace FontCreator
             this.splitContainer1.SplitterWidth = 8;
             this.splitContainer1.TabIndex = 11;
             // 
+            // renderTarget
+            // 
+            this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.renderTarget.Location = new System.Drawing.Point(0, 0);
+            this.renderTarget.Name = "renderTarget";
+            this.renderTarget.Size = new System.Drawing.Size(236, 347);
+            this.renderTarget.TabIndex = 0;
+            this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+            // 
+            // zoomRenderTarget
+            // 
+            this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
+            this.zoomRenderTarget.Name = "zoomRenderTarget";
+            this.zoomRenderTarget.Size = new System.Drawing.Size(391, 347);
+            this.zoomRenderTarget.TabIndex = 1;
+            this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.nudOpacity);
@@ -249,6 +253,33 @@ namespace FontCreator
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Font Creation Options";
+            // 
+            // nudOpacity
+            // 
+            this.nudOpacity.Location = new System.Drawing.Point(150, 189);
+            this.nudOpacity.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nudOpacity.Name = "nudOpacity";
+            this.nudOpacity.Size = new System.Drawing.Size(54, 20);
+            this.nudOpacity.TabIndex = 17;
+            this.nudOpacity.Value = new decimal(new int[] {
+            128,
+            0,
+            0,
+            0});
+            this.nudOpacity.ValueChanged += new System.EventHandler(this.nudOpacity_ValueChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(147, 173);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(46, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Opacity:";
             // 
             // chkBorder
             // 
@@ -306,14 +337,34 @@ namespace FontCreator
             this.chkTextRenderer.UseVisualStyleBackColor = true;
             this.chkTextRenderer.CheckedChanged += new System.EventHandler(this.chkTextRenderer_CheckedChanged);
             // 
+            // nudScale
+            // 
+            this.nudScale.DecimalPlaces = 1;
+            this.nudScale.Location = new System.Drawing.Point(80, 123);
+            this.nudScale.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.nudScale.Name = "nudScale";
+            this.nudScale.Size = new System.Drawing.Size(120, 20);
+            this.nudScale.TabIndex = 14;
+            this.nudScale.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.nudScale.ValueChanged += new System.EventHandler(this.nudScale_ValueChanged);
+            // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.cboBg);
             this.groupBox2.Controls.Add(this.btnDisplayColor);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.txtSampleText);
-			this.groupBox2.Controls.Add(this.nudScale);
+            this.groupBox2.Controls.Add(this.nudScale);
             this.groupBox2.Location = new System.Drawing.Point(253, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(302, 170);
@@ -374,52 +425,23 @@ namespace FontCreator
             this.btnSave.Text = "Save Font";
             this.btnSave.UseVisualStyleBackColor = true;
             // 
-            // label6
+            // label7
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(147, 173);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(46, 13);
-            this.label6.TabIndex = 16;
-            this.label6.Text = "Opacity:";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(30, 173);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(46, 13);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Scale:";
             // 
-            // nudOpacity
+            // label8
             // 
-            this.nudOpacity.Location = new System.Drawing.Point(150, 189);
-            this.nudOpacity.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.nudOpacity.Name = "nudOpacity";
-            this.nudOpacity.Size = new System.Drawing.Size(54, 20);
-            this.nudOpacity.TabIndex = 17;
-            this.nudOpacity.Value = new decimal(new int[] {
-            128,
-            0,
-            0,
-            0});
-            this.nudOpacity.ValueChanged += new System.EventHandler(this.nudOpacity_ValueChanged);
-            // 
-            // renderTarget
-            // 
-            this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.renderTarget.Location = new System.Drawing.Point(0, 0);
-            this.renderTarget.Name = "renderTarget";
-            this.renderTarget.Size = new System.Drawing.Size(236, 347);
-            this.renderTarget.TabIndex = 0;
-            this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-            // 
-            // zoomRenderTarget
-            // 
-            this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
-            this.zoomRenderTarget.Name = "zoomRenderTarget";
-            this.zoomRenderTarget.Size = new System.Drawing.Size(391, 347);
-            this.zoomRenderTarget.TabIndex = 1;
-            this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(8, 125);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(67, 13);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "Scale Factor";
             // 
             // frmFontCreator
             // 
@@ -440,9 +462,10 @@ namespace FontCreator
             this.splitContainer1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudOpacity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudScale)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudOpacity)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -479,6 +502,7 @@ namespace FontCreator
         private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.NumericUpDown nudScale;
 		private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
     }
 }
 

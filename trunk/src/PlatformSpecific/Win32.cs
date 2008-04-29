@@ -29,6 +29,7 @@ namespace ERY.AgateLib.PlatformSpecific
     /// <summary>
     /// Contains Win32 platform specific methods.
     /// </summary>
+    [Obsolete]
     public class Win32Platform : Platform
     {
         // taken from DirectX framework.

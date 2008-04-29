@@ -31,8 +31,8 @@ namespace FontCreator
             this.pctImage = new System.Windows.Forms.PictureBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.properties = new System.Windows.Forms.PropertyGrid();
             this.lstItems = new System.Windows.Forms.ListBox();
+            this.properties = new System.Windows.Forms.PropertyGrid();
             ((System.ComponentModel.ISupportInitialize)(this.pctImage)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -88,14 +88,6 @@ namespace FontCreator
             this.splitContainer2.SplitterDistance = 159;
             this.splitContainer2.TabIndex = 0;
             // 
-            // properties
-            // 
-            this.properties.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.properties.Location = new System.Drawing.Point(0, 0);
-            this.properties.Name = "properties";
-            this.properties.Size = new System.Drawing.Size(368, 305);
-            this.properties.TabIndex = 1;
-            // 
             // lstItems
             // 
             this.lstItems.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -107,6 +99,14 @@ namespace FontCreator
             this.lstItems.Size = new System.Drawing.Size(368, 147);
             this.lstItems.TabIndex = 0;
             this.lstItems.SelectedIndexChanged += new System.EventHandler(this.lstItems_SelectedIndexChanged);
+            // 
+            // properties
+            // 
+            this.properties.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.properties.Location = new System.Drawing.Point(0, 0);
+            this.properties.Name = "properties";
+            this.properties.Size = new System.Drawing.Size(368, 305);
+            this.properties.TabIndex = 1;
             // 
             // frmViewFont
             // 

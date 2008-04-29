@@ -34,7 +34,7 @@ namespace ERY.AgateLib.MDX
 {
     using WinForms;
 
-    public class MDX1_Display : DisplayImpl, IDisplayCaps 
+    public class MDX1_Display : DisplayImpl, IDisplayCaps, PlatformSpecific.IPlatformServices 
     {
         #region --- Private Variables ---
 
@@ -811,6 +811,19 @@ namespace ERY.AgateLib.MDX
         bool IDisplayCaps.CanCreateBitmapFont
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region IPlatformServices Members
+
+        protected override ERY.AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
+        {
+            return this;
+        }
+        PlatformType ERY.AgateLib.PlatformSpecific.IPlatformServices.PlatformType
+        {
+            get { return PlatformType.Windows; }
         }
 
         #endregion
