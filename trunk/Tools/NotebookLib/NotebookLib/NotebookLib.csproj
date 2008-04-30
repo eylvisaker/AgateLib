@@ -2,16 +2,19 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C7582DCB-1313-4CCB-B7E8-E9AB1D89B4AE}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{76F88E86-EF27-4A40-ACFD-60C7DC735789}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ResourceEditor</RootNamespace>
-    <AssemblyName>ResourceEditor</AssemblyName>
+    <RootNamespace>ERY.NotebookLib</RootNamespace>
+    <AssemblyName>NotebookLib</AssemblyName>
+    <StartupObject>
+    </StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <PublishUrl>publish\</PublishUrl>
@@ -29,7 +32,6 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ApplicationIcon>Resources\AgateLib.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,39 +54,63 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmNewLanguage.cs">
-      <SubType>Form</SubType>
+    <Compile Include="CloseTabEventArgs.cs" />
+    <Compile Include="DesignerClass\EditPagesList.cs" />
+    <Compile Include="DesignerClass\MySplitterDesigner.cs">
     </Compile>
-    <Compile Include="frmNewLanguage.Designer.cs">
-      <DependentUpon>frmNewLanguage.cs</DependentUpon>
+    <Compile Include="DesignerClass\NotebookDesigner.cs" />
+    <Compile Include="DesignerClass\PageDesigner.cs" />
+    <Compile Include="FlatTabs\FlatTabNavigator.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="frmResourceEditor.cs">
-      <SubType>Form</SubType>
+    <Compile Include="FlatTabs\FlatTabProperties.cs">
     </Compile>
-    <Compile Include="frmResourceEditor.Designer.cs">
-      <DependentUpon>frmResourceEditor.cs</DependentUpon>
+    <Compile Include="INavigator.cs" />
+    <Compile Include="ListBookNavigator\ListBookNavigator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ListBookNavigator\ListBookProperties.cs" />
+    <Compile Include="NavigatorFactory.cs" />
+    <Compile Include="NavigatorLocation.cs" />
+    <Compile Include="NavigatorProperties.cs" />
+    <Compile Include="NoNavigator\NoNavigator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoNavigator\NoNavigatorProperties.cs" />
+    <Compile Include="Notebook.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Notebook.Designer.cs">
+      <DependentUpon>Notebook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotebookPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NotebookPage.Designer.cs">
+      <DependentUpon>NotebookPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmNewLanguage.resx">
-      <DependentUpon>frmNewLanguage.cs</DependentUpon>
+    <EmbeddedResource Include="ListBookNavigator\ListBookNavigator.resx">
       <SubType>Designer</SubType>
+      <DependentUpon>ListBookNavigator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmResourceEditor.resx">
+    <EmbeddedResource Include="Notebook.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>frmResourceEditor.cs</DependentUpon>
+      <DependentUpon>Notebook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotebookPage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NotebookPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StringTableEditor.resx">
-      <DependentUpon>StringTableEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -101,58 +127,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="StringTableEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StringTableEditor.Designer.cs">
-      <DependentUpon>StringTableEditor.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\NewDocumentHS.png" />
+    <None Include="Resources\book_reportHS.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\openHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\saveHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CutHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CopyHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PasteHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\DeleteHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\AgateLib.csproj">
-      <Project>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</Project>
-      <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NotebookLib\NotebookLib\NotebookLib.csproj">
-      <Project>{76F88E86-EF27-4A40-ACFD-60C7DC735789}</Project>
-      <Name>NotebookLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Plus.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Plus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Minus.png" />
+    <None Include="Resources\Close.png" />
+    <None Include="Resources\CloseMouseOver.png" />
+    <Content Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
-      <Install>true</Install>
+      <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
       <Visible>False</Visible>
@@ -162,53 +150,13 @@
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5</ProductName>
-      <Install>false</Install>
+      <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AgateLib.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\error.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\TextboxHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\StopHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ThumbnailLoadingHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\DocumentHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Control_PictureBox.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Control_TextBox.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Control_Form.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Control_NumericUpDown.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Control_Sound.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Music.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\font.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\sprite.png" />
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

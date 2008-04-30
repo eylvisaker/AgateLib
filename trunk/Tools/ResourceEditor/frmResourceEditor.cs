@@ -44,8 +44,8 @@ namespace ResourceEditor
         bool updatingControls = false;
         private void UpdateControls()
         {
-            if (updatingControls)
-                return;
+            if (updatingControls)                return;
+            if (IsDisposed)                return;
 
             updatingControls = true;
 
@@ -117,7 +117,6 @@ namespace ResourceEditor
 
                 deleteToolStripMenuItem.Enabled = delete;
 
-                splitContainer1.Enabled = hasDocument;
                 cboLanguages.Enabled = hasDocument;
                 btnAddLanguage.Enabled = hasDocument;
             }
