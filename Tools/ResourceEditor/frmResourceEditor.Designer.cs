@@ -32,8 +32,15 @@ namespace ResourceEditor
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.treeResource = new System.Windows.Forms.TreeView();
+            this.notebook1 = new ERY.NotebookLib.Notebook();
+            this.notebookPage5 = new ERY.NotebookLib.NotebookPage();
+            this.pageStrings = new ERY.NotebookLib.NotebookPage();
+            this.notebookPage4 = new ERY.NotebookLib.NotebookPage();
+            this.notebookPage2 = new ERY.NotebookLib.NotebookPage();
+            this.notebookPage1 = new ERY.NotebookLib.NotebookPage();
+            this.notebookPage3 = new ERY.NotebookLib.NotebookPage();
+            this.pageWindow = new ERY.NotebookLib.NotebookPage();
+            this.pageNumbers = new ERY.NotebookLib.NotebookPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newResourceFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,8 +75,7 @@ namespace ResourceEditor
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            this.notebook1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -83,7 +89,7 @@ namespace ResourceEditor
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.notebook1);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(526, 440);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
@@ -114,27 +120,115 @@ namespace ResourceEditor
             this.statusLabel.Size = new System.Drawing.Size(118, 17);
             this.statusLabel.Text = "toolStripStatusLabel1";
             // 
-            // splitContainer1
+            // notebook1
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
+            this.notebook1.BackColor = System.Drawing.SystemColors.Control;
+            this.notebook1.Controls.Add(this.pageStrings);
+            this.notebook1.Controls.Add(this.pageNumbers);
+            this.notebook1.Controls.Add(this.pageWindow);
+            this.notebook1.Controls.Add(this.notebookPage5);
+            this.notebook1.Controls.Add(this.notebookPage3);
+            this.notebook1.Controls.Add(this.notebookPage4);
+            this.notebook1.Controls.Add(this.notebookPage1);
+            this.notebook1.Controls.Add(this.notebookPage2);
+            this.notebook1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.notebook1.Location = new System.Drawing.Point(0, 0);
+            this.notebook1.Name = "notebook1";
+            this.notebook1.Navigator.Margin = new System.Windows.Forms.Padding(3);
+            this.notebook1.Navigator.PageBackColor = System.Drawing.SystemColors.Control;
+            this.notebook1.NavigatorType = ERY.NotebookLib.NavigatorType.ListBook;
+            this.notebook1.SelectedIndex = 0;
+            this.notebook1.Size = new System.Drawing.Size(526, 440);
+            this.notebook1.SplitterLocation = 126;
+            this.notebook1.TabIndex = 0;
             // 
-            // splitContainer1.Panel1
+            // notebookPage5
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.treeResource);
-            this.splitContainer1.Size = new System.Drawing.Size(526, 440);
-            this.splitContainer1.SplitterDistance = 160;
-            this.splitContainer1.TabIndex = 5;
+            this.notebookPage5.BackColor = System.Drawing.SystemColors.Control;
+            this.notebookPage5.Image = global::ResourceEditor.Properties.Resources.font;
+            this.notebookPage5.Location = new System.Drawing.Point(130, 0);
+            this.notebookPage5.Name = "notebookPage5";
+            this.notebookPage5.Order = 45;
+            this.notebookPage5.Size = new System.Drawing.Size(396, 440);
+            this.notebookPage5.TabIndex = 11;
+            this.notebookPage5.Text = "Fonts";
             // 
-            // treeResource
+            // pageStrings
             // 
-            this.treeResource.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeResource.Location = new System.Drawing.Point(0, 0);
-            this.treeResource.Name = "treeResource";
-            this.treeResource.Size = new System.Drawing.Size(160, 440);
-            this.treeResource.TabIndex = 0;
+            this.pageStrings.BackColor = System.Drawing.SystemColors.Control;
+            this.pageStrings.Image = global::ResourceEditor.Properties.Resources.Strings;
+            this.pageStrings.Location = new System.Drawing.Point(130, 0);
+            this.pageStrings.Name = "pageStrings";
+            this.pageStrings.Order = 0;
+            this.pageStrings.Size = new System.Drawing.Size(396, 440);
+            this.pageStrings.TabIndex = 1;
+            this.pageStrings.Text = "Strings";
+            // 
+            // notebookPage4
+            // 
+            this.notebookPage4.BackColor = System.Drawing.SystemColors.Control;
+            this.notebookPage4.Image = global::ResourceEditor.Properties.Resources.Music;
+            this.notebookPage4.Location = new System.Drawing.Point(130, 0);
+            this.notebookPage4.Name = "notebookPage4";
+            this.notebookPage4.Order = 60;
+            this.notebookPage4.Size = new System.Drawing.Size(396, 440);
+            this.notebookPage4.TabIndex = 9;
+            this.notebookPage4.Text = "Music";
+            // 
+            // notebookPage2
+            // 
+            this.notebookPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.notebookPage2.Image = global::ResourceEditor.Properties.Resources.Surfaces;
+            this.notebookPage2.Location = new System.Drawing.Point(130, 0);
+            this.notebookPage2.Name = "notebookPage2";
+            this.notebookPage2.Order = 30;
+            this.notebookPage2.Size = new System.Drawing.Size(396, 440);
+            this.notebookPage2.TabIndex = 5;
+            this.notebookPage2.Text = "Surfaces";
+            // 
+            // notebookPage1
+            // 
+            this.notebookPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.notebookPage1.Image = global::ResourceEditor.Properties.Resources.sprite;
+            this.notebookPage1.Location = new System.Drawing.Point(130, 0);
+            this.notebookPage1.Name = "notebookPage1";
+            this.notebookPage1.Order = 40;
+            this.notebookPage1.Size = new System.Drawing.Size(396, 440);
+            this.notebookPage1.TabIndex = 6;
+            this.notebookPage1.Text = "Sprites";
+            // 
+            // notebookPage3
+            // 
+            this.notebookPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.notebookPage3.Image = global::ResourceEditor.Properties.Resources.SoundEffect;
+            this.notebookPage3.Location = new System.Drawing.Point(130, 0);
+            this.notebookPage3.Name = "notebookPage3";
+            this.notebookPage3.Order = 50;
+            this.notebookPage3.Size = new System.Drawing.Size(396, 440);
+            this.notebookPage3.TabIndex = 8;
+            this.notebookPage3.Text = "Sound Effects";
+            // 
+            // pageWindow
+            // 
+            this.pageWindow.BackColor = System.Drawing.SystemColors.Control;
+            this.pageWindow.Image = global::ResourceEditor.Properties.Resources.DisplayWindow;
+            this.pageWindow.Location = new System.Drawing.Point(130, 0);
+            this.pageWindow.Name = "pageWindow";
+            this.pageWindow.Order = 20;
+            this.pageWindow.Size = new System.Drawing.Size(396, 440);
+            this.pageWindow.TabIndex = 4;
+            this.pageWindow.Text = "Display Windows";
+            // 
+            // pageNumbers
+            // 
+            this.pageNumbers.BackColor = System.Drawing.SystemColors.Control;
+            this.pageNumbers.Image = global::ResourceEditor.Properties.Resources.Numbers;
+            this.pageNumbers.Location = new System.Drawing.Point(130, 0);
+            this.pageNumbers.Name = "pageNumbers";
+            this.pageNumbers.Order = 10;
+            this.pageNumbers.Size = new System.Drawing.Size(396, 440);
+            this.pageNumbers.TabIndex = 2;
+            this.pageNumbers.Text = "Numbers";
             // 
             // menuStrip1
             // 
@@ -255,7 +349,7 @@ namespace ResourceEditor
             // 
             // deleteToolStripMenuItem
             // 
-            this.deleteToolStripMenuItem.Image = global::ResourceEditor.Properties.Resources.DeleteHS;
+            this.deleteToolStripMenuItem.Image = global::ResourceEditor.Properties.Resources.Delete;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
@@ -278,7 +372,7 @@ namespace ResourceEditor
             this.btnRemoveLanguage});
             this.toolStrip1.Location = new System.Drawing.Point(3, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(362, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(331, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -407,8 +501,7 @@ namespace ResourceEditor
             this.toolStripContainer1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.ResumeLayout(false);
+            this.notebook1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -443,8 +536,6 @@ namespace ResourceEditor
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton btnCopy;
         private System.Windows.Forms.ToolStripButton btnPaste;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TreeView treeResource;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
@@ -453,6 +544,15 @@ namespace ResourceEditor
         private System.Windows.Forms.ToolStripComboBox cboLanguages;
         private System.Windows.Forms.ToolStripButton btnAddLanguage;
         private System.Windows.Forms.ToolStripButton btnRemoveLanguage;
+        private ERY.NotebookLib.Notebook notebook1;
+        private ERY.NotebookLib.NotebookPage pageNumbers;
+        private ERY.NotebookLib.NotebookPage pageStrings;
+        private ERY.NotebookLib.NotebookPage notebookPage2;
+        private ERY.NotebookLib.NotebookPage notebookPage1;
+        private ERY.NotebookLib.NotebookPage pageWindow;
+        private ERY.NotebookLib.NotebookPage notebookPage3;
+        private ERY.NotebookLib.NotebookPage notebookPage4;
+        private ERY.NotebookLib.NotebookPage notebookPage5;
 
     }
 }
