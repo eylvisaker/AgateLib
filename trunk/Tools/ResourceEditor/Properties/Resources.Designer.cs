@@ -67,6 +67,13 @@ namespace ResourceEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Broom {
+            get {
+                object obj = ResourceManager.GetObject("Broom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap CopyHS {
             get {
                 object obj = ResourceManager.GetObject("CopyHS", resourceCulture);
@@ -105,6 +112,20 @@ namespace ResourceEditor.Properties {
         internal static System.Drawing.Bitmap error {
             get {
                 object obj = ResourceManager.GetObject("error", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Filter2HS {
+            get {
+                object obj = ResourceManager.GetObject("Filter2HS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FindHS {
+            get {
+                object obj = ResourceManager.GetObject("FindHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -168,6 +189,20 @@ namespace ResourceEditor.Properties {
         internal static System.Drawing.Bitmap saveHS {
             get {
                 object obj = ResourceManager.GetObject("saveHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SortHS {
+            get {
+                object obj = ResourceManager.GetObject("SortHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SortUpHS {
+            get {
+                object obj = ResourceManager.GetObject("SortUpHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -438,8 +438,35 @@ namespace ERY.NotebookLib
             set
             {
                 mSplitterLocation = value;
-                RedoLayout();
+                SizeNavFromSplitter();
             }
+        }
+
+        private void SizeNavFromSplitter()
+        {
+            if (Navigator == null)
+                return;
+
+            switch (Navigator.Location)
+            {
+                case NavigatorLocation.Left:
+                    mNavigator.Width = SplitterLocation;
+                    break;
+
+                case NavigatorLocation.Right:
+                    mNavigator.Width = Width - SplitterLocation - SplitterWidth;
+                    break;
+
+                case NavigatorLocation.Top:
+                    mNavigator.Height = SplitterLocation;
+                    break;
+
+                case NavigatorLocation.Bottom:
+                    mNavigator.Height = Height - SplitterLocation - SplitterWidth;
+                    break;
+            }
+
+            RedoLayout();
         }
 
         #endregion
@@ -558,58 +585,60 @@ namespace ERY.NotebookLib
         {
             if (mDraggingSplitter)
             {
+                int split = SplitterLocation;
+
                 switch (Navigator.Location)
                 {
                     case NavigatorLocation.Left:
-                        mSplitterLocation = e.X - mSplitterDragOffset;
+                        split = e.X - mSplitterDragOffset;
 
-                        if (mSplitterLocation < NavigatorInterface.NavMinSize.Width)
-                            mSplitterLocation = NavigatorInterface.NavMinSize.Width;
-                        if (mSplitterLocation > NavigatorInterface.NavMaxSize.Width)
-                            mSplitterLocation = NavigatorInterface.NavMaxSize.Width;
+                        if (split < NavigatorInterface.NavMinSize.Width)
+                            split = NavigatorInterface.NavMinSize.Width;
+                        if (split > NavigatorInterface.NavMaxSize.Width)
+                            split = NavigatorInterface.NavMaxSize.Width;
 
                         Cursor.Current = Cursors.VSplit;
-
+                        
                         break;
                     
                     case NavigatorLocation.Right:
-                        mSplitterLocation = e.X - mSplitterDragOffset;
+                        split = e.X - mSplitterDragOffset;
 
-                        if (mSplitterLocation < ClientSize.Width - SplitterWidth - NavigatorInterface.NavMaxSize.Width)
-                            mSplitterLocation = ClientSize.Width - SplitterWidth - NavigatorInterface.NavMaxSize.Width;
-                        if (mSplitterLocation > ClientSize.Width - SplitterWidth - NavigatorInterface.NavMinSize.Width)
-                            mSplitterLocation = ClientSize.Width - SplitterWidth - NavigatorInterface.NavMinSize.Width;
+                        if (split < ClientSize.Width - SplitterWidth - NavigatorInterface.NavMaxSize.Width)
+                            split = ClientSize.Width - SplitterWidth - NavigatorInterface.NavMaxSize.Width;
+                        if (split > ClientSize.Width - SplitterWidth - NavigatorInterface.NavMinSize.Width)
+                            split = ClientSize.Width - SplitterWidth - NavigatorInterface.NavMinSize.Width;
 
                         Cursor.Current = Cursors.VSplit;
 
                         break;
 
                     case NavigatorLocation.Top:
-                        mSplitterLocation = e.Y - mSplitterDragOffset;
+                        split = e.Y - mSplitterDragOffset;
 
-                        if (mSplitterLocation < NavigatorInterface.NavMinSize.Height)
-                            mSplitterLocation = NavigatorInterface.NavMinSize.Height;
-                        if (mSplitterLocation > NavigatorInterface.NavMaxSize.Height)
-                            mSplitterLocation = NavigatorInterface.NavMaxSize.Height;
+                        if (split < NavigatorInterface.NavMinSize.Height)
+                            split = NavigatorInterface.NavMinSize.Height;
+                        if (split > NavigatorInterface.NavMaxSize.Height)
+                            split = NavigatorInterface.NavMaxSize.Height;
 
                         Cursor.Current = Cursors.HSplit;
 
                         break;
 
                     case NavigatorLocation.Bottom:
-                        mSplitterLocation = e.Y - mSplitterDragOffset;
+                        split = e.Y - mSplitterDragOffset;
 
-                        if (mSplitterLocation < ClientSize.Height - SplitterWidth - NavigatorInterface.NavMaxSize.Height)
-                            mSplitterLocation = ClientSize.Height - SplitterWidth - NavigatorInterface.NavMaxSize.Height;
-                        if (mSplitterLocation > ClientSize.Height - SplitterWidth - NavigatorInterface.NavMinSize.Height)
-                            mSplitterLocation = ClientSize.Height - SplitterWidth - NavigatorInterface.NavMinSize.Height;
+                        if (split < ClientSize.Height - SplitterWidth - NavigatorInterface.NavMaxSize.Height)
+                            split = ClientSize.Height - SplitterWidth - NavigatorInterface.NavMaxSize.Height;
+                        if (split > ClientSize.Height - SplitterWidth - NavigatorInterface.NavMinSize.Height)
+                            split = ClientSize.Height - SplitterWidth - NavigatorInterface.NavMinSize.Height;
 
                         Cursor.Current = Cursors.HSplit;
 
                         break;
                 }
 
-                RedoLayout();
+                SplitterLocation = split;
             }
             else
             {
@@ -654,7 +683,7 @@ namespace ERY.NotebookLib
 
         private bool MouseInSplitter(Point location)
         {
-            if (DesignMode == false && Navigator.AllowSplitter)
+            if (DesignMode == false && Navigator.AllowSplitter == false)
                 return false;
 
             // splitter doesn't exist if navigator is not shown

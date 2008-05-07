@@ -50,7 +50,7 @@ namespace ResourceEditor
                 return;
             }
 
-            if (resources.ContainsLanguage(textBox1.Text))
+            if (resources.Languages.Contains(textBox1.Text))
             {
                 btnOK.Enabled = false;
                 pnlError.Visible = true;
@@ -64,7 +64,7 @@ namespace ResourceEditor
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            resources.AddLanguage(textBox1.Text);
+            resources.Languages.Add(textBox1.Text);
             resources.SetCurrentLanguage(textBox1.Text);
         }
     }

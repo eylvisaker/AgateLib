@@ -83,7 +83,11 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="StringTableEditor.resx">
+    <EmbeddedResource Include="StringTable\StringEntry.resx">
+      <DependentUpon>StringEntry.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StringTable\StringTableEditor.resx">
       <DependentUpon>StringTableEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -101,10 +105,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="StringTableEditor.cs">
+    <Compile Include="StatusTextEventArgs.cs" />
+    <Compile Include="StringTable\StringEntry.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="StringTableEditor.Designer.cs">
+    <Compile Include="StringTable\StringEntry.Designer.cs">
+      <DependentUpon>StringEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StringTable\StringTableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StringTable\StringTableEditor.Designer.cs">
       <DependentUpon>StringTableEditor.cs</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -178,9 +189,6 @@
     <None Include="Resources\StopHS.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ThumbnailLoadingHS.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\DocumentHS.png" />
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +217,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\sprite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SortHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SortUpHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FindHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Filter2HS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Broom.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
