@@ -108,6 +108,8 @@
     <Compile Include="Display\ISpriteFrame.cs" />
     <Compile Include="Resources\AgateResource.cs" />
     <Compile Include="Resources\AgateResourceManager.cs" />
+    <Compile Include="Resources\LanguageList.cs" />
+    <Compile Include="Resources\LanguageListChangedEventArgs.cs" />
     <Compile Include="Resources\ResourceGroup.cs" />
     <Compile Include="Resources\StringTable.cs" />
     <Compile Include="Sprites\FrameList.cs" />
@@ -170,7 +172,6 @@
     <Content Include="AgateLib.ico" />
     <Content Include="ChangeLog.txt" />
     <Content Include="ReleaseNotes.txt" />
-    <Content Include="Resources\ResourceDefs.xml" />
     <Content Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
