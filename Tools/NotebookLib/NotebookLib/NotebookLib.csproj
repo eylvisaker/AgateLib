@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{76F88E86-EF27-4A40-ACFD-60C7DC735789}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -71,6 +71,12 @@
     </Compile>
     <Compile Include="FlatTabs\FlatTabProperties.cs">
     </Compile>
+    <Compile Include="HSeparator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HSeparator.Designer.cs">
+      <DependentUpon>HSeparator.cs</DependentUpon>
+    </Compile>
     <Compile Include="INavigator.cs" />
     <Compile Include="ListBookNavigator\ListBookNavigator.cs">
       <SubType>Component</SubType>
@@ -96,6 +102,10 @@
       <DependentUpon>NotebookPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="HSeparator.resx">
+      <DependentUpon>HSeparator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ListBookNavigator\ListBookNavigator.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ListBookNavigator.cs</DependentUpon>
