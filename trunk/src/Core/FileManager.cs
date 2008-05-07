@@ -32,6 +32,7 @@ namespace ERY.AgateLib
         private static SearchPath mAssemblyPath;
         private static SearchPath mImagePath = new SearchPath(".");
         private static SearchPath mAudioPath = new SearchPath(".");
+        private static SearchPath mResourcePath = new SearchPath(".");
 
         private static bool mBufferStreams = true;
         private static int mBufferSize = 1000;
@@ -68,7 +69,7 @@ namespace ERY.AgateLib
         {
             get
             {
-                return "\\:|";
+                return @"\:|";
             }
         }
 
@@ -128,6 +129,17 @@ namespace ERY.AgateLib
             get { return mAudioPath; }
             set { mAudioPath = value; }
         }
+        /// <summary>
+        /// Gets or sets the SearchPath object which contains the paths used for
+        /// finding resource definition files.  
+        /// Defaults to containing only the current directory.
+        /// </summary>
+        public static SearchPath ResourcePath
+        {
+            get { return mResourcePath; }
+            set { mResourcePath = value; }
+        }
+
         /// <summary>
         /// Gets or sets a boolean value indicating whether or not streams created
         /// by the FileManager should be wrapped in a BufferedStream object.

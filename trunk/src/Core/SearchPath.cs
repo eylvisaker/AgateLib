@@ -111,8 +111,6 @@ namespace ERY.AgateLib
             return null;
         }
 
-
-
         /// <summary>
         /// Gets all files in all paths.
         /// </summary>
