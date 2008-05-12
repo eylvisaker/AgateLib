@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace ERY.AgateLib.Geometry
@@ -26,6 +27,7 @@ namespace ERY.AgateLib.Geometry
     /// Replacement for System.Drawing.Rectangle structure.
     /// </summary>
     [Serializable]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public struct Rectangle
     {
         Point pt;
@@ -114,6 +116,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets bottom.
         /// </summary>
+        [Browsable(false)]
         public int Bottom
         {
             get { return pt.Y + sz.Height; }
@@ -121,6 +124,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets left.
         /// </summary>
+        [Browsable(false)]
         public int Left
         {
             get { return pt.X; }
@@ -128,6 +132,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets top.
         /// </summary>
+        [Browsable(false)]
         public int Top
         {
             get { return pt.Y; }
@@ -135,6 +140,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets right.
         /// </summary>
+        [Browsable(false)]
         public int Right
         {
             get { return pt.X + sz.Width; }
@@ -142,6 +148,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets or sets top-left point.
         /// </summary>
+        [Browsable(false)]
         public Point Location
         {
             get { return pt; }
@@ -150,6 +157,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets or sets size.
         /// </summary>
+        [Browsable(false)]
         public Size Size
         {
             get { return sz; }

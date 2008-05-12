@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ERY.AgateLib.Geometry
 {
@@ -25,6 +26,7 @@ namespace ERY.AgateLib.Geometry
     /// Replacement for System.Drawing.Point structure.
     /// </summary>
     [Serializable]
+    [TypeConverter(typeof(PointConverter))]
     public struct Point
     {
         int x, y;
@@ -96,6 +98,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Returns true if X and Y are zero.
         /// </summary>
+        [Browsable(false)]
         public bool IsEmpty
         {
             get { return x == 0 && y == 0; }

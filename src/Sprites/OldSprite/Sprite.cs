@@ -178,6 +178,7 @@ namespace ERY.AgateLib
         /// </summary>
         /// <param name="name"></param>
         /// <param name="resources"></param>
+        [Obsolete]
         public Sprite(string name, ResourceManager resources)
         {
             Resource rs = resources.GetResource("sprite", name);
