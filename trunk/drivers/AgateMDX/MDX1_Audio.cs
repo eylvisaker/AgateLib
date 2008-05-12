@@ -107,6 +107,7 @@ namespace ERY.AgateLib.MDX
             desc.ControlFrequency = true;
             desc.ControlPan = true;
             desc.ControlEffects = false;
+            desc.LocateInSoftware = true;
 
 
             mBuffer = new DirectSound.SecondaryBuffer(filename, desc, mAudio.DS_Device);
@@ -150,7 +151,7 @@ namespace ERY.AgateLib.MDX
         }
 
         public override void Play()
-        {   
+        {
             mBuffer.Play(0, Microsoft.DirectX.DirectSound.BufferPlayFlags.Default);
         }
 
