@@ -141,96 +141,46 @@ namespace ERY.AgateLib
         Help = 47,
 
         /// <summary>
-        /// Zero key on main keyboarDigit.
-        /// </summary>
-        Digit0 = 48,
-        /// <summary>
-        /// One key on main keyboarDigit
-        /// </summary>
-        Digit1 = 49,
-        /// <summary>
-        /// Two key on main keyboarDigit
-        /// </summary>
-        Digit2 = 50,
-        /// <summary>
-        /// Three key on main keyboarDigit
-        /// </summary>
-        Digit3 = 51,
-        /// <summary>
-        /// Four key on main keyboarDigit
-        /// </summary>
-        Digit4 = 52,
-        /// <summary>
-        /// Five key on main keyboarDigit
-        /// </summary>
-        Digit5 = 53,
-        /// <summary>
-        /// Six key on main keyboarDigit
-        /// </summary>
-        Digit6 = 54,
-        /// <summary>
-        /// Seven key on main keyboarDigit
-        /// </summary>
-        Digit7 = 55,
-        /// <summary>
-        /// Eight key on main keyboarDigit
-        /// </summary>
-        Digit8 = 56,
-        /// <summary>
-        /// Nine key on main keyboard
-        /// </summary>
-        Digit9 = 57,
-
-        /// <summary>
         /// Zero key on main keyboard.
         /// </summary>
-        [Obsolete("Use Digit# instead.")]
         D0 = 48,
         /// <summary>
         /// One key on main keyboard
         /// </summary>
-        [Obsolete("Use Digit# instead.")]
         D1 = 49,
         /// <summary>
         /// Two key on main keyboard
         /// </summary>
-        [Obsolete("Use Digit# instead.")]
         D2 = 50,
         /// <summary>
         /// Three key on main keyboard
         /// </summary>
-        [Obsolete("Use Digit# instead.")]
         D3 = 51,
         /// <summary>
         /// Four key on main keyboard
         /// </summary>
-        [Obsolete("Use Digit# instead.")]
         D4 = 52,
         /// <summary>
         /// Five key on main keyboard
         /// </summary>
-        [Obsolete("Use Digit# instead.")]
         D5 = 53,
         /// <summary>
         /// Six key on main keyboard
         /// </summary>
-        [Obsolete("Use Digit# instead.")]
         D6 = 54,
         /// <summary>
         /// Seven key on main keyboard
         /// </summary>
-        [Obsolete("Use Digit# instead.")]
         D7 = 55,
         /// <summary>
         /// Eight key on main keyboard
         /// </summary>
-        [Obsolete("Use Digit# instead.")]
         D8 = 56,
         /// <summary>
         /// Nine key on main keyboard
         /// </summary>
-        [Obsolete("Use Digit# instead.")]
         D9 = 57,
+
         /// <summary>
         /// A key.
         /// </summary>
@@ -1176,7 +1126,7 @@ namespace ERY.AgateLib
 
                     // I'd love a better way of doing this:
                     // likely, this is not very friendly to non US keyboard layouts.
-                case KeyCode.Digit0:
+                case KeyCode.D0:
                     if (mods.Shift)
                         return ")";
                     else
@@ -1185,7 +1135,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad0:
                     return "0";
 
-                case KeyCode.Digit1:
+                case KeyCode.D1:
                     if (mods.Shift)
                         return "!";
                     else return "1";
@@ -1194,7 +1144,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad1:
                     return "1";
 
-                case KeyCode.Digit2:
+                case KeyCode.D2:
                     if (mods.Shift)
                         return "@";
                     else return "2";
@@ -1202,7 +1152,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad2:
                     return "2";
 
-                case KeyCode.Digit3:
+                case KeyCode.D3:
                     if (mods.Shift)
                         return "#";
                     else return "3";
@@ -1210,7 +1160,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad3:
                     return "3";
 
-                case KeyCode.Digit4:
+                case KeyCode.D4:
                     if (mods.Shift)
                         return "$";
                     else return "4";
@@ -1218,7 +1168,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad4:
                     return "4";
 
-                case KeyCode.Digit5:
+                case KeyCode.D5:
                     if (mods.Shift)
                         return "%";
                     else return "5";
@@ -1226,7 +1176,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad5:
                     return "5";
 
-                case KeyCode.Digit6:
+                case KeyCode.D6:
                     if (mods.Shift)
                         return "^";
                     else return "6";
@@ -1234,7 +1184,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad6:
                     return "6";
 
-                case KeyCode.Digit7:
+                case KeyCode.D7:
                     if (mods.Shift)
                         return "&";
                     else return "7";
@@ -1242,7 +1192,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad7:
                     return "7";
 
-                case KeyCode.Digit8:
+                case KeyCode.D8:
                     if (mods.Shift)
                         return "*";
                     else return "8";
@@ -1251,7 +1201,7 @@ namespace ERY.AgateLib
                 case KeyCode.NumPad8:
                     return "8";
 
-                case KeyCode.Digit9:
+                case KeyCode.D9:
                     if (mods.Shift)
                         return "(";
                     else return "9";
