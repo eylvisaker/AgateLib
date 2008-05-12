@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace ERY.AgateLib.Geometry
@@ -26,6 +27,7 @@ namespace ERY.AgateLib.Geometry
     /// Replacement for System.Drawing.RectangleF structure.
     /// </summary>
     [Serializable]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public struct RectangleF
     {
         PointF pt;
@@ -114,6 +116,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets bottom.
         /// </summary>
+        [Browsable(false)]
         public float Bottom
         {
             get { return pt.Y + sz.Height; }
@@ -121,6 +124,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets left.
         /// </summary>
+        [Browsable(false)]
         public float Left
         {
             get { return pt.X; }
@@ -128,6 +132,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets top.
         /// </summary>
+        [Browsable(false)]
         public float Top
         {
             get { return pt.Y; }
@@ -135,6 +140,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets right.
         /// </summary>
+        [Browsable(false)]
         public float Right
         {
             get { return pt.X + sz.Width; }
@@ -142,6 +148,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets or sets top-left PointF.
         /// </summary>
+        [Browsable(false)]
         public PointF Location
         {
             get { return pt; }
@@ -150,6 +157,7 @@ namespace ERY.AgateLib.Geometry
         /// <summary>
         /// Gets or sets SizeF.
         /// </summary>
+        [Browsable(false)]
         public SizeF Size
         {
             get { return sz; }

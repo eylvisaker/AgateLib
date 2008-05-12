@@ -144,6 +144,7 @@ namespace ERY.AgateLib.Sprites
         /// </summary>
         /// <param name="name"></param>
         /// <param name="resources"></param>
+        [Obsolete]
         public PackedSprite(string name, ResourceManager resources)
         {
             throw new NotImplementedException();

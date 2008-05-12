@@ -198,7 +198,6 @@ namespace ERY.AgateLib
         }
         /// <summary>
         /// Gets the last render target used which was a DisplayWindow.
-        /// 
         /// </summary>
         public static DisplayWindow CurrentWindow
         {

@@ -335,8 +335,8 @@ namespace ERY.AgateLib.WinForms
                     byte value = (byte)intensity;
 
                     System.Diagnostics.Debug.Assert(0 <= intensity && intensity <= 255);
-					if (intensity < 0) intensity = 0;
-					if (intensity > 255) intensity = 255;
+                    if (intensity < 0) intensity = 0;
+                    if (intensity > 255) intensity = 255;
 											
 
                     switch (options.EdgeOptions)
