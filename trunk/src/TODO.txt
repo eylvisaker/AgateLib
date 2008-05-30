@@ -13,6 +13,7 @@ High Priority (0.3.0 definitely)
 		* Add ability for ReportError to suppress errors below a certain level.
 		D Make sure all disposable classes correctly follow finalize/dispose pattern.
 		D Categorize AgateLib source code by subsystem
+		* Add Display.DrawRect(RectangleF, Color) overload.
 	Drivers
 		D Update AgateOTK to newer version of OpenTK
 		D Update AgateOTK to use Framebuffer extension for fast render-to-surface
