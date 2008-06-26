@@ -90,12 +90,34 @@ namespace ERY.NotebookLib
             RedoLayout();
             DisplayCorrectPage();
         }
+        
+        bool doingLayout = false;
+
         internal void RedoLayout()
+        {
+            if (doingLayout)
+                return;
+
+            try
+            {
+                doingLayout = true;
+                RedoLayoutImpl();
+            }
+            finally
+            {
+                doingLayout = false;
+            }
+        }
+
+        void RedoLayoutImpl()
         {
             Rectangle navRegion;
 
             if (mNavigator == null)
                 return;
+
+            if (SelectedIndex == -1 && NotebookPages.Count > 0)
+                SelectedIndex = 0;
 
             int currentNavSize = 0;
 
@@ -231,21 +253,26 @@ namespace ERY.NotebookLib
 
         public event EventHandler SelectedPageChanged;
 
+        public event ClosePageQueryHandler ClosePageQuery;
         public event ClosePageHandler ClosePage;
 
         internal void OnCloseTab(NotebookPage page)
         {
-            ClosePageEventArgs args = new ClosePageEventArgs(page);
+            ClosePageQueryEventArgs args = new ClosePageQueryEventArgs(page);
 
-            if (ClosePage != null)
-            {
-                ClosePage(this, args);
-            }
+            if (ClosePageQuery != null)
+                ClosePageQuery(this, args);
 
             if (args.Cancel == false)
             {
                 RemovePageInternal(page);
+
+
+                if (ClosePage != null)
+                    ClosePage(this, new ClosePageEventArgs(page));
             }
+
+
         }
         internal void OnSelectedPageChanged()
         {
@@ -289,9 +316,9 @@ namespace ERY.NotebookLib
         private void AddPageInternal(NotebookPage page)
         {
             if (page == null)
-                throw new NullReferenceException();
+                throw new ArgumentException("Page cannot be null.");
             if (NotebookPages.Contains(page))
-                throw new ArgumentException();
+                throw new ArgumentException("Page is already in the notebook.");
 
             NotebookPages.AddInternal(page);
             Controls.AddInternal(page);
@@ -509,6 +536,12 @@ namespace ERY.NotebookLib
                 p.Visible = false;
             }
 
+            if (NotebookPages.Count == 0)
+            {
+                SelectedIndex = -1;
+                return;
+            }
+
             if (NavigatorInterface.SelectedIndex == -1)
                 return;
 
@@ -527,9 +560,11 @@ namespace ERY.NotebookLib
         {
             get
             {
+                if (NotebookPages.Count == 0)
+                    return null;
                 if (NavigatorInterface.SelectedIndex == -1)
                     return null;
-
+                
                 return NotebookPages[NavigatorInterface.SelectedIndex];
             }
             set
