@@ -137,6 +137,11 @@ namespace ERY.AgateLib.MDX
             else
                 form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
 
+            if (form == null)
+            {
+                throw new ArgumentException("Could not find a top-level Form.  It appears the render target is not attached to a Form yet.");
+            }
+
             form.KeyPreview = true;
             form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
             form.KeyUp += new System.Windows.Forms.KeyEventHandler(form_KeyUp);
@@ -458,6 +463,8 @@ namespace ERY.AgateLib.MDX
                 mSwap.Present();
             }
             catch (DeviceLostException)
+            { }
+            catch (GraphicsException)
             { }
 
             //}
