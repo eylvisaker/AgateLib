@@ -98,7 +98,7 @@ namespace ERY.AgateLib.MDX
 
             if (mDevice == null)
             {
-                throw new Exception("Error: It appears that AgateLib has not been initialized yet.");
+                throw new Exception("Error: It appears that AgateLib has not been initialized yet.  Have you created a DisplayWindow?");
             }
 
             LoadFromFile();
@@ -114,7 +114,7 @@ namespace ERY.AgateLib.MDX
 
             if (mDevice == null)
             {
-                throw new Exception("Error: It appears that AgateLib has not been initialized yet.");
+                throw new Exception("Error: It appears that AgateLib has not been initialized yet.  Have you created a DisplayWindow?");
             }
 
             LoadFromStream(stream);
