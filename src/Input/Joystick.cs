@@ -131,7 +131,7 @@ namespace ERY.AgateLib
         /// 
         /// Values outside this range may be returned.
         /// Never do tests which expect exact return values.
-        /// Even gamepads will sometimes return values close to 1
+        /// Even digital gamepads will sometimes return values close to 1
         /// when pushed down, instead of exactly 1.
         /// 
         /// </summary>
@@ -148,7 +148,7 @@ namespace ERY.AgateLib
         /// 
         /// Values outside this range may be returned.
         /// Never do tests which expect exact return values.
-        /// Even gamepads will sometimes return values close to 1
+        /// Even digital gamepads will sometimes return values close to 1
         /// when pushed down, instead of exactly 1.
         /// 
         /// </summary>
