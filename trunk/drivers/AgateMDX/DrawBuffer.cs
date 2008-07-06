@@ -25,6 +25,10 @@ using Microsoft.DirectX;
 
 namespace ERY.AgateLib.MDX
 {
+    /// <summary>
+    /// Perhaps at some point this should be converted to use a vertex buffer
+    /// instead of a vertex array.
+    /// </summary>
     public class DrawBuffer
     {
         const int vertPageSize = 1000;
@@ -65,10 +69,11 @@ namespace ERY.AgateLib.MDX
             }
 
             // increase the number of vertex pages if we don't have enough space.
-            if (mVertPointer + verts.Length > mVerts.Length)
+            while (mVertPointer + verts.Length > mVerts.Length)
             {
                 Flush();
 
+                // this is an arbitrary cap on the size of the vertex array.
                 if (pages < 32)
                     pages++;
 
@@ -78,7 +83,7 @@ namespace ERY.AgateLib.MDX
             verts.CopyTo(mVerts, mVertPointer);
 
             for (int i = 0; i < indices.Length; i++)
-                mIndices[i + mIndexPointer] = (short)( indices[i] + mVertPointer);
+                mIndices[i + mIndexPointer] = (short)(indices[i] + mVertPointer);
 
             mVertPointer += verts.Length;
             mIndexPointer += indices.Length;
