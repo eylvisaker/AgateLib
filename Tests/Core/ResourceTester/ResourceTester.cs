@@ -30,6 +30,7 @@ namespace ResourceTester
                     Display.Clear(Color.Red);
 
                     surf.Draw(20, 20);
+
                     Display.EndFrame();
                     Core.KeepAlive();
                 }
