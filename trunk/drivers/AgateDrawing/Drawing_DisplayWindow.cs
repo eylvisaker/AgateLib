@@ -137,15 +137,15 @@ namespace ERY.AgateLib.SystemDrawing
             Mouse.MouseButtons retval = Mouse.MouseButtons.None;
 
             if ((buttons & MouseButtons.Left) != 0)
-                retval |= Mouse.MouseButtons.Primary;
+                retval = Mouse.MouseButtons.Primary;
             if ((buttons & MouseButtons.Right) != 0)
-                retval |= Mouse.MouseButtons.Secondary;
+                retval = Mouse.MouseButtons.Secondary;
             if ((buttons & MouseButtons.Middle) != 0)
-                retval |= Mouse.MouseButtons.Middle;
+                retval = Mouse.MouseButtons.Middle;
             if ((buttons & MouseButtons.XButton1) != 0)
-                retval |= Mouse.MouseButtons.ExtraButton1;
+                retval = Mouse.MouseButtons.ExtraButton1;
             if ((buttons & MouseButtons.XButton2) != 0)
-                retval |= Mouse.MouseButtons.ExtraButton2;
+                retval = Mouse.MouseButtons.ExtraButton2;
 
             return retval;
         }
