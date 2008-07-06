@@ -21,6 +21,16 @@ namespace ResourceTester
                 AgateResourceManager resources = new AgateResourceManager();
                 resources.Load("test.xml");
 
+                DisplayWindow wind = new DisplayWindow(resources, "main_window");
+
+                while (wind.IsClosed == false)
+                {
+                    Display.BeginFrame();
+                    Display.Clear(Color.Red);
+
+                    Display.EndFrame();
+                    Core.KeepAlive();
+                }
             }
         }
     }

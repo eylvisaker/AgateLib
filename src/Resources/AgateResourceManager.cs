@@ -52,7 +52,12 @@ namespace ERY.AgateLib.Resources
 
         public ResourceGroup CurrentLanguage
         {
-            get { return mCurrentLanguage; }
+            get
+            {
+                if (mCurrentLanguage == null)
+                    mCurrentLanguage = DefaultLanguage;
+                return mCurrentLanguage;
+            }
         }
         public ResourceGroup DefaultLanguage
         {
@@ -107,6 +112,11 @@ namespace ERY.AgateLib.Resources
         {
             Load(FileManager.OpenFile(FileManager.ResourcePath, filename, FileMode.Open, FileAccess.Read));
         }
+        /// <summary>
+        /// Loads the resource information from a stream containing XML data.
+        /// This erases all information in the current AgateResourceManager.
+        /// </summary>
+        /// <param name="stream"></param>
         public void Load(Stream stream)
         {
             XmlDocument doc = new XmlDocument();
@@ -119,6 +129,8 @@ namespace ERY.AgateLib.Resources
 
             string version = root.Attributes["Version"].Value;
 
+            mLanguages.Clear();
+
             switch (version)
             {
                 case "0.3.0":
@@ -129,12 +141,13 @@ namespace ERY.AgateLib.Resources
                         if (node.Name == "Language")
                         {
                             string lang = node.Attributes["name"].Value;
-                            ResourceGroup group = new ResourceGroup(lang);
+                            mLanguages.Add(lang);
+
+                            ResourceGroup group = mLanguages[lang];
 
                             // load the group
                             ReadNodes(group, node, version);
                         }
-
                     }
                     break;
 
@@ -185,6 +198,17 @@ namespace ERY.AgateLib.Resources
             }
             else
                 Debug.Print(p);
+        }
+
+        public AgateResource this[string name]
+        {
+            get
+            {
+                if (CurrentLanguage.ContainsResource(name))
+                    return CurrentLanguage[name];
+                else
+                    return DefaultLanguage[name];
+            }
         }
     }
 }

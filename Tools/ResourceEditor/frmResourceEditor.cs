@@ -350,5 +350,10 @@ namespace ResourceEditor
             statusLabel.Text = e.Text;
         }
 
+        private void frmResourceEditor_Load(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

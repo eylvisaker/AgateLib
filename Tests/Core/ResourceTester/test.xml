@@ -6,6 +6,9 @@
       <string name="How are you?">How are you?</string>
       <string name="I want some beer.">I want some beer.</string>
     </StringTable>
+    <DisplayWindow name="main_window" preferred_size="{Width=200,Height=200}" bpp="32" allow_resize="true">
+	    Have a roni!
+    </DisplayWindow>      
   </Language>
   <Language name="French">
     <StringTable>
@@ -16,7 +19,7 @@
   <Language name="German">
     <StringTable>
       <string name="How are you?">Vie geht das ihnen?</string>
-      <string name="I want some beer.">Ich möschte et was bier.</string>
+      <string name="I want some beer.">Ich moeschte et was bier.</string>
     </StringTable>
   </Language>
 </AgateResources>
