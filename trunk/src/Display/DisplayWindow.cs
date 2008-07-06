@@ -56,14 +56,14 @@ namespace ERY.AgateLib
             if (disp.FullScreen)
             {
                 CreateWindowParams par = CreateWindowParams.FullScreen(
-                    disp.Title, disp.PreferredSize.Width, disp.PreferredSize.Height, disp.Bpp);
+                    disp.Title, disp.Size.Width, disp.Size.Height, disp.Bpp);
 
                 impl = Display.Impl.CreateDisplayWindow(par);
             }
             else
             {
                 CreateWindowParams par = CreateWindowParams.Windowed(
-                    disp.Title, disp.PreferredSize.Width, disp.PreferredSize.Height, null, disp.AllowResize);
+                    disp.Title, disp.Size.Width, disp.Size.Height, null, disp.AllowResize);
 
                 impl = Display.Impl.CreateDisplayWindow(par);
             }

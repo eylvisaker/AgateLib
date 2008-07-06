@@ -9,7 +9,7 @@ namespace ERY.AgateLib.Resources
     /// <summary>
     /// The DisplayWindowResource represents a display window.
     /// XML Attributes:<br/> 
-    ///   string name, Size preferred_size, Size minimum_size, Size maximum_size,
+    ///   string name, Size size, Size minimum_size, Size maximum_size,
     ///   bool allow_resize, bool full_screen, int bpp.  Title text is stored in the body of the XML element.
     /// <para>A zero or missing value for any width/height means it doesn't apply.
     /// </para>
@@ -21,7 +21,7 @@ namespace ERY.AgateLib.Resources
     /// </remarks>
     public class DisplayWindowResource : AgateResource 
     {
-        Size mPreferredSize;
+        Size mSize;
         Size mMinimumSize;
         Size mMaximumSize;
         string mTitle;
@@ -29,7 +29,12 @@ namespace ERY.AgateLib.Resources
         bool mFullScreen;
         int mBpp;
 
-        public Size PreferredSize { get { return mPreferredSize; } set { mPreferredSize = value; } }
+        /// <summary>
+        /// Gets or sets the preferred size of the DisplayWindow when it is created.
+        /// For windowed systems, this will specify the size, but for full-screen systems this
+        /// will specify the starting point for searching for a full-screen resolution.
+        /// </summary>
+        public Size Size { get { return mSize; } set { mSize = value; } }
         public Size MinimumSize { get { return mMinimumSize; } set { mMinimumSize = value; } }
         public Size MaximumSize { get { return mMaximumSize; } set { mMaximumSize = value; } }
         public string Title { get { return mTitle; } set { mTitle = value; } }
@@ -41,7 +46,7 @@ namespace ERY.AgateLib.Resources
         {
             DisplayWindowResource res = new DisplayWindowResource(Name);
 
-            res.PreferredSize = PreferredSize;
+            res.Size = Size;
             res.MinimumSize = MinimumSize;
             res.MaximumSize = MaximumSize;
             res.Title = Title;
@@ -62,7 +67,7 @@ namespace ERY.AgateLib.Resources
                 case "0.3.0":
                     Name = node.Attributes["name"].Value;
 
-                    PreferredSize = XmlHelper.ReadAttributeSize(node, "preferred_size");
+                    Size = XmlHelper.ReadAttributeSize(node, "preferred_size");
                     MinimumSize = XmlHelper.ReadAttributeSize(node, "minimum_size", Size.Empty);
                     MaximumSize = XmlHelper.ReadAttributeSize(node, "maximum_size", Size.Empty);
                     Bpp = XmlHelper.ReadAttributeInt(node, "bpp", 32);
@@ -81,7 +86,7 @@ namespace ERY.AgateLib.Resources
             XmlElement el = doc.CreateElement("DisplayWindow");
 
             XmlHelper.AppendAttribute(el, doc, "name", Name);
-            XmlHelper.AppendAttribute(el, doc, "preferred_size", PreferredSize.ToString());
+            XmlHelper.AppendAttribute(el, doc, "preferred_size", Size.ToString());
             XmlHelper.AppendAttribute(el, doc, "minimum_size", MinimumSize.ToString());
             XmlHelper.AppendAttribute(el, doc, "maximum_size", MaximumSize.ToString());
             XmlHelper.AppendAttribute(el, doc, "allow_resize", AllowResize);
