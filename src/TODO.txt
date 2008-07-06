@@ -1,7 +1,7 @@
 AgateLib Todo
 =============
 
-High Priority (0.3.0 definitely)
+Goals for 0.3.0
 --------------------------------
 	General
 		D Deprecate unhandled exception dialog (keep the debug output)
@@ -14,6 +14,10 @@ High Priority (0.3.0 definitely)
 		D Make sure all disposable classes correctly follow finalize/dispose pattern.
 		D Categorize AgateLib source code by subsystem
 		* Add Display.DrawRect(RectangleF, Color) overload.
+		* Clean up platform-specific classes.
+		* Deprecate use of FileManager.PathChars 
+		* Add more error reporting
+		* Flesh out the new resource system.
 	Drivers
 		D Update AgateOTK to newer version of OpenTK
 		D Update AgateOTK to use Framebuffer extension for fast render-to-surface
@@ -32,6 +36,7 @@ High Priority (0.3.0 definitely)
 		D Move implementation of PixelBuffer.SaveTo to Display class or something.
 	Audio
 		* Make sure that Audio can be loaded from Stream classes.
+		* Develop OpenAL classes in AgateOTK.
 	Input
 		* Eliminate all use of FlagsAttribute on MouseButtons enum.
 		* Deprecate Keyboard events in favor of events where a structure is passed which does not combine modifier keys into a Flags enum.
@@ -43,48 +48,55 @@ High Priority (0.3.0 definitely)
 	Tests
 		D Categorize tests into solutions based on what subsystem they are testing
 
-Medium Priority (0.3.0 maybe, or by 0.3.5 for sure)
+Goals for 0.3.5
 ---------------------------------------------------
+	High priority
+		* Display plug-in for XNA.
+		* Audio plug-in for XNA.
+		* Input plug-in for XNA.
+		* SDL plugins for GP2X support.
+		* Make AgateLib.dll depend only on routines which are available in the XNA framework.
+		* Unified joystick input system
+		Fully support platforms:
+			* Xbox 360
+			* Mac OS X
+			* GP2X 
+
+	Medium priority
+		* Convert AgateMDX to use SlimDX instead and deprecate the use of AgateMDX.
+		* Interface to allow audio to be generated at runtime.
+		* Convert AgateOTK to use vertex buffers instead of vertex arrays.
+		Gui
+			* Redesign GUI to use containers for automatic positioning
+			* Document GUI classes
+			* Develop data-driven skinning system for the GUI
+		
+
+Low Priority
+------------
 	General
+		* Improve Icon
+		* Create a more stylish GUI renderer.
+		* Experimental interfaces for vertex buffers and textures (surfaces?).
+		* Shader / vertex buffer support.
+		* Make 15/16 bit screen resolutions work
+		* Test 15/16 bit Pixel Buffers
+		* Flesh out documentation on method parameters throught the library.
+		
+		* Find a reliable way to detect if running on OS X.
+		
 		* Find or get platform specific ways to hide the mouse cursor (Needed for X11?)
 		* Research Zip libraries for SearchPath class.
 		* Speed up the GUI classes by prerendering controls to a surface.
 		* Provide overrides for Surface, Sprite and Display to use Vector2.
 		* Z-ordering for Surfaces and Sprites
-		* Deprecate use of FileManager.PathChars 
-		* Add more error reporting
+
 		* Full screen window creation with a specified icon.
-		* Interface to allow audio to be generated at runtime.
-		* Convert AgateOTK to use vertex buffers instead of vertex arrays.
 		* Save surfaces in AgateMDX so that they can be recreated if the device is lost.
-		
-		* Remove reference to System.Windows.Forms from AgateLib.dll
-		* Remove reference to System.Drawing from AgateLib.dll
-		* XNA driver for Xbox 360 support
-		
 		* SDL driver for GP2X support, plus audio and joystick support on other platforms
-	Gui
-		* Redesign GUI to use containers for automatic positioning
-		* Document GUI classes
 	Fonts
 		* Fix italic fonts
 		* Add a StringTransformer derived class which provides language file lookups.
 	Sprites
 		* Test gradients with sprites, and calculate correct corner colors.
 
-
-Low Priority
-------------
-	General
-		* Improve Icon
-		* OpenAL driver, if it's available in OpenTK
-		* SDL driver
-		* Create a more stylish GUI renderer.
-		* Experimental interfaces for vertex buffers and textures (surfaces?).
-		* Shader support.
-		* Make 15/16 bit screen resolutions work
-		* Test 15/16 bit Pixel Buffers
-		* Flesh out documentation on method parameters throught the library.
-		
-		* Find a way to detect if running on OS X.
-		
