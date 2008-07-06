@@ -1093,6 +1093,7 @@ namespace ERY.AgateLib
 
         /// <summary>
         /// Creates a string from the specified KeyCode and KeyModifiers.
+        /// Unfortunately this is tied to the US English keyboard, so it needs a better solution.
         /// </summary>
         /// <param name="keyID"></param>
         /// <param name="mods"></param>
