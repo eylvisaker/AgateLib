@@ -58,6 +58,11 @@ namespace ERY.AgateLib.Geometry
                 return base.ConvertFrom(context, culture, value);
             }
 
+            return ConvertFrom(context, culture, str);
+        }
+        public static Point ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
+        {
+
             string[] values = str.Split(',');
             Point retval = new Point();
 
@@ -82,6 +87,7 @@ namespace ERY.AgateLib.Geometry
 
             return retval;
         }
+        
     }
     /// <summary>
     /// 
@@ -116,11 +122,18 @@ namespace ERY.AgateLib.Geometry
             if (str == null)
                 return base.ConvertFrom(context, culture, value);
 
+            return ConvertFromString(str);
+            
+        }
+
+        public static Size ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
+        {
             string[] values = str.Split(',');
             Size retval = new Size();
 
             if (values.Length > 2)
                 throw new FormatException();
+
 
             for (int i = 0; i < values.Length; i++)
             {
