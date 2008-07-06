@@ -45,11 +45,25 @@ namespace ERY.AgateLib.Resources
             set { mLanguage = value; }
         }
 
-        int sorter(AgateResource a, AgateResource b)
+        public AgateResource this[string name]
         {
-            return a.Name.CompareTo(b.Name);
-        }
+            get
+            {
+                for (int i = 0; i < mStore.Count; i++)
+                    if (mStore[i].Name.Equals(name, StringComparison.InvariantCulture))
+                        return mStore[i];
 
+                throw new KeyNotFoundException("Resource not found.");
+            }
+        }
+        public bool ContainsResource(string name)
+        {
+            for (int i = 0; i < mStore.Count; i++)
+                if (mStore[i].Name.Equals(name, StringComparison.InvariantCulture))
+                    return true;
+
+            return false;
+        }
 
         internal void BuildNodes(XmlNode parent, XmlDocument doc)
         {
@@ -65,13 +79,21 @@ namespace ERY.AgateLib.Resources
                 mStore[i].BuildNodes(languageNode, doc);
             }
         }
+        
+        int sorter(AgateResource a, AgateResource b)
+        {
+            return a.Name.CompareTo(b.Name);
+        }
 
         #region --- ICollection<AgateResource> Members ---
 
         public void Add(AgateResource item)
         {
-            if (Strings != null)
-                throw new ArgumentException("A string table already exists in this ResourceGroup.");
+            if (item is StringTable)
+            {
+                if (Strings != null)
+                    throw new ArgumentException("A string table already exists in this ResourceGroup.");
+            }
 
             mStore.Add(item);
         }

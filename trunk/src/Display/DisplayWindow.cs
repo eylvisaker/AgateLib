@@ -40,6 +40,38 @@ namespace ERY.AgateLib
         DisplayWindowImpl impl;
 
         /// <summary>
+        /// Constructs a DisplayWindow from a resource.
+        /// </summary>
+        /// <param name="resources"></param>
+        /// <param name="name"></param>
+        public DisplayWindow(Resources.AgateResourceManager resources, string name)
+        {
+            Resources.AgateResource res = resources[name];
+            Resources.DisplayWindowResource disp = res as Resources.DisplayWindowResource;
+
+            if (disp == null)
+                throw new KeyNotFoundException("Resource " + name + " was found, but was of type " + name.GetType().ToString() + ", not DisplayWindowResource.");
+
+
+            if (disp.FullScreen)
+            {
+                CreateWindowParams par = CreateWindowParams.FullScreen(
+                    disp.Title, disp.PreferredSize.Width, disp.PreferredSize.Height, disp.Bpp);
+
+                impl = Display.Impl.CreateDisplayWindow(par);
+            }
+            else
+            {
+                CreateWindowParams par = CreateWindowParams.Windowed(
+                    disp.Title, disp.PreferredSize.Width, disp.PreferredSize.Height, null, disp.AllowResize);
+
+                impl = Display.Impl.CreateDisplayWindow(par);
+            }
+
+            Display.RenderTarget = this;
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+        }
+        /// <summary>
         /// Creates a DisplayWindow object using the specified CreateWindowParams to create
         /// the window.
         /// </summary>
@@ -81,6 +113,11 @@ namespace ERY.AgateLib
         /// render target.</param>
         public DisplayWindow(object renderTarget)
         {
+            if (Display.Impl == null)
+                throw new NullReferenceException(
+                    "Display has not been initialized." + Environment.NewLine +
+                    "Did you forget to call AgateSetup.Initialize or Display.Initialize?");
+
             impl = Display.Impl.CreateDisplayWindow(CreateWindowParams.FromControl(renderTarget));
 
             Display.RenderTarget = this;
