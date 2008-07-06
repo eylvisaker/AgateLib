@@ -161,6 +161,13 @@ namespace ERY.AgateLib.SystemDrawing
             mGraphics.DrawRectangle(new Pen(Interop.Convert(color)),
                 Interop.Convert(rect));
         }
+        public override void DrawRect(Geometry.RectangleF rect, Geometry.Color color)
+        {
+            CheckInFrame("DrawRect");
+
+            mGraphics.DrawRectangle(new Pen(Interop.Convert(color)),
+                Rectangle.Round(Interop.Convert(rect)));
+        }
         public override void FillRect(Geometry.Rectangle rect, Geometry.Color color)
         {
             CheckInFrame("FillRect");
@@ -168,8 +175,23 @@ namespace ERY.AgateLib.SystemDrawing
             mGraphics.FillRectangle(new SolidBrush(Interop.Convert(color)), 
                 Interop.Convert(rect));
         }
-        public override void FillRect(ERY.AgateLib.Geometry.Rectangle rect, ERY.AgateLib.Geometry.Gradient color)
+        public override void FillRect(Geometry.Rectangle rect, Geometry.Gradient color)
         {
+            CheckInFrame("FillRect");
+
+            FillRect(rect, color.AverageColor);
+        }
+        public override void FillRect(Geometry.RectangleF rect, Geometry.Color color)
+        {
+            CheckInFrame("FillRect");
+
+            mGraphics.FillRectangle(new SolidBrush(Interop.Convert(color)),
+                Interop.Convert(rect));
+        }
+        public override void FillRect(Geometry.RectangleF rect, Geometry.Gradient color)
+        {
+            CheckInFrame("FillRect");
+
             FillRect(rect, color.AverageColor);
         }
 

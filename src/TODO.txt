@@ -13,9 +13,9 @@ Goals for 0.3.0
 		* Add ability for ReportError to suppress errors below a certain level.
 		D Make sure all disposable classes correctly follow finalize/dispose pattern.
 		D Categorize AgateLib source code by subsystem
-		* Add Display.DrawRect(RectangleF, Color) overload.
+		D Add Display.DrawRect(RectangleF, Color) overload.
 		* Clean up platform-specific classes.
-		* Deprecate use of FileManager.PathChars 
+		D Deprecate use of FileManager.PathChars 
 		* Add more error reporting
 		* Flesh out the new resource system.
 	Drivers
