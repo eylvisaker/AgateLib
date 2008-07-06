@@ -7,7 +7,7 @@ Goals for 0.3.0
 		D Deprecate unhandled exception dialog (keep the debug output)
 		D Seal consumer classes.
 		D Profile Agate
-		* Extract stuff to interfaces
+		D Extract stuff to interfaces
 		D Rename Origin.cs
 		D Fix ReportError to use StringBuilder instead of StringWriter, and Environment.NewLine.
 		* Add ability for ReportError to suppress errors below a certain level.
@@ -38,8 +38,8 @@ Goals for 0.3.0
 		* Make sure that Audio can be loaded from Stream classes.
 		* Develop OpenAL classes in AgateOTK.
 	Input
-		* Eliminate all use of FlagsAttribute on MouseButtons enum.
-		* Deprecate Keyboard events in favor of events where a structure is passed which does not combine modifier keys into a Flags enum.
+		D Eliminate all use of FlagsAttribute on MouseButtons enum.
+		D Deprecate Keyboard events in favor of events where a structure is passed which does not combine modifier keys into a Flags enum.
 		* Make sure analog joysticks work with more than 3 axes.
 		* Redesign Joystick input stuff
 		* Add support for POV hats on joysticks.
