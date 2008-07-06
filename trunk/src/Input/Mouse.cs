@@ -32,38 +32,36 @@ namespace ERY.AgateLib
         /// <summary>
         /// Mouse Buttons enum.
         /// </summary>
-        [Flags]
         public enum MouseButtons
         {
             /// <summary>
-            /// No mouse buttons.
+            /// No mouse button
             /// </summary>
-            None = 0x00,
-
+            None,
             /// <summary>
             /// Primary button, typically the left button.
             /// </summary>
-            Primary = 0x01,
+            Primary,
             /// <summary>
             /// Secondary button, typically the right button.
             /// </summary>
-            Secondary = 0x02,
+            Secondary,
             /// <summary>
             /// Middle button on some mice.
             /// </summary>
-            Middle = 0x04,
+            Middle,
             /// <summary>
-            /// Extra Button
+            /// First Extra Button
             /// </summary>
-            ExtraButton1 = 0x08,
+            ExtraButton1,
             /// <summary>
-            /// Extra Button
+            /// Second Extra Button
             /// </summary>
-            ExtraButton2 = 0x10,
+            ExtraButton2,
             /// <summary>
-            /// Extra Button
+            /// Third Extra Button
             /// </summary>
-            ExtraButton3 = 0x11,
+            ExtraButton3,
         }
 
         /// <summary>
@@ -71,7 +69,7 @@ namespace ERY.AgateLib
         /// </summary>
         public class MouseState
         {
-            private static MouseButtons mMouseButtons = 0;
+            bool[] mMouseButtons = new bool[Enum.GetValues(typeof(MouseButtons)).Length];
 
             internal MouseState()
             {
@@ -93,27 +91,22 @@ namespace ERY.AgateLib
             {
                 get
                 {
-                    return ((mMouseButtons & id) != 0) ? true : false;
+                    return mMouseButtons[(int)id];
                 }
                 set
                 {
+                    if (id == MouseButtons.None)
+                    {
+                        mMouseButtons[(int)id] = false;
+                        return;
+                    }
+
+                    mMouseButtons[(int)id] = value;
+
                     if (value == true)
-                    {
-                        // set the flags passed
-                        mMouseButtons |= id;
-
                         Mouse.OnMouseDown(id);
-                    }
                     else
-                    {
-                        // clear the flags passed
-                        mMouseButtons = ~((~mMouseButtons) | id);
-
-
                         Mouse.OnMouseUp(id);
-                    }
-
-
                 }
             }
         }
