@@ -164,9 +164,21 @@ namespace ERY.AgateLib
             /// </summary>
             public void Dispose()
             {
-                PauseAllTimersEvent -= Pause;
-                ResumeAllTimersEvent -= Resume;
-                ForceResumeAllTimersEvent -= ForceResume;
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+            /// <summary>
+            /// Removes this timer from events.
+            /// </summary>
+            /// <param name="manual"></param>
+            protected virtual void Dispose(bool manual)
+            {
+                if (manual)
+                {
+                    PauseAllTimersEvent -= Pause;
+                    ResumeAllTimersEvent -= Resume;
+                    ForceResumeAllTimersEvent -= ForceResume;
+                }
             }
 
             /// <summary>

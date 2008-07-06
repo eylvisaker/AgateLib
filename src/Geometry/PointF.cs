@@ -138,7 +138,8 @@ namespace ERY.AgateLib.Geometry
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0}X={1},Y={2}{3}", "{", x, y, "}");
+            return string.Format(System.Globalization.CultureInfo.CurrentCulture,
+                "{0}X={1},Y={2}{3}", "{", x, y, "}");
         }
         /// <summary>
         /// Gets a hash code.

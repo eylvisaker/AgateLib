@@ -51,33 +51,36 @@ namespace ERY.AgateLib.Geometry
         /// <returns></returns>
         public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
         {
-            if (value is string)
+            string str = value as string;
+
+            if (str == null)
             {
-                string[] values = (value as string).Split(',');
-                Point retval = new Point();
-
-                if (values.Length > 2)
-                    throw new Exception();
-
-                for (int i = 0; i < values.Length; i++)
-                {
-                    if ((values[i].Contains("X") || values[i].Contains("x")) && values[i].Contains("="))
-                    {
-                        int equals = values[i].IndexOf('=');
-
-                        retval.X = int.Parse(values[i].Substring(equals + 1));
-                    }
-                    else if ((values[i].Contains("Y") || values[i].Contains("y")) && values[i].Contains("="))
-                    {
-                        int equals = values[i].IndexOf('=');
-
-                        retval.Y = int.Parse(values[i].Substring(equals + 1));
-                    }
-                }
-                
-                return retval;
+                return base.ConvertFrom(context, culture, value);
             }
-            return base.ConvertFrom(context, culture, value);
+
+            string[] values = str.Split(',');
+            Point retval = new Point();
+
+            if (values.Length > 2)
+                throw new FormatException();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                if ((values[i].Contains("X") || values[i].Contains("x")) && values[i].Contains("="))
+                {
+                    int equals = values[i].IndexOf("=", StringComparison.InvariantCultureIgnoreCase);
+
+                    retval.X = int.Parse(values[i].Substring(equals + 1));
+                }
+                else if ((values[i].Contains("Y") || values[i].Contains("y")) && values[i].Contains("="))
+                {
+                    int equals = values[i].IndexOf('=');
+
+                    retval.Y = int.Parse(values[i].Substring(equals + 1));
+                }
+            }
+
+            return retval;
         }
     }
     /// <summary>
@@ -108,35 +111,36 @@ namespace ERY.AgateLib.Geometry
         /// <returns></returns>
         public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
         {
-            if (value is string)
+            string str = value as string;
+
+            if (str == null)
+                return base.ConvertFrom(context, culture, value);
+
+            string[] values = str.Split(',');
+            Size retval = new Size();
+
+            if (values.Length > 2)
+                throw new FormatException();
+
+            for (int i = 0; i < values.Length; i++)
             {
-                string[] values = (value as string).Split(',');
-                Size retval = new Size();
-
-                if (values.Length > 2)
-                    throw new Exception();
-
-                for (int i = 0; i < values.Length; i++)
+                if (values[i].ToLowerInvariant().Contains("width")
+                    && values[i].Contains("="))
                 {
-                    if (values[i].ToLowerInvariant().Contains("width") 
-                        && values[i].Contains("="))
-                    {
-                        int equals = values[i].IndexOf('=');
+                    int equals = values[i].IndexOf("=", StringComparison.InvariantCultureIgnoreCase);
 
-                        retval.Width = int.Parse(values[i].Substring(equals + 1));
-                    }
-                    else if (values[i].ToLowerInvariant().Contains("height")
-                        && values[i].Contains("="))
-                    {
-                        int equals = values[i].IndexOf('=');
-
-                        retval.Height = int.Parse(values[i].Substring(equals + 1));
-                    }
+                    retval.Width = int.Parse(values[i].Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
                 }
+                else if (values[i].ToLowerInvariant().Contains("height")
+                    && values[i].Contains("="))
+                {
+                    int equals = values[i].IndexOf('=');
 
-                return retval;
+                    retval.Height = int.Parse(values[i].Substring(equals + 1));
+                }
             }
-            return base.ConvertFrom(context, culture, value);
+
+            return retval;
         }
     }
 
