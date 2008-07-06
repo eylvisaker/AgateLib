@@ -14,13 +14,17 @@ namespace ERY.AgateLib.Resources
         private string mName;
         private string mLanguage = "Default";
 
+        public AgateResource(string name)
+        {
+            mName = name; 
+        }
         /// <summary>
         /// Name of the resource
         /// </summary>
         public string Name
         {
             get { return mName; }
-            private set { mName = value; }
+            set { mName = value; }
         }
         /// <summary>
         /// Language this resource is to be used for.  If this is a language-independent
@@ -32,6 +36,11 @@ namespace ERY.AgateLib.Resources
             private set { mLanguage = value; }
         }
 
+        /// <summary>
+        /// Serializes the AgateResource object to a subelement of parent.
+        /// </summary>
+        /// <param name="parent">The parent element of this resource.</param>
+        /// <param name="doc">The XML document used to create elements.</param>
         internal abstract void BuildNodes(XmlElement parent, XmlDocument doc);
 
         #region --- ICloneable Members ---
