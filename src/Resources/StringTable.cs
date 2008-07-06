@@ -9,9 +9,9 @@ namespace ERY.AgateLib.Resources
     {
         Dictionary<string, string> mTable = new Dictionary<string, string>();
 
-        internal StringTable()
+        internal StringTable() : base ("StringTable")
         {}
-        internal StringTable(XmlNode node, string version)
+        internal StringTable(XmlNode node, string version) : base("StringTable")
         {
             switch (version)
             {
