@@ -15,5 +15,14 @@ namespace ERY.AgateLib.Resources
 
             node.Attributes.Append(attrib);
         }
+
+        internal static void AppendAttribute(XmlNode node, XmlDocument doc, string name, int value)
+        {
+            AppendAttribute(node, doc, name, value.ToString());
+        }
+        internal static void AppendAttribute(XmlNode node, XmlDocument doc, string name, bool value)
+        {
+            AppendAttribute(node, doc, name, value.ToString());
+        }
     }
 }

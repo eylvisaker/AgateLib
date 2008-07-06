@@ -150,7 +150,6 @@ namespace ERY.AgateLib.Resources
                 XmlNode node = parentNode.ChildNodes[i];
 
                 ReadNode(group, node, version);
-
             }
         }
 
@@ -163,6 +162,11 @@ namespace ERY.AgateLib.Resources
                 case "StringTable":
                     StringTable strings = new StringTable(node, version);
                     group.Strings.Combine(strings);
+                    return;
+
+                case "DisplayWindow":
+                    DisplayWindowResource res = new DisplayWindowResource(node, version);
+                    group.Add(res);
                     return;
 
                 default:
