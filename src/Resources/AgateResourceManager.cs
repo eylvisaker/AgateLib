@@ -178,8 +178,13 @@ namespace ERY.AgateLib.Resources
                     return;
 
                 case "DisplayWindow":
-                    DisplayWindowResource res = new DisplayWindowResource(node, version);
-                    group.Add(res);
+                    DisplayWindowResource dispWind = new DisplayWindowResource(node, version);
+                    group.Add(dispWind);
+                    return;
+
+                case "Surface":
+                    SurfaceResource surf = new SurfaceResource(node, version);
+                    group.Add(surf);
                     return;
 
                 default:

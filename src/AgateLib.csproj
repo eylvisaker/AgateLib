@@ -129,6 +129,7 @@
     <Compile Include="Resources\LanguageListChangedEventArgs.cs" />
     <Compile Include="Resources\ResourceGroup.cs" />
     <Compile Include="Resources\StringTable.cs" />
+    <Compile Include="Resources\SurfaceResource.cs" />
     <Compile Include="Serialization\Xle\ITypeBinder.cs" />
     <Compile Include="Serialization\Xle\IXleSerializable.cs" />
     <Compile Include="Serialization\Xle\TypeBinder.cs" />

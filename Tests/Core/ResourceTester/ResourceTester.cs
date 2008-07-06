@@ -8,7 +8,7 @@ using ERY.AgateLib.Resources;
 
 namespace ResourceTester
 {
-    class Program
+    class ResourceTester
     {
         static void Main(string[] args)
         {
@@ -22,12 +22,14 @@ namespace ResourceTester
                 resources.Load("test.xml");
 
                 DisplayWindow wind = new DisplayWindow(resources, "main_window");
+                Surface surf = new Surface(resources, "sample_surf");
 
                 while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();
                     Display.Clear(Color.Red);
 
+                    surf.Draw(20, 20);
                     Display.EndFrame();
                     Core.KeepAlive();
                 }

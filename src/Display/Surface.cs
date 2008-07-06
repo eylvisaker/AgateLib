@@ -83,6 +83,25 @@ namespace ERY.AgateLib
         SurfaceImpl impl;
 
         /// <summary>
+        /// Creates a surface object from a resource.
+        /// </summary>
+        /// <param name="resources"></param>
+        /// <param name="name"></param>
+        public Surface(Resources.AgateResourceManager resources, string name)
+        {
+            Resources.AgateResource res = resources[name];
+            Resources.SurfaceResource surf = res as Resources.SurfaceResource;
+
+            string fn = FileManager.ImagePath.FindFileName(surf.Filename);
+            if (string.IsNullOrEmpty(fn))
+                throw new System.IO.FileNotFoundException(surf.Filename);
+
+            impl = Display.Impl.CreateSurface(fn);
+
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+        }
+        /// <summary>
         /// Creates a surface object, from the specified image file.
         /// </summary>
         /// <param name="filename"></param>
