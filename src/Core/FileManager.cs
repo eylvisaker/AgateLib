@@ -55,6 +55,7 @@ namespace ERY.AgateLib
         /// 
         /// Defaults to "/".  
         /// </summary>
+        [Obsolete("Always use forward slash \"/\" to separate paths.")]
         public static string PathChars
         {
             get { return mPathChars; }
