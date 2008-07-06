@@ -377,6 +377,10 @@ namespace ERY.AgateLib.MDX
         }
         public override void DrawRect(Rectangle rect, Color color)
         {
+            DrawRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
+        }
+        public override void DrawRect(RectangleF rect, Color color)
+        {
             mDevice.DrawBuffer.Flush();
 
             Vector2[] pts = new Vector2[5];
@@ -391,11 +395,20 @@ namespace ERY.AgateLib.MDX
             mLine.Draw(pts, color.ToArgb());
             mLine.End();
         }
+
         public override void FillRect(Rectangle rect, Color color)
         {
             FillRect(rect, new Gradient(color));
         }
+        public override void FillRect(RectangleF rect, Color color)
+        {
+            FillRect(rect, new Gradient(color));
+        }
         public override void FillRect(Rectangle rect, Gradient color)
+        {
+            FillRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
+        }
+        public override void FillRect(RectangleF rect, Gradient color)
         {
             // defining our screen sized quad, note the Z value of 1f to place it in the background
             mFillRectVerts[0].Position = new Microsoft.DirectX.Vector3(rect.Left, rect.Top, 0f);

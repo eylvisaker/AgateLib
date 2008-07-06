@@ -456,6 +456,12 @@ namespace ERY.AgateLib.ImplBase
         /// <param name="color"></param>
         public abstract void DrawRect(Rectangle rect, Color color);
         /// <summary>
+        /// Draws the outline of a rectangle.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="color"></param>
+        public abstract void DrawRect(RectangleF rect, Color color);
+        /// <summary>
         /// Draws a filled rectangle.
         /// </summary>
         /// <param name="rect"></param>
@@ -467,6 +473,18 @@ namespace ERY.AgateLib.ImplBase
         /// <param name="rect"></param>
         /// <param name="color"></param>
         public abstract void FillRect(Rectangle rect, Gradient color);
+        /// <summary>
+        /// Draws a filled rectangle.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="color"></param>
+        public abstract void FillRect(RectangleF rect, Color color);
+        /// <summary>
+        /// Draws a filled rectangle with a gradient.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="color"></param>
+        public abstract void FillRect(RectangleF rect, Gradient color);
 
         #endregion
 

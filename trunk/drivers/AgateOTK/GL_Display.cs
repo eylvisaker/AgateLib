@@ -230,6 +230,10 @@ namespace ERY.AgateLib.OpenGL
 
         public override void DrawRect(Rectangle rect, Color color)
         {
+            DrawRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
+        }
+        public override void DrawRect(RectangleF rect, Color color)
+        {
             mState.DrawBuffer.Flush();
             mState.SetGLColor(color);
 
@@ -258,6 +262,10 @@ namespace ERY.AgateLib.OpenGL
 
         public override void FillRect(Rectangle rect, Color color)
         {
+            FillRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
+        }
+        public override void FillRect(RectangleF rect, Color color)
+        {
             mState.DrawBuffer.Flush();
 
             mState.SetGLColor(color);
@@ -273,7 +281,12 @@ namespace ERY.AgateLib.OpenGL
 
             GL.Enable(EnableCap.Texture2D);
         }
+
         public override void FillRect(Rectangle rect, Gradient color)
+        {
+            FillRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
+        }
+        public override void FillRect(RectangleF rect, Gradient color)
         {
             mState.DrawBuffer.Flush();
 
