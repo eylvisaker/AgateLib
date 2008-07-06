@@ -703,7 +703,7 @@ namespace ERY.AgateLib.Geometry
         /// <returns></returns>
         public static Color FromArgb(string str)
         {
-            if (str.StartsWith("0x"))
+            if (str.StartsWith("0x", StringComparison.InvariantCultureIgnoreCase))
                 str = str.Substring(2);
 
             if (str.Length == 6)
@@ -724,7 +724,7 @@ namespace ERY.AgateLib.Geometry
                 return FromArgb(a, r, g, b);
             }
             else
-                throw new ArgumentException(string.Format(
+                throw new ArgumentException(string.Format(System.Globalization.CultureInfo.CurrentCulture,
                     "Argument \"{0}\" is not a valid Color string.", str));
         }
 
@@ -741,7 +741,7 @@ namespace ERY.AgateLib.Geometry
             if (int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out value))
             {
                 if (value > 255 || value < 0)
-                    throw new InvalidOperationException(string.Format(
+                    throw new InvalidOperationException(string.Format(System.Globalization.CultureInfo.CurrentCulture,
                         "Invalid result.  Input Hex number: {0}, Result: {1}", hex, value));
 
                 return (byte)value;
@@ -787,7 +787,7 @@ namespace ERY.AgateLib.Geometry
         /// <returns></returns>
         public override string ToString()
         {
-            return "Color: " + ToArgb().ToString("X");
+            return "Color: " + ToArgb().ToString("X", System.Globalization.CultureInfo.CurrentCulture);
         }
         /// <summary>
         /// Returns a unique hashcode.
@@ -852,7 +852,7 @@ namespace ERY.AgateLib.Geometry
         /// </summary>
         /// <param name="clr"></param>
         /// <returns></returns>
-        [Obsolete]
+        [Obsolete("Features moved to AgateWinForms.dll")]
         public static explicit operator System.Drawing.Color(Color clr)
         {
             return System.Drawing.Color.FromArgb(clr.ToArgb());
@@ -863,7 +863,7 @@ namespace ERY.AgateLib.Geometry
         /// </summary>
         /// <param name="clr"></param>
         /// <returns></returns>
-        [Obsolete]
+        [Obsolete("Features moved to AgateWinForms.dll")]
         public static explicit operator Color(System.Drawing.Color clr)
         {
             return Color.FromArgb(clr.ToArgb());

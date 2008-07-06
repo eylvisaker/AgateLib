@@ -30,7 +30,7 @@ namespace ERY.AgateLib.PlatformSpecific
     /// each platform given.  It provides default implementations that 
     /// are "most conservative."
     /// </summary>
-    [Obsolete]
+    [Obsolete("Most functionality moved to display plugin.")]
     public class Platform  : IDisposable 
     {
         System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
@@ -109,7 +109,7 @@ namespace ERY.AgateLib.PlatformSpecific
         {
 
             if (watch.ElapsedMilliseconds < lastTickCount)
-                throw new Exception(string.Format(
+                throw new InvalidOperationException(string.Format(System.Globalization.CultureInfo.CurrentCulture,
                     "Tick count has gone down!  old: {0}   new: {1}",
                     lastTickCount, watch.ElapsedMilliseconds));
 

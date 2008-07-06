@@ -269,7 +269,8 @@ namespace ERY.AgateLib.Geometry
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{{X={0},Y={1},Width={2},Height={3}}}", X, Y, Width, Height);
+            return string.Format(System.Globalization.CultureInfo.CurrentCulture, 
+                "{{X={0},Y={1},Width={2},Height={3}}}", X, Y, Width, Height);
         }
         /// <summary>
         /// Equality test.
@@ -395,10 +396,10 @@ namespace ERY.AgateLib.Geometry
         }
         static bool FindValue(string text, string name, out int value)
         {
-            int index = text.IndexOf(name);
-            int comma = text.IndexOf(",", index);
+            int index = text.IndexOf(name, StringComparison.InvariantCultureIgnoreCase);
+            int comma = text.IndexOf(",", index, StringComparison.InvariantCultureIgnoreCase);
             if (comma == -1)
-                comma = text.IndexOf("}", index);
+                comma = text.IndexOf("}", index, StringComparison.InvariantCultureIgnoreCase);
 
             int start = index + name.Length;
 

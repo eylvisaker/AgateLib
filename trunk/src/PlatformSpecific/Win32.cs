@@ -29,7 +29,7 @@ namespace ERY.AgateLib.PlatformSpecific
     /// <summary>
     /// Contains Win32 platform specific methods.
     /// </summary>
-    [Obsolete]
+    [Obsolete("Methods have been moved to display plug-ins.")]
     public class Win32Platform : Platform
     {
         // taken from DirectX framework.
@@ -59,6 +59,7 @@ namespace ERY.AgateLib.PlatformSpecific
         /// <returns></returns>
         [System.Security.SuppressUnmanagedCodeSecurity] // We won't use this maliciously
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.I4)]
         private static extern bool PeekMessage(out Message msg, IntPtr hWnd, uint messageFilterMin, uint messageFilterMax, uint flags);
 
         /// <summary>
@@ -67,14 +68,14 @@ namespace ERY.AgateLib.PlatformSpecific
         /// <param name="x"></param>
         /// <returns></returns>
         [DllImport("kernel32.dll")]
-        extern static short QueryPerformanceCounter(out long x);
+        extern static int QueryPerformanceCounter(out long x);
         /// <summary>
         /// Gets the performance frequency
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
         [DllImport("kernel32.dll")]
-        extern static short QueryPerformanceFrequency(out long x);
+        extern static int QueryPerformanceFrequency(out long x);
 
         /// <summary>
         /// Initializes Win32 specific methods.

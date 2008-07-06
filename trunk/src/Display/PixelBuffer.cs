@@ -211,7 +211,7 @@ namespace ERY.AgateLib
             TestPixelFormatStrides();
 
             if (format == PixelFormat.Any)
-                throw new Exception("A specific pixel format and must be specified.  "
+                throw new ArgumentException("A specific pixel format and must be specified.  "
                     + "PixelFormat.Any is not valid.");
 
             mFormat = format;
@@ -493,9 +493,9 @@ namespace ERY.AgateLib
             if (!clip)
             {
                 if (srcRect.Width + destPt.X >= this.Width)
-                    throw new ArgumentOutOfRangeException("Attempt to copy area to invalid region.");
+                    throw new ArgumentException("Attempt to copy area to invalid region.");
                 if (srcRect.Height + destPt.Y >= this.Height)
-                    throw new ArgumentOutOfRangeException("Attempt to copy area to invalid region.");
+                    throw new ArgumentException("Attempt to copy area to invalid region.");
             }
 
             if (srcRect.X < 0 || srcRect.Y < 0 || srcRect.Right > buffer.Width || srcRect.Bottom > buffer.Height)
@@ -901,8 +901,8 @@ namespace ERY.AgateLib
                     return false;
 
                 default:
-                    throw new ArgumentOutOfRangeException("FormatHasAlpha parameter format " +
-                        "unrecognized.");
+                    throw new ArgumentOutOfRangeException("FormatHasAlpha",
+                        "FormatHasAlpha parameter format unrecognized.");
 
             }
         }
@@ -969,7 +969,8 @@ namespace ERY.AgateLib
 
 
                 default:
-                    throw new Exception(string.Format("Conversions from PixelFormat {0} not currently supported.",
+                    throw new NotSupportedException(string.Format(System.Globalization.CultureInfo.CurrentCulture,
+                        "Conversions from PixelFormat {0} not currently supported.",
                         srcFormat));
             }
 

@@ -26,7 +26,7 @@ namespace ERY.AgateLib.PlatformSpecific
     /// <summary>
     /// Contains X11 platform specific methods.
     /// </summary>
-    [Obsolete]
+    [Obsolete("Relevant methods moved to display plugin.")]
     public class X11Platform : Platform 
     {
         IntPtr display;
