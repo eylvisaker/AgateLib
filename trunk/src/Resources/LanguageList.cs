@@ -36,7 +36,7 @@ namespace ERY.AgateLib.Resources
                 if (lang.LanguageName.Equals(grp.LanguageName, StringComparison.InvariantCultureIgnoreCase))
                     throw new ArgumentException("Language already exists!");
             }
-
+            
             mLanguages.Add(grp);
         }
         public void Add(string name)
