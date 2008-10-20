@@ -186,6 +186,8 @@ namespace ERY.AgateLib.WinForms
             Drawing.Graphics g = Drawing.Graphics.FromImage(bmp);
             Drawing.Font font = rend.Font;
 
+            g.TextRenderingHint = Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+
             glyphs = new FontMetrics();
 
             const int bitmapPadding = 2;
@@ -199,7 +201,6 @@ namespace ERY.AgateLib.WinForms
             {
                 for (char i = range.StartChar; i <= range.EndChar; i++)
                 {
-                    
                     Size sourceSize = rend.MeasureText(g, i.ToString());
                     if (options.CreateBorder)
                     {
