@@ -38,12 +38,14 @@
             this.cboFilter = new System.Windows.Forms.ToolStripComboBox();
             this.btnApplyFilter = new System.Windows.Forms.ToolStripButton();
             this.btnClearFilter = new System.Windows.Forms.ToolStripButton();
+            this.panel = new System.Windows.Forms.FlowLayoutPanel();
             this.list = new System.Windows.Forms.ListView();
-            this.panel = new System.Windows.Forms.TableLayoutPanel();
-            this.defaultLanguageEntry = new ResourceEditor.StringTable.StringEntry();
-            this.entryPanel = new System.Windows.Forms.Panel();
+            this.listHeader = new System.Windows.Forms.ColumnHeader();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolStrip1.SuspendLayout();
-            this.entryPanel.SuspendLayout();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -61,7 +63,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(451, 25);
-            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // btnAdd
@@ -135,73 +137,71 @@
             this.btnClearFilter.Size = new System.Drawing.Size(23, 22);
             this.btnClearFilter.Text = "toolStripButton4";
             // 
-            // list
-            // 
-            this.list.Dock = System.Windows.Forms.DockStyle.Left;
-            this.list.HideSelection = false;
-            this.list.LabelEdit = true;
-            this.list.Location = new System.Drawing.Point(0, 25);
-            this.list.MultiSelect = false;
-            this.list.Name = "list";
-            this.list.Size = new System.Drawing.Size(118, 318);
-            this.list.TabIndex = 3;
-            this.list.UseCompatibleStateImageBehavior = false;
-            this.list.View = System.Windows.Forms.View.List;
-            this.list.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.list_MouseDoubleClick);
-            this.list.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.list_AfterLabelEdit);
-            this.list.SelectedIndexChanged += new System.EventHandler(this.list_SelectedIndexChanged);
-            this.list.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.list_ItemSelectionChanged);
-            this.list.BeforeLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.list_BeforeLabelEdit);
-            this.list.KeyDown += new System.Windows.Forms.KeyEventHandler(this.list_KeyDown);
-            // 
             // panel
             // 
             this.panel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel.AutoScroll = true;
-            this.panel.ColumnCount = 1;
-            this.panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.panel.Location = new System.Drawing.Point(0, 67);
+            this.panel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.panel.Location = new System.Drawing.Point(3, 3);
             this.panel.Name = "panel";
-            this.panel.RowCount = 1;
-            this.panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.panel.Size = new System.Drawing.Size(333, 251);
-            this.panel.TabIndex = 6;
+            this.panel.Size = new System.Drawing.Size(307, 312);
+            this.panel.TabIndex = 2;
             // 
-            // defaultStringEntry
+            // list
             // 
-            this.defaultLanguageEntry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.defaultLanguageEntry.LanguageName = "Default";
-            this.defaultLanguageEntry.Location = new System.Drawing.Point(3, 0);
-            this.defaultLanguageEntry.Name = "defaultStringEntry";
-            this.defaultLanguageEntry.Size = new System.Drawing.Size(327, 61);
-            this.defaultLanguageEntry.TabIndex = 5;
-            this.defaultLanguageEntry.TextChanged += new System.EventHandler(this.stringEntry_TextChanged);
+            this.list.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listHeader});
+            this.list.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.list.FullRowSelect = true;
+            this.list.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.list.LabelEdit = true;
+            this.list.Location = new System.Drawing.Point(0, 0);
+            this.list.MultiSelect = false;
+            this.list.Name = "list";
+            this.list.ShowGroups = false;
+            this.list.Size = new System.Drawing.Size(134, 318);
+            this.list.TabIndex = 1;
+            this.list.UseCompatibleStateImageBehavior = false;
+            this.list.View = System.Windows.Forms.View.Details;
+            this.list.Resize += new System.EventHandler(this.list_Resize);
+            this.list.SelectedIndexChanged += new System.EventHandler(this.list_SelectedIndexChanged);
             // 
-            // entryPanel
+            // listHeader
             // 
-            this.entryPanel.Controls.Add(this.defaultLanguageEntry);
-            this.entryPanel.Controls.Add(this.panel);
-            this.entryPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.entryPanel.Location = new System.Drawing.Point(118, 25);
-            this.entryPanel.Name = "entryPanel";
-            this.entryPanel.Size = new System.Drawing.Size(333, 318);
-            this.entryPanel.TabIndex = 7;
+            this.listHeader.Text = "Name";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.list);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.panel);
+            this.splitContainer1.Size = new System.Drawing.Size(451, 318);
+            this.splitContainer1.SplitterDistance = 134;
+            this.splitContainer1.TabIndex = 3;
             // 
             // StringTableEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.entryPanel);
-            this.Controls.Add(this.list);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Name = "StringTableEditor";
             this.Size = new System.Drawing.Size(451, 343);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.entryPanel.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -212,7 +212,6 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnAdd;
         private System.Windows.Forms.ToolStripButton btnRemove;
-        private System.Windows.Forms.ListView list;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnSort;
         private System.Windows.Forms.ToolStripButton btnSortUp;
@@ -220,8 +219,9 @@
         private System.Windows.Forms.ToolStripComboBox cboFilter;
         private System.Windows.Forms.ToolStripButton btnApplyFilter;
         private System.Windows.Forms.ToolStripButton btnClearFilter;
-        private StringEntry defaultLanguageEntry;
-        private System.Windows.Forms.TableLayoutPanel panel;
-        private System.Windows.Forms.Panel entryPanel;
+        private System.Windows.Forms.FlowLayoutPanel panel;
+        private System.Windows.Forms.ListView list;
+        private System.Windows.Forms.ColumnHeader listHeader;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }

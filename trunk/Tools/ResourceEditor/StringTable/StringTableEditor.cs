@@ -85,24 +85,23 @@ namespace ResourceEditor.StringTable
             }
 
             // add any languages that don't have entries in the panel
-            int tabIndex = defaultLanguageEntry.TabIndex;
+            int tabIndex = list.TabIndex;
 
             foreach (ResourceGroup language in ResourceManager.Languages)
             {
-                if (language.LanguageName.Equals("Default", StringComparison.InvariantCultureIgnoreCase))
-                    continue;
-
                 if (LanguageEntryExists(language.LanguageName, ref tabIndex))
                     continue;
 
                 StringEntry entry = new StringEntry();
+                panel.Controls.Add(entry);
+
                 entry.LanguageName = language.LanguageName;
-                entry.Width = defaultLanguageEntry.Width;
+                entry.Width = panel.ClientRectangle.Width;
                 entry.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
                 entry.TabIndex = ++tabIndex;
                 entry.TextChanged += new EventHandler(stringEntry_TextChanged);
 
-                panel.Controls.Add(entry);
+                
             }
 
             // remove any languages from the panel which don't exist any more.
@@ -304,12 +303,11 @@ namespace ResourceEditor.StringTable
             Debug.Print("Selection count: {0}", list.SelectedItems.Count);
 
             if (list.SelectedItems.Count != 1)
-                entryPanel.Enabled = false;
+                panel.Enabled = false;
             else
             {
-                entryPanel.Enabled = true;
+                panel.Enabled = true;
 
-                LoadValue(defaultLanguageEntry);
                 foreach (StringEntry entry in panel.Controls)
                 {
                     LoadValue(entry);
@@ -330,6 +328,11 @@ namespace ResourceEditor.StringTable
             else
                 entry.Text = "";
 
+        }
+
+        private void list_Resize(object sender, EventArgs e)
+        {
+            listHeader.Width = list.ClientSize.Width - 5;
         }
     }
 }
