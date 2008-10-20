@@ -75,6 +75,7 @@ namespace ERY.AgateLib.Drivers
                     // hack, because mono crashes if AgateMDX.dll is present.
                     // annoying, because it should report a failure to load the types in the
                     // assembly, and then the try catch should continue after that.
+                    // this seems unnecessary in the current version of Mono.
                     if ((Environment.OSVersion.Platform == PlatformID.Unix ||
                          Environment.OSVersion.Platform == (PlatformID)128) &&
                         System.IO.Path.GetFileNameWithoutExtension(file).ToLower().Contains("agatemdx"))
