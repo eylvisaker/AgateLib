@@ -6,11 +6,18 @@ using System.Runtime.InteropServices;
 
 namespace ERY.AgateLib.Serialization.Xle
 {
+    /// <summary>
+    /// The XleSerializationInfo class contains the XML data that is read from 
+    /// or written to when doing XLE serialization.
+    /// </summary>
     public class XleSerializationInfo
     {
         XmlDocument doc;
         Stack<XmlElement> nodes = new Stack<XmlElement>();
 
+        /// <summary>
+        /// The ITypeBinder object used.
+        /// </summary>
         public ITypeBinder Binder { get; internal set; }
 
         internal XleSerializationInfo()
@@ -27,7 +34,7 @@ namespace ERY.AgateLib.Serialization.Xle
             get { return doc; }
         }
 
-        public XmlElement CurrentNode
+        XmlElement CurrentNode
         {
             get
             {
@@ -65,80 +72,179 @@ namespace ERY.AgateLib.Serialization.Xle
 
         #region --- Writing methods ---
 
-        
+        /// <summary>
+        /// Writes a field to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
         public void Write(string name, string value)
         {
             if (value == null) value = "";
 
             Write(name, value, false);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
         public void Write(string name, double value)
         {
             Write(name, value, false);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
         public void Write(string name, float value)
         {
             Write(name, value, false);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
         public void Write(string name, bool value)
         {
             Write(name, value, false);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
         public void Write(string name, char value)
         {
             Write(name, value, false);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
         public void Write(string name, short value)
         {
             Write(name, value, false);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
         public void Write(string name, int value)
         {
             Write(name, value, false);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
         public void Write(string name, long value)
         {
             Write(name, value, false);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
         public void Write(string name, decimal value)
         {
             Write(name, value, false);
         }
 
+
+        /// <summary>
+        /// Writes a field to the XML data as an element or an attribute.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
+        /// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
         public void Write(string name, string value, bool asAttribute)
         {
             if (value == null) value = "";
 
             WriteImpl(name, value ?? string.Empty, asAttribute);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element or an attribute.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
+        /// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
         public void Write(string name, double value, bool asAttribute)
         {
             WriteImpl(name, value, asAttribute);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element or an attribute.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
+        /// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
         public void Write(string name, float value, bool asAttribute)
         {
             WriteImpl(name, value, asAttribute);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element or an attribute.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
+        /// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
         public void Write(string name, bool value, bool asAttribute)
         {
             WriteImpl(name, value, asAttribute);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element or an attribute.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
+        /// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
         public void Write(string name, char value, bool asAttribute)
         {
             WriteImpl(name, value, asAttribute);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element or an attribute.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
+        /// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
         public void Write(string name, short value, bool asAttribute)
         {
             WriteImpl(name, value, asAttribute);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element or an attribute.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
+        /// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
         public void Write(string name, int value, bool asAttribute)
         {
             WriteImpl(name, value, asAttribute);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element or an attribute.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
+        /// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
         public void Write(string name, long value, bool asAttribute)
         {
             WriteImpl(name, value, asAttribute);
         }
+        /// <summary>
+        /// Writes a field to the XML data as an element or an attribute.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The value to write.</param>
+        /// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
         public void Write(string name, decimal value, bool asAttribute)
         {
             WriteImpl(name, value, asAttribute);
@@ -159,6 +265,11 @@ namespace ERY.AgateLib.Serialization.Xle
 
         }
 
+        /// <summary>
+        /// Writes an int[] array to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The array data to write.</param>
         public void Write(string name, int[] value)
         {
             byte[] array = new byte[value.Length * 4];
@@ -173,6 +284,11 @@ namespace ERY.AgateLib.Serialization.Xle
             Write(name, array);
 
         }
+        /// <summary>
+        /// Writes a byte[] array to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The array data to write.</param>
         public void Write(string name, byte[] value)
         {
             string newValue = Convert.ToBase64String(value, Base64FormattingOptions.None);
@@ -181,6 +297,11 @@ namespace ERY.AgateLib.Serialization.Xle
             AddAttribute(el, "array", "true");
             AddAttribute(el, "encoding", "Base64");
         }
+        /// <summary>
+        /// Writes an object implementing IXleSerializable to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The object data to write.</param>
         public void Write(string name, IXleSerializable value)
         {
             XmlElement element = CreateElement(name);
@@ -193,6 +314,11 @@ namespace ERY.AgateLib.Serialization.Xle
             nodes.Pop();
         }
 
+        /// <summary>
+        /// Writes an array of objects implementing IXleSerializable to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The array data to write.</param>
         public void Write<T>(string name, T[] value) where T : IXleSerializable
         {
             List<T> list = new List<T>();
@@ -200,6 +326,11 @@ namespace ERY.AgateLib.Serialization.Xle
 
             Write(name, list);
         }
+        /// <summary>
+        /// Writes a List&lt;T&gt; of objects implementing IXleSerializable to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The list data to write.</param>
         public void Write<T>(string name, List<T> value) where T : IXleSerializable
         {
             Type listType = typeof(T);
@@ -225,6 +356,12 @@ namespace ERY.AgateLib.Serialization.Xle
 
             nodes.Pop();
         }
+        /// <summary>
+        /// Writes a Dictionary of objects implementing IXleSerializable to the XML data as an element.
+        /// The key type must implement IConvertible and the value type must implment IXleSerializable.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The dictionary to write.</param>
         public void Write<Tkey, Tvalue>(string name, Dictionary<Tkey, Tvalue> value)
             where Tkey : IConvertible
             where Tvalue : IXleSerializable
@@ -259,6 +396,12 @@ namespace ERY.AgateLib.Serialization.Xle
 
             nodes.Pop();
         }
+        /// <summary>
+        /// Writes a Dictionary of strings implementing IXleSerializable to the XML data as an element.
+        /// The key type must implement IConvertible.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The dictionary to write.</param>
         public void Write<Tkey>(string name, Dictionary<Tkey, string> value)
             where Tkey : IConvertible
         {
@@ -328,7 +471,15 @@ namespace ERY.AgateLib.Serialization.Xle
             return Binder.GetType(name);
         }
 
-
+        /// <summary>
+        /// Reads a dictionary type from the XML data.
+        /// The key type must implement IConvertible and the value type must implement
+        /// IXleSerializable.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Dictionary<TKey, TValue> ReadDictionary<TKey, TValue>(string name)
             where TKey : IConvertible 
             where TValue : IXleSerializable
@@ -359,20 +510,28 @@ namespace ERY.AgateLib.Serialization.Xle
 
             return retval;
         }
-        public Dictionary<TKey, string> ReadDictionary<TKey>(string name)
-            where TKey : IConvertible
+        /// <summary>
+        /// Reads a dictionary type of strings from the XML data.
+        /// The key type must implement IConvertible and the value type must implement
+        /// IXleSerializable.
+        /// </summary>
+        /// <typeparam name="Tkey">The key type of the dictionary.</typeparam>
+        /// <param name="name">The name of the element in the XML stream to decode.</param>
+        /// <returns></returns>        
+        public Dictionary<Tkey, string> ReadDictionary<Tkey>(string name)
+            where Tkey : IConvertible
         {
             XmlElement element = (XmlElement)CurrentNode[name];
 
             nodes.Push(element);
 
-            Dictionary<TKey, string> retval = new Dictionary<TKey, string>();
+            Dictionary<Tkey, string> retval = new Dictionary<Tkey, string>();
 
             for (int i = 0; i < element.ChildNodes.Count; i++)
             {
                 XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
                 string keyString = current.GetAttribute("key");
-                TKey key = (TKey)Convert.ChangeType(keyString, typeof(TKey));
+                Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
 
                 string valueString = current.GetAttribute("value");
 
@@ -384,6 +543,11 @@ namespace ERY.AgateLib.Serialization.Xle
             return retval;
         }
 
+        /// <summary>
+        /// Reads an object from the XML data.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public object ReadObject(string name)
         {
             XmlElement element = (XmlElement)CurrentNode[name];
@@ -401,10 +565,23 @@ namespace ERY.AgateLib.Serialization.Xle
                 nodes.Pop();
             }
         }
+        /// <summary>
+        /// Reads a string from the XML data, with an optional default value substituted
+        /// if the name is not present.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
         public string ReadString(string name, string defaultValue)
         {
             return ReadStringImpl(name, true, defaultValue);
         }
+        /// <summary>
+        /// Reads a string from the XML data.  If the name is not present 
+        /// an XleSerializationException is thrown.
+        /// </summary>
+        /// <param name="name">The name of the XML field to decode.</param>
+        /// <returns></returns>
         public string ReadString(string name)
         {
             return ReadStringImpl(name, false, string.Empty);
@@ -434,6 +611,12 @@ namespace ERY.AgateLib.Serialization.Xle
             else
                 throw new XleSerializationException("Field " + name + " was not found."); 
         }
+        /// <summary>
+        /// Reads a boolean value from the XML data.  If the name is not present 
+        /// an XleSerializationException is thrown.
+        /// </summary>
+        /// <param name="name">Name of the field.</param>
+        /// <returns></returns>
         public bool ReadBoolean(string name)
         {
             string attribute = CurrentNode.GetAttribute(name);
@@ -448,6 +631,12 @@ namespace ERY.AgateLib.Serialization.Xle
 
             return bool.Parse(element.InnerText);
         }
+        /// <summary>
+        /// Reads a integer value from the XML data.  If the name is not present 
+        /// an XleSerializationException is thrown.
+        /// </summary>
+        /// <param name="name">Name of the field.</param>
+        /// <returns></returns>
         public int ReadInt32(string name)
         {
             string attribute = CurrentNode.GetAttribute(name);
@@ -464,6 +653,13 @@ namespace ERY.AgateLib.Serialization.Xle
 
             throw new XleSerializationException("Node " + name + " not found.");
         }
+        /// <summary>
+        /// Reads a integer value from the XML data.  If the name is not present 
+        /// the default value is returned.
+        /// </summary>
+        /// <param name="name">Name of the field.</param>
+        /// <param name="defaultValue">The default value to return if the name is not present.</param>
+        /// <returns></returns>
         public int ReadInt32(string name, int defaultValue)
         {
             string attribute = CurrentNode.GetAttribute(name);
@@ -478,6 +674,12 @@ namespace ERY.AgateLib.Serialization.Xle
 
             return int.Parse(element.InnerText);
         }
+        /// <summary>
+        /// Reads a double value from the XML data.  If the name is not present 
+        /// an XleSerializationException is thrown.
+        /// </summary>
+        /// <param name="name">Name of the field.</param>
+        /// <returns></returns>
         public double ReadDouble(string name)
         {
             string attribute = CurrentNode.GetAttribute(name);
@@ -493,6 +695,13 @@ namespace ERY.AgateLib.Serialization.Xle
             return double.Parse(element.InnerText);
         }
 
+
+        /// <summary>
+        /// Reads a integer array from the XML data.  If the name is not present 
+        /// an XleSerializationException is thrown.
+        /// </summary>
+        /// <param name="name">Name of the field.</param>
+        /// <returns></returns>
         public int[] ReadInt32Array(string name)
         {
             byte[] array = ReadByteArray(name);
@@ -512,6 +721,13 @@ namespace ERY.AgateLib.Serialization.Xle
             return result;
         }
 
+
+        /// <summary>
+        /// Reads an array of objects from the XML data.  If the name is not present 
+        /// an XleSerializationException is thrown.
+        /// </summary>
+        /// <param name="name">Name of the field.</param>
+        /// <returns></returns>
         public T[] ReadArray<T>(string name)
         {
             try
@@ -525,7 +741,7 @@ namespace ERY.AgateLib.Serialization.Xle
             }
         }
 
-        public Array ReadArray(string name)
+        private Array ReadArray(string name)
         {
             return ReadArrayImpl(name, null);
         }
@@ -578,6 +794,12 @@ namespace ERY.AgateLib.Serialization.Xle
 
             return retval;
         }
+        /// <summary>
+        /// Reads a list of objects from the XML data.  If the name is not present 
+        /// an XleSerializationException is thrown.
+        /// </summary>
+        /// <param name="name">Name of the field.</param>
+        /// <returns></returns>
         public List<T> ReadList<T>(string name)
         {
             Array ar = ReadArrayImpl(name, typeof(T));
@@ -589,6 +811,12 @@ namespace ERY.AgateLib.Serialization.Xle
         }
 
 
+        /// <summary>
+        /// Reads a byte array from the XML data.  If the name is not present 
+        /// an XleSerializationException is thrown.
+        /// </summary>
+        /// <param name="name">Name of the field.</param>
+        /// <returns></returns>
         public byte[] ReadByteArray(string name)
         {
             XmlElement element = (XmlElement)CurrentNode[name];
