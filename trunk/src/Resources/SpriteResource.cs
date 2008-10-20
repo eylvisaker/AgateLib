@@ -9,7 +9,11 @@ namespace ERY.AgateLib.Resources
     /// sprite, implemented as the Sprite class, and a packed version which maximizes the memory
     /// efficiency, implemented as PackedSprite.<br/>
     /// XML Attributes:<br/> 
-    ///   string name, bool packed
+    ///   string name, bool packed, Size size
+    /// XML Nodes:<br/>
+    ///   Image:  string filename 
+    ///     Frame:
+    ///       Rectangle bounds, Point offset
     /// </summary>
     public class SpriteResource : AgateResource 
     {
