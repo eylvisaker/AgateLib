@@ -60,6 +60,13 @@ namespace ERY.AgateLib.Geometry
 
             return ConvertFrom(context, culture, str);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="culture"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static Point ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
         {
 
