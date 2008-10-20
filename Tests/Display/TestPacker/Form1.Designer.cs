@@ -95,23 +95,25 @@ namespace TestPacker
             // 
             // statusBar1
             // 
-            this.statusBar1.Location = new System.Drawing.Point(0, 420);
+            this.statusBar1.Location = new System.Drawing.Point(0, 414);
             this.statusBar1.Name = "statusBar1";
             this.statusBar1.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
             this.statusBarPanel1,
             this.statusBarPanel2});
             this.statusBar1.ShowPanels = true;
-            this.statusBar1.Size = new System.Drawing.Size(517, 22);
+            this.statusBar1.Size = new System.Drawing.Size(507, 22);
             this.statusBar1.TabIndex = 6;
             this.statusBar1.Text = "statusBar1";
             // 
             // statusBarPanel1
             // 
+            this.statusBarPanel1.Name = "statusBarPanel1";
             this.statusBarPanel1.Text = "statusBarPanel1";
             this.statusBarPanel1.Width = 200;
             // 
             // statusBarPanel2
             // 
+            this.statusBarPanel2.Name = "statusBarPanel2";
             this.statusBarPanel2.Text = "statusBarPanel2";
             this.statusBarPanel2.Width = 200;
             // 
@@ -119,7 +121,7 @@ namespace TestPacker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(517, 442);
+            this.ClientSize = new System.Drawing.Size(507, 436);
             this.Controls.Add(this.statusBar1);
             this.Controls.Add(this.btnLotsSorted);
             this.Controls.Add(this.btnClear);
