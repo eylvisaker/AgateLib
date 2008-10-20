@@ -33,6 +33,8 @@ namespace ResourceEditor
             statusLabel.Text = "";
 
             UpdateControls();
+
+            mainbook.SelectedIndex = 0;
         }
 
         public string ShortName
