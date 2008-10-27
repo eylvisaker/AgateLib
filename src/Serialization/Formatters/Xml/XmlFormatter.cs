@@ -26,11 +26,11 @@
  * This should work on objects which implement ISerializable as well as objects
  * which are just marked with SerializableAttribute.
  * 
- * XmlFormatter also now properly serializes and deserializes private members
+ * XmlFormatter also properly serializes and deserializes private members
  * of base classes of objects to be serialized, and compiler generated 
  * backing fields for automatically implemented properties (C# 3.0)
  * 
- * Objects appear more than once in the object graph are only 
+ * Objects appearing more than once in the object graph are only 
  * serialized/deserialized once.  This will correctly handle circular references
  * in the object graph.
  * 
@@ -41,7 +41,7 @@
  * The only license text at ecodebank.com states only 
  * "The code is free to use in your projects."
  * It appears that this means the code may be freely distributed and 
- * used without restriction.
+ * used without restriction.  
  * */
 
 using System;
