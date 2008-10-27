@@ -42,7 +42,8 @@ namespace ResourceEditor
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(280, 53);
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(278, 51);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(62, 23);
             this.btnCancel.TabIndex = 2;
@@ -53,7 +54,7 @@ namespace ResourceEditor
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(212, 53);
+            this.btnOK.Location = new System.Drawing.Point(210, 51);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(62, 23);
             this.btnOK.TabIndex = 1;
@@ -112,7 +113,7 @@ namespace ResourceEditor
             // 
             this.AcceptButton = this.btnOK;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(354, 88);
+            this.ClientSize = new System.Drawing.Size(352, 86);
             this.Controls.Add(this.pnlError);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
