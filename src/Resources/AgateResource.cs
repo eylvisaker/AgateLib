@@ -32,6 +32,10 @@ namespace ERY.AgateLib.Resources
         private string mName;
         private string mLanguage = "Default";
 
+        /// <summary>
+        /// Constructs a base resource object.
+        /// </summary>
+        /// <param name="name"></param>
         public AgateResource(string name)
         {
             mName = name; 

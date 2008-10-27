@@ -77,6 +77,7 @@
     <Compile Include="Audio\Music.cs" />
     <Compile Include="Audio\SoundBuffer.cs" />
     <Compile Include="Audio\SoundBufferSession.cs" />
+    <Compile Include="Core\AgateException.cs" />
     <Compile Include="Core\Platform.cs" />
     <Compile Include="Display\CreateWindowParams.cs" />
     <Compile Include="Drivers\IWinForms.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Core\SearchPath.cs" />
     <Compile Include="Display\ISpriteFrame.cs" />
     <Compile Include="Resources\AgateResource.cs" />
+    <Compile Include="Resources\AgateResourceException.cs" />
     <Compile Include="Resources\AgateResourceManager.cs" />
     <Compile Include="Resources\DisplayWindowResource.cs" />
     <Compile Include="Resources\LanguageList.cs" />
@@ -131,6 +133,7 @@
     <Compile Include="Resources\SpriteResource.cs" />
     <Compile Include="Resources\StringTable.cs" />
     <Compile Include="Resources\SurfaceResource.cs" />
+    <Compile Include="Serialization\Formatters\Xml\XmlFormatter.cs" />
     <Compile Include="Serialization\Xle\ITypeBinder.cs" />
     <Compile Include="Serialization\Xle\IXleSerializable.cs" />
     <Compile Include="Serialization\Xle\TypeBinder.cs" />
@@ -215,9 +218,6 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Serialization\Formatters\Xml\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
