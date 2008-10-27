@@ -205,6 +205,11 @@ namespace ERY.AgateLib.Resources
                     group.Add(surf);
                     return;
 
+                case "Sprite":
+                    SpriteResource sprite = new SpriteResource(node, version);
+                    group.Add(sprite);
+                    return;
+
                 default:
                     ReadError(node.Name + " unrecognized.");
                     return;

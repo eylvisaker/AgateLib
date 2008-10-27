@@ -44,6 +44,21 @@ namespace ERY.AgateLib.Resources
             AppendAttribute(node, doc, name, value.ToString());
         }
 
+
+        internal static Point ReadAttributePoint(XmlNode node, string attributeName)
+        {
+            string text = node.Attributes[attributeName].Value;
+
+            return PointConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
+        }
+        internal static Point ReadAttributePoint(XmlNode node, string attributeName, Point defaultValue)
+        {
+            if (node.Attributes[attributeName] == null)
+                return defaultValue;
+            else
+                return ReadAttributePoint(node, attributeName);
+        }
+
         internal static Size ReadAttributeSize(XmlNode node, string attributeName)
         {
             string text = node.Attributes[attributeName].Value;
@@ -58,7 +73,19 @@ namespace ERY.AgateLib.Resources
                 return ReadAttributeSize(node, attributeName);
         }
 
+        internal static Rectangle ReadAttributeRectangle(XmlNode node, string attributeName)
+        {
+            string text = node.Attributes[attributeName].Value;
 
+            return RectangleConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
+        }
+        internal static Rectangle ReadAttributeRectangle(XmlNode node, string attributeName, Rectangle defaultValue)
+        {
+            if (node.Attributes[attributeName] == null)
+                return defaultValue;
+            else
+                return ReadAttributeRectangle(node, attributeName);
+        }
         internal static int ReadAttributeInt(XmlNode node, string attributeName)
         {
             string text = node.Attributes[attributeName].Value;
@@ -86,5 +113,19 @@ namespace ERY.AgateLib.Resources
             else
                 return ReadAttributeBool(node, attributeName);
         }
+
+        internal static string ReadAttributeString(XmlNode node, string attributeName)
+        {
+            return node.Attributes[attributeName].Value;
+        }
+        internal static string ReadAttributeString(XmlNode node, string attributeName, string defaultValue)
+        {
+            if (node.Attributes[attributeName] == null)
+                return defaultValue;
+            else
+                return ReadAttributeString(node, attributeName);
+        }
+
+
     }
 }
