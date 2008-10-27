@@ -175,4 +175,101 @@ namespace ERY.AgateLib.Geometry
             return retval;
         }
     }
+    class RectangleConverter : ExpandableObjectConverter
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="sourceType"></param>
+        /// <returns></returns>
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            if (sourceType == typeof(string))
+            {
+                return true;
+            }
+            return base.CanConvertFrom(context, sourceType);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="culture"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+        {
+            string str = value as string;
+
+            if (str == null)
+                return base.ConvertFrom(context, culture, value);
+
+            return ConvertFromString(str);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="culture"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static Rectangle ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
+        {
+            if (str.StartsWith("{") && str.EndsWith("}"))
+            {
+                str = str.Substring(1, str.Length - 2);
+            }
+
+            string[] values = str.Split(',');
+            Rectangle retval = new Rectangle();
+
+            if (values.Length != 4)
+                throw new FormatException();
+
+            if (str.Contains("="))
+            {
+                // parse named arguments
+                for (int i = 0; i < values.Length; i++)
+                {
+                    if (values[i].ToLowerInvariant().Contains("width")
+                        && values[i].Contains("="))
+                    {
+                        retval.Width = ParseNumeric(values[i]);
+                    }
+                    else if (values[i].ToLowerInvariant().Contains("height")
+                        && values[i].Contains("="))
+                    {
+                        retval.Height = ParseNumeric(values[i]);
+                    }
+                    else if (values[i].ToLowerInvariant().Contains("x")
+                        && values[i].Contains("="))
+                    {
+                        retval.X = ParseNumeric(values[i]);
+                    }
+                    else if (values[i].ToLowerInvariant().Contains("y")
+                        && values[i].Contains("="))
+                    {
+                        retval.Y = ParseNumeric(values[i]);
+                    }
+                }
+            }
+            else
+            {
+                retval.X = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
+                retval.Y = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
+                retval.Width = int.Parse(values[2], System.Globalization.CultureInfo.InvariantCulture);
+                retval.Height = int.Parse(values[3], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            return retval;
+        }
+
+        private static int ParseNumeric(string text)
+        {
+            int equals = text.IndexOf("=", StringComparison.InvariantCultureIgnoreCase);
+            int value = int.Parse(text.Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
+            return value;
+        }
+    }
 }
