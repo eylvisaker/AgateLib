@@ -22,7 +22,7 @@ using System.Text;
 
 using ERY.AgateLib.Geometry;
 
-namespace ERY.AgateLib
+namespace ERY.AgateLib.Sprites
 {
     /// <summary>
     /// Class for a single frame of a sprite.
