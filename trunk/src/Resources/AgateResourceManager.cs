@@ -62,12 +62,18 @@ namespace ERY.AgateLib.Resources
             mLanguages.Add("Default");
         }
 
+        /// <summary>
+        /// Gets or sets the filename for the XML resource file.
+        /// </summary>
         public string Filename
         {
             get { return mFilename; }
             set { mFilename = value; }
         }
 
+        /// <summary>
+        /// Gets the current language resources are read from.
+        /// </summary>
         public ResourceGroup CurrentLanguage
         {
             get
@@ -77,11 +83,18 @@ namespace ERY.AgateLib.Resources
                 return mCurrentLanguage;
             }
         }
+        /// <summary>
+        /// Returns the collection of resources which belong to the default language.
+        /// </summary>
         public ResourceGroup DefaultLanguage
         {
             get { return Languages["Default"]; }
         }
 
+        /// <summary>
+        /// Sets which language should be used to read resources.
+        /// </summary>
+        /// <param name="language"></param>
         public void SetCurrentLanguage(string language)
         {
             for (int i = 0; i < mLanguages.Count; i++)
@@ -95,11 +108,17 @@ namespace ERY.AgateLib.Resources
 
             throw new ArgumentException("Could not find the specified language.");
         }
+        /// <summary>
+        /// Gets a list of the languages in this resource file.
+        /// </summary>
         public LanguageList Languages
         {
             get { return mLanguages; }
         }
 
+        /// <summary>
+        /// Saves the resources to a file located in the Filename property.
+        /// </summary>
         public void Save()
         {
             XmlDocument doc = new XmlDocument();
@@ -117,6 +136,11 @@ namespace ERY.AgateLib.Resources
 
         }
 
+        /// <summary>
+        /// Static method which creates a resource manager based on the contents of a file.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static AgateResourceManager LoadFromFile(string filename)
         {
             AgateResourceManager retval = new AgateResourceManager();
@@ -126,6 +150,11 @@ namespace ERY.AgateLib.Resources
 
             return retval;
         }
+        /// <summary>
+        /// Loads the resource information from a file.
+        /// This erases all information in the current AgateResourceManager.
+        /// </summary>
+        /// <param name="filename"></param>
         public void Load(string filename)
         {
             Load(FileManager.OpenFile(FileManager.ResourcePath, filename, FileMode.Open, FileAccess.Read));
@@ -186,8 +215,6 @@ namespace ERY.AgateLib.Resources
 
         private void ReadNode(ResourceGroup group, XmlNode node, string version)
         {
-            AgateResource resource = null;
-
             switch (node.Name)
             {
                 case "StringTable":
@@ -214,8 +241,6 @@ namespace ERY.AgateLib.Resources
                     ReadError(node.Name + " unrecognized.");
                     return;
             }
-
-            group.Add(resource);
         }
 
         private void ReadError(string p)
@@ -228,6 +253,11 @@ namespace ERY.AgateLib.Resources
                 Debug.Print(p);
         }
 
+        /// <summary>
+        /// Returns a resource in the current language based on its name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public AgateResource this[string name]
         {
             get

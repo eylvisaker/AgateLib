@@ -23,7 +23,7 @@ using System.Text;
 namespace ERY.AgateLib.Resources
 {
     /// <summary>
-    /// A class which contains a list of resources specific to a particular language.
+    /// A class which contains a list of ResourceGroups each with resources in a specific language.
     /// </summary>
     public class LanguageList : ICollection<ResourceGroup>
     {
@@ -39,6 +39,10 @@ namespace ERY.AgateLib.Resources
             
             mLanguages.Add(grp);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
         public void Add(string name)
         {
             foreach (ResourceGroup lang in mLanguages)
@@ -51,6 +55,11 @@ namespace ERY.AgateLib.Resources
 
             OnLanguageAdded(name);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public ResourceGroup this[string name]
         {
             get
@@ -65,10 +74,18 @@ namespace ERY.AgateLib.Resources
                     "Language " + name + " not found.");
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public ResourceGroup this[int index]
         {
             get { return mLanguages[index]; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public int Count
         {
             get { return mLanguages.Count; }
@@ -84,20 +101,38 @@ namespace ERY.AgateLib.Resources
             if (LanguageRemoved != null)
                 LanguageRemoved(this, new LanguageListChangedEventArgs(languageName));
         }
+        /// <summary>
+        /// Event which is raised when a language is added to the list.
+        /// </summary>
         public event EventHandler<LanguageListChangedEventArgs> LanguageAdded;
+        /// <summary>
+        /// Event which is raised when a language is removed from the list.
+        /// </summary>
         public event EventHandler<LanguageListChangedEventArgs> LanguageRemoved;
 
         #region --- ICollection<ResourceGroup> Members ---
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Clear()
         {
             mLanguages.Clear();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Contains(ResourceGroup item)
         {
             return mLanguages.Contains(item);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="languageName"></param>
+        /// <returns></returns>
         public bool Contains(string languageName)
         {
             for (int i = 0; i < mLanguages.Count; i++)
@@ -109,17 +144,27 @@ namespace ERY.AgateLib.Resources
 
             return false;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="arrayIndex"></param>
         public void CopyTo(ResourceGroup[] array, int arrayIndex)
         {
             mLanguages.CopyTo(array, arrayIndex);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsReadOnly
         {
             get { return false; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Remove(ResourceGroup item)
         {
             bool retval = mLanguages.Remove(item);
@@ -133,6 +178,10 @@ namespace ERY.AgateLib.Resources
         #endregion
         #region --- IEnumerable<ResourceGroup> Members ---
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<ResourceGroup> GetEnumerator()
         {
             return mLanguages.GetEnumerator();
@@ -141,6 +190,10 @@ namespace ERY.AgateLib.Resources
         #endregion
         #region --- IEnumerable Members ---
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return mLanguages.GetEnumerator();

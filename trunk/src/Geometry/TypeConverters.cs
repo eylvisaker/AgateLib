@@ -60,6 +60,7 @@ namespace ERY.AgateLib.Geometry
 
             return ConvertFrom(context, culture, str);
         }
+        
         /// <summary>
         /// 
         /// </summary>
@@ -67,7 +68,7 @@ namespace ERY.AgateLib.Geometry
         /// <param name="culture"></param>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static Point ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
+        public new static Point ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
         {
 
             string[] values = str.Split(',');
@@ -132,8 +133,14 @@ namespace ERY.AgateLib.Geometry
             return ConvertFromString(str);
             
         }
-
-        public static Size ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="culture"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public new static Size ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
         {
             if (str.StartsWith("{") && str.EndsWith("}"))
             {
@@ -215,7 +222,7 @@ namespace ERY.AgateLib.Geometry
         /// <param name="culture"></param>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static Rectangle ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
+        public new static Rectangle ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
         {
             if (str.StartsWith("{") && str.EndsWith("}"))
             {

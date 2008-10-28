@@ -22,6 +22,9 @@ using System.Text;
 
 namespace ERY.AgateLib.Resources
 {
+    /// <summary>
+    /// EventArgs structure for when a LanguageList has something added or removed.
+    /// </summary>
     public class LanguageListChangedEventArgs : EventArgs 
     {
         string mLanguage;
@@ -31,6 +34,9 @@ namespace ERY.AgateLib.Resources
             mLanguage = lang;
         }
 
+        /// <summary>
+        /// Gets the language that was added or removed.
+        /// </summary>
         public string Language
         {
             get { return mLanguage; }

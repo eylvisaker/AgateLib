@@ -15,9 +15,11 @@ Goals for 0.3.0
 		D Categorize AgateLib source code by subsystem
 		D Add Display.DrawRect(RectangleF, Color) overload.
 		* Clean up platform-specific classes.
+		* Fix up platform detection routines.
 		D Deprecate use of FileManager.PathChars 
 		* Add more error reporting
 		* Flesh out the new resource system.
+		* Update Timing.cs to use the new platform system.
 	Drivers
 		D Update AgateOTK to newer version of OpenTK
 		D Update AgateOTK to use Framebuffer extension for fast render-to-surface

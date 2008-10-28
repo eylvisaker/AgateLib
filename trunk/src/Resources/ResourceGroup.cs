@@ -37,12 +37,18 @@ namespace ERY.AgateLib.Resources
         {
             Add(new StringTable());
         }
+        /// <summary>
+        /// Constructs a ResourceGroup.
+        /// </summary>
+        /// <param name="language">The language of this resource group.</param>
         public ResourceGroup(string language) : this()
         {
-           
             mLanguage = language;
         }
 
+        /// <summary>
+        /// Gets the StringTable for this langauge.
+        /// </summary>
         public StringTable Strings
         {
             get
@@ -56,13 +62,19 @@ namespace ERY.AgateLib.Resources
                 return null;
             }
         }
-
+        /// <summary>
+        /// Gets or sets the name of this language.
+        /// </summary>
         public string LanguageName
         {
             get { return mLanguage; }
             set { mLanguage = value; }
         }
-
+        /// <summary>
+        /// Gets the resource of the given name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public AgateResource this[string name]
         {
             get
@@ -74,6 +86,11 @@ namespace ERY.AgateLib.Resources
                 throw new KeyNotFoundException("Resource not found.");
             }
         }
+        /// <summary>
+        /// Returns whether or not the passed resource exists in this group.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public bool ContainsResource(string name)
         {
             for (int i = 0; i < mStore.Count; i++)
@@ -105,6 +122,11 @@ namespace ERY.AgateLib.Resources
 
         #region --- ICollection<AgateResource> Members ---
 
+        /// <summary>
+        /// Adds a resource to this group.  An exception is thrown if an item with the same name 
+        /// already exists in the group.
+        /// </summary>
+        /// <param name="item"></param>
         public void Add(AgateResource item)
         {
             if (item is StringTable)
@@ -115,32 +137,50 @@ namespace ERY.AgateLib.Resources
 
             mStore.Add(item);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Clear()
         {
             mStore.Clear();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Contains(AgateResource item)
         {
             return mStore.Contains(item);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="arrayIndex"></param>
         public void CopyTo(AgateResource[] array, int arrayIndex)
         {
             mStore.CopyTo(array, arrayIndex);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public int Count
         {
             get { return mStore.Count; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsReadOnly
         {
             get { return false; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Remove(AgateResource item)
         {
             return mStore.Remove(item);
@@ -149,6 +189,10 @@ namespace ERY.AgateLib.Resources
         #endregion
         #region --- IEnumerable<AgateResource> Members ---
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<AgateResource> GetEnumerator()
         {
             return mStore.GetEnumerator();
