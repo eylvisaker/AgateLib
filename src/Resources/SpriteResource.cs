@@ -27,6 +27,10 @@ namespace ERY.AgateLib.Resources
         bool packed = false;
         List<SpriteFrameResource> mFrames = new List<SpriteFrameResource>();
 
+        /// <summary>
+        /// Constructs a SpriteResource object.
+        /// </summary>
+        /// <param name="name"></param>
         public SpriteResource(string name)
             : base(name)
         {
@@ -47,6 +51,7 @@ namespace ERY.AgateLib.Resources
 
                     ReadFrames030(node);
 
+                    // check and make sure the sprite can be packed, and this matches the packed attribute 
                     if (packed == false && XmlHelper.ReadAttributeBool(node, "packed", false) == true)
                     {
                         throw new AgateResourceException("Sprite resource " + Name + " has the packed=true attribute," +
@@ -62,9 +67,7 @@ namespace ERY.AgateLib.Resources
             foreach (XmlNode child in node.ChildNodes)
             {
                 if (child.Name == "Frame")
-                {
                     ReadFrame030(child);
-                }
                 else
                     throw new AgateResourceException("Unrecognized node in Sprite " + Name + ": " + child.Name);
             }
@@ -82,8 +85,9 @@ namespace ERY.AgateLib.Resources
                 frame.Filename = filename;
 
                 if (filename == null)
-                    throw new AgateResourceException("Sprite resource " + Name + " does not have a default filename, and " +
-                        "frame " + mFrames.Count.ToString() + " does not specify a filename.");
+                    throw new AgateResourceException("Sprite resource " + Name + " does not have a " +
+                        "default filename, and frame " + mFrames.Count.ToString() + 
+                        " does not specify a filename.");
             }
 
             if (frame.Filename != filename)
@@ -99,28 +103,44 @@ namespace ERY.AgateLib.Resources
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Clones the resource.
+        /// </summary>
+        /// <returns></returns>
         protected override AgateResource Clone()
         {
             throw new NotImplementedException();
         }
         
 
+        /// <summary>
+        /// Class representing a frame of a sprite in a SpriteResource.
+        /// </summary>
         public class SpriteFrameResource
         {
             string mFilename;
             Rectangle mBounds;
             Point mOffset;
 
+            /// <summary>
+            /// Filename the frame is located in.
+            /// </summary>
             public string Filename
             {
                 get { return mFilename; }
                 set { mFilename = value; }
             }
+            /// <summary>
+            /// Rectangle where the image data is.
+            /// </summary>
             public Rectangle Bounds
             {
                 get { return mBounds; }
                 set { mBounds = value; }
             }
+            /// <summary>
+            /// Offset in the sprite to where the upper left of the image is drawn.
+            /// </summary>
             public Point Offset
             {
                 get { return mOffset; }

@@ -23,6 +23,11 @@ using System.Xml;
 
 namespace ERY.AgateLib.Resources
 {
+    /// <summary>
+    /// Class which contains a table of string-string mappings.
+    /// Similar to a Dictionary, but includes methods for reading to / writing from
+    /// an AgateLib resource file.
+    /// </summary>
     public sealed class StringTable : AgateResource , IDictionary<string, string>
     {
         Dictionary<string, string> mTable = new Dictionary<string, string>();
@@ -83,6 +88,10 @@ namespace ERY.AgateLib.Resources
             parent.AppendChild(element);
         }
 
+        /// <summary>
+        /// Clones the string table.
+        /// </summary>
+        /// <returns></returns>
         protected override AgateResource Clone()
         {
             return new StringTable();
@@ -90,36 +99,68 @@ namespace ERY.AgateLib.Resources
 
         #region --- IDictionary<string,string> Members ---
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void Add(string key, string value)
         {
             mTable.Add(key, value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool ContainsKey(string key)
         {
             return mTable.ContainsKey(key);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ICollection<string> Keys
         {
             get { return mTable.Keys; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool Remove(string key)
         {
             return mTable.Remove(key);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool TryGetValue(string key, out string value)
         {
             return mTable.TryGetValue(key, out value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ICollection<string> Values
         {
             get { return mTable.Values; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string this[string key]
         {
             get
@@ -140,6 +181,9 @@ namespace ERY.AgateLib.Resources
             ((ICollection<KeyValuePair<string, string>>)mTable).Add(item);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Clear()
         {
             mTable.Clear();
@@ -155,11 +199,17 @@ namespace ERY.AgateLib.Resources
             ((ICollection<KeyValuePair<string, string>>)mTable).CopyTo(array, arrayIndex);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int Count
         {
             get { return mTable.Count; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsReadOnly
         {
             get { return false; }
@@ -173,6 +223,10 @@ namespace ERY.AgateLib.Resources
         #endregion
         #region --- IEnumerable<KeyValuePair<string,string>> Members ---
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
         {
             return mTable.GetEnumerator();

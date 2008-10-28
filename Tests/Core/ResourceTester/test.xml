@@ -10,22 +10,20 @@
 	    Have a roni!
     </DisplayWindow>      
     <Surface name="sample_surf" filename="sample_surf.png" />
-    <Sprite name="sample_sprite" size="{96,96}">
-	<Image filename="attacke.png" >
-		<Frame rect="{0,0,96,96}" offset="{0,0}" />
-		<Frame rect="{96,0,96,96}" offset="{0,0}" />
-		<Frame rect="{192,0,96,96}" offset="{0,0}" />
-		<Frame rect="{288,0,96,96}" offset="{0,0}" />
-		<Frame rect="{384,0,96,96}" offset="{0,0}" />
-		<Frame rect="{480,0,96,96}" offset="{0,0}" />
-		<Frame rect="{0,96,96,96}" offset="{0,0}" />
-		<Frame rect="{96,96,96,96}" offset="{0,0}" />
-		<Frame rect="{192,96,96,96}" offset="{0,0}" />
-		<Frame rect="{288,96,96,96}" offset="{0,0}" />
-		<Frame rect="{384,96,96,96}" offset="{0,0}" />
-		<Frame rect="{480,96,96,96}" offset="{0,0}" />
-		<Frame rect="{0,192,96,96}" offset="{0,0}" />
-	</Image>
+    <Sprite name="sample_sprite" size="{96,96}" image="attacke.png">
+	<Frame rect="{0,0,96,96}" offset="{0,0}" />
+	<Frame rect="{96,0,96,96}" offset="{0,0}" />
+	<Frame rect="{192,0,96,96}" offset="{0,0}" />
+	<Frame rect="{288,0,96,96}" offset="{0,0}" />
+	<Frame rect="{384,0,96,96}" offset="{0,0}" />
+	<Frame rect="{480,0,96,96}" offset="{0,0}" />
+	<Frame rect="{0,96,96,96}" offset="{0,0}" />
+	<Frame rect="{96,96,96,96}" offset="{0,0}" />
+	<Frame rect="{192,96,96,96}" offset="{0,0}" />
+	<Frame rect="{288,96,96,96}" offset="{0,0}" />
+	<Frame rect="{384,96,96,96}" offset="{0,0}" />
+	<Frame rect="{480,96,96,96}" offset="{0,0}" />
+	<Frame rect="{0,192,96,96}" offset="{0,0}" />
     </Sprite>
   </Language>
   <Language name="French">

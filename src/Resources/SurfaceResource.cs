@@ -36,15 +36,28 @@ namespace ERY.AgateLib.Resources
     /// will be preserved if the resource file is loaded and saved, but they are not used in the construction
     /// of the DisplayWindow.
     /// </remarks>
-    public class SurfaceResource : AgateResource 
+    public sealed class SurfaceResource : AgateResource 
     {
         string mFilename;
 
+        /// <summary>
+        /// Gets or sets the filename for the surface to be created from.
+        /// </summary>
         public string Filename { get { return mFilename; } set { mFilename = value; } }
 
+        /// <summary>
+        /// Constructs a SurfaceResource object.
+        /// </summary>
+        /// <param name="name"></param>
         public SurfaceResource(string name)
             : base(name)
         {
+        }
+
+        private SurfaceResource(string name, string filename)
+            : base(name)
+        {
+            Filename = filename;
         }
 
         internal SurfaceResource(XmlNode node, string version)
@@ -69,9 +82,13 @@ namespace ERY.AgateLib.Resources
             parent.AppendChild(el);
         }
 
+        /// <summary>
+        /// Clones the SurfaceResource object.
+        /// </summary>
+        /// <returns></returns>
         protected override AgateResource Clone()
         {
-            throw new NotImplementedException();
+            return new SurfaceResource(Name, Filename);
         }
     }
 }

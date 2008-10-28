@@ -610,8 +610,8 @@ namespace ERY.AgateLib
         /// </summary>
         /// <param name="srcRects"></param>
         /// <param name="destRects"></param>
-        /// <param name="length">Number of elements in the arrays to use.</param>
         /// <param name="start">Element in the arrays to start at.</param>
+        /// <param name="length">Number of elements in the arrays to use.</param>
         public void DrawRects(Rectangle[] srcRects, Rectangle[] destRects, int start, int length)
         {
             impl.DrawRects(srcRects, destRects, start, length);
@@ -622,6 +622,8 @@ namespace ERY.AgateLib
         /// </summary>
         /// <param name="srcRects"></param>
         /// <param name="destRects"></param>
+        /// <param name="start">Element in the arrays to start at.</param>
+        /// <param name="length">Number of elements in the arrays to use.</param>
         public void DrawRects(RectangleF[] srcRects, RectangleF[] destRects, int start, int length)
         {
             impl.DrawRects(srcRects, destRects, start, length);

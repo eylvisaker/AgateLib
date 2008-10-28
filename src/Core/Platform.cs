@@ -71,15 +71,36 @@ namespace ERY.AgateLib
         }
     }
 
+    /// <summary>
+    /// Enumeration listing the known platform types.
+    /// </summary>
     public enum PlatformType
     {
+        /// <summary>
+        /// Default value.
+        /// </summary>
         Unknown,
 
+        /// <summary>
+        /// The Windows platform, including Windows 98, Windows NT, Windows XP, Windows Vista, etc.
+        /// </summary>
         Windows,
+        /// <summary>
+        /// Some Linux / Unix platform, typically running with an X windowing system.
+        /// </summary>
         Linux,
+        /// <summary>
+        /// Mac OS 10.3 or later.
+        /// </summary>
         MacOS,
 
+        /// <summary>
+        /// Microsoft's XBox 360 console.
+        /// </summary>
         XBox360,
+        /// <summary>
+        /// The portable GP2x handheld, or compatible.
+        /// </summary>
         Gp2x,
     }
 }

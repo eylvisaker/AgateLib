@@ -53,13 +53,35 @@ namespace ERY.AgateLib.Resources
         /// will specify the starting point for searching for a full-screen resolution.
         /// </summary>
         public Size Size { get { return mSize; } set { mSize = value; } }
+        /// <summary>
+        /// 
+        /// </summary>
         public Size MinimumSize { get { return mMinimumSize; } set { mMinimumSize = value; } }
+        /// <summary>
+        /// 
+        /// </summary>
         public Size MaximumSize { get { return mMaximumSize; } set { mMaximumSize = value; } }
+        /// <summary>
+        /// 
+        /// </summary>
         public string Title { get { return mTitle; } set { mTitle = value; } }
+        /// <summary>
+        /// 
+        /// </summary>
         public bool AllowResize { get { return mAllowResize; } set { mAllowResize = value; } }
+        /// <summary>
+        /// 
+        /// </summary>
         public bool FullScreen { get { return mFullScreen; } set { mFullScreen = value; } }
+        /// <summary>
+        /// 
+        /// </summary>
         public int Bpp { get { return mBpp; } set { mBpp = value; } }
 
+        /// <summary>
+        /// Clones the DisplayWindowResource.
+        /// </summary>
+        /// <returns></returns>
         protected override AgateResource Clone()
         {
             DisplayWindowResource res = new DisplayWindowResource(Name);
@@ -75,6 +97,10 @@ namespace ERY.AgateLib.Resources
             return res;
         }
 
+        /// <summary>
+        /// Constructs a new DisplayWindowResource.
+        /// </summary>
+        /// <param name="name"></param>
         public DisplayWindowResource(string name) : base (name)
         {
         }
