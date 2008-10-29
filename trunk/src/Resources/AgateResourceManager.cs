@@ -167,12 +167,19 @@ namespace ERY.AgateLib.Resources
         public void Load(Stream stream)
         {
             XmlDocument doc = new XmlDocument();
-            doc.Load(stream);
+            try
+            {
+                doc.Load(stream);
+            }
+            catch (XmlException e)
+            {
+                throw new AgateResourceException("The XML resource file is malformed.", e);
+            }
 
             XmlNode root = doc.ChildNodes[0];
 
             if (root.Attributes["Version"] == null)
-                throw new InvalidDataException("XML Resource file does not contain version attibute.");
+                throw new AgateResourceException("XML resource file does not contain the required version attibute.");
 
             string version = root.Attributes["Version"].Value;
 
@@ -205,11 +212,19 @@ namespace ERY.AgateLib.Resources
 
         private void ReadNodes(ResourceGroup group, XmlNode parentNode, string version)
         {
-            for (int i = 0; i < parentNode.ChildNodes.Count; i++)
+            try
             {
-                XmlNode node = parentNode.ChildNodes[i];
+                for (int i = 0; i < parentNode.ChildNodes.Count; i++)
+                {
+                    XmlNode node = parentNode.ChildNodes[i];
 
-                ReadNode(group, node, version);
+                    ReadNode(group, node, version);
+                }
+            }
+            catch (Exception e)
+            {
+                throw new AgateResourceException("An error occurred while reading XML resource file: \r\n"
+                    + e.Message, e);
             }
         }
         private void ReadNode(ResourceGroup group, XmlNode node, string version)
