@@ -532,7 +532,7 @@ namespace ERY.AgateLib.OpenGL
         #region DetectUnixKernel()
 
         /// <summary>
-        /// Borrowed from OpenTK source
+        /// Borrowed from OpenTK source.  
         /// Executes "uname" which returns a string representing the name of the
         /// underlying Unix kernel.
         /// </summary>
