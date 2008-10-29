@@ -21,10 +21,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.ImplBase;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib.BitmapFont
+namespace AgateLib.BitmapFont
 {
     /// <summary>
     /// Provides a basic implementation for the use of non-system fonts provided

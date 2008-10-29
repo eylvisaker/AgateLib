@@ -23,17 +23,19 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Drivers;
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.ImplBase;
-using ERY.AgateLib.WinForms;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Drivers;
+using AgateLib.Geometry;
+using AgateLib.ImplBase;
+using AgateLib.Input;
+using AgateLib.WinForms;
 
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
 
-namespace ERY.AgateLib.OpenGL
+namespace AgateLib.Display.OpenGL
 {
     public sealed class GL_DisplayControl : DisplayWindowImpl, GL_IRenderTarget
     {
@@ -77,7 +79,7 @@ namespace ERY.AgateLib.OpenGL
                 mChooseWidth = mRenderTarget.ClientSize.Width;
                 mChooseHeight = mRenderTarget.ClientSize.Height;
 
-                mDisplay = Display.Impl as GL_Display;
+                mDisplay = AgateDisplay.Impl as GL_Display;
 
                 mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
                 mContext = new GraphicsContext(
@@ -107,7 +109,7 @@ namespace ERY.AgateLib.OpenGL
                 else
                     CreateWindowedDisplay();
 
-                mDisplay = Display.Impl as GL_Display;
+                mDisplay = AgateDisplay.Impl as GL_Display;
                 mDisplay.InitializeGL();
 
             }
@@ -163,7 +165,7 @@ namespace ERY.AgateLib.OpenGL
             if (oldcontext != null)                oldcontext.Dispose();
             if (oldForm != null)                oldForm.Dispose();
 
-            Core.IsActive = true;
+            AgateCore.IsActive = true;
         }
 
         private void CreateWindowedDisplay()
@@ -204,7 +206,7 @@ namespace ERY.AgateLib.OpenGL
             if (oldcontext != null) oldcontext.Dispose();
             if (oldForm != null) oldForm.Dispose();
 
-            Core.IsActive = true;
+            AgateCore.IsActive = true;
         }
 
 

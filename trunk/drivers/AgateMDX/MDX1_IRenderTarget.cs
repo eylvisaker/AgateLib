@@ -19,9 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ERY.AgateLib.ImplBase;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib.MDX
+namespace AgateLib.MDX
 {
     public interface MDX1_IRenderTarget : IRenderTargetImpl 
     {

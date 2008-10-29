@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.Gui;
-using ERY.AgateLib.Gui.Styles;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.Gui;
+using AgateLib.Gui.Styles;
 
 namespace GuiTest
 {
@@ -57,23 +58,23 @@ namespace GuiTest
 
                 while (wind.IsClosed == false)
                 {
-                    Display.BeginFrame();
-                    Display.Clear(Color.Gray);
+                    AgateDisplay.BeginFrame();
+                    AgateDisplay.Clear(Color.Gray);
 
                     gui.Draw();
 
                     
-                    Display.EndFrame();
-                    Core.KeepAlive();
+                    AgateDisplay.EndFrame();
+                    AgateCore.KeepAlive();
                 }
             }
         }
 
         static void btn_Click(object sender, EventArgs e)
         {
-            Display.BeginFrame();
-            Display.Clear(Color.Blue);
-            Display.EndFrame();
+            AgateDisplay.BeginFrame();
+            AgateDisplay.Clear(Color.Blue);
+            AgateDisplay.EndFrame();
         }
     }
 }

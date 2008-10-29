@@ -24,10 +24,12 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using AgateLib.Display;
+
 using OpenTK.Graphics;
 using OTKPixelFormat = OpenTK.Graphics.PixelFormat;
 
-namespace ERY.AgateLib.OpenGL
+namespace AgateLib.Display.OpenGL
 {
     using Drivers;
     using Geometry;
@@ -66,7 +68,7 @@ namespace ERY.AgateLib.OpenGL
 
         public GL_Surface(string filename)
         {
-            mDisplay = Display.Impl as GL_Display;
+            mDisplay = AgateDisplay.Impl as GL_Display;
             mState = mDisplay.State;
 
             mFilename = filename;
@@ -75,7 +77,7 @@ namespace ERY.AgateLib.OpenGL
         }
         public GL_Surface(Stream st)
         {
-            mDisplay = Display.Impl as GL_Display;
+            mDisplay = AgateDisplay.Impl as GL_Display;
             mState = mDisplay.State;
 
             // Load The Bitmap
@@ -85,7 +87,7 @@ namespace ERY.AgateLib.OpenGL
         }
         public GL_Surface(Size size)
         {
-            mDisplay = Display.Impl as GL_Display;
+            mDisplay = AgateDisplay.Impl as GL_Display;
             mState = mDisplay.State;
 
             mSourceRect = new Rectangle(Point.Empty, size);
@@ -127,7 +129,7 @@ namespace ERY.AgateLib.OpenGL
        
         private GL_Surface(int textureID, Rectangle sourceRect, Size textureSize)
         {
-            mDisplay = Display.Impl as GL_Display;
+            mDisplay = AgateDisplay.Impl as GL_Display;
             mState = mDisplay.State;
 
             AddTextureRef(textureID);

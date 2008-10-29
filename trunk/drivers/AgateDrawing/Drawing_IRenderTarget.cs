@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using ERY.AgateLib.ImplBase;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib.SystemDrawing
+namespace AgateLib.Display.SystemDrawing
 {
     public interface Drawing_IRenderTarget : IRenderTargetImpl
     {

@@ -23,7 +23,7 @@ using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
-namespace ERY.AgateLib.MDX
+namespace AgateLib.MDX
 {
     /// <summary>
     /// Perhaps at some point this should be converted to use a vertex buffer

@@ -25,9 +25,10 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using ERY.AgateLib.ImplBase;
+using AgateLib.Display;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib.SystemDrawing
+namespace AgateLib.Display.SystemDrawing
 {
     using WinForms;
 
@@ -44,7 +45,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         public Drawing_Surface(string fileName)
         {
-            mDisplay = Display.Impl as Drawing_Display;
+            mDisplay = AgateDisplay.Impl as Drawing_Display;
 
             mImage = (Bitmap)Image.FromFile(fileName);
             ConvertImage();
@@ -53,7 +54,7 @@ namespace ERY.AgateLib.SystemDrawing
         }
         public Drawing_Surface(Stream st)
         {
-            mDisplay = Display.Impl as Drawing_Display;
+            mDisplay = AgateDisplay.Impl as Drawing_Display;
 
             mImage = (Bitmap)Bitmap.FromStream(st);
             ConvertImage();
@@ -75,7 +76,7 @@ namespace ERY.AgateLib.SystemDrawing
         }
         public Drawing_Surface(Bitmap image, Rectangle sourceRect)
         {
-            mDisplay = Display.Impl as Drawing_Display;
+            mDisplay = AgateDisplay.Impl as Drawing_Display;
 
             // copy the pixels from the srcRect
             mImage = new Bitmap(sourceRect.Width, sourceRect.Height);
@@ -91,7 +92,7 @@ namespace ERY.AgateLib.SystemDrawing
         }
         public Drawing_Surface(Geometry.Size sz)
         {
-            mDisplay = Display.Impl as Drawing_Display;
+            mDisplay = AgateDisplay.Impl as Drawing_Display;
 
             mImage = new Bitmap(sz.Width, sz.Height);
 
@@ -138,7 +139,7 @@ namespace ERY.AgateLib.SystemDrawing
 
             System.Diagnostics.Debug.Assert(mImage != null);
 
-            Drawing_Display disp = Display.Impl as Drawing_Display;
+            Drawing_Display disp = AgateDisplay.Impl as Drawing_Display;
             Graphics g = disp.FrameGraphics;
             GraphicsState state = g.Save();
             Geometry.PointF translatePoint = Origin.CalcF(DisplayAlignment, DisplaySize);
@@ -228,7 +229,7 @@ namespace ERY.AgateLib.SystemDrawing
             mDisplay.CheckInFrame("Surface.Draw");
             System.Diagnostics.Debug.Assert(mImage != null);
 
-            Drawing_Display disp = Display.Impl as Drawing_Display;
+            Drawing_Display disp = AgateDisplay.Impl as Drawing_Display;
             Graphics g = disp.FrameGraphics;
 
             Point[] pts = new Point[destPts.Length];
@@ -258,7 +259,7 @@ namespace ERY.AgateLib.SystemDrawing
 
         public override bool IsSurfaceBlank()
         {
-            return IsSurfaceBlank((int)(Display.AlphaThreshold * 255.0));
+            return IsSurfaceBlank((int)(AgateDisplay.AlphaThreshold * 255.0));
         }
         public override bool IsSurfaceBlank(int alphaThreshold)
         {
@@ -278,7 +279,7 @@ namespace ERY.AgateLib.SystemDrawing
 
 
             bool retval = IsRowBlankScanARGB(bmp.Scan0, row, bmp.Width, bmp.Stride,
-                (int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
+                (int)(AgateDisplay.AlphaThreshold * 255.0), 0xff000000, 24);
 
             mImage.UnlockBits(bmp);
 
@@ -291,7 +292,7 @@ namespace ERY.AgateLib.SystemDrawing
 
 
             bool retval = IsColBlankScanARGB(bmp.Scan0, col, bmp.Height, bmp.Stride,
-                (int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
+                (int)(AgateDisplay.AlphaThreshold * 255.0), 0xff000000, 24);
 
             mImage.UnlockBits(bmp);
 
@@ -377,7 +378,7 @@ namespace ERY.AgateLib.SystemDrawing
             mImage.UnlockBits(data);
         }
 
-        public override void WritePixels(PixelBuffer buffer, ERY.AgateLib.Geometry.Point startPoint)
+        public override void WritePixels(PixelBuffer buffer, AgateLib.Geometry.Point startPoint)
         {
             throw new NotImplementedException("Method not implemented.");
         }

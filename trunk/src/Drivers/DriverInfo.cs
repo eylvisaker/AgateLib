@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib.Drivers
+namespace AgateLib.Drivers
 {
     /// <summary>
     /// Class which describes what's required to instantiate a driver.

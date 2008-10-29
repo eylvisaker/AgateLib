@@ -3,7 +3,7 @@
 //
 namespace TimerTester
 {
-    partial class Form1
+    partial class frmTimerTester
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@ namespace TimerTester
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTimerTester));
             this.label1 = new System.Windows.Forms.Label();
             this.txtTimer = new System.Windows.Forms.TextBox();
             this.btnPause = new System.Windows.Forms.Button();

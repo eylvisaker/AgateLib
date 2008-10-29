@@ -22,7 +22,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace ERY.AgateLib.Resources
+namespace AgateLib.Resources
 {
     /// <summary>
     /// Class which represents a resource.

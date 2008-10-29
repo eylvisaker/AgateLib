@@ -21,9 +21,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-using ERY.AgateLib;
+using AgateLib;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib.Drivers
+namespace AgateLib.Drivers
 {
     /// <summary>
     /// Class which contains a list of drivers and the code required to

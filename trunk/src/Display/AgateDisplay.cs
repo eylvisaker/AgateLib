@@ -21,20 +21,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using ERY.AgateLib.Drivers;
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.ImplBase;
-using ERY.AgateLib.Utility;
+using AgateLib.Core;
+using AgateLib.Drivers;
+using AgateLib.Geometry;
+using AgateLib.ImplBase;
+using AgateLib.Utility;
 
-namespace ERY.AgateLib
+namespace AgateLib.Display
 {
     /// <summary>
-    /// Static class which contains all basic functions for drawing onto the display.
+    /// Static class which contains all basic functions for drawing onto the AgateDisplay.
     /// This class is most central to game rendering.  At the beginning and end of each frame
-    /// Display.BeginFrame() and Display.EndFrame() must be called.  All drawing calls must
+    /// AgateDisplay.BeginFrame() and AgateDisplay.EndFrame() must be called.  All drawing calls must
     /// occur between BeginFrame and EndFrame.
     /// 
-    /// Display.Dispose() must be called before the program exits.
+    /// AgateDisplay.Dispose() must be called before the program exits.
     /// 
     /// </summary>
     /// 
@@ -42,17 +43,17 @@ namespace ERY.AgateLib
     /// <code>
     /// void MyRenderLoop()
     /// {
-    ///     Display.BeginFrame();
-    ///     Display.Clear(Color.Black);
+    ///     AgateDisplay.BeginFrame();
+    ///     AgateDisplay.Clear(Color.Black);
     /// 
-    ///     Display.DrawRect(new Rectangle(10, 10, 30, 30), Color.Red);
+    ///     AgateDisplay.DrawRect(new Rectangle(10, 10, 30, 30), Color.Red);
     /// 
-    ///     Display.EndFrame();
+    ///     AgateDisplay.EndFrame();
     ///     Core.KeepAlive();
     /// }
     /// </code>
     /// </example>
-    public static class Display 
+    public static class AgateDisplay 
     {
         private static DisplayImpl impl;
         private static DisplayWindow mCurrentWindow;
@@ -81,7 +82,7 @@ namespace ERY.AgateLib
         /// <param name="displayType"></param>
         public static void Initialize(DisplayTypeID displayType)
         {
-            Core.Initialize();
+            AgateCore.Initialize();
 
             impl = Registrar.DisplayDriverInfo.CreateDriver(displayType);
 
@@ -89,7 +90,7 @@ namespace ERY.AgateLib
 
         }
         /// <summary>
-        /// Disposes of the display.
+        /// Disposes of the AgateDisplay.
         /// </summary>
         public static void Dispose()
         {
@@ -123,12 +124,12 @@ namespace ERY.AgateLib
 
 
         /// <summary>
-        /// Delegate type for functions which are called when Display.Dispose is called
+        /// Delegate type for functions which are called when AgateDisplay.Dispose is called
         /// at the end of execution of the program.
         /// </summary>
         public delegate void DisposeDisplayHandler();
         /// <summary>
-        /// Event that is called when Display.Dispose() is invoked, to shut down the
+        /// Event that is called when AgateDisplay.Dispose() is invoked, to shut down the
         /// display system and release all resources.
         /// </summary>
         public static event DisposeDisplayHandler DisposeDisplay;
@@ -362,7 +363,7 @@ namespace ERY.AgateLib
         /// 
         /// If you use this, it is best to load all your surfaces into memory, 
         /// mark any you don't want packed (surfaces which may be used as render targets,
-        /// for example), then call Display.PackAllSurfaces().
+        /// for example), then call AgateDisplay.PackAllSurfaces().
         /// </summary>
         public static void PackAllSurfaces()
         {
@@ -427,7 +428,7 @@ namespace ERY.AgateLib
 
         /// <summary>
         /// When using Direct3D or OpenGL, calls to Surface.Draw are cached to be sent to 
-        /// the 3D API all as a batch.  Calling Display.FlushDrawBuffer forces all cached
+        /// the 3D API all as a batch.  Calling AgateDisplay.FlushDrawBuffer forces all cached
         /// vertices to be sent to the rendering system.  You should not need to call this
         /// function in normal operation of your application.
         /// </summary>
@@ -653,7 +654,7 @@ namespace ERY.AgateLib
             impl.SavePixelBuffer(pixelBuffer, filename, format);
         }
 
-        internal static ERY.AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
+        internal static AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
         {
             return impl.GetPlatformServices();
         }

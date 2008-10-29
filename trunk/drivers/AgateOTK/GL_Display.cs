@@ -23,15 +23,16 @@ using System.IO;
 using System.Text;
 using System.Runtime.InteropServices;
 
-using ERY.AgateLib;
-using ERY.AgateLib.BitmapFont;
-using ERY.AgateLib.Drivers;
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.ImplBase;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.BitmapFont;
+using AgateLib.Drivers;
+using AgateLib.Geometry;
+using AgateLib.ImplBase;
 
 using OpenTK.Graphics;
 
-namespace ERY.AgateLib.OpenGL
+namespace AgateLib.Display.OpenGL
 {
     public sealed class GL_Display : DisplayImpl, IDisplayCaps, PlatformSpecific.IPlatformServices 
     {
@@ -500,11 +501,11 @@ namespace ERY.AgateLib.OpenGL
 
         #region IPlatformServices Members
 
-        protected override ERY.AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
+        protected override AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
         {
             return this;
         }
-        PlatformType ERY.AgateLib.PlatformSpecific.IPlatformServices.PlatformType
+        PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
         {
             get
             {

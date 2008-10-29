@@ -41,7 +41,7 @@ namespace LightingTest
             this.enableLightingCheck = new System.Windows.Forms.CheckBox();
             this.lblFPS = new System.Windows.Forms.Label();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.agateRenderTarget1 = new ERY.AgateLib.WinForms.AgateRenderTarget();
+            this.agateRenderTarget1 = new AgateLib.WinForms.AgateRenderTarget();
             this.chkSurfaceGradient = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAngle)).BeginInit();
@@ -234,7 +234,7 @@ namespace LightingTest
 
         private System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.CheckBox enableLightingCheck;
-        public ERY.AgateLib.WinForms.AgateRenderTarget agateRenderTarget1;
+        public AgateLib.WinForms.AgateRenderTarget agateRenderTarget1;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.NumericUpDown nudTess;
         public System.Windows.Forms.CheckBox chkMoveLight;

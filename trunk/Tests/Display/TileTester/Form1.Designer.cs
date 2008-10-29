@@ -29,7 +29,7 @@ namespace TileTester
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.agateRenderTarget1 = new ERY.AgateLib.WinForms.AgateRenderTarget();
+            this.agateRenderTarget1 = new AgateLib.WinForms.AgateRenderTarget();
             this.chkScrollX = new System.Windows.Forms.CheckBox();
             this.chkScrollY = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
@@ -81,7 +81,7 @@ namespace TileTester
 
         #endregion
 
-        private ERY.AgateLib.WinForms.AgateRenderTarget agateRenderTarget1;
+        private AgateLib.WinForms.AgateRenderTarget agateRenderTarget1;
         private System.Windows.Forms.CheckBox chkScrollX;
         private System.Windows.Forms.CheckBox chkScrollY;
     }

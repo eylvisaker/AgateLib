@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
-using ERY.AgateLib;
-using ERY.AgateLib.BitmapFont;
-using ERY.AgateLib.Geometry;
+using AgateLib;
+using AgateLib.BitmapFont;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.Input;
 
 namespace BitmapFontTester
 {
@@ -28,10 +31,10 @@ namespace BitmapFontTester
 
                 DisplayWindow wind = new DisplayWindow("Bitmap Font Tester", 800, 600, false, false);
 
-                Display.BeginFrame();
-                Display.Clear(Color.Navy);
-                Display.EndFrame();
-                Core.KeepAlive();
+                AgateDisplay.BeginFrame();
+                AgateDisplay.Clear(Color.Navy);
+                AgateDisplay.EndFrame();
+                AgateCore.KeepAlive();
 
                 BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 14, FontStyle.Bold);
                 fontOptions.UseTextRenderer = true;
@@ -50,15 +53,15 @@ namespace BitmapFontTester
 
                 while (wind.IsClosed == false)
                 {
-                    Display.BeginFrame();
-                    Display.Clear(Color.Navy);
+                    AgateDisplay.BeginFrame();
+                    AgateDisplay.Clear(Color.Navy);
 
                     font.DrawText("Chonk");
 
                     second.DrawText(0, 70, "sdlkfj");
 
-                    Display.EndFrame();
-                    Core.KeepAlive();
+                    AgateDisplay.EndFrame();
+                    AgateCore.KeepAlive();
                 }
             }
         }

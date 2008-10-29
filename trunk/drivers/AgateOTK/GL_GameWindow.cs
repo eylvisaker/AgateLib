@@ -20,13 +20,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.ImplBase;
-using ERY.AgateLib.Geometry;
+using AgateLib.Display;
+using AgateLib.ImplBase;
+using AgateLib.Input;
+using AgateLib.Geometry;
 
 using OpenTK;
 using OpenTK.Graphics;
 
-namespace ERY.AgateLib.OpenGL
+namespace AgateLib.Display.OpenGL
 {
     class GL_GameWindow : DisplayWindowImpl, GL_IRenderTarget
     {
@@ -188,7 +190,7 @@ namespace ERY.AgateLib.OpenGL
             else
                 CreateWindowedDisplay();
 
-            mDisplay = Display.Impl as GL_Display;
+            mDisplay = AgateDisplay.Impl as GL_Display;
             mDisplay.InitializeGL();
 
             mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);

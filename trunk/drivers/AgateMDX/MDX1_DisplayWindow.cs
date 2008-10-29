@@ -26,11 +26,14 @@ using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.ImplBase;
-using ERY.AgateLib.WinForms;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.ImplBase;
+using AgateLib.Input;
+using AgateLib.WinForms;
 
-namespace ERY.AgateLib.MDX
+namespace AgateLib.MDX
 {
     public class MDX1_DisplayWindow : DisplayWindowImpl, MDX1_IRenderTarget
     {
@@ -71,7 +74,7 @@ namespace ERY.AgateLib.MDX
                 mChooseWidth = mRenderTarget.ClientSize.Width;
                 mChooseHeight = mRenderTarget.ClientSize.Height;
 
-                mDisplay = Display.Impl as MDX1_Display;
+                mDisplay = AgateDisplay.Impl as MDX1_Display;
                 mDisplay.Initialize(this);
                 mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
 
@@ -92,7 +95,7 @@ namespace ERY.AgateLib.MDX
 
                 CreateWindow(mChooseFullscreen);
 
-                mDisplay = Display.Impl as MDX1_Display;
+                mDisplay = AgateDisplay.Impl as MDX1_Display;
                 mDisplay.Initialize(this);
                 mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
 
@@ -301,7 +304,7 @@ namespace ERY.AgateLib.MDX
 
             AttachEvents();
 
-            Core.IsActive = true;
+            AgateCore.IsActive = true;
             mIsFullscreen = false;
         }
 
@@ -335,7 +338,7 @@ namespace ERY.AgateLib.MDX
 
             AttachEvents();
             mIsFullscreen = true;
-            Core.IsActive = true;
+            AgateCore.IsActive = true;
         }
 
 

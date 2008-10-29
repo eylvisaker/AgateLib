@@ -23,17 +23,19 @@ using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
-using ERY.AgateLib.BitmapFont;
-using ERY.AgateLib.Drivers;
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.ImplBase;
+using AgateLib.BitmapFont;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Drivers;
+using AgateLib.Geometry;
+using AgateLib.ImplBase;
+using AgateLib.WinForms;
 
 using Vector2 = Microsoft.DirectX.Vector2;
+using ImageFileFormat = AgateLib.Display.ImageFileFormat;
 
-namespace ERY.AgateLib.MDX
+namespace AgateLib.MDX
 {
-    using WinForms;
-
     public class MDX1_Display : DisplayImpl, IDisplayCaps, PlatformSpecific.IPlatformServices 
     {
         #region --- Private Variables ---
@@ -59,7 +61,7 @@ namespace ERY.AgateLib.MDX
         {
             Report("Managed DirectX 1.1 driver instantiated for display.");
 
-            Sprite.UseSpriteCache = true;
+            Sprites.Old.Sprite.UseSpriteCache = true;
         }
 
 
@@ -830,11 +832,11 @@ namespace ERY.AgateLib.MDX
 
         #region IPlatformServices Members
 
-        protected override ERY.AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
+        protected override AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
         {
             return this;
         }
-        PlatformType ERY.AgateLib.PlatformSpecific.IPlatformServices.PlatformType
+        PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
         {
             get { return PlatformType.Windows; }
         }

@@ -20,9 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.Geometry;
+using AgateLib.Display;
+using AgateLib.Geometry;
 
-namespace ERY.AgateLib.ImplBase
+namespace AgateLib.ImplBase
 {
     /// <summary>
     /// Base class for implementing a Surface structure.
@@ -317,7 +318,7 @@ namespace ERY.AgateLib.ImplBase
         public abstract SurfaceImpl CarveSubSurface(Surface surface, Rectangle srcRect);
 
         /// <summary>
-        /// Used by Display.BuildPackedSurface.
+        /// Used by AgateDisplay.BuildPackedSurface.
         /// </summary>
         /// <param name="surf"></param>
         /// <param name="srcRect"></param>
@@ -381,7 +382,7 @@ namespace ERY.AgateLib.ImplBase
 
         /// <summary>
         /// Gets or sets a bool value which indicates whether or not this surface
-        /// should be considered for packing when Display.PackAllSurfaces() is 
+        /// should be considered for packing when AgateDisplay.PackAllSurfaces() is 
         /// called.
         /// </summary>
         public bool ShouldBePacked

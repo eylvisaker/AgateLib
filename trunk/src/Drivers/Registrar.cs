@@ -20,10 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using ERY.AgateLib.ImplBase;
-using ERY.AgateLib.PlatformSpecific;
 
-namespace ERY.AgateLib.Drivers
+using AgateLib.Core;
+using AgateLib.ImplBase;
+using AgateLib.PlatformSpecific;
+
+namespace AgateLib.Drivers
 {
     /// <summary>
     /// Static class with which drivers register themselves so that the library can
@@ -80,7 +82,7 @@ namespace ERY.AgateLib.Drivers
                          Environment.OSVersion.Platform == (PlatformID)128) &&
                         System.IO.Path.GetFileNameWithoutExtension(file).ToLower().Contains("agatemdx"))
                     {
-                        Core.ReportError(ErrorLevel.Comment,
+                        AgateCore.ReportError(ErrorLevel.Comment,
                             "DirectX not supported on Linux.  Remove "
                             + System.IO.Path.GetFileName(file) +
                             " to eliminate this message.", null);
@@ -123,14 +125,14 @@ namespace ERY.AgateLib.Drivers
                 }
                 catch (ReflectionTypeLoadException e)
                 {
-                    Core.ReportError(ErrorLevel.Warning,
+                    AgateCore.ReportError(ErrorLevel.Warning,
                         "An error occured while loading assembly " + file + ".  " +
                         "The following " + e.LoaderExceptions.Length + " warnings are the LoaderExceptions.",
                         e);
 
                     for (int i = 0; i < e.LoaderExceptions.Length; i++)
                     {
-                        Core.ReportError(ErrorLevel.Warning,
+                        AgateCore.ReportError(ErrorLevel.Warning,
                             "LoaderException " + (i + 1).ToString(),
                             e.LoaderExceptions[i]);
                     }
@@ -139,7 +141,7 @@ namespace ERY.AgateLib.Drivers
                 }
                 catch (Exception e)
                 {
-                    Core.ReportError(ErrorLevel.Warning, "An error occured while loading assembly " + file + ".", e);
+                    AgateCore.ReportError(ErrorLevel.Warning, "An error occured while loading assembly " + file + ".", e);
 
                     continue;
                 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ERY.AgateLib
+namespace AgateLib.Display
 {
     using Geometry;
 

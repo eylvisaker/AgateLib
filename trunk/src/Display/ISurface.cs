@@ -17,9 +17,9 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System;
-using ERY.AgateLib.Geometry;
+using AgateLib.Geometry;
 
-namespace ERY.AgateLib
+namespace AgateLib.Display
 {
     /// <summary>
     /// Public Surface interface.

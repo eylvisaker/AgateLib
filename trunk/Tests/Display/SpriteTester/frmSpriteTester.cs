@@ -8,7 +8,10 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using ERY.AgateLib;
+using AgateLib;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Sprites.Old;
 
 namespace ERY.SpriteTester
 {
@@ -73,7 +76,7 @@ namespace ERY.SpriteTester
 
             SetSprite(new Sprite(@"Images/attacke.png", 96, 96));
 
-            Display.PackAllSurfaces();
+            AgateDisplay.PackAllSurfaces();
 
             return true;
 
@@ -145,28 +148,28 @@ namespace ERY.SpriteTester
             if (this.Visible == false)
                 return;
 
-            Display.BeginFrame();
-            Display.Clear(AgateLib.Geometry.Color.Green);
+            AgateDisplay.BeginFrame();
+            AgateDisplay.Clear(AgateLib.Geometry.Color.Green);
 
 
             // draw the grid
             AgateLib.Geometry.Color clr = AgateLib.Geometry.Color.FromArgb(0, 164, 0);
 
             for (int x = 0; x < pctGraphics.Width; x += 16)
-                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, x, Display.RenderTarget.Height), clr);
+                AgateDisplay.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, x, AgateDisplay.RenderTarget.Height), clr);
 
             for (int y = 0; y < pctGraphics.Height; y += 16)
-                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, Display.RenderTarget.Width, y), clr);
+                AgateDisplay.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, AgateDisplay.RenderTarget.Width, y), clr);
 
 
             int crossSize = 5;
 
-            Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition, mSprite.DisplaySize), AgateLib.Geometry.Color.Red);
+            AgateDisplay.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition, mSprite.DisplaySize), AgateLib.Geometry.Color.Red);
 
             // draw cross
-            Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X - crossSize, mSpritePosition.Y, crossSize * 2+1, 1), 
+            AgateDisplay.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X - crossSize, mSpritePosition.Y, crossSize * 2+1, 1), 
                 AgateLib.Geometry.Color.White);
-            Display.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X, mSpritePosition.Y - crossSize, 1, crossSize * 2+1), 
+            AgateDisplay.DrawRect(new AgateLib.Geometry.Rectangle(mSpritePosition.X, mSpritePosition.Y - crossSize, 1, crossSize * 2+1), 
                 AgateLib.Geometry.Color.White);
 
             mSprite.Update();
@@ -174,9 +177,9 @@ namespace ERY.SpriteTester
 
             //srcSurf.Draw(10, 300);
 
-            Display.EndFrame();
+            AgateDisplay.EndFrame();
 
-            lblFrameRate.Text = "Frame Rate: " + Display.FramesPerSecond.ToString();
+            lblFrameRate.Text = "Frame Rate: " + AgateDisplay.FramesPerSecond.ToString();
         }
 
         private void nudTimePerFrame_ValueChanged(object sender, EventArgs e)
@@ -293,7 +296,7 @@ namespace ERY.SpriteTester
 
         private void chkVSync_CheckedChanged(object sender, EventArgs e)
         {
-            Display.VSync = chkVSync.Checked;
+            AgateDisplay.VSync = chkVSync.Checked;
         }
 
     }

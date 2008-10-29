@@ -19,9 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ERY.AgateLib.Geometry;
+using AgateLib.Geometry;
 
-namespace ERY.AgateLib
+namespace AgateLib.Display
 {
     /// <summary>
     /// The LightManager class keeps a list of Light objects which can be used
@@ -76,7 +76,7 @@ namespace ERY.AgateLib
         /// </summary>
         public void DoLighting()
         {
-            Display.DoLighting(this);
+            AgateDisplay.DoLighting(this);
         }
         /// <summary>
         /// Gets or sets a flag indicating whether or not lighting calculations should be performed.
@@ -141,7 +141,7 @@ namespace ERY.AgateLib
         /// <param name="item"></param>
         public void Add(Light item)
         {
-            if (mLights.Count >= Display.Caps.MaxLights)
+            if (mLights.Count >= AgateDisplay.Caps.MaxLights)
             {
                 throw new InvalidOperationException("Too many lights!");
             }

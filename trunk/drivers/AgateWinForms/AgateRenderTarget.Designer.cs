@@ -16,7 +16,7 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-namespace ERY.AgateLib.WinForms
+namespace AgateLib.WinForms
 {
     public partial class AgateRenderTarget
     {

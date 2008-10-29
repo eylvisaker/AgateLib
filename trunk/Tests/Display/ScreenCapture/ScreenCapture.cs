@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
+
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.Input;
 
 namespace AgateTest
 {
@@ -13,7 +16,7 @@ namespace AgateTest
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        [STAThread]
+        //[STAThread]
         //static void Main()
         //{
         //    using (AgateSetup setup = new AgateSetup())
@@ -40,16 +43,16 @@ namespace AgateTest
         //        while (displayWindow1.IsClosed == false)
         //        {
         //            if (capturing)
-        //                Display.RenderTarget = captureSurface;
+        //                AgateDisplay.RenderTarget = captureSurface;
         //            else
-        //                Display.RenderTarget = displayWindow1;
+        //                AgateDisplay.RenderTarget = displayWindow1;
 
-        //            Display.BeginFrame();
+        //            AgateDisplay.BeginFrame();
 
-        //            Display.Clear();
+        //            AgateDisplay.Clear();
         //            for (int i = 0; i < 50; i++)
         //            {
-        //                Display.FillRect(new ERY.AgateLib.Geometry.Rectangle(
+        //                AgateDisplay.FillRect(new ERY.AgateLib.Geometry.Rectangle(
         //                    rnd.Next(0, 100), fontHeight * 2 + image.DisplayHeight + rnd.Next(0, 100),
         //                    rnd.Next(100, 200), rnd.Next(100, 200)),
         //                    Color.FromArgb(rnd.Next(0, 255), rnd.Next(0, 255), rnd.Next(0, 255), rnd.Next(0, 255)));
@@ -61,7 +64,7 @@ namespace AgateTest
         //            font.DrawText("Click to capture image.");
         //            font.DrawText(0, fontHeight, captureString);
 
-        //            Display.EndFrame();
+        //            AgateDisplay.EndFrame();
 
         //            if (capturing)
         //            {
@@ -114,29 +117,29 @@ namespace ScreenCaptureExample
 
                 while (displayWindow1.IsClosed == false)
                 {
-                    if (ERY.AgateLib.Keyboard.Keys[KeyCode.C])
+                    if (Keyboard.Keys[KeyCode.C])
                     {
                         capturing = true;
-                        ERY.AgateLib.Keyboard.ReleaseKey(KeyCode.C);
+                        Keyboard.ReleaseKey(KeyCode.C);
                     }
                     if (capturing)
                     {
-                        Display.RenderTarget = captureSurface;
+                        AgateDisplay.RenderTarget = captureSurface;
                         someSurface.SetScale(2, 2);
                     }
 
-                    Display.BeginFrame();
+                    AgateDisplay.BeginFrame();
 
-                    Display.Clear(ERY.AgateLib.Geometry.Color.White);
+                    AgateDisplay.Clear(Color.White);
 
                     someSurface.Draw();
 
-                    Display.EndFrame();
+                    AgateDisplay.EndFrame();
 
                     if (capturing)
                     {
                         captureSurface.SaveTo("CapturedImage.png", ImageFileFormat.Png);
-                        Display.RenderTarget = displayWindow1;
+                        AgateDisplay.RenderTarget = displayWindow1;
                         someSurface.SetScale(1, 1);
                         capturing = false;
 
@@ -144,7 +147,7 @@ namespace ScreenCaptureExample
                     }
 
                     // KeepAlive processes events.
-                    Core.KeepAlive();
+                    AgateCore.KeepAlive();
                     System.Threading.Thread.Sleep(10);
                 }
             }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib
+namespace AgateLib
 {
     /// <summary>
     /// Base exception class for exceptions which are thrown by AgateLib.

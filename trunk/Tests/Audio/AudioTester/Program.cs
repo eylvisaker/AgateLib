@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace ERY.AudioTester
+namespace AudioTester
 {
     static class Program
     {
@@ -18,7 +18,7 @@ namespace ERY.AudioTester
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using (ERY.AgateLib.AgateSetup setup = new ERY.AgateLib.AgateSetup("Agate Audio Tester", args))
+            using (AgateLib.Core.AgateSetup setup = new AgateLib.Core.AgateSetup("Agate Audio Tester", args))
             {
                 setup.AskUser = true;
                 setup.Initialize(false, true, false);

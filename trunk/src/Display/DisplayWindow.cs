@@ -20,10 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.ImplBase;
+using AgateLib.Geometry;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib
+namespace AgateLib.Display
 {
     /// <summary>
     /// A class representing a screen region which is used as a RenderTarget.
@@ -58,18 +58,18 @@ namespace ERY.AgateLib
                 CreateWindowParams par = CreateWindowParams.FullScreen(
                     disp.Title, disp.Size.Width, disp.Size.Height, disp.Bpp);
 
-                impl = Display.Impl.CreateDisplayWindow(par);
+                impl = AgateDisplay.Impl.CreateDisplayWindow(par);
             }
             else
             {
                 CreateWindowParams par = CreateWindowParams.Windowed(
                     disp.Title, disp.Size.Width, disp.Size.Height, null, disp.AllowResize);
 
-                impl = Display.Impl.CreateDisplayWindow(par);
+                impl = AgateDisplay.Impl.CreateDisplayWindow(par);
             }
 
-            Display.RenderTarget = this;
-            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            AgateDisplay.RenderTarget = this;
+            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
         }
         /// <summary>
         /// Creates a DisplayWindow object using the specified CreateWindowParams to create
@@ -78,15 +78,15 @@ namespace ERY.AgateLib
         /// <param name="windowParams"></param>
         public DisplayWindow(CreateWindowParams windowParams)
         {
-            if (Display.Impl == null)
+            if (AgateDisplay.Impl == null)
                 throw new NullReferenceException(
                     "Display has not been initialized." + Environment.NewLine + 
-                    "Did you forget to call AgateSetup.Initialize or Display.Initialize?");
+                    "Did you forget to call AgateSetup.Initialize or AgateDisplay.Initialize?");
 
-            impl = Display.Impl.CreateDisplayWindow(windowParams);
+            impl = AgateDisplay.Impl.CreateDisplayWindow(windowParams);
 
-            Display.RenderTarget = this;
-            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            AgateDisplay.RenderTarget = this;
+            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
         }
         /// <summary>
         /// Creates a DisplayWindow object using the specified System.Windows.Forms.Control
@@ -113,15 +113,15 @@ namespace ERY.AgateLib
         /// render target.</param>
         public DisplayWindow(object renderTarget)
         {
-            if (Display.Impl == null)
+            if (AgateDisplay.Impl == null)
                 throw new NullReferenceException(
                     "Display has not been initialized." + Environment.NewLine +
-                    "Did you forget to call AgateSetup.Initialize or Display.Initialize?");
+                    "Did you forget to call AgateSetup.Initialize or AgateDisplay.Initialize?");
 
-            impl = Display.Impl.CreateDisplayWindow(CreateWindowParams.FromControl(renderTarget));
+            impl = AgateDisplay.Impl.CreateDisplayWindow(CreateWindowParams.FromControl(renderTarget));
 
-            Display.RenderTarget = this;
-            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            AgateDisplay.RenderTarget = this;
+            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
         }
         /// <summary>
         /// Creates a DisplayWindow object by creating a windowed Form.
@@ -178,18 +178,18 @@ namespace ERY.AgateLib
         [Obsolete("Use the CreateWindowParams overload")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen, bool allowResize)
         {
-            //impl = Display.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, 
+            //impl = AgateDisplay.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, 
             //    FileManager.ImagePath.FindFileName(iconFile), startFullscreen, allowResize);
 
             if (startFullscreen)
-                impl = Display.Impl.CreateDisplayWindow(
+                impl = AgateDisplay.Impl.CreateDisplayWindow(
                     CreateWindowParams.FullScreen(title, clientWidth, clientHeight, 32));
             else
-                impl = Display.Impl.CreateDisplayWindow(
+                impl = AgateDisplay.Impl.CreateDisplayWindow(
                     CreateWindowParams.Windowed(title, clientWidth, clientHeight, iconFile, allowResize));
 
-            Display.RenderTarget = this;
-            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            AgateDisplay.RenderTarget = this;
+            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
         }
 
         /// <summary>
@@ -220,10 +220,10 @@ namespace ERY.AgateLib
         public DisplayWindow(string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize)
             : this(title, clientWidth, clientHeight, "", startFullscreen, allowResize)
         {
-            //impl = Display.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, "", startFullscreen, allowResize);
+            //impl = AgateDisplay.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, "", startFullscreen, allowResize);
 
-            //Display.RenderTarget = this;
-            //Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            //AgateDisplay.RenderTarget = this;
+            //AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
         }
         
         /// <summary>
@@ -331,8 +331,8 @@ namespace ERY.AgateLib
         }
 
         /// <summary>
-        /// Sets the display to a full screen display.  This overload uses the
-        /// desktop resolution for the full-screen display.
+        /// Sets the display to a full screen AgateDisplay.  This overload uses the
+        /// desktop resolution for the full-screen AgateDisplay.
         /// </summary>
         /// <remarks>
         /// This call is not guaranteed to work; some drivers (eg. GDI) don't support 
@@ -344,7 +344,7 @@ namespace ERY.AgateLib
             impl.SetFullScreen();
         }
         /// <summary>
-        /// Sets the display to a full screen display.  The resolution chosen is 
+        /// Sets the display to a full screen AgateDisplay.  The resolution chosen is 
         /// driver/video card/monitor dependent, but it should be fairly close to
         /// values specified.
         /// </summary>

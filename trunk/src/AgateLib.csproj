@@ -73,11 +73,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\Audio.cs" />
+    <Compile Include="Audio\AgateAudio.cs" />
     <Compile Include="Audio\Music.cs" />
     <Compile Include="Audio\SoundBuffer.cs" />
     <Compile Include="Audio\SoundBufferSession.cs" />
-    <Compile Include="Core\AgateException.cs" />
+    <Compile Include="AgateException.cs" />
     <Compile Include="Core\Platform.cs" />
     <Compile Include="Display\CreateWindowParams.cs" />
     <Compile Include="Drivers\IWinForms.cs" />
@@ -92,7 +92,7 @@
     <Compile Include="Geometry\TypeConverters.cs" />
     <Compile Include="Geometry\Vector2.cs" />
     <Compile Include="Geometry\Vector3.cs" />
-    <Compile Include="Core\Core.cs" />
+    <Compile Include="Core\AgateCore.cs" />
     <Compile Include="Core\FileManager.cs" />
     <Compile Include="Drivers\DriverImplBase.cs" />
     <Compile Include="ImplBase\AudioImpl.cs" />
@@ -105,8 +105,8 @@
     <Compile Include="ImplBase\JoystickImpl.cs" />
     <Compile Include="ImplBase\RenderTargetImpl.cs" />
     <Compile Include="ImplBase\SurfaceImpl.cs" />
-    <Compile Include="Input\InputCommand.cs" />
-    <Compile Include="Input\InputState.cs" />
+    <Compile Include="Input\Old\InputCommand.cs" />
+    <Compile Include="Input\Old\InputState.cs" />
     <Compile Include="Drivers\NullInputImpl.cs" />
     <Compile Include="Drivers\NullSoundImpl.cs" />
     <Compile Include="Display\ISurface.cs" />
@@ -152,13 +152,13 @@
     <Compile Include="Geometry\RectangleF.cs" />
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\SizeF.cs" />
-    <Compile Include="Input\Input.cs" />
-    <Compile Include="Input\Joystick.cs" />
-    <Compile Include="Display\Display.cs" />
+    <Compile Include="Input\Old\Input.cs" />
+    <Compile Include="Input\Old\Joystick.cs" />
+    <Compile Include="Display\AgateDisplay.cs" />
     <Compile Include="Display\DisplayWindow.cs" />
     <Compile Include="Display\FontSurface.cs" />
     <Compile Include="Display\IRenderTarget.cs" />
-    <Compile Include="Sprites\OldSprite\SpriteContainer.cs" />
+    <Compile Include="Sprites\Old\SpriteContainer.cs" />
     <Compile Include="Drivers\IUserSetSystems.cs" />
     <Compile Include="Utility\SurfacePacker.cs" />
     <Compile Include="PlatformSpecific\Platform.cs" />
@@ -184,16 +184,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="OldResources\Resource.cs" />
-    <Compile Include="OldResources\ResourceManager.cs" />
+    <Compile Include="Resources\Old\Resource.cs" />
+    <Compile Include="Resources\Old\ResourceManager.cs" />
     <Compile Include="Core\AgateSetup.cs" />
     <Compile Include="Utility\Ref.cs" />
-    <Compile Include="Sprites\OldSprite\Sprite.cs">
+    <Compile Include="Sprites\Old\Sprite.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Display\Surface.cs" />
     <Compile Include="Core\Timing.cs" />
-    <Compile Include="Sprites\OldSprite\SpriteFrame.cs" />
+    <Compile Include="Sprites\Old\SpriteFrame.cs" />
     <Compile Include="Resources\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>

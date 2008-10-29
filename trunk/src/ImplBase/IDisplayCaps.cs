@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib.ImplBase
+namespace AgateLib.ImplBase
 {
     /// <summary>
     /// Interface which allows querying of Display capabilities.

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib.Resources
+namespace AgateLib.Resources
 {
     /// <summary>
     /// AgateException derived exception class used when there is a problem reading

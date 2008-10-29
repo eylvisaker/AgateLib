@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib
+namespace AgateLib.Display
 {
     /// <summary>
     /// Class which contains information about an available screen mode.
@@ -77,7 +77,7 @@ namespace ERY.AgateLib
         /// ScreenMode structure.</returns>
         public static ScreenMode SelectBestMode(int width, int height, int bpp)
         {
-            ScreenMode[] modes = Display.EnumScreenModes();
+            ScreenMode[] modes = AgateDisplay.EnumScreenModes();
 
             ScreenMode selected = null;
             int diff = 0;

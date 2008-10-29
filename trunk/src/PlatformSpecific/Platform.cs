@@ -21,9 +21,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.Drivers;
+using AgateLib.Drivers;
 
-namespace ERY.AgateLib.PlatformSpecific 
+namespace AgateLib.PlatformSpecific 
 {
     /// <summary>
     /// This class encapsulates methods which much be implemented for

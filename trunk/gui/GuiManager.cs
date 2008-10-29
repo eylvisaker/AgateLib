@@ -20,7 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib.Gui
+using AgateLib.Core;
+using AgateLib.Input;
+
+namespace AgateLib.Gui
 {
     public class GuiManager : Container 
     {
@@ -37,7 +40,7 @@ namespace ERY.AgateLib.Gui
             Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
             Keyboard.KeyUp += new InputEventHandler(Keyboard_KeyUp);
 
-            Core.KeepAliveEvent += new Core.KeepAliveDelegate(Update);
+            AgateCore.KeepAliveEvent += new AgateCore.KeepAliveDelegate(Update);
         }
 
 
@@ -49,7 +52,7 @@ namespace ERY.AgateLib.Gui
             Keyboard.KeyDown -= Keyboard_KeyDown;
             Keyboard.KeyUp -= Keyboard_KeyUp;
 
-            Core.KeepAliveEvent -= Update;
+            AgateCore.KeepAliveEvent -= Update;
 
             base.Dispose();
         }

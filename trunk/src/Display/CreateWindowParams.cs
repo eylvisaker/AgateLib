@@ -19,9 +19,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ERY.AgateLib.Geometry;
 
-namespace ERY.AgateLib
+using AgateLib.Core;
+using AgateLib.Geometry;
+
+namespace AgateLib.Display
 {
     /// <summary>
     /// Enum which describes what position the window should be created at on screen.

@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib
+namespace AgateLib.Input.Old
 {
     /// <summary>
     /// Class which encapsulates functionality associated with a set of commands.
@@ -122,9 +122,9 @@ namespace ERY.AgateLib
                 if (value != mAutoUpdate )
                 {
                     if (value)
-                        Input.JoystickPollEvent += new Input.JoystickPollDelegate(Update);
+                        InputManager.JoystickPollEvent += new InputManager.JoystickPollDelegate(Update);
                     else
-                        Input.JoystickPollEvent -= Update;
+                        InputManager.JoystickPollEvent -= Update;
 
                     mAutoUpdate = value;
                 }

@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib.Utility
+namespace AgateLib.Utility
 {
     /// <summary>
     /// Class which implements a reference counter around a Disposable object.

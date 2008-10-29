@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml;
 using System.Runtime.InteropServices;
 
-namespace ERY.AgateLib.Serialization.Xle
+namespace AgateLib.Serialization.Xle
 {
     /// <summary>
     /// The XleSerializationInfo class contains the XML data that is read from 

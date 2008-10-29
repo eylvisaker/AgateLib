@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Text;
+using AgateLib.Display;
 
-namespace ERY.AgateLib.Sprites
+namespace AgateLib.Sprites
 {
     /// <summary>
     /// Iterface implemented by a list of sprite frames.

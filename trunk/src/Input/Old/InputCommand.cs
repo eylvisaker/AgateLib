@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib
+namespace AgateLib.Input.Old
 {
     /// <summary>
     /// Class which encapsulates a set of key codes and joystick buttons that
@@ -148,10 +148,10 @@ namespace ERY.AgateLib
             {
                 JoystickButton btn = mJoystickButtons[i];
 
-                if (Input.JoystickCount <= btn.joyID)
+                if (InputManager.JoystickCount <= btn.joyID)
                     continue;
 
-                if (Input.Joysticks[btn.joyID].Buttons[btn.buttonID])
+                if (InputManager.Joysticks[btn.joyID].Buttons[btn.buttonID])
                 {
                     SetOn();
                     return;
@@ -162,10 +162,10 @@ namespace ERY.AgateLib
             {
                 JoystickAxis axis = mJoystickAxes[i];
 
-                if (Input.JoystickCount <= axis.joyID)
+                if (InputManager.JoystickCount <= axis.joyID)
                     continue;
 
-                double value = Input.Joysticks[axis.joyID].GetAxisValue(axis.axisID);
+                double value = InputManager.Joysticks[axis.joyID].GetAxisValue(axis.axisID);
 
                 if (axis.positiveDirection)
                 {

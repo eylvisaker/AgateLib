@@ -14,7 +14,7 @@ namespace LightingTest
         {
             InitializeComponent();
 
-            Icon = ERY.AgateLib.WinForms.FormUtil.AgateLibIcon;
+            Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
         }
 
         private void btnDiffuse_Click(object sender, EventArgs e)

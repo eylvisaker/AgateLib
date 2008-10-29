@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using ERY.AgateLib.Geometry;
+using AgateLib.Geometry;
 
-namespace ERY.AgateLib
+namespace AgateLib.Display
 {
     /// <summary>
     /// Enum which describes different pixel formats.
@@ -330,13 +330,13 @@ namespace ERY.AgateLib
 
         /// <summary>
         /// Checks to see if this PixelBuffer contains only transparent pixels.
-        /// Pixels with an alpha value of less than Display.AlphaThreshold are considered
+        /// Pixels with an alpha value of less than AgateDisplay.AlphaThreshold are considered
         /// transparent.
         /// </summary>
         /// <returns></returns>
         public bool IsBlank()
         {
-            return IsBlank(Display.AlphaThreshold);
+            return IsBlank(AgateDisplay.AlphaThreshold);
         }
         /// <summary>
         /// Checks to see if this PixelBuffer contains only transparent pixels.
@@ -358,14 +358,14 @@ namespace ERY.AgateLib
         /// <summary>
         /// Checks to see if the selected row of this PixelBuffer contains only
         /// transparent pixels.
-        /// Pixels with an alpha value of less than Display.AlphaThreshold are considered
+        /// Pixels with an alpha value of less than AgateDisplay.AlphaThreshold are considered
         /// transparent.
         /// </summary>
         /// <param name="row"></param>
         /// <returns></returns>
         public bool IsRowBlank(int row)
         {
-            return IsRowBlank(row, Display.AlphaThreshold);
+            return IsRowBlank(row, AgateDisplay.AlphaThreshold);
         }
         /// <summary>
         /// Checks to see if the selected row of this PixelBuffer contains only
@@ -389,7 +389,7 @@ namespace ERY.AgateLib
         /// <returns></returns>
         public bool IsRowBlank(int row, int left, int width)
         {
-            return IsRowBlank(row, 0, Width, Display.AlphaThreshold);
+            return IsRowBlank(row, 0, Width, AgateDisplay.AlphaThreshold);
         }
         /// <summary>
         /// Checks to see if the selected row of this PixelBuffer contains only
@@ -419,14 +419,14 @@ namespace ERY.AgateLib
         /// <summary>
         /// Checks to see if the selected row of this PixelBuffer contains only
         /// transparent pixels.
-        /// Pixels with an alpha value of less than Display.AlphaThreshold are considered
+        /// Pixels with an alpha value of less than AgateDisplay.AlphaThreshold are considered
         /// transparent.
         /// </summary>
         /// <param name="col"></param>
         /// <returns></returns>
         public bool IsColumnBlank(int col)
         {
-            return IsColumnBlank(col, Display.AlphaThreshold);
+            return IsColumnBlank(col, AgateDisplay.AlphaThreshold);
         }
         /// <summary>
         /// Checks to see if the selected row of this PixelBuffer contains only
@@ -450,7 +450,7 @@ namespace ERY.AgateLib
         /// <returns></returns>
         public bool IsColumnBlank(int col, int top, int height)
         {
-            return IsColumnBlank(col, top, height, Display.AlphaThreshold);
+            return IsColumnBlank(col, top, height, AgateDisplay.AlphaThreshold);
         }
         /// <summary>
         /// Checks to see if a portion of the selected row of this PixelBuffer contains only
@@ -794,7 +794,7 @@ namespace ERY.AgateLib
         /// <param name="format"></param>
         public void SaveTo(string filename, ImageFileFormat format)
         {
-            Display.SavePixelBuffer(this, filename, format);
+            AgateDisplay.SavePixelBuffer(this, filename, format);
 
 
         }

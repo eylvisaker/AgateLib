@@ -19,10 +19,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
 
-namespace ERY.AgateLib.BitmapFont
+using AgateLib.Display;
+using AgateLib.Geometry;
+
+namespace AgateLib.BitmapFont
 {
 
     /// <summary>

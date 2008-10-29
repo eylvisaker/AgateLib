@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Reflection;
 
-namespace ERY.AgateLib.Serialization.Xle
+namespace AgateLib.Serialization.Xle
 {
     /// <summary>
     /// Class used to serialize data to a compact XML format.
@@ -15,9 +15,9 @@ namespace ERY.AgateLib.Serialization.Xle
         Type objectType;
 
         /// <summary>
-        /// An object which implements the ERY.AgateLib.Serialization.Xle.ITypeBinder interface.
+        /// An object which implements the AgateLib.Serialization.Xle.ITypeBinder interface.
         /// This object is used to convert strings to System.Type objects.  The default value
-        /// for this property is an object of type ERY.AgateLib.Serialization.Xle.TypeBinder, but
+        /// for this property is an object of type AgateLib.Serialization.Xle.TypeBinder, but
         /// it may be replaced for custom type binding.
         /// </summary>
         public ITypeBinder Binder { get; set; }

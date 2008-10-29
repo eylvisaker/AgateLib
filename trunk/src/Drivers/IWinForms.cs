@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AgateLib.Core;
 
-namespace ERY.AgateLib.Drivers
+namespace AgateLib.Drivers
 {
     /// <summary>
     /// 

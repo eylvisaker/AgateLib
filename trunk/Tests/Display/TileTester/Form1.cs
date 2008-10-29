@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+using AgateLib.Display;
 namespace TileTester
 {
     public partial class Form1 : Form
@@ -16,7 +17,7 @@ namespace TileTester
 
             CreateControl();
 
-            ERY.AgateLib.DisplayWindow wind = new ERY.AgateLib.DisplayWindow(agateRenderTarget1);
+            DisplayWindow wind = new DisplayWindow(agateRenderTarget1);
         }
 
         public bool ScrollX

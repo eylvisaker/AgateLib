@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
+using AgateLib;
+using AgateLib.Core;
+using AgateLib.Geometry;
+using AgateLib.Display;
+using AgateLib.Input;
 
 namespace PixelBufferTest
 {
@@ -38,13 +41,13 @@ namespace PixelBufferTest
 
                 while (wind.IsClosed == false)
                 {
-                    Display.BeginFrame();
-                    Display.Clear();
+                    AgateDisplay.BeginFrame();
+                    AgateDisplay.Clear();
 
                     image.Draw(imageLocation);
                     
-                    Display.EndFrame();
-                    Core.KeepAlive();
+                    AgateDisplay.EndFrame();
+                    AgateCore.KeepAlive();
                 }
 
             }

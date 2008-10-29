@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib", "..\..\src\AgateLib.csproj", "{C6B3EA23-0113-4E5D-B42E-4C715A25D084}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontTester", "FontTester\FontTester.csproj", "{6C73CDCA-97B6-460F-A440-3C4DD205CB07}"

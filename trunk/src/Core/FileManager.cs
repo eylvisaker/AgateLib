@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ERY.AgateLib
+namespace AgateLib.Core
 {
     /// <summary>
     /// Manages file locations and automatic finding of files.

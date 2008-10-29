@@ -4,11 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using ERY.AgateLib;
+using AgateLib;
+using AgateLib.Core;
 
 namespace ERY.SpriteTester
 {
-    static class Program
+    static class SpriteTester
     {
         /// <summary>
         /// The main entry point for the application.
@@ -37,7 +38,7 @@ namespace ERY.SpriteTester
                     form.UpdateDisplay();
 
                     //System.Threading.Thread.Sleep(10);
-                    ERY.AgateLib.Core.KeepAlive();
+                    AgateCore.KeepAlive();
                 }
             }
         }

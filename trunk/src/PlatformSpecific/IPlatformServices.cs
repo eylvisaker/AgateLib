@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib.PlatformSpecific
+namespace AgateLib.PlatformSpecific
 {
     /// <summary>
     /// Public interface which provides information and methods for a specific platform.
@@ -12,6 +12,6 @@ namespace ERY.AgateLib.PlatformSpecific
         /// <summary>
         /// Returns the type of platform.
         /// </summary>
-        PlatformType PlatformType { get; }
+        Core.PlatformType PlatformType { get; }
     }
 }
