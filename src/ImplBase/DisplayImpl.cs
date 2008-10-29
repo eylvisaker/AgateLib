@@ -21,11 +21,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using ERY.AgateLib.BitmapFont;
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.Utility;
+using AgateLib.BitmapFont;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.Utility;
 
-namespace ERY.AgateLib.ImplBase
+namespace AgateLib.ImplBase
 {
     /// <summary>
     /// Abstract base class for implementing the Display object.
@@ -208,7 +210,7 @@ namespace ERY.AgateLib.ImplBase
 
         private void CalcDeltaTime()
         {
-            double now = Core.Platform.GetTime();
+            double now = AgateCore.Platform.GetTime();
 
             if (mRanOnce)
             {
@@ -497,7 +499,7 @@ namespace ERY.AgateLib.ImplBase
         /// <returns></returns>
         public virtual Surface BuildPackedSurface(Size size, SurfacePacker.RectPacker<Surface> packedRects)
         {
-            PixelBuffer buffer = new PixelBuffer(Display.DefaultSurfaceFormat, size);
+            PixelBuffer buffer = new PixelBuffer(AgateDisplay.DefaultSurfaceFormat, size);
 
             foreach (SurfacePacker.RectHolder<Surface> rect in packedRects)
             {
@@ -521,19 +523,19 @@ namespace ERY.AgateLib.ImplBase
             /*
             Surface retval = new Surface(size);
 
-            IRenderTarget old = Display.RenderTarget;
-            Display.RenderTarget = retval;
+            IRenderTarget old = AgateDisplay.RenderTarget;
+            AgateDisplay.RenderTarget = retval;
 
-            Display.BeginFrame();
-            Display.Clear(0, 0, 0, 0);
+            AgateDisplay.BeginFrame();
+            AgateDisplay.Clear(0, 0, 0, 0);
 
             foreach (SurfacePacker.RectHolder<Surface> rect in packedRects)
             {
                 rect.Tag.Draw(rect.Rect);
             }
             
-            Display.EndFrame();
-            Display.RenderTarget = old;
+            AgateDisplay.EndFrame();
+            AgateDisplay.RenderTarget = old;
 
             foreach (SurfacePacker.RectHolder<Surface> rect in packedRects)
             {
@@ -611,6 +613,6 @@ namespace ERY.AgateLib.ImplBase
             throw new InvalidOperationException("Display driver does not support saving pixel buffers.");
         }
 
-        protected internal abstract ERY.AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices();
+        protected internal abstract AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices();
     }
 }

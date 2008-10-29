@@ -20,10 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.Drivers;
-using ERY.AgateLib.ImplBase;
+using AgateLib.Drivers;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib
+namespace AgateLib
 {
     class NullInputImpl : InputImpl 
     {

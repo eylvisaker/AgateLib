@@ -21,10 +21,10 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.DirectX.DirectInput;
 
-using ERY.AgateLib.Drivers;
-using ERY.AgateLib.ImplBase;
+using AgateLib.Drivers;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib.MDX
+namespace AgateLib.MDX
 {
     public class MDX1_Input : InputImpl
     {

@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace ERY.AgateLib.Geometry
+namespace AgateLib.Geometry
 {
     /// <summary>
     /// Replacement for System.Drawing.Point structure.

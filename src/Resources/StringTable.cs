@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
-namespace ERY.AgateLib.Resources
+namespace AgateLib.Resources
 {
     /// <summary>
     /// Class which contains a table of string-string mappings.

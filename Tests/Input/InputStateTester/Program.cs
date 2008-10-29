@@ -3,7 +3,11 @@
 //
 using System;
 using System.Collections.Generic;
-using ERY.AgateLib;
+
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Input;
+using AgateLib.Input.Old;
 
 namespace InputStateTester
 {
@@ -57,8 +61,8 @@ namespace InputStateTester
 
                 while (wind.IsClosed == false)
                 {
-                    Display.BeginFrame();
-                    Display.Clear();
+                    AgateDisplay.BeginFrame();
+                    AgateDisplay.Clear();
 
                     state.Update();
 
@@ -71,8 +75,8 @@ namespace InputStateTester
                     if (state[Stuff.two].Value)
                         font.DrawText(0, fontheight * 5, "Button 2");
 
-                    Display.EndFrame();
-                    Core.KeepAlive();
+                    AgateDisplay.EndFrame();
+                    AgateCore.KeepAlive();
                 }
             }
         }

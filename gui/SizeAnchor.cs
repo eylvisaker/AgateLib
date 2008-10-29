@@ -19,9 +19,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ERY.AgateLib.Geometry;
 
-namespace ERY.AgateLib.Gui
+using AgateLib.Input;
+using AgateLib.Geometry;
+
+namespace AgateLib.Gui
 {
     public class SizeAnchor : Component
     {

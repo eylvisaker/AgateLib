@@ -21,7 +21,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace ERY.AgateLib.PlatformSpecific
+using AgateLib.Core;
+
+namespace AgateLib.PlatformSpecific
 {
     /// <summary>
     /// Contains X11 platform specific methods.
@@ -71,7 +73,7 @@ namespace ERY.AgateLib.PlatformSpecific
 
                     if (display.Equals(IntPtr.Zero) && XConnectionMessage == false)
                     {
-                        Core.ReportError(ErrorLevel.Warning, "Could not get connection to the X Server.  Reverting to " +
+                        AgateCore.ReportError(ErrorLevel.Warning, "Could not get connection to the X Server.  Reverting to " +
                             "platform independent methods.", null);
 
                         XConnectionMessage = true;
@@ -79,7 +81,7 @@ namespace ERY.AgateLib.PlatformSpecific
                     }
                     else if (XConnectionMessage)
                     {
-                        Core.ReportError(ErrorLevel.Comment, "Connection to X server is now available.  Using platform " +
+                        AgateCore.ReportError(ErrorLevel.Comment, "Connection to X server is now available.  Using platform " +
                             "specific idle checking method.", null);
 
                         XConnectionMessage = false;

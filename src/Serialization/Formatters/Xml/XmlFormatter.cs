@@ -53,7 +53,7 @@ using System.Xml;
 using System.Reflection;
 using System.Collections;
 
-namespace ERY.AgateLib.Serialization.Formatters.Xml
+namespace AgateLib.Serialization.Formatters.Xml
 {
 	/// <summary>
 	/// The <see cref="XmlFormatter"/> class implements a custom XmlFormatter

@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib
+namespace AgateLib.Audio
 {
     using Drivers;
     using ImplBase;
@@ -44,10 +44,10 @@ namespace ERY.AgateLib
         { }
         internal SoundBufferSession(SoundBuffer source)
         {
-            impl = Audio.Impl.CreateSoundBufferSession(source.Impl);
+            impl = AgateAudio.Impl.CreateSoundBufferSession(source.Impl);
 
             mSource = source;
-            mSource.StopEvent += new Audio.AudioCoreEventDelegate(Stop);
+            mSource.StopEvent += new AgateAudio.AudioCoreEventDelegate(Stop);
 
             Initialize();
 

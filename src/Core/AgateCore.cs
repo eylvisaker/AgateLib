@@ -21,9 +21,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using ERY.AgateLib.PlatformSpecific;
 
-namespace ERY.AgateLib
+using AgateLib.Audio;
+using AgateLib.Display;
+using AgateLib.PlatformSpecific;
+
+namespace AgateLib.Core
 {
     /// <summary>
     /// Used by AgateLib.Core class's error reporting functions
@@ -60,20 +63,20 @@ namespace ERY.AgateLib
     /// <summary>
     /// Class which contains methods commonly used by the entire library.
     /// </summary>
-    public static class Core
+    public static class AgateCore
     {
         [Obsolete]
         private static PlatformSpecific.Platform mPlatform;
         private static bool mAutoPause = false;
         private static bool mIsActive = true;
         
-        static Core()
+        static AgateCore()
         {
             
         }
         /// <summary>
         /// Initializes Core class.
-        /// Can be called multiple times.
+        /// Can be called multiple times without adverse effects.
         /// </summary>
         public static void Initialize()
         {
@@ -93,7 +96,7 @@ namespace ERY.AgateLib
         /// <summary>
         /// Gets platform-specific methods.
         /// </summary>
-        [Obsolete("Use methods in ERY.AgateLib.Platform instead.")]
+        [Obsolete("Use methods in AgateLib.Platform instead.")]
         public static PlatformSpecific.Platform Platform
         {
             get { return mPlatform; }
@@ -150,21 +153,21 @@ namespace ERY.AgateLib
             // not this is worth it when there lots of events being generated
             // (ie lots of mouse move events) but it does seem to speed up for
             // Direct3D.
-            if (Display.IsAppIdle == false)
+            if (AgateDisplay.IsAppIdle == false)
             {
-                Display.ProcessEvents();
+                AgateDisplay.ProcessEvents();
 
                 while (IsActive == false && AutoPause)
                 {
                     System.Threading.Thread.Sleep(25);
-                    Display.ProcessEvents();
+                    AgateDisplay.ProcessEvents();
 
                     // Update Audio Engine, if necessary
-                    Audio.Update();
+                    AgateAudio.Update();
 
-                    if (Display.CurrentWindow == null)
+                    if (AgateDisplay.CurrentWindow == null)
                         break;
-                    else if (Display.CurrentWindow.IsClosed)
+                    else if (AgateDisplay.CurrentWindow.IsClosed)
                         break;
                 }
             }
@@ -173,10 +176,10 @@ namespace ERY.AgateLib
                 KeepAliveEvent();
 
             // Update Audio Engine, if necessary
-            Audio.Update();
+            AgateAudio.Update();
 
             // Poll joystick input, if the time is right.
-            Input.PollTimer();
+            Input.Old.InputManager.PollTimer();
 
 
         }
@@ -193,8 +196,8 @@ namespace ERY.AgateLib
         /// </summary>
         public static string ErrorFile
         {
-            get { return Core.mErrorFile; }
-            set { Core.mErrorFile = value; }
+            get { return AgateCore.mErrorFile; }
+            set { AgateCore.mErrorFile = value; }
         }
 
         /// <summary>
@@ -206,14 +209,14 @@ namespace ERY.AgateLib
         /// code accomplishes that.
         /// <code>
         /// #if _DEBUG
-        ///     ERY.AgateLib.Core.AutoStackTrace = true;
+        ///     AgateLib.Core.AutoStackTrace = true;
         /// #endif
         /// </code>
         /// </example>
         public static bool AutoStackTrace
         {
-            get { return Core.mAutoStackTrace; }
-            set { Core.mAutoStackTrace = value; }
+            get { return AgateCore.mAutoStackTrace; }
+            set { AgateCore.mAutoStackTrace = value; }
         }
 
         /// <summary>

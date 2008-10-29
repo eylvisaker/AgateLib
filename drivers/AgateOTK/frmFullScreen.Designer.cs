@@ -1,4 +1,4 @@
-namespace ERY.AgateLib.OpenGL
+namespace AgateLib.Display.OpenGL
 {
     partial class frmFullScreen
     {

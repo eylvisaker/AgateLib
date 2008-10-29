@@ -20,11 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.BitmapFont;
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.ImplBase;
+using AgateLib.BitmapFont;
+using AgateLib.Core;
+using AgateLib.Geometry;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib
+namespace AgateLib.Display
 {
     /// <summary>
     /// Enumeration which allows selection of font styles when creating
@@ -87,21 +88,21 @@ namespace ERY.AgateLib
             if (sizeInPoints < 1)
                 throw new ArgumentException("Font size must be positive and non-zero.");
 
-            impl = Display.Impl.CreateFont(fontFamily, sizeInPoints, style);
+            impl = AgateDisplay.Impl.CreateFont(fontFamily, sizeInPoints, style);
 
-            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
         }
 
         /// <summary>
         /// Creates a bitmap font using the options passed in.  The Display driver
-        /// must be capable of this, which is indicated in Display.Caps.CanCreateBitmapFont.
+        /// must be capable of this, which is indicated in AgateDisplay.Caps.CanCreateBitmapFont.
         /// </summary>
         /// <param name="bitmapOptions"></param>
         public FontSurface(BitmapFontOptions bitmapOptions)
         {
-            impl = Display.Impl.CreateFont(bitmapOptions);
+            impl = AgateDisplay.Impl.CreateFont(bitmapOptions);
 
-            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
         }
 
         /// <summary>

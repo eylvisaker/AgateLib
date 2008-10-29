@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.Sprites;
 
-namespace ERY.AgateLib.Resources
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.Sprites;
+
+namespace AgateLib.Resources
 {
     /// <summary>
     /// Resource which loads a sprite.  There are two different types of sprites, a general purpose

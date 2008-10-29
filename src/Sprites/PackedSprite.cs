@@ -21,10 +21,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.Resources;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.Resources;
 
-namespace ERY.AgateLib.Sprites
+namespace AgateLib.Sprites
 {
     /// <summary>
     /// Sprite2 class.
@@ -465,7 +466,7 @@ namespace ERY.AgateLib.Sprites
                 {
                     Point pt = new Point(x + currentFrame.SourceRect.X, y + currentFrame.SourceRect.Y);
 
-                    if (pixels.GetPixel(pt.X, pt.Y).A > Display.AlphaThreshold)
+                    if (pixels.GetPixel(pt.X, pt.Y).A > AgateDisplay.AlphaThreshold)
                         return false;
                 }
             }
@@ -852,7 +853,7 @@ namespace ERY.AgateLib.Sprites
         /// </summary>
         public void Update()
         {
-            Update(Display.DeltaTime);
+            Update(AgateDisplay.DeltaTime);
         }
         /// <summary>
         /// Updates the animation of the sprite, using the given frame time.

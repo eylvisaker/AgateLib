@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ERY.AgateLib.ImplBase;
-using ERY.AgateLib.Drivers;
+using AgateLib.ImplBase;
+using AgateLib.Drivers;
 using OpenTK.Audio;
 
-namespace ERY.AgateLib.OpenGL
+namespace AgateLib.AgateDisplay.OpenGL
 {
     class AL_Audio : AudioImpl 
     {

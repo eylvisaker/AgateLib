@@ -23,11 +23,13 @@ using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
-namespace ERY.AgateLib.MDX
-{
-    using Geometry;
-    using WinForms;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.WinForms;
 
+namespace AgateLib.MDX
+{
     public class D3DDevice : IDisposable
     {
         private Device mDevice;

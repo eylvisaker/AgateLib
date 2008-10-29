@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AgateLib.Display;
 
-namespace ERY.AgateLib.Sprites
+namespace AgateLib.Sprites
 {
     class FrameList<T> : IList<T> , IFrameList  where T : ISpriteFrame 
     {

@@ -20,16 +20,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.Drivers;
-using ERY.AgateLib.ImplBase;
+using AgateLib.Core;
+using AgateLib.Drivers;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib
+namespace AgateLib.Input.Old
 {
     /// <summary>
     /// Static class which contains basic functions for handling non-keyboard and mouse
     /// input.
     /// </summary>
-    public static class Input
+    public static class InputManager 
     {
         private static InputImpl impl;
         private static List<Joystick> mJoysticks = new List<Joystick>();
@@ -53,7 +54,7 @@ namespace ERY.AgateLib
         /// <param name="inputType"></param>
         public static void Initialize(InputTypeID inputType)
         {
-            Core.Initialize();
+            AgateCore.Initialize();
 
             impl = Registrar.InputDriverInfo.CreateDriver(inputType);
 
@@ -164,7 +165,7 @@ namespace ERY.AgateLib
             foreach (Joystick j in mJoysticks)
                 j.Poll();
 
-            mLastPoll = Core.Platform.GetTime();
+            mLastPoll = AgateCore.Platform.GetTime();
 
             mPollCount++;
 
@@ -201,7 +202,7 @@ namespace ERY.AgateLib
         {
             if (impl == null)
                 return;
-            if (mLastPoll + mPollInterval > Core.Platform.GetTime())
+            if (mLastPoll + mPollInterval > AgateCore.Platform.GetTime())
                 return;
 
             PollJoysticks();

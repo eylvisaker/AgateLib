@@ -10,18 +10,18 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ERY.AudioTester
+namespace AudioTester
 {
     public partial class frmAudioTester : Form
     {
-        AgateLib.SoundBuffer mSound;
-        AgateLib.Music mMusic;
+        AgateLib.Audio.SoundBuffer mSound;
+        AgateLib.Audio.Music mMusic;
 
         public frmAudioTester()
         {
             InitializeComponent();
 
-            Icon = ERY.AgateLib.WinForms.FormUtil.AgateLibIcon;
+            Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
 
             statusLabel.Text = "";
 
@@ -44,7 +44,7 @@ namespace ERY.AudioTester
 
             //try
             //{
-                AgateLib.Music music = new ERY.AgateLib.Music(text);
+                AgateLib.Audio.Music music = new AgateLib.Audio.Music(text);
                 mMusic = music;
 
                 music.Volume = (double)numericUpDown1.Value;
@@ -75,7 +75,7 @@ namespace ERY.AudioTester
 
             //try
             //{
-                AgateLib.SoundBuffer snd = new AgateLib.SoundBuffer(text);
+                AgateLib.Audio.SoundBuffer snd = new AgateLib.Audio.SoundBuffer(text);
 
                 snd.Volume = (double)numericUpDown1.Value; 
                 snd.Pan = (double)panValue.Value;
@@ -93,7 +93,7 @@ namespace ERY.AudioTester
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            AgateLib.Audio.StopAll();
+            AgateLib.Audio.AgateAudio.StopAll();
         }
 
 
@@ -148,8 +148,8 @@ namespace ERY.AudioTester
             {
                 Directory.SetCurrentDirectory(textBox1.Text);
 
-                AgateLib.FileManager.SoundPath = new ERY.AgateLib.SearchPath(".");
-                AgateLib.FileManager.MusicPath = new ERY.AgateLib.SearchPath(".");
+                AgateLib.Core.FileManager.SoundPath = new AgateLib.Core.SearchPath(".");
+                AgateLib.Core.FileManager.MusicPath = new AgateLib.Core.SearchPath(".");
 
                 FillMusicListBox();
             }
@@ -158,7 +158,7 @@ namespace ERY.AudioTester
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            AgateLib.Core.KeepAlive();
+            AgateLib.Core.AgateCore.KeepAlive();
         }
 
 

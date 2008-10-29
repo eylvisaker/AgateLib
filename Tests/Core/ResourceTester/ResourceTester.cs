@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.Resources;
+using AgateLib;
+using AgateLib.Geometry;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Resources;
 
 namespace ResourceTester
 {
@@ -23,16 +25,21 @@ namespace ResourceTester
 
                 DisplayWindow wind = new DisplayWindow(resources, "main_window");
                 Surface surf = new Surface(resources, "sample_surf");
+                ISprite sprite = resources.CreateSprite("sample_sprite");
+                sprite.StartAnimation();
 
                 while (wind.IsClosed == false)
                 {
-                    Display.BeginFrame();
-                    Display.Clear(Color.Red);
+                    AgateDisplay.BeginFrame();
+                    AgateDisplay.Clear(Color.Red);
 
                     surf.Draw(20, 20);
 
-                    Display.EndFrame();
-                    Core.KeepAlive();
+                    sprite.Update();
+                    sprite.Draw(100, 100);
+
+                    AgateDisplay.EndFrame();
+                    AgateCore.KeepAlive();
                 }
             }
         }

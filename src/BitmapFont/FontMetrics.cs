@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using ERY.AgateLib.Geometry;
+using AgateLib.Geometry;
 
-namespace ERY.AgateLib.BitmapFont
+namespace AgateLib.BitmapFont
 {
     /// <summary>
     /// FontMetrics is a class which describes everything needed to render a font

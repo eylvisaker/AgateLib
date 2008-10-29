@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Draw = System.Drawing;
-using ERY.AgateLib.Geometry;
+using AgateLib.Geometry;
 
-namespace ERY.AgateLib.WinForms
+namespace AgateLib.WinForms
 {
     public static class Interop
     {

@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ERY.AgateLib.Geometry
+namespace AgateLib.Geometry
 {
     /// <summary>
     /// A four color gradient, with a different color value for each corner.

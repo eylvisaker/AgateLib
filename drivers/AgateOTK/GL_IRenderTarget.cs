@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.ImplBase;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib.OpenGL
+namespace AgateLib.Display.OpenGL
 {
     interface GL_IRenderTarget : IRenderTargetImpl
     {

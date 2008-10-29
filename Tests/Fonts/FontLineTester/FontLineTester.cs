@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
+using AgateLib;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.Input;
 
 namespace FontLineTester
 {
@@ -30,7 +33,7 @@ namespace FontLineTester
 
                 DisplayWindow wind = new DisplayWindow("Font Line Tester", 640, 480);
                 Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
-                Core.AutoPause = true;
+                AgateCore.AutoPause = true;
 
                 FileManager.ImagePath.Clear();
                 FileManager.ImagePath.Add("../../");
@@ -46,28 +49,28 @@ namespace FontLineTester
                 //fonts[1].StringTransformer = StringTransformer.ToUpper;
 
 
-                if (fonts[0].Impl is ERY.AgateLib.BitmapFont.BitmapFontImpl)
+                if (fonts[0].Impl is AgateLib.BitmapFont.BitmapFontImpl)
                 {
-                    (fonts[0].Impl as ERY.AgateLib.BitmapFont.BitmapFontImpl).Save("fonttest.png", "fonttest.xml");
+                    (fonts[0].Impl as AgateLib.BitmapFont.BitmapFontImpl).Save("fonttest.png", "fonttest.xml");
                 }
 
                 while (wind.IsClosed == false)
                 {
-                    Display.BeginFrame();
-                    Display.Clear(Color.Navy);
+                    AgateDisplay.BeginFrame();
+                    AgateDisplay.Clear(Color.Navy);
 
                     Rectangle drawRect;
 
                     FontTests(fonts[currentFont], out drawRect);
 
-                    Display.DrawRect(drawRect, Color.Red);
+                    AgateDisplay.DrawRect(drawRect, Color.Red);
 
                     fonts[0].DrawText(0, 370, "Use numeric keypad to switch fonts.");
                     fonts[0].DrawText(0, 400,
                         "Measured size was: " + drawRect.Size.ToString());
 
-                    Display.EndFrame();
-                    Core.KeepAlive();
+                    AgateDisplay.EndFrame();
+                    AgateCore.KeepAlive();
 
                     if (Keyboard.Keys[KeyCode.Escape])
                         return;

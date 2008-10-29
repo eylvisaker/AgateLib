@@ -21,9 +21,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
-namespace ERY.AgateLib.Resources
+namespace AgateLib.Resources.Old
 {
-
     /// <summary>
     /// XML ResourceManager.
     /// 

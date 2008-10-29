@@ -34,7 +34,7 @@ pixels as well as conversion routines to convert from one pixel format to anothe
 
 To increase compatibility for authoring-tool type applications, the System.Drawing replacement classes are 
 now moved to a different namespace.  For updating an existing Agate application which does not use any
-System.Drawing calls, you only need to insert a using statement (Imports in VB) for the ERY.AgateLib.Geometry
+System.Drawing calls, you only need to insert a using statement (Imports in VB) for the AgateLib.Geometry
 namespace at the top of each source file.  This still doesn't have the level of compatibility I want, because
 AgateLib.dll still has a reference to System.Drawing.  In a future version of AgateLib, conversion routines 
 for working with System.Drawing classes will be moved into a separate class, in a separate assembly.
@@ -69,15 +69,15 @@ greater memory efficiency by providing access to PeekMessage and high-resolution
 This benefit may be negligible; more testing needs to be done.
 
 The source code has been restructured a bit.  In the version 0.2.2 the System.Drawing replacement
-structures Color, Point, PointF, Rectangle, RectangleF, Size, SizeF will be moved to the ERY.AgateLib.Geometry
+structures Color, Point, PointF, Rectangle, RectangleF, Size, SizeF will be moved to the AgateLib.Geometry
 namespace.  You can prepare for this by adding a using statement for this namespace now.  This change
 will help prevent naming conflicts which occur when mixing Windows.Forms components with AgateLib.
 This should not be an issue for game applications, but it is an issue for tools.  
 
-The resource classes ResourceManager and Resource have been moved to the ERY.AgateLib.Resources 
+The resource classes ResourceManager and Resource have been moved to the AgateLib.Resources 
 namespace.
 
-Display.DeltaTime will now never return zero, so it's safe to divide by it.  However, due to the nature
+AgateDisplay.DeltaTime will now never return zero, so it's safe to divide by it.  However, due to the nature
 of this hack, if a high resolution platform-dependent timer is unavailable (such as the one in AgateWindows),
 this will cap your framerate at whatever the resolution of System.Environment.GetTickCount() is.
 On my test machine, this is 64 fps.
@@ -98,7 +98,7 @@ No reference to System.Drawing.dll or System.Windows.Forms.dll is required.
 
 If you're developing a game authoring tool, your application should be developed using System.Windows.Forms.
 You can develop an application with a rich user interface and instruct AgateLib to render to multiple 
-child controls by creating DisplayWindows for each of those controls and changing the Display.RenderTarget
+child controls by creating DisplayWindows for each of those controls and changing the AgateDisplay.RenderTarget
 to them.
 
 If you want to deploy an application using AgateLib, of course you need to make sure that a client machine
@@ -125,6 +125,6 @@ to work with the AgateMDX library in the dxredist directory of the archives.
 
 Known Issues:
 * VSync is not properly supported in the Direct3D driver.
-* There's a problem with Display.PackAllSurfaces where it does not copy surfaces correctly.
+* There's a problem with AgateDisplay.PackAllSurfaces where it does not copy surfaces correctly.
 * Direct3D driver does not work with Mono.  If you are running in Mono, delete AgateMDX.dll from your application directory.
  

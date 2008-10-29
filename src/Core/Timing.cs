@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib
+namespace AgateLib.Core
 {
     /// <summary>
     /// Static class which handles timing.  This is often used
@@ -141,14 +141,14 @@ namespace ERY.AgateLib
 
                 try
                 {
-                    mStartTime = Core.Platform.GetTime();
+                    mStartTime = AgateCore.Platform.GetTime();
                 }
                 catch (NullReferenceException e)
                 {
                     GC.KeepAlive(e);
 
-                    Core.Initialize();
-                    mStartTime = Core.Platform.GetTime();
+                    AgateCore.Initialize();
+                    mStartTime = AgateCore.Platform.GetTime();
                 }
 
 
@@ -200,7 +200,7 @@ namespace ERY.AgateLib
                 get
                 {
                     if (mPause == 0)
-                        return Core.Platform.GetTime() - mStartTime;
+                        return AgateCore.Platform.GetTime() - mStartTime;
                     else
                         return mPauseTime - mStartTime;
                 }
@@ -211,7 +211,7 @@ namespace ERY.AgateLib
             /// </summary>
             public void Reset()
             {
-                mStartTime = Core.Platform.GetTime();
+                mStartTime = AgateCore.Platform.GetTime();
 
                 if (mPause > 0)
                     mPauseTime = mStartTime;
@@ -226,7 +226,7 @@ namespace ERY.AgateLib
                 mPause += 1;
 
                 if (mPause == 1)
-                    mPauseTime = Core.Platform.GetTime();
+                    mPauseTime = AgateCore.Platform.GetTime();
 
 
             }
@@ -240,7 +240,7 @@ namespace ERY.AgateLib
 
                 if (mPause == 0)
                 {
-                    mStartTime += Core.Platform.GetTime() - mPauseTime;
+                    mStartTime += AgateCore.Platform.GetTime() - mPauseTime;
 
                     mPauseTime = 0;
                 }

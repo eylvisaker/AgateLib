@@ -21,10 +21,10 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.Drivers;
+using AgateLib.Geometry;
+using AgateLib.Drivers;
 
-namespace ERY.AgateLib.PlatformSpecific
+namespace AgateLib.PlatformSpecific
 {
     /// <summary>
     /// Contains Win32 platform specific methods.

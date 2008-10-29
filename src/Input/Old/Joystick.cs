@@ -19,9 +19,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ERY.AgateLib.ImplBase;
 
-namespace ERY.AgateLib
+using AgateLib.ImplBase;
+
+namespace AgateLib.Input.Old
 {
     /// <summary>
     /// Class which encapsulates a single joystick.

@@ -20,10 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.Utility;
+using AgateLib.Geometry;
+using AgateLib.Utility;
 
-namespace ERY.AgateLib.ImplBase
+namespace AgateLib.ImplBase
 {
 
     /// <summary>
@@ -85,12 +85,12 @@ namespace ERY.AgateLib.ImplBase
         public abstract void SetWindowed();
 
         /// <summary>
-        /// Sets the display to a full screen display.  This overload should use the
+        /// Sets the display to a full screen AgateDisplay.  This overload should use the
         /// same resolution as the desktop environment.
         /// </summary>
         public abstract void SetFullScreen();
         /// <summary>
-        /// Sets the display to a full screen display.  The resolution chosen is 
+        /// Sets the display to a full screen AgateDisplay.  The resolution chosen is 
         /// driver/video card/monitor dependent, but it should be fairly close to
         /// values specified.
         /// </summary>

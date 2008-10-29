@@ -20,9 +20,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.Drivers;
+using AgateLib.Audio;
+using AgateLib.Display;
+using AgateLib.Drivers;
 
-namespace ERY.AgateLib
+namespace AgateLib.Core
 {
     /// <summary>
     /// Class which is designed to simplify initialization and de-initialization of the
@@ -36,7 +38,7 @@ namespace ERY.AgateLib
     /// <code>
     /// using System;
     /// using System.Collections.Generic;
-    /// using ERY.AgateLib;
+    /// using AgateLib;
     /// 
     /// public static void Main(string[] args)
     /// {
@@ -73,7 +75,7 @@ namespace ERY.AgateLib
         /// </summary>
         public AgateSetup()
         {
-            Core.Initialize();
+            AgateCore.Initialize();
         }
         /// <summary>
         /// Constructs a Setup object.
@@ -81,7 +83,7 @@ namespace ERY.AgateLib
         /// <param name="title"></param>
         public AgateSetup(string title)
         {
-            Core.Initialize();
+            AgateCore.Initialize();
 
             mTitle = title;
         }
@@ -100,7 +102,7 @@ namespace ERY.AgateLib
         /// <param name="args">Command line arguments to the program.</param>
         public AgateSetup(string title, string[] args)
         {
-            Core.Initialize();
+            AgateCore.Initialize();
 
             mTitle = title;
 
@@ -141,7 +143,7 @@ namespace ERY.AgateLib
         }
 
         /// <summary>
-        /// Initializes the display.
+        /// Initializes the AgateDisplay.
         /// Automatically selects the driver to use, or asks the user which
         /// driver to use if appropriate.
         /// </summary>
@@ -160,7 +162,7 @@ namespace ERY.AgateLib
             if (Cancel)
                 return;
 
-            Display.Initialize(type);
+            AgateDisplay.Initialize(type);
         }
         /// <summary>
         /// Initializes the Audio subsystem.
@@ -180,7 +182,7 @@ namespace ERY.AgateLib
             if (Cancel)
                 return;
 
-            Audio.Initialize(type);
+            AgateAudio.Initialize(type);
         }
 
         /// <summary>
@@ -201,14 +203,14 @@ namespace ERY.AgateLib
             if (Cancel)
                 return;
 
-            Input.Initialize(inputTypeID);
+            Input.Old.InputManager.Initialize(inputTypeID);
         }
         /// <summary>
         /// Disposes of the SetupDisplay object and all initialized sub-systems.
         /// </summary>
         public void Dispose()
         {
-            Display.Dispose();
+            AgateDisplay.Dispose();
         }
         /// <summary>
         /// Returns true if the user hit cancel in any dialog box that showed up

@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib.Drivers
+namespace AgateLib.Drivers
 {
     /// <summary>
     /// Enum for the results of a call to IUserSetSystem.RunDialog

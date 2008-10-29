@@ -22,7 +22,10 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ERY.AgateLib.WinForms
+using AgateLib.Display;
+using AgateLib.Input;
+
+namespace AgateLib.WinForms
 {
     public static class FormUtil
     {

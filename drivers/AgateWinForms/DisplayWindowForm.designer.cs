@@ -16,7 +16,7 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-namespace ERY.AgateLib.WinForms
+namespace AgateLib.WinForms
 {
     /// <summary>
     /// A basic form used for rendering into.
@@ -50,7 +50,7 @@ namespace ERY.AgateLib.WinForms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DisplayWindowForm));
-            this.agateRenderTarget1 = new ERY.AgateLib.WinForms.AgateRenderTarget();
+            this.agateRenderTarget1 = new AgateLib.WinForms.AgateRenderTarget();
             this.SuspendLayout();
             // 
             // agateRenderTarget1

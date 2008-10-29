@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 
-namespace ERY.AgateLib.Serialization.Xle
+namespace AgateLib.Serialization.Xle
 {
     class TypeBinder : ITypeBinder 
     {

@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{83999876-CB30-487A-B083-1768C837F209}</ProjectGuid>
+    <ProjectGuid>{F0DAD35B-C5DA-484C-9BB4-74E0BFA2AD4C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TimerTester</RootNamespace>
-    <AssemblyName>TimerTester</AssemblyName>
+    <RootNamespace>FontLineTester</RootNamespace>
+    <AssemblyName>FontLineTester</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -33,26 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="frmTimerTester.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmTimerTester.Designer.cs">
-      <DependentUpon>frmTimerTester.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmTimerTester.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmTimerTester.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -74,10 +56,25 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\drivers\AgateDrawing\AgateDrawing.csproj">
+      <Project>{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}</Project>
+      <Name>AgateDrawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\drivers\AgateMDX\AgateMDX.csproj">
+      <Project>{852EB9A0-5DCB-492F-9630-9D4198B81FA2}</Project>
+      <Name>AgateMDX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\drivers\AgateOTK\AgateOTK.csproj">
+      <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
+      <Name>AgateOTK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\src\AgateLib.csproj">
       <Project>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib.Geometry
+namespace AgateLib.Geometry
 {
     /// <summary>
     /// SizeF structure.

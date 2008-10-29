@@ -8,7 +8,11 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using ERY.AgateLib;
+
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Input;
+using AgateLib.Input.Old;
 
 namespace InputTester
 {
@@ -42,11 +46,11 @@ namespace InputTester
         {
             while (this.Visible)
             {
-                if (Input.JoystickCount == 0)
+                if (InputManager.JoystickCount == 0)
                     return;
 
-                numericUpDown1.Maximum = Input.JoystickCount - 1;
-                Joystick j = Input.Joysticks[(int)numericUpDown1.Value];
+                numericUpDown1.Maximum = InputManager.JoystickCount - 1;
+                Joystick j = InputManager.Joysticks[(int)numericUpDown1.Value];
 
                 string text =
                     "Axis Count: " + j.AxisCount + Environment.NewLine;
@@ -71,7 +75,7 @@ namespace InputTester
 
                 lblJoystick.Text = text;
 
-                Core.KeepAlive();
+                AgateCore.KeepAlive();
             }
         }
 
@@ -105,7 +109,7 @@ namespace InputTester
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             base.OnFormClosed(e);
-            Display.Dispose();
+            AgateDisplay.Dispose();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)

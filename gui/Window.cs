@@ -19,9 +19,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ERY.AgateLib.Geometry;
 
-namespace ERY.AgateLib.Gui
+using AgateLib.Display;
+using AgateLib.Geometry;
+
+namespace AgateLib.Gui
 {
     public class Window : Container
     {
@@ -63,11 +65,11 @@ namespace ERY.AgateLib.Gui
 
         protected internal override void Update()
         {
-            if (base.Size.Equals(mTargetSize) == false && Display.DeltaTime > 0)
+            if (base.Size.Equals(mTargetSize) == false && AgateDisplay.DeltaTime > 0)
             {
                 double diffW = mTargetSize.Width - mInternalSize.Width;
                 double diffH = mTargetSize.Height - mInternalSize.Height;
-                double maxDelta = Display.DeltaTime * 0.001 * sizeVelocity;
+                double maxDelta = AgateDisplay.DeltaTime * 0.001 * sizeVelocity;
 
                 Clamp(ref diffW, maxDelta);
                 Clamp(ref diffH, maxDelta);

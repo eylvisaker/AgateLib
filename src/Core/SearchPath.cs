@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ERY.AgateLib
+namespace AgateLib.Core
 {
     /// <summary>
     /// A class which is used to simplify searching for files in several different

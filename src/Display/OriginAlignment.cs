@@ -18,7 +18,7 @@
 //
 using System;
 
-namespace ERY.AgateLib
+namespace AgateLib.Display
 {
     /// <summary>
     /// OriginAlignment enum.  Used to specify how

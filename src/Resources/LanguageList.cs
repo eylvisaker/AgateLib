@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib.Resources
+namespace AgateLib.Resources
 {
     /// <summary>
     /// A class which contains a list of ResourceGroups each with resources in a specific language.

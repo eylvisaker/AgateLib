@@ -19,9 +19,9 @@
 using System;
 using System.Collections.Generic;
 
-using ERY.AgateLib.Geometry;
+using AgateLib.Geometry;
 
-namespace ERY.AgateLib
+namespace AgateLib.Display
 {
     /// <summary>
     /// Static class which performs necessary calculates based on OriginAlignment

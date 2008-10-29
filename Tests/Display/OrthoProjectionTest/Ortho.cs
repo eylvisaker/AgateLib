@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.Input;
 
 namespace OrthoProjectionTest
 {
@@ -29,28 +31,28 @@ namespace OrthoProjectionTest
 
                 while (wind.IsClosed == false)
                 {
-                    Display.BeginFrame();
-                    Display.Clear();
+                    AgateDisplay.BeginFrame();
+                    AgateDisplay.Clear();
 
                     switch (ortho)
                     {
                         case 1:
-                            Display.SetOrthoProjection(0, 0, surf.SurfaceWidth * 2, surf.SurfaceHeight * 2);
+                            AgateDisplay.SetOrthoProjection(0, 0, surf.SurfaceWidth * 2, surf.SurfaceHeight * 2);
                             break;
 
                         case 2:
-                            Display.SetOrthoProjection(-surf.SurfaceWidth, -surf.SurfaceHeight,
+                            AgateDisplay.SetOrthoProjection(-surf.SurfaceWidth, -surf.SurfaceHeight,
                                 surf.SurfaceWidth, surf.SurfaceHeight);
                             break;
                     }
 
-                    Display.FillRect(-2, -2, 4, 4, Color.Red);
+                    AgateDisplay.FillRect(-2, -2, 4, 4, Color.Red);
 
                     surf.Draw();
 
-                    Display.EndFrame();
+                    AgateDisplay.EndFrame();
 
-                    Core.KeepAlive();
+                    AgateCore.KeepAlive();
                 }
             }
         }

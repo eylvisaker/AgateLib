@@ -8,10 +8,11 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.Utility;
-using ERY.AgateLib.WinForms;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.Utility;
+using AgateLib.WinForms;
 
 namespace TestPacker
 {

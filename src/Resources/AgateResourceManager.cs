@@ -23,7 +23,10 @@ using System.Text;
 using System.Xml;
 using System.IO;
 
-namespace ERY.AgateLib.Resources
+using AgateLib.Core;
+using AgateLib.Display;
+
+namespace AgateLib.Resources
 {
     /// <summary>
     /// Class which wraps an XML based resource file.  This class provides methods for adding

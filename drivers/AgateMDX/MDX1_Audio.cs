@@ -22,10 +22,11 @@ using System.Text;
 using DirectSound = Microsoft.DirectX.DirectSound;
 using AV = Microsoft.DirectX.AudioVideoPlayback;
 
-using ERY.AgateLib.Drivers;
-using ERY.AgateLib.ImplBase;
+using AgateLib.Drivers;
+using AgateLib.ImplBase;
+using AgateLib.Audio;
 
-namespace ERY.AgateLib.MDX
+namespace AgateLib.MDX
 {
     public class MDX1_Audio : AudioImpl
     {
@@ -164,11 +165,11 @@ namespace ERY.AgateLib.MDX
         {
             get
             {
-                return Audio.TransformByExp((mBuffer.Volume + 10000.0) / 10000.0);
+                return AgateAudio.TransformByExp((mBuffer.Volume + 10000.0) / 10000.0);
             }
             set
             {
-                mBuffer.Volume = (int)(Audio.TransformByLog(value) * 10000.0 - 10000.0);
+                mBuffer.Volume = (int)(AgateAudio.TransformByLog(value) * 10000.0 - 10000.0);
             }
         }
 
@@ -244,12 +245,12 @@ namespace ERY.AgateLib.MDX
                 double vol = (double)(mAVAudio.Volume + 10000) / 10000;
 
                 // logarithmic volume control
-                return Audio.TransformByExp(vol);
+                return AgateAudio.TransformByExp(vol);
             }
             set
             {
                 // do a logarithmic volume control
-                mAVAudio.Volume = (int)(Audio.TransformByLog(value) * 10000.0 - 10000.0);
+                mAVAudio.Volume = (int)(AgateAudio.TransformByLog(value) * 10000.0 - 10000.0);
             }
         }
 

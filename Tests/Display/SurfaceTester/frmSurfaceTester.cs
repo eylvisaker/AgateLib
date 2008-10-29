@@ -7,7 +7,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using ERY.AgateLib;
+using AgateLib.Core;
+using AgateLib.Display;
 
 namespace ERY.SurfaceTester
 {
@@ -36,17 +37,17 @@ namespace ERY.SurfaceTester
             InitDisplay();
             
             // fill the combo boxes
-            foreach (AgateLib.OriginAlignment align in Enum.GetValues(typeof(AgateLib.OriginAlignment)))
+            foreach (OriginAlignment align in Enum.GetValues(typeof(OriginAlignment)))
             {
                 cboAlignment.Items.Add(align);
                 cboRotation.Items.Add(align);
             }
 
-            cboAlignment.SelectedItem = AgateLib.OriginAlignment.TopLeft;
-            cboRotation.SelectedItem = AgateLib.OriginAlignment.Center;
+            cboAlignment.SelectedItem = OriginAlignment.TopLeft;
+            cboRotation.SelectedItem = OriginAlignment.Center;
 
         }
-
+        
 
         private void InitDisplay()
         { 
@@ -81,17 +82,17 @@ namespace ERY.SurfaceTester
             if (this.Visible == false)
                 return;
 
-            Display.BeginFrame();
-            Display.Clear(AgateLib.Geometry.Color.LightGray);
+            AgateDisplay.BeginFrame();
+            AgateDisplay.Clear(AgateLib.Geometry.Color.LightGray);
 
             // draw the grid
             AgateLib.Geometry.Color clr = AgateLib.Geometry.Color.Gray;
 
             for (int x = 0; x < pctGraphics.Width; x += 30)
-                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, x, pctGraphics.Height), clr);
+                AgateDisplay.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, x, pctGraphics.Height), clr);
 
             for (int y = 0; y < pctGraphics.Height; y += 30)
-                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, pctGraphics.Width, y), clr);
+                AgateDisplay.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, pctGraphics.Width, y), clr);
 
             if (mSurface != null)
             {
@@ -115,20 +116,20 @@ namespace ERY.SurfaceTester
 
             // box around sprite point to check alignment
             const int rectsize = 3;
-            Display.DrawRect(new AgateLib.Geometry.Rectangle((int)nudX.Value - rectsize, (int)nudY.Value - rectsize,
+            AgateDisplay.DrawRect(new AgateLib.Geometry.Rectangle((int)nudX.Value - rectsize, (int)nudY.Value - rectsize,
                 2 * rectsize, 2 * rectsize), AgateLib.Geometry.Color.Fuchsia);
 
             
-            Display.EndFrame();
-            Core.KeepAlive();
+            AgateDisplay.EndFrame();
+            AgateCore.KeepAlive();
 
         }
 
         private void UpdateSurface()
         {
             mSurface.RotationAngleDegrees = (double)nudAngle.Value;
-            mSurface.DisplayAlignment = (AgateLib.OriginAlignment)cboAlignment.SelectedItem;
-            mSurface.RotationCenter = (AgateLib.OriginAlignment)cboRotation.SelectedItem;
+            mSurface.DisplayAlignment = (OriginAlignment)cboAlignment.SelectedItem;
+            mSurface.RotationCenter = (OriginAlignment)cboRotation.SelectedItem;
             mSurface.SetScale((double)nudScaleWidth.Value / 100.0, (double)nudScaleHeight.Value / 100.0);
             mSurface.Color = AgateLib.Geometry.Color.FromArgb(colorBox.BackColor.ToArgb());
             mSurface.Alpha = (double)nudAlpha.Value / 100.0;

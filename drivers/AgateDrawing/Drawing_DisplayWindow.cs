@@ -23,10 +23,11 @@ using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
 
-using ERY.AgateLib.ImplBase;
-using ERY.AgateLib.WinForms;
+using AgateLib.ImplBase;
+using AgateLib.Input;
+using AgateLib.WinForms;
 
-namespace ERY.AgateLib.SystemDrawing
+namespace AgateLib.Display.SystemDrawing
 {
     class Drawing_DisplayWindow : DisplayWindowImpl, Drawing_IRenderTarget 
     {

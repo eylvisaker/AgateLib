@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-using ERY.AgateLib;
+using AgateLib.Core;
 
 namespace ERY.Sprite2Tester
 {
-    static class Program
+    static class Sprite2Tester
     {
         /// <summary>
         /// The main entry point for the application.
@@ -33,7 +33,7 @@ namespace ERY.Sprite2Tester
                     form.UpdateDisplay();
 
                     //System.Threading.Thread.Sleep(10);
-                    ERY.AgateLib.Core.KeepAlive();
+                    AgateCore.KeepAlive();
                 }
             }
         }

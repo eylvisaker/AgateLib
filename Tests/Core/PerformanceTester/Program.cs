@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Drivers;
-using ERY.AgateLib.Geometry;
+using AgateLib;
+using AgateLib.Core;
+using AgateLib.Drivers;
+using AgateLib.Display;
+using AgateLib.Geometry;
 
 namespace PerformanceTester
 {
@@ -29,7 +31,7 @@ namespace PerformanceTester
         [STAThread]
         static void Main()
         {
-            Core.Initialize();
+            AgateCore.Initialize();
             Registrar.Initialize();
 
             ICollection<DriverInfo<DisplayTypeID>> drivers = Registrar.DisplayDriverInfo;
@@ -45,8 +47,8 @@ namespace PerformanceTester
                 Trace.Indent();
                 double fps;
 
-                Display.Initialize(info.TypeID); 
-                Display.VSync = false;
+                AgateDisplay.Initialize(info.TypeID); 
+                AgateDisplay.VSync = false;
             
                 DisplayWindow wind = new DisplayWindow("Performance Test", 300, 300);
                 font = new FontSurface("Arial", 11);
@@ -81,13 +83,13 @@ namespace PerformanceTester
 
                 Trace.Unindent();
 
-                if (Display.CurrentWindow.IsClosed)
+                if (AgateDisplay.CurrentWindow.IsClosed)
                 {
-                    Display.Dispose();
+                    AgateDisplay.Dispose();
                     return;
                 }
 
-                Display.Dispose();
+                AgateDisplay.Dispose();
 
             }
 
@@ -106,12 +108,12 @@ namespace PerformanceTester
 
             for (frames = 0; frames < totalFrames; frames++)
             {
-                if (Display.CurrentWindow.IsClosed)
+                if (AgateDisplay.CurrentWindow.IsClosed)
                     return frames / (double)timer.TotalMilliseconds;
 
                 count = 1 + Math.Cos(frames / 60.0);
 
-                Display.BeginFrame();
+                AgateDisplay.BeginFrame();
 
                 
                 for (int i = 0; i < 15; i++)
@@ -139,11 +141,11 @@ namespace PerformanceTester
                     surf.Draw((int)(150 + 40 * Math.Cos(frames / 70.0)),
                               (int)(120 + 40 * Math.Sin(frames / 70.0)));
 
-                    font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+                    font.DrawText(string.Format("{0} frames per second.", Math.Round(AgateDisplay.FramesPerSecond, 2)));
                 }
 
-                Display.EndFrame();
-                Core.KeepAlive();
+                AgateDisplay.EndFrame();
+                AgateCore.KeepAlive();
 
                 if (timer.TotalSeconds > 30)
                     break;
@@ -163,13 +165,13 @@ namespace PerformanceTester
 
             for (frames = 0; frames < totalFrames; frames++)
             {
-                if (Display.CurrentWindow.IsClosed)
+                if (AgateDisplay.CurrentWindow.IsClosed)
                     return frames / (double)timer.TotalMilliseconds;
 
                 count = 1 + Math.Cos(frames / 60.0);
 
-                Display.BeginFrame();
-                Display.Clear();
+                AgateDisplay.BeginFrame();
+                AgateDisplay.Clear();
                 for (int i = 0; i < 15; i++)
                 {
                    
@@ -198,10 +200,10 @@ namespace PerformanceTester
 
 
                 } 
-                font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+                font.DrawText(string.Format("{0} frames per second.", Math.Round(AgateDisplay.FramesPerSecond, 2)));
 
-                Display.EndFrame();
-                Core.KeepAlive();
+                AgateDisplay.EndFrame();
+                AgateCore.KeepAlive();
 
                 if (timer.TotalSeconds > 30)
                     break;
@@ -228,13 +230,13 @@ namespace PerformanceTester
 
             for (frames = 0; frames < totalFrames; frames++)
             {
-                if (Display.CurrentWindow.IsClosed)
+                if (AgateDisplay.CurrentWindow.IsClosed)
                     return frames / (double)timer.TotalMilliseconds; 
 
                 rects.Add(CreateRandomRects());
 
-                Display.BeginFrame();
-                Display.Clear();
+                AgateDisplay.BeginFrame();
+                AgateDisplay.Clear();
 
                 if (applyColor)
                 {
@@ -251,10 +253,10 @@ namespace PerformanceTester
                         surf.Draw(rects[i].rect.Location);
                     }
 
-                font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+                font.DrawText(string.Format("{0} frames per second.", Math.Round(AgateDisplay.FramesPerSecond, 2)));
 
-                Display.EndFrame();
-                Core.KeepAlive();
+                AgateDisplay.EndFrame();
+                AgateCore.KeepAlive();
 
                 if (timer.TotalSeconds > 30)
                     break;
@@ -278,23 +280,23 @@ namespace PerformanceTester
 
             for (frames = 0; frames < totalFrames; frames++)
             {
-                if (Display.CurrentWindow.IsClosed)
+                if (AgateDisplay.CurrentWindow.IsClosed)
                     return frames / (double)timer.TotalMilliseconds;
 
                 rects.Add(CreateRandomRects());
 
-                Display.BeginFrame();
-                Display.Clear();
+                AgateDisplay.BeginFrame();
+                AgateDisplay.Clear();
 
                 for (int i = 0; i < rects.Count; i++)
                 {
-                    Display.DrawRect(rects[i].rect, rects[i].color);
+                    AgateDisplay.DrawRect(rects[i].rect, rects[i].color);
                 }
 
-                font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+                font.DrawText(string.Format("{0} frames per second.", Math.Round(AgateDisplay.FramesPerSecond, 2)));
 
-                Display.EndFrame();
-                Core.KeepAlive();
+                AgateDisplay.EndFrame();
+                AgateCore.KeepAlive();
 
 
                 if (timer.TotalSeconds > 30)
@@ -319,23 +321,23 @@ namespace PerformanceTester
 
             for (frames = 0; frames < totalFrames; frames++)
             {
-                if (Display.CurrentWindow.IsClosed)
+                if (AgateDisplay.CurrentWindow.IsClosed)
                     return frames / (double)timer.TotalMilliseconds;
 
                 rects.Add(CreateRandomRects());
 
-                Display.BeginFrame();
-                Display.Clear();
+                AgateDisplay.BeginFrame();
+                AgateDisplay.Clear();
 
                 for (int i = 0; i < rects.Count; i++)
                 {
-                    Display.FillRect(rects[i].rect, rects[i].color);
+                    AgateDisplay.FillRect(rects[i].rect, rects[i].color);
                 }
 
-                font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+                font.DrawText(string.Format("{0} frames per second.", Math.Round(AgateDisplay.FramesPerSecond, 2)));
 
-                Display.EndFrame();
-                Core.KeepAlive();
+                AgateDisplay.EndFrame();
+                AgateCore.KeepAlive();
 
 
                 if (timer.TotalSeconds > 30)

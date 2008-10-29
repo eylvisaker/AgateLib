@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using ERY.AgateLib.Geometry;
+using AgateLib.Geometry;
 
-namespace ERY.AgateLib.Resources
+namespace AgateLib.Resources
 {
     /// <summary>
     /// The DisplayWindowResource represents a display window.

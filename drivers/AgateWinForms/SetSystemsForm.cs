@@ -22,9 +22,10 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 
-using ERY.AgateLib.Drivers;
+using AgateLib.Core;
+using AgateLib.Drivers;
 
-namespace ERY.AgateLib.WinForms
+namespace AgateLib.WinForms
 {
     /// <summary>
     /// A form which is used to ask the user which subsystems to use.

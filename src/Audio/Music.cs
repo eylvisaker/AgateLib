@@ -20,11 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib
-{
-    using Drivers;
-    using ImplBase;
+using AgateLib.Core;
+using AgateLib.Drivers;
+using AgateLib.ImplBase;
 
+namespace AgateLib.Audio
+{
     /// <summary>
     /// A class which performs Music playback.
     /// 
@@ -37,7 +38,7 @@ namespace ERY.AgateLib
 
         private Music()
         {
-            Audio.EventStopAllMusic += new Audio.AudioCoreEventDelegate(Stop);
+            AgateAudio.EventStopAllMusic += new AgateAudio.AudioCoreEventDelegate(Stop);
         }
         /// <summary>
         /// Constructs a Music object.
@@ -49,7 +50,7 @@ namespace ERY.AgateLib
             if (string.IsNullOrEmpty(fn))
                 throw new System.IO.FileNotFoundException(filename);
 
-            impl = Audio.Impl.CreateMusic(fn);
+            impl = AgateAudio.Impl.CreateMusic(fn);
             mFilename = filename;
         }
 

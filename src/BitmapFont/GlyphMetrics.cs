@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.Geometry;
+using AgateLib.Geometry;
 
-namespace ERY.AgateLib.BitmapFont
+namespace AgateLib.BitmapFont
 {
     /// <summary>
     /// GlyphMetrics defines the metrics for a particular glyph in a font, including

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ERY.AgateLib.SystemDrawing.Properties {
+namespace AgateLib.AgateDisplay.SystemDrawing.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

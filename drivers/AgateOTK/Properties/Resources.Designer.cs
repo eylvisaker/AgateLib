@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ERY.AgateLib.OpenGL.Properties {
+namespace AgateLib.AgateDisplay.OpenGL.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ERY.AgateLib.OpenGL.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ERY.AgateLib.OpenGL.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AgateLib.AgateDisplay.OpenGL.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

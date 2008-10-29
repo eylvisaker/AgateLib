@@ -24,7 +24,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ERY.AgateLib.WinForms
+namespace AgateLib.WinForms
 {
     /// <summary>
     /// A generic render target control for AgateLib to render to.

@@ -9,18 +9,19 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using ERY.AgateLib;
+using AgateLib;
+using AgateLib.Core;
 
 namespace TimerTester
 {
-    public partial class Form1 : Form
+    public partial class frmTimerTester : Form
     {
         Timing.StopWatch timer = new Timing.StopWatch(false);
         int start = Environment.TickCount;
         double deltaTimeSum = 0;
         int count = 0;
 
-        public Form1()
+        public frmTimerTester()
         {
             InitializeComponent();
         }

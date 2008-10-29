@@ -20,11 +20,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Drivers;
-using ERY.AgateLib.ImplBase;
+using AgateLib;
+using AgateLib.Drivers;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib.AgateFMOD
+namespace AgateLib.AgateFMOD
 {
     public sealed class FMOD_Audio : AudioImpl
     {

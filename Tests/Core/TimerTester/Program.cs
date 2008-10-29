@@ -4,8 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using ERY.AgateLib;
-
+using AgateLib;
+using AgateLib.Core;
 namespace TimerTester
 {
     static class Program
@@ -19,10 +19,10 @@ namespace TimerTester
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Form1 frm = new Form1();
+            frmTimerTester frm = new frmTimerTester();
             frm.Show();
 
-            Core.Initialize();
+            AgateCore.Initialize();
             Timing.PauseAllTimers();
 
 

@@ -4,8 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using ERY.AgateLib;
-using ERY.AgateLib.Utility;
+using AgateLib;
+using AgateLib.Core;
+using AgateLib.Utility;
 
 namespace RefCounterTester
 {

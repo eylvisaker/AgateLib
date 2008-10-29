@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ERY.AgateLib
+namespace AgateLib.Display
 {
     using Geometry;
     

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib.Serialization.Xle
+namespace AgateLib.Serialization.Xle
 {
     /// <summary>
     /// Interface that must be implemented in order to make an object serializable with

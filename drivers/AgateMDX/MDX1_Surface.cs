@@ -18,20 +18,26 @@
 //
 using System;
 using System.Collections.Generic;
-using Drawing = System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using Direct3D = Microsoft.DirectX.Direct3D;
+
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
-namespace ERY.AgateLib.MDX
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.ImplBase;
+using AgateLib.Utility;
+using AgateLib.WinForms;
+
+using Drawing = System.Drawing;
+using ImageFileFormat = AgateLib.Display.ImageFileFormat;
+using Direct3D = Microsoft.DirectX.Direct3D;
+using Surface = AgateLib.Display.Surface;
+
+namespace AgateLib.MDX
 {
-    using Geometry;
-    using ImplBase;
-    using Utility;
-    using WinForms;
 
     public class MDX1_Surface : SurfaceImpl, MDX1_IRenderTarget 
     {
@@ -83,7 +89,7 @@ namespace ERY.AgateLib.MDX
 
         public MDX1_Surface()
         {
-            mDisplay = Display.Impl as MDX1_Display;
+            mDisplay = AgateDisplay.Impl as MDX1_Display;
             mDevice = mDisplay.D3D_Device;
 
             InitVerts();
@@ -93,7 +99,7 @@ namespace ERY.AgateLib.MDX
         {
             mFileName = fileName;
 
-            mDisplay = Display.Impl as MDX1_Display;
+            mDisplay = AgateDisplay.Impl as MDX1_Display;
             mDevice = mDisplay.D3D_Device;
 
             if (mDevice == null)
@@ -109,7 +115,7 @@ namespace ERY.AgateLib.MDX
         }
         public MDX1_Surface(Stream stream)
         {
-            mDisplay = Display.Impl as MDX1_Display;
+            mDisplay = AgateDisplay.Impl as MDX1_Display;
             mDevice = mDisplay.D3D_Device;
 
             if (mDevice == null)
@@ -125,7 +131,7 @@ namespace ERY.AgateLib.MDX
         {
             mSrcRect = new Rectangle(new Point(0, 0), size);
 
-            mDisplay = Display.Impl as MDX1_Display;
+            mDisplay = AgateDisplay.Impl as MDX1_Display;
             mDevice = mDisplay.D3D_Device;
             /*
             Bitmap bitmap = new Bitmap(size.Width, size.Height);
@@ -155,7 +161,7 @@ namespace ERY.AgateLib.MDX
         {
             mSrcRect = sourceRect;
 
-            mDisplay = Display.Impl as MDX1_Display;
+            mDisplay = AgateDisplay.Impl as MDX1_Display;
             mDevice = mDisplay.D3D_Device;
 
             mTexture = new Ref<Texture>(texture);
@@ -787,7 +793,7 @@ namespace ERY.AgateLib.MDX
 
         public override bool IsSurfaceBlank()
         {
-            return IsSurfaceBlank((int)(Display.AlphaThreshold * 255.0));
+            return IsSurfaceBlank((int)(AgateDisplay.AlphaThreshold * 255.0));
         }
         public override bool IsSurfaceBlank(int alphaThreshold)
         {
@@ -810,7 +816,7 @@ namespace ERY.AgateLib.MDX
                 Interop.Convert(mSrcRect), LockFlags.ReadOnly, out stride);
 
             bool retval = this.IsRowBlankScanARGB(stm.InternalData, row, this.SurfaceWidth,
-                stride, (int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
+                stride, (int)(AgateDisplay.AlphaThreshold * 255.0), 0xff000000, 24);
             
             surf.UnlockRectangle();
 
@@ -826,7 +832,7 @@ namespace ERY.AgateLib.MDX
                 LockFlags.ReadOnly, out stride);
 
             bool retval = this.IsColBlankScanARGB(stm.InternalData, col, this.SurfaceHeight,
-                stride, (int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
+                stride, (int)(AgateDisplay.AlphaThreshold * 255.0), 0xff000000, 24);
 
             surf.UnlockRectangle();
 
@@ -875,7 +881,7 @@ namespace ERY.AgateLib.MDX
 
             mRenderToSurface.BeginScene(surfaceTarget, vp);
 
-            Display.Clear();
+            AgateDisplay.Clear();
 
             Draw();
 

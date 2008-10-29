@@ -24,12 +24,13 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-using ERY.AgateLib.BitmapFont;
-using ERY.AgateLib.Drivers;
-using ERY.AgateLib.ImplBase;
-using ERY.AgateLib.PlatformSpecific;
+using AgateLib.Core;
+using AgateLib.BitmapFont;
+using AgateLib.Drivers;
+using AgateLib.ImplBase;
+using AgateLib.PlatformSpecific;
 
-namespace ERY.AgateLib.SystemDrawing
+namespace AgateLib.Display.SystemDrawing
 {
     using WinForms;
 
@@ -266,7 +267,7 @@ namespace ERY.AgateLib.SystemDrawing
         {
         }
 
-        public override void SetOrthoProjection(ERY.AgateLib.Geometry.Rectangle region)
+        public override void SetOrthoProjection(AgateLib.Geometry.Rectangle region)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -356,7 +357,7 @@ namespace ERY.AgateLib.SystemDrawing
         {
             return this;
         }
-        PlatformType IPlatformServices.PlatformType
+        Core.PlatformType IPlatformServices.PlatformType
         {
             get
             {

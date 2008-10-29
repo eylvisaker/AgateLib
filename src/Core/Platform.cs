@@ -20,7 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.AgateLib
+using AgateLib.Display;
+
+namespace AgateLib.Core
 {
     /// <summary>
     /// Returns information about the current platform.
@@ -61,13 +63,14 @@ namespace ERY.AgateLib
                     break;
             }
 
-            if (Display.Impl == null)
+            if (AgateDisplay.Impl == null)
                 return;
 
-            mServices = Display.GetPlatformServices();
+            mServices = AgateDisplay.GetPlatformServices();
             mType = mServices.PlatformType;
  
             mDetectedPlatform = true;
+
         }
     }
 

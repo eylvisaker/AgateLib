@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace ERY.AgateLib.Geometry
+namespace AgateLib.Geometry
 {
     /// <summary>
     /// Replacement for System.Drawing.Color structure.
@@ -695,7 +695,7 @@ namespace ERY.AgateLib.Geometry
 
 
         /// <summary>
-        /// Converts a string to an ERY.AgateLib.Geometry.Color structure.
+        /// Converts a string to an AgateLib.Geometry.Color structure.
         /// </summary>
         /// <param name="str">The string to convert.  It must be in one of the following formats
         /// RRGGBB, AARRGGBB, 0xRRGGBB, 0xAARRGGBB where AA, RR, GG, BB are each a hexidecimal

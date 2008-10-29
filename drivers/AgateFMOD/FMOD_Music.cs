@@ -20,10 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib;
-using ERY.AgateLib.ImplBase;
+using AgateLib;
+using AgateLib.ImplBase;
 
-namespace ERY.AgateLib.AgateFMOD
+namespace AgateLib.AgateFMOD
 {
     class FMOD_Music : MusicImpl 
     {

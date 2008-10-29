@@ -20,9 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.Geometry;
+using AgateLib.Display;
+using AgateLib.Geometry;
 
-namespace ERY.AgateLib
+namespace AgateLib.Sprites.Old
 {
     /// <summary>
     /// A generic class which is used to contain multiple animation sequences (sprites).

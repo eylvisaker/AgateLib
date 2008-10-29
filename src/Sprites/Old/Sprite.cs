@@ -21,13 +21,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.Resources;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.Resources.Old;
 
-namespace ERY.AgateLib
+namespace AgateLib.Sprites.Old
 {
-    using Sprites;
-
     /// <summary>
     /// The Sprite class represents a series of frames which are used
     /// to create a single animation.
@@ -179,7 +178,7 @@ namespace ERY.AgateLib
         /// <param name="name"></param>
         /// <param name="resources"></param>
         [Obsolete]
-        public Sprite(string name, ResourceManager resources)
+        public Sprite(string name, Resources.Old.ResourceManager resources)
         {
             Resource rs = resources.GetResource("sprite", name);
 
@@ -921,7 +920,7 @@ namespace ERY.AgateLib
         /// </summary>
         public void Update()
         {
-            Update(Display.DeltaTime);
+            Update(AgateDisplay.DeltaTime);
         }
         /// <summary>
         /// Updates the animation of the sprite, using the given frame time.
@@ -1230,18 +1229,18 @@ namespace ERY.AgateLib
 
         #region --- ISprite Members with different types --
 
-
-        event ERY.AgateLib.SpriteEventHandler ISprite.AnimationStarted
+        
+        event Display.SpriteEventHandler ISprite.AnimationStarted
         {
             add { throw new Exception("The method or operation is not implemented."); }
             remove { throw new Exception("The method or operation is not implemented."); }
         }
-        event ERY.AgateLib.SpriteEventHandler ISprite.AnimationStopped
+        event Display.SpriteEventHandler ISprite.AnimationStopped
         {
             add { throw new Exception("The method or operation is not implemented."); }
             remove { throw new Exception("The method or operation is not implemented."); }
         }
-        event ERY.AgateLib.SpriteEventHandler ISprite.PlayDirectionChanged
+        event Display.SpriteEventHandler ISprite.PlayDirectionChanged
         {
             add { throw new Exception("The method or operation is not implemented."); }
             remove { throw new Exception("The method or operation is not implemented."); }

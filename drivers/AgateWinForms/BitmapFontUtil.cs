@@ -21,11 +21,12 @@ using Drawing = System.Drawing;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
-using ERY.AgateLib.BitmapFont;
 
-namespace ERY.AgateLib.WinForms
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.BitmapFont;
+
+namespace AgateLib.WinForms
 {
     public static class BitmapFontUtil
     {

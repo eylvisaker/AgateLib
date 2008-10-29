@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using ERY.AgateLib.Geometry;
+using AgateLib.Geometry;
 
-namespace ERY.AgateLib
+namespace AgateLib.Input
 {
     /// <summary>
     /// An enumeration of all possible key values.
