@@ -173,6 +173,8 @@ namespace ERY.AgateLib.OpenGL
             AL.BufferData(buffer, reader.ReadToEnd());
             AL.Source(source, ALSourcei.Buffer, buffer);
 
+            OnSetLoop(true);
+
             reader.Dispose();
         }
 
