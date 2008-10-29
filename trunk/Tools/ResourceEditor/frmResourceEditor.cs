@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using ERY.AgateLib.Resources;
+using AgateLib.Resources;
 
 namespace ResourceEditor
 {
