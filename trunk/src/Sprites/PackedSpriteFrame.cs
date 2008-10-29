@@ -51,7 +51,8 @@ namespace ERY.AgateLib.Sprites
         /// Copies this object.
         /// 
         /// Actually, this just returns this
-        /// object.  Be sure to Dispose the result when finished with it.
+        /// object, since there are no unmanaged resources to deal with.  
+        /// Be sure to Dispose the result when finished with it.
         /// </summary>
         /// <returns></returns>
         public PackedSpriteFrame Clone()
@@ -77,191 +78,6 @@ namespace ERY.AgateLib.Sprites
             set { mOffset = value; }
         }
         
-        /*
-        /// <summary>
-        /// Sets the frame of this object, and does not trim it.
-        /// </summary>
-        /// <param name="srcSurface"></param>
-        /// <param name="offset"></param>
-        /// <param name="originalSize"></param>
-        public void SetFrameNoTrim(Surface srcSurface, Point offset, Size originalSize)
-        {
-            mSurface = srcSurface;
-            mOffset = offset;
-
-            mOriginalSize = originalSize;
-            mDisplaySize = mOriginalSize;
-
-            mIsBlank = false;
-        }
-        /// <summary>
-        /// Sets the frame from a section of the source surface.
-        /// </summary>
-        /// <param name="srcSurface"></param>
-        /// <param name="location"></param>
-        /// <param name="size"></param>
-        public void SetFrame(Surface srcSurface, Point location, Size size)
-        {
-            SetFrame(srcSurface, new Rectangle(location, size));
-        }
-        /// <summary>
-        /// Sets the frame from a section of the source surface.
-        /// </summary>
-        /// <param name="srcSurface"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public void SetFrame(Surface srcSurface, int x, int y, int width, int height)
-        {
-            SetFrame(srcSurface, new Rectangle(x, y, width, height));
-        }
-        /// <summary>
-        /// Sets the frame from a section of the source surface.
-        /// </summary>
-        /// <param name="srcSurface"></param>
-        /// <param name="rect"></param>
-        public void SetFrame(Surface srcSurface, Rectangle rect)
-        {
-            mOriginalSize = rect.Size;
-
-            Private_SetFrame(srcSurface, rect);
-        }
-        private void Private_SetFrame(Surface srcSurface, Rectangle rect)
-        {
-            Private_SetFrame(srcSurface, rect, true);
-        }
-        private void Private_SetFrame(Surface srcSurface, Rectangle rect, bool trim)
-        {
-            // copy the source surface to a new memory surface
-            Surface surface = srcSurface.CarveSubSurface(rect);
-            PixelBuffer pixels = surface.ReadPixels();
-
-            //pixels.SaveTo("test.png", ImageFileFormat.Png);
-
-            // check to see if this frame is completely blank
-            if (pixels.IsBlank())
-            {
-                surface.Dispose();
-                mSurface = null;
-                mIsBlank = true;
-                return;
-            }
-
-            mIsBlank = false;
-            mSurface = surface;
-
-            if (trim)
-                TrimFrame(pixels);
-        }
-        //static bool inTrimFrame = false;
-
-        private void TrimFrame(PixelBuffer pixels)
-        {
-            //if (inTrimFrame)
-            //    return;
-            //inTrimFrame = true;
-
-            Rectangle startRect = new Rectangle(0, 0, mSurface.SurfaceWidth, mSurface.SurfaceHeight);
-
-            //mSurface.SaveTo("Test.png");
-
-            // now get rid of extra junk
-            Rectangle newRect = startRect;
-
-            while (pixels.IsRowBlank(newRect.Top))
-            {
-                newRect.Y++;
-                newRect.Height--;
-
-                if (newRect.Height == 0)
-                {
-                    mIsBlank = true;
-
-                    return;
-                }
-            }
-            while (pixels.IsRowBlank(newRect.Bottom - 1))
-            {
-                newRect.Height--;
-
-                if (newRect.Height == 0)
-                {
-                    mIsBlank = true;
-
-                    return;
-                }
-            }
-            while (pixels.IsColumnBlank(newRect.Left))
-            {
-                newRect.X++;
-                newRect.Width--;
-
-
-                if (newRect.Width == 0)
-                {
-                    mIsBlank = true;
-
-                    return;
-                }
-            }
-            while (pixels.IsColumnBlank(newRect.Right - 1))
-            {
-                newRect.Width--;
-
-                if (newRect.Width == 0)
-                {
-                    mIsBlank = true;
-
-                    return;
-                }
-            }
-
-            // make sure there's a one pixel border of blanks, if possible.
-            if (newRect.X > 0)
-            {
-                newRect.X--;
-                newRect.Width++;
-            }
-            if (newRect.Width < mSurface.SurfaceWidth)
-            {
-                newRect.Width += 1;
-            }
-
-            if (newRect.Y > 0)
-            {
-                newRect.Y--;
-                newRect.Height++;
-            }
-            else if (newRect.Height < mSurface.SurfaceHeight)
-            {
-                newRect.Height++;
-            }
-
-
-            mIsBlank = false;
-
-            // now check to see if we need to redefine our existing rect.
-            if (newRect.Equals(startRect) == false)
-            {
-                Surface oldSurface = mSurface;
-
-                Private_SetFrame(oldSurface, newRect);
-
-                System.Diagnostics.Debug.Assert(oldSurface != mSurface);
-
-                mOffset = newRect.Location;
-
-                oldSurface.Dispose();
-
-            }
-            //inTrimFrame = false;
-
-        }
-        */
-
-
-
         /// <summary>
         /// Returns true if the entire frame is transparent.
         /// </summary>
@@ -331,7 +147,7 @@ namespace ERY.AgateLib.Sprites
         /// <param name="rotationCenterY"></param>
         public void Draw(float dest_x, float dest_y, float rotationCenterX, float rotationCenterY)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -339,7 +155,7 @@ namespace ERY.AgateLib.Sprites
         /// </summary>
         public Surface Surface
         {
-            get { throw new Exception("XXX"); }
+            get { throw new NotImplementedException(); }
         }
 
         #endregion

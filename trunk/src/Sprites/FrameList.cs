@@ -38,7 +38,6 @@ namespace ERY.AgateLib.Sprites
         }
 
         #endregion
-
         #region ICollection<T> Members
 
         public void Add(T item)
@@ -86,7 +85,6 @@ namespace ERY.AgateLib.Sprites
         }
 
         #endregion
-
         #region IEnumerable Members
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
