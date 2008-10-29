@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using ERY.AgateLib.Geometry;
+using ERY.AgateLib.Sprites;
 
 namespace ERY.AgateLib.Resources
 {
@@ -11,7 +12,7 @@ namespace ERY.AgateLib.Resources
     /// sprite, implemented as the Sprite class, and a packed version which maximizes the memory
     /// efficiency, implemented as PackedSprite.<br/>
     /// XML Attributes:<br/> 
-    ///   string name, bool packed, Size size, string image
+    ///   string name, bool packed, Size size, string image, double timePerFrame (in milliseconds)
     ///   
     /// XML Nodes:<br/>
     ///     Frame:
@@ -22,10 +23,53 @@ namespace ERY.AgateLib.Resources
     /// </summary>
     public class SpriteResource : AgateResource 
     {
-        Size size;
-        string filename = string.Empty;
-        bool packed = false;
+        Size mSize;
+        string mFilename = string.Empty;
+        bool mPacked = false;
+        double mTimePerFrame = 60;
+
         List<SpriteFrameResource> mFrames = new List<SpriteFrameResource>();
+
+        /// <summary>
+        /// Gets or sets whether or not this sprite uses the PackedSprite class.
+        /// </summary>
+        public bool Packed
+        {
+            get { return mPacked; }
+        }
+        /// <summary>
+        /// Gets or sets the size of this sprite.
+        /// </summary>
+        public Size Size
+        {
+            get { return mSize; }
+            set { mSize = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the amount of time each frame should be displayed, in milliseconds.
+        /// </summary>
+        public double TimePerFrame
+        {
+            get { return mTimePerFrame; }
+            set { mTimePerFrame = value; }
+        }
+        /// <summary>
+        /// Gets the list of frames 
+        /// </summary>
+        public List<SpriteFrameResource> Frames
+        {
+            get { return mFrames; }
+        }
+
+        /// <summary>
+        /// Gets or sets the default filename for sprite frames.
+        /// </summary>
+        public string Filename
+        {
+            get { return mFilename; }
+            set { mFilename = value; }
+        }
 
         /// <summary>
         /// Constructs a SpriteResource object.
@@ -45,14 +89,14 @@ namespace ERY.AgateLib.Resources
             {
                 case "0.3.0":
                     Name = node.Attributes["name"].Value;
-                    size = XmlHelper.ReadAttributeSize(node, "size");
-                    filename = XmlHelper.ReadAttributeString(node, "image", string.Empty);
-                    packed = XmlHelper.ReadAttributeBool(node, "packed", true);
+                    mSize = XmlHelper.ReadAttributeSize(node, "size");
+                    mFilename = XmlHelper.ReadAttributeString(node, "image", string.Empty);
+                    mPacked = XmlHelper.ReadAttributeBool(node, "packed", true);
 
                     ReadFrames030(node);
 
                     // check and make sure the sprite can be packed, and this matches the packed attribute 
-                    if (packed == false && XmlHelper.ReadAttributeBool(node, "packed", false) == true)
+                    if (mPacked == false && XmlHelper.ReadAttributeBool(node, "packed", false) == true)
                     {
                         throw new AgateResourceException("Sprite resource " + Name + " has the packed=true attribute," +
                             " but some frames are located in separate files.");
@@ -78,21 +122,21 @@ namespace ERY.AgateLib.Resources
 
             frame.Bounds = XmlHelper.ReadAttributeRectangle(node, "rect");
             frame.Offset = XmlHelper.ReadAttributePoint(node, "offset");
-            frame.Filename = XmlHelper.ReadAttributeString(node, string.Empty);
+            frame.Filename = XmlHelper.ReadAttributeString(node, "image", string.Empty);
 
             if (string.IsNullOrEmpty(frame.Filename))
             {
-                frame.Filename = filename;
+                frame.Filename = mFilename;
 
-                if (filename == null)
+                if (mFilename == null)
                     throw new AgateResourceException("Sprite resource " + Name + " does not have a " +
                         "default filename, and frame " + mFrames.Count.ToString() + 
                         " does not specify a filename.");
             }
 
-            if (frame.Filename != filename)
+            if (frame.Filename != mFilename)
             {
-                packed = false;
+                mPacked = false;
             }
 
             mFrames.Add(frame);
@@ -146,6 +190,27 @@ namespace ERY.AgateLib.Resources
                 get { return mOffset; }
                 set { mOffset = value; }
             }
+        }
+
+        internal ISprite CreateSprite()
+        {
+            if (Packed)
+                return CreatePackedSprite();
+            else
+                return CreateUnpackedSprite();
+        }
+
+        private ISprite CreatePackedSprite()
+        {
+            return new PackedSprite(this);
+            
+
+            
+        }
+
+        private ISprite CreateUnpackedSprite()
+        {
+            throw new NotImplementedException();
         }
     }
 

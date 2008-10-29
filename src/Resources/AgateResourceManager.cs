@@ -212,7 +212,6 @@ namespace ERY.AgateLib.Resources
                 ReadNode(group, node, version);
             }
         }
-
         private void ReadNode(ResourceGroup group, XmlNode node, string version)
         {
             switch (node.Name)
@@ -242,7 +241,6 @@ namespace ERY.AgateLib.Resources
                     return;
             }
         }
-
         private void ReadError(string p)
         {
             if (ThrowOnReadError)
@@ -267,6 +265,39 @@ namespace ERY.AgateLib.Resources
                 else
                     return DefaultLanguage[name];
             }
+        }
+
+        /// <summary>
+        /// Returns true if the specified resource is present in either the
+        /// current language or the default language.  No other languages are checked.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool ContainsResource(string name)
+        {
+            if (CurrentLanguage.ContainsResource(name))
+                return true;
+
+            return DefaultLanguage.ContainsResource(name);
+        }
+
+        /// <summary>
+        /// Creates a sprite based on a resource.
+        /// </summary>
+        /// <param name="name">Name of the sprite resource to construct.</param>
+        /// <returns></returns>
+        public ISprite CreateSprite(string name)
+        {
+            if (ContainsResource(name) == false)
+                throw new AgateResourceException("Resource " + name + " not found.");
+
+            if (this[name].GetType() != typeof(SpriteResource))
+                throw new AgateResourceException("Resource " + name + " is not of type SpriteResource.");
+
+            SpriteResource res = (SpriteResource)this[name];
+
+            return res.CreateSprite();
+
         }
     }
 }

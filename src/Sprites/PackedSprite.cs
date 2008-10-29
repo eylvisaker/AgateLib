@@ -104,7 +104,7 @@ namespace ERY.AgateLib.Sprites
         /// Frames are cut out from the given surface of the specified size.
         /// </summary>
         /// <param name="surface"></param>
-        /// <param name="ownSurface">True to indicate that this Sprite2 object owns the surface, so 
+        /// <param name="ownSurface">True to indicate that this PackedSprite object owns the surface, so 
         /// it is disposed when this Sprite is disposed.</param>
         /// <param name="width"></param>
         /// <param name="height"></param>
@@ -113,11 +113,10 @@ namespace ERY.AgateLib.Sprites
         {
         }
         /// <summary>
-        /// Constructs a Sprite object, of the specified width and height.
-        /// Frames are cut out from the given surface of the specified size.
+        /// Constructs a PackedSprite object, of the specified width and height.
         /// </summary>
         /// <param name="surface"></param>
-        /// <param name="ownSurface">True to indicate that this Sprite2 object owns the surface, so 
+        /// <param name="ownSurface">True to indicate that this PackedSprite object owns the surface, so 
         /// it is disposed when this Sprite is disposed.</param>
         /// <param name="size"></param>
         public PackedSprite(Surface surface, bool ownSurface, Size size)
@@ -125,8 +124,6 @@ namespace ERY.AgateLib.Sprites
         {
             mSurface = surface;
             mOwnSurface = ownSurface;
-
-            AddFrames();
         }
         /// <summary>
         /// Constructs a Sprite object, of the specified width and height.
@@ -140,49 +137,58 @@ namespace ERY.AgateLib.Sprites
         }
         /// <summary>
         /// Constructs a Sprite object, loading it from the file specified
-        /// in the given ResourceManager object.
+        /// in the given ResourceManager object.  It is not recommended to use this
+        /// constructor, but instead to use the CreateSprite() of the
+        /// AgateResourceManager object.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="resources"></param>
         [Obsolete]
-        public PackedSprite(string name, ResourceManager resources)
+        public PackedSprite(string name, AgateResourceManager resources)
         {
-            throw new NotImplementedException();
-            /*
-            Resource rs = resources.GetResource("sprite", name);
+            SpriteResource resource = resources[name] as SpriteResource;
+            if (resource == null)
+                throw new AgateResourceException("Resource " + name + " is not a sprite.");
 
-            IList<Resource> images = rs.GetSubElements("image");
-
-            for (int i = 0; i < images.Count; i++)
-            {
-                Resource surfResource = images[i];
-                Surface surf = new Surface(surfResource.GetStringAttribute("file"));
-                surf.ShouldBePacked = false;
-                Resource grid = surfResource.GetFirstSubElement("grid");
-
-                if (grid != null)
-                {
-                    Point pos = grid.GetPointAttribute("pos");
-                    Size size = grid.GetSizeAttribute("size");
-                    Size array = grid.GetSizeAttribute("array");
-
-                    AddFrames(surf, pos, new Point(0, 0), size, array);
-
-                    if (i == 0)
-                        mSpriteSize = size;
-                }
-                else
-                {
-                    if (i == 0)
-                    {
-                        mSpriteSize = surf.SurfaceSize;
-                    }
-
-                    AddFrames(surf);
-                }
-            }
-             * */
+            BuildSpriteFromResource(resource);
         }
+
+        internal PackedSprite(SpriteResource resource)
+        {
+            BuildSpriteFromResource(resource);
+        }
+
+        private void BuildSpriteFromResource(SpriteResource resource)
+        {
+            if (resource.Packed == false)
+                throw new AgateResourceException("Resource " + resource.Name + " is not a packed sprite.");
+
+            mSpriteSize = resource.Size;
+            mSurface = new Surface(resource.Filename);
+            mOwnSurface = true;
+
+            for (int i = 0; i < resource.Frames.Count; i++)
+            {
+                SpriteResource.SpriteFrameResource frame = resource.Frames[i];
+
+                AddFrame(frame.Bounds, frame.Offset);
+            }
+        }
+
+        /// <summary>
+        /// Adds a frame to the sprite.
+        /// </summary>
+        /// <param name="bounds">The source rectangle for the image data used in the sprite frame to be added.</param>
+        /// <param name="offset">The offset within the sprite to the upperleft corner of where the frame is drawn.</param>
+        public void AddFrame(Rectangle bounds, Point offset)
+        {
+            PackedSpriteFrame frame = new PackedSpriteFrame();
+            frame.SourceRect = bounds;
+            frame.Offset = offset;
+
+            mFrames.Add(frame);
+        }
+
         /// <summary>
         /// Makes a copy of this sprite and returns it.
         /// </summary>
