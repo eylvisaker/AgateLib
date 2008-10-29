@@ -104,11 +104,20 @@ namespace ERY.AgateLib
 
         internal static void ProcessEvents()
         {
+            if (impl == null)
+                return;
+
             impl.ProcessEvents();
         }
         internal static bool IsAppIdle
         {
-            get { return impl.IsAppIdle; }
+            get
+            {
+                if (impl == null)
+                    return true;
+
+                return impl.IsAppIdle;
+            }
         }
        
 
