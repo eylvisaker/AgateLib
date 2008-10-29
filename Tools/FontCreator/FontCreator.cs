@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ERY.AgateLib;
-using ERY.AgateLib.BitmapFont;
-using ERY.AgateLib.ImplBase;
-using ERY.AgateLib.Geometry;
+
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.BitmapFont;
+using AgateLib.ImplBase;
+using AgateLib.Geometry;
 
 namespace FontCreator
 {
@@ -198,40 +200,40 @@ namespace FontCreator
             if (zoomWind == null)
                 return;
 
-            Display.RenderTarget = zoomWind;
-            Display.BeginFrame();
-            Display.Clear();
+            AgateDisplay.RenderTarget = zoomWind;
+            AgateDisplay.BeginFrame();
+            AgateDisplay.Clear();
 
             font.SetScale(mDisplayScale, mDisplayScale);
 
             DrawBackground();
             DrawText();
 
-            Display.EndFrame();
+            AgateDisplay.EndFrame();
 
 
-            Display.RenderTarget = wind;
-            Display.BeginFrame();
-            Display.Clear();
+            AgateDisplay.RenderTarget = wind;
+            AgateDisplay.BeginFrame();
+            AgateDisplay.Clear();
 
             font.SetScale(1.0, 1.0);
 
             DrawBackground();
             DrawText();
 
-            Display.EndFrame();
+            AgateDisplay.EndFrame();
 
 
-            Core.KeepAlive();
+            AgateCore.KeepAlive();
         }
 
         private void DrawBackground()
         {
             Surface background = LightBackground ? bgLight : bgDark;
 
-            for (int x = 0; x < Display.RenderTarget.Width; x += background.DisplayWidth)
+            for (int x = 0; x < AgateDisplay.RenderTarget.Width; x += background.DisplayWidth)
             {
-                for (int y = 0; y < Display.RenderTarget.Height; y += background.DisplayHeight)
+                for (int y = 0; y < AgateDisplay.RenderTarget.Height; y += background.DisplayHeight)
                 {
                     background.Draw(x, y);
                 }

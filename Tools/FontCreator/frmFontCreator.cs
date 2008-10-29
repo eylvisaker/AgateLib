@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using ERY.AgateLib.BitmapFont;
+using AgateLib.BitmapFont;
 
 namespace FontCreator
 {
@@ -20,7 +20,7 @@ namespace FontCreator
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using (ERY.AgateLib.AgateSetup setup = new ERY.AgateLib.AgateSetup(args))
+            using (AgateLib.Core.AgateSetup setup = new AgateLib.Core.AgateSetup(args))
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
@@ -119,7 +119,7 @@ namespace FontCreator
                 btnBorderColor.BackColor = colorDialog.Color;
 
                 sample.Options.BorderColor = ConvertColor(colorDialog.Color);
-                sample.Options.BorderColor = ERY.AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
+                sample.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
 
                 sample.Options.CreateBorder = true;
 
@@ -130,7 +130,7 @@ namespace FontCreator
         }
         private void nudOpacity_ValueChanged(object sender, EventArgs e)
         {
-            sample.Options.BorderColor = ERY.AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
+            sample.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
 
             if (chkBorder.Checked)
             {
@@ -138,9 +138,9 @@ namespace FontCreator
             }
         }
 
-        private ERY.AgateLib.Geometry.Color ConvertColor(System.Drawing.Color clr)
+        private AgateLib.Geometry.Color ConvertColor(System.Drawing.Color clr)
         {
-            return ERY.AgateLib.Geometry.Color.FromArgb(clr.R, clr.G, clr.B);
+            return AgateLib.Geometry.Color.FromArgb(clr.R, clr.G, clr.B);
         }
 
         private void chkTextRenderer_CheckedChanged(object sender, EventArgs e)

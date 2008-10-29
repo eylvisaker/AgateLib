@@ -40,8 +40,8 @@ namespace FontCreator
             this.chkStrikeout = new System.Windows.Forms.CheckBox();
             this.txtSampleText = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.renderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
-            this.zoomRenderTarget = new ERY.AgateLib.WinForms.AgateRenderTarget();
+            this.renderTarget = new AgateLib.WinForms.AgateRenderTarget();
+            this.zoomRenderTarget = new AgateLib.WinForms.AgateRenderTarget();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.nudOpacity = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
@@ -472,7 +472,7 @@ namespace FontCreator
 
         #endregion
 
-        private ERY.AgateLib.WinForms.AgateRenderTarget renderTarget;
+        private AgateLib.WinForms.AgateRenderTarget renderTarget;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cboFamily;
@@ -483,7 +483,7 @@ namespace FontCreator
         private System.Windows.Forms.CheckBox chkUnderline;
         private System.Windows.Forms.CheckBox chkStrikeout;
         private System.Windows.Forms.TextBox txtSampleText;
-        private ERY.AgateLib.WinForms.AgateRenderTarget zoomRenderTarget;
+        private AgateLib.WinForms.AgateRenderTarget zoomRenderTarget;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkTextRenderer;

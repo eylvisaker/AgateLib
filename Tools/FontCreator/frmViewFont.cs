@@ -6,8 +6,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using ERY.AgateLib.BitmapFont;
-using ERY.AgateLib.WinForms;
+using AgateLib.BitmapFont;
+using AgateLib.WinForms;
 
 namespace FontCreator
 {

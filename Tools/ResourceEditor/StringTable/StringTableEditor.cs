@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using ERY.AgateLib.Resources;
+using AgateLib.Resources;
 
 namespace ResourceEditor.StringTable
 {
@@ -208,7 +208,7 @@ namespace ResourceEditor.StringTable
             {
                 for (int i = 0; i < ResourceManager.Languages.Count; i++)
                 {
-                    ERY.AgateLib.Resources.StringTable language = ResourceManager.Languages[i].Strings;
+                    AgateLib.Resources.StringTable language = ResourceManager.Languages[i].Strings;
 
                     if (language.ContainsKey(oldname) == false)
                         continue;
