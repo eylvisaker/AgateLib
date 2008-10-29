@@ -28,7 +28,7 @@ Goals for 0.3.0
 	Sprites
 		D Create ISprite and ISpriteFrame interfaces
 		* Create ISprite compliant version of old Sprite class
-		* Finish PackedSprite class
+		D Finish PackedSprite class
 		* Deprecate old Sprite class
 		* Test PackedSprite class
 	Fonts
@@ -38,7 +38,7 @@ Goals for 0.3.0
 		D Move implementation of PixelBuffer.SaveTo to Display class or something.
 	Audio
 		* Make sure that Audio can be loaded from Stream classes.
-		* Develop OpenAL classes in AgateOTK.
+		D Develop OpenAL classes in AgateOTK.
 	Input
 		D Eliminate all use of FlagsAttribute on MouseButtons enum.
 		D Deprecate Keyboard events in favor of events where a structure is passed which does not combine modifier keys into a Flags enum.
