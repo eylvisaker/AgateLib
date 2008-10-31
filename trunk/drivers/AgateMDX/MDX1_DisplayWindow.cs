@@ -26,8 +26,6 @@ using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
-using AgateLib.Core;
-using AgateLib.Display;
 using AgateLib.Geometry;
 using AgateLib.ImplBase;
 using AgateLib.Input;
@@ -35,6 +33,8 @@ using AgateLib.WinForms;
 
 namespace AgateLib.MDX
 {
+    using Display;
+
     public class MDX1_DisplayWindow : DisplayWindowImpl, MDX1_IRenderTarget
     {
         Form frm;
@@ -74,7 +74,7 @@ namespace AgateLib.MDX
                 mChooseWidth = mRenderTarget.ClientSize.Width;
                 mChooseHeight = mRenderTarget.ClientSize.Height;
 
-                mDisplay = AgateDisplay.Impl as MDX1_Display;
+                mDisplay = Display.Impl as MDX1_Display;
                 mDisplay.Initialize(this);
                 mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
 
@@ -95,7 +95,7 @@ namespace AgateLib.MDX
 
                 CreateWindow(mChooseFullscreen);
 
-                mDisplay = AgateDisplay.Impl as MDX1_Display;
+                mDisplay = Display.Impl as MDX1_Display;
                 mDisplay.Initialize(this);
                 mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
 
@@ -304,7 +304,7 @@ namespace AgateLib.MDX
 
             AttachEvents();
 
-            AgateCore.IsActive = true;
+            Core.IsActive = true;
             mIsFullscreen = false;
         }
 
@@ -338,7 +338,7 @@ namespace AgateLib.MDX
 
             AttachEvents();
             mIsFullscreen = true;
-            AgateCore.IsActive = true;
+            Core.IsActive = true;
         }
 
 

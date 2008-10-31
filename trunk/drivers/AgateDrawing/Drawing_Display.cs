@@ -24,7 +24,6 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-using AgateLib.Core;
 using AgateLib.BitmapFont;
 using AgateLib.Drivers;
 using AgateLib.ImplBase;
@@ -357,7 +356,7 @@ namespace AgateLib.Display.SystemDrawing
         {
             return this;
         }
-        Core.PlatformType IPlatformServices.PlatformType
+        Utility.PlatformType IPlatformServices.PlatformType
         {
             get
             {
@@ -367,13 +366,13 @@ namespace AgateLib.Display.SystemDrawing
                     case PlatformID.Win32S:
                     case PlatformID.Win32NT:
                     case PlatformID.WinCE:
-                        return PlatformType.Windows;
+                        return Utility.PlatformType.Windows;
 
                     case PlatformID.Unix:
-                        return PlatformType.Linux;
+                        return Utility.PlatformType.Linux;
                 }
 
-                return PlatformType.Unknown;
+                return Utility.PlatformType.Unknown;
             }
         }
 

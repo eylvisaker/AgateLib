@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-using AgateLib.Core;
+using AgateLib;
 
 namespace ERY.Sprite2Tester
 {
@@ -33,7 +33,7 @@ namespace ERY.Sprite2Tester
                     form.UpdateDisplay();
 
                     //System.Threading.Thread.Sleep(10);
-                    AgateCore.KeepAlive();
+                    Core.KeepAlive();
                 }
             }
         }

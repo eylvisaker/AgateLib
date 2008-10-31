@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using AgateLib.Core;
 
 namespace AgateLib.WinForms
 {

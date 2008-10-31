@@ -21,12 +21,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using AgateLib.Display;
 using AgateLib.Geometry;
 using AgateLib.Resources;
 
 namespace AgateLib.Sprites
 {
+    using AgateLib.Display;
+
     /// <summary>
     /// Sprite2 class.
     /// </summary>
@@ -466,7 +467,7 @@ namespace AgateLib.Sprites
                 {
                     Point pt = new Point(x + currentFrame.SourceRect.X, y + currentFrame.SourceRect.Y);
 
-                    if (pixels.GetPixel(pt.X, pt.Y).A > AgateDisplay.AlphaThreshold)
+                    if (pixels.GetPixel(pt.X, pt.Y).A > Display.AlphaThreshold)
                         return false;
                 }
             }
@@ -853,7 +854,7 @@ namespace AgateLib.Sprites
         /// </summary>
         public void Update()
         {
-            Update(AgateDisplay.DeltaTime);
+            Update(Display.DeltaTime);
         }
         /// <summary>
         /// Updates the animation of the sprite, using the given frame time.

@@ -7,7 +7,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using AgateLib.Core;
+
+using AgateLib;
 using AgateLib.Display;
 
 namespace ERY.SurfaceTester
@@ -82,17 +83,17 @@ namespace ERY.SurfaceTester
             if (this.Visible == false)
                 return;
 
-            AgateDisplay.BeginFrame();
-            AgateDisplay.Clear(AgateLib.Geometry.Color.LightGray);
+            Display.BeginFrame();
+            Display.Clear(AgateLib.Geometry.Color.LightGray);
 
             // draw the grid
             AgateLib.Geometry.Color clr = AgateLib.Geometry.Color.Gray;
 
             for (int x = 0; x < pctGraphics.Width; x += 30)
-                AgateDisplay.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, x, pctGraphics.Height), clr);
+                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, x, pctGraphics.Height), clr);
 
             for (int y = 0; y < pctGraphics.Height; y += 30)
-                AgateDisplay.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, pctGraphics.Width, y), clr);
+                Display.DrawRect(new AgateLib.Geometry.Rectangle(0, 0, pctGraphics.Width, y), clr);
 
             if (mSurface != null)
             {
@@ -116,12 +117,12 @@ namespace ERY.SurfaceTester
 
             // box around sprite point to check alignment
             const int rectsize = 3;
-            AgateDisplay.DrawRect(new AgateLib.Geometry.Rectangle((int)nudX.Value - rectsize, (int)nudY.Value - rectsize,
+            Display.DrawRect(new AgateLib.Geometry.Rectangle((int)nudX.Value - rectsize, (int)nudY.Value - rectsize,
                 2 * rectsize, 2 * rectsize), AgateLib.Geometry.Color.Fuchsia);
 
             
-            AgateDisplay.EndFrame();
-            AgateCore.KeepAlive();
+            Display.EndFrame();
+            Core.KeepAlive();
 
         }
 

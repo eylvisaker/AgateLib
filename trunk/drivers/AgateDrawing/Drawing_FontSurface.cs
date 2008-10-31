@@ -22,11 +22,11 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 
-using AgateLib.Display;
 using AgateLib.ImplBase;
 
 namespace AgateLib.Display.SystemDrawing
 {
+    using AgateLib.Display;
     using WinForms;
 
     class Drawing_FontSurface : FontSurfaceImpl
@@ -65,7 +65,7 @@ namespace AgateLib.Display.SystemDrawing
             dest_pt.X -= dest.X;
             dest_pt.Y -= dest.Y;
 
-            Drawing_Display disp = AgateDisplay.Impl as Drawing_Display;
+            Drawing_Display disp = Display.Impl as Drawing_Display;
             Graphics g = disp.FrameGraphics;
 
             GraphicsState state = g.Save();
@@ -101,7 +101,7 @@ namespace AgateLib.Display.SystemDrawing
         }
         public override Geometry.Size StringDisplaySize(string text)
         {
-            Drawing_Display disp = AgateDisplay.Impl as Drawing_Display;
+            Drawing_Display disp = Display.Impl as Drawing_Display;
             Graphics g = disp.FrameGraphics;
             bool disposeGraphics = false;
 

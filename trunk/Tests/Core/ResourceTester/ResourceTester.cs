@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.Geometry;
-using AgateLib.Core;
 using AgateLib.Display;
 using AgateLib.Resources;
 
@@ -30,16 +29,16 @@ namespace ResourceTester
 
                 while (wind.IsClosed == false)
                 {
-                    AgateDisplay.BeginFrame();
-                    AgateDisplay.Clear(Color.Red);
+                    Display.BeginFrame();
+                    Display.Clear(Color.Red);
 
                     surf.Draw(20, 20);
 
                     sprite.Update();
                     sprite.Draw(100, 100);
 
-                    AgateDisplay.EndFrame();
-                    AgateCore.KeepAlive();
+                    Display.EndFrame();
+                    Core.KeepAlive();
                 }
             }
         }

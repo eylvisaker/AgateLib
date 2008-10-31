@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 
 using AgateLib;
-using AgateLib.Core;
 using AgateLib.Display;
 using AgateLib.Geometry;
 using AgateLib.Input;
+using AgateLib.Utility;
 
 namespace FontLineTester
 {
@@ -33,7 +33,7 @@ namespace FontLineTester
 
                 DisplayWindow wind = new DisplayWindow("Font Line Tester", 640, 480);
                 Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
-                AgateCore.AutoPause = true;
+                Core.AutoPause = true;
 
                 FileManager.ImagePath.Clear();
                 FileManager.ImagePath.Add("../../");
@@ -56,21 +56,21 @@ namespace FontLineTester
 
                 while (wind.IsClosed == false)
                 {
-                    AgateDisplay.BeginFrame();
-                    AgateDisplay.Clear(Color.Navy);
+                    Display.BeginFrame();
+                    Display.Clear(Color.Navy);
 
                     Rectangle drawRect;
 
                     FontTests(fonts[currentFont], out drawRect);
 
-                    AgateDisplay.DrawRect(drawRect, Color.Red);
+                    Display.DrawRect(drawRect, Color.Red);
 
                     fonts[0].DrawText(0, 370, "Use numeric keypad to switch fonts.");
                     fonts[0].DrawText(0, 400,
                         "Measured size was: " + drawRect.Size.ToString());
 
-                    AgateDisplay.EndFrame();
-                    AgateCore.KeepAlive();
+                    Display.EndFrame();
+                    Core.KeepAlive();
 
                     if (Keyboard.Keys[KeyCode.Escape])
                         return;

@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Display;
 using AgateLib.ImplBase;
 using AgateLib.Input;
 using AgateLib.Geometry;
@@ -30,6 +29,8 @@ using OpenTK.Graphics;
 
 namespace AgateLib.Display.OpenGL
 {
+    using AgateLib.Display;
+
     class GL_GameWindow : DisplayWindowImpl, GL_IRenderTarget
     {
         static Dictionary<OpenTK.Input.Key, KeyCode> keyMap = new Dictionary<OpenTK.Input.Key, KeyCode>();
@@ -190,7 +191,7 @@ namespace AgateLib.Display.OpenGL
             else
                 CreateWindowedDisplay();
 
-            mDisplay = AgateDisplay.Impl as GL_Display;
+            mDisplay = Display.Impl as GL_Display;
             mDisplay.InitializeGL();
 
             mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);

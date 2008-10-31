@@ -23,8 +23,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-using AgateLib.Core;
-using AgateLib.Display;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.ImplBase;
@@ -79,7 +77,7 @@ namespace AgateLib.Display.OpenGL
                 mChooseWidth = mRenderTarget.ClientSize.Width;
                 mChooseHeight = mRenderTarget.ClientSize.Height;
 
-                mDisplay = AgateDisplay.Impl as GL_Display;
+                mDisplay = Display.Impl as GL_Display;
 
                 mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
                 mContext = new GraphicsContext(
@@ -109,7 +107,7 @@ namespace AgateLib.Display.OpenGL
                 else
                     CreateWindowedDisplay();
 
-                mDisplay = AgateDisplay.Impl as GL_Display;
+                mDisplay = Display.Impl as GL_Display;
                 mDisplay.InitializeGL();
 
             }
@@ -165,7 +163,7 @@ namespace AgateLib.Display.OpenGL
             if (oldcontext != null)                oldcontext.Dispose();
             if (oldForm != null)                oldForm.Dispose();
 
-            AgateCore.IsActive = true;
+            Core.IsActive = true;
         }
 
         private void CreateWindowedDisplay()
@@ -206,7 +204,7 @@ namespace AgateLib.Display.OpenGL
             if (oldcontext != null) oldcontext.Dispose();
             if (oldForm != null) oldForm.Dispose();
 
-            AgateCore.IsActive = true;
+            Core.IsActive = true;
         }
 
 

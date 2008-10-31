@@ -76,7 +76,7 @@ namespace AgateLib.Display
         /// </summary>
         public void DoLighting()
         {
-            AgateDisplay.DoLighting(this);
+            Display.DoLighting(this);
         }
         /// <summary>
         /// Gets or sets a flag indicating whether or not lighting calculations should be performed.
@@ -141,7 +141,7 @@ namespace AgateLib.Display
         /// <param name="item"></param>
         public void Add(Light item)
         {
-            if (mLights.Count >= AgateDisplay.Caps.MaxLights)
+            if (mLights.Count >= Display.Caps.MaxLights)
             {
                 throw new InvalidOperationException("Too many lights!");
             }

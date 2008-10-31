@@ -23,12 +23,10 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using AgateLib.Core;
-
 namespace AgateLib.WinForms
 {
     /// <summary>
-    /// Form which is used fora generic AgateDisplay.
+    /// Form which is used fora generic Display.
     /// </summary>
     /// <remarks>
     /// [Experimental - This class will be moved to into a different assembly
@@ -65,12 +63,12 @@ namespace AgateLib.WinForms
 
         private void DisplayWindowForm_Deactivate(object sender, EventArgs e)
         {
-            AgateCore.IsActive = false;
+            Core.IsActive = false;
         }
 
         private void DisplayWindowForm_Activated(object sender, EventArgs e)
         {
-            AgateCore.IsActive = true;
+            Core.IsActive = true;
         }
 
         private void DisplayWindowForm_Load(object sender, EventArgs e)

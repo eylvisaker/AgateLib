@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Core;
 using AgateLib.Utility;
 
 namespace RefCounterTester

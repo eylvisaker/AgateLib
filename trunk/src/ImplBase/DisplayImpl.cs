@@ -22,13 +22,13 @@ using System.IO;
 using System.Text;
 
 using AgateLib.BitmapFont;
-using AgateLib.Core;
-using AgateLib.Display;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
 namespace AgateLib.ImplBase
 {
+    using AgateLib.Display;
+
     /// <summary>
     /// Abstract base class for implementing the Display object.
     /// </summary>
@@ -210,7 +210,7 @@ namespace AgateLib.ImplBase
 
         private void CalcDeltaTime()
         {
-            double now = AgateCore.Platform.GetTime();
+            double now = Core.Platform.GetTime();
 
             if (mRanOnce)
             {
@@ -499,7 +499,7 @@ namespace AgateLib.ImplBase
         /// <returns></returns>
         public virtual Surface BuildPackedSurface(Size size, SurfacePacker.RectPacker<Surface> packedRects)
         {
-            PixelBuffer buffer = new PixelBuffer(AgateDisplay.DefaultSurfaceFormat, size);
+            PixelBuffer buffer = new PixelBuffer(Display.DefaultSurfaceFormat, size);
 
             foreach (SurfacePacker.RectHolder<Surface> rect in packedRects)
             {
@@ -523,19 +523,19 @@ namespace AgateLib.ImplBase
             /*
             Surface retval = new Surface(size);
 
-            IRenderTarget old = AgateDisplay.RenderTarget;
-            AgateDisplay.RenderTarget = retval;
+            IRenderTarget old = Display.RenderTarget;
+            Display.RenderTarget = retval;
 
-            AgateDisplay.BeginFrame();
-            AgateDisplay.Clear(0, 0, 0, 0);
+            Display.BeginFrame();
+            Display.Clear(0, 0, 0, 0);
 
             foreach (SurfacePacker.RectHolder<Surface> rect in packedRects)
             {
                 rect.Tag.Draw(rect.Rect);
             }
             
-            AgateDisplay.EndFrame();
-            AgateDisplay.RenderTarget = old;
+            Display.EndFrame();
+            Display.RenderTarget = old;
 
             foreach (SurfacePacker.RectHolder<Surface> rect in packedRects)
             {
@@ -613,6 +613,11 @@ namespace AgateLib.ImplBase
             throw new InvalidOperationException("Display driver does not support saving pixel buffers.");
         }
 
+        /// <summary>
+        /// Override to return an object implementing IPlatformServices.  This object will provide
+        /// basic services that are not available in the .NET platform (high precision timing, etc.)
+        /// </summary>
+        /// <returns></returns>
         protected internal abstract AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices();
     }
 }

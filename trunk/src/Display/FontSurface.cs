@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Text;
 
 using AgateLib.BitmapFont;
-using AgateLib.Core;
 using AgateLib.Geometry;
 using AgateLib.ImplBase;
 
@@ -88,21 +87,21 @@ namespace AgateLib.Display
             if (sizeInPoints < 1)
                 throw new ArgumentException("Font size must be positive and non-zero.");
 
-            impl = AgateDisplay.Impl.CreateFont(fontFamily, sizeInPoints, style);
+            impl = Display.Impl.CreateFont(fontFamily, sizeInPoints, style);
 
-            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
         }
 
         /// <summary>
         /// Creates a bitmap font using the options passed in.  The Display driver
-        /// must be capable of this, which is indicated in AgateDisplay.Caps.CanCreateBitmapFont.
+        /// must be capable of this, which is indicated in Display.Caps.CanCreateBitmapFont.
         /// </summary>
         /// <param name="bitmapOptions"></param>
         public FontSurface(BitmapFontOptions bitmapOptions)
         {
-            impl = AgateDisplay.Impl.CreateFont(bitmapOptions);
+            impl = Display.Impl.CreateFont(bitmapOptions);
 
-            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
         }
 
         /// <summary>

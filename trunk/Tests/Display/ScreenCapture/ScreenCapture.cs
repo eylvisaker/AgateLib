@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-using AgateLib.Core;
+using AgateLib;
 using AgateLib.Display;
 using AgateLib.Geometry;
 using AgateLib.Input;
@@ -124,22 +124,22 @@ namespace ScreenCaptureExample
                     }
                     if (capturing)
                     {
-                        AgateDisplay.RenderTarget = captureSurface;
+                        Display.RenderTarget = captureSurface;
                         someSurface.SetScale(2, 2);
                     }
 
-                    AgateDisplay.BeginFrame();
+                    Display.BeginFrame();
 
-                    AgateDisplay.Clear(Color.White);
+                    Display.Clear(Color.White);
 
                     someSurface.Draw();
 
-                    AgateDisplay.EndFrame();
+                    Display.EndFrame();
 
                     if (capturing)
                     {
                         captureSurface.SaveTo("CapturedImage.png", ImageFileFormat.Png);
-                        AgateDisplay.RenderTarget = displayWindow1;
+                        Display.RenderTarget = displayWindow1;
                         someSurface.SetScale(1, 1);
                         capturing = false;
 
@@ -147,7 +147,7 @@ namespace ScreenCaptureExample
                     }
 
                     // KeepAlive processes events.
-                    AgateCore.KeepAlive();
+                    Core.KeepAlive();
                     System.Threading.Thread.Sleep(10);
                 }
             }

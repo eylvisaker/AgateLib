@@ -18,7 +18,7 @@ namespace AudioTester
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using (AgateLib.Core.AgateSetup setup = new AgateLib.Core.AgateSetup("Agate Audio Tester", args))
+            using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup("Agate Audio Tester", args))
             {
                 setup.AskUser = true;
                 setup.Initialize(false, true, false);

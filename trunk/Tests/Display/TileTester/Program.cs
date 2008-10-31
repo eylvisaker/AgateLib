@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using AgateLib.Core;
+
+using AgateLib;
 using AgateLib.Display;
 using AgateLib.Geometry;
 
@@ -40,22 +41,22 @@ namespace TileTester
 
                 while (frm.IsDisposed == false)
                 {
-                    AgateDisplay.BeginFrame();
-                    AgateDisplay.Clear(Color.FromArgb(255, 0, 255));
+                    Display.BeginFrame();
+                    Display.Clear(Color.FromArgb(255, 0, 255));
 
                     DrawTiles();
 
-                    AgateDisplay.EndFrame();
-                    AgateCore.KeepAlive();
+                    Display.EndFrame();
+                    Core.KeepAlive();
 
                     if (frm.ScrollX)
                     {
-                        xval += (float)AgateDisplay.DeltaTime / 20.0f;
+                        xval += (float)Display.DeltaTime / 20.0f;
                     }
                     if (frm.ScrollY)
                     {
                         // move at 50 pixels per second
-                        yval += (float)AgateDisplay.DeltaTime / 20.0f;
+                        yval += (float)Display.DeltaTime / 20.0f;
                     }
                 }
             }
@@ -63,8 +64,8 @@ namespace TileTester
 
         private void DrawTiles()
         {
-            int cols = (int)Math.Ceiling(AgateDisplay.RenderTarget.Width / (float)tile.DisplayWidth);
-            int rows = (int)Math.Ceiling(AgateDisplay.RenderTarget.Height / (float)tile.DisplayHeight);
+            int cols = (int)Math.Ceiling(Display.RenderTarget.Width / (float)tile.DisplayWidth);
+            int rows = (int)Math.Ceiling(Display.RenderTarget.Height / (float)tile.DisplayHeight);
 
             while (xval > tile.DisplayWidth)
                 xval -= tile.DisplayWidth;

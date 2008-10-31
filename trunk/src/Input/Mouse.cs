@@ -20,12 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Core;
-using AgateLib.Display;
 using AgateLib.Geometry;
 
 namespace AgateLib.Input
 {
+    using AgateLib.Display;
+
     /// <summary>
     /// Class which encapsulates input from the mouse.
     /// </summary>
@@ -121,8 +121,8 @@ namespace AgateLib.Input
         /// </summary>
         public static Point Position
         {
-            get { return AgateDisplay.CurrentWindow.MousePosition; }
-            set { AgateDisplay.CurrentWindow.MousePosition = value; }
+            get { return Display.CurrentWindow.MousePosition; }
+            set { Display.CurrentWindow.MousePosition = value; }
         }
 
         /// <summary>
@@ -131,8 +131,8 @@ namespace AgateLib.Input
         /// </summary>
         public static int X
         {
-            get { return AgateDisplay.CurrentWindow.MousePosition.X; }
-            set { AgateDisplay.CurrentWindow.MousePosition = new Point(value, Position.Y); }
+            get { return Display.CurrentWindow.MousePosition.X; }
+            set { Display.CurrentWindow.MousePosition = new Point(value, Position.Y); }
         }
         /// <summary>
         /// Gets or sets the Y position of the cursor, in client coordinates
@@ -140,8 +140,8 @@ namespace AgateLib.Input
         /// </summary>
         public static int Y
         {
-            get { return AgateDisplay.CurrentWindow.MousePosition.Y; }
-            set { AgateDisplay.CurrentWindow.MousePosition = new Point(Position.X, value); }
+            get { return Display.CurrentWindow.MousePosition.Y; }
+            set { Display.CurrentWindow.MousePosition = new Point(Position.X, value); }
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace AgateLib.Input
 
             // this is required, because if the mouse position is adjusted
             // a new MouseMove event will be generated.
-            AgateCore.KeepAlive();
+            Core.KeepAlive();
 
             inMouseMove = false;
 

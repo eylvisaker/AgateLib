@@ -23,8 +23,6 @@ using System.IO;
 using System.Text;
 using System.Runtime.InteropServices;
 
-using AgateLib.Core;
-using AgateLib.Display;
 using AgateLib.BitmapFont;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
@@ -505,7 +503,7 @@ namespace AgateLib.Display.OpenGL
         {
             return this;
         }
-        PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
+        Utility.PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
         {
             get
             {
@@ -515,18 +513,18 @@ namespace AgateLib.Display.OpenGL
                     case PlatformID.Win32NT:
                     case PlatformID.Win32S:
                     case PlatformID.Win32Windows:
-                        return PlatformType.Windows;
+                        return Utility.PlatformType.Windows;
 
                     case PlatformID.Unix:
                         string kernel = DetectUnixKernel();
 
                         if (kernel == "Darwin")
-                            return PlatformType.MacOS;
+                            return Utility.PlatformType.MacOS;
                         else
-                            return PlatformType.Linux;
+                            return Utility.PlatformType.Linux;
                 }
 
-                return PlatformType.Unknown;
+                return Utility.PlatformType.Unknown;
             }
         }
 

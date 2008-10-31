@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-using AgateLib.Core;
 using AgateLib.ImplBase;
 using AgateLib.PlatformSpecific;
+using AgateLib.Utility;
 
 namespace AgateLib.Drivers
 {
@@ -82,7 +82,7 @@ namespace AgateLib.Drivers
                          Environment.OSVersion.Platform == (PlatformID)128) &&
                         System.IO.Path.GetFileNameWithoutExtension(file).ToLower().Contains("agatemdx"))
                     {
-                        AgateCore.ReportError(ErrorLevel.Comment,
+                        Core.ReportError(ErrorLevel.Comment,
                             "DirectX not supported on Linux.  Remove "
                             + System.IO.Path.GetFileName(file) +
                             " to eliminate this message.", null);
@@ -125,14 +125,14 @@ namespace AgateLib.Drivers
                 }
                 catch (ReflectionTypeLoadException e)
                 {
-                    AgateCore.ReportError(ErrorLevel.Warning,
+                    Core.ReportError(ErrorLevel.Warning,
                         "An error occured while loading assembly " + file + ".  " +
                         "The following " + e.LoaderExceptions.Length + " warnings are the LoaderExceptions.",
                         e);
 
                     for (int i = 0; i < e.LoaderExceptions.Length; i++)
                     {
-                        AgateCore.ReportError(ErrorLevel.Warning,
+                        Core.ReportError(ErrorLevel.Warning,
                             "LoaderException " + (i + 1).ToString(),
                             e.LoaderExceptions[i]);
                     }
@@ -141,7 +141,7 @@ namespace AgateLib.Drivers
                 }
                 catch (Exception e)
                 {
-                    AgateCore.ReportError(ErrorLevel.Warning, "An error occured while loading assembly " + file + ".", e);
+                    Core.ReportError(ErrorLevel.Warning, "An error occured while loading assembly " + file + ".", e);
 
                     continue;
                 }

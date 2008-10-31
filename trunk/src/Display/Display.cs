@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using AgateLib.Core;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.ImplBase;
@@ -30,12 +29,12 @@ using AgateLib.Utility;
 namespace AgateLib.Display
 {
     /// <summary>
-    /// Static class which contains all basic functions for drawing onto the AgateDisplay.
+    /// Static class which contains all basic functions for drawing onto the Display.
     /// This class is most central to game rendering.  At the beginning and end of each frame
-    /// AgateDisplay.BeginFrame() and AgateDisplay.EndFrame() must be called.  All drawing calls must
+    /// Display.BeginFrame() and Display.EndFrame() must be called.  All drawing calls must
     /// occur between BeginFrame and EndFrame.
     /// 
-    /// AgateDisplay.Dispose() must be called before the program exits.
+    /// Display.Dispose() must be called before the program exits.
     /// 
     /// </summary>
     /// 
@@ -43,17 +42,17 @@ namespace AgateLib.Display
     /// <code>
     /// void MyRenderLoop()
     /// {
-    ///     AgateDisplay.BeginFrame();
-    ///     AgateDisplay.Clear(Color.Black);
+    ///     Display.BeginFrame();
+    ///     Display.Clear(Color.Black);
     /// 
-    ///     AgateDisplay.DrawRect(new Rectangle(10, 10, 30, 30), Color.Red);
+    ///     Display.DrawRect(new Rectangle(10, 10, 30, 30), Color.Red);
     /// 
-    ///     AgateDisplay.EndFrame();
+    ///     Display.EndFrame();
     ///     Core.KeepAlive();
     /// }
     /// </code>
     /// </example>
-    public static class AgateDisplay 
+    public static class Display 
     {
         private static DisplayImpl impl;
         private static DisplayWindow mCurrentWindow;
@@ -82,7 +81,7 @@ namespace AgateLib.Display
         /// <param name="displayType"></param>
         public static void Initialize(DisplayTypeID displayType)
         {
-            AgateCore.Initialize();
+            Core.Initialize();
 
             impl = Registrar.DisplayDriverInfo.CreateDriver(displayType);
 
@@ -90,7 +89,7 @@ namespace AgateLib.Display
 
         }
         /// <summary>
-        /// Disposes of the AgateDisplay.
+        /// Disposes of the Display.
         /// </summary>
         public static void Dispose()
         {
@@ -124,12 +123,12 @@ namespace AgateLib.Display
 
 
         /// <summary>
-        /// Delegate type for functions which are called when AgateDisplay.Dispose is called
+        /// Delegate type for functions which are called when Display.Dispose is called
         /// at the end of execution of the program.
         /// </summary>
         public delegate void DisposeDisplayHandler();
         /// <summary>
-        /// Event that is called when AgateDisplay.Dispose() is invoked, to shut down the
+        /// Event that is called when Display.Dispose() is invoked, to shut down the
         /// display system and release all resources.
         /// </summary>
         public static event DisposeDisplayHandler DisposeDisplay;
@@ -363,7 +362,7 @@ namespace AgateLib.Display
         /// 
         /// If you use this, it is best to load all your surfaces into memory, 
         /// mark any you don't want packed (surfaces which may be used as render targets,
-        /// for example), then call AgateDisplay.PackAllSurfaces().
+        /// for example), then call Display.PackAllSurfaces().
         /// </summary>
         public static void PackAllSurfaces()
         {
@@ -428,7 +427,7 @@ namespace AgateLib.Display
 
         /// <summary>
         /// When using Direct3D or OpenGL, calls to Surface.Draw are cached to be sent to 
-        /// the 3D API all as a batch.  Calling AgateDisplay.FlushDrawBuffer forces all cached
+        /// the 3D API all as a batch.  Calling Display.FlushDrawBuffer forces all cached
         /// vertices to be sent to the rendering system.  You should not need to call this
         /// function in normal operation of your application.
         /// </summary>

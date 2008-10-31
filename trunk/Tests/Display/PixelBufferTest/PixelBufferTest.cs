@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 
 using AgateLib;
-using AgateLib.Core;
 using AgateLib.Geometry;
 using AgateLib.Display;
 using AgateLib.Input;
@@ -41,13 +40,13 @@ namespace PixelBufferTest
 
                 while (wind.IsClosed == false)
                 {
-                    AgateDisplay.BeginFrame();
-                    AgateDisplay.Clear();
+                    Display.BeginFrame();
+                    Display.Clear();
 
                     image.Draw(imageLocation);
                     
-                    AgateDisplay.EndFrame();
-                    AgateCore.KeepAlive();
+                    Display.EndFrame();
+                    Core.KeepAlive();
                 }
 
             }

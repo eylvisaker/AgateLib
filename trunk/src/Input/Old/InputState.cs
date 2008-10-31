@@ -122,9 +122,9 @@ namespace AgateLib.Input.Old
                 if (value != mAutoUpdate )
                 {
                     if (value)
-                        InputManager.JoystickPollEvent += new InputManager.JoystickPollDelegate(Update);
+                        Input.JoystickPollEvent += new Input.JoystickPollDelegate(Update);
                     else
-                        InputManager.JoystickPollEvent -= Update;
+                        Input.JoystickPollEvent -= Update;
 
                     mAutoUpdate = value;
                 }

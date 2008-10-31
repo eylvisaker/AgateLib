@@ -3,10 +3,12 @@
 //
 using System;
 using System.Collections.Generic;
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
+using AgateLib.Core;
+using AgateLib.Display;
+using AgateLib.Geometry;
+using AgateLib.Input;
 
-namespace ERY.CreateWindowTest
+namespace CreateWindowTest
 {
     static class Program
     {
@@ -44,26 +46,26 @@ namespace ERY.CreateWindowTest
                 while (wind.IsClosed == false)
                 {
                     // Display.BeginFrame must be called before any rendering takes place.
-                    Display.BeginFrame();
+                    AgateDisplay.BeginFrame();
 
                     // Clear back buffer with red
-                    Display.Clear(Color.Red);
+                    AgateDisplay.Clear(Color.Red);
 
                     // draw random lines and boxes
 
                     // line drawn starts at (0, 0), the upper left corner.
-                    Display.DrawLine(
+                    AgateDisplay.DrawLine(
                         0, 0,
                         rand.Next(10, 700), rand.Next(10, 700),
                         Color.Black);
 
-                    Display.DrawRect(
+                    AgateDisplay.DrawRect(
                         new Rectangle(
                         rand.Next(0, 540), rand.Next(0, 380),
                         rand.Next(50, 200), rand.Next(50, 200)),
                         Color.Black);
 
-                    Display.FillRect(
+                    AgateDisplay.FillRect(
                         new Rectangle(
                         rand.Next(0, 540), rand.Next(0, 380),
                         rand.Next(50, 200), rand.Next(50, 200)),
@@ -71,13 +73,13 @@ namespace ERY.CreateWindowTest
 
                     // Display.EndFrame must be called after rendering is done
                     // in order to actually update the display.
-                    Display.EndFrame();
+                    AgateDisplay.EndFrame();
 
                     // Core.KeepAlive is where we play nice window the OS, 
                     // allowing events to be processed and such.
                     // This is also required to process events that happen in our OWN 
                     // code (ie. user input), so be sure to call this once a frame.
-                    Core.KeepAlive();
+                    AgateCore.KeepAlive();
 
                     // This gives a 100 millisecond delay between each frame.
                     // Using the Sleep() call causes this application to
@@ -87,10 +89,10 @@ namespace ERY.CreateWindowTest
                     // toggle full screen if the user pressed F5
                     if (Keyboard.Keys[KeyCode.F5])
                     {
-                        if (Display.CurrentWindow.IsFullScreen)
-                            Display.CurrentWindow.SetWindowed();
+                        if (AgateDisplay.CurrentWindow.IsFullScreen)
+                            AgateDisplay.CurrentWindow.SetWindowed();
                         else
-                            Display.CurrentWindow.SetFullScreen();
+                            AgateDisplay.CurrentWindow.SetFullScreen();
 
                         // make that we used this keypress
                         Keyboard.Keys[KeyCode.F5] = false;

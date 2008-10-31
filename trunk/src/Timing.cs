@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgateLib.Core
+namespace AgateLib
 {
     /// <summary>
     /// Static class which handles timing.  This is often used
@@ -141,14 +141,14 @@ namespace AgateLib.Core
 
                 try
                 {
-                    mStartTime = AgateCore.Platform.GetTime();
+                    mStartTime = Core.Platform.GetTime();
                 }
                 catch (NullReferenceException e)
                 {
                     GC.KeepAlive(e);
 
-                    AgateCore.Initialize();
-                    mStartTime = AgateCore.Platform.GetTime();
+                    Core.Initialize();
+                    mStartTime = Core.Platform.GetTime();
                 }
 
 
@@ -200,7 +200,7 @@ namespace AgateLib.Core
                 get
                 {
                     if (mPause == 0)
-                        return AgateCore.Platform.GetTime() - mStartTime;
+                        return Core.Platform.GetTime() - mStartTime;
                     else
                         return mPauseTime - mStartTime;
                 }
@@ -211,7 +211,7 @@ namespace AgateLib.Core
             /// </summary>
             public void Reset()
             {
-                mStartTime = AgateCore.Platform.GetTime();
+                mStartTime = Core.Platform.GetTime();
 
                 if (mPause > 0)
                     mPauseTime = mStartTime;
@@ -226,7 +226,7 @@ namespace AgateLib.Core
                 mPause += 1;
 
                 if (mPause == 1)
-                    mPauseTime = AgateCore.Platform.GetTime();
+                    mPauseTime = Core.Platform.GetTime();
 
 
             }
@@ -240,7 +240,7 @@ namespace AgateLib.Core
 
                 if (mPause == 0)
                 {
-                    mStartTime += AgateCore.Platform.GetTime() - mPauseTime;
+                    mStartTime += Core.Platform.GetTime() - mPauseTime;
 
                     mPauseTime = 0;
                 }

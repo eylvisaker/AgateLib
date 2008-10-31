@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace InputTester
 {
-    static class Program
+    static class InputTester
     {
         /// <summary>
         /// The main entry point for the application.

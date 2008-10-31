@@ -23,11 +23,12 @@ using System.IO;
 using System.Text;
 
 using AgateLib.Audio;
-using AgateLib.Display;
 using AgateLib.PlatformSpecific;
 
-namespace AgateLib.Core
+namespace AgateLib
 {
+    using AgateLib.Display;
+
     /// <summary>
     /// Used by AgateLib.Core class's error reporting functions
     /// to indicate how severe an error is.
@@ -63,14 +64,14 @@ namespace AgateLib.Core
     /// <summary>
     /// Class which contains methods commonly used by the entire library.
     /// </summary>
-    public static class AgateCore
+    public static class Core
     {
         [Obsolete]
         private static PlatformSpecific.Platform mPlatform;
         private static bool mAutoPause = false;
         private static bool mIsActive = true;
         
-        static AgateCore()
+        static Core()
         {
             
         }
@@ -153,21 +154,21 @@ namespace AgateLib.Core
             // not this is worth it when there lots of events being generated
             // (ie lots of mouse move events) but it does seem to speed up for
             // Direct3D.
-            if (AgateDisplay.IsAppIdle == false)
+            if (Display.Display.IsAppIdle == false)
             {
-                AgateDisplay.ProcessEvents();
+                Display.Display.ProcessEvents();
 
                 while (IsActive == false && AutoPause)
                 {
                     System.Threading.Thread.Sleep(25);
-                    AgateDisplay.ProcessEvents();
+                    Display.Display.ProcessEvents();
 
                     // Update Audio Engine, if necessary
-                    AgateAudio.Update();
+                    Audio.Audio.Update();
 
-                    if (AgateDisplay.CurrentWindow == null)
+                    if (Display.Display.CurrentWindow == null)
                         break;
-                    else if (AgateDisplay.CurrentWindow.IsClosed)
+                    else if (Display.Display.CurrentWindow.IsClosed)
                         break;
                 }
             }
@@ -176,10 +177,10 @@ namespace AgateLib.Core
                 KeepAliveEvent();
 
             // Update Audio Engine, if necessary
-            AgateAudio.Update();
+            Audio.Audio.Update();
 
             // Poll joystick input, if the time is right.
-            Input.Old.InputManager.PollTimer();
+            Input.Old.Input.PollTimer();
 
 
         }
@@ -196,8 +197,8 @@ namespace AgateLib.Core
         /// </summary>
         public static string ErrorFile
         {
-            get { return AgateCore.mErrorFile; }
-            set { AgateCore.mErrorFile = value; }
+            get { return Core.mErrorFile; }
+            set { Core.mErrorFile = value; }
         }
 
         /// <summary>
@@ -215,8 +216,8 @@ namespace AgateLib.Core
         /// </example>
         public static bool AutoStackTrace
         {
-            get { return AgateCore.mAutoStackTrace; }
-            set { AgateCore.mAutoStackTrace = value; }
+            get { return Core.mAutoStackTrace; }
+            set { Core.mAutoStackTrace = value; }
         }
 
         /// <summary>

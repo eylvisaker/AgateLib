@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Core;
 using AgateLib.Drivers;
 using AgateLib.ImplBase;
 
@@ -30,7 +29,7 @@ namespace AgateLib.Input.Old
     /// Static class which contains basic functions for handling non-keyboard and mouse
     /// input.
     /// </summary>
-    public static class InputManager 
+    public static class Input 
     {
         private static InputImpl impl;
         private static List<Joystick> mJoysticks = new List<Joystick>();
@@ -54,7 +53,7 @@ namespace AgateLib.Input.Old
         /// <param name="inputType"></param>
         public static void Initialize(InputTypeID inputType)
         {
-            AgateCore.Initialize();
+            Core.Initialize();
 
             impl = Registrar.InputDriverInfo.CreateDriver(inputType);
 
@@ -165,7 +164,7 @@ namespace AgateLib.Input.Old
             foreach (Joystick j in mJoysticks)
                 j.Poll();
 
-            mLastPoll = AgateCore.Platform.GetTime();
+            mLastPoll = Core.Platform.GetTime();
 
             mPollCount++;
 
@@ -202,7 +201,7 @@ namespace AgateLib.Input.Old
         {
             if (impl == null)
                 return;
-            if (mLastPoll + mPollInterval > AgateCore.Platform.GetTime())
+            if (mLastPoll + mPollInterval > Core.Platform.GetTime())
                 return;
 
             PollJoysticks();

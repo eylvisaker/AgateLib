@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateWinForms", "..\..\driv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelBufferTest", "PixelBufferTest\PixelBufferTest.csproj", "{B42F2A0A-877B-4E98-B58D-5A51C711B6C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RotatingSpriteTester", "RotatingSpriteTester\RotatingSpriteTester.csproj", "{FD5F49BB-C9F7-42C4-ABBF-184F0A6954D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RotatingSpriteTester", "RotatingSpriteTester\RotatingSpriteTester.csproj", "{F0DAD35B-C5DA-484C-9BB4-74E0BFA2AD4C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprite2Tester", "Sprite2Tester\Sprite2Tester.csproj", "{0CBBB080-8840-45CF-B48A-BA4582343C23}"
 EndProject
@@ -34,10 +34,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPacker", "TestPacker\TestPacker.csproj", "{83712D4D-7E2A-4C73-B093-988AE06A337A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileTester", "TileTester\TileTester.csproj", "{5D24FF74-7A26-4156-86C2-6B3C32EBBF1D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK", "..\..\..\..\OpenTK\trunk\Source\OpenTK\OpenTK.csproj", "{42245C5D-B877-4A90-8F11-83F01E31A1C6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK.Utilities", "..\..\..\..\OpenTK\trunk\Source\Utilities\OpenTK.Utilities.csproj", "{37FE4A9C-93AA-484A-8567-863D261BF91C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,10 +85,10 @@ Global
 		{B42F2A0A-877B-4E98-B58D-5A51C711B6C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B42F2A0A-877B-4E98-B58D-5A51C711B6C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B42F2A0A-877B-4E98-B58D-5A51C711B6C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD5F49BB-C9F7-42C4-ABBF-184F0A6954D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD5F49BB-C9F7-42C4-ABBF-184F0A6954D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD5F49BB-C9F7-42C4-ABBF-184F0A6954D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD5F49BB-C9F7-42C4-ABBF-184F0A6954D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0DAD35B-C5DA-484C-9BB4-74E0BFA2AD4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0DAD35B-C5DA-484C-9BB4-74E0BFA2AD4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0DAD35B-C5DA-484C-9BB4-74E0BFA2AD4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0DAD35B-C5DA-484C-9BB4-74E0BFA2AD4C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0CBBB080-8840-45CF-B48A-BA4582343C23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0CBBB080-8840-45CF-B48A-BA4582343C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CBBB080-8840-45CF-B48A-BA4582343C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -113,14 +109,6 @@ Global
 		{5D24FF74-7A26-4156-86C2-6B3C32EBBF1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D24FF74-7A26-4156-86C2-6B3C32EBBF1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D24FF74-7A26-4156-86C2-6B3C32EBBF1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42245C5D-B877-4A90-8F11-83F01E31A1C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42245C5D-B877-4A90-8F11-83F01E31A1C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42245C5D-B877-4A90-8F11-83F01E31A1C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42245C5D-B877-4A90-8F11-83F01E31A1C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37FE4A9C-93AA-484A-8567-863D261BF91C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37FE4A9C-93AA-484A-8567-863D261BF91C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37FE4A9C-93AA-484A-8567-863D261BF91C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37FE4A9C-93AA-484A-8567-863D261BF91C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
