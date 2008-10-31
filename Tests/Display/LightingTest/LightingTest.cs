@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using AgateLib.Core;
+
+using AgateLib;
 using AgateLib.Display;
 using AgateLib.Input;
 using AgateLib.Geometry;
@@ -45,7 +46,7 @@ namespace LightingTest
                 lights.AddPointLight(new Vector3(0, 0, -1), Color.White);
                 lights.AddPointLight(new Vector3(0, 0, -1), Color.Yellow);
 
-                AgateDisplay.VSync = false;
+                Display.VSync = false;
 
                 //lights[0].Ambient = Color.White;
                 //lights[0].AttenuationLinear = 0.01f;
@@ -60,7 +61,7 @@ namespace LightingTest
                 while (frm.Visible == true)
                 {
                     if (frm.chkMoveLight.Checked)
-                        time += AgateDisplay.DeltaTime / 1000.0;
+                        time += Display.DeltaTime / 1000.0;
 
                     
                     ballPt = new Point((int)(120 + 110 * Math.Cos(time)),
@@ -72,8 +73,8 @@ namespace LightingTest
 
                     image.RotationAngleDegrees = (double)frm.nudAngle.Value;
 
-                    AgateDisplay.BeginFrame();
-                    AgateDisplay.Clear(Color.DarkRed);
+                    Display.BeginFrame();
+                    Display.Clear(Color.DarkRed);
 
                     lights.Enabled = frm.enableLightingCheck.Checked;
                     lights.DoLighting();
@@ -95,10 +96,10 @@ namespace LightingTest
 
                     ball.Draw(ballPt);
 
-                    AgateDisplay.EndFrame();
-                    AgateCore.KeepAlive();
+                    Display.EndFrame();
+                    Core.KeepAlive();
 
-                    frm.lblFPS.Text = "FPS: " + AgateDisplay.FramesPerSecond.ToString("0.00");
+                    frm.lblFPS.Text = "FPS: " + Display.FramesPerSecond.ToString("0.00");
                 }
             }
         }

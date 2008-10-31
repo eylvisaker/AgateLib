@@ -4,14 +4,14 @@
 using System;
 using System.Collections.Generic;
 
-using AgateLib.Core;
+using AgateLib;
 using AgateLib.Display;
 using AgateLib.Input;
 using AgateLib.Input.Old;
 
 namespace InputStateTester
 {
-    static class Program
+    static class InputStateTester
     {
         enum Stuff
         {
@@ -61,8 +61,8 @@ namespace InputStateTester
 
                 while (wind.IsClosed == false)
                 {
-                    AgateDisplay.BeginFrame();
-                    AgateDisplay.Clear();
+                    Display.BeginFrame();
+                    Display.Clear();
 
                     state.Update();
 
@@ -75,8 +75,8 @@ namespace InputStateTester
                     if (state[Stuff.two].Value)
                         font.DrawText(0, fontheight * 5, "Button 2");
 
-                    AgateDisplay.EndFrame();
-                    AgateCore.KeepAlive();
+                    Display.EndFrame();
+                    Core.KeepAlive();
                 }
             }
         }

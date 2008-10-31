@@ -21,10 +21,9 @@ using System.Collections.Generic;
 using System.Text;
 
 using AgateLib.Audio;
-using AgateLib.Display;
 using AgateLib.Drivers;
 
-namespace AgateLib.Core
+namespace AgateLib
 {
     /// <summary>
     /// Class which is designed to simplify initialization and de-initialization of the
@@ -75,7 +74,7 @@ namespace AgateLib.Core
         /// </summary>
         public AgateSetup()
         {
-            AgateCore.Initialize();
+            Core.Initialize();
         }
         /// <summary>
         /// Constructs a Setup object.
@@ -83,7 +82,7 @@ namespace AgateLib.Core
         /// <param name="title"></param>
         public AgateSetup(string title)
         {
-            AgateCore.Initialize();
+            Core.Initialize();
 
             mTitle = title;
         }
@@ -102,7 +101,7 @@ namespace AgateLib.Core
         /// <param name="args">Command line arguments to the program.</param>
         public AgateSetup(string title, string[] args)
         {
-            AgateCore.Initialize();
+            Core.Initialize();
 
             mTitle = title;
 
@@ -143,7 +142,7 @@ namespace AgateLib.Core
         }
 
         /// <summary>
-        /// Initializes the AgateDisplay.
+        /// Initializes the Display.
         /// Automatically selects the driver to use, or asks the user which
         /// driver to use if appropriate.
         /// </summary>
@@ -162,7 +161,7 @@ namespace AgateLib.Core
             if (Cancel)
                 return;
 
-            AgateDisplay.Initialize(type);
+            Display.Display.Initialize(type);
         }
         /// <summary>
         /// Initializes the Audio subsystem.
@@ -182,7 +181,7 @@ namespace AgateLib.Core
             if (Cancel)
                 return;
 
-            AgateAudio.Initialize(type);
+            Audio.Audio.Initialize(type);
         }
 
         /// <summary>
@@ -203,14 +202,14 @@ namespace AgateLib.Core
             if (Cancel)
                 return;
 
-            Input.Old.InputManager.Initialize(inputTypeID);
+            Input.Old.Input.Initialize(inputTypeID);
         }
         /// <summary>
         /// Disposes of the SetupDisplay object and all initialized sub-systems.
         /// </summary>
         public void Dispose()
         {
-            AgateDisplay.Dispose();
+            Display.Display.Dispose();
         }
         /// <summary>
         /// Returns true if the user hit cancel in any dialog box that showed up

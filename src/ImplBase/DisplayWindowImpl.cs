@@ -85,12 +85,12 @@ namespace AgateLib.ImplBase
         public abstract void SetWindowed();
 
         /// <summary>
-        /// Sets the display to a full screen AgateDisplay.  This overload should use the
+        /// Sets the display to a full screen Display.  This overload should use the
         /// same resolution as the desktop environment.
         /// </summary>
         public abstract void SetFullScreen();
         /// <summary>
-        /// Sets the display to a full screen AgateDisplay.  The resolution chosen is 
+        /// Sets the display to a full screen Display.  The resolution chosen is 
         /// driver/video card/monitor dependent, but it should be fairly close to
         /// values specified.
         /// </summary>

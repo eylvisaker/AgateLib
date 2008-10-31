@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgateLib.AgateDisplay.SystemDrawing.Properties {
+namespace AgateLib.Display.SystemDrawing.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AgateLib.AgateDisplay.SystemDrawing.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AgateLib.AgateDisplay.SystemDrawing.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AgateLib.Display.SystemDrawing.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

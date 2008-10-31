@@ -44,10 +44,10 @@ namespace AgateLib.Audio
         { }
         internal SoundBufferSession(SoundBuffer source)
         {
-            impl = AgateAudio.Impl.CreateSoundBufferSession(source.Impl);
+            impl = Audio.Impl.CreateSoundBufferSession(source.Impl);
 
             mSource = source;
-            mSource.StopEvent += new AgateAudio.AudioCoreEventDelegate(Stop);
+            mSource.StopEvent += new Audio.AudioCoreEventDelegate(Stop);
 
             Initialize();
 

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Core;
 
 namespace ERY.SpriteTester
 {
@@ -38,7 +37,7 @@ namespace ERY.SpriteTester
                     form.UpdateDisplay();
 
                     //System.Threading.Thread.Sleep(10);
-                    AgateCore.KeepAlive();
+                    Core.KeepAlive();
                 }
             }
         }

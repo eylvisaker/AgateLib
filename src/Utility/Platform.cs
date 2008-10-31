@@ -20,10 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Display;
-
-namespace AgateLib.Core
+namespace AgateLib.Utility
 {
+    using AgateLib.Display;
+
     /// <summary>
     /// Returns information about the current platform.
     /// </summary>
@@ -63,10 +63,10 @@ namespace AgateLib.Core
                     break;
             }
 
-            if (AgateDisplay.Impl == null)
+            if (Display.Impl == null)
                 return;
 
-            mServices = AgateDisplay.GetPlatformServices();
+            mServices = Display.GetPlatformServices();
             mType = mServices.PlatformType;
  
             mDetectedPlatform = true;

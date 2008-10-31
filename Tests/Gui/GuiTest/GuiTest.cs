@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using AgateLib.Core;
+using AgateLib;
 using AgateLib.Display;
 using AgateLib.Geometry;
 using AgateLib.Gui;
@@ -58,23 +58,23 @@ namespace GuiTest
 
                 while (wind.IsClosed == false)
                 {
-                    AgateDisplay.BeginFrame();
-                    AgateDisplay.Clear(Color.Gray);
+                    Display.BeginFrame();
+                    Display.Clear(Color.Gray);
 
                     gui.Draw();
 
                     
-                    AgateDisplay.EndFrame();
-                    AgateCore.KeepAlive();
+                    Display.EndFrame();
+                    Core.KeepAlive();
                 }
             }
         }
 
         static void btn_Click(object sender, EventArgs e)
         {
-            AgateDisplay.BeginFrame();
-            AgateDisplay.Clear(Color.Blue);
-            AgateDisplay.EndFrame();
+            Display.BeginFrame();
+            Display.Clear(Color.Blue);
+            Display.EndFrame();
         }
     }
 }

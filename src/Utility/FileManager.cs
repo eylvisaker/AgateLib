@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace AgateLib.Core
+namespace AgateLib.Utility
 {
     /// <summary>
     /// Manages file locations and automatic finding of files.

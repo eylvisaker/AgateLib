@@ -73,12 +73,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\AgateAudio.cs" />
+    <Compile Include="Audio\Audio.cs" />
     <Compile Include="Audio\Music.cs" />
     <Compile Include="Audio\SoundBuffer.cs" />
     <Compile Include="Audio\SoundBufferSession.cs" />
     <Compile Include="AgateException.cs" />
-    <Compile Include="Core\Platform.cs" />
+    <Compile Include="Utility\Platform.cs" />
     <Compile Include="Display\CreateWindowParams.cs" />
     <Compile Include="Drivers\IWinForms.cs" />
     <Compile Include="Drivers\TypeID.cs" />
@@ -92,8 +92,8 @@
     <Compile Include="Geometry\TypeConverters.cs" />
     <Compile Include="Geometry\Vector2.cs" />
     <Compile Include="Geometry\Vector3.cs" />
-    <Compile Include="Core\AgateCore.cs" />
-    <Compile Include="Core\FileManager.cs" />
+    <Compile Include="Core.cs" />
+    <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Drivers\DriverImplBase.cs" />
     <Compile Include="ImplBase\AudioImpl.cs" />
     <Compile Include="BitmapFont\BitmapFontImpl.cs" />
@@ -121,7 +121,7 @@
     <Compile Include="PlatformSpecific\Win32.cs" />
     <Compile Include="PlatformSpecific\X11.cs" />
     <Compile Include="Display\ScreenMode.cs" />
-    <Compile Include="Core\SearchPath.cs" />
+    <Compile Include="Utility\SearchPath.cs" />
     <Compile Include="Display\ISpriteFrame.cs" />
     <Compile Include="Resources\AgateResource.cs" />
     <Compile Include="Resources\AgateResourceException.cs" />
@@ -144,7 +144,7 @@
     <Compile Include="Sprites\IFrameList.cs" />
     <Compile Include="Sprites\PackedSprite.cs" />
     <Compile Include="Sprites\PackedSpriteFrame.cs" />
-    <Compile Include="Core\StringTransformer.cs" />
+    <Compile Include="Display\StringTransformer.cs" />
     <Compile Include="Geometry\Color.cs" />
     <Compile Include="Geometry\Point.cs" />
     <Compile Include="Geometry\PointF.cs" />
@@ -154,7 +154,7 @@
     <Compile Include="Geometry\SizeF.cs" />
     <Compile Include="Input\Old\Input.cs" />
     <Compile Include="Input\Old\Joystick.cs" />
-    <Compile Include="Display\AgateDisplay.cs" />
+    <Compile Include="Display\Display.cs" />
     <Compile Include="Display\DisplayWindow.cs" />
     <Compile Include="Display\FontSurface.cs" />
     <Compile Include="Display\IRenderTarget.cs" />
@@ -186,13 +186,13 @@
     </Compile>
     <Compile Include="Resources\Old\Resource.cs" />
     <Compile Include="Resources\Old\ResourceManager.cs" />
-    <Compile Include="Core\AgateSetup.cs" />
+    <Compile Include="AgateSetup.cs" />
     <Compile Include="Utility\Ref.cs" />
     <Compile Include="Sprites\Old\Sprite.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Display\Surface.cs" />
-    <Compile Include="Core\Timing.cs" />
+    <Compile Include="Timing.cs" />
     <Compile Include="Sprites\Old\SpriteFrame.cs" />
     <Compile Include="Resources\XmlHelper.cs" />
   </ItemGroup>

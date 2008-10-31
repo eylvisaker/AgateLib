@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Core;
 using AgateLib.Drivers;
 using AgateLib.ImplBase;
+using AgateLib.Utility;
 
 namespace AgateLib.Audio
 {
@@ -38,7 +38,7 @@ namespace AgateLib.Audio
 
         private Music()
         {
-            AgateAudio.EventStopAllMusic += new AgateAudio.AudioCoreEventDelegate(Stop);
+            Audio.EventStopAllMusic += new Audio.AudioCoreEventDelegate(Stop);
         }
         /// <summary>
         /// Constructs a Music object.
@@ -50,7 +50,7 @@ namespace AgateLib.Audio
             if (string.IsNullOrEmpty(fn))
                 throw new System.IO.FileNotFoundException(filename);
 
-            impl = AgateAudio.Impl.CreateMusic(fn);
+            impl = Audio.Impl.CreateMusic(fn);
             mFilename = filename;
         }
 

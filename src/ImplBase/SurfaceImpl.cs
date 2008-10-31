@@ -318,7 +318,7 @@ namespace AgateLib.ImplBase
         public abstract SurfaceImpl CarveSubSurface(Surface surface, Rectangle srcRect);
 
         /// <summary>
-        /// Used by AgateDisplay.BuildPackedSurface.
+        /// Used by Display.BuildPackedSurface.
         /// </summary>
         /// <param name="surf"></param>
         /// <param name="srcRect"></param>
@@ -382,7 +382,7 @@ namespace AgateLib.ImplBase
 
         /// <summary>
         /// Gets or sets a bool value which indicates whether or not this surface
-        /// should be considered for packing when AgateDisplay.PackAllSurfaces() is 
+        /// should be considered for packing when Display.PackAllSurfaces() is 
         /// called.
         /// </summary>
         public bool ShouldBePacked

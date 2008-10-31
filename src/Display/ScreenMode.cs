@@ -77,7 +77,7 @@ namespace AgateLib.Display
         /// ScreenMode structure.</returns>
         public static ScreenMode SelectBestMode(int width, int height, int bpp)
         {
-            ScreenMode[] modes = AgateDisplay.EnumScreenModes();
+            ScreenMode[] modes = Display.EnumScreenModes();
 
             ScreenMode selected = null;
             int diff = 0;

@@ -77,7 +77,7 @@ This should not be an issue for game applications, but it is an issue for tools.
 The resource classes ResourceManager and Resource have been moved to the AgateLib.Resources 
 namespace.
 
-AgateDisplay.DeltaTime will now never return zero, so it's safe to divide by it.  However, due to the nature
+Display.DeltaTime will now never return zero, so it's safe to divide by it.  However, due to the nature
 of this hack, if a high resolution platform-dependent timer is unavailable (such as the one in AgateWindows),
 this will cap your framerate at whatever the resolution of System.Environment.GetTickCount() is.
 On my test machine, this is 64 fps.
@@ -98,7 +98,7 @@ No reference to System.Drawing.dll or System.Windows.Forms.dll is required.
 
 If you're developing a game authoring tool, your application should be developed using System.Windows.Forms.
 You can develop an application with a rich user interface and instruct AgateLib to render to multiple 
-child controls by creating DisplayWindows for each of those controls and changing the AgateDisplay.RenderTarget
+child controls by creating DisplayWindows for each of those controls and changing the Display.RenderTarget
 to them.
 
 If you want to deploy an application using AgateLib, of course you need to make sure that a client machine
@@ -125,6 +125,6 @@ to work with the AgateMDX library in the dxredist directory of the archives.
 
 Known Issues:
 * VSync is not properly supported in the Direct3D driver.
-* There's a problem with AgateDisplay.PackAllSurfaces where it does not copy surfaces correctly.
+* There's a problem with Display.PackAllSurfaces where it does not copy surfaces correctly.
 * Direct3D driver does not work with Mono.  If you are running in Mono, delete AgateMDX.dll from your application directory.
  

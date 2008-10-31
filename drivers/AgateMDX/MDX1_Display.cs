@@ -24,7 +24,6 @@ using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
 using AgateLib.BitmapFont;
-using AgateLib.Core;
 using AgateLib.Display;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
@@ -836,9 +835,9 @@ namespace AgateLib.MDX
         {
             return this;
         }
-        PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
+        Utility.PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
         {
-            get { return PlatformType.Windows; }
+            get { return Utility.PlatformType.Windows; }
         }
 
         #endregion

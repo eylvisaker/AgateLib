@@ -12,7 +12,7 @@ namespace ErrorReportTester
         [STAThread]
         static void Main()
         {
-            AgateLib.Core.AgateCore.Initialize();
+            AgateLib.Core.Initialize();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

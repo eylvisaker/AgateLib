@@ -20,8 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Core;
-
 namespace AgateLib.Audio
 {
     using Drivers;
@@ -32,7 +30,7 @@ namespace AgateLib.Audio
     /// This is analogous to the static Display class, but playing audio files
     /// is much less complicated.
     /// </summary>
-    public static class AgateAudio  
+    public static class Audio  
     {
         private static AudioImpl impl;
 
@@ -51,7 +49,7 @@ namespace AgateLib.Audio
         /// <param name="audioType"></param>
         public static void Initialize(AudioTypeID audioType)
         {
-            AgateCore.Initialize();
+            Core.Initialize();
 
             impl = Registrar.AudioDriverInfo.CreateDriver (audioType);
 
@@ -103,7 +101,7 @@ namespace AgateLib.Audio
         /// </summary>
         public delegate void AudioCoreEventDelegate();
         /// <summary>
-        /// Event that is called when AgateDisplay.Dispose() is invoked, to shut down the
+        /// Event that is called when Display.Dispose() is invoked, to shut down the
         /// display system and release all resources.
         /// </summary>
         public static event AudioCoreEventDelegate DisposeAudio;

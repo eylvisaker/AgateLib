@@ -20,11 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Display;
 using AgateLib.Geometry;
 
 namespace AgateLib.Gui.Styles
 {
+    using Display;
+
     public class PlainStyle : StyleManager
     {
         class PlainButton : ComponentStyle
@@ -59,11 +60,11 @@ namespace AgateLib.Gui.Styles
                 SetLines();
 
                 if (btn.Enabled == false)
-                    AgateDisplay.FillRect(rect, color.AverageColor);
+                    Display.FillRect(rect, color.AverageColor);
                 else if (btn.DrawDown)
-                    AgateDisplay.FillRect(rect, reverse);
+                    Display.FillRect(rect, reverse);
                 else
-                    AgateDisplay.FillRect(rect, color);
+                    Display.FillRect(rect, color);
 
                 
                 Point textPt = btn.ClientToScreen(new Point(btn.Bounds.Width / 2, btn.Bounds.Height / 2));
@@ -86,7 +87,7 @@ namespace AgateLib.Gui.Styles
                     style.DrawText(textPt.X, textPt.Y, OriginAlignment.Center, Color.Gray, btn.Text);
                 }
 
-                AgateDisplay.DrawLineSegments(lines, Color.Black);
+                Display.DrawLineSegments(lines, Color.Black);
 
             }
             public override void DoAutoSize()
@@ -131,7 +132,7 @@ namespace AgateLib.Gui.Styles
             public override void Component_Paint(object sender, EventArgs e)
             {
                 if (label.BackColor.A > 0)
-                    AgateDisplay.FillRect(label.ScreenBounds, label.BackColor);
+                    Display.FillRect(label.ScreenBounds, label.BackColor);
 
                 style.DrawText(label.ScreenLocation, OriginAlignment.TopLeft, label.ForeColor, label.Text);
             }
@@ -175,8 +176,8 @@ namespace AgateLib.Gui.Styles
 
             public override void Component_Paint(object sender, EventArgs e)
             {
-                AgateDisplay.FillRect(window.ScreenBounds, Color.LightGray);
-                AgateDisplay.FillRect(window.ClientToScreen(new Rectangle(new Point(0, 0), window.ClientSize)), window.BackColor);
+                Display.FillRect(window.ScreenBounds, Color.LightGray);
+                Display.FillRect(window.ClientToScreen(new Rectangle(new Point(0, 0), window.ClientSize)), window.BackColor);
 
                 style.DrawText(window.ClientToScreen(7, -titleSize / 2), OriginAlignment.CenterLeft,
                     window.ForeColor, window.Title);

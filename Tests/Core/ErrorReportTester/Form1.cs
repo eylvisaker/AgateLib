@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Core;
 
 namespace ErrorReportTester
 {
@@ -16,7 +15,7 @@ namespace ErrorReportTester
         {
             InitializeComponent();
 
-            AgateCore.Initialize();
+            Core.Initialize();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -28,7 +27,7 @@ namespace ErrorReportTester
 
         private static void GenerateErrors()
         {
-            AgateCore.ReportError(ErrorLevel.Comment, "Test comment about application condition", null);
+            Core.ReportError(ErrorLevel.Comment, "Test comment about application condition", null);
 
             try
             {
@@ -36,7 +35,7 @@ namespace ErrorReportTester
             }
             catch (Exception e)
             {
-                AgateCore.ReportError(ErrorLevel.Warning, "File not there.", e);
+                Core.ReportError(ErrorLevel.Warning, "File not there.", e);
             }
 
             try
@@ -45,7 +44,7 @@ namespace ErrorReportTester
             }
             catch (Exception e)
             {
-                AgateCore.ReportError(ErrorLevel.Fatal, "Missing file", e);
+                Core.ReportError(ErrorLevel.Fatal, "Missing file", e);
             }
 
             try
@@ -54,7 +53,7 @@ namespace ErrorReportTester
             }
             catch (Exception e)
             {
-                AgateCore.ReportError(ErrorLevel.Bug, "Oops, a bug.", e);
+                Core.ReportError(ErrorLevel.Bug, "Oops, a bug.", e);
             }
 
             // unhandled error
@@ -63,7 +62,7 @@ namespace ErrorReportTester
 
         private void FillTextBox()
         {
-            System.IO.TextReader r = new System.IO.StreamReader(AgateCore.ErrorFile);
+            System.IO.TextReader r = new System.IO.StreamReader(Core.ErrorFile);
 
             textBox1.Text = r.ReadToEnd();
 

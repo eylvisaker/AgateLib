@@ -20,12 +20,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Core;
-
 namespace AgateLib.Audio
 {
     using Drivers;
     using ImplBase;
+    using Utility;
 
     /// <summary>
     /// A class which is used for loading and playing of sounds.
@@ -56,7 +55,7 @@ namespace AgateLib.Audio
 
         private SoundBuffer()
         {
-            AgateAudio.EventStopAllSounds += new AgateAudio.AudioCoreEventDelegate(Stop);
+            Audio.EventStopAllSounds += new Audio.AudioCoreEventDelegate(Stop);
         }
         /// <summary>
         /// Constructs a SoundBuffer object, loading audio data from the 
@@ -70,7 +69,7 @@ namespace AgateLib.Audio
             if (string.IsNullOrEmpty(fn))
                 throw new System.IO.FileNotFoundException(filename);
 
-            impl = AgateAudio.Impl.CreateSoundBuffer(fn);
+            impl = Audio.Impl.CreateSoundBuffer(fn);
             mFilename = filename;
         }
 
@@ -164,7 +163,7 @@ namespace AgateLib.Audio
         /// <summary>
         /// Event which occurs when Stop is called on the SoundBuffer object.
         /// </summary>
-        public event AgateAudio.AudioCoreEventDelegate StopEvent;
+        public event Audio.AudioCoreEventDelegate StopEvent;
         /// <summary>
         /// Filename this sound was originally loaded from.
         /// </summary>

@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Core;
 using AgateLib.Input;
 
 namespace AgateLib.Gui
@@ -40,7 +39,7 @@ namespace AgateLib.Gui
             Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
             Keyboard.KeyUp += new InputEventHandler(Keyboard_KeyUp);
 
-            AgateCore.KeepAliveEvent += new AgateCore.KeepAliveDelegate(Update);
+            Core.KeepAliveEvent += new Core.KeepAliveDelegate(Update);
         }
 
 
@@ -52,7 +51,7 @@ namespace AgateLib.Gui
             Keyboard.KeyDown -= Keyboard_KeyDown;
             Keyboard.KeyUp -= Keyboard_KeyUp;
 
-            AgateCore.KeepAliveEvent -= Update;
+            Core.KeepAliveEvent -= Update;
 
             base.Dispose();
         }

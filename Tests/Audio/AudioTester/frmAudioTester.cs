@@ -93,7 +93,7 @@ namespace AudioTester
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            AgateLib.Audio.AgateAudio.StopAll();
+            AgateLib.Audio.Audio.StopAll();
         }
 
 
@@ -148,8 +148,8 @@ namespace AudioTester
             {
                 Directory.SetCurrentDirectory(textBox1.Text);
 
-                AgateLib.Core.FileManager.SoundPath = new AgateLib.Core.SearchPath(".");
-                AgateLib.Core.FileManager.MusicPath = new AgateLib.Core.SearchPath(".");
+                AgateLib.Utility.FileManager.SoundPath = new AgateLib.Utility.SearchPath(".");
+                AgateLib.Utility.FileManager.MusicPath = new AgateLib.Utility.SearchPath(".");
 
                 FillMusicListBox();
             }
@@ -158,7 +158,7 @@ namespace AudioTester
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            AgateLib.Core.AgateCore.KeepAlive();
+            AgateLib.Core.KeepAlive();
         }
 
 

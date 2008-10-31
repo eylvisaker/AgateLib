@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using AgateLib.Core;
 using AgateLib.Geometry;
 using AgateLib.ImplBase;
+using AgateLib.Utility;
 
 namespace AgateLib.Display
 {
@@ -97,10 +97,10 @@ namespace AgateLib.Display
             if (string.IsNullOrEmpty(fn))
                 throw new System.IO.FileNotFoundException(surf.Filename);
 
-            impl = AgateDisplay.Impl.CreateSurface(fn);
+            impl = Display.Impl.CreateSurface(fn);
 
-            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
-            AgateDisplay.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
         }
         /// <summary>
         /// Creates a surface object, from the specified image file.
@@ -112,10 +112,10 @@ namespace AgateLib.Display
             if (string.IsNullOrEmpty(fn))
                 throw new System.IO.FileNotFoundException(filename);
 
-            impl = AgateDisplay.Impl.CreateSurface(fn);
+            impl = Display.Impl.CreateSurface(fn);
 
-            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
-            AgateDisplay.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
         }
         /// <summary>
         /// Creates a surface object from the data in the specified stream.
@@ -123,10 +123,10 @@ namespace AgateLib.Display
         /// <param name="st"></param>
         public Surface(Stream st)
         {
-            impl = AgateDisplay.Impl.CreateSurface(st);
+            impl = Display.Impl.CreateSurface(st);
 
-            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
-            AgateDisplay.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
         }
         /// <summary>
         /// Creates a surface object of the specified size.
@@ -144,10 +144,10 @@ namespace AgateLib.Display
         /// <param name="size"></param>
         public Surface(Size size)
         {
-            impl = AgateDisplay.Impl.CreateSurface(size);
+            impl = Display.Impl.CreateSurface(size);
 
-            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
-            AgateDisplay.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
         }
         /// <summary>
         /// Constructs a surface object from the specified PixelBuffer object.
@@ -169,8 +169,8 @@ namespace AgateLib.Display
             if (fromImpl != null)
                 throw new Exception("fromImpl already has an owned implementation!");
 
-            AgateDisplay.DisposeDisplay += new AgateDisplay.DisposeDisplayHandler(Dispose);
-            AgateDisplay.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+            Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+            Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
         }
         /// <summary>
         /// Destroyes unmanaged resources associated with this surface.
@@ -179,8 +179,8 @@ namespace AgateLib.Display
         {
             impl.Dispose();
 
-            //AgateDisplay.DisposeDisplay -= Dispose;
-            AgateDisplay.PackAllSurfacesEvent -= Display_PackAllSurfacesEvent;
+            //Display.DisposeDisplay -= Dispose;
+            Display.PackAllSurfacesEvent -= Display_PackAllSurfacesEvent;
         }
         /// <summary>
         /// Returns true if Dispose() has been called on this surface.
@@ -193,7 +193,7 @@ namespace AgateLib.Display
         void Display_PackAllSurfacesEvent(object sender, EventArgs e)
         {
             if (ShouldBePacked && !IsDisposed)
-                AgateDisplay.SurfacePacker.QueueSurface(this);
+                Display.SurfacePacker.QueueSurface(this);
         }
 
         #region --- Surface properties ---
@@ -230,7 +230,7 @@ namespace AgateLib.Display
         }
         /// <summary>
         /// Gets or sets a bool value that indicates whether or not this surface
-        /// should be included in a call to AgateDisplay.PackAllSurfaces.
+        /// should be included in a call to Display.PackAllSurfaces.
         /// </summary>
         public bool ShouldBePacked
         {
@@ -663,7 +663,7 @@ namespace AgateLib.Display
         /// Copies the pixels in this surface from the given source rectangle 
         /// to a new surface, and returns that.
         /// It is not recommended to call this between calls to 
-        /// AgateDisplay.BeginFrame..AgateDisplay.EndFrame.
+        /// Display.BeginFrame..Display.EndFrame.
         /// </summary>
         /// <param name="srcRect">The rectangle of pixels to create a new surface from.</param>
         /// <returns>A Surface object containing only those pixels copied.</returns>

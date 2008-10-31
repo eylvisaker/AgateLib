@@ -23,12 +23,13 @@ using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
-using AgateLib.Display;
 using AgateLib.Geometry;
 using AgateLib.ImplBase;
 
 namespace AgateLib.MDX
 {
+    using Display;
+
     public class MDX1_FontSurface : FontSurfaceImpl
     {
         #region --- Private Variables ---
@@ -49,7 +50,7 @@ namespace AgateLib.MDX
         }
         public MDX1_FontSurface( string fontFamily, float sizeInPoints)
         {
-            mDisplay = AgateDisplay.Impl as MDX1_Display;
+            mDisplay = Display.Impl as MDX1_Display;
             mWinFont = new System.Drawing.Font(fontFamily, sizeInPoints);
 
             CreateD3DFont();

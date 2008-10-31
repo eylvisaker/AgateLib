@@ -20,11 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Display;
 using AgateLib.Geometry;
 
 namespace AgateLib.Utility
 {
+    using Display;
+
     /// <summary>
     /// Class which handles packing of surfaces into a large surface.
     /// 
@@ -361,7 +362,7 @@ namespace AgateLib.Utility
 
             internal void Build()
             {
-                mPackingSurface = AgateDisplay.BuildPackedSurface(mRects.ContainerSize, RectPacker);
+                mPackingSurface = Display.BuildPackedSurface(mRects.ContainerSize, RectPacker);
 
 
                 //mPackingSurface.SaveTo("testpackedsurface.png", ImageFileFormat.Png);
@@ -398,7 +399,7 @@ namespace AgateLib.Utility
         /// </summary>
         public void PackQueue()
         {
-            Size size = AgateDisplay.MaxSurfaceSize;
+            Size size = Display.MaxSurfaceSize;
             PackedSurface packedSurf = new PackedSurface(size);
 
             foreach (Surface surf in mSurfQueue)

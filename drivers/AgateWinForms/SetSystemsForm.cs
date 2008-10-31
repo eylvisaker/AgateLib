@@ -22,7 +22,6 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 
-using AgateLib.Core;
 using AgateLib.Drivers;
 
 namespace AgateLib.WinForms

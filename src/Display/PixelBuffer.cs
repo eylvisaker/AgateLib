@@ -330,13 +330,13 @@ namespace AgateLib.Display
 
         /// <summary>
         /// Checks to see if this PixelBuffer contains only transparent pixels.
-        /// Pixels with an alpha value of less than AgateDisplay.AlphaThreshold are considered
+        /// Pixels with an alpha value of less than Display.AlphaThreshold are considered
         /// transparent.
         /// </summary>
         /// <returns></returns>
         public bool IsBlank()
         {
-            return IsBlank(AgateDisplay.AlphaThreshold);
+            return IsBlank(Display.AlphaThreshold);
         }
         /// <summary>
         /// Checks to see if this PixelBuffer contains only transparent pixels.
@@ -358,14 +358,14 @@ namespace AgateLib.Display
         /// <summary>
         /// Checks to see if the selected row of this PixelBuffer contains only
         /// transparent pixels.
-        /// Pixels with an alpha value of less than AgateDisplay.AlphaThreshold are considered
+        /// Pixels with an alpha value of less than Display.AlphaThreshold are considered
         /// transparent.
         /// </summary>
         /// <param name="row"></param>
         /// <returns></returns>
         public bool IsRowBlank(int row)
         {
-            return IsRowBlank(row, AgateDisplay.AlphaThreshold);
+            return IsRowBlank(row, Display.AlphaThreshold);
         }
         /// <summary>
         /// Checks to see if the selected row of this PixelBuffer contains only
@@ -389,7 +389,7 @@ namespace AgateLib.Display
         /// <returns></returns>
         public bool IsRowBlank(int row, int left, int width)
         {
-            return IsRowBlank(row, 0, Width, AgateDisplay.AlphaThreshold);
+            return IsRowBlank(row, 0, Width, Display.AlphaThreshold);
         }
         /// <summary>
         /// Checks to see if the selected row of this PixelBuffer contains only
@@ -419,14 +419,14 @@ namespace AgateLib.Display
         /// <summary>
         /// Checks to see if the selected row of this PixelBuffer contains only
         /// transparent pixels.
-        /// Pixels with an alpha value of less than AgateDisplay.AlphaThreshold are considered
+        /// Pixels with an alpha value of less than Display.AlphaThreshold are considered
         /// transparent.
         /// </summary>
         /// <param name="col"></param>
         /// <returns></returns>
         public bool IsColumnBlank(int col)
         {
-            return IsColumnBlank(col, AgateDisplay.AlphaThreshold);
+            return IsColumnBlank(col, Display.AlphaThreshold);
         }
         /// <summary>
         /// Checks to see if the selected row of this PixelBuffer contains only
@@ -450,7 +450,7 @@ namespace AgateLib.Display
         /// <returns></returns>
         public bool IsColumnBlank(int col, int top, int height)
         {
-            return IsColumnBlank(col, top, height, AgateDisplay.AlphaThreshold);
+            return IsColumnBlank(col, top, height, Display.AlphaThreshold);
         }
         /// <summary>
         /// Checks to see if a portion of the selected row of this PixelBuffer contains only
@@ -794,7 +794,7 @@ namespace AgateLib.Display
         /// <param name="format"></param>
         public void SaveTo(string filename, ImageFileFormat format)
         {
-            AgateDisplay.SavePixelBuffer(this, filename, format);
+            Display.SavePixelBuffer(this, filename, format);
 
 
         }

@@ -148,10 +148,10 @@ namespace AgateLib.Input.Old
             {
                 JoystickButton btn = mJoystickButtons[i];
 
-                if (InputManager.JoystickCount <= btn.joyID)
+                if (Input.JoystickCount <= btn.joyID)
                     continue;
 
-                if (InputManager.Joysticks[btn.joyID].Buttons[btn.buttonID])
+                if (Input.Joysticks[btn.joyID].Buttons[btn.buttonID])
                 {
                     SetOn();
                     return;
@@ -162,10 +162,10 @@ namespace AgateLib.Input.Old
             {
                 JoystickAxis axis = mJoystickAxes[i];
 
-                if (InputManager.JoystickCount <= axis.joyID)
+                if (Input.JoystickCount <= axis.joyID)
                     continue;
 
-                double value = InputManager.Joysticks[axis.joyID].GetAxisValue(axis.axisID);
+                double value = Input.Joysticks[axis.joyID].GetAxisValue(axis.axisID);
 
                 if (axis.positiveDirection)
                 {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Core;
+
 namespace TimerTester
 {
     static class Program
@@ -22,7 +22,7 @@ namespace TimerTester
             frmTimerTester frm = new frmTimerTester();
             frm.Show();
 
-            AgateCore.Initialize();
+            Core.Initialize();
             Timing.PauseAllTimers();
 
 

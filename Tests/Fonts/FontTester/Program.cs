@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 
 using AgateLib;
-using AgateLib.Core;
 using AgateLib.Display;
 using AgateLib.Geometry;
 using AgateLib.Input;
@@ -39,8 +38,8 @@ namespace FontTester
 
                 while (wind.IsClosed == false)
                 {
-                    AgateDisplay.BeginFrame();
-                    AgateDisplay.Clear(Color.DarkGray);
+                    Display.BeginFrame();
+                    Display.Clear(Color.DarkGray);
 
                     // test the color changing
                     font.Color = Color.LightGreen;
@@ -53,7 +52,7 @@ namespace FontTester
                     Size textSize = font.StringDisplaySize(text);
 
                     // draw a box around where the text should be displayed.
-                    AgateDisplay.DrawRect(new Rectangle(textPoint.X - textSize.Width / 2, textPoint.Y - textSize.Height / 2,
+                    Display.DrawRect(new Rectangle(textPoint.X - textSize.Width / 2, textPoint.Y - textSize.Height / 2,
                         textSize.Width, textSize.Height), Color.Gray);
 
                     font.DisplayAlignment = OriginAlignment.Center;
@@ -67,16 +66,16 @@ namespace FontTester
                     textSize = font.StringDisplaySize(text);
 
                     // draw a box with the same size the text should appear as
-                    AgateDisplay.DrawRect(new Rectangle(textPoint, textSize), Color.White);
+                    Display.DrawRect(new Rectangle(textPoint, textSize), Color.White);
 
                     font.DrawText(textPoint, text);
                     font.SetScale(1.0, 1.0);
 
-                    // this draws a white background behind the text we want to AgateDisplay.
+                    // this draws a white background behind the text we want to Display.
                     text = "F2: Toggle VSync   F5:  Toggle Windowed / Fullscreen      ";
-                    text += "FPS: " + AgateDisplay.FramesPerSecond.ToString("0.00") + "    ";
+                    text += "FPS: " + Display.FramesPerSecond.ToString("0.00") + "    ";
 
-                    if (AgateCore.IsActive)
+                    if (Core.IsActive)
                         text += "Active";
                     else
                         text += "Not Active";
@@ -85,14 +84,14 @@ namespace FontTester
                     textSize = font.StringDisplaySize(text);
 
                     // draw the white background
-                    AgateDisplay.FillRect(new Rectangle(new Point(0, 0), textSize), Color.White);
+                    Display.FillRect(new Rectangle(new Point(0, 0), textSize), Color.White);
 
                     // draw the text on top of the background
                     font.Color = Color.Black;
                     font.DrawText(text);  // supplying no position arguments defaults to (0, 0)
 
                     // draw something which moves to let us know the program is running
-                    AgateDisplay.FillRect(new Rectangle(
+                    Display.FillRect(new Rectangle(
                         10, 200, 70 + (int)( 50 * Math.Cos(frame / 10.0)), 50), Color.Red);
 
                     // do some bitmap font stuff
@@ -106,33 +105,33 @@ namespace FontTester
                     bitmapFont.DrawText(10, 382, "THIS IS BIGG.");
                     bitmapFont.SetScale(1, 1);
 
-                    AgateDisplay.FillRect(new Rectangle(95, 425, 10, 10), Color.Blue);
+                    Display.FillRect(new Rectangle(95, 425, 10, 10), Color.Blue);
                     bitmapFont.DisplayAlignment = OriginAlignment.Center;
                     bitmapFont.DrawText(100, 430, "CHECK");
                     bitmapFont.DisplayAlignment = OriginAlignment.TopLeft;
 
                     // and we're done.
-                    AgateDisplay.EndFrame();
-                    AgateCore.KeepAlive();
+                    Display.EndFrame();
+                    Core.KeepAlive();
 
                     frame++;
 
                     // toggle full screen if the user pressed F5;
                     if (Keyboard.Keys[KeyCode.F5])
                     {
-                        if (AgateDisplay.CurrentWindow.IsFullScreen)
-                            AgateDisplay.CurrentWindow.SetFullScreen();
+                        if (Display.CurrentWindow.IsFullScreen)
+                            Display.CurrentWindow.SetFullScreen();
                         else
-                            AgateDisplay.CurrentWindow.SetWindowed();
+                            Display.CurrentWindow.SetWindowed();
                     }
                     else if (Keyboard.Keys[KeyCode.F2])
                     {
-                        AgateDisplay.VSync = !AgateDisplay.VSync;
+                        Display.VSync = !Display.VSync;
                         Keyboard.ReleaseKey(KeyCode.F2);
                     }
                     else if (Keyboard.Keys[KeyCode.Escape])
                     {
-                        AgateDisplay.Dispose();
+                        Display.Dispose();
                         return;
                     }
 

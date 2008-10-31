@@ -21,17 +21,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using AgateLib.Display;
 using AgateLib.Geometry;
 using AgateLib.Resources.Old;
 
 namespace AgateLib.Sprites.Old
 {
+    using AgateLib.Display;
+
     /// <summary>
     /// The Sprite class represents a series of frames which are used
     /// to create a single animation.
     /// </summary>
-    public class Sprite : ISprite, ISurface 
+    public class Sprite : ISprite, ISurface
     {
         FrameList<SpriteFrame> mFrames = new FrameList<SpriteFrame>();
         Size mSpriteSize;
@@ -920,7 +921,7 @@ namespace AgateLib.Sprites.Old
         /// </summary>
         public void Update()
         {
-            Update(AgateDisplay.DeltaTime);
+            Update(Display.DeltaTime);
         }
         /// <summary>
         /// Updates the animation of the sprite, using the given frame time.
@@ -1160,12 +1161,12 @@ namespace AgateLib.Sprites.Old
                     (AnimationType == AnimType.Once || AnimationType == AnimType.OnceDisappear ||
                      AnimationType == AnimType.OnceHoldLast))
                 {
-                    
+
                     if (this.PlayReverse && mCurrentFrameIndex == 0)
                         mCurrentFrameIndex = mFrames.Count - 1;
                     else if (mCurrentFrameIndex == mFrames.Count - 1)
                         mCurrentFrameIndex = 0;
-                    
+
                 }
 
                 if (doEvent)
@@ -1224,28 +1225,29 @@ namespace AgateLib.Sprites.Old
         /// </summary>
         public event SpriteEventHandler PlayDirectionChanged;
 
-        
+
         #endregion
 
         #region --- ISprite Members with different types --
 
-        
-        event Display.SpriteEventHandler ISprite.AnimationStarted
+
+        event AgateLib.Display.SpriteEventHandler ISprite.AnimationStarted
         {
-            add { throw new Exception("The method or operation is not implemented."); }
-            remove { throw new Exception("The method or operation is not implemented."); }
-        }
-        event Display.SpriteEventHandler ISprite.AnimationStopped
-        {
-            add { throw new Exception("The method or operation is not implemented."); }
-            remove { throw new Exception("The method or operation is not implemented."); }
-        }
-        event Display.SpriteEventHandler ISprite.PlayDirectionChanged
-        {
-            add { throw new Exception("The method or operation is not implemented."); }
-            remove { throw new Exception("The method or operation is not implemented."); }
+            add { throw new NotImplementedException(); }
+            remove { throw new NotImplementedException(); }
         }
 
+        event AgateLib.Display.SpriteEventHandler ISprite.AnimationStopped
+        {
+            add { throw new NotImplementedException(); }
+            remove { throw new NotImplementedException(); }
+        }
+
+        event AgateLib.Display.SpriteEventHandler ISprite.PlayDirectionChanged
+        {
+            add { throw new NotImplementedException(); }
+            remove { throw new NotImplementedException(); }
+        }
 
         SpriteAnimType ISprite.AnimationType
         {

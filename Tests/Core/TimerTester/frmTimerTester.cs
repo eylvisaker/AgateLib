@@ -10,7 +10,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using AgateLib;
-using AgateLib.Core;
+using AgateLib.Utility;
 
 namespace TimerTester
 {

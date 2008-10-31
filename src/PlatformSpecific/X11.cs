@@ -21,8 +21,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 
-using AgateLib.Core;
-
 namespace AgateLib.PlatformSpecific
 {
     /// <summary>
@@ -73,7 +71,7 @@ namespace AgateLib.PlatformSpecific
 
                     if (display.Equals(IntPtr.Zero) && XConnectionMessage == false)
                     {
-                        AgateCore.ReportError(ErrorLevel.Warning, "Could not get connection to the X Server.  Reverting to " +
+                        Core.ReportError(ErrorLevel.Warning, "Could not get connection to the X Server.  Reverting to " +
                             "platform independent methods.", null);
 
                         XConnectionMessage = true;
@@ -81,7 +79,7 @@ namespace AgateLib.PlatformSpecific
                     }
                     else if (XConnectionMessage)
                     {
-                        AgateCore.ReportError(ErrorLevel.Comment, "Connection to X server is now available.  Using platform " +
+                        Core.ReportError(ErrorLevel.Comment, "Connection to X server is now available.  Using platform " +
                             "specific idle checking method.", null);
 
                         XConnectionMessage = false;
