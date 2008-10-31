@@ -2,17 +2,17 @@
 Current Changes
 ===================
 
-Major namespace reorganization and class renaming.
- * Static Audio class renamed AgateAudio
- * Static Core class renamed AgateCore, and moved to AgateLib.Core namespace.
- * Static Display class renamed AgateDisplay and moved to AgateLib.Display namespace.
- * Static Input class renamed to InputManager and moved to AgateLib.Input.Old namespace.
+Major namespace reorganization and class renaming.  The ERY root namespace has been removed.
+ * Moved static Display class to AgateLib.Display namespace.
+ * Classes directly related to display (Surface, FontSurface, etc.) moved to AgateLib.Display namespace.
+ * Moved static Audio class to AgateLib.Audio namespace.
  * Sound/Music classes moved to AgateLib.Audio namespace.
- * All classes related to display (Surface, FontSurface, etc.) are moved to the AgateLib.Display namespace.
+ * Static Core class renamed AgateCore, and moved to AgateLib.Core namespace.
+ * Moved static Input class to AgateLib.Input.Old namespace.
  * Keyboard/mouse classes moved to AgateLib.Input namespace.
  * Joystick classes moved to AgateLib.Input.Old namespace.
  
-Added optional AgateWinForms.dll to encapsulate all references to System.Drawing and System.Windows.Forms.
+Added AgateWinForms.dll to encapsulate all references to System.Drawing and System.Windows.Forms.
 AgateOTK has been updated to use OpenTK version 0.9.1.
 
 An OpenAL driver has been developed in AgateOTK, providing an audio driver for Linux which does not require licensing fees.

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Core;
+using AgateLib;
 using AgateLib.Display;
 using AgateLib.BitmapFont;
 using AgateLib.ImplBase;
@@ -200,40 +200,40 @@ namespace FontCreator
             if (zoomWind == null)
                 return;
 
-            AgateDisplay.RenderTarget = zoomWind;
-            AgateDisplay.BeginFrame();
-            AgateDisplay.Clear();
+            Display.RenderTarget = zoomWind;
+            Display.BeginFrame();
+            Display.Clear();
 
             font.SetScale(mDisplayScale, mDisplayScale);
 
             DrawBackground();
             DrawText();
 
-            AgateDisplay.EndFrame();
+            Display.EndFrame();
 
 
-            AgateDisplay.RenderTarget = wind;
-            AgateDisplay.BeginFrame();
-            AgateDisplay.Clear();
+            Display.RenderTarget = wind;
+            Display.BeginFrame();
+            Display.Clear();
 
             font.SetScale(1.0, 1.0);
 
             DrawBackground();
             DrawText();
 
-            AgateDisplay.EndFrame();
+            Display.EndFrame();
 
 
-            AgateCore.KeepAlive();
+            Core.KeepAlive();
         }
 
         private void DrawBackground()
         {
             Surface background = LightBackground ? bgLight : bgDark;
 
-            for (int x = 0; x < AgateDisplay.RenderTarget.Width; x += background.DisplayWidth)
+            for (int x = 0; x < Display.RenderTarget.Width; x += background.DisplayWidth)
             {
-                for (int y = 0; y < AgateDisplay.RenderTarget.Height; y += background.DisplayHeight)
+                for (int y = 0; y < Display.RenderTarget.Height; y += background.DisplayHeight)
                 {
                     background.Draw(x, y);
                 }
