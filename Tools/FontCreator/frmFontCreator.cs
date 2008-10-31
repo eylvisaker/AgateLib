@@ -20,7 +20,7 @@ namespace FontCreator
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using (AgateLib.Core.AgateSetup setup = new AgateLib.Core.AgateSetup(args))
+            using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup(args))
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
