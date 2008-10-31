@@ -4,8 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
+
+using AgateLib;
+using AgateLib.Geometry;
+using AgateLib.Display;
+using AgateLib.Sprites.Old;
+using AgateLib.Input;
 
 namespace RotatingSpriteTester
 {
