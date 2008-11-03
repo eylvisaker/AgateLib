@@ -8,7 +8,7 @@ namespace AgateLib
     /// Base exception class for exceptions which are thrown by AgateLib.
     /// </summary>
     [global::System.Serializable]
-    public class AgateException : ApplicationException
+    public class AgateException : Exception
     {
         //
         // For guidelines regarding the creation of new exception types, see
