@@ -44,7 +44,7 @@ namespace AgateLib
     ///     using(AgateSetup setup = new AgateSetup("My Application Name", args))
     ///     {
     ///         setup.InitializeAll();
-    ///         if (setup.Cancel)
+    ///         if (setup.WasCanceled)
     ///             return;
     /// 
     ///         // TODO: write game here
@@ -55,7 +55,7 @@ namespace AgateLib
     /// </summary>
     public sealed class AgateSetup : IDisposable
     {
-        private bool mCancel = false;
+        private bool mWasCanceled = false;
         private bool mAskUser = false;
         private bool mAlreadyAsked = false;
         private string mTitle = "AgateLib";
@@ -215,11 +215,20 @@ namespace AgateLib
         /// Returns true if the user hit cancel in any dialog box that showed up
         /// asking the user what driver to use, or if initialization failed.
         /// </summary>
+        [Obsolete("Use the WasCanceled property instead.")]
         public bool Cancel
         {
-            get { return mCancel; }
+            get { return mWasCanceled; }
         }
 
+        /// <summary>
+        /// Returns true if the user hit cancel in any dialog box that showed up
+        /// asking the user what driver to use, or if initialization failed.
+        /// </summary>
+        public bool WasCanceled
+        {
+            get { return mWasCanceled; }
+        }
         /// <summary>
         /// Gets or sets a bool value which indicates whether or not the user
         /// should be asked which driver(s) to use when Agate is initialized.
@@ -273,7 +282,7 @@ namespace AgateLib
             if (mAskUser == false)
                 return;
 
-            mCancel = !Registrar.UserSelectDrivers(mUseDisplay, mUseAudio, mUseInput,
+            mWasCanceled = !Registrar.UserSelectDrivers(mUseDisplay, mUseAudio, mUseInput,
                                                    out mSelectDisplay, out mSelectAudio, out mSelectInput);
 
             mAlreadyAsked = true;
