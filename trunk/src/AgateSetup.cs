@@ -158,7 +158,7 @@ namespace AgateLib
         /// <param name="type"></param>
         public void InitializeDisplay(DisplayTypeID type)
         {
-            if (Cancel)
+            if (WasCanceled)
                 return;
 
             Display.Display.Initialize(type);
@@ -178,7 +178,7 @@ namespace AgateLib
         /// <param name="type"></param>
         public void InitializeAudio(AudioTypeID type)
         {
-            if (Cancel)
+            if (WasCanceled)
                 return;
 
             Audio.Audio.Initialize(type);
@@ -199,7 +199,7 @@ namespace AgateLib
         /// <param name="inputTypeID"></param>
         public void InitializeInput(InputTypeID inputTypeID)
         {
-            if (Cancel)
+            if (WasCanceled)
                 return;
 
             Input.Old.Input.Initialize(inputTypeID);
