@@ -234,10 +234,10 @@ namespace AgateLib.Display
         /// <summary>
         /// Clears the buffer to the specified color.
         /// </summary>
-        /// <param name="a">Alpha value</param>
-        /// <param name="b">Blue value</param>
-        /// <param name="g">Green value</param>
-        /// <param name="r">Red value</param>
+        /// <param name="a">Alpha value, between 0 and 255.</param>
+        /// <param name="b">Blue value, between 0 and 255.</param>
+        /// <param name="g">Green value, between 0 and 255.</param>
+        /// <param name="r">Red value, between 0 and 255.</param>
         public static void Clear(byte a, byte r, byte g, byte b)
         {
             Clear(Color.FromArgb(a, r, g, b));
@@ -253,7 +253,7 @@ namespace AgateLib.Display
         /// <summary>
         /// Clears the buffer to the specified color.
         /// </summary>
-        /// <param name="color"></param>
+        /// <param name="color">32-bit integer indicating the color.  The color will be constructed from Color.FromArgb.</param>
         public static void Clear(int color)
         {
             impl.Clear(Color.FromArgb(color));
@@ -263,8 +263,8 @@ namespace AgateLib.Display
         /// Should be essentially the same as DrawRect(dest, color), except
         /// that alpha is not significant in the use of Clear.
         /// </summary>
-        /// <param name="color"></param>
-        /// <param name="dest"></param>
+        /// <param name="color">Color to clear to.</param>
+        /// <param name="dest">Destination rectangle to clear.</param>
         public static void Clear(Color color, Rectangle dest)
         {
             impl.Clear(color, dest);
