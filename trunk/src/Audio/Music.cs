@@ -41,8 +41,9 @@ namespace AgateLib.Audio
             Audio.EventStopAllMusic += new Audio.AudioCoreEventDelegate(Stop);
         }
         /// <summary>
-        /// Constructs a Music object.
+        /// Constructs a Music object from a file.
         /// </summary>
+        /// <param name="filename">The name of the file to load.</param>
         public Music(string filename)
             : this()
         {
