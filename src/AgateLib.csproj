@@ -7,7 +7,7 @@
     <ProjectGuid>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ERY.AgateLib</RootNamespace>
+    <RootNamespace>AgateLib</RootNamespace>
     <AssemblyName>AgateLib</AssemblyName>
     <StartupObject>
     </StartupObject>
@@ -46,7 +46,7 @@
     <DocumentationFile>..\bin\Debug\AgateLib.XML</DocumentationFile>
     <OutputType>Library</OutputType>
     <AssemblyName>AgateLib</AssemblyName>
-    <RootNamespace>ERY.AgateLib</RootNamespace>
+    <RootNamespace>AgateLib</RootNamespace>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -62,7 +62,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputType>Library</OutputType>
     <AssemblyName>AgateLib</AssemblyName>
-    <RootNamespace>ERY.AgateLib</RootNamespace>
+    <RootNamespace>AgateLib</RootNamespace>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
