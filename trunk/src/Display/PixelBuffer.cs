@@ -271,8 +271,13 @@ namespace AgateLib.Display
         /// Gets or sets the raw pixel data, in the format indicated by PixelFormat. 
         /// An exception is thrown when setting Data if the length of the array passed is 
         /// not Width * Height * PixelStride.
-        /// The data is not copied, it is only referenced.
         /// </summary>
+        /// <remarks>
+        /// The data is not copied when set, it is only referenced, so changes to the array that
+        /// is passed in will affect the data in the pixel buffer.  It is assumed that the data
+        /// passed in is of the same format as the pixel buffer.  If you wish to copy data use
+        /// the <see cref="SetData"/> method.
+        /// </remarks>
         public byte[] Data
         {
             get { return mData; }

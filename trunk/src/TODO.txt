@@ -25,6 +25,7 @@ Goals for 0.3.0
 		D Update AgateOTK to use Framebuffer extension for fast render-to-surface
 		D Fix MDX render-to-surface bug. (Apparently fixed?)
 		D Remove PlatformTypeID class
+		* Update AgateOTK to not call GL functions in finalizers.
 	Sprites
 		D Create ISprite and ISpriteFrame interfaces
 		* Create ISprite compliant version of old Sprite class
