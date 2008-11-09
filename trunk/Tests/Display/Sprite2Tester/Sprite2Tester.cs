@@ -21,7 +21,7 @@ namespace ERY.Sprite2Tester
             {
                 displaySetup.AskUser = true;
                 displaySetup.Initialize(true, false, false);
-                if (displaySetup.Cancel)
+                if (displaySetup.WasCanceled)
                     return;
 
 

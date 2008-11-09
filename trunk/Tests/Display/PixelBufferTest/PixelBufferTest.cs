@@ -24,7 +24,7 @@ namespace PixelBufferTest
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
                 frm = new PixelBufferForm();
