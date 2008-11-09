@@ -20,7 +20,7 @@ namespace OrthoProjectionTest
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
                 Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);

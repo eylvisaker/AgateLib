@@ -31,7 +31,7 @@ namespace TileTester
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
                 Form1 frm = new Form1();

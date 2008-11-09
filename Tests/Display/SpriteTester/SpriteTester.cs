@@ -27,7 +27,7 @@ namespace ERY.SpriteTester
             {
                 displaySetup.AskUser = true;
                 displaySetup.Initialize(true, false, false);
-                if (displaySetup.Cancel)
+                if (displaySetup.WasCanceled)
                     return;
 
                 form.Show();

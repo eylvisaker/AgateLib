@@ -25,7 +25,7 @@ namespace LightingTest
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
                 LightingTestForm frm = new LightingTestForm();

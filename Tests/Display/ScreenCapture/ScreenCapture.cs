@@ -104,7 +104,7 @@ namespace ScreenCaptureExample
 
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
-                if (setup.Cancel) return;
+                if (setup.WasCanceled) return;
 
                 //Form1 someForm = new Form1();
                 //someForm.Size = new System.Drawing.Size(800, 600);

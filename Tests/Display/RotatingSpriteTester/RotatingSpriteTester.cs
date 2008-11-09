@@ -26,7 +26,7 @@ namespace RotatingSpriteTester
                 //setup.AskUser = true;
                 setup.Initialize(true, false, false);
 
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
                 DisplayWindow wind = new DisplayWindow("Rotating sprite", 500, 500);
