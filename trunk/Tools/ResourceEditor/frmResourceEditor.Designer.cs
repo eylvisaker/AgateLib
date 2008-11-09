@@ -97,11 +97,11 @@ namespace ResourceEditor
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.mainbook);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(648, 418);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(640, 414);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(648, 489);
+            this.toolStripContainer1.Size = new System.Drawing.Size(640, 485);
             this.toolStripContainer1.TabIndex = 4;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -117,7 +117,7 @@ namespace ResourceEditor
             this.statusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(648, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(640, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -145,7 +145,7 @@ namespace ResourceEditor
             this.mainbook.Navigator.PageBackColor = System.Drawing.SystemColors.Control;
             this.mainbook.NavigatorType = ERY.NotebookLib.NavigatorType.ListBook;
             this.mainbook.SelectedIndex = 2;
-            this.mainbook.Size = new System.Drawing.Size(648, 418);
+            this.mainbook.Size = new System.Drawing.Size(640, 414);
             this.mainbook.SplitterLocation = 206;
             this.mainbook.TabIndex = 0;
             // 
@@ -157,7 +157,7 @@ namespace ResourceEditor
             this.pageWindow.Location = new System.Drawing.Point(210, 0);
             this.pageWindow.Name = "pageWindow";
             this.pageWindow.Order = 20;
-            this.pageWindow.Size = new System.Drawing.Size(438, 418);
+            this.pageWindow.Size = new System.Drawing.Size(430, 414);
             this.pageWindow.TabIndex = 4;
             this.pageWindow.Text = "Display Windows";
             // 
@@ -166,7 +166,7 @@ namespace ResourceEditor
             this.displayWindowEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.displayWindowEditor1.Location = new System.Drawing.Point(0, 0);
             this.displayWindowEditor1.Name = "displayWindowEditor1";
-            this.displayWindowEditor1.Size = new System.Drawing.Size(438, 418);
+            this.displayWindowEditor1.Size = new System.Drawing.Size(430, 414);
             this.displayWindowEditor1.TabIndex = 0;
             // 
             // pageStrings
@@ -177,7 +177,7 @@ namespace ResourceEditor
             this.pageStrings.Location = new System.Drawing.Point(210, 0);
             this.pageStrings.Name = "pageStrings";
             this.pageStrings.Order = 0;
-            this.pageStrings.Size = new System.Drawing.Size(438, 418);
+            this.pageStrings.Size = new System.Drawing.Size(430, 414);
             this.pageStrings.TabIndex = 1;
             this.pageStrings.Text = "Strings";
             // 
@@ -187,7 +187,7 @@ namespace ResourceEditor
             this.stringTableEditor1.Location = new System.Drawing.Point(0, 0);
             this.stringTableEditor1.Name = "stringTableEditor1";
             this.stringTableEditor1.ResourceManager = null;
-            this.stringTableEditor1.Size = new System.Drawing.Size(438, 418);
+            this.stringTableEditor1.Size = new System.Drawing.Size(430, 414);
             this.stringTableEditor1.TabIndex = 0;
             this.stringTableEditor1.StatusText += new System.EventHandler<ResourceEditor.StatusTextEventArgs>(this.stringTableEditor1_StatusText);
             // 
@@ -198,7 +198,7 @@ namespace ResourceEditor
             this.pageNumbers.Location = new System.Drawing.Point(210, 0);
             this.pageNumbers.Name = "pageNumbers";
             this.pageNumbers.Order = 10;
-            this.pageNumbers.Size = new System.Drawing.Size(438, 418);
+            this.pageNumbers.Size = new System.Drawing.Size(430, 414);
             this.pageNumbers.TabIndex = 2;
             this.pageNumbers.Text = "Numbers";
             // 
@@ -209,7 +209,7 @@ namespace ResourceEditor
             this.notebookPage2.Location = new System.Drawing.Point(210, 0);
             this.notebookPage2.Name = "notebookPage2";
             this.notebookPage2.Order = 30;
-            this.notebookPage2.Size = new System.Drawing.Size(438, 418);
+            this.notebookPage2.Size = new System.Drawing.Size(430, 414);
             this.notebookPage2.TabIndex = 5;
             this.notebookPage2.Text = "Surfaces";
             // 
@@ -220,7 +220,7 @@ namespace ResourceEditor
             this.notebookPage4.Location = new System.Drawing.Point(210, 0);
             this.notebookPage4.Name = "notebookPage4";
             this.notebookPage4.Order = 60;
-            this.notebookPage4.Size = new System.Drawing.Size(438, 418);
+            this.notebookPage4.Size = new System.Drawing.Size(430, 414);
             this.notebookPage4.TabIndex = 9;
             this.notebookPage4.Text = "Music";
             // 
@@ -231,7 +231,7 @@ namespace ResourceEditor
             this.notebookPage3.Location = new System.Drawing.Point(210, 0);
             this.notebookPage3.Name = "notebookPage3";
             this.notebookPage3.Order = 50;
-            this.notebookPage3.Size = new System.Drawing.Size(438, 418);
+            this.notebookPage3.Size = new System.Drawing.Size(430, 414);
             this.notebookPage3.TabIndex = 8;
             this.notebookPage3.Text = "Sound Effects";
             // 
@@ -242,7 +242,7 @@ namespace ResourceEditor
             this.notebookPage5.Location = new System.Drawing.Point(210, 0);
             this.notebookPage5.Name = "notebookPage5";
             this.notebookPage5.Order = 45;
-            this.notebookPage5.Size = new System.Drawing.Size(438, 418);
+            this.notebookPage5.Size = new System.Drawing.Size(430, 414);
             this.notebookPage5.TabIndex = 11;
             this.notebookPage5.Text = "Fonts";
             // 
@@ -253,7 +253,7 @@ namespace ResourceEditor
             this.notebookPage1.Location = new System.Drawing.Point(210, 0);
             this.notebookPage1.Name = "notebookPage1";
             this.notebookPage1.Order = 40;
-            this.notebookPage1.Size = new System.Drawing.Size(438, 418);
+            this.notebookPage1.Size = new System.Drawing.Size(430, 414);
             this.notebookPage1.TabIndex = 6;
             this.notebookPage1.Text = "Sprites";
             // 
@@ -266,7 +266,7 @@ namespace ResourceEditor
             this.toolsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(648, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(640, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -536,7 +536,7 @@ namespace ResourceEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(648, 489);
+            this.ClientSize = new System.Drawing.Size(640, 485);
             this.Controls.Add(this.toolStripContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmResourceEditor";
