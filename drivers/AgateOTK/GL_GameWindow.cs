@@ -396,7 +396,7 @@ namespace AgateLib.Display.OpenGL
                 if (mWindow == null) 
                     return Point.Empty;
 
-                return new Point(mWindow.Mouse.Position.X, mWindow.Mouse.Position.Y);
+                return new Point(mWindow.Mouse.X, mWindow.Mouse.Y);
             }
             set
             {

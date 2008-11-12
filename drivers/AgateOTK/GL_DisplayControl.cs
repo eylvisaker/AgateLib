@@ -79,12 +79,15 @@ namespace AgateLib.Display.OpenGL
 
                 mDisplay = Display.Impl as GL_Display;
 
-                mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
-                mContext = new GraphicsContext(
-                    new GraphicsMode(new ColorFormat(32)), mWindowInfo);
+                //mWindowInfo = OpenTK.Platform.Utilities.CreateWindowInfo(mRenderTarget);
+                //mContext = new GraphicsContext(
+                //    new GraphicsMode(new ColorFormat(32)), mWindowInfo);
+                //mContext.MakeCurrent(mWindowInfo);
+                //((IGraphicsContextInternal)mContext).LoadAll();
 
-                mContext.MakeCurrent(mWindowInfo);
-                ((IGraphicsContextInternal)mContext).LoadAll();
+                OpenTK.Platform.Utilities.CreateGraphicsContext(
+                    new GraphicsMode(new ColorFormat(32)), mRenderTarget,
+                    out mContext, out mWindowInfo);
 
                 mDisplay.InitializeGL();
 
@@ -141,11 +144,15 @@ namespace AgateLib.Display.OpenGL
 
             AttachEvents();
 
-            mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
-            mContext = new GraphicsContext(
-                new GraphicsMode(new ColorFormat(32)), mWindowInfo);
-            mContext.MakeCurrent(mWindowInfo);
-            ((IGraphicsContextInternal)mContext).LoadAll();
+            //mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
+            //mContext = new GraphicsContext(
+            //    new GraphicsMode(new ColorFormat(32)), mWindowInfo);
+            //mContext.MakeCurrent(mWindowInfo);
+            //((IGraphicsContextInternal)mContext).LoadAll();
+
+            OpenTK.Platform.Utilities.CreateGraphicsContext(
+                new GraphicsMode(new ColorFormat(32)), mRenderTarget,
+                out mContext, out mWindowInfo);
 
             DisplayResolution resolution = DisplayDevice.Default.SelectResolution(
                 mChooseWidth, mChooseHeight, 32, 0);
@@ -194,11 +201,15 @@ namespace AgateLib.Display.OpenGL
             frm.Show();
             AttachEvents();
 
-            mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
-            mContext = new GraphicsContext(
-                new GraphicsMode(new ColorFormat(32)), mWindowInfo);
-            mContext.MakeCurrent(mWindowInfo);
-            ((IGraphicsContextInternal)mContext).LoadAll();
+            //mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
+            //mContext = new GraphicsContext(
+            //    new GraphicsMode(new ColorFormat(32)), mWindowInfo);
+            //mContext.MakeCurrent(mWindowInfo);
+            //((IGraphicsContextInternal)mContext).LoadAll();
+
+            OpenTK.Platform.Utilities.CreateGraphicsContext(
+                new GraphicsMode(new ColorFormat(32)), mRenderTarget,
+                out mContext, out mWindowInfo);
 
             if (oldWindowInfo != null) oldWindowInfo.Dispose();
             if (oldcontext != null) oldcontext.Dispose();
