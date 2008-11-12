@@ -53,12 +53,11 @@ namespace AgateLib.Display.OpenGL
 
         public AL_SoundBuffer(string filename)
         {
-            //AudioReader reader = new AudioReader(filename);
-            buffer = (int) OpenTK.Audio.Alut.CreateBufferFromFile(filename);
-            //buffer = AL.GenBuffer();
-            //AL.BufferData(buffer, reader.ReadToEnd());
-
-            //reader.Dispose();
+            using (AudioReader reader = new AudioReader(filename))
+            {
+                buffer = AL.GenBuffer();
+                AL.BufferData(buffer, reader.ReadToEnd());
+            }
         }
         public override void Dispose()
         {
@@ -165,14 +164,15 @@ namespace AgateLib.Display.OpenGL
 
         public AL_Music(string filename)
         {
-            //AudioReader reader = new AudioReader(filename);
+            using (AudioReader reader = new AudioReader(filename))
+            {
+                buffer = AL.GenBuffer();
+                source = AL.GenSource();
 
-            //buffer = AL.GenBuffer();
-            //source = AL.GenSource();
-            
-            //AL.BufferData(buffer, reader.ReadToEnd());
-            //AL.Source(source, ALSourcei.Buffer, buffer);
-
+                AL.BufferData(buffer, reader.ReadToEnd());
+                AL.Source(source, ALSourcei.Buffer, buffer);
+            }
+         
             //reader.Dispose();
 
             OnSetLoop(true);
