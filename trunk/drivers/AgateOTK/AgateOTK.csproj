@@ -64,7 +64,11 @@
   <ItemGroup>
     <Reference Include="OpenTK, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\OpenTK\branches\macos\Binaries\Debug\Libraries\OpenTK.dll</HintPath>
+      <HintPath>..\..\deps\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Utilities, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\deps\OpenTK.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
