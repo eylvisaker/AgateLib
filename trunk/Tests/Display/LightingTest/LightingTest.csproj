@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C73E4AF5-9A25-407E-BDEB-9D6DE5F58C04}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -74,10 +74,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\drivers\AgateMDX\AgateMDX.csproj">
-      <Project>{852EB9A0-5DCB-492F-9630-9D4198B81FA2}</Project>
-      <Name>AgateMDX</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\drivers\AgateOTK\AgateOTK.csproj">
       <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
       <Name>AgateOTK</Name>
