@@ -11,7 +11,6 @@ namespace AgateLib.Display.OpenGL
     {
         AudioContext context;
 
-
         public static void Register()
         {
             Registrar.RegisterAudioDriver(new DriverInfo<AudioTypeID>(
@@ -27,7 +26,6 @@ namespace AgateLib.Display.OpenGL
             context.Dispose();
         }
 
-
         public override SoundBufferImpl CreateSoundBuffer(string filename)
         {
             return new AL_SoundBuffer(filename);
@@ -40,9 +38,6 @@ namespace AgateLib.Display.OpenGL
         {
             return new AL_Music(filename);
         }
-
-
-
 
     }
 
@@ -87,7 +82,7 @@ namespace AgateLib.Display.OpenGL
         AL_SoundBuffer buffer;
         int source;
         double volume;
-        double pan;
+        double pan = 0;
 
         public AL_SoundBufferSession(AL_SoundBuffer buffer)
         {
@@ -132,7 +127,7 @@ namespace AgateLib.Display.OpenGL
         {
             get
             {
-                return 0;
+                return pan;
             }
             set
             {
@@ -173,8 +168,6 @@ namespace AgateLib.Display.OpenGL
                 AL.Source(source, ALSourcei.Buffer, buffer);
             }
          
-            //reader.Dispose();
-
             OnSetLoop(true);
         }
 
