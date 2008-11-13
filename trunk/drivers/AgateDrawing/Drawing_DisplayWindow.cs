@@ -23,8 +23,8 @@ using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
 
-using AgateLib.ImplBase;
-using AgateLib.Input;
+using AgateLib.ImplementationBase;
+using AgateLib.InputLib;
 using AgateLib.WinForms;
 
 namespace AgateLib.DisplayLib.SystemDrawing

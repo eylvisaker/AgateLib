@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
-using AgateLib.Input;
+using AgateLib.InputLib;
 
 namespace PixelBufferTest
 {

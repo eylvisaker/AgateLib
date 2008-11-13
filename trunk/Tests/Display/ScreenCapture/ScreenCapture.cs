@@ -5,7 +5,7 @@ using System.Diagnostics;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Input;
+using AgateLib.InputLib;
 
 namespace AgateTest
 {

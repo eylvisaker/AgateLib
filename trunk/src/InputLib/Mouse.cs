@@ -22,7 +22,7 @@ using System.Text;
 
 using AgateLib.Geometry;
 
-namespace AgateLib.Input
+namespace AgateLib.InputLib
 {
     using AgateLib.DisplayLib;
 

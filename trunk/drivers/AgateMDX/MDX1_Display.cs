@@ -27,7 +27,7 @@ using AgateLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 using AgateLib.WinForms;
 
 using Vector2 = Microsoft.DirectX.Vector2;

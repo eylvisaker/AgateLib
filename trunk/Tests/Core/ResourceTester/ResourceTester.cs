@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.Geometry;
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 using AgateLib.Resources;
 
 namespace ResourceTester

@@ -22,7 +22,7 @@ using System.Text;
 using Microsoft.DirectX.DirectInput;
 
 using AgateLib.Drivers;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 
 namespace AgateLib.MDX
 {

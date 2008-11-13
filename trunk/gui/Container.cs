@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using AgateLib.Geometry;
-using AgateLib.Input;
+using AgateLib.InputLib;
 
 namespace AgateLib.Gui
 {

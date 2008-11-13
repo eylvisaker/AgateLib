@@ -14,8 +14,8 @@ namespace AudioTester
 {
     public partial class frmAudioTester : Form
     {
-        AgateLib.Audio.SoundBuffer mSound;
-        AgateLib.Audio.Music mMusic;
+        AgateLib.AudioLib.SoundBuffer mSound;
+        AgateLib.AudioLib.Music mMusic;
 
         public frmAudioTester()
         {
@@ -44,7 +44,7 @@ namespace AudioTester
 
             //try
             //{
-                AgateLib.Audio.Music music = new AgateLib.Audio.Music(text);
+                AgateLib.AudioLib.Music music = new AgateLib.AudioLib.Music(text);
                 mMusic = music;
 
                 music.Volume = (double)numericUpDown1.Value;
@@ -75,7 +75,7 @@ namespace AudioTester
 
             //try
             //{
-                AgateLib.Audio.SoundBuffer snd = new AgateLib.Audio.SoundBuffer(text);
+                AgateLib.AudioLib.SoundBuffer snd = new AgateLib.AudioLib.SoundBuffer(text);
 
                 snd.Volume = (double)numericUpDown1.Value; 
                 snd.Pan = (double)panValue.Value;
@@ -93,7 +93,7 @@ namespace AudioTester
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            AgateLib.Audio.Audio.StopAll();
+            AgateLib.AudioLib.Audio.StopAll();
         }
 
 

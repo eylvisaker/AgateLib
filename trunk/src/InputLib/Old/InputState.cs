@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgateLib.Input.Old
+namespace AgateLib.InputLib.Old
 {
     /// <summary>
     /// Class which encapsulates functionality associated with a set of commands.

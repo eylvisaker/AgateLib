@@ -22,7 +22,7 @@ using System.IO;
 using System.Text;
 
 using AgateLib.Geometry;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 using AgateLib.Utility;
 
 namespace AgateLib.DisplayLib

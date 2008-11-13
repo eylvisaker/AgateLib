@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using System.Text;
 
 using AgateLib.Drivers;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 
-namespace AgateLib.Input.Old
+namespace AgateLib.InputLib.Old
 {
     /// <summary>
     /// Static class which contains basic functions for handling non-keyboard and mouse

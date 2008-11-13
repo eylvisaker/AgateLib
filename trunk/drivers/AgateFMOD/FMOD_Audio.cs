@@ -22,7 +22,7 @@ using System.Text;
 
 using AgateLib;
 using AgateLib.Drivers;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 
 namespace AgateLib.AgateFMOD
 {

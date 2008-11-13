@@ -22,12 +22,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-using AgateLib.Audio;
+using AgateLib.AudioLib;
+using AgateLib.DisplayLib;
 using AgateLib.PlatformSpecific;
 
 namespace AgateLib
 {
-    using AgateLib.DisplayLib;
 
     /// <summary>
     /// Used by AgateLib.Core class's error reporting functions
@@ -164,7 +164,7 @@ namespace AgateLib
                     Display.ProcessEvents();
 
                     // Update Audio Engine, if necessary
-                    Audio.Audio.Update();
+                    AudioLib.Audio.Update();
 
                     if (Display.CurrentWindow == null)
                         break;
@@ -177,10 +177,10 @@ namespace AgateLib
                 KeepAliveEvent();
 
             // Update Audio Engine, if necessary
-            Audio.Audio.Update();
+            AudioLib.Audio.Update();
 
             // Poll joystick input, if the time is right.
-            Input.Old.Input.PollTimer();
+            InputLib.Old.Input.PollTimer();
 
 
         }

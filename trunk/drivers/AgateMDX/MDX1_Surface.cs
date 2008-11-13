@@ -26,7 +26,7 @@ using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
 using AgateLib.Geometry;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 using AgateLib.Utility;
 using AgateLib.WinForms;
 

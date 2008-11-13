@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 using AgateLib.BitmapFont;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 
 using OpenTK.Graphics;
 

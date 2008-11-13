@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 using AgateLib.Drivers;
 using OpenTK.Audio;
 

@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Audio;
+using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 
@@ -182,7 +182,7 @@ namespace AgateLib
             if (WasCanceled)
                 return;
 
-            Audio.Audio.Initialize(type);
+            AudioLib.Audio.Initialize(type);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace AgateLib
             if (WasCanceled)
                 return;
 
-            Input.Old.Input.Initialize(inputTypeID);
+            InputLib.Old.Input.Initialize(inputTypeID);
         }
         /// <summary>
         /// Disposes of the SetupDisplay object and all initialized sub-systems.

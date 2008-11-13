@@ -23,7 +23,7 @@ using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace AgateLib.ImplBase
+namespace AgateLib.ImplementationBase
 {
     /// <summary>
     /// Implements a FontSurface

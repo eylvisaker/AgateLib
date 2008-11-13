@@ -23,11 +23,11 @@ using DirectSound = Microsoft.DirectX.DirectSound;
 using AV = Microsoft.DirectX.AudioVideoPlayback;
 
 using AgateLib.Drivers;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 
 namespace AgateLib.MDX
 {
-    using Audio;
+    using AudioLib;
 
     public class MDX1_Audio : AudioImpl
     {

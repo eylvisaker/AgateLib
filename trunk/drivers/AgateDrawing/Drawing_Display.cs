@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 
 using AgateLib.BitmapFont;
 using AgateLib.Drivers;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 using AgateLib.PlatformSpecific;
 
 namespace AgateLib.DisplayLib.SystemDrawing

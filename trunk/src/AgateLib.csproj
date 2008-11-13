@@ -73,10 +73,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\Audio.cs" />
-    <Compile Include="Audio\Music.cs" />
-    <Compile Include="Audio\SoundBuffer.cs" />
-    <Compile Include="Audio\SoundBufferSession.cs" />
+    <Compile Include="AudioLib\Audio.cs" />
+    <Compile Include="AudioLib\Music.cs" />
+    <Compile Include="AudioLib\SoundBuffer.cs" />
+    <Compile Include="AudioLib\SoundBufferSession.cs" />
     <Compile Include="AgateException.cs" />
     <Compile Include="Utility\Platform.cs" />
     <Compile Include="DisplayLib\CreateWindowParams.cs" />
@@ -95,18 +95,18 @@
     <Compile Include="Core.cs" />
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Drivers\DriverImplBase.cs" />
-    <Compile Include="ImplBase\AudioImpl.cs" />
+    <Compile Include="ImplementationBase\AudioImpl.cs" />
     <Compile Include="BitmapFont\BitmapFontImpl.cs" />
-    <Compile Include="ImplBase\DisplayImpl.cs" />
-    <Compile Include="ImplBase\DisplayWindowImpl.cs" />
-    <Compile Include="ImplBase\FontSurfaceImpl.cs" />
-    <Compile Include="ImplBase\IDisplayCaps.cs" />
-    <Compile Include="ImplBase\InputImpl.cs" />
-    <Compile Include="ImplBase\JoystickImpl.cs" />
-    <Compile Include="ImplBase\RenderTargetImpl.cs" />
-    <Compile Include="ImplBase\SurfaceImpl.cs" />
-    <Compile Include="Input\Old\InputCommand.cs" />
-    <Compile Include="Input\Old\InputState.cs" />
+    <Compile Include="ImplementationBase\DisplayImpl.cs" />
+    <Compile Include="ImplementationBase\DisplayWindowImpl.cs" />
+    <Compile Include="ImplementationBase\FontSurfaceImpl.cs" />
+    <Compile Include="ImplementationBase\IDisplayCaps.cs" />
+    <Compile Include="ImplementationBase\InputImpl.cs" />
+    <Compile Include="ImplementationBase\JoystickImpl.cs" />
+    <Compile Include="ImplementationBase\RenderTargetImpl.cs" />
+    <Compile Include="ImplementationBase\SurfaceImpl.cs" />
+    <Compile Include="InputLib\Old\InputCommand.cs" />
+    <Compile Include="InputLib\Old\InputState.cs" />
     <Compile Include="Drivers\NullInputImpl.cs" />
     <Compile Include="Drivers\NullSoundImpl.cs" />
     <Compile Include="DisplayLib\ISurface.cs" />
@@ -152,8 +152,8 @@
     <Compile Include="Geometry\RectangleF.cs" />
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\SizeF.cs" />
-    <Compile Include="Input\Old\Input.cs" />
-    <Compile Include="Input\Old\Joystick.cs" />
+    <Compile Include="InputLib\Old\Input.cs" />
+    <Compile Include="InputLib\Old\Joystick.cs" />
     <Compile Include="DisplayLib\Display.cs" />
     <Compile Include="DisplayLib\DisplayWindow.cs" />
     <Compile Include="DisplayLib\FontSurface.cs" />
@@ -162,8 +162,8 @@
     <Compile Include="Drivers\IUserSetSystems.cs" />
     <Compile Include="Utility\SurfacePacker.cs" />
     <Compile Include="PlatformSpecific\Platform.cs" />
-    <Compile Include="Input\Keyboard.cs" />
-    <Compile Include="Input\Mouse.cs" />
+    <Compile Include="InputLib\Keyboard.cs" />
+    <Compile Include="InputLib\Mouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 using AgateLib;
 using AgateLib.BitmapFont;
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Input;
+using AgateLib.InputLib;
 
 namespace BitmapFontTester
 {

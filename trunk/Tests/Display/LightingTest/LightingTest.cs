@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Input;
+using AgateLib.InputLib;
 using AgateLib.Geometry;
 
 namespace LightingTest
