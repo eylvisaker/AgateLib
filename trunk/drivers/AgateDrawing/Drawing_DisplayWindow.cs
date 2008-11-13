@@ -27,7 +27,7 @@ using AgateLib.ImplBase;
 using AgateLib.Input;
 using AgateLib.WinForms;
 
-namespace AgateLib.Display.SystemDrawing
+namespace AgateLib.DisplayLib.SystemDrawing
 {
     class Drawing_DisplayWindow : DisplayWindowImpl, Drawing_IRenderTarget 
     {

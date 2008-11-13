@@ -27,8 +27,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
+using AgateLib;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
+using AgateLib.Sprites.Old;
+using AgateLib.Input;
+using AgateLib.Audio;
 
 class BBX
 {
@@ -282,7 +286,7 @@ class BBX
             AgateSetup setup = new AgateSetup(args);
             setup.Initialize(true, true, true);
 
-            if (setup.Cancel)
+            if (setup.WasCanceled)
                 return 0;
 
             bool fulls = true;
@@ -303,7 +307,7 @@ class BBX
             Mouse.Hide();
 
             // load the images, initiation frame rate counter, and register signals
-            FileManager.ImagePath.Add("imgs");
+            AgateLib.Utility.FileManager.ImagePath.Add("imgs");
 
             splash();
 

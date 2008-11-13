@@ -8,7 +8,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 using AgateLib.WinForms;

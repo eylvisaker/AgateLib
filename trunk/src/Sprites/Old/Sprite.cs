@@ -26,7 +26,7 @@ using AgateLib.Resources.Old;
 
 namespace AgateLib.Sprites.Old
 {
-    using AgateLib.Display;
+    using AgateLib.DisplayLib;
 
     /// <summary>
     /// The Sprite class represents a series of frames which are used
@@ -1231,19 +1231,19 @@ namespace AgateLib.Sprites.Old
         #region --- ISprite Members with different types --
 
 
-        event AgateLib.Display.SpriteEventHandler ISprite.AnimationStarted
+        event AgateLib.DisplayLib.SpriteEventHandler ISprite.AnimationStarted
         {
             add { throw new NotImplementedException(); }
             remove { throw new NotImplementedException(); }
         }
 
-        event AgateLib.Display.SpriteEventHandler ISprite.AnimationStopped
+        event AgateLib.DisplayLib.SpriteEventHandler ISprite.AnimationStopped
         {
             add { throw new NotImplementedException(); }
             remove { throw new NotImplementedException(); }
         }
 
-        event AgateLib.Display.SpriteEventHandler ISprite.PlayDirectionChanged
+        event AgateLib.DisplayLib.SpriteEventHandler ISprite.PlayDirectionChanged
         {
             add { throw new NotImplementedException(); }
             remove { throw new NotImplementedException(); }

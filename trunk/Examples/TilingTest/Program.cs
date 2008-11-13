@@ -4,8 +4,9 @@
 using System;
 using System.Collections.Generic;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
+using AgateLib;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
 
 namespace TilingTest
 {
@@ -22,7 +23,7 @@ namespace TilingTest
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
 
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
                 DisplayWindow wnd = new DisplayWindow("Tiling Test", 600, 600, false, true);

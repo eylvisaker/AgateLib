@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// Static class for basic string transformers.

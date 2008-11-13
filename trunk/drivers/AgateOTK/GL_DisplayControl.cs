@@ -33,7 +33,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
 
-namespace AgateLib.Display.OpenGL
+namespace AgateLib.DisplayLib.OpenGL
 {
     public sealed class GL_DisplayControl : DisplayWindowImpl, GL_IRenderTarget
     {

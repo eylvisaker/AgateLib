@@ -27,9 +27,10 @@
 using System;
 using System.Collections.Generic;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
-
+using AgateLib;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
+using AgateLib.Sprites.Old;
 
 internal struct CBlockPart
 {

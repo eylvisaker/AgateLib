@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.Geometry;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// Class which represents a single light source.

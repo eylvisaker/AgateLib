@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.Geometry;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// The LightManager class keeps a list of Light objects which can be used

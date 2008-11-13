@@ -18,7 +18,7 @@
 //
 using System;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// OriginAlignment enum.  Used to specify how

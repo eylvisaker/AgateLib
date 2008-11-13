@@ -5,7 +5,7 @@ using AgateLib.ImplBase;
 using AgateLib.Drivers;
 using OpenTK.Audio;
 
-namespace AgateLib.Display.OpenGL
+namespace AgateLib.DisplayLib.OpenGL
 {
     class AL_Audio : AudioImpl 
     {

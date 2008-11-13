@@ -24,7 +24,7 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui
 {
-    using Display;
+    using DisplayLib;
 
     public class Window : Container
     {

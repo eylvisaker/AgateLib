@@ -25,7 +25,7 @@ using AgateLib.Geometry;
 using AgateLib.ImplBase;
 using AgateLib.Utility;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// Enum which is used to indicate what format an image file is in.

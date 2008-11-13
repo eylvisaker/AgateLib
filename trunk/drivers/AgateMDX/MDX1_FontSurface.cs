@@ -28,7 +28,7 @@ using AgateLib.ImplBase;
 
 namespace AgateLib.MDX
 {
-    using Display;
+    using DisplayLib;
 
     public class MDX1_FontSurface : FontSurfaceImpl
     {

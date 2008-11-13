@@ -23,7 +23,7 @@ using System.Text;
 using AgateLib.Geometry;
 using AgateLib.ImplBase;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// A class representing a screen region which is used as a RenderTarget.

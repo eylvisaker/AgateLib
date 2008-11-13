@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using AgateLib;
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 using AgateLib.BitmapFont;
 using AgateLib.ImplBase;
 using AgateLib.Geometry;

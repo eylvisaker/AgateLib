@@ -26,7 +26,7 @@ using AgateLib.Geometry;
 using AgateLib.ImplBase;
 using AgateLib.Utility;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// Static class which contains all basic functions for drawing onto the Display.

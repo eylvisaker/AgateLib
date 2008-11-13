@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 using AgateLib;
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
 namespace TileTester

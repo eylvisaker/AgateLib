@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgateLib.Display.OpenGL.Properties {
+namespace AgateLib.DisplayLib.OpenGL.Properties {
     using System;
     
     

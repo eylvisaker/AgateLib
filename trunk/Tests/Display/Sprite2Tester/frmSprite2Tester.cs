@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.Sprites;
 using AgateLib.Sprites.Old;
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 
 namespace ERY.Sprite2Tester
 {

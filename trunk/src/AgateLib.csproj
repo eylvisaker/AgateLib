@@ -79,7 +79,7 @@
     <Compile Include="Audio\SoundBufferSession.cs" />
     <Compile Include="AgateException.cs" />
     <Compile Include="Utility\Platform.cs" />
-    <Compile Include="Display\CreateWindowParams.cs" />
+    <Compile Include="DisplayLib\CreateWindowParams.cs" />
     <Compile Include="Drivers\IWinForms.cs" />
     <Compile Include="Drivers\TypeID.cs" />
     <Compile Include="Drivers\DriverInfo.cs" />
@@ -109,20 +109,20 @@
     <Compile Include="Input\Old\InputState.cs" />
     <Compile Include="Drivers\NullInputImpl.cs" />
     <Compile Include="Drivers\NullSoundImpl.cs" />
-    <Compile Include="Display\ISurface.cs" />
-    <Compile Include="Display\Light.cs" />
-    <Compile Include="Display\LightManager.cs" />
-    <Compile Include="Display\Origin.cs" />
+    <Compile Include="DisplayLib\ISurface.cs" />
+    <Compile Include="DisplayLib\Light.cs" />
+    <Compile Include="DisplayLib\LightManager.cs" />
+    <Compile Include="DisplayLib\Origin.cs" />
     <Compile Include="Drivers\Registrar.cs" />
-    <Compile Include="Display\OriginAlignment.cs" />
-    <Compile Include="Display\PixelBuffer.cs" />
-    <Compile Include="Display\ISprite.cs" />
+    <Compile Include="DisplayLib\OriginAlignment.cs" />
+    <Compile Include="DisplayLib\PixelBuffer.cs" />
+    <Compile Include="DisplayLib\ISprite.cs" />
     <Compile Include="PlatformSpecific\IPlatformServices.cs" />
     <Compile Include="PlatformSpecific\Win32.cs" />
     <Compile Include="PlatformSpecific\X11.cs" />
-    <Compile Include="Display\ScreenMode.cs" />
+    <Compile Include="DisplayLib\ScreenMode.cs" />
     <Compile Include="Utility\SearchPath.cs" />
-    <Compile Include="Display\ISpriteFrame.cs" />
+    <Compile Include="DisplayLib\ISpriteFrame.cs" />
     <Compile Include="Resources\AgateResource.cs" />
     <Compile Include="Resources\AgateResourceException.cs" />
     <Compile Include="Resources\AgateResourceManager.cs" />
@@ -144,7 +144,7 @@
     <Compile Include="Sprites\IFrameList.cs" />
     <Compile Include="Sprites\PackedSprite.cs" />
     <Compile Include="Sprites\PackedSpriteFrame.cs" />
-    <Compile Include="Display\StringTransformer.cs" />
+    <Compile Include="DisplayLib\StringTransformer.cs" />
     <Compile Include="Geometry\Color.cs" />
     <Compile Include="Geometry\Point.cs" />
     <Compile Include="Geometry\PointF.cs" />
@@ -154,10 +154,10 @@
     <Compile Include="Geometry\SizeF.cs" />
     <Compile Include="Input\Old\Input.cs" />
     <Compile Include="Input\Old\Joystick.cs" />
-    <Compile Include="Display\Display.cs" />
-    <Compile Include="Display\DisplayWindow.cs" />
-    <Compile Include="Display\FontSurface.cs" />
-    <Compile Include="Display\IRenderTarget.cs" />
+    <Compile Include="DisplayLib\Display.cs" />
+    <Compile Include="DisplayLib\DisplayWindow.cs" />
+    <Compile Include="DisplayLib\FontSurface.cs" />
+    <Compile Include="DisplayLib\IRenderTarget.cs" />
     <Compile Include="Sprites\Old\SpriteContainer.cs" />
     <Compile Include="Drivers\IUserSetSystems.cs" />
     <Compile Include="Utility\SurfacePacker.cs" />
@@ -191,7 +191,7 @@
     <Compile Include="Sprites\Old\Sprite.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Display\Surface.cs" />
+    <Compile Include="DisplayLib\Surface.cs" />
     <Compile Include="Timing.cs" />
     <Compile Include="Sprites\Old\SpriteFrame.cs" />
     <Compile Include="Resources\XmlHelper.cs" />

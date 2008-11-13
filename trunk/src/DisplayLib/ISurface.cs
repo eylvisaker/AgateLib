@@ -19,7 +19,7 @@
 using System;
 using AgateLib.Geometry;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// Public Surface interface.

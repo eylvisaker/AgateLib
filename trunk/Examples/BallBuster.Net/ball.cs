@@ -25,8 +25,8 @@
 
 using System;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
+using AgateLib;
+using AgateLib.Geometry;
 
 internal class CBall
 {

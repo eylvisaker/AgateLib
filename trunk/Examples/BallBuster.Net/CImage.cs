@@ -26,8 +26,9 @@
 
 using System;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Resources;
+using AgateLib.Resources.Old;
+using AgateLib.Sprites.Old;
+using AgateLib.DisplayLib;
 
 class CImage
 {

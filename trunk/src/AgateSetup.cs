@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using AgateLib.Audio;
+using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 
 namespace AgateLib
@@ -161,7 +162,7 @@ namespace AgateLib
             if (WasCanceled)
                 return;
 
-            Display.Display.Initialize(type);
+            Display.Initialize(type);
         }
         /// <summary>
         /// Initializes the Audio subsystem.
@@ -209,7 +210,7 @@ namespace AgateLib
         /// </summary>
         public void Dispose()
         {
-            Display.Display.Dispose();
+            Display.Dispose();
         }
         /// <summary>
         /// Returns true if the user hit cancel in any dialog box that showed up

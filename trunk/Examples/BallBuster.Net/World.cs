@@ -26,8 +26,8 @@
 
 using System.Collections.Generic;
 
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
+using AgateLib;
+using AgateLib.Geometry;
 
 class CWorld
 {

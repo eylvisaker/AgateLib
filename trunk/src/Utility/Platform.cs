@@ -22,7 +22,7 @@ using System.Text;
 
 namespace AgateLib.Utility
 {
-    using AgateLib.Display;
+    using AgateLib.DisplayLib;
 
     /// <summary>
     /// Returns information about the current platform.

@@ -30,7 +30,7 @@ using AgateLib.ImplBase;
 
 using OpenTK.Graphics;
 
-namespace AgateLib.Display.OpenGL
+namespace AgateLib.DisplayLib.OpenGL
 {
     public sealed class GL_Display : DisplayImpl, IDisplayCaps, PlatformSpecific.IPlatformServices 
     {

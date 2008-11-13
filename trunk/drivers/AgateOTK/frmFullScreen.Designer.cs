@@ -1,4 +1,4 @@
-namespace AgateLib.Display.OpenGL
+namespace AgateLib.DisplayLib.OpenGL
 {
     partial class frmFullScreen
     {

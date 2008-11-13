@@ -27,9 +27,9 @@ using AgateLib.Geometry;
 using OpenTK;
 using OpenTK.Graphics;
 
-namespace AgateLib.Display.OpenGL
+namespace AgateLib.DisplayLib.OpenGL
 {
-    using AgateLib.Display;
+    using AgateLib.DisplayLib;
 
     class GL_GameWindow : DisplayWindowImpl, GL_IRenderTarget
     {

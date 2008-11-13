@@ -23,7 +23,8 @@
 **  Copyright (C) 2003  The ClanLib Team
 *******************************************************************************/
 
-using ERY.AgateLib;
+using AgateLib;
+using AgateLib.DisplayLib;
 
 
 internal class CFlash

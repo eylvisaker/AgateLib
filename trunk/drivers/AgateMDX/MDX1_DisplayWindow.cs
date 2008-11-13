@@ -33,7 +33,7 @@ using AgateLib.WinForms;
 
 namespace AgateLib.MDX
 {
-    using Display;
+    using DisplayLib;
 
     public class MDX1_DisplayWindow : DisplayWindowImpl, MDX1_IRenderTarget
     {

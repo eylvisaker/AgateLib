@@ -27,7 +27,7 @@ using AgateLib.Utility;
 
 namespace AgateLib.ImplBase
 {
-    using AgateLib.Display;
+    using AgateLib.DisplayLib;
 
     /// <summary>
     /// Abstract base class for implementing the Display object.

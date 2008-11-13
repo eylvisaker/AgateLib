@@ -22,7 +22,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 using AgateLib.Input;
 
 namespace AgateLib.WinForms

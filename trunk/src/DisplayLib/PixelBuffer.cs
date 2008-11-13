@@ -23,7 +23,7 @@ using System.Text;
 
 using AgateLib.Geometry;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// Enum which describes different pixel formats.
