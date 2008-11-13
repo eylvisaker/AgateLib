@@ -9,7 +9,7 @@ using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.Sprites.Old;
-using AgateLib.Input;
+using AgateLib.InputLib;
 
 namespace RotatingSpriteTester
 {

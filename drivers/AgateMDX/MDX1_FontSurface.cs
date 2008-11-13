@@ -24,7 +24,7 @@ using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
 using AgateLib.Geometry;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 
 namespace AgateLib.MDX
 {

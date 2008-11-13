@@ -31,7 +31,7 @@ namespace AgateLib.DisplayLib.OpenGL
 {
     using Drivers;
     using Geometry;
-    using ImplBase;
+    using ImplementationBase;
     using Utility;
     using WinForms;
 

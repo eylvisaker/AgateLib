@@ -25,8 +25,8 @@ using System.Windows.Forms;
 
 using AgateLib.Drivers;
 using AgateLib.Geometry;
-using AgateLib.ImplBase;
-using AgateLib.Input;
+using AgateLib.ImplementationBase;
+using AgateLib.InputLib;
 using AgateLib.WinForms;
 
 using OpenTK.Graphics;

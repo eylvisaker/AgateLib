@@ -20,8 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.ImplBase;
-using AgateLib.Input;
+using AgateLib.ImplementationBase;
+using AgateLib.InputLib;
 using AgateLib.Geometry;
 
 using OpenTK;

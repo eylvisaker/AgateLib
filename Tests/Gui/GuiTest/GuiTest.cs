@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AgateLib;
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Gui;
 using AgateLib.Gui.Styles;
@@ -20,7 +20,7 @@ namespace GuiTest
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
-                if (setup.Cancel) 
+                if (setup.WasCanceled) 
                     return;
 
                 DisplayWindow wind = new DisplayWindow(CreateWindowParams.Windowed("Gui Tester", 800, 600, "", true));

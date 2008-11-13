@@ -10,9 +10,9 @@ using System.Text;
 using System.Windows.Forms;
 
 using AgateLib;
-using AgateLib.Display;
-using AgateLib.Input;
-using AgateLib.Input.Old;
+using AgateLib.DisplayLib;
+using AgateLib.InputLib;
+using AgateLib.InputLib.Old;
 
 namespace InputTester
 {

@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 
 namespace AgateLib.DisplayLib.OpenGL
 {

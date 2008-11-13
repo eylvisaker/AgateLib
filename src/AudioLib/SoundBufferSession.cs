@@ -20,10 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgateLib.Audio
+namespace AgateLib.AudioLib
 {
     using Drivers;
-    using ImplBase;
+    using ImplementationBase;
 
     /// <summary>
     /// A class which represents a playback instance of a SoundBuffer object.

@@ -22,7 +22,7 @@ using System.Text;
 
 using AgateLib.Geometry;
 
-namespace AgateLib.Input
+namespace AgateLib.InputLib
 {
     /// <summary>
     /// An enumeration of all possible key values.

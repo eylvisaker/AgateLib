@@ -23,7 +23,7 @@ using System.Xml;
 
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 
 namespace AgateLib.BitmapFont
 {

@@ -22,7 +22,7 @@ using System.Text;
 
 using AgateLib.BitmapFont;
 using AgateLib.Geometry;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 
 namespace AgateLib.DisplayLib
 {

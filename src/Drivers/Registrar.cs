@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 using AgateLib.PlatformSpecific;
 using AgateLib.Utility;
 

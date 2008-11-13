@@ -23,7 +23,7 @@ using System.Text;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
-namespace AgateLib.ImplBase
+namespace AgateLib.ImplementationBase
 {
 
     /// <summary>

@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 
-namespace AgateLib.Input.Old
+namespace AgateLib.InputLib.Old
 {
     /// <summary>
     /// Class which encapsulates a single joystick.

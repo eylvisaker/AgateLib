@@ -5,7 +5,7 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.BitmapFont;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 using AgateLib.Geometry;
 
 namespace FontCreator

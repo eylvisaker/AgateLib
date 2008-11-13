@@ -20,38 +20,23 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AgateLib.Geometry;
-
-namespace AgateLib.ImplBase
+namespace AgateLib.ImplementationBase
 {
     /// <summary>
-    /// Defines the interface used for render targets.
-    /// SurfaceImpl and DisplayWindowImpl implement this interface.
+    /// Implementation for Input Manager.
     /// </summary>
-    public interface IRenderTargetImpl
+    public abstract class InputImpl : DriverImplBase 
     {
         /// <summary>
-        /// Utility functions that can be called by the rendering system
-        /// when rendering starts and ends.
+        /// Polls and counts joysticks
         /// </summary>
-        void BeginRender();
-        /// <summary>
-        /// Utility functions that can be called by the rendering system
-        /// when rendering starts and ends.
-        /// </summary>
-        void EndRender();
-        /// <summary>
-        /// Gets the Size of the render target, in pixels.
-        /// </summary>
-        Size Size { get; }
-        /// <summary>
-        /// Gets the Height of the render target, in pixels.
-        /// </summary>
-        int Width { get; }
-        /// <summary>
-        /// Gets the Width of the render target, in pixels.
-        /// </summary>
-        int Height { get; }
+        /// <returns></returns>
+        public abstract int CountJoysticks();
 
+        /// <summary>
+        /// Creates joystick impls.
+        /// </summary>
+        /// <returns></returns>
+        public abstract IEnumerable<JoystickImpl> CreateJoysticks();
     }
 }

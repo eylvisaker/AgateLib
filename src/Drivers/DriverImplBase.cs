@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgateLib.ImplBase
+namespace AgateLib.ImplementationBase
 {
     /// <summary>
     /// Base class all driver classes should implement.

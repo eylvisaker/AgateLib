@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgateLib.Input.Old
+namespace AgateLib.InputLib.Old
 {
     /// <summary>
     /// Class which encapsulates a set of key codes and joystick buttons that

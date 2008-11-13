@@ -21,10 +21,10 @@ using System.Collections.Generic;
 using System.Text;
 
 using AgateLib.Drivers;
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 using AgateLib.Utility;
 
-namespace AgateLib.Audio
+namespace AgateLib.AudioLib
 {
     /// <summary>
     /// A class which performs Music playback.

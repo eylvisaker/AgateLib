@@ -25,7 +25,7 @@ using AgateLib.BitmapFont;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
-namespace AgateLib.ImplBase
+namespace AgateLib.ImplementationBase
 {
     using AgateLib.DisplayLib;
 

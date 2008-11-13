@@ -25,7 +25,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using AgateLib.ImplBase;
+using AgateLib.ImplementationBase;
 
 namespace AgateLib.DisplayLib.SystemDrawing
 {

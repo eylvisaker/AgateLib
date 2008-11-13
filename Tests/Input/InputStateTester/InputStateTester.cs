@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 
 using AgateLib;
-using AgateLib.Display;
-using AgateLib.Input;
-using AgateLib.Input.Old;
+using AgateLib.DisplayLib;
+using AgateLib.InputLib;
+using AgateLib.InputLib.Old;
 
 namespace InputStateTester
 {
