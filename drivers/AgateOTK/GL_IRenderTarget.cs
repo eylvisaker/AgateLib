@@ -22,7 +22,7 @@ using System.Text;
 
 using AgateLib.ImplBase;
 
-namespace AgateLib.Display.OpenGL
+namespace AgateLib.DisplayLib.OpenGL
 {
     interface GL_IRenderTarget : IRenderTargetImpl
     {

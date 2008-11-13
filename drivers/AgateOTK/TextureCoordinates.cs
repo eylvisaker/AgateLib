@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgateLib.Display.OpenGL
+namespace AgateLib.DisplayLib.OpenGL
 {
     /// <summary>
     /// Structure to contain source texture coordinates for drawing quads.

@@ -24,7 +24,7 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Input
 {
-    using AgateLib.Display;
+    using AgateLib.DisplayLib;
 
     /// <summary>
     /// Class which encapsulates input from the mouse.

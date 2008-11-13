@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Text;
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 
 namespace AgateLib.Sprites
 {

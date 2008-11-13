@@ -29,7 +29,7 @@ using AgateLib.Drivers;
 using AgateLib.ImplBase;
 using AgateLib.PlatformSpecific;
 
-namespace AgateLib.Display.SystemDrawing
+namespace AgateLib.DisplayLib.SystemDrawing
 {
     using WinForms;
 

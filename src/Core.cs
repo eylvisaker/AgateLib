@@ -27,7 +27,7 @@ using AgateLib.PlatformSpecific;
 
 namespace AgateLib
 {
-    using AgateLib.Display;
+    using AgateLib.DisplayLib;
 
     /// <summary>
     /// Used by AgateLib.Core class's error reporting functions
@@ -154,21 +154,21 @@ namespace AgateLib
             // not this is worth it when there lots of events being generated
             // (ie lots of mouse move events) but it does seem to speed up for
             // Direct3D.
-            if (Display.Display.IsAppIdle == false)
+            if (Display.IsAppIdle == false)
             {
-                Display.Display.ProcessEvents();
+                Display.ProcessEvents();
 
                 while (IsActive == false && AutoPause)
                 {
                     System.Threading.Thread.Sleep(25);
-                    Display.Display.ProcessEvents();
+                    Display.ProcessEvents();
 
                     // Update Audio Engine, if necessary
                     Audio.Audio.Update();
 
-                    if (Display.Display.CurrentWindow == null)
+                    if (Display.CurrentWindow == null)
                         break;
-                    else if (Display.Display.CurrentWindow.IsClosed)
+                    else if (Display.CurrentWindow.IsClosed)
                         break;
                 }
             }

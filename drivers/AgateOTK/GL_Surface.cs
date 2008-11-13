@@ -27,7 +27,7 @@ using System.Text;
 using OpenTK.Graphics;
 using OTKPixelFormat = OpenTK.Graphics.PixelFormat;
 
-namespace AgateLib.Display.OpenGL
+namespace AgateLib.DisplayLib.OpenGL
 {
     using Drivers;
     using Geometry;

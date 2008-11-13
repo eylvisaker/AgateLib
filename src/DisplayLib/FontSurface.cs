@@ -24,7 +24,7 @@ using AgateLib.BitmapFont;
 using AgateLib.Geometry;
 using AgateLib.ImplBase;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// Enumeration which allows selection of font styles when creating

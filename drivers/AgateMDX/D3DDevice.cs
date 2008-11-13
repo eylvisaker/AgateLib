@@ -23,7 +23,7 @@ using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.WinForms;
 

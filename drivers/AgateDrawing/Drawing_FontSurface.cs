@@ -24,9 +24,9 @@ using System.Text;
 
 using AgateLib.ImplBase;
 
-namespace AgateLib.Display.SystemDrawing
+namespace AgateLib.DisplayLib.SystemDrawing
 {
-    using AgateLib.Display;
+    using AgateLib.DisplayLib;
     using WinForms;
 
     class Drawing_FontSurface : FontSurfaceImpl

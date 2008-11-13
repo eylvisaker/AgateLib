@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 namespace TileTester
 {
     public partial class Form1 : Form

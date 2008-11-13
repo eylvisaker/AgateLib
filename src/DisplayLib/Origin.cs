@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 using AgateLib.Geometry;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// Static class which performs necessary calculates based on OriginAlignment

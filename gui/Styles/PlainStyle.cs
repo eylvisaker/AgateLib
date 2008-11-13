@@ -24,7 +24,7 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui.Styles
 {
-    using Display;
+    using DisplayLib;
 
     public class PlainStyle : StyleManager
     {

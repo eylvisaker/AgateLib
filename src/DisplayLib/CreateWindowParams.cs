@@ -23,7 +23,7 @@ using System.Text;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
-namespace AgateLib.Display
+namespace AgateLib.DisplayLib
 {
     /// <summary>
     /// Enum which describes what position the window should be created at on screen.

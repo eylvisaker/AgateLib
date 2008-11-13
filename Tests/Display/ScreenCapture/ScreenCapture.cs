@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 using AgateLib;
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Input;
 

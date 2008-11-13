@@ -31,13 +31,13 @@ using AgateLib.Utility;
 using AgateLib.WinForms;
 
 using Drawing = System.Drawing;
-using ImageFileFormat = AgateLib.Display.ImageFileFormat;
+using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
 using Direct3D = Microsoft.DirectX.Direct3D;
-using Surface = AgateLib.Display.Surface;
+using Surface = AgateLib.DisplayLib.Surface;
 
 namespace AgateLib.MDX
 {
-    using Display;
+    using DisplayLib;
 
     public class MDX1_Surface : SurfaceImpl, MDX1_IRenderTarget 
     {

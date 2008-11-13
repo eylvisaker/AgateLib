@@ -24,14 +24,14 @@ using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
 using AgateLib.BitmapFont;
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.ImplBase;
 using AgateLib.WinForms;
 
 using Vector2 = Microsoft.DirectX.Vector2;
-using ImageFileFormat = AgateLib.Display.ImageFileFormat;
+using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
 
 namespace AgateLib.MDX
 {

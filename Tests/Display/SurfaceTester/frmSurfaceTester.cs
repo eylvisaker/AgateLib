@@ -9,7 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using AgateLib;
-using AgateLib.Display;
+using AgateLib.DisplayLib;
 
 namespace ERY.SurfaceTester
 {

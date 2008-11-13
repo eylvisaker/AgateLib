@@ -24,7 +24,7 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Utility
 {
-    using Display;
+    using DisplayLib;
 
     /// <summary>
     /// Class which handles packing of surfaces into a large surface.

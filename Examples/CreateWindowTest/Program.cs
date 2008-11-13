@@ -3,8 +3,8 @@
 //
 using System;
 using System.Collections.Generic;
-using AgateLib.Core;
-using AgateLib.Display;
+using AgateLib;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Input;
 
@@ -46,26 +46,26 @@ namespace CreateWindowTest
                 while (wind.IsClosed == false)
                 {
                     // Display.BeginFrame must be called before any rendering takes place.
-                    AgateDisplay.BeginFrame();
+                    Display.BeginFrame();
 
                     // Clear back buffer with red
-                    AgateDisplay.Clear(Color.Red);
+                    Display.Clear(Color.Red);
 
                     // draw random lines and boxes
 
                     // line drawn starts at (0, 0), the upper left corner.
-                    AgateDisplay.DrawLine(
+                    Display.DrawLine(
                         0, 0,
                         rand.Next(10, 700), rand.Next(10, 700),
                         Color.Black);
 
-                    AgateDisplay.DrawRect(
+                    Display.DrawRect(
                         new Rectangle(
                         rand.Next(0, 540), rand.Next(0, 380),
                         rand.Next(50, 200), rand.Next(50, 200)),
                         Color.Black);
 
-                    AgateDisplay.FillRect(
+                    Display.FillRect(
                         new Rectangle(
                         rand.Next(0, 540), rand.Next(0, 380),
                         rand.Next(50, 200), rand.Next(50, 200)),
@@ -73,13 +73,13 @@ namespace CreateWindowTest
 
                     // Display.EndFrame must be called after rendering is done
                     // in order to actually update the display.
-                    AgateDisplay.EndFrame();
+                    Display.EndFrame();
 
                     // Core.KeepAlive is where we play nice window the OS, 
                     // allowing events to be processed and such.
                     // This is also required to process events that happen in our OWN 
                     // code (ie. user input), so be sure to call this once a frame.
-                    AgateCore.KeepAlive();
+                    Core.KeepAlive();
 
                     // This gives a 100 millisecond delay between each frame.
                     // Using the Sleep() call causes this application to
@@ -89,10 +89,10 @@ namespace CreateWindowTest
                     // toggle full screen if the user pressed F5
                     if (Keyboard.Keys[KeyCode.F5])
                     {
-                        if (AgateDisplay.CurrentWindow.IsFullScreen)
-                            AgateDisplay.CurrentWindow.SetWindowed();
+                        if (Display.CurrentWindow.IsFullScreen)
+                            Display.CurrentWindow.SetWindowed();
                         else
-                            AgateDisplay.CurrentWindow.SetFullScreen();
+                            Display.CurrentWindow.SetFullScreen();
 
                         // make that we used this keypress
                         Keyboard.Keys[KeyCode.F5] = false;

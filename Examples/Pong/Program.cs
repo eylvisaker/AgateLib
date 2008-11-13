@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
-using ERY.AgateLib;
-using ERY.AgateLib.Geometry;
+using AgateLib;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
+using AgateLib.Input;
 
 namespace Pong
 {
@@ -41,7 +43,7 @@ namespace Pong
             using (AgateSetup setup = new AgateSetup(args))
             {
                 setup.Initialize(true, false, false);
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
                 DisplayWindow wind = new DisplayWindow(

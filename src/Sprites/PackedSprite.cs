@@ -26,7 +26,7 @@ using AgateLib.Resources;
 
 namespace AgateLib.Sprites
 {
-    using AgateLib.Display;
+    using AgateLib.DisplayLib;
 
     /// <summary>
     /// Sprite2 class.

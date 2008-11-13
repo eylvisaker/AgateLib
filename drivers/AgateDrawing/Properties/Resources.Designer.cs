@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgateLib.Display.SystemDrawing.Properties {
+namespace AgateLib.DisplayLib.SystemDrawing.Properties {
     using System;
     
     
