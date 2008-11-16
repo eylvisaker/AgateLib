@@ -51,6 +51,14 @@ Goals for 0.3.0
 	Tests
 		D Categorize tests into solutions based on what subsystem they are testing
 
+Supplemental Projects
+---------------------------------------------------
+	Compact Sprites Builder - Constructs, based on an input file (xml?) packed sprite files with associated xml describing frame locations
+	Fonts - Constructs fonts from System.Drawing from options specified in an input file.
+	Resources - Builds resource files.
+	Distributions - Builds distributions for Linux, Windows, and MacOS based on the assemblies and resource file(s).
+
+
 Goals for 0.3.5
 ---------------------------------------------------
 	High priority
