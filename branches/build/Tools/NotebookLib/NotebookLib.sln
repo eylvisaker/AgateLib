@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotebookLib", "NotebookLib\NotebookLib.csproj", "{76F88E86-EF27-4A40-ACFD-60C7DC735789}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csproj", "{481AA66F-C960-4B7A-A7CD-01F046E1FF3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS9Tester", "VS9Tester\VS9Tester.csproj", "{A78C8B01-3162-4FFC-BCB6-BF7E3577BD41}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76F88E86-EF27-4A40-ACFD-60C7DC735789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76F88E86-EF27-4A40-ACFD-60C7DC735789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76F88E86-EF27-4A40-ACFD-60C7DC735789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76F88E86-EF27-4A40-ACFD-60C7DC735789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{481AA66F-C960-4B7A-A7CD-01F046E1FF3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481AA66F-C960-4B7A-A7CD-01F046E1FF3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481AA66F-C960-4B7A-A7CD-01F046E1FF3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481AA66F-C960-4B7A-A7CD-01F046E1FF3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A78C8B01-3162-4FFC-BCB6-BF7E3577BD41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A78C8B01-3162-4FFC-BCB6-BF7E3577BD41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A78C8B01-3162-4FFC-BCB6-BF7E3577BD41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A78C8B01-3162-4FFC-BCB6-BF7E3577BD41}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
