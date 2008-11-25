@@ -1,0 +1,29 @@
+<Project name="FontCreator" path="../Tools/FontCreator" language="C#" type="WinExe">
+  <Configuration name="Debug">
+    <Options>
+      <OutputPath>../../Binaries/Debug/Tools</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Configuration name="Release">
+    <Options>
+      <OutputPath>../../Binaries/Release/Tools</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Reference name="AgateLib"/>
+  <Reference name="AgateOTK"/>
+  <Reference name="AgateDrawing"/>
+  <Reference name="AgateWinForms"/>
+  <Reference name="System"/>
+  <Reference name="System.Data"/>
+  <Reference name="System.Drawing"/>
+  <Reference name="System.Windows.Forms"/>
+  <Reference name="System.Xml"/>
+
+  <Files>
+    <File buildAction="None" subType="Settings">Properties\Settings.settings</File>
+    <Match path="." pattern="*.cs" recurse="true"/>
+    <Match path="." pattern="*.resx" recurse="true"/>
+  </Files>
+</Project>

@@ -1,0 +1,24 @@
+<Project name="PerformanceTester" path="../Tests/Core/PerformanceTester" language="C#" type="WinExe">
+  <Configuration name="Debug">
+    <Options>
+      <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Configuration name="Release">
+    <Options>
+      <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Reference name="AgateLib"/>
+  <Reference name="System"/>
+  <Reference name="System.Data"/>
+  <Reference name="System.Drawing"/>
+  <Reference name="System.Windows.Forms"/>
+  <Reference name="System.Xml"/>
+
+  <Files>
+    <Match path="." pattern="*.cs" recurse="true"/>
+  </Files>
+</Project>
