@@ -9,9 +9,9 @@ using AgateLib;
 
 namespace ErrorReportTester
 {
-    public partial class Form1 : Form
+    public partial class frmErrorReportTester : Form
     {
-        public Form1()
+        public frmErrorReportTester()
         {
             InitializeComponent();
 

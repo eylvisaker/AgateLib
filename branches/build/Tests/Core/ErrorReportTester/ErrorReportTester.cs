@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace ErrorReportTester
 {
-    static class Program
+    static class ErrorReportTester
     {
         /// <summary>
         /// The main entry point for the application.
@@ -16,7 +16,7 @@ namespace ErrorReportTester
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new frmErrorReportTester());
         }
     }
 }
