@@ -10,7 +10,7 @@ using AgateLib;
 
 namespace ERY.SurfaceTester
 {
-    static class Program
+    static class SurfaceTester
     {
         /// <summary>
         /// The main entry point for the application.

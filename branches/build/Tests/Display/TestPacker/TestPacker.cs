@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace TestPacker
 {
-    static class Program
+    static class TestPacker
     {
         /// <summary>
         /// The main entry point for the application.
@@ -17,7 +17,7 @@ namespace TestPacker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new frmTestPacker());
         }
     }
 }

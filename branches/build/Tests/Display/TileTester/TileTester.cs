@@ -8,7 +8,7 @@ using AgateLib.Geometry;
 
 namespace TileTester
 {
-    class Program
+    class TileTester
     {
         /// <summary>
         /// The main entry point for the application.
@@ -16,7 +16,7 @@ namespace TileTester
         [STAThread]
         static void Main()
         {
-            new Program().Run();
+            new TileTester().Run();
         }
 
         Surface tile;
@@ -34,7 +34,7 @@ namespace TileTester
                 if (setup.WasCanceled)
                     return;
 
-                Form1 frm = new Form1();
+                frmTileTester frm = new frmTileTester();
                 frm.Show();
 
                 tile = new Surface("bg-bricks.png");

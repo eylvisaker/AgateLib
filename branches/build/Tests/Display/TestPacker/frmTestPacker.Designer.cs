@@ -3,7 +3,7 @@
 //
 namespace TestPacker
 {
-    partial class Form1
+    partial class frmTestPacker
     {
         /// <summary>
         /// Required designer variable.

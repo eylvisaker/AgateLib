@@ -9,9 +9,9 @@ using System.Windows.Forms;
 using AgateLib.DisplayLib;
 namespace TileTester
 {
-    public partial class Form1 : Form
+    public partial class frmTileTester : Form
     {
-        public Form1()
+        public frmTileTester()
         {
             InitializeComponent();
 

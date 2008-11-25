@@ -16,13 +16,13 @@ using AgateLib.WinForms;
 namespace TestPacker
 {
 
-    public partial class Form1 : Form
+    public partial class frmTestPacker : Form
     {
         SurfacePacker.RectPacker<object> packer;
         int maxSize = 40;
         int minSize = 30;
 
-        public Form1()
+        public frmTestPacker()
         {
             InitializeComponent();
         }

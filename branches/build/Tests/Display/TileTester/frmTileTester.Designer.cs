@@ -1,6 +1,6 @@
 namespace TileTester
 {
-    partial class Form1
+    partial class frmTileTester
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@ namespace TileTester
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTileTester));
             this.agateRenderTarget1 = new AgateLib.WinForms.AgateRenderTarget();
             this.chkScrollX = new System.Windows.Forms.CheckBox();
             this.chkScrollY = new System.Windows.Forms.CheckBox();
