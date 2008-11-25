@@ -136,8 +136,8 @@ namespace FontCreator
             //wind = new DisplayWindow(render);
             //zoomWind = new DisplayWindow(zoomRender);
 
-            bgDark = new Surface("bgdark.png");
-            bgLight = new Surface("bglight.png");
+            bgDark = new Surface("images/bgdark.png");
+			bgLight = new Surface("images/bglight.png");
 
             DisplayColor = Color.White;
         }
