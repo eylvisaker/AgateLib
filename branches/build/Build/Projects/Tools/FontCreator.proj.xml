@@ -1,13 +1,13 @@
 <Project name="FontCreator" path="../Tools/FontCreator" language="C#" type="WinExe">
   <Configuration name="Debug">
     <Options>
-      <OutputPath>../../Binaries/Debug/Tools</OutputPath>
+	    <OutputPath>../../Binaries/Debug/Tools/FontCreator</OutputPath>
     </Options>
   </Configuration>
 
   <Configuration name="Release">
     <Options>
-      <OutputPath>../../Binaries/Release/Tools</OutputPath>
+      <OutputPath>../../Binaries/Release/Tools/FontCreator</OutputPath>
     </Options>
   </Configuration>
 
