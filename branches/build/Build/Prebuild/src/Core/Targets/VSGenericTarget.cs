@@ -372,7 +372,7 @@ namespace Prebuild.Core.Targets
 
 						if(File.Exists(associated_control))
 						{
-							ps.WriteLine("      <DependentUpon>{0}</DependentUpon>", associated_control);
+							ps.WriteLine("      <DependentUpon>{0}</DependentUpon>", Path.GetFileName(associated_control));
 						}
 						else 
 						{
