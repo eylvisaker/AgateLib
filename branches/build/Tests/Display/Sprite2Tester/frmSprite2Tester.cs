@@ -74,7 +74,7 @@ namespace ERY.Sprite2Tester
 
             //srcSurf = new Surface();
 
-            SetSprite(new Sprite(@"Images/attacke.png", 96, 96));
+            SetSprite(new Sprite("attacke.png", 96, 96));
 
             Display.PackAllSurfaces();
 

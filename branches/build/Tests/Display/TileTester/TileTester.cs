@@ -26,6 +26,11 @@ namespace TileTester
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+			
+			// These two lines are used by AgateLib tests to locate
+			// driver plugins and images.
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../Libraries");
+			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
 
             using (AgateSetup setup = new AgateSetup())
             {

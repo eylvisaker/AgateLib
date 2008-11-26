@@ -13,7 +13,7 @@ using AgateLib.Utility;
 
 namespace PerformanceTester
 {
-    static class Program
+    static class PerformanceTester
     {
         struct Rects
         {
@@ -30,9 +30,13 @@ namespace PerformanceTester
         /// </summary>
         [STAThread]
         static void Main()
-        {
+		{
+			// These two lines are used by AgateLib tests to locate
+			// driver plugins and images.
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../Libraries");
+			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
+
             Core.Initialize();
-            Registrar.Initialize();
 
             ICollection<DriverInfo<DisplayTypeID>> drivers = Registrar.DisplayDriverInfo;
 
@@ -100,7 +104,7 @@ namespace PerformanceTester
         private static double StretchTestQueue(bool applyColor)
         {
             Timing.StopWatch timer = new Timing.StopWatch();
-            Surface surf = new Surface("test.jpg");
+            Surface surf = new Surface("jellybean.png");
             int frames = 0;
 
             surf.Color = Color.White;
@@ -157,7 +161,7 @@ namespace PerformanceTester
         private static double StretchTest(bool applyColor)
         {
             Timing.StopWatch timer = new Timing.StopWatch();
-            Surface surf = new Surface("test.jpg");
+            Surface surf = new Surface("jellybean.png");
             int frames = 0;
 
             surf.Color = Color.White;
@@ -215,7 +219,7 @@ namespace PerformanceTester
         private static double DrawSurfaceTest(bool applyColor)
         {
             Timing.StopWatch timer = new Timing.StopWatch();
-            Surface surf = new Surface("test.jpg");
+            Surface surf = new Surface("jellybean.png");
             List<Rects> rects = new List<Rects>();
             int frames = 0;
 

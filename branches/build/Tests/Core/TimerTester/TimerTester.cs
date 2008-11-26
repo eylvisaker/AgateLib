@@ -8,7 +8,7 @@ using AgateLib;
 
 namespace TimerTester
 {
-    static class Program
+    static class TimerTester
     {
         /// <summary>
         /// The main entry point for the application.

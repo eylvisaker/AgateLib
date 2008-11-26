@@ -14,6 +14,11 @@ namespace ErrorReportTester
         {
             AgateLib.Core.Initialize();
 
+			// These two lines are used by AgateLib tests to locate
+			// driver plugins and images.
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../Libraries");
+			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmErrorReportTester());

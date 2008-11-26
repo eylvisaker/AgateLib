@@ -18,6 +18,11 @@ namespace ERY.SpriteTester
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+			
+			// These two lines are used by AgateLib tests to locate
+			// driver plugins and images.
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../Libraries");
+			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
 
             frmSpriteTester form = new frmSpriteTester();
 
