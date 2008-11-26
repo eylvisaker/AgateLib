@@ -1,4 +1,4 @@
-<Project name="PerformanceTester" path="../Tests/Core/PerformanceTester" language="C#" type="WinExe">
+<Project name="Performance" path="../Tests/Core/Performance" language="C#" type="WinExe">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../../Binaries/Debug/Tests</OutputPath>

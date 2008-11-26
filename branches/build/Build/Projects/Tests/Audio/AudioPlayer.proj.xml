@@ -1,4 +1,4 @@
-<Project name="AudioTester" path="../Tests/Audio/AudioTester" language="C#" type="WinExe">
+<Project name="AudioPlayer" path="../Tests/Audio/AudioPlayer" language="C#" type="WinExe">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
@@ -12,7 +12,6 @@
   </Configuration>
 
   <Reference name="AgateLib"/>
-  <Reference name="AgateWinForms"/>
   <Reference name="System"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>

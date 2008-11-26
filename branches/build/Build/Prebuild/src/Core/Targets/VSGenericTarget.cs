@@ -366,7 +366,6 @@ namespace Prebuild.Core.Targets
 					{
 						ps.WriteLine("    <EmbeddedResource Include=\"{0}\">", file);
 						ps.WriteLine("      <SubType>" + subType + "</SubType>");
-						ps.WriteLine("      <Generator>ResXFileCodeGenerator</Generator>");
 						
 						string associated_control = file.Substring(0, file.LastIndexOf('.')) + ".cs";
 
@@ -376,8 +375,9 @@ namespace Prebuild.Core.Targets
 						}
 						else 
 						{
-							string autogen_name = file.Substring(0, file.LastIndexOf('.')) + ".Designer.cs";
+							string autogen_name = Path.GetFileNameWithoutExtension(file) + ".Designer.cs";
 
+							ps.WriteLine("      <Generator>ResXFileCodeGenerator</Generator>");
 							ps.WriteLine("      <LastGenOutput>{0}</LastGenOutput>", autogen_name);
 						}
 					

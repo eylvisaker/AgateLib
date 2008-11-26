@@ -23,12 +23,12 @@
     <?include file="Projects/AgateWinForms.proj.xml" ?>
     <?include file="Projects/AgateDrawing.proj.xml" ?>
     <?include file="Projects/AgateOTK.proj.xml" ?>
-    <?include file="Projects/Tests/Audio/AudioTester.proj.xml" ?>
+    <?include file="Projects/Tests/Audio/AudioPlayer.proj.xml" ?>
     <?include file="Projects/Tests/Core/ErrorReport.proj.xml" ?>
     <?include file="Projects/Tests/Core/Performance.proj.xml" ?>
-    <?include file="Projects/Tests/Core/RefCounter.proj.xml" ?>
-    <?include file="Projects/Tests/Core/Resource.proj.xml" ?>
-    <?include file="Projects/Tests/Core/Timer.proj.xml" ?>
+    <?include file="Projects/Tests/Core/RefCounters.proj.xml" ?>
+    <?include file="Projects/Tests/Core/Resources.proj.xml" ?>
+    <?include file="Projects/Tests/Core/Timers.proj.xml" ?>
     <?include file="Projects/Tests/Display/Lighting.proj.xml" ?>
     <?include file="Projects/Tests/Display/OrthoProjection.proj.xml" ?>
     <?include file="Projects/Tests/Display/PixelBuffer.proj.xml" ?>

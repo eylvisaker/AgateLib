@@ -1,4 +1,4 @@
-<Project name="ErrorReportTester" path="../Tests/Core/ErrorReportTester" language="C#" type="WinExe">
+<Project name="ErrorReport" path="../Tests/Core/ErrorReport" language="C#" type="WinExe">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
