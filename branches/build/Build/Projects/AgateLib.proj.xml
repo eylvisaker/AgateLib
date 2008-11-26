@@ -1,4 +1,4 @@
-<Project name="AgateLib" path="../src" language="C#" type="Library">
+<Project name="AgateLib" path="../AgateLib" language="C#" type="Library">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../Binaries/Debug/Libraries</OutputPath>
