@@ -306,7 +306,10 @@ namespace AgateLib.DisplayLib.OpenGL
 
         Point lastMouse;
         void mDisplay_ProcessEventsEvent(object sender, EventArgs e)
-        {
+		{
+			if (mWindow == null)
+				return;
+
             try
             {
                 
