@@ -6,4 +6,4 @@ Prebuild\Prebuild.exe /target vs2008 /file AgateLib-Windows.xml
 Prebuild\Prebuild.exe /target vs2008 /file AgateTests.xml
 Prebuild\Prebuild.exe /target vs2008 /file AgateTools.xml
 
-pause
+@pause

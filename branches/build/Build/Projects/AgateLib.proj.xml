@@ -1,14 +1,14 @@
     <Project name="AgateLib" path="../src" language="C#" type="Library">
       <Configuration name="Debug">
         <Options>
-          <OutputPath>../../Binaries/Debug/Libraries</OutputPath>
+          <OutputPath>../Binaries/Debug/Libraries</OutputPath>
           <AllowUnsafe>true</AllowUnsafe>
         </Options>
       </Configuration>
       
       <Configuration name="Release">
         <Options>
-          <OutputPath>../../Binaries/Release/Libraries</OutputPath>
+          <OutputPath>../Binaries/Release/Libraries</OutputPath>
           <XmlDocFile>AgateLib.xml</XmlDocFile>
           <AllowUnsafe>true</AllowUnsafe>
         </Options>

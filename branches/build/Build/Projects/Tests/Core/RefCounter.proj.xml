@@ -1,4 +1,4 @@
-<Project name="RefCounter" path="../Tests/Core/RefCounterTester" language="C#" type="WinExe">
+<Project name="RefCounter" path="../Tests/Core/RefCounterTester" language="C#" type="Exe">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
@@ -7,7 +7,7 @@
 
   <Configuration name="Release">
     <Options>
-      <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
+      <OutputPath>../../../Binaries/Release/Tests</OutputPath>
     </Options>
   </Configuration>
 

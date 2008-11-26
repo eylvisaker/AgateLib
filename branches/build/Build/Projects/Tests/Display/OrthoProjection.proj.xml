@@ -7,7 +7,7 @@
 
   <Configuration name="Release">
     <Options>
-      <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
+      <OutputPath>../../../Binaries/Release/Tests</OutputPath>
     </Options>
   </Configuration>
 

@@ -7,7 +7,7 @@
 
   <Configuration name="Release">
     <Options>
-      <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
+      <OutputPath>../../../Binaries/Release/Tests</OutputPath>
     </Options>
   </Configuration>
 
@@ -20,5 +20,6 @@
 
   <Files>
     <Match path="." pattern="*.cs" recurse="true"/>
+    <Match path="." pattern="*.resx" recurse="true"/>
   </Files>
 </Project>
