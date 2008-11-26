@@ -13,7 +13,7 @@
     </Options>
   </Configuration>
 
-  <ReferencePath>../../deps</ReferencePath>
+  <ReferencePath>../../Dependencies</ReferencePath>
   <Reference name="AgateLib"/>
   <Reference name="AgateWinForms"/>
   <Reference name="OpenTK"/>

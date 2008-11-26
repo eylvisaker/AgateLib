@@ -1,13 +1,12 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{32072E18-706B-406D-963C-B749CD0D7CFA}</ProjectGuid>
+    <ProjectGuid>{C5BC19C9-5D3D-4102-A828-9D309D14C934}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon></ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>Performance</AssemblyName>
@@ -17,11 +16,9 @@
     <DelaySign>false</DelaySign>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>
-    </AppDesignerFolder>
+    <AppDesignerFolder></AppDesignerFolder>
     <RootNamespace>Performance</RootNamespace>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject></StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
   </PropertyGroup>
@@ -32,8 +29,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>DEBUG;TRACE;</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile></DocumentationFile>
     <DebugSymbols>True</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>False</Optimize>
@@ -42,8 +38,7 @@
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn></NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
@@ -52,8 +47,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>TRACE;</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile></DocumentationFile>
     <DebugSymbols>False</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>True</Optimize>
@@ -62,36 +56,35 @@
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn></NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
-      <Name>System</Name>
+        <Name>System</Name>
     </Reference>
     <Reference Include="System.Data">
-      <Name>System.Data</Name>
+        <Name>System.Data</Name>
     </Reference>
     <Reference Include="System.Drawing">
-      <Name>System.Drawing</Name>
+        <Name>System.Drawing</Name>
     </Reference>
     <Reference Include="System.Windows.Forms">
-      <Name>System.Windows.Forms</Name>
+        <Name>System.Windows.Forms</Name>
     </Reference>
     <Reference Include="System.Xml">
-      <Name>System.Xml</Name>
+        <Name>System.Xml</Name>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\AgateLib.csproj">
+    <ProjectReference Include="..\..\..\AgateLib\AgateLib.csproj">
       <Name>AgateLib</Name>
-      <Project>{42C7DCD4-37A0-4FEA-A3E1-6C12C064B1E6}</Project>
+      <Project>{C85D4C16-141D-4C88-9061-8B76F142418C}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="frmPerformance.cs">
-      <SubType>Form</SubType>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="frmPerformance.Designer.cs">
       <DependentUpon>frmPerformance.cs</DependentUpon>
