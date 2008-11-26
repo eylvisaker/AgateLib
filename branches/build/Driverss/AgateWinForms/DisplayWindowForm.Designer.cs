@@ -49,31 +49,31 @@ namespace AgateLib.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DisplayWindowForm));
-            this.agateRenderTarget1 = new AgateLib.WinForms.AgateRenderTarget();
-            this.SuspendLayout();
-            // 
-            // agateRenderTarget1
-            // 
-            this.agateRenderTarget1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.agateRenderTarget1.Location = new System.Drawing.Point(0, 0);
-            this.agateRenderTarget1.Name = "agateRenderTarget1";
-            this.agateRenderTarget1.Size = new System.Drawing.Size(212, 238);
-            this.agateRenderTarget1.TabIndex = 0;
-            // 
-            // DisplayWindowForm
-            // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(212, 238);
-            this.Controls.Add(this.agateRenderTarget1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.KeyPreview = true;
-            this.Name = "DisplayWindowForm";
-            this.Text = "DisplayWindowForm";
-            this.Deactivate += new System.EventHandler(this.DisplayWindowForm_Deactivate);
-            this.Load += new System.EventHandler(this.DisplayWindowForm_Load);
-            this.Activated += new System.EventHandler(this.DisplayWindowForm_Activated);
-            this.ResumeLayout(false);
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DisplayWindowForm));
+			this.agateRenderTarget1 = new AgateLib.WinForms.AgateRenderTarget();
+			this.SuspendLayout();
+			// 
+			// agateRenderTarget1
+			// 
+			this.agateRenderTarget1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.agateRenderTarget1.Location = new System.Drawing.Point(0, 0);
+			this.agateRenderTarget1.Name = "agateRenderTarget1";
+			this.agateRenderTarget1.Size = new System.Drawing.Size(188, 226);
+			this.agateRenderTarget1.TabIndex = 0;
+			// 
+			// DisplayWindowForm
+			// 
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.ClientSize = new System.Drawing.Size(188, 226);
+			this.Controls.Add(this.agateRenderTarget1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
+			this.Name = "DisplayWindowForm";
+			this.Text = "DisplayWindowForm";
+			this.Deactivate += new System.EventHandler(this.DisplayWindowForm_Deactivate);
+			this.Load += new System.EventHandler(this.DisplayWindowForm_Load);
+			this.Activated += new System.EventHandler(this.DisplayWindowForm_Activated);
+			this.ResumeLayout(false);
 
         }
 

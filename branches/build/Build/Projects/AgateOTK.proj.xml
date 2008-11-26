@@ -1,30 +1,30 @@
-    <Project name="AgateOTK" path="../drivers/AgateOTK" language="C#" type="Library">
-      <Configuration name="Debug">
-        <Options>
-          <OutputPath>../../Binaries/Debug/Libraries</OutputPath>
-          <AllowUnsafe>true</AllowUnsafe>
-        </Options>
-      </Configuration>
+<Project name="AgateOTK" path="../Drivers/AgateOTK" language="C#" type="Library">
+  <Configuration name="Debug">
+    <Options>
+      <OutputPath>../../Binaries/Debug/Libraries</OutputPath>
+      <AllowUnsafe>true</AllowUnsafe>
+    </Options>
+  </Configuration>
 
-      <Configuration name="Release">
-        <Options>
-          <OutputPath>../../Binaries/Release/Libraries</OutputPath>
-          <AllowUnsafe>true</AllowUnsafe>
-        </Options>
-      </Configuration>
+  <Configuration name="Release">
+    <Options>
+      <OutputPath>../../Binaries/Release/Libraries</OutputPath>
+      <AllowUnsafe>true</AllowUnsafe>
+    </Options>
+  </Configuration>
 
-      <ReferencePath>../../deps</ReferencePath>
-      <Reference name="AgateLib"/>
-      <Reference name="AgateWinForms"/>
-      <Reference name="OpenTK"/>
-      <Reference name="OpenTK.Utilities"/>
-      <Reference name="System"/>
-      <Reference name="System.Data"/>
-      <Reference name="System.Drawing"/>
-      <Reference name="System.Xml"/>
-      <Reference name="System.Windows.Forms"/>
+  <ReferencePath>../../deps</ReferencePath>
+  <Reference name="AgateLib"/>
+  <Reference name="AgateWinForms"/>
+  <Reference name="OpenTK"/>
+  <Reference name="OpenTK.Utilities"/>
+  <Reference name="System"/>
+  <Reference name="System.Data"/>
+  <Reference name="System.Drawing"/>
+  <Reference name="System.Xml"/>
+  <Reference name="System.Windows.Forms"/>
 
-      <Files>
-        <Match path="." pattern="*.cs" recurse="true"/>
-      </Files>
-    </Project>
+  <Files>
+    <Match path="." pattern="*.cs" recurse="true"/>
+  </Files>
+</Project>

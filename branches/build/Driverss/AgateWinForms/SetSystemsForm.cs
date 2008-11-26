@@ -161,6 +161,9 @@ namespace AgateLib.WinForms
 
         public SetSystemsDialogResult RunDialog()
         {
+			if (displayList.Items.Count == 0 && mChooseDisplay)
+				throw new AgateException("No display drivers were found.");
+
             DialogResult res = ShowDialog();
 
             switch (res)

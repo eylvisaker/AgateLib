@@ -1,28 +1,28 @@
-    <Project name="AgateLib" path="../src" language="C#" type="Library">
-      <Configuration name="Debug">
-        <Options>
-          <OutputPath>../Binaries/Debug/Libraries</OutputPath>
-          <AllowUnsafe>true</AllowUnsafe>
-        </Options>
-      </Configuration>
-      
-      <Configuration name="Release">
-        <Options>
-          <OutputPath>../Binaries/Release/Libraries</OutputPath>
-          <XmlDocFile>AgateLib.xml</XmlDocFile>
-          <AllowUnsafe>true</AllowUnsafe>
-        </Options>
-      </Configuration>
+<Project name="AgateLib" path="../src" language="C#" type="Library">
+  <Configuration name="Debug">
+    <Options>
+      <OutputPath>../Binaries/Debug/Libraries</OutputPath>
+      <AllowUnsafe>true</AllowUnsafe>
+    </Options>
+  </Configuration>
 
-      <Reference name="System"/>
-      <Reference name="System.Data"/>
-      <Reference name="System.Drawing"/>
-      <Reference name="System.Windows.Forms"/>
-      <Reference name="System.Xml"/>
+  <Configuration name="Release">
+    <Options>
+      <OutputPath>../Binaries/Release/Libraries</OutputPath>
+      <XmlDocFile>AgateLib.xml</XmlDocFile>
+      <AllowUnsafe>true</AllowUnsafe>
+    </Options>
+  </Configuration>
 
-      <Files>
-        <Match path="." pattern="*.cs" recurse="true"/>
-        <Match path="." pattern="*.resx" recurse="true"/>
-      </Files>
-    </Project>
+  <Reference name="System"/>
+  <Reference name="System.Data"/>
+  <Reference name="System.Drawing"/>
+  <Reference name="System.Windows.Forms"/>
+  <Reference name="System.Xml"/>
+
+  <Files>
+    <Match path="." pattern="*.cs" recurse="true"/>
+    <Match path="." pattern="*.resx" recurse="true"/>
+  </Files>
+</Project>
 
