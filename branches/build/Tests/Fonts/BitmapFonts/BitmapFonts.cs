@@ -22,7 +22,12 @@ namespace BitmapFontTester
 
         private void Run()
         {
-            using (AgateSetup setup = new AgateSetup())
+			// These two lines are used by AgateLib tests to locate
+			// driver plugins and images.
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../Libraries");
+			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
+			
+			using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
@@ -49,7 +54,7 @@ namespace BitmapFontTester
                 font.Save("testfont.xml");
 
 
-                FontSurface second = FontSurface.LoadBitmapFont("test.png", "testfont.xml");
+				FontSurface second = FontSurface.LoadBitmapFont("testfont.png", "testfont.xml");
 
                 while (wind.IsClosed == false)
                 {

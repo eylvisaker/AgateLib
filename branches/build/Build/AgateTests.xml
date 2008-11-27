@@ -38,7 +38,10 @@
     <?include file="Projects/Tests/Display/SpriteTester.proj.xml" ?>
     <?include file="Projects/Tests/Display/TestPacker.proj.xml" ?>
     <?include file="Projects/Tests/Display/Tiling.proj.xml" ?>
-      
+    <?include file="Projects/Tests/Fonts/BitmapFonts.proj.xml" ?>
+    <?include file="Projects/Tests/Fonts/FontLineTester.proj.xml" ?>
+    <?include file="Projects/Tests/Fonts/Fonts.proj.xml" ?>
+
   </Solution>
 
 </Prebuild>

@@ -18,13 +18,18 @@ namespace FontTester
         /// </summary>
         [STAThread]
         static void Main()
-        {            
-            using (AgateSetup setupDisplay = new AgateSetup())
+        {
+			// These two lines are used by AgateLib tests to locate
+			// driver plugins and images.
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../Libraries");
+			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
+
+			using (AgateSetup setupDisplay = new AgateSetup())
             {
                 setupDisplay.AskUser = true;
                 setupDisplay.Initialize(true, false, false);
 
-                if (setupDisplay.Cancel)
+                if (setupDisplay.WasCanceled)
                     return;
 
                 DisplayWindow wind = new DisplayWindow("Font Tester", 800, 600,
