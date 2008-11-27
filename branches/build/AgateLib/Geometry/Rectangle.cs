@@ -46,7 +46,7 @@ namespace AgateLib.Geometry
             this.sz = new Size(width, height);
         }
         /// <summary>
-        /// Construts a rectangle.
+        /// Constructs a rectangle.
         /// </summary>
         /// <param name="pt"></param>
         /// <param name="sz"></param>

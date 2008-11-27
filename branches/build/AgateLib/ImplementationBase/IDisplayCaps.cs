@@ -82,7 +82,7 @@ namespace AgateLib.ImplementationBase
         bool Supports3D { get; }
 
         /// <summary>
-        /// Indicates whether the driver can create a bitmap font from an operatig
+        /// Indicates whether the driver can create a bitmap font from an operating
         /// system font.
         /// </summary>
         bool CanCreateBitmapFont { get; }
