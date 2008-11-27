@@ -30,14 +30,19 @@ namespace InputStateTester
         /// </summary>
         [STAThread]
         static void Main(string []args)
-        {
+		{		
+			// These two lines are used by AgateLib tests to locate
+			// driver plugins and images.
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../Libraries");
+			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
+
             using (AgateSetup setup = new AgateSetup("My app", args))
             {
                 setup.AskUser = true;
                 setup.UseAudio = false;
                 setup.InitializeAll();
 
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
                 DisplayWindow wind = new DisplayWindow("My app", 200, 300);

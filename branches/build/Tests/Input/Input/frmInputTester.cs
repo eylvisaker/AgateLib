@@ -34,7 +34,7 @@ namespace InputTester
 
             setup.AskUser = true;
             setup.Initialize(true, false, true);
-            if (setup.Cancel)
+            if (setup.WasCanceled)
                 throw new Exception();
 
             new DisplayWindow(CreateWindowParams.FromControl(pictureBox1));
