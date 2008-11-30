@@ -1,19 +1,17 @@
-<Project name="AgateLib" path="../AgateLib" language="C#" type="Library">
+<Project name="Resources" path="../Tests/Core/Resources" language="C#" type="WinExe">
   <Configuration name="Debug">
     <Options>
-      <OutputPath>../Binaries/Debug/Libraries</OutputPath>
-      <AllowUnsafe>true</AllowUnsafe>
+      <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
     </Options>
   </Configuration>
 
   <Configuration name="Release">
     <Options>
-      <OutputPath>../Binaries/Release/Libraries</OutputPath>
-      <XmlDocFile>AgateLib.xml</XmlDocFile>
-      <AllowUnsafe>true</AllowUnsafe>
+      <OutputPath>../../../Binaries/Release/Tests</OutputPath>
     </Options>
   </Configuration>
 
+  <Reference name="AgateLib"/>
   <Reference name="System"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>
@@ -21,7 +19,7 @@
   <Reference name="System.Xml"/>
 
   <Files>
+    <File buildAction="None" copyToOutput="Always">TestResourceFile.xml</File>
     <Match path="." pattern="*.cs" recurse="true"/>
   </Files>
 </Project>
-
