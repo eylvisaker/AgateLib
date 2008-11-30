@@ -1,0 +1,20 @@
+<Project name="Fonts" path="../Tests/Fonts/Fonts" language="C#" type="WinExe">
+  <Configuration name="Debug">
+    <Options>
+      <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Configuration name="Release">
+    <Options>
+      <OutputPath>../../../Binaries/Release/Tests</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Reference name="AgateLib"/>
+  <Reference name="System"/>
+  
+  <Files>
+    <Match path="." pattern="*.cs" recurse="true"/>
+  </Files>
+</Project>
