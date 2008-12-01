@@ -29,7 +29,7 @@ namespace AgateLib.Drivers
     /// </typeparam>
     public class DriverInfo<T>
         // \cond
-        where T : DriverTypeIDBase, IEquatable<T>
+        where T : IComparable
         // \endcond
     {
         private Type mMyClass;
