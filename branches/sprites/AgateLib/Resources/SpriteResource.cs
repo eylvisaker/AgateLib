@@ -21,7 +21,7 @@ namespace AgateLib.Resources
     ///         Required attributes:
     ///             Rectangle rect, Point offset
     ///         Optional attribute:
-    ///             string image
+	///             string image
     /// </summary>
     public class SpriteResource : AgateResource 
     {
@@ -38,6 +38,16 @@ namespace AgateLib.Resources
         public bool Packed
         {
             get { return mPacked; }
+			set
+			{
+				for (int i = 0; i < Frames.Count; i++)
+				{
+					if (Frames[i].Filename != Filename)
+						throw new AgateException("Sprite is not packed.");
+				}
+
+				mPacked = value;
+			}
         }
         /// <summary>
         /// Gets or sets the size of this sprite.
@@ -146,14 +156,39 @@ namespace AgateLib.Resources
 
         internal override void BuildNodes(System.Xml.XmlElement parent, System.Xml.XmlDocument doc)
         {
-            throw new NotImplementedException();
+			XmlElement element = doc.CreateElement("Sprite");
+
+			XmlHelper.AppendAttribute(element, doc, "name", Name);
+			XmlHelper.AppendAttribute(element, doc, "image", Filename);
+			XmlHelper.AppendAttribute(element, doc, "timePerFrame", TimePerFrame);
+			XmlHelper.AppendAttribute(element, doc, "size", Size.ToString());
+
+			for (int i = 0; i < Frames.Count; i++)
+			{
+				BuildNodes(element, doc, Frames[i]);
+			}
+
+			parent.AppendChild(element);
         }
 
-        /// <summary>
-        /// Clones the resource.
-        /// </summary>
-        /// <returns></returns>
-        protected override AgateResource Clone()
+		internal void BuildNodes(XmlElement parent, XmlDocument doc, SpriteFrameResource frame)
+		{
+			XmlElement element = doc.CreateElement("Frame");
+
+			XmlHelper.AppendAttribute(element, doc, "rect", frame.Bounds.ToString());
+			XmlHelper.AppendAttribute(element, doc, "offset", frame.Offset.ToString());
+
+			if (Packed == false && frame.Filename != Filename)
+				XmlHelper.AppendAttribute(element, doc, "image", frame.Filename);
+
+			parent.AppendChild(element);
+		}
+
+		/// <summary>
+		/// Clones the resource.
+		/// </summary>
+		/// <returns></returns>
+		protected override AgateResource Clone()
         {
             throw new NotImplementedException();
         }
@@ -192,7 +227,8 @@ namespace AgateLib.Resources
                 get { return mOffset; }
                 set { mOffset = value; }
             }
-        }
+
+		}
 
         internal ISprite CreateSprite()
         {
