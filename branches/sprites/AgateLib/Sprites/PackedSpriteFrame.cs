@@ -119,17 +119,11 @@ namespace AgateLib.Sprites
         /// <param name="rotationCenterY"></param>
         public void Draw(Surface surf, float dest_x, float dest_y, float rotationCenterX, float rotationCenterY)
         {
-            // calculate scaling.
-            float scaleX = mDisplaySize.Width / (float)mSrcRect.Width;
-            float scaleY = mDisplaySize.Height / (float)mSrcRect.Height;
-
-            surf.SetScale(scaleX, scaleY);
-
-            surf.Draw(dest_x + (mOffset.X * scaleX),
-                      dest_y + (mOffset.Y * scaleY),
-                      mSrcRect,
-                      rotationCenterX - (mOffset.X * scaleX),
-                      rotationCenterY - (mOffset.Y * scaleY));
+			surf.Draw(dest_x + (float)(mOffset.X * surf.ScaleWidth),
+					  dest_y + (float)(mOffset.Y * surf.ScaleHeight),
+					  mSrcRect,
+					  rotationCenterX - (float)(mOffset.X * surf.ScaleWidth),
+					  rotationCenterY - (float)(mOffset.Y * surf.ScaleHeight));
 
             //mSurface.Draw(dest_x + (mOffset.X * scaleX),
             //              dest_y + (mOffset.Y * scaleY),

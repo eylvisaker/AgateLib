@@ -540,6 +540,7 @@ namespace AgateLib.Sprites
             surf.DisplayAlignment = OriginAlignment.TopLeft;
             surf.RotationAngle = RotationAngle;
             surf.Color = Color;
+			surf.SetScale(this.ScaleWidth, this.ScaleHeight);
 
             current.Draw(mSurface, destX - alignment.X, destY - alignment.Y, 
                                   rotation.X, rotation.Y);
