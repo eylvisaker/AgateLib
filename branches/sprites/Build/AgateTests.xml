@@ -36,6 +36,7 @@
     <?include file="Projects/Tests/Display/ScreenCapture.proj.xml" ?>
     <?include file="Projects/Tests/Display/Sprite2Tester.proj.xml" ?>
     <?include file="Projects/Tests/Display/SpriteTester.proj.xml" ?>
+    <?include file="Projects/Tests/Display/SurfaceTester.proj.xml" ?>
     <?include file="Projects/Tests/Display/TestPacker.proj.xml" ?>
     <?include file="Projects/Tests/Display/Tiling.proj.xml" ?>
     <?include file="Projects/Tests/Fonts/BitmapFonts.proj.xml" ?>
