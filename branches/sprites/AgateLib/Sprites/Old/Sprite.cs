@@ -1233,20 +1233,20 @@ namespace AgateLib.Sprites.Old
 
         event AgateLib.DisplayLib.SpriteEventHandler ISprite.AnimationStarted
         {
-            add { throw new NotImplementedException(); }
-            remove { throw new NotImplementedException(); }
+            add { }
+            remove {  }
         }
 
         event AgateLib.DisplayLib.SpriteEventHandler ISprite.AnimationStopped
         {
-            add { throw new NotImplementedException(); }
-            remove { throw new NotImplementedException(); }
+            add {  }
+            remove {  }
         }
 
         event AgateLib.DisplayLib.SpriteEventHandler ISprite.PlayDirectionChanged
         {
-            add { throw new NotImplementedException(); }
-            remove { throw new NotImplementedException(); }
+            add {  }
+            remove {  }
         }
 
         SpriteAnimType ISprite.AnimationType
