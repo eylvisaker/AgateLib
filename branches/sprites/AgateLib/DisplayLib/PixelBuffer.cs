@@ -44,7 +44,7 @@ namespace AgateLib.DisplayLib
     public enum PixelFormat
     {
         /// <summary>
-        /// Format specifying the Agate should choose what pixel format 
+        /// Format specifying that Agate should choose what pixel format 
         /// to use, where appropriate.
         /// </summary>
         Any,
@@ -254,6 +254,17 @@ namespace AgateLib.DisplayLib
 
             SetData(data, sourceFormat, srcRowStride);
         }
+
+		/// <summary>
+		/// Constructs a PixelBuffer object, taking image data from a preexisting pixel buffer.
+		/// </summary>
+		/// <param name="buffer">The PixelBuffer object to copy image data from.</param>
+		/// <param name="srcRect">The source rectangle in the buffer to copy image data from.</param>
+		public PixelBuffer(PixelBuffer buffer, Rectangle srcRect)
+			: this(buffer.PixelFormat, srcRect.Size)
+		{
+			this.CopyFrom(buffer, srcRect, new Point(0, 0), false);
+		}
 
         #endregion
 
@@ -497,9 +508,9 @@ namespace AgateLib.DisplayLib
         {
             if (!clip)
             {
-                if (srcRect.Width + destPt.X >= this.Width)
+                if (srcRect.Width + destPt.X > this.Width)
                     throw new ArgumentException("Attempt to copy area to invalid region.");
-                if (srcRect.Height + destPt.Y >= this.Height)
+                if (srcRect.Height + destPt.Y > this.Height)
                     throw new ArgumentException("Attempt to copy area to invalid region.");
             }
 
