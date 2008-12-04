@@ -349,7 +349,15 @@ namespace Prebuild.Core.Targets
                     switch (project.Files.GetBuildAction(file))
                     {
                         case BuildAction.Compile:
-                            ss.WriteLine("                <include name=\"" + Helper.NormalizePath(PrependPath(file), '/') + "\" />");
+                            switch (project.Files.GetSubType(file))
+                            {
+                                case SubType.Code:
+                                case SubType.CodeBehind:
+                                case SubType.Form:
+                                case SubType.UserControl:
+                                    ss.WriteLine("                <include name=\"" + Helper.NormalizePath(PrependPath(file), '/') + "\" />");
+                                    break;
+                            }
                             break;
                         default:
                             break;
