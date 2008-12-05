@@ -45,7 +45,7 @@ namespace AgateLib.PackedSpriteCreator
 			WriteLine();
 
 			WriteLine("The default and only mode is to create a packed sprite image from the input");
-			WriteLine("files.  You must specify the -f option when creating a packed sprite.");
+			WriteLine("files.  You must specify the -f and -s options when creating a packed sprite.");
 			WriteLine();
 			WriteLine("Sprite frames can be specified as a single number for square frames, or as");
 			WriteLine("a width,height format.");
