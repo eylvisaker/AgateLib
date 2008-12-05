@@ -304,6 +304,7 @@ namespace AgateLib.Resources
         /// </summary>
         /// <param name="name">Name of the sprite resource to construct.</param>
         /// <returns></returns>
+        [Obsolete]
         public ISprite CreateSprite(string name)
         {
             if (ContainsResource(name) == false)

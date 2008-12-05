@@ -1,43 +1,20 @@
-//     The contents of this file are subject to the Mozilla Public License
-//     Version 1.1 (the "License"); you may not use this file except in
-//     compliance with the License. You may obtain a copy of the License at
-//     http://www.mozilla.org/MPL/
-//
-//     Software distributed under the License is distributed on an "AS IS"
-//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-//     License for the specific language governing rights and limitations
-//     under the License.
-//
-//     The Original Code is AgateLib.
-//
-//     The Initial Developer of the Original Code is Erik Ylvisaker.
-//     Portions created by Erik Ylvisaker are Copyright (C) 2006.
-//     All Rights Reserved.
-//
-//     Contributor(s): Erik Ylvisaker
-//
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Resources;
 
 namespace AgateLib.Sprites
 {
-    using AgateLib.DisplayLib;
-
-    /// <summary>
-    /// Sprite2 class.
-    /// </summary>
-    [Obsolete]
-    public class PackedSprite : ISprite 
+    // TODO: Refactor this to name it Sprite.
+    public class NewSprite : ISprite 
     {
-        Surface mSurface;
-        bool mOwnSurface;
-        FrameList<PackedSpriteFrame> mFrames = new FrameList<PackedSpriteFrame>();
+        FrameList<NewSpriteFrame> mFrames = new FrameList<NewSpriteFrame>();
         Size mSpriteSize;
+
+        List<Surface> mOwnedSurfaces = new List<Surface>();
 
         private double mTimePerFrame = 60;
         private int mCurrentFrameIndex = 0;
@@ -51,10 +28,11 @@ namespace AgateLib.Sprites
         private double mScaleY = 1.0;
 
         private OriginAlignment mAlignment = OriginAlignment.TopLeft;
-        private double mRotation = 0;
         private OriginAlignment mRotationSpot = OriginAlignment.Center;
+        private double mRotation = 0; 
         private Gradient mGradient = new Gradient(Color.White);
 
+        
 
         #region --- Construction / Destruction ---
 
@@ -63,7 +41,7 @@ namespace AgateLib.Sprites
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public PackedSprite(int width, int height)
+        public NewSprite(int width, int height)
             : this(new Size(width, height))
         {
         }
@@ -71,7 +49,7 @@ namespace AgateLib.Sprites
         /// Constructs a Sprite object, of the specified width and height.
         /// </summary>
         /// <param name="size"></param>
-        public PackedSprite(Size size)
+        public NewSprite(Size size)
         {
             mSpriteSize = size;
         }
@@ -82,13 +60,30 @@ namespace AgateLib.Sprites
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="size"></param>
-        public PackedSprite(string filename, Size size)
-            : this(size)
+        public NewSprite(string surfaceFilename, Size size)
+            : this(new Surface(surfaceFilename), true, size)
         {
-            mSurface = new Surface(filename);
-            mOwnSurface = true;
-
-            AddFrames();
+        }
+        /// <summary>
+        /// Constructs a Sprite object, of the specified width and height.
+        /// Frames are cut out from the given surface of the specified size.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="size"></param>
+        public NewSprite(Stream stream, int width, int height)
+            : this(new Surface(stream), true, new Size(width, height))
+        {
+        }
+        /// <summary>
+        /// Constructs a Sprite object, of the specified width and height.
+        /// A surface is loaded from the passed stream, and frames are cut out from it
+        /// of the specified size.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="size"></param>
+        public NewSprite(Stream surfaceData, Size size)
+            : this(new Surface(surfaceData), true, size)
+        {
         }
         /// <summary>
         /// Constructs a Sprite object, of the specified width and height.
@@ -98,7 +93,7 @@ namespace AgateLib.Sprites
         /// <param name="filename"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public PackedSprite(string filename, int width, int height)
+        public NewSprite(string filename, int width, int height)
             : this(filename, new Size(width, height))
         {
         }
@@ -107,87 +102,76 @@ namespace AgateLib.Sprites
         /// Frames are cut out from the given surface of the specified size.
         /// </summary>
         /// <param name="surface"></param>
-        /// <param name="ownSurface">True to indicate that this PackedSprite object owns the surface, so 
+        /// <param name="ownSurface">True to indicate that this NewSprite object owns the surface, so 
         /// it is disposed when this Sprite is disposed.</param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public PackedSprite(Surface surface, bool ownSurface, int width, int height)
+        public NewSprite(Surface surface, bool ownSurface, int width, int height)
             : this(surface, ownSurface, new Size(width, height))
         {
         }
         /// <summary>
-        /// Constructs a PackedSprite object, of the specified width and height.
+        /// Constructs a NewSprite object, of the specified width and height.
         /// </summary>
         /// <param name="surface"></param>
-        /// <param name="ownSurface">True to indicate that this PackedSprite object owns the surface, so 
+        /// <param name="ownSurface">True to indicate that this NewSprite object owns the surface, so 
         /// it is disposed when this Sprite is disposed.</param>
         /// <param name="size"></param>
-        public PackedSprite(Surface surface, bool ownSurface, Size size)
+        public NewSprite(Surface surface, bool ownSurface, Size size)
             : this(size)
         {
-            mSurface = surface;
-            mOwnSurface = ownSurface;
-        }
-        /// <summary>
-        /// Constructs a Sprite object, of the specified width and height.
-        /// Frames are cut out from the given surface of the specified size.
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="size"></param>
-        public PackedSprite(Stream stream, Size size)
-            : this(new Surface(stream), true, size)
-        {
-        }
-        /// <summary>
-        /// Constructs a Sprite object, loading it from the file specified
-        /// in the given ResourceManager object.  It is not recommended to use this
-        /// constructor, but instead to use the CreateSprite() of the
-        /// AgateResourceManager object.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="resources"></param>
-        [Obsolete]
-        public PackedSprite(string name, AgateResourceManager resources)
-        {
-            SpriteResource resource = resources[name] as SpriteResource;
-            if (resource == null)
-                throw new AgateResourceException("Resource " + name + " is not a sprite.");
-
-            BuildSpriteFromResource(resource);
+            AddNewFrames(surface, true, Point.Empty, Point.Empty, size, true);
         }
 
-        internal PackedSprite(SpriteResource resource)
-        {
-            BuildSpriteFromResource(resource);
-        }
 
+        public NewSprite(Resources.AgateResourceManager resources, string name)
+        {
+            Resources.AgateResource generic_res = resources[name];
+            Resources.SpriteResource sprite_res = generic_res as Resources.SpriteResource;
+
+            if (sprite_res == null)
+                throw new AgateResourceException("Resource " + generic_res.Name + " is not a sprite.");
+
+            BuildSpriteFromResource(sprite_res);
+        }
+        
         private void BuildSpriteFromResource(SpriteResource resource)
         {
-            if (resource.Packed == false)
-                throw new AgateResourceException("Resource " + resource.Name + " is not a packed sprite.");
+            Surface defaultSurface = new Surface(resource.Filename);
 
             mSpriteSize = resource.Size;
-            mSurface = new Surface(resource.Filename);
-            mOwnSurface = true;
-
+            mOwnedSurfaces.Add(defaultSurface);
+            
             for (int i = 0; i < resource.Frames.Count; i++)
             {
                 SpriteResource.SpriteFrameResource frame = resource.Frames[i];
+                Surface thisSurface = defaultSurface;
 
-                AddFrame(frame.Bounds, frame.Offset);
+                if (string.IsNullOrEmpty(frame.Filename))
+                {
+                    thisSurface = new Surface(frame.Filename);
+                    mOwnedSurfaces.Add(thisSurface);
+                }
+
+                // we pass false to ownSurface here because the surface has already been added to the
+                // owned surfaces list.
+                AddFrame(defaultSurface, false, frame.Bounds, frame.Offset);
             }
         }
+        
 
         /// <summary>
         /// Adds a frame to the sprite.
         /// </summary>
         /// <param name="bounds">The source rectangle for the image data used in the sprite frame to be added.</param>
+        /// <param name="ownSurface">Pass true to indicate that this sprite should own the surface and dispose of it when finished.</param>
         /// <param name="offset">The offset within the sprite to the upperleft corner of where the frame is drawn.</param>
-        public void AddFrame(Rectangle bounds, Point offset)
+        public void AddFrame(Surface surface, bool ownSurface, Rectangle bounds, Point offset)
         {
-            PackedSpriteFrame frame = new PackedSpriteFrame();
+            NewSpriteFrame frame = new NewSpriteFrame(surface);
             frame.SourceRect = bounds;
             frame.Offset = offset;
+            frame.SpriteSize = SpriteSize;
 
             mFrames.Add(frame);
         }
@@ -196,20 +180,10 @@ namespace AgateLib.Sprites
         /// Makes a copy of this sprite and returns it.
         /// </summary>
         /// <returns></returns>
-        public PackedSprite Clone()
+        public NewSprite Clone()
         {
-            PackedSprite retval = new PackedSprite(mSpriteSize.Width, mSpriteSize.Height);
-
-            if (mOwnSurface)
-            {
-                retval.mSurface = new Surface(mSurface.ReadPixels());
-                retval.mOwnSurface = true;
-            }
-            else
-            {
-                retval.mSurface = mSurface;
-                retval.mOwnSurface = false;
-            }
+            // TODO: Update this method to cover owned surfaces.
+            NewSprite retval = new NewSprite(mSpriteSize.Width, mSpriteSize.Height);
 
             retval.mTimePerFrame = mTimePerFrame;
             retval.mCurrentFrameIndex = mCurrentFrameIndex;
@@ -226,9 +200,9 @@ namespace AgateLib.Sprites
             retval.mRotationSpot = mRotationSpot;
             retval.mGradient = mGradient;
 
-            foreach (PackedSpriteFrame f in mFrames)
+            foreach (NewSpriteFrame frame in mFrames)
             {
-                retval.mFrames.Add(f.Clone());
+                retval.mFrames.Add(frame.Clone());
             }
 
             return retval;
@@ -238,32 +212,13 @@ namespace AgateLib.Sprites
         /// </summary>
         public void Dispose()
         {
-            if (mOwnSurface)
-                mSurface.Dispose();
+            foreach (Surface surface in mOwnedSurfaces)
+                surface.Dispose();
         }
 
         #endregion
         #region --- Working with Frames ---
 
-
-        /// <summary>
-        /// Adds frames from the given surface, using the size of this sprite.
-        /// </summary>
-        public void AddFrames()
-        {
-            AddFrames(Point.Empty, Point.Empty, SpriteSize, true);
-        }
-
-        /// <summary>
-        /// Slices and dices the image passed into frames and adds them.
-        /// Automatically skips blank ones.
-        /// This can only called if there is no surface object backing the sprite.
-        /// </summary>
-        /// <param name="filename"></param>
-        public void AddFrames(string filename)
-        {
-            AddFrames(filename, Point.Empty, Point.Empty, true);
-        }
 
         /// <summary>
         /// Adds frames from the given filename, using the size of this sprite.
@@ -273,15 +228,21 @@ namespace AgateLib.Sprites
         /// <param name="startPoint"></param>
         /// <param name="extraSpace"></param>
         /// <param name="skipBlank"></param>
-        public void AddFrames(string filename, Point startPoint, Point extraSpace, bool skipBlank)
+        public void AddNewFrames(string filename, Point startPoint, Point extraSpace, bool skipBlank)
         {
-            if (mSurface != null)
-                throw new InvalidOperationException();
-
-            mSurface = new Surface(filename);
-            mOwnSurface = true;
-
-            AddFrames(startPoint, extraSpace, SpriteSize, skipBlank);
+            AddNewFrames(new Surface(filename), true, startPoint, extraSpace, SpriteSize, skipBlank);
+        }
+        /// <summary>
+        /// Adds frames by constructing a surface from the given stream, using the size of this sprite.
+        /// Frames are taken from startPoint, and with extraSpace inbetween.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="startPoint"></param>
+        /// <param name="extraSpace"></param>
+        /// <param name="skipBlank"></param>
+        public void AddNewFrames(Stream stream, Point startPoint, Point extraSpace, bool skipBlank)
+        {
+            AddNewFrames(new Surface(stream), true, startPoint, extraSpace, SpriteSize, skipBlank);
         }
         
         /// <summary>
@@ -292,190 +253,43 @@ namespace AgateLib.Sprites
         /// <param name="size">The size of the image to cut out for each frame</param>
         /// <param name="extraSpace">How many extra pixels to insert between each frame.</param>
         /// <param name="skipBlank">Whether or not blank frames should be automatically dropped.</param>
-        public void AddFrames(Point startPoint, Point extraSpace, Size size, bool skipBlank)
+        public void AddNewFrames(Surface surface, bool ownSurface, Point startPoint, Point extraSpace, Size size, bool skipBlank)
         {
             Point location = startPoint;
+            PixelBuffer pixels = surface.ReadPixels();
 
-            PixelBuffer pixels = mSurface.ReadPixels();
+            if (ownSurface)
+                mOwnedSurfaces.Add(surface);
 
             do
             {
-                PackedSpriteFrame currentFrame = new PackedSpriteFrame();
+                NewSpriteFrame currentFrame = new NewSpriteFrame(surface);
                 Rectangle currentRect = new Rectangle(location, size);
                 bool skip = false;
 
                 currentFrame.SourceRect = currentRect;
+                currentFrame.SpriteSize = SpriteSize;
 
                 if (currentFrame.SourceRect.Right > pixels.Width) skip = true;
                 if (currentFrame.SourceRect.Bottom > pixels.Height) skip = true;
 
-                if (!skip && skipBlank && IsFrameBlank(pixels, currentFrame)) skip = true;
+                if (skipBlank && pixels.IsRegionBlank(currentFrame.SourceRect)) 
+                    skip = true;
 
                 if (skip == false)
                     mFrames.Add(currentFrame);
 
                 location.X += size.Width;
 
-                if (location.X + size.Width > mSurface.SurfaceWidth)
+                if (location.X + size.Width > surface.SurfaceWidth)
                 {
                     location.X = 0;
                     location.Y += size.Height;
                 }
 
-            } while (location.Y < mSurface.SurfaceHeight);
+            } while (location.Y < surface.SurfaceHeight);
 
         }
-
-        /// <summary>
-        /// Compresses the frames of the sprite eliminating blank space so that sprites can be
-        /// packed on a surface.
-        /// </summary>
-        public void CompressFrames()
-        {
-            PixelBuffer buffer = mSurface.ReadPixels();
-
-            foreach (PackedSpriteFrame frame in mFrames)
-            {
-                CompressFrame(buffer, frame);
-            }
-        }
-
-        private void CompressFrame(PixelBuffer buffer, PackedSpriteFrame frame)
-        {
-            Rectangle newRect = frame.SourceRect;
-
-            while (buffer.IsRowBlank(newRect.Y, newRect.X, newRect.Width))
-            {
-                newRect.Y++;
-                newRect.Height--;
-
-                if (newRect.Height == 0)
-                    goto done;
-            }
-            while (buffer.IsRowBlank(newRect.Bottom - 1, newRect.X, newRect.Width))
-            {
-                newRect.Height -= 1;
-            }
-            while (buffer.IsColumnBlank(newRect.X, newRect.Y, newRect.Height))
-            {
-                newRect.X++;
-                newRect.Width--;
-            }
-            while (buffer.IsColumnBlank(newRect.Right - 1, newRect.Y, newRect.Height))
-            {
-                newRect.Width--;
-            }
-
-            // add a border of blanks
-            if (newRect.X > frame.SourceRect.X)
-            {
-                newRect.X--;
-                newRect.Width++;
-            }
-            if (newRect.Width < frame.SourceRect.Width)
-                newRect.Width++;
-
-            if (newRect.Y > frame.SourceRect.Y)
-            {
-                newRect.Y--;
-                newRect.Height++;
-            }
-            if (newRect.Height < frame.SourceRect.Height)
-                newRect.Height++;
-
-        done:
-            Point offset = new Point(
-                newRect.X - frame.SourceRect.Location.X,
-                newRect.Y - frame.SourceRect.Location.Y);
-
-            frame.SourceRect = newRect;
-            frame.Offset = offset;
-        }
-
-        /*
-        /// <summary>
-        /// Slices and dices the image passed into frames and adds them.
-        /// Frames are taken from the surface from left to right.
-        /// </summary>
-        /// <param name="filename">Filename of the image to load.</param>
-        /// <param name="startPoint">The starting point in pixels from which to parse frames.</param>
-        /// <param name="size">The size of the image to cut out for each frame</param>
-        /// <param name="extraSpace">How many extra pixels to insert between each frame.</param>
-        /// <param name="array">How many frames to cut out.  eg. If array = {4, 1}, four frames will be
-        /// taken from left to right.</param>
-        public void AddFrames(string filename, Point startPoint, Point extraSpace, Size size, Size array)
-        {
-            using (Surface surf = new Surface(filename))
-            {
-                AddFrames(surf, startPoint, extraSpace, size, array);
-            }
-        }
-        */
-        /*
-        /// <summary>
-        /// Slices and dices the image passed into frames and adds them.
-        /// Frames are taken from the surface from left to right.
-        /// </summary>
-        /// <param name="surface">The surface to use to split up into the sprite frames.</param>
-        /// <param name="startPoint">The starting point in pixels from which to parse frames.</param>
-        /// <param name="size">The size of the image to cut out for each frame</param>
-        /// <param name="extraSpace">How many extra pixels to insert between each frame.</param>
-        /// <param name="array">How many frames to cut out.  eg. If array = {4, 1}, four frames will be
-        /// taken from left to right.</param>
-        public void AddFrames(Surface surface, Point startPoint, Point extraSpace, Size size, Size array)
-        {
-            Point location = startPoint;
-
-            int array_x = 0;
-            int array_y = 0;
-
-            do
-            {
-                SpriteFrame2 currentFrame = new SpriteFrame2();
-                Rectangle currentRect = new Rectangle(location, size);
-                
-                currentFrame.SetFrame(surface, currentRect);
-                mFrames.Add(currentFrame);
-
-                location.X += size.Width;
-                array_x++;
-
-
-                if (location.X + size.Width > surface.SurfaceWidth || array_x >= array.Width)
-                {
-                    location.X = startPoint.X;
-                    location.Y += size.Height;
-
-                    array_x = 0;
-                    array_y++;
-                }
-            
-            } while (location.Y < surface.SurfaceHeight && array_y < array.Height);
-
-        }
-        */
-
-        private bool IsFrameBlank(PackedSpriteFrame currentFrame)
-        {
-            return IsFrameBlank(mSurface.ReadPixels(), currentFrame);
-        }
-
-        private bool IsFrameBlank(PixelBuffer pixels, PackedSpriteFrame currentFrame)
-        {
-            for (int y = 0; y < currentFrame.SourceRect.Height; y++)
-            {
-                for (int x = 0; x < currentFrame.SourceRect.Width; x++)
-                {
-                    Point pt = new Point(x + currentFrame.SourceRect.X, y + currentFrame.SourceRect.Y);
-
-                    if (pixels.GetPixel(pt.X, pt.Y).A > Display.AlphaThreshold)
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
 
         #endregion
 
@@ -491,10 +305,10 @@ namespace AgateLib.Sprites
             if (mFrames.Count == 0)
                 return;
 
-            PackedSpriteFrame current = CurrentFrame;
-            Surface surf = mSurface;
+            NewSpriteFrame current = (NewSpriteFrame) CurrentFrame;
 
             current.DisplaySize = destRect.Size;
+            Surface surf = current.Surface;
 
             PointF alignment = Origin.CalcF(DisplayAlignment, DisplaySize);
             PointF rotation = Origin.CalcF(RotationCenter, DisplaySize);
@@ -505,7 +319,7 @@ namespace AgateLib.Sprites
             surf.RotationCenter = RotationCenter;
             surf.Color = Color;
 
-            current.Draw(mSurface, destRect.X - alignment.X, destRect.Y - alignment.Y, 
+            current.Draw(destRect.X - alignment.X, destRect.Y - alignment.Y, 
                                     rotation.X, rotation.Y);
         }
         /// <summary>
@@ -524,16 +338,21 @@ namespace AgateLib.Sprites
         /// <param name="destY"></param>
         public void Draw(float destX, float destY)
         {
+            DrawImpl(destX, destY);
+        }
+
+        private void DrawImpl(float destX, float destY)
+        {
             if (mFrames.Count == 0)
                 return;
             if (mVisible == false)
                 return;
 
-            PackedSpriteFrame current = CurrentFrame;
-            Surface surf = mSurface;
+            NewSpriteFrame current = CurrentFrame;
+            Surface surf = current.Surface;
 
             current.DisplaySize = DisplaySize;
-
+            
             PointF alignment = Origin.CalcF(DisplayAlignment, DisplaySize);
             PointF rotation = Origin.CalcF(RotationCenter, DisplaySize);
 
@@ -541,9 +360,8 @@ namespace AgateLib.Sprites
             surf.DisplayAlignment = OriginAlignment.TopLeft;
             surf.RotationAngle = RotationAngle;
             surf.Color = Color;
-			surf.SetScale(this.ScaleWidth, this.ScaleHeight);
 
-            current.Draw(mSurface, destX - alignment.X, destY - alignment.Y, 
+            current.Draw(destX - alignment.X, destY - alignment.Y,
                                   rotation.X, rotation.Y);
         }
         /// <summary>
@@ -642,13 +460,6 @@ namespace AgateLib.Sprites
         #endregion
         #region --- Sprite properties ---
 
-        /// <summary>
-        /// Returns true if this Sprite2 owns the surface backing the image data.
-        /// </summary>
-        public bool OwnSurface
-        {
-            get { return mOwnSurface; }
-        }
         /// <summary>
         /// Gets width of the sprite.
         /// </summary>
@@ -1033,7 +844,7 @@ namespace AgateLib.Sprites
         /// <summary>
         /// Gets the currently displaying frame.
         /// </summary>
-        public PackedSpriteFrame CurrentFrame
+        public NewSpriteFrame CurrentFrame
         {
             get { return mFrames[CurrentFrameIndex]; }
         }
@@ -1115,7 +926,7 @@ namespace AgateLib.Sprites
         }
 
         /// <summary>
-        /// Gets the list of SpriteFrame2 objects in this sprite.
+        /// Gets the list of frames in this sprite.
         /// </summary>
         public IFrameList Frames
         {
