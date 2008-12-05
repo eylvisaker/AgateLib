@@ -382,12 +382,14 @@ namespace Prebuild.Core.Targets
 						}
 					
 						ps.WriteLine("    </EmbeddedResource>");
-
+                        
 					}
 					if (subType == SubType.Settings)
-					{
+                    {
+                        string path = Helper.NormalizePath(file);
+
 						ps.Write("    <{0} ", project.Files.GetBuildAction(file));
-						ps.WriteLine("Include=\"{0}\">", file);
+						ps.WriteLine("Include=\"{0}\">", path);
 						string fileName = Path.GetFileName(file);
 						if (project.Files.GetBuildAction(file) == BuildAction.None)
 						{
