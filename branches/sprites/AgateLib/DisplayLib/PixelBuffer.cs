@@ -26,96 +26,6 @@ using AgateLib.Geometry;
 namespace AgateLib.DisplayLib
 {
     /// <summary>
-    /// Enum which describes different pixel formats.
-    /// Order of the characters in the constant name specifies the
-    /// ordering of the bytes for the pixel data, from least to most significant.
-    /// See remarks for more information.
-    /// </summary>
-    /// <remarks>
-    /// Order of the characters in the constant name specifies the
-    /// ordering of the bytes for the pixel data, from least to most significant on 
-    /// a little-endian architecture.  In other words, the first character indicates
-    /// the meaning of the first byte or bits in memory.
-    /// 
-    /// For example, ARGB8888 indicates that the alpha channel is the least significant,
-    /// the blue channel is most significant, and each channel is eight bits long.
-    /// The alpha channel is stored first in memory, followed by red, green and blue.
-    /// </remarks>
-    public enum PixelFormat
-    {
-        /// <summary>
-        /// Format specifying that Agate should choose what pixel format 
-        /// to use, where appropriate.
-        /// </summary>
-        Any,
-
-        #region --- 32 bit formats ---
-
-        /// <summary>
-        /// 
-        /// </summary>
-        ARGB8888,
-        /// <summary>
-        /// 
-        /// </summary>
-        ABGR8888,
-        /// <summary>
-        /// 
-        /// </summary>
-        BGRA8888,
-        /// <summary>
-        /// 
-        /// </summary>
-        RGBA8888,
-
-        /// <summary>
-        /// 
-        /// </summary>
-        XRGB8888,
-
-        /// <summary>
-        /// 
-        /// </summary>
-        XBGR8888,
-
-        #endregion
-
-        #region --- 24 bit formats ---
-
-        /// <summary>
-        /// 
-        /// </summary>
-        RGB888,
-        /// <summary>
-        /// 
-        /// </summary>
-        BGR888,
-
-        #endregion
-
-        #region --- 16 bit formats ---
-
-        /// <summary>
-        /// 
-        /// </summary>
-        RGB565,
-        /// <summary>
-        /// 
-        /// </summary>
-        XRGB1555,
-        /// <summary>
-        /// 
-        /// </summary>
-        XBGR1555,
-        /// <summary>
-        /// 
-        /// </summary>
-        BGR565,
-
-        #endregion
-
-    }
-    /// <summary>
     /// Class which encapsulates raw pixel data.  This can be used to 
     /// construct or modify surface data programmatically.
     /// </summary>
@@ -131,7 +41,6 @@ namespace AgateLib.DisplayLib
         #endregion
 
         #region --- Constructors ---
-
         /// <summary>
         /// static constructor to test pixel formats.
         /// </summary>
@@ -366,6 +275,39 @@ namespace AgateLib.DisplayLib
             {
                 if (IsRowBlank(i, alphaTolerance) == false)
                     return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks to see if this region of the pixelbuffer only contains transparent pixels.
+        /// Pixels with an alpha value of less than Display.AlphaThreshold are considered
+        /// transparent.
+        /// </summary>
+        /// <param name="rectangle"></param>
+        /// <returns></returns>
+        public bool IsRegionBlank(Rectangle rectangle)
+        {
+            return IsRegionBlank(rectangle, Display.AlphaThreshold);
+        }
+        /// <summary>
+        /// Returns true if all pixels within the passed rectangle are below the passed alpha tolerance value.
+        /// </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="alphaTolerance"></param>
+        /// <returns></returns>
+        public bool IsRegionBlank(Rectangle rectangle, double alphaTolerance)
+        {
+            for (int y = 0; y < rectangle.Height; y++)
+            {
+                for (int x = 0; x < rectangle.Width; x++)
+                {
+                    Point pt = new Point(x + rectangle.X, y + rectangle.Y);
+
+                    if (GetPixel(pt.X, pt.Y).A > Display.AlphaThreshold)
+                        return false;
+                }
             }
 
             return true;
