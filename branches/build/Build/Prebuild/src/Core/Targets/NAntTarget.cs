@@ -227,13 +227,21 @@ namespace Prebuild.Core.Targets
 
             using (ss)
             {
+                string projectBaseDir = "${project::get-base-directory()}";
+                string buildDir = projectBaseDir + "/${build.dir}";
+                foreach (ConfigurationNode conf in project.Configurations)
+                {
+                    buildDir = conf.Options["OutputPath"].ToString();
+                    break;
+                }
+
                 ss.WriteLine("<?xml version=\"1.0\" ?>");
                 ss.WriteLine("<project name=\"{0}\" default=\"build\">", project.Name);
                 ss.WriteLine("    <target name=\"{0}\">", "build");
-                ss.WriteLine("        <echo message=\"Build Directory is ${project::get-base-directory()}/${build.dir}\" />");
-                ss.WriteLine("        <mkdir dir=\"${project::get-base-directory()}/${build.dir}\" />");
-                ss.WriteLine("        <copy todir=\"${project::get-base-directory()}/${build.dir}\" flatten=\"true\">");
-                ss.WriteLine("            <fileset basedir=\"${project::get-base-directory()}\">");
+                ss.WriteLine("        <echo message=\"Build Directory is {0}\" />", buildDir);
+                ss.WriteLine("        <mkdir dir=\"{0}\" />", buildDir);
+                ss.WriteLine("        <copy todir=\"{0}\" flatten=\"true\">", buildDir);
+                ss.WriteLine("            <fileset basedir=\"{0}\">", projectBaseDir);
                 foreach (ReferenceNode refr in project.References)
                 {
                     if (refr.LocalCopy)
@@ -246,7 +254,7 @@ namespace Prebuild.Core.Targets
                 ss.WriteLine("        </copy>");
                 if (project.ConfigFile != null && project.ConfigFile.Length!=0)
                 {
-                    ss.Write("        <copy file=\"" + project.ConfigFile + "\" tofile=\"${project::get-base-directory()}/${build.dir}/${project::get-name()}");
+                    ss.Write("        <copy file=\"" + project.ConfigFile + "\" tofile=\"{0}", buildDir + "/${project::get-name()}");
 
                     if (project.Type == ProjectType.Library)
                     {
@@ -260,7 +268,7 @@ namespace Prebuild.Core.Targets
                 }
 
                 // Add the content files to just be copied
-                ss.WriteLine("        {0}", "<copy todir=\"${project::get-base-directory()}/${build.dir}\">");
+                ss.WriteLine("        {0}", "<copy todir=\"{0}\">", buildDir);
                 ss.WriteLine("            {0}", "<fileset basedir=\".\">");
                 
                 foreach (string file in project.Files)
@@ -303,12 +311,12 @@ namespace Prebuild.Core.Targets
                 {
                     if (GetXmlDocFile(project, conf) != "")
                     {
-                        ss.Write(" doc=\"{0}\"", "${project::get-base-directory()}/${build.dir}/" + GetXmlDocFile(project, conf));
+                        ss.Write(" doc=\"{0}/{1}\"", buildDir, GetXmlDocFile(project, conf));
                         hasDoc = true;
                     }
                     break;
                 }
-                ss.Write(" output=\"{0}", "${project::get-base-directory()}/${build.dir}/${project::get-name()}");
+                ss.Write(" output=\"{0}/{1}", buildDir, "${project::get-name()}");
                 if (project.Type == ProjectType.Library)
                 {
                     ss.Write(".dll\"");
@@ -364,10 +372,10 @@ namespace Prebuild.Core.Targets
                     }
                 }
                 ss.WriteLine("            </sources>");
-                ss.WriteLine("            <references basedir=\"${project::get-base-directory()}\">");
+                ss.WriteLine("            <references basedir=\"{0}\">", projectBaseDir);
                 ss.WriteLine("                <lib>");
-                ss.WriteLine("                    <include name=\"${project::get-base-directory()}\" />");
-                ss.WriteLine("                    <include name=\"${project::get-base-directory()}/${build.dir}\" />");
+                ss.WriteLine("                    <include name=\"{0}\" />", projectBaseDir);
+                ss.WriteLine("                    <include name=\"{0}\" />", buildDir);
                 ss.WriteLine("                </lib>");
                 foreach (ReferenceNode refr in project.References)
                 {
@@ -391,7 +399,7 @@ namespace Prebuild.Core.Targets
                     ss.WriteLine("            <property name=\"doc.target\" value=\"Web\" />");
                     ss.WriteLine("        </if>");
                     ss.WriteLine("        <ndoc failonerror=\"false\" verbose=\"true\">");
-                    ss.WriteLine("            <assemblies basedir=\"${project::get-base-directory()}\">");
+                    ss.WriteLine("            <assemblies basedir=\"{0}\">", projectBaseDir);
                     ss.Write("                <include name=\"${build.dir}/${project::get-name()}");
                     if (project.Type == ProjectType.Library)
                     {
@@ -403,10 +411,10 @@ namespace Prebuild.Core.Targets
                     }
 
                     ss.WriteLine("            </assemblies>");
-                    ss.WriteLine("            <summaries basedir=\"${project::get-base-directory()}\">");
+                    ss.WriteLine("            <summaries basedir=\"{0}\">", projectBaseDir);
                     ss.WriteLine("                <include name=\"${build.dir}/${project::get-name()}.xml\"/>");
                     ss.WriteLine("            </summaries>");
-                    ss.WriteLine("            <referencepaths basedir=\"${project::get-base-directory()}\">");
+                    ss.WriteLine("            <referencepaths basedir=\"{0}\">", projectBaseDir);
                     ss.WriteLine("                <include name=\"${build.dir}\" />");
                     //					foreach(ReferenceNode refr in project.References)
                     //					{
@@ -419,7 +427,7 @@ namespace Prebuild.Core.Targets
                     ss.WriteLine("            </referencepaths>");
                     ss.WriteLine("            <documenters>");
                     ss.WriteLine("                <documenter name=\"MSDN\">");
-                    ss.WriteLine("                    <property name=\"OutputDirectory\" value=\"${project::get-base-directory()}/${build.dir}/doc/${project::get-name()}\" />");
+                    ss.WriteLine("                    <property name=\"OutputDirectory\" value=\"{0}/doc/${project::get-name()}\" />", buildDir);
                     ss.WriteLine("                    <property name=\"OutputTarget\" value=\"${doc.target}\" />");
                     ss.WriteLine("                    <property name=\"HtmlHelpName\" value=\"${project::get-name()}\" />");
                     ss.WriteLine("                    <property name=\"IncludeFavorites\" value=\"False\" />");
@@ -469,6 +477,8 @@ namespace Prebuild.Core.Targets
 
             using (ss)
             {
+                string projectBaseDir = "${project::get-base-directory()}";
+
                 ss.WriteLine("<?xml version=\"1.0\" ?>");
                 ss.WriteLine("<project name=\"{0}\" default=\"build\">", solution.Name);
                 ss.WriteLine("    <echo message=\"Using '${nant.settings.currentframework}' Framework\"/>");
@@ -479,7 +489,7 @@ namespace Prebuild.Core.Targets
                 ss.WriteLine("    <property name=\"bin.dir\" value=\"bin\" />");
                 ss.WriteLine("    <property name=\"obj.dir\" value=\"obj\" />");
                 ss.WriteLine("    <property name=\"doc.dir\" value=\"doc\" />");
-                ss.WriteLine("    <property name=\"project.main.dir\" value=\"${project::get-base-directory()}\" />");
+                ss.WriteLine("    <property name=\"project.main.dir\" value=\"{0}\" />", projectBaseDir);
 
                 foreach (ConfigurationNode conf in solution.Configurations)
                 {
