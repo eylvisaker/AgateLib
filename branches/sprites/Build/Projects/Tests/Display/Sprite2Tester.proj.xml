@@ -13,6 +13,7 @@
 
   <Reference name="AgateLib"/>
   <Reference name="System"/>
+  <Reference name="System.Core"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>
   <Reference name="System.Windows.Forms"/>
