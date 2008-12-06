@@ -282,8 +282,8 @@ namespace Prebuild.Core.Targets
                 }
 
                 // Add the content files to just be copied
-                ss.WriteLine("        {0}", "<copy todir=\"{0}\">", buildDir);
-                ss.WriteLine("            {0}", "<fileset basedir=\".\">");
+                ss.WriteLine("        <copy todir=\"{0}\">", buildDir);
+                ss.WriteLine("            <fileset basedir=\".\">");
                 
                 foreach (string file in project.Files)
                 {
