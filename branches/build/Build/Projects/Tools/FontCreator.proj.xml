@@ -22,7 +22,7 @@
   <Reference name="System.Xml"/>
 
   <Files>
-    <File buildAction="None" subType="Settings">Properties\Settings.settings</File>
+    <File buildAction="None" subType="Settings">Properties/Settings.settings</File>
     <Match path="." pattern="*.cs" recurse="true"/>
     <Match path="." pattern="*.resx" recurse="true"/>
     <Match path="." pattern="images/*.png" recurse="true" buildAction="None" copyToOutput="Always" />
