@@ -96,7 +96,14 @@ namespace Prebuild.Core.Targets
             {
                 ProjectNode project = (ProjectNode)solution.ProjectsTable[refr.Name];
                 string fileRef = FindFileReference(refr.Name, project);
-                string finalPath = Helper.NormalizePath(Helper.MakeFilePath(project.FullPath + "/${build.dir}/", refr.Name, "dll"), '/');
+                string buildDir = "${build.dir}";
+                foreach (ConfigurationNode conf in project.Configurations)
+                {
+                    buildDir = conf.Options["OutputPath"].ToString();
+                    break;
+                }
+
+                string finalPath = Helper.NormalizePath(Helper.MakeFilePath(project.FullPath + "/" + buildDir + "/", refr.Name, "dll"), '/');
                 ret += finalPath;
                 return ret;
             }
@@ -140,7 +147,14 @@ namespace Prebuild.Core.Targets
             {
                 ProjectNode project = (ProjectNode)solution.ProjectsTable[refr.Name];
                 string fileRef = FindFileReference(refr.Name, project);
-                string finalPath = Helper.NormalizePath(Helper.MakeReferencePath(project.FullPath + "/${build.dir}/"), '/');
+                string buildDir = "${build.dir}";
+                foreach (ConfigurationNode conf in project.Configurations)
+                {
+                    buildDir = conf.Options["OutputPath"].ToString();
+                    break;
+                }
+
+                string finalPath = Helper.NormalizePath(Helper.MakeReferencePath(project.FullPath + "/" + buildDir + "/"), '/');
                 ret += finalPath;
                 return ret;
             }
@@ -427,7 +441,7 @@ namespace Prebuild.Core.Targets
                     ss.WriteLine("            </referencepaths>");
                     ss.WriteLine("            <documenters>");
                     ss.WriteLine("                <documenter name=\"MSDN\">");
-                    ss.WriteLine("                    <property name=\"OutputDirectory\" value=\"{0}/doc/${project::get-name()}\" />", buildDir);
+                    ss.WriteLine("                    <property name=\"OutputDirectory\" value=\"{0}/doc/{1}\" />", buildDir, "${project::get-name()}");
                     ss.WriteLine("                    <property name=\"OutputTarget\" value=\"${doc.target}\" />");
                     ss.WriteLine("                    <property name=\"HtmlHelpName\" value=\"${project::get-name()}\" />");
                     ss.WriteLine("                    <property name=\"IncludeFavorites\" value=\"False\" />");
