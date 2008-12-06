@@ -65,8 +65,9 @@ namespace AgateLib.PlatformSpecific
                     //return new X11Platform();
 
                 default:
-                    Console.WriteLine("Encountered unsupported platform ID: {0} = {1}",
-                        Environment.OSVersion.Platform, (int)Environment.OSVersion.Platform);
+                    // Comment this out, since this class is obsolete.
+                    //Console.WriteLine("Encountered unsupported platform ID: {0} = {1}",
+                    //    Environment.OSVersion.Platform, (int)Environment.OSVersion.Platform);
 
                     break;
             }
