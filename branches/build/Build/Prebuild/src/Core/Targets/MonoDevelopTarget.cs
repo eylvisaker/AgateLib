@@ -281,9 +281,18 @@ namespace Prebuild.Core.Targets
 				ss.WriteLine("  </DeploymentInformation>");
 				
 				ss.WriteLine("  <Contents>");
+				
+				
 				foreach(string file in project.Files)
 				{
 					string buildAction = "Compile";
+					string dependson = "";
+
+					// I don't know what the data field is supposed to do, so its format is commented out.
+					// It's left here as a reminder that it might be important for something.
+					string data = ""; // "data=\"\"";
+					
+					
 					switch(project.Files.GetBuildAction(file))
 					{
 						case BuildAction.None:
@@ -303,9 +312,40 @@ namespace Prebuild.Core.Targets
 							break;
 					}
 
+					string extension = Path.GetExtension(file);
+					string designer_format = string.Format(".Designer{0}", extension);
+
+					if (file.EndsWith(designer_format))
+					{
+						string basename = file.Substring(0, file.LastIndexOf(designer_format));
+						string[] extensions = new string[] { ".cs", ".resx", ".settings" };
+
+						foreach(string ext in extensions)
+						{
+							Console.WriteLine(ext);
+							if (project.Files.Contains(basename + ext))
+							{
+								dependson = string.Format("dependson=\"{0}{1}\"", basename, ext);
+								break;
+							}
+						}
+					}
+					if (extension == ".resx")
+					{
+						buildAction = "EmbedAsResource";
+						string basename = file.Substring(0, file.LastIndexOf(".resx"));						
+						
+						// Visual Studio type resx + form dependency
+						if (project.Files.Contains(basename + ".cs"))
+						{
+							dependson = string.Format("dependson=\"{0}{1}\"", basename, ".cs");
+						}
+					}
+					
 					// Sort of a hack, we try and resolve the path and make it relative, if we can.
 					string filePath = PrependPath(file);
-					ss.WriteLine("    <File name=\"{0}\" subtype=\"Code\" buildaction=\"{1}\" dependson=\"\" data=\"\" />", filePath, buildAction);
+					ss.WriteLine("    <File name=\"{0}\" subtype=\"Code\" buildaction=\"{1}\" {2} {3} />", 
+					             filePath, buildAction, dependson, data);
 				}
 				ss.WriteLine("  </Contents>");
 

@@ -303,8 +303,7 @@ namespace Prebuild.Core.Targets
 					// TODO: Allow reference to *.exe files
 					if (!String.IsNullOrEmpty(refr.Path))
 						ps.WriteLine("      <HintPath>{0}</HintPath>", 
-                            Helper.NormalizePath(Helper.MakePathRelativeTo(project.FullPath, refr.Path + "\\" + refr.Name + ".dll"),
-                            Path.DirectorySeparatorChar));
+                            Helper.NormalizePath(Helper.MakePathRelativeTo(project.FullPath, refr.Path + "\\" + refr.Name + ".dll")));
 					ps.WriteLine("    </Reference>");
 				}
 				ps.WriteLine("  </ItemGroup>");

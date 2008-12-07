@@ -344,7 +344,7 @@ namespace Prebuild.Core.Targets
                     ss.Write(" win32icon=\"{0}\"", Helper.NormalizePath(project.AppIcon, '/'));
                 }
                 ss.WriteLine(">");
-                ss.WriteLine("            <resources prefix=\"{0}\" dynamicprefix=\"true\" >", project.RootNamespace);
+                ss.WriteLine("            <resources prefix=\"{0}\" basedir=\"{1}\" dynamicprefix=\"true\" >", project.RootNamespace, projectBaseDir);
                 foreach (string file in project.Files)
                 {
                     switch (project.Files.GetBuildAction(file))
