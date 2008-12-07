@@ -322,7 +322,6 @@ namespace Prebuild.Core.Targets
 
 						foreach(string ext in extensions)
 						{
-							Console.WriteLine(ext);
 							if (project.Files.Contains(basename + ext))
 							{
 								dependson = string.Format("dependson=\"{0}{1}\"", basename, ext);
