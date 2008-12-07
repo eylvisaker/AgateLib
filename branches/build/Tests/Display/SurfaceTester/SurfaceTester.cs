@@ -21,6 +21,11 @@ namespace ERY.SurfaceTester
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // These two lines are used by AgateLib tests to locate
+            // driver plugins and images.
+            AgateLib.Utility.FileManager.AssemblyPath.Add("../Drivers");
+            AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
+
             frmSurfaceTester form = new frmSurfaceTester();
 
             using (AgateSetup displaySetup = new AgateSetup())

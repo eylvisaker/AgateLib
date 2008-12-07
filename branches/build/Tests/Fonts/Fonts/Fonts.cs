@@ -21,7 +21,7 @@ namespace FontTester
         {
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
-			AgateLib.Utility.FileManager.AssemblyPath.Add("../Libraries");
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../Drivers");
 			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
 
 			using (AgateSetup setupDisplay = new AgateSetup())

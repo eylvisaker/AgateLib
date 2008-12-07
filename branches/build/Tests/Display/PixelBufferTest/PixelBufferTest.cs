@@ -22,7 +22,7 @@ namespace PixelBufferTest
 		{			
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
-			AgateLib.Utility.FileManager.AssemblyPath.Add("../Libraries");
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../Drivers");
 			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
 
             using (AgateSetup setup = new AgateSetup())
@@ -71,7 +71,23 @@ namespace PixelBufferTest
 
             if (Mouse.Buttons[Mouse.MouseButtons.Primary])
             {
-                buffer.SetPixel(pt.X, pt.Y, Color.FromArgb(frm.btnColor.BackColor.ToArgb()));
+                // do a circle of radius 3
+                for (int y = -3; y <= 3; y++)
+                {
+                    for (int x = -3; x <= 3; x++)
+                    {
+                        // if we're out of the circle radius, go to the next iteration.
+                        if (x * x + y * y > 9)
+                            continue;
+
+                        Point newpt = new Point(pt.X + x, pt.Y + y);
+
+                        if (newpt.X < 0 || newpt.X >= buffer.Width) continue;
+                        if (newpt.Y < 0 || newpt.Y >= buffer.Height) continue;
+
+                        buffer.SetPixel(newpt.X, newpt.Y, Color.FromArgb(frm.btnColor.BackColor.ToArgb()));
+                    }
+                }
                 image.WritePixels(buffer);
             }
 
