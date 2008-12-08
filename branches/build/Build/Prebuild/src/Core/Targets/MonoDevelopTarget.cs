@@ -287,10 +287,12 @@ namespace Prebuild.Core.Targets
 				{
 					string buildAction = "Compile";
 					string dependson = "";
-
+					string resource_id = "";
+					string copyToOutput = "";
+					
 					// I don't know what the data field is supposed to do, so its format is commented out.
 					// It's left here as a reminder that it might be important for something.
-					string data = ""; // "data=\"\"";
+					string data = ""; // " data=\"\"";
 					
 					
 					switch(project.Files.GetBuildAction(file))
@@ -305,6 +307,7 @@ namespace Prebuild.Core.Targets
 
 						case BuildAction.EmbeddedResource:
 							buildAction = "EmbedAsResource";
+							
 							break;
 
 						default:
@@ -324,7 +327,7 @@ namespace Prebuild.Core.Targets
 						{
 							if (project.Files.Contains(basename + ext))
 							{
-								dependson = string.Format("dependson=\"{0}{1}\"", basename, ext);
+								dependson = string.Format(" dependson=\"{0}{1}\"", basename, ext);
 								break;
 							}
 						}
@@ -337,14 +340,29 @@ namespace Prebuild.Core.Targets
 						// Visual Studio type resx + form dependency
 						if (project.Files.Contains(basename + ".cs"))
 						{
-							dependson = string.Format("dependson=\"{0}{1}\"", basename, ".cs");
+							dependson = string.Format(" dependson=\"{0}{1}\"", basename, ".cs");
 						}
+
+						// We need to specify a resources file name to avoid MissingManifestResourceExceptions
+						// in libraries that are built.
+						resource_id = string.Format(" resource_id=\"{0}.{1}.resources\"",
+								project.AssemblyName, basename);
+					}
+
+					switch(project.Files.GetCopyToOutput(file))
+					{
+						case CopyToOutput.Always:
+							copyToOutput = string.Format(" copyToOutputDirectory=\"Always\"");
+							break;
+						case CopyToOutput.PreserveNewest:
+							copyToOutput = string.Format(" copyToOutputDirectory=\"PreserveNewest\"");
+							break;
 					}
 					
 					// Sort of a hack, we try and resolve the path and make it relative, if we can.
 					string filePath = PrependPath(file);
-					ss.WriteLine("    <File name=\"{0}\" subtype=\"Code\" buildaction=\"{1}\" {2} {3} />", 
-					             filePath, buildAction, dependson, data);
+					ss.WriteLine("    <File name=\"{0}\" subtype=\"Code\" buildaction=\"{1}\"{2}{3}{4}{5} />", 
+					             filePath, buildAction, dependson, data, resource_id, copyToOutput);
 				}
 				ss.WriteLine("  </Contents>");
 
