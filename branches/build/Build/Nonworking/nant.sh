@@ -19,5 +19,7 @@ echo ""
 echo "**********************************************************************"
 echo "NAnt version 0.85 appears to have a bug when it comes to generating"
 echo "resource files from resx files.  If you have NAnt version 0.85, either"
-echo "upgrade to 0.86 or manually run resgen on affected resx files."
+echo "upgrade to 0.86 or manually run resgen on resx files which failed to"
+echo "build."
+
 

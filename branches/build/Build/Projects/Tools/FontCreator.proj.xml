@@ -23,6 +23,6 @@
     <File buildAction="None" subType="Settings">Properties/Settings.settings</File>
     <Match path="." pattern="*.cs" recurse="true"/>
     <Match path="." pattern="*.resx" recurse="true"/>
-    <Match path="." pattern="images/*.png" recurse="true" buildAction="None" copyToOutput="Always" />
+    <Match path="./images" pattern="*.png" recurse="true" buildAction="None" copyToOutput="Always" />
   </Files>
 </Project>
