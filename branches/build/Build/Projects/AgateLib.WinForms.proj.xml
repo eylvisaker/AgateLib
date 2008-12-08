@@ -1,4 +1,4 @@
-<Project name="AgateWinForms" path="../Drivers/AgateWinForms" language="C#" type="Library">
+<Project name="AgateLib.WinForms" path="../Drivers/AgateLib.WinForms" language="C#" type="Library">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../Binaries/Debug/AgateLib</OutputPath>
@@ -8,7 +8,7 @@
   <Configuration name="Release">
     <Options>
       <OutputPath>../../Binaries/Release/AgateLib</OutputPath>
-      <XmlDocFile>AgateWinForms.xml</XmlDocFile>
+      <XmlDocFile>AgateLib.WinForms.xml</XmlDocFile>
     </Options>
   </Configuration>
 
