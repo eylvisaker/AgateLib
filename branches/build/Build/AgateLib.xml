@@ -20,7 +20,7 @@
 
     <?include file="SolutionItems.xml" ?>
     <?include file="Projects/AgateLib.proj.xml" ?>
-    <?include file="Projects/AgateWinForms.proj.xml" ?>
+    <?include file="Projects/AgateLib.WinForms.proj.xml" ?>
     <?include file="Projects/AgateDrawing.proj.xml" ?>
     <?include file="Projects/AgateOTK.proj.xml" ?>
     <?include file="Projects/AgateFMOD.proj.xml" ?>

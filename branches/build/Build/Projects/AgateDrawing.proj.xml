@@ -12,7 +12,7 @@
   </Configuration>
 
   <Reference name="AgateLib"/>
-  <Reference name="AgateWinForms"/>
+  <Reference name="AgateLib.WinForms"/>
   <Reference name="System"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>

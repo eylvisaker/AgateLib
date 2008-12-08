@@ -14,7 +14,7 @@
   </Configuration>
 
   <Reference name="AgateLib"/>
-  <Reference name="AgateWinForms"/>
+  <Reference name="AgateLib.WinForms"/>
   <Reference name="OpenTK" path="../../Dependencies"/>
   <Reference name="OpenTK.Utilities" path="../../Dependencies"/>
   <Reference name="System"/>

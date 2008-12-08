@@ -14,7 +14,7 @@
   </Configuration>
 
   <Reference name="AgateLib"/>
-  <Reference name="AgateWinForms"/>
+  <Reference name="AgateLib.WinForms"/>
   <Reference name="Microsoft.DirectX"/>
   <Reference name="Microsoft.DirectX.AudioVideoPlayback"/>
   <Reference name="Microsoft.DirectX.Direct3D"/>
