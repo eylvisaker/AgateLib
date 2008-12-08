@@ -346,7 +346,7 @@ namespace Prebuild.Core.Targets
 						// We need to specify a resources file name to avoid MissingManifestResourceExceptions
 						// in libraries that are built.
 						resource_id = string.Format(" resource_id=\"{0}.{1}.resources\"",
-								project.AssemblyName, basename);
+								project.AssemblyName, basename.Replace("/", "."));
 					}
 
 					switch(project.Files.GetCopyToOutput(file))
