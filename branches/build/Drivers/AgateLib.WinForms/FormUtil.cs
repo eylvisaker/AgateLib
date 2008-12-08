@@ -57,7 +57,7 @@ namespace AgateLib.WinForms
             frm.Text = title;
             frm.ClientSize = new System.Drawing.Size(clientWidth, clientHeight);
             frm.KeyPreview = true;
-            frm.Icon = Icons.AgateLib;
+            frm.Icon = FormUtil.AgateLibIcon;
 
             if (hasFrame == false)
                 frm.FormBorderStyle = FormBorderStyle.None;
@@ -95,7 +95,21 @@ namespace AgateLib.WinForms
         /// </summary>
         public static Icon AgateLibIcon
         {
-            get { return Icons.AgateLib; }
+            get 
+            {
+                try
+                {
+                    return Icons.AgateLib;
+                }
+                catch (System.Resources.MissingManifestResourceException e)
+                {
+                    AgateLib.Core.ReportError(ErrorLevel.Warning,
+                        "Could not get the resource for the AgateLib icon.  There is a problem with the way AgateLib.WinForms.dll was built.",
+                        e);
+
+                    return null;
+                }
+            }
         }
 
         /// <summary>
