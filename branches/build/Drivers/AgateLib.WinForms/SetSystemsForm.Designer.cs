@@ -64,7 +64,7 @@ namespace AgateLib.WinForms
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(179, 101);
+            this.btnOK.Location = new System.Drawing.Point(169, 95);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(54, 23);
             this.btnOK.TabIndex = 3;
@@ -76,7 +76,7 @@ namespace AgateLib.WinForms
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(239, 101);
+            this.btnCancel.Location = new System.Drawing.Point(229, 95);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(54, 23);
             this.btnCancel.TabIndex = 7;
@@ -92,7 +92,7 @@ namespace AgateLib.WinForms
             this.displayList.FormattingEnabled = true;
             this.displayList.Location = new System.Drawing.Point(110, 12);
             this.displayList.Name = "displayList";
-            this.displayList.Size = new System.Drawing.Size(183, 21);
+            this.displayList.Size = new System.Drawing.Size(173, 21);
             this.displayList.TabIndex = 8;
             // 
             // label1
@@ -122,7 +122,7 @@ namespace AgateLib.WinForms
             this.inputList.FormattingEnabled = true;
             this.inputList.Location = new System.Drawing.Point(110, 66);
             this.inputList.Name = "inputList";
-            this.inputList.Size = new System.Drawing.Size(183, 21);
+            this.inputList.Size = new System.Drawing.Size(173, 21);
             this.inputList.TabIndex = 10;
             // 
             // label3
@@ -143,7 +143,7 @@ namespace AgateLib.WinForms
             this.audioList.FormattingEnabled = true;
             this.audioList.Location = new System.Drawing.Point(110, 39);
             this.audioList.Name = "audioList";
-            this.audioList.Size = new System.Drawing.Size(183, 21);
+            this.audioList.Size = new System.Drawing.Size(173, 21);
             this.audioList.TabIndex = 12;
             // 
             // SetSystemsForm
@@ -151,7 +151,7 @@ namespace AgateLib.WinForms
             this.AcceptButton = this.btnOK;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(305, 136);
+            this.ClientSize = new System.Drawing.Size(295, 130);
             this.Controls.Add(this.inputList);
             this.Controls.Add(this.audioList);
             this.Controls.Add(this.btnCancel);
