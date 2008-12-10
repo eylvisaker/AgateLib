@@ -62,8 +62,6 @@ namespace AgateLib.Drivers
             NullSoundImpl.Register();
             NullInputImpl.Register();
 
-            FileManager.Initialize();
-
             IEnumerable<string> files = FileManager.AssemblyPath.GetAllFiles("*.dll");
 
             foreach (string file in files)

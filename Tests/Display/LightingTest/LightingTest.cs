@@ -21,6 +21,11 @@ namespace LightingTest
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+			// These two lines are used by AgateLib tests to locate
+			// driver plugins and images.
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../Libraries");
+			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
+
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;
@@ -33,7 +38,7 @@ namespace LightingTest
 
                 DisplayWindow wnd = new DisplayWindow(CreateWindowParams.FromControl(frm.agateRenderTarget1));
 
-                Surface image = new Surface("test.png");
+                Surface image = new Surface("jellybean.png");
                 Surface ball = new Surface("ball.png");
                 Point ballPt;
                 double time = 0;
