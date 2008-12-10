@@ -11,10 +11,8 @@
     </Options>
   </Configuration>
 
-  <Reference name="AgateLib"/>
-  <Reference name="AgateOTK"/>
-  <Reference name="AgateDrawing"/>
-  <Reference name="AgateWinForms"/>
+  <Reference name="AgateLib" localCopy="true"/>
+  <Reference name="AgateLib.WinForms" localCopy="true"/>
   <Reference name="System"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>
@@ -22,9 +20,9 @@
   <Reference name="System.Xml"/>
 
   <Files>
-    <File buildAction="None" subType="Settings">Properties\Settings.settings</File>
+    <File buildAction="None" subType="Settings">Properties/Settings.settings</File>
     <Match path="." pattern="*.cs" recurse="true"/>
     <Match path="." pattern="*.resx" recurse="true"/>
-    <Match path="." pattern="images/*.png" recurse="true" buildAction="None" copyToOutput="Always" />
+    <Match path="./images" pattern="*.png" recurse="true" buildAction="None" copyToOutput="Always" />
   </Files>
 </Project>

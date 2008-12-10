@@ -302,7 +302,8 @@ namespace Prebuild.Core.Targets
 
 					// TODO: Allow reference to *.exe files
 					if (!String.IsNullOrEmpty(refr.Path))
-						ps.WriteLine("      <HintPath>{0}</HintPath>", Helper.MakePathRelativeTo(project.FullPath, refr.Path + "\\" + refr.Name + ".dll"));
+						ps.WriteLine("      <HintPath>{0}</HintPath>", 
+                            Helper.NormalizePath(Helper.MakePathRelativeTo(project.FullPath, refr.Path + "\\" + refr.Name + ".dll")));
 					ps.WriteLine("    </Reference>");
 				}
 				ps.WriteLine("  </ItemGroup>");
@@ -382,12 +383,14 @@ namespace Prebuild.Core.Targets
 						}
 					
 						ps.WriteLine("    </EmbeddedResource>");
-
+                        
 					}
 					if (subType == SubType.Settings)
-					{
+                    {
+                        string path = Helper.NormalizePath(file);
+
 						ps.Write("    <{0} ", project.Files.GetBuildAction(file));
-						ps.WriteLine("Include=\"{0}\">", file);
+						ps.WriteLine("Include=\"{0}\">", path);
 						string fileName = Path.GetFileName(file);
 						if (project.Files.GetBuildAction(file) == BuildAction.None)
 						{

@@ -3,14 +3,14 @@ Current Changes
 ===================
 
 Major namespace reorganization and class renaming.  The ERY root namespace has been removed.
- * Moved static Display class to AgateLib.Display namespace.
- * Classes directly related to display (Surface, FontSurface, etc.) moved to AgateLib.Display namespace.
- * Moved static Audio class to AgateLib.Audio namespace.
- * Sound/Music classes moved to AgateLib.Audio namespace.
- * Static Core class renamed AgateCore, and moved to AgateLib.Core namespace.
- * Moved static Input class to AgateLib.Input.Old namespace.
- * Keyboard/mouse classes moved to AgateLib.Input namespace.
- * Joystick classes moved to AgateLib.Input.Old namespace.
+ * Moved static Display class to AgateLib.DisplayLib namespace.
+ * Classes directly related to display (Surface, FontSurface, etc.) moved to
+ AgateLib.DisplayLib namespace.
+ * Moved static Audio class to AgateLib.AudioLib namespace.
+ * Sound/Music classes moved to AgateLib.AudioLib namespace.
+ * Moved static Input class to AgateLib.InputLib.Old namespace.
+ * Keyboard/mouse classes moved to AgateLib.InputLib namespace.
+ * Joystick classes moved to AgateLib.InputLib.Old namespace.
  
 Added AgateWinForms.dll to encapsulate all references to System.Drawing and System.Windows.Forms.
 AgateOTK has been updated to use OpenTK version 0.9.1.

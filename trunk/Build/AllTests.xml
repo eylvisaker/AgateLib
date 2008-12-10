@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Prebuild xmlns="http://dnpb.sourceforge.net/schemas/prebuild-1.7.xsd">
+
+	<Solution name="AllTests">
+    
+    <Configuration name="Debug">
+      <Options>
+        <CompilerDefines>DEBUG;TRACE;</CompilerDefines>
+        <OptimizeCode>false</OptimizeCode>
+        <DebugInformation>true</DebugInformation>
+      </Options>
+    </Configuration>
+    <Configuration name="Release">
+      <Options>
+        <CompilerDefines>TRACE;</CompilerDefines>
+        <OptimizeCode>true</OptimizeCode>
+        <DebugInformation>false</DebugInformation>
+      </Options>
+    </Configuration>
+
+    <?include file="SolutionItems.xml" ?>
+    <?include file="Projects/AgateLib.proj.xml" ?>
+    <?include file="Projects/AgateLib.WinForms.proj.xml" ?>
+    <?include file="Projects/AgateDrawing.proj.xml" ?>
+    <?include file="Projects/AgateOTK.proj.xml" ?>
+    <?include file="Projects/Tests/Audio/AudioPlayer.proj.xml" ?>
+    <?include file="Projects/Tests/Core/ErrorReport.proj.xml" ?>
+    <?include file="Projects/Tests/Core/Performance.proj.xml" ?>
+    <?include file="Projects/Tests/Core/RefCounters.proj.xml" ?>
+    <?include file="Projects/Tests/Core/Resources.proj.xml" ?>
+    <?include file="Projects/Tests/Core/Timers.proj.xml" ?>
+    <?include file="Projects/Tests/Display/Lighting.proj.xml" ?>
+    <?include file="Projects/Tests/Display/OrthoProjection.proj.xml" ?>
+    <?include file="Projects/Tests/Display/PixelBuffer.proj.xml" ?>
+    <?include file="Projects/Tests/Display/RotatingSprite.proj.xml" ?>
+    <?include file="Projects/Tests/Display/ScreenCapture.proj.xml" ?>
+    <?include file="Projects/Tests/Display/Sprite2Tester.proj.xml" ?>
+    <?include file="Projects/Tests/Display/SpriteTester.proj.xml" ?>
+    <?include file="Projects/Tests/Display/SurfaceTester.proj.xml" ?>
+    <?include file="Projects/Tests/Display/TestPacker.proj.xml" ?>
+    <?include file="Projects/Tests/Display/Tiling.proj.xml" ?>
+    <?include file="Projects/Tests/Fonts/BitmapFonts.proj.xml" ?>
+    <?include file="Projects/Tests/Fonts/FontLineTester.proj.xml" ?>
+    <?include file="Projects/Tests/Fonts/Fonts.proj.xml" ?>
+    <?include file="Projects/Tests/Input/InputState.proj.xml" ?>
+    <?include file="Projects/Tests/Input/Input.proj.xml" ?>
+
+  </Solution>
+
+</Prebuild>

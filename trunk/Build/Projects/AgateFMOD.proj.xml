@@ -1,13 +1,13 @@
 <Project name="AgateFMOD" path="../Drivers/AgateFMOD" language="C#" type="Library">
   <Configuration name="Debug">
     <Options>
-      <OutputPath>../../Binaries/Debug/Libraries</OutputPath>
+      <OutputPath>../../Binaries/Debug/Drivers</OutputPath>
     </Options>
   </Configuration>
 
   <Configuration name="Release">
     <Options>
-      <OutputPath>../../Binaries/Release/Libraries</OutputPath>
+      <OutputPath>../../Binaries/Release/Drivers</OutputPath>
     </Options>
   </Configuration>
 

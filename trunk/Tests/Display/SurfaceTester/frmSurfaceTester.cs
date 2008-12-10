@@ -48,33 +48,20 @@ namespace ERY.SurfaceTester
             cboRotation.SelectedItem = OriginAlignment.Center;
 
         }
-        
+
 
         private void InitDisplay()
-        { 
+        {
             // This will create a display "window" that renders to the graphics
             // control on this form
             DisplayWindow wind = new DisplayWindow(CreateWindowParams.FromControl(pctGraphics));
-            
+
             // load an image
-            string fileName = @"test.png";
+            string fileName = @"jellybean.png";
 
-            
-            //try
-            //{
-            //    mSurface = new Surface(fileName);
-            using (System.IO.FileStream s = System.IO.File.OpenRead(fileName))
-            {
-                mSurface = new Surface(s);
-            }
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show("Error: Could not load surface " + fileName + "\n" + e.Message, 
-            //        "Error initializing display", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            //    throw e;
-            //}
+            mSurface = new Surface(fileName);
+
 
         }
 

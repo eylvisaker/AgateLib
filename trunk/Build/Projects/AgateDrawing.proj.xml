@@ -1,18 +1,18 @@
 <Project name="AgateDrawing" path="../Drivers/AgateDrawing" language="C#" type="Library">
   <Configuration name="Debug">
     <Options>
-      <OutputPath>../../Binaries/Debug/Libraries</OutputPath>
+      <OutputPath>../../Binaries/Debug/Drivers</OutputPath>
     </Options>
   </Configuration>
 
   <Configuration name="Release">
     <Options>
-      <OutputPath>../../Binaries/Release/Libraries</OutputPath>
+      <OutputPath>../../Binaries/Release/Drivers</OutputPath>
     </Options>
   </Configuration>
 
   <Reference name="AgateLib"/>
-  <Reference name="AgateWinForms"/>
+  <Reference name="AgateLib.WinForms"/>
   <Reference name="System"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>
@@ -20,6 +20,6 @@
   <Reference name="System.Xml"/>
 
   <Files>
-    <Match path="." pattern="*.cs" recurse="true"/>
+    <Match pattern="*.cs" recurse="true"/>
   </Files>
 </Project>

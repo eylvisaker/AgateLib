@@ -281,9 +281,20 @@ namespace Prebuild.Core.Targets
 				ss.WriteLine("  </DeploymentInformation>");
 				
 				ss.WriteLine("  <Contents>");
+				
+				
 				foreach(string file in project.Files)
 				{
 					string buildAction = "Compile";
+					string dependson = "";
+					string resource_id = "";
+					string copyToOutput = "";
+					
+					// I don't know what the data field is supposed to do, so its format is commented out.
+					// It's left here as a reminder that it might be important for something.
+					string data = ""; // " data=\"\"";
+					
+					
 					switch(project.Files.GetBuildAction(file))
 					{
 						case BuildAction.None:
@@ -296,6 +307,7 @@ namespace Prebuild.Core.Targets
 
 						case BuildAction.EmbeddedResource:
 							buildAction = "EmbedAsResource";
+							
 							break;
 
 						default:
@@ -303,9 +315,54 @@ namespace Prebuild.Core.Targets
 							break;
 					}
 
+					string extension = Path.GetExtension(file);
+					string designer_format = string.Format(".Designer{0}", extension);
+
+					if (file.EndsWith(designer_format))
+					{
+						string basename = file.Substring(0, file.LastIndexOf(designer_format));
+						string[] extensions = new string[] { ".cs", ".resx", ".settings" };
+
+						foreach(string ext in extensions)
+						{
+							if (project.Files.Contains(basename + ext))
+							{
+								dependson = string.Format(" dependson=\"{0}{1}\"", basename, ext);
+								break;
+							}
+						}
+					}
+					if (extension == ".resx")
+					{
+						buildAction = "EmbedAsResource";
+						string basename = file.Substring(0, file.LastIndexOf(".resx"));						
+						
+						// Visual Studio type resx + form dependency
+						if (project.Files.Contains(basename + ".cs"))
+						{
+							dependson = string.Format(" dependson=\"{0}{1}\"", basename, ".cs");
+						}
+
+						// We need to specify a resources file name to avoid MissingManifestResourceExceptions
+						// in libraries that are built.
+						resource_id = string.Format(" resource_id=\"{0}.{1}.resources\"",
+								project.AssemblyName, basename.Replace("/", "."));
+					}
+
+					switch(project.Files.GetCopyToOutput(file))
+					{
+						case CopyToOutput.Always:
+							copyToOutput = string.Format(" copyToOutputDirectory=\"Always\"");
+							break;
+						case CopyToOutput.PreserveNewest:
+							copyToOutput = string.Format(" copyToOutputDirectory=\"PreserveNewest\"");
+							break;
+					}
+					
 					// Sort of a hack, we try and resolve the path and make it relative, if we can.
 					string filePath = PrependPath(file);
-					ss.WriteLine("    <File name=\"{0}\" subtype=\"Code\" buildaction=\"{1}\" dependson=\"\" data=\"\" />", filePath, buildAction);
+					ss.WriteLine("    <File name=\"{0}\" subtype=\"Code\" buildaction=\"{1}\"{2}{3}{4}{5} />", 
+					             filePath, buildAction, dependson, data, resource_id, copyToOutput);
 				}
 				ss.WriteLine("  </Contents>");
 
