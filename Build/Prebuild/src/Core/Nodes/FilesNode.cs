@@ -98,6 +98,11 @@ namespace Prebuild.Core.Nodes
 
 		#region Public Methods
 
+		public bool Contains(string file)
+		{
+			return m_Files.Contains(file);
+		}
+		
 		/// <summary>
 		/// 
 		/// </summary>

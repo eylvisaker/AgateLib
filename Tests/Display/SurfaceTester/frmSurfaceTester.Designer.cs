@@ -68,7 +68,7 @@ namespace ERY.SurfaceTester
             this.pctGraphics.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pctGraphics.Location = new System.Drawing.Point(0, 0);
             this.pctGraphics.Name = "pctGraphics";
-            this.pctGraphics.Size = new System.Drawing.Size(404, 377);
+            this.pctGraphics.Size = new System.Drawing.Size(396, 373);
             this.pctGraphics.TabIndex = 0;
             this.pctGraphics.TabStop = false;
             // 
@@ -93,9 +93,9 @@ namespace ERY.SurfaceTester
             this.panel1.Controls.Add(this.nudX);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 229);
+            this.panel1.Location = new System.Drawing.Point(0, 225);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(404, 148);
+            this.panel1.Size = new System.Drawing.Size(396, 148);
             this.panel1.TabIndex = 17;
             // 
             // colorBox
@@ -179,7 +179,7 @@ namespace ERY.SurfaceTester
             0,
             0,
             65536});
-            this.nudAngle.Location = new System.Drawing.Point(250, 39);
+            this.nudAngle.Location = new System.Drawing.Point(262, 39);
             this.nudAngle.Maximum = new decimal(new int[] {
             720,
             0,
@@ -242,8 +242,9 @@ namespace ERY.SurfaceTester
             // 
             // cboRotation
             // 
+            this.cboRotation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRotation.FormattingEnabled = true;
-            this.cboRotation.Location = new System.Drawing.Point(250, 65);
+            this.cboRotation.Location = new System.Drawing.Point(262, 65);
             this.cboRotation.MaxDropDownItems = 9;
             this.cboRotation.Name = "cboRotation";
             this.cboRotation.Size = new System.Drawing.Size(117, 21);
@@ -278,9 +279,9 @@ namespace ERY.SurfaceTester
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(163, 15);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 13);
+            this.label3.Size = new System.Drawing.Size(93, 13);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Sprite Alignment";
+            this.label3.Text = "Surface Alignment";
             // 
             // label6
             // 
@@ -293,8 +294,9 @@ namespace ERY.SurfaceTester
             // 
             // cboAlignment
             // 
+            this.cboAlignment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboAlignment.FormattingEnabled = true;
-            this.cboAlignment.Location = new System.Drawing.Point(250, 12);
+            this.cboAlignment.Location = new System.Drawing.Point(262, 12);
             this.cboAlignment.MaxDropDownItems = 9;
             this.cboAlignment.Name = "cboAlignment";
             this.cboAlignment.Size = new System.Drawing.Size(117, 21);
@@ -359,7 +361,7 @@ namespace ERY.SurfaceTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 377);
+            this.ClientSize = new System.Drawing.Size(396, 373);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pctGraphics);
             this.Name = "frmSurfaceTester";

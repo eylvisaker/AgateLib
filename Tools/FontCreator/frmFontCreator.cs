@@ -20,6 +20,11 @@ namespace FontCreator
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+			Directory.CreateDirectory("./images");
+			
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../../Drivers");
+			AgateLib.Utility.FileManager.ImagePath.Add("./images");
+			
             using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup(args))
             {
                 setup.AskUser = true;

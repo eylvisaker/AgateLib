@@ -81,8 +81,8 @@ namespace ERY.NotebookLib
             mNavigator = (Control)navigator;
 
             // remove any existing navigator before adding the new one
-            Controls.RemoveNavigator();
-            Controls.Add(mNavigator);
+            NoteControls.RemoveNavigator();
+            NoteControls.Add(mNavigator);
 
             NavigatorInterface.RefreshAllPages();
             SelectedIndex = selectedIndex;
@@ -276,7 +276,7 @@ namespace ERY.NotebookLib
         }
         internal void OnSelectedPageChanged()
         {
-            if (Controls.Count == 1)
+            if (NoteControls.Count == 1)
                 return;
 
             DisplayCorrectPage();
@@ -291,7 +291,7 @@ namespace ERY.NotebookLib
         /// <summary>
         /// Replace the Controls collection with my own inherited version of it.
         /// </summary>
-        private new NoteControlCollection Controls
+        private NoteControlCollection NoteControls
         {
             get { return (NoteControlCollection)base.Controls; }
         }
@@ -321,7 +321,7 @@ namespace ERY.NotebookLib
                 throw new ArgumentException("Page is already in the notebook.");
 
             NotebookPages.AddInternal(page);
-            Controls.AddInternal(page);
+            NoteControls.AddInternal(page);
 
             NavigatorInterface.RefreshAllPages();
 
@@ -346,7 +346,7 @@ namespace ERY.NotebookLib
             SelectedIndex = newIndex;
 
             NotebookPages.RemoveInternal(page);
-            Controls.RemoveInternal(page);
+            NoteControls.RemoveInternal(page);
 
             if (NotebookPages.Count > 0 && SelectedIndex == -1)
                 SelectedIndex = 0;
@@ -363,7 +363,7 @@ namespace ERY.NotebookLib
                 throw new ArgumentException();
 
             NotebookPages.InsertInternal(index, page);
-            Controls.AddInternal(page);
+            NoteControls.AddInternal(page);
 
             NavigatorInterface.RefreshAllPages();
         }

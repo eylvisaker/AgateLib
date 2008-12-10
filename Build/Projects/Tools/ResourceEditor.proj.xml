@@ -11,10 +11,10 @@
     </Options>
   </Configuration>
 
-  <Reference name="AgateLib"/>
-  <Reference name="AgateDrawing"/>
-  <Reference name="AgateWinForms"/>
-  <Reference name="NotebookLib"/>
+  <Reference name="AgateLib" localCopy="true"/>
+  <Reference name="AgateDrawing" localCopy="true"/>
+  <Reference name="AgateLib.WinForms" localCopy="true"/>
+  <Reference name="NotebookLib" localCopy="true"/>
   <Reference name="System"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>

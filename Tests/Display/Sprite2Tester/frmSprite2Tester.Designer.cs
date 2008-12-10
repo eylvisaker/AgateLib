@@ -73,7 +73,7 @@ namespace ERY.Sprite2Tester
             this.chkVSync.AutoSize = true;
             this.chkVSync.Checked = true;
             this.chkVSync.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkVSync.Location = new System.Drawing.Point(235, 389);
+            this.chkVSync.Location = new System.Drawing.Point(227, 385);
             this.chkVSync.Name = "chkVSync";
             this.chkVSync.Size = new System.Drawing.Size(57, 17);
             this.chkVSync.TabIndex = 29;
@@ -83,7 +83,7 @@ namespace ERY.Sprite2Tester
             // lblFrameRate
             // 
             this.lblFrameRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblFrameRate.Location = new System.Drawing.Point(2, 389);
+            this.lblFrameRate.Location = new System.Drawing.Point(2, 385);
             this.lblFrameRate.Name = "lblFrameRate";
             this.lblFrameRate.Size = new System.Drawing.Size(290, 27);
             this.lblFrameRate.TabIndex = 28;
@@ -111,9 +111,9 @@ namespace ERY.Sprite2Tester
             this.panel1.Controls.Add(this.cboAlignment);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.nudTimePerFrame);
-            this.panel1.Location = new System.Drawing.Point(304, 26);
+            this.panel1.Location = new System.Drawing.Point(296, 26);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(219, 360);
+            this.panel1.Size = new System.Drawing.Size(219, 356);
             this.panel1.TabIndex = 27;
             // 
             // label8
@@ -410,7 +410,7 @@ namespace ERY.Sprite2Tester
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.pctGraphics.Location = new System.Drawing.Point(5, 26);
             this.pctGraphics.Name = "pctGraphics";
-            this.pctGraphics.Size = new System.Drawing.Size(293, 360);
+            this.pctGraphics.Size = new System.Drawing.Size(285, 356);
             this.pctGraphics.TabIndex = 26;
             this.pctGraphics.TabStop = false;
             // 
@@ -418,7 +418,7 @@ namespace ERY.Sprite2Tester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(527, 415);
+            this.ClientSize = new System.Drawing.Size(519, 411);
             this.Controls.Add(this.chkVSync);
             this.Controls.Add(this.lblFrameRate);
             this.Controls.Add(this.panel1);

@@ -26,7 +26,7 @@
     <Project name="Prebuild"
                    path="src"
                    language="C#"
-                   assemblyName="prebuild"
+                   assemblyName="Prebuild"
                    icon="App.ico"
                    type="Exe"
                    rootNamespace="Prebuild"
