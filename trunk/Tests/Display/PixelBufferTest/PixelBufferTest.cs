@@ -19,7 +19,12 @@ namespace PixelBufferTest
         /// </summary>
         [STAThread]
         static void Main()
-        {
+		{			
+			// These two lines are used by AgateLib tests to locate
+			// driver plugins and images.
+			AgateLib.Utility.FileManager.AssemblyPath.Add("../Libraries");
+			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
+
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;
@@ -32,7 +37,7 @@ namespace PixelBufferTest
 
                 DisplayWindow wind = new DisplayWindow(CreateWindowParams.FromControl(frm.panel1));
 
-                image = new Surface("image.png");
+                image = new Surface("9ball.png");
                 buffer = image.ReadPixels(PixelFormat.RGBA8888);
 
                 Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);

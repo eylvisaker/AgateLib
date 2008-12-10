@@ -29,7 +29,7 @@ namespace AgateLib.Utility
     {
         private static string mPathChars = "/";
 
-        private static SearchPath mAssemblyPath;
+		private static SearchPath mAssemblyPath;
         private static SearchPath mImagePath = new SearchPath(".");
         private static SearchPath mAudioPath = new SearchPath(".");
         private static SearchPath mResourcePath = new SearchPath(".");
@@ -38,6 +38,12 @@ namespace AgateLib.Utility
         private static int mBufferSize = 1000;
 
         private static bool mInitialized = false;
+
+		static FileManager()
+		{
+			Initialize();
+		}
+
         internal static void Initialize()
         {
             if (mInitialized)
