@@ -38,9 +38,9 @@ namespace AgateLib.Drivers
         private static DriverInfoList<InputImpl, InputTypeID> mInputDrivers = new DriverInfoList<InputImpl, InputTypeID>();
         //private static DriverInfoList<Platform, PlatformTypeID> mPlatformDrivers = new DriverInfoList<Platform, PlatformTypeID>();
 
-        private static DisplayTypeID mCreatedDisplayTypeID = null;
-        private static AudioTypeID mCreatedAudioTypeID = null;
-        private static InputTypeID mCreatedInputTypeID = null;
+		private static DisplayTypeID mCreatedDisplayTypeID;
+		private static AudioTypeID mCreatedAudioTypeID;
+		private static InputTypeID mCreatedInputTypeID;
 
         private static bool mIsInitialized = false;
 

@@ -34,7 +34,7 @@ namespace AgateLib.Drivers
     /// <typeparam name="T">DriverTypeID derived class.  This should emulate an enum.</typeparam>
     public class DriverInfoList<TBase, T> : List<DriverInfo<T>>
         // \cond
-        where T : DriverTypeIDBase, IEquatable<T>
+        where T : IComparable
         where TBase : DriverImplBase
     // \endcond
     {
@@ -78,7 +78,7 @@ namespace AgateLib.Drivers
                 DriverInfo<T> selected = Find(
                     delegate(DriverInfo<T> info)
                     {
-                        if (info.TypeID == type)
+                        if (info.TypeID.CompareTo(type) == 0)
                             return true;
                         else
                             return false;

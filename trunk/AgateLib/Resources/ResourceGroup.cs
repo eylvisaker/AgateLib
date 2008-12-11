@@ -46,6 +46,21 @@ namespace AgateLib.Resources
             mLanguage = language;
         }
 
+		/// <summary>
+		/// Enumerates through the SpriteResources contained in this group of resources.
+		/// </summary>
+		public IEnumerable<SpriteResource> Sprites
+		{
+			get
+			{
+				for (int i = 0; i < mStore.Count; i++)
+				{
+					if (mStore[i] is SpriteResource)
+						yield return (SpriteResource)mStore[i];
+				}
+			}
+		}
+
         /// <summary>
         /// Gets the StringTable for this langauge.
         /// </summary>

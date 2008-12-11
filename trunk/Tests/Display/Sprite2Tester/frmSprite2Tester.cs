@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 using AgateLib;
+using AgateLib.Resources;
 using AgateLib.Sprites;
-using AgateLib.Sprites.Old;
 using AgateLib.DisplayLib;
 
 namespace ERY.Sprite2Tester
@@ -22,7 +23,7 @@ namespace ERY.Sprite2Tester
             InitializeComponent();
         }
 
-        Sprite mSprite;
+        ISprite mSprite;
         DisplayWindow wind;
 
         AgateLib.Geometry.Point mSpritePosition = new AgateLib.Geometry.Point(96, 96);
@@ -44,7 +45,7 @@ namespace ERY.Sprite2Tester
 
             cboAnimationType.Items.Clear();
 
-            foreach (Sprite.AnimType anim in Enum.GetValues(typeof(Sprite.AnimType)))
+            foreach (SpriteAnimType anim in Enum.GetValues(typeof(SpriteAnimType)))
             {
                 cboAnimationType.Items.Add(anim);
             }
@@ -64,8 +65,6 @@ namespace ERY.Sprite2Tester
 
         private bool InitDisplay()
         {
-            Sprite.UseSpriteCache = false;
-
             // This will create a display "window" that renders to the graphics
             // control on this form
             // It doesn't matter if this goes out of scope, because a reference
@@ -74,7 +73,7 @@ namespace ERY.Sprite2Tester
 
             //srcSurf = new Surface();
 
-            SetSprite(new Sprite("attacke.png", 96, 96));
+            SetSprite(new AgateLib.Sprites.Old.Sprite("attacke.png", 96, 96));
 
             Display.PackAllSurfaces();
 
@@ -82,7 +81,7 @@ namespace ERY.Sprite2Tester
 
         }
 
-        private void SetSprite(Sprite sprite)
+        private void SetSprite(ISprite sprite)
         {
             ClearEvents();
 
@@ -120,20 +119,21 @@ namespace ERY.Sprite2Tester
 
         private void SetEvents()
         {
-            mSprite.AnimationStarted += new Sprite.SpriteEventHandler(mSprite_AnimationStarted);
-            mSprite.AnimationStopped += new Sprite.SpriteEventHandler(mSprite_AnimationStopped);
-            mSprite.PlayDirectionChanged += new Sprite.SpriteEventHandler(mSprite_PlayDirectionChanged);
+            mSprite.AnimationStarted += new SpriteEventHandler(mSprite_AnimationStarted);
+			mSprite.AnimationStopped += new SpriteEventHandler(mSprite_AnimationStopped);
+            mSprite.PlayDirectionChanged += new SpriteEventHandler(mSprite_PlayDirectionChanged);
         }
 
-        void mSprite_PlayDirectionChanged(Sprite sprite)
+
+        void mSprite_PlayDirectionChanged(ISprite sprite)
         {
             chkPlayReverse.Checked = sprite.PlayReverse;
         }
-        void mSprite_AnimationStopped(Sprite sprite)
+        void mSprite_AnimationStopped(ISprite sprite)
         {
             chkAnimating.Checked = false;
         }
-        void mSprite_AnimationStarted(Sprite sprite)
+        void mSprite_AnimationStarted(ISprite sprite)
         {
             chkAnimating.Checked = true;
         }
@@ -196,30 +196,26 @@ namespace ERY.Sprite2Tester
             mSprite.DisplayAlignment = (OriginAlignment)cboAlignment.SelectedItem;
         }
 
-        private void btn64_Click(object sender, EventArgs e)
-        {
-            txtWidth.Text = "64";
-            txtHeight.Text = "64";
-        }
-        private void btn96_Click(object sender, EventArgs e)
-        {
-            txtWidth.Text = "96";
-            txtHeight.Text = "96";
-        }
-        private void btn128_Click(object sender, EventArgs e)
-        {
-            txtWidth.Text = "128";
-            txtHeight.Text = "128";
-        }
-
         private void btnLoadSprite_Click(object sender, EventArgs e)
         {
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 string filename = openFile.FileName;
 
-                SetSprite(new Sprite(filename,
-                    int.Parse(txtWidth.Text), int.Parse(txtHeight.Text)));
+				AgateResourceManager resources = new AgateResourceManager();
+				resources.Load(filename);
+
+				if (resources.CurrentLanguage.Sprites.ToArray().Length == 1)
+				{
+					AgateLib.Utility.FileManager.ImagePath.Clear();
+					AgateLib.Utility.FileManager.ImagePath.Add(System.IO.Path.GetDirectoryName(filename));
+
+					ISprite sp = resources.CreateSprite(resources.CurrentLanguage.Sprites.ToArray()[0].Name);
+
+					SetSprite(sp);
+				}
+				else
+					throw new NotImplementedException();
 
             }
         }
@@ -245,8 +241,8 @@ namespace ERY.Sprite2Tester
                 return;
             if (cboAnimationType.SelectedItem == null)
                 return;
-
-            mSprite.AnimationType = (Sprite.AnimType)cboAnimationType.SelectedItem;
+			
+            mSprite.AnimationType = (SpriteAnimType)cboAnimationType.SelectedItem;
         }
 
         private void btnRestart_Click(object sender, EventArgs e)
@@ -265,7 +261,7 @@ namespace ERY.Sprite2Tester
             mSprite.CurrentFrameIndex = (int)cboFrame.SelectedItem;
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void nudScale_ValueChanged(object sender, EventArgs e)
         {
             if (mSprite == null)
                 return;
@@ -282,17 +278,14 @@ namespace ERY.Sprite2Tester
         }
 
         private void cboRotation_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (mSprite == null)
-                return;
+		{
 
-            mSprite.RotationCenter = (OriginAlignment)cboRotation.SelectedItem;
-        }
+		}
 
         private void chkVSync_CheckedChanged(object sender, EventArgs e)
         {
             Display.VSync = chkVSync.Checked;
-        }
+		}
 
     }
 }

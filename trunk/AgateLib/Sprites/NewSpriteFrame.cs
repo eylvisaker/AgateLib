@@ -1,22 +1,4 @@
-//     The contents of this file are subject to the Mozilla Public License
-//     Version 1.1 (the "License"); you may not use this file except in
-//     compliance with the License. You may obtain a copy of the License at
-//     http://www.mozilla.org/MPL/
-//
-//     Software distributed under the License is distributed on an "AS IS"
-//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-//     License for the specific language governing rights and limitations
-//     under the License.
-//
-//     The Original Code is AgateLib.
-//
-//     The Initial Developer of the Original Code is Erik Ylvisaker.
-//     Portions created by Erik Ylvisaker are Copyright (C) 2006.
-//     All Rights Reserved.
-//
-//     Contributor(s): Erik Ylvisaker
-//
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -36,17 +18,20 @@ namespace AgateLib.Sprites
     /// SpriteFrame contains a reference count.  If you manually copy it, be sure
     /// to call AddRef unless you use the Clone method.
     /// </summary>
-    [Obsolete]
-    public class PackedSpriteFrame : ISpriteFrame 
+    public class NewSpriteFrame : ISpriteFrame
     {
         Point mOffset = new Point(0, 0);
         bool mIsBlank = true;
 
-        Size mDisplaySize;
-        Rectangle mSrcRect;
+        Surface mSurface;
 
-        internal PackedSpriteFrame()
+        Rectangle mSrcRect;
+        Size mDisplaySize; 
+        Size mSpriteSize;
+
+        internal NewSpriteFrame(Surface surface)
         {
+            mSurface = surface;
         }
 
         /// <summary>
@@ -57,7 +42,7 @@ namespace AgateLib.Sprites
         /// Be sure to Dispose the result when finished with it.
         /// </summary>
         /// <returns></returns>
-        public PackedSpriteFrame Clone()
+        public NewSpriteFrame Clone()
         {
             return this;
         }
@@ -88,6 +73,14 @@ namespace AgateLib.Sprites
             return false;
         }
 
+        
+
+        internal Size SpriteSize
+        {
+            get { return mSpriteSize; }
+            set { mSpriteSize = value; }
+        }
+
         /// <summary>
         /// Gets or sets the display size.
         /// </summary>
@@ -109,29 +102,6 @@ namespace AgateLib.Sprites
             get { return mOffset; }
         }
 
-        /// <summary>
-        /// Draws this surface at the specified destination point with the specified rotation
-        /// center.
-        /// </summary>
-        /// <param name="surf"></param>
-        /// <param name="dest_x"></param>
-        /// <param name="dest_y"></param>
-        /// <param name="rotationCenterX"></param>
-        /// <param name="rotationCenterY"></param>
-        public void Draw(Surface surf, float dest_x, float dest_y, float rotationCenterX, float rotationCenterY)
-        {
-			surf.Draw(dest_x + (float)(mOffset.X * surf.ScaleWidth),
-					  dest_y + (float)(mOffset.Y * surf.ScaleHeight),
-					  mSrcRect,
-					  rotationCenterX - (float)(mOffset.X * surf.ScaleWidth),
-					  rotationCenterY - (float)(mOffset.Y * surf.ScaleHeight));
-
-            //mSurface.Draw(dest_x + (mOffset.X * scaleX),
-            //              dest_y + (mOffset.Y * scaleY),
-            //              rotationCenterX - (mOffset.X * scaleX),
-            //              rotationCenterY - (mOffset.Y * scaleY));
-        }
-
         #region ISpriteFrame Members
 
         /// <summary>
@@ -143,7 +113,17 @@ namespace AgateLib.Sprites
         /// <param name="rotationCenterY"></param>
         public void Draw(float dest_x, float dest_y, float rotationCenterX, float rotationCenterY)
         {
-            throw new NotImplementedException();
+            // calculate scaling.
+            float scaleX = mDisplaySize.Width / (float)SpriteSize.Width;
+            float scaleY = mDisplaySize.Height / (float)SpriteSize.Height;
+
+            mSurface.SetScale(scaleX, scaleY);
+
+            mSurface.Draw(dest_x + (mOffset.X * scaleX),
+                          dest_y + (mOffset.Y * scaleY),
+                          mSrcRect,
+                          rotationCenterX - (mOffset.X * scaleX),
+                          rotationCenterY - (mOffset.Y * scaleY));
         }
 
         /// <summary>
@@ -151,7 +131,7 @@ namespace AgateLib.Sprites
         /// </summary>
         public Surface Surface
         {
-            get { throw new NotImplementedException(); }
+            get { return mSurface; }
         }
 
         #endregion

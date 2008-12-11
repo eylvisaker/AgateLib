@@ -1,0 +1,22 @@
+<Project name="PackedSpriteCreator" path="../Tools/PackedSpriteCreator" language="C#" type="Exe">
+  <Configuration name="Debug">
+    <Options>
+      <OutputPath>../../Binaries/Debug/Tools/PackedSpriteCreator</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Configuration name="Release">
+    <Options>
+      <OutputPath>../../Binaries/Release/Tools/PackedSpriteCreator</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Reference name="AgateLib"/>
+  <Reference name="AgateDrawing"/>
+  <Reference name="System"/>
+  <Reference name="System.Core"/>
+
+  <Files>
+    <Match path="." pattern="*.cs" recurse="true"/>
+  </Files>
+</Project>
