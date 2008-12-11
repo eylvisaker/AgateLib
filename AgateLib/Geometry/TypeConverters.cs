@@ -70,6 +70,8 @@ namespace AgateLib.Geometry
         /// <returns></returns>
         public new static Point ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
         {
+			if (str.StartsWith("{") && str.EndsWith("}"))
+				str = str.Substring(1, str.Length - 2);
 
             string[] values = str.Split(',');
             Point retval = new Point();

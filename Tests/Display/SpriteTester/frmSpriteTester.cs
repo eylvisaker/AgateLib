@@ -5,12 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Sprites.Old;
+using AgateLib.Resources;
+using AgateLib.Sprites;
 
 namespace ERY.SpriteTester
 {
@@ -21,7 +23,7 @@ namespace ERY.SpriteTester
             InitializeComponent();
         }
 
-        Sprite mSprite;
+        NewSprite mSprite;
         DisplayWindow wind;
 
         AgateLib.Geometry.Point mSpritePosition = new AgateLib.Geometry.Point(96, 96);
@@ -43,7 +45,7 @@ namespace ERY.SpriteTester
 
             cboAnimationType.Items.Clear();
 
-            foreach (Sprite.AnimType anim in Enum.GetValues(typeof(Sprite.AnimType)))
+            foreach (SpriteAnimType anim in Enum.GetValues(typeof(SpriteAnimType)))
             {
                 cboAnimationType.Items.Add(anim);
             }
@@ -63,7 +65,6 @@ namespace ERY.SpriteTester
 
         private bool InitDisplay()
         {
-            Sprite.UseSpriteCache = false;
 
             // This will create a display "window" that renders to the graphics
             // control on this form
@@ -73,7 +74,7 @@ namespace ERY.SpriteTester
 
             //srcSurf = new Surface();
 
-            SetSprite(new Sprite("attacke.png", 96, 96));
+            SetSprite(new NewSprite("attacke.png", 96, 96));
 
             Display.PackAllSurfaces();
 
@@ -81,7 +82,7 @@ namespace ERY.SpriteTester
 
         }
 
-        private void SetSprite(Sprite sprite)
+        private void SetSprite(NewSprite sprite)
         {
             ClearEvents();
 
@@ -104,10 +105,10 @@ namespace ERY.SpriteTester
             mSprite.GetScale(out scalex, out scaley);
             nudScale.Value = (decimal)scalex;
 
-            for (int i = 0; i < mSprite.Frames.Count; i++)
-            {
-                mSprite.Frames[i].Surface.SaveTo("frame" + i.ToString() + ".png", ImageFileFormat.Png);
-            }
+            //for (int i = 0; i < mSprite.Frames.Count; i++)
+            //{
+            //    mSprite.Frames[i].Surface.SaveTo("frame" + i.ToString() + ".png", ImageFileFormat.Png);
+            //}
             
             GC.Collect();
         }
@@ -124,20 +125,20 @@ namespace ERY.SpriteTester
 
         private void SetEvents()
         {
-            mSprite.AnimationStarted += new Sprite.SpriteEventHandler(mSprite_AnimationStarted);
-            mSprite.AnimationStopped += new Sprite.SpriteEventHandler(mSprite_AnimationStopped);
-            mSprite.PlayDirectionChanged += new Sprite.SpriteEventHandler(mSprite_PlayDirectionChanged);
+            mSprite.AnimationStarted += new SpriteEventHandler(mSprite_AnimationStarted);
+            mSprite.AnimationStopped += new SpriteEventHandler(mSprite_AnimationStopped);
+            mSprite.PlayDirectionChanged += new SpriteEventHandler(mSprite_PlayDirectionChanged);
         }
 
-        void mSprite_PlayDirectionChanged(Sprite sprite)
+        void mSprite_PlayDirectionChanged(ISprite sprite)
         {
             chkPlayReverse.Checked = sprite.PlayReverse;
         }
-        void mSprite_AnimationStopped(Sprite sprite)
+        void mSprite_AnimationStopped(ISprite sprite)
         {
             chkAnimating.Checked = false;
         }
-        void mSprite_AnimationStarted(Sprite sprite)
+        void mSprite_AnimationStarted(ISprite sprite)
         {
             chkAnimating.Checked = true;
         }
@@ -218,13 +219,48 @@ namespace ERY.SpriteTester
 
         private void btnLoadSprite_Click(object sender, EventArgs e)
         {
-            if (openFile.ShowDialog() == DialogResult.OK)
+            if (openFile.ShowDialog() != DialogResult.OK)
+                return;
+
+            NewSprite spTest = null;
+            string filename = openFile.FileName;
+
+            try
             {
-                string filename = openFile.FileName;
+                spTest = new NewSprite(filename,
+                    int.Parse(txtWidth.Text), int.Parse(txtHeight.Text));
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.GetType().Name);
+                System.Diagnostics.Debug.WriteLine(ex.Message);
 
-                SetSprite(new Sprite(filename,
-                    int.Parse(txtWidth.Text), int.Parse(txtHeight.Text)));
+            }
 
+            if (spTest != null)
+            {
+                SetSprite(spTest);
+            }
+            else
+            {
+                // since loading the sprite from the file failed, try it as a resource file.
+                AgateResourceManager resources = new AgateResourceManager();
+                resources.Load(filename);
+
+                if (resources.CurrentLanguage.Sprites.ToArray().Length == 1)
+                {
+                    AgateLib.Utility.FileManager.ImagePath.Clear();
+                    AgateLib.Utility.FileManager.ImagePath.Add(System.IO.Path.GetDirectoryName(filename));
+
+                    var sprites = resources.CurrentLanguage.Sprites.ToArray();
+
+                    // TODO: show dialog to choose sprite.
+                    NewSprite sp = new NewSprite(resources, sprites[0].Name);
+
+                    SetSprite(sp);
+                }
+                else
+                    throw new NotImplementedException();
             }
         }
 
@@ -250,7 +286,7 @@ namespace ERY.SpriteTester
             if (cboAnimationType.SelectedItem == null)
                 return;
 
-            mSprite.AnimationType = (Sprite.AnimType)cboAnimationType.SelectedItem;
+            mSprite.AnimationType = (SpriteAnimType)cboAnimationType.SelectedItem;
         }
 
         private void btnRestart_Click(object sender, EventArgs e)
