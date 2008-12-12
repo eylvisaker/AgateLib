@@ -180,7 +180,7 @@ namespace AgateLib.Geometry
         /// </summary>
         /// <param name="size"></param>
         /// <returns></returns>
-        [Obsolete("Use AgateWinForms methods.")]
+        [Obsolete("Use AgateLib.WinForms methods.")]
         public static explicit operator System.Drawing.Size(Size size)
         {
             return new System.Drawing.Size(size.width, size.height);
@@ -194,6 +194,11 @@ namespace AgateLib.Geometry
         public static explicit operator SizeF(Size size)
         {
             return new SizeF(size.width, size.height);
+        }
+
+        public static Size FromString(string text)
+        {
+            return SizeConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
         }
     }
 }

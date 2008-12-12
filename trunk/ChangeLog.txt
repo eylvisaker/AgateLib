@@ -24,7 +24,7 @@ A GUI resouce editor is in development.
 
 Breaking Changes:
 * Removed Obsolete API's
-
+* BeginFrame now throws an AgateException instead of InvalidObjectException if we are already in a BeginFrame..EndFrame block.
 * Added Vector2 and Vector3 types, with operator overloads.
 
 Version 0.2.5

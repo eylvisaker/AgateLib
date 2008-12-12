@@ -62,7 +62,7 @@ namespace AgateLib.Drivers
             if (Count == 0)
                 throw new Exception("No " + type.GetType().ToString() + " drivers registered.");
 
-            if (type.Equals(0))
+            if (Convert.ToInt32(type) == 0)
             {
                 Sort(
                     delegate(DriverInfo<T> a, DriverInfo<T> b)

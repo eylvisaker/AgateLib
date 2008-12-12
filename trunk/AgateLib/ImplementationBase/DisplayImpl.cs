@@ -180,9 +180,11 @@ namespace AgateLib.ImplementationBase
         public void BeginFrame()
         {
             if (mInFrame)
-                throw new InvalidOperationException(
+                throw new AgateException(
                     "Called BeginFrame() while already inside a BeginFrame..EndFrame block!\n" +
                     "Did you forget to call EndFrame()?");
+            if (mRenderTarget == null)
+                throw new AgateException("BeginFrame was called but the render target has not been set.");
 
             mInFrame = true;
 
