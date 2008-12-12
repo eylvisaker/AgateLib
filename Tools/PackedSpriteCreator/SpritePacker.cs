@@ -25,9 +25,9 @@ namespace AgateLib.PackedSpriteCreator
 			}
 			catch (InvalidUsageException e)
 			{
-				Usage(e.Message);
+                Usage(e.Message);
+                System.Console.ReadKey(true);
 			}
-			System.Console.ReadKey(true);
 		}		
 
 		private static void Usage(string message)
@@ -38,14 +38,16 @@ namespace AgateLib.PackedSpriteCreator
 			WriteLine();
 			
 			WriteLine("Options:");
-			WriteLine("    -f [filename]         Specifies an output file.");
-			WriteLine("    -s [size]             Specifies the size of sprite frames.");
-			WriteLine("    -n [name]             Specifies the name of the sprite.");
-			WriteLine("    -t [time]             Specifies the amount of time in milliseconds for each frame.");
-			WriteLine();
+            WriteLine("    -shell         Starts in shell mode.  If this option is specified, all");
+            WriteLine("                   others are ignored.");
+			WriteLine("    -o [filename]  Specifies an output resource file in XML format.");
+			WriteLine("    -n [name]      Specifies the name of the sprite.");
+			WriteLine("    -t [time]      Specifies the amount of time in milliseconds for each frame.");
+            WriteLine("    -T [color]     Specifies a color in RRGGBB format to convert to transparent.");
+            WriteLine();
 
-			WriteLine("The default and only mode is to create a packed sprite image from the input");
-			WriteLine("files.  You must specify the -f and -s options when creating a packed sprite.");
+			WriteLine("The default mode is to create a single packed sprite image from the input");
+			WriteLine("files.  You must specify the -o and -s options when creating a packed sprite.");
 			WriteLine();
 			WriteLine("Sprite frames can be specified as a single number for square frames, or as");
 			WriteLine("a width,height format.");
@@ -69,21 +71,36 @@ namespace AgateLib.PackedSpriteCreator
 		#endregion
 
 		List<string> images = new List<string>();
-		string outputFile;
-		string outputXmlFile
-		{
-			get
-			{
-				if (outputFile.Contains("."))
-					return outputFile.Substring(0, outputFile.LastIndexOf('.')) + ".xml";
-				else
-					return outputFile + ".xml";
-			}
-		}
+        string mOutputXmlFile;
+        
+        string OutputFile
+        {
+            get
+            {
+                const string extension = ".png";
+
+                if (OutputXmlFile.ToLowerInvariant().EndsWith(".xml"))
+                    return OutputXmlFile.Remove(OutputXmlFile.Length - 4, 4) + extension;
+                else
+                    return OutputXmlFile + extension;
+            }
+        }
+        string OutputXmlFile
+        {
+            get { return mOutputXmlFile; }
+            set
+            {
+                if (value.ToLowerInvariant().EndsWith(".xml") == false)
+                    value += ".xml";
+
+                mOutputXmlFile = value;
+            }
+        }
 		string spriteName;
 		double frameTime = 50;
 		Size frameSize;
 		Size outputSize = new Size(256, 256);
+        bool doShell;
 
 		private void Run(string[] args)
 		{
@@ -91,18 +108,26 @@ namespace AgateLib.PackedSpriteCreator
 
 			CheckInputParameters();
 
-			using (AgateSetup setup = new AgateSetup())
-			{
-				setup.InitializeDisplay(AgateLib.Drivers.DisplayTypeID.Reference);
-				if (setup.WasCanceled)
-					return;
+            using (AgateSetup setup = new AgateSetup())
+            {
+                setup.InitializeDisplay(AgateLib.Drivers.DisplayTypeID.Reference);
+                if (setup.WasCanceled)
+                    return;
 
-				ProcessImages();
-			}
+                if (doShell)
+                {
+                    Shell shell = new Shell();
+                    shell.Run();
+                }
+                else
+                {
+                    ProcessImages();
+                    WriteLine("Done.  Hit any key to exit.");
+                    System.Console.ReadKey(true);
+                }
+            }
 			
-			WriteLine("Done.");
 		}
-
 
 		private void ProcessImages()
 		{
@@ -110,12 +135,12 @@ namespace AgateLib.PackedSpriteCreator
 			ConstructSpriteData(sprite);
 
 			PixelBuffer imageData = PackImages(sprite);
-			imageData.SaveTo(outputFile, ImageFileFormat.Png);
+			imageData.SaveTo(OutputFile, ImageFileFormat.Png);
 
 			AgateResourceManager resources = new AgateResourceManager();
 			AddSpriteData(resources, sprite);
 
-			resources.Filename = outputXmlFile;
+			resources.Filename = OutputXmlFile;
 			resources.Save();
 		}
 
@@ -158,20 +183,19 @@ namespace AgateLib.PackedSpriteCreator
 
 				frameRes.Bounds = frame.PackedLocation;
 				frameRes.Offset = frame.Offset;
-				frameRes.Filename = outputFile;
+				frameRes.Filename = OutputFile;
 
 				res.Frames.Add(frameRes);
 			}
 
 			res.Name = spriteName;
-			res.Filename = outputFile;
+			res.Filename = OutputFile;
 			res.Size = frameSize;
 			res.TimePerFrame = frameTime;
 			res.Packed = true;
 
 			resources.CurrentLanguage.Add(res);
 		}
-
 		private void ConstructSpriteData(SpriteData sprite)
 		{
 			for (int i = 0; i < images.Count; i++)
@@ -229,18 +253,21 @@ namespace AgateLib.PackedSpriteCreator
 
 		private void CheckInputParameters()
 		{
+            // ignore all other parameters if we are going to shell mode.
+            if (doShell)
+                return;
+
 			if (images.Count == 0)
 				throw new InvalidUsageException();
-			if (string.IsNullOrEmpty(outputFile))
+			if (string.IsNullOrEmpty(OutputFile))
 				throw new InvalidUsageException("You did not specify an output file.");
 			if (frameSize == Size.Empty)
 				throw new InvalidUsageException("You did not specify a frame size.");
-
+            
 			if (string.IsNullOrEmpty(spriteName))
-				spriteName = Path.GetFileNameWithoutExtension(outputFile);
+				spriteName = Path.GetFileNameWithoutExtension(OutputFile);
 		}
-
-		private void ParseCommandLine(string[] args)
+        private void ParseCommandLine(string[] args)
 		{
 			int i;
 
@@ -268,49 +295,52 @@ namespace AgateLib.PackedSpriteCreator
 			for (; i < args.Length; i++)
 				images.Add(args[i]);
 		}
-
 		private void ProcessArgument(string[] args, ref int i)
 		{
-			if (args[i].Equals("-f"))
-				outputFile = args[++i];
-			else if (args[i].Equals("-s"))
-			{
-				int result;
-				i++;
-				if (int.TryParse(args[i], out result))
-				{
-					frameSize = new Size(result, result);
-				}
-				else
-				{
-					string[] array = args[i].Split(',', 'x', ':');
+            if (args[i].Equals("-o"))
+                OutputXmlFile = args[++i];
+            else if (args[i].Equals("-s"))
+            {
+                int result;
+                i++;
+                if (int.TryParse(args[i], out result))
+                {
+                    frameSize = new Size(result, result);
+                }
+                else
+                {
+                    string[] array = args[i].Split(',', 'x', ':');
 
-					if (array.Length != 2) throw new InvalidUsageException("Could not parse size.");
+                    if (array.Length != 2) throw new InvalidUsageException("Could not parse size.");
 
-					try
-					{
-						frameSize = new Size(int.Parse(array[0]), int.Parse(array[1]));
+                    try
+                    {
+                        frameSize = new Size(int.Parse(array[0]), int.Parse(array[1]));
 
-						if (frameSize.Width <= 0 || frameSize.Height <= 0)
-							throw new InvalidUsageException("Frame size was negative.");
-					}
-					catch (FormatException)
-					{
-						throw new InvalidUsageException("Could not parse size " + args[i]);
-					}
-				}
-			}
-			else if (args[i].Equals("-n"))
-			{
-				spriteName = args[++i];
-			}
-			else if (args[i].Equals("-t"))
-			{
-				if (double.TryParse(args[++i], out frameTime) == false)
-					throw new InvalidUsageException("Could not parse frametime: " + args[i]);
-			}
-			else
-				throw new InvalidUsageException("Unrecognized argument: " + args[i]);
+                        if (frameSize.Width <= 0 || frameSize.Height <= 0)
+                            throw new InvalidUsageException("Frame size was negative.");
+                    }
+                    catch (FormatException)
+                    {
+                        throw new InvalidUsageException("Could not parse size " + args[i]);
+                    }
+                }
+            }
+            else if (args[i].Equals("-n"))
+            {
+                spriteName = args[++i];
+            }
+            else if (args[i].Equals("-t"))
+            {
+                if (double.TryParse(args[++i], out frameTime) == false)
+                    throw new InvalidUsageException("Could not parse frametime: " + args[i]);
+            }
+            else if (args[i].Equals("-shell"))
+            {
+                doShell = true;
+            }
+            else
+                throw new InvalidUsageException("Unrecognized argument: " + args[i]);
 		}
 
 	}
