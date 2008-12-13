@@ -68,14 +68,10 @@ namespace AgateLib.PackedSpriteCreator
             }
         }
 
-        ConsoleColor defaultColor;
-
         bool done = false;
         internal void Run()
         {
-            defaultColor = Console.ForegroundColor;
-
-            WriteLine("AgateLib Sprite Packer");
+			WriteLine("AgateLib Sprite Packer");
             WriteLine("Version 0.3.0");
             WriteLine();
                 
@@ -101,7 +97,7 @@ namespace AgateLib.PackedSpriteCreator
                 if (method == null)
                 {
                     WriteLine("Unrecognized command " + command[0] + ".");
-                    WriteLine("Type help for a list of commands."); 
+                    WriteLine("Type 'help' for a list of commands."); 
                     WriteLine();
                 
                     continue;
@@ -360,17 +356,13 @@ namespace AgateLib.PackedSpriteCreator
                 dirs.AddRange(Directory.GetDirectories(CurrentDirectory));
             }
 
-            Console.ForegroundColor = ConsoleColor.Blue;
-
             dirs.Sort();
 
             for (int i = 0; i < dirs.Count; i++)
             {
-                WriteLine(dirs[i].Substring(CurrentDirectory.Length));
+                WriteLine(dirs[i].Substring(CurrentDirectory.Length) + Path.DirectorySeparatorChar);
             }
 
-            Console.ForegroundColor = defaultColor;
-            
         }
         private void ListFiles(string[] args)
         {
