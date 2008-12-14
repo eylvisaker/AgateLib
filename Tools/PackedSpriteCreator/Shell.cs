@@ -34,6 +34,7 @@ namespace AgateLib.PackedSpriteCreator
 
         #endregion
         
+		
         public delegate void CommandMethod(string[] args);
 
         public class CommandInfo
@@ -77,6 +78,10 @@ namespace AgateLib.PackedSpriteCreator
                 
             while (done == false)
             {
+				if (sprite != null)
+				{
+					Write("Sprite " + sprite.Name);
+				}
                 Write("> ");
                 string commandLine = ReadLine();
                 string[] command = null;
@@ -294,20 +299,31 @@ namespace AgateLib.PackedSpriteCreator
             WriteLine("Saved resource to " + filename + ".");
         }
         
-        [Command(ArgText="sprite_name size", HelpText="Creates a new sprite in the resource file and sets it to the current sprite.")]
+        [Command(ArgText="[sprite_name]", HelpText="Creates a new sprite in the resource file and sets it to the current sprite.")]
         void newsprite(string[] args)
         {
+			string name;
+			
             if (args.Length == 0)
-                throw new Exception("Please specify a name for the sprite.");
-            if (args.Length == 1)
-                throw new Exception("Please specify a size.");
+			{
+				Write("Enter name: ");
+				name = ReadLine();
+			}
+			else
+			{
+                name = args[0];
+			}
+            
+			AgateLib.Geometry.Size size;
+			Write("Enter size (width,height): ");
+			size = AgateLib.Geometry.Size.FromString(ReadLine());
 
-            sprite = new SpriteResource(args[0]);
+            sprite = new SpriteResource(name);
             resources.CurrentLanguage.Add(sprite);
 
-            sprite.Size = AgateLib.Geometry.Size.FromString(args[1]);
+            sprite.Size = size;
 
-            WriteLine("Created sprite {0} of size {1}.", args[0], args[1]);
+            WriteLine("Created sprite {0} of size {1}.", name, size);
         }
 
         [Command(ArgText="[sprite_name]",HelpText="Lists info on the current sprite, or on another sprite if specified.")]
