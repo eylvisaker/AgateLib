@@ -202,10 +202,9 @@ namespace ERY.Sprite2Tester
             {
                 string filename = openFile.FileName;
 
-				AgateResourceManager resources = new AgateResourceManager();
-				resources.Load(filename);
+                AgateResourceCollection resources = ResourceLoader.LoadResources(filename);
 
-				if (resources.CurrentLanguage.Sprites.ToArray().Length == 1)
+				if (resources.Sprites.ToArray().Length == 1)
 				{
 					AgateLib.Utility.FileManager.ImagePath.Clear();
 					AgateLib.Utility.FileManager.ImagePath.Add(System.IO.Path.GetDirectoryName(filename));

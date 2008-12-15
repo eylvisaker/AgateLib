@@ -68,7 +68,7 @@ namespace ERY.SurfaceTester
             this.pctGraphics.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pctGraphics.Location = new System.Drawing.Point(0, 0);
             this.pctGraphics.Name = "pctGraphics";
-            this.pctGraphics.Size = new System.Drawing.Size(396, 373);
+            this.pctGraphics.Size = new System.Drawing.Size(388, 369);
             this.pctGraphics.TabIndex = 0;
             this.pctGraphics.TabStop = false;
             // 
@@ -93,9 +93,9 @@ namespace ERY.SurfaceTester
             this.panel1.Controls.Add(this.nudX);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 225);
+            this.panel1.Location = new System.Drawing.Point(0, 221);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(396, 148);
+            this.panel1.Size = new System.Drawing.Size(388, 148);
             this.panel1.TabIndex = 17;
             // 
             // colorBox
@@ -361,7 +361,7 @@ namespace ERY.SurfaceTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(396, 373);
+            this.ClientSize = new System.Drawing.Size(388, 369);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pctGraphics);
             this.Name = "frmSurfaceTester";
