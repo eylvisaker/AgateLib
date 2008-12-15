@@ -23,12 +23,11 @@ namespace ResourceTester
                 if (setup.Cancel)
                     return;
 
-                AgateResourceManager resources = new AgateResourceManager();
-                resources.Load("test.xml");
+                AgateResourceCollection resources = ResourceLoader.LoadResources("TestResourceFile.xml");
 
                 DisplayWindow wind = new DisplayWindow(resources, "main_window");
                 Surface surf = new Surface(resources, "sample_surf");
-                ISprite sprite = resources.CreateSprite("sample_sprite");
+                ISprite sprite = new AgateLib.Sprites.NewSprite(resources, "sample_sprite");
                 sprite.StartAnimation();
 
                 while (wind.IsClosed == false)
