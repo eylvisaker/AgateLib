@@ -32,11 +32,12 @@ namespace FontTester
                 if (setupDisplay.WasCanceled)
                     return;
 
-                DisplayWindow wind = new DisplayWindow("Font Tester", 800, 600,
-                    @"..\..\src\AgateLib.ico", false, true);
+                DisplayWindow wind = new DisplayWindow(CreateWindowParams.Windowed(
+                    "Font Tester", 800, 600,
+                    @"..\..\src\AgateLib.ico", false));
 
                 FontSurface font = new FontSurface("Arial", 12);
-                FontSurface bitmapFont = FontSurface.BitmapMonospace("font.png", new Size(16, 16));
+                FontSurface bitmapFont = FontSurface.BitmapMonospace("lotafont.png", new Size(16, 16));
 
                 int frame = 0;
 
