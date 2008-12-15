@@ -23,7 +23,7 @@ namespace ERY.SurfaceTester
 
             try
             {
-                Icon = new Icon(@"../../src/AgateLib.ico");
+                Icon = new Icon(@"../../../AgateLib.ico");
             }
             catch (Exception e)
             {
