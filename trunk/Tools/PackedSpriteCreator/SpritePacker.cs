@@ -137,11 +137,10 @@ namespace AgateLib.PackedSpriteCreator
 			PixelBuffer imageData = PackImages(sprite);
 			imageData.SaveTo(OutputFile, ImageFileFormat.Png);
 
-			AgateResourceManager resources = new AgateResourceManager();
+			AgateResourceCollection resources = new AgateResourceCollection();
 			AddSpriteData(resources, sprite);
 
-			resources.Filename = OutputXmlFile;
-			resources.Save();
+            ResourceLoader.SaveResources(resources, OutputXmlFile);
 		}
 
 		private PixelBuffer PackImages(SpriteData sprite)
@@ -173,7 +172,7 @@ namespace AgateLib.PackedSpriteCreator
 			return retval;
 		}
 
-		private void AddSpriteData(AgateResourceManager resources, SpriteData sprite)
+		private void AddSpriteData(AgateResourceCollection resources, SpriteData sprite)
 		{
 			SpriteResource res = new SpriteResource(spriteName);
 
@@ -194,7 +193,7 @@ namespace AgateLib.PackedSpriteCreator
 			res.TimePerFrame = frameTime;
 			res.Packed = true;
 
-			resources.CurrentLanguage.Add(res);
+			resources.Add(res);
 		}
 		private void ConstructSpriteData(SpriteData sprite)
 		{

@@ -44,7 +44,7 @@ namespace AgateLib.DisplayLib
         /// </summary>
         /// <param name="resources"></param>
         /// <param name="name"></param>
-        public DisplayWindow(Resources.AgateResourceManager resources, string name)
+        public DisplayWindow(Resources.AgateResourceCollection resources, string name)
         {
             Resources.AgateResource res = resources[name];
             Resources.DisplayWindowResource disp = res as Resources.DisplayWindowResource;

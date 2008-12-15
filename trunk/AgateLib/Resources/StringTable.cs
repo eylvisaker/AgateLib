@@ -44,10 +44,10 @@ namespace AgateLib.Resources
                         XmlNode stringNode = node.ChildNodes[i];
 
                         if (stringNode.Name != "string")
-                            throw new System.IO.InvalidDataException(
+                            throw new AgateResourceException(
                                 "Invalid node appeared in string table.");
                         if (stringNode.Attributes["name"] == null)
-                            throw new System.IO.InvalidDataException(
+                            throw new AgateResourceException(
                                 "Unnamed string node found.");
 
                         string key = stringNode.Attributes["name"].Value;

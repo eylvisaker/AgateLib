@@ -124,7 +124,7 @@ namespace AgateLib.Sprites
         }
 
 
-        public NewSprite(Resources.AgateResourceManager resources, string name)
+        public NewSprite(Resources.AgateResourceCollection resources, string name)
         {
             Resources.AgateResource generic_res = resources[name];
             Resources.SpriteResource sprite_res = generic_res as Resources.SpriteResource;

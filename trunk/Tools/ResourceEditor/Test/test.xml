@@ -1,22 +1,8 @@
 <AgateResources Version="0.3.0">
-  <Language name="Default">
-    <StringTable>
-      <string name="Hello">
-      </string>
-      <string name="How are you?">How are you?</string>
-      <string name="I want some beer.">I want some beer.</string>
-    </StringTable>
-  </Language>
-  <Language name="French">
-    <StringTable>
-      <string name="How are you?">Comment allez-vous?</string>
-      <string name="I want some beer.">Je voudrais quel-que beer.</string>
-    </StringTable>
-  </Language>
-  <Language name="German">
-    <StringTable>
-      <string name="How are you?">Vie geht das ihnen?</string>
-      <string name="I want some beer.">Ich moeschte et was bier.</string>
-    </StringTable>
-  </Language>
+  <StringTable>
+    <string name="Hello">Hello
+    </string>
+    <string name="How are you?">How are you?</string>
+    <string name="I want some beer.">I want some beer.</string>
+  </StringTable>
 </AgateResources>

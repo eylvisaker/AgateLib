@@ -10,16 +10,17 @@ using AgateLib.Resources;
 
 namespace ResourceEditor.StringTable
 {
+
     public partial class StringTableEditor : UserControl
     {
-        AgateResourceManager mResources;
+        AgateResourceCollection mResources;
 
         public StringTableEditor()
         {
             InitializeComponent();
         }
 
-        public AgateResourceManager ResourceManager
+        public AgateResourceCollection ResourceManager
         {
             get { return mResources; }
             set
@@ -27,32 +28,11 @@ namespace ResourceEditor.StringTable
                 if (value == mResources && value == null)
                     return;
 
-                if (mResources != null)
-                {
-                    mResources.Languages.LanguageAdded -= Languages_LanguageAdded;
-                    mResources.Languages.LanguageRemoved -= Languages_LanguageRemoved;
-                }
-
                 mResources = value;
-
-                if (mResources != null)
-                {
-                    mResources.Languages.LanguageAdded += new EventHandler<LanguageListChangedEventArgs>(Languages_LanguageAdded);
-                    mResources.Languages.LanguageRemoved += new EventHandler<LanguageListChangedEventArgs>(Languages_LanguageRemoved);
-                }
 
                 list.Items.Clear();
                 UpdateControls();
             }
-        }
-
-        void Languages_LanguageRemoved(object sender, LanguageListChangedEventArgs e)
-        {
-            UpdateControls();
-        }
-        void Languages_LanguageAdded(object sender, LanguageListChangedEventArgs e)
-        {
-            UpdateControls();
         }
 
         private void UpdateControls()
@@ -60,10 +40,8 @@ namespace ResourceEditor.StringTable
             if (mResources == null)
                 return;
 
-            ResourceGroup group = ResourceManager.DefaultLanguage;
-
             // add any items to the list view that are not there
-            foreach (string key in group.Strings.Keys)
+            foreach (string key in ResourceManager.Strings.Keys)
             {
                 if (ListBoxContainsItem(key))
                     continue;
@@ -77,47 +55,15 @@ namespace ResourceEditor.StringTable
             {
                 string text = list.Items[i].Text;
 
-                if (group.Strings.ContainsKey(text))
+                if (ResourceManager.Strings.ContainsKey(text))
                     continue;
 
                 list.Items.RemoveAt(i);
                 i--;
             }
 
-            // add any languages that don't have entries in the panel
             int tabIndex = list.TabIndex;
 
-            foreach (ResourceGroup language in ResourceManager.Languages)
-            {
-                if (LanguageEntryExists(language.LanguageName, ref tabIndex))
-                    continue;
-
-                StringEntry entry = new StringEntry();
-                panel.Controls.Add(entry);
-
-                entry.LanguageName = language.LanguageName;
-                entry.Width = panel.ClientRectangle.Width;
-                entry.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
-                entry.TabIndex = ++tabIndex;
-                entry.TextChanged += new EventHandler(stringEntry_TextChanged);
-
-                
-            }
-
-            // remove any languages from the panel which don't exist any more.
-            for (int i = 0; i < panel.Controls.Count; i++)
-            {
-                StringEntry entry = panel.Controls[i] as StringEntry;
-                if (entry == null) continue;
-
-                if (ResourceManager.Languages.Contains(entry.LanguageName))
-                    continue;
-
-                entry.TextChanged -= stringEntry_TextChanged;
-
-                panel.Controls.Remove(entry);
-                i--;
-            }
         }
 
         private bool LanguageEntryExists(string p, ref int tabIndex)
@@ -152,15 +98,13 @@ namespace ResourceEditor.StringTable
         {
             list.SelectedItems.Clear();
 
-            ResourceGroup group = ResourceManager.DefaultLanguage;
-
             string name = "New String";
 
-            if (group.Strings.ContainsKey(name))
+            if (ResourceManager.Strings.ContainsKey(name))
             {
                 int index = 1;
 
-                while (group.Strings.ContainsKey(name + " (" + index + ")"))
+                while (ResourceManager.Strings.ContainsKey(name + " (" + index + ")"))
                 {
                     index++;
                 }
@@ -168,7 +112,7 @@ namespace ResourceEditor.StringTable
                 name += " (" + index + ")";
             }
 
-            group.Strings.Add(name, "");
+            ResourceManager.Strings.Add(name, "");
 
             ListViewItem item = new ListViewItem(name);
 
@@ -198,7 +142,7 @@ namespace ResourceEditor.StringTable
             if (newname == oldname) 
                 return;
 
-            if (ResourceManager.DefaultLanguage.Strings.ContainsKey(newname))
+            if (ResourceManager.Strings.ContainsKey(newname))
             {
                 e.CancelEdit = true;
                 System.Media.SystemSounds.Beep.Play();
@@ -206,17 +150,14 @@ namespace ResourceEditor.StringTable
             }
             else
             {
-                for (int i = 0; i < ResourceManager.Languages.Count; i++)
+                AgateLib.Resources.StringTable strings = ResourceManager.Strings;
+
+                if (strings.ContainsKey(oldname))
                 {
-                    AgateLib.Resources.StringTable language = ResourceManager.Languages[i].Strings;
+                    string value = strings[oldname];
 
-                    if (language.ContainsKey(oldname) == false)
-                        continue;
-
-                    string value = language[oldname];
-
-                    language.Remove(oldname);
-                    language.Add(newname, value);
+                    strings.Remove(oldname);
+                    strings.Add(newname, value);
                 }
             }
         }
@@ -267,10 +208,7 @@ namespace ResourceEditor.StringTable
 
             for (int i = 0; i < names.Count; i++)
             {
-                foreach (ResourceGroup group in ResourceManager.Languages)
-                {
-                    group.Strings.Remove(names[i]);
-                }
+                ResourceManager.Strings.Remove(names[i]);
             }
 
             UpdateControls();
@@ -292,10 +230,9 @@ namespace ResourceEditor.StringTable
             if (entry == null)                return;
             if (list.SelectedItems.Count != 1) return;
 
-            string language = entry.LanguageName;
             string key = list.SelectedItems[0].Text;
 
-            ResourceManager.Languages[language].Strings[key] = entry.Text;
+            ResourceManager.Strings[key] = entry.Text;
         }
 
         private void list_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -316,14 +253,11 @@ namespace ResourceEditor.StringTable
         }
         private void LoadValue(StringEntry entry)
         {
-            string language = entry.LanguageName;
             string key = list.SelectedItems[0].Text;
 
-            ResourceGroup lang = ResourceManager.Languages[language];
-
-            if (lang.Strings.ContainsKey(key))
+            if (ResourceManager.Strings.ContainsKey(key))
             {
-                entry.Text = ResourceManager.Languages[language].Strings[key];
+                entry.Text = ResourceManager.Strings[key];
             }
             else
                 entry.Text = "";

@@ -13,9 +13,10 @@ namespace ResourceEditor
 {
     public partial class frmResourceEditor : Form
     {
-        AgateResourceManager mResources;
+        AgateResourceCollection mResources;
+        string mFilename;
 
-        AgateResourceManager Resources
+        AgateResourceCollection Resources
         {
             get { return mResources; }
             set
@@ -39,7 +40,7 @@ namespace ResourceEditor
 
         public string ShortName
         {
-            get { return Path.GetFileName(Resources.Filename); }
+            get { return Path.GetFileName(mFilename); }
         }
 
         bool updatingControls = false;
@@ -65,44 +66,10 @@ namespace ResourceEditor
                     save = saveAs = cut = copy = paste = delete = false;
 
                     mainbook.Visible = false;
-                    cboLanguages.Items.Clear();
-
-                    btnRemoveLanguage.Enabled = false;
                 }
                 else
                 {
-                    cboLanguages.Enabled = true;
                     mainbook.Visible = true;
-
-                    foreach (ResourceGroup lang in Resources.Languages)
-                    {
-                        if (cboLanguages.Items.Contains(lang.LanguageName))
-                            continue;
-
-                        cboLanguages.Items.Add(lang.LanguageName);
-                    }
-                    for (int i = 0; i < cboLanguages.Items.Count; i++)
-                    {
-                        if (Resources.Languages.Contains(cboLanguages.Items[i].ToString()) == false)
-                        {
-                            cboLanguages.Items.RemoveAt(i);
-                            i--;
-                        }
-                    }
-
-                    if (cboLanguages.SelectedIndex == -1)
-                        cboLanguages.SelectedIndex = 0;
-
-                    if (cboLanguages.SelectedItem.ToString().Equals(Resources.CurrentLanguage.LanguageName, 
-                        StringComparison.InvariantCultureIgnoreCase) == false)
-                    {
-                        cboLanguages.SelectedItem = Resources.CurrentLanguage.LanguageName;
-                    }
-
-                    if (cboLanguages.SelectedItem.ToString().ToLower() == "default")
-                        btnRemoveLanguage.Enabled = false;
-                    else
-                        btnRemoveLanguage.Enabled = true;
                 }
 
                 saveAsToolStripMenuItem.Enabled = saveAs;
@@ -119,9 +86,6 @@ namespace ResourceEditor
                 btnPaste.Enabled = paste;
 
                 deleteToolStripMenuItem.Enabled = delete;
-
-                cboLanguages.Enabled = hasDocument;
-                btnAddLanguage.Enabled = hasDocument;
             }
             finally
             {
@@ -175,7 +139,7 @@ namespace ResourceEditor
             if (CloseFile() == false)
                 return;
 
-            AgateResourceManager newRes = new AgateResourceManager();
+            AgateResourceCollection newRes = new AgateResourceCollection();
 
             if (SaveAs(newRes) == false)
                 return;
@@ -192,8 +156,8 @@ namespace ResourceEditor
             if (openFileDialog.ShowDialog(this) == DialogResult.Cancel)
                 return;
 
-            Resources = new AgateResourceManager();
-            Resources.Load(openFileDialog.FileName);
+            Resources = ResourceLoader.LoadResources(openFileDialog.FileName);
+            mFilename = openFileDialog.FileName;
 
             UpdateControls();
         }
@@ -225,11 +189,11 @@ namespace ResourceEditor
         /// continue.
         /// </summary>
         /// <returns></returns>
-        private bool Save(AgateResourceManager resources)
+        private bool Save(AgateResourceCollection resources)
         {
             try
             {
-                resources.Save();
+                ResourceLoader.SaveResources(resources, mFilename);
 
                 return true;
             }
@@ -245,11 +209,11 @@ namespace ResourceEditor
         /// Returns true if the file was saved and an existing operation should
         /// continue.
         /// </summary>
-        private bool SaveAs(AgateResourceManager resources)
+        private bool SaveAs(AgateResourceCollection resources)
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                resources.Filename = saveFileDialog.FileName;
+                mFilename = saveFileDialog.FileName;
 
                 return Save(resources);
             }
@@ -313,28 +277,6 @@ namespace ResourceEditor
         }
 
         #endregion
-
-        private void cboLanguages_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Resources.SetCurrentLanguage(cboLanguages.SelectedItem.ToString());
-
-            UpdateControls();
-        }
-
-        private void btnAddLanguage_Click(object sender, EventArgs e)
-        {
-            AddLanguage();
-        }
-
-        private void AddLanguage()
-        {
-            frmNewLanguage frm = new frmNewLanguage(Resources);
-
-            frm.ShowDialog(this);
-
-            UpdateControls();
-        }
-
 
         /// <summary>
         /// The main entry point for the application.
