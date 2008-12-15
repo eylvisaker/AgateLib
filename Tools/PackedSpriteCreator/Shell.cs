@@ -163,7 +163,7 @@ namespace AgateLib.PackedSpriteCreator
             }
         }
 
-        AgateResourceManager resources = new AgateResourceManager();
+        AgateResourceCollection resources = new AgateResourceCollection();
         SpriteResource sprite = null;
 
         #region --- Commands ---
@@ -241,7 +241,7 @@ namespace AgateLib.PackedSpriteCreator
             Ls(new string[] { "*.png", "*.bmp", "*.jpg", "*.gif", "*.jpeg" });
         }
 
-        [Command(ArgText = "resource_file", HelpText = "Loads resources in a resource file, combining them with the current resources.")]
+        [Command(ArgText = "resource_file", HelpText = "Loads resources in a resource file, discarding the current resources.")]
         void load(string[] args)
         {
             if (args.Length == 0)
@@ -249,15 +249,15 @@ namespace AgateLib.PackedSpriteCreator
                 WriteLine("Please specify a resource file.");
                 return;
             }
-            
-            resources.Load(args[0]);
+
+            resources = ResourceLoader.LoadResources(args[0]);
             WriteLine("Loaded resources from " + args[0] + ".");
         }
 
         [Command(HelpText="Clears all resources in memory.")]
         void clear(string[] args)
         {
-            resources = new AgateResourceManager();
+            resources = new AgateResourceCollection();
         }
 
         [Command(ArgText="[-y] resource_file", HelpText="Saves resources to a resource file.  Specify -y before filename to force\noverwriting a destination file.")]
@@ -294,8 +294,7 @@ namespace AgateLib.PackedSpriteCreator
 
             }
 
-            resources.Filename = filename;
-            resources.Save();
+            ResourceLoader.SaveResources(resources, filename);
             WriteLine("Saved resource to " + filename + ".");
         }
         
@@ -319,7 +318,7 @@ namespace AgateLib.PackedSpriteCreator
 			size = AgateLib.Geometry.Size.FromString(ReadLine());
 
             sprite = new SpriteResource(name);
-            resources.CurrentLanguage.Add(sprite);
+            resources.Add(sprite);
 
             sprite.Size = size;
 
@@ -333,7 +332,7 @@ namespace AgateLib.PackedSpriteCreator
 
             if (args.Length > 0)
             {
-                AgateResource r = resources.CurrentLanguage[args[0]];
+                AgateResource r = resources[args[0]];
                 res = r as SpriteResource;
 
                 if (res == null)

@@ -88,7 +88,7 @@ namespace AgateLib.DisplayLib
         /// </summary>
         /// <param name="resources"></param>
         /// <param name="name"></param>
-        public Surface(Resources.AgateResourceManager resources, string name)
+        public Surface(Resources.AgateResourceCollection resources, string name)
         {
             Resources.AgateResource res = resources[name];
             Resources.SurfaceResource surf = res as Resources.SurfaceResource;

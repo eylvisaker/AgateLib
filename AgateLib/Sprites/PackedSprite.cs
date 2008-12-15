@@ -142,12 +142,12 @@ namespace AgateLib.Sprites
         /// Constructs a Sprite object, loading it from the file specified
         /// in the given ResourceManager object.  It is not recommended to use this
         /// constructor, but instead to use the CreateSprite() of the
-        /// AgateResourceManager object.
+        /// AgateResourceCollection object.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="resources"></param>
         [Obsolete]
-        public PackedSprite(string name, AgateResourceManager resources)
+        public PackedSprite(string name, AgateResourceCollection resources)
         {
             SpriteResource resource = resources[name] as SpriteResource;
             if (resource == null)
