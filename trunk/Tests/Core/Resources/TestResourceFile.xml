@@ -1,5 +1,4 @@
 <AgateResources Version="0.3.0">
-  <Language name="Default">
     <StringTable>
       <string name="Hello">
       </string>
@@ -9,7 +8,7 @@
     <DisplayWindow name="main_window" preferred_size="{400,200}" bpp="32" allow_resize="true">
       Have a roni!
     </DisplayWindow>
-    <Surface name="sample_surf" filename="sample_surf.png" />
+    <Surface name="sample_surf" filename="jellybean.png" />
     <Sprite name="sample_sprite" size="{96,96}" image="attacke.png">
       <Frame rect="{0,0,96,96}" offset="{0,0}" />
       <Frame rect="{96,0,96,96}" offset="{0,0}" />
@@ -25,17 +24,4 @@
       <Frame rect="{480,96,96,96}" offset="{0,0}" />
       <Frame rect="{0,192,96,96}" offset="{0,0}" />
     </Sprite>
-  </Language>
-  <Language name="French">
-    <StringTable>
-      <string name="How are you?">Comment allez-vous?</string>
-      <string name="I want some beer.">Je voudrais quel-que beer.</string>
-    </StringTable>
-  </Language>
-  <Language name="German">
-    <StringTable>
-      <string name="How are you?">Wie geht das ihnen?</string>
-      <string name="I want some beer.">Ich moeschte et was bier.</string>
-    </StringTable>
-  </Language>
 </AgateResources>
