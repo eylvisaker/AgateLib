@@ -28,36 +28,28 @@ namespace FontLineTester
 			// driver plugins and images.
 			AgateLib.Utility.FileManager.AssemblyPath.Add("../Drivers");
 			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
+            AgateLib.Utility.FileManager.ResourcePath.Add("../../../Tests/TestImages");
 
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
                 DisplayWindow wind = new DisplayWindow("Font Line Tester", 640, 480);
                 Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
                 Core.AutoPause = true;
 
-                FileManager.ImagePath.Clear();
-                FileManager.ImagePath.Add("../../");
+                FontSurface bmpFont = FontSurface.LoadBitmapFont("bitmapfont.png", "bitmapfont.xml");
 
+                fonts.Add(bmpFont);
                 fonts.Add(new FontSurface("Arial", 12));
                 fonts.Add(new FontSurface("Arial", 20));
                 fonts.Add(new FontSurface("Times", 12));
                 fonts.Add(new FontSurface("Times", 20));
                 fonts.Add(new FontSurface("Tahoma", 14));
                 fonts.Add(new FontSurface("Comic", 16));
-
-                //fonts.Add(FontSurface.BitmapMonospace("font.png", new Size(16, 16)));
-                //fonts[1].StringTransformer = StringTransformer.ToUpper;
-
-
-                if (fonts[0].Impl is AgateLib.BitmapFont.BitmapFontImpl)
-                {
-                    (fonts[0].Impl as AgateLib.BitmapFont.BitmapFontImpl).Save("fonttest.png", "fonttest.xml");
-                }
 
                 while (wind.IsClosed == false)
                 {
@@ -70,8 +62,8 @@ namespace FontLineTester
 
                     Display.DrawRect(drawRect, Color.Red);
 
-                    fonts[0].DrawText(0, 370, "Use numeric keypad to switch fonts.");
-                    fonts[0].DrawText(0, 400,
+                    bmpFont.DrawText(0, 370, "Use numeric keypad to switch fonts.");
+                    bmpFont.DrawText(0, 400,
                         "Measured size was: " + drawRect.Size.ToString());
 
                     Display.EndFrame();
