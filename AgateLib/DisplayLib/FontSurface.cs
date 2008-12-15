@@ -383,7 +383,12 @@ namespace AgateLib.DisplayLib
         public static FontSurface LoadBitmapFont(string imageFile, string glyphDefsFile)
         {
             FontMetrics metrics = new FontMetrics();
-            metrics.Load(glyphDefsFile);
+
+            string xmlfile = Utility.FileManager.ResourcePath.FindFileName(glyphDefsFile);
+            if (System.IO.File.Exists(xmlfile) == false)
+                throw new System.IO.FileNotFoundException(glyphDefsFile);
+
+            metrics.Load(xmlfile);
 
             BitmapFontImpl bmpFont = new BitmapFontImpl(new Surface(imageFile), metrics);
 

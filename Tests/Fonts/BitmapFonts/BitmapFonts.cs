@@ -26,7 +26,7 @@ namespace BitmapFontTester
 			// driver plugins and images.
 			AgateLib.Utility.FileManager.AssemblyPath.Add("../Drivers");
 			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
-			
+            
 			using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;
@@ -61,9 +61,9 @@ namespace BitmapFontTester
                     Display.BeginFrame();
                     Display.Clear(Color.Navy);
 
-                    font.DrawText("Chonk");
+                    font.DrawText("The quick brown fox jumps over the lazy dog.");
 
-                    second.DrawText(0, 70, "sdlkfj");
+                    second.DrawText(0, font.StringDisplayHeight("M"), "The quick brown fox jumps over the lazy dog.");
 
                     Display.EndFrame();
                     Core.KeepAlive();
