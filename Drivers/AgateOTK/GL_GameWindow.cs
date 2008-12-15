@@ -197,10 +197,10 @@ namespace AgateLib.DisplayLib.OpenGL
             mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);
         }
 
+        bool done = false;
         void mWindow_CloseWindow(object sender, EventArgs e)
         {
-            mWindow.Dispose();
-            mWindow = null;
+            done = true;
         }
 
         void Keyboard_KeyDown(OpenTK.Input.KeyboardDevice sender, OpenTK.Input.Key key)
@@ -307,16 +307,16 @@ namespace AgateLib.DisplayLib.OpenGL
         Point lastMouse;
         void mDisplay_ProcessEventsEvent(object sender, EventArgs e)
 		{
-			if (mWindow == null)
-				return;
-
             try
             {
-                
                 mWindow.ProcessEvents();
 
-                if (mWindow == null)
+                // TODO: Hacky fix for exception when window is closed.
+                if (done)
+                {
+                    Dispose();
                     return;
+                }
 
                 // simulate mouse move events
                 if (Mouse.Position != lastMouse)
