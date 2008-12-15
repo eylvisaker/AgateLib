@@ -244,15 +244,14 @@ namespace ERY.SpriteTester
             else
             {
                 // since loading the sprite from the file failed, try it as a resource file.
-                AgateResourceManager resources = new AgateResourceManager();
-                resources.Load(filename);
+                AgateResourceCollection resources = ResourceLoader.LoadResources(filename);
 
-                if (resources.CurrentLanguage.Sprites.ToArray().Length == 1)
+                if (resources.Sprites.ToArray().Length == 1)
                 {
                     AgateLib.Utility.FileManager.ImagePath.Clear();
                     AgateLib.Utility.FileManager.ImagePath.Add(System.IO.Path.GetDirectoryName(filename));
 
-                    var sprites = resources.CurrentLanguage.Sprites.ToArray();
+                    var sprites = resources.Sprites.ToArray();
 
                     // TODO: show dialog to choose sprite.
                     NewSprite sp = new NewSprite(resources, sprites[0].Name);
