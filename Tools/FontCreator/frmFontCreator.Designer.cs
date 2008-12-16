@@ -119,7 +119,7 @@ namespace FontCreator
 			this.nudSize.Size = new System.Drawing.Size(59, 20);
 			this.nudSize.TabIndex = 4;
 			this.nudSize.Value = new decimal(new int[] {
-            100,
+            140,
             0,
             0,
             65536});
@@ -279,7 +279,7 @@ namespace FontCreator
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(46, 13);
 			this.label6.TabIndex = 16;
-			this.label6.Text = "Opacity:";
+			this.label6.Text = "Border Opacity:";
 			// 
 			// chkBorder
 			// 
