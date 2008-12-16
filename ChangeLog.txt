@@ -11,8 +11,12 @@ Major namespace reorganization and class renaming.  The ERY root namespace has b
  * Moved static Input class to AgateLib.InputLib.Old namespace.
  * Keyboard/mouse classes moved to AgateLib.InputLib namespace.
  * Joystick classes moved to AgateLib.InputLib.Old namespace.
+
+A new cross platform build system has been implemented.  Now AgateLib is easy to build and edit on
+Linux and MacOS with MonoDevelop.  This should help users of other operating systems contribute to
+AgateLib.
  
-Added AgateWinForms.dll to encapsulate all references to System.Drawing and System.Windows.Forms.
+Added AgateLib.WinForms.dll to encapsulate all references to System.Drawing and System.Windows.Forms.
 AgateOTK has been updated to use OpenTK version 0.9.1.
 
 An OpenAL driver has been developed in AgateOTK, providing an audio driver for Linux which does not require licensing fees.
@@ -22,7 +26,7 @@ Added AgateLib.Serialization namespace with two custom serializers that produce 
 Deprecated the existing resource classes in favor of newly added resource classes.  
 A GUI resouce editor is in development.
 
-Breaking Changes:
+Other Breaking Changes:
 * Removed Obsolete API's
 * BeginFrame now throws an AgateException instead of InvalidObjectException if we are already in a BeginFrame..EndFrame block.
 * Added Vector2 and Vector3 types, with operator overloads.
