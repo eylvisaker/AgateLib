@@ -34,7 +34,7 @@ namespace FontTester
 
                 DisplayWindow wind = new DisplayWindow(CreateWindowParams.Windowed(
                     "Font Tester", 800, 600,
-                    @"..\..\src\AgateLib.ico", false));
+                    @"../../../AgateLib.ico", false));
 
                 FontSurface font = new FontSurface("Arial", 12);
                 FontSurface bitmapFont = FontSurface.BitmapMonospace("lotafont.png", new Size(16, 16));
