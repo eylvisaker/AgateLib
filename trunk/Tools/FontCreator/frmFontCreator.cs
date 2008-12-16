@@ -46,14 +46,22 @@ namespace FontCreator
 
             int index = 0;
 
+			List<string> fonts = new List<string>();
             foreach (FontFamily fam in FontFamily.Families)
             {
-                if (fam.Name == "Arial" || fam.Name.Contains("Sans Serif") && index == 0)
+				fonts.Add(fam.Name);
+			}
+			fonts.Sort();
+
+			foreach (string family in fonts)
+			{
+                if (family == "Arial" || family.Contains("Sans Serif") && index == 0)
                     index = cboFamily.Items.Count;
 
-                cboFamily.Items.Add(fam.Name);
+                cboFamily.Items.Add(family);
             }
 
+			
             cboFamily.SelectedIndex = index;
             txtSampleText_TextChanged(null, null);
 
