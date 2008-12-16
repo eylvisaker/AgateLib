@@ -221,6 +221,7 @@ namespace AgateLib.Geometry
         /// <summary>
         /// True if this is (0,0,0,0).
         /// </summary>
+        [Browsable(false)]
         public bool IsEmpty
         {
             get { return pt.IsEmpty && sz.IsEmpty; }
