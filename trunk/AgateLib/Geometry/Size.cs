@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace AgateLib.Geometry
@@ -26,6 +27,7 @@ namespace AgateLib.Geometry
     /// Replacement for System.Drawing.Size object.
     /// </summary>
     [Serializable]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public partial struct Size
     {
         int width, height;
@@ -83,6 +85,7 @@ namespace AgateLib.Geometry
         /// <summary>
         /// Returns true if width and height are zero.
         /// </summary>
+        [Browsable(false)]
         public bool IsEmpty
         {
             get { return width == 0 && height == 0; }

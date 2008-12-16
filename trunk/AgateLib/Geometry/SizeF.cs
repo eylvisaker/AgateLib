@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace AgateLib.Geometry
@@ -26,6 +27,7 @@ namespace AgateLib.Geometry
     /// SizeF structure.
     /// </summary>
     [Serializable]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public struct SizeF
     {
         float width, height;
@@ -83,7 +85,8 @@ namespace AgateLib.Geometry
         /// <summary>
         /// True if width and height are zero.
         /// </summary>
-        public bool IsEmpty
+        [Browsable(false)]
+		public bool IsEmpty
         {
             get { return width == 0 && height == 0; }
         }
