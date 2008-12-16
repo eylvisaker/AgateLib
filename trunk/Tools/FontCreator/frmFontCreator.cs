@@ -27,10 +27,17 @@ namespace FontCreator
 			
             using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup(args))
             {
-                setup.AskUser = true;
                 setup.Initialize(true, false, false);
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
+
+                Properties.Settings.Default.Reload();
+                if (Properties.Settings.Default.SkipWarning == false)
+                {
+                    new frmWarningSplash().ShowDialog();
+                }
+                Properties.Settings.Default.Save();
+
 
                 Application.Run(new frmFontCreator());
             }
