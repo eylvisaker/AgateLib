@@ -28,17 +28,18 @@ Goals for 0.3.0
 		* Update AgateOTK to not call GL functions in finalizers.
 	Sprites
 		D Create ISprite and ISpriteFrame interfaces
-		* Create ISprite compliant version of old Sprite class
+		D Create ISprite compliant version of old Sprite class
 		D Finish PackedSprite class
-		* Deprecate old Sprite class
-		* Test PackedSprite class
+		D Deprecate old Sprite class
+		D Test PackedSprite class
+		D Merge two sprite classes into a single class for ease of use.
 	Fonts
 		* Finish FontSurface serialization
 		D Investigate nVidia bug with Bitmap Fonts and fix it
 	Surfaces
 		D Move implementation of PixelBuffer.SaveTo to Display class or something.
 	Audio
-		* Make sure that Audio can be loaded from Stream classes.
+		D Make sure that Audio can be loaded from Stream classes.
 		D Develop OpenAL classes in AgateOTK.
 	Input
 		D Eliminate all use of FlagsAttribute on MouseButtons enum.
@@ -53,10 +54,14 @@ Goals for 0.3.0
 
 Supplemental Projects
 ---------------------------------------------------
-	Compact Sprites Builder - Constructs, based on an input file (xml?) packed sprite files with associated xml describing frame locations
-	Fonts - Constructs fonts from System.Drawing from options specified in an input file.
-	Resources - Builds resource files.
-	Distributions - Builds distributions for Linux, Windows, and MacOS based on the assemblies and resource file(s).
+	Compact Sprites Builder CLI:
+		CLI utility to construct packed sprite files with an associated xml 
+		resource file describing frame locations.
+	Fonts CLI:
+		CLI utility to construct fonts from System.Drawing from options specified.
+	Distributions:
+		Builds distributions for Linux, Windows, and MacOS based on the assemblies and resource file(s), with
+		possible support for localization.
 
 
 Goals for 0.3.5
