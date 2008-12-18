@@ -16,6 +16,11 @@ namespace OrthoProjectionTest
 
         static void Main()
         {
+            // These two lines are used by AgateLib tests to locate
+            // driver plugins and images.
+            AgateLib.Utility.AgateFileProvider.AssemblyProvider.AddPath("../Drivers");
+            AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath("../../../Tests/TestImages");
+            
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;
@@ -27,7 +32,7 @@ namespace OrthoProjectionTest
 
                 wind = new DisplayWindow("Ortho Projection Test", 640, 480, "", false, true);
                 
-                Surface surf = new Surface("test.png");
+                Surface surf = new Surface("jellybean.png");
                 surf.Color = Color.Cyan;
 
                 while (wind.IsClosed == false)
