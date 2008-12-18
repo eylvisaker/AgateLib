@@ -1,4 +1,4 @@
-<Project name="LightingTest" path="../Tests/Display/LightingTest" language="C#" type="WinExe">
+<Project name="OrthoProjection" path="../Tests/Display/OrthoProjection" language="C#" type="WinExe">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
