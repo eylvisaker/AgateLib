@@ -122,5 +122,15 @@ namespace AgateLib.AgateFMOD
         {
             CheckFMODResult(mSystem.update());
         }
+
+        public override MusicImpl CreateMusic(System.IO.Stream musicStream)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

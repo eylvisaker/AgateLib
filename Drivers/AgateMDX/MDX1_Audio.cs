@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using DirectSound = Microsoft.DirectX.DirectSound;
 using AV = Microsoft.DirectX.AudioVideoPlayback;
@@ -59,7 +60,16 @@ namespace AgateLib.MDX
             mDevice.Dispose();
         }
 
+        public override SoundBufferImpl CreateSoundBuffer(Stream inStream)
+        {
+            return new MDX1_SoundBuffer(this, inStream);
+        }
+        public override MusicImpl CreateMusic(System.IO.Stream musicStream)
+        {
+            CheckCoop();
 
+            return new MDX1_Music(this, musicStream);
+        }
         public override MusicImpl CreateMusic(string filename)
         {
             CheckCoop();
@@ -98,7 +108,7 @@ namespace AgateLib.MDX
         MDX1_Audio mAudio;
         DirectSound.SecondaryBuffer mBuffer;
 
-        public MDX1_SoundBuffer(MDX1_Audio audio, string filename)
+        public MDX1_SoundBuffer(MDX1_Audio audio, Stream inStream)
         {
             mAudio = audio;
 
@@ -111,8 +121,12 @@ namespace AgateLib.MDX
             desc.ControlEffects = false;
             desc.LocateInSoftware = true;
 
-
-            mBuffer = new DirectSound.SecondaryBuffer(filename, desc, mAudio.DS_Device);
+            mBuffer = new DirectSound.SecondaryBuffer(inStream, desc, mAudio.DS_Device);
+        }
+        public MDX1_SoundBuffer(MDX1_Audio audio, string filename)
+            : this(audio, File.OpenRead(filename))
+        {
+            
         }
         public override void Dispose()
         {
@@ -210,6 +224,37 @@ namespace AgateLib.MDX
             mAVAudio.Ending += new EventHandler(mAVAudio_Ending);
 
         }
+        public MDX1_Music(MDX1_Audio audio, Stream infile)
+        {
+            mAudio = audio;
+
+            string tempfile = Path.GetTempFileName();
+            using (FileStream writer = File.OpenWrite(tempfile))
+            {
+                ReadWriteStream(infile, writer);
+            }
+
+            mAVAudio = new Microsoft.DirectX.AudioVideoPlayback.Audio(tempfile);
+            mAVAudio.Ending += new EventHandler(mAVAudio_Ending);
+
+            File.Delete(tempfile);
+        }
+
+        private void ReadWriteStream(Stream readStream, Stream writeStream)
+        {
+            int Length = 256;
+            Byte[] buffer = new Byte[Length];
+            int bytesRead = readStream.Read(buffer, 0, Length);
+            // write the required bytes
+            while (bytesRead > 0)
+            {
+                writeStream.Write(buffer, 0, bytesRead);
+                bytesRead = readStream.Read(buffer, 0, Length);
+            }
+            readStream.Close();
+            writeStream.Close();
+        }
+
         public override void Dispose()
         {
             mAVAudio.Dispose();

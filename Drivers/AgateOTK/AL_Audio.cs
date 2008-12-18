@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using AgateLib.ImplementationBase;
 using AgateLib.Drivers;
@@ -28,7 +29,11 @@ namespace AgateLib.DisplayLib.OpenGL
 
         public override SoundBufferImpl CreateSoundBuffer(string filename)
         {
-            return new AL_SoundBuffer(filename);
+            return new AL_SoundBuffer(File.OpenRead(filename));
+        }
+        public override SoundBufferImpl CreateSoundBuffer(Stream inStream)
+        {
+            return new AL_SoundBuffer(inStream);
         }
         public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
         {
@@ -36,7 +41,11 @@ namespace AgateLib.DisplayLib.OpenGL
         }   
         public override MusicImpl CreateMusic(string filename)
         {
-            return new AL_Music(filename);
+            return new AL_Music(File.OpenRead(filename));
+        }
+        public override MusicImpl CreateMusic(Stream musicStream)
+        {
+            return new AL_Music(musicStream);
         }
 
     }
@@ -46,9 +55,9 @@ namespace AgateLib.DisplayLib.OpenGL
         int buffer;
         double volume = 1.0;
 
-        public AL_SoundBuffer(string filename)
+        public AL_SoundBuffer(Stream inStream)
         {
-            using (AudioReader reader = new AudioReader(filename))
+            using (AudioReader reader = new AudioReader(inStream))
             {
                 buffer = AL.GenBuffer();
                 AL.BufferData(buffer, reader.ReadToEnd());
@@ -157,9 +166,9 @@ namespace AgateLib.DisplayLib.OpenGL
         int source;
         double volume = 1.0;
 
-        public AL_Music(string filename)
+        public AL_Music(Stream inStream)
         {
-            using (AudioReader reader = new AudioReader(filename))
+            using (AudioReader reader = new AudioReader(inStream))
             {
                 buffer = AL.GenBuffer();
                 source = AL.GenSource();

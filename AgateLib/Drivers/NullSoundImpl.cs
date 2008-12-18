@@ -231,6 +231,15 @@ namespace AgateLib
         {
             return new NullSoundBufferImpl();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inStream"></param>
+        /// <returns></returns>
+        public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
+        {
+            return new NullSoundBufferImpl();
+        }
 
         /// <summary>
         /// 
@@ -247,5 +256,16 @@ namespace AgateLib
         {
             return new NullSoundBufferSessionImpl();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="musicStream"></param>
+        /// <returns></returns>
+        public override MusicImpl CreateMusic(System.IO.Stream musicStream)
+        {
+            return new NullMusicImpl();
+        }
+
     }
 }

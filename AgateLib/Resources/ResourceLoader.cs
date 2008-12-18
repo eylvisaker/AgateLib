@@ -38,7 +38,11 @@ namespace AgateLib.Resources
         /// <returns></returns>
         public static AgateResourceCollection LoadResources(string filename)
         {
-            return LoadResources(FileManager.OpenFile(FileManager.ResourcePath, filename, FileMode.Open, FileAccess.Read));
+            using (System.IO.Stream s = AgateFileProvider.ResourceProvider.OpenRead(filename))
+            {
+                return LoadResources(s);
+            }
+            
         }
         /// <summary>
         /// Loads the resource information from a stream containing XML data.

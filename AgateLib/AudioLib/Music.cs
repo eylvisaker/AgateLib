@@ -47,11 +47,10 @@ namespace AgateLib.AudioLib
         public Music(string filename)
             : this()
         {
-            string fn = FileManager.MusicPath.FindFileName(filename);
-            if (string.IsNullOrEmpty(fn))
-                throw new System.IO.FileNotFoundException(filename);
-
-            impl = Audio.Impl.CreateMusic(fn);
+            using (System.IO.Stream s = AgateFileProvider.MusicProvider.OpenRead(filename))
+            {
+                impl = Audio.Impl.CreateMusic(s);
+            }
             mFilename = filename;
         }
 

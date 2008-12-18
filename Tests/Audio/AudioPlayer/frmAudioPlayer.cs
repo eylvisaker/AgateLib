@@ -25,15 +25,13 @@ namespace AudioTester
 
             statusLabel.Text = "";
 
-            textBox1_TextChanged(this, EventArgs.Empty);
+            textBox1.Text = Directory.GetCurrentDirectory();
         }
 
         private void frmAudioTester_Load(object sender, EventArgs e)
         {
             FillMusicListBox();
         }
-
-
 
         private void btnMusic_Click(object sender, EventArgs e)
         {
@@ -148,12 +146,18 @@ namespace AudioTester
             {
                 Directory.SetCurrentDirectory(textBox1.Text);
 
-                AgateLib.Utility.FileManager.SoundPath = new AgateLib.Utility.SearchPath(".");
-                AgateLib.Utility.FileManager.MusicPath = new AgateLib.Utility.SearchPath(".");
+                AgateLib.Utility.AgateFileProvider.MusicProvider.PathList.Clear();
+                AgateLib.Utility.AgateFileProvider.SoundProvider.PathList.Clear();
+
+                AgateLib.Utility.AgateFileProvider.MusicProvider.AddPath(".");
+                AgateLib.Utility.AgateFileProvider.MusicProvider.AddPath(".");
 
                 FillMusicListBox();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                AgateLib.Core.ReportError(AgateLib.ErrorLevel.Warning, "Error while searching for files", ex, true, true);
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)

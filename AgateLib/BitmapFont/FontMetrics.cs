@@ -203,10 +203,14 @@ namespace AgateLib.BitmapFont
         /// <param name="xmlFile"></param>
         public void Load(string xmlFile)
         {
+            Load(System.IO.File.OpenRead(xmlFile));
+        }
+        public void Load(System.IO.Stream xmlStream)
+        {
             mGlyphs.Clear();
 
             XmlDocument doc = new XmlDocument();
-            doc.Load(xmlFile);
+            doc.Load(xmlStream);
 
             XmlNode rootNode = doc.ChildNodes[0];
 

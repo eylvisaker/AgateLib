@@ -384,11 +384,10 @@ namespace AgateLib.DisplayLib
         {
             FontMetrics metrics = new FontMetrics();
 
-            string xmlfile = Utility.FileManager.ResourcePath.FindFileName(glyphDefsFile);
-            if (System.IO.File.Exists(xmlfile) == false)
-                throw new System.IO.FileNotFoundException(glyphDefsFile);
-
-            metrics.Load(xmlfile);
+            using (System.IO.Stream s = Utility.AgateFileProvider.ResourceProvider.OpenRead(glyphDefsFile))
+            {
+                metrics.Load(s);
+            }
 
             BitmapFontImpl bmpFont = new BitmapFontImpl(new Surface(imageFile), metrics);
 

@@ -24,37 +24,20 @@ namespace AgateLib.Utility
 {
     /// <summary>
     /// Manages file locations and automatic finding of files.
-    /// </summary>
+    /// </summary>e
+    [Obsolete("Use AgateFileProvider class instead.")]
     public static class FileManager
     {
         private static string mPathChars = "/";
 
-		private static SearchPath mAssemblyPath;
-        private static SearchPath mImagePath = new SearchPath(".");
-        private static SearchPath mAudioPath = new SearchPath(".");
-        private static SearchPath mResourcePath = new SearchPath(".");
+		private static SearchPath mAssemblyPath = new SearchPath(AgateFileProvider.AssemblyProvider);
+        private static SearchPath mImagePath = new SearchPath(AgateFileProvider.ImageProvider);
+        private static SearchPath mAudioPath = new SearchPath(AgateFileProvider.SoundProvider);
+        private static SearchPath mResourcePath = new SearchPath(AgateFileProvider.ResourceProvider);
 
         private static bool mBufferStreams = true;
         private static int mBufferSize = 1000;
 
-        private static bool mInitialized = false;
-
-		static FileManager()
-		{
-			Initialize();
-		}
-
-        internal static void Initialize()
-        {
-            if (mInitialized)
-                return;
-
-            string location = System.Reflection.Assembly.GetEntryAssembly().Location;
-
-            mAssemblyPath = new SearchPath(Path.GetDirectoryName(location));
-
-            mInitialized = true;
-        }
         /// <summary>
         /// Indicates the characters that the application can use to specify
         /// directories, when using methods in this class to open files.

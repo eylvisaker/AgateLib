@@ -23,8 +23,8 @@ namespace RotatingSpriteTester
 		{		
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
-			AgateLib.Utility.FileManager.AssemblyPath.Add("../Drivers");
-			AgateLib.Utility.FileManager.ImagePath.Add("../../../Tests/TestImages");
+			AgateLib.Utility.AgateFileProvider.AssemblyProvider.AddPath("../Drivers");
+			AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath("../../../Tests/TestImages");
 
             using (AgateSetup setup = new AgateSetup())
             {
@@ -34,7 +34,7 @@ namespace RotatingSpriteTester
                 if (setup.WasCanceled)
                     return;
 
-                DisplayWindow wind = new DisplayWindow("Rotating sprite", 500, 500);
+                DisplayWindow wind = new DisplayWindow("Rotating sprite", 300, 300);
                 Sprite sp = new Sprite("spike.png", 16, 16);
 
                 sp.RotationCenter = OriginAlignment.Center;
@@ -43,7 +43,7 @@ namespace RotatingSpriteTester
                 sp.RotationAngleDegrees = 90;
                 sp.SetScale(2, 2);
 
-                Point location = new Point(400, 100);
+                Point location = new Point(150, 100);
 
                 while (wind.IsClosed == false)
                 {
