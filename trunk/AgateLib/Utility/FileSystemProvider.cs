@@ -68,11 +68,44 @@ namespace AgateLib.Utility
             if (filename == null)
                 return;
 
-            if (FileManager.CheckCrossPlatform(filename) == false)
+            if (CheckCrossPlatform(filename) == false)
             {
                 System.Diagnostics.Debug.WriteLine("The path \"" + filename + "\" is not entered in a cross-platform manner.");
-                System.Diagnostics.Debug.WriteLine("Avoid using the following characters:  " + FileManager.NonCrossPlatformChars);
+                System.Diagnostics.Debug.WriteLine("Avoid using the following characters:  " + NonCrossPlatformChars);
             }
+        }
+
+
+        /// <summary>
+        /// Returns a list of characters which may be valid file path characters
+        /// on some platforms, but not others.
+        /// </summary>
+        private static string NonCrossPlatformChars
+        {
+            get
+            {
+                return @"\:|";
+            }
+        }
+
+        /// <summary>
+        /// Checks to see if a filepath is entered in a cross-platform 
+        /// manner, and returns true if it is.
+        /// </summary>
+        /// <param name="path">The path to check.</param>
+        /// <returns>True if the passed path is cross-platform.</returns>
+        private static bool CheckCrossPlatform(string path)
+        {
+            // TODO: fix up this function to be report errors if we are not cross-platform.
+            string chars = NonCrossPlatformChars;
+
+            for (int i = 0; i < chars.Length; i++)
+            {
+                if (path.Contains(chars[i].ToString()))
+                    return false;
+            }
+
+            return true;
         }
 
         public ISearchPathList PathList
