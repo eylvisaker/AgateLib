@@ -44,7 +44,7 @@ namespace AgateLib.Utility
         /// (You might want to consider using SearchPath(".") instead to include
         /// the current directory.)
         /// </summary>
-        [Obsolete]
+        [Obsolete("Use AgateFileProvider methods instead.", true)]
         public SearchPath()
         {
         }
@@ -53,7 +53,7 @@ namespace AgateLib.Utility
         /// to the list of paths to search.
         /// </summary>
         /// <param name="array">A comma delimited list of strings.</param>
-        [Obsolete]
+        [Obsolete("Use AgateFileProvider methods instead.", true)]
         public SearchPath(params string[] array)
         {
             foreach (string s in array)
@@ -122,18 +122,6 @@ namespace AgateLib.Utility
             files.AddRange(mProvider.GetAllFiles(searchPattern));
 
             return files;
-        }
-
-        private void DebugCrossPlatform(string filename)
-        {
-            if (filename == null)
-                return;
-
-            if (FileManager.CheckCrossPlatform(filename) == false)
-            {
-                System.Diagnostics.Debug.WriteLine("The path \"" + filename + "\" is not entered in a cross-platform manner.");
-                System.Diagnostics.Debug.WriteLine("Avoid using the following characters:  " + FileManager.NonCrossPlatformChars);
-            }
         }
 
         /// <summary>

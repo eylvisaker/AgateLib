@@ -51,36 +51,6 @@ namespace AgateLib.Utility
             set { mPathChars = value; }
         }
 
-        /// <summary>
-        /// Returns a list of characters which may be valid file path characters
-        /// on some platforms, but not others.
-        /// </summary>
-        internal static string NonCrossPlatformChars
-        {
-            get
-            {
-                return @"\:|";
-            }
-        }
-
-        /// <summary>
-        /// Checks to see if a filepath is entered in a cross-platform 
-        /// manner, and returns true if it is.
-        /// </summary>
-        /// <param name="path">The path to check.</param>
-        /// <returns>True if the passed path is cross-platform.</returns>
-        public static bool CheckCrossPlatform(string path)
-        {
-            string chars = NonCrossPlatformChars;
-            
-            for (int i = 0; i < chars.Length; i++)
-            {
-                if (path.Contains(chars[i].ToString()))
-                    return false;
-            }
-
-            return true;
-        }
 
         /// <summary>
         /// Gets or sets the SearchPath object which contains the paths used for

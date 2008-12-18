@@ -248,8 +248,8 @@ namespace ERY.SpriteTester
 
                 if (resources.Sprites.ToArray().Length == 1)
                 {
-                    AgateLib.Utility.FileManager.ImagePath.Clear();
-                    AgateLib.Utility.FileManager.ImagePath.Add(System.IO.Path.GetDirectoryName(filename));
+                    AgateLib.Utility.AgateFileProvider.ImageProvider.PathList.Clear();
+                    AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath(System.IO.Path.GetDirectoryName(filename));
 
                     var sprites = resources.Sprites.ToArray();
 
