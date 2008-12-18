@@ -184,14 +184,13 @@ namespace AgateLib.DisplayLib
 
         /// <summary>
         /// Path to a .ico file to use for the window icon.
-        /// Setting this field resolves the path to the icon using the FileManager.ImagePath
         /// </summary>
         public string IconFile
         {
             get { return iconFile; }
             set
             {
-                iconFile = FileManager.ImagePath.FindFileName(value);
+                iconFile = value;
             }
         }
 

@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 using AgateLib;
@@ -38,9 +39,18 @@ namespace AgateLib.AgateFMOD
             mAudio = audio;
             mSystem = mAudio.FMODSystem;
 
+            
             FMOD_Audio.CheckFMODResult(mSystem.createSound(filename, FMOD.MODE.DEFAULT, ref mSound));
 
         }
+        public FMOD_SoundBuffer(FMOD_Audio audio, Stream inStream)
+        {
+            byte[] bytes = new byte[inStream.Length];
+
+            inStream.Read(bytes, 0, (int)inStream.Length);
+
+        }
+
         ~FMOD_SoundBuffer()
         {
             Dispose(false);

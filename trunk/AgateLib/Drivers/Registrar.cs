@@ -62,7 +62,7 @@ namespace AgateLib.Drivers
             NullSoundImpl.Register();
             NullInputImpl.Register();
 
-            IEnumerable<string> files = FileManager.AssemblyPath.GetAllFiles("*.dll");
+            IEnumerable<string> files = AgateFileProvider.AssemblyProvider.GetAllFiles("*.dll");
 
             foreach (string file in files)
             {

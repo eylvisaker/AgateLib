@@ -40,7 +40,7 @@
             // 
             this.btnOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(138, 206);
+            this.btnOK.Location = new System.Drawing.Point(128, 194);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(61, 23);
             this.btnOK.TabIndex = 0;
@@ -52,7 +52,7 @@
             // 
             this.chkSkipWarning.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.chkSkipWarning.AutoSize = true;
-            this.chkSkipWarning.Location = new System.Drawing.Point(76, 169);
+            this.chkSkipWarning.Location = new System.Drawing.Point(66, 157);
             this.chkSkipWarning.Name = "chkSkipWarning";
             this.chkSkipWarning.Size = new System.Drawing.Size(184, 17);
             this.chkSkipWarning.TabIndex = 1;
@@ -65,7 +65,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.Location = new System.Drawing.Point(68, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(257, 130);
+            this.label1.Size = new System.Drawing.Size(237, 130);
             this.label1.TabIndex = 2;
             this.label1.Text = resources.GetString("label1.Text");
             // 
@@ -82,7 +82,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(337, 241);
+            this.ClientSize = new System.Drawing.Size(317, 229);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chkSkipWarning);

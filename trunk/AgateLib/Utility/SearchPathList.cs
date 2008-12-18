@@ -1,4 +1,4 @@
-//     The contents of this file are subject to the Mozilla Public License
+﻿//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -29,121 +29,75 @@ namespace AgateLib.Utility
     /// item and retrieve it and have it be the same thing.
     /// <code></code>
     /// </summary>
-    [Obsolete("Use AgateFileProvider instead.")]
-    public class SearchPath : ICollection<string>, IList<string>
+    public sealed class SearchPathList : ISearchPathList
     {
-        IFileProvider mProvider;
-
-        internal SearchPath(IFileProvider provider)
-        {
-            mProvider = provider;
-        }
+        List<string> mSearchPaths = new List<string>();
 
         /// <summary>
-        /// Constructs a SearchPath object.  No default paths are added
-        /// (You might want to consider using SearchPath(".") instead to include
+        /// Constructs a SearchPathList object.  No default paths are added
+        /// (You might want to consider using SearchPathList(".") instead to include
         /// the current directory.)
         /// </summary>
-        [Obsolete]
-        public SearchPath()
+        public SearchPathList()
         {
         }
         /// <summary>
-        /// Constructs a SearchPath object, and adds all the paths specified
+        /// Constructs a SearchPathList object, and adds all the paths specified
         /// to the list of paths to search.
         /// </summary>
         /// <param name="array">A comma delimited list of strings.</param>
-        [Obsolete]
-        public SearchPath(params string[] array)
+        public SearchPathList(params string[] array)
         {
             foreach (string s in array)
                 Add(s);
         }
-        /// <summary>
-        /// Constructs a SearchPath object, and adds all the paths specified
-        /// to the list of paths to search, as well as subdirectories up to the
-        /// level specified.
-        /// </summary>
-        /// <param name="levels">How many subdirectories each to add.</param>
-        /// <param name="array">A comma delimited list of strings.</param>
-        [Obsolete]
-        public SearchPath(int levels, params string[] array)
-        {
-            foreach (string s in array)
-                Add(s, levels);
-        }
+
         /// <summary>
         /// Recursively adds the specified directory, and all subdirectories up
         /// to the specified number of levels deep.
         /// </summary>
         /// <param name="item"></param>
         /// <param name="levels"></param>
-        public void Add(string item, int levels)
+        void Add(string item, int levels)
         {
-            if (levels != 0)
-                throw new NotImplementedException("Adding directory levels not supported.");
+            if (Directory.Exists(item) == false)
+                throw new DirectoryNotFoundException();
 
-            mProvider.AddPath(item);
-        }
-        /// <summary>
-        /// Searches through all directories in the SearchPath object for the specified
-        /// filename.  The search is performed in the order directories have been added,
-        /// and the first result is returned.  If no file is found, null is returned.
-        /// </summary>
-        /// <param name="filename">Filename to search for.</param>
-        /// <returns>The full path of the file, if it exists.  Null if no file is found.</returns>
-        public string FindFileName(string filename)
-        {
-            if (mProvider.FileExists(filename))
-                return filename;
-            else
-                return null;
-        }
+            item = Path.GetFullPath(item);
 
-        /// <summary>
-        /// Gets all files in all paths.
-        /// </summary>
-        /// <returns></returns>
-        public ICollection<string> GetAllFiles()
-        {
-            List<string> files = new List<string>();
-            files.AddRange(mProvider.GetAllFiles());
+            mSearchPaths.Add(item);
 
-            return files;
-        }
-        /// <summary>
-        /// Gets all files in all paths that match the specified search pattern.
-        /// </summary>
-        /// <param name="searchPattern"></param>
-        /// <returns></returns>
-        public ICollection<string> GetAllFiles(string searchPattern)
-        {
-            List<string> files = new List<string>();
-            files.AddRange(mProvider.GetAllFiles(searchPattern));
-
-            return files;
-        }
-
-        private void DebugCrossPlatform(string filename)
-        {
-            if (filename == null)
-                return;
-
-            if (FileManager.CheckCrossPlatform(filename) == false)
+            if (levels > 0)
             {
-                System.Diagnostics.Debug.WriteLine("The path \"" + filename + "\" is not entered in a cross-platform manner.");
-                System.Diagnostics.Debug.WriteLine("Avoid using the following characters:  " + FileManager.NonCrossPlatformChars);
+                string[] dirs = Directory.GetDirectories(item);
+
+                foreach (string dir in dirs)
+                    Add(dir, levels - 1);
             }
         }
-
+        
         /// <summary>
         /// Provides debugging information.
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            return mProvider.PathList.ToString();
+            string retval = "";
+            int count = 0;
+
+            foreach (string s in mSearchPaths)
+            {
+                if (count > 0)
+                    retval += "; ";
+
+                retval += "\"" + s + "\"";
+
+                count++;
+            }
+
+            return retval;
         }
+
         #region --- ICollection<string> Members ---
         /// <summary>
         /// Adds a search path to the list.
@@ -158,7 +112,7 @@ namespace AgateLib.Utility
         /// </summary>
         public void Clear()
         {
-            mProvider.PathList.Clear();
+            mSearchPaths.Clear();
         }
         /// <summary>
         /// Checks to see if the given path is already in the list.
@@ -167,7 +121,7 @@ namespace AgateLib.Utility
         /// <returns></returns>
         public bool Contains(string item)
         {
-            return mProvider.PathList.Contains(Path.GetFullPath(item));
+            return mSearchPaths.Contains(Path.GetFullPath(item));
         }
         /// <summary>
         /// Copies the list of paths to an array.
@@ -176,14 +130,14 @@ namespace AgateLib.Utility
         /// <param name="arrayIndex"></param>
         public void CopyTo(string[] array, int arrayIndex)
         {
-            mProvider.PathList.CopyTo(array, arrayIndex);
+            mSearchPaths.CopyTo(array, arrayIndex);
         }
         /// <summary>
         /// Gets how many search paths are listed here.
         /// </summary>
         public int Count
         {
-            get { return mProvider.PathList.Count; }
+            get { return mSearchPaths.Count; }
         }
 
         bool ICollection<string>.IsReadOnly
@@ -197,7 +151,7 @@ namespace AgateLib.Utility
         /// <returns></returns>
         public bool Remove(string item)
         {
-            return mProvider.PathList.Remove(Path.GetFullPath(item));
+            return mSearchPaths.Remove(Path.GetFullPath(item));
         }
 
         #endregion
@@ -205,17 +159,17 @@ namespace AgateLib.Utility
 
         int IList<string>.IndexOf(string item)
         {
-            return mProvider.PathList.IndexOf(Path.GetFullPath(item));
+            return mSearchPaths.IndexOf(Path.GetFullPath(item));
         }
 
         void IList<string>.Insert(int index, string item)
         {
-            mProvider.PathList.Insert(index, Path.GetFullPath(item));
+            mSearchPaths.Insert(index, Path.GetFullPath(item));
         }
 
         void IList<string>.RemoveAt(int index)
         {
-            mProvider.PathList.RemoveAt(index);
+            mSearchPaths.RemoveAt(index);
         }
         /// <summary>
         /// Returns a search path at a given index.
@@ -226,11 +180,11 @@ namespace AgateLib.Utility
         {
             get
             {
-                return mProvider.PathList[index];
+                return mSearchPaths[index];
             }
             set
             {
-                mProvider.PathList[index] = Path.GetFullPath(value);
+                mSearchPaths[index] = Path.GetFullPath(value);
             }
         }
 
@@ -244,7 +198,7 @@ namespace AgateLib.Utility
         /// <returns></returns>
         public IEnumerator<string> GetEnumerator()
         {
-            return mProvider.PathList.GetEnumerator();
+            return mSearchPaths.GetEnumerator();
         }
 
         #endregion

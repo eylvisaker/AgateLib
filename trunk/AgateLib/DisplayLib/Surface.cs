@@ -93,11 +93,10 @@ namespace AgateLib.DisplayLib
             Resources.AgateResource res = resources[name];
             Resources.SurfaceResource surf = res as Resources.SurfaceResource;
 
-            string fn = FileManager.ImagePath.FindFileName(surf.Filename);
-            if (string.IsNullOrEmpty(fn))
-                throw new System.IO.FileNotFoundException(surf.Filename);
-
-            impl = Display.Impl.CreateSurface(fn);
+            using (System.IO.Stream s = AgateFileProvider.ImageProvider.OpenRead(surf.Filename))
+            {
+                impl = Display.Impl.CreateSurface(s);
+            }
 
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
             Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
@@ -108,11 +107,10 @@ namespace AgateLib.DisplayLib
         /// <param name="filename"></param>
         public Surface(string filename)
         {
-            string fn = FileManager.ImagePath.FindFileName(filename);
-            if (string.IsNullOrEmpty(fn))
-                throw new System.IO.FileNotFoundException(filename);
-
-            impl = Display.Impl.CreateSurface(fn);
+            using (System.IO.Stream s = AgateFileProvider.ImageProvider.OpenRead(filename))
+            {
+                impl = Display.Impl.CreateSurface(s);
+            }
 
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
             Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);

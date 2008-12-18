@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace AgateLib.ImplementationBase
@@ -40,12 +41,23 @@ namespace AgateLib.ImplementationBase
         /// <returns></returns>
         public abstract MusicImpl CreateMusic(string filename);
         /// <summary>
+        /// Creates a MusicImpl object.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public abstract MusicImpl CreateMusic(Stream musicStream);
+        /// <summary>
         /// Creates a SoundBufferSessionImpl object.
         /// </summary>
         /// <param name="buffer"></param>
         /// <returns></returns>
         public abstract SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer);
-
+        /// <summary>
+        /// Creates a SoundBufferImpl object.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public abstract SoundBufferImpl CreateSoundBuffer(Stream inStream);
 
         /// <summary>
         /// This function is called once a frame to allow the Audio driver to update

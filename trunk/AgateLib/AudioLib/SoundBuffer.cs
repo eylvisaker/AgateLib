@@ -65,11 +65,11 @@ namespace AgateLib.AudioLib
         public SoundBuffer(string filename)
             : this()
         {
-            string fn = FileManager.SoundPath.FindFileName(filename);
-            if (string.IsNullOrEmpty(fn))
-                throw new System.IO.FileNotFoundException(filename);
+            using (System.IO.Stream s = AgateFileProvider.MusicProvider.OpenRead(filename))
+            {
+                impl = Audio.Impl.CreateSoundBuffer(s);
+            }
 
-            impl = Audio.Impl.CreateSoundBuffer(fn);
             mFilename = filename;
         }
 
