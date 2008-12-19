@@ -753,8 +753,25 @@ namespace AgateLib.DisplayLib
         public void SaveTo(string filename, ImageFileFormat format)
         {
             Display.SavePixelBuffer(this, filename, format);
+        }
 
-
+        /// <summary>
+        /// Replaces all instances of the specified color.
+        /// </summary>
+        /// <param name="searchColor">The color to replace.</param>
+        /// <param name="newColor">The new color to overwrite searchColor.</param>
+        public void ReplaceColor(Color searchColor, Color newColor)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    if (searchColor == GetPixel(x, y))
+                    {
+                        SetPixel(x, y, newColor);
+                    }
+                }
+            }
         }
 
         #endregion
@@ -954,6 +971,7 @@ namespace AgateLib.DisplayLib
         }
 
         #endregion
+
 
     }
 }
