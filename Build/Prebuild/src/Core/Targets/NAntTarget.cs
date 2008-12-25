@@ -288,7 +288,9 @@ namespace Prebuild.Core.Targets
                 foreach (string file in project.Files)
                 {
                     // Ignore if we aren't content
-                    if (project.Files.GetBuildAction(file) != BuildAction.Content)
+					// how to do preserve newest on CopyToOutput here?
+                    if (project.Files.GetBuildAction(file) != BuildAction.Content &&
+					    project.Files.GetCopyToOutput(file) != CopyToOutput.Always)
                             continue;
 
                     // Create a include tag
