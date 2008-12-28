@@ -81,7 +81,7 @@ namespace BasicDrawingTester
                 // normally, the display should initialize fine, and goahead will be true.
                 // However, here we are asking the user what display mode they want to pick,
                 // and they may push the cancel button.  If they do, then exit the program.
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
                 frm = new DrawingTester();

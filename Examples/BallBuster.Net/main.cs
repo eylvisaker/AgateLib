@@ -31,8 +31,8 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Sprites.Old;
-using AgateLib.Input;
-using AgateLib.Audio;
+using AgateLib.InputLib;
+using AgateLib.AudioLib;
 
 class BBX
 {
