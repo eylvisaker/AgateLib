@@ -74,6 +74,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="OpenTK.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -88,13 +91,13 @@
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Project>{D62BD453-79AC-4A8D-8E75-F85FFF533E4D}</Project>
+      <Name>AgateLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\drivers\AgateOTK\AgateOTK.csproj">
       <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
       <Name>AgateOTK</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\AgateLib.csproj">
-      <Project>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</Project>
-      <Name>AgateLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

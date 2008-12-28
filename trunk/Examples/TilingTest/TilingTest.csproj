@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{614C418D-3DFA-4DA5-B6ED-C580A3939FEF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -59,17 +59,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\drivers\AgateMDX\AgateMDX.csproj">
-      <Project>{852EB9A0-5DCB-492F-9630-9D4198B81FA2}</Project>
-      <Name>AgateMDX</Name>
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Project>{D62BD453-79AC-4A8D-8E75-F85FFF533E4D}</Project>
+      <Name>AgateLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\drivers\AgateOTK\AgateOTK.csproj">
       <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
       <Name>AgateOTK</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\AgateLib.csproj">
-      <Project>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</Project>
-      <Name>AgateLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

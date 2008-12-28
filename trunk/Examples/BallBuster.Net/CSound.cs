@@ -26,7 +26,7 @@
 using System.Collections.Generic;
 
 using AgateLib;
-using AgateLib.Audio;
+using AgateLib.AudioLib;
 
 class CSound
 {

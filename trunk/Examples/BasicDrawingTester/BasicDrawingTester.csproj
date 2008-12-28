@@ -86,12 +86,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\AgateLib.csproj">
-      <Project>{C6B3EA23-0113-4E5D-B42E-4C715A25D084}</Project>
-      <Name>AgateLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -107,6 +101,20 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Project>{D62BD453-79AC-4A8D-8E75-F85FFF533E4D}</Project>
+      <Name>AgateLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\drivers\AgateDrawing\AgateDrawing.csproj">
+      <Project>{CCB70805-E8AF-44A8-837A-BD760340D4C3}</Project>
+      <Name>AgateDrawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\drivers\AgateOTK\AgateOTK.csproj">
+      <Project>{DEBD482A-DDE8-468B-A8E7-AB5A56DF3085}</Project>
+      <Name>AgateOTK</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
