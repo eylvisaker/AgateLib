@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ERY.SpriteTester.Properties {
+namespace SpriteTester.Properties {
     using System;
     
     

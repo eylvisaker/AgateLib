@@ -1,0 +1,48 @@
+<AgateResources Version="0.3.0">
+  <Sprite name="run_e" image="run_e.png" timePerFrame="60" size="{Width=96,Height=96}">
+    <Frame rect="{X=0,Y=0,Width=70,Height=62}" offset="{X=13,Y=21}" />
+    <Frame rect="{X=71,Y=0,Width=67,Height=58}" offset="{X=14,Y=23}" />
+    <Frame rect="{X=139,Y=0,Width=64,Height=58}" offset="{X=13,Y=19}" />
+    <Frame rect="{X=0,Y=0,Width=70,Height=62}" offset="{X=13,Y=21}" />
+    <Frame rect="{X=71,Y=0,Width=67,Height=58}" offset="{X=14,Y=23}" />
+    <Frame rect="{X=139,Y=0,Width=64,Height=58}" offset="{X=13,Y=19}" />
+    <Frame rect="{X=0,Y=0,Width=71,Height=64}" offset="{X=13,Y=20}" />
+    <Frame rect="{X=72,Y=0,Width=70,Height=62}" offset="{X=13,Y=21}" />
+    <Frame rect="{X=143,Y=0,Width=70,Height=61}" offset="{X=13,Y=22}" />
+    <Frame rect="{X=143,Y=62,Width=67,Height=58}" offset="{X=14,Y=23}" />
+    <Frame rect="{X=72,Y=63,Width=67,Height=58}" offset="{X=14,Y=23}" />
+    <Frame rect="{X=0,Y=65,Width=66,Height=59}" offset="{X=13,Y=20}" />
+    <Frame rect="{X=140,Y=121,Width=65,Height=60}" offset="{X=13,Y=18}" />
+    <Frame rect="{X=206,Y=121,Width=64,Height=58}" offset="{X=13,Y=19}" />
+  </Sprite>
+  <Sprite name="run_s" image="run_s.png" timePerFrame="60" size="{Width=96,Height=96}">
+    <Frame rect="{X=0,Y=0,Width=56,Height=70}" offset="{X=33,Y=19}" image="" />
+    <Frame rect="{X=57,Y=0,Width=62,Height=69}" offset="{X=27,Y=20}" image="" />
+    <Frame rect="{X=120,Y=0,Width=59,Height=66}" offset="{X=29,Y=22}" image="" />
+    <Frame rect="{X=120,Y=67,Width=54,Height=65}" offset="{X=31,Y=20}" image="" />
+    <Frame rect="{X=57,Y=70,Width=53,Height=61}" offset="{X=29,Y=21}" image="" />
+    <Frame rect="{X=0,Y=71,Width=50,Height=60}" offset="{X=32,Y=22}" image="" />
+    <Frame rect="{X=0,Y=132,Width=52,Height=58}" offset="{X=29,Y=23}" image="" />
+    <Frame rect="{X=53,Y=132,Width=52,Height=57}" offset="{X=29,Y=24}" image="" />
+  </Sprite>
+  <Sprite name="run_n" image="run_n.png" timePerFrame="60" size="{Width=96,Height=96}">
+    <Frame rect="{X=0,Y=0,Width=67,Height=81}" offset="{X=28,Y=14}" image="" />
+    <Frame rect="{X=68,Y=0,Width=67,Height=80}" offset="{X=28,Y=15}" image="" />
+    <Frame rect="{X=136,Y=0,Width=67,Height=80}" offset="{X=28,Y=15}" image="" />
+    <Frame rect="{X=68,Y=81,Width=67,Height=79}" offset="{X=28,Y=16}" image="" />
+    <Frame rect="{X=136,Y=81,Width=60,Height=76}" offset="{X=34,Y=18}" image="" />
+    <Frame rect="{X=136,Y=158,Width=70,Height=75}" offset="{X=25,Y=20}" image="" />
+    <Frame rect="{X=197,Y=81,Width=63,Height=75}" offset="{X=32,Y=20}" image="" />
+    <Frame rect="{X=0,Y=82,Width=63,Height=75}" offset="{X=32,Y=20}" image="" />
+  </Sprite>
+  <Sprite name="run_w" image="run_w.png" timePerFrame="60" size="{Width=96,Height=96}">
+    <Frame rect="{X=0,Y=0,Width=64,Height=64}" offset="{X=21,Y=21}" image="" />
+    <Frame rect="{X=65,Y=0,Width=57,Height=62}" offset="{X=27,Y=22}" image="" />
+    <Frame rect="{X=123,Y=0,Width=56,Height=62}" offset="{X=27,Y=21}" image="" />
+    <Frame rect="{X=65,Y=63,Width=59,Height=58}" offset="{X=22,Y=23}" image="" />
+    <Frame rect="{X=125,Y=63,Width=59,Height=58}" offset="{X=22,Y=23}" image="" />
+    <Frame rect="{X=0,Y=65,Width=58,Height=58}" offset="{X=20,Y=20}" image="" />
+    <Frame rect="{X=59,Y=122,Width=57,Height=58}" offset="{X=22,Y=21}" image="" />
+    <Frame rect="{X=117,Y=122,Width=56,Height=56}" offset="{X=22,Y=22}" image="" />
+  </Sprite>
+</AgateResources>

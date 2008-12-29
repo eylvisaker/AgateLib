@@ -14,7 +14,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Resources;
 using AgateLib.Sprites;
 
-namespace ERY.SpriteTester
+namespace SpriteTester
 {
     public partial class frmSpriteTester : Form
     {
@@ -246,20 +246,28 @@ namespace ERY.SpriteTester
                 // since loading the sprite from the file failed, try it as a resource file.
                 AgateResourceCollection resources = ResourceLoader.LoadResources(filename);
 
+                AgateLib.Utility.AgateFileProvider.ImageProvider.PathList.Clear();
+                AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath(System.IO.Path.GetDirectoryName(filename));
+
                 if (resources.Sprites.ToArray().Length == 1)
                 {
-                    AgateLib.Utility.AgateFileProvider.ImageProvider.PathList.Clear();
-                    AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath(System.IO.Path.GetDirectoryName(filename));
-
                     var sprites = resources.Sprites.ToArray();
 
-                    // TODO: show dialog to choose sprite.
                     NewSprite sp = new NewSprite(resources, sprites[0].Name);
 
                     SetSprite(sp);
                 }
                 else
-                    throw new NotImplementedException();
+                {
+                    frmChooseSprite frm = new frmChooseSprite();
+
+                    if (frm.ShowDialog(this, resources) == DialogResult.OK)
+                    {
+                        NewSprite sp = new NewSprite(resources, frm.SelectedSprite);
+
+                        SetSprite(sp);
+                    }
+                }
             }
         }
 

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
 
-namespace ERY.SpriteTester
+namespace SpriteTester
 {
     static class SpriteTester
     {
