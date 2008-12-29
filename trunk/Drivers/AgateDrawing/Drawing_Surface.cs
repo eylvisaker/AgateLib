@@ -186,7 +186,11 @@ namespace AgateLib.DisplayLib.SystemDrawing
             else
             {
                 g.DrawImage(mImage, Interop.Convert(DestRect(0, 0, srcRect)),
-                    Interop.Convert(SrcRect), GraphicsUnit.Pixel);
+                    srcRect.X,
+                    srcRect.Y,
+                    srcRect.Width,
+                    srcRect.Height, 
+                    GraphicsUnit.Pixel);
             }
 
             g.Restore(state);
