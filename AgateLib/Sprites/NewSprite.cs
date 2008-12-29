@@ -155,7 +155,7 @@ namespace AgateLib.Sprites
 
                 // we pass false to ownSurface here because the surface has already been added to the
                 // owned surfaces list.
-                AddFrame(defaultSurface, false, frame.Bounds, frame.Offset);
+                AddFrame(thisSurface, false, frame.Bounds, frame.Offset);
             }
         }
         
@@ -348,10 +348,10 @@ namespace AgateLib.Sprites
             if (mVisible == false)
                 return;
 
-            NewSpriteFrame current = CurrentFrame;
-            Surface surf = current.Surface;
+            NewSpriteFrame currentFrame = CurrentFrame;
+            Surface surf = currentFrame.Surface;
 
-            current.DisplaySize = DisplaySize;
+            currentFrame.DisplaySize = DisplaySize;
             
             PointF alignment = Origin.CalcF(DisplayAlignment, DisplaySize);
             PointF rotation = Origin.CalcF(RotationCenter, DisplaySize);
@@ -361,7 +361,7 @@ namespace AgateLib.Sprites
             surf.RotationAngle = RotationAngle;
             surf.Color = Color;
 
-            current.Draw(destX - alignment.X, destY - alignment.Y,
+            currentFrame.Draw(destX - alignment.X, destY - alignment.Y,
                                   rotation.X, rotation.Y);
         }
         /// <summary>

@@ -126,6 +126,11 @@ namespace AgateLib.Sprites
                           rotationCenterY - (mOffset.Y * scaleY));
         }
 
+        public override string ToString()
+        {
+            return "SpriteFrame: " + SourceRect.ToString() + " Offset: " + Offset.ToString();
+        }
+
         /// <summary>
         /// 
         /// </summary>
