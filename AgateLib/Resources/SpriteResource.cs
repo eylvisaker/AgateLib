@@ -228,8 +228,30 @@ namespace AgateLib.Resources
                 set { mOffset = value; }
             }
 
+            public override string ToString()
+            {
+                StringBuilder b = new StringBuilder();
+
+                if (string.IsNullOrEmpty(mFilename) == false)
+                {
+                    b.Append("Filename: ");
+                    b.Append(mFilename);
+                    b.Append("   ");
+                }
+
+                b.Append("Bounds: ");
+                b.Append(mBounds);
+                b.Append("   ");
+
+                b.Append("Offset: ");
+                b.Append(mOffset);
+                b.Append("   ");
+
+                return b.ToString();
+            }
 		}
 
+        // TODO: the create*sprite methods are obsolete.  get rid of them ASAP.
         internal ISprite CreateSprite()
         {
             if (Packed)
