@@ -43,22 +43,30 @@ namespace AgateLib.MDX
 
         }
 
+        [Obsolete]
         public override int CountJoysticks()
         {
-            int retval = 0;
-
-            foreach (DeviceInstance i in Manager.Devices)
+            return JoystickCount;
+        }
+        public override int JoystickCount
+        {
+            get
             {
-                switch (i.DeviceType)
-                {
-                    case DeviceType.Gamepad:
-                    case DeviceType.Joystick:
-                        retval++;
-                        break;
-                }
-            }
+                int retval = 0;
 
-            return retval;
+                foreach (DeviceInstance i in Manager.Devices)
+                {
+                    switch (i.DeviceType)
+                    {
+                        case DeviceType.Gamepad:
+                        case DeviceType.Joystick:
+                            retval++;
+                            break;
+                    }
+                }
+
+                return retval;
+            }
         }
 
         public override IEnumerable<JoystickImpl> CreateJoysticks()
@@ -112,6 +120,10 @@ namespace AgateLib.MDX
             mButtons = new bool[ButtonCount];
         }
 
+        public override string Name
+        {
+            get { return mDevice.DeviceInformation.InstanceName; }
+        }
         public override int AxisCount
         {
             get { return mDevice.Caps.NumberAxes; }
@@ -121,6 +133,10 @@ namespace AgateLib.MDX
             get { return mDevice.Caps.NumberButtons; }
         }
 
+        public override bool GetButtonState(int buttonIndex)
+        {
+            return mButtons[buttonIndex];
+        }
         public override bool[] Buttons
         {
             get
@@ -147,7 +163,6 @@ namespace AgateLib.MDX
                 return Yaxis;
             else if (axisIndex == 2)
                 return Zaxis;
-
             else 
                 return mDevice.CurrentJoystickState.GetSlider()[axisIndex - 3] / maxX;
         }

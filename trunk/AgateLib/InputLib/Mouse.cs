@@ -182,7 +182,12 @@ namespace AgateLib.InputLib
         /// <summary>
         /// Event which occurs when a mouse button is double-clicked.
         /// </summary>
+        [Obsolete("Use the MouseDoubleClick member instead.")]
         public static event InputEventHandler MouseDoubleClickEvent;
+        /// <summary>
+        /// Event which occurs when a mouse button is double-clicked.
+        /// </summary>
+        public static event InputEventHandler MouseDoubleClick;
 
         static bool inMouseMove = false;
 
@@ -224,6 +229,8 @@ namespace AgateLib.InputLib
         {
             if (MouseDoubleClickEvent != null)
                 MouseDoubleClickEvent(new InputEventArgs(btn));
+            if (MouseDoubleClick != null)
+                MouseDoubleClick(new InputEventArgs(btn));
         }
 
 
