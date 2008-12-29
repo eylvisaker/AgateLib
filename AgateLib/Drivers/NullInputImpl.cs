@@ -48,6 +48,10 @@ namespace AgateLib
         {
             return 0;
         }
+        public override int JoystickCount
+        {
+            get { return 0; }
+        }
 
         public override IEnumerable<JoystickImpl> CreateJoysticks()
         {

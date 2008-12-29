@@ -31,7 +31,14 @@ namespace AgateLib.ImplementationBase
         /// Polls and counts joysticks
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         public abstract int CountJoysticks();
+
+        /// <summary>
+        /// Returns the number of joysticks attached to the system.
+        /// </summary>
+        /// <returns></returns>
+        public abstract int JoystickCount { get; }
 
         /// <summary>
         /// Creates joystick impls.

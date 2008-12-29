@@ -37,8 +37,31 @@ namespace AgateLib.ImplementationBase
         public abstract int ButtonCount { get; }
 
         /// <summary>
+        /// Gets the reported name of the joystick.
+        /// </summary>
+        public abstract string Name { get; }
+
+        /// <summary>
+        /// Gets the state of the specified button.  
+        /// </summary>
+        /// <param name="buttonIndex">Index of the button to check.  Valid values are
+        /// from 0 to ButtonCount - 1.</param>
+        /// <returns></returns>
+        public abstract bool GetButtonState(int buttonIndex);
+
+        /// <summary>
+        /// Gets the currentFrame value for the given axis.
+        /// Axis 0 is always the x-axis, axis 1 is always the y-axis on
+        /// controlers which have this capability.
+        /// </summary>
+        /// <param name="axisIndex"></param>
+        /// <returns></returns>
+        public abstract double GetAxisValue(int axisIndex);
+
+        /// <summary>
         /// Gets a bool array indicating state of the buttons.
         /// </summary>
+        [Obsolete("Use GetButtonState instead.")]
         public abstract bool[] Buttons { get; }
         /// <summary>
         /// Returns the value of the gamepad x-axis.
@@ -77,14 +100,6 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         public abstract void Poll();
 
-        /// <summary>
-        /// Gets the current value for the given axis.
-        /// Axis 0 is always the x-axis, axis 1 is always the y-axis on
-        /// controlers which have this capability.
-        /// </summary>
-        /// <param name="axisIndex"></param>
-        /// <returns></returns>
-        public abstract double GetAxisValue(int axisIndex);
     }
 
     /// <summary>
@@ -100,6 +115,11 @@ namespace AgateLib.ImplementationBase
         {
             get { return 2; }
         }
+
+        public override string Name
+        {
+            get { return "No joystick"; }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -110,6 +130,16 @@ namespace AgateLib.ImplementationBase
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="buttonIndex"></param>
+        /// <returns></returns>
+        public override bool GetButtonState(int buttonIndex)
+        {
+            return false;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Obsolete]
         public override bool[] Buttons
         {
             get { return mButtons; }

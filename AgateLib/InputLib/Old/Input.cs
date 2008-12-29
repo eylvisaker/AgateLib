@@ -51,11 +51,15 @@ namespace AgateLib.InputLib.Old
         /// class.
         /// </summary>
         /// <param name="inputType"></param>
+        [Obsolete("Use JoystickList.Initialize instead.")]
         public static void Initialize(InputTypeID inputType)
         {
-            Core.Initialize();
+            JoystickList.Initialize(inputType);
+        }
 
-            impl = Registrar.InputDriverInfo.CreateDriver(inputType);
+        internal static void LegacyInitialize(InputImpl new_impl)
+        {
+            impl = new_impl;
 
             InitializeJoysticks();
         }

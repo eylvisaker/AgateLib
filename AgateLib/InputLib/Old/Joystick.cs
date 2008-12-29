@@ -73,6 +73,11 @@ namespace AgateLib.InputLib.Old
         }
 
         /// <summary>
+        /// Returns the name of the joystick.
+        /// </summary>
+        public string Name { get { return impl.Name; } }
+
+        /// <summary>
         /// Gets how many axes are available on this joystick.
         /// </summary>
         public int AxisCount { get { return impl.AxisCount; } }
