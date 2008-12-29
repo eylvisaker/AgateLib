@@ -10,9 +10,9 @@ using System.Resources;
 [assembly: AssemblyTitle("AgateLib Game Programming Library")]
 [assembly: AssemblyDescription("Platform Independent Game Programming Library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ERY")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AgateLib")]
-[assembly: AssemblyCopyright("Copyright © 2006")]
+[assembly: AssemblyCopyright("Copyright © 2006-9")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
