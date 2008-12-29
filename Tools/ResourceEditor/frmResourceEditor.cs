@@ -156,7 +156,7 @@ namespace ResourceEditor
             if (openFileDialog.ShowDialog(this) == DialogResult.Cancel)
                 return;
 
-            Resources = ResourceLoader.LoadResources(openFileDialog.FileName);
+            Resources = AgateResourceLoader.LoadResources(openFileDialog.FileName);
             mFilename = openFileDialog.FileName;
 
             UpdateControls();
@@ -193,7 +193,7 @@ namespace ResourceEditor
         {
             try
             {
-                ResourceLoader.SaveResources(resources, mFilename);
+                AgateResourceLoader.SaveResources(resources, mFilename);
 
                 return true;
             }
