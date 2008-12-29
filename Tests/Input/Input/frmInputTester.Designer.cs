@@ -77,7 +77,7 @@ namespace InputTester
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox1.Location = new System.Drawing.Point(12, 109);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(192, 206);
+            this.pictureBox1.Size = new System.Drawing.Size(144, 182);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
@@ -105,6 +105,7 @@ namespace InputTester
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(79, 20);
             this.numericUpDown1.TabIndex = 6;
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // label1
             // 
@@ -138,7 +139,7 @@ namespace InputTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(430, 327);
+            this.ClientSize = new System.Drawing.Size(382, 303);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblJoystick);
             this.Controls.Add(this.label1);

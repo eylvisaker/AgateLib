@@ -52,7 +52,7 @@ namespace InputTester
                 numericUpDown1.Maximum = Input.JoystickCount - 1;
                 Joystick j = Input.Joysticks[(int)numericUpDown1.Value];
 
-                string text =
+                string text = j.Name + 
                     "Axis Count: " + j.AxisCount + Environment.NewLine;
 
                 for (int i = 0; i < j.AxisCount; i++)
@@ -123,6 +123,11 @@ namespace InputTester
         private void button1_Click(object sender, EventArgs e)
         {
             Keyboard.ReleaseAllKeys();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
