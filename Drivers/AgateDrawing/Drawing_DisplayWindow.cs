@@ -89,8 +89,13 @@ namespace AgateLib.DisplayLib.SystemDrawing
 
             mRenderTarget.Disposed += new EventHandler(renderTarget_Disposed);
 
-
             System.Windows.Forms.Form form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
+
+            if (form == null)
+            {
+                throw new AgateException("The control to be used as a render target has not been added to a Form yet." +
+                    "Check to make sure that you are creating the DisplayWindow after all controls are added to the Form.  Do not create a DisplayWindow in a constructor for a UserControl, for example.");
+            }
 
             form.KeyPreview = true;
             form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
