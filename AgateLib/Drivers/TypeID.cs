@@ -35,57 +35,42 @@ namespace AgateLib.Drivers
     /// </remarks>
     public enum DisplayTypeID
     {
-        
+
         /// <summary>
         /// Specifies that the Registrar should automatically select the best available
         /// display driver for the system.
         /// </summary>
-		AutoSelect = 0,
-        
-		/// <summary>
+        AutoSelect = 0,
+
+        /// <summary>
         /// The reference driver is implemented using System.Drawing.  This is useful for
         /// debugging the development of a new driver, as it should behave exactly like the
         /// reference driver (but hopefully be much faster).
         /// </summary,
-         Reference= 1,
-
+        Reference = 1,
 
         /// <summary>
         /// Driver Implementation using Managed DirectX 1.1.
         /// </summary>
-         Direct3D_MDX_1_1 = 0x100,
-
-        /// <summary>
-        /// Driver implementation using Managed DirectX 2.0 beta.  Since Microsoft has discontinued
-        /// development on MDX2.0 in favor of the XNA framework, this driver is obsolete.
-        /// </summary>
-        [Obsolete]
-         Direct3D_MDX_2_0_Beta= 0x101,
+        Direct3D_MDX_1_1 = 0x100,
 
         /// <summary>
         /// Driver Implementation using XNA Studio.
         /// </summary>
-         Direct3D_XNA= 0x110,
-
-        /// <summary>
-        /// Driver implementation using OpenGL, with WGL for creation of windows and management of
-        /// memory.
-        /// </summary>
-		[Obsolete]
-         WGL= 0x200,
+        Direct3D_XNA = 0x110,
 
         /// <summary>
         /// Driver implememtation using OpenGL, with some platform-independent library for window
         /// creation.
         /// </summary>
-         OpenGL =0x210,
+        OpenGL = 0x210,
 
         /// <summary>
         /// Driver implementation using SDL.  SDL.NET does not support many of the basic features
         /// of this library (notably);}} rotation of images) so is not considered an adequate driver
         /// for general purpose use.
         /// </summary>
-         SDL = 0x300,
+        SDL = 0x300,
 
     };
 
@@ -125,6 +110,11 @@ namespace AgateLib.Drivers
         /// Implementation using the cross-platform FMod library.
         /// </summary>
         FMod = 0x300,
+
+        /// <summary>
+        /// Implementation using the SDL library.
+        /// </summary>
+        SDL = 0x400,
     }
 
     /// <summary>
@@ -151,6 +141,11 @@ namespace AgateLib.Drivers
         /// Implementation using the XNA framework.
         /// </summary>
         XInput = 0x110,
+
+        /// <summary>
+        /// Driver implementation using SDL.  
+        /// </summary>
+        SDL = 0x300,
     }
 
 }
