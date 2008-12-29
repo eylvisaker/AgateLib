@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AgateWinForms")]
+[assembly: AssemblyTitle("AgateLib.WinForms")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AgateWinForms")]
-[assembly: AssemblyCopyright("Copyright ©  2008")]
+[assembly: AssemblyProduct("AgateLib.WinForms")]
+[assembly: AssemblyCopyright("Copyright ©  2008-9")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
