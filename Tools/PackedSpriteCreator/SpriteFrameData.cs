@@ -5,7 +5,7 @@ using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace AgateLib.PackedSpriteCreator
+namespace PackedSpriteCreator
 {
 	class SpriteFrameData
 	{

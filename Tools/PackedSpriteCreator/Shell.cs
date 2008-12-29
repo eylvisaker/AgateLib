@@ -5,9 +5,12 @@ using System.IO;
 using System.Text;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using AgateLib.Resources;
 
-namespace AgateLib.PackedSpriteCreator
+using AgateLib.DisplayLib;
+using AgateLib.Resources;
+using AgateLib.Geometry;
+
+namespace PackedSpriteCreator
 {
 
     public class Shell
@@ -87,7 +90,7 @@ namespace AgateLib.PackedSpriteCreator
                 string[] command = null;
                 try
                 {
-                    command = SplitCommand(commandLine);
+                    command = SplitInput(commandLine);
                     if (command.Length == 0)
                         continue;
                 }
@@ -127,7 +130,7 @@ namespace AgateLib.PackedSpriteCreator
             return method;
         }
 
-        private string[] SplitCommand(string commandLine)
+        private string[] SplitInput(string commandLine)
         {
             Regex r = new Regex(@"""[^""]*""|[^ ]*");
 
@@ -165,7 +168,9 @@ namespace AgateLib.PackedSpriteCreator
 
         AgateResourceCollection resources = new AgateResourceCollection();
         SpriteResource sprite = null;
-
+        List<SpriteFrameData> images = new List<SpriteFrameData>();
+        Color? colorKey;
+        
         #region --- Commands ---
 
         [Command(HelpText="Exits the shell.")]
@@ -209,11 +214,14 @@ namespace AgateLib.PackedSpriteCreator
         {
             string path = string.Join(" ", args);
 
+            
             try
             {
                 Directory.SetCurrentDirectory(path);
                 WriteLine(CurrentDirectory);
 
+                AgateLib.Utility.AgateFileProvider.ImageProvider.PathList.Clear();
+                AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath(".");
             }
             catch (DirectoryNotFoundException e)
             {
@@ -250,7 +258,7 @@ namespace AgateLib.PackedSpriteCreator
                 return;
             }
 
-            resources = ResourceLoader.LoadResources(args[0]);
+            resources = AgateResourceLoader.LoadResources(args[0]);
             WriteLine("Loaded resources from " + args[0] + ".");
         }
 
@@ -294,11 +302,86 @@ namespace AgateLib.PackedSpriteCreator
 
             }
 
-            ResourceLoader.SaveResources(resources, filename);
+            SaveSprite();
+
+            AgateResourceLoader.SaveResources(resources, filename);
             WriteLine("Saved resource to " + filename + ".");
         }
-        
-        [Command(ArgText="[sprite_name]", HelpText="Creates a new sprite in the resource file and sets it to the current sprite.")]
+
+        private void SaveSprite()
+        {
+            Size outputSize = new Size(64, 64);
+            int minWidth = 0;
+            int totalWidth = 0;
+            for (int i = 0; i < images.Count; i++)
+            {
+                minWidth = Math.Max(images[i].ImageData.Width, minWidth);
+                totalWidth = totalWidth + images[i].ImageData.Width;
+            }
+            // average size * 4 should usually be the size of the output image.
+            outputSize.Width = Math.Max(totalWidth / images.Count * 4 + 4, minWidth + 1);
+            outputSize.Height = outputSize.Width * 4;
+
+            var packer = new AgateLib.Utility.SurfacePacker.RectPacker<SpriteFrameData>(outputSize);
+
+            for (int i = 0; i < images.Count; i++)
+            {
+                var frame = images[i];
+                packer.QueueObject(frame.ImageData.Size, frame);
+            }
+
+            packer.AddQueue();
+
+            
+            PixelBuffer packingSurface = new PixelBuffer(images[0].ImageData.PixelFormat, outputSize);
+
+            foreach (var rect in packer)
+            {
+                var data = rect.Tag;
+
+                packingSurface.CopyFrom(data.ImageData, new Rectangle(Point.Empty, data.ImageData.Size),
+                    rect.Rect.Location, false);
+
+                SpriteResource.SpriteFrameResource frame = new SpriteResource.SpriteFrameResource();
+                frame.Bounds = rect.Rect;
+                frame.Offset = data.Offset;
+
+                sprite.Frames.Add(frame);
+            }
+
+            // trim bottom of the surface
+            int newHeight = packingSurface.Height;
+            for (int i = packingSurface.Height - 1; i > 0; i--)
+            {
+                if (packingSurface.IsRowBlank(i))
+                    newHeight = i;
+            }
+
+            PixelBuffer saveBuffer = new PixelBuffer(packingSurface, new Rectangle(0, 0, packingSurface.Width, newHeight));
+            saveBuffer.SaveTo(sprite.Name + ".png", ImageFileFormat.Png);
+
+            sprite.Filename = sprite.Name + ".png";
+        }
+
+        [Command(HelpText="Lists sprites in the current resource file.")]
+        void ListSprites(string[] args)
+        {
+            foreach (SpriteResource res in resources)
+            {
+                WriteLine(res.Name);
+            }
+        }
+
+        [Command(ArgText="resource_name",HelpText="Deletes the specified resource from the resource file.")]
+        void Delete(string[] args)
+        {
+            if (args.Length == 0)
+                throw new Exception("Specify a resource to delete.");
+
+            resources.Remove(resources[args[0]]);
+        }
+
+        [Command(ArgText = "[sprite_name]", HelpText = "Creates a new sprite in the resource file and sets it to the current sprite.")]
         void newsprite(string[] args)
         {
 			string name;
@@ -316,6 +399,8 @@ namespace AgateLib.PackedSpriteCreator
 			AgateLib.Geometry.Size size;
 			Write("Enter size (width,height): ");
 			size = AgateLib.Geometry.Size.FromString(ReadLine());
+
+            images.Clear();
 
             sprite = new SpriteResource(name);
             resources.Add(sprite);
@@ -344,6 +429,78 @@ namespace AgateLib.PackedSpriteCreator
             WriteLine("Size: {0}", res.Size);
             WriteLine("Frame Count: {0}", res.Frames.Count);
 
+        }
+
+        [Command(ArgText="[color]",HelpText="Specifies a color that will be changed to transparent when a frame is loaded.  Color format is in hex RRGGBB.")]
+        void SetColorKey(string[] args)
+        {
+            if (args.Length == 0)
+                throw new Exception("Please specify a color.");
+
+            colorKey = Color.FromArgb(args[0]);
+
+            WriteLine("Colorkey set to R={0},G={1},B={2}", colorKey.Value.R, colorKey.Value.G, colorKey.Value.B);
+        }
+
+        [Command(HelpText="Clears the colorkey.")]
+        void ClearColorKey(string[] args)
+        {
+            colorKey = null;
+        }
+        [Command(ArgText = "[image file]", HelpText = "Adds frames from a given image file to the sprite.")]
+        void AddFrames(string[] args)
+        {
+            var imageFiles = new List<string>();
+            if (args.Length == 0)
+            {
+                Write("Enter image filename: ");
+                imageFiles.AddRange(SplitInput(ReadLine()));
+            }
+            else
+            {
+                imageFiles.AddRange(args);
+            }
+
+            var frames = new List<SpriteFrameData>();
+
+            int width = sprite.Size.Width;
+            int height = sprite.Size.Height;
+
+            foreach (string file in imageFiles)
+            {
+                PixelBuffer pixels = PixelBuffer.FromFile(file);
+                int startFrameCount = frames.Count;
+                
+                if (colorKey != null && colorKey.HasValue)
+                {
+                    pixels.ReplaceColor(colorKey.Value, Color.FromArgb(0, 0, 0, 0));
+                }
+
+                int rows = pixels.Width / width;
+                int cols = pixels.Height / height;
+
+                for (int j = 0; j < cols; j++)
+                {
+                    for (int i = 0; i < rows; i++)
+                    {
+                        SpriteFrameData data = new SpriteFrameData
+                        {
+                            SourceData = pixels,
+                            SourceRect = new Rectangle(i * width, j * height, width, height),
+                        };
+                        data.Trim();
+
+                        if (data.IsBlank)
+                            continue;
+
+                        frames.Add(data);
+                    }
+                }
+
+                WriteLine("{0} had {1} non-blank frames.", file, frames.Count - startFrameCount);
+            }
+
+            this.images.AddRange(frames);
         }
 
         private void ListDirectories(string[] args)
