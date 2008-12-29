@@ -154,7 +154,10 @@ namespace AgateLib.Resources
         {
             get
             {
-                return mStore[key];
+                if (mStore.ContainsKey(key))
+                    return mStore[key];
+                else
+                    throw new KeyNotFoundException("The given resource was not found within the resource collection.");
             }
             set
             {
