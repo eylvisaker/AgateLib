@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text;
+using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Resources;
 
-namespace AgateLib.PackedSpriteCreator
+namespace PackedSpriteCreator
 {
 	class SpriteCreator
 	{
@@ -17,8 +18,20 @@ namespace AgateLib.PackedSpriteCreator
 			Path.GetFileName(System.Reflection.Assembly.GetCallingAssembly()
 				.Location);
 
+        [STAThread]
 		static void Main(string[] args)
 		{
+
+            using (AgateSetup setup = new AgateSetup())
+            {
+                setup.InitializeDisplay(AgateLib.Drivers.DisplayTypeID.Reference);
+                if (setup.WasCanceled)
+                    return;
+
+                System.Windows.Forms.Application.Run(new frmSpriteCreator());
+                return;
+            }
+
 			try
 			{
 				new SpriteCreator().Run(args);
@@ -100,7 +113,7 @@ namespace AgateLib.PackedSpriteCreator
 		double frameTime = 50;
 		Size frameSize;
 		Size outputSize = new Size(256, 256);
-        bool doShell;
+        bool doShell = true;
 
 		private void Run(string[] args)
 		{
@@ -140,12 +153,12 @@ namespace AgateLib.PackedSpriteCreator
 			AgateResourceCollection resources = new AgateResourceCollection();
 			AddSpriteData(resources, sprite);
 
-            ResourceLoader.SaveResources(resources, OutputXmlFile);
+            AgateResourceLoader.SaveResources(resources, OutputXmlFile);
 		}
 
 		private PixelBuffer PackImages(SpriteData sprite)
 		{
-			var p = new Utility.SurfacePacker.RectPacker<SpriteFrameData>(outputSize);
+			var p = new AgateLib.Utility.SurfacePacker.RectPacker<SpriteFrameData>(outputSize);
 
 			for (int i = 0; i < sprite.Frames.Count; i++)
 			{
@@ -235,7 +248,7 @@ namespace AgateLib.PackedSpriteCreator
 				if (frame.IsBlank == false)
 					yield return frame;
 
-				// update the location sprite frames are drawn from
+				// update the location mAgateSprite frames are drawn from
 				location.X += frameSize.Width;
 
 				if (location.X + frameSize.Width > pixels.Width)

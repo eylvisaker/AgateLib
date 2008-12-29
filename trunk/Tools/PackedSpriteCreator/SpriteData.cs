@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.Geometry;
 
-namespace AgateLib.PackedSpriteCreator
+namespace PackedSpriteCreator
 {
 	class SpriteData
 	{
