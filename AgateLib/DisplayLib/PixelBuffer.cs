@@ -175,6 +175,18 @@ namespace AgateLib.DisplayLib
 			this.CopyFrom(buffer, srcRect, new Point(0, 0), false);
 		}
 
+        /// <summary>
+        /// Loads image data from a file and returns a PixelBuffer.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static PixelBuffer FromFile(string file)
+        {
+            using (Surface surf = new Surface(file))
+            {
+                return surf.ReadPixels();
+            }
+        }
         #endregion
 
         #region --- Public Properties ---
@@ -971,6 +983,7 @@ namespace AgateLib.DisplayLib
         }
 
         #endregion
+
 
 
     }
