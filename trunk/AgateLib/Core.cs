@@ -62,6 +62,27 @@ namespace AgateLib
     }
 
     /// <summary>
+    /// Enum used to inidicate the level of cross-platform debugging that should occur.
+    /// </summary>
+    public enum CrossPlatformDebugLevel
+    {
+        /// <summary>
+        /// Ignores any issues related to cross platform deployment.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Outputs comments using Core.ReportError with a comment level.
+        /// </summary>
+        Comment,
+
+        /// <summary>
+        /// Throws exceptions on issues that may cause problems when operating on another platform.
+        /// </summary>
+        Exception,
+    }
+
+    /// <summary>
     /// Class which contains methods commonly used by the entire library.
     /// </summary>
     public static class Core
@@ -70,7 +91,8 @@ namespace AgateLib
         private static PlatformSpecific.Platform mPlatform;
         private static bool mAutoPause = false;
         private static bool mIsActive = true;
-        
+        private static CrossPlatformDebugLevel mCrossPlatform = CrossPlatformDebugLevel.Comment;
+
         static Core()
         {
             
@@ -361,6 +383,31 @@ namespace AgateLib
             return "ERROR";
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating how AgateLib should deal with issues that may
+        /// cause problems when porting to another platform.
+        /// </summary>
+        public static CrossPlatformDebugLevel CrossPlatformDebugLevel
+        {
+            get { return mCrossPlatform; }
+            set { mCrossPlatform = value; }
+        }
+        public static void ReportCrossPlatformError(string message)
+        {
+            switch (CrossPlatformDebugLevel)
+            {
+                case CrossPlatformDebugLevel.Comment:
+                    ReportError(ErrorLevel.Warning, message, null);
+                    break;
+
+                case CrossPlatformDebugLevel.Exception:
+                    throw new AgateCrossPlatformException(message);
+
+            }
+        }
+
+            
         #endregion
+
     }
 }
