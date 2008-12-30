@@ -65,7 +65,7 @@ namespace AgateLib.AudioLib
         public SoundBuffer(string filename)
             : this()
         {
-            using (System.IO.Stream s = AgateFileProvider.MusicProvider.OpenRead(filename))
+            using (System.IO.Stream s = AgateFileProvider.SoundProvider.OpenRead(filename))
             {
                 impl = Audio.Impl.CreateSoundBuffer(s);
             }
