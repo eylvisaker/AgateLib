@@ -251,27 +251,6 @@ namespace AgateLib.Resources
             }
 		}
 
-        // TODO: the create*sprite methods are obsolete.  get rid of them ASAP.
-        internal ISprite CreateSprite()
-        {
-            if (Packed)
-                return CreatePackedSprite();
-            else
-                return CreateUnpackedSprite();
-        }
-
-        private ISprite CreatePackedSprite()
-        {
-            return new PackedSprite(this);
-            
-
-            
-        }
-
-        private ISprite CreateUnpackedSprite()
-        {
-            throw new NotImplementedException();
-        }
     }
 
 }

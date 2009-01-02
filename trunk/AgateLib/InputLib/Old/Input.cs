@@ -29,6 +29,7 @@ namespace AgateLib.InputLib.Old
     /// Static class which contains basic functions for handling non-keyboard and mouse
     /// input.
     /// </summary>
+    [Obsolete("Input is replaced by the class AgateLib.InputLib.JoystickList")]
     public static class Input 
     {
         private static InputImpl impl;

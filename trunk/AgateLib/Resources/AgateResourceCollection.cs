@@ -35,7 +35,6 @@ namespace AgateLib.Resources
     public class AgateResourceCollection : IDictionary<string, AgateResource>, ICollection<AgateResource>
     {
         Dictionary<string, AgateResource> mStore = new Dictionary<string, AgateResource>();
-        StringTable strings;
 
         public AgateResourceCollection()
         {

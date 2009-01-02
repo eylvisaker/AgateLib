@@ -91,6 +91,7 @@ namespace AgateLib
         private static PlatformSpecific.Platform mPlatform;
         private static bool mAutoPause = false;
         private static bool mIsActive = true;
+        private static bool mInititalized = false;
         private static CrossPlatformDebugLevel mCrossPlatform = CrossPlatformDebugLevel.Comment;
 
         static Core()
@@ -103,19 +104,23 @@ namespace AgateLib
         /// </summary>
         public static void Initialize()
         {
-            if (mPlatform != null)
-            {
-                return;
-            }
-
+        	if (mInititalized)
+        		return;
+        	
             Drivers.Registrar.Initialize();
 
-            mPlatform = PlatformSpecific.Platform.CreatePlatformMethods();
-
+            InitializeObsoleteMethods();
+             
             Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
+            mInititalized= true;
         }
-
+        
+        [Obsolete]
+        static void InitializeObsoleteMethods()
+        {
+			mPlatform = PlatformSpecific.Platform.CreatePlatformMethods();
+        }
         /// <summary>
         /// Gets platform-specific methods.
         /// </summary>
@@ -198,12 +203,11 @@ namespace AgateLib
             if (KeepAliveEvent != null)
                 KeepAliveEvent();
 
-            // Update Audio Engine, if necessary
+            // Update Audio Engine.
             AudioLib.Audio.Update();
 
-            // Poll joystick input, if the time is right.
-            InputLib.Old.Input.PollTimer();
-
+            // Poll for joystick input.
+            InputLib.JoystickList.PollTimer();
 
         }
 

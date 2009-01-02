@@ -203,7 +203,8 @@ namespace AgateLib
             if (WasCanceled)
                 return;
 
-            InputLib.Old.Input.Initialize(inputTypeID);
+            InputLib.JoystickList.Initialize(inputTypeID);
+            
         }
         /// <summary>
         /// Disposes of the SetupDisplay object and all initialized sub-systems.

@@ -95,6 +95,7 @@ namespace AgateLib.InputLib.Old
         /// Returns an array indicating whether or not the joystick buttons
         /// are pushed.
         /// </summary>
+        [Obsolete("Use GetButtonState instead.")]
         public bool[] Buttons { get { return impl.Buttons; } }
 
         /// <summary>
