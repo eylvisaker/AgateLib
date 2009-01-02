@@ -34,5 +34,9 @@ namespace AgateLib.InputLib
         }
 
 
+        internal static void PollTimer()
+        {
+        	Old.Input.PollTimer();
+        }
     }
 }

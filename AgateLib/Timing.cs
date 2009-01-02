@@ -148,6 +148,7 @@ namespace AgateLib
                     GC.KeepAlive(e);
 
                     Core.Initialize();
+                    
                     mStartTime = Core.Platform.GetTime();
                 }
 

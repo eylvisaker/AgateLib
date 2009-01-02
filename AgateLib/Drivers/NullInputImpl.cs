@@ -44,6 +44,7 @@ namespace AgateLib
             
         }
 
+        [Obsolete]
         public override int CountJoysticks()
         {
             return 0;
