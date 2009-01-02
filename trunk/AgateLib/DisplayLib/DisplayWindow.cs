@@ -216,7 +216,7 @@ namespace AgateLib.DisplayLib
         /// <param name="clientHeight"></param>
         /// <param name="startFullscreen"></param>
         /// <param name="allowResize"></param>
-        [Obsolete("Use the CreateWindowParams overload")]
+        [Obsolete("Use the CreateWindowParams overload, either new DisplayWindow(CreateWindowParams.Windowed(...)) or new DisplayWindow(CreateWindowParams.FullScreen(...))")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize)
             : this(title, clientWidth, clientHeight, "", startFullscreen, allowResize)
         {
