@@ -135,7 +135,7 @@ namespace AgateLib.DisplayLib
 
         /// <summary>
         /// Bit depth for the framebuffer for the window.  This defaults to 32.  This
-        /// field is ignored if we are not creating a full-screen window.
+        /// field is (usually) ignored if we are not creating a full-screen window.
         /// </summary>
         public int Bpp
         {
@@ -275,7 +275,7 @@ namespace AgateLib.DisplayLib
         }
         /// <summary>
         /// Creates a CreateWindowParams object which describes a desktop window with no frame or
-        /// titlebar.  This is typical for showing a splashscreen as the application loads.
+        /// titlebar.  This might be used for showing a splashscreen as the application loads.
         /// </summary>
         /// <param name="title"></param>
         /// <param name="width"></param>
