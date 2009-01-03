@@ -202,7 +202,7 @@ namespace ERY.Sprite2Tester
             {
                 string filename = openFile.FileName;
 
-                AgateResourceCollection resources = ResourceLoader.LoadResources(filename);
+                AgateResourceCollection resources = AgateResourceLoader.LoadResources(filename);
 
 				if (resources.Sprites.ToArray().Length == 1)
 				{

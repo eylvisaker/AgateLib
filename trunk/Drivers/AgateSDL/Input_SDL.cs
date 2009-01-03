@@ -98,6 +98,7 @@ namespace AgateSDL
             return buttons[buttonIndex];
         }
 
+        [Obsolete]
         public override bool[] Buttons
         {
             get

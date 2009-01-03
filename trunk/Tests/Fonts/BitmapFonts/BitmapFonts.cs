@@ -41,7 +41,7 @@ namespace BitmapFontTester
                 Display.EndFrame();
                 Core.KeepAlive();
 
-                BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 14, FontStyle.Bold);
+                BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 18, FontStyle.Bold);
                 fontOptions.UseTextRenderer = true;
 
                 FontSurface font = new FontSurface(fontOptions);
