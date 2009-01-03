@@ -23,7 +23,7 @@ namespace ResourceTester
                 if (setup.Cancel)
                     return;
 
-                AgateResourceCollection resources = ResourceLoader.LoadResources("TestResourceFile.xml");
+                AgateResourceCollection resources = AgateResourceLoader.LoadResources("TestResourceFile.xml");
 
                 DisplayWindow wind = new DisplayWindow(resources, "main_window");
                 Surface surf = new Surface(resources, "sample_surf");

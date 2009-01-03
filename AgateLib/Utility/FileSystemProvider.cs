@@ -149,7 +149,6 @@ namespace AgateLib.Utility
         /// <returns>True if the passed path is cross-platform.</returns>
         private static bool CheckCrossPlatformFilename(string path)
         {
-            // TODO: fix up this function to be report errors if we are not cross-platform.
             string chars = NonCrossPlatformChars;
 
             for (int i = 0; i < chars.Length; i++)
