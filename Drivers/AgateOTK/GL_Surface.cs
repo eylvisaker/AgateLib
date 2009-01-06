@@ -26,14 +26,18 @@ using System.Text;
 
 using OpenTK.Graphics;
 using OTKPixelFormat = OpenTK.Graphics.PixelFormat;
+using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
-namespace AgateLib.DisplayLib.OpenGL
+using AgateLib;
+using AgateLib.DisplayLib;
+using AgateLib.Drivers;
+using AgateLib.Geometry;
+using AgateLib.ImplementationBase;
+using AgateLib.Utility;
+using AgateLib.WinForms;
+
+namespace AgateOTK
 {
-    using Drivers;
-    using Geometry;
-    using ImplementationBase;
-    using Utility;
-    using WinForms;
 
     public sealed class GL_Surface : SurfaceImpl, GL_IRenderTarget
     {

@@ -23,6 +23,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
+using AgateLib;
+using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.ImplementationBase;
@@ -33,7 +35,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
 
-namespace AgateLib.DisplayLib.OpenGL
+namespace AgateOTK
 {
     public sealed class GL_DisplayControl : DisplayWindowImpl, GL_IRenderTarget
     {
@@ -189,7 +191,7 @@ namespace AgateLib.DisplayLib.OpenGL
 
             DisplayDevice.Default.RestoreResolution();
 
-            WinForms.FormUtil.InitializeWindowsForm(out myform, out myRenderTarget, mChoosePosition,
+            AgateLib.WinForms.FormUtil.InitializeWindowsForm(out myform, out myRenderTarget, mChoosePosition,
                 mTitle, mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
 
             frm = myform;
@@ -370,14 +372,14 @@ namespace AgateLib.DisplayLib.OpenGL
         {
             get
             {
-                return WinForms.Interop.Convert(mRenderTarget.ClientSize);
+                return AgateLib.WinForms.Interop.Convert(mRenderTarget.ClientSize);
             }
             set
             {
-                mRenderTarget.ClientSize = WinForms.Interop.Convert(value);
+                mRenderTarget.ClientSize = AgateLib.WinForms.Interop.Convert(value);
 
                 if (frm != null)
-                    frm.ClientSize = WinForms.Interop.Convert(value);
+                    frm.ClientSize = AgateLib.WinForms.Interop.Convert(value);
             }
         }
 
@@ -401,11 +403,11 @@ namespace AgateLib.DisplayLib.OpenGL
         {
             get
             {
-                return WinForms.Interop.Convert(mRenderTarget.PointToClient(Cursor.Position));
+                return AgateLib.WinForms.Interop.Convert(mRenderTarget.PointToClient(Cursor.Position));
             }
             set
             {
-                Cursor.Position = mRenderTarget.PointToScreen(WinForms.Interop.Convert(value));
+                Cursor.Position = mRenderTarget.PointToScreen(AgateLib.WinForms.Interop.Convert(value));
             }
         }
 

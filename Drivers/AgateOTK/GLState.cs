@@ -26,7 +26,7 @@ using AgateLib.Geometry;
 
 using OpenTK.Graphics;
 
-namespace AgateLib.DisplayLib.OpenGL
+namespace AgateOTK
 {
     class GLState
     {
