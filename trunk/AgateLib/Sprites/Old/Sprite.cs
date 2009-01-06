@@ -1140,6 +1140,13 @@ namespace AgateLib.Sprites.Old
             get { return mAnimType; }
             set { mAnimType = value; }
         }
+
+        [Obsolete("Use IsAnimating instead.")]
+        public bool Animating
+        {
+            get { return IsAnimating; }
+            set { IsAnimating = value; }
+        }
         /// <summary>
         /// Gets or sets a flag which indicates:
         /// True if the animation is running.

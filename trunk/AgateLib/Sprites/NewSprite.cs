@@ -287,7 +287,7 @@ namespace AgateLib.Sprites
                     location.Y += size.Height;
                 }
 
-            } while (location.Y < surface.SurfaceHeight);
+            } while (location.Y + size.Height < surface.SurfaceHeight);
 
         }
 
