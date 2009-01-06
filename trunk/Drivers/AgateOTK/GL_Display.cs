@@ -24,15 +24,17 @@ using System.Text;
 using System.Runtime.InteropServices;
 
 using AgateLib.BitmapFont;
+using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.ImplementationBase;
 
 using OpenTK.Graphics;
+using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
-namespace AgateLib.DisplayLib.OpenGL
+namespace AgateOTK
 {
-    public sealed class GL_Display : DisplayImpl, IDisplayCaps, PlatformSpecific.IPlatformServices 
+    public sealed class GL_Display : DisplayImpl, IDisplayCaps, AgateLib.PlatformSpecific.IPlatformServices 
     {
         GL_IRenderTarget mRenderTarget;
         GLState mState;
@@ -83,14 +85,14 @@ namespace AgateLib.DisplayLib.OpenGL
 
         public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
         {
-            if (windowParams.RenderToControl)
-            {
+            //if (windowParams.RenderToControl)
+            //{
                 return new GL_DisplayControl(windowParams);
-            }
-            else
-            {
-                return new GL_GameWindow(windowParams);
-            }
+            //}
+            //else
+            //{
+            //    return new GL_GameWindow(windowParams);
+            //}
         }
         public override SurfaceImpl CreateSurface(string fileName)
         {
@@ -109,11 +111,11 @@ namespace AgateLib.DisplayLib.OpenGL
         {
             BitmapFontOptions options = new BitmapFontOptions(fontFamily, sizeInPoints, style);
 
-            return WinForms.BitmapFontUtil.ConstructFromOSFont(options);
+            return AgateLib.WinForms.BitmapFontUtil.ConstructFromOSFont(options);
         }
         public override FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
         {
-            return WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
+            return AgateLib.WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
         }
 
         internal void SetupGLOrtho(Rectangle ortho)
@@ -418,7 +420,7 @@ namespace AgateLib.DisplayLib.OpenGL
 
         protected override void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
         {
-            WinForms.FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
+            AgateLib.WinForms.FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
         }
 
         public override IDisplayCaps Caps
@@ -503,7 +505,7 @@ namespace AgateLib.DisplayLib.OpenGL
         {
             return this;
         }
-        Utility.PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
+        AgateLib.Utility.PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
         {
             get
             {
@@ -513,18 +515,18 @@ namespace AgateLib.DisplayLib.OpenGL
                     case PlatformID.Win32NT:
                     case PlatformID.Win32S:
                     case PlatformID.Win32Windows:
-                        return Utility.PlatformType.Windows;
+                        return AgateLib.Utility.PlatformType.Windows;
 
                     case PlatformID.Unix:
                         string kernel = DetectUnixKernel();
 
                         if (kernel == "Darwin")
-                            return Utility.PlatformType.MacOS;
+                            return AgateLib.Utility.PlatformType.MacOS;
                         else
-                            return Utility.PlatformType.Linux;
+                            return AgateLib.Utility.PlatformType.Linux;
                 }
 
-                return Utility.PlatformType.Unknown;
+                return AgateLib.Utility.PlatformType.Unknown;
             }
         }
 

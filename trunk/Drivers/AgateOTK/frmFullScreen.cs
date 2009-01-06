@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace AgateLib.DisplayLib.OpenGL
+namespace AgateOTK
 {
     public partial class frmFullScreen : Form
     {
