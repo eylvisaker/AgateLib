@@ -129,6 +129,16 @@ namespace AgateLib.Geometry
             return !a.Equals(b);
         }
 
+        /// <summary>
+        /// Explicitly converts a point to a pointf structure.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static explicit operator PointF(Point a)
+        {
+            return new PointF((float)a.X, (float)a.Y);
+        }
+
         #endregion
 
         #region --- Object Overrides ---
