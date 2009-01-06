@@ -107,6 +107,9 @@ namespace AgateLib.DisplayLib
         /// <param name="filename"></param>
         public Surface(string filename)
         {
+            if (Display.Impl == null)
+                throw new AgateException("AgateLib's display system has not been initialized.");
+
             using (System.IO.Stream s = AgateFileProvider.ImageProvider.OpenRead(filename))
             {
                 impl = Display.Impl.CreateSurface(s);
