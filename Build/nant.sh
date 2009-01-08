@@ -1,4 +1,3 @@
-<<<<<<< .mine
 #!/bin/bash
 
 mono Prebuild/Prebuild.exe /target nant /file AgateLib.xml 
