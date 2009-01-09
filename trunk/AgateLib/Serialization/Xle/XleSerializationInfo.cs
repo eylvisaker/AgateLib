@@ -57,7 +57,7 @@ namespace AgateLib.Serialization.Xle
 
         internal void BeginSerialize(IXleSerializable objectGraph)
         {
-            var root = doc.CreateElement("Root");
+            var root = doc.CreateElement("XleRoot");
 
             AddAttribute(root, "type", objectGraph.GetType().ToString());
             
@@ -277,6 +277,26 @@ namespace AgateLib.Serialization.Xle
             unsafe
             {
                 fixed (int* val = value)
+                {
+                    Marshal.Copy((IntPtr)val, array, 0, array.Length);
+                }
+            }
+            Write(name, array);
+
+        }
+
+        /// <summary>
+        /// Writes an double[] array to the XML data as an element.
+        /// </summary>
+        /// <param name="name">The name of the XML element used.</param>
+        /// <param name="value">The array data to write.</param>
+        public void Write(string name, double[] value)
+        {
+            byte[] array = new byte[value.Length * 8];
+
+            unsafe
+            {
+                fixed (double* val = value)
                 {
                     Marshal.Copy((IntPtr)val, array, 0, array.Length);
                 }
@@ -721,6 +741,30 @@ namespace AgateLib.Serialization.Xle
             return result;
         }
 
+        /// <summary>
+        /// Reads a double array from the XML data.  If the name is not present 
+        /// an XleSerializationException is thrown.
+        /// </summary>
+        /// <param name="name">Name of the field.</param>
+        /// <returns></returns>
+        public double[] ReadDoubleArray(string name)
+        {
+            byte[] array = ReadByteArray(name);
+            double[] result = new double[array.Length / 8];
+
+            if (array.Length % 8 != 0)
+                throw new XleSerializationException("Encoded array is wrong size!");
+
+            unsafe
+            {
+                fixed (byte* ar = array)
+                {
+                    Marshal.Copy((IntPtr)ar, result, 0, result.Length);
+                }
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Reads an array of objects from the XML data.  If the name is not present 
@@ -730,6 +774,9 @@ namespace AgateLib.Serialization.Xle
         /// <returns></returns>
         public T[] ReadArray<T>(string name)
         {
+            if (typeof(T) == typeof(int) || typeof(T) == typeof(double))
+                throw new XleSerializationException("Cannot use the generic ReadArray method to deserialize an array of primitives.");
+
             try
             {
                 T[] retval = (T[])ReadArray(name);
@@ -802,7 +849,14 @@ namespace AgateLib.Serialization.Xle
         /// <returns></returns>
         public List<T> ReadList<T>(string name)
         {
-            Array ar = ReadArrayImpl(name, typeof(T));
+            Array ar;
+            
+            if (typeof(T) == typeof(int)) 
+                ar = ReadInt32Array(name);
+            else if (typeof(T) == typeof(double))
+                ar = ReadDoubleArray(name);
+            else
+                ar = ReadArrayImpl(name, typeof(T));
 
             List<T> retval = new List<T>();
             retval.AddRange((T[])ar);
@@ -849,8 +903,8 @@ namespace AgateLib.Serialization.Xle
         {
             XmlElement root = (XmlElement)doc.ChildNodes[0];
 
-            if (root.Name != "Root")
-                throw new XleSerializationException("Could not understand stream.  Expected to find a Root element, but found " + root.Name + ".");
+            if (root.Name != "XleRoot")
+                throw new XleSerializationException("Could not understand stream.  Expected to find an XleRoot element, but found " + root.Name + ".");
 
             nodes.Push(root);
 

@@ -211,6 +211,17 @@ namespace AgateLib
 
         }
 
+        /// <summary>
+        /// Returns the directory the application that was started resides in.
+        /// </summary>
+        public static string BaseDirectory
+        {
+            get
+            {
+                return System.AppDomain.CurrentDomain.BaseDirectory;
+            }
+        }
+
         #region --- Error Reporting ---
 
         private static string mErrorFile = "errorlog.txt";

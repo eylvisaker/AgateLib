@@ -13,8 +13,12 @@
 
   <Reference name="AgateLib" localCopy="true"/>
   <Reference name="AgateDrawing" localCopy="true"/>
+  <Reference name="AgateLib.WinForms"/>
   <Reference name="System"/>
   <Reference name="System.Core"/>
+  <Reference name="System.Data"/>
+  <Reference name="System.Drawing"/>
+  <Reference name="System.Windows.Forms"/>
 
   <Files>
     <Match path="." pattern="*.cs" recurse="true"/>
