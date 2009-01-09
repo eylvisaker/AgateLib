@@ -44,6 +44,5 @@ namespace AgateLib.Sprites
         /// <param name="array"></param>
         /// <param name="arrayIndex"></param>
         void CopyTo(ISpriteFrame[] array, int arrayIndex);
-
     }
 }

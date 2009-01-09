@@ -184,8 +184,6 @@ namespace AgateLib.BitmapFont
 
         #endregion
 
-
-
         #region ICloneable Members
 
 

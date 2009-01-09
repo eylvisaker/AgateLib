@@ -200,21 +200,21 @@ namespace ERY.Sprite2Tester
         {
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                string filename = openFile.FileName;
+                //string filename = openFile.FileName;
 
-                AgateResourceCollection resources = AgateResourceLoader.LoadResources(filename);
+                ////AgateResourceCollection resources = ResourceLoader.LoadResources(filename);
 
-				if (resources.Sprites.ToArray().Length == 1)
-				{
-					AgateLib.Utility.FileManager.ImagePath.Clear();
-					AgateLib.Utility.FileManager.ImagePath.Add(System.IO.Path.GetDirectoryName(filename));
+                ////if (resources.Sprites.ToArray().Length == 1)
+                //{
+                ////	AgateLib.Utility.FileManager.ImagePath.Clear();
+                ////	AgateLib.Utility.FileManager.ImagePath.Add(System.IO.Path.GetDirectoryName(filename));
 
-					ISprite sp = resources.CreateSprite(resources.CurrentLanguage.Sprites.ToArray()[0].Name);
+                //    //ISprite sp = resources.CreateSprite(resources.CurrentLanguage.Sprites.ToArray()[0].Name);
 
-					SetSprite(sp);
-				}
-				else
-					throw new NotImplementedException();
+                ////	SetSprite(sp);
+                //}
+                //else
+                //    throw new NotImplementedException();
 
             }
         }

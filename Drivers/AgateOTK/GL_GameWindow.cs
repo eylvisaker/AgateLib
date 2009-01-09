@@ -256,7 +256,8 @@ namespace AgateOTK
         
         private void AttachEvents()
         {
-            mWindow.CloseWindow += new EventHandler(mWindow_CloseWindow);
+            // TODO: bring this back:
+            //mWindow.CloseWindow += new EventHandler(mWindow_CloseWindow);
             mWindow.Resize += new OpenTK.Platform.ResizeEvent(mWindow_Resize);
 
             mWindow.Keyboard.KeyRepeat = true;
@@ -271,7 +272,7 @@ namespace AgateOTK
         
         private void DetachEvents()
         {
-            mWindow.CloseWindow -= mWindow_CloseWindow;
+            //mWindow.CloseWindow -= mWindow_CloseWindow;
             mWindow.Resize -= mWindow_Resize;
 
             mWindow.Keyboard.KeyDown -= Keyboard_KeyDown;

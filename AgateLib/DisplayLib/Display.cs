@@ -286,6 +286,13 @@ namespace AgateLib.DisplayLib
         /// </summary>
         public static void BeginFrame()
         {
+            if (CurrentWindow == null)
+                throw new AgateException("A display window has not been created yet.");
+            if (RenderTarget == null)
+                throw new AgateException("A render target must be set before beginning to render.");
+            if (CurrentWindow.IsClosed)
+                throw new AgateException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
+
             impl.BeginFrame();
         }
         /// <summary>

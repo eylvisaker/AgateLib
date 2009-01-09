@@ -1189,7 +1189,7 @@ namespace AgateLib.Sprites.Old
         /// <summary>
         /// Gets the list of SpriteFrame objects in this sprite.
         /// </summary>
-        public IFrameList Frames
+        public FrameList<SpriteFrame> Frames
         {
             get { return mFrames; }
         }
@@ -1269,5 +1269,15 @@ namespace AgateLib.Sprites.Old
         }
 
         #endregion
+
+        #region ISprite Members
+
+        IFrameList ISprite.Frames
+        {
+            get { return Frames; }
+        }
+
+        #endregion
+
     }
 }

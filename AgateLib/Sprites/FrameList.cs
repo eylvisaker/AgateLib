@@ -5,7 +5,7 @@ using AgateLib.DisplayLib;
 
 namespace AgateLib.Sprites
 {
-    class FrameList<T> : IList<T> , IFrameList  where T : ISpriteFrame 
+    public class FrameList<T> : IList<T> , IFrameList  where T : ISpriteFrame 
     {
         List<T> mFrames = new List<T>();
 
@@ -127,5 +127,6 @@ namespace AgateLib.Sprites
         }
 
         #endregion
+
     }
 }
