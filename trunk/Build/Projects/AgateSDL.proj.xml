@@ -15,7 +15,7 @@
 
   <Reference name="AgateLib"/>
   <Reference name="AgateLib.WinForms"/>
-  <Reference name="Tao.Sdl.dll" path="." localCopy="true"/>
+  <Reference name="Tao.Sdl" path="." localCopy="true"/>
   <Reference name="System"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>
