@@ -89,6 +89,8 @@ namespace AgateLib.Resources
             {
                 XmlNode node = root.ChildNodes[i];
 
+                if (node is XmlComment) continue;
+
                 try
                 {
                     resources.Add(ReadNode(node, version));
