@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 using AgateLib.ImplementationBase;
@@ -428,7 +429,10 @@ namespace AgateOTK
 
         public void MakeCurrent()
         {
-            mWindow.Context.MakeCurrent(mWindow.WindowInfo);
+        	if (mWindow.Context.IsCurrent == false)
+        	{
+            	mWindow.Context.MakeCurrent(mWindow.WindowInfo);
+            }
         }
 
         #endregion

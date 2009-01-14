@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Drawing = System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -146,14 +147,16 @@ namespace AgateOTK
 
             AttachEvents();
 
-            //mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
-            //mContext = new GraphicsContext(
-            //    new GraphicsMode(new ColorFormat(32)), mWindowInfo);
-            //mContext.MakeCurrent(mWindowInfo);
-            //((IGraphicsContextInternal)mContext).LoadAll();
+			GraphicsMode newMode = new GraphicsMode(
+				GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
+				0,0, new ColorFormat(0), 2, false);
 
+			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
+			Console.WriteLine("AgateLib GraphicsMode: {0}", newMode);
+			
             OpenTK.Platform.Utilities.CreateGraphicsContext(
-                new GraphicsMode(new ColorFormat(32)), mRenderTarget,
+                newMode,
+                mRenderTarget,
                 out mContext, out mWindowInfo);
 
             DisplayResolution resolution = DisplayDevice.Default.SelectResolution(
@@ -203,16 +206,17 @@ namespace AgateOTK
             frm.Show();
             AttachEvents();
 
-            //mWindowInfo = OpenTK.Utilities.Interop.CreateWindowInfo(mRenderTarget);
-            //mContext = new GraphicsContext(
-            //    new GraphicsMode(new ColorFormat(32)), mWindowInfo);
-            //mContext.MakeCurrent(mWindowInfo);
-            //((IGraphicsContextInternal)mContext).LoadAll();
+			GraphicsMode newMode = new GraphicsMode(
+				GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
+				0,0, new ColorFormat(0), 2, false);
 
+			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
+			
             OpenTK.Platform.Utilities.CreateGraphicsContext(
-                new GraphicsMode(new ColorFormat(32)), mRenderTarget,
+                newMode,
+                mRenderTarget,
                 out mContext, out mWindowInfo);
-
+                
             if (oldWindowInfo != null) oldWindowInfo.Dispose();
             if (oldcontext != null) oldcontext.Dispose();
             if (oldForm != null) oldForm.Dispose();
@@ -239,15 +243,6 @@ namespace AgateOTK
 
         }
 
-        public void MakeCurrent()
-        {
-            mContext.MakeCurrent(mWindowInfo);
-
-            GL.Viewport(0, 0, Width, Height);
-
-            mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, Height, Width, 0));
-
-        }
 
         private void AttachEvents()
         {
@@ -411,9 +406,23 @@ namespace AgateOTK
             }
         }
 
+
+        public void MakeCurrent()
+        {
+        	if (mContext.IsCurrent == false)
+        	{
+            	mContext.MakeCurrent(mWindowInfo);
+            }
+
+            GL.Viewport(0, 0, Width, Height);
+
+            mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, Height, Width, 0));
+
+        }
+        
         public override void BeginRender()
         {
-            mContext.MakeCurrent(mWindowInfo);
+            MakeCurrent();
 
             mDisplay.SetClipRect(new Rectangle(0, 0, Width, Height));
             

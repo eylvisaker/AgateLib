@@ -85,14 +85,18 @@ namespace AgateOTK
 
         public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
         {
-            //if (windowParams.RenderToControl)
-            //{
-                return new GL_DisplayControl(windowParams);
-            //}
-            //else
-            //{
-            //    return new GL_GameWindow(windowParams);
-            //}
+            return new GL_DisplayControl(windowParams);
+
+// TODO: test and re-enable the GL_GameWindow object if it works well.
+//            
+//            if (windowParams.RenderToControl)
+//            {
+//                return new GL_DisplayControl(windowParams);
+//            }
+//            else
+//            {
+//                return new GL_GameWindow(windowParams);
+//            }
         }
         public override SurfaceImpl CreateSurface(string fileName)
         {
@@ -333,6 +337,7 @@ namespace AgateOTK
                 HintMode.Nicest);
 
             mSupportsFramebuffer = GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
+
         }
  
         public override void Dispose()
