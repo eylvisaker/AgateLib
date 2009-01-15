@@ -46,6 +46,11 @@ namespace AgateLib.Drivers
 
         private static IWinForms mWinForms;
 
+        private static const string[] KnownNativeLibraries = new string[]
+        {
+            "SDL.dll",
+        };
+
         static Registrar()
         {
         }
@@ -57,7 +62,7 @@ namespace AgateLib.Drivers
         public static void Initialize()
         {
             if (mIsInitialized)
-                return;
+                sreturn;
 
             NullSoundImpl.Register();
             NullInputImpl.Register();
@@ -69,6 +74,11 @@ namespace AgateLib.Drivers
                 Assembly ass;
                 Type[] types;
 
+                // Native libraries in the same directory will give an error when loaded, 
+                // so skip any ones that we know about that will probably be in the same
+                // directory as the drivers.
+                if (IsKnownNativeLibrary(file))
+                    continue;
 
                 try
                 {
@@ -146,6 +156,15 @@ namespace AgateLib.Drivers
             }
 
             mIsInitialized = true;
+        }
+
+        private static bool IsKnownNativeLibrary(string file)
+        {
+            for (int i = 0; i < KnownNativeLibraries.Length; i++)
+                if (KnownNativeLibraries[i].ToLowerInvariant() == file.ToLowerInvariant())
+                    return true;
+
+            return false;
         }
 
         /// <summary>
