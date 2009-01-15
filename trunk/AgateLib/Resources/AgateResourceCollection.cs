@@ -35,41 +35,34 @@ namespace AgateLib.Resources
     public class AgateResourceCollection : IDictionary<string, AgateResource>, ICollection<AgateResource>
     {
         Dictionary<string, AgateResource> mStore = new Dictionary<string, AgateResource>();
+        const string mStringsTableKey = "Strings";
 
         public AgateResourceCollection()
         {
+            this.mStore.Add(mStringsTableKey, new StringTable());
         }
 
-		/// <summary>
-		/// Enumerates through the SpriteResources contained in this group of resources.
-		/// </summary>
-		public IEnumerable<SpriteResource> Sprites
-		{
-			get
-			{
+        /// <summary>
+        /// Enumerates through the SpriteResources contained in this group of resources.
+        /// </summary>
+        public IEnumerable<SpriteResource> Sprites
+        {
+            get
+            {
                 foreach (KeyValuePair<string, AgateResource> kvp in mStore)
                 {
                     if (kvp.Value is SpriteResource)
                         yield return kvp.Value as SpriteResource;
                 }
-			}
-		}
+            }
+        }
 
         /// <summary>
         /// Gets the StringTable for this langauge.
         /// </summary>
         public StringTable Strings
         {
-            get
-            {
-                foreach (KeyValuePair<string, AgateResource> kvp in mStore)
-                {
-                    if (kvp.Value is StringTable)
-                        return (StringTable)kvp.Value;
-                }
-
-                return null;
-            }
+            get { return (StringTable)this.mStore[mStringsTableKey]; }
         }
 
         /// <summary>
@@ -80,12 +73,20 @@ namespace AgateLib.Resources
         public void Add(AgateResource item)
         {
             if (item is StringTable)
-            {
-                if (Strings != null)
-                    throw new ArgumentException("A string table already exists in this ResourceGroup.");
-            }
+                this.AddStringsTable((StringTable)item);
+            else
+                mStore.Add(item.Name, item);
+        }
 
-            mStore.Add(item.Name, item);
+        /// <summary>
+        /// Adds a strings
+        /// </summary>
+        /// <param name="table"></param>
+        private void AddStringsTable(StringTable table)
+        {
+            if (Strings.Count != 0)
+                throw new ArgumentException("The string table for this ResourceGroup is non-empty.  Should you add your strings to the existing string table?");
+            this.mStore[mStringsTableKey] = table;
         }
         /// <summary>
         /// 
@@ -103,7 +104,7 @@ namespace AgateLib.Resources
         {
             return mStore.ContainsKey(resourceName);
         }
- 
+
         /// <summary>
         /// 
         /// </summary>
@@ -111,23 +112,23 @@ namespace AgateLib.Resources
         {
             get { return mStore.Count; }
         }
-               
+
         #region --- IDictionary<string,AgateResource> Members ---
 
-        void IDictionary<string,AgateResource>.Add(string key, AgateResource value)
+        void IDictionary<string, AgateResource>.Add(string key, AgateResource value)
         {
             value.Name = key;
-
+            this.Add(value);
         }
 
-        
+
         public ICollection<string> Keys
         {
             get { return mStore.Keys; }
         }
 
 
-        bool IDictionary<string,AgateResource>.ContainsKey(string key)
+        bool IDictionary<string, AgateResource>.ContainsKey(string key)
         {
             return mStore.ContainsKey(key);
         }
@@ -167,13 +168,13 @@ namespace AgateLib.Resources
         #endregion
         #region --- ICollection<KeyValuePair<string,AgateResource>> Members ---
 
-        void ICollection<KeyValuePair<string,AgateResource>>.Add(KeyValuePair<string, AgateResource> item)
+        void ICollection<KeyValuePair<string, AgateResource>>.Add(KeyValuePair<string, AgateResource> item)
         {
             mStore.Add(item.Key, item.Value);
         }
-        bool ICollection<KeyValuePair<string,AgateResource>>.Contains(KeyValuePair<string, AgateResource> item)
+        bool ICollection<KeyValuePair<string, AgateResource>>.Contains(KeyValuePair<string, AgateResource> item)
         {
-            return (mStore as ICollection<KeyValuePair<string, AgateResource>>).Contains(item);   
+            return (mStore as ICollection<KeyValuePair<string, AgateResource>>).Contains(item);
         }
         void ICollection<KeyValuePair<string, AgateResource>>.CopyTo(KeyValuePair<string, AgateResource>[] array, int arrayIndex)
         {
