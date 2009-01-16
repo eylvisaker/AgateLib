@@ -82,15 +82,7 @@ namespace AgateOTK
 
                 mDisplay = Display.Impl as GL_Display;
 
-                //mWindowInfo = OpenTK.Platform.Utilities.CreateWindowInfo(mRenderTarget);
-                //mContext = new GraphicsContext(
-                //    new GraphicsMode(new ColorFormat(32)), mWindowInfo);
-                //mContext.MakeCurrent(mWindowInfo);
-                //((IGraphicsContextInternal)mContext).LoadAll();
-
-                OpenTK.Platform.Utilities.CreateGraphicsContext(
-                    new GraphicsMode(new ColorFormat(32)), mRenderTarget,
-                    out mContext, out mWindowInfo);
+                CreateContext();
 
                 mDisplay.InitializeGL();
 
@@ -147,17 +139,7 @@ namespace AgateOTK
 
             AttachEvents();
 
-			GraphicsMode newMode = new GraphicsMode(
-				GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
-				0,0, new ColorFormat(0), 2, false);
-
-			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
-			Console.WriteLine("AgateLib GraphicsMode: {0}", newMode);
-			
-            OpenTK.Platform.Utilities.CreateGraphicsContext(
-                newMode,
-                mRenderTarget,
-                out mContext, out mWindowInfo);
+            CreateContext();
 
             DisplayResolution resolution = DisplayDevice.Default.SelectResolution(
                 mChooseWidth, mChooseHeight, 32, 0);
@@ -206,22 +188,27 @@ namespace AgateOTK
             frm.Show();
             AttachEvents();
 
-			GraphicsMode newMode = new GraphicsMode(
-				GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
-				0,0, new ColorFormat(0), 2, false);
-
-			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
-			
-            OpenTK.Platform.Utilities.CreateGraphicsContext(
-                newMode,
-                mRenderTarget,
-                out mContext, out mWindowInfo);
+            CreateContext();
                 
             if (oldWindowInfo != null) oldWindowInfo.Dispose();
             if (oldcontext != null) oldcontext.Dispose();
             if (oldForm != null) oldForm.Dispose();
 
             Core.IsActive = true;
+        }
+
+        private void CreateContext()
+        {
+            GraphicsMode newMode = new GraphicsMode(
+                GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
+                0, 0, new ColorFormat(0), 2, false);
+
+            Debug.Print("AgateLib GraphicsMode: {0}", newMode);
+
+            OpenTK.Platform.Utilities.CreateGraphicsContext(
+                newMode,
+                mRenderTarget,
+                out mContext, out mWindowInfo);
         }
 
 
