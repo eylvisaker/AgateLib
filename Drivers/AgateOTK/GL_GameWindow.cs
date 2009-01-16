@@ -161,8 +161,6 @@ namespace AgateOTK
 
         }
 
-        
-        
         GL_Display mDisplay;
         System.Drawing.Icon mIcon;
         GameWindow mWindow;
@@ -172,6 +170,7 @@ namespace AgateOTK
         bool mAllowResize;
         bool mHasFrame;
         WindowPosition mCreatePosition;
+
         public GL_GameWindow(CreateWindowParams windowParams)
         {
             mCreatePosition = windowParams.WindowPosition;
@@ -292,7 +291,7 @@ namespace AgateOTK
         private void CreateWindowedDisplay()
         {
             mWindow = new GameWindow(mWidth, mHeight,
-                new OpenTK.Graphics.GraphicsMode(), mTitle);
+                CreateGraphicsMode(), mTitle);
 
             AttachEvents();
         }
@@ -301,9 +300,14 @@ namespace AgateOTK
         private void CreateFullScreenDisplay()
         {
             mWindow = new GameWindow(mWidth, mHeight,
-                new OpenTK.Graphics.GraphicsMode(), mTitle, GameWindowFlags.Fullscreen);
+               CreateGraphicsMode(), mTitle, GameWindowFlags.Fullscreen);
 
             AttachEvents();
+        }
+
+        OpenTK.Graphics.GraphicsMode CreateGraphicsMode()
+        {
+            return new GraphicsMode(32, 16);
         }
 
         Point lastMouse;

@@ -87,16 +87,14 @@ namespace AgateOTK
         {
             return new GL_DisplayControl(windowParams);
 
-// TODO: test and re-enable the GL_GameWindow object if it works well.
-//            
-//            if (windowParams.RenderToControl)
-//            {
-//                return new GL_DisplayControl(windowParams);
-//            }
-//            else
-//            {
-//                return new GL_GameWindow(windowParams);
-//            }
+            //if (windowParams.RenderToControl)
+            //{
+            //    return new GL_DisplayControl(windowParams);
+            //}
+            //else
+            //{
+            //    return new GL_GameWindow(windowParams);
+            //}
         }
         public override SurfaceImpl CreateSurface(string fileName)
         {
@@ -326,8 +324,14 @@ namespace AgateOTK
 
             Report("OpenTK / OpenGL driver instantiated for display.");
         }
+
+        bool glInitialized = false;
+
         internal void InitializeGL()
         {
+            if (glInitialized)
+                return;
+            
             GL.ShadeModel(ShadingModel.Smooth);                         // Enable Smooth Shading
             GL.ClearColor(0, 0, 0, 1.0f);                                     // Black Background
             GL.ClearDepth(1);                                                 // Depth Buffer Setup
@@ -337,7 +341,7 @@ namespace AgateOTK
                 HintMode.Nicest);
 
             mSupportsFramebuffer = GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
-
+            glInitialized = true;
         }
  
         public override void Dispose()
