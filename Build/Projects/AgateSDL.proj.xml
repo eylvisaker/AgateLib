@@ -26,6 +26,7 @@
     <Match pattern="*.config" copyToOutput="Always" buildAction="None" />
     <Match pattern="*.cs" recurse="true"/>
     <Match pattern="Tao.Sdl.dll" copyToOutput="Always" buildAction="None" />
+    <Match pattern="Tao.Sdl.dll.config" copyToOutput="Always" buildAction="None" />
     <Match pattern="SDL.dll" copyToOutput="Always" buildAction="None" />
     <Match pattern="Readme-SDL.txt" copyToOutput="Always" buildAction="None" />
   </Files>
