@@ -22,7 +22,7 @@ using System.Text;
 
 using AgateLib.Drivers;
 using AgateLib.ImplementationBase;
-
+ 
 namespace AgateLib
 {
     /// <summary>
