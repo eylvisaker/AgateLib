@@ -148,4 +148,9 @@ namespace AgateLib.Drivers
         SDL = 0x300,
     }
 
+    public enum DesktopTypeID
+    {
+        WinForms = 0,
+    }
+
 }
