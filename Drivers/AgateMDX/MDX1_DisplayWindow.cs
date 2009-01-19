@@ -25,15 +25,15 @@ using System.Windows.Forms;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
-
+using AgateLib;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ImplementationBase;
 using AgateLib.InputLib;
 using AgateLib.WinForms;
 
-namespace AgateLib.MDX
+namespace AgateMDX
 {
-    using DisplayLib;
 
     public class MDX1_DisplayWindow : DisplayWindowImpl, MDX1_IRenderTarget
     {
@@ -281,7 +281,7 @@ namespace AgateLib.MDX
             }
             else
             {
-                WinForms.FormUtil.InitializeWindowsForm(out frm, out mRenderTarget, mChoosePosition, mTitle, 
+                FormUtil.InitializeWindowsForm(out frm, out mRenderTarget, mChoosePosition, mTitle, 
                     mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
 
                 if (mIcon != null)

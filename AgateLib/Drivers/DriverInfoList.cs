@@ -32,6 +32,7 @@ namespace AgateLib.Drivers
     /// </summary>
     /// <typeparam name="TBase">Base class of the main driver class factory. (DisplayImpl, etc.)</typeparam>
     /// <typeparam name="T">DriverTypeID derived class.  This should emulate an enum.</typeparam>
+    [Obsolete]
     public class DriverInfoList<TBase, T> : List<DriverInfo<T>>
         // \cond
         where T : IComparable

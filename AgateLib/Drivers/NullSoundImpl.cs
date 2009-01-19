@@ -22,7 +22,7 @@ using System.Text;
 
 using AgateLib.Drivers;
 using AgateLib.ImplementationBase;
-
+ 
 namespace AgateLib
 {
     /// <summary>
@@ -201,14 +201,6 @@ namespace AgateLib
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static void Register()
-        {
-            Registrar.RegisterAudioDriver(new DriverInfo<AudioTypeID>(
-                typeof(NullSoundImpl), AudioTypeID.Silent, "Silent", -100));
-        }
         /// <summary>
         /// 
         /// </summary>

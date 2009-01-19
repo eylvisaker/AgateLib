@@ -33,9 +33,9 @@ using AgateLib.WinForms;
 using Vector2 = Microsoft.DirectX.Vector2;
 using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
 
-namespace AgateLib.MDX
+namespace AgateMDX
 {
-    public class MDX1_Display : DisplayImpl, IDisplayCaps, PlatformSpecific.IPlatformServices 
+    public class MDX1_Display : DisplayImpl, IDisplayCaps, AgateLib.PlatformSpecific.IPlatformServices 
     {
         #region --- Private Variables ---
 
@@ -60,7 +60,7 @@ namespace AgateLib.MDX
         {
             Report("Managed DirectX 1.1 driver instantiated for display.");
 
-            Sprites.Old.Sprite.UseSpriteCache = true;
+            AgateLib.Sprites.Old.Sprite.UseSpriteCache = true;
         }
 
 
@@ -227,11 +227,11 @@ namespace AgateLib.MDX
         {
             BitmapFontOptions options = new BitmapFontOptions(fontFamily, sizeInPoints, style);
 
-            return WinForms.BitmapFontUtil.ConstructFromOSFont(options);
+            return BitmapFontUtil.ConstructFromOSFont(options);
         }
         public override FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
         {
-            return WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
+            return BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
         }
 
         #endregion
@@ -750,7 +750,7 @@ namespace AgateLib.MDX
 
         protected override void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
         {
-            WinForms.FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
+            FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
         }
 
         public override IDisplayCaps Caps
@@ -835,9 +835,9 @@ namespace AgateLib.MDX
         {
             return this;
         }
-        Utility.PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
+        AgateLib.Utility.PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
         {
-            get { return Utility.PlatformType.Windows; }
+            get { return AgateLib.Utility.PlatformType.Windows; }
         }
 
         #endregion

@@ -12,12 +12,6 @@ namespace AgateOTK
     {
         AudioContext context;
 
-        public static void Register()
-        {
-            Registrar.RegisterAudioDriver(new DriverInfo<AudioTypeID>(
-                typeof(AL_Audio), AudioTypeID.OpenAL, "OpenAL with OpenTK 0.9.1", 300));
-        }
-
         public override void Initialize()
         {
             context = new AudioContext();

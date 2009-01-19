@@ -45,33 +45,17 @@ namespace AgateLib.Drivers
         /// Adds a Display driver to the possible options.
         /// </summary>
         /// <param name="info"></param>
-        void AddDisplayType(DriverInfo<DisplayTypeID> info);
+        void AddDisplayType(AgateDriverInfo info);
         /// <summary>
         /// Adds a Audio driver to the possible options.
         /// </summary>
         /// <param name="info"></param>
-        void AddAudioType(DriverInfo<AudioTypeID> info);
+        void AddAudioType(AgateDriverInfo info);
         /// <summary>
         /// Adds a Input driver to the possible options.
         /// </summary>
         /// <param name="info"></param>
-        void AddInputType(DriverInfo<InputTypeID> info);
-
-        /// <summary>
-        /// Sets the default Display driver.
-        /// </summary>
-        /// <param name="highestDisplay"></param>
-        void SetDefaultDisplay(DriverInfo<DisplayTypeID> highestDisplay);
-        /// <summary>
-        /// Sets the default Audio driver.
-        /// </summary>
-        /// <param name="highestAudio"></param>
-        void SetDefaultAudio(DriverInfo<AudioTypeID> highestAudio);
-        /// <summary>
-        /// Sets the default Input driver.
-        /// </summary>
-        /// <param name="highestInput"></param>
-        void SetDefaultInput(DriverInfo<InputTypeID> highestInput);
+        void AddInputType(AgateDriverInfo info);
 
         /// <summary>
         /// Shows the dialog asking the user what drivers to use.

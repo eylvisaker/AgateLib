@@ -24,7 +24,7 @@ using System.Text;
 using AgateLib;
 using AgateLib.ImplementationBase;
 
-namespace AgateLib.AgateFMOD
+namespace AgateFMOD
 {
     class FMOD_SoundBuffer : SoundBufferImpl 
     {

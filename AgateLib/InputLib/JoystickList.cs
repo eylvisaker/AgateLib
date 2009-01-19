@@ -21,7 +21,9 @@ namespace AgateLib.InputLib
         {
             Core.Initialize();
 
-            impl = Registrar.InputDriverInfo.CreateDriver(inputType);
+            impl = Registrar.CreateInputDriver(inputType);
+            impl.Initialize();
+
             Old.Input.LegacyInitialize(impl);
 
             InitializeJoysticks();

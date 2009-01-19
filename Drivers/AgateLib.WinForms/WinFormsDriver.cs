@@ -6,7 +6,7 @@ namespace AgateLib.WinForms
 {
     using Drivers;
 
-    class WinFormsDriver : IWinForms
+    class WinFormsDriver : IDesktopDriver
     {
 
         #region IWinForms Members

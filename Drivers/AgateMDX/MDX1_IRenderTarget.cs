@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.ImplementationBase;
 
-namespace AgateLib.MDX
+namespace AgateMDX
 {
     public interface MDX1_IRenderTarget : IRenderTargetImpl 
     {
