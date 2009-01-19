@@ -40,6 +40,10 @@ namespace AgateLib.DisplayLib
     /// 
     /// <example> This example shows how a basic render loop works.
     /// <code>
+    /// // These usings should be at the top.
+    /// using AgateLib;
+    /// using AgateLib.DisplayLib;
+    /// 
     /// void MyRenderLoop()
     /// {
     ///     Display.BeginFrame();
