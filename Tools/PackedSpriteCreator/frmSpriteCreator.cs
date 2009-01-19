@@ -25,6 +25,14 @@ namespace PackedSpriteCreator
 
         private void openResourceFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            OpenFiles();
+        }
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            OpenFiles();
+        }
+        private void OpenFiles()
+        {
             if (openDialog.ShowDialog() == DialogResult.Cancel)
                 return;
 
@@ -46,5 +54,6 @@ namespace PackedSpriteCreator
         {
             Close();
         }
+
     }
 }

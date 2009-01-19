@@ -12,23 +12,50 @@ namespace PackedSpriteCreator
 {
     public partial class frmAddSpriteFrames : Form
     {
-        Bitmap image;
-        
+        List<ImportImageInfo> images = new List<ImportImageInfo>();
+        bool updating = false;
+
         public frmAddSpriteFrames()
         {
             InitializeComponent();
+
+            pctInitialPreview.Location = new Point();
         }
 
         public Size SpriteSize { get; set; }
 
+        ImportImageInfo CurrentImage
+        {
+            get
+            {
+                if (lstImages.SelectedIndices.Count != 1)
+                    return null;
+
+                return images[lstImages.SelectedIndex];
+            }
+        }
+        
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             if (openFile.ShowDialog(this) == DialogResult.Cancel)
                 return;
 
-            txtFilename.Text = openFile.FileName;
+            AddFiles(openFile.FileNames);
         }
 
+        private void AddFiles(IEnumerable<string> files)
+        {
+            foreach (string filename in files)
+            {
+                ImportImageInfo info = new ImportImageInfo();
+
+                info.FullPath = filename;
+                info.Image = new Bitmap(filename);
+
+                images.Add(info);
+                lstImages.Items.Add(info);
+            }
+        }
         private void frmAddSpriteFrames_Load(object sender, EventArgs e)
         {
             if (openFile.ShowDialog(this) == DialogResult.Cancel)
@@ -38,43 +65,24 @@ namespace PackedSpriteCreator
                 return;
             }
 
-            txtFilename.Text = openFile.FileName;
-        }
-
-        private void txtFilename_TextChanged(object sender, EventArgs e)
-        {
-            if (File.Exists(txtFilename.Text) == false)
-            {
-                detailsPanel.Enabled = false;
-                pctInitialPreview.Image = null;
-                return;
-            }
-
-
-            try
-            {
-                image = new Bitmap(txtFilename.Text);
-            }
-            catch
-            {
-                detailsPanel.Enabled = false;
-                pctInitialPreview.Image = null;
-                return;
-            }
-
-            pctInitialPreview.Image = image;
-            pctInitialPreview.Size = image.Size;
-            
+            AddFiles(openFile.FileNames);
         }
 
         private void chkTransparent_CheckedChanged(object sender, EventArgs e)
         {
-            pnlTransparentColor.Visible = UseTransparentColor;
+            if (updating)
+                return;
+
+            CurrentImage.UseColorKey = chkTransparent.Checked;
+            UpdateControls();
         }
 
         private void pctInitialPreview_MouseClick(object sender, MouseEventArgs e)
         {
-            var data = image.LockBits(new Rectangle(e.X, e.Y, 1, 1),
+            if (CurrentImage == null)
+                return;
+
+            var data = CurrentImage.Image.LockBits(new Rectangle(e.X, e.Y, 1, 1),
                  System.Drawing.Imaging.ImageLockMode.ReadOnly,
                  System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -82,20 +90,33 @@ namespace PackedSpriteCreator
 
             System.Runtime.InteropServices.Marshal.Copy(data.Scan0, dest, 0, 1);
 
-            TransparentColor = Color.FromArgb(dest[0]);
+            CurrentImage.ColorKey = Color.FromArgb(dest[0]);
+            CurrentImage.Image.UnlockBits(data);
 
-            image.UnlockBits(data);
+            UpdateControls();
         }
 
-        public Color TransparentColor
+        private void lstImages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            get { return pnlTransparentColor.BackColor; }
-            set { pnlTransparentColor.BackColor = value; }
+            if (CurrentImage == null)
+            {
+                splitContainer1.Panel2.Enabled = false;  
+                pctInitialPreview.Image = null;
+                return;
+            }
+
+            splitContainer1.Panel2.Enabled = true;
+
+            pctInitialPreview.Image = CurrentImage.Image;
+            pctInitialPreview.Size = CurrentImage.Image.Size;
+
+            UpdateControls();
         }
-        public bool UseTransparentColor
+
+        private void UpdateControls()
         {
-            get { return chkTransparent.Checked; }
-            set { chkTransparent.Checked = value; }
+
         }
+
     }
 }
