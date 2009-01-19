@@ -15,7 +15,10 @@ namespace InputTester
         /// </summary>
         [STAThread]
         static void Main()
-		{			
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
 			AgateLib.Utility.AgateFileProvider.AssemblyProvider.AddPath("../Drivers");
@@ -28,8 +31,6 @@ namespace InputTester
                 if (setup.WasCanceled)
                     return;
 
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Form1());
             }
         }
