@@ -50,16 +50,16 @@ namespace AgateLib.ImplementationBase
             }
             set
             {
-                if (value != mRenderTarget)
-                {
-                    if (mInFrame)
-                        throw new Exception("Cannot change render target between BeginFrame and EndFrame");
+                if (value == mRenderTarget)
+                    return;
 
-                    IRenderTarget old = mRenderTarget;
-                    mRenderTarget = value;
+                if (mInFrame)
+                    throw new Exception("Cannot change render target between BeginFrame and EndFrame");
 
-                    OnRenderTargetChange(old);
-                }
+                IRenderTarget old = mRenderTarget;
+                mRenderTarget = value;
+
+                OnRenderTargetChange(old);
             }
         }
 
@@ -387,26 +387,6 @@ namespace AgateLib.ImplementationBase
             }
 
             DrawLines(pts, color);
-
-            //Public Sub DrawCircle(ByVal NumPoints As Integer, ByVal CenterX As Single, ByVal CenterY As Single, ByVal Radius As Single, ByVal Color As Integer, ByVal Thickness As Single)
-            //Dim pts(NumPoints) As Vector2, pointStep As Single
-
-            //pointStep = (Math.PI * 2) / NumPoints
-
-            //For i As Integer = 0 To NumPoints
-            //pts(i).X = CenterX + Math.Cos(pointStep * i) * Radius
-            //pts(i).Y = CenterY + Math.Sin(pointStep * i) * Radius
-            //Next
-
-            //Try
-            //mLine.Width = Thickness
-            //mLine.Begin()
-            //mLine.Draw(pts, Color)
-            //mLine.End()
-            //Catch Err As Exception
-
-            //End Try
-            //End Sub
         }
 
         /// <summary>
@@ -522,30 +502,7 @@ namespace AgateLib.ImplementationBase
             }
 
             return retval;
-            /*
-            Surface retval = new Surface(size);
-
-            IRenderTarget old = Display.RenderTarget;
-            Display.RenderTarget = retval;
-
-            Display.BeginFrame();
-            Display.Clear(0, 0, 0, 0);
-
-            foreach (SurfacePacker.RectHolder<Surface> rect in packedRects)
-            {
-                rect.Tag.Draw(rect.Rect);
-            }
             
-            Display.EndFrame();
-            Display.RenderTarget = old;
-
-            foreach (SurfacePacker.RectHolder<Surface> rect in packedRects)
-            {
-                rect.Tag.SetSourceSurface(retval, rect.Rect);
-            }
-
-            return retval;
-             * */
         }
 
         /// <summary>
@@ -612,7 +569,7 @@ namespace AgateLib.ImplementationBase
         /// <param name="format"></param>
         protected internal virtual void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
         {
-            throw new InvalidOperationException("Display driver does not support saving pixel buffers.");
+            throw new AgateException("Display driver does not support saving pixel buffers.");
         }
 
         /// <summary>
