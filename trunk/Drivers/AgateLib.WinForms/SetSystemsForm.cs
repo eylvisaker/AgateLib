@@ -80,35 +80,10 @@ namespace AgateLib.WinForms
         }
 
         /// <summary>
-        /// Sets default.
-        /// </summary>
-        /// <param name="mode"></param>
-        public void SetDefaultDisplay(DriverInfo<DisplayTypeID> mode)
-        {
-            displayList.SelectedItem = mode;
-        }
-        /// <summary>
-        /// Sets default.
-        /// </summary>
-        /// <param name="mode"></param>
-        public void SetDefaultAudio(DriverInfo<AudioTypeID> mode)
-        {
-            audioList.SelectedItem = mode;
-        }
-        /// <summary>
-        /// Sets default.
-        /// </summary>
-        /// <param name="mode"></param>
-        public void SetDefaultInput(DriverInfo<InputTypeID> mode)
-        {
-            inputList.SelectedItem = mode;
-        }
-
-        /// <summary>
         /// Adds.
         /// </summary>
         /// <param name="info"></param>
-        public void AddDisplayType(DriverInfo<DisplayTypeID> info)
+        public void AddDisplayType(AgateDriverInfo info)
         {
             displayList.Items.Add(info);
         }
@@ -116,7 +91,7 @@ namespace AgateLib.WinForms
         /// Adds.
         /// </summary>
         /// <param name="info"></param>
-        public void AddAudioType(DriverInfo<AudioTypeID> info)
+        public void AddAudioType(AgateDriverInfo info)
         {
             audioList.Items.Add(info);
         }
@@ -124,7 +99,7 @@ namespace AgateLib.WinForms
         /// Adds.
         /// </summary>
         /// <param name="info"></param>
-        public void AddInputType(DriverInfo<InputTypeID> info)
+        public void AddInputType(AgateDriverInfo info)
         {
             inputList.Items.Add(info);
         }
@@ -133,27 +108,34 @@ namespace AgateLib.WinForms
         {
             if (mChooseDisplay)
             {
-                DriverInfo<DisplayTypeID> display = displayList.SelectedItem as DriverInfo<DisplayTypeID>;
-                mDisplayType = display.TypeID;
+                AgateDriverInfo display = (AgateDriverInfo)displayList.SelectedItem;
+                mDisplayType = (DisplayTypeID)display.DriverTypeID;
             }
 
             if (mChooseAudio)
             {
-                DriverInfo<AudioTypeID> audio = audioList.SelectedItem as DriverInfo<AudioTypeID>;
-                mAudioType = audio.TypeID;
+                AgateDriverInfo audio = (AgateDriverInfo)audioList.SelectedItem;
+                mAudioType = (AudioTypeID)audio.DriverTypeID;
             }
 
             if (mChooseInput)
             {
-                DriverInfo<InputTypeID> input = inputList.SelectedItem as DriverInfo<InputTypeID>;
-                mInputType = input.TypeID;
+                AgateDriverInfo input = (AgateDriverInfo)inputList.SelectedItem;
+                mInputType = (InputTypeID)input.DriverTypeID;
             }
-
         }
 
         private void frmSetSystems_Load(object sender, EventArgs e)
         {
+            SelectFirst(displayList);
+            SelectFirst(audioList);
+            SelectFirst(inputList);
+        }
 
+        private void SelectFirst(ComboBox theComboBox)
+        {
+            if (theComboBox.Items.Count > 0)
+                theComboBox.SelectedIndex = 0;
         }
 
         #region IUserSetSystems Members

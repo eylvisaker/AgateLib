@@ -27,6 +27,7 @@ namespace AgateLib.Drivers
     /// </summary>
     /// <typeparam name="T">Type parameter which derives from DriverTypeIDBase.
     /// </typeparam>
+    [Obsolete("Use AgateDriverInfo instead.")]
     public class DriverInfo<T>
         // \cond
         where T : IComparable

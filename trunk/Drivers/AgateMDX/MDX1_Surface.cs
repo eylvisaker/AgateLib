@@ -25,6 +25,7 @@ using System.Text;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ImplementationBase;
 using AgateLib.Utility;
@@ -35,9 +36,8 @@ using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Surface = AgateLib.DisplayLib.Surface;
 
-namespace AgateLib.MDX
+namespace AgateMDX
 {
-    using DisplayLib;
 
     public class MDX1_Surface : SurfaceImpl, MDX1_IRenderTarget 
     {

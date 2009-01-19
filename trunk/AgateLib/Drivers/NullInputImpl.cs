@@ -28,12 +28,6 @@ namespace AgateLib
     class NullInputImpl : InputImpl 
     {
 
-        public static void Register()
-        {
-            Registrar.RegisterInputDriver(new DriverInfo<InputTypeID>(
-                typeof(NullInputImpl), InputTypeID.Silent, "Keyboard and Mouse only", -100));
-        }
-
         public override void Initialize()
         {
             Report("No input driver found.  Joysticks will not work.");            

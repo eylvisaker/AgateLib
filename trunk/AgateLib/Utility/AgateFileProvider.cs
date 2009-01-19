@@ -25,6 +25,11 @@ namespace AgateLib.Utility
             mAssemblyProvider = new FileSystemProvider(Path.GetDirectoryName(location));
         }
 
+        /// <summary>
+        /// The file provider for getting driver assemblies.  It is not recommended that you use this
+        /// because it will cause assemblies to be loaded in the "LoadFrom" context.  Instead, place
+        /// driver assemblies in the same directory as the application.
+        /// </summary>
         public static IFileProvider AssemblyProvider
         {
             get { return mAssemblyProvider; }
