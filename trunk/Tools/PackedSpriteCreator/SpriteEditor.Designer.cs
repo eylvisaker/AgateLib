@@ -34,26 +34,26 @@
             this.label1 = new System.Windows.Forms.Label();
             this.propertiesPanel = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lstFrames = new System.Windows.Forms.ListBox();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnMoveDown = new System.Windows.Forms.Button();
+            this.btnMoveUp = new System.Windows.Forms.Button();
             this.nudTimePerFrame = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.lstFrames = new System.Windows.Forms.ListBox();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnMoveUp = new System.Windows.Forms.Button();
-            this.btnMoveDown = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnNewSprite = new System.Windows.Forms.Button();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.agateRenderTarget1 = new AgateLib.WinForms.AgateRenderTarget();
             this.chkAnimating = new System.Windows.Forms.CheckBox();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.btnNewSprite = new System.Windows.Forms.Button();
             this.propertiesPanel.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTimePerFrame)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTimePerFrame)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -121,6 +121,79 @@
             this.splitContainer1.SplitterDistance = 334;
             this.splitContainer1.TabIndex = 2;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.lstFrames);
+            this.groupBox1.Controls.Add(this.btnDelete);
+            this.groupBox1.Controls.Add(this.btnAdd);
+            this.groupBox1.Controls.Add(this.btnMoveDown);
+            this.groupBox1.Controls.Add(this.btnMoveUp);
+            this.groupBox1.Location = new System.Drawing.Point(3, 64);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(316, 197);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Frames";
+            // 
+            // lstFrames
+            // 
+            this.lstFrames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstFrames.FormattingEnabled = true;
+            this.lstFrames.Location = new System.Drawing.Point(6, 22);
+            this.lstFrames.Name = "lstFrames";
+            this.lstFrames.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lstFrames.Size = new System.Drawing.Size(216, 160);
+            this.lstFrames.TabIndex = 4;
+            this.lstFrames.SelectedIndexChanged += new System.EventHandler(this.lstFrames_SelectedIndexChanged);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDelete.Location = new System.Drawing.Point(228, 109);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(82, 23);
+            this.btnDelete.TabIndex = 9;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAdd.Location = new System.Drawing.Point(228, 22);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(82, 23);
+            this.btnAdd.TabIndex = 6;
+            this.btnAdd.Text = "Add...";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnMoveDown
+            // 
+            this.btnMoveDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMoveDown.Location = new System.Drawing.Point(228, 80);
+            this.btnMoveDown.Name = "btnMoveDown";
+            this.btnMoveDown.Size = new System.Drawing.Size(82, 23);
+            this.btnMoveDown.TabIndex = 8;
+            this.btnMoveDown.Text = "Move Down";
+            this.btnMoveDown.UseVisualStyleBackColor = true;
+            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
+            // 
+            // btnMoveUp
+            // 
+            this.btnMoveUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMoveUp.Location = new System.Drawing.Point(228, 51);
+            this.btnMoveUp.Name = "btnMoveUp";
+            this.btnMoveUp.Size = new System.Drawing.Size(82, 23);
+            this.btnMoveUp.TabIndex = 7;
+            this.btnMoveUp.Text = "Move Up";
+            this.btnMoveUp.UseVisualStyleBackColor = true;
+            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
+            // 
             // nudTimePerFrame
             // 
             this.nudTimePerFrame.Location = new System.Drawing.Point(111, 29);
@@ -171,86 +244,24 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Name";
             // 
-            // lstFrames
+            // splitContainer2
             // 
-            this.lstFrames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lstFrames.FormattingEnabled = true;
-            this.lstFrames.Location = new System.Drawing.Point(6, 22);
-            this.lstFrames.Name = "lstFrames";
-            this.lstFrames.Size = new System.Drawing.Size(216, 160);
-            this.lstFrames.TabIndex = 4;
-            this.lstFrames.SelectedIndexChanged += new System.EventHandler(this.lstFrames_SelectedIndexChanged);
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // btnAdd
+            // splitContainer2.Panel1
             // 
-            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(228, 22);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(82, 23);
-            this.btnAdd.TabIndex = 6;
-            this.btnAdd.Text = "Add...";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            this.splitContainer2.Panel1.Controls.Add(this.agateRenderTarget1);
             // 
-            // btnMoveUp
+            // splitContainer2.Panel2
             // 
-            this.btnMoveUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMoveUp.Location = new System.Drawing.Point(228, 51);
-            this.btnMoveUp.Name = "btnMoveUp";
-            this.btnMoveUp.Size = new System.Drawing.Size(82, 23);
-            this.btnMoveUp.TabIndex = 7;
-            this.btnMoveUp.Text = "Move Up";
-            this.btnMoveUp.UseVisualStyleBackColor = true;
-            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
-            // 
-            // btnMoveDown
-            // 
-            this.btnMoveDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMoveDown.Location = new System.Drawing.Point(228, 80);
-            this.btnMoveDown.Name = "btnMoveDown";
-            this.btnMoveDown.Size = new System.Drawing.Size(82, 23);
-            this.btnMoveDown.TabIndex = 8;
-            this.btnMoveDown.Text = "Move Down";
-            this.btnMoveDown.UseVisualStyleBackColor = true;
-            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDelete.Location = new System.Drawing.Point(228, 109);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(82, 23);
-            this.btnDelete.TabIndex = 9;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.lstFrames);
-            this.groupBox1.Controls.Add(this.btnDelete);
-            this.groupBox1.Controls.Add(this.btnAdd);
-            this.groupBox1.Controls.Add(this.btnMoveDown);
-            this.groupBox1.Controls.Add(this.btnMoveUp);
-            this.groupBox1.Location = new System.Drawing.Point(3, 64);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(316, 197);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Frames";
-            // 
-            // btnNewSprite
-            // 
-            this.btnNewSprite.Location = new System.Drawing.Point(3, 3);
-            this.btnNewSprite.Name = "btnNewSprite";
-            this.btnNewSprite.Size = new System.Drawing.Size(68, 23);
-            this.btnNewSprite.TabIndex = 10;
-            this.btnNewSprite.Text = "New Sprite";
-            this.btnNewSprite.UseVisualStyleBackColor = true;
+            this.splitContainer2.Panel2.Controls.Add(this.chkAnimating);
+            this.splitContainer2.Size = new System.Drawing.Size(224, 361);
+            this.splitContainer2.SplitterDistance = 230;
+            this.splitContainer2.TabIndex = 11;
             // 
             // agateRenderTarget1
             // 
@@ -273,24 +284,14 @@
             this.chkAnimating.UseVisualStyleBackColor = true;
             this.chkAnimating.CheckedChanged += new System.EventHandler(this.chkAnimating_CheckedChanged);
             // 
-            // splitContainer2
+            // btnNewSprite
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.agateRenderTarget1);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.chkAnimating);
-            this.splitContainer2.Size = new System.Drawing.Size(224, 361);
-            this.splitContainer2.SplitterDistance = 230;
-            this.splitContainer2.TabIndex = 11;
+            this.btnNewSprite.Location = new System.Drawing.Point(3, 3);
+            this.btnNewSprite.Name = "btnNewSprite";
+            this.btnNewSprite.Size = new System.Drawing.Size(68, 23);
+            this.btnNewSprite.TabIndex = 10;
+            this.btnNewSprite.Text = "New Sprite";
+            this.btnNewSprite.UseVisualStyleBackColor = true;
             // 
             // SpriteEditor
             // 
@@ -308,8 +309,8 @@
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.nudTimePerFrame)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.nudTimePerFrame)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.Panel2.PerformLayout();

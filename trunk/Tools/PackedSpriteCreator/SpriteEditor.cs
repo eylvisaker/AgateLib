@@ -89,19 +89,24 @@ namespace PackedSpriteCreator
             if (mAgateSprite != null)
                 mAgateSprite.Dispose();
 
-            mAgateSprite = updatedSprite ;
+            mAgateSprite = updatedSprite;
             mAgateSprite.IsAnimating = chkAnimating.Checked;
-
         }
 
-        
         private void FillFrameList(int newSelection)
+        {
+            FillFrameList(new int[] { newSelection });
+        }
+        private void FillFrameList(IEnumerable<int> selections)
         {
             lstFrames.Items.Clear();
             lstFrames.Items.AddRange(mCurrentSprite.Frames.ToArray());
 
-            newSelection = Math.Min(newSelection, lstFrames.Items.Count - 1);
-            lstFrames.SelectedIndex = newSelection;
+            lstFrames.SelectedIndices.Clear();
+            foreach (var index in selections)
+                lstFrames.SelectedIndices.Add(index);
+
+            lstFrames_SelectedIndexChanged(this, EventArgs.Empty);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -175,14 +180,16 @@ namespace PackedSpriteCreator
                 btnMoveDown.Enabled = true;
                 btnDelete.Enabled = true;
 
-                if (lstFrames.SelectedIndex == 0)
+                if (lstFrames.SelectedIndices.Contains(0))
                 {
                     btnMoveUp.Enabled = false;
                 }
-                if (lstFrames.SelectedIndex == lstFrames.Items.Count-1)
+                if (lstFrames.SelectedIndices.Contains(lstFrames.Items.Count-1))
                 {
                     btnMoveDown.Enabled = false;
                 }
+                if (lstFrames.SelectedIndices.Count == 0)
+                    btnDelete.Enabled = false;
             }
 
             if (changingSprite)
@@ -196,7 +203,7 @@ namespace PackedSpriteCreator
         private void btnAdd_Click(object sender, EventArgs e)
         {
             frmAddSpriteFrames frm = new frmAddSpriteFrames();
-            frm.Size = AgateLib.WinForms.Interop.Convert(mCurrentSprite.Size);
+            frm.SpriteSize = AgateLib.WinForms.Interop.Convert(mCurrentSprite.Size);
 
             if (frm.ShowDialog(this) == DialogResult.OK)
             {
@@ -205,39 +212,56 @@ namespace PackedSpriteCreator
         }
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
-            int index = lstFrames.SelectedIndex;
+            List<int> selections = new List<int>();
 
-            var frame = mCurrentSprite.Frames[index];
-            mCurrentSprite.Frames.RemoveAt(index);
-            mCurrentSprite.Frames.Insert(index - 1, frame);
+            foreach (int index in lstFrames.SelectedIndices)
+            {
+                var frame = mCurrentSprite.Frames[index];
+                mCurrentSprite.Frames.RemoveAt(index);
+                mCurrentSprite.Frames.Insert(index - 1, frame);
+
+                selections.Add(index - 1);
+            }
 
             UpdateSprite();
-            FillFrameList(index - 1);
+            FillFrameList(selections);
 
         }
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
-            int index = lstFrames.SelectedIndex;
+            List<int> selections = new List<int>();
 
-            var frame = mCurrentSprite.Frames[index];
-            mCurrentSprite.Frames.RemoveAt(index);
-            mCurrentSprite.Frames.Insert(index + 1, frame);
+            foreach (int index in lstFrames.SelectedIndices)
+            {
+                var frame = mCurrentSprite.Frames[index];
+                mCurrentSprite.Frames.RemoveAt(index);
+                mCurrentSprite.Frames.Insert(index + 1, frame);
+
+                selections.Add(index + 1);
+            }
 
             UpdateSprite();
-            FillFrameList(index + 1);
+            FillFrameList(selections);
 
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            int index = lstFrames.SelectedIndex;
+            List<SpriteResource.SpriteFrameResource> framesToDelete = new List<SpriteResource.SpriteFrameResource>();
 
-            mCurrentSprite.Frames.RemoveAt(index);
+            foreach (int index in lstFrames.SelectedIndices)
+            {
+                framesToDelete.Add(mCurrentSprite.Frames[index]);
+            }
+
+            foreach(SpriteResource.SpriteFrameResource frame in framesToDelete)
+            {
+                mCurrentSprite.Frames.Remove(frame);
+            }
 
             UpdateSprite();
-            FillFrameList(index );
-
-
+            FillFrameList(-1);
         }
+
 
         private void chkAnimating_CheckedChanged(object sender, EventArgs e)
         {
