@@ -63,13 +63,13 @@ namespace AgateLib.Drivers
         /// <summary>
         /// Searches through FileManager.AssemblyPath for all *.dll files.  These files
         /// are loaded and searched for classes which derive from DisplayImpl, AudioImpl, etc.
-        /// 
         /// </summary>
         public static void Initialize()
         {
             if (mIsInitialized)
                 return;
 
+            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
             AppDomain sandbox = AppDomain.CreateDomain("AgateSandBox");
 
             AgateSandBoxLoader loader = (AgateSandBoxLoader)
@@ -123,6 +123,7 @@ namespace AgateLib.Drivers
             SortDriverInfo(desktopDrivers);
            
         }
+
 
         private static void SortDriverInfo(List<AgateDriverInfo> driverList)
         {
@@ -290,46 +291,23 @@ namespace AgateLib.Drivers
             
             frm.SetChoices(chooseDisplay, chooseAudio, chooseInput);
 
-            DriverInfo<DisplayTypeID> highestDisplay = null;
-            DriverInfo<AudioTypeID> highestAudio = null;
-            DriverInfo<InputTypeID> highestInput = null;
-
             // set default values.
             selectedDisplay = DisplayTypeID.AutoSelect;
             selectedAudio = AudioTypeID.AutoSelect;
             selectedInput = InputTypeID.AutoSelect;
 
-            foreach (DriverInfo<DisplayTypeID> info in mDisplayDrivers)
+            foreach (AgateDriverInfo info in displayDrivers)
             {
                 frm.AddDisplayType(info);
-
-                if (highestDisplay == null || info.Priority > highestDisplay.Priority)
-                {
-                    highestDisplay = info;
-                }
             }
-            foreach (DriverInfo<AudioTypeID> info in mAudioDrivers)
+            foreach (AgateDriverInfo info in audioDrivers)
             {
                 frm.AddAudioType(info);
-
-                if (highestAudio == null || info.Priority > highestAudio.Priority)
-                {
-                    highestAudio = info;
-                }
             }
-            foreach (DriverInfo<InputTypeID> info in mInputDrivers)
+            foreach (AgateDriverInfo info in inputDrivers)
             {
                 frm.AddInputType(info);
-
-                if (highestInput == null || info.Priority > highestInput.Priority)
-                {
-                    highestInput = info;
-                }
             }
-
-            frm.SetDefaultDisplay(highestDisplay);
-            frm.SetDefaultAudio(highestAudio);
-            frm.SetDefaultInput(highestInput);
 
             if (frm.RunDialog() == SetSystemsDialogResult.Cancel)
             {
@@ -364,15 +342,9 @@ namespace AgateLib.Drivers
             if (desktopDrivers.Count == 0)
                 return;
 
-            mDesktop = (IWinForms)CreateType(desktopDrivers[0]);
+            mDesktop = (IWinForms)CreateDriverInstance(desktopDrivers[0]);
         }
 
-        private static object CreateType(AgateDriverInfo info)
-        {
-            Assembly ass = Assembly.Load(info.AssemblyName);
-
-            return ass.CreateInstance(info.DriverTypeName);
-        }
 
         /// <summary>
         /// Returns the identifier for the DisplayImpl which was actually
@@ -480,6 +452,58 @@ namespace AgateLib.Drivers
             }
 
             mIsInitialized = true;
+        }
+
+
+        internal static DisplayImpl CreateDisplayDriver(DisplayTypeID displayType)
+        {
+            if (displayDrivers.Count == 0)
+                throw new AgateException("No display drivers registered.");
+
+            foreach (AgateDriverInfo info in displayDrivers)
+            {
+                if (info.DriverTypeID != (int)displayType)
+                    continue;
+
+                return (DisplayImpl)CreateDriverInstance(info);
+            }
+
+            throw new AgateException(string.Format("Could not find the driver {0}.", displayType));
+        }
+
+        private static object CreateDriverInstance(AgateDriverInfo info)
+        {
+            Assembly ass = Assembly.Load(info.AssemblyName);
+
+            Type driverType = ass.GetType(info.DriverTypeName, false);
+
+            if (driverType == null)
+                throw new AgateException(string.Format(
+                    "Could not find the type {0} in the library {1}.",
+                    info.DriverTypeName,
+                    ass.FullName));
+
+            return Activator.CreateInstance(driverType);
+        }
+
+        private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            foreach (AgateDriverInfo info in displayDrivers)
+            {
+                if (info.AssemblyName == args.Name)
+                {
+                    return LoadAssembly(info);
+                }
+            }
+
+            return null;
+        }
+
+        private static Assembly LoadAssembly(AgateDriverInfo info)
+        {
+            Core.ReportError(ErrorLevel.Warning,
+                string.Format("Assembly {0} was loaded in the LoadFrom context.  Move it to the application directory to load in the Load context.", info.AssemblyName), null);
+            return Assembly.LoadFrom(info.AssemblyFile);
         }
 
     }

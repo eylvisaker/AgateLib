@@ -83,7 +83,8 @@ namespace AgateLib.DisplayLib
         {
             Core.Initialize();
 
-            impl = Registrar.DisplayDriverInfo.CreateDriver(displayType);
+            impl = Registrar.CreateDisplayDriver(displayType);
+            impl.Initialize();
 
             mSurfacePacker = new SurfacePacker();
 

@@ -9,11 +9,11 @@ namespace AgateLib.Drivers
     {
         private AgateDriverInfo(DriverType type, string driverTypeName, string friendlyName, int typeID, int priority)
         {
-            DriverTypeName = driverTypeName;
-            FriendlyName = friendlyName;
-            DriverType = type;
-            DriverTypeID = (int)typeID;
-            Priority = priority;
+            mDriverTypeName = driverTypeName;
+            mFriendlyName = friendlyName;
+            mDriverType = type;
+            mDriverTypeID = (int)typeID;
+            mPriority = priority;
         }
 
         public AgateDriverInfo(DisplayTypeID typeID, string driverTypeName, string friendlyName, int priority)
@@ -31,15 +31,58 @@ namespace AgateLib.Drivers
         { }
 
         // These properties filled out by the driver
-        internal string DriverTypeName;
-        internal string FriendlyName;
-        internal DriverType DriverType;
-        internal int DriverTypeID;
-        internal int Priority;
+        private string mDriverTypeName;
+        private string mFriendlyName;
+        private DriverType mDriverType;
+        private int mDriverTypeID;
+        private int mPriority;
 
         // These properties filled out by the registrar.
-        internal string AssemblyName;
-        internal string AssemblyFile;
+        private string mAssemblyName;
+        private string mAssemblyFile;
+
+        public string DriverTypeName
+        {
+            get { return mDriverTypeName; }
+            //internal set { mDriverTypeName = value; }
+        }
+        public string FriendlyName
+        {
+            get { return mFriendlyName; }
+            //internal set { mFriendlyName = value; }
+        }
+        public DriverType DriverType
+        {
+            get { return mDriverType; }
+            //internal set { mDriverType = value; }
+        }
+        public int DriverTypeID
+        {
+            get { return mDriverTypeID; }
+            //internal set { mDriverTypeID = value; }
+        }
+        public int Priority
+        {
+            get { return mPriority; }
+            //internal set { mPriority = value; }
+        }
+
+        /// <summary>
+        /// Full name of the assembly.
+        /// </summary>
+        public string AssemblyName
+        {
+            get { return mAssemblyName; }
+            internal set { mAssemblyName = value; }
+        }
+        /// <summary>
+        /// Path to the assembly.
+        /// </summary>
+        public string AssemblyFile
+        {
+            get { return mAssemblyFile; }
+            internal set { mAssemblyFile = value; }
+        }
 
     }
 
