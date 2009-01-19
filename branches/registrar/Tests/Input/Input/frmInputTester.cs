@@ -18,8 +18,7 @@ namespace InputTester
 {
     public partial class Form1 : Form
     {
-        AgateSetup setup = new AgateSetup();
-
+        
         public Form1()
         {
             InitializeComponent();
@@ -30,12 +29,7 @@ namespace InputTester
             Mouse.MouseMove += new InputEventHandler(Mouse_MouseMove);
             Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
             Mouse.MouseUp += new InputEventHandler(Mouse_MouseUp);
-            Mouse.MouseDoubleClickEvent += new InputEventHandler(Mouse_MouseDoubleClickEvent);
-
-            setup.AskUser = true;
-            setup.Initialize(true, false, true);
-            if (setup.WasCanceled)
-                throw new Exception();
+            Mouse.MouseDoubleClick += new InputEventHandler(Mouse_MouseDoubleClickEvent);
 
             new DisplayWindow(CreateWindowParams.FromControl(pictureBox1));
 
@@ -52,28 +46,38 @@ namespace InputTester
                 numericUpDown1.Maximum = Input.JoystickCount - 1;
                 Joystick j = Input.Joysticks[(int)numericUpDown1.Value];
 
-                string text = j.Name + 
-                    "Axis Count: " + j.AxisCount + Environment.NewLine;
+                StringBuilder b = new StringBuilder();
+                b.AppendLine(j.Name);
+                b.Append("Axis Count: ");
+                b.AppendLine(j.AxisCount.ToString());
 
                 for (int i = 0; i < j.AxisCount; i++)
                 {
-                    text += "Axis " + i.ToString() + ": " + j.Axes[i].ToString() + Environment.NewLine;
+                    b.Append("Axis ");
+                    b.Append(i.ToString());
+                    b.Append(": ");
+                    b.Append(j.Axes[i].ToString());
+                    b.AppendLine();
                 }
 
-                text += Environment.NewLine + 
-                    "X: " + j.Xaxis.ToString() + Environment.NewLine +
-                    "Y: " + j.Yaxis.ToString() + Environment.NewLine + 
-                    Environment.NewLine + 
-                    "Buttons: ";
+                b.AppendLine();
+
+                b.Append("X: ");
+                b.AppendLine(j.Xaxis.ToString());
+                b.Append("Y: ");
+                b.AppendLine(j.Yaxis.ToString());
+                b.AppendLine();
+
+                b.Append("Buttons: ");
 
                 for (int i = 0; i < j.ButtonCount; i++)
                 {
                     if (j.Buttons[i])
-                        text += i.ToString();
+                        b.Append(i.ToString());
                 }
 
 
-                lblJoystick.Text = text;
+                lblJoystick.Text = b.ToString();
 
                 Core.KeepAlive();
             }

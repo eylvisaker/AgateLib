@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AgateLib.ImplementationBase;
 
 namespace AgateLib.Drivers
 {
     [Serializable]
     public class AgateDriverInfo
     {
-        private AgateDriverInfo(DriverType type, string driverTypeName, string friendlyName, int typeID, int priority)
+        private void SetValues(DriverType type, string driverTypeName, string friendlyName, int typeID, int priority)
         {
             mDriverTypeName = driverTypeName;
             mFriendlyName = friendlyName;
@@ -16,19 +17,44 @@ namespace AgateLib.Drivers
             mPriority = priority;
         }
 
-        public AgateDriverInfo(DisplayTypeID typeID, string driverTypeName, string friendlyName, int priority)
-            : this(DriverType.Display, driverTypeName, friendlyName, (int)typeID, priority)
-        { }
-        public AgateDriverInfo(AudioTypeID typeID, string driverTypeName, string friendlyName, int priority)
-            : this(DriverType.Audio, driverTypeName, friendlyName, (int)typeID, priority)
-        { }
-        public AgateDriverInfo(InputTypeID typeID, string driverTypeName, string friendlyName, int priority)
-            : this(DriverType.Input, driverTypeName, friendlyName, (int)typeID, priority)
-        { }
+        public AgateDriverInfo(DisplayTypeID typeID, Type driverType, string friendlyName, int priority)
+        {
+            if (typeof(DisplayImpl).IsAssignableFrom(driverType) == false ||
+                driverType.IsAbstract == true)
 
-        public AgateDriverInfo(DesktopTypeID typeID, string driverTypeName, string friendlyName, int priority)
-            : this(DriverType.Desktop, driverTypeName, friendlyName, (int)typeID, priority)
-        { }
+                throw new ArgumentException(string.Format(
+                    "The type {0} is not a concrete implementation of DisplayImpl."));
+
+            SetValues(DriverType.Display, driverType.FullName, friendlyName, (int)typeID, priority);
+        }
+        public AgateDriverInfo(AudioTypeID typeID, Type driverType, string friendlyName, int priority)
+        {
+            if (typeof(AudioImpl).IsAssignableFrom(driverType) == false ||
+                driverType.IsAbstract == true)
+
+                throw new ArgumentException(string.Format(
+                    "The type {0} is not a concrete implementation of AudioImpl."));
+            SetValues(DriverType.Audio, driverType.FullName, friendlyName, (int)typeID, priority);
+        }
+        public AgateDriverInfo(InputTypeID typeID, Type driverType, string friendlyName, int priority)
+        {
+            if (typeof(InputImpl).IsAssignableFrom(driverType) == false ||
+                driverType.IsAbstract == true)
+
+                throw new ArgumentException(string.Format(
+                    "The type {0} is not a concrete implementation of InputImpl."));
+            SetValues(DriverType.Input, driverType.FullName, friendlyName, (int)typeID, priority);
+        }
+
+        public AgateDriverInfo(DesktopTypeID typeID, Type driverType, string friendlyName, int priority)
+        {
+            if (typeof(IDesktopDriver).IsAssignableFrom(driverType) == false ||
+                driverType.IsAbstract == true)
+
+                throw new ArgumentException(string.Format(
+                    "The type {0} is not a concrete implementation of IDesktopDriver."));
+            SetValues(DriverType.Desktop, driverType.FullName, friendlyName, (int)typeID, priority);
+        }
 
         // These properties filled out by the driver
         private string mDriverTypeName;
@@ -41,6 +67,9 @@ namespace AgateLib.Drivers
         private string mAssemblyName;
         private string mAssemblyFile;
 
+        /// <summary>
+        /// Gets the fully qualified type name of the type implementing the driver routines.
+        /// </summary>
         public string DriverTypeName
         {
             get { return mDriverTypeName; }

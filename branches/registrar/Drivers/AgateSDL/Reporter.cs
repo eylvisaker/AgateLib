@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.Drivers;
 
-namespace AgateLib.DisplayLib.SystemDrawing
+namespace AgateSDL
 {
-    class Drawing_Reporter : AgateDriverReporter 
+    class Reporter : AgateDriverReporter 
     {
+
         public override IEnumerable<AgateDriverInfo> ReportDrivers()
         {
             yield return new AgateDriverInfo(
-                DisplayTypeID.Reference,
-                typeof(Drawing_Display),
-                "System.Drawing", 
-                0);
+                InputTypeID.SDL,
+                typeof(Input_SDL),
+                "SDL Input",
+                300);
         }
     }
 }

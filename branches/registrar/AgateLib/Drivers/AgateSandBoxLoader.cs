@@ -31,8 +31,6 @@ namespace AgateLib.Drivers
                 }
             }
 
-            Registrar.WriteCurrentLoadedAssemblies();
-
             return retval.ToArray();
         }
     }

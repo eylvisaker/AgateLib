@@ -51,7 +51,8 @@ namespace AgateLib.AudioLib
         {
             Core.Initialize();
 
-            impl = Registrar.AudioDriverInfo.CreateDriver (audioType);
+            impl = Registrar.CreateAudioDriver(audioType);
+            impl.Initialize();
 
         }
         /// <summary>

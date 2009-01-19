@@ -24,7 +24,7 @@ using AgateLib;
 using AgateLib.Drivers;
 using AgateLib.ImplementationBase;
 
-namespace AgateLib.AgateFMOD
+namespace AgateFMOD
 {
     public sealed class FMOD_Audio : AudioImpl
     {

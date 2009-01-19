@@ -11,7 +11,7 @@ namespace AgateLib.WinForms
         {
             yield return new AgateDriverInfo(
                  DesktopTypeID.WinForms,
-                 typeof(WinFormsDriver).FullName,
+                 typeof(WinFormsDriver),
                  "Windows.Forms",
                  0);
         }

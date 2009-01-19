@@ -117,7 +117,7 @@ namespace AgateLib.WinForms
             // 
             this.inputList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.inputList.DisplayMember = "Name";
+            this.inputList.DisplayMember = "FriendlyName";
             this.inputList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.inputList.FormattingEnabled = true;
             this.inputList.Location = new System.Drawing.Point(124, 66);
@@ -138,7 +138,7 @@ namespace AgateLib.WinForms
             // 
             this.audioList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.audioList.DisplayMember = "Name";
+            this.audioList.DisplayMember = "FriendlyName";
             this.audioList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.audioList.FormattingEnabled = true;
             this.audioList.Location = new System.Drawing.Point(124, 39);

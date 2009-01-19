@@ -24,7 +24,7 @@ using Microsoft.DirectX.DirectInput;
 using AgateLib.Drivers;
 using AgateLib.ImplementationBase;
 
-namespace AgateLib.MDX
+namespace AgateMDX
 {
     public class MDX1_Input : InputImpl
     {

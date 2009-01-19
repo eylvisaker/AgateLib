@@ -40,19 +40,20 @@ namespace AudioTester
             if (string.IsNullOrEmpty(text))
                 return;
 
-            //try
-            //{
+            try
+            {
                 AgateLib.AudioLib.Music music = new AgateLib.AudioLib.Music(text);
                 mMusic = music;
 
                 music.Volume = (double)numericUpDown1.Value;
                 music.Pan = (double)panValue.Value;
                 music.Play();
-            //}
-            //catch (Exception error)
-            //{
-            //    statusLabel.Text = "Error: " + error.Message;
-            //}
+            }
+            catch (Exception error)
+            {
+                System.Media.SystemSounds.Beep.Play();
+                statusLabel.Text = "Error: " + error.Message;
+            }
         }
 
 
@@ -71,21 +72,22 @@ namespace AudioTester
             if (string.IsNullOrEmpty(text))
                 return;
 
-            //try
-            //{
+            try
+            {
                 AgateLib.AudioLib.SoundBuffer snd = new AgateLib.AudioLib.SoundBuffer(text);
 
-                snd.Volume = (double)numericUpDown1.Value; 
+                snd.Volume = (double)numericUpDown1.Value;
                 snd.Pan = (double)panValue.Value;
                 snd.Play();
 
                 mSound = snd;
 
-            //}
-            //catch (Exception error)
-            //{
-            //    statusLabel.Text = "Error: " + error.Message;
-            //}
+            }
+            catch (Exception error)
+            {
+                System.Media.SystemSounds.Beep.Play();
+                statusLabel.Text = "Error: " + error.Message;
+            }
 
         }
 
@@ -150,7 +152,7 @@ namespace AudioTester
                 AgateLib.Utility.AgateFileProvider.SoundProvider.PathList.Clear();
 
                 AgateLib.Utility.AgateFileProvider.MusicProvider.AddPath(".");
-                AgateLib.Utility.AgateFileProvider.MusicProvider.AddPath(".");
+                AgateLib.Utility.AgateFileProvider.SoundProvider.AddPath(".");
 
                 FillMusicListBox();
             }

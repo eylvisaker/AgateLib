@@ -24,7 +24,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace AgateLib.MDX
+namespace AgateMDX
 {
     public partial class frmFullScreen : Form
     {

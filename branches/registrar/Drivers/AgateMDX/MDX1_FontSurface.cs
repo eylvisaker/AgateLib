@@ -23,13 +23,12 @@ using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ImplementationBase;
 
-namespace AgateLib.MDX
+namespace AgateMDX
 {
-    using DisplayLib;
-
     public class MDX1_FontSurface : FontSurfaceImpl
     {
         #region --- Private Variables ---

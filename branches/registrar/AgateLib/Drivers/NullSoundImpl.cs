@@ -204,14 +204,6 @@ namespace AgateLib
         /// <summary>
         /// 
         /// </summary>
-        public static void Register()
-        {
-            Registrar.RegisterAudioDriver(new DriverInfo<AudioTypeID>(
-                typeof(NullSoundImpl), AudioTypeID.Silent, "Silent", -100));
-        }
-        /// <summary>
-        /// 
-        /// </summary>
         public override void Initialize()
         {
             Report("No audio driver found.  Audio will not be heard."); 

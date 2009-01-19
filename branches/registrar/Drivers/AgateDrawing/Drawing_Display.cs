@@ -250,13 +250,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
             get { return PixelFormat.BGRA8888; }
         }
     
-        public static void Register()
-        {
-            Registrar.RegisterDisplayDriver(
-                new DriverInfo<DisplayTypeID>(typeof(Drawing_Display), DisplayTypeID.Reference,
-                "System.Drawing", 0));
-        }
-
         public override Geometry.Size MaxSurfaceSize
         {
             get { return new Geometry.Size(1024, 1024); }

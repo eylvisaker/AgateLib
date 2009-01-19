@@ -7,7 +7,7 @@ namespace AgateLib.Drivers
     /// <summary>
     /// 
     /// </summary>
-    public interface IWinForms
+    public interface IDesktopDriver
     {
         /// <summary>
         /// 

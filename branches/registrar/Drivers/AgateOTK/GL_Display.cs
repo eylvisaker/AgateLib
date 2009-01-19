@@ -348,13 +348,6 @@ namespace AgateOTK
         {
         }
 
-        public static void Register()
-        {
-            Registrar.RegisterDisplayDriver(
-                new DriverInfo<DisplayTypeID>(typeof(GL_Display),
-                DisplayTypeID.OpenGL, "OpenGL with OpenTK 0.9.1", 1120));
-        }
-
         public override void DoLighting(LightManager lights)
         {
             FlushDrawBuffer();

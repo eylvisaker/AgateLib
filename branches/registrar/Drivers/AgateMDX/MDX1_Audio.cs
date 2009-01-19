@@ -23,13 +23,12 @@ using System.Text;
 using DirectSound = Microsoft.DirectX.DirectSound;
 using AV = Microsoft.DirectX.AudioVideoPlayback;
 
+using AgateLib.AudioLib;
 using AgateLib.Drivers;
 using AgateLib.ImplementationBase;
 
-namespace AgateLib.MDX
+namespace AgateMDX
 {
-    using AudioLib;
-
     public class MDX1_Audio : AudioImpl
     {
         DirectSound.Device mDevice;
@@ -220,9 +219,7 @@ namespace AgateLib.MDX
             if (System.IO.Path.GetExtension(filename) == ".mp3")
                 throw new Exception("MP3 files cannot be played due to license restrictions.");
 
-            mAVAudio = new Microsoft.DirectX.AudioVideoPlayback.Audio(filename);
-            mAVAudio.Ending += new EventHandler(mAVAudio_Ending);
-
+            LoadMusic(filename);
         }
         public MDX1_Music(MDX1_Audio audio, Stream infile)
         {
@@ -234,10 +231,25 @@ namespace AgateLib.MDX
                 ReadWriteStream(infile, writer);
             }
 
-            mAVAudio = new Microsoft.DirectX.AudioVideoPlayback.Audio(tempfile);
-            mAVAudio.Ending += new EventHandler(mAVAudio_Ending);
+            try
+            {
+                LoadMusic(tempfile);
+            }
+            catch (Microsoft.DirectX.DirectXException e)
+            {
+                throw new AgateLib.AgateException(
+                    "Could not load the music file.  The file format may be unsupported by DirectX.", e);
+            }
+            finally
+            {
+                File.Delete(tempfile);
+            }
+        }
 
-            File.Delete(tempfile);
+        private void LoadMusic(string filename)
+        {
+            mAVAudio = new Microsoft.DirectX.AudioVideoPlayback.Audio(filename);
+            mAVAudio.Ending += new EventHandler(mAVAudio_Ending);
         }
 
         private void ReadWriteStream(Stream readStream, Stream writeStream)
@@ -280,23 +292,40 @@ namespace AgateLib.MDX
         }
 
         /// <summary>
-        /// The DirectX AudioVideoPlayback object takes volume in the range of
-        /// -10000 to 0, indicating the number of hundredths of decibels the volume
-        /// is attenuated by.
         /// </summary>
         public override double Volume
         {
             get
             {
-                double vol = (double)(mAVAudio.Volume + 10000) / 10000;
-
-                // logarithmic volume control
-                return Audio.TransformByExp(vol);
+                try
+                {
+                    /// The DirectX AudioVideoPlayback object takes volume in the range of
+                    /// -10000 to 0, indicating the number of hundredths of decibels the volume
+                    /// is attenuated by, so we convert to zero to 1.
+                    
+                    double vol = (double)(mAVAudio.Volume + 10000) / 10000;
+                    // logarithmic volume control
+                    return Audio.TransformByExp(vol);
+                }
+                catch (Microsoft.DirectX.DirectXException e)
+                {
+                    System.Diagnostics.Debug.WriteLine("Failed to read volume.");
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                    return 1.0;
+                }
             }
             set
             {
                 // do a logarithmic volume control
-                mAVAudio.Volume = (int)(Audio.TransformByLog(value) * 10000.0 - 10000.0);
+                try
+                {
+                    mAVAudio.Volume = (int)(Audio.TransformByLog(value) * 10000.0 - 10000.0);
+                }
+                catch (Microsoft.DirectX.DirectXException e)
+                {
+                    System.Diagnostics.Debug.WriteLine("Failed to set volume.");
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                }
             }
         }
 

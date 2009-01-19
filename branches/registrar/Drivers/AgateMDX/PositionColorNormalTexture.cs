@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;
 
-namespace AgateLib.MDX
+namespace AgateMDX
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct PositionColorNormalTexture
