@@ -306,6 +306,13 @@ namespace AgateLib.Drivers
         {
             AgateDriverInfo theInfo = null;
 
+            if (driverList.Count == 0)
+                return null;
+
+            // autoselect ID's are all zero
+            if (typeID == 0)
+                return driverList[0];
+
             foreach (AgateDriverInfo info in driverList)
             {
                 if (info.DriverTypeID != typeID)
