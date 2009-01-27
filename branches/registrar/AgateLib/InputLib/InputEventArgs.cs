@@ -12,7 +12,7 @@ namespace AgateLib.InputLib
     /// </summary>
     public class InputEventArgs
     {
-        KeyCode mKeyId;
+        KeyCode mKeyCode;
         KeyModifiers mModifiers;
         int mRepeatCount;
         string mKeyString;
@@ -25,7 +25,7 @@ namespace AgateLib.InputLib
         }
         internal InputEventArgs(KeyCode keyID, KeyModifiers mods)
         {
-            mKeyId = keyID;
+            mKeyCode = keyID;
             mKeyString = Keyboard.GetKeyString(keyID, mods);
             mModifiers = mods;
 
@@ -53,10 +53,19 @@ namespace AgateLib.InputLib
         /// <summary>
         /// Gets which key was pressed.
         /// </summary>
+        [Obsolete("Use KeyCode instead.")]
         public KeyCode KeyID
         {
-            get { return mKeyId; }
-            internal set { mKeyId = value; }
+            get { return mKeyCode; }
+            internal set { mKeyCode = value; }
+        }
+        /// <summary>
+        /// Gets which key was pressed.
+        /// </summary>
+        public KeyCode KeyCode
+        {
+            get { return mKeyCode; }
+            internal set { mKeyCode = value; }
         }
         /// <summary>
         /// Gets the text created by the key which was pressed.
