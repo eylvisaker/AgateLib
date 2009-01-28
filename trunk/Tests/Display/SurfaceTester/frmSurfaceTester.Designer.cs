@@ -68,7 +68,7 @@ namespace ERY.SurfaceTester
             this.pctGraphics.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pctGraphics.Location = new System.Drawing.Point(0, 0);
             this.pctGraphics.Name = "pctGraphics";
-            this.pctGraphics.Size = new System.Drawing.Size(380, 365);
+            this.pctGraphics.Size = new System.Drawing.Size(380, 217);
             this.pctGraphics.TabIndex = 0;
             this.pctGraphics.TabStop = false;
             // 
@@ -362,8 +362,8 @@ namespace ERY.SurfaceTester
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(380, 365);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pctGraphics);
+            this.Controls.Add(this.panel1);
             this.Name = "frmSurfaceTester";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Surface Tester";

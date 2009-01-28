@@ -1,4 +1,4 @@
-<Project name="PackedSpriteCreator" path="../Tools/PackedSpriteCreator" language="C#" type="Exe" frameworkVersion="v3_5">
+<Project name="PackedSpriteCreator" path="../Tools/PackedSpriteCreator" language="C#" type="WinExe" frameworkVersion="v3_5">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../Binaries/Debug/Tools/PackedSpriteCreator</OutputPath>

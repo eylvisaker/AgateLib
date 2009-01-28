@@ -4,90 +4,6 @@
         <name>OpenTK.Utilities</name>
     </assembly>
     <members>
-        <member name="T:OpenTK.Graphics.DisplayListTextPrinter">
-            <summary>
-            Provides text printing through OpenGL 1.1 Display Lists.
-            </summary>
-        </member>
-        <member name="T:OpenTK.Graphics.ITextPrinterImplementation">
-            <summary>
-            Defines the interface for TextPrinter implementations.
-            </summary>
-        </member>
-        <member name="M:OpenTK.Graphics.ITextPrinterImplementation.Load(OpenTK.Math.Vector2[],System.UInt16[],System.Int32)">
-            <summary>
-            Caches a text fragment for future use.
-            </summary>
-            <param name="vertices">The vertex array for the text fragment.</param>
-            <param name="indices">The index array for the text fragment. Please use the indexCount parameter
-            instead of indices.Count, as the indices array may be larger than necessary for performance reasons.</param>
-            <param name="indexCount">The actual number of indices in the text fragment.</param>
-            <returns>A TextHandle that can be used to draw the text fragment.</returns>
-        </member>
-        <member name="M:OpenTK.Graphics.ITextPrinterImplementation.Draw(OpenTK.Graphics.TextHandle)">
-            <summary>
-            Draws the specified cached text fragment.
-            </summary>
-            <param name="handle">The TextHandle corresponding to the desired text fragment.</param>
-        </member>
-        <member name="M:OpenTK.Graphics.ITextPrinterImplementation.Draw(OpenTK.Math.Vector2[],System.UInt16[],System.Int32)">
-            <summary>
-            Draws a text fragment, without caching.
-            </summary>
-            <param name="vertices">The vertex array for the text fragment.</param>
-            <param name="indices">The index array for the text fragment. Please use the indexCount parameter
-            instead of indices.Count, as the indices array may be larger than necessary for performance reasons.</param>
-            <param name="indexCount">The actual number of indices in the text fragment.</param>
-        </member>
-        <member name="T:OpenTK.Graphics.TextHandle">
-            <summary>
-            Represents a handle to cached text.
-            </summary>
-        </member>
-        <member name="M:OpenTK.Graphics.TextHandle.#ctor(System.Int32)">
-            <summary>
-            Constructs a new TextHandle,
-            </summary>
-            <param name="handle"></param>
-        </member>
-        <member name="M:OpenTK.Graphics.TextHandle.ToString">
-            <summary>
-            Returns a System.String that represents the current TextHandle.
-            </summary>
-            <returns>a System.String that descibes the current TextHandle.</returns>
-        </member>
-        <member name="M:OpenTK.Graphics.TextHandle.Dispose">
-            <summary>
-            Frees the resource consumed by the TextHandle.
-            </summary>
-        </member>
-        <member name="P:OpenTK.Graphics.TextHandle.Handle">
-            <summary>
-            Gets the handle of the cached text run. Call the OpenTK.Graphics.ITextPrinter.Draw() method
-            to draw the text represented by this TextHandle.
-            </summary>
-        </member>
-        <member name="P:OpenTK.Graphics.TextHandle.Font">
-            <summary>
-            Gets the TextureFont used for this text run.
-            </summary>
-        </member>
-        <member name="T:OpenTK.IPackable`1">
-            <summary>
-            Represents an item that can be packed with the TexturePacker.
-            </summary>
-            <typeparam name="T">The type of the packable item.</typeparam>
-        </member>
-        <member name="T:OpenTK.Audio.AudioReaderException">
-            <summary>Represents exceptions related to OpenTK.Audio.AudioReader objects.</summary>
-        </member>
-        <member name="M:OpenTK.Audio.AudioReaderException.#ctor">
-            <summary>Constructs a new AudioReaderException.</summary>
-        </member>
-        <member name="M:OpenTK.Audio.AudioReaderException.#ctor(System.String)">
-            <summary>Constructs a new AudioReaderException with the specified error message.</summary>
-            <param name="message">The error message of the AudioReaderException.</param>
-        </member>
         <member name="M:OpenTK.Graphics.TextureFont.#ctor(System.Drawing.Font)">
             <summary>
             Constructs a new TextureFont, using the specified System.Drawing.Font.
@@ -210,6 +126,29 @@
             Gets the handle to the texture were this font resides.
             </summary>
         </member>
+        <member name="M:OpenTK.TexturePacker`1.Add(`0,System.Drawing.Rectangle@)">
+            <summary>
+            Packs the given item into the free space of the TexturePacker.
+            </summary>
+            <param name="item">The item to pack.</param>
+            <returns>A System.Drawing.Rectangle containing the coordinates of the packed item.</returns>
+            <exception cref="T:System.InvalidOperationException">Occurs if the item is larger than the available TexturePacker area</exception>
+            <exception cref="T:System.ArgumentException">Occurs if the item already exists in the TexturePacker.</exception>
+        </member>
+        <member name="M:OpenTK.TexturePacker`1.Clear">
+            <summary>
+            Discards all packed items.
+            </summary>
+        </member>
+        <member name="M:OpenTK.TexturePacker`1.ChangeSize(System.Int32,System.Int32)">
+            <summary>
+            Changes the dimensions of the TexturePacker surface.
+            </summary>
+            <param name="new_width">The new width of the TexturePacker surface.</param>
+            <param name="new_height">The new height of the TexturePacker surface.</param>
+            <remarks>Changing the size of the TexturePacker surface will implicitly call TexturePacker.Clear().</remarks>
+            <seealso cref="M:OpenTK.TexturePacker`1.Clear"/>
+        </member>
         <member name="T:OpenTK.Audio.AudioReader">
             <summary>
             Encapsulates a sound stream and provides decoding and streaming capabilities.
@@ -252,121 +191,83 @@
             
             </summary>
         </member>
-        <member name="M:OpenTK.Audio.WaveReader.Supports(System.IO.Stream)">
+        <member name="T:OpenTK.Graphics.ITextPrinter">
             <summary>
-            Checks whether the specified stream contains valid WAVE/RIFF buffer.
+            Defines the interface for a TextPrinter.
             </summary>
-            <param name="s">The System.IO.Stream to check.</param>
-            <returns>True if the stream is a valid WAVE/RIFF file; false otherwise.</returns>
-        </member>
-        <member name="M:OpenTK.Audio.WaveReader.ReadSamples(System.Int64)">
-            <summary>
-            Reads and decodes the specified number of samples from the sound stream.
-            </summary>
-            <param name="samples">The number of samples to read and decode.</param>
-            <returns>An OpenTK.Audio.SoundData object that contains the decoded buffer.</returns>
-        </member>
-        <member name="M:OpenTK.Audio.WaveReader.ReadToEnd">
-            <summary>
-            Reads and decodes the sound stream.
-            </summary>
-            <returns>An OpenTK.Audio.SoundData object that contains the decoded buffer.</returns>
         </member>
         <member name="T:OpenTK.Graphics.VboTextPrinter">
             <summary>
             Provides text printing through OpenGL 1.5 vertex buffer objects.
             </summary>
         </member>
+        <member name="T:OpenTK.Graphics.ITextPrinterImplementation">
+            <summary>
+            Defines the interface for TextPrinter implementations.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Graphics.ITextPrinterImplementation.Load(OpenTK.Math.Vector2[],System.UInt16[],System.Int32)">
+            <summary>
+            Caches a text fragment for future use.
+            </summary>
+            <param name="vertices">The vertex array for the text fragment.</param>
+            <param name="indices">The index array for the text fragment. Please use the indexCount parameter
+            instead of indices.Count, as the indices array may be larger than necessary for performance reasons.</param>
+            <param name="indexCount">The actual number of indices in the text fragment.</param>
+            <returns>A TextHandle that can be used to draw the text fragment.</returns>
+        </member>
+        <member name="M:OpenTK.Graphics.ITextPrinterImplementation.Draw(OpenTK.Graphics.TextHandle)">
+            <summary>
+            Draws the specified cached text fragment.
+            </summary>
+            <param name="handle">The TextHandle corresponding to the desired text fragment.</param>
+        </member>
+        <member name="M:OpenTK.Graphics.ITextPrinterImplementation.Draw(OpenTK.Math.Vector2[],System.UInt16[],System.Int32)">
+            <summary>
+            Draws a text fragment, without caching.
+            </summary>
+            <param name="vertices">The vertex array for the text fragment.</param>
+            <param name="indices">The index array for the text fragment. Please use the indexCount parameter
+            instead of indices.Count, as the indices array may be larger than necessary for performance reasons.</param>
+            <param name="indexCount">The actual number of indices in the text fragment.</param>
+        </member>
         <member name="T:OpenTK.Graphics.VboTextHandle">
             <summary>
             Contains the necessary information to print text through the VboTextPrinter implementation.
             </summary>
         </member>
-        <member name="T:OpenTK.Graphics.ITextPrinter">
+        <member name="T:OpenTK.Graphics.TextHandle">
             <summary>
-            Defines the interface for a TextPrinter.
+            Represents a handle to cached text.
             </summary>
         </member>
-        <member name="T:OpenTK.Graphics.Glyph">
+        <member name="M:OpenTK.Graphics.TextHandle.#ctor(System.Int32)">
             <summary>
-            Represents a single character of a specific Font.
+            Constructs a new TextHandle,
+            </summary>
+            <param name="handle"></param>
+        </member>
+        <member name="M:OpenTK.Graphics.TextHandle.ToString">
+            <summary>
+            Returns a System.String that represents the current TextHandle.
+            </summary>
+            <returns>a System.String that descibes the current TextHandle.</returns>
+        </member>
+        <member name="M:OpenTK.Graphics.TextHandle.Dispose">
+            <summary>
+            Frees the resource consumed by the TextHandle.
             </summary>
         </member>
-        <member name="M:OpenTK.Graphics.Glyph.#ctor(System.Char,System.Drawing.Font,System.Drawing.SizeF)">
+        <member name="P:OpenTK.Graphics.TextHandle.Handle">
             <summary>
-            Constructs a new Glyph that represents the given character and Font.
-            </summary>
-            <param name="c">The character to represent.</param>
-            <param name="f">The Font of the character.</param>
-        </member>
-        <member name="M:OpenTK.Graphics.Glyph.Equals(System.Object)">
-            <summary>
-            Checks whether the given object is equal (memberwise) to the current Glyph.
-            </summary>
-            <param name="obj">The obj to check.</param>
-            <returns>True, if the object is identical to the current Glyph.</returns>
-        </member>
-        <member name="M:OpenTK.Graphics.Glyph.ToString">
-            <summary>
-            Describes this Glyph object.
-            </summary>
-            <returns>Returns a System.String describing this Glyph.</returns>
-        </member>
-        <member name="M:OpenTK.Graphics.Glyph.GetHashCode">
-            <summary>
-            Calculates the hashcode for this Glyph.
-            </summary>
-            <returns>A System.Int32 containing a hashcode that uniquely identifies this Glyph.</returns>
-        </member>
-        <member name="M:OpenTK.Graphics.Glyph.Equals(OpenTK.Graphics.Glyph)">
-            <summary>
-            Compares the current Glyph with the given Glyph.
-            </summary>
-            <param name="other">The Glyph to compare to.</param>
-            <returns>True if both Glyphs represent the same character of the same Font, false otherwise.</returns>
-        </member>
-        <member name="P:OpenTK.Graphics.Glyph.Character">
-            <summary>
-            Gets the character represented by this Glyph.
+            Gets the handle of the cached text run. Call the OpenTK.Graphics.ITextPrinter.Draw() method
+            to draw the text represented by this TextHandle.
             </summary>
         </member>
-        <member name="P:OpenTK.Graphics.Glyph.Font">
+        <member name="P:OpenTK.Graphics.TextHandle.Font">
             <summary>
-             Gets the Font of this Glyph.
+            Gets the TextureFont used for this text run.
             </summary>
-        </member>
-        <member name="P:OpenTK.Graphics.Glyph.Width">
-            <summary>
-            Gets an integer representing the width of the Glyph in pixels.
-            </summary>
-        </member>
-        <member name="P:OpenTK.Graphics.Glyph.Height">
-            <summary>
-            Gets an integer representing the height of the Glyph in pixels.
-            </summary>
-        </member>
-        <member name="M:OpenTK.TexturePacker`1.Add(`0,System.Drawing.Rectangle@)">
-            <summary>
-            Packs the given item into the free space of the TexturePacker.
-            </summary>
-            <param name="item">The item to pack.</param>
-            <returns>A System.Drawing.Rectangle containing the coordinates of the packed item.</returns>
-            <exception cref="T:System.InvalidOperationException">Occurs if the item is larger than the available TexturePacker area</exception>
-            <exception cref="T:System.ArgumentException">Occurs if the item already exists in the TexturePacker.</exception>
-        </member>
-        <member name="M:OpenTK.TexturePacker`1.Clear">
-            <summary>
-            Discards all packed items.
-            </summary>
-        </member>
-        <member name="M:OpenTK.TexturePacker`1.ChangeSize(System.Int32,System.Int32)">
-            <summary>
-            Changes the dimensions of the TexturePacker surface.
-            </summary>
-            <param name="new_width">The new width of the TexturePacker surface.</param>
-            <param name="new_height">The new height of the TexturePacker surface.</param>
-            <remarks>Changing the size of the TexturePacker surface will implicitly call TexturePacker.Clear().</remarks>
-            <seealso cref="M:OpenTK.TexturePacker`1.Clear"/>
         </member>
         <member name="T:OpenTK.Graphics.TextPrinter">
             <summary>
@@ -450,6 +351,105 @@
         <member name="P:OpenTK.Graphics.TextPrinter.Printer">
             <summary>
             Checks the machine's capabilities and selects the fastest method to print text.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Audio.WaveReader.Supports(System.IO.Stream)">
+            <summary>
+            Checks whether the specified stream contains valid WAVE/RIFF buffer.
+            </summary>
+            <param name="s">The System.IO.Stream to check.</param>
+            <returns>True if the stream is a valid WAVE/RIFF file; false otherwise.</returns>
+        </member>
+        <member name="M:OpenTK.Audio.WaveReader.ReadSamples(System.Int64)">
+            <summary>
+            Reads and decodes the specified number of samples from the sound stream.
+            </summary>
+            <param name="samples">The number of samples to read and decode.</param>
+            <returns>An OpenTK.Audio.SoundData object that contains the decoded buffer.</returns>
+        </member>
+        <member name="M:OpenTK.Audio.WaveReader.ReadToEnd">
+            <summary>
+            Reads and decodes the sound stream.
+            </summary>
+            <returns>An OpenTK.Audio.SoundData object that contains the decoded buffer.</returns>
+        </member>
+        <member name="T:OpenTK.Graphics.DisplayListTextPrinter">
+            <summary>
+            Provides text printing through OpenGL 1.1 Display Lists.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Audio.AudioReaderException">
+            <summary>Represents exceptions related to OpenTK.Audio.AudioReader objects.</summary>
+        </member>
+        <member name="M:OpenTK.Audio.AudioReaderException.#ctor">
+            <summary>Constructs a new AudioReaderException.</summary>
+        </member>
+        <member name="M:OpenTK.Audio.AudioReaderException.#ctor(System.String)">
+            <summary>Constructs a new AudioReaderException with the specified error message.</summary>
+            <param name="message">The error message of the AudioReaderException.</param>
+        </member>
+        <member name="T:OpenTK.Graphics.Glyph">
+            <summary>
+            Represents a single character of a specific Font.
+            </summary>
+        </member>
+        <member name="T:OpenTK.IPackable`1">
+            <summary>
+            Represents an item that can be packed with the TexturePacker.
+            </summary>
+            <typeparam name="T">The type of the packable item.</typeparam>
+        </member>
+        <member name="M:OpenTK.Graphics.Glyph.#ctor(System.Char,System.Drawing.Font,System.Drawing.SizeF)">
+            <summary>
+            Constructs a new Glyph that represents the given character and Font.
+            </summary>
+            <param name="c">The character to represent.</param>
+            <param name="f">The Font of the character.</param>
+        </member>
+        <member name="M:OpenTK.Graphics.Glyph.Equals(System.Object)">
+            <summary>
+            Checks whether the given object is equal (memberwise) to the current Glyph.
+            </summary>
+            <param name="obj">The obj to check.</param>
+            <returns>True, if the object is identical to the current Glyph.</returns>
+        </member>
+        <member name="M:OpenTK.Graphics.Glyph.ToString">
+            <summary>
+            Describes this Glyph object.
+            </summary>
+            <returns>Returns a System.String describing this Glyph.</returns>
+        </member>
+        <member name="M:OpenTK.Graphics.Glyph.GetHashCode">
+            <summary>
+            Calculates the hashcode for this Glyph.
+            </summary>
+            <returns>A System.Int32 containing a hashcode that uniquely identifies this Glyph.</returns>
+        </member>
+        <member name="M:OpenTK.Graphics.Glyph.Equals(OpenTK.Graphics.Glyph)">
+            <summary>
+            Compares the current Glyph with the given Glyph.
+            </summary>
+            <param name="other">The Glyph to compare to.</param>
+            <returns>True if both Glyphs represent the same character of the same Font, false otherwise.</returns>
+        </member>
+        <member name="P:OpenTK.Graphics.Glyph.Character">
+            <summary>
+            Gets the character represented by this Glyph.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Graphics.Glyph.Font">
+            <summary>
+             Gets the Font of this Glyph.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Graphics.Glyph.Width">
+            <summary>
+            Gets an integer representing the width of the Glyph in pixels.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Graphics.Glyph.Height">
+            <summary>
+            Gets an integer representing the height of the Glyph in pixels.
             </summary>
         </member>
     </members>
