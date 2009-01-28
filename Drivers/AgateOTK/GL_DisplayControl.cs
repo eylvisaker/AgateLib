@@ -293,8 +293,8 @@ namespace AgateOTK
 
         void mRenderTarget_Resize(object sender, EventArgs e)
         {
+            mContext.Update(mWindowInfo);
             GL.Viewport(0, 0, mRenderTarget.Width, mRenderTarget.Height);
-           
         }
 
 

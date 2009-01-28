@@ -166,7 +166,6 @@ namespace AgateLib.WinForms
             //bmp.Save("testfont.png", Drawing.Imaging.ImageFormat.Png);
 
             string tempFile = System.IO.Path.GetTempFileName() + ".png";
-            tempFile = tempFile.Replace("\\", "/");
 
             bmp.Save(tempFile, Drawing.Imaging.ImageFormat.Png);
             bmp.Dispose();

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace AgateLib.Drivers
 {
-    class AgateSandBoxLoader:MarshalByRefObject 
+    class AgateSandBoxLoader : MarshalByRefObject
     {
         public AgateDriverInfo[] ReportDrivers(string file)
         {

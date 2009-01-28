@@ -25,7 +25,8 @@
     <?include file="Projects/AgateOTK.proj.xml" ?>
     <?include file="Projects/AgateSDL.proj.xml" ?>
     <?include file="Projects/AgateFMOD.proj.xml" ?>
-      
+    <?include file="Projects/AgateLib.Gui.proj.xml" ?>
+
   </Solution>
 
 </Prebuild>

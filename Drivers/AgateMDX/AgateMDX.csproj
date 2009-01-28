@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{892CA7EA-F5E5-463B-AA44-961740E808C1}</ProjectGuid>
+    <ProjectGuid>{C32B7751-A131-4F8B-B02E-A4C3A05690C1}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon></ApplicationIcon>
@@ -96,12 +96,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Name>AgateLib</Name>
-      <Project>{EA46003F-CD7D-4E4C-96B3-62A68A23B9E6}</Project>
+      <Project>{EA0DC262-A2A7-42B1-A94F-F28D053288E9}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
     <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
       <Name>AgateLib.WinForms</Name>
-      <Project>{8C5CB90D-181D-477F-BDCE-40AADBEC6779}</Project>
+      <Project>{256ED773-1581-409A-B314-AAAAB61236D6}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
   </ItemGroup>

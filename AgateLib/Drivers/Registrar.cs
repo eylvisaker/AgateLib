@@ -131,10 +131,23 @@ namespace AgateLib.Drivers
 
         private static void RegisterNullDrivers()
         {
-            audioDrivers.Add(new AgateDriverInfo(AudioTypeID.Silent,
-                typeof(NullSoundImpl), "No audio", -100));
-            inputDrivers.Add(new AgateDriverInfo(InputTypeID.Silent,
-                typeof(NullInputImpl), "No input", -100));
+            Assembly thisAssembly = Assembly.GetExecutingAssembly();
+
+            AgateDriverInfo nullAudioInfo = new AgateDriverInfo(AudioTypeID.Silent,
+                typeof(NullSoundImpl), "No audio", -100);
+
+            nullAudioInfo.AssemblyFile = thisAssembly.CodeBase;
+            nullAudioInfo.AssemblyName = thisAssembly.FullName;
+
+            audioDrivers.Add(nullAudioInfo);
+
+            AgateDriverInfo nullInputInfo = new AgateDriverInfo(InputTypeID.Silent,
+                typeof(NullInputImpl), "No input", -100);
+
+            nullInputInfo.AssemblyFile = thisAssembly.CodeBase;
+            nullInputInfo.AssemblyName = thisAssembly.FullName;
+
+            inputDrivers.Add(nullInputInfo);
         }
         
         private static bool ShouldSkipLibrary(string file)
@@ -305,6 +318,13 @@ namespace AgateLib.Drivers
         private static AgateDriverInfo FindDriverInfo(List<AgateDriverInfo> driverList, int typeID)
         {
             AgateDriverInfo theInfo = null;
+
+            if (driverList.Count == 0)
+                return null;
+
+            // autoselect ID's are all zero
+            if (typeID == 0)
+                return driverList[0];
 
             foreach (AgateDriverInfo info in driverList)
             {
