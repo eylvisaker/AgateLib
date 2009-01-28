@@ -82,7 +82,16 @@ namespace PackedSpriteCreator
 
         private void UpdateSprite()
         {
-            UpdateSprite(new NewSprite(Resources, mCurrentSprite.Name));
+            try
+            {
+                UpdateSprite(new NewSprite(Resources, mCurrentSprite.Name));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(this, string.Format(
+                    "Failed to load sprite {0}." + Environment.NewLine + "{1}", mCurrentSprite.Name,
+                    e.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void UpdateSprite(NewSprite updatedSprite)
         {
@@ -195,9 +204,11 @@ namespace PackedSpriteCreator
             if (changingSprite)
                 return;
 
-            if (chkAnimating.Checked == false)
-                mAgateSprite.CurrentFrameIndex = lstFrames.SelectedIndex;
-
+            if (mAgateSprite != null)
+            {
+                if (chkAnimating.Checked == false)
+                    mAgateSprite.CurrentFrameIndex = lstFrames.SelectedIndex;
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -265,6 +276,9 @@ namespace PackedSpriteCreator
 
         private void chkAnimating_CheckedChanged(object sender, EventArgs e)
         {
+            if (mAgateSprite == null)
+                return;
+
             mAgateSprite.IsAnimating = chkAnimating.Checked;
         }
     }
