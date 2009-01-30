@@ -54,14 +54,14 @@ Goals for 0.3.0
 
 Supplemental Projects
 ---------------------------------------------------
-	Compact Sprites Builder CLI:
-		CLI utility to construct packed sprite files with an associated xml 
+	Compact Sprites Builder:
+		Utility to construct packed sprite files with an associated xml 
 		resource file describing frame locations.
-	Fonts CLI:
-		CLI utility to construct fonts from System.Drawing from options specified.
+	Fonts:
+		Utility to construct fonts from System.Drawing from options specified.
 	Distributions:
-		Builds distributions for Linux, Windows, and MacOS based on the assemblies and resource file(s), with
-		possible support for localization.
+		Builds distributions for Linux, Windows, and MacOS based on the assemblies and resource
+		file(s), with possible support for localization.
 
 
 Goals for 0.3.5
