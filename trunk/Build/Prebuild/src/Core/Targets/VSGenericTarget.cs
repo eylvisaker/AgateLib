@@ -350,7 +350,7 @@ namespace Prebuild.Core.Targets
 					//						Console.WriteLine("Wait a minute!");
 					//						Console.WriteLine(project.Files.GetSubType(file).ToString());
 					//					}
-
+                    
 					SubType subType = project.Files.GetSubType(file);
 
 					if (subType != SubType.Code && subType != SubType.Settings && subType != SubType.Designer
@@ -387,7 +387,9 @@ namespace Prebuild.Core.Targets
 					}
 					if (subType == SubType.Settings)
                     {
-                        string path = Helper.NormalizePath(file);
+                        // use windows path separator in VS files, so that VS will
+                        // be able to read files generated on other platforms.
+                        string path = Helper.NormalizePath(file).Replace("/","\\");
 
 						ps.Write("    <{0} ", project.Files.GetBuildAction(file));
 						ps.WriteLine("Include=\"{0}\">", path);
@@ -410,7 +412,9 @@ namespace Prebuild.Core.Targets
 					}
 					else if (subType != SubType.Designer)
 					{
-						string path = Helper.NormalizePath(file);
+                        // use windows path separator in VS files, so that VS will
+                        // be able to read files generated on other platforms.
+                        string path = Helper.NormalizePath(file).Replace("/","\\");
 
 						if (!list.Contains(file))
 						{
