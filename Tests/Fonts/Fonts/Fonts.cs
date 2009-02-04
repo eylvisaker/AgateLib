@@ -36,7 +36,7 @@ namespace FontTester
                     "Font Tester", 800, 600,
                     @"../../../AgateLib.ico", false));
 
-                FontSurface font = new FontSurface("Arial", 12);
+                FontSurface font = new FontSurface("Sans Serif", 12);
                 FontSurface bitmapFont = FontSurface.BitmapMonospace("lotafont.png", new Size(16, 16));
 
                 int frame = 0;
@@ -125,7 +125,7 @@ namespace FontTester
                     // toggle full screen if the user pressed F5;
                     if (Keyboard.Keys[KeyCode.F5])
                     {
-                        if (Display.CurrentWindow.IsFullScreen)
+                        if (Display.CurrentWindow.IsFullScreen == false)
                             Display.CurrentWindow.SetFullScreen();
                         else
                             Display.CurrentWindow.SetWindowed();
