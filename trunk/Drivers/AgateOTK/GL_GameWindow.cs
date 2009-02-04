@@ -257,7 +257,7 @@ namespace AgateOTK
         private void AttachEvents()
         {
             // TODO: bring this back:
-            //mWindow.CloseWindow += new EventHandler(mWindow_CloseWindow);
+            mWindow.CloseWindow += new EventHandler(mWindow_CloseWindow);
             mWindow.Resize += new OpenTK.Platform.ResizeEvent(mWindow_Resize);
 
             mWindow.Keyboard.KeyRepeat = true;
@@ -268,11 +268,9 @@ namespace AgateOTK
             mWindow.Mouse.ButtonUp += new OpenTK.Input.MouseButtonUpEvent(Mouse_ButtonUp);
         }
 
-
-        
         private void DetachEvents()
         {
-            //mWindow.CloseWindow -= mWindow_CloseWindow;
+            mWindow.CloseWindow -= mWindow_CloseWindow;
             mWindow.Resize -= mWindow_Resize;
 
             mWindow.Keyboard.KeyDown -= Keyboard_KeyDown;
@@ -360,18 +358,28 @@ namespace AgateOTK
 
         public override bool IsFullScreen
         {
-            get { return false; }
+            get { return mWindow.WindowState == WindowState.Fullscreen; }
         }
 
         public override void SetWindowed()
         {
+            mWindow.WindowState = WindowState.Normal;
+            DisplayDevice.Default.RestoreResolution();
         }
 
         public override void SetFullScreen()
         {
+            SetFullScreen(this.Width, this.Height, 32);
         }
         public override void SetFullScreen(int width, int height, int bpp)
         {
+            Keyboard.ReleaseAllKeys(false);
+            DisplayResolution res = DisplayDevice.Default.SelectResolution(width, height, bpp, 60);
+
+            DisplayDevice.Default.ChangeResolution(res);
+
+            mWindow.WindowState = WindowState.Fullscreen;
+
         }
 
         public override Size Size
