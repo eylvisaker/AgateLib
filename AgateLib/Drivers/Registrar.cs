@@ -371,6 +371,7 @@ namespace AgateLib.Drivers
             info = info ?? FindDriverInfo(displayDrivers, args.Name);
             info = info ?? FindDriverInfo(audioDrivers, args.Name);
             info = info ?? FindDriverInfo(inputDrivers, args.Name);
+            info = info ?? FindDriverInfo(desktopDrivers, args.Name);
 
             if (info == null)
                 return null;
