@@ -256,7 +256,6 @@ namespace AgateOTK
         
         private void AttachEvents()
         {
-            // TODO: bring this back:
             mWindow.CloseWindow += new EventHandler(mWindow_CloseWindow);
             mWindow.Resize += new OpenTK.Platform.ResizeEvent(mWindow_Resize);
 
@@ -282,6 +281,8 @@ namespace AgateOTK
 
         void mWindow_Resize(object sender, OpenTK.Platform.ResizeEventArgs e)
         {
+            Debug.Print("Reseting viewport to {0}x{1}", mWindow.Width, mWindow.Height);
+
             GL.Viewport(0, 0, mWindow.Width, mWindow.Height);
            
         }
@@ -375,11 +376,14 @@ namespace AgateOTK
         {
             Keyboard.ReleaseAllKeys(false);
             DisplayResolution res = DisplayDevice.Default.SelectResolution(width, height, bpp, 60);
+            Debug.Print("Selected resolution: {0},{1},{2}@{3}", res.Width, res.Height,
+                res.BitsPerPixel, res.RefreshRate);
 
             DisplayDevice.Default.ChangeResolution(res);
 
             mWindow.WindowState = WindowState.Fullscreen;
 
+            Debug.Print("Window size: {0},{1}", mWindow.Width, mWindow.Height);
         }
 
         public override Size Size

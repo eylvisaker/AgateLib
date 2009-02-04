@@ -47,6 +47,7 @@ namespace FontTester
                     Display.BeginFrame();
                     Display.Clear(Color.DarkGray);
 
+                    
                     // test the color changing
                     font.Color = Color.LightGreen;
                     font.DrawText(20, 150, "This is regular green text.");
@@ -116,6 +117,8 @@ namespace FontTester
                     bitmapFont.DrawText(100, 430, "CHECK");
                     bitmapFont.DisplayAlignment = OriginAlignment.TopLeft;
 
+                    Display.FillRect(new Rectangle(-10, -10, 20, 20), Color.Green);
+
                     // and we're done.
                     Display.EndFrame();
                     Core.KeepAlive();
@@ -125,10 +128,14 @@ namespace FontTester
                     // toggle full screen if the user pressed F5;
                     if (Keyboard.Keys[KeyCode.F5])
                     {
+                        System.Diagnostics.Debug.Print("IsFullscreen: {0}", Display.CurrentWindow.IsFullScreen);
+
                         if (Display.CurrentWindow.IsFullScreen == false)
-                            Display.CurrentWindow.SetFullScreen();
+                            Display.CurrentWindow.SetFullScreen(800, 600, 32);
                         else
                             Display.CurrentWindow.SetWindowed();
+
+                        System.Diagnostics.Debug.Print("IsFullscreen: {0}", Display.CurrentWindow.IsFullScreen);
                     }
                     else if (Keyboard.Keys[KeyCode.F2])
                     {
