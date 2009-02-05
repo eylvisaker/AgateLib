@@ -25,40 +25,90 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
 
         void SetDefaults()
         {
-            ControlFont = new FontSurface("Sans Serif", 12);
+            ControlFont = new FontSurface("Sans Serif", 8);
             TitleFont = new FontSurface("Sans Serif", 10);
             CenterTitle = true;
 
-            Color lightColor = Color.FromArgb(200, 200, 200);
-            Color darkColor = Color.FromArgb(140, 140, 140);
-            
-            WindowBorderColor = Color.FromArgb(40, 40, 40);
-            WindowBackColor = new Gradient(
-                lightColor, lightColor, darkColor, darkColor);
-
-            FontColor = Color.Black;
+            FontColor = Color.White;
             FontColorDisabled = Color.Gray;
             DropShadowSize = 10;
 
-            CloseButton = new Surface("Images/button-close.png");
-            CloseButtonInactive = new Surface("Images/button-inactive.png");
-            CloseButtonMouseOver = new Surface("Images/button-close-focus.png");
+            WindowNoTitle = new Surface("Images/window_no_title.png");
+            WindowWithTitle = new Surface("Images/window_client.png");
+            WindowTitleBar = new Surface("Images/window_titlebar.png");
+            WindowTitleBarStretchRegion = new Rectangle(5, 3, 58, 27);
+            WindowNoTitleStretchRegion = new Rectangle(5, 5, 54, 54);
+            WindowWithTitleStretchRegion = new Rectangle(6, 3, 52, 55);
 
-            Button = new Surface("Images/button_round.png");
-            ButtonDefault = new Surface("Images/button_round_blue.png");
-            ButtonMouseOver = ButtonDefault;
-            ButtonActivate = new Surface("Images/button_round_blue_push.png");
-            ButtonDisabled = new Surface("Images/button_round_insens.png");
-            ButtonStretchRegion = new Rectangle(8, 8, 28, 12);
+            SetButtonImages(new Surface("Images/black_button.png"), new Size(64, 32));
+            ButtonStretchRegion = new Rectangle(6, 6, 52, 20);
+            ButtonTextPadding = 2;
 
-            CheckBoxDown = new Surface("Images/checkbox_checked.png");
-            CheckBoxUp = new Surface("Images/checkbox_unchecked.png");
+            CloseButton = Button;
+            CloseButtonInactive = Button;
+            CloseButtonMouseOver = Button;
+
+            CheckBoxUnchecked= Button;
+            CheckBoxChecked = Button;
             CheckBoxSpacing = 4;
 
-            TextBox = new Surface("Images/textbox.png");
-            TextBoxDisabled = new Surface("Images/textbox_disabled.png");
-            TextBoxMouseOver = new Surface("Images/textbox_mouseover.png");
+            TextBox = Button;
+            TextBoxDisabled = Button;
+            TextBoxMouseOver = Button;
             TextBoxStretchRegion = Rectangle.FromLTRB(4, 3, 28, 20);
+        }
+
+        private void SetButtonImages(Surface surface, Size buttonSize)
+        {
+            Surface[] surfs = SplitSurface("button", surface, buttonSize, 6, 6);
+
+            Button = surfs[0];
+            ButtonHover = surfs[1];
+            ButtonDefault = surfs[2];
+            ButtonDefaultHover = surfs[3];
+            ButtonPressed = surfs[4];
+            ButtonDisabled = surfs[5];
+
+            surface.Dispose();
+        }
+
+        private Surface[] SplitSurface(string name, Surface surface, Size subSurfaceSize, 
+            int requiredImages, int maxImages)
+        {
+            Point pt = new Point();
+            PixelBuffer pixels = surface.ReadPixels();
+
+            List<Surface> retval = new List<Surface>();
+
+            for (int i = 0; i < maxImages; i++)
+            {
+                Surface surf = new Surface(subSurfaceSize);
+                surf.WritePixels(pixels, new Rectangle(pt, subSurfaceSize), Point.Empty);
+
+                retval.Add(surf);
+
+                pt.X += subSurfaceSize.Width;
+                if (pt.X == surface.SurfaceWidth)
+                {
+                    pt.X = 0;
+                    pt.Y += subSurfaceSize.Height;
+                }
+                else if (pt.X > surface.SurfaceWidth)
+                {
+                    throw new AgateGuiException(
+                        "Image for " + name + 
+                        " does not have a width that is a multiple of " + subSurfaceSize.Width + "."); 
+                }
+
+                if (pt.Y + subSurfaceSize.Height > surface.SurfaceHeight)
+                {
+                    if (retval.Count < requiredImages)
+                        throw new AgateGuiException(
+                            "There are not enough subimages in the " + name + " image.");
+                }
+            }
+
+            return retval.ToArray();
         }
 
         int mInsertionPointBlinkTime = 500;
@@ -79,10 +129,14 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         public bool CenterTitle { get; set; }
         public int DropShadowSize { get; set; }
 
-        public Gradient WindowBackColor { get; set; }
         public Color FontColor { get; set; }
         public Color FontColorDisabled { get; set; }
-        public Color WindowBorderColor { get; set; }
+        public Surface WindowNoTitle { get; set; }
+        public Surface WindowWithTitle { get; set; }
+        public Surface WindowTitleBar { get; set; }
+        public Rectangle WindowNoTitleStretchRegion { get; set; }
+        public Rectangle WindowWithTitleStretchRegion { get; set; }
+        public Rectangle WindowTitleBarStretchRegion { get; set; }
 
         public Surface CloseButton { get; set; }
         public Surface CloseButtonMouseOver { get; set; }
@@ -91,12 +145,14 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         public Rectangle ButtonStretchRegion { get; set; }
         public Surface Button { get; set; }
         public Surface ButtonDefault { get; set; }
-        public Surface ButtonMouseOver { get; set; }
-        public Surface ButtonActivate { get; set; }
+        public Surface ButtonDefaultHover { get; set; }
+        public Surface ButtonHover { get; set; }
+        public Surface ButtonPressed { get; set; }
         public Surface ButtonDisabled { get; set; }
+        public int ButtonTextPadding { get; set; }
 
-        public Surface CheckBoxDown { get; set; }
-        public Surface CheckBoxUp { get; set; }
+        public Surface CheckBoxChecked { get; set; }
+        public Surface CheckBoxUnchecked { get; set; }
         public int CheckBoxSpacing { get; set; }
 
         public Surface TextBox { get; set; }

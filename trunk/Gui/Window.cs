@@ -23,6 +23,7 @@ namespace AgateLib.Gui
         public Window()
         {
             Name = "window";
+            ShowTitleBar = true;
 
             Location = new Point(20, 20);
             Size = new Size(300, 250);
@@ -45,10 +46,21 @@ namespace AgateLib.Gui
             base.OnParentChanged();
         }
 
+        /// <summary>
+        /// The button which is clicked when the user presses enter.
+        /// </summary>
+        public Button AcceptButton { get; set; }
+        /// <summary>
+        /// The button which is clicked when the user presses escape.
+        /// </summary>
+        public Button CancelButton { get; set; }
+
         public bool AllowDrag { get; set; }
+        public bool ShowTitleBar { get; set; }
 
         bool dragging;
         Point mouseDiff;
+
         protected internal override void OnMouseDown(AgateLib.InputLib.InputEventArgs e)
         {
             if (AllowDrag)
@@ -59,12 +71,10 @@ namespace AgateLib.Gui
                     ScreenLocation.Y - e.MousePosition.Y);
             }
         }
-
         protected internal override void OnMouseUp(AgateLib.InputLib.InputEventArgs e)
         {
             dragging = false;
         }
-
         protected internal override void OnMouseMove(AgateLib.InputLib.InputEventArgs e)
         {
             if (dragging == false)

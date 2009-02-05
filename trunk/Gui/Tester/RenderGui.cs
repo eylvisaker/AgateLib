@@ -46,8 +46,13 @@ namespace AgateLib.Gui.Tester
 
             for (int i = 0; i < 4; i++)
             {
-                leftPanel.Children.Add(new TextBox());
-                rightPanel.Children.Add(new TextBox());
+                leftPanel.Children.Add(new Button("Button Left " + i.ToString()));
+                rightPanel.Children.Add(new Button("right " + i.ToString()));
+
+                if (i % 2 == 1)
+                    leftPanel.Children[i].Enabled = false;
+                else 
+                    rightPanel.Children[i].Enabled = false;
             }
 
             topPanel.Children.Add(leftPanel);
@@ -64,6 +69,8 @@ namespace AgateLib.Gui.Tester
             wind.AllowDrag = true;
             wind.Size = new Size(400, 300);
             bottomPanel.LayoutExpand = LayoutExpand.ExpandToMax;
+
+            wind.AcceptButton = (Button)leftPanel.Children[0];
 
             root.Children.Add(wind);
             root.ResumeLayout();

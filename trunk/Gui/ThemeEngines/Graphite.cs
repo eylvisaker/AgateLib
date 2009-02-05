@@ -188,7 +188,7 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
 
         private void DrawCheckbox(CheckBox checkbox)
         {
-            Surface surf = checkbox.Checked ? Scheme.CheckBoxDown : Scheme.CheckBoxUp;
+            Surface surf = checkbox.Checked ? Scheme.CheckBoxChecked : Scheme.CheckBoxUnchecked;
             Point destPoint = checkbox.PointToScreen(
                 Origin.Calc(OriginAlignment.CenterLeft, checkbox.Size));
 
@@ -204,7 +204,7 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         private Size CalcMinCheckBoxSize(CheckBox checkbox)
         {
             Size text = Scheme.ControlFont.StringDisplaySize(checkbox.Text);
-            Size box = Scheme.CheckBoxUp.SurfaceSize;
+            Size box = Scheme.CheckBoxUnchecked.SurfaceSize;
 
             return new Size(
                 box.Width + Scheme.CheckBoxSpacing + text.Width,
@@ -241,13 +241,18 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         private void DrawButton(Button button)
         {
             Surface image = Scheme.Button;
+            bool isDefault = button.IsDefaultButton;
 
-            if (button.DrawActivated)
-                image = Scheme.ButtonActivate;
-            else if (button.Enabled == false)
+            if (button.Enabled == false)
                 image = Scheme.ButtonDisabled;
+            else if (button.DrawActivated)
+                image = Scheme.ButtonPressed;
+            else if (isDefault && button.MouseIn)
+                image = Scheme.ButtonDefaultHover;
+            else if (isDefault)
+                image = Scheme.ButtonDefault;
             else if (button.MouseIn)
-                image = Scheme.ButtonMouseOver;
+                image = Scheme.ButtonHover;
 
             DrawStretchImage(button.PointToScreen(Point.Empty), button.Size,
                 image, Scheme.ButtonStretchRegion);
@@ -255,8 +260,17 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             SetControlFontColor(button);
 
             Scheme.ControlFont.DisplayAlignment = OriginAlignment.Center;
+            Point location = Origin.Calc(OriginAlignment.Center, button.Size);
+
+            // drop the text down a bit if the button is being pushed.
+            if (button.DrawActivated)
+            {
+                location.X++;
+                location.Y++;
+            }
+
             Scheme.ControlFont.DrawText(
-                button.PointToScreen(Origin.Calc(OriginAlignment.Center, button.Size)),
+                button.PointToScreen(location),
                 button.Text);
         }
 
@@ -266,6 +280,9 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             Size buttonBorder = new Size(
                 Scheme.Button.SurfaceWidth - Scheme.ButtonStretchRegion.Width,
                 Scheme.Button.SurfaceHeight - Scheme.ButtonStretchRegion.Height);
+
+            textSize.Width += Scheme.ButtonTextPadding * 2;
+            textSize.Height += Scheme.ButtonTextPadding * 2;
 
             return new Size(
                 textSize.Width + buttonBorder.Width, textSize.Height + buttonBorder.Height);
@@ -281,7 +298,8 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             DrawWindowDecorations(window);
         }
 
-        public int WindowTitlebarSize { 
+        public int WindowTitlebarSize
+        {
             get
             {
                 return Scheme.TitleFont.StringDisplayHeight("M") + 6;
@@ -290,25 +308,22 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
 
         protected virtual void DrawWindowBackground(Window window)
         {
-            Display.FillRect(new Rectangle(
-                window.ScreenLocation, window.Size), Scheme.WindowBackColor);
+            if (window.ShowTitleBar)
+            {
+                DrawStretchImage(window.Parent.PointToScreen(
+                    new Point(window.Location.X, window.Location.Y + this.WindowTitlebarSize)),
+                    window.Size, Scheme.WindowWithTitle, Scheme.WindowWithTitleStretchRegion);
 
-            Rectangle rect = new Rectangle(
-                window.ScreenLocation, window.Size);
-
-            Display.DrawRect(rect, Scheme.WindowBorderColor);
-
-            if (Scheme.DropShadowSize > 0)
-                DrawDropShadow(rect);
+            }
             else
-                Display.DrawRect(rect, Scheme.WindowBorderColor);
+                throw new NotImplementedException();
         }
 
         private void DrawDropShadow(Rectangle rect)
         {
             for (int i = 0; i <= Scheme.DropShadowSize; i++)
             {
-                Color fadeColor = Scheme.WindowBorderColor;
+                Color fadeColor = Color.Red;// Scheme.WindowBorderColor;
                 fadeColor.A = (byte)(
                     fadeColor.A * (Scheme.DropShadowSize - i) / (2 * Scheme.DropShadowSize));
 
@@ -324,9 +339,9 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         {
             Point windowLocation = window.ScreenLocation;
 
-            Display.FillRect(new Rectangle(windowLocation.X + 1, windowLocation.Y - 1,
-                window.Size.Width - 2, WindowTitlebarSize - 2),
-                Color.LightBlue);
+            DrawStretchImage(windowLocation,
+                new Size(window.Width, WindowTitlebarSize), Scheme.WindowTitleBar,
+                Scheme.WindowTitleBarStretchRegion);
 
             Point fontPosition = new Point(windowLocation.X + 8, windowLocation.Y + 3);
             if (Scheme.CenterTitle)
@@ -364,9 +379,18 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         }
         public Rectangle GetWindowClientArea(Window widget)
         {
-            return new Rectangle(
-                3, WindowTitlebarSize, 
-                widget.Width - 6, widget.Height - WindowTitlebarSize - 3);
+            if (widget.ShowTitleBar)
+            {
+                return new Rectangle(
+                    Scheme.WindowWithTitleStretchRegion.Left,
+                    Scheme.WindowWithTitleStretchRegion.Top + WindowTitlebarSize,
+                    widget.Width - (Scheme.WindowWithTitle.SurfaceWidth - Scheme.WindowWithTitleStretchRegion.Width),
+                    widget.Height - (Scheme.WindowWithTitle.SurfaceHeight - Scheme.WindowWithTitleStretchRegion.Height));
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
 
