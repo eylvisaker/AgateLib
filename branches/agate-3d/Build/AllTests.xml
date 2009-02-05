@@ -29,6 +29,7 @@
     <?include file="Projects/Tests/Core/RefCounters.proj.xml" ?>
     <?include file="Projects/Tests/Core/Resources.proj.xml" ?>
     <?include file="Projects/Tests/Core/Timers.proj.xml" ?>
+    <?include file="Projects/Tests/Display3D/Test3D.proj.xml" ?>
     <?include file="Projects/Tests/Display/Lighting.proj.xml" ?>
     <?include file="Projects/Tests/Display/OrthoProjection.proj.xml" ?>
     <?include file="Projects/Tests/Display/PixelBuffer.proj.xml" ?>

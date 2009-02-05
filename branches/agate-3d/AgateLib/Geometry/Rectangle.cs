@@ -55,19 +55,6 @@ namespace AgateLib.Geometry
             this.pt = pt;
             this.sz = sz;
         }
-        /// <summary>
-        /// Constructs a rectangle.
-        /// </summary>
-        /// <remarks>
-        /// [Experimental - The API is likely to change in the future.]
-        /// </remarks>
-        /// <param name="rect"></param>
-        [Obsolete("Use AgateWinForms methods.")]
-        public Rectangle(System.Drawing.Rectangle rect)
-        {
-            this.pt = new Point(rect.Location);
-            this.sz = new Size(rect.Size);
-        }
 
         /// <summary>
         /// Static method which returns a rectangle with specified left, top, right and bottom.
@@ -252,6 +239,16 @@ namespace AgateLib.Geometry
             return !a.Equals(b);
         }
 
+        /// <summary>
+        /// Explicitly converts a Rectangle to a RectangleF structure.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static explicit operator RectangleF(Rectangle a)
+        {
+            return new RectangleF(a.X, a.Y, a.Width, a.Height);
+        }
+
         #endregion
         #region --- Object Overrides ---
 
@@ -408,18 +405,6 @@ namespace AgateLib.Geometry
                 return false;
             else
                 return true;
-        }
-
-        /// <summary>
-        /// For inter-op with System.Drawing.
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
-        [Obsolete("Use AgateWinForms methods.")]
-        public static explicit operator System.Drawing.Rectangle(Rectangle rect)
-        {
-            return new System.Drawing.Rectangle(
-                rect.X, rect.Y, rect.Width, rect.Height);
         }
 
     }

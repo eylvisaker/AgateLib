@@ -256,7 +256,8 @@ namespace AgateOTK
         
         private void AttachEvents()
         {
-            mWindow.CloseWindow += new EventHandler(mWindow_CloseWindow);
+            // TODO: bring this back:
+            //mWindow.CloseWindow += new EventHandler(mWindow_CloseWindow);
             mWindow.Resize += new OpenTK.Platform.ResizeEvent(mWindow_Resize);
 
             mWindow.Keyboard.KeyRepeat = true;
@@ -267,9 +268,11 @@ namespace AgateOTK
             mWindow.Mouse.ButtonUp += new OpenTK.Input.MouseButtonUpEvent(Mouse_ButtonUp);
         }
 
+
+        
         private void DetachEvents()
         {
-            mWindow.CloseWindow -= mWindow_CloseWindow;
+            //mWindow.CloseWindow -= mWindow_CloseWindow;
             mWindow.Resize -= mWindow_Resize;
 
             mWindow.Keyboard.KeyDown -= Keyboard_KeyDown;
@@ -281,8 +284,6 @@ namespace AgateOTK
 
         void mWindow_Resize(object sender, OpenTK.Platform.ResizeEventArgs e)
         {
-            Debug.Print("Reseting viewport to {0}x{1}", mWindow.Width, mWindow.Height);
-
             GL.Viewport(0, 0, mWindow.Width, mWindow.Height);
            
         }
@@ -359,31 +360,18 @@ namespace AgateOTK
 
         public override bool IsFullScreen
         {
-            get { return mWindow.WindowState == WindowState.Fullscreen; }
+            get { return false; }
         }
 
         public override void SetWindowed()
         {
-            mWindow.WindowState = WindowState.Normal;
-            DisplayDevice.Default.RestoreResolution();
         }
 
         public override void SetFullScreen()
         {
-            SetFullScreen(this.Width, this.Height, 32);
         }
         public override void SetFullScreen(int width, int height, int bpp)
         {
-            Keyboard.ReleaseAllKeys(false);
-            DisplayResolution res = DisplayDevice.Default.SelectResolution(width, height, bpp, 60);
-            Debug.Print("Selected resolution: {0},{1},{2}@{3}", res.Width, res.Height,
-                res.BitsPerPixel, res.RefreshRate);
-
-            DisplayDevice.Default.ChangeResolution(res);
-
-            mWindow.WindowState = WindowState.Fullscreen;
-
-            Debug.Print("Window size: {0},{1}", mWindow.Width, mWindow.Height);
         }
 
         public override Size Size

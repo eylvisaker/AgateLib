@@ -210,23 +210,5 @@ namespace AgateOTK
             mIndex = 0;
         }
 
-        private void oldFlush()
-        {
-
-            GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
-
-            GL.Begin(BeginMode.Quads);
-
-            for (int i = 0; i < mIndex; i++)
-            {
-                GL.Color4(mColorCoords[i].r, mColorCoords[i].g, mColorCoords[i].b, mColorCoords[i].a);
-                GL.TexCoord2(mTexCoords[i].u, mTexCoords[i].v);
-                GL.Vertex2(mVertexCoords[i].x, mVertexCoords[i].y);
-            }
-
-            GL.End();
-
-            mIndex = 0;
-        }
     }
 }

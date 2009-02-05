@@ -440,7 +440,7 @@ namespace AgateMDX
             mDevice.AlphaArgument1 = TextureArgument.Diffuse;
 
             mDevice.VertexFormat = CustomVertex.PositionColored.Format;
-            mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleList, 2, mFillRectVerts);
+            mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.TriangleList, 2, mFillRectVerts);
 
         }
 
@@ -810,7 +810,7 @@ namespace AgateMDX
 
         bool IDisplayCaps.Supports3D
         {
-            get { return false; }
+            get { return true; }
         }
 
         bool IDisplayCaps.SupportsFullScreen
@@ -825,6 +825,89 @@ namespace AgateMDX
         bool IDisplayCaps.CanCreateBitmapFont
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region --- 3D stuff ---
+
+        Matrix4 projection = Matrix4.Identity;
+        Matrix4 world = Matrix4.Identity;
+        Matrix4 view = Matrix4.Identity;
+
+        protected override VertexBufferImpl CreateVertexBuffer()
+        {
+            return new MDX1_VertexBuffer(this);
+        }
+
+
+        private Matrix TransformAgateMatrix(Matrix4 value)
+        {
+            Matrix retval = new Matrix();
+
+            retval.M11 = value[0, 0];
+            retval.M12 = value[0, 1];
+            retval.M13 = value[0, 2];
+            retval.M14 = value[0, 3];
+
+            retval.M21 = value[1, 0];
+            retval.M22 = value[1, 1];
+            retval.M23 = value[1, 2];
+            retval.M24 = value[1, 3];
+
+            retval.M31 = value[2, 0];
+            retval.M32 = value[2, 1];
+            retval.M33 = value[2, 2];
+            retval.M34 = value[2, 3];
+
+            retval.M41 = value[3, 0];
+            retval.M42 = value[3, 1];
+            retval.M43 = value[3, 2];
+            retval.M44 = value[3, 3];
+
+            return retval;
+        }
+        public override Matrix4 MatrixProjection
+        {
+            get
+            {
+                return projection;
+            }
+            set
+            {
+                projection = value;
+                mDevice.Device.SetTransform(TransformType.Projection,
+                    TransformAgateMatrix(value));
+            }
+        }
+
+        public override Matrix4 MatrixView
+        {
+            get
+            {
+                return view;
+            }
+            set
+            {
+                view = value;
+
+                mDevice.Device.SetTransform(TransformType.View,
+                    TransformAgateMatrix(value));
+            }
+        }
+        public override Matrix4 MatrixWorld
+        {
+            get
+            {
+                return world;
+            }
+            set
+            {
+                world = value;
+
+                mDevice.Device.SetTransform(TransformType.World,
+                    TransformAgateMatrix(value));
+            }
         }
 
         #endregion

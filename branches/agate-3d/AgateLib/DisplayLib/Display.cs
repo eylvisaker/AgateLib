@@ -638,6 +638,26 @@ namespace AgateLib.DisplayLib
         
 
         #endregion
+        #region --- Matrix Settings ---
+
+        public static Matrix4 MatrixProjection
+        {
+            get { return impl.MatrixProjection; }
+            set { impl.MatrixProjection = value; }
+        }
+        public static Matrix4 MatrixView
+        {
+            get { return impl.MatrixView; }
+            set { impl.MatrixView = value; }
+        }
+        public static Matrix4 MatrixWorld
+        {
+            get { return impl.MatrixWorld; }
+            set { impl.MatrixWorld = value; }
+        }
+        
+
+        #endregion
 
         /// <summary>
         /// Gets the capabilities of the Display object.
@@ -670,7 +690,4 @@ namespace AgateLib.DisplayLib
             return impl.GetPlatformServices();
         }
     }
-
-
-  
 }

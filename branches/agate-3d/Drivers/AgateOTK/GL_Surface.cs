@@ -605,6 +605,8 @@ namespace AgateOTK
 
         #endregion
 
+        internal int GLTextureID { get { return mTextureID; } }
+
 
         private void Load()
         {
@@ -622,7 +624,6 @@ namespace AgateOTK
 
         private void LoadFromBitmap(Drawing.Bitmap sourceImage)
         {
-
             mSourceRect.Size = Interop.Convert(sourceImage.Size);
 
             Size newSize = GetOGLSize(sourceImage);
@@ -666,11 +667,32 @@ namespace AgateOTK
         
         private Size GetOGLSize(System.Drawing.Bitmap image)
         {
-            Size retval = new Size(
-                NextPowerOfTwo(image.Width),
-                NextPowerOfTwo(image.Height));
+            Size retval = Interop.Convert(image.Size);
+
+            if (mDisplay.NonPowerOf2Textures)
+                return retval;
+
+            if (IsPowerOfTwo(retval.Width) == false)
+                retval.Width = NextPowerOfTwo(retval.Width);
+            if (IsPowerOfTwo(retval.Height) == false)
+                retval.Height = NextPowerOfTwo(retval.Height);
 
             return retval;
+        }
+        private bool IsPowerOfTwo(int value)
+        {
+            if (value < 0) 
+                throw new ArgumentException("value cannot be negative.");
+
+            while (value > 1)
+            {
+                if ((value & 1) == 1)
+                    return false;
+
+                value >>= 1;
+            }
+
+            return true;
         }
         private int NextPowerOfTwo(int p)
         {

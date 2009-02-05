@@ -34,7 +34,7 @@ using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
 namespace AgateOTK
 {
-    public sealed class GL_Display : DisplayImpl, IDisplayCaps, AgateLib.PlatformSpecific.IPlatformServices 
+    public sealed class GL_Display : DisplayImpl, IDisplayCaps, AgateLib.PlatformSpecific.IPlatformServices
     {
         GL_IRenderTarget mRenderTarget;
         GLState mState;
@@ -48,15 +48,15 @@ namespace AgateOTK
         public bool NonPowerOf2Textures
         {
             get { return mNonPowerOf2Textures; }
-            set { mNonPowerOf2Textures = value; }
+            private set { mNonPowerOf2Textures = value; }
         }
-	
+
         public bool SupportsFramebuffer
         {
             get { return mSupportsFramebuffer; }
             set { mSupportsFramebuffer = value; }
         }
-	
+
         internal event EventHandler ProcessEventsEvent;
 
         protected override void ProcessEvents()
@@ -85,22 +85,25 @@ namespace AgateOTK
 
         public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
         {
-            //return new GL_DisplayControl(windowParams);
+            return new GL_DisplayControl(windowParams);
 
-            if (windowParams.RenderToControl)
-            {
-                return new GL_DisplayControl(windowParams);
-            }
-            else
-            {
-                return new GL_GameWindow(windowParams);
-            }
+            //if (windowParams.RenderToControl)
+            //{
+            //    return new GL_DisplayControl(windowParams);
+            //}
+            //else
+            //{
+            //    return new GL_GameWindow(windowParams);
+            //}
         }
         public override SurfaceImpl CreateSurface(string fileName)
         {
             return new GL_Surface(fileName);
         }
-
+        protected override VertexBufferImpl CreateVertexBuffer()
+        {
+            return new GL_VertexBuffer();
+        }
         public override SurfaceImpl CreateSurface(Size surfaceSize)
         {
             return new GL_Surface(surfaceSize);
@@ -159,7 +162,7 @@ namespace AgateOTK
         public override void SetClipRect(Rectangle newClipRect)
         {
             GL.Viewport(newClipRect.X, mRenderTarget.Height - newClipRect.Bottom,
-                newClipRect.Width, newClipRect.Height );
+                newClipRect.Width, newClipRect.Height);
 
             SetupGLOrtho(newClipRect);
 
@@ -191,16 +194,75 @@ namespace AgateOTK
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
             Glu.Ortho2D(region.Left, region.Right, region.Bottom, region.Top);
-
         }
+
+        Matrix4 projection = Matrix4.Identity;
+        Matrix4 world = Matrix4.Identity;
+        Matrix4 view = Matrix4.Identity;
+
+        public override Matrix4 MatrixProjection
+        {
+            get { return projection; }
+            set
+            {
+                projection = value;
+                SetProjection();
+            }
+        }
+        public override Matrix4 MatrixView
+        {
+            get { return view; }
+            set
+            {
+                view = value;
+                SetModelview();
+            }
+        }
+        public override Matrix4 MatrixWorld
+        {
+            get { return world; }
+            set
+            {
+                world = value;
+                SetModelview();
+            }
+        }
+
+        private void SetModelview()
+        {
+            OpenTK.Math.Matrix4 modelview = ConvertAgateMatrix(view * world, false);
+
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
+            GL.LoadMatrix(ref modelview);
+        }
+        private void SetProjection()
+        {
+            OpenTK.Math.Matrix4 otkProjection = ConvertAgateMatrix(projection, false);
+
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            GL.LoadMatrix(ref otkProjection);
+        }
+
+        private OpenTK.Math.Matrix4 ConvertAgateMatrix(Matrix4 matrix, bool invertY)
+        {
+            int sign = invertY ? -1 : 1;
+
+            return new OpenTK.Math.Matrix4(
+                new OpenTK.Math.Vector4(matrix[0, 0], sign * matrix[1, 0], matrix[2, 0], matrix[3, 0]),
+                new OpenTK.Math.Vector4(matrix[0, 1], sign * matrix[1, 1], matrix[2, 1], matrix[3, 1]),
+                new OpenTK.Math.Vector4(matrix[0, 2], sign * matrix[1, 2], matrix[2, 2], matrix[3, 2]),
+                new OpenTK.Math.Vector4(matrix[0, 3], sign * matrix[1, 3], matrix[2, 3], matrix[3, 3]));
+        }
+
         public override void Clear(Color color)
         {
             mState.DrawBuffer.Flush();
 
             GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, 1.0f);
-            GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);   
+            GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
         }
-
         public override void Clear(Color color, Rectangle dest)
         {
             mState.DrawBuffer.Flush();
@@ -217,13 +279,12 @@ namespace AgateOTK
             GL.Disable(EnableCap.Texture2D);
             GL.Begin(BeginMode.Lines);
 
-            GL.Vertex2(x1, y1+0.5);
-            GL.Vertex2(x2, y2+0.5);
+            GL.Vertex2(x1, y1 + 0.5);
+            GL.Vertex2(x2, y2 + 0.5);
 
             GL.End();
             GL.Enable(EnableCap.Texture2D);
         }
-
         public override void DrawLine(Point a, Point b, Color color)
         {
             mState.DrawBuffer.Flush();
@@ -240,15 +301,11 @@ namespace AgateOTK
             mState.DrawBuffer.Flush();
             mState.SetGLColor(color);
 
-            // hacks here to make it come out right?
-            // rect.Y++ and rect.Right +1 down below.
-            rect.Y++;
-
             GL.Disable(EnableCap.Texture2D);
             GL.Begin(BeginMode.Lines);
 
             GL.Vertex2(rect.Left, rect.Top);
-            GL.Vertex2(rect.Right+1, rect.Top);
+            GL.Vertex2(rect.Right, rect.Top);
 
             GL.Vertex2(rect.Right, rect.Top);
             GL.Vertex2(rect.Right, rect.Bottom);
@@ -331,7 +388,7 @@ namespace AgateOTK
         {
             if (glInitialized)
                 return;
-            
+
             GL.ShadeModel(ShadingModel.Smooth);                         // Enable Smooth Shading
             GL.ClearColor(0, 0, 0, 1.0f);                                     // Black Background
             GL.ClearDepth(1);                                                 // Depth Buffer Setup
@@ -340,10 +397,28 @@ namespace AgateOTK
             GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
                 HintMode.Nicest);
 
-            mSupportsFramebuffer = GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
+            string version = GL.GetString(StringName.Version);
+
+            if (version.StartsWith("2.0"))
+            {
+                mSupportsFramebuffer = true;
+                mNonPowerOf2Textures = true;
+            }
+            else if (version.StartsWith("1.5"))
+            {
+                mSupportsFramebuffer = true;
+                mNonPowerOf2Textures = true;
+            }
+            else
+            {
+                mSupportsFramebuffer = GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
+                mNonPowerOf2Textures = GL.SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
+            }
+
             glInitialized = true;
+            
         }
- 
+
         public override void Dispose()
         {
         }
@@ -363,10 +438,10 @@ namespace AgateOTK
             GL.Enable(EnableCap.Lighting);
 
             SetArray(array, lights.Ambient);
-            GL.LightModelv (LightModelParameter.LightModelAmbient, array);
+            GL.LightModelv(LightModelParameter.LightModelAmbient, array);
 
             GL.Enable(EnableCap.ColorMaterial);
-            GL.ColorMaterial(MaterialFace.FrontAndBack, 
+            GL.ColorMaterial(MaterialFace.FrontAndBack,
                              ColorMaterialParameter.AmbientAndDiffuse);
 
             for (int i = 0; i < lights.Count || i < mMaxLightsUsed; i++)
@@ -412,7 +487,7 @@ namespace AgateOTK
             array[1] = vec.Y;
             array[2] = vec.Z;
         }
-        private void SetArray(float[] array,Color color)
+        private void SetArray(float[] array, Color color)
         {
             array[0] = color.R / 255.0f;
             array[1] = color.G / 255.0f;
@@ -483,7 +558,7 @@ namespace AgateOTK
 
         bool IDisplayCaps.Supports3D
         {
-            get { return false; }
+            get { return true; }
         }
         bool IDisplayCaps.SupportsFullScreen
         {

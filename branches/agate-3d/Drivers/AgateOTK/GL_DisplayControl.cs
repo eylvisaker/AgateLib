@@ -201,7 +201,7 @@ namespace AgateOTK
         {
             GraphicsMode newMode = new GraphicsMode(
                 GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
-                0, 0, new ColorFormat(0), 2, false);
+                0, 0, new ColorFormat(0,0,0,0), 2, false);
 
             Debug.Print("AgateLib GraphicsMode: {0}", newMode);
 

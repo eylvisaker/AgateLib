@@ -578,5 +578,27 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         /// <returns></returns>
         protected internal abstract AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices();
+
+        protected internal virtual VertexBufferImpl CreateVertexBuffer()
+        {
+            throw new AgateException("Cannot create a vertex buffer with a driver that does not support 3D.");
+        }
+
+        public virtual Matrix4 MatrixProjection
+        {
+            get { throw new AgateException("3D is not supported."); }
+            set { throw new AgateException("3D is not supported."); }
+        }
+        public virtual Matrix4 MatrixView
+        {
+            get { throw new AgateException("3D is not supported."); }
+            set { throw new AgateException("3D is not supported."); }
+        }
+        public virtual Matrix4 MatrixWorld
+        {
+            get { throw new AgateException("3D is not supported."); }
+            set { throw new AgateException("3D is not supported."); }
+        }
+        
     }
 }

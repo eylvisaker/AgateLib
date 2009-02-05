@@ -7,6 +7,7 @@ Prebuild\Prebuild.exe /target vs2008 /file AgateTools.xml
 
 Prebuild\Prebuild.exe /target vs2008 /file AllTests.xml
 Prebuild\Prebuild.exe /target vs2008 /file DisplayTests.xml
+Prebuild\Prebuild.exe /target vs2008 /file Display3DTests.xml
 Prebuild\Prebuild.exe /target vs2008 /file AudioTests.xml
 Prebuild\Prebuild.exe /target vs2008 /file CoreTests.xml
 Prebuild\Prebuild.exe /target vs2008 /file InputTests.xml

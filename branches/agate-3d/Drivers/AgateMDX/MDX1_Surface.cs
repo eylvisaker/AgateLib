@@ -597,7 +597,7 @@ namespace AgateMDX
             mDevice.AlphaBlend =  alphaBlend;
 
             mDevice.Device.VertexFormat = CustomVertex.PositionColoredTextured.Format;
-            mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, mVerts);
+            mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.TriangleStrip, 2, mVerts);
 
         }
         
