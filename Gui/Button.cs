@@ -13,10 +13,23 @@ namespace AgateLib.Gui
 
         bool mouseDownIn = false;
 
-        public bool DrawActivated
+        internal bool DrawActivated
         {
             get { return mouseDownIn && MouseIn; }
         }
+        internal bool IsDefaultButton
+        {
+            get
+            {
+                Container p = this.Parent;
+
+                while (p is Window == false)
+                    p = p.Parent;
+
+                return ((Window)p).AcceptButton == this;
+            }
+        }
+
         protected internal override void OnMouseDown(InputEventArgs e)
         {
             if (Enabled == false)
