@@ -478,7 +478,12 @@ namespace AgateOTK
         }
         public override void WritePixels(PixelBuffer buffer, Point startPoint)
         {
-            throw new Exception("The method or operation is not implemented.");
+            // poor man's method
+            PixelBuffer pixels = ReadPixels(PixelFormat.RGBA8888);
+
+            pixels.CopyFrom(buffer, new Rectangle(Point.Empty, buffer.Size), startPoint, false);
+
+            WritePixels(pixels);
         }
 
         public override Size SurfaceSize
