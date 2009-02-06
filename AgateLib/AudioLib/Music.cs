@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 using AgateLib.Drivers;
@@ -52,6 +53,16 @@ namespace AgateLib.AudioLib
                 impl = Audio.Impl.CreateMusic(s);
             }
             mFilename = filename;
+        }
+
+        /// <summary>
+        /// Constructs a Music object from a stream.
+        /// </summary>
+        /// <param name="source"></param>
+        public Music(Stream source) 
+            : this()
+        {
+            Audio.Impl.CreateMusic(source);
         }
 
         /// <summary>
