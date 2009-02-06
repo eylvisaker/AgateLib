@@ -55,6 +55,14 @@ namespace AgateLib.ImplementationBase
         public abstract Size StringDisplaySize(string text);
 
         /// <summary>
+        /// Gets the height of a single line of text.
+        /// </summary>
+        public virtual int FontHeight
+        {
+            get { return StringDisplayHeight("M"); }
+        }
+
+        /// <summary>
         /// Draws the specified string at the specified location.
         /// </summary>
         /// <param name="destX"></param>

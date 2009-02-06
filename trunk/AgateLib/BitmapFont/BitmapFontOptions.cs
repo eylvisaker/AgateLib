@@ -110,6 +110,7 @@ namespace AgateLib.BitmapFont
         {
             mFamily = fontFamily;
             mSize = sizeInPoints;
+            mEdgeOptions = BitmapFontEdgeOptions.IntensityAlphaColor;
 
             mRanges.Add(new CharacterRange(' ', '~'));
         }

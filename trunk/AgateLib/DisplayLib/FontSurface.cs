@@ -280,6 +280,14 @@ namespace AgateLib.DisplayLib
         /// <param name="text"></param>
         /// <returns></returns>
         public Size StringDisplaySize(string text) { return impl.StringDisplaySize(text); }
+        
+        /// <summary>
+        /// Gets the height in pixels of a single line of text.
+        /// </summary>
+        public int FontHeight
+        {
+            get { return impl.FontHeight; }
+        }
 
         /// <summary>
         /// Draws the specified string at the specified location.
@@ -351,9 +359,9 @@ namespace AgateLib.DisplayLib
             if (CanSave == false)
                 throw new InvalidOperationException();
 
-            BitmapFontImpl bitFont = (BitmapFontImpl)impl;
+            //BitmapFontImpl bitFont = (BitmapFontImpl)impl;
 
-            bitFont.Save(glyphDefsFile);
+            //bitFont.Save(glyphDefsFile);
         }
 
         /// <summary>
@@ -369,9 +377,10 @@ namespace AgateLib.DisplayLib
             if (CanSave == false)
                 throw new InvalidOperationException();
 
-            BitmapFontImpl bitFont = (BitmapFontImpl)impl;
+            // TODO: Figure out something for this.
+            //BitmapFontImpl bitFont = (BitmapFontImpl)impl;
 
-            bitFont.Save(imageFile, glyphDefsFile);
+            //bitFont.Save(imageFile, glyphDefsFile);
         }
 
         /// <summary>
@@ -380,18 +389,18 @@ namespace AgateLib.DisplayLib
         /// <param name="imageFile"></param>
         /// <param name="glyphDefsFile"></param>
         /// <returns></returns>
-        public static FontSurface LoadBitmapFont(string imageFile, string glyphDefsFile)
-        {
-            FontMetrics metrics = new FontMetrics();
+        //public static FontSurface LoadBitmapFont(string imageFile, string glyphDefsFile)
+        //{
+        //    FontMetrics metrics = new FontMetrics();
 
-            using (System.IO.Stream s = Utility.AgateFileProvider.ResourceProvider.OpenRead(glyphDefsFile))
-            {
-                metrics.Load(s);
-            }
+        //    using (System.IO.Stream s = Utility.AgateFileProvider.ResourceProvider.OpenRead(glyphDefsFile))
+        //    {
+        //        metrics.Load(s);
+        //    }
 
-            BitmapFontImpl bmpFont = new BitmapFontImpl(new Surface(imageFile), metrics);
+        //    BitmapFontImpl bmpFont = new BitmapFontImpl(new Surface(imageFile), metrics);
 
-            return new FontSurface(bmpFont);
-        }
+        //    return new FontSurface(bmpFont);
+        //}
     }
 }
