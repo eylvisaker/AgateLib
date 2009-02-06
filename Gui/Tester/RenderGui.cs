@@ -31,29 +31,36 @@ namespace AgateLib.Gui.Tester
 
         void root_DrawBehindGui(object sender, EventArgs e)
         {
-            Display.Clear(Color.DarkBlue);
+            Display.Clear(Color.FromArgb(50,0,0));
         }
 
         private void CreateGui()
         {
             //ThemeEngines.Graphite.Graphite.DebugOutlines = true;
+            Label info = new Label("chonk");
 
-            Panel topPanel = new Panel();
-            Panel bottomPanel = new Panel();
+            Panel topPanel = new Panel { Name = "topPanel" };
+            Panel bottomPanel = new Panel { Name = "bottomPanel" };
 
-            Panel leftPanel = new Panel();
-            Panel rightPanel = new Panel();
+            Panel leftPanel = new Panel { Name = "leftPanel" };
+            Panel rightPanel = new Panel { Name = "rightPanel" };
 
             for (int i = 0; i < 4; i++)
             {
-                leftPanel.Children.Add(new Button("Button Left " + i.ToString()));
                 rightPanel.Children.Add(new Button("right " + i.ToString()));
 
                 if (i % 2 == 1)
-                    leftPanel.Children[i].Enabled = false;
+                    leftPanel.Children.Add(new Button("Button Left " + i.ToString()));
                 else 
                     rightPanel.Children[i].Enabled = false;
             }
+
+            rightPanel.Children.Add(new CheckBox("Test box"));
+            rightPanel.Children.Add(new CheckBox("Test box 2"));
+            rightPanel.Children.Add(new CheckBox { Text = "Disabled", Enabled = false });
+            rightPanel.Children.Add(new CheckBox { Text = "Disabled Checked", Enabled = false, Checked = true });
+
+            leftPanel.Children.Add(info);
 
             topPanel.Children.Add(leftPanel);
             topPanel.Children.Add(rightPanel);
@@ -74,6 +81,15 @@ namespace AgateLib.Gui.Tester
 
             root.Children.Add(wind);
             root.ResumeLayout();
+
+            info.Text = string.Format("L:{0}:{1}   R:{2}:{3}",
+                leftPanel.MinSize.Height, leftPanel.Height, rightPanel.MinSize.Height, rightPanel.Height);
+
+            int totalsize = 0;
+            foreach (Widget child in rightPanel.Children)
+                totalsize += child.Height;
+
+            info.Text += "   total: " + totalsize.ToString();
 
             System.Diagnostics.Debug.Assert(
                 leftPanel.PointToClient(leftPanel.PointToScreen(new Point(10, 8))) == new Point(10, 8));

@@ -41,11 +41,6 @@ namespace AgateLib.Gui
                 themeEngine = value;
             }
         }  
-        protected override void DoDraw()
-        {
-            Display.Clear(255, 0, 255, 255);
-            base.DoDraw();
-        }
         public override ILayoutPerformer Layout
         {
             get
@@ -266,15 +261,19 @@ namespace AgateLib.Gui
         {
             foreach (Widget child in parent.Children)
             {
-                if (child.ContainsScreenPoint(screenMousePoint) == true)
-                    return child;
+                if (child.ContainsScreenPoint(screenMousePoint) == false)
+                    continue;
+                if (child.HitTest(screenMousePoint) == false)
+                    continue;
+
+                return child;
             }
 
             return null;
         }
 
         #endregion
-        #region Directing Keyboard Input to Child Controls ---
+        #region --- Directing Keyboard Input to Child Controls ---
 
         Widget focusControl;
 

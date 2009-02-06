@@ -24,6 +24,10 @@ namespace AgateLib.Gui
             mText = string.Empty;
         }
 
+        public override string ToString()
+        {
+            return base.ToString() + ": " + Name;
+        }
         protected GuiRoot Root
         {
             get
@@ -132,6 +136,10 @@ namespace AgateLib.Gui
                 if (mRegion.Size.Width == value.Width &&
                     mRegion.Size.Height == value.Height)
                     return;
+
+                if (value.Width < MinSize.Width ||
+                    value.Height < MinSize.Height)
+                    throw new AgateGuiException("Cannot make widget smaller than its MinSize.");
 
                 mRegion.Size = value;
                 OnResizePrivate();
@@ -258,16 +266,9 @@ namespace AgateLib.Gui
             return new Point(parentPoint.X - Location.X, parentPoint.Y - Location.Y);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="mouseLocation"></param>
-        /// <returns></returns>
-        internal bool HitTest(Point mouseLocation)
+        internal bool HitTest(Point screenLocation)
         {
-            // TODO: implement this
-
-            return false;
+            return Root.ThemeEngine.HitTest(this, screenLocation);
         }
 
 

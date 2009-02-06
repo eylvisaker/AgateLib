@@ -86,6 +86,8 @@ namespace AgateLib.Gui
         {
             mLayoutSuspended = false;
 
+            RedoLayout();
+
             foreach (Widget child in mChildren)
             {
                 if (child is Container == false)
@@ -94,13 +96,14 @@ namespace AgateLib.Gui
                 ((Container)child).ResumeLayout();
             }
 
-            RedoLayout();
         }
         protected internal override void RecalcMinSize()
         {
             if (mLayoutSuspended)
                 return;
-
+            if (Root == null)
+                return;
+            
             MinSize = Layout.RecalcMinSize(this);
         }
 
@@ -131,6 +134,8 @@ namespace AgateLib.Gui
         public virtual void RedoLayout()
         {
             if (mLayoutSuspended)
+                return;
+            if (Root == null)
                 return;
 
             RecalcMinSize();

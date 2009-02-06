@@ -109,7 +109,7 @@ namespace AgateLib.Gui.Layout
                     ShareSpace(expandSize);
                 }
                 else
-                    ShareSpaceEqually();
+                    ShareSpaceEqually(extraSpace);
 
             }
             else
@@ -143,6 +143,9 @@ namespace AgateLib.Gui.Layout
                         throw new NotImplementedException();
                 }
 
+                if (loc + size > GetSize(container.Size))
+                    throw new AgateGuiException("Container size is not right.");
+
                 SetLocation(child, loc);
                 SetSize(child, size);
 
@@ -169,17 +172,24 @@ namespace AgateLib.Gui.Layout
             }
 
         }
-        private void ShareSpaceEqually()
+        private void ShareSpaceEqually(int extraSpace)
         {
+            if (extraSpace < 0)
+                throw new ArgumentOutOfRangeException("extraSpace must be positive.");
+
             int loc = 0;
             int containerSize = GetContainerSize();
+            int expandSize = extraSpace / container.Children.VisibleItems.Count();
 
             foreach (Widget child in container.Children.VisibleItems)
             {
-                int size = containerSize / container.Children.Count;
+                int minSize = GetMinSize(child);
+                int size;
 
                 if (child.LayoutExpand == LayoutExpand.ShrinkToMin)
-                    size = GetMinSize(child);
+                    size = minSize;
+                else
+                    size = minSize + expandSize;
 
                 SetLocation(child, loc);
                 SetSize(child, size);

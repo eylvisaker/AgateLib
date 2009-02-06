@@ -36,26 +36,41 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             WindowNoTitle = new Surface("Images/window_no_title.png");
             WindowWithTitle = new Surface("Images/window_client.png");
             WindowTitleBar = new Surface("Images/window_titlebar.png");
-            WindowTitleBarStretchRegion = new Rectangle(5, 3, 58, 27);
+            WindowTitleBarStretchRegion = new Rectangle(6, 3, 52, 27);
             WindowNoTitleStretchRegion = new Rectangle(5, 5, 54, 54);
             WindowWithTitleStretchRegion = new Rectangle(6, 3, 52, 55);
 
             SetButtonImages(new Surface("Images/black_button.png"), new Size(64, 32));
             ButtonStretchRegion = new Rectangle(6, 6, 52, 20);
             ButtonTextPadding = 2;
+            ButtonMargin = 1;
 
-            CloseButton = Button;
-            CloseButtonInactive = Button;
-            CloseButtonMouseOver = Button;
-
-            CheckBoxUnchecked= Button;
-            CheckBoxChecked = Button;
+            SetCheckBoxImages(new Surface("Images/checkbox.png"), new Size(16, 16));
             CheckBoxSpacing = 4;
+            CheckBoxMargin = 6;
+
+            CloseButton = CheckBox;
+            CloseButtonInactive = CheckBoxDisabled;
+            CloseButtonHover = CheckBoxHover;
 
             TextBox = Button;
             TextBoxDisabled = Button;
             TextBoxMouseOver = Button;
             TextBoxStretchRegion = Rectangle.FromLTRB(4, 3, 28, 20);
+        }
+
+        private void SetCheckBoxImages(Surface surface, Size boxSize)
+        {
+            Surface[] surfs = SplitSurface("checkbox", surface, boxSize, 6, 6);
+
+            CheckBoxDisabled = surfs[0];
+            CheckBox = surfs[1];
+            CheckBoxHover = surfs[2];
+            CheckBoxCheckedDisabled = surfs[3];
+            CheckBoxChecked = surfs[4];
+            CheckBoxCheckedHover = surfs[5];
+
+            surface.Dispose();
         }
 
         private void SetButtonImages(Surface surface, Size buttonSize)
@@ -139,7 +154,7 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         public Rectangle WindowTitleBarStretchRegion { get; set; }
 
         public Surface CloseButton { get; set; }
-        public Surface CloseButtonMouseOver { get; set; }
+        public Surface CloseButtonHover { get; set; }
         public Surface CloseButtonInactive { get; set; }
 
         public Rectangle ButtonStretchRegion { get; set; }
@@ -150,15 +165,22 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         public Surface ButtonPressed { get; set; }
         public Surface ButtonDisabled { get; set; }
         public int ButtonTextPadding { get; set; }
+        public int ButtonMargin { get; set; }
 
+        public Surface CheckBox { get; set; }
+        public Surface CheckBoxHover { get; set; }
+        public Surface CheckBoxDisabled { get; set; }
         public Surface CheckBoxChecked { get; set; }
-        public Surface CheckBoxUnchecked { get; set; }
+        public Surface CheckBoxCheckedHover { get; set; }
+        public Surface CheckBoxCheckedDisabled { get; set; }
         public int CheckBoxSpacing { get; set; }
+        public int CheckBoxMargin { get; set; }
 
         public Surface TextBox { get; set; }
         public Surface TextBoxMouseOver { get; set; }
         public Surface TextBoxDisabled { get; set; }
         public Rectangle TextBoxStretchRegion { get; set; }
+        public int TextBoxMargin { get; set; }
 
     }
 }
