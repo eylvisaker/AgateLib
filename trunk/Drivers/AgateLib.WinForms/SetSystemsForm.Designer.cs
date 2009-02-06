@@ -64,7 +64,7 @@ namespace AgateLib.WinForms
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(200, 95);
+            this.btnOK.Location = new System.Drawing.Point(190, 95);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(54, 23);
             this.btnOK.TabIndex = 3;
@@ -76,7 +76,7 @@ namespace AgateLib.WinForms
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(260, 95);
+            this.btnCancel.Location = new System.Drawing.Point(250, 95);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(54, 23);
             this.btnCancel.TabIndex = 7;
@@ -90,28 +90,28 @@ namespace AgateLib.WinForms
             this.displayList.DisplayMember = "FriendlyName";
             this.displayList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.displayList.FormattingEnabled = true;
-            this.displayList.Location = new System.Drawing.Point(124, 12);
+            this.displayList.Location = new System.Drawing.Point(76, 12);
             this.displayList.Name = "displayList";
-            this.displayList.Size = new System.Drawing.Size(190, 21);
+            this.displayList.Size = new System.Drawing.Size(228, 21);
             this.displayList.TabIndex = 8;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.Size = new System.Drawing.Size(58, 27);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Display System";
+            this.label1.Text = "Display";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 69);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 13);
+            this.label2.Size = new System.Drawing.Size(58, 30);
             this.label2.TabIndex = 11;
-            this.label2.Text = "Input System";
+            this.label2.Text = "Input";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // inputList
             // 
@@ -120,19 +120,19 @@ namespace AgateLib.WinForms
             this.inputList.DisplayMember = "FriendlyName";
             this.inputList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.inputList.FormattingEnabled = true;
-            this.inputList.Location = new System.Drawing.Point(124, 66);
+            this.inputList.Location = new System.Drawing.Point(76, 66);
             this.inputList.Name = "inputList";
-            this.inputList.Size = new System.Drawing.Size(190, 21);
+            this.inputList.Size = new System.Drawing.Size(228, 21);
             this.inputList.TabIndex = 10;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 42);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.Size = new System.Drawing.Size(58, 27);
             this.label3.TabIndex = 13;
-            this.label3.Text = "Audio System";
+            this.label3.Text = "Audio";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // audioList
             // 
@@ -141,9 +141,9 @@ namespace AgateLib.WinForms
             this.audioList.DisplayMember = "FriendlyName";
             this.audioList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.audioList.FormattingEnabled = true;
-            this.audioList.Location = new System.Drawing.Point(124, 39);
+            this.audioList.Location = new System.Drawing.Point(76, 39);
             this.audioList.Name = "audioList";
-            this.audioList.Size = new System.Drawing.Size(190, 21);
+            this.audioList.Size = new System.Drawing.Size(228, 21);
             this.audioList.TabIndex = 12;
             // 
             // SetSystemsForm
@@ -151,7 +151,7 @@ namespace AgateLib.WinForms
             this.AcceptButton = this.btnOK;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(326, 130);
+            this.ClientSize = new System.Drawing.Size(316, 130);
             this.Controls.Add(this.inputList);
             this.Controls.Add(this.audioList);
             this.Controls.Add(this.btnCancel);
@@ -167,7 +167,6 @@ namespace AgateLib.WinForms
             this.Text = "Select Drivers";
             this.Load += new System.EventHandler(this.frmSetSystems_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
