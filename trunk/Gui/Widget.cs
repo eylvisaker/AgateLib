@@ -16,12 +16,17 @@ namespace AgateLib.Gui
         string mText;
         LayoutExpand mLayoutExpand;
         bool mAutoCalcMinSize = true;
+        bool mAutoCalcMaxSize = true;
+        Size mMinSize, mMaxSize;
         bool mVisible = true;
         bool mEnabled = true;
+
+        bool suspendLayout = false;
 
         public Widget()
         {
             mText = string.Empty;
+            mMaxSize = new Size(9000, 9000);
         }
 
         public override string ToString()
@@ -63,7 +68,7 @@ namespace AgateLib.Gui
                     throw new ArgumentNullException("Text may not be null.");
 
                 mText = value;
-                RecalcMinSize();
+                RecalcSizeRange();
             }
         }
 
@@ -93,14 +98,31 @@ namespace AgateLib.Gui
 
         protected virtual void OnParentChanged()
         {
-            RecalcMinSize();
+            RecalcSizeRange();
         }
-        protected internal virtual void RecalcMinSize()
+        protected internal virtual void RecalcSizeRange()
         {
             if (Root == null)
                 return;
+            if (suspendLayout)
+                return;
 
-            MinSize = Root.ThemeEngine.CalcMinSize(this);
+            try
+            {
+                suspendLayout = true;
+
+                if (AutoCalcMinSize)
+                    MinSize = Root.ThemeEngine.CalcMinSize(this);
+
+                if (AutoCalcMaxSize)
+                    MaxSize = Root.ThemeEngine.CalcMaxSize(this);
+            }
+            finally
+            {
+                suspendLayout = false;
+
+                Parent.RedoLayout();
+            }
         }
 
         public bool Visible
@@ -140,6 +162,9 @@ namespace AgateLib.Gui
                 if (value.Width < MinSize.Width ||
                     value.Height < MinSize.Height)
                     throw new AgateGuiException("Cannot make widget smaller than its MinSize.");
+                if (value.Width > MaxSize.Width ||
+                    value.Height > MaxSize.Height)
+                    throw new AgateGuiException("Cannot make widget larget than its MaxSize.");
 
                 mRegion.Size = value;
                 OnResizePrivate();
@@ -159,15 +184,53 @@ namespace AgateLib.Gui
             get { return Size.Height; }
         }
 
-        public Size MinSize { get; protected set; }
+        public Size MinSize
+        {
+            get { return mMinSize; }
+            set
+            {
+                mMinSize = value;
+
+                if (this == Root) return;
+                if (suspendLayout == false && Root != null)
+                    Parent.RedoLayout();
+            }
+        }
+        public Size MaxSize
+        {
+            get { return mMaxSize; }
+            set
+            {
+                mMaxSize = value;
+
+                if (this == Root) return;
+                if (suspendLayout == false && Root != null)
+                    Parent.RedoLayout();
+            }
+        }
         public bool AutoCalcMinSize
         {
             get { return mAutoCalcMinSize; }
             set
             {
                 mAutoCalcMinSize = value;
+
                 if (value == true)
-                    RecalcMinSize();
+                    RecalcSizeRange();
+
+                Parent.RedoLayout();
+            }
+        }
+        public bool AutoCalcMaxSize
+        {
+            get { return mAutoCalcMinSize; }
+            set
+            {
+                mAutoCalcMaxSize = value;
+
+                if (value == true)
+                    RecalcSizeRange();
+
                 Parent.RedoLayout();
             }
         }
@@ -271,7 +334,6 @@ namespace AgateLib.Gui
             return Root.ThemeEngine.HitTest(this, screenLocation);
         }
 
-
         internal Point ScreenLocation
         {
             get
@@ -281,6 +343,11 @@ namespace AgateLib.Gui
 
                 return Parent.PointToScreen(Location);
             }
+        }
+
+        internal int ThemeMargin
+        {
+            get { return Root.ThemeEngine.ThemeMargin(this); }
         }
 
         public bool MouseIn { get; protected set; }

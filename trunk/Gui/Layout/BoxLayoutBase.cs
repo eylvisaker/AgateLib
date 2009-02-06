@@ -29,12 +29,12 @@ namespace AgateLib.Gui.Layout
 
             foreach (Widget child in container.Children)
             {
-                child.RecalcMinSize();
+                child.RecalcSizeRange();
 
-                minSize.Width = Math.Max(minSize.Width, child.MinSize.Width);
-                minSize.Height = Math.Max(minSize.Height, child.MinSize.Height);
+                minSize.Width = Math.Max(minSize.Width, child.MinSize.Width + child.ThemeMargin * 2);
+                minSize.Height = Math.Max(minSize.Height, child.MinSize.Height + child.ThemeMargin * 2);
 
-                totalSize += GetSize(child.MinSize);
+                totalSize += GetMinSize(child) + child.ThemeMargin * 2;
             }
 
             return SetSize(minSize, totalSize);
@@ -75,8 +75,8 @@ namespace AgateLib.Gui.Layout
 
             foreach (Widget child in container.Children.VisibleItems)
             {
-                int minSize = GetMinSize(child);
-
+                int minSize = GetMinSize(child) + child.ThemeMargin * 2;
+                
                 switch (child.LayoutExpand)
                 {
                     case LayoutExpand.Default:
@@ -127,6 +127,7 @@ namespace AgateLib.Gui.Layout
             foreach (Widget child in container.Children.VisibleItems)
             {
                 int size;
+                loc += child.ThemeMargin;
 
                 switch (child.LayoutExpand)
                 {
@@ -149,7 +150,7 @@ namespace AgateLib.Gui.Layout
                 SetLocation(child, loc);
                 SetSize(child, size);
 
-                loc += size;
+                loc += size + child.ThemeMargin;
             }
         }
 
@@ -158,17 +159,42 @@ namespace AgateLib.Gui.Layout
             int loc = 0;
             int containerSize = GetContainerSize();
 
+            int totalExtraSpace = 0;
+            int nonMaxedControls = 0;
             foreach (Widget child in container.Children.VisibleItems)
             {
                 int size = GetMinSize(child);
-                
+                int maxSize = GetMaxSize(child);
+
+                if (size + extraSpace > maxSize)
+                {
+                    totalExtraSpace += size + extraSpace - maxSize;
+                }
+                else
+                    nonMaxedControls++;
+            }
+
+            foreach (Widget child in container.Children.VisibleItems)
+            {
+                loc += child.ThemeMargin;
+
+                int size = GetMinSize(child);
+                int maxSize = GetMaxSize(child);
+
                 if (child.LayoutExpand != LayoutExpand.ShrinkToMin)
                     size += extraSpace;
+
+                if (size > maxSize)
+                    size = maxSize;
+                else if (nonMaxedControls > 0 && totalExtraSpace > 0)
+                {
+                    size += totalExtraSpace / nonMaxedControls;
+                }
 
                 SetLocation(child, loc);
                 SetSize(child, size);
 
-                loc += size;
+                loc += size + child.ThemeMargin;
             }
 
         }
@@ -185,6 +211,7 @@ namespace AgateLib.Gui.Layout
             {
                 int minSize = GetMinSize(child);
                 int size;
+                loc += child.ThemeMargin;
 
                 if (child.LayoutExpand == LayoutExpand.ShrinkToMin)
                     size = minSize;
@@ -194,7 +221,7 @@ namespace AgateLib.Gui.Layout
                 SetLocation(child, loc);
                 SetSize(child, size);
 
-                loc += size;
+                loc += size + child.ThemeMargin;
             }
              
         }
@@ -209,6 +236,10 @@ namespace AgateLib.Gui.Layout
         {
             return GetSize(widget.MinSize);
         }
+        int GetMaxSize(Widget widget)
+        {
+            return GetSize(widget.MaxSize);
+        }
 
         private Size SetSize(Size size, int value)
         {
@@ -220,16 +251,16 @@ namespace AgateLib.Gui.Layout
         void SetSize(Widget widget, int value)
         {
             if (_horizontal)
-                widget.Size = new Size(value, container.ClientArea.Height);
+                widget.Size = new Size(value, container.ClientArea.Height - widget.ThemeMargin * 2);
             else
-                widget.Size = new Size(container.ClientArea.Width, value);
+                widget.Size = new Size(container.ClientArea.Width - widget.ThemeMargin * 2, value);
         }
         void SetLocation(Widget widget, int value)
         {
             if (_horizontal)
-                widget.Location = new Point(value, 0);
+                widget.Location = new Point(value, widget.ThemeMargin);
             else
-                widget.Location = new Point(0, value);
+                widget.Location = new Point(widget.ThemeMargin, value);
         }
 
         int GetContainerSize()
@@ -240,13 +271,10 @@ namespace AgateLib.Gui.Layout
                 return container.ClientArea.Height;
         }
 
-
-
         public virtual bool AcceptInputKey(AgateLib.InputLib.KeyCode keyCode)
         {
             return false;
 
         }
-
     }
 }

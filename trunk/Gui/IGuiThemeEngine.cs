@@ -22,6 +22,20 @@ namespace AgateLib.Gui
         Size CalcMinSize(Widget widget);
 
         /// <summary>
+        /// Calculates and returns the maximum size for the widget.
+        /// </summary>
+        /// <param name="widget"></param>
+        /// <returns></returns>
+        Size CalcMaxSize(Widget widget);
+
+        /// <summary>
+        /// Gets the minimum margin area around the widget required by the theme.
+        /// </summary>
+        /// <param name="widget"></param>
+        /// <returns></returns>
+        int ThemeMargin(Widget widget);
+
+        /// <summary>
         /// Returns the area for the client space in 
         /// the widget, given its size.
         /// </summary>

@@ -10,7 +10,7 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
 {
     using Gui;
 
-    public class Graphite : IGuiThemeEngine 
+    public class Graphite : IGuiThemeEngine
     {
         public Graphite()
         {
@@ -45,7 +45,6 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         {
             throw new NotImplementedException();
         }
-
         public Size CalcMinSize(Widget widget)
         {
             if (widget is Label) return CalcMinLabelSize((Label)widget);
@@ -55,13 +54,28 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
 
             return Size.Empty;
         }
+        public Size CalcMaxSize(Widget widget)
+        {
+            if (widget is TextBox) return CalcTextBoxMaxSize((TextBox)widget);
 
+            return new Size(9000, 9000);
+        }
         public bool HitTest(Widget widget, Point screenLocation)
         {
             if (widget is Button) return HitTestButton((Button)widget, screenLocation);
             if (widget is CheckBox) return HitTestCheckBox((CheckBox)widget, screenLocation);
+            if (widget is TextBox) return HitTestTextBox((TextBox)widget, screenLocation);
 
             return true;
+        }
+
+        public int ThemeMargin(Widget widget)
+        {
+            if (widget is Button) return Scheme.ButtonMargin;
+            if (widget is CheckBox) return Scheme.CheckBoxMargin;
+            if (widget is TextBox) return Scheme.TextBoxMargin;
+
+            return 0;
         }
 
         #endregion
@@ -75,22 +89,28 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             if (textBox.Enabled == false)
                 image = Scheme.TextBoxDisabled;
             else if (textBox.MouseIn)
-                image = Scheme.TextBoxMouseOver;
+                image = Scheme.TextBoxHover;
 
-            DrawStretchImage(textBox.PointToScreen(Point.Empty), textBox.Size,
+            Point location = textBox.PointToScreen(new Point(0, 0));
+            Size size = textBox.Size;
+
+            DrawStretchImage(location, size,
                 image, Scheme.TextBoxStretchRegion);
 
             Scheme.ControlFont.DisplayAlignment = OriginAlignment.TopLeft;
 
             SetControlFontColor(textBox);
 
+            location.X += Scheme.TextBoxStretchRegion.X;
+            location.Y += Scheme.TextBoxStretchRegion.Y;
+
             Scheme.ControlFont.DrawText(
-                textBox.PointToScreen(Scheme.TextBoxStretchRegion.Location),
+                location,
                 textBox.Text);
 
             if (textBox.HasFocus)
             {
-                Size size = Scheme.ControlFont.StringDisplaySize(
+                size = Scheme.ControlFont.StringDisplaySize(
                     textBox.Text.Substring(0, textBox.InsertionPoint));
 
                 Point loc = new Point(
@@ -99,9 +119,8 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
 
                 loc = textBox.PointToScreen(loc);
                 loc.Y++;
-                loc.X += 2;
 
-                DrawInsertionPoint(textBox, loc, Scheme.ControlFont.StringDisplayHeight("M") - 2,
+                DrawInsertionPoint(textBox, loc, Scheme.ControlFont.FontHeight - 2,
                     Timing.TotalMilliseconds - textBox.IPTime);
             }
         }
@@ -114,22 +133,35 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             if (val % 2 == 1)
                 return;
 
-            Display.DrawLine(location, 
+            Display.DrawLine(location,
                 new Point(location.X, location.Y + size),
-                Color.Black);
+                Scheme.ControlFont.Color);
         }
-
-
 
         private Size CalcMinTextBoxSize(TextBox textBox)
         {
             Size retval = new Size();
 
             retval.Width = 40;
-            retval.Height = Scheme.ControlFont.StringDisplayHeight("M");
+            retval.Height = Scheme.ControlFont.FontHeight;
             retval.Height += Scheme.TextBox.SurfaceHeight - Scheme.TextBoxStretchRegion.Height;
 
             return retval;
+        }
+        private Size CalcTextBoxMaxSize(TextBox textBox)
+        {
+            Size retval = CalcMinTextBoxSize(textBox);
+
+            retval.Width = 9000;
+
+            return retval;
+        }
+
+        private bool HitTestTextBox(TextBox textBox, Point screenLocation)
+        {
+            Point local = textBox.PointToClient(screenLocation);
+
+            return true;
         }
 
         #endregion
@@ -144,13 +176,11 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             else if (checkbox.Checked && checkbox.MouseIn) surf = Scheme.CheckBoxCheckedHover;
             else if (checkbox.Checked) surf = Scheme.CheckBoxChecked;
             else if (checkbox.MouseIn) surf = Scheme.CheckBoxHover;
-            else 
+            else
                 surf = Scheme.CheckBox;
 
             Point destPoint = checkbox.PointToScreen(
                 Origin.Calc(OriginAlignment.CenterLeft, checkbox.Size));
-
-            destPoint.X += Scheme.CheckBoxMargin;
 
             surf.DisplayAlignment = OriginAlignment.CenterLeft;
             surf.Draw(destPoint);
@@ -169,8 +199,8 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             Size box = Scheme.CheckBox.SurfaceSize;
 
             return new Size(
-                box.Width + Scheme.CheckBoxSpacing + text.Width + Scheme.CheckBoxMargin * 2,
-                Math.Max(box.Height, text.Height) + Scheme.CheckBoxMargin * 2);
+                box.Width + Scheme.CheckBoxSpacing + text.Width,
+                Math.Max(box.Height, text.Height));
         }
 
 
@@ -178,13 +208,10 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         {
             Point local = checkBox.PointToClient(screenLocation);
 
-            if (PointInMargin(checkBox, local, Scheme.CheckBoxMargin))
-                return false;
-
-            int right = Scheme.CheckBoxMargin + Scheme.CheckBox.SurfaceWidth +
+            int right = Scheme.CheckBox.SurfaceWidth +
                     Scheme.ControlFont.StringDisplayWidth(checkBox.Text) + Scheme.CheckBoxSpacing * 2;
 
-            if (local.X > right) 
+            if (local.X > right)
                 return false;
 
             return true;
@@ -234,18 +261,18 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             else if (button.MouseIn)
                 image = Scheme.ButtonHover;
 
-            Point location = button.PointToScreen(new Point(Scheme.ButtonMargin, Scheme.ButtonMargin));
-            Size size = new Size(button.Width - Scheme.ButtonMargin * 2, button.Height - Scheme.ButtonMargin * 2);
+            Point location = button.PointToScreen(Point.Empty);
+            Size size = new Size(button.Width, button.Height);
 
             DrawStretchImage(location, size,
                 image, Scheme.ButtonStretchRegion);
 
             // Draw button text
             SetControlFontColor(button);
-            
+
             Scheme.ControlFont.DisplayAlignment = OriginAlignment.Center;
             location = Origin.Calc(OriginAlignment.Center, button.Size);
-            
+
             // drop the text down a bit if the button is being pushed.
             if (button.DrawActivated)
             {
@@ -269,16 +296,13 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             textSize.Height += Scheme.ButtonTextPadding * 2;
 
             return new Size(
-                textSize.Width + buttonBorder.Width + Scheme.ButtonMargin, 
-                textSize.Height + buttonBorder.Height + Scheme.ButtonMargin);
+                textSize.Width + buttonBorder.Width,
+                textSize.Height + buttonBorder.Height);
         }
 
         private bool HitTestButton(Button button, Point screenLocation)
         {
             Point local = button.PointToClient(screenLocation);
-
-            if (PointInMargin(button, local, Scheme.ButtonMargin))
-                return false;
 
             return true;
         }
@@ -293,12 +317,10 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             DrawWindowDecorations(window);
         }
 
+        // TODO: fix this
         public int WindowTitlebarSize
         {
-            get
-            {
-                return Scheme.TitleFont.StringDisplayHeight("M") + 6;
-            }
+            get { return Scheme.TitleFont.FontHeight + 6; }
         }
 
         protected virtual void DrawWindowBackground(Window window)
@@ -365,15 +387,15 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         #endregion
 
 
-        private bool PointInMargin(Widget widget, Point localPoint, int margin)
-        {
-            if (localPoint.X < margin) return true;
-            if (localPoint.Y < margin) return true;
-            if (localPoint.X >= widget.Width - margin) return true;
-            if (localPoint.Y >= widget.Height - margin) return true;
+        //private bool PointInMargin(Widget widget, Point localPoint, int margin)
+        //{
+        //    if (localPoint.X < margin) return true;
+        //    if (localPoint.Y < margin) return true;
+        //    if (localPoint.X >= widget.Width - margin) return true;
+        //    if (localPoint.Y >= widget.Height - margin) return true;
 
-            return false;
-        }
+        //    return false;
+        //}
 
 
         private void DrawStretchImage(Point loc, Size size,
@@ -432,7 +454,7 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
                 new Rectangle(scaled.Right, scaled.Bottom, surface.SurfaceWidth - stretchRegion.Right, surface.SurfaceHeight - stretchRegion.Bottom));
 
         }
-        
+
         public Rectangle GetClientArea(Container widget)
         {
             if (widget is Window) return GetWindowClientArea((Window)widget);

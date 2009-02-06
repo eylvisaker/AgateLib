@@ -45,11 +45,17 @@ namespace AgateLib.Gui
                 case AgateLib.InputLib.KeyCode.BackSpace:
                     if (InsertionPoint == 0)
                         break;
-                    else if (InsertionPoint == Text.Length)
+
+                    if (InsertionPoint == Text.Length)
+                    {
+                        InsertionPoint--;
                         Text = Text.Substring(0, Text.Length - 1);
+                    }
                     else
-                        Text = Text.Substring(0, InsertionPoint - 1) + Text.Substring(InsertionPoint);
-                    InsertionPoint--;
+                    {
+                        InsertionPoint--;
+                        Text = Text.Substring(0, InsertionPoint) + Text.Substring(InsertionPoint+1);
+                    }
 
                     break;
 
