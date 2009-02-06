@@ -22,21 +22,40 @@ using System.Text;
 using System.Xml;
 using AgateLib.Geometry;
 
-namespace AgateLib.BitmapFont
+namespace AgateLib.Resources
 {
     /// <summary>
     /// FontMetrics is a class which describes everything needed to render a font
     /// from a bitmap image.
     /// </summary>
-    public sealed class FontMetrics : IDictionary<char, GlyphMetrics>, ICloneable 
+    public sealed class FontMetrics : AgateResource, IDictionary<char, GlyphMetrics> , ICloneable 
     {
         Dictionary<char, GlyphMetrics> mGlyphs = new Dictionary<char, GlyphMetrics>();
+        string mImage;
+
+        public FontMetrics() : base(string.Empty)
+        { }
+        internal FontMetrics(XmlNode node, string version)
+            : base(string.Empty)
+        {
+            switch (version)
+            {
+                case "0.3.0":
+                    Name = node.Attributes["name"].Value;
+                    mImage = XmlHelper.ReadAttributeString(node, "image", string.Empty);
+
+                    ReadGlyphs030(node);
+
+                    break;
+            }
+        }
+
 
         /// <summary>
         /// Performs a deep copy.
         /// </summary>
         /// <returns></returns>
-        public FontMetrics Clone()
+        protected override AgateResource Clone()
         {
             FontMetrics retval = new FontMetrics();
 
@@ -184,17 +203,7 @@ namespace AgateLib.BitmapFont
 
         #endregion
 
-        #region ICloneable Members
-
-
-
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
-
-        #endregion
-
+       
         /// <summary>
         /// Loads the font metrics object from XML.
         /// </summary>
@@ -226,6 +235,22 @@ namespace AgateLib.BitmapFont
             }
         }
 
+        private void ReadGlyphs030(XmlNode rootNode)
+        {
+            foreach (XmlNode node in rootNode.ChildNodes)
+            {
+                GlyphMetrics glyph = new GlyphMetrics();
+
+                char key = (char)int.Parse(node.Attributes["Char"].Value);
+                glyph.SourceRect = Rectangle.Parse(node.Attributes["Source"].Value);
+
+                glyph.LeftOverhang = GetAttributeInt32(node, "LeftOverhang");
+                glyph.RightOverhang = GetAttributeInt32(node, "RightOverhang");
+
+                mGlyphs.Add(key, glyph);
+            }
+        }
+
         private int GetAttributeInt32(XmlNode node, string p)
         {
             if (node[p] == null)
@@ -235,7 +260,7 @@ namespace AgateLib.BitmapFont
         }
 
 
-        internal void Save(XmlNode node, XmlDocument doc)
+        internal override void BuildNodes(XmlElement parent, XmlDocument doc)
         {
             XmlNode root = doc.CreateElement("Font");
 
@@ -253,7 +278,7 @@ namespace AgateLib.BitmapFont
                 root.AppendChild(current);
             }
 
-            node.AppendChild(root); 
+            parent.AppendChild(root); 
         }
 
         private static void AddAttribute(XmlDocument doc, XmlNode current, string name, int value)
@@ -274,5 +299,15 @@ namespace AgateLib.BitmapFont
             att.Value = ((int)value).ToString();
             current.Attributes.Append(att);
         }
+
+
+        #region ICloneable Members
+
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
+
+        #endregion
     }
 }

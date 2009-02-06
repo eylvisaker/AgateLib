@@ -750,6 +750,20 @@ namespace AgateLib.DisplayLib
 
             impl.WritePixels(buffer, startPoint);
         }
+        /// <summary>
+        /// Copies the data directly from the PixelBuffer to the surface, overwriting a portion
+        /// of the surface's pixel data.  The selected source rectangle from the pixel buffer must
+        /// fit within the surface.
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="sourceRect"></param>
+        /// <param name="destPt"></param>
+        public void WritePixels(PixelBuffer buffer, Rectangle sourceRect, Point destPt)
+        {
+            PixelBuffer smallBuffer = new PixelBuffer(buffer, sourceRect);
+
+            WritePixels(smallBuffer, destPt);
+        }
 
         #endregion
 

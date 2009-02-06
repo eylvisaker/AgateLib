@@ -24,6 +24,7 @@ using System.Xml;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ImplementationBase;
+using AgateLib.Resources;
 
 namespace AgateLib.BitmapFont
 {
@@ -67,7 +68,7 @@ namespace AgateLib.BitmapFont
         /// are laid out.</param>
         public BitmapFontImpl(Surface surface, FontMetrics fontMetrics)
         {
-            mFontMetrics = fontMetrics.Clone();
+            mFontMetrics = (FontMetrics) ((ICloneable)fontMetrics).Clone();
             float maxHeight = 0;
 
             foreach (KeyValuePair<char, GlyphMetrics> kvp in mFontMetrics)
@@ -112,7 +113,7 @@ namespace AgateLib.BitmapFont
 
             CalcAverageCharWidth();
         }
-
+        /*
         /// <summary>
         /// Saves the bitmap font to two files, an image file which contains the
         /// binary image data, and an XML file which contains all the glyph definitions.
@@ -146,6 +147,7 @@ namespace AgateLib.BitmapFont
         {
             mSurface.SaveTo(imageFilename);
         }
+        */
 
         /// <summary>
         /// Creates a bitmap font by loading an OS font, and drawing it to 
@@ -209,7 +211,7 @@ namespace AgateLib.BitmapFont
 
             for (int i = 0; i < lines.Length; i++)
             {
-                string line = lines[i].TrimEnd();
+                string line = lines[i];
                 double lineWidth = 0;
 
                 for (int j = 0; j < line.Length; j++)
@@ -261,6 +263,14 @@ namespace AgateLib.BitmapFont
         public override Size StringDisplaySize(string text)
         {
             return new Size(StringDisplayWidth(text), StringDisplayHeight(text));
+        }
+
+        /// <summary>
+        /// Returns the height of characters in the font.
+        /// </summary>
+        public override int FontHeight
+        {
+            get { return mCharHeight; }
         }
 
         private void GetRects(string text, RectangleF[] srcRects, RectangleF[] destRects, out int rectCount)
