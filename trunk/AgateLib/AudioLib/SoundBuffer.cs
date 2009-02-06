@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace AgateLib.AudioLib
@@ -71,6 +72,15 @@ namespace AgateLib.AudioLib
             }
 
             mFilename = filename;
+        }
+
+        /// <summary>
+        /// Constructs a SoundBuffer object, loading audio data from the passed stream.
+        /// </summary>
+        /// <param name="source"></param>
+        public SoundBuffer(Stream source)
+        {
+            impl = Audio.Impl.CreateSoundBuffer(source);
         }
 
         /// <summary>
