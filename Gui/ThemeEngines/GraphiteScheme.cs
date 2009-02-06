@@ -38,7 +38,7 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             WindowTitleBar = new Surface("Images/window_titlebar.png");
             WindowTitleBarStretchRegion = new Rectangle(6, 3, 52, 27);
             WindowNoTitleStretchRegion = new Rectangle(5, 5, 54, 54);
-            WindowWithTitleStretchRegion = new Rectangle(6, 3, 52, 55);
+            WindowWithTitleStretchRegion = new Rectangle(7, 4, 50, 53);
 
             SetButtonImages(new Surface("Images/black_button.png"), new Size(64, 32));
             ButtonStretchRegion = new Rectangle(6, 6, 52, 20);
@@ -46,17 +46,27 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             ButtonMargin = 1;
 
             SetCheckBoxImages(new Surface("Images/checkbox.png"), new Size(16, 16));
-            CheckBoxSpacing = 4;
+            CheckBoxSpacing = 5;
             CheckBoxMargin = 6;
 
             CloseButton = CheckBox;
             CloseButtonInactive = CheckBoxDisabled;
             CloseButtonHover = CheckBoxHover;
 
-            TextBox = Button;
-            TextBoxDisabled = Button;
-            TextBoxMouseOver = Button;
-            TextBoxStretchRegion = Rectangle.FromLTRB(4, 3, 28, 20);
+            SetTextBoxImages(new Surface("Images/textbox.png"), new Size(64, 16));
+            TextBoxMargin = 2;
+            TextBoxStretchRegion = new Rectangle(3, 3, 58, 10);
+        }
+
+        private void SetTextBoxImages(Surface surface, Size boxSize)
+        {
+            Surface[] surfs = SplitSurface("textbox", surface, boxSize, 3, 3);
+
+            TextBox = surfs[0];
+            TextBoxHover = surfs[1];
+            TextBoxDisabled = surfs[2];
+
+            surface.Dispose();
         }
 
         private void SetCheckBoxImages(Surface surface, Size boxSize)
@@ -177,7 +187,7 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         public int CheckBoxMargin { get; set; }
 
         public Surface TextBox { get; set; }
-        public Surface TextBoxMouseOver { get; set; }
+        public Surface TextBoxHover { get; set; }
         public Surface TextBoxDisabled { get; set; }
         public Rectangle TextBoxStretchRegion { get; set; }
         public int TextBoxMargin { get; set; }

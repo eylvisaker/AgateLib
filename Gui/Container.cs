@@ -97,14 +97,23 @@ namespace AgateLib.Gui
             }
 
         }
-        protected internal override void RecalcMinSize()
+        protected internal override void RecalcSizeRange()
         {
             if (mLayoutSuspended)
                 return;
             if (Root == null)
                 return;
-            
-            MinSize = Layout.RecalcMinSize(this);
+
+            try
+            {
+                InLayout = true;
+
+                MinSize = Layout.RecalcMinSize(this);
+            }
+            finally
+            {
+                InLayout = false;
+            }
         }
 
         void mChildren_ListUpdated(object sender, EventArgs e)
@@ -131,15 +140,28 @@ namespace AgateLib.Gui
             Invalidate();
         }
 
+        internal bool InLayout { get; private set; }
+
         public virtual void RedoLayout()
         {
             if (mLayoutSuspended)
                 return;
             if (Root == null)
                 return;
+            if (InLayout)
+                return;
 
-            RecalcMinSize();
-            Layout.DoLayout(this);
+            try
+            {
+                InLayout = true;
+
+                RecalcSizeRange();
+                Layout.DoLayout(this);
+            }
+            finally
+            {
+                InLayout = false;
+            }
         }
         protected override void DoDraw()
         {

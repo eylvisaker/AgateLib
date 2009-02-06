@@ -55,6 +55,9 @@ namespace AgateLib.Gui.Tester
                     rightPanel.Children[i].Enabled = false;
             }
 
+            leftPanel.Children.Add(new TextBox { Text = "Blank" });
+            leftPanel.Children.Add(new TextBox { Enabled = false, Text = "Disabled" });
+
             rightPanel.Children.Add(new CheckBox("Test box"));
             rightPanel.Children.Add(new CheckBox("Test box 2"));
             rightPanel.Children.Add(new CheckBox { Text = "Disabled", Enabled = false });
