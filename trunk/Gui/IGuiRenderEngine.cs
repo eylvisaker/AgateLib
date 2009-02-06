@@ -36,5 +36,14 @@ namespace AgateLib.Gui
         /// <param name="clientSize"></param>
         /// <returns></returns>
         Size RequestClientAreaSize(Container widget, Size clientSize);
+
+        /// <summary>
+        /// Returns true if the point specified in inside the area of the widget where a mouse
+        /// click would count as hitting the control.
+        /// </summary>
+        /// <param name="widget"></param>
+        /// <param name="screenLocation"></param>
+        /// <returns></returns>
+        bool HitTest(Widget widget, Point screenLocation);
     }
 }

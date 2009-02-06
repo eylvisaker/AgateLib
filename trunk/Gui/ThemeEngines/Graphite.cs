@@ -20,64 +20,6 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         public GraphiteScheme Scheme { get; set; }
         public static bool DebugOutlines { get; set; }
 
-
-        private void DrawStretchImage(Point loc, Size size,
-            Surface surface, Rectangle stretchRegion)
-        {
-            Rectangle scaled = new Rectangle(
-                loc.X + stretchRegion.X,
-                loc.Y + stretchRegion.Y,
-                size.Width - (surface.SurfaceWidth - stretchRegion.Right) - stretchRegion.X,
-                size.Height - (surface.SurfaceHeight - stretchRegion.Bottom) - stretchRegion.Y);
-
-            // draw top left
-            surface.Draw(
-                new Rectangle(0, 0, stretchRegion.Left, stretchRegion.Top),
-                new Rectangle(loc.X, loc.Y, stretchRegion.Left, stretchRegion.Top));
-
-            // draw top middle
-            surface.Draw(
-                new Rectangle(stretchRegion.Left, 0, stretchRegion.Width, stretchRegion.Top),
-                new Rectangle(loc.X + stretchRegion.Left, loc.Y,
-                    scaled.Width, stretchRegion.Top));
-
-            // draw top right
-            surface.Draw(
-                new Rectangle(stretchRegion.Right, 0, surface.SurfaceWidth - stretchRegion.Right, stretchRegion.Top),
-                new Rectangle(scaled.Right, loc.Y, surface.SurfaceWidth - stretchRegion.Right, stretchRegion.Top));
-
-            // draw middle left
-            surface.Draw(
-                new Rectangle(0, stretchRegion.Top, stretchRegion.Left, stretchRegion.Height),
-                new Rectangle(loc.X, loc.Y + stretchRegion.Top, stretchRegion.Left, scaled.Height));
-
-            // draw middle
-            surface.Draw(
-                stretchRegion,
-                scaled);
-
-            // draw middle right
-            surface.Draw(
-                new Rectangle(stretchRegion.Right, stretchRegion.Top, surface.SurfaceWidth - stretchRegion.Right, stretchRegion.Height),
-                new Rectangle(scaled.Right, scaled.Top, surface.SurfaceWidth - stretchRegion.Right, scaled.Height));
-
-            // draw bottom left
-            surface.Draw(
-                new Rectangle(0, stretchRegion.Bottom, stretchRegion.Left, surface.SurfaceHeight - stretchRegion.Bottom),
-                new Rectangle(loc.X, scaled.Bottom, stretchRegion.Left, surface.SurfaceHeight - stretchRegion.Bottom));
-
-            // draw bottom middle
-            surface.Draw(
-                new Rectangle(stretchRegion.Left, stretchRegion.Bottom, stretchRegion.Width, surface.SurfaceHeight - stretchRegion.Bottom),
-                new Rectangle(scaled.Left, scaled.Bottom, scaled.Width, surface.SurfaceHeight - stretchRegion.Bottom));
-
-            // draw bottom right
-            surface.Draw(
-                new Rectangle(stretchRegion.Right, stretchRegion.Bottom, surface.SurfaceWidth - stretchRegion.Right, surface.SurfaceHeight - stretchRegion.Bottom),
-                new Rectangle(scaled.Right, scaled.Bottom, surface.SurfaceWidth - stretchRegion.Right, surface.SurfaceHeight - stretchRegion.Bottom));
-
-        }
-
         #region --- Interface Dispatchers ---
 
         public void DrawWidget(Widget widget)
@@ -114,6 +56,13 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             return Size.Empty;
         }
 
+        public bool HitTest(Widget widget, Point screenLocation)
+        {
+            if (widget is Button) return HitTestButton((Button)widget, screenLocation);
+            if (widget is CheckBox) return HitTestCheckBox((CheckBox)widget, screenLocation);
+
+            return true;
+        }
 
         #endregion
 
@@ -188,9 +137,20 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
 
         private void DrawCheckbox(CheckBox checkbox)
         {
-            Surface surf = checkbox.Checked ? Scheme.CheckBoxChecked : Scheme.CheckBoxUnchecked;
+            Surface surf;
+
+            if (checkbox.Enabled == false && checkbox.Checked) surf = Scheme.CheckBoxCheckedDisabled;
+            else if (checkbox.Enabled == false) surf = Scheme.CheckBoxDisabled;
+            else if (checkbox.Checked && checkbox.MouseIn) surf = Scheme.CheckBoxCheckedHover;
+            else if (checkbox.Checked) surf = Scheme.CheckBoxChecked;
+            else if (checkbox.MouseIn) surf = Scheme.CheckBoxHover;
+            else 
+                surf = Scheme.CheckBox;
+
             Point destPoint = checkbox.PointToScreen(
                 Origin.Calc(OriginAlignment.CenterLeft, checkbox.Size));
+
+            destPoint.X += Scheme.CheckBoxMargin;
 
             surf.DisplayAlignment = OriginAlignment.CenterLeft;
             surf.Draw(destPoint);
@@ -198,18 +158,38 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             SetControlFontColor(checkbox);
 
             destPoint.X += surf.DisplayWidth + Scheme.CheckBoxSpacing;
+
+            Scheme.ControlFont.DisplayAlignment = OriginAlignment.CenterLeft;
             Scheme.ControlFont.DrawText(destPoint, checkbox.Text);
         }
 
         private Size CalcMinCheckBoxSize(CheckBox checkbox)
         {
             Size text = Scheme.ControlFont.StringDisplaySize(checkbox.Text);
-            Size box = Scheme.CheckBoxUnchecked.SurfaceSize;
+            Size box = Scheme.CheckBox.SurfaceSize;
 
             return new Size(
-                box.Width + Scheme.CheckBoxSpacing + text.Width,
-                Math.Max(box.Height, text.Height));
+                box.Width + Scheme.CheckBoxSpacing + text.Width + Scheme.CheckBoxMargin * 2,
+                Math.Max(box.Height, text.Height) + Scheme.CheckBoxMargin * 2);
         }
+
+
+        private bool HitTestCheckBox(CheckBox checkBox, Point screenLocation)
+        {
+            Point local = checkBox.PointToClient(screenLocation);
+
+            if (PointInMargin(checkBox, local, Scheme.CheckBoxMargin))
+                return false;
+
+            int right = Scheme.CheckBoxMargin + Scheme.CheckBox.SurfaceWidth +
+                    Scheme.ControlFont.StringDisplayWidth(checkBox.Text) + Scheme.CheckBoxSpacing * 2;
+
+            if (local.X > right) 
+                return false;
+
+            return true;
+        }
+
 
         #endregion
         #region --- Label ---
@@ -254,14 +234,18 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             else if (button.MouseIn)
                 image = Scheme.ButtonHover;
 
-            DrawStretchImage(button.PointToScreen(Point.Empty), button.Size,
+            Point location = button.PointToScreen(new Point(Scheme.ButtonMargin, Scheme.ButtonMargin));
+            Size size = new Size(button.Width - Scheme.ButtonMargin * 2, button.Height - Scheme.ButtonMargin * 2);
+
+            DrawStretchImage(location, size,
                 image, Scheme.ButtonStretchRegion);
 
+            // Draw button text
             SetControlFontColor(button);
-
+            
             Scheme.ControlFont.DisplayAlignment = OriginAlignment.Center;
-            Point location = Origin.Calc(OriginAlignment.Center, button.Size);
-
+            location = Origin.Calc(OriginAlignment.Center, button.Size);
+            
             // drop the text down a bit if the button is being pushed.
             if (button.DrawActivated)
             {
@@ -285,7 +269,18 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             textSize.Height += Scheme.ButtonTextPadding * 2;
 
             return new Size(
-                textSize.Width + buttonBorder.Width, textSize.Height + buttonBorder.Height);
+                textSize.Width + buttonBorder.Width + Scheme.ButtonMargin, 
+                textSize.Height + buttonBorder.Height + Scheme.ButtonMargin);
+        }
+
+        private bool HitTestButton(Button button, Point screenLocation)
+        {
+            Point local = button.PointToClient(screenLocation);
+
+            if (PointInMargin(button, local, Scheme.ButtonMargin))
+                return false;
+
+            return true;
         }
 
         #endregion
@@ -370,6 +365,73 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         #endregion
 
 
+        private bool PointInMargin(Widget widget, Point localPoint, int margin)
+        {
+            if (localPoint.X < margin) return true;
+            if (localPoint.Y < margin) return true;
+            if (localPoint.X >= widget.Width - margin) return true;
+            if (localPoint.Y >= widget.Height - margin) return true;
+
+            return false;
+        }
+
+
+        private void DrawStretchImage(Point loc, Size size,
+            Surface surface, Rectangle stretchRegion)
+        {
+            Rectangle scaled = new Rectangle(
+                loc.X + stretchRegion.X,
+                loc.Y + stretchRegion.Y,
+                size.Width - (surface.SurfaceWidth - stretchRegion.Right) - stretchRegion.X,
+                size.Height - (surface.SurfaceHeight - stretchRegion.Bottom) - stretchRegion.Y);
+
+            // draw top left
+            surface.Draw(
+                new Rectangle(0, 0, stretchRegion.Left, stretchRegion.Top),
+                new Rectangle(loc.X, loc.Y, stretchRegion.Left, stretchRegion.Top));
+
+            // draw top middle
+            surface.Draw(
+                new Rectangle(stretchRegion.Left, 0, stretchRegion.Width, stretchRegion.Top),
+                new Rectangle(loc.X + stretchRegion.Left, loc.Y,
+                    scaled.Width, stretchRegion.Top));
+
+            // draw top right
+            surface.Draw(
+                new Rectangle(stretchRegion.Right, 0, surface.SurfaceWidth - stretchRegion.Right, stretchRegion.Top),
+                new Rectangle(scaled.Right, loc.Y, surface.SurfaceWidth - stretchRegion.Right, stretchRegion.Top));
+
+            // draw middle left
+            surface.Draw(
+                new Rectangle(0, stretchRegion.Top, stretchRegion.Left, stretchRegion.Height),
+                new Rectangle(loc.X, loc.Y + stretchRegion.Top, stretchRegion.Left, scaled.Height));
+
+            // draw middle
+            surface.Draw(
+                stretchRegion,
+                scaled);
+
+            // draw middle right
+            surface.Draw(
+                new Rectangle(stretchRegion.Right, stretchRegion.Top, surface.SurfaceWidth - stretchRegion.Right, stretchRegion.Height),
+                new Rectangle(scaled.Right, scaled.Top, surface.SurfaceWidth - stretchRegion.Right, scaled.Height));
+
+            // draw bottom left
+            surface.Draw(
+                new Rectangle(0, stretchRegion.Bottom, stretchRegion.Left, surface.SurfaceHeight - stretchRegion.Bottom),
+                new Rectangle(loc.X, scaled.Bottom, stretchRegion.Left, surface.SurfaceHeight - stretchRegion.Bottom));
+
+            // draw bottom middle
+            surface.Draw(
+                new Rectangle(stretchRegion.Left, stretchRegion.Bottom, stretchRegion.Width, surface.SurfaceHeight - stretchRegion.Bottom),
+                new Rectangle(scaled.Left, scaled.Bottom, scaled.Width, surface.SurfaceHeight - stretchRegion.Bottom));
+
+            // draw bottom right
+            surface.Draw(
+                new Rectangle(stretchRegion.Right, stretchRegion.Bottom, surface.SurfaceWidth - stretchRegion.Right, surface.SurfaceHeight - stretchRegion.Bottom),
+                new Rectangle(scaled.Right, scaled.Bottom, surface.SurfaceWidth - stretchRegion.Right, surface.SurfaceHeight - stretchRegion.Bottom));
+
+        }
         
         public Rectangle GetClientArea(Container widget)
         {
@@ -401,5 +463,6 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             else
                 Scheme.ControlFont.Color = Scheme.FontColorDisabled;
         }
+
     }
 }
