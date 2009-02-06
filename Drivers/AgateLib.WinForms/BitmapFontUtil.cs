@@ -21,10 +21,10 @@ using Drawing = System.Drawing;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.BitmapFont;
+using AgateLib.Resources;
 
 namespace AgateLib.WinForms
 {
