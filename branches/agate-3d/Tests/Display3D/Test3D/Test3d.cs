@@ -135,7 +135,7 @@ namespace Test3D
                     Display.DrawRect(new Rectangle(0, 0, 8, 8), Color.Black);
 
 
-                    b.Draw();
+                    b.DrawIndexed();
 
                     Display.EndFrame();
                     Core.KeepAlive();

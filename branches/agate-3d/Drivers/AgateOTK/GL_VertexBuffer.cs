@@ -16,8 +16,9 @@ namespace AgateOTK
         GLState mState;
         GL_Surface mTexture;
 
-        int mVertexCount;
+        int mVertexCount, mIndexCount;
         int mVertexBufferID;
+        int mIndexBufferID;
         int mTexCoordBufferID;
         int mNormalBufferID;
 
@@ -80,7 +81,27 @@ namespace AgateOTK
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0); 
             return bufferID;
         }
+        private int CreateIndexBuffer(short[] data)
+        {
+            int bufferID;
+            GL.GenBuffers(1, out bufferID);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, bufferID);
 
+            unsafe
+            {
+                fixed (short* ptr = data)
+                {
+                    GL.BufferData(
+                        BufferTarget.ElementArrayBuffer,
+                        (IntPtr)(data.Length * Marshal.SizeOf(typeof(short))),
+                        (IntPtr)ptr,
+                        BufferUsageHint.StaticDraw);
+                }
+            }
+
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+            return bufferID;
+        }
         public override void WriteVertexData(Vector3[] data)
         {
             mVertexBufferID = CreateBuffer(data);
@@ -94,13 +115,43 @@ namespace AgateOTK
         {
             mNormalBufferID = CreateBuffer(data);
         }
-        public override void Draw()
+        public override void WriteIndices(short[] indices)
+        {
+            mIndexBufferID = CreateIndexBuffer(indices);
+            mIndexCount = indices.Length;
+        }
+
+        public override void Draw(int vertexStart, int vertexCount)
+        {
+            SetClientStates();
+            BeginMode beginMode = SelectBeginMode();
+
+
+            GL.EnableClientState(EnableCap.VertexArray);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
+            GL.VertexPointer(3, VertexPointerType.Float, 0, (IntPtr)vertexStart);
+
+            GL.DrawArrays(beginMode, 0, vertexCount);
+        }
+        public override void DrawIndexed(int indexStart, int indexCount)
+        {
+            SetClientStates();
+            BeginMode beginMode = SelectBeginMode();
+
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, mIndexBufferID);
+            GL.IndexPointer(IndexPointerType.Short, 0, (IntPtr)indexStart);
+
+            GL.EnableClientState(EnableCap.VertexArray);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
+            GL.VertexPointer(3, VertexPointerType.Float, 0, (IntPtr)0);
+
+            GL.DrawElements(beginMode, indexCount, DrawElementsType.UnsignedShort, (IntPtr)0);
+        }
+
+        private void SetClientStates()
         {
             mState.SetGLColor(Color.White);
 
-            BeginMode beginMode = SelectBeginMode();
-
-            GL.EnableClientState(EnableCap.VertexArray);
 
             if (UseTexture)
             {
@@ -126,11 +177,6 @@ namespace AgateOTK
             {
                 GL.DisableClientState(EnableCap.NormalArray);
             }
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
-            GL.VertexPointer(3, VertexPointerType.Float, 0, IntPtr.Zero);
-            
-            GL.DrawArrays(beginMode, 0, mVertexCount);
         }
 
         private BeginMode SelectBeginMode()
@@ -155,6 +201,15 @@ namespace AgateOTK
 
             if (err != ErrorCode.NoError)
                 System.Diagnostics.Debug.Print("Error: {0}", err);
+        }
+
+        public override int IndexCount
+        {
+            get { return mIndexCount; }
+        }
+        public override int VertexCount
+        {
+            get { return mVertexCount; }
         }
 
         bool UseTexture

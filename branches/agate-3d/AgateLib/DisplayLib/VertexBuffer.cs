@@ -27,12 +27,36 @@ namespace AgateLib.DisplayLib
         {
             impl.WriteNormalData(data);
         }
+        public void WriteIndices(short[] indices)
+        {
+            impl.WriteIndices(indices);
+        }
 
         public void Draw()
         {
             impl.Draw();
         }
+        public void Draw(int vertexStart, int vertexCount)
+        {
+            impl.Draw(vertexStart, vertexCount);
+        }
+        public void DrawIndexed()
+        {
+            impl.DrawIndexed();
+        }
+        public void DrawIndexed(int indexStart, int indexCount)
+        {
+            impl.DrawIndexed(indexStart, indexCount);
+        }
 
+        public int VertexCount
+        {
+            get { return impl.VertexCount; }
+        }
+        public int IndexCount
+        {
+            get { return impl.IndexCount; }
+        }
         public PrimitiveType PrimitiveType
         {
             get { return impl.PrimitiveType; }

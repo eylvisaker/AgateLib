@@ -25,6 +25,7 @@ namespace AgateLib.Geometry.Builders
 
             retval.PrimitiveType = PrimitiveType.TriangleList;
             retval.WriteVertexData(GetVertexData());
+            retval.WriteIndices(GetIndexData());
 
             if (GenerateTextureCoords)
                 retval.WriteTextureCoords(GetTextureCoords());
@@ -34,9 +35,30 @@ namespace AgateLib.Geometry.Builders
             return retval;
         }
 
+        private short[] GetIndexData()
+        {
+            short[] retval = new short[36];
+
+            int i = 0;
+            short index = 0;
+            for (int face = 0; face < 6; face++)
+            {
+                retval[i++] = index;
+                retval[i++] = (short)(index + 1);
+                retval[i++] = (short)(index + 2);
+                retval[i++] = (short)(index + 1);
+                retval[i++] = (short)(index + 2);
+                retval[i++] = (short)(index + 3);
+
+                index += 4;
+            }
+
+            return retval;
+        }
+
         private Vector3[] GetNormals()
         {
-            Vector3[] retval = new Vector3[36];
+            Vector3[] retval = new Vector3[24];
 
             int i = 0;
             float length = Length / 2.0f;
@@ -47,18 +69,12 @@ namespace AgateLib.Geometry.Builders
                 retval[i++] = new Vector3(0, 0, sign );
                 retval[i++] = new Vector3(0, 0, sign );
                 retval[i++] = new Vector3(0, 0, sign );
-                retval[i++] = new Vector3(0, 0, sign );
-                retval[i++] = new Vector3(0, 0, sign );
 
                 retval[i++] = new Vector3(0, sign,0);
                 retval[i++] = new Vector3(0, sign,0);
                 retval[i++] = new Vector3(0, sign, 0);
                 retval[i++] = new Vector3(0, sign, 0);
-                retval[i++] = new Vector3(0, sign, 0);
-                retval[i++] = new Vector3(0, sign, 0);
 
-                retval[i++] = new Vector3(sign, 0, 0);
-                retval[i++] = new Vector3(sign, 0, 0);
                 retval[i++] = new Vector3(sign, 0, 0);
                 retval[i++] = new Vector3(sign, 0, 0);
                 retval[i++] = new Vector3(sign, 0, 0);
@@ -69,7 +85,7 @@ namespace AgateLib.Geometry.Builders
         }
         protected virtual Vector3[] GetVertexData()
         {
-            Vector3[] retval = new Vector3[36];
+            Vector3[] retval = new Vector3[24];
 
             int i = 0;
             float length = Length / 2.0f;
@@ -79,20 +95,14 @@ namespace AgateLib.Geometry.Builders
                 retval[i++] = new Vector3(length, length, sign*length);
                 retval[i++] = new Vector3(length, -length, sign * length);
                 retval[i++] = new Vector3(-length, length, sign * length);
-                retval[i++] = new Vector3(length, -length, sign * length);
-                retval[i++] = new Vector3(-length, length, sign * length);
                 retval[i++] = new Vector3(-length, -length, sign * length);
 
                 retval[i++] = new Vector3(length, sign * length, length);
                 retval[i++] = new Vector3(length, sign * length, -length);
                 retval[i++] = new Vector3(-length, sign * length, length);
-                retval[i++] = new Vector3(length, sign * length, -length);
-                retval[i++] = new Vector3(-length, sign * length, length);
                 retval[i++] = new Vector3(-length, sign * length, -length);
 
                 retval[i++] = new Vector3(sign * length, length, length);
-                retval[i++] = new Vector3(sign * length, length, -length);
-                retval[i++] = new Vector3(sign * length, -length, length);
                 retval[i++] = new Vector3(sign * length, length, -length);
                 retval[i++] = new Vector3(sign * length, -length, length);
                 retval[i++] = new Vector3(sign * length, -length, -length);
@@ -105,14 +115,12 @@ namespace AgateLib.Geometry.Builders
         }
         protected virtual Vector2[] GetTextureCoords()
         {
-            Vector2[] retval = new Vector2[36];
+            Vector2[] retval = new Vector2[24];
             
             int i = 0;
             for (int face = 0; face < 6; face++)
             {
                 retval[i++] = new Vector2(0, 0);
-                retval[i++] = new Vector2(0, 1);
-                retval[i++] = new Vector2(1, 0);
                 retval[i++] = new Vector2(0, 1);
                 retval[i++] = new Vector2(1, 0);
                 retval[i++] = new Vector2(1, 1);
