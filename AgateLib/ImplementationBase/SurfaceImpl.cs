@@ -352,7 +352,15 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="startPoint"></param>
-        public abstract void WritePixels(PixelBuffer buffer, Point startPoint);
+        public virtual void WritePixels(PixelBuffer buffer, Point startPoint)
+        {
+            // poor man's method
+            PixelBuffer pixels = ReadPixels(PixelFormat.RGBA8888);
+
+            pixels.CopyFrom(buffer, new Rectangle(Point.Empty, buffer.Size), startPoint, false);
+
+            WritePixels(pixels);
+        }
 
         #endregion
 
