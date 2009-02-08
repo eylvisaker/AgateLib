@@ -58,7 +58,11 @@ namespace AgateLib.Gui.Tester
             leftPanel.Children.Add(new TextBox { Text = "Blank" });
             leftPanel.Children.Add(new TextBox { Enabled = false, Text = "Disabled" });
 
-            rightPanel.Children.Add(new CheckBox("Test box"));
+            CheckBox vsync = new CheckBox("VSync");
+            vsync.CheckChanged += new EventHandler(vsync_CheckChanged);
+            vsync_CheckChanged(this, EventArgs.Empty);
+
+            rightPanel.Children.Add(vsync);
             rightPanel.Children.Add(new CheckBox("Test box 2"));
             rightPanel.Children.Add(new CheckBox { Text = "Disabled", Enabled = false });
             rightPanel.Children.Add(new CheckBox { Text = "Disabled Checked", Enabled = false, Checked = true });
@@ -98,6 +102,11 @@ namespace AgateLib.Gui.Tester
                 leftPanel.PointToClient(leftPanel.PointToScreen(new Point(10, 8))) == new Point(10, 8));
 
             Display.PackAllSurfaces();
+        }
+
+        void vsync_CheckChanged(object sender, EventArgs e)
+        {
+            Display.VSync = !Display.VSync;
         }
 
         void btn_Click(object sender, EventArgs e)
