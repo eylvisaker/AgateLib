@@ -380,11 +380,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 
             mImage.UnlockBits(data);
         }
-
-        public override void WritePixels(PixelBuffer buffer, AgateLib.Geometry.Point startPoint)
-        {
-            throw new NotImplementedException("Method not implemented.");
-        }
     
         #endregion
 
