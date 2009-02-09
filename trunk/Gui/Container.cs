@@ -21,6 +21,25 @@ namespace AgateLib.Gui
             mChildren.ListUpdated += new EventHandler(mChildren_ListUpdated);
         }
 
+        internal bool AnyChildCanHaveFocus
+        {
+            get
+            {
+                for (int i = 0; i < mChildren.Count; i++)
+                {
+                    if (mChildren[i].CanHaveFocus)
+                        return true;
+
+                    if (mChildren[i] is Container)
+                    {
+                        if (((Container)mChildren[i]).AnyChildCanHaveFocus)
+                            return true;
+                    }
+                }
+
+                return false;
+            }
+        }
         public Rectangle ClientArea { get { return mClientArea; } }
         public Size ClientSize
         {
@@ -191,5 +210,49 @@ namespace AgateLib.Gui
 
         //    return null;
         //}
+
+
+        internal Widget NearestChildTo(Point pt, bool skipDisabled)
+        {
+            int distance = int.MaxValue;
+            Widget retval = null;
+
+            foreach (Widget child in Children)
+            {
+                if (child.Enabled == false && skipDisabled)
+                    continue;
+
+                Point center = new Point(
+                    child.Location.X + child.Width / 2,
+                    child.Location.Y + child.Height / 2);
+
+                int dist = Math.Abs(center.X - pt.X) + Math.Abs(center.Y - pt.Y);
+
+                if (dist < distance)
+                {
+                    retval = child;
+                    distance = dist;
+                }
+            }
+
+            return retval;
+        }
+
+        internal Widget CanMoveFocus(Widget currentFocus, Direction direction)
+        {
+            if (this.Children.Contains(currentFocus) == false)
+                throw new ArgumentException("currentFocus does not belong to this container.");
+
+            return Layout.CanMoveFocus(this, currentFocus, direction);
+        }
     }
+
+    public enum Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right,
+    }
+
 }

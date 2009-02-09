@@ -260,6 +260,8 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
                 image = Scheme.ButtonDefault;
             else if (button.MouseIn)
                 image = Scheme.ButtonHover;
+            else if (button.HasFocus)
+                image = Scheme.ButtonHover;
 
             Point location = button.PointToScreen(Point.Empty);
             Size size = new Size(button.Width, button.Height);

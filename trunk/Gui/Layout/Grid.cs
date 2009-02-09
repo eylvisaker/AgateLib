@@ -31,5 +31,11 @@ namespace AgateLib.Gui.Layout
             return false;
         }
 
+
+        public Widget CanMoveFocus(Container container, Widget currentFocus, Direction direction)
+        {
+            return null;
+        }
+
     }
 }

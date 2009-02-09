@@ -13,5 +13,7 @@ namespace AgateLib.Gui
         Size RecalcMinSize(Container container);
 
         bool AcceptInputKey(AgateLib.InputLib.KeyCode keyCode);
+
+        Widget CanMoveFocus(Container container, Widget currentFocus, Direction direction);
     }
 }

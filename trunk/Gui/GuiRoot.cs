@@ -29,7 +29,9 @@ namespace AgateLib.Gui
 
             base.UpdateGui();
         }
-
+        protected internal override void RecalcSizeRange()
+        {
+        }
         public IGuiThemeEngine ThemeEngine
         {
             get { return themeEngine; }
@@ -354,21 +356,86 @@ namespace AgateLib.Gui
 
         private bool WidgetAcceptControlKey(ref Widget widget, InputEventArgs e)
         {
-            while (widget.AcceptInputKey(e.KeyCode) == false)
-            {
-                widget = widget.Parent;
+            return widget.AcceptInputKey(e.KeyCode);
 
-                if (widget == this)
-                    return false;
-            }
+            //while (widget.AcceptInputKey(e.KeyCode) == false)
+            //{
+            //    widget = widget.Parent;
 
-            return true;
+            //    if (widget == this)
+            //        return false;
+            //}
+
+            //return true;
         }
 
 
         private void ProcessControlKey(InputEventArgs e)
         {
-           
+            switch (e.KeyCode)
+            {
+                case KeyCode.Up:
+                    MoveFocus(Direction.Up);
+                    break;
+
+                case KeyCode.Down:
+                    MoveFocus(Direction.Down);
+                    break;
+
+                case KeyCode.Left:
+                    MoveFocus(Direction.Left);
+                    break;
+
+                case KeyCode.Right:
+                    MoveFocus(Direction.Right);
+                    break;
+            }
+        }
+
+        private void MoveFocus(Direction direction)
+        {
+            if (focusControl == null)
+            {
+                // TODO: set focus to a control.
+                return;
+            }
+
+            if (focusControl.Parent == this)
+                return;
+
+            Widget newFocus = focusControl.Parent.CanMoveFocus(focusControl, direction);
+
+            if (newFocus != null)
+            {
+                SetFocusControl(newFocus, direction, WidgetPoint(focusControl));
+                return;
+            }
+
+
+            // Ok, parent can't move focus in that direction.  we need to go up another level.
+            Container current = focusControl.Parent;
+
+            while (current != this)
+            {
+                newFocus = current.Parent.CanMoveFocus(current, direction);
+                if (newFocus != null)
+                    break;
+
+                current = current.Parent;
+            }
+
+            if (newFocus == null)
+                return;
+
+            SetFocusControl(newFocus, direction, WidgetPoint(focusControl));
+
+        }
+
+        private Point WidgetPoint(Widget focusControl)
+        {
+            return new Point(
+                focusControl.Location.X + focusControl.Width / 2,
+                focusControl.Location.Y + focusControl.Height / 2);
         }
 
         private bool CheckControlKey(Widget widget, InputEventArgs e)
@@ -406,5 +473,19 @@ namespace AgateLib.Gui
 
         #endregion
 
+
+        internal void SetFocusControl(Widget newFocus, Direction direction, Point nearPoint)
+        {
+            if (newFocus.CanHaveFocus)
+            {
+                FocusControl = newFocus;
+                return;
+            }
+
+            if (newFocus is Container)
+            {
+                SetFocusControl(((Container)newFocus).NearestChildTo(nearPoint, true), direction, nearPoint);
+            }
+        }
     }
 }

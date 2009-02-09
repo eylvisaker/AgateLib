@@ -48,7 +48,7 @@ namespace AgateLib.Gui
             }
         }
 
-        public bool CanHaveFocus { get; protected set; }
+        public virtual bool CanHaveFocus { get { return false; } }
         public bool HasFocus
         {
             get
@@ -57,6 +57,10 @@ namespace AgateLib.Gui
                     return false;
                 else
                     return Root.FocusControl == this;
+            }
+            set
+            {
+                Root.FocusControl = this;
             }
         }
         public virtual string Text
@@ -396,5 +400,6 @@ namespace AgateLib.Gui
         {
             return false;
         }
+
     }
 }

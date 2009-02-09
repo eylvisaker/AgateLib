@@ -9,6 +9,10 @@ namespace AgateLib.Gui
     {
         int mInsertionPoint;
 
+        public override bool CanHaveFocus
+        {
+            get { return true; }
+        }
         public int InsertionPoint
         {
             get { return mInsertionPoint; }

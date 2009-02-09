@@ -31,5 +31,27 @@ namespace AgateLib.Gui.Layout
             }
         }
 
+        public override Widget CanMoveFocus(Container container, Widget currentFocus, Direction direction)
+        {
+            if (direction == Direction.Up || direction == Direction.Down)
+                return null;
+
+            GuiRoot root = Root(container);
+            int index = GetParentIndex(container, currentFocus);
+
+
+            switch (direction)
+            {
+                case Direction.Left:
+                    return GetNextChild(container, index, -1);
+
+                case Direction.Right:
+                    return GetNextChild(container, index, 1);
+            }
+
+            throw new InvalidOperationException();
+        }
+
+
     }
 }
