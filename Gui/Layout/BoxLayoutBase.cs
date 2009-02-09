@@ -276,5 +276,51 @@ namespace AgateLib.Gui.Layout
             return false;
 
         }
+
+
+        protected GuiRoot Root(Widget widget)
+        {
+            if (widget is GuiRoot)
+                return (GuiRoot)widget;
+            else
+                return Root(widget.Parent);
+        }
+        protected int GetParentIndex(Container container, Widget widget)
+        {
+            if (widget is GuiRoot)
+                throw new AgateGuiException("Specified widget is not a child of the container.");
+
+            if (widget.Parent == container)
+                return container.Children.IndexOf(widget);
+            else
+                return GetParentIndex(container, widget.Parent);
+        }
+
+
+        public abstract Widget CanMoveFocus(Container container, Widget currentFocus, Direction direction);
+
+
+        protected Widget GetNextChild(Container container, int index, int direction)
+        {
+            for (index += direction; index >= 0 && index < container.Children.Count; index += direction)
+            {
+                Widget child = container.Children[index];
+
+                if (child is Container)
+                {
+                    if (((Container)child).AnyChildCanHaveFocus)
+                        return child;
+                }
+                if (child.CanHaveFocus == false)
+                    continue;
+                if (child.Enabled == false)
+                    continue;
+
+                return child;
+            }
+
+            return null;
+        }
+
     }
 }

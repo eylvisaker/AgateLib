@@ -24,9 +24,16 @@ namespace AgateLib.Gui.Tester
         }
 
         Label fps;
+        Label infoLabel;
+
         void root_Update(object sender, EventArgs e)
         {
             fps.Text = Display.FramesPerSecond.ToString();
+
+            infoLabel.Text = "Control has focus: ";
+            
+            if (root.FocusControl != null)
+                infoLabel.Text += root.FocusControl;
         }
 
         void root_DrawBehindGui(object sender, EventArgs e)
@@ -75,6 +82,9 @@ namespace AgateLib.Gui.Tester
 
             fps = new Label();
             bottomPanel.Children.Add(fps);
+
+            infoLabel = new Label();
+            bottomPanel.Children.Add(infoLabel);
 
             Window wind = new Window("Test Window");
             wind.SuspendLayout();

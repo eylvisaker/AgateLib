@@ -13,6 +13,13 @@ namespace AgateLib.Gui
 
         bool mouseDownIn = false;
 
+        public override bool CanHaveFocus
+        {
+            get
+            {
+                return true;
+            }
+        }
         internal bool DrawActivated
         {
             get { return mouseDownIn && MouseIn; }
