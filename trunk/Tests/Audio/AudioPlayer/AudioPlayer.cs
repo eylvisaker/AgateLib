@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using AgateLib;
 
 namespace AudioTester
 {
@@ -20,8 +21,8 @@ namespace AudioTester
 
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
-			AgateLib.Utility.AgateFileProvider.AssemblyProvider.AddPath("../Drivers");
-			AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath("../../../Tests/TestImages");
+			AgateFileProvider.Assemblies.AddPath("../Drivers");
+			AgateFileProvider.Images.AddPath("../../../Tests/TestImages");
 
             using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup("Agate Audio Tester", args))
             {

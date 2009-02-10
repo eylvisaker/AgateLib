@@ -75,7 +75,7 @@ namespace AgateLib.Drivers
                 sandbox.CreateInstanceAndUnwrap(Assembly.GetExecutingAssembly().FullName,
                 typeof(AgateSandBoxLoader).FullName);
 
-            IEnumerable<string> files = AgateFileProvider.AssemblyProvider.GetAllFiles("*.dll");
+            IEnumerable<string> files = AgateFileProvider.Assemblies.GetAllFiles("*.dll");
 
             foreach (string file in files)
             {

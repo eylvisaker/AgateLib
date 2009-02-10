@@ -26,9 +26,9 @@ namespace FontLineTester
 		{
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
-			AgateLib.Utility.AgateFileProvider.AssemblyProvider.AddPath("../Drivers");
-			AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath("../../../Tests/TestImages");
-            AgateLib.Utility.AgateFileProvider.ResourceProvider.AddPath("../../../Tests/TestImages");
+			AgateFileProvider.Assemblies.AddPath("../Drivers");
+			AgateFileProvider.Images.AddPath("../../../Tests/TestImages");
+            AgateFileProvider.Resources.AddPath("../../../Tests/TestImages");
 
             using (AgateSetup setup = new AgateSetup())
             {
@@ -41,9 +41,10 @@ namespace FontLineTester
                 Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
                 Core.AutoPause = true;
 
-                FontSurface bmpFont = FontSurface.LoadBitmapFont("bitmapfont.png", "bitmapfont.xml");
+                // TODO: Fix this
+                //FontSurface bmpFont = FontSurface.LoadBitmapFont("bitmapfont.png", "bitmapfont.xml");
 
-                fonts.Add(bmpFont);
+                //fonts.Add(bmpFont);
                 fonts.Add(new FontSurface("Arial", 12));
                 fonts.Add(new FontSurface("Arial", 20));
                 fonts.Add(new FontSurface("Times", 12));
@@ -62,9 +63,9 @@ namespace FontLineTester
 
                     Display.DrawRect(drawRect, Color.Red);
 
-                    bmpFont.DrawText(0, 370, "Use numeric keypad to switch fonts.");
-                    bmpFont.DrawText(0, 400,
-                        "Measured size was: " + drawRect.Size.ToString());
+                    //bmpFont.DrawText(0, 370, "Use numeric keypad to switch fonts.");
+                    //bmpFont.DrawText(0, 400,
+                    //    "Measured size was: " + drawRect.Size.ToString());
 
                     Display.EndFrame();
                     Core.KeepAlive();

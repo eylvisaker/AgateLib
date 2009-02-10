@@ -11,23 +11,19 @@ namespace AgateLib.Utility
     /// </summary>
     public class FileSystemProvider : IFileProvider
     {
-        ISearchPathList mPathList;
+        string mPath;
 
-        public FileSystemProvider()
+        public FileSystemProvider(string path)
         {
-            mPathList = new SearchPathList(".");
-        }
-        public FileSystemProvider(params string[] paths)
-        {
-            mPathList = new SearchPathList(paths);
+            mPath = path;
         }
 
         public Stream OpenRead(string filename)
         {
             string resolvedName = FindFileName(filename);
             if (resolvedName == null)
-                throw new FileNotFoundException(string.Format("The file {0} was not found in any of the paths {1}.",
-                    filename, mPathList), filename);
+                throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
+                    filename, mPath), filename);
 
             return File.OpenRead(FindFileName(filename));
         }
@@ -55,53 +51,48 @@ namespace AgateLib.Utility
 
             DebugCrossPlatform(filename);
 
-            foreach (string dir in PathList)
+            string path = Path.Combine(mPath, filename);
+
+            if (File.Exists(path) == false)
+                return null;
+
+            if (Core.CrossPlatformDebugLevel != CrossPlatformDebugLevel.Comment)
             {
-                string path = Path.Combine(dir, filename);
+                string[] files = Directory.GetFiles(mPath);
+                string badMatch = "";
+                bool badCaseMatch = false;
+                int matchCount = 0;
 
-                if (File.Exists(path))
+                for (int i = 0; i < files.Length; i++)
                 {
-                    if (Core.CrossPlatformDebugLevel != CrossPlatformDebugLevel.Comment)
+                    string shortFilename = Path.GetFileName(files[i]);
+                    if (shortFilename.Equals(filename, StringComparison.OrdinalIgnoreCase) == false)
+                        continue;
+
+                    matchCount++;
+
+                    if (shortFilename.Equals(filename, StringComparison.Ordinal) == false)
                     {
-                        string[] files = Directory.GetFiles(dir);
-                        string badMatch = "";
-                        bool badCaseMatch = false;
-                        int matchCount = 0;
-
-                        for (int i = 0; i < files.Length; i++)
-                        {
-                            string shortFilename = Path.GetFileName(files[i]);
-                            if (shortFilename.Equals(filename, StringComparison.OrdinalIgnoreCase) == false)
-                                continue;
-                             
-                            matchCount++;
-
-                            if (shortFilename.Equals(filename, StringComparison.Ordinal) == false)
-                            {
-                                badCaseMatch = true;
-                                badMatch = shortFilename;
-                            }
-                        }
-
-                        if (matchCount > 1)
-                            Core.ReportCrossPlatformError(
-                                "The file " + filename + " located in directory \"" + dir + "\"" +
-                                " has multiple case-insensitive matches.  This will present problems " +
-                                "when porting to an operating system with a case-insensitive filesystem (eg. Windows, MacOS).");
-                        if (badCaseMatch)
-                            Core.ReportCrossPlatformError(
-                                "The search file " + filename + " does not have an exact case match in directory \"" +
-                                dir + "\".  The closest match was " + badMatch + 
-                                ".  This will present problems when porting to an operating system " +
-                                "with a case-sensitive filesystem (eg. Linux, MacOS).");
-
+                        badCaseMatch = true;
+                        badMatch = shortFilename;
                     }
-                    return path;
-
                 }
+
+                if (matchCount > 1)
+                    Core.ReportCrossPlatformError(
+                        "The file " + filename + " located in directory \"" + mPath + "\"" +
+                        " has multiple case-insensitive matches.  This will present problems " +
+                        "when porting to an operating system with a case-insensitive filesystem (eg. Windows, MacOS).");
+                if (badCaseMatch)
+                    Core.ReportCrossPlatformError(
+                        "The search file " + filename + " does not have an exact case match in directory \"" +
+                        mPath + "\".  The closest match was " + badMatch +
+                        ".  This will present problems when porting to an operating system " +
+                        "with a case-sensitive filesystem (eg. Linux, MacOS).");
+
             }
 
-            return null;
+            return path;
         }
 
 
@@ -110,24 +101,22 @@ namespace AgateLib.Utility
             if (filename == null)
                 return;
 
-            if (CheckCrossPlatformFilename(filename) == false)
-            {
-                StringBuilder b = new StringBuilder();
-                b.Append("The path \"");
-                b.Append(filename);
-                b.Append("\" is not entered in a cross-platform manner.");
-                b.AppendLine();
+            if (CheckCrossPlatformFilename(filename))
+                return;
 
-                b.Append("Use only forward slash (/) for path separators, and avoid using the following characters:  ");
-                b.AppendLine(NonCrossPlatformChars);
+            StringBuilder b = new StringBuilder();
+            b.Append("The path \"");
+            b.Append(filename);
+            b.Append("\" is not entered in a cross-platform manner.");
+            b.AppendLine();
 
-                string text = b.ToString();
+            b.Append("Use only forward slash (/) for path separators, and avoid using the following characters:  ");
+            b.AppendLine(NonCrossPlatformChars);
 
-                Core.ReportCrossPlatformError(text);
+            string text = b.ToString();
 
-            }
+            Core.ReportCrossPlatformError(text);
         }
-
 
         /// <summary>
         /// Returns a list of characters which may be valid file path characters
@@ -163,13 +152,12 @@ namespace AgateLib.Utility
             return true;
         }
 
-        public ISearchPathList PathList
+        public string SearchPath
         {
             get
             {
-                return mPathList;
+                return mPath;
             }
-  
         }
 
         /// <summary>
@@ -180,10 +168,7 @@ namespace AgateLib.Utility
         {
             List<string> files = new List<string>();
 
-            foreach (string dir in PathList)
-            {
-                files.AddRange(Directory.GetFiles(dir));
-            }
+            files.AddRange(Directory.GetFiles(mPath));
 
             return files;
         }
@@ -196,19 +181,9 @@ namespace AgateLib.Utility
         {
             List<string> files = new List<string>();
 
-            foreach (string dir in PathList)
-            {
-                files.AddRange(Directory.GetFiles(dir, searchPattern));
-            }
+            files.AddRange(Directory.GetFiles(mPath, searchPattern));
 
             return files;
         }
-
-
-        public void AddPath(string path)
-        {
-            PathList.Add(path);
-        }
-
     }
 }

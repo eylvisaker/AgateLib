@@ -32,9 +32,9 @@ namespace AgateLib.Utility
     [Obsolete("Use AgateFileProvider instead.")]
     public class SearchPath : ICollection<string>, IList<string>
     {
-        IFileProvider mProvider;
+        FileProviderList mProvider;
 
-        internal SearchPath(IFileProvider provider)
+        internal SearchPath(FileProviderList provider)
         {
             mProvider = provider;
         }
@@ -130,7 +130,7 @@ namespace AgateLib.Utility
         /// <returns></returns>
         public override string ToString()
         {
-            return mProvider.PathList.ToString();
+            return mProvider.ToString();
         }
         #region --- ICollection<string> Members ---
         /// <summary>
@@ -146,7 +146,7 @@ namespace AgateLib.Utility
         /// </summary>
         public void Clear()
         {
-            mProvider.PathList.Clear();
+            mProvider.Clear();
         }
         /// <summary>
         /// Checks to see if the given path is already in the list.
@@ -155,7 +155,18 @@ namespace AgateLib.Utility
         /// <returns></returns>
         public bool Contains(string item)
         {
-            return mProvider.PathList.Contains(Path.GetFullPath(item));
+            foreach (IFileProvider provider in mProvider)
+            {
+                FileSystemProvider f = provider as FileSystemProvider;
+
+                if (f == null)
+                    continue;
+
+                if (f.SearchPath == item)
+                    return true;
+            }
+
+            return false;
         }
         /// <summary>
         /// Copies the list of paths to an array.
@@ -164,14 +175,14 @@ namespace AgateLib.Utility
         /// <param name="arrayIndex"></param>
         public void CopyTo(string[] array, int arrayIndex)
         {
-            mProvider.PathList.CopyTo(array, arrayIndex);
+            throw new NotImplementedException();
         }
         /// <summary>
         /// Gets how many search paths are listed here.
         /// </summary>
         public int Count
         {
-            get { return mProvider.PathList.Count; }
+            get { return mProvider.Count; }
         }
 
         bool ICollection<string>.IsReadOnly
@@ -185,7 +196,7 @@ namespace AgateLib.Utility
         /// <returns></returns>
         public bool Remove(string item)
         {
-            return mProvider.PathList.Remove(Path.GetFullPath(item));
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -193,17 +204,17 @@ namespace AgateLib.Utility
 
         int IList<string>.IndexOf(string item)
         {
-            return mProvider.PathList.IndexOf(Path.GetFullPath(item));
+            throw new NotImplementedException();
         }
 
         void IList<string>.Insert(int index, string item)
         {
-            mProvider.PathList.Insert(index, Path.GetFullPath(item));
+            mProvider.Insert(index, new FileSystemProvider(item));
         }
 
         void IList<string>.RemoveAt(int index)
         {
-            mProvider.PathList.RemoveAt(index);
+            mProvider.RemoveAt(index);
         }
         /// <summary>
         /// Returns a search path at a given index.
@@ -214,11 +225,11 @@ namespace AgateLib.Utility
         {
             get
             {
-                return mProvider.PathList[index];
+                throw new NotImplementedException();
             }
             set
             {
-                mProvider.PathList[index] = Path.GetFullPath(value);
+                throw new NotImplementedException();
             }
         }
 
@@ -232,7 +243,7 @@ namespace AgateLib.Utility
         /// <returns></returns>
         public IEnumerator<string> GetEnumerator()
         {
-            return mProvider.PathList.GetEnumerator();
+            throw new NotImplementedException();
         }
 
         #endregion

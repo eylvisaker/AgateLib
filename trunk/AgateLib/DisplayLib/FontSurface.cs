@@ -393,7 +393,7 @@ namespace AgateLib.DisplayLib
         //{
         //    FontMetrics metrics = new FontMetrics();
 
-        //    using (System.IO.Stream s = Utility.AgateFileProvider.ResourceProvider.OpenRead(glyphDefsFile))
+        //    using (System.IO.Stream s = Utility.AgateFileProvider.Resources.OpenRead(glyphDefsFile))
         //    {
         //        metrics.Load(s);
         //    }

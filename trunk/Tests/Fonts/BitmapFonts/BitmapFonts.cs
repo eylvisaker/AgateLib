@@ -24,8 +24,8 @@ namespace BitmapFontTester
         {
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
-			AgateLib.Utility.AgateFileProvider.AssemblyProvider.AddPath("../Drivers");
-			AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath("../../../Tests/TestImages");
+			AgateFileProvider.Assemblies.AddPath("../Drivers");
+			AgateFileProvider.Images.AddPath("../../../Tests/TestImages");
             
 			using (AgateSetup setup = new AgateSetup())
             {
@@ -51,10 +51,11 @@ namespace BitmapFontTester
                     return;
                 }
 
-                font.Save("testfont.xml");
+                // TODO: Fix this
+                //font.Save("testfont.xml");
 
 
-				FontSurface second = FontSurface.LoadBitmapFont("testfont.png", "testfont.xml");
+				//FontSurface second = FontSurface.LoadBitmapFont("testfont.png", "testfont.xml");
 
                 while (wind.IsClosed == false)
                 {
@@ -63,7 +64,7 @@ namespace BitmapFontTester
 
                     font.DrawText("The quick brown fox jumps over the lazy dog.");
 
-                    second.DrawText(0, font.StringDisplayHeight("M"), "The quick brown fox jumps over the lazy dog.");
+                    //second.DrawText(0, font.StringDisplayHeight("M"), "The quick brown fox jumps over the lazy dog.");
 
                     Display.EndFrame();
                     Core.KeepAlive();

@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using AgateLib.Utility;
 
-namespace AgateLib.Utility
+namespace AgateLib
 {
     public static class AgateFileProvider
     {
-        static IFileProvider mAssemblyProvider;
-        static IFileProvider mImageProvider = new FileSystemProvider(".");
-        static IFileProvider mSoundProvider = new FileSystemProvider(".");
-        static IFileProvider mMusicProvider = new FileSystemProvider(".");
-        static IFileProvider mResourceProvider = new FileSystemProvider(".");
+        static FileProviderList mAssemblyProvider = new FileProviderList();
+        static FileProviderList mImageProvider = new FileProviderList();
+        static FileProviderList mSoundProvider = new FileProviderList();
+        static FileProviderList mMusicProvider = new FileProviderList();
+        static FileProviderList mResourceProvider = new FileProviderList();
 
         static AgateFileProvider()
 		{
@@ -22,7 +23,11 @@ namespace AgateLib.Utility
         {
             string location = System.Reflection.Assembly.GetEntryAssembly().Location;
 
-            mAssemblyProvider = new FileSystemProvider(Path.GetDirectoryName(location));
+            mAssemblyProvider.Add(new FileSystemProvider(Path.GetDirectoryName(location)));
+            mImageProvider.Add(new FileSystemProvider("."));
+            mSoundProvider.Add(new FileSystemProvider("."));
+            mMusicProvider.Add(new FileSystemProvider("."));
+            mResourceProvider.Add(new FileSystemProvider("."));
         }
 
         /// <summary>
@@ -30,30 +35,25 @@ namespace AgateLib.Utility
         /// because it will cause assemblies to be loaded in the "LoadFrom" context.  Instead, place
         /// driver assemblies in the same directory as the application.
         /// </summary>
-        public static IFileProvider AssemblyProvider
+        public static FileProviderList Assemblies
         {
             get { return mAssemblyProvider; }
-            set { mAssemblyProvider = value; }
         }
-        public static IFileProvider ImageProvider
+        public static FileProviderList Images
         {
             get { return mImageProvider; }
-            set { mImageProvider = value; }
         }
-        public static IFileProvider SoundProvider
+        public static FileProviderList Sounds
         {
             get { return mSoundProvider; }
-            set { mSoundProvider = value; }
         }
-        public static IFileProvider MusicProvider
+        public static FileProviderList Music
         {
             get { return mMusicProvider; }
-            set { mMusicProvider = value; }
         }
-        public static IFileProvider ResourceProvider
+        public static FileProviderList Resources
         {
             get { return mResourceProvider; }
-            set { mResourceProvider = value; }
         }
     }
 }

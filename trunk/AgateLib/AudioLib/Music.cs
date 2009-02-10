@@ -48,7 +48,7 @@ namespace AgateLib.AudioLib
         public Music(string filename)
             : this()
         {
-            using (System.IO.Stream s = AgateFileProvider.MusicProvider.OpenRead(filename))
+            using (System.IO.Stream s = AgateFileProvider.Music.OpenRead(filename))
             {
                 impl = Audio.Impl.CreateMusic(s);
             }
