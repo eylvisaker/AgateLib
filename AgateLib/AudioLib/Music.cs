@@ -62,7 +62,7 @@ namespace AgateLib.AudioLib
         public Music(Stream source) 
             : this()
         {
-            Audio.Impl.CreateMusic(source);
+            impl = Audio.Impl.CreateMusic(source);
         }
 
         /// <summary>
