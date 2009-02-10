@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 using AgateLib.AudioLib;
@@ -218,6 +219,7 @@ namespace AgateLib
         /// asking the user what driver to use, or if initialization failed.
         /// </summary>
         [Obsolete("Use the WasCanceled property instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool Cancel
         {
             get { return mWasCanceled; }

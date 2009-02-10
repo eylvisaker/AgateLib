@@ -44,6 +44,7 @@
     <?include file="Projects/Tests/Fonts/Fonts.proj.xml" ?>
     <?include file="Projects/Tests/Input/InputState.proj.xml" ?>
     <?include file="Projects/Tests/Input/Input.proj.xml" ?>
+    <?include file="Projects/Tests/Core/TgzProvider.proj.xml" ?>
 
   </Solution>
 
