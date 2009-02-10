@@ -21,8 +21,8 @@ namespace SpriteTester
 			
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
-			AgateLib.Utility.AgateFileProvider.AssemblyProvider.AddPath("../Drivers");
-			AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath("../../../Tests/TestImages");
+			AgateFileProvider.Assemblies.AddPath("../Drivers");
+			AgateFileProvider.Images.AddPath("../../../Tests/TestImages");
 
             frmSpriteTester form = new frmSpriteTester();
 

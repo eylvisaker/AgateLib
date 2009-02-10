@@ -30,10 +30,10 @@ namespace AgateLib.Utility
     {
         private static string mPathChars = "/";
 
-		private static SearchPath mAssemblyPath = new SearchPath(AgateFileProvider.AssemblyProvider);
-        private static SearchPath mImagePath = new SearchPath(AgateFileProvider.ImageProvider);
-        private static SearchPath mAudioPath = new SearchPath(AgateFileProvider.SoundProvider);
-        private static SearchPath mResourcePath = new SearchPath(AgateFileProvider.ResourceProvider);
+		private static SearchPath mAssemblyPath = new SearchPath(AgateFileProvider.Assemblies);
+        private static SearchPath mImagePath = new SearchPath(AgateFileProvider.Images);
+        private static SearchPath mAudioPath = new SearchPath(AgateFileProvider.Sounds);
+        private static SearchPath mResourcePath = new SearchPath(AgateFileProvider.Resources);
 
         private static bool mBufferStreams = true;
         private static int mBufferSize = 1000;

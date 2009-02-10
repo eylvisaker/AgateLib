@@ -24,7 +24,7 @@ has been developed in AgateOTK, providing an audio driver for Linux which does n
 
 Added AgateLib.Serialization namespace with two custom serializers that produce XML output.
 
-A new resource system has been developed to replace the old one.  Also, the AgateLib.Utility.AgateFileProvider 
+A new resource system has been developed to replace the old one.  Also, the AgateFileProvider 
 class has been added to replace the FileManager class.  AgateFileProvider gives a better abstracted means 
 of openning files, so that the the means of getting streams from files can be replaced.  This is relevant
 for developers who wish to use the new resource system and store all media in archive files.  A GUI resouce 

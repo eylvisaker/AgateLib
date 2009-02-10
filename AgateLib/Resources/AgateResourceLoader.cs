@@ -38,7 +38,7 @@ namespace AgateLib.Resources
         /// <returns></returns>
         public static AgateResourceCollection LoadResources(string filename)
         {
-            using (System.IO.Stream s = AgateFileProvider.ResourceProvider.OpenRead(filename))
+            using (System.IO.Stream s = AgateFileProvider.Resources.OpenRead(filename))
             {
                 return LoadResources(s);
             }

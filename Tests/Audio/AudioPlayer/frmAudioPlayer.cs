@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using AgateLib;
 
 namespace AudioTester
 {
@@ -148,11 +149,11 @@ namespace AudioTester
             {
                 Directory.SetCurrentDirectory(textBox1.Text);
 
-                AgateLib.Utility.AgateFileProvider.MusicProvider.PathList.Clear();
-                AgateLib.Utility.AgateFileProvider.SoundProvider.PathList.Clear();
+                //AgateFileProvider.Music.Clear();
+                //AgateFileProvider.Sounds.Clear();
 
-                AgateLib.Utility.AgateFileProvider.MusicProvider.AddPath(".");
-                AgateLib.Utility.AgateFileProvider.SoundProvider.AddPath(".");
+                //AgateFileProvider.Music.AddPath(".");
+                //AgateFileProvider.Sounds.AddPath(".");
 
                 FillMusicListBox();
             }

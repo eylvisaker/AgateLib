@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using AgateLib;
 
 namespace ErrorReportTester
 {
@@ -16,8 +17,8 @@ namespace ErrorReportTester
 
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
-			AgateLib.Utility.AgateFileProvider.AssemblyProvider.AddPath("../Drivers");
-			AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath("../../../Tests/TestImages");
+			AgateFileProvider.Assemblies.AddPath("../Drivers");
+			AgateFileProvider.Images.AddPath("../../../Tests/TestImages");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

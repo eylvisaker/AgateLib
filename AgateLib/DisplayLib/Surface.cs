@@ -93,7 +93,7 @@ namespace AgateLib.DisplayLib
             Resources.AgateResource res = resources[name];
             Resources.SurfaceResource surf = res as Resources.SurfaceResource;
 
-            using (System.IO.Stream s = AgateFileProvider.ImageProvider.OpenRead(surf.Filename))
+            using (System.IO.Stream s = AgateFileProvider.Images.OpenRead(surf.Filename))
             {
                 impl = Display.Impl.CreateSurface(s);
             }
@@ -110,7 +110,7 @@ namespace AgateLib.DisplayLib
             if (Display.Impl == null)
                 throw new AgateException("AgateLib's display system has not been initialized.");
 
-            using (System.IO.Stream s = AgateFileProvider.ImageProvider.OpenRead(filename))
+            using (System.IO.Stream s = AgateFileProvider.Images.OpenRead(filename))
             {
                 impl = Display.Impl.CreateSurface(s);
             }
