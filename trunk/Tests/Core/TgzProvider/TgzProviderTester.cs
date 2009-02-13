@@ -39,13 +39,17 @@ namespace TgzProviderTester
                     "TgzFileProvider Tester", 800, 600, null, false));
 
                 Surface surf = new Surface("dogs.png");
+                Surface surf2 = new Surface("bigpaddle.png");
+
                 PixelBuffer pix = surf.ReadPixels();
 
                 while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();
                     Display.Clear(Color.Blue);
+                    
                     surf.Draw();
+                    surf2.Draw(10, 490);
 
                     Display.EndFrame();
                     Core.KeepAlive();
