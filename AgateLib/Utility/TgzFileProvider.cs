@@ -193,15 +193,6 @@ namespace AgateLib.Utility
             }
         }
 
-        public Stream ReadFile(string filename)
-        {
-
-
-            throw new FileNotFoundException("The specified file did not exist in the tar file.", filename);
-        }
-
-
-
         public Stream OpenRead(string filename)
         {
             for (int i = 0; i < mFiles.Count; i++)
@@ -209,7 +200,8 @@ namespace AgateLib.Utility
                 if (mFiles[i].filename != filename)
                     continue;
 
-                Stream tarStream = new GZipStream(inFile, CompressionMode.Decompress);
+                inFile.Seek(0, SeekOrigin.Begin);
+                Stream tarStream = new GZipStream(inFile, CompressionMode.Decompress, true);
                 BinaryReader reader = new BinaryReader(tarStream);
 
                 SeekForward(reader, 512 * mFiles[i].fileStart);
@@ -217,8 +209,6 @@ namespace AgateLib.Utility
                 MemoryStream st = new MemoryStream(mFiles[i].size);
                 BinaryWriter writer = new BinaryWriter(st);
                 writer.Write(reader.ReadBytes(mFiles[i].size), 0, mFiles[i].size);
-
-                st.Seek(0, SeekOrigin.Begin);
 
                 return st;
             }
