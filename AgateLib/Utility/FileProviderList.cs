@@ -5,10 +5,21 @@ using System.IO;
 
 namespace AgateLib.Utility
 {
-    public class FileProviderList : IList<IFileProvider>
+    /// <summary>
+    /// Contains a list of IFileProvider objects that are used to search for
+    /// and open files.
+    /// </summary>
+    public class FileProviderList : IList<IFileProvider>, IFileProvider 
     {
         List<IFileProvider> mProviders = new List<IFileProvider>();
 
+        /// <summary>
+        /// Opens a specified file by searching backwards through the list of 
+        /// providers until a matching filename is found.  A FileNotFoundException
+        /// is thrown if the file does not exist.
+        /// </summary>
+        /// <param name="filename">The filename to search for.</param>
+        /// <returns></returns>
         public Stream OpenRead(string filename)
         {
             for (int i = mProviders.Count - 1; i >= 0; i--)
@@ -22,6 +33,12 @@ namespace AgateLib.Utility
             throw new FileNotFoundException("Could not find the file.", filename);
         }
 
+        /// <summary>
+        /// Returns all filenames matching the specified filter in 
+        /// all file providers.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public IEnumerable<string> GetAllFiles(string filter)
         {
             for (int i = mProviders.Count - 1; i >= 0; i--)
@@ -30,7 +47,11 @@ namespace AgateLib.Utility
                     yield return files;
             }
         }
-        internal IEnumerable<string> GetAllFiles()
+        /// <summary>
+        /// Returns all filenames in all file providers.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<string> GetAllFiles()
         {
             for (int i = mProviders.Count - 1; i >= 0; i--)
             {
@@ -39,6 +60,11 @@ namespace AgateLib.Utility
             }
         }
 
+        /// <summary>
+        /// Returns true if the specified file exists in a file provider.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public bool FileExists(string filename)
         {
             for (int i = mProviders.Count - 1; i >= 0; i--)
@@ -67,6 +93,11 @@ namespace AgateLib.Utility
 
         public void Insert(int index, IFileProvider item)
         {
+            if (item is FileProviderList)
+            {
+                if (item == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
+            }
+            
             mProviders.Insert(index, item);
         }
 
@@ -83,6 +114,11 @@ namespace AgateLib.Utility
             }
             set
             {
+                if (value is FileProviderList)
+                {
+                    if (value == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
+                }
+            
                 mProviders[index] = value;
             }
         }
@@ -92,6 +128,10 @@ namespace AgateLib.Utility
 
         public void Add(IFileProvider item)
         {
+            if (item is FileProviderList)
+            {
+                if (item == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
+            }
             mProviders.Add(item);
         }
 
