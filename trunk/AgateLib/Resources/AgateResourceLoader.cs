@@ -8,9 +8,11 @@ using System.Diagnostics;
 
 namespace AgateLib.Resources
 {
+    /// <summary>
+    /// Statis class which loads and saves AgateResourceCollection objects to disk.
+    /// </summary>
     public static class AgateResourceLoader
     {
-
         /// <summary>
         /// Saves the resources to a file located in the Filename property.
         /// </summary>

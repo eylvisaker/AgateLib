@@ -37,6 +37,9 @@ namespace AgateLib.Resources
         Dictionary<string, AgateResource> mStore = new Dictionary<string, AgateResource>();
         const string mStringsTableKey = "Strings";
 
+        /// <summary>
+        /// Constructs a new AgateResourceCollection object.
+        /// </summary>
         public AgateResourceCollection()
         {
             this.mStore.Add(mStringsTableKey, new StringTable());
@@ -98,7 +101,7 @@ namespace AgateLib.Resources
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="resourceName"></param>
         /// <returns></returns>
         public bool Contains(string resourceName)
         {

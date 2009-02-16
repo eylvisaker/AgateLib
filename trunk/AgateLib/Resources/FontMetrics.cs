@@ -33,6 +33,9 @@ namespace AgateLib.Resources
         Dictionary<char, GlyphMetrics> mGlyphs = new Dictionary<char, GlyphMetrics>();
         string mImage;
 
+        /// <summary>
+        /// Constructs an empty font metrics object.
+        /// </summary>
         public FontMetrics() : base(string.Empty)
         { }
         internal FontMetrics(XmlNode node, string version)
