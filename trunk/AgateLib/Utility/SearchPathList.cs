@@ -29,6 +29,7 @@ namespace AgateLib.Utility
     /// item and retrieve it and have it be the same thing.
     /// <code></code>
     /// </summary>
+    [Obsolete]
     public sealed class SearchPathList : ISearchPathList
     {
         List<string> mSearchPaths = new List<string>();
