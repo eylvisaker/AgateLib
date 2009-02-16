@@ -1,11 +1,3 @@
-/*
- * Created by SharpDevelop.
- * User: Erik
- * Date: 1/2/2009
- * Time: 4:07 PM
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,7 +9,9 @@ using System.Text.RegularExpressions;
 namespace AgateLib.Utility
 {
     /// <summary>
-    /// Description of TarDecoder.
+    /// TgzFileProvider implements IFileProvider and provides read access to gzipped
+    /// tar archives.  This provides basic support for reading files from a compressed
+    /// archive external to the application.
     /// </summary>
     public class TgzFileProvider : IFileProvider 
     {
@@ -48,6 +42,10 @@ namespace AgateLib.Utility
         string tgzFilename;
         Stream inFile;
 
+        /// <summary>
+        /// Constructs a TgzFileProvider to read from the specified archive.
+        /// </summary>
+        /// <param name="filename"></param>
         public TgzFileProvider(string filename)
         {
             tgzFilename = filename;
@@ -131,31 +129,6 @@ namespace AgateLib.Utility
             } while (!done);
         }
 
-        public static byte[] ReadAllBytesFromStream(Stream stream)
-        {
-            // Use this method is used to read all bytes from a stream.
-            int offset = 0;
-            List<byte> bytes = new List<byte>();
-            byte[] buffer = new byte[1000];
-
-            while (true)
-            {
-                int bytesRead = stream.Read(buffer, offset, buffer.Length);
-                if (bytesRead == 0)
-                {
-                    break;
-                }
-                else if (bytesRead == buffer.Length)
-                    bytes.AddRange(buffer);
-                else
-                {
-                    for (int i = 0; i < bytesRead; i++)
-                        bytes.Add(buffer[i]);
-                }
-            }
-            return bytes.ToArray();
-        }
-
         int GetInt32(BinaryReader reader, int length)
         {
             string str = GetString(reader, length);
@@ -182,17 +155,12 @@ namespace AgateLib.Utility
 
             return retval.Trim();
         }
-        public IEnumerable<string> Filenames
-        {
-            get
-            {
-                foreach (FileInfo file in mFiles)
-                {
-                    yield return file.filename;
-                }
-            }
-        }
 
+        /// <summary>
+        /// Opens the specified file in the archive for reading.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public Stream OpenRead(string filename)
         {
             for (int i = 0; i < mFiles.Count; i++)
@@ -218,6 +186,11 @@ namespace AgateLib.Utility
 
         }
 
+        /// <summary>
+        /// Returns true if the specified file exists in the archive.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public bool FileExists(string filename)
         {
             foreach (FileInfo info in mFiles)
@@ -228,7 +201,10 @@ namespace AgateLib.Utility
 
             return false;
         }
-
+        /// <summary>
+        /// Enumerates all files in the archive.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<string> GetAllFiles()
         {
             foreach (FileInfo info in mFiles)
@@ -236,7 +212,11 @@ namespace AgateLib.Utility
                 yield return info.filename;
             }
         }
-
+        /// <summary>
+        /// Enumerates all files matching the pattern.
+        /// </summary>
+        /// <param name="searchPattern"></param>
+        /// <returns></returns>
         public IEnumerable<string> GetAllFiles(string searchPattern)
         {
             Regex r = new Regex(
