@@ -5,6 +5,11 @@ using AgateLib.ImplementationBase;
 
 namespace AgateLib.Drivers
 {
+    /// <summary>
+    /// Class which describes a driver for use by AgateLib.  A class
+    /// inheriting from AgateDriverReporter should construct AgateDriverInfo
+    /// instances for each driver in a plug-in assembly.
+    /// </summary>
     [Serializable]
     public class AgateDriverInfo
     {
@@ -17,6 +22,13 @@ namespace AgateLib.Drivers
             mPriority = priority;
         }
 
+        /// <summary>
+        /// Constructs an AgateDriverInfo for a display driver.
+        /// </summary>
+        /// <param name="typeID">The DisplayTypeID member indicating what the driver uses.</param>
+        /// <param name="driverType">The System.Type object for the type inheriting from DisplayImpl.</param>
+        /// <param name="friendlyName">A friendly name to show the user when choosing a driver.</param>
+        /// <param name="priority">A integer indicating the priority of this driver over others which is used when autoselecting a driver.</param>
         public AgateDriverInfo(DisplayTypeID typeID, Type driverType, string friendlyName, int priority)
         {
             if (typeof(DisplayImpl).IsAssignableFrom(driverType) == false ||
@@ -27,6 +39,13 @@ namespace AgateLib.Drivers
 
             SetValues(DriverType.Display, driverType.FullName, friendlyName, (int)typeID, priority);
         }
+        /// <summary>
+        /// Constructs an AgateDriverInfo for an audio driver.
+        /// </summary>
+        /// <param name="typeID">The AudioTypeID member indicating what the driver uses.</param>
+        /// <param name="driverType">The System.Type object for the type inheriting from AudioImpl.</param>
+        /// <param name="friendlyName">A friendly name to show the user when choosing a driver.</param>
+        /// <param name="priority">A integer indicating the priority of this driver over others which is used when autoselecting a driver.</param>
         public AgateDriverInfo(AudioTypeID typeID, Type driverType, string friendlyName, int priority)
         {
             if (typeof(AudioImpl).IsAssignableFrom(driverType) == false ||
@@ -36,6 +55,13 @@ namespace AgateLib.Drivers
                     "The type {0} is not a concrete implementation of AudioImpl."));
             SetValues(DriverType.Audio, driverType.FullName, friendlyName, (int)typeID, priority);
         }
+        /// <summary>
+        /// Constructs an AgateDriverInfo for an input driver.
+        /// </summary>
+        /// <param name="typeID">The InputTypeID member indicating what the driver uses.</param>
+        /// <param name="driverType">The System.Type object for the type inheriting from InputImpl.</param>
+        /// <param name="friendlyName">A friendly name to show the user when choosing a driver.</param>
+        /// <param name="priority">A integer indicating the priority of this driver over others which is used when autoselecting a driver.</param>
         public AgateDriverInfo(InputTypeID typeID, Type driverType, string friendlyName, int priority)
         {
             if (typeof(InputImpl).IsAssignableFrom(driverType) == false ||
@@ -45,7 +71,13 @@ namespace AgateLib.Drivers
                     "The type {0} is not a concrete implementation of InputImpl."));
             SetValues(DriverType.Input, driverType.FullName, friendlyName, (int)typeID, priority);
         }
-
+        /// <summary>
+        /// Constructs an AgateDriverInfo for a desktop driver.
+        /// </summary>
+        /// <param name="typeID">The DesktopTypeID member indicating what the driver uses.</param>
+        /// <param name="driverType">The System.Type object for the type implementing IDesktopDriver.</param>
+        /// <param name="friendlyName">A friendly name to show the user when choosing a driver.</param>
+        /// <param name="priority">A integer indicating the priority of this driver over others which is used when autoselecting a driver.</param>
         public AgateDriverInfo(DesktopTypeID typeID, Type driverType, string friendlyName, int priority)
         {
             if (typeof(IDesktopDriver).IsAssignableFrom(driverType) == false ||

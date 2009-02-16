@@ -43,7 +43,7 @@ namespace AgateLib.ImplementationBase
         /// <summary>
         /// Creates a MusicImpl object.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="musicStream"></param>
         /// <returns></returns>
         public abstract MusicImpl CreateMusic(Stream musicStream);
         /// <summary>
@@ -55,7 +55,7 @@ namespace AgateLib.ImplementationBase
         /// <summary>
         /// Creates a SoundBufferImpl object.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="inStream"></param>
         /// <returns></returns>
         public abstract SoundBufferImpl CreateSoundBuffer(Stream inStream);
 
