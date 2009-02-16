@@ -58,7 +58,7 @@ namespace AgateLib.Sprites
         /// The given file is loaded automatically, and frames are cut out from it
         /// of the specified size.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="surfaceFilename"></param>
         /// <param name="size"></param>
         public NewSprite(string surfaceFilename, Size size)
             : this(new Surface(surfaceFilename), true, size)

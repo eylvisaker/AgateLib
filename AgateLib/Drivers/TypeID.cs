@@ -46,7 +46,7 @@ namespace AgateLib.Drivers
         /// The reference driver is implemented using System.Drawing.  This is useful for
         /// debugging the development of a new driver, as it should behave exactly like the
         /// reference driver (but hopefully be much faster).
-        /// </summary,
+        /// </summary>
         Reference = 1,
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace AgateLib.Drivers
         Silent = -0x100,
 
         /// <summary>
-        /// A DirectSound implementation.
+        /// A DirectInput implementation.
         /// </summary>
         DirectInput = 0x100,
         /// <summary>
@@ -148,9 +148,16 @@ namespace AgateLib.Drivers
         SDL = 0x300,
     }
 
+    /// <summary>
+    /// List of identifiers for known or planned desktop drivers.
+    /// </summary>
     public enum DesktopTypeID
     {
-        WinForms = 0,
+        /// <summary>
+        /// Desktop driver which uses System.Windows.Forms to interact
+        /// with the user.
+        /// </summary>
+        WinForms = 0x100,
     }
 
 }

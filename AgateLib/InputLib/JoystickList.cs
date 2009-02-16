@@ -6,6 +6,10 @@ using AgateLib.Drivers;
 
 namespace AgateLib.InputLib
 {
+    /// <summary>
+    /// Static class which contains a list of the joystick input devices attached
+    /// to the computer.
+    /// </summary>
     public static class JoystickList 
     {
         static InputImpl impl;
