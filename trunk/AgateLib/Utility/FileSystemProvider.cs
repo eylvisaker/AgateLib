@@ -13,11 +13,20 @@ namespace AgateLib.Utility
     {
         string mPath;
 
+        /// <summary>
+        /// Constructs a FileSystemProvider object directing it to read files from the
+        /// specified path.
+        /// </summary>
+        /// <param name="path"></param>
         public FileSystemProvider(string path)
         {
             mPath = path;
         }
-
+        /// <summary>
+        /// Opens a file.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public Stream OpenRead(string filename)
         {
             string resolvedName = FindFileName(filename);
@@ -27,7 +36,11 @@ namespace AgateLib.Utility
 
             return File.OpenRead(FindFileName(filename));
         }
-
+        /// <summary>
+        /// Returns true if the specified file exists.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public bool FileExists(string filename)
         {
             if (FindFileName(filename) != null)
