@@ -6,6 +6,11 @@ using AgateLib.Utility;
 
 namespace AgateLib
 {
+    /// <summary>
+    /// Provides an interface for opening files.  Objects implementing IFileProvider can
+    /// be added to separate lists for images, sounds, etc. which are used to find files
+    /// when Surfaces, SoundBuffers, etc. are constructed.
+    /// </summary>
     public static class AgateFileProvider
     {
         static FileProviderList mAssemblyProvider = new FileProviderList();
@@ -39,18 +44,30 @@ namespace AgateLib
         {
             get { return mAssemblyProvider; }
         }
+        /// <summary>
+        /// A list of the default file providers for opening images when a Surface is constructed.
+        /// </summary>
         public static FileProviderList Images
         {
             get { return mImageProvider; }
         }
+        /// <summary>
+        /// A list of the default file providers for opening sounds when a SoundBuffer is constructed.
+        /// </summary>
         public static FileProviderList Sounds
         {
             get { return mSoundProvider; }
         }
+        /// <summary>
+        /// A list of the default file providers for opening sounds when a Music object is constructed.
+        /// </summary>
         public static FileProviderList Music
         {
             get { return mMusicProvider; }
         }
+        /// <summary>
+        /// A list of the default file providers for opening resources.
+        /// </summary>
         public static FileProviderList Resources
         {
             get { return mResourceProvider; }
