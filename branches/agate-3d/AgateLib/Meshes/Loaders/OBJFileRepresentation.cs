@@ -1,9 +1,4 @@
-﻿// TODO: figure out if the v/vt/vn references in the faces are relative or absolute.
-//       hopefully absolute, if they're relative we're going to have to deal with the grouping stuff :)
-// 
-// TODO: Need to find out how Erik has his exception handling set up so we can not stray outside of it so badly.
-
-using System;
+﻿using System;
 using System.IO;
 using System.Collections.Generic;
 
@@ -15,6 +10,8 @@ namespace AgateLib.Meshes.Loaders
     /// </summary>
     internal class OBJFileRepresentation
     {
+        private List<List<object>> mFileRepresentation;
+
         /// <summary>
         /// Construct the .obj representation from a Stream
         /// </summary>
@@ -34,6 +31,8 @@ namespace AgateLib.Meshes.Loaders
 
         private void extractionDriver(StreamReader sr)
         {
+            List<List<object>> fileRepresentation = new List<List<object>>();
+
             String line = sr.ReadLine();
 
             while (line != null)
@@ -45,29 +44,30 @@ namespace AgateLib.Meshes.Loaders
                 String type = tokens[0];
                 tokens.RemoveAt(0);
 
-                // TODO: decide how the representation with the outside world is going to happen and "make it so".
-                //       for now we'll satisfy ourselves with parsing stuff and throwing the results away
-                //
+                List<object> currLine = null;
+
                 switch (type)
                 {
                     case "v":
-                        extractGeometricVertex(tokens);
+                        currLine = extractGeometricVertex(tokens);
                         break;
                     case "vn":
-                        extractVertexNormal(tokens);
+                        currLine = extractVertexNormal(tokens);
                         break;
                     case "vt":
-                        extractTextureVertex(tokens);
+                        currLine = extractTextureVertex(tokens);
                         break;
                     case "f":
-                        extractFace(tokens);
+                        currLine = extractFace(tokens);
                         break;
                     default:
                         break;
                 }
+                fileRepresentation.Add(currLine);
 
                 line = sr.ReadLine();
             }
+            this.mFileRepresentation = fileRepresentation;
         }
 
         private List<String> tokenizeLine(String line)
@@ -84,7 +84,7 @@ namespace AgateLib.Meshes.Loaders
         // Geometric Vertex input must be in the form x,y,z[,w]
         // [w] = 1.0 by default
         //
-        private float[] extractGeometricVertex(List<String> tokens)
+        private List<object> extractGeometricVertex(List<String> tokens)
         {
             if (tokens.Count != 3 && tokens.Count != 4)
                 throw new AgateException("Incorrect Format.");
@@ -104,14 +104,25 @@ namespace AgateLib.Meshes.Loaders
             if (!xP || !yP || !zP || !wP)
                 throw new AgateException("Incorrect Format.");
 
-            return values;
+            return arrayToObjectList(values);
+        }
+
+        // I miss you LINQ!
+        //
+        private List<object> arrayToObjectList(object obj)
+        {
+            Array arr = (Array)obj;
+            List<object> retList = new List<object>();
+            foreach ( object val in arr)
+                retList.Add(val);
+            return retList;
         }
 
 
         // Texture Vertex input must be in the form u,v[,w]
         // [w] = 0.0 by default
         //
-        private float[] extractTextureVertex(List<String> tokens)
+        private List<object> extractTextureVertex(List<String> tokens)
         {
             if (tokens.Count != 2 && tokens.Count != 3)
                 throw new AgateException("Incorrect Format.");
@@ -130,12 +141,12 @@ namespace AgateLib.Meshes.Loaders
             if (!uP || !vP || !wP)
                 throw new AgateException("Incorrect Format.");
 
-            return values;
+            return arrayToObjectList(values);
         }
 
         // Vertex Normal input must be in the form i,j,k
         //
-        private float[] extractVertexNormal(List<String> tokens)
+        private List<object> extractVertexNormal(List<String> tokens)
         {
             if (tokens.Count != 2 && tokens.Count != 3)
                 throw new AgateException("Incorrect Format.");
@@ -149,19 +160,19 @@ namespace AgateLib.Meshes.Loaders
             if (!iP || !jP || !kP)
                 throw new AgateException("Incorrect Format.");
 
-            return values;
+            return arrayToObjectList(values);
         }
 
         // Face input must be in the form a/b/c d/e/f ....
         // or a//b d//f ...
         // etc.
         //
-        private List<short[]> extractFace(List<String> tokens)
+        private List<object> extractFace(List<String> tokens)
         {
             if (tokens.Count == 0)
                 throw new AgateException("Incorrect Format.");
 
-            List<short[]> retList = new List<short[]>();
+            List<object> retList = new List<object>();
 
             foreach (String token in tokens)
             {
@@ -179,10 +190,21 @@ namespace AgateLib.Meshes.Loaders
                 if (!f1P || !f2P || !f3P)
                     throw new AgateException("Incorrect Format.");
 
-                retList.Add(faceTokens);
+                retList.Add(arrayToObjectList(faceTokens));
             }
 
             return retList;
+        }
+
+
+        // each token is a different group name.  If no name exists, the
+        // default name is 'default'
+        //
+        private List<object> extractGroup(List<String> tokens)
+        {
+            if (tokens.Count == 0)
+                tokens.Add("default");
+            return arrayToObjectList(tokens);
         }
 
         private String[] tokenizeFaceToken(String token)
