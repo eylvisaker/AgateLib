@@ -38,6 +38,11 @@ namespace AgateLib
             : base(info, context) { }
     }
 
+    /// <summary>
+    /// Exception which is thrown when AgateLib detects that it is used in a way that
+    /// may not be portable to different platforms, 
+    /// and Core.CrossPlatformDebugLevel is set to Exception.
+    /// </summary>
     [global::System.Serializable]
     public class AgateCrossPlatformException : AgateException
     {
@@ -48,8 +53,17 @@ namespace AgateLib
         //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
         //
 
+        /// <summary>
+        /// Constructs a new AgateCrossPlatformException object.
+        /// </summary>
         public AgateCrossPlatformException() { }
+        /// <summary>
+        /// Constructs a new AgateCrossPlatformException object.
+        /// </summary>
         public AgateCrossPlatformException(string message) : base(message) { }
+        /// <summary>
+        /// Constructs a new AgateCrossPlatformException object.
+        /// </summary>
         public AgateCrossPlatformException(string message, Exception inner) : base(message, inner) { }
         protected AgateCrossPlatformException(
           System.Runtime.Serialization.SerializationInfo info,
