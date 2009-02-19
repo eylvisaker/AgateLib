@@ -43,7 +43,10 @@ namespace ERY.AgateLib.SystemDrawing
         {
             mDisplay = Display.Impl as Drawing_Display;
 
-            mImage = (Bitmap)Image.FromFile(fileName);
+            using (System.IO.Stream source = System.IO.File.OpenRead(fileName))
+            {
+                mImage = (Bitmap)Image.FromStream(source);
+            }
 
             System.Diagnostics.Debug.Assert(mImage != null);
         }

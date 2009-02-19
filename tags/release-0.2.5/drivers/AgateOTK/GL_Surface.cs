@@ -18,9 +18,6 @@ namespace ERY.AgateLib.OpenGL
 {
     public sealed class GL_Surface : SurfaceImpl, GL_IRenderTarget
     {
- 
-
-
         GL_Display mDisplay;
         GLState mState;
 
@@ -481,58 +478,58 @@ namespace ERY.AgateLib.OpenGL
 
         #endregion
 
-
         private void Load()
         {
             if (mFilename == "")
                 return;
 
-            
-            // Load The Bitmap
-            Drawing.Bitmap sourceImage = new Drawing.Bitmap(mFilename);
+            using (System.IO.Stream source = System.IO.File.OpenRead(mFilename))
+            {
+                // Load The Bitmap
+                Drawing.Bitmap sourceImage = new Drawing.Bitmap(source);
 
-            mSourceRect.Size = new Size(sourceImage.Size);
+                mSourceRect.Size = new Size(sourceImage.Size);
 
-            Size newSize = GetOGLSize(sourceImage);
+                Size newSize = GetOGLSize(sourceImage);
 
-            // create a new bitmap of the size OpenGL expects, and copy the source image to it.
-            Drawing.Bitmap textureImage = new Drawing.Bitmap(newSize.Width, newSize.Height);
-            Drawing.Graphics g = Drawing.Graphics.FromImage(textureImage);
+                // create a new bitmap of the size OpenGL expects, and copy the source image to it.
+                Drawing.Bitmap textureImage = new Drawing.Bitmap(newSize.Width, newSize.Height);
+                Drawing.Graphics g = Drawing.Graphics.FromImage(textureImage);
 
-            g.Transform = new System.Drawing.Drawing2D.Matrix();
-            g.Clear(Drawing.Color.FromArgb(0, 0, 0, 0));
-            g.DrawImage(sourceImage, new Drawing.Rectangle(new Drawing.Point(0, 0), sourceImage.Size));
-            g.Dispose();
+                g.Transform = new System.Drawing.Drawing2D.Matrix();
+                g.Clear(Drawing.Color.FromArgb(0, 0, 0, 0));
+                g.DrawImage(sourceImage, new Drawing.Rectangle(new Drawing.Point(0, 0), sourceImage.Size));
+                g.Dispose();
 
-            mTextureSize = new Size(textureImage.Size);
+                mTextureSize = new Size(textureImage.Size);
 
-            //textureImage.Save(@"temp.bmp", ImageFormat.Bmp);
+                //textureImage.Save(@"temp.bmp", ImageFormat.Bmp);
 
-            mTexCoord = GetTextureCoords(mSourceRect);
+                mTexCoord = GetTextureCoords(mSourceRect);
 
 
-            // Rectangle For Locking The Bitmap In Memory
-            Rectangle rectangle = new Rectangle(0, 0, textureImage.Width, textureImage.Height);
+                // Rectangle For Locking The Bitmap In Memory
+                Rectangle rectangle = new Rectangle(0, 0, textureImage.Width, textureImage.Height);
 
-            // Get The Bitmap's Pixel Data From The Locked Bitmap
-            BitmapData bitmapData = textureImage.LockBits((Drawing.Rectangle)rectangle,
-                ImageLockMode.ReadOnly, Drawing.Imaging.PixelFormat.Format32bppArgb);
+                // Get The Bitmap's Pixel Data From The Locked Bitmap
+                BitmapData bitmapData = textureImage.LockBits((Drawing.Rectangle)rectangle,
+                    ImageLockMode.ReadOnly, Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            // use a pixelbuffer to do format conversion.
-            PixelBuffer buffer = new PixelBuffer(PixelFormat.RGBA8888, mTextureSize, 
-                bitmapData.Scan0, PixelFormat.BGRA8888, bitmapData.Stride);
-            
-            // Create The GL Texture object
-            int[] array = new int[1];
-            Gl.GenTextures(1, array);
+                // use a pixelbuffer to do format conversion.
+                PixelBuffer buffer = new PixelBuffer(PixelFormat.RGBA8888, mTextureSize,
+                    bitmapData.Scan0, PixelFormat.BGRA8888, bitmapData.Stride);
 
-            AddTextureRef(array[0]);
+                // Create The GL Texture object
+                int[] array = new int[1];
+                Gl.GenTextures(1, array);
 
-            WritePixels(buffer);
+                AddTextureRef(array[0]);
 
-            textureImage.UnlockBits(bitmapData);                     // Unlock The Pixel Data From Memory
-            textureImage.Dispose();                                  // Dispose The Bitmap
+                WritePixels(buffer);
 
+                textureImage.UnlockBits(bitmapData);                     // Unlock The Pixel Data From Memory
+                textureImage.Dispose();                                  // Dispose The Bitmap
+            }
         }
         
         private Size GetOGLSize(System.Drawing.Bitmap image)

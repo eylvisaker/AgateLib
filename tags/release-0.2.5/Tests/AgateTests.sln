@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib", "..\src\AgateLib.csproj", "{C6B3EA23-0113-4E5D-B42E-4C715A25D084}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurfaceTester", "SurfaceTester\SurfaceTester.csproj", "{7B0AB4FC-AAB2-4E53-9B2A-5E144FD634BF}"
@@ -42,6 +42,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrthoProjectionTest", "OrthoProjectionTest\OrthoProjectionTest.csproj", "{206D1DD1-92DA-4B0F-8FB8-26525F763DF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightingTest", "LightingTest\LightingTest.csproj", "{C73E4AF5-9A25-407E-BDEB-9D6DE5F58C04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurfaceClose", "SurfaceClose\SurfaceClose.csproj", "{5C574326-2E16-469D-AED7-10FA2DC9A8A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,6 +135,10 @@ Global
 		{C73E4AF5-9A25-407E-BDEB-9D6DE5F58C04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C73E4AF5-9A25-407E-BDEB-9D6DE5F58C04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C73E4AF5-9A25-407E-BDEB-9D6DE5F58C04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C574326-2E16-469D-AED7-10FA2DC9A8A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C574326-2E16-469D-AED7-10FA2DC9A8A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C574326-2E16-469D-AED7-10FA2DC9A8A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C574326-2E16-469D-AED7-10FA2DC9A8A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

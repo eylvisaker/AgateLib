@@ -164,9 +164,14 @@ namespace ERY.AgateLib.MDX
                 return;
 
             string path = mFileName;
-            Drawing.Bitmap bitmap = new Drawing.Bitmap(path);
 
-            mSrcRect = new Rectangle(Point.Empty, new Size(bitmap.Size));
+            using (System.IO.Stream source = System.IO.File.OpenRead(path))
+            {
+                using (Drawing.Bitmap bitmap = new Drawing.Bitmap(path))
+                {
+                    mSrcRect = new Rectangle(Point.Empty, new Size(bitmap.Size));
+                }
+            }
             /*
             // this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
             System.IO.MemoryStream stream = new System.IO.MemoryStream();
@@ -195,13 +200,14 @@ namespace ERY.AgateLib.MDX
                     
             }
 
-            mTexture = new Ref<Texture>(TextureLoader.FromFile(mDevice.Device, path, 0, 0, 1, Usage.None,
-                 format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
+            using (System.IO.Stream source = System.IO.File.OpenRead(path))
+            {
+                mTexture = new Ref<Texture>(TextureLoader.FromStream(mDevice.Device, source, 0, 0, 1, Usage.None,
+                     format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
+            }
 
             mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
                 mTexture.Value.GetSurfaceLevel(0).Description.Height);
-
-            bitmap.Dispose();
         }
 
         #endregion
