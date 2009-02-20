@@ -1,4 +1,4 @@
-<Project name="Resources" path="../Tests/Core/Resources" language="C#" type="WinExe">
+<Project name="Resources" path="../Tests/Core/Resources" language="C#" type="WinExe" frameworkVersion="v3_5">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
@@ -13,6 +13,7 @@
 
   <Reference name="AgateLib" localCopy="true"/>
   <Reference name="System"/>
+  <Reference name="System.Core"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>
   <Reference name="System.Windows.Forms"/>

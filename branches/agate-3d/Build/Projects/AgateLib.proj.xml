@@ -1,4 +1,4 @@
-<Project name="AgateLib" path="../AgateLib" language="C#" type="Library">
+<Project name="AgateLib" path="../AgateLib" language="C#" type="Library" frameworkVersion="v3_5">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../Binaries/Debug/AgateLib</OutputPath>
@@ -15,6 +15,7 @@
   </Configuration>
 
   <Reference name="System"/>
+  <Reference name="System.Core"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>
   <Reference name="System.Windows.Forms"/>

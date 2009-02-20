@@ -1,4 +1,4 @@
-<Project name="AgateFMOD" path="../Drivers/AgateFMOD" language="C#" type="Library">
+<Project name="AgateFMOD" path="../Drivers/AgateFMOD" language="C#" type="Library" frameworkVersion="v3_5">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../Binaries/Debug/Drivers</OutputPath>
@@ -13,6 +13,7 @@
 
   <Reference name="AgateLib"/>
   <Reference name="System"/>
+  <Reference name="System.Core"/>
   <Reference name="System.Data"/>
   <Reference name="System.Xml"/>
 

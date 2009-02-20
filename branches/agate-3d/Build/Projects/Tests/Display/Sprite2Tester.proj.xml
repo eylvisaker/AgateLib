@@ -1,4 +1,4 @@
-<Project name="Sprite2Tester" path="../Tests/Display/Sprite2Tester" language="C#" type="WinExe">
+<Project name="Sprite2Tester" path="../Tests/Display/Sprite2Tester" language="C#" type="WinExe" frameworkVersion="v3_5">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../../Binaries/Debug/Tests</OutputPath>

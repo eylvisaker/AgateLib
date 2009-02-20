@@ -1,4 +1,4 @@
-<Project name="ResourceTester" path="../Tests/Core/ResourceTester" language="C#" type="WinExe">
+<Project name="ResourceTester" path="../Tests/Core/ResourceTester" language="C#" type="WinExe" frameworkVersion="v3_5">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
@@ -14,6 +14,7 @@
   <Reference name="AgateLib"/>
   <Reference name="AgateOTK"/>
   <Reference name="System"/>
+  <Reference name="System.Core"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>
   <Reference name="System.Windows.Forms"/>
