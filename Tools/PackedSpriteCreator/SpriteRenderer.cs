@@ -17,7 +17,7 @@ namespace PackedSpriteCreator
         }
         public Color BackgroundColor { get; set; }
 
-        public void DrawSprite(IRenderTarget renderTarget, NewSprite sprite)
+        public void DrawSprite(IRenderTarget renderTarget, Sprite sprite)
         {
             if (renderTarget == null)
                 return;

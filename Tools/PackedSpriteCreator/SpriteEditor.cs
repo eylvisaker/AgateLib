@@ -17,7 +17,7 @@ namespace PackedSpriteCreator
         SpriteResource mCurrentSprite;
         SpriteRenderer drawer = new SpriteRenderer();
         AgateLib.DisplayLib.DisplayWindow wind;
-        NewSprite mAgateSprite;
+        Sprite mAgateSprite;
 
         public SpriteEditor()
         {
@@ -84,7 +84,7 @@ namespace PackedSpriteCreator
         {
             try
             {
-                UpdateSprite(new NewSprite(Resources, mCurrentSprite.Name));
+                UpdateSprite(new Sprite(Resources, mCurrentSprite.Name));
             }
             catch (Exception e)
             {
@@ -93,7 +93,7 @@ namespace PackedSpriteCreator
                     e.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void UpdateSprite(NewSprite updatedSprite)
+        private void UpdateSprite(Sprite updatedSprite)
         {
             if (mAgateSprite != null)
                 mAgateSprite.Dispose();

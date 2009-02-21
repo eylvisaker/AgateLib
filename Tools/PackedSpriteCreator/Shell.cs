@@ -220,8 +220,8 @@ namespace PackedSpriteCreator
                 Directory.SetCurrentDirectory(path);
                 WriteLine(CurrentDirectory);
 
-                AgateLib.Utility.AgateFileProvider.ImageProvider.PathList.Clear();
-                AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath(".");
+                AgateLib.AgateFileProvider.Images.Clear();
+                AgateLib.AgateFileProvider.Images.AddPath(".");
             }
             catch (DirectoryNotFoundException e)
             {
