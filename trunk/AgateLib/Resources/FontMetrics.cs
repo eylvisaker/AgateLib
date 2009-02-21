@@ -28,7 +28,7 @@ namespace AgateLib.Resources
     /// FontMetrics is a class which describes everything needed to render a font
     /// from a bitmap image.
     /// </summary>
-    public sealed class FontMetrics : AgateResource, IDictionary<char, GlyphMetrics> , ICloneable 
+    public sealed class FontMetrics : AgateResource, IDictionary<char, GlyphMetrics>, ICloneable
     {
         Dictionary<char, GlyphMetrics> mGlyphs = new Dictionary<char, GlyphMetrics>();
         string mImage;
@@ -36,7 +36,8 @@ namespace AgateLib.Resources
         /// <summary>
         /// Constructs an empty font metrics object.
         /// </summary>
-        public FontMetrics() : base(string.Empty)
+        public FontMetrics()
+            : base(string.Empty)
         { }
         internal FontMetrics(XmlNode node, string version)
             : base(string.Empty)
@@ -145,7 +146,7 @@ namespace AgateLib.Resources
         #endregion
         #region ICollection<KeyValuePair<char,GlyphMetrics>> Members
 
-        void ICollection<KeyValuePair<char,GlyphMetrics>>.Add(KeyValuePair<char, GlyphMetrics> item)
+        void ICollection<KeyValuePair<char, GlyphMetrics>>.Add(KeyValuePair<char, GlyphMetrics> item)
         {
             ((ICollection<KeyValuePair<char, GlyphMetrics>>)mGlyphs).Add(item);
         }
@@ -179,9 +180,9 @@ namespace AgateLib.Resources
             get { return false; }
         }
 
-        bool ICollection<KeyValuePair<char,GlyphMetrics>>.Remove(KeyValuePair<char, GlyphMetrics> item)
+        bool ICollection<KeyValuePair<char, GlyphMetrics>>.Remove(KeyValuePair<char, GlyphMetrics> item)
         {
-            return ((ICollection<KeyValuePair<char,GlyphMetrics>>)mGlyphs).Remove(item);
+            return ((ICollection<KeyValuePair<char, GlyphMetrics>>)mGlyphs).Remove(item);
         }
 
         #endregion
@@ -206,7 +207,7 @@ namespace AgateLib.Resources
 
         #endregion
 
-       
+
         /// <summary>
         /// Loads the font metrics object from XML.
         /// </summary>
@@ -281,7 +282,7 @@ namespace AgateLib.Resources
                 root.AppendChild(current);
             }
 
-            parent.AppendChild(root); 
+            parent.AppendChild(root);
         }
 
         private static void AddAttribute(XmlDocument doc, XmlNode current, string name, int value)
@@ -302,7 +303,6 @@ namespace AgateLib.Resources
             att.Value = ((int)value).ToString();
             current.Attributes.Append(att);
         }
-
 
         #region ICloneable Members
 
