@@ -10,7 +10,7 @@ namespace AgateLib.Resources
     public class BitmapFontResource : AgateResource 
     {
         string mImage;
-        FontMetrics mMetrics;
+        FontMetrics mMetrics = new FontMetrics();
 
         public BitmapFontResource(string name)
             : base(name)
@@ -38,7 +38,10 @@ namespace AgateLib.Resources
             foreach (XmlNode n in parent.ChildNodes)
             {
                 if (n.Name == "Metrics")
+                {
                     root = n;
+                    break;
+                }
             }
 
             if (root == null)
@@ -47,7 +50,7 @@ namespace AgateLib.Resources
 
             foreach (XmlNode node in root.ChildNodes)
             {
-                if (node.Name != "glyph")
+                if (node.Name != "Glyph")
                     throw new AgateResourceException(string.Format(
                         "Expected to find glyph node, but found {0} instead.", node.Name));
 
@@ -56,8 +59,8 @@ namespace AgateLib.Resources
                 char key = (char)int.Parse(node.Attributes["char"].Value);
                 glyph.SourceRect = Rectangle.Parse(node.Attributes["source"].Value);
 
-                glyph.LeftOverhang = XmlHelper.ReadAttributeInt(node, "leftOverhang");
-                glyph.RightOverhang = XmlHelper.ReadAttributeInt(node, "rightOverhang");
+                glyph.LeftOverhang = XmlHelper.ReadAttributeInt(node, "leftOverhang", 0);
+                glyph.RightOverhang = XmlHelper.ReadAttributeInt(node, "rightOverhang", 0);
 
                 mMetrics.Add(key, glyph);
             }
@@ -70,9 +73,11 @@ namespace AgateLib.Resources
             XmlHelper.AppendAttribute(root, doc, "name", Name);
             XmlHelper.AppendAttribute(root, doc, "image", mImage);
 
+            XmlNode metrics = doc.CreateElement("Metrics");
+
             foreach (char glyph in mMetrics.Keys)
             {
-                XmlNode current = doc.CreateElement("glyph");
+                XmlNode current = doc.CreateElement("Glyph");
                 GlyphMetrics glyphMetrics = mMetrics[glyph];
 
                 XmlHelper.AppendAttribute(current, doc, "char", glyph);
@@ -83,9 +88,10 @@ namespace AgateLib.Resources
                 if (glyphMetrics.RightOverhang != 0)
                     XmlHelper.AppendAttribute(current, doc, "rightOverhang", glyphMetrics.RightOverhang);
 
-                root.AppendChild(current);
+                metrics.AppendChild(current);
             }
 
+            root.AppendChild(metrics);
             parent.AppendChild(root);
         }
 

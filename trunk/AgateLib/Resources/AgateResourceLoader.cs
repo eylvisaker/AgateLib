@@ -121,6 +121,9 @@ namespace AgateLib.Resources
                 case "Sprite":
                     return new SpriteResource(node, version);
 
+                case "BitmapFont":
+                    return new BitmapFontResource(node, version);
+
                 default:
                     ReadError("Unrecognized node " + node.Name + ".");
                     return null;
