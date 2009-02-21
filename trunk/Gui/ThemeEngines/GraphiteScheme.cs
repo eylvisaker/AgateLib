@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Utility;
 
 namespace AgateLib.Gui.ThemeEngines.Graphite
 {
@@ -13,17 +14,20 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         {
         }
 
-        public static GraphiteScheme DefaultScheme
+        public static GraphiteScheme CreateDefaultScheme()
         {
-            get
-            {
-                GraphiteScheme retval = new GraphiteScheme();
-                retval.SetDefaults();
-                return retval;
-            }
+            GraphiteScheme retval = new GraphiteScheme();
+            
+            var stream = new System.IO.MemoryStream(Properties.Resources.agate_black_gui);
+            stream.Seek(0, System.IO.SeekOrigin.Begin);
+
+            TgzFileProvider provider = new TgzFileProvider("agate-black-gui", stream);
+            retval.SetDefaults(provider);
+
+            return retval;
         }
 
-        void SetDefaults()
+        void SetDefaults(IFileProvider files)
         {
             ControlFont = new FontSurface("Sans Serif", 8);
             TitleFont = new FontSurface("Sans Serif", 10);
@@ -33,19 +37,19 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             FontColorDisabled = Color.Gray;
             DropShadowSize = 10;
 
-            WindowNoTitle = new Surface("Images/window_no_title.png");
-            WindowWithTitle = new Surface("Images/window_client.png");
-            WindowTitleBar = new Surface("Images/window_titlebar.png");
+            WindowNoTitle = new Surface(files, "window_no_title.png");
+            WindowWithTitle = new Surface(files, "window_client.png");
+            WindowTitleBar = new Surface(files, "window_titlebar.png");
             WindowTitleBarStretchRegion = new Rectangle(6, 3, 52, 27);
             WindowNoTitleStretchRegion = new Rectangle(5, 5, 54, 54);
             WindowWithTitleStretchRegion = new Rectangle(7, 4, 50, 53);
 
-            SetButtonImages(new Surface("Images/black_button.png"), new Size(64, 32));
+            SetButtonImages(new Surface(files, "button.png"), new Size(64, 32));
             ButtonStretchRegion = new Rectangle(6, 6, 52, 20);
             ButtonTextPadding = 2;
             ButtonMargin = 1;
 
-            SetCheckBoxImages(new Surface("Images/checkbox.png"), new Size(16, 16));
+            SetCheckBoxImages(new Surface(files, "checkbox.png"), new Size(16, 16));
             CheckBoxSpacing = 5;
             CheckBoxMargin = 6;
 
@@ -53,7 +57,7 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             CloseButtonInactive = CheckBoxDisabled;
             CloseButtonHover = CheckBoxHover;
 
-            SetTextBoxImages(new Surface("Images/textbox.png"), new Size(64, 16));
+            SetTextBoxImages(new Surface(files, "textbox.png"), new Size(64, 16));
             TextBoxMargin = 2;
             TextBoxStretchRegion = new Rectangle(3, 3, 58, 10);
         }

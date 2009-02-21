@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using AgateLib;
+using AgateLib.DisplayLib;
 
 namespace AgateLib.Gui.Tester
 {
-    static class Program
+    static class GuiTesterProgram
     {
         /// <summary>
         /// The main entry point for the application.
@@ -14,10 +14,7 @@ namespace AgateLib.Gui.Tester
         [STAThread]
         static void Main()
         {
-            Utility.AgateFileProvider.AssemblyProvider.AddPath("../Drivers");
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            AgateFileProvider.Assemblies.AddPath("../Drivers");
 
             using (AgateSetup setup = new AgateSetup())
             {
@@ -26,10 +23,11 @@ namespace AgateLib.Gui.Tester
                 if (setup.WasCanceled)
                     return;
 
-                Form1 frm = new Form1();
-                
-                frm.Show();
-                frm.Run();
+                DisplayWindow wind = new DisplayWindow(CreateWindowParams.Windowed("GUI Test", 800, 600, null, true));
+
+                RenderGui renderer = new RenderGui();
+
+                renderer.Run();
             }
         }
     }

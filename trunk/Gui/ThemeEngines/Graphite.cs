@@ -13,8 +13,11 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
     public class Graphite : IGuiThemeEngine
     {
         public Graphite()
+            : this(GraphiteScheme.CreateDefaultScheme())
+        { }
+        public Graphite(GraphiteScheme scheme)
         {
-            Scheme = GraphiteScheme.DefaultScheme;
+            this.Scheme = scheme;
         }
 
         public GraphiteScheme Scheme { get; set; }
