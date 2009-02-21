@@ -18,10 +18,7 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
         {
             GraphiteScheme retval = new GraphiteScheme();
             
-            var stream = new System.IO.MemoryStream(Properties.Resources.agate_black_gui);
-            stream.Seek(0, System.IO.SeekOrigin.Begin);
-
-            TgzFileProvider provider = new TgzFileProvider("agate-black-gui", stream);
+            TgzFileProvider provider = new TgzFileProvider("agate-black-gui", Properties.Resources.agate_black_gui);
             retval.SetDefaults(provider);
 
             return retval;
