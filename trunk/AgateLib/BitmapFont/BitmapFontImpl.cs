@@ -88,6 +88,22 @@ namespace AgateLib.BitmapFont
         {
             mSurface.Dispose();
         }
+        /// <summary>
+        /// Gets the font metric information.
+        /// </summary>
+        /// <returns></returns>
+        public FontMetrics FontMetrics
+        {
+            get { return mFontMetrics; }
+        }
+        /// <summary>
+        /// Gets the surface containing the glyphs.
+        /// </summary>
+        /// <returns></returns>
+        public Surface Surface
+        {
+            get { return mSurface; }
+        }
 
         private void ExtractMonoSpaceAsciiFont(Size characterSize)
         {

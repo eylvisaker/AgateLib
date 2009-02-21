@@ -22,44 +22,28 @@ using System.Text;
 using System.Xml;
 using AgateLib.Geometry;
 
-namespace AgateLib.Resources
+namespace AgateLib.BitmapFont
 {
     /// <summary>
     /// FontMetrics is a class which describes everything needed to render a font
     /// from a bitmap image.
     /// </summary>
-    public sealed class FontMetrics : AgateResource, IDictionary<char, GlyphMetrics>, ICloneable
+    public sealed class FontMetrics : IDictionary<char, GlyphMetrics>, ICloneable
     {
         Dictionary<char, GlyphMetrics> mGlyphs = new Dictionary<char, GlyphMetrics>();
-        string mImage;
-
+       
         /// <summary>
         /// Constructs an empty font metrics object.
         /// </summary>
         public FontMetrics()
-            : base(string.Empty)
         { }
-        internal FontMetrics(XmlNode node, string version)
-            : base(string.Empty)
-        {
-            switch (version)
-            {
-                case "0.3.0":
-                    Name = node.Attributes["name"].Value;
-                    mImage = XmlHelper.ReadAttributeString(node, "image", string.Empty);
-
-                    ReadGlyphs030(node);
-
-                    break;
-            }
-        }
 
 
         /// <summary>
         /// Performs a deep copy.
         /// </summary>
         /// <returns></returns>
-        protected override AgateResource Clone()
+        public FontMetrics Clone()
         {
             FontMetrics retval = new FontMetrics();
 
@@ -261,28 +245,6 @@ namespace AgateLib.Resources
                 return 0;
 
             return int.Parse(node[p].Value);
-        }
-
-
-        internal override void BuildNodes(XmlElement parent, XmlDocument doc)
-        {
-            XmlNode root = doc.CreateElement("Font");
-
-            foreach (char glyph in mGlyphs.Keys)
-            {
-                XmlNode current = doc.CreateElement("Glyph");
-                GlyphMetrics glyphMetrics = this[glyph];
-
-                AddAttribute(doc, current, "Char", glyph);
-                AddAttribute(doc, current, "Source", glyphMetrics.SourceRect);
-
-                if (glyphMetrics.LeftOverhang != 0) AddAttribute(doc, current, "LeftOverhang", glyphMetrics.LeftOverhang);
-                if (glyphMetrics.RightOverhang != 0) AddAttribute(doc, current, "RightOverhang", glyphMetrics.RightOverhang);
-
-                root.AppendChild(current);
-            }
-
-            parent.AppendChild(root);
         }
 
         private static void AddAttribute(XmlDocument doc, XmlNode current, string name, int value)
