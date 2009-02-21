@@ -54,6 +54,17 @@ namespace AgateLib.Utility
             ScanArchive();
         }
         /// <summary>
+        /// Constructs a TgzFileProvider to read from the specified archive from archive data
+        /// loaded into a byte array.  This overload is useful for a tar.gz file embedded as a resource.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="bytes"></param>
+        public TgzFileProvider(string name, byte[] bytes)
+            : this(name, new MemoryStream(bytes))
+        {
+
+        }
+        /// <summary>
         /// Constructs a TgzFileProvider to read from the specified archive.
         /// </summary>
         /// <param name="name">A name used to identify this stream in debugging information.</param>
