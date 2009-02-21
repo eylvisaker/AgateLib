@@ -18,14 +18,12 @@
   <Reference name="AgateLib.WinForms"/>
   <Reference name="System"/>
   <Reference name="System.Core"/>
-  <Reference name="System.Data"/>
-  <Reference name="System.Drawing"/>
-  <Reference name="System.Windows.Forms"/>
   <Reference name="System.Xml"/>
 
   <Files>
     <Match path="." pattern="*.cs" recurse="true"/>
     <Match path="." pattern="*.resx" recurse="true"/>
+    <Match path="Images" pattern="*.tar.gz" buildAction="None"/>
   </Files>
 </Project>
 
