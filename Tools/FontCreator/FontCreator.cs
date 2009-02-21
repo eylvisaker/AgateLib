@@ -1,21 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.BitmapFont;
 using AgateLib.ImplementationBase;
 using AgateLib.Geometry;
+using AgateLib.Resources;
 
 namespace FontCreator
 {
-    class FontCreator
+    public class FontBuilder
     {
         private string mText;
         private object mRenderTarget;
         private object mZoomRenderTarget;
-        
+
         DisplayWindow wind;
         DisplayWindow zoomWind;
         FontSurface font;
@@ -103,11 +105,11 @@ namespace FontCreator
         private double mDisplayScale = 4.0;
 
         public double DisplayScale
-        { 
+        {
             get { return mDisplayScale; }
             set { mDisplayScale = value; }
         }
-	
+
         public bool LightBackground
         {
             get { return mDarkBackground; }
@@ -117,7 +119,7 @@ namespace FontCreator
                 Draw();
             }
         }
-	
+
         public void SetRenderTarget(object render, object zoomRender)
         {
             mRenderTarget = render;
@@ -137,7 +139,7 @@ namespace FontCreator
             //zoomWind = new DisplayWindow(zoomRender);
 
             bgDark = new Surface("bgdark.png");
-			bgLight = new Surface("bglight.png");
+            bgLight = new Surface("bglight.png");
 
             DisplayColor = Color.White;
         }
@@ -180,10 +182,10 @@ namespace FontCreator
             }
         }
 
-        public FontCreator()
+        public FontBuilder()
         {
             StringBuilder b = new StringBuilder();
-            
+
             b.AppendLine("Sample Text");
             b.AppendLine("abcdefghijklm   ABCDEFGHIJKLM");
             b.AppendLine("nopqrstuvwxyz   NOPQRSTUVWXYZ");
@@ -247,6 +249,42 @@ namespace FontCreator
 
             font.Color = DisplayColor;
             font.DrawText(Text);
+        }
+
+        internal void SaveFont(string resourceFile, string fontName, string imageFile)
+        {
+            AgateResourceCollection resources;
+
+            if (File.Exists(resourceFile))
+                resources = AgateResourceLoader.LoadResources(resourceFile);
+            else
+                resources = new AgateResourceCollection();
+
+            ((BitmapFontImpl)Font.Impl).Surface.SaveTo(imageFile);
+
+            string dir = Path.GetDirectoryName(resourceFile);
+            imageFile = GetRelativePath(dir, imageFile);
+
+            BitmapFontResource res = new BitmapFontResource(fontName);
+            res.Image = imageFile;
+            res.FontMetrics = ((BitmapFontImpl)Font.Impl).FontMetrics.Clone();
+
+            resources.Add(res);
+
+            AgateResourceLoader.SaveResources(resources, resourceFile);
+        }
+
+        private string GetRelativePath(string dir, string imageFile)
+        {
+            for (int i = 0; i < dir.Length; i++)
+            {
+                if (imageFile.StartsWith(dir.Substring(0, i)) == false)
+                {
+                    return imageFile.Substring(i - 1);
+                }
+            }
+
+            return imageFile;
         }
     }
 }

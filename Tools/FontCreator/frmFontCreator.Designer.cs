@@ -1,4 +1,4 @@
-namespace FontCreator
+﻿namespace FontCreator
 {
     partial class frmFontCreator
     {
@@ -28,481 +28,177 @@ namespace FontCreator
         /// </summary>
         private void InitializeComponent()
         {
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFontCreator));
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.cboFamily = new System.Windows.Forms.ComboBox();
-			this.nudSize = new System.Windows.Forms.NumericUpDown();
-			this.label3 = new System.Windows.Forms.Label();
-			this.chkBold = new System.Windows.Forms.CheckBox();
-			this.chkItalic = new System.Windows.Forms.CheckBox();
-			this.chkUnderline = new System.Windows.Forms.CheckBox();
-			this.chkStrikeout = new System.Windows.Forms.CheckBox();
-			this.txtSampleText = new System.Windows.Forms.TextBox();
-			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.renderTarget = new AgateLib.WinForms.AgateRenderTarget();
-			this.zoomRenderTarget = new AgateLib.WinForms.AgateRenderTarget();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.nudOpacity = new System.Windows.Forms.NumericUpDown();
-			this.label6 = new System.Windows.Forms.Label();
-			this.chkBorder = new System.Windows.Forms.CheckBox();
-			this.btnBorderColor = new System.Windows.Forms.Button();
-			this.cboEdges = new System.Windows.Forms.ComboBox();
-			this.label4 = new System.Windows.Forms.Label();
-			this.chkTextRenderer = new System.Windows.Forms.CheckBox();
-			this.nudScale = new System.Windows.Forms.NumericUpDown();
-			this.colorDialog = new System.Windows.Forms.ColorDialog();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.label8 = new System.Windows.Forms.Label();
-			this.cboBg = new System.Windows.Forms.ComboBox();
-			this.btnDisplayColor = new System.Windows.Forms.Button();
-			this.label5 = new System.Windows.Forms.Label();
-			this.btnViewFont = new System.Windows.Forms.Button();
-			this.btnSave = new System.Windows.Forms.Button();
-			this.label7 = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.nudSize)).BeginInit();
-			this.splitContainer1.Panel1.SuspendLayout();
-			this.splitContainer1.Panel2.SuspendLayout();
-			this.splitContainer1.SuspendLayout();
-			this.groupBox1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudOpacity)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudScale)).BeginInit();
-			this.groupBox2.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(8, 22);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(66, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Sample Text";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(13, 30);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(60, 13);
-			this.label2.TabIndex = 1;
-			this.label2.Text = "Font Family";
-			// 
-			// cboFamily
-			// 
-			this.cboFamily.DropDownHeight = 210;
-			this.cboFamily.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboFamily.DropDownWidth = 300;
-			this.cboFamily.FormattingEnabled = true;
-			this.cboFamily.IntegralHeight = false;
-			this.cboFamily.Location = new System.Drawing.Point(79, 27);
-			this.cboFamily.Name = "cboFamily";
-			this.cboFamily.Size = new System.Drawing.Size(145, 21);
-			this.cboFamily.TabIndex = 3;
-			this.cboFamily.SelectedIndexChanged += new System.EventHandler(this.cboFamily_SelectedIndexChanged);
-			// 
-			// nudSize
-			// 
-			this.nudSize.DecimalPlaces = 1;
-			this.nudSize.Location = new System.Drawing.Point(79, 54);
-			this.nudSize.Maximum = new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
-			this.nudSize.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.nudSize.Name = "nudSize";
-			this.nudSize.Size = new System.Drawing.Size(59, 20);
-			this.nudSize.TabIndex = 4;
-			this.nudSize.Value = new decimal(new int[] {
-            140,
-            0,
-            0,
-            65536});
-			this.nudSize.ValueChanged += new System.EventHandler(this.nudSize_ValueChanged);
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(22, 56);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(51, 13);
-			this.label3.TabIndex = 5;
-			this.label3.Text = "Font Size";
-			// 
-			// chkBold
-			// 
-			this.chkBold.AutoSize = true;
-			this.chkBold.Location = new System.Drawing.Point(48, 80);
-			this.chkBold.Name = "chkBold";
-			this.chkBold.Size = new System.Drawing.Size(47, 17);
-			this.chkBold.TabIndex = 6;
-			this.chkBold.Text = "Bold";
-			this.chkBold.UseVisualStyleBackColor = true;
-			this.chkBold.CheckedChanged += new System.EventHandler(this.chkBold_CheckedChanged);
-			// 
-			// chkItalic
-			// 
-			this.chkItalic.AutoSize = true;
-			this.chkItalic.Location = new System.Drawing.Point(48, 103);
-			this.chkItalic.Name = "chkItalic";
-			this.chkItalic.Size = new System.Drawing.Size(48, 17);
-			this.chkItalic.TabIndex = 7;
-			this.chkItalic.Text = "Italic";
-			this.chkItalic.UseVisualStyleBackColor = true;
-			this.chkItalic.CheckedChanged += new System.EventHandler(this.chkItalic_CheckedChanged);
-			// 
-			// chkUnderline
-			// 
-			this.chkUnderline.AutoSize = true;
-			this.chkUnderline.Location = new System.Drawing.Point(113, 80);
-			this.chkUnderline.Name = "chkUnderline";
-			this.chkUnderline.Size = new System.Drawing.Size(71, 17);
-			this.chkUnderline.TabIndex = 8;
-			this.chkUnderline.Text = "Underline";
-			this.chkUnderline.UseVisualStyleBackColor = true;
-			this.chkUnderline.CheckedChanged += new System.EventHandler(this.chkUnderline_CheckedChanged);
-			// 
-			// chkStrikeout
-			// 
-			this.chkStrikeout.AutoSize = true;
-			this.chkStrikeout.Location = new System.Drawing.Point(113, 103);
-			this.chkStrikeout.Name = "chkStrikeout";
-			this.chkStrikeout.Size = new System.Drawing.Size(68, 17);
-			this.chkStrikeout.TabIndex = 9;
-			this.chkStrikeout.Text = "Strikeout";
-			this.chkStrikeout.UseVisualStyleBackColor = true;
-			this.chkStrikeout.CheckedChanged += new System.EventHandler(this.chkStrikeout_CheckedChanged);
-			// 
-			// txtSampleText
-			// 
-			this.txtSampleText.Location = new System.Drawing.Point(80, 19);
-			this.txtSampleText.Multiline = true;
-			this.txtSampleText.Name = "txtSampleText";
-			this.txtSampleText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtSampleText.Size = new System.Drawing.Size(216, 69);
-			this.txtSampleText.TabIndex = 10;
-			this.txtSampleText.Text = "abcdefghijklmnopqrstuvwxyz\r\nABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n01234567890\r\n!@#$%^&*(),<" +
-				".>/?;:\'\"-_=+\\|";
-			this.txtSampleText.TextChanged += new System.EventHandler(this.txtSampleText_TextChanged);
-			// 
-			// splitContainer1
-			// 
-			this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.splitContainer1.Location = new System.Drawing.Point(12, 234);
-			this.splitContainer1.Name = "splitContainer1";
-			// 
-			// splitContainer1.Panel1
-			// 
-			this.splitContainer1.Panel1.Controls.Add(this.renderTarget);
-			// 
-			// splitContainer1.Panel2
-			// 
-			this.splitContainer1.Panel2.Controls.Add(this.zoomRenderTarget);
-			this.splitContainer1.Size = new System.Drawing.Size(627, 343);
-			this.splitContainer1.SplitterDistance = 233;
-			this.splitContainer1.SplitterWidth = 8;
-			this.splitContainer1.TabIndex = 11;
-			// 
-			// renderTarget
-			// 
-			this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.renderTarget.Location = new System.Drawing.Point(0, 0);
-			this.renderTarget.Name = "renderTarget";
-			this.renderTarget.Size = new System.Drawing.Size(233, 343);
-			this.renderTarget.TabIndex = 0;
-			this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-			// 
-			// zoomRenderTarget
-			// 
-			this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
-			this.zoomRenderTarget.Name = "zoomRenderTarget";
-			this.zoomRenderTarget.Size = new System.Drawing.Size(386, 343);
-			this.zoomRenderTarget.TabIndex = 1;
-			this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.nudOpacity);
-			this.groupBox1.Controls.Add(this.label6);
-			this.groupBox1.Controls.Add(this.chkBorder);
-			this.groupBox1.Controls.Add(this.btnBorderColor);
-			this.groupBox1.Controls.Add(this.cboEdges);
-			this.groupBox1.Controls.Add(this.label4);
-			this.groupBox1.Controls.Add(this.chkTextRenderer);
-			this.groupBox1.Controls.Add(this.label2);
-			this.groupBox1.Controls.Add(this.cboFamily);
-			this.groupBox1.Controls.Add(this.nudSize);
-			this.groupBox1.Controls.Add(this.chkStrikeout);
-			this.groupBox1.Controls.Add(this.chkItalic);
-			this.groupBox1.Controls.Add(this.label3);
-			this.groupBox1.Controls.Add(this.chkUnderline);
-			this.groupBox1.Controls.Add(this.chkBold);
-			this.groupBox1.Location = new System.Drawing.Point(12, 12);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(235, 216);
-			this.groupBox1.TabIndex = 12;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Font Creation Options";
-			// 
-			// nudOpacity
-			// 
-			this.nudOpacity.Location = new System.Drawing.Point(150, 189);
-			this.nudOpacity.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.nudOpacity.Name = "nudOpacity";
-			this.nudOpacity.Size = new System.Drawing.Size(54, 20);
-			this.nudOpacity.TabIndex = 17;
-			this.nudOpacity.Value = new decimal(new int[] {
-            128,
-            0,
-            0,
-            0});
-			this.nudOpacity.ValueChanged += new System.EventHandler(this.nudOpacity_ValueChanged);
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(147, 173);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(46, 13);
-			this.label6.TabIndex = 16;
-			this.label6.Text = "Border Opacity:";
-			// 
-			// chkBorder
-			// 
-			this.chkBorder.AutoSize = true;
-			this.chkBorder.Location = new System.Drawing.Point(9, 180);
-			this.chkBorder.Name = "chkBorder";
-			this.chkBorder.Size = new System.Drawing.Size(91, 17);
-			this.chkBorder.TabIndex = 15;
-			this.chkBorder.Text = "Create Border";
-			this.chkBorder.UseVisualStyleBackColor = true;
-			this.chkBorder.CheckedChanged += new System.EventHandler(this.chkBorder_CheckedChanged);
-			// 
-			// btnBorderColor
-			// 
-			this.btnBorderColor.BackColor = System.Drawing.Color.Black;
-			this.btnBorderColor.Location = new System.Drawing.Point(106, 176);
-			this.btnBorderColor.Name = "btnBorderColor";
-			this.btnBorderColor.Size = new System.Drawing.Size(32, 23);
-			this.btnBorderColor.TabIndex = 14;
-			this.btnBorderColor.UseVisualStyleBackColor = false;
-			this.btnBorderColor.Click += new System.EventHandler(this.btnBorderColor_Click);
-			// 
-			// cboEdges
-			// 
-			this.cboEdges.DropDownHeight = 210;
-			this.cboEdges.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboEdges.DropDownWidth = 300;
-			this.cboEdges.FormattingEnabled = true;
-			this.cboEdges.IntegralHeight = false;
-			this.cboEdges.Location = new System.Drawing.Point(79, 149);
-			this.cboEdges.Name = "cboEdges";
-			this.cboEdges.Size = new System.Drawing.Size(145, 21);
-			this.cboEdges.TabIndex = 12;
-			this.cboEdges.SelectedIndexChanged += new System.EventHandler(this.cboEdges_SelectedIndexChanged);
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(6, 152);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(67, 13);
-			this.label4.TabIndex = 11;
-			this.label4.Text = "Glyph Edges";
-			// 
-			// chkTextRenderer
-			// 
-			this.chkTextRenderer.AutoSize = true;
-			this.chkTextRenderer.Checked = true;
-			this.chkTextRenderer.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkTextRenderer.Location = new System.Drawing.Point(9, 126);
-			this.chkTextRenderer.Name = "chkTextRenderer";
-			this.chkTextRenderer.Size = new System.Drawing.Size(207, 17);
-			this.chkTextRenderer.TabIndex = 10;
-			this.chkTextRenderer.Text = "Use TextRenderer instead of Graphics";
-			this.chkTextRenderer.UseVisualStyleBackColor = true;
-			this.chkTextRenderer.CheckedChanged += new System.EventHandler(this.chkTextRenderer_CheckedChanged);
-			// 
-			// nudScale
-			// 
-			this.nudScale.DecimalPlaces = 1;
-			this.nudScale.Location = new System.Drawing.Point(80, 123);
-			this.nudScale.Maximum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-			this.nudScale.Name = "nudScale";
-			this.nudScale.Size = new System.Drawing.Size(120, 20);
-			this.nudScale.TabIndex = 14;
-			this.nudScale.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-			this.nudScale.ValueChanged += new System.EventHandler(this.nudScale_ValueChanged);
-			// 
-			// groupBox2
-			// 
-			this.groupBox2.Controls.Add(this.label8);
-			this.groupBox2.Controls.Add(this.cboBg);
-			this.groupBox2.Controls.Add(this.btnDisplayColor);
-			this.groupBox2.Controls.Add(this.label5);
-			this.groupBox2.Controls.Add(this.label1);
-			this.groupBox2.Controls.Add(this.txtSampleText);
-			this.groupBox2.Controls.Add(this.nudScale);
-			this.groupBox2.Location = new System.Drawing.Point(253, 12);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(302, 170);
-			this.groupBox2.TabIndex = 13;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Display Options";
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(8, 125);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(67, 13);
-			this.label8.TabIndex = 15;
-			this.label8.Text = "Scale Factor";
-			// 
-			// cboBg
-			// 
-			this.cboBg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboBg.FormattingEnabled = true;
-			this.cboBg.Items.AddRange(new object[] {
-            "Dark Background",
-            "Light Background"});
-			this.cboBg.Location = new System.Drawing.Point(147, 95);
-			this.cboBg.Name = "cboBg";
-			this.cboBg.Size = new System.Drawing.Size(149, 21);
-			this.cboBg.TabIndex = 13;
-			this.cboBg.SelectedIndexChanged += new System.EventHandler(this.cboBg_SelectedIndexChanged);
-			// 
-			// btnDisplayColor
-			// 
-			this.btnDisplayColor.BackColor = System.Drawing.Color.White;
-			this.btnDisplayColor.Location = new System.Drawing.Point(80, 94);
-			this.btnDisplayColor.Name = "btnDisplayColor";
-			this.btnDisplayColor.Size = new System.Drawing.Size(28, 23);
-			this.btnDisplayColor.TabIndex = 12;
-			this.btnDisplayColor.UseVisualStyleBackColor = false;
-			this.btnDisplayColor.Click += new System.EventHandler(this.btnDisplayColor_Click);
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(19, 98);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(55, 13);
-			this.label5.TabIndex = 11;
-			this.label5.Text = "Text Color";
-			// 
-			// btnViewFont
-			// 
-			this.btnViewFont.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnViewFont.Location = new System.Drawing.Point(483, 193);
-			this.btnViewFont.Name = "btnViewFont";
-			this.btnViewFont.Size = new System.Drawing.Size(75, 35);
-			this.btnViewFont.TabIndex = 14;
-			this.btnViewFont.Text = "View Font Surface";
-			this.btnViewFont.UseVisualStyleBackColor = true;
-			this.btnViewFont.Click += new System.EventHandler(this.btnViewFont_Click);
-			// 
-			// btnSave
-			// 
-			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSave.Location = new System.Drawing.Point(564, 194);
-			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(75, 33);
-			this.btnSave.TabIndex = 15;
-			this.btnSave.Text = "Save Font";
-			this.btnSave.UseVisualStyleBackColor = true;
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(30, 173);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(46, 13);
-			this.label7.TabIndex = 16;
-			this.label7.Text = "Scale:";
-			// 
-			// frmFontCreator
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(653, 589);
-			this.Controls.Add(this.btnSave);
-			this.Controls.Add(this.btnViewFont);
-			this.Controls.Add(this.groupBox2);
-			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.splitContainer1);
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "frmFontCreator";
-			this.Text = "Bitmap Font Creator";
-			((System.ComponentModel.ISupportInitialize)(this.nudSize)).EndInit();
-			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel2.ResumeLayout(false);
-			this.splitContainer1.ResumeLayout(false);
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudOpacity)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudScale)).EndInit();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
-			this.ResumeLayout(false);
+            this.btnNext = new System.Windows.Forms.Button();
+            this.btnPrevious = new System.Windows.Forms.Button();
+            this.bottomPanel = new System.Windows.Forms.Panel();
+            this.pnlWarning = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pnlCreateFont = new System.Windows.Forms.Panel();
+            this.createFont1 = new FontCreator.CreateFont();
+            this.pnlEditGlyphs = new System.Windows.Forms.Panel();
+            this.editGlyphs1 = new FontCreator.EditGlyphs();
+            this.pnlSaveFont = new System.Windows.Forms.Panel();
+            this.saveFont1 = new FontCreator.SaveFont();
+            this.bottomPanel.SuspendLayout();
+            this.pnlWarning.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pnlCreateFont.SuspendLayout();
+            this.pnlEditGlyphs.SuspendLayout();
+            this.pnlSaveFont.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // btnNext
+            // 
+            this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNext.Location = new System.Drawing.Point(656, 13);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(75, 23);
+            this.btnNext.TabIndex = 0;
+            this.btnNext.Text = "Next >>";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
+            // btnPrevious
+            // 
+            this.btnPrevious.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrevious.Enabled = false;
+            this.btnPrevious.Location = new System.Drawing.Point(575, 13);
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(75, 23);
+            this.btnPrevious.TabIndex = 1;
+            this.btnPrevious.Text = "Previous <<";
+            this.btnPrevious.UseVisualStyleBackColor = true;
+            this.btnPrevious.MouseLeave += new System.EventHandler(this.btnPrevious_MouseLeave);
+            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
+            this.btnPrevious.MouseEnter += new System.EventHandler(this.btnPrevious_MouseEnter);
+            // 
+            // bottomPanel
+            // 
+            this.bottomPanel.Controls.Add(this.pnlWarning);
+            this.bottomPanel.Controls.Add(this.btnNext);
+            this.bottomPanel.Controls.Add(this.btnPrevious);
+            this.bottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.bottomPanel.Location = new System.Drawing.Point(0, 552);
+            this.bottomPanel.Name = "bottomPanel";
+            this.bottomPanel.Size = new System.Drawing.Size(743, 48);
+            this.bottomPanel.TabIndex = 2;
+            // 
+            // pnlWarning
+            // 
+            this.pnlWarning.Controls.Add(this.label1);
+            this.pnlWarning.Controls.Add(this.pictureBox1);
+            this.pnlWarning.Location = new System.Drawing.Point(3, 0);
+            this.pnlWarning.Name = "pnlWarning";
+            this.pnlWarning.Size = new System.Drawing.Size(389, 48);
+            this.pnlWarning.TabIndex = 3;
+            this.pnlWarning.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(56, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(279, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "If you go back, you will lose all changes made in this step.";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::FontCreator.Properties.Resources.Warning;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pnlCreateFont
+            // 
+            this.pnlCreateFont.Controls.Add(this.createFont1);
+            this.pnlCreateFont.Location = new System.Drawing.Point(12, 12);
+            this.pnlCreateFont.Name = "pnlCreateFont";
+            this.pnlCreateFont.Size = new System.Drawing.Size(581, 299);
+            this.pnlCreateFont.TabIndex = 3;
+            this.pnlCreateFont.Visible = false;
+            // 
+            // createFont3
+            // 
+            this.createFont1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.createFont1.Location = new System.Drawing.Point(0, 0);
+            this.createFont1.Name = "createFont3";
+            this.createFont1.Size = new System.Drawing.Size(581, 299);
+            this.createFont1.TabIndex = 0;
+            // 
+            // pnlEditGlyphs
+            // 
+            this.pnlEditGlyphs.Controls.Add(this.editGlyphs1);
+            this.pnlEditGlyphs.Location = new System.Drawing.Point(12, 317);
+            this.pnlEditGlyphs.Name = "pnlEditGlyphs";
+            this.pnlEditGlyphs.Size = new System.Drawing.Size(432, 207);
+            this.pnlEditGlyphs.TabIndex = 1;
+            this.pnlEditGlyphs.Visible = false;
+            // 
+            // editGlyphs1
+            // 
+            this.editGlyphs1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editGlyphs1.Location = new System.Drawing.Point(0, 0);
+            this.editGlyphs1.Name = "editGlyphs1";
+            this.editGlyphs1.Size = new System.Drawing.Size(432, 207);
+            this.editGlyphs1.TabIndex = 0;
+            // 
+            // pnlSaveFont
+            // 
+            this.pnlSaveFont.Controls.Add(this.saveFont1);
+            this.pnlSaveFont.Location = new System.Drawing.Point(460, 317);
+            this.pnlSaveFont.Name = "pnlSaveFont";
+            this.pnlSaveFont.Size = new System.Drawing.Size(262, 172);
+            this.pnlSaveFont.TabIndex = 1;
+            this.pnlSaveFont.Visible = false;
+            // 
+            // saveFont1
+            // 
+            this.saveFont1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.saveFont1.Location = new System.Drawing.Point(0, 0);
+            this.saveFont1.Name = "saveFont1";
+            this.saveFont1.Size = new System.Drawing.Size(262, 172);
+            this.saveFont1.TabIndex = 0;
+            this.saveFont1.ValidInputChanged += new System.EventHandler(this.saveFont1_ValidInputChanged);
+            // 
+            // frmFontCreator
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(743, 600);
+            this.Controls.Add(this.pnlSaveFont);
+            this.Controls.Add(this.pnlEditGlyphs);
+            this.Controls.Add(this.bottomPanel);
+            this.Controls.Add(this.pnlCreateFont);
+            this.Name = "frmFontCreator";
+            this.Text = "Form1";
+            this.bottomPanel.ResumeLayout(false);
+            this.pnlWarning.ResumeLayout(false);
+            this.pnlWarning.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.pnlCreateFont.ResumeLayout(false);
+            this.pnlEditGlyphs.ResumeLayout(false);
+            this.pnlSaveFont.ResumeLayout(false);
+            this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private AgateLib.WinForms.AgateRenderTarget renderTarget;
+        private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.Button btnPrevious;
+        private System.Windows.Forms.Panel bottomPanel;
+        private System.Windows.Forms.Panel pnlCreateFont;
+        private CreateFont createFont1;
+        private System.Windows.Forms.Panel pnlEditGlyphs;
+        private EditGlyphs editGlyphs1;
+        private System.Windows.Forms.Panel pnlSaveFont;
+        private SaveFont saveFont1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel pnlWarning;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cboFamily;
-        private System.Windows.Forms.NumericUpDown nudSize;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox chkBold;
-        private System.Windows.Forms.CheckBox chkItalic;
-        private System.Windows.Forms.CheckBox chkUnderline;
-        private System.Windows.Forms.CheckBox chkStrikeout;
-        private System.Windows.Forms.TextBox txtSampleText;
-        private AgateLib.WinForms.AgateRenderTarget zoomRenderTarget;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox chkTextRenderer;
-        private System.Windows.Forms.ComboBox cboEdges;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.CheckBox chkBorder;
-        private System.Windows.Forms.Button btnBorderColor;
-        private System.Windows.Forms.ColorDialog colorDialog;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox cboBg;
-        private System.Windows.Forms.Button btnDisplayColor;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button btnViewFont;
-        private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.NumericUpDown nudOpacity;
-        private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.NumericUpDown nudScale;
-		private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
     }
 }
-

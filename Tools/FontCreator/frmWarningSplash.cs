@@ -13,11 +13,12 @@ namespace FontCreator
         public frmWarningSplash()
         {
             InitializeComponent();
+
+            Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            
             Properties.Settings.Default.SkipWarning = chkSkipWarning.Checked;
         }
     }
