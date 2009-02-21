@@ -18,7 +18,7 @@ namespace AgateLib.Sprites
     /// SpriteFrame contains a reference count.  If you manually copy it, be sure
     /// to call AddRef unless you use the Clone method.
     /// </summary>
-    public class NewSpriteFrame : ISpriteFrame
+    public class SpriteFrame : ISpriteFrame
     {
         Point mOffset = new Point(0, 0);
         bool mIsBlank = true;
@@ -29,7 +29,7 @@ namespace AgateLib.Sprites
         Size mDisplaySize; 
         Size mSpriteSize;
 
-        internal NewSpriteFrame(Surface surface)
+        internal SpriteFrame(Surface surface)
         {
             mSurface = surface;
         }
@@ -42,7 +42,7 @@ namespace AgateLib.Sprites
         /// Be sure to Dispose the result when finished with it.
         /// </summary>
         /// <returns></returns>
-        public NewSpriteFrame Clone()
+        public SpriteFrame Clone()
         {
             return this;
         }

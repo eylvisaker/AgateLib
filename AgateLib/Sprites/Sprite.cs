@@ -9,9 +9,9 @@ using AgateLib.Resources;
 namespace AgateLib.Sprites
 {
     // TODO: Refactor this to name it Sprite.
-    public class NewSprite : ISprite 
+    public class Sprite : ISprite 
     {
-        FrameList<NewSpriteFrame> mFrames = new FrameList<NewSpriteFrame>();
+        FrameList<SpriteFrame> mFrames = new FrameList<SpriteFrame>();
         Size mSpriteSize;
 
         List<Surface> mOwnedSurfaces = new List<Surface>();
@@ -41,7 +41,7 @@ namespace AgateLib.Sprites
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public NewSprite(int width, int height)
+        public Sprite(int width, int height)
             : this(new Size(width, height))
         {
         }
@@ -49,7 +49,7 @@ namespace AgateLib.Sprites
         /// Constructs a Sprite object, of the specified width and height.
         /// </summary>
         /// <param name="size"></param>
-        public NewSprite(Size size)
+        public Sprite(Size size)
         {
             mSpriteSize = size;
         }
@@ -60,7 +60,7 @@ namespace AgateLib.Sprites
         /// </summary>
         /// <param name="surfaceFilename"></param>
         /// <param name="size"></param>
-        public NewSprite(string surfaceFilename, Size size)
+        public Sprite(string surfaceFilename, Size size)
             : this(new Surface(surfaceFilename), true, size)
         {
         }
@@ -70,7 +70,7 @@ namespace AgateLib.Sprites
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="size"></param>
-        public NewSprite(Stream stream, int width, int height)
+        public Sprite(Stream stream, int width, int height)
             : this(new Surface(stream), true, new Size(width, height))
         {
         }
@@ -81,7 +81,7 @@ namespace AgateLib.Sprites
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="size"></param>
-        public NewSprite(Stream surfaceData, Size size)
+        public Sprite(Stream surfaceData, Size size)
             : this(new Surface(surfaceData), true, size)
         {
         }
@@ -93,7 +93,7 @@ namespace AgateLib.Sprites
         /// <param name="filename"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public NewSprite(string filename, int width, int height)
+        public Sprite(string filename, int width, int height)
             : this(filename, new Size(width, height))
         {
         }
@@ -106,7 +106,7 @@ namespace AgateLib.Sprites
         /// it is disposed when this Sprite is disposed.</param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public NewSprite(Surface surface, bool ownSurface, int width, int height)
+        public Sprite(Surface surface, bool ownSurface, int width, int height)
             : this(surface, ownSurface, new Size(width, height))
         {
         }
@@ -117,14 +117,14 @@ namespace AgateLib.Sprites
         /// <param name="ownSurface">True to indicate that this NewSprite object owns the surface, so 
         /// it is disposed when this Sprite is disposed.</param>
         /// <param name="size"></param>
-        public NewSprite(Surface surface, bool ownSurface, Size size)
+        public Sprite(Surface surface, bool ownSurface, Size size)
             : this(size)
         {
             AddNewFrames(surface, true, Point.Empty, Point.Empty, size, true);
         }
 
 
-        public NewSprite(Resources.AgateResourceCollection resources, string name)
+        public Sprite(Resources.AgateResourceCollection resources, string name)
         {
             Resources.AgateResource generic_res = resources[name];
             Resources.SpriteResource sprite_res = generic_res as Resources.SpriteResource;
@@ -168,7 +168,7 @@ namespace AgateLib.Sprites
         /// <param name="offset">The offset within the sprite to the upperleft corner of where the frame is drawn.</param>
         public void AddFrame(Surface surface, bool ownSurface, Rectangle bounds, Point offset)
         {
-            NewSpriteFrame frame = new NewSpriteFrame(surface);
+            SpriteFrame frame = new SpriteFrame(surface);
             frame.SourceRect = bounds;
             frame.Offset = offset;
             frame.SpriteSize = SpriteSize;
@@ -180,10 +180,10 @@ namespace AgateLib.Sprites
         /// Makes a copy of this sprite and returns it.
         /// </summary>
         /// <returns></returns>
-        public NewSprite Clone()
+        public Sprite Clone()
         {
             // TODO: Update this method to cover owned surfaces.
-            NewSprite retval = new NewSprite(mSpriteSize.Width, mSpriteSize.Height);
+            Sprite retval = new Sprite(mSpriteSize.Width, mSpriteSize.Height);
 
             retval.mTimePerFrame = mTimePerFrame;
             retval.mCurrentFrameIndex = mCurrentFrameIndex;
@@ -200,7 +200,7 @@ namespace AgateLib.Sprites
             retval.mRotationSpot = mRotationSpot;
             retval.mGradient = mGradient;
 
-            foreach (NewSpriteFrame frame in mFrames)
+            foreach (SpriteFrame frame in mFrames)
             {
                 retval.mFrames.Add(frame.Clone());
             }
@@ -263,7 +263,7 @@ namespace AgateLib.Sprites
 
             do
             {
-                NewSpriteFrame currentFrame = new NewSpriteFrame(surface);
+                SpriteFrame currentFrame = new SpriteFrame(surface);
                 Rectangle currentRect = new Rectangle(location, size);
                 bool skip = false;
 
@@ -305,7 +305,7 @@ namespace AgateLib.Sprites
             if (mFrames.Count == 0)
                 return;
 
-            NewSpriteFrame current = (NewSpriteFrame) CurrentFrame;
+            SpriteFrame current = (SpriteFrame) CurrentFrame;
 
             current.DisplaySize = destRect.Size;
             Surface surf = current.Surface;
@@ -348,7 +348,7 @@ namespace AgateLib.Sprites
             if (mVisible == false)
                 return;
 
-            NewSpriteFrame currentFrame = CurrentFrame;
+            SpriteFrame currentFrame = CurrentFrame;
             Surface surf = currentFrame.Surface;
 
             currentFrame.DisplaySize = DisplaySize;
@@ -844,7 +844,7 @@ namespace AgateLib.Sprites
         /// <summary>
         /// Gets the currently displaying frame.
         /// </summary>
-        public NewSpriteFrame CurrentFrame
+        public SpriteFrame CurrentFrame
         {
             get { return mFrames[CurrentFrameIndex]; }
         }
