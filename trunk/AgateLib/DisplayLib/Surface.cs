@@ -106,11 +106,20 @@ namespace AgateLib.DisplayLib
         /// </summary>
         /// <param name="filename"></param>
         public Surface(string filename)
+            : this(AgateFileProvider.Images, filename)
+        {
+        }
+        /// <summary>
+        /// Creates a surface object using the specified file provider to open the image file.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="fileProvider"></param>
+        public Surface(IFileProvider fileProvider, string filename)
         {
             if (Display.Impl == null)
                 throw new AgateException("AgateLib's display system has not been initialized.");
 
-            using (System.IO.Stream s = AgateFileProvider.Images.OpenRead(filename))
+            using (System.IO.Stream s = fileProvider.OpenRead(filename))
             {
                 impl = Display.Impl.CreateSurface(s);
             }
