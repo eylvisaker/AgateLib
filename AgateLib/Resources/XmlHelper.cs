@@ -49,8 +49,16 @@ namespace AgateLib.Resources
         }
 
 
+        private static void CheckAttributeExists(XmlNode node, string attributeName)
+        {
+            if (node.Attributes[attributeName] == null)
+                throw new AgateResourceException(string.Format(
+                    "Could not find attribute {0} in node {1}", attributeName, node.Name));
+        }
+
         internal static Point ReadAttributePoint(XmlNode node, string attributeName)
         {
+            CheckAttributeExists(node, attributeName);
             string text = node.Attributes[attributeName].Value;
 
             return PointConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
@@ -65,6 +73,7 @@ namespace AgateLib.Resources
 
         internal static Size ReadAttributeSize(XmlNode node, string attributeName)
         {
+            CheckAttributeExists(node, attributeName);
             string text = node.Attributes[attributeName].Value;
 
             return SizeConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
@@ -79,6 +88,7 @@ namespace AgateLib.Resources
 
         internal static Rectangle ReadAttributeRectangle(XmlNode node, string attributeName)
         {
+            CheckAttributeExists(node, attributeName);
             string text = node.Attributes[attributeName].Value;
 
             return RectangleConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
@@ -92,10 +102,12 @@ namespace AgateLib.Resources
         }
         internal static int ReadAttributeInt(XmlNode node, string attributeName)
         {
+            CheckAttributeExists(node, attributeName);
             string text = node.Attributes[attributeName].Value;
 
             return int.Parse(text, System.Globalization.CultureInfo.InvariantCulture);
         }
+
         internal static int ReadAttributeInt(XmlNode node, string attributeName, int defaultValue)
         {
             if (node.Attributes[attributeName] == null)
@@ -106,6 +118,7 @@ namespace AgateLib.Resources
 
         internal static bool ReadAttributeBool(XmlNode node, string attributeName)
         {
+            CheckAttributeExists(node, attributeName);
             string text = node.Attributes[attributeName].Value;
 
             return bool.Parse(text);
@@ -120,6 +133,7 @@ namespace AgateLib.Resources
 
         internal static string ReadAttributeString(XmlNode node, string attributeName)
         {
+            CheckAttributeExists(node, attributeName);
             return node.Attributes[attributeName].Value;
         }
         internal static string ReadAttributeString(XmlNode node, string attributeName, string defaultValue)
