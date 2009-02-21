@@ -223,11 +223,10 @@ namespace AgateLib.DisplayLib
         /// new DisplayWindow(CreateWindowParams.FromControl(control)).</remarks>
         /// <param name="control">Windows.Forms control which should be used as the
         /// render target.</param>
-        public static DisplayWindow FromControl(object control)
+        public static DisplayWindow CreateFromControl(object control)
         {
             return new DisplayWindow(CreateWindowParams.FromControl(control));
         }
-
         /// <summary>
         /// Creates a DisplayWindow object which renders to the entire screen, setting
         /// the resolution to the value specified.
@@ -237,7 +236,7 @@ namespace AgateLib.DisplayLib
         /// <param name="height"></param>
         /// <param name="bpp"></param>
         /// <returns></returns>
-        public static DisplayWindow FullScreen(string title, int width, int height)
+        public static DisplayWindow CreateFullScreen(string title, int width, int height)
         {
             return new DisplayWindow(CreateWindowParams.FullScreen(title, width, height, 32));
         }
@@ -250,7 +249,7 @@ namespace AgateLib.DisplayLib
         /// <param name="iconFile"></param>
         /// <param name="allowResize"></param>
         /// <returns></returns>
-        public static DisplayWindow Windowed(string title, int width, int height, string iconFile, bool allowResize)
+        public static DisplayWindow CreateWindowed(string title, int width, int height, string iconFile, bool allowResize)
         {
             return new DisplayWindow(CreateWindowParams.Windowed(title, width, height, iconFile, allowResize));
         }
@@ -262,7 +261,7 @@ namespace AgateLib.DisplayLib
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        public static DisplayWindow NoFrame(string title, int width, int height)
+        public static DisplayWindow CreateNoFrame(string title, int width, int height)
         {
             return new DisplayWindow(CreateWindowParams.NoFrame(title, width, height));
         }
