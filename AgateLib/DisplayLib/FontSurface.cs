@@ -23,6 +23,7 @@ using System.Text;
 using AgateLib.BitmapFont;
 using AgateLib.Geometry;
 using AgateLib.ImplementationBase;
+using AgateLib.Resources;
 
 namespace AgateLib.DisplayLib
 {
@@ -92,6 +93,22 @@ namespace AgateLib.DisplayLib
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
         }
 
+        public FontSurface(AgateResourceCollection resources, string resourceName)
+        {
+            AgateResource res = resources[resourceName];
+            BitmapFontResource bmpFont = res as BitmapFontResource;
+
+            if (res is BitmapFontResource)
+            {
+                Surface surf = new Surface(bmpFont.Image);
+
+                impl = new BitmapFontImpl(surf, bmpFont.FontMetrics);
+            }
+            else
+                throw new AgateResourceException(string.Format(
+                    "The resource {0} is of type {1} which cannot be used to construct a font.",
+                    resourceName, res.GetType().Name));
+        }
         /// <summary>
         /// Creates a bitmap font using the options passed in.  The Display driver
         /// must be capable of this, which is indicated in Display.Caps.CanCreateBitmapFont.
