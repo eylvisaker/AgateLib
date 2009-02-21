@@ -53,6 +53,18 @@ namespace AgateLib.Utility
 
             ScanArchive();
         }
+        /// <summary>
+        /// Constructs a TgzFileProvider to read from the specified archive.
+        /// </summary>
+        /// <param name="name">A name used to identify this stream in debugging information.</param>
+        /// <param name="fileStream"></param>
+        public TgzFileProvider(string name, Stream fileStream)
+        {
+            tgzFilename = name;
+            inFile = fileStream;
+
+            ScanArchive();
+        }
 
         private void ScanArchive()
         {
