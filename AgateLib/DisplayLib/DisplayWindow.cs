@@ -93,24 +93,12 @@ namespace AgateLib.DisplayLib
         /// object as a render context.  A DisplayWindow made in this manner cannot be made
         /// into a full-screen DisplayWindow.
         /// </summary>
-        /// <remarks>Calling this function is equivalent to calling
-        /// new DisplayWindow(CreateWindowParams.FromControl(control)).</remarks>
-        /// <param name="control">Windows.Forms control which should be used as the
-        /// render target.</param>
-        public static DisplayWindow FromControl(object control)
-        {
-            return new DisplayWindow(CreateWindowParams.FromControl(control));
-        }
-        /// <summary>
-        /// Creates a DisplayWindow object using the specified System.Windows.Forms.Control
-        /// object as a render context.  A DisplayWindow made in this manner cannot be made
-        /// into a full-screen DisplayWindow.
-        /// </summary>
         /// <remarks>
         /// [Experimental - The API may be changed in the future.]
         /// </remarks>
         /// <param name="renderTarget">Windows.Forms control which should be used as the
         /// render target.</param>
+        [Obsolete("Use the DisplayWindow.FromControl static method instead.")]
         public DisplayWindow(object renderTarget)
         {
             if (Display.Impl == null)
@@ -130,11 +118,13 @@ namespace AgateLib.DisplayLib
         /// <param name="title"></param>
         /// <param name="clientWidth"></param>
         /// <param name="clientHeight"></param>
+        [Obsolete("Use the DisplayWindow.Windowed static method instead.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight)
             : this(CreateWindowParams.Windowed(title, clientWidth, clientHeight, "", false))
         {
 
         }
+
         /// <summary>
         /// Creates a DisplayWindow object by creating a windowed Form.
         /// By default, this window does not allow the user to resize it.
@@ -144,7 +134,7 @@ namespace AgateLib.DisplayLib
         /// <param name="clientHeight">Height of the drawing area in pixels.</param>
         /// <param name="iconFile">File name of a Win32 .ico file to use for the window icon.  Pass
         /// null or "" to not use an icon.</param>
-        [Obsolete("Use the CreateWindowParams overload")]
+        [Obsolete("Use the DisplayWindow.Windowed static method instead.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile)
             : this(title, clientWidth, clientHeight, "", false, false)
         {
@@ -159,7 +149,7 @@ namespace AgateLib.DisplayLib
         /// <param name="clientHeight">Height of the drawing area in pixels.</param>
         /// <param name="iconFile">File name of a Win32 .ico file to use for the window icon.</param>
         /// <param name="startFullscreen">True to start as a full screen window.</param>
-        [Obsolete("Use the CreateWindowParams overload")]
+        [Obsolete("Use either the DisplayWindow.Windowed or DisplayWindow.FullScreen static method instead.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen)
             : this(title, clientWidth, clientHeight, iconFile, startFullscreen, false)
         {
@@ -175,7 +165,7 @@ namespace AgateLib.DisplayLib
         /// <param name="startFullscreen">True to start as a full screen window.</param>
         /// <param name="allowResize">True to allow the user to manually resize the window by
         /// dragging the border.</param>
-        [Obsolete("Use the CreateWindowParams overload")]
+        [Obsolete("Use either the DisplayWindow.Windowed or DisplayWindow.FullScreen static method instead.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen, bool allowResize)
         {
             //impl = Display.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, 
@@ -202,7 +192,7 @@ namespace AgateLib.DisplayLib
         /// <param name="clientWidth">Width of the drawing area in pixels.</param>
         /// <param name="clientHeight">Height of the drawing area in pixels.</param>
         /// <param name="startFullscreen">True to start as a full screen window.</param>
-        [Obsolete("Use the CreateWindowParams overload")]
+        [Obsolete("Use either the DisplayWindow.Windowed or DisplayWindow.FullScreen static method instead.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, bool startFullscreen)
             : this(title, clientWidth, clientHeight, startFullscreen, false)
         {
@@ -216,16 +206,69 @@ namespace AgateLib.DisplayLib
         /// <param name="clientHeight"></param>
         /// <param name="startFullscreen"></param>
         /// <param name="allowResize"></param>
-        [Obsolete("Use the CreateWindowParams overload, either new DisplayWindow(CreateWindowParams.Windowed(...)) or new DisplayWindow(CreateWindowParams.FullScreen(...))")]
+        [Obsolete("Use either the DisplayWindow.Windowed or DisplayWindow.FullScreen static method instead.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, bool startFullscreen, bool allowResize)
             : this(title, clientWidth, clientHeight, "", startFullscreen, allowResize)
         {
-            //impl = Display.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, "", startFullscreen, allowResize);
-
-            //Display.RenderTarget = this;
-            //Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
         }
-        
+
+        #region --- Static Creation Methods ---
+
+        /// <summary>
+        /// Creates a DisplayWindow object using the specified System.Windows.Forms.Control
+        /// object as a render context.  A DisplayWindow made in this manner cannot be made
+        /// into a full-screen DisplayWindow.
+        /// </summary>
+        /// <remarks>Calling this function is equivalent to calling
+        /// new DisplayWindow(CreateWindowParams.FromControl(control)).</remarks>
+        /// <param name="control">Windows.Forms control which should be used as the
+        /// render target.</param>
+        public static DisplayWindow FromControl(object control)
+        {
+            return new DisplayWindow(CreateWindowParams.FromControl(control));
+        }
+
+        /// <summary>
+        /// Creates a DisplayWindow object which renders to the entire screen, setting
+        /// the resolution to the value specified.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="bpp"></param>
+        /// <returns></returns>
+        public static DisplayWindow FullScreen(string title, int width, int height)
+        {
+            return new DisplayWindow(CreateWindowParams.FullScreen(title, width, height, 32));
+        }
+        /// <summary>
+        /// Creates a DisplayWindow object which generates a desktop window to render into.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="iconFile"></param>
+        /// <param name="allowResize"></param>
+        /// <returns></returns>
+        public static DisplayWindow Windowed(string title, int width, int height, string iconFile, bool allowResize)
+        {
+            return new DisplayWindow(CreateWindowParams.Windowed(title, width, height, iconFile, allowResize));
+        }
+        /// <summary>
+        /// Creates a DisplayWindow object which is a desktop window with no frame or
+        /// titlebar.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public static DisplayWindow NoFrame(string title, int width, int height)
+        {
+            return new DisplayWindow(CreateWindowParams.NoFrame(title, width, height));
+        }
+
+        #endregion
+
         /// <summary>
         /// Disposes of unmanaged resources.
         /// </summary>
