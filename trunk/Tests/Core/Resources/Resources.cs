@@ -5,6 +5,7 @@ using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.Resources;
+using AgateLib.Sprites;
 
 namespace ResourceTester
 {
@@ -20,20 +21,25 @@ namespace ResourceTester
 			using (AgateSetup setup = new AgateSetup("Resource Tester", args))
             {
                 setup.InitializeAll();
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
-                AgateResourceCollection resources = AgateResourceLoader.LoadResources("TestResourceFile.xml");
+                AgateResourceCollection resources = 
+                    AgateResourceLoader.LoadResources("TestResourceFile.xml");
 
                 DisplayWindow wind = new DisplayWindow(resources, "main_window");
                 Surface surf = new Surface(resources, "sample_surf");
-                ISprite sprite = new AgateLib.Sprites.NewSprite(resources, "sample_sprite");
+                ISprite sprite = new Sprite(resources, "sample_sprite");
+                FontSurface font = new FontSurface(resources, "sample_font");
+
                 sprite.StartAnimation();
 
                 while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();
                     Display.Clear(Color.Red);
+
+                    font.DrawText(0, 0, "FPS: " + Display.FramesPerSecond.ToString());
 
                     surf.Draw(20, 20);
 
