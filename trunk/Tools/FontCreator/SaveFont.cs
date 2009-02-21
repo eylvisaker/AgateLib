@@ -57,6 +57,8 @@ namespace FontCreator
         private void txtFontName_TextChanged(object sender, EventArgs e)
         {
             UpdateControls();
+
+            txtImage.Text = "fonts/" + txtFontName.Text + ".png";
         }
 
         private void UpdateControls()
