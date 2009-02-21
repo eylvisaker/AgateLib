@@ -46,10 +46,10 @@
             // 
             this.btnBrowseResource.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrowseResource.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnBrowseResource.Location = new System.Drawing.Point(222, 59);
+            this.btnBrowseResource.Location = new System.Drawing.Point(222, 38);
             this.btnBrowseResource.Name = "btnBrowseResource";
             this.btnBrowseResource.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowseResource.TabIndex = 2;
+            this.btnBrowseResource.TabIndex = 1;
             this.btnBrowseResource.Text = "Browse...";
             this.btnBrowseResource.UseVisualStyleBackColor = true;
             this.btnBrowseResource.Click += new System.EventHandler(this.btnBrowseResource_Click);
@@ -58,16 +58,16 @@
             // 
             this.txtResources.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtResources.Location = new System.Drawing.Point(110, 33);
+            this.txtResources.Location = new System.Drawing.Point(110, 12);
             this.txtResources.Name = "txtResources";
             this.txtResources.Size = new System.Drawing.Size(187, 20);
-            this.txtResources.TabIndex = 1;
+            this.txtResources.TabIndex = 0;
             this.toolTip1.SetToolTip(this.txtResources, "A path to an AgateLib resource file into which to save the font metrics.");
             this.txtResources.TextChanged += new System.EventHandler(this.txtResources_TextChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(12, 36);
+            this.label1.Location = new System.Drawing.Point(12, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(92, 23);
             this.label1.TabIndex = 5;
@@ -122,7 +122,7 @@
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(12, 10);
+            this.label3.Location = new System.Drawing.Point(12, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(92, 17);
             this.label3.TabIndex = 10;
@@ -133,10 +133,10 @@
             // 
             this.txtFontName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFontName.Location = new System.Drawing.Point(110, 7);
+            this.txtFontName.Location = new System.Drawing.Point(110, 72);
             this.txtFontName.Name = "txtFontName";
             this.txtFontName.Size = new System.Drawing.Size(187, 20);
-            this.txtFontName.TabIndex = 0;
+            this.txtFontName.TabIndex = 2;
             this.toolTip1.SetToolTip(this.txtFontName, "The name of the font in the resource file.  This name \r\nis used as a key to retri" +
                     "eve the font from the reosurce\r\nfile at runtime.");
             this.txtFontName.TextChanged += new System.EventHandler(this.txtFontName_TextChanged);

@@ -260,13 +260,28 @@ namespace FontCreator
             else
                 resources = new AgateResourceCollection();
 
-            ((BitmapFontImpl)Font.Impl).Surface.SaveTo(imageFile);
+            if (Path.IsPathRooted(resourceFile) == false)
+            {
+                resourceFile = Path.Combine(Directory.GetCurrentDirectory(), resourceFile);
+            }
 
+            string localImagePath;
             string dir = Path.GetDirectoryName(resourceFile);
-            imageFile = GetRelativePath(dir, imageFile);
+
+            if (Path.IsPathRooted(imageFile) == false)
+            {
+                localImagePath = imageFile;
+                imageFile = Path.Combine(Path.GetDirectoryName(resourceFile), imageFile);
+            }
+            else
+                localImagePath = GetRelativePath(dir, imageFile);
+
+            SaveImage(imageFile);
+
+            localImagePath = localImagePath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
 
             BitmapFontResource res = new BitmapFontResource(fontName);
-            res.Image = imageFile;
+            res.Image = localImagePath;
             res.FontMetrics = ((BitmapFontImpl)Font.Impl).FontMetrics.Clone();
 
             resources.Add(res);
@@ -274,8 +289,31 @@ namespace FontCreator
             AgateResourceLoader.SaveResources(resources, resourceFile);
         }
 
+        private void SaveImage(string imageFile)
+        {
+            EnsureDirectoryExists(Path.GetDirectoryName(imageFile));
+
+            ((BitmapFontImpl)Font.Impl).Surface.SaveTo(imageFile);
+        }
+
+        private void EnsureDirectoryExists(string dirname)
+        {
+            if (Directory.Exists(dirname))
+                return;
+
+            string parentDir = Path.GetDirectoryName(dirname);
+
+            if (Directory.Exists(parentDir) == false)
+                EnsureDirectoryExists(parentDir);
+
+            Directory.CreateDirectory(dirname);
+        }
+
         private string GetRelativePath(string dir, string imageFile)
         {
+            if (dir.EndsWith(Path.DirectorySeparatorChar.ToString()) == false)
+                dir += Path.DirectorySeparatorChar;
+
             for (int i = 0; i < dir.Length; i++)
             {
                 if (imageFile.StartsWith(dir.Substring(0, i)) == false)
@@ -284,7 +322,8 @@ namespace FontCreator
                 }
             }
 
-            return imageFile;
+
+            return imageFile.Substring(dir.Length);
         }
     }
 }
