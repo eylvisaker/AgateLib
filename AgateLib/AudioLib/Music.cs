@@ -46,9 +46,17 @@ namespace AgateLib.AudioLib
         /// </summary>
         /// <param name="filename">The name of the file to load.</param>
         public Music(string filename)
+            : this(AgateFileProvider.Music, filename)
+        { }
+        /// <summary>
+        /// Constructs a Music object from a file given by the specified IFileProvider.
+        /// </summary>
+        /// <param name="fileProvider"></param>
+        /// <param name="filename"></param>
+        public Music(IFileProvider fileProvider, string filename) 
             : this()
         {
-            using (System.IO.Stream s = AgateFileProvider.Music.OpenRead(filename))
+            using (System.IO.Stream s = fileProvider.OpenRead(filename))
             {
                 impl = Audio.Impl.CreateMusic(s);
             }

@@ -64,9 +64,17 @@ namespace AgateLib.AudioLib
         /// </summary>
         /// <param name="filename"></param>
         public SoundBuffer(string filename)
-            : this()
+            : this(AgateFileProvider.Sounds, filename)
+        {}
+        /// <summary>
+        /// Constructs a SoundBuffer object, loading audio data from the 
+        /// specified file given the specified IFileProvider.
+        /// </summary>
+        /// <param name="fileProvider"></param>
+        /// <param name="filename"></param>
+        public SoundBuffer(IFileProvider fileProvider, string filename)
         {
-            using (System.IO.Stream s = AgateFileProvider.Sounds.OpenRead(filename))
+            using (System.IO.Stream s = fileProvider.OpenRead(filename))
             {
                 impl = Audio.Impl.CreateSoundBuffer(s);
             }
