@@ -41,8 +41,8 @@ namespace PackedSpriteCreator
             System.IO.Directory.SetCurrentDirectory(
                 System.IO.Path.GetDirectoryName(openDialog.FileName));
 
-            AgateLib.Utility.AgateFileProvider.ImageProvider.PathList.Clear();
-            AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath(".");
+            AgateLib.AgateFileProvider.Images.Clear();
+            AgateLib.AgateFileProvider.Images.AddPath(".");
         }
 
         private void closeResourceFileToolStripMenuItem_Click(object sender, EventArgs e)
