@@ -120,7 +120,8 @@
   <data name="label1.Text" xml:space="preserve">
     <value>The font creator application takes system fonts and creates bitmap images from the font glyphs for redistribution and to ensure that text appearance is the same on all platforms. 
 
-Many fonts are not licensed for redistribution by end-users, or are licensed under terms which restrict their usage.  It is your responsibility to make sure that you act in accordance with the license(s) of any font(s) you redistribute.</value>
+Many fonts are not licensed for redistribution by end-users, or are licensed under terms which restrict their usage.  It is your responsibility to make sure that you act in accordance with the license
+s of any fonts you redistribute.</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

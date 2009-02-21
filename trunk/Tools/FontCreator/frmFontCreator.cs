@@ -1,227 +1,140 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
 using AgateLib.BitmapFont;
 
 namespace FontCreator
 {
     public partial class frmFontCreator : Form
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-			Directory.CreateDirectory("./images");
-			
-            AgateLib.Utility.AgateFileProvider.AssemblyProvider.AddPath("../../Drivers");
-            AgateLib.Utility.AgateFileProvider.ImageProvider.AddPath("./images");
-			
-            using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup(args))
-            {
-                setup.Initialize(true, false, false);
-                if (setup.WasCanceled)
-                    return;
-
-                Properties.Settings.Default.Reload();
-                if (Properties.Settings.Default.SkipWarning == false)
-                {
-                    new frmWarningSplash().ShowDialog();
-                }
-                Properties.Settings.Default.Save();
-
-
-                Application.Run(new frmFontCreator());
-            }
-        }
-
-        FontCreator sample = new FontCreator();
+        int mCurrentPage;
 
         public frmFontCreator()
         {
             InitializeComponent();
 
-            sample.SetRenderTarget(renderTarget, zoomRenderTarget);
+            CurrentPage = 1;
+        }
 
-            int index = 0;
-
-			List<string> fonts = new List<string>();
-            foreach (FontFamily fam in FontFamily.Families)
+        AgateLib.DisplayLib.FontSurface AgateFont
+        {
+            get { return this.createFont1.FontBuilder.Font; }
+        }
+        int CurrentPage
+        {
+            get { return mCurrentPage; }
+            set
             {
-				fonts.Add(fam.Name);
-			}
-			fonts.Sort();
+                pnlCreateFont.Visible = false;
+                pnlEditGlyphs.Visible = false;
+                pnlSaveFont.Visible = false;
 
-			foreach (string family in fonts)
-			{
-                if (family == "Arial" || family.Contains("Sans Serif") && index == 0)
-                    index = cboFamily.Items.Count;
+                Panel pnl = null;
 
-                cboFamily.Items.Add(family);
-            }
+                switch (value)
+                {
+                    case 1:
+                        pnl = pnlCreateFont;
+                        break;
 
-			
-            cboFamily.SelectedIndex = index;
-            txtSampleText_TextChanged(null, null);
+                    case 2:
+                        string tempImage = Path.GetTempFileName() + ".png";
 
-            foreach (BitmapFontEdgeOptions opt in
-                Enum.GetValues(typeof(BitmapFontEdgeOptions)))
-            {
-                cboEdges.Items.Add(opt);
-            }
+                        ((BitmapFontImpl)AgateFont.Impl).Surface.SaveTo(tempImage);
 
-            cboEdges.SelectedItem = BitmapFontEdgeOptions.IntensityAlphaWhite;
+                        editGlyphs1.SetFont(tempImage, ((BitmapFontImpl)AgateFont.Impl).FontMetrics);
 
-            cboBg.SelectedIndex = 0;
-        }
+                        pnl = pnlEditGlyphs;
+                        break;
 
+                    case 3:
+                        pnl = pnlSaveFont;
+                        break;
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            
-            sample.Draw();
-        }
+                    default:
+                        throw new InvalidOperationException("Wrong page number!");
+                }
 
-        private void cboFamily_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            sample.FontFamily = cboFamily.SelectedItem.ToString();
-        }
-		
-        private void nudScale_ValueChanged(object sender, EventArgs e)
-        {
-            sample.DisplayScale = (double)nudScale.Value;
-        }
-        private void nudSize_ValueChanged(object sender, EventArgs e)
-        {
-            sample.FontSize = (float)nudSize.Value;
-        }
-        private void chkBold_CheckedChanged(object sender, EventArgs e)
-        {
-            sample.Bold = chkBold.Checked;
-        }
-        private void chkItalic_CheckedChanged(object sender, EventArgs e)
-        {
-            sample.Italic = chkItalic.Checked;
-        }
-        private void chkUnderline_CheckedChanged(object sender, EventArgs e)
-        {
-            sample.Underline = chkUnderline.Checked;
-        }
-        private void chkStrikeout_CheckedChanged(object sender, EventArgs e)
-        {
-            sample.Strikeout = chkStrikeout.Checked;
-        }
-        private void txtSampleText_TextChanged(object sender, EventArgs e)
-        {
-            sample.Text = txtSampleText.Text;
-        }
+                pnl.Dock = DockStyle.Fill;
+                pnl.Visible = true;
 
-        private void renderTarget_Resize(object sender, EventArgs e)
-        {
-            sample.Draw();
-        }
-
-        private void btnBorderColor_Click(object sender, EventArgs e)
-        {
-            colorDialog.Color = btnBorderColor.BackColor;
-
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                btnBorderColor.BackColor = colorDialog.Color;
-
-                sample.Options.BorderColor = ConvertColor(colorDialog.Color);
-                sample.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
-
-                sample.Options.CreateBorder = true;
-
-                chkBorder.Checked = true;
-
-                sample.CreateFont();
-            }
-        }
-        private void nudOpacity_ValueChanged(object sender, EventArgs e)
-        {
-            sample.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
-
-            if (chkBorder.Checked)
-            {
-                sample.CreateFont();
+                mCurrentPage = value;
             }
         }
 
-        private AgateLib.Geometry.Color ConvertColor(System.Drawing.Color clr)
+        public void SaveFont()
         {
-            return AgateLib.Geometry.Color.FromArgb(clr.R, clr.G, clr.B);
+             //sample.SaveFont(frm.ResourceFilename, frm.FontName, frm.ImageFilename);
+            createFont1.FontBuilder.SaveFont(
+                saveFont1.ResourceFilename,
+                saveFont1.FontName,
+                saveFont1.ImageFilename);
         }
 
-        private void chkTextRenderer_CheckedChanged(object sender, EventArgs e)
+        private void btnPrevious_Click(object sender, EventArgs e)
         {
-            sample.Options.UseTextRenderer = chkTextRenderer.Checked;
-            sample.CreateFont();
+            CurrentPage--;
+
+            if (CurrentPage == 1)
+                btnPrevious.Enabled = false;
+
+            btnNext.Enabled = true;
+            btnNext.Text = "Next >>";
         }
-
-        private void cboBg_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnNext_Click(object sender, EventArgs e)
         {
-            sample.LightBackground = cboBg.SelectedIndex == 1;
-            
-        }
-
-        private void btnDisplayColor_Click(object sender, EventArgs e)
-        {
-            colorDialog.Color = btnDisplayColor.BackColor;
-
-            if (colorDialog.ShowDialog() == DialogResult.OK)
+            if (CurrentPage == 3)
             {
-                btnDisplayColor.BackColor = colorDialog.Color;
+                SaveFont();
 
-                sample.DisplayColor = ConvertColor(colorDialog.Color);
+                switch (MessageBox.Show(this,
+                    "Successfully saved font.  Create a new font?" + Environment.NewLine +
+                    "Click yes to start over, no to quit.", "Font Complete", MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Information, MessageBoxDefaultButton.Button2))
+                {
+                    case DialogResult.Yes:
+                        CurrentPage = 1;
+                        saveFont1.ResetControls();
+                        break;
+
+                    case DialogResult.No:
+                        this.Close();
+                        break;
+                }
+
+                return;
             }
-        }
 
-        private void chkBorder_CheckedChanged(object sender, EventArgs e)
-        {
-            sample.Options.CreateBorder = chkBorder.Checked;
+            CurrentPage++;
 
-            sample.CreateFont();
-        }
-
-        private void cboEdges_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            sample.Options.EdgeOptions = (BitmapFontEdgeOptions)cboEdges.SelectedItem;
-
-            sample.CreateFont();
-        }
-
-        private void btnViewFont_Click(object sender, EventArgs e)
-        {
-            string tempImage = Path.GetTempFileName() + ".png";
-            string tempXml = Path.GetTempFileName() + ".xml";
-
-            sample.Font.Save(tempImage, tempXml);
-
-            frmViewFont frm = new frmViewFont();
-
-            frm.ShowDialog(this, tempImage, tempXml);
-            frm.Dispose();
-
-            try
+            if (CurrentPage == 3)
             {
-                File.Delete(tempXml);
-                File.Delete(tempImage);
+                btnNext.Enabled = saveFont1.ValidInput;
+                btnNext.Text = "Finish";
             }
-            catch { }
 
+            btnPrevious.Enabled = true;
         }
 
+        private void btnPrevious_MouseEnter(object sender, EventArgs e)
+        {
+            if (CurrentPage == 2)
+                pnlWarning.Visible = true;
+        }
+        private void btnPrevious_MouseLeave(object sender, EventArgs e)
+        {
+            pnlWarning.Visible = false;
+        }
 
+        private void saveFont1_ValidInputChanged(object sender, EventArgs e)
+        {
+            btnNext.Enabled = saveFont1.ValidInput;
+            btnNext.Text = "Finish";
+        }
     }
 }

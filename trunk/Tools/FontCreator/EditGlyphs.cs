@@ -8,12 +8,13 @@ using System.Windows.Forms;
 using System.Xml;
 using AgateLib.BitmapFont;
 using AgateLib.WinForms;
+using AgateLib.Resources;
 
 namespace FontCreator
 {
-    public partial class frmViewFont : Form
+    public partial class EditGlyphs : UserControl 
     {
-        public frmViewFont()
+        public EditGlyphs()
         {
             InitializeComponent();
         }
@@ -21,24 +22,24 @@ namespace FontCreator
         Image image;
         FontMetrics font;
 
-        
-        internal DialogResult ShowDialog(IWin32Window owner, string tempImage, string tempXml)
+
+        internal void SetFont(string tempImage, FontMetrics fontMetrics)
         {
             image = new Bitmap(tempImage);
 
-            font = new FontMetrics();
-            font.Load(tempXml);
+            font = fontMetrics;
 
             foreach (char key in font.Keys)
             {
                 lstItems.Items.Add(key);
             }
-
-            return ShowDialog(owner);
         }
 
         private void pctImage_Paint(object sender, PaintEventArgs e)
         {
+            if (image == null)
+                return;
+
             e.Graphics.FillRectangle(Brushes.DarkRed, new Rectangle(0,0,image.Width, image.Height));
             e.Graphics.DrawImage(image, new Rectangle(0, 0, image.Width, image.Height));
 
@@ -68,5 +69,7 @@ namespace FontCreator
 
             pctImage.Invalidate();
         }
+
+
     }
 }
