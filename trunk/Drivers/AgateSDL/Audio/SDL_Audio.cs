@@ -21,65 +21,48 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+using Tao.Sdl;
+
 using AgateLib;
 using AgateLib.ImplementationBase;
 
-namespace AgateSDL
+namespace AgateSDL.Audio
 {
-    public class SDL_Music : MusicImpl 
+    public class SDL_Audio : AudioImpl
     {
-        public SDL_Music(Stream stream)
+        public override MusicImpl CreateMusic(System.IO.Stream musicStream)
         {
+            return new SDL_Music(musicStream);
+        }
+        public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
+        {
+            return new SDL_SoundBuffer(inStream);
+        }
 
+        public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
+        {
+            return new SDL_SoundBufferSession((SDL_SoundBuffer)buffer);
         }
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            SdlMixer.Mix_CloseAudio();
+            Sdl.SDL_QuitSubSystem(Sdl.SDL_INIT_AUDIO);
         }
 
-        public override bool IsPlaying
+        public override void Initialize()
         {
-            get { throw new NotImplementedException(); }
-        }
-
-        protected override void OnSetLoop(bool value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double Pan
-        {
-            get
+            if (Sdl.SDL_InitSubSystem(Sdl.SDL_INIT_AUDIO) != 0)
             {
-                throw new NotImplementedException();
+                throw new AgateLib.AgateException("Failed to initialize SDL for audio playback.");
             }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
 
-        public override void Play()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Stop()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double Volume
-        {
-            get
+            if (SdlMixer.Mix_OpenAudio(
+                SdlMixer.MIX_DEFAULT_FREQUENCY, Sdl.AUDIO_S16, 2, 4096) != 0)
             {
-                throw new NotImplementedException();
+                throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
             }
-            set
-            {
-                throw new NotImplementedException();
-            }
+
         }
     }
 }

@@ -24,14 +24,14 @@ using System.Text;
 using AgateLib.Drivers;
 using AgateLib.ImplementationBase;
 
-namespace AgateSDL
+namespace AgateSDL.Input
 {
-    public class Input_SDL : InputImpl 
+    public class SDL_Input : InputImpl 
     {
         public static void Register()
         {
             Registrar.RegisterInputDriver(new DriverInfo<InputTypeID>(
-                typeof(Input_SDL), InputTypeID.SDL, "SDL Input", 500));
+                typeof(SDL_Input), InputTypeID.SDL, "SDL Input", 500));
         }
         [Obsolete]
         public override int CountJoysticks()

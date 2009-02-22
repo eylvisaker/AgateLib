@@ -18,51 +18,61 @@
 //
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
-
-using Tao.Sdl;
 
 using AgateLib;
 using AgateLib.ImplementationBase;
 
-namespace AgateSDL
+namespace AgateSDL.Audio
 {
-    public class SDL_Audio : AudioImpl
+    class SDL_SoundBufferSession : SoundBufferSessionImpl
     {
-        public override MusicImpl CreateMusic(System.IO.Stream musicStream)
+        public SDL_SoundBufferSession(SDL_SoundBuffer buffer)
         {
-            return new SDL_Music(musicStream);
-        }
-        public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
-        {
-            return new SDL_SoundBuffer(inStream);
-        }
 
-        public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
-        {
-            return new SDL_SoundBufferSession((SDL_SoundBuffer)buffer);
         }
-
         public override void Dispose()
         {
-            SdlMixer.Mix_CloseAudio();
-            Sdl.SDL_QuitSubSystem(Sdl.SDL_INIT_AUDIO);
+            throw new NotImplementedException();
         }
 
-        public override void Initialize()
+        public override bool IsPlaying
         {
-            if (Sdl.SDL_InitSubSystem(Sdl.SDL_INIT_AUDIO) != 0)
-            {
-                throw new AgateLib.AgateException("Failed to initialize SDL for audio playback.");
-            }
+            get { throw new NotImplementedException(); }
+        }
 
-            if (SdlMixer.Mix_OpenAudio(
-                SdlMixer.MIX_DEFAULT_FREQUENCY, Sdl.AUDIO_S16, 2, 4096) != 0)
+        public override double Pan
+        {
+            get
             {
-                throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
+                throw new NotImplementedException();
             }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
+        public override void Play()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Stop()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override double Volume
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

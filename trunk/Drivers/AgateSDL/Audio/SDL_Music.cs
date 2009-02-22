@@ -24,15 +24,48 @@ using System.Text;
 using AgateLib;
 using AgateLib.ImplementationBase;
 
-namespace AgateSDL
+namespace AgateSDL.Audio
 {
-    class SDL_SoundBuffer : SoundBufferImpl 
+    public class SDL_Music : MusicImpl 
     {
-        public SDL_SoundBuffer(Stream audio)
+        public SDL_Music(Stream stream)
         {
 
         }
+
         public override void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsPlaying
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        protected override void OnSetLoop(bool value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override double Pan
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override void Play()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Stop()
         {
             throw new NotImplementedException();
         }
