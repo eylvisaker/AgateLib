@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 using AgateLib;
 
-namespace ERY.Sprite2Tester
+namespace Sprite2Tester
 {
     static class Sprite2Tester
     {

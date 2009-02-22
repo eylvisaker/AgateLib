@@ -1,4 +1,4 @@
-namespace ERY.Sprite2Tester
+namespace Sprite2Tester
 {
     partial class frmSprite2Tester
     {

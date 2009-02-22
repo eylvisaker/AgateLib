@@ -1,7 +1,7 @@
 // The contents of this file are public domain.
 // You may use them as you wish.
 //
-namespace ERY.SurfaceTester
+namespace SurfaceTester
 {
     partial class frmSurfaceTester
     {

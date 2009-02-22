@@ -35,8 +35,8 @@ namespace TgzProviderTester
                 if (setup.WasCanceled)
                     return;
 
-                DisplayWindow wind = new DisplayWindow(CreateWindowParams.Windowed(
-                    "TgzFileProvider Tester", 800, 600, null, false));
+                DisplayWindow wind = DisplayWindow.CreateWindowed(
+                    "TgzFileProvider Tester", 800, 600, null, false);
 
                 Surface surf = new Surface("dogs.png");
                 Surface surf2 = new Surface("bigpaddle.png");
