@@ -217,16 +217,19 @@ namespace AgateOTK
             Keyboard.Keys[code] = false;
         }
 
-        void Mouse_ButtonUp(OpenTK.Input.MouseDevice sender, OpenTK.Input.MouseButton button)
+        void Mouse_ButtonUp(object sender, OpenTK.Input.MouseButtonEventArgs e)
         {
-            Mouse.MouseButtons agatebutton = TransformButton(button);
+            Mouse.MouseButtons agatebutton = TransformButton(e.Button);
             Mouse.Buttons[agatebutton] = false;
         }
-
-        void Mouse_ButtonDown(OpenTK.Input.MouseDevice sender, OpenTK.Input.MouseButton button)
+        void Mouse_ButtonDown(object sender, OpenTK.Input.MouseButtonEventArgs e)
         {
-            Mouse.MouseButtons agatebutton = TransformButton(button);
+            Mouse.MouseButtons agatebutton = TransformButton(e.Button);
             Mouse.Buttons[agatebutton] = true;
+        }
+        void Mouse_Move(object sender, OpenTK.Input.MouseMoveEventArgs e)
+        {
+            Mouse.Position = new Point(e.X, e.Y);
         }
 
         private static KeyCode TransformKey(OpenTK.Input.Key key)
@@ -256,20 +259,21 @@ namespace AgateOTK
         
         private void AttachEvents()
         {
-            mWindow.CloseWindow += new EventHandler(mWindow_CloseWindow);
+            mWindow.Closing += mWindow_CloseWindow;
             mWindow.Resize += new OpenTK.Platform.ResizeEvent(mWindow_Resize);
 
             mWindow.Keyboard.KeyRepeat = true;
             mWindow.Keyboard.KeyDown += new OpenTK.Input.KeyDownEvent(Keyboard_KeyDown);
             mWindow.Keyboard.KeyUp += new OpenTK.Input.KeyUpEvent(Keyboard_KeyUp);
 
-            mWindow.Mouse.ButtonDown += new OpenTK.Input.MouseButtonDownEvent(Mouse_ButtonDown);
-            mWindow.Mouse.ButtonUp += new OpenTK.Input.MouseButtonUpEvent(Mouse_ButtonUp);
+            mWindow.Mouse.ButtonDown += new OpenTK.Input.MouseButtonEventHandler(Mouse_ButtonDown);
+            mWindow.Mouse.ButtonUp += new OpenTK.Input.MouseButtonEventHandler(Mouse_ButtonUp);
+            mWindow.Mouse.Move += new OpenTK.Input.MouseMoveEventHandler(Mouse_Move);
         }
 
         private void DetachEvents()
         {
-            mWindow.CloseWindow -= mWindow_CloseWindow;
+            mWindow.Closing -= mWindow_CloseWindow;
             mWindow.Resize -= mWindow_Resize;
 
             mWindow.Keyboard.KeyDown -= Keyboard_KeyDown;
