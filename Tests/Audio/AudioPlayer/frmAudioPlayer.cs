@@ -159,7 +159,6 @@ namespace AudioTester
             }
             catch (Exception ex)
             {
-                AgateLib.Core.ReportError(AgateLib.ErrorLevel.Warning, "Error while searching for files", ex, true, true);
             }
         }
 
