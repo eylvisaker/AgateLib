@@ -23,7 +23,7 @@ namespace SpriteTester
             InitializeComponent();
         }
 
-        NewSprite mSprite;
+        Sprite mSprite;
         DisplayWindow wind;
 
         AgateLib.Geometry.Point mSpritePosition = new AgateLib.Geometry.Point(96, 96);
@@ -74,7 +74,7 @@ namespace SpriteTester
 
             //srcSurf = new Surface();
 
-            SetSprite(new NewSprite("attacke.png", 96, 96));
+            SetSprite(new Sprite("attacke.png", 96, 96));
 
             Display.PackAllSurfaces();
 
@@ -82,7 +82,7 @@ namespace SpriteTester
 
         }
 
-        private void SetSprite(NewSprite sprite)
+        private void SetSprite(Sprite sprite)
         {
             ClearEvents();
 
@@ -222,12 +222,12 @@ namespace SpriteTester
             if (openFile.ShowDialog() != DialogResult.OK)
                 return;
 
-            NewSprite spTest = null;
+            Sprite spTest = null;
             string filename = openFile.FileName;
 
             try
             {
-                spTest = new NewSprite(filename,
+                spTest = new Sprite(filename,
                     int.Parse(txtWidth.Text), int.Parse(txtHeight.Text));
             }
             catch (Exception ex)
@@ -253,7 +253,7 @@ namespace SpriteTester
                 {
                     var sprites = resources.Sprites.ToArray();
 
-                    NewSprite sp = new NewSprite(resources, sprites[0].Name);
+                    Sprite sp = new Sprite(resources, sprites[0].Name);
 
                     SetSprite(sp);
                 }
@@ -263,7 +263,7 @@ namespace SpriteTester
 
                     if (frm.ShowDialog(this, resources) == DialogResult.OK)
                     {
-                        NewSprite sp = new NewSprite(resources, frm.SelectedSprite);
+                        Sprite sp = new Sprite(resources, frm.SelectedSprite);
 
                         SetSprite(sp);
                     }

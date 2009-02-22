@@ -14,7 +14,7 @@ using AgateLib.Resources;
 using AgateLib.Sprites;
 using AgateLib.DisplayLib;
 
-namespace ERY.Sprite2Tester
+namespace Sprite2Tester
 {
     public partial class frmSprite2Tester : Form
     {

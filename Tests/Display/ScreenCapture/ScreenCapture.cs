@@ -52,7 +52,7 @@ namespace AgateTest
         //            AgateDisplay.Clear();
         //            for (int i = 0; i < 50; i++)
         //            {
-        //                AgateDisplay.FillRect(new ERY.AgateLib.Geometry.Rectangle(
+        //                AgateDisplay.FillRect(new AgateLib.Geometry.Rectangle(
         //                    rnd.Next(0, 100), fontHeight * 2 + image.DisplayHeight + rnd.Next(0, 100),
         //                    rnd.Next(100, 200), rnd.Next(100, 200)),
         //                    Color.FromArgb(rnd.Next(0, 255), rnd.Next(0, 255), rnd.Next(0, 255), rnd.Next(0, 255)));

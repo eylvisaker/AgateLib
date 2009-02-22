@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 using AgateLib;
 
-namespace ERY.SurfaceTester
+namespace SurfaceTester
 {
     static class SurfaceTester
     {
