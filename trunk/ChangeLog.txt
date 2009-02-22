@@ -22,6 +22,8 @@ take System.Drawing types, such as Point and Size.
 AgateOTK has been updated to use a newer version of OpenTK, with Mac OS X support.  An OpenAL driver 
 has been developed in AgateOTK, providing an audio driver for Linux which does not require licensing fees.
 
+AgateSDL.dll has been added to use SDL and SDL_mixer to get joystick and audio support.
+
 Added AgateLib.Serialization namespace with two custom serializers that produce XML output.
 
 A new resource system has been developed to replace the old one.  Also, the AgateFileProvider 
