@@ -18,48 +18,51 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+
+using Tao.Sdl;
 
 using AgateLib;
 using AgateLib.ImplementationBase;
 
 namespace AgateSDL
 {
-    public class SDL_Audio : AudioImpl 
+    public class SDL_Audio : AudioImpl
     {
         public override MusicImpl CreateMusic(System.IO.Stream musicStream)
         {
             return new SDL_Music(musicStream);
         }
-
-        public override MusicImpl CreateMusic(string filename)
-        {
-            throw new NotImplementedException();
-        }
-
         public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
         {
-            throw new NotImplementedException();
-        }
-
-        public override SoundBufferImpl CreateSoundBuffer(string filename)
-        {
-            throw new NotImplementedException();
+            return new SDL_SoundBuffer(inStream);
         }
 
         public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
         {
-            throw new NotImplementedException();
+            return new SDL_SoundBufferSession((SDL_SoundBuffer)buffer);
         }
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            SdlMixer.Mix_CloseAudio();
+            Sdl.SDL_QuitSubSystem(Sdl.SDL_INIT_AUDIO);
         }
 
         public override void Initialize()
         {
-            throw new NotImplementedException();
+            if (Sdl.SDL_InitSubSystem(Sdl.SDL_INIT_AUDIO) != 0)
+            {
+                throw new AgateLib.AgateException("Failed to initialize SDL for audio playback.");
+            }
+
+            if (SdlMixer.Mix_OpenAudio(
+                SdlMixer.MIX_DEFAULT_FREQUENCY, Sdl.AUDIO_S16, 2, 4096) != 0)
+            {
+                throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
+            }
+
         }
     }
 }

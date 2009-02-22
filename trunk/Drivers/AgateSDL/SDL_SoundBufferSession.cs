@@ -25,8 +25,12 @@ using AgateLib.ImplementationBase;
 
 namespace AgateSDL
 {
-    class SDL_SoundBufferSession : SoundBufferSessionImpl 
+    class SDL_SoundBufferSession : SoundBufferSessionImpl
     {
+        public SDL_SoundBufferSession(SDL_SoundBuffer buffer)
+        {
+
+        }
         public override void Dispose()
         {
             throw new NotImplementedException();
