@@ -30,6 +30,34 @@ namespace AgateSDL.Audio
 {
     public class SDL_Audio : AudioImpl
     {
+        List<string> tempfiles = new List<string>();
+
+        ~SDL_Audio()
+        {
+            Dispose(false);
+        }
+        public override void Dispose()
+        {
+            Dispose(true);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            SdlMixer.Mix_CloseAudio();
+            Sdl.SDL_QuitSubSystem(Sdl.SDL_INIT_AUDIO);
+
+            foreach (string file in tempfiles)
+            {
+                File.Delete(file);
+            }
+
+            tempfiles.Clear();
+        }
+
+        public override MusicImpl CreateMusic(string filename)
+        {
+            return new SDL_Music(filename);
+        }
         public override MusicImpl CreateMusic(System.IO.Stream musicStream)
         {
             return new SDL_Music(musicStream);
@@ -44,11 +72,6 @@ namespace AgateSDL.Audio
             return new SDL_SoundBufferSession((SDL_SoundBuffer)buffer);
         }
 
-        public override void Dispose()
-        {
-            SdlMixer.Mix_CloseAudio();
-            Sdl.SDL_QuitSubSystem(Sdl.SDL_INIT_AUDIO);
-        }
 
         public override void Initialize()
         {
@@ -63,6 +86,11 @@ namespace AgateSDL.Audio
                 throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
             }
 
+        }
+
+        internal void RegisterTempFile(string filename)
+        {
+            tempfiles.Add(filename);
         }
     }
 }

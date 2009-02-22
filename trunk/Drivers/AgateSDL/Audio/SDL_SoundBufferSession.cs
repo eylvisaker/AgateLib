@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using Tao.Sdl;
+
 using AgateLib;
 using AgateLib.ImplementationBase;
 
@@ -27,51 +29,71 @@ namespace AgateSDL.Audio
 {
     class SDL_SoundBufferSession : SoundBufferSessionImpl
     {
+        IntPtr sound;
+        int channel;
+        double volume;
+        double pan;
+
         public SDL_SoundBufferSession(SDL_SoundBuffer buffer)
         {
-
+            sound = buffer.SoundChunk;
+            channel = SdlMixer.Mix_PlayChannel(-1, sound, 0);
+            volume = buffer.Volume;
+            
         }
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            Stop();
         }
 
         public override bool IsPlaying
         {
-            get { throw new NotImplementedException(); }
+            get { return SdlMixer.Mix_Playing(channel) != 0; }
         }
 
         public override double Pan
         {
             get
             {
-                throw new NotImplementedException();
+                return pan;
             }
             set
             {
-                throw new NotImplementedException();
+                pan = value;
+                SetPanning();
             }
+        }
+
+        private void SetPanning()
+        {
+            byte leftVol = (byte)(pan <= 0 ? 255 : (int)((1.0 - pan) * 255));
+            byte rightVol = (byte)(pan >= 0 ? 255 : (int)((pan + 1.0) * 255));
+
+            SdlMixer.Mix_SetPanning(channel, leftVol, rightVol);
         }
 
         public override void Play()
         {
-            throw new NotImplementedException();
+            SdlMixer.Mix_PlayChannel(channel, sound, 0);
+            SetPanning();
         }
 
         public override void Stop()
         {
-            throw new NotImplementedException();
+            SdlMixer.Mix_Pause(channel);
         }
 
         public override double Volume
         {
             get
             {
-                throw new NotImplementedException();
+                return volume;
             }
             set
             {
-                throw new NotImplementedException();
+                volume = value;
+
+                SdlMixer.Mix_Volume(channel, (int)(volume * 128));
             }
         }
     }
