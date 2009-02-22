@@ -72,5 +72,26 @@ namespace AgateLib
         {
             get { return mResourceProvider; }
         }
+
+        /// <summary>
+        /// Saves a stream to a file in the temp path.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static string SaveStreamToTempFile(Stream stream)
+        {
+            string tempfile = Path.GetTempFileName();
+
+            byte[] buffer = new byte[stream.Length];
+
+            using (FileStream tempstream = File.OpenWrite(tempfile))
+            {
+                stream.Read(buffer, 0, (int)stream.Length);
+
+                tempstream.Write(buffer, 0, buffer.Length);
+            }
+
+            return tempfile;
+        }
     }
 }
