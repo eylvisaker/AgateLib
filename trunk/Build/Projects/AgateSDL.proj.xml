@@ -17,17 +17,18 @@
   <Reference name="AgateLib.WinForms"/>
   <Reference name="Tao.Sdl" path="." localCopy="true"/>
   <Reference name="System"/>
-  <Reference name="System.Data"/>
-  <Reference name="System.Drawing"/>
   <Reference name="System.Xml"/>
-  <Reference name="System.Windows.Forms"/>
 
   <Files>
-    <Match pattern="*.config" copyToOutput="Always" buildAction="None" />
     <Match pattern="*.cs" recurse="true"/>
+    <Match pattern="*.config" copyToOutput="Always" buildAction="None" />
     <Match pattern="Tao.Sdl.dll" copyToOutput="Always" buildAction="None" />
     <Match pattern="Tao.Sdl.dll.config" copyToOutput="Always" buildAction="None" />
     <Match pattern="SDL.dll" copyToOutput="Always" buildAction="None" />
+    <Match pattern="SDL_mixer.dll" copyToOutput="Always" buildAction="None" />
+    <Match pattern="libogg-0.dll" copyToOutput="Always" buildAction="None" />
+    <Match pattern="libvorbis-0.dll" copyToOutput="Always" buildAction="None" />
+    <Match pattern="libvorbisfile-3.dll" copyToOutput="Always" buildAction="None" />
     <Match pattern="Readme-SDL.txt" copyToOutput="Always" buildAction="None" />
   </Files>
 </Project>
