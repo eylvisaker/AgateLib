@@ -10,8 +10,17 @@ namespace AgateLib.Drivers
         public AgateDriverInfo[] ReportDrivers(string file)
         {
             List<AgateDriverInfo> retval = new List<AgateDriverInfo>();
+            Assembly ass;
 
-            Assembly ass = Assembly.LoadFrom(file);
+            try
+            {
+                ass = Assembly.LoadFrom(file);
+            }
+            catch (BadImageFormatException)
+            {
+                System.Diagnostics.Debug.Print("Could not load the file {0}.  Is it a CLR assembly?", file);
+                return retval.ToArray();
+            }
 
             foreach (Type t in ass.GetTypes())
             {
