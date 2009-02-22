@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 using AgateLib;
@@ -27,6 +28,10 @@ namespace AgateSDL
 {
     class SDL_SoundBuffer : SoundBufferImpl 
     {
+        public SDL_SoundBuffer(Stream audio)
+        {
+
+        }
         public override void Dispose()
         {
             throw new NotImplementedException();
