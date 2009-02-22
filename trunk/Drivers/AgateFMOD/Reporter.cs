@@ -9,11 +9,31 @@ namespace AgateFMOD
     {
         public override IEnumerable<AgateDriverInfo> ReportDrivers()
         {
-            yield return new AgateDriverInfo(
-                AudioTypeID.FMod,
-                typeof(FMOD_Audio),
-                "FMOD",
-                1);
+            if (FmodInstalled())
+            {
+                yield return new AgateDriverInfo(
+                    AudioTypeID.FMod,
+                    typeof(FMOD_Audio),
+                    "FMOD",
+                    1);
+            }
+        }
+
+        private bool FmodInstalled()
+        {
+            try
+            {
+                FMOD_Audio audio = new FMOD_Audio();
+
+                audio.Initialize();
+                audio.Dispose();
+
+                return true;
+            }
+            catch (DllNotFoundException)
+            {
+                return false;
+            }
         }
     }
 }
