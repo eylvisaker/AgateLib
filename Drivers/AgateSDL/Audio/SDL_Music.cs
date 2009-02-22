@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+using Tao.Sdl;
+
 using AgateLib;
 using AgateLib.ImplementationBase;
 
@@ -28,14 +30,51 @@ namespace AgateSDL.Audio
 {
     public class SDL_Music : MusicImpl 
     {
+        IntPtr music;
+        string tempfile;
+
         public SDL_Music(Stream stream)
         {
+            tempfile = AgateFileProvider.SaveStreamToTempFile(stream);
 
+            LoadFromFile(tempfile);
+
+            (AgateLib.AudioLib.Audio.Impl as SDL_Audio).RegisterTempFile(tempfile);
+        }
+
+        public SDL_Music(string filename)
+        {
+            LoadFromFile(filename);
+        }
+
+        ~SDL_Music()
+        {
+            Dispose(false);
         }
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            SdlMixer.Mix_FreeMusic(music);
+
+            //if (string.IsNullOrEmpty(tempfile) == false)
+            //{
+            //    File.Delete(tempfile);
+            //    tempfile = "";
+            //}
+        }
+
+        private void LoadFromFile(string file)
+        {
+            music = SdlMixer.Mix_LoadMUS(file);
+
+            if (music == IntPtr.Zero)
+                throw new AgateException("Could not load music file.");
         }
 
         public override bool IsPlaying
@@ -56,18 +95,18 @@ namespace AgateSDL.Audio
             }
             set
             {
-                throw new NotImplementedException();
+                
             }
         }
 
         public override void Play()
         {
-            throw new NotImplementedException();
+            SdlMixer.Mix_PlayMusic(music, -1);
         }
 
         public override void Stop()
         {
-            throw new NotImplementedException();
+            SdlMixer.Mix_PauseMusic();
         }
 
         public override double Volume
@@ -78,7 +117,6 @@ namespace AgateSDL.Audio
             }
             set
             {
-                throw new NotImplementedException();
             }
         }
     }

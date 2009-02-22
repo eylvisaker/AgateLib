@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+using Tao.Sdl;
+
 using AgateLib;
 using AgateLib.ImplementationBase;
 
@@ -28,25 +30,72 @@ namespace AgateSDL.Audio
 {
     class SDL_SoundBuffer : SoundBufferImpl 
     {
-        public SDL_SoundBuffer(Stream audio)
+        IntPtr sound;
+        string tempfile;
+        double mVolume = 1.0;
+
+        public SDL_SoundBuffer(Stream stream)
         {
+            tempfile = AgateFileProvider.SaveStreamToTempFile(stream);
+
+            LoadFromFile(tempfile);
+
+            (AgateLib.AudioLib.Audio.Impl as SDL_Audio).RegisterTempFile(tempfile);
 
         }
+        public SDL_SoundBuffer(string filename)
+        {
+            LoadFromFile(filename);
+        }
+
+        ~SDL_SoundBuffer()
+        {
+            Dispose(false);
+        }
+
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            SdlMixer.Mix_FreeChunk(sound);
+
+            //if (string.IsNullOrEmpty(tempfile) == false)
+            //{
+            //    File.Delete(tempfile);
+            //    tempfile = "";
+            //}
+        }
+        private void LoadFromFile(string file)
+        {
+
+            sound = SdlMixer.Mix_LoadWAV(file);
+
+            if (sound == IntPtr.Zero)
+                throw new AgateException("Could not load audio file.");
         }
 
         public override double Volume
         {
             get
             {
-                throw new NotImplementedException();
+                return mVolume;
             }
             set
             {
-                throw new NotImplementedException();
+                if (value < 0.0) mVolume = 0.0;
+                else if (value > 1.0) mVolume = 1.0;
+                else mVolume = value;
             }
         }
+
+        internal IntPtr SoundChunk
+        {
+            get { return sound; }
+        }
+
     }
 }
