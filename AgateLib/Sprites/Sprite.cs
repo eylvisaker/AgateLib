@@ -8,7 +8,6 @@ using AgateLib.Resources;
 
 namespace AgateLib.Sprites
 {
-    // TODO: Refactor this to name it Sprite.
     public class Sprite : ISprite 
     {
         FrameList<SpriteFrame> mFrames = new FrameList<SpriteFrame>();
@@ -102,7 +101,7 @@ namespace AgateLib.Sprites
         /// Frames are cut out from the given surface of the specified size.
         /// </summary>
         /// <param name="surface"></param>
-        /// <param name="ownSurface">True to indicate that this NewSprite object owns the surface, so 
+        /// <param name="ownSurface">True to indicate that this Sprite object owns the surface, so 
         /// it is disposed when this Sprite is disposed.</param>
         /// <param name="width"></param>
         /// <param name="height"></param>
@@ -111,10 +110,10 @@ namespace AgateLib.Sprites
         {
         }
         /// <summary>
-        /// Constructs a NewSprite object, of the specified width and height.
+        /// Constructs a Sprite object, of the specified width and height.
         /// </summary>
         /// <param name="surface"></param>
-        /// <param name="ownSurface">True to indicate that this NewSprite object owns the surface, so 
+        /// <param name="ownSurface">True to indicate that this Sprite object owns the surface, so 
         /// it is disposed when this Sprite is disposed.</param>
         /// <param name="size"></param>
         public Sprite(Surface surface, bool ownSurface, Size size)
