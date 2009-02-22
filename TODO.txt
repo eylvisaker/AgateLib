@@ -17,7 +17,7 @@ Goals for 0.3.0
 		* Clean up platform-specific classes.
 		* Fix up platform detection routines.
 		D Deprecate use of FileManager.PathChars 
-		* Add more error reporting
+		D Add more error reporting
 		* Flesh out the new resource system.
 		* Update Timing.cs to use the new platform system.
 	Drivers
@@ -34,7 +34,7 @@ Goals for 0.3.0
 		D Test PackedSprite class
 		D Merge two sprite classes into a single class for ease of use.
 	Fonts
-		* Finish FontSurface serialization
+		D Finish FontSurface serialization
 		D Investigate nVidia bug with Bitmap Fonts and fix it
 	Surfaces
 		D Move implementation of PixelBuffer.SaveTo to Display class or something.
