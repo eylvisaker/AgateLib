@@ -214,6 +214,11 @@ namespace AgateLib.DisplayLib
 
         #region --- Static Creation Methods ---
 
+        [Obsolete("Use CreateFromControl static method.")]
+        public static DisplayWindow FromControl(object control)
+        {
+            return CreateFromControl(control);
+        }
         /// <summary>
         /// Creates a DisplayWindow object using the specified System.Windows.Forms.Control
         /// object as a render context.  A DisplayWindow made in this manner cannot be made
@@ -242,6 +247,18 @@ namespace AgateLib.DisplayLib
         }
         /// <summary>
         /// Creates a DisplayWindow object which generates a desktop window to render into.
+        /// This overload creates a window which has the default icon and is not resizeable.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public static DisplayWindow CreateWindowed(string title, int width, int height)
+        {
+            return DisplayWindow.CreateWindowed(title, width, height, false, null);
+        }
+        /// <summary>
+        /// Creates a DisplayWindow object which generates a desktop window to render into.
         /// </summary>
         /// <param name="title"></param>
         /// <param name="width"></param>
@@ -249,7 +266,7 @@ namespace AgateLib.DisplayLib
         /// <param name="iconFile"></param>
         /// <param name="allowResize"></param>
         /// <returns></returns>
-        public static DisplayWindow CreateWindowed(string title, int width, int height, string iconFile, bool allowResize)
+        public static DisplayWindow CreateWindowed(string title, int width, int height, bool allowResize, string iconFile)
         {
             return new DisplayWindow(CreateWindowParams.Windowed(title, width, height, iconFile, allowResize));
         }
