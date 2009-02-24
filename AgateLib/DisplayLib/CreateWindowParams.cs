@@ -260,7 +260,7 @@ namespace AgateLib.DisplayLib
         /// <param name="iconFile"></param>
         /// <param name="allowResize"></param>
         /// <returns></returns>
-        public static CreateWindowParams Windowed(string title, int width, int height, string iconFile, bool allowResize)
+        public static CreateWindowParams Windowed(string title, int width, int height, bool allowResize, string iconFile)
         {
             CreateWindowParams retval = new CreateWindowParams();
 
@@ -270,8 +270,13 @@ namespace AgateLib.DisplayLib
             retval.IconFile = iconFile;
             retval.IsResizable = allowResize;
             retval.HasMaximize = allowResize;
-            
+
             return retval;
+        }
+        [Obsolete("Use Windowed overload where iconFile is last parameter.")]
+        public static CreateWindowParams Windowed(string title, int width, int height, string iconFile, bool allowResize)
+        {
+            return Windowed(title, width, height, allowResize, iconFile);
         }
         /// <summary>
         /// Creates a CreateWindowParams object which describes a desktop window with no frame or
