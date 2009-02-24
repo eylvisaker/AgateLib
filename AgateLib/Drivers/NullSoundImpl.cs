@@ -22,8 +22,8 @@ using System.Text;
 
 using AgateLib.Drivers;
 using AgateLib.ImplementationBase;
- 
-namespace AgateLib
+
+namespace AgateLib.Drivers
 {
     /// <summary>
     /// Class which provides a silent Audio implementation.
