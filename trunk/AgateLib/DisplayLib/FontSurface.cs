@@ -355,8 +355,9 @@ namespace AgateLib.DisplayLib
         }
 
         /// <summary>
-        /// Returns true if this font can be saved to a file by calling the Save method.
+        /// Returns false.
         /// </summary>
+        [Obsolete]
         public bool CanSave
         {
             get
