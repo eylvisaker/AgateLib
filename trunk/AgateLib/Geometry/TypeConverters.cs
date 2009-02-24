@@ -77,7 +77,7 @@ namespace AgateLib.Geometry
             Point retval = new Point();
 
             if (values.Length > 2)
-                throw new FormatException();
+                throw new FormatException("Could not parse point data from text.");
 
             for (int i = 0; i < values.Length; i++)
             {
@@ -153,7 +153,7 @@ namespace AgateLib.Geometry
             Size retval = new Size();
 
             if (values.Length != 2)
-                throw new FormatException();
+                throw new FormatException("Could not parse size data from text.");
 
             if (str.Contains("="))
             {
@@ -235,7 +235,7 @@ namespace AgateLib.Geometry
             Rectangle retval = new Rectangle();
 
             if (values.Length != 4)
-                throw new FormatException();
+                throw new FormatException("Could not parse rectangle data from text.");
 
             if (str.Contains("="))
             {

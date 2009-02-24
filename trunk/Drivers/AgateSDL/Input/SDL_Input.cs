@@ -68,6 +68,9 @@ namespace AgateSDL.Input
             // apparently initializing the video has some side-effect 
             // that is required for joysticks to work on windows (at least).
             Tao.Sdl.Sdl.SDL_InitSubSystem(Tao.Sdl.Sdl.SDL_INIT_VIDEO);
+
+            Report("SDL driver instantiated for joystick input.");
+
         }
     }
 

@@ -833,11 +833,11 @@ namespace AgateLib.Sprites
                         break;
 
                     default:
-                        throw new Exception("Error: AnimationType not valid!");
+                        throw new AgateException("Error: AnimationType not valid!");
                 }
 
                 if (mCurrentFrameIndex < 0 || mCurrentFrameIndex >= mFrames.Count)
-                    throw new Exception("Error: Frame Index is in the wrong place!");
+                    throw new AgateException("Error: Frame Index is in the wrong place!");
             }
         }
         /// <summary>

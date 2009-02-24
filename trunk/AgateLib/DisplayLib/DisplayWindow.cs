@@ -50,7 +50,7 @@ namespace AgateLib.DisplayLib
             Resources.DisplayWindowResource disp = res as Resources.DisplayWindowResource;
 
             if (disp == null)
-                throw new KeyNotFoundException("Resource " + name + " was found, but was of type " + name.GetType().ToString() + ", not DisplayWindowResource.");
+                throw new Resources.AgateResourceException("Resource " + name + " was found, but was of type " + name.GetType().ToString() + ", not DisplayWindowResource.");
 
 
             if (disp.FullScreen)
@@ -79,7 +79,7 @@ namespace AgateLib.DisplayLib
         public DisplayWindow(CreateWindowParams windowParams)
         {
             if (Display.Impl == null)
-                throw new NullReferenceException(
+                throw new AgateException(
                     "Display has not been initialized." + Environment.NewLine + 
                     "Did you forget to call AgateSetup.Initialize or Display.Initialize?");
 
@@ -98,11 +98,11 @@ namespace AgateLib.DisplayLib
         /// </remarks>
         /// <param name="renderTarget">Windows.Forms control which should be used as the
         /// render target.</param>
-        [Obsolete("Use the DisplayWindow.FromControl static method instead.")]
+        [Obsolete("Use the DisplayWindow.CreateFromControl static method instead.")]
         public DisplayWindow(object renderTarget)
         {
             if (Display.Impl == null)
-                throw new NullReferenceException(
+                throw new AgateException(
                     "Display has not been initialized." + Environment.NewLine +
                     "Did you forget to call AgateSetup.Initialize or Display.Initialize?");
 
@@ -118,7 +118,7 @@ namespace AgateLib.DisplayLib
         /// <param name="title"></param>
         /// <param name="clientWidth"></param>
         /// <param name="clientHeight"></param>
-        [Obsolete("Use the DisplayWindow.Windowed static method instead.")]
+        [Obsolete("Use the DisplayWindow.CreateWindowed static method instead.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight)
             : this(CreateWindowParams.Windowed(title, clientWidth, clientHeight, "", false))
         {
@@ -134,7 +134,7 @@ namespace AgateLib.DisplayLib
         /// <param name="clientHeight">Height of the drawing area in pixels.</param>
         /// <param name="iconFile">File name of a Win32 .ico file to use for the window icon.  Pass
         /// null or "" to not use an icon.</param>
-        [Obsolete("Use the DisplayWindow.Windowed static method instead.")]
+        [Obsolete("Use the DisplayWindow.CreateWindowed static method instead.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile)
             : this(title, clientWidth, clientHeight, "", false, false)
         {
@@ -149,7 +149,7 @@ namespace AgateLib.DisplayLib
         /// <param name="clientHeight">Height of the drawing area in pixels.</param>
         /// <param name="iconFile">File name of a Win32 .ico file to use for the window icon.</param>
         /// <param name="startFullscreen">True to start as a full screen window.</param>
-        [Obsolete("Use either the DisplayWindow.Windowed or DisplayWindow.FullScreen static method instead.")]
+        [Obsolete("Use either the DisplayWindow.CreateWindowed or DisplayWindow.CreateFullScreen static method instead.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen)
             : this(title, clientWidth, clientHeight, iconFile, startFullscreen, false)
         {
@@ -165,7 +165,7 @@ namespace AgateLib.DisplayLib
         /// <param name="startFullscreen">True to start as a full screen window.</param>
         /// <param name="allowResize">True to allow the user to manually resize the window by
         /// dragging the border.</param>
-        [Obsolete("Use either the DisplayWindow.Windowed or DisplayWindow.FullScreen static method instead.")]
+        [Obsolete("Use either the DisplayWindow.CreateWindowed or DisplayWindow.CreateFullScreen static method instead.")]
         public DisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen, bool allowResize)
         {
             //impl = Display.Impl.CreateDisplayWindow(title, clientWidth, clientHeight, 

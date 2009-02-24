@@ -67,14 +67,15 @@ namespace AgateOTK
             if (windowParams.RenderToControl)
             {
                 if (typeof(Control).IsAssignableFrom(windowParams.RenderTarget.GetType()) == false)
-                    throw new ArgumentException("The specified render target does not derive from System.Windows.Forms.Control");
+                    throw new AgateException(string.Format("The specified render target is of type {0}, " +
+                        "which does not derive from System.Windows.Forms.Control.", windowParams.RenderTarget.GetType().Name));
 
                 mRenderTarget = (Control)windowParams.RenderTarget;
 
                 if (mRenderTarget.TopLevelControl == null)
-                    throw new ArgumentException("The specified render target does not have a Form object yet.  " +
-                        "It's TopLevelControl property is null.  You may not create DisplayWindow objects before " +
-                        "the control to render to is added to the Form.");
+                    throw new ArgumentException("The specified render target has not been added to a Form yet.  " +
+                        "Check to make sure that you are creating the DisplayWindow after all controls are added " +
+                        "to the Form.  Do not create a DisplayWindow in a constructor for a UserControl, for example.");
 
                 mChooseFullscreen = false;
                 mChooseWidth = mRenderTarget.ClientSize.Width;
@@ -430,7 +431,7 @@ namespace AgateOTK
         public override void SetFullScreen(int width, int height, int bpp)
         {
             if (frm == null)
-                throw new InvalidOperationException("This DisplayWindow was created on a " +
+                throw new AgateException("This DisplayWindow was created on a " +
                     "System.Windows.Forms.Control object, and cannot be set to full screen.");
 
             ScreenMode mode = ScreenMode.SelectBestMode(width, height, bpp);

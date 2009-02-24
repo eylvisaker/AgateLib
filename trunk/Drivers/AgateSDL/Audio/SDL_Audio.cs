@@ -86,6 +86,7 @@ namespace AgateSDL.Audio
                 throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
             }
 
+            Report("SDL driver instantiated for audio.");
         }
 
         internal void RegisterTempFile(string filename)

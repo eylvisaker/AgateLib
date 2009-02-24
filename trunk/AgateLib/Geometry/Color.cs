@@ -741,13 +741,13 @@ namespace AgateLib.Geometry
             if (int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out value))
             {
                 if (value > 255 || value < 0)
-                    throw new InvalidOperationException(string.Format(System.Globalization.CultureInfo.CurrentCulture,
+                    throw new ArgumentException(string.Format(System.Globalization.CultureInfo.CurrentCulture,
                         "Invalid result.  Input Hex number: {0}, Result: {1}", hex, value));
 
                 return (byte)value;
             }
             else
-                throw new InvalidOperationException("Not a hex number.");
+                throw new ArgumentException("Not a hex number.");
         }
         private static void ValidateByteValue(ref int val)
         {

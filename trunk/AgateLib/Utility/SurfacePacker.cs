@@ -144,7 +144,7 @@ namespace AgateLib.Utility
                         (double)(mContainerSize.Width * mContainerSize.Height);
                 }
                 else
-                    throw new Exception("Attempted to add a rectangle which was not free.");
+                    throw new AgateException("Attempted to add a rectangle which was not free.");
             }
             private void AddRect(RectHolder<T> rectHolder)
             {
@@ -156,7 +156,7 @@ namespace AgateLib.Utility
                         (double)(mContainerSize.Width * mContainerSize.Height);
                 }
                 else
-                    throw new Exception("Attempted to add a rectangle which was not free.");
+                    throw new AgateException("Attempted to add a rectangle which was not free.");
             }
             /// <summary>
             /// Finds an empty space of the specified size.
