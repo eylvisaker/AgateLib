@@ -201,7 +201,7 @@ namespace AgateLib.DisplayLib
             set
             {
                 if (value == null)
-                    throw new NullReferenceException("RenderTarget cannot be null.");
+                    throw new ArgumentNullException("RenderTarget cannot be null.");
                 
                 impl.RenderTarget = value;
 
@@ -292,7 +292,7 @@ namespace AgateLib.DisplayLib
         public static void BeginFrame()
         {
             if (CurrentWindow == null)
-                throw new AgateException("A display window has not been created yet.");
+                throw new AgateException("A display window must be created before beginning to render.");
             if (RenderTarget == null)
                 throw new AgateException("A render target must be set before beginning to render.");
             if (CurrentWindow.IsClosed)
@@ -424,14 +424,14 @@ namespace AgateLib.DisplayLib
             get
             {
                 if (impl == null)
-                    throw new NullReferenceException("Display has not been initialized.");
+                    throw new AgateException("Display has not been initialized.");
 
                 return impl.VSync;
             }
             set
             {
                 if (impl == null)
-                    throw new NullReferenceException("Display has not been initialized.");
+                    throw new AgateException("Display has not been initialized.");
 
                 impl.VSync = value;
             }
@@ -534,7 +534,8 @@ namespace AgateLib.DisplayLib
         }
         /// <summary>
         /// Draws a bunch of line segments.  Each pair of points represents
-        /// a line segment which is drawn.  No connections are made. 
+        /// a line segment which is drawn.  No connections between the line segments
+        /// are made, so there must be an even number of points.
         /// </summary>
         /// <param name="pts"></param>
         /// <param name="color"></param>

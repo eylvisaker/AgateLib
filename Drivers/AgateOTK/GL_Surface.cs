@@ -535,7 +535,7 @@ namespace AgateOTK
 
                 if (code != FramebufferErrorCode.FramebufferCompleteExt)
                 {
-                    throw new InvalidOperationException(
+                    throw new AgateException(
                         "Could not complete framebuffer object.");
                 }
 

@@ -65,7 +65,7 @@ namespace AgateLib.BitmapFont
                     mEndChar = value;
 
                     if (value < mStartChar)
-                        throw new ArgumentException();
+                        throw new ArgumentException("EndChar must be less than StartChar.");
                 }
             }
             /// <summary>

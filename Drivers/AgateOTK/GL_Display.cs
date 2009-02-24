@@ -85,16 +85,16 @@ namespace AgateOTK
 
         public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
         {
-            //return new GL_DisplayControl(windowParams);
+            return new GL_DisplayControl(windowParams);
 
-            if (windowParams.RenderToControl)
-            {
-                return new GL_DisplayControl(windowParams);
-            }
-            else
-            {
-                return new GL_GameWindow(windowParams);
-            }
+            //if (windowParams.RenderToControl)
+            //{
+            //    return new GL_DisplayControl(windowParams);
+            //}
+            //else
+            //{
+            //    return new GL_GameWindow(windowParams);
+            //}
         }
         public override SurfaceImpl CreateSurface(string fileName)
         {

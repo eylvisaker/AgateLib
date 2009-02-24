@@ -52,7 +52,7 @@ namespace AgateLib.DisplayLib.SystemDrawing
         protected override void OnRenderTargetChange(IRenderTarget oldRenderTarget)
         {
             if (mInFrame)
-                throw new InvalidOperationException(
+                throw new AgateException(
                     "Cannot change the current render target inside BeginFrame..EndFrame block!");
 
             System.Diagnostics.Debug.Assert(mGraphics == null);
@@ -231,7 +231,7 @@ namespace AgateLib.DisplayLib.SystemDrawing
         {
 #if DEBUG
             if (mClipRects.Count == 0)
-                throw new Exception("You have popped the cliprect too many times.");
+                throw new Exception("The cliprect has been popped too many times.");
 #endif
             
             SetClipRect(mClipRects.Pop());

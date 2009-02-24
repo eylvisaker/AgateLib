@@ -54,7 +54,7 @@ namespace AgateLib.ImplementationBase
                     return;
 
                 if (mInFrame)
-                    throw new Exception("Cannot change render target between BeginFrame and EndFrame");
+                    throw new AgateException("Cannot change render target between BeginFrame and EndFrame");
 
                 IRenderTarget old = mRenderTarget;
                 mRenderTarget = value;
@@ -272,13 +272,12 @@ namespace AgateLib.ImplementationBase
         /// for debugging purposes.</param>
         public void CheckInFrame(string functionName)
         {
-            if (!mInFrame)
-            {
-                throw new InvalidOperationException(
-                    functionName + " called outside of BeginFrame..EndFrame block!" +
-                    "Did you forget to call BeginFrame() before doing drawing?");
+            if (mInFrame)
+                return;
 
-            }
+            throw new AgateException(
+                functionName + " called outside of BeginFrame..EndFrame block!" +
+                "Did you forget to call BeginFrame() before doing drawing?");
         }
 
         /// <summary>

@@ -151,7 +151,7 @@ namespace AgateLib.AudioLib
         private SoundBufferSession NewSoundBufferSession()
         {
             if (mIsDisposed)
-                throw new System.Exception("Cannot access a disposed SoundBuffer.");
+                throw new ObjectDisposedException("Cannot access a disposed SoundBuffer.");
 
             foreach (SoundBufferSession s in mSessions)
             {
@@ -226,7 +226,7 @@ namespace AgateLib.AudioLib
             get
             {
                 if (mIsDisposed)
-                    throw new System.Exception("Cannot access a disposed SoundBuffer.");
+                    throw new ObjectDisposedException("Cannot access a disposed SoundBuffer.");
 
                 foreach (SoundBufferSession session in mSessions)
                 {

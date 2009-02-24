@@ -143,7 +143,7 @@ namespace AgateLib.InputLib.Old
         /// [Experimental - The API may be changed in the future, or this
         /// feature may be removed.]
         /// </remarks>
-
+        [Obsolete]
         public static int MinJoysticks
         {
             get { return mMinJoysticks; }

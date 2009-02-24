@@ -33,9 +33,10 @@ namespace AgateLib.Drivers
         {
             if (typeof(DisplayImpl).IsAssignableFrom(driverType) == false ||
                 driverType.IsAbstract == true)
-
+            {
                 throw new ArgumentException(string.Format(
                     "The type {0} is not a concrete implementation of DisplayImpl."));
+            }
 
             SetValues(DriverType.Display, driverType.FullName, friendlyName, (int)typeID, priority);
         }
@@ -50,9 +51,11 @@ namespace AgateLib.Drivers
         {
             if (typeof(AudioImpl).IsAssignableFrom(driverType) == false ||
                 driverType.IsAbstract == true)
-
+            {
                 throw new ArgumentException(string.Format(
                     "The type {0} is not a concrete implementation of AudioImpl."));
+            }
+
             SetValues(DriverType.Audio, driverType.FullName, friendlyName, (int)typeID, priority);
         }
         /// <summary>
@@ -66,9 +69,11 @@ namespace AgateLib.Drivers
         {
             if (typeof(InputImpl).IsAssignableFrom(driverType) == false ||
                 driverType.IsAbstract == true)
-
+            {
                 throw new ArgumentException(string.Format(
                     "The type {0} is not a concrete implementation of InputImpl."));
+            }
+
             SetValues(DriverType.Input, driverType.FullName, friendlyName, (int)typeID, priority);
         }
         /// <summary>
@@ -82,9 +87,11 @@ namespace AgateLib.Drivers
         {
             if (typeof(IDesktopDriver).IsAssignableFrom(driverType) == false ||
                 driverType.IsAbstract == true)
-
+            {
                 throw new ArgumentException(string.Format(
                     "The type {0} is not a concrete implementation of IDesktopDriver."));
+            }
+
             SetValues(DriverType.Desktop, driverType.FullName, friendlyName, (int)typeID, priority);
         }
 

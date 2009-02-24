@@ -95,7 +95,7 @@ namespace AgateLib.DisplayLib
             : this(format, size)
         {
             if (format == PixelFormat.Any)
-                throw new Exception("A specific pixel format and must be specified."
+                throw new ArgumentException("A specific pixel format and must be specified."
                     + "PixelFormat.Any is not valid.");
 
             mFormat = format;
@@ -154,7 +154,7 @@ namespace AgateLib.DisplayLib
             TestPixelFormatStrides();
 
             if (format == PixelFormat.Any)
-                throw new Exception("A specific pixel format and must be specified.  "
+                throw new ArgumentException("A specific pixel format and must be specified.  "
                     + "PixelFormat.Any is not valid.");
 
             mFormat = format;
@@ -460,7 +460,7 @@ namespace AgateLib.DisplayLib
         /// being copied to is out of range.</param>
         public void CopyFrom(PixelBuffer buffer, Rectangle srcRect, Point destPt, bool clip)
         {
-            if (!clip)
+            if (clip == false)
             {
                 if (srcRect.Width + destPt.X > this.Width)
                     throw new ArgumentException("Attempt to copy area to invalid region.");
@@ -469,7 +469,7 @@ namespace AgateLib.DisplayLib
             }
 
             if (srcRect.X < 0 || srcRect.Y < 0 || srcRect.Right > buffer.Width || srcRect.Bottom > buffer.Height)
-                throw new ArgumentOutOfRangeException("Source rectangle outside size of buffer!");
+                throw new ArgumentOutOfRangeException("srcRect", "Source rectangle outside size of buffer!");
 
             for (int y = 0; y < srcRect.Height; y++)
             {
@@ -501,7 +501,9 @@ namespace AgateLib.DisplayLib
         public int GetPixelIndex(int x, int y)
         {
             if (IsPointValid(x, y) == false)
-                throw new IndexOutOfRangeException();
+                throw new IndexOutOfRangeException(string.Format(
+                    "The point {0}{1},{2}{3} does not exist in the pixel buffer which has size {4},{5}",
+                    "{",x,y,"}",Width, Height));
 
             return y * RowStride + x * PixelStride;
         }
@@ -553,7 +555,7 @@ namespace AgateLib.DisplayLib
                 case PixelFormat.RGBA8888:
                     return Color.FromArgb(Data[index + 3], Data[index], Data[index + 1], Data[index + 2]);
                 default:
-                    throw new NotSupportedException("Pixel format not supported by GetPixel.");
+                    throw new NotSupportedException(string.Format("Pixel format {0} not supported by GetPixel.", PixelFormat));
             }
         }
 
@@ -594,7 +596,7 @@ namespace AgateLib.DisplayLib
                     break;
 
                 default:
-                    throw new NotSupportedException("Pixel format not supported by SetPixel.");
+                    throw new NotSupportedException(string.Format("Pixel format {0} not supported by SetPixel.", PixelFormat));
 
             }
         }
@@ -607,25 +609,25 @@ namespace AgateLib.DisplayLib
         /// </summary>
         /// <param name="data"></param>
         /// <param name="srcFormat"></param>
-        public void SetData(byte[] data, PixelFormat srcFormat)
+        public void SetData(byte[] srcData, PixelFormat srcFormat)
         {
             int sourceStride = GetPixelStride(srcFormat);
             int sourceIndex = 0;
             int destIndex = 0;
 
-            if (Width * Height * sourceStride != data.Length)
+            if (Width * Height * sourceStride != srcData.Length)
                 throw new ArgumentException("Source data does not have the right amount of data" +
                     " for the format specified.");
 
             if (srcFormat == this.PixelFormat)
             {
-                data.CopyTo(mData, 0);
+                srcData.CopyTo(mData, 0);
                 return;
             }
 
             for (int i = 0; i < Width * Height; i++)
             {
-                ConvertPixel(mData, destIndex, this.PixelFormat, data, sourceIndex, srcFormat);
+                ConvertPixel(mData, destIndex, this.PixelFormat, srcData, sourceIndex, srcFormat);
 
                 sourceIndex += sourceStride;
                 destIndex += this.PixelStride;
@@ -852,7 +854,7 @@ namespace AgateLib.DisplayLib
                     return 2;
 
                 default:
-                    throw new Exception("Unrecognized pixel format.");
+                    throw new ArgumentException("Unrecognized pixel format.");
             }
 
         }
@@ -918,7 +920,7 @@ namespace AgateLib.DisplayLib
                     break;
 
                 default:
-                    throw new Exception(string.Format("Conversions to PixelFormat {0} not currently supported.",
+                    throw new NotSupportedException(string.Format("Conversions to PixelFormat {0} not currently supported.",
                         destFormat));
             }
         }

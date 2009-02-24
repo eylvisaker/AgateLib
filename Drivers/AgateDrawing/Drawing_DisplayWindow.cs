@@ -43,7 +43,8 @@ namespace AgateLib.DisplayLib.SystemDrawing
             if (windowParams.RenderToControl == true)
             {
                 if (typeof(Control).IsAssignableFrom(windowParams.RenderTarget.GetType()) == false)
-                    throw new ArgumentException("The specified render target does not derive from System.Windows.Forms.Control");
+                    throw new AgateException(string.Format("The specified render target is of type {0}, " +
+                        "which does not derive from System.Windows.Forms.Control.", windowParams.RenderTarget.GetType().Name));
 
                 mRenderTarget = (Control)windowParams.RenderTarget;
 

@@ -90,6 +90,9 @@ namespace AgateLib.DisplayLib
         /// <param name="name"></param>
         public Surface(Resources.AgateResourceCollection resources, string name)
         {
+            if (Display.Impl == null)
+                throw new AgateException("AgateLib's display system has not been initialized.");
+
             Resources.AgateResource res = resources[name];
             Resources.SurfaceResource surf = res as Resources.SurfaceResource;
 
@@ -133,6 +136,9 @@ namespace AgateLib.DisplayLib
         /// <param name="st"></param>
         public Surface(Stream st)
         {
+            if (Display.Impl == null)
+                throw new AgateException("AgateLib's display system has not been initialized.");
+            
             impl = Display.Impl.CreateSurface(st);
 
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
@@ -154,6 +160,9 @@ namespace AgateLib.DisplayLib
         /// <param name="size"></param>
         public Surface(Size size)
         {
+            if (Display.Impl == null)
+                throw new AgateException("AgateLib's display system has not been initialized.");
+
             impl = Display.Impl.CreateSurface(size);
 
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
@@ -166,6 +175,9 @@ namespace AgateLib.DisplayLib
         public Surface(PixelBuffer pixels)
             : this(pixels.Size)
         {
+            if (Display.Impl == null)
+                throw new AgateException("AgateLib's display system has not been initialized.");
+
             WritePixels(pixels);
         }
         /// <summary>
@@ -176,6 +188,9 @@ namespace AgateLib.DisplayLib
         /// <param name="fromImpl"></param>
         private Surface(SurfaceImpl fromImpl)
         {
+            if (Display.Impl == null)
+                throw new AgateException("AgateLib's display system has not been initialized.");
+
             if (fromImpl != null)
                 throw new Exception("fromImpl already has an owned implementation!");
 
@@ -739,7 +754,7 @@ namespace AgateLib.DisplayLib
         public void WritePixels(PixelBuffer buffer)
         {
             if (buffer.Width != SurfaceWidth || buffer.Height != SurfaceHeight)
-                throw new ArgumentOutOfRangeException(
+                throw new ArgumentException(
                     "PixelBuffer is not the correct size to write to entire surface!");
 
             impl.WritePixels(buffer);
@@ -754,7 +769,7 @@ namespace AgateLib.DisplayLib
         {
             if (startPoint.X + buffer.Width > SurfaceWidth ||
                 startPoint.Y + buffer.Height > SurfaceHeight)
-                throw new ArgumentOutOfRangeException(
+                throw new ArgumentException(
                     "PixelBuffer is too large!");
 
             impl.WritePixels(buffer, startPoint);

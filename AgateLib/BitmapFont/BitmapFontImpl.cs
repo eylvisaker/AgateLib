@@ -129,41 +129,6 @@ namespace AgateLib.BitmapFont
 
             CalcAverageCharWidth();
         }
-        /*
-        /// <summary>
-        /// Saves the bitmap font to two files, an image file which contains the
-        /// binary image data, and an XML file which contains all the glyph definitions.
-        /// The image filename is the same as the XML filename, with a ".png" file extension.
-        /// </summary>
-        /// <param name="xmlFileName"></param>
-        public void Save(string xmlFileName)
-        {
-            string filename = System.IO.Path.Combine(
-                System.IO.Path.GetDirectoryName(xmlFileName),
-                System.IO.Path.GetFileNameWithoutExtension(xmlFileName) + ".png");
-
-            Save(filename, xmlFileName);
-        }
-        /// <summary>
-        /// Saves the bitmap font to two files, an image file which contains the
-        /// binary image data, and an XML file which contains all the glyph definitions.
-        /// </summary>
-        /// <param name="imageFilename"></param>
-        /// <param name="xmlFileName"></param>
-        public void Save(string imageFilename, string xmlFileName)
-        {
-            XmlDocument doc = new XmlDocument();
-
-            SaveImage(imageFilename);
-            mFontMetrics.Save(doc, doc);
-
-            doc.Save(xmlFileName);
-        }
-        void SaveImage(string imageFilename)
-        {
-            mSurface.SaveTo(imageFilename);
-        }
-        */
 
         /// <summary>
         /// Creates a bitmap font by loading an OS font, and drawing it to 
@@ -178,7 +143,7 @@ namespace AgateLib.BitmapFont
         [Obsolete("Use AgateWinForms.dll::BitmapFontUtil.FromOSFont instead.", true)]
         public static FontSurfaceImpl FromOSFont(string fontFamily, float sizeInPoints, FontStyle style)
         {
-            throw new InvalidOperationException("BitmapFontImpl.FromOSFont is no longer valid.  The implementation has been moved to AgateWinForms.dll.");
+            throw new NotSupportedException("BitmapFontImpl.FromOSFont is no longer valid.  The implementation has been moved to AgateWinForms.dll.");
         }
 
         private void CalcAverageCharWidth()

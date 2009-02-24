@@ -372,7 +372,7 @@ namespace AgateLib.Geometry
             Rectangle retval;
 
             if (TryParse(text, out retval) == false)
-                throw new FormatException();
+                throw new FormatException("Could not parse rectangle data from text.");
 
             return retval;
         }
