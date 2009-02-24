@@ -261,11 +261,11 @@ namespace AgateLib.DisplayLib.SystemDrawing
 
         public override void SetOrthoProjection(AgateLib.Geometry.Rectangle region)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new AgateException("SetOrthoProjection is not implemented in AgateDrawing.dll.");
         }
         public override void DoLighting(LightManager lights)
         {
-            throw new InvalidOperationException("Lighting is not supported.");
+            throw new AgateException("Lighting is not supported by AgateDrawing.  Use a 3D accelerated driver such as AgateOTK or AgateMDX for lighting support.");
         }
 
         protected override void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
