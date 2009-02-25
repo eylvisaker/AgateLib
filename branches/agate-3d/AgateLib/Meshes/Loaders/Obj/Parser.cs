@@ -35,13 +35,13 @@ namespace AgateLib.Meshes.Loaders.Obj
         //
         // This parser returns a "parse list" that contains the typed contents of the file on a line by line basis.
         // By "typed contents" we really mean a list of objects that are castable to the relevant data types that
-        // are expected by the input.  For example, a vector will have a list of 4 objects, each of them being a float.
+        // are expected by the input.  For example, a vector normal will have a list of 4 objects, each of them being a float.
         //
-        // We're not using actual typed objects for several reasons:
+        // We're not using actual typed classes for several reasons:
         //  1. less code
         //  2. less dependencies
-        //  3. the simplicity of the problem does not require the architecturing of a full 
-        //     blown inheritance hierarchy, polymorphism, etc.
+        //  3. the simplicity of the problem does not require the architecting of a full 
+        //     blown inheritance hierarchy, polymorphism, etc, in order to control complexity.
         //
         public static List<List<object>> Parse(StreamReader sr)
         {
