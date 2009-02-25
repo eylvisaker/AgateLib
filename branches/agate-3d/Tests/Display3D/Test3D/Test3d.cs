@@ -18,6 +18,12 @@ namespace Test3D
 
         static void Main(string[] args)
         {
+            System.IO.FileStream fs = new System.IO.FileStream(@"c:\cube.obj",System.IO.FileMode.Open, System.IO.FileAccess.Read);
+
+            AgateLib.Meshes.Loaders.Obj.OBJFileRepresentation objRep = new AgateLib.Meshes.Loaders.Obj.OBJFileRepresentation(fs);
+
+            return;
+
             // These two lines are used by AgateLib tests to locate
             // driver plugins and images.
             AgateLib.Utility.AgateFileProvider.AssemblyProvider.AddPath("../Drivers");
