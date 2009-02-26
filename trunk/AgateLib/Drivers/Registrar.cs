@@ -386,7 +386,33 @@ namespace AgateLib.Drivers
             return Assembly.LoadFrom(info.AssemblyFile);
         }
 
-
+        /// <summary>
+        /// Returns a collection with all the DriverInfo&lt;DisplayTypeID&gt; structures for
+        /// registered display drivers.
+        /// </summary>
+        /// <returns></returns>
+        public static List<AgateDriverInfo> DisplayDrivers
+        {
+            get { return displayDrivers; }
+        }
+        /// <summary>
+        /// Returns a collection with all the DriverInfo&lt;AudioTypeID&gt; structures for
+        /// registered display drivers.
+        /// </summary>
+        /// <returns></returns>
+        public static List<AgateDriverInfo> AudioDrivers
+        {
+            get { return audioDrivers; }
+        }
+        /// <summary>
+        /// Returns a collection with all the DriverInfo&lt;InputTypeID&gt; structures for
+        /// registered display drivers.
+        /// </summary>
+        /// <returns></returns>
+        public static List<AgateDriverInfo> InputDrivers
+        {
+            get { return inputDrivers; }
+        }
         /// <summary>
         /// Returns a collection with all the DriverInfo&lt;DisplayTypeID&gt; structures for
         /// registered display drivers.
