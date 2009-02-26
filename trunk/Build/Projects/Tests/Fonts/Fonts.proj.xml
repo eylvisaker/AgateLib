@@ -16,5 +16,6 @@
   
   <Files>
     <Match path="." pattern="*.cs" recurse="true"/>
+    <Match path="." pattern="*.png" recurse="true" buildAction="None" copyToOutput="Always"/>
   </Files>
 </Project>

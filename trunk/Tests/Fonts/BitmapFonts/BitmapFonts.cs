@@ -25,16 +25,17 @@ namespace BitmapFontTester
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
 			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("../../../Tests/TestImages");
+			AgateFileProvider.Images.AddPath("Images");
             
 			using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
-                if (setup.Cancel)
+                if (setup.WasCanceled)
                     return;
 
-                DisplayWindow wind = new DisplayWindow("Bitmap Font Tester", 800, 600, false, false);
+                DisplayWindow wind = DisplayWindow.CreateWindowed(
+                    "Bitmap Font Tester", 800, 600, false);
 
                 Display.BeginFrame();
                 Display.Clear(Color.Navy);

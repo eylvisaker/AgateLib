@@ -19,8 +19,8 @@ namespace TestPacker
     public partial class frmTestPacker : Form
     {
         SurfacePacker.RectPacker<object> packer;
-        int maxSize = 40;
-        int minSize = 30;
+        int minSize = 5;
+        int maxSize = 50;
 
         public frmTestPacker()
         {
@@ -40,7 +40,7 @@ namespace TestPacker
 
             btnOne.Enabled = true;
 
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 300; i++)
             {
                 Size sz = new Size(rand.Next(minSize, maxSize), rand.Next(minSize, maxSize));
 
@@ -55,11 +55,10 @@ namespace TestPacker
         {
             packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
             Random rand = new Random();
-            bool done = false;
 
             btnOne.Enabled = true;
 
-            while (!done)
+            for (int i = 0; i < 300; i++)
             {
                 Size sz = new Size(rand.Next(minSize, maxSize), rand.Next(minSize, maxSize));
                 Rectangle rect;
@@ -68,8 +67,6 @@ namespace TestPacker
                 {
                     packer.AddRect(rect, null);
                 }
-                else
-                    done = true;
             }
 
             Redraw();

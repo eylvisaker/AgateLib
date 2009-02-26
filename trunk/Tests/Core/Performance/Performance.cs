@@ -34,52 +34,52 @@ namespace PerformanceTester
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
 			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("../../../Tests/TestImages");
+			AgateFileProvider.Images.AddPath("Images");
 
             Core.Initialize();
 
-            ICollection<DriverInfo<DisplayTypeID>> drivers = Registrar.DisplayDriverInfo;
-
+            List<AgateDriverInfo> drivers = Registrar.DisplayDrivers;
+            
             frmPerformanceTester frm = new frmPerformanceTester();
             frm.Show();
 
             Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
-            foreach (DriverInfo<DisplayTypeID> info in drivers)
+            foreach (AgateDriverInfo info in drivers)
             {
-                Trace.WriteLine(string.Format("Starting driver {0}...", info.Name));
+                Trace.WriteLine(string.Format("Starting driver {0}...", info.FriendlyName));
                 Trace.Indent();
                 double fps;
 
-                Display.Initialize(info.TypeID); 
+                Display.Initialize((DisplayTypeID)info.DriverTypeID); 
                 Display.VSync = false;
             
-                DisplayWindow wind = new DisplayWindow("Performance Test", 300, 300);
+                DisplayWindow wind = DisplayWindow.CreateWindowed("Performance Test", 300, 300);
                 font = new FontSurface("Arial", 11);
                 
                 Trace.WriteLine("Doing Filled Rect test");
                 fps = FilledRectTest() * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.Name, fps));
+                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
 
                 Trace.WriteLine("Doing Draw Rect test");
                 fps = DrawRectTest() * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.Name, fps));
+                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
 
                 Trace.WriteLine("Doing Draw Surface test, no color");
                 fps = DrawSurfaceTest(false) * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.Name, fps));
+                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
 
                 Trace.WriteLine("Doing Draw Surface test");
                 fps = DrawSurfaceTest(true) * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.Name, fps));
+                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
 
                 Trace.WriteLine("Doing Stretch test, no color");
                 fps = StretchTest(false) * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.Name, fps));
+                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
 
                 Trace.WriteLine("Doing Stretch test");
                 fps = StretchTest(true) * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.Name, fps));
+                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
 
                 //Trace.WriteLine("Doing Stretch test with queued rects");
                 //fps = StretchTestQueue(true) * 1000;
