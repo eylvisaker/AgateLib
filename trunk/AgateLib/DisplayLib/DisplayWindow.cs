@@ -259,6 +259,18 @@ namespace AgateLib.DisplayLib
         }
         /// <summary>
         /// Creates a DisplayWindow object which generates a desktop window to render into.
+        /// This overload creates a window which has the default icon and is not resizeable.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public static DisplayWindow CreateWindowed(string title, int width, int height, bool allowResize)
+        {
+            return DisplayWindow.CreateWindowed(title, width, height, allowResize, null); 
+        }
+        /// <summary>
+        /// Creates a DisplayWindow object which generates a desktop window to render into.
         /// </summary>
         /// <param name="title"></param>
         /// <param name="width"></param>
