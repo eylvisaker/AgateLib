@@ -32,9 +32,7 @@ namespace FontTester
                 if (setupDisplay.WasCanceled)
                     return;
 
-                DisplayWindow wind = new DisplayWindow(CreateWindowParams.Windowed(
-                    "Font Tester", 800, 600,
-                    @"../../../AgateLib.ico", false));
+                DisplayWindow wind = DisplayWindow.CreateWindowed("Font Tester", 800, 600);
 
                 FontSurface font = new FontSurface("Sans Serif", 12);
                 FontSurface bitmapFont = FontSurface.BitmapMonospace("lotafont.png", new Size(16, 16));
