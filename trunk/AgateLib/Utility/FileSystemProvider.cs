@@ -198,5 +198,14 @@ namespace AgateLib.Utility
 
             return files;
         }
+
+        /// <summary>
+        /// Returns a string representing the FileSystemProvider object.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("FileSystemProvider: {0}", mPath);
+        }
     }
 }

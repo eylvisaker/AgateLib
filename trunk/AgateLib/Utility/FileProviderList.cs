@@ -30,7 +30,8 @@ namespace AgateLib.Utility
                 }
             }
 
-            throw new FileNotFoundException("Could not find the file.", filename);
+            throw new FileNotFoundException(string.Format(
+                "Could not find the file {0}.", filename), filename);
         }
 
         /// <summary>
