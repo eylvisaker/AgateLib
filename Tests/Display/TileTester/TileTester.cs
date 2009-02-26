@@ -30,7 +30,7 @@ namespace TileTester
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
 			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("../../../Tests/TestImages");
+			AgateFileProvider.Images.AddPath("Images");
 
             using (AgateSetup setup = new AgateSetup())
             {
@@ -82,8 +82,8 @@ namespace TileTester
             {
                 for (int i = -1; i < cols; i++)
                 {
-                    tile.Draw(xval + i * tile.DisplayWidth, 
-                              yval + j * tile.DisplayHeight);
+                    tile.Draw((int)(xval + i * tile.DisplayWidth),
+                              (int)(yval + j * tile.DisplayHeight));
                 }
             }
         }
