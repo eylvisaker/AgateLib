@@ -240,6 +240,7 @@ namespace AgateOTK
             mRenderTarget.Resize += new EventHandler(mRenderTarget_Resize);
             mRenderTarget.Disposed += new EventHandler(mRenderTarget_Disposed);
 
+            mRenderTarget.MouseWheel += new MouseEventHandler(mRenderTarget_MouseWheel);
             mRenderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
             mRenderTarget.MouseDown += new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
             mRenderTarget.MouseUp += new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
@@ -251,6 +252,7 @@ namespace AgateOTK
             form.KeyUp += new System.Windows.Forms.KeyEventHandler(form_KeyUp);
 
         }
+
         private void DetachEvents()
         {
             if (mRenderTarget == null)
@@ -259,6 +261,7 @@ namespace AgateOTK
             mRenderTarget.Resize -= new EventHandler(mRenderTarget_Resize);
             mRenderTarget.Disposed -= new EventHandler(mRenderTarget_Disposed);
 
+            mRenderTarget.MouseWheel -= mRenderTarget_MouseWheel;
             mRenderTarget.MouseMove -= new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
             mRenderTarget.MouseDown -= new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
             mRenderTarget.MouseUp -= new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
@@ -302,6 +305,10 @@ namespace AgateOTK
         void mRenderTarget_DoubleClick(object sender, EventArgs e)
         {
             Mouse.OnMouseDoubleClick(Mouse.MouseButtons.Primary);
+        }
+        void mRenderTarget_MouseWheel(object sender, MouseEventArgs e)
+        {
+            Mouse.OnMouseWheel(-(e.Delta * 100) / 120);
         }
         void pct_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {

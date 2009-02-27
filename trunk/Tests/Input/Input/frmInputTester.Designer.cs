@@ -34,14 +34,13 @@ namespace InputTester
             this.lblKeyPress = new System.Windows.Forms.Label();
             this.lblMouseMove = new System.Windows.Forms.Label();
             this.lblMouseButton = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblKeyEvent = new System.Windows.Forms.Label();
             this.lblKeyString = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.lblJoystick = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.agateRenderTarget1 = new AgateLib.WinForms.AgateRenderTarget();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,18 +67,6 @@ namespace InputTester
             this.lblMouseButton.Size = new System.Drawing.Size(191, 15);
             this.lblMouseButton.TabIndex = 2;
             this.lblMouseButton.Text = "label1";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 109);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(144, 182);
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
             // 
             // lblKeyEvent
             // 
@@ -135,25 +122,31 @@ namespace InputTester
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // agateRenderTarget1
+            // 
+            this.agateRenderTarget1.Location = new System.Drawing.Point(12, 111);
+            this.agateRenderTarget1.Name = "agateRenderTarget1";
+            this.agateRenderTarget1.Size = new System.Drawing.Size(200, 180);
+            this.agateRenderTarget1.TabIndex = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 303);
+            this.Controls.Add(this.agateRenderTarget1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblJoystick);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.lblKeyString);
             this.Controls.Add(this.lblKeyEvent);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblMouseButton);
             this.Controls.Add(this.lblMouseMove);
             this.Controls.Add(this.lblKeyPress);
             this.Name = "Form1";
             this.Text = "Form1";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -165,13 +158,13 @@ namespace InputTester
         private System.Windows.Forms.Label lblKeyPress;
         private System.Windows.Forms.Label lblMouseMove;
         private System.Windows.Forms.Label lblMouseButton;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lblKeyEvent;
         private System.Windows.Forms.Label lblKeyString;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblJoystick;
         private System.Windows.Forms.Button button1;
+        private AgateLib.WinForms.AgateRenderTarget agateRenderTarget1;
     }
 }
 
