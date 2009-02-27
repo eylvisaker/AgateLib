@@ -128,6 +128,7 @@ namespace AgateMDX
         {
             mRenderTarget.Resize += new EventHandler(frm_Resize);
 
+            mRenderTarget.MouseWheel += new MouseEventHandler(mRenderTarget_MouseWheel);
             mRenderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
             mRenderTarget.MouseDown += new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
             mRenderTarget.MouseUp += new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
@@ -152,6 +153,11 @@ namespace AgateMDX
             form.FormClosing += new System.Windows.Forms.FormClosingEventHandler(form_FormClosing);
             form.FormClosed += new System.Windows.Forms.FormClosedEventHandler(form_FormClosed);
 
+        }
+
+        void mRenderTarget_MouseWheel(object sender, MouseEventArgs e)
+        {
+            Mouse.OnMouseWheel(-(e.Delta * 100) / 120);
         }
         private void DetachEvents()
         {

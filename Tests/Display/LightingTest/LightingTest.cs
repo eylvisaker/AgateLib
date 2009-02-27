@@ -54,8 +54,8 @@ namespace LightingTest
                 Display.VSync = false;
 
                 //lights[0].Ambient = Color.White;
-                //lights[0].AttenuationLinear = 0.01f;
-                //lights[0].AttenuationQuadratic = 0.0001f;
+                lights[1].AttenuationConstant = 0.01f;
+                lights[1].AttenuationQuadratic = 5e-7f;
 
                 Mouse.MouseMove += delegate(InputEventArgs e)
                     {
@@ -96,6 +96,8 @@ namespace LightingTest
                     image.TesselateFactor = (int)frm.nudTess.Value;
 
                     image.Draw(50, 50);
+                    Display.DisableLighting();
+
                     image.Draw(50 + image.DisplayWidth, 50);
                     image.Draw(50, 50 + image.DisplayHeight);
 

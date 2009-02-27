@@ -60,7 +60,7 @@ namespace AgateLib.WinForms
             CS_IME = 0x00010000,
             CS_DROPSHADOW = 0x00020000
         }
-
+        
         protected override CreateParams CreateParams
         {
             get
@@ -105,6 +105,12 @@ namespace AgateLib.WinForms
            
             base.OnPaint(e);
 
+        }
+
+        protected override void OnClick(EventArgs e)
+        {
+            base.OnClick(e);
+            Focus();
         }
     }
 }

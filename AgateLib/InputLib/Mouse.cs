@@ -183,13 +183,28 @@ namespace AgateLib.InputLib
         /// [Obsolete] Event which occurs when a mouse button is double-clicked.
         /// </summary>
         [Obsolete("Use the MouseDoubleClick member instead.")]
-        public static event InputEventHandler MouseDoubleClickEvent;
+        public static event InputEventHandler MouseDoubleClickEvent
+        {
+            add { MouseDoubleClick += value; }
+            remove { MouseDoubleClick -= value; }
+        }
         /// <summary>
         /// Event which occurs when a mouse button is double-clicked.
         /// </summary>
         public static event InputEventHandler MouseDoubleClick;
+        /// <summary>
+        /// Event which occurs when the mouse wheel is scrolled.  Positive numbers
+        /// indicate scrolling down, while negative numbers indicate scrolling up.
+        /// A value of 100 means to scroll one line.
+        /// </summary>
+        public static event InputEventHandler MouseWheel;
 
         static bool inMouseMove = false;
+
+        public static void OnMouseWheel(int delta)
+        {
+            MouseWheel(new InputEventArgs(delta));
+        }
 
         /// <summary>
         /// Raises the MouseMove event.
@@ -227,11 +242,10 @@ namespace AgateLib.InputLib
         /// <param name="btn"></param>
         public static void OnMouseDoubleClick(MouseButtons btn)
         {
-            if (MouseDoubleClickEvent != null)
-                MouseDoubleClickEvent(new InputEventArgs(btn));
             if (MouseDoubleClick != null)
                 MouseDoubleClick(new InputEventArgs(btn));
         }
+
 
 
     }

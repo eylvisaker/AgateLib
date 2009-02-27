@@ -26,12 +26,13 @@ namespace InputTester
             Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
             Keyboard.KeyUp += new InputEventHandler(Keyboard_KeyUp);
 
+            Mouse.MouseWheel += new InputEventHandler(Mouse_MouseWheel);
             Mouse.MouseMove += new InputEventHandler(Mouse_MouseMove);
             Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
             Mouse.MouseUp += new InputEventHandler(Mouse_MouseUp);
             Mouse.MouseDoubleClick += new InputEventHandler(Mouse_MouseDoubleClickEvent);
 
-            new DisplayWindow(CreateWindowParams.FromControl(pictureBox1));
+            new DisplayWindow(CreateWindowParams.FromControl(agateRenderTarget1));
 
             Application.Idle += new EventHandler(Application_Idle);
         }
@@ -98,6 +99,10 @@ namespace InputTester
         void Mouse_MouseMove(InputEventArgs e)
         {
             lblMouseMove.Text = "Mouse Moved " + e.MousePosition.ToString();
+        }
+        void Mouse_MouseWheel(InputEventArgs e)
+        {
+            lblMouseButton.Text = "Mouse Wheel " + e.WheelDelta.ToString();
         }
 
         void Keyboard_KeyUp(InputEventArgs e)

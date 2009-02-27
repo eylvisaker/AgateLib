@@ -18,6 +18,7 @@ namespace AgateLib.InputLib
         string mKeyString;
         Point mMousePosition;
         Mouse.MouseButtons mButtons;
+        int mWheelDelta;
 
         internal InputEventArgs()
         {
@@ -43,11 +44,16 @@ namespace AgateLib.InputLib
 
             Initialize();
         }
+        internal InputEventArgs(int wheelDelta)
+        {
+            mWheelDelta = wheelDelta;
+
+            Initialize();
+        }
 
         private void Initialize()
         {
             mMousePosition = Mouse.Position;
-
         }
 
         /// <summary>
@@ -99,6 +105,14 @@ namespace AgateLib.InputLib
         public Mouse.MouseButtons MouseButtons
         {
             get { return mButtons; }
+        }
+
+        /// <summary>
+        /// Gets the amount the mouse wheel moved in this event.
+        /// </summary>
+        public int WheelDelta
+        {
+            get { return mWheelDelta; }
         }
     }
 
