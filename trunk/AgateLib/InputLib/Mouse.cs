@@ -180,7 +180,7 @@ namespace AgateLib.InputLib
         /// </summary>
         public static event InputEventHandler MouseUp;
         /// <summary>
-        /// Event which occurs when a mouse button is double-clicked.
+        /// [Obsolete] Event which occurs when a mouse button is double-clicked.
         /// </summary>
         [Obsolete("Use the MouseDoubleClick member instead.")]
         public static event InputEventHandler MouseDoubleClickEvent;
