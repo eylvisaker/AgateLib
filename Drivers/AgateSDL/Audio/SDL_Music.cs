@@ -32,6 +32,7 @@ namespace AgateSDL.Audio
     {
         IntPtr music;
         string tempfile;
+        double mVolume;
 
         public SDL_Music(Stream stream)
         {
@@ -79,19 +80,28 @@ namespace AgateSDL.Audio
 
         public override bool IsPlaying
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (SdlMixer.Mix_PlayingMusic() == 0)
+                    return false;
+
+                if (SdlMixer.Mix_PausedMusic() != 0)
+                    return false;
+
+                return true;
+            }
         }
 
         protected override void OnSetLoop(bool value)
         {
-            throw new NotImplementedException();
+            SdlMixer.Mix_PlayMusic(music, -1);
         }
 
         public override double Pan
         {
             get
             {
-                throw new NotImplementedException();
+                return 0;
             }
             set
             {
@@ -113,10 +123,12 @@ namespace AgateSDL.Audio
         {
             get
             {
-                throw new NotImplementedException();
+                return mVolume;                
             }
             set
             {
+                SdlMixer.Mix_VolumeMusic((int)(value * SdlMixer.MIX_MAX_VOLUME));
+                mVolume = value;
             }
         }
     }

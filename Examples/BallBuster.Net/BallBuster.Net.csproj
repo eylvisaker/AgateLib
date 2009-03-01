@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -98,6 +98,10 @@
     <ProjectReference Include="..\..\drivers\AgateOTK\AgateOTK.csproj">
       <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
       <Name>AgateOTK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Drivers\AgateSDL\AgateSDL.csproj">
+      <Project>{FDA3969A-9EAA-4C15-A8CC-3D8DDAF705AE}</Project>
+      <Name>AgateSDL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
