@@ -456,5 +456,19 @@ namespace AgateOTK
             Keyboard.ReleaseAllKeys();
         }
 
+
+        #region GL_IRenderTarget Members
+
+
+        public void HideCursor()
+        {
+            mRenderTarget.Cursor = FormUtil.BlankCursor;
+        }
+        public void ShowCursor()
+        {
+            mRenderTarget.Cursor = Cursors.Arrow;
+        }
+
+        #endregion
     }
 }

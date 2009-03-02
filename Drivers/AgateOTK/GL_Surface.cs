@@ -850,5 +850,17 @@ namespace AgateOTK
        }
 */
 
+
+        #region GL_IRenderTarget Members
+
+        void GL_IRenderTarget.HideCursor()
+        {
+        }
+        void GL_IRenderTarget.ShowCursor()
+        {
+        }
+
+        #endregion
+
     }
 }

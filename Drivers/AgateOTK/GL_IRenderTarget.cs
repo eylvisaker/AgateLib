@@ -27,5 +27,10 @@ namespace AgateOTK
     interface GL_IRenderTarget : IRenderTargetImpl
     {
         void MakeCurrent();
+
+        // TODO: fix this hack and remove these interface members.
+        void HideCursor();
+        void ShowCursor();
+
     }
 }

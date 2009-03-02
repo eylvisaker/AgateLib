@@ -25,6 +25,7 @@ namespace AgateLib.Gui.Tester
 
         Label fps;
         Label infoLabel;
+        Button hideMouse;
 
         void root_Update(object sender, EventArgs e)
         {
@@ -61,6 +62,11 @@ namespace AgateLib.Gui.Tester
                 else 
                     rightPanel.Children[i].Enabled = false;
             }
+
+            hideMouse = rightPanel.Children[0] as Button;
+            hideMouse.Text = "Hide Mouse Pointer";
+            hideMouse.Click += new EventHandler(hideMouse_Click);
+            hideMouse.Enabled = true;
 
             leftPanel.Children.Add(new TextBox { Text = "Blank" });
             leftPanel.Children.Add(new TextBox { Enabled = false, Text = "Disabled" });
@@ -112,6 +118,20 @@ namespace AgateLib.Gui.Tester
                 leftPanel.PointToClient(leftPanel.PointToScreen(new Point(10, 8))) == new Point(10, 8));
 
             Display.PackAllSurfaces();
+        }
+
+        void hideMouse_Click(object sender, EventArgs e)
+        {
+            if (InputLib.Mouse.IsHidden)
+            {
+                InputLib.Mouse.Show();
+                hideMouse.Text = "Hide Mouse Pointer";
+            }
+            else
+            {
+                InputLib.Mouse.Hide();
+                hideMouse.Text = "Show Mouse Pointer";
+            }
         }
 
         void vsync_CheckChanged(object sender, EventArgs e)

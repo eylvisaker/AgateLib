@@ -430,6 +430,27 @@ namespace AgateOTK
             get { return this; }
         }
 
+        protected override void HideCursor()
+        {
+            System.Windows.Forms.Cursor.Hide();
+
+            if (Display.CurrentWindow != null)
+            {
+                DisplayWindowImpl impl = Display.CurrentWindow.Impl;
+                ((GL_IRenderTarget)impl).HideCursor();
+            }
+        }
+        protected override void ShowCursor()
+        {
+            System.Windows.Forms.Cursor.Show();
+
+            if (Display.CurrentWindow != null)
+            {
+                DisplayWindowImpl impl = Display.CurrentWindow.Impl;
+                ((GL_IRenderTarget)impl).ShowCursor();
+            }
+        }
+
         #region --- IDisplayCaps Members ---
 
         bool IDisplayCaps.SupportsScaling

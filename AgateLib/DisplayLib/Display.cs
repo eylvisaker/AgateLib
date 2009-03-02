@@ -670,6 +670,16 @@ namespace AgateLib.DisplayLib
         {
             return impl.GetPlatformServices();
         }
+
+        internal static void HideCursor()
+        {
+            impl.HideCursor();
+        }
+
+        internal static void ShowCursor()
+        {
+            impl.ShowCursor();
+        }
     }
 
 
