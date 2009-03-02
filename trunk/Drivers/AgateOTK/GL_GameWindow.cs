@@ -457,5 +457,17 @@ namespace AgateOTK
 
         #endregion
 
+
+        #region GL_IRenderTarget Members
+
+
+        public void HideCursor()
+        {
+        }
+        public void ShowCursor()
+        {
+        }
+
+        #endregion
     }
 }

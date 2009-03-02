@@ -8,7 +8,6 @@ namespace AgateLib.WinForms
 
     class WinFormsDriver : IDesktopDriver
     {
-
         #region IWinForms Members
 
         public IUserSetSystems CreateUserSetSystems()

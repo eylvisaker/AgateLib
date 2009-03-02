@@ -113,6 +113,18 @@ namespace AgateLib.WinForms
             }
         }
 
+        public static Cursor BlankCursor
+        {
+            get
+            {
+                System.IO.MemoryStream stream = new System.IO.MemoryStream();
+                stream.Write(Icons.blankcursor, 0, Icons.blankcursor.Length);
+                stream.Seek(0, System.IO.SeekOrigin.Begin);
+
+                return new Cursor(stream);
+            }
+        }
+
         /// <summary>
         /// Converts a System.Windows.Forms.Keys value to a KeyCode value.
         /// </summary>

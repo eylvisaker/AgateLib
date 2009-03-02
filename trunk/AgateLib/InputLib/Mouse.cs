@@ -114,6 +114,7 @@ namespace AgateLib.InputLib
         }
 
         private static MouseState mState = new MouseState();
+        private static bool mIsHidden = false;
 
         /// <summary>
         /// Gets or sets the position of the cursor, in client coordinates
@@ -145,6 +146,14 @@ namespace AgateLib.InputLib
         }
 
         /// <summary>
+        /// Returns true if the mouse pointer is hidden.
+        /// </summary>
+        public static bool IsHidden
+        {
+            get { return mIsHidden; }
+            private set { mIsHidden = value; }
+        }
+        /// <summary>
         /// Gets the MouseState structure which indicates which buttons
         /// are pressed.
         /// </summary>
@@ -157,14 +166,16 @@ namespace AgateLib.InputLib
         /// </summary>
         public static void Show()
         {
-            System.Windows.Forms.Cursor.Show();
+            Display.ShowCursor();
+            IsHidden = false;
         }
         /// <summary>
         /// Hides the OS cursor.
         /// </summary>
         public static void Hide()
         {
-            System.Windows.Forms.Cursor.Hide();
+            Display.HideCursor();
+            IsHidden = true;
         }
 
         /// <summary>
