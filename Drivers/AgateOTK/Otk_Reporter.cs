@@ -27,7 +27,7 @@ namespace AgateOTK
                 new OpenTK.Audio.AudioContext().Dispose();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
