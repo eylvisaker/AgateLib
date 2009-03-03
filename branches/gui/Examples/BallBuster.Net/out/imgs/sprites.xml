@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<resources>
+	<sprite name="default_paddle">
+		<image file="paddle0.png" />
+		<image file="paddle1.png" />
+		<animation pingpong="no" speed="50"/>
+	</sprite>
+	<sprite name="large_paddle">
+		<image file="bigpaddle0.png" />
+		<image file="bigpaddle1.png" />
+		<animation pingpong="no" speed="50"/>
+	</sprite>
+	<sprite name="small_paddle">
+		<image file="smallpaddle0.png" />
+		<image file="smallpaddle1.png" />
+		<animation pingpong="no" speed="50"/>
+	</sprite>
+	<sprite name="ball">
+		<image file="ball.png" />
+	</sprite>
+	<sprite name="fireball">
+		<image file="fireball.png" />
+	</sprite>
+	<sprite name="spike">
+		<image file="spike.png" />
+	</sprite>
+  <sprite name="smash">
+    <image file="smash.png" />
+  </sprite>
+	<sprite name="block">
+		<image file="gblock.png">
+			<grid pos="0, 0" size="40, 20" array="10, 5" /> 
+		</image>
+	</sprite>
+	<sprite name="cblock">
+		<image file="cblock.png" />
+	</sprite>
+	<sprite name="sblock">
+		<image file="sblock.png" />
+	</sprite>
+	<sprite name="woodblock">
+		<image file="gblock.png">
+			<grid pos="0,100" size="40,20" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="marbleblock1">
+		<image file="gblock.png">
+			<grid pos="40,100" size="40,20" array="1,1" />
+		</image>
+	</sprite>	
+	<sprite name="marbleblock2">
+		<image file="gblock.png">
+			<grid pos="40,120" size="40,20" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="rubyblock1">
+		<image file="gblock.png">
+			<grid pos="80,100" size="40,20" array="1,1" />
+		</image>
+	</sprite>	
+	<sprite name="rubyblock2">
+		<image file="gblock.png">
+			<grid pos="120,100" size="40,20" array="1,1" />
+		</image>
+	</sprite>	
+	<sprite name="rubyblock3">
+		<image file="gblock.png">
+			<grid pos="160,100" size="40,20" array="1,1" />
+		</image>
+	</sprite>		
+	<sprite name="flash">
+		<image file="flash.png" />
+	</sprite>
+	<sprite name="crack">
+		<image file="crack.png" />
+	</sprite>
+	
+	<sprite name="pufastball">
+		<image file="powerups.png">
+			<grid pos="0,40" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="puslowball">
+		<image file="powerups.png">
+			<grid pos="0,0" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="puregularspeed">
+		<image file="powerups.png">
+			<grid pos="0,80" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pufireball">
+		<image file="powerups.png">
+			<grid pos="80,120" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pusticky">
+		<image file="powerups.png">
+			<grid pos="160,0" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pusupersticky">
+		<image file="powerups.png">
+			<grid pos="160,40" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pupaddleregular">
+		<image file="powerups.png">
+			<grid pos="40,80" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pupaddlelarge">
+		<image file="powerups.png">
+			<grid pos="40,0" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pupaddlesmall">
+		<image file="powerups.png">
+			<grid pos="40,40" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pumultiball">
+		<image file="powerups.png">
+			<grid pos="120,40" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pu3ball">
+		<image file="powerups.png">
+			<grid pos="120,0" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="publaster">
+		<image file="powerups.png">
+			<grid pos="0,120" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pu1up">
+		<image file="powerups.png">
+			<grid pos="40,120" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pureset">
+		<image file="powerups.png">
+			<grid pos="40,160" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="purandom">
+		<image file="powerups.png">
+			<grid pos="0,160" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pu100">
+		<image file="powerups.png">
+			<grid pos="200,0" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pu250">
+		<image file="powerups.png">
+			<grid pos="240,0" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pu500">
+		<image file="powerups.png">
+			<grid pos="280,0" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pu1000">
+		<image file="powerups.png">
+			<grid pos="320,0" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pucatchblue">
+		<image file="powerups.png">
+			<grid pos="80,0" size="40,40" array="1,1" />
+		</image>
+	</sprite>	
+	<sprite name="pucatchred">
+		<image file="powerups.png">
+			<grid pos="80,40" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pupow">
+		<image file="powerups.png">
+			<grid pos="120,80" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	<sprite name="pusmash">
+		<image file="powerups.png">
+			<grid pos="120,120" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+  <sprite name="pudoor">
+    <image file="powerups.png">
+      <grid pos="160,120" size="40,40" array="1,1" />
+    </image>
+  </sprite>
+  <sprite name="purbswap">
+		<image file="powerups.png">
+			<grid pos="160,80" size="40,40" array="1,1" />
+		</image>
+	</sprite>
+	
+	<sprite name="arrow">
+		<image file="arrow.png" />
+	</sprite>
+	<sprite name="bblogo">
+		<image file="bblogo.png" />
+	</sprite>
+	<sprite name="palogo">
+		<image file="palogo.png" />
+	</sprite>
+	<sprite name="xlogo">
+		<image file="xlogo1.png" />
+		<image file="xlogo2.png" />
+		<image file="xlogo3.png" />
+		<image file="xlogo4.png" />
+		<animation pingpong="yes" speed="100"/>
+	</sprite>
+
+
+</resources>
