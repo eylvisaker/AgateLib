@@ -278,6 +278,15 @@ namespace AgateLib.DisplayLib.SystemDrawing
             get { return this; }
         }
 
+        protected override void HideCursor()
+        {
+            System.Windows.Forms.Cursor.Hide();
+        }
+        protected override void ShowCursor()
+        {
+            System.Windows.Forms.Cursor.Show();
+        }
+
         #region --- IDisplayCaps Members ---
 
         bool IDisplayCaps.SupportsScaling

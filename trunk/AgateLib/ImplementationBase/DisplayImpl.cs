@@ -578,11 +578,7 @@ namespace AgateLib.ImplementationBase
         /// <returns></returns>
         protected internal abstract AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices();
 
-        protected internal virtual void ShowCursor()
-        {
-        }
-        protected internal virtual void HideCursor()
-        {
-        }
+        protected internal abstract void ShowCursor();
+        protected internal abstract void HideCursor();
     }
 }
