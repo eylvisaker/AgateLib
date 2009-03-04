@@ -25,26 +25,14 @@ using AgateLib.ImplementationBase;
 
 namespace AgateLib.Drivers
 {
-    /// <summary>
-    /// Class which provides a silent Audio implementation.
-    /// </summary>
     class NullSoundImpl : AudioImpl 
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public class NullSoundBufferImpl : SoundBufferImpl
+        class NullSoundBufferImpl : SoundBufferImpl
         {
-            /// <summary>
-            /// 
-            /// </summary>
             public override void Dispose()
             {
                 
             }
-            /// <summary>
-            /// 
-            /// </summary>
             public override double Volume
             {
                 get
@@ -58,37 +46,17 @@ namespace AgateLib.Drivers
             }
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
         public class NullSoundBufferSessionImpl : SoundBufferSessionImpl
         {
-            /// <summary>
-            /// 
-            /// </summary>
             public override void Dispose()
             {
-                
             }
-            /// <summary>
-            /// 
-            /// </summary>
             public override void Play()
             {
-                
             }
-
-            /// <summary>
-            /// 
-            /// </summary>
             public override void Stop()
             {
-                
             }
-
-            /// <summary>
-            /// 
-            /// </summary>
             public override double Volume
             {
                 get
@@ -100,10 +68,6 @@ namespace AgateLib.Drivers
                     
                 }
             }
-
-            /// <summary>
-            /// 
-            /// </summary>
             public override double Pan
             {
                 get
@@ -115,56 +79,29 @@ namespace AgateLib.Drivers
                     
                 }
             }
-
-            /// <summary>
-            /// 
-            /// </summary>
             public override bool IsPlaying
             {
                 get { return false; }
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
         public class NullMusicImpl : MusicImpl
         {
-
-            /// <summary>
-            /// 
-            /// </summary>
             protected override void OnSetLoop(bool value)
             {
                 
             }
-
-            /// <summary>
-            /// 
-            /// </summary>
             public override void Dispose()
             {
                 
             }
-
-            /// <summary>
-            /// 
-            /// </summary>
             public override void Play()
             {
                 
             }
-
-            /// <summary>
-            /// 
-            /// </summary>
             public override void Stop()
             {
                 
             }
-
-            /// <summary>
-            /// 
-            /// </summary>
             public override double Volume
             {
                 get
@@ -176,10 +113,6 @@ namespace AgateLib.Drivers
                     
                 }
             }
-
-            /// <summary>
-            /// 
-            /// </summary>
             public override double Pan
             {
                 get
@@ -191,69 +124,36 @@ namespace AgateLib.Drivers
                     
                 }
             }
-
-            /// <summary>
-            /// 
-            /// </summary>
             public override bool IsPlaying
             {
                 get { return false; }
             }
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public override void Initialize()
         {
             Report("No audio driver found.  Audio will not be heard."); 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public override void Dispose()
         {
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public override SoundBufferImpl CreateSoundBuffer(string filename)
         {
             return new NullSoundBufferImpl();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="inStream"></param>
-        /// <returns></returns>
         public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
         {
             return new NullSoundBufferImpl();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public override MusicImpl CreateMusic(string filename)
         {
             return new NullMusicImpl();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
         {
             return new NullSoundBufferSessionImpl();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="musicStream"></param>
-        /// <returns></returns>
         public override MusicImpl CreateMusic(System.IO.Stream musicStream)
         {
             return new NullMusicImpl();
