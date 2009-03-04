@@ -63,7 +63,7 @@ namespace AgateLib.DisplayLib
             else
             {
                 CreateWindowParams par = CreateWindowParams.Windowed(
-                    disp.Title, disp.Size.Width, disp.Size.Height, null, disp.AllowResize);
+                    disp.Title, disp.Size.Width, disp.Size.Height, disp.AllowResize, null);
 
                 impl = Display.Impl.CreateDisplayWindow(par);
             }
@@ -285,7 +285,7 @@ namespace AgateLib.DisplayLib
         /// <returns></returns>
         public static DisplayWindow CreateWindowed(string title, int width, int height, bool allowResize, string iconFile)
         {
-            return new DisplayWindow(CreateWindowParams.Windowed(title, width, height, iconFile, allowResize));
+            return new DisplayWindow(CreateWindowParams.Windowed(title, width, height, allowResize, iconFile));
         }
         /// <summary>
         /// Creates a DisplayWindow object which is a desktop window with no frame or
