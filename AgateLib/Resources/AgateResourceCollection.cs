@@ -35,16 +35,24 @@ namespace AgateLib.Resources
     public class AgateResourceCollection : IDictionary<string, AgateResource>, ICollection<AgateResource>
     {
         Dictionary<string, AgateResource> mStore = new Dictionary<string, AgateResource>();
-        const string mStringsTableKey = "Strings";
+        const string mStringTableKey = "Strings";
 
         /// <summary>
         /// Constructs a new AgateResourceCollection object.
         /// </summary>
         public AgateResourceCollection()
         {
-            this.mStore.Add(mStringsTableKey, new StringTable());
+            this.mStore.Add(mStringTableKey, new StringTable());
         }
 
+        private IEnumerable<T> Enumerate<T>() where T : AgateResource 
+        {
+            foreach (KeyValuePair<string, AgateResource> kvp in mStore)
+            {
+                if (kvp.Value is T)
+                    yield return kvp.Value as T;
+            }
+        }
         /// <summary>
         /// Enumerates through the SpriteResources contained in this group of resources.
         /// </summary>
@@ -52,20 +60,39 @@ namespace AgateLib.Resources
         {
             get
             {
-                foreach (KeyValuePair<string, AgateResource> kvp in mStore)
-                {
-                    if (kvp.Value is SpriteResource)
-                        yield return kvp.Value as SpriteResource;
-                }
+                return Enumerate<SpriteResource>();
             }
         }
-
+        /// <summary>
+        /// Enumerates through the SurfaceResources contained in this group of resources.
+        /// </summary>
+        public IEnumerable<SurfaceResource> Surfaces
+        {
+            get
+            {
+                return Enumerate<SurfaceResource>();
+            }
+        }
+        /// <summary>
+        /// Enumerates through the DisplayWindowResources contained in this group of resources.
+        /// </summary>
+        public IEnumerable<DisplayWindowResource> DisplayWindows
+        {
+            get { return Enumerate<DisplayWindowResource>(); }
+        }
+        /// <summary>
+        /// Enumerates through the BitmapFontResources contained in this group of resources.
+        /// </summary>
+        public IEnumerable<BitmapFontResource> BitmapFonts
+        {
+            get { return Enumerate<BitmapFontResource>(); }
+        }
         /// <summary>
         /// Gets the StringTable for this langauge.
         /// </summary>
         public StringTable Strings
         {
-            get { return (StringTable)this.mStore[mStringsTableKey]; }
+            get { return (StringTable)this.mStore[mStringTableKey]; }
         }
 
         /// <summary>
@@ -89,7 +116,7 @@ namespace AgateLib.Resources
         {
             if (Strings.Count != 0)
                 throw new ArgumentException("The string table for this ResourceGroup is non-empty.  Should you add your strings to the existing string table?");
-            this.mStore[mStringsTableKey] = table;
+            this.mStore[mStringTableKey] = table;
         }
         /// <summary>
         /// 
