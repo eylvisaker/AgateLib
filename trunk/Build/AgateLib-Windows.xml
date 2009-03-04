@@ -23,6 +23,7 @@
     <?include file="Projects/AgateLib.WinForms.proj.xml" ?>
     <?include file="Projects/AgateDrawing.proj.xml" ?>
     <?include file="Projects/AgateOTK.proj.xml" ?>
+    <?include file="Projects/AgateSDL.proj.xml" ?>
     <?include file="Projects/AgateFMOD.proj.xml" ?>
     <?include file="Projects/AgateMDX.proj.xml" ?>
       
