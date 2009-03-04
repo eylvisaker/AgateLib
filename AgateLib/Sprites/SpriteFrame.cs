@@ -105,7 +105,7 @@ namespace AgateLib.Sprites
         #region ISpriteFrame Members
 
         /// <summary>
-        /// 
+        /// Draws the sprite frame at the specified location rotated around the specified point.
         /// </summary>
         /// <param name="dest_x"></param>
         /// <param name="dest_y"></param>
@@ -126,6 +126,10 @@ namespace AgateLib.Sprites
                           rotationCenterY - (mOffset.Y * scaleY));
         }
 
+        /// <summary>
+        /// Converst to a string.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return "SpriteFrame: " + SourceRect.ToString() + " Offset: " + Offset.ToString();

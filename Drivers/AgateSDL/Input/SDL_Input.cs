@@ -28,11 +28,6 @@ namespace AgateSDL.Input
 {
     public class SDL_Input : InputImpl 
     {
-        public static void Register()
-        {
-            Registrar.RegisterInputDriver(new DriverInfo<InputTypeID>(
-                typeof(SDL_Input), InputTypeID.SDL, "SDL Input", 500));
-        }
         [Obsolete]
         public override int CountJoysticks()
         {

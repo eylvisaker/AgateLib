@@ -37,11 +37,6 @@ namespace AgateMDX
         {
             get { return mDevice; }
         }
-        public static void Register()
-        {
-            Registrar.RegisterAudioDriver(new DriverInfo<AudioTypeID>(
-                typeof(MDX1_Audio), AudioTypeID.DirectSound, "Managed DirectSound 1.1", 100));
-        }
 
         public MDX1_Audio()
         {

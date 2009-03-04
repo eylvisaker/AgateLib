@@ -31,12 +31,6 @@ namespace AgateFMOD
         FMOD.System mSystem;
         bool mIsDisposed;
 
-        public static void Register()
-        {
-            Registrar.RegisterAudioDriver(new DriverInfo<AudioTypeID>(
-                typeof(FMOD_Audio), AudioTypeID.FMod, "FMOD Driver", 200));
-        }
-
         public override SoundBufferImpl CreateSoundBuffer(string filename)
         {
             return new FMOD_SoundBuffer(this, filename);

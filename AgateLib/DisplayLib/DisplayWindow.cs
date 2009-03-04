@@ -214,6 +214,11 @@ namespace AgateLib.DisplayLib
 
         #region --- Static Creation Methods ---
 
+        /// <summary>
+        /// Obsolete method.  Use DisplayWindow.CreateFromControl instead.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
         [Obsolete("Use CreateFromControl static method.")]
         public static DisplayWindow FromControl(object control)
         {
@@ -239,7 +244,6 @@ namespace AgateLib.DisplayLib
         /// <param name="title"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        /// <param name="bpp"></param>
         /// <returns></returns>
         public static DisplayWindow CreateFullScreen(string title, int width, int height)
         {
@@ -264,6 +268,7 @@ namespace AgateLib.DisplayLib
         /// <param name="title"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
+        /// <param name="allowResize"></param>
         /// <returns></returns>
         public static DisplayWindow CreateWindowed(string title, int width, int height, bool allowResize)
         {
