@@ -127,21 +127,21 @@ namespace ResourceEditor
             // mainbook
             // 
             this.mainbook.BackColor = System.Drawing.SystemColors.Control;
-            this.mainbook.Controls.Add(this.pageWindow);
-            this.mainbook.Controls.Add(this.pageStrings);
-            this.mainbook.Controls.Add(this.pageNumbers);
-            this.mainbook.Controls.Add(this.notebookPage2);
             this.mainbook.Controls.Add(this.notebookPage4);
             this.mainbook.Controls.Add(this.notebookPage3);
+            this.mainbook.Controls.Add(this.pageNumbers);
             this.mainbook.Controls.Add(this.notebookPage5);
             this.mainbook.Controls.Add(this.notebookPage1);
+            this.mainbook.Controls.Add(this.notebookPage2);
+            this.mainbook.Controls.Add(this.pageWindow);
+            this.mainbook.Controls.Add(this.pageStrings);
             this.mainbook.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainbook.Location = new System.Drawing.Point(0, 0);
             this.mainbook.Name = "mainbook";
             this.mainbook.Navigator.Margin = new System.Windows.Forms.Padding(3);
             this.mainbook.Navigator.PageBackColor = System.Drawing.SystemColors.Control;
             this.mainbook.NavigatorType = ERY.NotebookLib.NavigatorType.ListBook;
-            this.mainbook.SelectedIndex = 2;
+            this.mainbook.SelectedIndex = 7;
             this.mainbook.Size = new System.Drawing.Size(608, 398);
             this.mainbook.SplitterLocation = 206;
             this.mainbook.TabIndex = 0;
@@ -195,6 +195,7 @@ namespace ResourceEditor
             this.pageNumbers.Location = new System.Drawing.Point(210, 0);
             this.pageNumbers.Name = "pageNumbers";
             this.pageNumbers.Order = 10;
+            this.pageNumbers.ShowPage = false;
             this.pageNumbers.Size = new System.Drawing.Size(398, 398);
             this.pageNumbers.TabIndex = 2;
             this.pageNumbers.Text = "Numbers";
@@ -217,6 +218,7 @@ namespace ResourceEditor
             this.notebookPage4.Location = new System.Drawing.Point(210, 0);
             this.notebookPage4.Name = "notebookPage4";
             this.notebookPage4.Order = 60;
+            this.notebookPage4.ShowPage = false;
             this.notebookPage4.Size = new System.Drawing.Size(398, 398);
             this.notebookPage4.TabIndex = 9;
             this.notebookPage4.Text = "Music";
@@ -228,6 +230,7 @@ namespace ResourceEditor
             this.notebookPage3.Location = new System.Drawing.Point(210, 0);
             this.notebookPage3.Name = "notebookPage3";
             this.notebookPage3.Order = 50;
+            this.notebookPage3.ShowPage = false;
             this.notebookPage3.Size = new System.Drawing.Size(398, 398);
             this.notebookPage3.TabIndex = 8;
             this.notebookPage3.Text = "Sound Effects";
@@ -286,7 +289,7 @@ namespace ResourceEditor
             // 
             this.newResourceFileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newResourceFileToolStripMenuItem.Image")));
             this.newResourceFileToolStripMenuItem.Name = "newResourceFileToolStripMenuItem";
-            this.newResourceFileToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.newResourceFileToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.newResourceFileToolStripMenuItem.Text = "&New Resource File...";
             this.newResourceFileToolStripMenuItem.Click += new System.EventHandler(this.newResourceFileToolStripMenuItem_Click);
             // 
@@ -294,46 +297,46 @@ namespace ResourceEditor
             // 
             this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(182, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(171, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.saveAsToolStripMenuItem.Text = "S&ave as...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(182, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(171, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -352,7 +355,7 @@ namespace ResourceEditor
             // 
             this.cutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripMenuItem.Image")));
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.cutToolStripMenuItem.Text = "C&ut";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
             // 
@@ -360,7 +363,7 @@ namespace ResourceEditor
             // 
             this.copyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripMenuItem.Image")));
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
@@ -368,7 +371,7 @@ namespace ResourceEditor
             // 
             this.pasteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripMenuItem.Image")));
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.pasteToolStripMenuItem.Text = "&Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
@@ -376,7 +379,7 @@ namespace ResourceEditor
             // 
             this.deleteToolStripMenuItem.Image = global::ResourceEditor.Properties.Resources.Delete;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -392,13 +395,13 @@ namespace ResourceEditor
             // validateResourcesToolStripMenuItem
             // 
             this.validateResourcesToolStripMenuItem.Name = "validateResourcesToolStripMenuItem";
-            this.validateResourcesToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.validateResourcesToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.validateResourcesToolStripMenuItem.Text = "Verify Resources...";
             // 
             // createDistributionToolStripMenuItem
             // 
             this.createDistributionToolStripMenuItem.Name = "createDistributionToolStripMenuItem";
-            this.createDistributionToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.createDistributionToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.createDistributionToolStripMenuItem.Text = "Create Distribution...";
             // 
             // toolStrip1
