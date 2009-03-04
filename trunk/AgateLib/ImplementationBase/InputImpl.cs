@@ -32,7 +32,7 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         /// <returns></returns>
         [Obsolete]
-        public abstract int CountJoysticks();
+        public virtual int CountJoysticks() { return JoystickCount; }
 
         /// <summary>
         /// Returns the number of joysticks attached to the system.

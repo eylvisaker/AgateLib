@@ -38,11 +38,6 @@ namespace AgateLib.Drivers
             
         }
 
-        [Obsolete]
-        public override int CountJoysticks()
-        {
-            return 0;
-        }
         public override int JoystickCount
         {
             get { return 0; }
