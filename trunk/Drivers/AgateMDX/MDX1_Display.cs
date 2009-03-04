@@ -449,17 +449,6 @@ namespace AgateMDX
 
         #endregion
 
-        #region --- Registration with core library ---
-
-        public static void Register()
-        {
-            Registrar.RegisterDisplayDriver(
-                new DriverInfo<DisplayTypeID>(typeof(MDX1_Display), DisplayTypeID.Direct3D_MDX_1_1,
-                "Managed DirectX 1.1", 200));
-        }
-
-        #endregion
-
         #region --- Display Mode changing stuff ---
 
         protected override void OnRenderTargetResize()

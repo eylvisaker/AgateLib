@@ -40,11 +40,6 @@ namespace AgateLib.Drivers
             inputDrivers = new List<AgateDriverInfo>(),
             desktopDrivers = new List<AgateDriverInfo>();
 
-        private static DriverInfoList<DisplayImpl, DisplayTypeID> mDisplayDrivers = new DriverInfoList<DisplayImpl, DisplayTypeID>();
-        private static DriverInfoList<AudioImpl, AudioTypeID> mAudioDrivers = new DriverInfoList<AudioImpl, AudioTypeID>();
-        private static DriverInfoList<InputImpl, InputTypeID> mInputDrivers = new DriverInfoList<InputImpl, InputTypeID>();
-
-
         private static bool mIsInitialized = false;
 
         private static IDesktopDriver mDesktop;
@@ -413,80 +408,6 @@ namespace AgateLib.Drivers
         {
             get { return inputDrivers; }
         }
-        /// <summary>
-        /// Returns a collection with all the DriverInfo&lt;DisplayTypeID&gt; structures for
-        /// registered display drivers.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete]
-        public static DriverInfoList<DisplayImpl, DisplayTypeID> DisplayDriverInfo
-        {
-            get
-            {
-                return mDisplayDrivers;
-            }
-        }
-
-        /// <summary>
-        /// Returns a collection with all the DriverInfo&lt;AudioTypeID&gt; structures for
-        /// registered display drivers.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete]
-        public static DriverInfoList<AudioImpl, AudioTypeID> AudioDriverInfo
-        {
-            get
-            {
-                return mAudioDrivers;
-            }
-        }
-
-        /// <summary>
-        /// Returns a collection with all the DriverInfo&lt;InputTypeID&gt; structures for
-        /// registered display drivers.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete]
-        public static DriverInfoList<InputImpl, InputTypeID> InputDriverInfo
-        {
-            get
-            {
-                return mInputDrivers;
-            }
-        }
-
-
-        /// <summary>
-        /// Registers a display driver as being available.
-        /// </summary>
-        /// <param name="info">Structure which contains enough information to instantiate
-        /// the display driver's own DisplayImpl derived class.</param>
-        [Obsolete]
-        public static void RegisterDisplayDriver(DriverInfo<DisplayTypeID> info)
-        {
-            mDisplayDrivers.Add(info);
-        }
-        /// <summary>
-        /// Registers an audio driver as being available.
-        /// </summary>
-        /// <param name="info">Structure which contains enough information to instantiate
-        /// the audio driver's own AudioImpl derived class.</param>
-        [Obsolete]
-        public static void RegisterAudioDriver(DriverInfo<AudioTypeID> info)
-        {
-            mAudioDrivers.Add(info);
-        }
-        /// <summary>
-        /// Registers an input driver as being available.
-        /// </summary>
-        /// <param name="info">Structure which contains enough information to instantiate
-        /// the input driver's own InputImpl derived class.</param>
-        [Obsolete]
-        public static void RegisterInputDriver(DriverInfo<InputTypeID> info)
-        {
-            mInputDrivers.Add(info);
-        }
-
 
     }
 }

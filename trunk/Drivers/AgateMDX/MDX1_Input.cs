@@ -28,11 +28,6 @@ namespace AgateMDX
 {
     public class MDX1_Input : InputImpl
     {
-        public static void Register()
-        {
-            Registrar.RegisterInputDriver(new DriverInfo<InputTypeID>(
-                typeof(MDX1_Input), InputTypeID.DirectInput, "Managed DirectInput", 100));
-        }
         public override void Initialize()
         {
             System.Diagnostics.Trace.WriteLine("Using Managed DirectX implementation of InputImpl.");
