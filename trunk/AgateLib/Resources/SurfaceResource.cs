@@ -28,14 +28,7 @@ namespace AgateLib.Resources
     /// Resource which loads a surface. <br/>
     /// XML Attributes:<br/> 
     ///   string name, string filename
-    /// <para>A zero or missing value for any width/height means it doesn't apply.
-    /// </para>
     /// </summary>
-    /// <remarks>
-    /// Not all attributes are used at the moment.  minimum_size and maximum_size can be specified and
-    /// will be preserved if the resource file is loaded and saved, but they are not used in the construction
-    /// of the DisplayWindow.
-    /// </remarks>
     public sealed class SurfaceResource : AgateResource 
     {
         string mFilename;
