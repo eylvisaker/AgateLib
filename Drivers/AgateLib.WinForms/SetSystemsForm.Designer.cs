@@ -49,7 +49,6 @@ namespace AgateLib.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetSystemsForm));
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.displayList = new System.Windows.Forms.ComboBox();
@@ -161,7 +160,6 @@ namespace AgateLib.WinForms
             this.Controls.Add(this.label1);
             this.Controls.Add(this.displayList);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "SetSystemsForm";
             this.Text = "Select Drivers";

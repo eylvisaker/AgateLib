@@ -68,6 +68,8 @@ namespace AgateLib.WinForms
         public SetSystemsForm()
         {
             InitializeComponent();
+
+            Icon = FormUtil.AgateLibIcon;
         }
         /// <summary>
         /// Constructs the form.  Specifies whether display, audio and input
