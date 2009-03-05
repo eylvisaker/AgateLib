@@ -60,7 +60,9 @@ namespace AgateLib.WinForms
             CS_IME = 0x00010000,
             CS_DROPSHADOW = 0x00020000
         }
-        
+        /// <summary>
+        /// 
+        /// </summary>
         protected override CreateParams CreateParams
         {
             get
@@ -106,7 +108,10 @@ namespace AgateLib.WinForms
             base.OnPaint(e);
 
         }
-
+        /// <summary>
+        /// Overrides the base class OnClick method, to give focus to the AgateRenderTarget when it is clicked.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnClick(EventArgs e)
         {
             base.OnClick(e);

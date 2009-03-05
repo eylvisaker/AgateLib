@@ -28,6 +28,9 @@ using AgateLib.Resources;
 
 namespace AgateLib.WinForms
 {
+    /// <summary>
+    /// Utility class for constructing a bitmap font image.
+    /// </summary>
     public static class BitmapFontUtil
     {
         interface ICharacterRenderer
@@ -140,9 +143,7 @@ namespace AgateLib.WinForms
         /// a bitmap to use as a Surface object.  You should only use this method
         /// if writing a driver.
         /// </summary>
-        /// <param name="fontFamily"></param>
-        /// <param name="sizeInPoints"></param>
-        /// <param name="style"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
         public static BitmapFontImpl ConstructFromOSFont(BitmapFontOptions options)
         {
