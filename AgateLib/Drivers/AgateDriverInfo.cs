@@ -130,27 +130,35 @@ namespace AgateLib.Drivers
         public string DriverTypeName
         {
             get { return mDriverTypeName; }
-            //internal set { mDriverTypeName = value; }
         }
+        /// <summary>
+        /// Gets the friendly name that may be displayed to the user which identifies this driver.
+        /// </summary>
         public string FriendlyName
         {
             get { return mFriendlyName; }
-            //internal set { mFriendlyName = value; }
         }
+        /// <summary>
+        /// Gets the type of driver.
+        /// </summary>
         public DriverType DriverType
         {
             get { return mDriverType; }
-            //internal set { mDriverType = value; }
         }
+        /// <summary>
+        /// Gets the type id of this driver.  This value should be cast to DisplayTypeID, AudioTypeID, etc. depending
+        /// on the value of DriverType.
+        /// </summary>
         public int DriverTypeID
         {
             get { return mDriverTypeID; }
-            //internal set { mDriverTypeID = value; }
         }
+        /// <summary>
+        /// Gets the priority of this driver when autoselecting which driver to use.
+        /// </summary>
         public int Priority
         {
             get { return mPriority; }
-            //internal set { mPriority = value; }
         }
 
         /// <summary>
@@ -172,11 +180,26 @@ namespace AgateLib.Drivers
 
     }
 
+    /// <summary>
+    /// Enum which indicates what type of driver is specified in an <c>AgateDriverInfo</c> structure.
+    /// </summary>
     public enum DriverType
     {
+        /// <summary>
+        /// Display driver
+        /// </summary>
         Display,
+        /// <summary>
+        /// Audio driver
+        /// </summary>
         Audio,
+        /// <summary>
+        /// Input driver
+        /// </summary>
         Input,
+        /// <summary>
+        /// Desktop driver
+        /// </summary>
         Desktop,
     }
 

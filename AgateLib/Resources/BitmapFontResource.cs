@@ -7,11 +7,18 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Resources
 {
+    /// <summary>
+    /// Resource representing a bitmap font.
+    /// </summary>
     public class BitmapFontResource : AgateResource 
     {
         string mImage;
         FontMetrics mMetrics = new FontMetrics();
 
+        /// <summary>
+        /// Constructs a BitmapFontResource.
+        /// </summary>
+        /// <param name="name"></param>
         public BitmapFontResource(string name)
             : base(name)
         { }
@@ -109,11 +116,17 @@ namespace AgateLib.Resources
             return retval;
         }
 
+        /// <summary>
+        /// Image file name.
+        /// </summary>
         public string Image
         {
             get { return mImage; }
             set { mImage = value; }
         }
+        /// <summary>
+        /// Font metrics data.
+        /// </summary>
         public FontMetrics FontMetrics
         {
             get { return mMetrics; }

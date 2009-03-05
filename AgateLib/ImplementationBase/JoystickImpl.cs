@@ -105,6 +105,7 @@ namespace AgateLib.ImplementationBase
     /// <summary>
     /// Implements an imaginary joystick that does nothing.
     /// </summary>
+    [Obsolete]
     public class NullJoystickImpl : JoystickImpl
     {
         bool[] mButtons = new bool[128];
@@ -116,6 +117,9 @@ namespace AgateLib.ImplementationBase
             get { return 2; }
         }
 
+        /// <summary>
+        /// Name of the joystick.
+        /// </summary>
         public override string Name
         {
             get { return "No joystick"; }

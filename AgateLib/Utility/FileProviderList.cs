@@ -95,7 +95,7 @@ namespace AgateLib.Utility
             return false;
         }
         /// <summary>
-        /// Adds a path in the filesystem to the list of locations to search when openning a file.
+        /// Adds a path in the filesystem to the list of locations to search when opening a file.
         /// </summary>
         /// <param name="path"></param>
         public void AddPath(string path)
@@ -105,11 +105,21 @@ namespace AgateLib.Utility
 
         #region IList<IFileProvider> Members
 
+        /// <summary>
+        /// Returns the index of the specified IFileProvider.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public int IndexOf(IFileProvider item)
         {
             return mProviders.IndexOf(item);
         }
 
+        /// <summary>
+        /// Insers an IFileProvider into the list.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="item"></param>
         public void Insert(int index, IFileProvider item)
         {
             if (item is FileProviderList)
@@ -119,12 +129,19 @@ namespace AgateLib.Utility
             
             mProviders.Insert(index, item);
         }
-
+        /// <summary>
+        /// Removes an IFileProvider from the list.
+        /// </summary>
+        /// <param name="index"></param>
         public void RemoveAt(int index)
         {
             mProviders.RemoveAt(index);
         }
-
+        /// <summary>
+        /// Gets or sets the IFileProvider at the specified location.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public IFileProvider this[int index]
         {
             get
@@ -145,6 +162,10 @@ namespace AgateLib.Utility
         #endregion
         #region ICollection<IFileProvider> Members
 
+        /// <summary>
+        /// Adds an IFileProvider to the list.
+        /// </summary>
+        /// <param name="item"></param>
         public void Add(IFileProvider item)
         {
             if (item is FileProviderList)
@@ -153,32 +174,46 @@ namespace AgateLib.Utility
             }
             mProviders.Add(item);
         }
-
+        /// <summary>
+        /// Clears the list.
+        /// </summary>
         public void Clear()
         {
             mProviders.Clear();
         }
-
+        /// <summary>
+        /// Returns true if the list contains the specified IFileProvider.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Contains(IFileProvider item)
         {
             return mProviders.Contains(item);
         }
 
-        public void CopyTo(IFileProvider[] array, int arrayIndex)
+        void ICollection<IFileProvider>.CopyTo(IFileProvider[] array, int arrayIndex)
         {
             mProviders.CopyTo(array, arrayIndex);
         }
-
+        /// <summary>
+        /// Gets the number of items in the list.
+        /// </summary>
         public int Count
         {
             get { return mProviders.Count; }
         }
-
+        /// <summary>
+        /// Always returns false.
+        /// </summary>
         public bool IsReadOnly
         {
             get { return false; }
         }
-
+        /// <summary>
+        /// Removes an IFileProvider from the list.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Remove(IFileProvider item)
         {
             return mProviders.Remove(item);
@@ -187,6 +222,10 @@ namespace AgateLib.Utility
         #endregion
         #region IEnumerable<IFileProvider> Members
 
+        /// <summary>
+        /// Enumerates items.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<IFileProvider> GetEnumerator()
         {
             return mProviders.GetEnumerator();

@@ -8,6 +8,9 @@ using AgateLib.Resources;
 
 namespace AgateLib.Sprites
 {
+    /// <summary>
+    /// A class for representing an animated image.
+    /// </summary>
     public class Sprite : ISprite 
     {
         FrameList<SpriteFrame> mFrames = new FrameList<SpriteFrame>();
@@ -68,7 +71,8 @@ namespace AgateLib.Sprites
         /// Frames are cut out from the given surface of the specified size.
         /// </summary>
         /// <param name="stream"></param>
-        /// <param name="size"></param>
+        /// <param name="height"></param>
+        /// <param name="width"></param>
         public Sprite(Stream stream, int width, int height)
             : this(new Surface(stream), true, new Size(width, height))
         {
@@ -78,7 +82,7 @@ namespace AgateLib.Sprites
         /// A surface is loaded from the passed stream, and frames are cut out from it
         /// of the specified size.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="surfaceData"></param>
         /// <param name="size"></param>
         public Sprite(Stream surfaceData, Size size)
             : this(new Surface(surfaceData), true, size)
@@ -122,7 +126,11 @@ namespace AgateLib.Sprites
             AddNewFrames(surface, true, Point.Empty, Point.Empty, size, true);
         }
 
-
+        /// <summary>
+        /// Constructs a sprite from a resource.
+        /// </summary>
+        /// <param name="resources"></param>
+        /// <param name="name"></param>
         public Sprite(Resources.AgateResourceCollection resources, string name)
         {
             Resources.AgateResource generic_res = resources[name];
@@ -162,6 +170,7 @@ namespace AgateLib.Sprites
         /// <summary>
         /// Adds a frame to the sprite.
         /// </summary>
+        /// <param name="surface">The surface from which to get the image data.</param>
         /// <param name="bounds">The source rectangle for the image data used in the sprite frame to be added.</param>
         /// <param name="ownSurface">Pass true to indicate that this sprite should own the surface and dispose of it when finished.</param>
         /// <param name="offset">The offset within the sprite to the upperleft corner of where the frame is drawn.</param>
@@ -248,6 +257,8 @@ namespace AgateLib.Sprites
         /// Slices and dices the image passed into frames and adds them.
         /// Frames are taken from the surface from left to right.
         /// </summary>
+        /// <param name="surface"></param>
+        /// <param name="ownSurface">Pass true to indicate that this sprite should own the surface, and handle its disposal.</param>
         /// <param name="startPoint">The starting point in pixels from which to parse frames.</param>
         /// <param name="size">The size of the image to cut out for each frame</param>
         /// <param name="extraSpace">How many extra pixels to insert between each frame.</param>

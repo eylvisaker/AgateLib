@@ -40,7 +40,6 @@ namespace AgateLib.Sprites
     public class PackedSpriteFrame : ISpriteFrame 
     {
         Point mOffset = new Point(0, 0);
-        bool mIsBlank = true;
 
         Size mDisplaySize;
         Rectangle mSrcRect;

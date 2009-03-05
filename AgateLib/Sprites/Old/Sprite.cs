@@ -1141,6 +1141,9 @@ namespace AgateLib.Sprites.Old
             set { mAnimType = value; }
         }
 
+        /// <summary>
+        /// Obsolete.  Use IsAnimating instead.
+        /// </summary>
         [Obsolete("Use IsAnimating instead.")]
         public bool Animating
         {

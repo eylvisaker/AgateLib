@@ -212,6 +212,10 @@ namespace AgateLib.InputLib
 
         static bool inMouseMove = false;
 
+        /// <summary>
+        /// Raises the MouseWheel event.
+        /// </summary>
+        /// <param name="delta"></param>
         public static void OnMouseWheel(int delta)
         {
             MouseWheel(new InputEventArgs(delta));

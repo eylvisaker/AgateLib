@@ -196,11 +196,17 @@ namespace AgateLib.BitmapFont
         /// Loads the font metrics object from XML.
         /// </summary>
         /// <param name="xmlFile"></param>
-        public void Load(string xmlFile)
+        [Obsolete]
+        void Load(string xmlFile)
         {
             Load(System.IO.File.OpenRead(xmlFile));
         }
-        public void Load(System.IO.Stream xmlStream)
+        /// <summary>
+        /// Loads the font metrics from the xml stream.
+        /// </summary>
+        /// <param name="xmlStream"></param>
+        [Obsolete]
+        void Load(System.IO.Stream xmlStream)
         {
             mGlyphs.Clear();
 

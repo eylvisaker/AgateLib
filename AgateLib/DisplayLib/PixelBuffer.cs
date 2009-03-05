@@ -208,7 +208,7 @@ namespace AgateLib.DisplayLib
         /// The data is not copied when set, it is only referenced, so changes to the array that
         /// is passed in will affect the data in the pixel buffer.  It is assumed that the data
         /// passed in is of the same format as the pixel buffer.  If you wish to copy data use
-        /// the <see cref="SetData"/> method.
+        /// the <see cref="SetData(byte[], PixelFormat)"/> method.
         /// </remarks>
         public byte[] Data
         {
@@ -607,7 +607,7 @@ namespace AgateLib.DisplayLib
         /// is in (indicated by format parameter) differs from the format the
         /// pixel buffer is in.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="srcData"></param>
         /// <param name="srcFormat"></param>
         public void SetData(byte[] srcData, PixelFormat srcFormat)
         {
