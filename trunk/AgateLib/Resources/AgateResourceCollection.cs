@@ -151,7 +151,9 @@ namespace AgateLib.Resources
             this.Add(value);
         }
 
-
+        /// <summary>
+        /// Returns a collection of all the resource names.
+        /// </summary>
         public ICollection<string> Keys
         {
             get { return mStore.Keys; }
@@ -163,23 +165,37 @@ namespace AgateLib.Resources
             return mStore.ContainsKey(key);
         }
         /// <summary>
-        /// 
+        /// Removes a resource.
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="resourceName"></param>
         /// <returns></returns>
         public bool Remove(string resourceName)
         {
             return mStore.Remove(resourceName);
         }
+        /// <summary>
+        /// Tries to find the resource in the collection.  False is returned if 
+        /// the resource does not exist.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool TryGetValue(string key, out AgateResource value)
         {
             return mStore.TryGetValue(key, out value);
         }
-
+        /// <summary>
+        /// Gets a collection of all the AgateResource objects in the collection.
+        /// </summary>
         public ICollection<AgateResource> Values
         {
             get { return mStore.Values; }
         }
+        /// <summary>
+        /// Gets or sets the resource with the specified key.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public AgateResource this[string key]
         {
             get
@@ -252,6 +268,11 @@ namespace AgateLib.Resources
 
         #region --- ICollection<AgateResource> Members ---
 
+        /// <summary>
+        /// Gets whether the item is part of the collection.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Contains(AgateResource item)
         {
             return mStore.ContainsValue(item);
@@ -270,6 +291,11 @@ namespace AgateLib.Resources
             get { return false; }
         }
 
+        /// <summary>
+        /// Removes a resource from the collection.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Remove(AgateResource item)
         {
             return mStore.Remove(item.Name);

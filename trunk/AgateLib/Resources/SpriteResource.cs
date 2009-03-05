@@ -245,7 +245,10 @@ namespace AgateLib.Resources
                 get { return mOffset; }
                 set { mOffset = value; }
             }
-
+            /// <summary>
+            /// Converts the sprite resource to a string for debugging info.
+            /// </summary>
+            /// <returns></returns>
             public override string ToString()
             {
                 StringBuilder b = new StringBuilder();

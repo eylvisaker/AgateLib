@@ -198,7 +198,11 @@ namespace AgateLib.Geometry
         {
             return new SizeF(size.width, size.height);
         }
-
+        /// <summary>
+        /// Parses a string into a size object.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static Size FromString(string text)
         {
             return SizeConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);

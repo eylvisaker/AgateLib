@@ -382,6 +382,7 @@ namespace AgateLib.Serialization.Xle
         /// </summary>
         /// <param name="name">The name of the XML element used.</param>
         /// <param name="value">The dictionary to write.</param>
+        [CLSCompliant(false)]
         public void Write<Tkey, Tvalue>(string name, Dictionary<Tkey, Tvalue> value)
             where Tkey : IConvertible
             where Tvalue : IXleSerializable
@@ -422,6 +423,7 @@ namespace AgateLib.Serialization.Xle
         /// </summary>
         /// <param name="name">The name of the XML element used.</param>
         /// <param name="value">The dictionary to write.</param>
+        [CLSCompliant(false)]
         public void Write<Tkey>(string name, Dictionary<Tkey, string> value)
             where Tkey : IConvertible
         {
@@ -500,6 +502,7 @@ namespace AgateLib.Serialization.Xle
         /// <typeparam name="TValue"></typeparam>
         /// <param name="name"></param>
         /// <returns></returns>
+        [CLSCompliant(false)]
         public Dictionary<TKey, TValue> ReadDictionary<TKey, TValue>(string name)
             where TKey : IConvertible 
             where TValue : IXleSerializable
@@ -537,7 +540,8 @@ namespace AgateLib.Serialization.Xle
         /// </summary>
         /// <typeparam name="Tkey">The key type of the dictionary.</typeparam>
         /// <param name="name">The name of the element in the XML stream to decode.</param>
-        /// <returns></returns>        
+        /// <returns></returns> 
+        [CLSCompliant(false)]
         public Dictionary<Tkey, string> ReadDictionary<Tkey>(string name)
             where Tkey : IConvertible
         {

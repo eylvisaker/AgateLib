@@ -182,7 +182,9 @@ namespace AgateLib.Utility
 
             return true;
         }
-
+        /// <summary>
+        /// Gets the path that this FileSystemProvider searches in.
+        /// </summary>
         public string SearchPath
         {
             get

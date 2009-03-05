@@ -21,7 +21,7 @@ namespace AgateLib.Sprites
     public class SpriteFrame : ISpriteFrame
     {
         Point mOffset = new Point(0, 0);
-        bool mIsBlank = true;
+        //bool mIsBlank = true;
 
         Surface mSurface;
 

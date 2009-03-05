@@ -578,7 +578,13 @@ namespace AgateLib.ImplementationBase
         /// <returns></returns>
         protected internal abstract AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices();
 
+        /// <summary>
+        /// Makes the OS mouse pointer visible.
+        /// </summary>
         protected internal abstract void ShowCursor();
+        /// <summary>
+        /// Hides the OS mouse pointer.
+        /// </summary>
         protected internal abstract void HideCursor();
     }
 }

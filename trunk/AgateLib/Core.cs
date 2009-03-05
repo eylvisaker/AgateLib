@@ -407,6 +407,10 @@ namespace AgateLib
             get { return mCrossPlatform; }
             set { mCrossPlatform = value; }
         }
+        /// <summary>
+        /// Reports a cross platform error, according to the setting of Core.CrossPlatformDebugLevel.
+        /// </summary>
+        /// <param name="message"></param>
         public static void ReportCrossPlatformError(string message)
         {
             switch (CrossPlatformDebugLevel)

@@ -83,6 +83,11 @@ namespace AgateLib
         /// Constructs a new AgateCrossPlatformException object.
         /// </summary>
         public AgateCrossPlatformException(string message, Exception inner) : base(message, inner) { }
+        /// <summary>
+        /// Constructs a new AgateCrossPlatformException object from serialization data.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         protected AgateCrossPlatformException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)

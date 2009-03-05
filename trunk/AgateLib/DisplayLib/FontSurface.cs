@@ -93,7 +93,11 @@ namespace AgateLib.DisplayLib
 
             Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
         }
-
+        /// <summary>
+        /// Constructs a FontSurface object from a resource.
+        /// </summary>
+        /// <param name="resources"></param>
+        /// <param name="resourceName"></param>
         public FontSurface(AgateResourceCollection resources, string resourceName)
         {
             AgateResource res = resources[resourceName];
