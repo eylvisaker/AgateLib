@@ -102,7 +102,10 @@ namespace AgateLib.WinForms
             {
                 try
                 {
-                    return Icons.AgateLib;
+                    if (Type.GetType("Mono.Runtime") != null)
+                        return Icons.AgateLib_mono;
+                    else 
+                        return Icons.AgateLib;
                 }
                 catch (System.Resources.MissingManifestResourceException e)
                 {

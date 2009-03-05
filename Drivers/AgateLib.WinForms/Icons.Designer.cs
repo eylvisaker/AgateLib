@@ -67,6 +67,13 @@ namespace AgateLib.WinForms {
             }
         }
         
+        internal static System.Drawing.Icon AgateLib_mono {
+            get {
+                object obj = ResourceManager.GetObject("AgateLib_mono", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         internal static byte[] blankcursor {
             get {
                 object obj = ResourceManager.GetObject("blankcursor", resourceCulture);
