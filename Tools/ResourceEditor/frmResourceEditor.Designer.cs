@@ -33,16 +33,17 @@ namespace ResourceEditor
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainbook = new ERY.NotebookLib.Notebook();
-            this.pageWindow = new ERY.NotebookLib.NotebookPage();
-            this.displayWindowEditor1 = new ResourceEditor.DisplayWinds.DisplayWindowEditor();
+            this.notebookPage5 = new ERY.NotebookLib.NotebookPage();
+            this.notebookPage3 = new ERY.NotebookLib.NotebookPage();
+            this.notebookPage4 = new ERY.NotebookLib.NotebookPage();
+            this.fontPage = new ERY.NotebookLib.NotebookPage();
             this.pageStrings = new ERY.NotebookLib.NotebookPage();
             this.stringTableEditor1 = new ResourceEditor.StringTable.StringTableEditor();
+            this.pageWindow = new ERY.NotebookLib.NotebookPage();
+            this.displayWindowEditor1 = new ResourceEditor.DisplayWinds.DisplayWindowEditor();
             this.pageNumbers = new ERY.NotebookLib.NotebookPage();
-            this.notebookPage2 = new ERY.NotebookLib.NotebookPage();
-            this.notebookPage4 = new ERY.NotebookLib.NotebookPage();
-            this.notebookPage3 = new ERY.NotebookLib.NotebookPage();
-            this.notebookPage5 = new ERY.NotebookLib.NotebookPage();
             this.notebookPage1 = new ERY.NotebookLib.NotebookPage();
+            this.notebookPage2 = new ERY.NotebookLib.NotebookPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newResourceFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,8 +79,8 @@ namespace ResourceEditor
             this.toolStripContainer1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.mainbook.SuspendLayout();
-            this.pageWindow.SuspendLayout();
             this.pageStrings.SuspendLayout();
+            this.pageWindow.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -127,44 +128,70 @@ namespace ResourceEditor
             // mainbook
             // 
             this.mainbook.BackColor = System.Drawing.SystemColors.Control;
+            this.mainbook.Controls.Add(this.notebookPage5);
             this.mainbook.Controls.Add(this.notebookPage4);
+            this.mainbook.Controls.Add(this.pageStrings);
+            this.mainbook.Controls.Add(this.pageWindow);
             this.mainbook.Controls.Add(this.notebookPage3);
             this.mainbook.Controls.Add(this.pageNumbers);
-            this.mainbook.Controls.Add(this.notebookPage5);
             this.mainbook.Controls.Add(this.notebookPage1);
             this.mainbook.Controls.Add(this.notebookPage2);
-            this.mainbook.Controls.Add(this.pageWindow);
-            this.mainbook.Controls.Add(this.pageStrings);
             this.mainbook.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainbook.Location = new System.Drawing.Point(0, 0);
             this.mainbook.Name = "mainbook";
             this.mainbook.Navigator.Margin = new System.Windows.Forms.Padding(3);
             this.mainbook.Navigator.PageBackColor = System.Drawing.SystemColors.Control;
             this.mainbook.NavigatorType = ERY.NotebookLib.NavigatorType.ListBook;
-            this.mainbook.SelectedIndex = 7;
+            this.mainbook.SelectedIndex = 5;
             this.mainbook.Size = new System.Drawing.Size(608, 398);
             this.mainbook.SplitterLocation = 206;
             this.mainbook.TabIndex = 0;
             // 
-            // pageWindow
+            // notebookPage5
             // 
-            this.pageWindow.BackColor = System.Drawing.SystemColors.Control;
-            this.pageWindow.Controls.Add(this.displayWindowEditor1);
-            this.pageWindow.Image = global::ResourceEditor.Properties.Resources.DisplayWindow;
-            this.pageWindow.Location = new System.Drawing.Point(210, 0);
-            this.pageWindow.Name = "pageWindow";
-            this.pageWindow.Order = 20;
-            this.pageWindow.Size = new System.Drawing.Size(398, 398);
-            this.pageWindow.TabIndex = 4;
-            this.pageWindow.Text = "Display Windows";
+            this.notebookPage5.BackColor = System.Drawing.SystemColors.Control;
+            this.notebookPage5.Image = global::ResourceEditor.Properties.Resources.font;
+            this.notebookPage5.Location = new System.Drawing.Point(210, 0);
+            this.notebookPage5.Name = "notebookPage5";
+            this.notebookPage5.Order = 45;
+            this.notebookPage5.Size = new System.Drawing.Size(398, 398);
+            this.notebookPage5.TabIndex = 11;
+            this.notebookPage5.Text = "Fonts";
             // 
-            // displayWindowEditor1
+            // notebookPage3
             // 
-            this.displayWindowEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.displayWindowEditor1.Location = new System.Drawing.Point(0, 0);
-            this.displayWindowEditor1.Name = "displayWindowEditor1";
-            this.displayWindowEditor1.Size = new System.Drawing.Size(398, 398);
-            this.displayWindowEditor1.TabIndex = 0;
+            this.notebookPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.notebookPage3.Image = global::ResourceEditor.Properties.Resources.SoundEffect;
+            this.notebookPage3.Location = new System.Drawing.Point(210, 0);
+            this.notebookPage3.Name = "notebookPage3";
+            this.notebookPage3.Order = 50;
+            this.notebookPage3.ShowPage = false;
+            this.notebookPage3.Size = new System.Drawing.Size(398, 398);
+            this.notebookPage3.TabIndex = 8;
+            this.notebookPage3.Text = "Sound Effects";
+            // 
+            // notebookPage4
+            // 
+            this.notebookPage4.BackColor = System.Drawing.SystemColors.Control;
+            this.notebookPage4.Image = global::ResourceEditor.Properties.Resources.Music;
+            this.notebookPage4.Location = new System.Drawing.Point(210, 0);
+            this.notebookPage4.Name = "notebookPage4";
+            this.notebookPage4.Order = 60;
+            this.notebookPage4.ShowPage = false;
+            this.notebookPage4.Size = new System.Drawing.Size(398, 398);
+            this.notebookPage4.TabIndex = 9;
+            this.notebookPage4.Text = "Music";
+            // 
+            // fontPage
+            // 
+            this.fontPage.BackColor = System.Drawing.SystemColors.Control;
+            this.fontPage.Image = global::ResourceEditor.Properties.Resources.font;
+            this.fontPage.Location = new System.Drawing.Point(210, 0);
+            this.fontPage.Name = "fontPage";
+            this.fontPage.Order = 70;
+            this.fontPage.Size = new System.Drawing.Size(398, 398);
+            this.fontPage.TabIndex = 13;
+            this.fontPage.Text = "Fonts";
             // 
             // pageStrings
             // 
@@ -188,6 +215,26 @@ namespace ResourceEditor
             this.stringTableEditor1.TabIndex = 0;
             this.stringTableEditor1.StatusText += new System.EventHandler<ResourceEditor.StatusTextEventArgs>(this.stringTableEditor1_StatusText);
             // 
+            // pageWindow
+            // 
+            this.pageWindow.BackColor = System.Drawing.SystemColors.Control;
+            this.pageWindow.Controls.Add(this.displayWindowEditor1);
+            this.pageWindow.Image = global::ResourceEditor.Properties.Resources.DisplayWindow;
+            this.pageWindow.Location = new System.Drawing.Point(210, 0);
+            this.pageWindow.Name = "pageWindow";
+            this.pageWindow.Order = 20;
+            this.pageWindow.Size = new System.Drawing.Size(398, 398);
+            this.pageWindow.TabIndex = 4;
+            this.pageWindow.Text = "Display Windows";
+            // 
+            // displayWindowEditor1
+            // 
+            this.displayWindowEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.displayWindowEditor1.Location = new System.Drawing.Point(0, 0);
+            this.displayWindowEditor1.Name = "displayWindowEditor1";
+            this.displayWindowEditor1.Size = new System.Drawing.Size(398, 398);
+            this.displayWindowEditor1.TabIndex = 0;
+            // 
             // pageNumbers
             // 
             this.pageNumbers.BackColor = System.Drawing.SystemColors.Control;
@@ -200,52 +247,6 @@ namespace ResourceEditor
             this.pageNumbers.TabIndex = 2;
             this.pageNumbers.Text = "Numbers";
             // 
-            // notebookPage2
-            // 
-            this.notebookPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.notebookPage2.Image = global::ResourceEditor.Properties.Resources.Surfaces;
-            this.notebookPage2.Location = new System.Drawing.Point(210, 0);
-            this.notebookPage2.Name = "notebookPage2";
-            this.notebookPage2.Order = 30;
-            this.notebookPage2.Size = new System.Drawing.Size(398, 398);
-            this.notebookPage2.TabIndex = 5;
-            this.notebookPage2.Text = "Surfaces";
-            // 
-            // notebookPage4
-            // 
-            this.notebookPage4.BackColor = System.Drawing.SystemColors.Control;
-            this.notebookPage4.Image = global::ResourceEditor.Properties.Resources.Music;
-            this.notebookPage4.Location = new System.Drawing.Point(210, 0);
-            this.notebookPage4.Name = "notebookPage4";
-            this.notebookPage4.Order = 60;
-            this.notebookPage4.ShowPage = false;
-            this.notebookPage4.Size = new System.Drawing.Size(398, 398);
-            this.notebookPage4.TabIndex = 9;
-            this.notebookPage4.Text = "Music";
-            // 
-            // notebookPage3
-            // 
-            this.notebookPage3.BackColor = System.Drawing.SystemColors.Control;
-            this.notebookPage3.Image = global::ResourceEditor.Properties.Resources.SoundEffect;
-            this.notebookPage3.Location = new System.Drawing.Point(210, 0);
-            this.notebookPage3.Name = "notebookPage3";
-            this.notebookPage3.Order = 50;
-            this.notebookPage3.ShowPage = false;
-            this.notebookPage3.Size = new System.Drawing.Size(398, 398);
-            this.notebookPage3.TabIndex = 8;
-            this.notebookPage3.Text = "Sound Effects";
-            // 
-            // notebookPage5
-            // 
-            this.notebookPage5.BackColor = System.Drawing.SystemColors.Control;
-            this.notebookPage5.Image = global::ResourceEditor.Properties.Resources.font;
-            this.notebookPage5.Location = new System.Drawing.Point(210, 0);
-            this.notebookPage5.Name = "notebookPage5";
-            this.notebookPage5.Order = 45;
-            this.notebookPage5.Size = new System.Drawing.Size(398, 398);
-            this.notebookPage5.TabIndex = 11;
-            this.notebookPage5.Text = "Fonts";
-            // 
             // notebookPage1
             // 
             this.notebookPage1.BackColor = System.Drawing.SystemColors.Control;
@@ -256,6 +257,17 @@ namespace ResourceEditor
             this.notebookPage1.Size = new System.Drawing.Size(398, 398);
             this.notebookPage1.TabIndex = 6;
             this.notebookPage1.Text = "Sprites";
+            // 
+            // notebookPage2
+            // 
+            this.notebookPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.notebookPage2.Image = global::ResourceEditor.Properties.Resources.Surfaces;
+            this.notebookPage2.Location = new System.Drawing.Point(210, 0);
+            this.notebookPage2.Name = "notebookPage2";
+            this.notebookPage2.Order = 30;
+            this.notebookPage2.Size = new System.Drawing.Size(398, 398);
+            this.notebookPage2.TabIndex = 5;
+            this.notebookPage2.Text = "Surfaces";
             // 
             // menuStrip1
             // 
@@ -523,8 +535,8 @@ namespace ResourceEditor
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.mainbook.ResumeLayout(false);
-            this.pageWindow.ResumeLayout(false);
             this.pageStrings.ResumeLayout(false);
+            this.pageWindow.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -578,6 +590,7 @@ namespace ResourceEditor
         private System.Windows.Forms.ToolStripMenuItem createDistributionToolStripMenuItem;
         private ResourceEditor.StringTable.StringTableEditor stringTableEditor1;
         private ResourceEditor.DisplayWinds.DisplayWindowEditor displayWindowEditor1;
+        private ERY.NotebookLib.NotebookPage fontPage;
 
     }
 }
