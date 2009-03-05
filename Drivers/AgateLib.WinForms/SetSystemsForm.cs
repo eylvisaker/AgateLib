@@ -33,7 +33,7 @@ namespace AgateLib.WinForms
     /// [Experimental - This class will be moved to into a different assembly
     /// in the future.]
     /// </remarks>
-    public partial class SetSystemsForm : Form, IUserSetSystems
+    partial class SetSystemsForm : Form, IUserSetSystems
     {
         private bool mChooseDisplay, mChooseAudio, mChooseInput;
         private DisplayTypeID mDisplayType;
@@ -62,6 +62,9 @@ namespace AgateLib.WinForms
             get { return mInputType; }
         }
 
+        /// <summary>
+        /// Constructs a SetSystemsForm object.
+        /// </summary>
         public SetSystemsForm()
         {
             InitializeComponent();

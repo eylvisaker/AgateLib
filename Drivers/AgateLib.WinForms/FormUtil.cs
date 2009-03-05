@@ -27,6 +27,9 @@ using AgateLib.InputLib;
 
 namespace AgateLib.WinForms
 {
+    /// <summary>
+    /// Utility class for various windows forms methods that are common to different drivers.
+    /// </summary>
     public static class FormUtil
     {
         /// <summary>
@@ -113,6 +116,10 @@ namespace AgateLib.WinForms
             }
         }
 
+        /// <summary>
+        /// Gets a System.Windows.Forms.Cursor object which is completely transparent.
+        /// </summary>
+        [Obsolete("This will be made private in the next release.  Don't use it.")]
         public static Cursor BlankCursor
         {
             get
@@ -159,6 +166,12 @@ namespace AgateLib.WinForms
             return myvalue;
         }
 
+        /// <summary>
+        /// Saves a pixel buffer to an image file using a System.Drawing.Bitmap object.
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="filename"></param>
+        /// <param name="format"></param>
         public static void SavePixelBuffer(PixelBuffer buffer, string filename, ImageFileFormat format)
         {
 
