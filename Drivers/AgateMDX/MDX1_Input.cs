@@ -132,6 +132,7 @@ namespace AgateMDX
         {
             return mButtons[buttonIndex];
         }
+        [Obsolete]
         public override bool[] Buttons
         {
             get
