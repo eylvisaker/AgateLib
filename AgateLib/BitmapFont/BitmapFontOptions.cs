@@ -112,8 +112,13 @@ namespace AgateLib.BitmapFont
             mSize = sizeInPoints;
             mEdgeOptions = BitmapFontEdgeOptions.IntensityAlphaColor;
 
+            // Latin characters used by English.
             mRanges.Add(new CharacterRange(' ', '~'));
+
+            // Latin characters used by languages other than English.
+            mRanges.Add(new CharacterRange((char)0xA1, (char)0xFF));
         }
+
         /// <summary>
         /// Constructs a BitmapFontOptions object.
         /// </summary>
