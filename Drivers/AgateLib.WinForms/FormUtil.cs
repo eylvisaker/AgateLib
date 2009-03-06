@@ -103,8 +103,21 @@ namespace AgateLib.WinForms
                 try
                 {
                     if (Type.GetType("Mono.Runtime") != null)
-                        return Icons.AgateLib_mono;
-                    else 
+                    {
+                        //try
+                        //{
+                            return Icons.AgateLib;
+                        //}
+                        //catch(Exception e)
+                        //{
+                        //    System.Diagnostics.Debug.Print("Failed to get regular AgateLib icon, the exception {0} was thrown."
+                        //        + Environment.NewLine +
+                        //        "This is probably caused by Mono being unable to read an icon larger than 32x32.", e.GetType());
+
+                        //    return Icons.AgateLib_mono;
+                        //}
+                    }
+                    else
                         return Icons.AgateLib;
                 }
                 catch (System.Resources.MissingManifestResourceException e)
