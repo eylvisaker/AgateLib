@@ -96,7 +96,6 @@ namespace LightingTest
                     image.TesselateFactor = (int)frm.nudTess.Value;
 
                     image.Draw(50, 50);
-                    Display.DisableLighting();
 
                     image.Draw(50 + image.DisplayWidth, 50);
                     image.Draw(50, 50 + image.DisplayHeight);
