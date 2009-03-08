@@ -552,51 +552,51 @@ namespace Prebuild.Core
 		{
 			IDataNode dataNode = null;
 
-			try
-			{
-				if( node == null )
-				{
-					throw new ArgumentNullException("node");
-				}
-				if(preNode == null)
-				{
-					if(!m_Nodes.ContainsKey(node.Name))
-					{
-						//throw new XmlException("Unknown XML node: " + node.Name);
-						return null;
-					}
+            try
+            {
+                if (node == null)
+                {
+                    throw new ArgumentNullException("node");
+                }
+                if (preNode == null)
+                {
+                    if (!m_Nodes.ContainsKey(node.Name))
+                    {
+                        //throw new XmlException("Unknown XML node: " + node.Name);
+                        return null;
+                    }
 
-					NodeEntry ne = (NodeEntry)m_Nodes[node.Name];
-					Type type = ne.Type;
-					//DataNodeAttribute dna = ne.Attribute;
+                    NodeEntry ne = (NodeEntry)m_Nodes[node.Name];
+                    Type type = ne.Type;
+                    //DataNodeAttribute dna = ne.Attribute;
 
-					dataNode = (IDataNode)type.Assembly.CreateInstance(type.FullName);
-					if(dataNode == null)
-					{
-						throw new System.Reflection.TargetException("Could not create new parser instance: " + type.FullName);
-					}
-				}
-				else
-					dataNode = preNode;
+                    dataNode = (IDataNode)type.Assembly.CreateInstance(type.FullName);
+                    if (dataNode == null)
+                    {
+                        throw new System.Reflection.TargetException("Could not create new parser instance: " + type.FullName);
+                    }
+                }
+                else
+                    dataNode = preNode;
 
-				dataNode.Parent = parent;
-				dataNode.Parse(node);
-			}
-			catch(WarningException wex)
-			{
-				m_Log.Write(LogType.Warning, wex.Message);
-				return null;
-			}
-			catch(FatalException fex)
-			{
-				m_Log.WriteException(LogType.Error, fex);
-				throw;
-			}
-			catch(Exception ex)
-			{
-				m_Log.WriteException(LogType.Error, ex);
-				throw;
-			}
+                dataNode.Parent = parent;
+                dataNode.Parse(node);
+            }
+            catch (WarningException wex)
+            {
+                m_Log.Write(LogType.Warning, wex.Message);
+                return null;
+            }
+            catch (FatalException fex)
+            {
+                m_Log.WriteException(LogType.Error, fex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                m_Log.WriteException(LogType.Error, ex);
+                throw;
+            }
 
 			return dataNode;
 		}

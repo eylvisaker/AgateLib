@@ -87,6 +87,7 @@ namespace Prebuild
 					kernel.Process();
 				}
 			}
+#if !DEBUG
 			catch(Exception	ex)	
 			{
 				Console.WriteLine("Unhandled error:	{0}", ex.Message);
@@ -94,6 +95,7 @@ namespace Prebuild
 				Console.WriteLine("{0}", ex.StackTrace);
 				//#endif
 			}
+#endif
 			finally
 			{
 				if(kernel.PauseAfterFinish)	

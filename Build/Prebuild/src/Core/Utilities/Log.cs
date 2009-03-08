@@ -91,7 +91,7 @@ namespace Prebuild.Core.Utilities
 	{
 		#region Fields
 
-		private StreamWriter m_Writer;
+		private TextWriter m_Writer;
 		private LogTargets m_Target = LogTargets.Null;
 		bool disposed;
 
@@ -112,6 +112,10 @@ namespace Prebuild.Core.Utilities
 			{
 				m_Writer = new StreamWriter(fileName, false);
 			}
+            else if ((m_Target & LogTargets.Console) != 0)
+            {
+                m_Writer = Console.Out;
+            }
 		}
 
 		#endregion
@@ -192,18 +196,18 @@ namespace Prebuild.Core.Utilities
 		/// </summary>
 		/// <param name="type">The type.</param>
 		/// <param name="ex">The ex.</param>
-		public void WriteException(LogType type, Exception ex)
-		{
-			if(ex != null)
-			{
-				Write(type, ex.Message);
-				//#if DEBUG
-				m_Writer.WriteLine("Exception @{0} stack trace [[", ex.TargetSite.Name);
-				m_Writer.WriteLine(ex.StackTrace);
-				m_Writer.WriteLine("]]");
-				//#endif
-			}
-		}
+        public void WriteException(LogType type, Exception ex)
+        {
+            if (ex == null) return;
+
+            Write(type, ex.Message);
+            
+            if (m_Writer == null) return;
+
+            m_Writer.WriteLine("Exception @{0} stack trace [[", ex.TargetSite.Name);
+            m_Writer.WriteLine(ex.StackTrace);
+            m_Writer.WriteLine("]]");
+        }
 
 		/// <summary>
 		/// Flushes this instance.
