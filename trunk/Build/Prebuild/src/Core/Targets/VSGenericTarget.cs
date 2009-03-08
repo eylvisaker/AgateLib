@@ -418,7 +418,7 @@ namespace Prebuild.Core.Targets
 
 						if (!list.Contains(file))
 						{
-							ps.Write("    <{0} ", project.Files.GetBuildAction(path));
+                            ps.Write("    <{0} ", project.Files.GetBuildAction(file));
 
 							int startPos = 0;
 							if (project.Files.GetPreservePath(file))

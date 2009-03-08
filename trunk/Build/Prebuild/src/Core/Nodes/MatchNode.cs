@@ -173,11 +173,23 @@ namespace Prebuild.Core.Nodes
             Boolean excludeFile;
 			try
 			{
-				string[] files;
+				string[] files = null;
 
 				if(!useRegex)
 				{
-					files = Directory.GetFiles(path, pattern);
+                    try
+                    {
+                        files = Directory.GetFiles(path, pattern);
+                    }
+                    catch (IOException e)
+                    {
+                        // swallow weird IOException error when running in a virtual box
+                        // guest OS on a network share.  This seems to happen on network shares
+                        // when no files match, and may be related to the bug reported here:
+                        // http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=254546
+
+                        files = null;
+                    }
 					if(files != null)
 					{
 						string fileTemp;
@@ -208,14 +220,20 @@ namespace Prebuild.Core.Nodes
 
 						}
 					}
-					else
-					{
-						return;
-					}
 				}
 				else
 				{
-					files = Directory.GetFiles(path);
+                    try
+                    {
+                        files = Directory.GetFiles(path);
+                    }
+                    catch (IOException)
+                    {
+                        // swallow weird IOException error when running in a virtual box
+                        // guest OS on a network share.
+                        files = null;
+                    }
+
 					foreach(string file in files)
 					{
                         excludeFile = false;
@@ -246,6 +264,11 @@ namespace Prebuild.Core.Nodes
 					{
 						foreach(string str in dirs)
 						{
+                            // hack to skip subversion folders.  Not having this can cause
+                            // a significant performance hit when running on a network drive.
+                            if (str.EndsWith(".svn"))
+                                continue;
+
 							RecurseDirectories(Helper.NormalizePath(str), pattern, recurse, useRegex, exclusions);
 						}
 					}
@@ -341,7 +364,13 @@ namespace Prebuild.Core.Nodes
 
 			if(m_Files.Count < 1)
 			{
-				throw new WarningException("Match returned no files: {0}{1}", Helper.EndPath(path), pattern);
+                ProjectNode project = this.Parent.Parent as ProjectNode;
+                string projectName = "";
+
+                if (project != null)
+                    projectName = " in project " + project.AssemblyName;
+                
+				throw new WarningException("Match" + projectName + " returned no files: {0}{1}", Helper.EndPath(path), pattern);
 			}
 			m_Regex = null;
 		}
