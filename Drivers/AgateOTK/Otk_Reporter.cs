@@ -28,12 +28,12 @@ namespace AgateOTK
         public override IEnumerable<AgateDriverInfo> ReportDrivers()
         {
             yield return new AgateDriverInfo(
-                 DisplayTypeID.OpenGL, typeof(GL_Display), "OpenGL through OpenTK 0.9.3", 1120);
+                 DisplayTypeID.OpenGL, typeof(GL_Display), "OpenGL through OpenTK 0.9.5", 1120);
 
             if (ReportOpenAL())
             {
                 yield return new AgateDriverInfo(
-                    AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK 0.9.3", 100);
+                    AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK 0.9.5", 100);
             }
         }
 
