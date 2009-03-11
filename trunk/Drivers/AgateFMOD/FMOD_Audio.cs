@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 using AgateLib;
@@ -119,12 +120,28 @@ namespace AgateFMOD
 
         public override MusicImpl CreateMusic(System.IO.Stream musicStream)
         {
-            throw new NotImplementedException();
+            string filename = SaveStreamToTempFile(musicStream);
+            return CreateMusic(filename);
         }
-
         public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
         {
-            throw new NotImplementedException();
+            string filename = SaveStreamToTempFile(inStream);
+            return CreateSoundBuffer(filename);
         }
+        private string SaveStreamToTempFile(System.IO.Stream inStream)
+        {
+            string tempfile = System.IO.Path.GetTempFileName();
+            byte[] data = new byte[inStream.Length];
+
+            inStream.Read(data, 0, (int)inStream.Length);
+
+            using (Stream file = File.OpenWrite(tempfile))
+            {
+                file.Write(data, 0, data.Length);
+            }
+
+            return tempfile;
+        }
+
     }
 }
