@@ -241,23 +241,26 @@ namespace AgateOTK
             mState.SetGLColor(color);
 
             // hacks here to make it come out right?
-            // rect.Y++ and rect.Right +1 down below.
+            // rect.Y++ and rect.Right+1 down below.
+            // this was tested using software opengl rendering
+            // on OpenSuSE 11.1.  It seems that hardware drivers
+            // don't have good support for getting this right.
             rect.Y++;
 
             GL.Disable(EnableCap.Texture2D);
             GL.Begin(BeginMode.Lines);
 
             GL.Vertex2(rect.Left, rect.Top);
-            GL.Vertex2(rect.Right+1, rect.Top);
+            GL.Vertex2(rect.Right, rect.Top);
 
             GL.Vertex2(rect.Right, rect.Top);
             GL.Vertex2(rect.Right, rect.Bottom);
 
-            GL.Vertex2(rect.Right, rect.Bottom);
             GL.Vertex2(rect.Left, rect.Bottom);
+            GL.Vertex2(rect.Right+1, rect.Bottom);
 
-            GL.Vertex2(rect.Left, rect.Bottom);
             GL.Vertex2(rect.Left, rect.Top);
+            GL.Vertex2(rect.Left, rect.Bottom);
 
             GL.End();
             GL.Enable(EnableCap.Texture2D);
