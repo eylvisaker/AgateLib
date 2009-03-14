@@ -1,6 +1,6 @@
 /*****************************************************************************
 	Ball: Buster
-	Copyright (C) 2004 PatrickAvella
+	Copyright (C) 2004-9 Patrick Avella, Erik Ylvisaker
 
     This file is part of Ball: Buster.
 
@@ -17,11 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with Ball: Buster; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*******************************************************************************
-**  Ball: Buster uses the ClanLib sdk, it can be found at http://clanlib.org
-**  ClanLib Game SDK
-**  Copyright (C) 2003  The ClanLib Team
-*******************************************************************************/
+*/
 
 using System;
 using System.Collections.Generic;
@@ -42,6 +38,7 @@ class BBX
     const float minPaddleImbueV = 200.0f;
     
     LightManager lights = new LightManager();
+    bool doLighting = true;
 
     public BBX()
     {
@@ -276,18 +273,20 @@ class BBX
     
 
 
-    [MTAThread]
+    [STAThread]
     public int Main(string[] args)
     {
-        // uncomment the try/catch blocks to create a more "debug friendly" version.
-
-        //try
-        //{
-            AgateSetup setup = new AgateSetup(args);
+        using (AgateSetup setup = new AgateSetup(args))
+        {
+            setup.AskUser = true;
             setup.Initialize(true, true, true);
 
             if (setup.WasCanceled)
                 return 0;
+
+            if (Display.Caps.IsHardwareAccelerated == false ||
+                Display.Caps.SupportsLighting == false)
+                doLighting = false;
 
             bool fulls = true;
 
@@ -302,12 +301,17 @@ class BBX
             fulls = false;
 
             // now it gets fun, set up the display mode
-            DisplayWindow mywindow = new DisplayWindow("Ball: Buster Xtreme.NET", 800, 600, "", fulls, false);
+            DisplayWindow mywindow;
+
+            if (fulls)
+                mywindow = DisplayWindow.CreateFullScreen("Ball: Buster Xtreme.NET", 800, 600);
+            else
+                mywindow = DisplayWindow.CreateWindowed("Ball: Buster Xtreme.NET", 800, 600);
 
             Mouse.Hide();
 
             // load the images, initiation frame rate counter, and register signals
-            AgateLib.Utility.FileManager.ImagePath.Add("imgs");
+            AgateLib.AgateFileProvider.Images.AddPath("imgs");
 
             splash();
 
@@ -331,34 +335,13 @@ class BBX
             saveHighscores();
 
             freeWorlds();
-
-            setup.Dispose();
-
-        //}
-        //catch(Exception e)
-        //{
-        //    Stream file = File.OpenWrite("error.txt");
-        //    StreamWriter writer = new StreamWriter(file);
-
-        //    writer.WriteLine("Error: " + e.Message);
-        //    writer.WriteLine("Source: " + e.Source);
-        //    writer.WriteLine("TargetSite: " + e.TargetSite);
-        //    writer.WriteLine("StackTrace: " + e.StackTrace);
-
-        //    writer.Flush();
-
-        //    file.Close();
-
-        //    Display.Dispose();
-        //}
-        
+        }
         return 0;
-
     }
 
     void Keyboard_KeyDown(InputEventArgs e)
     {
-        hitkey = e.KeyID;
+        hitkey = e.KeyCode;
         hitkeystring = e.KeyString;
 
         //KeyCode modifiers = e.Modifiers & (KeyCode.LShiftKey | KeyCode.RShiftKey | KeyCode.ShiftKey);
@@ -754,8 +737,10 @@ class BBX
         img.leftborder.Draw(0, 0);
         img.rightborder.Draw(735, 0);
 
-
-        lights.DoLighting();
+        if (doLighting)
+        {
+            lights.DoLighting();
+        }
 
         // Draw blocks and Update their animations...
         DrawBlocks();
@@ -768,7 +753,10 @@ class BBX
         DrawBlockParts();
         DrawFadeBalls();
 
-        Display.DisableLighting();
+        if (doLighting)
+        {
+            Display.DisableLighting();
+        }
 
         // Draw paddle, other stuff, and lastly the balls.
         DB_EnterSubsection("Drawing Paddle");
@@ -4302,11 +4290,11 @@ class BBX
             img.font.Color = Color.Black;
 
             img.font.DrawText(175, 250, "Ball: Buster eXtreme.NET");
-            img.font.DrawText(175, 265, "Copyright 2004-8 Patrick Avella, Erik Ylvisaker");
+            img.font.DrawText(175, 265, "Copyright 2004-9 Patrick Avella, Erik Ylvisaker");
             img.font.DrawText(175, 280, "Game Programming: Patrick Avella (patrickavella.com)");
             img.font.DrawText(175, 295, "eXtreme & .NET Version Programming: Erik Ylvisaker");
             img.font.DrawText(175, 310, "Game Art: Patrick Avella (patrickavella.com)");
-            img.font.DrawText(175, 325, "AgateLib Programming: Erik Ylvisaker (agate.sourceforge.net)");
+            img.font.DrawText(175, 325, "AgateLib Programming: Erik Ylvisaker (www.agatelib.org)");
             img.font.DrawText(175, 340, "Background Music: Partners in Rhyme (musicloops.com)");
             img.font.DrawText(175, 355, "Sound Effects: A1 Free Sound Effects (a1freesoundeffects.com)");
 
