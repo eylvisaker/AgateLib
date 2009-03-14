@@ -31,7 +31,7 @@ namespace AgateLib.PlatformSpecific
     /// are "most conservative."
     /// </summary>
     [Obsolete("Most functionality moved to display plugin.")]
-    public class Platform  : IDisposable 
+    public class Platform  : IDisposable
     {
         System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 

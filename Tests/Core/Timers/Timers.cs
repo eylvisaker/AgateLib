@@ -23,8 +23,6 @@ namespace TimerTester
             frm.Show();
 
             Core.Initialize();
-            Timing.PauseAllTimers();
-
 
             Application.DoEvents();
             System.Threading.Thread.Sleep(0);
@@ -39,7 +37,6 @@ namespace TimerTester
                 System.Threading.Thread.Sleep(0);
 
             }
-
         }
     }
 }

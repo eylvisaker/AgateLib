@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Watch = System.Diagnostics.Stopwatch;
 
 namespace AgateLib
 {
@@ -36,6 +37,26 @@ namespace AgateLib
         private static event TimerDelegate ResumeAllTimersEvent;
         private static event TimerDelegate ForceResumeAllTimersEvent;
 
+        static Timing()
+        {
+            // Display the timer frequency and resolution.
+            if (Watch.IsHighResolution)
+            {
+                Console.WriteLine("Operations timed using the system's high-resolution performance counter.");
+            }
+            else
+            {
+                Console.WriteLine("Operations timed using the DateTime class.");
+            }
+
+            long frequency = Watch.Frequency;
+            Console.WriteLine("  Timer frequency in ticks per second = {0}",
+                frequency);
+            long nanosecPerTick = (1000L * 1000L * 1000L) / frequency;
+            Console.WriteLine("  Timer is accurate within {0} nanoseconds",
+                nanosecPerTick);
+
+        }
         /// <summary>
         /// Returns the number of seconds since the application started.
         /// </summary>
@@ -48,10 +69,7 @@ namespace AgateLib
         /// </summary>
         public static double TotalMilliseconds
         {
-            get
-            {
-                return mAppTimer.TotalMilliseconds;
-            }
+            get { return mAppTimer.TotalMilliseconds; }
         }
 
         /// <summary>
@@ -113,9 +131,8 @@ namespace AgateLib
         /// </summary>
         public class StopWatch : IDisposable
         {
-            double mStartTime;
-            int mPause = 0;
-            double mPauseTime = 0;
+            Watch watch = new Watch();
+            int mPause = 1;
 
             /// <summary>
             /// Constructs a timer object, and immediately begins 
@@ -138,26 +155,11 @@ namespace AgateLib
                 ResumeAllTimersEvent += Resume;
                 ForceResumeAllTimersEvent += ForceResume;
 
-
-                try
+                if (autostart)
                 {
-                    mStartTime = Core.Platform.GetTime();
+                    watch.Start();
+                    mPause = 0;
                 }
-                catch (NullReferenceException e)
-                {
-                    GC.KeepAlive(e);
-
-                    Core.Initialize();
-                    
-                    mStartTime = Core.Platform.GetTime();
-                }
-
-
-                if (autostart == false)
-                {
-                    Pause();
-                }
-
             }
 
             /// <summary>
@@ -187,10 +189,7 @@ namespace AgateLib
             /// </summary>
             public double TotalSeconds
             {
-                get
-                {
-                    return TotalMilliseconds / 1000.0;
-                }
+                get { return (double)watch.ElapsedTicks / (double)Watch.Frequency;}
             }
 
             /// <summary>
@@ -198,13 +197,7 @@ namespace AgateLib
             /// </summary>
             public double TotalMilliseconds
             {
-                get
-                {
-                    if (mPause == 0)
-                        return Core.Platform.GetTime() - mStartTime;
-                    else
-                        return mPauseTime - mStartTime;
-                }
+                get { return 1000.0 * TotalSeconds; }
             }
 
             /// <summary>
@@ -212,10 +205,9 @@ namespace AgateLib
             /// </summary>
             public void Reset()
             {
-                mStartTime = Core.Platform.GetTime();
-
-                if (mPause > 0)
-                    mPauseTime = mStartTime;
+                watch = new System.Diagnostics.Stopwatch();
+                if (mPause <= 0)
+                    watch.Start();
             }
 
             /// <summary>
@@ -224,12 +216,8 @@ namespace AgateLib
             /// </summary>
             public void Pause()
             {
+                watch.Stop();
                 mPause += 1;
-
-                if (mPause == 1)
-                    mPauseTime = Core.Platform.GetTime();
-
-
             }
             /// <summary>
             /// Decrements the pause counter.
@@ -239,14 +227,11 @@ namespace AgateLib
             {
                 mPause -= 1;
 
-                if (mPause == 0)
-                {
-                    mStartTime += Core.Platform.GetTime() - mPauseTime;
-
-                    mPauseTime = 0;
-                }
-                else if (mPause < 0)
+                if (mPause < 0)
                     mPause = 0;
+
+                if (mPause == 0)
+                    watch.Start();
             }
 
 
@@ -259,8 +244,7 @@ namespace AgateLib
                 if (mPause <= 0)
                     return;
 
-                mPause = 1;
-
+                mPause = 0;
                 Resume();
             }
 

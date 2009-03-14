@@ -119,13 +119,11 @@ namespace AgateLib.DisplayLib
             get
             {
                 if (impl == null)
-                    return true;
+                    return false;
 
                 return impl.IsAppIdle;
             }
         }
-       
-
 
         /// <summary>
         /// Delegate type for functions which are called when Display.Dispose is called
