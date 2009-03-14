@@ -827,7 +827,7 @@ namespace AgateMDX
 
         #endregion
 
-        #region IPlatformServices Members
+        #region --- IPlatformServices Members ---
 
         protected override AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
         {

@@ -31,5 +31,6 @@ namespace AgateLib.PlatformSpecific
         /// Returns the type of platform.
         /// </summary>
         Utility.PlatformType PlatformType { get; }
+
     }
 }
