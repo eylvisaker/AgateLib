@@ -1,6 +1,6 @@
 /*****************************************************************************
 	Ball: Buster
-	Copyright (C) 2004 PatrickAvella
+	Copyright (C) 2004-9 Patrick Avella, Erik Ylvisaker
 
     This file is part of Ball: Buster.
 
@@ -17,11 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with Ball: Buster; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*******************************************************************************
-**  Ball: Buster uses the ClanLib sdk, it can be found at http://clanlib.org
-**  ClanLib Game SDK
-**  Copyright (C) 2003  The ClanLib Team
-*******************************************************************************/
+*/
 
 
 using System.Collections.Generic;
