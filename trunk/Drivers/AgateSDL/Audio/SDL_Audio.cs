@@ -81,7 +81,7 @@ namespace AgateSDL.Audio
             }
 
             if (SdlMixer.Mix_OpenAudio(
-                SdlMixer.MIX_DEFAULT_FREQUENCY, Sdl.AUDIO_S16, 2, 4096) != 0)
+                SdlMixer.MIX_DEFAULT_FREQUENCY, Sdl.AUDIO_S16, 2, 512) != 0)
             {
                 throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
             }

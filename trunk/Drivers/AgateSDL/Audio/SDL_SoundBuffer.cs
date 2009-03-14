@@ -71,7 +71,6 @@ namespace AgateSDL.Audio
         }
         private void LoadFromFile(string file)
         {
-
             sound = SdlMixer.Mix_LoadWAV(file);
 
             if (sound == IntPtr.Zero)
