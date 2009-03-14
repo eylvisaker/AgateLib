@@ -48,7 +48,16 @@ namespace AgateSDL.Audio
 
             foreach (string file in tempfiles)
             {
-                File.Delete(file);
+                try
+                {
+                    File.Delete(file);
+                }
+                catch (Exception)
+                {
+                    System.Diagnostics.Trace.WriteLine(string.Format(
+                        "Failed to delete the temp file {0}.", file));
+                }
+
             }
 
             tempfiles.Clear();
