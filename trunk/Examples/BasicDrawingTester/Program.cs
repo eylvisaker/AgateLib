@@ -76,6 +76,7 @@ namespace BasicDrawingTester
                 Random rand = new Random();
 
                 // initialize the display, asking the user what display driver to use.
+                setup.AskUser = true;
                 setup.Initialize(true, false, false);
 
                 // normally, the display should initialize fine, and goahead will be true.
@@ -135,12 +136,13 @@ namespace BasicDrawingTester
 
         static Rectangle RandomRect()
         {
-            return new Rectangle(
-                random.Next(0, frm.panel1.Width * 2 / 3), 
-                random.Next(0, frm.panel1.Height * 2 / 3), 
-                random.Next(10, frm.panel1.Width / 2), 
-                random.Next(10, frm.panel1.Height / 2)
-                );
+            return new Rectangle(1, 1, 3, 3);
+            //return new Rectangle(
+            //    random.Next(0, frm.panel1.Width * 2 / 3), 
+            //    random.Next(0, frm.panel1.Height * 2 / 3), 
+            //    random.Next(10, frm.panel1.Width / 2), 
+            //    random.Next(10, frm.panel1.Height / 2)
+            //    );
         }
         static void btnFillRect_Click(object sender, EventArgs e)
         {
