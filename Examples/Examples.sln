@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateDrawing", "..\Drivers\AgateDrawing\AgateDrawing.csproj", "{B7D8D785-4221-4CE6-8E08-1E353334B155}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateDrawing", "..\Drivers\AgateDrawing\AgateDrawing.csproj", "{27BF4286-BD36-4E2A-B565-EB2A2D73E63B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateOTK", "..\Drivers\AgateOTK\AgateOTK.csproj", "{7835B6F6-B669-4B0B-ADB5-E233C45DA4AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateOTK", "..\Drivers\AgateOTK\AgateOTK.csproj", "{BA2B99E1-14B1-4AF7-AEE8-AACD4576ACEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicDrawingTester", "BasicDrawingTester\BasicDrawingTester.csproj", "{DC7A1A84-1547-4B14-A54A-31BC20B25F47}"
 EndProject
@@ -17,11 +17,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pong", "Pong\Pong.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallBuster.Net", "BallBuster.Net\BallBuster.Net.csproj", "{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib", "..\AgateLib\AgateLib.csproj", "{C5B3A874-7FF1-4856-B2E2-7F4B355ACDA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib", "..\AgateLib\AgateLib.csproj", "{20FE5214-381B-411D-953E-CC34B662A884}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.WinForms", "..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj", "{F3FE03BF-5E52-486E-A75C-F778D75BAE7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.WinForms", "..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj", "{8D6D36D0-2BCD-4F13-ABDF-221415706902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateSDL", "..\Drivers\AgateSDL\AgateSDL.csproj", "{83372E98-5DA9-476F-BBCD-6E180CF1A4EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateSDL", "..\Drivers\AgateSDL\AgateSDL.csproj", "{EC2B9F6C-1735-4091-B3D4-E4C9ED0FC23E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,14 +29,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B7D8D785-4221-4CE6-8E08-1E353334B155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7D8D785-4221-4CE6-8E08-1E353334B155}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7D8D785-4221-4CE6-8E08-1E353334B155}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7D8D785-4221-4CE6-8E08-1E353334B155}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7835B6F6-B669-4B0B-ADB5-E233C45DA4AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7835B6F6-B669-4B0B-ADB5-E233C45DA4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7835B6F6-B669-4B0B-ADB5-E233C45DA4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7835B6F6-B669-4B0B-ADB5-E233C45DA4AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27BF4286-BD36-4E2A-B565-EB2A2D73E63B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27BF4286-BD36-4E2A-B565-EB2A2D73E63B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27BF4286-BD36-4E2A-B565-EB2A2D73E63B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27BF4286-BD36-4E2A-B565-EB2A2D73E63B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA2B99E1-14B1-4AF7-AEE8-AACD4576ACEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA2B99E1-14B1-4AF7-AEE8-AACD4576ACEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA2B99E1-14B1-4AF7-AEE8-AACD4576ACEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA2B99E1-14B1-4AF7-AEE8-AACD4576ACEB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC7A1A84-1547-4B14-A54A-31BC20B25F47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DC7A1A84-1547-4B14-A54A-31BC20B25F47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC7A1A84-1547-4B14-A54A-31BC20B25F47}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,18 +61,18 @@ Global
 		{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C5B3A874-7FF1-4856-B2E2-7F4B355ACDA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C5B3A874-7FF1-4856-B2E2-7F4B355ACDA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C5B3A874-7FF1-4856-B2E2-7F4B355ACDA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C5B3A874-7FF1-4856-B2E2-7F4B355ACDA1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F3FE03BF-5E52-486E-A75C-F778D75BAE7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F3FE03BF-5E52-486E-A75C-F778D75BAE7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F3FE03BF-5E52-486E-A75C-F778D75BAE7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F3FE03BF-5E52-486E-A75C-F778D75BAE7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{83372E98-5DA9-476F-BBCD-6E180CF1A4EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83372E98-5DA9-476F-BBCD-6E180CF1A4EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83372E98-5DA9-476F-BBCD-6E180CF1A4EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83372E98-5DA9-476F-BBCD-6E180CF1A4EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20FE5214-381B-411D-953E-CC34B662A884}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20FE5214-381B-411D-953E-CC34B662A884}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20FE5214-381B-411D-953E-CC34B662A884}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20FE5214-381B-411D-953E-CC34B662A884}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D6D36D0-2BCD-4F13-ABDF-221415706902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D6D36D0-2BCD-4F13-ABDF-221415706902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D6D36D0-2BCD-4F13-ABDF-221415706902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D6D36D0-2BCD-4F13-ABDF-221415706902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC2B9F6C-1735-4091-B3D4-E4C9ED0FC23E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC2B9F6C-1735-4091-B3D4-E4C9ED0FC23E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC2B9F6C-1735-4091-B3D4-E4C9ED0FC23E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC2B9F6C-1735-4091-B3D4-E4C9ED0FC23E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

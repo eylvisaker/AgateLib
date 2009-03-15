@@ -30,9 +30,9 @@ namespace Pong
         const int paddleWidth = 16;
         const int borderSize = paddleWidth;
         const int ballSize = paddleWidth;
-        const int displayWidth = 640;
-        const int playAreaWidth = 500;
-        const int displayHeight = 480;
+        const int displayWidth = 600;
+        const int playAreaWidth = 700;
+        const int displayHeight = 600;
         const float paddleSpeed = 150.0f;
 
         Color paddleColor = Color.LightGray;
@@ -46,8 +46,8 @@ namespace Pong
                 if (setup.WasCanceled)
                     return;
 
-                DisplayWindow wind = new DisplayWindow(
-                    CreateWindowParams.Windowed("Pong Example", displayWidth, displayHeight, null, false));
+                DisplayWindow wind = DisplayWindow.CreateWindowed
+                    ("Pong Example", displayWidth, displayHeight);
 
                 font = new FontSurface("Sans Serif", 14);
 
