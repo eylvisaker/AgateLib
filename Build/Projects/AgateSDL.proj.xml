@@ -1,4 +1,4 @@
-<Project name="AgateSDL" path="../Drivers/AgateSDL" language="C#" type="Library">
+<Project name="AgateSDL" path="../Drivers/AgateSDL" language="C#" type="Library" frameworkVersion="v3_5">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../Binaries/Debug/Drivers</OutputPath>
@@ -17,6 +17,7 @@
   <Reference name="AgateLib.WinForms"/>
   <Reference name="Tao.Sdl" path="." localCopy="true"/>
   <Reference name="System"/>
+  <Reference name="System.Core"/>
   <Reference name="System.Xml"/>
 
   <Files>
