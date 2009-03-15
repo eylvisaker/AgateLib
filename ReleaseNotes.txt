@@ -1,6 +1,28 @@
 AgateLib 0.3.0  Release Notes
 ======================================
 
+There are several major additions to this version of AgateLib, the most notable 
+is support for MacOS X without running through X11.  To have support for MacOS
+and Linux use the AgateOTK driver, which uses OpenGL as a backend.  This driver
+also works on Windows, so there really is little reason to use AgateMDX any 
+more.
+
+Support for using SDL for audio and joystick input has been implemented.  This
+is the recommended means of getting audio and joystick support under Linux and
+MacOS.  In fact, for creating a cross-platform distribution using AgateOTK and
+AgateSDL probably creates the least amount of headache.
+
+Several parts of the API have been reorganized into separate namespaces.  For
+the most part this means adding statements like "using AgateLib.DisplayLib" to
+your source files.  A lot of things have been deprecated in this release, and 
+shortly following the release of 0.3.0 there will be a release of 0.3.1 which 
+removes all deprecated features.
+
+Most of the testing on Linux and Mac OS X for this release has been done under 
+Mono 2.0 and 2.2.  Everything should probably work on older versions of Mono, 
+down to 1.2.6 maybe.  Ubuntu includes Mono 1.9.1 which seems to work well but
+has not been thoroughly tested.
+
 AgateLib 0.2.5  Release Notes
 ======================================
 
