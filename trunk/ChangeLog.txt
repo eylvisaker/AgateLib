@@ -1,5 +1,5 @@
 
-Current Changes
+Version 0.3.0
 ===================
 
 Major namespace reorganization and class renaming.  The ERY root namespace has been removed.

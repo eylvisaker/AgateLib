@@ -15,11 +15,11 @@ Goals for 0.3.0
 		D Categorize AgateLib source code by subsystem
 		D Add Display.DrawRect(RectangleF, Color) overload.
 		* Clean up platform-specific classes.
-		* Fix up platform detection routines.
+		D Fix up platform detection routines.
 		D Deprecate use of FileManager.PathChars 
 		D Add more error reporting
-		* Flesh out the new resource system.
-		* Update Timing.cs to use the new platform system.
+		D Flesh out the new resource system.
+		D Update Timing.cs to use the new platform system.
 	Drivers
 		D Update AgateOTK to newer version of OpenTK
 		D Update AgateOTK to use Framebuffer extension for fast render-to-surface
@@ -44,8 +44,8 @@ Goals for 0.3.0
 	Input
 		D Eliminate all use of FlagsAttribute on MouseButtons enum.
 		D Deprecate Keyboard events in favor of events where a structure is passed which does not combine modifier keys into a Flags enum.
-		* Make sure analog joysticks work with more than 3 axes.
-		* Redesign Joystick input stuff
+		D Make sure analog joysticks work with more than 3 axes.
+		D Redesign Joystick input stuff
 		* Add support for POV hats on joysticks.
 	Geometry
 		D Flesh out Vector2 and 3 classes, and include conversion from Point to Vector2.
