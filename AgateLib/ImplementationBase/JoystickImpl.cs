@@ -59,11 +59,6 @@ namespace AgateLib.ImplementationBase
         public abstract double GetAxisValue(int axisIndex);
 
         /// <summary>
-        /// Gets a bool array indicating state of the buttons.
-        /// </summary>
-        [Obsolete("Use GetButtonState instead.")]
-        public abstract bool[] Buttons { get; }
-        /// <summary>
         /// Returns the value of the gamepad x-axis.
         /// Ranges are:
         /// -1 all the way to the left
@@ -99,112 +94,5 @@ namespace AgateLib.ImplementationBase
         /// Polls the joystick for input.
         /// </summary>
         public abstract void Poll();
-
-    }
-
-    /// <summary>
-    /// Implements an imaginary joystick that does nothing.
-    /// </summary>
-    [Obsolete]
-    public class NullJoystickImpl : JoystickImpl
-    {
-        bool[] mButtons = new bool[128];
-        /// <summary>
-        /// 
-        /// </summary>
-        public override int AxisCount
-        {
-            get { return 2; }
-        }
-
-        /// <summary>
-        /// Name of the joystick.
-        /// </summary>
-        public override string Name
-        {
-            get { return "No joystick"; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public override int ButtonCount
-        {
-            get { return mButtons.Length; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="buttonIndex"></param>
-        /// <returns></returns>
-        public override bool GetButtonState(int buttonIndex)
-        {
-            return false;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Obsolete]
-        public override bool[] Buttons
-        {
-            get { return mButtons; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public override double Xaxis
-        {
-            get { return 0; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public override double Yaxis
-        {
-            get { return 0; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public override void Recalibrate()
-        {
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public override double AxisThreshold
-        {
-            get
-            {
-                return 0;
-            }
-            set
-            {
-
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public override bool PluggedIn
-        {
-            get { return false; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="axisIndex"></param>
-        /// <returns></returns>
-        public override double GetAxisValue(int axisIndex)
-        {
-            return 0;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public override void Poll()
-        {
-
-        }
     }
 }

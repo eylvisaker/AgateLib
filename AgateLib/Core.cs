@@ -87,16 +87,15 @@ namespace AgateLib
     /// </summary>
     public static class Core
     {
-        [Obsolete]
-        private static PlatformSpecific.Platform mPlatform;
         private static bool mAutoPause = false;
         private static bool mIsActive = true;
         private static bool mInititalized = false;
         private static CrossPlatformDebugLevel mCrossPlatform = CrossPlatformDebugLevel.Comment;
+        private static System.Diagnostics.Stopwatch mTime = Stopwatch.StartNew();
 
         static Core()
         {
-            
+                
         }
         /// <summary>
         /// Initializes Core class.
@@ -109,26 +108,11 @@ namespace AgateLib
         	
             Drivers.Registrar.Initialize();
 
-            InitializeObsoleteMethods();
-             
             Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
             mInititalized= true;
         }
         
-        [Obsolete]
-        static void InitializeObsoleteMethods()
-        {
-			mPlatform = PlatformSpecific.Platform.CreatePlatformMethods();
-        }
-        /// <summary>
-        /// Gets platform-specific methods.
-        /// </summary>
-        [Obsolete("Use methods in AgateLib.Platform instead.")]
-        public static PlatformSpecific.Platform Platform
-        {
-            get { return mPlatform; }
-        }
 
         /// <summary>
         /// Gets or sets a bool value which indicates whether or not your
@@ -255,18 +239,6 @@ namespace AgateLib
         {
             get { return Core.mAutoStackTrace; }
             set { Core.mAutoStackTrace = value; }
-        }
-
-        /// <summary>
-        /// Saves an error message to the ErrorFile.
-        /// Outputs a stack trace and shows a dialog box if the ErrorLevel is Bug or Fatal.
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="level"></param>
-        [Obsolete("Obsolete overload.", true)]
-        public static void ReportError(Exception e, ErrorLevel level)
-        {
-            ReportError(level, null, e);
         }
 
         /// <summary>
@@ -428,5 +400,13 @@ namespace AgateLib
             
         #endregion
 
+        /// <summary>
+        /// returns time since agatelib was initialized in milliseconds.
+        /// </summary>
+        /// <returns></returns>
+        internal static double GetTime()
+        {
+            return mTime.ElapsedMilliseconds;
+        }
     }
 }

@@ -60,20 +60,7 @@ namespace AgateLib.Geometry
             this.x = size.Width;
             this.y = size.Height;
         }
-        /// <summary>
-        /// Constructs a PointF object.
-        /// </summary>
-        /// <remarks>
-        /// [Experimental - The API is likely to change in the future.]
-        /// </remarks>
-        /// <param name="pt"></param>
-        [Obsolete("Use AgateWinForms methods.")]
-        public PointF(System.Drawing.PointF pt)
-        {
-            this.x = pt.X;
-            this.y = pt.Y;
-        }
-
+        
         #endregion
         #region --- Public Properties ---
         

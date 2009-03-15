@@ -41,19 +41,7 @@ namespace AgateLib.Geometry
             width = pt.X;
             height = pt.Y;
         }
-        /// <summary>
-        /// Constructs a SizeF structure.
-        /// </summary>
-        /// <remarks>
-        /// [Experimental - The API is likely to change in the future.]
-        /// </remarks>
-        /// <param name="size"></param>
-        [Obsolete("Use AgateWinForms methods.")]
-        public SizeF(System.Drawing.SizeF size)
-        {
-            this.width = size.Width;
-            this.height = size.Height;
-        }
+
         /// <summary>
         /// Constructs a SizeF structure.
         /// </summary>

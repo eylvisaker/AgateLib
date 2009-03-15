@@ -55,20 +55,7 @@ namespace AgateLib.Geometry
             this.pt = pt;
             this.sz = sz;
         }
-        /// <summary>
-        /// Constructs a RectangleF.
-        /// </summary>
-        /// <remarks>
-        /// [Experimental - The API is likely to change in the future.]
-        /// </remarks>
-        /// <param name="rect"></param>
-        [Obsolete("Use AgateWinForms methods.")]
-        public RectangleF(System.Drawing.RectangleF rect)
-        {
-            this.pt = new PointF(rect.Location);
-            this.sz = new SizeF(rect.Size);
-        }
-
+        
         /// <summary>
         /// Static method which returns a RectangleF with specified left, top, right and bottom.
         /// </summary>
@@ -324,16 +311,6 @@ namespace AgateLib.Geometry
             else
                 return Empty;
         }
-        /// <summary>
-        /// For inter-op with System.Drawing.
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
-        [Obsolete("Use AgateWinForms methods.")]
-        public static explicit operator System.Drawing.RectangleF(RectangleF rect)
-        {
-            return new System.Drawing.RectangleF(
-                rect.X, rect.Y, rect.Width, rect.Height);
-        }
+
     }
 }

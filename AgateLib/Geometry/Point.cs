@@ -61,20 +61,7 @@ namespace AgateLib.Geometry
             this.x = size.Width;
             this.y = size.Height;
         }
-        /// <summary>
-        /// Constructs a point.
-        /// </summary>
-        /// <remarks>
-        /// [Experimental - The API is likely to change in the future.]
-        /// </remarks>
-        /// <param name="pt"></param>
-        [Obsolete("Use AgateWinForms methods.")]
-        public Point(System.Drawing.Point pt)
-        {
-            this.x = pt.X;
-            this.y = pt.Y;
-        }
-
+        
         #endregion
         #region --- Public Properties ---
         
@@ -224,18 +211,6 @@ namespace AgateLib.Geometry
             return new Point((int)Math.Round(pt.X), (int)Math.Round(pt.Y));
         }
 
-        /// <summary>
-        /// Explicit conversion to System.Drawing.Point object.
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        [Obsolete("Use AgateWinForms methods.")]
-        public static explicit operator System.Drawing.Point(Point pt)
-        {
-            return new System.Drawing.Point(pt.x, pt.y);
-        }
         #endregion
-
-
     }
 }

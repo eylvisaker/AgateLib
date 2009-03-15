@@ -142,25 +142,6 @@ namespace AgateLib.DisplayLib
                 DisposeDisplay();
         }
 
-        /// <summary>
-        /// Searches for the fully qualified path for the specified file, in the following order:
-        /// 1. Look in current directory
-        /// 2. Look in ImagePath
-        /// </summary>
-        /// <param name="imageFileName">Filename to search for</param>
-        /// <returns></returns>
-        [Obsolete("Use methods in FileManager class instead.")]
-        public static string FindQualifiedPath(string imageFileName)
-        {
-            string fullPath;
-
-            // check current path first
-            if (TestPath(imageFileName, out fullPath)) return fullPath;       
-            //if (TestPath(Path.Combine(FileManager.ImagePath.ImagePath, imageFileName ), out fullPath )) return fullPath;
-
-            // can't find it.  just return the filename.
-            return imageFileName;
-        }
         private static bool TestPath(string filename, out string fullPath)
         {
             if (File.Exists(filename))

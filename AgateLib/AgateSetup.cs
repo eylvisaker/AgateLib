@@ -214,16 +214,6 @@ namespace AgateLib
         {
             Display.Dispose();
         }
-        /// <summary>
-        /// Returns true if the user hit cancel in any dialog box that showed up
-        /// asking the user what driver to use, or if initialization failed.
-        /// </summary>
-        [Obsolete("Use the WasCanceled property instead.")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool Cancel
-        {
-            get { return mWasCanceled; }
-        }
 
         /// <summary>
         /// Returns true if the user hit cancel in any dialog box that showed up

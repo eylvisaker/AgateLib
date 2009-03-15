@@ -445,41 +445,6 @@ namespace AgateLib.DisplayLib
             impl.IncrementRotationAngleDegrees(degrees);
         }
 
-        /// <summary>
-        /// Checks to see whether the surface pixels all have
-        /// alpha value less than the value of the AlphaThreshold of the
-        /// display object..
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("Use ReadPixels and PixelBuffer.Is*Blank methods instead.")]
-        public bool IsSurfaceBlank() { return impl.IsSurfaceBlank(); }
-        /// <summary>
-        /// Checks to see whether the surface pixels all have
-        /// alpha value less than the given value.
-        /// </summary>
-        /// <param name="alphaThreshold">The alpha value below which to consider 
-        /// a pixel blank.  In the range 0 &lt;= alphaThreshold &lt;= 255.</param>
-        /// <returns></returns>
-        [Obsolete("Use ReadPixels and PixelBuffer.Is*Blank methods instead.")]
-        public bool IsSurfaceBlank(int alphaThreshold) { return impl.IsSurfaceBlank(alphaThreshold); }
-
-        /// <summary>
-        /// Checks to see whether all the pixels along the given row are all
-        /// transparent, within the threshold.
-        /// </summary>
-        /// <param name="row">Which row.  Valid range is between 0 and SurfaceSize.Height - 1.</param>
-        /// <returns></returns>
-        [Obsolete("Use ReadPixels and PixelBuffer.Is*Blank methods instead.")]
-        public bool IsRowBlank(int row) { return impl.IsRowBlank(row); }
-        /// <summary>
-        /// Checks to see whether all the pixels along the given column are all
-        /// transparent, within the threshold.
-        /// </summary>
-        /// <param name="col">Which column.  Valid range is between 0 and SurfaceSize.Width - 1.</param>
-        /// <returns></returns>
-        [Obsolete("Use ReadPixels and PixelBuffer.Is*Blank methods instead.")]
-        public bool IsColumnBlank(int col) { return impl.IsColumnBlank(col); }
-
         #endregion
 
         #region --- Drawing to the screen ---

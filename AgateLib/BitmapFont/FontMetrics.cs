@@ -191,44 +191,6 @@ namespace AgateLib.BitmapFont
 
         #endregion
 
-
-        /// <summary>
-        /// Loads the font metrics object from XML.
-        /// </summary>
-        /// <param name="xmlFile"></param>
-        [Obsolete]
-        void Load(string xmlFile)
-        {
-            Load(System.IO.File.OpenRead(xmlFile));
-        }
-        /// <summary>
-        /// Loads the font metrics from the xml stream.
-        /// </summary>
-        /// <param name="xmlStream"></param>
-        [Obsolete]
-        void Load(System.IO.Stream xmlStream)
-        {
-            mGlyphs.Clear();
-
-            XmlDocument doc = new XmlDocument();
-            doc.Load(xmlStream);
-
-            XmlNode rootNode = doc.ChildNodes[0];
-
-            foreach (XmlNode node in rootNode.ChildNodes)
-            {
-                GlyphMetrics glyph = new GlyphMetrics();
-
-                char key = (char)int.Parse(node.Attributes["Char"].Value);
-                glyph.SourceRect = Rectangle.Parse(node.Attributes["Source"].Value);
-
-                glyph.LeftOverhang = GetAttributeInt32(node, "LeftOverhang");
-                glyph.RightOverhang = GetAttributeInt32(node, "RightOverhang");
-
-                mGlyphs.Add(key, glyph);
-            }
-        }
-
         private void ReadGlyphs030(XmlNode rootNode)
         {
             foreach (XmlNode node in rootNode.ChildNodes)

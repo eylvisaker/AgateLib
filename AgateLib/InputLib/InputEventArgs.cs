@@ -77,15 +77,6 @@ namespace AgateLib.InputLib
         /// <summary>
         /// Gets which key was pressed.
         /// </summary>
-        [Obsolete("Use KeyCode instead.")]
-        public KeyCode KeyID
-        {
-            get { return mKeyCode; }
-            internal set { mKeyCode = value; }
-        }
-        /// <summary>
-        /// Gets which key was pressed.
-        /// </summary>
         public KeyCode KeyCode
         {
             get { return mKeyCode; }
