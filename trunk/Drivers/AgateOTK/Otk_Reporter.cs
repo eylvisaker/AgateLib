@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using AgateLib.Drivers;
 
@@ -27,14 +28,30 @@ namespace AgateOTK
     {
         public override IEnumerable<AgateDriverInfo> ReportDrivers()
         {
+            string opentk_version = "0.9.5"; 
+            opentk_version = GetOpenTKVersion(opentk_version);
+
             yield return new AgateDriverInfo(
-                 DisplayTypeID.OpenGL, typeof(GL_Display), "OpenGL through OpenTK 0.9.5", 1120);
+                 DisplayTypeID.OpenGL, typeof(GL_Display), "OpenGL through OpenTK" + opentk_version, 1120);
 
             if (ReportOpenAL())
             {
                 yield return new AgateDriverInfo(
-                    AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK 0.9.5", 100);
+                    AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK" + opentk_version, 100);
             }
+        }
+
+        private static string GetOpenTKVersion(string opentk_version)
+        {
+
+            Assembly otkass = Assembly.GetAssembly(typeof(OpenTK.Graphics.GL));
+            object[] attribs = otkass.GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
+            AssemblyFileVersionAttribute version = attribs[0] as AssemblyFileVersionAttribute;
+
+
+            if (version != null)
+                opentk_version = " " + version.Version;
+            return opentk_version;
         }
 
         bool ReportOpenAL()
