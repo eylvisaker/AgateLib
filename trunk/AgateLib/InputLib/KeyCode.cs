@@ -297,21 +297,6 @@ namespace AgateLib.InputLib
         /// </summary>
         Menu = 93,
         /// <summary>
-        /// Left windows key
-        /// </summary>
-        [Obsolete("Use WinLeft instead.")]
-        LWin = 91,
-        /// <summary>
-        /// Right windows key
-        /// </summary>
-        [Obsolete("Use WinRight instead.")]
-        RWin = 92,
-        /// <summary>
-        /// Menu key, usually between right windows key and right control key.
-        /// </summary>
-        [Obsolete("Use Menu instead.")]
-        Apps = 93,
-        /// <summary>
         /// ???
         /// </summary>
         Sleep = 95,
@@ -501,41 +486,6 @@ namespace AgateLib.InputLib
         /// </summary>
         ControlRight = 163,
 
-        /// <summary>
-        /// Scroll Lock key
-        /// </summary>
-        [Obsolete("Use ScrollLock instead.")]
-        Scroll = 145,
-        /// <summary>
-        /// 
-        /// </summary>
-        [Obsolete]
-        LShiftKey = 160,
-        /// <summary>
-        /// 
-        /// </summary>
-        [Obsolete]
-        RShiftKey = 161,
-        /// <summary>
-        /// 
-        /// </summary>
-        [Obsolete]
-        LControlKey = 162,
-        /// <summary>
-        /// 
-        /// </summary>
-        [Obsolete]
-        RControlKey = 163,
-        /// <summary>
-        /// 
-        /// </summary>
-        [Obsolete]
-        LMenu = 164,
-        /// <summary>
-        /// 
-        /// </summary>
-        [Obsolete]
-        RMenu = 165,
         /// <summary>
         /// 
         /// </summary>

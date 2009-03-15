@@ -130,22 +130,6 @@ namespace AgateLib.BitmapFont
             CalcAverageCharWidth();
         }
 
-        /// <summary>
-        /// Creates a bitmap font by loading an OS font, and drawing it to 
-        /// a bitmap to use as a Surface object.  You should only use this method
-        /// if writing a driver.
-        /// </summary>
-        /// <seealso cref="FontSurface.BitmapFont(string, float, FontStyle)"/>
-        /// <param name="fontFamily"></param>
-        /// <param name="sizeInPoints"></param>
-        /// <param name="style"></param>
-        /// <returns></returns>
-        [Obsolete("Use AgateWinForms.dll::BitmapFontUtil.FromOSFont instead.", true)]
-        public static FontSurfaceImpl FromOSFont(string fontFamily, float sizeInPoints, FontStyle style)
-        {
-            throw new NotSupportedException("BitmapFontImpl.FromOSFont is no longer valid.  The implementation has been moved to AgateWinForms.dll.");
-        }
-
         private void CalcAverageCharWidth()
         {
             double total = 0;

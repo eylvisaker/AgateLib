@@ -116,64 +116,6 @@ namespace AgateLib.InputLib
                 Keyboard.OnKeyUp(id,
                       new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]));
             }
-            /// <summary>
-            /// Gets the state of a key using the System.Windows.Forms.Keys enum values.
-            /// </summary>
-            /// <param name="id"></param>
-            /// <returns></returns>
-            [Obsolete("Use AgateForms.dll::FormUtil.TransformWinFormsKey to convert key and call Keyboard.Keys[] with the value returned instead.")]
-            public bool GetWinFormsKey(System.Windows.Forms.Keys id)
-            {
-                return this[TransformWinFormsKey(id)];
-            }
-            /// <summary>
-            /// Sets the state of a key using the System.Windows.Forms.Keys enum values.
-            /// Used by Forms to respond to key events.
-            /// </summary>
-            /// <param name="id"></param>
-            /// <param name="value"></param>
-            /// <returns></returns>
-            [Obsolete("Use AgateForms.dll::FormUtil.TransformWinFormsKey to convert key and call Keyboard.Keys[] with the value returned instead.")]
-            public void SetWinFormsKey(System.Windows.Forms.Keys id, bool value)
-            {
-                this[TransformWinFormsKey(id)] = value;
-            }
-
-            /// <summary>
-            /// Converts a System.Windows.Forms.Keys value to a KeyCode value.
-            /// </summary>
-            /// <param name="id"></param>
-            /// <returns></returns>
-            [Obsolete("Use AgateForms.dll::FormUtil.TransformWinFormsKey instead.")]
-            public static KeyCode TransformWinFormsKey(System.Windows.Forms.Keys id)
-            {
-                KeyCode myvalue;
-
-                // sometimes windows reports Shift and sometimes ShiftKey.. what gives?
-                switch (id)
-                {
-                    case System.Windows.Forms.Keys.Alt:
-                    case System.Windows.Forms.Keys.Menu:
-                        myvalue = KeyCode.Alt;
-                        break;
-
-                    case System.Windows.Forms.Keys.Control:
-                    case System.Windows.Forms.Keys.ControlKey:
-                        myvalue = KeyCode.Control;
-                        break;
-
-                    case System.Windows.Forms.Keys.Shift:
-                    case System.Windows.Forms.Keys.ShiftKey:
-                        myvalue = KeyCode.Shift;
-                        break;
-
-                    default:
-                        myvalue = (KeyCode)id;
-                        break;
-                }
-                return myvalue;
-            }
-
             internal bool AnyKeyPressed
             {
                 get
@@ -263,18 +205,6 @@ namespace AgateLib.InputLib
         public static void ReleaseKey(KeyCode key, bool waitForKeyUp)
         {
             mKeyState.ReleaseKey(key, waitForKeyUp);
-        }
-
-        /// <summary>
-        /// Resets all keys to being in the up state (not pushed).
-        /// Does generate KeyUp events.
-        /// 
-        /// Deprecated.  Use ReleaseAllKeys(false) instead.
-        /// </summary>
-        [Obsolete("Use ReleaseAllKeys(false) instead.")]
-        public static void ClearAllKeys()
-        {
-            ReleaseAllKeys(false);
         }
 
         /// <summary>

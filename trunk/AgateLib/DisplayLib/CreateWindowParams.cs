@@ -273,20 +273,7 @@ namespace AgateLib.DisplayLib
 
             return retval;
         }
-        /// <summary>
-        /// Obsolete method.  Use Windowed overload where iconFile is last parameter.
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="iconFile"></param>
-        /// <param name="allowResize"></param>
-        /// <returns></returns>
-        [Obsolete("Use Windowed overload where iconFile is last parameter.")]
-        public static CreateWindowParams Windowed(string title, int width, int height, string iconFile, bool allowResize)
-        {
-            return Windowed(title, width, height, allowResize, iconFile);
-        }
+
         /// <summary>
         /// Creates a CreateWindowParams object which describes a desktop window with no frame or
         /// titlebar.  This might be used for showing a splashscreen as the application loads.

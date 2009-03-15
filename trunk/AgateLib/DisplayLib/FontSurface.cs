@@ -161,38 +161,6 @@ namespace AgateLib.DisplayLib
         }
 
         /// <summary>
-        /// This function creates a font from the specified font family by loading it
-        /// with System.Drawing and creating a texture from the characters.
-        /// </summary>
-        /// <remarks>
-        /// [Experimental - The API is likely to change in the future.]
-        /// </remarks>
-        /// <param name="fontFamily"></param>
-        /// <param name="sizeInPoints"></param>
-        /// <returns></returns>
-        [Obsolete("Use the FontSurface constructor")]
-        public static FontSurface BitmapFont(string fontFamily, float sizeInPoints)
-        {
-            return new FontSurface(fontFamily, sizeInPoints);
-        }
-        /// <summary>
-        /// This function creates a font from the specified font family by loading it
-        /// with System.Drawing and creating a texture from the characters.
-        /// </summary>
-        /// <remarks>
-        /// [Experimental - The API is likely to change in the future.]
-        /// </remarks>
-        /// <param name="fontFamily"></param>
-        /// <param name="sizeInPoints"></param>
-        /// <param name="style"></param>
-        /// <returns></returns>
-        [Obsolete("Use the FontSurface constructor.", true)]
-        public static FontSurface BitmapFont(string fontFamily, float sizeInPoints, FontStyle style)
-        {
-            return new FontSurface(fontFamily, sizeInPoints, style);
-        }
-
-        /// <summary>
         /// Disposes of this object.
         /// </summary>
         public void Dispose()
@@ -356,45 +324,6 @@ namespace AgateLib.DisplayLib
         public void DrawText(string text) 
         {
             impl.DrawText(0, 0, mTransformer.Transform(text));
-        }
-
-        /// <summary>
-        /// Returns false.
-        /// </summary>
-        [Obsolete]
-        public bool CanSave
-        {
-            get
-            {
-                return impl is BitmapFontImpl;
-            }
-        }
-
-        /// <summary>
-        /// Saves the font information to a file to be reloaded later.  
-        /// This is only supported on Bitmap fonts.  An InvalidOperationException is thrown
-        /// if this is not a bitmap font.
-        /// </summary>
-        /// <remarks></remarks>
-        /// <param name="glyphDefsFile"></param>
-        [Obsolete("Use resources to save bitmap fonts.")]
-        public void Save(string glyphDefsFile)
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Saves the font information to a file to be reloaded later.  
-        /// This is only supported on Bitmap fonts.  An InvalidOperationException is thrown
-        /// if this is not a bitmap font.
-        /// </summary>
-        /// <remarks></remarks>
-        /// <param name="imageFile"></param>
-        /// <param name="glyphDefsFile"></param>
-        [Obsolete("Use resources to save bitmap fonts.")]
-        public void Save(string imageFile, string glyphDefsFile)
-        {
-            throw new NotSupportedException();
         }
     }
 }

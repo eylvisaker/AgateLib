@@ -46,8 +46,6 @@ namespace AgateLib.InputLib
             impl = Registrar.CreateInputDriver(inputType);
             impl.Initialize();
 
-            Old.Input.LegacyInitialize(impl);
-
             InitializeJoysticks();
         }
 
@@ -60,7 +58,7 @@ namespace AgateLib.InputLib
 
         internal static void PollTimer()
         {
-        	Old.Input.PollTimer();
+            
         }
     }
 }

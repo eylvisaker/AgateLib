@@ -426,48 +426,8 @@ namespace AgateLib.Sprites
         #endregion
         #region --- Queueing rects to draw to the screen ---
 
-        private System.Collections.Generic.Queue<Rectangle> srcRectList;
-        private System.Collections.Generic.Queue<Rectangle> destRectList;
-        /// <summary>
-        /// 
-        /// </summary>
-        [Obsolete()]
-        public virtual void BeginQueueRects()
-        {
-            srcRectList = new Queue<Rectangle>(100);
-            destRectList = new Queue<Rectangle>(100);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="guessCount"></param>
-        [Obsolete()]
-        public virtual void BeginQueueRects(int guessCount)
-        {
-            srcRectList = new Queue<Rectangle>(guessCount);
-            destRectList = new Queue<Rectangle>(guessCount);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src_rect"></param>
-        /// <param name="dest_rect"></param>
-        [Obsolete()]
-        public virtual void QueueRect(Rectangle src_rect, Rectangle dest_rect)
-        {
-            srcRectList.Enqueue(src_rect);
-            destRectList.Enqueue(dest_rect);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Obsolete()]
-        public virtual void EndQueueRects()
-        {
-            DrawRects(destRectList.ToArray());
-        }
-
         #endregion
+
         #region --- Sprite properties ---
 
         /// <summary>

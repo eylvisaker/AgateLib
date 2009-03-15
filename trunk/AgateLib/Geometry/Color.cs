@@ -846,28 +846,6 @@ namespace AgateLib.Geometry
             return !clra.Equals(clrb);
         }
 
-        /// <summary>
-        /// Explicit conversion to a System.Drawing.Color structure, for
-        /// interop with System.Drawing namespaces.
-        /// </summary>
-        /// <param name="clr"></param>
-        /// <returns></returns>
-        [Obsolete("Features moved to AgateWinForms.dll")]
-        public static explicit operator System.Drawing.Color(Color clr)
-        {
-            return System.Drawing.Color.FromArgb(clr.ToArgb());
-        }
-        /// <summary>
-        /// Explicit conversion from a System.Drawing.Color structure, for
-        /// interop with System.Drawing namespaces.
-        /// </summary>
-        /// <param name="clr"></param>
-        /// <returns></returns>
-        [Obsolete("Features moved to AgateWinForms.dll")]
-        public static explicit operator Color(System.Drawing.Color clr)
-        {
-            return Color.FromArgb(clr.ToArgb());
-        }
         #endregion
 
 

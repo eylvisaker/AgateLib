@@ -212,7 +212,7 @@ namespace AgateLib.ImplementationBase
 
         private void CalcDeltaTime()
         {
-            double now = Core.Platform.GetTime();
+            double now = Core.GetTime();
 
             if (mRanOnce)
             {

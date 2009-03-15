@@ -28,13 +28,6 @@ namespace AgateLib.ImplementationBase
     public abstract class InputImpl : DriverImplBase 
     {
         /// <summary>
-        /// Polls and counts joysticks
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete]
-        public virtual int CountJoysticks() { return JoystickCount; }
-
-        /// <summary>
         /// Returns the number of joysticks attached to the system.
         /// </summary>
         /// <returns></returns>

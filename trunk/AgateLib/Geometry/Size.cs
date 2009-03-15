@@ -51,19 +51,6 @@ namespace AgateLib.Geometry
             this.width = width;
             this.height = height;
         }
-        /// <summary>
-        /// Constructs a Size.
-        /// </summary>
-        /// <remarks>
-        /// [Experimental - The API is likely to change in the future.]
-        /// </remarks>
-        /// <param name="size"></param>
-        [Obsolete("Use AgateWinForms methods.")]
-        public Size(System.Drawing.Size size)
-        {
-            width = size.Width;
-            height = size.Height;
-        }
         
         /// <summary>
         /// Gets or sets the width.
@@ -176,17 +163,6 @@ namespace AgateLib.Geometry
         public static Size Ceiling(SizeF a)
         {
             return new Size((int)Math.Ceiling(a.Width), (int)Math.Ceiling(a.Height));
-        }
-
-        /// <summary>
-        /// Explicit conversion for System.Drawing interop.
-        /// </summary>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        [Obsolete("Use AgateLib.WinForms methods.")]
-        public static explicit operator System.Drawing.Size(Size size)
-        {
-            return new System.Drawing.Size(size.width, size.height);
         }
 
         /// <summary>
