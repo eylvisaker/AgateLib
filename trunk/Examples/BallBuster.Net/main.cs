@@ -700,7 +700,7 @@ class BBX
     {
         DB_EnterSubsection("Draw");
 
-        Display.Clear(Color.FromArgb(255, 0, 0, 255));
+        Display.Clear(Color.FromArgb(128, 0, 0, 128));
 
         //lights.Ambient = Color.FromArgb(25, 25, 25);
         lights.Clear();

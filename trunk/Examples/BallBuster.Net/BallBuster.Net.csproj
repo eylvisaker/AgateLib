@@ -99,10 +99,6 @@
       <Project>{27BF4286-BD36-4E2A-B565-EB2A2D73E63B}</Project>
       <Name>AgateDrawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateMDX\AgateMDX.csproj">
-      <Project>{5B25E6BB-F36D-4496-A341-936D2019DD32}</Project>
-      <Name>AgateMDX</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\drivers\AgateOTK\AgateOTK.csproj">
       <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
       <Name>AgateOTK</Name>
