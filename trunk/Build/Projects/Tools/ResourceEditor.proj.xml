@@ -1,4 +1,4 @@
-<Project name="ResourceEditor" path="../Tools/ResourceEditor" language="C#" type="WinExe">
+<Project name="ResourceEditor" path="../Tools/ResourceEditor" language="C#" type="WinExe" frameworkVersion="v3_5">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../Binaries/Debug/Tools/ResourceEditor</OutputPath>
@@ -16,6 +16,7 @@
   <Reference name="AgateLib.WinForms" localCopy="true"/>
   <Reference name="NotebookLib" localCopy="true"/>
   <Reference name="System"/>
+  <Reference name="System.Core"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>
   <Reference name="System.Windows.Forms"/>

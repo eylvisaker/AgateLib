@@ -1,4 +1,4 @@
-<Project name="AgateMDX" path="../Drivers/AgateMDX" language="C#" type="Library">
+<Project name="AgateMDX" path="../Drivers/AgateMDX" language="C#" type="Library" frameworkVersion="v3_5">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../Binaries/Debug/Drivers</OutputPath>
@@ -22,6 +22,7 @@
   <Reference name="Microsoft.DirectX.DirectInput"/>
   <Reference name="Microsoft.DirectX.DirectSound"/>
   <Reference name="System"/>
+  <Reference name="System.Core"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>
   <Reference name="System.Windows.Forms"/>

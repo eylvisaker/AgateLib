@@ -1,4 +1,4 @@
-<Project name="AgateOTK" path="../Drivers/AgateOTK" language="C#" type="Library">
+<Project name="AgateOTK" path="../Drivers/AgateOTK" language="C#" type="Library" frameworkVersion="v3_5">
   <Configuration name="Debug">
     <Options>
       <OutputPath>../../Binaries/Debug/Drivers</OutputPath>
@@ -18,6 +18,7 @@
   <Reference name="OpenTK" path="." localCopy="true"/>
   <Reference name="OpenTK.Utilities" path="." localCopy="true"/>
   <Reference name="System"/>
+  <Reference name="System.Core"/>
   <Reference name="System.Data"/>
   <Reference name="System.Drawing"/>
   <Reference name="System.Xml"/>
