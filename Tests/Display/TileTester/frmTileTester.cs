@@ -17,7 +17,7 @@ namespace TileTester
 
             CreateControl();
 
-            DisplayWindow wind = new DisplayWindow(agateRenderTarget1);
+            DisplayWindow wind = DisplayWindow.CreateFromControl(agateRenderTarget1);
         }
 
         public bool ScrollX
