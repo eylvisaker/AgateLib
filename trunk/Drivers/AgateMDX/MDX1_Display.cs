@@ -11,7 +11,7 @@
 //     The Original Code is AgateLib.
 //
 //     The Initial Developer of the Original Code is Erik Ylvisaker.
-//     Portions created by Erik Ylvisaker are Copyright (C) 2006.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
 //     All Rights Reserved.
 //
 //     Contributor(s): Erik Ylvisaker
@@ -59,8 +59,6 @@ namespace AgateMDX
         public override void Initialize()
         {
             Report("Managed DirectX 1.1 driver instantiated for display.");
-
-            AgateLib.Sprites.Old.Sprite.UseSpriteCache = true;
         }
 
 
