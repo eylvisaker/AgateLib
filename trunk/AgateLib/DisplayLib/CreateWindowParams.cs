@@ -94,7 +94,16 @@ namespace AgateLib.DisplayLib
         /// <summary>
         /// Whether or not the window should be created as a full screen window.  Defaults to false.
         /// </summary>
+        [Obsolete("Use FullScreen property instead.")]
         public bool IsFullScreen
+        {
+            get { return isFullScreen; }
+            set { isFullScreen = value; }
+        }
+        /// <summary>
+        /// Whether or not the window should be created as a full screen window.  Defaults to false.
+        /// </summary>
+        public bool FullScreen
         {
             get { return isFullScreen; }
             set { isFullScreen = value; }
@@ -244,6 +253,7 @@ namespace AgateLib.DisplayLib
         {
             CreateWindowParams retval = new CreateWindowParams();
 
+            retval.IsFullScreen = true;
             retval.Title = title;
             retval.Width = width;
             retval.Height = height;
