@@ -23,6 +23,7 @@
     <?include file="Projects/AgateLib.WinForms.proj.xml" ?>
     <?include file="Projects/AgateDrawing.proj.xml" ?>
     <?include file="Projects/AgateOTK.proj.xml" ?>
+    <?include file="Projects/AgateSDL.proj.xml" ?>
     <?include file="Projects/Tests/Audio/AudioPlayer.proj.xml" ?>
     <?include file="Projects/Tests/Core/AppTester.proj.xml" ?>
     <?include file="Projects/Tests/Core/ErrorReport.proj.xml" ?>

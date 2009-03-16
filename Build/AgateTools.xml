@@ -22,6 +22,7 @@
     <?include file="Projects/AgateLib.proj.xml" ?>
     <?include file="Projects/AgateLib.WinForms.proj.xml" ?>
     <?include file="Projects/AgateDrawing.proj.xml" ?>
+    <?include file="Projects/AgateSDL.proj.xml" ?>
     <?include file="Projects/Tools/FontCreator.proj.xml" ?>
     <?include file="Projects/Tools/NotebookLib.proj.xml" ?>
     <?include file="Projects/Tools/ResourceEditor.proj.xml" ?>
