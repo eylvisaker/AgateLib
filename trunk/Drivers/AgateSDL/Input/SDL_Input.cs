@@ -28,11 +28,6 @@ namespace AgateSDL.Input
 {
     public class SDL_Input : InputImpl 
     {
-        [Obsolete]
-        public override int CountJoysticks()
-        {
-            return JoystickCount;
-        }
 
         public override int JoystickCount
         {
@@ -113,15 +108,6 @@ namespace AgateSDL.Input
         public override bool GetButtonState(int buttonIndex)
         {
             return buttons[buttonIndex];
-        }
-
-        [Obsolete]
-        public override bool[] Buttons
-        {
-            get
-            {
-                return buttons;
-            }
         }
 
         public override double GetAxisValue(int axisIndex)
