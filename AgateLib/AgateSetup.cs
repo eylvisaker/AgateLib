@@ -107,10 +107,13 @@ namespace AgateLib
 
             mTitle = title;
 
-            foreach (string s in args)
+            if (args != null)
             {
-                if (s == "--choose")
-                    mAskUser = true;
+                foreach (string s in args)
+                {
+                    if (s == "--choose")
+                        mAskUser = true;
+                }
             }
         }
         /// <summary>
