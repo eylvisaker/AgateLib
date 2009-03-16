@@ -11,7 +11,7 @@
 //     The Original Code is AgateLib.
 //
 //     The Initial Developer of the Original Code is Erik Ylvisaker.
-//     Portions created by Erik Ylvisaker are Copyright (C) 2006.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
 //     All Rights Reserved.
 //
 //     Contributor(s): Erik Ylvisaker
@@ -38,11 +38,6 @@ namespace AgateMDX
 
         }
 
-        [Obsolete]
-        public override int CountJoysticks()
-        {
-            return JoystickCount;
-        }
         public override int JoystickCount
         {
             get
@@ -131,14 +126,6 @@ namespace AgateMDX
         public override bool GetButtonState(int buttonIndex)
         {
             return mButtons[buttonIndex];
-        }
-        [Obsolete]
-        public override bool[] Buttons
-        {
-            get
-            {
-                return mButtons;
-            }
         }
 
         public override void Poll()
