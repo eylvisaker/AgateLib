@@ -187,10 +187,10 @@ namespace AgateOTK
                 frm.Icon = mIcon;
 
             frm.Show();
+            CreateContext();
+
             AttachEvents();
 
-            CreateContext();
-                
             if (oldWindowInfo != null) oldWindowInfo.Dispose();
             if (oldcontext != null) oldcontext.Dispose();
             if (oldForm != null) oldForm.Dispose();
