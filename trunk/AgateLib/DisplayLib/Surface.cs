@@ -536,6 +536,17 @@ namespace AgateLib.DisplayLib
         }
 
         /// <summary>
+        /// Draws this surface to the screen at the specified point, 
+        /// using all the state information defined in the properties 
+        /// of this surface.
+        /// Ignores the value of RotationCenter and uses the specified
+        /// point to rotate around instead.
+        /// </summary>
+        public void Draw(float x, float y, Rectangle srcRect, float rotationCenterX, float rotationCenterY)
+        {
+            impl.Draw(x, y, srcRect, rotationCenterX, rotationCenterY);
+        }
+        /// <summary>
         /// Draws a portion of this surface to the specified destination
         /// rectangle.  
         /// 
@@ -841,9 +852,5 @@ namespace AgateLib.DisplayLib
 
         #endregion
 
-        internal void Draw(float x, float y, Rectangle srcRect, float rotationCenterX, float rotationCenterY)
-        {
-            impl.Draw(x, y, srcRect, rotationCenterX, rotationCenterY);
-        }
     }
 }
