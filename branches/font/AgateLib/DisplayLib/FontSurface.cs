@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Text.RegularExpressions;
 using AgateLib.BitmapFont;
 using AgateLib.Geometry;
 using AgateLib.ImplementationBase;
@@ -279,6 +279,8 @@ namespace AgateLib.DisplayLib
             get { return impl.FontHeight; }
         }
 
+        public TextImageLayout TextImageLayout { get; set; }
+
         /// <summary>
         /// Draws the specified string at the specified location.
         /// </summary>
@@ -325,5 +327,103 @@ namespace AgateLib.DisplayLib
         {
             impl.DrawText(0, 0, mTransformer.Transform(text));
         }
+
+
+        Regex substituteMatch = new Regex(@"\{[0-9]+(:.*)?\}");
+        Regex indexMatch = new Regex(@"[0-9]+");
+
+        public void DrawText(int destX, int destY, string formatString, params object[] args)
+        {
+            var matches = substituteMatch.Matches(formatString);
+
+            if (matches.Count == 0)
+            {
+                DrawText(destX, destY, formatString);
+                return;
+            }
+
+            int lastIndex = 0;
+            string result = string.Empty;
+            Point dest, start;
+
+            dest = new Point(destX, destY);
+            start = dest;
+
+            TextLayout layout = new TextLayout();
+
+            for (int i = 0; i < matches.Count; i++)
+            {
+                string format = formatString.Substring(matches[i].Index, matches[i].Length);
+                var argsIndexText = indexMatch.Match(format);
+                int argsIndex = int.Parse(argsIndexText.ToString());
+
+                object obj = args[argsIndex];
+
+                result += formatString.Substring(lastIndex, matches[i].Index - lastIndex);
+
+                if (obj is Surface)
+                {
+                    PushLayoutText(layout, start, ref dest, result);
+                    PushLayoutImage(layout, start, ref dest, (Surface)obj);
+                    result = string.Empty;
+                }
+                else
+                {
+                    result += ConvertToString(obj, format);
+                }
+
+                lastIndex = matches[i].Index + matches[i].Length;
+            }
+
+            result += formatString.Substring(lastIndex);
+            PushLayoutText(layout, start, ref dest, result);
+
+            DrawLayout(layout);
+        }
+
+        private void DrawLayout(TextLayout layout)
+        {
+            layout.DrawAll();
+        }
+
+        private void PushLayoutImage(TextLayout layout, Point start, ref Point dest, Surface surface)
+        {
+            LayoutSurface t = new LayoutSurface { Location = dest, Surface = surface };
+
+            layout.Add(t);
+
+            var update = Origin.Calc(DisplayAlignment, surface.SurfaceSize);
+
+            switch (TextImageLayout)
+            {
+                case TextImageLayout.Inline:
+                    dest.X += surface.SurfaceWidth;
+                    break;
+            }
+        }
+
+        private void PushLayoutText(TextLayout layout, Point start, ref Point dest, string text)
+        {
+            LayoutText t = new LayoutText { Font = this, Location = dest, Text = text };
+
+            layout.Add(t);
+
+            var size = StringDisplaySize(text);
+            var update = Origin.Calc(DisplayAlignment, size);
+
+            dest.X += size.Width;
+        }
+
+
+        private string ConvertToString(object obj, string format)
+        {
+            return obj.ToString();
+        }
+
+    }
+
+    public enum TextImageLayout
+    {
+        Inline,
     }
 }

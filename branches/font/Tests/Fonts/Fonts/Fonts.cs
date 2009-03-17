@@ -76,6 +76,9 @@ namespace FontTester
                     font.DrawText(textPoint, text);
                     font.SetScale(1.0, 1.0);
 
+                    font.Color = Color.Red;
+                    font.DrawText(50, 280, "Test Layout {0} Text", AgateLib.InternalResources.Data.PoweredBy);
+
                     // this draws a white background behind the text we want to Display.
                     text = "F2: Toggle VSync   F5:  Toggle Windowed / Fullscreen      ";
                     text += "FPS: " + Display.FramesPerSecond.ToString("0.00") + "    ";

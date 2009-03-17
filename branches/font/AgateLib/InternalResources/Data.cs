@@ -7,13 +7,13 @@ using AgateLib.Utility;
 
 namespace AgateLib.InternalResources
 {
-    internal static class Data
+    public static class Data
     {
         static TgzFileProvider mProvider = new TgzFileProvider("images", DataResources.images);
 
         static Surface mPoweredBy;
 
-        internal static Surface PoweredBy
+        public static Surface PoweredBy
         {
             get
             {

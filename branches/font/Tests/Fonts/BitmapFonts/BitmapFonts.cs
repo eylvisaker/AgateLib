@@ -47,25 +47,12 @@ namespace BitmapFontTester
 
                 FontSurface font = new FontSurface(fontOptions);
 
-                if (font.CanSave == false)
-                {
-                    return;
-                }
-
-                // TODO: Fix this
-                //font.Save("testfont.xml");
-
-
-				//FontSurface second = FontSurface.LoadBitmapFont("testfont.png", "testfont.xml");
-
                 while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();
                     Display.Clear(Color.Navy);
 
                     font.DrawText("The quick brown fox jumps over the lazy dog.");
-
-                    //second.DrawText(0, font.StringDisplayHeight("M"), "The quick brown fox jumps over the lazy dog.");
 
                     Display.EndFrame();
                     Core.KeepAlive();

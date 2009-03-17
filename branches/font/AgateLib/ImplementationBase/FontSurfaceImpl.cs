@@ -163,6 +163,7 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         public abstract void Dispose();
 
+
     }
 
 }
