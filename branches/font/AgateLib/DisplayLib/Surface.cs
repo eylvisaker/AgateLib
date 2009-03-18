@@ -852,5 +852,15 @@ namespace AgateLib.DisplayLib
             impl.Draw(x, y, srcRect, rotationCenterX, rotationCenterY);
         }
 
+
+        #region ISurface Members
+
+
+        public SurfaceState State
+        {
+            get { return impl.State; }
+        }
+
+        #endregion
     }
 }

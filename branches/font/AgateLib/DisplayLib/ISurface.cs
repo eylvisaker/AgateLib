@@ -134,5 +134,9 @@ namespace AgateLib.DisplayLib
         /// Gets the width of the surface data in pixels.
         /// </summary>
         int SurfaceWidth { get; }
+
+        SurfaceState State { get; }
+
+        void Draw(Point Location, SurfaceState State);
     }
 }

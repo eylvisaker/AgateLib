@@ -329,7 +329,7 @@ namespace AgateLib.DisplayLib
         }
 
 
-        Regex substituteMatch = new Regex(@"\{[0-9]+(:.*)?\}");
+        Regex substituteMatch = new Regex(@"\{[0-9]+(:.*)?\}|\r\n|\n");
         Regex indexMatch = new Regex(@"[0-9]+");
 
         public void DrawText(int destX, int destY, string formatString, params object[] args)
@@ -344,40 +344,54 @@ namespace AgateLib.DisplayLib
 
             int lastIndex = 0;
             string result = string.Empty;
-            Point dest, start;
+            Point dest;
 
-            dest = new Point(destX, destY);
-            start = dest;
+            dest = Point.Empty;
 
             TextLayout layout = new TextLayout();
+            int lineHeight = FontHeight;
 
             for (int i = 0; i < matches.Count; i++)
             {
                 string format = formatString.Substring(matches[i].Index, matches[i].Length);
-                var argsIndexText = indexMatch.Match(format);
-                int argsIndex = int.Parse(argsIndexText.ToString());
-
-                object obj = args[argsIndex];
 
                 result += formatString.Substring(lastIndex, matches[i].Index - lastIndex);
 
-                if (obj is Surface)
+                if (format == "\r\n" || format == "\n")
                 {
-                    PushLayoutText(layout, start, ref dest, result);
-                    PushLayoutImage(layout, start, ref dest, (Surface)obj);
+                    PushLayoutText(layout, ref dest, result);
                     result = string.Empty;
+
+                    dest.X = 0;
+                    dest.Y += lineHeight;
+                    lineHeight = FontHeight;
                 }
                 else
                 {
-                    result += ConvertToString(obj, format);
-                }
+                    var argsIndexText = indexMatch.Match(format);
+                    int argsIndex = int.Parse(argsIndexText.ToString());
 
+                    object obj = args[argsIndex];
+
+                    
+                    if (obj is ISurface)
+                    {
+                        PushLayoutText(layout, ref dest, result);
+                        PushLayoutImage(layout, ref dest, ref lineHeight, (ISurface)obj);
+                        result = string.Empty;
+                    }
+                    else
+                    {
+                        result += ConvertToString(obj, format);
+                    }
+                }
                 lastIndex = matches[i].Index + matches[i].Length;
             }
 
             result += formatString.Substring(lastIndex);
-            PushLayoutText(layout, start, ref dest, result);
+            PushLayoutText(layout, ref dest, result);
 
+            layout.Translate(new Point(destX, destY));
             DrawLayout(layout);
         }
 
@@ -386,9 +400,10 @@ namespace AgateLib.DisplayLib
             layout.DrawAll();
         }
 
-        private void PushLayoutImage(TextLayout layout, Point start, ref Point dest, Surface surface)
+        private void PushLayoutImage(TextLayout layout, ref Point dest, ref int lineHeight, ISurface surface)
         {
             LayoutSurface t = new LayoutSurface { Location = dest, Surface = surface };
+            t.State = surface.State.Clone();
 
             layout.Add(t);
 
@@ -397,12 +412,13 @@ namespace AgateLib.DisplayLib
             switch (TextImageLayout)
             {
                 case TextImageLayout.Inline:
-                    dest.X += surface.SurfaceWidth;
+                    dest.X += surface.DisplayWidth;
+                    lineHeight = Math.Max(lineHeight, surface.DisplayHeight);
                     break;
             }
         }
 
-        private void PushLayoutText(TextLayout layout, Point start, ref Point dest, string text)
+        private void PushLayoutText(TextLayout layout, ref Point dest, string text)
         {
             LayoutText t = new LayoutText { Font = this, Location = dest, Text = text };
 

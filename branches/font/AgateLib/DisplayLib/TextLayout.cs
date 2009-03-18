@@ -15,18 +15,28 @@ namespace AgateLib.DisplayLib
                 item.Draw();
             }
         }
+
+        public void Translate(Point dist)
+        {
+            foreach (LayoutItem item in this)
+            {
+                item.Location = new Point(
+                    item.Location.X + dist.X,
+                    item.Location.Y + dist.Y);
+            }
+        }
     }
 
     public abstract class LayoutItem
     {
         public abstract void Draw();
+        public Point Location { get; set; }
     }
 
     public class LayoutText : LayoutItem
     {
         public FontSurface Font { get; set; }
         public string Text { get; set; }
-        public Point Location { get; set; }
 
         public override void Draw()
         {
@@ -35,8 +45,7 @@ namespace AgateLib.DisplayLib
     }
     public class LayoutSurface : LayoutItem
     {
-        public Surface Surface { get; set; }
-        public Point Location { get; set; }
+        public ISurface Surface { get; set; }
         public SurfaceState State { get; set; }
 
         public override void Draw()
