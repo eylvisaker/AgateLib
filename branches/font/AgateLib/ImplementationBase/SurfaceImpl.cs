@@ -35,15 +35,9 @@ namespace AgateLib.ImplementationBase
         private bool mIsDisposed = false;
         private bool mShouldBePacked = true;
 
-        private double mScaleWidth = 1.0;
-        private double mScaleHeight = 1.0;
-
         private int mTesselate = 1;
 
-        private OriginAlignment mAlignment = OriginAlignment.TopLeft;
-        private double mRotation = 0;
-        private OriginAlignment mRotationSpot = OriginAlignment.Center;
-        private Gradient mGradient = new Gradient(Color.White);
+        private SurfaceState mState = new SurfaceState();
 
         #endregion
 
@@ -368,6 +362,15 @@ namespace AgateLib.ImplementationBase
         #region --- Surface properties ---
 
         /// <summary>
+        /// Gets or sets the state of the surface.
+        /// </summary>
+        public SurfaceState State
+        {
+            get { return mState; }
+            set { mState = value; }
+        }
+
+        /// <summary>
         /// Gets or sets how many squares the surface should be broken into when drawn.
         /// </summary>
         public int TesselateFactor
@@ -404,7 +407,7 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         public int DisplayWidth
         {
-            get { return (int)(mScaleWidth * SurfaceWidth); }
+            get { return (int)(mState.ScaleWidth * SurfaceWidth); }
             set { ScaleWidth = value / (double)SurfaceWidth; }
         }
         /// <summary>
@@ -412,7 +415,7 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         public int DisplayHeight
         {
-            get { return (int)(mScaleHeight * SurfaceHeight); }
+            get { return (int)(mState.ScaleHeight * SurfaceHeight); }
             set { ScaleHeight = value / (double)SurfaceHeight; }
         }
         /// <summary>
@@ -445,7 +448,7 @@ namespace AgateLib.ImplementationBase
             get { return Color.A / 255.0; }
             set
             {
-                mGradient.SetAlpha(value);
+                mState.ColorGradient.SetAlpha(value);
             }
         }
         /// <summary>
@@ -454,8 +457,8 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         public virtual double RotationAngle
         {
-            get { return mRotation; }
-            set { mRotation = value % (2 * Math.PI); }
+            get { return mState.RotationAngle; }
+            set { mState.RotationAngle = value; }
         }
         /// <summary>
         /// Gets or sets the rotation angle in degrees.
@@ -471,16 +474,16 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         public virtual OriginAlignment RotationCenter
         {
-            get { return mRotationSpot; }
-            set { mRotationSpot = value; }
+            get { return mState.RotationCenter; }
+            set { mState.RotationCenter = value; }
         }
         /// <summary>
         /// Gets or sets the point where the surface is aligned to when drawn.
         /// </summary>
         public virtual OriginAlignment DisplayAlignment
         {
-            get { return mAlignment; }
-            set { mAlignment = value; }
+            get { return mState.DisplayAlignment; }
+            set { mState.DisplayAlignment = value; }
         }
 
         /// <summary>
@@ -493,8 +496,8 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         public double ScaleWidth
         {
-            get { return mScaleWidth; }
-            set { mScaleWidth = value; }
+            get { return mState.ScaleWidth; }
+            set { mState.ScaleWidth = value; }
         }
         /// <summary>
         /// Gets or sets the amount the height is scaled when this surface is drawn.
@@ -502,8 +505,8 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         public double ScaleHeight
         {
-            get { return mScaleHeight; }
-            set { mScaleHeight = value; }
+            get { return mState.ScaleHeight; }
+            set { mState.ScaleHeight = value; }
         }
         /// <summary>
         /// Sets the amount of scaling when this surface is drawn.  
@@ -532,8 +535,8 @@ namespace AgateLib.ImplementationBase
         /// <param name="height"></param>
         public void GetScale(out double width, out double height)
         {
-            width = mScaleWidth;
-            height = mScaleHeight;
+            width = mState.ScaleWidth;
+            height = mState.ScaleHeight;
         }
 
 
@@ -545,16 +548,16 @@ namespace AgateLib.ImplementationBase
         /// </summary>
         public virtual Color Color
         {
-            get { return mGradient.TopLeft; }
-            set { mGradient = new Gradient(value); }
+            get { return mState.Color; }
+            set { mState.Color = value; }
         }
         /// <summary>
         /// Gets or sets the gradient for this surface.
         /// </summary>
         public virtual Gradient ColorGradient
         {
-            get { return mGradient; }
-            set { mGradient = value; }
+            get { return mState.ColorGradient; }
+            set { mState.ColorGradient = value; }
         }
         /// <summary>
         /// Increments the rotation angle of this surface.
@@ -562,7 +565,7 @@ namespace AgateLib.ImplementationBase
         /// <param name="radians">Value in radians to increase the rotation by.</param>
         public void IncrementRotationAngle(double radians)
         {
-            mRotation += radians;
+            mState.RotationAngle += radians;
         }
         /// <summary>
         /// Increments the rotation angle of this surface.  Value supplied is in degrees.
@@ -570,9 +573,8 @@ namespace AgateLib.ImplementationBase
         /// <param name="degrees"></param>
         public void IncrementRotationAngleDegrees(double degrees)
         {
-            IncrementRotationAngle(degrees * Math.PI / 180.0);
+            mState.IncrementRotationAngleDegrees(degrees);
         }
-
 
         /// <summary>
         /// Gets the width of the source surface in pixels.

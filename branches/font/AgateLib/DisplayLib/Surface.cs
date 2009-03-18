@@ -535,6 +535,12 @@ namespace AgateLib.DisplayLib
             impl.Draw(destX, destY, rotationCenterX, rotationCenterY);
         }
 
+
+        public void Draw(Point location, SurfaceState state)
+        {
+            // TODO: fix this
+            Draw(location);
+        }
         /// <summary>
         /// Draws a portion of this surface to the specified destination
         /// rectangle.  
@@ -845,5 +851,6 @@ namespace AgateLib.DisplayLib
         {
             impl.Draw(x, y, srcRect, rotationCenterX, rotationCenterY);
         }
+
     }
 }

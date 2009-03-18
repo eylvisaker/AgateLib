@@ -37,10 +37,11 @@ namespace AgateLib.DisplayLib
     {
         public Surface Surface { get; set; }
         public Point Location { get; set; }
+        public SurfaceState State { get; set; }
 
         public override void Draw()
         {
-            Surface.Draw(Location);
+            this.Surface.Draw(Location, State);
         }
     }
 }
