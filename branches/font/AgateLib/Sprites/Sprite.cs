@@ -1,4 +1,22 @@
-﻿using System;
+﻿//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -26,15 +44,7 @@ namespace AgateLib.Sprites
         private bool mIsAnimating = true;
         private bool mVisible = true;
 
-        private double mScaleX = 1.0;
-        private double mScaleY = 1.0;
-
-        private OriginAlignment mAlignment = OriginAlignment.TopLeft;
-        private OriginAlignment mRotationSpot = OriginAlignment.Center;
-        private double mRotation = 0; 
-        private Gradient mGradient = new Gradient(Color.White);
-
-        
+        private SurfaceState mState = new SurfaceState();
 
         #region --- Construction / Destruction ---
 
@@ -200,13 +210,7 @@ namespace AgateLib.Sprites
             retval.mPlayReverse = mPlayReverse;
             retval.mIsAnimating = mIsAnimating;
 
-            retval.mScaleX = mScaleX;
-            retval.mScaleY = mScaleY;
-
-            retval.mAlignment = mAlignment;
-            retval.mRotation = mRotation;
-            retval.mRotationSpot = mRotationSpot;
-            retval.mGradient = mGradient;
+            retval.mState = mState.Clone();
 
             foreach (SpriteFrame frame in mFrames)
             {
@@ -472,32 +476,32 @@ namespace AgateLib.Sprites
         /// </summary>
         public double ScaleWidth
         {
-            get { return mScaleX; }
-            set { mScaleX = value; }
+            get { return mState.ScaleWidth; }
+            set { mState.ScaleWidth = value; }
         }
         /// <summary>
         /// Gets or sets the amount the height is scaled.
         /// </summary>
         public double ScaleHeight
         {
-            get { return mScaleY; }
-            set { mScaleY = value; }
+            get { return mState.ScaleHeight; }
+            set { mState.ScaleHeight = value; }
         }
         /// <summary>
         /// Gets the width of the sprite when displayed.
         /// </summary>
         public int DisplayWidth
         {
-            get { return (int)(mScaleX * SpriteWidth); }
-            set { mScaleX = value / (double)SpriteWidth; }
+            get { return (int)(ScaleWidth * SpriteWidth); }
+            set { ScaleWidth = value / (double)SpriteWidth; }
         }
         /// <summary>
         /// Gets the height of the sprite when displayed.
         /// </summary>
         public int DisplayHeight
         {
-            get { return (int)(mScaleY * SpriteHeight); }
-            set { mScaleY = value / (double)SpriteHeight; }
+            get { return (int)(ScaleHeight * SpriteHeight); }
+            set { ScaleHeight = value / (double)SpriteHeight; }
         }
         /// <summary>
         /// Gets or sets the size of the sprite when displayed.
@@ -507,8 +511,8 @@ namespace AgateLib.Sprites
             get
             {
                 Size sz = SpriteSize;
-                sz.Width = (int)(sz.Width * mScaleX);
-                sz.Height = (int)(sz.Height * mScaleY);
+                sz.Width = (int)(sz.Width * ScaleWidth);
+                sz.Height = (int)(sz.Height * ScaleHeight);
 
                 return sz;
             }
@@ -526,10 +530,10 @@ namespace AgateLib.Sprites
         /// </summary>
         public double Alpha
         {
-            get { return Color.A / 255.0; }
+            get { return mState.Alpha; }
             set
             {
-                mGradient.SetAlpha(value);
+                mState.Alpha = value;
             }
         }
         /// <summary>
@@ -537,32 +541,32 @@ namespace AgateLib.Sprites
         /// </summary>
         public double RotationAngle
         {
-            get { return mRotation; }
-            set { mRotation = value % (2 * Math.PI); }
+            get { return mState.RotationAngle; }
+            set { mState.RotationAngle = value; }
         }
         /// <summary>
         /// Gets or sets the rotation angle in degrees.
         /// </summary>
         public double RotationAngleDegrees
         {
-            get { return RotationAngle * 180.0 / Math.PI; }
-            set { RotationAngle = value * Math.PI / 180.0; }
+            get { return mState.RotationAngleDegrees; }
+            set { RotationAngleDegrees = value; }
         }
         /// <summary>
         /// Gets or sets the center of rotation.
         /// </summary>
         public OriginAlignment RotationCenter
         {
-            get { return mRotationSpot; }
-            set { mRotationSpot = value; }
+            get { return mState.RotationCenter; }
+            set { mState.RotationCenter = value; }
         }
         /// <summary>
         /// Gets or sets the interpretation of the position.
         /// </summary>
         public OriginAlignment DisplayAlignment
         {
-            get { return mAlignment; }
-            set { mAlignment = value; }
+            get { return mState.DisplayAlignment; }
+            set { mState.DisplayAlignment = value; }
         }
         /// <summary>
         /// Sets the scale of the sprite.
@@ -571,8 +575,8 @@ namespace AgateLib.Sprites
         /// <param name="y"></param>
         public void SetScale(double x, double y)
         {
-            mScaleX = x;
-            mScaleY = y;
+            mState.ScaleWidth = x;
+            mState.ScaleHeight = y;
         }
         /// <summary>
         /// Gets the scale of the sprite.
@@ -581,8 +585,8 @@ namespace AgateLib.Sprites
         /// <param name="y"></param>
         public void GetScale(out double x, out double y)
         {
-            x = mScaleX;
-            y = mScaleY;
+            x = mState.ScaleWidth;
+            y = mState.ScaleHeight;
         }
 
         /// <summary>
@@ -590,24 +594,25 @@ namespace AgateLib.Sprites
         /// </summary>
         public Color Color
         {
-            get { return mGradient.TopLeft; }
-            set { mGradient = new Gradient(value); }
+            get { return mState.Color; }
+            set { mState.Color = value; }
         }
         /// <summary>
         /// Gets or sets the color gradient on the sprite.
         /// </summary>
         public Gradient ColorGradient
         {
-            get { return mGradient; }
-            set { mGradient = value; }
+            get { return mState.ColorGradient; }
+            set { mState.ColorGradient = value; }
         }
         /// <summary>
         /// Increments the rotation angle by the specified number of radians.
         /// </summary>
         /// <param name="radians"></param>
+        [Obsolete("Use RotationAngle += *value*")]
         public void IncrementRotationAngle(double radians)
         {
-            mRotation += radians;
+            mState.RotationAngle += radians;
         }
         /// <summary>
         /// Increments the rotation angle by the specified number of degrees.
@@ -615,7 +620,7 @@ namespace AgateLib.Sprites
         /// <param name="degrees"></param>
         public void IncrementRotationAngleDegrees(double degrees)
         {
-            IncrementRotationAngle(degrees * Math.PI / 180.0);
+            mState.IncrementRotationAngleDegrees(degrees);
         }
 
         /// <summary>
@@ -936,5 +941,18 @@ namespace AgateLib.Sprites
         public event SpriteEventHandler PlayDirectionChanged;
 
         #endregion
+
+
+        public SurfaceState State
+        {
+            get { return mState; }
+            set { mState = value; }
+        }
+
+        public void Draw(Point Location, SurfaceState State)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

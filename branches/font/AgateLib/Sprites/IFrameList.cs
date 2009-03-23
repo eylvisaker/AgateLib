@@ -29,7 +29,6 @@ namespace AgateLib.Sprites
     /// </summary>
     public interface IFrameList : IEnumerable
     {
-
         /// <summary>
         /// Returns the number of frames in the list.
         /// </summary>
