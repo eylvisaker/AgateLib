@@ -27,7 +27,6 @@ namespace AgateLib.Drivers
 {
     class NullInputImpl : InputImpl 
     {
-
         public override void Initialize()
         {
             Report("No input driver found.  Joysticks will not work.");            
