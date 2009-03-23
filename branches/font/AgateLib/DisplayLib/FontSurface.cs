@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using AgateLib.BitmapFont;
@@ -331,7 +332,7 @@ namespace AgateLib.DisplayLib
 
         Regex substituteMatch = new Regex(@"\{[0-9]+(:.*)?\}|\r\n|\n");
         Regex indexMatch = new Regex(@"[0-9]+");
-
+        
         public void DrawText(int destX, int destY, string formatString, params object[] args)
         {
             var matches = substituteMatch.Matches(formatString);
@@ -350,6 +351,8 @@ namespace AgateLib.DisplayLib
 
             TextLayout layout = new TextLayout();
             int lineHeight = FontHeight;
+            int spaceAboveLine = 0;
+            int lineIndex = 0;
 
             for (int i = 0; i < matches.Count; i++)
             {
@@ -359,12 +362,18 @@ namespace AgateLib.DisplayLib
 
                 if (format == "\r\n" || format == "\n")
                 {
-                    PushLayoutText(layout, ref dest, result);
+                    PushLayoutText(lineIndex, layout, ref dest, result);
                     result = string.Empty;
+
+                    ShiftLine(layout, spaceAboveLine, lineIndex);
 
                     dest.X = 0;
                     dest.Y += lineHeight;
+                    
+                    lineIndex++;
                     lineHeight = FontHeight;
+
+                    spaceAboveLine = 0;
                 }
                 else
                 {
@@ -373,11 +382,10 @@ namespace AgateLib.DisplayLib
 
                     object obj = args[argsIndex];
 
-                    
                     if (obj is ISurface)
                     {
-                        PushLayoutText(layout, ref dest, result);
-                        PushLayoutImage(layout, ref dest, ref lineHeight, (ISurface)obj);
+                        PushLayoutText(lineIndex, layout, ref dest, result);
+                        PushLayoutImage(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine, (ISurface)obj);
                         result = string.Empty;
                     }
                     else
@@ -389,38 +397,62 @@ namespace AgateLib.DisplayLib
             }
 
             result += formatString.Substring(lastIndex);
-            PushLayoutText(layout, ref dest, result);
+            PushLayoutText(lineIndex, layout, ref dest, result);
+            ShiftLine(layout, spaceAboveLine, lineIndex);
 
             layout.Translate(new Point(destX, destY));
-            DrawLayout(layout);
-        }
-
-        private void DrawLayout(TextLayout layout)
-        {
             layout.DrawAll();
         }
 
-        private void PushLayoutImage(TextLayout layout, ref Point dest, ref int lineHeight, ISurface surface)
+        private static void ShiftLine(TextLayout layout, int lineShift, int lineIndex)
         {
-            LayoutSurface t = new LayoutSurface { Location = dest, Surface = surface };
-            t.State = surface.State.Clone();
-
-            layout.Add(t);
-
-            var update = Origin.Calc(DisplayAlignment, surface.SurfaceSize);
-
-            switch (TextImageLayout)
+            foreach (var item in layout.Where(x => x.LineIndex == lineIndex))
             {
-                case TextImageLayout.Inline:
-                    dest.X += surface.DisplayWidth;
-                    lineHeight = Math.Max(lineHeight, surface.DisplayHeight);
-                    break;
+                item.Location = new Point(
+                    item.Location.X, item.Location.Y + lineShift);
             }
         }
 
-        private void PushLayoutText(TextLayout layout, ref Point dest, string text)
+        private void PushLayoutImage(int lineIndex, TextLayout layout, ref Point dest, ref int lineHeight, 
+            ref int spaceAboveLine, ISurface surface)
         {
-            LayoutText t = new LayoutText { Font = this, Location = dest, Text = text };
+            int newSpaceAbove;
+            LayoutSurface t = new LayoutSurface { Location = dest, Surface = surface, LineIndex = lineIndex };
+            t.State = surface.State.Clone();
+
+            var update = Origin.Calc(DisplayAlignment, surface.SurfaceSize);
+
+            lineHeight = Math.Max(lineHeight, surface.DisplayHeight);
+            dest.X += surface.DisplayWidth;
+            
+            switch (TextImageLayout)
+            {
+                case TextImageLayout.InlineTop:
+                    break;
+                case TextImageLayout.InlineCenter:
+                    newSpaceAbove = (surface.DisplayHeight - FontHeight) / 2;
+                    t.Y -= newSpaceAbove;
+                    spaceAboveLine = Math.Max(spaceAboveLine, newSpaceAbove);
+                    
+                    break;
+
+                case TextImageLayout.InlineBottom:
+                    newSpaceAbove = surface.DisplayHeight - FontHeight;
+                    t.Y -= newSpaceAbove;
+                    spaceAboveLine = Math.Max(spaceAboveLine, newSpaceAbove);
+
+                    break;
+            }
+
+            layout.Add(t);
+        }
+
+        private void PushLayoutText(int lineIndex, TextLayout layout, ref Point dest, string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return;
+
+            LayoutText t = new LayoutText { Font = this, Location = dest, Text = text, LineIndex = lineIndex };
 
             layout.Add(t);
 
@@ -440,6 +472,8 @@ namespace AgateLib.DisplayLib
 
     public enum TextImageLayout
     {
-        Inline,
+        InlineTop,
+        InlineCenter,
+        InlineBottom,
     }
 }
