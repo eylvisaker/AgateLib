@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AgateLib.Drivers;
+using Tao.Sdl;
 
 namespace AgateSDL
 {
@@ -10,9 +11,11 @@ namespace AgateSDL
 
     class Reporter : AgateDriverReporter 
     {
-
         public override IEnumerable<AgateDriverInfo> ReportDrivers()
         {
+            if (SdlInstalled() == false)
+                yield break;
+
             yield return new AgateDriverInfo(
                 AudioTypeID.SDL,
                 typeof(SDL_Audio),
@@ -24,6 +27,21 @@ namespace AgateSDL
                 typeof(SDL_Input),
                 "SDL Input",
                 300);
+        }
+
+        private bool SdlInstalled()
+        {
+            try
+            {
+                Sdl.SDL_QuitSubSystem(Sdl.SDL_INIT_AUDIO);
+                SdlMixer.Mix_CloseAudio();
+
+                return true;
+            }
+            catch(DllNotFoundException)
+            {
+                return false;
+            }
         }
     }
 }
