@@ -18,6 +18,7 @@ namespace FontCreator
         {
             InitializeComponent();
 
+            Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
             CurrentPage = 1;
         }
 

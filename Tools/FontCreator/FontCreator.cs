@@ -133,8 +133,8 @@ namespace FontCreator
                 bgLight.Dispose();
             }
 
-            zoomWind = new DisplayWindow(zoomRender);
-            wind = new DisplayWindow(render);
+            zoomWind = DisplayWindow.CreateFromControl(zoomRender);
+            wind = DisplayWindow.CreateFromControl(render);
             //wind = new DisplayWindow(render);
             //zoomWind = new DisplayWindow(zoomRender);
 
