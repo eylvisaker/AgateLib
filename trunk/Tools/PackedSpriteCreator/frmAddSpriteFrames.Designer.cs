@@ -76,6 +76,7 @@
             // 
             this.openFile.Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.gif;*.png;*.tga|All Files|*.*";
             this.openFile.Multiselect = true;
+            this.openFile.Title = "Import Sprite Frames";
             // 
             // btnBrowse
             // 

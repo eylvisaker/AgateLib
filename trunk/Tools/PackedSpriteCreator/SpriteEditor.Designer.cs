@@ -292,6 +292,7 @@
             this.btnNewSprite.TabIndex = 10;
             this.btnNewSprite.Text = "New Sprite";
             this.btnNewSprite.UseVisualStyleBackColor = true;
+            this.btnNewSprite.Click += new System.EventHandler(this.btnNewSprite_Click);
             // 
             // SpriteEditor
             // 
