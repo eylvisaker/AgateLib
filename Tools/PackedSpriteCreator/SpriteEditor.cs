@@ -31,11 +31,11 @@ namespace PackedSpriteCreator
             {
                 mResources = value;
 
-                ResourcesChanged();
+                OnResourcesChanged();
             }
         }
 
-        private void ResourcesChanged()
+        private void OnResourcesChanged()
         {
             lstSprites.Items.Clear();
 
@@ -280,6 +280,28 @@ namespace PackedSpriteCreator
                 return;
 
             mAgateSprite.IsAnimating = chkAnimating.Checked;
+        }
+
+        private void btnNewSprite_Click(object sender, EventArgs e)
+        {
+            frmNewSprite frm = new frmNewSprite();
+
+            if (frm.ShowDialog(this, Resources) == DialogResult.Cancel)
+                return;
+
+            frmAddSpriteFrames frmAdd = new frmAddSpriteFrames();
+            frmAdd.SpriteSize = frm.SpriteFrameSize;
+
+            if (frmAdd.ShowDialog(this) == DialogResult.Cancel)
+                return;
+
+            SpriteResource res = new SpriteResource(frm.SpriteName);
+
+            
+
+            Resources.Add(res);
+
+            OnResourcesChanged();
         }
     }
 }

@@ -12,14 +12,9 @@ namespace PackedSpriteCreator
 {
     class SpriteCreator
     {
-        static string exeName =
-            Path.GetFileName(System.Reflection.Assembly.GetCallingAssembly()
-                .Location);
-
         [STAThread]
         static void Main(string[] args)
         {
-
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.InitializeDisplay(AgateLib.Drivers.DisplayTypeID.Reference);
@@ -29,7 +24,6 @@ namespace PackedSpriteCreator
                 System.Windows.Forms.Application.Run(new frmSpriteCreator());
                 return;
             }
-
         }
     }	
 }
