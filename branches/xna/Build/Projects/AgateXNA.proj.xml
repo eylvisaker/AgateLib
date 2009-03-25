@@ -1,0 +1,27 @@
+<Project name="AgateXNA" path="../Drivers/AgateXNA" language="C#" type="Library" frameworkVersion="v3_5">
+  <Configuration name="Debug">
+    <Options>
+      <OutputPath>../../Binaries/Debug/Drivers</OutputPath>
+      <AllowUnsafe>true</AllowUnsafe>
+    </Options>
+  </Configuration>
+
+  <Configuration name="Release">
+    <Options>
+      <OutputPath>../../Binaries/Release/Drivers</OutputPath>
+      <AllowUnsafe>true</AllowUnsafe>
+    </Options>
+  </Configuration>
+
+  <Reference name="AgateLib"/>
+  <Reference name="AgateLib.WinForms"/>
+  <Reference name="Microsoft.Xna.Framework"/>
+  <Reference name="Microsoft.Xna.Framework.Game"/>
+  <Reference name="System"/>
+  <Reference name="System.Core"/>
+  <Reference name="System.Xml"/>
+
+  <Files>
+    <Match path="." pattern="*.cs" recurse="true"/>
+  </Files>
+</Project>
