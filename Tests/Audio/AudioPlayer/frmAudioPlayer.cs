@@ -41,20 +41,24 @@ namespace AudioTester
             if (string.IsNullOrEmpty(text))
                 return;
 
+#if !DEBUG
             try
             {
+#endif
                 AgateLib.AudioLib.Music music = new AgateLib.AudioLib.Music(text);
                 mMusic = music;
 
                 music.Volume = (double)numericUpDown1.Value;
                 music.Pan = (double)panValue.Value;
                 music.Play();
+#if !DEBUG
             }
             catch (Exception error)
             {
                 System.Media.SystemSounds.Beep.Play();
                 statusLabel.Text = "Error: " + error.Message;
             }
+#endif
         }
 
 
@@ -73,8 +77,10 @@ namespace AudioTester
             if (string.IsNullOrEmpty(text))
                 return;
 
+#if !DEBUG
             try
             {
+#endif
                 AgateLib.AudioLib.SoundBuffer snd = new AgateLib.AudioLib.SoundBuffer(text);
 
                 snd.Volume = (double)numericUpDown1.Value;
@@ -82,14 +88,14 @@ namespace AudioTester
                 snd.Play();
 
                 mSound = snd;
-
+#if !DEBUG
             }
             catch (Exception error)
             {
                 System.Media.SystemSounds.Beep.Play();
                 statusLabel.Text = "Error: " + error.Message;
             }
-
+#endif
         }
 
         private void btnStop_Click(object sender, EventArgs e)
