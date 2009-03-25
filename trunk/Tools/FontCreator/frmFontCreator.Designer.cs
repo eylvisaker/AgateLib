@@ -121,11 +121,11 @@
             this.pnlCreateFont.TabIndex = 3;
             this.pnlCreateFont.Visible = false;
             // 
-            // createFont3
+            // createFont1
             // 
             this.createFont1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.createFont1.Location = new System.Drawing.Point(0, 0);
-            this.createFont1.Name = "createFont3";
+            this.createFont1.Name = "createFont1";
             this.createFont1.Size = new System.Drawing.Size(581, 299);
             this.createFont1.TabIndex = 0;
             // 
@@ -174,7 +174,7 @@
             this.Controls.Add(this.bottomPanel);
             this.Controls.Add(this.pnlCreateFont);
             this.Name = "frmFontCreator";
-            this.Text = "Form1";
+            this.Text = "Font Creator";
             this.bottomPanel.ResumeLayout(false);
             this.pnlWarning.ResumeLayout(false);
             this.pnlWarning.PerformLayout();
