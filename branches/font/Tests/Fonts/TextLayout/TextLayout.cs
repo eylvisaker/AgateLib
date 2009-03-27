@@ -40,11 +40,11 @@ namespace TextLayout
                 AgateLib.InternalResources.Data.PoweredBy);
 
             font.TextImageLayout = TextImageLayout.InlineCenter;
-            font.DrawText(0, 100, "Test InlineCenter:\n{0}Test Layout {0} Text\nTest second line.",
+            font.DrawText(0, 150, "Test InlineCenter:\n{0}Test Layout {0} Text\nTest second line.",
                 AgateLib.InternalResources.Data.PoweredBy);
 
             font.TextImageLayout = TextImageLayout.InlineBottom;
-            font.DrawText(0, 200, "Test InlineBottom:\n{0}Test Layout {0} Text\nTest second line.",
+            font.DrawText(0, 300, "Test InlineBottom:\n{0}Test Layout {0} Text\nTest second line.",
                 AgateLib.InternalResources.Data.PoweredBy);
 
 
