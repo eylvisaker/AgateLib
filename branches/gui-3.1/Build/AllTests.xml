@@ -43,6 +43,7 @@
     <?include file="Projects/Tests/Fonts/BitmapFonts.proj.xml" ?>
     <?include file="Projects/Tests/Fonts/FontLineTester.proj.xml" ?>
     <?include file="Projects/Tests/Fonts/Fonts.proj.xml" ?>
+    <?include file="Projects/Tests/Gui/GuiTest.proj.xml" ?>
     <?include file="Projects/Tests/Input/InputState.proj.xml" ?>
     <?include file="Projects/Tests/Input/Input.proj.xml" ?>
     <?include file="Projects/Tests/Core/TgzProvider.proj.xml" ?>
