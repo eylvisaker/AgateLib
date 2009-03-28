@@ -30,7 +30,7 @@ namespace OrthoProjectionTest
 
                 Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 
-                wind = new DisplayWindow("Ortho Projection Test", 640, 480, "", false, true);
+                wind = DisplayWindow.CreateWindowed("Ortho Projection Test", 640, 480, false);
                 
                 Surface surf = new Surface("jellybean.png");
                 surf.Color = Color.Cyan;
@@ -65,7 +65,7 @@ namespace OrthoProjectionTest
 
         static void Keyboard_KeyDown(InputEventArgs e)
         {
-            if (e.KeyID == KeyCode.Space)
+            if (e.KeyCode == KeyCode.Space)
             {
                 ortho++;
                 if (ortho > 2)
@@ -73,7 +73,7 @@ namespace OrthoProjectionTest
 
                 Keyboard.ReleaseKey(KeyCode.Space);
             }
-            else if (e.KeyID == KeyCode.Escape)
+            else if (e.KeyCode == KeyCode.Escape)
                 wind.Dispose();
 
         }

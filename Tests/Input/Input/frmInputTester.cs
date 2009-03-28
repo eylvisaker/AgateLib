@@ -12,7 +12,6 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
-using AgateLib.InputLib.Old;
 
 namespace InputTester
 {
@@ -41,11 +40,8 @@ namespace InputTester
         {
             while (this.Visible)
             {
-                if (Input.JoystickCount == 0)
-                    return;
-
-                numericUpDown1.Maximum = Input.JoystickCount - 1;
-                Joystick j = Input.Joysticks[(int)numericUpDown1.Value];
+                numericUpDown1.Maximum = JoystickInput.Joysticks.Count - 1;
+                Joystick j = JoystickInput.Joysticks[(int)numericUpDown1.Value];
 
                 StringBuilder b = new StringBuilder();
                 b.AppendLine(j.Name);
@@ -57,7 +53,7 @@ namespace InputTester
                     b.Append("Axis ");
                     b.Append(i.ToString());
                     b.Append(": ");
-                    b.Append(j.Axes[i].ToString());
+                    b.Append(j.GetAxisValue(i).ToString());
                     b.AppendLine();
                 }
 
@@ -73,7 +69,7 @@ namespace InputTester
 
                 for (int i = 0; i < j.ButtonCount; i++)
                 {
-                    if (j.Buttons[i])
+                    if (j.GetButtonState(i))
                         b.Append(i.ToString());
                 }
 
@@ -107,11 +103,11 @@ namespace InputTester
 
         void Keyboard_KeyUp(InputEventArgs e)
         {
-            this.lblKeyPress.Text = "Released key " + e.KeyID;
+            this.lblKeyPress.Text = "Released key " + e.KeyCode;
         }
         void Keyboard_KeyDown(InputEventArgs e)
         {
-            this.lblKeyPress.Text = "Pressed key " + e.KeyID;
+            this.lblKeyPress.Text = "Pressed key " + e.KeyCode;
             this.lblKeyString.Text = "Pressed key string [" + e.KeyString + "]";
         }
 

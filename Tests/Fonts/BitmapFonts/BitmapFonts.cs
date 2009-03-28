@@ -47,11 +47,6 @@ namespace BitmapFontTester
 
                 FontSurface font = new FontSurface(fontOptions);
 
-                if (font.CanSave == false)
-                {
-                    return;
-                }
-
                 // TODO: Fix this
                 //font.Save("testfont.xml");
 
