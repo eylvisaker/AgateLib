@@ -36,7 +36,7 @@ namespace FontLineTester
                 if (setup.WasCanceled)
                     return;
 
-                DisplayWindow wind = new DisplayWindow("Font Line Tester", 640, 480);
+                DisplayWindow wind = DisplayWindow.CreateWindowed("Font Line Tester", 640, 480);
                 Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
                 Core.AutoPause = true;
 
@@ -86,16 +86,16 @@ namespace FontLineTester
 
         static void Keyboard_KeyDown(InputEventArgs e)
         {
-            if (e.KeyID >= KeyCode.NumPad0 && e.KeyID <= KeyCode.NumPad9)
+            if (e.KeyCode >= KeyCode.NumPad0 && e.KeyCode <= KeyCode.NumPad9)
             {
-                int key = e.KeyID - KeyCode.NumPad0 - 1;
+                int key = e.KeyCode - KeyCode.NumPad0 - 1;
 
                 if (key < 0) key = 10;
 
                 if (key < fonts.Count)
                     currentFont = key;
             }
-            else if (e.KeyID == KeyCode.BackSpace && text.Length > 0)
+            else if (e.KeyCode == KeyCode.BackSpace && text.Length > 0)
             {
                 text = text.Substring(0, text.Length - 1);
             }

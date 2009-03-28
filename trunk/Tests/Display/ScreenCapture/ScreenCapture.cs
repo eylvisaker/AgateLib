@@ -28,7 +28,7 @@ namespace ScreenCaptureExample
                 setup.Initialize(true, false, false);
                 if (setup.WasCanceled) return;
 
-                DisplayWindow wind = new DisplayWindow("Hello", 800, 600);
+                DisplayWindow wind = DisplayWindow.CreateWindowed("Hello", 800, 600);
                 Surface someSurface = new Surface("wallpaper.png");
                 Surface captureSurface = new Surface(1600, 1200);
                 bool capturing = false;

@@ -8,7 +8,7 @@ using System.Diagnostics;
 using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
-using AgateLib.Sprites.Old;
+using AgateLib.Sprites;
 using AgateLib.InputLib;
 
 namespace RotatingSpriteTester
@@ -34,7 +34,7 @@ namespace RotatingSpriteTester
                 if (setup.WasCanceled)
                     return;
 
-                DisplayWindow wind = new DisplayWindow("Rotating sprite", 300, 300);
+                DisplayWindow wind = DisplayWindow.CreateWindowed("Rotating sprite", 300, 300);
                 Sprite sp = new Sprite("spike.png", 16, 16);
 
                 sp.RotationCenter = OriginAlignment.Center;
