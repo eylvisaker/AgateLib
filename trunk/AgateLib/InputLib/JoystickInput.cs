@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AgateLib.ImplementationBase;
 using AgateLib.Drivers;
@@ -28,10 +29,10 @@ namespace AgateLib.InputLib
     /// Static class which contains a list of the joystick input devices attached
     /// to the computer.
     /// </summary>
-    public static class JoystickList 
+    public static class JoystickInput
     {
         static InputImpl impl;
-        static List<JoystickImpl> mRawJoysticks = new List<JoystickImpl>();
+        static List<Joystick> mRawJoysticks = new List<Joystick>();
 
         /// <summary>
         /// Initializes the input system by instantiating the driver with the given
@@ -52,13 +53,18 @@ namespace AgateLib.InputLib
         private static void InitializeJoysticks()
         {
             mRawJoysticks.Clear();
-            mRawJoysticks.AddRange(impl.CreateJoysticks());
+            mRawJoysticks.AddRange(impl.CreateJoysticks().Select(x => new Joystick(x)));
         }
 
+        public static IList<Joystick> Joysticks
+        {
+            get { return mRawJoysticks; }
+        }
 
         internal static void PollTimer()
         {
-            
+            for (int i = 0; i < mRawJoysticks.Count; i++)
+                mRawJoysticks[i].Poll();
         }
     }
 }

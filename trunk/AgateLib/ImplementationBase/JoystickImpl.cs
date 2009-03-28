@@ -52,28 +52,11 @@ namespace AgateLib.ImplementationBase
         /// <summary>
         /// Gets the currentFrame value for the given axis.
         /// Axis 0 is always the x-axis, axis 1 is always the y-axis on
-        /// controlers which have this capability.
+        /// controllers which have this capability.
         /// </summary>
         /// <param name="axisIndex"></param>
         /// <returns></returns>
         public abstract double GetAxisValue(int axisIndex);
-
-        /// <summary>
-        /// Returns the value of the gamepad x-axis.
-        /// Ranges are:
-        /// -1 all the way to the left
-        ///  0 centered
-        ///  1 all the way to the right
-        /// </summary>
-        public abstract double Xaxis { get; }
-        /// <summary>
-        /// Returns the value of the gamepad y-axis.
-        /// Ranges are:
-        /// -1 all the way to the top
-        ///  0 centered
-        ///  1 all the way to the bottom
-        /// </summary>
-        public abstract double Yaxis { get; }
 
         /// <summary>
         /// Recalibrates the joystick.
