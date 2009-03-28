@@ -145,14 +145,5 @@ namespace AgateSDL.Input
             
         }
 
-        public override double Xaxis
-        {
-            get { return GetAxisValue(0); }
-        }
-
-        public override double Yaxis
-        {
-            get { return GetAxisValue(1); }
-        }
     }
 }

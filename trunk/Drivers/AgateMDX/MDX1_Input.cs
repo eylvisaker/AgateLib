@@ -91,7 +91,7 @@ namespace AgateMDX
         private Device mDevice;
         private bool[] mButtons;
 
-        private int shiftX, shiftY, shiftZ;
+        private int[] shift = new int[3];
         private double maxX, maxY, maxZ;
 
         private double mThreshold;
@@ -141,57 +141,30 @@ namespace AgateMDX
         public override double GetAxisValue(int axisIndex)
         {
             if (axisIndex == 0)
-                return Xaxis;
+                return CorrectAxisValue(mDevice.CurrentJoystickState.X, shift[0], maxX);
             else if (axisIndex == 1)
-                return Yaxis;
+                return CorrectAxisValue(mDevice.CurrentJoystickState.Y, shift[1], maxY);
             else if (axisIndex == 2)
-                return Zaxis;
+                return CorrectAxisValue(mDevice.CurrentJoystickState.Z, shift[2], maxZ);
             else 
                 return mDevice.CurrentJoystickState.GetSlider()[axisIndex - 3] / maxX;
         }
-        public override double Xaxis
+
+        private double CorrectAxisValue(int axisValue, int shiftValue, double maxX)
         {
-            get
-            {
-                double retval = (mDevice.CurrentJoystickState.X - shiftX) / maxX;
+            double retval = (axisValue - shiftValue) / (double)maxX;
 
-                if (Math.Abs(retval) < mThreshold)
-                    return 0;
-                else
-                    return retval;
-            }
+            if (Math.Abs(retval) < mThreshold)
+                return 0;
+            else
+                return retval;
         }
-        public override double Yaxis
-        {
-            get 
-            { 
-                double retval = (mDevice.CurrentJoystickState.Y - shiftY) / maxY;
-
-                if (Math.Abs(retval) < mThreshold)
-                    return 0;
-                else
-                    return retval;
-            }
-        }
-        public double Zaxis
-        {
-            get
-            {
-                double retval = (mDevice.CurrentJoystickState.Z - shiftZ) / maxZ;
-
-                if (Math.Abs(retval) < mThreshold)
-                    return 0;
-                else
-                    return retval;
-            }
-        }
-
 
         public override void Recalibrate()
         {
-            shiftX = mDevice.CurrentJoystickState.X;
-            shiftY = mDevice.CurrentJoystickState.Y;
-            shiftZ = mDevice.CurrentJoystickState.Z;
+            shift[0] = mDevice.CurrentJoystickState.X;
+            shift[1] = mDevice.CurrentJoystickState.Y;
+            shift[2] = mDevice.CurrentJoystickState.Z;
         }
 
         public override double AxisThreshold
