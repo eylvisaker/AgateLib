@@ -207,7 +207,7 @@ namespace AgateLib
             if (WasCanceled)
                 return;
 
-            InputLib.JoystickList.Initialize(inputTypeID);
+            InputLib.JoystickInput.Initialize(inputTypeID);
             
         }
         /// <summary>

@@ -157,8 +157,6 @@ namespace AgateLib
         /// </summary>
         public static void KeepAlive()
         {
-            //System.Windows.Forms.Application.DoEvents();
-
             // Some tests indicate that using the Win32 platform-specific call 
             // to PeekMessage before calling DoEvents is about 1 fps faster,
             // when there are no events to process.  It's not clear whether or
@@ -191,8 +189,7 @@ namespace AgateLib
             AudioLib.Audio.Update();
 
             // Poll for joystick input.
-            InputLib.JoystickList.PollTimer();
-
+            InputLib.JoystickInput.PollTimer();
         }
 
         /// <summary>
