@@ -11,5 +11,6 @@ Prebuild\Prebuild.exe /target vs2008 /file AudioTests.xml
 Prebuild\Prebuild.exe /target vs2008 /file CoreTests.xml
 Prebuild\Prebuild.exe /target vs2008 /file InputTests.xml
 Prebuild\Prebuild.exe /target vs2008 /file FontTests.xml
+Prebuild\Prebuild.exe /target vs2008 /file GuiTests.xml
 
 @pause

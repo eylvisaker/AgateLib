@@ -1,0 +1,21 @@
+<Project name="GuiTest" path="../Tests/Gui/GuiTest" language="C#" type="WinExe">
+  <Configuration name="Debug">
+    <Options>
+      <OutputPath>../../../Binaries/Debug/Tests</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Configuration name="Release">
+    <Options>
+      <OutputPath>../../../Binaries/Release/Tests</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Reference name="AgateLib" localCopy="true"/>
+  <Reference name="System"/>
+  
+  <Files>
+    <Match path="." pattern="*.cs" recurse="true"/>
+    <Match path="." pattern="*.png" recurse="true" buildAction="None" copyToOutput="Always"/>
+  </Files>
+</Project>
