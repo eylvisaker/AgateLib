@@ -7,7 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 
-namespace BitmapFontTester
+namespace Tests.BitmapFontTester
 {
     class Program
     {
@@ -15,6 +15,7 @@ namespace BitmapFontTester
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("Bitmap Font Test", "Fonts")]
         static void Main()
         {
             new Program().Run();
@@ -22,11 +23,6 @@ namespace BitmapFontTester
 
         private void Run()
         {
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-            
 			using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;

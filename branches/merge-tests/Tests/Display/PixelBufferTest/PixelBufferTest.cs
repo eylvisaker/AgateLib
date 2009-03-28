@@ -6,7 +6,7 @@ using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 
-namespace PixelBufferTest
+namespace Tests.PixelBufferTest
 {
     static class PixelBufferTest
     {
@@ -18,13 +18,9 @@ namespace PixelBufferTest
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("Pixel Buffer Test", "Display")]
         static void Main()
 		{			
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
 
-namespace InputTester
+namespace Tests.InputTester
 {
     static class InputTester
     {
@@ -14,16 +14,9 @@ namespace InputTester
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("Input Tester", "Input")]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;
@@ -31,7 +24,7 @@ namespace InputTester
                 if (setup.WasCanceled)
                     return;
 
-                Application.Run(new Form1());
+                new Form1().ShowDialog();
             }
         }
     }

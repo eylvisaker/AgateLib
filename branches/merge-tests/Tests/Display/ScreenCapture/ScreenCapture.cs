@@ -7,7 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 
-namespace ScreenCaptureExample
+namespace Tests.ScreenCaptureExample
 {
     static class ScreenCaptureTest
     {
@@ -15,13 +15,9 @@ namespace ScreenCaptureExample
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("Screen Capture Test", "Display")]
         static void Main()
 		{
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;

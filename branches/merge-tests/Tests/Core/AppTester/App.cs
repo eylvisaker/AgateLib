@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AgateLib;
 
-namespace AppTester
+namespace Tests.AppTester
 {
     class App : AgateApplication  
     {
@@ -11,13 +11,9 @@ namespace AppTester
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("AgateApplication Test", "Core")]
         static void Main()
         {
-            // These two lines are used by AgateLib tests to locate
-            // driver plugins and images.
-            AgateFileProvider.Assemblies.AddPath("../Drivers");
-            AgateFileProvider.Images.AddPath("Images");
-			
             new App().Run();
         }
 

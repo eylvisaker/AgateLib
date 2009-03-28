@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.Utility;
 
-namespace TimerTester
+namespace Tests.TimerTester
 {
     public partial class frmTimerTester : Form
     {

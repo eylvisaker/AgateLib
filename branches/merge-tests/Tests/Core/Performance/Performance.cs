@@ -11,7 +11,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
-namespace PerformanceTester
+namespace Tests.PerformanceTester
 {
     static class PerformanceTester
     {
@@ -29,13 +29,9 @@ namespace PerformanceTester
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("Performance Tester", "Core")]
         static void Main()
 		{
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-
             Core.Initialize();
 
             List<AgateDriverInfo> drivers = Registrar.DisplayDrivers;
@@ -90,6 +86,7 @@ namespace PerformanceTester
                 if (Display.CurrentWindow.IsClosed)
                 {
                     Display.Dispose();
+                    frm.Dispose();
                     return;
                 }
 
@@ -97,8 +94,8 @@ namespace PerformanceTester
 
             }
 
-            System.Windows.Forms.Application.Run(frm);
-
+            frm.Visible = false;
+            frm.ShowDialog();
         }
 
         private static double StretchTestQueue(bool applyColor)

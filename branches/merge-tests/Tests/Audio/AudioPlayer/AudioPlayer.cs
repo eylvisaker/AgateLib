@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
 
-namespace AudioTester
+namespace Tests.AudioTester
 {
     static class AudioTester
     {
@@ -14,6 +14,7 @@ namespace AudioTester
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("Example Audio Player", "Audio")]
         static void Main(string[] args)
         {
             Application.EnableVisualStyles();

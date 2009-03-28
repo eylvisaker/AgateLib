@@ -7,22 +7,21 @@ using AgateLib.DisplayLib;
 using AgateLib.Resources;
 using AgateLib.Sprites;
 
-namespace ResourceTester
+namespace Tests.ResourceTester
 {
     class ResourceTester
     {
+        [STAThread]
+        [AgateTest("Resource Test", "Core")]
         static void Main(string[] args)
         {
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-			
 			using (AgateSetup setup = new AgateSetup("Resource Tester", args))
             {
                 setup.InitializeAll();
                 if (setup.WasCanceled)
                     return;
+
+                AgateFileProvider.Resources.Add(new AgateLib.Utility.FileSystemProvider("Data"));
 
                 AgateResourceCollection resources = 
                     AgateResourceLoader.LoadResources("TestResourceFile.xml");

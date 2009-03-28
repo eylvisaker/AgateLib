@@ -6,7 +6,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
-namespace TgzProviderTester
+namespace Tests.TgzProviderTester
 {
     class TgzProviderTester
     {
@@ -14,6 +14,7 @@ namespace TgzProviderTester
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("TgzProvider Test", "Core")]
         static void Main()
         {
             new TgzProviderTester().Run();
@@ -21,12 +22,7 @@ namespace TgzProviderTester
 
         private void Run()
         {
-            var tgz = new TgzFileProvider("archives/dogs.tar.gz");
-
-            // These two lines are used by AgateLib tests to locate
-            // driver plugins and images.
-            AgateFileProvider.Assemblies.AddPath("../Drivers");
-            AgateFileProvider.Images.Add(tgz);
+            var tgz = new TgzFileProvider("Data/dogs.tar.gz");
 
             using (AgateSetup setup = new AgateSetup())
             {
@@ -38,8 +34,8 @@ namespace TgzProviderTester
                 DisplayWindow wind = DisplayWindow.CreateWindowed(
                     "TgzFileProvider Tester", 800, 600, false);
 
-                Surface surf = new Surface("dogs.png");
-                Surface surf2 = new Surface("bigpaddle.png");
+                Surface surf = new Surface(tgz, "dogs.png");
+                Surface surf2 = new Surface(tgz, "bigpaddle.png");
 
                 PixelBuffer pix = surf.ReadPixels();
 

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LightingTest
+namespace Tests.LightingTest
 {
     public partial class LightingTestForm : Form
     {

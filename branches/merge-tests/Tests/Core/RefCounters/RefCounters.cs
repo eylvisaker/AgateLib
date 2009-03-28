@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.Utility;
 
-namespace RefCounterTester
+namespace Tests.RefCounterTester
 {
     static class Program
     {
@@ -15,15 +15,16 @@ namespace RefCounterTester
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("Ref Counter Test", "Core")]
         static void Main()
         {
             Ref<TestClass> myref = new Ref<TestClass>(new TestClass());
             Ref<TestClass> newref = new Ref<TestClass>(myref);
 
-
             newref.Dispose();
             myref.Dispose();
 
+            Console.WriteLine("Press a key to finish.");
             Console.ReadKey(false);
         }
 

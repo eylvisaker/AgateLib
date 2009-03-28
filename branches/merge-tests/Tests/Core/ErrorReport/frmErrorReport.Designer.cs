@@ -1,4 +1,4 @@
-namespace ErrorReportTester
+namespace Tests.ErrorReportTester
 {
     partial class frmErrorReportTester
     {

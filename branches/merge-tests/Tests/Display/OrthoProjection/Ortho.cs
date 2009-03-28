@@ -7,20 +7,16 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 
-namespace OrthoProjectionTest
+namespace Tests.OrthoProjectionTest
 {
     static class Ortho
     {
         static int ortho = 0;
         static DisplayWindow wind;
 
+        [AgateTest("OrthoProjection Test", "Display")]
         static void Main()
         {
-            // These two lines are used by AgateLib tests to locate
-            // driver plugins and images.
-            AgateFileProvider.Assemblies.AddPath("../Drivers");
-            AgateFileProvider.Images.AddPath("Images");
-            
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;

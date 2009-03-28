@@ -13,7 +13,7 @@ using AgateLib.Geometry;
 using AgateLib.Utility;
 using AgateLib.WinForms;
 
-namespace TestPacker
+namespace Tests.TestPacker
 {
 
     public partial class frmTestPacker : Form

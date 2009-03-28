@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace TestPacker
+namespace Tests.TestPacker
 {
     static class TestPacker
     {
@@ -13,11 +13,10 @@ namespace TestPacker
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("Test Packer", "Display")]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmTestPacker());
+            new frmTestPacker().ShowDialog();
         }
     }
 }

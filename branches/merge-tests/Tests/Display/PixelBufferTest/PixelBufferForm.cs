@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PixelBufferTest
+namespace Tests.PixelBufferTest
 {
     public partial class PixelBufferForm : Form
     {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
 
-namespace TimerTester
+namespace Tests.TimerTester
 {
     static class TimerTester
     {
@@ -14,11 +14,9 @@ namespace TimerTester
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("Timer Test", "Core")]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
             frmTimerTester frm = new frmTimerTester();
             frm.Show();
 
@@ -35,7 +33,6 @@ namespace TimerTester
 
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(0);
-
             }
         }
     }

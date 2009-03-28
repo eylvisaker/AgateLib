@@ -7,7 +7,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Utility;
 
-namespace FontLineTester
+namespace Tests.FontLineTester
 {
     static class FontLineTester
     {
@@ -22,13 +22,9 @@ namespace FontLineTester
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("Font Line Tester", "Fonts")]
         static void Main()
 		{
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;

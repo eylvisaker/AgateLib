@@ -1,4 +1,4 @@
-namespace PixelBufferTest
+namespace Tests.PixelBufferTest
 {
     partial class PixelBufferForm
     {

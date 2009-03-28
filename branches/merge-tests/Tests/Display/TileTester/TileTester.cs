@@ -6,7 +6,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace TileTester
+namespace Tests.TileTester
 {
     class TileTester
     {
@@ -14,6 +14,7 @@ namespace TileTester
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [AgateTest("Tile Tester", "Display")]
         static void Main()
         {
             new TileTester().Run();
@@ -24,14 +25,6 @@ namespace TileTester
 
         void Run()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-			
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;
@@ -44,6 +37,7 @@ namespace TileTester
 
                 tile = new Surface("bg-bricks.png");
 
+                Display.VSync = true;
                 while (frm.IsDisposed == false)
                 {
                     Display.BeginFrame();
