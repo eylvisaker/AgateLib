@@ -11,7 +11,7 @@ using System.Text;
 using System.Windows.Forms;
 using AgateLib;
 
-namespace AudioTester
+namespace Tests.AudioTester
 {
     public partial class frmAudioTester : Form
     {

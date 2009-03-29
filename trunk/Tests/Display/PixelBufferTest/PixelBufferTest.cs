@@ -6,26 +6,25 @@ using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 
-namespace PixelBufferTest
+namespace Tests.PixelBufferTest
 {
-    static class PixelBufferTest
-    {
-        static Surface image;
-        static Point imageLocation = new Point(50, 50);
-        static PixelBuffer buffer;
-        static PixelBufferForm frm;
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-		{			
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
+    class PixelBufferTest : IAgateTest 
+    {        
+        #region IAgateTest Members
 
-            using (AgateSetup setup = new AgateSetup())
+        public string Name { get { return "Pixel Buffer"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+
+        Surface image;
+        Point imageLocation = new Point(50, 50);
+        PixelBuffer buffer;
+        PixelBufferForm frm;
+        
+        public void Main(string[] args)
+		{			
+            using (AgateSetup setup = new AgateSetup(args))
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
@@ -57,7 +56,7 @@ namespace PixelBufferTest
             }
         }
 
-        static void Mouse_MouseMove(InputEventArgs e)
+        void Mouse_MouseMove(InputEventArgs e)
         {
             Color clr;
             Point pt = new Point(e.MousePosition.X - imageLocation.X,
@@ -101,12 +100,12 @@ namespace PixelBufferTest
 
         }
 
-        private static string FormatComponent(byte p)
+        private string FormatComponent(byte p)
         {
             return (p / 255.0).ToString("0.00");
         }
 
-        static void Mouse_MouseDown(InputEventArgs e)
+        void Mouse_MouseDown(InputEventArgs e)
         {
             Mouse_MouseMove(e);
         }

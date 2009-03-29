@@ -8,22 +8,20 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 
-namespace InputStateTester
+namespace Tests.InputStateTester
 {
     class InputStateTester : AgateApplication
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            // These two lines are used by AgateLib tests to locate
-            // driver plugins and images.
-            AgateFileProvider.Assemblies.AddPath("../Drivers");
-            AgateFileProvider.Images.AddPath("Images");
+        #region IAgateTest Members
 
-            new InputStateTester().Run(args);
+        public string Name { get { return "Input State Tester"; } }
+        public string Category { get { return "Input"; } }
+
+        #endregion
+
+        public void Main(string[] args)
+        {
+            Run(args);
         }
 
         protected override void Render(double time_ms)

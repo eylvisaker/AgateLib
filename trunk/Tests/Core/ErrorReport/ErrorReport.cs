@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
 
-namespace ErrorReportTester
+namespace Tests.ErrorReportTester
 {
-    static class ErrorReportTester
+    class ErrorReportTester : IAgateTest 
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public void Main(string[] args)
         {
             AgateLib.Core.Initialize();
 
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmErrorReportTester());
+            new frmErrorReportTester().ShowDialog();
         }
+
+
+        #region IAgateTest Members
+
+        public string Name { get { return "Error Report Tester"; } }
+        public string Category { get { return "Core"; } }
+
+        #endregion
     }
 }

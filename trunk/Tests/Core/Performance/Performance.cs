@@ -11,31 +11,22 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
-namespace PerformanceTester
+namespace Tests.PerformanceTester
 {
-    static class PerformanceTester
+    class PerformanceTester:IAgateTest 
     {
         struct Rects
         {
             public Rectangle rect;
             public Color color;
         }
-        static Random rnd = new Random();
-        static FontSurface font;
+        Random rnd = new Random();
+        FontSurface font;
 
         const int totalFrames = 300;
 
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        public void Main(string[] args)
 		{
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-
             Core.Initialize();
 
             List<AgateDriverInfo> drivers = Registrar.DisplayDrivers;
@@ -90,6 +81,7 @@ namespace PerformanceTester
                 if (Display.CurrentWindow.IsClosed)
                 {
                     Display.Dispose();
+                    frm.Dispose();
                     return;
                 }
 
@@ -97,11 +89,11 @@ namespace PerformanceTester
 
             }
 
-            System.Windows.Forms.Application.Run(frm);
-
+            frm.Visible = false;
+            frm.ShowDialog();
         }
 
-        private static double StretchTestQueue(bool applyColor)
+        private double StretchTestQueue(bool applyColor)
         {
             Timing.StopWatch timer = new Timing.StopWatch();
             Surface surf = new Surface("jellybean.png");
@@ -158,7 +150,7 @@ namespace PerformanceTester
             return frames / (double)timer.TotalMilliseconds;
         }
         
-        private static double StretchTest(bool applyColor)
+        private double StretchTest(bool applyColor)
         {
             Timing.StopWatch timer = new Timing.StopWatch();
             Surface surf = new Surface("jellybean.png");
@@ -216,7 +208,7 @@ namespace PerformanceTester
             return frames / (double)timer.TotalMilliseconds;
         }
         
-        private static double DrawSurfaceTest(bool applyColor)
+        private double DrawSurfaceTest(bool applyColor)
         {
             Timing.StopWatch timer = new Timing.StopWatch();
             Surface surf = new Surface("jellybean.png");
@@ -269,7 +261,7 @@ namespace PerformanceTester
             return frames / (double)timer.TotalMilliseconds;
         }
 
-        private static double DrawRectTest()
+        private double DrawRectTest()
         {
             Timing.StopWatch timer = new Timing.StopWatch();
             List<Rects> rects = new List<Rects>();
@@ -310,7 +302,7 @@ namespace PerformanceTester
             return frames / (double)timer.TotalMilliseconds;
         }
 
-        private static double FilledRectTest()
+        private double FilledRectTest()
         {
             Timing.StopWatch timer = new Timing.StopWatch();
             List<Rects> rects = new List<Rects>();
@@ -351,7 +343,7 @@ namespace PerformanceTester
             return frames / (double)timer.TotalMilliseconds;
         }
 
-        private static Rects CreateRandomRects()
+        private Rects CreateRandomRects()
         {
             Rects r = new Rects();
 
@@ -363,5 +355,12 @@ namespace PerformanceTester
 
             return r;
         }
+
+        #region IAgateTest Members
+
+        public string Name { get { return "Performance Tester"; } }
+        public string Category { get { return "Core"; } }
+
+        #endregion
     }
 }

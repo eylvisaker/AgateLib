@@ -6,32 +6,27 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
 
-namespace InputTester
+namespace Tests.InputTester
 {
-    static class InputTester
+    class InputTester:IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        #region IAgateTest Members
+
+        public string Name { get { return "Input Tester"; } }
+        public string Category { get { return "Input"; } }
+
+        #endregion
+
+        public void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-
-            using (AgateSetup setup = new AgateSetup())
+            using (AgateSetup setup = new AgateSetup(args))
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, true);
                 if (setup.WasCanceled)
                     return;
 
-                Application.Run(new Form1());
+                new Form1().ShowDialog();
             }
         }
     }

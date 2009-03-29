@@ -5,19 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace TestPacker
+namespace Tests.TestPacker
 {
-    static class TestPacker
+    class TestPacker : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        #region IAgateTest Members
+
+        public string Name { get { return "Packing"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+
+        public void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmTestPacker());
+            new frmTestPacker().ShowDialog();
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace TileTester
+namespace Tests.TileTester
 {
     partial class frmTileTester
     {

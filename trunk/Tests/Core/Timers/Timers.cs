@@ -6,19 +6,12 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
 
-namespace TimerTester
+namespace Tests.TimerTester
 {
-    static class TimerTester
+    class TimerTester : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        public void Main(string [] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
             frmTimerTester frm = new frmTimerTester();
             frm.Show();
 
@@ -35,8 +28,14 @@ namespace TimerTester
 
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(0);
-
             }
         }
+
+        #region IAgateTest Members
+
+        public string Name { get { return "Timers"; } }
+        public string Category { get { return "Core"; } }
+
+        #endregion
     }
 }
