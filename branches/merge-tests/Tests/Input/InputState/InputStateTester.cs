@@ -12,14 +12,16 @@ namespace Tests.InputStateTester
 {
     class InputStateTester : AgateApplication
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Input State Test", "Input")]
-        static void Main(string[] args)
+        #region IAgateTest Members
+
+        public string Name { get { return "Input State Tester"; } }
+        public string Category { get { return "Input"; } }
+
+        #endregion
+
+        public void Main(string[] args)
         {
-            new InputStateTester().Run(args);
+            Run(args);
         }
 
         protected override void Render(double time_ms)

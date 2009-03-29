@@ -11,14 +11,16 @@ using AgateLib.InputLib;
 
 namespace Tests.FontTester
 {
-    static class Program
+    class Program : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Fonts", "Fonts")]
-        static void Main()
+        #region IAgateTest Members
+
+        public string Name { get { return "Fonts"; } }
+        public string Category { get { return "Fonts"; } }
+
+        #endregion
+
+        public void Main(string[] args)
         {
 			using (AgateSetup setupDisplay = new AgateSetup())
             {

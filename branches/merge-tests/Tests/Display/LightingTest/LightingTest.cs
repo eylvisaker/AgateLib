@@ -9,17 +9,18 @@ using AgateLib.Geometry;
 
 namespace Tests.LightingTest
 {
-    static class LightingTest
+    class LightingTest : IAgateTest 
     {
-        
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Lighting Test", "Display")]
-        static void Main()
+        #region IAgateTest Members
+
+        public string Name { get { return "Lighting"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+
+        public void Main(string[] args)
         {
-            using (AgateSetup setup = new AgateSetup())
+            using (AgateSetup setup = new AgateSetup(args))
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);

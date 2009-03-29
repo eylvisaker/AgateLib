@@ -8,14 +8,9 @@ using AgateLib;
 
 namespace Tests.TimerTester
 {
-    static class TimerTester
+    class TimerTester : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Timer Test", "Core")]
-        static void Main()
+        public void Main(string [] args)
         {
             frmTimerTester frm = new frmTimerTester();
             frm.Show();
@@ -35,5 +30,12 @@ namespace Tests.TimerTester
                 System.Threading.Thread.Sleep(0);
             }
         }
+
+        #region IAgateTest Members
+
+        public string Name { get { return "Timers"; } }
+        public string Category { get { return "Core"; } }
+
+        #endregion
     }
 }

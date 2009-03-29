@@ -9,21 +9,18 @@ using AgateLib.InputLib;
 
 namespace Tests.BitmapFontTester
 {
-    class Program
+    class BitmapFonts : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Bitmap Font Test", "Fonts")]
-        static void Main()
-        {
-            new Program().Run();
-        }
+        #region IAgateTest Members
 
-        private void Run()
+        public string Name { get { return "Bitmap Fonts"; } }
+        public string Category { get { return "Fonts"; } }
+
+        #endregion
+
+        public void Main(string[] args)
         {
-			using (AgateSetup setup = new AgateSetup())
+			using (AgateSetup setup = new AgateSetup(args))
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);

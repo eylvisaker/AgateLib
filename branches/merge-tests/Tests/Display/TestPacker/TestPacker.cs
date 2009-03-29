@@ -7,14 +7,16 @@ using System.Windows.Forms;
 
 namespace Tests.TestPacker
 {
-    static class TestPacker
+    class TestPacker : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Test Packer", "Display")]
-        static void Main()
+        #region IAgateTest Members
+
+        public string Name { get { return "Packing"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+
+        public void Main(string[] args)
         {
             new frmTestPacker().ShowDialog();
         }

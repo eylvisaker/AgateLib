@@ -9,21 +9,22 @@ using AgateLib.Utility;
 
 namespace Tests.FontLineTester
 {
-    static class FontLineTester
+    class FontLineTester : IAgateTest 
     {
-        static List<FontSurface> fonts = new List<FontSurface>();
-        static int currentFont = 0;
-        static string text = "This text is a test\nof multiline text.  How\ndid it work?\n\n"+
+        List<FontSurface> fonts = new List<FontSurface>();
+        int currentFont = 0;
+        string text = "This text is a test\nof multiline text.  How\ndid it work?\n\n"+
             "You can type into this box with the keyboard.\nThe rectangle is drawn by calling "+
             "the\nStringDisplaySize function to get the size of the text.";
 
+        #region IAgateTest Members
 
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Font Line Tester", "Fonts")]
-        static void Main()
+        public string Name { get { return "Font Lines"; } }
+        public string Category { get { return "Fonts"; } }
+
+        #endregion
+
+        public void Main(string[] args)
 		{
             using (AgateSetup setup = new AgateSetup())
             {
@@ -71,7 +72,7 @@ namespace Tests.FontLineTester
             }
         }
 
-        private static void FontTests(FontSurface fontSurface, out Rectangle drawRect)
+        private void FontTests(FontSurface fontSurface, out Rectangle drawRect)
         {
             Point drawPoint = new Point(10, 10);
             Size fontsize = fontSurface.StringDisplaySize(text);
@@ -80,7 +81,7 @@ namespace Tests.FontLineTester
             fontSurface.DrawText(drawPoint, text);
         }
 
-        static void Keyboard_KeyDown(InputEventArgs e)
+        void Keyboard_KeyDown(InputEventArgs e)
         {
             if (e.KeyCode >= KeyCode.NumPad0 && e.KeyCode <= KeyCode.NumPad9)
             {

@@ -10,18 +10,20 @@ using AgateLib;
 
 namespace Tests.SurfaceTester
 {
-    static class SurfaceTester
+    class SurfaceTester : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Surface Tester", "Display")]
-        static void Main()
+        #region IAgateTest Members
+
+        public string Name { get { return "Surface Tester"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+
+        public void Main(string[] args)
         {
             frmSurfaceTester form = new frmSurfaceTester();
 
-            using (AgateSetup displaySetup = new AgateSetup())
+            using (AgateSetup displaySetup = new AgateSetup(args))
             {
                 displaySetup.AskUser = true;
                 displaySetup.Initialize(true, false, false);

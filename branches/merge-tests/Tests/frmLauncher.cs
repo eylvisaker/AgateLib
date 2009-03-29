@@ -12,7 +12,13 @@ namespace Tests
 {
     public partial class frmLauncher : Form
     {
-        Dictionary<string, List<MethodInfo>> tests = new Dictionary<string, List<MethodInfo>>();
+        class TestInfo
+        {
+            public string Name { get; set; }
+            public Type Class { get; set; }
+        }
+
+        Dictionary<string, List<TestInfo>> tests = new Dictionary<string, List<TestInfo>>();
 
 
         public frmLauncher()
@@ -39,13 +45,11 @@ namespace Tests
             tree.Sort();
         }
 
-        private void AddChildren(List<MethodInfo> methods, int nodeIndex)
+        private void AddChildren(List<TestInfo> tests, int nodeIndex)
         {
-            foreach (var method in methods)
+            foreach (var test in tests)
             {
-                AgateTestAttribute a = GetTestAttribute(method);
-
-                tree.Nodes[nodeIndex].Nodes.Add(new TreeNode { Text = a.Name, Tag = method });
+                tree.Nodes[nodeIndex].Nodes.Add(new TreeNode { Text = test.Name, Tag = test });
             }
         }
 
@@ -55,67 +59,48 @@ namespace Tests
 
             foreach (var t in myass.GetTypes())
             {
-                MethodInfo main = t.GetMethod("Main", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-                if (main == null)
-                    continue;
-
-                AddTest(main);
+                if (typeof(IAgateTest).IsAssignableFrom(t) && t.IsAbstract == false)
+                {
+                    AddTest(t);
+                }
             }
 
             FillList();
         }
 
 
-        private void AddTest(MethodInfo main)
+        private void AddTest(Type t)
         {
-            AgateTestAttribute attrib = GetTestAttribute(main);
-            if (attrib == null)
-                return;
+            IAgateTest obj = (IAgateTest)Activator.CreateInstance(t);
 
-            if (tests.ContainsKey(attrib.Category) == false)
+            if (tests.ContainsKey(obj.Category) == false)
             {
-                tests[attrib.Category] = new List<MethodInfo>();
+                tests[obj.Category] = new List<TestInfo>();
             }
 
-            tests[attrib.Category].Add(main);
-        }
-
-        private static AgateTestAttribute GetTestAttribute(MethodInfo main)
-        {
-            var all_attribs = main.GetCustomAttributes(typeof(AgateTestAttribute), false);
-            if (all_attribs.Length == 0)
-                return null;
-
-            AgateTestAttribute attrib = (AgateTestAttribute)all_attribs[0];
-            return attrib;
+            tests[obj.Category].Add(new TestInfo { Name = obj.Name, Class = t });
         }
 
         private void tree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            MethodInfo m = e.Node.Tag as MethodInfo ;
-            LaunchMethod(e.Node.Text, m);
-        }
-
-        private void LaunchMethod(string name, MethodInfo m)
-        {
-            if (m == null)
+            TestInfo t = e.Node.Tag as TestInfo;
+            if (t == null)
                 return;
 
+            LaunchTest(t);
+        }
+
+        private void LaunchTest(TestInfo m)
+        {
+            IAgateTest obj = (IAgateTest)Activator.CreateInstance(m.Class);
+
             string[] args = { "--choose" };
-            object[] parameters = new object[] { args };
 
             this.Hide();
 
             try
             {
-                if (m.GetParameters().Length == 0)
-                {
-                    m.Invoke(null, null);
-                }
-                else
-                {
-                    m.Invoke(null, parameters);
-                }
+                obj.Main(args);
             }
             catch (TargetInvocationException e)
             {
@@ -124,7 +109,7 @@ namespace Tests
 
                 MessageBox.Show(
                     ex_relevant.GetType().Name + Environment.NewLine + info,
-                    "AgateLib Test " + name + " threw an exception.",
+                    "AgateLib Test " + m.Name + " threw an exception.",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Stop);
 

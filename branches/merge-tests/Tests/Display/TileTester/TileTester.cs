@@ -8,22 +8,19 @@ using AgateLib.Geometry;
 
 namespace Tests.TileTester
 {
-    class TileTester
+    class TileTester : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Tile Tester", "Display")]
-        static void Main()
-        {
-            new TileTester().Run();
-        }
+        #region IAgateTest Members
+
+        public string Name { get { return "Tiling"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
 
         Surface tile;
         float xval, yval;
 
-        void Run()
+        public void Main(string[] args)
         {
             using (AgateSetup setup = new AgateSetup())
             {

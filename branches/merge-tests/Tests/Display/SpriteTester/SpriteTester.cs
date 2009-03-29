@@ -8,22 +8,23 @@ using AgateLib;
 
 namespace Tests.SpriteTester
 {
-    static class SpriteTester
+    class SpriteTester : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Sprite Tester", "Display")]
-        static void Main()
+        #region IAgateTest Members
+
+        public string Name { get { return "Sprite Tester"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+        
+        public void Main(string[] args)
         {
             frmSpriteTester form = new frmSpriteTester();
 
-            AgateSetup displaySetup = new AgateSetup();
+            AgateSetup displaySetup = new AgateSetup(args);
 
             using (displaySetup)
             {
-                displaySetup.AskUser = true;
                 displaySetup.Initialize(true, false, false);
                 if (displaySetup.WasCanceled)
                     return;

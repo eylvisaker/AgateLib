@@ -8,20 +8,23 @@ using AgateLib.InputLib;
 
 namespace Tests.PixelBufferTest
 {
-    static class PixelBufferTest
-    {
-        static Surface image;
-        static Point imageLocation = new Point(50, 50);
-        static PixelBuffer buffer;
-        static PixelBufferForm frm;
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Pixel Buffer Test", "Display")]
-        static void Main()
+    class PixelBufferTest : IAgateTest 
+    {        
+        #region IAgateTest Members
+
+        public string Name { get { return "Pixel Buffer"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+
+        Surface image;
+        Point imageLocation = new Point(50, 50);
+        PixelBuffer buffer;
+        PixelBufferForm frm;
+        
+        public void Main(string[] args)
 		{			
-            using (AgateSetup setup = new AgateSetup())
+            using (AgateSetup setup = new AgateSetup(args))
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);
@@ -53,7 +56,7 @@ namespace Tests.PixelBufferTest
             }
         }
 
-        static void Mouse_MouseMove(InputEventArgs e)
+        void Mouse_MouseMove(InputEventArgs e)
         {
             Color clr;
             Point pt = new Point(e.MousePosition.X - imageLocation.X,
@@ -97,12 +100,12 @@ namespace Tests.PixelBufferTest
 
         }
 
-        private static string FormatComponent(byte p)
+        private string FormatComponent(byte p)
         {
             return (p / 255.0).ToString("0.00");
         }
 
-        static void Mouse_MouseDown(InputEventArgs e)
+        void Mouse_MouseDown(InputEventArgs e)
         {
             Mouse_MouseMove(e);
         }

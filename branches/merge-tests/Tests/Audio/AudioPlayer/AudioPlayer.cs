@@ -8,23 +8,13 @@ using AgateLib;
 
 namespace Tests.AudioTester
 {
-    static class AudioTester
+    class AudioTester : IAgateTest 
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        [STAThread]
-        [AgateTest("Example Audio Player", "Audio")]
-        static void Main(string[] args)
+        public void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-
             using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup("Agate Audio Tester", args))
             {
                 setup.AskUser = true;
@@ -35,5 +25,18 @@ namespace Tests.AudioTester
                 Application.Run(new frmAudioTester());
             }
         }
+
+        #region IAgateTest Members
+
+        public string Name
+        {
+            get { return "Audio Player"; }
+        }
+        public string Category
+        {
+            get { return "Audio"; }
+        }
+
+        #endregion
     }
 }

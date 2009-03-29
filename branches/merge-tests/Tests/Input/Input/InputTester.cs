@@ -8,16 +8,18 @@ using AgateLib;
 
 namespace Tests.InputTester
 {
-    static class InputTester
+    class InputTester:IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Input Tester", "Input")]
-        static void Main()
+        #region IAgateTest Members
+
+        public string Name { get { return "Input Tester"; } }
+        public string Category { get { return "Input"; } }
+
+        #endregion
+
+        public void Main(string[] args)
         {
-            using (AgateSetup setup = new AgateSetup())
+            using (AgateSetup setup = new AgateSetup(args))
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, true);
