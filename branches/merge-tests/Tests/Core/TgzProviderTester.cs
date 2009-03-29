@@ -8,19 +8,9 @@ using AgateLib.Utility;
 
 namespace Tests.TgzProviderTester
 {
-    class TgzProviderTester
+    class TgzProviderTester : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("TgzProvider Test", "Core")]
-        static void Main()
-        {
-            new TgzProviderTester().Run();
-        }
-
-        private void Run()
+        public void Main(string [] args)
         {
             var tgz = new TgzFileProvider("Data/dogs.tar.gz");
 
@@ -52,5 +42,12 @@ namespace Tests.TgzProviderTester
                 }
             }
         }
+
+        #region IAgateTest Members
+
+        public string Name { get { return "TgzProvider"; } }
+        public string Category { get { return "Core"; } }
+
+        #endregion
     }
 }

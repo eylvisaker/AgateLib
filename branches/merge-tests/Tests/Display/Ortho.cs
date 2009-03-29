@@ -9,13 +9,20 @@ using AgateLib.InputLib;
 
 namespace Tests.OrthoProjectionTest
 {
-    static class Ortho
+    class Ortho
     {
-        static int ortho = 0;
-        static DisplayWindow wind;
+        int ortho = 0;
+        DisplayWindow wind;
 
-        [AgateTest("OrthoProjection Test", "Display")]
-        static void Main()
+
+        #region IAgateTest Members
+
+        public string Name { get { return "Ortho Projection"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+
+        public void Main(string[] args)
         {
             using (AgateSetup setup = new AgateSetup())
             {
@@ -59,7 +66,7 @@ namespace Tests.OrthoProjectionTest
             }
         }
 
-        static void Keyboard_KeyDown(InputEventArgs e)
+        void Keyboard_KeyDown(InputEventArgs e)
         {
             if (e.KeyCode == KeyCode.Space)
             {

@@ -9,11 +9,9 @@ using AgateLib.Sprites;
 
 namespace Tests.ResourceTester
 {
-    class ResourceTester
+    class ResourceTester : IAgateTest 
     {
-        [STAThread]
-        [AgateTest("Resource Test", "Core")]
-        static void Main(string[] args)
+        public void Main(string[] args)
         {
 			using (AgateSetup setup = new AgateSetup("Resource Tester", args))
             {
@@ -50,5 +48,13 @@ namespace Tests.ResourceTester
                 }
             }
         }
+
+
+        #region IAgateTest Members
+
+        public string Name { get { return "Resources"; } }
+        public string Category { get { return "Core"; } }
+
+        #endregion
     }
 }

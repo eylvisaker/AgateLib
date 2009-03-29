@@ -9,14 +9,17 @@ using AgateLib.InputLib;
 
 namespace Tests.ScreenCaptureExample
 {
-    static class ScreenCaptureTest
+    class ScreenCaptureTest:IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Screen Capture Test", "Display")]
-        static void Main()
+
+        #region IAgateTest Members
+
+        public string Name { get { return "Screen Capture"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+
+        public void Main(string[] args)
 		{
             using (AgateSetup setup = new AgateSetup())
             {

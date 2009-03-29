@@ -9,14 +9,9 @@ using AgateLib.Utility;
 
 namespace Tests.RefCounterTester
 {
-    static class Program
+    class Program : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Ref Counter Test", "Core")]
-        static void Main()
+        public void Main(string[] args)
         {
             Ref<TestClass> myref = new Ref<TestClass>(new TestClass());
             Ref<TestClass> newref = new Ref<TestClass>(myref);
@@ -27,6 +22,13 @@ namespace Tests.RefCounterTester
             Console.WriteLine("Press a key to finish.");
             Console.ReadKey(false);
         }
+
+        #region IAgateTest Members
+
+        public string Name { get { return "Ref Counter Tester"; } }
+        public string Category { get { return "Core"; } }
+
+        #endregion
 
         class TestClass : IDisposable
         {

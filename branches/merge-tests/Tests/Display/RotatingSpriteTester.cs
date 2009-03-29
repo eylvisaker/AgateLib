@@ -13,18 +13,19 @@ using AgateLib.InputLib;
 
 namespace Tests.RotatingSpriteTester
 {
-    static class Program
+    class RotatingSprite : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("Rotating Sprite Test", "Display")]
-        static void Main()
+        #region IAgateTest Members
+
+        public string Name { get { return "Rotating Sprite"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+
+        public void Main(string[] args)
 		{		
-            using (AgateSetup setup = new AgateSetup())
+            using (AgateSetup setup = new AgateSetup(args))
             {
-                //setup.AskUser = true;
                 setup.Initialize(true, false, false);
 
                 if (setup.WasCanceled)

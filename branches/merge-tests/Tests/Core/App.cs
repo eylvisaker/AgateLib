@@ -5,16 +5,11 @@ using AgateLib;
 
 namespace Tests.AppTester
 {
-    class App : AgateApplication  
+    class App : AgateApplication, IAgateTest
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        [AgateTest("AgateApplication Test", "Core")]
-        static void Main()
+        public void Main(string[] args)
         {
-            new App().Run();
+            Run(args);
         }
 
         protected override AppInitParameters GetAppInitParameters()
@@ -23,5 +18,12 @@ namespace Tests.AppTester
             retval.AllowResize = true;
             return retval;
         }
+
+        #region IAgateTest Members
+
+        public string Name { get { return "App Tester"; } }
+        public string Category { get { return "Core"; } }
+
+        #endregion
     }
 }
