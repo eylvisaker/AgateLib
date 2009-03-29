@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
-namespace Tests.TgzProviderTester
+namespace Tests.CoreTests
 {
-    class TgzProviderTester : IAgateTest 
+    class ZipProviderTester : IAgateTest
     {
-        public void Main(string [] args)
+        public void Main(string[] args)
         {
-            var tgz = new TgzFileProvider("Data/dogs.tar.gz");
+            var zip = new ZipFileProvider("Data/dogs.zip");
 
             using (AgateSetup setup = new AgateSetup())
             {
@@ -24,8 +25,9 @@ namespace Tests.TgzProviderTester
                 DisplayWindow wind = DisplayWindow.CreateWindowed(
                     "TgzFileProvider Tester", 800, 600, false);
 
-                Surface surf = new Surface(tgz, "dogs.png");
-                Surface surf2 = new Surface(tgz, "bigpaddle.png");
+                Surface surf = new Surface(zip, "dogs.png");
+                Surface surf2 = new Surface(zip, "bigpaddle.png");
+                Surface surf3 = new Surface(zip, "other/bg-bricks.png");
 
                 PixelBuffer pix = surf.ReadPixels();
 
@@ -33,9 +35,10 @@ namespace Tests.TgzProviderTester
                 {
                     Display.BeginFrame();
                     Display.Clear(Color.Blue);
-                    
+
                     surf.Draw();
                     surf2.Draw(10, 490);
+                    surf3.Draw(100, 100);
 
                     Display.EndFrame();
                     Core.KeepAlive();
@@ -45,7 +48,7 @@ namespace Tests.TgzProviderTester
 
         #region IAgateTest Members
 
-        public string Name { get { return "Tar.gzip File Provider"; } }
+        public string Name { get { return "Zip Provider"; } }
         public string Category { get { return "Core"; } }
 
         #endregion
