@@ -6,32 +6,22 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace TileTester
+namespace Tests.TileTester
 {
-    class TileTester
+    class TileTester : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            new TileTester().Run();
-        }
+        #region IAgateTest Members
+
+        public string Name { get { return "Tiling"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
 
         Surface tile;
         float xval, yval;
 
-        void Run()
+        public void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-			
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-
             using (AgateSetup setup = new AgateSetup())
             {
                 setup.AskUser = true;
@@ -44,6 +34,7 @@ namespace TileTester
 
                 tile = new Surface("bg-bricks.png");
 
+                Display.VSync = true;
                 while (frm.IsDisposed == false)
                 {
                     Display.BeginFrame();

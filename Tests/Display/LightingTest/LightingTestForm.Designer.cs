@@ -1,4 +1,4 @@
-namespace LightingTest
+namespace Tests.LightingTest
 {
     partial class LightingTestForm
     {

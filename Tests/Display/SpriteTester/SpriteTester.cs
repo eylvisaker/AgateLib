@@ -6,31 +6,25 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
 
-namespace SpriteTester
+namespace Tests.SpriteTester
 {
-    static class SpriteTester
+    class SpriteTester : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-			
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
+        #region IAgateTest Members
 
+        public string Name { get { return "Sprite Tester"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+        
+        public void Main(string[] args)
+        {
             frmSpriteTester form = new frmSpriteTester();
 
-            AgateSetup displaySetup = new AgateSetup();
+            AgateSetup displaySetup = new AgateSetup(args);
 
             using (displaySetup)
             {
-                displaySetup.AskUser = true;
                 displaySetup.Initialize(true, false, false);
                 if (displaySetup.WasCanceled)
                     return;

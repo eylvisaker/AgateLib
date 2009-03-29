@@ -17,7 +17,7 @@ namespace AgateLib.InternalResources
         {
             get
             {
-                if (mPoweredBy != null)
+                if (mPoweredBy != null && mPoweredBy.IsDisposed == false)
                     return mPoweredBy;
 
                 mPoweredBy = new Surface(mProvider, "agate-powered.png");

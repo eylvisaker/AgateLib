@@ -7,26 +7,20 @@ using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
 
-namespace LightingTest
+namespace Tests.LightingTest
 {
-    static class LightingTest
+    class LightingTest : IAgateTest 
     {
-        
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        #region IAgateTest Members
 
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
-            
-            using (AgateSetup setup = new AgateSetup())
+        public string Name { get { return "Lighting"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+
+        public void Main(string[] args)
+        {
+            using (AgateSetup setup = new AgateSetup(args))
             {
                 setup.AskUser = true;
                 setup.Initialize(true, false, false);

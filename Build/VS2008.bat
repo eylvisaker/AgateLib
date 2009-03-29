@@ -5,11 +5,6 @@ Prebuild\Prebuild.exe /target vs2008 /file AgateLib.xml
 Prebuild\Prebuild.exe /target vs2008 /file AgateLib-Windows.xml 
 Prebuild\Prebuild.exe /target vs2008 /file AgateTools.xml
 
-Prebuild\Prebuild.exe /target vs2008 /file AllTests.xml
-Prebuild\Prebuild.exe /target vs2008 /file DisplayTests.xml
-Prebuild\Prebuild.exe /target vs2008 /file AudioTests.xml
-Prebuild\Prebuild.exe /target vs2008 /file CoreTests.xml
-Prebuild\Prebuild.exe /target vs2008 /file InputTests.xml
-Prebuild\Prebuild.exe /target vs2008 /file FontTests.xml
+Prebuild\Prebuild.exe /target vs2008 /file Tests.xml
 
 @pause

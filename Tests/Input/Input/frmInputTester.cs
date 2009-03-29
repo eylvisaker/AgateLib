@@ -13,7 +13,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 
-namespace InputTester
+namespace Tests.InputTester
 {
     public partial class Form1 : Form
     {

@@ -8,27 +8,22 @@ using System.Windows.Forms;
 
 using AgateLib;
 
-namespace SurfaceTester
+namespace Tests.SurfaceTester
 {
-    static class SurfaceTester
+    class SurfaceTester : IAgateTest 
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        #region IAgateTest Members
+
+        public string Name { get { return "Surface Tester"; } }
+        public string Category { get { return "Display"; } }
+
+        #endregion
+
+        public void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            // These two lines are used by AgateLib tests to locate
-            // driver plugins and images.
-            AgateFileProvider.Assemblies.AddPath("../Drivers");
-            AgateFileProvider.Images.AddPath("Images");
-
             frmSurfaceTester form = new frmSurfaceTester();
 
-            using (AgateSetup displaySetup = new AgateSetup())
+            using (AgateSetup displaySetup = new AgateSetup(args))
             {
                 displaySetup.AskUser = true;
                 displaySetup.Initialize(true, false, false);

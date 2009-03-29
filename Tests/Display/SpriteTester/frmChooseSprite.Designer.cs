@@ -1,4 +1,4 @@
-﻿namespace SpriteTester
+﻿namespace Tests.SpriteTester
 {
     partial class frmChooseSprite
     {
