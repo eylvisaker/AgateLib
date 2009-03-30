@@ -396,6 +396,8 @@ namespace AgateMDX
                 destY -= DisplayHeight;
             }
 
+            mDevice.Interpolation = InterpolationHint;
+
             if (TesselateFactor == 1)
             {
                 SetVertsTextureCoordinates(mVerts, 0, srcRect);
@@ -588,6 +590,8 @@ namespace AgateMDX
         [Obsolete("Old DX method.")]
         protected void DrawWithoutVBNoRotation(RectangleF srcRect, RectangleF destRect, bool alphaBlend)
         {
+            mDevice.Interpolation = InterpolationHint;
+
             //CustomVertex.TransformedColoredTextured[] verts = new CustomVertex.TransformedColoredTextured[4];
             int startIndex = 0;
 
@@ -667,6 +671,8 @@ namespace AgateMDX
         {
             srcRect.X += mSrcRect.X;
             srcRect.Y += mSrcRect.Y;
+
+            mDevice.Interpolation = InterpolationHint;
 
             //DrawWithoutVBNoRotation(srcRect, destRect, true);
             //if (mRotationCos != 1.0f)

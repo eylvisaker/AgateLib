@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 using AgateLib;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
 using OpenTK.Graphics;
@@ -86,6 +87,9 @@ namespace AgateOTK
         int mIndex;
         int mCurrentTexture;
 
+        InterpolationMode lastInerpolation;
+        PointF[] cachePts = new PointF[4];
+
         public GLDrawBuffer(GLState state)
         {
             mState = state;
@@ -119,7 +123,40 @@ namespace AgateOTK
             mCurrentTexture = 0;
         }
 
-        PointF[] cachePts = new PointF[4];
+
+        public void SetInterpolationMode(InterpolationMode mode)
+        {
+            if (mode == lastInerpolation)
+                return;
+
+            Flush();
+            lastInerpolation = mode;
+
+            switch (mode)
+            {
+                case InterpolationMode.Fastest:
+                    GL.TexParameter(TextureTarget.Texture2D,
+                                    TextureParameterName.TextureMinFilter, 
+                                    (int)TextureMinFilter.Nearest);
+                    GL.TexParameter(TextureTarget.Texture2D,
+                                    TextureParameterName.TextureMagFilter, 
+                                    (int)TextureMagFilter.Nearest);
+
+                    break;
+
+                case InterpolationMode.Default:
+                case InterpolationMode.Nicest:
+                    GL.TexParameter(TextureTarget.Texture2D,
+                                    TextureParameterName.TextureMinFilter, 
+                                    (int)TextureMinFilter.Linear);
+                    GL.TexParameter(TextureTarget.Texture2D,
+                                    TextureParameterName.TextureMagFilter, 
+                                    (int)TextureMagFilter.Linear);
+
+
+                    break;
+            }
+        }
 
         public void AddQuad(int textureID, Color color, TextureCoordinates texCoord, RectangleF destRect)
         {

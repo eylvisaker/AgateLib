@@ -110,6 +110,36 @@ namespace AgateMDX
             get { return mDevice; }
         }
 
+        InterpolationMode lastInterpolation;
+
+        public InterpolationMode Interpolation
+        {
+            get { return lastInterpolation; }
+            set
+            {
+                if (value == lastInterpolation)
+                    return;
+
+                DrawBuffer.Flush();
+
+                switch (value)
+                {
+                    case InterpolationMode.Default:
+                    case InterpolationMode.Nicest:
+                        mDevice.SamplerState[0].MinFilter = TextureFilter.Anisotropic;
+                        mDevice.SamplerState[0].MagFilter = TextureFilter.Anisotropic;
+                        break;
+
+                    case InterpolationMode.Fastest:
+                        mDevice.SamplerState[0].MinFilter = TextureFilter.Point;
+                        mDevice.SamplerState[0].MagFilter = TextureFilter.Point;
+                        break;
+                }
+
+                lastInterpolation = value;
+            }
+        }
+
         public MDX1_IRenderTarget RenderTarget
         {
             get { return mRenderTarget; }

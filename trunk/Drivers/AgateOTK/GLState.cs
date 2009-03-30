@@ -23,6 +23,7 @@ using System.Text;
 
 using AgateLib;
 using AgateLib.Geometry;
+using AgateLib.DisplayLib;
 
 using OpenTK.Graphics;
 
