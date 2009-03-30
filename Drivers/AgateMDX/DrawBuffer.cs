@@ -22,6 +22,7 @@ using System.Text;
 using Direct3D = Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
+using AgateLib.DisplayLib;
 
 namespace AgateMDX
 {
@@ -45,6 +46,7 @@ namespace AgateMDX
         Texture mTexture;
         bool mAlphaBlend;
 
+        
         public DrawBuffer(D3DDevice device)
         {
             mDevice = device;

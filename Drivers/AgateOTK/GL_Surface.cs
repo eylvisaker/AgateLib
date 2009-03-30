@@ -115,11 +115,6 @@ namespace AgateOTK
                     mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,
                     PixelType.UnsignedByte, fake);
 
-                GL.TexParameter(TextureTarget.Texture2D,
-                                TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D,
-                                TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-
                 mTexCoord = GetTextureCoords(mSourceRect);
             }
             finally
@@ -208,6 +203,8 @@ namespace AgateOTK
             TextureCoordinates texcoords = GetTextureCoords(srcRect);
             RectangleF dest = new RectangleF(destRect.X, destRect.Y, destRect.Width, destRect.Height);
 
+            mState.DrawBuffer.SetInterpolationMode(InterpolationHint);
+
             if (TesselateFactor == 1)
             {
                 mState.DrawBuffer.AddQuad(mTextureID, Color, texcoords, dest);
@@ -268,6 +265,8 @@ namespace AgateOTK
                 destY -= dispSize.Height;
 
             mTexCoord = GetTextureCoords(srcRect);
+
+            mState.DrawBuffer.SetInterpolationMode(InterpolationHint);
 
             if (TesselateFactor == 1)
             {

@@ -1,4 +1,15 @@
 
+Version 0.3.1
+===================
+All obsolete API's have been removed.
+
+The ZipFileProvider class was added to the AgateLib.Utility namespace.  This provides support
+for reading from zip files, with some restrictions.  The only compression method for files in
+a zip file that is support is deflate.
+
+Added Surface.InterpolationHint to indicate whether nearest neighbor or linear
+sampling should be used when drawing scaled / rotated images.
+
 Version 0.3.0
 ===================
 

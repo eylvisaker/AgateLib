@@ -49,6 +49,15 @@ namespace AgateLib.DisplayLib
         /// </summary>
         Tga,
     }
+
+    public enum InterpolationMode
+    {
+        Default,
+
+        Fastest,
+
+        Nicest,
+    }
     /// <summary>
     /// Class which represents a pixel surface.
     /// There are several ways to create a Surface object.  The most common
@@ -634,6 +643,12 @@ namespace AgateLib.DisplayLib
         #endregion
  
         #region --- Surface Data Manipulation ---
+
+        public InterpolationMode InterpolationHint
+        {
+            get { return impl.InterpolationHint; }
+            set { impl.InterpolationHint = value; }
+        }
 
         /// <summary>
         /// Saves the surface to the specified file.

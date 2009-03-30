@@ -45,6 +45,8 @@ namespace AgateLib.ImplementationBase
         private OriginAlignment mRotationSpot = OriginAlignment.Center;
         private Gradient mGradient = new Gradient(Color.White);
 
+        private InterpolationMode mInterpolationHint;
+
         #endregion
 
         #region --- Creation / Destruction ---
@@ -367,6 +369,11 @@ namespace AgateLib.ImplementationBase
 
         #region --- Surface properties ---
 
+        public virtual InterpolationMode InterpolationHint
+        {
+            get { return mInterpolationHint; }
+            set { mInterpolationHint = value; }
+        }
         /// <summary>
         /// Gets or sets how many squares the surface should be broken into when drawn.
         /// </summary>

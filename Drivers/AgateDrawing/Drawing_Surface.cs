@@ -157,6 +157,7 @@ namespace AgateLib.DisplayLib.SystemDrawing
             g.RotateTransform(-(float)RotationAngleDegrees, MatrixOrder.Append);
             g.TranslateTransform(rotationCenterX, rotationCenterY, MatrixOrder.Append);
 
+            SetInterpolation(g);
 
             g.TranslateTransform(destPt.X - translatePoint.X,
                                  destPt.Y - translatePoint.Y, MatrixOrder.Append);
@@ -194,6 +195,24 @@ namespace AgateLib.DisplayLib.SystemDrawing
             }
 
             g.Restore(state);
+        }
+
+        private void SetInterpolation(Graphics g)
+        {
+            switch (InterpolationHint)
+            {
+                case InterpolationMode.Default:
+                case InterpolationMode.Fastest:
+                    g.CompositingQuality = CompositingQuality.HighSpeed;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+
+                    break;
+
+                case InterpolationMode.Nicest:
+                    g.CompositingQuality = CompositingQuality.HighQuality;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    break;
+            }
         }
         public override void Draw(float destX, float destY)
         {
