@@ -25,6 +25,7 @@
     <?include file="Projects/AgateOTK.proj.xml" ?>
     <?include file="Projects/AgateSDL.proj.xml" ?>
     <?include file="Projects/AgateFMOD.proj.xml" ?>
+    <?include file="Projects/Tests.proj.xml" ?>
 
   </Solution>
 
