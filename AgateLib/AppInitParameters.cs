@@ -14,6 +14,7 @@ namespace AgateLib
 			InitializeAudio = true;
 			InitializeDisplay = true;
 			InitializeJoysticks = true;
+			ShowSplashScreen = true;
 		}
 
 		public Size WindowSize { get; set; }
