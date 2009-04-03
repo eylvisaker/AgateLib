@@ -105,10 +105,7 @@ namespace AgateLib.DisplayLib
 			Resources.AgateResource res = resources[name];
 			Resources.SurfaceResource surf = res as Resources.SurfaceResource;
 
-			using (System.IO.Stream s = AgateFileProvider.Images.OpenRead(surf.Filename))
-			{
-				impl = Display.Impl.CreateSurface(s);
-			}
+			impl = resources.LoadSurfaceImpl(surf.Filename);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
@@ -195,16 +192,18 @@ namespace AgateLib.DisplayLib
 		/// (This is not intended for use by applications).
 		/// </summary>
 		/// <param name="fromImpl"></param>
-		private Surface(SurfaceImpl fromImpl)
+		internal Surface(SurfaceImpl fromImpl)
 		{
 			if (Display.Impl == null)
 				throw new AgateException("AgateLib's display system has not been initialized.");
 
-			if (fromImpl != null)
-				throw new Exception("fromImpl already has an owned implementation!");
+			if (fromImpl == null)
+				throw new ArgumentNullException("The argument fromImpl must not be null.");
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+
+			impl = fromImpl;
 		}
 		/// <summary>
 		/// Destroyes unmanaged resources associated with this surface.
@@ -685,12 +684,9 @@ namespace AgateLib.DisplayLib
 		/// <returns>A Surface object containing only those pixels copied.</returns>
 		public Surface CarveSubSurface(Rectangle srcRect)
 		{
-			Surface retval = new Surface((SurfaceImpl)null);
-			SurfaceImpl newImpl = impl.CarveSubSurface(retval, srcRect);
+			SurfaceImpl newImpl = impl.CarveSubSurface(srcRect);
 
-			retval.impl = newImpl;
-
-			return retval;
+			return new Surface(newImpl);
 		}
 
 		/// <summary>

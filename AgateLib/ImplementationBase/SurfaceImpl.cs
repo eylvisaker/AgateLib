@@ -317,7 +317,7 @@ namespace AgateLib.ImplementationBase
 		/// <param name="surface"></param>
 		/// <param name="srcRect"></param>
 		/// <returns></returns>
-		public abstract SurfaceImpl CarveSubSurface(Surface surface, Rectangle srcRect);
+		public abstract SurfaceImpl CarveSubSurface(Rectangle srcRect);
 
 		/// <summary>
 		/// Used by Display.BuildPackedSurface.

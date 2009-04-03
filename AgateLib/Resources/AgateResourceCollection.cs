@@ -24,6 +24,7 @@ using System.Xml;
 using System.IO;
 using AgateLib.DisplayLib;
 using AgateLib.Utility;
+using AgateLib.ImplementationBase;
 
 namespace AgateLib.Resources
 {
@@ -322,5 +323,23 @@ namespace AgateLib.Resources
 		}
 
 		#endregion
+
+		Dictionary<string, SurfaceImpl> mOwnedSurfaces = new Dictionary<string, SurfaceImpl>();
+
+		internal SurfaceImpl LoadSurfaceImpl(string filename)
+		{
+			if (mOwnedSurfaces.ContainsKey(filename) == false)
+			{
+				SurfaceImpl impl = Display.Impl.CreateSurface(FileProvider, RootDirectory + "/" + filename);
+
+				mOwnedSurfaces.Add(filename, impl);
+
+				return impl;
+			}
+			else
+			{
+				return mOwnedSurfaces[filename];
+			}
+		}
 	}
 }

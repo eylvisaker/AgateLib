@@ -131,38 +131,104 @@ namespace AgateLib.Sprites
 		/// </summary>
 		/// <param name="resources"></param>
 		/// <param name="name"></param>
-		public Sprite(Resources.AgateResourceCollection resources, string name)
+		public Sprite(AgateResourceCollection resources, string name)
 		{
-			Resources.AgateResource generic_res = resources[name];
-			Resources.SpriteResource sprite_res = generic_res as Resources.SpriteResource;
+			AgateResource generic_res = resources[name];
+			SpriteResource sprite_res = generic_res as SpriteResource;
 
 			if (sprite_res == null)
 				throw new AgateResourceException("Resource " + generic_res.Name + " is not a sprite.");
 
-			BuildSpriteFromResource(sprite_res);
+			BuildSpriteFromResource(resources, resources.RootDirectory, sprite_res);
 		}
 
-		private void BuildSpriteFromResource(SpriteResource resource)
+		private void BuildSpriteFromResource(AgateResourceCollection resources,
+			string root, SpriteResource resource)
 		{
-			Surface defaultSurface = new Surface(resource.Filename);
-
-			mSpriteSize = resource.Size;
-			mOwnedSurfaces.Add(defaultSurface);
-
-			for (int i = 0; i < resource.Frames.Count; i++)
+			Surface defaultSurface = null;
+			
+			if (string.IsNullOrEmpty(resource.Filename) == false)
 			{
-				SpriteResource.SpriteFrameResource frame = resource.Frames[i];
+				defaultSurface = new Surface(resources.LoadSurfaceImpl(resource.Filename));
+				mOwnedSurfaces.Add(defaultSurface);
+			}
+
+			if (resource.HasSize)
+				mSpriteSize = resource.Size;
+			else if (defaultSurface != null)
+				mSpriteSize = defaultSurface.SurfaceSize;
+
+			for (int i = 0; i < resource.ChildElements.Count; i++)
+			{
+				SpriteResource.SpriteSubResource child = resource.ChildElements[i];
 				Surface thisSurface = defaultSurface;
 
-				if (string.IsNullOrEmpty(frame.Filename))
+				if (child is SpriteResource.SpriteFrameResource)
 				{
-					thisSurface = new Surface(frame.Filename);
-					mOwnedSurfaces.Add(thisSurface);
+					SpriteResource.SpriteFrameResource frame = (SpriteResource.SpriteFrameResource)child;
+					if (string.IsNullOrEmpty(frame.Filename) == false)
+					{
+						thisSurface = new Surface(resources.LoadSurfaceImpl(frame.Filename));
+						mOwnedSurfaces.Add(thisSurface);
+
+						if (i == 0 && defaultSurface == null && resource.HasSize == false)
+						{
+							mSpriteSize = thisSurface.SurfaceSize;
+						}
+					}
+					if (thisSurface == null)
+					{
+						throw new AgateException(string.Format(
+							"The surface to create the sprite from in resource {0} was not specified.", resource.Name));
+					}
+
+					// we pass false to ownSurface here because the surface has already been added to the
+					// owned surfaces list.
+					AddFrame(thisSurface, false, frame.Bounds, frame.Offset);
+				}
+				else
+				{
+					var image = (SpriteResource.SpriteImageResource)child;
+
+					ImplementationBase.SurfaceImpl thisImpl = resources.LoadSurfaceImpl(image.Filename);
+					if (i == 0 && defaultSurface == null && resource.HasSize == false)
+					{
+						mSpriteSize = thisImpl.SurfaceSize;
+					}
+
+					if (image.Grids.Count == 0)
+					{
+						AddFrame(new Surface(thisImpl), false,
+							new Rectangle(0, 0, mSpriteSize.Width, mSpriteSize.Height),
+							Point.Empty);
+					}
+					else
+					{
+						for (int j = 0; j < image.Grids.Count; j++)
+						{
+							AddFramesFromGrid(resources, thisImpl, image.Grids[j]);
+						}
+					}
+				}
+			}
+		}
+
+		private void AddFramesFromGrid(AgateResourceCollection resources, AgateLib.ImplementationBase.SurfaceImpl thisImpl, SpriteResource.SpriteImageResource.Grid grid)
+		{
+			Point location = grid.Location;
+
+			for (int y = 0; y < grid.Array.Height; y++)
+			{
+				for (int x = 0; x < grid.Array.Width; x++)
+				{
+					var surfImpl = thisImpl.CarveSubSurface(new Rectangle(location, grid.Size));
+					AddFrame(new Surface(surfImpl), false, new Rectangle(0, 0, grid.Size.Width, grid.Size.Height), Point.Empty);
+
+					location.X += grid.Size.Width;
 				}
 
-				// we pass false to ownSurface here because the surface has already been added to the
-				// owned surfaces list.
-				AddFrame(thisSurface, false, frame.Bounds, frame.Offset);
+				location.Y += grid.Size.Height;
+				location.X = grid.Location.X;
 			}
 		}
 
@@ -372,7 +438,7 @@ namespace AgateLib.Sprites
 			surf.Color = Color;
 
 			currentFrame.Draw(destX - alignment.X, destY - alignment.Y,
-								  rotation.X, rotation.Y);
+							  rotation.X, rotation.Y);
 		}
 		/// <summary>
 		/// Draws the sprite at the specified position on screen.

@@ -47,6 +47,14 @@ namespace AgateLib.Resources
 		{
 			AppendAttribute(node, doc, name, value.ToString());
 		}
+		internal static void AppendAttribute(XmlElement node, XmlDocument doc, string name, Point point)
+		{
+			AppendAttribute(node, doc, name, string.Format("{0},{1}", point.X, point.Y));
+		}
+		internal static void AppendAttribute(XmlElement node, XmlDocument doc, string name, Size size)
+		{
+			AppendAttribute(node, doc, name, string.Format("{0},{1}", size.Width, size.Height));
+		}
 
 
 		private static void CheckAttributeExists(XmlNode node, string attributeName)
@@ -143,6 +151,7 @@ namespace AgateLib.Resources
 			else
 				return ReadAttributeString(node, attributeName);
 		}
+
 
 
 	}

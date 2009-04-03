@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace AgateLib.Utility
+namespace AgateLib
 {
 	/// <summary>
 	/// Public interface that should be implemented 
