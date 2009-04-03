@@ -22,195 +22,195 @@ using System.ComponentModel;
 
 namespace AgateLib.Geometry
 {
-    /// <summary>
-    /// Replacement for System.Drawing.Point structure.
-    /// </summary>
-    [Serializable]
-    [TypeConverter(typeof(PointConverter))]
-    public struct Point
-    {
-        int x, y;
+	/// <summary>
+	/// Replacement for System.Drawing.Point structure.
+	/// </summary>
+	[Serializable]
+	[TypeConverter(typeof(PointConverter))]
+	public struct Point
+	{
+		int x, y;
 
-        #region --- Construction ---
+		#region --- Construction ---
 
-        /// <summary>
-        /// Constructs a point.
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public Point(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-        /// <summary>
-        /// Constructs a point.
-        /// </summary>
-        /// <param name="pt"></param>
-        public Point(Point pt)
-        {
-            this.x = pt.x;
-            this.y = pt.y;
-        }
-        /// <summary>
-        /// Constructs a point.
-        /// </summary>
-        /// <param name="size"></param>
-        public Point(Size size)
-        {
-            this.x = size.Width;
-            this.y = size.Height;
-        }
-        
-        #endregion
-        #region --- Public Properties ---
-        
-        /// <summary>
-        /// Gets or sets the X value.
-        /// </summary>
-        public int X
-        {
-            get { return x; }
-            set { x = value; }
-        }
-        /// <summary>
-        /// Gets or sets the Y value.
-        /// </summary>
-        public int Y
-        {
-            get { return y; }
-            set { y = value; }
-        }
-        
-        /// <summary>
-        /// Returns true if X and Y are zero.
-        /// </summary>
-        [Browsable(false)]
-        public bool IsEmpty
-        {
-            get { return x == 0 && y == 0; }
-        }
+		/// <summary>
+		/// Constructs a point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		public Point(int x, int y)
+		{
+			this.x = x;
+			this.y = y;
+		}
+		/// <summary>
+		/// Constructs a point.
+		/// </summary>
+		/// <param name="pt"></param>
+		public Point(Point pt)
+		{
+			this.x = pt.x;
+			this.y = pt.y;
+		}
+		/// <summary>
+		/// Constructs a point.
+		/// </summary>
+		/// <param name="size"></param>
+		public Point(Size size)
+		{
+			this.x = size.Width;
+			this.y = size.Height;
+		}
 
-        #endregion
+		#endregion
+		#region --- Public Properties ---
 
-        #region --- Operator Overloads ---
+		/// <summary>
+		/// Gets or sets the X value.
+		/// </summary>
+		public int X
+		{
+			get { return x; }
+			set { x = value; }
+		}
+		/// <summary>
+		/// Gets or sets the Y value.
+		/// </summary>
+		public int Y
+		{
+			get { return y; }
+			set { y = value; }
+		}
 
-        /// <summary>
-        /// Equality comparison test.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static bool operator == (Point a, Point b)
-        {
-            return a.Equals(b);
-        }
-        /// <summary>
-        /// Inequality comparison test.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static bool operator !=(Point a, Point b)
-        {
-            return !a.Equals(b);
-        }
+		/// <summary>
+		/// Returns true if X and Y are zero.
+		/// </summary>
+		[Browsable(false)]
+		public bool IsEmpty
+		{
+			get { return x == 0 && y == 0; }
+		}
 
-        /// <summary>
-        /// Explicitly converts a point to a pointf structure.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <returns></returns>
-        public static explicit operator PointF(Point a)
-        {
-            return new PointF((float)a.X, (float)a.Y);
-        }
+		#endregion
 
-        #endregion
+		#region --- Operator Overloads ---
 
-        #region --- Object Overrides ---
+		/// <summary>
+		/// Equality comparison test.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static bool operator ==(Point a, Point b)
+		{
+			return a.Equals(b);
+		}
+		/// <summary>
+		/// Inequality comparison test.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static bool operator !=(Point a, Point b)
+		{
+			return !a.Equals(b);
+		}
 
-        /// <summary>
-        /// Gets a hash code
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return x.GetHashCode() + y.GetHashCode();
-        }
-        /// <summary>
-        /// Creates a string representing this object.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return string.Format(System.Globalization.CultureInfo.CurrentCulture, 
-                "{0}X={1},Y={2}{3}", "{", x, y, "}");
-        }
-        /// <summary>
-        /// Equality test.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is Point)
-                return Equals((Point)obj);
-            else
-                return base.Equals(obj);
-        }
-        /// <summary>
-        /// Equality test.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public bool Equals(Point obj)
-        {
-            if (x == obj.x && y == obj.y)
-                return true;
-            else
-                return false;
-        }
+		/// <summary>
+		/// Explicitly converts a point to a pointf structure.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <returns></returns>
+		public static explicit operator PointF(Point a)
+		{
+			return new PointF((float)a.X, (float)a.Y);
+		}
 
-        #endregion
+		#endregion
 
-        #region --- Static Methods and Fields ---
+		#region --- Object Overrides ---
 
-        /// <summary>
-        /// Empty point.
-        /// </summary>
-        public static readonly Point Empty = new Point(0, 0);
+		/// <summary>
+		/// Gets a hash code
+		/// </summary>
+		/// <returns></returns>
+		public override int GetHashCode()
+		{
+			return x.GetHashCode() + y.GetHashCode();
+		}
+		/// <summary>
+		/// Creates a string representing this object.
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			return string.Format(System.Globalization.CultureInfo.CurrentCulture,
+				"{0}X={1},Y={2}{3}", "{", x, y, "}");
+		}
+		/// <summary>
+		/// Equality test.
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
+		public override bool Equals(object obj)
+		{
+			if (obj is Point)
+				return Equals((Point)obj);
+			else
+				return base.Equals(obj);
+		}
+		/// <summary>
+		/// Equality test.
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
+		public bool Equals(Point obj)
+		{
+			if (x == obj.x && y == obj.y)
+				return true;
+			else
+				return false;
+		}
 
-        /// <summary>
-        /// Adds the specified size object to the specified point object
-        /// and returns the new point.
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        public static Point Add(Point pt, Size size)
-        {
-            return new Point(pt.x + size.Width, pt.y + size.Height);
-        }
-        /// <summary>
-        /// Rounds the PointF object up.
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        public static Point Ceiling(PointF pt)
-        {
-            return new Point((int)Math.Ceiling(pt.X), (int)Math.Ceiling(pt.Y));
-        }
-        /// <summary>
-        /// Rounds the PointF object to the nearest integer.
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        public static Point Round(PointF pt)
-        {
-            return new Point((int)Math.Round(pt.X), (int)Math.Round(pt.Y));
-        }
+		#endregion
 
-        #endregion
-    }
+		#region --- Static Methods and Fields ---
+
+		/// <summary>
+		/// Empty point.
+		/// </summary>
+		public static readonly Point Empty = new Point(0, 0);
+
+		/// <summary>
+		/// Adds the specified size object to the specified point object
+		/// and returns the new point.
+		/// </summary>
+		/// <param name="pt"></param>
+		/// <param name="size"></param>
+		/// <returns></returns>
+		public static Point Add(Point pt, Size size)
+		{
+			return new Point(pt.x + size.Width, pt.y + size.Height);
+		}
+		/// <summary>
+		/// Rounds the PointF object up.
+		/// </summary>
+		/// <param name="pt"></param>
+		/// <returns></returns>
+		public static Point Ceiling(PointF pt)
+		{
+			return new Point((int)Math.Ceiling(pt.X), (int)Math.Ceiling(pt.Y));
+		}
+		/// <summary>
+		/// Rounds the PointF object to the nearest integer.
+		/// </summary>
+		/// <param name="pt"></param>
+		/// <returns></returns>
+		public static Point Round(PointF pt)
+		{
+			return new Point((int)Math.Round(pt.X), (int)Math.Round(pt.Y));
+		}
+
+		#endregion
+	}
 }

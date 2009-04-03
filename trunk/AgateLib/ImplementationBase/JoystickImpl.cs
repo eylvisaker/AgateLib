@@ -22,60 +22,60 @@ using System.Text;
 
 namespace AgateLib.ImplementationBase
 {
-    /// <summary>
-    /// Class which implements a Joystick.
-    /// </summary>
-    public abstract class JoystickImpl
-    {
-        /// <summary>
-        /// Gets how many axes are on this joystick.
-        /// </summary>
-        public abstract int AxisCount { get; }
-        /// <summary>
-        /// Gets how many buttons are on this joystick.
-        /// </summary>
-        public abstract int ButtonCount { get; }
+	/// <summary>
+	/// Class which implements a Joystick.
+	/// </summary>
+	public abstract class JoystickImpl
+	{
+		/// <summary>
+		/// Gets how many axes are on this joystick.
+		/// </summary>
+		public abstract int AxisCount { get; }
+		/// <summary>
+		/// Gets how many buttons are on this joystick.
+		/// </summary>
+		public abstract int ButtonCount { get; }
 
-        /// <summary>
-        /// Gets the reported name of the joystick.
-        /// </summary>
-        public abstract string Name { get; }
+		/// <summary>
+		/// Gets the reported name of the joystick.
+		/// </summary>
+		public abstract string Name { get; }
 
-        /// <summary>
-        /// Gets the state of the specified button.  
-        /// </summary>
-        /// <param name="buttonIndex">Index of the button to check.  Valid values are
-        /// from 0 to ButtonCount - 1.</param>
-        /// <returns></returns>
-        public abstract bool GetButtonState(int buttonIndex);
+		/// <summary>
+		/// Gets the state of the specified button.  
+		/// </summary>
+		/// <param name="buttonIndex">Index of the button to check.  Valid values are
+		/// from 0 to ButtonCount - 1.</param>
+		/// <returns></returns>
+		public abstract bool GetButtonState(int buttonIndex);
 
-        /// <summary>
-        /// Gets the currentFrame value for the given axis.
-        /// Axis 0 is always the x-axis, axis 1 is always the y-axis on
-        /// controllers which have this capability.
-        /// </summary>
-        /// <param name="axisIndex"></param>
-        /// <returns></returns>
-        public abstract double GetAxisValue(int axisIndex);
+		/// <summary>
+		/// Gets the currentFrame value for the given axis.
+		/// Axis 0 is always the x-axis, axis 1 is always the y-axis on
+		/// controllers which have this capability.
+		/// </summary>
+		/// <param name="axisIndex"></param>
+		/// <returns></returns>
+		public abstract double GetAxisValue(int axisIndex);
 
-        /// <summary>
-        /// Recalibrates the joystick.
-        /// </summary>
-        public abstract void Recalibrate();
+		/// <summary>
+		/// Recalibrates the joystick.
+		/// </summary>
+		public abstract void Recalibrate();
 
-        /// <summary>
-        /// Need documentation.
-        /// </summary>
-        public abstract double AxisThreshold { get; set; }
+		/// <summary>
+		/// Need documentation.
+		/// </summary>
+		public abstract double AxisThreshold { get; set; }
 
-        /// <summary>
-        /// Gets whether or not this joystick is plugged in.
-        /// </summary>
-        public abstract bool PluggedIn { get; }
+		/// <summary>
+		/// Gets whether or not this joystick is plugged in.
+		/// </summary>
+		public abstract bool PluggedIn { get; }
 
-        /// <summary>
-        /// Polls the joystick for input.
-        /// </summary>
-        public abstract void Poll();
-    }
+		/// <summary>
+		/// Polls the joystick for input.
+		/// </summary>
+		public abstract void Poll();
+	}
 }

@@ -24,120 +24,120 @@ using AgateLib.Geometry;
 
 namespace AgateLib.BitmapFont
 {
-    /// <summary>
-    /// GlyphMetrics defines the metrics for a particular glyph in a font, including
-    /// the rectangle of the glyph on the source image, overhang, and kerning pairs.
-    /// </summary>
-    public sealed class GlyphMetrics : ICloneable 
-    {
-        private Rectangle mSourceRect;
+	/// <summary>
+	/// GlyphMetrics defines the metrics for a particular glyph in a font, including
+	/// the rectangle of the glyph on the source image, overhang, and kerning pairs.
+	/// </summary>
+	public sealed class GlyphMetrics : ICloneable
+	{
+		private Rectangle mSourceRect;
 
-        private int mLeftOverhang;
-        private int mRightOverhang;
+		private int mLeftOverhang;
+		private int mRightOverhang;
 
-        private Dictionary<char, int> mKerning = new Dictionary<char,int>();
+		private Dictionary<char, int> mKerning = new Dictionary<char, int>();
 
-        /// <summary>
-        /// Constructs a GlyphMetrics object.
-        /// </summary>
-        public GlyphMetrics()
-        {
-        }
-        /// <summary>
-        /// Constructs a GlyphMetrics object with the specified source rectangle.
-        /// </summary>
-        /// <param name="srcRect"></param>
-        public GlyphMetrics(Rectangle srcRect)
-        {
-            mSourceRect = srcRect;
-        }
+		/// <summary>
+		/// Constructs a GlyphMetrics object.
+		/// </summary>
+		public GlyphMetrics()
+		{
+		}
+		/// <summary>
+		/// Constructs a GlyphMetrics object with the specified source rectangle.
+		/// </summary>
+		/// <param name="srcRect"></param>
+		public GlyphMetrics(Rectangle srcRect)
+		{
+			mSourceRect = srcRect;
+		}
 
-        /// <summary>
-        /// Source rectangle on the image which supplies the glyph.
-        /// </summary>
-        public Rectangle SourceRect
-        {
-            get { return mSourceRect; }
-            set { mSourceRect = value; }
-        }
+		/// <summary>
+		/// Source rectangle on the image which supplies the glyph.
+		/// </summary>
+		public Rectangle SourceRect
+		{
+			get { return mSourceRect; }
+			set { mSourceRect = value; }
+		}
 
-        /// <summary>
-        /// Gets or sets the width of the glyph.
-        /// </summary>
-        public int Width
-        {
-            get { return mSourceRect.Width; }
-            set { mSourceRect.Width = value; }
-        }
-        /// <summary>
-        /// Gets or sets the height of the glyph.
-        /// </summary>
-        public int Height
-        {
-            get { return mSourceRect.Height; }
-            set { mSourceRect.Height = value; }
-        }
+		/// <summary>
+		/// Gets or sets the width of the glyph.
+		/// </summary>
+		public int Width
+		{
+			get { return mSourceRect.Width; }
+			set { mSourceRect.Width = value; }
+		}
+		/// <summary>
+		/// Gets or sets the height of the glyph.
+		/// </summary>
+		public int Height
+		{
+			get { return mSourceRect.Height; }
+			set { mSourceRect.Height = value; }
+		}
 
-        /// <summary>
-        /// Gets or sets the size of the glyph.
-        /// </summary>
-        public Size Size
-        {
-            get { return mSourceRect.Size; }
-            set { mSourceRect.Size = value; }
-        }
-        /// <summary>
-        /// Number of pixels this character is shifted to the left.
-        /// </summary>
-        public int LeftOverhang
-        {
-            get { return mLeftOverhang; }
-            set { mLeftOverhang = value; }
-        }
-        /// <summary>
-        /// Number of pixels the next character should be shifted to the left.
-        /// </summary>
-        public int RightOverhang
-        {
-            get { return mRightOverhang; }
-            set { mRightOverhang = value; }
-        }
+		/// <summary>
+		/// Gets or sets the size of the glyph.
+		/// </summary>
+		public Size Size
+		{
+			get { return mSourceRect.Size; }
+			set { mSourceRect.Size = value; }
+		}
+		/// <summary>
+		/// Number of pixels this character is shifted to the left.
+		/// </summary>
+		public int LeftOverhang
+		{
+			get { return mLeftOverhang; }
+			set { mLeftOverhang = value; }
+		}
+		/// <summary>
+		/// Number of pixels the next character should be shifted to the left.
+		/// </summary>
+		public int RightOverhang
+		{
+			get { return mRightOverhang; }
+			set { mRightOverhang = value; }
+		}
 
-        /// <summary>
-        /// A dictionary of characters which need kerning when paired with this glyph.
-        /// </summary>
-        public Dictionary<char, int> KerningPairs
-        {
-            get { return mKerning; }
-        }
+		/// <summary>
+		/// A dictionary of characters which need kerning when paired with this glyph.
+		/// </summary>
+		public Dictionary<char, int> KerningPairs
+		{
+			get { return mKerning; }
+		}
 
-        /// <summary>
-        /// Performs a deep copy.
-        /// </summary>
-        /// <returns></returns>
-        public GlyphMetrics Clone()
-        {
-            GlyphMetrics retval = new GlyphMetrics();
+		/// <summary>
+		/// Performs a deep copy.
+		/// </summary>
+		/// <returns></returns>
+		public GlyphMetrics Clone()
+		{
+			GlyphMetrics retval = new GlyphMetrics();
 
-            retval.SourceRect = SourceRect;
-            retval.LeftOverhang = LeftOverhang;
-            retval.RightOverhang = RightOverhang;
+			retval.SourceRect = SourceRect;
+			retval.LeftOverhang = LeftOverhang;
+			retval.RightOverhang = RightOverhang;
 
-            foreach (KeyValuePair<char, int> kvp in KerningPairs)
-            {
-                retval.KerningPairs.Add(kvp.Key, kvp.Value);
-            }
+			foreach (KeyValuePair<char, int> kvp in KerningPairs)
+			{
+				retval.KerningPairs.Add(kvp.Key, kvp.Value);
+			}
 
-            return retval;
-        }
+			return retval;
+		}
 
-        #region ICloneable Members
+		#region ICloneable Members
 
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
+		object ICloneable.Clone()
+		{
+			return Clone();
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

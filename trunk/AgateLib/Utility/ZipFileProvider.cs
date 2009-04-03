@@ -7,317 +7,317 @@ using System.Text;
 
 namespace AgateLib.Utility
 {
-    /// <summary>
-    /// TgzFileProvider implements IFileProvider and provides read access to zip file
-    /// archives.  This provides basic support for reading files from a compressed
-    /// archive external to the application.  The only compression method supported by
-    /// ZipFileProvider is the deflate method, so you must make sure that any compressed
-    /// data in the zip file is compressed with deflate.
-    /// </summary>
-    public class ZipFileProvider : IFileProvider 
-    {
-        string zipFilename;
-        Stream inFile;
-        BinaryReader reader;
-        List<FileHeader> files = new List<FileHeader>();
+	/// <summary>
+	/// TgzFileProvider implements IFileProvider and provides read access to zip file
+	/// archives.  This provides basic support for reading files from a compressed
+	/// archive external to the application.  The only compression method supported by
+	/// ZipFileProvider is the deflate method, so you must make sure that any compressed
+	/// data in the zip file is compressed with deflate.
+	/// </summary>
+	public class ZipFileProvider : IFileProvider
+	{
+		string zipFilename;
+		Stream inFile;
+		BinaryReader reader;
+		List<FileHeader> files = new List<FileHeader>();
 
-        class FileHeader
-        {
-            public string Filename { get; set; }
-            public long DataOffset { get; set; }
-            public int DataSize { get; set; }
-            public ZipStorageType StorageType { get; set; }
-        }
-        class ZipFileEntryStream : Stream
-        {
-            Stream baseStream;
-            readonly long offset;
-            readonly long length;
-            long position;
+		class FileHeader
+		{
+			public string Filename { get; set; }
+			public long DataOffset { get; set; }
+			public int DataSize { get; set; }
+			public ZipStorageType StorageType { get; set; }
+		}
+		class ZipFileEntryStream : Stream
+		{
+			Stream baseStream;
+			readonly long offset;
+			readonly long length;
+			long position;
 
-            public ZipFileEntryStream(Stream zipfileStream, long offset, long length)
-            {
-                baseStream = zipfileStream;
-                this.offset = offset;
-                this.length = length;
-            }
+			public ZipFileEntryStream(Stream zipfileStream, long offset, long length)
+			{
+				baseStream = zipfileStream;
+				this.offset = offset;
+				this.length = length;
+			}
 
-            public override bool CanRead
-            {
-                get { return true; }
-            }
-            public override bool CanSeek
-            {
-                get { return true; }
-            }
-            public override bool CanWrite
-            {
-                get { return false; }
-            }
-            public override void Flush()
-            {
-            }
-            public override long Length
-            {
-                get { return length; }
-            }
-            public override long Position
-            {
-                get { return position; }
-                set
-                {
-                    if (value < 0 || value > length)
-                    {
-                        throw new IOException("Invalid position.");
-                    }
+			public override bool CanRead
+			{
+				get { return true; }
+			}
+			public override bool CanSeek
+			{
+				get { return true; }
+			}
+			public override bool CanWrite
+			{
+				get { return false; }
+			}
+			public override void Flush()
+			{
+			}
+			public override long Length
+			{
+				get { return length; }
+			}
+			public override long Position
+			{
+				get { return position; }
+				set
+				{
+					if (value < 0 || value > length)
+					{
+						throw new IOException("Invalid position.");
+					}
 
-                    position = value;
-                }
-            }
-            public override int Read(byte[] buffer, int offset, int count)
-            {
-                baseStream.Seek(this.offset + position, SeekOrigin.Begin);
+					position = value;
+				}
+			}
+			public override int Read(byte[] buffer, int offset, int count)
+			{
+				baseStream.Seek(this.offset + position, SeekOrigin.Begin);
 
-                int retval = baseStream.Read(buffer, offset, count);
+				int retval = baseStream.Read(buffer, offset, count);
 
-                position += retval;
+				position += retval;
 
-                return retval;
-            }
-            public override long Seek(long offset, SeekOrigin origin)
-            {
-                long finalPosition = offset;
+				return retval;
+			}
+			public override long Seek(long offset, SeekOrigin origin)
+			{
+				long finalPosition = offset;
 
-                switch (origin)
-                {
-                    case SeekOrigin.Begin:
-                        break;
-                    case SeekOrigin.End:
-                        finalPosition += length;
-                        break;
+				switch (origin)
+				{
+					case SeekOrigin.Begin:
+						break;
+					case SeekOrigin.End:
+						finalPosition += length;
+						break;
 
-                    case SeekOrigin.Current:
-                        finalPosition += position;
-                        break;
-                }
+					case SeekOrigin.Current:
+						finalPosition += position;
+						break;
+				}
 
-                if (finalPosition < 0 || finalPosition > length)
-                {
-                    throw new IOException("Cannot seek to outside the stream.");
-                }
+				if (finalPosition < 0 || finalPosition > length)
+				{
+					throw new IOException("Cannot seek to outside the stream.");
+				}
 
-                position = finalPosition;
-                return position;
-            }
-            public override void SetLength(long value)
-            {
-                throw new NotImplementedException();
-            }
-            public override void Write(byte[] buffer, int offset, int count)
-            {
-                throw new NotImplementedException();
-            }
-        }
+				position = finalPosition;
+				return position;
+			}
+			public override void SetLength(long value)
+			{
+				throw new NotImplementedException();
+			}
+			public override void Write(byte[] buffer, int offset, int count)
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        /// <summary>
-        /// Constructs a ZipFileProvider to read from the specified archive.
-        /// </summary>
-        /// <param name="filename"></param>
-        public ZipFileProvider(string filename)
-        {
-            zipFilename = filename;
-            inFile = File.OpenRead(zipFilename);
-            reader = new BinaryReader(inFile);
+		/// <summary>
+		/// Constructs a ZipFileProvider to read from the specified archive.
+		/// </summary>
+		/// <param name="filename"></param>
+		public ZipFileProvider(string filename)
+		{
+			zipFilename = filename;
+			inFile = File.OpenRead(zipFilename);
+			reader = new BinaryReader(inFile);
 
-            ScanArchive();
-        }
-        /// <summary>
-        /// Constructs a ZipFileProvider to read from the specified archive from archive data
-        /// loaded into a byte array.  This overload is useful for a zip file embedded as a resource.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="bytes"></param>
-        public ZipFileProvider(string name, byte[] bytes)
-            : this(name, new MemoryStream(bytes))
-        {
+			ScanArchive();
+		}
+		/// <summary>
+		/// Constructs a ZipFileProvider to read from the specified archive from archive data
+		/// loaded into a byte array.  This overload is useful for a zip file embedded as a resource.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="bytes"></param>
+		public ZipFileProvider(string name, byte[] bytes)
+			: this(name, new MemoryStream(bytes))
+		{
 
-        }
-        /// <summary>
-        /// Constructs a ZipFileProvider to read from the specified archive.
-        /// </summary>
-        /// <param name="name">A name used to identify this stream in debugging information.</param>
-        /// <param name="fileStream">A stream containing the data.  This stream must support seeking.</param>
-        public ZipFileProvider(string name, Stream fileStream)
-        {
-            zipFilename = name;
-            inFile = fileStream;
-            reader = new BinaryReader(inFile);
+		}
+		/// <summary>
+		/// Constructs a ZipFileProvider to read from the specified archive.
+		/// </summary>
+		/// <param name="name">A name used to identify this stream in debugging information.</param>
+		/// <param name="fileStream">A stream containing the data.  This stream must support seeking.</param>
+		public ZipFileProvider(string name, Stream fileStream)
+		{
+			zipFilename = name;
+			inFile = fileStream;
+			reader = new BinaryReader(inFile);
 
-            ScanArchive();
-        }
+			ScanArchive();
+		}
 
-        private void ScanArchive()
-        {
-            ReadHeaders();
-        }
+		private void ScanArchive()
+		{
+			ReadHeaders();
+		}
 
-        private void ReadHeaders()
-        {
-            FileHeader header ;
-            bool valid;
+		private void ReadHeaders()
+		{
+			FileHeader header;
+			bool valid;
 
-            do
-            {
-                header = new FileHeader();
+			do
+			{
+				header = new FileHeader();
 
-                int magic = reader.ReadInt32();
-                if (magic == 0x04034B50)
-                {
-                    ReadFileHeader(reader, out header);
-                }
-                else if (magic == 0x02014B50)
-                {
-                    // I think we don't need to care about central directory headers
-                    break;
-                    //ReadCentralDirectoryHeader(reader);
-                }
-                else
-                    valid = false;
+				int magic = reader.ReadInt32();
+				if (magic == 0x04034B50)
+				{
+					ReadFileHeader(reader, out header);
+				}
+				else if (magic == 0x02014B50)
+				{
+					// I think we don't need to care about central directory headers
+					break;
+					//ReadCentralDirectoryHeader(reader);
+				}
+				else
+					valid = false;
 
-                files.Add(header);
+				files.Add(header);
 
-            } while (inFile.Position < inFile.Length);
-        }
+			} while (inFile.Position < inFile.Length);
+		}
 
 
-        private void ReadFileHeader(BinaryReader reader, out FileHeader header)
-        {
-            short ver = reader.ReadInt16();
-            short genflg = reader.ReadInt16();
-            short mthd = reader.ReadInt16();
-            short time = reader.ReadInt16();
-            short date = reader.ReadInt16();
-            int crc = reader.ReadInt32();
-            int size = reader.ReadInt32();
-            int uncomp = reader.ReadInt32();
-            short filename_len = reader.ReadInt16();
-            short extra_len = reader.ReadInt16();
+		private void ReadFileHeader(BinaryReader reader, out FileHeader header)
+		{
+			short ver = reader.ReadInt16();
+			short genflg = reader.ReadInt16();
+			short mthd = reader.ReadInt16();
+			short time = reader.ReadInt16();
+			short date = reader.ReadInt16();
+			int crc = reader.ReadInt32();
+			int size = reader.ReadInt32();
+			int uncomp = reader.ReadInt32();
+			short filename_len = reader.ReadInt16();
+			short extra_len = reader.ReadInt16();
 
-            byte[] name = reader.ReadBytes(filename_len);
-            byte[] extra = reader.ReadBytes(extra_len);
+			byte[] name = reader.ReadBytes(filename_len);
+			byte[] extra = reader.ReadBytes(extra_len);
 
-            header = new FileHeader();
-            header.Filename = ASCIIEncoding.ASCII.GetString(name);
-            header.DataOffset = reader.BaseStream.Position;
-            header.DataSize = size;
+			header = new FileHeader();
+			header.Filename = ASCIIEncoding.ASCII.GetString(name);
+			header.DataOffset = reader.BaseStream.Position;
+			header.DataSize = size;
 
-            switch (mthd)
-            {
-                case 0: header.StorageType = ZipStorageType.Store; break;
-                case 8: header.StorageType = ZipStorageType.Deflate; break;
-                default: header.StorageType = ZipStorageType.Unsupported; break;
-            }
+			switch (mthd)
+			{
+				case 0: header.StorageType = ZipStorageType.Store; break;
+				case 8: header.StorageType = ZipStorageType.Deflate; break;
+				default: header.StorageType = ZipStorageType.Unsupported; break;
+			}
 
-            reader.BaseStream.Seek(size, SeekOrigin.Current);
-        }
-        private void ReadCentralDirectoryHeader(BinaryReader reader)
-        {
-        }
+			reader.BaseStream.Seek(size, SeekOrigin.Current);
+		}
+		private void ReadCentralDirectoryHeader(BinaryReader reader)
+		{
+		}
 
-        
-        #region IFileProvider Members
 
-        FileHeader GetFile(string filename)
-        {
-            foreach (var header in files)
-            {
-                if (header.Filename == filename)
-                    return header;
-            }
+		#region IFileProvider Members
 
-            throw new FileNotFoundException(string.Format(
-                "The file {0} was not found in the zip archive {1}.", filename, zipFilename));
-        }
-        /// <summary>
-        /// Opens the specified file in the archive for reading.
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public Stream OpenRead(string filename)
-        {
-            FileHeader header = GetFile(filename);
-            
-            ZipFileEntryStream file = new ZipFileEntryStream(inFile, header.DataOffset, header.DataSize);
+		FileHeader GetFile(string filename)
+		{
+			foreach (var header in files)
+			{
+				if (header.Filename == filename)
+					return header;
+			}
 
-            switch (header.StorageType)
-            {
-                case ZipStorageType.Store:
-                    return file;
-                case ZipStorageType.Deflate:
-                    return new DeflateStream(file, CompressionMode.Decompress);
+			throw new FileNotFoundException(string.Format(
+				"The file {0} was not found in the zip archive {1}.", filename, zipFilename));
+		}
+		/// <summary>
+		/// Opens the specified file in the archive for reading.
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public Stream OpenRead(string filename)
+		{
+			FileHeader header = GetFile(filename);
 
-                case ZipStorageType.Unsupported:
-                default:
-                    throw new AgateException(string.Format(
-                        "The compression format of the file {0} in the zip archive {1} is unsupported.  Be sure to use DEFLATE when creating a zip file.", filename, zipFilename));
-            }
-        }
-        /// <summary>
-        /// Returns true if the specified file exists in the archive.
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public bool FileExists(string filename)
-        {
-            foreach (var header in files)
-            {
-                if(header.Filename == filename)
-                    return true;
-            }
+			ZipFileEntryStream file = new ZipFileEntryStream(inFile, header.DataOffset, header.DataSize);
 
-            return false;
-        }
-        /// <summary>
-        /// Enumerates all files in the archive.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<string> GetAllFiles()
-        {
-            foreach (var header in files)
-            {
-                if (header.Filename.EndsWith("/") == false)
-                {
-                    yield return header.Filename;
-                }
-            }
-        }
-        /// <summary>
-        /// Enumerates all files matching the pattern.
-        /// </summary>
-        /// <param name="searchPattern"></param>
-        /// <returns></returns>
-        public IEnumerable<string> GetAllFiles(string searchPattern)
-        {
-            string regex = searchPattern.Replace(".", @"\.").Replace("*", "[^/]*");
-            System.Text.RegularExpressions.Regex r = new 
-                System.Text.RegularExpressions.Regex(regex);
+			switch (header.StorageType)
+			{
+				case ZipStorageType.Store:
+					return file;
+				case ZipStorageType.Deflate:
+					return new DeflateStream(file, CompressionMode.Decompress);
 
-            foreach (var name in GetAllFiles())
-            {
-                if (r.IsMatch(name))
-                    yield return name;
-            }
-        }
+				case ZipStorageType.Unsupported:
+				default:
+					throw new AgateException(string.Format(
+						"The compression format of the file {0} in the zip archive {1} is unsupported.  Be sure to use DEFLATE when creating a zip file.", filename, zipFilename));
+			}
+		}
+		/// <summary>
+		/// Returns true if the specified file exists in the archive.
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public bool FileExists(string filename)
+		{
+			foreach (var header in files)
+			{
+				if (header.Filename == filename)
+					return true;
+			}
 
-        #endregion
-    }
+			return false;
+		}
+		/// <summary>
+		/// Enumerates all files in the archive.
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<string> GetAllFiles()
+		{
+			foreach (var header in files)
+			{
+				if (header.Filename.EndsWith("/") == false)
+				{
+					yield return header.Filename;
+				}
+			}
+		}
+		/// <summary>
+		/// Enumerates all files matching the pattern.
+		/// </summary>
+		/// <param name="searchPattern"></param>
+		/// <returns></returns>
+		public IEnumerable<string> GetAllFiles(string searchPattern)
+		{
+			string regex = searchPattern.Replace(".", @"\.").Replace("*", "[^/]*");
+			System.Text.RegularExpressions.Regex r = new
+				System.Text.RegularExpressions.Regex(regex);
 
-    enum ZipStorageType
-    {
-        Unsupported, 
-        
-        Store,
-        Deflate,
+			foreach (var name in GetAllFiles())
+			{
+				if (r.IsMatch(name))
+					yield return name;
+			}
+		}
 
-    }
+		#endregion
+	}
+
+	enum ZipStorageType
+	{
+		Unsupported,
+
+		Store,
+		Deflate,
+
+	}
 }

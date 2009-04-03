@@ -25,139 +25,139 @@ using AgateLib.ImplementationBase;
 
 namespace AgateLib.Drivers
 {
-    class NullSoundImpl : AudioImpl 
-    {
-        class NullSoundBufferImpl : SoundBufferImpl
-        {
-            public override void Dispose()
-            {
-                
-            }
-            public override double Volume
-            {
-                get
-                {
-                    return 0;
-                }
-                set
-                {
-                    
-                }
-            }
+	class NullSoundImpl : AudioImpl
+	{
+		class NullSoundBufferImpl : SoundBufferImpl
+		{
+			public override void Dispose()
+			{
 
-        }
-        public class NullSoundBufferSessionImpl : SoundBufferSessionImpl
-        {
-            public override void Dispose()
-            {
-            }
-            public override void Play()
-            {
-            }
-            public override void Stop()
-            {
-            }
-            public override double Volume
-            {
-                get
-                {
-                    return 0;
-                }
-                set
-                {
-                    
-                }
-            }
-            public override double Pan
-            {
-                get
-                {
-                    return 0;
-                }
-                set
-                {
-                    
-                }
-            }
-            public override bool IsPlaying
-            {
-                get { return false; }
-            }
-        }
-        public class NullMusicImpl : MusicImpl
-        {
-            protected override void OnSetLoop(bool value)
-            {
-                
-            }
-            public override void Dispose()
-            {
-                
-            }
-            public override void Play()
-            {
-                
-            }
-            public override void Stop()
-            {
-                
-            }
-            public override double Volume
-            {
-                get
-                {
-                    return 0;
-                }
-                set
-                {
-                    
-                }
-            }
-            public override double Pan
-            {
-                get
-                {
-                    return 0;
-                }
-                set
-                {
-                    
-                }
-            }
-            public override bool IsPlaying
-            {
-                get { return false; }
-            }
-        }
-        public override void Initialize()
-        {
-            Report("No audio driver found.  Audio will not be heard."); 
-        }
+			}
+			public override double Volume
+			{
+				get
+				{
+					return 0;
+				}
+				set
+				{
 
-        public override void Dispose()
-        {
-        }
+				}
+			}
 
-        public override SoundBufferImpl CreateSoundBuffer(string filename)
-        {
-            return new NullSoundBufferImpl();
-        }
-        public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
-        {
-            return new NullSoundBufferImpl();
-        }
-        public override MusicImpl CreateMusic(string filename)
-        {
-            return new NullMusicImpl();
-        }
-        public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
-        {
-            return new NullSoundBufferSessionImpl();
-        }
-        public override MusicImpl CreateMusic(System.IO.Stream musicStream)
-        {
-            return new NullMusicImpl();
-        }
+		}
+		public class NullSoundBufferSessionImpl : SoundBufferSessionImpl
+		{
+			public override void Dispose()
+			{
+			}
+			public override void Play()
+			{
+			}
+			public override void Stop()
+			{
+			}
+			public override double Volume
+			{
+				get
+				{
+					return 0;
+				}
+				set
+				{
 
-    }
+				}
+			}
+			public override double Pan
+			{
+				get
+				{
+					return 0;
+				}
+				set
+				{
+
+				}
+			}
+			public override bool IsPlaying
+			{
+				get { return false; }
+			}
+		}
+		public class NullMusicImpl : MusicImpl
+		{
+			protected override void OnSetLoop(bool value)
+			{
+
+			}
+			public override void Dispose()
+			{
+
+			}
+			public override void Play()
+			{
+
+			}
+			public override void Stop()
+			{
+
+			}
+			public override double Volume
+			{
+				get
+				{
+					return 0;
+				}
+				set
+				{
+
+				}
+			}
+			public override double Pan
+			{
+				get
+				{
+					return 0;
+				}
+				set
+				{
+
+				}
+			}
+			public override bool IsPlaying
+			{
+				get { return false; }
+			}
+		}
+		public override void Initialize()
+		{
+			Report("No audio driver found.  Audio will not be heard.");
+		}
+
+		public override void Dispose()
+		{
+		}
+
+		public override SoundBufferImpl CreateSoundBuffer(string filename)
+		{
+			return new NullSoundBufferImpl();
+		}
+		public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
+		{
+			return new NullSoundBufferImpl();
+		}
+		public override MusicImpl CreateMusic(string filename)
+		{
+			return new NullMusicImpl();
+		}
+		public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
+		{
+			return new NullSoundBufferSessionImpl();
+		}
+		public override MusicImpl CreateMusic(System.IO.Stream musicStream)
+		{
+			return new NullMusicImpl();
+		}
+
+	}
 }

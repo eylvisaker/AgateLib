@@ -26,130 +26,130 @@ using AgateLib.Utility;
 namespace AgateLib.ImplementationBase
 {
 
-    /// <summary>
-    /// Implementation of DisplayWindow class.
-    /// </summary>
-    public abstract class DisplayWindowImpl : IRenderTargetImpl, IDisposable
-    {
-        /// <summary>
-        /// Disposes of unmanaged resources.
-        /// </summary>
-        public abstract void Dispose();
-        /// <summary>
-        /// Returns true if the DisplayWindowImpl has been closed.
-        /// This happens if the user clicks the close box, or Dispose is called.
-        /// </summary>
-        public abstract bool IsClosed { get; }
-        /// <summary>
-        /// Returns true if this DisplayWindowImpl is being used as a full-screen
-        /// device.
-        /// </summary>
-        public abstract bool IsFullScreen { get; }
+	/// <summary>
+	/// Implementation of DisplayWindow class.
+	/// </summary>
+	public abstract class DisplayWindowImpl : IRenderTargetImpl, IDisposable
+	{
+		/// <summary>
+		/// Disposes of unmanaged resources.
+		/// </summary>
+		public abstract void Dispose();
+		/// <summary>
+		/// Returns true if the DisplayWindowImpl has been closed.
+		/// This happens if the user clicks the close box, or Dispose is called.
+		/// </summary>
+		public abstract bool IsClosed { get; }
+		/// <summary>
+		/// Returns true if this DisplayWindowImpl is being used as a full-screen
+		/// device.
+		/// </summary>
+		public abstract bool IsFullScreen { get; }
 
-        /// <summary>
-        /// Toggles windowed/fullscreen.
-        /// If this is unsupported, this method should silently return
-        /// (do not throw an error).
-        /// </summary>
-        public void ToggleFullScreen()
-        {
-            if (IsFullScreen)
-                SetWindowed();
-            else
-                SetFullScreen();
-        }
+		/// <summary>
+		/// Toggles windowed/fullscreen.
+		/// If this is unsupported, this method should silently return
+		/// (do not throw an error).
+		/// </summary>
+		public void ToggleFullScreen()
+		{
+			if (IsFullScreen)
+				SetWindowed();
+			else
+				SetFullScreen();
+		}
 
-        /// <summary>
-        /// Toggles windowed/fullscreen.
-        /// If this is unsupported, this method should silently return
-        /// (do not throw an error).
-        /// 
-        /// Attempts to match width, height and bpp as best as possible.
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="bpp"></param>
-        public void ToggleFullScreen(int width, int height, int bpp)
-        {
-            if (IsFullScreen)
-                SetWindowed();
-            else
-                SetFullScreen(width, height, bpp);
-        }
+		/// <summary>
+		/// Toggles windowed/fullscreen.
+		/// If this is unsupported, this method should silently return
+		/// (do not throw an error).
+		/// 
+		/// Attempts to match width, height and bpp as best as possible.
+		/// </summary>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="bpp"></param>
+		public void ToggleFullScreen(int width, int height, int bpp)
+		{
+			if (IsFullScreen)
+				SetWindowed();
+			else
+				SetFullScreen(width, height, bpp);
+		}
 
-        /// <summary>
-        /// Sets the display to windowed.  Does nothing if the display is already
-        /// windowed.  The DisplayWindow retains the same height and width as the
-        /// previous full screen resolution.
-        /// </summary>
-        public abstract void SetWindowed();
+		/// <summary>
+		/// Sets the display to windowed.  Does nothing if the display is already
+		/// windowed.  The DisplayWindow retains the same height and width as the
+		/// previous full screen resolution.
+		/// </summary>
+		public abstract void SetWindowed();
 
-        /// <summary>
-        /// Sets the display to a full screen Display.  This overload should use the
-        /// same resolution as the desktop environment.
-        /// </summary>
-        public abstract void SetFullScreen();
-        /// <summary>
-        /// Sets the display to a full screen Display.  The resolution chosen is 
-        /// driver/video card/monitor dependent, but it should be fairly close to
-        /// values specified.
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="bpp"></param>
-        public abstract  void SetFullScreen(int width, int height, int bpp);
+		/// <summary>
+		/// Sets the display to a full screen Display.  This overload should use the
+		/// same resolution as the desktop environment.
+		/// </summary>
+		public abstract void SetFullScreen();
+		/// <summary>
+		/// Sets the display to a full screen Display.  The resolution chosen is 
+		/// driver/video card/monitor dependent, but it should be fairly close to
+		/// values specified.
+		/// </summary>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="bpp"></param>
+		public abstract void SetFullScreen(int width, int height, int bpp);
 
-        /// <summary>
-        /// Gets or sets the size of the render area.
-        /// </summary>
-        public abstract Size Size { get;set;}
+		/// <summary>
+		/// Gets or sets the size of the render area.
+		/// </summary>
+		public abstract Size Size { get; set; }
 
-        /// <summary>
-        /// Gets or sets the width of the render area.
-        /// </summary>
-        public int Width
-        {
-            get { return Size.Width; }
-            set
-            {
-                Size = new Size(value, Size.Height);
-            }
-        }
-        /// <summary>
-        /// Gets or sets the height of the render area.
-        /// </summary>
-        public int Height
-        {
-            get { return Size.Height; }
-            set
-            {
-                Size = new Size(Size.Width, value);
-            }
-        }
-        /// <summary>
-        /// Gets or sets the window title.
-        /// </summary>
-        public abstract string Title { get; set; }
-        /// <summary>
-        /// Gets or sets the mouse position within the render area.
-        /// </summary>
-        public abstract Point MousePosition { get; set; }
+		/// <summary>
+		/// Gets or sets the width of the render area.
+		/// </summary>
+		public int Width
+		{
+			get { return Size.Width; }
+			set
+			{
+				Size = new Size(value, Size.Height);
+			}
+		}
+		/// <summary>
+		/// Gets or sets the height of the render area.
+		/// </summary>
+		public int Height
+		{
+			get { return Size.Height; }
+			set
+			{
+				Size = new Size(Size.Width, value);
+			}
+		}
+		/// <summary>
+		/// Gets or sets the window title.
+		/// </summary>
+		public abstract string Title { get; set; }
+		/// <summary>
+		/// Gets or sets the mouse position within the render area.
+		/// </summary>
+		public abstract Point MousePosition { get; set; }
 
-        #region --- IRenderTargetImpl Members ---
+		#region --- IRenderTargetImpl Members ---
 
-        /// <summary>
-        /// Utility function which may be called by the DisplayImpl when 
-        /// rendering begins.
-        /// </summary>
-        public abstract void BeginRender();
-        /// <summary>
-        /// Utility function which may be called by the DisplayImpl when 
-        /// rendering is done.
-        /// </summary>
-        public abstract void EndRender();
+		/// <summary>
+		/// Utility function which may be called by the DisplayImpl when 
+		/// rendering begins.
+		/// </summary>
+		public abstract void BeginRender();
+		/// <summary>
+		/// Utility function which may be called by the DisplayImpl when 
+		/// rendering is done.
+		/// </summary>
+		public abstract void EndRender();
 
-        #endregion
+		#endregion
 
-    }
+	}
 
 }

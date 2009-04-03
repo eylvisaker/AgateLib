@@ -22,21 +22,21 @@ using System.Text;
 
 namespace AgateLib.ImplementationBase
 {
-    /// <summary>
-    /// Implementation for Input Manager.
-    /// </summary>
-    public abstract class InputImpl : DriverImplBase 
-    {
-        /// <summary>
-        /// Returns the number of joysticks attached to the system.
-        /// </summary>
-        /// <returns></returns>
-        public abstract int JoystickCount { get; }
+	/// <summary>
+	/// Implementation for Input Manager.
+	/// </summary>
+	public abstract class InputImpl : DriverImplBase
+	{
+		/// <summary>
+		/// Returns the number of joysticks attached to the system.
+		/// </summary>
+		/// <returns></returns>
+		public abstract int JoystickCount { get; }
 
-        /// <summary>
-        /// Creates joystick impls.
-        /// </summary>
-        /// <returns></returns>
-        public abstract IEnumerable<JoystickImpl> CreateJoysticks();
-    }
+		/// <summary>
+		/// Creates joystick impls.
+		/// </summary>
+		/// <returns></returns>
+		public abstract IEnumerable<JoystickImpl> CreateJoysticks();
+	}
 }

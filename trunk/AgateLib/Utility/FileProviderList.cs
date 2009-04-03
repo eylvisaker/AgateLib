@@ -23,224 +23,224 @@ using System.IO;
 
 namespace AgateLib.Utility
 {
-    /// <summary>
-    /// Contains a list of IFileProvider objects that are used to search for
-    /// and open files.
-    /// </summary>
-    public class FileProviderList : IList<IFileProvider>, IFileProvider 
-    {
-        List<IFileProvider> mProviders = new List<IFileProvider>();
+	/// <summary>
+	/// Contains a list of IFileProvider objects that are used to search for
+	/// and open files.
+	/// </summary>
+	public class FileProviderList : IList<IFileProvider>, IFileProvider
+	{
+		List<IFileProvider> mProviders = new List<IFileProvider>();
 
-        /// <summary>
-        /// Opens a specified file by searching backwards through the list of 
-        /// providers until a matching filename is found.  A FileNotFoundException
-        /// is thrown if the file does not exist.
-        /// </summary>
-        /// <param name="filename">The filename to search for.</param>
-        /// <returns></returns>
-        public Stream OpenRead(string filename)
-        {
-            for (int i = mProviders.Count - 1; i >= 0; i--)
-            {
-                if (mProviders[i].FileExists(filename))
-                {
-                    return mProviders[i].OpenRead(filename);
-                }
-            }
+		/// <summary>
+		/// Opens a specified file by searching backwards through the list of 
+		/// providers until a matching filename is found.  A FileNotFoundException
+		/// is thrown if the file does not exist.
+		/// </summary>
+		/// <param name="filename">The filename to search for.</param>
+		/// <returns></returns>
+		public Stream OpenRead(string filename)
+		{
+			for (int i = mProviders.Count - 1; i >= 0; i--)
+			{
+				if (mProviders[i].FileExists(filename))
+				{
+					return mProviders[i].OpenRead(filename);
+				}
+			}
 
-            throw new FileNotFoundException(string.Format(
-                "Could not find the file {0}.", filename), filename);
-        }
+			throw new FileNotFoundException(string.Format(
+				"Could not find the file {0}.", filename), filename);
+		}
 
-        /// <summary>
-        /// Returns all filenames matching the specified filter in 
-        /// all file providers.
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <returns></returns>
-        public IEnumerable<string> GetAllFiles(string filter)
-        {
-            for (int i = mProviders.Count - 1; i >= 0; i--)
-            {
-                foreach (string files in mProviders[i].GetAllFiles(filter))
-                    yield return files;
-            }
-        }
-        /// <summary>
-        /// Returns all filenames in all file providers.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<string> GetAllFiles()
-        {
-            for (int i = mProviders.Count - 1; i >= 0; i--)
-            {
-                foreach (string files in mProviders[i].GetAllFiles())
-                    yield return files;
-            }
-        }
+		/// <summary>
+		/// Returns all filenames matching the specified filter in 
+		/// all file providers.
+		/// </summary>
+		/// <param name="filter"></param>
+		/// <returns></returns>
+		public IEnumerable<string> GetAllFiles(string filter)
+		{
+			for (int i = mProviders.Count - 1; i >= 0; i--)
+			{
+				foreach (string files in mProviders[i].GetAllFiles(filter))
+					yield return files;
+			}
+		}
+		/// <summary>
+		/// Returns all filenames in all file providers.
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<string> GetAllFiles()
+		{
+			for (int i = mProviders.Count - 1; i >= 0; i--)
+			{
+				foreach (string files in mProviders[i].GetAllFiles())
+					yield return files;
+			}
+		}
 
-        /// <summary>
-        /// Returns true if the specified file exists in a file provider.
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public bool FileExists(string filename)
-        {
-            for (int i = mProviders.Count - 1; i >= 0; i--)
-            {
-                if (mProviders[i].FileExists(filename))
-                    return true;
-            }
+		/// <summary>
+		/// Returns true if the specified file exists in a file provider.
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public bool FileExists(string filename)
+		{
+			for (int i = mProviders.Count - 1; i >= 0; i--)
+			{
+				if (mProviders[i].FileExists(filename))
+					return true;
+			}
 
-            return false;
-        }
-        /// <summary>
-        /// Adds a path in the filesystem to the list of locations to search when opening a file.
-        /// </summary>
-        /// <param name="path"></param>
-        public void AddPath(string path)
-        {
-            Add(new FileSystemProvider(path));
-        }
+			return false;
+		}
+		/// <summary>
+		/// Adds a path in the filesystem to the list of locations to search when opening a file.
+		/// </summary>
+		/// <param name="path"></param>
+		public void AddPath(string path)
+		{
+			Add(new FileSystemProvider(path));
+		}
 
-        #region IList<IFileProvider> Members
+		#region IList<IFileProvider> Members
 
-        /// <summary>
-        /// Returns the index of the specified IFileProvider.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public int IndexOf(IFileProvider item)
-        {
-            return mProviders.IndexOf(item);
-        }
+		/// <summary>
+		/// Returns the index of the specified IFileProvider.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public int IndexOf(IFileProvider item)
+		{
+			return mProviders.IndexOf(item);
+		}
 
-        /// <summary>
-        /// Insers an IFileProvider into the list.
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="item"></param>
-        public void Insert(int index, IFileProvider item)
-        {
-            if (item is FileProviderList)
-            {
-                if (item == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
-            }
-            
-            mProviders.Insert(index, item);
-        }
-        /// <summary>
-        /// Removes an IFileProvider from the list.
-        /// </summary>
-        /// <param name="index"></param>
-        public void RemoveAt(int index)
-        {
-            mProviders.RemoveAt(index);
-        }
-        /// <summary>
-        /// Gets or sets the IFileProvider at the specified location.
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public IFileProvider this[int index]
-        {
-            get
-            {
-                return mProviders[index];
-            }
-            set
-            {
-                if (value is FileProviderList)
-                {
-                    if (value == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
-                }
-            
-                mProviders[index] = value;
-            }
-        }
+		/// <summary>
+		/// Insers an IFileProvider into the list.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="item"></param>
+		public void Insert(int index, IFileProvider item)
+		{
+			if (item is FileProviderList)
+			{
+				if (item == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
+			}
 
-        #endregion
-        #region ICollection<IFileProvider> Members
+			mProviders.Insert(index, item);
+		}
+		/// <summary>
+		/// Removes an IFileProvider from the list.
+		/// </summary>
+		/// <param name="index"></param>
+		public void RemoveAt(int index)
+		{
+			mProviders.RemoveAt(index);
+		}
+		/// <summary>
+		/// Gets or sets the IFileProvider at the specified location.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		public IFileProvider this[int index]
+		{
+			get
+			{
+				return mProviders[index];
+			}
+			set
+			{
+				if (value is FileProviderList)
+				{
+					if (value == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
+				}
 
-        /// <summary>
-        /// Adds an IFileProvider to the list.
-        /// </summary>
-        /// <param name="item"></param>
-        public void Add(IFileProvider item)
-        {
-            if (item is FileProviderList)
-            {
-                if (item == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
-            }
-            mProviders.Add(item);
-        }
-        /// <summary>
-        /// Clears the list.
-        /// </summary>
-        public void Clear()
-        {
-            mProviders.Clear();
-        }
-        /// <summary>
-        /// Returns true if the list contains the specified IFileProvider.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Contains(IFileProvider item)
-        {
-            return mProviders.Contains(item);
-        }
+				mProviders[index] = value;
+			}
+		}
 
-        void ICollection<IFileProvider>.CopyTo(IFileProvider[] array, int arrayIndex)
-        {
-            mProviders.CopyTo(array, arrayIndex);
-        }
-        /// <summary>
-        /// Gets the number of items in the list.
-        /// </summary>
-        public int Count
-        {
-            get { return mProviders.Count; }
-        }
-        /// <summary>
-        /// Always returns false.
-        /// </summary>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
-        /// <summary>
-        /// Removes an IFileProvider from the list.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Remove(IFileProvider item)
-        {
-            return mProviders.Remove(item);
-        }
+		#endregion
+		#region ICollection<IFileProvider> Members
 
-        #endregion
-        #region IEnumerable<IFileProvider> Members
+		/// <summary>
+		/// Adds an IFileProvider to the list.
+		/// </summary>
+		/// <param name="item"></param>
+		public void Add(IFileProvider item)
+		{
+			if (item is FileProviderList)
+			{
+				if (item == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
+			}
+			mProviders.Add(item);
+		}
+		/// <summary>
+		/// Clears the list.
+		/// </summary>
+		public void Clear()
+		{
+			mProviders.Clear();
+		}
+		/// <summary>
+		/// Returns true if the list contains the specified IFileProvider.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public bool Contains(IFileProvider item)
+		{
+			return mProviders.Contains(item);
+		}
 
-        /// <summary>
-        /// Enumerates items.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerator<IFileProvider> GetEnumerator()
-        {
-            return mProviders.GetEnumerator();
-        }
+		void ICollection<IFileProvider>.CopyTo(IFileProvider[] array, int arrayIndex)
+		{
+			mProviders.CopyTo(array, arrayIndex);
+		}
+		/// <summary>
+		/// Gets the number of items in the list.
+		/// </summary>
+		public int Count
+		{
+			get { return mProviders.Count; }
+		}
+		/// <summary>
+		/// Always returns false.
+		/// </summary>
+		public bool IsReadOnly
+		{
+			get { return false; }
+		}
+		/// <summary>
+		/// Removes an IFileProvider from the list.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public bool Remove(IFileProvider item)
+		{
+			return mProviders.Remove(item);
+		}
 
-        #endregion
-        #region IEnumerable Members
+		#endregion
+		#region IEnumerable<IFileProvider> Members
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+		/// <summary>
+		/// Enumerates items.
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerator<IFileProvider> GetEnumerator()
+		{
+			return mProviders.GetEnumerator();
+		}
 
-        #endregion
+		#endregion
+		#region IEnumerable Members
+
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
+		#endregion
 
 
-    }
+	}
 }
