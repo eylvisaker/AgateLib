@@ -22,7 +22,7 @@
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Sprites.Old;
+using AgateLib.Sprites;
 
 internal class CBlock
 {
