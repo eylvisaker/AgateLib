@@ -22,6 +22,7 @@ namespace Tests.LightingTest
         {
             using (AgateSetup setup = new AgateSetup(args))
             {
+                setup.AskUser = true;
                 setup.Initialize(true, false, false);
                 if (setup.WasCanceled)
                     return;
@@ -29,7 +30,7 @@ namespace Tests.LightingTest
                 LightingTestForm frm = new LightingTestForm();
                 frm.Show();
 
-                DisplayWindow wnd = DisplayWindow.CreateFromControl(frm.agateRenderTarget1);
+                DisplayWindow wnd = new DisplayWindow(CreateWindowParams.FromControl(frm.agateRenderTarget1));
 
                 Surface image = new Surface("jellybean.png");
                 Surface ball = new Surface("ball.png");
@@ -50,7 +51,7 @@ namespace Tests.LightingTest
                 lights[1].AttenuationConstant = 0.01f;
                 lights[1].AttenuationQuadratic = 5e-7f;
 
-                Mouse.MouseMove += e =>
+                Mouse.MouseMove += delegate(InputEventArgs e)
                     {
                         lights[1].Position =
                             new Vector3(e.MousePosition.X, e.MousePosition.Y, -1);

@@ -33,8 +33,6 @@ namespace Tests.SurfaceTester
         {
             this.pctGraphics = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.cboInterpolationHint = new System.Windows.Forms.ComboBox();
             this.colorBox = new System.Windows.Forms.PictureBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -54,7 +52,6 @@ namespace Tests.SurfaceTester
             this.nudX = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.lblFPS = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pctGraphics)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.colorBox)).BeginInit();
@@ -71,15 +68,12 @@ namespace Tests.SurfaceTester
             this.pctGraphics.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pctGraphics.Location = new System.Drawing.Point(0, 0);
             this.pctGraphics.Name = "pctGraphics";
-            this.pctGraphics.Size = new System.Drawing.Size(389, 212);
+            this.pctGraphics.Size = new System.Drawing.Size(380, 217);
             this.pctGraphics.TabIndex = 0;
             this.pctGraphics.TabStop = false;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.lblFPS);
-            this.panel1.Controls.Add(this.label10);
-            this.panel1.Controls.Add(this.cboInterpolationHint);
             this.panel1.Controls.Add(this.colorBox);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label4);
@@ -99,30 +93,10 @@ namespace Tests.SurfaceTester
             this.panel1.Controls.Add(this.nudX);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 212);
+            this.panel1.Location = new System.Drawing.Point(0, 217);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(389, 172);
+            this.panel1.Size = new System.Drawing.Size(380, 148);
             this.panel1.TabIndex = 17;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(163, 120);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(87, 13);
-            this.label10.TabIndex = 19;
-            this.label10.Text = "Interpolation Hint";
-            // 
-            // cboInterpolationHint
-            // 
-            this.cboInterpolationHint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboInterpolationHint.FormattingEnabled = true;
-            this.cboInterpolationHint.Location = new System.Drawing.Point(262, 117);
-            this.cboInterpolationHint.MaxDropDownItems = 9;
-            this.cboInterpolationHint.Name = "cboInterpolationHint";
-            this.cboInterpolationHint.Size = new System.Drawing.Size(117, 21);
-            this.cboInterpolationHint.TabIndex = 20;
-            this.cboInterpolationHint.SelectedIndexChanged += new System.EventHandler(this.cboInterpolationHint_SelectedIndexChanged);
             // 
             // colorBox
             // 
@@ -383,20 +357,11 @@ namespace Tests.SurfaceTester
             this.label5.TabIndex = 9;
             this.label5.Text = "Y";
             // 
-            // lblFPS
-            // 
-            this.lblFPS.AutoSize = true;
-            this.lblFPS.Location = new System.Drawing.Point(12, 150);
-            this.lblFPS.Name = "lblFPS";
-            this.lblFPS.Size = new System.Drawing.Size(41, 13);
-            this.lblFPS.TabIndex = 21;
-            this.lblFPS.Text = "label11";
-            // 
             // frmSurfaceTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(389, 384);
+            this.ClientSize = new System.Drawing.Size(380, 365);
             this.Controls.Add(this.pctGraphics);
             this.Controls.Add(this.panel1);
             this.Name = "frmSurfaceTester";
@@ -440,9 +405,6 @@ namespace Tests.SurfaceTester
         private System.Windows.Forms.PictureBox colorBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox cboInterpolationHint;
-        private System.Windows.Forms.Label lblFPS;
     }
 }
 
