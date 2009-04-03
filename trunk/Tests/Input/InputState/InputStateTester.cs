@@ -10,23 +10,27 @@ using AgateLib.InputLib;
 
 namespace Tests.InputStateTester
 {
-    class InputStateTester : AgateApplication
-    {
-        #region IAgateTest Members
+	class InputStateTester : AgateApplication
+	{
+		#region IAgateTest Members
 
-        public string Name { get { return "Input State Tester"; } }
-        public string Category { get { return "Input"; } }
+		public string Name { get { return "Input State Tester"; } }
+		public string Category { get { return "Input"; } }
 
-        #endregion
+		#endregion
 
-        public void Main(string[] args)
-        {
-            Run(args);
-        }
+		public void Main(string[] args)
+		{
+			Run(args);
+		}
 
-        protected override void Render(double time_ms)
-        {
-            base.Render(time_ms);
-        }
-    }
+		protected override void Update(double time_ms)
+		{
+			base.Update(time_ms);
+		}
+		protected override void Render()
+		{
+			base.Render();
+		}
+	}
 }
