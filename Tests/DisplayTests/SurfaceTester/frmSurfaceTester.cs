@@ -43,14 +43,10 @@ namespace Tests.SurfaceTester
                 cboAlignment.Items.Add(align);
                 cboRotation.Items.Add(align);
             }
-            foreach (InterpolationMode mode in Enum.GetValues(typeof(InterpolationMode)))
-            {
-                cboInterpolationHint.Items.Add(mode);
-            }
 
             cboAlignment.SelectedItem = OriginAlignment.TopLeft;
             cboRotation.SelectedItem = OriginAlignment.Center;
-            cboInterpolationHint.SelectedItem = InterpolationMode.Default;
+
         }
 
 
@@ -98,7 +94,6 @@ namespace Tests.SurfaceTester
                 // this is to test to make sure that RotationCenter does not have
                 // any effect on a displayed, unrotated sprite.
                 mSurface.RotationAngleDegrees = 0;
-                mSurface.InterpolationHint = InterpolationMode.Default;
                 mSurface.DisplayAlignment = OriginAlignment.TopLeft;
                 mSurface.Alpha = 1.0;
                 mSurface.SetScale(1.0, 1.0);
@@ -116,12 +111,10 @@ namespace Tests.SurfaceTester
             Display.EndFrame();
             Core.KeepAlive();
 
-            lblFPS.Text = "FPS: " + Display.FramesPerSecond.ToString();
         }
 
         private void UpdateSurface()
         {
-            mSurface.InterpolationHint = (InterpolationMode)cboInterpolationHint.SelectedItem;
             mSurface.RotationAngleDegrees = (double)nudAngle.Value;
             mSurface.DisplayAlignment = (OriginAlignment)cboAlignment.SelectedItem;
             mSurface.RotationCenter = (OriginAlignment)cboRotation.SelectedItem;
@@ -160,11 +153,6 @@ namespace Tests.SurfaceTester
             {
                 colorBox.BackColor = colorDialog1.Color;
             }
-        }
-
-        private void cboInterpolationHint_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
     }
