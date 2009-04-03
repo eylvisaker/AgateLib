@@ -274,7 +274,7 @@ namespace AgateLib.DisplayLib.SystemDrawing
 
         #region --- Surface Data Manipulations ---
 
-        public override SurfaceImpl CarveSubSurface(Surface surf, Geometry.Rectangle srcRect)
+        public override SurfaceImpl CarveSubSurface(Geometry.Rectangle srcRect)
         {
             return new Drawing_Surface(mImage, Interop.Convert(srcRect));
         }
