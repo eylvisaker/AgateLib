@@ -128,17 +128,17 @@ namespace AgateLib
 		{
 			CreateWindowParams windp;
 
-			if (InitParams.FullScreen)
+			if (FullScreen)
 			{
 				windp = CreateWindowParams.FullScreen(ApplicationTitle,
-					InitParams.WindowSize.Width, InitParams.WindowSize.Height, 32);
+					WindowSize.Width, WindowSize.Height, 32);
 
 				windp.IconFile = InitParams.IconFile;
 			}
 			else
 			{
 				windp = CreateWindowParams.Windowed(ApplicationTitle,
-					InitParams.WindowSize.Width, InitParams.WindowSize.Height,
+					WindowSize.Width, WindowSize.Height,
 					InitParams.AllowResize, InitParams.IconFile);
 			}
 
@@ -216,7 +216,7 @@ namespace AgateLib
 		{
 			totalSplashTime += time_ms / 1000.0;
 
-			if (totalSplashTime > 5.0)
+			if (totalSplashTime > 3.0)
 				return false;
 			else
 				return true;
@@ -278,6 +278,9 @@ namespace AgateLib
 			return new AppInitParameters();
 		}
 
+		protected virtual Size WindowSize { get { return new Size(800, 600); } }
+		protected virtual bool FullScreen { get { return false; } }
+
 		#endregion
 		#region --- Public Properties ---
 
@@ -291,6 +294,12 @@ namespace AgateLib
 
 		#endregion
 
-		
+		/// <summary>
+		/// Closes the main window.
+		/// </summary>
+		public void Quit()
+		{
+			MainWindow.Dispose();
+		}
 	}
 }
