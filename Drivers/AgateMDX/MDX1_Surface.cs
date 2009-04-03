@@ -904,7 +904,7 @@ namespace AgateMDX
 
         #region --- SubSurface stuff ---
 
-        public override SurfaceImpl CarveSubSurface(Surface surf, Rectangle srcRect)
+        public override SurfaceImpl CarveSubSurface(Rectangle srcRect)
         {
             Rectangle newSrcRect = new Rectangle(
                 mSrcRect.Left + srcRect.Left,
