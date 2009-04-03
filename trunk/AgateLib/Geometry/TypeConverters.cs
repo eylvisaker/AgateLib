@@ -79,23 +79,26 @@ namespace AgateLib.Geometry
 			if (values.Length > 2)
 				throw new FormatException("Could not parse point data from text.");
 
-			for (int i = 0; i < values.Length; i++)
-			{
-				if ((values[i].Contains("X") || values[i].Contains("x")) && values[i].Contains("="))
-				{
-					int equals = values[i].IndexOf("=", StringComparison.InvariantCultureIgnoreCase);
-
-					retval.X = int.Parse(values[i].Substring(equals + 1));
-				}
-				else if ((values[i].Contains("Y") || values[i].Contains("y")) && values[i].Contains("="))
-				{
-					int equals = values[i].IndexOf('=');
-
-					retval.Y = int.Parse(values[i].Substring(equals + 1));
-				}
-			}
+			retval.X = ParseEntry(values[0], "X");
+			retval.Y = ParseEntry(values[1], "Y");
 
 			return retval;
+		}
+
+		private static int ParseEntry(string str, string name)
+		{
+			var r = new System.Text.RegularExpressions.Regex(name + " *=");
+			var matches = r.Matches(str);
+
+			switch (matches.Count)
+			{
+				case 0:
+					return int.Parse(str);
+				case 1:
+					return int.Parse(str.Substring(matches[0].Index + matches[0].Length));
+				default:
+					throw new FormatException("Could not parse " + name + " value.");
+			}
 		}
 
 	}

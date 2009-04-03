@@ -101,7 +101,16 @@ namespace AgateLib.ImplementationBase
 		/// <returns></returns>
 		public abstract DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams);
 
-
+		/// <summary>
+		/// Creates a SurfaceImpl derived object.
+		/// </summary>
+		/// <param name="provider"></param>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public virtual SurfaceImpl CreateSurface(IFileProvider provider, string filename)
+		{
+			return CreateSurface(provider.OpenRead(filename));
+		}
 		/// <summary>
 		/// Creates a SurfaceImpl derived object.
 		/// </summary>
@@ -586,5 +595,6 @@ namespace AgateLib.ImplementationBase
 		/// Hides the OS mouse pointer.
 		/// </summary>
 		protected internal abstract void HideCursor();
+
 	}
 }

@@ -35,6 +35,11 @@ namespace AgateLib.Resources
 	///   string name, bool packed, Size size, string image, double timePerFrame (in milliseconds)
 	///   
 	/// XML Nodes:<br/>
+	///     Image:
+	///         Required attributes:
+	///             string file
+	///         Optional attribute:
+	///             Point offset
 	///     Frame:
 	///         Required attributes:
 	///             Rectangle rect, Point offset
@@ -47,8 +52,18 @@ namespace AgateLib.Resources
 		string mFilename = string.Empty;
 		bool mPacked = false;
 		double mTimePerFrame = 60;
+		bool mHasSize = false;
 
-		List<SpriteFrameResource> mFrames = new List<SpriteFrameResource>();
+		List<SpriteSubResource> mImages = new List<SpriteSubResource>();
+
+		/// <summary>
+		/// Gets a boolean indicating whether or not the sprite size was specified in the resource
+		/// file.
+		/// </summary>
+		public bool HasSize
+		{
+			get { return mHasSize; }
+		}
 
 		/// <summary>
 		/// Gets or sets whether or not this sprite uses the PackedSprite class.
@@ -58,9 +73,9 @@ namespace AgateLib.Resources
 			get { return mPacked; }
 			set
 			{
-				for (int i = 0; i < Frames.Count; i++)
+				for (int i = 0; i < ChildElements.Count; i++)
 				{
-					if (Frames[i].Filename != Filename)
+					if (ChildElements[i].Filename != Filename)
 						throw new AgateException("Sprite is not packed.");
 				}
 
@@ -87,9 +102,9 @@ namespace AgateLib.Resources
 		/// <summary>
 		/// Gets the list of frames 
 		/// </summary>
-		public List<SpriteFrameResource> Frames
+		public List<SpriteSubResource> ChildElements
 		{
-			get { return mFrames; }
+			get { return mImages; }
 		}
 
 		/// <summary>
@@ -117,11 +132,42 @@ namespace AgateLib.Resources
 		{
 			switch (version)
 			{
-				case "0.3.0":
+				case "0.3.1":
 					Name = node.Attributes["name"].Value;
-					mSize = XmlHelper.ReadAttributeSize(node, "size");
 					mFilename = XmlHelper.ReadAttributeString(node, "image", string.Empty);
 					mPacked = XmlHelper.ReadAttributeBool(node, "packed", true);
+
+					if (node.Attributes["size"] != null)
+					{
+						mSize = XmlHelper.ReadAttributeSize(node, "size");
+						mHasSize = true;
+					}
+					else
+						mHasSize = false;
+
+					ReadFrames031(node);
+
+					// check and make sure the sprite can be packed, and this matches the packed attribute 
+					if (mPacked == false && XmlHelper.ReadAttributeBool(node, "packed", false) == true)
+					{
+						throw new AgateResourceException("Sprite resource " + Name + " has the packed=true attribute," +
+							" but some frames are located in separate files.");
+					}
+
+					break;
+
+				case "0.3.0":
+					Name = node.Attributes["name"].Value;
+					mFilename = XmlHelper.ReadAttributeString(node, "image", string.Empty);
+					mPacked = XmlHelper.ReadAttributeBool(node, "packed", true);
+
+					if (node.Attributes["size"] != null)
+					{
+						mSize = XmlHelper.ReadAttributeSize(node, "size");
+						mHasSize = true;
+					}
+					else
+						mHasSize = false;
 
 					ReadFrames030(node);
 
@@ -136,6 +182,20 @@ namespace AgateLib.Resources
 			}
 		}
 
+		private void ReadFrames031(XmlNode node)
+		{
+			foreach (XmlNode child in node.ChildNodes)
+			{
+				if (child.Name == "Image")
+					ReadImage031(child);
+				else if (child.Name == "Frame")
+					ReadFrame030(child);
+				else
+					System.Diagnostics.Trace.WriteLine(
+						"Unrecognized node in Sprite " + Name + ": " + child.Name);
+			}
+		}
+
 		private void ReadFrames030(XmlNode node)
 		{
 			foreach (XmlNode child in node.ChildNodes)
@@ -143,8 +203,32 @@ namespace AgateLib.Resources
 				if (child.Name == "Frame")
 					ReadFrame030(child);
 				else
-					throw new AgateResourceException("Unrecognized node in Sprite " + Name + ": " + child.Name);
+					System.Diagnostics.Trace.WriteLine(
+						"Unrecognized node in Sprite " + Name + ": " + child.Name);
 			}
+		}
+
+		private void ReadImage031(XmlNode node)
+		{
+			SpriteImageResource image = new SpriteImageResource();
+
+			image.Filename = XmlHelper.ReadAttributeString(node, "file");
+
+			for (int i = 0; i < node.ChildNodes.Count; i++)
+			{
+				if (node.ChildNodes[i].Name == "Grid")
+				{
+					var g = new SpriteImageResource.Grid();
+
+					g.Location = XmlHelper.ReadAttributePoint(node.ChildNodes[i], "loc");
+					g.Size = XmlHelper.ReadAttributeSize(node.ChildNodes[i], "size");
+					g.Array = XmlHelper.ReadAttributeSize(node.ChildNodes[i], "array");
+
+					image.Grids.Add(g);
+				}
+			}
+
+			mImages.Add(image);
 		}
 		private void ReadFrame030(XmlNode node)
 		{
@@ -160,7 +244,7 @@ namespace AgateLib.Resources
 
 				if (mFilename == null)
 					throw new AgateResourceException("Sprite resource " + Name + " does not have a " +
-						"default filename, and frame " + mFrames.Count.ToString() +
+						"default filename, and frame " + mImages.Count.ToString() +
 						" does not specify a filename.");
 			}
 
@@ -169,7 +253,7 @@ namespace AgateLib.Resources
 				mPacked = false;
 			}
 
-			mFrames.Add(frame);
+			mImages.Add(frame);
 		}
 
 		internal override void BuildNodes(System.Xml.XmlElement parent, System.Xml.XmlDocument doc)
@@ -181,14 +265,37 @@ namespace AgateLib.Resources
 			XmlHelper.AppendAttribute(element, doc, "timePerFrame", TimePerFrame);
 			XmlHelper.AppendAttribute(element, doc, "size", Size.ToString());
 
-			for (int i = 0; i < Frames.Count; i++)
+			for (int i = 0; i < ChildElements.Count; i++)
 			{
-				BuildNodes(element, doc, Frames[i]);
+				BuildNodes(element, doc, ChildElements[i]);
 			}
 
 			parent.AppendChild(element);
 		}
+		internal void BuildNodes(XmlElement parent, XmlDocument doc, SpriteSubResource sub)
+		{
+			if (sub is SpriteImageResource)
+				BuildNodes(parent, doc, (SpriteImageResource)sub);
+			else if (sub is SpriteFrameResource)
+				BuildNodes(parent, doc, (SpriteFrameResource)sub);
+			else
+				throw new NotImplementedException();
+		}
+		internal void BuildNodes(XmlElement parent, XmlDocument doc, SpriteImageResource image)
+		{
+			XmlElement element = doc.CreateElement("Image");
 
+			XmlHelper.AppendAttribute(element, doc, "file", image.Filename);
+
+			for (int i = 0; i < image.Grids.Count; i++)
+			{
+				XmlElement grid = doc.CreateElement("Grid");
+
+				XmlHelper.AppendAttribute(grid, doc, "loc", image.Grids[i].Location);
+				XmlHelper.AppendAttribute(grid, doc, "size", image.Grids[i].Size);
+				XmlHelper.AppendAttribute(grid, doc, "array", image.Grids[i].Array);
+			}
+		}
 		internal void BuildNodes(XmlElement parent, XmlDocument doc, SpriteFrameResource frame)
 		{
 			XmlElement element = doc.CreateElement("Frame");
@@ -211,40 +318,26 @@ namespace AgateLib.Resources
 			throw new NotImplementedException();
 		}
 
-
+		public class SpriteSubResource
+		{
+			/// <summary>
+			/// Filename for this part of the sprite.
+			/// </summary>
+			public string Filename { get; set; }
+		}
 		/// <summary>
 		/// Class representing a frame of a sprite in a SpriteResource.
 		/// </summary>
-		public class SpriteFrameResource
+		public class SpriteFrameResource : SpriteSubResource 
 		{
-			string mFilename;
-			Rectangle mBounds;
-			Point mOffset;
-
-			/// <summary>
-			/// Filename the frame is located in.
-			/// </summary>
-			public string Filename
-			{
-				get { return mFilename; }
-				set { mFilename = value; }
-			}
 			/// <summary>
 			/// Rectangle where the image data is.
 			/// </summary>
-			public Rectangle Bounds
-			{
-				get { return mBounds; }
-				set { mBounds = value; }
-			}
+			public Rectangle Bounds { get; set; }
 			/// <summary>
 			/// Offset in the sprite to where the upper left of the image is drawn.
 			/// </summary>
-			public Point Offset
-			{
-				get { return mOffset; }
-				set { mOffset = value; }
-			}
+			public Point Offset { get; set; }
 			/// <summary>
 			/// Converts the sprite resource to a string for debugging info.
 			/// </summary>
@@ -253,25 +346,43 @@ namespace AgateLib.Resources
 			{
 				StringBuilder b = new StringBuilder();
 
-				if (string.IsNullOrEmpty(mFilename) == false)
+				if (string.IsNullOrEmpty(Filename) == false)
 				{
 					b.Append("Filename: ");
-					b.Append(mFilename);
+					b.Append(Filename);
 					b.Append("   ");
 				}
 
 				b.Append("Bounds: ");
-				b.Append(mBounds);
+				b.Append(Bounds);
 				b.Append("   ");
 
 				b.Append("Offset: ");
-				b.Append(mOffset);
+				b.Append(Offset);
 				b.Append("   ");
 
 				return b.ToString();
 			}
 		}
+		/// <summary>
+		/// Class representing an image to automatically load frames from.
+		/// </summary>
+		public class SpriteImageResource : SpriteSubResource 
+		{
+			public class Grid
+			{
+				public Point Location { get; set; }
+				public Size Size { get; set; }
+				public Size Array { get; set; }
+			}
 
+			List<Grid> mGrids = new List<Grid>();
+
+			public IList<Grid> Grids
+			{
+				get { return mGrids; }
+			}
+		}
 	}
 
 }

@@ -209,7 +209,8 @@ namespace AgateLib.InputLib
 		/// <param name="delta"></param>
 		public static void OnMouseWheel(int delta)
 		{
-			MouseWheel(new InputEventArgs(delta));
+			if (MouseWheel != null)
+				MouseWheel(new InputEventArgs(delta));
 		}
 
 		/// <summary>

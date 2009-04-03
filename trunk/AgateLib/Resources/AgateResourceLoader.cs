@@ -99,8 +99,9 @@ namespace AgateLib.Resources
 
 			switch (version)
 			{
+				case "0.3.1":
 				case "0.3.0":
-					ReadVersion030(resources, root, version);
+					ReadVersion031(resources, root, version);
 					break;
 
 				default:
@@ -109,7 +110,7 @@ namespace AgateLib.Resources
 		}
 
 
-		private static void ReadVersion030(AgateResourceCollection resources, XmlNode root, string version)
+		private static void ReadVersion031(AgateResourceCollection resources, XmlNode root, string version)
 		{
 			for (int i = 0; i < root.ChildNodes.Count; i++)
 			{
