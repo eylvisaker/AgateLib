@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Sprites.Old;
+using AgateLib.Sprites;
 
 internal struct CBlockPart
 {

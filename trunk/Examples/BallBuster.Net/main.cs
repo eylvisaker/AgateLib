@@ -26,7 +26,7 @@ using System.IO;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Sprites.Old;
+using AgateLib.Sprites;
 using AgateLib.InputLib;
 using AgateLib.AudioLib;
 

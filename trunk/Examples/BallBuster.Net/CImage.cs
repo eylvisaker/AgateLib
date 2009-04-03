@@ -22,8 +22,8 @@
 
 using System;
 
-using AgateLib.Resources.Old;
-using AgateLib.Sprites.Old;
+using AgateLib.Resources;
+using AgateLib.Sprites;
 using AgateLib.DisplayLib;
 
 class CImage
@@ -47,7 +47,7 @@ class CImage
         pucatchblue, pucatchred,
         pupow, pusmash, purbswap, pudoor;
 
-    ResourceManager spritesSrc = new ResourceManager("imgs/sprites.xml");
+    AgateResourceCollection spritesSrc = new AgateResourceCollection("imgs/sprites.xml");
 
     public Sprite arrow, bblogo, palogo, xlogo;
 
@@ -60,8 +60,7 @@ class CImage
     {
         this.font = new FontSurface("Arial", 11.0f);
         this.largeFont = new FontSurface("Arial", 22.0f);
-        this.palogo = new Sprite("palogo", spritesSrc);
-
+		this.palogo = new Sprite(spritesSrc, "palogo");
     }
 
     public void load()
@@ -73,68 +72,68 @@ class CImage
         //	this.bgtile= new Surface("bg1.jpg");
 
 
-        this.ball = new Sprite("ball", spritesSrc);
-        this.fireball = new Sprite("fireball", spritesSrc);
+        this.ball = new Sprite(spritesSrc, "ball");
+        this.fireball = new Sprite(spritesSrc, "fireball");
 
-        this.spike = new Sprite("spike", spritesSrc);
-        this.smash = new Sprite("smash", spritesSrc);
+        this.spike = new Sprite(spritesSrc, "spike");
+        this.smash = new Sprite(spritesSrc, "smash");
 
-        this.paddle = new Sprite("default_paddle", spritesSrc);
-        this.paddle.AnimationType = Sprite.AnimType.Looping;
-        this.smallpaddle = new Sprite("small_paddle", spritesSrc);
-        this.smallpaddle.AnimationType = Sprite.AnimType.Looping;
-        this.largepaddle = new Sprite("large_paddle", spritesSrc);
-        this.largepaddle.AnimationType = Sprite.AnimType.Looping;
+        this.paddle = new Sprite(spritesSrc, "default_paddle");
+        this.paddle.AnimationType = SpriteAnimType.Looping;
+        this.smallpaddle = new Sprite(spritesSrc, "small_paddle");
+        this.smallpaddle.AnimationType = SpriteAnimType.Looping;
+        this.largepaddle = new Sprite(spritesSrc, "large_paddle");
+        this.largepaddle.AnimationType = SpriteAnimType.Looping;
 
-        this.block = new Sprite("block", spritesSrc);
+        this.block = new Sprite(spritesSrc, "block");
 
-        this.cblock = new Sprite("cblock", spritesSrc);
-        this.sblock = new Sprite("sblock", spritesSrc);
+        this.cblock = new Sprite(spritesSrc, "cblock");
+        this.sblock = new Sprite(spritesSrc, "sblock");
 
-        this.woodblock = new Sprite("woodblock", spritesSrc);
-        this.marbleblock1 = new Sprite("marbleblock1", spritesSrc);
-        this.marbleblock2 = new Sprite("marbleblock2", spritesSrc);
+        this.woodblock = new Sprite(spritesSrc, "woodblock");
+        this.marbleblock1 = new Sprite(spritesSrc, "marbleblock1");
+        this.marbleblock2 = new Sprite(spritesSrc, "marbleblock2");
 
-        this.rubyblock1 = new Sprite("rubyblock1", spritesSrc);
-        this.rubyblock2 = new Sprite("rubyblock2", spritesSrc);
-        this.rubyblock3 = new Sprite("rubyblock3", spritesSrc);
+        this.rubyblock1 = new Sprite(spritesSrc, "rubyblock1");
+        this.rubyblock2 = new Sprite(spritesSrc, "rubyblock2");
+        this.rubyblock3 = new Sprite(spritesSrc, "rubyblock3");
 
 
 
-        this.flash = new Sprite("flash", spritesSrc);
-        this.crack = new Sprite("crack", spritesSrc);
+        this.flash = new Sprite(spritesSrc, "flash");
+        this.crack = new Sprite(spritesSrc, "crack");
 
         //	CL_Sprite *pupaddleregular, *pupaddlesmall, *pupaddlelarge, *pufastball, *puslowball, *puregularspeed,
         //		*pumultiball, *pu1up, *publaster, *pufireball;	
-        this.pupaddleregular = new Sprite("pupaddleregular", spritesSrc);
-        this.pupaddlesmall = new Sprite("pupaddlesmall", spritesSrc);
-        this.pupaddlelarge = new Sprite("pupaddlelarge", spritesSrc);
-        this.publaster = new Sprite("publaster", spritesSrc);
-        this.pufastball = new Sprite("pufastball", spritesSrc);
-        this.pufireball = new Sprite("pufireball", spritesSrc);
-        this.pumultiball = new Sprite("pumultiball", spritesSrc);
-        this.pu3ball = new Sprite("pu3ball", spritesSrc);
-        this.puregularspeed = new Sprite("puregularspeed", spritesSrc);
-        this.puslowball = new Sprite("puslowball", spritesSrc);
-        this.pu1up = new Sprite("pu1up", spritesSrc);
-        this.pusticky = new Sprite("pusticky", spritesSrc);
-        this.pusupersticky = new Sprite("pusupersticky", spritesSrc);
-        this.pureset = new Sprite("pureset", spritesSrc);
-        this.purandom = new Sprite("purandom", spritesSrc);
-        this.pu100 = new Sprite("pu100", spritesSrc);
-        this.pu250 = new Sprite("pu250", spritesSrc);
-        this.pu500 = new Sprite("pu500", spritesSrc);
-        this.pu1000 = new Sprite("pu1000", spritesSrc);
-        this.pucatchblue = new Sprite("pucatchblue", spritesSrc);
-        this.pucatchred = new Sprite("pucatchred", spritesSrc);
-        this.pupow = new Sprite("pupow", spritesSrc);
-        this.pusmash = new Sprite("pusmash", spritesSrc);
-        this.purbswap = new Sprite("purbswap", spritesSrc);
-        this.pudoor = new Sprite("pudoor", spritesSrc);
+        this.pupaddleregular = new Sprite(spritesSrc, "pupaddleregular");
+        this.pupaddlesmall = new Sprite(spritesSrc, "pupaddlesmall");
+        this.pupaddlelarge = new Sprite(spritesSrc, "pupaddlelarge");
+        this.publaster = new Sprite(spritesSrc, "publaster");
+        this.pufastball = new Sprite(spritesSrc, "pufastball");
+        this.pufireball = new Sprite(spritesSrc, "pufireball");
+        this.pumultiball = new Sprite(spritesSrc, "pumultiball");
+        this.pu3ball = new Sprite(spritesSrc, "pu3ball");
+        this.puregularspeed = new Sprite(spritesSrc, "puregularspeed");
+        this.puslowball = new Sprite(spritesSrc, "puslowball");
+        this.pu1up = new Sprite(spritesSrc, "pu1up");
+        this.pusticky = new Sprite(spritesSrc, "pusticky");
+        this.pusupersticky = new Sprite(spritesSrc, "pusupersticky");
+        this.pureset = new Sprite(spritesSrc, "pureset");
+        this.purandom = new Sprite(spritesSrc, "purandom");
+        this.pu100 = new Sprite(spritesSrc, "pu100");
+        this.pu250 = new Sprite(spritesSrc, "pu250");
+        this.pu500 = new Sprite(spritesSrc, "pu500");
+        this.pu1000 = new Sprite(spritesSrc, "pu1000");
+        this.pucatchblue = new Sprite(spritesSrc, "pucatchblue");
+        this.pucatchred = new Sprite(spritesSrc, "pucatchred");
+        this.pupow = new Sprite(spritesSrc, "pupow");
+        this.pusmash = new Sprite(spritesSrc, "pusmash");
+        this.purbswap = new Sprite(spritesSrc, "purbswap");
+        this.pudoor = new Sprite(spritesSrc, "pudoor");
 
-        this.arrow = new Sprite("arrow", spritesSrc);
-        this.bblogo = new Sprite("bblogo", spritesSrc);
-        this.xlogo = new Sprite("xlogo", spritesSrc);
+        this.arrow = new Sprite(spritesSrc, "arrow");
+        this.bblogo = new Sprite(spritesSrc, "bblogo");
+        this.xlogo = new Sprite(spritesSrc, "xlogo");
 
         //CL_ResourceManager resources("imgs/font.xml");
 
