@@ -32,6 +32,23 @@ namespace AgateLib.Utility
 		List<IFileProvider> mProviders = new List<IFileProvider>();
 
 		/// <summary>
+		/// Returns the IFileProvider object which would return the specified
+		/// file when OpenRead is called.  Throws a FileNotFoundException if the file is not available.
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public IFileProvider GetProvider(string filename)
+		{
+			for (int i = mProviders.Count - 1; i >= 0; i--)
+			{
+				if (mProviders[i].FileExists(filename))
+					return mProviders[i];
+			}
+
+			throw new FileNotFoundException(string.Format(
+				"Could not find the file {0}.", filename), filename);
+		}
+		/// <summary>
 		/// Opens a specified file by searching backwards through the list of 
 		/// providers until a matching filename is found.  A FileNotFoundException
 		/// is thrown if the file does not exist.
