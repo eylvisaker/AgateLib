@@ -56,23 +56,20 @@ namespace AgateLib.Resources
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
+		[Obsolete("Use new AgateResourceCollection instead.")]
 		public static AgateResourceCollection LoadResources(string filename)
 		{
-			using (System.IO.Stream s = AgateFileProvider.Resources.OpenRead(filename))
-			{
-				return LoadResources(s);
-			}
-
+			return new AgateResourceCollection(filename);
 		}
+		
 		/// <summary>
 		/// Loads the resource information from a stream containing XML data.
 		/// This erases all information in the current AgateResourceCollection.
 		/// </summary>
+		/// <param name="resources"></param>
 		/// <param name="stream"></param>
-		public static AgateResourceCollection LoadResources(Stream stream)
+		public static void LoadResources(AgateResourceCollection resources, Stream stream)
 		{
-			AgateResourceCollection retval = new AgateResourceCollection();
-
 			XmlDocument doc = new XmlDocument();
 			try
 			{
@@ -83,7 +80,17 @@ namespace AgateLib.Resources
 				throw new AgateResourceException("The XML resource file is malformed.", e);
 			}
 
-			XmlNode root = doc.ChildNodes[0];
+			XmlNode root ;
+			try
+			{
+				root = doc.ChildNodes[0];
+				if (root is XmlDeclaration)
+					root = doc.ChildNodes[1];
+			}
+			catch (XmlException e)
+			{
+				throw new AgateResourceException("Could not understand root XML element.", e);
+			}
 
 			if (root.Attributes["Version"] == null)
 				throw new AgateResourceException("XML resource file does not contain the required version attibute.");
@@ -93,15 +100,14 @@ namespace AgateLib.Resources
 			switch (version)
 			{
 				case "0.3.0":
-					ReadVersion030(retval, root, version);
+					ReadVersion030(resources, root, version);
 					break;
 
 				default:
 					throw new AgateResourceException("XML Resource file version " + version + " not supported.");
 			}
-
-			return retval;
 		}
+
 
 		private static void ReadVersion030(AgateResourceCollection resources, XmlNode root, string version)
 		{

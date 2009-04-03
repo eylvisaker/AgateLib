@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Text;
 using System.Xml;
 using System.IO;
-
 using AgateLib.DisplayLib;
 using AgateLib.Utility;
 
@@ -45,9 +44,26 @@ namespace AgateLib.Resources
 			this.mStore.Add(mStringTableKey, new StringTable());
 		}
 		public AgateResourceCollection(string filename)
+			: this(AgateFileProvider.Resources.GetProvider(filename), filename)
+		{ }
+		public AgateResourceCollection(IFileProvider fileProvider, string filename)
 		{
+			FileProvider = fileProvider;
+			RootDirectory = Path.GetDirectoryName(filename);
 
+			Load(filename);
 		}
+
+		private void Load(string filename)
+		{
+			using (Stream s = FileProvider.OpenRead(filename))
+			{
+				AgateResourceLoader.LoadResources(this, s);
+			}
+		}
+
+		public IFileProvider FileProvider { get; set; }
+		public string RootDirectory { get; set; }
 
 		private IEnumerable<T> Enumerate<T>() where T : AgateResource
 		{
