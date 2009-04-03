@@ -116,6 +116,7 @@ namespace Tests.SurfaceTester
             Display.EndFrame();
             Core.KeepAlive();
 
+            lblFPS.Text = "FPS: " + Display.FramesPerSecond.ToString();
         }
 
         private void UpdateSurface()
