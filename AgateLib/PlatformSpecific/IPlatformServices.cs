@@ -22,15 +22,15 @@ using System.Text;
 
 namespace AgateLib.PlatformSpecific
 {
-    /// <summary>
-    /// Public interface which provides information and methods for a specific platform.
-    /// </summary>
-    public interface IPlatformServices
-    {
-        /// <summary>
-        /// Returns the type of platform.
-        /// </summary>
-        Utility.PlatformType PlatformType { get; }
+	/// <summary>
+	/// Public interface which provides information and methods for a specific platform.
+	/// </summary>
+	public interface IPlatformServices
+	{
+		/// <summary>
+		/// Returns the type of platform.
+		/// </summary>
+		Utility.PlatformType PlatformType { get; }
 
-    }
+	}
 }

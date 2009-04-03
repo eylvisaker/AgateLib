@@ -20,139 +20,138 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
 using AgateLib.Drivers;
 using AgateLib.ImplementationBase;
 using AgateLib.Utility;
 
 namespace AgateLib.AudioLib
 {
-    /// <summary>
-    /// A class which performs Music playback.
-    /// 
-    /// This class should support loading of .ogg and .mid files, at the very least.
-    /// </summary>
-    public sealed class Music
-    {
-        private MusicImpl impl;
-        private string mFilename;
+	/// <summary>
+	/// A class which performs Music playback.
+	/// 
+	/// This class should support loading of .ogg and .mid files, at the very least.
+	/// </summary>
+	public sealed class Music
+	{
+		private MusicImpl impl;
+		private string mFilename;
 
-        private Music()
-        {
-            Audio.EventStopAllMusic += new Audio.AudioCoreEventDelegate(Stop);
-        }
-        /// <summary>
-        /// Constructs a Music object from a file.
-        /// </summary>
-        /// <param name="filename">The name of the file to load.</param>
-        public Music(string filename)
-            : this(AgateFileProvider.Music, filename)
-        { }
-        /// <summary>
-        /// Constructs a Music object from a file given by the specified IFileProvider.
-        /// </summary>
-        /// <param name="fileProvider"></param>
-        /// <param name="filename"></param>
-        public Music(IFileProvider fileProvider, string filename) 
-            : this()
-        {
-            using (System.IO.Stream s = fileProvider.OpenRead(filename))
-            {
-                impl = Audio.Impl.CreateMusic(s);
-            }
-            mFilename = filename;
-        }
+		private Music()
+		{
+			Audio.EventStopAllMusic += new Audio.AudioCoreEventDelegate(Stop);
+		}
+		/// <summary>
+		/// Constructs a Music object from a file.
+		/// </summary>
+		/// <param name="filename">The name of the file to load.</param>
+		public Music(string filename)
+			: this(AgateFileProvider.Music, filename)
+		{ }
+		/// <summary>
+		/// Constructs a Music object from a file given by the specified IFileProvider.
+		/// </summary>
+		/// <param name="fileProvider"></param>
+		/// <param name="filename"></param>
+		public Music(IFileProvider fileProvider, string filename)
+			: this()
+		{
+			using (System.IO.Stream s = fileProvider.OpenRead(filename))
+			{
+				impl = Audio.Impl.CreateMusic(s);
+			}
+			mFilename = filename;
+		}
 
-        /// <summary>
-        /// Constructs a Music object from a stream.
-        /// </summary>
-        /// <param name="source"></param>
-        public Music(Stream source) 
-            : this()
-        {
-            impl = Audio.Impl.CreateMusic(source);
-        }
+		/// <summary>
+		/// Constructs a Music object from a stream.
+		/// </summary>
+		/// <param name="source"></param>
+		public Music(Stream source)
+			: this()
+		{
+			impl = Audio.Impl.CreateMusic(source);
+		}
 
-        /// <summary>
-        /// Destroys the unmanaged resources associated with this object.
-        /// </summary>
-        public void Dispose()
-        {
-            if (impl != null)
-            {
-                impl.Dispose();
-                impl = null;
-            }
-        }
+		/// <summary>
+		/// Destroys the unmanaged resources associated with this object.
+		/// </summary>
+		public void Dispose()
+		{
+			if (impl != null)
+			{
+				impl.Dispose();
+				impl = null;
+			}
+		}
 
-        /// <summary>
-        /// Returns whether or not this Music object is playing in a loop.
-        /// </summary>
-        public bool IsLooping
-        {
-            get { return impl.IsLooping; }
-            set
-            {
-                impl.IsLooping = value;
-            }
-        }
-        /// <summary>
-        /// Begins playback.
-        /// </summary>
-        public void Play()
-        {
-            impl.Play();
-        }
-        /// <summary>
-        /// Stops playback.
-        /// </summary>
-        public void Stop()
-        {
-            if (impl != null)
-                impl.Stop();
-        }
-        /// <summary>
-        /// The name of the file this was loaded from.
-        /// </summary>
-        public string Filename
-        {
-            get { return mFilename; }
-        }
-        /// <summary>
-        /// Gets or sets the volume. Range is:
-        /// 0.0 Quiet
-        /// 0.5 Sounds half volume
-        /// 1.0 Full volume
-        /// </summary>
-        public double Volume
-        {
-            get
-            {
-                return impl.Volume;
-            }
-            set
-            {
-                impl.Volume = value;
-            }
-        }
-        /// <summary>
-        /// Gets or sets the left-right balance.  This may or may not be supported
-        /// by some drivers.
-        /// -1 is entirely in the left speaker,
-        ///  0 is equally in both and,
-        ///  1 is entirely in the right speaker.
-        /// </summary>
-        public double Pan
-        {
-            get { return impl.Pan; }
-            set { impl.Pan = value; }
-        }
-        /// <summary>
-        /// Returns true if this Music is currently playing.
-        /// </summary>
-        public bool IsPlaying
-        {
-            get { return impl.IsPlaying; }
-        }
-    }
+		/// <summary>
+		/// Returns whether or not this Music object is playing in a loop.
+		/// </summary>
+		public bool IsLooping
+		{
+			get { return impl.IsLooping; }
+			set
+			{
+				impl.IsLooping = value;
+			}
+		}
+		/// <summary>
+		/// Begins playback.
+		/// </summary>
+		public void Play()
+		{
+			impl.Play();
+		}
+		/// <summary>
+		/// Stops playback.
+		/// </summary>
+		public void Stop()
+		{
+			if (impl != null)
+				impl.Stop();
+		}
+		/// <summary>
+		/// The name of the file this was loaded from.
+		/// </summary>
+		public string Filename
+		{
+			get { return mFilename; }
+		}
+		/// <summary>
+		/// Gets or sets the volume. Range is:
+		/// 0.0 Quiet
+		/// 0.5 Sounds half volume
+		/// 1.0 Full volume
+		/// </summary>
+		public double Volume
+		{
+			get
+			{
+				return impl.Volume;
+			}
+			set
+			{
+				impl.Volume = value;
+			}
+		}
+		/// <summary>
+		/// Gets or sets the left-right balance.  This may or may not be supported
+		/// by some drivers.
+		/// -1 is entirely in the left speaker,
+		///  0 is equally in both and,
+		///  1 is entirely in the right speaker.
+		/// </summary>
+		public double Pan
+		{
+			get { return impl.Pan; }
+			set { impl.Pan = value; }
+		}
+		/// <summary>
+		/// Returns true if this Music is currently playing.
+		/// </summary>
+		public bool IsPlaying
+		{
+			get { return impl.IsPlaying; }
+		}
+	}
 }

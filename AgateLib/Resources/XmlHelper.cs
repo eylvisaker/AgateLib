@@ -24,126 +24,126 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Resources
 {
-    static internal class XmlHelper
-    {
-        internal static void AppendAttribute(XmlNode node, XmlDocument doc, 
-            string name, string value)
-        {
-            XmlAttribute attrib = doc.CreateAttribute(name);
-            attrib.Value = value;
+	static internal class XmlHelper
+	{
+		internal static void AppendAttribute(XmlNode node, XmlDocument doc,
+			string name, string value)
+		{
+			XmlAttribute attrib = doc.CreateAttribute(name);
+			attrib.Value = value;
 
-            node.Attributes.Append(attrib);
-        }
+			node.Attributes.Append(attrib);
+		}
 
 		internal static void AppendAttribute(XmlNode node, XmlDocument doc, string name, double value)
 		{
 			AppendAttribute(node, doc, name, value.ToString());
 		}
-        internal static void AppendAttribute(XmlNode node, XmlDocument doc, string name, int value)
-        {
-            AppendAttribute(node, doc, name, value.ToString());
-        }
-        internal static void AppendAttribute(XmlNode node, XmlDocument doc, string name, bool value)
-        {
-            AppendAttribute(node, doc, name, value.ToString());
-        }
+		internal static void AppendAttribute(XmlNode node, XmlDocument doc, string name, int value)
+		{
+			AppendAttribute(node, doc, name, value.ToString());
+		}
+		internal static void AppendAttribute(XmlNode node, XmlDocument doc, string name, bool value)
+		{
+			AppendAttribute(node, doc, name, value.ToString());
+		}
 
 
-        private static void CheckAttributeExists(XmlNode node, string attributeName)
-        {
-            if (node.Attributes[attributeName] == null)
-                throw new AgateResourceException(string.Format(
-                    "Could not find attribute {0} in node {1}", attributeName, node.Name));
-        }
+		private static void CheckAttributeExists(XmlNode node, string attributeName)
+		{
+			if (node.Attributes[attributeName] == null)
+				throw new AgateResourceException(string.Format(
+					"Could not find attribute {0} in node {1}", attributeName, node.Name));
+		}
 
-        internal static Point ReadAttributePoint(XmlNode node, string attributeName)
-        {
-            CheckAttributeExists(node, attributeName);
-            string text = node.Attributes[attributeName].Value;
+		internal static Point ReadAttributePoint(XmlNode node, string attributeName)
+		{
+			CheckAttributeExists(node, attributeName);
+			string text = node.Attributes[attributeName].Value;
 
-            return PointConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
-        }
-        internal static Point ReadAttributePoint(XmlNode node, string attributeName, Point defaultValue)
-        {
-            if (node.Attributes[attributeName] == null)
-                return defaultValue;
-            else
-                return ReadAttributePoint(node, attributeName);
-        }
+			return PointConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
+		}
+		internal static Point ReadAttributePoint(XmlNode node, string attributeName, Point defaultValue)
+		{
+			if (node.Attributes[attributeName] == null)
+				return defaultValue;
+			else
+				return ReadAttributePoint(node, attributeName);
+		}
 
-        internal static Size ReadAttributeSize(XmlNode node, string attributeName)
-        {
-            CheckAttributeExists(node, attributeName);
-            string text = node.Attributes[attributeName].Value;
+		internal static Size ReadAttributeSize(XmlNode node, string attributeName)
+		{
+			CheckAttributeExists(node, attributeName);
+			string text = node.Attributes[attributeName].Value;
 
-            return SizeConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
-        }
-        internal static Size ReadAttributeSize(XmlNode node, string attributeName, Size defaultValue)
-        {
-            if (node.Attributes[attributeName] == null)
-                return defaultValue;
-            else
-                return ReadAttributeSize(node, attributeName);
-        }
+			return SizeConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
+		}
+		internal static Size ReadAttributeSize(XmlNode node, string attributeName, Size defaultValue)
+		{
+			if (node.Attributes[attributeName] == null)
+				return defaultValue;
+			else
+				return ReadAttributeSize(node, attributeName);
+		}
 
-        internal static Rectangle ReadAttributeRectangle(XmlNode node, string attributeName)
-        {
-            CheckAttributeExists(node, attributeName);
-            string text = node.Attributes[attributeName].Value;
+		internal static Rectangle ReadAttributeRectangle(XmlNode node, string attributeName)
+		{
+			CheckAttributeExists(node, attributeName);
+			string text = node.Attributes[attributeName].Value;
 
-            return RectangleConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
-        }
-        internal static Rectangle ReadAttributeRectangle(XmlNode node, string attributeName, Rectangle defaultValue)
-        {
-            if (node.Attributes[attributeName] == null)
-                return defaultValue;
-            else
-                return ReadAttributeRectangle(node, attributeName);
-        }
-        internal static int ReadAttributeInt(XmlNode node, string attributeName)
-        {
-            CheckAttributeExists(node, attributeName);
-            string text = node.Attributes[attributeName].Value;
+			return RectangleConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
+		}
+		internal static Rectangle ReadAttributeRectangle(XmlNode node, string attributeName, Rectangle defaultValue)
+		{
+			if (node.Attributes[attributeName] == null)
+				return defaultValue;
+			else
+				return ReadAttributeRectangle(node, attributeName);
+		}
+		internal static int ReadAttributeInt(XmlNode node, string attributeName)
+		{
+			CheckAttributeExists(node, attributeName);
+			string text = node.Attributes[attributeName].Value;
 
-            return int.Parse(text, System.Globalization.CultureInfo.InvariantCulture);
-        }
+			return int.Parse(text, System.Globalization.CultureInfo.InvariantCulture);
+		}
 
-        internal static int ReadAttributeInt(XmlNode node, string attributeName, int defaultValue)
-        {
-            if (node.Attributes[attributeName] == null)
-                return defaultValue;
-            else
-                return ReadAttributeInt(node, attributeName);
-        }
+		internal static int ReadAttributeInt(XmlNode node, string attributeName, int defaultValue)
+		{
+			if (node.Attributes[attributeName] == null)
+				return defaultValue;
+			else
+				return ReadAttributeInt(node, attributeName);
+		}
 
-        internal static bool ReadAttributeBool(XmlNode node, string attributeName)
-        {
-            CheckAttributeExists(node, attributeName);
-            string text = node.Attributes[attributeName].Value;
+		internal static bool ReadAttributeBool(XmlNode node, string attributeName)
+		{
+			CheckAttributeExists(node, attributeName);
+			string text = node.Attributes[attributeName].Value;
 
-            return bool.Parse(text);
-        }
-        internal static bool ReadAttributeBool(XmlNode node, string attributeName, bool defaultValue)
-        {
-            if (node.Attributes[attributeName] == null)
-                return defaultValue;
-            else
-                return ReadAttributeBool(node, attributeName);
-        }
+			return bool.Parse(text);
+		}
+		internal static bool ReadAttributeBool(XmlNode node, string attributeName, bool defaultValue)
+		{
+			if (node.Attributes[attributeName] == null)
+				return defaultValue;
+			else
+				return ReadAttributeBool(node, attributeName);
+		}
 
-        internal static string ReadAttributeString(XmlNode node, string attributeName)
-        {
-            CheckAttributeExists(node, attributeName);
-            return node.Attributes[attributeName].Value;
-        }
-        internal static string ReadAttributeString(XmlNode node, string attributeName, string defaultValue)
-        {
-            if (node.Attributes[attributeName] == null)
-                return defaultValue;
-            else
-                return ReadAttributeString(node, attributeName);
-        }
+		internal static string ReadAttributeString(XmlNode node, string attributeName)
+		{
+			CheckAttributeExists(node, attributeName);
+			return node.Attributes[attributeName].Value;
+		}
+		internal static string ReadAttributeString(XmlNode node, string attributeName, string defaultValue)
+		{
+			if (node.Attributes[attributeName] == null)
+				return defaultValue;
+			else
+				return ReadAttributeString(node, attributeName);
+		}
 
 
-    }
+	}
 }

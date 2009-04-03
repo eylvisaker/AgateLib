@@ -26,251 +26,251 @@ using System.Text.RegularExpressions;
 
 namespace AgateLib.Utility
 {
-    /// <summary>
-    /// TgzFileProvider implements IFileProvider and provides read access to gzipped
-    /// tar archives.  This provides basic support for reading files from a compressed
-    /// archive external to the application.
-    /// </summary>
-    public class TgzFileProvider : IFileProvider 
-    {
-        class FileInfo
-        {
-            public string filename;
-            public string mode;
-            public string ownerUserID;
-            public string groupID;
-            public int size;
-            public string time;
-            public string checksum;
-            public string linkFlag;
-            public string linkFile;
-            public string magic;
-            public string uname;
-            public string gname;
-            public string devmajor;
-            public string devminor;
+	/// <summary>
+	/// TgzFileProvider implements IFileProvider and provides read access to gzipped
+	/// tar archives.  This provides basic support for reading files from a compressed
+	/// archive external to the application.
+	/// </summary>
+	public class TgzFileProvider : IFileProvider
+	{
+		class FileInfo
+		{
+			public string filename;
+			public string mode;
+			public string ownerUserID;
+			public string groupID;
+			public int size;
+			public string time;
+			public string checksum;
+			public string linkFlag;
+			public string linkFile;
+			public string magic;
+			public string uname;
+			public string gname;
+			public string devmajor;
+			public string devminor;
 
-            // position in blocks where header and file start.
-            public int headerStart;
-            public int fileStart;
-        }
+			// position in blocks where header and file start.
+			public int headerStart;
+			public int fileStart;
+		}
 
-        List<FileInfo> mFiles = new List<FileInfo>();
+		List<FileInfo> mFiles = new List<FileInfo>();
 
-        string tgzFilename;
-        Stream inFile;
+		string tgzFilename;
+		Stream inFile;
 
-        /// <summary>
-        /// Constructs a TgzFileProvider to read from the specified archive.
-        /// </summary>
-        /// <param name="filename"></param>
-        public TgzFileProvider(string filename)
-        {
-            tgzFilename = filename;
-            inFile = File.OpenRead(tgzFilename);
+		/// <summary>
+		/// Constructs a TgzFileProvider to read from the specified archive.
+		/// </summary>
+		/// <param name="filename"></param>
+		public TgzFileProvider(string filename)
+		{
+			tgzFilename = filename;
+			inFile = File.OpenRead(tgzFilename);
 
-            ScanArchive();
-        }
-        /// <summary>
-        /// Constructs a TgzFileProvider to read from the specified archive from archive data
-        /// loaded into a byte array.  This overload is useful for a tar.gz file embedded as a resource.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="bytes"></param>
-        public TgzFileProvider(string name, byte[] bytes)
-            : this(name, new MemoryStream(bytes))
-        {
+			ScanArchive();
+		}
+		/// <summary>
+		/// Constructs a TgzFileProvider to read from the specified archive from archive data
+		/// loaded into a byte array.  This overload is useful for a tar.gz file embedded as a resource.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="bytes"></param>
+		public TgzFileProvider(string name, byte[] bytes)
+			: this(name, new MemoryStream(bytes))
+		{
 
-        }
-        /// <summary>
-        /// Constructs a TgzFileProvider to read from the specified archive.
-        /// </summary>
-        /// <param name="name">A name used to identify this stream in debugging information.</param>
-        /// <param name="fileStream"></param>
-        public TgzFileProvider(string name, Stream fileStream)
-        {
-            tgzFilename = name;
-            inFile = fileStream;
+		}
+		/// <summary>
+		/// Constructs a TgzFileProvider to read from the specified archive.
+		/// </summary>
+		/// <param name="name">A name used to identify this stream in debugging information.</param>
+		/// <param name="fileStream"></param>
+		public TgzFileProvider(string name, Stream fileStream)
+		{
+			tgzFilename = name;
+			inFile = fileStream;
 
-            ScanArchive();
-        }
+			ScanArchive();
+		}
 
-        private void ScanArchive()
-        {
-            GZipStream stream = null;
-            try
-            {
-                stream = new GZipStream(inFile, CompressionMode.Decompress, true);
+		private void ScanArchive()
+		{
+			GZipStream stream = null;
+			try
+			{
+				stream = new GZipStream(inFile, CompressionMode.Decompress, true);
 
-                ReadTarHeaders(stream);
-            }
-            finally
-            {
-                if (stream != null)
-                    stream.Dispose();
+				ReadTarHeaders(stream);
+			}
+			finally
+			{
+				if (stream != null)
+					stream.Dispose();
 
-                inFile.Seek(0, SeekOrigin.Begin);
-            }
-        }
+				inFile.Seek(0, SeekOrigin.Begin);
+			}
+		}
 
 
-        void ReadTarHeaders(Stream tarFileInput)
-        {
-            bool done = false;
-            BinaryReader reader = new BinaryReader(tarFileInput);
+		void ReadTarHeaders(Stream tarFileInput)
+		{
+			bool done = false;
+			BinaryReader reader = new BinaryReader(tarFileInput);
 
-            int currentBlock = 0;
+			int currentBlock = 0;
 
-            do
-            {
-                FileInfo file = new FileInfo();
+			do
+			{
+				FileInfo file = new FileInfo();
 
-                file.headerStart = currentBlock;
+				file.headerStart = currentBlock;
 
-                file.filename = GetString(reader, 100);
-                file.mode = GetString(reader, 8);
-                file.ownerUserID = GetString(reader, 8);
-                file.groupID = GetString(reader, 8);
-                file.size = GetInt32(reader, 12);
-                file.time = GetString(reader, 12);
-                file.checksum = GetString(reader, 8);
-                file.linkFlag = GetString(reader, 1);
-                file.linkFile = GetString(reader, 100);
-                file.magic = GetString(reader, 8);
-                file.uname = GetString(reader, 32);
-                file.gname = GetString(reader, 32);
-                file.devmajor = GetString(reader, 8);
-                file.devminor = GetString(reader, 8);
+				file.filename = GetString(reader, 100);
+				file.mode = GetString(reader, 8);
+				file.ownerUserID = GetString(reader, 8);
+				file.groupID = GetString(reader, 8);
+				file.size = GetInt32(reader, 12);
+				file.time = GetString(reader, 12);
+				file.checksum = GetString(reader, 8);
+				file.linkFlag = GetString(reader, 1);
+				file.linkFile = GetString(reader, 100);
+				file.magic = GetString(reader, 8);
+				file.uname = GetString(reader, 32);
+				file.gname = GetString(reader, 32);
+				file.devmajor = GetString(reader, 8);
+				file.devminor = GetString(reader, 8);
 
-                // check for record of zeroes
-                if (file.filename.Length == 0)
-                    break;
+				// check for record of zeroes
+				if (file.filename.Length == 0)
+					break;
 
-                // we've read 345 bytes so far, and the header ends at a 512 byte boundary.
-                GetString(reader, 512 - 345);
-                
-                currentBlock++;
+				// we've read 345 bytes so far, and the header ends at a 512 byte boundary.
+				GetString(reader, 512 - 345);
 
-                file.fileStart = currentBlock;
+				currentBlock++;
 
-                mFiles.Add(file);
+				file.fileStart = currentBlock;
 
-                SeekForward(reader, file.size);
+				mFiles.Add(file);
 
-                int blocks = file.size / 512;
+				SeekForward(reader, file.size);
 
-                if (blocks * 512 < file.size)
-                    blocks++;
-                
-                // now seek to the end of the 512 byte block
-                GetString(reader, blocks * 512 - file.size);
+				int blocks = file.size / 512;
 
-                currentBlock += blocks;
+				if (blocks * 512 < file.size)
+					blocks++;
 
-            } while (!done);
-        }
+				// now seek to the end of the 512 byte block
+				GetString(reader, blocks * 512 - file.size);
 
-        int GetInt32(BinaryReader reader, int length)
-        {
-            string str = GetString(reader, length);
+				currentBlock += blocks;
 
-            if (string.IsNullOrEmpty(str))
-                return 0;
+			} while (!done);
+		}
 
-            return Convert.ToInt32(str, 8);
-        }
+		int GetInt32(BinaryReader reader, int length)
+		{
+			string str = GetString(reader, length);
 
-        void SeekForward(BinaryReader reader, int length)
-        {
-            reader.ReadBytes(length);
-        }
+			if (string.IsNullOrEmpty(str))
+				return 0;
 
-        string GetString(BinaryReader reader, int length)
-        {
-            string retval = ASCIIEncoding.ASCII.GetString(reader.ReadBytes(length));
+			return Convert.ToInt32(str, 8);
+		}
 
-            while (retval.EndsWith("\0"))
-                retval = retval.Substring(0, retval.Length - 1);
-            while (retval.StartsWith("\0"))
-                retval = retval.Substring(1, retval.Length - 1);
+		void SeekForward(BinaryReader reader, int length)
+		{
+			reader.ReadBytes(length);
+		}
 
-            return retval.Trim();
-        }
+		string GetString(BinaryReader reader, int length)
+		{
+			string retval = ASCIIEncoding.ASCII.GetString(reader.ReadBytes(length));
 
-        /// <summary>
-        /// Opens the specified file in the archive for reading.
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public Stream OpenRead(string filename)
-        {
-            for (int i = 0; i < mFiles.Count; i++)
-            {
-                if (mFiles[i].filename != filename)
-                    continue;
+			while (retval.EndsWith("\0"))
+				retval = retval.Substring(0, retval.Length - 1);
+			while (retval.StartsWith("\0"))
+				retval = retval.Substring(1, retval.Length - 1);
 
-                inFile.Seek(0, SeekOrigin.Begin);
-                Stream tarStream = new GZipStream(inFile, CompressionMode.Decompress, true);
-                BinaryReader reader = new BinaryReader(tarStream);
+			return retval.Trim();
+		}
 
-                SeekForward(reader, 512 * mFiles[i].fileStart);
+		/// <summary>
+		/// Opens the specified file in the archive for reading.
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public Stream OpenRead(string filename)
+		{
+			for (int i = 0; i < mFiles.Count; i++)
+			{
+				if (mFiles[i].filename != filename)
+					continue;
 
-                MemoryStream st = new MemoryStream(mFiles[i].size);
-                BinaryWriter writer = new BinaryWriter(st);
-                writer.Write(reader.ReadBytes(mFiles[i].size), 0, mFiles[i].size);
+				inFile.Seek(0, SeekOrigin.Begin);
+				Stream tarStream = new GZipStream(inFile, CompressionMode.Decompress, true);
+				BinaryReader reader = new BinaryReader(tarStream);
 
-                return st;
-            }
+				SeekForward(reader, 512 * mFiles[i].fileStart);
 
-            throw new FileNotFoundException(string.Format(
-                "The file {0} was not found in the tar file {1}.", filename, tgzFilename));
+				MemoryStream st = new MemoryStream(mFiles[i].size);
+				BinaryWriter writer = new BinaryWriter(st);
+				writer.Write(reader.ReadBytes(mFiles[i].size), 0, mFiles[i].size);
 
-        }
+				return st;
+			}
 
-        /// <summary>
-        /// Returns true if the specified file exists in the archive.
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public bool FileExists(string filename)
-        {
-            foreach (FileInfo info in mFiles)
-            {
-                if (info.filename == filename)
-                    return true;
-            } 
+			throw new FileNotFoundException(string.Format(
+				"The file {0} was not found in the tar file {1}.", filename, tgzFilename));
 
-            return false;
-        }
-        /// <summary>
-        /// Enumerates all files in the archive.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<string> GetAllFiles()
-        {
-            foreach (FileInfo info in mFiles)
-            {
-                yield return info.filename;
-            }
-        }
-        /// <summary>
-        /// Enumerates all files matching the pattern.
-        /// </summary>
-        /// <param name="searchPattern"></param>
-        /// <returns></returns>
-        public IEnumerable<string> GetAllFiles(string searchPattern)
-        {
-            Regex r = new Regex(
-                searchPattern.Replace(".", "\\.").Replace("*", ".*"));
-            
-            foreach (FileInfo info in mFiles)
-            {
-                if (r.IsMatch(info.filename))
-                {
-                    yield return info.filename;
-                }
-            }
-        }
+		}
 
-    }
+		/// <summary>
+		/// Returns true if the specified file exists in the archive.
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public bool FileExists(string filename)
+		{
+			foreach (FileInfo info in mFiles)
+			{
+				if (info.filename == filename)
+					return true;
+			}
+
+			return false;
+		}
+		/// <summary>
+		/// Enumerates all files in the archive.
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<string> GetAllFiles()
+		{
+			foreach (FileInfo info in mFiles)
+			{
+				yield return info.filename;
+			}
+		}
+		/// <summary>
+		/// Enumerates all files matching the pattern.
+		/// </summary>
+		/// <param name="searchPattern"></param>
+		/// <returns></returns>
+		public IEnumerable<string> GetAllFiles(string searchPattern)
+		{
+			Regex r = new Regex(
+				searchPattern.Replace(".", "\\.").Replace("*", ".*"));
+
+			foreach (FileInfo info in mFiles)
+			{
+				if (r.IsMatch(info.filename))
+				{
+					yield return info.filename;
+				}
+			}
+		}
+
+	}
 }

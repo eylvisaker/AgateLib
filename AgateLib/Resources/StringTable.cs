@@ -23,224 +23,226 @@ using System.Xml;
 
 namespace AgateLib.Resources
 {
-    /// <summary>
-    /// Class which contains a table of string-string mappings.
-    /// Similar to a Dictionary, but includes methods for reading to / writing from
-    /// an AgateLib resource file.
-    /// </summary>
-    public sealed class StringTable : AgateResource , IDictionary<string, string>
-    {
-        Dictionary<string, string> mTable = new Dictionary<string, string>();
+	/// <summary>
+	/// Class which contains a table of string-string mappings.
+	/// Similar to a Dictionary, but includes methods for reading to / writing from
+	/// an AgateLib resource file.
+	/// </summary>
+	public sealed class StringTable : AgateResource, IDictionary<string, string>
+	{
+		Dictionary<string, string> mTable = new Dictionary<string, string>();
 
-        internal StringTable() : base ("StringTable")
-        {}
-        internal StringTable(XmlNode node, string version) : base("StringTable")
-        {
-            switch (version)
-            {
-                case "0.3.0":
-                    for (int i = 0; i < node.ChildNodes.Count; i++)
-                    {
-                        XmlNode stringNode = node.ChildNodes[i];
+		internal StringTable()
+			: base("StringTable")
+		{ }
+		internal StringTable(XmlNode node, string version)
+			: base("StringTable")
+		{
+			switch (version)
+			{
+				case "0.3.0":
+					for (int i = 0; i < node.ChildNodes.Count; i++)
+					{
+						XmlNode stringNode = node.ChildNodes[i];
 
-                        if (stringNode.Name != "string")
-                            throw new AgateResourceException(
-                                "Invalid node appeared in string table.");
-                        if (stringNode.Attributes["name"] == null)
-                            throw new AgateResourceException(
-                                "Unnamed string node found.");
+						if (stringNode.Name != "string")
+							throw new AgateResourceException(
+								"Invalid node appeared in string table.");
+						if (stringNode.Attributes["name"] == null)
+							throw new AgateResourceException(
+								"Unnamed string node found.");
 
-                        string key = stringNode.Attributes["name"].Value;
-                        string value = stringNode.InnerText;
+						string key = stringNode.Attributes["name"].Value;
+						string value = stringNode.InnerText;
 
-                        mTable.Add(key, value);
-                    }
-                    break;
-            }
-        }
+						mTable.Add(key, value);
+					}
+					break;
+			}
+		}
 
-        internal void Combine(StringTable strings)
-        {
-            foreach (string key in strings.mTable.Keys)
-            {
-                mTable.Remove(key);
-                mTable.Add(key, strings.mTable[key]);
-            }
-        }
+		internal void Combine(StringTable strings)
+		{
+			foreach (string key in strings.mTable.Keys)
+			{
+				mTable.Remove(key);
+				mTable.Add(key, strings.mTable[key]);
+			}
+		}
 
-        internal override void BuildNodes(System.Xml.XmlElement parent, System.Xml.XmlDocument doc)
-        {
-            XmlElement element = doc.CreateElement("StringTable");
+		internal override void BuildNodes(System.Xml.XmlElement parent, System.Xml.XmlDocument doc)
+		{
+			XmlElement element = doc.CreateElement("StringTable");
 
-            foreach(string keyName in mTable.Keys)
-            {
-                if (string.IsNullOrEmpty(mTable[keyName]))
-                    continue;
-                
-                XmlElement key = doc.CreateElement("string");
-                XmlHelper.AppendAttribute(key, doc, "name", keyName);
+			foreach (string keyName in mTable.Keys)
+			{
+				if (string.IsNullOrEmpty(mTable[keyName]))
+					continue;
 
-                key.InnerText = mTable[keyName];
+				XmlElement key = doc.CreateElement("string");
+				XmlHelper.AppendAttribute(key, doc, "name", keyName);
 
-                element.AppendChild(key);
-            }
+				key.InnerText = mTable[keyName];
 
-            parent.AppendChild(element);
-        }
+				element.AppendChild(key);
+			}
 
-        /// <summary>
-        /// Clones the string table.
-        /// </summary>
-        /// <returns></returns>
-        protected override AgateResource Clone()
-        {
-            return new StringTable();
-        }
+			parent.AppendChild(element);
+		}
 
-        #region --- IDictionary<string,string> Members ---
+		/// <summary>
+		/// Clones the string table.
+		/// </summary>
+		/// <returns></returns>
+		protected override AgateResource Clone()
+		{
+			return new StringTable();
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        public void Add(string key, string value)
-        {
-            mTable.Add(key, value);
-        }
+		#region --- IDictionary<string,string> Members ---
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public bool ContainsKey(string key)
-        {
-            return mTable.ContainsKey(key);
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		public void Add(string key, string value)
+		{
+			mTable.Add(key, value);
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public ICollection<string> Keys
-        {
-            get { return mTable.Keys; }
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public bool ContainsKey(string key)
+		{
+			return mTable.ContainsKey(key);
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public bool Remove(string key)
-        {
-            return mTable.Remove(key);
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		public ICollection<string> Keys
+		{
+			get { return mTable.Keys; }
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public bool TryGetValue(string key, out string value)
-        {
-            return mTable.TryGetValue(key, out value);
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public bool Remove(string key)
+		{
+			return mTable.Remove(key);
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public ICollection<string> Values
-        {
-            get { return mTable.Values; }
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public bool TryGetValue(string key, out string value)
+		{
+			return mTable.TryGetValue(key, out value);
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public string this[string key]
-        {
-            get
-            {
-                return mTable[key];
-            }
-            set
-            {
-                mTable[key] = value;
-            }
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		public ICollection<string> Values
+		{
+			get { return mTable.Values; }
+		}
 
-        #endregion
-        #region --- ICollection<KeyValuePair<string,string>> Members ---
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public string this[string key]
+		{
+			get
+			{
+				return mTable[key];
+			}
+			set
+			{
+				mTable[key] = value;
+			}
+		}
 
-        void ICollection<KeyValuePair<string,string>> .Add(KeyValuePair<string, string> item)
-        {
-            ((ICollection<KeyValuePair<string, string>>)mTable).Add(item);
-        }
+		#endregion
+		#region --- ICollection<KeyValuePair<string,string>> Members ---
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Clear()
-        {
-            mTable.Clear();
-        }
+		void ICollection<KeyValuePair<string, string>>.Add(KeyValuePair<string, string> item)
+		{
+			((ICollection<KeyValuePair<string, string>>)mTable).Add(item);
+		}
 
-        bool ICollection<KeyValuePair<string,string>> .Contains(KeyValuePair<string, string> item)
-        {
-            return ((ICollection<KeyValuePair<string, string>>)mTable).Contains(item);
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		public void Clear()
+		{
+			mTable.Clear();
+		}
 
-        void ICollection<KeyValuePair<string, string>>.CopyTo(KeyValuePair<string, string>[] array, int arrayIndex)
-        {
-            ((ICollection<KeyValuePair<string, string>>)mTable).CopyTo(array, arrayIndex);
-        }
+		bool ICollection<KeyValuePair<string, string>>.Contains(KeyValuePair<string, string> item)
+		{
+			return ((ICollection<KeyValuePair<string, string>>)mTable).Contains(item);
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Count
-        {
-            get { return mTable.Count; }
-        }
+		void ICollection<KeyValuePair<string, string>>.CopyTo(KeyValuePair<string, string>[] array, int arrayIndex)
+		{
+			((ICollection<KeyValuePair<string, string>>)mTable).CopyTo(array, arrayIndex);
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int Count
+		{
+			get { return mTable.Count; }
+		}
 
-        bool ICollection<KeyValuePair<string, string>>.Remove(KeyValuePair<string, string> item)
-        {
-            return ((ICollection<KeyValuePair<string, string>>)mTable).Remove(item);
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool IsReadOnly
+		{
+			get { return false; }
+		}
 
-        #endregion
-        #region --- IEnumerable<KeyValuePair<string,string>> Members ---
+		bool ICollection<KeyValuePair<string, string>>.Remove(KeyValuePair<string, string> item)
+		{
+			return ((ICollection<KeyValuePair<string, string>>)mTable).Remove(item);
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
-        {
-            return mTable.GetEnumerator();
-        }
+		#endregion
+		#region --- IEnumerable<KeyValuePair<string,string>> Members ---
 
-        #endregion
-        #region --- IEnumerable Members ---
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
+		{
+			return mTable.GetEnumerator();
+		}
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return mTable.GetEnumerator();
-        }
+		#endregion
+		#region --- IEnumerable Members ---
 
-        #endregion
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return mTable.GetEnumerator();
+		}
 
-    }
+		#endregion
+
+	}
 }
