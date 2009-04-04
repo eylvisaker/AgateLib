@@ -25,7 +25,6 @@ using AgateLib.Utility;
 
 namespace AgateLib.ImplementationBase
 {
-
 	/// <summary>
 	/// Implementation of DisplayWindow class.
 	/// </summary>

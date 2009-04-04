@@ -8,9 +8,9 @@ Goals for 0.3.1
 		D Remove dependency on System.Drawing and System.Windows.Forms from AgateLib.dll.
 		* Add ability for ReportError to suppress errors below a certain level.
 	Display
-		* Implement method to choose sampling method for scaled surfaces (nearest, bilinear, etc.)
+		D Implement method to choose sampling method for scaled surfaces (nearest, bilinear, etc.)
 	Surfaces
-		* Fix bug with rotation where ScaleWidth or ScaleHeight are less than zero.
+		D Fix bug with rotation where ScaleWidth or ScaleHeight are less than zero.
 	Drivers
 		* Update AgateOTK to not call GL functions in finalizers.
 	Input
@@ -34,10 +34,8 @@ Goals for 0.3.5
 		* Interface to allow audio to be generated at runtime.
 		* Convert AgateOTK to use vertex buffers instead of vertex arrays.
 		Gui
-			* Redesign GUI to use containers for automatic positioning
 			* Document GUI classes
 			* Develop data-driven skinning system for the GUI
-		
 
 Low Priority
 ------------
