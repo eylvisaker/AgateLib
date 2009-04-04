@@ -26,124 +26,124 @@ using AgateLib.ImplementationBase;
 
 namespace AgateSDL.Input
 {
-    public class SDL_Input : InputImpl 
-    {
+	public class SDL_Input : InputImpl
+	{
 
-        public override int JoystickCount
-        {
-            get { return Tao.Sdl.Sdl.SDL_NumJoysticks(); }
-        }
+		public override int JoystickCount
+		{
+			get { return Tao.Sdl.Sdl.SDL_NumJoysticks(); }
+		}
 
-        public override IEnumerable<JoystickImpl> CreateJoysticks()
-        {
-            for (int i = 0; i < JoystickCount; i++)
-            {
-                Debug.Print(Tao.Sdl.Sdl.SDL_JoystickName(i));
-                yield return new Joystick_SDL(i);
-            }
-        }
+		public override IEnumerable<JoystickImpl> CreateJoysticks()
+		{
+			for (int i = 0; i < JoystickCount; i++)
+			{
+				Debug.Print(Tao.Sdl.Sdl.SDL_JoystickName(i));
+				yield return new Joystick_SDL(i);
+			}
+		}
 
-        public override void Dispose()
-        {
-            Tao.Sdl.Sdl.SDL_QuitSubSystem(Tao.Sdl.Sdl.SDL_INIT_JOYSTICK);
-        }
+		public override void Dispose()
+		{
+			Tao.Sdl.Sdl.SDL_QuitSubSystem(Tao.Sdl.Sdl.SDL_INIT_JOYSTICK);
+		}
 
-        public override void Initialize()
-        {
-            if (Tao.Sdl.Sdl.SDL_InitSubSystem(Tao.Sdl.Sdl.SDL_INIT_JOYSTICK) != 0)
-            {
-                throw new AgateLib.AgateException("Failed to initialize SDL joysticks.");
-            }
-            
-            // apparently initializing the video has some side-effect 
-            // that is required for joysticks to work on windows (at least).
-            Tao.Sdl.Sdl.SDL_InitSubSystem(Tao.Sdl.Sdl.SDL_INIT_VIDEO);
+		public override void Initialize()
+		{
+			if (Tao.Sdl.Sdl.SDL_InitSubSystem(Tao.Sdl.Sdl.SDL_INIT_JOYSTICK) != 0)
+			{
+				throw new AgateLib.AgateException("Failed to initialize SDL joysticks.");
+			}
 
-            Report("SDL driver instantiated for joystick input.");
+			// apparently initializing the video has some side-effect 
+			// that is required for joysticks to work on windows (at least).
+			Tao.Sdl.Sdl.SDL_InitSubSystem(Tao.Sdl.Sdl.SDL_INIT_VIDEO);
 
-        }
-    }
+			Report("SDL driver instantiated for joystick input.");
 
-    public class Joystick_SDL : JoystickImpl
-    {
-        IntPtr joystick;
-        int joystickIndex;
-        double axisTheshold = 0.04f;
-        bool[] buttons;
+		}
+	}
 
-        public Joystick_SDL(int index)
-        {
-            this.joystickIndex = index;
-            this.joystick = Tao.Sdl.Sdl.SDL_JoystickOpen(index);
-            buttons = new bool[ButtonCount];
-        }
+	public class Joystick_SDL : JoystickImpl
+	{
+		IntPtr joystick;
+		int joystickIndex;
+		double axisTheshold = 0.04f;
+		bool[] buttons;
 
-        public override string Name
-        {
-            get { return Tao.Sdl.Sdl.SDL_JoystickName(joystickIndex); }
-        }
+		public Joystick_SDL(int index)
+		{
+			this.joystickIndex = index;
+			this.joystick = Tao.Sdl.Sdl.SDL_JoystickOpen(index);
+			buttons = new bool[ButtonCount];
+		}
 
-        public override int AxisCount
-        {
-            get { return Tao.Sdl.Sdl.SDL_JoystickNumAxes(joystick); }
-        }
+		public override string Name
+		{
+			get { return Tao.Sdl.Sdl.SDL_JoystickName(joystickIndex); }
+		}
 
-        public override double AxisThreshold
-        {
-            get
-            {
-                return axisTheshold;
-            }
-            set
-            {
-                axisTheshold = value;
-            }
-        }
+		public override int AxisCount
+		{
+			get { return Tao.Sdl.Sdl.SDL_JoystickNumAxes(joystick); }
+		}
 
-        public override int ButtonCount
-        {
-            get { return Tao.Sdl.Sdl.SDL_JoystickNumButtons(joystick); }
-        }
+		public override double AxisThreshold
+		{
+			get
+			{
+				return axisTheshold;
+			}
+			set
+			{
+				axisTheshold = value;
+			}
+		}
 
-        public override bool GetButtonState(int buttonIndex)
-        {
-            return buttons[buttonIndex];
-        }
+		public override int ButtonCount
+		{
+			get { return Tao.Sdl.Sdl.SDL_JoystickNumButtons(joystick); }
+		}
 
-        public override double GetAxisValue(int axisIndex)
-        {
-            // Convert joystick coordinate to the agatelib coordinate system of -1..1.
-            double value = Tao.Sdl.Sdl.SDL_JoystickGetAxis(joystick, axisIndex) / 32767.0;
+		public override bool GetButtonState(int buttonIndex)
+		{
+			return buttons[buttonIndex];
+		}
 
-            if (value < -1) value = -1;
-            else if (value > 1) value = 1;
+		public override double GetAxisValue(int axisIndex)
+		{
+			// Convert joystick coordinate to the agatelib coordinate system of -1..1.
+			double value = Tao.Sdl.Sdl.SDL_JoystickGetAxis(joystick, axisIndex) / 32767.0;
 
-            if (Math.Abs(value) < AxisThreshold)
-                value = 0;
+			if (value < -1) value = -1;
+			else if (value > 1) value = 1;
 
-            return value;
-        }
+			if (Math.Abs(value) < AxisThreshold)
+				value = 0;
 
-        public override bool PluggedIn
-        {
-            get { return true; }
-        }
+			return value;
+		}
 
-        public override void Poll()
-        {
-            Tao.Sdl.Sdl.SDL_Event evt;
-            Tao.Sdl.Sdl.SDL_PollEvent(out evt);
+		public override bool PluggedIn
+		{
+			get { return true; }
+		}
 
-            for (int i = 0; i < ButtonCount; i++)
-            {
-                buttons[i] = (Tao.Sdl.Sdl.SDL_JoystickGetButton(joystick, i) != 0 )? true : false;
-            }
-        }
+		public override void Poll()
+		{
+			Tao.Sdl.Sdl.SDL_Event evt;
+			Tao.Sdl.Sdl.SDL_PollEvent(out evt);
 
-        public override void Recalibrate()
-        {
-            
-        }
+			for (int i = 0; i < ButtonCount; i++)
+			{
+				buttons[i] = (Tao.Sdl.Sdl.SDL_JoystickGetButton(joystick, i) != 0) ? true : false;
+			}
+		}
 
-    }
+		public override void Recalibrate()
+		{
+
+		}
+
+	}
 }

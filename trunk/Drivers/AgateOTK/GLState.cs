@@ -29,30 +29,30 @@ using OpenTK.Graphics;
 
 namespace AgateOTK
 {
-    class GLState
-    {
-        #region --- Private variables for state management ---
+	class GLState
+	{
+		#region --- Private variables for state management ---
 
-        private GLDrawBuffer mDrawBuffer;
+		private GLDrawBuffer mDrawBuffer;
 
-        #endregion
+		#endregion
 
-        public GLState()
-        {
-             mDrawBuffer = new GLDrawBuffer(this);
-        }
-
-
-        public GLDrawBuffer DrawBuffer
-        {
-            get { return mDrawBuffer; }
-        }
-
-        public void SetGLColor(Color color)
-        {
-            GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-        }
+		public GLState()
+		{
+			mDrawBuffer = new GLDrawBuffer(this);
+		}
 
 
-    }
+		public GLDrawBuffer DrawBuffer
+		{
+			get { return mDrawBuffer; }
+		}
+
+		public void SetGLColor(Color color)
+		{
+			GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
+		}
+
+
+	}
 }

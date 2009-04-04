@@ -24,8 +24,8 @@ using AgateLib.ImplementationBase;
 
 namespace AgateLib.DisplayLib.SystemDrawing
 {
-    public interface Drawing_IRenderTarget : IRenderTargetImpl
-    {
-        Bitmap BackBuffer { get; }
-    }
+	public interface Drawing_IRenderTarget : IRenderTargetImpl
+	{
+		Bitmap BackBuffer { get; }
+	}
 }

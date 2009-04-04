@@ -28,73 +28,73 @@ using AgateLib.ImplementationBase;
 
 namespace AgateSDL.Audio
 {
-    class SDL_SoundBuffer : SoundBufferImpl 
-    {
-        IntPtr sound;
-        string tempfile;
-        double mVolume = 1.0;
+	class SDL_SoundBuffer : SoundBufferImpl
+	{
+		IntPtr sound;
+		string tempfile;
+		double mVolume = 1.0;
 
-        public SDL_SoundBuffer(Stream stream)
-        {
-            tempfile = AgateFileProvider.SaveStreamToTempFile(stream);
+		public SDL_SoundBuffer(Stream stream)
+		{
+			tempfile = AgateFileProvider.SaveStreamToTempFile(stream);
 
-            LoadFromFile(tempfile);
+			LoadFromFile(tempfile);
 
-            (AgateLib.AudioLib.Audio.Impl as SDL_Audio).RegisterTempFile(tempfile);
+			(AgateLib.AudioLib.Audio.Impl as SDL_Audio).RegisterTempFile(tempfile);
 
-        }
-        public SDL_SoundBuffer(string filename)
-        {
-            LoadFromFile(filename);
-        }
+		}
+		public SDL_SoundBuffer(string filename)
+		{
+			LoadFromFile(filename);
+		}
 
-        ~SDL_SoundBuffer()
-        {
-            Dispose(false);
-        }
+		~SDL_SoundBuffer()
+		{
+			Dispose(false);
+		}
 
-        public override void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+		public override void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
-        private void Dispose(bool disposing)
-        {
-            SdlMixer.Mix_FreeChunk(sound);
+		private void Dispose(bool disposing)
+		{
+			SdlMixer.Mix_FreeChunk(sound);
 
-            //if (string.IsNullOrEmpty(tempfile) == false)
-            //{
-            //    File.Delete(tempfile);
-            //    tempfile = "";
-            //}
-        }
-        private void LoadFromFile(string file)
-        {
-            sound = SdlMixer.Mix_LoadWAV(file);
+			//if (string.IsNullOrEmpty(tempfile) == false)
+			//{
+			//    File.Delete(tempfile);
+			//    tempfile = "";
+			//}
+		}
+		private void LoadFromFile(string file)
+		{
+			sound = SdlMixer.Mix_LoadWAV(file);
 
-            if (sound == IntPtr.Zero)
-                throw new AgateException("Could not load audio file.");
-        }
+			if (sound == IntPtr.Zero)
+				throw new AgateException("Could not load audio file.");
+		}
 
-        public override double Volume
-        {
-            get
-            {
-                return mVolume;
-            }
-            set
-            {
-                if (value < 0.0) mVolume = 0.0;
-                else if (value > 1.0) mVolume = 1.0;
-                else mVolume = value;
-            }
-        }
+		public override double Volume
+		{
+			get
+			{
+				return mVolume;
+			}
+			set
+			{
+				if (value < 0.0) mVolume = 0.0;
+				else if (value > 1.0) mVolume = 1.0;
+				else mVolume = value;
+			}
+		}
 
-        internal IntPtr SoundChunk
-        {
-            get { return sound; }
-        }
+		internal IntPtr SoundChunk
+		{
+			get { return sound; }
+		}
 
-    }
+	}
 }

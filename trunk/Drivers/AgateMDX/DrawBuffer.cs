@@ -26,93 +26,93 @@ using AgateLib.DisplayLib;
 
 namespace AgateMDX
 {
-    /// <summary>
-    /// Perhaps at some point this should be converted to use a vertex buffer
-    /// instead of a vertex array.
-    /// </summary>
-    public class DrawBuffer
-    {
-        const int vertPageSize = 1000;
-        int pages = 1;
+	/// <summary>
+	/// Perhaps at some point this should be converted to use a vertex buffer
+	/// instead of a vertex array.
+	/// </summary>
+	public class DrawBuffer
+	{
+		const int vertPageSize = 1000;
+		int pages = 1;
 
-        D3DDevice mDevice;
+		D3DDevice mDevice;
 
-        PositionColorNormalTexture[] mVerts;
-        short[] mIndices;
+		PositionColorNormalTexture[] mVerts;
+		short[] mIndices;
 
-        int mVertPointer = 0;
-        int mIndexPointer = 0;
+		int mVertPointer = 0;
+		int mIndexPointer = 0;
 
-        Texture mTexture;
-        bool mAlphaBlend;
+		Texture mTexture;
+		bool mAlphaBlend;
 
-        
-        public DrawBuffer(D3DDevice device)
-        {
-            mDevice = device;
 
-            AllocateVerts();
-        }
+		public DrawBuffer(D3DDevice device)
+		{
+			mDevice = device;
 
-        private void AllocateVerts()
-        {
-            mVerts = new PositionColorNormalTexture[vertPageSize * pages];
-            mIndices = new short[vertPageSize / 2 * 3 * pages];
-        }
-        public void CacheDrawIndexedTriangles(PositionColorNormalTexture[] verts, short[] indices,
-            Texture texture, bool alphaBlend)
-        {
-            if (mTexture != texture || mAlphaBlend != alphaBlend)
-            {
-                Flush();
+			AllocateVerts();
+		}
 
-                mTexture = texture;
-                mAlphaBlend = alphaBlend;
-            }
+		private void AllocateVerts()
+		{
+			mVerts = new PositionColorNormalTexture[vertPageSize * pages];
+			mIndices = new short[vertPageSize / 2 * 3 * pages];
+		}
+		public void CacheDrawIndexedTriangles(PositionColorNormalTexture[] verts, short[] indices,
+			Texture texture, bool alphaBlend)
+		{
+			if (mTexture != texture || mAlphaBlend != alphaBlend)
+			{
+				Flush();
 
-            // increase the number of vertex pages if we don't have enough space.
-            while (mVertPointer + verts.Length > mVerts.Length)
-            {
-                Flush();
+				mTexture = texture;
+				mAlphaBlend = alphaBlend;
+			}
 
-                // this is an arbitrary cap on the size of the vertex array.
-                if (pages < 32)
-                    pages++;
+			// increase the number of vertex pages if we don't have enough space.
+			while (mVertPointer + verts.Length > mVerts.Length)
+			{
+				Flush();
 
-                AllocateVerts();
-            }
+				// this is an arbitrary cap on the size of the vertex array.
+				if (pages < 32)
+					pages++;
 
-            verts.CopyTo(mVerts, mVertPointer);
+				AllocateVerts();
+			}
 
-            for (int i = 0; i < indices.Length; i++)
-                mIndices[i + mIndexPointer] = (short)(indices[i] + mVertPointer);
+			verts.CopyTo(mVerts, mVertPointer);
 
-            mVertPointer += verts.Length;
-            mIndexPointer += indices.Length;
+			for (int i = 0; i < indices.Length; i++)
+				mIndices[i + mIndexPointer] = (short)(indices[i] + mVertPointer);
 
-        }
+			mVertPointer += verts.Length;
+			mIndexPointer += indices.Length;
 
-        public void Flush()
-        {
-            if (mVertPointer == 0)
-                return;
+		}
 
-            mDevice.SetDeviceStateTexture(mTexture);
-            mDevice.AlphaBlend = mAlphaBlend;
-            mDevice.VertexFormat = PositionColorNormalTexture.Format;
+		public void Flush()
+		{
+			if (mVertPointer == 0)
+				return;
 
-            try
-            {
-                mDevice.Device.DrawIndexedUserPrimitives
-                    (PrimitiveType.TriangleList, 0, mVertPointer,
-                     mIndexPointer / 3, mIndices, true, mVerts);
-            }
-            catch { }
+			mDevice.SetDeviceStateTexture(mTexture);
+			mDevice.AlphaBlend = mAlphaBlend;
+			mDevice.VertexFormat = PositionColorNormalTexture.Format;
 
-            mVertPointer = 0;
-            mIndexPointer = 0;
+			try
+			{
+				mDevice.Device.DrawIndexedUserPrimitives
+					(PrimitiveType.TriangleList, 0, mVertPointer,
+					 mIndexPointer / 3, mIndices, true, mVerts);
+			}
+			catch { }
 
-        }
+			mVertPointer = 0;
+			mIndexPointer = 0;
 
-    }
+		}
+
+	}
 }

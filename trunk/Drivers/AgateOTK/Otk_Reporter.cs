@@ -24,49 +24,49 @@ using AgateLib.Drivers;
 
 namespace AgateOTK
 {
-    class Otk_Reporter : AgateDriverReporter 
-    {
-        public override IEnumerable<AgateDriverInfo> ReportDrivers()
-        {
-            string opentk_version = "0.9.5"; 
-            opentk_version = GetOpenTKVersion(opentk_version);
+	class Otk_Reporter : AgateDriverReporter
+	{
+		public override IEnumerable<AgateDriverInfo> ReportDrivers()
+		{
+			string opentk_version = "0.9.5";
+			opentk_version = GetOpenTKVersion(opentk_version);
 
-            yield return new AgateDriverInfo(
-                 DisplayTypeID.OpenGL, typeof(GL_Display), "OpenGL through OpenTK" + opentk_version, 1120);
+			yield return new AgateDriverInfo(
+				 DisplayTypeID.OpenGL, typeof(GL_Display), "OpenGL through OpenTK" + opentk_version, 1120);
 
-            if (ReportOpenAL())
-            {
-                yield return new AgateDriverInfo(
-                    AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK" + opentk_version, 100);
-            }
-        }
+			if (ReportOpenAL())
+			{
+				yield return new AgateDriverInfo(
+					AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK" + opentk_version, 100);
+			}
+		}
 
-        private static string GetOpenTKVersion(string opentk_version)
-        {
+		private static string GetOpenTKVersion(string opentk_version)
+		{
 
-            Assembly otkass = Assembly.GetAssembly(typeof(OpenTK.Graphics.GL));
-            object[] attribs = otkass.GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
-            AssemblyFileVersionAttribute version = attribs[0] as AssemblyFileVersionAttribute;
+			Assembly otkass = Assembly.GetAssembly(typeof(OpenTK.Graphics.GL));
+			object[] attribs = otkass.GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
+			AssemblyFileVersionAttribute version = attribs[0] as AssemblyFileVersionAttribute;
 
 
-            if (version != null)
-                opentk_version = " " + version.Version;
-            return opentk_version;
-        }
+			if (version != null)
+				opentk_version = " " + version.Version;
+			return opentk_version;
+		}
 
-        bool ReportOpenAL()
-        {
-            try
-            {
-                // test for the presence of working OpenAL.
-                new OpenTK.Audio.AudioContext().Dispose();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+		bool ReportOpenAL()
+		{
+			try
+			{
+				// test for the presence of working OpenAL.
+				new OpenTK.Audio.AudioContext().Dispose();
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
 
-        }
-    }
+		}
+	}
 }

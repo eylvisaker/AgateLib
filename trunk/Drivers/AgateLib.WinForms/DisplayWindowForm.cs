@@ -25,55 +25,55 @@ using System.Windows.Forms;
 
 namespace AgateLib.WinForms
 {
-    /// <summary>
-    /// Form which is used fora generic Display.
-    /// </summary>
-    /// <remarks>
-    /// [Experimental - This class will be moved to into a different assembly
-    /// in the future.]
-    /// </remarks>
-    public partial class DisplayWindowForm : Form
-    {
-        
-        /// <summary>
-        /// Constructs a DisplayWindowForm object.
-        /// </summary>
-        public DisplayWindowForm()
-        {
+	/// <summary>
+	/// Form which is used fora generic Display.
+	/// </summary>
+	/// <remarks>
+	/// [Experimental - This class will be moved to into a different assembly
+	/// in the future.]
+	/// </remarks>
+	public partial class DisplayWindowForm : Form
+	{
 
-           // CreateParams.ClassStyle = this.CreateParams.ClassStyle |       // Redraw On Size, And Own DC For Window.
-             //   Tao.Platform.Windows.User.CS_HREDRAW | Tao.Platform.Windows.User.CS_VREDRAW | Tao.Platform.Windows.User.CS_OWNDC;
+		/// <summary>
+		/// Constructs a DisplayWindowForm object.
+		/// </summary>
+		public DisplayWindowForm()
+		{
 
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true);            // No Need To Erase Form Background
-            //SetStyle(ControlStyles.DoubleBuffer, true);                    // Buffer Control
-            SetStyle(ControlStyles.Opaque, true);                          // No Need To Draw Form Background
-            SetStyle(ControlStyles.ResizeRedraw, true);                    // Redraw On Resize
-            SetStyle(ControlStyles.UserPaint, true);                       // We'll Handle Painting Ourselves
+			// CreateParams.ClassStyle = this.CreateParams.ClassStyle |       // Redraw On Size, And Own DC For Window.
+			//   Tao.Platform.Windows.User.CS_HREDRAW | Tao.Platform.Windows.User.CS_VREDRAW | Tao.Platform.Windows.User.CS_OWNDC;
 
-            InitializeComponent();
+			SetStyle(ControlStyles.AllPaintingInWmPaint, true);            // No Need To Erase Form Background
+			//SetStyle(ControlStyles.DoubleBuffer, true);                    // Buffer Control
+			SetStyle(ControlStyles.Opaque, true);                          // No Need To Draw Form Background
+			SetStyle(ControlStyles.ResizeRedraw, true);                    // Redraw On Resize
+			SetStyle(ControlStyles.UserPaint, true);                       // We'll Handle Painting Ourselves
 
-        }
-        /// <summary>
-        /// The control which is rendered into.
-        /// </summary>
-        public Control RenderTarget
-        {
-            get { return agateRenderTarget1; }
-        }
+			InitializeComponent();
 
-        private void DisplayWindowForm_Deactivate(object sender, EventArgs e)
-        {
-            Core.IsActive = false;
-        }
+		}
+		/// <summary>
+		/// The control which is rendered into.
+		/// </summary>
+		public Control RenderTarget
+		{
+			get { return agateRenderTarget1; }
+		}
 
-        private void DisplayWindowForm_Activated(object sender, EventArgs e)
-        {
-            Core.IsActive = true;
-        }
+		private void DisplayWindowForm_Deactivate(object sender, EventArgs e)
+		{
+			Core.IsActive = false;
+		}
 
-        private void DisplayWindowForm_Load(object sender, EventArgs e)
-        {
+		private void DisplayWindowForm_Activated(object sender, EventArgs e)
+		{
+			Core.IsActive = true;
+		}
 
-        }
-    }
+		private void DisplayWindowForm_Load(object sender, EventArgs e)
+		{
+
+		}
+	}
 }

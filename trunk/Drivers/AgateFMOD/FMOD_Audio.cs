@@ -27,121 +27,121 @@ using AgateLib.ImplementationBase;
 
 namespace AgateFMOD
 {
-    public sealed class FMOD_Audio : AudioImpl
-    {
-        FMOD.System mSystem;
-        bool mIsDisposed;
+	public sealed class FMOD_Audio : AudioImpl
+	{
+		FMOD.System mSystem;
+		bool mIsDisposed;
 
-        public override SoundBufferImpl CreateSoundBuffer(string filename)
-        {
-            return new FMOD_SoundBuffer(this, filename);
-        }
-        public override MusicImpl CreateMusic(string filename)
-        {
-            return new FMOD_Music(this, filename);
-        }
-        public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
-        {
-            return new FMOD_SoundBufferSession(this, buffer as FMOD_SoundBuffer);
-        }
+		public override SoundBufferImpl CreateSoundBuffer(string filename)
+		{
+			return new FMOD_SoundBuffer(this, filename);
+		}
+		public override MusicImpl CreateMusic(string filename)
+		{
+			return new FMOD_Music(this, filename);
+		}
+		public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
+		{
+			return new FMOD_SoundBufferSession(this, buffer as FMOD_SoundBuffer);
+		}
 
-        public FMOD.System FMODSystem
-        {
-            get { return mSystem; }
-        }
-        public override void Initialize()
-        {
-            // create and initialize the FMOD system.
-            CheckFMODResult(FMOD.Factory.System_Create(ref mSystem));
-            CheckFMODResult(mSystem.init(1000, FMOD.INITFLAG._3D_RIGHTHANDED, IntPtr.Zero));
+		public FMOD.System FMODSystem
+		{
+			get { return mSystem; }
+		}
+		public override void Initialize()
+		{
+			// create and initialize the FMOD system.
+			CheckFMODResult(FMOD.Factory.System_Create(ref mSystem));
+			CheckFMODResult(mSystem.init(1000, FMOD.INITFLAG._3D_RIGHTHANDED, IntPtr.Zero));
 
-            Report("AgateFMOD driver instantiated for audio.");
+			Report("AgateFMOD driver instantiated for audio.");
 
-        }
-        public override void Dispose()
-        {
-            if (mSystem != null)
-            {
-                mSystem.release();
-                mSystem = null;
-            }
+		}
+		public override void Dispose()
+		{
+			if (mSystem != null)
+			{
+				mSystem.release();
+				mSystem = null;
+			}
 
-            mIsDisposed = true;
-        }
+			mIsDisposed = true;
+		}
 
-        internal static void CheckFMODResult(FMOD.RESULT result)
-        {
-            if (result != FMOD.RESULT.OK)
-            {
-                System.Diagnostics.Debug.WriteLine
-                    ("An error has occurred in the FMOD library: " + result.ToString());
+		internal static void CheckFMODResult(FMOD.RESULT result)
+		{
+			if (result != FMOD.RESULT.OK)
+			{
+				System.Diagnostics.Debug.WriteLine
+					("An error has occurred in the FMOD library: " + result.ToString());
 
-                //throw new Exception("An error has occurred in the FMOD library: " + result.ToString());
-            }
-        }
+				//throw new Exception("An error has occurred in the FMOD library: " + result.ToString());
+			}
+		}
 
-        public bool IsDisposed
-        {
-            get { return mIsDisposed; }
-            set { mIsDisposed = value; }
-        }
+		public bool IsDisposed
+		{
+			get { return mIsDisposed; }
+			set { mIsDisposed = value; }
+		}
 
 
-        internal bool IsChannelPlaying( FMOD.Channel channel)
-        {
-            if (channel == null)
-                return false;
+		internal bool IsChannelPlaying(FMOD.Channel channel)
+		{
+			if (channel == null)
+				return false;
 
-            bool playing = false;
-            bool paused = false;
-            FMOD.RESULT result = channel.isPlaying(ref playing);
+			bool playing = false;
+			bool paused = false;
+			FMOD.RESULT result = channel.isPlaying(ref playing);
 
-            if (result != FMOD.RESULT.OK)
-            {
-                return false;
-            }
+			if (result != FMOD.RESULT.OK)
+			{
+				return false;
+			}
 
-            if (playing == false)
-                return playing;
+			if (playing == false)
+				return playing;
 
-            if (channel.getPaused(ref paused) == FMOD.RESULT.OK)
-            {
-                return !paused;
-            }
+			if (channel.getPaused(ref paused) == FMOD.RESULT.OK)
+			{
+				return !paused;
+			}
 
-            channel = null;
-            return false;
-        }
+			channel = null;
+			return false;
+		}
 
-        public override void Update()
-        {
-            CheckFMODResult(mSystem.update());
-        }
+		public override void Update()
+		{
+			CheckFMODResult(mSystem.update());
+		}
 
-        public override MusicImpl CreateMusic(System.IO.Stream musicStream)
-        {
-            string filename = SaveStreamToTempFile(musicStream);
-            return CreateMusic(filename);
-        }
-        public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
-        {
-            string filename = SaveStreamToTempFile(inStream);
-            return CreateSoundBuffer(filename);
-        }
-        private string SaveStreamToTempFile(System.IO.Stream inStream)
-        {
-            string tempfile = System.IO.Path.GetTempFileName();
-            byte[] data = new byte[inStream.Length];
+		public override MusicImpl CreateMusic(System.IO.Stream musicStream)
+		{
+			string filename = SaveStreamToTempFile(musicStream);
+			return CreateMusic(filename);
+		}
+		public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
+		{
+			string filename = SaveStreamToTempFile(inStream);
+			return CreateSoundBuffer(filename);
+		}
+		private string SaveStreamToTempFile(System.IO.Stream inStream)
+		{
+			string tempfile = System.IO.Path.GetTempFileName();
+			byte[] data = new byte[inStream.Length];
 
-            inStream.Read(data, 0, (int)inStream.Length);
+			inStream.Read(data, 0, (int)inStream.Length);
 
-            using (Stream file = File.OpenWrite(tempfile))
-            {
-                file.Write(data, 0, data.Length);
-            }
+			using (Stream file = File.OpenWrite(tempfile))
+			{
+				file.Write(data, 0, data.Length);
+			}
 
-            return tempfile;
-        }
+			return tempfile;
+		}
 
-    }
+	}
 }

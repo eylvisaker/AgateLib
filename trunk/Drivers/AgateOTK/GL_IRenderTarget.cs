@@ -24,13 +24,13 @@ using AgateLib.ImplementationBase;
 
 namespace AgateOTK
 {
-    interface GL_IRenderTarget : IRenderTargetImpl
-    {
-        void MakeCurrent();
+	interface GL_IRenderTarget : IRenderTargetImpl
+	{
+		void MakeCurrent();
 
-        // TODO: fix this hack and remove these interface members.
-        void HideCursor();
-        void ShowCursor();
+		// TODO: fix this hack and remove these interface members.
+		void HideCursor();
+		void ShowCursor();
 
-    }
+	}
 }

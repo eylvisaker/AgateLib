@@ -26,13 +26,13 @@ using System.Windows.Forms;
 
 namespace AgateMDX
 {
-    public partial class frmFullScreen : Form
-    {
-        public frmFullScreen()
-        {
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.Opaque, true);
+	public partial class frmFullScreen : Form
+	{
+		public frmFullScreen()
+		{
+			this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.Opaque, true);
 
-            InitializeComponent();
-        }
-    }
+			InitializeComponent();
+		}
+	}
 }

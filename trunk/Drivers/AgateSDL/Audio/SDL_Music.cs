@@ -28,108 +28,108 @@ using AgateLib.ImplementationBase;
 
 namespace AgateSDL.Audio
 {
-    public class SDL_Music : MusicImpl 
-    {
-        IntPtr music;
-        string tempfile;
-        double mVolume;
+	public class SDL_Music : MusicImpl
+	{
+		IntPtr music;
+		string tempfile;
+		double mVolume;
 
-        public SDL_Music(Stream stream)
-        {
-            tempfile = AgateFileProvider.SaveStreamToTempFile(stream);
+		public SDL_Music(Stream stream)
+		{
+			tempfile = AgateFileProvider.SaveStreamToTempFile(stream);
 
-            LoadFromFile(tempfile);
+			LoadFromFile(tempfile);
 
-            (AgateLib.AudioLib.Audio.Impl as SDL_Audio).RegisterTempFile(tempfile);
-        }
+			(AgateLib.AudioLib.Audio.Impl as SDL_Audio).RegisterTempFile(tempfile);
+		}
 
-        public SDL_Music(string filename)
-        {
-            LoadFromFile(filename);
-        }
+		public SDL_Music(string filename)
+		{
+			LoadFromFile(filename);
+		}
 
-        ~SDL_Music()
-        {
-            Dispose(false);
-        }
+		~SDL_Music()
+		{
+			Dispose(false);
+		}
 
-        public override void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+		public override void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
-        private void Dispose(bool disposing)
-        {
-            SdlMixer.Mix_FreeMusic(music);
+		private void Dispose(bool disposing)
+		{
+			SdlMixer.Mix_FreeMusic(music);
 
-            //if (string.IsNullOrEmpty(tempfile) == false)
-            //{
-            //    File.Delete(tempfile);
-            //    tempfile = "";
-            //}
-        }
+			//if (string.IsNullOrEmpty(tempfile) == false)
+			//{
+			//    File.Delete(tempfile);
+			//    tempfile = "";
+			//}
+		}
 
-        private void LoadFromFile(string file)
-        {
-            music = SdlMixer.Mix_LoadMUS(file);
+		private void LoadFromFile(string file)
+		{
+			music = SdlMixer.Mix_LoadMUS(file);
 
-            if (music == IntPtr.Zero)
-                throw new AgateException("Could not load music file.");
-        }
+			if (music == IntPtr.Zero)
+				throw new AgateException("Could not load music file.");
+		}
 
-        public override bool IsPlaying
-        {
-            get
-            {
-                if (SdlMixer.Mix_PlayingMusic() == 0)
-                    return false;
+		public override bool IsPlaying
+		{
+			get
+			{
+				if (SdlMixer.Mix_PlayingMusic() == 0)
+					return false;
 
-                if (SdlMixer.Mix_PausedMusic() != 0)
-                    return false;
+				if (SdlMixer.Mix_PausedMusic() != 0)
+					return false;
 
-                return true;
-            }
-        }
+				return true;
+			}
+		}
 
-        protected override void OnSetLoop(bool value)
-        {
-            SdlMixer.Mix_PlayMusic(music, -1);
-        }
+		protected override void OnSetLoop(bool value)
+		{
+			SdlMixer.Mix_PlayMusic(music, -1);
+		}
 
-        public override double Pan
-        {
-            get
-            {
-                return 0;
-            }
-            set
-            {
-                
-            }
-        }
+		public override double Pan
+		{
+			get
+			{
+				return 0;
+			}
+			set
+			{
 
-        public override void Play()
-        {
-            SdlMixer.Mix_PlayMusic(music, -1);
-        }
+			}
+		}
 
-        public override void Stop()
-        {
-            SdlMixer.Mix_PauseMusic();
-        }
+		public override void Play()
+		{
+			SdlMixer.Mix_PlayMusic(music, -1);
+		}
 
-        public override double Volume
-        {
-            get
-            {
-                return mVolume;                
-            }
-            set
-            {
-                SdlMixer.Mix_VolumeMusic((int)(value * SdlMixer.MIX_MAX_VOLUME));
-                mVolume = value;
-            }
-        }
-    }
+		public override void Stop()
+		{
+			SdlMixer.Mix_PauseMusic();
+		}
+
+		public override double Volume
+		{
+			get
+			{
+				return mVolume;
+			}
+			set
+			{
+				SdlMixer.Mix_VolumeMusic((int)(value * SdlMixer.MIX_MAX_VOLUME));
+				mVolume = value;
+			}
+		}
+	}
 }
