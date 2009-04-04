@@ -29,241 +29,241 @@ using OpenTK.Graphics;
 
 namespace AgateOTK
 {
-    class GLDrawBuffer
-    {
-        #region --- Private types for Vertex Arrays ---
+	class GLDrawBuffer
+	{
+		#region --- Private types for Vertex Arrays ---
 
-        [StructLayout(LayoutKind.Sequential)]
-        private struct TexCoord
-        {
-            public float u;
-            public float v;
-        }
-        [StructLayout(LayoutKind.Sequential)]
-        private struct VertexCoord
-        {
-            public float x;
-            public float y;
-        }
-        [StructLayout(LayoutKind.Sequential)]
-        private struct ColorCoord
-        {
-            public float r;
-            public float g;
-            public float b;
-            public float a;
+		[StructLayout(LayoutKind.Sequential)]
+		private struct TexCoord
+		{
+			public float u;
+			public float v;
+		}
+		[StructLayout(LayoutKind.Sequential)]
+		private struct VertexCoord
+		{
+			public float x;
+			public float y;
+		}
+		[StructLayout(LayoutKind.Sequential)]
+		private struct ColorCoord
+		{
+			public float r;
+			public float g;
+			public float b;
+			public float a;
 
-            public ColorCoord(Color clr)
-            {
-                r = clr.R / 255.0f;
-                g = clr.G / 255.0f;
-                b = clr.B / 255.0f;
-                a = clr.A / 255.0f;
-            }
-        }
-        [StructLayout(LayoutKind.Sequential)]
-        private struct NormalCoord
-        {
-            public float x;
-            public float y;
-            public float z;
+			public ColorCoord(Color clr)
+			{
+				r = clr.R / 255.0f;
+				g = clr.G / 255.0f;
+				b = clr.B / 255.0f;
+				a = clr.A / 255.0f;
+			}
+		}
+		[StructLayout(LayoutKind.Sequential)]
+		private struct NormalCoord
+		{
+			public float x;
+			public float y;
+			public float z;
 
-            public NormalCoord(float x, float y, float z)
-            {
-                this.x = x;
-                this.y = y;
-                this.z = z;
-            }
-        }
-        #endregion
+			public NormalCoord(float x, float y, float z)
+			{
+				this.x = x;
+				this.y = y;
+				this.z = z;
+			}
+		}
+		#endregion
 
-        GLState mState;
+		GLState mState;
 
-        TexCoord[] mTexCoords;
-        ColorCoord[] mColorCoords;
-        VertexCoord[] mVertexCoords;
-        NormalCoord[] mNormalCoords;
+		TexCoord[] mTexCoords;
+		ColorCoord[] mColorCoords;
+		VertexCoord[] mVertexCoords;
+		NormalCoord[] mNormalCoords;
 
-        int mIndex;
-        int mCurrentTexture;
+		int mIndex;
+		int mCurrentTexture;
 
-        InterpolationMode lastInerpolation;
-        PointF[] cachePts = new PointF[4];
+		InterpolationMode lastInerpolation;
+		PointF[] cachePts = new PointF[4];
 
-        public GLDrawBuffer(GLState state)
-        {
-            mState = state;
+		public GLDrawBuffer(GLState state)
+		{
+			mState = state;
 
-            SetBufferSize(1000);
-        }
+			SetBufferSize(1000);
+		}
 
-        private void SetBufferSize(int size)
-        {
-            mTexCoords = new TexCoord[size];
-            mColorCoords = new ColorCoord[size];
-            mVertexCoords = new VertexCoord[size];
-            mNormalCoords = new NormalCoord[size];
+		private void SetBufferSize(int size)
+		{
+			mTexCoords = new TexCoord[size];
+			mColorCoords = new ColorCoord[size];
+			mVertexCoords = new VertexCoord[size];
+			mNormalCoords = new NormalCoord[size];
 
-            mIndex = 0;
-        }
+			mIndex = 0;
+		}
 
-        private void SetTexture(int textureID)
-        {
-            if (textureID == mCurrentTexture)
-                return;
+		private void SetTexture(int textureID)
+		{
+			if (textureID == mCurrentTexture)
+				return;
 
-            Flush();
+			Flush();
 
-            mCurrentTexture = textureID;
-        }
-        public void ResetTexture()
-        {
-            Flush();
+			mCurrentTexture = textureID;
+		}
+		public void ResetTexture()
+		{
+			Flush();
 
-            mCurrentTexture = 0;
-        }
-
-
-        public void SetInterpolationMode(InterpolationMode mode)
-        {
-            if (mode == lastInerpolation)
-                return;
-
-            Flush();
-            lastInerpolation = mode;
-
-            switch (mode)
-            {
-                case InterpolationMode.Fastest:
-                    GL.TexParameter(TextureTarget.Texture2D,
-                                    TextureParameterName.TextureMinFilter, 
-                                    (int)TextureMinFilter.Nearest);
-                    GL.TexParameter(TextureTarget.Texture2D,
-                                    TextureParameterName.TextureMagFilter, 
-                                    (int)TextureMagFilter.Nearest);
-
-                    break;
-
-                case InterpolationMode.Default:
-                case InterpolationMode.Nicest:
-                    GL.TexParameter(TextureTarget.Texture2D,
-                                    TextureParameterName.TextureMinFilter, 
-                                    (int)TextureMinFilter.Linear);
-                    GL.TexParameter(TextureTarget.Texture2D,
-                                    TextureParameterName.TextureMagFilter, 
-                                    (int)TextureMagFilter.Linear);
+			mCurrentTexture = 0;
+		}
 
 
-                    break;
-            }
-        }
+		public void SetInterpolationMode(InterpolationMode mode)
+		{
+			if (mode == lastInerpolation)
+				return;
 
-        public void AddQuad(int textureID, Color color, TextureCoordinates texCoord, RectangleF destRect)
-        {
-            PointF[] pt = cachePts;
+			Flush();
+			lastInerpolation = mode;
 
-            pt[0].X = destRect.Left;
-            pt[0].Y = destRect.Top;
+			switch (mode)
+			{
+				case InterpolationMode.Fastest:
+					GL.TexParameter(TextureTarget.Texture2D,
+									TextureParameterName.TextureMinFilter,
+									(int)TextureMinFilter.Nearest);
+					GL.TexParameter(TextureTarget.Texture2D,
+									TextureParameterName.TextureMagFilter,
+									(int)TextureMagFilter.Nearest);
 
-            pt[1].X = destRect.Right;
-            pt[1].Y = destRect.Top;
+					break;
 
-            pt[2].X = destRect.Right;
-            pt[2].Y = destRect.Bottom;
+				case InterpolationMode.Default:
+				case InterpolationMode.Nicest:
+					GL.TexParameter(TextureTarget.Texture2D,
+									TextureParameterName.TextureMinFilter,
+									(int)TextureMinFilter.Linear);
+					GL.TexParameter(TextureTarget.Texture2D,
+									TextureParameterName.TextureMagFilter,
+									(int)TextureMagFilter.Linear);
 
-            pt[3].X = destRect.Left;
-            pt[3].Y = destRect.Bottom;
 
-            AddQuad(textureID, color, texCoord, pt);
-        }
-        public void AddQuad(int textureID, Color color, TextureCoordinates texCoord, PointF[] pts)
-        {
-            AddQuad(textureID, new Gradient(color), texCoord, pts);
-        }
-        public void AddQuad(int textureID, Gradient color, TextureCoordinates texCoord, PointF[] pts)
-        {
-            SetTexture(textureID);
+					break;
+			}
+		}
 
-            if (mIndex + 4 >= mVertexCoords.Length)
-            {
-                Flush();
-                SetBufferSize(mVertexCoords.Length + 1000);
-            }
+		public void AddQuad(int textureID, Color color, TextureCoordinates texCoord, RectangleF destRect)
+		{
+			PointF[] pt = cachePts;
 
-            for (int i = 0; i < 4; i++)
-            {
-                mVertexCoords[mIndex + i].x = pts[i].X;
-                mVertexCoords[mIndex + i].y = pts[i].Y;
+			pt[0].X = destRect.Left;
+			pt[0].Y = destRect.Top;
 
-                mNormalCoords[mIndex + i].x = 0;
-                mNormalCoords[mIndex + i].y = 0;
-                mNormalCoords[mIndex + i].z = -1;
+			pt[1].X = destRect.Right;
+			pt[1].Y = destRect.Top;
 
-            }
+			pt[2].X = destRect.Right;
+			pt[2].Y = destRect.Bottom;
 
-            mTexCoords[mIndex].u = texCoord.Left;
-            mTexCoords[mIndex].v = texCoord.Top;
-            mColorCoords[mIndex] = new ColorCoord(color.TopLeft);
+			pt[3].X = destRect.Left;
+			pt[3].Y = destRect.Bottom;
 
-            mTexCoords[mIndex + 1].u = texCoord.Right;
-            mTexCoords[mIndex + 1].v = texCoord.Top;
-            mColorCoords[mIndex+1] = new ColorCoord(color.TopRight);
+			AddQuad(textureID, color, texCoord, pt);
+		}
+		public void AddQuad(int textureID, Color color, TextureCoordinates texCoord, PointF[] pts)
+		{
+			AddQuad(textureID, new Gradient(color), texCoord, pts);
+		}
+		public void AddQuad(int textureID, Gradient color, TextureCoordinates texCoord, PointF[] pts)
+		{
+			SetTexture(textureID);
 
-            mTexCoords[mIndex + 2].u = texCoord.Right;
-            mTexCoords[mIndex + 2].v = texCoord.Bottom;
-            mColorCoords[mIndex+2] = new ColorCoord(color.BottomRight);
+			if (mIndex + 4 >= mVertexCoords.Length)
+			{
+				Flush();
+				SetBufferSize(mVertexCoords.Length + 1000);
+			}
 
-            mTexCoords[mIndex + 3].u = texCoord.Left;
-            mTexCoords[mIndex + 3].v = texCoord.Bottom;
-            mColorCoords[mIndex+3] = new ColorCoord(color.BottomLeft);
+			for (int i = 0; i < 4; i++)
+			{
+				mVertexCoords[mIndex + i].x = pts[i].X;
+				mVertexCoords[mIndex + i].y = pts[i].Y;
 
-            
-            mIndex += 4;
+				mNormalCoords[mIndex + i].x = 0;
+				mNormalCoords[mIndex + i].y = 0;
+				mNormalCoords[mIndex + i].z = -1;
 
-        }
+			}
 
-        public void Flush()
-        {
-            if (mIndex == 0)
-                return;
+			mTexCoords[mIndex].u = texCoord.Left;
+			mTexCoords[mIndex].v = texCoord.Top;
+			mColorCoords[mIndex] = new ColorCoord(color.TopLeft);
 
-            GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
+			mTexCoords[mIndex + 1].u = texCoord.Right;
+			mTexCoords[mIndex + 1].v = texCoord.Top;
+			mColorCoords[mIndex + 1] = new ColorCoord(color.TopRight);
 
-            GL.EnableClientState(EnableCap.TextureCoordArray);
-            GL.EnableClientState(EnableCap.ColorArray);
-            GL.EnableClientState(EnableCap.VertexArray);
-            GL.EnableClientState(EnableCap.NormalArray);
+			mTexCoords[mIndex + 2].u = texCoord.Right;
+			mTexCoords[mIndex + 2].v = texCoord.Bottom;
+			mColorCoords[mIndex + 2] = new ColorCoord(color.BottomRight);
 
-            GL.TexCoordPointer(2, TexCoordPointerType.Float,
-                               Marshal.SizeOf(typeof(TexCoord)), mTexCoords);
-            GL.ColorPointer(4, ColorPointerType.Float,
-                            Marshal.SizeOf(typeof(ColorCoord)), mColorCoords);
-            GL.VertexPointer(2, VertexPointerType.Float,
-                             Marshal.SizeOf(typeof(VertexCoord)), mVertexCoords);
-            GL.NormalPointer(NormalPointerType.Float,
-                             Marshal.SizeOf(typeof(NormalCoord)), mNormalCoords);
-            GL.DrawArrays(BeginMode.Quads, 0, mIndex);
+			mTexCoords[mIndex + 3].u = texCoord.Left;
+			mTexCoords[mIndex + 3].v = texCoord.Bottom;
+			mColorCoords[mIndex + 3] = new ColorCoord(color.BottomLeft);
 
-            mIndex = 0;
-        }
 
-        private void oldFlush()
-        {
+			mIndex += 4;
 
-            GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
+		}
 
-            GL.Begin(BeginMode.Quads);
+		public void Flush()
+		{
+			if (mIndex == 0)
+				return;
 
-            for (int i = 0; i < mIndex; i++)
-            {
-                GL.Color4(mColorCoords[i].r, mColorCoords[i].g, mColorCoords[i].b, mColorCoords[i].a);
-                GL.TexCoord2(mTexCoords[i].u, mTexCoords[i].v);
-                GL.Vertex2(mVertexCoords[i].x, mVertexCoords[i].y);
-            }
+			GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
 
-            GL.End();
+			GL.EnableClientState(EnableCap.TextureCoordArray);
+			GL.EnableClientState(EnableCap.ColorArray);
+			GL.EnableClientState(EnableCap.VertexArray);
+			GL.EnableClientState(EnableCap.NormalArray);
 
-            mIndex = 0;
-        }
-    }
+			GL.TexCoordPointer(2, TexCoordPointerType.Float,
+							   Marshal.SizeOf(typeof(TexCoord)), mTexCoords);
+			GL.ColorPointer(4, ColorPointerType.Float,
+							Marshal.SizeOf(typeof(ColorCoord)), mColorCoords);
+			GL.VertexPointer(2, VertexPointerType.Float,
+							 Marshal.SizeOf(typeof(VertexCoord)), mVertexCoords);
+			GL.NormalPointer(NormalPointerType.Float,
+							 Marshal.SizeOf(typeof(NormalCoord)), mNormalCoords);
+			GL.DrawArrays(BeginMode.Quads, 0, mIndex);
+
+			mIndex = 0;
+		}
+
+		private void oldFlush()
+		{
+
+			GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
+
+			GL.Begin(BeginMode.Quads);
+
+			for (int i = 0; i < mIndex; i++)
+			{
+				GL.Color4(mColorCoords[i].r, mColorCoords[i].g, mColorCoords[i].b, mColorCoords[i].a);
+				GL.TexCoord2(mTexCoords[i].u, mTexCoords[i].v);
+				GL.Vertex2(mVertexCoords[i].x, mVertexCoords[i].y);
+			}
+
+			GL.End();
+
+			mIndex = 0;
+		}
+	}
 }

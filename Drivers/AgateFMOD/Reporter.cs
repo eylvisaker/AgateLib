@@ -23,35 +23,35 @@ using AgateLib.Drivers;
 
 namespace AgateFMOD
 {
-    class Reporter : AgateDriverReporter 
-    {
-        public override IEnumerable<AgateDriverInfo> ReportDrivers()
-        {
-            if (FmodInstalled() == false)
-                yield break;
+	class Reporter : AgateDriverReporter
+	{
+		public override IEnumerable<AgateDriverInfo> ReportDrivers()
+		{
+			if (FmodInstalled() == false)
+				yield break;
 
-            yield return new AgateDriverInfo(
-                AudioTypeID.FMod,
-                typeof(FMOD_Audio),
-                "FMOD",
-                1);
-        }
+			yield return new AgateDriverInfo(
+				AudioTypeID.FMod,
+				typeof(FMOD_Audio),
+				"FMOD",
+				1);
+		}
 
-        private bool FmodInstalled()
-        {
-            try
-            {
-                FMOD_Audio audio = new FMOD_Audio();
+		private bool FmodInstalled()
+		{
+			try
+			{
+				FMOD_Audio audio = new FMOD_Audio();
 
-                audio.Initialize();
-                audio.Dispose();
+				audio.Initialize();
+				audio.Dispose();
 
-                return true;
-            }
-            catch (DllNotFoundException)
-            {
-                return false;
-            }
-        }
-    }
+				return true;
+			}
+			catch (DllNotFoundException)
+			{
+				return false;
+			}
+		}
+	}
 }

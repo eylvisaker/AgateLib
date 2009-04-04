@@ -26,179 +26,179 @@ using AgateLib.ImplementationBase;
 
 namespace AgateMDX
 {
-    public class MDX1_Input : InputImpl
-    {
-        public override void Initialize()
-        {
-            System.Diagnostics.Trace.WriteLine("Using Managed DirectX implementation of InputImpl.");
-        }
+	public class MDX1_Input : InputImpl
+	{
+		public override void Initialize()
+		{
+			System.Diagnostics.Trace.WriteLine("Using Managed DirectX implementation of InputImpl.");
+		}
 
-        public override void Dispose()
-        {
+		public override void Dispose()
+		{
 
-        }
+		}
 
-        public override int JoystickCount
-        {
-            get
-            {
-                int retval = 0;
+		public override int JoystickCount
+		{
+			get
+			{
+				int retval = 0;
 
-                foreach (DeviceInstance i in Manager.Devices)
-                {
-                    switch (i.DeviceType)
-                    {
-                        case DeviceType.Gamepad:
-                        case DeviceType.Joystick:
-                            retval++;
-                            break;
-                    }
-                }
+				foreach (DeviceInstance i in Manager.Devices)
+				{
+					switch (i.DeviceType)
+					{
+						case DeviceType.Gamepad:
+						case DeviceType.Joystick:
+							retval++;
+							break;
+					}
+				}
 
-                return retval;
-            }
-        }
+				return retval;
+			}
+		}
 
-        public override IEnumerable<JoystickImpl> CreateJoysticks()
-        {
-            List<JoystickImpl> retval = new List<JoystickImpl>();
+		public override IEnumerable<JoystickImpl> CreateJoysticks()
+		{
+			List<JoystickImpl> retval = new List<JoystickImpl>();
 
-            foreach (DeviceInstance i in Manager.Devices)
-            {
-                switch (i.DeviceType)
-                {
-                    case DeviceType.Gamepad:
-                    case DeviceType.Joystick:
+			foreach (DeviceInstance i in Manager.Devices)
+			{
+				switch (i.DeviceType)
+				{
+					case DeviceType.Gamepad:
+					case DeviceType.Joystick:
 
-                        Device d = new Device(i.InstanceGuid);
+						Device d = new Device(i.InstanceGuid);
 
-                        retval.Add(new MDX1_Joystick(d));
+						retval.Add(new MDX1_Joystick(d));
 
-                        break;
-                }
-            }
+						break;
+				}
+			}
 
-            return retval;
-        }
-    }
+			return retval;
+		}
+	}
 
-    /// <summary>
-    /// MDX1_Joystick class
-    /// Could be done with action maps?  would this be better?
-    /// </summary>
-    public class MDX1_Joystick : JoystickImpl
-    {
-        private Device mDevice;
-        private bool[] mButtons;
+	/// <summary>
+	/// MDX1_Joystick class
+	/// Could be done with action maps?  would this be better?
+	/// </summary>
+	public class MDX1_Joystick : JoystickImpl
+	{
+		private Device mDevice;
+		private bool[] mButtons;
 
-        private int[] shift = new int[3];
-        private double maxX, maxY, maxZ;
+		private int[] shift = new int[3];
+		private double maxX, maxY, maxZ;
 
-        private double mThreshold;
+		private double mThreshold;
 
-        public MDX1_Joystick(Device d)
-        {
-            mDevice = d;
-            mDevice.Acquire();
+		public MDX1_Joystick(Device d)
+		{
+			mDevice = d;
+			mDevice.Acquire();
 
-            Recalibrate();
+			Recalibrate();
 
-            // joystick values in di seem to be from 0 (left) to 65536 (right).
-            // seems to be the right value on my joystick.
-            maxX = maxY = maxZ = 32768;
+			// joystick values in di seem to be from 0 (left) to 65536 (right).
+			// seems to be the right value on my joystick.
+			maxX = maxY = maxZ = 32768;
 
-            mButtons = new bool[ButtonCount];
-        }
+			mButtons = new bool[ButtonCount];
+		}
 
-        public override string Name
-        {
-            get { return mDevice.DeviceInformation.InstanceName; }
-        }
-        public override int AxisCount
-        {
-            get { return mDevice.Caps.NumberAxes; }
-        }
-        public override int ButtonCount
-        {
-            get { return mDevice.Caps.NumberButtons; }
-        }
+		public override string Name
+		{
+			get { return mDevice.DeviceInformation.InstanceName; }
+		}
+		public override int AxisCount
+		{
+			get { return mDevice.Caps.NumberAxes; }
+		}
+		public override int ButtonCount
+		{
+			get { return mDevice.Caps.NumberButtons; }
+		}
 
-        public override bool GetButtonState(int buttonIndex)
-        {
-            return mButtons[buttonIndex];
-        }
+		public override bool GetButtonState(int buttonIndex)
+		{
+			return mButtons[buttonIndex];
+		}
 
-        public override void Poll()
-        {
-            mDevice.Poll();
-             
-            byte[] di_buttons = mDevice.CurrentJoystickState.GetButtons();
+		public override void Poll()
+		{
+			mDevice.Poll();
 
-            for (int i = 0; i < ButtonCount; i++)
-                mButtons[i] = (di_buttons[i] != 0) ? true : false;
-        }
+			byte[] di_buttons = mDevice.CurrentJoystickState.GetButtons();
 
-        public override double GetAxisValue(int axisIndex)
-        {
-            if (axisIndex == 0)
-                return CorrectAxisValue(mDevice.CurrentJoystickState.X, shift[0], maxX);
-            else if (axisIndex == 1)
-                return CorrectAxisValue(mDevice.CurrentJoystickState.Y, shift[1], maxY);
-            else if (axisIndex == 2)
-                return CorrectAxisValue(mDevice.CurrentJoystickState.Z, shift[2], maxZ);
-            else 
-                return mDevice.CurrentJoystickState.GetSlider()[axisIndex - 3] / maxX;
-        }
+			for (int i = 0; i < ButtonCount; i++)
+				mButtons[i] = (di_buttons[i] != 0) ? true : false;
+		}
 
-        private double CorrectAxisValue(int axisValue, int shiftValue, double maxX)
-        {
-            double retval = (axisValue - shiftValue) / (double)maxX;
+		public override double GetAxisValue(int axisIndex)
+		{
+			if (axisIndex == 0)
+				return CorrectAxisValue(mDevice.CurrentJoystickState.X, shift[0], maxX);
+			else if (axisIndex == 1)
+				return CorrectAxisValue(mDevice.CurrentJoystickState.Y, shift[1], maxY);
+			else if (axisIndex == 2)
+				return CorrectAxisValue(mDevice.CurrentJoystickState.Z, shift[2], maxZ);
+			else
+				return mDevice.CurrentJoystickState.GetSlider()[axisIndex - 3] / maxX;
+		}
 
-            if (Math.Abs(retval) < mThreshold)
-                return 0;
-            else
-                return retval;
-        }
+		private double CorrectAxisValue(int axisValue, int shiftValue, double maxX)
+		{
+			double retval = (axisValue - shiftValue) / (double)maxX;
 
-        public override void Recalibrate()
-        {
-            shift[0] = mDevice.CurrentJoystickState.X;
-            shift[1] = mDevice.CurrentJoystickState.Y;
-            shift[2] = mDevice.CurrentJoystickState.Z;
-        }
+			if (Math.Abs(retval) < mThreshold)
+				return 0;
+			else
+				return retval;
+		}
 
-        public override double AxisThreshold
-        {
-            get
-            {
-                return mThreshold;
-            }
-            set
-            {
-                mThreshold = value;
-            }
-        }
+		public override void Recalibrate()
+		{
+			shift[0] = mDevice.CurrentJoystickState.X;
+			shift[1] = mDevice.CurrentJoystickState.Y;
+			shift[2] = mDevice.CurrentJoystickState.Z;
+		}
 
-        public override bool PluggedIn
-        {
-            get
-            {
-                if (mDevice == null)
-                    throw new NullReferenceException("Device is null.  This indicates a bug in the MDX1_1 library.");
+		public override double AxisThreshold
+		{
+			get
+			{
+				return mThreshold;
+			}
+			set
+			{
+				mThreshold = value;
+			}
+		}
 
-                try
-                {
-                    mDevice.Poll();
+		public override bool PluggedIn
+		{
+			get
+			{
+				if (mDevice == null)
+					throw new NullReferenceException("Device is null.  This indicates a bug in the MDX1_1 library.");
 
-                    return true;
-                }
-                catch(Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine("Error polling joystick: " + e.Message);
-                    return false;
-                }
-            }
-        }
+				try
+				{
+					mDevice.Poll();
 
-    }
+					return true;
+				}
+				catch (Exception e)
+				{
+					System.Diagnostics.Debug.WriteLine("Error polling joystick: " + e.Message);
+					return false;
+				}
+			}
+		}
+
+	}
 }

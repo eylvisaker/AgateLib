@@ -23,8 +23,8 @@ using AgateLib.ImplementationBase;
 
 namespace AgateMDX
 {
-    public interface MDX1_IRenderTarget : IRenderTargetImpl 
-    {
-        //Microsoft.DirectX.Direct3D.Surface RenderSurface { get; }
-    }
+	public interface MDX1_IRenderTarget : IRenderTargetImpl
+	{
+		//Microsoft.DirectX.Direct3D.Surface RenderSurface { get; }
+	}
 }

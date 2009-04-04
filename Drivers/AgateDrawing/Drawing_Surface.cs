@@ -29,119 +29,122 @@ using AgateLib.ImplementationBase;
 
 namespace AgateLib.DisplayLib.SystemDrawing
 {
-    using WinForms;
+	using WinForms;
 
-    class Drawing_Surface : SurfaceImpl, Drawing_IRenderTarget
-    {
-        #region --- Private variables ---
+	class Drawing_Surface : SurfaceImpl, Drawing_IRenderTarget
+	{
+		#region --- Private variables ---
 
-        Drawing_Display mDisplay;
-        Bitmap mImage;
+		Drawing_Display mDisplay;
+		Bitmap mImage;
 
-        #endregion
+		#endregion
 
-        #region --- Creation / Destruction ---
+		#region --- Creation / Destruction ---
 
-        public Drawing_Surface(string fileName)
-        {
-            mDisplay = Display.Impl as Drawing_Display;
+		public Drawing_Surface(string fileName)
+		{
+			mDisplay = Display.Impl as Drawing_Display;
 
-            mImage = (Bitmap)Image.FromFile(fileName);
-            ConvertImage();
+			mImage = (Bitmap)Image.FromFile(fileName);
+			ConvertImage();
 
-            System.Diagnostics.Debug.Assert(mImage != null);
-        }
-        public Drawing_Surface(Stream st)
-        {
-            mDisplay = Display.Impl as Drawing_Display;
+			System.Diagnostics.Debug.Assert(mImage != null);
+		}
+		public Drawing_Surface(Stream st)
+		{
+			mDisplay = Display.Impl as Drawing_Display;
 
-            mImage = (Bitmap)Bitmap.FromStream(st);
-            ConvertImage();
+			mImage = (Bitmap)Bitmap.FromStream(st);
+			ConvertImage();
 
-            System.Diagnostics.Debug.Assert(mImage != null);
-        }
+			System.Diagnostics.Debug.Assert(mImage != null);
+		}
 
-        private void ConvertImage()
-        {
-            Bitmap newImage = new Bitmap(mImage.Width, mImage.Height);
+		private void ConvertImage()
+		{
+			Bitmap newImage = new Bitmap(mImage.Width, mImage.Height);
 
-            Graphics g = Graphics.FromImage(newImage);
-            g.DrawImage(mImage, new Rectangle(0, 0, mImage.Width, mImage.Height));
+			Graphics g = Graphics.FromImage(newImage);
+			g.DrawImage(mImage, new Rectangle(0, 0, mImage.Width, mImage.Height));
 
-            g.Dispose();
-            mImage.Dispose();
+			g.Dispose();
+			mImage.Dispose();
 
-            mImage = newImage;
-        }
-        public Drawing_Surface(Bitmap image, Rectangle sourceRect)
-        {
-            mDisplay = Display.Impl as Drawing_Display;
+			mImage = newImage;
+		}
+		public Drawing_Surface(Bitmap image, Rectangle sourceRect)
+		{
+			mDisplay = Display.Impl as Drawing_Display;
 
-            // copy the pixels from the srcRect
-            mImage = new Bitmap(sourceRect.Width, sourceRect.Height);
+			// copy the pixels from the srcRect
+			mImage = new Bitmap(sourceRect.Width, sourceRect.Height);
 
-            Graphics g = Graphics.FromImage(mImage);
+			Graphics g = Graphics.FromImage(mImage);
 
-            g.DrawImage(image,
-                new Rectangle(0, 0, sourceRect.Width, sourceRect.Height),
-                (Rectangle)sourceRect, GraphicsUnit.Pixel);
+			g.DrawImage(image,
+				new Rectangle(0, 0, sourceRect.Width, sourceRect.Height),
+				(Rectangle)sourceRect, GraphicsUnit.Pixel);
 
-            g.Dispose();
+			g.Dispose();
 
-        }
-        public Drawing_Surface(Geometry.Size sz)
-        {
-            mDisplay = Display.Impl as Drawing_Display;
+		}
+		public Drawing_Surface(Geometry.Size sz)
+		{
+			mDisplay = Display.Impl as Drawing_Display;
 
-            mImage = new Bitmap(sz.Width, sz.Height);
+			mImage = new Bitmap(sz.Width, sz.Height);
 
-            System.Diagnostics.Debug.Assert(mImage != null);
-        }
+			System.Diagnostics.Debug.Assert(mImage != null);
+		}
 
-        public override void Dispose()
-        {
-            if (mImage != null)
-            {
-                mImage.Dispose();
-            }
+		public override void Dispose()
+		{
+			if (mImage != null)
+			{
+				mImage.Dispose();
+			}
 
-            mImage = null;
-        }
+			mImage = null;
+		}
 
-        #endregion
-        #region --- Protected Drawing helper methods ---
+		#endregion
+		#region --- Protected Drawing helper methods ---
 
-        protected Geometry.Rectangle SrcRect
-        {
-            get { return new Geometry.Rectangle(Geometry.Point.Empty, 
-                Interop.Convert(mImage.Size)); }
-        }
-        protected Geometry.Rectangle DestRect(int dest_x, int dest_y, Geometry.Rectangle srcRect)
-        {
-            return new Geometry.Rectangle(dest_x, dest_y, 
-                (int)(srcRect.Width * ScaleWidth),
-                (int)(srcRect.Height * ScaleHeight));
-        }
-        #endregion
-        #region --- Draw to Screen Methods ---
+		protected Geometry.Rectangle SrcRect
+		{
+			get
+			{
+				return new Geometry.Rectangle(Geometry.Point.Empty,
+					Interop.Convert(mImage.Size));
+			}
+		}
+		protected Geometry.Rectangle DestRect(int dest_x, int dest_y, Geometry.Rectangle srcRect)
+		{
+			return new Geometry.Rectangle(dest_x, dest_y,
+				(int)(srcRect.Width * ScaleWidth),
+				(int)(srcRect.Height * ScaleHeight));
+		}
+		#endregion
+		#region --- Draw to Screen Methods ---
 
-        public override void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
-        {
-            Draw(destX, destY, SrcRect, rotationCenterX, rotationCenterY);
-        }
-        public override void Draw(float destX, float destY, Geometry.Rectangle srcRect, float rotationCenterX, float rotationCenterY)
-        {
-            mDisplay.CheckInFrame("Surface.Draw");
+		public override void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
+		{
+			Draw(destX, destY, SrcRect, rotationCenterX, rotationCenterY);
+		}
+		public override void Draw(float destX, float destY, Geometry.Rectangle srcRect, float rotationCenterX, float rotationCenterY)
+		{
+			mDisplay.CheckInFrame("Surface.Draw");
 
-            PointF destPt = new PointF(destX, destY);
+			PointF destPt = new PointF(destX, destY);
 
 
-            System.Diagnostics.Debug.Assert(mImage != null);
+			System.Diagnostics.Debug.Assert(mImage != null);
 
-            Drawing_Display disp = Display.Impl as Drawing_Display;
-            Graphics g = disp.FrameGraphics;
-            GraphicsState state = g.Save();
-            Geometry.PointF translatePoint = Origin.CalcF(DisplayAlignment, DisplaySize);
+			Drawing_Display disp = Display.Impl as Drawing_Display;
+			Graphics g = disp.FrameGraphics;
+			GraphicsState state = g.Save();
+			Geometry.PointF translatePoint = Origin.CalcF(DisplayAlignment, DisplaySize);
 
 
 			if (DisplaySize.Width < 0)
@@ -156,267 +159,267 @@ namespace AgateLib.DisplayLib.SystemDrawing
 				rotationCenterY += DisplaySize.Height;
 			}
 
-            // translate to rotation point, rotate, and translate back.
-            // System.Drawing rotates Clockwise!  So we must reverse the
-            // rotation angle.
-            g.TranslateTransform(-rotationCenterX, -rotationCenterY, MatrixOrder.Append);
-            g.RotateTransform(-(float)RotationAngleDegrees, MatrixOrder.Append);
-            g.TranslateTransform(rotationCenterX, rotationCenterY, MatrixOrder.Append);
+			// translate to rotation point, rotate, and translate back.
+			// System.Drawing rotates Clockwise!  So we must reverse the
+			// rotation angle.
+			g.TranslateTransform(-rotationCenterX, -rotationCenterY, MatrixOrder.Append);
+			g.RotateTransform(-(float)RotationAngleDegrees, MatrixOrder.Append);
+			g.TranslateTransform(rotationCenterX, rotationCenterY, MatrixOrder.Append);
 
-            SetInterpolation(g);
+			SetInterpolation(g);
 
-            g.TranslateTransform(destPt.X - translatePoint.X,
-                                 destPt.Y - translatePoint.Y, MatrixOrder.Append);
+			g.TranslateTransform(destPt.X - translatePoint.X,
+								 destPt.Y - translatePoint.Y, MatrixOrder.Append);
 
-            if (Color != Geometry.Color.White)
-            {
-                ImageAttributes imageAttributes = new ImageAttributes();
+			if (Color != Geometry.Color.White)
+			{
+				ImageAttributes imageAttributes = new ImageAttributes();
 
-                ColorMatrix colorMatrix = new ColorMatrix(new float[][]{
+				ColorMatrix colorMatrix = new ColorMatrix(new float[][]{
                    new float[] { Color.R / 255.0f, 0.0f, 0.0f, 0.0f, 0.0f },
                    new float[] { 0.0f, Color.G / 255.0f, 0.0f, 0.0f, 0.0f },
                    new float[] { 0.0f, 0.0f, Color.B / 255.0f, 0.0f, 0.0f },
                    new float[] { 0.0f, 0.0f, 0.0f, (float)Alpha, 0.0f },
                    new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f} });
 
-                imageAttributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+				imageAttributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-                g.DrawImage(mImage, Interop.Convert(DestRect(0, 0, srcRect)),
-                    srcRect.X,
-                    srcRect.Y,
-                    srcRect.Width,
-                    srcRect.Height,
-                    GraphicsUnit.Pixel,
-                    imageAttributes);
+				g.DrawImage(mImage, Interop.Convert(DestRect(0, 0, srcRect)),
+					srcRect.X,
+					srcRect.Y,
+					srcRect.Width,
+					srcRect.Height,
+					GraphicsUnit.Pixel,
+					imageAttributes);
 
-            }
-            else
-            {
-                g.DrawImage(mImage, Interop.Convert(DestRect(0, 0, srcRect)),
-                    srcRect.X,
-                    srcRect.Y,
-                    srcRect.Width,
-                    srcRect.Height, 
-                    GraphicsUnit.Pixel);
-            }
+			}
+			else
+			{
+				g.DrawImage(mImage, Interop.Convert(DestRect(0, 0, srcRect)),
+					srcRect.X,
+					srcRect.Y,
+					srcRect.Width,
+					srcRect.Height,
+					GraphicsUnit.Pixel);
+			}
 
-            g.Restore(state);
-        }
+			g.Restore(state);
+		}
 
-        private void SetInterpolation(Graphics g)
-        {
-            switch (InterpolationHint)
-            {
-                case InterpolationMode.Default:
-                case InterpolationMode.Fastest:
-                    g.CompositingQuality = CompositingQuality.HighSpeed;
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+		private void SetInterpolation(Graphics g)
+		{
+			switch (InterpolationHint)
+			{
+				case InterpolationMode.Default:
+				case InterpolationMode.Fastest:
+					g.CompositingQuality = CompositingQuality.HighSpeed;
+					g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
 
-                    break;
+					break;
 
-                case InterpolationMode.Nicest:
-                    g.CompositingQuality = CompositingQuality.HighQuality;
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    break;
-            }
-        }
-        public override void Draw(Geometry.Rectangle destRect)
-        {
-            Draw(SrcRect, destRect);
-        }
-        public override void Draw(Geometry.RectangleF srcRect, Geometry.RectangleF destRect)
-        {
-            mDisplay.CheckInFrame("Surface.Draw");
-            System.Diagnostics.Debug.Assert(mImage != null);
+				case InterpolationMode.Nicest:
+					g.CompositingQuality = CompositingQuality.HighQuality;
+					g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+					break;
+			}
+		}
+		public override void Draw(Geometry.Rectangle destRect)
+		{
+			Draw(SrcRect, destRect);
+		}
+		public override void Draw(Geometry.RectangleF srcRect, Geometry.RectangleF destRect)
+		{
+			mDisplay.CheckInFrame("Surface.Draw");
+			System.Diagnostics.Debug.Assert(mImage != null);
 
-            Graphics g = mDisplay.FrameGraphics;
+			Graphics g = mDisplay.FrameGraphics;
 
-            g.DrawImage(mImage, Interop.Convert(destRect),
-                Interop.Convert(srcRect), GraphicsUnit.Pixel);
-        }
-        public override void DrawRects(Geometry.Rectangle[] src_rects, Geometry.Rectangle[] dest_rects, int start, int length)
-        {
-            mDisplay.CheckInFrame("Surface.Draw");
-            System.Diagnostics.Debug.Assert(mImage != null);
+			g.DrawImage(mImage, Interop.Convert(destRect),
+				Interop.Convert(srcRect), GraphicsUnit.Pixel);
+		}
+		public override void DrawRects(Geometry.Rectangle[] src_rects, Geometry.Rectangle[] dest_rects, int start, int length)
+		{
+			mDisplay.CheckInFrame("Surface.Draw");
+			System.Diagnostics.Debug.Assert(mImage != null);
 
-            if (src_rects.Length > dest_rects.Length)
-                return;
+			if (src_rects.Length > dest_rects.Length)
+				return;
 
-            for (int i = start; i < start + length; i++)
-                Draw(src_rects[i], dest_rects[i]);
-        }
-        public override void DrawPoints(Geometry.Point[] destPts)
-        {
-            mDisplay.CheckInFrame("Surface.Draw");
-            System.Diagnostics.Debug.Assert(mImage != null);
+			for (int i = start; i < start + length; i++)
+				Draw(src_rects[i], dest_rects[i]);
+		}
+		public override void DrawPoints(Geometry.Point[] destPts)
+		{
+			mDisplay.CheckInFrame("Surface.Draw");
+			System.Diagnostics.Debug.Assert(mImage != null);
 
-            Drawing_Display disp = Display.Impl as Drawing_Display;
-            Graphics g = disp.FrameGraphics;
+			Drawing_Display disp = Display.Impl as Drawing_Display;
+			Graphics g = disp.FrameGraphics;
 
-            Point[] pts = new Point[destPts.Length];
+			Point[] pts = new Point[destPts.Length];
 
-            for (int i = 0; i < pts.Length; i++)
-                pts[i] = Interop.Convert(destPts[i]);
+			for (int i = 0; i < pts.Length; i++)
+				pts[i] = Interop.Convert(destPts[i]);
 
-            g.DrawImage(mImage, pts);
-        }
+			g.DrawImage(mImage, pts);
+		}
 
-        #endregion
-        #region --- Public overriden properties ---
+		#endregion
+		#region --- Public overriden properties ---
 
-        public override Geometry.Size SurfaceSize
-        {
-            get { return Interop.Convert(mImage.Size); }
-        }
+		public override Geometry.Size SurfaceSize
+		{
+			get { return Interop.Convert(mImage.Size); }
+		}
 
-        #endregion
+		#endregion
 
-        #region --- Surface Data Manipulations ---
+		#region --- Surface Data Manipulations ---
 
-        public override SurfaceImpl CarveSubSurface(Geometry.Rectangle srcRect)
-        {
-            return new Drawing_Surface(mImage, Interop.Convert(srcRect));
-        }
+		public override SurfaceImpl CarveSubSurface(Geometry.Rectangle srcRect)
+		{
+			return new Drawing_Surface(mImage, Interop.Convert(srcRect));
+		}
 
-        public override bool IsSurfaceBlank()
-        {
-            return IsSurfaceBlank((int)(Display.AlphaThreshold * 255.0));
-        }
-        public override bool IsSurfaceBlank(int alphaThreshold)
-        {
-            for (int i = 0; i < mImage.Height; i++)
-            {
-                if (IsRowBlank(i) == false)
-                    return false;
-            }
+		public override bool IsSurfaceBlank()
+		{
+			return IsSurfaceBlank((int)(Display.AlphaThreshold * 255.0));
+		}
+		public override bool IsSurfaceBlank(int alphaThreshold)
+		{
+			for (int i = 0; i < mImage.Height; i++)
+			{
+				if (IsRowBlank(i) == false)
+					return false;
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        public override bool IsRowBlank(int row)
-        {
-            BitmapData bmp = mImage.LockBits(new Rectangle(0, 0, mImage.Width, mImage.Height),
-                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-
-            bool retval = IsRowBlankScanARGB(bmp.Scan0, row, bmp.Width, bmp.Stride,
-                (int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
-
-            mImage.UnlockBits(bmp);
-
-            return retval;
-        }
-        public override bool IsColumnBlank(int col)
-        {
-            BitmapData bmp = mImage.LockBits(new Rectangle(0, 0, mImage.Width, mImage.Height),
-                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+		public override bool IsRowBlank(int row)
+		{
+			BitmapData bmp = mImage.LockBits(new Rectangle(0, 0, mImage.Width, mImage.Height),
+				ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
 
-            bool retval = IsColBlankScanARGB(bmp.Scan0, col, bmp.Height, bmp.Stride,
-                (int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
+			bool retval = IsRowBlankScanARGB(bmp.Scan0, row, bmp.Width, bmp.Stride,
+				(int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
 
-            mImage.UnlockBits(bmp);
+			mImage.UnlockBits(bmp);
 
-            return retval;
-        }
-
-        public override void SaveTo(string filename, ImageFileFormat format)
-        {
-            ImageFormat drawformat = ImageFormat.Png;
-
-            switch (format)
-            {
-                case  ImageFileFormat.Png:
-                    drawformat = ImageFormat.Png;
-                    break;
-
-                case ImageFileFormat.Bmp:
-                    drawformat = ImageFormat.Bmp;
-                    break;
-
-                case ImageFileFormat.Jpg:
-                    drawformat = ImageFormat.Jpeg;
-                    break;
-
-            }
-
-            mImage.Save(filename, drawformat);
-        }
+			return retval;
+		}
+		public override bool IsColumnBlank(int col)
+		{
+			BitmapData bmp = mImage.LockBits(new Rectangle(0, 0, mImage.Width, mImage.Height),
+				ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
 
-        public override void SetSourceSurface(SurfaceImpl surf, Geometry.Rectangle srcRect)
-        {
-            mImage.Dispose();
+			bool retval = IsColBlankScanARGB(bmp.Scan0, col, bmp.Height, bmp.Stride,
+				(int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
 
-            mImage = new Bitmap(srcRect.Width, srcRect.Height);
-            Graphics g = Graphics.FromImage(mImage);
+			mImage.UnlockBits(bmp);
 
-            g.DrawImage((surf as Drawing_Surface).mImage,
-                new Rectangle(Point.Empty, Interop.Convert(srcRect.Size)),
-                Interop.Convert(srcRect), GraphicsUnit.Pixel);
+			return retval;
+		}
 
-            g.Dispose();
+		public override void SaveTo(string filename, ImageFileFormat format)
+		{
+			ImageFormat drawformat = ImageFormat.Png;
 
-        }
+			switch (format)
+			{
+				case ImageFileFormat.Png:
+					drawformat = ImageFormat.Png;
+					break;
 
-        public override PixelBuffer ReadPixels(PixelFormat format)
-        {
-            return ReadPixels(format, new Geometry.Rectangle(Geometry.Point.Empty, SurfaceSize));
-        }
+				case ImageFileFormat.Bmp:
+					drawformat = ImageFormat.Bmp;
+					break;
 
-        public override PixelBuffer ReadPixels(PixelFormat format, Geometry.Rectangle rect)
-        {
-            BitmapData data = mImage.LockBits(Interop.Convert(rect), ImageLockMode.ReadOnly, 
-                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+				case ImageFileFormat.Jpg:
+					drawformat = ImageFormat.Jpeg;
+					break;
 
-            if (format == PixelFormat.Any)
-                format = PixelFormat.BGRA8888;
+			}
 
-            PixelBuffer buffer = new PixelBuffer(format, rect.Size);
-            byte[] bytes = new byte[4 * rect.Width * rect.Height];
+			mImage.Save(filename, drawformat);
+		}
 
-            Marshal.Copy(data.Scan0, bytes, 0, bytes.Length);
 
-            mImage.UnlockBits(data);
+		public override void SetSourceSurface(SurfaceImpl surf, Geometry.Rectangle srcRect)
+		{
+			mImage.Dispose();
 
-            buffer.SetData(bytes, PixelFormat.BGRA8888);
+			mImage = new Bitmap(srcRect.Width, srcRect.Height);
+			Graphics g = Graphics.FromImage(mImage);
 
-            return buffer;
-        }
+			g.DrawImage((surf as Drawing_Surface).mImage,
+				new Rectangle(Point.Empty, Interop.Convert(srcRect.Size)),
+				Interop.Convert(srcRect), GraphicsUnit.Pixel);
 
-        public override void WritePixels(PixelBuffer buffer)
-        {
-            BitmapData data = mImage.LockBits(new Rectangle(Point.Empty, Interop.Convert( SurfaceSize)),
-                ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			g.Dispose();
 
-            if (buffer.PixelFormat != PixelFormat.BGRA8888)
-            {
-                buffer = buffer.ConvertTo(PixelFormat.BGRA8888);
-            }
+		}
 
-            Marshal.Copy(buffer.Data, 0, data.Scan0, buffer.Data.Length);
+		public override PixelBuffer ReadPixels(PixelFormat format)
+		{
+			return ReadPixels(format, new Geometry.Rectangle(Geometry.Point.Empty, SurfaceSize));
+		}
 
-            mImage.UnlockBits(data);
-        }
-    
-        #endregion
+		public override PixelBuffer ReadPixels(PixelFormat format, Geometry.Rectangle rect)
+		{
+			BitmapData data = mImage.LockBits(Interop.Convert(rect), ImageLockMode.ReadOnly,
+				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-        #region --- Drawing_IRenderTarget Members ---
+			if (format == PixelFormat.Any)
+				format = PixelFormat.BGRA8888;
 
-        public override void BeginRender()
-        {
-        }
+			PixelBuffer buffer = new PixelBuffer(format, rect.Size);
+			byte[] bytes = new byte[4 * rect.Width * rect.Height];
 
-        public override void EndRender()
-        {
-        }
+			Marshal.Copy(data.Scan0, bytes, 0, bytes.Length);
 
-        public Bitmap BackBuffer
-        {
-            get { return mImage; }
-        }
+			mImage.UnlockBits(data);
 
-        #endregion
+			buffer.SetData(bytes, PixelFormat.BGRA8888);
 
-}
+			return buffer;
+		}
+
+		public override void WritePixels(PixelBuffer buffer)
+		{
+			BitmapData data = mImage.LockBits(new Rectangle(Point.Empty, Interop.Convert(SurfaceSize)),
+				ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+			if (buffer.PixelFormat != PixelFormat.BGRA8888)
+			{
+				buffer = buffer.ConvertTo(PixelFormat.BGRA8888);
+			}
+
+			Marshal.Copy(buffer.Data, 0, data.Scan0, buffer.Data.Length);
+
+			mImage.UnlockBits(data);
+		}
+
+		#endregion
+
+		#region --- Drawing_IRenderTarget Members ---
+
+		public override void BeginRender()
+		{
+		}
+
+		public override void EndRender()
+		{
+		}
+
+		public Bitmap BackBuffer
+		{
+			get { return mImage; }
+		}
+
+		#endregion
+
+	}
 }

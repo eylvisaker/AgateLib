@@ -28,79 +28,79 @@ using AgateLib.ImplementationBase;
 
 namespace AgateSDL.Audio
 {
-    public class SDL_Audio : AudioImpl
-    {
-        List<string> tempfiles = new List<string>();
+	public class SDL_Audio : AudioImpl
+	{
+		List<string> tempfiles = new List<string>();
 
-        ~SDL_Audio()
-        {
-            Dispose(false);
-        }
-        public override void Dispose()
-        {
-            Dispose(true);
-        }
+		~SDL_Audio()
+		{
+			Dispose(false);
+		}
+		public override void Dispose()
+		{
+			Dispose(true);
+		}
 
-        private void Dispose(bool disposing)
-        {
-            SdlMixer.Mix_CloseAudio();
-            Sdl.SDL_QuitSubSystem(Sdl.SDL_INIT_AUDIO);
+		private void Dispose(bool disposing)
+		{
+			SdlMixer.Mix_CloseAudio();
+			Sdl.SDL_QuitSubSystem(Sdl.SDL_INIT_AUDIO);
 
-            foreach (string file in tempfiles)
-            {
-                try
-                {
-                    File.Delete(file);
-                }
-                catch (Exception)
-                {
-                    System.Diagnostics.Trace.WriteLine(string.Format(
-                        "Failed to delete the temp file {0}.", file));
-                }
+			foreach (string file in tempfiles)
+			{
+				try
+				{
+					File.Delete(file);
+				}
+				catch (Exception)
+				{
+					System.Diagnostics.Trace.WriteLine(string.Format(
+						"Failed to delete the temp file {0}.", file));
+				}
 
-            }
+			}
 
-            tempfiles.Clear();
-        }
+			tempfiles.Clear();
+		}
 
-        public override MusicImpl CreateMusic(string filename)
-        {
-            return new SDL_Music(filename);
-        }
-        public override MusicImpl CreateMusic(System.IO.Stream musicStream)
-        {
-            return new SDL_Music(musicStream);
-        }
-        public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
-        {
-            return new SDL_SoundBuffer(inStream);
-        }
+		public override MusicImpl CreateMusic(string filename)
+		{
+			return new SDL_Music(filename);
+		}
+		public override MusicImpl CreateMusic(System.IO.Stream musicStream)
+		{
+			return new SDL_Music(musicStream);
+		}
+		public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
+		{
+			return new SDL_SoundBuffer(inStream);
+		}
 
-        public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
-        {
-            return new SDL_SoundBufferSession((SDL_SoundBuffer)buffer);
-        }
+		public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
+		{
+			return new SDL_SoundBufferSession((SDL_SoundBuffer)buffer);
+		}
 
 
-        public override void Initialize()
-        {
-            if (Sdl.SDL_InitSubSystem(Sdl.SDL_INIT_AUDIO) != 0)
-            {
-                throw new AgateLib.AgateException("Failed to initialize SDL for audio playback.");
-            }
+		public override void Initialize()
+		{
+			if (Sdl.SDL_InitSubSystem(Sdl.SDL_INIT_AUDIO) != 0)
+			{
+				throw new AgateLib.AgateException("Failed to initialize SDL for audio playback.");
+			}
 
-            if (SdlMixer.Mix_OpenAudio(
-                SdlMixer.MIX_DEFAULT_FREQUENCY, Sdl.AUDIO_S16, 2, 512) != 0)
-            {
-                throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
-            }
+			if (SdlMixer.Mix_OpenAudio(
+				SdlMixer.MIX_DEFAULT_FREQUENCY, Sdl.AUDIO_S16, 2, 512) != 0)
+			{
+				throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
+			}
 
-            Report("SDL driver instantiated for audio.");
-        }
+			Report("SDL driver instantiated for audio.");
+		}
 
-        internal void RegisterTempFile(string filename)
-        {
-            tempfiles.Add(filename);
-        }
-    }
+		internal void RegisterTempFile(string filename)
+		{
+			tempfiles.Add(filename);
+		}
+	}
 }
