@@ -36,7 +36,8 @@ namespace AgateLib.Drivers
 			}
 			catch (BadImageFormatException)
 			{
-				System.Diagnostics.Debug.Print("Could not load the file {0}.  Is it a CLR assembly?", file);
+				System.Diagnostics.Trace.WriteLine(string.Format(
+					"Could not load the file {0}.  Is it a CLR assembly?", file));
 				return retval.ToArray();
 			}
 

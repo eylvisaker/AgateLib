@@ -171,12 +171,15 @@ namespace AgateLib.ImplementationBase
 		/// Info for developers:
 		/// This method should draw the surface to the screen, using all the
 		/// scaling, rotation, etc. state data in the stored Surface object.
-		/// 
-		/// This method must be overriden.
 		/// </summary>
 		/// <param name="destX"></param>
 		/// <param name="destY"></param>
-		public abstract void Draw(float destX, float destY);
+		public virtual void Draw(float destX, float destY)
+		{
+			Geometry.PointF rotatePoint = Origin.CalcF(RotationCenter, DisplaySize);
+
+			Draw(destX, destY, rotatePoint.X, rotatePoint.Y);
+		}
 		/// <summary>
 		/// For function use, see documentation of Surface.
 		/// 

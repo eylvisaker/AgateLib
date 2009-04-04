@@ -239,13 +239,6 @@ namespace AgateOTK
 			}
 
 		}
-		public override void Draw(float destX, float destY)
-		{
-			Point rotatePoint = Origin.Calc(RotationCenter, DisplaySize);
-
-			Draw(destX, destY, rotatePoint.X, rotatePoint.Y);
-		}
-
 
 		public override void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
 		{
@@ -268,10 +261,16 @@ namespace AgateOTK
 				srcRect.Height * (float)ScaleHeight);
 
 			if (DisplaySize.Width < 0)
+			{
 				destX -= dispSize.Width;
+				rotationCenterX += dispSize.Width;
+			}
 
 			if (DisplaySize.Height < 0)
+			{
 				destY -= dispSize.Height;
+				rotationCenterY += dispSize.Height;
+			}
 
 			mTexCoord = GetTextureCoords(srcRect);
 

@@ -144,11 +144,17 @@ namespace AgateLib.DisplayLib.SystemDrawing
             Geometry.PointF translatePoint = Origin.CalcF(DisplayAlignment, DisplaySize);
 
 
-            if (DisplaySize.Width < 0)
-                translatePoint.X += DisplaySize.Width;
+			if (DisplaySize.Width < 0)
+			{
+				translatePoint.X += DisplaySize.Width;
+				rotationCenterX += DisplaySize.Width;
+			}
 
-            if (DisplaySize.Height < 0)
-                translatePoint.Y += DisplaySize.Height;
+			if (DisplaySize.Height < 0)
+			{
+				translatePoint.Y += DisplaySize.Height;
+				rotationCenterY += DisplaySize.Height;
+			}
 
             // translate to rotation point, rotate, and translate back.
             // System.Drawing rotates Clockwise!  So we must reverse the
@@ -213,13 +219,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                     break;
             }
-        }
-        public override void Draw(float destX, float destY)
-        {
-            Geometry.PointF rotatePoint = Origin.CalcF(RotationCenter, DisplaySize);
-
-            Draw(destX, destY, rotatePoint.X, rotatePoint.Y);
-
         }
         public override void Draw(Geometry.Rectangle destRect)
         {
