@@ -384,16 +384,17 @@ namespace AgateMDX
         {
             mDevice.DrawBuffer.Flush();
 
-            Vector2[] pts = new Vector2[5];
+            Microsoft.DirectX.Vector3[] pts = new Microsoft.DirectX.Vector3[5];
 
-            pts[0] = new Vector2(rect.X, rect.Y);
-            pts[1] = new Vector2(rect.X + rect.Width, rect.Y);
-            pts[2] = new Vector2(rect.X + rect.Width, rect.Y + rect.Height);
-            pts[3] = new Vector2(rect.X, rect.Y + rect.Height);
+            pts[0] = new Microsoft.DirectX.Vector3(rect.X, rect.Y, 0);
+            pts[1] = new Microsoft.DirectX.Vector3(rect.X + rect.Width, rect.Y, 0);
+            pts[2] = new Microsoft.DirectX.Vector3(rect.X + rect.Width, rect.Y + rect.Height, 0);
+            pts[3] = new Microsoft.DirectX.Vector3(rect.X, rect.Y + rect.Height, 0);
             pts[4] = pts[0];
-             
+
             mLine.Begin();
-            mLine.Draw(pts, color.ToArgb());
+            //mLine.Draw(pts, color.ToArgb());
+            mLine.DrawTransform(pts, GetTotalTransform(), color.ToArgb());
             mLine.End();
         }
 
@@ -846,23 +847,23 @@ namespace AgateMDX
             Matrix retval = new Matrix();
 
             retval.M11 = value[0, 0];
-            retval.M12 = value[0, 1];
-            retval.M13 = value[0, 2];
-            retval.M14 = value[0, 3];
+            retval.M12 = value[1, 0];
+            retval.M13 = value[2, 0];
+            retval.M14 = value[3, 0];
 
-            retval.M21 = value[1, 0];
+            retval.M21 = value[0, 1];
             retval.M22 = value[1, 1];
-            retval.M23 = value[1, 2];
-            retval.M24 = value[1, 3];
+            retval.M23 = value[2, 1];
+            retval.M24 = value[3, 1];
 
-            retval.M31 = value[2, 0];
-            retval.M32 = value[2, 1];
+            retval.M31 = value[0, 2];
+            retval.M32 = value[1, 2];
             retval.M33 = value[2, 2];
-            retval.M34 = value[2, 3];
+            retval.M34 = value[3, 2];
 
-            retval.M41 = value[3, 0];
-            retval.M42 = value[3, 1];
-            retval.M43 = value[3, 2];
+            retval.M41 = value[0, 3];
+            retval.M42 = value[1, 3];
+            retval.M43 = value[2, 3];
             retval.M44 = value[3, 3];
 
             return retval;
@@ -910,6 +911,11 @@ namespace AgateMDX
             }
         }
 
+        Matrix GetTotalTransform()
+        {
+            return TransformAgateMatrix(MatrixProjection * MatrixView * MatrixWorld);
+        }
+ 
         #endregion
 
         #region IPlatformServices Members
