@@ -30,5 +30,6 @@
 
   <Files>
     <Match path="." pattern="*.cs" recurse="true"/>
+    <Match pattern="*.resx" recurse="true"/>
   </Files>
 </Project>
