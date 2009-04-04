@@ -7,7 +7,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace Tests.Display.BasicDrawing
+namespace Tests.DisplayTests.BasicDrawing
 {
 	class BasicDrawing : IAgateTest
 	{

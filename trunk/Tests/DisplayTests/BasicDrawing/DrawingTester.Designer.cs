@@ -1,7 +1,7 @@
 // The contents of this file are public domain.
 // You may use them as you wish.
 //
-namespace Tests.Display.BasicDrawing
+namespace Tests.DisplayTests.BasicDrawing
 {
     partial class DrawingTester
     {
