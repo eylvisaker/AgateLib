@@ -20,15 +20,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
 using AgateLib.BitmapFont;
+using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
 namespace AgateLib.ImplementationBase
 {
-    using AgateLib.DisplayLib;
-
     /// <summary>
     /// Abstract base class for implementing the Display object.
     /// </summary>
@@ -599,6 +598,33 @@ namespace AgateLib.ImplementationBase
             get { throw new AgateException("3D is not supported."); }
             set { throw new AgateException("3D is not supported."); }
         }
-        
+
+        /// <summary>
+        /// Override this method if shaders are supported.
+        /// Only call the base class method if shaders aren't supported, as it throws a NotSupportedException.
+        /// </summary>
+        /// <returns></returns>
+        protected internal virtual ShaderCompilerImpl CreateShaderCompiler()
+        {
+            throw new NotSupportedException("The current driver does not support shaders.");
+        }
+
+        public virtual ShaderProgram Shader
+        {
+            get { throw new NotSupportedException(); }
+            set { throw new NotSupportedException(); }
+        }
+
+
+        protected void InitializeShaders()
+        {
+            if (Display.Caps.SupportsShaders)
+            {
+                ShaderCompiler.Initialize(CreateShaderCompiler());
+            }
+            else
+                ShaderCompiler.Disable();
+        }
+
     }
 }

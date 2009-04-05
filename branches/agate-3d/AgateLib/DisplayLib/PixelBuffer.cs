@@ -30,7 +30,7 @@ namespace AgateLib.DisplayLib
     /// construct or modify surface data programmatically.
     /// </summary>
     [Serializable]
-    public sealed class PixelBuffer
+    public sealed class PixelBuffer : ICloneable 
     {
         #region --- Private Data ---
 
@@ -174,6 +174,14 @@ namespace AgateLib.DisplayLib
 		{
 			this.CopyFrom(buffer, srcRect, new Point(0, 0), false);
 		}
+        /// <summary>
+        /// Returns a deep copy of the PixelBuffer object.
+        /// </summary>
+        /// <returns></returns>
+        public PixelBuffer Clone()
+        {
+            return new PixelBuffer(this, new Rectangle(0, 0, Width, Height));
+        }
 
         /// <summary>
         /// Loads image data from a file and returns a PixelBuffer.
@@ -984,7 +992,13 @@ namespace AgateLib.DisplayLib
 
         #endregion
 
+        #region --- ICloneable Members ---
 
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
 
+        #endregion
     }
 }

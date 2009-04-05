@@ -43,7 +43,7 @@ namespace Test3D
                 Keyboard.KeyUp += new InputEventHandler(Keyboard_KeyUp);
                 Surface surf = new Surface("bg-bricks.png");
 
-                Cube cube = new Cube();
+                CubeBuilder cube = new CubeBuilder();
                 cube.GenerateTextureCoords = true;
                 cube.Length = 4;
 

@@ -870,6 +870,14 @@ namespace AgateLib.Geometry
         }
         #endregion
 
+        /// <summary>
+        /// Returns a number from 0.0 to 1.0 indicating the intensity of the color, normalized
+        /// in a way which approximately represents the human eye's response to color.
+        /// </summary>
+        public double Intensity
+        {
+            get { return (0.30 * R + 0.59 * G + 0.11 * B)/255.0; }
+        }
 
         /// <summary>
         /// Converts this Color structure to a 32-bit integer in the format

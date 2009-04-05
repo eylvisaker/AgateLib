@@ -44,6 +44,7 @@ namespace AgateOTK
         private int mMaxLightsUsed = 0;
         private bool mSupportsFramebuffer;
         private bool mNonPowerOf2Textures;
+        private bool mSupportsShaders;
 
         public bool NonPowerOf2Textures
         {
@@ -397,14 +398,20 @@ namespace AgateOTK
             GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
                 HintMode.Nicest);
 
-            string version = GL.GetString(StringName.Version);
+            string versionString = GL.GetString(StringName.Version);
+            double version = double.Parse(versionString.Substring(0, 3));
+            string ext = GL.GetString(StringName.Extensions);
+            mSupportsShaders = false;
 
-            if (version.StartsWith("2.0"))
+            // don't want stupid floating point comparision to improperly fail here.
+            if (version >= 1.9999)  // version 2
             {
                 mSupportsFramebuffer = true;
                 mNonPowerOf2Textures = true;
+                mSupportsShaders = true;
+
             }
-            else if (version.StartsWith("1.5"))
+            else if (version >= 1.49999) // version 1.5
             {
                 mSupportsFramebuffer = true;
                 mNonPowerOf2Textures = true;
@@ -415,10 +422,45 @@ namespace AgateOTK
                 mNonPowerOf2Textures = GL.SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
             }
 
+            if (GL.SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
+            {
+                mSupportsShaders = true;
+            }
+
+            if (mSupportsShaders)
+                InitializeShaders();
+
             glInitialized = true;
             
         }
 
+        GlslShader mCurrentShader;
+
+        public override AgateLib.DisplayLib.Shaders.ShaderProgram Shader
+        {
+            get
+            {
+                return mCurrentShader;
+            }
+            set
+            {
+                if (value is GlslShader == false)
+                    throw new AgateLib.AgateException(string.Format(
+                        "Shader type is {0} but must be GlslShader.", typeof(ValueType)));
+
+                mCurrentShader = (GlslShader)value;
+
+                if (mCurrentShader == null)
+                {
+                    GL.UseProgram(0);
+                }
+                else
+                {
+                    GL.UseProgram(mCurrentShader.Handle);
+                }
+
+            }
+        }
         public override void Dispose()
         {
         }
@@ -504,78 +546,6 @@ namespace AgateOTK
         {
             get { return this; }
         }
-
-        #region --- IDisplayCaps Members ---
-
-        bool IDisplayCaps.SupportsScaling
-        {
-            get { return true; }
-        }
-
-        bool IDisplayCaps.SupportsRotation
-        {
-            get { return true; }
-        }
-
-        bool IDisplayCaps.SupportsColor
-        {
-            get { return true; }
-        }
-        bool IDisplayCaps.SupportsGradient
-        {
-            get { return true; }
-        }
-        bool IDisplayCaps.SupportsSurfaceAlpha
-        {
-            get { return true; }
-        }
-
-        bool IDisplayCaps.SupportsPixelAlpha
-        {
-            get { return true; }
-        }
-
-        bool IDisplayCaps.SupportsLighting
-        {
-            get { return true; }
-        }
-
-        int IDisplayCaps.MaxLights
-        {
-            get
-            {
-                int[] max = new int[1];
-                GL.GetInteger(GetPName.MaxLights, max);
-
-                return max[0];
-            }
-        }
-
-        bool IDisplayCaps.IsHardwareAccelerated
-        {
-            get { return true; }
-        }
-
-        bool IDisplayCaps.Supports3D
-        {
-            get { return true; }
-        }
-        bool IDisplayCaps.SupportsFullScreen
-        {
-            get { return true; }
-        }
-        bool IDisplayCaps.SupportsFullScreenModeSwitching
-        {
-            get { return true; }
-        }
-
-        bool IDisplayCaps.CanCreateBitmapFont
-        {
-            get { return true; }
-        }
-
-        #endregion
-
         #region IPlatformServices Members
 
         protected override AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
@@ -646,6 +616,104 @@ namespace AgateOTK
         }
 
         #endregion
+
+        #endregion
+
+        #region --- Shaders ---
+
+        protected override ShaderCompilerImpl CreateShaderCompiler()
+        {
+            if (this.Caps.SupportsShaders)
+            {
+                return new GlslShaderCompiler();
+            }
+            else
+                return base.CreateShaderCompiler();
+        }
+
+        #endregion
+
+        #region --- IDisplayCaps Members ---
+
+        bool IDisplayCaps.SupportsScaling
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsRotation
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsColor
+        {
+            get { return true; }
+        }
+        bool IDisplayCaps.SupportsGradient
+        {
+            get { return true; }
+        }
+        bool IDisplayCaps.SupportsSurfaceAlpha
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsPixelAlpha
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsLighting
+        {
+            get { return true; }
+        }
+
+        int IDisplayCaps.MaxLights
+        {
+            get
+            {
+                int[] max = new int[1];
+                GL.GetInteger(GetPName.MaxLights, max);
+
+                return max[0];
+            }
+        }
+
+        bool IDisplayCaps.IsHardwareAccelerated
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.Supports3D
+        {
+            get { return true; }
+        }
+        bool IDisplayCaps.SupportsFullScreen
+        {
+            get { return true; }
+        }
+        bool IDisplayCaps.SupportsFullScreenModeSwitching
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.CanCreateBitmapFont
+        {
+            get { return true; }
+        }
+
+        bool IDisplayCaps.SupportsShaders
+        {
+            get
+            {
+                return mSupportsShaders;
+            }
+        }
+
+        AgateLib.DisplayLib.Shaders.ShaderLanguage IDisplayCaps.ShaderLanguage
+        {
+            get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Glsl; }
+        }
 
         #endregion
     }

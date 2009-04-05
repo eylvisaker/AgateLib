@@ -91,7 +91,12 @@ namespace AgateLib.DisplayLib
             impl.Initialize();
 
             mSurfacePacker = new SurfacePacker();
+          
+        }
 
+        private static ShaderCompilerImpl CreateShaderCompiler()
+        {
+            return impl.CreateShaderCompiler();
         }
         /// <summary>
         /// Disposes of the Display.
@@ -124,8 +129,12 @@ namespace AgateLib.DisplayLib
                 return impl.IsAppIdle;
             }
         }
-       
 
+        public static Shaders.ShaderProgram Shader
+        {
+            get { return impl.Shader; }
+            set { impl.Shader = value; }
+        }
 
         /// <summary>
         /// Delegate type for functions which are called when Display.Dispose is called

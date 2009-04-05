@@ -828,6 +828,16 @@ namespace AgateMDX
             get { return true; }
         }
 
+        bool IDisplayCaps.SupportsShaders
+        {
+            get { return false; }
+        }
+
+        AgateLib.DisplayLib.Shaders.ShaderLanguage IDisplayCaps.ShaderLanguage
+        {
+            get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Unknown; }
+        }
+
         #endregion
 
         #region --- 3D stuff ---
@@ -930,5 +940,6 @@ namespace AgateMDX
         }
 
         #endregion
+
     }
 }

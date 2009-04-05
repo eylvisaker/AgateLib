@@ -41,10 +41,14 @@ namespace AgateLib.Geometry
                 0, 0, z, 0,
                 0, 0, 0, 1);
         }
+        //public static Matrix4 RotateXDegrees(float angle)
+        //{
+        //    return RotateX(angle * (float)(Math.PI / 180.0));
+        //}
         public static Matrix4 RotateX(float angle)
         {
-            float cos = (float)Math.Cos(angle * Math.PI / 180.0);
-            float sin = (float)Math.Sin(angle * Math.PI / 180.0);
+            float cos = (float)Math.Cos(angle);
+            float sin = (float)Math.Sin(angle);
 
             return new Matrix4(
                 1, 0, 0, 0,
@@ -54,8 +58,8 @@ namespace AgateLib.Geometry
         }
         public static Matrix4 RotateY(float angle)
         {
-            float cos = (float)Math.Cos(angle * Math.PI / 180.0);
-            float sin = (float)Math.Sin(angle * Math.PI / 180.0);
+            float cos = (float)Math.Cos(angle);
+            float sin = (float)Math.Sin(angle);
 
             return new Matrix4(
                 cos, 0, sin, 0,
@@ -65,8 +69,8 @@ namespace AgateLib.Geometry
         }
         public static Matrix4 RotateZ(float angle)
         {
-            float cos = (float)Math.Cos(angle * Math.PI / 180.0);
-            float sin = (float)Math.Sin(angle * Math.PI / 180.0);
+            float cos = (float)Math.Cos(angle);
+            float sin = (float)Math.Sin(angle);
 
             return new Matrix4(
                 cos, -sin, 0, 0,
@@ -95,6 +99,14 @@ namespace AgateLib.Geometry
                 -f.X, -f.Y, -f.Z, f.DotProduct(eye),
                 0, 0, 0, 1);
         }
+        /// <summary>
+        /// Creates a projection matrix for perspective corrected views.
+        /// </summary>
+        /// <param name="fieldOfViewY">The vertical field of view in degrees.</param>
+        /// <param name="aspect">The aspect ratio of the view port.</param>
+        /// <param name="zNear">The z value of the near clipping plane.</param>
+        /// <param name="zFar">The z value of the far clipping plane.</param>
+        /// <returns></returns>
         public static Matrix4 Projection(float fieldOfViewY, float aspect, float zNear, float zFar)
         {
             if (zFar == zNear) 

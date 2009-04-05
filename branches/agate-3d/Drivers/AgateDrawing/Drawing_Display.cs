@@ -278,6 +278,34 @@ namespace AgateLib.DisplayLib.SystemDrawing
             get { return this; }
         }
 
+        #region IPlatformServices Members
+
+        protected override IPlatformServices GetPlatformServices()
+        {
+            return this;
+        }
+        Utility.PlatformType IPlatformServices.PlatformType
+        {
+            get
+            {
+                switch (Environment.OSVersion.Platform)
+                {
+                    case PlatformID.Win32Windows:
+                    case PlatformID.Win32S:
+                    case PlatformID.Win32NT:
+                    case PlatformID.WinCE:
+                        return Utility.PlatformType.Windows;
+
+                    case PlatformID.Unix:
+                        return Utility.PlatformType.Linux;
+                }
+
+                return Utility.PlatformType.Unknown;
+            }
+        }
+
+        #endregion
+
         #region --- IDisplayCaps Members ---
 
         bool IDisplayCaps.SupportsScaling
@@ -341,32 +369,14 @@ namespace AgateLib.DisplayLib.SystemDrawing
             get { return true; }
         }
 
-        #endregion
-
-        #region IPlatformServices Members
-
-        protected override IPlatformServices GetPlatformServices()
+        bool IDisplayCaps.SupportsShaders
         {
-            return this;
+            get { return false; }
         }
-        Utility.PlatformType IPlatformServices.PlatformType
+
+        AgateLib.DisplayLib.Shaders.ShaderLanguage IDisplayCaps.ShaderLanguage
         {
-            get
-            {
-                switch (Environment.OSVersion.Platform)
-                {
-                    case PlatformID.Win32Windows:
-                    case PlatformID.Win32S:
-                    case PlatformID.Win32NT:
-                    case PlatformID.WinCE:
-                        return Utility.PlatformType.Windows;
-
-                    case PlatformID.Unix:
-                        return Utility.PlatformType.Linux;
-                }
-
-                return Utility.PlatformType.Unknown;
-            }
+            get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Unknown; }
         }
 
         #endregion

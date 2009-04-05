@@ -264,8 +264,8 @@ namespace AgateOTK
             mWindow.Keyboard.KeyDown += new OpenTK.Input.KeyDownEvent(Keyboard_KeyDown);
             mWindow.Keyboard.KeyUp += new OpenTK.Input.KeyUpEvent(Keyboard_KeyUp);
 
-            mWindow.Mouse.ButtonDown += new OpenTK.Input.MouseButtonDownEvent(Mouse_ButtonDown);
-            mWindow.Mouse.ButtonUp += new OpenTK.Input.MouseButtonUpEvent(Mouse_ButtonUp);
+            //mWindow.Mouse.ButtonDown += new OpenTK.Input.mou(Mouse_ButtonDown);
+            //mWindow.Mouse.ButtonUp += new OpenTK.Input.MouseButtonUpEvent(Mouse_ButtonUp);
         }
 
 
@@ -278,8 +278,8 @@ namespace AgateOTK
             mWindow.Keyboard.KeyDown -= Keyboard_KeyDown;
             mWindow.Keyboard.KeyUp -= Keyboard_KeyUp;
 
-            mWindow.Mouse.ButtonDown -= Mouse_ButtonDown;
-            mWindow.Mouse.ButtonUp -= Mouse_ButtonUp;
+            //mWindow.Mouse.ButtonDown -= Mouse_ButtonDown;
+            //mWindow.Mouse.ButtonUp -= Mouse_ButtonUp;
         }
 
         void mWindow_Resize(object sender, OpenTK.Platform.ResizeEventArgs e)

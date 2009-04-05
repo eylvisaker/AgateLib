@@ -209,6 +209,7 @@ namespace AgateOTK
                 newMode,
                 mRenderTarget,
                 out mContext, out mWindowInfo);
+
         }
 
 

@@ -5,9 +5,9 @@ using AgateLib.DisplayLib;
 
 namespace AgateLib.Geometry.Builders
 {
-    public class Cube
+    public class CubeBuilder
     {
-        public Cube()
+        public CubeBuilder()
         {
             Length = 1;
             GenerateTextureCoords = true;

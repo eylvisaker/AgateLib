@@ -44,9 +44,10 @@ namespace TestMatrices
                 Keyboard.KeyUp += new InputEventHandler(Keyboard_KeyUp);
                 Surface surf = new Surface("bg-bricks.png");
 
-                Cube cube = new Cube();
+                CubeBuilder cube = new CubeBuilder();
                 cube.GenerateTextureCoords = true;
-                cube.Length = 4;
+                cube.Length = 58;
+                cube.Location = new Vector3(cube.Length / 2, cube.Length / 2, 0);
 
                 VertexBuffer b = cube.CreateVertexBuffer();
                 b.Texture = surf;
@@ -101,7 +102,7 @@ namespace TestMatrices
                             break;
 
                         case 1:
-                            myproj = Matrix4.Projection(45, wind.Width / (float)wind.Height, 1f, 100);
+                            myproj = Matrix4.Projection(45, wind.Width / (float)wind.Height, 1f, 1000);
                             myview = Matrix4.LookAt(position, lookTarget,
                                 new Vector3(0, 0, 1));
 
