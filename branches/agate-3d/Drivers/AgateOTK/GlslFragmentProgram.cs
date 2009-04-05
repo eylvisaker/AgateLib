@@ -10,9 +10,10 @@ namespace AgateOTK
     {
         int index;
 
-        public GlslFragmentProgram(int index)
+        public GlslFragmentProgram(int index, string source)
         {
             this.index = index;
+            this.Source = source;
         }
 
 

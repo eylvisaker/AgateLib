@@ -11,5 +11,6 @@ namespace AgateLib.DisplayLib.Shaders
         {
             get { return ShaderLanguage.Unknown; }
         }
+        public string Source { get; protected set; }
     }
 }
