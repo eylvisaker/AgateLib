@@ -11,9 +11,15 @@ namespace AgateOTK
 	{
 		struct UniformInfo
 		{
+			public string Name;
 			public int Location;
 			public ActiveUniformType Type;
 			public int Size;
+
+			public override string ToString()
+			{
+				return "Uniform: " + Name + " | " + Type.ToString();
+			}
 		}
 
 		Dictionary<string, UniformInfo> mUniforms = new Dictionary<string, UniformInfo>();
@@ -34,15 +40,24 @@ namespace AgateOTK
 				int length;
 				int size;
 				ActiveUniformType type;
+				string name;
 				GL.GetActiveUniform(programHandle, i, 1000, out length, out size, out type, b);
+				name = b.ToString();
+
+				// some drivers apparently report uniforms that don't have a location.
+				// This is observed on with ATI driver 9.2 I think.
+				int loc = GL.GetUniformLocation(programHandle, name);
+				if (loc == -1)
+					continue;
 
 				UniformInfo info = new UniformInfo();
 
-				info.Location = GetUniformLocation(b.ToString());
+				info.Name = name;
+				info.Location = loc;
 				info.Type = type;
 				info.Size = size;
 
-				mUniforms.Add(b.ToString(), info);
+				mUniforms.Add(info.Name, info);
 			}
 		}
 
