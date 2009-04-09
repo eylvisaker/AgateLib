@@ -44,8 +44,9 @@ namespace AgateOTK
 				GL.GetActiveUniform(programHandle, i, 1000, out length, out size, out type, b);
 				name = b.ToString();
 
-				// some drivers apparently report uniforms that don't have a location.
-				// This is observed on with ATI driver 9.2 I think.
+				// Apparently OpenGL reports not just user uniforms, but also built-in uniforms
+				// that are determined "active" and accessible in program execution.  Built-in uniforms
+				// won't return a location because they cannot be directly modified by the OpenGL client.
 				int loc = GL.GetUniformLocation(programHandle, name);
 				if (loc == -1)
 					continue;
