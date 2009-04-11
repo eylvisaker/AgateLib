@@ -87,7 +87,7 @@ namespace AgateOTK
 		int mIndex;
 		int mCurrentTexture;
 
-		InterpolationMode lastInerpolation;
+		InterpolationMode lastInterpolation = (InterpolationMode)(-1);
 		PointF[] cachePts = new PointF[4];
 
 		public GLDrawBuffer(GLState state)
@@ -126,36 +126,11 @@ namespace AgateOTK
 
 		public void SetInterpolationMode(InterpolationMode mode)
 		{
-			if (mode == lastInerpolation)
+			if (mode == lastInterpolation)
 				return;
 
 			Flush();
-			lastInerpolation = mode;
-
-			switch (mode)
-			{
-				case InterpolationMode.Fastest:
-					GL.TexParameter(TextureTarget.Texture2D,
-									TextureParameterName.TextureMinFilter,
-									(int)TextureMinFilter.Nearest);
-					GL.TexParameter(TextureTarget.Texture2D,
-									TextureParameterName.TextureMagFilter,
-									(int)TextureMagFilter.Nearest);
-
-					break;
-
-				case InterpolationMode.Default:
-				case InterpolationMode.Nicest:
-					GL.TexParameter(TextureTarget.Texture2D,
-									TextureParameterName.TextureMinFilter,
-									(int)TextureMinFilter.Linear);
-					GL.TexParameter(TextureTarget.Texture2D,
-									TextureParameterName.TextureMagFilter,
-									(int)TextureMagFilter.Linear);
-
-
-					break;
-			}
+			lastInterpolation = mode;
 		}
 
 		public void AddQuad(int textureID, Color color, TextureCoordinates texCoord, RectangleF destRect)
@@ -229,6 +204,8 @@ namespace AgateOTK
 
 			GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
 
+			SetGLInterpolation();
+
 			GL.EnableClientState(EnableCap.TextureCoordArray);
 			GL.EnableClientState(EnableCap.ColorArray);
 			GL.EnableClientState(EnableCap.VertexArray);
@@ -245,6 +222,35 @@ namespace AgateOTK
 			GL.DrawArrays(BeginMode.Quads, 0, mIndex);
 
 			mIndex = 0;
+		}
+
+		private void SetGLInterpolation()
+		{
+
+			switch (this.lastInterpolation)
+			{
+				case InterpolationMode.Fastest:
+					GL.TexParameter(TextureTarget.Texture2D,
+									TextureParameterName.TextureMinFilter,
+									(int)TextureMinFilter.Nearest);
+					GL.TexParameter(TextureTarget.Texture2D,
+									TextureParameterName.TextureMagFilter,
+									(int)TextureMagFilter.Nearest);
+
+					break;
+
+				case InterpolationMode.Default:
+				case InterpolationMode.Nicest:
+					GL.TexParameter(TextureTarget.Texture2D,
+									TextureParameterName.TextureMinFilter,
+									(int)TextureMinFilter.Linear);
+					GL.TexParameter(TextureTarget.Texture2D,
+									TextureParameterName.TextureMagFilter,
+									(int)TextureMagFilter.Linear);
+
+
+					break;
+			}
 		}
 
 		private void oldFlush()
