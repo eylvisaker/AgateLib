@@ -16,6 +16,8 @@ namespace AgateLib.Geometry.Builders
             Width = 1;
             Height = 1;
             MaxPeak = 1;
+
+			VertexType = VertexLayout.PositionNormalTexture;
         }
 
         /// <summary>
@@ -44,6 +46,8 @@ namespace AgateLib.Geometry.Builders
         /// </summary>
         public float MaxPeak { get; set; }
 
+		public VertexLayout VertexType { get; set; }
+
         public VertexBuffer CreateVertexBuffer()
         {
             Vector3[] vertices = new Vector3[pixels.Width* pixels.Height];
@@ -54,7 +58,7 @@ namespace AgateLib.Geometry.Builders
 
             FillVertices(vertices, normal, texture, indices);
 
-            VertexBuffer retval = new VertexBuffer();
+            VertexBuffer retval = new VertexBuffer(VertexType, vertices.Length);
 
             retval.WriteVertexData(vertices);
             retval.WriteTextureCoords(texture);

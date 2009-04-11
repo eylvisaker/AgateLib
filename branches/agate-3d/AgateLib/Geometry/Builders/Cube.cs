@@ -5,128 +5,132 @@ using AgateLib.DisplayLib;
 
 namespace AgateLib.Geometry.Builders
 {
-    public class CubeBuilder
-    {
-        public CubeBuilder()
-        {
-            Length = 1;
-            GenerateTextureCoords = true;
-            GenerateNormals = true;
-        }
+	public class CubeBuilder
+	{
+		public CubeBuilder()
+		{
+			Length = 1;
+			GenerateTextureCoords = true;
+			GenerateNormals = true;
 
-        public float Length { get; set; }
-        public Vector3 Location { get; set; }
-        public bool GenerateTextureCoords { get; set; }
-        public bool GenerateNormals { get; set; }
+			VertexType = VertexLayout.PositionNormalTexture;
+		}
 
-        public VertexBuffer CreateVertexBuffer()
-        {
-            VertexBuffer retval = new VertexBuffer();
+		public float Length { get; set; }
+		public Vector3 Location { get; set; }
+		public bool GenerateTextureCoords { get; set; }
+		public bool GenerateNormals { get; set; }
 
-            retval.PrimitiveType = PrimitiveType.TriangleList;
-            retval.WriteVertexData(GetVertexData());
-            retval.WriteIndices(GetIndexData());
+		public VertexLayout VertexType { get; set; }
 
-            if (GenerateTextureCoords)
-                retval.WriteTextureCoords(GetTextureCoords());
-            if (GenerateNormals)
-                retval.WriteNormalData(GetNormals());
+		public VertexBuffer CreateVertexBuffer()
+		{
+			VertexBuffer retval = new VertexBuffer(VertexType, 24);
 
-            return retval;
-        }
+			retval.PrimitiveType = PrimitiveType.TriangleList;
+			retval.WriteVertexData(GetVertexData());
+			retval.WriteIndices(GetIndexData());
 
-        private short[] GetIndexData()
-        {
-            short[] retval = new short[36];
+			if (GenerateTextureCoords)
+				retval.WriteTextureCoords(GetTextureCoords());
+			if (GenerateNormals)
+				retval.WriteNormalData(GetNormals());
 
-            int i = 0;
-            short index = 0;
-            for (int face = 0; face < 6; face++)
-            {
-                retval[i++] = index;
-                retval[i++] = (short)(index + 1);
-                retval[i++] = (short)(index + 2);
-                retval[i++] = (short)(index + 1);
-                retval[i++] = (short)(index + 2);
-                retval[i++] = (short)(index + 3);
+			return retval;
+		}
 
-                index += 4;
-            }
+		private short[] GetIndexData()
+		{
+			short[] retval = new short[36];
 
-            return retval;
-        }
+			int i = 0;
+			short index = 0;
+			for (int face = 0; face < 6; face++)
+			{
+				retval[i++] = index;
+				retval[i++] = (short)(index + 1);
+				retval[i++] = (short)(index + 2);
+				retval[i++] = (short)(index + 1);
+				retval[i++] = (short)(index + 2);
+				retval[i++] = (short)(index + 3);
 
-        private Vector3[] GetNormals()
-        {
-            Vector3[] retval = new Vector3[24];
+				index += 4;
+			}
 
-            int i = 0;
-            float length = Length / 2.0f;
+			return retval;
+		}
 
-            for (int sign = -1; sign <= 1; sign += 2)
-            {
-                retval[i++] = new Vector3(0, 0, sign );
-                retval[i++] = new Vector3(0, 0, sign );
-                retval[i++] = new Vector3(0, 0, sign );
-                retval[i++] = new Vector3(0, 0, sign );
+		private Vector3[] GetNormals()
+		{
+			Vector3[] retval = new Vector3[24];
 
-                retval[i++] = new Vector3(0, sign,0);
-                retval[i++] = new Vector3(0, sign,0);
-                retval[i++] = new Vector3(0, sign, 0);
-                retval[i++] = new Vector3(0, sign, 0);
+			int i = 0;
+			float length = Length / 2.0f;
 
-                retval[i++] = new Vector3(sign, 0, 0);
-                retval[i++] = new Vector3(sign, 0, 0);
-                retval[i++] = new Vector3(sign, 0, 0);
-                retval[i++] = new Vector3(sign, 0, 0);
-            }
+			for (int sign = -1; sign <= 1; sign += 2)
+			{
+				retval[i++] = new Vector3(0, 0, sign);
+				retval[i++] = new Vector3(0, 0, sign);
+				retval[i++] = new Vector3(0, 0, sign);
+				retval[i++] = new Vector3(0, 0, sign);
 
-            return retval;
-        }
-        protected virtual Vector3[] GetVertexData()
-        {
-            Vector3[] retval = new Vector3[24];
+				retval[i++] = new Vector3(0, sign, 0);
+				retval[i++] = new Vector3(0, sign, 0);
+				retval[i++] = new Vector3(0, sign, 0);
+				retval[i++] = new Vector3(0, sign, 0);
 
-            int i = 0;
-            float length = Length / 2.0f;
+				retval[i++] = new Vector3(sign, 0, 0);
+				retval[i++] = new Vector3(sign, 0, 0);
+				retval[i++] = new Vector3(sign, 0, 0);
+				retval[i++] = new Vector3(sign, 0, 0);
+			}
 
-            for (int sign = -1; sign <= 1; sign += 2)
-            {
-                retval[i++] = new Vector3(length, length, sign*length);
-                retval[i++] = new Vector3(length, -length, sign * length);
-                retval[i++] = new Vector3(-length, length, sign * length);
-                retval[i++] = new Vector3(-length, -length, sign * length);
+			return retval;
+		}
+		protected virtual Vector3[] GetVertexData()
+		{
+			Vector3[] retval = new Vector3[24];
 
-                retval[i++] = new Vector3(length, sign * length, length);
-                retval[i++] = new Vector3(length, sign * length, -length);
-                retval[i++] = new Vector3(-length, sign * length, length);
-                retval[i++] = new Vector3(-length, sign * length, -length);
+			int i = 0;
+			float length = Length / 2.0f;
 
-                retval[i++] = new Vector3(sign * length, length, length);
-                retval[i++] = new Vector3(sign * length, length, -length);
-                retval[i++] = new Vector3(sign * length, -length, length);
-                retval[i++] = new Vector3(sign * length, -length, -length);
-            }
+			for (int sign = -1; sign <= 1; sign += 2)
+			{
+				retval[i++] = new Vector3(length, length, sign * length);
+				retval[i++] = new Vector3(length, -length, sign * length);
+				retval[i++] = new Vector3(-length, length, sign * length);
+				retval[i++] = new Vector3(-length, -length, sign * length);
 
-            for (i = 0; i < retval.Length; i++)
-                retval[i] += Location;
+				retval[i++] = new Vector3(length, sign * length, length);
+				retval[i++] = new Vector3(length, sign * length, -length);
+				retval[i++] = new Vector3(-length, sign * length, length);
+				retval[i++] = new Vector3(-length, sign * length, -length);
 
-            return retval;
-        }
-        protected virtual Vector2[] GetTextureCoords()
-        {
-            Vector2[] retval = new Vector2[24];
-            
-            int i = 0;
-            for (int face = 0; face < 6; face++)
-            {
-                retval[i++] = new Vector2(0, 0);
-                retval[i++] = new Vector2(0, 1);
-                retval[i++] = new Vector2(1, 0);
-                retval[i++] = new Vector2(1, 1);
-            }
+				retval[i++] = new Vector3(sign * length, length, length);
+				retval[i++] = new Vector3(sign * length, length, -length);
+				retval[i++] = new Vector3(sign * length, -length, length);
+				retval[i++] = new Vector3(sign * length, -length, -length);
+			}
 
-            return retval;
-        }
-    }
+			for (i = 0; i < retval.Length; i++)
+				retval[i] += Location;
+
+			return retval;
+		}
+		protected virtual Vector2[] GetTextureCoords()
+		{
+			Vector2[] retval = new Vector2[24];
+
+			int i = 0;
+			for (int face = 0; face < 6; face++)
+			{
+				retval[i++] = new Vector2(0, 0);
+				retval[i++] = new Vector2(0, 1);
+				retval[i++] = new Vector2(1, 0);
+				retval[i++] = new Vector2(1, 1);
+			}
+
+			return retval;
+		}
+	}
 }

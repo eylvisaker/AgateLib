@@ -101,9 +101,9 @@ namespace AgateOTK
         {
             return new GL_Surface(fileName);
         }
-        protected override VertexBufferImpl CreateVertexBuffer()
+        protected override VertexBufferImpl  CreateVertexBuffer(VertexLayout layout, int vertexCount)
         {
-            return new GL_VertexBuffer();
+            return new GL_VertexBuffer(layout);
         }
         public override SurfaceImpl CreateSurface(Size surfaceSize)
         {

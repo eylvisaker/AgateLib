@@ -578,7 +578,7 @@ namespace AgateLib.ImplementationBase
         /// <returns></returns>
         protected internal abstract AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices();
 
-        protected internal virtual VertexBufferImpl CreateVertexBuffer()
+		protected internal virtual VertexBufferImpl CreateVertexBuffer(VertexLayout layout, int vertexCount)
         {
             throw new AgateException("Cannot create a vertex buffer with a driver that does not support 3D.");
         }
@@ -611,8 +611,8 @@ namespace AgateLib.ImplementationBase
 
         public virtual ShaderProgram Shader
         {
-            get { throw new NotSupportedException(); }
-            set { throw new NotSupportedException(); }
+			get { throw new NotSupportedException("The current driver does not support shaders."); }
+			set { throw new NotSupportedException("The current driver does not support shaders."); }
         }
 
 
@@ -626,5 +626,5 @@ namespace AgateLib.ImplementationBase
                 ShaderCompiler.Disable();
         }
 
-    }
+	}
 }

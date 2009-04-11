@@ -102,7 +102,7 @@ namespace Glsl
 
 					Display.MatrixWorld = Matrix4.RotateZ((float)(frequency * time)) * Matrix4.Translation(-size / 2, -size / 2, 0);
 
-					buffer.DrawIndexed();
+					buffer.Draw();
 
 					Display.EndFrame();
 					Core.KeepAlive();
