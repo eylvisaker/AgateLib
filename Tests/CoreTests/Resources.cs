@@ -9,52 +9,51 @@ using AgateLib.Sprites;
 
 namespace Tests.ResourceTester
 {
-    class ResourceTester : IAgateTest 
-    {
-        public void Main(string[] args)
-        {
+	class ResourceTester : IAgateTest
+	{
+		public void Main(string[] args)
+		{
 			using (AgateSetup setup = new AgateSetup("Resource Tester", args))
-            {
-                setup.InitializeAll();
-                if (setup.WasCanceled)
-                    return;
+			{
+				setup.InitializeAll();
+				if (setup.WasCanceled)
+					return;
 
-                AgateFileProvider.Resources.Add(new AgateLib.Utility.FileSystemProvider("Data"));
+				AgateFileProvider.Resources.Add(new AgateLib.Utility.FileSystemProvider("Data"));
 
-                AgateResourceCollection resources = 
-                    AgateResourceLoader.LoadResources("TestResourceFile.xml");
+				AgateResourceCollection resources = new AgateResourceCollection("TestResourceFile.xml");
 
-                DisplayWindow wind = new DisplayWindow(resources, "main_window");
-                Surface surf = new Surface(resources, "sample_surf");
-                ISprite sprite = new Sprite(resources, "sample_sprite");
-                FontSurface font = new FontSurface(resources, "sample_font");
+				DisplayWindow wind = new DisplayWindow(resources, "main_window");
+				Surface surf = new Surface(resources, "sample_surf");
+				ISprite sprite = new Sprite(resources, "sample_sprite");
+				FontSurface font = new FontSurface(resources, "sample_font");
 
-                sprite.StartAnimation();
+				sprite.StartAnimation();
 
-                while (wind.IsClosed == false)
-                {
-                    Display.BeginFrame();
-                    Display.Clear(Color.Red);
+				while (wind.IsClosed == false)
+				{
+					Display.BeginFrame();
+					Display.Clear(Color.Red);
 
-                    font.DrawText(0, 0, "FPS: " + Display.FramesPerSecond.ToString());
+					font.DrawText(0, 0, "FPS: " + Display.FramesPerSecond.ToString());
 
-                    surf.Draw(20, 20);
+					surf.Draw(20, 20);
 
-                    sprite.Update();
-                    sprite.Draw(100, 100);
+					sprite.Update();
+					sprite.Draw(100, 100);
 
-                    Display.EndFrame();
-                    Core.KeepAlive();
-                }
-            }
-        }
+					Display.EndFrame();
+					Core.KeepAlive();
+				}
+			}
+		}
 
 
-        #region IAgateTest Members
+		#region IAgateTest Members
 
-        public string Name { get { return "Resources"; } }
-        public string Category { get { return "Core"; } }
+		public string Name { get { return "Resources"; } }
+		public string Category { get { return "Core"; } }
 
-        #endregion
-    }
+		#endregion
+	}
 }
