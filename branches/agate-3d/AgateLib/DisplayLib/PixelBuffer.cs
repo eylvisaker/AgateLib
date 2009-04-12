@@ -1001,10 +1001,25 @@ namespace AgateLib.DisplayLib
 
         #endregion
 
+		/// <summary>
+		/// Creates a normal map by interpreting the pixel data in the passed buffer
+		/// as a height map.
+		/// </summary>
+		/// <param name="buffer"></param>
+		/// <returns></returns>
 		public static PixelBuffer NormalMapFromHeightMap(PixelBuffer buffer)
 		{
-			return NormalMapFromHeightMap(buffer, 8.0f);
+			return NormalMapFromHeightMap(buffer, 1.0f);
 		}
+		/// <summary>
+		/// Creates a normal map by interpreting the pixel data in the passed buffer
+		/// as a height map.
+		/// </summary>
+		/// <param name="buffer"></param>
+		/// <param name="normalStr">The weight for the x-y components of the normals in
+		/// the normal map.  Smaller values make the normal map more subtle.
+		/// Values in the range 0.5f to 3.0f are reasonable.</param>
+		/// <returns></returns>
 		public static PixelBuffer NormalMapFromHeightMap(PixelBuffer buffer, float normalStr)
 		{
 			int[,] heights = new int[buffer.Width, buffer.Height];
