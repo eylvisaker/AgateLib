@@ -63,7 +63,7 @@ namespace Glsl
 				FontSurface font = new FontSurface("Arial", 14.0f);
 
 				Surface texture = new Surface("bg-bricks.png");
-				Surface height = new Surface("bg-bricks-heightmap.png");
+				Surface height = new Surface("heightmap.png");
 				//Surface height = new Surface("jellybean.png");
 
 				LightManager m = new LightManager();
@@ -72,7 +72,7 @@ namespace Glsl
 				m.Ambient = Color.FromArgb(0, 255, 0);
 				m[0].AttenuationConstant = 0.0001f;
 				m[0].AttenuationLinear = 0.004f;
-				m[0].AttenuationQuadratic = 0.00006f;
+				m[0].AttenuationQuadratic = 0.0001f;
 				m[0].Range = 200;
 
 				double time = 0;
@@ -89,7 +89,8 @@ namespace Glsl
 
 				VertexBuffer buffer = b.CreateVertexBuffer();
 				buffer.Textures[0] = texture;
-				buffer.Textures[1] = new Surface(PixelBuffer.NormalMapFromHeightMap(height.ReadPixels()));
+				buffer.Textures[1] = new Surface(
+					PixelBuffer.NormalMapFromHeightMap(height.ReadPixels(), 2.0f));
 				buffer.Textures[1].SaveTo("normal.png");
 
 				//var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
@@ -107,7 +108,7 @@ namespace Glsl
 					if (Core.IsActive)
 					{
 						Vector3 move = lookDir * velocity * Display.DeltaTime;
-						Vector3 strafe = Vector3.CrossProduct(move, up).Normalize()*velocity * Display.DeltaTime;
+						Vector3 strafe = Vector3.CrossProduct(move, up).Normalize() * velocity * Display.DeltaTime;
 						Vector3 fly = new Vector3(0, 0, velocity * Display.DeltaTime);
 
 						if (Keyboard.Keys[KeyCode.W]) eye += move;
@@ -128,8 +129,8 @@ namespace Glsl
 						phi -= mouseDiff.X * mousevelocity;
 						resetmouse();
 
-						if (phi < -Math.PI)							phi += (float)(Math.PI * 2);
-						if (phi > Math.PI)							phi -= (float)(Math.PI * 2);
+						if (phi < -Math.PI) phi += (float)(Math.PI * 2);
+						if (phi > Math.PI) phi -= (float)(Math.PI * 2);
 						if (theta < 0) theta = 0;
 						if (theta > Math.PI) theta = (float)Math.PI;
 					}
@@ -153,8 +154,8 @@ namespace Glsl
 					m[0].Position = eye;
 					m.DoLighting();
 
-					Display.MatrixWorld = Matrix4.RotateZ((float)(frequency * time)) 
-						* Matrix4.Translation(-size / 2, -size / 2, 0);
+					Display.MatrixWorld =
+						Matrix4.Translation(-size / 2, -size / 2, 0) * Matrix4.RotateZ((float)(frequency * time));
 
 					buffer.Draw();
 
@@ -169,7 +170,10 @@ namespace Glsl
 
 		void Mouse_MouseDown(InputEventArgs e)
 		{
-			rotating = !rotating;
+			if (e.MouseButtons == Mouse.MouseButtons.Secondary)
+			{
+				rotating = !rotating;
+			}
 		}
 
 	}
