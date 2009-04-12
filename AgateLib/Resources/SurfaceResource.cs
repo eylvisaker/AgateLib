@@ -58,11 +58,17 @@ namespace AgateLib.Resources
 		{
 			switch (version)
 			{
+				case "0.3.1":
 				case "0.3.0":
 					Name = node.Attributes["name"].Value;
 					Filename = node.Attributes["filename"].Value;
 
 					break;
+
+				default:
+					throw new AgateResourceException(
+						"Reading Surface data for the version " + version + 
+						" is not supported yet.  Check the version string in your resource file.");
 			}
 		}
 		internal override void BuildNodes(System.Xml.XmlElement parent, System.Xml.XmlDocument doc)
