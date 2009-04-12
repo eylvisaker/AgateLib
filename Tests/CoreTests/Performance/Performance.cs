@@ -13,354 +13,369 @@ using AgateLib.Utility;
 
 namespace Tests.PerformanceTester
 {
-    class PerformanceTester:IAgateTest 
-    {
-        struct Rects
-        {
-            public Rectangle rect;
-            public Color color;
-        }
-        Random rnd = new Random();
-        FontSurface font;
-
-        const int totalFrames = 300;
-
-        public void Main(string[] args)
+	class PerformanceTester : IAgateTest
+	{
+		public struct TestResult
 		{
-            Core.Initialize();
-
-            List<AgateDriverInfo> drivers = Registrar.DisplayDrivers;
-            
-            frmPerformanceTester frm = new frmPerformanceTester();
-            frm.Show();
+			public int Frames;
+			public double Time;
+			public string Name;
+			public string Driver;
+
+			public double FPS
+			{
+				get { return Frames / Time; }
+			}
+		}
+		struct Rects
+		{
+			public Rectangle rect;
+			public Color color;
+		}
+		Random rnd = new Random();
+		FontSurface font;
+
+		delegate int TestMethod();
 
-            Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
+		const int totalFrames = 300;
 
-            foreach (AgateDriverInfo info in drivers)
-            {
-                Trace.WriteLine(string.Format("Starting driver {0}...", info.FriendlyName));
-                Trace.Indent();
-                double fps;
+		public void Main(string[] args)
+		{
+			Core.Initialize();
 
-                Display.Initialize((DisplayTypeID)info.DriverTypeID); 
-                Display.VSync = false;
-            
-                DisplayWindow wind = DisplayWindow.CreateWindowed("Performance Test", 300, 300);
-                font = new FontSurface("Arial", 11);
-                
-                Trace.WriteLine("Doing Filled Rect test");
-                fps = FilledRectTest() * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
+			List<AgateDriverInfo> drivers = Registrar.DisplayDrivers;
 
-                Trace.WriteLine("Doing Draw Rect test");
-                fps = DrawRectTest() * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
-
-                Trace.WriteLine("Doing Draw Surface test, no color");
-                fps = DrawSurfaceTest(false) * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
+			frmPerformanceTester frm = new frmPerformanceTester();
+			frm.Show();
 
-                Trace.WriteLine("Doing Draw Surface test");
-                fps = DrawSurfaceTest(true) * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
-
-                Trace.WriteLine("Doing Stretch test, no color");
-                fps = StretchTest(false) * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
+			Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
-                Trace.WriteLine("Doing Stretch test");
-                fps = StretchTest(true) * 1000;
-                Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.FriendlyName, fps));
-
-                //Trace.WriteLine("Doing Stretch test with queued rects");
-                //fps = StretchTestQueue(true) * 1000;
-                //Trace.WriteLine(string.Format("The driver {0} got {1} fps.", info.Name, fps));
-
-                Trace.Unindent();
-
-                if (Display.CurrentWindow.IsClosed)
-                {
-                    Display.Dispose();
-                    frm.Dispose();
-                    return;
-                }
-
-                Display.Dispose();
-
-            }
-
-            frm.Visible = false;
-            frm.ShowDialog();
-        }
-
-        private double StretchTestQueue(bool applyColor)
-        {
-            Timing.StopWatch timer = new Timing.StopWatch();
-            Surface surf = new Surface("jellybean.png");
-            int frames = 0;
+			List<TestMethod> tests = new List<TestMethod>();
+			tests.Add(FilledRectTest);
+			tests.Add(DrawRectTest);
+			tests.Add(DrawSurfaceTestColored);
+			tests.Add(DrawSurfaceTestPlain);
+			tests.Add(StretchTestColored);
+			tests.Add(StretchTestPlain);
 
-            surf.Color = Color.White;
-            double count = 1;
+			foreach (AgateDriverInfo info in drivers)
+			{
+				Trace.WriteLine(string.Format("Starting driver {0}...", info.FriendlyName));
+				Trace.Indent();
+				double fps;
 
-            for (frames = 0; frames < totalFrames; frames++)
-            {
-                if (Display.CurrentWindow.IsClosed)
-                    return frames / (double)timer.TotalMilliseconds;
+				Display.Initialize((DisplayTypeID)info.DriverTypeID);
+				Display.VSync = false;
 
-                count = 1 + Math.Cos(frames / 60.0);
+				DisplayWindow wind = DisplayWindow.CreateWindowed("Performance Test", 300, 300);
+				font = new FontSurface("Arial", 11);
 
-                Display.BeginFrame();
+				for (int i = 0; i < tests.Count; i++)
+				{
+					TestResult r = Execute(tests[i]);
 
-                
-                for (int i = 0; i < 15; i++)
-                {
-                    surf.SetScale(1.0, 1.0);
-                    surf.Color = Color.White;
-                    surf.Draw(10, 10);
+					r.Driver = info.FriendlyName;
 
-                    if (applyColor)
-                        surf.Color = Color.Orange;
-
-                    surf.SetScale(1.5, 1.5);
-                    surf.Draw(120, 10);
+					frm.AddTestResult(r);
+				}
 
-                    if (applyColor)
-                        surf.Color = Color.LightGreen;
+				if (Display.CurrentWindow.IsClosed)
+				{
+					Display.Dispose();
+					frm.Dispose();
+					return;
+				}
 
-                    surf.SetScale(count, 1.25);
-                    surf.Draw(10, 100);
+				Display.Dispose();
+			}
 
-                    if (applyColor)
-                        surf.Color = Color.LightCoral;
+			frm.Visible = false;
+			frm.ShowDialog();
+		}
 
-                    surf.SetScale(0.5 + count / 2, 0.5 + count / 2);
-                    surf.Draw((int)(150 + 40 * Math.Cos(frames / 70.0)),
-                              (int)(120 + 40 * Math.Sin(frames / 70.0)));
+		private TestResult Execute(TestMethod testMethod)
+		{
+			Timing.StopWatch timer = new Timing.StopWatch();
+			int frames = testMethod();
+			timer.Pause();
 
-                    font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
-                }
+			TestResult r = new TestResult();
 
-                Display.EndFrame();
-                Core.KeepAlive();
-
-                if (timer.TotalSeconds > 30)
-                    break;
-            }
-
-            return frames / (double)timer.TotalMilliseconds;
-        }
-        
-        private double StretchTest(bool applyColor)
-        {
-            Timing.StopWatch timer = new Timing.StopWatch();
-            Surface surf = new Surface("jellybean.png");
-            int frames = 0;
+			r.Name = testMethod.Method.Name;
+			r.Frames = frames;
+			r.Time = timer.TotalSeconds;
 
-            surf.Color = Color.White;
-            double count = 1;
+			return r;
+		}
 
-            for (frames = 0; frames < totalFrames; frames++)
-            {
-                if (Display.CurrentWindow.IsClosed)
-                    return frames / (double)timer.TotalMilliseconds;
+		private int StretchTestQueue(bool applyColor)
+		{
+			Surface surf = new Surface("jellybean.png");
+			int frames = 0;
 
-                count = 1 + Math.Cos(frames / 60.0);
-
-                Display.BeginFrame();
-                Display.Clear();
-                for (int i = 0; i < 15; i++)
-                {
-                   
-                    surf.SetScale(1.0, 1.0);
-                    surf.Color = Color.White;
-                    surf.Draw(10, 10);
+			surf.Color = Color.White;
+			double count = 1;
 
-                    if (applyColor)
-                        surf.Color = Color.Orange;
-
-                    surf.SetScale(1.5, 1.5);
-                    surf.Draw(120, 10);
-
-                    if (applyColor)
-                        surf.Color = Color.LightGreen;
+			for (frames = 0; frames < totalFrames; frames++)
+			{
+				if (Display.CurrentWindow.IsClosed)
+					return frames;
 
-                    surf.SetScale(count, 1.25);
-                    surf.Draw(10, 100);
+				count = 1 + Math.Cos(frames / 60.0);
 
-                    if (applyColor)
-                        surf.Color = Color.LightCoral;
+				Display.BeginFrame();
 
-                    surf.SetScale(0.5 + count / 2, 0.5 + count / 2);
-                    surf.Draw((int)(150 + 40 * Math.Cos(frames / 70.0)),
-                              (int)(120 + 40 * Math.Sin(frames / 70.0)));
 
+				for (int i = 0; i < 15; i++)
+				{
+					surf.SetScale(1.0, 1.0);
+					surf.Color = Color.White;
+					surf.Draw(10, 10);
 
-                } 
-                font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+					if (applyColor)
+						surf.Color = Color.Orange;
 
-                Display.EndFrame();
-                Core.KeepAlive();
+					surf.SetScale(1.5, 1.5);
+					surf.Draw(120, 10);
 
-                if (timer.TotalSeconds > 30)
-                    break;
-            }
+					if (applyColor)
+						surf.Color = Color.LightGreen;
 
-            return frames / (double)timer.TotalMilliseconds;
-        }
-        
-        private double DrawSurfaceTest(bool applyColor)
-        {
-            Timing.StopWatch timer = new Timing.StopWatch();
-            Surface surf = new Surface("jellybean.png");
-            List<Rects> rects = new List<Rects>();
-            int frames = 0;
+					surf.SetScale(count, 1.25);
+					surf.Draw(10, 100);
 
-            surf.Color = Color.White;
+					if (applyColor)
+						surf.Color = Color.LightCoral;
 
-            for (int i = 1; i < 10; i++)
-            {
-                Rects r = CreateRandomRects();
+					surf.SetScale(0.5 + count / 2, 0.5 + count / 2);
+					surf.Draw((int)(150 + 40 * Math.Cos(frames / 70.0)),
+							  (int)(120 + 40 * Math.Sin(frames / 70.0)));
 
-                rects.Add(r);
-            }
+					font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+				}
 
-            for (frames = 0; frames < totalFrames; frames++)
-            {
-                if (Display.CurrentWindow.IsClosed)
-                    return frames / (double)timer.TotalMilliseconds; 
+				Display.EndFrame();
+				Core.KeepAlive();
+			}
 
-                rects.Add(CreateRandomRects());
+			return frames;
+		}
 
-                Display.BeginFrame();
-                Display.Clear();
+		private int StretchTestColored()
+		{
+			return StretchTest(true);
+		}
+		private int StretchTestPlain()
+		{
+			return StretchTest(false);
+		}
 
-                if (applyColor)
-                {
-                    for (int i = 0; i < rects.Count; i++)
-                    {
-                        surf.Color = rects[i].color;
-                        surf.Draw(rects[i].rect.Location);
-                    }
-                }
-                else
+		private int StretchTest(bool applyColor)
+		{
+			Surface surf = new Surface("jellybean.png");
+			int frames = 0;
 
-                    for (int i = 0; i < rects.Count; i++)
-                    {
-                        surf.Draw(rects[i].rect.Location);
-                    }
+			surf.Color = Color.White;
+			double count = 1;
 
-                font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+			for (frames = 0; frames < totalFrames; frames++)
+			{
+				if (Display.CurrentWindow.IsClosed)
+					return frames;
 
-                Display.EndFrame();
-                Core.KeepAlive();
+				count = 1.01 + Math.Cos(frames / 60.0);
 
-                if (timer.TotalSeconds > 30)
-                    break;
-            }
+				Display.BeginFrame();
+				Display.Clear();
+				for (int i = 0; i < 15; i++)
+				{
 
-            return frames / (double)timer.TotalMilliseconds;
-        }
+					surf.SetScale(1.0, 1.0);
+					surf.Color = Color.White;
+					surf.Draw(10, 10);
 
-        private double DrawRectTest()
-        {
-            Timing.StopWatch timer = new Timing.StopWatch();
-            List<Rects> rects = new List<Rects>();
-            int frames = 0;
+					if (applyColor)
+						surf.Color = Color.Orange;
 
-            for (int i = 1; i < 10; i++)
-            {
-                Rects r = CreateRandomRects();
+					surf.SetScale(1.5, 1.5);
+					surf.Draw(120, 10);
 
-                rects.Add(r);
-            }
+					if (applyColor)
+						surf.Color = Color.LightGreen;
 
-            for (frames = 0; frames < totalFrames; frames++)
-            {
-                if (Display.CurrentWindow.IsClosed)
-                    return frames / (double)timer.TotalMilliseconds;
+					surf.SetScale(count, 1.25);
+					surf.Draw(10, 100);
 
-                rects.Add(CreateRandomRects());
+					if (applyColor)
+						surf.Color = Color.LightCoral;
 
-                Display.BeginFrame();
-                Display.Clear();
+					surf.SetScale(0.5 + count / 2, 0.5 + count / 2);
+					surf.Draw((int)(150 + 40 * Math.Cos(frames / 70.0)),
+							  (int)(120 + 40 * Math.Sin(frames / 70.0)));
 
-                for (int i = 0; i < rects.Count; i++)
-                {
-                    Display.DrawRect(rects[i].rect, rects[i].color);
-                }
 
-                font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+				}
+				font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
 
-                Display.EndFrame();
-                Core.KeepAlive();
+				Display.EndFrame();
+				Core.KeepAlive();
+			}
 
+			return frames;
+		}
 
-                if (timer.TotalSeconds > 30)
-                    break;
-            }
+		private int DrawSurfaceTestColored()
+		{
+			return DrawSurfaceTest(true);
+		}
+		private int DrawSurfaceTestPlain()
+		{
+			return DrawSurfaceTest(false);
+		}
 
-            return frames / (double)timer.TotalMilliseconds;
-        }
+		private int DrawSurfaceTest(bool applyColor)
+		{
+			Surface surf = new Surface("jellybean.png");
+			List<Rects> rects = new List<Rects>();
+			int frames = 0;
 
-        private double FilledRectTest()
-        {
-            Timing.StopWatch timer = new Timing.StopWatch();
-            List<Rects> rects = new List<Rects>();
-            int frames = 0;
-            
-            for (int i = 1; i < 10; i++)
-            {
-                Rects r = CreateRandomRects();
+			surf.Color = Color.White;
 
-                rects.Add(r);
-            }
+			for (int i = 1; i < 10; i++)
+			{
+				Rects r = CreateRandomRects();
 
-            for (frames = 0; frames < totalFrames; frames++)
-            {
-                if (Display.CurrentWindow.IsClosed)
-                    return frames / (double)timer.TotalMilliseconds;
+				rects.Add(r);
+			}
 
-                rects.Add(CreateRandomRects());
+			for (frames = 0; frames < totalFrames; frames++)
+			{
+				if (Display.CurrentWindow.IsClosed)
+					return frames;
 
-                Display.BeginFrame();
-                Display.Clear();
+				rects.Add(CreateRandomRects());
 
-                for (int i = 0; i < rects.Count; i++)
-                {
-                    Display.FillRect(rects[i].rect, rects[i].color);
-                }
+				Display.BeginFrame();
+				Display.Clear();
 
-                font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+				if (applyColor)
+				{
+					for (int i = 0; i < rects.Count; i++)
+					{
+						surf.Color = rects[i].color;
+						surf.Draw(rects[i].rect.Location);
+					}
+				}
+				else
 
-                Display.EndFrame();
-                Core.KeepAlive();
+					for (int i = 0; i < rects.Count; i++)
+					{
+						surf.Draw(rects[i].rect.Location);
+					}
 
+				font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
 
-                if (timer.TotalSeconds > 30)
-                    break;
-            }
+				Display.EndFrame();
+				Core.KeepAlive();
 
-            return frames / (double)timer.TotalMilliseconds;
-        }
+			}
 
-        private Rects CreateRandomRects()
-        {
-            Rects r = new Rects();
+			return frames;
+		}
 
-            r.rect = new Rectangle(
-                rnd.Next(10, 250), rnd.Next(10, 250),
-                rnd.Next(10, 40), rnd.Next(10, 40));
-            r.color = Color.FromArgb(
-                rnd.Next(128, 256), rnd.Next(128, 256), rnd.Next(128, 256), rnd.Next(128, 256));
+		private int DrawRectTest()
+		{
+			List<Rects> rects = new List<Rects>();
+			int frames = 0;
 
-            return r;
-        }
+			for (int i = 1; i < 10; i++)
+			{
+				Rects r = CreateRandomRects();
 
-        #region IAgateTest Members
+				rects.Add(r);
+			}
 
-        public string Name { get { return "Performance Tester"; } }
-        public string Category { get { return "Core"; } }
+			for (frames = 0; frames < totalFrames; frames++)
+			{
+				if (Display.CurrentWindow.IsClosed)
+					return frames;
 
-        #endregion
-    }
+				rects.Add(CreateRandomRects());
+
+				Display.BeginFrame();
+				Display.Clear();
+
+				for (int i = 0; i < rects.Count; i++)
+				{
+					Display.DrawRect(rects[i].rect, rects[i].color);
+				}
+
+				font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+
+				Display.EndFrame();
+				Core.KeepAlive();
+
+			}
+
+			return frames;
+		}
+
+		private int FilledRectTest()
+		{
+			List<Rects> rects = new List<Rects>();
+			int frames = 0;
+
+			for (int i = 1; i < 10; i++)
+			{
+				Rects r = CreateRandomRects();
+
+				rects.Add(r);
+			}
+
+			for (frames = 0; frames < totalFrames; frames++)
+			{
+				if (Display.CurrentWindow.IsClosed)
+					return frames;
+
+				rects.Add(CreateRandomRects());
+
+				Display.BeginFrame();
+				Display.Clear();
+
+				for (int i = 0; i < rects.Count; i++)
+				{
+					Display.FillRect(rects[i].rect, rects[i].color);
+				}
+
+				font.DrawText(string.Format("{0} frames per second.", Math.Round(Display.FramesPerSecond, 2)));
+
+				Display.EndFrame();
+				Core.KeepAlive();
+
+;
+			}
+
+			return frames;
+		}
+
+		private Rects CreateRandomRects()
+		{
+			Rects r = new Rects();
+
+			r.rect = new Rectangle(
+				rnd.Next(10, 250), rnd.Next(10, 250),
+				rnd.Next(10, 40), rnd.Next(10, 40));
+			r.color = Color.FromArgb(
+				rnd.Next(128, 256), rnd.Next(128, 256), rnd.Next(128, 256), rnd.Next(128, 256));
+
+			return r;
+		}
+
+		#region IAgateTest Members
+
+		public string Name { get { return "Performance Tester"; } }
+		public string Category { get { return "Core"; } }
+
+		#endregion
+	}
 }

@@ -12,55 +12,20 @@ using System.Windows.Forms;
 
 namespace Tests.PerformanceTester
 {
-    public partial class frmPerformanceTester : Form
-    {
-        Listener listen;
+	public partial class frmPerformanceTester : Form
+	{
+		public frmPerformanceTester()
+		{
+			InitializeComponent();
+			this.Location = new Point(Screen.GetBounds(this).Width - this.Width - 10, 10);
+		}
 
-        public class Listener : TraceListener
-        {
-            frmPerformanceTester frm;
+		internal void AddTestResult(PerformanceTester.TestResult r)
+		{
+			var item = new ListViewItem(
+				new string[] { r.Driver, r.Name, r.Time.ToString("0.000"), r.FPS.ToString("0.0") });
 
-            public Listener(frmPerformanceTester frm)
-            {
-                this.frm = frm;
-            }
-
-            public override void Write(string message)
-            {
-                if (frm.IsDisposed == false)
-                {
-                    if (NeedIndent)
-                    {
-                        for (int i = 0; i < IndentLevel * IndentSize; i++)
-                            message = " " + message;
-                    }
-
-                    try
-                    {
-                        frm.textBox1.AppendText(message);
-                    }
-                    catch
-                    {
-
-                    }
-
-                }
-            }
-
-            public override void WriteLine(string message)
-            {
-                Write(message + "\r\n");
-
-            }
-        }
-        public frmPerformanceTester()
-        {
-            InitializeComponent();
-
-            listen = new Listener(this);
-            Trace.Listeners.Add(listen);
-
-            this.Location = new Point(Screen.GetBounds(this).Width - this.Width - 10, 10);
-        }
-    }
+			listView1.Items.Add(item);
+		}
+	}
 }
