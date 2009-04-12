@@ -1,4 +1,4 @@
-<AgateResources Version="0.3.0">
+<AgateResources Version="0.3.1">
   <StringTable>
     <string name="Hello">Hello.</string>
     <string name="How are you">How are you?</string>
