@@ -1003,6 +1003,10 @@ namespace AgateLib.DisplayLib
 
 		public static PixelBuffer NormalMapFromHeightMap(PixelBuffer buffer)
 		{
+			return NormalMapFromHeightMap(buffer, 8.0f);
+		}
+		public static PixelBuffer NormalMapFromHeightMap(PixelBuffer buffer, float normalStr)
+		{
 			int[,] heights = new int[buffer.Width, buffer.Height];
 
 			for (int j = 0; j < buffer.Height; j++)
@@ -1015,7 +1019,6 @@ namespace AgateLib.DisplayLib
 
 			PixelBuffer retval = new PixelBuffer(buffer.PixelFormat, buffer.Size);
 			int[,] square = new int[3,3];
-			float normalStr = 8;
 
 			for (int j = 0; j < retval.Height; j++)
 			{

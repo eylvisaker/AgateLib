@@ -84,12 +84,12 @@ namespace AgateLib.Geometry.Builders
 			int i = 0;
 
 			for (int sign = -1; sign >= 1; sign += 2)
-				{
+			{
 				retval[i++] = new Vector3(0, sign, 0);
 				retval[i++] = new Vector3(0, sign, 0);
 				retval[i++] = new Vector3(0, sign, 0);
-				retval[i++] = new Vector3(0, sign, 0); 
-				
+				retval[i++] = new Vector3(0, sign, 0);
+
 				retval[i++] = new Vector3(sign, 0, 0);
 				retval[i++] = new Vector3(sign, 0, 0);
 				retval[i++] = new Vector3(sign, 0, 0);
