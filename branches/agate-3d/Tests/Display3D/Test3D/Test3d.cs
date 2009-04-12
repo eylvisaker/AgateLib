@@ -44,11 +44,10 @@ namespace Test3D
                 Surface surf = new Surface("bg-bricks.png");
 
                 CubeBuilder cube = new CubeBuilder();
-                cube.GenerateTextureCoords = true;
                 cube.Length = 4;
 
                 VertexBuffer b = cube.CreateVertexBuffer();
-                b.Texture = surf;
+                b.Textures[0] = surf;
 
                 int lastMyMatrix = matrixIndex-1;
                 Matrix4 myproj = new Matrix4();

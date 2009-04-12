@@ -55,13 +55,13 @@ namespace AgateOTK
 
 				GL.ValidateProgram(program);
 
-				int status;
-				GL.GetProgram(program, ProgramParameter.ValidateStatus, out status);
+				//int status;
+				//GL.GetProgram(program, ProgramParameter.ValidateStatus, out status);
 
-				if (status == 0)
-				{
-					throw new AgateLib.AgateException("Failed to validate GLSL shader program.");
-				}
+				//if (status == 0)
+				//{
+				//    throw new AgateLib.AgateException("Failed to validate GLSL shader program.");
+				//}
 
 				return new GlslShader(program, vert, frag);
 			}

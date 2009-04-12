@@ -21,9 +21,28 @@ namespace AgateOTK
 				return "Uniform: " + Name + " | " + Type.ToString();
 			}
 		}
+		struct AttributeInfo
+		{
+			public string Name;
+			public int Location;
+			public ActiveAttribType Type;
+			public int Size;
 
-		Dictionary<string, UniformInfo> mUniforms = new Dictionary<string, UniformInfo>();
+			public override string ToString()
+			{
+				return "Uniform: " + Name + " | " + Type.ToString();
+			}
+		}
+
+		List<UniformInfo> mUniforms = new List<UniformInfo>();
+		List<AttributeInfo> mAttributes = new List<AttributeInfo>();
+		List<string> mAttributeNames;
+
+		List<string> mSampler2DUniforms = new List<string>();
 		int programHandle;
+
+		GlslVertexProgram vertex;
+		GlslFragmentProgram pixel;
 
 		public GlslShader(int handle, GlslVertexProgram vert, GlslFragmentProgram frag)
 		{
@@ -31,6 +50,47 @@ namespace AgateOTK
 			this.vertex = vert;
 			this.pixel = frag;
 
+			LoadUniforms();
+			LoadAttributes();
+		}
+
+		private void LoadAttributes()
+		{
+			int count;
+			GL.GetProgram(programHandle, ProgramParameter.ActiveAttributes, out count);
+			
+			StringBuilder b = new StringBuilder(1000);
+			for (int i = 0; i < count; i++)
+			{
+				int length;
+				int size;
+				ActiveAttribType type;
+				string name;
+				GL.GetActiveAttrib(programHandle, i, 1000, out length, out size, out type, b);
+				name = b.ToString();
+
+				int loc = GL.GetAttribLocation(programHandle, name);
+
+				// ignore active attributes that we aren't interested in because we don't set them
+				// with glVertexAttribPointer
+				if (loc == -1)
+					continue;
+
+				AttributeInfo info = new AttributeInfo();
+
+				info.Name = name;
+				info.Location = loc;
+				info.Type = type;
+				info.Size = size;
+
+				mAttributes.Add(info);
+			}
+
+			mAttributeNames = mAttributes.Select(x => x.Name).ToList();
+		}
+
+		private void LoadUniforms()
+		{
 			int count;
 			GL.GetProgram(programHandle, ProgramParameter.ActiveUniforms, out count);
 
@@ -58,12 +118,27 @@ namespace AgateOTK
 				info.Type = type;
 				info.Size = size;
 
-				mUniforms.Add(info.Name, info);
+				mUniforms.Add(info);
 			}
+
+			mSampler2DUniforms = mUniforms
+				.Where(x => x.Type == ActiveUniformType.Sampler2D)
+				.Select(x => x.Name)
+				.ToList();
 		}
 
-		GlslVertexProgram vertex;
-		GlslFragmentProgram pixel;
+		public IList<string> Attributes
+		{
+			get { return mAttributeNames; }
+		}
+
+		public IList<string> Sampler2DUniforms
+		{
+			get
+			{
+				return mSampler2DUniforms;
+			}
+		}
 
 		public override PixelShader PixelShader
 		{
@@ -81,15 +156,25 @@ namespace AgateOTK
 
 		private int GetUniformLocation(string name)
 		{
-			if (mUniforms.ContainsKey(name))
-				return mUniforms[name].Location;
+			if (mUniforms.Any(x => x.Name == name))
+				return mUniforms.First(x => x.Name == name).Location;
 
 			int loc = GL.GetUniformLocation(programHandle, name);
 
 			if (loc != -1)
-			{
 				return loc;
-			}
+			else
+				throw new AgateLib.AgateException("Could not find uniform {0} in the GLSL program.", name);
+		}
+		internal int GetAttribLocation(string name)
+		{
+			if (mAttributes.Any(x => x.Name == name))
+				return mAttributes.First(x => x.Name == name).Location;
+
+			int loc = GL.GetAttribLocation(programHandle, name);
+
+			if (loc != -1)
+				return loc;
 			else
 				throw new AgateLib.AgateException("Could not find uniform {0} in the GLSL program.", name);
 		}
@@ -158,5 +243,6 @@ namespace AgateOTK
 				GL.UniformMatrix4(loc, 16, true, (float*)&matrix);
 			}
 		}
+
 	}
 }

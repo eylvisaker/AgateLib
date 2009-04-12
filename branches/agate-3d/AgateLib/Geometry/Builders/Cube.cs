@@ -10,16 +10,28 @@ namespace AgateLib.Geometry.Builders
 		public CubeBuilder()
 		{
 			Length = 1;
-			GenerateTextureCoords = true;
-			GenerateNormals = true;
-
 			VertexType = VertexLayout.PositionNormalTexture;
 		}
 
 		public float Length { get; set; }
 		public Vector3 Location { get; set; }
-		public bool GenerateTextureCoords { get; set; }
-		public bool GenerateNormals { get; set; }
+		bool GenerateTextureCoords
+		{
+			get { return VertexType.Contains(VertexMemberUsage.Texture); }
+		}
+		bool GenerateNormals
+		{
+			get { return VertexType.Contains(VertexMemberUsage.Normal); }
+		}
+		bool GenerateTangent
+		{
+			get { return VertexType.Contains(VertexMemberUsage.Tangent); }
+		}
+		bool GenerateBitangent
+		{
+			get { return VertexType.Contains(VertexMemberUsage.Bitangent); }
+		}
+
 
 		public VertexLayout VertexType { get; set; }
 
@@ -35,9 +47,14 @@ namespace AgateLib.Geometry.Builders
 				retval.WriteTextureCoords(GetTextureCoords());
 			if (GenerateNormals)
 				retval.WriteNormalData(GetNormals());
+			if (GenerateTangent)
+				retval.WriteAttributeData("tangent", GetTangent());
+			if (GenerateBitangent)
+				retval.WriteAttributeData("bitangent", GetBitangent());
 
 			return retval;
 		}
+
 
 		private short[] GetIndexData()
 		{
@@ -60,6 +77,59 @@ namespace AgateLib.Geometry.Builders
 			return retval;
 		}
 
+		private Vector3[] GetBitangent()
+		{
+			Vector3[] retval = new Vector3[24];
+
+			int i = 0;
+
+			for (int sign = -1; sign >= 1; sign += 2)
+				{
+				retval[i++] = new Vector3(0, sign, 0);
+				retval[i++] = new Vector3(0, sign, 0);
+				retval[i++] = new Vector3(0, sign, 0);
+				retval[i++] = new Vector3(0, sign, 0); 
+				
+				retval[i++] = new Vector3(sign, 0, 0);
+				retval[i++] = new Vector3(sign, 0, 0);
+				retval[i++] = new Vector3(sign, 0, 0);
+				retval[i++] = new Vector3(sign, 0, 0);
+
+				retval[i++] = new Vector3(0, 0, sign);
+				retval[i++] = new Vector3(0, 0, sign);
+				retval[i++] = new Vector3(0, 0, sign);
+				retval[i++] = new Vector3(0, 0, sign);
+			}
+
+			return retval;
+		}
+		private Vector3[] GetTangent()
+		{
+			Vector3[] retval = new Vector3[24];
+
+			int i = 0;
+
+			for (int sign = -1; sign <= 1; sign += 2)
+				{
+				retval[i++] = new Vector3(sign, 0, 0);
+				retval[i++] = new Vector3(sign, 0, 0);
+				retval[i++] = new Vector3(sign, 0, 0);
+				retval[i++] = new Vector3(sign, 0, 0);
+
+				retval[i++] = new Vector3(0, 0, sign);
+				retval[i++] = new Vector3(0, 0, sign);
+				retval[i++] = new Vector3(0, 0, sign);
+				retval[i++] = new Vector3(0, 0, sign);
+
+				retval[i++] = new Vector3(0, sign, 0);
+				retval[i++] = new Vector3(0, sign, 0);
+				retval[i++] = new Vector3(0, sign, 0);
+				retval[i++] = new Vector3(0, sign, 0);
+
+			}
+
+			return retval;
+		}
 		private Vector3[] GetNormals()
 		{
 			Vector3[] retval = new Vector3[24];

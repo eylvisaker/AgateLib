@@ -41,6 +41,10 @@ namespace AgateLib.DisplayLib
 			impl.WriteIndices(indices);
 			impl.Indexed = true;
 		}
+		public void WriteAttributeData(string attributeName, Vector3[] data)
+		{
+			impl.WriteAttributeData(attributeName, data);
+		}
 
 		public bool Indexed
 		{
@@ -69,10 +73,41 @@ namespace AgateLib.DisplayLib
 			get { return impl.PrimitiveType; }
 			set { impl.PrimitiveType = value; }
 		}
-		public Surface Texture
+		public TextureList Textures
 		{
-			get { return impl.Texture; }
-			set { impl.Texture = value; }
+			get { return impl.Textures; }
+		}
+
+	}
+
+	public class TextureList 
+	{
+		Surface[] surfs = new Surface[4];
+
+		public Surface this[int index]
+		{
+			get { 				return surfs[index]; }
+			set { surfs[index] = value; }
+		}
+		public int Count
+		{
+			get { return surfs.Length; }
+		}
+		public int ActiveTextures
+		{
+			get
+			{
+				int activeCount = 0;
+				for (int i = 0; i < Count; i++)
+				{
+					if (this[i] == null)
+						continue;
+
+					activeCount++;
+				}
+
+				return activeCount;
+			}
 		}
 	}
 
@@ -94,9 +129,34 @@ namespace AgateLib.DisplayLib
 			{
 				return new VertexLayout 
 				{ 
-					new VertexMember(VertexMemberType.Float3,  VertexMemberUsage.Position),
+					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Position),
 					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Normal),
 					new VertexMember(VertexMemberType.Float2, VertexMemberUsage.Texture),
+				};
+			}
+		}
+		public static VertexLayout PositionNormalTangentBitangentTexture
+		{
+			get
+			{
+				return new VertexLayout 
+				{ 
+					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Position),
+					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Normal),
+					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Tangent),
+					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Bitangent),
+					new VertexMember(VertexMemberType.Float2, VertexMemberUsage.Texture),
+				};
+			}
+		}
+		public VertexLayout PositionNormal
+		{
+			get
+			{
+				return new VertexLayout 
+				{ 
+					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Position),
+					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Normal),
 				};
 			}
 		}
@@ -106,7 +166,7 @@ namespace AgateLib.DisplayLib
 			{
 				return new VertexLayout 
 				{ 
-					new VertexMember(VertexMemberType.Float3,  VertexMemberUsage.Position),
+					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Position),
 					new VertexMember(VertexMemberType.Float2, VertexMemberUsage.Texture),
 				};
 			}
@@ -184,6 +244,15 @@ namespace AgateLib.DisplayLib
 		}
 
 		#endregion
+
+		public bool Contains(VertexMemberUsage vertexMemberUsage)
+		{
+			return items.Any(x => x.Usage == vertexMemberUsage);
+		}
+		public bool Contains(string attributeName)
+		{
+			return items.Any(x => x.Usage == VertexMemberUsage.Attribute && x.AttributeString == attributeName);
+		}
 	}
 
 	public class VertexMember
@@ -240,18 +309,18 @@ namespace AgateLib.DisplayLib
 
 	public enum VertexMemberType
 	{
+		Float1,
 		Float2,
 		Float3,
 		Float4,
-		Int2,
-		Int3,
-		Int4,
 	}
 
 	public enum VertexMemberUsage
 	{
 		Position,
 		Normal,
+		Tangent,
+		Bitangent,
 		Color,
 		Texture,
 		Texture1,

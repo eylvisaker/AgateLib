@@ -444,6 +444,9 @@ namespace AgateOTK
             }
             set
             {
+				if (value == null)
+					return;
+
                 if (value is GlslShader == false)
                     throw new AgateLib.AgateException(string.Format(
                         "Shader type is {0} but must be GlslShader.", typeof(ValueType)));

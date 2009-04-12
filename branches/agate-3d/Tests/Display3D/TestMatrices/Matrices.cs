@@ -45,12 +45,11 @@ namespace TestMatrices
                 Surface surf = new Surface("bg-bricks.png");
 
                 CubeBuilder cube = new CubeBuilder();
-                cube.GenerateTextureCoords = true;
                 cube.Length = 58;
                 cube.Location = new Vector3(cube.Length / 2, cube.Length / 2, 0);
 
                 VertexBuffer b = cube.CreateVertexBuffer();
-                b.Texture = surf;
+                b.Textures[0] = surf;
 
                 int lastMyMatrix = matrixIndex - 1;
                 Matrix4 myproj = new Matrix4();

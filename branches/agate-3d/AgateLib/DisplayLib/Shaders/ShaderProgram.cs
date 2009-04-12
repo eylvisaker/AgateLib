@@ -31,5 +31,7 @@ namespace AgateLib.DisplayLib.Shaders
 		{
 			SetUniform(name, color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
 		}
+
+		public VertexLayout VertexDefinition { get; set; }
 	}
 }

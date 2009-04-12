@@ -167,7 +167,27 @@ namespace AgateLib.Geometry
         {
             return new Vector3(a * b.X, a * b.Y, a * b.Z);
         }
-        /// <summary>
+		/// <summary>
+		/// Scales a vector by a scalar floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector3 operator *(Vector3 a, double b)
+		{
+			return a * (float)b;
+		}
+		/// <summary>
+		/// Scales a vector by a scalar floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector3 operator *(double a, Vector3 b)
+		{
+			return b * (float)a;
+		}
+		/// <summary>
         /// Divides a vector's components by a floating point value.
         /// </summary>
         /// <param name="a"></param>
@@ -177,7 +197,16 @@ namespace AgateLib.Geometry
         {
             return a * (1.0f / b);
         }
-
+		/// <summary>
+		/// Divides a vector's components by a floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector3 operator /(Vector3 a, double b)
+		{
+			return a * (float)(1.0 / b);
+		}
         /// <summary>
         /// Computes and returns the dot product with another vector.
         /// </summary>
@@ -226,5 +255,13 @@ namespace AgateLib.Geometry
             return string.Format(System.Globalization.CultureInfo.CurrentCulture,
                 "{0}X={1},Y={2},Z={3}{4}", "{", X, Y, Z, "}");
         }
-    }
+
+		public static Vector3 FromPolar(int length, float theta, float phi)
+		{
+			return length * new Vector3(
+				Math.Sin(theta) * Math.Cos(phi),
+				Math.Sin(theta) * Math.Sin(phi),
+				Math.Cos(theta));
+		}
+	}
 }

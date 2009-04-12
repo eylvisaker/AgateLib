@@ -94,7 +94,7 @@ namespace AgateOTK
 
             mSourceRect = new Rectangle(Point.Empty, size);
 
-            mTextureSize = new Size(NextPowerOfTwo(size.Width), NextPowerOfTwo(size.Height));
+			mTextureSize = GetOGLSize(size);
 
             //int[] array = new int[1];
             //GL.GenTextures(1, array);
@@ -667,7 +667,11 @@ namespace AgateOTK
         
         private Size GetOGLSize(System.Drawing.Bitmap image)
         {
-            Size retval = Interop.Convert(image.Size);
+			return GetOGLSize(Interop.Convert(image.Size));
+		}
+		private Size GetOGLSize(Size size)
+		{
+			Size retval = size;
 
             if (mDisplay.NonPowerOf2Textures)
                 return retval;

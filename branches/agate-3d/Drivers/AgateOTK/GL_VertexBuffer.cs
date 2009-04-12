@@ -14,14 +14,22 @@ namespace AgateOTK
 	{
 		GL_Display mDisplay;
 		GLState mState;
-		GL_Surface mTexture;
 
+		struct AttributeData
+		{
+			public string Name;
+			public int BufferID;
+			public VertexAttribPointerType Type;
+			public int ComponentCount;
+		}
+		
 		int mVertexCount, mIndexCount;
 		int mVertexBufferID;
 		int mIndexBufferID;
 		int mTexCoordBufferID;
 		int mNormalBufferID;
-
+		List<AttributeData> mAttributeBuffers = new List<AttributeData>();
+		
 		VertexLayout layout;
 
 		public GL_VertexBuffer(VertexLayout layout)
@@ -31,17 +39,7 @@ namespace AgateOTK
 			this.layout = layout;
 		}
 
-		public override Surface Texture
-		{
-			get { return base.Texture; }
-			set
-			{
-				base.Texture = value;
-				mTexture = (GL_Surface)value.Impl;
-			}
-		}
 		// FYI: use BufferTarget.ElementArrayBuffer to bind to an index buffer.
-
 		private int CreateBuffer(Vector3[] data)
 		{
 			int bufferID;
@@ -123,7 +121,16 @@ namespace AgateOTK
 			mIndexBufferID = CreateIndexBuffer(indices);
 			mIndexCount = indices.Length;
 		}
+		public override void WriteAttributeData(string attributeName, Vector3[] data)
+		{
+			AttributeData d = new AttributeData { Name = attributeName };
 
+			d.BufferID = CreateBuffer(data);
+			d.Type = VertexAttribPointerType.Float;
+			d.ComponentCount = 3;
+
+			mAttributeBuffers.Add(d);
+		}
 		public override void Draw(int start, int count)
 		{
 			SetClientStates();
@@ -146,30 +153,46 @@ namespace AgateOTK
 				GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
 				GL.VertexPointer(3, VertexPointerType.Float, 0, (IntPtr)start);
 
-				GL.DrawArrays(beginMode, 0, count);
+				GL.DrawArrays(beginMode, start, count);
 			}
 			
+		}
+		
+		private void SetAttributes()
+		{
+			GlslShader shader = Display.Shader as GlslShader;
+			if (shader == null)
+				return;
+
+			for (int i = 0; i < mAttributeBuffers.Count; i++)
+			{
+				if (shader.Attributes.Contains(mAttributeBuffers[i].Name) == false)
+					continue;
+
+				int size = mAttributeBuffers[i].ComponentCount;
+				int shaderAttribIndex = shader.GetAttribLocation(mAttributeBuffers[i].Name);
+
+				GL.EnableVertexAttribArray(shaderAttribIndex);
+				GL.BindBuffer(BufferTarget.ArrayBuffer, mAttributeBuffers[i].BufferID);
+				GL.VertexAttribPointer(shaderAttribIndex, size,
+					mAttributeBuffers[i].Type,
+					false, 0, IntPtr.Zero);
+			}
 		}
 
 		private void SetClientStates()
 		{
 			mState.SetGLColor(Color.White);
 
-
 			if (UseTexture)
-			{
-				GL.Enable(EnableCap.Texture2D);
-				GL.EnableClientState(EnableCap.TextureCoordArray);
-				GL.BindBuffer(BufferTarget.ArrayBuffer, mTexCoordBufferID);
-				GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, IntPtr.Zero);
-				GL.BindTexture(TextureTarget.Texture2D, mTexture.GLTextureID);
-			}
+				SetTextures();
 			else
 			{
 				GL.Disable(EnableCap.Texture2D);
 				GL.DisableClientState(EnableCap.TextureCoordArray);
 				GL.BindTexture(TextureTarget.Texture2D, 0);
 			}
+
 			if (HasNormals)
 			{
 				GL.EnableClientState(EnableCap.NormalArray);
@@ -179,6 +202,53 @@ namespace AgateOTK
 			else
 			{
 				GL.DisableClientState(EnableCap.NormalArray);
+			}
+
+			SetAttributes();
+		}
+
+		private void SetTextures()
+		{
+			GL.Enable(EnableCap.Texture2D);
+			GL.EnableClientState(EnableCap.TextureCoordArray);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, mTexCoordBufferID);
+			GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, IntPtr.Zero);
+
+			GlslShader shader = Display.Shader as GlslShader;
+
+			if (Textures.ActiveTextures > 1)
+			{
+				for (int i = 0; i < Textures.Count; i++)
+				{
+					GL.ActiveTexture((TextureUnit)(TextureUnit.Texture0 + i));
+
+					Surface surf = Textures[i];
+
+					if (surf != null)
+					{
+						GL_Surface gl_surf = (GL_Surface)Textures[i].Impl;
+
+						GL.Enable(EnableCap.Texture2D);
+						GL.BindTexture(TextureTarget.Texture2D, gl_surf.GLTextureID);
+
+						if (shader != null)
+						{
+							if (i < shader.Sampler2DUniforms.Count)
+							{
+								shader.SetUniform(shader.Sampler2DUniforms[i], i);
+							}
+						}
+					}
+					else
+					{
+						GL.Disable(EnableCap.Texture2D);
+						GL.BindTexture(TextureTarget.Texture2D, 0);
+					}
+				}
+			}
+			else
+			{
+				GL.BindTexture(TextureTarget.Texture2D, ((GL_Surface)Textures[0].Impl).GLTextureID);
 			}
 		}
 
@@ -217,7 +287,7 @@ namespace AgateOTK
 
 		bool UseTexture
 		{
-			get { return HasTextureCoords && mTexture != null; }
+			get { return HasTextureCoords && Textures.ActiveTextures != 0; }
 		}
 		public bool HasTextureCoords
 		{
