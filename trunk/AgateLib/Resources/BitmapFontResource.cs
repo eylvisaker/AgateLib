@@ -27,6 +27,7 @@ namespace AgateLib.Resources
 		{
 			switch (version)
 			{
+				case "0.3.1":
 				case "0.3.0":
 					Name = node.Attributes["name"].Value;
 					mImage = XmlHelper.ReadAttributeString(node, "image", string.Empty);
@@ -34,6 +35,10 @@ namespace AgateLib.Resources
 					ReadMetrics030(node);
 
 					break;
+
+				default:
+					throw new AgateResourceException("Loading the BitmapFontResource is not supported for " +
+						"version " + version + " yet. ");
 			}
 		}
 

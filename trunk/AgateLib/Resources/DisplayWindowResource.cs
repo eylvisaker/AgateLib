@@ -110,6 +110,7 @@ namespace AgateLib.Resources
 		{
 			switch (version)
 			{
+				case "0.3.1":
 				case "0.3.0":
 					Name = node.Attributes["name"].Value;
 
@@ -124,6 +125,10 @@ namespace AgateLib.Resources
 
 					break;
 
+				default:
+					throw new AgateResourceException(
+						"Loading version " + version + " of DisplayWindowResource is not " +
+						"implemented yet.");
 			}
 		}
 

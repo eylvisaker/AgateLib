@@ -113,7 +113,13 @@ namespace AgateLib.Resources
 		/// </summary>
 		public StringTable Strings
 		{
-			get { return (StringTable)this.mStore[mStringTableKey]; }
+			get
+			{
+				if (this.mStore.ContainsKey(mStringTableKey))
+					return (StringTable)this.mStore[mStringTableKey];
+				else
+					return null;
+			}
 		}
 
 		/// <summary>
@@ -135,9 +141,12 @@ namespace AgateLib.Resources
 		/// <param name="table"></param>
 		private void AddStringsTable(StringTable table)
 		{
-			if (Strings.Count != 0)
+			if (Strings == null)
+				this.mStore[mStringTableKey] = table;
+			else if (Strings.Count != 0)
 				throw new ArgumentException("The string table for this ResourceGroup is non-empty.  Should you add your strings to the existing string table?");
-			this.mStore[mStringTableKey] = table;
+			else
+				this.mStore[mStringTableKey] = table;
 		}
 		/// <summary>
 		/// 
@@ -330,7 +339,9 @@ namespace AgateLib.Resources
 		{
 			if (mOwnedSurfaces.ContainsKey(filename) == false)
 			{
-				SurfaceImpl impl = Display.Impl.CreateSurface(FileProvider, RootDirectory + "/" + filename);
+				string path = string.IsNullOrEmpty(RootDirectory)? filename :
+					RootDirectory + "/" + filename;
+				SurfaceImpl impl = Display.Impl.CreateSurface(FileProvider, path);
 
 				mOwnedSurfaces.Add(filename, impl);
 
