@@ -63,7 +63,7 @@ namespace Glsl
 				FontSurface font = new FontSurface("Arial", 14.0f);
 
 				Surface texture = new Surface("bg-bricks.png");
-				Surface height = new Surface("heightmap.png");
+				Surface height = new Surface("bg-bricks-heightmap.png");
 				//Surface height = new Surface("jellybean.png");
 
 				LightManager m = new LightManager();
