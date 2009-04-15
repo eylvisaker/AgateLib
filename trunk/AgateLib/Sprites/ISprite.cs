@@ -18,11 +18,10 @@
 //
 using System;
 using System.Collections.Generic;
+using AgateLib.Geometry;
 
-namespace AgateLib.DisplayLib
+namespace AgateLib.Sprites
 {
-	using Geometry;
-
 	/// <summary>
 	/// Basic interface implemented by different sprite classes.
 	/// </summary>
