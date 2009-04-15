@@ -7,7 +7,7 @@ using OpenTK.Graphics;
 
 namespace AgateOTK
 {
-    class ArbShader : ShaderProgram
+    class ArbShader : OtkShader
     {
         int programHandle;
         Dictionary<string, int> mUniforms = new Dictionary<string, int>();
@@ -31,7 +31,7 @@ namespace AgateOTK
             get { return vertex; }
         }
 
-        public int Handle
+        public override int Handle
         {
             get { return programHandle; }
         }

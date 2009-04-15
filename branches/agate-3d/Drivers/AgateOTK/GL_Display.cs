@@ -434,24 +434,24 @@ namespace AgateOTK
             
         }
 
-        GlslShader mCurrentShader;
+        OtkShader mCurrentShader;
 
         public override AgateLib.DisplayLib.Shaders.ShaderProgram Shader
         {
             get
             {
-                return mCurrentShader;
+				return mCurrentShader;
             }
             set
             {
 				if (value == null)
 					return;
 
-                if (value is GlslShader == false)
-                    throw new AgateLib.AgateException(string.Format(
-                        "Shader type is {0} but must be GlslShader.", typeof(ValueType)));
+				if (value is OtkShader == false)
+					throw new AgateLib.AgateException(string.Format(
+						"Shader type is {0} but must be IGlShader.", value.GetType()));
 
-                mCurrentShader = (GlslShader)value;
+				mCurrentShader = (OtkShader)value;
 
                 if (mCurrentShader == null)
                 {

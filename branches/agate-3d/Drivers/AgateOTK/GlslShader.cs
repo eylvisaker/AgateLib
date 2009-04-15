@@ -7,7 +7,7 @@ using OpenTK.Graphics;
 
 namespace AgateOTK
 {
-	class GlslShader : ShaderProgram
+	class GlslShader : OtkShader
 	{
 		struct UniformInfo
 		{
@@ -88,7 +88,6 @@ namespace AgateOTK
 
 			mAttributeNames = mAttributes.Select(x => x.Name).ToList();
 		}
-
 		private void LoadUniforms()
 		{
 			int count;
@@ -149,7 +148,7 @@ namespace AgateOTK
 			get { return vertex; }
 		}
 
-		public int Handle
+		public override int Handle
 		{
 			get { return programHandle; }
 		}
