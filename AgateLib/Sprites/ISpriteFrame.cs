@@ -17,11 +17,10 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System;
+using AgateLib.Geometry;
 
-namespace AgateLib.DisplayLib
+namespace AgateLib.Sprites
 {
-	using Geometry;
-
 	/// <summary>
 	/// Basic interface implemented by a particular frame in a sprite.
 	/// </summary>
