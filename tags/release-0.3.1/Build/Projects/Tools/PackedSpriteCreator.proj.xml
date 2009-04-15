@@ -1,0 +1,27 @@
+<Project name="PackedSpriteCreator" path="../Tools/PackedSpriteCreator" language="C#" type="WinExe" frameworkVersion="v3_5">
+  <Configuration name="Debug">
+    <Options>
+      <OutputPath>../../Binaries/Debug/Tools/PackedSpriteCreator</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Configuration name="Release">
+    <Options>
+      <OutputPath>../../Binaries/Release/Tools/PackedSpriteCreator</OutputPath>
+    </Options>
+  </Configuration>
+
+  <Reference name="AgateLib" localCopy="true"/>
+  <Reference name="AgateDrawing" localCopy="true"/>
+  <Reference name="AgateLib.WinForms"/>
+  <Reference name="System"/>
+  <Reference name="System.Core"/>
+  <Reference name="System.Data"/>
+  <Reference name="System.Drawing"/>
+  <Reference name="System.Windows.Forms"/>
+
+  <Files>
+    <Match path="." pattern="*.cs" recurse="true"/>
+    <Match path="." pattern="*.resx" recurse="true"/>
+  </Files>
+</Project>
