@@ -1,3 +1,8 @@
+AgateLib 0.3.1  Release Notes
+======================================
+
+This is mainly a minor update to 0.3.0.  All features deprecated in 0.3.0 have been removed.  There are a few minor bug fixes, and a few properties added.  Of note is the addition of the ZipFileProvider, which is an IFileProvider object that allows resources to be loaded from zip files.
+
 AgateLib 0.3.0  Release Notes
 ======================================
 
