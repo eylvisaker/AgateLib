@@ -106,73 +106,44 @@ namespace AgateMDX
 
         #endregion
 
-        public override int StringDisplayHeight(string text)
-        {
-            return StringDisplaySize(text).Height;
-        }
-        public override int StringDisplayWidth(string text)
-        {
-            return StringDisplaySize(text).Width;
-        }
-        public override Size StringDisplaySize(string text)
-        {
-            throw new NotImplementedException("StringDisplaySize not implemented with D3DX font.");
-
-            //Rectangle result = new Rectangle(mD3DFont.MeasureString(null, text, 
-            //    DrawTextFormat.None, Color.ToArgb()));
-            
-            //double scalex, scaley;
-
-            //GetScale(out scalex, out scaley);
-
-            //result.Height = (int)(scalex * result.Height);
-            //result.Width = (int)(scaley * result.Width);
-
-            //return result.Size;
-        }
+		public override int FontHeight
+		{
+			get { throw new NotImplementedException(); }
+		}
+		public override void DrawText(FontState state)
+		{
+			if (mSprite == null)
+			{
+				mSprite = new Microsoft.DirectX.Direct3D.Sprite(mD3DFont.Device);
+			}
+			/*
+			 * Old drawing text, from before the FontState stuff was added.
+			 * 
+			Point dest = Origin.Calc(DisplayAlignment, StringDisplaySize(text));
 
 
-        public override void DrawText(Point dest_pt, string text)
-        {
-            if (mSprite == null)
-            {
-                mSprite = new Microsoft.DirectX.Direct3D.Sprite(mD3DFont.Device);
-            }
+			dest_pt.X -= dest.X;
+			dest_pt.Y -= dest.Y;
 
-            Point dest = Origin.Calc(DisplayAlignment, StringDisplaySize(text));
+			double scalex, scaley;
+			GetScale(out scalex, out scaley);
 
+			mDisplay.D3D_Device.DrawBuffer.Flush();
+			mDisplay.D3D_Device.SetFontRenderState();
 
-            dest_pt.X -= dest.X;
-            dest_pt.Y -= dest.Y;
+			mSprite.Begin(SpriteFlags.AlphaBlend);
+			mSprite.Transform = Matrix.Scaling((float)scalex, (float)scaley, 1.0f)
+				* Matrix.Translation(dest_pt.X, dest_pt.Y, 0);
 
-            double scalex, scaley;
-            GetScale(out scalex, out scaley);
+			mD3DFont.DrawText(mSprite, text, new System.Drawing.Point(0, 0), Color.ToArgb());
 
-            mDisplay.D3D_Device.DrawBuffer.Flush();
-            mDisplay.D3D_Device.SetFontRenderState();
+			mSprite.End();
+			 * */
+		}
 
-            mSprite.Begin(SpriteFlags.AlphaBlend);
-            mSprite.Transform = Matrix.Scaling((float)scalex, (float)scaley, 1.0f)
-                * Matrix.Translation(dest_pt.X, dest_pt.Y, 0);
-
-            mD3DFont.DrawText(mSprite, text, new System.Drawing.Point(0, 0), Color.ToArgb());
-
-            mSprite.End();
-
-
-        }
-        public override void DrawText(PointF dest_pt, string text)
-        {
-            DrawText(new Point((int)dest_pt.X, (int)dest_pt.Y), text);
-
-        }
-        public override void DrawText(int dest_x, int dest_y, string text)
-        {
-            DrawText(new Point(dest_x, dest_y), text);
-        }
-        public override void DrawText(double dest_x, double dest_y, string text)
-        {
-            DrawText(new Point((int)dest_x, (int)dest_y), text);
-        }
-    }
+		public override Size StringDisplaySize(FontState state, string text)
+		{
+			throw new NotImplementedException("StringDisplaySize not implemented with D3DX font.");
+		}
+	}
 }
