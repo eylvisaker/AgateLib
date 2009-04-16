@@ -363,7 +363,7 @@ namespace AgateLib.Sprites
 					location.Y += size.Height;
 				}
 
-			} while (location.Y + size.Height < surface.SurfaceHeight);
+			} while (location.Y + size.Height <= surface.SurfaceHeight);
 
 		}
 
@@ -756,7 +756,7 @@ namespace AgateLib.Sprites
 			get { return mCurrentFrameIndex; }
 			set
 			{
-				if (mFrames.Count == 0)
+				if (mFrames.Count <= 1)
 				{
 					mCurrentFrameIndex = 0;
 					return;
