@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace MultipleWindowTest
 {
-    public partial class MultipleRenderTargetExample : Form
-    {
-        public MultipleRenderTargetExample()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class MultipleRenderTargetExample : Form
+	{
+		public MultipleRenderTargetExample()
+		{
+			InitializeComponent();
+		}
+	}
 }

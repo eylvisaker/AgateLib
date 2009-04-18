@@ -9,64 +9,64 @@ using AgateLib.InputLib;
 
 namespace Tests.ScreenCaptureExample
 {
-    class ScreenCaptureTest:IAgateTest 
-    {
+	class ScreenCaptureTest : IAgateTest
+	{
 
-        #region IAgateTest Members
+		#region IAgateTest Members
 
-        public string Name { get { return "Screen Capture"; } }
-        public string Category { get { return "Display"; } }
+		public string Name { get { return "Screen Capture"; } }
+		public string Category { get { return "Display"; } }
 
-        #endregion
+		#endregion
 
-        public void Main(string[] args)
+		public void Main(string[] args)
 		{
-            using (AgateSetup setup = new AgateSetup())
-            {
-                setup.AskUser = true;
-                setup.Initialize(true, false, false);
-                if (setup.WasCanceled) return;
+			using (AgateSetup setup = new AgateSetup())
+			{
+				setup.AskUser = true;
+				setup.Initialize(true, false, false);
+				if (setup.WasCanceled) return;
 
-                DisplayWindow wind = DisplayWindow.CreateWindowed("Hello", 800, 600);
-                Surface someSurface = new Surface("wallpaper.png");
-                Surface captureSurface = new Surface(1600, 1200);
-                bool capturing = false;
+				DisplayWindow wind = DisplayWindow.CreateWindowed("Hello", 800, 600);
+				Surface someSurface = new Surface("wallpaper.png");
+				Surface captureSurface = new Surface(1600, 1200);
+				bool capturing = false;
 
-                while (wind.IsClosed == false)
-                {
-                    if (Keyboard.Keys[KeyCode.C])
-                    {
-                        capturing = true;
-                        Keyboard.ReleaseKey(KeyCode.C);
-                    }
-                    if (capturing)
-                    {
-                        Display.RenderTarget = captureSurface;
-                        someSurface.SetScale(2, 2);
-                    }
+				while (wind.IsClosed == false)
+				{
+					if (Keyboard.Keys[KeyCode.C])
+					{
+						capturing = true;
+						Keyboard.ReleaseKey(KeyCode.C);
+					}
+					if (capturing)
+					{
+						Display.RenderTarget = captureSurface;
+						someSurface.SetScale(2, 2);
+					}
 
-                    Display.BeginFrame();
+					Display.BeginFrame();
 
-                    Display.Clear(Color.White);
+					Display.Clear(Color.White);
 
-                    someSurface.Draw();
+					someSurface.Draw();
 
-                    Display.EndFrame();
+					Display.EndFrame();
 
-                    if (capturing)
-                    {
-                        captureSurface.SaveTo("CapturedImage.png", ImageFileFormat.Png);
-                        Display.RenderTarget = wind;
-                        someSurface.SetScale(1, 1);
-                        capturing = false;
+					if (capturing)
+					{
+						captureSurface.SaveTo("CapturedImage.png", ImageFileFormat.Png);
+						Display.RenderTarget = wind;
+						someSurface.SetScale(1, 1);
+						capturing = false;
 
-                        Debug.Print("Captured image to CapturedImage.png");
-                    }
+						Debug.Print("Captured image to CapturedImage.png");
+					}
 
-                    Core.KeepAlive();
-                    System.Threading.Thread.Sleep(10);
-                }
-            }
-        }
-    }
+					Core.KeepAlive();
+					System.Threading.Thread.Sleep(10);
+				}
+			}
+		}
+	}
 }

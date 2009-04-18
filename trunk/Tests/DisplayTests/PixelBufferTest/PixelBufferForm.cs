@@ -8,21 +8,21 @@ using System.Windows.Forms;
 
 namespace Tests.PixelBufferTest
 {
-    public partial class PixelBufferForm : Form
-    {
-        public PixelBufferForm()
-        {
-            InitializeComponent();
-        }
+	public partial class PixelBufferForm : Form
+	{
+		public PixelBufferForm()
+		{
+			InitializeComponent();
+		}
 
-        private void btnColor_Click(object sender, EventArgs e)
-        {
-            colorDialog1.Color = btnColor.BackColor;
+		private void btnColor_Click(object sender, EventArgs e)
+		{
+			colorDialog1.Color = btnColor.BackColor;
 
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
-            {
-                btnColor.BackColor = colorDialog1.Color;
-            }
-        }
-    }
+			if (colorDialog1.ShowDialog() == DialogResult.OK)
+			{
+				btnColor.BackColor = colorDialog1.Color;
+			}
+		}
+	}
 }

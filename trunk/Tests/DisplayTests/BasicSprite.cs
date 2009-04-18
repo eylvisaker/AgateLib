@@ -9,7 +9,7 @@ using AgateLib.Sprites;
 
 namespace Tests.DisplayTests
 {
-	class BasicSprite : AgateApplication, IAgateTest 
+	class BasicSprite : AgateApplication, IAgateTest
 	{
 		#region IAgateTest Members
 
@@ -34,7 +34,7 @@ namespace Tests.DisplayTests
 
 		protected override void Initialize()
 		{
-			p = new Sprite("Data/boxsprite.png", new Size(96,96));
+			p = new Sprite("Data/boxsprite.png", new Size(96, 96));
 			p.AnimationType = SpriteAnimType.PingPong;
 			p.TimePerFrame = 250;
 			p.StartAnimation();

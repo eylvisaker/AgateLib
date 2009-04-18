@@ -3,34 +3,34 @@
 //
 namespace Tests.DisplayTests.BasicDrawing
 {
-    partial class DrawingTester
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+	partial class DrawingTester
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-        #region Windows Form Designer generated code
+		#region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.btnDrawLine = new System.Windows.Forms.Button();
 			this.btnFillRect = new System.Windows.Forms.Button();
@@ -165,20 +165,20 @@ namespace Tests.DisplayTests.BasicDrawing
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
-        }
+		}
 
-        #endregion
+		#endregion
 
-        public System.Windows.Forms.Panel panel1;
-        public System.Windows.Forms.Button btnDrawLine;
-        public System.Windows.Forms.Button btnFillRect;
-        public System.Windows.Forms.Button btnDrawRect;
-        public System.Windows.Forms.Button btnColor;
-        private System.Windows.Forms.ColorDialog colorDialog1;
-        public System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown nudAlpha;
-        public System.Windows.Forms.Button btnDrawCircle;
+		public System.Windows.Forms.Panel panel1;
+		public System.Windows.Forms.Button btnDrawLine;
+		public System.Windows.Forms.Button btnFillRect;
+		public System.Windows.Forms.Button btnDrawRect;
+		public System.Windows.Forms.Button btnColor;
+		private System.Windows.Forms.ColorDialog colorDialog1;
+		public System.Windows.Forms.Button btnClear;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.NumericUpDown nudAlpha;
+		public System.Windows.Forms.Button btnDrawCircle;
 
-    }
+	}
 }

@@ -9,26 +9,26 @@ using System.Windows.Forms;
 using AgateLib.DisplayLib;
 namespace Tests.TileTester
 {
-    public partial class frmTileTester : Form
-    {
-        public frmTileTester()
-        {
-            InitializeComponent();
+	public partial class frmTileTester : Form
+	{
+		public frmTileTester()
+		{
+			InitializeComponent();
 
-            CreateControl();
+			CreateControl();
 
-            DisplayWindow wind = DisplayWindow.CreateFromControl(agateRenderTarget1);
-        }
+			DisplayWindow wind = DisplayWindow.CreateFromControl(agateRenderTarget1);
+		}
 
-        public bool ScrollX
-        {
-            get { return chkScrollX.Checked; }
-            set { chkScrollX.Checked = value; }
-        }
-        public bool ScrollY
-        {
-            get { return chkScrollY.Checked; }
-            set { chkScrollY.Checked = value; }
-        }
-    }
+		public bool ScrollX
+		{
+			get { return chkScrollX.Checked; }
+			set { chkScrollX.Checked = value; }
+		}
+		public bool ScrollY
+		{
+			get { return chkScrollY.Checked; }
+			set { chkScrollY.Checked = value; }
+		}
+	}
 }

@@ -9,56 +9,56 @@ using AgateLib.InputLib;
 
 namespace Tests.BitmapFontTester
 {
-    class BitmapFonts : IAgateTest 
-    {
-        #region IAgateTest Members
+	class BitmapFonts : IAgateTest
+	{
+		#region IAgateTest Members
 
-        public string Name { get { return "Bitmap Fonts"; } }
-        public string Category { get { return "Fonts"; } }
+		public string Name { get { return "Bitmap Fonts"; } }
+		public string Category { get { return "Fonts"; } }
 
-        #endregion
+		#endregion
 
-        public void Main(string[] args)
-        {
+		public void Main(string[] args)
+		{
 			using (AgateSetup setup = new AgateSetup(args))
-            {
-                setup.AskUser = true;
-                setup.Initialize(true, false, false);
-                if (setup.WasCanceled)
-                    return;
+			{
+				setup.AskUser = true;
+				setup.Initialize(true, false, false);
+				if (setup.WasCanceled)
+					return;
 
-                DisplayWindow wind = DisplayWindow.CreateWindowed(
-                    "Bitmap Font Tester", 800, 600, false);
+				DisplayWindow wind = DisplayWindow.CreateWindowed(
+					"Bitmap Font Tester", 800, 600, false);
 
-                Display.BeginFrame();
-                Display.Clear(Color.Navy);
-                Display.EndFrame();
-                Core.KeepAlive();
+				Display.BeginFrame();
+				Display.Clear(Color.Navy);
+				Display.EndFrame();
+				Core.KeepAlive();
 
-                BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 18, FontStyle.Bold);
-                fontOptions.UseTextRenderer = true;
+				BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 18, FontStyle.Bold);
+				fontOptions.UseTextRenderer = true;
 
-                FontSurface font = new FontSurface(fontOptions);
+				FontSurface font = new FontSurface(fontOptions);
 
-                // TODO: Fix this
-                //font.Save("testfont.xml");
+				// TODO: Fix this
+				//font.Save("testfont.xml");
 
 
 				//FontSurface second = FontSurface.LoadBitmapFont("testfont.png", "testfont.xml");
 
-                while (wind.IsClosed == false)
-                {
-                    Display.BeginFrame();
-                    Display.Clear(Color.Navy);
+				while (wind.IsClosed == false)
+				{
+					Display.BeginFrame();
+					Display.Clear(Color.Navy);
 
-                    font.DrawText("The quick brown fox jumps over the lazy dog.");
+					font.DrawText("The quick brown fox jumps over the lazy dog.");
 
-                    //second.DrawText(0, font.StringDisplayHeight("M"), "The quick brown fox jumps over the lazy dog.");
+					//second.DrawText(0, font.StringDisplayHeight("M"), "The quick brown fox jumps over the lazy dog.");
 
-                    Display.EndFrame();
-                    Core.KeepAlive();
-                }
-            }
-        }
-    }
+					Display.EndFrame();
+					Core.KeepAlive();
+				}
+			}
+		}
+	}
 }

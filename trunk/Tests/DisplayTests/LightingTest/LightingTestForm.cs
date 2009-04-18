@@ -8,29 +8,29 @@ using System.Windows.Forms;
 
 namespace Tests.LightingTest
 {
-    public partial class LightingTestForm : Form
-    {
-        public LightingTestForm()
-        {
-            InitializeComponent();
+	public partial class LightingTestForm : Form
+	{
+		public LightingTestForm()
+		{
+			InitializeComponent();
 
-            Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
-        }
+			Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
+		}
 
-        private void btnDiffuse_Click(object sender, EventArgs e)
-        {
-            colorDialog1.Color = btnDiffuse.BackColor;
+		private void btnDiffuse_Click(object sender, EventArgs e)
+		{
+			colorDialog1.Color = btnDiffuse.BackColor;
 
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
-                btnDiffuse.BackColor = colorDialog1.Color;
-        }
+			if (colorDialog1.ShowDialog() == DialogResult.OK)
+				btnDiffuse.BackColor = colorDialog1.Color;
+		}
 
-        private void btnAmbient_Click(object sender, EventArgs e)
-        {
-            colorDialog1.Color = btnAmbient.BackColor;
+		private void btnAmbient_Click(object sender, EventArgs e)
+		{
+			colorDialog1.Color = btnAmbient.BackColor;
 
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
-                btnAmbient.BackColor = colorDialog1.Color;
-        }
-    }
+			if (colorDialog1.ShowDialog() == DialogResult.OK)
+				btnAmbient.BackColor = colorDialog1.Color;
+		}
+	}
 }

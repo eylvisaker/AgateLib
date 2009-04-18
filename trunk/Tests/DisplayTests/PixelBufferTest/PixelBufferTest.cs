@@ -8,106 +8,106 @@ using AgateLib.InputLib;
 
 namespace Tests.PixelBufferTest
 {
-    class PixelBufferTest : IAgateTest 
-    {        
-        #region IAgateTest Members
+	class PixelBufferTest : IAgateTest
+	{
+		#region IAgateTest Members
 
-        public string Name { get { return "Pixel Buffer"; } }
-        public string Category { get { return "Display"; } }
+		public string Name { get { return "Pixel Buffer"; } }
+		public string Category { get { return "Display"; } }
 
-        #endregion
+		#endregion
 
-        Surface image;
-        Point imageLocation = new Point(50, 50);
-        PixelBuffer buffer;
-        PixelBufferForm frm;
-        
-        public void Main(string[] args)
-		{			
-            using (AgateSetup setup = new AgateSetup(args))
-            {
-                setup.AskUser = true;
-                setup.Initialize(true, false, false);
-                if (setup.WasCanceled)
-                    return;
+		Surface image;
+		Point imageLocation = new Point(50, 50);
+		PixelBuffer buffer;
+		PixelBufferForm frm;
 
-                frm = new PixelBufferForm();
-                frm.Show();
+		public void Main(string[] args)
+		{
+			using (AgateSetup setup = new AgateSetup(args))
+			{
+				setup.AskUser = true;
+				setup.Initialize(true, false, false);
+				if (setup.WasCanceled)
+					return;
 
-                DisplayWindow wind = new DisplayWindow(CreateWindowParams.FromControl(frm.panel1));
+				frm = new PixelBufferForm();
+				frm.Show();
 
-                image = new Surface("9ball.png");
-                buffer = image.ReadPixels(PixelFormat.RGBA8888);
+				DisplayWindow wind = new DisplayWindow(CreateWindowParams.FromControl(frm.panel1));
 
-                Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
-                Mouse.MouseMove += new InputEventHandler(Mouse_MouseMove);
+				image = new Surface("9ball.png");
+				buffer = image.ReadPixels(PixelFormat.RGBA8888);
 
-                while (wind.IsClosed == false)
-                {
-                    Display.BeginFrame();
-                    Display.Clear();
+				Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
+				Mouse.MouseMove += new InputEventHandler(Mouse_MouseMove);
 
-                    image.Draw(imageLocation);
-                    
-                    Display.EndFrame();
-                    Core.KeepAlive();
-                }
+				while (wind.IsClosed == false)
+				{
+					Display.BeginFrame();
+					Display.Clear();
 
-            }
-        }
+					image.Draw(imageLocation);
 
-        void Mouse_MouseMove(InputEventArgs e)
-        {
-            Color clr;
-            Point pt = new Point(e.MousePosition.X - imageLocation.X,
-                                 e.MousePosition.Y - imageLocation.Y);
+					Display.EndFrame();
+					Core.KeepAlive();
+				}
 
-            if (buffer.IsPointValid(pt) == false)
-            {
-                frm.lblPixelColor.Text = "No Pixel";
-                return;
-            }
+			}
+		}
 
-            if (Mouse.Buttons[Mouse.MouseButtons.Primary])
-            {
-                // do a circle of radius 3
-                for (int y = -3; y <= 3; y++)
-                {
-                    for (int x = -3; x <= 3; x++)
-                    {
-                        // if we're out of the circle radius, go to the next iteration.
-                        if (x * x + y * y > 9)
-                            continue;
+		void Mouse_MouseMove(InputEventArgs e)
+		{
+			Color clr;
+			Point pt = new Point(e.MousePosition.X - imageLocation.X,
+								 e.MousePosition.Y - imageLocation.Y);
 
-                        Point newpt = new Point(pt.X + x, pt.Y + y);
+			if (buffer.IsPointValid(pt) == false)
+			{
+				frm.lblPixelColor.Text = "No Pixel";
+				return;
+			}
 
-                        if (newpt.X < 0 || newpt.X >= buffer.Width) continue;
-                        if (newpt.Y < 0 || newpt.Y >= buffer.Height) continue;
+			if (Mouse.Buttons[Mouse.MouseButtons.Primary])
+			{
+				// do a circle of radius 3
+				for (int y = -3; y <= 3; y++)
+				{
+					for (int x = -3; x <= 3; x++)
+					{
+						// if we're out of the circle radius, go to the next iteration.
+						if (x * x + y * y > 9)
+							continue;
 
-                        buffer.SetPixel(newpt.X, newpt.Y, Color.FromArgb(frm.btnColor.BackColor.ToArgb()));
-                    }
-                }
-                image.WritePixels(buffer);
-            }
+						Point newpt = new Point(pt.X + x, pt.Y + y);
 
-            clr = buffer.GetPixel(e.MousePosition.X - imageLocation.X,
-            e.MousePosition.Y - imageLocation.Y);
+						if (newpt.X < 0 || newpt.X >= buffer.Width) continue;
+						if (newpt.Y < 0 || newpt.Y >= buffer.Height) continue;
 
-            frm.lblPixelColor.Text =
-                string.Format("R: {0}  G: {1}\r\nB: {2}  A: {3}",
-                FormatComponent(clr.R), FormatComponent(clr.G),
-                FormatComponent(clr.B), FormatComponent(clr.A));
+						buffer.SetPixel(newpt.X, newpt.Y, Color.FromArgb(frm.btnColor.BackColor.ToArgb()));
+					}
+				}
+				image.WritePixels(buffer);
+			}
 
-        }
+			clr = buffer.GetPixel(e.MousePosition.X - imageLocation.X,
+			e.MousePosition.Y - imageLocation.Y);
 
-        private string FormatComponent(byte p)
-        {
-            return (p / 255.0).ToString("0.00");
-        }
+			frm.lblPixelColor.Text =
+				string.Format("R: {0}  G: {1}\r\nB: {2}  A: {3}",
+				FormatComponent(clr.R), FormatComponent(clr.G),
+				FormatComponent(clr.B), FormatComponent(clr.A));
 
-        void Mouse_MouseDown(InputEventArgs e)
-        {
-            Mouse_MouseMove(e);
-        }
-    }
+		}
+
+		private string FormatComponent(byte p)
+		{
+			return (p / 255.0).ToString("0.00");
+		}
+
+		void Mouse_MouseDown(InputEventArgs e)
+		{
+			Mouse_MouseMove(e);
+		}
+	}
 }

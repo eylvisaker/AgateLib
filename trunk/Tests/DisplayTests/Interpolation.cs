@@ -8,7 +8,7 @@ using AgateLib.Geometry;
 
 namespace Tests.DisplayTests
 {
-	class Interpolation : AgateLib.AgateApplication, IAgateTest 
+	class Interpolation : AgateLib.AgateApplication, IAgateTest
 	{
 
 		#region IAgateTest Members

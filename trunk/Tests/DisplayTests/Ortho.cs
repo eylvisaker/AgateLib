@@ -9,76 +9,76 @@ using AgateLib.InputLib;
 
 namespace Tests.OrthoProjectionTest
 {
-    class Ortho
-    {
-        int ortho = 0;
-        DisplayWindow wind;
+	class Ortho
+	{
+		int ortho = 0;
+		DisplayWindow wind;
 
 
-        #region IAgateTest Members
+		#region IAgateTest Members
 
-        public string Name { get { return "Ortho Projection"; } }
-        public string Category { get { return "Display"; } }
+		public string Name { get { return "Ortho Projection"; } }
+		public string Category { get { return "Display"; } }
 
-        #endregion
+		#endregion
 
-        public void Main(string[] args)
-        {
-            using (AgateSetup setup = new AgateSetup())
-            {
-                setup.AskUser = true;
-                setup.Initialize(true, false, false);
-                if (setup.WasCanceled)
-                    return;
+		public void Main(string[] args)
+		{
+			using (AgateSetup setup = new AgateSetup())
+			{
+				setup.AskUser = true;
+				setup.Initialize(true, false, false);
+				if (setup.WasCanceled)
+					return;
 
-                Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
+				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 
-                wind = DisplayWindow.CreateWindowed("Ortho Projection Test", 640, 480, false);
-                
-                Surface surf = new Surface("jellybean.png");
-                surf.Color = Color.Cyan;
+				wind = DisplayWindow.CreateWindowed("Ortho Projection Test", 640, 480, false);
 
-                while (wind.IsClosed == false)
-                {
-                    Display.BeginFrame();
-                    Display.Clear();
+				Surface surf = new Surface("jellybean.png");
+				surf.Color = Color.Cyan;
 
-                    switch (ortho)
-                    {
-                        case 1:
-                            Display.SetOrthoProjection(0, 0, surf.SurfaceWidth * 2, surf.SurfaceHeight * 2);
-                            break;
+				while (wind.IsClosed == false)
+				{
+					Display.BeginFrame();
+					Display.Clear();
 
-                        case 2:
-                            Display.SetOrthoProjection(-surf.SurfaceWidth, -surf.SurfaceHeight,
-                                surf.SurfaceWidth, surf.SurfaceHeight);
-                            break;
-                    }
+					switch (ortho)
+					{
+						case 1:
+							Display.SetOrthoProjection(0, 0, surf.SurfaceWidth * 2, surf.SurfaceHeight * 2);
+							break;
 
-                    Display.FillRect(-2, -2, 4, 4, Color.Red);
+						case 2:
+							Display.SetOrthoProjection(-surf.SurfaceWidth, -surf.SurfaceHeight,
+								surf.SurfaceWidth, surf.SurfaceHeight);
+							break;
+					}
 
-                    surf.Draw();
+					Display.FillRect(-2, -2, 4, 4, Color.Red);
 
-                    Display.EndFrame();
+					surf.Draw();
 
-                    Core.KeepAlive();
-                }
-            }
-        }
+					Display.EndFrame();
 
-        void Keyboard_KeyDown(InputEventArgs e)
-        {
-            if (e.KeyCode == KeyCode.Space)
-            {
-                ortho++;
-                if (ortho > 2)
-                    ortho = 0;
+					Core.KeepAlive();
+				}
+			}
+		}
 
-                Keyboard.ReleaseKey(KeyCode.Space);
-            }
-            else if (e.KeyCode == KeyCode.Escape)
-                wind.Dispose();
+		void Keyboard_KeyDown(InputEventArgs e)
+		{
+			if (e.KeyCode == KeyCode.Space)
+			{
+				ortho++;
+				if (ortho > 2)
+					ortho = 0;
 
-        }
-    }
+				Keyboard.ReleaseKey(KeyCode.Space);
+			}
+			else if (e.KeyCode == KeyCode.Escape)
+				wind.Dispose();
+
+		}
+	}
 }
