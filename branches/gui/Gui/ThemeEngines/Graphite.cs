@@ -40,6 +40,7 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             if (widget is Label) DrawLabel((Label)widget);
             if (widget is Button) DrawButton((Button)widget);
             if (widget is CheckBox) DrawCheckbox((CheckBox)widget);
+            if (widget is RadioButton) DrawRadioButton((RadioButton)widget);
             if (widget is TextBox) DrawTextBox((TextBox)widget);
         }
 
@@ -54,6 +55,7 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
             if (widget is Button) return CalcMinButtonSize((Button)widget);
             if (widget is CheckBox) return CalcMinCheckBoxSize((CheckBox)widget);
             if (widget is TextBox) return CalcMinTextBoxSize((TextBox)widget);
+            if (widget is RadioButton) return CalcMinRadioButtonSize((RadioButton)widget);
 
             return Size.Empty;
         }
@@ -208,6 +210,60 @@ namespace AgateLib.Gui.ThemeEngines.Graphite
 
 
         private bool HitTestCheckBox(CheckBox checkBox, Point screenLocation)
+        {
+            Point local = checkBox.PointToClient(screenLocation);
+
+            int right = Scheme.CheckBox.SurfaceWidth +
+                    Scheme.ControlFont.StringDisplayWidth(checkBox.Text) + Scheme.CheckBoxSpacing * 2;
+
+            if (local.X > right)
+                return false;
+
+            return true;
+        }
+
+
+        #endregion
+        #region --- CheckBox ---
+
+        private void DrawRadioButton(RadioButton checkbox)
+        {
+            Surface surf;
+
+            if (checkbox.Enabled == false && checkbox.Checked) surf = Scheme.CheckBoxCheckedDisabled;
+            else if (checkbox.Enabled == false) surf = Scheme.CheckBoxDisabled;
+            else if (checkbox.Checked && checkbox.MouseIn) surf = Scheme.CheckBoxCheckedHover;
+            else if (checkbox.Checked) surf = Scheme.CheckBoxChecked;
+            else if (checkbox.MouseIn) surf = Scheme.CheckBoxHover;
+            else
+                surf = Scheme.CheckBox;
+
+            Point destPoint = checkbox.PointToScreen(
+                Origin.Calc(OriginAlignment.CenterLeft, checkbox.Size));
+
+            surf.DisplayAlignment = OriginAlignment.CenterLeft;
+            surf.Draw(destPoint);
+
+            SetControlFontColor(checkbox);
+
+            destPoint.X += surf.DisplayWidth + Scheme.CheckBoxSpacing;
+
+            Scheme.ControlFont.DisplayAlignment = OriginAlignment.CenterLeft;
+            Scheme.ControlFont.DrawText(destPoint, checkbox.Text);
+        }
+
+        private Size CalcMinRadioButtonSize(RadioButton checkbox)
+        {
+            Size text = Scheme.ControlFont.StringDisplaySize(checkbox.Text);
+            Size box = Scheme.CheckBox.SurfaceSize;
+
+            return new Size(
+                box.Width + Scheme.CheckBoxSpacing + text.Width,
+                Math.Max(box.Height, text.Height));
+        }
+
+
+        private bool HitTestRadioButton(RadioButton checkBox, Point screenLocation)
         {
             Point local = checkBox.PointToClient(screenLocation);
 

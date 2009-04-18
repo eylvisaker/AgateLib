@@ -55,7 +55,7 @@ namespace AgateLib.Gui.Tester
 
             for (int i = 0; i < 4; i++)
             {
-                rightPanel.Children.Add(new Button("right " + i.ToString()));
+                rightPanel.Children.Add(new RadioButton("Radio " + i.ToString()));
 
                 if (i % 2 == 1)
                     leftPanel.Children.Add(new Button("Button Left " + i.ToString()));
@@ -63,7 +63,7 @@ namespace AgateLib.Gui.Tester
                     rightPanel.Children[i].Enabled = false;
             }
 
-            hideMouse = rightPanel.Children[0] as Button;
+            hideMouse = leftPanel.Children[0] as Button;
             hideMouse.Text = "Hide Mouse Pointer";
             hideMouse.Click += new EventHandler(hideMouse_Click);
             hideMouse.Enabled = true;
@@ -76,9 +76,9 @@ namespace AgateLib.Gui.Tester
             vsync_CheckChanged(this, EventArgs.Empty);
 
             rightPanel.Children.Add(vsync);
-            rightPanel.Children.Add(new CheckBox("Test box 2"));
-            rightPanel.Children.Add(new CheckBox { Text = "Disabled", Enabled = false });
-            rightPanel.Children.Add(new CheckBox { Text = "Disabled Checked", Enabled = false, Checked = true });
+            rightPanel.Children.Add(new RadioButton("Test box 2"));
+			rightPanel.Children.Add(new RadioButton { Text = "Disabled", Enabled = false });
+			rightPanel.Children.Add(new RadioButton { Text = "Disabled Checked", Enabled = false, Checked = true });
 
             leftPanel.Children.Add(info);
 
