@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Resources Version="0.3.1">
+	<Sprite name="default_paddle">
+		<Image file="paddle0.png" />
+		<Image file="paddle1.png" />
+	</Sprite>
+	<Sprite name="large_paddle">
+		<Image file="bigpaddle0.png" />
+		<Image file="bigpaddle1.png" />
+	</Sprite>
+	<Sprite name="small_paddle">
+		<Image file="smallpaddle0.png" />
+		<Image file="smallpaddle1.png" />
+	</Sprite>
+	<Sprite name="ball">
+		<Image file="ball.png" />
+	</Sprite>
+	<Sprite name="fireball">
+		<Image file="fireball.png" />
+	</Sprite>
+	<Sprite name="spike">
+		<Image file="spike.png" />
+	</Sprite>
+  <Sprite name="smash">
+    <Image file="smash.png" />
+  </Sprite>
+	<Sprite name="block" size="40,20">
+		<Image file="gblock.png" />
+	</Sprite>
+	<Sprite name="cblock">
+		<Image file="cblock.png" />
+	</Sprite>
+	<Sprite name="sblock">
+		<Image file="sblock.png" />
+	</Sprite>
+	<Sprite name="woodblock">
+		<Image file="gblock.png">
+			<Grid loc="0,100" size="40,20" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="marbleblock1">
+		<Image file="gblock.png">
+			<Grid loc="40,100" size="40,20" array="1,1" />
+		</Image>
+	</Sprite>	
+	<Sprite name="marbleblock2">
+		<Image file="gblock.png">
+			<Grid loc="40,120" size="40,20" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="rubyblock1">
+		<Image file="gblock.png">
+			<Grid loc="80,100" size="40,20" array="1,1" />
+		</Image>
+	</Sprite>	
+	<Sprite name="rubyblock2">
+		<Image file="gblock.png">
+			<Grid loc="120,100" size="40,20" array="1,1" />
+		</Image>
+	</Sprite>	
+	<Sprite name="rubyblock3">
+		<Image file="gblock.png">
+			<Grid loc="160,100" size="40,20" array="1,1" />
+		</Image>
+	</Sprite>		
+	<Sprite name="flash">
+		<Image file="flash.png" />
+	</Sprite>
+	<Sprite name="crack">
+		<Image file="crack.png" />
+	</Sprite>
+	
+	<Sprite name="pufastball">
+		<Image file="powerups.png">
+			<Grid loc="0,40" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="puslowball">
+		<Image file="powerups.png">
+			<Grid loc="0,0" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="puregularspeed">
+		<Image file="powerups.png">
+			<Grid loc="0,80" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pufireball">
+		<Image file="powerups.png">
+			<Grid loc="80,120" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pusticky">
+		<Image file="powerups.png">
+			<Grid loc="160,0" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pusupersticky">
+		<Image file="powerups.png">
+			<Grid loc="160,40" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pupaddleregular">
+		<Image file="powerups.png">
+			<Grid loc="40,80" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pupaddlelarge">
+		<Image file="powerups.png">
+			<Grid loc="40,0" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pupaddlesmall">
+		<Image file="powerups.png">
+			<Grid loc="40,40" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pumultiball">
+		<Image file="powerups.png">
+			<Grid loc="120,40" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pu3ball">
+		<Image file="powerups.png">
+			<Grid loc="120,0" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="publaster">
+		<Image file="powerups.png">
+			<Grid loc="0,120" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pu1up">
+		<Image file="powerups.png">
+			<Grid loc="40,120" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pureset">
+		<Image file="powerups.png">
+			<Grid loc="40,160" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="purandom">
+		<Image file="powerups.png">
+			<Grid loc="0,160" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pu100">
+		<Image file="powerups.png">
+			<Grid loc="200,0" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pu250">
+		<Image file="powerups.png">
+			<Grid loc="240,0" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pu500">
+		<Image file="powerups.png">
+			<Grid loc="280,0" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pu1000">
+		<Image file="powerups.png">
+			<Grid loc="320,0" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pucatchblue">
+		<Image file="powerups.png">
+			<Grid loc="80,0" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>	
+	<Sprite name="pucatchred">
+		<Image file="powerups.png">
+			<Grid loc="80,40" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pupow">
+		<Image file="powerups.png">
+			<Grid loc="120,80" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	<Sprite name="pusmash">
+		<Image file="powerups.png">
+			<Grid loc="120,120" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+  <Sprite name="pudoor">
+    <Image file="powerups.png">
+      <Grid loc="160,120" size="40,40" array="1,1" />
+    </Image>
+  </Sprite>
+  <Sprite name="purbswap">
+		<Image file="powerups.png">
+			<Grid loc="160,80" size="40,40" array="1,1" />
+		</Image>
+	</Sprite>
+	
+	<Sprite name="arrow">
+		<Image file="arrow.png" />
+	</Sprite>
+	<Sprite name="bblogo">
+		<Image file="bblogo.png" />
+	</Sprite>
+	<Sprite name="palogo">
+		<Image file="palogo.png" />
+	</Sprite>
+	<Sprite name="xlogo">
+		<Image file="xlogo1.png" />
+		<Image file="xlogo2.png" />
+		<Image file="xlogo3.png" />
+		<Image file="xlogo4.png" />
+		<animation pingpong="yes" speed="100"/>
+	</Sprite>
+</Resources>
