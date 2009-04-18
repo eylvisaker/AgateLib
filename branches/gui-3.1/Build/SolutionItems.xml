@@ -1,7 +1,0 @@
-	<Files>
-    <File>../TODO.txt</File>
-    <File>../ChangeLog.txt</File>
-    <File>../ReleaseNotes.txt</File>
-    <Match pattern="*.xml" recurse="false"/>
-    <Match pattern="*.xml" recurse="true" path="./Projects" />
-  </Files>
