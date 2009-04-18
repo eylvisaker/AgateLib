@@ -45,6 +45,7 @@ namespace AgateLib
 		DisplayWindow mWindow;
 		AppInitParameters mInitParams;
 		FontSurface font;
+		Gui.GuiRoot mGui;
 
 		double totalSplashTime = 0;
 		bool splashFadeDone = false;
@@ -91,10 +92,16 @@ namespace AgateLib
 				{
 					Update(Display.DeltaTime);
 
+					if (GuiRoot != null)
+						GuiRoot.DoUpdate();
+
 					Display.RenderTarget = mWindow;
 					Display.BeginFrame();
 
 					Render();
+
+					if (GuiRoot != null)
+						GuiRoot.Draw();
 
 					Display.EndFrame();
 					Core.KeepAlive();
@@ -290,6 +297,24 @@ namespace AgateLib
 		public DisplayWindow MainWindow
 		{
 			get { return mWindow; }
+		}
+
+		public Gui.GuiRoot GuiRoot
+		{
+			get { return mGui; }
+			set
+			{
+				if (value == null && mGui == null)
+					return;
+
+				if (mGui != null)
+					mGui.EnableInteraction = false;
+
+				mGui = value;
+
+				if (mGui != null)
+					mGui.EnableInteraction = true;
+			}
 		}
 
 		#endregion
