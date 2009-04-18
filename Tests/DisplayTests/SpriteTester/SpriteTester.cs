@@ -8,37 +8,37 @@ using AgateLib;
 
 namespace Tests.SpriteTester
 {
-    class SpriteTester : IAgateTest 
-    {
-        #region IAgateTest Members
+	class SpriteTester : IAgateTest
+	{
+		#region IAgateTest Members
 
-        public string Name { get { return "Sprite Tester"; } }
-        public string Category { get { return "Display"; } }
+		public string Name { get { return "Sprite Tester"; } }
+		public string Category { get { return "Display"; } }
 
-        #endregion
-        
-        public void Main(string[] args)
-        {
-            frmSpriteTester form = new frmSpriteTester();
+		#endregion
 
-            AgateSetup displaySetup = new AgateSetup(args);
+		public void Main(string[] args)
+		{
+			frmSpriteTester form = new frmSpriteTester();
 
-            using (displaySetup)
-            {
-                displaySetup.Initialize(true, false, false);
-                if (displaySetup.WasCanceled)
-                    return;
+			AgateSetup displaySetup = new AgateSetup(args);
 
-                form.Show();
+			using (displaySetup)
+			{
+				displaySetup.Initialize(true, false, false);
+				if (displaySetup.WasCanceled)
+					return;
 
-                while (form.Visible)
-                {
-                    form.UpdateDisplay();
+				form.Show();
 
-                    //System.Threading.Thread.Sleep(10);
-                    Core.KeepAlive();
-                }
-            }
-        }
-    }
+				while (form.Visible)
+				{
+					form.UpdateDisplay();
+
+					//System.Threading.Thread.Sleep(10);
+					Core.KeepAlive();
+				}
+			}
+		}
+	}
 }

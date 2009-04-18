@@ -10,28 +10,28 @@ using System.Windows.Forms;
 
 namespace Tests.DisplayTests.BasicDrawing
 {
-    public partial class DrawingTester : Form
-    {
-        public DrawingTester()
-        {
-            InitializeComponent();
-        }
+	public partial class DrawingTester : Form
+	{
+		public DrawingTester()
+		{
+			InitializeComponent();
+		}
 
-        private void btnColor_Click(object sender, EventArgs e)
-        {
-            colorDialog1.Color = btnColor.BackColor;
+		private void btnColor_Click(object sender, EventArgs e)
+		{
+			colorDialog1.Color = btnColor.BackColor;
 
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
-                btnColor.BackColor = colorDialog1.Color;
-        }
+			if (colorDialog1.ShowDialog() == DialogResult.OK)
+				btnColor.BackColor = colorDialog1.Color;
+		}
 
-        public Color SelectedColor
-        {
-            get
-            {
-                return Color.FromArgb((int)(nudAlpha.Value * 255.0m), btnColor.BackColor);
-            }
-        }
+		public Color SelectedColor
+		{
+			get
+			{
+				return Color.FromArgb((int)(nudAlpha.Value * 255.0m), btnColor.BackColor);
+			}
+		}
 
-    }
+	}
 }

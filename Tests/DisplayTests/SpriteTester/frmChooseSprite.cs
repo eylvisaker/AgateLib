@@ -9,34 +9,34 @@ using AgateLib.Resources;
 
 namespace Tests.SpriteTester
 {
-    public partial class frmChooseSprite : Form
-    {
-        AgateResourceCollection resources;
+	public partial class frmChooseSprite : Form
+	{
+		AgateResourceCollection resources;
 
-        public frmChooseSprite()
-        {
-            InitializeComponent();
-        }
+		public frmChooseSprite()
+		{
+			InitializeComponent();
+		}
 
-        public string SelectedSprite
-        {
-            get
-            {
-                return lstSprites.SelectedItem.ToString();
-            }
-        }
-        public DialogResult ShowDialog(IWin32Window owner, AgateResourceCollection resources)
-        {
-            this.resources = resources;
+		public string SelectedSprite
+		{
+			get
+			{
+				return lstSprites.SelectedItem.ToString();
+			}
+		}
+		public DialogResult ShowDialog(IWin32Window owner, AgateResourceCollection resources)
+		{
+			this.resources = resources;
 
-            lstSprites.Items.Clear();
+			lstSprites.Items.Clear();
 
-            foreach (var sprite in resources.Sprites)
-            {
-                lstSprites.Items.Add(sprite.Name);
-            }
+			foreach (var sprite in resources.Sprites)
+			{
+				lstSprites.Items.Add(sprite.Name);
+			}
 
-            return ShowDialog(owner);
-        }
-    }
+			return ShowDialog(owner);
+		}
+	}
 }

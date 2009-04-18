@@ -16,105 +16,105 @@ using AgateLib.WinForms;
 namespace Tests.TestPacker
 {
 
-    public partial class frmTestPacker : Form
-    {
-        SurfacePacker.RectPacker<object> packer;
-        int minSize = 5;
-        int maxSize = 50;
+	public partial class frmTestPacker : Form
+	{
+		SurfacePacker.RectPacker<object> packer;
+		int minSize = 5;
+		int maxSize = 50;
 
-        public frmTestPacker()
-        {
-            InitializeComponent();
-        }
+		public frmTestPacker()
+		{
+			InitializeComponent();
+		}
 
-        private void btnClear_Click(object sender, EventArgs e)
-        {
-            packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
+		private void btnClear_Click(object sender, EventArgs e)
+		{
+			packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
 
-            Redraw();
-        }
-        private void btnLotsSorted_Click(object sender, EventArgs e)
-        {
-            packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
-            Random rand = new Random();
+			Redraw();
+		}
+		private void btnLotsSorted_Click(object sender, EventArgs e)
+		{
+			packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
+			Random rand = new Random();
 
-            btnOne.Enabled = true;
+			btnOne.Enabled = true;
 
-            for (int i = 0; i < 300; i++)
-            {
-                Size sz = new Size(rand.Next(minSize, maxSize), rand.Next(minSize, maxSize));
+			for (int i = 0; i < 300; i++)
+			{
+				Size sz = new Size(rand.Next(minSize, maxSize), rand.Next(minSize, maxSize));
 
-                packer.QueueObject(sz, null);
-            }
+				packer.QueueObject(sz, null);
+			}
 
-            packer.AddQueue();
+			packer.AddQueue();
 
-            Redraw();
-        }
-        private void btnMany_Click(object sender, EventArgs e)
-        {
-            packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
-            Random rand = new Random();
+			Redraw();
+		}
+		private void btnMany_Click(object sender, EventArgs e)
+		{
+			packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
+			Random rand = new Random();
 
-            btnOne.Enabled = true;
+			btnOne.Enabled = true;
 
-            for (int i = 0; i < 300; i++)
-            {
-                Size sz = new Size(rand.Next(minSize, maxSize), rand.Next(minSize, maxSize));
-                Rectangle rect;
+			for (int i = 0; i < 300; i++)
+			{
+				Size sz = new Size(rand.Next(minSize, maxSize), rand.Next(minSize, maxSize));
+				Rectangle rect;
 
-                if (packer.FindEmptySpace(sz, out rect))
-                {
-                    packer.AddRect(rect, null);
-                }
-            }
+				if (packer.FindEmptySpace(sz, out rect))
+				{
+					packer.AddRect(rect, null);
+				}
+			}
 
-            Redraw();
-        }
-        private void btnOne_Click(object sender, EventArgs e)
-        {
+			Redraw();
+		}
+		private void btnOne_Click(object sender, EventArgs e)
+		{
 
-            if (packer == null)
-                packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
+			if (packer == null)
+				packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
 
-            Random rand = new Random();
-            Size sz = new Size(rand.Next(minSize, maxSize), rand.Next(minSize, maxSize));
-            Rectangle rect;
+			Random rand = new Random();
+			Size sz = new Size(rand.Next(minSize, maxSize), rand.Next(minSize, maxSize));
+			Rectangle rect;
 
-            if (packer.FindEmptySpace(sz, out rect))
-            {
-                packer.AddRect(rect, null);
-                statusBar1.Panels[1].Text = "Added rect: " + rect.ToString();
-            }
-            else
-                statusBar1.Panels[1].Text = "Failed to add rect of size " + sz.ToString();
+			if (packer.FindEmptySpace(sz, out rect))
+			{
+				packer.AddRect(rect, null);
+				statusBar1.Panels[1].Text = "Added rect: " + rect.ToString();
+			}
+			else
+				statusBar1.Panels[1].Text = "Failed to add rect of size " + sz.ToString();
 
-            Redraw();
-        }
+			Redraw();
+		}
 
-        private void Redraw()
-        {
-            System.Drawing.Bitmap img = new System.Drawing.Bitmap(
-                pictureBox1.ClientRectangle.Width, pictureBox1.ClientRectangle.Height);
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
-            System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.Black);
-            System.Drawing.Brush brush = new System.Drawing.Drawing2D.HatchBrush(
-                System.Drawing.Drawing2D.HatchStyle.DiagonalCross, System.Drawing.Color.Red);
+		private void Redraw()
+		{
+			System.Drawing.Bitmap img = new System.Drawing.Bitmap(
+				pictureBox1.ClientRectangle.Width, pictureBox1.ClientRectangle.Height);
+			System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(img);
+			System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.Black);
+			System.Drawing.Brush brush = new System.Drawing.Drawing2D.HatchBrush(
+				System.Drawing.Drawing2D.HatchStyle.DiagonalCross, System.Drawing.Color.Red);
 
-            foreach (SurfacePacker.RectHolder<object> r in packer)
-            {
-                g.FillRectangle(brush, Interop.Convert(r.Rect));
-                g.DrawRectangle(pen, Interop.Convert(r.Rect));
-            }
+			foreach (SurfacePacker.RectHolder<object> r in packer)
+			{
+				g.FillRectangle(brush, Interop.Convert(r.Rect));
+				g.DrawRectangle(pen, Interop.Convert(r.Rect));
+			}
 
-            g.Dispose();
+			g.Dispose();
 
-            pictureBox1.Image = img;
+			pictureBox1.Image = img;
 
-            statusBar1.Panels[0].Text = "Percentage Used: " + (int)(packer.PixelsUsedPercentage * 100 + 0.5);
+			statusBar1.Panels[0].Text = "Percentage Used: " + (int)(packer.PixelsUsedPercentage * 100 + 0.5);
 
-        }
+		}
 
 
-    }
+	}
 }

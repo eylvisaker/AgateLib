@@ -9,42 +9,42 @@ using AgateLib.Utility;
 
 namespace Tests.RefCounterTester
 {
-    class Program : IAgateTest 
-    {
-        public void Main(string[] args)
-        {
-            Ref<TestClass> myref = new Ref<TestClass>(new TestClass());
-            Ref<TestClass> newref = new Ref<TestClass>(myref);
+	class Program : IAgateTest
+	{
+		public void Main(string[] args)
+		{
+			Ref<TestClass> myref = new Ref<TestClass>(new TestClass());
+			Ref<TestClass> newref = new Ref<TestClass>(myref);
 
-            newref.Dispose();
-            myref.Dispose();
+			newref.Dispose();
+			myref.Dispose();
 
-            Console.WriteLine("Press a key to finish.");
-            Console.ReadKey(false);
-        }
+			Console.WriteLine("Press a key to finish.");
+			Console.ReadKey(false);
+		}
 
-        #region IAgateTest Members
+		#region IAgateTest Members
 
-        public string Name { get { return "Ref Counter Tester"; } }
-        public string Category { get { return "Core"; } }
+		public string Name { get { return "Ref Counter Tester"; } }
+		public string Category { get { return "Core"; } }
 
-        #endregion
+		#endregion
 
-        class TestClass : IDisposable
-        {
-            public TestClass()
-            {
-                System.Console.WriteLine("TestClass Created.");
-            }
-            ~TestClass()
-            {
-                System.Console.WriteLine("TestClass Destroyed.");
-            }
+		class TestClass : IDisposable
+		{
+			public TestClass()
+			{
+				System.Console.WriteLine("TestClass Created.");
+			}
+			~TestClass()
+			{
+				System.Console.WriteLine("TestClass Destroyed.");
+			}
 
-            public void Dispose()
-            {
-                System.Console.WriteLine("TestClass Disposed.");
-            }
-        }
-    }
+			public void Dispose()
+			{
+				System.Console.WriteLine("TestClass Disposed.");
+			}
+		}
+	}
 }

@@ -8,26 +8,26 @@ using AgateLib;
 
 namespace Tests.InputTester
 {
-    class InputTester:IAgateTest 
-    {
-        #region IAgateTest Members
+	class InputTester : IAgateTest
+	{
+		#region IAgateTest Members
 
-        public string Name { get { return "Input Tester"; } }
-        public string Category { get { return "Input"; } }
+		public string Name { get { return "Input Tester"; } }
+		public string Category { get { return "Input"; } }
 
-        #endregion
+		#endregion
 
-        public void Main(string[] args)
-        {
-            using (AgateSetup setup = new AgateSetup(args))
-            {
-                setup.AskUser = true;
-                setup.Initialize(true, false, true);
-                if (setup.WasCanceled)
-                    return;
+		public void Main(string[] args)
+		{
+			using (AgateSetup setup = new AgateSetup(args))
+			{
+				setup.AskUser = true;
+				setup.Initialize(true, false, true);
+				if (setup.WasCanceled)
+					return;
 
-                new Form1().ShowDialog();
-            }
-        }
-    }
+				new Form1().ShowDialog();
+			}
+		}
+	}
 }

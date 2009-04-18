@@ -8,35 +8,35 @@ using AgateLib;
 
 namespace Tests.AudioTester
 {
-    class AudioTester : IAgateTest 
-    {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        public void Main(string[] args)
-        {
-            using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup("Agate Audio Tester", args))
-            {
-                setup.AskUser = true;
-                setup.Initialize(false, true, false);
-                if (setup.WasCanceled)
-                    return;
+	class AudioTester : IAgateTest
+	{
+		/// <summary>
+		/// The main entry point for the application.
+		/// </summary>
+		public void Main(string[] args)
+		{
+			using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup("Agate Audio Tester", args))
+			{
+				setup.AskUser = true;
+				setup.Initialize(false, true, false);
+				if (setup.WasCanceled)
+					return;
 
-                Application.Run(new frmAudioTester());
-            }
-        }
+				Application.Run(new frmAudioTester());
+			}
+		}
 
-        #region IAgateTest Members
+		#region IAgateTest Members
 
-        public string Name
-        {
-            get { return "Audio Player"; }
-        }
-        public string Category
-        {
-            get { return "Audio"; }
-        }
+		public string Name
+		{
+			get { return "Audio Player"; }
+		}
+		public string Category
+		{
+			get { return "Audio"; }
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

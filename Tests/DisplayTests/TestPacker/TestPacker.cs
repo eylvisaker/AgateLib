@@ -7,18 +7,18 @@ using System.Windows.Forms;
 
 namespace Tests.TestPacker
 {
-    class TestPacker : IAgateTest 
-    {
-        #region IAgateTest Members
+	class TestPacker : IAgateTest
+	{
+		#region IAgateTest Members
 
-        public string Name { get { return "Packing"; } }
-        public string Category { get { return "Display"; } }
+		public string Name { get { return "Packing"; } }
+		public string Category { get { return "Display"; } }
 
-        #endregion
+		#endregion
 
-        public void Main(string[] args)
-        {
-            new frmTestPacker().ShowDialog();
-        }
-    }
+		public void Main(string[] args)
+		{
+			new frmTestPacker().ShowDialog();
+		}
+	}
 }

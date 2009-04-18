@@ -10,40 +10,40 @@ using AgateLib;
 
 namespace Tests.SurfaceTester
 {
-    class SurfaceTester : IAgateTest 
-    {
-        #region IAgateTest Members
+	class SurfaceTester : IAgateTest
+	{
+		#region IAgateTest Members
 
-        public string Name { get { return "Surface Tester"; } }
-        public string Category { get { return "Display"; } }
+		public string Name { get { return "Surface Tester"; } }
+		public string Category { get { return "Display"; } }
 
-        #endregion
+		#endregion
 
-        public void Main(string[] args)
-        {
-            frmSurfaceTester form = new frmSurfaceTester();
+		public void Main(string[] args)
+		{
+			frmSurfaceTester form = new frmSurfaceTester();
 
-            using (AgateSetup displaySetup = new AgateSetup(args))
-            {
-                displaySetup.AskUser = true;
-                displaySetup.Initialize(true, false, false);
-                if (displaySetup.WasCanceled)
-                    return;
+			using (AgateSetup displaySetup = new AgateSetup(args))
+			{
+				displaySetup.AskUser = true;
+				displaySetup.Initialize(true, false, false);
+				if (displaySetup.WasCanceled)
+					return;
 
-                form.Show();
+				form.Show();
 
-                int frame = 0;
+				int frame = 0;
 
-                while (form.Visible)
-                {
-                    form.UpdateDisplay();
+				while (form.Visible)
+				{
+					form.UpdateDisplay();
 
-                    frame++;
+					frame++;
 
-                }
-            }
-            
-        }
+				}
+			}
 
-    }
+		}
+
+	}
 }

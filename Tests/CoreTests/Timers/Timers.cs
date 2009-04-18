@@ -8,34 +8,34 @@ using AgateLib;
 
 namespace Tests.TimerTester
 {
-    class TimerTester : IAgateTest 
-    {
-        public void Main(string [] args)
-        {
-            frmTimerTester frm = new frmTimerTester();
-            frm.Show();
+	class TimerTester : IAgateTest
+	{
+		public void Main(string[] args)
+		{
+			frmTimerTester frm = new frmTimerTester();
+			frm.Show();
 
-            Core.Initialize();
+			Core.Initialize();
 
-            Application.DoEvents();
-            System.Threading.Thread.Sleep(0);
+			Application.DoEvents();
+			System.Threading.Thread.Sleep(0);
 
-            double startTime = Timing.TotalMilliseconds;
+			double startTime = Timing.TotalMilliseconds;
 
-            while (frm.Visible)
-            {
-                frm.UpdateControls(Timing.TotalMilliseconds - startTime);
+			while (frm.Visible)
+			{
+				frm.UpdateControls(Timing.TotalMilliseconds - startTime);
 
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(0);
-            }
-        }
+				Application.DoEvents();
+				System.Threading.Thread.Sleep(0);
+			}
+		}
 
-        #region IAgateTest Members
+		#region IAgateTest Members
 
-        public string Name { get { return "Timers"; } }
-        public string Category { get { return "Core"; } }
+		public string Name { get { return "Timers"; } }
+		public string Category { get { return "Core"; } }
 
-        #endregion
-    }
+		#endregion
+	}
 }
