@@ -30,7 +30,7 @@ namespace Pong
         const int paddleWidth = 16;
         const int borderSize = paddleWidth;
         const int ballSize = paddleWidth;
-        const int displayWidth = 600;
+        const int displayWidth = 800;
         const int playAreaWidth = 700;
         const int displayHeight = 600;
         const float paddleSpeed = 150.0f;

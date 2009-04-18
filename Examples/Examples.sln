@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateDrawing", "..\Drivers\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateOTK", "..\Drivers\AgateOTK\AgateOTK.csproj", "{CAB8A0C1-0000-0000-0000-000000000000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateWindowExample", "CreateWindowExample\CreateWindowExample.csproj", "{FBA15345-5D2C-440A-8BE0-83FA53BEDBCF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pong", "Pong\Pong.csproj", "{436641C4-846C-42D0-8E8F-95F70E211D22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallBuster.Net", "BallBuster.Net\BallBuster.Net.csproj", "{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}"
@@ -18,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateSDL", "..\Drivers\AgateSDL\AgateSDL.csproj", "{59265711-0000-0000-0000-000000000000}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateMDX", "..\Drivers\AgateMDX\AgateMDX.csproj", "{E1F85711-0000-0000-0000-000000000000}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShootTheTraps", "ShootTheTraps\ShootTheTraps.csproj", "{50743D1B-A19E-42F1-842F-65FAD6D168C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		{CAB8A0C1-0000-0000-0000-000000000000}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAB8A0C1-0000-0000-0000-000000000000}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAB8A0C1-0000-0000-0000-000000000000}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FBA15345-5D2C-440A-8BE0-83FA53BEDBCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FBA15345-5D2C-440A-8BE0-83FA53BEDBCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FBA15345-5D2C-440A-8BE0-83FA53BEDBCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FBA15345-5D2C-440A-8BE0-83FA53BEDBCF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{436641C4-846C-42D0-8E8F-95F70E211D22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{436641C4-846C-42D0-8E8F-95F70E211D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{436641C4-846C-42D0-8E8F-95F70E211D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,6 +57,10 @@ Global
 		{E1F85711-0000-0000-0000-000000000000}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1F85711-0000-0000-0000-000000000000}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1F85711-0000-0000-0000-000000000000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50743D1B-A19E-42F1-842F-65FAD6D168C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50743D1B-A19E-42F1-842F-65FAD6D168C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50743D1B-A19E-42F1-842F-65FAD6D168C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50743D1B-A19E-42F1-842F-65FAD6D168C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

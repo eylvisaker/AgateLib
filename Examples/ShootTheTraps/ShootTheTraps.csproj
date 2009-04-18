@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{436641C4-846C-42D0-8E8F-95F70E211D22}</ProjectGuid>
+    <ProjectGuid>{50743D1B-A19E-42F1-842F-65FAD6D168C3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pong</RootNamespace>
-    <AssemblyName>Pong</AssemblyName>
+    <RootNamespace>ShootTheTraps</RootNamespace>
+    <AssemblyName>ShootTheTraps</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -38,45 +38,32 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pong.cs" />
+    <Compile Include="App.cs" />
+    <Compile Include="Arrow.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="Particle.cs" />
+    <Compile Include="ShootTraps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    <Compile Include="Trap.cs" />
+    <Compile Include="Vector.cs">
+      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{D62BD453-79AC-4A8D-8E75-F85FFF533E4D}</Project>
+      <Project>{198C4842-0000-0000-0000-000000000000}</Project>
       <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\drivers\AgateDrawing\AgateDrawing.csproj">
-      <Project>{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}</Project>
-      <Name>AgateDrawing</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
       <Project>{8C84DA52-0000-0000-0000-000000000000}</Project>
       <Name>AgateLib.WinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\drivers\AgateOTK\AgateOTK.csproj">
-      <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
+    <ProjectReference Include="..\..\Drivers\AgateOTK\AgateOTK.csproj">
+      <Project>{CAB8A0C1-0000-0000-0000-000000000000}</Project>
       <Name>AgateOTK</Name>
     </ProjectReference>
   </ItemGroup>
