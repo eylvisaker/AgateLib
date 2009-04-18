@@ -28,7 +28,7 @@ namespace AgateLib.Gui
 
                 mChecked = value;
 
-                if (value == true)
+                if (value == true && Parent != null)
                 {
                     foreach (Widget w in Parent.Children)
                     {
