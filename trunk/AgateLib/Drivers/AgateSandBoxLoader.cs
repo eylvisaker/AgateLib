@@ -41,7 +41,22 @@ namespace AgateLib.Drivers
 				return retval.ToArray();
 			}
 
-			foreach (Type t in ass.GetTypes())
+			Type[] types;
+
+			try
+			{
+				types = ass.GetTypes();
+			}
+			catch (Exception e)
+			{
+				System.Diagnostics.Trace.WriteLine(string.Format(
+					"Could not load types in the file {0}.  Check to make sure its dependencies are available.  " +
+					"Caught exception {1}.  {2}", file, e.GetType().ToString(), e.Message));
+
+				return retval.ToArray();
+			}
+
+			foreach (Type t in types)
 			{
 				if (t.IsAbstract)
 					continue;
