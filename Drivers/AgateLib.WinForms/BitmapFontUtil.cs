@@ -203,6 +203,11 @@ namespace AgateLib.WinForms
 				for (char i = range.StartChar; i <= range.EndChar; i++)
 				{
 					Size sourceSize = rend.MeasureText(g, i.ToString());
+
+					// skip glyphs which are not in the font.
+					if (sourceSize.Width == 0)
+						continue;
+
 					if (options.CreateBorder)
 					{
 						sourceSize.Width += 2;
@@ -256,6 +261,9 @@ namespace AgateLib.WinForms
 			{
 				for (char i = range.StartChar; i <= range.EndChar; i++)
 				{
+					if (glyphs.ContainsKey(i) == false)
+						continue;
+
 					if (x + glyphs[i].Width > bitmapSize.Width)
 					{
 						x = rend.Padding;
