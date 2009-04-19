@@ -333,7 +333,7 @@ namespace AgateLib.DisplayLib
 		#region --- Built-in Fonts ---
 
 		/// <summary>
-		/// This bitmap font was generated from Andika at 9 points.
+		/// This sans serif bitmap font was generated from Andika at 9 points.
 		/// </summary>
 		/// <remarks>
 		/// Andika is Copyright (c) 2004-2008, SIL International and
@@ -345,7 +345,7 @@ namespace AgateLib.DisplayLib
 			get { return InternalResources.Data.Andika09; }
 		}
 		/// <summary>
-		/// This bitmap font was generated from Andika at 10 points.
+		/// This sans serif bitmap font was generated from Andika at 10 points.
 		/// </summary>
 		/// <remarks>
 		/// Andika is Copyright (c) 2004-2008, SIL International and
@@ -357,7 +357,7 @@ namespace AgateLib.DisplayLib
 			get { return InternalResources.Data.Andika10; }
 		}
 		/// <summary>
-		/// This bitmap font was generated from Andika at 12 points.
+		/// This sans serif bitmap font was generated from Andika at 12 points.
 		/// </summary>
 		/// <remarks>
 		/// Andika is Copyright (c) 2004-2008, SIL International and
@@ -369,7 +369,7 @@ namespace AgateLib.DisplayLib
 			get { return InternalResources.Data.Andika12; }
 		}
 		/// <summary>
-		/// This bitmap font was generated from Andika at 14 points.
+		/// This sans serif bitmap font was generated from Andika at 14 points.
 		/// </summary>
 		/// <remarks>
 		/// Andika is Copyright (c) 2004-2008, SIL International and
@@ -382,7 +382,7 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// This bitmap font was generated from Gentium at 10 points.
+		/// This serif bitmap font was generated from Gentium at 10 points.
 		/// </summary>
 		/// <remarks>
 		/// Gentium is Copyright (c) 2004-2008, SIL International and
@@ -394,7 +394,7 @@ namespace AgateLib.DisplayLib
 			get { return InternalResources.Data.Gentium10; }
 		}
 		/// <summary>
-		/// This bitmap font was generated from Gentium at 12 points.
+		/// This serif bitmap font was generated from Gentium at 12 points.
 		/// </summary>
 		/// <remarks>
 		/// Gentium is Copyright (c) 2004-2008, SIL International and
@@ -406,7 +406,7 @@ namespace AgateLib.DisplayLib
 			get { return InternalResources.Data.Gentium12; }
 		}
 		/// <summary>
-		/// This bitmap font was generated from Gentium at 14 points.
+		/// This serif bitmap font was generated from Gentium at 14 points.
 		/// </summary>
 		/// <remarks>
 		/// Gentium is Copyright (c) 2004-2008, SIL International and
