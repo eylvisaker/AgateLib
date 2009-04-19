@@ -81,6 +81,15 @@ namespace AgateLib.BitmapFont
 		}
 
 		/// <summary>
+		/// Gets or sets the interpolation hint for the underlying surface.
+		/// </summary>
+		public InterpolationMode InterpolationHint
+		{
+			get { return mSurface.InterpolationHint; }
+			set { mSurface.InterpolationHint = value; }
+		}
+
+		/// <summary>
 		/// Disposes of the object.
 		/// </summary>
 		public override void Dispose()
