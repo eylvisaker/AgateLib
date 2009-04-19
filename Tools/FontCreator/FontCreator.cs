@@ -92,7 +92,24 @@ namespace FontCreator
 				CreateFont();
 			}
 		}
-
+		public int BottomMarginAdjust
+		{
+			get { return mOptions.BottomMarginAdjust; }
+			set
+			{
+				mOptions.BottomMarginAdjust = value;
+				CreateFont();
+			}
+		}
+		public int TopMarginAdjust
+		{
+			get { return mOptions.TopMarginAdjust; }
+			set
+			{
+				mOptions.TopMarginAdjust = value;
+				CreateFont();
+			}
+		}
 		private bool mDarkBackground;
 
 		private Color mColor;

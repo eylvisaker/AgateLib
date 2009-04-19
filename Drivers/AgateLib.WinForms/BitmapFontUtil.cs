@@ -213,6 +213,7 @@ namespace AgateLib.WinForms
 						sourceSize.Width += 2;
 						sourceSize.Height += 2;
 					}
+					sourceSize.Height += options.BottomMarginAdjust + options.TopMarginAdjust;
 
 					int thisWidth = sourceSize.Width + bitmapPadding;
 
@@ -271,14 +272,17 @@ namespace AgateLib.WinForms
 						height = 0;
 					}
 
+					int drawX = x;
+					int drawY = y + options.TopMarginAdjust;
+
 					if (options.CreateBorder)
 					{
-						rend.DrawText(borderG, i.ToString(), new Point(x, y + 1), borderColor);
-						rend.DrawText(borderG, i.ToString(), new Point(x + 2, y + 1), borderColor);
-						rend.DrawText(borderG, i.ToString(), new Point(x + 1, y), borderColor);
-						rend.DrawText(borderG, i.ToString(), new Point(x + 1, y + 2), borderColor);
+						rend.DrawText(borderG, i.ToString(), new Point(drawX , drawY + 1), borderColor);
+						rend.DrawText(borderG, i.ToString(), new Point(drawX + 2, drawY + 1), borderColor);
+						rend.DrawText(borderG, i.ToString(), new Point(drawX + 1, drawY), borderColor);
+						rend.DrawText(borderG, i.ToString(), new Point(drawX + 1, drawY + 2), borderColor);
 
-						rend.DrawText(g, i.ToString(), new Point(x + 1, y + 1), System.Drawing.Color.White);
+						rend.DrawText(g, i.ToString(), new Point(drawX + 1, drawY + 1), System.Drawing.Color.White);
 
 						if (font.SizeInPoints >= 14.0)
 							glyphs[i].LeftOverhang = 1;
@@ -287,7 +291,7 @@ namespace AgateLib.WinForms
 					}
 					else
 					{
-						rend.DrawText(g, i.ToString(), new Point(x, y), System.Drawing.Color.White);
+						rend.DrawText(g, i.ToString(), new Point(drawX, drawY), System.Drawing.Color.White);
 					}
 
 					glyphs[i].SourceRect = new Rectangle(

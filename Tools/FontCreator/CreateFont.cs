@@ -10,245 +10,243 @@ using AgateLib.BitmapFont;
 
 namespace FontCreator
 {
-    public partial class CreateFont : UserControl 
-    {
-        FontBuilder sample;
+	public partial class CreateFont : UserControl
+	{
+		FontBuilder sample;
 
-        bool AnyDesignMode
-        {
-            get
-            {
-                Control p = this;
+		bool AnyDesignMode
+		{
+			get
+			{
+				Control p = this;
 
-                do
-                {
-                    if (p.Site != null && p.Site.DesignMode)
-                        return true;
+				do
+				{
+					if (p.Site != null && p.Site.DesignMode)
+						return true;
 
-                    p = p.Parent;
+					p = p.Parent;
 
-                } while (p != null);
+				} while (p != null);
 
-                return false;
-            }
-        }
+				return false;
+			}
+		}
 
-        public CreateFont()
-        {
-            InitializeComponent();
-        }
+		public CreateFont()
+		{
+			InitializeComponent();
+		}
 
-        public FontBuilder FontBuilder { get { return sample; } }
+		public FontBuilder FontBuilder { get { return sample; } }
 
-        protected override void  OnLoad(EventArgs e)
-        {
- 	        base.OnLoad(e);
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
 
-            if (AnyDesignMode)
-                return;
+			if (AnyDesignMode)
+				return;
 
-             sample = new FontBuilder();
+			sample = new FontBuilder();
 
-            sample.SetRenderTarget(renderTarget, zoomRenderTarget);
+			sample.SetRenderTarget(renderTarget, zoomRenderTarget);
 
-            int index = 0;
+			int index = 0;
 
 			List<string> fonts = new List<string>();
-            foreach (FontFamily fam in FontFamily.Families)
-            {
+			foreach (FontFamily fam in FontFamily.Families)
+			{
 				fonts.Add(fam.Name);
 			}
 			fonts.Sort();
 
 			foreach (string family in fonts)
 			{
-                if (family == "Arial" || family.Contains("Sans Serif") && index == 0)
-                    index = cboFamily.Items.Count;
+				if (family == "Arial" || family.Contains("Sans Serif") && index == 0)
+					index = cboFamily.Items.Count;
 
-                cboFamily.Items.Add(family);
-            }
-
-			
-            cboFamily.SelectedIndex = index;
-            txtSampleText_TextChanged(null, null);
-
-            foreach (BitmapFontEdgeOptions opt in
-                Enum.GetValues(typeof(BitmapFontEdgeOptions)))
-            {
-                cboEdges.Items.Add(opt);
-            }
-
-            cboEdges.SelectedItem = BitmapFontEdgeOptions.IntensityAlphaWhite;
-
-            cboBg.SelectedIndex = 0;
-        }
+				cboFamily.Items.Add(family);
+			}
 
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
+			cboFamily.SelectedIndex = index;
+			txtSampleText_TextChanged(null, null);
 
-            if (sample == null)
-                return;
+			foreach (BitmapFontEdgeOptions opt in
+				Enum.GetValues(typeof(BitmapFontEdgeOptions)))
+			{
+				cboEdges.Items.Add(opt);
+			}
 
-            sample.Draw();
-        }
+			cboEdges.SelectedItem = BitmapFontEdgeOptions.IntensityAlphaWhite;
 
-        private void cboFamily_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (sample == null)
-                return;
+			cboBg.SelectedIndex = 0;
+		}
 
-            sample.FontFamily = cboFamily.SelectedItem.ToString();
-        }
-		
-        private void nudScale_ValueChanged(object sender, EventArgs e)
-        {
-            if (sample == null)
-                return;
 
-            sample.DisplayScale = (double)nudScale.Value;
-        }
-        private void nudSize_ValueChanged(object sender, EventArgs e)
-        {
-            if (sample == null)
-                return;
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
 
-            sample.FontSize = (float)nudSize.Value;
-        }
-        private void chkBold_CheckedChanged(object sender, EventArgs e)
-        {
-            if (sample == null)
-                return;
+			if (sample == null)
+				return;
 
-            sample.Bold = chkBold.Checked;
-        }
-        private void chkItalic_CheckedChanged(object sender, EventArgs e)
-        {
-            if (sample == null)
-                return;
+			sample.Draw();
+		}
 
-            sample.Italic = chkItalic.Checked;
-        }
-        private void chkUnderline_CheckedChanged(object sender, EventArgs e)
-        {
-            if (sample == null)
-                return;
+		private void cboFamily_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (sample == null)
+				return;
 
-            sample.Underline = chkUnderline.Checked;
-        }
-        private void chkStrikeout_CheckedChanged(object sender, EventArgs e)
-        {
-            if (sample == null)
-                return;
+			sample.FontFamily = cboFamily.SelectedItem.ToString();
+		}
 
-            sample.Strikeout = chkStrikeout.Checked;
-        }
-        private void txtSampleText_TextChanged(object sender, EventArgs e)
-        {
-            if (sample == null)
-                return;
+		private void nudScale_ValueChanged(object sender, EventArgs e)
+		{
+			if (sample == null)
+				return;
 
-            sample.Text = txtSampleText.Text;
-        }
+			sample.DisplayScale = (double)nudScale.Value;
+		}
+		private void nudSize_ValueChanged(object sender, EventArgs e)
+		{
+			if (sample == null)
+				return;
 
-        private void renderTarget_Resize(object sender, EventArgs e)
-        {
-            if (sample == null)
-                return;
+			sample.FontSize = (float)nudSize.Value;
+		}
+		private void chkBold_CheckedChanged(object sender, EventArgs e)
+		{
+			if (sample == null)
+				return;
 
-            sample.Draw();
-        }
+			sample.Bold = chkBold.Checked;
+		}
+		private void chkItalic_CheckedChanged(object sender, EventArgs e)
+		{
+			if (sample == null)
+				return;
 
-        private void btnBorderColor_Click(object sender, EventArgs e)
-        {
-            colorDialog.Color = btnBorderColor.BackColor;
+			sample.Italic = chkItalic.Checked;
+		}
+		private void chkUnderline_CheckedChanged(object sender, EventArgs e)
+		{
+			if (sample == null)
+				return;
 
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                btnBorderColor.BackColor = colorDialog.Color;
+			sample.Underline = chkUnderline.Checked;
+		}
+		private void chkStrikeout_CheckedChanged(object sender, EventArgs e)
+		{
+			if (sample == null)
+				return;
 
-                sample.Options.BorderColor = ConvertColor(colorDialog.Color);
-                sample.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
+			sample.Strikeout = chkStrikeout.Checked;
+		}
+		private void txtSampleText_TextChanged(object sender, EventArgs e)
+		{
+			if (sample == null)
+				return;
 
-                sample.Options.CreateBorder = true;
+			sample.Text = txtSampleText.Text;
+		}
 
-                chkBorder.Checked = true;
+		private void nudTopMargin_ValueChanged(object sender, EventArgs e)
+		{
+			if (sample == null)
+				return;
 
-                sample.CreateFont();
-            }
-        }
-        private void nudOpacity_ValueChanged(object sender, EventArgs e)
-        {
-            sample.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
+			sample.TopMarginAdjust = (int)nudTopMargin.Value;
+		}
 
-            if (chkBorder.Checked)
-            {
-                sample.CreateFont();
-            }
-        }
+		private void nudBottomMargin_ValueChanged(object sender, EventArgs e)
+		{
+			if (sample == null)
+				return;
 
-        private AgateLib.Geometry.Color ConvertColor(System.Drawing.Color clr)
-        {
-            return AgateLib.Geometry.Color.FromArgb(clr.R, clr.G, clr.B);
-        }
+			sample.BottomMarginAdjust = (int)nudBottomMargin.Value;
+		}
+		private void renderTarget_Resize(object sender, EventArgs e)
+		{
+			if (sample == null)
+				return;
 
-        private void chkTextRenderer_CheckedChanged(object sender, EventArgs e)
-        {
-            sample.Options.UseTextRenderer = chkTextRenderer.Checked;
-            sample.CreateFont();
-        }
+			sample.Draw();
+		}
 
-        private void cboBg_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            sample.LightBackground = cboBg.SelectedIndex == 1;
-            
-        }
+		private void btnBorderColor_Click(object sender, EventArgs e)
+		{
+			colorDialog.Color = btnBorderColor.BackColor;
 
-        private void btnDisplayColor_Click(object sender, EventArgs e)
-        {
-            colorDialog.Color = btnDisplayColor.BackColor;
+			if (colorDialog.ShowDialog() == DialogResult.OK)
+			{
+				btnBorderColor.BackColor = colorDialog.Color;
 
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                btnDisplayColor.BackColor = colorDialog.Color;
+				sample.Options.BorderColor = ConvertColor(colorDialog.Color);
+				sample.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
 
-                sample.DisplayColor = ConvertColor(colorDialog.Color);
-            }
-        }
+				sample.Options.CreateBorder = true;
 
-        private void chkBorder_CheckedChanged(object sender, EventArgs e)
-        {
-            sample.Options.CreateBorder = chkBorder.Checked;
+				chkBorder.Checked = true;
 
-            sample.CreateFont();
-        }
+				sample.CreateFont();
+			}
+		}
+		private void nudOpacity_ValueChanged(object sender, EventArgs e)
+		{
+			sample.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
 
-        private void cboEdges_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            sample.Options.EdgeOptions = (BitmapFontEdgeOptions)cboEdges.SelectedItem;
+			if (chkBorder.Checked)
+			{
+				sample.CreateFont();
+			}
+		}
 
-            sample.CreateFont();
-        }
+		private AgateLib.Geometry.Color ConvertColor(System.Drawing.Color clr)
+		{
+			return AgateLib.Geometry.Color.FromArgb(clr.R, clr.G, clr.B);
+		}
 
-        private void btnViewFont_Click(object sender, EventArgs e)
-        {
-            string tempImage = Path.GetTempFileName() + ".png";
+		private void chkTextRenderer_CheckedChanged(object sender, EventArgs e)
+		{
+			sample.Options.UseTextRenderer = chkTextRenderer.Checked;
+			sample.CreateFont();
+		}
 
-            ((BitmapFontImpl)sample.Font.Impl).Surface.SaveTo(tempImage);
+		private void cboBg_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			sample.LightBackground = cboBg.SelectedIndex == 1;
 
-            EditGlyphs frm = new EditGlyphs();
+		}
 
-            //frm.ShowDialog(this, tempImage, ((BitmapFontImpl)sample.Font.Impl).FontMetrics);
-            frm.Dispose();
+		private void btnDisplayColor_Click(object sender, EventArgs e)
+		{
+			colorDialog.Color = btnDisplayColor.BackColor;
 
-            try
-            {
-                File.Delete(tempImage);
-            }
-            catch { }
+			if (colorDialog.ShowDialog() == DialogResult.OK)
+			{
+				btnDisplayColor.BackColor = colorDialog.Color;
 
-        }
+				sample.DisplayColor = ConvertColor(colorDialog.Color);
+			}
+		}
 
-    }
+		private void chkBorder_CheckedChanged(object sender, EventArgs e)
+		{
+			sample.Options.CreateBorder = chkBorder.Checked;
+
+			sample.CreateFont();
+		}
+
+		private void cboEdges_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			sample.Options.EdgeOptions = (BitmapFontEdgeOptions)cboEdges.SelectedItem;
+
+			sample.CreateFont();
+		}
+
+
+
+	}
 }
