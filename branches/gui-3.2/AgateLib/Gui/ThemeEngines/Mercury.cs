@@ -100,20 +100,20 @@ namespace AgateLib.Gui.ThemeEngines
 			DrawStretchImage(location, size,
 				image, Scheme.TextBoxStretchRegion);
 
-			Scheme.ControlFont.DisplayAlignment = OriginAlignment.TopLeft;
+			Scheme.WidgetFont.DisplayAlignment = OriginAlignment.TopLeft;
 
 			SetControlFontColor(textBox);
 
 			location.X += Scheme.TextBoxStretchRegion.X;
 			location.Y += Scheme.TextBoxStretchRegion.Y;
 
-			Scheme.ControlFont.DrawText(
+			Scheme.WidgetFont.DrawText(
 				location,
 				textBox.Text);
 
 			if (textBox.HasFocus)
 			{
-				size = Scheme.ControlFont.StringDisplaySize(
+				size = Scheme.WidgetFont.StringDisplaySize(
 					textBox.Text.Substring(0, textBox.InsertionPoint));
 
 				Point loc = new Point(
@@ -123,7 +123,7 @@ namespace AgateLib.Gui.ThemeEngines
 				loc = textBox.PointToScreen(loc);
 				loc.Y++;
 
-				DrawInsertionPoint(textBox, loc, Scheme.ControlFont.FontHeight - 2,
+				DrawInsertionPoint(textBox, loc, Scheme.WidgetFont.FontHeight - 2,
 					Timing.TotalMilliseconds - textBox.IPTime);
 			}
 		}
@@ -138,7 +138,7 @@ namespace AgateLib.Gui.ThemeEngines
 
 			Display.DrawLine(location,
 				new Point(location.X, location.Y + size),
-				Scheme.ControlFont.Color);
+				Scheme.WidgetFont.Color);
 		}
 
 		private Size CalcMinTextBoxSize(TextBox textBox)
@@ -146,7 +146,7 @@ namespace AgateLib.Gui.ThemeEngines
 			Size retval = new Size();
 
 			retval.Width = 40;
-			retval.Height = Scheme.ControlFont.FontHeight;
+			retval.Height = Scheme.WidgetFont.FontHeight;
 			retval.Height += Scheme.TextBox.SurfaceHeight - Scheme.TextBoxStretchRegion.Height;
 
 			return retval;
@@ -192,13 +192,13 @@ namespace AgateLib.Gui.ThemeEngines
 
 			destPoint.X += surf.DisplayWidth + Scheme.CheckBoxSpacing;
 
-			Scheme.ControlFont.DisplayAlignment = OriginAlignment.CenterLeft;
-			Scheme.ControlFont.DrawText(destPoint, checkbox.Text);
+			Scheme.WidgetFont.DisplayAlignment = OriginAlignment.CenterLeft;
+			Scheme.WidgetFont.DrawText(destPoint, checkbox.Text);
 		}
 
 		private Size CalcMinCheckBoxSize(CheckBox checkbox)
 		{
-			Size text = Scheme.ControlFont.StringDisplaySize(checkbox.Text);
+			Size text = Scheme.WidgetFont.StringDisplaySize(checkbox.Text);
 			Size box = Scheme.CheckBox.SurfaceSize;
 
 			return new Size(
@@ -212,7 +212,7 @@ namespace AgateLib.Gui.ThemeEngines
 			Point local = checkBox.PointToClient(screenLocation);
 
 			int right = Scheme.CheckBox.SurfaceWidth +
-					Scheme.ControlFont.StringDisplayWidth(checkBox.Text) + Scheme.CheckBoxSpacing * 2;
+					Scheme.WidgetFont.StringDisplayWidth(checkBox.Text) + Scheme.CheckBoxSpacing * 2;
 
 			if (local.X > right)
 				return false;
@@ -246,13 +246,13 @@ namespace AgateLib.Gui.ThemeEngines
 
 			destPoint.X += surf.DisplayWidth + Scheme.CheckBoxSpacing;
 
-			Scheme.ControlFont.DisplayAlignment = OriginAlignment.CenterLeft;
-			Scheme.ControlFont.DrawText(destPoint, checkbox.Text);
+			Scheme.WidgetFont.DisplayAlignment = OriginAlignment.CenterLeft;
+			Scheme.WidgetFont.DrawText(destPoint, checkbox.Text);
 		}
 
 		private Size CalcMinRadioButtonSize(RadioButton checkbox)
 		{
-			Size text = Scheme.ControlFont.StringDisplaySize(checkbox.Text);
+			Size text = Scheme.WidgetFont.StringDisplaySize(checkbox.Text);
 			Size box = Scheme.CheckBox.SurfaceSize;
 
 			return new Size(
@@ -266,7 +266,7 @@ namespace AgateLib.Gui.ThemeEngines
 			Point local = checkBox.PointToClient(screenLocation);
 
 			int right = Scheme.CheckBox.SurfaceWidth +
-					Scheme.ControlFont.StringDisplayWidth(checkBox.Text) + Scheme.CheckBoxSpacing * 2;
+					Scheme.WidgetFont.StringDisplayWidth(checkBox.Text) + Scheme.CheckBoxSpacing * 2;
 
 			if (local.X > right)
 				return false;
@@ -288,13 +288,13 @@ namespace AgateLib.Gui.ThemeEngines
 
 			SetControlFontColor(label);
 
-			Scheme.ControlFont.DisplayAlignment = label.TextAlignment;
-			Scheme.ControlFont.DrawText(location, label.Text);
+			Scheme.WidgetFont.DisplayAlignment = label.TextAlignment;
+			Scheme.WidgetFont.DrawText(location, label.Text);
 		}
 
 		private Size CalcMinLabelSize(Label label)
 		{
-			Size retval = Scheme.ControlFont.StringDisplaySize(label.Text);
+			Size retval = Scheme.WidgetFont.StringDisplaySize(label.Text);
 
 			return retval;
 		}
@@ -329,7 +329,7 @@ namespace AgateLib.Gui.ThemeEngines
 			// Draw button text
 			SetControlFontColor(button);
 
-			Scheme.ControlFont.DisplayAlignment = OriginAlignment.Center;
+			Scheme.WidgetFont.DisplayAlignment = OriginAlignment.Center;
 			location = Origin.Calc(OriginAlignment.Center, button.Size);
 
 			// drop the text down a bit if the button is being pushed.
@@ -339,14 +339,14 @@ namespace AgateLib.Gui.ThemeEngines
 				location.Y++;
 			}
 
-			Scheme.ControlFont.DrawText(
+			Scheme.WidgetFont.DrawText(
 				button.PointToScreen(location),
 				button.Text);
 		}
 
 		private Size CalcMinButtonSize(Button button)
 		{
-			Size textSize = Scheme.ControlFont.StringDisplaySize(button.Text);
+			Size textSize = Scheme.WidgetFont.StringDisplaySize(button.Text);
 			Size buttonBorder = new Size(
 				Scheme.Button.SurfaceWidth - Scheme.ButtonStretchRegion.Width,
 				Scheme.Button.SurfaceHeight - Scheme.ButtonStretchRegion.Height);
@@ -540,9 +540,9 @@ namespace AgateLib.Gui.ThemeEngines
 		private void SetControlFontColor(Widget widget)
 		{
 			if (widget.Enabled)
-				Scheme.ControlFont.Color = Scheme.FontColor;
+				Scheme.WidgetFont.Color = Scheme.FontColor;
 			else
-				Scheme.ControlFont.Color = Scheme.FontColorDisabled;
+				Scheme.WidgetFont.Color = Scheme.FontColorDisabled;
 		}
 
 	}

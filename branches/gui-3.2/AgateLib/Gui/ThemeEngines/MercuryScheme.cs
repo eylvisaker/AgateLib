@@ -26,7 +26,7 @@ namespace AgateLib.Gui.ThemeEngines
 
 		void SetDefaults(IFileProvider files)
 		{
-			ControlFont = new FontSurface("Sans Serif", 8);
+			WidgetFont = new FontSurface("Prociono", 8);
 			TitleFont = new FontSurface("Sans Serif", 10);
 			CenterTitle = true;
 
@@ -150,7 +150,7 @@ namespace AgateLib.Gui.ThemeEngines
 				mInsertionPointBlinkTime = value;
 			}
 		}
-		public FontSurface ControlFont { get; set; }
+		public FontSurface WidgetFont { get; set; }
 		public FontSurface TitleFont { get; set; }
 		public bool CenterTitle { get; set; }
 		public int DropShadowSize { get; set; }
