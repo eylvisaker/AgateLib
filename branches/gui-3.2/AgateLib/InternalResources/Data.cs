@@ -11,15 +11,16 @@ namespace AgateLib.InternalResources
 	internal static class Data
 	{
 		static TgzFileProvider mProvider = new TgzFileProvider("images", DataResources.images);
-		static ZipFileProvider mProcionoProvider = new ZipFileProvider("Prociono", DataResources.Prociono);
+		static ZipFileProvider mFontProvider = new ZipFileProvider("Fonts", DataResources.Fonts);
 		static AgateResourceCollection mFontResources;
 
 		static Surface mPoweredBy;
-		static FontSurface mProciono11, mProciono14;
+		static FontSurface mGentium10,mGentium12,mGentium14;
+		static FontSurface mAndika09, mAndika10, mAndika12, mAndika14;
 
 		private static void LoadFonts()
 		{
-			mFontResources = new AgateResourceCollection(mProcionoProvider);
+			mFontResources = new AgateResourceCollection(mFontProvider);
 		}
 
 		internal static Surface PoweredBy
@@ -35,31 +36,92 @@ namespace AgateLib.InternalResources
 			}
 		}
 
-		internal static FontSurface Prociono11
+
+		internal static FontSurface Gentium10
 		{
 			get
 			{
 				LoadFonts();
 
-				if (mProciono11 == null)
-					mProciono11 = new FontSurface(mFontResources, "Prociono-11");
+				if (mGentium10 == null)
+					mGentium10 = new FontSurface(mFontResources, "Gentium-10");
 
-				return mProciono11;
+				return mGentium10;
 			}
 		}
-
-		internal static FontSurface Prociono14
+		internal static FontSurface Gentium12
 		{
 			get
 			{
 				LoadFonts();
 
-				if (mProciono14 == null)
-					mProciono14 = new FontSurface(mFontResources, "Prociono-14");
+				if (mGentium12 == null)
+					mGentium12 = new FontSurface(mFontResources, "Gentium-12");
 
-				return mProciono14;
+				return mGentium12;
+			}
+		}
+		internal static FontSurface Gentium14
+		{
+			get
+			{
+				LoadFonts();
+
+				if (mGentium14 == null)
+					mGentium14 = new FontSurface(mFontResources, "Gentium-14");
+
+				return mGentium14;
 			}
 		}
 
+		internal static FontSurface Andika09
+		{
+			get
+			{
+				LoadFonts();
+
+				if (mAndika09 == null)
+					mAndika09 = new FontSurface(mFontResources, "Andika-09");
+
+				return mAndika09;
+			}
+		}
+		internal static FontSurface Andika10
+		{
+			get
+			{
+				LoadFonts();
+
+				if (mAndika10 == null)
+					mAndika10 = new FontSurface(mFontResources, "Andika-10");
+
+				return mAndika10;
+			}
+		}
+		internal static FontSurface Andika12
+		{
+			get
+			{
+				LoadFonts();
+
+				if (mAndika12 == null)
+					mAndika12 = new FontSurface(mFontResources, "Andika-12");
+
+				return mAndika12;
+			}
+		}
+		internal static FontSurface Andika14
+		{
+			get
+			{
+				LoadFonts();
+
+				if (mAndika14 == null)
+					mAndika14 =new FontSurface(mFontResources, "Andika-14");
+
+
+				return mAndika14;
+			}
+		}
 	}
 }

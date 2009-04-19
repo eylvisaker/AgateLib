@@ -107,7 +107,7 @@ namespace AgateLib.DisplayLib
 			{
 				Surface surf = new Surface(resources.FileProvider, bmpFont.Image);
 
-				impl = new BitmapFontImpl(surf, bmpFont.FontMetrics);
+				impl = new BitmapFontImpl(surf, bmpFont.FontMetrics, resourceName);
 			}
 			else
 				throw new AgateResourceException(string.Format(
@@ -126,6 +126,10 @@ namespace AgateLib.DisplayLib
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 		}
 
+		public string FontName 
+		{
+			get { return impl.FontName; }
+		}
 		/// <summary>
 		/// Private initializer to tell it what impl to use.
 		/// </summary>
@@ -328,13 +332,90 @@ namespace AgateLib.DisplayLib
 
 		#region --- Built-in Fonts ---
 
-		public static FontSurface Prociono11
+		/// <summary>
+		/// This bitmap font was generated from Andika at 9 points.
+		/// </summary>
+		/// <remarks>
+		/// Andika is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Andika09
 		{
-			get { return InternalResources.Data.Prociono11; }
+			get { return InternalResources.Data.Andika09; }
 		}
-		public static FontSurface Prociono14
+		/// <summary>
+		/// This bitmap font was generated from Andika at 10 points.
+		/// </summary>
+		/// <remarks>
+		/// Andika is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Andika10
 		{
-			get { return InternalResources.Data.Prociono14; }
+			get { return InternalResources.Data.Andika10; }
+		}
+		/// <summary>
+		/// This bitmap font was generated from Andika at 12 points.
+		/// </summary>
+		/// <remarks>
+		/// Andika is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Andika12
+		{
+			get { return InternalResources.Data.Andika12; }
+		}
+		/// <summary>
+		/// This bitmap font was generated from Andika at 14 points.
+		/// </summary>
+		/// <remarks>
+		/// Andika is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Andika14
+		{
+			get { return InternalResources.Data.Andika14; }
+		}
+
+		/// <summary>
+		/// This bitmap font was generated from Gentium at 10 points.
+		/// </summary>
+		/// <remarks>
+		/// Gentium is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Gentium10
+		{
+			get { return InternalResources.Data.Gentium10; }
+		}
+		/// <summary>
+		/// This bitmap font was generated from Gentium at 12 points.
+		/// </summary>
+		/// <remarks>
+		/// Gentium is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Gentium12
+		{
+			get { return InternalResources.Data.Gentium12; }
+		}
+		/// <summary>
+		/// This bitmap font was generated from Gentium at 14 points.
+		/// </summary>
+		/// <remarks>
+		/// Gentium is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Gentium14
+		{
+			get { return InternalResources.Data.Gentium14; }
 		}
 
 		#endregion

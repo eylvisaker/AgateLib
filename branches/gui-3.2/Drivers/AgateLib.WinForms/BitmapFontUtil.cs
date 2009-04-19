@@ -174,7 +174,9 @@ namespace AgateLib.WinForms
 			Surface surf = new Surface(tempFile);
 			System.IO.File.Delete(tempFile);
 
-			return new BitmapFontImpl(surf, glyphs);
+			return new BitmapFontImpl(surf, glyphs,
+				string.Format("{0} {1}{2}", options.FontFamily, options.SizeInPoints, 
+				(options.FontStyle != FontStyle.None) ? " " + options.FontStyle.ToString():string.Empty ));
 
 		}
 

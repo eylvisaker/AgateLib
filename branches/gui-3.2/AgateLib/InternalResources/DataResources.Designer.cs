@@ -67,16 +67,16 @@ namespace AgateLib.InternalResources {
             }
         }
         
-        internal static byte[] images {
+        internal static byte[] Fonts {
             get {
-                object obj = ResourceManager.GetObject("images", resourceCulture);
+                object obj = ResourceManager.GetObject("Fonts", resourceCulture);
                 return ((byte[])(obj));
             }
         }
         
-        internal static byte[] Prociono {
+        internal static byte[] images {
             get {
-                object obj = ResourceManager.GetObject("Prociono", resourceCulture);
+                object obj = ResourceManager.GetObject("images", resourceCulture);
                 return ((byte[])(obj));
             }
         }

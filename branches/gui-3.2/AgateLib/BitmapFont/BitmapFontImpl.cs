@@ -50,6 +50,7 @@ namespace AgateLib.BitmapFont
 		/// <param name="characterSize"></param>
 		public BitmapFontImpl(string filename, Size characterSize)
 		{
+			FontName = System.IO.Path.GetFileNameWithoutExtension(filename);
 			mFontMetrics = new FontMetrics();
 
 			mSurface = new Surface(filename);
@@ -65,8 +66,9 @@ namespace AgateLib.BitmapFont
 		/// <param name="surface">Surface which contains the image data for the font glyphs.</param>
 		/// <param name="fontMetrics">FontMetrics structure which describes how characters
 		/// are laid out.</param>
-		public BitmapFontImpl(Surface surface, FontMetrics fontMetrics)
+		public BitmapFontImpl(Surface surface, FontMetrics fontMetrics, string name)
 		{
+			FontName = name;
 			mFontMetrics = (FontMetrics)((ICloneable)fontMetrics).Clone();
 			float maxHeight = 0;
 
@@ -266,6 +268,10 @@ namespace AgateLib.BitmapFont
 						break;
 
 					default:
+						if (mFontMetrics.ContainsKey(text[i]) == false)
+						{
+							break;
+						}
 						GlyphMetrics glyph = mFontMetrics[text[i]];
 
 						destX = Math.Max(0, destX - glyph.LeftOverhang * ScaleWidth);

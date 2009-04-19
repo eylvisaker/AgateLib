@@ -34,6 +34,7 @@ namespace AgateLib.ImplementationBase
 		private Color mColor = Color.White;
 		private double mScaleWidth = 1.0;
 		private double mScaleHeight = 1.0;
+		private string mFontName = "Unknown";
 
 		/// <summary>
 		/// Measures the width of the given string.
@@ -53,6 +54,15 @@ namespace AgateLib.ImplementationBase
 		/// <param name="text"></param>
 		/// <returns></returns>
 		public abstract Size StringDisplaySize(string text);
+
+		/// <summary>
+		/// Returns the name/size of the font.
+		/// </summary>
+		public string FontName
+		{
+			get { return mFontName; }
+			protected internal set { mFontName = value; }
+		}
 
 		/// <summary>
 		/// Gets the height of a single line of text.
