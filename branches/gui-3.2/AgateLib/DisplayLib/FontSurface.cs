@@ -105,7 +105,7 @@ namespace AgateLib.DisplayLib
 
 			if (res is BitmapFontResource)
 			{
-				Surface surf = new Surface(bmpFont.Image);
+				Surface surf = new Surface(resources.FileProvider, bmpFont.Image);
 
 				impl = new BitmapFontImpl(surf, bmpFont.FontMetrics);
 			}
@@ -325,5 +325,18 @@ namespace AgateLib.DisplayLib
 		{
 			impl.DrawText(0, 0, mTransformer.Transform(text));
 		}
+
+		#region --- Built-in Fonts ---
+
+		public static FontSurface Prociono11
+		{
+			get { return InternalResources.Data.Prociono11; }
+		}
+		public static FontSurface Prociono14
+		{
+			get { return InternalResources.Data.Prociono14; }
+		}
+
+		#endregion
 	}
 }

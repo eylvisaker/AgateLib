@@ -73,5 +73,12 @@ namespace AgateLib.InternalResources {
                 return ((byte[])(obj));
             }
         }
+        
+        internal static byte[] Prociono {
+            get {
+                object obj = ResourceManager.GetObject("Prociono", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

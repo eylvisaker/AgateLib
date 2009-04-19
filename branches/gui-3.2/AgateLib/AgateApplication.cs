@@ -79,7 +79,7 @@ namespace AgateLib
 
 				CreateDisplayWindow();
 
-				font = new FontSurface("Arial", 12.0f);
+				font = FontSurface.Prociono11;
 
 				if (InitParams.ShowSplashScreen)
 				{
