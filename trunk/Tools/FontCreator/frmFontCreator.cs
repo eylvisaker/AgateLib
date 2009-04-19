@@ -67,12 +67,12 @@ namespace FontCreator
 				mCurrentPage = value;
 
 
-				if (CurrentPage == 1)
+				if (mCurrentPage == 1)
 					btnPrevious.Enabled = false;
 				else
 					btnPrevious.Enabled = true;
 
-				if (CurrentPage == 3)
+				if (mCurrentPage == 3)
 				{
 					btnNext.Enabled = saveFont1.ValidInput;
 					btnNext.Text = "Finish";
@@ -111,8 +111,8 @@ namespace FontCreator
 					MessageBoxIcon.Information, MessageBoxDefaultButton.Button2))
 				{
 					case DialogResult.Yes:
-						CurrentPage = 1;
 						saveFont1.ResetControls();
+						CurrentPage = 1;
 						break;
 
 					case DialogResult.No:

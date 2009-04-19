@@ -275,6 +275,15 @@ namespace AgateLib.BitmapFont
 			set { mCreateBorder = value; }
 		}
 
+		/// <summary>
+		/// Indicates how much to increase the top margin of letters.  Can be negative.
+		/// </summary>
+		public int TopMarginAdjust { get; set; }
+
+		/// <summary>
+		/// Indicates how much to increase the bottom margin of letters.  Can be negative.
+		/// </summary>
+		public int BottomMarginAdjust { get; set; }
 	}
 
 }
