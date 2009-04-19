@@ -10,132 +10,137 @@ using AgateLib.BitmapFont;
 
 namespace FontCreator
 {
-    public partial class frmFontCreator : Form
-    {
-        int mCurrentPage;
+	public partial class frmFontCreator : Form
+	{
+		int mCurrentPage;
 
-        public frmFontCreator()
-        {
-            InitializeComponent();
+		public frmFontCreator()
+		{
+			InitializeComponent();
 
-            Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
-            CurrentPage = 1;
-        }
+			Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
+			CurrentPage = 1;
+		}
 
-        AgateLib.DisplayLib.FontSurface AgateFont
-        {
-            get { return this.createFont1.FontBuilder.Font; }
-        }
-        int CurrentPage
-        {
-            get { return mCurrentPage; }
-            set
-            {
-                pnlCreateFont.Visible = false;
-                pnlEditGlyphs.Visible = false;
-                pnlSaveFont.Visible = false;
+		AgateLib.DisplayLib.FontSurface AgateFont
+		{
+			get { return this.createFont1.FontBuilder.Font; }
+		}
+		int CurrentPage
+		{
+			get { return mCurrentPage; }
+			set
+			{
+				pnlCreateFont.Visible = false;
+				pnlEditGlyphs.Visible = false;
+				pnlSaveFont.Visible = false;
 
-                Panel pnl = null;
+				Panel pnl = null;
 
-                switch (value)
-                {
-                    case 1:
-                        pnl = pnlCreateFont;
-                        break;
+				switch (value)
+				{
+					case 1:
+						pnl = pnlCreateFont;
+						break;
 
-                    case 2:
-                        string tempImage = Path.GetTempFileName() + ".png";
+					case 2:
+						string tempImage = Path.GetTempFileName() + ".png";
 
-                        ((BitmapFontImpl)AgateFont.Impl).Surface.SaveTo(tempImage);
+						((BitmapFontImpl)AgateFont.Impl).Surface.SaveTo(tempImage);
 
-                        editGlyphs1.SetFont(tempImage, ((BitmapFontImpl)AgateFont.Impl).FontMetrics);
+						editGlyphs1.SetFont(tempImage, ((BitmapFontImpl)AgateFont.Impl).FontMetrics);
 
-                        pnl = pnlEditGlyphs;
-                        break;
+						pnl = pnlEditGlyphs;
+						break;
 
-                    case 3:
-                        pnl = pnlSaveFont;
-                        break;
+					case 3:
+						pnl = pnlSaveFont;
+						break;
 
-                    default:
-                        throw new InvalidOperationException("Wrong page number!");
-                }
+					default:
+						throw new InvalidOperationException("Wrong page number!");
+				}
 
-                pnl.Dock = DockStyle.Fill;
-                pnl.Visible = true;
+				pnl.Dock = DockStyle.Fill;
+				pnl.Visible = true;
 
-                mCurrentPage = value;
-            }
-        }
+				mCurrentPage = value;
 
-        public void SaveFont()
-        {
-             //sample.SaveFont(frm.ResourceFilename, frm.FontName, frm.ImageFilename);
-            createFont1.FontBuilder.SaveFont(
-                saveFont1.ResourceFilename,
-                saveFont1.FontName,
-                saveFont1.ImageFilename);
-        }
 
-        private void btnPrevious_Click(object sender, EventArgs e)
-        {
-            CurrentPage--;
+				if (CurrentPage == 1)
+					btnPrevious.Enabled = false;
+				else
+					btnPrevious.Enabled = true;
 
-            if (CurrentPage == 1)
-                btnPrevious.Enabled = false;
+				if (CurrentPage == 3)
+				{
+					btnNext.Enabled = saveFont1.ValidInput;
+					btnNext.Text = "Finish";
+				}
+				else
+				{
+					btnNext.Enabled = true;
+					btnNext.Text = "Next >>";
+				}
+			}
+		}
 
-            btnNext.Enabled = true;
-            btnNext.Text = "Next >>";
-        }
-        private void btnNext_Click(object sender, EventArgs e)
-        {
-            if (CurrentPage == 3)
-            {
-                SaveFont();
+		public bool SaveFont()
+		{
+			return createFont1.FontBuilder.SaveFont(
+				saveFont1.ResourceFilename,
+				saveFont1.FontName,
+				saveFont1.ImageFilename);
+		}
 
-                switch (MessageBox.Show(this,
-                    "Successfully saved font.  Create a new font?" + Environment.NewLine +
-                    "Click yes to start over, no to quit.", "Font Complete", MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Information, MessageBoxDefaultButton.Button2))
-                {
-                    case DialogResult.Yes:
-                        CurrentPage = 1;
-                        saveFont1.ResetControls();
-                        break;
+		private void btnPrevious_Click(object sender, EventArgs e)
+		{
+			CurrentPage--;
 
-                    case DialogResult.No:
-                        this.Close();
-                        break;
-                }
+		}
+		private void btnNext_Click(object sender, EventArgs e)
+		{
+			if (CurrentPage == 3)
+			{
+				if (SaveFont() == false)
+					return;
 
-                return;
-            }
+				switch (MessageBox.Show(this,
+					"Successfully saved font.  Create a new font?" + Environment.NewLine +
+					"Click yes to start over, no to quit.", "Font Complete", MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Information, MessageBoxDefaultButton.Button2))
+				{
+					case DialogResult.Yes:
+						CurrentPage = 1;
+						saveFont1.ResetControls();
+						break;
 
-            CurrentPage++;
+					case DialogResult.No:
+						this.Close();
+						break;
+				}
 
-            if (CurrentPage == 3)
-            {
-                btnNext.Enabled = saveFont1.ValidInput;
-                btnNext.Text = "Finish";
-            }
+				return;
+			}
 
-            btnPrevious.Enabled = true;
-        }
+			CurrentPage++;
 
-        private void btnPrevious_MouseEnter(object sender, EventArgs e)
-        {
-            if (CurrentPage == 2)
-                pnlWarning.Visible = true;
-        }
-        private void btnPrevious_MouseLeave(object sender, EventArgs e)
-        {
-            pnlWarning.Visible = false;
-        }
+		}
 
-        private void saveFont1_ValidInputChanged(object sender, EventArgs e)
-        {
-            btnNext.Enabled = saveFont1.ValidInput;
-            btnNext.Text = "Finish";
-        }
-    }
+		private void btnPrevious_MouseEnter(object sender, EventArgs e)
+		{
+			if (CurrentPage == 2)
+				pnlWarning.Visible = true;
+		}
+		private void btnPrevious_MouseLeave(object sender, EventArgs e)
+		{
+			pnlWarning.Visible = false;
+		}
+
+		private void saveFont1_ValidInputChanged(object sender, EventArgs e)
+		{
+			btnNext.Enabled = saveFont1.ValidInput;
+			btnNext.Text = "Finish";
+		}
+	}
 }
