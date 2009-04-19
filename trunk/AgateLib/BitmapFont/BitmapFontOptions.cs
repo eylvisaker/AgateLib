@@ -81,6 +81,10 @@ namespace AgateLib.BitmapFont
 				}
 			}
 
+			public override string ToString()
+			{
+				return ((int)mStartChar).ToString() + " - " + ((int)mEndChar).ToString();
+			}
 		}
 
 		private string mFamily;
