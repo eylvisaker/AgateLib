@@ -25,8 +25,11 @@ namespace AgateLib.InternalResources
 
 		static void Display_DisposeDisplay()
 		{
-			mPoweredBy.Dispose();
-			mPoweredBy = null;
+			if (mPoweredBy != null)
+			{
+				mPoweredBy.Dispose();
+				mPoweredBy = null;
+			}
 
 			foreach (var font in mAndika)
 				font.Value.Dispose();
@@ -40,7 +43,10 @@ namespace AgateLib.InternalResources
 
 		private static void LoadFonts()
 		{
-			mFontResources = new AgateResourceCollection(mFontProvider);
+			if (mFontResources == null)
+			{
+				mFontResources = new AgateResourceCollection(mFontProvider);
+			}
 		}
 
 		internal static Surface PoweredBy
@@ -85,19 +91,19 @@ namespace AgateLib.InternalResources
 
 		internal static FontSurface Andika09
 		{
-			get { return GetFont(mGentium, 9, "Andika-09"); }
+			get { return GetFont(mAndika, 9, "Andika-09"); }
 		}
 		internal static FontSurface Andika10
 		{
-			get { return GetFont(mGentium, 10, "Andika-10"); }
+			get { return GetFont(mAndika, 10, "Andika-10"); }
 		}
 		internal static FontSurface Andika12
 		{
-			get { return GetFont(mGentium, 12, "Andika-12"); }
+			get { return GetFont(mAndika, 12, "Andika-12"); }
 		}
 		internal static FontSurface Andika14
 		{
-			get { return GetFont(mGentium, 14, "Andika-14"); }
+			get { return GetFont(mAndika, 14, "Andika-14"); }
 		}
 	}
 }
