@@ -48,7 +48,7 @@ namespace AgateLib.Gui.ThemeEngines
 
 			SetCheckBoxImages(new Surface(files, "checkbox.png"), new Size(16, 16));
 			CheckBoxSpacing = 5;
-			CheckBoxMargin = 6;
+			CheckBoxMargin = 2;
 
 			SetRadioButtonImages(new Surface(files, "radiobutton.png"), new Size(16, 16));
 			RadioButtonSpacing = 5;

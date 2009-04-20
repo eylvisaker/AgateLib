@@ -45,6 +45,21 @@ namespace AgateLib.Gui
 			}
 		}
 
+		public override bool CanHaveFocus
+		{
+			get
+			{
+				return true;
+			}
+		}
+
+		protected internal override void SendKeyDown(AgateLib.InputLib.InputEventArgs e)
+		{
+			if (e.KeyCode == AgateLib.InputLib.KeyCode.Space)
+			{
+				Checked = true;
+			}
+		}
 
 		bool mouseDownIn;
 		protected internal override void OnMouseDown(AgateLib.InputLib.InputEventArgs e)
@@ -57,7 +72,7 @@ namespace AgateLib.Gui
 		protected internal override void OnMouseUp(AgateLib.InputLib.InputEventArgs e)
 		{
 			if (MouseIn && mouseDownIn)
-				Checked = !Checked;
+				Checked = true;
 
 			mouseDownIn = false;
 		}
