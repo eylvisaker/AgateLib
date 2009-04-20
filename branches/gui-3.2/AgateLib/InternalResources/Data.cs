@@ -15,8 +15,28 @@ namespace AgateLib.InternalResources
 		static AgateResourceCollection mFontResources;
 
 		static Surface mPoweredBy;
-		static FontSurface mGentium10,mGentium12,mGentium14;
-		static FontSurface mAndika09, mAndika10, mAndika12, mAndika14;
+		static Dictionary<int, FontSurface> mGentium = new Dictionary<int, FontSurface>();
+		static Dictionary<int, FontSurface> mAndika = new Dictionary<int, FontSurface>();
+
+		static Data()
+		{
+			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Display_DisposeDisplay);
+		}
+
+		static void Display_DisposeDisplay()
+		{
+			mPoweredBy.Dispose();
+			mPoweredBy = null;
+
+			foreach (var font in mAndika)
+				font.Value.Dispose();
+
+			foreach (var font in mGentium)
+				font.Value.Dispose();
+
+			mAndika.Clear();
+			mGentium.Clear();
+		}
 
 		private static void LoadFonts()
 		{
@@ -36,92 +56,48 @@ namespace AgateLib.InternalResources
 			}
 		}
 
+		private static FontSurface GetFont(Dictionary<int, FontSurface> dictionary, int size, string resourceName)
+		{
+			LoadFonts();
+
+			if (dictionary.ContainsKey(size) == false)
+			{
+				FontSurface font = new FontSurface(mFontResources, resourceName);
+				dictionary[size] = font;
+			}
+
+			return dictionary[size];
+		}
 
 		internal static FontSurface Gentium10
 		{
-			get
-			{
-				LoadFonts();
-
-				if (mGentium10 == null)
-					mGentium10 = new FontSurface(mFontResources, "Gentium-10");
-
-				return mGentium10;
-			}
+			get { return GetFont(mGentium, 10, "Gentium-10"); }
 		}
+
 		internal static FontSurface Gentium12
 		{
-			get
-			{
-				LoadFonts();
-
-				if (mGentium12 == null)
-					mGentium12 = new FontSurface(mFontResources, "Gentium-12");
-
-				return mGentium12;
-			}
+			get { return GetFont(mGentium, 12, "Gentium-12"); }
 		}
 		internal static FontSurface Gentium14
 		{
-			get
-			{
-				LoadFonts();
-
-				if (mGentium14 == null)
-					mGentium14 = new FontSurface(mFontResources, "Gentium-14");
-
-				return mGentium14;
-			}
+			get { return GetFont(mGentium, 14, "Gentium-14"); }
 		}
 
 		internal static FontSurface Andika09
 		{
-			get
-			{
-				LoadFonts();
-
-				if (mAndika09 == null)
-					mAndika09 = new FontSurface(mFontResources, "Andika-09");
-
-				return mAndika09;
-			}
+			get { return GetFont(mGentium, 9, "Andika-09"); }
 		}
 		internal static FontSurface Andika10
 		{
-			get
-			{
-				LoadFonts();
-
-				if (mAndika10 == null)
-					mAndika10 = new FontSurface(mFontResources, "Andika-10");
-
-				return mAndika10;
-			}
+			get { return GetFont(mGentium, 10, "Andika-10"); }
 		}
 		internal static FontSurface Andika12
 		{
-			get
-			{
-				LoadFonts();
-
-				if (mAndika12 == null)
-					mAndika12 = new FontSurface(mFontResources, "Andika-12");
-
-				return mAndika12;
-			}
+			get { return GetFont(mGentium, 12, "Andika-12"); }
 		}
 		internal static FontSurface Andika14
 		{
-			get
-			{
-				LoadFonts();
-
-				if (mAndika14 == null)
-					mAndika14 =new FontSurface(mFontResources, "Andika-14");
-
-
-				return mAndika14;
-			}
+			get { return GetFont(mGentium, 14, "Andika-14"); }
 		}
 	}
 }
