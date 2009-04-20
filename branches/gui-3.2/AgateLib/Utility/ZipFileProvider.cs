@@ -27,6 +27,11 @@ namespace AgateLib.Utility
 			public long DataOffset { get; set; }
 			public int DataSize { get; set; }
 			public ZipStorageType StorageType { get; set; }
+
+			public override string ToString()
+			{
+				return "Header: " + Filename;
+			}
 		}
 		class ZipFileEntryStream : Stream
 		{
