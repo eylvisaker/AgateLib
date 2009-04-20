@@ -27,7 +27,7 @@ namespace AgateLib.Gui.ThemeEngines
 		void SetDefaults(IFileProvider files)
 		{
 			WidgetFont = FontSurface.Andika09;
-			TitleFont = FontSurface.Andika12;
+			TitleFont = FontSurface.Andika10;
 			CenterTitle = true;
 
 			FontColor = Color.White;
