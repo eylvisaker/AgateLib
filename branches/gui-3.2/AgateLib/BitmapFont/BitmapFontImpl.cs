@@ -182,6 +182,9 @@ namespace AgateLib.BitmapFont
 
 				for (int j = 0; j < line.Length; j++)
 				{
+					if (mFontMetrics.ContainsKey(line[j]) == false)
+						continue;
+
 					lineWidth += mFontMetrics[line[j]].Width;
 				}
 
