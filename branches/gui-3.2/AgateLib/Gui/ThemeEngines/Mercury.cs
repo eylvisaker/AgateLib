@@ -91,14 +91,26 @@ namespace AgateLib.Gui.ThemeEngines
 
 			if (textBox.Enabled == false)
 				image = Scheme.TextBoxDisabled;
-			else if (textBox.MouseIn)
-				image = Scheme.TextBoxHover;
 
 			Point location = textBox.PointToScreen(new Point(0, 0));
 			Size size = textBox.Size;
 
 			DrawStretchImage(location, size,
 				image, Scheme.TextBoxStretchRegion);
+
+			if (textBox.Enabled)
+			{
+				if (textBox.HasFocus)
+				{
+					DrawStretchImage(location, size,
+						Scheme.TextBoxFocus, Scheme.TextBoxStretchRegion);
+				}
+				if (textBox.MouseIn)
+				{
+					DrawStretchImage(location, size,
+						Scheme.TextBoxHover, Scheme.TextBoxStretchRegion);
+				}
+			}
 
 			Scheme.WidgetFont.DisplayAlignment = OriginAlignment.TopLeft;
 
@@ -174,11 +186,8 @@ namespace AgateLib.Gui.ThemeEngines
 		{
 			Surface surf;
 
-			if (checkbox.Enabled == false && checkbox.Checked) surf = Scheme.CheckBoxCheckedDisabled;
-			else if (checkbox.Enabled == false) surf = Scheme.CheckBoxDisabled;
-			else if (checkbox.Checked && checkbox.MouseIn) surf = Scheme.CheckBoxCheckedHover;
-			else if (checkbox.Checked) surf = Scheme.CheckBoxChecked;
-			else if (checkbox.MouseIn) surf = Scheme.CheckBoxHover;
+			if (checkbox.Enabled == false) 
+				surf = Scheme.CheckBoxDisabled;
 			else
 				surf = Scheme.CheckBox;
 
@@ -188,6 +197,32 @@ namespace AgateLib.Gui.ThemeEngines
 			surf.DisplayAlignment = OriginAlignment.CenterLeft;
 			surf.Draw(destPoint);
 
+			if (checkbox.Enabled)
+			{
+				if (checkbox.HasFocus)
+				{
+					Scheme.CheckBoxFocus.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.CheckBoxFocus.Draw(destPoint);
+				}
+				if (checkbox.MouseIn)
+				{
+					Scheme.CheckBoxHover.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.CheckBoxHover.Draw(destPoint);
+				}
+				if (checkbox.Checked)
+				{
+					Scheme.CheckBoxCheck.Color = Color.White;
+					Scheme.CheckBoxCheck.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.CheckBoxCheck.Draw(destPoint);
+				}
+			}
+			else if (checkbox.Checked)
+			{
+				Scheme.CheckBoxCheck.Color = Color.Gray;
+				Scheme.CheckBoxCheck.DisplayAlignment = OriginAlignment.CenterLeft;
+				Scheme.CheckBoxCheck.Draw(destPoint);
+			}
+
 			SetControlFontColor(checkbox);
 
 			destPoint.X += surf.DisplayWidth + Scheme.CheckBoxSpacing;
@@ -195,7 +230,6 @@ namespace AgateLib.Gui.ThemeEngines
 			Scheme.WidgetFont.DisplayAlignment = OriginAlignment.CenterLeft;
 			Scheme.WidgetFont.DrawText(destPoint, checkbox.Text);
 		}
-
 		private Size CalcMinCheckBoxSize(CheckBox checkbox)
 		{
 			Size text = Scheme.WidgetFont.StringDisplaySize(checkbox.Text);
@@ -205,8 +239,6 @@ namespace AgateLib.Gui.ThemeEngines
 				box.Width + Scheme.CheckBoxSpacing + text.Width,
 				Math.Max(box.Height, text.Height));
 		}
-
-
 		private bool HitTestCheckBox(CheckBox checkBox, Point screenLocation)
 		{
 			Point local = checkBox.PointToClient(screenLocation);
@@ -220,53 +252,75 @@ namespace AgateLib.Gui.ThemeEngines
 			return true;
 		}
 
-
 		#endregion
-		#region --- CheckBox ---
+		#region --- Radio Button ---
 
-		private void DrawRadioButton(RadioButton checkbox)
+		private void DrawRadioButton(RadioButton radiobutton)
 		{
 			Surface surf;
 
-			if (checkbox.Enabled == false && checkbox.Checked) surf = Scheme.CheckBoxCheckedDisabled;
-			else if (checkbox.Enabled == false) surf = Scheme.CheckBoxDisabled;
-			else if (checkbox.Checked && checkbox.MouseIn) surf = Scheme.CheckBoxCheckedHover;
-			else if (checkbox.Checked) surf = Scheme.CheckBoxChecked;
-			else if (checkbox.MouseIn) surf = Scheme.CheckBoxHover;
+			if (radiobutton.Enabled == false)
+				surf = Scheme.RadioButtonDisabled;
 			else
-				surf = Scheme.CheckBox;
+				surf = Scheme.RadioButton;
 
-			Point destPoint = checkbox.PointToScreen(
-				Origin.Calc(OriginAlignment.CenterLeft, checkbox.Size));
+			Point destPoint = radiobutton.PointToScreen(
+				Origin.Calc(OriginAlignment.CenterLeft, radiobutton.Size));
 
 			surf.DisplayAlignment = OriginAlignment.CenterLeft;
 			surf.Draw(destPoint);
 
-			SetControlFontColor(checkbox);
+			if (radiobutton.Enabled)
+			{
+				if (radiobutton.HasFocus)
+				{
+					Scheme.RadioButtonFocus.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.RadioButtonFocus.Draw(destPoint);
+				}
+				if (radiobutton.MouseIn)
+				{
+					Scheme.RadioButtonHover.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.RadioButtonHover.Draw(destPoint);
+				}
+				if (radiobutton.Checked)
+				{
+					Scheme.RadioButtonCheck.Color = Color.White;
+					Scheme.RadioButtonCheck.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.RadioButtonCheck.Draw(destPoint);
+				}
+			}
+			else if (radiobutton.Checked)
+			{
+				Scheme.RadioButtonCheck.Color = Scheme.FontColorDisabled;
+				Scheme.RadioButtonCheck.DisplayAlignment = OriginAlignment.CenterLeft;
+				Scheme.RadioButtonCheck.Draw(destPoint);
+			}
 
-			destPoint.X += surf.DisplayWidth + Scheme.CheckBoxSpacing;
+			SetControlFontColor(radiobutton);
+
+			destPoint.X += surf.DisplayWidth + Scheme.RadioButtonSpacing;
 
 			Scheme.WidgetFont.DisplayAlignment = OriginAlignment.CenterLeft;
-			Scheme.WidgetFont.DrawText(destPoint, checkbox.Text);
+			Scheme.WidgetFont.DrawText(destPoint, radiobutton.Text);
 		}
 
-		private Size CalcMinRadioButtonSize(RadioButton checkbox)
+		private Size CalcMinRadioButtonSize(RadioButton radiobutton)
 		{
-			Size text = Scheme.WidgetFont.StringDisplaySize(checkbox.Text);
-			Size box = Scheme.CheckBox.SurfaceSize;
+			Size text = Scheme.WidgetFont.StringDisplaySize(radiobutton.Text);
+			Size box = Scheme.RadioButton.SurfaceSize;
 
 			return new Size(
-				box.Width + Scheme.CheckBoxSpacing + text.Width,
+				box.Width + Scheme.RadioButtonSpacing + text.Width,
 				Math.Max(box.Height, text.Height));
 		}
 
 
-		private bool HitTestRadioButton(RadioButton checkBox, Point screenLocation)
+		private bool HitTestRadioButton(RadioButton radioButton, Point screenLocation)
 		{
-			Point local = checkBox.PointToClient(screenLocation);
+			Point local = radioButton.PointToClient(screenLocation);
 
-			int right = Scheme.CheckBox.SurfaceWidth +
-					Scheme.WidgetFont.StringDisplayWidth(checkBox.Text) + Scheme.CheckBoxSpacing * 2;
+			int right = Scheme.RadioButton.SurfaceWidth +
+					Scheme.WidgetFont.StringDisplayWidth(radioButton.Text) + Scheme.RadioButtonSpacing * 2;
 
 			if (local.X > right)
 				return false;
@@ -305,20 +359,15 @@ namespace AgateLib.Gui.ThemeEngines
 		private void DrawButton(Button button)
 		{
 			Surface image = Scheme.Button;
+
 			bool isDefault = button.IsDefaultButton;
 
 			if (button.Enabled == false)
 				image = Scheme.ButtonDisabled;
 			else if (button.DrawActivated)
 				image = Scheme.ButtonPressed;
-			else if (isDefault && button.MouseIn)
-				image = Scheme.ButtonDefaultHover;
 			else if (isDefault)
 				image = Scheme.ButtonDefault;
-			else if (button.MouseIn)
-				image = Scheme.ButtonHover;
-			else if (button.HasFocus)
-				image = Scheme.ButtonHover;
 
 			Point location = button.PointToScreen(Point.Empty);
 			Size size = new Size(button.Width, button.Height);
@@ -326,6 +375,21 @@ namespace AgateLib.Gui.ThemeEngines
 			DrawStretchImage(location, size,
 				image, Scheme.ButtonStretchRegion);
 
+			if (button.Enabled)
+			{
+				if (button.MouseIn)
+				{
+					DrawStretchImage(location, size,
+						Scheme.ButtonHover, Scheme.ButtonStretchRegion);
+				}
+				if (button.HasFocus)
+				{
+					DrawStretchImage(location, size,
+						Scheme.ButtonFocus, Scheme.ButtonStretchRegion);
+				}
+			}
+
+			
 			// Draw button text
 			SetControlFontColor(button);
 
