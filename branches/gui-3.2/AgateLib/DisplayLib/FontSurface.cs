@@ -92,6 +92,8 @@ namespace AgateLib.DisplayLib
 			impl = Display.Impl.CreateFont(fontFamily, sizeInPoints, style);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+
+			System.Diagnostics.Debug.Assert(impl != null);
 		}
 		/// <summary>
 		/// Constructs a FontSurface object from a resource.
@@ -113,6 +115,8 @@ namespace AgateLib.DisplayLib
 				throw new AgateResourceException(string.Format(
 					"The resource {0} is of type {1} which cannot be used to construct a font.",
 					resourceName, res.GetType().Name));
+
+			System.Diagnostics.Debug.Assert(impl != null);
 		}
 		/// <summary>
 		/// Creates a bitmap font using the options passed in.  The Display driver
@@ -124,6 +128,8 @@ namespace AgateLib.DisplayLib
 			impl = Display.Impl.CreateFont(bitmapOptions);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+
+			System.Diagnostics.Debug.Assert(impl != null);
 		}
 
 		public string FontName 
@@ -136,6 +142,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="implToUse"></param>
 		private FontSurface(FontSurfaceImpl implToUse)
 		{
+			if (implToUse == null)
+				throw new ArgumentNullException("implToUse");
+
 			impl = implToUse;
 		}
 
