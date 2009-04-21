@@ -6,7 +6,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using System.Diagnostics;
 
-namespace AgateLib.Gui.ThemeEngines
+namespace AgateLib.Gui.ThemeEngines.Mercury
 {
 	public class Mercury : IGuiThemeEngine
 	{
@@ -74,9 +74,9 @@ namespace AgateLib.Gui.ThemeEngines
 
 		public int ThemeMargin(Widget widget)
 		{
-			if (widget is Button) return Scheme.ButtonMargin;
-			if (widget is CheckBox) return Scheme.CheckBoxMargin;
-			if (widget is TextBox) return Scheme.TextBoxMargin;
+			if (widget is Button) return Scheme.Button.Margin;
+			if (widget is CheckBox) return Scheme.CheckBox.Margin;
+			if (widget is TextBox) return Scheme.TextBox.Margin;
 
 			return 0;
 		}
@@ -87,28 +87,28 @@ namespace AgateLib.Gui.ThemeEngines
 
 		private void DrawTextBox(TextBox textBox)
 		{
-			Surface image = Scheme.TextBox;
+			Surface image = Scheme.TextBox.Image;
 
 			if (textBox.Enabled == false)
-				image = Scheme.TextBoxDisabled;
+				image = Scheme.TextBox.Disabled;
 
 			Point location = textBox.PointToScreen(new Point(0, 0));
 			Size size = textBox.Size;
 
 			DrawStretchImage(location, size,
-				image, Scheme.TextBoxStretchRegion);
+				image, Scheme.TextBox.StretchRegion);
 
 			if (textBox.Enabled)
 			{
 				if (textBox.HasFocus)
 				{
 					DrawStretchImage(location, size,
-						Scheme.TextBoxFocus, Scheme.TextBoxStretchRegion);
+						Scheme.TextBox.Focus, Scheme.TextBox.StretchRegion);
 				}
 				if (textBox.MouseIn)
 				{
 					DrawStretchImage(location, size,
-						Scheme.TextBoxHover, Scheme.TextBoxStretchRegion);
+						Scheme.TextBox.Hover, Scheme.TextBox.StretchRegion);
 				}
 			}
 
@@ -116,8 +116,8 @@ namespace AgateLib.Gui.ThemeEngines
 
 			SetControlFontColor(textBox);
 
-			location.X += Scheme.TextBoxStretchRegion.X;
-			location.Y += Scheme.TextBoxStretchRegion.Y;
+			location.X += Scheme.TextBox.StretchRegion.X;
+			location.Y += Scheme.TextBox.StretchRegion.Y;
 
 			Scheme.WidgetFont.DrawText(
 				location,
@@ -129,8 +129,8 @@ namespace AgateLib.Gui.ThemeEngines
 					textBox.Text.Substring(0, textBox.InsertionPoint));
 
 				Point loc = new Point(
-					size.Width + Scheme.TextBoxStretchRegion.X,
-					Scheme.TextBoxStretchRegion.Y);
+					size.Width + Scheme.TextBox.StretchRegion.X,
+					Scheme.TextBox.StretchRegion.Y);
 
 				loc = textBox.PointToScreen(loc);
 				loc.Y++;
@@ -159,7 +159,7 @@ namespace AgateLib.Gui.ThemeEngines
 
 			retval.Width = 40;
 			retval.Height = Scheme.WidgetFont.FontHeight;
-			retval.Height += Scheme.TextBox.SurfaceHeight - Scheme.TextBoxStretchRegion.Height;
+			retval.Height += Scheme.TextBox.Image.SurfaceHeight - Scheme.TextBox.StretchRegion.Height;
 
 			return retval;
 		}
@@ -187,9 +187,9 @@ namespace AgateLib.Gui.ThemeEngines
 			Surface surf;
 
 			if (checkbox.Enabled == false) 
-				surf = Scheme.CheckBoxDisabled;
+				surf = Scheme.CheckBox.Disabled;
 			else
-				surf = Scheme.CheckBox;
+				surf = Scheme.CheckBox.Image;
 
 			Point destPoint = checkbox.PointToScreen(
 				Origin.Calc(OriginAlignment.CenterLeft, checkbox.Size));
@@ -201,31 +201,31 @@ namespace AgateLib.Gui.ThemeEngines
 			{
 				if (checkbox.HasFocus)
 				{
-					Scheme.CheckBoxFocus.DisplayAlignment = OriginAlignment.CenterLeft;
-					Scheme.CheckBoxFocus.Draw(destPoint);
+					Scheme.CheckBox.Focus.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.CheckBox.Focus.Draw(destPoint);
 				}
 				if (checkbox.MouseIn)
 				{
-					Scheme.CheckBoxHover.DisplayAlignment = OriginAlignment.CenterLeft;
-					Scheme.CheckBoxHover.Draw(destPoint);
+					Scheme.CheckBox.Hover.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.CheckBox.Hover.Draw(destPoint);
 				}
 				if (checkbox.Checked)
 				{
-					Scheme.CheckBoxCheck.Color = Color.White;
-					Scheme.CheckBoxCheck.DisplayAlignment = OriginAlignment.CenterLeft;
-					Scheme.CheckBoxCheck.Draw(destPoint);
+					Scheme.CheckBox.Check.Color = Color.White;
+					Scheme.CheckBox.Check.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.CheckBox.Check.Draw(destPoint);
 				}
 			}
 			else if (checkbox.Checked)
 			{
-				Scheme.CheckBoxCheck.Color = Color.Gray;
-				Scheme.CheckBoxCheck.DisplayAlignment = OriginAlignment.CenterLeft;
-				Scheme.CheckBoxCheck.Draw(destPoint);
+				Scheme.CheckBox.Check.Color = Color.Gray;
+				Scheme.CheckBox.Check.DisplayAlignment = OriginAlignment.CenterLeft;
+				Scheme.CheckBox.Check.Draw(destPoint);
 			}
 
 			SetControlFontColor(checkbox);
 
-			destPoint.X += surf.DisplayWidth + Scheme.CheckBoxSpacing;
+			destPoint.X += surf.DisplayWidth + Scheme.CheckBox.Spacing;
 
 			Scheme.WidgetFont.DisplayAlignment = OriginAlignment.CenterLeft;
 			Scheme.WidgetFont.DrawText(destPoint, checkbox.Text);
@@ -233,18 +233,18 @@ namespace AgateLib.Gui.ThemeEngines
 		private Size CalcMinCheckBoxSize(CheckBox checkbox)
 		{
 			Size text = Scheme.WidgetFont.StringDisplaySize(checkbox.Text);
-			Size box = Scheme.CheckBox.SurfaceSize;
+			Size box = Scheme.CheckBox.Image.SurfaceSize;
 
 			return new Size(
-				box.Width + Scheme.CheckBoxSpacing + text.Width,
+				box.Width + Scheme.CheckBox.Spacing + text.Width,
 				Math.Max(box.Height, text.Height));
 		}
 		private bool HitTestCheckBox(CheckBox checkBox, Point screenLocation)
 		{
 			Point local = checkBox.PointToClient(screenLocation);
 
-			int right = Scheme.CheckBox.SurfaceWidth +
-					Scheme.WidgetFont.StringDisplayWidth(checkBox.Text) + Scheme.CheckBoxSpacing * 2;
+			int right = Scheme.CheckBox.Image.SurfaceWidth +
+					Scheme.WidgetFont.StringDisplayWidth(checkBox.Text) + Scheme.CheckBox.Spacing * 2;
 
 			if (local.X > right)
 				return false;
@@ -260,9 +260,9 @@ namespace AgateLib.Gui.ThemeEngines
 			Surface surf;
 
 			if (radiobutton.Enabled == false)
-				surf = Scheme.RadioButtonDisabled;
+				surf = Scheme.RadioButton.Disabled;
 			else
-				surf = Scheme.RadioButton;
+				surf = Scheme.RadioButton.Image;
 
 			Point destPoint = radiobutton.PointToScreen(
 				Origin.Calc(OriginAlignment.CenterLeft, radiobutton.Size));
@@ -274,31 +274,31 @@ namespace AgateLib.Gui.ThemeEngines
 			{
 				if (radiobutton.HasFocus)
 				{
-					Scheme.RadioButtonFocus.DisplayAlignment = OriginAlignment.CenterLeft;
-					Scheme.RadioButtonFocus.Draw(destPoint);
+					Scheme.RadioButton.Focus.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.RadioButton.Focus.Draw(destPoint);
 				}
 				if (radiobutton.MouseIn)
 				{
-					Scheme.RadioButtonHover.DisplayAlignment = OriginAlignment.CenterLeft;
-					Scheme.RadioButtonHover.Draw(destPoint);
+					Scheme.RadioButton.Hover.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.RadioButton.Hover.Draw(destPoint);
 				}
 				if (radiobutton.Checked)
 				{
-					Scheme.RadioButtonCheck.Color = Color.White;
-					Scheme.RadioButtonCheck.DisplayAlignment = OriginAlignment.CenterLeft;
-					Scheme.RadioButtonCheck.Draw(destPoint);
+					Scheme.RadioButton.Check.Color = Color.White;
+					Scheme.RadioButton.Check.DisplayAlignment = OriginAlignment.CenterLeft;
+					Scheme.RadioButton.Check.Draw(destPoint);
 				}
 			}
 			else if (radiobutton.Checked)
 			{
-				Scheme.RadioButtonCheck.Color = Scheme.FontColorDisabled;
-				Scheme.RadioButtonCheck.DisplayAlignment = OriginAlignment.CenterLeft;
-				Scheme.RadioButtonCheck.Draw(destPoint);
+				Scheme.RadioButton.Check.Color = Scheme.FontColorDisabled;
+				Scheme.RadioButton.Check.DisplayAlignment = OriginAlignment.CenterLeft;
+				Scheme.RadioButton.Check.Draw(destPoint);
 			}
 
 			SetControlFontColor(radiobutton);
 
-			destPoint.X += surf.DisplayWidth + Scheme.RadioButtonSpacing;
+			destPoint.X += surf.DisplayWidth + Scheme.RadioButton.Spacing;
 
 			Scheme.WidgetFont.DisplayAlignment = OriginAlignment.CenterLeft;
 			Scheme.WidgetFont.DrawText(destPoint, radiobutton.Text);
@@ -307,10 +307,10 @@ namespace AgateLib.Gui.ThemeEngines
 		private Size CalcMinRadioButtonSize(RadioButton radiobutton)
 		{
 			Size text = Scheme.WidgetFont.StringDisplaySize(radiobutton.Text);
-			Size box = Scheme.RadioButton.SurfaceSize;
+			Size box = Scheme.RadioButton.Image.SurfaceSize;
 
 			return new Size(
-				box.Width + Scheme.RadioButtonSpacing + text.Width,
+				box.Width + Scheme.RadioButton.Spacing + text.Width,
 				Math.Max(box.Height, text.Height));
 		}
 
@@ -319,8 +319,8 @@ namespace AgateLib.Gui.ThemeEngines
 		{
 			Point local = radioButton.PointToClient(screenLocation);
 
-			int right = Scheme.RadioButton.SurfaceWidth +
-					Scheme.WidgetFont.StringDisplayWidth(radioButton.Text) + Scheme.RadioButtonSpacing * 2;
+			int right = Scheme.RadioButton.Image.SurfaceWidth +
+					Scheme.WidgetFont.StringDisplayWidth(radioButton.Text) + Scheme.RadioButton.Spacing * 2;
 
 			if (local.X > right)
 				return false;
@@ -358,34 +358,34 @@ namespace AgateLib.Gui.ThemeEngines
 
 		private void DrawButton(Button button)
 		{
-			Surface image = Scheme.Button;
+			Surface image = Scheme.Button.Image;
 
 			bool isDefault = button.IsDefaultButton;
 
 			if (button.Enabled == false)
-				image = Scheme.ButtonDisabled;
+				image = Scheme.Button.Disabled;
 			else if (button.DrawActivated)
-				image = Scheme.ButtonPressed;
+				image = Scheme.Button.Pressed;
 			else if (isDefault)
-				image = Scheme.ButtonDefault;
+				image = Scheme.Button.Default;
 
 			Point location = button.PointToScreen(Point.Empty);
 			Size size = new Size(button.Width, button.Height);
 
 			DrawStretchImage(location, size,
-				image, Scheme.ButtonStretchRegion);
+				image, Scheme.Button.StretchRegion);
 
 			if (button.Enabled)
 			{
 				if (button.MouseIn)
 				{
 					DrawStretchImage(location, size,
-						Scheme.ButtonHover, Scheme.ButtonStretchRegion);
+						Scheme.Button.Hover, Scheme.Button.StretchRegion);
 				}
 				if (button.HasFocus)
 				{
 					DrawStretchImage(location, size,
-						Scheme.ButtonFocus, Scheme.ButtonStretchRegion);
+						Scheme.Button.Focus, Scheme.Button.StretchRegion);
 				}
 			}
 
@@ -412,11 +412,11 @@ namespace AgateLib.Gui.ThemeEngines
 		{
 			Size textSize = Scheme.WidgetFont.StringDisplaySize(button.Text);
 			Size buttonBorder = new Size(
-				Scheme.Button.SurfaceWidth - Scheme.ButtonStretchRegion.Width,
-				Scheme.Button.SurfaceHeight - Scheme.ButtonStretchRegion.Height);
+				Scheme.Button.Image.SurfaceWidth - Scheme.Button.StretchRegion.Width,
+				Scheme.Button.Image.SurfaceHeight - Scheme.Button.StretchRegion.Height);
 
-			textSize.Width += Scheme.ButtonTextPadding * 2;
-			textSize.Height += Scheme.ButtonTextPadding * 2;
+			textSize.Width += Scheme.Button.TextPadding * 2;
+			textSize.Height += Scheme.Button.TextPadding * 2;
 
 			return new Size(
 				textSize.Width + buttonBorder.Width,
@@ -452,7 +452,7 @@ namespace AgateLib.Gui.ThemeEngines
 			{
 				DrawStretchImage(window.Parent.PointToScreen(
 					new Point(window.Location.X, window.Location.Y + this.WindowTitlebarSize)),
-					window.Size, Scheme.WindowWithTitle, Scheme.WindowWithTitleStretchRegion);
+					window.Size, Scheme.Window.WithTitle, Scheme.Window.WithTitleStretchRegion);
 
 			}
 			else
@@ -480,11 +480,11 @@ namespace AgateLib.Gui.ThemeEngines
 			Point windowLocation = window.ScreenLocation;
 
 			DrawStretchImage(windowLocation,
-				new Size(window.Width, WindowTitlebarSize), Scheme.WindowTitleBar,
-				Scheme.WindowTitleBarStretchRegion);
+				new Size(window.Width, WindowTitlebarSize), Scheme.Window.TitleBar,
+				Scheme.Window.TitleBarStretchRegion);
 
 			Point fontPosition = new Point(windowLocation.X + 8, windowLocation.Y + 3);
-			if (Scheme.CenterTitle)
+			if (Scheme.Window.CenterTitle)
 			{
 				fontPosition.X = windowLocation.X + window.Width / 2;
 				fontPosition.Y = windowLocation.Y + WindowTitlebarSize / 2;
@@ -501,8 +501,8 @@ namespace AgateLib.Gui.ThemeEngines
 		}
 		protected virtual void DrawWindowDecorations(Window window)
 		{
-			Scheme.CloseButton.DisplayAlignment = OriginAlignment.TopRight;
-			Scheme.CloseButton.Draw(
+			Scheme.Window.CloseButton.DisplayAlignment = OriginAlignment.TopRight;
+			Scheme.Window.CloseButton.Draw(
 				new Point(window.ScreenLocation.X + window.Size.Width,
 					window.ScreenLocation.Y));
 		}
@@ -589,10 +589,10 @@ namespace AgateLib.Gui.ThemeEngines
 			if (widget.ShowTitleBar)
 			{
 				return new Rectangle(
-					Scheme.WindowWithTitleStretchRegion.Left,
-					Scheme.WindowWithTitleStretchRegion.Top + WindowTitlebarSize,
-					widget.Width - (Scheme.WindowWithTitle.SurfaceWidth - Scheme.WindowWithTitleStretchRegion.Width),
-					widget.Height - (Scheme.WindowWithTitle.SurfaceHeight - Scheme.WindowWithTitleStretchRegion.Height));
+					Scheme.Window.WithTitleStretchRegion.Left,
+					Scheme.Window.WithTitleStretchRegion.Top + WindowTitlebarSize,
+					widget.Width - (Scheme.Window.WithTitle.SurfaceWidth - Scheme.Window.WithTitleStretchRegion.Width),
+					widget.Height - (Scheme.Window.WithTitle.SurfaceHeight - Scheme.Window.WithTitleStretchRegion.Height));
 			}
 			else
 			{

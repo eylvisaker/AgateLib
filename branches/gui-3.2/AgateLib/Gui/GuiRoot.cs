@@ -12,7 +12,7 @@ namespace AgateLib.Gui
 {
 	public sealed class GuiRoot : Container
 	{
-		IGuiThemeEngine themeEngine = new ThemeEngines.Mercury();
+		IGuiThemeEngine themeEngine = new ThemeEngines.Mercury.Mercury();
 
 		public GuiRoot()
 		{
