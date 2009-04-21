@@ -115,7 +115,11 @@ namespace AgateLib
 		{
 			get
 			{
-				mInitParams = mInitParams ?? GetAppInitParameters();
+				if (mInitParams == null)
+				{
+					mInitParams = GetAppInitParameters();
+					AdjustAppInitParameters(ref mInitParams);
+				}
 				return mInitParams;
 			}
 		}
@@ -280,9 +284,18 @@ namespace AgateLib
 		/// Gets the initialization parameters.
 		/// </summary>
 		/// <returns></returns>
+		[Obsolete("Override AdjustAppInitParameters")]
 		protected virtual AppInitParameters GetAppInitParameters()
 		{
 			return new AppInitParameters();
+		}
+		/// <summary>
+		/// Adjusts the initialization parameters.
+		/// </summary>
+		/// <param name="initParams"></param>
+		protected virtual void AdjustAppInitParameters(ref AppInitParameters initParams)
+		{
+
 		}
 
 		protected virtual Size WindowSize { get { return new Size(800, 600); } }

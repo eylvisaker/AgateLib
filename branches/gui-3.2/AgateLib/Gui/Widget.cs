@@ -48,6 +48,8 @@ namespace AgateLib.Gui
 			}
 		}
 
+		public Cache.WidgetCache Cache { get; set; }
+
 		public virtual bool CanHaveFocus { get { return false; } }
 		public bool HasFocus
 		{

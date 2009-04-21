@@ -28,6 +28,7 @@ namespace AgateLib.Gui
 			this.Size = Display.RenderTarget.Size;
 
 			base.UpdateGui();
+			ThemeEngine.Update(this);
 		}
 		protected internal override void RecalcSizeRange()
 		{
@@ -61,7 +62,6 @@ namespace AgateLib.Gui
 		public void DoUpdate()
 		{
 			OnUpdate();
-			UpdateGui();
 		}
 		bool isRunning = false;
 

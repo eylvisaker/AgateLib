@@ -18,14 +18,16 @@ namespace Tests.GuiTests
 			new RenderGui().Run(args);
 		}
 
+		protected override void AdjustAppInitParameters(ref AppInitParameters initParams)
+		{
+			initParams.ShowSplashScreen = false;
+		}
 
 		protected override void Initialize()
 		{
 			this.GuiRoot = new GuiRoot();
 
 			CreateGui();
-			
-			
 		}
 
 		Label fps;
@@ -60,12 +62,8 @@ namespace Tests.GuiTests
 
 			for (int i = 0; i < 4; i++)
 			{
-				rightPanel.Children.Add(new RadioButton("Radio " + i.ToString()));
-
-				if (i % 2 == 1)
-					leftPanel.Children.Add(new Button("Button Left " + i.ToString()));
-				else
-					rightPanel.Children[i].Enabled = false;
+				rightPanel.Children.Add(new CheckBox("Check " + i.ToString()));
+				leftPanel.Children.Add(new Button("Button Left " + i.ToString()));
 			}
 
 			hideMouse = leftPanel.Children[0] as Button;

@@ -59,5 +59,7 @@ namespace AgateLib.Gui
 		/// <param name="screenLocation"></param>
 		/// <returns></returns>
 		bool HitTest(Widget widget, Point screenLocation);
+
+		void Update(GuiRoot guiRoot);
 	}
 }

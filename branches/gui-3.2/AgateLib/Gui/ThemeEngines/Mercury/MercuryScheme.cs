@@ -151,6 +151,10 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		}
 
 
+		public int InsertionPointHeight
+		{
+			get { return WidgetFont.FontHeight - 2; }
+		}
 		public int InsertionPointBlinkTime
 		{
 			get { return mInsertionPointBlinkTime; }
@@ -162,6 +166,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 				mInsertionPointBlinkTime = value;
 			}
 		}
+
 		public FontSurface WidgetFont { get; set; }
 		public FontSurface TitleFont { get; set; }
 		public int DropShadowSize { get; set; }

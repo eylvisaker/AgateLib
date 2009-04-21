@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using System.Diagnostics;
+using AgateLib.Gui.ThemeEngines.Mercury.Cache;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
@@ -20,6 +21,26 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		public MercuryScheme Scheme { get; set; }
 		public static bool DebugOutlines { get; set; }
+
+		#region --- Updates ---
+
+		public void Update(GuiRoot guiRoot)
+		{
+			UpdateCaches(guiRoot);
+		}
+
+		private void UpdateCaches(Container container)
+		{
+			foreach (var widget in container.Children)
+			{
+				if (widget is Container)
+					UpdateCaches((Container)widget);
+				else if (widget is TextBox)
+					UpdateCache((TextBox)widget);
+			}
+		}
+
+		#endregion
 
 		#region --- Interface Dispatchers ---
 
@@ -41,7 +62,6 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			if (widget is RadioButton) DrawRadioButton((RadioButton)widget);
 			if (widget is TextBox) DrawTextBox((TextBox)widget);
 		}
-
 
 		public Size RequestClientAreaSize(Container widget, Size clientSize)
 		{
@@ -81,9 +101,63 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			return 0;
 		}
 
+
 		#endregion
 
 		#region --- TextBox ---
+
+
+		private void UpdateCache(TextBox textBox)
+		{
+			if (textBox.Cache == null)
+				textBox.Cache = new TextBoxCache();
+
+			TextBoxCache c = (TextBoxCache)textBox.Cache;
+
+			if (c.Dirty == false)
+				return;
+
+			Size fixedSize = StretchRegionFixedSize(Scheme.TextBox.Image.SurfaceSize,
+				Scheme.TextBox.StretchRegion);
+
+			Size surfSize = new Size(textBox.Size.Width - fixedSize.Width,
+						 textBox.Size.Height - fixedSize.Height);
+
+			if (c.TextBoxSurface == null || c.TextBoxSurface.SurfaceSize != surfSize)
+			{
+				if (c.TextBoxSurface != null)
+					c.TextBoxSurface.Dispose();
+
+				c.TextBoxSurface = new Surface(surfSize);
+				c.Origin = Point.Empty;
+			}
+
+			Point ip = InsertionPointLocation(textBox);
+			ip.X -= Scheme.TextBox.StretchRegion.X;
+			ip.Y -= Scheme.TextBox.StretchRegion.Y;
+			int bottom = ip.Y + Scheme.InsertionPointHeight;
+
+			if (ip.Y < 0)
+				c.Origin.Y -= ip.Y;
+			if (bottom > surfSize.Height)
+				c.Origin.Y += bottom - surfSize.Height;
+			if (ip.X < 0)
+				c.Origin.X -= ip.X;
+			if (ip.X >= surfSize.Width)
+				c.Origin.X += ip.X - surfSize.Width + 1;
+
+			IRenderTarget old = Display.RenderTarget;
+			Display.RenderTarget = c.TextBoxSurface;
+			Display.BeginFrame();
+
+			Display.Clear(Color.FromArgb(0,0,0,0));
+
+			Scheme.WidgetFont.DrawText(-c.Origin.X, -c.Origin.Y, textBox.Text);
+
+			Display.EndFrame();
+			Display.RenderTarget = old;
+		}
+
 
 		private void DrawTextBox(TextBox textBox)
 		{
@@ -94,7 +168,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 			Point location = textBox.PointToScreen(new Point(0, 0));
 			Size size = textBox.Size;
-
+			
 			DrawStretchImage(location, size,
 				image, Scheme.TextBox.StretchRegion);
 
@@ -119,25 +193,55 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			location.X += Scheme.TextBox.StretchRegion.X;
 			location.Y += Scheme.TextBox.StretchRegion.Y;
 
-			Scheme.WidgetFont.DrawText(
-				location,
-				textBox.Text);
+			if (textBox.Cache == null)
+			{
+				Scheme.WidgetFont.DrawText(
+					location,
+					textBox.Text);
+			}
+			else
+			{
+				TextBoxCache c = (TextBoxCache)textBox.Cache;
+
+				c.TextBoxSurface.Draw(location);
+			}
 
 			if (textBox.HasFocus)
 			{
-				size = Scheme.WidgetFont.StringDisplaySize(
-					textBox.Text.Substring(0, textBox.InsertionPoint));
-
-				Point loc = new Point(
-					size.Width + Scheme.TextBox.StretchRegion.X,
-					Scheme.TextBox.StretchRegion.Y);
+				Point loc = InsertionPointLocation(textBox);
 
 				loc = textBox.PointToScreen(loc);
-				loc.Y++;
 
-				DrawInsertionPoint(textBox, loc, Scheme.WidgetFont.FontHeight - 2,
+				DrawInsertionPoint(textBox, loc, Scheme.InsertionPointHeight,
 					Timing.TotalMilliseconds - textBox.IPTime);
 			}
+		}
+
+		/// <summary>
+		/// Returns the local insertion point location in the textbox in pixels.
+		/// </summary>
+		/// <param name="textBox"></param>
+		/// <returns></returns>
+		private Point InsertionPointLocation(TextBox textBox)
+		{
+			Size sz = Scheme.WidgetFont.StringDisplaySize(
+							textBox.Text.Substring(0, textBox.InsertionPoint));
+
+			Point loc = new Point(
+				sz.Width + Scheme.TextBox.StretchRegion.X,
+				Scheme.TextBox.StretchRegion.Y);
+
+			TextBoxCache c = textBox.Cache as TextBoxCache;
+
+			if (c != null)
+			{
+				loc.X += c.Origin.X;
+				loc.Y += c.Origin.Y;
+			}
+
+			loc.Y++;
+
+			return loc;
 		}
 
 		private void DrawInsertionPoint(Widget widget, Point location, int size, double time)
@@ -520,6 +624,12 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		//    return false;
 		//}
 
+		private Size StretchRegionFixedSize(Size imageSize, Rectangle stretchRegion)
+		{
+			return new Size(
+				imageSize.Width - stretchRegion.Width,
+				imageSize.Height - stretchRegion.Height);
+		}
 
 		private void DrawStretchImage(Point loc, Size size,
 			Surface surface, Rectangle stretchRegion)
@@ -600,7 +710,6 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			}
 		}
 
-
 		private void SetControlFontColor(Widget widget)
 		{
 			if (widget.Enabled)
@@ -608,6 +717,5 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			else
 				Scheme.WidgetFont.Color = Scheme.FontColorDisabled;
 		}
-
 	}
 }

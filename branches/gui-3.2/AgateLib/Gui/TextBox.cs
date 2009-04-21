@@ -85,6 +85,8 @@ namespace AgateLib.Gui
 
 					break;
 			}
+
+			SetDirty();
 		}
 
 		protected internal override bool AcceptInputKey(AgateLib.InputLib.KeyCode keyCode)
@@ -112,7 +114,17 @@ namespace AgateLib.Gui
 					InsertionPoint = Text.Length;
 
 				ResetIPBlinking();
+
+				SetDirty();
 			}
+		}
+
+		private void SetDirty()
+		{
+			if (Cache == null)
+				return;
+
+			Cache.Dirty = true;
 		}
 
 		private void ResetIPBlinking()
