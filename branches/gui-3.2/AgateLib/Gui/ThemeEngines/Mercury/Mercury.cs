@@ -138,11 +138,11 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			int bottom = ip.Y + Scheme.InsertionPointHeight;
 
 			if (ip.Y < 0)
-				c.Origin.Y -= ip.Y;
+				c.Origin.Y += ip.Y;
 			if (bottom > surfSize.Height)
 				c.Origin.Y += bottom - surfSize.Height;
 			if (ip.X < 0)
-				c.Origin.X -= ip.X;
+				c.Origin.X += ip.X;
 			if (ip.X >= surfSize.Width)
 				c.Origin.X += ip.X - surfSize.Width + 1;
 
@@ -156,6 +156,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 			Display.EndFrame();
 			Display.RenderTarget = old;
+
+			c.Dirty = false;
 		}
 
 
@@ -193,7 +195,9 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			location.X += Scheme.TextBox.StretchRegion.X;
 			location.Y += Scheme.TextBox.StretchRegion.Y;
 
-			if (textBox.Cache == null)
+			TextBoxCache c = (TextBoxCache)textBox.Cache;
+
+			if (c == null || c.TextBoxSurface == null)
 			{
 				Scheme.WidgetFont.DrawText(
 					location,
@@ -201,8 +205,6 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			}
 			else
 			{
-				TextBoxCache c = (TextBoxCache)textBox.Cache;
-
 				c.TextBoxSurface.Draw(location);
 			}
 
@@ -227,16 +229,26 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			Size sz = Scheme.WidgetFont.StringDisplaySize(
 							textBox.Text.Substring(0, textBox.InsertionPoint));
 
+			int lines = 0;
+			if (textBox.MultiLine)
+			{
+				for (int i = 0; i < textBox.Text.Length; i++)
+				{
+					if (textBox.Text[i] == '\n')
+						lines++;
+				}
+			}
+
 			Point loc = new Point(
 				sz.Width + Scheme.TextBox.StretchRegion.X,
-				Scheme.TextBox.StretchRegion.Y);
+				lines * Scheme.WidgetFont.FontHeight + Scheme.TextBox.StretchRegion.Y);
 
 			TextBoxCache c = textBox.Cache as TextBoxCache;
 
 			if (c != null)
 			{
-				loc.X += c.Origin.X;
-				loc.Y += c.Origin.Y;
+				loc.X -= c.Origin.X;
+				loc.Y -= c.Origin.Y;
 			}
 
 			loc.Y++;

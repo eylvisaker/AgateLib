@@ -380,18 +380,7 @@ namespace AgateLib.Gui
 		private bool WidgetAcceptControlKey(ref Widget widget, InputEventArgs e)
 		{
 			return widget.AcceptInputKey(e.KeyCode);
-
-			//while (widget.AcceptInputKey(e.KeyCode) == false)
-			//{
-			//    widget = widget.Parent;
-
-			//    if (widget == this)
-			//        return false;
-			//}
-
-			//return true;
 		}
-
 
 		private void ProcessControlKey(InputEventArgs e)
 		{
@@ -412,7 +401,16 @@ namespace AgateLib.Gui
 				case KeyCode.Right:
 					MoveFocus(Direction.Right);
 					break;
+
+				case KeyCode.Return:
+					ClickDefaultButton();
+					break;
 			}
+		}
+
+		private void ClickDefaultButton()
+		{
+			// TODO: implmement this method
 		}
 
 		private void MoveFocus(Direction direction)
@@ -451,7 +449,6 @@ namespace AgateLib.Gui
 				return;
 
 			SetFocusControl(newFocus, direction, WidgetPoint(focusControl));
-
 		}
 
 		private Point WidgetPoint(Widget focusControl)
@@ -472,6 +469,7 @@ namespace AgateLib.Gui
 				case KeyCode.Left:
 				case KeyCode.Down:
 				case KeyCode.Right:
+				case KeyCode.Return:
 				case KeyCode.Tab:
 					return widget.AcceptInputKey(e.KeyCode);
 			}
@@ -487,6 +485,7 @@ namespace AgateLib.Gui
 				case KeyCode.Left:
 				case KeyCode.Down:
 				case KeyCode.Right:
+				case KeyCode.Return:
 				case KeyCode.Tab:
 					return true;
 			}

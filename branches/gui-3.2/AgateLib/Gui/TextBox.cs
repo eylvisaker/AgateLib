@@ -30,6 +30,16 @@ namespace AgateLib.Gui
 
 			switch (e.KeyCode)
 			{
+				case AgateLib.InputLib.KeyCode.Shift:
+				case AgateLib.InputLib.KeyCode.ShiftLeft:
+				case AgateLib.InputLib.KeyCode.ShiftRight:
+				case AgateLib.InputLib.KeyCode.Control:
+				case AgateLib.InputLib.KeyCode.ControlLeft:
+				case AgateLib.InputLib.KeyCode.ControlRight:
+				case AgateLib.InputLib.KeyCode.Alt:
+				case AgateLib.InputLib.KeyCode.CapsLock:
+					return;
+
 				case AgateLib.InputLib.KeyCode.Left:
 					InsertionPoint--;
 					break;
@@ -88,7 +98,6 @@ namespace AgateLib.Gui
 
 			SetDirty();
 		}
-
 		protected internal override bool AcceptInputKey(AgateLib.InputLib.KeyCode keyCode)
 		{
 			switch (keyCode)
@@ -96,6 +105,14 @@ namespace AgateLib.Gui
 				case AgateLib.InputLib.KeyCode.Left:
 				case AgateLib.InputLib.KeyCode.Right:
 					return true;
+				case AgateLib.InputLib.KeyCode.Up:
+				case AgateLib.InputLib.KeyCode.Down:
+				case AgateLib.InputLib.KeyCode.Enter:
+					if (MultiLine)
+						return true;
+					else
+						return false;
+
 				default:
 					return false;
 			}
@@ -135,5 +152,6 @@ namespace AgateLib.Gui
 
 		internal double IPTime { get; set; }
 
+		public bool MultiLine { get; set; }
 	}
 }
