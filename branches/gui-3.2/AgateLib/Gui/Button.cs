@@ -12,6 +12,7 @@ namespace AgateLib.Gui
 		public Button(string text) { Name = text; Text = text; }
 
 		bool mouseDownIn = false;
+		bool spaceDownFocus = false;
 
 		public override bool CanHaveFocus
 		{
@@ -37,6 +38,25 @@ namespace AgateLib.Gui
 			}
 		}
 
+		protected internal override void OnKeyDown(InputEventArgs e)
+		{
+			if (e.KeyCode == KeyCode.Space)
+			{
+				spaceDownFocus = true;
+			}
+
+			base.OnKeyDown(e);
+		}
+		protected internal override void OnKeyUp(InputEventArgs e)
+		{
+			if (e.KeyCode == KeyCode.Space)
+			{
+				spaceDownFocus = false;
+				OnClick();
+			}
+
+			base.OnKeyUp(e);
+		}
 		protected internal override void OnMouseDown(InputEventArgs e)
 		{
 			if (Enabled == false)
