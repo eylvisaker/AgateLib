@@ -23,7 +23,7 @@ namespace AgateLib.Gui
 		}
 		internal bool DrawActivated
 		{
-			get { return mouseDownIn && MouseIn; }
+			get { return mouseDownIn && MouseIn || spaceDownFocus; }
 		}
 		internal bool IsDefaultButton
 		{
