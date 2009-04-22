@@ -378,7 +378,11 @@ namespace AgateLib.DisplayLib
 			return impl.EnumScreenModes();
 		}
 
-
+		internal static bool EnableAlphaBlend
+		{
+			get { return impl.EnableAlphaBlend; }
+			set { impl.EnableAlphaBlend = value; }
+		}
 
 		/// <summary>
 		/// Event fired when PackAllSurfacesEvent

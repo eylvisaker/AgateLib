@@ -837,5 +837,18 @@ namespace AgateMDX
 		}
 
 		#endregion
+
+		protected override bool EnableAlphaBlend
+		{
+			get
+			{
+				return mDevice.AlphaBlend;
+			}
+			set
+			{
+				FlushDrawBuffer();
+				mDevice.AlphaBlend = value;
+			}
+		}
 	}
 }

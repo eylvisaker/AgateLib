@@ -45,6 +45,8 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		private Stack<Geometry.Rectangle> mClipRects = new Stack<Geometry.Rectangle>();
 		private Geometry.Rectangle mCurrentClipRect;
 
+		bool mEnableAlphaBlend = true;
+
 		#endregion
 
 		#region --- Events and Event Handlers ---
@@ -201,6 +203,7 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		protected override void OnBeginFrame()
 		{
 			mGraphics = Graphics.FromImage(mRenderTarget.BackBuffer);
+			SetAlphaBlend();
 		}
 		protected override void OnEndFrame()
 		{
@@ -239,6 +242,28 @@ namespace AgateLib.DisplayLib.SystemDrawing
 
 
 		#endregion
+
+		protected override bool EnableAlphaBlend
+		{
+			get
+			{
+				return mEnableAlphaBlend;
+			}
+			set
+			{
+				FlushDrawBuffer();
+				mEnableAlphaBlend = value;
+
+				SetAlphaBlend();
+			}
+		}
+		private void SetAlphaBlend()
+		{
+			if (EnableAlphaBlend)
+				mGraphics.CompositingMode = CompositingMode.SourceOver;
+			else
+				mGraphics.CompositingMode = CompositingMode.SourceCopy;
+		}
 
 		protected override void ProcessEvents()
 		{

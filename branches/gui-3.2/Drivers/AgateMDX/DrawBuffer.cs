@@ -98,7 +98,6 @@ namespace AgateMDX
 				return;
 
 			mDevice.SetDeviceStateTexture(mTexture);
-			mDevice.AlphaBlend = mAlphaBlend;
 			mDevice.VertexFormat = PositionColorNormalTexture.Format;
 
 			try

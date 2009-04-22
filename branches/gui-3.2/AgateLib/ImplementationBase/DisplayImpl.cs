@@ -69,6 +69,11 @@ namespace AgateLib.ImplementationBase
 		public abstract PixelFormat DefaultSurfaceFormat { get; }
 
 		/// <summary>
+		/// Hack to make fonts in GUI work better.
+		/// </summary>
+		internal protected abstract  bool EnableAlphaBlend { get; set; }
+
+		/// <summary>
 		/// Event raised when the current render target is changed.
 		/// </summary>
 		/// <param name="oldRenderTarget"></param>

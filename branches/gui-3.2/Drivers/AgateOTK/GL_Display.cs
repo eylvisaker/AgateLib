@@ -44,6 +44,7 @@ namespace AgateOTK
 		private int mMaxLightsUsed = 0;
 		private bool mSupportsFramebuffer;
 		private bool mNonPowerOf2Textures;
+		bool mEnableAlphaBlend = true;
 
 		public bool NonPowerOf2Textures
 		{
@@ -135,6 +136,7 @@ namespace AgateOTK
 		protected override void OnBeginFrame()
 		{
 			mRenderTarget.BeginRender();
+			SetAlphaBlend();
 		}
 
 		protected override void OnEndFrame()
@@ -197,7 +199,7 @@ namespace AgateOTK
 		{
 			mState.DrawBuffer.Flush();
 
-			GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, 1.0f);
+			GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
 			GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
 		}
 
@@ -610,5 +612,27 @@ namespace AgateOTK
 		#endregion
 
 		#endregion
+
+		protected override bool EnableAlphaBlend
+		{
+			get
+			{
+				return mEnableAlphaBlend;
+			}
+			set
+			{
+				mEnableAlphaBlend = value;
+				FlushDrawBuffer();
+				SetAlphaBlend();
+			}
+		}
+
+		private void SetAlphaBlend()
+		{
+			if (mEnableAlphaBlend)
+				GL.Enable(EnableCap.Blend);
+			else
+				GL.Disable(EnableCap.Blend);
+		}
 	}
 }
