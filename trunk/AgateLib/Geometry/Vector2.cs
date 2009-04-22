@@ -184,5 +184,27 @@ namespace AgateLib.Geometry
 		{
 			return a.X * b.X + a.Y * b.Y;
 		}
+
+		/// <summary>
+		/// Computes and returns the angle between two vectors.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static float AngleBetween(Vector2 a, Vector2 b)
+		{
+			return (float)Math.Acos(DotProduct(a, b) / (a.Magnitude * b.Magnitude));
+		}
+
+		/// <summary>
+		/// Computes and returns the distance between two points.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static float DistanceBetween(Vector2 a, Vector2 b)
+		{
+			return (a - b).Magnitude;
+		}
 	}
 }
