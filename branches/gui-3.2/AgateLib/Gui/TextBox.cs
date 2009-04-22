@@ -148,10 +148,15 @@ namespace AgateLib.Gui
 		{
 			IPTime = Timing.TotalMilliseconds;
 		}
-		//public bool MultiLine { get; set; }
 
 		internal double IPTime { get; set; }
 
 		public bool MultiLine { get; set; }
+
+		protected internal override void OnEnabledChanged()
+		{
+			base.OnEnabledChanged();
+			SetDirty();
+		}
 	}
 }
