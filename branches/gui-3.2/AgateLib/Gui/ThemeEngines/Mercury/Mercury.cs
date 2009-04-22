@@ -148,14 +148,21 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 			IRenderTarget old = Display.RenderTarget;
 			Display.RenderTarget = c.TextBoxSurface;
+			Display.EnableAlphaBlend = false;
 			Display.BeginFrame();
 
 			Display.Clear(Color.FromArgb(0,0,0,0));
+
+			if (textBox.Enabled)
+				Scheme.WidgetFont.Color = Scheme.FontColor;
+			else
+				Scheme.WidgetFont.Color = Scheme.FontColorDisabled;
 
 			Scheme.WidgetFont.DrawText(-c.Origin.X, -c.Origin.Y, textBox.Text);
 
 			Display.EndFrame();
 			Display.RenderTarget = old;
+			Display.EnableAlphaBlend = true;
 
 			c.Dirty = false;
 		}
