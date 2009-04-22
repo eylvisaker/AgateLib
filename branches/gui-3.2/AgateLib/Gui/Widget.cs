@@ -148,7 +148,11 @@ namespace AgateLib.Gui
 		public bool Enabled
 		{
 			get { return mEnabled; }
-			set { mEnabled = value; }
+			set
+			{
+				mEnabled = value;
+				OnEnabledChanged();
+			}
 		}
 
 		public Point Location
@@ -385,6 +389,8 @@ namespace AgateLib.Gui
 		protected internal virtual void OnKeyUp(InputEventArgs e) { }
 		protected internal virtual void OnMouseEnter() { }
 		protected internal virtual void OnMouseLeave() { }
+
+		protected internal virtual void OnEnabledChanged() { }
 
 		public bool ContainsScreenPoint(Point screenMousePoint)
 		{
