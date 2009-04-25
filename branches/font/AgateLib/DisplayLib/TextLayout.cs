@@ -29,23 +29,17 @@ namespace AgateLib.DisplayLib
 
 	public abstract class LayoutItem
 	{
-		PointF mLocation;
-
 		public abstract void Draw();
-		public virtual PointF Location
-		{
-			get { return mLocation; }
-			set { mLocation = value; }
-		}
+		public abstract PointF Location { get; set; }
 		public float X
 		{
-			get { return mLocation.X; }
-			set { mLocation.X = value; }
+			get { return Location.X; }
+			set { Location = new PointF(value, Location.Y); }
 		}
 		public float Y
 		{
-			get { return mLocation.Y; }
-			set { mLocation.Y = value; }
+			get { return Location.Y; }
+			set { Location = new PointF(Location.X, value); }
 		}
 		public int LineIndex { get; set; }
 	}
@@ -68,12 +62,19 @@ namespace AgateLib.DisplayLib
 		{
 			Font.DrawText(State);
 		}
+
+		public override string ToString()
+		{
+			return string.Format(
+				"LayoutText: {0}; {1}", Location, Text);
+		}
 	}
 	public class LayoutSurface : LayoutItem
 	{
 		public ISurface Surface { get; set; }
 		public SurfaceState State { get; set; }
-		
+		public override PointF Location { get; set; }
+
 		public static bool DebugRects;
 
 		public override void Draw()
@@ -90,4 +91,48 @@ namespace AgateLib.DisplayLib
 				Display.DrawRect(new Rectangle(Point.Round(Location), Surface.DisplaySize), Color.Blue);
 		}
 	}
+
+	public abstract class AlterFont
+	{
+		protected internal abstract void ModifyState(FontState state);
+
+		class AlterTextColor : AlterFont 
+		{
+			Color clr;
+			public AlterTextColor(Color newColor)
+			{
+				clr = newColor;
+			}
+
+			protected internal override void ModifyState(FontState state)
+			{
+				state.Color = clr;
+			}
+		}
+		class AlterTextScale : AlterFont
+		{
+			double width, height;
+
+			public AlterTextScale(double width, double height)
+			{
+				this.width = width;
+				this.height = height;
+			}
+			protected internal override void ModifyState(FontState state)
+			{
+				state.ScaleWidth = width;
+				state.ScaleHeight = height;
+			}
+		}
+
+		public static AlterFont Color(Color newColor)
+		{
+			return new AlterTextColor(newColor);
+		}
+		public static AlterFont Scale(double scaleWidth, double scaleHeight)
+		{
+			return new AlterTextScale(scaleWidth, scaleHeight);
+		}
+	}
+
 }

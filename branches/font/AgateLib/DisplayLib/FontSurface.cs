@@ -292,7 +292,17 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public Size StringDisplaySize(string text) 
 		{
-			return impl.StringDisplaySize(mState, text); 
+			return impl.StringDisplaySize(mState, text);
+		}
+		/// <summary>
+		/// Measures the display size of the specified string, using the specified state information.
+		/// </summary>
+		/// <param name="state"></param>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		public Size StringDisplaySize(FontState state, string text)
+		{
+			return impl.StringDisplaySize(state, text);
 		}
 
 		/// <summary>
@@ -377,12 +387,23 @@ namespace AgateLib.DisplayLib
 
 		public void DrawText(int destX, int destY, string formatString, params object[] args)
 		{
+			TextLayout layout = CreateLayout(formatString, args);
+
+			layout.Translate(new Point(destX, destY));
+			layout.DrawAll();
+		}
+
+		public TextLayout CreateLayout(string formatString, object[] args)
+		{
 			var matches = substituteMatch.Matches(formatString);
 
 			if (matches.Count == 0)
 			{
-				DrawText(destX, destY, formatString);
-				return;
+				return new TextLayout 
+				{ 
+					new LayoutText { Font =this, LineIndex = 0, Text = formatString}
+				};
+				
 			}
 
 			int lastIndex = 0;
@@ -395,6 +416,7 @@ namespace AgateLib.DisplayLib
 			int lineHeight = FontHeight;
 			int spaceAboveLine = 0;
 			int lineIndex = 0;
+			AlterFont currentAlterText = null;
 
 			for (int i = 0; i < matches.Count; i++)
 			{
@@ -404,7 +426,9 @@ namespace AgateLib.DisplayLib
 
 				if (format == "\r\n" || format == "\n")
 				{
-					PushLayoutText(lineIndex, layout, ref dest, result);
+					PushLayoutText(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
+						result, currentAlterText);
+
 					result = string.Empty;
 
 					ShiftLine(layout, spaceAboveLine, lineIndex);
@@ -426,11 +450,25 @@ namespace AgateLib.DisplayLib
 
 					if (obj is ISurface)
 					{
-						PushLayoutText(lineIndex, layout, ref dest, result);
-						PushLayoutImage(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine, (ISurface)obj);
+						PushLayoutText(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
+							result, currentAlterText);
+
+						PushLayoutImage(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine, 
+							(ISurface)obj);
+
 						result = string.Empty;
 					}
-					else
+					else if (obj is AlterFont)
+					{
+						// push text with the old state
+						PushLayoutText(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
+							result, currentAlterText);
+
+						// store the new alter object to affect the state of the next block.
+						currentAlterText = (AlterFont)obj;
+						result = string.Empty;
+					}
+					else 
 					{
 						result += ConvertToString(obj, format);
 					}
@@ -439,11 +477,12 @@ namespace AgateLib.DisplayLib
 			}
 
 			result += formatString.Substring(lastIndex);
-			PushLayoutText(lineIndex, layout, ref dest, result);
+			PushLayoutText(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
+				result, currentAlterText);
+
 			ShiftLine(layout, spaceAboveLine, lineIndex);
 
-			layout.Translate(new Point(destX, destY));
-			layout.DrawAll();
+			return layout;
 		}
 
 		private static void ShiftLine(TextLayout layout, int lineShift, int lineIndex)
@@ -455,8 +494,9 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
-		private void PushLayoutImage(int lineIndex, TextLayout layout, ref PointF dest, ref int lineHeight,
-			ref int spaceAboveLine, ISurface surface)
+		private void PushLayoutImage(int lineIndex, TextLayout layout, 
+			ref PointF dest, ref int lineHeight,ref int spaceAboveLine, 
+			ISurface surface)
 		{
 			int newSpaceAbove;
 			LayoutSurface t = new LayoutSurface { Location = dest, Surface = surface, LineIndex = lineIndex };
@@ -489,7 +529,9 @@ namespace AgateLib.DisplayLib
 			layout.Add(t);
 		}
 
-		private void PushLayoutText(int lineIndex, TextLayout layout, ref PointF dest, string text)
+		private void PushLayoutText(int lineIndex, TextLayout layout, 
+			ref PointF dest, ref int lineHeight, ref int spaceAboveLine,
+			string text, AlterFont alter)
 		{
 			if (string.IsNullOrEmpty(text))
 				return;
@@ -503,14 +545,22 @@ namespace AgateLib.DisplayLib
 				LineIndex = lineIndex 
 			};
 
-			layout.Add(t);
+			if (alter != null)
+			{
+				alter.ModifyState(t.State);
+			}
 
-			var size = StringDisplaySize(text);
+			var size = StringDisplaySize(t.State, text);
 			var update = Origin.Calc(DisplayAlignment, size);
 
-			dest.X += size.Width;
-		}
+			int newSpaceAbove = size.Height - FontHeight;
+			t.Y -= newSpaceAbove;
+			spaceAboveLine = Math.Max(spaceAboveLine, newSpaceAbove);
 
+			dest.X += size.Width;
+
+			layout.Add(t);
+		}
 
 		private string ConvertToString(object obj, string format)
 		{

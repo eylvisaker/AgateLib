@@ -205,6 +205,7 @@ namespace AgateLib.BitmapFont
 			}
 
 			// measure height
+			i = 0;
 			do
 			{
 				i = text.IndexOf('\n', i + 1);
