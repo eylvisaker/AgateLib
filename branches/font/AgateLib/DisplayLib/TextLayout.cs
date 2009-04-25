@@ -73,11 +73,17 @@ namespace AgateLib.DisplayLib
 	{
 		public ISurface Surface { get; set; }
 		public SurfaceState State { get; set; }
-
+		
 		public static bool DebugRects;
 
 		public override void Draw()
 		{
+			if (State == null)
+				State = Surface.State.Clone();
+
+			State.DrawInstances.SetCount(1);
+			State.DrawInstances[0] = new SurfaceDrawInstance(Location);
+
 			this.Surface.Draw(State);
 			
 			if (DebugRects)
