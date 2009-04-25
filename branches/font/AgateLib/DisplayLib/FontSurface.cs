@@ -201,7 +201,7 @@ namespace AgateLib.DisplayLib
 				if (value == null)
 					throw new ArgumentNullException("Cannot set state to a null value.  If you wish to reset the state, set it to a new FontState object.");
 
-				mState = value; 
+				mState = value;
 			}
 		}
 		/// <summary>
@@ -272,7 +272,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public int StringDisplayWidth(string text) 
+		public int StringDisplayWidth(string text)
 		{
 			return StringDisplaySize(text).Width;
 		}
@@ -281,7 +281,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public int StringDisplayHeight(string text) 
+		public int StringDisplayHeight(string text)
 		{
 			return StringDisplaySize(text).Height;
 		}
@@ -290,7 +290,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public Size StringDisplaySize(string text) 
+		public Size StringDisplaySize(string text)
 		{
 			return impl.StringDisplaySize(mState, text);
 		}
@@ -390,7 +390,7 @@ namespace AgateLib.DisplayLib
 				{ 
 					new LayoutText { Font =this, LineIndex = 0, Text = formatString}
 				};
-				
+
 			}
 
 			int lastIndex = 0;
@@ -494,8 +494,8 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
-		private void PushLayoutImage(int lineIndex, TextLayout layout, 
-			ref PointF dest, ref int lineHeight,ref int spaceAboveLine, 
+		private void PushLayoutImage(int lineIndex, TextLayout layout,
+			ref PointF dest, ref int lineHeight, ref int spaceAboveLine,
 			ISurface surface)
 		{
 			int newSpaceAbove;
@@ -529,20 +529,20 @@ namespace AgateLib.DisplayLib
 			layout.Add(t);
 		}
 
-		private void PushLayoutText(int lineIndex, TextLayout layout, 
+		private void PushLayoutText(int lineIndex, TextLayout layout,
 			ref PointF dest, ref int lineHeight, ref int spaceAboveLine,
 			string text, AlterFont alter)
 		{
 			if (string.IsNullOrEmpty(text))
 				return;
 
-			LayoutText t = new LayoutText 
+			LayoutText t = new LayoutText
 			{
-				Font = this, 
+				Font = this,
 				State = State.Clone(),
-				Location = dest, 
-				Text = text, 
-				LineIndex = lineIndex 
+				Location = dest,
+				Text = text,
+				LineIndex = lineIndex
 			};
 
 			if (alter != null)
