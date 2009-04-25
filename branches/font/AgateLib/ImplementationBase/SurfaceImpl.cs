@@ -56,10 +56,7 @@ namespace AgateLib.ImplementationBase
 
         #region --- Drawing the surface to the screen ---
 
-		public virtual void Draw(SurfaceState state)
-		{
-			throw new NotImplementedException();
-		}
+		public abstract void Draw(SurfaceState state);
 
 		#endregion
 
