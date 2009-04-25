@@ -1,4 +1,4 @@
-//     The contents of this file are subject to the Mozilla Public License
+﻿//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -18,33 +18,29 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-using AgateLib.Drivers;
-using AgateLib.ImplementationBase;
-
-namespace AgateLib.Drivers
+namespace AgateLib.DisplayLib.Cache
 {
-	class NullInputImpl : InputImpl
+	public abstract class FontStateCache
 	{
-		public override void Initialize()
+		protected internal abstract FontStateCache Clone();
+
+		protected internal virtual void OnTextChanged(FontState fontState)
 		{
-			Report("No input driver found.  Joysticks will not work.");
 		}
-
-		public override void Dispose()
+		protected internal virtual void OnLocationChanged(FontState fontState)
 		{
-
 		}
-
-		public override int JoystickCount
+		protected internal virtual void OnDisplayAlignmentChanged(FontState fontState)
 		{
-			get { return 0; }
 		}
-
-		public override IEnumerable<JoystickImpl> CreateJoysticks()
+		protected internal virtual void OnColorChanged(FontState fontState)
 		{
-			return new List<JoystickImpl>();
+		}
+		protected internal virtual void OnScaleChanged(FontState fontState)
+		{
 		}
 	}
 }

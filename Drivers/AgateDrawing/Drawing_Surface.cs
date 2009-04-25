@@ -119,72 +119,79 @@ namespace AgateLib.DisplayLib.SystemDrawing
 					Interop.Convert(mImage.Size));
 			}
 		}
-		protected Geometry.Rectangle DestRect(int dest_x, int dest_y, Geometry.Rectangle srcRect)
+		protected Geometry.Rectangle DestRect(int dest_x, int dest_y, Geometry.Rectangle srcRect, double ScaleWidth, double ScaleHeight)
 		{
 			return new Geometry.Rectangle(dest_x, dest_y,
 				(int)(srcRect.Width * ScaleWidth),
 				(int)(srcRect.Height * ScaleHeight));
 		}
+
 		#endregion
 		#region --- Draw to Screen Methods ---
 
-		public override void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
+		public override void Draw(SurfaceState state)
 		{
-			Draw(destX, destY, SrcRect, rotationCenterX, rotationCenterY);
+			for (int i = 0; i < state.DrawInstances.Count; i++)
+			{
+				Draw(state, state.DrawInstances[i]);
+			}
 		}
-		public override void Draw(float destX, float destY, Geometry.Rectangle srcRect, float rotationCenterX, float rotationCenterY)
+
+		private void Draw(SurfaceState s, SurfaceDrawInstance inst)
 		{
 			mDisplay.CheckInFrame("Surface.Draw");
-
-			PointF destPt = new PointF(destX, destY);
-
-
 			System.Diagnostics.Debug.Assert(mImage != null);
 
+			Geometry.SizeF displaySize = s.GetDisplaySize(SurfaceSize);
+			Geometry.PointF rotationCenter = s.GetRotationCenter(displaySize);
+			
 			Drawing_Display disp = Display.Impl as Drawing_Display;
 			Graphics g = disp.FrameGraphics;
 			GraphicsState state = g.Save();
-			Geometry.PointF translatePoint = Origin.CalcF(DisplayAlignment, DisplaySize);
+			Geometry.PointF translatePoint = Origin.CalcF(s.DisplayAlignment, displaySize);
 
-
-			if (DisplaySize.Width < 0)
+			if (displaySize.Width < 0)
 			{
-				translatePoint.X += DisplaySize.Width;
-				rotationCenterX += DisplaySize.Width;
+				translatePoint.X += displaySize.Width;
+				rotationCenter.X += displaySize.Width;
+			}
+			if (displaySize.Height < 0)
+			{
+				translatePoint.Y += displaySize.Height;
+				rotationCenter.Y += displaySize.Height;
 			}
 
-			if (DisplaySize.Height < 0)
+			if (s.RotationAngle != 0)
 			{
-				translatePoint.Y += DisplaySize.Height;
-				rotationCenterY += DisplaySize.Height;
+				// translate to rotation point, rotate, and translate back.
+				// System.Drawing rotates Clockwise!  So we must reverse the
+				// rotation angle.
+				g.TranslateTransform(-rotationCenter.X, -rotationCenter.Y, MatrixOrder.Append);
+				g.RotateTransform(-(float)s.RotationAngleDegrees, MatrixOrder.Append);
+				g.TranslateTransform(rotationCenter.X, rotationCenter.Y, MatrixOrder.Append);
 			}
 
-			// translate to rotation point, rotate, and translate back.
-			// System.Drawing rotates Clockwise!  So we must reverse the
-			// rotation angle.
-			g.TranslateTransform(-rotationCenterX, -rotationCenterY, MatrixOrder.Append);
-			g.RotateTransform(-(float)RotationAngleDegrees, MatrixOrder.Append);
-			g.TranslateTransform(rotationCenterX, rotationCenterY, MatrixOrder.Append);
+			g.TranslateTransform(inst.DestLocation.X - translatePoint.X,
+								 inst.DestLocation.Y - translatePoint.Y, MatrixOrder.Append);
 
 			SetInterpolation(g);
 
-			g.TranslateTransform(destPt.X - translatePoint.X,
-								 destPt.Y - translatePoint.Y, MatrixOrder.Append);
+			Geometry.Rectangle srcRect = inst.GetSourceRect(SurfaceSize);
 
-			if (Color != Geometry.Color.White)
+			if (s.Color != Geometry.Color.White)
 			{
 				ImageAttributes imageAttributes = new ImageAttributes();
 
 				ColorMatrix colorMatrix = new ColorMatrix(new float[][]{
-                   new float[] { Color.R / 255.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-                   new float[] { 0.0f, Color.G / 255.0f, 0.0f, 0.0f, 0.0f },
-                   new float[] { 0.0f, 0.0f, Color.B / 255.0f, 0.0f, 0.0f },
-                   new float[] { 0.0f, 0.0f, 0.0f, (float)Alpha, 0.0f },
+                   new float[] { s.Color.R / 255.0f, 0.0f, 0.0f, 0.0f, 0.0f },
+                   new float[] { 0.0f, s.Color.G / 255.0f, 0.0f, 0.0f, 0.0f },
+                   new float[] { 0.0f, 0.0f, s.Color.B / 255.0f, 0.0f, 0.0f },
+                   new float[] { 0.0f, 0.0f, 0.0f, (float)s.Alpha, 0.0f },
                    new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f} });
 
 				imageAttributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-				g.DrawImage(mImage, Interop.Convert(DestRect(0, 0, srcRect)),
+				g.DrawImage(mImage, Interop.Convert(DestRect(0, 0, srcRect, s.ScaleWidth, s.ScaleHeight)),
 					srcRect.X,
 					srcRect.Y,
 					srcRect.Width,
@@ -195,7 +202,7 @@ namespace AgateLib.DisplayLib.SystemDrawing
 			}
 			else
 			{
-				g.DrawImage(mImage, Interop.Convert(DestRect(0, 0, srcRect)),
+				g.DrawImage(mImage, Interop.Convert(DestRect(0, 0, srcRect, s.ScaleWidth, s.ScaleHeight)),
 					srcRect.X,
 					srcRect.Y,
 					srcRect.Width,
@@ -223,47 +230,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 					break;
 			}
 		}
-		public override void Draw(Geometry.Rectangle destRect)
-		{
-			Draw(SrcRect, destRect);
-		}
-		public override void Draw(Geometry.RectangleF srcRect, Geometry.RectangleF destRect)
-		{
-			mDisplay.CheckInFrame("Surface.Draw");
-			System.Diagnostics.Debug.Assert(mImage != null);
-
-			Graphics g = mDisplay.FrameGraphics;
-
-			g.DrawImage(mImage, Interop.Convert(destRect),
-				Interop.Convert(srcRect), GraphicsUnit.Pixel);
-		}
-		public override void DrawRects(Geometry.Rectangle[] src_rects, Geometry.Rectangle[] dest_rects, int start, int length)
-		{
-			mDisplay.CheckInFrame("Surface.Draw");
-			System.Diagnostics.Debug.Assert(mImage != null);
-
-			if (src_rects.Length > dest_rects.Length)
-				return;
-
-			for (int i = start; i < start + length; i++)
-				Draw(src_rects[i], dest_rects[i]);
-		}
-		public override void DrawPoints(Geometry.Point[] destPts)
-		{
-			mDisplay.CheckInFrame("Surface.Draw");
-			System.Diagnostics.Debug.Assert(mImage != null);
-
-			Drawing_Display disp = Display.Impl as Drawing_Display;
-			Graphics g = disp.FrameGraphics;
-
-			Point[] pts = new Point[destPts.Length];
-
-			for (int i = 0; i < pts.Length; i++)
-				pts[i] = Interop.Convert(destPts[i]);
-
-			g.DrawImage(mImage, pts);
-		}
-
 		#endregion
 		#region --- Public overriden properties ---
 
@@ -279,48 +245,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		public override SurfaceImpl CarveSubSurface(Geometry.Rectangle srcRect)
 		{
 			return new Drawing_Surface(mImage, Interop.Convert(srcRect));
-		}
-
-		public override bool IsSurfaceBlank()
-		{
-			return IsSurfaceBlank((int)(Display.AlphaThreshold * 255.0));
-		}
-		public override bool IsSurfaceBlank(int alphaThreshold)
-		{
-			for (int i = 0; i < mImage.Height; i++)
-			{
-				if (IsRowBlank(i) == false)
-					return false;
-			}
-
-			return true;
-		}
-
-		public override bool IsRowBlank(int row)
-		{
-			BitmapData bmp = mImage.LockBits(new Rectangle(0, 0, mImage.Width, mImage.Height),
-				ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-
-			bool retval = IsRowBlankScanARGB(bmp.Scan0, row, bmp.Width, bmp.Stride,
-				(int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
-
-			mImage.UnlockBits(bmp);
-
-			return retval;
-		}
-		public override bool IsColumnBlank(int col)
-		{
-			BitmapData bmp = mImage.LockBits(new Rectangle(0, 0, mImage.Width, mImage.Height),
-				ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-
-			bool retval = IsColBlankScanARGB(bmp.Scan0, col, bmp.Height, bmp.Stride,
-				(int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
-
-			mImage.UnlockBits(bmp);
-
-			return retval;
 		}
 
 		public override void SaveTo(string filename, ImageFileFormat format)

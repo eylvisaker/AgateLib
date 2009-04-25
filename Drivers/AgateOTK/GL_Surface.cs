@@ -65,8 +65,6 @@ namespace AgateOTK
 
 		TextureCoordinates mTexCoord;
 
-		float mRotationCos = 1.0f;
-		float mRotationSin = 0.0f;
 
 		public GL_Surface(string filename)
 		{
@@ -172,104 +170,36 @@ namespace AgateOTK
 
 		}
 
-
-
-		public override double RotationAngle
+		public override void Draw(SurfaceState state)
 		{
-			get
+			for (int i = 0; i < state.DrawInstances.Count; i++)
 			{
-				return base.RotationAngle;
-			}
-			set
-			{
-				base.RotationAngle = value;
-
-				mRotationCos = (float)Math.Cos(RotationAngle);
-				mRotationSin = (float)Math.Sin(RotationAngle);
-
+				Draw(state, state.DrawInstances[i]);
 			}
 		}
 
-
-		public override void Draw(Rectangle destRect)
+		private void Draw(SurfaceState state, SurfaceDrawInstance inst)
 		{
-			Draw(mSourceRect, destRect);
-		}
-		public override void Draw(RectangleF srcRect, RectangleF destRect)
-		{
-			srcRect.X += mSourceRect.X;
-			srcRect.Y += mSourceRect.Y;
-
-			TextureCoordinates texcoords = GetTextureCoords(srcRect);
-			RectangleF dest = new RectangleF(destRect.X, destRect.Y, destRect.Width, destRect.Height);
-
-			mState.DrawBuffer.SetInterpolationMode(InterpolationHint);
-
-			if (TesselateFactor == 1)
-			{
-				mState.DrawBuffer.AddQuad(mTextureID, Color, texcoords, dest);
-			}
-			else
-			{
-				float texWidth = texcoords.Right - texcoords.Left;
-				float texHeight = texcoords.Bottom - texcoords.Top;
-
-				for (int j = 0; j < TesselateFactor; j++)
-				{
-					RectangleF subRect = dest;
-					TextureCoordinates coords = texcoords;
-
-					subRect.Y = dest.Top + j * dest.Height / (float)TesselateFactor;
-					subRect.Height = dest.Height / (float)TesselateFactor;
-
-					coords.Top = texcoords.Top + texHeight * j / TesselateFactor;
-					coords.Bottom = coords.Top + texHeight / TesselateFactor;
-
-					for (int i = 0; i < TesselateFactor; i++)
-					{
-						subRect.X = dest.Left + i * dest.Width / (float)TesselateFactor;
-						subRect.Width = dest.Width / (float)TesselateFactor;
-
-						coords.Left = texcoords.Left + texWidth * i / TesselateFactor;
-						coords.Right = coords.Left + texWidth / TesselateFactor;
-
-						mState.DrawBuffer.AddQuad(mTextureID, Color, coords, subRect);
-					}
-				}
-			}
-
-		}
-
-		public override void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
-		{
-			DrawImpl(destX, destY, mSourceRect, rotationCenterX, rotationCenterY);
-		}
-
-		public override void Draw(float x, float y, Rectangle srcRect, float rotationCenterX, float rotationCenterY)
-		{
-			srcRect.X += mSourceRect.X;
-			srcRect.Y += mSourceRect.Y;
-			srcRect.Height = Math.Min(srcRect.Height, mSourceRect.Height);
-			srcRect.Width = Math.Min(srcRect.Width, mSourceRect.Width);
-
-			DrawImpl(x, y, srcRect, rotationCenterX, rotationCenterY);
-		}
-		void DrawImpl(float destX, float destY, Rectangle srcRect, float rotationCenterX, float rotationCenterY)
-		{
+			float destX = inst.DestLocation.X;
+			float destY = inst.DestLocation.Y;
+			Rectangle srcRect = inst.GetSourceRect(SurfaceSize);
+			SizeF displaySize = state.GetDisplaySize(SurfaceSize);
+			PointF rotationCenter = state.GetRotationCenter(displaySize);
+			float mRotationCos = (float)Math.Cos(state.RotationAngle);
+			float mRotationSin = (float)Math.Sin(state.RotationAngle);
 			SizeF dispSize = new SizeF(
-				srcRect.Width * (float)ScaleWidth,
-				srcRect.Height * (float)ScaleHeight);
+				srcRect.Width * (float)state.ScaleWidth,
+				srcRect.Height * (float)state.ScaleHeight);
 
-			if (DisplaySize.Width < 0)
+			if (displaySize.Width < 0)
 			{
 				destX -= dispSize.Width;
-				rotationCenterX += dispSize.Width;
+				rotationCenter.X += dispSize.Width;
 			}
-
-			if (DisplaySize.Height < 0)
+			if (displaySize.Height < 0)
 			{
 				destY -= dispSize.Height;
-				rotationCenterY += dispSize.Height;
+				rotationCenter.Y += dispSize.Height;
 			}
 
 			mTexCoord = GetTextureCoords(srcRect);
@@ -278,8 +208,9 @@ namespace AgateOTK
 
 			if (TesselateFactor == 1)
 			{
-				BufferQuad(destX, destY, rotationCenterX, rotationCenterY,
-					dispSize.Width, dispSize.Height, mTexCoord, ColorGradient);
+				BufferQuad(destX, destY, rotationCenter.X, rotationCenter.Y,
+					dispSize.Width, dispSize.Height, mTexCoord, state.ColorGradient,
+					state.DisplayAlignment, mRotationCos, mRotationSin);
 			}
 			else
 			{
@@ -287,8 +218,8 @@ namespace AgateOTK
 				float texWidth = mTexCoord.Right - mTexCoord.Left;
 				float texHeight = mTexCoord.Bottom - mTexCoord.Top;
 
-				float displayWidth = DisplayWidth / (float)TesselateFactor;
-				float displayHeight = DisplayHeight / (float)TesselateFactor;
+				float _displayWidth = displaySize.Width / (float)TesselateFactor;
+				float _displayHeight = displaySize.Height / (float)TesselateFactor;
 
 				for (int j = 0; j < TesselateFactor; j++)
 				{
@@ -300,39 +231,33 @@ namespace AgateOTK
 						texCoord.Left = mTexCoord.Left + i * texWidth / TesselateFactor;
 						texCoord.Right = mTexCoord.Left + (i + 1) * texWidth / TesselateFactor;
 
-						float dx = destX + i * displayWidth * mRotationCos + j * displayHeight * mRotationSin;
-						float dy = destY - i * displayWidth * mRotationSin + j * displayHeight * mRotationCos;
+						float dx = destX + i * _displayWidth * mRotationCos + j * _displayHeight * mRotationSin;
+						float dy = destY - i * _displayWidth * mRotationSin + j * _displayHeight * mRotationCos;
 
 						double cx = i / (double)TesselateFactor;
 						double cy = j / (double)TesselateFactor;
 
 						Gradient color = new Gradient(
-							ColorGradient.Interpolate(cx, cy),
-							ColorGradient.Interpolate(cx + 1.0 / TesselateFactor, cy),
-							ColorGradient.Interpolate(cx, cy + 1.0 / TesselateFactor),
-							ColorGradient.Interpolate(cx + 1.0 / TesselateFactor, cy + 1.0 / TesselateFactor));
+							state.ColorGradient.Interpolate(cx, cy),
+							state.ColorGradient.Interpolate(cx + 1.0 / TesselateFactor, cy),
+							state.ColorGradient.Interpolate(cx, cy + 1.0 / TesselateFactor),
+							state.ColorGradient.Interpolate(cx + 1.0 / TesselateFactor, cy + 1.0 / TesselateFactor));
 
 						BufferQuad(dx, dy,
-							rotationCenterX, rotationCenterY,
-							displayWidth, displayHeight, texCoord, color);
+							rotationCenter.X, rotationCenter.Y,
+							_displayWidth, _displayHeight, texCoord, color,
+							state.DisplayAlignment, mRotationCos, mRotationSin);
 
 					}
 				}
 			}
-			//GL.PushMatrix();
-
-			//GL.Translatef(-translatePoint.X, -translatePoint.Y, 0);
-			//GL.Rotatef((float)-RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
-
-
-			// restore the matrix
-			//GL.PopMatrix();
 		}
 
 		PointF[] cachePt = new PointF[4];
 
 		private void BufferQuad(float destX, float destY, float rotationCenterX, float rotationCenterY,
-			float displayWidth, float displayHeight, TextureCoordinates texCoord, Gradient color)
+			float displayWidth, float displayHeight, TextureCoordinates texCoord, Gradient color,
+			 OriginAlignment DisplayAlignment, float mRotationCos, float mRotationSin)
 		{
 
 			// order is 
@@ -342,7 +267,8 @@ namespace AgateOTK
 			PointF[] pt = cachePt;
 
 			SetPoints(pt, destX, destY,
-				rotationCenterX, rotationCenterY, displayWidth, displayHeight);
+				rotationCenterX, rotationCenterY, displayWidth, displayHeight,
+				DisplayAlignment, mRotationCos, mRotationSin);
 
 			//RectangleF destRect = new RectangleF(new PointF(-rotationCenterX, -rotationCenterY),
 			//                     new SizeF(displayWidth, displayHeight));
@@ -352,7 +278,8 @@ namespace AgateOTK
 		}
 
 		private void SetPoints(PointF[] pt, float destX, float destY, float rotationCenterX, float rotationCenterY,
-							   float destWidth, float destHeight)
+							   float destWidth, float destHeight, OriginAlignment DisplayAlignment,
+							   float mRotationCos, float mRotationSin)
 		{
 			const int index = 0;
 			PointF centerPoint = Origin.CalcF(DisplayAlignment, new SizeF(destWidth, destHeight));
@@ -489,23 +416,6 @@ namespace AgateOTK
 			get { return mSourceRect.Size; }
 		}
 
-		public override bool IsSurfaceBlank()
-		{
-			return false;
-		}
-		public override bool IsSurfaceBlank(int alphaThreshold)
-		{
-			return false;
-		}
-		public override bool IsRowBlank(int row)
-		{
-			return false;
-		}
-		public override bool IsColumnBlank(int col)
-		{
-			return false;
-		}
-
 		public override void BeginRender()
 		{
 			GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
@@ -563,7 +473,8 @@ namespace AgateOTK
 				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
 					(int)TextureMagFilter.Linear);
 
-				Draw();
+				SurfaceState s = new SurfaceState();
+				Draw(s);
 
 				GL.TexParameter(TextureTarget.Texture2D,
 								 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);

@@ -22,16 +22,18 @@ using System.Text;
 
 namespace AgateLib.Drivers
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public interface IDesktopDriver
-	{
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		IUserSetSystems CreateUserSetSystems();
+    /// <summary>
+    /// An interface which provides a basic user interface for things which can't 
+    /// be done with the driver system.
+    /// </summary>
+    public interface IDesktopDriver
+    {
+        /// <summary>
+        /// Creates an object which provides an interface to ask the user which drivers
+        /// to use.
+        /// </summary>
+        /// <returns></returns>
+        IUserSetSystems CreateUserSetSystems();
 
 		/// <summary>
 		/// Shows an error dialog using the operating system's methods.

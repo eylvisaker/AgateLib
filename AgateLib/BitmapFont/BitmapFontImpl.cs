@@ -20,10 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ImplementationBase;
 using AgateLib.Resources;
+using AgateLib.DisplayLib.Cache;
 
 namespace AgateLib.BitmapFont
 {
@@ -36,11 +38,45 @@ namespace AgateLib.BitmapFont
 	public class BitmapFontImpl : FontSurfaceImpl
 	{
 		Surface mSurface;
-
 		FontMetrics mFontMetrics;
 
 		int mCharHeight;
 		double mAverageCharWidth;
+
+		#region --- Cache Class ---
+
+		class BitmapFontCache : FontStateCache
+		{
+			public bool NeedsRefresh = true;
+			public RectangleF[] SrcRects;
+			public RectangleF[] DestRects;
+			public int DisplayTextLength;
+
+			protected internal override FontStateCache Clone()
+			{
+				BitmapFontCache cache = new BitmapFontCache();
+
+				cache.SrcRects = (RectangleF[])SrcRects.Clone();
+				cache.DestRects = (RectangleF[])DestRects.Clone();
+
+				return cache;
+			}
+
+			protected internal override void OnTextChanged(FontState fontState)
+			{
+				NeedsRefresh = true;
+			}
+			protected internal override void OnDisplayAlignmentChanged(FontState fontState)
+			{
+				NeedsRefresh = true;
+			}
+			protected internal override void OnLocationChanged(FontState fontState)
+			{
+				NeedsRefresh = true;
+			}
+		}
+
+		#endregion
 
 		/// <summary>
 		/// Constructs a BitmapFontImpl, assuming the characters in the given file
@@ -78,15 +114,6 @@ namespace AgateLib.BitmapFont
 
 			mCharHeight = (int)Math.Ceiling(maxHeight);
 			mSurface = surface;
-		}
-
-		/// <summary>
-		/// Gets or sets the interpolation hint for the underlying surface.
-		/// </summary>
-		public InterpolationMode InterpolationHint
-		{
-			get { return mSurface.InterpolationHint; }
-			set { mSurface.InterpolationHint = value; }
 		}
 
 		/// <summary>
@@ -152,37 +179,18 @@ namespace AgateLib.BitmapFont
 			mAverageCharWidth = total / (double)count;
 		}
 
-		/// <summary>
-		/// Overrides the base Color method to catch color changes to set them on the surface.
-		/// </summary>
-		public override Color Color
-		{
-			get
-			{
-				return base.Color;
-			}
-			set
-			{
-				base.Color = value;
-
-				mSurface.Color = value;
-			}
-		}
-		/// <summary>
-		/// Measures the width of the text.
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public override int StringDisplayWidth(string text)
+		public override Size StringDisplaySize(FontState state, string text)
 		{
 			if (string.IsNullOrEmpty(text))
-				return 0;
+				return Size.Empty;
 
+			int CRcount = 0;
+			int i = 0;
 			double highestLineWidth = 0;
 
+			// measure width
 			string[] lines = text.Split('\n');
-
-			for (int i = 0; i < lines.Length; i++)
+			for (i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
 				double lineWidth = 0;
@@ -194,24 +202,10 @@ namespace AgateLib.BitmapFont
 
 				if (lineWidth > highestLineWidth)
 					highestLineWidth = lineWidth;
-
 			}
 
-			return (int)Math.Ceiling(highestLineWidth * ScaleWidth);
-		}
-		/// <summary>
-		/// Measures the height of the text
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public override int StringDisplayHeight(string text)
-		{
-			if (string.IsNullOrEmpty(text))
-				return 0;
-
-			int CRcount = 0;
-			int i = 0;
-
+			// measure height
+			i = 0;
 			do
 			{
 				i = text.IndexOf('\n', i + 1);
@@ -226,16 +220,8 @@ namespace AgateLib.BitmapFont
 			if (text[text.Length - 1] == '\n')
 				CRcount--;
 
-			return (int)(mCharHeight * (CRcount + 1) * ScaleHeight);
-		}
-		/// <summary>
-		/// Measures the size of the text.
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public override Size StringDisplaySize(string text)
-		{
-			return new Size(StringDisplayWidth(text), StringDisplayHeight(text));
+			return new Size((int)Math.Ceiling(highestLineWidth * state.ScaleWidth),
+				(int)(mCharHeight * (CRcount + 1) * state.ScaleHeight));
 		}
 
 		/// <summary>
@@ -246,7 +232,8 @@ namespace AgateLib.BitmapFont
 			get { return mCharHeight; }
 		}
 
-		private void GetRects(string text, RectangleF[] srcRects, RectangleF[] destRects, out int rectCount)
+		private void GetRects(RectangleF[] srcRects, RectangleF[] destRects, out int rectCount,
+			string text, double ScaleHeight, double ScaleWidth)
 		{
 			double destX = 0;
 			double destY = 0;
@@ -271,7 +258,7 @@ namespace AgateLib.BitmapFont
 
 					case '\n':
 						destX = 0;
-						destY += height * this.ScaleHeight;
+						destY += height * ScaleHeight;
 						break;
 
 					default:
@@ -295,89 +282,71 @@ namespace AgateLib.BitmapFont
 			}
 		}
 
-		RectangleF[] cacheSrcRects;
-		RectangleF[] cacheDestRects;
-
-		/// <summary>
-		/// Draws the text to the screen.
-		/// </summary>
-		/// <param name="destX"></param>
-		/// <param name="destY"></param>
-		/// <param name="text"></param>
-		public override void DrawText(int destX, int destY, string text)
+		private static BitmapFontCache GetCache(FontState state)
 		{
-			if (string.IsNullOrEmpty(text))
-				return;
+			BitmapFontCache cache = state.Cache as BitmapFontCache;
 
-			if (cacheSrcRects == null || text.Length > cacheSrcRects.Length)
+			if (cache == null)
 			{
-				cacheSrcRects = new RectangleF[text.Length];
-				cacheDestRects = new RectangleF[text.Length];
+				cache = new BitmapFontCache();
+				state.Cache = cache;
 			}
 
-			RectangleF[] srcRects = cacheSrcRects;
-			RectangleF[] destRects = cacheDestRects;
-
-			DrawTextImpl(destX, destY, text, srcRects, destRects);
-		}
-
-		private void DrawTextImpl(int destX, int destY, string text,
-			RectangleF[] srcRects, RectangleF[] destRects)
-		{
-			// this variable counts the number of rectangles actually used to display text.
-			// It may be less then text.Length because carriage return characters 
-			// don't need any rects.
-			int displayTextLength;
-			GetRects(text, srcRects, destRects, out displayTextLength);
-
-			if (DisplayAlignment != OriginAlignment.TopLeft)
+			if (cache.SrcRects == null ||
+				cache.SrcRects.Length < state.Text.Length)
 			{
-				Point value = Origin.Calc(DisplayAlignment, StringDisplaySize(text));
-
-				destX -= value.X;
-				destY -= value.Y;
+				cache.SrcRects = new RectangleF[state.Text.Length];
+				cache.DestRects = new RectangleF[state.Text.Length];
 			}
 
-			for (int i = 0; i < displayTextLength; i++)
+			return cache;
+		}
+
+		/// <summary>
+		/// Draws the text to the screen.
+		/// </summary>
+		/// <param name="state"></param>
+		public override void DrawText(FontState state)
+		{
+			BitmapFontCache cache = GetCache(state);
+
+			RefreshCache(state, cache);
+
+			mSurface.Color = state.Color;
+			mSurface.DrawRects(cache.SrcRects, cache.DestRects, 0, cache.DisplayTextLength);
+		}
+
+		private void RefreshCache(FontState state, BitmapFontCache cache)
+		{
+
+			if (cache.NeedsRefresh)
 			{
-				destRects[i].X += destX;
-				destRects[i].Y += destY;
+				// this variable counts the number of rectangles actually used to display text.
+				// It may be less then text.Length because carriage return characters 
+				// don't need any rects.
+				GetRects(cache.SrcRects, cache.DestRects, out cache.DisplayTextLength,
+					state.Text, state.ScaleHeight, state.ScaleWidth);
+
+				PointF dest = state.Location;
+
+				if (state.DisplayAlignment != OriginAlignment.TopLeft)
+				{
+					Point value = Origin.Calc(state.DisplayAlignment,
+						StringDisplaySize(state, state.Text));
+
+					dest.X -= value.X;
+					dest.Y -= value.Y;
+				}
+
+				for (int i = 0; i < cache.DisplayTextLength; i++)
+				{
+					cache.DestRects[i].X += dest.X;
+					cache.DestRects[i].Y += dest.Y;
+				}
+
+				cache.NeedsRefresh = false;
 			}
-
-			mSurface.DrawRects(srcRects, destRects, 0, displayTextLength);
 		}
-
-		/// <summary>
-		/// Draws the text to the screen.
-		/// </summary>
-		/// <param name="destX"></param>
-		/// <param name="destY"></param>
-		/// <param name="text"></param>
-		public override void DrawText(double destX, double destY, string text)
-		{
-			DrawText((int)destX, (int)destY, text);
-		}
-
-		/// <summary>
-		/// Draws the text to the screen.
-		/// </summary>
-		/// <param name="destPt"></param>
-		/// <param name="text"></param>
-		public override void DrawText(Point destPt, string text)
-		{
-			DrawText(destPt.X, destPt.Y, text);
-		}
-
-		/// <summary>
-		/// Draws the text to the screen.
-		/// </summary>
-		/// <param name="destPt"></param>
-		/// <param name="text"></param>
-		public override void DrawText(PointF destPt, string text)
-		{
-			DrawText(destPt.X, destPt.Y, text);
-		}
-
 	}
 
 	/// <summary>

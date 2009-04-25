@@ -64,6 +64,12 @@ namespace AgateLib.DisplayLib
 		/// Point indicates bottom-right.
 		/// </summary>
 		BottomRight = 0x33,
+
+		/// <summary>
+		/// Specified indicates that the value in question is specified through
+		/// some other means.
+		/// </summary>
+		Specified = 0xFF,
 	}
 
 }
