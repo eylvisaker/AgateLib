@@ -65,7 +65,7 @@ namespace AgateMDX
 
         #endregion
 
-        #region --- TextureCoordinates structure
+        #region --- TextureCoordinates structure ---
 
         struct TextureCoordinates
         {
@@ -183,7 +183,7 @@ namespace AgateMDX
         private void InitVerts()
         {
             SetVertsTextureCoordinates(mVerts, 0, mSrcRect);
-            SetVertsColor(mVerts, 0, 4);
+            SetVertsColor(new Gradient(Color.White), mVerts, 0, 4);
         }
         public void LoadFromStream(Stream st)
         {
@@ -281,172 +281,83 @@ namespace AgateMDX
 
         #endregion
 
-        #region --- Overriden base class methods ---
+		#region --- Drawing to screen functions ---
 
-        public override Gradient ColorGradient
-        {
-            get
-            {
-                return base.ColorGradient;
-            }
-            set
-            {
-                base.ColorGradient = value;
+		public override void Draw(SurfaceState state)
+		{
+			for (int i = 0; i < state.DrawInstances.Count; i++)
+			{
+				Draw(state, state.DrawInstances[i]);
+			}
+		}
+		private void Draw(SurfaceState state, SurfaceDrawInstance inst)
+		{
+			float destX = inst.DestLocation.X;
+			float destY = inst.DestLocation.Y;
+			Rectangle srcRect = inst.GetSourceRect(SurfaceSize);
+			SizeF displaySize = state.GetDisplaySize(srcRect.Size);
+			PointF rotationCenter = state.GetRotationCenter(displaySize);
+			bool alphaBlend = true;
+			float mRotationCos = (float)Math.Cos(state.RotationAngle);
+			float mRotationSin = (float)Math.Sin(state.RotationAngle);
 
-                SetVertsColor(mVerts, 0, 4);
-            }
-        }
-        public override double RotationAngle
-        {
-            get
-            {
-                return base.RotationAngle;
-            }
-            set
-            {
-                base.RotationAngle = value;
+			if (displaySize.Width < 0)
+				destX -= displaySize.Width;
+			if (displaySize.Height < 0)
+				destY -= displaySize.Height;
 
-                mRotationCos = (float)Math.Cos(RotationAngle);
-                mRotationSin = (float)Math.Sin(RotationAngle);
-            
-            }
-        }
+			if (TesselateFactor == 1)
+			{
+				SetVertsTextureCoordinates(mVerts, 0, srcRect);
+				SetVertsColor(state.ColorGradient, mVerts, 0, 4);
+				SetVertsPosition(mVerts, 0,
+					new RectangleF(destX, destY,
+								   srcRect.Width * (float)state.ScaleWidth,
+								   srcRect.Height * (float)state.ScaleHeight),
+								   rotationCenter.X, rotationCenter.Y,
+								   state.DisplayAlignment, mRotationCos, mRotationSin);
 
-        #endregion
+				mDevice.DrawBuffer.CacheDrawIndexedTriangles(mVerts, mIndices, mTexture.Value, alphaBlend);
+			}
+			else
+			{
+				TextureCoordinates texCoords = GetTextureCoordinates(mSrcRect);
+				float texWidth = texCoords.Right - texCoords.Left;
+				float texHeight = texCoords.Bottom - texCoords.Top;
 
-        #region --- Drawing Helper functions ---
+				float displayWidth = displaySize.Width / (float)TesselateFactor;
+				float displayHeight = displaySize.Height / (float)TesselateFactor;
 
-        #region --- Old ---
-        [Obsolete("Old DX method.")]
-        protected void RotatePointInPlace(ref PointF pt, PointF rotation)
-        {
-            //PointF local = new PointF(pt.X - rotation.X, pt.Y - rotation.Y);
-            float localX = pt.X - rotation.X;
-            float localY = pt.Y - rotation.Y;
+				for (int j = 0; j < TesselateFactor; j++)
+				{
+					TextureCoordinates coords = texCoords;
+					coords.Top = texCoords.Top + j * texHeight / TesselateFactor;
+					coords.Bottom = coords.Top + texHeight / TesselateFactor;
 
-            double cos = Math.Cos(RotationAngle);
-            double sin = Math.Sin(RotationAngle);
+					for (int i = 0; i < TesselateFactor; i++)
+					{
+						coords.Left = texCoords.Left + i * texWidth / TesselateFactor;
+						coords.Right = coords.Left + texWidth / TesselateFactor;
 
-            pt.X = (int)(cos * localX + sin * localY);
-            pt.Y = (int)(-sin * localX + cos * localY);
+						float dx = destX + i * displayWidth * mRotationCos + j * displayHeight * mRotationSin;
+						float dy = destY - i * displayWidth * mRotationSin + j * displayHeight * mRotationCos;
 
-            pt.X += rotation.X;
-            pt.Y += rotation.Y;
+						SetVertsPosition(mExtraVerts, 0,
+							new RectangleF(dx, dy,
+										   displayWidth, displayHeight),
+										   rotationCenter.X, rotationCenter.Y,
+								   state.DisplayAlignment, mRotationCos, mRotationSin);
+						SetVertsColor(state.ColorGradient, mExtraVerts, 0, 4,
+							i / (double)TesselateFactor, j / (double)TesselateFactor, 1.0 / TesselateFactor, 1.0 / TesselateFactor);
 
-        }
-        [Obsolete("Old DX method.")]
-        protected void RotatePointInPlace(ref CustomVertex.TransformedColoredTextured pt, PointF rotation)
-        {
-            //PointF local = new PointF(pt.X - rotation.X, pt.Y - rotation.Y);
-            float localX = pt.X - rotation.X;
-            float localY = pt.Y - rotation.Y;
+						SetVertsTextureCoordinates(mExtraVerts, 0, coords);
 
-            double cos = Math.Cos(RotationAngle);
-            double sin = Math.Sin(RotationAngle);
-
-            pt.X = (float)(cos * localX + sin * localY);
-            pt.Y = (float)(-sin * localX + cos * localY);
-
-            pt.X += rotation.X;
-            pt.Y += rotation.Y;
-
-        }
-        [Obsolete("Old DX method.")]
-        protected void TranslatePointInPlace(ref PointF[] pt, PointF origin)
-        {
-            for (int i = 0; i < pt.Length; i++)
-            {
-                pt[i].X -= origin.X;
-                pt[i].Y -= origin.Y;
-            }
-        }
-
-        [Obsolete("Old DX method.")]
-        protected void TranslatePointInPlace(ref PointF pt, PointF origin)
-        {
-            pt.X -= origin.X;
-            pt.Y -= origin.Y;
-        }
-        [Obsolete("Old DX method.")]
-        protected void TranslatePointInPlace(ref CustomVertex.TransformedColoredTextured pt, PointF origin)
-        {
-            pt.X -= origin.X;
-            pt.Y -= origin.Y;
-        }
-
-
-        #endregion
-
-        protected void DrawWithoutVB(float destX, float destY, bool alphaBlend)
-        {
-            // find center
-           PointF rotation = Origin.CalcF(RotationCenter, DisplaySize);
-
-           DrawWithoutVB(destX, destY, mSrcRect, rotation.X, rotation.Y, alphaBlend);
-        }
-        protected void DrawWithoutVB(float destX, float destY, Rectangle srcRect,
-            float rotationCenterX, float rotationCenterY, bool alphaBlend)
-        {
-            if (DisplayWidth < 0)
-            {
-                destX -= DisplayWidth;
-            }
-            if (DisplayHeight < 0)
-            {
-                destY -= DisplayHeight;
-            }
-
-            if (TesselateFactor == 1)
-            {
-                SetVertsTextureCoordinates(mVerts, 0, srcRect);
-                SetVertsColor(mVerts, 0, 4);
-                SetVertsPosition(mVerts, 0, 
-                    new RectangleF(destX, destY, 
-                                   srcRect.Width * (float)ScaleWidth, 
-                                   srcRect.Height * (float)ScaleHeight),
-                    rotationCenterX, rotationCenterY);
-
-                mDevice.DrawBuffer.CacheDrawIndexedTriangles(mVerts, mIndices, mTexture.Value, alphaBlend);
-            }
-            else
-            {
-                TextureCoordinates texCoords = GetTextureCoordinates(mSrcRect);
-                float texWidth = texCoords.Right - texCoords.Left;
-                float texHeight = texCoords.Bottom - texCoords.Top;
-
-                float displayWidth = DisplayWidth / (float)TesselateFactor;
-                float displayHeight = DisplayHeight / (float)TesselateFactor;
-
-                for (int j = 0; j < TesselateFactor; j++)
-                {
-                    TextureCoordinates coords = texCoords;
-                    coords.Top = texCoords.Top + j * texHeight / TesselateFactor;
-                    coords.Bottom = coords.Top + texHeight / TesselateFactor;
-
-                    for (int i = 0; i < TesselateFactor; i++)
-                    {
-                        coords.Left = texCoords.Left + i * texWidth / TesselateFactor;
-                        coords.Right = coords.Left + texWidth / TesselateFactor;
-
-                        float dx = destX + i * displayWidth * mRotationCos + j * displayHeight * mRotationSin;
-                        float dy = destY - i * displayWidth * mRotationSin + j * displayHeight * mRotationCos; 
-
-                        SetVertsPosition(mExtraVerts, 0,
-                            new RectangleF(dx, dy,
-                                           displayWidth, displayHeight),
-                                           rotationCenterX, rotationCenterY);
-                        SetVertsColor(mExtraVerts, 0, 4,
-                            i / (double)TesselateFactor, j / (double)TesselateFactor, 1.0 / TesselateFactor, 1.0 / TesselateFactor);
-
-                        SetVertsTextureCoordinates(mExtraVerts, 0, coords);
-
-                        mDevice.DrawBuffer.CacheDrawIndexedTriangles(
-                            mExtraVerts, mIndices, mTexture.Value, alphaBlend);
-                    }
-                }
-            }
-
-        }
+						mDevice.DrawBuffer.CacheDrawIndexedTriangles(
+							mExtraVerts, mIndices, mTexture.Value, alphaBlend);
+					}
+				}
+			}
+		}
 
         private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex,
             Rectangle srcRect)
@@ -456,13 +367,6 @@ namespace AgateMDX
             SetVertsTextureCoordinates(verts, startIndex, texCoords);
         }
 
-        private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex,
-            RectangleF srcRect)
-        {
-            TextureCoordinates texCoords = GetTextureCoordinates(srcRect);
-
-            SetVertsTextureCoordinates(verts, startIndex, texCoords);
-        }
         private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex, 
             TextureCoordinates texCoords)
         {
@@ -484,7 +388,6 @@ namespace AgateMDX
             return GetTextureCoordinates(new RectangleF(
                 srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height));
         }
-        
         private TextureCoordinates GetTextureCoordinates(RectangleF srcRect)
         {
             // if you change these, besure to uncomment the divisions below.
@@ -507,14 +410,14 @@ namespace AgateMDX
             return texCoords;
         }
 
-        private void SetVertsColor(PositionColorNormalTexture[] verts, int startIndex, int count)
+        private void SetVertsColor(Gradient ColorGradient, PositionColorNormalTexture[] verts, int startIndex, int count)
         {
             verts[startIndex].Color = ColorGradient.TopLeft.ToArgb();
             verts[startIndex + 1].Color = ColorGradient.TopRight.ToArgb();
             verts[startIndex + 2].Color = ColorGradient.BottomLeft.ToArgb();
             verts[startIndex + 3].Color = ColorGradient.BottomRight.ToArgb();
         }
-        private void SetVertsColor(PositionColorNormalTexture[] verts, int startIndex, int count,
+        private void SetVertsColor(Gradient ColorGradient, PositionColorNormalTexture[] verts, int startIndex, int count,
             double x, double y, double width, double height)
         {
             verts[startIndex].Color = ColorGradient.Interpolate(x, y).ToArgb();
@@ -522,15 +425,11 @@ namespace AgateMDX
             verts[startIndex + 2].Color = ColorGradient.Interpolate(x, y + height).ToArgb();
             verts[startIndex + 3].Color = ColorGradient.Interpolate(x + width, y + height).ToArgb();
         }
-        private void SetVertsPosition(PositionColorNormalTexture[] verts, int index,
-            Rectangle dest, float rotationCenterX, float rotationCenterY)
-        {
-            SetVertsPosition(verts, index, new RectangleF(dest.X, dest.Y, dest.Width, dest.Height),
-                rotationCenterX, rotationCenterY);
-        }
 
         private void SetVertsPosition(PositionColorNormalTexture[] verts, int index,
-            RectangleF dest, float rotationCenterX, float rotationCenterY)
+            RectangleF dest, float rotationCenterX, float rotationCenterY,
+			OriginAlignment DisplayAlignment,
+			float mRotationCos, float mRotationSin)
         {
             float destX = dest.X -0.5f;
             float destY = dest.Y -0.5f;
@@ -579,209 +478,10 @@ namespace AgateMDX
             }
         }
 
-        [Obsolete("Old DX method.")]
-        protected void DrawWithoutVBNoRotation(RectangleF destRect, bool alphaBlend)
-        {
-            DrawWithoutVBNoRotation(new RectangleF(new PointF(0, 0), (SizeF)SurfaceSize),
-                destRect, alphaBlend);
-        }
-        [Obsolete("Old DX method.")]
-        protected void DrawWithoutVBNoRotation(RectangleF srcRect, RectangleF destRect, bool alphaBlend)
-        {
-            //CustomVertex.TransformedColoredTextured[] verts = new CustomVertex.TransformedColoredTextured[4];
-            int startIndex = 0;
 
-            AddRectToVB(mVerts, startIndex, srcRect, destRect);
-
-            mDevice.SetDeviceStateTexture(mTexture.Value);
-            mDevice.AlphaBlend =  alphaBlend;
-
-            mDevice.Device.VertexFormat = CustomVertex.PositionColoredTextured.Format;
-            mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, mVerts);
-
-        }
-        
-        
-        [Obsolete("Old DX method.")]
-        private void AddRectToVB(PositionColorNormalTexture[] verts, int startIndex, 
-                                RectangleF srcRect, RectangleF destRect)
-        {
-            // find center
-            PointF centerpt = Origin.CalcF(DisplayAlignment, DisplaySize);
-
-            float left = destRect.Left - 0.5f;
-            float top = destRect.Top - 0.5f;
-            float right = destRect.Right - 0.5f;// +(float)Math.Floor(destRect.Width / (float)srcRect.Width);
-            float bottom = destRect.Bottom - 0.5f;// +(float)Math.Floor(destRect.Height / (float)srcRect.Height);
-
-            PointF[] corners = new PointF[4] 
-            {   
-                new PointF(left, top),
-                new PointF(right, top),
-                new PointF(left, bottom),
-                new PointF(right, bottom) 
-            };
-
-            PointF[] uv = new PointF[4]
-            {
-                new PointF(mSrcRect.Left + srcRect.Left, mSrcRect.Top + srcRect.Top),
-                new PointF(mSrcRect.Left + srcRect.Right, mSrcRect.Top + srcRect.Top),
-                new PointF(mSrcRect.Left + srcRect.Left, mSrcRect.Top + srcRect.Bottom),
-                new PointF(mSrcRect.Left + srcRect.Right, mSrcRect.Top + srcRect.Bottom) 
-            };
-
-            TranslatePointInPlace(ref corners, centerpt);
-
-
-            for (int i = 0; i < 4; i++)
-            {
-                verts[startIndex + i] = new PositionColorNormalTexture(
-                   corners[i].X, corners[i].Y, 0.0F, Color.ToArgb(),
-                   uv[i].X / (float)mTextureSize.Width, uv[i].Y / (float)mTextureSize.Height,
-                   0, 0, -1);
-            }
-        }
-        
-
-        #endregion
-        #region --- Drawing to screen functions ---
-
-        public override void Draw(float destX, float destY)
-        {
-            DrawWithoutVB(destX, destY, true);            
-        }
-
-        public override void Draw(float destX, float destY, Rectangle srcRect, float rotationCenterX, float rotationCenterY)
-        {
-            DrawWithoutVB(destX, destY, srcRect, rotationCenterX, rotationCenterY, true);
-        }
-        public override void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
-        {
-            DrawWithoutVB(destX, destY, mSrcRect, rotationCenterX, rotationCenterY, true);
-        }
-        public override void Draw(Rectangle destRect)
-        {
-            Draw(new Rectangle(0, 0, mSrcRect.Width, mSrcRect.Height), destRect);
-        }
-        public override void Draw(RectangleF srcRect, RectangleF destRect)
-        {
-            srcRect.X += mSrcRect.X;
-            srcRect.Y += mSrcRect.Y;
-
-            //DrawWithoutVBNoRotation(srcRect, destRect, true);
-            //if (mRotationCos != 1.0f)
-            //{
-            //    float oldcos = mRotationCos;
-            //    float oldsin = mRotationSin;
-
-            //    SetVertsColor(mExtraVerts, 0, 4);
-            //    SetVertsTextureCoordinates(mExtraVerts, 0, srcRect);
-            //    SetVertsPosition(mExtraVerts, 0, destRect, 0, 0);
-
-            //    mRotationCos = oldcos;
-            //    mRotationSin = oldsin;
-            //}
-            //else
-            //{
-            if (TesselateFactor == 1)
-            {
-                SetVertsColor(mExtraVerts, 0, 4);
-                SetVertsTextureCoordinates(mExtraVerts, 0, srcRect);
-                SetVertsPosition(mExtraVerts, 0, destRect, 0, 0);
-
-                mDevice.DrawBuffer.CacheDrawIndexedTriangles(mExtraVerts, mExtraIndices, mTexture.Value, true);
-            }
-            else
-            {
-                SetVertsColor(mExtraVerts, 0, 4);
-
-                RectangleF src = new RectangleF();
-                RectangleF dest = new RectangleF();
-
-                for (int j = 0; j < TesselateFactor; j++)
-                {
-                    src.Y = srcRect.Top + j * srcRect.Height / (float)TesselateFactor;
-                    src.Height = srcRect.Height / (float)TesselateFactor;
-
-                    dest.Y = destRect.Top + j * destRect.Height / (float)TesselateFactor;
-                    dest.Height = destRect.Height / (float)TesselateFactor;
-
-                    for (int i = 0; i < TesselateFactor; i++)
-                    {
-                        src.X = srcRect.X + i * srcRect.Width / (float)TesselateFactor;
-                        src.Width = srcRect.Width / (float)TesselateFactor;
-
-                        dest.X = destRect.X + i * destRect.Width / (float)TesselateFactor;
-                        dest.Width = destRect.Width / (float)TesselateFactor;
-
-
-                        SetVertsColor(mExtraVerts, 0, 4, 
-                            i / (double)TesselateFactor, j / (double)TesselateFactor, 
-                            1.0 / TesselateFactor, 1.0 / TesselateFactor);
-
-                        SetVertsTextureCoordinates(mExtraVerts, 0, src);
-                        SetVertsPosition(mExtraVerts, 0, dest, 0, 0);
-
-                        mDevice.DrawBuffer.CacheDrawIndexedTriangles(mExtraVerts, mExtraIndices, mTexture.Value, true);
-                    }
-                }
-            }
-        }
-        
-        /// <summary>
-        /// This needs to be updated to use the same approach as Draw(Rectangle, Rectangle)
-        /// </summary>
-        /// <param name="srcRects"></param>
-        /// <param name="destRects"></param>
-        public override void DrawRects(RectangleF[] srcRects, RectangleF[] destRects, int start, int length)
-        {
-
-            PositionColorNormalTexture[] verts =
-                new PositionColorNormalTexture[srcRects.Length * 4];
-            short[] indices = new short[srcRects.Length * 6];
-
-            int startIndex = 0;
-            int indexIndex = 0;
-
-            for (int i = start; i < start + length; i++)
-            {
-                AddRectToVB(verts, startIndex, srcRects[i], destRects[i]);
-
-                indices[indexIndex] = (short)startIndex;
-                indices[indexIndex + 1] = (short)(startIndex + 1);
-                indices[indexIndex + 2] = (short)(startIndex + 2);
-                indices[indexIndex + 3] = (short)(startIndex + 2);
-                indices[indexIndex + 4] = (short)(startIndex + 1);
-                indices[indexIndex + 5] = (short)(startIndex + 3);
-
-
-                startIndex += 4;
-                indexIndex += 6;
-            }
-
-            mDevice.DrawBuffer.CacheDrawIndexedTriangles(verts, indices, mTexture.Value, true);
-
-            //mDevice.SetDeviceStateTexture(mTexture.Value);
-            //mDevice.AlphaBlend = true;
-
-            //mDevice.VertexFormat = CustomVertex.TransformedColoredTextured.Format;
-            ////mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleList, 2 * srcRects.Length, verts);
-            //mDevice.Device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, indexIndex,
-            //    srcRects.Length * 2, indices, true, verts);
-        }
-
-        #endregion
+		#endregion
    
         #region --- Overriden public properties ---
-
-        public override int SurfaceHeight
-        {
-            get { return mSrcRect.Height; }
-        }
-        public override int SurfaceWidth
-        {
-            get { return mSrcRect.Width; }
-        }
 
         public override Size SurfaceSize
         {
@@ -789,55 +489,7 @@ namespace AgateMDX
         }
         #endregion
 
-        #region --- Surface querying ---
-
-        public override bool IsSurfaceBlank()
-        {
-            return IsSurfaceBlank((int)(Display.AlphaThreshold * 255.0));
-        }
-        public override bool IsSurfaceBlank(int alphaThreshold)
-        {
-            for (int i = 0; i < SurfaceHeight; i++)
-            {
-                if (IsRowBlank(i) == false)
-                    return false;
-            }
-
-            return true;
-
-        }
-
-        public override bool IsRowBlank(int row)
-        {
-            Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
-
-            int stride;
-            GraphicsStream stm = surf.LockRectangle(
-                Interop.Convert(mSrcRect), LockFlags.ReadOnly, out stride);
-
-            bool retval = this.IsRowBlankScanARGB(stm.InternalData, row, this.SurfaceWidth,
-                stride, (int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
-            
-            surf.UnlockRectangle();
-
-            return retval;
-        }
-
-        public override bool IsColumnBlank(int col)
-        {
-            Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
-
-            int stride;
-            GraphicsStream stm = surf.LockRectangle(Interop.Convert(mSrcRect),
-                LockFlags.ReadOnly, out stride);
-
-            bool retval = this.IsColBlankScanARGB(stm.InternalData, col, this.SurfaceHeight,
-                stride, (int)(Display.AlphaThreshold * 255.0), 0xff000000, 24);
-
-            surf.UnlockRectangle();
-
-            return retval;
-        }
+        #region --- Surface saving ---
 
         public override void SaveTo(string frameFile, ImageFileFormat format)
         {
