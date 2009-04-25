@@ -51,6 +51,8 @@ namespace TextLayout
 				"The last word here should appear really {2}Large{3}.",
 				AlterFont.Color(Color.Green), AlterFont.Color(Color.Black),
 				AlterFont.Scale(3.0, 3.0), AlterFont.Scale(1.0, 1.0));
+
+			font.DrawText(0, 530, "Test of escape sequences: {{}Escaped{}}");
 		}
 	}
 }

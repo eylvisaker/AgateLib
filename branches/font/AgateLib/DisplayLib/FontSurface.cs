@@ -321,19 +321,6 @@ namespace AgateLib.DisplayLib
 		/// <param name="destX"></param>
 		/// <param name="destY"></param>
 		/// <param name="text"></param>
-		public void DrawText(int destX, int destY, string text)
-		{
-			mState.Location = new PointF(destX, destY);
-			mState.Text = mTransformer.Transform(text);
-
-			DrawText(mState);
-		}
-		/// <summary>
-		/// Draws the specified string at the specified location.
-		/// </summary>
-		/// <param name="destX"></param>
-		/// <param name="destY"></param>
-		/// <param name="text"></param>
 		public void DrawText(double destX, double destY, string text)
 		{
 			mState.Location = new PointF((float)destX, (float)destY);
@@ -382,8 +369,8 @@ namespace AgateLib.DisplayLib
 			impl.DrawText(state);
 		}
 
-		Regex substituteMatch = new Regex(@"\{[0-9]+(:.*)?\}|\r\n|\n");
-		Regex indexMatch = new Regex(@"[0-9]+");
+		Regex substituteMatch = new Regex(@"\{.*?\}|\{\{\}|\{\}\}|\r\n|\n");
+		Regex indexMatch = new Regex(@"[0-9]+:?");
 
 		public void DrawText(int destX, int destY, string formatString, params object[] args)
 		{
@@ -424,6 +411,9 @@ namespace AgateLib.DisplayLib
 
 				result += formatString.Substring(lastIndex, matches[i].Index - lastIndex);
 
+				var argsIndexText = indexMatch.Match(format);
+				int argsIndex;
+
 				if (format == "\r\n" || format == "\n")
 				{
 					PushLayoutText(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
@@ -441,11 +431,13 @@ namespace AgateLib.DisplayLib
 
 					spaceAboveLine = 0;
 				}
-				else
+				else if (int.TryParse(argsIndexText.ToString(), out argsIndex))
 				{
-					var argsIndexText = indexMatch.Match(format);
-					int argsIndex = int.Parse(argsIndexText.ToString());
-
+					if (argsIndex >= args.Length)
+					{
+						throw new IndexOutOfRangeException(string.Format(
+							"Argument number {0} was specified, but only {1} arguments were given.", argsIndex, args.Length));
+					}
 					object obj = args[argsIndex];
 
 					if (obj is ISurface)
@@ -453,7 +445,7 @@ namespace AgateLib.DisplayLib
 						PushLayoutText(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
 							result, currentAlterText);
 
-						PushLayoutImage(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine, 
+						PushLayoutImage(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
 							(ISurface)obj);
 
 						result = string.Empty;
@@ -468,11 +460,19 @@ namespace AgateLib.DisplayLib
 						currentAlterText = (AlterFont)obj;
 						result = string.Empty;
 					}
-					else 
+					else
 					{
 						result += ConvertToString(obj, format);
 					}
 				}
+				else if (format.StartsWith("{"))
+				{
+					if (format == "{{}")
+						result += "{";
+					else if (format == "{}}")
+						result += "}";
+				}
+
 				lastIndex = matches[i].Index + matches[i].Length;
 			}
 
