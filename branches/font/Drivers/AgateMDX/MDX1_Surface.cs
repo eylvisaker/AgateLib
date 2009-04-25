@@ -882,8 +882,9 @@ namespace AgateMDX
             mRenderToSurface.BeginScene(surfaceTarget, vp);
 
             Display.Clear();
+			SurfaceState st = new SurfaceState();
 
-            Draw();
+			Draw(st);
 
             mTexture.Dispose();
             mTexture = new Ref<Texture>(t);

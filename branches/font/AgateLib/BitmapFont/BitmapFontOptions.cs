@@ -25,7 +25,6 @@ using AgateLib.Geometry;
 
 namespace AgateLib.BitmapFont
 {
-
     /// <summary>
     /// Class which indicates how a bitmap font should be generated
     /// from an operating system font.

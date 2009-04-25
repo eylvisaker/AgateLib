@@ -137,11 +137,11 @@ namespace AgateLib.Sprites
 
             mSurface.SetScale(scaleX, scaleY);
 
-            mSurface.Draw(dest_x + (mOffset.X * scaleX),
-                          dest_y + (mOffset.Y * scaleY),
+            mSurface.Draw(new PointF(dest_x + (mOffset.X * scaleX),
+                          dest_y + (mOffset.Y * scaleY)),
                           mSrcRect,
-                          rotationCenterX - (mOffset.X * scaleX),
-                          rotationCenterY - (mOffset.Y * scaleY));
+                          new PointF(rotationCenterX - (mOffset.X * scaleX),
+                          rotationCenterY - (mOffset.Y * scaleY)));
         }
 
         /// <summary>

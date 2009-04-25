@@ -137,6 +137,6 @@ namespace AgateLib.DisplayLib
 
         SurfaceState State { get; }
 
-        void Draw(Point Location, SurfaceState State);
+        void Draw(SurfaceState State);
     }
 }

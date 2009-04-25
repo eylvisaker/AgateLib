@@ -387,9 +387,9 @@ namespace AgateLib.DisplayLib
 
 			int lastIndex = 0;
 			string result = string.Empty;
-			Point dest;
+			PointF dest;
 
-			dest = Point.Empty;
+			dest = PointF.Empty;
 
 			TextLayout layout = new TextLayout();
 			int lineHeight = FontHeight;
@@ -450,12 +450,12 @@ namespace AgateLib.DisplayLib
 		{
 			foreach (var item in layout.Where(x => x.LineIndex == lineIndex))
 			{
-				item.Location = new Point(
+				item.Location = new PointF(
 					item.Location.X, item.Location.Y + lineShift);
 			}
 		}
 
-		private void PushLayoutImage(int lineIndex, TextLayout layout, ref Point dest, ref int lineHeight,
+		private void PushLayoutImage(int lineIndex, TextLayout layout, ref PointF dest, ref int lineHeight,
 			ref int spaceAboveLine, ISurface surface)
 		{
 			int newSpaceAbove;
@@ -489,12 +489,19 @@ namespace AgateLib.DisplayLib
 			layout.Add(t);
 		}
 
-		private void PushLayoutText(int lineIndex, TextLayout layout, ref Point dest, string text)
+		private void PushLayoutText(int lineIndex, TextLayout layout, ref PointF dest, string text)
 		{
 			if (string.IsNullOrEmpty(text))
 				return;
 
-			LayoutText t = new LayoutText { Font = this, Location = dest, Text = text, LineIndex = lineIndex };
+			LayoutText t = new LayoutText 
+			{
+				Font = this, 
+				State = State.Clone(),
+				Location = dest, 
+				Text = text, 
+				LineIndex = lineIndex 
+			};
 
 			layout.Add(t);
 

@@ -556,7 +556,8 @@ namespace AgateOTK
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
                     (int)TextureMagFilter.Linear);
 
-                Draw();
+				SurfaceState s = new SurfaceState();
+                Draw(s);
 
                 GL.TexParameter(TextureTarget.Texture2D,
                                  TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);

@@ -82,6 +82,7 @@ namespace AgateLib.DisplayLib
     public sealed class Surface : IRenderTarget, IDisposable, ISurface
     {
         SurfaceImpl impl;
+		SurfaceState mState = new SurfaceState();
 
         /// <summary>
         /// Creates a surface object from a resource.
@@ -277,173 +278,191 @@ namespace AgateLib.DisplayLib
         public Size SurfaceSize { get { return impl.SurfaceSize; } }
 
 
-        /// <summary>
-        /// Get or sets the width of the surface in pixels when it will be displayed on screen.
-        /// </summary>
-        public int DisplayWidth
-        {
-            get { return impl.DisplayWidth; }
-            set { impl.DisplayWidth = value; }
-        }
-        /// <summary>
-        /// Gets or sets the height of the surface in pixels when it is displayed on screen.
-        /// </summary>
-        public int DisplayHeight
-        {
-            get { return impl.DisplayHeight; }
-            set { impl.DisplayHeight = value; }
-        }
-        /// <summary>
-        /// Gets or sets the Size of the area used by this surface when displayed on screen.
-        /// </summary>
-        public Size DisplaySize
-        {
-            get
-            {
-                Size sz = new Size(DisplayWidth, DisplayHeight);
+		/// <summary>
+		/// Gets or sets the state of the surface.
+		/// </summary>
+		public SurfaceState State
+		{
+			get { return mState; }
+			set { mState = value; }
+		}
 
-                return sz;
-            }
-            set
-            {
-                DisplayWidth = value.Width;
-                DisplayHeight = value.Height;
-            }
-        }
+		/// <summary>
+		/// Get or sets the width of the surface in pixels when it will be displayed on screen.
+		/// </summary>
+		public int DisplayWidth
+		{
+			get { return (int)(mState.ScaleWidth * SurfaceWidth); }
+			set { ScaleWidth = value / (double)SurfaceWidth; }
+		}
+		/// <summary>
+		/// Gets or sets the height of the surface in pixels when it is displayed on screen.
+		/// </summary>
+		public int DisplayHeight
+		{
+			get { return (int)(mState.ScaleHeight * SurfaceHeight); }
+			set { ScaleHeight = value / (double)SurfaceHeight; }
+		}
+		/// <summary>
+		/// Gets or sets the Size of the area used by this surface when displayed on screen.
+		/// </summary>
+		public Size DisplaySize
+		{
+			get
+			{
+				Size sz = new Size(DisplayWidth, DisplayHeight);
 
-        /// <summary>
-        /// Alpha value for displaying this surface.
-        /// Valid values range from 0.0 (completely transparent) to 1.0 (completely opaque).
-        /// Internally stored as a byte, so granularity is only 1/255.0.
-        /// </summary>
-        public double Alpha
-        {
-            get { return impl.Alpha; }
-            set { impl.Alpha = value; }
-        }
-        /// <summary>
-        /// Gets or sets the rotation angle in radians.
-        /// Positive angles indicate rotation in the Counter-Clockwise direction.
-        /// </summary>
-        public double RotationAngle
-        {
-            get { return impl.RotationAngle; }
-            set { impl.RotationAngle = value; }
-        }
-        /// <summary>
-        /// Gets or sets the rotation angle in degrees.
-        /// Positive angles indicate rotation in the Counter-Clockwise direction.
-        /// </summary>
-        public double RotationAngleDegrees
-        {
-            get { return RotationAngle * 180.0 / Math.PI; }
-            set { RotationAngle = value * Math.PI / 180.0; }
-        }
-        /// <summary>
-        /// Gets or sets the point on the surface which is used to rotate around.
-        /// </summary>
-        public OriginAlignment RotationCenter
-        {
-            get { return impl.RotationCenter; }
-            set { impl.RotationCenter = value; }
-        }
-        /// <summary>
-        /// Gets or sets the point where the surface is aligned to when drawn.
-        /// </summary>
-        public OriginAlignment DisplayAlignment
-        {
-            get { return impl.DisplayAlignment; }
-            set { impl.DisplayAlignment = value; }
-        }
+				return sz;
+			}
+			set
+			{
+				DisplayWidth = value.Width;
+				DisplayHeight = value.Height;
+			}
+		}
 
-        /// <summary>
-        /// Gets or sets the amount the width is scaled when this surface is drawn.
-        /// 1.0 is no scaling.
-        /// Scale values can be negative, this causes the surface to be mirrored
-        /// in that direction.  This does not affect how the surface is aligned;
-        /// eg. if DisplayAlignment is top-left and ScaleWidth &lt; 0, the surface 
-        /// will still be drawn to the right of the point supplied to Draw(Point).
-        /// </summary>
-        public double ScaleWidth
-        {
-            get { return impl.ScaleWidth; }
-            set { impl.ScaleWidth = value; }
-        }
-        /// <summary>
-        /// Gets or sets the amount the height is scaled when this surface is drawn.
-        /// 1.0 is no scaling.
-        /// </summary>
-        public double ScaleHeight
-        {
-            get { return impl.ScaleHeight; }
-            set { impl.ScaleHeight = value; }
-        }
-        /// <summary>
-        /// Sets the amount of scaling when this surface is drawn.  
-        /// 1.0 is no scaling.
-        /// Scale values can be negative, this causes the surface to be mirrored
-        /// in that direction.  This does not affect how the surface is aligned;
-        /// eg. if DisplayAlignment is top-left and ScaleWidth &lt; 0, the surface 
-        /// will still be drawn to the right of the point supplied to Draw(Point).
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public void SetScale(double width, double height)
-        {
-            impl.SetScale(width, height);
-        }
-        /// <summary>
-        /// Gets the amount of scaling when this surface is drawn.
-        /// 1.0 is no scaling.
-        /// Scale values can be negative, this causes the surface to be mirrored
-        /// in that direction.  This does not affect how the surface is aligned;
-        /// eg. if DisplayAlignment is top-left and ScaleWidth &lt; 0, the surface 
-        /// will still be drawn to the right of the point supplied to Draw(Point).
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public void GetScale(out double width, out double height)
-        {
-            impl.GetScale(out width, out height);
-        }
+		/// <summary>
+		/// Alpha value for displaying this surface.
+		/// Valid values range from 0.0 (completely transparent) to 1.0 (completely opaque).
+		/// Internally stored as a byte, so granularity is only 1/255.0.
+		/// If a gradient is used, getting this property returns the alpha value for the top left
+		/// corner of the gradient.
+		/// </summary>
+		public double Alpha
+		{
+			get { return Color.A / 255.0; }
+			set
+			{
+				Gradient g = mState.ColorGradient;
+				g.SetAlpha(value);
 
-        
-        /// <summary>
-        /// Gets or sets the multiplicative color for this surface.
-        /// Setting this is equivalent to setting the ColorGradient property
-        /// with a gradient with the same color in all corners.  If a gradient
-        /// is being used, getting this property returns the top-left color in the gradient.
-        /// </summary>
-        public Color Color
-        {
-            get { return impl.Color; }
-            set { impl.Color = value; }
-        }
-        /// <summary>
-        /// Gets or sets the gradient for this surface.
-        /// </summary>
-        public Gradient ColorGradient
-        {
-            get { return impl.ColorGradient; }
-            set { impl.ColorGradient = value; }
-        }
+				mState.ColorGradient = g;
+			}
+		}
+		/// <summary>
+		/// Gets or sets the rotation angle in radians.
+		/// Positive angles indicate rotation in the Counter-Clockwise direction.
+		/// </summary>
+		public double RotationAngle
+		{
+			get { return mState.RotationAngle; }
+			set { mState.RotationAngle = value; }
+		}
+		/// <summary>
+		/// Gets or sets the rotation angle in degrees.
+		/// Positive angles indicate rotation in the Counter-Clockwise direction.
+		/// </summary>
+		public double RotationAngleDegrees
+		{
+			get { return RotationAngle * 180.0 / Math.PI; }
+			set { RotationAngle = value * Math.PI / 180.0; }
+		}
+		/// <summary>
+		/// Gets or sets the point on the surface which is used to rotate around.
+		/// </summary>
+		public OriginAlignment RotationCenter
+		{
+			get { return mState.RotationCenter; }
+			set { mState.RotationCenter = value; }
+		}
+		/// <summary>
+		/// Gets or sets the point where the surface is aligned to when drawn.
+		/// </summary>
+		public OriginAlignment DisplayAlignment
+		{
+			get { return mState.DisplayAlignment; }
+			set { mState.DisplayAlignment = value; }
+		}
 
-        /// <summary>
-        /// Increments the rotation angle of this surface.
-        /// </summary>
-        /// <param name="radians">Value in radians to increase the rotation by.</param>
-        public void IncrementRotationAngle(double radians)
-        {
-            impl.IncrementRotationAngle(radians);
-        }
-        /// <summary>
-        /// Increments the rotation angle of this surface.  Value supplied is in degrees.
-        /// </summary>
-        /// <param name="degrees"></param>
-        public void IncrementRotationAngleDegrees(double degrees)
-        {
-            impl.IncrementRotationAngleDegrees(degrees);
-        }
+		/// <summary>
+		/// Gets or sets the amount the width is scaled when this surface is drawn.
+		/// 1.0 is no scaling.
+		/// Scale values can be negative, this causes the surface to be mirrored
+		/// in that direction.  This does not affect how the surface is aligned;
+		/// eg. if DisplayAlignment is top-left and ScaleWidth &lt; 0, the surface 
+		/// will still be drawn to the right of the point supplied to Draw(Point).
+		/// </summary>
+		public double ScaleWidth
+		{
+			get { return mState.ScaleWidth; }
+			set { mState.ScaleWidth = value; }
+		}
+		/// <summary>
+		/// Gets or sets the amount the height is scaled when this surface is drawn.
+		/// 1.0 is no scaling.
+		/// </summary>
+		public double ScaleHeight
+		{
+			get { return mState.ScaleHeight; }
+			set { mState.ScaleHeight = value; }
+		}
+		/// <summary>
+		/// Sets the amount of scaling when this surface is drawn.  
+		/// 1.0 is no scaling.
+		/// Scale values can be negative, this causes the surface to be mirrored
+		/// in that direction.  This does not affect how the surface is aligned;
+		/// eg. if DisplayAlignment is top-left and ScaleWidth &lt; 0, the surface 
+		/// will still be drawn to the right of the point supplied to Draw(Point).
+		/// </summary>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		public void SetScale(double width, double height)
+		{
+			ScaleWidth = width;
+			ScaleHeight = height;
+		}
+		/// <summary>
+		/// Gets the amount of scaling when this surface is drawn.
+		/// 1.0 is no scaling.
+		/// Scale values can be negative, this causes the surface to be mirrored
+		/// in that direction.  This does not affect how the surface is aligned;
+		/// eg. if DisplayAlignment is top-left and ScaleWidth &lt; 0, the surface 
+		/// will still be drawn to the right of the point supplied to Draw(Point).
+		/// </summary>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		public void GetScale(out double width, out double height)
+		{
+			width = mState.ScaleWidth;
+			height = mState.ScaleHeight;
+		}
+
+
+		/// <summary>
+		/// Gets or sets the multiplicative color for this surface.
+		/// Setting this is equivalent to setting the ColorGradient property
+		/// with a gradient with the same color in all corners.  If a gradient
+		/// is being used, getting this property returns the top-left color in the gradient.
+		/// </summary>
+		public Color Color
+		{
+			get { return mState.Color; }
+			set { mState.Color = value; }
+		}
+		/// <summary>
+		/// Gets or sets the gradient for this surface.
+		/// </summary>
+		public Gradient ColorGradient
+		{
+			get { return mState.ColorGradient; }
+			set { mState.ColorGradient = value; }
+		}
+		/// <summary>
+		/// Increments the rotation angle of this surface.
+		/// </summary>
+		/// <param name="radians">Value in radians to increase the rotation by.</param>
+		public void IncrementRotationAngle(double radians)
+		{
+			mState.RotationAngle += radians;
+		}
+		/// <summary>
+		/// Increments the rotation angle of this surface.  Value supplied is in degrees.
+		/// </summary>
+		/// <param name="degrees"></param>
+		public void IncrementRotationAngleDegrees(double degrees)
+		{
+			mState.IncrementRotationAngleDegrees(degrees);
+		}
 
         #endregion
 
@@ -466,7 +485,10 @@ namespace AgateLib.DisplayLib
         /// <param name="destY"></param>
         public void Draw(int destX, int destY)
         {
-            impl.Draw((float) destX, (float)destY);
+			mState.DrawInstances.SetCount(1);
+			mState.DrawInstances[0] = new SurfaceDrawInstance(new PointF(destX, destY));
+
+			impl.Draw(State);
         }    
         /// <summary>
         /// Draws this surface to the screen at the specified point, 
@@ -477,8 +499,11 @@ namespace AgateLib.DisplayLib
         /// <param name="destY"></param>
         public void Draw(float destX, float destY)
         {
-            impl.Draw(destX, destY);
-        }
+			mState.DrawInstances.SetCount(1);
+			mState.DrawInstances[0] = new SurfaceDrawInstance(new PointF(destX, destY));
+
+			impl.Draw(State);
+		}
         /// <summary>
         /// Draws this surface to the screen at the specified point, 
         /// using all the state information defined in the properties 
@@ -487,7 +512,7 @@ namespace AgateLib.DisplayLib
         /// <param name="destPt"></param>
         public void Draw(Point destPt)
         {
-            impl.Draw(destPt.X, destPt.Y);
+			Draw(destPt.X, destPt.Y);
         }
         /// <summary>
         /// Draws this surface to the screen at the specified point, 
@@ -497,7 +522,7 @@ namespace AgateLib.DisplayLib
         /// <param name="destPt"></param>
         public void Draw(Vector2 destPt)
         {
-            impl.Draw(destPt.X, destPt.Y);
+			Draw(destPt.X, destPt.Y);
         }
         /// <summary>
         /// Draws this surface to the screen at the specified point, 
@@ -507,7 +532,7 @@ namespace AgateLib.DisplayLib
         /// <param name="destPt"></param>
         public void Draw(PointF destPt)
         {
-            impl.Draw(destPt.X, destPt.Y);
+			Draw(destPt.X, destPt.Y);
         }
         /// <summary>
         /// Draws this surface to the screen at the specified point, 
@@ -521,7 +546,7 @@ namespace AgateLib.DisplayLib
         /// to the top-left of the surface.</param>
         public void Draw(PointF destPt, PointF rotationCenter)
         {
-            impl.Draw(destPt.X, destPt.Y, rotationCenter.X, rotationCenter.Y);
+			Draw(destPt, Rectangle.Empty, rotationCenter);
         }
         /// <summary>
         /// Draws this surface to the screen at the specified point, 
@@ -532,15 +557,33 @@ namespace AgateLib.DisplayLib
         /// </summary>
         public void Draw(float destX, float destY, float rotationCenterX, float rotationCenterY)
         {
-            impl.Draw(destX, destY, rotationCenterX, rotationCenterY);
+			Draw(new PointF(destX, destY), new PointF(rotationCenterX, rotationCenterY));
         }
 
+		internal void Draw(PointF destPt, Rectangle srcRect, PointF rotationCenter)
+		{
+			OriginAlignment oldrotation = State.RotationCenter;
+			PointF oldcenter = State.RotationCenterLocation;
 
-        public void Draw(Point location, SurfaceState state)
+			State.RotationCenter = OriginAlignment.Specified;
+			State.RotationCenterLocation = rotationCenter;
+
+			State.DrawInstances.SetCount(1);
+			State.DrawInstances[0] = new SurfaceDrawInstance(destPt, srcRect);
+
+			impl.Draw(State);
+
+			State.RotationCenterLocation = oldcenter;
+			State.RotationCenter = oldrotation;
+		}
+
+        public void Draw(SurfaceState state)
         {
             // TODO: fix this
-            Draw(location);
+			impl.Draw(state);
         }
+
+		SurfaceState rectState;
         /// <summary>
         /// Draws a portion of this surface to the specified destination
         /// rectangle.  
@@ -553,7 +596,22 @@ namespace AgateLib.DisplayLib
         /// <param name="destRect"></param>
         public void Draw(Rectangle srcRect, Rectangle destRect)
         {
-            impl.Draw(srcRect, destRect);
+			if (rectState == null)
+				rectState = State.Clone();
+			else
+				State.CopyTo(rectState, false);
+
+			rectState.RotationAngle = 0;
+			rectState.ScaleWidth = destRect.Width / (double)srcRect.Width;
+			rectState.ScaleHeight = destRect.Height / (double)srcRect.Height;
+
+			rectState.DrawInstances[0] = new SurfaceDrawInstance
+			{
+				SourceRect = srcRect,
+				DestLocation = new PointF(destRect.X, destRect.Y),
+			};
+
+			impl.Draw(rectState);
         }
 
         /// <summary>
@@ -566,9 +624,29 @@ namespace AgateLib.DisplayLib
         /// </summary>
         /// <param name="destRect"></param>
         public void Draw(Rectangle destRect)
-        {
-            impl.Draw(destRect);
+		{
+			Draw(new Rectangle(0, 0, SurfaceWidth, SurfaceHeight), destRect);
         }
+
+		void Draw(RectangleF srcRect, RectangleF destRect)
+		{
+			if (rectState == null)
+				rectState = State.Clone();
+			else
+				State.CopyTo(rectState, false);
+
+			rectState.RotationAngle = 0;
+			rectState.ScaleWidth = destRect.Width / (double)srcRect.Width;
+			rectState.ScaleHeight = destRect.Height / (double)srcRect.Height;
+
+			rectState.DrawInstances[0] = new SurfaceDrawInstance
+			{
+				SourceRect = Rectangle.Round(srcRect),
+				DestLocation = new PointF(destRect.X, destRect.Y),
+			};
+
+			impl.Draw(rectState);
+		}
 
         /// <summary>
         /// Draws the surface using an array of source and destination rectangles.
@@ -583,7 +661,8 @@ namespace AgateLib.DisplayLib
                 throw new ArgumentException(
                     "Source and dest rect arrays are not the same size!  Use overload which indicates length of arrays to use.");
             }
-            impl.DrawRects(srcRects, destRects, 0, srcRects.Length);
+
+			DrawRects(srcRects, destRects, 0, srcRects.Length);
         }
         /// <summary>
         /// Draws the surface using an array of source and destination rectangles.
@@ -598,7 +677,8 @@ namespace AgateLib.DisplayLib
                 throw new ArgumentException(
                     "Source and dest rect arrays are not the same size!  Use overload which indicates length of arrays to use.");
             }
-            impl.DrawRects(srcRects, destRects, 0, srcRects.Length);
+
+			DrawRects(srcRects, destRects, 0, srcRects.Length);
         }
 
         /// <summary>
@@ -611,8 +691,10 @@ namespace AgateLib.DisplayLib
         /// <param name="length">Number of elements in the arrays to use.</param>
         public void DrawRects(Rectangle[] srcRects, Rectangle[] destRects, int start, int length)
         {
-            impl.DrawRects(srcRects, destRects, start, length);
-        }
+			// TODO: optimize this
+			for (int i = start; i < length; i++)
+				Draw(srcRects[i], destRects[i]);
+		}
         /// <summary>
         /// Draws the surface using an array of source and destination rectangles.
         /// This method will throw an exception if the two arrays are not the same size.
@@ -623,8 +705,10 @@ namespace AgateLib.DisplayLib
         /// <param name="length">Number of elements in the arrays to use.</param>
         public void DrawRects(RectangleF[] srcRects, RectangleF[] destRects, int start, int length)
         {
-            impl.DrawRects(srcRects, destRects, start, length);
-        }
+			// TODO: optimize this
+			for (int i = start; i < length; i++)
+				Draw(srcRects[i], destRects[i]);
+		}
 
         #endregion
  
@@ -847,20 +931,6 @@ namespace AgateLib.DisplayLib
 
         #endregion
 
-        internal void Draw(float x, float y, Rectangle srcRect, float rotationCenterX, float rotationCenterY)
-        {
-            impl.Draw(x, y, srcRect, rotationCenterX, rotationCenterY);
-        }
 
-
-        #region ISurface Members
-
-
-        public SurfaceState State
-        {
-            get { return impl.State; }
-        }
-
-        #endregion
     }
 }

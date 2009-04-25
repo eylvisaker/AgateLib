@@ -39,7 +39,6 @@ namespace FontTester
 
                 int frame = 0;
 
-
                 while (wind.IsClosed == false)
                 {
                     Display.BeginFrame();

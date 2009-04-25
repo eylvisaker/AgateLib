@@ -397,5 +397,20 @@ namespace AgateLib.Geometry
                 return true;
         }
 
-    }
+
+		/// <summary>
+		/// Returns a rectangle structure with all the values (location, size) from the 
+		/// floating point rectangle structure rounded to the nearest integer.
+		/// </summary>
+		/// <param name="rect"></param>
+		/// <returns></returns>
+		public static Rectangle Round(RectangleF rect)
+		{
+			return new Rectangle(
+				(int)Math.Round(rect.X),
+				(int)Math.Round(rect.Y),
+				(int)Math.Round(rect.Width),
+				(int)Math.Round(rect.Height));
+		}
+	}
 }

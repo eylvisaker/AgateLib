@@ -38,7 +38,6 @@ namespace AgateLib.BitmapFont
 	public class BitmapFontImpl : FontSurfaceImpl
 	{
 		Surface mSurface;
-
 		FontMetrics mFontMetrics;
 
 		int mCharHeight;
@@ -347,8 +346,6 @@ namespace AgateLib.BitmapFont
 				cache.NeedsRefresh = false;
 			}
 		}
-
-
 	}
 
 	/// <summary>

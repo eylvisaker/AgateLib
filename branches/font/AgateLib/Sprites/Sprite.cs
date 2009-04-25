@@ -949,9 +949,8 @@ namespace AgateLib.Sprites
             set { mState = value; }
         }
 
-        public void Draw(Point Location, SurfaceState State)
+        public void Draw(SurfaceState State)
         {
-            throw new NotImplementedException();
         }
 
     }
