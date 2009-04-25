@@ -39,247 +39,247 @@ using Surface = AgateLib.DisplayLib.Surface;
 namespace AgateMDX
 {
 
-    public class MDX1_Surface : SurfaceImpl, MDX1_IRenderTarget 
-    {
-        #region --- Private Variables ---
+	public class MDX1_Surface : SurfaceImpl, MDX1_IRenderTarget
+	{
+		#region --- Private Variables ---
 
-        MDX1_Display mDisplay;
-        D3DDevice mDevice;
+		MDX1_Display mDisplay;
+		D3DDevice mDevice;
 
-        Ref<Texture> mTexture;
-        RenderToSurface mRenderToSurface;
+		Ref<Texture> mTexture;
+		RenderToSurface mRenderToSurface;
 
-        string mFileName;
+		string mFileName;
 
-        Rectangle mSrcRect;
-        Size mTextureSize;
-        PointF mCenterPoint;
-        float mRotationCos = 1.0f;
-        float mRotationSin = 0.0f;
+		Rectangle mSrcRect;
+		Size mTextureSize;
+		PointF mCenterPoint;
+		float mRotationCos = 1.0f;
+		float mRotationSin = 0.0f;
 
-        PositionColorNormalTexture[] mVerts = new PositionColorNormalTexture[4];
-        short[] mIndices = new short[] { 0, 2, 1, 1, 2, 3 };
+		PositionColorNormalTexture[] mVerts = new PositionColorNormalTexture[4];
+		short[] mIndices = new short[] { 0, 2, 1, 1, 2, 3 };
 
-        PositionColorNormalTexture[] mExtraVerts = new PositionColorNormalTexture[4];
-        short[] mExtraIndices = new short[] { 0, 2, 1, 1, 2, 3 };
+		PositionColorNormalTexture[] mExtraVerts = new PositionColorNormalTexture[4];
+		short[] mExtraIndices = new short[] { 0, 2, 1, 1, 2, 3 };
 
-        #endregion
+		#endregion
 
-        #region --- TextureCoordinates structure ---
+		#region --- TextureCoordinates structure ---
 
-        struct TextureCoordinates
-        {
-            public float Left;
-            public float Top;
-            public float Right;
-            public float Bottom;
+		struct TextureCoordinates
+		{
+			public float Left;
+			public float Top;
+			public float Right;
+			public float Bottom;
 
-            public TextureCoordinates(float left, float top, float right, float bottom)
-            {
-                this.Left = left;
-                this.Top = top;
-                this.Right = right;
-                this.Bottom = bottom;
-            }
-        }
+			public TextureCoordinates(float left, float top, float right, float bottom)
+			{
+				this.Left = left;
+				this.Top = top;
+				this.Right = right;
+				this.Bottom = bottom;
+			}
+		}
 
-        #endregion
+		#endregion
 
-        #region --- Creation / Destruction ---
+		#region --- Creation / Destruction ---
 
-        public MDX1_Surface()
-        {
-            mDisplay = Display.Impl as MDX1_Display;
-            mDevice = mDisplay.D3D_Device;
+		public MDX1_Surface()
+		{
+			mDisplay = Display.Impl as MDX1_Display;
+			mDevice = mDisplay.D3D_Device;
 
-            InitVerts();
-        }
+			InitVerts();
+		}
 
-        public MDX1_Surface(string fileName)
-        {
-            mFileName = fileName;
+		public MDX1_Surface(string fileName)
+		{
+			mFileName = fileName;
 
-            mDisplay = Display.Impl as MDX1_Display;
-            mDevice = mDisplay.D3D_Device;
+			mDisplay = Display.Impl as MDX1_Display;
+			mDevice = mDisplay.D3D_Device;
 
-            if (mDevice == null)
-            {
-                throw new Exception("Error: It appears that AgateLib has not been initialized yet.  Have you created a DisplayWindow?");
-            }
+			if (mDevice == null)
+			{
+				throw new Exception("Error: It appears that AgateLib has not been initialized yet.  Have you created a DisplayWindow?");
+			}
 
-            LoadFromFile();
+			LoadFromFile();
 
-            mDevice.Device.DeviceReset += new EventHandler(mDevice_DeviceReset);
+			mDevice.Device.DeviceReset += new EventHandler(mDevice_DeviceReset);
 
-            InitVerts();
-        }
-        public MDX1_Surface(Stream stream)
-        {
-            mDisplay = Display.Impl as MDX1_Display;
-            mDevice = mDisplay.D3D_Device;
+			InitVerts();
+		}
+		public MDX1_Surface(Stream stream)
+		{
+			mDisplay = Display.Impl as MDX1_Display;
+			mDevice = mDisplay.D3D_Device;
 
-            if (mDevice == null)
-            {
-                throw new Exception("Error: It appears that AgateLib has not been initialized yet.  Have you created a DisplayWindow?");
-            }
+			if (mDevice == null)
+			{
+				throw new Exception("Error: It appears that AgateLib has not been initialized yet.  Have you created a DisplayWindow?");
+			}
 
-            LoadFromStream(stream);
+			LoadFromStream(stream);
 
-            InitVerts();
-        }
-        public MDX1_Surface(Size size)
-        {
-            mSrcRect = new Rectangle(new Point(0, 0), size);
+			InitVerts();
+		}
+		public MDX1_Surface(Size size)
+		{
+			mSrcRect = new Rectangle(new Point(0, 0), size);
 
-            mDisplay = Display.Impl as MDX1_Display;
-            mDevice = mDisplay.D3D_Device;
-            /*
-            Bitmap bitmap = new Bitmap(size.Width, size.Height);
-            Graphics g = Graphics.FromImage(bitmap);
-            g.Clear(Color.FromArgb(0, 0, 0, 0));
-            g.Dispose();
-            */
-            //mTexture = Texture.FromBitmap(mDevice, bitmap, Usage.None, Pool.Managed);
-            mTexture = new Ref<Texture>(new Texture(mDevice.Device, size.Width, size.Height, 1, Usage.None ,
-                Format.A8R8G8B8, Pool.Managed));
+			mDisplay = Display.Impl as MDX1_Display;
+			mDevice = mDisplay.D3D_Device;
+			/*
+			Bitmap bitmap = new Bitmap(size.Width, size.Height);
+			Graphics g = Graphics.FromImage(bitmap);
+			g.Clear(Color.FromArgb(0, 0, 0, 0));
+			g.Dispose();
+			*/
+			//mTexture = Texture.FromBitmap(mDevice, bitmap, Usage.None, Pool.Managed);
+			mTexture = new Ref<Texture>(new Texture(mDevice.Device, size.Width, size.Height, 1, Usage.None,
+				Format.A8R8G8B8, Pool.Managed));
 
-            mRenderToSurface = new RenderToSurface(mDevice.Device, size.Width, size.Height, 
-                Format.A8R8G8B8, true, DepthFormat.D16 );
+			mRenderToSurface = new RenderToSurface(mDevice.Device, size.Width, size.Height,
+				Format.A8R8G8B8, true, DepthFormat.D16);
 
-            mRenderToSurface.BeginScene(mTexture.Value.GetSurfaceLevel(0));
-            mDevice.Clear(ClearFlags.Target, Color.FromArgb(0, 0, 0, 0).ToArgb(), 1.0f, 0);
-            mRenderToSurface.EndScene(Filter.None);
+			mRenderToSurface.BeginScene(mTexture.Value.GetSurfaceLevel(0));
+			mDevice.Clear(ClearFlags.Target, Color.FromArgb(0, 0, 0, 0).ToArgb(), 1.0f, 0);
+			mRenderToSurface.EndScene(Filter.None);
 
-            mRenderToSurface.Dispose();
-            mRenderToSurface = null;
+			mRenderToSurface.Dispose();
+			mRenderToSurface = null;
 
-            mTextureSize = mSrcRect.Size;
+			mTextureSize = mSrcRect.Size;
 
-            InitVerts();
-        }
-        public MDX1_Surface(Ref<Texture> texture, Rectangle sourceRect)
-        {
-            mSrcRect = sourceRect;
+			InitVerts();
+		}
+		public MDX1_Surface(Ref<Texture> texture, Rectangle sourceRect)
+		{
+			mSrcRect = sourceRect;
 
-            mDisplay = Display.Impl as MDX1_Display;
-            mDevice = mDisplay.D3D_Device;
+			mDisplay = Display.Impl as MDX1_Display;
+			mDevice = mDisplay.D3D_Device;
 
-            mTexture = new Ref<Texture>(texture);
+			mTexture = new Ref<Texture>(texture);
 
-            mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
-                mTexture.Value.GetSurfaceLevel(0).Description.Height);
+			mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
+				mTexture.Value.GetSurfaceLevel(0).Description.Height);
 
-            InitVerts();
-        }
-        public override void Dispose()
-        {
-            if (mTexture.IsDisposed == false)
-            {
-                mTexture.Dispose();
-            }
-        }
+			InitVerts();
+		}
+		public override void Dispose()
+		{
+			if (mTexture.IsDisposed == false)
+			{
+				mTexture.Dispose();
+			}
+		}
 
 
-        private void InitVerts()
-        {
-            SetVertsTextureCoordinates(mVerts, 0, mSrcRect);
-            SetVertsColor(new Gradient(Color.White), mVerts, 0, 4);
-        }
-        public void LoadFromStream(Stream st)
-        {
-            Drawing.Bitmap bitmap = new Drawing.Bitmap(st);
+		private void InitVerts()
+		{
+			SetVertsTextureCoordinates(mVerts, 0, mSrcRect);
+			SetVertsColor(new Gradient(Color.White), mVerts, 0, 4);
+		}
+		public void LoadFromStream(Stream st)
+		{
+			Drawing.Bitmap bitmap = new Drawing.Bitmap(st);
 
-            mSrcRect = new Rectangle(Point.Empty, Interop.Convert(bitmap.Size));
+			mSrcRect = new Rectangle(Point.Empty, Interop.Convert(bitmap.Size));
 
-            // this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
-            System.IO.MemoryStream stream = new System.IO.MemoryStream();
-            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+			// this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
+			System.IO.MemoryStream stream = new System.IO.MemoryStream();
+			bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
 
-            stream.Position = 0;
+			stream.Position = 0;
+
+			//mTexture = new Texture(mDevice, bitmap, Usage.None, Pool.Managed);
+			Format format;
+
+			switch (mDevice.Device.DisplayMode.Format)
+			{
+				case Format.X8R8G8B8:
+					format = Format.A8R8G8B8;
+					break;
+
+				case Format.X8B8G8R8:
+					format = Format.A8B8G8R8;
+					break;
+
+				default:
+					System.Diagnostics.Debug.Assert(false);
+					throw new Exception("What format do I use?");
+
+			}
+
+			mTexture = new Ref<Texture>(TextureLoader.FromStream(mDevice.Device,
+				stream, 0, 0, 1, Usage.None,
+				format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
+
+			mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
+				mTexture.Value.GetSurfaceLevel(0).Description.Height);
+
+			bitmap.Dispose();
+		}
+		public void LoadFromFile()
+		{
+			if (string.IsNullOrEmpty(mFileName))
+				return;
+
+			string path = mFileName;
+			Drawing.Bitmap bitmap = new Drawing.Bitmap(path);
+
+			mSrcRect = new Rectangle(Point.Empty, Interop.Convert(bitmap.Size));
+			/*
+			// this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
+			System.IO.MemoryStream stream = new System.IO.MemoryStream();
+			bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+
+			stream.Position = 0;
             
-            //mTexture = new Texture(mDevice, bitmap, Usage.None, Pool.Managed);
-            Format format;
+			mTexture = Texture.FromStream(mDevice, stream, Usage.None, Pool.Managed);
+			 * */
+			//mTexture = new Texture(mDevice, bitmap, Usage.None, Pool.Managed);
+			Format format;
 
-            switch (mDevice.Device.DisplayMode.Format)
-            {
-                case Format.X8R8G8B8:
-                    format = Format.A8R8G8B8;
-                    break;
+			switch (mDevice.Device.DisplayMode.Format)
+			{
+				case Format.X8R8G8B8:
+					format = Format.A8R8G8B8;
+					break;
 
-                case Format.X8B8G8R8:
-                    format = Format.A8B8G8R8;
-                    break;
+				case Format.X8B8G8R8:
+					format = Format.A8B8G8R8;
+					break;
 
-                default:
-                    System.Diagnostics.Debug.Assert(false);
-                    throw new Exception("What format do I use?");
+				default:
+					System.Diagnostics.Debug.Assert(false);
+					throw new Exception("What format do I use?");
 
-            }
+			}
 
-            mTexture = new Ref<Texture>(TextureLoader.FromStream(mDevice.Device, 
-                stream, 0, 0, 1, Usage.None,
-                format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
+			mTexture = new Ref<Texture>(TextureLoader.FromFile(mDevice.Device, path, 0, 0, 1, Usage.None,
+				 format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
 
-            mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
-                mTexture.Value.GetSurfaceLevel(0).Description.Height);
+			mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
+				mTexture.Value.GetSurfaceLevel(0).Description.Height);
 
-            bitmap.Dispose();
-        }
-        public void LoadFromFile()
-        {
-            if (string.IsNullOrEmpty(mFileName))
-                return;
+			bitmap.Dispose();
+		}
 
-            string path = mFileName;
-            Drawing.Bitmap bitmap = new Drawing.Bitmap(path);
+		#endregion
+		#region --- Events and event handlers ---
 
-            mSrcRect = new Rectangle(Point.Empty, Interop.Convert(bitmap.Size));
-            /*
-            // this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
-            System.IO.MemoryStream stream = new System.IO.MemoryStream();
-            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+		public void mDevice_DeviceReset(object sender, EventArgs e)
+		{
+			LoadFromFile();
+		}
 
-            stream.Position = 0;
-            
-            mTexture = Texture.FromStream(mDevice, stream, Usage.None, Pool.Managed);
-             * */
-            //mTexture = new Texture(mDevice, bitmap, Usage.None, Pool.Managed);
-            Format format;
-
-            switch (mDevice.Device.DisplayMode.Format)
-            {
-                case Format.X8R8G8B8:
-                    format = Format.A8R8G8B8;
-                    break;
-
-                case Format.X8B8G8R8:
-                    format = Format.A8B8G8R8;
-                    break;
-
-                default:
-                    System.Diagnostics.Debug.Assert(false);
-                    throw new Exception("What format do I use?");
-                    
-            }
-
-            mTexture = new Ref<Texture>(TextureLoader.FromFile(mDevice.Device, path, 0, 0, 1, Usage.None,
-                 format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
-
-            mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
-                mTexture.Value.GetSurfaceLevel(0).Description.Height);
-
-            bitmap.Dispose();
-        }
-
-        #endregion
-        #region --- Events and event handlers ---
-
-        public void mDevice_DeviceReset(object sender, EventArgs e)
-        {
-            LoadFromFile();
-        }
-
-        #endregion
+		#endregion
 
 		#region --- Drawing to screen functions ---
 
@@ -359,336 +359,336 @@ namespace AgateMDX
 			}
 		}
 
-        private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex,
-            Rectangle srcRect)
-        {
-            TextureCoordinates texCoords = GetTextureCoordinates(srcRect);
+		private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex,
+			Rectangle srcRect)
+		{
+			TextureCoordinates texCoords = GetTextureCoordinates(srcRect);
 
-            SetVertsTextureCoordinates(verts, startIndex, texCoords);
-        }
+			SetVertsTextureCoordinates(verts, startIndex, texCoords);
+		}
 
-        private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex, 
-            TextureCoordinates texCoords)
-        {
-            verts[startIndex].Tu = texCoords.Left;
-            verts[startIndex].Tv = texCoords.Top;
+		private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex,
+			TextureCoordinates texCoords)
+		{
+			verts[startIndex].Tu = texCoords.Left;
+			verts[startIndex].Tv = texCoords.Top;
 
-            verts[startIndex + 1].Tu = texCoords.Right;
-            verts[startIndex + 1].Tv = texCoords.Top;
+			verts[startIndex + 1].Tu = texCoords.Right;
+			verts[startIndex + 1].Tv = texCoords.Top;
 
-            verts[startIndex + 2].Tu = texCoords.Left;
-            verts[startIndex + 2].Tv = texCoords.Bottom;
+			verts[startIndex + 2].Tu = texCoords.Left;
+			verts[startIndex + 2].Tv = texCoords.Bottom;
 
-            verts[startIndex + 3].Tu = texCoords.Right;
-            verts[startIndex + 3].Tv = texCoords.Bottom;
-        }
+			verts[startIndex + 3].Tu = texCoords.Right;
+			verts[startIndex + 3].Tv = texCoords.Bottom;
+		}
 
-        private TextureCoordinates GetTextureCoordinates(Rectangle srcRect)
-        {
-            return GetTextureCoordinates(new RectangleF(
-                srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height));
-        }
-        private TextureCoordinates GetTextureCoordinates(RectangleF srcRect)
-        {
-            // if you change these, besure to uncomment the divisions below.
-            const float leftBias = 0.0f;
-            const float topBias = 0.0f;
-            const float rightBias = 0.0f;
-            const float bottomBias = 0.0f;
-            /*
-            leftBias /= DisplayWidth;
-            rightBias /= DisplayWidth;
-            topBias /= DisplayHeight;
-            bottomBias /= DisplayHeight;
-            */
-            float uLeft = srcRect.Left / (float)mTextureSize.Width + leftBias;
-            float vTop = srcRect.Top / (float)mTextureSize.Height + topBias;
-            float uRight = srcRect.Right / (float)mTextureSize.Width + rightBias;
-            float vBottom = srcRect.Bottom / (float)mTextureSize.Height + bottomBias;
+		private TextureCoordinates GetTextureCoordinates(Rectangle srcRect)
+		{
+			return GetTextureCoordinates(new RectangleF(
+				srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height));
+		}
+		private TextureCoordinates GetTextureCoordinates(RectangleF srcRect)
+		{
+			// if you change these, besure to uncomment the divisions below.
+			const float leftBias = 0.0f;
+			const float topBias = 0.0f;
+			const float rightBias = 0.0f;
+			const float bottomBias = 0.0f;
+			/*
+			leftBias /= DisplayWidth;
+			rightBias /= DisplayWidth;
+			topBias /= DisplayHeight;
+			bottomBias /= DisplayHeight;
+			*/
+			float uLeft = srcRect.Left / (float)mTextureSize.Width + leftBias;
+			float vTop = srcRect.Top / (float)mTextureSize.Height + topBias;
+			float uRight = srcRect.Right / (float)mTextureSize.Width + rightBias;
+			float vBottom = srcRect.Bottom / (float)mTextureSize.Height + bottomBias;
 
-            TextureCoordinates texCoords = new TextureCoordinates(uLeft, vTop, uRight, vBottom);
-            return texCoords;
-        }
+			TextureCoordinates texCoords = new TextureCoordinates(uLeft, vTop, uRight, vBottom);
+			return texCoords;
+		}
 
-        private void SetVertsColor(Gradient ColorGradient, PositionColorNormalTexture[] verts, int startIndex, int count)
-        {
-            verts[startIndex].Color = ColorGradient.TopLeft.ToArgb();
-            verts[startIndex + 1].Color = ColorGradient.TopRight.ToArgb();
-            verts[startIndex + 2].Color = ColorGradient.BottomLeft.ToArgb();
-            verts[startIndex + 3].Color = ColorGradient.BottomRight.ToArgb();
-        }
-        private void SetVertsColor(Gradient ColorGradient, PositionColorNormalTexture[] verts, int startIndex, int count,
-            double x, double y, double width, double height)
-        {
-            verts[startIndex].Color = ColorGradient.Interpolate(x, y).ToArgb();
-            verts[startIndex + 1].Color = ColorGradient.Interpolate(x + width, y).ToArgb();
-            verts[startIndex + 2].Color = ColorGradient.Interpolate(x, y + height).ToArgb();
-            verts[startIndex + 3].Color = ColorGradient.Interpolate(x + width, y + height).ToArgb();
-        }
+		private void SetVertsColor(Gradient ColorGradient, PositionColorNormalTexture[] verts, int startIndex, int count)
+		{
+			verts[startIndex].Color = ColorGradient.TopLeft.ToArgb();
+			verts[startIndex + 1].Color = ColorGradient.TopRight.ToArgb();
+			verts[startIndex + 2].Color = ColorGradient.BottomLeft.ToArgb();
+			verts[startIndex + 3].Color = ColorGradient.BottomRight.ToArgb();
+		}
+		private void SetVertsColor(Gradient ColorGradient, PositionColorNormalTexture[] verts, int startIndex, int count,
+			double x, double y, double width, double height)
+		{
+			verts[startIndex].Color = ColorGradient.Interpolate(x, y).ToArgb();
+			verts[startIndex + 1].Color = ColorGradient.Interpolate(x + width, y).ToArgb();
+			verts[startIndex + 2].Color = ColorGradient.Interpolate(x, y + height).ToArgb();
+			verts[startIndex + 3].Color = ColorGradient.Interpolate(x + width, y + height).ToArgb();
+		}
 
-        private void SetVertsPosition(PositionColorNormalTexture[] verts, int index,
-            RectangleF dest, float rotationCenterX, float rotationCenterY,
+		private void SetVertsPosition(PositionColorNormalTexture[] verts, int index,
+			RectangleF dest, float rotationCenterX, float rotationCenterY,
 			OriginAlignment DisplayAlignment,
 			float mRotationCos, float mRotationSin)
-        {
-            float destX = dest.X -0.5f;
-            float destY = dest.Y -0.5f;
-            float destWidth = dest.Width;
-            float destHeight = dest.Height;
+		{
+			float destX = dest.X - 0.5f;
+			float destY = dest.Y - 0.5f;
+			float destWidth = dest.Width;
+			float destHeight = dest.Height;
 
-            
-            mCenterPoint = Origin.CalcF(DisplayAlignment, dest.Size);
 
-            destX += rotationCenterX - mCenterPoint.X;
-            destY += rotationCenterY - mCenterPoint.Y;
+			mCenterPoint = Origin.CalcF(DisplayAlignment, dest.Size);
 
-            // Point at (0, 0) local coordinates
-            verts[index].X = mRotationCos * (-rotationCenterX) +
-                         mRotationSin * (-rotationCenterY) + destX;
+			destX += rotationCenterX - mCenterPoint.X;
+			destY += rotationCenterY - mCenterPoint.Y;
 
-            verts[index].Y = -mRotationSin * (-rotationCenterX) +
-                          mRotationCos * (-rotationCenterY) + destY;
+			// Point at (0, 0) local coordinates
+			verts[index].X = mRotationCos * (-rotationCenterX) +
+						 mRotationSin * (-rotationCenterY) + destX;
 
-            // Point at (DisplayWidth, 0) local coordinates
-            verts[index + 1].X = mRotationCos * (-rotationCenterX + destWidth) +
-                         mRotationSin * (-rotationCenterY) + destX;
+			verts[index].Y = -mRotationSin * (-rotationCenterX) +
+						  mRotationCos * (-rotationCenterY) + destY;
 
-            verts[index + 1].Y = -mRotationSin * (-rotationCenterX + destWidth) +
-                          mRotationCos * (-rotationCenterY) + destY;
+			// Point at (DisplayWidth, 0) local coordinates
+			verts[index + 1].X = mRotationCos * (-rotationCenterX + destWidth) +
+						 mRotationSin * (-rotationCenterY) + destX;
 
-            // Point at (0, DisplayHeight) local coordinates
-            verts[index + 2].X = mRotationCos * (-rotationCenterX) +
-                         mRotationSin * (-rotationCenterY + destHeight) + destX;
+			verts[index + 1].Y = -mRotationSin * (-rotationCenterX + destWidth) +
+						  mRotationCos * (-rotationCenterY) + destY;
 
-            verts[index + 2].Y = (-mRotationSin * (-rotationCenterX) +
-                           mRotationCos * (-rotationCenterY + destHeight)) + destY;
+			// Point at (0, DisplayHeight) local coordinates
+			verts[index + 2].X = mRotationCos * (-rotationCenterX) +
+						 mRotationSin * (-rotationCenterY + destHeight) + destX;
 
-            // Point at (DisplayWidth, DisplayHeight) local coordinates
-            verts[index + 3].X = mRotationCos * (-rotationCenterX + destWidth) +
-                         mRotationSin * (-rotationCenterY + destHeight) + destX;
+			verts[index + 2].Y = (-mRotationSin * (-rotationCenterX) +
+						   mRotationCos * (-rotationCenterY + destHeight)) + destY;
 
-            verts[index + 3].Y = -mRotationSin * (-rotationCenterX + destWidth) +
-                          mRotationCos * (-rotationCenterY + destHeight) + destY;
+			// Point at (DisplayWidth, DisplayHeight) local coordinates
+			verts[index + 3].X = mRotationCos * (-rotationCenterX + destWidth) +
+						 mRotationSin * (-rotationCenterY + destHeight) + destX;
 
-            for (int i = 0; i < 4; i++)
-            {
-                verts[index + i].nx = 0;
-                verts[index + i].ny = 0;
-                verts[index + i].nz = -1;
-            }
-        }
+			verts[index + 3].Y = -mRotationSin * (-rotationCenterX + destWidth) +
+						  mRotationCos * (-rotationCenterY + destHeight) + destY;
+
+			for (int i = 0; i < 4; i++)
+			{
+				verts[index + i].nx = 0;
+				verts[index + i].ny = 0;
+				verts[index + i].nz = -1;
+			}
+		}
 
 
 		#endregion
-   
-        #region --- Overriden public properties ---
 
-        public override Size SurfaceSize
-        {
-            get { return mSrcRect.Size; }
-        }
-        #endregion
+		#region --- Overriden public properties ---
 
-        #region --- Surface saving ---
+		public override Size SurfaceSize
+		{
+			get { return mSrcRect.Size; }
+		}
+		#endregion
 
-        public override void SaveTo(string frameFile, ImageFileFormat format)
-        {
-            Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
-            Direct3D.ImageFileFormat d3dformat = Microsoft.DirectX.Direct3D.ImageFileFormat.Png;
+		#region --- Surface saving ---
 
-            switch (format)
-            {
-                case ImageFileFormat.Bmp: d3dformat = Direct3D.ImageFileFormat.Bmp; break;
-                case ImageFileFormat.Png: d3dformat = Direct3D.ImageFileFormat.Png; break;
-                case ImageFileFormat.Jpg: d3dformat = Direct3D.ImageFileFormat.Jpg; break;
-                case ImageFileFormat.Tga: d3dformat = Direct3D.ImageFileFormat.Tga; break;
-            }
+		public override void SaveTo(string frameFile, ImageFileFormat format)
+		{
+			Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
+			Direct3D.ImageFileFormat d3dformat = Microsoft.DirectX.Direct3D.ImageFileFormat.Png;
 
-            SurfaceLoader.Save(frameFile, d3dformat, surf, Interop.Convert(mSrcRect));
-        }
+			switch (format)
+			{
+				case ImageFileFormat.Bmp: d3dformat = Direct3D.ImageFileFormat.Bmp; break;
+				case ImageFileFormat.Png: d3dformat = Direct3D.ImageFileFormat.Png; break;
+				case ImageFileFormat.Jpg: d3dformat = Direct3D.ImageFileFormat.Jpg; break;
+				case ImageFileFormat.Tga: d3dformat = Direct3D.ImageFileFormat.Tga; break;
+			}
 
-        #endregion
+			SurfaceLoader.Save(frameFile, d3dformat, surf, Interop.Convert(mSrcRect));
+		}
 
-        #region --- MDX1_IRenderTarget Members ---
+		#endregion
 
-        public override void BeginRender()
-        {
-            // it looks like Direct3D creates a new surface.
-            // so here we will create a new texture, and draw the current texture to it
-            // then discard the old one.  
-            Texture t = new Texture(mDevice.Device, SurfaceWidth, SurfaceHeight, 1, Usage.None,
-                Format.A8R8G8B8, Pool.Managed);
+		#region --- MDX1_IRenderTarget Members ---
 
-            Direct3D.Surface surfaceTarget = t.GetSurfaceLevel(0);
+		public override void BeginRender()
+		{
+			// it looks like Direct3D creates a new surface.
+			// so here we will create a new texture, and draw the current texture to it
+			// then discard the old one.  
+			Texture t = new Texture(mDevice.Device, SurfaceWidth, SurfaceHeight, 1, Usage.None,
+				Format.A8R8G8B8, Pool.Managed);
 
-            mRenderToSurface = new RenderToSurface(mDevice.Device, SurfaceWidth, SurfaceHeight,
-                Format.A8R8G8B8, false, DepthFormat.D16);
+			Direct3D.Surface surfaceTarget = t.GetSurfaceLevel(0);
 
-            Viewport vp = new Viewport();
+			mRenderToSurface = new RenderToSurface(mDevice.Device, SurfaceWidth, SurfaceHeight,
+				Format.A8R8G8B8, false, DepthFormat.D16);
 
-            vp.X = 0;
-            vp.Y = 0;
-            vp.Width = SurfaceWidth;
-            vp.Height = SurfaceHeight;
+			Viewport vp = new Viewport();
 
-            mRenderToSurface.BeginScene(surfaceTarget, vp);
+			vp.X = 0;
+			vp.Y = 0;
+			vp.Width = SurfaceWidth;
+			vp.Height = SurfaceHeight;
 
-            Display.Clear();
+			mRenderToSurface.BeginScene(surfaceTarget, vp);
+
+			Display.Clear();
 			SurfaceState st = new SurfaceState();
 
 			Draw(st);
 
-            mTexture.Dispose();
-            mTexture = new Ref<Texture>(t);
+			mTexture.Dispose();
+			mTexture = new Ref<Texture>(t);
 
-        }
-        public override void EndRender()
-        {
-            mRenderToSurface.EndScene(Filter.None);
-        }
+		}
+		public override void EndRender()
+		{
+			mRenderToSurface.EndScene(Filter.None);
+		}
 
-        #endregion
+		#endregion
 
-        #region --- SubSurface stuff ---
+		#region --- SubSurface stuff ---
 
-        public override SurfaceImpl CarveSubSurface(Surface surf, Rectangle srcRect)
-        {
-            Rectangle newSrcRect = new Rectangle(
-                mSrcRect.Left + srcRect.Left,
-                mSrcRect.Top + srcRect.Top,
-                srcRect.Width,
-                srcRect.Height);
+		public override SurfaceImpl CarveSubSurface(Surface surf, Rectangle srcRect)
+		{
+			Rectangle newSrcRect = new Rectangle(
+				mSrcRect.Left + srcRect.Left,
+				mSrcRect.Top + srcRect.Top,
+				srcRect.Width,
+				srcRect.Height);
 
-            return new MDX1_Surface(mTexture, newSrcRect);
-        }
-        public override void SetSourceSurface(SurfaceImpl surf, Rectangle srcRect)
-        {
-            mTexture.Dispose();
-            mTexture = new Ref<Texture>((surf as MDX1_Surface).mTexture);
+			return new MDX1_Surface(mTexture, newSrcRect);
+		}
+		public override void SetSourceSurface(SurfaceImpl surf, Rectangle srcRect)
+		{
+			mTexture.Dispose();
+			mTexture = new Ref<Texture>((surf as MDX1_Surface).mTexture);
 
-            mSrcRect = srcRect;
+			mSrcRect = srcRect;
 
-            Direct3D.Surface d3dsurf = mTexture.Value.GetSurfaceLevel(0);
+			Direct3D.Surface d3dsurf = mTexture.Value.GetSurfaceLevel(0);
 
-            mTextureSize = new Size(d3dsurf.Description.Width, d3dsurf.Description.Height);
+			mTextureSize = new Size(d3dsurf.Description.Width, d3dsurf.Description.Height);
 
-            SetVertsTextureCoordinates(mVerts, 0, mSrcRect);
-        }
+			SetVertsTextureCoordinates(mVerts, 0, mSrcRect);
+		}
 
-        #endregion
+		#endregion
 
 
-        public override PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
-        {
-            Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
+		public override PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
+		{
+			Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
 
-            rect.X += mSrcRect.X;
-            rect.Y += mSrcRect.Y;
+			rect.X += mSrcRect.X;
+			rect.Y += mSrcRect.Y;
 
-            int stride;
-            int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
+			int stride;
+			int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
 
-            PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
+			PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
 
-            if (format == PixelFormat.Any)
-                format = pixelFormat;
+			if (format == PixelFormat.Any)
+				format = pixelFormat;
 
-            GraphicsStream stm = surf.LockRectangle(
-                new Drawing.Rectangle(0, 0, mTextureSize.Width, mTextureSize.Height),
-                LockFlags.ReadOnly, out stride);
+			GraphicsStream stm = surf.LockRectangle(
+				new Drawing.Rectangle(0, 0, mTextureSize.Width, mTextureSize.Height),
+				LockFlags.ReadOnly, out stride);
 
-            byte[] array = new byte[SurfaceWidth * SurfaceHeight * pixelPitch];
-            int length = SurfaceWidth * pixelPitch;
-            int index = 0;
+			byte[] array = new byte[SurfaceWidth * SurfaceHeight * pixelPitch];
+			int length = SurfaceWidth * pixelPitch;
+			int index = 0;
 
-            unsafe
-            {
-                byte* ptr = (byte*)stm.InternalDataPointer;
+			unsafe
+			{
+				byte* ptr = (byte*)stm.InternalDataPointer;
 
-                for (int i = rect.Top; i < rect.Bottom; i++)
-                {
-                    // hack if the size requested is too large.
-                    if (i >= mTextureSize.Height)
-                        break;
+				for (int i = rect.Top; i < rect.Bottom; i++)
+				{
+					// hack if the size requested is too large.
+					if (i >= mTextureSize.Height)
+						break;
 
-                    //IntPtr ptr = (IntPtr)((int)stm.InternalData + i * stride + rect.Left * pixelPitch);
-                    IntPtr mptr = (IntPtr)(ptr + i * stride + rect.Left * pixelPitch);
+					//IntPtr ptr = (IntPtr)((int)stm.InternalData + i * stride + rect.Left * pixelPitch);
+					IntPtr mptr = (IntPtr)(ptr + i * stride + rect.Left * pixelPitch);
 
-                    Marshal.Copy(mptr, array, index, length);
+					Marshal.Copy(mptr, array, index, length);
 
-                    index += length;
-                }
-            }
+					index += length;
+				}
+			}
 
-            surf.UnlockRectangle();
-            surf.Dispose();
+			surf.UnlockRectangle();
+			surf.Dispose();
 
-            return new PixelBuffer(format, rect.Size, array, pixelFormat);
+			return new PixelBuffer(format, rect.Size, array, pixelFormat);
 
-        }
+		}
 
-        public override void WritePixels(PixelBuffer buffer)
-        {
-            Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
+		public override void WritePixels(PixelBuffer buffer)
+		{
+			Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
 
-            int pitch;
-            int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
-            PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
+			int pitch;
+			int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
+			PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
 
-            surf.Dispose();
+			surf.Dispose();
 
-            GraphicsStream stm = mTexture.Value.LockRectangle(0, 0, out pitch);
+			GraphicsStream stm = mTexture.Value.LockRectangle(0, 0, out pitch);
 
-            if (buffer.PixelFormat != pixelFormat)
-                buffer = buffer.ConvertTo(pixelFormat);
+			if (buffer.PixelFormat != pixelFormat)
+				buffer = buffer.ConvertTo(pixelFormat);
 
-            unsafe
-            {
-                for (int i = 0; i < SurfaceHeight; i++)
-                {
-                    int startIndex = buffer.GetPixelIndex(0, i);
-                    int rowStride = buffer.RowStride;
-                    IntPtr dest = (IntPtr)((byte*)stm.InternalData + i * pitch);
+			unsafe
+			{
+				for (int i = 0; i < SurfaceHeight; i++)
+				{
+					int startIndex = buffer.GetPixelIndex(0, i);
+					int rowStride = buffer.RowStride;
+					IntPtr dest = (IntPtr)((byte*)stm.InternalData + i * pitch);
 
-                    Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
-                }
-            }
+					Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
+				}
+			}
 
-            mTexture.Value.UnlockRectangle(0);
-            
-        }
-        // TODO: Test this method:
-        public override void WritePixels(PixelBuffer buffer, Point startPoint)
-        {
-            Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
-            Rectangle updateRect = new Rectangle(startPoint, buffer.Size);
+			mTexture.Value.UnlockRectangle(0);
 
-            int pitch;
-            int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
-            PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
+		}
+		// TODO: Test this method:
+		public override void WritePixels(PixelBuffer buffer, Point startPoint)
+		{
+			Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
+			Rectangle updateRect = new Rectangle(startPoint, buffer.Size);
 
-            surf.Dispose();
+			int pitch;
+			int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
+			PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
 
-            GraphicsStream stm = mTexture.Value.LockRectangle(0,Interop.Convert(updateRect), 0, out pitch);
+			surf.Dispose();
 
-            if (buffer.PixelFormat != pixelFormat)
-                buffer = buffer.ConvertTo(pixelFormat);
+			GraphicsStream stm = mTexture.Value.LockRectangle(0, Interop.Convert(updateRect), 0, out pitch);
 
-            unsafe
-            {
-                for (int i = updateRect.Top; i < updateRect.Bottom; i++)
-                {
-                    int startIndex = buffer.GetPixelIndex(0, i);
-                    int rowStride = buffer.RowStride;
-                    IntPtr dest = (IntPtr)((byte*)stm.InternalData + i * pitch + updateRect.Left * pixelPitch);
+			if (buffer.PixelFormat != pixelFormat)
+				buffer = buffer.ConvertTo(pixelFormat);
 
-                    Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
-                }
-            }
+			unsafe
+			{
+				for (int i = updateRect.Top; i < updateRect.Bottom; i++)
+				{
+					int startIndex = buffer.GetPixelIndex(0, i);
+					int rowStride = buffer.RowStride;
+					IntPtr dest = (IntPtr)((byte*)stm.InternalData + i * pitch + updateRect.Left * pixelPitch);
 
-            mTexture.Value.UnlockRectangle(0);
-        }
+					Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
+				}
+			}
 
-    }
+			mTexture.Value.UnlockRectangle(0);
+		}
+
+	}
 
 }

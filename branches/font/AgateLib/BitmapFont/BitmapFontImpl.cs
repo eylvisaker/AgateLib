@@ -331,7 +331,7 @@ namespace AgateLib.BitmapFont
 
 				if (state.DisplayAlignment != OriginAlignment.TopLeft)
 				{
-					Point value = Origin.Calc(state.DisplayAlignment, 
+					Point value = Origin.Calc(state.DisplayAlignment,
 						StringDisplaySize(state, state.Text));
 
 					dest.X -= value.X;

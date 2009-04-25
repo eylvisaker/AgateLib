@@ -59,7 +59,7 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		}
 		public override void DrawText(FontState state)
 		{
-			Geometry.PointF shift = Origin.CalcF(state.DisplayAlignment, 
+			Geometry.PointF shift = Origin.CalcF(state.DisplayAlignment,
 				StringDisplaySize(state, state.Text));
 
 			PointF dest_pt = Interop.Convert(state.Location);

@@ -39,141 +39,141 @@ using AgateLib.WinForms;
 namespace AgateOTK
 {
 
-    public sealed class GL_Surface : SurfaceImpl, GL_IRenderTarget
-    {
-        GL_Display mDisplay;
-        GLState mState;
+	public sealed class GL_Surface : SurfaceImpl, GL_IRenderTarget
+	{
+		GL_Display mDisplay;
+		GLState mState;
 
-        string mFilename;
+		string mFilename;
 
-        /// <summary>
-        /// Refrence counting for the texture id's.
-        /// </summary>
-        static Dictionary<int, int> mTextureIDs = new Dictionary<int, int>();
-        int mTextureID;
+		/// <summary>
+		/// Refrence counting for the texture id's.
+		/// </summary>
+		static Dictionary<int, int> mTextureIDs = new Dictionary<int, int>();
+		int mTextureID;
 
-        // Render to texture fields
-        int mFramebufferID; 
-        int mDepthBuffer;
+		// Render to texture fields
+		int mFramebufferID;
+		int mDepthBuffer;
 
-        Rectangle mSourceRect;
+		Rectangle mSourceRect;
 
-        /// <summary>
-        /// OpenGL's texture size (always a power of 2).
-        /// </summary>
-        Size mTextureSize;
+		/// <summary>
+		/// OpenGL's texture size (always a power of 2).
+		/// </summary>
+		Size mTextureSize;
 
-        TextureCoordinates mTexCoord;
+		TextureCoordinates mTexCoord;
 
 
-        public GL_Surface(string filename)
-        {
-            mDisplay = Display.Impl as GL_Display;
-            mState = mDisplay.State;
+		public GL_Surface(string filename)
+		{
+			mDisplay = Display.Impl as GL_Display;
+			mState = mDisplay.State;
 
-            mFilename = filename;
+			mFilename = filename;
 
-            Load();
-        }
-        public GL_Surface(Stream st)
-        {
-            mDisplay = Display.Impl as GL_Display;
-            mState = mDisplay.State;
+			Load();
+		}
+		public GL_Surface(Stream st)
+		{
+			mDisplay = Display.Impl as GL_Display;
+			mState = mDisplay.State;
 
-            // Load The Bitmap
-            Drawing.Bitmap sourceImage = new Drawing.Bitmap(st);
+			// Load The Bitmap
+			Drawing.Bitmap sourceImage = new Drawing.Bitmap(st);
 
-            LoadFromBitmap(sourceImage);
-        }
-        public GL_Surface(Size size)
-        {
-            mDisplay = Display.Impl as GL_Display;
-            mState = mDisplay.State;
+			LoadFromBitmap(sourceImage);
+		}
+		public GL_Surface(Size size)
+		{
+			mDisplay = Display.Impl as GL_Display;
+			mState = mDisplay.State;
 
-            mSourceRect = new Rectangle(Point.Empty, size);
+			mSourceRect = new Rectangle(Point.Empty, size);
 
-            mTextureSize = new Size(NextPowerOfTwo(size.Width), NextPowerOfTwo(size.Height));
+			mTextureSize = new Size(NextPowerOfTwo(size.Width), NextPowerOfTwo(size.Height));
 
-            //int[] array = new int[1];
-            //GL.GenTextures(1, array);
-            int textureID;
-            GL.GenTextures(1, out textureID);
-            
-            AddTextureRef(textureID);
+			//int[] array = new int[1];
+			//GL.GenTextures(1, array);
+			int textureID;
+			GL.GenTextures(1, out textureID);
 
-            IntPtr fake = IntPtr.Zero;
+			AddTextureRef(textureID);
 
-            try
-            {
-                fake = Marshal.AllocHGlobal(mTextureSize.Width * mTextureSize.Height * Marshal.SizeOf(typeof(int)));
+			IntPtr fake = IntPtr.Zero;
 
-                // Typical Texture Generation Using Data From The Bitmap
-                GL.BindTexture(TextureTarget.Texture2D, mTextureID);
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba,
-                    mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,
-                    PixelType.UnsignedByte, fake);
+			try
+			{
+				fake = Marshal.AllocHGlobal(mTextureSize.Width * mTextureSize.Height * Marshal.SizeOf(typeof(int)));
 
-                GL.TexParameter(TextureTarget.Texture2D,
-                                TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D,
-                                TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+				// Typical Texture Generation Using Data From The Bitmap
+				GL.BindTexture(TextureTarget.Texture2D, mTextureID);
+				GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba,
+					mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,
+					PixelType.UnsignedByte, fake);
 
-                mTexCoord = GetTextureCoords(mSourceRect);
-            }
-            finally
-            {
-                if (fake != IntPtr.Zero)
-                    Marshal.FreeHGlobal(fake);
-            }
-        }
-       
-        private GL_Surface(int textureID, Rectangle sourceRect, Size textureSize)
-        {
-            mDisplay = Display.Impl as GL_Display;
-            mState = mDisplay.State;
+				GL.TexParameter(TextureTarget.Texture2D,
+								TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+				GL.TexParameter(TextureTarget.Texture2D,
+								TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
-            AddTextureRef(textureID);
+				mTexCoord = GetTextureCoords(mSourceRect);
+			}
+			finally
+			{
+				if (fake != IntPtr.Zero)
+					Marshal.FreeHGlobal(fake);
+			}
+		}
 
-            mSourceRect = sourceRect;
-            mTextureSize = textureSize;
+		private GL_Surface(int textureID, Rectangle sourceRect, Size textureSize)
+		{
+			mDisplay = Display.Impl as GL_Display;
+			mState = mDisplay.State;
 
-            mTexCoord = GetTextureCoords(mSourceRect);
+			AddTextureRef(textureID);
 
-        }
+			mSourceRect = sourceRect;
+			mTextureSize = textureSize;
 
-        private void AddTextureRef(int textureID)
-        {
-            mTextureID = textureID;
+			mTexCoord = GetTextureCoords(mSourceRect);
 
-            if (mTextureIDs.ContainsKey(mTextureID))
-                mTextureIDs[mTextureID] += 1;
-            else
-                mTextureIDs.Add(mTextureID, 1);
-        }
-        private void ReleaseTextureRef()
-        {
-            if (mTextureID == 0)
-                return;
+		}
 
-            mTextureIDs[mTextureID]--;
+		private void AddTextureRef(int textureID)
+		{
+			mTextureID = textureID;
 
-            if (mTextureIDs[mTextureID] == 0)
-            {
-                int[] array = new int[1];
-                array[0] = mTextureID;
+			if (mTextureIDs.ContainsKey(mTextureID))
+				mTextureIDs[mTextureID] += 1;
+			else
+				mTextureIDs.Add(mTextureID, 1);
+		}
+		private void ReleaseTextureRef()
+		{
+			if (mTextureID == 0)
+				return;
 
-                GL.DeleteTextures(1, array);
+			mTextureIDs[mTextureID]--;
 
-                mTextureIDs.Remove(mTextureID);
-            }
+			if (mTextureIDs[mTextureID] == 0)
+			{
+				int[] array = new int[1];
+				array[0] = mTextureID;
 
-            mTextureID = 0;
-        }
-        public override void Dispose()
-        {
-            ReleaseTextureRef();
-           
-        }
+				GL.DeleteTextures(1, array);
+
+				mTextureIDs.Remove(mTextureID);
+			}
+
+			mTextureID = 0;
+		}
+		public override void Dispose()
+		{
+			ReleaseTextureRef();
+
+		}
 
 		public override void Draw(SurfaceState state)
 		{
@@ -250,533 +250,533 @@ namespace AgateOTK
 				}
 			}
 		}
-        
-        PointF[] cachePt = new PointF[4];
 
-        private void BufferQuad(float destX, float destY, float rotationCenterX, float rotationCenterY,
-            float displayWidth, float displayHeight, TextureCoordinates texCoord, Gradient color,
+		PointF[] cachePt = new PointF[4];
+
+		private void BufferQuad(float destX, float destY, float rotationCenterX, float rotationCenterY,
+			float displayWidth, float displayHeight, TextureCoordinates texCoord, Gradient color,
 			 OriginAlignment DisplayAlignment, float mRotationCos, float mRotationSin)
-        {
+		{
 
-            // order is 
-            //  1 -- 2
-            //  |    |
-            //  4 -- 3
-            PointF[] pt = cachePt;
+			// order is 
+			//  1 -- 2
+			//  |    |
+			//  4 -- 3
+			PointF[] pt = cachePt;
 
-            SetPoints(pt, destX, destY,
-                rotationCenterX, rotationCenterY, displayWidth, displayHeight,
+			SetPoints(pt, destX, destY,
+				rotationCenterX, rotationCenterY, displayWidth, displayHeight,
 				DisplayAlignment, mRotationCos, mRotationSin);
 
-            //RectangleF destRect = new RectangleF(new PointF(-rotationCenterX, -rotationCenterY),
-            //                     new SizeF(displayWidth, displayHeight));
+			//RectangleF destRect = new RectangleF(new PointF(-rotationCenterX, -rotationCenterY),
+			//                     new SizeF(displayWidth, displayHeight));
 
 
-            mState.DrawBuffer.AddQuad(mTextureID, color, texCoord, pt);
-        }
+			mState.DrawBuffer.AddQuad(mTextureID, color, texCoord, pt);
+		}
 
-        private void SetPoints(PointF[] pt, float destX, float destY, float rotationCenterX, float rotationCenterY, 
-                               float destWidth, float destHeight, OriginAlignment DisplayAlignment, 
+		private void SetPoints(PointF[] pt, float destX, float destY, float rotationCenterX, float rotationCenterY,
+							   float destWidth, float destHeight, OriginAlignment DisplayAlignment,
 							   float mRotationCos, float mRotationSin)
-        {
-            const int index = 0;
-            PointF centerPoint = Origin.CalcF(DisplayAlignment, new SizeF(destWidth, destHeight));
+		{
+			const int index = 0;
+			PointF centerPoint = Origin.CalcF(DisplayAlignment, new SizeF(destWidth, destHeight));
 
-            destX += rotationCenterX - centerPoint.X;
-            destY += rotationCenterY - centerPoint.Y;
+			destX += rotationCenterX - centerPoint.X;
+			destY += rotationCenterY - centerPoint.Y;
 
-            // Point at (0, 0) local coordinates
-            pt[index].X = mRotationCos * (-rotationCenterX) +
-                         mRotationSin * (-rotationCenterY) + destX;
+			// Point at (0, 0) local coordinates
+			pt[index].X = mRotationCos * (-rotationCenterX) +
+						 mRotationSin * (-rotationCenterY) + destX;
 
-            pt[index].Y = -mRotationSin * (-rotationCenterX) +
-                          mRotationCos * (-rotationCenterY) + destY;
+			pt[index].Y = -mRotationSin * (-rotationCenterX) +
+						  mRotationCos * (-rotationCenterY) + destY;
 
-            // Point at (DisplayWidth, 0) local coordinates
-            pt[index + 1].X = mRotationCos * (-rotationCenterX + destWidth) +
-                         mRotationSin * (-rotationCenterY) + destX;
+			// Point at (DisplayWidth, 0) local coordinates
+			pt[index + 1].X = mRotationCos * (-rotationCenterX + destWidth) +
+						 mRotationSin * (-rotationCenterY) + destX;
 
-            pt[index + 1].Y = -mRotationSin * (-rotationCenterX + destWidth) +
-                          mRotationCos * (-rotationCenterY) + destY;
+			pt[index + 1].Y = -mRotationSin * (-rotationCenterX + destWidth) +
+						  mRotationCos * (-rotationCenterY) + destY;
 
-            // Point at (DisplayWidth, DisplayHeight) local coordinates
-            pt[index + 2].X = mRotationCos * (-rotationCenterX + destWidth) +
-                         mRotationSin * (-rotationCenterY + destHeight) + destX;
+			// Point at (DisplayWidth, DisplayHeight) local coordinates
+			pt[index + 2].X = mRotationCos * (-rotationCenterX + destWidth) +
+						 mRotationSin * (-rotationCenterY + destHeight) + destX;
 
-            pt[index + 2].Y = -mRotationSin * (-rotationCenterX + destWidth) +
-                          mRotationCos * (-rotationCenterY + destHeight) + destY;
+			pt[index + 2].Y = -mRotationSin * (-rotationCenterX + destWidth) +
+						  mRotationCos * (-rotationCenterY + destHeight) + destY;
 
-            // Point at (0, DisplayHeight) local coordinates
-            pt[index + 3].X = mRotationCos * (-rotationCenterX) +
-                         mRotationSin * (-rotationCenterY + destHeight) + destX;
+			// Point at (0, DisplayHeight) local coordinates
+			pt[index + 3].X = mRotationCos * (-rotationCenterX) +
+						 mRotationSin * (-rotationCenterY + destHeight) + destX;
 
-            pt[index + 3].Y = (-mRotationSin * (-rotationCenterX) +
-                           mRotationCos * (-rotationCenterY + destHeight)) + destY;
+			pt[index + 3].Y = (-mRotationSin * (-rotationCenterX) +
+						   mRotationCos * (-rotationCenterY + destHeight)) + destY;
 
-        }
+		}
 
-        public override void SaveTo(string filename, ImageFileFormat format)
-        {
-            PixelBuffer buffer = ReadPixels(PixelFormat.Any);
-            buffer.SaveTo(filename, format);
-        }
+		public override void SaveTo(string filename, ImageFileFormat format)
+		{
+			PixelBuffer buffer = ReadPixels(PixelFormat.Any);
+			buffer.SaveTo(filename, format);
+		}
 
-        public override SurfaceImpl CarveSubSurface(Surface surface, Rectangle srcRect)
-        {
-            srcRect.X += mSourceRect.X;
-            srcRect.Y += mSourceRect.Y;
+		public override SurfaceImpl CarveSubSurface(Surface surface, Rectangle srcRect)
+		{
+			srcRect.X += mSourceRect.X;
+			srcRect.Y += mSourceRect.Y;
 
-            return new GL_Surface(mTextureID, srcRect, mTextureSize);
-        }
+			return new GL_Surface(mTextureID, srcRect, mTextureSize);
+		}
 
-        public override void SetSourceSurface(SurfaceImpl surf, Rectangle srcRect)
-        {
-            ReleaseTextureRef();
-            AddTextureRef((surf as GL_Surface).mTextureID);
+		public override void SetSourceSurface(SurfaceImpl surf, Rectangle srcRect)
+		{
+			ReleaseTextureRef();
+			AddTextureRef((surf as GL_Surface).mTextureID);
 
-            mTextureSize = (surf as GL_Surface).mTextureSize;
-            mSourceRect = srcRect;
+			mTextureSize = (surf as GL_Surface).mTextureSize;
+			mSourceRect = srcRect;
 
-            mTexCoord = GetTextureCoords(mSourceRect);
+			mTexCoord = GetTextureCoords(mSourceRect);
 
-        }
+		}
 
-        public override PixelBuffer ReadPixels(PixelFormat format)
-        {
-            return ReadPixels(format, new Rectangle(Point.Empty, SurfaceSize));
-        }
-        public override PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
-        {
-            if (format == PixelFormat.Any)
-                format = PixelFormat.RGBA8888;
+		public override PixelBuffer ReadPixels(PixelFormat format)
+		{
+			return ReadPixels(format, new Rectangle(Point.Empty, SurfaceSize));
+		}
+		public override PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
+		{
+			if (format == PixelFormat.Any)
+				format = PixelFormat.RGBA8888;
 
-            rect.X += mSourceRect.X;
-            rect.Y += mSourceRect.Y;
+			rect.X += mSourceRect.X;
+			rect.Y += mSourceRect.Y;
 
-            int pixelStride = 4;
-            int size = mTextureSize.Width * mTextureSize.Height * pixelStride;
-            int memStride = pixelStride * mTextureSize.Width;
-            IntPtr memory = Marshal.AllocHGlobal(size);
+			int pixelStride = 4;
+			int size = mTextureSize.Width * mTextureSize.Height * pixelStride;
+			int memStride = pixelStride * mTextureSize.Width;
+			IntPtr memory = Marshal.AllocHGlobal(size);
 
-            GL.BindTexture(TextureTarget.Texture2D, mTextureID);
-            GL.GetTexImage(TextureTarget.Texture2D, 0, OTKPixelFormat.Rgba,
-                 PixelType.UnsignedByte, memory);
+			GL.BindTexture(TextureTarget.Texture2D, mTextureID);
+			GL.GetTexImage(TextureTarget.Texture2D, 0, OTKPixelFormat.Rgba,
+				 PixelType.UnsignedByte, memory);
 
-            byte[] data = new byte[rect.Width * rect.Height * pixelStride];
+			byte[] data = new byte[rect.Width * rect.Height * pixelStride];
 
-            unsafe
-            {
-                for (int i = rect.Top; i < rect.Bottom; i++)
-                {
-                    int dataIndex = (i - rect.Top) * pixelStride * rect.Width;
-                    IntPtr memPtr = (IntPtr)((byte*)memory + i * memStride + rect.Left * pixelStride);
+			unsafe
+			{
+				for (int i = rect.Top; i < rect.Bottom; i++)
+				{
+					int dataIndex = (i - rect.Top) * pixelStride * rect.Width;
+					IntPtr memPtr = (IntPtr)((byte*)memory + i * memStride + rect.Left * pixelStride);
 
-                    Marshal.Copy(memPtr, data, dataIndex, pixelStride * rect.Width);
-                }
-            }
+					Marshal.Copy(memPtr, data, dataIndex, pixelStride * rect.Width);
+				}
+			}
 
-            Marshal.FreeHGlobal(memory);
+			Marshal.FreeHGlobal(memory);
 
-            if (format == PixelFormat.RGBA8888)
-                return new PixelBuffer(format, SurfaceSize, data);
-            else
-                return new PixelBuffer(format, SurfaceSize, data, PixelFormat.RGBA8888);
-        }
+			if (format == PixelFormat.RGBA8888)
+				return new PixelBuffer(format, SurfaceSize, data);
+			else
+				return new PixelBuffer(format, SurfaceSize, data, PixelFormat.RGBA8888);
+		}
 
-        public override void WritePixels(PixelBuffer buffer)
-        {
-            if (buffer.PixelFormat != PixelFormat.RGBA8888 ||
-                buffer.Size.Equals(mTextureSize) == false)
-            {
-                buffer = buffer.ConvertTo(PixelFormat.RGBA8888, mTextureSize);
-            }
+		public override void WritePixels(PixelBuffer buffer)
+		{
+			if (buffer.PixelFormat != PixelFormat.RGBA8888 ||
+				buffer.Size.Equals(mTextureSize) == false)
+			{
+				buffer = buffer.ConvertTo(PixelFormat.RGBA8888, mTextureSize);
+			}
 
-            unsafe
-            {
-                fixed (byte* ptr = buffer.Data)
-                {
-                    // Typical Texture Generation Using Data From The Bitmap
-                    GL.BindTexture(TextureTarget.Texture2D, mTextureID);
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba,
-                        mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,//, GL.GL_BGRA, 
-                        PixelType.UnsignedByte, (IntPtr)ptr);
+			unsafe
+			{
+				fixed (byte* ptr = buffer.Data)
+				{
+					// Typical Texture Generation Using Data From The Bitmap
+					GL.BindTexture(TextureTarget.Texture2D, mTextureID);
+					GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba,
+						mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,//, GL.GL_BGRA, 
+						PixelType.UnsignedByte, (IntPtr)ptr);
 
-                    GL.TexParameter(TextureTarget.Texture2D,
-                                     TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                    GL.TexParameter(TextureTarget.Texture2D,
-                                     TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-                }
-            }
-        }
+					GL.TexParameter(TextureTarget.Texture2D,
+									 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+					GL.TexParameter(TextureTarget.Texture2D,
+									 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+				}
+			}
+		}
 
-        public override Size SurfaceSize
-        {
-            get { return mSourceRect.Size; }
-        }
+		public override Size SurfaceSize
+		{
+			get { return mSourceRect.Size; }
+		}
 
-        public override void BeginRender()
-        {
-            GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
+		public override void BeginRender()
+		{
+			GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
 
-            mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
+			mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
 
-            if (mDisplay.SupportsFramebuffer)
-            {
-                // generate the frame buffer
-                GL.Ext.GenFramebuffers(1, out mFramebufferID);
-                GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
+			if (mDisplay.SupportsFramebuffer)
+			{
+				// generate the frame buffer
+				GL.Ext.GenFramebuffers(1, out mFramebufferID);
+				GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
 
-                // generate a depth buffer to render to
-                GL.Ext.GenRenderbuffers(1, out mDepthBuffer);
-                GL.Ext.BindRenderbuffer(RenderbufferTarget.RenderbufferExt, mDepthBuffer);
+				// generate a depth buffer to render to
+				GL.Ext.GenRenderbuffers(1, out mDepthBuffer);
+				GL.Ext.BindRenderbuffer(RenderbufferTarget.RenderbufferExt, mDepthBuffer);
 
-                // hack here because RenderbufferStorage enum is incomplete.
-                GL.Ext.RenderbufferStorage(RenderbufferTarget.RenderbufferExt,
-                    (RenderbufferStorage)OTKPixelFormat.DepthComponent, 
-                    mTextureSize.Width, mTextureSize.Height);
+				// hack here because RenderbufferStorage enum is incomplete.
+				GL.Ext.RenderbufferStorage(RenderbufferTarget.RenderbufferExt,
+					(RenderbufferStorage)OTKPixelFormat.DepthComponent,
+					mTextureSize.Width, mTextureSize.Height);
 
-                // attach the depth buffer
-                GL.Ext.FramebufferRenderbuffer(FramebufferTarget.FramebufferExt,
-                    FramebufferAttachment.DepthAttachmentExt, RenderbufferTarget.RenderbufferExt,
-                    mDepthBuffer);
+				// attach the depth buffer
+				GL.Ext.FramebufferRenderbuffer(FramebufferTarget.FramebufferExt,
+					FramebufferAttachment.DepthAttachmentExt, RenderbufferTarget.RenderbufferExt,
+					mDepthBuffer);
 
-                // attach the texture
-                GL.Ext.FramebufferTexture2D(FramebufferTarget.FramebufferExt,
-                     FramebufferAttachment.ColorAttachment0Ext, TextureTarget.Texture2D,
-                     mTextureID, 0);
+				// attach the texture
+				GL.Ext.FramebufferTexture2D(FramebufferTarget.FramebufferExt,
+					 FramebufferAttachment.ColorAttachment0Ext, TextureTarget.Texture2D,
+					 mTextureID, 0);
 
-                FramebufferErrorCode code = 
-                    GL.Ext.CheckFramebufferStatus(FramebufferTarget.FramebufferExt);
+				FramebufferErrorCode code =
+					GL.Ext.CheckFramebufferStatus(FramebufferTarget.FramebufferExt);
 
-                if (code != FramebufferErrorCode.FramebufferCompleteExt)
-                {
-                    throw new AgateException(
-                        "Could not complete framebuffer object.");
-                }
+				if (code != FramebufferErrorCode.FramebufferCompleteExt)
+				{
+					throw new AgateException(
+						"Could not complete framebuffer object.");
+				}
 
-                GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
-                GL.PushAttrib(AttribMask.ViewportBit);
-                
-            }
-            else
-            {
-                
-                // clear the framebuffer and draw this texture to it.
-                GL.ClearColor(0, 0, 0, 0);
-                GL.Clear(ClearBufferMask.ColorBufferBit |
-                         ClearBufferMask.DepthBufferBit);
+				GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
+				GL.PushAttrib(AttribMask.ViewportBit);
 
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                    (int)TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                    (int)TextureMagFilter.Linear);
+			}
+			else
+			{
+
+				// clear the framebuffer and draw this texture to it.
+				GL.ClearColor(0, 0, 0, 0);
+				GL.Clear(ClearBufferMask.ColorBufferBit |
+						 ClearBufferMask.DepthBufferBit);
+
+				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+					(int)TextureMinFilter.Linear);
+				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+					(int)TextureMagFilter.Linear);
 
 				SurfaceState s = new SurfaceState();
-                Draw(s);
+				Draw(s);
 
-                GL.TexParameter(TextureTarget.Texture2D,
-                                 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D,
-                                 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            }
-        }
-        public override void EndRender()
-        {
-            if (mDisplay.SupportsFramebuffer)
-            {
-                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+				GL.TexParameter(TextureTarget.Texture2D,
+								 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+				GL.TexParameter(TextureTarget.Texture2D,
+								 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+			}
+		}
+		public override void EndRender()
+		{
+			if (mDisplay.SupportsFramebuffer)
+			{
+				GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-                GL.PopAttrib();
-                GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
+				GL.PopAttrib();
+				GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
 
-                //GL.Ext.DeleteRenderbuffers(1, ref mDepthBuffer);
-                //GL.Ext.DeleteFramebuffers(1, ref mFramebufferID);
-            }
-            else
-            {
-                mState.DrawBuffer.ResetTexture();
+				//GL.Ext.DeleteRenderbuffers(1, ref mDepthBuffer);
+				//GL.Ext.DeleteFramebuffers(1, ref mFramebufferID);
+			}
+			else
+			{
+				mState.DrawBuffer.ResetTexture();
 
-                GL.BindTexture(TextureTarget.Texture2D, mTextureID);
+				GL.BindTexture(TextureTarget.Texture2D, mTextureID);
 
-                GL.CopyTexSubImage2D(TextureTarget.Texture2D,
-                    0, 0, 0, 0, 0, mSourceRect.Width, mSourceRect.Height);
+				GL.CopyTexSubImage2D(TextureTarget.Texture2D,
+					0, 0, 0, 0, 0, mSourceRect.Width, mSourceRect.Height);
 
-                GL.TexParameter(TextureTarget.Texture2D,
-                                 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D,
-                                 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            }
-        }
+				GL.TexParameter(TextureTarget.Texture2D,
+								 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+				GL.TexParameter(TextureTarget.Texture2D,
+								 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+			}
+		}
 
-        #region GL_IRenderTarget Members
+		#region GL_IRenderTarget Members
 
-        public void MakeCurrent()
-        {
-            
-        }
+		public void MakeCurrent()
+		{
 
-        #endregion
+		}
 
-
-        private void Load()
-        {
-            if (mFilename == "")
-                return;
-
-            
-            // Load The Bitmap
-            Drawing.Bitmap sourceImage = new Drawing.Bitmap(mFilename);
-
-            LoadFromBitmap(sourceImage);
-
-            sourceImage.Dispose();
-        }
-
-        private void LoadFromBitmap(Drawing.Bitmap sourceImage)
-        {
-
-            mSourceRect.Size = Interop.Convert(sourceImage.Size);
-
-            Size newSize = GetOGLSize(sourceImage);
-
-            // create a new bitmap of the size OpenGL expects, and copy the source image to it.
-            Drawing.Bitmap textureImage = new Drawing.Bitmap(newSize.Width, newSize.Height);
-            Drawing.Graphics g = Drawing.Graphics.FromImage(textureImage);
-
-            g.Transform = new System.Drawing.Drawing2D.Matrix();
-            g.Clear(Drawing.Color.FromArgb(0, 0, 0, 0));
-            g.DrawImage(sourceImage, new Drawing.Rectangle(new Drawing.Point(0, 0), sourceImage.Size));
-            g.Dispose();
-
-            mTextureSize = Interop.Convert(textureImage.Size);
-
-            mTexCoord = GetTextureCoords(mSourceRect);
+		#endregion
 
 
-            // Rectangle For Locking The Bitmap In Memory
-            Rectangle rectangle = new Rectangle(0, 0, textureImage.Width, textureImage.Height);
-
-            // Get The Bitmap's Pixel Data From The Locked Bitmap
-            BitmapData bitmapData = textureImage.LockBits(Interop.Convert(rectangle),
-                ImageLockMode.ReadOnly, Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            // use a pixelbuffer to do format conversion.
-            PixelBuffer buffer = new PixelBuffer(PixelFormat.RGBA8888, mTextureSize,
-                bitmapData.Scan0, PixelFormat.BGRA8888, bitmapData.Stride);
-
-            // Create The GL Texture object
-            int textureID;
-            
-            GL.GenTextures(1, out textureID);
-            AddTextureRef(textureID);
-
-            WritePixels(buffer);
-
-            textureImage.UnlockBits(bitmapData);                     // Unlock The Pixel Data From Memory
-            textureImage.Dispose();                                  // Dispose The Bitmap
-        }
-        
-        private Size GetOGLSize(System.Drawing.Bitmap image)
-        {
-            Size retval = new Size(
-                NextPowerOfTwo(image.Width),
-                NextPowerOfTwo(image.Height));
-
-            return retval;
-        }
-        private int NextPowerOfTwo(int p)
-        {
-            return (int)Math.Pow(2, (int)(Math.Log(p) / Math.Log(2)) + 1);
-        }
-        private TextureCoordinates GetTextureCoords(Rectangle srcRect)
-        {
-            TextureCoordinates coords = new TextureCoordinates(
-                (srcRect.Left) / (float)mTextureSize.Width,
-                (srcRect.Top) / (float)mTextureSize.Height,
-                (srcRect.Right ) / (float)mTextureSize.Width,
-                (srcRect.Bottom ) / (float)mTextureSize.Height);
-
-            return coords;
-        }
-        private TextureCoordinates GetTextureCoords(RectangleF srcRect)
-        {
-            TextureCoordinates coords = new TextureCoordinates(
-                (srcRect.Left) / (float)mTextureSize.Width,
-                (srcRect.Top) / (float)mTextureSize.Height,
-                (srcRect.Right) / (float)mTextureSize.Width,
-                (srcRect.Bottom) / (float)mTextureSize.Height);
-
-            return coords;
-        }
-
-        /*
-       GL_Display mDisplay;
-       string mFilename;
-
-       Size mSize;
-
-       /// <summary>
-       /// Size of the actual texture in memory.. this will only be
-       /// in powers of two.
-       /// </summary>
-       Size mTextureSize;
-
-       // texture coordinates, since OGL requires textures
-       // to be power of two..
-       struct TextureCoordinates
-       {
-           public TextureCoordinates(float left, float top, float right, float bottom)
-           {
-               Top = top;
-               Left = left;
-               Bottom = bottom;
-               Right = right;
-           }
-           public float Top;
-           public float Bottom;
-           public float Left;
-           public float Right;
-       }
-
-       TextureCoordinates mTexCoord;
-
-       // this is documented as "storage for one texture"
-       // it really is just a texture identifier.
-       int mTextureID;
-
-       public GL_Surface(Surface owner, string filename)
-       {
-           mDisplay = Display.Impl as WGL_Display;
-           mSurface = owner;
-
-           mFilename = filename;
+		private void Load()
+		{
+			if (mFilename == "")
+				return;
 
 
-           Load();
-       }
+			// Load The Bitmap
+			Drawing.Bitmap sourceImage = new Drawing.Bitmap(mFilename);
 
-       public GL_Surface(Surface owner, Size size)
-       {
-           mDisplay = Display.Impl as WGL_Display;
-           mSurface = owner;
+			LoadFromBitmap(sourceImage);
+
+			sourceImage.Dispose();
+		}
+
+		private void LoadFromBitmap(Drawing.Bitmap sourceImage)
+		{
+
+			mSourceRect.Size = Interop.Convert(sourceImage.Size);
+
+			Size newSize = GetOGLSize(sourceImage);
+
+			// create a new bitmap of the size OpenGL expects, and copy the source image to it.
+			Drawing.Bitmap textureImage = new Drawing.Bitmap(newSize.Width, newSize.Height);
+			Drawing.Graphics g = Drawing.Graphics.FromImage(textureImage);
+
+			g.Transform = new System.Drawing.Drawing2D.Matrix();
+			g.Clear(Drawing.Color.FromArgb(0, 0, 0, 0));
+			g.DrawImage(sourceImage, new Drawing.Rectangle(new Drawing.Point(0, 0), sourceImage.Size));
+			g.Dispose();
+
+			mTextureSize = Interop.Convert(textureImage.Size);
+
+			mTexCoord = GetTextureCoords(mSourceRect);
 
 
-       }
+			// Rectangle For Locking The Bitmap In Memory
+			Rectangle rectangle = new Rectangle(0, 0, textureImage.Width, textureImage.Height);
+
+			// Get The Bitmap's Pixel Data From The Locked Bitmap
+			BitmapData bitmapData = textureImage.LockBits(Interop.Convert(rectangle),
+				ImageLockMode.ReadOnly, Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+			// use a pixelbuffer to do format conversion.
+			PixelBuffer buffer = new PixelBuffer(PixelFormat.RGBA8888, mTextureSize,
+				bitmapData.Scan0, PixelFormat.BGRA8888, bitmapData.Stride);
+
+			// Create The GL Texture object
+			int textureID;
+
+			GL.GenTextures(1, out textureID);
+			AddTextureRef(textureID);
+
+			WritePixels(buffer);
+
+			textureImage.UnlockBits(bitmapData);                     // Unlock The Pixel Data From Memory
+			textureImage.Dispose();                                  // Dispose The Bitmap
+		}
+
+		private Size GetOGLSize(System.Drawing.Bitmap image)
+		{
+			Size retval = new Size(
+				NextPowerOfTwo(image.Width),
+				NextPowerOfTwo(image.Height));
+
+			return retval;
+		}
+		private int NextPowerOfTwo(int p)
+		{
+			return (int)Math.Pow(2, (int)(Math.Log(p) / Math.Log(2)) + 1);
+		}
+		private TextureCoordinates GetTextureCoords(Rectangle srcRect)
+		{
+			TextureCoordinates coords = new TextureCoordinates(
+				(srcRect.Left) / (float)mTextureSize.Width,
+				(srcRect.Top) / (float)mTextureSize.Height,
+				(srcRect.Right) / (float)mTextureSize.Width,
+				(srcRect.Bottom) / (float)mTextureSize.Height);
+
+			return coords;
+		}
+		private TextureCoordinates GetTextureCoords(RectangleF srcRect)
+		{
+			TextureCoordinates coords = new TextureCoordinates(
+				(srcRect.Left) / (float)mTextureSize.Width,
+				(srcRect.Top) / (float)mTextureSize.Height,
+				(srcRect.Right) / (float)mTextureSize.Width,
+				(srcRect.Bottom) / (float)mTextureSize.Height);
+
+			return coords;
+		}
+
+		/*
+	   GL_Display mDisplay;
+	   string mFilename;
+
+	   Size mSize;
+
+	   /// <summary>
+	   /// Size of the actual texture in memory.. this will only be
+	   /// in powers of two.
+	   /// </summary>
+	   Size mTextureSize;
+
+	   // texture coordinates, since OGL requires textures
+	   // to be power of two..
+	   struct TextureCoordinates
+	   {
+		   public TextureCoordinates(float left, float top, float right, float bottom)
+		   {
+			   Top = top;
+			   Left = left;
+			   Bottom = bottom;
+			   Right = right;
+		   }
+		   public float Top;
+		   public float Bottom;
+		   public float Left;
+		   public float Right;
+	   }
+
+	   TextureCoordinates mTexCoord;
+
+	   // this is documented as "storage for one texture"
+	   // it really is just a texture identifier.
+	   int mTextureID;
+
+	   public GL_Surface(Surface owner, string filename)
+	   {
+		   mDisplay = Display.Impl as WGL_Display;
+		   mSurface = owner;
+
+		   mFilename = filename;
+
+
+		   Load();
+	   }
+
+	   public GL_Surface(Surface owner, Size size)
+	   {
+		   mDisplay = Display.Impl as WGL_Display;
+		   mSurface = owner;
+
+
+	   }
 
       
-       private Size GetOGLSize(System.Drawing.Bitmap image)
-       {
-           Size retval = new Size(
-               NextPowerOfTwo(image.Width),
-               NextPowerOfTwo(image.Height));
+	   private Size GetOGLSize(System.Drawing.Bitmap image)
+	   {
+		   Size retval = new Size(
+			   NextPowerOfTwo(image.Width),
+			   NextPowerOfTwo(image.Height));
 
-           return retval;
-       }
-       private int NextPowerOfTwo(int p)
-       {
-           return (int)Math.Pow(2, (int)(Math.Log(p) / Math.Log(2)) + 1);
-       }
+		   return retval;
+	   }
+	   private int NextPowerOfTwo(int p)
+	   {
+		   return (int)Math.Pow(2, (int)(Math.Log(p) / Math.Log(2)) + 1);
+	   }
 
-       public override void Draw(System.Drawing.Rectangle dest_rect)
-       {
-           throw new Exception("The method or operation is not implemented.");
-       }
+	   public override void Draw(System.Drawing.Rectangle dest_rect)
+	   {
+		   throw new Exception("The method or operation is not implemented.");
+	   }
 
-       public override void Draw(System.Drawing.Rectangle src_rect, System.Drawing.Rectangle dest_rect)
-       {
-           throw new Exception("The method or operation is not implemented.");
-       }
+	   public override void Draw(System.Drawing.Rectangle src_rect, System.Drawing.Rectangle dest_rect)
+	   {
+		   throw new Exception("The method or operation is not implemented.");
+	   }
 
-       public override void Draw(System.Drawing.Point destPt)
-       {
-           Point rotatePoint = Origin.Calc(mSurface.RotationCenter, mSurface.DisplaySize);
-           Point translatePoint = Origin.Calc(mSurface.DisplayAlignment, mSurface.DisplaySize);
+	   public override void Draw(System.Drawing.Point destPt)
+	   {
+		   Point rotatePoint = Origin.Calc(mSurface.RotationCenter, mSurface.DisplaySize);
+		   Point translatePoint = Origin.Calc(mSurface.DisplayAlignment, mSurface.DisplaySize);
 
 
-           if (mSurface.DisplaySize.Width < 0)
-               translatePoint.X += mSurface.DisplaySize.Width;
+		   if (mSurface.DisplaySize.Width < 0)
+			   translatePoint.X += mSurface.DisplaySize.Width;
 
-           if (mSurface.DisplaySize.Height < 0)
-               translatePoint.Y += mSurface.DisplaySize.Height;
+		   if (mSurface.DisplaySize.Height < 0)
+			   translatePoint.Y += mSurface.DisplaySize.Height;
 
-           translatePoint.X -= destPt.X + rotatePoint.X;
-           translatePoint.Y -= destPt.Y + rotatePoint.Y;
+		   translatePoint.X -= destPt.X + rotatePoint.X;
+		   translatePoint.Y -= destPt.Y + rotatePoint.Y;
 
-           Rectangle destRect = new Rectangle(new Point(-rotatePoint.X, -rotatePoint.Y), mSurface.DisplaySize);
+		   Rectangle destRect = new Rectangle(new Point(-rotatePoint.X, -rotatePoint.Y), mSurface.DisplaySize);
 
-           mDisplay.SetGLColor(mSurface.Color);
+		   mDisplay.SetGLColor(mSurface.Color);
 
-           GL.glBindTexture(GL.GL_Texture2D, mTextureID);
+		   GL.glBindTexture(GL.GL_Texture2D, mTextureID);
 
-           GL.glTranslatef(-translatePoint.X, -translatePoint.Y, 0);
-           GL.glRotatef((float)-mSurface.RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
+		   GL.glTranslatef(-translatePoint.X, -translatePoint.Y, 0);
+		   GL.glRotatef((float)-mSurface.RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
 
-           GL.glBegin(GL.GL_QUADS);
+		   GL.glBegin(GL.GL_QUADS);
 
-           GL.glTexCoord2f(mTexCoord.Left, mTexCoord.Top); GL.glVertex2f(destRect.Left, destRect.Top);
-           GL.glTexCoord2f(mTexCoord.Right, mTexCoord.Top); GL.glVertex2f(destRect.Right, destRect.Top);
-           GL.glTexCoord2f(mTexCoord.Right, mTexCoord.Bottom); GL.glVertex2f(destRect.Right, destRect.Bottom);
-           GL.glTexCoord2f(mTexCoord.Left, mTexCoord.Bottom); GL.glVertex2f(destRect.Left, destRect.Bottom);
+		   GL.glTexCoord2f(mTexCoord.Left, mTexCoord.Top); GL.glVertex2f(destRect.Left, destRect.Top);
+		   GL.glTexCoord2f(mTexCoord.Right, mTexCoord.Top); GL.glVertex2f(destRect.Right, destRect.Top);
+		   GL.glTexCoord2f(mTexCoord.Right, mTexCoord.Bottom); GL.glVertex2f(destRect.Right, destRect.Bottom);
+		   GL.glTexCoord2f(mTexCoord.Left, mTexCoord.Bottom); GL.glVertex2f(destRect.Left, destRect.Bottom);
 
-           GL.glEnd();
+		   GL.glEnd();
 
-           // restore the matrix
-           GL.glRotatef((float)mSurface.RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
-           GL.glTranslatef(translatePoint.X, translatePoint.Y, 0);
-       }
+		   // restore the matrix
+		   GL.glRotatef((float)mSurface.RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
+		   GL.glTranslatef(translatePoint.X, translatePoint.Y, 0);
+	   }
 
-       public override void DrawRects(System.Drawing.Rectangle[] src_rects, System.Drawing.Rectangle[] dest_rects)
-       {
-           throw new Exception("The method or operation is not implemented.");
-       }
+	   public override void DrawRects(System.Drawing.Rectangle[] src_rects, System.Drawing.Rectangle[] dest_rects)
+	   {
+		   throw new Exception("The method or operation is not implemented.");
+	   }
 
-       public override void SaveTo(string filename)
-       {
-           throw new Exception("The method or operation is not implemented.");
-       }
+	   public override void SaveTo(string filename)
+	   {
+		   throw new Exception("The method or operation is not implemented.");
+	   }
 
-       public override System.Drawing.Size SurfaceSize
-       {
-           get { return mSize; }
-       }
+	   public override System.Drawing.Size SurfaceSize
+	   {
+		   get { return mSize; }
+	   }
 
-       public override bool IsSurfaceBlank()
-       {
-           throw new Exception("The method or operation is not implemented.");
-       }
+	   public override bool IsSurfaceBlank()
+	   {
+		   throw new Exception("The method or operation is not implemented.");
+	   }
 
-       public override bool IsSurfaceBlank(int alphaThreshold)
-       {
-           throw new Exception("The method or operation is not implemented.");
-       }
+	   public override bool IsSurfaceBlank(int alphaThreshold)
+	   {
+		   throw new Exception("The method or operation is not implemented.");
+	   }
 
-       public override bool IsRowBlank(int row)
-       {
-           throw new Exception("The method or operation is not implemented.");
-       }
+	   public override bool IsRowBlank(int row)
+	   {
+		   throw new Exception("The method or operation is not implemented.");
+	   }
 
-       public override bool IsColumnBlank(int col)
-       {
-           throw new Exception("The method or operation is not implemented.");
-       }
+	   public override bool IsColumnBlank(int col)
+	   {
+		   throw new Exception("The method or operation is not implemented.");
+	   }
 
-       public override void Dispose()
-       {
-           //GL.glDeleteTextures(1, new int[] { mTextureID } );
-       }
+	   public override void Dispose()
+	   {
+		   //GL.glDeleteTextures(1, new int[] { mTextureID } );
+	   }
 */
 
 
-        #region GL_IRenderTarget Members
+		#region GL_IRenderTarget Members
 
-        void GL_IRenderTarget.HideCursor()
-        {
-        }
-        void GL_IRenderTarget.ShowCursor()
-        {
-        }
+		void GL_IRenderTarget.HideCursor()
+		{
+		}
+		void GL_IRenderTarget.ShowCursor()
+		{
+		}
 
-        #endregion
+		#endregion
 
-    }
+	}
 }
