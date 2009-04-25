@@ -18,8 +18,9 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-
+using System.Text.RegularExpressions;
 using AgateLib.BitmapFont;
 using AgateLib.Geometry;
 using AgateLib.ImplementationBase;
@@ -67,6 +68,7 @@ namespace AgateLib.DisplayLib
 	{
 		internal FontSurfaceImpl impl;
 		private StringTransformer mTransformer = StringTransformer.None;
+		FontState mState = new FontState();
 
 		/// <summary>
 		/// Creates a FontSurface object from the given fontFamily.
@@ -189,49 +191,42 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Sets the interpretation of the draw point used.
+		/// Gets or sets the state of the font object.
+		/// </summary>
+		public FontState State
+		{
+			get { return mState; }
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("Cannot set state to a null value.  If you wish to reset the state, set it to a new FontState object.");
+
+				mState = value;
+			}
+		}
+		/// <summary>
+		/// Sets how to interpret the point given to DrawText methods.
 		/// </summary>
 		public OriginAlignment DisplayAlignment
 		{
-			get { return impl.DisplayAlignment; }
-			set { impl.DisplayAlignment = value; }
+			get { return mState.DisplayAlignment; }
+			set { mState.DisplayAlignment = value; }
 		}
 		/// <summary>
-		/// Sets the color of the font.
+		/// Sets the color of the text to be drawn.
 		/// </summary>
 		public Color Color
 		{
-			get { return impl.Color; }
-			set { impl.Color = value; }
+			get { return mState.Color; }
+			set { mState.Color = value; }
 		}
 		/// <summary>
-		/// Sets the transparency of the font.
-		/// 0.0 is fully transparent
-		/// 1.0 is completely opaque.
+		/// Sets the alpha value of the text to be drawn.
 		/// </summary>
 		public double Alpha
 		{
-			get { return impl.Alpha; }
-			set { impl.Alpha = value; }
-		}
-
-		/// <summary>
-		/// Sets the scale of the font.
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		public void SetScale(double x, double y)
-		{
-			impl.SetScale(x, y);
-		}
-		/// <summary>
-		/// Gets the scale of the font.
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		public void GetScale(out double x, out double y)
-		{
-			impl.GetScale(out x, out y);
+			get { return mState.Alpha; }
+			set { mState.Alpha = value; }
 		}
 		/// <summary>
 		/// Gets or sets the amount the width is scaled when the text is drawn.
@@ -239,8 +234,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public double ScaleWidth
 		{
-			get { return impl.ScaleWidth; }
-			set { impl.ScaleWidth = value; }
+			get { return mState.ScaleWidth; }
+			set { mState.ScaleWidth = value; }
 		}
 		/// <summary>
 		/// Gets or sets the amount the height is scaled when the text is drawn.
@@ -248,8 +243,28 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public double ScaleHeight
 		{
-			get { return impl.ScaleHeight; }
-			set { impl.ScaleHeight = value; }
+			get { return mState.ScaleHeight; }
+			set { mState.ScaleHeight = value; }
+		}
+		/// <summary>
+		/// Sets ScaleWidth and ScaleHeight.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		public void SetScale(double x, double y)
+		{
+			ScaleWidth = x;
+			ScaleHeight = y;
+		}
+		/// <summary>
+		/// Gets ScaleWidth and ScaleHeight.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		public void GetScale(out double x, out double y)
+		{
+			x = ScaleWidth;
+			y = ScaleHeight;
 		}
 
 		/// <summary>
@@ -257,19 +272,38 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public int StringDisplayWidth(string text) { return impl.StringDisplayWidth(text); }
+		public int StringDisplayWidth(string text)
+		{
+			return StringDisplaySize(text).Width;
+		}
 		/// <summary>
 		/// Measures the display height of the specified string.
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public int StringDisplayHeight(string text) { return impl.StringDisplayHeight(text); }
+		public int StringDisplayHeight(string text)
+		{
+			return StringDisplaySize(text).Height;
+		}
 		/// <summary>
 		/// Measures the display size of the specified string.
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public Size StringDisplaySize(string text) { return impl.StringDisplaySize(text); }
+		public Size StringDisplaySize(string text)
+		{
+			return impl.StringDisplaySize(mState, text);
+		}
+		/// <summary>
+		/// Measures the display size of the specified string, using the specified state information.
+		/// </summary>
+		/// <param name="state"></param>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		public Size StringDisplaySize(FontState state, string text)
+		{
+			return impl.StringDisplaySize(state, text);
+		}
 
 		/// <summary>
 		/// Gets the height in pixels of a single line of text.
@@ -279,16 +313,8 @@ namespace AgateLib.DisplayLib
 			get { return impl.FontHeight; }
 		}
 
-		/// <summary>
-		/// Draws the specified string at the specified location.
-		/// </summary>
-		/// <param name="destX"></param>
-		/// <param name="destY"></param>
-		/// <param name="text"></param>
-		public void DrawText(int destX, int destY, string text)
-		{
-			impl.DrawText(destX, destY, mTransformer.Transform(text));
-		}
+		public TextImageLayout TextImageLayout { get; set; }
+
 		/// <summary>
 		/// Draws the specified string at the specified location.
 		/// </summary>
@@ -297,7 +323,10 @@ namespace AgateLib.DisplayLib
 		/// <param name="text"></param>
 		public void DrawText(double destX, double destY, string text)
 		{
-			impl.DrawText(destX, destY, mTransformer.Transform(text));
+			mState.Location = new PointF((float)destX, (float)destY);
+			mState.Text = mTransformer.Transform(text);
+
+			DrawText(mState);
 		}
 		/// <summary>
 		/// Draws the specified string at the specified location.
@@ -306,7 +335,10 @@ namespace AgateLib.DisplayLib
 		/// <param name="text"></param>
 		public void DrawText(Point destPt, string text)
 		{
-			impl.DrawText(destPt.X, destPt.Y, mTransformer.Transform(text));
+			mState.Location = new PointF(destPt.X, destPt.Y);
+			mState.Text = mTransformer.Transform(text);
+
+			DrawText(mState);
 		}
 		/// <summary>
 		/// Draws the specified string at the specified location.
@@ -315,7 +347,10 @@ namespace AgateLib.DisplayLib
 		/// <param name="text"></param>
 		public void DrawText(PointF destPt, string text)
 		{
-			impl.DrawText(destPt.X, destPt.Y, mTransformer.Transform(text));
+			mState.Location = destPt;
+			mState.Text = mTransformer.Transform(text);
+
+			DrawText(mState);
 		}
 		/// <summary>
 		/// Draws the specified string at the origin.
@@ -323,7 +358,226 @@ namespace AgateLib.DisplayLib
 		/// <param name="text"></param>
 		public void DrawText(string text)
 		{
-			impl.DrawText(0, 0, mTransformer.Transform(text));
+			mState.Location = PointF.Empty;
+			mState.Text = mTransformer.Transform(text);
+
+			DrawText(mState);
 		}
+
+		public void DrawText(FontState state)
+		{
+			impl.DrawText(state);
+		}
+
+		Regex substituteMatch = new Regex(@"\{.*?\}|\{\{\}|\{\}\}|\r\n|\n");
+		Regex indexMatch = new Regex(@"[0-9]+:?");
+
+		public void DrawText(int destX, int destY, string formatString, params object[] args)
+		{
+			TextLayout layout = CreateLayout(formatString, args);
+
+			layout.Translate(new Point(destX, destY));
+			layout.DrawAll();
+		}
+
+		public TextLayout CreateLayout(string formatString, object[] args)
+		{
+			var matches = substituteMatch.Matches(formatString);
+
+			if (matches.Count == 0)
+			{
+				return new TextLayout 
+				{ 
+					new LayoutText 
+					{ 
+						Font = this, 
+						State = this.State.Clone(), 
+						LineIndex = 0, 
+						Text = formatString
+					}
+				};
+			}
+
+			int lastIndex = 0;
+			string result = string.Empty;
+			PointF dest;
+
+			dest = PointF.Empty;
+
+			TextLayout layout = new TextLayout();
+			int lineHeight = FontHeight;
+			int spaceAboveLine = 0;
+			int lineIndex = 0;
+			AlterFont currentAlterText = null;
+
+			for (int i = 0; i < matches.Count; i++)
+			{
+				string format = formatString.Substring(matches[i].Index, matches[i].Length);
+
+				result += formatString.Substring(lastIndex, matches[i].Index - lastIndex);
+
+				var argsIndexText = indexMatch.Match(format);
+				int argsIndex;
+
+				if (format == "\r\n" || format == "\n")
+				{
+					PushLayoutText(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
+						result, currentAlterText);
+
+					result = string.Empty;
+
+					ShiftLine(layout, spaceAboveLine, lineIndex);
+
+					dest.X = 0;
+					dest.Y += lineHeight;
+
+					lineIndex++;
+					lineHeight = FontHeight;
+
+					spaceAboveLine = 0;
+				}
+				else if (int.TryParse(argsIndexText.ToString(), out argsIndex))
+				{
+					if (argsIndex >= args.Length)
+					{
+						throw new IndexOutOfRangeException(string.Format(
+							"Argument number {0} was specified, but only {1} arguments were given.", argsIndex, args.Length));
+					}
+					object obj = args[argsIndex];
+
+					if (obj is ISurface)
+					{
+						PushLayoutText(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
+							result, currentAlterText);
+
+						PushLayoutImage(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
+							(ISurface)obj);
+
+						result = string.Empty;
+					}
+					else if (obj is AlterFont)
+					{
+						// push text with the old state
+						PushLayoutText(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
+							result, currentAlterText);
+
+						// store the new alter object to affect the state of the next block.
+						currentAlterText = (AlterFont)obj;
+						result = string.Empty;
+					}
+					else
+					{
+						result += ConvertToString(obj, format);
+					}
+				}
+				else if (format.StartsWith("{"))
+				{
+					if (format == "{{}")
+						result += "{";
+					else if (format == "{}}")
+						result += "}";
+				}
+
+				lastIndex = matches[i].Index + matches[i].Length;
+			}
+
+			result += formatString.Substring(lastIndex);
+			PushLayoutText(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
+				result, currentAlterText);
+
+			ShiftLine(layout, spaceAboveLine, lineIndex);
+
+			return layout;
+		}
+
+		private static void ShiftLine(TextLayout layout, int lineShift, int lineIndex)
+		{
+			foreach (var item in layout.Where(x => x.LineIndex == lineIndex))
+			{
+				item.Location = new PointF(
+					item.Location.X, item.Location.Y + lineShift);
+			}
+		}
+
+		private void PushLayoutImage(int lineIndex, TextLayout layout,
+			ref PointF dest, ref int lineHeight, ref int spaceAboveLine,
+			ISurface surface)
+		{
+			int newSpaceAbove;
+			LayoutSurface t = new LayoutSurface { Location = dest, Surface = surface, LineIndex = lineIndex };
+			t.State = surface.State.Clone();
+
+			var update = Origin.Calc(DisplayAlignment, surface.SurfaceSize);
+
+			lineHeight = Math.Max(lineHeight, surface.DisplayHeight);
+			dest.X += surface.DisplayWidth;
+
+			switch (TextImageLayout)
+			{
+				case TextImageLayout.InlineTop:
+					break;
+				case TextImageLayout.InlineCenter:
+					newSpaceAbove = (surface.DisplayHeight - FontHeight) / 2;
+					t.Y -= newSpaceAbove;
+					spaceAboveLine = Math.Max(spaceAboveLine, newSpaceAbove);
+
+					break;
+
+				case TextImageLayout.InlineBottom:
+					newSpaceAbove = surface.DisplayHeight - FontHeight;
+					t.Y -= newSpaceAbove;
+					spaceAboveLine = Math.Max(spaceAboveLine, newSpaceAbove);
+
+					break;
+			}
+
+			layout.Add(t);
+		}
+
+		private void PushLayoutText(int lineIndex, TextLayout layout,
+			ref PointF dest, ref int lineHeight, ref int spaceAboveLine,
+			string text, AlterFont alter)
+		{
+			if (string.IsNullOrEmpty(text))
+				return;
+
+			LayoutText t = new LayoutText
+			{
+				Font = this,
+				State = State.Clone(),
+				Location = dest,
+				Text = text,
+				LineIndex = lineIndex
+			};
+
+			if (alter != null)
+			{
+				alter.ModifyState(t.State);
+			}
+
+			var size = StringDisplaySize(t.State, text);
+			var update = Origin.Calc(DisplayAlignment, size);
+
+			int newSpaceAbove = size.Height - FontHeight;
+			t.Y -= newSpaceAbove;
+			spaceAboveLine = Math.Max(spaceAboveLine, newSpaceAbove);
+
+			dest.X += size.Width;
+
+			layout.Add(t);
+		}
+
+		private string ConvertToString(object obj, string format)
+		{
+			return obj.ToString();
+		}
+
+	}
+
+	public enum TextImageLayout
+	{
+		InlineTop,
+		InlineCenter,
+		InlineBottom,
 	}
 }

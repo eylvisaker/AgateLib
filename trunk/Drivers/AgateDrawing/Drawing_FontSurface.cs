@@ -53,53 +53,34 @@ namespace AgateLib.DisplayLib.SystemDrawing
 			mFont = null;
 		}
 
-		public override void DrawText(Geometry.Point dest_pt, string text)
+		public override int FontHeight
 		{
-			DrawText(new Geometry.PointF((float)dest_pt.X, (float)dest_pt.Y), text);
-
+			get { return mFont.Height; }
 		}
-		public override void DrawText(Geometry.PointF dest_pt, string text)
+		public override void DrawText(FontState state)
 		{
-			Geometry.PointF dest = Origin.CalcF(DisplayAlignment, StringDisplaySize(text));
+			Geometry.PointF shift = Origin.CalcF(state.DisplayAlignment,
+				StringDisplaySize(state, state.Text));
 
-			dest_pt.X -= dest.X;
-			dest_pt.Y -= dest.Y;
+			PointF dest_pt = Interop.Convert(state.Location);
+			dest_pt.X -= shift.X;
+			dest_pt.Y -= shift.Y;
 
 			Drawing_Display disp = Display.Impl as Drawing_Display;
 			Graphics g = disp.FrameGraphics;
 
-			GraphicsState state = g.Save();
-			double scalex, scaley;
-
-			GetScale(out scalex, out scaley);
+			GraphicsState g_state = g.Save();
+			double scalex = state.ScaleWidth, scaley = state.ScaleHeight;
 
 			g.TranslateTransform(dest_pt.X, dest_pt.Y);
 			g.ScaleTransform((float)scalex, (float)scaley);
 
-			g.DrawString(text, mFont,
-				new SolidBrush(Interop.Convert(Color)), Point.Empty);
+			g.DrawString(state.Text, mFont,
+				new SolidBrush(Interop.Convert(state.Color)), Point.Empty);
 
-			g.Restore(state);
-
+			g.Restore(g_state);
 		}
-		public override void DrawText(int dest_x, int dest_y, string text)
-		{
-			DrawText(new Geometry.PointF((float)dest_x, (float)dest_y), text);
-		}
-		public override void DrawText(double dest_x, double dest_y, string text)
-		{
-			DrawText(new Geometry.PointF((float)dest_x, (float)dest_y), text);
-		}
-
-		public override int StringDisplayWidth(string text)
-		{
-			return StringDisplaySize(text).Width;
-		}
-		public override int StringDisplayHeight(string text)
-		{
-			return StringDisplaySize(text).Height;
-		}
-		public override Geometry.Size StringDisplaySize(string text)
+		public override Geometry.Size StringDisplaySize(FontState state, string text)
 		{
 			Drawing_Display disp = Display.Impl as Drawing_Display;
 			Graphics g = disp.FrameGraphics;
@@ -114,18 +95,17 @@ namespace AgateLib.DisplayLib.SystemDrawing
 			}
 
 			SizeF result = new SizeF(g.MeasureString(text, mFont));
-			double scalex, scaley;
 
 			if (disposeGraphics)
 				g.Dispose();
 
-			GetScale(out scalex, out scaley);
 
-			result.Height *= (float)scalex;
-			result.Width *= (float)scaley;
+			result.Height *= (float)state.ScaleWidth;
+			result.Width *= (float)state.ScaleHeight;
 
 			return new Geometry.Size((int)result.Width, (int)result.Height);
 		}
+
 
 	}
 
