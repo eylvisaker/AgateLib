@@ -15,11 +15,12 @@ namespace Tests
 		class TestInfo
 		{
 			public string Name { get; set; }
+			public string Category { get; set; }
 			public Type Class { get; set; }
 		}
 
-		Dictionary<string, List<TestInfo>> tests = new Dictionary<string, List<TestInfo>>();
-
+		List<TestInfo> tests = new List<TestInfo>();
+		Font bold;
 
 		public frmLauncher()
 		{
@@ -28,28 +29,31 @@ namespace Tests
 			Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
 
 			LoadTests();
+
+			bold = new Font(lstTests.Font, FontStyle.Bold | FontStyle.Italic);
 		}
 
 		private void FillList()
 		{
-			foreach (string key in tests.Keys)
+			tests.Sort((x, y) =>
 			{
-				TreeNode n = new TreeNode { Text = key };
-				int index = tree.Nodes.Add(n);
+				if (x.Class == y.Class)
+					return x.Name.CompareTo(y.Name);
+				else
+					return x.Category.CompareTo(y.Category);
+			});
 
-				AddChildren(tests[key], index);
+			string lastCategory = null;
 
-				n.Expand();
-			}
-
-			tree.Sort();
-		}
-
-		private void AddChildren(List<TestInfo> tests, int nodeIndex)
-		{
 			foreach (var test in tests)
 			{
-				tree.Nodes[nodeIndex].Nodes.Add(new TreeNode { Text = test.Name, Tag = test });
+				if (test.Category != lastCategory)
+				{
+					lstTests.Items.Add(test.Category);
+					lastCategory = test.Category;
+				}
+
+				this.lstTests.Items.Add(test);
 			}
 		}
 
@@ -73,17 +77,12 @@ namespace Tests
 		{
 			IAgateTest obj = (IAgateTest)Activator.CreateInstance(t);
 
-			if (tests.ContainsKey(obj.Category) == false)
-			{
-				tests[obj.Category] = new List<TestInfo>();
-			}
-
-			tests[obj.Category].Add(new TestInfo { Name = obj.Name, Class = t });
+			tests.Add(new TestInfo { Name = obj.Name, Category = obj.Category, Class = t });
 		}
 
-		private void tree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+		private void lstTests_DoubleClick(object sender, EventArgs e)
 		{
-			TestInfo t = e.Node.Tag as TestInfo;
+			TestInfo t = lstTests.SelectedItem as TestInfo;
 			if (t == null)
 				return;
 
@@ -122,5 +121,44 @@ namespace Tests
 				this.Activate();
 			}
 		}
+
+		private void lstTests_DrawItem(object sender, DrawItemEventArgs e)
+		{
+			object item = lstTests.Items[e.Index];
+			const int indent = 15;
+
+			e.DrawBackground();
+
+			PointF loc = e.Bounds.Location;
+			Brush b = new SolidBrush(e.ForeColor);
+
+			if (item is string)
+			{
+				e.Graphics.DrawString((string)item, bold, b, loc);
+			}
+			else if (item is TestInfo)
+			{
+				TestInfo t = item as TestInfo;
+				loc.X += indent;
+
+				e.Graphics.DrawString(t.Name, lstTests.Font, b, loc);
+
+				var size = e.Graphics.MeasureString(t.Name, lstTests.Font);
+
+				size.Width += indent + 5;
+
+				if (lstTests.ColumnWidth < size.Width)
+					lstTests.ColumnWidth = (int) size.Width;
+			}
+
+			e.DrawFocusRectangle();
+		}
+
+		private void lstTests_MeasureItem(object sender, MeasureItemEventArgs e)
+		{
+
+		}
+
+
 	}
 }

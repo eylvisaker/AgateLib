@@ -28,26 +28,31 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tree = new System.Windows.Forms.TreeView();
+			this.lstTests = new System.Windows.Forms.ListBox();
 			this.SuspendLayout();
 			// 
-			// tree
+			// lstTests
 			// 
-			this.tree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			this.lstTests.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.tree.Location = new System.Drawing.Point(12, 12);
-			this.tree.Name = "tree";
-			this.tree.Size = new System.Drawing.Size(275, 510);
-			this.tree.TabIndex = 0;
-			this.tree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_NodeMouseDoubleClick);
+			this.lstTests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.lstTests.FormattingEnabled = true;
+			this.lstTests.Location = new System.Drawing.Point(12, 12);
+			this.lstTests.MultiColumn = true;
+			this.lstTests.Name = "lstTests";
+			this.lstTests.Size = new System.Drawing.Size(299, 251);
+			this.lstTests.TabIndex = 0;
+			this.lstTests.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstTests_DrawItem);
+			this.lstTests.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.lstTests_MeasureItem);
+			this.lstTests.DoubleClick += new System.EventHandler(this.lstTests_DoubleClick);
 			// 
 			// frmLauncher
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(299, 534);
-			this.Controls.Add(this.tree);
+			this.ClientSize = new System.Drawing.Size(323, 276);
+			this.Controls.Add(this.lstTests);
 			this.Name = "frmLauncher";
 			this.Text = "AgateLib Test Launcher";
 			this.ResumeLayout(false);
@@ -56,7 +61,8 @@
 
 		#endregion
 
-		private System.Windows.Forms.TreeView tree;
+		private System.Windows.Forms.ListBox lstTests;
+
 
 	}
 }
