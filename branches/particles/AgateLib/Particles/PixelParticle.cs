@@ -38,7 +38,7 @@ namespace AgateLib.Particles
 			get { return mPixelBuffer.GetPixel(0,0); }
 			set {
 				mPixelBuffer.SetPixel(0,0, value);
-				base.Surface = new Surface(mPixelBuffer);
+				base.Image = new Surface(mPixelBuffer);
 			}
 		}		
 		
@@ -51,7 +51,7 @@ namespace AgateLib.Particles
 		public PixelParticle(Color color)
 		{
 			mPixelBuffer.SetPixel(0,0, color);
-			base.Surface = new Surface(mPixelBuffer);
+			base.Image = new Surface(mPixelBuffer);
 		}
 	}
 }

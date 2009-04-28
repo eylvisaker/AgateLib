@@ -32,7 +32,7 @@ namespace AgateLib.Particles
 		private Condition mCondition = Condition.Empty;
 		private bool mIsDead = false;
 		
-		private ISurface mSurface;
+		private ISurface mImage;
 		
 		private Vector2 mAcceleration = Vector2.Empty;
 		private Vector2 mPosition = Vector2.Empty;
@@ -67,10 +67,10 @@ namespace AgateLib.Particles
 		/// <value>
 		/// Gets or sets the surface.
 		/// </value>
-		public ISurface Surface
+		public ISurface Image
 		{
-			get { return mSurface; }
-			set { mSurface = value; }
+			get { return mImage; }
+			set { mImage = value; }
 		}
 		
 		/// <value>
@@ -105,7 +105,7 @@ namespace AgateLib.Particles
 		/// </summary>
 		public virtual void Draw()
 		{
-			mSurface.Draw(mPosition.X, mPosition.Y);
+			mImage.Draw(mPosition.X, mPosition.Y);
 		}
 		
 		/// <summary>

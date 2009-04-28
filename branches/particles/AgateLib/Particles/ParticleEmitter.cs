@@ -36,6 +36,26 @@ namespace AgateLib.Particles
 	{	
 		private List<Particle> mParticles = new List<Particle>();
 		
+		private float mEmitFrequenzy = 1f;
+		
+		/// <value>
+		/// Gets or sets the particles.
+		/// </value>
+		public List<Particle> Particles
+		{
+			get { return mParticles; }
+			set { mParticles = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the emit frequenzy in seconds.
+		/// </value>
+		public float EmitFrequenzy
+		{
+			get { return mEmitFrequenzy; }
+			set { mEmitFrequenzy = value; }
+		}
+		
 		/// <summary>
 		/// Delegate to update particles.
 		/// Particle manipulators should subscribe here.
