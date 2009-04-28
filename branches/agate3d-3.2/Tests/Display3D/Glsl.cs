@@ -85,28 +85,31 @@ namespace Tests.Display3D.Glsl
 				double frequency = 2 * Math.PI / 5;
 				const float size = 25;
 
+				//var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
+				//    Shaders.PerPixelLighting_vertex, Shaders.PerPixelLighting_fragment);
+				var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
+					File.ReadAllText("Data/shaders/BumpMap_vertex.txt"),
+					File.ReadAllText("Data/shaders/BumpMap_fragment.txt"));
+				//var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
+				//    Shaders.BumpMap_vertex, Shaders.PerPixelLighting_fragment);
+
 				//HeightMapTerrain b = new HeightMapTerrain(height.ReadPixels());
 				//b.Width = size;
 				//b.Height = size;
 				//b.MaxPeak = 1;
 				CubeBuilder b = new CubeBuilder();
-				b.VertexType = VertexLayout.PositionNormalTangentBitangentTexture;
+				//b.VertexType = VertexLayout.PositionNormalTangentBitangentTexture;
 				b.Length = size;
+				b.CreateVertexBuffer();
 
-				VertexBuffer buffer = b.CreateVertexBuffer();
+				IndexBuffer index = b.IndexBuffer;
+				VertexBuffer buffer = b.VertexBuffer;
 				buffer.Textures[0] = texture;
 				buffer.Textures[1] = new Surface(
 					PixelBuffer.NormalMapFromHeightMap(height.ReadPixels(), 2.0f));
 				buffer.Textures[1].SaveTo("normal.png");
 
-				//var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
-				//    Shaders.PerPixelLighting_vertex, Shaders.PerPixelLighting_fragment);
-				var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
-					File.ReadAllText("Data/shaders/BumpMap_vertex.txt"), 
-					File.ReadAllText("Data/shaders/BumpMap_fragment.txt"));
-				//var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
-				//    Shaders.BumpMap_vertex, Shaders.PerPixelLighting_fragment);
-
+				
 				resetmouse();
 				Mouse.Hide();
 
@@ -164,7 +167,7 @@ namespace Tests.Display3D.Glsl
 					Display.MatrixWorld =
 						Matrix4.Translation(-size / 2, -size / 2, 0) * Matrix4.RotateZ((float)(frequency * time));
 
-					buffer.Draw();
+					buffer.DrawIndexed(index);
 
 					Debug.Print("x, y, z = {0}", eye.ToString());
 					Debug.Print("angle = {0}", phi * 180 / Math.PI);

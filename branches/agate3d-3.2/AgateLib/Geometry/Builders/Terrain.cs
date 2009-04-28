@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
+using AgateLib.Geometry.VertexTypes;
 
 namespace AgateLib.Geometry.Builders
 {
@@ -17,7 +18,7 @@ namespace AgateLib.Geometry.Builders
 			Height = 1;
 			MaxPeak = 1;
 
-			VertexType = VertexLayout.PositionNormalTexture;
+			VertexType = PositionTextureNormal.VertexLayout;
 		}
 
 		/// <summary>
@@ -61,9 +62,9 @@ namespace AgateLib.Geometry.Builders
 			VertexBuffer retval = new VertexBuffer(VertexType, vertices.Length);
 
 			retval.WriteVertexData(vertices);
-			retval.WriteTextureCoords(texture);
-			retval.WriteNormalData(normal);
-			retval.WriteIndices(indices);
+			//retval.WriteTextureCoords(texture);
+			//retval.WriteNormalData(normal);
+			//retval.WriteIndices(indices);
 
 			return retval;
 		}

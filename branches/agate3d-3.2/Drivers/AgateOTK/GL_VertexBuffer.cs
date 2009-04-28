@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using AgateLib;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Geometry.VertexTypes;
 using AgateLib.ImplementationBase;
 using OpenTK.Graphics;
-using AgateLib.DisplayLib;
 
 namespace AgateOTK
 {
@@ -23,139 +24,67 @@ namespace AgateOTK
 			public int ComponentCount;
 		}
 
-		int mVertexCount, mIndexCount;
+		int mVertexCount;
 		int mVertexBufferID;
-		int mIndexBufferID;
-		int mTexCoordBufferID;
-		int mNormalBufferID;
+
 		List<AttributeData> mAttributeBuffers = new List<AttributeData>();
 
-		VertexLayout layout;
+		VertexLayout mLayout;
 
-		public GL_VertexBuffer(VertexLayout layout)
+		public GL_VertexBuffer(VertexLayout layout, int count)
 		{
 			mDisplay = Display.Impl as GL_Display;
 			mState = mDisplay.State;
-			this.layout = layout;
+			mVertexCount = count;
+			mLayout = layout;
+
+			GL.GenBuffers(1, out mVertexBufferID);
 		}
 
-		// FYI: use BufferTarget.ElementArrayBuffer to bind to an index buffer.
-		private int CreateBuffer(Vector3[] data)
+		public override void  Write<T>(T[] vertices)
 		{
-			int bufferID;
-			GL.GenBuffers(1, out bufferID);
-			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferID);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
+			int size = vertices.Length * Marshal.SizeOf(typeof(T));
+
+			GCHandle h = GCHandle.Alloc(vertices, GCHandleType.Pinned);
+
+			IntPtr arrayptr = Marshal.UnsafeAddrOfPinnedArrayElement(vertices, 0);
 
 			unsafe
 			{
-				fixed (Vector3* ptr = data)
-				{
-					GL.BufferData(
-						BufferTarget.ArrayBuffer,
-						(IntPtr)(data.Length * Marshal.SizeOf(typeof(Vector3))),
-						(IntPtr)ptr,
-						BufferUsageHint.StaticDraw);
-				}
+				byte* ptr = (byte*)arrayptr;
+
+				GL.BufferData(
+					BufferTarget.ArrayBuffer,
+					(IntPtr)(vertices.Length * Marshal.SizeOf(typeof(T))),
+					(IntPtr)ptr,
+					BufferUsageHint.StaticDraw);
 			}
 
-			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-			return bufferID;
-		}
-		private int CreateBuffer(Vector2[] data)
-		{
-			int bufferID;
-			GL.GenBuffers(1, out bufferID);
-			GL.BindBuffer(BufferTarget.ArrayBuffer, bufferID);
+			h.Free();
 
-			unsafe
-			{
-				fixed (Vector2* ptr = data)
-				{
-					GL.BufferData(
-						BufferTarget.ArrayBuffer,
-						(IntPtr)(data.Length * Marshal.SizeOf(typeof(Vector2))),
-						(IntPtr)ptr,
-						BufferUsageHint.StaticDraw);
-				}
-			}
+		}
 
-			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-			return bufferID;
-		}
-		private int CreateIndexBuffer(short[] data)
-		{
-			int bufferID;
-			GL.GenBuffers(1, out bufferID);
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, bufferID);
-
-			unsafe
-			{
-				fixed (short* ptr = data)
-				{
-					GL.BufferData(
-						BufferTarget.ElementArrayBuffer,
-						(IntPtr)(data.Length * Marshal.SizeOf(typeof(short))),
-						(IntPtr)ptr,
-						BufferUsageHint.StaticDraw);
-				}
-			}
-
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-			return bufferID;
-		}
-		public override void WriteVertexData(Vector3[] data)
-		{
-			mVertexBufferID = CreateBuffer(data);
-			mVertexCount = data.Length;
-		}
-		public override void WriteTextureCoords(Vector2[] texCoords)
-		{
-			mTexCoordBufferID = CreateBuffer(texCoords);
-		}
-		public override void WriteNormalData(Vector3[] data)
-		{
-			mNormalBufferID = CreateBuffer(data);
-		}
-		public override void WriteIndices(short[] indices)
-		{
-			mIndexBufferID = CreateIndexBuffer(indices);
-			mIndexCount = indices.Length;
-		}
-		public override void WriteAttributeData(string attributeName, Vector3[] data)
-		{
-			AttributeData d = new AttributeData { Name = attributeName };
-
-			d.BufferID = CreateBuffer(data);
-			d.Type = VertexAttribPointerType.Float;
-			d.ComponentCount = 3;
-
-			mAttributeBuffers.Add(d);
-		}
 		public override void Draw(int start, int count)
 		{
+			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
 			SetClientStates();
 			BeginMode beginMode = SelectBeginMode();
 
-			if (Indexed)
-			{
-				GL.BindBuffer(BufferTarget.ElementArrayBuffer, mIndexBufferID);
-				GL.IndexPointer(IndexPointerType.Short, 0, (IntPtr)start);
+			GL.DrawArrays(beginMode, start, count);
+		}
+		public override void DrawIndexed(IndexBuffer indexbuffer, int start, int count)
+		{
+			GL_IndexBuffer gl_indexbuffer = (GL_IndexBuffer) indexbuffer.Impl;
 
-				GL.EnableClientState(EnableCap.VertexArray);
-				GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
-				GL.VertexPointer(3, VertexPointerType.Float, 0, (IntPtr)0);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, gl_indexbuffer.BufferID);
+			GL.IndexPointer(IndexPointerType.Short, 0, (IntPtr)start);
 
-				GL.DrawElements(beginMode, count, DrawElementsType.UnsignedShort, (IntPtr)0);
-			}
-			else
-			{
-				GL.EnableClientState(EnableCap.VertexArray);
-				GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
-				GL.VertexPointer(3, VertexPointerType.Float, 0, (IntPtr)start);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
+			SetClientStates();
 
-				GL.DrawArrays(beginMode, start, count);
-			}
-
+			BeginMode beginMode = SelectBeginMode();
+			GL.DrawElements(beginMode, count, DrawElementsType.UnsignedShort, (IntPtr)0);
 		}
 
 		private void SetAttributes()
@@ -190,18 +119,25 @@ namespace AgateOTK
 			{
 				GL.Disable(EnableCap.Texture2D);
 				GL.DisableClientState(EnableCap.TextureCoordArray);
-				GL.BindTexture(TextureTarget.Texture2D, 0);
 			}
 
 			if (HasNormals)
 			{
 				GL.EnableClientState(EnableCap.NormalArray);
-				GL.BindBuffer(BufferTarget.ArrayBuffer, mNormalBufferID);
-				GL.NormalPointer(NormalPointerType.Float, 0, IntPtr.Zero);
+				GL.NormalPointer(NormalPointerType.Float, mLayout.VertexSize, 
+					(IntPtr) mLayout.ElementByteIndex(VertexElement.Normal));
 			}
 			else
 			{
 				GL.DisableClientState(EnableCap.NormalArray);
+			}
+
+			if (HasPositions)
+			{
+				GL.EnableClientState(EnableCap.VertexArray);
+				GL.VertexPointer(
+					PositionSize / sizeof(float), VertexPointerType.Float, mLayout.VertexSize,
+					(IntPtr)mLayout.ElementByteIndex(VertexElement.Position));
 			}
 
 			SetAttributes();
@@ -210,9 +146,14 @@ namespace AgateOTK
 		private void SetTextures()
 		{
 			GL.Enable(EnableCap.Texture2D);
-			GL.EnableClientState(EnableCap.TextureCoordArray);
-			GL.BindBuffer(BufferTarget.ArrayBuffer, mTexCoordBufferID);
-			GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, IntPtr.Zero);
+
+			if (HasTextureCoords)
+			{
+				GL.EnableClientState(EnableCap.TextureCoordArray);
+				GL.TexCoordPointer(
+						2, TexCoordPointerType.Float, mLayout.VertexSize,
+						(IntPtr)mLayout.ElementByteIndex(VertexElement.Texture));
+			}
 
 			GlslShader shader = Display.Shader as GlslShader;
 
@@ -276,10 +217,6 @@ namespace AgateOTK
 				System.Diagnostics.Debug.Print("Error: {0}", err);
 		}
 
-		public override int IndexCount
-		{
-			get { return mIndexCount; }
-		}
 		public override int VertexCount
 		{
 			get { return mVertexCount; }
@@ -291,11 +228,24 @@ namespace AgateOTK
 		}
 		public bool HasTextureCoords
 		{
-			get { return mTexCoordBufferID != 0; }
+			get { return mLayout.ContainsElement(VertexElement.Texture); }
 		}
 		public bool HasNormals
 		{
-			get { return mNormalBufferID != 0; }
+			get { return mLayout.ContainsElement(VertexElement.Normal); }
+		}
+		public bool HasPositions
+		{
+			get { return mLayout.ContainsElement(VertexElement.Position); }
+		}
+		public int PositionSize
+		{
+			get
+			{
+				VertexElementDesc d = mLayout.GetElement(VertexElement.Position);
+
+				return VertexLayout.SizeOf(d.DataType);
+			}
 		}
 	}
 }

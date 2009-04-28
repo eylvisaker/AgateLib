@@ -22,13 +22,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Runtime.InteropServices;
-
 using AgateLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
+using AgateLib.Geometry.VertexTypes;
 using AgateLib.ImplementationBase;
-
 using OpenTK.Graphics;
 using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
@@ -101,7 +100,11 @@ namespace AgateOTK
 		}
 		protected override VertexBufferImpl CreateVertexBuffer(VertexLayout layout, int vertexCount)
 		{
-			return new GL_VertexBuffer(layout);
+			return new GL_VertexBuffer(layout, vertexCount);
+		}
+		protected override IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
+		{
+			return new GL_IndexBuffer(type, size);
 		}
 
 		public override SurfaceImpl CreateSurface(Size surfaceSize)

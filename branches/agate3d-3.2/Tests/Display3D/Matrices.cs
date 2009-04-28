@@ -56,8 +56,9 @@ namespace Tests.Display3D.TestMatrices
 				CubeBuilder cube = new CubeBuilder();
 				cube.Length = 58;
 				cube.Location = new Vector3(cube.Length / 2, cube.Length / 2, 0);
+				cube.CreateVertexBuffer();
 
-				VertexBuffer b = cube.CreateVertexBuffer();
+				VertexBuffer b = cube.VertexBuffer;
 				b.Textures[0] = surf;
 
 				int lastMyMatrix = matrixIndex - 1;

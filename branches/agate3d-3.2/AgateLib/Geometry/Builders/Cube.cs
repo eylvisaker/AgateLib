@@ -2,57 +2,68 @@
 using System.Collections.Generic;
 using System.Text;
 using AgateLib.DisplayLib;
+using AgateLib.Geometry.VertexTypes;
 
 namespace AgateLib.Geometry.Builders
 {
 	public class CubeBuilder
 	{
+		VertexBuffer mVertices = null;
+		IndexBuffer mIndices = null;
+
 		public CubeBuilder()
 		{
 			Length = 1;
-			VertexType = VertexLayout.PositionNormalTexture;
+			VertexType = VertexTypes.PositionTextureNTB.VertexLayout;
 		}
 
+		public VertexBuffer VertexBuffer
+		{
+			get { return mVertices; }
+		}
+		public IndexBuffer IndexBuffer
+		{
+			get { return mIndices; }
+		}
+		
 		public float Length { get; set; }
 		public Vector3 Location { get; set; }
+
 		bool GenerateTextureCoords
 		{
-			get { return VertexType.Contains(VertexMemberUsage.Texture); }
+			get { return VertexType.ContainsElement(VertexElement.Texture); }
 		}
 		bool GenerateNormals
 		{
-			get { return VertexType.Contains(VertexMemberUsage.Normal); }
+			get { return VertexType.ContainsElement(VertexElement.Normal); }
 		}
 		bool GenerateTangent
 		{
-			get { return VertexType.Contains(VertexMemberUsage.Tangent); }
+			get { return VertexType.ContainsElement(VertexElement.Tangent); }
 		}
 		bool GenerateBitangent
 		{
-			get { return VertexType.Contains(VertexMemberUsage.Bitangent); }
+			get { return VertexType.ContainsElement(VertexElement.Bitangent); }
 		}
-
 
 		public VertexLayout VertexType { get; set; }
 
-		public VertexBuffer CreateVertexBuffer()
+		public void CreateVertexBuffer()
 		{
-			VertexBuffer retval = new VertexBuffer(VertexType, 24);
+			PositionTextureNTB[] vertices = new PositionTextureNTB[24];
 
-			retval.PrimitiveType = PrimitiveType.TriangleList;
-			retval.WriteVertexData(GetVertexData());
-			retval.WriteIndices(GetIndexData());
+			mVertices = new VertexBuffer(VertexType, 24);
+			mIndices = new IndexBuffer(IndexBufferType.Int16, 36);
 
-			if (GenerateTextureCoords)
-				retval.WriteTextureCoords(GetTextureCoords());
-			if (GenerateNormals)
-				retval.WriteNormalData(GetNormals());
-			if (GenerateTangent)
-				retval.WriteAttributeData("tangent", GetTangent());
-			if (GenerateBitangent)
-				retval.WriteAttributeData("bitangent", GetBitangent());
+			mVertices.PrimitiveType = PrimitiveType.TriangleList;
 
-			return retval;
+			GenerateVertexData(vertices);
+			GenerateNormalData(vertices);
+			GenerateTexCoordData(vertices);
+
+			mVertices.WriteVertexData(vertices);
+			mIndices.WriteIndices(GetIndexData());
+
 		}
 
 
@@ -130,77 +141,67 @@ namespace AgateLib.Geometry.Builders
 
 			return retval;
 		}
-		private Vector3[] GetNormals()
+		private void GenerateNormalData(PositionTextureNTB[] vertices)
 		{
-			Vector3[] retval = new Vector3[24];
-
 			int i = 0;
 			float length = Length / 2.0f;
 
 			for (int sign = -1; sign <= 1; sign += 2)
 			{
-				retval[i++] = new Vector3(0, 0, sign);
-				retval[i++] = new Vector3(0, 0, sign);
-				retval[i++] = new Vector3(0, 0, sign);
-				retval[i++] = new Vector3(0, 0, sign);
+				vertices[i++].Normal = new Vector3(0, 0, sign);
+				vertices[i++].Normal = new Vector3(0, 0, sign);
+				vertices[i++].Normal = new Vector3(0, 0, sign);
+				vertices[i++].Normal = new Vector3(0, 0, sign);
 
-				retval[i++] = new Vector3(0, sign, 0);
-				retval[i++] = new Vector3(0, sign, 0);
-				retval[i++] = new Vector3(0, sign, 0);
-				retval[i++] = new Vector3(0, sign, 0);
+				vertices[i++].Normal = new Vector3(0, sign, 0);
+				vertices[i++].Normal = new Vector3(0, sign, 0);
+				vertices[i++].Normal = new Vector3(0, sign, 0);
+				vertices[i++].Normal = new Vector3(0, sign, 0);
 
-				retval[i++] = new Vector3(sign, 0, 0);
-				retval[i++] = new Vector3(sign, 0, 0);
-				retval[i++] = new Vector3(sign, 0, 0);
-				retval[i++] = new Vector3(sign, 0, 0);
+				vertices[i++].Normal = new Vector3(sign, 0, 0);
+				vertices[i++].Normal = new Vector3(sign, 0, 0);
+				vertices[i++].Normal = new Vector3(sign, 0, 0);
+				vertices[i++].Normal = new Vector3(sign, 0, 0);
 			}
-
-			return retval;
 		}
-		protected virtual Vector3[] GetVertexData()
+		
+		
+		private void GenerateVertexData(PositionTextureNTB[] vertices)
 		{
-			Vector3[] retval = new Vector3[24];
-
 			int i = 0;
 			float length = Length / 2.0f;
 
 			for (int sign = -1; sign <= 1; sign += 2)
 			{
-				retval[i++] = new Vector3(length, length, sign * length);
-				retval[i++] = new Vector3(length, -length, sign * length);
-				retval[i++] = new Vector3(-length, length, sign * length);
-				retval[i++] = new Vector3(-length, -length, sign * length);
+				vertices[i++].Position = new Vector3(length, length, sign * length);
+				vertices[i++].Position = new Vector3(length, -length, sign * length);
+				vertices[i++].Position = new Vector3(-length, length, sign * length);
+				vertices[i++].Position = new Vector3(-length, -length, sign * length);
 
-				retval[i++] = new Vector3(length, sign * length, length);
-				retval[i++] = new Vector3(length, sign * length, -length);
-				retval[i++] = new Vector3(-length, sign * length, length);
-				retval[i++] = new Vector3(-length, sign * length, -length);
+				vertices[i++].Position = new Vector3(length, sign * length, length);
+				vertices[i++].Position = new Vector3(length, sign * length, -length);
+				vertices[i++].Position = new Vector3(-length, sign * length, length);
+				vertices[i++].Position = new Vector3(-length, sign * length, -length);
 
-				retval[i++] = new Vector3(sign * length, length, length);
-				retval[i++] = new Vector3(sign * length, length, -length);
-				retval[i++] = new Vector3(sign * length, -length, length);
-				retval[i++] = new Vector3(sign * length, -length, -length);
+				vertices[i++].Position = new Vector3(sign * length, length, length);
+				vertices[i++].Position = new Vector3(sign * length, length, -length);
+				vertices[i++].Position = new Vector3(sign * length, -length, length);
+				vertices[i++].Position = new Vector3(sign * length, -length, -length);
 			}
 
-			for (i = 0; i < retval.Length; i++)
-				retval[i] += Location;
-
-			return retval;
+			for (i = 0; i < vertices.Length; i++)
+				vertices[i].Position += Location;
 		}
-		protected virtual Vector2[] GetTextureCoords()
+		private void GenerateTexCoordData(PositionTextureNTB[] vertices)
 		{
-			Vector2[] retval = new Vector2[24];
-
 			int i = 0;
 			for (int face = 0; face < 6; face++)
 			{
-				retval[i++] = new Vector2(0, 0);
-				retval[i++] = new Vector2(0, 1);
-				retval[i++] = new Vector2(1, 0);
-				retval[i++] = new Vector2(1, 1);
+				vertices[i++].Texture = new Vector2(0, 0);
+				vertices[i++].Texture = new Vector2(0, 1);
+				vertices[i++].Texture = new Vector2(1, 0);
+				vertices[i++].Texture = new Vector2(1, 1);
 			}
-
-			return retval;
 		}
 	}
 }

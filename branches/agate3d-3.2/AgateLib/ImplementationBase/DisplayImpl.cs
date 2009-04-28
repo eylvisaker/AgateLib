@@ -596,9 +596,15 @@ namespace AgateLib.ImplementationBase
 		protected internal abstract void HideCursor();
 
 
-		protected internal virtual VertexBufferImpl CreateVertexBuffer(VertexLayout layout, int vertexCount)
+		protected internal virtual VertexBufferImpl CreateVertexBuffer(
+			Geometry.VertexTypes.VertexLayout layout, int vertexCount)
 		{
 			throw new AgateException("Cannot create a vertex buffer with a driver that does not support 3D.");
+		}
+
+		protected internal virtual IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
+		{
+			throw new AgateException("Cannot create an index buffer with a driver that does not support 3D.");
 		}
 
 		public virtual Matrix4 MatrixProjection
@@ -643,6 +649,7 @@ namespace AgateLib.ImplementationBase
 			else
 				ShaderCompiler.Disable();
 		}
+
 
 	}
 }

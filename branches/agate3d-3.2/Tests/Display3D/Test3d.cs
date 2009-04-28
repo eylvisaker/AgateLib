@@ -64,8 +64,9 @@ namespace Tests.Display3D.Test3D
 
 				CubeBuilder cube = new CubeBuilder();
 				cube.Length = 4;
+				cube.CreateVertexBuffer();
 
-				VertexBuffer b = cube.CreateVertexBuffer();
+				VertexBuffer b = cube.VertexBuffer;
 				b.Textures[0] = surf;
 
 				int lastMyMatrix = matrixIndex - 1;
