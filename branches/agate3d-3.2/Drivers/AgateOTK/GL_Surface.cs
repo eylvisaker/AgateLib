@@ -167,7 +167,6 @@ namespace AgateOTK
 		public override void Dispose()
 		{
 			ReleaseTextureRef();
-
 		}
 
 		public override void Draw(SurfaceState state)

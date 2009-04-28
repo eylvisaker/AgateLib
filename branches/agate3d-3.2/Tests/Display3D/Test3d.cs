@@ -9,14 +9,33 @@ using AgateLib.Geometry.Builders;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 
-namespace Test3D
+namespace Tests.Display3D.Test3D
 {
-	class Test3d
+	class Test3d : IAgateTest 
 	{
-		static int matrixIndex = 1;
-		static int move, turn;
+		#region IAgateTest Members
 
-		static void Main(string[] args)
+		public string Name
+		{
+			get { return "Test 3D"; }
+		}
+
+		public string Category
+		{
+			get { return "Display 3D"; }
+		}
+
+		void IAgateTest.Main(string[] args)
+		{
+			Run(args);
+		}
+
+		#endregion
+
+		int matrixIndex = 1;
+		int move, turn;
+
+		void Run(string[] args)
 		{
 			System.IO.FileStream fs = new System.IO.FileStream(@"c:\cube.obj", System.IO.FileMode.Open, System.IO.FileAccess.Read);
 
@@ -150,19 +169,19 @@ namespace Test3D
 			}
 		}
 
-		private static Vector3 CalculateLookDirection(float facingAngle)
+		private Vector3 CalculateLookDirection(float facingAngle)
 		{
 			return new Vector3(Math.Cos(facingAngle), Math.Sin(facingAngle), 0);
 		}
 
-		private static Vector3 CalculateLookTarget(Vector3 position, float facingAngle)
+		private Vector3 CalculateLookTarget(Vector3 position, float facingAngle)
 		{
 			Vector3 lookTarget = position;
 			lookTarget += new Vector3(Math.Cos(facingAngle), Math.Sin(facingAngle), 0);
 			return lookTarget;
 		}
 
-		static void Keyboard_KeyUp(InputEventArgs e)
+		void Keyboard_KeyUp(InputEventArgs e)
 		{
 			if (e.KeyCode == KeyCode.Up || e.KeyCode == KeyCode.Down)
 				move = 0;
@@ -170,7 +189,7 @@ namespace Test3D
 				turn = 0;
 		}
 
-		static void Keyboard_KeyDown(AgateLib.InputLib.InputEventArgs e)
+		void Keyboard_KeyDown(AgateLib.InputLib.InputEventArgs e)
 		{
 			if (e.KeyCode == AgateLib.InputLib.KeyCode.Space)
 				matrixIndex++;

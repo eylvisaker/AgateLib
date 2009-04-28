@@ -8,19 +8,28 @@ using AgateLib.Geometry;
 using AgateLib.Geometry.Builders;
 using AgateLib.InputLib;
 
-namespace TestMatrices
+namespace Tests.Display3D.TestMatrices
 {
-	public class Matrices
+	public class Matrices : IAgateTest
 	{
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		static void Main(string[] args)
+		#region IAgateTest Members
+
+		public string Name
 		{
-			new Matrices().Run(args);
+			get { return "Matrices"; }
 		}
 
+		public string Category
+		{
+			get { return "Display 3D"; }
+		}
+
+		void IAgateTest.Main(string[] args)
+		{
+			Run(args);
+		}
+
+		#endregion
 		static int matrixIndex = 1;
 		static int move, turn;
 

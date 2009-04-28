@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using AgateLib;
@@ -10,18 +11,28 @@ using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 
-namespace Glsl
+namespace Tests.Display3D.Glsl
 {
-	public class Glsl
+	public class Glsl: IAgateTest 
 	{
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		static void Main(string[] args)
+		#region IAgateTest Members
+
+		public string Name
 		{
-			new Glsl().Run(args);
+			get { return "Glsl"; }
 		}
+
+		public string Category
+		{
+			get { return "Display 3D"; }
+		}
+
+		void IAgateTest.Main(string[] args)
+		{
+			Run(args);
+		}
+
+		#endregion
 
 		bool rotating = false;
 		const float velocity = 0.04f;
@@ -46,11 +57,6 @@ namespace Glsl
 		}
 		private void Run(string[] args)
 		{
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			AgateLib.AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateLib.AgateFileProvider.Images.AddPath("../../../Tests/TestImages");
-
 			using (AgateSetup setup = new AgateSetup(args))
 			{
 				setup.Initialize(true, false, false);
@@ -93,11 +99,11 @@ namespace Glsl
 					PixelBuffer.NormalMapFromHeightMap(height.ReadPixels(), 2.0f));
 				buffer.Textures[1].SaveTo("normal.png");
 
-				ShaderProgram shader = null;
 				//var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
 				//    Shaders.PerPixelLighting_vertex, Shaders.PerPixelLighting_fragment);
-				//var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
-				//	Shaders.BumpMap_vertex, Shaders.BumpMap_fragment);
+				var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
+					File.ReadAllText("Data/shaders/BumpMap_vertex.txt"), 
+					File.ReadAllText("Data/shaders/BumpMap_fragment.txt"));
 				//var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
 				//    Shaders.BumpMap_vertex, Shaders.PerPixelLighting_fragment);
 
