@@ -50,7 +50,7 @@ namespace AgateLib.Resources
 		/// </summary>
 		/// <param name="message"></param>
 		/// <param name="inner"></param>
-		public AgateResourceException(string message, Exception inner) : base(message, inner) { }
+		public AgateResourceException(string message, Exception inner) : base(inner, message) { }
 		/// <summary>
 		/// 
 		/// </summary>

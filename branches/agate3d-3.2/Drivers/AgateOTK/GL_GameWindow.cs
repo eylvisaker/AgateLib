@@ -281,6 +281,7 @@ namespace AgateOTK
 
 			mWindow.Mouse.ButtonDown -= Mouse_ButtonDown;
 			mWindow.Mouse.ButtonUp -= Mouse_ButtonUp;
+			mWindow.Mouse.Move -= Mouse_Move;
 		}
 
 		void mWindow_Resize(object sender, OpenTK.Platform.ResizeEventArgs e)
@@ -288,7 +289,6 @@ namespace AgateOTK
 			Debug.Print("Reseting viewport to {0}x{1}", mWindow.Width, mWindow.Height);
 
 			GL.Viewport(0, 0, mWindow.Width, mWindow.Height);
-
 		}
 
 		private void CreateWindowedDisplay()
@@ -454,12 +454,6 @@ namespace AgateOTK
 				mWindow.Context.MakeCurrent(mWindow.WindowInfo);
 			}
 		}
-
-		#endregion
-
-
-		#region GL_IRenderTarget Members
-
 
 		public void HideCursor()
 		{

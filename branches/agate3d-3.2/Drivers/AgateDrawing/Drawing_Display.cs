@@ -317,6 +317,15 @@ namespace AgateLib.DisplayLib.SystemDrawing
 			get { return true; }
 		}
 
+		bool IDisplayCaps.SupportsShaders
+		{
+			get { return false; }
+		}
+
+		AgateLib.DisplayLib.Shaders.ShaderLanguage IDisplayCaps.ShaderLanguage
+		{
+			get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Unknown; }
+		}
 		bool IDisplayCaps.SupportsLighting
 		{
 			get { return false; }

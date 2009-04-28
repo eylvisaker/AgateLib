@@ -92,7 +92,7 @@ namespace AgateOTK
 
 			mSourceRect = new Rectangle(Point.Empty, size);
 
-			mTextureSize = new Size(NextPowerOfTwo(size.Width), NextPowerOfTwo(size.Height));
+			mTextureSize = GetOGLSize(size);
 
 			//int[] array = new int[1];
 			//GL.GenTextures(1, array);
@@ -519,6 +519,7 @@ namespace AgateOTK
 
 		#endregion
 
+		internal int GLTextureID { get { return mTextureID; } }
 
 		private void Load()
 		{
@@ -554,7 +555,6 @@ namespace AgateOTK
 
 			mTexCoord = GetTextureCoords(mSourceRect);
 
-
 			// Rectangle For Locking The Bitmap In Memory
 			Rectangle rectangle = new Rectangle(0, 0, textureImage.Width, textureImage.Height);
 
@@ -573,18 +573,42 @@ namespace AgateOTK
 			AddTextureRef(textureID);
 
 			WritePixels(buffer);
-
 			textureImage.UnlockBits(bitmapData);                     // Unlock The Pixel Data From Memory
 			textureImage.Dispose();                                  // Dispose The Bitmap
 		}
 
 		private Size GetOGLSize(System.Drawing.Bitmap image)
 		{
-			Size retval = new Size(
-				NextPowerOfTwo(image.Width),
-				NextPowerOfTwo(image.Height));
+			return GetOGLSize(Interop.Convert(image.Size));
+		}
+		private Size GetOGLSize(Size size)
+		{
+			Size retval = size;
+
+			if (mDisplay.NonPowerOf2Textures)
+				return retval;
+
+			if (IsPowerOfTwo(retval.Width) == false)
+				retval.Width = NextPowerOfTwo(retval.Width);
+			if (IsPowerOfTwo(retval.Height) == false)
+				retval.Height = NextPowerOfTwo(retval.Height);
 
 			return retval;
+		}
+		private bool IsPowerOfTwo(int value)
+		{
+			if (value < 0)
+				throw new ArgumentException("value cannot be negative.");
+
+			while (value > 1)
+			{
+				if ((value & 1) == 1)
+					return false;
+
+				value >>= 1;
+			}
+
+			return true;
 		}
 		private int NextPowerOfTwo(int p)
 		{
@@ -610,164 +634,6 @@ namespace AgateOTK
 
 			return coords;
 		}
-
-		/*
-	   GL_Display mDisplay;
-	   string mFilename;
-
-	   Size mSize;
-
-	   /// <summary>
-	   /// Size of the actual texture in memory.. this will only be
-	   /// in powers of two.
-	   /// </summary>
-	   Size mTextureSize;
-
-	   // texture coordinates, since OGL requires textures
-	   // to be power of two..
-	   struct TextureCoordinates
-	   {
-		   public TextureCoordinates(float left, float top, float right, float bottom)
-		   {
-			   Top = top;
-			   Left = left;
-			   Bottom = bottom;
-			   Right = right;
-		   }
-		   public float Top;
-		   public float Bottom;
-		   public float Left;
-		   public float Right;
-	   }
-
-	   TextureCoordinates mTexCoord;
-
-	   // this is documented as "storage for one texture"
-	   // it really is just a texture identifier.
-	   int mTextureID;
-
-	   public GL_Surface(Surface owner, string filename)
-	   {
-		   mDisplay = Display.Impl as WGL_Display;
-		   mSurface = owner;
-
-		   mFilename = filename;
-
-
-		   Load();
-	   }
-
-	   public GL_Surface(Surface owner, Size size)
-	   {
-		   mDisplay = Display.Impl as WGL_Display;
-		   mSurface = owner;
-
-
-	   }
-
-      
-	   private Size GetOGLSize(System.Drawing.Bitmap image)
-	   {
-		   Size retval = new Size(
-			   NextPowerOfTwo(image.Width),
-			   NextPowerOfTwo(image.Height));
-
-		   return retval;
-	   }
-	   private int NextPowerOfTwo(int p)
-	   {
-		   return (int)Math.Pow(2, (int)(Math.Log(p) / Math.Log(2)) + 1);
-	   }
-
-	   public override void Draw(System.Drawing.Rectangle dest_rect)
-	   {
-		   throw new Exception("The method or operation is not implemented.");
-	   }
-
-	   public override void Draw(System.Drawing.Rectangle src_rect, System.Drawing.Rectangle dest_rect)
-	   {
-		   throw new Exception("The method or operation is not implemented.");
-	   }
-
-	   public override void Draw(System.Drawing.Point destPt)
-	   {
-		   Point rotatePoint = Origin.Calc(mSurface.RotationCenter, mSurface.DisplaySize);
-		   Point translatePoint = Origin.Calc(mSurface.DisplayAlignment, mSurface.DisplaySize);
-
-
-		   if (mSurface.DisplaySize.Width < 0)
-			   translatePoint.X += mSurface.DisplaySize.Width;
-
-		   if (mSurface.DisplaySize.Height < 0)
-			   translatePoint.Y += mSurface.DisplaySize.Height;
-
-		   translatePoint.X -= destPt.X + rotatePoint.X;
-		   translatePoint.Y -= destPt.Y + rotatePoint.Y;
-
-		   Rectangle destRect = new Rectangle(new Point(-rotatePoint.X, -rotatePoint.Y), mSurface.DisplaySize);
-
-		   mDisplay.SetGLColor(mSurface.Color);
-
-		   GL.glBindTexture(GL.GL_Texture2D, mTextureID);
-
-		   GL.glTranslatef(-translatePoint.X, -translatePoint.Y, 0);
-		   GL.glRotatef((float)-mSurface.RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
-
-		   GL.glBegin(GL.GL_QUADS);
-
-		   GL.glTexCoord2f(mTexCoord.Left, mTexCoord.Top); GL.glVertex2f(destRect.Left, destRect.Top);
-		   GL.glTexCoord2f(mTexCoord.Right, mTexCoord.Top); GL.glVertex2f(destRect.Right, destRect.Top);
-		   GL.glTexCoord2f(mTexCoord.Right, mTexCoord.Bottom); GL.glVertex2f(destRect.Right, destRect.Bottom);
-		   GL.glTexCoord2f(mTexCoord.Left, mTexCoord.Bottom); GL.glVertex2f(destRect.Left, destRect.Bottom);
-
-		   GL.glEnd();
-
-		   // restore the matrix
-		   GL.glRotatef((float)mSurface.RotationAngleDegrees, 0.0f, 0.0f, 1.0f);
-		   GL.glTranslatef(translatePoint.X, translatePoint.Y, 0);
-	   }
-
-	   public override void DrawRects(System.Drawing.Rectangle[] src_rects, System.Drawing.Rectangle[] dest_rects)
-	   {
-		   throw new Exception("The method or operation is not implemented.");
-	   }
-
-	   public override void SaveTo(string filename)
-	   {
-		   throw new Exception("The method or operation is not implemented.");
-	   }
-
-	   public override System.Drawing.Size SurfaceSize
-	   {
-		   get { return mSize; }
-	   }
-
-	   public override bool IsSurfaceBlank()
-	   {
-		   throw new Exception("The method or operation is not implemented.");
-	   }
-
-	   public override bool IsSurfaceBlank(int alphaThreshold)
-	   {
-		   throw new Exception("The method or operation is not implemented.");
-	   }
-
-	   public override bool IsRowBlank(int row)
-	   {
-		   throw new Exception("The method or operation is not implemented.");
-	   }
-
-	   public override bool IsColumnBlank(int col)
-	   {
-		   throw new Exception("The method or operation is not implemented.");
-	   }
-
-	   public override void Dispose()
-	   {
-		   //GL.glDeleteTextures(1, new int[] { mTextureID } );
-	   }
-*/
-
 
 		#region GL_IRenderTarget Members
 

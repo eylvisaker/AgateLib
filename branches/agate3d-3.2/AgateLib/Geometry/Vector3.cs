@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace AgateLib.Geometry
@@ -25,6 +26,8 @@ namespace AgateLib.Geometry
 	/// <summary>
 	/// Structure which describes a vector in 3-space.
 	/// </summary>
+	[Serializable]
+	[StructLayout(LayoutKind.Sequential)]
 	public struct Vector3
 	{
 		private float mX, mY, mZ;
@@ -155,6 +158,36 @@ namespace AgateLib.Geometry
 			return new Vector3(a.X * b, a.Y * b, a.Z * b);
 		}
 		/// <summary>
+		/// Scales a vector by a scalar floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector3 operator *(float a, Vector3 b)
+		{
+			return new Vector3(a * b.X, a * b.Y, a * b.Z);
+		}
+		/// <summary>
+		/// Scales a vector by a scalar floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector3 operator *(Vector3 a, double b)
+		{
+			return a * (float)b;
+		}
+		/// <summary>
+		/// Scales a vector by a scalar floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector3 operator *(double a, Vector3 b)
+		{
+			return b * (float)a;
+		}
+		/// <summary>
 		/// Divides a vector's components by a floating point value.
 		/// </summary>
 		/// <param name="a"></param>
@@ -164,7 +197,16 @@ namespace AgateLib.Geometry
 		{
 			return a * (1.0f / b);
 		}
-
+		/// <summary>
+		/// Divides a vector's components by a floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector3 operator /(Vector3 a, double b)
+		{
+			return a * (float)(1.0 / b);
+		}
 		/// <summary>
 		/// Computes and returns the dot product with another vector.
 		/// </summary>
@@ -228,6 +270,20 @@ namespace AgateLib.Geometry
 		public static float DistanceBetween(Vector3 a, Vector3 b)
 		{
 			return (a - b).Magnitude;
+		}
+
+		public override string ToString()
+		{
+			return string.Format(System.Globalization.CultureInfo.CurrentCulture,
+				"{0}X={1},Y={2},Z={3}{4}", "{", X, Y, Z, "}");
+		}
+
+		public static Vector3 FromPolar(int length, float theta, float phi)
+		{
+			return length * new Vector3(
+				Math.Sin(theta) * Math.Cos(phi),
+				Math.Sin(theta) * Math.Sin(phi),
+				Math.Cos(theta));
 		}
 	}
 }

@@ -46,9 +46,20 @@ namespace AgateLib
 		/// <summary>
 		/// Constructs an AgateException.
 		/// </summary>
-		public AgateException(string message, Exception inner) : base(message, inner) { }
+		public AgateException(Exception inner, string message) : base(message, inner) { }
+		/// <summary>
+		/// Constructs an AgateException, calling string.Format on the arguments.
+		/// </summary>
+		public AgateException(string format, params object[] args)
+			: base(string.Format(format, args)) { }
 		/// <summary>
 		/// Constructs an AgateException.
+		/// </summary>
+		public AgateException(Exception inner, string format, params object[] args)
+			: base(string.Format(format, args), inner) { }
+
+		/// <summary>
+		/// Deserializes an AgateException.
 		/// </summary>
 		protected AgateException(
 		  System.Runtime.Serialization.SerializationInfo info,

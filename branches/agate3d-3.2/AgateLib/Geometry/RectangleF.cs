@@ -311,6 +311,5 @@ namespace AgateLib.Geometry
 			else
 				return Empty;
 		}
-
 	}
 }

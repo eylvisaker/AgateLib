@@ -80,7 +80,14 @@ namespace AgateLib.ImplementationBase
 		/// Indicates whether or not 3D drawing is supported.
 		/// </summary>
 		bool Supports3D { get; }
-
+		/// <summary>
+		/// Indicates whether or not vertex/pixel shaders are supported.
+		/// </summary>
+		bool SupportsShaders { get; }
+		/// <summary>
+		/// Indicates which shader language is supported.
+		/// </summary>
+		AgateLib.DisplayLib.Shaders.ShaderLanguage ShaderLanguage { get; }
 		/// <summary>
 		/// Indicates whether the driver can create a bitmap font from an operating
 		/// system font.

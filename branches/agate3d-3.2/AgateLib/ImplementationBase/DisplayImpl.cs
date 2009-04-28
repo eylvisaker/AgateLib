@@ -20,15 +20,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
 using AgateLib.BitmapFont;
+using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
 namespace AgateLib.ImplementationBase
 {
-	using AgateLib.DisplayLib;
-
 	/// <summary>
 	/// Abstract base class for implementing the Display object.
 	/// </summary>
@@ -595,6 +594,55 @@ namespace AgateLib.ImplementationBase
 		/// Hides the OS mouse pointer.
 		/// </summary>
 		protected internal abstract void HideCursor();
+
+
+		protected internal virtual VertexBufferImpl CreateVertexBuffer(VertexLayout layout, int vertexCount)
+		{
+			throw new AgateException("Cannot create a vertex buffer with a driver that does not support 3D.");
+		}
+
+		public virtual Matrix4 MatrixProjection
+		{
+			get { throw new AgateException("3D is not supported."); }
+			set { throw new AgateException("3D is not supported."); }
+		}
+		public virtual Matrix4 MatrixView
+		{
+			get { throw new AgateException("3D is not supported."); }
+			set { throw new AgateException("3D is not supported."); }
+		}
+		public virtual Matrix4 MatrixWorld
+		{
+			get { throw new AgateException("3D is not supported."); }
+			set { throw new AgateException("3D is not supported."); }
+		}
+
+		/// <summary>
+		/// Override this method if shaders are supported.
+		/// Only call the base class method if shaders aren't supported, as it throws a NotSupportedException.
+		/// </summary>
+		/// <returns></returns>
+		protected internal virtual ShaderCompilerImpl CreateShaderCompiler()
+		{
+			throw new NotSupportedException("The current driver does not support shaders.");
+		}
+
+		public virtual ShaderProgram Shader
+		{
+			get { throw new NotSupportedException("The current driver does not support shaders."); }
+			set { throw new NotSupportedException("The current driver does not support shaders."); }
+		}
+
+
+		protected void InitializeShaders()
+		{
+			if (Display.Caps.SupportsShaders)
+			{
+				ShaderCompiler.Initialize(CreateShaderCompiler());
+			}
+			else
+				ShaderCompiler.Disable();
+		}
 
 	}
 }

@@ -382,16 +382,16 @@ namespace AgateMDX
 		{
 			mDevice.DrawBuffer.Flush();
 
-			Vector2[] pts = new Vector2[5];
+			Microsoft.DirectX.Vector3[] pts = new Microsoft.DirectX.Vector3[5];
 
-			pts[0] = new Vector2(rect.X, rect.Y);
-			pts[1] = new Vector2(rect.X + rect.Width, rect.Y);
-			pts[2] = new Vector2(rect.X + rect.Width, rect.Y + rect.Height);
-			pts[3] = new Vector2(rect.X, rect.Y + rect.Height);
+			pts[0] = new Microsoft.DirectX.Vector3(rect.X, rect.Y, 0);
+			pts[1] = new Microsoft.DirectX.Vector3(rect.X + rect.Width, rect.Y, 0);
+			pts[2] = new Microsoft.DirectX.Vector3(rect.X + rect.Width, rect.Y + rect.Height, 0);
+			pts[3] = new Microsoft.DirectX.Vector3(rect.X, rect.Y + rect.Height, 0);
 			pts[4] = pts[0];
 
 			mLine.Begin();
-			mLine.Draw(pts, color.ToArgb());
+			mLine.DrawTransform(pts, GetTotalTransform(), color.ToArgb());
 			mLine.End();
 		}
 
@@ -438,7 +438,7 @@ namespace AgateMDX
 			mDevice.AlphaArgument1 = TextureArgument.Diffuse;
 
 			mDevice.VertexFormat = CustomVertex.PositionColored.Format;
-			mDevice.Device.DrawUserPrimitives(PrimitiveType.TriangleList, 2, mFillRectVerts);
+			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.TriangleList, 2, mFillRectVerts);
 
 		}
 
@@ -803,10 +803,9 @@ namespace AgateMDX
 		{
 			get { return true; }
 		}
-
 		bool IDisplayCaps.Supports3D
 		{
-			get { return false; }
+			get { return true; }
 		}
 
 		bool IDisplayCaps.SupportsFullScreen
@@ -817,10 +816,107 @@ namespace AgateMDX
 		{
 			get { return true; }
 		}
+		bool IDisplayCaps.SupportsShaders
+		{
+			get { return false; }
+		}
+
+		AgateLib.DisplayLib.Shaders.ShaderLanguage IDisplayCaps.ShaderLanguage
+		{
+			get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Unknown; }
+		}
+
+		#endregion
 
 		bool IDisplayCaps.CanCreateBitmapFont
 		{
 			get { return true; }
+		}
+
+		#region --- 3D stuff ---
+
+		Matrix4 projection = Matrix4.Identity;
+		Matrix4 world = Matrix4.Identity;
+		Matrix4 view = Matrix4.Identity;
+
+		// TODO: Fix this
+		protected override VertexBufferImpl CreateVertexBuffer(VertexLayout layout, int vertexCount)
+		{
+			return new MDX1_VertexBuffer(this);
+		}
+
+		private Matrix TransformAgateMatrix(Matrix4 value)
+		{
+			Matrix retval = new Matrix();
+
+			retval.M11 = value[0, 0];
+			retval.M12 = value[1, 0];
+			retval.M13 = value[2, 0];
+			retval.M14 = value[3, 0];
+
+			retval.M21 = value[0, 1];
+			retval.M22 = value[1, 1];
+			retval.M23 = value[2, 1];
+			retval.M24 = value[3, 1];
+
+			retval.M31 = value[0, 2];
+			retval.M32 = value[1, 2];
+			retval.M33 = value[2, 2];
+			retval.M34 = value[3, 2];
+
+			retval.M41 = value[0, 3];
+			retval.M42 = value[1, 3];
+			retval.M43 = value[2, 3];
+			retval.M44 = value[3, 3];
+
+			return retval;
+		}
+		public override Matrix4 MatrixProjection
+		{
+			get
+			{
+				return projection;
+			}
+			set
+			{
+				projection = value;
+				mDevice.Device.SetTransform(TransformType.Projection,
+					TransformAgateMatrix(value));
+			}
+		}
+
+		public override Matrix4 MatrixView
+		{
+			get
+			{
+				return view;
+			}
+			set
+			{
+				view = value;
+
+				mDevice.Device.SetTransform(TransformType.View,
+					TransformAgateMatrix(value));
+			}
+		}
+		public override Matrix4 MatrixWorld
+		{
+			get
+			{
+				return world;
+			}
+			set
+			{
+				world = value;
+
+				mDevice.Device.SetTransform(TransformType.World,
+					TransformAgateMatrix(value));
+			}
+		}
+
+		Matrix GetTotalTransform()
+		{
+			return TransformAgateMatrix(MatrixProjection * MatrixView * MatrixWorld);
 		}
 
 		#endregion

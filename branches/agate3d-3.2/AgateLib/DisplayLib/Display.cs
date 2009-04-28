@@ -91,7 +91,11 @@ namespace AgateLib.DisplayLib
 			impl.Initialize();
 
 			mSurfacePacker = new SurfacePacker();
+		}
 
+		private static ShaderCompilerImpl CreateShaderCompiler()
+		{
+			return impl.CreateShaderCompiler();
 		}
 		/// <summary>
 		/// Disposes of the Display.
@@ -123,6 +127,12 @@ namespace AgateLib.DisplayLib
 
 				return impl.IsAppIdle;
 			}
+		}
+
+		public static Shaders.ShaderProgram Shader
+		{
+			get { return impl.Shader; }
+			set { impl.Shader = value; }
 		}
 
 		/// <summary>
@@ -522,9 +532,31 @@ namespace AgateLib.DisplayLib
 		{
 			if (pts.Length % 2 == 1)
 				throw new ArgumentException("pts argument is not an even number of points!");
-
 			impl.DrawLineSegments(pts, color);
 		}
+
+		#region --- Matrix Settings ---
+
+		public static Matrix4 MatrixProjection
+		{
+			get { return impl.MatrixProjection; }
+			set { impl.MatrixProjection = value; }
+		}
+		public static Matrix4 MatrixView
+		{
+			get { return impl.MatrixView; }
+			set { impl.MatrixView = value; }
+		}
+		public static Matrix4 MatrixWorld
+		{
+			get { return impl.MatrixWorld; }
+			set { impl.MatrixWorld = value; }
+		}
+
+
+		#endregion
+
+
 		/// <summary>
 		/// Draws the outline of a rectangle.
 		/// </summary>
@@ -660,7 +692,5 @@ namespace AgateLib.DisplayLib
 			impl.ShowCursor();
 		}
 	}
-
-
 
 }
