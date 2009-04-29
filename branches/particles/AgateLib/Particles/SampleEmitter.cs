@@ -64,14 +64,14 @@ namespace AgateLib.Particles
 			}
 			
 			// TODO: add emit frequenzy
-			switch(mEmitType)
+			switch(mEmitOrder)
 			{
-			case EmitType.None:
+			case EmitOrder.None:
 				break;
 				
-			case EmitType.Order:
+			case EmitOrder.Sequenz:
 				base.Particles.Add(mSampleParticles[lastParticle]);
-				if(lastParticle == mSampleParticles.Contains - 1)
+				if(lastParticle == mSampleParticles.Count - 1)
 				{
 					lastParticle = 0;
 				}
@@ -81,7 +81,7 @@ namespace AgateLib.Particles
 				}
 				break;
 				
-			case EmitType.Random:
+			case EmitOrder.Random:
 				base.Particles.Add(mSampleParticles[ran.Next(0, mSampleParticles.Count-1)]);
 				break;
 			}			
