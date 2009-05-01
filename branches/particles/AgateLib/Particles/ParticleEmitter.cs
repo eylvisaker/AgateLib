@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
 namespace AgateLib.Particles
@@ -63,15 +64,11 @@ namespace AgateLib.Particles
 		public UpdateParticles UpdateParticles;
 		
 		/// <summary>
-		/// Overridden draw method.
 		/// Draws each particle.
 		/// </summary>
-		public override void Draw ()
+		public virtual void Draw ()
 		{
-			mParticles.ForEach(delegate(Particle mParticle)
-			{
-				mParticle.Draw();
-			});
+			// Draws particles
 		}
 
 		/// <summary>

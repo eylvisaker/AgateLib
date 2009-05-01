@@ -27,19 +27,16 @@ namespace AgateLib.Particles
 	/// A particle which draws one pixel.
 	/// </summary>
 	public class PixelParticle : Particle
-	{
-		internal PixelBuffer mPixelBuffer = new PixelBuffer(PixelFormat.Any, new Size(1,1));
+	{		
+		private Color mColor = Color.White;
 		
 		/// <value>
 		/// Gets or sets the color.
 		/// </value>
 		public Color Color
 		{
-			get { return mPixelBuffer.GetPixel(0,0); }
-			set {
-				mPixelBuffer.SetPixel(0,0, value);
-				base.Image = new Surface(mPixelBuffer);
-			}
+			get { return mColor; }
+			set { mColor = value; }
 		}		
 		
 		/// <summary>
@@ -50,8 +47,7 @@ namespace AgateLib.Particles
 		/// </param>
 		public PixelParticle(Color color)
 		{
-			mPixelBuffer.SetPixel(0,0, color);
-			base.Image = new Surface(mPixelBuffer);
+			mColor = color;
 		}
 	}
 }
