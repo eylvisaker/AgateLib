@@ -17,6 +17,7 @@ namespace AgateMDX
 		Direct3D.VertexDeclaration mDeclaration;
 		Direct3D.VertexFormats mFormats;
 		int mCount;
+		object data;
 
 		public MDX1_VertexBuffer(MDX1_Display display, VertexLayout layout, int vertexCount)
 		{
@@ -178,7 +179,6 @@ namespace AgateMDX
 			mDisplay.D3D_Device.Device.VertexDeclaration = mDeclaration;
 			mDisplay.D3D_Device.Device.DrawPrimitives(primType, start, primitiveCount);
 		}
-
 		public override void DrawIndexed(IndexBuffer _indexbuffer, int start, int count)
 		{
 			int primitiveCount = count;
@@ -194,7 +194,11 @@ namespace AgateMDX
 			mDisplay.D3D_Device.Device.SetStreamSource(0, mBuffer, 0);
 			mDisplay.D3D_Device.VertexFormat = mFormats;
 			mDisplay.D3D_Device.Device.VertexDeclaration = mDeclaration;
-			mDisplay.D3D_Device.Device.DrawIndexedPrimitives(primType, 0, 0, count, start, primitiveCount); 
+			//mDisplay.D3D_Device.Device.DrawIndexedPrimitives(primType, 0, 0, count, start, primitiveCount); 
+			mDisplay.D3D_Device.Device.DrawIndexedUserPrimitives(primType, 0,
+				count, primitiveCount,
+				indexbuffer.Data, indexbuffer.IndexType == IndexBufferType.Int16,
+				data);
 
 		}
 		
@@ -221,6 +225,7 @@ namespace AgateMDX
 		public override void Write<T>(T[] vertices)
 		{
 			mBuffer.SetData(vertices, 0, Microsoft.DirectX.Direct3D.LockFlags.Discard);
+			data = vertices;
 		}
 	}
 }

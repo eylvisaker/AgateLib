@@ -14,6 +14,7 @@ namespace AgateMDX
 		IndexBufferType mType;
 		int mCount;
 		Direct3D.IndexBuffer mBuffer;
+		object data;
 
 		public MDX1_IndexBuffer(MDX1_Display disp, IndexBufferType type, int count)
 		{
@@ -27,6 +28,10 @@ namespace AgateMDX
 		public Direct3D.IndexBuffer DeviceIndexBuffer
 		{
 			get { return mBuffer; }
+		}
+		public object Data
+		{
+			get { return data; }
 		}
 
 		private void CreateIndexBuffer()
@@ -57,11 +62,13 @@ namespace AgateMDX
 		public override void WriteIndices(int[] indices)
 		{
 			mBuffer.SetData(indices, 0, Microsoft.DirectX.Direct3D.LockFlags.Discard);
+			data = indices;
 		}
 
 		public override void WriteIndices(short[] indices)
 		{
 			mBuffer.SetData(indices, 0, Microsoft.DirectX.Direct3D.LockFlags.Discard);
+			data = indices;
 		}
 	}
 }
