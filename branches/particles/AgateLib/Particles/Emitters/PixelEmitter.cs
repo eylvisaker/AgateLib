@@ -30,7 +30,7 @@ namespace AgateLib.Particles
 	{
 		private Color mEmitColor = Color.White;
 		
-		private Surface drawSurf = new Surface(1, 1);
+		private Surface drawSurf = new Surface(2, 2);
 		private float time = 0f;
 		
 		/// <value>
@@ -53,7 +53,7 @@ namespace AgateLib.Particles
 			mEmitColor = color;			
 		}
 		
-		/// <summary>
+		/// <summary>s
 		/// Overridden Draw method.
 		/// Draws each living particle.
 		/// </summary>
@@ -65,7 +65,6 @@ namespace AgateLib.Particles
 				{
 					drawSurf.Color = ptl.Color;
 					drawSurf.Draw(ptl.Position.X, ptl.Position.Y);
-					Console.WriteLine("Drawing at position: " + ptl.Position.X + " " + ptl.Position.Y + " color: " + ptl.Color);
 				}
 			}
 		}
