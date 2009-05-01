@@ -53,6 +53,10 @@ namespace AgateMDX
 
 		private bool mVSync = true;
 
+		private bool mHasDepth , mHasStencil;
+		private float mDepthClear = 0;
+		private int mStencilClear = 0;
+
 		#endregion
 		#region --- Creation / Destruction ---
 
@@ -96,20 +100,55 @@ namespace AgateMDX
 			if (caps.DeviceCaps.SupportsPureDevice)
 				flags |= Direct3D.CreateFlags.PureDevice;
 
-			Device device = new Device
-				(0, dtype, window.RenderTarget.TopLevelControl.Handle,
-				 flags, present);
+			Device device = new Device(0, dtype,
+				window.RenderTarget.TopLevelControl.Handle,
+				flags, present);
+
+			try
+			{
+				DepthFormat f = (DepthFormat)device.DepthStencilSurface.Description.Format;
+				SetHaveDepthStencil(f);
+			}
+			catch
+			{
+				mHasDepth = false;
+				mHasStencil = false;
+			}
 
 			device.DeviceLost += new EventHandler(mDevice_DeviceLost);
 			device.DeviceReset += new EventHandler(mDevice_DeviceReset);
 
 			mDevice = new D3DDevice(device);
 
+			
 			// create primitive objects
 			mLine = new Direct3D.Line(device);
 
-			//CreateSurfaceVB();
+		}
 
+		private void SetHaveDepthStencil(DepthFormat depthFormat)
+		{
+			switch (depthFormat)
+			{
+				case DepthFormat.D24X4S4:
+				case DepthFormat.D24S8:
+				case DepthFormat.D15S1:
+					mHasStencil = true;
+					mHasDepth = true;
+					break;
+
+				case DepthFormat.D24X8:
+				case DepthFormat.D32:
+				case DepthFormat.D16:
+					mHasStencil = false;
+					mHasDepth = true;
+					break;
+
+				default:
+					mHasDepth = false;
+					mHasStencil = false;
+					break;
+			}
 		}
 
 		public override void Dispose()
@@ -195,15 +234,6 @@ namespace AgateMDX
 
 		#region --- Creation of objects ---
 
-		//public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight,
-		//    string iconFile, bool startFullScreen, bool allowResize)
-		//{
-		//    return new MDX1_DisplayWindow(title, clientWidth, clientHeight, iconFile, startFullScreen, allowResize);
-		//}
-		//public override DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget)
-		//{
-		//    return new MDX1_DisplayWindow(renderTarget);
-		//}
 		public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
 		{
 			return new MDX1_DisplayWindow(windowParams);
@@ -252,11 +282,9 @@ namespace AgateMDX
 			while (mClipRects.Count > 0)
 				PopClipRect();
 
-
 			mRenderTarget.EndRender();
 
 		}
-
 
 		#endregion
 
@@ -295,6 +323,9 @@ namespace AgateMDX
 
 			mDevice.Device.Viewport = view;
 			mCurrentClipRect = newClipRect;
+			
+			mDevice.Device.RenderState.StencilEnable = false;
+			mDevice.Device.RenderState.ZBufferEnable = false;
 
 			SetOrthoProjection(newClipRect);
 		}
@@ -307,9 +338,7 @@ namespace AgateMDX
 		{
 			if (mClipRects.Count == 0)
 			{
-#if DEBUG
 				throw new Exception("You have popped the cliprect too many times.");
-#endif
 			}
 			else
 			{
@@ -323,11 +352,23 @@ namespace AgateMDX
 		#endregion
 		#region --- Methods for drawing to the back buffer ---
 
+		ClearFlags ClearFlags
+		{
+			get
+			{
+				ClearFlags retval = ClearFlags.Target;
+
+				if (mHasDepth) retval |= ClearFlags.ZBuffer;
+				if (mHasStencil) retval |= ClearFlags.Stencil;
+
+				return retval;
+			}
+		}
 		public override void Clear(Color color)
 		{
 			mDevice.DrawBuffer.Flush();
 
-			mDevice.Clear(ClearFlags.Target, color.ToArgb(), 1.0f, 0);
+			mDevice.Clear(ClearFlags, color.ToArgb(), mDepthClear, mStencilClear);
 		}
 		public override void Clear(Color color, Rectangle rect)
 		{
@@ -336,7 +377,7 @@ namespace AgateMDX
 			System.Drawing.Rectangle[] rects = new System.Drawing.Rectangle[1];
 			rects[0] = Interop.Convert(rect);
 
-			mDevice.Clear(ClearFlags.Target, color.ToArgb(), 1.0f, 0, rects);
+			mDevice.Clear(ClearFlags, color.ToArgb(), mDepthClear, mStencilClear, rects);
 		}
 
 
@@ -504,21 +545,11 @@ namespace AgateMDX
 		private PresentParameters CreateFullScreenPresentParameters(MDX1_DisplayWindow displayWindow,
 			int width, int height, int bpp)
 		{
-			PresentParameters present = new PresentParameters();
+			PresentParameters present = CreateBasePresentParams(displayWindow);
 
-			present.AutoDepthStencilFormat = DepthFormat.Unknown;
-			present.EnableAutoDepthStencil = false;
-			present.DeviceWindowHandle = displayWindow.RenderTarget.Handle;
-			present.BackBufferWidth = width;
-			present.BackBufferHeight = height;
 			present.SwapEffect = SwapEffect.Flip;
 			present.Windowed = false;
 			present.PresentFlag = PresentFlag.None;
-
-			if (VSync)
-				present.PresentationInterval = PresentInterval.Default;
-			else
-				present.PresentationInterval = PresentInterval.Immediate;
 
 			SelectBestDisplayMode(present, bpp);
 
@@ -528,16 +559,23 @@ namespace AgateMDX
 		private PresentParameters CreateWindowedPresentParameters(MDX1_DisplayWindow displayWindow,
 			int width, int height)
 		{
+			PresentParameters present = CreateBasePresentParams(displayWindow);
+
+			return present;
+		}
+
+		private PresentParameters CreateBasePresentParams(MDX1_DisplayWindow displayWindow)
+		{
 			PresentParameters present = new PresentParameters();
 
 			present.BackBufferCount = 1;
-			present.AutoDepthStencilFormat = DepthFormat.Unknown;
-			present.EnableAutoDepthStencil = false;
+			present.AutoDepthStencilFormat = GetDepthFormat(Format.A8R8G8B8);
+			present.EnableAutoDepthStencil = true;
 			present.DeviceWindowHandle = displayWindow.RenderTarget.Handle;
-			present.BackBufferWidth = width;
-			present.BackBufferHeight = height;
+			present.BackBufferWidth = displayWindow.Width;
+			present.BackBufferHeight = displayWindow.Height;
 			present.BackBufferFormat = Format.Unknown;
-			present.SwapEffect = SwapEffect.Copy;
+			present.SwapEffect = SwapEffect.Discard;
 			present.Windowed = true;
 			present.PresentFlag = PresentFlag.LockableBackBuffer;
 
@@ -548,6 +586,52 @@ namespace AgateMDX
 
 			return present;
 		}
+		private DepthFormat GetDepthFormat(Format backbufferFormat)
+		{
+			DepthFormat[] formats = new DepthFormat[]
+			{
+				DepthFormat.D24S8,
+				DepthFormat.D24X4S4,
+				DepthFormat.D24X8,
+				DepthFormat.D15S1,
+				DepthFormat.D32,
+				DepthFormat.D16,
+			};
+
+			var adapter = Manager.Adapters.Default.Adapter;
+			Format deviceFormat = GetDeviceFormat(backbufferFormat);
+
+			foreach (var f in formats)
+			{
+				if (Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, deviceFormat,
+					Usage.DepthStencil, ResourceType.Surface, f) == false)
+				{
+					continue;
+				}
+				if (Manager.CheckDepthStencilMatch(adapter, DeviceType.Hardware,
+					deviceFormat, backbufferFormat, f) == false)
+				{
+					continue;
+				}
+
+				return f;
+			}
+
+			return DepthFormat.Unknown;
+		}
+		private Format GetDeviceFormat(Format backbufferFormat)
+		{
+			switch (backbufferFormat)
+			{
+				case Format.A8R8G8B8: return Format.X8R8G8B8;
+				case Format.A8B8G8R8: return Format.X8B8G8R8;
+				case Format.A1R5G5B5: return Format.X1R5G5B5;
+
+				default:
+					return backbufferFormat;
+			}
+		}
+
 		public override ScreenMode[] EnumScreenModes()
 		{
 			List<ScreenMode> modes = new List<ScreenMode>();
@@ -839,10 +923,14 @@ namespace AgateMDX
 		Matrix4 world = Matrix4.Identity;
 		Matrix4 view = Matrix4.Identity;
 
-		// TODO: Fix this
-		protected override VertexBufferImpl CreateVertexBuffer(VertexLayout layout, int vertexCount)
+		protected override VertexBufferImpl CreateVertexBuffer(
+			AgateLib.Geometry.VertexTypes.VertexLayout layout, int vertexCount)
 		{
-			return new MDX1_VertexBuffer(this);
+			return new MDX1_VertexBuffer(this, layout, vertexCount);
+		}
+		protected override IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
+		{
+			return new MDX1_IndexBuffer(this, type, size);
 		}
 
 		private Matrix TransformAgateMatrix(Matrix4 value)

@@ -46,33 +46,6 @@ namespace AgateOTK
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, mBufferID);
 		}
 
-		private short[] ConvertToInt16(int[] indices)
-		{
-			short[] retval = new short[indices.Length];
-
-			int i = 0;
-
-			try
-			{
-				checked
-				{
-					for (i = 0; i < retval.Length; i++)
-					{
-						retval[i] = (short)indices[i];
-					}
-				}
-			}
-			catch (OverflowException ex)
-			{
-				throw new AgateLib.AgateException(ex, string.Format(
-					"A 16 bit index buffer cannot contain values greater than {0}, " +
-					"but there is a value of {1} at index {2}.",
-					short.MaxValue, indices[i], i));
-			}
-
-			return retval;
-		}
-
 		unsafe public override void WriteIndices(int[] indices)
 		{
 			if (indices.Length != Count)
@@ -80,10 +53,8 @@ namespace AgateOTK
 					"The size of the passed array must match the size of the index buffer.");
 
 			if (mType == IndexBufferType.Int16)
-			{
-				WriteIndices(ConvertToInt16(indices));
-				return;
-			}
+				throw new ArgumentException(
+					"Cannot write 32-bit data to a 16-bit buffer.");
 
 			Bind();
 

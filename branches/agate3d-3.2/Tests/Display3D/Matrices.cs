@@ -30,6 +30,7 @@ namespace Tests.Display3D.TestMatrices
 		}
 
 		#endregion
+
 		static int matrixIndex = 1;
 		static int move, turn;
 
@@ -58,6 +59,7 @@ namespace Tests.Display3D.TestMatrices
 				cube.Location = new Vector3(cube.Length / 2, cube.Length / 2, 0);
 				cube.CreateVertexBuffer();
 
+				IndexBuffer indices = cube.IndexBuffer;
 				VertexBuffer b = cube.VertexBuffer;
 				b.Textures[0] = surf;
 
@@ -111,7 +113,7 @@ namespace Tests.Display3D.TestMatrices
 							break;
 
 						case 1:
-							myproj = Matrix4.Projection(45, wind.Width / (float)wind.Height, 1f, 1000);
+							myproj = Matrix4.Projection(45, wind.Width / (float)wind.Height, 1f, 1000f);
 							myview = Matrix4.LookAt(position, lookTarget,
 								new Vector3(0, 0, 1));
 
@@ -136,7 +138,7 @@ namespace Tests.Display3D.TestMatrices
 					Display.MatrixWorld = Matrix4.Translation(0, 0, 0);
 
 					m[0].Position = position;
-					m.DoLighting();
+					//m.DoLighting();
 
 					// draw a weird checkerboard
 					for (int x = 0; x < 8; x += 2)
@@ -152,7 +154,7 @@ namespace Tests.Display3D.TestMatrices
 					Display.DrawRect(new Rectangle(0, 0, 8, 8), Color.Black);
 
 
-					b.Draw();
+					b.DrawIndexed(indices);
 
 					Display.EndFrame();
 					Core.KeepAlive();
