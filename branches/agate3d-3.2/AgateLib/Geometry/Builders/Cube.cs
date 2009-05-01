@@ -60,6 +60,8 @@ namespace AgateLib.Geometry.Builders
 			GenerateVertexData(vertices);
 			GenerateNormalData(vertices);
 			GenerateTexCoordData(vertices);
+			GenerateTangentData(vertices);
+			GenerateBitangentData(vertices);
 
 			mVertices.WriteVertexData(vertices);
 			mIndices.WriteIndices(GetIndexData());
@@ -88,7 +90,7 @@ namespace AgateLib.Geometry.Builders
 			return retval;
 		}
 
-		private Vector3[] GetBitangent()
+		private void GenerateBitangentData(PositionTextureNTB[] vertices)
 		{
 			Vector3[] retval = new Vector3[24];
 
@@ -96,50 +98,44 @@ namespace AgateLib.Geometry.Builders
 
 			for (int sign = -1; sign >= 1; sign += 2)
 			{
-				retval[i++] = new Vector3(0, sign, 0);
-				retval[i++] = new Vector3(0, sign, 0);
-				retval[i++] = new Vector3(0, sign, 0);
-				retval[i++] = new Vector3(0, sign, 0);
+				vertices[i++].Bitangent = new Vector3(0, sign, 0);
+				vertices[i++].Bitangent = new Vector3(0, sign, 0);
+				vertices[i++].Bitangent = new Vector3(0, sign, 0);
+				vertices[i++].Bitangent = new Vector3(0, sign, 0);
 
-				retval[i++] = new Vector3(sign, 0, 0);
-				retval[i++] = new Vector3(sign, 0, 0);
-				retval[i++] = new Vector3(sign, 0, 0);
-				retval[i++] = new Vector3(sign, 0, 0);
+				vertices[i++].Bitangent = new Vector3(sign, 0, 0);
+				vertices[i++].Bitangent = new Vector3(sign, 0, 0);
+				vertices[i++].Bitangent = new Vector3(sign, 0, 0);
+				vertices[i++].Bitangent = new Vector3(sign, 0, 0);
 
-				retval[i++] = new Vector3(0, 0, sign);
-				retval[i++] = new Vector3(0, 0, sign);
-				retval[i++] = new Vector3(0, 0, sign);
-				retval[i++] = new Vector3(0, 0, sign);
+				vertices[i++].Bitangent = new Vector3(0, 0, sign);
+				vertices[i++].Bitangent = new Vector3(0, 0, sign);
+				vertices[i++].Bitangent = new Vector3(0, 0, sign);
+				vertices[i++].Bitangent = new Vector3(0, 0, sign);
 			}
-
-			return retval;
 		}
-		private Vector3[] GetTangent()
+		private void GenerateTangentData(PositionTextureNTB[] vertices)
 		{
-			Vector3[] retval = new Vector3[24];
-
 			int i = 0;
 
 			for (int sign = -1; sign <= 1; sign += 2)
 			{
-				retval[i++] = new Vector3(sign, 0, 0);
-				retval[i++] = new Vector3(sign, 0, 0);
-				retval[i++] = new Vector3(sign, 0, 0);
-				retval[i++] = new Vector3(sign, 0, 0);
+				vertices[i++].Tangent = new Vector3(sign, 0, 0);
+				vertices[i++].Tangent = new Vector3(sign, 0, 0);
+				vertices[i++].Tangent = new Vector3(sign, 0, 0);
+				vertices[i++].Tangent = new Vector3(sign, 0, 0);
 
-				retval[i++] = new Vector3(0, 0, sign);
-				retval[i++] = new Vector3(0, 0, sign);
-				retval[i++] = new Vector3(0, 0, sign);
-				retval[i++] = new Vector3(0, 0, sign);
+				vertices[i++].Tangent = new Vector3(0, 0, sign);
+				vertices[i++].Tangent = new Vector3(0, 0, sign);
+				vertices[i++].Tangent = new Vector3(0, 0, sign);
+				vertices[i++].Tangent = new Vector3(0, 0, sign);
 
-				retval[i++] = new Vector3(0, sign, 0);
-				retval[i++] = new Vector3(0, sign, 0);
-				retval[i++] = new Vector3(0, sign, 0);
-				retval[i++] = new Vector3(0, sign, 0);
+				vertices[i++].Tangent = new Vector3(0, sign, 0);
+				vertices[i++].Tangent = new Vector3(0, sign, 0);
+				vertices[i++].Tangent = new Vector3(0, sign, 0);
+				vertices[i++].Tangent = new Vector3(0, sign, 0);
 
 			}
-
-			return retval;
 		}
 		private void GenerateNormalData(PositionTextureNTB[] vertices)
 		{
@@ -164,8 +160,6 @@ namespace AgateLib.Geometry.Builders
 				vertices[i++].Normal = new Vector3(sign, 0, 0);
 			}
 		}
-		
-		
 		private void GenerateVertexData(PositionTextureNTB[] vertices)
 		{
 			int i = 0;
