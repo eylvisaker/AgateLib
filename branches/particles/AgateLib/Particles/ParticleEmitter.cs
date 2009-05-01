@@ -80,7 +80,9 @@ namespace AgateLib.Particles
 		/// </param>
 		public override void Update (float time_ms)
 		{
-			UpdateParticles(mParticles, time_ms);
+			if(UpdateParticles != null)
+				UpdateParticles(mParticles, time_ms);
+			
 			base.Update (time_ms);
 		}
 	}

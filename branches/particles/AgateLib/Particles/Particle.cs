@@ -29,7 +29,7 @@ namespace AgateLib.Particles
 	public class Particle
 	{
 		private float mLife = 10f;
-		private Condition mCondition = Condition.Empty;
+		private Condition mCondition = Condition.ALive;
 		private bool mIsDead = false;
 		
 		private Vector2 mAcceleration = Vector2.Empty;
@@ -129,8 +129,7 @@ namespace AgateLib.Particles
 	[Flags]
 	public enum Condition
 	{
-		Empty = 0,
-		Dead = 1,
-		ALive = 2
+		Dead = 0,
+		ALive = 1
 	}
 }

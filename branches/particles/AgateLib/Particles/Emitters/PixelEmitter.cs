@@ -46,9 +46,11 @@ namespace AgateLib.Particles
 		/// Constructs a pixel particle emitter.
 		/// </summary>
 		/// <param name="color">Emit color.</param>
-		public PixelEmitter(Color color)
+		/// <param name="position"></param>
+		public PixelEmitter(Vector2 position, Color color)
 		{
-			mEmitColor = color;
+			Position = position;
+			mEmitColor = color;			
 		}
 		
 		/// <summary>
@@ -63,6 +65,7 @@ namespace AgateLib.Particles
 				{
 					drawSurf.Color = ptl.Color;
 					drawSurf.Draw(ptl.Position.X, ptl.Position.Y);
+					Console.WriteLine("Drawing at position: " + ptl.Position.X + " " + ptl.Position.Y + " color: " + ptl.Color);
 				}
 			}
 		}
@@ -84,7 +87,10 @@ namespace AgateLib.Particles
 			while(time >= frequenzy)
 			{
 				// TODO: recyle dead particles
-				Particles.Add(new PixelParticle(EmitColor));
+				PixelParticle pp = new PixelParticle(EmitColor);
+				pp.Position = Position;				
+				Particles.Add(pp);
+				
 				time -= frequenzy;
 			}
 			
