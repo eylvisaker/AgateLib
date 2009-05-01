@@ -153,13 +153,10 @@ namespace Tests.Display3D.TestMatrices
 					}
 					Display.DrawRect(new Rectangle(0, 0, 8, 8), Color.Black);
 
-
 					b.DrawIndexed(indices);
 
 					Display.EndFrame();
 					Core.KeepAlive();
-
-
 				}
 			}
 		}

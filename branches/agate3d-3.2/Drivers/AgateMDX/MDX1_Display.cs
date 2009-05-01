@@ -120,7 +120,10 @@ namespace AgateMDX
 
 			mDevice = new D3DDevice(device);
 
-			
+
+			mDevice.Device.RenderState.StencilEnable = false;
+			mDevice.Device.RenderState.ZBufferEnable = false;
+
 			// create primitive objects
 			mLine = new Direct3D.Line(device);
 
@@ -324,9 +327,6 @@ namespace AgateMDX
 			mDevice.Device.Viewport = view;
 			mCurrentClipRect = newClipRect;
 			
-			mDevice.Device.RenderState.StencilEnable = false;
-			mDevice.Device.RenderState.ZBufferEnable = false;
-
 			SetOrthoProjection(newClipRect);
 		}
 		public override void PushClipRect(Rectangle newClipRect)

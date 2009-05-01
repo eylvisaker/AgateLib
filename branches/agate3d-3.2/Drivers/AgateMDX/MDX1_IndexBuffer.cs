@@ -24,6 +24,11 @@ namespace AgateMDX
 			CreateIndexBuffer();
 		}
 
+		public Direct3D.IndexBuffer DeviceIndexBuffer
+		{
+			get { return mBuffer; }
+		}
+
 		private void CreateIndexBuffer()
 		{
 			int indexSize = 2;

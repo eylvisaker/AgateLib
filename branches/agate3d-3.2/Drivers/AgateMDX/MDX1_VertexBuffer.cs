@@ -173,14 +173,16 @@ namespace AgateMDX
 
 			SetTextures();
 
+
 			mDisplay.D3D_Device.Device.SetStreamSource(0, mBuffer, 0);
 			mDisplay.D3D_Device.Device.VertexDeclaration = mDeclaration;
 			mDisplay.D3D_Device.Device.DrawPrimitives(primType, start, primitiveCount);
 		}
 
-		public override void DrawIndexed(IndexBuffer indexbuffer, int start, int count)
+		public override void DrawIndexed(IndexBuffer _indexbuffer, int start, int count)
 		{
 			int primitiveCount = count;
+			MDX1_IndexBuffer indexbuffer = _indexbuffer.Impl as MDX1_IndexBuffer;
 
 			// after calling GetPrimitiveType, count is the number of primitives
 			// instead of the number of vertices.
@@ -188,9 +190,12 @@ namespace AgateMDX
 
 			SetTextures();
 
+			mDisplay.D3D_Device.Device.Indices = indexbuffer.DeviceIndexBuffer;
 			mDisplay.D3D_Device.Device.SetStreamSource(0, mBuffer, 0);
+			mDisplay.D3D_Device.VertexFormat = mFormats;
 			mDisplay.D3D_Device.Device.VertexDeclaration = mDeclaration;
-			mDisplay.D3D_Device.Device.DrawIndexedPrimitives(primType, start, 0, count, 0, primitiveCount); 
+			mDisplay.D3D_Device.Device.DrawIndexedPrimitives(primType, 0, 0, count, start, primitiveCount); 
+
 		}
 		
 		private void SetTextures()
