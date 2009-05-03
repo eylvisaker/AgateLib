@@ -34,7 +34,10 @@ namespace AgateLib.Particles
 		// 1 = emit each second a particle
 		// 2 = emit every two seconds
 		private float mEmitFrequenzy = 1f;
-		
+
+		private Vector2 mEmitAcceleration = Vector2.Empty;
+		private Vector2 mEmitVelocity = Vector2.Empty;
+
 		/// <value>
 		/// Gets or sets the particles.
 		/// </value>
@@ -51,6 +54,24 @@ namespace AgateLib.Particles
 		{
 			get { return mEmitFrequenzy; }
 			set { mEmitFrequenzy = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the emit acceleration.
+		/// </value>
+		public Vector2 EmitAcceleration
+		{
+			get { return mEmitAcceleration; }
+			set { mEmitAcceleration = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the emit velocity.
+		/// </value>
+		public Vector2 EmitVelocity
+		{
+			get { return mEmitVelocity; }
+			set { mEmitVelocity = value; }
 		}
 		
 		/// <summary>
