@@ -25,18 +25,14 @@ using AgateLib.Geometry;
 namespace AgateLib.Particles
 {
 	/// <summary>
-	/// Updates particles.
-	/// Provides a list of particles and passed time in milliseconds since last update.
-	/// </summary>
-	public delegate void UpdateParticles(List<Particle> particles, float time_ms);
-	
-	/// <summary>
 	/// Base class for particle emitters.
 	/// </summary>
 	public abstract class ParticleEmitter : Particle
 	{	
 		private List<Particle> mParticles = new List<Particle>();
 		
+		// 1 = emit each second a particle
+		// 2 = emit every two seconds
 		private float mEmitFrequenzy = 1f;
 		
 		/// <value>
@@ -58,12 +54,6 @@ namespace AgateLib.Particles
 		}
 		
 		/// <summary>
-		/// Delegate to update particles.
-		/// Particle manipulators should subscribe here.
-		/// </summary>
-		public UpdateParticles UpdateParticles;
-		
-		/// <summary>
 		/// Draws each particle.
 		/// </summary>
 		public virtual void Draw ()
@@ -80,10 +70,76 @@ namespace AgateLib.Particles
 		/// </param>
 		public override void Update (float time_ms)
 		{
-			if(UpdateParticles != null)
-				UpdateParticles(mParticles, time_ms);
-			
 			base.Update (time_ms);
+		}
+		// TODO: Draw event
+		// TODO: Emitter dead event
+		
+		public delegate void ParticleEventHandler(object sender, ParticleArgs args);		
+		public event ParticleEventHandler OnNewParticle;
+		public event ParticleEventHandler OnDeadParticle;
+		public event ParticleEventHandler OnRecyledParticle;
+		
+		public delegate void UpdateEventHandler(UpdateArgs args);
+		public event UpdateEventHandler OnUpdate;		
+	}
+	
+	/// <summary>
+	/// Particle event args.
+	/// </summary>
+	public class ParticleArgs : EventArgs
+	{
+		/// <summary>
+		/// Constructs ParticleArgs.
+		/// </summary>
+		/// <param name="particle">Particle that changed condition.</param>
+		public ParticleArgs(Particle particle)
+		{
+			mParticle = particle;
+		}
+		
+		private Particle mParticle;
+		/// <value>
+		/// Particle that changed condition.
+		/// </value>
+		public Particle Particle
+		{
+			get{ return mParticle; }
+		}
+	}
+	
+	/// <summary>
+	/// Update event args.
+	/// </summary>
+	public class UpdateArgs : EventArgs
+	{
+		/// <summary>
+		/// Constructs UpdateArgs.
+		/// </summary>
+		/// <param name="emitter">Emitter that triggered the update event.</param>
+		/// <param name="time_ms">Passed time in milliseconds since last update.</param>
+		public UpdateArgs(ParticleEmitter emitter, float time_ms)
+		{
+			mEmitter = emitter;
+			mTime_ms = time_ms;
+		}
+		
+		private ParticleEmitter mEmitter;
+		/// <value>
+		/// Emitter that triggered the update event.
+		/// </value>
+		public ParticleEmitter Emitter
+		{
+			get { return mEmitter; }
+		}
+		
+		private float mTime_ms;
+		/// <value>
+		/// Passed time in milliseconds since last update.
+		/// </value>
+		public float Time_ms
+		{
+			get { return mTime_ms; }
 		}
 	}
 }
