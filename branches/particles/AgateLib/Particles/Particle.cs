@@ -29,8 +29,7 @@ namespace AgateLib.Particles
 	public class Particle
 	{
 		private float mLife = 10f;
-		private Condition mCondition = Condition.ALive;
-		private bool mIsDead = false;
+		private bool mIsALive = false;
 		
 		private Vector2 mAcceleration = Vector2.Empty;
 		private Vector2 mPosition = Vector2.Empty;
@@ -44,22 +43,14 @@ namespace AgateLib.Particles
 		{
 			get { return mLife; }
 			set { mLife = value; }
-		}		
-		
-		/// <value>
-		/// Gets the condition.
-		/// </value>
-		public Condition Condition
-		{
-			get { return mCondition; }
 		}
 		
 		/// <value>
 		/// Is particle dead.
 		/// </value>
-		public bool IsDead
+		public bool IsALive
 		{
-			get { return mIsDead; }
+			get { return mIsALive; }
 		}
 		
 		/// <value>
@@ -103,15 +94,14 @@ namespace AgateLib.Particles
 			
 			if(mLife <= 0)
 			{
-				mIsDead = true;
-				mCondition = Condition.Dead;
+				mIsALive = false;
 			}
 			
 			// Euler method
 			// v = v + a * dt
 			// x = x + v * dt
 			// mVelocity = mVelocity + mAcceleration * time;
-			// mPosition = mPosition + mVelocity * time;
+			// mPosition = mPosition + mVelocity * time;			
 			
 			// verlet integration
 			// xi+1 = xi + (xi - xi-1) + a * dt * dt
@@ -121,15 +111,5 @@ namespace AgateLib.Particles
 			// xi+1 = xi + (xi - xi-1) * (dti / dti-1) + a * dti * dti
 			// mPosition = mPosition + (mPosition - mPosition - 1) * (time / time - 1) + mAcceleration * time * time;
 		}
-	}
-	
-	/// <summary>
-	/// Condition of a particle.
-	/// </summary>
-	[Flags]
-	public enum Condition
-	{
-		Dead = 0,
-		ALive = 1
 	}
 }
