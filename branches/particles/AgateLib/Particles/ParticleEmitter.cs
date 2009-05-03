@@ -56,10 +56,7 @@ namespace AgateLib.Particles
 		/// <summary>
 		/// Draws each particle.
 		/// </summary>
-		public virtual void Draw ()
-		{
-			// Draws particles
-		}
+		public abstract void Draw ();
 
 		/// <summary>
 		/// Overridden update method.
@@ -70,10 +67,11 @@ namespace AgateLib.Particles
 		/// </param>
 		public override void Update (float time_ms)
 		{
+			if ( OnUpdate != null)
+				OnUpdate(new UpdateArgs(this, time_ms));
+			
 			base.Update (time_ms);
 		}
-		// TODO: Draw event
-		// TODO: Emitter dead event
 		
 		public delegate void ParticleEventHandler(object sender, ParticleArgs args);		
 		public event ParticleEventHandler OnNewParticle;
