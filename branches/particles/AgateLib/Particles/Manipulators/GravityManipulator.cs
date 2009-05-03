@@ -27,37 +27,25 @@ namespace AgateLib.Particles
 	/// A gravity particle manipulator.
 	/// </summary>
 	public class GravityManipulator
-	{		
-		private float mStrength = 1f;
-		private Vector2 mPosition = Vector2.Empty;		
+	{
+		private Vector2 mGravity = Vector2.Empty;
 		
 		/// <value>
-		/// Gets or sets the strength.
+		/// Gets or sets the gravity strength and direction.
 		/// </value>
-		public float Strength
+		public Vector2 Gravity
 		{
-			get { return mStrength; }
-			set { mStrength = value; }
-		}
-		
-		/// <value>
-		/// Gets or sets the position.
-		/// </value>
-		public Vector2 Position
-		{
-			get { return mPosition; }
-			set { mPosition = value; }
+			get { return mGravity; }
+			set { mGravity = value; }
 		}
 		
 		/// <summary>
 		/// Constructs a gravitiy manipulator.
 		/// </summary>
-		/// <param name="position"></param>
-		/// <param name="strength"></param>
-		public GravityManipulator(Vector2 position, float strength)
+		/// <param name="gravity">Gravity strength and direction.</param>
+		public GravityManipulator(Vector2 gravity)
 		{
-			mPosition = position;
-			mStrength = strength;
+			mGravity = gravity;
 		}
 		
 		/// <summary>
@@ -66,12 +54,20 @@ namespace AgateLib.Particles
 		/// <param name="emitter"></param>
 		public void SubscribeToEmitter(ParticleEmitter emitter)
 		{
-			emitter.UpdateParticles += Manipulate;
+			emitter.OnUpdate +=HandleOnUpdate; 
 		}
-		
-		internal void Manipulate(List<Particle> particles, float time_ms)
+
+		void HandleOnUpdate(UpdateArgs args)
 		{
-			// TODO: add missing calculation to gravity manipulator
+			// TODO: Adjust pseudo math to new gravity property
+			foreach(Particle pt in args.Emitter.Particles)
+			{
+				if(pt.IsALive == true)
+				{
+					// pt.Acceleration = pt.Acceleration + Position * Strength * args.Time_ms;
+					// pt.Velocity = pt.Velocity + Position * Strength * args.Time_ms;
+				}
+			}
 		}
 	}
 }
