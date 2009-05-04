@@ -14,7 +14,7 @@ namespace AgateMDX
 		IndexBufferType mType;
 		int mCount;
 		Direct3D.IndexBuffer mBuffer;
-		object data;
+		int maxIndex;
 
 		public MDX1_IndexBuffer(MDX1_Display disp, IndexBufferType type, int count)
 		{
@@ -29,9 +29,9 @@ namespace AgateMDX
 		{
 			get { return mBuffer; }
 		}
-		public object Data
+		public int MaxIndex
 		{
-			get { return data; }
+			get { return maxIndex; }
 		}
 
 		private void CreateIndexBuffer()
@@ -61,14 +61,14 @@ namespace AgateMDX
 
 		public override void WriteIndices(int[] indices)
 		{
-			mBuffer.SetData(indices, 0, Microsoft.DirectX.Direct3D.LockFlags.Discard);
-			data = indices;
+			mBuffer.SetData(indices, 0, 0);
+			maxIndex = indices.Max();
 		}
 
 		public override void WriteIndices(short[] indices)
 		{
-			mBuffer.SetData(indices, 0, Microsoft.DirectX.Direct3D.LockFlags.Discard);
-			data = indices;
+			mBuffer.SetData(indices, 0, 0);
+			maxIndex = indices.Max();
 		}
 	}
 }

@@ -53,8 +53,9 @@ namespace AgateMDX
 
 		private bool mVSync = true;
 
-		private bool mHasDepth , mHasStencil;
-		private float mDepthClear = 0;
+		private bool mHasDepth;
+		private bool mHasStencil;
+		private float mDepthClear = 1000.0f;
 		private int mStencilClear = 0;
 
 		#endregion
@@ -438,7 +439,7 @@ namespace AgateMDX
 
 		public override void FillRect(Rectangle rect, Color color)
 		{
-			FillRect(rect, new Gradient(color));
+			FillRect((RectangleF)rect, new Gradient(color));
 		}
 		public override void FillRect(RectangleF rect, Color color)
 		{
@@ -446,7 +447,7 @@ namespace AgateMDX
 		}
 		public override void FillRect(Rectangle rect, Gradient color)
 		{
-			FillRect(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), color);
+			FillRect((RectangleF)rect, color);
 		}
 		public override void FillRect(RectangleF rect, Gradient color)
 		{
@@ -461,15 +462,11 @@ namespace AgateMDX
 			mFillRectVerts[2].Color = color.BottomLeft.ToArgb();
 
 			mFillRectVerts[3] = mFillRectVerts[1];
-			//vert[3].Position = new Vector4(rect.Right, rect.Top, 0f, 1f);
-			//vert[3].Color = clr;
 
 			mFillRectVerts[4].Position = new Microsoft.DirectX.Vector3(rect.Right, rect.Bottom, 0f);
 			mFillRectVerts[4].Color = color.BottomRight.ToArgb();
 
 			mFillRectVerts[5] = mFillRectVerts[2];
-			//vert[5].Position = new Vector4(rect.Left, rect.Bottom, 0f, 1f);
-			//vert[5].Color = clr;
 
 			mDevice.DrawBuffer.Flush();
 
@@ -480,7 +477,7 @@ namespace AgateMDX
 
 			mDevice.VertexFormat = CustomVertex.PositionColored.Format;
 			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.TriangleList, 2, mFillRectVerts);
-
+			mDevice.AlphaArgument1 = TextureArgument.TextureColor;
 		}
 
 
@@ -578,6 +575,9 @@ namespace AgateMDX
 			present.SwapEffect = SwapEffect.Discard;
 			present.Windowed = true;
 			present.PresentFlag = PresentFlag.LockableBackBuffer;
+
+			if (present.AutoDepthStencilFormat == DepthFormat.Unknown)
+				present.EnableAutoDepthStencil = false;
 
 			if (VSync)
 				present.PresentationInterval = PresentInterval.Default;

@@ -18,14 +18,23 @@ namespace AgateMDX
 		Direct3D.VertexFormats mFormats;
 		int mCount;
 		object data;
+		VertexLayout mLayout;
+
+		static StringBuilder b;
 
 		public MDX1_VertexBuffer(MDX1_Display display, VertexLayout layout, int vertexCount)
 		{
 			mDisplay = display;
 			mCount = vertexCount;
 
+			b = new StringBuilder();
+
 			mDeclaration = CreateVertexDeclaration(layout);
 			mFormats = CreateVertexFormats(layout);
+
+			System.Diagnostics.Debug.WriteLine(b.ToString());
+
+			mLayout = layout;
 
 			mBuffer = new Microsoft.DirectX.Direct3D.VertexBuffer(
 				mDisplay.D3D_Device.Device,
@@ -73,17 +82,16 @@ namespace AgateMDX
 		}
 		private Direct3D.VertexDeclaration CreateVertexDeclaration(VertexLayout layout)
 		{
-			List<Direct3D.VertexElement> formats = new List<Microsoft.DirectX.Direct3D.VertexElement>();
+			List<Direct3D.VertexElement> formats = new List<Direct3D.VertexElement>();
+			short loc = 0;
 
 			for (int i = 0; i < layout.Count; i++)
 			{
 				var element = layout[i];
-				short loc = 0;
-				int size;
 
-				Direct3D.VertexElement d3d_element = ConvertElement(element, out size);
-				d3d_element.Offset = loc;
-				loc += (short)size;
+				Direct3D.VertexElement d3d_element = ConvertElement(element, ref loc);
+
+				formats.Add(d3d_element);
 			}
 
 			formats.Add(Direct3D.VertexElement.VertexDeclarationEnd);
@@ -91,11 +99,13 @@ namespace AgateMDX
 			return new Direct3D.VertexDeclaration(
 				mDisplay.D3D_Device.Device, formats.ToArray());
 		}
-		private Direct3D.VertexElement ConvertElement(VertexElementDesc element, out int size)
+		private Direct3D.VertexElement ConvertElement(VertexElementDesc element, ref short loc)
 		{
-			Direct3D.DeclarationType declType;
 			Direct3D.DeclarationMethod declMethod = Microsoft.DirectX.Direct3D.DeclarationMethod.Default;
 			Direct3D.DeclarationUsage declUsage;
+			Direct3D.DeclarationType declType;
+
+			int size = VertexLayout.SizeOf(element.DataType);
 
 			switch(element.DataType)
 			{
@@ -116,8 +126,6 @@ namespace AgateMDX
 						element.DataType.ToString() + " not implemented.");
 			}
 
-			size = VertexLayout.SizeOf(element.DataType);
-			
 			switch(element.ElementType)
 			{
 				case VertexElement.Position:
@@ -143,7 +151,11 @@ namespace AgateMDX
 						element.ElementType.ToString() + " not implemented.");
 			}
 
-			return new Direct3D.VertexElement(0, 0, declType, declMethod, declUsage, 0);
+			b.AppendFormat("{0} {1} {2} {3}\n", declType, declUsage, loc, size);
+
+			loc += (short)size;
+
+			return new Direct3D.VertexElement(0, (short)(loc - size), declType, declMethod, declUsage, 0);
 		}
 
 		private Direct3D.PrimitiveType GetPrimitiveType(ref int vertexCount)
@@ -184,22 +196,20 @@ namespace AgateMDX
 			int primitiveCount = count;
 			MDX1_IndexBuffer indexbuffer = _indexbuffer.Impl as MDX1_IndexBuffer;
 
-			// after calling GetPrimitiveType, count is the number of primitives
+			// after calling GetPrimitiveType, primitiveCount is the number of primitives
 			// instead of the number of vertices.
 			Direct3D.PrimitiveType primType = GetPrimitiveType(ref primitiveCount);
 
 			SetTextures();
 
-			mDisplay.D3D_Device.Device.Indices = indexbuffer.DeviceIndexBuffer;
-			mDisplay.D3D_Device.Device.SetStreamSource(0, mBuffer, 0);
-			mDisplay.D3D_Device.VertexFormat = mFormats;
-			mDisplay.D3D_Device.Device.VertexDeclaration = mDeclaration;
-			//mDisplay.D3D_Device.Device.DrawIndexedPrimitives(primType, 0, 0, count, start, primitiveCount); 
-			mDisplay.D3D_Device.Device.DrawIndexedUserPrimitives(primType, 0,
-				count, primitiveCount,
-				indexbuffer.Data, indexbuffer.IndexType == IndexBufferType.Int16,
-				data);
+			mDisplay.D3D_Device.AlphaArgument1 = Direct3D.TextureArgument.TextureColor;
 
+			mDisplay.D3D_Device.VertexFormat = Microsoft.DirectX.Direct3D.VertexFormats.None;
+			mDisplay.D3D_Device.Device.VertexDeclaration = mDeclaration;
+			mDisplay.D3D_Device.Device.Indices = indexbuffer.DeviceIndexBuffer;
+			mDisplay.D3D_Device.Device.SetStreamSource(0, mBuffer, 0, mLayout.VertexSize);
+			mDisplay.D3D_Device.Device.DrawIndexedPrimitives(
+				primType, 0, 0, indexbuffer.MaxIndex, start, primitiveCount);
 		}
 		
 		private void SetTextures()
@@ -224,7 +234,7 @@ namespace AgateMDX
 
 		public override void Write<T>(T[] vertices)
 		{
-			mBuffer.SetData(vertices, 0, Microsoft.DirectX.Direct3D.LockFlags.Discard);
+			mBuffer.SetData(vertices, 0, 0);
 			data = vertices;
 		}
 	}
