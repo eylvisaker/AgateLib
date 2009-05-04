@@ -11,7 +11,7 @@ using AgateLib.InputLib;
 
 namespace Tests.Display3D.Test3D
 {
-	class Test3d : IAgateTest 
+	class Test3d //: IAgateTest 
 	{
 		#region IAgateTest Members
 
@@ -25,7 +25,7 @@ namespace Tests.Display3D.Test3D
 			get { return "Display 3D"; }
 		}
 
-		void IAgateTest.Main(string[] args)
+		public void Main(string[] args)
 		{
 			Run(args);
 		}

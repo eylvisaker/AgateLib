@@ -55,8 +55,8 @@ namespace Tests.Display3D.TestMatrices
 				Surface surf = new Surface("bg-bricks.png");
 
 				CubeBuilder cube = new CubeBuilder();
-				cube.Length = 58;
-				cube.Location = new Vector3(cube.Length / 2, cube.Length / 2, 0);
+				cube.Length = 8;
+				cube.Location = new Vector3(cube.Length / 2 + 6, cube.Length / 2 + 6, 0);
 				cube.CreateVertexBuffer();
 
 				IndexBuffer indices = cube.IndexBuffer;
@@ -75,10 +75,12 @@ namespace Tests.Display3D.TestMatrices
 				m[0].AttenuationLinear = 0.00f;
 				m[0].AttenuationQuadratic = 0.002f;
 
-				Vector3 position = new Vector3(-5, 0, 2);
-				float facingAngle = 0;
+				Vector3 position = new Vector3(-5, 0, 10);
+				double facingAngle = Math.PI / 4;
 				float speed = 0.03f;
 				float turnSpeed = 0.004f;
+
+				Surface s = new Surface("ball.png");
 
 				while (wind.IsClosed == false)
 				{
@@ -93,7 +95,8 @@ namespace Tests.Display3D.TestMatrices
 						facingAngle -= turn * turnSpeed * (float)Display.DeltaTime;
 					}
 
-					Vector3 lookTarget = position + lookDirection;
+					Vector3 lookTarget = position + lookDirection* 20;
+					lookTarget.Z = 0;
 
 					Display.BeginFrame();
 					Display.Clear(Color.Gray);
@@ -139,7 +142,7 @@ namespace Tests.Display3D.TestMatrices
 
 					m[0].Position = position;
 					//m.DoLighting();
-
+					
 					// draw a weird checkerboard
 					for (int x = 0; x < 8; x += 2)
 					{
@@ -152,7 +155,8 @@ namespace Tests.Display3D.TestMatrices
 						}
 					}
 					Display.DrawRect(new Rectangle(0, 0, 8, 8), Color.Black);
-
+					
+					//s.Draw();
 					b.DrawIndexed(indices);
 
 					Display.EndFrame();
@@ -161,7 +165,7 @@ namespace Tests.Display3D.TestMatrices
 			}
 		}
 
-		private static Vector3 CalculateLookDirection(float facingAngle)
+		private static Vector3 CalculateLookDirection(double facingAngle)
 		{
 			return new Vector3(Math.Cos(facingAngle), Math.Sin(facingAngle), 0);
 		}
