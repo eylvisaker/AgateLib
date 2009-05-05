@@ -378,7 +378,7 @@ namespace AgateLib.BitmapFont
 			DrawText(destPt.X, destPt.Y, text);
 		}
 
-		public override Size MeasureText(string text, int length)
+		public override Size MeasureString(string text, int length)
 		{
 			return new Size(StringDisplayWidth(text.Substring(0, length)),
 							StringDisplayHeight(text.Substring(0, length)));
