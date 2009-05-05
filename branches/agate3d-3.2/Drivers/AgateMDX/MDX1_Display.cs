@@ -55,7 +55,7 @@ namespace AgateMDX
 
 		private bool mHasDepth;
 		private bool mHasStencil;
-		private float mDepthClear = 1000.0f;
+		private float mDepthClear = 1.0f;
 		private int mStencilClear = 0;
 
 		#endregion
@@ -119,11 +119,13 @@ namespace AgateMDX
 			device.DeviceLost += new EventHandler(mDevice_DeviceLost);
 			device.DeviceReset += new EventHandler(mDevice_DeviceReset);
 
+			device.RenderState.StencilEnable = false;
+			device.RenderState.ZBufferEnable = true;
+			device.RenderState.ZBufferFunction = Compare.LessEqual;
+			device.RenderState.ZBufferWriteEnable = true;
+
 			mDevice = new D3DDevice(device);
 
-
-			mDevice.Device.RenderState.StencilEnable = false;
-			mDevice.Device.RenderState.ZBufferEnable = false;
 
 			// create primitive objects
 			mLine = new Direct3D.Line(device);
