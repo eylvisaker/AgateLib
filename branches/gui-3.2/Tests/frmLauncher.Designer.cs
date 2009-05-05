@@ -38,7 +38,7 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.tree.Location = new System.Drawing.Point(12, 12);
 			this.tree.Name = "tree";
-			this.tree.Size = new System.Drawing.Size(275, 510);
+			this.tree.Size = new System.Drawing.Size(275, 559);
 			this.tree.TabIndex = 0;
 			this.tree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_NodeMouseDoubleClick);
 			// 
@@ -46,7 +46,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(299, 534);
+			this.ClientSize = new System.Drawing.Size(299, 583);
 			this.Controls.Add(this.tree);
 			this.Name = "frmLauncher";
 			this.Text = "AgateLib Test Launcher";
