@@ -128,9 +128,9 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		}
 
 
-		public override AgateLib.Geometry.Size MeasureString(string text, int length)
+		public override AgateLib.Geometry.Size MeasureString(string text, int start, int length)
 		{
-			return StringDisplaySize(text.Substring(0, length));
+			return StringDisplaySize(text.Substring(start, length));
 		}
 	}
 

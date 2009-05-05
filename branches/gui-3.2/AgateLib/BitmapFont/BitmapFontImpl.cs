@@ -378,10 +378,10 @@ namespace AgateLib.BitmapFont
 			DrawText(destPt.X, destPt.Y, text);
 		}
 
-		public override Size MeasureString(string text, int length)
+		public override Size MeasureString(string text, int start, int length)
 		{
-			return new Size(StringDisplayWidth(text.Substring(0, length)),
-							StringDisplayHeight(text.Substring(0, length)));
+			return new Size(StringDisplayWidth(text.Substring(start, length)),
+							StringDisplayHeight(text.Substring(start, length)));
 		}
 	}
 
