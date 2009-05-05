@@ -16,6 +16,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		MercuryCheckBox mCheckBox = new MercuryCheckBox();
 		MercuryCheckBox mRadioButton = new MercuryCheckBox();
 		MercuryTextBox mTextBox = new MercuryTextBox();
+		MercuryListBox mListBox = new MercuryListBox();
 
 		private MercuryScheme()
 		{
@@ -40,7 +41,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			FontColorDisabled = Color.Gray;
 			DropShadowSize = 10;
 
-			SelectionColor = Color.Black;
+			SelectionFontColor = Color.Black;
 			SelectionBackColor = Color.Yellow;
 
 			Window.NoTitle = new Surface(files, "window_no_title.png");
@@ -175,7 +176,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		public Color FontColor { get; set; }
 		public Color FontColorDisabled { get; set; }
-		public Color SelectionColor { get; set; }
+		public Color SelectionFontColor { get; set; }
 		public Color SelectionBackColor { get; set; }
 
 		public MercuryWindow Window 
@@ -203,6 +204,15 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			{
 				if (value == null) throw new ArgumentNullException();
 				mTextBox = value;
+			}
+		}
+		public MercuryListBox ListBox
+		{
+			get { return mListBox; }
+			set
+			{
+				if (value == null) throw new ArgumentNullException();
+				mListBox = value;
 			}
 		}
 		public MercuryCheckBox CheckBox
@@ -271,7 +281,20 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		{
 			Margin = 3;
 		}
+	}
+	public class MercuryListBox
+	{
+		public Surface Image { get; set; }
+		public Surface Disabled { get; set; }
+		public Surface Hover { get; set; }
+		public Surface Focus { get; set; }
+		public Rectangle StretchRegion { get; set; }
+		public int Margin { get; set; }
 
+		public MercuryListBox()
+		{
+			Margin = 3;
+		}
 	}
 	public class MercuryCheckBox
 	{
