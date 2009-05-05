@@ -17,7 +17,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		MercuryCheckBox mRadioButton = new MercuryCheckBox();
 		MercuryTextBox mTextBox = new MercuryTextBox();
 
-		public MercuryScheme()
+		private MercuryScheme()
 		{
 		}
 
@@ -40,6 +40,9 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			FontColorDisabled = Color.Gray;
 			DropShadowSize = 10;
 
+			SelectionColor = Color.Black;
+			SelectionBackColor = Color.Yellow;
+
 			Window.NoTitle = new Surface(files, "window_no_title.png");
 			Window.WithTitle = new Surface(files, "window_client.png");
 			Window.TitleBar = new Surface(files, "window_titlebar.png");
@@ -50,7 +53,6 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			SetButtonImages(new Surface(files, "button.png"), new Size(64, 32));
 			Button.StretchRegion = new Rectangle(6, 6, 52, 20);
 			
-
 			SetCheckBoxImages(new Surface(files, "checkbox.png"), new Size(16, 16));
 			SetRadioButtonImages(new Surface(files, "radiobutton.png"), new Size(16, 16));
 
@@ -173,6 +175,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		public Color FontColor { get; set; }
 		public Color FontColorDisabled { get; set; }
+		public Color SelectionColor { get; set; }
+		public Color SelectionBackColor { get; set; }
 
 		public MercuryWindow Window 
 		{
