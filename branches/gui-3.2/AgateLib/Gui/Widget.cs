@@ -22,7 +22,8 @@ namespace AgateLib.Gui
 		bool mEnabled = true;
 
 		bool suspendLayout = false;
-
+		bool mMouseDownIn = false;
+		
 		public Widget()
 		{
 			mText = string.Empty;
@@ -361,10 +362,36 @@ namespace AgateLib.Gui
 		}
 
 		public bool MouseIn { get; protected set; }
-		protected internal virtual void SendMouseDown(InputEventArgs e) { OnMouseDown(e); }
-		protected internal virtual void SendMouseUp(InputEventArgs e) { OnMouseUp(e); }
-		protected internal virtual void SendMouseMove(InputEventArgs e) { OnMouseMove(e); }
-		protected internal virtual void SendMouseDoubleClick(InputEventArgs e) { OnMouseDoubleClick(e); }
+		public bool MouseDownIn { get { return mMouseDownIn; } }
+
+		protected internal virtual void SendMouseDown(InputEventArgs e)
+		{
+			if (Enabled == false)
+				return;
+
+			mMouseDownIn = true;
+			OnMouseDown(e);
+		}
+		protected internal virtual void SendMouseUp(InputEventArgs e) 
+		{
+			if (Enabled == false)
+				return;
+
+			mMouseDownIn = false;
+			OnMouseUp(e); 
+		}
+		protected internal virtual void SendMouseMove(InputEventArgs e)
+		{
+			if (Enabled == false)
+				return;
+			OnMouseMove(e);
+		}
+		protected internal virtual void SendMouseDoubleClick(InputEventArgs e)
+		{
+			if (Enabled == false)
+				return;
+			OnMouseDoubleClick(e);
+		}
 		protected internal virtual void SendKeyDown(InputEventArgs e) { OnKeyDown(e); }
 		protected internal virtual void SendKeyUp(InputEventArgs e) { OnKeyUp(e); }
 		/// <summary>
@@ -372,14 +399,38 @@ namespace AgateLib.Gui
 		/// If overriding this, be sure to set MouseIn to true, and provide
 		/// some logic for calling OnMouseEnter on the control.
 		/// </summary>
-		protected internal virtual void SendMouseEnter() { MouseIn = true; OnMouseEnter(); }
+		protected internal virtual void SendMouseEnter()
+		{
+			MouseIn = true; 
+			if (Enabled == false)
+				return; 
+			OnMouseEnter();
+		}
 		/// <summary>
 		/// Sends the MouseLeave event to this control.
 		/// If overriding this, be sure to set MouseIn to false, and provide
 		/// some logic for calling OnMouseLeave on the control.
 		/// 
 		/// </summary>
-		protected internal virtual void SendMouseLeave() { MouseIn = false; OnMouseLeave(); }
+		protected internal virtual void SendMouseLeave()
+		{
+			MouseIn = false;
+			if (Enabled == false)
+				return;
+			OnMouseLeave();
+		}
+
+		/// <summary>
+		/// Sets the dirty flag in the cache so that it is updated on the next
+		/// frame.
+		/// </summary>
+		protected void SetDirty()
+		{
+			if (Cache == null)
+				return;
+
+			Cache.Dirty = true;
+		}
 
 		protected internal virtual void OnMouseDown(InputEventArgs e) { }
 		protected internal virtual void OnMouseUp(InputEventArgs e) { }
@@ -390,7 +441,7 @@ namespace AgateLib.Gui
 		protected internal virtual void OnMouseEnter() { }
 		protected internal virtual void OnMouseLeave() { }
 
-		protected internal virtual void OnEnabledChanged() { }
+		protected internal virtual void OnEnabledChanged() { SetDirty(); }
 
 		public bool ContainsScreenPoint(Point screenMousePoint)
 		{

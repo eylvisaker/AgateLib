@@ -11,7 +11,6 @@ namespace AgateLib.Gui
 		public Button() { Name = "Button"; }
 		public Button(string text) { Name = text; Text = text; }
 
-		bool mouseDownIn = false;
 		bool spaceDownFocus = false;
 
 		public override bool CanHaveFocus
@@ -23,7 +22,7 @@ namespace AgateLib.Gui
 		}
 		internal bool DrawActivated
 		{
-			get { return mouseDownIn && MouseIn || spaceDownFocus; }
+			get { return MouseDownIn && MouseIn || spaceDownFocus; }
 		}
 		internal bool IsDefaultButton
 		{
@@ -57,19 +56,12 @@ namespace AgateLib.Gui
 
 			base.OnKeyUp(e);
 		}
-		protected internal override void OnMouseDown(InputEventArgs e)
+		protected internal override void SendMouseUp(InputEventArgs e)
 		{
-			if (Enabled == false)
-				return;
-
-			mouseDownIn = true;
-		}
-		protected internal override void OnMouseUp(InputEventArgs e)
-		{
-			mouseDownIn = false;
-
-			if (MouseIn)
+			if (MouseIn && MouseDownIn)
 				OnClick();
+
+			base.SendMouseUp(e);
 		}
 
 		private void OnClick()

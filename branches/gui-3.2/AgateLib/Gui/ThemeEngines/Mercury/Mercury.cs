@@ -72,7 +72,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			if (widget is Label) return CalcMinLabelSize((Label)widget);
 			if (widget is Button) return CalcMinButtonSize((Button)widget);
 			if (widget is CheckBox) return CalcMinCheckBoxSize((CheckBox)widget);
-			if (widget is TextBox) return CalcMinTextBoxSize((TextBox)widget);
+			if (widget is TextBox) return CalcTextBoxMinSize((TextBox)widget);
 			if (widget is RadioButton) return CalcMinRadioButtonSize((RadioButton)widget);
 
 			return Size.Empty;
@@ -236,6 +236,11 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		private void MouseDownInTextBox(TextBox textBox, Point clientLocation)
 		{
+			textBox.MoveInsertionPoint(
+				TextBoxClientToTextLocation(textBox, clientLocation), false);
+		}
+		private int TextBoxClientToTextLocation(TextBox textBox, Point clientLocation)
+		{
 			TextBoxCache c = GetTextBoxCache(textBox);
 
 			clientLocation.X += c.Origin.X - Scheme.TextBox.StretchRegion.X;
@@ -245,13 +250,31 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			int last = 0;
 			int index;
 
-			for (index = 1; index < textBox.Text.Length; index++)
+			int line = clientLocation.Y / Scheme.WidgetFont.FontHeight;
+			int linestart = 0;
+			for (index = 0; index < textBox.Text.Length; index++)
 			{
-				sz = Scheme.WidgetFont.MeasureString(textBox.Text, index);
+				if (textBox.Text[index] == '\n')
+				{
+					line--;
+					linestart = index;
+				}
+
+				if (line == 0)
+					goto searchX;
+			}
+
+			// we only get here if the mouse click was below the last line.
+			index = linestart;
+
+		searchX:
+			for (; index < textBox.Text.Length; index++)
+			{
+				sz = Scheme.WidgetFont.MeasureString(textBox.Text, linestart, index - linestart);
 
 				if (sz.Width > clientLocation.X)
 				{
-					goto found;	
+					goto found;
 				}
 
 				last = sz.Width;
@@ -263,11 +286,9 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			// if it's halfway over, put the insertion on the right side of the character, 
 			// otherwise put it on the left.
 			if (pass <= 0.5)
-				textBox.InsertionPoint = index;
+				return index;
 			else
-				textBox.InsertionPoint = index - 1;
-
-			return;
+				return index - 1;
 		}
 
 		/// <summary>
@@ -277,17 +298,23 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		/// <returns></returns>
 		private Point InsertionPointLocation(TextBox textBox)
 		{
-			Size sz = Scheme.WidgetFont.MeasureString(textBox.Text, textBox.InsertionPoint);
-
+			int lineStart = 0;
 			int lines = 0;
+
 			if (textBox.MultiLine)
 			{
-				for (int i = 0; i < textBox.Text.Length; i++)
+				for (int i = 0; i < textBox.InsertionPoint; i++)
 				{
 					if (textBox.Text[i] == '\n')
+					{
+						lineStart = i;
 						lines++;
+					}
 				}
 			}
+
+			Size sz = Scheme.WidgetFont.StringDisplaySize(
+				textBox.Text.Substring(lineStart, textBox.InsertionPoint - lineStart));
 
 			Point loc = new Point(
 				sz.Width + Scheme.TextBox.StretchRegion.X,
@@ -319,7 +346,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 				Scheme.WidgetFont.Color);
 		}
 
-		private Size CalcMinTextBoxSize(TextBox textBox)
+		private Size CalcTextBoxMinSize(TextBox textBox)
 		{
 			Size retval = new Size();
 
@@ -331,9 +358,12 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		}
 		private Size CalcTextBoxMaxSize(TextBox textBox)
 		{
-			Size retval = CalcMinTextBoxSize(textBox);
+			Size retval = CalcTextBoxMinSize(textBox);
 
 			retval.Width = 9000;
+
+			if (textBox.MultiLine)
+				retval.Height = 9000;
 
 			return retval;
 		}
