@@ -153,7 +153,6 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			return retval.ToArray();
 		}
 
-
 		public int InsertionPointHeight
 		{
 			get { return WidgetFont.FontHeight - 2; }
