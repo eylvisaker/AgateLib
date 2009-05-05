@@ -63,5 +63,9 @@ namespace AgateLib.Gui
 		void Update(GuiRoot guiRoot);
 
 		void MouseDownInWidget(Widget widget, Point clientLocation);
+
+		void MouseMoveInWidget(Widget widget, Point clientLocation);
+
+		void MouseUpInWidget(Widget widget, Point clientLocation);
 	}
 }

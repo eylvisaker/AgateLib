@@ -104,13 +104,41 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public void MouseDownInWidget(Widget widget, Point clientLocation)
 		{
 			if (widget is TextBox) MouseDownInTextBox((TextBox)widget, clientLocation);
-
 		}
+		public void MouseMoveInWidget(Widget widget, Point clientLocation)
+		{
+			if (widget is TextBox) MouseMoveInTextBox((TextBox)widget, clientLocation);
+		}
+		public void MouseUpInWidget(Widget widget, Point clientLocation)
+		{
+			if (widget is TextBox) MouseUpInTextBox((TextBox)widget, clientLocation);
+		}
+
 
 
 		#endregion
 
 		#region --- TextBox ---
+
+
+		private void MouseDownInTextBox(TextBox textBox, Point clientLocation)
+		{
+			textBox.MoveInsertionPoint(
+				TextBoxClientToTextLocation(textBox, clientLocation), false);
+		
+		}
+		private void MouseMoveInTextBox(TextBox textBox, Point clientLocation)
+		{
+			if (textBox.MouseDownIn)
+			{
+				textBox.MoveInsertionPoint(
+					TextBoxClientToTextLocation(textBox, clientLocation), true);
+			}
+		}
+		private void MouseUpInTextBox(TextBox textBox, Point clientLocation)
+		{
+
+		}		
 
 		private static TextBoxCache GetTextBoxCache(TextBox textBox)
 		{
@@ -234,11 +262,6 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			}
 		}
 
-		private void MouseDownInTextBox(TextBox textBox, Point clientLocation)
-		{
-			textBox.MoveInsertionPoint(
-				TextBoxClientToTextLocation(textBox, clientLocation), false);
-		}
 		private int TextBoxClientToTextLocation(TextBox textBox, Point clientLocation)
 		{
 			TextBoxCache c = GetTextBoxCache(textBox);
@@ -810,10 +833,5 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 				Scheme.WidgetFont.Color = Scheme.FontColorDisabled;
 		}
 
-		#region IGuiThemeEngine Members
-
-
-		
-		#endregion
 	}
 }

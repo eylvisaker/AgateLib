@@ -36,6 +36,7 @@ namespace AgateLib.Gui
 				SelectionStart = InsertionPoint;
 
 			mInsertionPoint = newLoc;
+			ResetIPBlinking();
 
 			if (expandSel)
 				ExpandSelection();
@@ -51,6 +52,23 @@ namespace AgateLib.Gui
 				Root.ThemeEngine.MouseDownInWidget(this, PointToClient(e.MousePosition));
 			}
 		}
+		protected internal override void SendMouseMove(InputEventArgs e)
+		{
+			base.SendMouseMove(e);
+			if (Root != null)
+			{
+				Root.ThemeEngine.MouseMoveInWidget(this, PointToClient(e.MousePosition));
+			}
+		}
+		protected internal override void SendMouseUp(InputEventArgs e)
+		{
+			base.SendMouseUp(e);
+			if (Root != null)
+			{
+				Root.ThemeEngine.MouseUpInWidget(this, PointToClient(e.MousePosition));
+			}
+		}
+
 		protected internal override void SendKeyDown(AgateLib.InputLib.InputEventArgs e)
 		{
 			ResetIPBlinking();
