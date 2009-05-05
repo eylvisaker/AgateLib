@@ -282,8 +282,15 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public Size StringDisplaySize(string text) { return impl.StringDisplaySize(text); }
+		public Size StringDisplaySize(string text) { return MeasureString(text, text.Length); }
 
+		/// <summary>
+		/// Measures the display size of the specified string.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <param name="length"></param>
+		/// <returns></returns>
+		public Size MeasureString(string text, int length) { return impl.MeasureText(text, length); }
 		/// <summary>
 		/// Gets the height in pixels of a single line of text.
 		/// </summary>
@@ -428,5 +435,6 @@ namespace AgateLib.DisplayLib
 		}
 
 		#endregion
+
 	}
 }

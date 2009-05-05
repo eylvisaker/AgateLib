@@ -173,6 +173,8 @@ namespace AgateLib.ImplementationBase
 		/// </summary>
 		public abstract void Dispose();
 
+
+		public abstract Size MeasureText(string text, int length);
 	}
 
 }
