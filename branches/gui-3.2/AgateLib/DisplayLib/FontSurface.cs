@@ -290,7 +290,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="text"></param>
 		/// <param name="length"></param>
 		/// <returns></returns>
-		public Size MeasureString(string text, int length) { return impl.MeasureText(text, length); }
+		public Size MeasureString(string text, int length) { return impl.MeasureString(text, length); }
 		/// <summary>
 		/// Gets the height in pixels of a single line of text.
 		/// </summary>

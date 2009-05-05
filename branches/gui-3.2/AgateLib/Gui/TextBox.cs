@@ -24,6 +24,15 @@ namespace AgateLib.Gui
 				mInsertionPoint = value;
 			}
 		}
+
+		protected internal override void SendMouseDown(AgateLib.InputLib.InputEventArgs e)
+		{
+			base.SendMouseDown(e);
+			if (Root != null)
+			{
+				Root.ThemeEngine.MouseDownInWidget(this, PointToClient(e.MousePosition));
+			}
+		}
 		protected internal override void SendKeyDown(AgateLib.InputLib.InputEventArgs e)
 		{
 			ResetIPBlinking();

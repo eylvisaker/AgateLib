@@ -509,5 +509,6 @@ namespace AgateLib.Gui
 				SetFocusControl(((Container)newFocus).NearestChildTo(nearPoint, true), direction, nearPoint);
 			}
 		}
+
 	}
 }

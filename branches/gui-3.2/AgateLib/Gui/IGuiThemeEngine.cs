@@ -61,5 +61,7 @@ namespace AgateLib.Gui
 		bool HitTest(Widget widget, Point screenLocation);
 
 		void Update(GuiRoot guiRoot);
+
+		void MouseDownInWidget(Widget widget, Point clientLocation);
 	}
 }

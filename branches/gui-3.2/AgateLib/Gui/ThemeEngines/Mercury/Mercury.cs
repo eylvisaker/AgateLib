@@ -101,18 +101,27 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			return 0;
 		}
 
+		public void MouseDownInWidget(Widget widget, Point clientLocation)
+		{
+			if (widget is TextBox) MouseDownInTextBox((TextBox)widget, clientLocation);
+
+		}
+
 
 		#endregion
 
 		#region --- TextBox ---
 
-
-		private void UpdateCache(TextBox textBox)
+		private static TextBoxCache GetTextBoxCache(TextBox textBox)
 		{
 			if (textBox.Cache == null)
 				textBox.Cache = new TextBoxCache();
 
-			TextBoxCache c = (TextBoxCache)textBox.Cache;
+			return (TextBoxCache)textBox.Cache;
+		}
+		private void UpdateCache(TextBox textBox)
+		{
+			TextBoxCache c = GetTextBoxCache(textBox);
 
 			if (c.Dirty == false)
 				return;
@@ -166,7 +175,6 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 			c.Dirty = false;
 		}
-
 
 		private void DrawTextBox(TextBox textBox)
 		{
@@ -226,6 +234,42 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			}
 		}
 
+		private void MouseDownInTextBox(TextBox textBox, Point clientLocation)
+		{
+			TextBoxCache c = GetTextBoxCache(textBox);
+
+			clientLocation.X += c.Origin.X - Scheme.TextBox.StretchRegion.X;
+			clientLocation.Y += c.Origin.Y - Scheme.TextBox.StretchRegion.Y;
+
+			Size sz = Size.Empty;
+			int last = 0;
+			int index;
+
+			for (index = 1; index < textBox.Text.Length; index++)
+			{
+				sz = Scheme.WidgetFont.MeasureString(textBox.Text, index);
+
+				if (sz.Width > clientLocation.X)
+				{
+					goto found;	
+				}
+
+				last = sz.Width;
+			}
+
+		found:
+			double pass = (sz.Width - clientLocation.X) / (double)(sz.Width - last);
+
+			// if it's halfway over, put the insertion on the right side of the character, 
+			// otherwise put it on the left.
+			if (pass <= 0.5)
+				textBox.InsertionPoint = index;
+			else
+				textBox.InsertionPoint = index - 1;
+
+			return;
+		}
+
 		/// <summary>
 		/// Returns the local insertion point location in the textbox in pixels.
 		/// </summary>
@@ -233,8 +277,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		/// <returns></returns>
 		private Point InsertionPointLocation(TextBox textBox)
 		{
-			Size sz = Scheme.WidgetFont.StringDisplaySize(
-							textBox.Text.Substring(0, textBox.InsertionPoint));
+			Size sz = Scheme.WidgetFont.MeasureString(textBox.Text, textBox.InsertionPoint);
 
 			int lines = 0;
 			if (textBox.MultiLine)
@@ -736,5 +779,11 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			else
 				Scheme.WidgetFont.Color = Scheme.FontColorDisabled;
 		}
+
+		#region IGuiThemeEngine Members
+
+
+		
+		#endregion
 	}
 }
