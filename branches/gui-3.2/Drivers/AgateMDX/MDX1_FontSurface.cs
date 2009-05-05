@@ -174,5 +174,10 @@ namespace AgateMDX
 		{
 			DrawText(new Point((int)dest_x, (int)dest_y), text);
 		}
+
+		public override Size MeasureString(string text, int length)
+		{
+			return StringDisplaySize(text.Substring(0, length));
+		}
 	}
 }
