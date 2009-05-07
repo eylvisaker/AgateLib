@@ -17,6 +17,7 @@
 //		Contributor(s): Marcel Hauf.
 //
 using System;
+using System.Collections.Generic;
 
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
@@ -46,11 +47,22 @@ namespace AgateLib.Particles
 		/// Constructs a pixel particle emitter.
 		/// </summary>
 		/// <param name="color">Emit color.</param>
-		/// <param name="position"></param>
+		/// <param name="position">Position of the emitter.</param>
 		public PixelEmitter(Vector2 position, Color color)
 		{
 			Position = position;
 			mEmitColor = color;			
+		}
+		
+		/// <summary>
+		/// Constructs a pixel particle emitter.
+		/// </summary>
+		/// <param name="position">Position of the emitter.</param>
+		/// <param name="color">Emit color.</param>
+		/// <param name="maxParticles">Maximum amount of particles.</param>
+		public PixelEmitter(Vector2 position, Color color, int maxParticles) : this(position, color)
+		{
+			Particles = new List<Particle>(maxParticles);
 		}
 		
 		/// <summary>s
@@ -61,10 +73,11 @@ namespace AgateLib.Particles
 		{
 			foreach(PixelParticle ptl in Particles)
 			{
-				if(ptl.Condition == Condition.ALive)
+				if(ptl.IsALive == true)
 				{
-					drawSurf.Color = ptl.Color;
-					drawSurf.Draw(ptl.Position.X, ptl.Position.Y);
+					Display.DrawEllipse(new Rectangle((int)ptl.Position.X, (int)ptl.Position.Y, 2, 2), ptl.Color);
+					//drawSurf.Color = ptl.Color;
+					//drawSurf.Draw(ptl.Position.X, ptl.Position.Y);
 				}
 			}
 		}
@@ -83,11 +96,13 @@ namespace AgateLib.Particles
 			time += time_ms;
 			float frequenzy = EmitFrequenzy*1000;
 			
-			while(time >= frequenzy)
+			while(time >= frequenzy && Particles.Count < Particles.Capacity)
 			{
 				// TODO: recyle dead particles
 				PixelParticle pp = new PixelParticle(EmitColor);
-				pp.Position = Position;				
+				pp.Position = Position;	
+				pp.Life = 10f;
+				
 				Particles.Add(pp);
 				
 				time -= frequenzy;
