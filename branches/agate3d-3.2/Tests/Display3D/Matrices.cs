@@ -84,6 +84,8 @@ namespace Tests.Display3D.TestMatrices
 
 				while (wind.IsClosed == false)
 				{
+					//System.Threading.Thread.Sleep(1000);
+
 					Vector3 lookDirection = CalculateLookDirection(facingAngle);
 
 					if (move != 0)
@@ -116,7 +118,7 @@ namespace Tests.Display3D.TestMatrices
 							break;
 
 						case 1:
-							myproj = Matrix4.Projection(45, wind.Width / (float)wind.Height, 1f, 1000f);
+							myproj = Matrix4.Projection(45, wind.Width / (float)wind.Height, 1f, 100f);
 							myview = Matrix4.LookAt(position, lookTarget,
 								new Vector3(0, 0, 1));
 
@@ -156,7 +158,6 @@ namespace Tests.Display3D.TestMatrices
 					}
 					Display.DrawRect(new Rectangle(0, 0, 8, 8), Color.Black);
 					
-					//s.Draw();
 					b.DrawIndexed(indices);
 
 					Display.EndFrame();
