@@ -46,9 +46,7 @@ namespace AgateMDX
 		private bool mInitialized = false;
 
 		// variables for drawing primitives
-		Direct3D.Line mLine;
-
-		//Vector2[] mDrawLinePts = new Vector2[4];
+		CustomVertex.PositionColored[] mLines = new CustomVertex.PositionColored[5];
 		CustomVertex.PositionColored[] mFillRectVerts = new CustomVertex.PositionColored[6];
 
 		private bool mVSync = true;
@@ -81,9 +79,6 @@ namespace AgateMDX
 
 			// ok, create D3D device
 			PresentParameters present = CreateWindowedPresentParameters(window, 0, 0);
-
-			present.BackBufferWidth = 1;
-			present.BackBufferHeight = 1;
 
 			DeviceType dtype = DeviceType.Hardware;
 
@@ -127,9 +122,6 @@ namespace AgateMDX
 			mDevice = new D3DDevice(device);
 
 
-			// create primitive objects
-			mLine = new Direct3D.Line(device);
-
 		}
 
 		private void SetHaveDepthStencil(DepthFormat depthFormat)
@@ -159,12 +151,6 @@ namespace AgateMDX
 
 		public override void Dispose()
 		{
-			if (mLine != null)
-			{
-				mLine.Dispose();
-				mLine = null;
-			}
-
 			mDevice.Dispose();
 		}
 
@@ -187,7 +173,6 @@ namespace AgateMDX
 
 		private void OnDeviceReset()
 		{
-			mLine = new Line(mDevice.Device);
 			System.Diagnostics.Debug.Print("{0} Device Reset", DateTime.Now);
 
 			if (DeviceReset != null)
@@ -195,12 +180,6 @@ namespace AgateMDX
 		}
 		private void OnDeviceLost()
 		{
-			if (mLine != null)
-			{
-				mLine.Dispose();
-				mLine = null;
-			}
-
 			System.Diagnostics.Debug.Print("{0} Device Lost", DateTime.Now);
 
 			if (DeviceLost != null)
@@ -208,13 +187,6 @@ namespace AgateMDX
 		}
 		private void OnDeviceAboutToReset()
 		{
-			if (mLine != null)
-			{
-				mLine.Dispose();
-				mLine = null;
-			}
-
-
 			System.Diagnostics.Debug.Print("{0} Device About to Reset", DateTime.Now);
 
 			if (DeviceAboutToReset != null)
@@ -372,6 +344,18 @@ namespace AgateMDX
 			mDevice.DrawBuffer.Flush();
 
 			mDevice.Clear(ClearFlags, color.ToArgb(), mDepthClear, mStencilClear);
+
+			var device = mDevice.Device;
+
+			device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, color.ToArgb(), 1.0f, 0);
+			
+			device.Clear(ClearFlags.Target, color.ToArgb(), 0, 0);
+			device.Clear(ClearFlags.ZBuffer, 0, 1.0f, 0);
+
+			System.Drawing.Rectangle[] rect = new System.Drawing.Rectangle[1];
+			rect[0] = new System.Drawing.Rectangle(0, 0, 800, 600);
+			device.Clear(ClearFlags.ZBuffer, color.ToArgb(), 1.0f, 0, rect);
+
 		}
 		public override void Clear(Color color, Rectangle rect)
 		{
@@ -392,31 +376,26 @@ namespace AgateMDX
 		{
 			mDevice.DrawBuffer.Flush();
 
-			Vector2[] pts = new Vector2[2];
+			mLines[0] = new CustomVertex.PositionColored(a.X, a.Y, 0, color.ToArgb());
+			mLines[1] = new CustomVertex.PositionColored(b.X, b.Y, 0, color.ToArgb());
 
-			pts[0] = new Vector2(a.X, a.Y);
-			pts[1] = new Vector2(b.X, b.Y);
-
-
-			mLine.Begin();
-			mLine.Draw(pts, color.ToArgb());
-			mLine.End();
-
+			mDevice.VertexFormat = CustomVertex.PositionColored.Format;
+			mDevice.Device.DrawUserPrimitives(Microsoft.DirectX.Direct3D.PrimitiveType.LineList, 1, mLines);
 		}
 		public override void DrawLines(Point[] pt, Color color)
 		{
 			mDevice.DrawBuffer.Flush();
 
-			Vector2[] pts = new Vector2[pt.Length];
+			if (pt.Length > mLines.Length)
+				mLines = new CustomVertex.PositionColored[pt.Length];
 
 			for (int i = 0; i < pt.Length; i++)
-				pts[i] = new Vector2(pt[i].X, pt[i].Y);
+			{
+				mLines[i] = new CustomVertex.PositionColored(pt[i].X, pt[i].Y, 0, color.ToArgb());
+			}
 
-
-			mLine.Begin();
-			mLine.Draw(pts, color.ToArgb());
-			mLine.End();
-
+			mDevice.VertexFormat = CustomVertex.PositionColored.Format;
+			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.LineList, pt.Length / 2, mLines);
 		}
 		public override void DrawRect(Rectangle rect, Color color)
 		{
@@ -426,17 +405,16 @@ namespace AgateMDX
 		{
 			mDevice.DrawBuffer.Flush();
 
-			Microsoft.DirectX.Vector3[] pts = new Microsoft.DirectX.Vector3[5];
+			int c = color.ToArgb();
 
-			pts[0] = new Microsoft.DirectX.Vector3(rect.X, rect.Y, 0);
-			pts[1] = new Microsoft.DirectX.Vector3(rect.X + rect.Width, rect.Y, 0);
-			pts[2] = new Microsoft.DirectX.Vector3(rect.X + rect.Width, rect.Y + rect.Height, 0);
-			pts[3] = new Microsoft.DirectX.Vector3(rect.X, rect.Y + rect.Height, 0);
-			pts[4] = pts[0];
-
-			mLine.Begin();
-			mLine.DrawTransform(pts, GetTotalTransform(), color.ToArgb());
-			mLine.End();
+			mLines[0] = new CustomVertex.PositionColored(rect.X, rect.Y, 0, c);
+			mLines[1] = new CustomVertex.PositionColored(rect.Right, rect.Y, 0, c);
+			mLines[2] = new CustomVertex.PositionColored(rect.Right, rect.Bottom, 0, c);
+			mLines[3] = new CustomVertex.PositionColored(rect.X, rect.Bottom, 0, c);
+			mLines[4] = new CustomVertex.PositionColored(rect.X, rect.Y, 0, c);
+			
+			mDevice.VertexFormat = CustomVertex.PositionColored.Format;
+			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.LineStrip, 4, mLines);
 		}
 
 		public override void FillRect(Rectangle rect, Color color)
@@ -969,6 +947,10 @@ namespace AgateMDX
 			}
 			set
 			{
+				//value = Matrix4.Projection(45, 800 / 600f, 1f, 1000f);
+				var x = Microsoft.DirectX.Matrix.PerspectiveFovRH(
+					(float)(45 * Math.PI / 180), 800 / 600f, 1f, 1000f);
+
 				projection = value;
 				mDevice.Device.SetTransform(TransformType.Projection,
 					TransformAgateMatrix(value));
