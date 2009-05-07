@@ -86,8 +86,8 @@ namespace Tests.Display3D.Glsl
 				const float size = 25;
 
 				var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
-					File.ReadAllText("Data/shaders/glsl/BumpMap_vertex.txt"),
-					File.ReadAllText("Data/shaders/glsl/BumpMap_fragment.txt"));
+					File.ReadAllText("Data/shaders/hlsl/PerPixelLighting_vertex.txt"),
+					File.ReadAllText("Data/shaders/hlsl/PerPixelLighting_pixel.txt"));
 
 				//HeightMapTerrain b = new HeightMapTerrain(height.ReadPixels());
 				//b.Width = size;

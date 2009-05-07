@@ -1,31 +1,31 @@
-varying vec4 diffuse,ambientGlobal,ambient;
-varying vec3 normal,lightDir,halfVector;
-varying float dist;
+float4x4 worldViewProj;
 
-void main()
-{	
-	vec4 ecPos;
-	vec3 aux;
-	
-	normal = normalize(gl_NormalMatrix * gl_Normal);
-	
-	/* these are the new lines of code to compute the light's direction */
-	ecPos = gl_ModelViewMatrix * gl_Vertex;
-	aux = vec3(gl_LightSource[0].position-ecPos);
-	lightDir = normalize(aux);
-	dist = length(aux);
+struct VS_INPUT
+{
+	float3 position  : POSITION;
+	float4 color0    : COLOR0;
+	float2 texcoord0 : TEXCOORD0;
+};
 
-	halfVector = normalize(gl_LightSource[0].halfVector.xyz);
-	
-	/* Compute the diffuse, ambient and globalAmbient terms */
-	diffuse = gl_FrontMaterial.diffuse * gl_LightSource[0].diffuse;
-	
-	/* The ambient terms have been separated since one of them */
-	/* suffers attenuation */
-	ambient = gl_FrontMaterial.ambient * gl_LightSource[0].ambient;
-	ambientGlobal = gl_LightModel.ambient * gl_FrontMaterial.ambient;
-	
-		
-	gl_Position = ftransform();
-	gl_TexCoord[0] = gl_MultiTexCoord0;	
-} 
+struct VS_OUTPUT
+{
+	float4 hposition : POSITION;
+	float4 color0    : COLOR0;
+	float2 texcoord0 : TEXCOORD0;
+};
+
+VS_OUTPUT main( VS_INPUT IN )
+{
+	VS_OUTPUT OUT;
+
+	float4 v = float4( IN.position.x,
+		               IN.position.y,
+					   IN.position.z,
+					   1.0f );
+
+    OUT.hposition = mul( v, worldViewProj );
+    OUT.color0    = IN.color0;
+    OUT.texcoord0 = IN.texcoord0;
+
+    return OUT;
+}

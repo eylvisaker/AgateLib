@@ -34,5 +34,9 @@ namespace AgateLib.DisplayLib.Shaders
 		}
 
 		public VertexLayout VertexDefinition { get; set; }
+
+		public abstract void Render(RenderHandler handler, object obj);
 	}
+
+	public delegate void RenderHandler(object obj);
 }

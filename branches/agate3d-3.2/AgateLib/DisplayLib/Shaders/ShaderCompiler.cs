@@ -27,6 +27,10 @@ namespace AgateLib.DisplayLib.Shaders
 			impl = null;
 		}
 
+		public static ShaderProgram CompileEffect(ShaderLanguage language, string effectSource)
+		{
+			return impl.CompileEffect(language, effectSource);
+		}
 		public static ShaderProgram CompileShader(ShaderLanguage language, string vertexShaderSource, string pixelShaderSource)
 		{
 			return impl.CompileShader(language, vertexShaderSource, pixelShaderSource);
