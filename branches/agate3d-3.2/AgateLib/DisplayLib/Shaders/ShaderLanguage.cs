@@ -10,7 +10,7 @@ namespace AgateLib.DisplayLib.Shaders
 		Unknown,
 
 		Glsl,
-		// Hlsl,
+		Hlsl,
 		// Cg,
 
 	}

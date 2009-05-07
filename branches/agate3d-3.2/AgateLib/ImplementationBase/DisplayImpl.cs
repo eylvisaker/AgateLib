@@ -650,6 +650,5 @@ namespace AgateLib.ImplementationBase
 				ShaderCompiler.Disable();
 		}
 
-
 	}
 }

@@ -428,8 +428,7 @@ namespace AgateOTK
 				mSupportsShaders = true;
 			}
 
-			if (mSupportsShaders)
-				InitializeShaders();
+			InitializeShaders();
 
 			glInitialized = true;
 

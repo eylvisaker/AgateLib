@@ -46,7 +46,6 @@ namespace AgateMDX
 		Texture mTexture;
 		bool mAlphaBlend;
 
-
 		public DrawBuffer(D3DDevice device)
 		{
 			mDevice = device;

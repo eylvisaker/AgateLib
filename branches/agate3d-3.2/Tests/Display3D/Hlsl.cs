@@ -13,13 +13,13 @@ using AgateLib.InputLib;
 
 namespace Tests.Display3D.Glsl
 {
-	public class Glsl: IAgateTest 
+	public class Hlsl: IAgateTest 
 	{
 		#region IAgateTest Members
 
 		public string Name
 		{
-			get { return "Glsl (OpenGL only)"; }
+			get { return "Hlsl (Direct3D only)"; }
 		}
 
 		public string Category

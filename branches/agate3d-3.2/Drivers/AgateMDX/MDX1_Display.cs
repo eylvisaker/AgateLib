@@ -121,6 +121,7 @@ namespace AgateMDX
 
 			mDevice = new D3DDevice(device);
 
+			InitializeShaders();
 
 		}
 
@@ -238,6 +239,10 @@ namespace AgateMDX
 		public override FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
 		{
 			return BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
+		}
+		protected override ShaderCompilerImpl CreateShaderCompiler()
+		{
+			return new HlslCompiler(this);
 		}
 
 		#endregion
@@ -882,12 +887,12 @@ namespace AgateMDX
 		}
 		bool IDisplayCaps.SupportsShaders
 		{
-			get { return false; }
+			get { return true; }
 		}
 
 		AgateLib.DisplayLib.Shaders.ShaderLanguage IDisplayCaps.ShaderLanguage
 		{
-			get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Unknown; }
+			get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Hlsl; }
 		}
 
 		#endregion
