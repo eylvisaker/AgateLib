@@ -91,6 +91,11 @@ namespace AgateLib.Particles
 			if ( OnUpdate != null)
 				OnUpdate(new UpdateArgs(this, time_ms));
 			
+			foreach(Particle pt in Particles)
+			{
+				pt.Update(time_ms);
+			}
+			
 			base.Update (time_ms);
 		}
 		

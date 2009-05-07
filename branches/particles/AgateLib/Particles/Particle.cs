@@ -29,7 +29,7 @@ namespace AgateLib.Particles
 	public class Particle
 	{
 		private float mLife = 10f;
-		private bool mIsALive = false;
+		private Condition mCondition = Condition.Paused;
 		
 		private Vector2 mAcceleration = Vector2.Empty;
 		private Vector2 mPosition = Vector2.Empty;
@@ -46,11 +46,25 @@ namespace AgateLib.Particles
 		}
 		
 		/// <value>
-		/// Is particle dead.
+		/// Is particle alive.
 		/// </value>
 		public bool IsALive
 		{
-			get { return mIsALive; }
+			get {
+				if(mCondition == Condition.Dead)
+					return false;
+				else
+					return true;
+			}
+		}
+		
+		/// <value>
+		/// Gets or sets the condition.
+		/// </value>
+		public Condition Condition
+		{
+			get { return mCondition; }
+			set { mCondition = value; }
 		}
 		
 		/// <value>
@@ -88,20 +102,24 @@ namespace AgateLib.Particles
 		/// </param>
 		public virtual void Update(float time_ms)
 		{
+			// If the particle is not alive don't simulate
+			if(mCondition != Condition.ALive)
+				return;
+			
 			// passed time in seconds
 			float time = time_ms/1000;
 			mLife -= time;
 			
 			if(mLife <= 0)
 			{
-				mIsALive = false;
+				mCondition = Condition.Dead;
 			}
 			
 			// Euler method
 			// v = v + a * dt
 			// x = x + v * dt
-			// mVelocity = mVelocity + mAcceleration * time;
-			// mPosition = mPosition + mVelocity * time;			
+			mVelocity = mVelocity + mAcceleration * time;
+			mPosition = mPosition + mVelocity * time;
 			
 			// verlet integration
 			// xi+1 = xi + (xi - xi-1) + a * dt * dt
@@ -111,5 +129,28 @@ namespace AgateLib.Particles
 			// xi+1 = xi + (xi - xi-1) * (dti / dti-1) + a * dti * dti
 			// mPosition = mPosition + (mPosition - mPosition - 1) * (time / time - 1) + mAcceleration * time * time;
 		}
+	}
+	
+	/// <summary>
+	/// Describes the condition of an Particle
+	/// </summary>
+	public enum Condition
+	{
+		/// <summary>
+		/// Particle is alive and will be simulated.
+		/// </summary>
+		ALive,
+		/// <summary>
+		/// Particle is dead and is ready to get recycled.
+		/// </summary>
+		Dead,
+		/// <summary>
+		/// Particle is paused and will not be simulated.
+		/// </summary>
+		Paused,
+		/// <summary>
+		/// Particle is frozen and will not be simulated but drawn.
+		/// </summary>
+		Frozen
 	}
 }

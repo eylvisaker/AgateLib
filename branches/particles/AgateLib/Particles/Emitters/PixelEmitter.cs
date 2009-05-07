@@ -30,6 +30,7 @@ namespace AgateLib.Particles
 	public class PixelEmitter : ParticleEmitter
 	{
 		private Color mEmitColor = Color.White;
+		private float mEmitLife = 1f;
 		
 		private Surface drawSurf = new Surface(2, 2);
 		private float time = 0f;
@@ -41,6 +42,15 @@ namespace AgateLib.Particles
 		{
 			get { return mEmitColor; }
 			set { mEmitColor = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the life of particles which will be emitted in future.
+		/// </value>
+		public float EmitLife
+		{
+			get { return mEmitLife; }
+			set { mEmitLife = value; }
 		}
 		
 		/// <summary>
@@ -73,7 +83,7 @@ namespace AgateLib.Particles
 		{
 			foreach(PixelParticle ptl in Particles)
 			{
-				if(ptl.IsALive == true)
+				if(ptl.Condition == Condition.ALive || ptl.Condition == Condition.Frozen)
 				{
 					Display.DrawEllipse(new Rectangle((int)ptl.Position.X, (int)ptl.Position.Y, 2, 2), ptl.Color);
 					//drawSurf.Color = ptl.Color;
@@ -100,15 +110,20 @@ namespace AgateLib.Particles
 			{
 				// TODO: recyle dead particles
 				PixelParticle pp = new PixelParticle(EmitColor);
-				pp.Position = Position;	
-				pp.Life = 10f;
+				
+				pp.Acceleration = Vector2.Empty;
+				pp.Color = EmitColor;
+				pp.Condition = Condition.ALive;
+				pp.Life = EmitLife;
+				pp.Position = Position;
+				pp.Velocity = Vector2.Empty;
 				
 				Particles.Add(pp);
 				
 				time -= frequenzy;
 			}
 			
-			// updates own position and calls manipulators
+			// updates own position, particle positions and calls manipulators
 			base.Update (time_ms);
 		}
 	}
