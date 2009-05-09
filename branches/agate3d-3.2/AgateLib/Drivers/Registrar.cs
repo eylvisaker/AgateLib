@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -45,9 +46,30 @@ namespace AgateLib.Drivers
 		private static IDesktopDriver mDesktop;
 
 		private static readonly string[] KnownNativeLibraries = new string[]
-        {
-            "SDL.dll",
-        };
+		{
+			"SDL.dll",
+		};
+
+
+		static bool Contains(this List<AgateDriverInfo> list, DisplayTypeID type)
+		{
+			return list.Any(
+				x => comparator(x, DriverType.Display, (int)type));
+		}
+		static bool Contains(this List<AgateDriverInfo> list, AudioTypeID type)
+		{
+			return list.Any(
+				x => comparator(x, DriverType.Audio, (int)type));
+		}
+		static bool Contains(this List<AgateDriverInfo> list, InputTypeID type)
+		{
+			return list.Any(
+				x => comparator(x, DriverType.Input, (int)type));
+		}
+		static bool comparator(AgateDriverInfo info, DriverType driverType, int type)
+		{
+			return info.DriverType == driverType && info.DriverTypeID == type;
+		}
 
 		static Registrar()
 		{
@@ -199,19 +221,20 @@ namespace AgateLib.Drivers
 		/// <param name="selectedInput"></param>
 		/// <returns></returns>
 		internal static bool UserSelectDrivers(bool chooseDisplay, bool chooseAudio, bool chooseInput,
+			DisplayTypeID preferredDisplay, AudioTypeID preferredAudio, InputTypeID preferredInput,
 			out DisplayTypeID selectedDisplay, out AudioTypeID selectedAudio, out InputTypeID selectedInput)
 		{
 			if (mDesktop == null)
 			{
 				CreateDesktopDriver();
+
 				if (mDesktop == null)
 					SelectBestDrivers(chooseDisplay, chooseAudio, chooseInput,
+						preferredDisplay, preferredAudio, preferredInput,
 						out selectedDisplay, out selectedAudio, out selectedInput);
 			}
 
 			IUserSetSystems frm = mDesktop.CreateUserSetSystems();
-
-			frm.SetChoices(chooseDisplay, chooseAudio, chooseInput);
 
 			// set default values.
 			selectedDisplay = DisplayTypeID.AutoSelect;
@@ -231,6 +254,10 @@ namespace AgateLib.Drivers
 				frm.AddInputType(info);
 			}
 
+			frm.SetChoices(chooseDisplay, chooseAudio, chooseInput,
+				preferredDisplay, preferredAudio, preferredInput);
+
+			// run the dialog asking user which drivers to use.
 			if (frm.RunDialog() == SetSystemsDialogResult.Cancel)
 			{
 				return false;
@@ -245,17 +272,27 @@ namespace AgateLib.Drivers
 		}
 
 		private static void SelectBestDrivers(bool chooseDisplay, bool chooseAudio, bool chooseInput,
+			DisplayTypeID preferredDisplay, AudioTypeID preferredAudio, InputTypeID preferredInput,
 			out DisplayTypeID selectedDisplay, out AudioTypeID selectedAudio, out InputTypeID selectedInput)
 		{
+			// initial return values if a driver isn't selected.
 			selectedDisplay = DisplayTypeID.AutoSelect;
 			selectedAudio = AudioTypeID.AutoSelect;
 			selectedInput = InputTypeID.AutoSelect;
 
-			if (displayDrivers.Count > 0)
+			if (preferredDisplay != DisplayTypeID.AutoSelect && displayDrivers.Contains(preferredDisplay))
+				selectedDisplay = preferredDisplay;
+			else if (displayDrivers.Count > 0)
 				selectedDisplay = (DisplayTypeID)displayDrivers[0].DriverTypeID;
-			if (audioDrivers.Count > 0)
+
+			if (preferredAudio != AudioTypeID.AutoSelect && audioDrivers.Contains(preferredAudio))
+				selectedAudio = preferredAudio;
+			else if (audioDrivers.Count > 0)
 				selectedAudio = (AudioTypeID)audioDrivers[0].DriverTypeID;
-			if (inputDrivers.Count > 0)
+
+			if (preferredInput != InputTypeID.AutoSelect && inputDrivers.Contains(preferredInput))
+				selectedInput = preferredInput;
+			else if (inputDrivers.Count > 0)
 				selectedInput = (InputTypeID)inputDrivers[0].DriverTypeID;
 		}
 
@@ -408,6 +445,7 @@ namespace AgateLib.Drivers
 		{
 			get { return inputDrivers; }
 		}
+
 
 	}
 }

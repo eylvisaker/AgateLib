@@ -116,6 +116,7 @@ namespace Tests
 			finally
 			{
 				this.Show();
+				Cursor.Show();
 				this.TopMost = true;
 				this.TopMost = false;
 				this.Activate();

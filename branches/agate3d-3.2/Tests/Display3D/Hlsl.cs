@@ -59,11 +59,12 @@ namespace Tests.Display3D.Glsl
 		{
 			using (AgateSetup setup = new AgateSetup(args))
 			{
+				setup.PreferredDisplay = AgateLib.Drivers.DisplayTypeID.Direct3D_MDX_1_1;
 				setup.Initialize(true, false, false);
 				if (setup.WasCanceled)
 					return;
 
-				wind = DisplayWindow.CreateWindowed("GLSL", 800, 600);
+				wind = DisplayWindow.CreateWindowed("HLSL", 800, 600);
 				Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
 
 				FontSurface font = new FontSurface("Arial", 14.0f);

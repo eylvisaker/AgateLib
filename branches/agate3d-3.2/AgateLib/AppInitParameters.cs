@@ -23,5 +23,10 @@ namespace AgateLib
 		public bool InitializeDisplay { get; set; }
 		public bool InitializeAudio { get; set; }
 		public bool InitializeJoysticks { get; set; }
+
+		public Drivers.DisplayTypeID PreferredDisplay { get; set; }
+		public Drivers.AudioTypeID PreferredAudio { get; set; }
+		public Drivers.InputTypeID PreferredInput { get; set; }
+
 	}
 }

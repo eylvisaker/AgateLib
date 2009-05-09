@@ -71,18 +71,6 @@ namespace AgateLib.WinForms
 
 			Icon = FormUtil.AgateLibIcon;
 		}
-		/// <summary>
-		/// Constructs the form.  Specifies whether display, audio and input
-		/// should be allowed to be chosen.
-		/// </summary>
-		/// <param name="chooseDisplay"></param>
-		/// <param name="chooseAudio"></param>
-		/// <param name="chooseInput"></param>
-		public SetSystemsForm(bool chooseDisplay, bool chooseAudio, bool chooseInput)
-		{
-			InitializeComponent();
-
-		}
 
 		/// <summary>
 		/// Adds.
@@ -130,20 +118,57 @@ namespace AgateLib.WinForms
 			}
 		}
 
-		private void frmSetSystems_Load(object sender, EventArgs e)
-		{
-			SelectFirst(displayList);
-			SelectFirst(audioList);
-			SelectFirst(inputList);
-		}
-
 		private void SelectFirst(ComboBox theComboBox)
 		{
 			if (theComboBox.Items.Count > 0)
 				theComboBox.SelectedIndex = 0;
 		}
 
+		private void SelectItem(ComboBox theComboBox, int driverTypeID)
+		{
+			for (int i = 0; i < theComboBox.Items.Count; i++)
+			{
+				AgateDriverInfo item = (AgateDriverInfo)theComboBox.Items[i];
+
+				if (item.DriverTypeID == driverTypeID)
+				{
+					theComboBox.SelectedIndex = i;
+					return;
+				}
+			}
+
+			SelectFirst(theComboBox);
+		}
+
 		#region IUserSetSystems Members
+
+		public void SetChoices(bool chooseDisplay, bool chooseAudio, bool chooseInput, 
+			DisplayTypeID preferredDisplay, AudioTypeID preferredAudio, InputTypeID preferredInput)
+		{
+			mChooseDisplay = chooseDisplay;
+			mChooseAudio = chooseAudio;
+			mChooseInput = chooseInput;
+
+			displayList.Enabled = mChooseDisplay;
+			audioList.Enabled = mChooseAudio;
+			inputList.Enabled = mChooseInput;
+
+			if (preferredDisplay != DisplayTypeID.AutoSelect)
+				SelectItem(displayList, (int)preferredDisplay);
+			else
+				SelectFirst(displayList);
+
+			if (preferredAudio != AudioTypeID.AutoSelect)
+				SelectItem(audioList, (int)preferredAudio);
+			else
+				SelectFirst(audioList);
+
+			if (preferredInput != InputTypeID.AutoSelect)
+				SelectItem(inputList, (int)preferredInput);
+			else
+				SelectFirst(inputList);
+		}
+
 
 
 		public SetSystemsDialogResult RunDialog()
@@ -164,20 +189,7 @@ namespace AgateLib.WinForms
 			}
 		}
 
-		public void SetChoices(bool chooseDisplay, bool chooseAudio, bool chooseInput)
-		{
-			mChooseDisplay = chooseDisplay;
-			mChooseAudio = chooseAudio;
-			mChooseInput = chooseInput;
-
-			displayList.Enabled = mChooseDisplay;
-			audioList.Enabled = mChooseAudio;
-			inputList.Enabled = mChooseInput;
-		}
-
-
 		#endregion
-
 	}
 
 }

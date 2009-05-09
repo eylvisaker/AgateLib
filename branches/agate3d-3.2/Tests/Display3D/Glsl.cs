@@ -59,6 +59,7 @@ namespace Tests.Display3D.Glsl
 		{
 			using (AgateSetup setup = new AgateSetup(args))
 			{
+				setup.PreferredDisplay = AgateLib.Drivers.DisplayTypeID.OpenGL;
 				setup.Initialize(true, false, false);
 				if (setup.WasCanceled)
 					return;
