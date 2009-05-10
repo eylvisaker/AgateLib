@@ -19,11 +19,15 @@ namespace AgateMDX
 
 		public override ShaderProgram CompileEffect(ShaderLanguage language, string effectSource)
 		{
-			Direct3D.Effect effect = Direct3D.Effect.FromString(mDisplay.D3D_Device.Device,
-				effectSource, null, null, Direct3D.ShaderFlags.None, null);
-
-			return new HlslShaderProgram(effect);
+			throw new NotImplementedException();
 		}
+		//public override ShaderProgram CompileEffect(ShaderLanguage language, string effectSource)
+		//{
+		//    Direct3D.Effect effect = Direct3D.Effect.FromString(mDisplay.D3D_Device.Device,
+		//        effectSource, null, null, Direct3D.ShaderFlags.None, null);
+
+		//    return new HlslShaderProgram(effect);
+		//}
 		public override ShaderProgram CompileShader(ShaderLanguage language, string vertexShaderSource, string pixelShaderSource)
 		{
 			var vertexShaderStream = Direct3D.ShaderLoader.CompileShader(
@@ -38,9 +42,7 @@ namespace AgateMDX
 
 			var pixelShader = new Direct3D.PixelShader(mDisplay.D3D_Device.Device, pixelShaderStream);
 
-			throw new NotImplementedException();
-
-			//return new HlslShaderProgram();
+			return new HlslShaderProgram(vertexShader, pixelShader);
 		}
 	}
 }

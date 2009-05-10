@@ -1,7 +1,6 @@
 ﻿struct VS_OUTPUT
 {
 	float4 hposition : POSITION;
-	float4 color0    : COLOR0;
 	float2 texcoord0 : TEXCOORD0;
 };
 
@@ -16,8 +15,7 @@ PS_OUTPUT main( VS_OUTPUT IN )
 {
 	PS_OUTPUT OUT;
 
-	//OUT.color = tex2D( testTexture, IN.texcoord0 ) * IN.color0; // Modulate texel color with vertex color
-	OUT.color = tex2D( testTexture, IN.texcoord0 ) + IN.color0; // Add texel color to vertex color
+	OUT.color = tex2D( testTexture, IN.texcoord0 ); // Add texel color to vertex color
 
 	return OUT;
 }

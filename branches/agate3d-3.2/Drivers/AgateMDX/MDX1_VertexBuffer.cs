@@ -44,6 +44,10 @@ namespace AgateMDX
 				Direct3D.Pool.Managed);
 		}
 
+		public override VertexLayout VertexLayout
+		{
+			get { return mLayout; }
+		}
 		private Direct3D.VertexFormats CreateVertexFormats(VertexLayout layout)
 		{
 			Direct3D.VertexFormats retval = Microsoft.DirectX.Direct3D.VertexFormats.None;

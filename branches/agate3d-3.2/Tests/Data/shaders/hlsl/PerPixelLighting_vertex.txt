@@ -3,14 +3,15 @@ float4x4 worldViewProj;
 struct VS_INPUT
 {
 	float3 position  : POSITION;
-	float4 color0    : COLOR0;
 	float2 texcoord0 : TEXCOORD0;
+	float3 normal    : NORMAL;
+	float3 tangent   : TANGENT;
+	float3 bitangent : BINORMAL;
 };
-
+		
 struct VS_OUTPUT
 {
 	float4 hposition : POSITION;
-	float4 color0    : COLOR0;
 	float2 texcoord0 : TEXCOORD0;
 };
 
@@ -24,7 +25,6 @@ VS_OUTPUT main( VS_INPUT IN )
 					   1.0f );
 
     OUT.hposition = mul( v, worldViewProj );
-    OUT.color0    = IN.color0;
     OUT.texcoord0 = IN.texcoord0;
 
     return OUT;

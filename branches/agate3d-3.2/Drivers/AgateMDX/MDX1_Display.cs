@@ -792,12 +792,10 @@ namespace AgateMDX
 		{
 			mDevice.DrawBuffer.Flush();
 		}
-
 		public override void SetOrthoProjection(Rectangle region)
 		{
 			mDevice.SetOrthoProjection(region);
 		}
-
 		public override void DoLighting(LightManager lights)
 		{
 			FlushDrawBuffer();
@@ -996,6 +994,26 @@ namespace AgateMDX
 			return TransformAgateMatrix(MatrixProjection * MatrixView * MatrixWorld);
 		}
 
+		HlslShaderProgram mShader;
+
+		public override AgateLib.DisplayLib.Shaders.ShaderProgram Shader
+		{
+			get
+			{
+				return mShader;
+			}
+			set
+			{
+				if (mShader == value)
+					return;
+
+				mShader = (HlslShaderProgram) value;
+
+				mDevice.Device.VertexShader = mShader.HlslVertexShader;
+				mDevice.Device.PixelShader = mShader.HlslPixelShader;
+
+			}
+		}
 		#endregion
 
 		#region --- IPlatformServices Members ---
