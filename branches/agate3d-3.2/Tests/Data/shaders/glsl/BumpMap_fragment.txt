@@ -1,6 +1,10 @@
-varying vec4 diffuse,ambientGlobal, ambient;
-varying vec3 normal,lightDir,halfVector;
-varying float dist;
+#version 130
+
+precision highp float;
+
+in vec4 diffuse,ambientGlobal, ambient;
+in vec3 normal,lightDir,halfVector;
+in float dist;
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 
@@ -35,6 +39,7 @@ void main()
 		NdotHV = max(dot(n,halfV),0.0);
 		color += att * gl_FrontMaterial.specular * gl_LightSource[0].specular * 
 						pow(NdotHV,gl_FrontMaterial.shininess);
+						
 	}
 	
 	vec4 texcolor = texture2D(texture0,gl_TexCoord[0].st);

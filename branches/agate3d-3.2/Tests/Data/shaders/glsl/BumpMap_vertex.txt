@@ -1,10 +1,13 @@
+#version 130
 
-attribute vec3 tangent; //The inverse tangent to the geometry
-attribute vec3 bitangent; //The inverse binormal to the geometry
+precision highp float;
 
-varying vec4 diffuse,ambientGlobal,ambient;
-varying vec3 normal,lightDir,halfVector;
-varying float dist;
+in vec3 tangent; //The inverse tangent to the geometry
+in vec3 bitangent; //The inverse binormal to the geometry
+
+out vec4 diffuse,ambientGlobal,ambient;
+out vec3 normal,lightDir,halfVector;
+out float dist;
 
 void main()
 {
