@@ -8,9 +8,9 @@ using OpenTK.Graphics;
 
 namespace AgateOTK
 {
-	class GlslShaderCompiler : ShaderCompilerImpl
+	class ArbShaderCompiler : ShaderCompilerImpl
 	{
-		public GlslShaderCompiler()
+		public ArbShaderCompiler()
 		{
 		}
 
@@ -27,27 +27,14 @@ namespace AgateOTK
 
 		private ShaderProgram LinkPrograms(GlslVertexProgram vert, GlslFragmentProgram frag)
 		{
-			int program = GL.CreateProgram();
+			int program = GL.Arb.CreateProgramObject();
 
-			GL.AttachShader(program, vert.ShaderHandle);
-			GL.AttachShader(program, frag.ShaderHandle);
+			GL.Arb.AttachObject(program, vert.ShaderHandle);
+			GL.Arb.AttachObject(program, frag.ShaderHandle);
 
-			GL.LinkProgram(program);
+			GL.Arb.LinkProgram(program);
 
-			GL.ValidateProgram(program);
-
-			int status;
-			GL.GetProgram(program, ProgramParameter.ValidateStatus, out status);
-
-			if (status == 0)
-			{
-				string info;
-				GL.GetProgramInfoLog(program, out info);
-
-				throw new AgateLib.AgateException("Failed to validate GLSL shader program.\n{0}", info);
-			}
-
-			return new GlslShader(program, vert, frag);
+			return new ArbShader(program, vert, frag);
 		}
 
 		private GlslVertexProgram CompileVertexProgram(string vertexShaderSource)
@@ -64,22 +51,18 @@ namespace AgateOTK
 		{
 			int shaderHandle;
 
-			shaderHandle = GL.CreateShader(type);
+			if (type == ShaderType.VertexShader)
+				shaderHandle = GL.Arb.CreateShaderObject((ArbShaderObjects)0x8B31);
+			else
+				shaderHandle = GL.Arb.CreateShaderObject((ArbShaderObjects)0x8B30);
 
-			GL.ShaderSource(shaderHandle, source);
-			GL.CompileShader(shaderHandle);
+			string[] src = new string[1] { source };
 
-			int status;
-			GL.GetShader(shaderHandle, ShaderParameter.CompileStatus, out status);
-
-			if (status == 0)
+			unsafe
 			{
-				string info;
-				GL.GetShaderInfoLog(shaderHandle, out info);
-
-				throw new AgateLib.AgateException("Failed to compile {0} shader.\n{1}",
-					type, info);
+				GL.Arb.ShaderSource(shaderHandle, 1, src, (int*)IntPtr.Zero);
 			}
+			GL.Arb.CompileShader(shaderHandle);
 
 			return shaderHandle;
 		}

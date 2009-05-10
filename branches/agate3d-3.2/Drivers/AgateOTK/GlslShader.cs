@@ -243,5 +243,10 @@ namespace AgateOTK
 			}
 		}
 
+
+		public override void Render(RenderHandler handler, object obj)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

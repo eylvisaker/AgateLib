@@ -56,5 +56,10 @@ namespace AgateOTK
 		public override void SetUniform(string name, AgateLib.Geometry.Matrix4 matrix)
 		{
 		}
+
+		public override void Render(RenderHandler handler, object obj)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

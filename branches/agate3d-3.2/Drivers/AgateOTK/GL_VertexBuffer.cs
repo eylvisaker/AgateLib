@@ -247,5 +247,10 @@ namespace AgateOTK
 				return VertexLayout.SizeOf(d.DataType);
 			}
 		}
+
+		public override VertexLayout VertexLayout
+		{
+			get { return mLayout; }
+		}
 	}
 }

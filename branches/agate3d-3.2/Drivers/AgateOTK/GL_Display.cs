@@ -44,6 +44,7 @@ namespace AgateOTK
 		private bool mSupportsFramebuffer;
 		private bool mNonPowerOf2Textures;
 		private bool mSupportsShaders;
+		private decimal mGLVersion;
 
 		public bool NonPowerOf2Textures
 		{
@@ -399,20 +400,20 @@ namespace AgateOTK
 			GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
 				HintMode.Nicest);
 
+			string vendor = GL.GetString(StringName.Vendor);
 			string versionString = GL.GetString(StringName.Version);
-			double version = double.Parse(versionString.Substring(0, 3));
 			string ext = GL.GetString(StringName.Extensions);
+
+			mGLVersion = decimal.Parse(versionString.Substring(0, 3));
 			mSupportsShaders = false;
 
-			// don't want stupid floating point comparision to improperly fail here.
-			if (version >= 1.9999)  // version 2
+			if (mGLVersion >= 2m)
 			{
 				mSupportsFramebuffer = true;
 				mNonPowerOf2Textures = true;
 				mSupportsShaders = true;
-
 			}
-			else if (version >= 1.49999) // version 1.5
+			else if (mGLVersion >= 1.5m)
 			{
 				mSupportsFramebuffer = true;
 				mNonPowerOf2Textures = true;
@@ -483,7 +484,7 @@ namespace AgateOTK
 			GL.Enable(EnableCap.Lighting);
 
 			SetArray(array, lights.Ambient);
-			GL.LightModelv(LightModelParameter.LightModelAmbient, array);
+			GL.LightModel(LightModelParameter.LightModelAmbient, array);
 
 			GL.Enable(EnableCap.ColorMaterial);
 			GL.ColorMaterial(MaterialFace.FrontAndBack,
@@ -509,13 +510,13 @@ namespace AgateOTK
 				GL.Enable(lightID);
 
 				SetArray(array, lights[i].Diffuse);
-				GL.Lightv(lightName, LightParameter.Diffuse, array);
+				GL.Light(lightName, LightParameter.Diffuse, array);
 
 				SetArray(array, lights[i].Ambient);
-				GL.Lightv(lightName, LightParameter.Ambient, array);
+				GL.Light(lightName, LightParameter.Ambient, array);
 
 				SetArray(array, lights[i].Position);
-				GL.Lightv(lightName, LightParameter.Position, array);
+				GL.Light(lightName, LightParameter.Position, array);
 
 				GL.Light(lightName, LightParameter.ConstantAttenuation, lights[i].AttenuationConstant);
 				GL.Light(lightName, LightParameter.LinearAttenuation, lights[i].AttenuationLinear);
@@ -547,7 +548,10 @@ namespace AgateOTK
 		{
 			if (this.Caps.SupportsShaders)
 			{
-				return new GlslShaderCompiler();
+				if (mGLVersion < 2.0m)
+					return new ArbShaderCompiler();
+				else
+					return new GlslShaderCompiler();
 			}
 			else
 				return base.CreateShaderCompiler();
