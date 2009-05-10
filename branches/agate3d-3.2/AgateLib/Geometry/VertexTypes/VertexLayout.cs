@@ -32,10 +32,6 @@ namespace AgateLib.Geometry.VertexTypes
 		{
 			return items.Any(x => x.ElementType == element);
 		}
-		public bool ContainsElement(string attributeName)
-		{
-			return items.Any(x => x.ElementType == VertexElement.Attribute && x.AttributeString == attributeName);
-		}
 		public int ElementByteIndex(VertexElement element)
 		{
 			int size = 0;
@@ -49,24 +45,6 @@ namespace AgateLib.Geometry.VertexTypes
 			}
 
 			throw new AgateException("Could not find the element {0} in the vertex layout.", element);
-		}
-		public int ElementByteIndex(string attributeName)
-		{
-
-			int size = 0;
-
-			for (int i = 0; i < Count; i++)
-			{
-				if (this[i].ElementType == VertexElement.Attribute &&
-					this[i].AttributeString == attributeName)
-				{
-					return size;
-				}
-
-				size += SizeOf(this[i].DataType);
-			}
-
-			throw new AgateException("Could not find the attribute {0} in the vertex layout.", attributeName);
 		}
 
 		public static int SizeOf(VertexElementDataType vertexElementType)
@@ -185,23 +163,17 @@ namespace AgateLib.Geometry.VertexTypes
 	public class VertexElementDesc
 	{
 		VertexElement mDef;
-		string mAttributeString;
 
 		public VertexElementDesc(VertexElementDataType type, VertexElement def)
 		{
-			if (def == VertexElement.Attribute)
-				throw new AgateException("Use the (VertexMemberType, string) overload instead.");
-
 			DataType = type;
 			ElementType = def;
 		}
-		public VertexElementDesc(VertexElementDataType type, string attributeName)
-		{
-			DataType = type;
-			ElementType = VertexElement.Attribute;
-			AttributeString = attributeName;
-		}
 
+		public override string ToString()
+		{
+				return ElementType.ToString();
+		}
 		public VertexElementDataType DataType { get; private set; }
 		public VertexElement ElementType
 		{
@@ -209,19 +181,6 @@ namespace AgateLib.Geometry.VertexTypes
 			private set
 			{
 				mDef = value;
-
-				if (mDef != VertexElement.Attribute)
-					mAttributeString = null;
-			}
-		}
-
-		public string AttributeString
-		{
-			get { return mAttributeString; }
-			private set
-			{
-				mAttributeString = value;
-				mDef = VertexElement.Attribute;
 			}
 		}
 
@@ -249,6 +208,5 @@ namespace AgateLib.Geometry.VertexTypes
 		Texture1,
 		Texture2,
 		Texture3,
-		Attribute,
 	}
 }

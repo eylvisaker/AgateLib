@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Geometry.VertexTypes;
 
 namespace AgateLib.ImplementationBase
 {
@@ -22,5 +23,7 @@ namespace AgateLib.ImplementationBase
 
 		public abstract void Draw(int start, int count);
 		public abstract void DrawIndexed(IndexBuffer indexbuffer, int start, int count);
+
+		public abstract VertexLayout VertexLayout { get; }
 	}
 }

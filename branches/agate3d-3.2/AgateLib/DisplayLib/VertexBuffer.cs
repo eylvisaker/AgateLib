@@ -70,6 +70,11 @@ namespace AgateLib.DisplayLib
 		{
 			get { return impl.Textures; }
 		}
+
+		public VertexLayout VertexLayout
+		{
+			get { return impl.VertexLayout; }
+		}
 	}
 
 	public class TextureList
