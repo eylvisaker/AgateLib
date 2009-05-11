@@ -9,6 +9,7 @@ namespace Tests
 {
 	class Launcher
 	{
+		[STAThread]
 		public static void Main(string[] args)
 		{
 			AgateFileProvider.Assemblies.AddPath("../Drivers");
