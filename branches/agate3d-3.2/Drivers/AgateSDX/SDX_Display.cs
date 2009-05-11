@@ -269,12 +269,7 @@ namespace AgateMDX
 		protected override void OnEndFrame()
 		{
 			mDevice.DrawBuffer.Flush();
-
-			while (mClipRects.Count > 0)
-				PopClipRect();
-
 			mRenderTarget.EndRender();
-
 		}
 
 		#endregion
@@ -311,27 +306,18 @@ namespace AgateMDX
 			view.Y = newClipRect.Y;
 			view.Width = newClipRect.Width;
 			view.Height = newClipRect.Height;
+			view.MinZ = 0;
+			view.MaxZ = 1;
 
-			//mDevice.Device.Viewport = view;
+			if (view.Width == 0 || view.Height == 0)
+			{
+				throw new AgateLib.AgateException("Cannot set a cliprect with a width / height of zero.");
+			}
+
+			mDevice.Device.Viewport = view;
 			mCurrentClipRect = newClipRect;
 			
 			SetOrthoProjection(newClipRect);
-		}
-		public override void PushClipRect(Rectangle newClipRect)
-		{
-			mClipRects.Push(mCurrentClipRect);
-			SetClipRect(newClipRect);
-		}
-		public override void PopClipRect()
-		{
-			if (mClipRects.Count == 0)
-			{
-				throw new Exception("You have popped the cliprect too many times.");
-			}
-			else
-			{
-				SetClipRect(mClipRects.Pop());
-			}
 		}
 
 		private Stack<Rectangle> mClipRects = new Stack<Rectangle>();

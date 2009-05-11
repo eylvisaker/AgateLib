@@ -261,12 +261,7 @@ namespace AgateMDX
 		protected override void OnEndFrame()
 		{
 			mDevice.DrawBuffer.Flush();
-
-			while (mClipRects.Count > 0)
-				PopClipRect();
-
 			mRenderTarget.EndRender();
-
 		}
 
 		#endregion
@@ -305,30 +300,12 @@ namespace AgateMDX
 			view.Height = newClipRect.Height;
 
 			mDevice.Device.Viewport = view;
-			mCurrentClipRect = newClipRect;
 			
 			SetOrthoProjection(newClipRect);
 		}
-		public override void PushClipRect(Rectangle newClipRect)
-		{
-			mClipRects.Push(mCurrentClipRect);
-			SetClipRect(newClipRect);
-		}
-		public override void PopClipRect()
-		{
-			if (mClipRects.Count == 0)
-			{
-				throw new Exception("You have popped the cliprect too many times.");
-			}
-			else
-			{
-				SetClipRect(mClipRects.Pop());
-			}
-		}
+		
 
-		private Stack<Rectangle> mClipRects = new Stack<Rectangle>();
-		private Rectangle mCurrentClipRect;
-
+		
 		#endregion
 		#region --- Methods for drawing to the back buffer ---
 

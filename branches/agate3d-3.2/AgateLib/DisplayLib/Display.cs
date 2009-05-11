@@ -61,7 +61,9 @@ namespace AgateLib.DisplayLib
 		private static DisplayImpl impl;
 		private static DisplayWindow mCurrentWindow;
 		private static SurfacePacker mSurfacePacker;
-
+		private static Rectangle mCurrentClipRect;
+		private static Stack<Rectangle> mClipRects = new Stack<Rectangle>();
+		
 		/// <summary>
 		/// Gets the object which handles all of the actual calls to Display functions.
 		/// This may be cast to a surface object in whatever rendering library
@@ -318,15 +320,24 @@ namespace AgateLib.DisplayLib
 		/// <param name="newClipRect"></param>
 		public static void PushClipRect(Rectangle newClipRect)
 		{
-			impl.PushClipRect(newClipRect);
+			mClipRects.Push(mCurrentClipRect);
+			SetClipRect(newClipRect);
 		}
 		/// <summary>
 		/// Pops the clip rect and restores the previous clip rect.
 		/// </summary>
 		public static void PopClipRect()
 		{
-			impl.PopClipRect();
+			if (mClipRects.Count == 0)
+			{
+				throw new Exception("You have popped the cliprect too many times.");
+			}
+			else
+			{
+				SetClipRect(mClipRects.Pop());
+			}
 		}
+
 		/// <summary>
 		/// Returns the maximum size a surface object can be.
 		/// </summary>

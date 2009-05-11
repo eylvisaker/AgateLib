@@ -173,20 +173,6 @@ namespace AgateOTK
 			mCurrentClip = newClipRect;
 		}
 
-		public override void PushClipRect(Rectangle newClipRect)
-		{
-			mClipRects.Push(mCurrentClip);
-
-			SetClipRect(newClipRect);
-		}
-
-		public override void PopClipRect()
-		{
-			SetClipRect(mClipRects.Peek());
-
-			mClipRects.Pop();
-		}
-
 		public override void FlushDrawBuffer()
 		{
 			mState.DrawBuffer.Flush();

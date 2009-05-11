@@ -237,7 +237,7 @@ namespace AgateLib
 			Surface powered = InternalResources.Data.PoweredBy;
 			Size size = powered.SurfaceSize;
 
-			int left = (int)(totalSplashTime * size.Width - size.Width);
+			int left = (int)(totalSplashTime * size.Width - size.Width)+1;
 			Rectangle gradientRect = new Rectangle(left, MainWindow.Height - size.Height,
 				size.Width, size.Height);
 

@@ -321,22 +321,13 @@ namespace AgateLib.ImplementationBase
 		/// </summary>
 		public abstract Size MaxSurfaceSize { get; }
 
-		#region --- Clip Rect stuff ---
+		#region --- SetClipRect ---
 
 		/// <summary>
 		/// Set the current clipping rect.
 		/// </summary>
 		/// <param name="newClipRect"></param>
 		public abstract void SetClipRect(Rectangle newClipRect);
-		/// <summary>
-		/// Pushes a clip rect onto the clip rect stack.
-		/// </summary>
-		/// <param name="newClipRect"></param>
-		public abstract void PushClipRect(Rectangle newClipRect);
-		/// <summary>
-		/// Pops the clip rect and restores the previous clip rect.
-		/// </summary>
-		public abstract void PopClipRect();
 
 		#endregion
 		#region --- Direct modification of the back buffer ---

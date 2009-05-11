@@ -42,9 +42,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 
 		private bool mInFrame = false;
 
-		private Stack<Geometry.Rectangle> mClipRects = new Stack<Geometry.Rectangle>();
-		private Geometry.Rectangle mCurrentClipRect;
-
 		#endregion
 
 		#region --- Events and Event Handlers ---
@@ -207,9 +204,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 			mGraphics.Dispose();
 			mGraphics = null;
 
-			while (mClipRects.Count > 0)
-				PopClipRect();
-
 			Drawing_IRenderTarget renderTarget = RenderTarget.Impl as Drawing_IRenderTarget;
 			renderTarget.EndRender();
 
@@ -220,21 +214,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		public override void SetClipRect(Geometry.Rectangle newClipRect)
 		{
 			mGraphics.SetClip(Interop.Convert(newClipRect));
-			mCurrentClipRect = newClipRect;
-		}
-		public override void PushClipRect(Geometry.Rectangle newClipRect)
-		{
-			mClipRects.Push(mCurrentClipRect);
-			SetClipRect(newClipRect);
-		}
-		public override void PopClipRect()
-		{
-#if DEBUG
-			if (mClipRects.Count == 0)
-				throw new Exception("The cliprect has been popped too many times.");
-#endif
-
-			SetClipRect(mClipRects.Pop());
 		}
 
 
