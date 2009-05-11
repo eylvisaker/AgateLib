@@ -24,7 +24,7 @@ using SlimDX.DirectInput;
 using AgateLib.Drivers;
 using AgateLib.ImplementationBase;
 
-namespace AgateMDX
+namespace AgateSDX
 {
 	public class SDX_Input : InputImpl
 	{

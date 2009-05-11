@@ -36,7 +36,7 @@ using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
 using Direct3D = SlimDX.Direct3D9;
 using Surface = AgateLib.DisplayLib.Surface;
 
-namespace AgateMDX
+namespace AgateSDX
 {
 
 	public class SDX_Surface : SurfaceImpl, SDX_IRenderTarget

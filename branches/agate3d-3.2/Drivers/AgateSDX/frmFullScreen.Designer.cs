@@ -16,7 +16,7 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-namespace AgateMDX
+namespace AgateSDX
 {
 	partial class frmFullScreen
 	{

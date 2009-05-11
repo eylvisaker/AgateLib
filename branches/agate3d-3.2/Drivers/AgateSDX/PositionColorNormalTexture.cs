@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 using SlimDX;
 using SlimDX.Direct3D9;
 
-namespace AgateMDX
+namespace AgateSDX
 {
 	[StructLayout(LayoutKind.Sequential)]
 	public struct PositionColorNormalTexture

@@ -27,7 +27,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.WinForms;
 
-namespace AgateMDX
+namespace AgateSDX
 {
 	public class D3DDevice : IDisposable
 	{

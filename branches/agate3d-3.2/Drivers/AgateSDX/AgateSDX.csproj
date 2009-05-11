@@ -120,6 +120,8 @@
     <Compile Include="HlslShaderProgram.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SDX_Input.cs" />
+    <Compile Include="SDX_Audio.cs" />
     <Compile Include="PositionColorNormalTexture.cs">
       <SubType>Code</SubType>
     </Compile>

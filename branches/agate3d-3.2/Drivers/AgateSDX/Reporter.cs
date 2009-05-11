@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.Drivers;
 
-namespace AgateMDX
+namespace AgateSDX
 {
 	class Reporter : AgateDriverReporter
 	{
@@ -33,11 +33,11 @@ namespace AgateMDX
 				"SlimDX - Direct3D 9",
 				500);
 
-			//yield return new AgateDriverInfo(
-			//    AudioTypeID.DirectSound,
-			//    typeof(MDX1_Audio),
-			//    "SlimDX - DirectSound",
-			//    100);
+			yield return new AgateDriverInfo(
+				AudioTypeID.XAudio2,
+				typeof(SDX_Audio),
+				"SlimDX - DirectSound",
+				100);
 
 			yield return new AgateDriverInfo(
 				InputTypeID.DirectInput,

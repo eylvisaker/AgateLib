@@ -33,7 +33,7 @@ using AgateLib.WinForms;
 using Vector2 = SlimDX.Vector2;
 using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
 
-namespace AgateMDX
+namespace AgateSDX
 {
 	public class SDX_Display : DisplayImpl, IDisplayCaps, AgateLib.PlatformSpecific.IPlatformServices
 	{

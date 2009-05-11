@@ -25,7 +25,7 @@ using SlimDX.Direct3D9;
 using Direct3D = SlimDX.Direct3D9;
 using AgateLib.DisplayLib;
 
-namespace AgateMDX
+namespace AgateSDX
 {
 	/// <summary>
 	/// Perhaps at some point this should be converted to use a vertex buffer

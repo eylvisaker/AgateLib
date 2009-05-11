@@ -6,7 +6,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using Direct3D = SlimDX.Direct3D9;
 
-namespace AgateMDX
+namespace AgateSDX
 {
 	class HlslShaderProgram : ShaderProgram 
 	{

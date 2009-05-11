@@ -32,7 +32,7 @@ using AgateLib.ImplementationBase;
 using AgateLib.InputLib;
 using AgateLib.WinForms;
 
-namespace AgateMDX
+namespace AgateSDX
 {
 	public class SDX_DisplayWindow : DisplayWindowImpl, SDX_IRenderTarget
 	{

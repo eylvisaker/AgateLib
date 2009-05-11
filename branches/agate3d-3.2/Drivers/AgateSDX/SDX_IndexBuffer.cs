@@ -6,7 +6,7 @@ using AgateLib.DisplayLib;
 using AgateLib.ImplementationBase;
 using Direct3D = SlimDX.Direct3D9;
 
-namespace AgateMDX
+namespace AgateSDX
 {
 	class SDX_IndexBuffer : IndexBufferImpl 
 	{
