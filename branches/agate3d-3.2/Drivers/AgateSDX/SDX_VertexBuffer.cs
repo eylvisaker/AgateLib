@@ -238,7 +238,7 @@ namespace AgateMDX
 
 		public override void Write<T>(T[] vertices) 
 		{
-			var stream = mBuffer.Lock(0, 0, SlimDX.Direct3D9.LockFlags.Discard);
+			var stream = mBuffer.Lock(0, 0, 0);
 			stream.WriteRange(vertices);
 			mBuffer.Unlock();
 		}

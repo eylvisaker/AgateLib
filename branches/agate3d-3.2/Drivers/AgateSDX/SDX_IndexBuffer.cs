@@ -61,7 +61,7 @@ namespace AgateMDX
 
 		public override void WriteIndices(int[] indices)
 		{
-			var data = mBuffer.Lock(0, 0, SlimDX.Direct3D9.LockFlags.Discard);
+			var data = mBuffer.Lock(0, 0, 0);
 			data.WriteRange(indices);
 			mBuffer.Unlock();
 
@@ -70,7 +70,7 @@ namespace AgateMDX
 
 		public override void WriteIndices(short[] indices)
 		{
-			var data = mBuffer.Lock(0, 0, SlimDX.Direct3D9.LockFlags.Discard);
+			var data = mBuffer.Lock(0, 0, 0);
 			data.WriteRange(indices);
 			mBuffer.Unlock();
 
