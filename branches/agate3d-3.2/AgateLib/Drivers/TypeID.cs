@@ -50,6 +50,11 @@ namespace AgateLib.Drivers
 		Reference = 1,
 
 		/// <summary>
+		/// Driver Implementation using SlimDX.
+		/// </summary>
+		Direct3D9_SDX = 0x120,
+
+		/// <summary>
 		/// Driver Implementation using Managed DirectX 1.1.
 		/// </summary>
 		Direct3D_MDX_1_1 = 0x100,
