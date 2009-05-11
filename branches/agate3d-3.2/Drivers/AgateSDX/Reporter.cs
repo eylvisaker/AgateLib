@@ -36,14 +36,14 @@ namespace AgateMDX
 			//yield return new AgateDriverInfo(
 			//    AudioTypeID.DirectSound,
 			//    typeof(MDX1_Audio),
-			//    "Managed DirectX 1.1 - DirectSound",
+			//    "SlimDX - DirectSound",
 			//    100);
 
-			//yield return new AgateDriverInfo(
-			//    InputTypeID.DirectInput,
-			//    typeof(MDX1_Input),
-			//    "Managed DirectX 1.1 - DirectInput",
-			//    100);
+			yield return new AgateDriverInfo(
+				InputTypeID.DirectInput,
+				typeof(SDX_Input),
+				"SlimDX - DirectInput",
+				100);
 		}
 	}
 }
