@@ -26,7 +26,7 @@ namespace AgateLib.DisplayLib
 			impl = Display.Impl.CreateVertexBuffer(layout, vertexCount);
 		}
 
-		public void WriteVertexData<T>(T[] data)
+		public void WriteVertexData<T>(T[] data) where T:struct 
 		{
 			impl.Write(data);
 		}

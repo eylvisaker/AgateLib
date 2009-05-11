@@ -14,7 +14,7 @@ namespace AgateLib.ImplementationBase
 			Textures = new TextureList();
 		}
 
-		public abstract void Write<T>(T[] vertices);
+		public abstract void Write<T>(T[] vertices) where T:struct;
 
 		public abstract int VertexCount { get; }
 
