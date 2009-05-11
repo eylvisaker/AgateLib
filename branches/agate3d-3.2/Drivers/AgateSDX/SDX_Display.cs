@@ -88,7 +88,7 @@ namespace AgateMDX
 			mInitialized = true;
 
 			// ok, create D3D device
-			PresentParameters present = CreateWindowedPresentParameters(window, 0, 0);
+			PresentParameters present = CreateWindowedPresentParameters(window, 0, 0, 32);
 
 			DeviceType dtype = DeviceType.Hardware;
 
@@ -495,7 +495,8 @@ namespace AgateMDX
 		{
 			if (fullScreen == true)
 			{
-				PresentParameters present = CreateFullScreenPresentParameters(displayWindow, width, height, bpp);
+				PresentParameters present = 
+					CreateFullScreenPresentParameters(displayWindow, width, height, bpp);
 
 				OnDeviceAboutToReset();
 
@@ -507,7 +508,8 @@ namespace AgateMDX
 			}
 			else
 			{
-				PresentParameters present = CreateWindowedPresentParameters(displayWindow, width, height);
+				PresentParameters present =
+					CreateWindowedPresentParameters(displayWindow, width, height, bpp);
 
 				if (displayWindow.mSwap != null && displayWindow.IsFullScreen == true)
 				{
@@ -524,7 +526,7 @@ namespace AgateMDX
 					System.Diagnostics.Debug.Print("{0} Windowed mode success.", DateTime.Now);
 
 
-					present = CreateWindowedPresentParameters(displayWindow, width, height);
+					present = CreateWindowedPresentParameters(displayWindow, width, height, bpp);
 
 				}
 
@@ -535,7 +537,7 @@ namespace AgateMDX
 		private PresentParameters CreateFullScreenPresentParameters(SDX_DisplayWindow displayWindow,
 			int width, int height, int bpp)
 		{
-			PresentParameters present = CreateBasePresentParams(displayWindow);
+			PresentParameters present = CreateBasePresentParams(displayWindow, bpp);
 
 			present.SwapEffect = SwapEffect.Flip;
 			present.Windowed = false;
@@ -546,14 +548,14 @@ namespace AgateMDX
 		}
 
 		private PresentParameters CreateWindowedPresentParameters(SDX_DisplayWindow displayWindow,
-			int width, int height)
+			int width, int height, int bpp)
 		{
-			PresentParameters present = CreateBasePresentParams(displayWindow);
+			PresentParameters present = CreateBasePresentParams(displayWindow, bpp);
 
 			return present;
 		}
 
-		private PresentParameters CreateBasePresentParams(SDX_DisplayWindow displayWindow)
+		private PresentParameters CreateBasePresentParams(SDX_DisplayWindow displayWindow, int bpp)
 		{
 			PresentParameters present = new PresentParameters();
 
@@ -563,7 +565,7 @@ namespace AgateMDX
 			present.DeviceWindowHandle = displayWindow.RenderTarget.Handle;
 			present.BackBufferWidth = displayWindow.Width;
 			present.BackBufferHeight = displayWindow.Height;
-			present.BackBufferFormat = Format.Unknown;
+			present.BackBufferFormat = GetDisplayModeTrialPixelFormat(bpp);
 			present.SwapEffect = SwapEffect.Discard;
 			present.Windowed = true;
 
@@ -797,6 +799,10 @@ namespace AgateMDX
 				case Format.R8G8B8:
 					return 3;
 
+				case Format.R5G6B5:
+				case Format.X1R5G5B5:
+					return 2;
+
 				default:
 					throw new NotSupportedException("Format not supported.");
 			}
@@ -817,7 +823,7 @@ namespace AgateMDX
 		}
 		public override PixelFormat DefaultSurfaceFormat
 		{
-			get { return PixelFormat.RGBA8888; }
+			get { return GetPixelFormat(DisplayMode.Format); }
 		}
 
 		public override void FlushDrawBuffer()
@@ -925,12 +931,12 @@ namespace AgateMDX
 			get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Hlsl; }
 		}
 
-		#endregion
-
 		bool IDisplayCaps.CanCreateBitmapFont
 		{
 			get { return true; }
 		}
+
+		#endregion
 
 		#region --- 3D stuff ---
 

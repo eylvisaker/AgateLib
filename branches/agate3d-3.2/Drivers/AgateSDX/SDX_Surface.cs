@@ -207,7 +207,7 @@ namespace AgateMDX
 			//mTexture = new Texture(mDevice, bitmap, Usage.None, Pool.Managed);
 			Format format;
 
-			
+
 			switch (mDisplay.DisplayMode.Format)
 			{
 				case Format.X8R8G8B8:
@@ -525,7 +525,7 @@ namespace AgateMDX
 
 			throw new NotImplementedException();
 			//SurfaceLoader.Save(frameFile, d3dformat, surf, Interop.Convert(mSrcRect));
-			
+
 		}
 
 		#endregion
@@ -606,7 +606,6 @@ namespace AgateMDX
 			rect.X += mSrcRect.X;
 			rect.Y += mSrcRect.Y;
 
-			int stride;
 			int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
 
 			PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
@@ -614,7 +613,7 @@ namespace AgateMDX
 			if (format == PixelFormat.Any)
 				format = pixelFormat;
 
-			var stm = surf.LockRectangle(
+			DataRectangle stm = surf.LockRectangle(
 				new Drawing.Rectangle(0, 0, mTextureSize.Width, mTextureSize.Height),
 				LockFlags.ReadOnly);
 
@@ -622,26 +621,24 @@ namespace AgateMDX
 			int length = SurfaceWidth * pixelPitch;
 			int index = 0;
 
-			throw new NotImplementedException();
-			//unsafe
-			//{
-			//    DataStream st = stm.Data;
-			//    byte* ptr = (byte*)stm.Data.Read(;
+			unsafe
+			{
+				byte* ptr = (byte*)stm.Data.DataPointer;
 
-			//    for (int i = rect.Top; i < rect.Bottom; i++)
-			//    {
-			//        // hack if the size requested is too large.
-			//        if (i >= mTextureSize.Height)
-			//            break;
+				for (int i = rect.Top; i < rect.Bottom; i++)
+				{
+					// hack if the size requested is too large.
+					if (i >= mTextureSize.Height)
+						break;
 
-			//        //IntPtr ptr = (IntPtr)((int)stm.InternalData + i * stride + rect.Left * pixelPitch);
-			//        IntPtr mptr = (IntPtr)(ptr + i * stride + rect.Left * pixelPitch);
+					//IntPtr ptr = (IntPtr)((int)stm.InternalData + i * stride + rect.Left * pixelPitch);
+					IntPtr mptr = (IntPtr)(ptr + i * stm.Pitch + rect.Left * pixelPitch);
 
-			//        Marshal.Copy(mptr, array, index, length);
+					Marshal.Copy(mptr, array, index, length);
 
-			//        index += length;
-			//    }
-			//}
+					index += length;
+				}
+			}
 
 			surf.UnlockRectangle();
 			surf.Dispose();
@@ -654,30 +651,27 @@ namespace AgateMDX
 		{
 			Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
 
-			int pitch;
 			int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
 			PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
 
 			surf.Dispose();
 
-			throw new NotImplementedException();
+			DataRectangle stm = mTexture.Value.LockRectangle(0, 0);
 
-			//GraphicsStream stm = mTexture.Value.LockRectangle(0, 0, out pitch);
+			if (buffer.PixelFormat != pixelFormat)
+				buffer = buffer.ConvertTo(pixelFormat);
 
-			//if (buffer.PixelFormat != pixelFormat)
-			//    buffer = buffer.ConvertTo(pixelFormat);
+			unsafe
+			{
+				for (int i = 0; i < SurfaceHeight; i++)
+				{
+					int startIndex = buffer.GetPixelIndex(0, i);
+					int rowStride = buffer.RowStride;
+					IntPtr dest = (IntPtr)((byte*)stm.Data.DataPointer + i * stm.Pitch);
 
-			//unsafe
-			//{
-			//    for (int i = 0; i < SurfaceHeight; i++)
-			//    {
-			//        int startIndex = buffer.GetPixelIndex(0, i);
-			//        int rowStride = buffer.RowStride;
-			//        IntPtr dest = (IntPtr)((byte*)stm.InternalData + i * pitch);
-
-			//        Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
-			//    }
-			//}
+					Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
+				}
+			}
 
 			mTexture.Value.UnlockRectangle(0);
 
@@ -688,29 +682,29 @@ namespace AgateMDX
 			Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
 			Rectangle updateRect = new Rectangle(startPoint, buffer.Size);
 
-			int pitch;
 			int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
 			PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);
 
 			surf.Dispose();
 
-			throw new NotImplementedException();
-			//GraphicsStream stm = mTexture.Value.LockRectangle(0, Interop.Convert(updateRect), 0, out pitch);
+			DataRectangle stm = mTexture.Value.LockRectangle
+				(0, Interop.Convert(updateRect), LockFlags.Discard);
 
-			//if (buffer.PixelFormat != pixelFormat)
-			//    buffer = buffer.ConvertTo(pixelFormat);
+			if (buffer.PixelFormat != pixelFormat)
+				buffer = buffer.ConvertTo(pixelFormat);
 
-			//unsafe
-			//{
-			//    for (int i = updateRect.Top; i < updateRect.Bottom; i++)
-			//    {
-			//        int startIndex = buffer.GetPixelIndex(0, i);
-			//        int rowStride = buffer.RowStride;
-			//        IntPtr dest = (IntPtr)((byte*)stm.InternalData + i * pitch + updateRect.Left * pixelPitch);
+			unsafe
+			{
+				for (int i = updateRect.Top; i < updateRect.Bottom; i++)
+				{
+					int startIndex = buffer.GetPixelIndex(0, i);
+					int rowStride = buffer.RowStride;
+					IntPtr dest = (IntPtr)
+						((byte*)stm.Data.DataPointer + i * stm.Pitch + updateRect.Left * pixelPitch);
 
-			//        Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
-			//    }
-			//}
+					Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
+				}
+			}
 
 			mTexture.Value.UnlockRectangle(0);
 		}
