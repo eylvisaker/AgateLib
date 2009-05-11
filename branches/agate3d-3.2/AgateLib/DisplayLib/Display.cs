@@ -152,20 +152,6 @@ namespace AgateLib.DisplayLib
 				DisposeDisplay();
 		}
 
-		private static bool TestPath(string filename, out string fullPath)
-		{
-			if (File.Exists(filename))
-			{
-				fullPath = Path.GetFullPath(filename);
-				return true;
-			}
-			else
-			{
-				fullPath = "";
-				return false;
-			}
-		}
-
 		/// <summary>
 		/// Returns the PixelFormat of Surfaces which are created to be compatible
 		/// with the display mode.  If you want to create a PixelBuffer which does
