@@ -32,7 +32,7 @@ namespace AgateOTK
 			opentk_version = GetOpenTKVersion(opentk_version);
 
 			yield return new AgateDriverInfo(
-				 DisplayTypeID.OpenGL, typeof(GL_Display), "OpenGL through OpenTK " + opentk_version, 1120);
+				 DisplayTypeID.OpenGL, typeof(GL_Display), "OpenGL through OpenTK " + opentk_version, 200);
 
 			if (ReportOpenAL())
 			{
