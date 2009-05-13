@@ -76,7 +76,7 @@ namespace AgateMDX
 						retval |= Microsoft.DirectX.Direct3D.VertexFormats.Texture3;
 						break;
 
-					case VertexElement.Color:
+					case VertexElement.DiffuseColor:
 						retval |= Microsoft.DirectX.Direct3D.VertexFormats.Diffuse;
 						break;
 				}
@@ -144,7 +144,7 @@ namespace AgateMDX
 				case VertexElement.Tangent:
 					declUsage = Microsoft.DirectX.Direct3D.DeclarationUsage.Tangent;
 					break;
-				case VertexElement.Color:
+				case VertexElement.DiffuseColor:
 					declUsage = Microsoft.DirectX.Direct3D.DeclarationUsage.Color;
 					break;
 				case VertexElement.Bitangent:
