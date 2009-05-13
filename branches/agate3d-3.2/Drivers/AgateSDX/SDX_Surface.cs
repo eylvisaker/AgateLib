@@ -321,57 +321,16 @@ namespace AgateSDX
 
 			mDevice.Interpolation = InterpolationHint;
 
-			if (TesselateFactor == 1)
-			{
-				SetVertsTextureCoordinates(mVerts, 0, srcRect);
-				SetVertsColor(state.ColorGradient, mVerts, 0, 4);
-				SetVertsPosition(mVerts, 0,
-					new RectangleF(destX, destY,
-								   srcRect.Width * (float)state.ScaleWidth,
-								   srcRect.Height * (float)state.ScaleHeight),
-								   rotationCenter.X, rotationCenter.Y,
-								   state.DisplayAlignment, mRotationCos, mRotationSin);
+			SetVertsTextureCoordinates(mVerts, 0, srcRect);
+			SetVertsColor(state.ColorGradient, mVerts, 0, 4);
+			SetVertsPosition(mVerts, 0,
+				new RectangleF(destX, destY,
+							   srcRect.Width * (float)state.ScaleWidth,
+							   srcRect.Height * (float)state.ScaleHeight),
+							   rotationCenter.X, rotationCenter.Y,
+							   state.DisplayAlignment, mRotationCos, mRotationSin);
 
-				mDevice.DrawBuffer.CacheDrawIndexedTriangles(mVerts, mIndices, mTexture.Value, alphaBlend);
-			}
-			else
-			{
-				TextureCoordinates texCoords = GetTextureCoordinates(mSrcRect);
-				float texWidth = texCoords.Right - texCoords.Left;
-				float texHeight = texCoords.Bottom - texCoords.Top;
-
-				float displayWidth = displaySize.Width / (float)TesselateFactor;
-				float displayHeight = displaySize.Height / (float)TesselateFactor;
-
-				for (int j = 0; j < TesselateFactor; j++)
-				{
-					TextureCoordinates coords = texCoords;
-					coords.Top = texCoords.Top + j * texHeight / TesselateFactor;
-					coords.Bottom = coords.Top + texHeight / TesselateFactor;
-
-					for (int i = 0; i < TesselateFactor; i++)
-					{
-						coords.Left = texCoords.Left + i * texWidth / TesselateFactor;
-						coords.Right = coords.Left + texWidth / TesselateFactor;
-
-						float dx = destX + i * displayWidth * mRotationCos + j * displayHeight * mRotationSin;
-						float dy = destY - i * displayWidth * mRotationSin + j * displayHeight * mRotationCos;
-
-						SetVertsPosition(mExtraVerts, 0,
-							new RectangleF(dx, dy,
-										   displayWidth, displayHeight),
-										   rotationCenter.X, rotationCenter.Y,
-								   state.DisplayAlignment, mRotationCos, mRotationSin);
-						SetVertsColor(state.ColorGradient, mExtraVerts, 0, 4,
-							i / (double)TesselateFactor, j / (double)TesselateFactor, 1.0 / TesselateFactor, 1.0 / TesselateFactor);
-
-						SetVertsTextureCoordinates(mExtraVerts, 0, coords);
-
-						mDevice.DrawBuffer.CacheDrawIndexedTriangles(
-							mExtraVerts, mIndices, mTexture.Value, alphaBlend);
-					}
-				}
-			}
+			mDevice.DrawBuffer.CacheDrawIndexedTriangles(mVerts, mIndices, mTexture.Value, alphaBlend);
 		}
 
 		private void SetVertsTextureCoordinates(PositionTextureColor[] verts, int startIndex,
