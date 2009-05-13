@@ -25,6 +25,7 @@ using SlimDX;
 
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Geometry.VertexTypes;
 using AgateLib.WinForms;
 
 namespace AgateSDX
@@ -46,6 +47,7 @@ namespace AgateSDX
 
 		private int mMaxLightsUsed = 0;
 
+		private VertexDeclaration mSurfaceDecl;
 
 		//VertexBuffer mSurfaceVB;
 		//const int NumVertices = 1000;
@@ -60,6 +62,10 @@ namespace AgateSDX
 
 			//mDevice.DeviceLost += new EventHandler(mDevice_DeviceLost);
 			mDrawBuffer = new DrawBuffer(this);
+
+			mSurfaceDecl = SDX_VertexBuffer.CreateVertexDeclaration(
+				device, PositionTextureColor.VertexLayout);
+
 		}
 
 		~D3DDevice()
@@ -67,7 +73,10 @@ namespace AgateSDX
 			Dispose(false);
 		}
 
-
+		public void SetVertexDeclarationForSurfaces()
+		{
+			mDevice.VertexDeclaration = mSurfaceDecl;
+		}
 		void mDevice_DeviceLost(object sender, EventArgs e)
 		{
 			// set weird values which will indicate that the device's

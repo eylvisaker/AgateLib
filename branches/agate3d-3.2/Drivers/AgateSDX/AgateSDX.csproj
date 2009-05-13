@@ -90,9 +90,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Project>{5E0F3C6E-5116-40FE-9F9C-3ECC3CBA9152}</Project>
       <Name>AgateLib</Name>
-      <Project>{C9CD5A49-13B1-4B31-8EB4-5EDBF6C3811D}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
     <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
       <Name>AgateLib.WinForms</Name>
@@ -122,7 +121,7 @@
     </Compile>
     <Compile Include="SDX_Input.cs" />
     <Compile Include="SDX_Audio.cs" />
-    <Compile Include="PositionColorNormalTexture.cs">
+    <Compile Include="VertexFormats.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Reporter.cs">

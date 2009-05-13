@@ -157,7 +157,14 @@ namespace AgateOTK
 				int[] array = new int[1];
 				array[0] = mTextureID;
 
-				GL.DeleteTextures(1, array);
+				try
+				{
+					GL.DeleteTextures(1, array);
+				}
+				catch (GraphicsContextMissingException)
+				{
+					System.Diagnostics.Debug.Print("Caught missing graphics context exception.  Fix this someday.");
+				}
 
 				mTextureIDs.Remove(mTextureID);
 			}

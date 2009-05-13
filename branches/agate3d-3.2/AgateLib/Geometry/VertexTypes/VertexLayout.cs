@@ -55,6 +55,7 @@ namespace AgateLib.Geometry.VertexTypes
 				case VertexElementDataType.Float2: return 2 * sizeof(float);
 				case VertexElementDataType.Float3: return 3 * sizeof(float);
 				case VertexElementDataType.Float4: return 4 * sizeof(float);
+				case VertexElementDataType.Int: return sizeof(int);
 
 				default: throw new NotImplementedException();
 			}
@@ -196,6 +197,7 @@ namespace AgateLib.Geometry.VertexTypes
 		Float2,
 		Float3,
 		Float4,
+		Int,
 	}
 	public enum VertexElement
 	{
@@ -203,7 +205,7 @@ namespace AgateLib.Geometry.VertexTypes
 		Normal,
 		Tangent,
 		Bitangent,
-		Color,
+		DiffuseColor,
 		Texture,
 		Texture1,
 		Texture2,

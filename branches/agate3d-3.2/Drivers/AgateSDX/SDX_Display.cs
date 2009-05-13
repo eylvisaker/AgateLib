@@ -27,6 +27,7 @@ using AgateLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
+using AgateLib.Geometry.VertexTypes;
 using AgateLib.ImplementationBase;
 using AgateLib.WinForms;
 
@@ -47,8 +48,8 @@ namespace AgateSDX
 		private bool mInitialized = false;
 
 		// variables for drawing primitives
-		PositionColored[] mLines = new PositionColored[5];
-		PositionColored[] mFillRectVerts = new PositionColored[6];
+		PositionColor[] mLines = new PositionColor[5];
+		PositionColor[] mFillRectVerts = new PositionColor[6];
 
 		private bool mVSync = true;
 
@@ -57,7 +58,14 @@ namespace AgateSDX
 		private float mDepthClear = 1.0f;
 		private int mStencilClear = 0;
 
+		VertexDeclaration mPosColorDecl;
+
 		#endregion
+
+		public VertexDeclaration SurfaceDeclaration
+		{
+			get { return mPosColorDecl; }
+		}
 
 		public DisplayMode DisplayMode
 		{
@@ -131,6 +139,7 @@ namespace AgateSDX
 
 			InitializeShaders();
 
+			mPosColorDecl = SDX_VertexBuffer.CreateVertexDeclaration(device, PositionColor.VertexLayout);
 		}
 
 		private void SetHaveDepthStencil(Format depthFormat)
@@ -375,10 +384,10 @@ namespace AgateSDX
 		{
 			mDevice.DrawBuffer.Flush();
 
-			mLines[0] = new PositionColored(a.X, a.Y, 0, color.ToArgb());
-			mLines[1] = new PositionColored(b.X, b.Y, 0, color.ToArgb());
+			mLines[0] = new PositionColor(a.X, a.Y, 0, color.ToArgb());
+			mLines[1] = new PositionColor(b.X, b.Y, 0, color.ToArgb());
 
-			mDevice.VertexFormat = PositionColored.Format;
+			mDevice.Device.VertexDeclaration = mPosColorDecl;
 			mDevice.Device.DrawUserPrimitives(SlimDX.Direct3D9.PrimitiveType.LineList, 1, mLines);
 		}
 		public override void DrawLines(Point[] pt, Color color)
@@ -386,14 +395,14 @@ namespace AgateSDX
 			mDevice.DrawBuffer.Flush();
 
 			if (pt.Length > mLines.Length)
-				mLines = new PositionColored[pt.Length];
+				mLines = new PositionColor[pt.Length];
 
 			for (int i = 0; i < pt.Length; i++)
 			{
-				mLines[i] = new PositionColored(pt[i].X, pt[i].Y, 0, color.ToArgb());
+				mLines[i] = new PositionColor(pt[i].X, pt[i].Y, 0, color.ToArgb());
 			}
 
-			mDevice.VertexFormat = PositionColored.Format;
+			mDevice.Device.VertexDeclaration = mPosColorDecl; 
 			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.LineList, pt.Length / 2, mLines);
 		}
 		public override void DrawRect(Rectangle rect, Color color)
@@ -406,13 +415,13 @@ namespace AgateSDX
 
 			int c = color.ToArgb();
 
-			mLines[0] = new PositionColored(rect.X, rect.Y, 0, c);
-			mLines[1] = new PositionColored(rect.Right, rect.Y, 0, c);
-			mLines[2] = new PositionColored(rect.Right, rect.Bottom, 0, c);
-			mLines[3] = new PositionColored(rect.X, rect.Bottom, 0, c);
-			mLines[4] = new PositionColored(rect.X, rect.Y, 0, c);
-			
-			mDevice.VertexFormat = PositionColored.Format;
+			mLines[0] = new PositionColor(rect.X, rect.Y, 0, c);
+			mLines[1] = new PositionColor(rect.Right, rect.Y, 0, c);
+			mLines[2] = new PositionColor(rect.Right, rect.Bottom, 0, c);
+			mLines[3] = new PositionColor(rect.X, rect.Bottom, 0, c);
+			mLines[4] = new PositionColor(rect.X, rect.Y, 0, c);
+
+			mDevice.Device.VertexDeclaration = mPosColorDecl;
 			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.LineStrip, 4, mLines);
 		}
 
@@ -431,18 +440,18 @@ namespace AgateSDX
 		public override void FillRect(RectangleF rect, Gradient color)
 		{
 			// defining our screen sized quad, note the Z value of 1f to place it in the background
-			mFillRectVerts[0].Position = new SlimDX.Vector3(rect.Left, rect.Top, 0f);
+			mFillRectVerts[0].Position = new AgateLib.Geometry.Vector3(rect.Left, rect.Top, 0f);
 			mFillRectVerts[0].Color = color.TopLeft.ToArgb();
 
-			mFillRectVerts[1].Position = new SlimDX.Vector3(rect.Right, rect.Top, 0f);
+			mFillRectVerts[1].Position = new AgateLib.Geometry.Vector3(rect.Right, rect.Top, 0f);
 			mFillRectVerts[1].Color = color.TopRight.ToArgb();
 
-			mFillRectVerts[2].Position = new SlimDX.Vector3(rect.Left, rect.Bottom, 0f);
+			mFillRectVerts[2].Position = new AgateLib.Geometry.Vector3(rect.Left, rect.Bottom, 0f);
 			mFillRectVerts[2].Color = color.BottomLeft.ToArgb();
 
 			mFillRectVerts[3] = mFillRectVerts[1];
 
-			mFillRectVerts[4].Position = new SlimDX.Vector3(rect.Right, rect.Bottom, 0f);
+			mFillRectVerts[4].Position = new AgateLib.Geometry.Vector3(rect.Right, rect.Bottom, 0f);
 			mFillRectVerts[4].Color = color.BottomRight.ToArgb();
 
 			mFillRectVerts[5] = mFillRectVerts[2];
@@ -454,7 +463,7 @@ namespace AgateSDX
 			mDevice.SetDeviceStateTexture(null);
 			mDevice.AlphaArgument1 = TextureArgument.Diffuse;
 
-			mDevice.VertexFormat = PositionColored.Format;
+			mDevice.Device.VertexDeclaration = mPosColorDecl;
 			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.TriangleList, 2, mFillRectVerts);
 			mDevice.AlphaArgument1 = TextureArgument.Texture;
 		}

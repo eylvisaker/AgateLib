@@ -15,24 +15,17 @@ namespace AgateSDX
 		SDX_Display mDisplay;
 		Direct3D.VertexBuffer mBuffer;
 		Direct3D.VertexDeclaration mDeclaration;
-		Direct3D.VertexFormat mFormats;
 		int mCount;
 		object data;
 		VertexLayout mLayout;
-
-		static StringBuilder b;
 
 		public SDX_VertexBuffer(SDX_Display display, VertexLayout layout, int vertexCount)
 		{
 			mDisplay = display;
 			mCount = vertexCount;
 
-			b = new StringBuilder();
-
-			mDeclaration = CreateVertexDeclaration(layout);
-			mFormats = CreateVertexFormat(layout);
-
-			System.Diagnostics.Debug.WriteLine(b.ToString());
+			mDeclaration = CreateVertexDeclaration(mDisplay.D3D_Device.Device, layout);
+			Direct3D.VertexFormat mFormats = CreateVertexFormat(layout);
 
 			mLayout = layout;
 
@@ -76,7 +69,7 @@ namespace AgateSDX
 						retval |= SlimDX.Direct3D9.VertexFormat.Texture3;
 						break;
 
-					case VertexElement.Color:
+					case VertexElement.DiffuseColor:
 						retval |= SlimDX.Direct3D9.VertexFormat.Diffuse;
 						break;
 				}
@@ -84,7 +77,7 @@ namespace AgateSDX
 
 			return retval;
 		}
-		private Direct3D.VertexDeclaration CreateVertexDeclaration(VertexLayout layout)
+		public static Direct3D.VertexDeclaration CreateVertexDeclaration(Direct3D.Device d3dDevice, VertexLayout layout)
 		{
 			List<Direct3D.VertexElement> formats = new List<Direct3D.VertexElement>();
 			short loc = 0;
@@ -100,10 +93,9 @@ namespace AgateSDX
 
 			formats.Add(Direct3D.VertexElement.VertexDeclarationEnd);
 
-			return new Direct3D.VertexDeclaration(
-				mDisplay.D3D_Device.Device, formats.ToArray());
+			return new Direct3D.VertexDeclaration(d3dDevice, formats.ToArray());
 		}
-		private Direct3D.VertexElement ConvertElement(VertexElementDesc element, ref short loc)
+		private static Direct3D.VertexElement ConvertElement(VertexElementDesc element, ref short loc)
 		{
 			Direct3D.DeclarationMethod declMethod = SlimDX.Direct3D9.DeclarationMethod.Default;
 			Direct3D.DeclarationUsage declUsage;
@@ -125,6 +117,9 @@ namespace AgateSDX
 				case VertexElementDataType.Float4:
 					declType = SlimDX.Direct3D9.DeclarationType.Float4;
 					break;
+				case VertexElementDataType.Int:
+					declType = SlimDX.Direct3D9.DeclarationType.Color;
+					break;
 				default:
 					throw new NotImplementedException(
 						element.DataType.ToString() + " not implemented.");
@@ -144,7 +139,7 @@ namespace AgateSDX
 				case VertexElement.Tangent:
 					declUsage = SlimDX.Direct3D9.DeclarationUsage.Tangent;
 					break;
-				case VertexElement.Color:
+				case VertexElement.DiffuseColor:
 					declUsage = SlimDX.Direct3D9.DeclarationUsage.Color;
 					break;
 				case VertexElement.Bitangent:
@@ -154,8 +149,6 @@ namespace AgateSDX
 					throw new NotImplementedException(
 						element.ElementType.ToString() + " not implemented.");
 			}
-
-			b.AppendFormat("{0} {1} {2} {3}\n", declType, declUsage, loc, size);
 
 			loc += (short)size;
 

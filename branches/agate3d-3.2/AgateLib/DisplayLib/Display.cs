@@ -276,6 +276,7 @@ namespace AgateLib.DisplayLib
 				throw new AgateException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
 
 			impl.BeginFrame();
+			mCurrentClipRect = new Rectangle(0, 0, RenderTarget.Width, RenderTarget.Height);
 		}
 		/// <summary>
 		/// EndFrame must be called at the end of each frame.
@@ -330,7 +331,7 @@ namespace AgateLib.DisplayLib
 		{
 			if (mClipRects.Count == 0)
 			{
-				throw new Exception("You have popped the cliprect too many times.");
+				throw new AgateException("You have popped the cliprect too many times.");
 			}
 			else
 			{

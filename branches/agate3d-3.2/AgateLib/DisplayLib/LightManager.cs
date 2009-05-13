@@ -27,6 +27,7 @@ namespace AgateLib.DisplayLib
 	/// The LightManager class keeps a list of Light objects which can be used
 	/// to setup the lighting in the rendering API.
 	/// </summary>
+	[Obsolete("Use shaders to accomplish lighting instead.")]
 	public class LightManager : IList<Light>
 	{
 		List<Light> mLights = new List<Light>();

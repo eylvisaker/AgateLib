@@ -25,8 +25,8 @@ using SlimDX.Direct3D9;
 
 namespace AgateSDX
 {
-	[StructLayout(LayoutKind.Sequential)]
-	public struct PositionColorNormalTexture
+	/*
+	public struct DX_PositionColorNormalTexture
 	{
 		public float X, Y, Z;
 		public float nx, ny, nz;
@@ -86,4 +86,5 @@ namespace AgateSDX
 		public static VertexFormat Format =
 			VertexFormat.Position | VertexFormat.Diffuse;
 	}
+	 * */
 }

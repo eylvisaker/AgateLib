@@ -101,10 +101,9 @@ namespace AgateLib.Drivers
 		/// </summary>
 		DirectSound = 0x100,
 		/// <summary>
-		/// Implementation using XNA Studio
-		/// (what will this be called), anyway?)
+		/// Implementation using XAudio2, the new replacement for DirectSound.
 		/// </summary>
-		XAct = 0x110,
+		XAudio2 = 0x110,
 
 		/// <summary>
 		/// Implementation using the cross-platform OpenAL library.

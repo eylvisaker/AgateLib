@@ -22,23 +22,24 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using SlimDX.Direct3D9;
 using SlimDX;
+using SlimDX.Direct3D9;
+using Direct3D = SlimDX.Direct3D9;
 
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Geometry.VertexTypes;
 using AgateLib.ImplementationBase;
 using AgateLib.Utility;
 using AgateLib.WinForms;
 
 using Drawing = System.Drawing;
 using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
-using Direct3D = SlimDX.Direct3D9;
 using Surface = AgateLib.DisplayLib.Surface;
+using Vector2 = AgateLib.Geometry.Vector2;
 
 namespace AgateSDX
 {
-
 	public class SDX_Surface : SurfaceImpl, SDX_IRenderTarget
 	{
 		#region --- Private Variables ---
@@ -57,10 +58,10 @@ namespace AgateSDX
 		float mRotationCos = 1.0f;
 		float mRotationSin = 0.0f;
 
-		PositionColorNormalTexture[] mVerts = new PositionColorNormalTexture[4];
+		PositionTextureColor[] mVerts = new PositionTextureColor[4];
 		short[] mIndices = new short[] { 0, 2, 1, 1, 2, 3 };
 
-		PositionColorNormalTexture[] mExtraVerts = new PositionColorNormalTexture[4];
+		PositionTextureColor[] mExtraVerts = new PositionTextureColor[4];
 		short[] mExtraIndices = new short[] { 0, 2, 1, 1, 2, 3 };
 
 		#endregion
@@ -378,7 +379,7 @@ namespace AgateSDX
 			}
 		}
 
-		private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex,
+		private void SetVertsTextureCoordinates(PositionTextureColor[] verts, int startIndex,
 			Rectangle srcRect)
 		{
 			TextureCoordinates texCoords = GetTextureCoordinates(srcRect);
@@ -386,20 +387,13 @@ namespace AgateSDX
 			SetVertsTextureCoordinates(verts, startIndex, texCoords);
 		}
 
-		private void SetVertsTextureCoordinates(PositionColorNormalTexture[] verts, int startIndex,
+		private void SetVertsTextureCoordinates(PositionTextureColor[] verts, int startIndex,
 			TextureCoordinates texCoords)
 		{
-			verts[startIndex].Tu = texCoords.Left;
-			verts[startIndex].Tv = texCoords.Top;
-
-			verts[startIndex + 1].Tu = texCoords.Right;
-			verts[startIndex + 1].Tv = texCoords.Top;
-
-			verts[startIndex + 2].Tu = texCoords.Left;
-			verts[startIndex + 2].Tv = texCoords.Bottom;
-
-			verts[startIndex + 3].Tu = texCoords.Right;
-			verts[startIndex + 3].Tv = texCoords.Bottom;
+			verts[startIndex].TexCoord = new Vector2(texCoords.Left, texCoords.Top);
+			verts[startIndex + 1].TexCoord = new Vector2(texCoords.Right, texCoords.Top);
+			verts[startIndex + 2].TexCoord = new Vector2(texCoords.Left, texCoords.Bottom);
+			verts[startIndex + 3].TexCoord = new Vector2(texCoords.Right, texCoords.Bottom);
 		}
 
 		private TextureCoordinates GetTextureCoordinates(Rectangle srcRect)
@@ -429,14 +423,14 @@ namespace AgateSDX
 			return texCoords;
 		}
 
-		private void SetVertsColor(Gradient ColorGradient, PositionColorNormalTexture[] verts, int startIndex, int count)
+		private void SetVertsColor(Gradient ColorGradient, PositionTextureColor[] verts, int startIndex, int count)
 		{
 			verts[startIndex].Color = ColorGradient.TopLeft.ToArgb();
 			verts[startIndex + 1].Color = ColorGradient.TopRight.ToArgb();
 			verts[startIndex + 2].Color = ColorGradient.BottomLeft.ToArgb();
 			verts[startIndex + 3].Color = ColorGradient.BottomRight.ToArgb();
 		}
-		private void SetVertsColor(Gradient ColorGradient, PositionColorNormalTexture[] verts, int startIndex, int count,
+		private void SetVertsColor(Gradient ColorGradient, PositionTextureColor[] verts, int startIndex, int count,
 			double x, double y, double width, double height)
 		{
 			verts[startIndex].Color = ColorGradient.Interpolate(x, y).ToArgb();
@@ -445,7 +439,7 @@ namespace AgateSDX
 			verts[startIndex + 3].Color = ColorGradient.Interpolate(x + width, y + height).ToArgb();
 		}
 
-		private void SetVertsPosition(PositionColorNormalTexture[] verts, int index,
+		private void SetVertsPosition(PositionTextureColor[] verts, int index,
 			RectangleF dest, float rotationCenterX, float rotationCenterY,
 			OriginAlignment DisplayAlignment,
 			float mRotationCos, float mRotationSin)
@@ -454,7 +448,6 @@ namespace AgateSDX
 			float destY = dest.Y - 0.5f;
 			float destWidth = dest.Width;
 			float destHeight = dest.Height;
-
 
 			mCenterPoint = Origin.CalcF(DisplayAlignment, dest.Size);
 
@@ -489,12 +482,6 @@ namespace AgateSDX
 			verts[index + 3].Y = -mRotationSin * (-rotationCenterX + destWidth) +
 						  mRotationCos * (-rotationCenterY + destHeight) + destY;
 
-			for (int i = 0; i < 4; i++)
-			{
-				verts[index + i].nx = 0;
-				verts[index + i].ny = 0;
-				verts[index + i].nz = -1;
-			}
 		}
 
 

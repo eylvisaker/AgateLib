@@ -24,6 +24,7 @@ using SlimDX;
 using SlimDX.Direct3D9;
 using Direct3D = SlimDX.Direct3D9;
 using AgateLib.DisplayLib;
+using AgateLib.Geometry.VertexTypes;
 
 namespace AgateSDX
 {
@@ -38,7 +39,7 @@ namespace AgateSDX
 
 		D3DDevice mDevice;
 
-		PositionColorNormalTexture[] mVerts;
+		PositionTextureColor[] mVerts;
 		short[] mIndices;
 
 		int mVertPointer = 0;
@@ -56,10 +57,10 @@ namespace AgateSDX
 
 		private void AllocateVerts()
 		{
-			mVerts = new PositionColorNormalTexture[vertPageSize * pages];
+			mVerts = new PositionTextureColor[vertPageSize * pages];
 			mIndices = new short[vertPageSize / 2 * 3 * pages];
 		}
-		public void CacheDrawIndexedTriangles(PositionColorNormalTexture[] verts, short[] indices,
+		public void CacheDrawIndexedTriangles(PositionTextureColor[] verts, short[] indices,
 			Texture texture, bool alphaBlend)
 		{
 			if (mTexture != texture || mAlphaBlend != alphaBlend)
@@ -99,14 +100,14 @@ namespace AgateSDX
 
 			mDevice.SetDeviceStateTexture(mTexture);
 			mDevice.AlphaBlend = mAlphaBlend;
-			mDevice.VertexFormat = PositionColorNormalTexture.Format;
+			mDevice.SetVertexDeclarationForSurfaces();
 
 			try
 			{
 				mDevice.Device.DrawIndexedUserPrimitives
 					(Direct3D.PrimitiveType.TriangleList, 0, mVertPointer,
 					 mIndexPointer / 3, mIndices, Format.Index16, mVerts,
-					 Marshal.SizeOf(typeof(PositionColorNormalTexture)));
+					 Marshal.SizeOf(typeof(PositionTextureColor)));
 			}
 			catch { }
 
