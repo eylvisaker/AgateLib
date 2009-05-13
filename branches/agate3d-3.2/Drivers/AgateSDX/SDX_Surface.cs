@@ -139,13 +139,7 @@ namespace AgateSDX
 
 			mDisplay = Display.Impl as SDX_Display;
 			mDevice = mDisplay.D3D_Device;
-			/*
-			Bitmap bitmap = new Bitmap(size.Width, size.Height);
-			Graphics g = Graphics.FromImage(bitmap);
-			g.Clear(Color.FromArgb(0, 0, 0, 0));
-			g.Dispose();
-			*/
-			//mTexture = Texture.FromBitmap(mDevice, bitmap, Usage.None, Pool.Managed);
+			
 			mTexture = new Ref<Texture>(new Texture(mDevice.Device, size.Width, size.Height, 1, Usage.None,
 				Format.A8R8G8B8, Pool.Managed));
 
@@ -198,12 +192,13 @@ namespace AgateSDX
 			Drawing.Bitmap bitmap = new Drawing.Bitmap(st);
 
 			mSrcRect = new Rectangle(Point.Empty, Interop.Convert(bitmap.Size));
+			bitmap.Dispose();
 
-			// this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
-			System.IO.MemoryStream stream = new System.IO.MemoryStream();
-			bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+			//// this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
+			//System.IO.MemoryStream stream = new System.IO.MemoryStream();
+			//bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
 
-			stream.Position = 0;
+			st.Position = 0;
 
 			//mTexture = new Texture(mDevice, bitmap, Usage.None, Pool.Managed);
 			Format format;
@@ -226,13 +221,13 @@ namespace AgateSDX
 			}
 
 			mTexture = new Ref<Texture>(Texture.FromStream(mDevice.Device,
-				stream, 0, 0, 1, Usage.None,
+				st, 0, 0, 1, Usage.None,
 				format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
 
 			mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
 				mTexture.Value.GetSurfaceLevel(0).Description.Height);
 
-			bitmap.Dispose();
+			//bitmap.Dispose();
 		}
 		public void LoadFromFile()
 		{
