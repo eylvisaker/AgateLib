@@ -26,14 +26,17 @@ namespace AgateLib.Particles
 {
 	/// <summary>
 	/// A pixel particle emitter.
+	/// Optimized for pixel rendering.
 	/// </summary>
 	public class PixelEmitter : ParticleEmitter
 	{
 		private Color mEmitColor = Color.White;
 		private float mEmitLife = 1f;
 		
-		private Surface drawSurf = new Surface(2, 2);
+		private Surface drawSurf = new Surface(1, 1);
 		private float time = 0f;
+		
+		private Rectangle mRectangle = new Rectangle(0, 0, 2, 2);
 		
 		/// <value>
 		/// Gets or sets the emit color.
@@ -53,6 +56,15 @@ namespace AgateLib.Particles
 			set { mEmitLife = value; }
 		}
 		
+		/// <value>
+		/// Gets or sets the pixel size.
+		/// </value>
+		public Size PixelSize
+		{
+			get { return mRectangle.Size; }
+			set { mRectangle.Size = value; }
+		}
+		
 		/// <summary>
 		/// Constructs a pixel particle emitter.
 		/// </summary>
@@ -67,12 +79,35 @@ namespace AgateLib.Particles
 		/// <summary>
 		/// Constructs a pixel particle emitter.
 		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="color"></param>
+		/// <param name="emitLife"></param>
+		public PixelEmitter(Vector2 position, Color color, float emitLife) : this(position, color)
+		{
+			mEmitLife = emitLife;
+		}
+		
+		/// <summary>
+		/// Constructs a pixel particle emitter.
+		/// </summary>
 		/// <param name="position">Position of the emitter.</param>
 		/// <param name="color">Emit color.</param>
 		/// <param name="maxParticles">Maximum amount of particles.</param>
 		public PixelEmitter(Vector2 position, Color color, int maxParticles) : this(position, color)
 		{
 			Particles = new List<Particle>(maxParticles);
+		}
+		
+		/// <summary>
+		/// Constructs a pixel particle emitter.
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="color"></param>
+		/// <param name="maxParticles"></param>
+		/// <param name="emitLife"></param>
+		public PixelEmitter(Vector2 position, Color color, int maxParticles, float emitLife) : this(position, color, maxParticles)
+		{
+			mEmitLife = emitLife;
 		}
 		
 		/// <summary>s
@@ -85,7 +120,10 @@ namespace AgateLib.Particles
 			{
 				if(ptl.Condition == Condition.ALive || ptl.Condition == Condition.Frozen)
 				{
-					Display.DrawEllipse(new Rectangle((int)ptl.Position.X, (int)ptl.Position.Y, 2, 2), ptl.Color);
+					mRectangle.X = (int)ptl.Position.X;
+					mRectangle.Y = (int)ptl.Position.Y;
+					
+					Display.DrawEllipse(mRectangle, ptl.Color);
 					//drawSurf.Color = ptl.Color;
 					//drawSurf.Draw(ptl.Position.X, ptl.Position.Y);
 				}
