@@ -17,48 +17,62 @@
 //		Contributor(s): Marcel Hauf.
 //
 using System;
-using System.Collections.Generic;
 
 using AgateLib.Geometry;
 
 namespace AgateLib.Particles
 {
 	/// <summary>
-	/// A gravity particle manipulator.
+	/// Fades out particles by changing the alpha channel.
 	/// </summary>
-	public class GravityManipulator
+	public class FadeOutManipulator
 	{
-		private Vector2 mGravity = Vector2.Empty;
+		private float mLifeBarrier = 1f;
+		private float mAlphaAmount = 0.5f;
+		
+		private int fadeout = 0;
 		
 		/// <value>
-		/// Gets or sets the gravity strength and direction.
+		/// Gets or sets the life barrier at which the particle should fade out.
 		/// </value>
-		public Vector2 Gravity
+		public float LifeBarrier
 		{
-			get { return mGravity; }
-			set { mGravity = value; }
+			get { return mLifeBarrier; }
+			set { mLifeBarrier = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the amount of alpha which will be reduced.
+		/// </value>
+		public float AlphaAmount
+		{
+			get { return mAlphaAmount; }
+			set { mAlphaAmount = value; }
 		}
 		
 		/// <summary>
-		/// Constructs a gravitiy manipulator.
+		/// Constructs a FadeOutManipulator.
 		/// </summary>
-		/// <param name="gravity">Gravity strength and direction.</param>
-		public GravityManipulator(Vector2 gravity)
+		/// <param name="lifeBarrier">The barrier at which the particles will be faded out</param>
+		/// <param name="alphaAmount">The amount of alpha wich will be reduced.</param>
+		public FadeOutManipulator(float lifeBarrier, float alphaAmount)
 		{
-			mGravity = gravity;
+			mLifeBarrier = lifeBarrier;
+			mAlphaAmount = alphaAmount;
 		}
-
+		
 		void HandleOnUpdate(UpdateArgs args)
 		{
-			foreach(Particle pt in args.Emitter.Particles)
+			foreach(PixelParticle pt in args.Emitter.Particles)
 			{
-				if(pt.IsALive == true)
+				if(pt.Condition == Condition.ALive && pt.Life <= LifeBarrier)
 				{
-					pt.Acceleration = pt.Acceleration + Gravity * args.Time_ms/1000;
-					// pt.Acceleration = pt.Acceleration + Position * Strength * args.Time_ms;
-					// pt.Velocity = pt.Velocity + Position * Strength * args.Time_ms;
+					fadeout = pt.Color.A - (int)(255 * mAlphaAmount * args.Time_ms/1000);
+					pt.Color = Color.FromArgb(fadeout, pt.Color);
+					
 				}
 			}
+			// TODO: fade out for SurfaceParticle
 		}
 		
 		/// <summary>
