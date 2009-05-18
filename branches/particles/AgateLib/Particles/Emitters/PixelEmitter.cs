@@ -17,6 +17,7 @@
 //		Contributor(s): Marcel Hauf.
 //
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using AgateLib.DisplayLib;
@@ -144,19 +145,37 @@ namespace AgateLib.Particles
 			time += time_ms;
 			float frequenzy = EmitFrequenzy*1000;
 			
-			while(time >= frequenzy && Particles.Count < Particles.Capacity)
+			while(time >= frequenzy)
 			{
-				// TODO: recyle dead particles
-				PixelParticle pp = new PixelParticle(EmitColor);
-				
-				pp.Acceleration = Vector2.Empty;
-				pp.Color = EmitColor;
-				pp.Condition = Condition.ALive;
-				pp.Life = EmitLife;
-				pp.Position = Position;
-				pp.Velocity = Vector2.Empty;
-				
-				Particles.Add(pp);
+				int index = Particles.IndexOf(Particles.FirstOrDefault(pt => pt.IsALive == false));
+				if(index > -1)
+				{
+					// Recycle a dead particle
+					Particles[index].Acceleration = Vector2.Empty;
+					(Particles[index] as PixelParticle).Color = EmitColor;
+					Particles[index].Condition = Condition.ALive;
+					Particles[index].Life = EmitLife;
+					Particles[index].Position = Position;
+					Particles[index].Velocity = Vector2.Empty;
+				}
+				else if(Particles.Count < Particles.Capacity)
+				{
+					// Add a new particle
+					PixelParticle pp = new PixelParticle(EmitColor);
+					pp.Acceleration = Vector2.Empty;
+					pp.Color = EmitColor;
+					pp.Condition = Condition.ALive;
+					pp.Life = EmitLife;
+					pp.Position = Position;
+					pp.Velocity = Vector2.Empty;
+					Particles.Add(pp);
+				}
+				else
+				{
+					// No capacity left and no dead particles to recycle
+					time = 0;
+					break;
+				}
 				
 				time -= frequenzy;
 			}
