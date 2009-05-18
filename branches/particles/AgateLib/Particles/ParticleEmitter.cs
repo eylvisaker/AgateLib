@@ -31,6 +31,8 @@ namespace AgateLib.Particles
 	{	
 		private List<Particle> mParticles = new List<Particle>();
 		
+		private float mEmitLife = 1f;
+		
 		// 1 = emit each second a particle
 		// 2 = emit every two seconds
 		private float mEmitFrequenzy = 1f;
@@ -45,6 +47,15 @@ namespace AgateLib.Particles
 		{
 			get { return mParticles; }
 			set { mParticles = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the life of particles which will be emitted in future.
+		/// </value>
+		public float EmitLife
+		{
+			get { return mEmitLife; }
+			set { mEmitLife = value; }
 		}
 		
 		/// <value>

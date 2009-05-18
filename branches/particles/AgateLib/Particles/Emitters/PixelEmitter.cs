@@ -31,8 +31,7 @@ namespace AgateLib.Particles
 	/// </summary>
 	public class PixelEmitter : ParticleEmitter
 	{
-		private Color mEmitColor = Color.White;
-		private float mEmitLife = 1f;
+		private Color mEmitColor = Color.White;		
 		
 		private Surface drawSurf = new Surface(1, 1);
 		private float time = 0f;
@@ -46,16 +45,7 @@ namespace AgateLib.Particles
 		{
 			get { return mEmitColor; }
 			set { mEmitColor = value; }
-		}
-		
-		/// <value>
-		/// Gets or sets the life of particles which will be emitted in future.
-		/// </value>
-		public float EmitLife
-		{
-			get { return mEmitLife; }
-			set { mEmitLife = value; }
-		}
+		}		
 		
 		/// <value>
 		/// Gets or sets the pixel size.
@@ -85,7 +75,7 @@ namespace AgateLib.Particles
 		/// <param name="emitLife"></param>
 		public PixelEmitter(Vector2 position, Color color, float emitLife) : this(position, color)
 		{
-			mEmitLife = emitLife;
+			base.EmitLife = emitLife;
 		}
 		
 		/// <summary>
@@ -108,7 +98,7 @@ namespace AgateLib.Particles
 		/// <param name="emitLife"></param>
 		public PixelEmitter(Vector2 position, Color color, int maxParticles, float emitLife) : this(position, color, maxParticles)
 		{
-			mEmitLife = emitLife;
+			base.EmitLife = emitLife;
 		}
 		
 		/// <summary>s
