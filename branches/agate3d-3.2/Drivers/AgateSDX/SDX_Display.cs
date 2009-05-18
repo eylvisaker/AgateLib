@@ -376,10 +376,6 @@ namespace AgateSDX
 		}
 
 
-		public override void DrawLine(int x1, int y1, int x2, int y2, Color color)
-		{
-			DrawLine(new Point(x1, y1), new Point(x2, y2), color);
-		}
 		public override void DrawLine(Point a, Point b, Color color)
 		{
 			mDevice.DrawBuffer.Flush();
@@ -403,7 +399,7 @@ namespace AgateSDX
 			}
 
 			mDevice.Device.VertexDeclaration = mPosColorDecl; 
-			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.LineList, pt.Length / 2, mLines);
+			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.LineStrip, pt.Length - 1, mLines);
 		}
 		public override void DrawRect(Rectangle rect, Color color)
 		{
@@ -425,6 +421,32 @@ namespace AgateSDX
 			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.LineStrip, 4, mLines);
 		}
 
+		PositionColor[] polygonVerts = new PositionColor[10];
+
+		public override void FillPolygon(PointF[] pts, Color color)
+		{
+			if (polygonVerts.Length < pts.Length)
+				polygonVerts = new PositionColor[pts.Length];
+
+			int clr = color.ToArgb();
+
+			for (int i = 0; i < pts.Length; i++)
+			{
+				polygonVerts[i].Position = new AgateLib.Geometry.Vector3(pts[i].X, pts[i].Y, 0);
+				polygonVerts[i].Color = clr;
+			}
+
+			mDevice.DrawBuffer.Flush();
+
+			mDevice.AlphaBlend = true;
+
+			mDevice.SetDeviceStateTexture(null);
+			mDevice.AlphaArgument1 = TextureArgument.Diffuse;
+
+			mDevice.Device.VertexDeclaration = mPosColorDecl;
+			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.TriangleFan, pts.Length - 2, polygonVerts);
+			mDevice.AlphaArgument1 = TextureArgument.Texture;
+		}
 		public override void FillRect(Rectangle rect, Color color)
 		{
 			FillRect((RectangleF)rect, new Gradient(color));
@@ -439,7 +461,6 @@ namespace AgateSDX
 		}
 		public override void FillRect(RectangleF rect, Gradient color)
 		{
-			// defining our screen sized quad, note the Z value of 1f to place it in the background
 			mFillRectVerts[0].Position = new AgateLib.Geometry.Vector3(rect.Left, rect.Top, 0f);
 			mFillRectVerts[0].Color = color.TopLeft.ToArgb();
 

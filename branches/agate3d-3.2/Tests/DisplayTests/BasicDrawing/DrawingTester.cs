@@ -33,5 +33,10 @@ namespace Tests.DisplayTests.BasicDrawing
 			}
 		}
 
+		private void btnFillCircle_Click(object sender, EventArgs e)
+		{
+
+		}
+
 	}
 }

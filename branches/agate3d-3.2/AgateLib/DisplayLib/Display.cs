@@ -476,6 +476,27 @@ namespace AgateLib.DisplayLib
 		{
 			impl.SetOrthoProjection(region);
 		}
+
+		#region --- Matrix Settings ---
+
+		public static Matrix4 MatrixProjection
+		{
+			get { return impl.MatrixProjection; }
+			set { impl.MatrixProjection = value; }
+		}
+		public static Matrix4 MatrixView
+		{
+			get { return impl.MatrixView; }
+			set { impl.MatrixView = value; }
+		}
+		public static Matrix4 MatrixWorld
+		{
+			get { return impl.MatrixWorld; }
+			set { impl.MatrixWorld = value; }
+		}
+
+
+		#endregion
 		#region --- Drawing Functions ---
 
 		/// <summary>
@@ -497,7 +518,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void DrawLine(int x1, int y1, int x2, int y2, Color color)
 		{
-			impl.DrawLine(x1, y1, x2, y2, color);
+			impl.DrawLine(new Point(x1, y1), new Point(x2, y2), color);
 		}
 		/// <summary>
 		/// Draws a line between the two points specified.
@@ -532,29 +553,6 @@ namespace AgateLib.DisplayLib
 				throw new ArgumentException("pts argument is not an even number of points!");
 			impl.DrawLineSegments(pts, color);
 		}
-
-		#region --- Matrix Settings ---
-
-		public static Matrix4 MatrixProjection
-		{
-			get { return impl.MatrixProjection; }
-			set { impl.MatrixProjection = value; }
-		}
-		public static Matrix4 MatrixView
-		{
-			get { return impl.MatrixView; }
-			set { impl.MatrixView = value; }
-		}
-		public static Matrix4 MatrixWorld
-		{
-			get { return impl.MatrixWorld; }
-			set { impl.MatrixWorld = value; }
-		}
-
-
-		#endregion
-
-
 		/// <summary>
 		/// Draws the outline of a rectangle.
 		/// </summary>
@@ -584,6 +582,34 @@ namespace AgateLib.DisplayLib
 		public static void DrawRect(int x, int y, int width, int height, Color color)
 		{
 			impl.DrawRect(new Rectangle(x, y, width, height), color);
+		}
+
+		/// <summary>
+		/// Draws a filled ellipse inscribed in the specified rectangle.
+		/// </summary>
+		/// <param name="rect"></param>
+		/// <param name="color"></param>
+		public static void FillEllipse(Rectangle rect, Color color)
+		{
+			impl.FillEllipse((RectangleF)rect, color);
+		}
+		/// <summary>
+		/// Draws a filled ellipse inscribed in the specified rectangle.
+		/// </summary>
+		/// <param name="rect"></param>
+		/// <param name="color"></param>
+		public static void FillEllipse(RectangleF rect, Color color)
+		{
+			impl.FillEllipse(rect, color);
+		}
+		/// <summary>
+		/// Draws a filled polygon.  The last point will be connected to the first point.
+		/// </summary>
+		/// <param name="pts"></param>
+		/// <param name="color"></param>
+		public static void FillPolygon(PointF[] pts, Color color)
+		{
+			impl.FillPolygon(pts, color);
 		}
 		/// <summary>
 		/// Draws a filled rectangle.

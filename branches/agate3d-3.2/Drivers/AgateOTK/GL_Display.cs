@@ -259,26 +259,18 @@ namespace AgateOTK
 			DrawRect(dest, Color.FromArgb(255, color));
 		}
 
-
-		public override void DrawLine(int x1, int y1, int x2, int y2, Color color)
+		public override void DrawLine(Point a, Point b, Color color)
 		{
 			mState.DrawBuffer.Flush();
-
 			mState.SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
 			GL.Begin(BeginMode.Lines);
-			GL.Vertex2(x1, y1 + 0.5);
-			GL.Vertex2(x2, y2 + 0.5);
+			GL.Vertex2(a.X, a.Y);
+			GL.Vertex2(b.X, b.Y);
 
 			GL.End();
 			GL.Enable(EnableCap.Texture2D);
-		}
-		public override void DrawLine(Point a, Point b, Color color)
-		{
-			mState.DrawBuffer.Flush();
-
-			DrawLine(a.X, a.Y, b.X, b.Y, color);
 		}
 
 		public override void DrawRect(Rectangle rect, Color color)
@@ -353,6 +345,24 @@ namespace AgateOTK
 
 			mState.SetGLColor(color.BottomLeft);
 			GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
+			GL.End();                                                         // Done Drawing The Quad
+
+			GL.Enable(EnableCap.Texture2D);
+		}
+
+		public override void FillPolygon(PointF[] pts, Color color)
+		{
+			mState.DrawBuffer.Flush();
+
+			GL.Disable(EnableCap.Texture2D);
+
+			mState.SetGLColor(color);
+
+			GL.Begin(BeginMode.TriangleFan);
+			for (int i = 0; i < pts.Length; i++)
+			{
+				GL.Vertex3(pts[i].X, pts[i].Y, 0);
+			}
 			GL.End();                                                         // Done Drawing The Quad
 
 			GL.Enable(EnableCap.Texture2D);

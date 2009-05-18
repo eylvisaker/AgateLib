@@ -14,6 +14,7 @@ namespace Tests.DisplayTests.BasicDrawing
 		enum ShapeType
 		{
 			FillRect,
+			FillEllipse,
 			DrawRect,
 			DrawEllipse,
 			DrawLine,
@@ -54,6 +55,13 @@ namespace Tests.DisplayTests.BasicDrawing
 					case ShapeType.FillRect:
 						Display.FillRect(Rect, Color);
 						break;
+
+					case ShapeType.FillEllipse:
+						Display.FillEllipse(Rect, Color);
+						break;
+
+					default:
+						throw new NotImplementedException();
 				}
 			}
 		}
@@ -92,6 +100,7 @@ namespace Tests.DisplayTests.BasicDrawing
 				frm.btnDrawRect.Click += new EventHandler(btnDrawRect_Click);
 				frm.btnFillRect.Click += new EventHandler(btnFillRect_Click);
 				frm.btnDrawCircle.Click += new EventHandler(btnDrawCircle_Click);
+				frm.btnFillCircle.Click += new EventHandler(btnFillCircle_Click);
 				frm.Show();
 
 				// This creates the window that we will be drawing in.
@@ -127,6 +136,11 @@ namespace Tests.DisplayTests.BasicDrawing
 				}
 
 			}
+		}
+
+		void btnFillCircle_Click(object sender, EventArgs e)
+		{
+			shapes.Add(new Shape(ShapeType.FillEllipse, Color.FromArgb(frm.SelectedColor.ToArgb()), RandomRect()));
 		}
 
 		static void btnDrawCircle_Click(object sender, EventArgs e)

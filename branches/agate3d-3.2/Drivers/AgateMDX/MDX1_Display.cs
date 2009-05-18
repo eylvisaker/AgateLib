@@ -350,10 +350,6 @@ namespace AgateMDX
 		}
 
 
-		public override void DrawLine(int x1, int y1, int x2, int y2, Color color)
-		{
-			DrawLine(new Point(x1, y1), new Point(x2, y2), color);
-		}
 		public override void DrawLine(Point a, Point b, Color color)
 		{
 			mDevice.DrawBuffer.Flush();
@@ -442,7 +438,10 @@ namespace AgateMDX
 			mDevice.AlphaArgument1 = TextureArgument.TextureColor;
 		}
 
-
+		public override void FillPolygon(PointF[] pts, Color color)
+		{
+			throw new NotImplementedException();
+		}
 
 
 		#endregion

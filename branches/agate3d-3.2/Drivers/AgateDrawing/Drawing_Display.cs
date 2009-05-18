@@ -137,12 +137,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 				new SolidBrush(Interop.Convert(color)), Interop.Convert(dest_rect));
 		}
 
-		public override void DrawLine(int x1, int y1, int x2, int y2, Geometry.Color color)
-		{
-			CheckInFrame("DrawLine");
-
-			mGraphics.DrawLine(new Pen(Interop.Convert(color)), x1, y1, x2, y2);
-		}
 		public override void DrawLine(Geometry.Point a, Geometry.Point b, Geometry.Color color)
 		{
 			CheckInFrame("DrawLine");
@@ -191,6 +185,20 @@ namespace AgateLib.DisplayLib.SystemDrawing
 
 			FillRect(rect, color.AverageColor);
 		}
+
+		public override void FillPolygon(Geometry.PointF[] pts, Geometry.Color color)
+		{
+			SolidBrush b = new SolidBrush(Interop.Convert(color));
+
+			PointF[] p = new PointF[pts.Length];
+			for (int i = 0; i < pts.Length; i++)
+				p[i] = Interop.Convert(pts[i]);
+
+			mGraphics.FillPolygon(b, p);
+
+			b.Dispose();
+		}
+
 
 		#endregion
 		#region --- Begin/End Frame and DeltaTime ---
