@@ -33,7 +33,6 @@ namespace AgateLib.Particles
 	{
 		private Color mEmitColor = Color.White;		
 		
-		private Surface drawSurf = new Surface(1, 1);
 		private float time = 0f;
 		
 		private Rectangle mRectangle = new Rectangle(0, 0, 2, 2);
@@ -115,8 +114,6 @@ namespace AgateLib.Particles
 					mRectangle.Y = (int)ptl.Position.Y;
 					
 					Display.DrawEllipse(mRectangle, ptl.Color);
-					//drawSurf.Color = ptl.Color;
-					//drawSurf.Draw(ptl.Position.X, ptl.Position.Y);
 				}
 			}
 		}

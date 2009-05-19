@@ -63,16 +63,28 @@ namespace AgateLib.Particles
 		
 		void HandleOnUpdate(UpdateArgs args)
 		{
-			foreach(PixelParticle pt in args.Emitter.Particles)
+			if(args.Emitter.GetType() == typeof(PixelEmitter))
 			{
-				if(pt.Condition == Condition.ALive && pt.Life <= LifeBarrier)
+				foreach(PixelParticle pt in args.Emitter.Particles)
 				{
-					fadeout = pt.Color.A - (int)(255 * mAlphaAmount * args.Time_ms/1000);
-					pt.Color = Color.FromArgb(fadeout, pt.Color);
-					
+					if(pt.Condition == Condition.ALive && pt.Life <= LifeBarrier)
+					{
+						fadeout = pt.Color.A - (int)(255 * mAlphaAmount * args.Time_ms/1000);
+						pt.Color = Color.FromArgb(fadeout, pt.Color);
+					}
 				}
 			}
-			// TODO: fade out for SurfaceParticle
+			else if(args.Emitter.GetType() == typeof(SurfaceEmitter))
+			{
+				foreach(SurfaceParticle sp in args.Emitter.Particles)
+				{
+					if(sp.Condition == Condition.ALive && sp.Life <= LifeBarrier)
+					{
+						sp.Alpha -= mAlphaAmount * args.Time_ms/1000;
+						(args.Emitter as SurfaceEmitter).GetSurfaceByKey(sp.SurfaceKey).Draw(sp.Position);						
+					}
+				}
+			}
 		}
 		
 		/// <summary>
