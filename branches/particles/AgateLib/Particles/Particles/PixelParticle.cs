@@ -24,7 +24,7 @@ using AgateLib.Geometry;
 namespace AgateLib.Particles
 {
 	/// <summary>
-	/// A particle which draws one pixel.
+	/// A particle class which represents a particle with one colored pixels.
 	/// </summary>
 	public class PixelParticle : Particle
 	{		

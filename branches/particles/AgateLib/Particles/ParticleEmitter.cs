@@ -27,6 +27,21 @@ namespace AgateLib.Particles
 	/// <summary>
 	/// Base class for particle emitters.
 	/// </summary>
+    /// <example>This sample shows how to extend the <see cref="ParticleEmitter"/> class.
+    /// <code>
+    /// class TestClass : ParticleEmitter
+    /// {
+    ///     public override void Draw ()
+    /// 	{
+    /// 		foreach(PixelParticle ptl in Particles)
+    /// 		{
+    /// 			Display.DrawEllipse(new Rectangle(0, 0, 2, 2), Color.White);
+    /// 		}
+    /// 	}
+    /// }
+    /// </code>
+    /// </example>
+	/// </summary>
 	public abstract class ParticleEmitter : Particle
 	{	
 		private List<Particle> mParticles = new List<Particle>();
@@ -50,7 +65,7 @@ namespace AgateLib.Particles
 		}
 		
 		/// <value>
-		/// Gets or sets the life of particles which will be emitted in future.
+		/// Gets or sets the life of particles which will be emitted in future in seconds.
 		/// </value>
 		public float EmitLife
 		{
@@ -106,16 +121,24 @@ namespace AgateLib.Particles
 			{
 				pt.Update(time_ms);
 			}
-			
+			//Updates itself
 			base.Update (time_ms);
 		}
 		
+		// TODO: Find a way how to trigger the events below
 		public delegate void ParticleEventHandler(object sender, ParticleArgs args);		
 		public event ParticleEventHandler OnNewParticle;
 		public event ParticleEventHandler OnDeadParticle;
 		public event ParticleEventHandler OnRecyledParticle;
 		
+		/// <summary>
+		/// Update event handler.
+		/// </summary>
 		public delegate void UpdateEventHandler(UpdateArgs args);
+		/// <summary>
+		/// The UpdateEvent is called then the ParticleEmitter begins to update.
+		/// The event is called in <see cref="ParticleEmitter.Update"/>.
+		/// </summary>
 		public event UpdateEventHandler OnUpdate;		
 	}
 	
