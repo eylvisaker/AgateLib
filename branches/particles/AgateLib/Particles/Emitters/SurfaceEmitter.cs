@@ -37,6 +37,26 @@ namespace AgateLib.Particles
 		
 		private float time;
 		
+		private double mEmitAlpha = 1d;
+				
+		/// <value>
+		/// Gets or sets the alpha channel of emitting particles.
+		/// </value>
+		public double EmitAlpha
+		{
+			get { return mEmitAlpha; }
+			set { mEmitAlpha = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the SurfaceKey of the emitting particles.
+		/// </value>
+		public int EmitSurfaceKey
+		{
+			get { return mEmitSurfaceKey; }
+			set { mEmitSurfaceKey = value; }
+		}
+		
 		/// <summary>
 		/// Constructs a SurfaceEmitter with default values:
 		/// EmitLife = 1f, maxParticle = 1000, emitSurfaceKey = 0
@@ -120,7 +140,7 @@ namespace AgateLib.Particles
 					// Recycle a dead particle
 					Particles[index].Acceleration = Vector2.Empty;
 					(Particles[index] as SurfaceParticle).SurfaceKey = mEmitSurfaceKey;
-					(Particles[index] as SurfaceParticle).Alpha = 1d;
+					(Particles[index] as SurfaceParticle).Alpha = mEmitAlpha;
 					Particles[index].Condition = Condition.ALive;
 					Particles[index].Life = EmitLife;
 					Particles[index].Position = Position;
@@ -132,7 +152,7 @@ namespace AgateLib.Particles
 					SurfaceParticle sp = new SurfaceParticle();
 					sp.Acceleration = Vector2.Empty;
 					sp.SurfaceKey = mEmitSurfaceKey;
-					sp.Alpha = 1d;
+					sp.Alpha = mEmitAlpha;
 					sp.Condition = Condition.ALive;
 					sp.Life = EmitLife;
 					sp.Position = Position;
