@@ -124,12 +124,10 @@ namespace AgateLib.Particles
 		/// Updates the emitter position.
 		/// Calls particle manipulators to manipulate particles.
 		/// </summary>
-		/// <param name="time_ms">
-		/// A <see cref="System.Single"/>
-		/// </param>
-		public override void Update (float time_ms)
+		/// <param name="time_ms">Time in milliseconds.</param>
+		public override void Update (double time_ms)
 		{
-			time += time_ms;
+			time += (float)time_ms;
 			float frequenzy = EmitFrequenzy*1000;
 			
 			while(time >= frequenzy)

@@ -54,7 +54,7 @@ namespace AgateLib.Particles
 			{
 				if(pt.IsALive == true)
 				{
-					pt.Acceleration = pt.Acceleration + Gravity * args.Time_ms/1000;
+					pt.Acceleration = pt.Acceleration + Gravity * (float)args.Time_ms/1000;
 					// pt.Acceleration = pt.Acceleration + Position * Strength * args.Time_ms;
 					// pt.Velocity = pt.Velocity + Position * Strength * args.Time_ms;
 				}

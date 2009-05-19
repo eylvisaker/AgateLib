@@ -112,7 +112,7 @@ namespace AgateLib.Particles
 		/// <param name="time_ms">
 		/// Passed time in milliseconds since last update.
 		/// </param>
-		public override void Update (float time_ms)
+		public override void Update (double time_ms)
 		{
 			if ( OnUpdate != null)
 				OnUpdate(new UpdateArgs(this, time_ms));
@@ -176,7 +176,7 @@ namespace AgateLib.Particles
 		/// </summary>
 		/// <param name="emitter">Emitter that triggered the update event.</param>
 		/// <param name="time_ms">Passed time in milliseconds since last update.</param>
-		public UpdateArgs(ParticleEmitter emitter, float time_ms)
+		public UpdateArgs(ParticleEmitter emitter, double time_ms)
 		{
 			mEmitter = emitter;
 			mTime_ms = time_ms;
@@ -191,11 +191,11 @@ namespace AgateLib.Particles
 			get { return mEmitter; }
 		}
 		
-		private float mTime_ms;
+		private double mTime_ms;
 		/// <value>
 		/// Passed time in milliseconds since last update.
 		/// </value>
-		public float Time_ms
+		public double Time_ms
 		{
 			get { return mTime_ms; }
 		}

@@ -100,14 +100,14 @@ namespace AgateLib.Particles
 		/// <param name="time_ms">
 		/// Passed time in milliseconds since last update.
 		/// </param>
-		public virtual void Update(float time_ms)
+		public virtual void Update(double time_ms)
 		{
 			// If the particle is not alive don't simulate
 			if(mCondition != Condition.ALive)
 				return;
 			
 			// passed time in seconds
-			float time = time_ms/1000;
+			float time = (float)time_ms/1000;
 			mLife -= time;
 			
 			if(mLife <= 0)
