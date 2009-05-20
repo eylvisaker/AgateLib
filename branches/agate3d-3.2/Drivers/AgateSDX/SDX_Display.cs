@@ -831,6 +831,7 @@ namespace AgateSDX
 		{
 			mDevice.SetOrthoProjection(region);
 		}
+		[Obsolete]
 		public override void DoLighting(LightManager lights)
 		{
 			FlushDrawBuffer();

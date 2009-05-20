@@ -159,18 +159,6 @@ namespace AgateSDX
 		{
 			get { return mDrawBuffer; }
 		}
-		public VertexFormat VertexFormat
-		{
-			get { return mVertexFormat; }
-			set
-			{
-				if (mVertexFormat != value)
-				{
-					mVertexFormat = value;
-					mDevice.VertexFormat = value;
-				}
-			}
-		}
 		public bool AlphaBlend
 		{
 			get { return mAlphaBlend; }
