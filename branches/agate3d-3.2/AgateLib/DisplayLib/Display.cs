@@ -63,7 +63,8 @@ namespace AgateLib.DisplayLib
 		private static SurfacePacker mSurfacePacker;
 		private static Rectangle mCurrentClipRect;
 		private static Stack<Rectangle> mClipRects = new Stack<Rectangle>();
-		
+		private static RenderStateAdapter mRenderState = new RenderStateAdapter();
+
 		/// <summary>
 		/// Gets the object which handles all of the actual calls to Display functions.
 		/// This may be cast to a surface object in whatever rendering library
@@ -93,6 +94,11 @@ namespace AgateLib.DisplayLib
 			impl.Initialize();
 
 			mSurfacePacker = new SurfacePacker();
+		}
+
+		public static RenderStateAdapter RenderState
+		{
+			get { return mRenderState; }
 		}
 
 		private static ShaderCompilerImpl CreateShaderCompiler()
@@ -406,22 +412,11 @@ namespace AgateLib.DisplayLib
 		/// Gets or sets the VSync flag.  If VSync is off, tearing might occur.
 		/// If VSync is on, the framerate will be capped at the monitor's refresh rate.
 		/// </summary>
+		[Obsolete("Use Display.RenderState.WaitForVerticalBlank instead.", true)]
 		public static bool VSync
 		{
-			get
-			{
-				if (impl == null)
-					throw new AgateException("Display has not been initialized.");
-
-				return impl.VSync;
-			}
-			set
-			{
-				if (impl == null)
-					throw new AgateException("Display has not been initialized.");
-
-				impl.VSync = value;
-			}
+			get { return RenderState.WaitForVerticalBlank; }
+			set { RenderState.WaitForVerticalBlank = value; }
 		}
 
 		/// <summary>
@@ -686,11 +681,13 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Turns lighting functions off.
 		/// </summary>
+		[Obsolete("Use shaders instead.")]
 		public static void DisableLighting()
 		{
 			DoLighting(LightManager.Empty);
 		}
 
+		
 		internal static void DoLighting(LightManager lights)
 		{
 			impl.DoLighting(lights);

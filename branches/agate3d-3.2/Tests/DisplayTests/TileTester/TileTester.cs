@@ -34,7 +34,7 @@ namespace Tests.TileTester
 
 				tile = new Surface("bg-bricks.png");
 
-				Display.VSync = true;
+				Display.RenderState.WaitForVerticalBlank = true;
 				while (frm.IsDisposed == false)
 				{
 					Display.BeginFrame();

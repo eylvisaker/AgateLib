@@ -135,7 +135,7 @@ namespace Tests.FontTester
 					}
 					else if (Keyboard.Keys[KeyCode.F2])
 					{
-						Display.VSync = !Display.VSync;
+						Display.RenderState.WaitForVerticalBlank = !Display.RenderState.WaitForVerticalBlank;
 						Keyboard.ReleaseKey(KeyCode.F2);
 					}
 					else if (Keyboard.Keys[KeyCode.Escape])

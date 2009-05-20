@@ -18,7 +18,7 @@ namespace Tests.TileTester
 			CreateControl();
 
 			DisplayWindow wind = DisplayWindow.CreateFromControl(agateRenderTarget1);
-			chkVSync.Checked = Display.VSync;
+			chkVSync.Checked = Display.RenderState.WaitForVerticalBlank;
 		}
 
 		public bool ScrollX
@@ -40,7 +40,7 @@ namespace Tests.TileTester
 		}
 		private void chkVSync_CheckedChanged(object sender, EventArgs e)
 		{
-			Display.VSync = chkVSync.Checked;
+			Display.RenderState.WaitForVerticalBlank = chkVSync.Checked;
 		}
 	}
 }

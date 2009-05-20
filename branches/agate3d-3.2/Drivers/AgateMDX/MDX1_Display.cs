@@ -540,7 +540,7 @@ namespace AgateMDX
 			if (present.AutoDepthStencilFormat == DepthFormat.Unknown)
 				present.EnableAutoDepthStencil = false;
 
-			if (VSync)
+			if (GetRenderState(RenderStateBool.WaitForVerticalBlank))
 				present.PresentationInterval = PresentInterval.Default;
 			else
 				present.PresentationInterval = PresentInterval.Immediate;
@@ -711,19 +711,7 @@ namespace AgateMDX
 			if (VSyncChanged != null)
 				VSyncChanged(this, EventArgs.Empty);
 		}
-		public override bool VSync
-		{
-			get
-			{
-				return mVSync;
-			}
-			set
-			{
-				mVSync = value;
 
-				OnVSyncChanged();
-			}
-		}
 		public override Size MaxSurfaceSize
 		{
 			get { return mDevice.MaxSurfaceSize; }
@@ -1004,5 +992,32 @@ namespace AgateMDX
 		}
 
 		#endregion
+
+
+		protected override bool GetRenderState(RenderStateBool renderStateBool)
+		{
+			switch (renderStateBool)
+			{
+				case RenderStateBool.WaitForVerticalBlank: return mVSync;
+				default:
+					throw new NotSupportedException(string.Format(
+						"The specified render state, {0}, is not supported by this driver."));
+			}
+		}
+
+		protected override void SetRenderState(RenderStateBool renderStateBool, bool value)
+		{
+			switch (renderStateBool)
+			{
+				case RenderStateBool.WaitForVerticalBlank:
+					mVSync = value;
+					OnVSyncChanged();
+					break;
+
+				default:
+					throw new NotSupportedException(string.Format(
+						"The specified render state, {0}, is not supported by this driver."));
+			}
+		}
 	}
 }

@@ -375,6 +375,33 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		}
 
 		#endregion
+
+
+		protected override bool GetRenderState(RenderStateBool renderStateBool)
+		{
+			switch (renderStateBool)
+			{
+				// vsync is not supported, but shouldn't throw an error.
+				case RenderStateBool.WaitForVerticalBlank: return false;
+				default:
+					throw new NotSupportedException(string.Format(
+						"The specified render state, {0}, is not supported by this driver."));
+			}
+		}
+
+		protected override void SetRenderState(RenderStateBool renderStateBool, bool value)
+		{
+			switch (renderStateBool)
+			{
+				case RenderStateBool.WaitForVerticalBlank:
+					// vsync is not supported, but shouldn't throw an error.
+					break;
+
+				default:
+					throw new NotSupportedException(string.Format(
+						"The specified render state, {0}, is not supported by this driver."));
+			}
+		}
 	}
 
 

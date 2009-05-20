@@ -368,12 +368,6 @@ namespace AgateOTK
 			GL.Enable(EnableCap.Texture2D);
 		}
 
-		public override bool VSync
-		{
-			get { return mVSync; }
-			set { mVSync = value; }
-		}
-
 		public override void Initialize()
 		{
 			mState = new GLState();
@@ -752,5 +746,30 @@ namespace AgateOTK
 		#endregion
 
 		#endregion
+
+		protected override bool GetRenderState(RenderStateBool renderStateBool)
+		{
+			switch (renderStateBool)
+			{
+				case RenderStateBool.WaitForVerticalBlank: return mVSync;
+				default:
+					throw new NotSupportedException(string.Format(
+						"The specified render state, {0}, is not supported by this driver."));
+			}
+		}
+
+		protected override void SetRenderState(RenderStateBool renderStateBool, bool value)
+		{
+			switch (renderStateBool)
+			{
+				case RenderStateBool.WaitForVerticalBlank:
+					mVSync = value;
+					break;
+
+				default:
+					throw new NotSupportedException(string.Format(
+						"The specified render state, {0}, is not supported by this driver."));
+			}
+		}
 	}
 }

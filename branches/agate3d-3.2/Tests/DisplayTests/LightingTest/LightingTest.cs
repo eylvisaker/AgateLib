@@ -45,7 +45,7 @@ namespace Tests.LightingTest
 				lights.AddPointLight(new Vector3(0, 0, -1), Color.White);
 				lights.AddPointLight(new Vector3(0, 0, -1), Color.Yellow);
 
-				Display.VSync = false;
+				Display.RenderState.WaitForVerticalBlank = false;
 
 				//lights[0].Ambient = Color.White;
 				lights[1].AttenuationConstant = 0.01f;

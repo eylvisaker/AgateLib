@@ -425,8 +425,8 @@ namespace AgateOTK
 
 		public override void EndRender()
 		{
-			if (mContext.VSync != mDisplay.VSync)
-				mContext.VSync = mDisplay.VSync;
+			if (mContext.VSync != Display.RenderState.WaitForVerticalBlank)
+				mContext.VSync = Display.RenderState.WaitForVerticalBlank;
 
 			mContext.SwapBuffers();
 		}

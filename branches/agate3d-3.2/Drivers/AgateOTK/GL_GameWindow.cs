@@ -431,8 +431,8 @@ namespace AgateOTK
 
 		public override void BeginRender()
 		{
-			if (mWindow.Context.VSync != mDisplay.VSync)
-				mWindow.Context.VSync = mDisplay.VSync;
+			if (mWindow.Context.VSync != Display.RenderState.WaitForVerticalBlank)
+				mWindow.Context.VSync = Display.RenderState.WaitForVerticalBlank;
 
 			MakeCurrent();
 

@@ -409,7 +409,7 @@ namespace AgateLib.ImplementationBase
 			for (int i = 0; i < pts.Length; i++)
 			{
 				pts[i] = new PointF((float)(center.X + radiusX * Math.Cos(step * i) + 0.5),
-								    (float)(center.Y + radiusY * Math.Sin(step * i) + 0.5));
+									(float)(center.Y + radiusY * Math.Sin(step * i) + 0.5));
 			}
 
 			FillPolygon(pts, color);
@@ -523,17 +523,6 @@ namespace AgateLib.ImplementationBase
 			return retval;
 
 		}
-
-		/// <summary>
-		/// Gets or sets VSync flag.
-		/// There is no need to call base.VSync if overriding this member.
-		/// </summary>
-		public virtual bool VSync
-		{
-			get { return true; }
-			set { }
-		}
-
 
 		/// <summary>
 		/// Enumerates a list of screen modes.
@@ -663,5 +652,8 @@ namespace AgateLib.ImplementationBase
 		}
 
 
+
+		protected internal abstract bool GetRenderState(RenderStateBool renderStateBool);
+		protected internal abstract void SetRenderState(RenderStateBool renderStateBool, bool value);
 	}
 }
