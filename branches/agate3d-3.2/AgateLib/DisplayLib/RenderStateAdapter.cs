@@ -80,19 +80,6 @@ namespace AgateLib.DisplayLib
 				Display.Impl.SetRenderState(RenderStateBool.StencilBufferTest, value);
 			}
 		}
-		public bool StencilBufferWrite
-		{
-			get
-			{
-				CheckDisplayInitialized();
-				return Display.Impl.GetRenderState(RenderStateBool.StencilBufferWrite);
-			}
-			set
-			{
-				CheckDisplayInitialized();
-				Display.Impl.SetRenderState(RenderStateBool.StencilBufferWrite, value);
-			}
-		}
 	}
 
 	public enum RenderStateBool
@@ -105,6 +92,5 @@ namespace AgateLib.DisplayLib
 		ZBufferWrite,
 
 		StencilBufferTest,
-		StencilBufferWrite,
 	}
 }

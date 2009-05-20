@@ -77,7 +77,7 @@
 			this.ClientSize = new System.Drawing.Size(604, 374);
 			this.Controls.Add(this.splitContainer1);
 			this.Name = "frmRenderStateTest";
-			this.Text = "frmRenderStateTest";
+			this.Text = "Render States";
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.ResumeLayout(false);

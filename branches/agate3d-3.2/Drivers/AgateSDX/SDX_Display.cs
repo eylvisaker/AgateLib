@@ -1079,6 +1079,8 @@ namespace AgateSDX
 			{
 				case RenderStateBool.WaitForVerticalBlank: return mVSync;
 				case RenderStateBool.ZBufferTest: return mDevice.Device.GetRenderState<bool>(RenderState.ZEnable);
+				case RenderStateBool.StencilBufferTest: return mDevice.Device.GetRenderState<bool>(RenderState.StencilEnable);
+				
 				default:
 					throw new NotSupportedException(string.Format(
 						"The specified render state, {0}, is not supported by this driver."));
@@ -1096,6 +1098,10 @@ namespace AgateSDX
 
 				case RenderStateBool.ZBufferTest:
 					mDevice.Device.SetRenderState(RenderState.ZEnable, value);
+					return;
+
+				case RenderStateBool.StencilBufferTest:
+					mDevice.Device.SetRenderState(RenderState.StencilEnable, value);
 					return;
 
 				default:
