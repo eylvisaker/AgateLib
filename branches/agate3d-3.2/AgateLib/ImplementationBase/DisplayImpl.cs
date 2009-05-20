@@ -553,7 +553,11 @@ namespace AgateLib.ImplementationBase
 		/// Gets all the light settings from the LightManager.
 		/// </summary>
 		/// <param name="lights"></param>
-		public abstract void DoLighting(LightManager lights);
+		[Obsolete()]
+		public virtual void DoLighting(LightManager lights)
+		{
+			throw new NotImplementedException("DoLighting is not implemented, and also deprecated.");
+		}
 
 		/// <summary>
 		/// Processes pending events.
