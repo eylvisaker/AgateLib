@@ -41,7 +41,6 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
-
 		public bool ZBufferTest
 		{
 			get

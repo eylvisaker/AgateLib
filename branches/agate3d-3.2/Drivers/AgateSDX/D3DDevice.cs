@@ -102,19 +102,8 @@ namespace AgateSDX
 				mDevice.Dispose();
 				mDevice = null;
 			}
-			//if (mSurfaceVB != null)
-			//{
-			//    mSurfaceVB.Dispose();
-			//    mSurfaceVB = null;
-			//}
 		}
 
-		//private void CreateSurfaceVB()
-		//{
-		//    //mSurfaceVB = new VertexBuffer(mDevice, SurfaceVBSize,
-		//    //    Usage.WriteOnly | Usage.Dynamic, CustomVertex.TransformedColoredTextured.Format,
-		//    //     Pool.Default);
-		//}
 		public Device Device
 		{
 			get { return mDevice; }
