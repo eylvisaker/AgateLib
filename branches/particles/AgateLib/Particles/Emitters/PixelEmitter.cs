@@ -35,7 +35,7 @@ namespace AgateLib.Particles
 		
 		private float time = 0f;
 		
-		private Rectangle mRectangle = new Rectangle(0, 0, 2, 2);
+		private Surface mSurface;
 		
 		/// <value>
 		/// Gets or sets the emit color.
@@ -51,8 +51,8 @@ namespace AgateLib.Particles
 		/// </value>
 		public Size PixelSize
 		{
-			get { return mRectangle.Size; }
-			set { mRectangle.Size = value; }
+			get { return mSurface.DisplaySize; }
+			set { mSurface = new Surface(FillSurface(value, Color.White)); }
 		}
 		
 		/// <summary>
@@ -63,7 +63,22 @@ namespace AgateLib.Particles
 		public PixelEmitter(Vector2 position, Color color)
 		{
 			Position = position;
-			mEmitColor = color;			
+			mEmitColor = color;
+			mSurface = new Surface(FillSurface(new Size(1,1), Color.White));
+		}
+		
+		private static PixelBuffer FillSurface(Size size, Color color)
+		{
+			PixelBuffer pb = new PixelBuffer(PixelFormat.ARGB8888, size);
+			int ii = 0;
+			for(int i = 0; i < pb.Width; i++)
+			{
+				for(ii = 0;ii <pb.Height; ii++)
+				{
+					pb.SetPixel(i, ii, color);
+				}
+			}
+			return pb;
 		}
 		
 		/// <summary>
@@ -110,10 +125,8 @@ namespace AgateLib.Particles
 			{
 				if(ptl.Condition == Condition.ALive || ptl.Condition == Condition.Frozen)
 				{
-					mRectangle.X = (int)ptl.Position.X;
-					mRectangle.Y = (int)ptl.Position.Y;
-					
-					Display.DrawEllipse(mRectangle, ptl.Color);
+					mSurface.Color = ptl.Color;
+					mSurface.Draw(ptl.Position);
 				}
 			}
 		}
@@ -136,23 +149,23 @@ namespace AgateLib.Particles
 				if(index > -1)
 				{
 					// Recycle a dead particle
-					Particles[index].Acceleration = Vector2.Empty;
+					Particles[index].Acceleration = EmitAcceleration;
 					(Particles[index] as PixelParticle).Color = EmitColor;
 					Particles[index].Condition = Condition.ALive;
 					Particles[index].Life = EmitLife;
 					Particles[index].Position = Position;
-					Particles[index].Velocity = Vector2.Empty;
+					Particles[index].Velocity = EmitVelocity;
 				}
 				else if(Particles.Count < Particles.Capacity)
 				{
 					// Add a new particle
 					PixelParticle pp = new PixelParticle(EmitColor);
-					pp.Acceleration = Vector2.Empty;
+					pp.Acceleration = EmitVelocity;
 					pp.Color = EmitColor;
 					pp.Condition = Condition.ALive;
 					pp.Life = EmitLife;
 					pp.Position = Position;
-					pp.Velocity = Vector2.Empty;
+					pp.Velocity = EmitVelocity;
 					Particles.Add(pp);
 				}
 				else

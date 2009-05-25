@@ -38,6 +38,27 @@ namespace AgateLib.Particles
 		private float time;
 		
 		private double mEmitAlpha = 1d;
+		
+		private float mEmitScaleWidth = 1f;
+		private float mEmitScaleHeight = 1f;
+		
+		/// <value>
+		/// Gets or sets the scale width of emitting particles.
+		/// </value>
+		public float EmitScaleWidth
+		{
+			get { return mEmitScaleWidth; }
+			set { mEmitScaleWidth = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the scale height of emitting particles.
+		/// </value>
+		public float EmitScaleHeight
+		{
+			get { return mEmitScaleHeight; }
+			set { mEmitScaleHeight = value; }
+		}
 				
 		/// <value>
 		/// Gets or sets the alpha channel of emitting particles.
@@ -136,25 +157,29 @@ namespace AgateLib.Particles
 				if(index > -1)
 				{
 					// Recycle a dead particle
-					Particles[index].Acceleration = Vector2.Empty;
+					Particles[index].Acceleration = EmitAcceleration;
 					(Particles[index] as SurfaceParticle).SurfaceKey = mEmitSurfaceKey;
 					(Particles[index] as SurfaceParticle).Alpha = mEmitAlpha;
+					(Particles[index] as SurfaceParticle).ScaleHeight = mEmitScaleHeight;
+					(Particles[index] as SurfaceParticle).ScaleWidth = mEmitScaleWidth;
 					Particles[index].Condition = Condition.ALive;
 					Particles[index].Life = EmitLife;
 					Particles[index].Position = Position;
-					Particles[index].Velocity = Vector2.Empty;
+					Particles[index].Velocity = EmitVelocity;
 				}
 				else if(Particles.Count < Particles.Capacity)
 				{
 					// Add a new particle
 					SurfaceParticle sp = new SurfaceParticle();
-					sp.Acceleration = Vector2.Empty;
+					sp.Acceleration = EmitAcceleration;
 					sp.SurfaceKey = mEmitSurfaceKey;
 					sp.Alpha = mEmitAlpha;
+					sp.ScaleHeight = mEmitScaleHeight;
+					sp.ScaleWidth = EmitScaleWidth;
 					sp.Condition = Condition.ALive;
 					sp.Life = EmitLife;
 					sp.Position = Position;
-					sp.Velocity = Vector2.Empty;
+					sp.Velocity = EmitVelocity;
 					Particles.Add(sp);
 				}
 				else
@@ -181,6 +206,8 @@ namespace AgateLib.Particles
 			{
 				if(sp.Condition == Condition.ALive || sp.Condition == Condition.Frozen)
 				{
+					mSurfaces[sp.SurfaceKey].ScaleHeight = sp.ScaleHeight;
+					mSurfaces[sp.SurfaceKey].ScaleWidth = sp.ScaleWidth;
 					mSurfaces[sp.SurfaceKey].Alpha = sp.Alpha;
 					mSurfaces[sp.SurfaceKey].Draw(sp.Position);
 				}
