@@ -32,6 +32,17 @@ namespace AgateLib.Particles
 		
 		private int fadeout = 0;
 		
+		private bool mRecyleInvisible = true;
+		
+		/// <value>
+		/// Gets or sets if invisible particles should be recyled.
+		/// </value>
+		public bool RecyleInvisible
+		{
+			get { return mRecyleInvisible; }
+			set { mRecyleInvisible = value; }
+		}
+		
 		/// <value>
 		/// Gets or sets the life barrier at which the particle should fade out.
 		/// </value>
@@ -71,6 +82,8 @@ namespace AgateLib.Particles
 					{
 						fadeout = pt.Color.A - (int)(255 * mAlphaAmount * args.Time_ms/1000);
 						pt.Color = Color.FromArgb(fadeout, pt.Color);
+						if(mRecyleInvisible == true && pt.Color.A == 0)
+							pt.Condition = Condition.Dead;
 					}
 				}
 			}
@@ -81,7 +94,8 @@ namespace AgateLib.Particles
 					if(sp.Condition == Condition.ALive && sp.Life <= LifeBarrier)
 					{
 						sp.Alpha -= mAlphaAmount * args.Time_ms/1000;
-						(args.Emitter as SurfaceEmitter).GetSurfaceByKey(sp.SurfaceKey).Draw(sp.Position);						
+						if(mRecyleInvisible == true && sp.Alpha == 0)
+							sp.Condition = Condition.Dead;
 					}
 				}
 			}
