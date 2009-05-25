@@ -31,6 +31,9 @@ namespace AgateLib.Particles
 		
 		private double mAlpha = 1d;
 		
+		private float mScaleWidth = 1f;
+		private float mScaleHeight = 1f;
+		
 		/// <value>
 		/// Gets or sets the surface key.
 		/// </value>
@@ -47,6 +50,24 @@ namespace AgateLib.Particles
 		{
 			get { return mAlpha; }
 			set { mAlpha = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the scale width of the surface.
+		/// </value>
+		public float ScaleWidth
+		{
+			get { return mScaleWidth; }
+			set { mScaleWidth = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the scale height of the surface.
+		/// </value>
+		public float ScaleHeight
+		{
+			get { return mScaleHeight; }
+			set { mScaleHeight = value; }
 		}
 		
 		/// <summary>
