@@ -153,7 +153,17 @@ namespace AgateLib.Particles
 			
 			while(time >= frequenzy)
 			{
-				int index = Particles.IndexOf(Particles.FirstOrDefault(pt => pt.IsALive == false));
+				//int index = Particles.IndexOf(Particles.FirstOrDefault(pt => pt.IsALive == false));
+				int index = -1;
+				for (int i = 0; i < Particles.Count; i++)
+				{
+					if (Particles[i].IsALive == false)
+					{
+						index = i;
+						break;
+					}
+				}
+				
 				if(index > -1)
 				{
 					// Recycle a dead particle
