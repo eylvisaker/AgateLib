@@ -48,7 +48,7 @@ namespace AgateLib.Particles
 		/// <value>
 		/// Is particle alive.
 		/// </value>
-		public bool IsALive
+		public bool IsAlive
 		{
 			get {
 				if(mCondition == Condition.Dead)
@@ -103,7 +103,7 @@ namespace AgateLib.Particles
 		public virtual void Update(double time_ms)
 		{
 			// If the particle is not alive don't simulate
-			if(mCondition != Condition.ALive)
+			if(mCondition != Condition.Alive)
 				return;
 			
 			// passed time in seconds
@@ -139,7 +139,7 @@ namespace AgateLib.Particles
 		/// <summary>
 		/// Particle is alive and will be simulated.
 		/// </summary>
-		ALive,
+		Alive,
 		/// <summary>
 		/// Particle is dead and is ready to get recycled.
 		/// </summary>

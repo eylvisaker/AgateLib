@@ -52,7 +52,7 @@ namespace AgateLib.Particles
 		{
 			foreach(Particle pt in args.Emitter.Particles)
 			{
-				if(pt.IsALive == true)
+				if(pt.IsAlive == true)
 				{
 					pt.Acceleration = pt.Acceleration + Gravity * (float)args.Time_ms/1000;
 					// pt.Acceleration = pt.Acceleration + Position * Strength * args.Time_ms;

@@ -141,7 +141,7 @@ namespace AgateLib.Particles
 		
 		/// <summary>
 		/// Overridden Update mehtod.
-		/// Emits particles based on the frequenzy property.
+		/// Emits particles based on the frequency property.
 		/// Updates the emitter position.
 		/// Calls particle manipulators to manipulate particles.
 		/// </summary>
@@ -149,15 +149,15 @@ namespace AgateLib.Particles
 		public override void Update (double time_ms)
 		{
 			time += (float)time_ms;
-			float frequenzy = EmitFrequenzy*1000;
+			float frequency = EmitFrequency*1000;
 			
-			while(time >= frequenzy)
+			while(time >= frequency)
 			{
-				//int index = Particles.IndexOf(Particles.FirstOrDefault(pt => pt.IsALive == false));
+				//int index = Particles.IndexOf(Particles.FirstOrDefault(pt => pt.IsAlive == false));
 				int index = -1;
 				for (int i = 0; i < Particles.Count; i++)
 				{
-					if (Particles[i].IsALive == false)
+					if (Particles[i].IsAlive == false)
 					{
 						index = i;
 						break;
@@ -172,7 +172,7 @@ namespace AgateLib.Particles
 					(Particles[index] as SurfaceParticle).Alpha = mEmitAlpha;
 					(Particles[index] as SurfaceParticle).ScaleHeight = mEmitScaleHeight;
 					(Particles[index] as SurfaceParticle).ScaleWidth = mEmitScaleWidth;
-					Particles[index].Condition = Condition.ALive;
+					Particles[index].Condition = Condition.Alive;
 					Particles[index].Life = EmitLife;
 					Particles[index].Position = Position;
 					Particles[index].Velocity = EmitVelocity;
@@ -186,7 +186,7 @@ namespace AgateLib.Particles
 					sp.Alpha = mEmitAlpha;
 					sp.ScaleHeight = mEmitScaleHeight;
 					sp.ScaleWidth = EmitScaleWidth;
-					sp.Condition = Condition.ALive;
+					sp.Condition = Condition.Alive;
 					sp.Life = EmitLife;
 					sp.Position = Position;
 					sp.Velocity = EmitVelocity;
@@ -199,7 +199,7 @@ namespace AgateLib.Particles
 					break;
 				}
 				
-				time -= frequenzy;
+				time -= frequency;
 			}
 			
 			// updates own position, particle positions and calls manipulators
@@ -214,7 +214,7 @@ namespace AgateLib.Particles
 		{
 			foreach(SurfaceParticle sp in Particles)
 			{
-				if(sp.Condition == Condition.ALive || sp.Condition == Condition.Frozen)
+				if(sp.Condition == Condition.Alive || sp.Condition == Condition.Frozen)
 				{
 					mSurfaces[sp.SurfaceKey].ScaleHeight = sp.ScaleHeight;
 					mSurfaces[sp.SurfaceKey].ScaleWidth = sp.ScaleWidth;

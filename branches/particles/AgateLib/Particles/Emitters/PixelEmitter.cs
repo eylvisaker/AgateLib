@@ -123,7 +123,7 @@ namespace AgateLib.Particles
 		{
 			foreach(PixelParticle ptl in Particles)
 			{
-				if(ptl.Condition == Condition.ALive || ptl.Condition == Condition.Frozen)
+				if(ptl.Condition == Condition.Alive || ptl.Condition == Condition.Frozen)
 				{
 					mSurface.Color = ptl.Color;
 					mSurface.Draw(ptl.Position);
@@ -133,7 +133,7 @@ namespace AgateLib.Particles
 		
 		/// <summary>
 		/// Overridden Update mehtod.
-		/// Emits particles based on the frequenzy property.
+		/// Emits particles based on the frequency property.
 		/// Updates the emitter position.
 		/// Calls particle manipulators to manipulate particles.
 		/// </summary>
@@ -141,15 +141,15 @@ namespace AgateLib.Particles
 		public override void Update (double time_ms)
 		{
 			time += (float)time_ms;
-			float frequenzy = EmitFrequenzy*1000;
+			float frequency = EmitFrequency*1000;
 			
-			while(time >= frequenzy)
+			while(time >= frequency)
 			{
-				//int index = Particles.IndexOf(Particles.FirstOrDefault(pt => pt.IsALive == false));
+				//int index = Particles.IndexOf(Particles.FirstOrDefault(pt => pt.IsAlive == false));
 				int index = -1;
 				for (int i = 0; i < Particles.Count; i++)
 				{
-					if (Particles[i].IsALive == false)
+					if (Particles[i].IsAlive == false)
 					{
 						index = i;
 						break;
@@ -161,7 +161,7 @@ namespace AgateLib.Particles
 					// Recycle a dead particle
 					Particles[index].Acceleration = EmitAcceleration;
 					(Particles[index] as PixelParticle).Color = EmitColor;
-					Particles[index].Condition = Condition.ALive;
+					Particles[index].Condition = Condition.Alive;
 					Particles[index].Life = EmitLife;
 					Particles[index].Position = Position;
 					Particles[index].Velocity = EmitVelocity;
@@ -172,7 +172,7 @@ namespace AgateLib.Particles
 					PixelParticle pp = new PixelParticle(EmitColor);
 					pp.Acceleration = EmitVelocity;
 					pp.Color = EmitColor;
-					pp.Condition = Condition.ALive;
+					pp.Condition = Condition.Alive;
 					pp.Life = EmitLife;
 					pp.Position = Position;
 					pp.Velocity = EmitVelocity;
@@ -185,7 +185,7 @@ namespace AgateLib.Particles
 					break;
 				}
 				
-				time -= frequenzy;
+				time -= frequency;
 			}
 			
 			// updates own position, particle positions and calls manipulators

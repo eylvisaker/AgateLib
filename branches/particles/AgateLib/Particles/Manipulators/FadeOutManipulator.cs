@@ -78,7 +78,7 @@ namespace AgateLib.Particles
 			{
 				foreach(PixelParticle pt in args.Emitter.Particles)
 				{
-					if(pt.Condition == Condition.ALive && pt.Life <= LifeBarrier)
+					if(pt.Condition == Condition.Alive && pt.Life <= LifeBarrier)
 					{
 						fadeout = pt.Color.A - (int)(255 * mAlphaAmount * args.Time_ms/1000);
 						pt.Color = Color.FromArgb(fadeout, pt.Color);
@@ -91,7 +91,7 @@ namespace AgateLib.Particles
 			{
 				foreach(SurfaceParticle sp in args.Emitter.Particles)
 				{
-					if(sp.Condition == Condition.ALive && sp.Life <= LifeBarrier)
+					if(sp.Condition == Condition.Alive && sp.Life <= LifeBarrier)
 					{
 						sp.Alpha -= mAlphaAmount * args.Time_ms/1000;
 						if(mRecyleInvisible == true && sp.Alpha == 0)
