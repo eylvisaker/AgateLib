@@ -325,7 +325,7 @@ namespace AgateLib.BitmapFont
 				// It may be less then text.Length because carriage return characters 
 				// don't need any rects.
 				GetRects(cache.SrcRects, cache.DestRects, out cache.DisplayTextLength,
-					state.Text, state.ScaleHeight, state.ScaleWidth);
+					state.TransformedText, state.ScaleHeight, state.ScaleWidth);
 
 				PointF dest = state.Location;
 

@@ -366,6 +366,9 @@ namespace AgateLib.DisplayLib
 
 		public void DrawText(FontState state)
 		{
+			if (string.IsNullOrEmpty(state.TransformedText))
+				state.TransformedText = StringTransformer.Transform(state.Text);
+
 			impl.DrawText(state);
 		}
 
