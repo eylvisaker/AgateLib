@@ -34,6 +34,7 @@ namespace AgateLib.DisplayLib
 		private PointF mLocation;
 		private string mText;
 		private FontStateCache mCache;
+		private string mTransformedText;
 
 		/// <summary>
 		/// Gets or sets the text that is displayed when drawn.
@@ -44,10 +45,16 @@ namespace AgateLib.DisplayLib
 			set
 			{
 				mText = value;
+				mTransformedText = string.Empty;
 
 				if (Cache != null)
 					Cache.OnTextChanged(this);
 			}
+		}
+		public string TransformedText
+		{
+			get { return mTransformedText; }
+			internal set { mTransformedText = value; }
 		}
 		/// <summary>
 		/// Gets or sets the location where text is drawn.
