@@ -303,6 +303,22 @@ namespace AgateLib.Serialization.Xle
 
 		}
 
+
+		/// <summary>
+		/// Writes a bool[] array to the XML data as an element.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The array data to write.</param>
+		public void Write(string name, bool[] value)
+		{
+			byte[] array = new byte[value.Length];
+
+			for (int i = 0; i < value.Length; i++)
+				array[i] = (byte)(value[i] ? 1 : 0);
+			
+			Write(name, array);
+		}
+
 		/// <summary>
 		/// Writes an double[] array to the XML data as an element.
 		/// </summary>
@@ -431,6 +447,36 @@ namespace AgateLib.Serialization.Xle
 				nodes.Push(item);
 				Serialize(kvp.Value);
 				nodes.Pop();
+			}
+
+			nodes.Pop();
+		}
+		/// <summary>
+		/// Writes a Dictionary of integers to the XML data as an element.
+		/// The key type must implement IConvertible and the value type must implment IXleSerializable.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The dictionary to write.</param>
+		[CLSCompliant(false)]
+		public void Write<Tkey>(string name, Dictionary<Tkey, int> value)
+			where Tkey : IConvertible
+		{
+			Type keyType = typeof(Tkey);
+
+			XmlElement element = CreateElement(name);
+			//AddAttribute(element, "dictionary", "true");
+			//AddAttribute(element, "keytype", keyType.ToString());
+			//AddAttribute(element, "valuetype", valueType.ToString());
+
+			nodes.Push(element);
+
+			foreach (KeyValuePair<Tkey, int> kvp in value)
+			{
+				XmlElement item = doc.CreateElement("Item");
+				CurrentNode.AppendChild(item);
+
+				AddAttribute(item, "key", kvp.Key.ToString());
+				AddAttribute(item, "value", kvp.Value.ToString());
 			}
 
 			nodes.Pop();
@@ -743,7 +789,26 @@ namespace AgateLib.Serialization.Xle
 			return double.Parse(element.InnerText);
 		}
 
+		/// <summary>
+		/// Reads a float value from the XML data.  If the name is not present 
+		/// an XleSerializationException is thrown.
+		/// </summary>
+		/// <param name="name">Name of the field.</param>
+		/// <returns></returns>
+		public float ReadFloat(string name)
+		{
+			string attribute = CurrentNode.GetAttribute(name);
 
+			if (string.IsNullOrEmpty(attribute) == false)
+				return float.Parse(attribute);
+
+			XmlElement element = (XmlElement)CurrentNode[name];
+
+			if (element == null)
+				throw new XleSerializationException("Node " + name + " not found.");
+
+			return float.Parse(element.InnerText);
+		}
 		/// <summary>
 		/// Reads a integer array from the XML data.  If the name is not present 
 		/// an XleSerializationException is thrown.
@@ -765,6 +830,22 @@ namespace AgateLib.Serialization.Xle
 					Marshal.Copy((IntPtr)ar, result, 0, result.Length);
 				}
 			}
+
+			return result;
+		}
+		/// <summary>
+		/// Reads a boolean array from the XML data.  If the name is not present 
+		/// an XleSerializationException is thrown.
+		/// </summary>
+		/// <param name="name">Name of the field.</param>
+		/// <returns></returns>
+		public bool[] ReadBooleanArray(string name)
+		{
+			byte[] array = ReadByteArray(name);
+			bool[] result = new bool[array.Length];
+
+			for (int i = 0; i < array.Length; i++)
+				result[i] = array[i] != 0;
 
 			return result;
 		}

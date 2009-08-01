@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Geometry
 {
@@ -28,7 +29,7 @@ namespace AgateLib.Geometry
 	/// </summary>
 	[Serializable]
 	[TypeConverter(typeof(ExpandableObjectConverter))]
-	public struct RectangleF
+	public struct RectangleF : IXleSerializable 
 	{
 		PointF pt;
 		SizeF sz;
@@ -56,6 +57,24 @@ namespace AgateLib.Geometry
 			this.sz = sz;
 		}
 
+		#region IXleSerializable Members
+
+		void IXleSerializable.WriteData(XleSerializationInfo info)
+		{
+			info.Write("X", X, true);
+			info.Write("Y", Y, true);
+			info.Write("Width", Width, true);
+			info.Write("Height", Height, true);
+		}
+		void IXleSerializable.ReadData(XleSerializationInfo info)
+		{
+			X = info.ReadFloat("X");
+			Y = info.ReadFloat("Y");
+			Width = info.ReadFloat("Width");
+			Height = info.ReadFloat("Height");
+		}
+
+		#endregion
 		/// <summary>
 		/// Static method which returns a RectangleF with specified left, top, right and bottom.
 		/// </summary>

@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Geometry
 {
@@ -26,7 +27,7 @@ namespace AgateLib.Geometry
 	/// Replacement for System.Drawing.PointF structure.
 	/// </summary>
 	[Serializable]
-	public struct PointF
+	public struct PointF : IXleSerializable 
 	{
 		float x, y;
 
@@ -59,6 +60,18 @@ namespace AgateLib.Geometry
 		{
 			this.x = size.Width;
 			this.y = size.Height;
+		}
+
+
+		void IXleSerializable.WriteData(XleSerializationInfo info)
+		{
+			info.Write("X", X, true);
+			info.Write("Y", Y, true);
+		}
+		void IXleSerializable.ReadData(XleSerializationInfo info)
+		{
+			X = info.ReadFloat("X");
+			Y = info.ReadFloat("Y");
 		}
 
 		#endregion
