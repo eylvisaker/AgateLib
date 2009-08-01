@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Geometry
 {
@@ -28,7 +29,7 @@ namespace AgateLib.Geometry
 	/// </summary>
 	[Serializable]
 	[TypeConverter(typeof(ExpandableObjectConverter))]
-	public partial struct Size
+	public partial struct Size : IXleSerializable 
 	{
 		int width, height;
 
@@ -51,6 +52,21 @@ namespace AgateLib.Geometry
 			this.width = width;
 			this.height = height;
 		}
+
+		#region IXleSerializable Members
+
+		void IXleSerializable.WriteData(XleSerializationInfo info)
+		{
+			info.Write("Width", Width, true);
+			info.Write("Height", Height, true);
+		}
+		void IXleSerializable.ReadData(XleSerializationInfo info)
+		{
+			Width = info.ReadInt32("Width");
+			Height = info.ReadInt32("Height");
+		}
+
+		#endregion
 
 		/// <summary>
 		/// Gets or sets the width.
@@ -183,5 +199,6 @@ namespace AgateLib.Geometry
 		{
 			return SizeConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
 		}
+
 	}
 }

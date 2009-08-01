@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Geometry
 {
@@ -27,7 +28,7 @@ namespace AgateLib.Geometry
 	/// </summary>
 	[Serializable]
 	[TypeConverter(typeof(PointConverter))]
-	public struct Point
+	public struct Point : IXleSerializable 
 	{
 		int x, y;
 
@@ -60,6 +61,18 @@ namespace AgateLib.Geometry
 		{
 			this.x = size.Width;
 			this.y = size.Height;
+		}
+
+
+		void IXleSerializable.WriteData(XleSerializationInfo info)
+		{
+			info.Write("X", X, true);
+			info.Write("Y", Y, true);
+		}
+		void IXleSerializable.ReadData(XleSerializationInfo info)
+		{
+			X = info.ReadInt32("X");
+			Y = info.ReadInt32("Y");
 		}
 
 		#endregion
@@ -212,5 +225,7 @@ namespace AgateLib.Geometry
 		}
 
 		#endregion
+
+
 	}
 }
