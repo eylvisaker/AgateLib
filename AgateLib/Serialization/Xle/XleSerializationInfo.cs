@@ -607,6 +607,12 @@ namespace AgateLib.Serialization.Xle
 				nodes.Pop();
 			}
 		}
+
+		public T ReadObject<T>(string name)
+		{
+			return (T)ReadObject(name);
+		}
+
 		/// <summary>
 		/// Reads a string from the XML data, with an optional default value substituted
 		/// if the name is not present.
