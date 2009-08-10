@@ -292,11 +292,14 @@ namespace AgateLib.Serialization.Xle
 		{
 			byte[] array = new byte[value.Length * 4];
 
-			unsafe
+			if (array.Length > 0)
 			{
-				fixed (int* val = value)
+				unsafe
 				{
-					Marshal.Copy((IntPtr)val, array, 0, array.Length);
+					fixed (int* val = value)
+					{
+						Marshal.Copy((IntPtr)val, array, 0, array.Length);
+					}
 				}
 			}
 			Write(name, array);
@@ -411,6 +414,27 @@ namespace AgateLib.Serialization.Xle
 			nodes.Pop();
 		}
 		/// <summary>
+		/// Writes a List&lt;T&gt; of strings to the XML data as an element.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The list data to write.</param>
+		public void Write(string name, List<string> value) 
+		{
+			XmlElement element = CreateElement(name);
+			AddAttribute(element, "array", "true");
+			
+			nodes.Push(element);
+
+			for (int i = 0; i < value.Count; i++)
+			{
+				XmlElement item = doc.CreateElement("Item");
+				CurrentNode.AppendChild(item);
+				item.InnerText = value[i];
+			}
+
+			nodes.Pop();
+		}
+		/// <summary>
 		/// Writes a Dictionary of objects implementing IXleSerializable to the XML data as an element.
 		/// The key type must implement IConvertible and the value type must implment IXleSerializable.
 		/// </summary>
@@ -425,7 +449,7 @@ namespace AgateLib.Serialization.Xle
 			Type valueType = typeof(Tvalue);
 
 			XmlElement element = CreateElement(name);
-			//AddAttribute(element, "dictionary", "true");
+			AddAttribute(element, "dictionary", "true");
 			//AddAttribute(element, "keytype", keyType.ToString());
 			//AddAttribute(element, "valuetype", valueType.ToString());
 
@@ -606,7 +630,22 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the element in the XML stream to decode.</param>
 		/// <returns></returns> 
 		[CLSCompliant(false)]
+		[Obsolete("Use ReadDictionaryString instead.")]
 		public Dictionary<Tkey, string> ReadDictionary<Tkey>(string name)
+			where Tkey : IConvertible 
+		{
+			return ReadDictionaryString<Tkey>(name);
+		}
+		/// <summary>
+		/// Reads a dictionary type of strings from the XML data.
+		/// The key type must implement IConvertible and the value type must implement
+		/// IXleSerializable.
+		/// </summary>
+		/// <typeparam name="Tkey">The key type of the dictionary.</typeparam>
+		/// <param name="name">The name of the element in the XML stream to decode.</param>
+		/// <returns></returns> 
+		[CLSCompliant(false)]
+		public Dictionary<Tkey, string> ReadDictionaryString<Tkey>(string name)
 			where Tkey : IConvertible
 		{
 			XmlElement element = (XmlElement)CurrentNode[name];
@@ -631,6 +670,29 @@ namespace AgateLib.Serialization.Xle
 			return retval;
 		}
 
+		public Dictionary<Tkey, int> ReadDictionaryInt32<Tkey>(string name)
+		{
+			XmlElement element = (XmlElement)CurrentNode[name];
+
+			nodes.Push(element);
+
+			Dictionary<Tkey, int> retval = new Dictionary<Tkey, int>();
+
+			for (int i = 0; i < element.ChildNodes.Count; i++)
+			{
+				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
+				string keyString = current.GetAttribute("key");
+				Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
+
+				string valueString = current.GetAttribute("value");
+
+				retval.Add(key, int.Parse(valueString));
+			}
+
+			nodes.Pop();
+
+			return retval;
+		}
 		/// <summary>
 		/// Reads an object from the XML data.
 		/// </summary>
@@ -823,11 +885,14 @@ namespace AgateLib.Serialization.Xle
 			if (array.Length % 4 != 0)
 				throw new XleSerializationException("Encoded array is wrong size!");
 
-			unsafe
+			if (array.Length > 0)
 			{
-				fixed (byte* ar = array)
+				unsafe
 				{
-					Marshal.Copy((IntPtr)ar, result, 0, result.Length);
+					fixed (byte* ar = array)
+					{
+						Marshal.Copy((IntPtr)ar, result, 0, result.Length);
+					}
 				}
 			}
 
@@ -937,12 +1002,19 @@ namespace AgateLib.Serialization.Xle
 				if (item.Name != "Item")
 					throw new XleSerializationException("Could not understand data.  Expected Item, found " + item.Name + ".");
 
-				nodes.Push(item);
+				if (type == typeof(string))
+				{
+					list.Add(item.InnerText);
+				}
+				else
+				{
+					nodes.Push(item);
 
-				object o = DeserializeObject(type);
-				list.Add(o);
+					object o = DeserializeObject(type);
+					list.Add(o);
 
-				nodes.Pop();
+					nodes.Pop();
+				}
 			}
 
 			Array retval = (Array)Activator.CreateInstance(arrayType, list.Count);
@@ -1064,6 +1136,7 @@ namespace AgateLib.Serialization.Xle
 
 			return obj;
 		}
+
 
 	}
 }
