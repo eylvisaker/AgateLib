@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using Draw = System.Drawing;
 using AgateLib.Geometry;
+using AgateLib.DisplayLib;
 
 namespace AgateLib.WinForms
 {
@@ -30,6 +31,23 @@ namespace AgateLib.WinForms
 	/// </summary>
 	public static class Interop
 	{
+		public static System.Drawing.Bitmap ToBitmap(this Surface surf)
+		{
+			string filename = System.IO.Path.GetTempFileName();
+
+			surf.SaveTo(filename);
+
+			System.Drawing.Bitmap retval;
+
+			using (var stream = System.IO.File.OpenRead(filename))
+			{
+				retval = new System.Drawing.Bitmap(stream);
+			}
+
+			System.IO.File.Delete(filename);
+
+			return retval;
+		}
 		/// <summary>
 		/// Converts color structures.
 		/// </summary>
@@ -105,7 +123,7 @@ namespace AgateLib.WinForms
 		/// </summary>
 		/// <param name="pt"></param>
 		/// <returns></returns>
-		public static Draw.Point Convert(Point pt)
+		public static Draw.Point Convert(this Point pt)
 		{
 			return new Draw.Point(pt.X, pt.Y);
 		}
