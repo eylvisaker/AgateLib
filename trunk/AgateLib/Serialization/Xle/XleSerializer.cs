@@ -66,7 +66,7 @@ namespace AgateLib.Serialization.Xle
 		public void Serialize(Stream outStream, IXleSerializable objectGraph)
 		{
 			if (objectType.IsAssignableFrom(objectGraph.GetType()) == false)
-				throw new ArgumentException("Object is not of type " + objectType.GetType());
+				throw new ArgumentException("Object is not of type " + objectType.Name);
 
 			XleSerializationInfo info = new XleSerializationInfo();
 
