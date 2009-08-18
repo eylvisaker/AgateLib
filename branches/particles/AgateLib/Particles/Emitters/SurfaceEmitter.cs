@@ -39,16 +39,15 @@ namespace AgateLib.Particles
 		
 		private double mEmitAlpha = 1d;
 		
-		private float mEmitScaleWidth = 1f;
-		private float mEmitScaleHeight = 1f;
+		private SizeF mEmitScale = new SizeF(1f, 1f);
 		
 		/// <value>
 		/// Gets or sets the scale width of emitting particles.
 		/// </value>
 		public float EmitScaleWidth
 		{
-			get { return mEmitScaleWidth; }
-			set { mEmitScaleWidth = value; }
+			get { return mEmitScale.Width; }
+			set { mEmitScale.Width = value; }
 		}
 		
 		/// <value>
@@ -56,8 +55,17 @@ namespace AgateLib.Particles
 		/// </value>
 		public float EmitScaleHeight
 		{
-			get { return mEmitScaleHeight; }
-			set { mEmitScaleHeight = value; }
+			get { return mEmitScale.Height; }
+			set { mEmitScale.Height = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the scale of emitting particles.
+		/// </value>
+		public SizeF EmitScale
+		{
+			get { return mEmitScale; }
+			set { mEmitScale = value; }
 		}
 				
 		/// <value>
@@ -170,8 +178,7 @@ namespace AgateLib.Particles
 					Particles[index].Acceleration = EmitAcceleration;
 					(Particles[index] as SurfaceParticle).SurfaceKey = mEmitSurfaceKey;
 					(Particles[index] as SurfaceParticle).Alpha = mEmitAlpha;
-					(Particles[index] as SurfaceParticle).ScaleHeight = mEmitScaleHeight;
-					(Particles[index] as SurfaceParticle).ScaleWidth = mEmitScaleWidth;
+					(Particles[index] as SurfaceParticle).Scale = mEmitScale;
 					Particles[index].Condition = Condition.Alive;
 					Particles[index].Life = EmitLife;
 					Particles[index].Position = Position;
@@ -184,8 +191,7 @@ namespace AgateLib.Particles
 					sp.Acceleration = EmitAcceleration;
 					sp.SurfaceKey = mEmitSurfaceKey;
 					sp.Alpha = mEmitAlpha;
-					sp.ScaleHeight = mEmitScaleHeight;
-					sp.ScaleWidth = EmitScaleWidth;
+					sp.Scale = mEmitScale;
 					sp.Condition = Condition.Alive;
 					sp.Life = EmitLife;
 					sp.Position = Position;

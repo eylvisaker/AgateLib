@@ -17,7 +17,7 @@
 //		Contributor(s): Marcel Hauf.
 //
 using System;
-
+using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 
 namespace AgateLib.Particles
@@ -31,8 +31,7 @@ namespace AgateLib.Particles
 		
 		private double mAlpha = 1d;
 		
-		private float mScaleWidth = 1f;
-		private float mScaleHeight = 1f;
+		private SizeF mScale = new SizeF(1f, 1f);
 		
 		/// <value>
 		/// Gets or sets the surface key.
@@ -57,8 +56,8 @@ namespace AgateLib.Particles
 		/// </value>
 		public float ScaleWidth
 		{
-			get { return mScaleWidth; }
-			set { mScaleWidth = value; }
+			get { return mScale.Width; }
+			set { mScale.Width = value; }
 		}
 		
 		/// <value>
@@ -66,8 +65,17 @@ namespace AgateLib.Particles
 		/// </value>
 		public float ScaleHeight
 		{
-			get { return mScaleHeight; }
-			set { mScaleHeight = value; }
+			get { return mScale.Height; }
+			set { mScale.Height = value; }
+		}
+		
+		/// <value>
+		/// Gets or sets the scale.
+		/// </value>
+		public SizeF Scale
+		{
+			get { return  mScale; }
+			set { mScale = value; }
 		}
 		
 		/// <summary>

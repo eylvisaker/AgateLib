@@ -125,11 +125,46 @@ namespace AgateLib.Particles
 			base.Update (time_ms);
 		}
 		
-		// TODO: Find a way how to trigger the events below
 		public delegate void ParticleEventHandler(object sender, ParticleArgs args);		
 		public event ParticleEventHandler OnNewParticle;
 		public event ParticleEventHandler OnDeadParticle;
 		public event ParticleEventHandler OnRecyledParticle;
+		
+		/// <summary>
+		/// Triggers a new <see cref="OnNewParticle"/> event.
+		/// </summary>
+		/// <param name="particle">
+		/// A newly created particle.
+		/// </param>
+		protected void NewParticle(Particle particle)
+		{
+			if(OnNewParticle != null)
+				OnNewParticle(this, new ParticleArgs(particle));
+		}
+		
+		/// <summary>
+		/// Triggers a new <see cref="OnDeadParticle"/> event.
+		/// </summary>
+		/// <param name="particle">
+		/// Dead particle.
+		/// </param>
+		protected void DeadParticle(Particle particle)
+		{
+			if(OnDeadParticle != null)
+				OnDeadParticle(this, new ParticleArgs(particle));
+		}
+		
+		/// <summary>
+		/// Triggers a new <see cref="OnRecyledParticle"/> event.
+		/// </summary>
+		/// <param name="particle">
+		/// Recyled particle.
+		/// </param>
+		protected void RecyledParticle(Particle particle)
+		{
+			if(OnRecyledParticle != null)
+				OnRecyledParticle(this, new ParticleArgs(particle));
+		}
 		
 		/// <summary>
 		/// Update event handler.
@@ -140,6 +175,18 @@ namespace AgateLib.Particles
 		/// The event is called in <see cref="ParticleEmitter.Update"/>.
 		/// </summary>
 		public event UpdateEventHandler OnUpdate;		
+		
+		/// <summary>
+		/// Triggers a new <see cref="OnUpdate"/> event
+		/// </summary>
+		/// <param name="time_ms">
+		/// Time in milliseconds.
+		/// </param>
+		protected void NewUpdate(double time_ms)
+		{
+			if(OnUpdate != null)
+				OnUpdate(new UpdateArgs(this, time_ms));
+		}
 	}
 	
 	/// <summary>
