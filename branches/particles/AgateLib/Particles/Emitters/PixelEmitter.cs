@@ -165,6 +165,7 @@ namespace AgateLib.Particles
 					Particles[index].Life = EmitLife;
 					Particles[index].Position = Position;
 					Particles[index].Velocity = EmitVelocity;
+					NewRecyledParticle(Particles[index]);
 				}
 				else if(Particles.Count < Particles.Capacity)
 				{
@@ -176,6 +177,7 @@ namespace AgateLib.Particles
 					pp.Life = EmitLife;
 					pp.Position = Position;
 					pp.Velocity = EmitVelocity;
+					NewParticle(pp);
 					Particles.Add(pp);
 				}
 				else

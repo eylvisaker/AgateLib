@@ -148,7 +148,7 @@ namespace AgateLib.Particles
 		/// <param name="particle">
 		/// Dead particle.
 		/// </param>
-		protected void DeadParticle(Particle particle)
+		protected void NewDeadParticle(Particle particle)
 		{
 			if(OnDeadParticle != null)
 				OnDeadParticle(this, new ParticleArgs(particle));
@@ -160,7 +160,7 @@ namespace AgateLib.Particles
 		/// <param name="particle">
 		/// Recyled particle.
 		/// </param>
-		protected void RecyledParticle(Particle particle)
+		protected void NewRecyledParticle(Particle particle)
 		{
 			if(OnRecyledParticle != null)
 				OnRecyledParticle(this, new ParticleArgs(particle));
