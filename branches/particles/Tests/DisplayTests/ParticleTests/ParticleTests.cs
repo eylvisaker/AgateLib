@@ -7,6 +7,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Particles;
+using AgateLib.Sprites;
 
 namespace Tests.ParticleTest
 {
@@ -43,7 +44,10 @@ namespace Tests.ParticleTest
 		GravityManipulator gm2;
 		
 		//SurfaceParticle
-		SurfaceEmitter sm;		
+		SurfaceEmitter sm;
+		
+		//SpriteParticle
+		SpriteEmitter se;
 		
 		FontSurface fontSurface;
 		
@@ -52,32 +56,49 @@ namespace Tests.ParticleTest
 			//PixelParticle
 			pe = new PixelEmitter(new Vector2(400f, 550f) ,Color.Blue, 5000);
 			pe.EmitLife = 4f;
-			pe.EmitFrequenzy = 0.002f;
+			pe.EmitFrequency = 0.001f;
 			pe.PixelSize = new Size(3, 3);
 			
 			//SurfaceParticle
 			sm = new SurfaceEmitter(new Vector2(150f, 550f), 4.2f, 50, 0);
 			Surface surf = new Surface(@"smoke2.png");
 			sm.AddSurface(surf);
-			sm.EmitFrequenzy = 0.1f;
+			sm.EmitFrequency = 0.1f;
 			sm.EmitAlpha = 1d;
 			sm.EmitAcceleration = new Vector2(0, -20);
 			sm.EmitVelocity = new Vector2(0, -10);
+			
+			//SpriteParticle
+			Surface surf2 = new Surface(@"smoke.png");
+			Sprite sprite = new Sprite(100, 100);
+			sprite.AddFrame(surf);
+			sprite.AddFrame(surf2);
+			sprite.TimePerFrame = 0.5d;
+			sprite.AnimationType = SpriteAnimType.Looping;
+			se = new SpriteEmitter(new Vector2(600f, 550f), 4.2f, 100, 0);
+			se.AddSprite(sprite);
+			se.EmitFrequency = 0.05f;
+			se.EmitAlpha = 1d;
+			se.EmitAcceleration = new Vector2(0, -20);
+			se.EmitVelocity = new Vector2(0, -10);
 			
 			//Manipulators
 			gm = new GravityManipulator(new Vector2(0f, -50f));
 			gm.SubscribeToEmitter(pe);
 			gm.SubscribeToEmitter(sm);
+			gm.SubscribeToEmitter(se);
 			
 			gm2 = new GravityManipulator(Vector2.Empty);
 			gm2.SubscribeToEmitter(pe);
 			gm2.SubscribeToEmitter(sm);
+			gm2.SubscribeToEmitter(se);
 			
 			FadeOutManipulator fom = new FadeOutManipulator(3f, 0.8f);
 			fom.SubscribeToEmitter(pe);
 			
 			FadeOutManipulator fom2 = new FadeOutManipulator(4f, 0.4f);
 			fom2.SubscribeToEmitter(sm);
+			fom2.SubscribeToEmitter(se);
 			
 			fontSurface = new FontSurface("Arial", 10f, FontStyle.Bold);
 		}		
@@ -87,6 +108,7 @@ namespace Tests.ParticleTest
 			gm2.Gravity = new Vector2((float)ran.Next(-300, 300), 0f);
 			pe.Update(time_ms);
 			sm.Update(time_ms);
+			se.Update(time_ms);
 		}
 		
 		protected override void Render()
@@ -100,6 +122,9 @@ namespace Tests.ParticleTest
 			
 			sm.Draw();
 			fontSurface.DrawText(sm.Position.X, sm.Position.Y, "Particles: " + sm.Particles.Count + "/" + sm.Particles.Capacity);
+			
+			se.Draw();
+			fontSurface.DrawText(se.Position.X, se.Position.Y, "Particles: " + se.Particles.Count + "/" + se.Particles.Capacity);
 		}
 	}
 }
