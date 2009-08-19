@@ -241,7 +241,15 @@ namespace AgateLib.Sprites
 			}
 		}
 
-
+		public void AddFrame(Surface surface)
+		{
+			SpriteFrame frame = new SpriteFrame(surface);
+			frame.SourceRect = new Rectangle(0, 0, surface.SurfaceWidth, surface.SurfaceHeight);
+			frame.Offset = Point.Empty;
+			frame.SpriteSize = SpriteSize;
+			
+			mFrames.Add(frame);
+		}
 
 		/// <summary>
 		/// Adds a frame to the sprite.
