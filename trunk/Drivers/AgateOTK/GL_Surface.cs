@@ -157,7 +157,12 @@ namespace AgateOTK
 				int[] array = new int[1];
 				array[0] = mTextureID;
 
-				GL.DeleteTextures(1, array);
+				if (OpenTK.Graphics.GraphicsContext.CurrentContext == null)
+				{
+					mDisplay.QueueDeleteTexture(array[0]);
+				}
+				else
+					GL.DeleteTextures(1, array);
 
 				mTextureIDs.Remove(mTextureID);
 			}
@@ -167,7 +172,6 @@ namespace AgateOTK
 		public override void Dispose()
 		{
 			ReleaseTextureRef();
-
 		}
 
 		public override void Draw(SurfaceState state)
