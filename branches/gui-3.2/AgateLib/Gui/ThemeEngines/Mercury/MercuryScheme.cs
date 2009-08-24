@@ -63,8 +63,22 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 			SetTextBoxImages(new Surface(files, "textbox.png"), new Size(64, 16));
 			TextBox.StretchRegion = new Rectangle(3, 3, 58, 10);
+
+			SetListBoxImages(new Surface(files, "textbox.png"), new Size(64, 16));
+			ListBox.StretchRegion = new Rectangle(3, 3, 58, 10);
 		}
 
+		private void SetListBoxImages(Surface surface, Size boxSize)
+		{
+			Surface[] surfs = SplitSurface("Listbox", surface, boxSize, 4, 4);
+
+			ListBox.Image = surfs[0];
+			ListBox.Disabled = surfs[1];
+			ListBox.Hover = surfs[2];
+			ListBox.Focus = surfs[3];
+
+			surface.Dispose();
+		}
 		private void SetTextBoxImages(Surface surface, Size boxSize)
 		{
 			Surface[] surfs = SplitSurface("textbox", surface, boxSize, 4, 4);

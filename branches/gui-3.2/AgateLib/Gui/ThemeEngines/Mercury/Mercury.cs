@@ -61,6 +61,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			if (widget is CheckBox) DrawCheckbox((CheckBox)widget);
 			if (widget is RadioButton) DrawRadioButton((RadioButton)widget);
 			if (widget is TextBox) DrawTextBox((TextBox)widget);
+			if (widget is ListBox) DrawListBox((ListBox)widget);
 		}
 
 		public Size RequestClientAreaSize(Container widget, Size clientSize)
@@ -114,12 +115,26 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			if (widget is TextBox) MouseUpInTextBox((TextBox)widget, clientLocation);
 		}
 
-
-
 		#endregion
 
-		#region --- TextBox ---
+		#region --- ListBox ---
 
+		private void DrawListBox(ListBox listBox)
+		{
+			Surface image = Scheme.ListBox.Image;
+
+			if (listBox.Enabled == false)
+				image = Scheme.ListBox.Disabled;
+
+			Point location = listBox.PointToScreen(new Point(0, 0));
+			Size size = listBox.Size;
+
+			DrawStretchImage(location, size,
+				image, Scheme.TextBox.StretchRegion);
+		}
+
+		#endregion
+		#region --- TextBox ---
 
 		private void MouseDownInTextBox(TextBox textBox, Point clientLocation)
 		{
