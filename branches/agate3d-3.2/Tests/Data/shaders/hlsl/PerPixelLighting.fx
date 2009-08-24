@@ -38,7 +38,7 @@ VS_OUTPUT vs_main( VS_INPUT IN )
 					   IN.position.z,
 					   1.0f );
 
-    OUT.hposition = mul( v, worldViewProj );
+    OUT.hposition = mul( worldViewProj, v);
     OUT.texcoord0 = IN.texcoord0;
 
     return OUT;
