@@ -106,6 +106,7 @@
     <Compile Include="DrawBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EffectParameter.cs" />
     <Compile Include="frmFullScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,9 +117,10 @@
     <Compile Include="HlslCompiler.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HlslShaderProgram.cs">
+    <Compile Include="HlslEffect.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SDX_Effect.cs" />
     <Compile Include="SDX_Input.cs" />
     <Compile Include="SDX_Audio.cs" />
     <Compile Include="VertexFormats.cs">

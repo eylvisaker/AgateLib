@@ -139,11 +139,11 @@ namespace AgateOTK
 			}
 		}
 
-		public override PixelShader PixelShader
+		public  GlslFragmentProgram PixelShader
 		{
 			get { return pixel; }
 		}
-		public override VertexShader VertexShader
+		public  GlslVertexProgram VertexShader
 		{
 			get { return vertex; }
 		}
@@ -178,7 +178,7 @@ namespace AgateOTK
 				throw new AgateLib.AgateException("Could not find uniform {0} in the GLSL program.", name);
 		}
 
-		public override void SetUniform(string name, params float[] v)
+		public  void SetUniform(string name, params float[] v)
 		{
 			int loc = GetUniformLocation(name);
 
@@ -205,7 +205,7 @@ namespace AgateOTK
 					throw new AgateLib.AgateException("Too many parameters to SetUniform.");
 			}
 		}
-		public override void SetUniform(string name, params int[] v)
+		public  void SetUniform(string name, params int[] v)
 		{
 			int loc = GetUniformLocation(name);
 
@@ -233,7 +233,7 @@ namespace AgateOTK
 			}
 		}
 
-		public override void SetUniform(string name, AgateLib.Geometry.Matrix4 matrix)
+		public  void SetUniform(string name, AgateLib.Geometry.Matrix4 matrix)
 		{
 			int loc = GetUniformLocation(name);
 
@@ -244,7 +244,7 @@ namespace AgateOTK
 		}
 
 
-		public override void Render(RenderHandler handler, object obj)
+		public  void Render<T>(RenderHandler<T> handler, T obj)
 		{
 			throw new NotImplementedException();
 		}

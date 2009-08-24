@@ -137,10 +137,10 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
-		public static Shaders.ShaderProgram Shader
+		public static Shaders.Effect Effect
 		{
-			get { return impl.Shader; }
-			set { impl.Shader = value; }
+			get { return impl.Effect; }
+			set { impl.Effect = value; }
 		}
 
 		/// <summary>
@@ -472,26 +472,6 @@ namespace AgateLib.DisplayLib
 			impl.SetOrthoProjection(region);
 		}
 
-		#region --- Matrix Settings ---
-
-		public static Matrix4 MatrixProjection
-		{
-			get { return impl.MatrixProjection; }
-			set { impl.MatrixProjection = value; }
-		}
-		public static Matrix4 MatrixView
-		{
-			get { return impl.MatrixView; }
-			set { impl.MatrixView = value; }
-		}
-		public static Matrix4 MatrixWorld
-		{
-			get { return impl.MatrixWorld; }
-			set { impl.MatrixWorld = value; }
-		}
-
-
-		#endregion
 		#region --- Drawing Functions ---
 
 		/// <summary>
@@ -687,7 +667,7 @@ namespace AgateLib.DisplayLib
 			DoLighting(LightManager.Empty);
 		}
 
-		
+		[Obsolete("Use shaders instead.")]
 		internal static void DoLighting(LightManager lights)
 		{
 			impl.DoLighting(lights);

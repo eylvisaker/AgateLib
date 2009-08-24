@@ -6,7 +6,7 @@ using AgateLib.DisplayLib.Shaders;
 
 namespace AgateOTK
 {
-	class GlslVertexProgram : VertexShader
+	class GlslVertexProgram 
 	{
 		int index;
 
@@ -20,5 +20,6 @@ namespace AgateOTK
 		{
 			get { return index; }
 		}
+		public string Source { get; private set; }
 	}
 }

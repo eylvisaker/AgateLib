@@ -6,7 +6,7 @@ using AgateLib.DisplayLib.Shaders;
 
 namespace AgateOTK
 {
-	class GlslFragmentProgram : PixelShader
+	class GlslFragmentProgram 
 	{
 		int index;
 
@@ -16,7 +16,7 @@ namespace AgateOTK
 			this.Source = source;
 		}
 
-
+		public string Source { get; private set; }
 		public int ShaderHandle
 		{
 			get { return index; }

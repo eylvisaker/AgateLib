@@ -89,6 +89,7 @@ namespace AgateOTK
 
 		private void SetAttributes()
 		{
+			/*
 			GlslShader shader = Display.Shader as GlslShader;
 			if (shader == null)
 				return;
@@ -106,7 +107,9 @@ namespace AgateOTK
 				GL.VertexAttribPointer(shaderAttribIndex, size,
 					mAttributeBuffers[i].Type,
 					false, 0, IntPtr.Zero);
-			}
+			}*/
+			throw new NotImplementedException();
+
 		}
 
 		private void SetClientStates()
@@ -155,6 +158,7 @@ namespace AgateOTK
 						(IntPtr)mLayout.ElementByteIndex(VertexElement.Texture));
 			}
 
+			/*
 			GlslShader shader = Display.Shader as GlslShader;
 
 			if (Textures.ActiveTextures > 1)
@@ -191,6 +195,8 @@ namespace AgateOTK
 			{
 				GL.BindTexture(TextureTarget.Texture2D, ((GL_Surface)Textures[0].Impl).GLTextureID);
 			}
+			 * */
+			throw new NotImplementedException();
 		}
 
 		private BeginMode SelectBeginMode()

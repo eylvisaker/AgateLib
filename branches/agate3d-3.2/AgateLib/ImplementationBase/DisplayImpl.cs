@@ -638,7 +638,7 @@ namespace AgateLib.ImplementationBase
 			throw new NotSupportedException("The current driver does not support shaders.");
 		}
 
-		public virtual ShaderProgram Shader
+		public virtual Effect Effect
 		{
 			get { throw new NotSupportedException("The current driver does not support shaders."); }
 			set { throw new NotSupportedException("The current driver does not support shaders."); }

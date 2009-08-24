@@ -22,11 +22,11 @@ namespace AgateOTK
 		GlslVertexProgram vertex;
 		GlslFragmentProgram pixel;
 
-		public override PixelShader PixelShader
+		public  GlslFragmentProgram PixelShader
 		{
 			get { return pixel; }
 		}
-		public override VertexShader VertexShader
+		public  GlslVertexProgram VertexShader
 		{
 			get { return vertex; }
 		}
@@ -44,20 +44,20 @@ namespace AgateOTK
 			return GL.Arb.GetUniformLocation(programHandle, name);
 		}
 
-		public override void SetUniform(string name, params float[] v)
+		public  void SetUniform(string name, params float[] v)
 		{
 			int loc = GetUniformLocation(name);
 
 		}
-		public override void SetUniform(string name, params int[] v)
+		public  void SetUniform(string name, params int[] v)
 		{
 		}
 
-		public override void SetUniform(string name, AgateLib.Geometry.Matrix4 matrix)
+		public  void SetUniform(string name, AgateLib.Geometry.Matrix4 matrix)
 		{
 		}
 
-		public override void Render(RenderHandler handler, object obj)
+		public  void Render<T>(RenderHandler<T> handler, T obj)
 		{
 			throw new NotImplementedException();
 		}

@@ -7,6 +7,7 @@ using AgateLib.Geometry.VertexTypes;
 
 namespace AgateLib.DisplayLib.Shaders
 {
+	/*
 	public abstract class ShaderProgram
 	{
 		public abstract PixelShader PixelShader { get; }
@@ -39,4 +40,5 @@ namespace AgateLib.DisplayLib.Shaders
 	}
 
 	public delegate void RenderHandler(object obj);
+	 * */
 }

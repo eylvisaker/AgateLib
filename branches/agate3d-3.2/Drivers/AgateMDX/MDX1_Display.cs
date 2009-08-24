@@ -240,10 +240,6 @@ namespace AgateMDX
 		{
 			return BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
 		}
-		protected override ShaderCompilerImpl CreateShaderCompiler()
-		{
-			return new HlslCompiler(this);
-		}
 
 		#endregion
 
@@ -958,26 +954,6 @@ namespace AgateMDX
 			return TransformAgateMatrix(MatrixProjection * MatrixView * MatrixWorld);
 		}
 
-		HlslShaderProgram mShader;
-
-		public override AgateLib.DisplayLib.Shaders.ShaderProgram Shader
-		{
-			get
-			{
-				return mShader;
-			}
-			set
-			{
-				if (mShader == value)
-					return;
-
-				mShader = (HlslShaderProgram) value;
-
-				mDevice.Device.VertexShader = mShader.HlslVertexShader;
-				mDevice.Device.PixelShader = mShader.HlslPixelShader;
-
-			}
-		}
 		#endregion
 
 		#region --- IPlatformServices Members ---

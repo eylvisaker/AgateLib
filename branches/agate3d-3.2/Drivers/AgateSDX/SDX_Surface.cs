@@ -451,7 +451,7 @@ namespace AgateSDX
 
 		#region --- Surface saving ---
 
-		public override void SaveTo(string frameFile, ImageFileFormat format)
+		public override void SaveTo(string filename, ImageFileFormat format)
 		{
 			Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
 			Direct3D.ImageFileFormat d3dformat = SlimDX.Direct3D9.ImageFileFormat.Png;
@@ -464,7 +464,31 @@ namespace AgateSDX
 				case ImageFileFormat.Tga: d3dformat = Direct3D.ImageFileFormat.Tga; break;
 			}
 
-			throw new NotImplementedException();
+			DataRectangle rect = surf.LockRectangle(LockFlags.ReadOnly);
+
+			System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(surf.Description.Width, surf.Description.Height);
+			var target = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
+				System.Drawing.Imaging.ImageLockMode.WriteOnly,
+				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+			byte[] buffer = new byte[rect.Data.Length];
+			rect.Data.Read(buffer, 0, (int)rect.Data.Length);
+
+			Marshal.Copy(buffer, 0, target.Scan0, buffer.Length);
+
+			bmp.UnlockBits(target);
+			surf.UnlockRectangle();
+
+			System.Drawing.Imaging.ImageFormat bmpFormat = System.Drawing.Imaging.ImageFormat.Png;
+
+			switch (format)
+			{
+				case ImageFileFormat.Bmp: bmpFormat =  System.Drawing.Imaging.ImageFormat.Bmp; break;
+				case ImageFileFormat.Jpg: bmpFormat =  System.Drawing.Imaging.ImageFormat.Jpeg; break;
+			}
+
+			bmp.Save(filename, bmpFormat);
+
 			//SurfaceLoader.Save(frameFile, d3dformat, surf, Interop.Convert(mSrcRect));
 
 		}

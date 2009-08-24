@@ -952,7 +952,7 @@ namespace AgateSDX
 			return new SDX_IndexBuffer(this, type, size);
 		}
 
-		private Matrix TransformAgateMatrix(Matrix4 value)
+		internal Matrix TransformAgateMatrix(Matrix4 value)
 		{
 			Matrix retval = new Matrix();
 
@@ -1030,26 +1030,6 @@ namespace AgateSDX
 			return TransformAgateMatrix(MatrixProjection * MatrixView * MatrixWorld);
 		}
 
-		HlslShaderProgram mShader;
-
-		public override AgateLib.DisplayLib.Shaders.ShaderProgram Shader
-		{
-			get
-			{
-				return mShader;
-			}
-			set
-			{
-				if (mShader == value)
-					return;
-
-				mShader = (HlslShaderProgram) value;
-
-				mDevice.Device.VertexShader = mShader.HlslVertexShader;
-				mDevice.Device.PixelShader = mShader.HlslPixelShader;
-
-			}
-		}
 		#endregion
 
 		#region --- IPlatformServices Members ---

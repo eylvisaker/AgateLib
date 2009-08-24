@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.Shaders;
@@ -17,34 +18,19 @@ namespace AgateSDX
 			mDisplay = display;
 		}
 
-		public override ShaderProgram CompileEffect(ShaderLanguage language, string effectSource)
+		public override Effect CompileEffect(ShaderLanguage language, string effectSource)
 		{
-			throw new NotImplementedException();
-		}
-		//public override ShaderProgram CompileEffect(ShaderLanguage language, string effectSource)
-		//{
-		//    Direct3D.Effect effect = Direct3D.Effect.FromString(mDisplay.D3D_Device.Device,
-		//        effectSource, null, null, Direct3D.ShaderFlags.None, null);
+			string tempFile = Path.GetTempFileName();
 
-		//    return new HlslShaderProgram(effect);
-		//}
-		public override ShaderProgram CompileShader(ShaderLanguage language, string vertexShaderSource, string pixelShaderSource)
-		{
-			throw new NotImplementedException();
+			using (var stream = new StreamWriter(tempFile))
+			{
+				stream.WriteLine(effectSource);
+			}
 
-			//var vertexShaderStream = Direct3D.ShaderLoader.CompileShader(
-			//    vertexShaderSource, "main", null, "vs_1_1", Direct3D.ShaderFlags.None);
+			var effect = Direct3D.Effect.FromFile(mDisplay.D3D_Device.Device,
+				tempFile, SlimDX.Direct3D9.ShaderFlags.Debug);
 
-			
-			//var vertexShader = new Direct3D.VertexShader(mDisplay.D3D_Device.Device, vertexShaderStream);
-
-
-			//var pixelShaderStream = Direct3D.ShaderLoader.CompileShader(
-			//    pixelShaderSource, "main", null, "ps_1_1", Direct3D.ShaderFlags.None);
-
-			//var pixelShader = new Direct3D.PixelShader(mDisplay.D3D_Device.Device, pixelShaderStream);
-
-			//return new HlslShaderProgram(vertexShader, pixelShader);
+			return new HlslEffect(effect);
 		}
 	}
 }

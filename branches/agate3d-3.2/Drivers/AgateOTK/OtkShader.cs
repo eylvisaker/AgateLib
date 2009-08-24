@@ -6,7 +6,7 @@ using AgateLib.DisplayLib.Shaders;
 
 namespace AgateOTK
 {
-	public abstract class OtkShader : ShaderProgram
+	public abstract class OtkShader
 	{
 		public abstract int Handle { get; }
 	}

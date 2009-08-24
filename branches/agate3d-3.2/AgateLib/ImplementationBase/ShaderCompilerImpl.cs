@@ -8,7 +8,6 @@ namespace AgateLib.ImplementationBase
 {
 	public abstract class ShaderCompilerImpl
 	{
-		public abstract ShaderProgram CompileShader(ShaderLanguage language, string vertexShaderSource, string pixelShaderSource);
-		public abstract ShaderProgram CompileEffect(ShaderLanguage language, string effectSource);
+		public abstract Effect CompileEffect(ShaderLanguage language, string effectSource);
 	}
 }

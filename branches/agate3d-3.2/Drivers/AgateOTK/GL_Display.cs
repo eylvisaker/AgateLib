@@ -427,7 +427,7 @@ namespace AgateOTK
 
 		OtkShader mCurrentShader;
 
-		public override AgateLib.DisplayLib.Shaders.ShaderProgram Shader
+		public OtkShader Shader
 		{
 			get
 			{

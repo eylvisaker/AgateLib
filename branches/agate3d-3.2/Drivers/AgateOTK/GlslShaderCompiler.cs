@@ -14,7 +14,7 @@ namespace AgateOTK
 		{
 		}
 
-		public override ShaderProgram CompileShader(ShaderLanguage language, string vertexShaderSource, string pixelShaderSource)
+		public  OtkShader CompileShader(ShaderLanguage language, string vertexShaderSource, string pixelShaderSource)
 		{
 			if (language != ShaderLanguage.Glsl)
 				throw new NotSupportedException("AgateOTK can only compile and use GLSL shaders.");
@@ -25,7 +25,7 @@ namespace AgateOTK
 			return LinkPrograms(vert, frag);
 		}
 
-		private ShaderProgram LinkPrograms(GlslVertexProgram vert, GlslFragmentProgram frag)
+		private OtkShader LinkPrograms(GlslVertexProgram vert, GlslFragmentProgram frag)
 		{
 			int program = GL.CreateProgram();
 
@@ -84,7 +84,7 @@ namespace AgateOTK
 			return shaderHandle;
 		}
 
-		public override ShaderProgram CompileEffect(ShaderLanguage language, string effectSource)
+		public override Effect CompileEffect(ShaderLanguage language, string effectSource)
 		{
 			throw new NotImplementedException();
 		}

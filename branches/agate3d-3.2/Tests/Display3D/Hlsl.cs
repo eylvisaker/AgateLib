@@ -59,7 +59,7 @@ namespace Tests.Display3D.Glsl
 		{
 			using (AgateSetup setup = new AgateSetup(args))
 			{
-				setup.PreferredDisplay = AgateLib.Drivers.DisplayTypeID.Direct3D_MDX_1_1;
+				setup.PreferredDisplay = AgateLib.Drivers.DisplayTypeID.Direct3D9_SDX;
 				setup.Initialize(true, false, false);
 				if (setup.WasCanceled)
 					return;
@@ -86,9 +86,8 @@ namespace Tests.Display3D.Glsl
 				double frequency = 2 * Math.PI / 5;
 				const float size = 25;
 
-				var shader = ShaderCompiler.CompileShader(ShaderLanguage.Glsl,
-					File.ReadAllText("Data/shaders/hlsl/PerPixelLighting_vertex.txt"),
-					File.ReadAllText("Data/shaders/hlsl/PerPixelLighting_pixel.txt"));
+				var shader = ShaderCompiler.CompileEffect(ShaderLanguage.Hlsl,
+					File.ReadAllText("Data/shaders/hlsl/PerPixelLighting.fx"));
 
 				//HeightMapTerrain b = new HeightMapTerrain(height.ReadPixels());
 				//b.Width = size;
@@ -106,7 +105,6 @@ namespace Tests.Display3D.Glsl
 					PixelBuffer.NormalMapFromHeightMap(height.ReadPixels(), 2.0f));
 				buffer.Textures[1].SaveTo("normal.png");
 
-				
 				resetmouse();
 				Mouse.Hide();
 
@@ -150,21 +148,17 @@ namespace Tests.Display3D.Glsl
 					Display.BeginFrame();
 					Display.Clear(Color.Gray);
 
-					Display.Shader = shader;
-
-					Display.MatrixProjection = Matrix4.Projection(45f, wind.Width / (float)wind.Height, 1.0f, 1000f);
-					Display.MatrixWorld = Matrix4.Identity;
-					Display.MatrixView = Matrix4.Identity;
-
-					Display.MatrixView = Matrix4.LookAt(eye, eye + lookDir, up);
+					Matrix4 proj = Matrix4.Projection(45f, wind.Width / (float)wind.Height, 1.0f, 1000f);  // projection
 
 					m[0].Position = eye;
 					m.DoLighting();
 
-					Display.MatrixWorld =
-						Matrix4.Translation(-size / 2, -size / 2, 0) * Matrix4.RotateZ((float)(frequency * time));
+					// world transformation
+					proj *= Matrix4.Translation(-size / 2, -size / 2, 0) * Matrix4.RotateZ((float)(frequency * time));
 
-					buffer.DrawIndexed(index);
+					shader.SetUniform("worldViewProj", proj);
+
+					shader.Render(x => x.DrawIndexed(index), buffer);
 
 					Debug.Print("x, y, z = {0}", eye.ToString());
 					Debug.Print("angle = {0}", phi * 180 / Math.PI);
