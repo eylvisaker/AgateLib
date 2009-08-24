@@ -142,7 +142,10 @@ namespace AgateOTK
 			mState.DrawBuffer.Flush();
 
 			mRenderTarget.EndRender();
+
+			FlushDeleteQueue();
 		}
+
 
 		internal GLState State
 		{
@@ -608,6 +611,32 @@ namespace AgateOTK
 		private static extern void uname(out utsname uname_struct);
 
 		#endregion
+
+		#endregion
+
+		#region --- Deletion queuing ---
+
+		List<int> mTexturesToDelete = new List<int>();
+
+
+		private void FlushDeleteQueue()
+		{
+			lock (mTexturesToDelete)
+			{
+				int[] tex = mTexturesToDelete.ToArray();
+				mTexturesToDelete.Clear();
+
+				GL.DeleteTextures(mTexturesToDelete.Count, tex);
+			}
+		}
+
+		internal void QueueDeleteTexture(int p)
+		{
+			lock (mTexturesToDelete)
+			{
+				mTexturesToDelete.Add(p);
+			}
+		}
 
 		#endregion
 	}
