@@ -294,6 +294,9 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			{
 				if (textBox.Text[index] == '\n')
 				{
+					if (index < textBox.Text.Length - 1)
+						index++;
+
 					line--;
 					linestart = index;
 				}
@@ -310,12 +313,18 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			{
 				sz = Scheme.WidgetFont.MeasureString(textBox.Text, linestart, index - linestart);
 
+				if (textBox.Text[index] == '\n')
+				{
+					break;
+				}
+
 				if (sz.Width > clientLocation.X)
 				{
 					goto found;
 				}
 
 				last = sz.Width;
+
 			}
 
 		found:
