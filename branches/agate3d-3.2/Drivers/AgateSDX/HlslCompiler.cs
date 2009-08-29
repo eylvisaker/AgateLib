@@ -27,10 +27,20 @@ namespace AgateSDX
 				stream.WriteLine(effectSource);
 			}
 
-			var effect = Direct3D.Effect.FromFile(mDisplay.D3D_Device.Device,
-				tempFile, SlimDX.Direct3D9.ShaderFlags.Debug);
+			string compilationErrors = "";
 
-			return new HlslEffect(effect);
+			try
+			{
+				var effect = Direct3D.Effect.FromFile(mDisplay.D3D_Device.Device,
+					tempFile, null, null, null, SlimDX.Direct3D9.ShaderFlags.Debug, null, out compilationErrors);
+				
+				return new HlslEffect(effect);
+			}
+			catch (Direct3D.Direct3D9Exception e)
+			{
+				throw new AgateShaderCompilerException(compilationErrors, e);
+			}
+
 		}
 	}
 }
