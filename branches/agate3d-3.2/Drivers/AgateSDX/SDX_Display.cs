@@ -355,14 +355,14 @@ namespace AgateSDX
 
 			var device = mDevice.Device;
 
-			device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, color.ToArgb(), 1.0f, 0);
+			//device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, color.ToArgb(), 1.0f, 0);
 			
-			device.Clear(ClearFlags.Target, color.ToArgb(), 0, 0);
-			device.Clear(ClearFlags.ZBuffer, 0, 1.0f, 0);
+			//device.Clear(ClearFlags.Target, color.ToArgb(), 0, 0);
+			//device.Clear(ClearFlags.ZBuffer, 0, 1.0f, 0);
 
-			System.Drawing.Rectangle[] rect = new System.Drawing.Rectangle[1];
-			rect[0] = new System.Drawing.Rectangle(0, 0, 800, 600);
-			device.Clear(ClearFlags.ZBuffer, color.ToArgb(), 1.0f, 0, rect);
+			//System.Drawing.Rectangle[] rect = new System.Drawing.Rectangle[1];
+			//rect[0] = new System.Drawing.Rectangle(0, 0, 800, 600);
+			//device.Clear(ClearFlags.ZBuffer, color.ToArgb(), 1.0f, 0, rect);
 
 		}
 		public override void Clear(Color color, Rectangle rect)
@@ -957,23 +957,23 @@ namespace AgateSDX
 			Matrix retval = new Matrix();
 
 			retval.M11 = value[0, 0];
-			retval.M12 = value[1, 0];
-			retval.M13 = value[2, 0];
-			retval.M14 = value[3, 0];
+			retval.M21 = value[1, 0];
+			retval.M31 = value[2, 0];
+			retval.M41 = value[3, 0];
 
-			retval.M21 = value[0, 1];
+			retval.M12 = value[0, 1];
 			retval.M22 = value[1, 1];
-			retval.M23 = value[2, 1];
-			retval.M24 = value[3, 1];
+			retval.M32 = value[2, 1];
+			retval.M42 = value[3, 1];
 
-			retval.M31 = value[0, 2];
-			retval.M32 = value[1, 2];
+			retval.M13 = value[0, 2];
+			retval.M23 = value[1, 2];
 			retval.M33 = value[2, 2];
-			retval.M34 = value[3, 2];
+			retval.M43 = value[3, 2];
 
-			retval.M41 = value[0, 3];
-			retval.M42 = value[1, 3];
-			retval.M43 = value[2, 3];
+			retval.M14 = value[0, 3];
+			retval.M24 = value[1, 3];
+			retval.M34 = value[2, 3];
 			retval.M44 = value[3, 3];
 
 			return retval;

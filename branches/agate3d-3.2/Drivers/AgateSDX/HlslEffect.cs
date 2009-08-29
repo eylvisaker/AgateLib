@@ -39,7 +39,7 @@ namespace AgateSDX
 		{
 			var param = GetParameter(name);
 
-			mEffect.SetValue<SlimDX.Matrix>(param.Handle, mDisplay.TransformAgateMatrix(matrix));
+			mEffect.SetValue(name, mDisplay.TransformAgateMatrix(matrix));
 		}
 
 		public override void SetUniform(string name, params int[] v)
