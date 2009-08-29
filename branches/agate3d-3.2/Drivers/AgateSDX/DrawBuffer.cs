@@ -102,6 +102,26 @@ namespace AgateSDX
 			mDevice.AlphaBlend = mAlphaBlend;
 			mDevice.SetVertexDeclarationForSurfaces();
 
+			SDX_Display display = (SDX_Display)Display.Impl;
+
+			if (display.Effect != null)
+			{
+				HlslEffect fx = (HlslEffect)display.Effect;
+
+				fx.SetTexture(AgateLib.DisplayLib.Shaders.EffectTexture.Texture0, mTexture);
+
+				fx.InternalRender<object>(DoDraw,  null);
+			}
+			else
+				DoDraw(null);
+
+			mVertPointer = 0;
+			mIndexPointer = 0;
+
+		}
+
+		private void DoDraw(object ignored)
+		{
 			try
 			{
 				mDevice.Device.DrawIndexedUserPrimitives
@@ -110,10 +130,6 @@ namespace AgateSDX
 					 Marshal.SizeOf(typeof(PositionTextureColor)));
 			}
 			catch { }
-
-			mVertPointer = 0;
-			mIndexPointer = 0;
-
 		}
 
 	}

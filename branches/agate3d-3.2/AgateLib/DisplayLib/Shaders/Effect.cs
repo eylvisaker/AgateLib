@@ -18,6 +18,7 @@ namespace AgateLib.DisplayLib.Shaders
 		public abstract void EndPass();
 		public abstract void End();
 
+		public abstract void SetTexture(EffectTexture tex, string variableName);
 		public abstract void SetVariable(string name, params float[] v);
 		public abstract void SetVariable(string name, params int[] v);
 		public abstract void SetVariable(string name, Matrix4x4 matrix);
@@ -42,6 +43,14 @@ namespace AgateLib.DisplayLib.Shaders
 		//public VertexLayout VertexDefinition { get; set; }
 
 		public abstract void Render<T>(RenderHandler<T> handler, T obj);
+	}
+
+	public enum EffectTexture
+	{
+		Texture0,
+		Texture1,
+		Texture2,
+		Texture3,
 	}
 
 	public delegate void RenderHandler<T>(T obj);

@@ -774,6 +774,20 @@ namespace AgateSDX
 
 		#endregion
 
+		HlslEffect mCurrentEffect;
+		
+		public override AgateLib.DisplayLib.Shaders.Effect Effect
+		{
+			get
+			{
+				return mCurrentEffect;
+			}
+			set
+			{
+				mCurrentEffect = (HlslEffect)value;
+			}
+		}
+
 		protected override void ProcessEvents()
 		{
 			System.Windows.Forms.Application.DoEvents();

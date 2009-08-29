@@ -14,6 +14,7 @@ namespace AgateSDX
 		SDX_Display mDisplay;
 		Direct3D.Effect mEffect;
 		Dictionary<string, EffectParameter> mParams = new Dictionary<string, EffectParameter>();
+		Dictionary<EffectTexture, string> mTextures = new Dictionary<EffectTexture, string>();
 
 		public HlslEffect(Direct3D.Effect effect)
 		{
@@ -51,6 +52,25 @@ namespace AgateSDX
 
 		public override void Render<T>(RenderHandler<T> handler, T obj)
 		{
+			mDisplay.Effect = this;
+
+			int passcount = mEffect.Begin(SlimDX.Direct3D9.FX.None);
+
+			for (int i = 0; i < passcount; i++)
+			{
+				mEffect.BeginPass(i);
+				handler(obj);
+
+				Display.FlushDrawBuffer();
+				mEffect.EndPass();
+			}
+
+			mEffect.End();
+		}
+		public void InternalRender<T>(RenderHandler<T> handler, T obj)
+		{
+			mDisplay.Effect = this;
+
 			int passcount = mEffect.Begin(SlimDX.Direct3D9.FX.None);
 
 			for (int i = 0; i < passcount; i++)
@@ -62,7 +82,6 @@ namespace AgateSDX
 
 			mEffect.End();
 		}
-
 		public override string Technique
 		{
 			get
@@ -82,6 +101,8 @@ namespace AgateSDX
 
 		public override void Begin()
 		{
+			mDisplay.Effect = this;
+
 			mEffect.Begin();
 		}
 
@@ -92,12 +113,31 @@ namespace AgateSDX
 
 		public override void EndPass()
 		{
+			Display.FlushDrawBuffer();
 			mEffect.EndPass();
 		}
 
 		public override void End()
 		{
 			mEffect.End();
+
+			mDisplay.Effect = null;
+		}
+
+		public override void SetTexture(EffectTexture tex, string variableName)
+		{
+			if (string.IsNullOrEmpty(variableName))
+			{
+				mTextures.Remove(tex);
+			}
+			else
+				mTextures[tex] = variableName;
+		}
+		public void SetTexture(EffectTexture tex, Direct3D.Texture surf)
+		{
+			string varName = mTextures[tex];
+
+			mEffect.SetTexture(varName, surf);
 		}
 	}
 }
