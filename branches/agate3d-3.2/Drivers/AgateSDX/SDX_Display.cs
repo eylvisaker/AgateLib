@@ -934,9 +934,9 @@ namespace AgateSDX
 
 		#region --- 3D stuff ---
 
-		Matrix4 projection = Matrix4.Identity;
-		Matrix4 world = Matrix4.Identity;
-		Matrix4 view = Matrix4.Identity;
+		Matrix4x4 projection = Matrix4x4.Identity;
+		Matrix4x4 world = Matrix4x4.Identity;
+		Matrix4x4 view = Matrix4x4.Identity;
 
 		protected override VertexBufferImpl CreateVertexBuffer(
 			AgateLib.Geometry.VertexTypes.VertexLayout layout, int vertexCount)
@@ -948,7 +948,7 @@ namespace AgateSDX
 			return new SDX_IndexBuffer(this, type, size);
 		}
 
-		internal Matrix TransformAgateMatrix(Matrix4 value)
+		internal Matrix TransformAgateMatrix(Matrix4x4 value)
 		{
 			Matrix retval = new Matrix();
 
@@ -974,7 +974,7 @@ namespace AgateSDX
 
 			return retval;
 		}
-		public override Matrix4 MatrixProjection
+		public override Matrix4x4 MatrixProjection
 		{
 			get
 			{
@@ -992,7 +992,7 @@ namespace AgateSDX
 			}
 		}
 
-		public override Matrix4 MatrixView
+		public override Matrix4x4 MatrixView
 		{
 			get
 			{
@@ -1006,7 +1006,7 @@ namespace AgateSDX
 					TransformAgateMatrix(value));
 			}
 		}
-		public override Matrix4 MatrixWorld
+		public override Matrix4x4 MatrixWorld
 		{
 			get
 			{

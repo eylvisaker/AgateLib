@@ -20,7 +20,7 @@ namespace AgateLib.DisplayLib.Shaders
 
 		public abstract void SetVariable(string name, params float[] v);
 		public abstract void SetVariable(string name, params int[] v);
-		public abstract void SetVariable(string name, Matrix4 matrix);
+		public abstract void SetVariable(string name, Matrix4x4 matrix);
 
 		public void SetVariable(string name, Vector2 v)
 		{

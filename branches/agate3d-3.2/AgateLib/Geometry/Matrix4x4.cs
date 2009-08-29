@@ -4,38 +4,38 @@ using System.Text;
 
 namespace AgateLib.Geometry
 {
-	public struct Matrix4
+	public struct Matrix4x4
 	{
 		float m11, m12, m13, m14;
 		float m21, m22, m23, m24;
 		float m31, m32, m33, m34;
 		float m41, m42, m43, m44;
 
-		public static readonly Matrix4 Identity = new Matrix4(
+		public static readonly Matrix4x4 Identity = new Matrix4x4(
 			1, 0, 0, 0,
 			0, 1, 0, 0,
 			0, 0, 1, 0,
 			0, 0, 0, 1);
-		public static Matrix4 Translation(double x, double y, double z)
+		public static Matrix4x4 Translation(double x, double y, double z)
 		{
 			return Translation((float)x, (float)y, (float)z);
 		}
-		public static Matrix4 Translation(float x, float y, float z)
+		public static Matrix4x4 Translation(float x, float y, float z)
 		{
-			return new Matrix4(
+			return new Matrix4x4(
 				1, 0, 0, x,
 				0, 1, 0, y,
 				0, 0, 1, z,
 				0, 0, 0, 1);
 		}
-		public static Matrix4 Translation(Vector3 vec)
+		public static Matrix4x4 Translation(Vector3 vec)
 		{
 			return Translation(vec.X, vec.Y, vec.Z);
 		}
 
-		public static Matrix4 Scale(float x, float y, float z)
+		public static Matrix4x4 Scale(float x, float y, float z)
 		{
-			return new Matrix4(
+			return new Matrix4x4(
 				x, 0, 0, 0,
 				0, y, 0, 0,
 				0, 0, z, 0,
@@ -45,40 +45,40 @@ namespace AgateLib.Geometry
 		//{
 		//    return RotateX(angle * (float)(Math.PI / 180.0));
 		//}
-		public static Matrix4 RotateX(float angle)
+		public static Matrix4x4 RotateX(float angle)
 		{
 			float cos = (float)Math.Cos(angle);
 			float sin = (float)Math.Sin(angle);
 
-			return new Matrix4(
+			return new Matrix4x4(
 				1, 0, 0, 0,
 				0, cos, -sin, 0,
 				0, sin, cos, 0,
 				0, 0, 0, 1);
 		}
-		public static Matrix4 RotateY(float angle)
+		public static Matrix4x4 RotateY(float angle)
 		{
 			float cos = (float)Math.Cos(angle);
 			float sin = (float)Math.Sin(angle);
 
-			return new Matrix4(
+			return new Matrix4x4(
 				cos, 0, sin, 0,
 				0, 1, 0, 0,
 				-sin, 0, cos, 0,
 				0, 0, 0, 1);
 		}
-		public static Matrix4 RotateZ(float angle)
+		public static Matrix4x4 RotateZ(float angle)
 		{
 			float cos = (float)Math.Cos(angle);
 			float sin = (float)Math.Sin(angle);
 
-			return new Matrix4(
+			return new Matrix4x4(
 				cos, -sin, 0, 0,
 				sin, cos, 0, 0,
 				0, 0, 1, 0,
 				0, 0, 0, 1);
 		}
-		public static Matrix4 LookAt(Vector3 eye, Vector3 target, Vector3 up)
+		public static Matrix4x4 LookAt(Vector3 eye, Vector3 target, Vector3 up)
 		{
 			// equation from
 			// http://pyopengl.sourceforge.net/documentation/manual/gluLookAt.3G.xml
@@ -93,7 +93,7 @@ namespace AgateLib.Geometry
 
 			Vector3 u = s.CrossProduct(f);
 
-			return new Matrix4(
+			return new Matrix4x4(
 				s.X, s.Y, s.Z, -s.DotProduct(eye),
 				u.X, u.Y, u.Z, -u.DotProduct(eye),
 				-f.X, -f.Y, -f.Z, f.DotProduct(eye),
@@ -107,7 +107,7 @@ namespace AgateLib.Geometry
 		/// <param name="zNear">The z value of the near clipping plane.</param>
 		/// <param name="zFar">The z value of the far clipping plane.</param>
 		/// <returns></returns>
-		public static Matrix4 Projection(float fieldOfViewY, float aspect, float zNear, float zFar)
+		public static Matrix4x4 Projection(float fieldOfViewY, float aspect, float zNear, float zFar)
 		{
 			if (zFar == zNear)
 				throw new ArgumentException("zFar and zNear must not be the same.");
@@ -119,25 +119,25 @@ namespace AgateLib.Geometry
 			float cot = (float)(1.0 / Math.Tan(fovInRad / 2));
 			float zDiff = zFar - zNear;
 
-			return new Matrix4(
+			return new Matrix4x4(
 				cot / aspect, 0, 0, 0,
 				0, cot, 0, 0,
 				0, 0, -(zFar + zNear) / zDiff, -2 * zFar * zNear / zDiff,
 				0, 0, -1, 0);
 		}
-		public static Matrix4 Ortho(RectangleF r, float zNear, float zFar)
+		public static Matrix4x4 Ortho(RectangleF r, float zNear, float zFar)
 		{
 			// equation from 
 			// http://pyopengl.sourceforge.net/documentation/manual/glOrtho.3G.xml
 
-			return new Matrix4(
+			return new Matrix4x4(
 				2 / r.Width, 0, 0, -(r.Right + r.Left) / r.Width,
 				0, -2 / r.Height, 0, (r.Top + r.Bottom) / r.Height,
 				0, 0, -2 / (zFar - zNear), -(zFar + zNear) / (zFar - zNear),
 				0, 0, 0, 1);
 		}
 
-		public Matrix4(float a11, float a12, float a13, float a14,
+		public Matrix4x4(float a11, float a12, float a13, float a14,
 					   float a21, float a22, float a23, float a24,
 					   float a31, float a32, float a33, float a34,
 					   float a41, float a42, float a43, float a44)
@@ -214,18 +214,18 @@ namespace AgateLib.Geometry
 			}
 		}
 
-		public Matrix4 Transpose()
+		public Matrix4x4 Transpose()
 		{
-			return new Matrix4(
+			return new Matrix4x4(
 				m11, m21, m31, m41,
 				m12, m22, m32, m42,
 				m13, m23, m33, m43,
 				m14, m24, m34, m44);
 		}
 
-		private Matrix4 Mult(Matrix4 m)
+		private Matrix4x4 Mult(Matrix4x4 m)
 		{
-			Matrix4 retval = new Matrix4();
+			Matrix4x4 retval = new Matrix4x4();
 
 			for (int row = 0; row < 4; row++)
 			{
@@ -242,11 +242,11 @@ namespace AgateLib.Geometry
 			return retval;
 		}
 
-		public static Matrix4 operator *(Matrix4 left, Matrix4 right)
+		public static Matrix4x4 operator *(Matrix4x4 left, Matrix4x4 right)
 		{
 			return left.Mult(right);
 		}
-		public static Vector4 operator *(Matrix4 left, Vector4 right)
+		public static Vector4 operator *(Matrix4x4 left, Vector4 right)
 		{
 			Vector4 retval = new Vector4();
 

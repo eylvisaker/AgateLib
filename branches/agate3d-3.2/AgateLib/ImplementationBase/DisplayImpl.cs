@@ -612,17 +612,17 @@ namespace AgateLib.ImplementationBase
 			throw new AgateException("Cannot create an index buffer with a driver that does not support 3D.");
 		}
 
-		public virtual Matrix4 MatrixProjection
+		public virtual Matrix4x4 MatrixProjection
 		{
 			get { throw new AgateException("3D is not supported."); }
 			set { throw new AgateException("3D is not supported."); }
 		}
-		public virtual Matrix4 MatrixView
+		public virtual Matrix4x4 MatrixView
 		{
 			get { throw new AgateException("3D is not supported."); }
 			set { throw new AgateException("3D is not supported."); }
 		}
-		public virtual Matrix4 MatrixWorld
+		public virtual Matrix4x4 MatrixWorld
 		{
 			get { throw new AgateException("3D is not supported."); }
 			set { throw new AgateException("3D is not supported."); }

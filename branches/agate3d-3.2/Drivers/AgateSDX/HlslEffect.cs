@@ -36,16 +36,14 @@ namespace AgateSDX
 			return p;
 		}
 
-		public override void SetVariable(string name, Matrix4 matrix)
+		public override void SetVariable(string name, Matrix4x4 matrix)
 		{
 			mEffect.SetValue(name, mDisplay.TransformAgateMatrix(matrix));
 		}
-
 		public override void SetVariable(string name, params int[] v)
 		{
 			mEffect.SetValue(name, v);
 		}
-
 		public override void SetVariable(string name, params float[] v)
 		{
 			mEffect.SetValue(name, v);
@@ -73,7 +71,7 @@ namespace AgateSDX
 			}
 			set
 			{
-				throw new NotImplementedException();
+				mEffect.Technique = value;
 			}
 		}
 
@@ -84,22 +82,22 @@ namespace AgateSDX
 
 		public override void Begin()
 		{
-			throw new NotImplementedException();
+			mEffect.Begin();
 		}
 
 		public override void BeginPass(int passIndex)
 		{
-			throw new NotImplementedException();
+			mEffect.BeginPass(passIndex);
 		}
 
 		public override void EndPass()
 		{
-			throw new NotImplementedException();
+			mEffect.EndPass();
 		}
 
 		public override void End()
 		{
-			throw new NotImplementedException();
+			mEffect.End();
 		}
 	}
 }

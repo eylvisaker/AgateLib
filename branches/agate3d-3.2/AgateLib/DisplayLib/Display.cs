@@ -452,6 +452,11 @@ namespace AgateLib.DisplayLib
 		{
 			SetOrthoProjection(Rectangle.FromLTRB(left, top, right, bottom));
 		}
+		public static Matrix4x4 GetOrthoProjection()
+		{
+			return Matrix4x4.Ortho(RectangleF.FromLTRB(0, 0, RenderTarget.Width, RenderTarget.Height), -1, 1);
+		}
+
 		/// <summary>
 		/// Sets the orthogonal projection for rendering.  This allows redefinition of the
 		/// coordinates used to address pixels in the window.  

@@ -185,11 +185,11 @@ namespace AgateOTK
 			Glu.Ortho2D(region.Left, region.Right, region.Bottom, region.Top);
 		}
 
-		Matrix4 projection = Matrix4.Identity;
-		Matrix4 world = Matrix4.Identity;
-		Matrix4 view = Matrix4.Identity;
+		Matrix4x4 projection = Matrix4x4.Identity;
+		Matrix4x4 world = Matrix4x4.Identity;
+		Matrix4x4 view = Matrix4x4.Identity;
 
-		public override Matrix4 MatrixProjection
+		public override Matrix4x4 MatrixProjection
 		{
 			get { return projection; }
 			set
@@ -198,7 +198,7 @@ namespace AgateOTK
 				SetProjection();
 			}
 		}
-		public override Matrix4 MatrixView
+		public override Matrix4x4 MatrixView
 		{
 			get { return view; }
 			set
@@ -207,7 +207,7 @@ namespace AgateOTK
 				SetModelview();
 			}
 		}
-		public override Matrix4 MatrixWorld
+		public override Matrix4x4 MatrixWorld
 		{
 			get { return world; }
 			set
@@ -234,7 +234,7 @@ namespace AgateOTK
 			GL.LoadMatrix(ref otkProjection);
 		}
 
-		private OpenTK.Math.Matrix4 ConvertAgateMatrix(Matrix4 matrix, bool invertY)
+		private OpenTK.Math.Matrix4 ConvertAgateMatrix(Matrix4x4 matrix, bool invertY)
 		{
 			int sign = invertY ? -1 : 1;
 

@@ -53,7 +53,7 @@ namespace AgateOTK
 		{
 		}
 
-		public  void SetUniform(string name, AgateLib.Geometry.Matrix4 matrix)
+		public  void SetUniform(string name, AgateLib.Geometry.Matrix4x4 matrix)
 		{
 		}
 
