@@ -73,15 +73,6 @@ namespace Tests.Display3D.Glsl
 				Surface height = new Surface("bg-bricks-heightmap.png");
 				//Surface height = new Surface("jellybean.png");
 
-				LightManager m = new LightManager();
-				m.AddPointLight(new Vector3(0, 0, 0), Color.White);
-				m.Enabled = true;
-				m.Ambient = Color.FromArgb(0, 255, 0);
-				m[0].AttenuationConstant = 0.0001f;
-				m[0].AttenuationLinear = 0.004f;
-				m[0].AttenuationQuadratic = 0.0001f;
-				m[0].Range = 200;
-
 				double time = 0;
 				double frequency = 2 * Math.PI / 5;
 				const float size = 25;
@@ -149,14 +140,13 @@ namespace Tests.Display3D.Glsl
 					Display.Clear(Color.Gray);
 
 					Matrix4 proj = Matrix4.Projection(45f, wind.Width / (float)wind.Height, 1.0f, 1000f);  // projection
-
-					m[0].Position = eye;
-					m.DoLighting();
+					Matrix4 view = Matrix4.LookAt(eye, eye + lookDir, up);
 
 					// world transformation
-					proj *= Matrix4.Translation(-size / 2, -size / 2, 0) * Matrix4.RotateZ((float)(frequency * time));
+					Matrix4 world = Matrix4.Translation(-size / 2, -size / 2, 0) * Matrix4.RotateZ((float)(frequency * time));
+					Matrix4 composite = proj * view * world;
 
-					shader.SetUniform("worldViewProj", proj);
+					shader.SetVariable("worldViewProj", composite);
 
 					shader.Render(x => x.DrawIndexed(index), buffer);
 

@@ -18,28 +18,28 @@ namespace AgateLib.DisplayLib.Shaders
 		public abstract void EndPass();
 		public abstract void End();
 
-		public abstract void SetUniform(string name, params float[] v);
-		public abstract void SetUniform(string name, params int[] v);
-		public abstract void SetUniform(string name, Matrix4 matrix);
+		public abstract void SetVariable(string name, params float[] v);
+		public abstract void SetVariable(string name, params int[] v);
+		public abstract void SetVariable(string name, Matrix4 matrix);
 
-		public void SetUniform(string name, Vector2 v)
+		public void SetVariable(string name, Vector2 v)
 		{
-			SetUniform(name, v.X, v.Y);
+			SetVariable(name, v.X, v.Y);
 		}
-		public void SetUniform(string name, Vector3 v)
+		public void SetVariable(string name, Vector3 v)
 		{
-			SetUniform(name, v.X, v.Y, v.Z);
+			SetVariable(name, v.X, v.Y, v.Z);
 		}
-		public void SetUniform(string name, Vector4 v)
+		public void SetVariable(string name, Vector4 v)
 		{
-			SetUniform(name, v.X, v.Y, v.Z, v.W);
+			SetVariable(name, v.X, v.Y, v.Z, v.W);
 		}
-		public void SetUniform(string name, Color color)
+		public void SetVariable(string name, Color color)
 		{
-			SetUniform(name, color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
+			SetVariable(name, color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
 		}
 
-		public VertexLayout VertexDefinition { get; set; }
+		//public VertexLayout VertexDefinition { get; set; }
 
 		public abstract void Render<T>(RenderHandler<T> handler, T obj);
 	}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
+using AgateLib.Geometry;
 using Direct3D = SlimDX.Direct3D9;
 
 namespace AgateSDX
@@ -35,22 +36,19 @@ namespace AgateSDX
 			return p;
 		}
 
-		public override void SetUniform(string name, AgateLib.Geometry.Matrix4 matrix)
+		public override void SetVariable(string name, Matrix4 matrix)
 		{
-			var param = GetParameter(name);
-
 			mEffect.SetValue(name, mDisplay.TransformAgateMatrix(matrix));
 		}
 
-		public override void SetUniform(string name, params int[] v)
+		public override void SetVariable(string name, params int[] v)
 		{
-			var param = GetParameter(name);
-
+			mEffect.SetValue(name, v);
 		}
 
-		public override void SetUniform(string name, params float[] v)
+		public override void SetVariable(string name, params float[] v)
 		{
-			
+			mEffect.SetValue(name, v);
 		}
 
 		public override void Render<T>(RenderHandler<T> handler, T obj)

@@ -13,6 +13,7 @@ struct VS_OUTPUT
 {
 	float4 hposition : POSITION;
 	float2 texcoord0 : TEXCOORD0;
+	float4 pos : TEXCOORD1;
 };
 struct PS_OUTPUT
 {
@@ -23,9 +24,12 @@ struct PS_OUTPUT
 PS_OUTPUT ps_main( VS_OUTPUT IN )
 {
 	PS_OUTPUT OUT;
-
-	OUT.color = tex2D( testTexture, IN.texcoord0 ); // Add texel color to vertex color
-
+	
+	OUT.color = (float4)0;
+	//OUT.color = tex2D( testTexture, IN.texcoord0 ); // Add texel color to vertex color
+	OUT.color.r = 1 - saturate(IN.pos.z / 500.0f);
+	OUT.color.a = 1.0f;
+	
 	return OUT;
 }
 
@@ -40,7 +44,8 @@ VS_OUTPUT vs_main( VS_INPUT IN )
 
     OUT.hposition = mul( worldViewProj, v);
     OUT.texcoord0 = IN.texcoord0;
-
+	OUT.pos = OUT.hposition;
+	
     return OUT;
 }
 
@@ -49,10 +54,8 @@ technique Position
 {
    pass Pass_0
    {
-      DestBlend = ONE;
-      SrcBlend = ONE;
       ZEnable = TRUE;
-      ZWriteEnable = FALSE;
+      ZWriteEnable = TRUE;
       CullMode = NONE;
       AlphaBlendEnable = TRUE;
 
