@@ -63,7 +63,7 @@ namespace Tests.LightingTest
 				//lights[1].AttenuationConstant = 0.01f;
 				//lights[1].AttenuationQuadratic = 5e-7f;
 
-				fx.SetVariable("attenuation", 0.01f, 0, 5e-4f);
+				fx.SetVariable("attenuation", 0.5f, 0, 5e-4f);
 				fx.SetTexture(EffectTexture.Texture0, "texture0");
 
 				Mouse.MouseMove += delegate(InputEventArgs e)
@@ -93,7 +93,12 @@ namespace Tests.LightingTest
 					//lights.DoLighting();
 					fx.SetVariable("worldViewProj", Display.GetOrthoProjection());
 
-					Display.Effect = fx;
+					if (frm.enableShader.Checked)
+					{
+						Display.Effect = fx;
+					}
+					else
+						Display.Effect = null;
 
 					if (frm.chkSurfaceGradient.Checked)
 					{

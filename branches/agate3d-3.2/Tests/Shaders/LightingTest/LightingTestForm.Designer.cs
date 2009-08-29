@@ -29,6 +29,7 @@ namespace Tests.LightingTest
 		private void InitializeComponent()
 		{
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.chkSurfaceGradient = new System.Windows.Forms.CheckBox();
 			this.nudAngle = new System.Windows.Forms.NumericUpDown();
 			this.label4 = new System.Windows.Forms.Label();
 			this.btnDiffuse = new System.Windows.Forms.Button();
@@ -36,22 +37,19 @@ namespace Tests.LightingTest
 			this.label3 = new System.Windows.Forms.Label();
 			this.chkMoveLight = new System.Windows.Forms.CheckBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
-			this.nudTess = new System.Windows.Forms.NumericUpDown();
-			this.enableLightingCheck = new System.Windows.Forms.CheckBox();
+			this.enableShader = new System.Windows.Forms.CheckBox();
 			this.lblFPS = new System.Windows.Forms.Label();
 			this.colorDialog1 = new System.Windows.Forms.ColorDialog();
 			this.agateRenderTarget1 = new AgateLib.WinForms.AgateRenderTarget();
-			this.chkSurfaceGradient = new System.Windows.Forms.CheckBox();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudAngle)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudTess)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// panel1
 			// 
 			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.panel1.Controls.Add(this.enableShader);
 			this.panel1.Controls.Add(this.chkSurfaceGradient);
 			this.panel1.Controls.Add(this.nudAngle);
 			this.panel1.Controls.Add(this.label4);
@@ -60,13 +58,20 @@ namespace Tests.LightingTest
 			this.panel1.Controls.Add(this.label3);
 			this.panel1.Controls.Add(this.chkMoveLight);
 			this.panel1.Controls.Add(this.label2);
-			this.panel1.Controls.Add(this.label1);
-			this.panel1.Controls.Add(this.nudTess);
-			this.panel1.Controls.Add(this.enableLightingCheck);
 			this.panel1.Location = new System.Drawing.Point(385, 0);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(126, 352);
 			this.panel1.TabIndex = 0;
+			// 
+			// chkSurfaceGradient
+			// 
+			this.chkSurfaceGradient.AutoSize = true;
+			this.chkSurfaceGradient.Location = new System.Drawing.Point(6, 220);
+			this.chkSurfaceGradient.Name = "chkSurfaceGradient";
+			this.chkSurfaceGradient.Size = new System.Drawing.Size(106, 17);
+			this.chkSurfaceGradient.TabIndex = 4;
+			this.chkSurfaceGradient.Text = "Surface Gradient";
+			this.chkSurfaceGradient.UseVisualStyleBackColor = true;
 			// 
 			// nudAngle
 			// 
@@ -144,43 +149,17 @@ namespace Tests.LightingTest
 			this.label2.TabIndex = 4;
 			this.label2.Text = "Diffuse";
 			// 
-			// label1
+			// enableShader
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(3, 28);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(55, 13);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Tessellate";
-			// 
-			// nudTess
-			// 
-			this.nudTess.Location = new System.Drawing.Point(65, 26);
-			this.nudTess.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.nudTess.Name = "nudTess";
-			this.nudTess.Size = new System.Drawing.Size(37, 20);
-			this.nudTess.TabIndex = 1;
-			this.nudTess.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			// 
-			// enableLightingCheck
-			// 
-			this.enableLightingCheck.AutoSize = true;
-			this.enableLightingCheck.Checked = true;
-			this.enableLightingCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.enableLightingCheck.Location = new System.Drawing.Point(3, 3);
-			this.enableLightingCheck.Name = "enableLightingCheck";
-			this.enableLightingCheck.Size = new System.Drawing.Size(99, 17);
-			this.enableLightingCheck.TabIndex = 0;
-			this.enableLightingCheck.Text = "Enable Lighting";
-			this.enableLightingCheck.UseVisualStyleBackColor = true;
+			this.enableShader.AutoSize = true;
+			this.enableShader.Checked = true;
+			this.enableShader.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.enableShader.Location = new System.Drawing.Point(3, 3);
+			this.enableShader.Name = "enableShader";
+			this.enableShader.Size = new System.Drawing.Size(101, 17);
+			this.enableShader.TabIndex = 0;
+			this.enableShader.Text = "Enable Shading";
+			this.enableShader.UseVisualStyleBackColor = true;
 			// 
 			// lblFPS
 			// 
@@ -201,16 +180,6 @@ namespace Tests.LightingTest
 			this.agateRenderTarget1.Size = new System.Drawing.Size(379, 325);
 			this.agateRenderTarget1.TabIndex = 0;
 			// 
-			// chkSurfaceGradient
-			// 
-			this.chkSurfaceGradient.AutoSize = true;
-			this.chkSurfaceGradient.Location = new System.Drawing.Point(6, 220);
-			this.chkSurfaceGradient.Name = "chkSurfaceGradient";
-			this.chkSurfaceGradient.Size = new System.Drawing.Size(106, 17);
-			this.chkSurfaceGradient.TabIndex = 4;
-			this.chkSurfaceGradient.Text = "Surface Gradient";
-			this.chkSurfaceGradient.UseVisualStyleBackColor = true;
-			// 
 			// LightingTestForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -225,7 +194,6 @@ namespace Tests.LightingTest
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudAngle)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudTess)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -233,10 +201,8 @@ namespace Tests.LightingTest
 		#endregion
 
 		private System.Windows.Forms.Panel panel1;
-		public System.Windows.Forms.CheckBox enableLightingCheck;
+		public System.Windows.Forms.CheckBox enableShader;
 		public AgateLib.WinForms.AgateRenderTarget agateRenderTarget1;
-		private System.Windows.Forms.Label label1;
-		public System.Windows.Forms.NumericUpDown nudTess;
 		public System.Windows.Forms.CheckBox chkMoveLight;
 		public System.Windows.Forms.Label lblFPS;
 		private System.Windows.Forms.Label label3;

@@ -54,7 +54,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 	
 	float atten = 1.0f / (attenuation.x + attenuation.y * dist + attenuation.z * dist * dist);
 	
-	float3 color = saturate(lightColor * atten);
+	float3 color = (lightColor * atten);
 	
 	color *= IN.color.rgb * tex2D(texSampler0, IN.tex);
 	
