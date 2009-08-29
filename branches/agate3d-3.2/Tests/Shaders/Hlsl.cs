@@ -24,7 +24,7 @@ namespace Tests.Display3D.Glsl
 
 		public string Category
 		{
-			get { return "Display 3D"; }
+			get { return "Shaders"; }
 		}
 
 		void IAgateTest.Main(string[] args)
@@ -139,12 +139,12 @@ namespace Tests.Display3D.Glsl
 					Display.BeginFrame();
 					Display.Clear(Color.Gray);
 
-					Matrix4 proj = Matrix4.Projection(45f, wind.Width / (float)wind.Height, 1.0f, 1000f);  // projection
-					Matrix4 view = Matrix4.LookAt(eye, eye + lookDir, up);
+					Matrix4x4 proj = Matrix4x4.Projection(45f, wind.Width / (float)wind.Height, 1.0f, 1000f);  // projection
+					Matrix4x4 view = Matrix4x4.LookAt(eye, eye + lookDir, up);
 
 					// world transformation
-					Matrix4 world = Matrix4.Translation(-size / 2, -size / 2, 0) * Matrix4.RotateZ((float)(frequency * time));
-					Matrix4 composite = proj * view * world;
+					Matrix4x4 world = Matrix4x4.Translation(-size / 2, -size / 2, 0) * Matrix4x4.RotateZ((float)(frequency * time));
+					Matrix4x4 composite = proj * view * world;
 
 					shader.SetVariable("worldViewProj", composite);
 
