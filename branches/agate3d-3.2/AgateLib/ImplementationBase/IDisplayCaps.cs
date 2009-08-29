@@ -77,10 +77,6 @@ namespace AgateLib.ImplementationBase
 		/// </summary>
 		bool IsHardwareAccelerated { get; }
 		/// <summary>
-		/// Indicates whether or not 3D drawing is supported.
-		/// </summary>
-		bool Supports3D { get; }
-		/// <summary>
 		/// Indicates whether or not vertex/pixel shaders are supported.
 		/// </summary>
 		bool SupportsShaders { get; }

@@ -323,11 +323,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		{
 			get { return false; }
 		}
-
-		bool IDisplayCaps.Supports3D
-		{
-			get { return false; }
-		}
 		bool IDisplayCaps.SupportsFullScreen
 		{
 			get { return false; }

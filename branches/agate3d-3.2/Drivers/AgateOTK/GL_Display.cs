@@ -592,10 +592,6 @@ namespace AgateOTK
 		{
 			get { return true; }
 		}
-		bool IDisplayCaps.Supports3D
-		{
-			get { return true; }
-		}
 		bool IDisplayCaps.SupportsFullScreen
 		{
 			get { return true; }
