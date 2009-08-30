@@ -54,12 +54,11 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 	
 	float atten = 1.0f / (attenuation.x + attenuation.y * dist + attenuation.z * dist * dist);
 	
-	float3 color = (lightColor * atten);
+	float3 attenLightColor = (lightColor * atten);
+	float4 baseColor = IN.color * tex2D(texSampler0, IN.tex);
 	
-	color *= IN.color.rgb * tex2D(texSampler0, IN.tex);
-	
-	OUT.color = IN.color;
-	OUT.color.rgb = color.rgb;
+	OUT.color.rgb = attenLightColor * baseColor.rgb;
+	OUT.color.a = baseColor.a;
 	
 	return OUT;
 }
@@ -71,7 +70,8 @@ technique Lighting
    pass Pass_0
    {
       AlphaBlendEnable = TRUE;
-
+	  SrcBlend = SrcAlpha;
+	  DestBlend = InvSrcAlpha;
       VertexShader = compile vs_2_0 vs_main();
       PixelShader = compile ps_2_0 ps_main();
    }
