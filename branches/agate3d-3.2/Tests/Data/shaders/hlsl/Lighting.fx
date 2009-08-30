@@ -70,8 +70,7 @@ technique Lighting
    pass Pass_0
    {
       AlphaBlendEnable = TRUE;
-	  SrcBlend = SrcAlpha;
-	  DestBlend = InvSrcAlpha;
+      
       VertexShader = compile vs_2_0 vs_main();
       PixelShader = compile ps_2_0 ps_main();
    }
