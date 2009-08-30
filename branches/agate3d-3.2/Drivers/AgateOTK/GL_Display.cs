@@ -33,7 +33,7 @@ using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
 namespace AgateOTK
 {
-	public sealed class GL_Display : DisplayImpl, IDisplayCaps, AgateLib.PlatformSpecific.IPlatformServices
+	public sealed class GL_Display : DisplayImpl, AgateLib.PlatformSpecific.IPlatformServices
 	{
 		GL_IRenderTarget mRenderTarget;
 		GLState mState;
@@ -555,11 +555,6 @@ namespace AgateOTK
 			AgateLib.WinForms.FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
 		}
 
-		public override IDisplayCaps Caps
-		{
-			get { return this; }
-		}
-
 		protected override void HideCursor()
 		{
 			System.Windows.Forms.Cursor.Hide();
@@ -583,78 +578,31 @@ namespace AgateOTK
 
 		#region --- IDisplayCaps Members ---
 
-		bool IDisplayCaps.SupportsScaling
+		public override bool Supports(DisplayBoolCaps caps)
 		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsRotation
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsFullScreen
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsFullScreenModeSwitching
-		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsColor
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsGradient
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsSurfaceAlpha
-		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsShaders
-		{
-			get
+			switch (caps)
 			{
-				return mSupportsShaders;
+				case DisplayBoolCaps.Scaling: return true;
+				case DisplayBoolCaps.Rotation: return true;
+				case DisplayBoolCaps.Color: return true;
+				case DisplayBoolCaps.Gradient: return true;
+				case DisplayBoolCaps.SurfaceAlpha: return true;
+				case DisplayBoolCaps.PixelAlpha: return true;
+				case DisplayBoolCaps.IsHardwareAccelerated: return true;
+				case DisplayBoolCaps.FullScreen: return true;
+				case DisplayBoolCaps.FullScreenModeSwitching: return true;
+				case DisplayBoolCaps.Shaders: return false;
+				case DisplayBoolCaps.CanCreateBitmapFont: return true;
 			}
-		}
-		bool IDisplayCaps.SupportsPixelAlpha
-		{
-			get { return true; }
+
+			return false;
 		}
 
-		bool IDisplayCaps.SupportsLighting
+		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
 		{
-			get { return true; }
+			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.Glsl; }
 		}
 
-		int IDisplayCaps.MaxLights
-		{
-			get
-			{
-				int[] max = new int[1];
-				GL.GetInteger(GetPName.MaxLights, max);
-
-				return max[0];
-			}
-		}
-
-		bool IDisplayCaps.IsHardwareAccelerated
-		{
-			get { return true; }
-		}
-
-		AgateLib.DisplayLib.Shaders.ShaderLanguage IDisplayCaps.ShaderLanguage
-		{
-			get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Glsl; }
-		}
-		bool IDisplayCaps.CanCreateBitmapFont
-		{
-			get { return true; }
-		}
 
 		#endregion
 		#region --- IPlatformServices Members ---

@@ -33,7 +33,7 @@ namespace AgateLib.DisplayLib.SystemDrawing
 {
 	using WinForms;
 
-	public class Drawing_Display : DisplayImpl, IDisplayCaps, IPlatformServices
+	public class Drawing_Display : DisplayImpl, IPlatformServices
 	{
 		#region --- Private variables ---
 
@@ -256,11 +256,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 			WinForms.FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
 		}
 
-		public override IDisplayCaps Caps
-		{
-			get { return this; }
-		}
-
 		protected override void HideCursor()
 		{
 			System.Windows.Forms.Cursor.Hide();
@@ -272,69 +267,29 @@ namespace AgateLib.DisplayLib.SystemDrawing
 
 		#region --- IDisplayCaps Members ---
 
-		bool IDisplayCaps.SupportsScaling
+		public override bool Supports(DisplayBoolCaps caps)
 		{
-			get { return true; }
+			switch (caps)
+			{
+				case DisplayBoolCaps.Scaling: return true;
+				case DisplayBoolCaps.Rotation: return true;
+				case DisplayBoolCaps.Color: return true;
+				case DisplayBoolCaps.Gradient: return false;
+				case DisplayBoolCaps.SurfaceAlpha: return true;
+				case DisplayBoolCaps.PixelAlpha: return true;
+				case DisplayBoolCaps.IsHardwareAccelerated: return false;
+				case DisplayBoolCaps.FullScreen: return false;
+				case DisplayBoolCaps.FullScreenModeSwitching: return false;
+				case DisplayBoolCaps.Shaders: return false;
+				case DisplayBoolCaps.CanCreateBitmapFont: return true;
+			}
+
+			return false;
 		}
 
-		bool IDisplayCaps.SupportsRotation
+		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
 		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsColor
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsGradient
-		{
-			get { return false; }
-		}
-		bool IDisplayCaps.SupportsSurfaceAlpha
-		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsPixelAlpha
-		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsShaders
-		{
-			get { return false; }
-		}
-
-		AgateLib.DisplayLib.Shaders.ShaderLanguage IDisplayCaps.ShaderLanguage
-		{
-			get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Unknown; }
-		}
-		bool IDisplayCaps.SupportsLighting
-		{
-			get { return false; }
-		}
-
-		int IDisplayCaps.MaxLights
-		{
-			get { return 0; }
-		}
-
-		bool IDisplayCaps.IsHardwareAccelerated
-		{
-			get { return false; }
-		}
-		bool IDisplayCaps.SupportsFullScreen
-		{
-			get { return false; }
-		}
-		bool IDisplayCaps.SupportsFullScreenModeSwitching
-		{
-			get { return false; }
-		}
-
-		bool IDisplayCaps.CanCreateBitmapFont
-		{
-			get { return true; }
+			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.None; }
 		}
 
 		#endregion

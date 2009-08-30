@@ -7,7 +7,7 @@ namespace AgateLib.DisplayLib.Shaders
 {
 	public enum ShaderLanguage
 	{
-		Unknown,
+		None,
 
 		Glsl,
 		Hlsl,

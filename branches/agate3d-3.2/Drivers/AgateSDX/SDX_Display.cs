@@ -36,7 +36,7 @@ using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
 
 namespace AgateSDX
 {
-	public class SDX_Display : DisplayImpl, IDisplayCaps, AgateLib.PlatformSpecific.IPlatformServices
+	public class SDX_Display : DisplayImpl, AgateLib.PlatformSpecific.IPlatformServices
 	{
 		#region --- Private Variables ---
 
@@ -857,11 +857,6 @@ namespace AgateSDX
 			FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
 		}
 
-		public override IDisplayCaps Caps
-		{
-			get { return this; }
-		}
-
 		protected override void HideCursor()
 		{
 			System.Windows.Forms.Cursor.Hide();
@@ -873,75 +868,29 @@ namespace AgateSDX
 
 		#region --- IDisplayCaps Members ---
 
-		bool IDisplayCaps.SupportsScaling
+		public override bool Supports(DisplayBoolCaps caps)
 		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsRotation
-		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsColor
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsGradient
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsSurfaceAlpha
-		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsPixelAlpha
-		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsLighting
-		{
-			get { return true; }
-		}
-
-		int IDisplayCaps.MaxLights
-		{
-			get
+			switch (caps)
 			{
-				Capabilities c = mDirect3Dobject.Adapters[0].GetCaps(DeviceType.Hardware);
-
-				return c.MaxActiveLights;
+				case DisplayBoolCaps.Scaling: return true;
+				case DisplayBoolCaps.Rotation: return true;
+				case DisplayBoolCaps.Color: return true;
+				case DisplayBoolCaps.Gradient: return true;
+				case DisplayBoolCaps.SurfaceAlpha: return true;
+				case DisplayBoolCaps.PixelAlpha: return true;
+				case DisplayBoolCaps.IsHardwareAccelerated: return true;
+				case DisplayBoolCaps.FullScreen: return true;
+				case DisplayBoolCaps.FullScreenModeSwitching: return true;
+				case DisplayBoolCaps.Shaders: return true;
+				case DisplayBoolCaps.CanCreateBitmapFont: return true;
 			}
+
+			return false;
 		}
 
-		bool IDisplayCaps.IsHardwareAccelerated
+		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
 		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsFullScreen
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsFullScreenModeSwitching
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsShaders
-		{
-			get { return true; }
-		}
-
-		AgateLib.DisplayLib.Shaders.ShaderLanguage IDisplayCaps.ShaderLanguage
-		{
-			get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Hlsl; }
-		}
-
-		bool IDisplayCaps.CanCreateBitmapFont
-		{
-			get { return true; }
+			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.Hlsl; }
 		}
 
 		#endregion
@@ -1099,5 +1048,6 @@ namespace AgateSDX
 						"The specified render state, {0}, is not supported by this driver."));
 			}
 		}
+
 	}
 }

@@ -34,10 +34,14 @@ namespace AgateLib.ImplementationBase
 	public abstract class DisplayImpl : DriverImplBase
 	{
 		private double mAlphaThreshold = 5.0 / 255.0;
+		private DisplayLib.DisplayCapsInfo mCapsInfo = new DisplayCapsInfo();
 
 		private IRenderTarget mRenderTarget;
 
+		public abstract bool Supports(DisplayBoolCaps caps);
+		public abstract IEnumerable<DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages { get; }
 
+		
 		/// <summary>
 		/// Gets or sets the current render target.
 		/// </summary>
@@ -547,7 +551,10 @@ namespace AgateLib.ImplementationBase
 		/// <summary>
 		/// Gets the capabilities of the Display object.
 		/// </summary>
-		public abstract IDisplayCaps Caps { get; }
+		public DisplayCapsInfo Caps
+		{
+			get { return mCapsInfo;  }
+		}
 
 		/// <summary>
 		/// Gets all the light settings from the LightManager.

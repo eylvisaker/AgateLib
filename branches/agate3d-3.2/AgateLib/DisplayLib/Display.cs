@@ -658,7 +658,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Gets the capabilities of the Display object.
 		/// </summary>
-		public static IDisplayCaps Caps
+		public static DisplayCapsInfo Caps
 		{
 			get { return impl.Caps; }
 		}
