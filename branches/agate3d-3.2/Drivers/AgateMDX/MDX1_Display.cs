@@ -35,7 +35,7 @@ using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
 
 namespace AgateMDX
 {
-	public class MDX1_Display : DisplayImpl, IDisplayCaps, AgateLib.PlatformSpecific.IPlatformServices
+	public class MDX1_Display : DisplayImpl, AgateLib.PlatformSpecific.IPlatformServices
 	{
 		#region --- Private Variables ---
 
@@ -767,11 +767,6 @@ namespace AgateMDX
 			FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
 		}
 
-		public override IDisplayCaps Caps
-		{
-			get { return this; }
-		}
-
 		protected override void HideCursor()
 		{
 			System.Windows.Forms.Cursor.Hide();
@@ -783,171 +778,29 @@ namespace AgateMDX
 
 		#region --- IDisplayCaps Members ---
 
-		bool IDisplayCaps.SupportsScaling
-		{
-			get { return true; }
-		}
 
-		bool IDisplayCaps.SupportsRotation
+		public override bool Supports(DisplayBoolCaps caps)
 		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsColor
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsGradient
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsSurfaceAlpha
-		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsPixelAlpha
-		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsLighting
-		{
-			get { return true; }
-		}
-
-		int IDisplayCaps.MaxLights
-		{
-			get
+			switch (caps)
 			{
-				Caps c = Direct3D.Manager.GetDeviceCaps(0, DeviceType.Hardware);
-
-				return c.MaxActiveLights;
+				case DisplayBoolCaps.Scaling: return true;
+				case DisplayBoolCaps.Rotation: return true;
+				case DisplayBoolCaps.Color: return true;
+				case DisplayBoolCaps.Gradient: return true;
+				case DisplayBoolCaps.SurfaceAlpha: return true;
+				case DisplayBoolCaps.PixelAlpha: return true;
+				case DisplayBoolCaps.IsHardwareAccelerated: return true;
+				case DisplayBoolCaps.FullScreen: return true;
+				case DisplayBoolCaps.FullScreenModeSwitching: return true;
+				case DisplayBoolCaps.CanCreateBitmapFont: return true;
 			}
+
+			return false;
 		}
 
-		bool IDisplayCaps.IsHardwareAccelerated
+		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
 		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsFullScreen
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsFullScreenModeSwitching
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsShaders
-		{
-			get { return true; }
-		}
-
-		AgateLib.DisplayLib.Shaders.ShaderLanguage IDisplayCaps.ShaderLanguage
-		{
-			get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Hlsl; }
-		}
-
-		#endregion
-
-		bool IDisplayCaps.CanCreateBitmapFont
-		{
-			get { return true; }
-		}
-
-		#region --- 3D stuff ---
-
-		Matrix4x4 projection = Matrix4x4.Identity;
-		Matrix4x4 world = Matrix4x4.Identity;
-		Matrix4x4 view = Matrix4x4.Identity;
-
-		protected override VertexBufferImpl CreateVertexBuffer(
-			AgateLib.Geometry.VertexTypes.VertexLayout layout, int vertexCount)
-		{
-			return new MDX1_VertexBuffer(this, layout, vertexCount);
-		}
-		protected override IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
-		{
-			return new MDX1_IndexBuffer(this, type, size);
-		}
-
-		private Matrix TransformAgateMatrix(Matrix4x4 value)
-		{
-			Matrix retval = new Matrix();
-
-			retval.M11 = value[0, 0];
-			retval.M12 = value[1, 0];
-			retval.M13 = value[2, 0];
-			retval.M14 = value[3, 0];
-
-			retval.M21 = value[0, 1];
-			retval.M22 = value[1, 1];
-			retval.M23 = value[2, 1];
-			retval.M24 = value[3, 1];
-
-			retval.M31 = value[0, 2];
-			retval.M32 = value[1, 2];
-			retval.M33 = value[2, 2];
-			retval.M34 = value[3, 2];
-
-			retval.M41 = value[0, 3];
-			retval.M42 = value[1, 3];
-			retval.M43 = value[2, 3];
-			retval.M44 = value[3, 3];
-
-			return retval;
-		}
-		public override Matrix4x4 MatrixProjection
-		{
-			get
-			{
-				return projection;
-			}
-			set
-			{
-				//value = Matrix4x4.Projection(45, 800 / 600f, 1f, 1000f);
-				var x = Microsoft.DirectX.Matrix.PerspectiveFovRH(
-					(float)(45 * Math.PI / 180), 800 / 600f, 1f, 1000f);
-
-				projection = value;
-				mDevice.Device.SetTransform(TransformType.Projection,
-					TransformAgateMatrix(value));
-			}
-		}
-
-		public override Matrix4x4 MatrixView
-		{
-			get
-			{
-				return view;
-			}
-			set
-			{
-				view = value;
-
-				mDevice.Device.SetTransform(TransformType.View,
-					TransformAgateMatrix(value));
-			}
-		}
-		public override Matrix4x4 MatrixWorld
-		{
-			get
-			{
-				return world;
-			}
-			set
-			{
-				world = value;
-
-				mDevice.Device.SetTransform(TransformType.World,
-					TransformAgateMatrix(value));
-			}
-		}
-
-		Matrix GetTotalTransform()
-		{
-			return TransformAgateMatrix(MatrixProjection * MatrixView * MatrixWorld);
+			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.Hlsl; }
 		}
 
 		#endregion
