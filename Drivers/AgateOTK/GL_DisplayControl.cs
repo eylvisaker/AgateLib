@@ -206,10 +206,10 @@ namespace AgateOTK
 
 			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
 
-			OpenTK.Platform.Utilities.CreateGraphicsContext(
-				newMode,
-				mRenderTarget,
-				out mContext, out mWindowInfo);
+			mWindowInfo = OpenTK.Platform.Utilities.CreateWindowInfo(newMode, mRenderTarget);
+
+			mContext = OpenTK.Platform.Utilities.CreateGraphicsContext(
+				newMode, mWindowInfo, 3, 1, GraphicsContextFlags.Default);
 		}
 
 
@@ -425,8 +425,8 @@ namespace AgateOTK
 
 		public override void EndRender()
 		{
-			if (mContext.VSync != mDisplay.VSync)
-				mContext.VSync = mDisplay.VSync;
+			if (mContext.VSync != Display.RenderState.WaitForVerticalBlank)
+				mContext.VSync = Display.RenderState.WaitForVerticalBlank;
 
 			mContext.SwapBuffers();
 		}

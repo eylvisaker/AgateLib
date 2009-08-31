@@ -65,6 +65,11 @@ namespace AgateMDX
 
 		#endregion
 
+		public Texture D3dTexture
+		{
+			get { return mTexture.Value; }
+		}
+
 		#region --- TextureCoordinates structure ---
 
 		struct TextureCoordinates

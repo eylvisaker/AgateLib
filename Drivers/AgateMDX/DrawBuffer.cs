@@ -46,7 +46,6 @@ namespace AgateMDX
 		Texture mTexture;
 		bool mAlphaBlend;
 
-
 		public DrawBuffer(D3DDevice device)
 		{
 			mDevice = device;
@@ -104,7 +103,7 @@ namespace AgateMDX
 			try
 			{
 				mDevice.Device.DrawIndexedUserPrimitives
-					(PrimitiveType.TriangleList, 0, mVertPointer,
+					(Direct3D.PrimitiveType.TriangleList, 0, mVertPointer,
 					 mIndexPointer / 3, mIndices, true, mVerts);
 			}
 			catch { }

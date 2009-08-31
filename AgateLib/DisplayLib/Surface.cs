@@ -256,6 +256,7 @@ namespace AgateLib.DisplayLib
 		/// </para>
 		/// </remarks>
 		/// 
+		[Obsolete("Use shaders for lighting effects.")]
 		public int TesselateFactor
 		{
 			get { return impl.TesselateFactor; }

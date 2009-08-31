@@ -163,7 +163,6 @@ namespace AgateLib.WinForms
 			this.MaximizeBox = false;
 			this.Name = "SetSystemsForm";
 			this.Text = "Select Drivers";
-			this.Load += new System.EventHandler(this.frmSetSystems_Load);
 			this.ResumeLayout(false);
 
 		}

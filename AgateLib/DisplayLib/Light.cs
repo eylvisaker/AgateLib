@@ -27,6 +27,7 @@ namespace AgateLib.DisplayLib
 	/// Class which represents a single light source.
 	/// Only point light sources are supported at the moment.
 	/// </summary>
+	[Obsolete("Use shaders to accomplish lighting instead.")]
 	public class Light
 	{
 		private bool mEnabled = true;

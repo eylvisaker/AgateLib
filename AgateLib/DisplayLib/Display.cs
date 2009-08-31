@@ -61,6 +61,9 @@ namespace AgateLib.DisplayLib
 		private static DisplayImpl impl;
 		private static DisplayWindow mCurrentWindow;
 		private static SurfacePacker mSurfacePacker;
+		private static Rectangle mCurrentClipRect;
+		private static Stack<Rectangle> mClipRects = new Stack<Rectangle>();
+		private static RenderStateAdapter mRenderState = new RenderStateAdapter();
 
 		/// <summary>
 		/// Gets the object which handles all of the actual calls to Display functions.
@@ -91,7 +94,16 @@ namespace AgateLib.DisplayLib
 			impl.Initialize();
 
 			mSurfacePacker = new SurfacePacker();
+		}
 
+		public static RenderStateAdapter RenderState
+		{
+			get { return mRenderState; }
+		}
+
+		private static ShaderCompilerImpl CreateShaderCompiler()
+		{
+			return impl.CreateShaderCompiler();
 		}
 		/// <summary>
 		/// Disposes of the Display.
@@ -125,6 +137,12 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
+		public static Shaders.Effect Effect
+		{
+			get { return impl.Effect; }
+			set { impl.Effect = value; }
+		}
+
 		/// <summary>
 		/// Delegate type for functions which are called when Display.Dispose is called
 		/// at the end of execution of the program.
@@ -140,20 +158,6 @@ namespace AgateLib.DisplayLib
 		{
 			if (DisposeDisplay != null)
 				DisposeDisplay();
-		}
-
-		private static bool TestPath(string filename, out string fullPath)
-		{
-			if (File.Exists(filename))
-			{
-				fullPath = Path.GetFullPath(filename);
-				return true;
-			}
-			else
-			{
-				fullPath = "";
-				return false;
-			}
 		}
 
 		/// <summary>
@@ -278,6 +282,7 @@ namespace AgateLib.DisplayLib
 				throw new AgateException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
 
 			impl.BeginFrame();
+			mCurrentClipRect = new Rectangle(0, 0, RenderTarget.Width, RenderTarget.Height);
 		}
 		/// <summary>
 		/// EndFrame must be called at the end of each frame.
@@ -322,15 +327,24 @@ namespace AgateLib.DisplayLib
 		/// <param name="newClipRect"></param>
 		public static void PushClipRect(Rectangle newClipRect)
 		{
-			impl.PushClipRect(newClipRect);
+			mClipRects.Push(mCurrentClipRect);
+			SetClipRect(newClipRect);
 		}
 		/// <summary>
 		/// Pops the clip rect and restores the previous clip rect.
 		/// </summary>
 		public static void PopClipRect()
 		{
-			impl.PopClipRect();
+			if (mClipRects.Count == 0)
+			{
+				throw new AgateException("You have popped the cliprect too many times.");
+			}
+			else
+			{
+				SetClipRect(mClipRects.Pop());
+			}
 		}
+
 		/// <summary>
 		/// Returns the maximum size a surface object can be.
 		/// </summary>
@@ -398,22 +412,11 @@ namespace AgateLib.DisplayLib
 		/// Gets or sets the VSync flag.  If VSync is off, tearing might occur.
 		/// If VSync is on, the framerate will be capped at the monitor's refresh rate.
 		/// </summary>
+		[Obsolete("Use Display.RenderState.WaitForVerticalBlank instead.", true)]
 		public static bool VSync
 		{
-			get
-			{
-				if (impl == null)
-					throw new AgateException("Display has not been initialized.");
-
-				return impl.VSync;
-			}
-			set
-			{
-				if (impl == null)
-					throw new AgateException("Display has not been initialized.");
-
-				impl.VSync = value;
-			}
+			get { return RenderState.WaitForVerticalBlank; }
+			set { RenderState.WaitForVerticalBlank = value; }
 		}
 
 		/// <summary>
@@ -449,6 +452,11 @@ namespace AgateLib.DisplayLib
 		{
 			SetOrthoProjection(Rectangle.FromLTRB(left, top, right, bottom));
 		}
+		public static Matrix4x4 GetOrthoProjection()
+		{
+			return Matrix4x4.Ortho(RectangleF.FromLTRB(0, 0, RenderTarget.Width, RenderTarget.Height), -1, 1);
+		}
+
 		/// <summary>
 		/// Sets the orthogonal projection for rendering.  This allows redefinition of the
 		/// coordinates used to address pixels in the window.  
@@ -468,6 +476,7 @@ namespace AgateLib.DisplayLib
 		{
 			impl.SetOrthoProjection(region);
 		}
+
 		#region --- Drawing Functions ---
 
 		/// <summary>
@@ -489,7 +498,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void DrawLine(int x1, int y1, int x2, int y2, Color color)
 		{
-			impl.DrawLine(x1, y1, x2, y2, color);
+			impl.DrawLine(new Point(x1, y1), new Point(x2, y2), color);
 		}
 		/// <summary>
 		/// Draws a line between the two points specified.
@@ -522,7 +531,6 @@ namespace AgateLib.DisplayLib
 		{
 			if (pts.Length % 2 == 1)
 				throw new ArgumentException("pts argument is not an even number of points!");
-
 			impl.DrawLineSegments(pts, color);
 		}
 		/// <summary>
@@ -554,6 +562,34 @@ namespace AgateLib.DisplayLib
 		public static void DrawRect(int x, int y, int width, int height, Color color)
 		{
 			impl.DrawRect(new Rectangle(x, y, width, height), color);
+		}
+
+		/// <summary>
+		/// Draws a filled ellipse inscribed in the specified rectangle.
+		/// </summary>
+		/// <param name="rect"></param>
+		/// <param name="color"></param>
+		public static void FillEllipse(Rectangle rect, Color color)
+		{
+			impl.FillEllipse((RectangleF)rect, color);
+		}
+		/// <summary>
+		/// Draws a filled ellipse inscribed in the specified rectangle.
+		/// </summary>
+		/// <param name="rect"></param>
+		/// <param name="color"></param>
+		public static void FillEllipse(RectangleF rect, Color color)
+		{
+			impl.FillEllipse(rect, color);
+		}
+		/// <summary>
+		/// Draws a filled polygon.  The last point will be connected to the first point.
+		/// </summary>
+		/// <param name="pts"></param>
+		/// <param name="color"></param>
+		public static void FillPolygon(PointF[] pts, Color color)
+		{
+			impl.FillPolygon(pts, color);
 		}
 		/// <summary>
 		/// Draws a filled rectangle.
@@ -622,7 +658,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Gets the capabilities of the Display object.
 		/// </summary>
-		public static IDisplayCaps Caps
+		public static DisplayCapsInfo Caps
 		{
 			get { return impl.Caps; }
 		}
@@ -630,11 +666,13 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Turns lighting functions off.
 		/// </summary>
+		[Obsolete("Use shaders instead.")]
 		public static void DisableLighting()
 		{
 			DoLighting(LightManager.Empty);
 		}
 
+		[Obsolete("Use shaders instead.")]
 		internal static void DoLighting(LightManager lights)
 		{
 			impl.DoLighting(lights);
@@ -660,7 +698,5 @@ namespace AgateLib.DisplayLib
 			impl.ShowCursor();
 		}
 	}
-
-
 
 }

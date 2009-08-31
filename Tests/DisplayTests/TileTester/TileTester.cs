@@ -34,7 +34,7 @@ namespace Tests.TileTester
 
 				tile = new Surface("bg-bricks.png");
 
-				Display.VSync = true;
+				Display.RenderState.WaitForVerticalBlank = true;
 				while (frm.IsDisposed == false)
 				{
 					Display.BeginFrame();
@@ -45,15 +45,17 @@ namespace Tests.TileTester
 					Display.EndFrame();
 					Core.KeepAlive();
 
+					// move at 100 pixels per second
 					if (frm.ScrollX)
 					{
-						xval += (float)Display.DeltaTime / 20.0f;
+						xval += (float)Display.DeltaTime / 10.0f;
 					}
 					if (frm.ScrollY)
 					{
-						// move at 50 pixels per second
-						yval += (float)Display.DeltaTime / 20.0f;
+						yval += (float)Display.DeltaTime / 10.0f;
 					}
+
+					frm.FPS = Display.FramesPerSecond;
 				}
 			}
 		}

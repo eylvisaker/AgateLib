@@ -178,6 +178,10 @@ namespace AgateLib.Drivers
 			internal set { mAssemblyFile = value; }
 		}
 
+		public override string ToString()
+		{
+			return "AgateDriverInfo: " + AssemblyFile;
+		}
 	}
 
 	/// <summary>

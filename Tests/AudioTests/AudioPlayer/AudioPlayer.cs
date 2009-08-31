@@ -22,7 +22,7 @@ namespace Tests.AudioTester
 				if (setup.WasCanceled)
 					return;
 
-				Application.Run(new frmAudioTester());
+				new frmAudioTester().ShowDialog();
 			}
 		}
 

@@ -28,16 +28,16 @@ namespace AgateOTK
 	{
 		public override IEnumerable<AgateDriverInfo> ReportDrivers()
 		{
-			string opentk_version = "0.9.5";
+			string opentk_version = "(unknown version)";
 			opentk_version = GetOpenTKVersion(opentk_version);
 
 			yield return new AgateDriverInfo(
-				 DisplayTypeID.OpenGL, typeof(GL_Display), "OpenGL through OpenTK" + opentk_version, 1120);
+				 DisplayTypeID.OpenGL, typeof(GL_Display), "OpenGL through OpenTK " + opentk_version, 200);
 
 			if (ReportOpenAL())
 			{
 				yield return new AgateDriverInfo(
-					AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK" + opentk_version, 100);
+					AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK " + opentk_version, 100);
 			}
 		}
 
@@ -50,7 +50,7 @@ namespace AgateOTK
 
 
 			if (version != null)
-				opentk_version = " " + version.Version;
+				opentk_version = version.Version;
 			return opentk_version;
 		}
 
