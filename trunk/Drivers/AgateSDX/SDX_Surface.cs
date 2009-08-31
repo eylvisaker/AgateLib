@@ -223,13 +223,13 @@ namespace AgateSDX
 			}
 
 			mTexture = new Ref<Texture>(Texture.FromStream(mDevice.Device,
-				st, 0, 0, 1, Usage.None,
+				stream, 0, 0, 1, Usage.None,
 				format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
 			
 			mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
 				mTexture.Value.GetSurfaceLevel(0).Description.Height);
 
-			//bitmap.Dispose();
+			stream.Dispose();
 		}
 		public void LoadFromFile()
 		{
