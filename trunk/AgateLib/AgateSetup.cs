@@ -66,10 +66,29 @@ namespace AgateLib
 		private bool mUseAudio = true;
 		private bool mUseInput = true;
 
+		private DisplayTypeID mPreferredDisplay = DisplayTypeID.AutoSelect;
+		private AudioTypeID mPreferredAudio = AudioTypeID.AutoSelect;
+		private InputTypeID mPreferredInput = InputTypeID.AutoSelect;
+
 		private DisplayTypeID mSelectDisplay = DisplayTypeID.AutoSelect;
 		private AudioTypeID mSelectAudio = AudioTypeID.AutoSelect;
 		private InputTypeID mSelectInput = InputTypeID.AutoSelect;
 
+		public DisplayTypeID PreferredDisplay
+		{
+			get { return mPreferredDisplay; }
+			set { mPreferredDisplay = value; }
+		}
+		public AudioTypeID PreferredAudio
+		{
+			get { return mPreferredAudio; }
+			set { mPreferredAudio = value; }
+		}
+		public InputTypeID PreferredInput
+		{
+			get { return mPreferredInput; }
+			set { mPreferredInput = value; }
+		}
 
 		/// <summary>
 		/// Constructs a Setup object.
@@ -280,7 +299,9 @@ namespace AgateLib
 				return;
 
 			mWasCanceled = !Registrar.UserSelectDrivers(mUseDisplay, mUseAudio, mUseInput,
-												   out mSelectDisplay, out mSelectAudio, out mSelectInput);
+				mPreferredDisplay, mPreferredAudio, mPreferredInput ,
+				out mSelectDisplay, out mSelectAudio, out mSelectInput);
+
 
 			mAlreadyAsked = true;
 		}

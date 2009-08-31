@@ -65,7 +65,7 @@ namespace Tests.PerformanceTester
 				double fps;
 
 				Display.Initialize((DisplayTypeID)info.DriverTypeID);
-				Display.VSync = false;
+				Display.RenderState.WaitForVerticalBlank = false;
 
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Performance Test", 300, 300);
 				font = new FontSurface("Arial", 11);

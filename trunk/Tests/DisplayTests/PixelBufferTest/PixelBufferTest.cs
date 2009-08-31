@@ -37,7 +37,7 @@ namespace Tests.PixelBufferTest
 				DisplayWindow wind = new DisplayWindow(CreateWindowParams.FromControl(frm.panel1));
 
 				image = new Surface("9ball.png");
-				buffer = image.ReadPixels(PixelFormat.RGBA8888);
+				buffer = image.ReadPixels(PixelFormat.Any);
 
 				Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
 				Mouse.MouseMove += new InputEventHandler(Mouse_MouseMove);

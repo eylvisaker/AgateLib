@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+
+namespace AgateLib.Geometry.VertexTypes
+{
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct PositionTextureNTB
+	{
+		public Vector3 Position;
+		public Vector2 Texture;
+		public Vector3 Normal;
+		public Vector3 Tangent;
+		public Vector3 Bitangent;
+
+		public static VertexLayout VertexLayout
+		{
+			get
+			{
+				return new VertexLayout 
+				{ 
+					new VertexElementDesc(VertexElementDataType.Float3, VertexElement.Position),
+					new VertexElementDesc(VertexElementDataType.Float2, VertexElement.Texture),
+					new VertexElementDesc(VertexElementDataType.Float3, VertexElement.Normal),
+					new VertexElementDesc(VertexElementDataType.Float3, VertexElement.Tangent),
+					new VertexElementDesc(VertexElementDataType.Float3, VertexElement.Bitangent),
+				};
+			}
+		}
+	}
+}

@@ -50,6 +50,11 @@ namespace AgateLib.Drivers
 		Reference = 1,
 
 		/// <summary>
+		/// Driver Implementation using SlimDX.
+		/// </summary>
+		Direct3D9_SDX = 0x120,
+
+		/// <summary>
 		/// Driver Implementation using Managed DirectX 1.1.
 		/// </summary>
 		Direct3D_MDX_1_1 = 0x100,
@@ -96,10 +101,9 @@ namespace AgateLib.Drivers
 		/// </summary>
 		DirectSound = 0x100,
 		/// <summary>
-		/// Implementation using XNA Studio
-		/// (what will this be called), anyway?)
+		/// Implementation using XAudio2, the new replacement for DirectSound.
 		/// </summary>
-		XAct = 0x110,
+		XAudio2 = 0x110,
 
 		/// <summary>
 		/// Implementation using the cross-platform OpenAL library.

@@ -339,7 +339,7 @@ namespace AgateLib.Resources
 		{
 			if (mOwnedSurfaces.ContainsKey(filename) == false)
 			{
-				string path = string.IsNullOrEmpty(RootDirectory)? filename :
+				string path = string.IsNullOrEmpty(RootDirectory) ? filename :
 					RootDirectory + "/" + filename;
 				SurfaceImpl impl = Display.Impl.CreateSurface(FileProvider, path);
 

@@ -49,7 +49,7 @@ namespace AgateLib
 		double totalSplashTime = 0;
 		bool splashFadeDone = false;
 
-		#region --- Run Methods ---
+		#region --- Run Method ---
 
 		/// <summary>
 		/// Runs the application.
@@ -68,6 +68,10 @@ namespace AgateLib
 		{
 			using (AgateSetup setup = new AgateSetup(args))
 			{
+				setup.PreferredDisplay = InitParams.PreferredDisplay;
+				setup.PreferredAudio = InitParams.PreferredAudio;
+				setup.PreferredInput = InitParams.PreferredInput;
+
 				setup.Initialize(
 					InitParams.InitializeDisplay,
 					InitParams.InitializeAudio,
@@ -233,7 +237,7 @@ namespace AgateLib
 			Surface powered = InternalResources.Data.PoweredBy;
 			Size size = powered.SurfaceSize;
 
-			int left = (int)(totalSplashTime * size.Width - size.Width);
+			int left = (int)(totalSplashTime * size.Width - size.Width)+1;
 			Rectangle gradientRect = new Rectangle(left, MainWindow.Height - size.Height,
 				size.Width, size.Height);
 

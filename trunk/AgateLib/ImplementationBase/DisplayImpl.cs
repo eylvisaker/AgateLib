@@ -20,25 +20,28 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
 using AgateLib.BitmapFont;
+using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
 namespace AgateLib.ImplementationBase
 {
-	using AgateLib.DisplayLib;
-
 	/// <summary>
 	/// Abstract base class for implementing the Display object.
 	/// </summary>
 	public abstract class DisplayImpl : DriverImplBase
 	{
 		private double mAlphaThreshold = 5.0 / 255.0;
+		private DisplayLib.DisplayCapsInfo mCapsInfo = new DisplayCapsInfo();
 
 		private IRenderTarget mRenderTarget;
 
+		public abstract bool Supports(DisplayBoolCaps caps);
+		public abstract IEnumerable<DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages { get; }
 
+		
 		/// <summary>
 		/// Gets or sets the current render target.
 		/// </summary>
@@ -322,22 +325,13 @@ namespace AgateLib.ImplementationBase
 		/// </summary>
 		public abstract Size MaxSurfaceSize { get; }
 
-		#region --- Clip Rect stuff ---
+		#region --- SetClipRect ---
 
 		/// <summary>
 		/// Set the current clipping rect.
 		/// </summary>
 		/// <param name="newClipRect"></param>
 		public abstract void SetClipRect(Rectangle newClipRect);
-		/// <summary>
-		/// Pushes a clip rect onto the clip rect stack.
-		/// </summary>
-		/// <param name="newClipRect"></param>
-		public abstract void PushClipRect(Rectangle newClipRect);
-		/// <summary>
-		/// Pops the clip rect and restores the previous clip rect.
-		/// </summary>
-		public abstract void PopClipRect();
 
 		#endregion
 		#region --- Direct modification of the back buffer ---
@@ -385,7 +379,7 @@ namespace AgateLib.ImplementationBase
 
 			// we will take the circumference as being the number of points to draw
 			// on the ellipse.
-			Point[] pts = new Point[(int)Math.Ceiling(circumference)];
+			Point[] pts = new Point[(int)Math.Ceiling(circumference * 2)];
 			double step = 2 * Math.PI / (pts.Length - 1);
 
 			for (int i = 0; i < pts.Length; i++)
@@ -397,15 +391,36 @@ namespace AgateLib.ImplementationBase
 			DrawLines(pts, color);
 		}
 
-		/// <summary>
-		/// Draws a line between the two specified end-points.
-		/// </summary>
-		/// <param name="x1"></param>
-		/// <param name="y1"></param>
-		/// <param name="x2"></param>
-		/// <param name="y2"></param>
-		/// <param name="color"></param>
-		public abstract void DrawLine(int x1, int y1, int x2, int y2, Color color);
+
+		public virtual void FillEllipse(RectangleF rect, Color color)
+		{
+			PointF center = new PointF(rect.Left + rect.Width / 2,
+									   rect.Top + rect.Height / 2);
+
+			double radiusX = rect.Width / 2;
+			double radiusY = rect.Height / 2;
+			double h = Math.Pow(radiusX - radiusY, 2) / Math.Pow(radiusX + radiusY, 2);
+
+			//Ramanujan's second approximation to the circumference of an ellipse.
+			double circumference =
+				Math.PI * (radiusX + radiusY) * (1 + 3 * h / (10 + Math.Sqrt(4 - 3 * h)));
+
+			// we will take the circumference as being the number of points to draw
+			// on the ellipse.
+			PointF[] pts = new PointF[(int)Math.Ceiling(circumference * 2)];
+			double step = 2 * Math.PI / (pts.Length - 1);
+
+			for (int i = 0; i < pts.Length; i++)
+			{
+				pts[i] = new PointF((float)(center.X + radiusX * Math.Cos(step * i) + 0.5),
+									(float)(center.Y + radiusY * Math.Sin(step * i) + 0.5));
+			}
+
+			FillPolygon(pts, color);
+		}
+
+		public abstract void FillPolygon(PointF[] pts, Color color);
+
 		/// <summary>
 		/// Draws a line between the two specified endpoints.
 		/// </summary>
@@ -514,17 +529,6 @@ namespace AgateLib.ImplementationBase
 		}
 
 		/// <summary>
-		/// Gets or sets VSync flag.
-		/// There is no need to call base.VSync if overriding this member.
-		/// </summary>
-		public virtual bool VSync
-		{
-			get { return true; }
-			set { }
-		}
-
-
-		/// <summary>
 		/// Enumerates a list of screen modes.
 		/// </summary>
 		/// <returns></returns>
@@ -547,13 +551,20 @@ namespace AgateLib.ImplementationBase
 		/// <summary>
 		/// Gets the capabilities of the Display object.
 		/// </summary>
-		public abstract IDisplayCaps Caps { get; }
+		public DisplayCapsInfo Caps
+		{
+			get { return mCapsInfo;  }
+		}
 
 		/// <summary>
 		/// Gets all the light settings from the LightManager.
 		/// </summary>
 		/// <param name="lights"></param>
-		public abstract void DoLighting(LightManager lights);
+		[Obsolete()]
+		public virtual void DoLighting(LightManager lights)
+		{
+			throw new NotImplementedException("DoLighting is not implemented, and also deprecated.");
+		}
 
 		/// <summary>
 		/// Processes pending events.
@@ -596,5 +607,64 @@ namespace AgateLib.ImplementationBase
 		/// </summary>
 		protected internal abstract void HideCursor();
 
+
+		protected internal virtual VertexBufferImpl CreateVertexBuffer(
+			Geometry.VertexTypes.VertexLayout layout, int vertexCount)
+		{
+			throw new AgateException("Cannot create a vertex buffer with a driver that does not support 3D.");
+		}
+
+		protected internal virtual IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
+		{
+			throw new AgateException("Cannot create an index buffer with a driver that does not support 3D.");
+		}
+
+		public virtual Matrix4x4 MatrixProjection
+		{
+			get { throw new AgateException("3D is not supported."); }
+			set { throw new AgateException("3D is not supported."); }
+		}
+		public virtual Matrix4x4 MatrixView
+		{
+			get { throw new AgateException("3D is not supported."); }
+			set { throw new AgateException("3D is not supported."); }
+		}
+		public virtual Matrix4x4 MatrixWorld
+		{
+			get { throw new AgateException("3D is not supported."); }
+			set { throw new AgateException("3D is not supported."); }
+		}
+
+		/// <summary>
+		/// Override this method if shaders are supported.
+		/// Only call the base class method if shaders aren't supported, as it throws a NotSupportedException.
+		/// </summary>
+		/// <returns></returns>
+		protected internal virtual ShaderCompilerImpl CreateShaderCompiler()
+		{
+			throw new NotSupportedException("The current driver does not support shaders.");
+		}
+
+		public virtual Effect Effect
+		{
+			get { throw new NotSupportedException("The current driver does not support shaders."); }
+			set { throw new NotSupportedException("The current driver does not support shaders."); }
+		}
+
+
+		protected void InitializeShaders()
+		{
+			if (Display.Caps.SupportsShaders)
+			{
+				ShaderCompiler.Initialize(CreateShaderCompiler());
+			}
+			else
+				ShaderCompiler.Disable();
+		}
+
+
+
+		protected internal abstract bool GetRenderState(RenderStateBool renderStateBool);
+		protected internal abstract void SetRenderState(RenderStateBool renderStateBool, bool value);
 	}
 }

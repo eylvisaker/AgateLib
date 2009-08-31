@@ -33,7 +33,7 @@ namespace AgateLib.DisplayLib.SystemDrawing
 {
 	using WinForms;
 
-	public class Drawing_Display : DisplayImpl, IDisplayCaps, IPlatformServices
+	public class Drawing_Display : DisplayImpl, IPlatformServices
 	{
 		#region --- Private variables ---
 
@@ -41,9 +41,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		private Drawing_IRenderTarget mRenderTarget;
 
 		private bool mInFrame = false;
-
-		private Stack<Geometry.Rectangle> mClipRects = new Stack<Geometry.Rectangle>();
-		private Geometry.Rectangle mCurrentClipRect;
 
 		#endregion
 
@@ -140,12 +137,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 				new SolidBrush(Interop.Convert(color)), Interop.Convert(dest_rect));
 		}
 
-		public override void DrawLine(int x1, int y1, int x2, int y2, Geometry.Color color)
-		{
-			CheckInFrame("DrawLine");
-
-			mGraphics.DrawLine(new Pen(Interop.Convert(color)), x1, y1, x2, y2);
-		}
 		public override void DrawLine(Geometry.Point a, Geometry.Point b, Geometry.Color color)
 		{
 			CheckInFrame("DrawLine");
@@ -195,6 +186,20 @@ namespace AgateLib.DisplayLib.SystemDrawing
 			FillRect(rect, color.AverageColor);
 		}
 
+		public override void FillPolygon(Geometry.PointF[] pts, Geometry.Color color)
+		{
+			SolidBrush b = new SolidBrush(Interop.Convert(color));
+
+			PointF[] p = new PointF[pts.Length];
+			for (int i = 0; i < pts.Length; i++)
+				p[i] = Interop.Convert(pts[i]);
+
+			mGraphics.FillPolygon(b, p);
+
+			b.Dispose();
+		}
+
+
 		#endregion
 		#region --- Begin/End Frame and DeltaTime ---
 
@@ -207,9 +212,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 			mGraphics.Dispose();
 			mGraphics = null;
 
-			while (mClipRects.Count > 0)
-				PopClipRect();
-
 			Drawing_IRenderTarget renderTarget = RenderTarget.Impl as Drawing_IRenderTarget;
 			renderTarget.EndRender();
 
@@ -220,21 +222,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		public override void SetClipRect(Geometry.Rectangle newClipRect)
 		{
 			mGraphics.SetClip(Interop.Convert(newClipRect));
-			mCurrentClipRect = newClipRect;
-		}
-		public override void PushClipRect(Geometry.Rectangle newClipRect)
-		{
-			mClipRects.Push(mCurrentClipRect);
-			SetClipRect(newClipRect);
-		}
-		public override void PopClipRect()
-		{
-#if DEBUG
-			if (mClipRects.Count == 0)
-				throw new Exception("The cliprect has been popped too many times.");
-#endif
-
-			SetClipRect(mClipRects.Pop());
 		}
 
 
@@ -263,19 +250,10 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		{
 			throw new AgateException("SetOrthoProjection is not implemented in AgateDrawing.dll.");
 		}
-		public override void DoLighting(LightManager lights)
-		{
-			throw new AgateException("Lighting is not supported by AgateDrawing.  Use a 3D accelerated driver such as AgateOTK or AgateMDX for lighting support.");
-		}
 
 		protected override void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
 		{
 			WinForms.FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
-		}
-
-		public override IDisplayCaps Caps
-		{
-			get { return this; }
 		}
 
 		protected override void HideCursor()
@@ -289,65 +267,29 @@ namespace AgateLib.DisplayLib.SystemDrawing
 
 		#region --- IDisplayCaps Members ---
 
-		bool IDisplayCaps.SupportsScaling
+		public override bool Supports(DisplayBoolCaps caps)
 		{
-			get { return true; }
+			switch (caps)
+			{
+				case DisplayBoolCaps.Scaling: return true;
+				case DisplayBoolCaps.Rotation: return true;
+				case DisplayBoolCaps.Color: return true;
+				case DisplayBoolCaps.Gradient: return false;
+				case DisplayBoolCaps.SurfaceAlpha: return true;
+				case DisplayBoolCaps.PixelAlpha: return true;
+				case DisplayBoolCaps.IsHardwareAccelerated: return false;
+				case DisplayBoolCaps.FullScreen: return false;
+				case DisplayBoolCaps.FullScreenModeSwitching: return false;
+				case DisplayBoolCaps.Shaders: return false;
+				case DisplayBoolCaps.CanCreateBitmapFont: return true;
+			}
+
+			return false;
 		}
 
-		bool IDisplayCaps.SupportsRotation
+		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
 		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsColor
-		{
-			get { return true; }
-		}
-		bool IDisplayCaps.SupportsGradient
-		{
-			get { return false; }
-		}
-		bool IDisplayCaps.SupportsSurfaceAlpha
-		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsPixelAlpha
-		{
-			get { return true; }
-		}
-
-		bool IDisplayCaps.SupportsLighting
-		{
-			get { return false; }
-		}
-
-		int IDisplayCaps.MaxLights
-		{
-			get { return 0; }
-		}
-
-		bool IDisplayCaps.IsHardwareAccelerated
-		{
-			get { return false; }
-		}
-
-		bool IDisplayCaps.Supports3D
-		{
-			get { return false; }
-		}
-		bool IDisplayCaps.SupportsFullScreen
-		{
-			get { return false; }
-		}
-		bool IDisplayCaps.SupportsFullScreenModeSwitching
-		{
-			get { return false; }
-		}
-
-		bool IDisplayCaps.CanCreateBitmapFont
-		{
-			get { return true; }
+			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.None; }
 		}
 
 		#endregion
@@ -379,6 +321,33 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		}
 
 		#endregion
+
+
+		protected override bool GetRenderState(RenderStateBool renderStateBool)
+		{
+			switch (renderStateBool)
+			{
+				// vsync is not supported, but shouldn't throw an error.
+				case RenderStateBool.WaitForVerticalBlank: return false;
+				default:
+					throw new NotSupportedException(string.Format(
+						"The specified render state, {0}, is not supported by this driver."));
+			}
+		}
+
+		protected override void SetRenderState(RenderStateBool renderStateBool, bool value)
+		{
+			switch (renderStateBool)
+			{
+				case RenderStateBool.WaitForVerticalBlank:
+					// vsync is not supported, but shouldn't throw an error.
+					break;
+
+				default:
+					throw new NotSupportedException(string.Format(
+						"The specified render state, {0}, is not supported by this driver."));
+			}
+		}
 	}
 
 

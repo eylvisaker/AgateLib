@@ -123,7 +123,14 @@ namespace AgateLib.InputLib
 		public static Point Position
 		{
 			get { return Display.CurrentWindow.MousePosition; }
-			set { Display.CurrentWindow.MousePosition = value; }
+			set
+			{
+				// do not adjust the mouse position if we are not the active application.
+				if (Core.IsActive == false)
+					return;
+
+				Display.CurrentWindow.MousePosition = value;
+			}
 		}
 
 		/// <summary>

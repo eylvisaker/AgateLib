@@ -32,7 +32,7 @@ namespace AgateMDX
 	public class D3DDevice : IDisposable
 	{
 		private Device mDevice;
-		private Texture mLastTexture;
+		private Texture[] mLastTexture = new Texture[8];
 		private MDX1_IRenderTarget mRenderTarget;
 		private DrawBuffer mDrawBuffer;
 
@@ -45,6 +45,7 @@ namespace AgateMDX
 		private Matrix mWorld2D;
 
 		private int mMaxLightsUsed = 0;
+
 
 		//VertexBuffer mSurfaceVB;
 		//const int NumVertices = 1000;
@@ -256,13 +257,16 @@ namespace AgateMDX
 
 		public void SetDeviceStateTexture(Texture texture)
 		{
-
-			if (texture == mLastTexture)
+			SetDeviceStateTexture(texture, 0);
+		}
+		public void SetDeviceStateTexture(Texture texture, int index)
+		{
+			if (texture == mLastTexture[index])
 				return;
 
-			mDevice.SetTexture(0, texture);
+			mDevice.SetTexture(index, texture);
 
-			mLastTexture = texture;
+			mLastTexture[index] = texture;
 
 			if (texture != null)
 			{
@@ -349,7 +353,7 @@ namespace AgateMDX
 			mDevice.RenderState.AmbientMaterialSource = ColorSource.Color1;
 
 			mDevice.RenderState.AmbientColor = lights.Ambient.ToArgb();
-
+			
 			//Material mat = new Material();
 			//mat.Diffuse = System.Drawing.Color.White;
 

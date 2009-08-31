@@ -61,7 +61,7 @@ namespace AgateLib.Resources
 		{
 			return new AgateResourceCollection(filename);
 		}
-		
+
 		/// <summary>
 		/// Loads the resource information from a stream containing XML data.
 		/// This erases all information in the current AgateResourceCollection.
@@ -80,7 +80,7 @@ namespace AgateLib.Resources
 				throw new AgateResourceException("The XML resource file is malformed.", e);
 			}
 
-			XmlNode root ;
+			XmlNode root;
 			try
 			{
 				root = doc.ChildNodes[0];
