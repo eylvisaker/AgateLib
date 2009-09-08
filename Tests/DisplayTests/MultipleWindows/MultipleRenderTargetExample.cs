@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MultipleWindowTest
+namespace Tests.MultipleWindows
 {
 	public partial class MultipleRenderTargetExample : Form
 	{

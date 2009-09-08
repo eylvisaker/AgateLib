@@ -1,7 +1,7 @@
 // The contents of this file are public domain.
 // You may use them as you wish.
 //
-namespace MultipleWindowTest
+namespace Tests.MultipleWindows
 {
 	partial class MultipleRenderTargetExample
 	{
@@ -50,7 +50,7 @@ namespace MultipleWindowTest
 			// 
 			this.pictureBox1.Location = new System.Drawing.Point(12, 38);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(136, 70);
+			this.pictureBox1.Size = new System.Drawing.Size(136, 32);
 			this.pictureBox1.TabIndex = 0;
 			this.pictureBox1.TabStop = false;
 			this.pictureBox1.Tag = "Red Window";
@@ -95,14 +95,14 @@ namespace MultipleWindowTest
 			// 
 			this.pictureBox3.Location = new System.Drawing.Point(182, 35);
 			this.pictureBox3.Name = "pictureBox3";
-			this.pictureBox3.Size = new System.Drawing.Size(195, 150);
+			this.pictureBox3.Size = new System.Drawing.Size(200, 150);
 			this.pictureBox3.TabIndex = 4;
 			this.pictureBox3.TabStop = false;
 			this.pictureBox3.Tag = "Red Window";
 			// 
 			// btnDraw
 			// 
-			this.btnDraw.Location = new System.Drawing.Point(299, 191);
+			this.btnDraw.Location = new System.Drawing.Point(307, 198);
 			this.btnDraw.Name = "btnDraw";
 			this.btnDraw.Size = new System.Drawing.Size(75, 39);
 			this.btnDraw.TabIndex = 6;
@@ -112,7 +112,7 @@ namespace MultipleWindowTest
 			// 
 			// btnClearSurface
 			// 
-			this.btnClearSurface.Location = new System.Drawing.Point(218, 191);
+			this.btnClearSurface.Location = new System.Drawing.Point(226, 198);
 			this.btnClearSurface.Name = "btnClearSurface";
 			this.btnClearSurface.Size = new System.Drawing.Size(75, 39);
 			this.btnClearSurface.TabIndex = 8;
@@ -123,7 +123,7 @@ namespace MultipleWindowTest
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(386, 431);
+			this.ClientSize = new System.Drawing.Size(401, 249);
 			this.Controls.Add(this.btnClearSurface);
 			this.Controls.Add(this.btnDraw);
 			this.Controls.Add(this.label3);

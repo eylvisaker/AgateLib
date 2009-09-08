@@ -7,17 +7,26 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace MultipleWindowTest
+namespace Tests.MultipleWindows
 {
-	static class MultipleWindowTest
+	class MultipleWindowTest : IAgateTest 
 	{
-		static Surface surf;
-		static Random rand = new Random();
+		Surface surf;
+		Random rand = new Random();
 
-		[STAThread]
-		static void Main(string[] args)
+
+		public string Name
 		{
+			get { return "Multiple Render Targets"; }
+		}
 
+		public string Category
+		{
+			get { return "Display"; }
+		}
+
+		public void Main(string[] args)
+		{
 			using (AgateSetup setup = new AgateSetup(args))
 			{
 				setup.AskUser = true;
@@ -81,7 +90,7 @@ namespace MultipleWindowTest
 
 		}
 
-		static void btnClear_Click(object sender, EventArgs e)
+		void btnClear_Click(object sender, EventArgs e)
 		{
 			Display.RenderTarget = surf;
 
@@ -90,7 +99,7 @@ namespace MultipleWindowTest
 			Display.EndFrame();
 		}
 
-		static void btnDraw_Click(object sender, EventArgs e)
+		void btnDraw_Click(object sender, EventArgs e)
 		{
 			Display.RenderTarget = surf;
 
@@ -113,6 +122,7 @@ namespace MultipleWindowTest
 			System.Diagnostics.Debug.Print("Wrote rectangle to {0} with color {1}.", rect, clr);
 			System.Diagnostics.Debug.Flush();
 		}
+
 
 	}
 }
