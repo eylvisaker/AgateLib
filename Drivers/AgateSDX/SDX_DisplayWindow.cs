@@ -43,6 +43,7 @@ namespace AgateSDX
 
 		internal SwapChain mSwap;
 		internal Direct3D.Surface mBackBuffer;
+		internal Direct3D.Surface mBackDepthStencil;
 
 		int mChooseWidth;
 		int mChooseHeight;
@@ -359,6 +360,12 @@ namespace AgateSDX
 
 			mBackBuffer = mSwap.GetBackBuffer(0);
 
+			mBackDepthStencil = Direct3D.Surface.CreateDepthStencil(
+				mDisplay.D3D_Device.Device,
+				mChooseWidth, mChooseHeight, 
+				mDisplay.DepthStencilFormat,
+				MultisampleType.None, 0, true);
+
 		}
 
 
@@ -459,6 +466,7 @@ namespace AgateSDX
 		public override void BeginRender()
 		{
 			mDisplay.D3D_Device.Device.SetRenderTarget(0, mBackBuffer);
+			mDisplay.D3D_Device.Device.DepthStencilSurface = mBackDepthStencil;
 			mDisplay.D3D_Device.Device.BeginScene();
 		}
 		public override void EndRender()
