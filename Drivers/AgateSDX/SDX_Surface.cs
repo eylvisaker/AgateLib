@@ -510,7 +510,7 @@ namespace AgateSDX
 			Direct3D.Surface surfaceTarget = t.GetSurfaceLevel(0);
 
 			mRenderToSurface = new RenderToSurface(mDevice.Device, SurfaceWidth, SurfaceHeight,
-				Format.A8R8G8B8, Format.D16);
+				Format.A8R8G8B8, mDisplay.DepthStencilFormat);
 
 			Viewport vp = new Viewport();
 

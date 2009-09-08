@@ -222,15 +222,13 @@ namespace AgateSDX
 
 		public void SetView2D()
 		{
-			Matrix world = mWorld2D;
-			//Matrix orthoProj = Matrix.OrthoRH(RenderTarget.Width, -RenderTarget.Height, -1, 1);
-			SetOrthoProjection(new Rectangle(0, 0, RenderTarget.Width, RenderTarget.Height));
-
 			mDevice.SetRenderState(RenderState.CullMode, Cull.None);
 			mDevice.SetRenderState(RenderState.Lighting, false);
 
-			mDevice.SetTransform(TransformState.World, world);
+			mDevice.SetTransform(TransformState.World, Matrix.Identity);
 			mDevice.SetTransform(TransformState.View, Matrix.Identity);
+
+			SetOrthoProjection(new Rectangle(0, 0, RenderTarget.Width, RenderTarget.Height));
 		}
 		public void SetFontRenderState()
 		{
@@ -257,13 +255,6 @@ namespace AgateSDX
 				AlphaArgument2 = TextureArgument.Diffuse;
 				AlphaOperation = TextureOperation.Modulate;
 			}
-		}
-
-		public void SetOrigin(float x, float y, float z)
-		{
-			Matrix world = Matrix.Translation(x, y, z) * mWorld2D;
-
-			mDevice.SetTransform(TransformState.World, world);
 		}
 
 		public Size MaxSurfaceSize
