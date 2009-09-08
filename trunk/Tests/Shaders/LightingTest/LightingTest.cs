@@ -14,7 +14,7 @@ namespace Tests.LightingTest
 	{
 		#region IAgateTest Members
 
-		public string Name { get { return "Lighting"; } }
+		public string Name { get { return "Lighting (Direct3D only)"; } }
 		public string Category { get { return "Shaders"; } }
 
 		#endregion
