@@ -59,9 +59,14 @@ namespace AgateSDX
 		private int mStencilClear = 0;
 
 		VertexDeclaration mPosColorDecl;
+		Format mDepthStencilFormat;
 
 		#endregion
 
+		public Format DepthStencilFormat
+		{
+			get { return mDepthStencilFormat; }
+		}
 		public VertexDeclaration SurfaceDeclaration
 		{
 			get { return mPosColorDecl; }
@@ -144,6 +149,8 @@ namespace AgateSDX
 
 		private void SetHaveDepthStencil(Format depthFormat)
 		{
+			mDepthStencilFormat = depthFormat;
+
 			switch (depthFormat)
 			{
 				case Format.D24X4S4:
