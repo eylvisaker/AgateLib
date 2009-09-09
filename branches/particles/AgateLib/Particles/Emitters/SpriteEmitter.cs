@@ -122,19 +122,12 @@ namespace AgateLib.Particles
 		/// Draws each living particle.
 		/// </summary>
 		public override void Draw ()
-		{
-			if(base.Particles.Count <= 0)
-				return;
-			
-			foreach(Sprite s in mSprites)
-			{
-				s.AdvanceFrame();
-			}
-			
+		{			
 			foreach(SpriteParticle sp in base.Particles)
 			{
 				if(sp.Condition == Condition.Alive || sp.Condition == Condition.Frozen)
 				{
+					mSprites[sp.SpriteKey].CurrentFrameIndex = sp.Frame;
 					mSprites[sp.SpriteKey].Alpha = sp.Alpha;
 					mSprites[sp.SpriteKey].Draw(sp.Position);
 				}
@@ -173,6 +166,8 @@ namespace AgateLib.Particles
 					Particles[index].Acceleration = EmitAcceleration;
 					(Particles[index] as SpriteParticle).SpriteKey = mEmitSpriteKey;
 					(Particles[index] as SpriteParticle).Alpha = mEmitAlpha;
+					(Particles[index] as SpriteParticle).Frame = 0;
+					(Particles[index] as SpriteParticle).FrameTime = 0d;
 					Particles[index].Condition = Condition.Alive;
 					Particles[index].Life = EmitLife;
 					Particles[index].Position = Position;
@@ -186,6 +181,8 @@ namespace AgateLib.Particles
 					sp.Acceleration = EmitAcceleration;
 					sp.SpriteKey = mEmitSpriteKey;
 					sp.Alpha = mEmitAlpha;
+					sp.Frame = 0;
+					sp.FrameTime = 0d;
 					sp.Condition = Condition.Alive;
 					sp.Life = EmitLife;
 					sp.Position = Position;
@@ -203,9 +200,23 @@ namespace AgateLib.Particles
 			}
 			
 			// Update animation
-			foreach(Sprite sp in mSprites)
+			foreach(SpriteParticle sp in Particles)
 			{
-				sp.Update(time_ms);
+				if(mSprites[sp.SpriteKey].Frames.Count <= 1)
+				{
+					sp.SpriteKey = 0;
+					continue;
+				}
+				sp.FrameTime += time_ms/1000;
+				while (sp.FrameTime >= mSprites[sp.SpriteKey].TimePerFrame)
+				{
+					sp.FrameTime -= mSprites[sp.SpriteKey].TimePerFrame;
+					if(mSprites[sp.SpriteKey].PlayReverse)
+						sp.Frame--;
+					else
+						sp.Frame++;
+					// TODO: Handle AnimationType
+				}
 			}
 			
 			// updates own position, particle positions and calls manipulators

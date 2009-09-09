@@ -20,11 +20,15 @@ using System;
 
 namespace AgateLib.Particles
 {
+	/// <summary>
+	/// A particle implementation for <see cref="Sprite"/>s.
+	/// </summary>
 	public class SpriteParticle : Particle
 	{
 		private int mSpriteKey;
-		
 		private double mAlpha = 1d;
+		private int mFrame = 0;
+		private double mFrameTime = 0d;
 		
 		/// <value>
 		/// Gets or sets the sprite key.
@@ -45,6 +49,21 @@ namespace AgateLib.Particles
 		}
 		
 		/// <summary>
+		/// Gets or sets the current frame of the sprite.
+		/// </summary>
+		public int Frame
+		{
+			get { return mFrame; }
+			set { mFrame = value; }
+		}
+		
+		internal double FrameTime
+		{
+			get { return mFrameTime; }
+			set { mFrameTime = value; }
+		}
+		
+		/// <summary>
 		/// Constructs a SpriteParticle with the default value 0 for the spriteKey.
 		/// </summary>
 		public SpriteParticle() : this(0) {}
@@ -52,10 +71,31 @@ namespace AgateLib.Particles
 		/// <summary>
 		/// Constructs a SpriteParticle.
 		/// </summary>
-		/// <param name="spriteKey"></param>
+		/// <param name="spriteKey">Key of a sprite in a <see cref="SpriteEmitter"/>.</param>
 		public SpriteParticle(int spriteKey)
 		{
 			mSpriteKey = spriteKey;
+		}
+		
+		/// <summary>
+		/// Constructs a SpriteParticle.
+		/// </summary>
+		/// <param name="spriteKey">Key of a sprite in a <see cref="SpriteEmitter"/></param>
+		/// <param name="alpha">Alpha channel.</param>
+		public SpriteParticle(int spriteKey, double alpha) : this(spriteKey)
+		{
+			mAlpha = alpha;
+		}
+		
+		/// <summary>
+		/// Constructs a SpriteParticle.
+		/// </summary>
+		/// <param name="spriteKey">Key of a sprite in a <see cref="SpriteEmitter"/></param>
+		/// <param name="alpha">Alpha channel.</param>
+		/// <param name="frame">Frame of the sprite.</param>
+		public SpriteParticle(int spriteKey, double alpha, int frame) : this(spriteKey, alpha)
+		{
+			mFrame = frame;
 		}
 	}
 }
