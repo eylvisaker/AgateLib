@@ -424,6 +424,8 @@ namespace AgateSDX
 			mLines[3] = new PositionColor(rect.X, rect.Bottom, 0, c);
 			mLines[4] = new PositionColor(rect.X, rect.Y, 0, c);
 
+			mDevice.SetDeviceStateTexture(null);
+			mDevice.Device.SetTextureStageState(0, TextureStage.ColorArg0, TextureArgument.Diffuse);
 			mDevice.Device.VertexDeclaration = mPosColorDecl;
 			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.LineStrip, 4, mLines);
 		}
