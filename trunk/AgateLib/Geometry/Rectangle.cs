@@ -212,6 +212,33 @@ namespace AgateLib.Geometry
 		}
 
 		/// <summary>
+		/// Returns a rectangle contracted by the specified amount.  The center of the rectangle remains in the same place,
+		/// so this adds amount to X and Y, and subtracts amount*2 from Width and Height.
+		/// </summary>
+		/// <param name="amount"></param>
+		public Rectangle Contract(int amount)
+		{
+			return Expand(-amount);
+		}
+
+		/// <summary>
+		///  Returns a rectangle contracted expanded the rectangle by the specified amount.  
+		///  The center of the rectangle remains in the same place,
+		/// so this subtracts amount to X and Y, and adds amount*2 from Width and Height.
+		/// </summary>
+		/// <param name="amount"></param>
+		public Rectangle Expand(int amount)
+		{
+			var retval = this;
+
+			retval.X -= amount;
+			retval.Y -= amount;
+			retval.Width += amount * 2;
+			retval.Height += amount * 2;
+
+			return retval;
+		}
+		/// <summary>
 		/// Returns true if this intersects another rectangle.
 		/// </summary>
 		/// <param name="rect"></param>
