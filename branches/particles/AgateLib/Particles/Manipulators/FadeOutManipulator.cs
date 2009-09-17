@@ -24,6 +24,7 @@ namespace AgateLib.Particles
 {
 	/// <summary>
 	/// Fades out particles by changing the alpha channel.
+	/// Works with <see cref="PixelEmitter"/>, <see cref="SurfaceEmitter"/> and <see cref="SpriteEmitter"/>.
 	/// </summary>
 	public class FadeOutManipulator
 	{
@@ -74,26 +75,41 @@ namespace AgateLib.Particles
 		
 		void HandleOnUpdate(UpdateArgs args)
 		{
-			if(args.Emitter.GetType() == typeof(PixelEmitter))
+			Type emitterType = args.Emitter.GetType();
+			double time = args.Time_ms/1000;
+			
+			if(emitterType == typeof(PixelEmitter))
 			{
 				foreach(PixelParticle pt in args.Emitter.Particles)
 				{
 					if(pt.Condition == Condition.Alive && pt.Life <= LifeBarrier)
 					{
-						fadeout = pt.Color.A - (int)(255 * mAlphaAmount * args.Time_ms/1000);
+						fadeout = pt.Color.A - (int)(255 * mAlphaAmount * time);
 						pt.Color = Color.FromArgb(fadeout, pt.Color);
 						if(mRecyleInvisible == true && pt.Color.A == 0)
 							pt.Condition = Condition.Dead;
 					}
 				}
 			}
-			else if(args.Emitter.GetType() == typeof(SurfaceEmitter))
+			else if (emitterType == typeof(SurfaceEmitter))
 			{
 				foreach(SurfaceParticle sp in args.Emitter.Particles)
 				{
 					if(sp.Condition == Condition.Alive && sp.Life <= LifeBarrier)
 					{
-						sp.Alpha -= mAlphaAmount * args.Time_ms/1000;
+						sp.Alpha -= mAlphaAmount * time;
+						if(mRecyleInvisible == true && sp.Alpha == 0)
+							sp.Condition = Condition.Dead;
+					}
+				}
+			}
+			else if (emitterType == typeof(SpriteEmitter))
+			{
+				foreach(SpriteParticle sp in args.Emitter.Particles)
+				{
+					if(sp.Condition == Condition.Alive && sp.Life <= LifeBarrier)
+					{
+						sp.Alpha -= mAlphaAmount * time;
 						if(mRecyleInvisible == true && sp.Alpha == 0)
 							sp.Condition = Condition.Dead;
 					}
