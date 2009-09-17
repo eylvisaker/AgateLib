@@ -54,12 +54,14 @@ namespace Tests.ParticleTest
 		FadeOutManipulator fom;
 		FadeOutManipulator fom2;
 		
+		GravityPointManipulator gpm;
+		
 		protected override void Initialize()
 		{
 			//PixelParticle
-			pe = new PixelEmitter(new Vector2(400f, 550f) ,Color.Blue, 5000);
-			pe.EmitLife = 4f;
-			pe.EmitFrequency = 0.001f;
+			pe = new PixelEmitter(new Vector2(400f, 550f) ,Color.Blue, 2000);
+			pe.EmitLife = 15f;
+			pe.EmitFrequency = 0.01f;
 			pe.PixelSize = new Size(3, 3);
 			
 			//SurfaceParticle
@@ -87,12 +89,11 @@ namespace Tests.ParticleTest
 			
 			//Manipulators
 			gm = new GravityManipulator(new Vector2(0f, -20f));
-			gm.SubscribeToEmitter(pe);
 			gm.SubscribeToEmitter(sm);
 			gm.SubscribeToEmitter(se);
 			
 			gm2 = new GravityManipulator(Vector2.Empty);
-			gm2.SubscribeToEmitter(pe);
+			//gm2.SubscribeToEmitter(pe);
 			gm2.SubscribeToEmitter(sm);
 			gm2.SubscribeToEmitter(se);
 			
@@ -102,6 +103,9 @@ namespace Tests.ParticleTest
 			fom2 = new FadeOutManipulator(4f, 0.3f);
 			fom2.SubscribeToEmitter(sm);
 			fom2.SubscribeToEmitter(se);
+			
+			gpm = new GravityPointManipulator(new Vector2(400f, 350f), -1f);
+			gpm.SubscribeToEmitter(pe);
 			
 			fontSurface = new FontSurface("Arial", 10f, FontStyle.Bold);
 		}		
@@ -114,7 +118,7 @@ namespace Tests.ParticleTest
 			fom.LifeBarrier = (float)ran.NextDouble() * 5f;
 			
 			pe.Update(time_ms);
-			pe.EmitVelocity = new Vector2(0f, (float)ran.Next(-100, 0));
+			pe.EmitVelocity = new Vector2((float)ran.Next(-10, 10), 0f);
 			
 			sm.Update(time_ms);
 			
