@@ -51,6 +51,9 @@ namespace Tests.ParticleTest
 		
 		FontSurface fontSurface;
 		
+		FadeOutManipulator fom;
+		FadeOutManipulator fom2;
+		
 		protected override void Initialize()
 		{
 			//PixelParticle
@@ -73,7 +76,7 @@ namespace Tests.ParticleTest
 			Sprite sprite = new Sprite(100, 100);
 			sprite.AddFrame(surf);
 			sprite.AddFrame(surf2);
-			sprite.TimePerFrame = 0.5d;
+			sprite.TimePerFrame = 3d;
 			sprite.AnimationType = SpriteAnimType.Looping;
 			se = new SpriteEmitter(new Vector2(600f, 550f), 4.2f, 100, 0);
 			se.AddSprite(sprite);
@@ -83,7 +86,7 @@ namespace Tests.ParticleTest
 			se.EmitVelocity = new Vector2(0, -10);
 			
 			//Manipulators
-			gm = new GravityManipulator(new Vector2(0f, -50f));
+			gm = new GravityManipulator(new Vector2(0f, -20f));
 			gm.SubscribeToEmitter(pe);
 			gm.SubscribeToEmitter(sm);
 			gm.SubscribeToEmitter(se);
@@ -93,10 +96,10 @@ namespace Tests.ParticleTest
 			gm2.SubscribeToEmitter(sm);
 			gm2.SubscribeToEmitter(se);
 			
-			FadeOutManipulator fom = new FadeOutManipulator(3f, 0.8f);
+			fom = new FadeOutManipulator(2.5f, 0.6f);
 			fom.SubscribeToEmitter(pe);
 			
-			FadeOutManipulator fom2 = new FadeOutManipulator(4f, 0.4f);
+			fom2 = new FadeOutManipulator(4f, 0.3f);
 			fom2.SubscribeToEmitter(sm);
 			fom2.SubscribeToEmitter(se);
 			
@@ -106,9 +109,17 @@ namespace Tests.ParticleTest
 		protected override void Update(double time_ms)
 		{
 			gm2.Gravity = new Vector2((float)ran.Next(-300, 300), 0f);
+			
+			fom.AlphaAmount = (float)ran.NextDouble() * 1.3f;
+			fom.LifeBarrier = (float)ran.NextDouble() * 5f;
+			
 			pe.Update(time_ms);
+			pe.EmitVelocity = new Vector2(0f, (float)ran.Next(-100, 0));
+			
 			sm.Update(time_ms);
+			
 			se.Update(time_ms);
+			se.GetSpriteByKey(0).TimePerFrame = ran.NextDouble() * 3 + 1.5d;
 		}
 		
 		protected override void Render()
