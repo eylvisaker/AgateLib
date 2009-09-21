@@ -29,6 +29,7 @@ namespace AgateLib.Particles
 	{
 		private Vector2 mPosition;
 		private float mForce;
+		private float mRange;
 		
 		/// <summary>
 		/// Gets or sets the position of the point gravity.
@@ -46,9 +47,19 @@ namespace AgateLib.Particles
 			set { mForce = value; }
 		}
 		
+		/// <summary>
+		/// Gets or sets the range of the gravity impact.
+		/// A value of 0 means the gravity is disabled.
+		/// A value lower than 0 means the gravity has impact on all registered particles.
+		/// </summary>
+		public float Range {
+			get { return mRange; }
+			set { mRange = value; }
+		}
+		
 		
 		/// <summary>
-		/// Constructs a GravityPointManipulator.
+		/// Constructs a GravityPointManipulator with global gravity.
 		/// </summary>
 		/// <param name="position">The position of the point gravity.</param>
 		/// <param name="force">The gravity force.</param>
@@ -56,16 +67,45 @@ namespace AgateLib.Particles
 		{
 			mPosition = position;
 			mForce = force;
+			mRange = -1;
+		}
+		
+		/// <summary>
+		/// Constructs a GravityPointManipulator.
+		/// </summary>
+		/// <param name="position">The position of the point gravity.</param>
+		/// <param name="force">The gravity force.</param>
+		/// <param name="range">The range of the gravity impact.</param>
+		public GravityPointManipulator (Vector2 position, float force, float range)
+		{
+			mPosition = position;
+			mForce = force;
+			mRange = range;			
 		}
 		
 		void HandleOnUpdate (UpdateArgs args)
 		{
 			Vector2 way;
-			foreach(Particle particle in args.Emitter.Particles)
+			if(Range < 0) // global effect on all registered particles
 			{
-				way = particle.Position - Position;
-				particle.Velocity += way.Normalize() * Force;
+				foreach(Particle particle in args.Emitter.Particles)
+				{
+					way = particle.Position - Position;
+					particle.Velocity += way.Normalize() * Force;
+				}
 			}
+			else if (Range > 0) // only particles in range are effected
+			{
+				foreach(Particle particle in args.Emitter.Particles)
+				{
+					if(Vector2.DistanceBetween(particle.Position, Position) <= Range)
+					{
+						way = particle.Position - Position;
+						particle.Velocity += way.Normalize() * Force;
+					}
+				}
+			}
+			// Range == 0 means no gravity impact
 		}
 		
 		/// <summary>
