@@ -5,7 +5,7 @@ using AgateLib;
 
 namespace Tests.AppTester
 {
-	class App : AgateApplication, IAgateTest
+	class App : AgateGame, IAgateTest
 	{
 		public void Main(string[] args)
 		{

@@ -7,7 +7,7 @@ using AgateLib.Geometry;
 
 namespace Tests.Fonts.TextLayout
 {
-	class TextLayout : AgateApplication, IAgateTest 
+	class TextLayout : AgateGame, IAgateTest 
 	{
 		/// <summary>
 		/// The main entry point for the application.

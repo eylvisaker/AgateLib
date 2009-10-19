@@ -9,7 +9,7 @@ using AgateLib.Sprites;
 
 namespace Tests.DisplayTests
 {
-	class BasicSprite : AgateApplication, IAgateTest
+	class BasicSprite : AgateGame, IAgateTest
 	{
 		#region IAgateTest Members
 

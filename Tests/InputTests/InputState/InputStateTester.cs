@@ -10,7 +10,7 @@ using AgateLib.InputLib;
 
 namespace Tests.InputStateTester
 {
-	class InputStateTester : AgateApplication
+	class InputStateTester : AgateGame
 	{
 		#region IAgateTest Members
 
