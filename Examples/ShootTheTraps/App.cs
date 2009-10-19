@@ -9,7 +9,7 @@ using AgateLib.InputLib;
 
 namespace ShootTheTraps
 {
-	class App : AgateApplication
+	class App : AgateGame
 	{
 		/// <summary>
 		/// The main entry point for the application.
