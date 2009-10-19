@@ -429,7 +429,7 @@ namespace AgateOTK
 
 		private static decimal DetectOpenGLVersion()
 		{
-			string versionString = GL.GetString(StringName.Version);
+			string versionString = GL.GetString(StringName.Version).Trim();
 
 			// Not sure whether OpenGL drivers will universally report version in the machine's
 			// culture settings or not.  So we switch the current decimal separator with a period.
@@ -442,6 +442,12 @@ namespace AgateOTK
 			if (versionString.IndexOf(".", pointLoc + 1) > -1)
 			{
 				versionString = versionString.Substring(0, versionString.IndexOf(".", pointLoc + 1));
+			}
+
+			// Some drivers report a version like "2.0 Chromium 1", so dump everything after the space.
+			if (versionString.Contains(" "))
+			{
+				versionString = versionString.Substring(0, versionString.IndexOf(" "));
 			}
 
 			decimal retval;
