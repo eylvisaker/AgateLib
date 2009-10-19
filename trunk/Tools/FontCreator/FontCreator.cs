@@ -224,7 +224,7 @@ namespace FontCreator
 			Display.Clear();
 
 			font.SetScale(mDisplayScale, mDisplayScale);
-			((BitmapFontImpl)font.Impl).InterpolationHint = InterpolationMode.Fastest;
+			((BitmapFontImpl)font.Impl).Surface.InterpolationHint = InterpolationMode.Fastest;
 
 			DrawBackground();
 			DrawText();
@@ -237,7 +237,7 @@ namespace FontCreator
 			Display.Clear();
 
 			font.SetScale(1.0, 1.0);
-			((BitmapFontImpl)font.Impl).InterpolationHint = InterpolationMode.Nicest;
+			((BitmapFontImpl)font.Impl).Surface.InterpolationHint = InterpolationMode.Nicest;
 
 			DrawBackground();
 			DrawText();
