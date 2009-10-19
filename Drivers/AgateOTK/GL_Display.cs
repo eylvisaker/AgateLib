@@ -511,7 +511,7 @@ namespace AgateOTK
 			GL.Enable(EnableCap.Lighting);
 
 			SetArray(array, lights.Ambient);
-			GL.LightModel(LightModelParameter.LightModelAmbient, array);
+			GL.LightModelv(LightModelParameter.LightModelAmbient, array);
 
 			GL.Enable(EnableCap.ColorMaterial);
 			GL.ColorMaterial(MaterialFace.FrontAndBack,
@@ -537,13 +537,13 @@ namespace AgateOTK
 				GL.Enable(lightID);
 
 				SetArray(array, lights[i].Diffuse);
-				GL.Light(lightName, LightParameter.Diffuse, array);
+				GL.Lightv(lightName, LightParameter.Diffuse, array);
 
 				SetArray(array, lights[i].Ambient);
-				GL.Light(lightName, LightParameter.Ambient, array);
+				GL.Lightv(lightName, LightParameter.Ambient, array);
 
 				SetArray(array, lights[i].Position);
-				GL.Light(lightName, LightParameter.Position, array);
+				GL.Lightv(lightName, LightParameter.Position, array);
 
 				GL.Light(lightName, LightParameter.ConstantAttenuation, lights[i].AttenuationConstant);
 				GL.Light(lightName, LightParameter.LinearAttenuation, lights[i].AttenuationLinear);
