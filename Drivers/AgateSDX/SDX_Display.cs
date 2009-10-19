@@ -650,16 +650,18 @@ namespace AgateSDX
 			}
 		}
 
+		static Format[] probeScreenFormats = new Format[] 
+			{ Format.X8B8G8R8, Format.X8R8G8B8, /*Format.R8G8B8, Format.R5G6B5,*/};
+
 		public override ScreenMode[] EnumScreenModes()
 		{
 			List<ScreenMode> modes = new List<ScreenMode>();
 
-			
-			DisplayModeCollection dxmodes = mDirect3Dobject.Adapters[0].GetDisplayModes(Format.X8B8G8R8);
-			ConvertDisplayModesToScreenModes(modes, dxmodes);
-
-			dxmodes = mDirect3Dobject.Adapters[0].GetDisplayModes(Format.R5G6B5);
-			ConvertDisplayModesToScreenModes(modes, dxmodes);
+			foreach (var fmt in probeScreenFormats)
+			{
+				DisplayModeCollection dxmodes = mDirect3Dobject.Adapters[0].GetDisplayModes(fmt);
+				ConvertDisplayModesToScreenModes(modes, dxmodes);
+			}
 
 			return modes.ToArray();
 		}
