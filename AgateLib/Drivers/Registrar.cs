@@ -181,12 +181,12 @@ namespace AgateLib.Drivers
 			// this seems unnecessary in the current version of Mono.
 			if ((Environment.OSVersion.Platform == PlatformID.Unix ||
 				 Environment.OSVersion.Platform == (PlatformID)128) &&
-				System.IO.Path.GetFileName(file).ToLower().Contains("agatemdx.dll"))
+				(System.IO.Path.GetFileName(file).ToLower().Contains("agatemdx.dll") ||
+				 System.IO.Path.GetFileName(file).ToLower().Contains("agatesdx.dll")))
 			{
 				Core.ErrorReporting.Report(ErrorLevel.Comment,
-					"DirectX not supported on Linux.  Remove "
-					+ System.IO.Path.GetFileName(file) +
-					" to eliminate this message.", null);
+					string.Format("DirectX not supported on non-Windows platforms.  {0}Remove {1} to eliminate this message.",
+					Environment.NewLine, System.IO.Path.GetFileName(file)), null);
 
 				return true;
 			}
