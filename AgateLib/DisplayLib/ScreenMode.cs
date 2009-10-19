@@ -93,6 +93,9 @@ namespace AgateLib.DisplayLib
 				if (mode.Height < height)
 					continue;
 
+				if (mode.Bpp != bpp)
+					continue;
+
 				int thisDiff = Math.Abs(width - mode.Width) + Math.Abs(height - mode.Height);
 				thisDiff *= Math.Abs(mode.Bpp - bpp) / 2;
 
@@ -107,6 +110,16 @@ namespace AgateLib.DisplayLib
 			}
 
 			return selected;
+		}
+
+		/// <summary>
+		/// Reports useful debugging information.
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			return string.Format(
+				"ScreenMode: {0} x {1} @ {2}", mWidth, mHeight, mBpp);
 		}
 	}
 }
