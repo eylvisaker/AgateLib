@@ -206,10 +206,11 @@ namespace AgateOTK
 
 			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
 
-			mWindowInfo = OpenTK.Platform.Utilities.CreateWindowInfo(newMode, mRenderTarget);
+			//mWindowInfo = OpenTK.Platform.Utilities.CreateWindowInfo(newMode, mRenderTarget);
 
-			mContext = OpenTK.Platform.Utilities.CreateGraphicsContext(
-				newMode, mWindowInfo, 3, 1, GraphicsContextFlags.Default);
+			//mContext = OpenTK.Platform.Utilities.CreateGraphicsContext(
+			//	newMode, mWindowInfo, 3, 1, GraphicsContextFlags.Default);
+			OpenTK.Platform.Utilities.CreateGraphicsContext(newMode, mRenderTarget, out mContext, out mWindowInfo);
 		}
 
 

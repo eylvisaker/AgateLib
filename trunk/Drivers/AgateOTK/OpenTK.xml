@@ -3656,12 +3656,6 @@
         <member name="P:OpenTK.Graphics.IGraphicsContext.GraphicsMode">
             <summary>Gets the GraphicsMode of this instance.</summary>
         </member>
-        <member name="P:OpenTK.Graphics.IGraphicsContext.ErrorChecking">
-            <summary>
-            Gets or sets a System.Boolean, indicating whether automatic error checking should be performed.
-            Influences the debug version of OpenTK.dll, only.
-            </summary>
-        </member>
         <member name="T:OpenTK.Graphics.IGraphicsContextInternal">
             <summary>
             Provides methods to create new GraphicsContexts. Should only be used for extending OpenTK.
@@ -3839,14 +3833,6 @@
             This property is ignored on Operating Systems without support for indirect rendering, like Windows and OS X.
             </para>
             </remarks>
-        </member>
-        <member name="P:OpenTK.Graphics.GraphicsContext.ErrorChecking">
-            <summary>
-            Gets or sets a System.Boolean, indicating whether automatic error checking should be performed.
-            Influences the debug version of OpenTK.dll, only.
-            </summary>
-            <remarks>Automatic error checking will clear the OpenGL error state. Set CheckErrors to false if you use
-            the OpenGL error state in your code flow (e.g. for checking supported texture formats).</remarks>
         </member>
         <member name="P:OpenTK.Graphics.GraphicsContext.IsCurrent">
             <summary>
@@ -23274,7 +23260,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.BlendEquationSeparate(OpenTK.Graphics.BlendEquationMode,OpenTK.Graphics.BlendEquationMode)">
+        <member name="M:OpenTK.Graphics.GL.BlendEquationSeparate(OpenTK.Graphics.All,OpenTK.Graphics.All)">
             <summary>
             Set the RGB blend equation and the alpha blend equation separately
             </summary>
@@ -28309,7 +28295,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.Enable(OpenTK.Graphics.IndexedEnableCap,System.UInt32)">
+        <member name="M:OpenTK.Graphics.GL.Enable(OpenTK.Graphics.Version30,System.UInt32)">
             <summary>
             Enable or disable server-side GL capabilities
             </summary>
@@ -28319,7 +28305,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.Enable(OpenTK.Graphics.IndexedEnableCap,System.Int32)">
+        <member name="M:OpenTK.Graphics.GL.Enable(OpenTK.Graphics.Version30,System.Int32)">
             <summary>
             Enable or disable server-side GL capabilities
             </summary>
@@ -28329,7 +28315,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.IsEnabled(OpenTK.Graphics.IndexedEnableCap,System.UInt32)">
+        <member name="M:OpenTK.Graphics.GL.IsEnabled(OpenTK.Graphics.Version30,System.UInt32)">
             <summary>
             Test whether a capability is enabled
             </summary>
@@ -28339,7 +28325,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.IsEnabled(OpenTK.Graphics.IndexedEnableCap,System.Int32)">
+        <member name="M:OpenTK.Graphics.GL.IsEnabled(OpenTK.Graphics.Version30,System.Int32)">
             <summary>
             Test whether a capability is enabled
             </summary>
@@ -28604,7 +28590,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.GetString(OpenTK.Graphics.IndexedStringName,System.UInt32)">
+        <member name="M:OpenTK.Graphics.GL.GetString(OpenTK.Graphics.Version30,System.UInt32)">
             <summary>
             Return a string describing the current GL connection
             </summary>
@@ -28614,7 +28600,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.GetString(OpenTK.Graphics.IndexedStringName,System.Int32)">
+        <member name="M:OpenTK.Graphics.GL.GetString(OpenTK.Graphics.Version30,System.Int32)">
             <summary>
             Return a string describing the current GL connection
             </summary>
@@ -28833,7 +28819,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32[])">
+        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Int32[])">
             <summary>
             Returns a parameter from a program object
             </summary>
@@ -28853,7 +28839,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32[])">
+        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32[])">
             <summary>
             Returns a parameter from a program object
             </summary>
@@ -28873,7 +28859,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32@)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Int32@)">
             <summary>
             Returns a parameter from a program object
             </summary>
@@ -28893,7 +28879,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32@)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32@)">
             <summary>
             Returns a parameter from a program object
             </summary>
@@ -28913,7 +28899,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32*)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Int32*)">
             <summary>
             Returns a parameter from a program object
             </summary>
@@ -28933,7 +28919,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32*)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetProgram(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32*)">
             <summary>
             Returns a parameter from a program object
             </summary>
@@ -28953,7 +28939,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Double[])">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Double[])">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -28973,7 +28959,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Double[])">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Double[])">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -28993,7 +28979,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Double@)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Double@)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29013,7 +28999,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Double@)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Double@)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29033,7 +29019,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Double*)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Double*)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29053,7 +29039,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Double*)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Double*)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29073,7 +29059,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Single[])">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Single[])">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29093,7 +29079,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Single[])">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Single[])">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29113,7 +29099,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Single@)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Single@)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29133,7 +29119,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Single@)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Single@)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29153,7 +29139,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Single*)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Single*)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29173,7 +29159,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Single*)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Single*)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29193,7 +29179,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32[])">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Int32[])">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29213,7 +29199,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32[])">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32[])">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29233,7 +29219,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32@)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Int32@)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29253,7 +29239,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32@)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32@)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29273,7 +29259,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32*)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.UInt32,OpenTK.Graphics.NvVertexProgram,System.Int32*)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29293,7 +29279,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32*)">
+        <member name="M:OpenTK.Graphics.GL.NV.GetVertexAttrib(System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32*)">
             <summary>
             Return a generic vertex attribute parameter
             </summary>
@@ -29333,7 +29319,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer(System.UInt32,System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32,System.IntPtr)">
+        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer(System.UInt32,System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32,System.IntPtr)">
             <summary>
             Define an array of generic vertex attribute data
             </summary>
@@ -29368,7 +29354,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer(System.Int32,System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32,System.IntPtr)">
+        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer(System.Int32,System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32,System.IntPtr)">
             <summary>
             Define an array of generic vertex attribute data
             </summary>
@@ -29403,7 +29389,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.UInt32,System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32,``0@)">
+        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.UInt32,System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32,``0@)">
             <summary>
             Define an array of generic vertex attribute data
             </summary>
@@ -29438,7 +29424,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.Int32,System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32,``0@)">
+        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.Int32,System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32,``0@)">
             <summary>
             Define an array of generic vertex attribute data
             </summary>
@@ -29473,7 +29459,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.UInt32,System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32,``0[])">
+        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.UInt32,System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32,``0[])">
             <summary>
             Define an array of generic vertex attribute data
             </summary>
@@ -29508,7 +29494,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.Int32,System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32,``0[])">
+        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.Int32,System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32,``0[])">
             <summary>
             Define an array of generic vertex attribute data
             </summary>
@@ -29543,7 +29529,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.UInt32,System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32,``0[0:,0:])">
+        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.UInt32,System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32,``0[0:,0:])">
             <summary>
             Define an array of generic vertex attribute data
             </summary>
@@ -29578,7 +29564,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.Int32,System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32,``0[0:,0:])">
+        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.Int32,System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32,``0[0:,0:])">
             <summary>
             Define an array of generic vertex attribute data
             </summary>
@@ -29613,7 +29599,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.UInt32,System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32,``0[0:,0:,0:])">
+        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.UInt32,System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32,``0[0:,0:,0:])">
             <summary>
             Define an array of generic vertex attribute data
             </summary>
@@ -29648,7 +29634,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.Int32,System.Int32,OpenTK.Graphics.VertexAttribParameterArb,System.Int32,``0[0:,0:,0:])">
+        <member name="M:OpenTK.Graphics.GL.NV.VertexAttribPointer``1(System.Int32,System.Int32,OpenTK.Graphics.NvVertexProgram,System.Int32,``0[0:,0:,0:])">
             <summary>
             Define an array of generic vertex attribute data
             </summary>
@@ -45314,7 +45300,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.Ext.FogCoordPointer(OpenTK.Graphics.FogPointerType,System.Int32,System.IntPtr)">
+        <member name="M:OpenTK.Graphics.GL.Ext.FogCoordPointer(OpenTK.Graphics.ExtFogCoord,System.Int32,System.IntPtr)">
             <summary>
             Define an array of fog coordinates
             </summary>
@@ -45334,7 +45320,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.Ext.FogCoordPointer``1(OpenTK.Graphics.FogPointerType,System.Int32,``0@)">
+        <member name="M:OpenTK.Graphics.GL.Ext.FogCoordPointer``1(OpenTK.Graphics.ExtFogCoord,System.Int32,``0@)">
             <summary>
             Define an array of fog coordinates
             </summary>
@@ -45354,7 +45340,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.Ext.FogCoordPointer``1(OpenTK.Graphics.FogPointerType,System.Int32,``0[])">
+        <member name="M:OpenTK.Graphics.GL.Ext.FogCoordPointer``1(OpenTK.Graphics.ExtFogCoord,System.Int32,``0[])">
             <summary>
             Define an array of fog coordinates
             </summary>
@@ -45374,7 +45360,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.Ext.FogCoordPointer``1(OpenTK.Graphics.FogPointerType,System.Int32,``0[0:,0:])">
+        <member name="M:OpenTK.Graphics.GL.Ext.FogCoordPointer``1(OpenTK.Graphics.ExtFogCoord,System.Int32,``0[0:,0:])">
             <summary>
             Define an array of fog coordinates
             </summary>
@@ -45394,7 +45380,7 @@
             </para>
             </param>
         </member>
-        <member name="M:OpenTK.Graphics.GL.Ext.FogCoordPointer``1(OpenTK.Graphics.FogPointerType,System.Int32,``0[0:,0:,0:])">
+        <member name="M:OpenTK.Graphics.GL.Ext.FogCoordPointer``1(OpenTK.Graphics.ExtFogCoord,System.Int32,``0[0:,0:,0:])">
             <summary>
             Define an array of fog coordinates
             </summary>
