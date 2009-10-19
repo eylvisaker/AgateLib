@@ -502,7 +502,7 @@ class BBX
             {
                 vsync = !vsync;
 
-                Display.VSync = vsync;
+                Display.RenderState.WaitForVerticalBlank = vsync;
             }
             if (mousex > 100 - 20 && mousex < 500 && mousey > 280 && mousey < 320)
             {
