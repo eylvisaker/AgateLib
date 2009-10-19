@@ -8,7 +8,7 @@ using AgateLib.DisplayLib;
 namespace AgateLib
 {
 	/// <summary>
-	/// Application framework for a game.  Using AgateApplication can simplify the application 
+	/// Application framework for a game.  Using AgateGame can simplify the application 
 	/// source code and start up.
 	/// </summary>
 	/// <example>
@@ -17,7 +17,7 @@ namespace AgateLib
 	/// 
 	/// namespace MyApplication
 	/// {
-	///		class MyApp : AgateApplication
+	///		class MyApp : AgateGame
 	///		{
 	///			public static void Main(string[] args)
 	///			{
@@ -40,7 +40,7 @@ namespace AgateLib
 	/// }
 	/// </code>
 	/// </example>
-	public class AgateApplication
+	public class AgateGame
 	{
 		DisplayWindow mWindow;
 		AppInitParameters mInitParams;

@@ -9,7 +9,7 @@ using AgateLib.WinForms;
 
 namespace Tests.WinFormsTests
 {
-	class Converters : AgateApplication, IAgateTest 
+	class Converters : AgateGame, IAgateTest 
 	{
 		public string Name
 		{
