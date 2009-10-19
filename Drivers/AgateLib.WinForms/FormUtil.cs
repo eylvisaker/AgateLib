@@ -111,7 +111,7 @@ namespace AgateLib.WinForms
 				}
 				catch (System.Resources.MissingManifestResourceException e)
 				{
-					AgateLib.Core.ReportError(ErrorLevel.Warning,
+					AgateLib.Core.ErrorReporting.Report(ErrorLevel.Warning,
 						"Caught a MissingManifestResourceException when looking for the AgateLib Icon.  " +
 						"This indicates a problem with the way resources were embedded into AgateLib.WinForms.dll when it was built.",
 						e);

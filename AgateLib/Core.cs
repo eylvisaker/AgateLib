@@ -72,7 +72,7 @@ namespace AgateLib
 		None,
 
 		/// <summary>
-		/// Outputs comments using Core.ReportError with a comment level.
+		/// Outputs comments using Core.Report with a comment level.
 		/// </summary>
 		Comment,
 
@@ -90,8 +90,209 @@ namespace AgateLib
 		private static bool mAutoPause = false;
 		private static bool mIsActive = true;
 		private static bool mInititalized = false;
+
+		#region --- Error Reporting ---
+
 		private static CrossPlatformDebugLevel mCrossPlatform = CrossPlatformDebugLevel.Comment;
 		private static System.Diagnostics.Stopwatch mTime = Stopwatch.StartNew();
+
+		public static class ErrorReporting
+		{
+
+			private static string mErrorFile = "errorlog.txt";
+			private static bool mAutoStackTrace = false;
+			private static bool mWroteHeader = false;
+
+			/// <summary>
+			/// Gets or sets the file name to which errors are recorded.  Defaults
+			/// to "errorlog.txt"
+			/// </summary>
+			public static string ErrorFile
+			{
+				get { return mErrorFile; }
+				set { mErrorFile = value; }
+			}
+
+			/// <summary>
+			/// Gets or sets whether or not a stack trace is automatically used.
+			/// </summary>
+			/// <example>
+			/// You may find it useful to turn this on during a debug build, and
+			/// then turn if off when building the release version.  The following
+			/// code accomplishes that.
+			/// <code>
+			/// #if _DEBUG
+			///     AgateLib.Core.AutoStackTrace = true;
+			/// #endif
+			/// </code>
+			/// </example>
+			public static bool AutoStackTrace
+			{
+				get { return mAutoStackTrace; }
+				set { mAutoStackTrace = value; }
+			}
+
+			/// <summary>
+			/// Gets or sets a value indicating how AgateLib should deal with issues that may
+			/// cause problems when porting to another platform.
+			/// </summary>
+			public static CrossPlatformDebugLevel CrossPlatformDebugLevel
+			{
+				get { return mCrossPlatform; }
+				set { mCrossPlatform = value; }
+			}
+
+			/// <summary>
+			/// Saves an error message to the ErrorFile.
+			/// Outputs a stack trace and shows a dialog box if the ErrorLevel 
+			/// is Bug or Fatal.
+			/// </summary>
+			/// <param name="message">A message to print out before the 
+			/// exception's message.</param>
+			/// <param name="e"></param>
+			/// <param name="level"></param>
+			public static void Report(ErrorLevel level, string message, Exception e)
+			{
+
+				switch (level)
+				{
+					case ErrorLevel.Bug:
+					case ErrorLevel.Fatal:
+						Report(level, message, e, true, true);
+						break;
+
+					case ErrorLevel.Comment:
+					case ErrorLevel.Warning:
+						Report(level, message, e, AutoStackTrace, false);
+						break;
+				}
+			}
+
+			/// <summary>
+			/// Saves an error message to the ErrorFile.
+			/// </summary>
+			/// <param name="message">A message to print out before the 
+			/// exception's message.</param>
+			/// <param name="e"></param>
+			/// <param name="level"></param>
+			/// <param name="printStackTrace">Bool value indicating whether or not 
+			/// a stack trace should be written out.  </param>
+			/// <param name="showDialog">Bool value indicating whether or not a 
+			/// message box should pop up with an OK button, informing the user about the 
+			/// error.  If false, the error is silently written to the ErrorFile.</param>
+			public static void Report(ErrorLevel level, string message, Exception e, bool printStackTrace, bool showDialog)
+			{
+				StringBuilder b = new StringBuilder();
+
+				b.Append(LevelText(level));
+				b.Append(": ");
+				b.AppendLine(message);
+
+				if (e != null)
+				{
+					b.Append(e.GetType().Name);
+					b.Append(": ");
+					b.AppendLine(e.Message);
+
+					if (printStackTrace)
+						b.AppendLine(e.StackTrace);
+				}
+
+				b.AppendLine();
+
+				string text = b.ToString();
+
+				// show the error dialog if AgateWinForms.dll is present.
+				if (showDialog && Drivers.Registrar.WinForms != null)
+				{
+					Drivers.Registrar.WinForms.ShowErrorDialog(message, e, level);
+				}
+
+				using (StreamWriter filewriter = OpenErrorFile())
+				{
+					if (filewriter != null)
+						filewriter.Write(text);
+				}
+
+				Console.Write(text);
+			}
+
+			/// <summary>
+			/// Reports a cross platform error, according to the setting of Core.CrossPlatformDebugLevel.
+			/// </summary>
+			/// <param name="message"></param>
+			public static void ReportCrossPlatformError(string message)
+			{
+				switch (CrossPlatformDebugLevel)
+				{
+					case CrossPlatformDebugLevel.Comment:
+						Report(ErrorLevel.Warning, message, null);
+						break;
+
+					case CrossPlatformDebugLevel.Exception:
+						throw new AgateCrossPlatformException(message);
+
+				}
+			}
+
+			private static StreamWriter OpenErrorFile()
+			{
+				try
+				{
+					if (mWroteHeader == true)
+					{
+						FileStream stream = File.Open(ErrorFile, FileMode.Append, FileAccess.Write);
+
+						return new StreamWriter(stream);
+					}
+					else
+					{
+						FileStream stream = File.Open(ErrorFile, FileMode.Create, FileAccess.Write);
+						StreamWriter writer = new StreamWriter(stream);
+
+						WriteHeader(writer);
+
+						mWroteHeader = true;
+
+						return writer;
+					}
+				}
+				catch (Exception e)
+				{
+					string message = "Could not open file " + ErrorFile + ".\r\n" +
+						"Error message: " + e.Message + "\r\n" +
+						"Errors cannot be saved to a text file.";
+
+					Console.WriteLine(message);
+					System.Diagnostics.Debug.WriteLine(message);
+					System.Diagnostics.Trace.WriteLine(message);
+
+					return null;
+				}
+			}
+
+			private static void WriteHeader(StreamWriter writer)
+			{
+				writer.WriteLine("Error Log started " + DateTime.Now.ToString());
+				writer.WriteLine("");
+			}
+			private static string LevelText(ErrorLevel level)
+			{
+				switch (level)
+				{
+					case ErrorLevel.Comment: return "COMMENT";
+					case ErrorLevel.Warning: return "WARNING";
+					case ErrorLevel.Fatal: return "ERROR";
+					case ErrorLevel.Bug: return "BUG";
+				}
+
+				return "ERROR";
+			}
+
+
+		}
+
+		#endregion
 
 		static Core()
 		{
@@ -202,200 +403,6 @@ namespace AgateLib
 				return System.AppDomain.CurrentDomain.BaseDirectory;
 			}
 		}
-
-		#region --- Error Reporting ---
-
-		private static string mErrorFile = "errorlog.txt";
-		private static bool mAutoStackTrace = false;
-		private static bool mWroteHeader = false;
-
-		/// <summary>
-		/// Gets or sets the file name to which errors are recorded.  Defaults
-		/// to "errorlog.txt"
-		/// </summary>
-		public static string ErrorFile
-		{
-			get { return Core.mErrorFile; }
-			set { Core.mErrorFile = value; }
-		}
-
-		/// <summary>
-		/// Gets or sets whether or not a stack trace is automatically used.
-		/// </summary>
-		/// <example>
-		/// You may find it useful to turn this on during a debug build, and
-		/// then turn if off when building the release version.  The following
-		/// code accomplishes that.
-		/// <code>
-		/// #if _DEBUG
-		///     AgateLib.Core.AutoStackTrace = true;
-		/// #endif
-		/// </code>
-		/// </example>
-		public static bool AutoStackTrace
-		{
-			get { return Core.mAutoStackTrace; }
-			set { Core.mAutoStackTrace = value; }
-		}
-
-		/// <summary>
-		/// Saves an error message to the ErrorFile.
-		/// Outputs a stack trace and shows a dialog box if the ErrorLevel 
-		/// is Bug or Fatal.
-		/// </summary>
-		/// <param name="message">A message to print out before the 
-		/// exception's message.</param>
-		/// <param name="e"></param>
-		/// <param name="level"></param>
-		public static void ReportError(ErrorLevel level, string message, Exception e)
-		{
-
-			switch (level)
-			{
-				case ErrorLevel.Bug:
-				case ErrorLevel.Fatal:
-					ReportError(level, message, e, true, true);
-					break;
-
-				case ErrorLevel.Comment:
-				case ErrorLevel.Warning:
-					ReportError(level, message, e, AutoStackTrace, false);
-					break;
-			}
-		}
-
-		/// <summary>
-		/// Saves an error message to the ErrorFile.
-		/// </summary>
-		/// <param name="message">A message to print out before the 
-		/// exception's message.</param>
-		/// <param name="e"></param>
-		/// <param name="level"></param>
-		/// <param name="printStackTrace">Bool value indicating whether or not 
-		/// a stack trace should be written out.  </param>
-		/// <param name="showDialog">Bool value indicating whether or not a 
-		/// message box should pop up with an OK button, informing the user about the 
-		/// error.  If false, the error is silently written to the ErrorFile.</param>
-		public static void ReportError(ErrorLevel level, string message, Exception e, bool printStackTrace, bool showDialog)
-		{
-			StringBuilder b = new StringBuilder();
-
-			b.Append(LevelText(level));
-			b.Append(": ");
-			b.AppendLine(message);
-
-			if (e != null)
-			{
-				b.Append(e.GetType().Name);
-				b.Append(": ");
-				b.AppendLine(e.Message);
-
-				if (printStackTrace)
-					b.AppendLine(e.StackTrace);
-			}
-
-			b.AppendLine();
-
-			string text = b.ToString();
-
-			// show the error dialog if AgateWinForms.dll is present.
-			if (showDialog && Drivers.Registrar.WinForms != null)
-			{
-				Drivers.Registrar.WinForms.ShowErrorDialog(message, e, level);
-			}
-
-			using (StreamWriter filewriter = OpenErrorFile())
-			{
-				if (filewriter != null)
-					filewriter.Write(text);
-			}
-
-			Console.Write(text);
-		}
-
-		private static StreamWriter OpenErrorFile()
-		{
-			try
-			{
-				if (mWroteHeader == true)
-				{
-					FileStream stream = File.Open(ErrorFile, FileMode.Append, FileAccess.Write);
-
-					return new StreamWriter(stream);
-				}
-				else
-				{
-					FileStream stream = File.Open(ErrorFile, FileMode.Create, FileAccess.Write);
-					StreamWriter writer = new StreamWriter(stream);
-
-					WriteHeader(writer);
-
-					mWroteHeader = true;
-
-					return writer;
-				}
-			}
-			catch (Exception e)
-			{
-				string message = "Could not open file " + ErrorFile + ".\r\n" +
-					"Error message: " + e.Message + "\r\n" +
-					"Errors cannot be saved to a text file.";
-
-				Console.WriteLine(message);
-				System.Diagnostics.Debug.WriteLine(message);
-				System.Diagnostics.Trace.WriteLine(message);
-
-				return null;
-			}
-		}
-
-		private static void WriteHeader(StreamWriter writer)
-		{
-			writer.WriteLine("Error Log started " + DateTime.Now.ToString());
-			writer.WriteLine("");
-		}
-		private static string LevelText(ErrorLevel level)
-		{
-			switch (level)
-			{
-				case ErrorLevel.Comment: return "COMMENT";
-				case ErrorLevel.Warning: return "WARNING";
-				case ErrorLevel.Fatal: return "ERROR";
-				case ErrorLevel.Bug: return "BUG";
-			}
-
-			return "ERROR";
-		}
-
-		/// <summary>
-		/// Gets or sets a value indicating how AgateLib should deal with issues that may
-		/// cause problems when porting to another platform.
-		/// </summary>
-		public static CrossPlatformDebugLevel CrossPlatformDebugLevel
-		{
-			get { return mCrossPlatform; }
-			set { mCrossPlatform = value; }
-		}
-		/// <summary>
-		/// Reports a cross platform error, according to the setting of Core.CrossPlatformDebugLevel.
-		/// </summary>
-		/// <param name="message"></param>
-		public static void ReportCrossPlatformError(string message)
-		{
-			switch (CrossPlatformDebugLevel)
-			{
-				case CrossPlatformDebugLevel.Comment:
-					ReportError(ErrorLevel.Warning, message, null);
-					break;
-
-				case CrossPlatformDebugLevel.Exception:
-					throw new AgateCrossPlatformException(message);
-
-			}
-		}
-
-
-		#endregion
 
 		/// <summary>
 		/// returns time since agatelib was initialized in milliseconds.

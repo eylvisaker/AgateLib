@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BC71081A-124D-4675-9ECE-92450189EC75}</ProjectGuid>
+    <ProjectGuid>{489A4486-7435-4949-BECB-136E6288C35D}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -89,18 +89,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Name>AgateLib</Name>
-      <Project>{CCAE9D71-50DF-4B75-91AE-D9552A9A8353}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Name>AgateLib.WinForms</Name>
-      <Project>{B874EDC7-C67D-4C45-A2B7-A41FDD898A02}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="D3DDevice.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -163,6 +151,16 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmFullScreen.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Project>{5BE2B3C1-F0A0-4732-9499-41AE50CC4C48}</Project>
+      <Name>AgateLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
+      <Project>{CD71274E-9AF0-42FC-ADC8-FE35D3274C61}</Project>
+      <Name>AgateLib.WinForms</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>

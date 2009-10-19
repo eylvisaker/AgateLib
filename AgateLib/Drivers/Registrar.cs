@@ -120,7 +120,7 @@ namespace AgateLib.Drivers
 							break;
 
 						default:
-							Core.ReportError(ErrorLevel.Warning, string.Format(
+							Core.ErrorReporting.Report(ErrorLevel.Warning, string.Format(
 								"Could not interpret DriverType returned by type {0} in assembly {1}.",
 								info.DriverTypeName, info.AssemblyFile), null);
 
@@ -183,7 +183,7 @@ namespace AgateLib.Drivers
 				 Environment.OSVersion.Platform == (PlatformID)128) &&
 				System.IO.Path.GetFileName(file).ToLower().Contains("agatemdx.dll"))
 			{
-				Core.ReportError(ErrorLevel.Comment,
+				Core.ErrorReporting.Report(ErrorLevel.Comment,
 					"DirectX not supported on Linux.  Remove "
 					+ System.IO.Path.GetFileName(file) +
 					" to eliminate this message.", null);
@@ -413,7 +413,7 @@ namespace AgateLib.Drivers
 
 		private static Assembly LoadAssemblyLoadFrom(AgateDriverInfo info)
 		{
-			Core.ReportError(ErrorLevel.Warning,
+			Core.ErrorReporting.Report(ErrorLevel.Warning,
 				string.Format("Assembly {0} was loaded in the LoadFrom context.  Move it to the application directory to load in the Load context.", info.AssemblyName), null);
 			return Assembly.LoadFrom(info.AssemblyFile);
 		}
