@@ -27,7 +27,7 @@ namespace Tests.ErrorReportTester
 
 		private static void GenerateErrors()
 		{
-			AgateLib.Core.ReportError(ErrorLevel.Comment, "Test comment about application condition", null);
+			AgateLib.Core.ErrorReporting.Report(ErrorLevel.Comment, "Test comment about application condition", null);
 
 			try
 			{
@@ -35,7 +35,7 @@ namespace Tests.ErrorReportTester
 			}
 			catch (Exception e)
 			{
-				AgateLib.Core.ReportError(ErrorLevel.Warning, "File not there.", e);
+				AgateLib.Core.ErrorReporting.Report(ErrorLevel.Warning, "File not there.", e);
 			}
 
 			try
@@ -44,7 +44,7 @@ namespace Tests.ErrorReportTester
 			}
 			catch (Exception e)
 			{
-				AgateLib.Core.ReportError(ErrorLevel.Fatal, "Missing file", e);
+				AgateLib.Core.ErrorReporting.Report(ErrorLevel.Fatal, "Missing file", e);
 			}
 
 			try
@@ -53,7 +53,7 @@ namespace Tests.ErrorReportTester
 			}
 			catch (Exception e)
 			{
-				AgateLib.Core.ReportError(ErrorLevel.Bug, "Oops, a bug.", e);
+				AgateLib.Core.ErrorReporting.Report(ErrorLevel.Bug, "Oops, a bug.", e);
 			}
 
 			// unhandled error
@@ -62,7 +62,7 @@ namespace Tests.ErrorReportTester
 
 		private void FillTextBox()
 		{
-			System.IO.TextReader r = new System.IO.StreamReader(AgateLib.Core.ErrorFile);
+			System.IO.TextReader r = new System.IO.StreamReader(AgateLib.Core.ErrorReporting.ErrorFile);
 
 			textBox1.Text = r.ReadToEnd();
 
