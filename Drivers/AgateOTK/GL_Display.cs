@@ -394,11 +394,10 @@ namespace AgateOTK
 				HintMode.Nicest);
 
 			string vendor = GL.GetString(StringName.Vendor);
-			string versionString = GL.GetString(StringName.Version);
 			string ext = GL.GetString(StringName.Extensions);
-
-			mGLVersion = decimal.Parse(versionString.Substring(0, 3));
 			mSupportsShaders = false;
+
+			mGLVersion = DetectOpenGLVersion();
 
 			if (mGLVersion >= 2m)
 			{
@@ -427,6 +426,41 @@ namespace AgateOTK
 			glInitialized = true;
 
 		}
+
+		private static decimal DetectOpenGLVersion()
+		{
+			string versionString = GL.GetString(StringName.Version);
+
+			// Not sure whether OpenGL drivers will universally report version in the machine's
+			// culture settings or not.  So we switch the current decimal separator with a period.
+			versionString = versionString.Replace(System.Globalization.NumberFormatInfo.CurrentInfo.NumberDecimalSeparator, ".");
+			int pointLoc = versionString.IndexOf(".");
+
+			// Remove any additional version information.  Some drivers report version string as
+			// something like 2.1.8577, which will be problematic for the decimal.Parse call below.
+			// We are only interested in the first two numbers, so discard everything else.
+			if (versionString.IndexOf(".", pointLoc + 1) > -1)
+			{
+				versionString = versionString.Substring(0, versionString.IndexOf(".", pointLoc + 1));
+			}
+
+			decimal retval;
+
+			if (decimal.TryParse(versionString, System.Globalization.NumberStyles.Number,
+				System.Globalization.CultureInfo.InvariantCulture, out retval) == false)
+			{
+				Trace.WriteLine("AgateOTK was unable to parse the OpenGL version string.");
+				Trace.WriteLine("    The reported string was: " + versionString);
+				Trace.WriteLine("    Please report this issue to http://www.agatelib.org along");
+				Trace.WriteLine("    with details about your operating system and graphics drivers.");
+				Trace.WriteLine("    Falling back to OpenGL 1.1 supported functionality.");
+
+				retval = 1.1m;
+			}
+
+			return retval;
+		}
+
 
 		OtkShader mCurrentShader;
 
