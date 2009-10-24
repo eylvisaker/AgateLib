@@ -1,7 +1,0 @@
-<AgateResources Version="0.3.0">
-  <StringTable>
-    <string name="Hello">Hello</string>
-    <string name="How are you?">How are you?</string>
-    <string name="I want some beer.">I want some beer.</string>
-  </StringTable>
-</AgateResources>

@@ -1,7 +1,0 @@
-How does one load an assembly from a file using Assembly.Load? It seems like this has to be done with just the filename, without knowing the strong name for the assembly or anything.
-
-One doesn't oneself. :-)
-Load the assemblies using Assembly.LoadFrom in a child AppDomain. Keep Assembly references in a Dictionary, keyed by the Assemblies' strong name. Subscribe to AppDomain.AssemblyResolve. This event will pass you the strong name of the type or resource that could not be found. Use it to obtain the strong name of the assembly. Fetch the Assembly reference from the Dictionary and return it, or return null.
-
-Now you explicitly push assemblies from the LoadFrom context into the Load context because you supply the Load context, which fails to bind a type by itself and calls the AssemblyResolve event, with the assembly directly. I'm not 100% sure, but my testing indicates that from that moment on the assembly reference is kept in cache in the Load context, meaning AssemblyResolve doesn't get called time and time again.
-
