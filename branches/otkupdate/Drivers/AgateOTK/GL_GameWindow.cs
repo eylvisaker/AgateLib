@@ -203,16 +203,16 @@ namespace AgateOTK
 			done = true;
 		}
 
-		void Keyboard_KeyDown(OpenTK.Input.KeyboardDevice sender, OpenTK.Input.Key key)
+		void Keyboard_KeyDown(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
 		{
-			KeyCode code = TransformKey(key);
+			KeyCode code = TransformKey(e.Key);
 
 			Keyboard.Keys[code] = true;
 		}
 
-		void Keyboard_KeyUp(OpenTK.Input.KeyboardDevice sender, OpenTK.Input.Key key)
+		void Keyboard_KeyUp(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
 		{
-			KeyCode code = TransformKey(key);
+			KeyCode code = TransformKey(e.Key);
 
 			Keyboard.Keys[code] = false;
 		}
@@ -260,15 +260,15 @@ namespace AgateOTK
 		private void AttachEvents()
 		{
 			mWindow.Closing += mWindow_CloseWindow;
-			mWindow.Resize += new OpenTK.Platform.ResizeEvent(mWindow_Resize);
+			mWindow.Resize += new EventHandler<EventArgs>(mWindow_Resize);
 
 			mWindow.Keyboard.KeyRepeat = true;
-			mWindow.Keyboard.KeyDown += new OpenTK.Input.KeyDownEvent(Keyboard_KeyDown);
-			mWindow.Keyboard.KeyUp += new OpenTK.Input.KeyUpEvent(Keyboard_KeyUp);
+			mWindow.Keyboard.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(Keyboard_KeyDown);
+			mWindow.Keyboard.KeyUp += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(Keyboard_KeyUp);
 
-			mWindow.Mouse.ButtonDown += new OpenTK.Input.MouseButtonEventHandler(Mouse_ButtonDown);
-			mWindow.Mouse.ButtonUp += new OpenTK.Input.MouseButtonEventHandler(Mouse_ButtonUp);
-			mWindow.Mouse.Move += new OpenTK.Input.MouseMoveEventHandler(Mouse_Move);
+			mWindow.Mouse.ButtonDown += new EventHandler<OpenTK.Input.MouseButtonEventArgs>(Mouse_ButtonDown);
+			mWindow.Mouse.ButtonUp += new EventHandler<OpenTK.Input.MouseButtonEventArgs>(Mouse_ButtonUp);
+			mWindow.Mouse.Move += new EventHandler<OpenTK.Input.MouseMoveEventArgs>(Mouse_Move);
 		}
 
 		private void DetachEvents()
@@ -284,7 +284,7 @@ namespace AgateOTK
 			mWindow.Mouse.Move -= Mouse_Move;
 		}
 
-		void mWindow_Resize(object sender, OpenTK.Platform.ResizeEventArgs e)
+		void mWindow_Resize(object sender, EventArgs e)
 		{
 			Debug.Print("Reseting viewport to {0}x{1}", mWindow.Width, mWindow.Height);
 
@@ -298,8 +298,6 @@ namespace AgateOTK
 
 			AttachEvents();
 		}
-
-
 		private void CreateFullScreenDisplay()
 		{
 			mWindow = new GameWindow(mWidth, mHeight,
@@ -360,7 +358,6 @@ namespace AgateOTK
 				return false;
 			}
 		}
-
 		public override bool IsFullScreen
 		{
 			get { return mWindow.WindowState == WindowState.Fullscreen; }

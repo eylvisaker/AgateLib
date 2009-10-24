@@ -16,7 +16,7 @@
   <Reference name="AgateLib"/>
   <Reference name="AgateLib.WinForms"/>
   <Reference name="OpenTK" path="." localCopy="true"/>
-  <Reference name="OpenTK.Utilities" path="." localCopy="true"/>
+  <Reference name="OpenTK.Compatibility" path="." localCopy="true"/>
   <Reference name="System"/>
   <Reference name="System.Core"/>
   <Reference name="System.Data"/>

@@ -34,6 +34,7 @@ using AgateLib.WinForms;
 
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using GL = OpenTK.Graphics.OpenGL.GL;
 using OpenTK.Platform;
 
 namespace AgateOTK
@@ -42,7 +43,7 @@ namespace AgateOTK
 	{
 		Form frm;
 		Control mRenderTarget;
-		GraphicsContext mContext;
+		IGraphicsContext mContext;
 		IWindowInfo mWindowInfo;
 
 		GL_Display mDisplay;
@@ -124,7 +125,7 @@ namespace AgateOTK
 			DetachEvents();
 
 			Form oldForm = frm;
-			GraphicsContext oldcontext = mContext;
+			IGraphicsContext oldcontext = mContext;
 			IWindowInfo oldWindowInfo = mWindowInfo;
 
 			mContext = null;
@@ -142,10 +143,10 @@ namespace AgateOTK
 
 			CreateContext();
 
-			DisplayResolution resolution = DisplayDevice.Default.SelectResolution(
+			
+			OpenTK.DisplayResolution resolution = OpenTK.DisplayDevice.Default.SelectResolution(
 				mChooseWidth, mChooseHeight, 32, 0);
-
-			DisplayDevice.Default.ChangeResolution(resolution);
+			OpenTK.DisplayDevice.Default.ChangeResolution(resolution);
 
 			frm.Location = System.Drawing.Point.Empty;
 			frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
@@ -166,7 +167,7 @@ namespace AgateOTK
 			DetachEvents();
 
 			Form oldForm = frm;
-			GraphicsContext oldcontext = mContext;
+			IGraphicsContext oldcontext = mContext;
 			IWindowInfo oldWindowInfo = mWindowInfo;
 
 			mContext = null;
@@ -175,7 +176,7 @@ namespace AgateOTK
 			Form myform;
 			Control myRenderTarget;
 
-			DisplayDevice.Default.RestoreResolution();
+			OpenTK.DisplayDevice.Default.RestoreResolution();
 
 			AgateLib.WinForms.FormUtil.InitializeWindowsForm(out myform, out myRenderTarget, mChoosePosition,
 				mTitle, mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
@@ -206,11 +207,27 @@ namespace AgateOTK
 
 			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
 
-			//mWindowInfo = OpenTK.Platform.Utilities.CreateWindowInfo(newMode, mRenderTarget);
+			mWindowInfo = CreateWindowInfo();
 
-			//mContext = OpenTK.Platform.Utilities.CreateGraphicsContext(
-			//	newMode, mWindowInfo, 3, 1, GraphicsContextFlags.Default);
-			OpenTK.Platform.Utilities.CreateGraphicsContext(newMode, mRenderTarget, out mContext, out mWindowInfo);
+			mContext = OpenTK.Platform.Utilities.CreateGraphicsContext(
+				newMode, mWindowInfo, 3, 1, GraphicsContextFlags.Default);
+			//OpenTK.Platform.Utilities.CreateGraphicsContext(newMode, mRenderTarget, out mContext, out mWindowInfo);
+		}
+
+		private IWindowInfo CreateWindowInfo()
+		{
+			switch (AgateLib.Utility.Platform.PlatformType)
+			{
+				case AgateLib.Utility.PlatformType.Windows:
+					return OpenTK.Platform.Utilities.CreateWindowsWindowInfo(mRenderTarget.Handle);
+				case AgateLib.Utility.PlatformType.MacOS:
+					return OpenTK.Platform.Utilities.CreateMacOSCarbonWindowInfo(mRenderTarget.Handle, false, true);
+				case AgateLib.Utility.PlatformType.Linux:
+				case AgateLib.Utility.PlatformType.Gp2x:
+					//return OpenTK.Platform.Utilities.CreateX11WindowInfo(
+				default:
+					throw new Exception("Platform not implemented.");
+			}
 		}
 
 

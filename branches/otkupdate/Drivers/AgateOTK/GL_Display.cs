@@ -28,7 +28,7 @@ using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
 using AgateLib.ImplementationBase;
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
 namespace AgateOTK
@@ -185,7 +185,7 @@ namespace AgateOTK
 		{
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
-			Glu.Ortho2D(region.Left, region.Right, region.Bottom, region.Top);
+			GL.Ortho(region.Left, region.Right, region.Bottom, region.Top, -1, 1);
 		}
 
 		Matrix4x4 projection = Matrix4x4.Identity;
@@ -222,7 +222,7 @@ namespace AgateOTK
 
 		private void SetModelview()
 		{
-			OpenTK.Math.Matrix4 modelview = ConvertAgateMatrix(view * world, false);
+			OpenTK.Matrix4 modelview = ConvertAgateMatrix(view * world, false);
 
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
@@ -230,22 +230,22 @@ namespace AgateOTK
 		}
 		private void SetProjection()
 		{
-			OpenTK.Math.Matrix4 otkProjection = ConvertAgateMatrix(projection, false);
+			OpenTK.Matrix4 otkProjection = ConvertAgateMatrix(projection, false);
 
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
 			GL.LoadMatrix(ref otkProjection);
 		}
 
-		private OpenTK.Math.Matrix4 ConvertAgateMatrix(Matrix4x4 matrix, bool invertY)
+		private OpenTK.Matrix4 ConvertAgateMatrix(Matrix4x4 matrix, bool invertY)
 		{
 			int sign = invertY ? -1 : 1;
 
-			return new OpenTK.Math.Matrix4(
-				new OpenTK.Math.Vector4(matrix[0, 0], sign * matrix[1, 0], matrix[2, 0], matrix[3, 0]),
-				new OpenTK.Math.Vector4(matrix[0, 1], sign * matrix[1, 1], matrix[2, 1], matrix[3, 1]),
-				new OpenTK.Math.Vector4(matrix[0, 2], sign * matrix[1, 2], matrix[2, 2], matrix[3, 2]),
-				new OpenTK.Math.Vector4(matrix[0, 3], sign * matrix[1, 3], matrix[2, 3], matrix[3, 3]));
+			return new OpenTK.Matrix4(
+				new OpenTK.Vector4(matrix[0, 0], sign * matrix[1, 0], matrix[2, 0], matrix[3, 0]),
+				new OpenTK.Vector4(matrix[0, 1], sign * matrix[1, 1], matrix[2, 1], matrix[3, 1]),
+				new OpenTK.Vector4(matrix[0, 2], sign * matrix[1, 2], matrix[2, 2], matrix[3, 2]),
+				new OpenTK.Vector4(matrix[0, 3], sign * matrix[1, 3], matrix[2, 3], matrix[3, 3]));
 		}
 
 		public override void Clear(Color color)
@@ -412,11 +412,11 @@ namespace AgateOTK
 			}
 			else
 			{
-				mSupportsFramebuffer = GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
-				mNonPowerOf2Textures = GL.SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
+				mSupportsFramebuffer = OpenTK.Graphics.GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
+				mNonPowerOf2Textures = OpenTK.Graphics.GL.SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
 			}
 
-			if (GL.SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
+			if (OpenTK.Graphics.GL.SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
 			{
 				mSupportsShaders = true;
 			}
@@ -517,7 +517,7 @@ namespace AgateOTK
 			GL.Enable(EnableCap.Lighting);
 
 			SetArray(array, lights.Ambient);
-			GL.LightModelv(LightModelParameter.LightModelAmbient, array);
+			GL.LightModel(LightModelParameter.LightModelAmbient, array);
 
 			GL.Enable(EnableCap.ColorMaterial);
 			GL.ColorMaterial(MaterialFace.FrontAndBack,
@@ -543,13 +543,13 @@ namespace AgateOTK
 				GL.Enable(lightID);
 
 				SetArray(array, lights[i].Diffuse);
-				GL.Lightv(lightName, LightParameter.Diffuse, array);
+				GL.Light(lightName, LightParameter.Diffuse, array);
 
 				SetArray(array, lights[i].Ambient);
-				GL.Lightv(lightName, LightParameter.Ambient, array);
+				GL.Light(lightName, LightParameter.Ambient, array);
 
 				SetArray(array, lights[i].Position);
-				GL.Lightv(lightName, LightParameter.Position, array);
+				GL.Light(lightName, LightParameter.Position, array);
 
 				GL.Light(lightName, LightParameter.ConstantAttenuation, lights[i].AttenuationConstant);
 				GL.Light(lightName, LightParameter.LinearAttenuation, lights[i].AttenuationLinear);
