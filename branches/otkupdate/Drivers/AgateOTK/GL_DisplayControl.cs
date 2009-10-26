@@ -143,7 +143,7 @@ namespace AgateOTK
 
 			CreateContext();
 
-			
+
 			OpenTK.DisplayResolution resolution = OpenTK.DisplayDevice.Default.SelectResolution(
 				mChooseWidth, mChooseHeight, 32, 0);
 			OpenTK.DisplayDevice.Default.ChangeResolution(resolution);
@@ -207,7 +207,7 @@ namespace AgateOTK
 
 			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
 
-			
+
 			mWindowInfo = CreateWindowInfo(newMode);
 
 			mContext = OpenTK.Platform.Utilities.CreateGraphicsContext(
@@ -226,7 +226,7 @@ namespace AgateOTK
 				case AgateLib.Utility.PlatformType.Linux:
 				case AgateLib.Utility.PlatformType.Gp2x:
 					return CreateX11WindowInfo(mode);
-					//return OpenTK.Platform.Utilities.CreateX11WindowInfo(
+				//return OpenTK.Platform.Utilities.CreateX11WindowInfo(
 				default:
 					throw new Exception("Platform not implemented.");
 			}
@@ -234,102 +234,102 @@ namespace AgateOTK
 
 		private IWindowInfo CreateX11WindowInfo(GraphicsMode mode)
 		{
-            Type xplatui = Type.GetType("System.Windows.Forms.XplatUIX11, System.Windows.Forms");
-            if (xplatui == null) throw new PlatformNotSupportedException(
-                    "System.Windows.Forms.XplatUIX11 missing. Unsupported platform or Mono runtime version, aborting.");
+			Type xplatui = Type.GetType("System.Windows.Forms.XplatUIX11, System.Windows.Forms");
+			if (xplatui == null) throw new PlatformNotSupportedException(
+					"System.Windows.Forms.XplatUIX11 missing. Unsupported platform or Mono runtime version, aborting.");
 
-            // get the required handles from the X11 API.
-            IntPtr display = (IntPtr)GetStaticFieldValue(xplatui, "DisplayHandle");
-            IntPtr rootWindow = (IntPtr)GetStaticFieldValue(xplatui, "RootWindow");
-            int screen = (int)GetStaticFieldValue(xplatui, "ScreenNo");
+			// get the required handles from the X11 API.
+			IntPtr display = (IntPtr)GetStaticFieldValue(xplatui, "DisplayHandle");
+			IntPtr rootWindow = (IntPtr)GetStaticFieldValue(xplatui, "RootWindow");
+			int screen = (int)GetStaticFieldValue(xplatui, "ScreenNo");
 
-            // get the X11 Visual info for the display.
-            XVisualInfo info = new XVisualInfo();
-            info.VisualID = mode.Index.Value;
-            int dummy;
-            info = (XVisualInfo)Marshal.PtrToStructure(
-                XGetVisualInfo(display, XVisualInfoMask.ID, ref info, out dummy), typeof(XVisualInfo));
+			// get the X11 Visual info for the display.
+			XVisualInfo info = new XVisualInfo();
+			info.VisualID = mode.Index.Value;
+			int dummy;
+			info = (XVisualInfo)Marshal.PtrToStructure(
+				XGetVisualInfo(display, XVisualInfoMask.ID, ref info, out dummy), typeof(XVisualInfo));
 
-            // set the X11 colormap.
-            SetStaticFieldValue(xplatui, "CustomVisual", info.Visual);
-            SetStaticFieldValue(xplatui, "CustomColormap",
-                XCreateColormap(display, rootWindow, info.Visual, 0));
+			// set the X11 colormap.
+			SetStaticFieldValue(xplatui, "CustomVisual", info.Visual);
+			SetStaticFieldValue(xplatui, "CustomColormap",
+				XCreateColormap(display, rootWindow, info.Visual, 0));
 
 			IntPtr infoPtr = Marshal.AllocHGlobal(Marshal.SizeOf(info));
 			Marshal.StructureToPtr(info, infoPtr, false);
-			
+
 			IWindowInfo window = OpenTK.Platform.Utilities.CreateX11WindowInfo(
-			    display, screen, mRenderTarget.Handle, rootWindow, infoPtr);
-			
-            return window;
+				display, screen, mRenderTarget.Handle, rootWindow, infoPtr);
+
+			return window;
 
 		}
-		
+
 		#region --- X11 imports
-		
-	    [StructLayout(LayoutKind.Sequential)]
-	    struct XVisualInfo
-	    {
-	        public IntPtr Visual;
-	        public IntPtr VisualID;
-	        public int Screen;
-	        public int Depth;
-	        public OpenTK.Platform.X11.XVisualClass Class;
-	        public long RedMask;
-	        public long GreenMask;
-	        public long blueMask;
-	        public int ColormapSize;
-	        public int BitsPerRgb;
-	
-	        public override string ToString()
-	        {
-	            return String.Format("id ({0}), screen ({1}), depth ({2}), class ({3})",
-	                VisualID, Screen, Depth, Class);
-	        }
-	    }
+
+		[StructLayout(LayoutKind.Sequential)]
+		struct XVisualInfo
+		{
+			public IntPtr Visual;
+			public IntPtr VisualID;
+			public int Screen;
+			public int Depth;
+			public OpenTK.Platform.X11.XVisualClass Class;
+			public long RedMask;
+			public long GreenMask;
+			public long blueMask;
+			public int ColormapSize;
+			public int BitsPerRgb;
+
+			public override string ToString()
+			{
+				return String.Format("id ({0}), screen ({1}), depth ({2}), class ({3})",
+					VisualID, Screen, Depth, Class);
+			}
+		}
 		[DllImport("libX11")]
-        public static extern IntPtr XCreateColormap(IntPtr display, IntPtr window, IntPtr visual, int alloc);
+		public static extern IntPtr XCreateColormap(IntPtr display, IntPtr window, IntPtr visual, int alloc);
 
 		[DllImport("libX11", EntryPoint = "XGetVisualInfo")]
-        static extern IntPtr XGetVisualInfoInternal(IntPtr display, IntPtr vinfo_mask, ref XVisualInfo template, out int nitems);
+		static extern IntPtr XGetVisualInfoInternal(IntPtr display, IntPtr vinfo_mask, ref XVisualInfo template, out int nitems);
 
-        static IntPtr XGetVisualInfo(IntPtr display, XVisualInfoMask vinfo_mask, ref XVisualInfo template, out int nitems)
-        {
-            return XGetVisualInfoInternal(display, (IntPtr)(int)vinfo_mask, ref template, out nitems);
-        }
+		static IntPtr XGetVisualInfo(IntPtr display, XVisualInfoMask vinfo_mask, ref XVisualInfo template, out int nitems)
+		{
+			return XGetVisualInfoInternal(display, (IntPtr)(int)vinfo_mask, ref template, out nitems);
+		}
 
 		[Flags]
-	    internal enum XVisualInfoMask
-	    {
-	        No = 0x0,
-	        ID = 0x1,
-	        Screen = 0x2,
-	        Depth = 0x4,
-	        Class = 0x8,
-	        Red = 0x10,
-	        Green = 0x20,
-	        Blue = 0x40,
-	        ColormapSize = 0x80,
-	        BitsPerRGB = 0x100,
-	        All = 0x1FF,
+		internal enum XVisualInfoMask
+		{
+			No = 0x0,
+			ID = 0x1,
+			Screen = 0x2,
+			Depth = 0x4,
+			Class = 0x8,
+			Red = 0x10,
+			Green = 0x20,
+			Blue = 0x40,
+			ColormapSize = 0x80,
+			BitsPerRGB = 0x100,
+			All = 0x1FF,
 		}
 
 
 		#endregion
-        #region --- Utility functions for reading/writing non-public static fields through reflection ---
+		#region --- Utility functions for reading/writing non-public static fields through reflection ---
 
-        private static object GetStaticFieldValue(Type type, string fieldName)
-        {
-            return type.GetField(fieldName,
-                System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(null);
-        }
-        private static void SetStaticFieldValue(Type type, string fieldName, object value)
-        {
-            type.GetField(fieldName,
-                System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).SetValue(null, value);
-        }
+		private static object GetStaticFieldValue(Type type, string fieldName)
+		{
+			return type.GetField(fieldName,
+				System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(null);
+		}
+		private static void SetStaticFieldValue(Type type, string fieldName, object value)
+		{
+			type.GetField(fieldName,
+				System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).SetValue(null, value);
+		}
 
-        #endregion
+		#endregion
 
 		public override void Dispose()
 		{
