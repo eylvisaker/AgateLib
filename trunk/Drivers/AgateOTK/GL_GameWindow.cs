@@ -399,6 +399,7 @@ namespace AgateOTK
 			set
 			{
 				mWindow.Width = value.Width;
+				mWindow.Height = value.Height;
 			}
 		}
 
