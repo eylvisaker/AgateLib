@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using AgateLib.BitmapFont;
@@ -394,10 +395,10 @@ namespace AgateOTK
 				HintMode.Nicest);
 
 			string vendor = GL.GetString(StringName.Vendor);
-			string ext = GL.GetString(StringName.Extensions);
 			mSupportsShaders = false;
 
 			mGLVersion = DetectOpenGLVersion();
+			LoadExtensions();
 
 			if (mGLVersion >= 2m)
 			{
@@ -412,11 +413,11 @@ namespace AgateOTK
 			}
 			else
 			{
-				mSupportsFramebuffer = ext.Contains("GL_EXT_FRAMEBUFFER_OBJECT");
-				mNonPowerOf2Textures = ext.Contains("GL_ARB_NON_POWER_OF_TWO");
+				mSupportsFramebuffer = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
+				mNonPowerOf2Textures = SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
 			}
 
-			if (ext.Contains("GL_ARB_FRAGMENT_PROGRAM"))
+			if (SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
 			{
 				mSupportsShaders = true;
 			}
@@ -425,6 +426,23 @@ namespace AgateOTK
 
 			glInitialized = true;
 
+		}
+
+		string[] extensions;
+		private void LoadExtensions()
+		{
+			// Forward compatible context (GL 3.0+)
+			int num_extensions;
+			GL.GetInteger(GetPName.NumExtensions, out num_extensions);
+
+			extensions = new string[num_extensions];
+
+			for (int i = 0; i < num_extensions; i++)
+				extensions[i] = GL.GetString(StringName.Extensions, i).ToLowerInvariant();
+		}
+		private bool SupportsExtension(string name)
+		{
+			return extensions.Contains(name.ToLowerInvariant());
 		}
 
 		private static decimal DetectOpenGLVersion()
