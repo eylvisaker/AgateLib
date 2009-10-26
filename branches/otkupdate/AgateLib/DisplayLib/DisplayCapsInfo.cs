@@ -5,8 +5,15 @@ using System.Text;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Class which can be used to query information about what features are supported
+	/// by the display driver.
+	/// </summary>
 	public class DisplayCapsInfo
 	{
+		internal DisplayCapsInfo()
+		{ }
+
 		/// <summary>
 		/// Indicates whether or not full screen windows can be created.
 		/// </summary>
