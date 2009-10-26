@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.ImplementationBase;
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {

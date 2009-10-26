@@ -44,7 +44,7 @@ namespace AgateOTK
 		private static string GetOpenTKVersion(string opentk_version)
 		{
 
-			Assembly otkass = Assembly.GetAssembly(typeof(OpenTK.Graphics.GL));
+			Assembly otkass = Assembly.GetAssembly(typeof(OpenTK.Graphics.OpenGL.GL));
 			object[] attribs = otkass.GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
 			AssemblyFileVersionAttribute version = attribs[0] as AssemblyFileVersionAttribute;
 

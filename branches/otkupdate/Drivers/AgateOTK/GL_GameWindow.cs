@@ -27,6 +27,8 @@ using AgateLib.Geometry;
 
 using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
+using GL = OpenTK.Graphics.OpenGL.GL;
 
 namespace AgateOTK
 {
@@ -396,6 +398,7 @@ namespace AgateOTK
 			set
 			{
 				mWindow.Width = value.Width;
+				mWindow.Height = value.Height;
 			}
 		}
 

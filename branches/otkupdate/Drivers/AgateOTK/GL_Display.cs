@@ -412,11 +412,11 @@ namespace AgateOTK
 			}
 			else
 			{
-				mSupportsFramebuffer = OpenTK.Graphics.GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
-				mNonPowerOf2Textures = OpenTK.Graphics.GL.SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
+				mSupportsFramebuffer = ext.Contains("GL_EXT_FRAMEBUFFER_OBJECT");
+				mNonPowerOf2Textures = ext.Contains("GL_ARB_NON_POWER_OF_TWO");
 			}
 
-			if (OpenTK.Graphics.GL.SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
+			if (ext.Contains("GL_ARB_FRAGMENT_PROGRAM"))
 			{
 				mSupportsShaders = true;
 			}
