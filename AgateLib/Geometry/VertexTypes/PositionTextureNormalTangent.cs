@@ -27,5 +27,11 @@ namespace AgateLib.Geometry.VertexTypes
 				};
 			}
 		}
+
+		public override string ToString()
+		{
+			return string.Format(
+				"P:{0}  Tex:{1}  N:{2}  T:{3}", Position, Texture, Normal, Tangent);
+		}
 	}
 }
