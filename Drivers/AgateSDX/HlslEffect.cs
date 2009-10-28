@@ -52,6 +52,8 @@ namespace AgateSDX
 
 		public override void Render<T>(RenderHandler<T> handler, T obj)
 		{
+			Display.FlushDrawBuffer();
+
 			mDisplay.Effect = this;
 
 			int passcount = mEffect.Begin(SlimDX.Direct3D9.FX.None);
