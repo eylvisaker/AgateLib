@@ -275,7 +275,7 @@ namespace AgateLib.Geometry
 		public override string ToString()
 		{
 			return string.Format(System.Globalization.CultureInfo.CurrentCulture,
-				"{0}X={1},Y={2},Z={3}{4}", "{", X, Y, Z, "}");
+				"{{X={0},Y={1},Z={2}}}", X, Y, Z);
 		}
 
 		public static Vector3 FromPolar(int length, float theta, float phi)

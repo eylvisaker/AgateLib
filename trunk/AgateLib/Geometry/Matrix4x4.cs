@@ -78,6 +78,30 @@ namespace AgateLib.Geometry
 				0, 0, 1, 0,
 				0, 0, 0, 1);
 		}
+		public static Matrix4x4 ReflectX()
+		{
+			return new Matrix4x4(
+				-1,0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1);
+		}
+		public static Matrix4x4 ReflectY()
+		{
+			return new Matrix4x4(
+				1, 0, 0, 0,
+				0,-1, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1);
+		}
+		public static Matrix4x4 ReflectZ()
+		{
+			return new Matrix4x4(
+				1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0,-1, 0,
+				0, 0, 0, 1);
+		}
 		public static Matrix4x4 LookAt(Vector3 eye, Vector3 target, Vector3 up)
 		{
 			// equation from
@@ -93,11 +117,13 @@ namespace AgateLib.Geometry
 
 			Vector3 u = s.CrossProduct(f);
 
-			return new Matrix4x4(
+			Matrix4x4 retval = new Matrix4x4(
 				s.X, s.Y, s.Z, -s.DotProduct(eye),
 				u.X, u.Y, u.Z, -u.DotProduct(eye),
 				-f.X, -f.Y, -f.Z, f.DotProduct(eye),
 				0, 0, 0, 1);
+
+			return retval;
 		}
 		/// <summary>
 		/// Creates a projection matrix for perspective corrected views.
