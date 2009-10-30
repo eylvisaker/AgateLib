@@ -4325,6 +4325,16 @@ class BBX
         {
             // highscores file isn't there.. just return
             // and it will be saved.
+			highscores.Add(new CHighscore("Kanato", 500000));
+			highscores.Add(new CHighscore("Skel1", 400000));
+			highscores.Add(new CHighscore("Alison", 300000));
+			highscores.Add(new CHighscore("Dave", 200000));
+			highscores.Add(new CHighscore("John", 100000));
+			highscores.Add(new CHighscore("Larry", 50000));
+			highscores.Add(new CHighscore("Robert", 25000));
+			highscores.Add(new CHighscore("Brant", 10000));
+			highscores.Add(new CHighscore("Alexis", 5000));
+
             return;
         }
 

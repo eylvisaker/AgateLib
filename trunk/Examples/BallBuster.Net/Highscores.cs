@@ -30,10 +30,13 @@ class CHighscore : IComparable<CHighscore>
     {
         score = 0;
     }
+	public CHighscore(string name, int score)
+	{
+		this.name = name;
+		this.score = score;
+	}
     public CHighscore(string buffer)
     {
-
-
         int i;
         for (i = 0; i < buffer.Length; i++)
         {
