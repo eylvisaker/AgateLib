@@ -3,30 +3,30 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6C4E3198-7D6D-41E5-BFA2-AC28ADDAE2B6}</ProjectGuid>
+    <ProjectGuid>{49F8D445-EF44-46AA-93C0-E9C563B2074C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
     </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>AgateSDX</AssemblyName>
+    <AssemblyName>FontCreator</AssemblyName>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>
     </AppDesignerFolder>
-    <RootNamespace>AgateSDX</RootNamespace>
+    <RootNamespace>FontCreator</RootNamespace>
     <StartupObject>
     </StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
@@ -37,7 +37,7 @@
     <DebugSymbols>True</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\Binaries\Debug\Drivers\</OutputPath>
+    <OutputPath>..\..\Binaries\Debug\Tools\FontCreator\</OutputPath>
     <RegisterForComInterop>False</RegisterForComInterop>
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
@@ -46,7 +46,7 @@
     </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
@@ -57,7 +57,7 @@
     <DebugSymbols>False</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\Binaries\Release\Drivers\</OutputPath>
+    <OutputPath>..\..\Binaries\Release\Tools\FontCreator\</OutputPath>
     <RegisterForComInterop>False</RegisterForComInterop>
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
@@ -66,9 +66,6 @@
     </NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SlimDX">
-      <Name>SlimDX</Name>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -89,78 +86,105 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="D3DDevice.cs">
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Name>AgateLib</Name>
+      <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
+      <Name>AgateLib.WinForms</Name>
+      <Project>{2E6579F9-1F70-4DF9-98A9-22687425A830}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="CreateFont.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CreateFont.Designer.cs">
+      <DependentUpon>CreateFont.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DrawBuffer.cs">
+    <Compile Include="EditGlyphs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditGlyphs.Designer.cs">
+      <DependentUpon>EditGlyphs.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EffectParameter.cs">
+    <Compile Include="FontCreator.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="frmFullScreen.cs">
+    <Compile Include="FontCreatorProgram.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="frmFontCreator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmFullScreen.Designer.cs">
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
+    <Compile Include="frmFontCreator.Designer.cs">
+      <DependentUpon>frmFontCreator.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HlslCompiler.cs">
+    <Compile Include="frmWarningSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWarningSplash.Designer.cs">
+      <DependentUpon>frmWarningSplash.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HlslEffect.cs">
-      <SubType>Code</SubType>
+    <Compile Include="SaveFont.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Reporter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Audio.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Display.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_DisplayWindow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Effect.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_IndexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Input.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_IRenderTarget.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Surface.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_VertexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="VertexFormats.cs">
+    <Compile Include="SaveFont.Designer.cs">
+      <DependentUpon>SaveFont.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="frmFullScreen.resx">
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <DependentUpon>Settings.settings</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="CreateFont.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
+      <DependentUpon>CreateFont.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
-      <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{2E6579F9-1F70-4DF9-98A9-22687425A830}</Project>
-      <Name>AgateLib.WinForms</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="EditGlyphs.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditGlyphs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFontCreator.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmFontCreator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWarningSplash.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmWarningSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaveFont.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SaveFont.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="images\bgdark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="images\bglight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>

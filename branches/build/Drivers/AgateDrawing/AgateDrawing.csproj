@@ -3,14 +3,14 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6C4E3198-7D6D-41E5-BFA2-AC28ADDAE2B6}</ProjectGuid>
+    <ProjectGuid>{AAC01466-7370-4464-B1AD-1593A3A3BEC1}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
     </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>AgateSDX</AssemblyName>
+    <AssemblyName>AgateDrawing</AssemblyName>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -19,14 +19,14 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>
     </AppDesignerFolder>
-    <RootNamespace>AgateSDX</RootNamespace>
+    <RootNamespace>AgateDrawing</RootNamespace>
     <StartupObject>
     </StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
@@ -46,7 +46,7 @@
     </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
@@ -66,9 +66,6 @@
     </NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SlimDX">
-      <Name>SlimDX</Name>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -89,68 +86,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="D3DDevice.cs">
+    <Compile Include="Drawing_Display.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DrawBuffer.cs">
+    <Compile Include="Drawing_DisplayWindow.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EffectParameter.cs">
+    <Compile Include="Drawing_FontSurface.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="frmFullScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmFullScreen.Designer.cs">
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
+    <Compile Include="Drawing_IRenderTarget.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HlslCompiler.cs">
+    <Compile Include="Drawing_Reporter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HlslEffect.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Reporter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Audio.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Display.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_DisplayWindow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Effect.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_IndexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Input.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_IRenderTarget.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Surface.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_VertexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="VertexFormats.cs">
+    <Compile Include="Drawing_Surface.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="frmFullScreen.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">

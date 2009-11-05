@@ -1,0 +1,462 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CCA60063-264F-4B62-9B5D-45B9D0E3D6D8}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Tests</AssemblyName>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>
+    </AppDesignerFolder>
+    <RootNamespace>Tests</RootNamespace>
+    <StartupObject>Tests.Launcher</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>True</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Binaries\Debug\Tests\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>False</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>True</Optimize>
+    <OutputPath>..\Binaries\Release\Tests\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <Name>System.Core</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.Xml</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AgateTestAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="frmLauncher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLauncher.Designer.cs">
+      <DependentUpon>frmLauncher.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IAgateTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Launcher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AudioTests\AudioPlayer\AudioPlayer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AudioTests\AudioPlayer\frmAudioPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AudioTests\AudioPlayer\frmAudioPlayer.Designer.cs">
+      <DependentUpon>frmAudioPlayer.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CoreTests\App.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CoreTests\RefCounters.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CoreTests\Resources.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CoreTests\TgzProviderTester.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CoreTests\ZipProviderTester.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CoreTests\ErrorReport\ErrorReport.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CoreTests\ErrorReport\frmErrorReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CoreTests\ErrorReport\frmErrorReport.Designer.cs">
+      <DependentUpon>frmErrorReport.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CoreTests\Performance\frmPerformance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CoreTests\Performance\frmPerformance.Designer.cs">
+      <DependentUpon>frmPerformance.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CoreTests\Performance\Performance.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CoreTests\Timers\frmTimers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CoreTests\Timers\frmTimers.Designer.cs">
+      <DependentUpon>frmTimers.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CoreTests\Timers\Timers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\BasicSprite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\FullScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\Interpolation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\Ortho.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\RotatingSpriteTester.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\ScreenCapture.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\Tiling.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\BasicDrawing\BasicDrawing.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\BasicDrawing\DrawingTester.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\BasicDrawing\DrawingTester.Designer.cs">
+      <DependentUpon>DrawingTester.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\MultipleWindows\MultipleRenderTargetExample.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\MultipleWindows\MultipleRenderTargetExample.Designer.cs">
+      <DependentUpon>MultipleRenderTargetExample.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\MultipleWindows\MultipleWindowTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\ParticleTests\ParticleTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\PixelBufferTest\PixelBufferForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\PixelBufferTest\PixelBufferForm.Designer.cs">
+      <DependentUpon>PixelBufferForm.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\PixelBufferTest\PixelBufferTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\RenderStates\frmRenderStateTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\RenderStates\frmRenderStateTest.Designer.cs">
+      <DependentUpon>frmRenderStateTest.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\RenderStates\RenderStates.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\SpriteTester\frmChooseSprite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\SpriteTester\frmChooseSprite.Designer.cs">
+      <DependentUpon>frmChooseSprite.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\SpriteTester\frmSpriteTester.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\SpriteTester\frmSpriteTester.Designer.cs">
+      <DependentUpon>frmSpriteTester.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\SpriteTester\SpriteTester.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\SurfaceTester\frmSurfaceTester.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\SurfaceTester\frmSurfaceTester.Designer.cs">
+      <DependentUpon>frmSurfaceTester.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\SurfaceTester\SurfaceTester.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\TestPacker\frmTestPacker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\TestPacker\frmTestPacker.Designer.cs">
+      <DependentUpon>frmTestPacker.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\TestPacker\TestPacker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\TileTester\frmTileTester.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\TileTester\frmTileTester.Designer.cs">
+      <DependentUpon>frmTileTester.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\TileTester\TileTester.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\BitmapFonts.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\FontLineTester.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\Fonts.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\TextLayout.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputTests\Input\frmInputTester.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputTests\Input\frmInputTester.Designer.cs">
+      <DependentUpon>frmInputTester.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputTests\Input\InputTester.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputTests\InputState\InputStateTester.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Shaders\Hlsl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Shaders\LightingTest\LightingTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Shaders\LightingTest\LightingTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Shaders\LightingTest\LightingTestForm.Designer.cs">
+      <DependentUpon>LightingTestForm.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinFormsTests\Converters.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="frmLauncher.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmLauncher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AudioTests\AudioPlayer\frmAudioPlayer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmAudioPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CoreTests\ErrorReport\frmErrorReport.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmErrorReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CoreTests\Performance\frmPerformance.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPerformance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CoreTests\Timers\frmTimers.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmTimers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayTests\BasicDrawing\DrawingTester.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DrawingTester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayTests\MultipleWindows\MultipleRenderTargetExample.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MultipleRenderTargetExample.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayTests\PixelBufferTest\PixelBufferForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PixelBufferForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayTests\RenderStates\frmRenderStateTest.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmRenderStateTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayTests\SpriteTester\frmChooseSprite.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmChooseSprite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayTests\SpriteTester\frmSpriteTester.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmSpriteTester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayTests\SurfaceTester\frmSurfaceTester.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmSurfaceTester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayTests\TestPacker\frmTestPacker.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmTestPacker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayTests\TileTester\frmTileTester.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmTileTester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputTests\Input\frmInputTester.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmInputTester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shaders\LightingTest\LightingTestForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LightingTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Data\9ball.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\attacke.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\ball.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\bg-bricks-heightmap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\bg-bricks.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\boxsprite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\dogs.tar.gz">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\dogs.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\jellybean.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\lotafont.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\smoke.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\smoke2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\spike.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\TestResourceFile.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\wallpaper.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\fonts\sample_font.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\shaders\glsl\BumpMap_fragment.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\shaders\glsl\BumpMap_vertex.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\shaders\glsl\PerPixelLighting_fragment.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\shaders\glsl\PerPixelLighting_vertex.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\shaders\hlsl\Lighting.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\shaders\hlsl\PerPixelLighting.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AgateLib\AgateLib.csproj">
+      <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
+      <Name>AgateLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
+      <Project>{2E6579F9-1F70-4DF9-98A9-22687425A830}</Project>
+      <Name>AgateLib.WinForms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
