@@ -16,24 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateFMOD", "Drivers\AgateF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{0CE8B58F-922D-40A6-92E6-2F6913A97049}"
 	ProjectSection(SolutionItems) = preProject
-		Projects\AgateDrawing.proj.xml = Projects\AgateDrawing.proj.xml
-		Projects\AgateFMOD.proj.xml = Projects\AgateFMOD.proj.xml
-		AgateLib-Windows.xml = AgateLib-Windows.xml
-		Projects\AgateLib.proj.xml = Projects\AgateLib.proj.xml
-		Projects\AgateLib.WinForms.proj.xml = Projects\AgateLib.WinForms.proj.xml
-		AgateLib.xml = AgateLib.xml
-		Projects\AgateOTK.proj.xml = Projects\AgateOTK.proj.xml
-		Projects\AgateSDL.proj.xml = Projects\AgateSDL.proj.xml
-		Projects\AgateSDX.proj.xml = Projects\AgateSDX.proj.xml
-		AgateTools.xml = AgateTools.xml
 		ChangeLog.txt = ChangeLog.txt
-		Projects\Tools\FontCreator.proj.xml = Projects\Tools\FontCreator.proj.xml
-		Projects\Tools\NotebookLib.proj.xml = Projects\Tools\NotebookLib.proj.xml
-		Projects\Tools\PackedSpriteCreator.proj.xml = Projects\Tools\PackedSpriteCreator.proj.xml
 		ReleaseNotes.txt = ReleaseNotes.txt
-		Projects\Tools\ResourceEditor.proj.xml = Projects\Tools\ResourceEditor.proj.xml
-		SolutionItems.xml = SolutionItems.xml
-		Projects\Tests.proj.xml = Projects\Tests.proj.xml
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
