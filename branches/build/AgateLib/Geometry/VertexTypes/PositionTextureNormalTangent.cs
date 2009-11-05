@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+
+namespace AgateLib.Geometry.VertexTypes
+{
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct PositionTextureNormalTangent
+	{
+		public Vector3 Position;
+		public Vector2 Texture;
+		public Vector3 Normal;
+		public Vector3 Tangent;
+
+		public static VertexLayout VertexLayout
+		{
+			get
+			{
+				return new VertexLayout 
+				{ 
+					new VertexElementDesc(VertexElementDataType.Float3, VertexElement.Position),
+					new VertexElementDesc(VertexElementDataType.Float2, VertexElement.Texture),
+					new VertexElementDesc(VertexElementDataType.Float3, VertexElement.Normal),
+					new VertexElementDesc(VertexElementDataType.Float3, VertexElement.Tangent),
+				};
+			}
+		}
+
+		public override string ToString()
+		{
+			return string.Format(
+				"P:{0}  Tex:{1}  N:{2}  T:{3}", Position, Texture, Normal, Tangent);
+		}
+	}
+}
