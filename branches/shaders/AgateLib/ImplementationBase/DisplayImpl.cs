@@ -23,6 +23,7 @@ using System.Text;
 using AgateLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
+using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
@@ -592,13 +593,6 @@ namespace AgateLib.ImplementationBase
 		}
 
 		/// <summary>
-		/// Override to return an object implementing IPlatformServices.  This object will provide
-		/// basic services that are not available in the .NET platform (high precision timing, etc.)
-		/// </summary>
-		/// <returns></returns>
-		protected internal abstract AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices();
-
-		/// <summary>
 		/// Makes the OS mouse pointer visible.
 		/// </summary>
 		protected internal abstract void ShowCursor();
@@ -650,11 +644,15 @@ namespace AgateLib.ImplementationBase
 			get { throw new NotSupportedException("The current driver does not support shaders."); }
 			set { throw new NotSupportedException("The current driver does not support shaders."); }
 		}
-
+		public virtual AgateShader Shader
+		{
+			get { throw new NotSupportedException("The current driver does not support shaders."); }
+			set { throw new NotSupportedException("The current driver does not support shaders."); }
+		}
 
 		protected void InitializeShaders()
 		{
-			if (Display.Caps.SupportsShaders)
+			if (Display.Caps.SupportsCustomShaders)
 			{
 				ShaderCompiler.Initialize(CreateShaderCompiler());
 			}
@@ -666,5 +664,18 @@ namespace AgateLib.ImplementationBase
 
 		protected internal abstract bool GetRenderState(RenderStateBool renderStateBool);
 		protected internal abstract void SetRenderState(RenderStateBool renderStateBool, bool value);
+
+		/// <summary>
+		/// Creates one of the build in shaders in AgateLib.  Implementers should 
+		/// return null for any built in shader that is not supported.
+		/// Basic2DShader must have an implementation, but any other shader can be unsupported.
+		/// </summary>
+		/// <param name="BuiltInShaderType"></param>
+		/// <returns></returns>
+		protected internal virtual AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
+		{
+			// TODO: make this abstract.
+			return null;
+		}
 	}
 }

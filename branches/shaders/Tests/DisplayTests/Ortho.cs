@@ -9,7 +9,7 @@ using AgateLib.InputLib;
 
 namespace Tests.OrthoProjectionTest
 {
-	class Ortho
+	class Ortho : IAgateTest 
 	{
 		int ortho = 0;
 		DisplayWindow wind;

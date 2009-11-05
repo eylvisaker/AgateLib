@@ -1,4 +1,4 @@
-//     The contents of this file are subject to the Mozilla Public License
+﻿//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -18,14 +18,13 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Linq;
 using System.Text;
-using AgateLib.ImplementationBase;
 
-namespace AgateDrawing
+namespace AgateLib.DisplayLib.Shaders.Implementation
 {
-	public interface Drawing_IRenderTarget : IRenderTargetImpl
+	public enum BuiltInShader
 	{
-		Bitmap BackBuffer { get; }
+		Basic2DShader,
 	}
 }

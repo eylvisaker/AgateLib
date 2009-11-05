@@ -24,7 +24,6 @@ using System.Text;
 
 using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
-using AgateLib.PlatformSpecific;
 
 namespace AgateLib
 {
@@ -90,6 +89,7 @@ namespace AgateLib
 		private static bool mAutoPause = false;
 		private static bool mIsActive = true;
 		private static bool mInititalized = false;
+		private static Platform mPlatform;
 
 		#region --- Error Reporting ---
 
@@ -296,7 +296,6 @@ namespace AgateLib
 
 		static Core()
 		{
-
 		}
 		/// <summary>
 		/// Initializes Core class.
@@ -307,13 +306,13 @@ namespace AgateLib
 			if (mInititalized)
 				return;
 
+			mPlatform = new Platform();
 			Drivers.Registrar.Initialize();
 
 			Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
 			mInititalized = true;
 		}
-
 
 		/// <summary>
 		/// Gets or sets a bool value which indicates whether or not your
@@ -412,5 +411,7 @@ namespace AgateLib
 		{
 			return mTime.ElapsedMilliseconds;
 		}
+
+
 	}
 }

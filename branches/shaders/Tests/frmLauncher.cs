@@ -37,10 +37,10 @@ namespace Tests
 		{
 			tests.Sort((x, y) =>
 			{
-				if (x.Class == y.Class)
-					return x.Name.CompareTo(y.Name);
-				else
+				if (x.Category != y.Category)
 					return x.Category.CompareTo(y.Category);
+				else
+					return x.Name.CompareTo(y.Name);
 			});
 
 			string lastCategory = null;
@@ -149,7 +149,7 @@ namespace Tests
 				size.Width += indent + 5;
 
 				if (lstTests.ColumnWidth < size.Width)
-					lstTests.ColumnWidth = (int) size.Width;
+					lstTests.ColumnWidth = (int)size.Width;
 			}
 
 			e.DrawFocusRectangle();

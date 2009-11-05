@@ -94,6 +94,8 @@ namespace AgateLib.DisplayLib
 			impl.Initialize();
 
 			mSurfacePacker = new SurfacePacker();
+
+			Shaders.AgateBuiltInShaders.InitializeShaders();
 		}
 
 		public static RenderStateAdapter RenderState
@@ -117,6 +119,8 @@ namespace AgateLib.DisplayLib
 				impl.Dispose();
 				impl = null;
 			}
+
+			Shaders.AgateBuiltInShaders.DisposeShaders();
 		}
 
 		internal static void ProcessEvents()
@@ -137,10 +141,17 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
+		[Obsolete]
 		public static Shaders.Effect Effect
 		{
-			get { return impl.Effect; }
-			set { impl.Effect = value; }
+			get { throw new Exception(); }
+			set { throw new Exception(); }
+		}
+
+		public static Shaders.AgateShader Shader
+		{
+			get { return impl.Shader; }
+			internal set { impl.Shader = value; }
 		}
 
 		/// <summary>
@@ -448,13 +459,10 @@ namespace AgateLib.DisplayLib
 		/// <param name="top"></param>
 		/// <param name="right"></param>
 		/// <param name="bottom"></param>
+		[Obsolete]
 		public static void SetOrthoProjection(int left, int top, int right, int bottom)
 		{
 			SetOrthoProjection(Rectangle.FromLTRB(left, top, right, bottom));
-		}
-		public static Matrix4x4 GetOrthoProjection()
-		{
-			return Matrix4x4.Ortho(RectangleF.FromLTRB(0, 0, RenderTarget.Width, RenderTarget.Height), -1, 1);
 		}
 
 		/// <summary>
@@ -472,6 +480,7 @@ namespace AgateLib.DisplayLib
 		/// the entire window.</para>
 		/// </remarks>
 		/// <param name="region"></param>
+		[Obsolete("Use a shader instead.")]
 		public static void SetOrthoProjection(Rectangle region)
 		{
 			impl.SetOrthoProjection(region);
@@ -683,11 +692,6 @@ namespace AgateLib.DisplayLib
 			impl.SavePixelBuffer(pixelBuffer, filename, format);
 		}
 
-		internal static AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
-		{
-			return impl.GetPlatformServices();
-		}
-
 		internal static void HideCursor()
 		{
 			impl.HideCursor();
@@ -697,6 +701,7 @@ namespace AgateLib.DisplayLib
 		{
 			impl.ShowCursor();
 		}
+
 	}
 
 }

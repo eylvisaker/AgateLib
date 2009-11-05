@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3F2BD363-E2D6-4B62-8D57-7727142D6B82}</ProjectGuid>
+    <ProjectGuid>{9E095F03-BA3F-4EAD-A905-2A2647CE4405}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -94,6 +94,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Name>AgateLib</Name>
+      <Project>{1539806E-2473-4D67-9D10-F2CDC8C2B874}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
+      <Name>AgateLib.WinForms</Name>
+      <Project>{16139F84-99AE-4EDD-A9DA-282C05BA9C82}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="OpenTK.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -171,16 +183,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmFullScreen.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
-      <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{2E6579F9-1F70-4DF9-98A9-22687425A830}</Project>
-      <Name>AgateLib.WinForms</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>

@@ -23,11 +23,14 @@ using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
 
+using AgateLib;
+using AgateLib.DisplayLib;
 using AgateLib.ImplementationBase;
 using AgateLib.InputLib;
 using AgateLib.WinForms;
+using Geometry = AgateLib.Geometry;
 
-namespace AgateLib.DisplayLib.SystemDrawing
+namespace AgateDrawing
 {
 	class Drawing_DisplayWindow : DisplayWindowImpl, Drawing_IRenderTarget
 	{
@@ -54,7 +57,7 @@ namespace AgateLib.DisplayLib.SystemDrawing
 			}
 			else
 			{
-				WinForms.FormUtil.InitializeWindowsForm(out frm, out mRenderTarget, windowParams.WindowPosition, windowParams.Title,
+				AgateLib.WinForms.FormUtil.InitializeWindowsForm(out frm, out mRenderTarget, windowParams.WindowPosition, windowParams.Title,
 					windowParams.Width, windowParams.Height, windowParams.IsFullScreen, windowParams.IsResizable,
 					windowParams.HasFrame);
 

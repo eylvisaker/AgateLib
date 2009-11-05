@@ -36,7 +36,7 @@ using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
 
 namespace AgateSDX
 {
-	public class SDX_Display : DisplayImpl, AgateLib.PlatformSpecific.IPlatformServices
+	public class SDX_Display : DisplayImpl
 	{
 		#region --- Private Variables ---
 
@@ -892,7 +892,7 @@ namespace AgateSDX
 				case DisplayBoolCaps.IsHardwareAccelerated: return true;
 				case DisplayBoolCaps.FullScreen: return true;
 				case DisplayBoolCaps.FullScreenModeSwitching: return true;
-				case DisplayBoolCaps.Shaders: return true;
+				case DisplayBoolCaps.CustomShaders: return true;
 				case DisplayBoolCaps.CanCreateBitmapFont: return true;
 			}
 
@@ -998,19 +998,6 @@ namespace AgateSDX
 		Matrix GetTotalTransform()
 		{
 			return TransformAgateMatrix(MatrixProjection * MatrixView * MatrixWorld);
-		}
-
-		#endregion
-
-		#region --- IPlatformServices Members ---
-
-		protected override AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
-		{
-			return this;
-		}
-		AgateLib.Utility.PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
-		{
-			get { return AgateLib.Utility.PlatformType.Windows; }
 		}
 
 		#endregion

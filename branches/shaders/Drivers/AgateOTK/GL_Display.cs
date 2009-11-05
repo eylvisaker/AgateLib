@@ -33,7 +33,7 @@ using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
 namespace AgateOTK
 {
-	public sealed class GL_Display : DisplayImpl, AgateLib.PlatformSpecific.IPlatformServices
+	public sealed class GL_Display : DisplayImpl
 	{
 		GL_IRenderTarget mRenderTarget;
 		GLState mState;
@@ -579,7 +579,7 @@ namespace AgateOTK
 
 		protected override ShaderCompilerImpl CreateShaderCompiler()
 		{
-			if (this.Caps.SupportsShaders)
+			if (this.Caps.SupportsCustomShaders)
 			{
 				if (mGLVersion < 2.0m)
 					return new ArbShaderCompiler();
@@ -634,7 +634,7 @@ namespace AgateOTK
 				case DisplayBoolCaps.IsHardwareAccelerated: return true;
 				case DisplayBoolCaps.FullScreen: return true;
 				case DisplayBoolCaps.FullScreenModeSwitching: return true;
-				case DisplayBoolCaps.Shaders: return false;
+				case DisplayBoolCaps.CustomShaders: return false;
 				case DisplayBoolCaps.CanCreateBitmapFont: return true;
 			}
 
@@ -646,91 +646,6 @@ namespace AgateOTK
 			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.Glsl; }
 		}
 
-
-		#endregion
-		#region --- IPlatformServices Members ---
-
-		protected override AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
-		{
-			return this;
-		}
-		AgateLib.Utility.PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
-		{
-			get
-			{
-				switch (Environment.OSVersion.Platform)
-				{
-					case PlatformID.WinCE:
-					case PlatformID.Win32NT:
-					case PlatformID.Win32S:
-					case PlatformID.Win32Windows:
-						return AgateLib.Utility.PlatformType.Windows;
-
-					case PlatformID.Unix:
-						string kernel = DetectUnixKernel();
-
-						if (kernel == "Darwin")
-							return AgateLib.Utility.PlatformType.MacOS;
-						else
-							return AgateLib.Utility.PlatformType.Linux;
-				}
-
-				return AgateLib.Utility.PlatformType.Unknown;
-			}
-		}
-
-		#region private static string DetectUnixKernel()
-
-		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-		struct utsname
-		{
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-			public string sysname;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-			public string nodename;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-			public string release;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-			public string version;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-			public string machine;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
-			public string extraJustInCase;
-
-		}
-
-		/// <summary>
-		/// Detects the unix kernel by p/invoking the uname call in libc.
-		/// </summary>
-		/// <returns></returns>
-		private static string DetectUnixKernel()
-		{
-			Debug.Print("Size: {0}", Marshal.SizeOf(typeof(utsname)).ToString());
-			Debug.Flush();
-			utsname uts = new utsname();
-			uname(out uts);
-
-			Debug.WriteLine("System:");
-			Debug.Indent();
-			Debug.WriteLine(uts.sysname);
-			Debug.WriteLine(uts.nodename);
-			Debug.WriteLine(uts.release);
-			Debug.WriteLine(uts.version);
-			Debug.WriteLine(uts.machine);
-			Debug.Unindent();
-
-			return uts.sysname.ToString();
-		}
-
-		[DllImport("libc")]
-		private static extern void uname(out utsname uname_struct);
-
-		#endregion
 
 		#endregion
 

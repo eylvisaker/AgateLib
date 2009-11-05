@@ -94,9 +94,9 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Indicates whether or not vertex/pixel shaders are supported.
 		/// </summary>
-		public bool SupportsShaders
+		public bool SupportsCustomShaders
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.Shaders); }
+			get { return Display.Impl.Supports(DisplayBoolCaps.CustomShaders); }
 		}
 		/// <summary>
 		/// Indicates which shader language is supported.
@@ -166,7 +166,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Indicates whether or not vertex/pixel shaders are supported.
 		/// </summary>
-		Shaders,
+		CustomShaders,
 		/// <summary>
 		/// Indicates whether the driver can create a bitmap font from an operating
 		/// system font.

@@ -29,7 +29,7 @@ namespace Tests.LightingTest
 				if (setup.WasCanceled)
 					return;
 
-				if (Display.Caps.SupportsShaders == false)
+				if (Display.Caps.SupportsCustomShaders == false)
 				{
 					MessageBox.Show("You must have a driver that supports shaders.", "Lighting Test");
 					return;
@@ -91,7 +91,7 @@ namespace Tests.LightingTest
 
 					//lights.Enabled = frm.enableLightingCheck.Checked;
 					//lights.DoLighting();
-					fx.SetVariable("worldViewProj", Display.GetOrthoProjection());
+					fx.SetVariable("worldViewProj", wnd.OrthoProjection);
 
 					if (frm.enableShader.Checked)
 					{

@@ -1,4 +1,4 @@
-//     The contents of this file are subject to the Mozilla Public License
+﻿//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -18,14 +18,20 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Linq;
 using System.Text;
-using AgateLib.ImplementationBase;
 
-namespace AgateDrawing
+namespace AgateLib.DisplayLib.Shaders
 {
-	public interface Drawing_IRenderTarget : IRenderTargetImpl
+	[global::System.Serializable]
+	public class AgateShaderCompilerException : Exception
 	{
-		Bitmap BackBuffer { get; }
+		public AgateShaderCompilerException() { }
+		public AgateShaderCompilerException(string message) : base(message) { }
+		public AgateShaderCompilerException(string message, Exception inner) : base(message, inner) { }
+		protected AgateShaderCompilerException(
+		  System.Runtime.Serialization.SerializationInfo info,
+		  System.Runtime.Serialization.StreamingContext context)
+			: base(info, context) { }
 	}
 }

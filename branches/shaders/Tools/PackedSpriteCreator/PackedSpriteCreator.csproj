@@ -1,13 +1,12 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{674650F4-8E72-4DD2-8E5C-1FF858C7B5E4}</ProjectGuid>
+    <ProjectGuid>{C653C244-F604-4BA4-8822-D04FA9ACEFA5}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon></ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>PackedSpriteCreator</AssemblyName>
@@ -17,11 +16,9 @@
     <DelaySign>false</DelaySign>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>
-    </AppDesignerFolder>
+    <AppDesignerFolder></AppDesignerFolder>
     <RootNamespace>PackedSpriteCreator</RootNamespace>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject></StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
   </PropertyGroup>
@@ -32,8 +29,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>DEBUG;TRACE;</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile></DocumentationFile>
     <DebugSymbols>True</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>False</Optimize>
@@ -42,8 +38,7 @@
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn></NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
@@ -52,8 +47,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>TRACE;</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile></DocumentationFile>
     <DebugSymbols>False</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>True</Optimize>
@@ -62,43 +56,59 @@
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn></NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
-      <Name>System</Name>
+        <Name>System</Name>
     </Reference>
     <Reference Include="System.Core">
-      <Name>System.Core</Name>
+        <Name>System.Core</Name>
     </Reference>
     <Reference Include="System.Data">
-      <Name>System.Data</Name>
+        <Name>System.Data</Name>
     </Reference>
     <Reference Include="System.Drawing">
-      <Name>System.Drawing</Name>
+        <Name>System.Drawing</Name>
     </Reference>
     <Reference Include="System.Windows.Forms">
-      <Name>System.Windows.Forms</Name>
+        <Name>System.Windows.Forms</Name>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Name>AgateLib</Name>
+      <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Drivers\AgateDrawing\AgateDrawing.csproj">
+      <Name>AgateDrawing</Name>
+      <Project>{164A785D-924E-40FB-A517-D7E677F3B53A}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
+      <Name>AgateLib.WinForms</Name>
+      <Project>{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="frmAddSpriteFrames.cs">
-      <SubType>Form</SubType>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="frmAddSpriteFrames.Designer.cs">
       <DependentUpon>frmAddSpriteFrames.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="frmNewSprite.cs">
-      <SubType>Form</SubType>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="frmNewSprite.Designer.cs">
       <DependentUpon>frmNewSprite.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="frmSpriteCreator.cs">
-      <SubType>Form</SubType>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="frmSpriteCreator.Designer.cs">
       <DependentUpon>frmSpriteCreator.cs</DependentUpon>
@@ -111,7 +121,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SpriteEditor.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="SpriteEditor.Designer.cs">
       <DependentUpon>SpriteEditor.cs</DependentUpon>
@@ -154,20 +164,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
-      <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateDrawing\AgateDrawing.csproj">
-      <Project>{AAC01466-7370-4464-B1AD-1593A3A3BEC1}</Project>
-      <Name>AgateDrawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{2E6579F9-1F70-4DF9-98A9-22687425A830}</Project>
-      <Name>AgateLib.WinForms</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>

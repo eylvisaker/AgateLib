@@ -1,4 +1,4 @@
-//     The contents of this file are subject to the Mozilla Public License
+﻿//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -18,14 +18,25 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Linq;
 using System.Text;
-using AgateLib.ImplementationBase;
+using AgateLib.Geometry;
 
-namespace AgateDrawing
+namespace AgateLib.DisplayLib.Shaders.Implementation
 {
-	public interface Drawing_IRenderTarget : IRenderTargetImpl
+	public abstract class AgateShaderImpl
 	{
-		Bitmap BackBuffer { get; }
+		public abstract void SetTexture(EffectTexture tex, string variableName);
+		public abstract void SetVariable(string name, params float[] v);
+		public abstract void SetVariable(string name, params int[] v);
+		public abstract void SetVariable(string name, Matrix4x4 matrix);
+		public abstract void SetVariable(string name, Color color);
+
+		public abstract int Passes { get; }
+
+		public abstract void Begin();
+		public abstract void BeginPass(int passIndex);
+		public abstract void EndPass();
+		public abstract void End();
 	}
 }

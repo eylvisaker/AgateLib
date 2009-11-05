@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AAC01466-7370-4464-B1AD-1593A3A3BEC1}</ProjectGuid>
+    <ProjectGuid>{164A785D-924E-40FB-A517-D7E677F3B53A}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -86,6 +86,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrawingBasic2DShader.cs" />
     <Compile Include="Drawing_Display.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -110,11 +111,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
+      <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{2E6579F9-1F70-4DF9-98A9-22687425A830}</Project>
+      <Project>{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}</Project>
       <Name>AgateLib.WinForms</Name>
     </ProjectReference>
   </ItemGroup>
