@@ -3,14 +3,14 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6C4E3198-7D6D-41E5-BFA2-AC28ADDAE2B6}</ProjectGuid>
+    <ProjectGuid>{3F2BD363-E2D6-4B62-8D57-7727142D6B82}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
     </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>AgateSDX</AssemblyName>
+    <AssemblyName>AgateOTK</AssemblyName>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -19,7 +19,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>
     </AppDesignerFolder>
-    <RootNamespace>AgateSDX</RootNamespace>
+    <RootNamespace>AgateOTK</RootNamespace>
     <StartupObject>
     </StartupObject>
     <FileUpgradeFlags>
@@ -66,8 +66,13 @@
     </NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SlimDX">
-      <Name>SlimDX</Name>
+    <Reference Include="OpenTK">
+      <Name>OpenTK</Name>
+      <HintPath>.\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Utilities">
+      <Name>OpenTK.Utilities</Name>
+      <HintPath>.\OpenTK.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -81,21 +86,27 @@
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
-    <Reference Include="System.Windows.Forms">
-      <Name>System.Windows.Forms</Name>
-    </Reference>
     <Reference Include="System.Xml">
       <Name>System.Xml</Name>
     </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="D3DDevice.cs">
+    <None Include="OpenTK.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenTK.Utilities.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Compile Include="AL_Audio.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DrawBuffer.cs">
+    <Compile Include="ArbShader.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EffectParameter.cs">
+    <Compile Include="ArbShaderCompiler.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="frmFullScreen.cs">
@@ -105,43 +116,52 @@
       <DependentUpon>frmFullScreen.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HlslCompiler.cs">
+    <Compile Include="GLDrawBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HlslEffect.cs">
+    <Compile Include="GlslFragmentProgram.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Reporter.cs">
+    <Compile Include="GlslShader.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Audio.cs">
+    <Compile Include="GlslShaderCompiler.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Display.cs">
+    <Compile Include="GlslVertexProgram.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_DisplayWindow.cs">
+    <Compile Include="GLState.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Effect.cs">
+    <Compile Include="GL_Display.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_IndexBuffer.cs">
+    <Compile Include="GL_DisplayControl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Input.cs">
+    <Compile Include="GL_GameWindow.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_IRenderTarget.cs">
+    <Compile Include="GL_IndexBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Surface.cs">
+    <Compile Include="GL_IRenderTarget.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_VertexBuffer.cs">
+    <Compile Include="GL_Surface.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="VertexFormats.cs">
+    <Compile Include="GL_VertexBuffer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OtkShader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Otk_Reporter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TextureCoordinates.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">

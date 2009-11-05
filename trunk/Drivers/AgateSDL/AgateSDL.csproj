@@ -3,14 +3,14 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6C4E3198-7D6D-41E5-BFA2-AC28ADDAE2B6}</ProjectGuid>
+    <ProjectGuid>{6ED4F92F-7C1F-478C-9AA1-938F47B68F22}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
     </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>AgateSDX</AssemblyName>
+    <AssemblyName>AgateSDL</AssemblyName>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -19,7 +19,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>
     </AppDesignerFolder>
-    <RootNamespace>AgateSDX</RootNamespace>
+    <RootNamespace>AgateSDL</RootNamespace>
     <StartupObject>
     </StartupObject>
     <FileUpgradeFlags>
@@ -66,8 +66,9 @@
     </NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SlimDX">
-      <Name>SlimDX</Name>
+    <Reference Include="Tao.Sdl">
+      <Name>Tao.Sdl</Name>
+      <HintPath>.\Tao.Sdl.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -75,91 +76,61 @@
     <Reference Include="System.Core">
       <Name>System.Core</Name>
     </Reference>
-    <Reference Include="System.Data">
-      <Name>System.Data</Name>
-    </Reference>
-    <Reference Include="System.Drawing">
-      <Name>System.Drawing</Name>
-    </Reference>
-    <Reference Include="System.Windows.Forms">
-      <Name>System.Windows.Forms</Name>
-    </Reference>
     <Reference Include="System.Xml">
       <Name>System.Xml</Name>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="D3DDevice.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DrawBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="EffectParameter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="frmFullScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmFullScreen.Designer.cs">
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="HlslCompiler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="HlslEffect.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Reporter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Audio.cs">
+    <Compile Include="Audio\SDL_Audio.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Display.cs">
+    <Compile Include="Audio\SDL_Music.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_DisplayWindow.cs">
+    <Compile Include="Audio\SDL_SoundBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Effect.cs">
+    <Compile Include="Audio\SDL_SoundBufferSession.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_IndexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Input.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_IRenderTarget.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Surface.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_VertexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="VertexFormats.cs">
+    <Compile Include="Input\SDL_Input.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="frmFullScreen.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="Tao.Sdl.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Tao.Sdl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SDL.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SDL_mixer.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="libogg-0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="libvorbis-0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="libvorbisfile-3.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Readme-SDL.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
       <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{2E6579F9-1F70-4DF9-98A9-22687425A830}</Project>
-      <Name>AgateLib.WinForms</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />

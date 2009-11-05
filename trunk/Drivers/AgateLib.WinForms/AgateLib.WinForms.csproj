@@ -3,14 +3,14 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6C4E3198-7D6D-41E5-BFA2-AC28ADDAE2B6}</ProjectGuid>
+    <ProjectGuid>{2E6579F9-1F70-4DF9-98A9-22687425A830}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
     </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>AgateSDX</AssemblyName>
+    <AssemblyName>AgateLib.WinForms</AssemblyName>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -19,14 +19,14 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>
     </AppDesignerFolder>
-    <RootNamespace>AgateSDX</RootNamespace>
+    <RootNamespace>AgateLib.WinForms</RootNamespace>
     <StartupObject>
     </StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
@@ -37,7 +37,7 @@
     <DebugSymbols>True</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\Binaries\Debug\Drivers\</OutputPath>
+    <OutputPath>..\..\Binaries\Debug\AgateLib\</OutputPath>
     <RegisterForComInterop>False</RegisterForComInterop>
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
@@ -46,18 +46,17 @@
     </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>TRACE;</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>AgateLib.WinForms.xml</DocumentationFile>
     <DebugSymbols>False</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\Binaries\Release\Drivers\</OutputPath>
+    <OutputPath>..\..\Binaries\Release\AgateLib\</OutputPath>
     <RegisterForComInterop>False</RegisterForComInterop>
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
@@ -66,9 +65,6 @@
     </NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SlimDX">
-      <Name>SlimDX</Name>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -89,77 +85,67 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="D3DDevice.cs">
+    <Compile Include="AgateRenderTarget.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AgateRenderTarget.Designer.cs">
+      <DependentUpon>AgateRenderTarget.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DrawBuffer.cs">
+    <Compile Include="BitmapFontUtil.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EffectParameter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="frmFullScreen.cs">
+    <Compile Include="DisplayWindowForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmFullScreen.Designer.cs">
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
+    <Compile Include="DisplayWindowForm.Designer.cs">
+      <DependentUpon>DisplayWindowForm.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HlslCompiler.cs">
+    <Compile Include="FormsInterop.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HlslEffect.cs">
+    <Compile Include="FormUtil.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Reporter.cs">
+    <Compile Include="Icons.Designer.cs">
+      <DependentUpon>Icons.resx</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Audio.cs">
+    <Compile Include="SetSystemsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetSystemsForm.Designer.cs">
+      <DependentUpon>SetSystemsForm.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Display.cs">
+    <Compile Include="WinFormsDriver.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_DisplayWindow.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Effect.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_IndexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Input.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_IRenderTarget.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_Surface.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SDX_VertexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="VertexFormats.cs">
+    <Compile Include="WinFormsReporter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="frmFullScreen.resx">
+    <EmbeddedResource Include="DisplayWindowForm.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
+      <DependentUpon>DisplayWindowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Icons.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Icons.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetSystemsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SetSystemsForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
       <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{2E6579F9-1F70-4DF9-98A9-22687425A830}</Project>
-      <Name>AgateLib.WinForms</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
