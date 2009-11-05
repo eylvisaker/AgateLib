@@ -1,0 +1,192 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3F2BD363-E2D6-4B62-8D57-7727142D6B82}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>AgateOTK</AssemblyName>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>
+    </AppDesignerFolder>
+    <RootNamespace>AgateOTK</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>True</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>False</Optimize>
+    <OutputPath>..\..\Binaries\Debug\Drivers\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>False</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>True</Optimize>
+    <OutputPath>..\..\Binaries\Release\Drivers\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="OpenTK">
+      <Name>OpenTK</Name>
+      <HintPath>.\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Utilities">
+      <Name>OpenTK.Utilities</Name>
+      <HintPath>.\OpenTK.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <Name>System.Core</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.Xml</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenTK.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenTK.Utilities.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Compile Include="AL_Audio.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ArbShader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ArbShaderCompiler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="frmFullScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFullScreen.Designer.cs">
+      <DependentUpon>frmFullScreen.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GLDrawBuffer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GlslFragmentProgram.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GlslShader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GlslShaderCompiler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GlslVertexProgram.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GLState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GL_Display.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GL_DisplayControl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GL_GameWindow.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GL_IndexBuffer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GL_IRenderTarget.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GL_Surface.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GL_VertexBuffer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OtkShader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Otk_Reporter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TextureCoordinates.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="frmFullScreen.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmFullScreen.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
+      <Name>AgateLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
+      <Project>{2E6579F9-1F70-4DF9-98A9-22687425A830}</Project>
+      <Name>AgateLib.WinForms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
