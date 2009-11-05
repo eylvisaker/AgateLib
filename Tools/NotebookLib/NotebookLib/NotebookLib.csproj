@@ -3,14 +3,14 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6C4E3198-7D6D-41E5-BFA2-AC28ADDAE2B6}</ProjectGuid>
+    <ProjectGuid>{826129F3-81A8-4D87-99E0-60DA009C9E3C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
     </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>AgateSDX</AssemblyName>
+    <AssemblyName>NotebookLib</AssemblyName>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -19,14 +19,14 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>
     </AppDesignerFolder>
-    <RootNamespace>AgateSDX</RootNamespace>
+    <RootNamespace>NotebookLib</RootNamespace>
     <StartupObject>
     </StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
@@ -37,7 +37,7 @@
     <DebugSymbols>True</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\Binaries\Debug\Drivers\</OutputPath>
+    <OutputPath>..\..\..\Binaries\Debug\Libraries\</OutputPath>
     <RegisterForComInterop>False</RegisterForComInterop>
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
@@ -46,7 +46,7 @@
     </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
@@ -57,7 +57,7 @@
     <DebugSymbols>False</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\Binaries\Release\Drivers\</OutputPath>
+    <OutputPath>..\..\..\Binaries\Release\Libraries\</OutputPath>
     <RegisterForComInterop>False</RegisterForComInterop>
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
@@ -66,9 +66,6 @@
     </NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SlimDX">
-      <Name>SlimDX</Name>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -77,6 +74,12 @@
     </Reference>
     <Reference Include="System.Data">
       <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Deployment">
+      <Name>System.Deployment</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
     </Reference>
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
@@ -89,78 +92,106 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="D3DDevice.cs">
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CloseTabEventArgs.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DrawBuffer.cs">
+    <Compile Include="HSeparator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HSeparator.Designer.cs">
+      <DependentUpon>HSeparator.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EffectParameter.cs">
+    <Compile Include="INavigator.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="frmFullScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmFullScreen.Designer.cs">
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
+    <Compile Include="NavigatorFactory.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HlslCompiler.cs">
+    <Compile Include="NavigatorLocation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HlslEffect.cs">
+    <Compile Include="NavigatorProperties.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Reporter.cs">
+    <Compile Include="Notebook.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Notebook.Designer.cs">
+      <DependentUpon>Notebook.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Audio.cs">
+    <Compile Include="NotebookPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NotebookPage.Designer.cs">
+      <DependentUpon>NotebookPage.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Display.cs">
+    <Compile Include="DesignerClass\EditPagesList.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_DisplayWindow.cs">
+    <Compile Include="DesignerClass\MySplitterDesigner.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Effect.cs">
+    <Compile Include="DesignerClass\NotebookDesigner.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_IndexBuffer.cs">
+    <Compile Include="DesignerClass\PageDesigner.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Input.cs">
+    <Compile Include="FlatTabs\FlatTabNavigator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FlatTabs\FlatTabProperties.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_IRenderTarget.cs">
+    <Compile Include="ListBookNavigator\ListBookNavigator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ListBookNavigator\ListBookProperties.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_Surface.cs">
-      <SubType>Code</SubType>
+    <Compile Include="NoNavigator\NoNavigator.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SDX_VertexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="VertexFormats.cs">
+    <Compile Include="NoNavigator\NoNavigatorProperties.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="frmFullScreen.resx">
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <DependentUpon>Settings.settings</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="HSeparator.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>frmFullScreen.cs</DependentUpon>
+      <DependentUpon>HSeparator.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
-      <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{2E6579F9-1F70-4DF9-98A9-22687425A830}</Project>
-      <Name>AgateLib.WinForms</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="Notebook.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Notebook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotebookPage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NotebookPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListBookNavigator\ListBookNavigator.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ListBookNavigator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
