@@ -56,6 +56,14 @@ namespace AgateLib
 		Gp2x,
 	}
 
+	public enum WindowsVersion
+	{
+		Windows98,
+		WindowsXP,
+		WindowsVista,
+		Windows7,
+	}
+
 	/// <summary>
 	/// Enum indicating which .NET runtime is currently in use.
 	/// </summary>

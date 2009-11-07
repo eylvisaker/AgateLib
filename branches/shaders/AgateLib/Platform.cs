@@ -19,8 +19,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace AgateLib
@@ -29,11 +31,90 @@ namespace AgateLib
 	{
 		PlatformType mType;
 		DotNetRuntime mRuntime;
+		WindowsVersion mWindowsVersion;
+		string mDocuments;
+		string mAppData;
+		string mAppDir;
 
-		internal Platform() 
+		internal Platform()
 		{
 			mType = DetectPlatformType();
 			mRuntime = DetectRuntime();
+
+			if (PlatformType != PlatformType.Windows)
+				Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
+
+			CheckOSVersion();
+
+			if (mType == PlatformType.Windows)
+				mWindowsVersion = DetectWindowsVersion();
+
+			SetFolders();
+
+			string debugLog = "debuglog.txt";
+
+			if (HasWriteAccessToAppDirectory())
+				debugLog = Path.Combine(mAppDir, debugLog);
+			else
+				debugLog = Path.Combine(mAppData, debugLog);
+
+			Debug.Listeners.Add(new TextWriterTraceListener(new StreamWriter(debugLog)));
+		}
+
+		// TODO: Maybe there is a better way to inspect permissions?
+		private bool HasWriteAccessToAppDirectory()
+		{
+			string filename = Path.GetTempFileName();
+
+			try
+			{
+				string targetFile = Path.Combine(mAppDir, Path.GetFileName(filename));
+
+				using (var w = new StreamWriter(targetFile))
+				{
+					w.WriteLine("x");
+				}
+
+				File.Delete(targetFile);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		static T GetCustomAttribute<T>(Assembly ass) where T : Attribute 	
+		{
+			return ass.GetCustomAttributes(typeof(T), false)[0] as T;
+		}
+		private void SetFolders()
+		{
+			Assembly entryPt = Assembly.GetEntryAssembly();
+			string fqn = entryPt.GetLoadedModules()[0].FullyQualifiedName;
+
+			var companyAttribute = GetCustomAttribute<AssemblyCompanyAttribute>(entryPt);
+			var nameAttribute = GetCustomAttribute<AssemblyProductAttribute>(entryPt);
+
+			mAppDir = Path.GetDirectoryName(fqn);
+			Console.WriteLine("App Dir: {0}", mAppDir);
+
+			SetFolderPaths(companyAttribute.Company, nameAttribute.Product);
+		}
+
+		public void SetFolderPaths(string companyName, string appName)
+		{
+			string combDir = Path.Combine(companyName, appName);
+
+			mAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			mDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+			mAppData = Path.Combine(mAppData, combDir);
+			mDocuments = Path.Combine(mDocuments, combDir);
+
+			Console.WriteLine("App Data: {0}", mAppData);
+			Console.WriteLine("Documents: {0}", mDocuments);
+
 		}
 
 		private DotNetRuntime DetectRuntime()
@@ -44,6 +125,22 @@ namespace AgateLib
 				runtime = DotNetRuntime.Mono;
 
 			return runtime;
+		}
+
+		/// <summary>
+		/// Returns the version of windows being used, if the current platform is Windows.
+		/// An exception is thrown if this property is checked when the platform is not Windows.
+		/// </summary>
+		public WindowsVersion WindowsVersion
+		{
+			get
+			{
+				if (PlatformType != PlatformType.Windows)
+					throw new AgateCrossPlatformException(
+						"Current platform is not Windows, but the WindowsVersion propety was checked.");
+
+				return mWindowsVersion;
+			}
 		}
 
 		public PlatformType PlatformType
@@ -136,6 +233,46 @@ namespace AgateLib
 		private static extern void uname(out utsname uname_struct);
 
 		#endregion
+
+
+		private void CheckOSVersion()
+		{
+			var version = System.Environment.OSVersion.Version;
+
+			Debug.Print("OS Version: {0}", System.Environment.OSVersion.VersionString);
+			Debug.IndentLevel++;
+			Debug.Print("Major: {0}", version.Major);
+			Debug.Print("Major revision: {0}", version.MajorRevision);
+			Debug.Print("Minor: {0}", version.Minor);
+			Debug.Print("Minor revision: {0}", version.MinorRevision);
+			Debug.Print("Revision: {0}", version.Revision);
+			Debug.Print("Build: {0}", version.Build);
+			Debug.Print("Service Pack: {0}", System.Environment.OSVersion.ServicePack);
+			Debug.IndentLevel--;
+		}
+
+		private WindowsVersion DetectWindowsVersion()
+		{
+			WindowsVersion retval = WindowsVersion.WindowsVista;
+			
+			switch (System.Environment.OSVersion.Version.Major)
+			{
+				case 4:
+					retval = WindowsVersion.Windows98;
+					break;
+				case 5:
+					retval = WindowsVersion.WindowsXP;
+					break;
+				case 6:
+					retval = WindowsVersion.WindowsVista;
+					break;
+				case 7:
+					retval = WindowsVersion.Windows7;
+					break;
+			}
+
+			return retval;
+		}
 
 	}
 }

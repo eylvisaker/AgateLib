@@ -98,7 +98,6 @@ namespace AgateLib
 
 		public static class ErrorReporting
 		{
-
 			private static string mErrorFile = "errorlog.txt";
 			private static bool mAutoStackTrace = false;
 			private static bool mWroteHeader = false;
@@ -296,6 +295,7 @@ namespace AgateLib
 
 		static Core()
 		{
+			Initialize();
 		}
 		/// <summary>
 		/// Initializes Core class.
@@ -306,10 +306,10 @@ namespace AgateLib
 			if (mInititalized)
 				return;
 
+			
 			mPlatform = new Platform();
 			Drivers.Registrar.Initialize();
 
-			Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
 			mInititalized = true;
 		}
