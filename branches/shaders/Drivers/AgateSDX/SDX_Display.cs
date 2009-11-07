@@ -237,6 +237,10 @@ namespace AgateSDX
 
 		#region --- Creation of objects ---
 
+		protected override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
+		{
+			return Shaders.ShaderFactory.CreateBuiltInShader(BuiltInShaderType);
+		}
 		public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
 		{
 			return new SDX_DisplayWindow(windowParams);

@@ -40,22 +40,18 @@ namespace AgateDrawing
 
 		public override void Begin()
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void BeginPass(int passIndex)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void EndPass()
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void End()
 		{
-			throw new NotImplementedException();
 		}
 	}
 }

@@ -173,6 +173,9 @@
     <Compile Include="Otk_Reporter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Shaders\FixedFunction\FixedFunctionShaderFactory.cs" />
+    <Compile Include="Shaders\FixedFunction\OTK_Basic2DShader_FF.cs" />
+    <Compile Include="Shaders\ShaderFactory.cs" />
     <Compile Include="TextureCoordinates.cs">
       <SubType>Code</SubType>
     </Compile>

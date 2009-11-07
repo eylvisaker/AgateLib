@@ -141,6 +141,8 @@
     <Compile Include="SDX_VertexBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Shaders\SDX_Basic2DShader.cs" />
+    <Compile Include="Shaders\ShaderFactory.cs" />
     <Compile Include="VertexFormats.cs">
       <SubType>Code</SubType>
     </Compile>

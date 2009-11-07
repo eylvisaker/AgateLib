@@ -46,7 +46,6 @@ namespace AgateDrawing
 		private Drawing_IRenderTarget mRenderTarget;
 
 		private bool mInFrame = false;
-		AgateShader mShader;
 
 		#endregion
 
@@ -244,14 +243,6 @@ namespace AgateDrawing
 		{
 		}
 
-		public override AgateLib.DisplayLib.Shaders.AgateShader Shader
-		{
-			get { return mShader; }
-			set
-			{
-				mShader = value; 
-			}
-		}
 		protected override AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
 		{
 			switch (BuiltInShaderType)

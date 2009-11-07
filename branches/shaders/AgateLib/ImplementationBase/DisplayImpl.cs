@@ -42,6 +42,7 @@ namespace AgateLib.ImplementationBase
 		public abstract bool Supports(DisplayBoolCaps caps);
 		public abstract IEnumerable<DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages { get; }
 
+		private static AgateShader mShader;
 		
 		/// <summary>
 		/// Gets or sets the current render target.
@@ -646,8 +647,14 @@ namespace AgateLib.ImplementationBase
 		}
 		public virtual AgateShader Shader
 		{
-			get { throw new NotSupportedException("The current driver does not support shaders."); }
-			set { throw new NotSupportedException("The current driver does not support shaders."); }
+			get { return mShader; }
+			set {
+				if (mShader != null)
+					mShader.End();
+
+				mShader = value;
+				mShader.Begin();
+			}
 		}
 
 		protected void InitializeShaders()
