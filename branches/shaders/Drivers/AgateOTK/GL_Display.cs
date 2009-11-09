@@ -507,64 +507,6 @@ namespace AgateOTK
 		{
 		}
 
-		public override void DoLighting(LightManager lights)
-		{
-			FlushDrawBuffer();
-
-			if (lights.Enabled == false)
-			{
-				GL.Disable(EnableCap.Lighting);
-				return;
-			}
-
-			float[] array = new float[4];
-
-			GL.Enable(EnableCap.Lighting);
-
-			SetArray(array, lights.Ambient);
-			GL.LightModelv(LightModelParameter.LightModelAmbient, array);
-
-			GL.Enable(EnableCap.ColorMaterial);
-			GL.ColorMaterial(MaterialFace.FrontAndBack,
-							 ColorMaterialParameter.AmbientAndDiffuse);
-
-			for (int i = 0; i < lights.Count || i < mMaxLightsUsed; i++)
-			{
-				EnableCap lightID = (EnableCap)((int)EnableCap.Light0 + i);
-				LightName lightName = (LightName)((int)LightName.Light0 + i);
-
-				if (i >= lights.Count)
-				{
-					GL.Disable(lightID);
-					continue;
-				}
-
-				if (lights[i].Enabled == false)
-				{
-					GL.Disable(lightID);
-					continue;
-				}
-
-				GL.Enable(lightID);
-
-				SetArray(array, lights[i].Diffuse);
-				GL.Lightv(lightName, LightParameter.Diffuse, array);
-
-				SetArray(array, lights[i].Ambient);
-				GL.Lightv(lightName, LightParameter.Ambient, array);
-
-				SetArray(array, lights[i].Position);
-				GL.Lightv(lightName, LightParameter.Position, array);
-
-				GL.Light(lightName, LightParameter.ConstantAttenuation, lights[i].AttenuationConstant);
-				GL.Light(lightName, LightParameter.LinearAttenuation, lights[i].AttenuationLinear);
-				GL.Light(lightName, LightParameter.QuadraticAttenuation, lights[i].AttenuationQuadratic);
-
-			}
-
-			mMaxLightsUsed = lights.Count;
-
-		}
 
 		private void SetArray(float[] array, Vector3 vec)
 		{

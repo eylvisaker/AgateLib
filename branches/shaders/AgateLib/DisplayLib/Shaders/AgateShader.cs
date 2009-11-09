@@ -37,6 +37,11 @@ namespace AgateLib.DisplayLib.Shaders
 			this.impl = impl;
 		}
 
+		protected AgateShaderImpl Impl
+		{
+			get { return impl; }
+		}
+
 		public int Passes
 		{
 			get { return impl.Passes; }
@@ -109,24 +114,4 @@ namespace AgateLib.DisplayLib.Shaders
 
 	}
 
-	public static class AgateBuiltInShaders
-	{
-		internal static void InitializeShaders()
-		{
-			if (Basic2DShader != null)
-				throw new InvalidOperationException();
-
-			Basic2DShader = new Basic2DShader();
-
-
-			Basic2DShader.Activate();
-		}
-		internal static void DisposeShaders()
-		{
-			Basic2DShader = null;
-		}
-
-		public static Basic2DShader Basic2DShader { get; private set; }
-
-	}
 }

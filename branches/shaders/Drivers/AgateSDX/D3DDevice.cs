@@ -311,7 +311,7 @@ namespace AgateSDX
 		//}
 
 
-
+		/*
 		internal void DoLighting(LightManager lights)
 		{
 			if (lights.Enabled == false)
@@ -371,5 +371,6 @@ namespace AgateSDX
 
 			mMaxLightsUsed = lights.Count;
 		}
+		 * */
 	}
 }

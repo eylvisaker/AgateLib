@@ -559,16 +559,6 @@ namespace AgateLib.ImplementationBase
 		}
 
 		/// <summary>
-		/// Gets all the light settings from the LightManager.
-		/// </summary>
-		/// <param name="lights"></param>
-		[Obsolete()]
-		public virtual void DoLighting(LightManager lights)
-		{
-			throw new NotImplementedException("DoLighting is not implemented, and also deprecated.");
-		}
-
-		/// <summary>
 		/// Processes pending events.
 		/// </summary>
 		protected internal abstract void ProcessEvents();
@@ -640,6 +630,7 @@ namespace AgateLib.ImplementationBase
 			throw new NotSupportedException("The current driver does not support shaders.");
 		}
 
+		[Obsolete]
 		public virtual Effect Effect
 		{
 			get { throw new NotSupportedException("The current driver does not support shaders."); }

@@ -14,7 +14,7 @@ namespace Tests.LightingTest
 	{
 		#region IAgateTest Members
 
-		public string Name { get { return "Lighting (Direct3D only)"; } }
+		public string Name { get { return "Lighting"; } }
 		public string Category { get { return "Shaders"; } }
 
 		#endregion
@@ -24,16 +24,16 @@ namespace Tests.LightingTest
 			using (AgateSetup setup = new AgateSetup(args))
 			{
 				setup.AskUser = true;
-				setup.PreferredDisplay = AgateLib.Drivers.DisplayTypeID.Direct3D9_SDX;
+				setup.PreferredDisplay = AgateLib.Drivers.DisplayTypeID.OpenGL;
 				setup.Initialize(true, false, false);
 				if (setup.WasCanceled)
 					return;
 
-				if (Display.Caps.SupportsCustomShaders == false)
-				{
-					MessageBox.Show("You must have a driver that supports shaders.", "Lighting Test");
-					return;
-				}
+				//if (Display.Caps.SupportsCustomShaders == false)
+				//{
+				//    MessageBox.Show("You must have a driver that supports shaders.", "Lighting Test");
+				//    return;
+				//}
 				LightingTestForm frm = new LightingTestForm();
 				frm.Show();
 
@@ -47,28 +47,33 @@ namespace Tests.LightingTest
 				image.SetScale(2.0, 2.0);
 				ball.DisplayAlignment = OriginAlignment.Center;
 
-				Effect fx = ShaderCompiler.CompileEffect(ShaderLanguage.Hlsl,
-					System.IO.File.ReadAllText("Data/shaders/hlsl/Lighting.fx"));
+				//Effect fx = ShaderCompiler.CompileEffect(ShaderLanguage.Hlsl,
+				//    System.IO.File.ReadAllText("Data/shaders/hlsl/Lighting.fx"));
 
-				//LightManager lights = new LightManager();
-				//lights.Enabled = true;
-				//lights.AddPointLight(new Vector3(0, 0, -1), Color.White);
-				//lights.AddPointLight(new Vector3(0, 0, -1), Color.Yellow);
+				var lights = AgateBuiltInShaders.Lighting2D;
 
-				fx.SetVariable("lightColor", Color.White);
+				Light lt1 = new Light();
+				lt1.Position = new Vector3(0, 0, -1);
+				lt1.DiffuseColor = Color.White;
+
+				Light lt2 = new Light();
+				lt2.Position = new Vector3(0, 0, -1);
+				lt2.DiffuseColor = Color.Yellow;
+
+				lights.AddLight(lt1);
+				lights.AddLight(lt2);
+
+				lt1.AttenuationConstant = 0.01f;
+				lt1.AttenuationQuadratic = 5e-7f;
+
+				lt2.AttenuationConstant = 0.01f;
+				lt2.AttenuationLinear = 1e-4f;
 
 				Display.RenderState.WaitForVerticalBlank = false;
 
-				//lights[0].Ambient = Color.White;
-				//lights[1].AttenuationConstant = 0.01f;
-				//lights[1].AttenuationQuadratic = 5e-7f;
-
-				fx.SetVariable("attenuation", 0.5f, 0, 5e-4f);
-				fx.SetTexture(EffectTexture.Texture0, "texture0");
-
 				Mouse.MouseMove += delegate(InputEventArgs e)
 					{
-						fx.SetVariable("lightPos", (float) e.MousePosition.X, e.MousePosition.Y);
+						lt2.Position = new Vector3(e.MousePosition.X, e.MousePosition.Y, -1);
 					};
 
 				while (frm.Visible == true)
@@ -76,29 +81,29 @@ namespace Tests.LightingTest
 					if (frm.chkMoveLight.Checked)
 						time += Display.DeltaTime / 1000.0;
 
-
 					ballPt = new Point((int)(120 + 110 * Math.Cos(time)),
 									   (int)(120 + 110 * Math.Sin(time)));
 
-					//lights[0].Position = new Vector3(ballPt.X, ballPt.Y, -1);
-					//lights[0].Ambient = Color.FromArgb(frm.btnAmbient.BackColor.ToArgb());
-					//lights[0].Diffuse = Color.FromArgb(frm.btnDiffuse.BackColor.ToArgb());
+					lt1.Position = new Vector3(ballPt.X, ballPt.Y, -1);
+
 
 					image.RotationAngleDegrees = (double)frm.nudAngle.Value;
 
 					Display.BeginFrame();
 					Display.Clear(Color.DarkRed);
 
+					lights.Activate();
+
 					//lights.Enabled = frm.enableLightingCheck.Checked;
 					//lights.DoLighting();
-					fx.SetVariable("worldViewProj", wnd.OrthoProjection);
+					//fx.SetVariable("worldViewProj", wnd.OrthoProjection);
 
-					if (frm.enableShader.Checked)
-					{
-						Display.Effect = fx;
-					}
-					else
-						Display.Effect = null;
+					//if (frm.enableShader.Checked)
+					//{
+					//    Display.Effect = fx;
+					//}
+					//else
+					//    Display.Effect = null;
 
 					if (frm.chkSurfaceGradient.Checked)
 					{

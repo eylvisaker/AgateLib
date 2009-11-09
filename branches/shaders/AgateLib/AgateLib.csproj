@@ -97,11 +97,14 @@
     <Compile Include="Core.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DisplayLib\Shaders\AgateBuiltInShaders.cs" />
     <Compile Include="DisplayLib\Shaders\Basic2DShader.cs" />
     <Compile Include="DisplayLib\Shaders\AgateShader.cs" />
     <Compile Include="DisplayLib\Shaders\Implementation\AgateInternalShader.cs" />
     <Compile Include="DisplayLib\Shaders\Implementation\AgateShaderImpl.cs" />
     <Compile Include="DisplayLib\Shaders\Implementation\BuiltInShader.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\Lighting2DImpl.cs" />
+    <Compile Include="DisplayLib\Shaders\Lighting2D.cs" />
     <Compile Include="IFileProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -159,12 +162,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\ISurface.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayLib\Light.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayLib\LightManager.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\Origin.cs">

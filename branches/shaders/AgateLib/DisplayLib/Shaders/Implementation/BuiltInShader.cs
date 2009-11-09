@@ -26,5 +26,6 @@ namespace AgateLib.DisplayLib.Shaders.Implementation
 	public enum BuiltInShader
 	{
 		Basic2DShader,
+		Lighting2D,
 	}
 }

@@ -673,21 +673,6 @@ namespace AgateLib.DisplayLib
 			get { return impl.Caps; }
 		}
 
-		/// <summary>
-		/// Turns lighting functions off.
-		/// </summary>
-		[Obsolete("Use shaders instead.")]
-		public static void DisableLighting()
-		{
-			DoLighting(LightManager.Empty);
-		}
-
-		[Obsolete("Use shaders instead.")]
-		internal static void DoLighting(LightManager lights)
-		{
-			impl.DoLighting(lights);
-		}
-
 		internal static void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
 		{
 			impl.SavePixelBuffer(pixelBuffer, filename, format);
