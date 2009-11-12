@@ -213,7 +213,7 @@ namespace AgateLib
 						filewriter.Write(text);
 				}
 
-				Console.Write(text);
+				Trace.WriteLine(text);
 			}
 
 			/// <summary>
@@ -262,9 +262,8 @@ namespace AgateLib
 						"Error message: " + e.Message + "\r\n" +
 						"Errors cannot be saved to a text file.";
 
-					Console.WriteLine(message);
-					System.Diagnostics.Debug.WriteLine(message);
-					System.Diagnostics.Trace.WriteLine(message);
+					Debug.WriteLine(message);
+					Trace.WriteLine(message);
 
 					return null;
 				}

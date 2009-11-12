@@ -42,7 +42,10 @@ namespace AgateLib
 			mRuntime = DetectRuntime();
 
 			if (PlatformType != PlatformType.Windows)
+			{
 				Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
+				Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
+			}
 
 			CheckOSVersion();
 
@@ -51,14 +54,22 @@ namespace AgateLib
 
 			SetFolders();
 
-			string debugLog = "debuglog.txt";
+			string debugLog = "agate-debuglog.txt";
 
+			string traceLog = "debuglog.txt";
 			if (HasWriteAccessToAppDirectory())
+			{
 				debugLog = Path.Combine(mAppDir, debugLog);
+				traceLog = Path.Combine(mAppDir, traceLog);
+			}
 			else
+			{
 				debugLog = Path.Combine(mAppData, debugLog);
+				traceLog = Path.Combine(mAppData, traceLog);
+			}
 
 			Debug.Listeners.Add(new TextWriterTraceListener(new StreamWriter(debugLog)));
+			Trace.Listeners.Add(new TextWriterTraceListener(new StreamWriter(traceLog)));
 		}
 
 		// TODO: Maybe there is a better way to inspect permissions?
@@ -86,7 +97,14 @@ namespace AgateLib
 
 		static T GetCustomAttribute<T>(Assembly ass) where T : Attribute 	
 		{
-			return ass.GetCustomAttributes(typeof(T), false)[0] as T;
+			try
+			{
+				return ass.GetCustomAttributes(typeof(T), false)[0] as T;
+			}
+			catch
+			{
+				return null;
+			}
 		}
 		private void SetFolders()
 		{
@@ -99,14 +117,24 @@ namespace AgateLib
 			mAppDir = Path.GetDirectoryName(fqn);
 			Console.WriteLine("App Dir: {0}", mAppDir);
 
-			SetFolderPaths(companyAttribute.Company, nameAttribute.Product);
+			string companyName = companyAttribute != null ? companyAttribute.Company : string.Empty;
+			string product = nameAttribute != null ? nameAttribute.Product : string.Empty;
+
+			SetFolderPaths(companyName, product);
 		}
 
 		public void SetFolderPaths(string companyName, string appName)
 		{
 			string combDir = Path.Combine(companyName, appName);
 
-			mAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			if (string.IsNullOrEmpty(combDir))
+			{
+				mAppData = mAppDir;
+				Trace.WriteLine("Warning: No assembly level company / product name attributes were found.");
+			}
+			else
+				mAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
 			mDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
 			mAppData = Path.Combine(mAppData, combDir);
