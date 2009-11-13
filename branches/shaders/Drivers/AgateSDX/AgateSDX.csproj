@@ -105,6 +105,7 @@
       <DependentUpon>frmFullScreen.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GeoHelper.cs" />
     <Compile Include="HlslCompiler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -142,7 +143,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Shaders\FixedFunction\FixedFunctionShaderFactory.cs" />
-    <Compile Include="Shaders\FixedFunction\SDX_Basic2DShader.cs" />
+    <Compile Include="Shaders\FixedFunction\SDX_FF_Basic2DShader.cs" />
+    <Compile Include="Shaders\FixedFunction\SDX_FF_Lighting3D.cs" />
     <Compile Include="Shaders\ShaderFactory.cs" />
     <Compile Include="VertexFormats.cs">
       <SubType>Code</SubType>

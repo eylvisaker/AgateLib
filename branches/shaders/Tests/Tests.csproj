@@ -305,6 +305,7 @@
     <Compile Include="Shaders\Hlsl.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Shaders\Lighting3DTest.cs" />
     <Compile Include="Shaders\LightingTest\LightingTest.cs">
       <SubType>Code</SubType>
     </Compile>

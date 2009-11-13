@@ -128,6 +128,7 @@
       <DependentUpon>frmFullScreen.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GeoHelper.cs" />
     <Compile Include="GLDrawBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -174,8 +175,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Shaders\FixedFunction\FixedFunctionShaderFactory.cs" />
-    <Compile Include="Shaders\FixedFunction\OTK_Basic2DShader_FF.cs" />
-    <Compile Include="Shaders\FixedFunction\OTK_Lighting2D_FF.cs" />
+    <Compile Include="Shaders\FixedFunction\OTK_FF_Basic2DShader.cs" />
+    <Compile Include="Shaders\FixedFunction\OTK_FF_Lighting3D.cs" />
+    <Compile Include="Shaders\FixedFunction\OTK_FF_Lighting2D.cs" />
     <Compile Include="Shaders\ShaderFactory.cs" />
     <Compile Include="TextureCoordinates.cs">
       <SubType>Code</SubType>

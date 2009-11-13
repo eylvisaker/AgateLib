@@ -108,7 +108,6 @@ namespace AgateOTK
 					mAttributeBuffers[i].Type,
 					false, 0, IntPtr.Zero);
 			}*/
-			throw new NotImplementedException();
 
 		}
 
@@ -158,45 +157,43 @@ namespace AgateOTK
 						(IntPtr)mLayout.ElementByteIndex(VertexElement.Texture));
 			}
 
-			/*
-			GlslShader shader = Display.Shader as GlslShader;
+			
+			//GlslShader shader = Display.Shader as GlslShader;
 
 			if (Textures.ActiveTextures > 1)
 			{
-				for (int i = 0; i < Textures.Count; i++)
-				{
-					GL.ActiveTexture((TextureUnit)(TextureUnit.Texture0 + i));
+				//for (int i = 0; i < Textures.Count; i++)
+				//{
+				//    GL.ActiveTexture((TextureUnit)(TextureUnit.Texture0 + i));
 
-					Surface surf = Textures[i];
+				//    Surface surf = Textures[i];
 
-					if (surf != null)
-					{
-						GL_Surface gl_surf = (GL_Surface)Textures[i].Impl;
+				//    if (surf != null)
+				//    {
+				//        GL_Surface gl_surf = (GL_Surface)Textures[i].Impl;
 
-						GL.Enable(EnableCap.Texture2D);
-						GL.BindTexture(TextureTarget.Texture2D, gl_surf.GLTextureID);
+				//        GL.Enable(EnableCap.Texture2D);
+				//        GL.BindTexture(TextureTarget.Texture2D, gl_surf.GLTextureID);
 
-						if (shader != null)
-						{
-							if (i < shader.Sampler2DUniforms.Count)
-							{
-								shader.SetUniform(shader.Sampler2DUniforms[i], i);
-							}
-						}
-					}
-					else
-					{
-						GL.Disable(EnableCap.Texture2D);
-						GL.BindTexture(TextureTarget.Texture2D, 0);
-					}
-				}
+				//        if (shader != null)
+				//        {
+				//            if (i < shader.Sampler2DUniforms.Count)
+				//            {
+				//                shader.SetUniform(shader.Sampler2DUniforms[i], i);
+				//            }
+				//        }
+				//    }
+				//    else
+				//    {
+				//        GL.Disable(EnableCap.Texture2D);
+				//        GL.BindTexture(TextureTarget.Texture2D, 0);
+				//    }
+				//}
 			}
 			else
 			{
 				GL.BindTexture(TextureTarget.Texture2D, ((GL_Surface)Textures[0].Impl).GLTextureID);
 			}
-			 * */
-			throw new NotImplementedException();
 		}
 
 		private BeginMode SelectBeginMode()

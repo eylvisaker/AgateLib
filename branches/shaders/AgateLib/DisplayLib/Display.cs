@@ -65,6 +65,7 @@ namespace AgateLib.DisplayLib
 		private static Rectangle mCurrentClipRect;
 		private static Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		private static RenderStateAdapter mRenderState = new RenderStateAdapter();
+		private static DisplayCapsInfo mCapsInfo = new DisplayCapsInfo();
 
 		/// <summary>
 		/// Gets the object which handles all of the actual calls to Display functions.
@@ -98,6 +99,7 @@ namespace AgateLib.DisplayLib
 
 			Shaders.AgateBuiltInShaders.InitializeShaders();
 		}
+
 
 		public static RenderStateAdapter RenderState
 		{
@@ -145,7 +147,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete]
 		public static Shaders.Effect Effect
 		{
-			get { throw new Exception(); }
+			get { return null; }
 			set { throw new Exception(); }
 		}
 
@@ -294,6 +296,8 @@ namespace AgateLib.DisplayLib
 				throw new AgateException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
 
 			impl.BeginFrame();
+			AgateBuiltInShaders.Basic2DShader.Activate();
+
 			mCurrentClipRect = new Rectangle(0, 0, RenderTarget.Width, RenderTarget.Height);
 		}
 		/// <summary>
@@ -362,7 +366,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static Size MaxSurfaceSize
 		{
-			get { return impl.MaxSurfaceSize; }
+			get { return Caps.MaxSurfaceSize; }
 		}
 		/// <summary>
 		/// Gets the object which handles packing of all surfaces.
@@ -670,7 +674,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static DisplayCapsInfo Caps
 		{
-			get { return impl.Caps; }
+			get { return mCapsInfo; }
 		}
 
 		internal static void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)

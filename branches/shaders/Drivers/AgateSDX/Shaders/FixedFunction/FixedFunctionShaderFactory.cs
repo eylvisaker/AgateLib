@@ -5,20 +5,19 @@ using System.Text;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
 
-namespace AgateOTK.Shaders.FixedFunction
+namespace AgateSDX.Shaders.FixedFunction
 {
 	class FixedFunctionShaderFactory : ShaderFactory 
 	{
-		protected override AgateShaderImpl CreateBuiltInShaderImpl(BuiltInShader buildInShader)
+		protected override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShaderImpl(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
 		{
-			switch (buildInShader)
+			switch (BuiltInShaderType)
 			{
 				case BuiltInShader.Basic2DShader:
-					return new OTK_FF_Basic2DShader();
-				case BuiltInShader.Lighting2D:
-					return new OTK_FF_Lighting2D();
+					return new SDX_FF_Basic2DShader();
+
 				case BuiltInShader.Lighting3D:
-					return new OTK_FF_Lighting3D();
+					return new SDX_FF_Lighting3D();
 
 				default:
 					return null;

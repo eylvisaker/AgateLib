@@ -39,7 +39,7 @@ namespace AgateSDX
 
 		public override void SetVariable(string name, Matrix4x4 matrix)
 		{
-			mEffect.SetValue(name, mDisplay.TransformAgateMatrix(matrix));
+			mEffect.SetValue(name, GeoHelper.TransformAgateMatrix(matrix));
 		}
 		public override void SetVariable(string name, params int[] v)
 		{

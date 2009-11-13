@@ -35,11 +35,12 @@ namespace AgateLib.ImplementationBase
 	public abstract class DisplayImpl : DriverImplBase
 	{
 		private double mAlphaThreshold = 5.0 / 255.0;
-		private DisplayLib.DisplayCapsInfo mCapsInfo = new DisplayCapsInfo();
 
 		private IRenderTarget mRenderTarget;
 
 		public abstract bool Supports(DisplayBoolCaps caps);
+		public abstract Size CapsSize(DisplaySizeCaps displaySizeCaps);
+
 		public abstract IEnumerable<DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages { get; }
 
 		private static AgateShader mShader;
@@ -322,10 +323,8 @@ namespace AgateLib.ImplementationBase
 		}
 
 		#endregion
-		/// <summary>
-		/// Returns the maximum size a surface object can be.
-		/// </summary>
-		public abstract Size MaxSurfaceSize { get; }
+		[Obsolete("Use Display.Caps instead.", true)]
+		public virtual Size MaxSurfaceSize { get { return Display.Caps.MaxSurfaceSize; } }
 
 		#region --- SetClipRect ---
 
@@ -551,14 +550,6 @@ namespace AgateLib.ImplementationBase
 		public abstract void SetOrthoProjection(Rectangle region);
 
 		/// <summary>
-		/// Gets the capabilities of the Display object.
-		/// </summary>
-		public DisplayCapsInfo Caps
-		{
-			get { return mCapsInfo;  }
-		}
-
-		/// <summary>
 		/// Processes pending events.
 		/// </summary>
 		protected internal abstract void ProcessEvents();
@@ -633,13 +624,16 @@ namespace AgateLib.ImplementationBase
 		[Obsolete]
 		public virtual Effect Effect
 		{
-			get { throw new NotSupportedException("The current driver does not support shaders."); }
+			get { return null; }
 			set { throw new NotSupportedException("The current driver does not support shaders."); }
 		}
 		public virtual AgateShader Shader
 		{
 			get { return mShader; }
-			set {
+			set
+			{
+				FlushDrawBuffer();
+
 				if (mShader != null)
 					mShader.End();
 
@@ -670,10 +664,6 @@ namespace AgateLib.ImplementationBase
 		/// </summary>
 		/// <param name="BuiltInShaderType"></param>
 		/// <returns></returns>
-		protected internal virtual AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
-		{
-			// TODO: make this abstract.
-			return null;
-		}
+		protected internal abstract AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType);
 	}
 }

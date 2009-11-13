@@ -27,5 +27,6 @@ namespace AgateLib.DisplayLib.Shaders.Implementation
 	{
 		Basic2DShader,
 		Lighting2D,
+		Lighting3D,
 	}
 }

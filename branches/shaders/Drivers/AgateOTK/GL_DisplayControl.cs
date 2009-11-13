@@ -85,8 +85,6 @@ namespace AgateOTK
 
 				CreateContext();
 
-				mDisplay.InitializeGL();
-
 				AttachEvents();
 			}
 			else
@@ -107,11 +105,11 @@ namespace AgateOTK
 					CreateWindowedDisplay();
 
 				mDisplay = Display.Impl as GL_Display;
-				mDisplay.InitializeGL();
-
 			}
 
 			mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);
+			mDisplay.InitializeCurrentContext();
+
 		}
 
 		void mDisplay_ProcessEventsEvent(object sender, EventArgs e)

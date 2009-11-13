@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib
 {
@@ -113,8 +114,17 @@ namespace AgateLib.DisplayLib
 		{
 			get { return Display.Impl.Supports(DisplayBoolCaps.CanCreateBitmapFont); }
 		}
+
+		public Size MaxSurfaceSize
+		{
+			get { return Display.Impl.CapsSize(DisplaySizeCaps.MaxSurfaceSize); }
+		}
 	}
 
+	public enum DisplaySizeCaps
+	{
+		MaxSurfaceSize,
+	}
 	public enum DisplayBoolCaps
 	{
 		/// <summary>

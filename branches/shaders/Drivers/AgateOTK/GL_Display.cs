@@ -46,6 +46,9 @@ namespace AgateOTK
 		private bool mSupportsShaders;
 		private decimal mGLVersion;
 
+		System.Windows.Forms.Form mFakeWindow;
+		DisplayWindow mFakeDisplayWindow;
+
 		public bool NonPowerOf2Textures
 		{
 			get { return mNonPowerOf2Textures; }
@@ -164,11 +167,6 @@ namespace AgateOTK
 			get { return mState; }
 		}
 
-		// TODO: Make this not hardcoded
-		public override Size MaxSurfaceSize
-		{
-			get { return new Size(1024, 1024); }
-		}
 
 		// TODO: Test clip rect stuff.
 		public override void SetClipRect(Rectangle newClipRect)
@@ -227,7 +225,7 @@ namespace AgateOTK
 
 		private void SetModelview()
 		{
-			OpenTK.Math.Matrix4 modelview = ConvertAgateMatrix(view * world, false);
+			OpenTK.Math.Matrix4 modelview = GeoHelper.ConvertAgateMatrix(view * world, false);
 
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
@@ -235,23 +233,13 @@ namespace AgateOTK
 		}
 		private void SetProjection()
 		{
-			OpenTK.Math.Matrix4 otkProjection = ConvertAgateMatrix(projection, false);
+			OpenTK.Math.Matrix4 otkProjection = GeoHelper.ConvertAgateMatrix(projection, false);
 
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
 			GL.LoadMatrix(ref otkProjection);
 		}
 
-		private OpenTK.Math.Matrix4 ConvertAgateMatrix(Matrix4x4 matrix, bool invertY)
-		{
-			int sign = invertY ? -1 : 1;
-
-			return new OpenTK.Math.Matrix4(
-				new OpenTK.Math.Vector4(matrix[0, 0], sign * matrix[1, 0], matrix[2, 0], matrix[3, 0]),
-				new OpenTK.Math.Vector4(matrix[0, 1], sign * matrix[1, 1], matrix[2, 1], matrix[3, 1]),
-				new OpenTK.Math.Vector4(matrix[0, 2], sign * matrix[1, 2], matrix[2, 2], matrix[3, 2]),
-				new OpenTK.Math.Vector4(matrix[0, 3], sign * matrix[1, 3], matrix[2, 3], matrix[3, 3]));
-		}
 
 		public override void Clear(Color color)
 		{
@@ -379,16 +367,12 @@ namespace AgateOTK
 		public override void Initialize()
 		{
 			mState = new GLState();
+			CreateFakeWindow();
 
 			Report("OpenTK / OpenGL driver instantiated for display.");
 		}
-
-		bool glInitialized = false;
-
-		internal void InitializeGL()
+		public void InitializeCurrentContext()
 		{
-			if (glInitialized)
-				return;
 
 			GL.ShadeModel(ShadingModel.Smooth);                         // Enable Smooth Shading
 			GL.ClearColor(0, 0, 0, 1.0f);                                     // Black Background
@@ -398,15 +382,31 @@ namespace AgateOTK
 			GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
 				HintMode.Nicest);
 
+		}
+		private void CreateFakeWindow()
+		{
+			mFakeWindow = new System.Windows.Forms.Form();
+			mFakeDisplayWindow = DisplayWindow.CreateFromControl(mFakeWindow);
+
+			mFakeWindow.Visible = false;
+
 			string vendor = GL.GetString(StringName.Vendor);
 			string ext = GL.GetString(StringName.Extensions);
 			mSupportsShaders = false;
 
 			mGLVersion = DetectOpenGLVersion();
 
-			if (mGLVersion >= 2m)
+			mSupportsFramebuffer = GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
+			mNonPowerOf2Textures = GL.SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
+
+			if (mGLVersion >= 3m)
 			{
 				mSupportsFramebuffer = true;
+				mNonPowerOf2Textures = true;
+				mSupportsShaders = true;
+			}
+			if (mGLVersion >= 2m)
+			{
 				mNonPowerOf2Textures = true;
 				mSupportsShaders = true;
 			}
@@ -417,8 +417,6 @@ namespace AgateOTK
 			}
 			else
 			{
-				mSupportsFramebuffer = GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
-				mNonPowerOf2Textures = GL.SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
 			}
 
 			if (GL.SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
@@ -427,9 +425,6 @@ namespace AgateOTK
 			}
 
 			InitializeShaders();
-
-			glInitialized = true;
-
 		}
 
 		private static decimal DetectOpenGLVersion()
@@ -505,6 +500,8 @@ namespace AgateOTK
 		}
 		public override void Dispose()
 		{
+			mFakeDisplayWindow.Dispose();
+			mFakeWindow.Dispose();
 		}
 
 
@@ -526,7 +523,7 @@ namespace AgateOTK
 
 		protected override ShaderCompilerImpl CreateShaderCompiler()
 		{
-			if (this.Caps.SupportsCustomShaders)
+			if (this.Supports(DisplayBoolCaps.CustomShaders))
 			{
 				if (mGLVersion < 2.0m)
 					return new ArbShaderCompiler();
@@ -587,7 +584,15 @@ namespace AgateOTK
 
 			return false;
 		}
+		public override Size CapsSize(DisplaySizeCaps displaySizeCaps)
+		{
+			switch (displaySizeCaps)
+			{
+				case DisplaySizeCaps.MaxSurfaceSize: return new Size(1024, 1024);
+			}
 
+			return new Size(0, 0);
+		}
 		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
 		{
 			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.Glsl; }

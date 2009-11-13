@@ -61,6 +61,9 @@ namespace AgateSDX
 		VertexDeclaration mPosColorDecl;
 		Format mDepthStencilFormat;
 
+		System.Windows.Forms.Form mFakeWindow;
+		DisplayWindow mFakeDisplayWindow;
+
 		#endregion
 
 		public Format DepthStencilFormat
@@ -85,8 +88,21 @@ namespace AgateSDX
 		public override void Initialize()
 		{
 			mDirect3Dobject = new SlimDX.Direct3D9.Direct3D();
+
+			CreateFakeWindow();
+
 			Report("SlimDX driver instantiated for display.");
+
 		}
+		
+		private void CreateFakeWindow()
+		{
+			mFakeWindow = new System.Windows.Forms.Form();
+			mFakeDisplayWindow = DisplayWindow.CreateFromControl(mFakeWindow);
+
+			mFakeWindow.Visible = false;
+		}
+
 
 		internal void Initialize(SDX_DisplayWindow window)
 		{
@@ -176,6 +192,9 @@ namespace AgateSDX
 
 		public override void Dispose()
 		{
+			mFakeDisplayWindow.Dispose();
+			mFakeWindow.Dispose();
+
 			mDevice.Dispose();
 		}
 
@@ -789,29 +808,12 @@ namespace AgateSDX
 
 		#endregion
 
-		HlslEffect mCurrentEffect;
-		
-		public override AgateLib.DisplayLib.Shaders.Effect Effect
-		{
-			get
-			{
-				return mCurrentEffect;
-			}
-			set
-			{
-				mCurrentEffect = (HlslEffect)value;
-			}
-		}
-
 		protected override void ProcessEvents()
 		{
 			System.Windows.Forms.Application.DoEvents();
 		}
 
-		public override Size MaxSurfaceSize
-		{
-			get { return mDevice.MaxSurfaceSize; }
-		}
+		#region --- Pixel Format ---
 
 		internal int GetPixelPitch(Format format)
 		{
@@ -851,6 +853,8 @@ namespace AgateSDX
 		{
 			get { return GetPixelFormat(DisplayMode.Format); }
 		}
+
+		#endregion
 
 		public override void FlushDrawBuffer()
 		{
@@ -896,6 +900,10 @@ namespace AgateSDX
 
 			return false;
 		}
+		public override Size CapsSize(DisplaySizeCaps displaySizeCaps)
+		{
+			return mDevice.MaxSurfaceSize;
+		}
 
 		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
 		{
@@ -920,32 +928,6 @@ namespace AgateSDX
 			return new SDX_IndexBuffer(this, type, size);
 		}
 
-		internal Matrix TransformAgateMatrix(Matrix4x4 value)
-		{
-			Matrix retval = new Matrix();
-
-			retval.M11 = value[0, 0];
-			retval.M21 = value[1, 0];
-			retval.M31 = value[2, 0];
-			retval.M41 = value[3, 0];
-
-			retval.M12 = value[0, 1];
-			retval.M22 = value[1, 1];
-			retval.M32 = value[2, 1];
-			retval.M42 = value[3, 1];
-
-			retval.M13 = value[0, 2];
-			retval.M23 = value[1, 2];
-			retval.M33 = value[2, 2];
-			retval.M43 = value[3, 2];
-
-			retval.M14 = value[0, 3];
-			retval.M24 = value[1, 3];
-			retval.M34 = value[2, 3];
-			retval.M44 = value[3, 3];
-
-			return retval;
-		}
 		public override Matrix4x4 MatrixProjection
 		{
 			get
@@ -960,7 +942,7 @@ namespace AgateSDX
 
 				projection = value;
 				mDevice.Device.SetTransform(TransformState.Projection,
-					TransformAgateMatrix(value));
+					GeoHelper.TransformAgateMatrix(value));
 			}
 		}
 
@@ -975,7 +957,7 @@ namespace AgateSDX
 				view = value;
 
 				mDevice.Device.SetTransform(TransformState.View,
-					TransformAgateMatrix(value));
+					GeoHelper.TransformAgateMatrix(value));
 			}
 		}
 		public override Matrix4x4 MatrixWorld
@@ -989,13 +971,13 @@ namespace AgateSDX
 				world = value;
 
 				mDevice.Device.SetTransform(TransformState.World,
-					TransformAgateMatrix(value));
+					GeoHelper.TransformAgateMatrix(value));
 			}
 		}
 
 		Matrix GetTotalTransform()
 		{
-			return TransformAgateMatrix(MatrixProjection * MatrixView * MatrixWorld);
+			return GeoHelper.TransformAgateMatrix(MatrixProjection * MatrixView * MatrixWorld);
 		}
 
 		#endregion

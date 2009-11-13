@@ -14,7 +14,7 @@ namespace AgateLib.DisplayLib.Shaders
 
 			Basic2DShader = new Basic2DShader();
 			Lighting2D = new Lighting2D();
-
+			Lighting3D = new Lighting3D();
 
 			Basic2DShader.Activate();
 		}
@@ -22,10 +22,12 @@ namespace AgateLib.DisplayLib.Shaders
 		{
 			Basic2DShader = null;
 			Lighting2D = null;
+			Lighting3D = null;
 		}
 
 		public static Basic2DShader Basic2DShader { get; private set; }
 		public static Lighting2D Lighting2D { get; private set; }
+		public static Lighting3D Lighting3D { get; private set; }
 
 	}
 }

@@ -67,6 +67,10 @@ namespace AgateLib.Geometry
 				-sin, 0, cos, 0,
 				0, 0, 0, 1);
 		}
+		public static Matrix4x4 RotateZ(double angle)
+		{
+			return RotateZ((float)angle);
+		}
 		public static Matrix4x4 RotateZ(float angle)
 		{
 			float cos = (float)Math.Cos(angle);
@@ -102,7 +106,7 @@ namespace AgateLib.Geometry
 				0, 0,-1, 0,
 				0, 0, 0, 1);
 		}
-		public static Matrix4x4 LookAt(Vector3 eye, Vector3 target, Vector3 up)
+		public static Matrix4x4 ViewLookAt(Vector3 eye, Vector3 target, Vector3 up)
 		{
 			// equation from
 			// http://pyopengl.sourceforge.net/documentation/manual/gluLookAt.3G.xml
@@ -113,6 +117,7 @@ namespace AgateLib.Geometry
 			up /= up.Magnitude;
 
 			Vector3 s = f.CrossProduct(up);
+			s /= s.Magnitude;
 			s /= s.Magnitude;
 
 			Vector3 u = s.CrossProduct(f);

@@ -234,11 +234,6 @@ namespace AgateDrawing
 			get { return PixelFormat.BGRA8888; }
 		}
 
-		public override Geometry.Size MaxSurfaceSize
-		{
-			get { return new Geometry.Size(1024, 1024); }
-		}
-
 		public override void FlushDrawBuffer()
 		{
 		}
@@ -293,6 +288,17 @@ namespace AgateDrawing
 			}
 
 			return false;
+		}
+		public override AgateLib.Geometry.Size CapsSize(DisplaySizeCaps displaySizeCaps)
+		{
+			switch (displaySizeCaps)
+			{
+				case DisplaySizeCaps.MaxSurfaceSize:
+					return new Geometry.Size(1024, 1024);
+
+				default:
+					return new AgateLib.Geometry.Size(0, 0);
+			}
 		}
 
 		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
