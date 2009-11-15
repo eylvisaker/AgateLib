@@ -24,8 +24,8 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using OpenTK.Graphics;
-using OTKPixelFormat = OpenTK.Graphics.PixelFormat;
+using OpenTK.Graphics.OpenGL;
+using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
 using AgateLib;

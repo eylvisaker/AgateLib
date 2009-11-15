@@ -314,6 +314,15 @@ namespace AgateLib
 		}
 
 		/// <summary>
+		/// Gets a Platform object which provides information about the current
+		/// platform AgateLib is running on.
+		/// </summary>
+		public static Platform Platform
+		{
+			get { return mPlatform; }
+		}
+
+		/// <summary>
 		/// Gets or sets a bool value which indicates whether or not your
 		/// app is the focused window.  This will be automatically set if
 		/// you created DisplayWindows by specifying a title and size, but not

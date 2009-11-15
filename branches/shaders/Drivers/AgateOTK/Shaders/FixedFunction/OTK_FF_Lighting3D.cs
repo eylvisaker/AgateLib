@@ -5,7 +5,7 @@ using System.Text;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK.Shaders.FixedFunction
 {
@@ -18,8 +18,8 @@ namespace AgateOTK.Shaders.FixedFunction
 
 		public override Color AmbientLight
 		{
-			get			{				return mAmbientLight; }
-			set			{				mAmbientLight = value; }
+			get { return mAmbientLight; }
+			set { mAmbientLight = value; }
 		}
 
 		public override Light[] Lights
@@ -47,13 +47,13 @@ namespace AgateOTK.Shaders.FixedFunction
 
 		public override void Begin()
 		{
-			OpenTK.Math.Matrix4 modelview = GeoHelper.ConvertAgateMatrix(mView * mWorld, false);
+			OpenTK.Matrix4 modelview = GeoHelper.ConvertAgateMatrix(mView * mWorld, false);
 
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
 			GL.LoadMatrix(ref modelview);
 			
-			OpenTK.Math.Matrix4 otkProjection = GeoHelper.ConvertAgateMatrix(mProjection, false);
+			OpenTK.Matrix4 otkProjection = GeoHelper.ConvertAgateMatrix(mProjection, false);
 
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();

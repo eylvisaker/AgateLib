@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Geometry;
@@ -65,7 +65,7 @@ namespace AgateOTK.Shaders.FixedFunction
 			GL.Enable(EnableCap.Lighting);
 
 			SetArray(array, AmbientLight);
-			GL.LightModelv(LightModelParameter.LightModelAmbient, array);
+			GL.LightModel(LightModelParameter.LightModelAmbient, array);
 
 			GL.Enable(EnableCap.ColorMaterial);
 			GL.ColorMaterial(MaterialFace.FrontAndBack,
@@ -85,13 +85,13 @@ namespace AgateOTK.Shaders.FixedFunction
 				GL.Enable(lightID);
 
 				SetArray(array, mLights[i].DiffuseColor);
-				GL.Lightv(lightName, LightParameter.Diffuse, array);
+				GL.Light(lightName, LightParameter.Diffuse, array);
 
 				//SetArray(array, mLights[i]);
 				//GL.Lightv(lightName, LightParameter.Ambient, array);
 
 				SetArray(array, mLights[i].Position);
-				GL.Lightv(lightName, LightParameter.Position, array);
+				GL.Light(lightName, LightParameter.Position, array);
 
 				GL.Light(lightName, LightParameter.ConstantAttenuation, mLights[i].AttenuationConstant);
 				GL.Light(lightName, LightParameter.LinearAttenuation, mLights[i].AttenuationLinear);

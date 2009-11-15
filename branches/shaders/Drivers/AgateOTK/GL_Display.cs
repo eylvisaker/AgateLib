@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using AgateLib.BitmapFont;
@@ -28,7 +29,7 @@ using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
 using AgateLib.ImplementationBase;
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
 namespace AgateOTK
@@ -188,7 +189,7 @@ namespace AgateOTK
 		{
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
-			Glu.Ortho2D(region.Left, region.Right, region.Bottom, region.Top);
+			GL.Ortho(region.Left, region.Right, region.Bottom, region.Top, -1, 1);
 		}
 
 		Matrix4x4 projection = Matrix4x4.Identity;
@@ -225,7 +226,7 @@ namespace AgateOTK
 
 		private void SetModelview()
 		{
-			OpenTK.Math.Matrix4 modelview = GeoHelper.ConvertAgateMatrix(view * world, false);
+			OpenTK.Matrix4 modelview = GeoHelper.ConvertAgateMatrix(view * world, false);
 
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
@@ -233,13 +234,12 @@ namespace AgateOTK
 		}
 		private void SetProjection()
 		{
-			OpenTK.Math.Matrix4 otkProjection = GeoHelper.ConvertAgateMatrix(projection, false);
+			OpenTK.Matrix4 otkProjection = GeoHelper.ConvertAgateMatrix(projection, false);
 
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
 			GL.LoadMatrix(ref otkProjection);
 		}
-
 
 		public override void Clear(Color color)
 		{
@@ -391,13 +391,13 @@ namespace AgateOTK
 			mFakeWindow.Visible = false;
 
 			string vendor = GL.GetString(StringName.Vendor);
-			string ext = GL.GetString(StringName.Extensions);
 			mSupportsShaders = false;
 
 			mGLVersion = DetectOpenGLVersion();
+			LoadExtensions();
 
-			mSupportsFramebuffer = GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
-			mNonPowerOf2Textures = GL.SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
+			mSupportsFramebuffer = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
+			mNonPowerOf2Textures = SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
 
 			if (mGLVersion >= 3m)
 			{
@@ -412,19 +412,32 @@ namespace AgateOTK
 			}
 			else if (mGLVersion >= 1.5m)
 			{
-				mSupportsFramebuffer = true;
 				mNonPowerOf2Textures = true;
 			}
-			else
-			{
-			}
 
-			if (GL.SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
+			if (SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
 			{
 				mSupportsShaders = true;
 			}
 
 			InitializeShaders();
+		}
+
+		string[] extensions;
+		private void LoadExtensions()
+		{
+			// Forward compatible context (GL 3.0+)
+			int num_extensions;
+			GL.GetInteger(GetPName.NumExtensions, out num_extensions);
+
+			extensions = new string[num_extensions];
+
+			for (int i = 0; i < num_extensions; i++)
+				extensions[i] = GL.GetString(StringName.Extensions, i).ToLowerInvariant();
+		}
+		private bool SupportsExtension(string name)
+		{
+			return extensions.Contains(name.ToLowerInvariant());
 		}
 
 		private static decimal DetectOpenGLVersion()

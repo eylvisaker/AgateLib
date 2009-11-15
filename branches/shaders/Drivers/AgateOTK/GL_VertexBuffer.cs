@@ -7,7 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
 using AgateLib.ImplementationBase;
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {

@@ -25,7 +25,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {
