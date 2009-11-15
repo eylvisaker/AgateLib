@@ -1,4 +1,4 @@
-﻿namespace Tests.CoreTests
+﻿namespace Tests.CoreTests.PlatformDetection
 {
 	partial class PlatformDetection
 	{

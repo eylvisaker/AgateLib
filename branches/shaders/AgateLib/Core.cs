@@ -294,7 +294,7 @@ namespace AgateLib
 
 		static Core()
 		{
-			Initialize();
+			mPlatform = new Platform();
 		}
 		/// <summary>
 		/// Initializes Core class.
@@ -305,8 +305,6 @@ namespace AgateLib
 			if (mInititalized)
 				return;
 
-			
-			mPlatform = new Platform();
 			Drivers.Registrar.Initialize();
 
 
@@ -314,8 +312,7 @@ namespace AgateLib
 		}
 
 		/// <summary>
-		/// Gets a Platform object which provides information about the current
-		/// platform AgateLib is running on.
+		/// Gets an object which describes details about the current platform.
 		/// </summary>
 		public static Platform Platform
 		{

@@ -88,12 +88,13 @@
     <Compile Include="AgateTestAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CoreTests\PlatformDetection.cs">
+    <Compile Include="CoreTests\PlatformDetection\PlatformDetection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CoreTests\PlatformDetection.Designer.cs">
+    <Compile Include="CoreTests\PlatformDetection\PlatformDetection.Designer.cs">
       <DependentUpon>PlatformDetection.cs</DependentUpon>
     </Compile>
+    <Compile Include="CoreTests\PlatformDetection\PlatformDetector.cs" />
     <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="frmLauncher.cs">
       <SubType>Form</SubType>
@@ -319,7 +320,7 @@
     <Compile Include="WinFormsTests\Converters.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="CoreTests\PlatformDetection.resx">
+    <EmbeddedResource Include="CoreTests\PlatformDetection\PlatformDetection.resx">
       <DependentUpon>PlatformDetection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLauncher.resx">

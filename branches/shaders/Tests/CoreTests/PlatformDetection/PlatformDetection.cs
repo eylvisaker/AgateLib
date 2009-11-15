@@ -7,13 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Tests.CoreTests
+namespace Tests.CoreTests.PlatformDetection
 {
-	public partial class PlatformDetection : Form, IAgateTest 
+	public partial class PlatformDetection : Form 
 	{
 		public PlatformDetection()
 		{
 			InitializeComponent();
+
+			lblPlatform.Text = "Platform: " + AgateLib.Core.Platform.PlatformType.ToString();
+			lblRuntime.Text = "Runtime: " + AgateLib.Core.Platform.Runtime.ToString();
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -22,23 +25,5 @@ namespace Tests.CoreTests
 
 		}
 
-		#region IAgateTest Members
-
-		string IAgateTest.Name
-		{
-			get { return "Platform Detection"; }
-		}
-
-		string IAgateTest.Category
-		{
-			get { return "Core"; }
-		}
-
-		void IAgateTest.Main(string[] args)
-		{
-			Application.Run(this);
-		}
-
-		#endregion
 	}
 }
