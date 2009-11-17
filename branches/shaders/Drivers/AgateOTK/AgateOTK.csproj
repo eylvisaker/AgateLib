@@ -95,9 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
       <Name>AgateLib</Name>
-      <Project>{1539806E-2473-4D67-9D10-F2CDC8C2B874}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
     <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
       <Name>AgateLib.WinForms</Name>

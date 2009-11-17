@@ -366,9 +366,9 @@ namespace AgateOTK
 
 		public override void Initialize()
 		{
-			mState = new GLState();
 			CreateFakeWindow();
-
+			mState = new GLState();
+			
 			Report("OpenTK / OpenGL driver instantiated for display.");
 		}
 		public void InitializeCurrentContext()
