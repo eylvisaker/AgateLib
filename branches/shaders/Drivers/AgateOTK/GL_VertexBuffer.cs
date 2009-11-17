@@ -78,7 +78,7 @@ namespace AgateOTK
 			GL_IndexBuffer gl_indexbuffer = (GL_IndexBuffer) indexbuffer.Impl;
 
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, gl_indexbuffer.BufferID);
-			GL.IndexPointer(IndexPointerType.Short, 0, (IntPtr)start);
+			GL.IndexPointer(IndexPointerType.Short, 0, start);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
 			SetClientStates();
@@ -139,7 +139,7 @@ namespace AgateOTK
 				GL.EnableClientState(EnableCap.VertexArray);
 				GL.VertexPointer(
 					PositionSize / sizeof(float), VertexPointerType.Float, mLayout.VertexSize,
-					(IntPtr)mLayout.ElementByteIndex(VertexElement.Position));
+					mLayout.ElementByteIndex(VertexElement.Position));
 			}
 
 			SetAttributes();

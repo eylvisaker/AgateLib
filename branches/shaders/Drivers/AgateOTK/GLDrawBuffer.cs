@@ -226,7 +226,7 @@ namespace AgateOTK
 
 
 			GL.TexCoordPointer(2, TexCoordPointerType.Float, size, (IntPtr) tex);
-			GL.ColorPointer(4, ColorPointerType.UnsignedByte, size, (IntPtr)color);
+			GL.ColorPointer(4, ColorPointerType.UnsignedByte, size, color);
 			GL.VertexPointer(2, VertexPointerType.Float, size, pos);
 			GL.NormalPointer(NormalPointerType.Float, size, (IntPtr)norm);
 
