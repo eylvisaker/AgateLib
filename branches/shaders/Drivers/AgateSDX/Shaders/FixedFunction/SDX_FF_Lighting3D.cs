@@ -58,17 +58,63 @@ namespace AgateSDX.Shaders.FixedFunction
 		}
 		public override void Begin()
 		{
+			int index = 0;
+
+			mDisplay.D3D_Device.Device.SetRenderState(RenderState.Lighting, true);
+			mDisplay.D3D_Device.Device.SetRenderState(RenderState.Ambient, mAmbientLight.ToArgb());
+
+			Material material = new Material();
+			material.Diffuse = new SlimDX.Color4(Color.White.ToArgb());
+			material.Ambient = new SlimDX.Color4(Color.White.ToArgb());
+
+			mDisplay.D3D_Device.Device.Material = material;
+
+			for (int i = 0; i < Lights.Length; i++)
+			{
+				var agateLight = Lights[i];
+
+				if (agateLight == null)
+					continue;
+				if (agateLight.Enabled == false)
+					continue;
+
+				SlimDX.Direct3D9.Light l = new SlimDX.Direct3D9.Light();
+
+				l.Ambient = new SlimDX.Color4(agateLight.AmbientColor.ToArgb());
+				l.Attenuation0 = agateLight.AttenuationConstant;
+				l.Attenuation1 = agateLight.AttenuationLinear;
+				l.Attenuation2 = agateLight.AttenuationQuadratic;
+				l.Diffuse = new SlimDX.Color4(agateLight.DiffuseColor.ToArgb());
+				l.Type = LightType.Point;
+				l.Direction = new SlimDX.Vector3(0, 0, 1);
+				l.Range = 100;
+
+				Vector3 pos = agateLight.Position;
+
+				l.Position = new SlimDX.Vector3(pos.X, pos.Y, pos.Z);
+
+				mDisplay.D3D_Device.Device.SetLight(index, l);
+				mDisplay.D3D_Device.Device.EnableLight(index, true);
+
+				index++;
+
+			}
+
+			if (index == 0)
+				mDisplay.D3D_Device.Device.SetRenderState(RenderState.Lighting, false);
+
 			mDisplay.D3D_Device.Device.SetTransform(
 				TransformState.Projection, GeoHelper.TransformAgateMatrix(mProjection.Transpose()));
 			mDisplay.D3D_Device.Device.SetTransform(
 				TransformState.View, GeoHelper.TransformAgateMatrix(mView.Transpose()));
 			mDisplay.D3D_Device.Device.SetTransform(
 				TransformState.World, GeoHelper.TransformAgateMatrix(mWorld.Transpose()));
+
+
 		}
 
 		public override void BeginPass(int passIndex)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void End()
@@ -77,7 +123,6 @@ namespace AgateSDX.Shaders.FixedFunction
 
 		public override void EndPass()
 		{
-			throw new NotImplementedException();
 		}
 
 		public override int Passes

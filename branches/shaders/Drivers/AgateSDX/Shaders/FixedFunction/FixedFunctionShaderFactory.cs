@@ -9,7 +9,7 @@ namespace AgateSDX.Shaders.FixedFunction
 {
 	class FixedFunctionShaderFactory : ShaderFactory 
 	{
-		protected override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShaderImpl(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
+		protected override AgateShaderImpl CreateBuiltInShaderImpl(BuiltInShader BuiltInShaderType)
 		{
 			switch (BuiltInShaderType)
 			{

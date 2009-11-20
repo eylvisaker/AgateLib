@@ -28,6 +28,7 @@ namespace Tests.Shaders
 		Vector3 up = new Vector3(0, 0, 1);
 		double lookAngle = 0;
 		double angle = 0;
+		bool lightEnable;
 
 		public void Main(string[] args)
 		{
@@ -59,9 +60,20 @@ namespace Tests.Shaders
 					font.DrawText(0, 0, "Location: {0}", eye);
 					font.DrawText(0, font.FontHeight, "Angle: {0}", lookAngle);
 
-					
 					var shader = AgateBuiltInShaders.Lighting3D;
-					shader.AmbientLight = Color.White;
+					shader.AmbientLight = Color.Black;
+
+					if (lightEnable)
+					{
+						shader.Lights[0] = new Light();
+						shader.Lights[0].Position = new Vector3(0, 3, eye.Z);
+						shader.Lights[0].DiffuseColor = Color.White;
+						shader.Lights[0].AttenuationConstant = 1f;
+						shader.Lights[0].AttenuationLinear = 0.1f;
+						shader.Lights[0].AttenuationQuadratic = 0.03f;
+					}
+					else
+						shader.Lights[0] = null;
 
 					Vector3 dir = LookDir;
 					Vector3 target = eye + dir * 3;
@@ -109,6 +121,7 @@ namespace Tests.Shaders
 				case KeyCode.Down: eye -= (float)(speed * Display.DeltaTime / 1000.0f) * LookDir; break;
 				case KeyCode.Left: lookAngle += (float)(speed * Display.DeltaTime / 1000.0f); break;
 				case KeyCode.Right: lookAngle -= (float)(speed * Display.DeltaTime / 1000.0f); break;
+				case KeyCode.L: lightEnable = !lightEnable; break;
 			}
 		}
 
