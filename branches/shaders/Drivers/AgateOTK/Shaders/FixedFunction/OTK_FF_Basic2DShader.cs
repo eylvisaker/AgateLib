@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
+using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK.Shaders.FixedFunction
 {
@@ -11,6 +12,7 @@ namespace AgateOTK.Shaders.FixedFunction
 	{
 		public override void Begin()
 		{
+			GL.Disable(EnableCap.Lighting);
 		}
 
 		public override void BeginPass(int passIndex)

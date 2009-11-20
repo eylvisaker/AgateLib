@@ -20,6 +20,7 @@ namespace AgateLib.DisplayLib.Shaders
 		public Matrix4x4 View { get { return Impl.View; } set { Impl.View = value; } }
 		public Matrix4x4 World { get { return Impl.World; } set { Impl.World= value; } }
 
+		public bool EnableLighting { get { return Impl.EnableLighting; } set { Impl.EnableLighting = value; } }
 		public Light[] Lights { get { return Impl.Lights; } }
 		public Color AmbientLight { get { return Impl.AmbientLight; } set { Impl.AmbientLight = value; } }
 	}

@@ -65,6 +65,7 @@ namespace Tests.Shaders
 
 					if (lightEnable)
 					{
+						shader.EnableLighting = true;
 						shader.Lights[0] = new Light();
 						shader.Lights[0].Position = new Vector3(0, 3, eye.Z);
 						shader.Lights[0].DiffuseColor = Color.White;
@@ -73,7 +74,7 @@ namespace Tests.Shaders
 						shader.Lights[0].AttenuationQuadratic = 0.03f;
 					}
 					else
-						shader.Lights[0] = null;
+						shader.EnableLighting = false;
 
 					Vector3 dir = LookDir;
 					Vector3 target = eye + dir * 3;

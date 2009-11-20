@@ -60,6 +60,19 @@ namespace AgateSDX.Shaders.FixedFunction
 		{
 			int index = 0;
 
+			mDisplay.D3D_Device.Device.SetTransform(
+				TransformState.Projection, GeoHelper.TransformAgateMatrix(mProjection.Transpose()));
+			mDisplay.D3D_Device.Device.SetTransform(
+				TransformState.View, GeoHelper.TransformAgateMatrix(mView.Transpose()));
+			mDisplay.D3D_Device.Device.SetTransform(
+				TransformState.World, GeoHelper.TransformAgateMatrix(mWorld.Transpose()));
+
+			if (EnableLighting == false)
+			{
+				mDisplay.D3D_Device.Device.SetRenderState(RenderState.Lighting, false);
+				return;
+			}
+
 			mDisplay.D3D_Device.Device.SetRenderState(RenderState.Lighting, true);
 			mDisplay.D3D_Device.Device.SetRenderState(RenderState.Ambient, mAmbientLight.ToArgb());
 
@@ -98,18 +111,7 @@ namespace AgateSDX.Shaders.FixedFunction
 
 				index++;
 
-			}
-
-			if (index == 0)
-				mDisplay.D3D_Device.Device.SetRenderState(RenderState.Lighting, false);
-
-			mDisplay.D3D_Device.Device.SetTransform(
-				TransformState.Projection, GeoHelper.TransformAgateMatrix(mProjection.Transpose()));
-			mDisplay.D3D_Device.Device.SetTransform(
-				TransformState.View, GeoHelper.TransformAgateMatrix(mView.Transpose()));
-			mDisplay.D3D_Device.Device.SetTransform(
-				TransformState.World, GeoHelper.TransformAgateMatrix(mWorld.Transpose()));
-
+			}				
 
 		}
 

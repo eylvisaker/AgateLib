@@ -208,9 +208,14 @@ namespace AgateOTK
 
 			mWindowInfo = CreateWindowInfo(newMode);
 
-			mContext = OpenTK.Platform.Utilities.CreateGraphicsContext(
-				newMode, mWindowInfo, 3, 1, GraphicsContextFlags.Default);
-			//OpenTK.Platform.Utilities.CreateGraphicsContext(newMode, mRenderTarget, out mContext, out mWindowInfo);
+			GraphicsContextFlags flags = GraphicsContextFlags.Default;
+#if DEBUG
+			//flags = GraphicsContextFlags.ForwardCompatible;
+#endif
+			mContext = new OpenTK.Graphics.GraphicsContext(newMode, mWindowInfo, 3, 1, flags);
+			mContext.MakeCurrent(mWindowInfo);
+			(mContext as IGraphicsContextInternal).LoadAll();
+
 		}
 
 		private IWindowInfo CreateWindowInfo(GraphicsMode mode)
@@ -262,7 +267,7 @@ namespace AgateOTK
 
 		}
 
-		#region --- X11 imports
+		#region --- X11 imports ---
 
 		[StructLayout(LayoutKind.Sequential)]
 		struct XVisualInfo

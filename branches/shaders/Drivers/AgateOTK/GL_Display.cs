@@ -374,13 +374,13 @@ namespace AgateOTK
 		public void InitializeCurrentContext()
 		{
 
-			GL.ShadeModel(ShadingModel.Smooth);                         // Enable Smooth Shading
+			//GL.ShadeModel(ShadingModel.Smooth);                         // Enable Smooth Shading
 			GL.ClearColor(0, 0, 0, 1.0f);                                     // Black Background
 			GL.ClearDepth(1);                                                 // Depth Buffer Setup
 			GL.Enable(EnableCap.DepthTest);                            // Enables Depth Testing
 			GL.DepthFunc(DepthFunction.Lequal);                         // The Type Of Depth Testing To Do
-			GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
-				HintMode.Nicest);
+			//GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
+			//	HintMode.Nicest);
 
 		}
 		private void CreateFakeWindow()
@@ -410,15 +410,16 @@ namespace AgateOTK
 				mNonPowerOf2Textures = true;
 				mSupportsShaders = true;
 			}
-			else if (mGLVersion >= 1.5m)
-			{
-				mNonPowerOf2Textures = true;
-			}
 
 			if (SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
 			{
 				mSupportsShaders = true;
 			}
+
+			Trace.WriteLine(string.Format("OpenGL version {0} from vendor {1} detected.", mGLVersion, vendor));
+			Trace.WriteLine("Framebuffer: " + mSupportsFramebuffer.ToString());
+			Trace.WriteLine("NPOT: " + mNonPowerOf2Textures.ToString());
+			Trace.WriteLine("Shaders: " + mSupportsShaders.ToString());
 
 			InitializeShaders();
 		}
