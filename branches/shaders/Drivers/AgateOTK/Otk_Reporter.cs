@@ -36,8 +36,8 @@ namespace AgateOTK
 
 			if (ReportOpenAL())
 			{
-				yield return new AgateDriverInfo(
-					AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK " + opentk_version, 100);
+				//yield return new AgateDriverInfo(
+				//    AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK " + opentk_version, 100);
 			}
 		}
 

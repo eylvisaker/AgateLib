@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using AgateLib.Geometry;
@@ -83,9 +84,13 @@ namespace AgateOTK.Shaders.FixedFunction
 				SetArray(array, AmbientLight);
 				GL.LightModel(LightModelParameter.LightModelAmbient, array);
 
-				GL.Enable(EnableCap.ColorMaterial);
+				GL.Color4(1.0f, 1.0f, 1.0f, 1.0f);
 				GL.ColorMaterial(MaterialFace.FrontAndBack,
 								 ColorMaterialParameter.AmbientAndDiffuse);
+				GL.Enable(EnableCap.ColorMaterial);
+				
+				SetArray(array, Color.White);
+				GL.Material(MaterialFace.Front, MaterialParameter.AmbientAndDiffuse, array);
 
 				for (int i = 0; i < mLights.Length; i++)
 				{

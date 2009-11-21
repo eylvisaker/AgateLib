@@ -22,11 +22,12 @@ using System.IO;
 using System.Text;
 using AgateLib.ImplementationBase;
 using AgateLib.Drivers;
-using OpenTK.Audio;
 using OpenTK.Audio.OpenAL;
+using AL = OpenTK.Audio.AL;
 
 namespace AgateOTK
 {
+	/*
 	class AL_Audio : AudioImpl
 	{
 		AudioContext context;
@@ -257,4 +258,5 @@ namespace AgateOTK
 			}
 		}
 	}
+	 * */
 }

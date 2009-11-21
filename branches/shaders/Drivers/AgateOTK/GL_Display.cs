@@ -427,14 +427,29 @@ namespace AgateOTK
 		string[] extensions;
 		private void LoadExtensions()
 		{
-			// Forward compatible context (GL 3.0+)
-			int num_extensions;
-			GL.GetInteger(GetPName.NumExtensions, out num_extensions);
+			try
+			{
+				// Forward compatible context (GL 3.0+)
+				int num_extensions;
+				GL.GetInteger(GetPName.NumExtensions, out num_extensions);
 
-			extensions = new string[num_extensions];
+				if (GL.GetError() != ErrorCode.NoError)
+					throw new OpenTK.Graphics.GraphicsErrorException("Not 3.0 context.");
 
-			for (int i = 0; i < num_extensions; i++)
-				extensions[i] = GL.GetString(StringName.Extensions, i).ToLowerInvariant();
+				extensions = new string[num_extensions];
+
+				for (int i = 0; i < num_extensions; i++)
+					extensions[i] = GL.GetString(StringName.Extensions, i).ToLowerInvariant();
+			}
+			catch (OpenTK.Graphics.GraphicsErrorException)
+			{
+				string ext = GL.GetString(StringName.Extensions);
+
+				extensions = ext.Split(' ');
+
+				for (int i = 0; i < extensions.Length; i++)
+					Debug.Print(extensions[i]);
+			}
 		}
 		private bool SupportsExtension(string name)
 		{
