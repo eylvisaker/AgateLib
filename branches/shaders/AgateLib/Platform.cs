@@ -55,8 +55,8 @@ namespace AgateLib
 			SetFolders();
 
 			string debugLog = "agate-debuglog.txt";
-
 			string traceLog = "debuglog.txt";
+
 			if (HasWriteAccessToAppDirectory())
 			{
 				debugLog = Path.Combine(mAppDir, debugLog);
@@ -68,8 +68,15 @@ namespace AgateLib
 				traceLog = Path.Combine(mAppData, traceLog);
 			}
 
-			Debug.Listeners.Add(new TextWriterTraceListener(new StreamWriter(debugLog)));
-			Trace.Listeners.Add(new TextWriterTraceListener(new StreamWriter(traceLog)));
+			try
+			{
+				Debug.Listeners.Add(new TextWriterTraceListener(new StreamWriter(debugLog)));
+				Trace.Listeners.Add(new TextWriterTraceListener(new StreamWriter(traceLog)));
+			}
+			catch (Exception)
+			{
+				Trace.WriteLine("Could not open debug or trace log for writing.");
+			}
 		}
 
 		// TODO: Maybe there is a better way to inspect permissions?
