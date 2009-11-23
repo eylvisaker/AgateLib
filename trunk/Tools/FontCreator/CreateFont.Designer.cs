@@ -39,7 +39,13 @@ namespace FontCreator
 			this.chkStrikeout = new System.Windows.Forms.CheckBox();
 			this.txtSampleText = new System.Windows.Forms.TextBox();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.renderTarget = new AgateLib.WinForms.AgateRenderTarget();
+			this.zoomRenderTarget = new AgateLib.WinForms.AgateRenderTarget();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.label10 = new System.Windows.Forms.Label();
+			this.nudBottomMargin = new System.Windows.Forms.NumericUpDown();
+			this.nudTopMargin = new System.Windows.Forms.NumericUpDown();
+			this.label9 = new System.Windows.Forms.Label();
 			this.nudOpacity = new System.Windows.Forms.NumericUpDown();
 			this.label6 = new System.Windows.Forms.Label();
 			this.chkBorder = new System.Windows.Forms.CheckBox();
@@ -55,22 +61,16 @@ namespace FontCreator
 			this.btnDisplayColor = new System.Windows.Forms.Button();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
-			this.label9 = new System.Windows.Forms.Label();
-			this.nudTopMargin = new System.Windows.Forms.NumericUpDown();
-			this.renderTarget = new AgateLib.WinForms.AgateRenderTarget();
-			this.zoomRenderTarget = new AgateLib.WinForms.AgateRenderTarget();
-			this.nudBottomMargin = new System.Windows.Forms.NumericUpDown();
-			this.label10 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.nudSize)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.groupBox1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudBottomMargin)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudTopMargin)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudOpacity)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudScale)).BeginInit();
 			this.groupBox2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudTopMargin)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudBottomMargin)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -187,10 +187,11 @@ namespace FontCreator
 			this.txtSampleText.Multiline = true;
 			this.txtSampleText.Name = "txtSampleText";
 			this.txtSampleText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtSampleText.Size = new System.Drawing.Size(186, 69);
+			this.txtSampleText.Size = new System.Drawing.Size(186, 89);
 			this.txtSampleText.TabIndex = 10;
 			this.txtSampleText.Text = "abcdefghijklmnopqrstuvwxyz\r\nABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n01234567890\r\n!@#$%^&*(),<" +
-				".>/?;:\'\"-_=+\\|";
+				".>/?;:\'\"-_=+\\|\r\n¡¢£¤¥¦§¨©ª«¬­®¯°±²³µ¶·¸¹º»¼½¾¿À\r\nÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚ\r\nÛÜÝ" +
+				"Þßàáâãäåæçèéêëìíîïðñòóôõö÷ø\r\nùúûüýþ";
 			this.txtSampleText.TextChanged += new System.EventHandler(this.txtSampleText_TextChanged);
 			// 
 			// splitContainer1
@@ -212,6 +213,26 @@ namespace FontCreator
 			this.splitContainer1.SplitterDistance = 208;
 			this.splitContainer1.SplitterWidth = 8;
 			this.splitContainer1.TabIndex = 11;
+			// 
+			// renderTarget
+			// 
+			this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.renderTarget.Location = new System.Drawing.Point(0, 0);
+			this.renderTarget.Name = "renderTarget";
+			this.renderTarget.Size = new System.Drawing.Size(208, 170);
+			this.renderTarget.TabIndex = 0;
+			this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+			// 
+			// zoomRenderTarget
+			// 
+			this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
+			this.zoomRenderTarget.Name = "zoomRenderTarget";
+			this.zoomRenderTarget.Size = new System.Drawing.Size(348, 170);
+			this.zoomRenderTarget.TabIndex = 1;
+			this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
 			// 
 			// groupBox1
 			// 
@@ -240,6 +261,60 @@ namespace FontCreator
 			this.groupBox1.TabIndex = 12;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Font Creation Options";
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(160, 167);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(40, 13);
+			this.label10.TabIndex = 21;
+			this.label10.Text = "Bottom";
+			// 
+			// nudBottomMargin
+			// 
+			this.nudBottomMargin.Location = new System.Drawing.Point(206, 165);
+			this.nudBottomMargin.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+			this.nudBottomMargin.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            -2147483648});
+			this.nudBottomMargin.Name = "nudBottomMargin";
+			this.nudBottomMargin.Size = new System.Drawing.Size(53, 20);
+			this.nudBottomMargin.TabIndex = 20;
+			this.nudBottomMargin.ValueChanged += new System.EventHandler(this.nudBottomMargin_ValueChanged);
+			// 
+			// nudTopMargin
+			// 
+			this.nudTopMargin.Location = new System.Drawing.Point(85, 165);
+			this.nudTopMargin.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+			this.nudTopMargin.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            -2147483648});
+			this.nudTopMargin.Name = "nudTopMargin";
+			this.nudTopMargin.Size = new System.Drawing.Size(53, 20);
+			this.nudTopMargin.TabIndex = 19;
+			this.nudTopMargin.ValueChanged += new System.EventHandler(this.nudTopMargin_ValueChanged);
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(9, 167);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(69, 13);
+			this.label9.TabIndex = 18;
+			this.label9.Text = "Margins: Top";
 			// 
 			// nudOpacity
 			// 
@@ -327,7 +402,7 @@ namespace FontCreator
 			// nudScale
 			// 
 			this.nudScale.DecimalPlaces = 1;
-			this.nudScale.Location = new System.Drawing.Point(80, 123);
+			this.nudScale.Location = new System.Drawing.Point(80, 143);
 			this.nudScale.Maximum = new decimal(new int[] {
             20,
             0,
@@ -362,7 +437,7 @@ namespace FontCreator
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(8, 125);
+			this.label8.Location = new System.Drawing.Point(8, 145);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(67, 13);
 			this.label8.TabIndex = 15;
@@ -375,7 +450,7 @@ namespace FontCreator
 			this.cboBg.Items.AddRange(new object[] {
             "Dark Background",
             "Light Background"});
-			this.cboBg.Location = new System.Drawing.Point(147, 95);
+			this.cboBg.Location = new System.Drawing.Point(147, 115);
 			this.cboBg.Name = "cboBg";
 			this.cboBg.Size = new System.Drawing.Size(119, 21);
 			this.cboBg.TabIndex = 13;
@@ -384,7 +459,7 @@ namespace FontCreator
 			// btnDisplayColor
 			// 
 			this.btnDisplayColor.BackColor = System.Drawing.Color.White;
-			this.btnDisplayColor.Location = new System.Drawing.Point(80, 94);
+			this.btnDisplayColor.Location = new System.Drawing.Point(80, 114);
 			this.btnDisplayColor.Name = "btnDisplayColor";
 			this.btnDisplayColor.Size = new System.Drawing.Size(28, 23);
 			this.btnDisplayColor.TabIndex = 12;
@@ -394,7 +469,7 @@ namespace FontCreator
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(19, 98);
+			this.label5.Location = new System.Drawing.Point(19, 118);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(55, 13);
 			this.label5.TabIndex = 11;
@@ -408,80 +483,6 @@ namespace FontCreator
 			this.label7.Size = new System.Drawing.Size(46, 13);
 			this.label7.TabIndex = 16;
 			this.label7.Text = "Scale:";
-			// 
-			// label9
-			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(9, 167);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(69, 13);
-			this.label9.TabIndex = 18;
-			this.label9.Text = "Margins: Top";
-			// 
-			// nudTopMargin
-			// 
-			this.nudTopMargin.Location = new System.Drawing.Point(85, 165);
-			this.nudTopMargin.Maximum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-			this.nudTopMargin.Minimum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            -2147483648});
-			this.nudTopMargin.Name = "nudTopMargin";
-			this.nudTopMargin.Size = new System.Drawing.Size(53, 20);
-			this.nudTopMargin.TabIndex = 19;
-			this.nudTopMargin.ValueChanged += new System.EventHandler(this.nudTopMargin_ValueChanged);
-			// 
-			// renderTarget
-			// 
-			this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.renderTarget.Location = new System.Drawing.Point(0, 0);
-			this.renderTarget.Name = "renderTarget";
-			this.renderTarget.Size = new System.Drawing.Size(208, 170);
-			this.renderTarget.TabIndex = 0;
-			this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-			// 
-			// zoomRenderTarget
-			// 
-			this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
-			this.zoomRenderTarget.Name = "zoomRenderTarget";
-			this.zoomRenderTarget.Size = new System.Drawing.Size(348, 170);
-			this.zoomRenderTarget.TabIndex = 1;
-			this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-			// 
-			// nudBottomMargin
-			// 
-			this.nudBottomMargin.Location = new System.Drawing.Point(206, 165);
-			this.nudBottomMargin.Maximum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-			this.nudBottomMargin.Minimum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            -2147483648});
-			this.nudBottomMargin.Name = "nudBottomMargin";
-			this.nudBottomMargin.Size = new System.Drawing.Size(53, 20);
-			this.nudBottomMargin.TabIndex = 20;
-			this.nudBottomMargin.ValueChanged += new System.EventHandler(this.nudBottomMargin_ValueChanged);
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(160, 167);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(40, 13);
-			this.label10.TabIndex = 21;
-			this.label10.Text = "Bottom";
 			// 
 			// CreateFont
 			// 
@@ -498,12 +499,12 @@ namespace FontCreator
 			this.splitContainer1.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudBottomMargin)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudTopMargin)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudOpacity)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudScale)).EndInit();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudTopMargin)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudBottomMargin)).EndInit();
 			this.ResumeLayout(false);
 
         }

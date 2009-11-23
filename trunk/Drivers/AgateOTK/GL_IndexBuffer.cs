@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.ImplementationBase;
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {
@@ -21,6 +21,8 @@ namespace AgateOTK
 			mType = type;
 
 			CreateBuffer();
+
+			System.Diagnostics.Debug.Print("Created {0} index buffer.", type);
 		}
 
 		private void CreateBuffer()

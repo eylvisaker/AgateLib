@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3F2BD363-E2D6-4B62-8D57-7727142D6B82}</ProjectGuid>
+    <ProjectGuid>{9E095F03-BA3F-4EAD-A905-2A2647CE4405}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -70,10 +70,7 @@
       <Name>OpenTK</Name>
       <HintPath>.\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK.Utilities">
-      <Name>OpenTK.Utilities</Name>
-      <HintPath>.\OpenTK.Utilities.dll</HintPath>
-    </Reference>
+    <Reference Include="OpenTK.Compatibility, Version=0.9.9.4, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -94,11 +91,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="OpenTK.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
+      <Name>AgateLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
+      <Name>AgateLib.WinForms</Name>
+      <Project>{16139F84-99AE-4EDD-A9DA-282C05BA9C82}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenTK.Compatibility.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="OpenTK.Utilities.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="OpenTK.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="AL_Audio.cs">
       <SubType>Code</SubType>
@@ -116,6 +124,7 @@
       <DependentUpon>frmFullScreen.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GeoHelper.cs" />
     <Compile Include="GLDrawBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -161,6 +170,11 @@
     <Compile Include="Otk_Reporter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Shaders\FixedFunction\FixedFunctionShaderFactory.cs" />
+    <Compile Include="Shaders\FixedFunction\OTK_FF_Basic2DShader.cs" />
+    <Compile Include="Shaders\FixedFunction\OTK_FF_Lighting3D.cs" />
+    <Compile Include="Shaders\FixedFunction\OTK_FF_Lighting2D.cs" />
+    <Compile Include="Shaders\ShaderFactory.cs" />
     <Compile Include="TextureCoordinates.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -173,14 +187,19 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
-      <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{2E6579F9-1F70-4DF9-98A9-22687425A830}</Project>
-      <Name>AgateLib.WinForms</Name>
-    </ProjectReference>
+    <Content Include="OpenTK.Compatibility.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="OpenTK.Compatibility.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="OpenTK.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="OpenTK.GLControl.xml" />
+    <Content Include="OpenTK.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>

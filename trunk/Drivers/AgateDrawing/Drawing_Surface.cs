@@ -25,12 +25,15 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using AgateLib.DisplayLib;
 using AgateLib.ImplementationBase;
+using AgateLib.WinForms;
+using Geometry = AgateLib.Geometry;
+using PixelFormat = AgateLib.DisplayLib.PixelFormat;
+using InterpolationMode = AgateLib.DisplayLib.InterpolationMode;
 
-namespace AgateLib.DisplayLib.SystemDrawing
+namespace AgateDrawing
 {
-	using WinForms;
-
 	class Drawing_Surface : SurfaceImpl, Drawing_IRenderTarget
 	{
 		#region --- Private variables ---

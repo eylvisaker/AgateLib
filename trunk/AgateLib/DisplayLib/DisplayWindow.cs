@@ -304,6 +304,11 @@ namespace AgateLib.DisplayLib
 			impl.SetFullScreen(width, height, bpp);
 		}
 
+		public Matrix4x4 OrthoProjection
+		{
+			get { return Matrix4x4.Ortho(new RectangleF(0, 0, Width, Height), -1, 1); }
+		}
+
 		#region --- IRenderTarget Members ---
 
 		IRenderTargetImpl IRenderTarget.Impl

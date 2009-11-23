@@ -34,6 +34,7 @@ using AgateLib.WinForms;
 
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using GL = OpenTK.Graphics.OpenGL.GL;
 using OpenTK.Platform;
 
 namespace AgateOTK
@@ -42,7 +43,7 @@ namespace AgateOTK
 	{
 		Form frm;
 		Control mRenderTarget;
-		GraphicsContext mContext;
+		IGraphicsContext mContext;
 		IWindowInfo mWindowInfo;
 
 		GL_Display mDisplay;
@@ -59,6 +60,12 @@ namespace AgateOTK
 		WindowPosition mChoosePosition;
 
 		bool mHasFrame = true;
+		GLDrawBuffer mDrawBuffer;
+
+		public GLDrawBuffer DrawBuffer
+		{
+			get { return mDrawBuffer; }
+		}
 
 		public GL_DisplayControl(CreateWindowParams windowParams)
 		{
@@ -85,8 +92,6 @@ namespace AgateOTK
 
 				CreateContext();
 
-				mDisplay.InitializeGL();
-
 				AttachEvents();
 			}
 			else
@@ -107,11 +112,12 @@ namespace AgateOTK
 					CreateWindowedDisplay();
 
 				mDisplay = Display.Impl as GL_Display;
-				mDisplay.InitializeGL();
-
 			}
 
 			mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);
+			mDisplay.InitializeCurrentContext();
+
+			mDrawBuffer = new GLDrawBuffer();
 		}
 
 		void mDisplay_ProcessEventsEvent(object sender, EventArgs e)
@@ -124,7 +130,7 @@ namespace AgateOTK
 			DetachEvents();
 
 			Form oldForm = frm;
-			GraphicsContext oldcontext = mContext;
+			IGraphicsContext oldcontext = mContext;
 			IWindowInfo oldWindowInfo = mWindowInfo;
 
 			mContext = null;
@@ -142,10 +148,10 @@ namespace AgateOTK
 
 			CreateContext();
 
-			DisplayResolution resolution = DisplayDevice.Default.SelectResolution(
-				mChooseWidth, mChooseHeight, 32, 0);
 
-			DisplayDevice.Default.ChangeResolution(resolution);
+			OpenTK.DisplayResolution resolution = OpenTK.DisplayDevice.Default.SelectResolution(
+				mChooseWidth, mChooseHeight, 32, 0);
+			OpenTK.DisplayDevice.Default.ChangeResolution(resolution);
 
 			frm.Location = System.Drawing.Point.Empty;
 			frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
@@ -166,7 +172,7 @@ namespace AgateOTK
 			DetachEvents();
 
 			Form oldForm = frm;
-			GraphicsContext oldcontext = mContext;
+			IGraphicsContext oldcontext = mContext;
 			IWindowInfo oldWindowInfo = mWindowInfo;
 
 			mContext = null;
@@ -175,7 +181,7 @@ namespace AgateOTK
 			Form myform;
 			Control myRenderTarget;
 
-			DisplayDevice.Default.RestoreResolution();
+			OpenTK.DisplayDevice.Default.RestoreResolution();
 
 			AgateLib.WinForms.FormUtil.InitializeWindowsForm(out myform, out myRenderTarget, mChoosePosition,
 				mTitle, mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
@@ -206,13 +212,133 @@ namespace AgateOTK
 
 			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
 
-			//mWindowInfo = OpenTK.Platform.Utilities.CreateWindowInfo(newMode, mRenderTarget);
 
-			//mContext = OpenTK.Platform.Utilities.CreateGraphicsContext(
-			//	newMode, mWindowInfo, 3, 1, GraphicsContextFlags.Default);
-			OpenTK.Platform.Utilities.CreateGraphicsContext(newMode, mRenderTarget, out mContext, out mWindowInfo);
+			mWindowInfo = CreateWindowInfo(newMode);
+
+			GraphicsContextFlags flags = GraphicsContextFlags.Default;
+#if DEBUG
+			//flags = GraphicsContextFlags.ForwardCompatible;
+#endif
+			mContext = new OpenTK.Graphics.GraphicsContext(newMode, mWindowInfo, 3, 1, flags);
+			mContext.MakeCurrent(mWindowInfo);
+			(mContext as IGraphicsContextInternal).LoadAll();
+
 		}
 
+		private IWindowInfo CreateWindowInfo(GraphicsMode mode)
+		{
+			switch (AgateLib.Core.Platform.PlatformType)
+			{
+				case AgateLib.PlatformType.Windows:
+					return OpenTK.Platform.Utilities.CreateWindowsWindowInfo(mRenderTarget.Handle);
+				case AgateLib.PlatformType.MacOS:
+					return OpenTK.Platform.Utilities.CreateMacOSCarbonWindowInfo(mRenderTarget.Handle, false, true);
+				case AgateLib.PlatformType.Linux:
+					return CreateX11WindowInfo(mode);
+				case AgateLib.PlatformType.Gp2x:
+				default:
+					throw new Exception("Platform not implemented.");
+			}
+		}
+
+		private IWindowInfo CreateX11WindowInfo(GraphicsMode mode)
+		{
+			Type xplatui = Type.GetType("System.Windows.Forms.XplatUIX11, System.Windows.Forms");
+			if (xplatui == null) throw new PlatformNotSupportedException(
+					"System.Windows.Forms.XplatUIX11 missing. Unsupported platform or Mono runtime version, aborting.");
+
+			// get the required handles from the X11 API.
+			IntPtr display = (IntPtr)GetStaticFieldValue(xplatui, "DisplayHandle");
+			IntPtr rootWindow = (IntPtr)GetStaticFieldValue(xplatui, "RootWindow");
+			int screen = (int)GetStaticFieldValue(xplatui, "ScreenNo");
+
+			// get the X11 Visual info for the display.
+			XVisualInfo info = new XVisualInfo();
+			info.VisualID = mode.Index.Value;
+			int dummy;
+			info = (XVisualInfo)Marshal.PtrToStructure(
+				XGetVisualInfo(display, XVisualInfoMask.ID, ref info, out dummy), typeof(XVisualInfo));
+
+			// set the X11 colormap.
+			SetStaticFieldValue(xplatui, "CustomVisual", info.Visual);
+			SetStaticFieldValue(xplatui, "CustomColormap",
+				XCreateColormap(display, rootWindow, info.Visual, 0));
+
+			IntPtr infoPtr = Marshal.AllocHGlobal(Marshal.SizeOf(info));
+			Marshal.StructureToPtr(info, infoPtr, false);
+
+			IWindowInfo window = OpenTK.Platform.Utilities.CreateX11WindowInfo(
+				display, screen, mRenderTarget.Handle, rootWindow, infoPtr);
+
+			return window;
+
+		}
+
+		#region --- X11 imports ---
+
+		[StructLayout(LayoutKind.Sequential)]
+		struct XVisualInfo
+		{
+			public IntPtr Visual;
+			public IntPtr VisualID;
+			public int Screen;
+			public int Depth;
+			public OpenTK.Platform.X11.XVisualClass Class;
+			public long RedMask;
+			public long GreenMask;
+			public long blueMask;
+			public int ColormapSize;
+			public int BitsPerRgb;
+
+			public override string ToString()
+			{
+				return String.Format("id ({0}), screen ({1}), depth ({2}), class ({3})",
+					VisualID, Screen, Depth, Class);
+			}
+		}
+		[DllImport("libX11")]
+		public static extern IntPtr XCreateColormap(IntPtr display, IntPtr window, IntPtr visual, int alloc);
+
+		[DllImport("libX11", EntryPoint = "XGetVisualInfo")]
+		static extern IntPtr XGetVisualInfoInternal(IntPtr display, IntPtr vinfo_mask, ref XVisualInfo template, out int nitems);
+
+		static IntPtr XGetVisualInfo(IntPtr display, XVisualInfoMask vinfo_mask, ref XVisualInfo template, out int nitems)
+		{
+			return XGetVisualInfoInternal(display, (IntPtr)(int)vinfo_mask, ref template, out nitems);
+		}
+
+		[Flags]
+		internal enum XVisualInfoMask
+		{
+			No = 0x0,
+			ID = 0x1,
+			Screen = 0x2,
+			Depth = 0x4,
+			Class = 0x8,
+			Red = 0x10,
+			Green = 0x20,
+			Blue = 0x40,
+			ColormapSize = 0x80,
+			BitsPerRGB = 0x100,
+			All = 0x1FF,
+		}
+
+
+		#endregion
+		#region --- Utility functions for reading/writing non-public static fields through reflection ---
+
+		private static object GetStaticFieldValue(Type type, string fieldName)
+		{
+			return type.GetField(fieldName,
+				System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(null);
+		}
+		private static void SetStaticFieldValue(Type type, string fieldName, object value)
+		{
+			type.GetField(fieldName,
+				System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).SetValue(null, value);
+		}
+
+		#endregion
 
 		public override void Dispose()
 		{

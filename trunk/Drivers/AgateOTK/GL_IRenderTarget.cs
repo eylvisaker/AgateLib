@@ -32,5 +32,6 @@ namespace AgateOTK
 		void HideCursor();
 		void ShowCursor();
 
+		GLDrawBuffer DrawBuffer { get; }
 	}
 }

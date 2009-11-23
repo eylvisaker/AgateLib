@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using AgateLib;
@@ -7,14 +8,14 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
 using AgateLib.ImplementationBase;
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {
 	public class GL_VertexBuffer : VertexBufferImpl
 	{
 		GL_Display mDisplay;
-		GLState mState;
+		GLDrawBuffer mDrawBuffer;
 
 		struct AttributeData
 		{
@@ -34,11 +35,13 @@ namespace AgateOTK
 		public GL_VertexBuffer(VertexLayout layout, int count)
 		{
 			mDisplay = Display.Impl as GL_Display;
-			mState = mDisplay.State;
+			mDrawBuffer = mDisplay.DrawBuffer;
 			mVertexCount = count;
 			mLayout = layout;
 
 			GL.GenBuffers(1, out mVertexBufferID);
+			Debug.Print("Vertex buffer ID: {0}", mVertexBufferID);
+
 		}
 
 		public override void  Write<T>(T[] vertices)
@@ -46,23 +49,29 @@ namespace AgateOTK
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
 			int size = vertices.Length * Marshal.SizeOf(typeof(T));
 
-			GCHandle h = GCHandle.Alloc(vertices, GCHandleType.Pinned);
+			GCHandle h = new GCHandle();
 
-			IntPtr arrayptr = Marshal.UnsafeAddrOfPinnedArrayElement(vertices, 0);
-
-			unsafe
+			try
 			{
-				byte* ptr = (byte*)arrayptr;
+				h = GCHandle.Alloc(vertices, GCHandleType.Pinned);
 
-				GL.BufferData(
-					BufferTarget.ArrayBuffer,
-					(IntPtr)(vertices.Length * Marshal.SizeOf(typeof(T))),
-					(IntPtr)ptr,
-					BufferUsageHint.StaticDraw);
+				IntPtr arrayptr = Marshal.UnsafeAddrOfPinnedArrayElement(vertices, 0);
+
+				unsafe
+				{
+					byte* ptr = (byte*)arrayptr;
+
+					GL.BufferData(
+						BufferTarget.ArrayBuffer,
+						(IntPtr)size,
+						(IntPtr)ptr,
+						BufferUsageHint.StaticDraw);
+				}
 			}
-
-			h.Free();
-
+			finally
+			{
+				h.Free();
+			}
 		}
 
 		public override void Draw(int start, int count)
@@ -78,7 +87,7 @@ namespace AgateOTK
 			GL_IndexBuffer gl_indexbuffer = (GL_IndexBuffer) indexbuffer.Impl;
 
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, gl_indexbuffer.BufferID);
-			GL.IndexPointer(IndexPointerType.Short, 0, (IntPtr)start);
+			GL.IndexPointer(IndexPointerType.Short, 0, start);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
 			SetClientStates();
@@ -108,13 +117,12 @@ namespace AgateOTK
 					mAttributeBuffers[i].Type,
 					false, 0, IntPtr.Zero);
 			}*/
-			throw new NotImplementedException();
 
 		}
 
 		private void SetClientStates()
 		{
-			mState.SetGLColor(Color.White);
+			mDrawBuffer.SetGLColor(Color.White);
 
 			if (UseTexture)
 				SetTextures();
@@ -140,8 +148,11 @@ namespace AgateOTK
 				GL.EnableClientState(EnableCap.VertexArray);
 				GL.VertexPointer(
 					PositionSize / sizeof(float), VertexPointerType.Float, mLayout.VertexSize,
-					(IntPtr)mLayout.ElementByteIndex(VertexElement.Position));
+					mLayout.ElementByteIndex(VertexElement.Position));
 			}
+
+			GL.DisableClientState(EnableCap.ColorArray);
+
 
 			SetAttributes();
 		}
@@ -158,45 +169,43 @@ namespace AgateOTK
 						(IntPtr)mLayout.ElementByteIndex(VertexElement.Texture));
 			}
 
-			/*
-			GlslShader shader = Display.Shader as GlslShader;
+			
+			//GlslShader shader = Display.Shader as GlslShader;
 
 			if (Textures.ActiveTextures > 1)
 			{
-				for (int i = 0; i < Textures.Count; i++)
-				{
-					GL.ActiveTexture((TextureUnit)(TextureUnit.Texture0 + i));
+				//for (int i = 0; i < Textures.Count; i++)
+				//{
+				//    GL.ActiveTexture((TextureUnit)(TextureUnit.Texture0 + i));
 
-					Surface surf = Textures[i];
+				//    Surface surf = Textures[i];
 
-					if (surf != null)
-					{
-						GL_Surface gl_surf = (GL_Surface)Textures[i].Impl;
+				//    if (surf != null)
+				//    {
+				//        GL_Surface gl_surf = (GL_Surface)Textures[i].Impl;
 
-						GL.Enable(EnableCap.Texture2D);
-						GL.BindTexture(TextureTarget.Texture2D, gl_surf.GLTextureID);
+				//        GL.Enable(EnableCap.Texture2D);
+				//        GL.BindTexture(TextureTarget.Texture2D, gl_surf.GLTextureID);
 
-						if (shader != null)
-						{
-							if (i < shader.Sampler2DUniforms.Count)
-							{
-								shader.SetUniform(shader.Sampler2DUniforms[i], i);
-							}
-						}
-					}
-					else
-					{
-						GL.Disable(EnableCap.Texture2D);
-						GL.BindTexture(TextureTarget.Texture2D, 0);
-					}
-				}
+				//        if (shader != null)
+				//        {
+				//            if (i < shader.Sampler2DUniforms.Count)
+				//            {
+				//                shader.SetUniform(shader.Sampler2DUniforms[i], i);
+				//            }
+				//        }
+				//    }
+				//    else
+				//    {
+				//        GL.Disable(EnableCap.Texture2D);
+				//        GL.BindTexture(TextureTarget.Texture2D, 0);
+				//    }
+				//}
 			}
 			else
 			{
 				GL.BindTexture(TextureTarget.Texture2D, ((GL_Surface)Textures[0].Impl).GLTextureID);
 			}
-			 * */
-			throw new NotImplementedException();
 		}
 
 		private BeginMode SelectBeginMode()

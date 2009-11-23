@@ -36,15 +36,15 @@ namespace AgateOTK
 
 			if (ReportOpenAL())
 			{
-				yield return new AgateDriverInfo(
-					AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK " + opentk_version, 100);
+				//yield return new AgateDriverInfo(
+				//    AudioTypeID.OpenAL, typeof(AL_Audio), "OpenAL through OpenTK " + opentk_version, 100);
 			}
 		}
 
 		private static string GetOpenTKVersion(string opentk_version)
 		{
 
-			Assembly otkass = Assembly.GetAssembly(typeof(OpenTK.Graphics.GL));
+			Assembly otkass = Assembly.GetAssembly(typeof(OpenTK.Graphics.OpenGL.GL));
 			object[] attribs = otkass.GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
 			AssemblyFileVersionAttribute version = attribs[0] as AssemblyFileVersionAttribute;
 
@@ -56,6 +56,9 @@ namespace AgateOTK
 
 		bool ReportOpenAL()
 		{
+			// OpenAL driver has not been updated to latest OpenTK API, so it is disabled.
+			return false;
+
 			try
 			{
 				// test for the presence of working OpenAL.

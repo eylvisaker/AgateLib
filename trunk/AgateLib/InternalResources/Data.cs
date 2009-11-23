@@ -13,6 +13,15 @@ namespace AgateLib.InternalResources
 
 		static Surface mPoweredBy;
 
+		static Data()
+		{
+			Display.DisposeDisplay += new Display.DisposeDisplayHandler(OnDisplayDispose);
+		}
+		internal static void OnDisplayDispose()
+		{
+			mPoweredBy = null;
+		}
+			
 		internal static Surface PoweredBy
 		{
 			get

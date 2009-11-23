@@ -25,10 +25,11 @@ using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {
+	[Obsolete]
 	class GLState
 	{
 		#region --- Private variables for state management ---
@@ -39,18 +40,13 @@ namespace AgateOTK
 
 		public GLState()
 		{
-			mDrawBuffer = new GLDrawBuffer(this);
+			mDrawBuffer = new GLDrawBuffer();
 		}
 
 
 		public GLDrawBuffer DrawBuffer
 		{
 			get { return mDrawBuffer; }
-		}
-
-		public void SetGLColor(Color color)
-		{
-			GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
 		}
 
 

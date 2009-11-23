@@ -4,6 +4,9 @@ using System.Text;
 
 namespace AgateLib.Geometry
 {
+	/// <summary>
+	/// Structure which indicates a 4x4 matrix.
+	/// </summary>
 	public struct Matrix4x4
 	{
 		float m11, m12, m13, m14;
@@ -11,15 +14,32 @@ namespace AgateLib.Geometry
 		float m31, m32, m33, m34;
 		float m41, m42, m43, m44;
 
+		/// <summary>
+		/// The identity 4x4 matrix.
+		/// </summary>
 		public static readonly Matrix4x4 Identity = new Matrix4x4(
 			1, 0, 0, 0,
 			0, 1, 0, 0,
 			0, 0, 1, 0,
 			0, 0, 0, 1);
+		/// <summary>
+		/// Creates a 4x4 matrix which represents a translation.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <returns></returns>
 		public static Matrix4x4 Translation(double x, double y, double z)
 		{
 			return Translation((float)x, (float)y, (float)z);
 		}
+		/// <summary>
+		/// Creates a 4x4 matrix which represents a translation.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <returns></returns>
 		public static Matrix4x4 Translation(float x, float y, float z)
 		{
 			return new Matrix4x4(
@@ -28,11 +48,23 @@ namespace AgateLib.Geometry
 				0, 0, 1, z,
 				0, 0, 0, 1);
 		}
+		/// <summary>
+		/// Creates a 4x4 matrix which represents a translation.
+		/// </summary>
+		/// <param name="vec">The translation vector</param>
+		/// <returns></returns>
 		public static Matrix4x4 Translation(Vector3 vec)
 		{
 			return Translation(vec.X, vec.Y, vec.Z);
 		}
 
+		/// <summary>
+		/// Creates a 4x4 matrix which represents a scaling operation.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <returns></returns>
 		public static Matrix4x4 Scale(float x, float y, float z)
 		{
 			return new Matrix4x4(
@@ -41,10 +73,11 @@ namespace AgateLib.Geometry
 				0, 0, z, 0,
 				0, 0, 0, 1);
 		}
-		//public static Matrix4 RotateXDegrees(float angle)
-		//{
-		//    return RotateX(angle * (float)(Math.PI / 180.0));
-		//}
+		/// <summary>
+		/// Creates a 4x4 matrix which rotates about the x-axis.
+		/// </summary>
+		/// <param name="angle"></param>
+		/// <returns></returns>
 		public static Matrix4x4 RotateX(float angle)
 		{
 			float cos = (float)Math.Cos(angle);
@@ -56,6 +89,11 @@ namespace AgateLib.Geometry
 				0, sin, cos, 0,
 				0, 0, 0, 1);
 		}
+		/// <summary>
+		/// Creates a 4x4 matrix which rotates about the y-axis.
+		/// </summary>
+		/// <param name="angle"></param>
+		/// <returns></returns>
 		public static Matrix4x4 RotateY(float angle)
 		{
 			float cos = (float)Math.Cos(angle);
@@ -66,6 +104,15 @@ namespace AgateLib.Geometry
 				0, 1, 0, 0,
 				-sin, 0, cos, 0,
 				0, 0, 0, 1);
+		}
+		/// <summary>
+		/// Creates a 4x4 matrix which rotates about the z-axis.
+		/// </summary>
+		/// <param name="angle"></param>
+		/// <returns></returns>
+		public static Matrix4x4 RotateZ(double angle)
+		{
+			return RotateZ((float)angle);
 		}
 		public static Matrix4x4 RotateZ(float angle)
 		{
@@ -102,7 +149,14 @@ namespace AgateLib.Geometry
 				0, 0,-1, 0,
 				0, 0, 0, 1);
 		}
-		public static Matrix4x4 LookAt(Vector3 eye, Vector3 target, Vector3 up)
+		/// <summary>
+		/// Creates a view matrix given a camera position, and target to look at and an up direction.
+		/// </summary>
+		/// <param name="eye">The camera position.</param>
+		/// <param name="target">The object being looked at (only the direction of target - eye is relevant)</param>
+		/// <param name="up">Which direction is up.</param>
+		/// <returns></returns>
+		public static Matrix4x4 ViewLookAt(Vector3 eye, Vector3 target, Vector3 up)
 		{
 			// equation from
 			// http://pyopengl.sourceforge.net/documentation/manual/gluLookAt.3G.xml
@@ -113,6 +167,7 @@ namespace AgateLib.Geometry
 			up /= up.Magnitude;
 
 			Vector3 s = f.CrossProduct(up);
+			s /= s.Magnitude;
 			s /= s.Magnitude;
 
 			Vector3 u = s.CrossProduct(f);
@@ -151,6 +206,14 @@ namespace AgateLib.Geometry
 				0, 0, -(zFar + zNear) / zDiff, -2 * zFar * zNear / zDiff,
 				0, 0, -1, 0);
 		}
+		/// <summary>
+		/// Creates a projection matrix for an orthogonal perspective, as is used in 
+		/// 2D drawing.
+		/// </summary>
+		/// <param name="r"></param>
+		/// <param name="zNear"></param>
+		/// <param name="zFar"></param>
+		/// <returns></returns>
 		public static Matrix4x4 Ortho(RectangleF r, float zNear, float zFar)
 		{
 			// equation from 
@@ -163,6 +226,25 @@ namespace AgateLib.Geometry
 				0, 0, 0, 1);
 		}
 
+		/// <summary>
+		/// Constructs a 4x4 matrix.
+		/// </summary>
+		/// <param name="a11"></param>
+		/// <param name="a12"></param>
+		/// <param name="a13"></param>
+		/// <param name="a14"></param>
+		/// <param name="a21"></param>
+		/// <param name="a22"></param>
+		/// <param name="a23"></param>
+		/// <param name="a24"></param>
+		/// <param name="a31"></param>
+		/// <param name="a32"></param>
+		/// <param name="a33"></param>
+		/// <param name="a34"></param>
+		/// <param name="a41"></param>
+		/// <param name="a42"></param>
+		/// <param name="a43"></param>
+		/// <param name="a44"></param>
 		public Matrix4x4(float a11, float a12, float a13, float a14,
 					   float a21, float a22, float a23, float a24,
 					   float a31, float a32, float a33, float a34,
@@ -174,6 +256,12 @@ namespace AgateLib.Geometry
 			m41 = a41; m42 = a42; m43 = a43; m44 = a44;
 		}
 
+		/// <summary>
+		/// Gets or sets a value in the matrix.
+		/// </summary>
+		/// <param name="row"></param>
+		/// <param name="col"></param>
+		/// <returns></returns>
 		public float this[int row, int col]
 		{
 			get
@@ -182,10 +270,10 @@ namespace AgateLib.Geometry
 
 				switch (row)
 				{
-					case 0: return Select(col, m11, m12, m13, m14);
-					case 1: return Select(col, m21, m22, m23, m24);
-					case 2: return Select(col, m31, m32, m33, m34);
-					case 3: return Select(col, m41, m42, m43, m44);
+					case 0: return SelectValue(col, m11, m12, m13, m14);
+					case 1: return SelectValue(col, m21, m22, m23, m24);
+					case 2: return SelectValue(col, m31, m32, m33, m34);
+					case 3: return SelectValue(col, m41, m42, m43, m44);
 					default: throw new ArgumentOutOfRangeException("row");
 				}
 			}
@@ -196,25 +284,24 @@ namespace AgateLib.Geometry
 				switch (row)
 				{
 					case 0:
-						Set(col, value, ref m11, ref m12, ref m13, ref m14);
+						SetValue(col, value, ref m11, ref m12, ref m13, ref m14);
 						break;
 					case 1:
-						Set(col, value, ref m21, ref m22, ref m23, ref m24);
+						SetValue(col, value, ref m21, ref m22, ref m23, ref m24);
 						break;
 					case 2:
-						Set(col, value, ref m31, ref m32, ref m33, ref m34);
+						SetValue(col, value, ref m31, ref m32, ref m33, ref m34);
 						break;
 					case 3:
-						Set(col, value, ref m41, ref m42, ref m43, ref m44);
+						SetValue(col, value, ref m41, ref m42, ref m43, ref m44);
 						break;
 					default:
 						throw new ArgumentOutOfRangeException("row");
 				}
 			}
-
 		}
 
-		private void Set(int index, float value, ref float v1, ref float v2, ref float v3, ref float v4)
+		private void SetValue(int index, float value, ref float v1, ref float v2, ref float v3, ref float v4)
 		{
 			switch (index)
 			{
@@ -227,7 +314,7 @@ namespace AgateLib.Geometry
 			}
 		}
 
-		private float Select(int index, float v1, float v2, float v3, float v4)
+		private float SelectValue(int index, float v1, float v2, float v3, float v4)
 		{
 			switch (index)
 			{
@@ -240,6 +327,10 @@ namespace AgateLib.Geometry
 			}
 		}
 
+		/// <summary>
+		/// Returns the transpose of a matrix.
+		/// </summary>
+		/// <returns></returns>
 		public Matrix4x4 Transpose()
 		{
 			return new Matrix4x4(
@@ -267,11 +358,22 @@ namespace AgateLib.Geometry
 
 			return retval;
 		}
-
+		/// <summary>
+		/// Multiplies two matrices together.
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
+		/// <returns></returns>
 		public static Matrix4x4 operator *(Matrix4x4 left, Matrix4x4 right)
 		{
 			return left.Mult(right);
 		}
+		/// <summary>
+		/// Multiplies a matrix on the left by a column vector on the right.
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
+		/// <returns></returns>
 		public static Vector4 operator *(Matrix4x4 left, Vector4 right)
 		{
 			Vector4 retval = new Vector4();

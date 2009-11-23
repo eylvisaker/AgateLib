@@ -24,16 +24,21 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
+using AgateLib;
 using AgateLib.BitmapFont;
+using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.Shaders;
+using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Drivers;
 using AgateLib.ImplementationBase;
-using AgateLib.PlatformSpecific;
+using AgateLib.WinForms;
+using Geometry = AgateLib.Geometry;
+using FontStyle = AgateLib.DisplayLib.FontStyle;
+using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
-namespace AgateLib.DisplayLib.SystemDrawing
+namespace AgateDrawing
 {
-	using WinForms;
-
-	public class Drawing_Display : DisplayImpl, IPlatformServices
+	public class Drawing_Display : DisplayImpl
 	{
 		#region --- Private variables ---
 
@@ -103,21 +108,13 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		{
 			return new Drawing_DisplayWindow(windowParams);
 		}
-		//public override DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullScreen, bool allowResize)
-		//{
-		//    return new Drawing_DisplayWindow(title, clientWidth, clientHeight, iconFile, startFullScreen, allowResize );
-		//}
-		//public override DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget)
-		//{
-		//    return new Drawing_DisplayWindow(renderTarget);
-		//}
 		public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyle style)
 		{
 			return new Drawing_FontSurface(fontFamily, sizeInPoints, style);
 		}
 		public override FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
 		{
-			return WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
+			return AgateLib.WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
 		}
 
 		#endregion
@@ -237,15 +234,21 @@ namespace AgateLib.DisplayLib.SystemDrawing
 			get { return PixelFormat.BGRA8888; }
 		}
 
-		public override Geometry.Size MaxSurfaceSize
-		{
-			get { return new Geometry.Size(1024, 1024); }
-		}
-
 		public override void FlushDrawBuffer()
 		{
 		}
 
+		protected override AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
+		{
+			switch (BuiltInShaderType)
+			{
+				case AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader.Basic2DShader:
+					return new AgateDrawing.DrawingBasic2DShader();
+
+				default:
+					return null;
+			}
+		}
 		public override void SetOrthoProjection(AgateLib.Geometry.Rectangle region)
 		{
 			throw new AgateException("SetOrthoProjection is not implemented in AgateDrawing.dll.");
@@ -253,7 +256,7 @@ namespace AgateLib.DisplayLib.SystemDrawing
 
 		protected override void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
 		{
-			WinForms.FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
+			AgateLib.WinForms.FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
 		}
 
 		protected override void HideCursor()
@@ -280,11 +283,22 @@ namespace AgateLib.DisplayLib.SystemDrawing
 				case DisplayBoolCaps.IsHardwareAccelerated: return false;
 				case DisplayBoolCaps.FullScreen: return false;
 				case DisplayBoolCaps.FullScreenModeSwitching: return false;
-				case DisplayBoolCaps.Shaders: return false;
+				case DisplayBoolCaps.CustomShaders: return false;
 				case DisplayBoolCaps.CanCreateBitmapFont: return true;
 			}
 
 			return false;
+		}
+		public override AgateLib.Geometry.Size CapsSize(DisplaySizeCaps displaySizeCaps)
+		{
+			switch (displaySizeCaps)
+			{
+				case DisplaySizeCaps.MaxSurfaceSize:
+					return new Geometry.Size(1024, 1024);
+
+				default:
+					return new AgateLib.Geometry.Size(0, 0);
+			}
 		}
 
 		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
@@ -293,35 +307,6 @@ namespace AgateLib.DisplayLib.SystemDrawing
 		}
 
 		#endregion
-
-		#region IPlatformServices Members
-
-		protected override IPlatformServices GetPlatformServices()
-		{
-			return this;
-		}
-		Utility.PlatformType IPlatformServices.PlatformType
-		{
-			get
-			{
-				switch (Environment.OSVersion.Platform)
-				{
-					case PlatformID.Win32Windows:
-					case PlatformID.Win32S:
-					case PlatformID.Win32NT:
-					case PlatformID.WinCE:
-						return Utility.PlatformType.Windows;
-
-					case PlatformID.Unix:
-						return Utility.PlatformType.Linux;
-				}
-
-				return Utility.PlatformType.Unknown;
-			}
-		}
-
-		#endregion
-
 
 		protected override bool GetRenderState(RenderStateBool renderStateBool)
 		{
