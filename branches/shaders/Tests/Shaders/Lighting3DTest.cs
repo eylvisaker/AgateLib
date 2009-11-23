@@ -24,11 +24,14 @@ namespace Tests.Shaders
 			get { return "Shaders"; }
 		}
 
-		Vector3 eye = new Vector3(-3, 0, 2);
+		Vector3 eye = new Vector3(-3, 0, 4);
 		Vector3 up = new Vector3(0, 0, 1);
 		double lookAngle = 0;
 		double angle = 0;
 		bool lightEnable;
+		bool paused = false;
+		bool advance = false;
+		bool done = false;
 
 		public void Main(string[] args)
 		{
@@ -44,7 +47,7 @@ namespace Tests.Shaders
 				FontSurface font = new FontSurface("Times", 14);
 
 				AgateLib.Geometry.Builders.CubeBuilder cb = new AgateLib.Geometry.Builders.CubeBuilder();
-				cb.Location = new Vector3();
+				cb.Location = new Vector3(0, 0, 0);
 				cb.Length = 1;
 				cb.CreateVertexBuffer();
 
@@ -56,9 +59,6 @@ namespace Tests.Shaders
 				{
 					Display.BeginFrame();
 					Display.Clear(Color.Blue);
-
-					font.DrawText(0, 0, "Location: {0}", eye);
-					font.DrawText(0, font.FontHeight, "Angle: {0}", lookAngle);
 
 					var shader = AgateBuiltInShaders.Lighting3D;
 					shader.AmbientLight = Color.Black;
@@ -88,7 +88,15 @@ namespace Tests.Shaders
 					cb.VertexBuffer.Textures[0] = texture;
 					cb.VertexBuffer.DrawIndexed(cb.IndexBuffer);
 
-					AgateBuiltInShaders.Basic2DShader.Activate();
+
+
+					if (lightEnable)
+					{
+						AgateBuiltInShaders.Basic2DShader.Activate();
+
+						font.DrawText(0, 0, "Location: {0}", eye);
+						font.DrawText(0, font.FontHeight, "Angle: {0}", lookAngle);
+					}
 
 					Display.EndFrame();
 					Core.KeepAlive();
@@ -98,6 +106,16 @@ namespace Tests.Shaders
 
 					frameCount++;
 
+					if (paused)
+					{
+						while (paused && advance == false && done == false && wind.IsClosed == false)
+							Core.KeepAlive();
+
+						advance = false;
+					}
+
+					if (done)
+						break;
 				}
 			}
 		}
@@ -123,6 +141,9 @@ namespace Tests.Shaders
 				case KeyCode.Left: lookAngle += (float)(speed * Display.DeltaTime / 1000.0f); break;
 				case KeyCode.Right: lookAngle -= (float)(speed * Display.DeltaTime / 1000.0f); break;
 				case KeyCode.L: lightEnable = !lightEnable; break;
+				case KeyCode.P: paused = !paused; break;
+				case KeyCode.A: advance = true; break;
+				case KeyCode.Escape: done = true; break;
 			}
 		}
 

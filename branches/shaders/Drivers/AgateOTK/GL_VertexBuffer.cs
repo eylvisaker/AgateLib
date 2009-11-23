@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using AgateLib;
@@ -39,6 +40,8 @@ namespace AgateOTK
 			mLayout = layout;
 
 			GL.GenBuffers(1, out mVertexBufferID);
+			Debug.Print("Vertex buffer ID: {0}", mVertexBufferID);
+
 		}
 
 		public override void  Write<T>(T[] vertices)
@@ -46,23 +49,29 @@ namespace AgateOTK
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
 			int size = vertices.Length * Marshal.SizeOf(typeof(T));
 
-			GCHandle h = GCHandle.Alloc(vertices, GCHandleType.Pinned);
+			GCHandle h = new GCHandle();
 
-			IntPtr arrayptr = Marshal.UnsafeAddrOfPinnedArrayElement(vertices, 0);
-
-			unsafe
+			try
 			{
-				byte* ptr = (byte*)arrayptr;
+				h = GCHandle.Alloc(vertices, GCHandleType.Pinned);
 
-				GL.BufferData(
-					BufferTarget.ArrayBuffer,
-					(IntPtr)(vertices.Length * Marshal.SizeOf(typeof(T))),
-					(IntPtr)ptr,
-					BufferUsageHint.StaticDraw);
+				IntPtr arrayptr = Marshal.UnsafeAddrOfPinnedArrayElement(vertices, 0);
+
+				unsafe
+				{
+					byte* ptr = (byte*)arrayptr;
+
+					GL.BufferData(
+						BufferTarget.ArrayBuffer,
+						(IntPtr)size,
+						(IntPtr)ptr,
+						BufferUsageHint.StaticDraw);
+				}
 			}
-
-			h.Free();
-
+			finally
+			{
+				h.Free();
+			}
 		}
 
 		public override void Draw(int start, int count)
@@ -141,6 +150,9 @@ namespace AgateOTK
 					PositionSize / sizeof(float), VertexPointerType.Float, mLayout.VertexSize,
 					mLayout.ElementByteIndex(VertexElement.Position));
 			}
+
+			GL.DisableClientState(EnableCap.ColorArray);
+
 
 			SetAttributes();
 		}

@@ -56,7 +56,6 @@ namespace AgateOTK.Shaders.FixedFunction
 
 		public override void Begin()
 		{
-			
 			OpenTK.Matrix4 otkProjection = GeoHelper.ConvertAgateMatrix(mProjection, false);
 
 			GL.MatrixMode(MatrixMode.Projection);
@@ -77,47 +76,7 @@ namespace AgateOTK.Shaders.FixedFunction
 			{
 				GL.Enable(EnableCap.Lighting);
 
-				float[] array = new float[4];
-
-				GL.Enable(EnableCap.Lighting);
-
-				SetArray(array, AmbientLight);
-				GL.LightModel(LightModelParameter.LightModelAmbient, array);
-
-				GL.Color4(1.0f, 1.0f, 1.0f, 1.0f);
-				GL.ColorMaterial(MaterialFace.FrontAndBack,
-								 ColorMaterialParameter.AmbientAndDiffuse);
-				GL.Enable(EnableCap.ColorMaterial);
-				
-				SetArray(array, Color.White);
-				GL.Material(MaterialFace.Front, MaterialParameter.AmbientAndDiffuse, array);
-
-				for (int i = 0; i < mLights.Length; i++)
-				{
-					EnableCap lightID = (EnableCap)((int)EnableCap.Light0 + i);
-					LightName lightName = (LightName)((int)LightName.Light0 + i);
-
-					if (mLights[i] == null || mLights[i].Enabled == false)
-					{
-						GL.Disable(lightID);
-						continue;
-					}
-
-					GL.Enable(lightID);
-
-					SetArray(array, mLights[i].DiffuseColor);
-					GL.Light(lightName, LightParameter.Diffuse, array);
-
-					SetArray(array, mLights[i].AmbientColor);
-					GL.Light(lightName, LightParameter.Ambient, array);
-
-					SetArray(array, mLights[i].Position);
-					GL.Light(lightName, LightParameter.Position, array);
-
-					GL.Light(lightName, LightParameter.ConstantAttenuation, mLights[i].AttenuationConstant);
-					GL.Light(lightName, LightParameter.LinearAttenuation, mLights[i].AttenuationLinear);
-					GL.Light(lightName, LightParameter.QuadraticAttenuation, mLights[i].AttenuationQuadratic);
-				}
+				SetLights();
 			}
 
 			OpenTK.Matrix4 viewworld = GeoHelper.ConvertAgateMatrix(mView * mWorld, false);
@@ -126,6 +85,51 @@ namespace AgateOTK.Shaders.FixedFunction
 			GL.LoadIdentity();
 			GL.LoadMatrix(ref viewworld);
 
+		}
+
+		private void SetLights()
+		{
+			float[] array = new float[4];
+
+			GL.Enable(EnableCap.Lighting);
+
+			SetArray(array, AmbientLight);
+			GL.LightModel(LightModelParameter.LightModelAmbient, array);
+
+			GL.Color4(1.0f, 1.0f, 1.0f, 1.0f);
+			GL.ColorMaterial(MaterialFace.FrontAndBack,
+							 ColorMaterialParameter.AmbientAndDiffuse);
+			GL.Enable(EnableCap.ColorMaterial);
+
+			SetArray(array, Color.White);
+			GL.Material(MaterialFace.Front, MaterialParameter.AmbientAndDiffuse, array);
+
+			for (int i = 0; i < mLights.Length; i++)
+			{
+				EnableCap lightID = (EnableCap)((int)EnableCap.Light0 + i);
+				LightName lightName = (LightName)((int)LightName.Light0 + i);
+
+				if (mLights[i] == null || mLights[i].Enabled == false)
+				{
+					GL.Disable(lightID);
+					continue;
+				}
+
+				GL.Enable(lightID);
+
+				SetArray(array, mLights[i].DiffuseColor);
+				GL.Light(lightName, LightParameter.Diffuse, array);
+
+				SetArray(array, mLights[i].AmbientColor);
+				GL.Light(lightName, LightParameter.Ambient, array);
+
+				SetArray(array, mLights[i].Position);
+				GL.Light(lightName, LightParameter.Position, array);
+
+				GL.Light(lightName, LightParameter.ConstantAttenuation, mLights[i].AttenuationConstant);
+				GL.Light(lightName, LightParameter.LinearAttenuation, mLights[i].AttenuationLinear);
+				GL.Light(lightName, LightParameter.QuadraticAttenuation, mLights[i].AttenuationQuadratic);
+			}
 		}
 
 		private void SetArray(float[] array, Vector3 vec)

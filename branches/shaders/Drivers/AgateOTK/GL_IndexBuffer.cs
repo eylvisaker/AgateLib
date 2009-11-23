@@ -21,6 +21,8 @@ namespace AgateOTK
 			mType = type;
 
 			CreateBuffer();
+
+			System.Diagnostics.Debug.Print("Created {0} index buffer.", type);
 		}
 
 		private void CreateBuffer()

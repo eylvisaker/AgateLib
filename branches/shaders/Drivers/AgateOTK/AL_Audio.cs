@@ -23,7 +23,6 @@ using System.Text;
 using AgateLib.ImplementationBase;
 using AgateLib.Drivers;
 using OpenTK.Audio.OpenAL;
-using AL = OpenTK.Audio.AL;
 
 namespace AgateOTK
 {

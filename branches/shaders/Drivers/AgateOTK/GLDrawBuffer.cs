@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -93,7 +94,8 @@ namespace AgateOTK
 		{
 			mState = state;
 
-			GL.GenBuffers(1, out mBufferID );
+			GL.GenBuffers(1, out mBufferID);
+			Debug.Print("Draw buffer ID: {0}", mBufferID);
 
 			SetBufferSize(1000);
 		}
@@ -108,11 +110,27 @@ namespace AgateOTK
 
 		private void BufferData()
 		{
-			GL.BindBuffer(BufferTarget.ArrayBuffer, mBufferID);
-			GL.BufferData(BufferTarget.ArrayBuffer,
-				(IntPtr)(mIndex * Marshal.SizeOf(typeof(PositionTextureColorNormal))), mVerts,
-				 BufferUsageHint.StaticDraw);
+			int bufferSize = mIndex * Marshal.SizeOf(typeof(PositionTextureColorNormal));
 
+			GL.BindBuffer(BufferTarget.ArrayBuffer, mBufferID);
+
+			unsafe
+			{
+				GCHandle handle = new GCHandle();
+
+				try
+				{
+					handle = GCHandle.Alloc(mVerts, GCHandleType.Pinned);
+
+					IntPtr ptr = handle.AddrOfPinnedObject();
+
+					GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)bufferSize, ptr, BufferUsageHint.StaticDraw);
+				}
+				finally
+				{
+					handle.Free();
+				}
+			}
 		}
 
 		private void SetTexture(int textureID)
@@ -212,7 +230,6 @@ namespace AgateOTK
 
 			SetGLInterpolation();
 
-			GL.BindBuffer(BufferTarget.ArrayBuffer, mBufferID);
 			GL.EnableClientState(EnableCap.TextureCoordArray);
 			GL.EnableClientState(EnableCap.ColorArray);
 			GL.EnableClientState(EnableCap.VertexArray);
@@ -223,7 +240,6 @@ namespace AgateOTK
 			int color = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.DiffuseColor);
 			int pos = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Position);
 			int norm = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Normal);
-
 
 			GL.TexCoordPointer(2, TexCoordPointerType.Float, size, (IntPtr) tex);
 			GL.ColorPointer(4, ColorPointerType.UnsignedByte, size, color);

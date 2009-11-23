@@ -2,17 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
+using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK.Shaders.FixedFunction
 {
 	class OTK_FF_Basic2DShader : AgateShaderImpl 
 	{
+		Rectangle coords;
+
 		public override void Begin()
 		{
 			GL.Disable(EnableCap.Lighting);
+
+			coords = new Rectangle(Point.Empty, Display.RenderTarget.Size);
+
+			GL.MatrixMode(MatrixMode.Projection);
+			GL.LoadIdentity();
+			GL.Ortho(coords.Left, coords.Right, coords.Bottom, coords.Top, -1, 1);
+
+			GL.Enable(EnableCap.Texture2D);
+
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
+			GL.MatrixMode(MatrixMode.Modelview);
+			GL.LoadIdentity();
 		}
 
 		public override void BeginPass(int passIndex)
