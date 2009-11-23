@@ -39,6 +39,17 @@ namespace AgateLib.InputLib
 	{
 		static KeyState mKeyState = new KeyState();
 
+		static Keyboard()
+		{
+			DisplayLib.Display.DisposeDisplay += new AgateLib.DisplayLib.Display.DisposeDisplayHandler(Display_DisposeDisplay);
+		}
+
+		static void Display_DisposeDisplay()
+		{
+			ClearEvents();
+		}
+
+
 		/// <summary>
 		/// Class which represents the state of all keys on the keyboard.
 		/// </summary>
@@ -438,5 +449,11 @@ namespace AgateLib.InputLib
 		/// </summary>
 		public static event InputEventHandler KeyUp;
 
+
+		private static void ClearEvents()
+		{
+			KeyDown = null;
+			KeyUp = null;
+		}
 	}
 }

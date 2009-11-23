@@ -116,6 +116,16 @@ namespace AgateLib.InputLib
 		private static MouseState mState = new MouseState();
 		private static bool mIsHidden = false;
 
+		static Mouse()
+		{
+			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Display_DisposeDisplay);
+		}
+
+		static void Display_DisposeDisplay()
+		{
+			ClearEvents();
+		}
+
 		/// <summary>
 		/// Gets or sets the position of the cursor, in client coordinates
 		/// of the current display window.
@@ -183,6 +193,15 @@ namespace AgateLib.InputLib
 		{
 			Display.HideCursor();
 			IsHidden = true;
+		}
+
+		static void ClearEvents()
+		{
+			MouseMove = null;
+			MouseDown = null;
+			MouseUp = null;
+			MouseDoubleClick = null;
+			MouseWheel = null;
 		}
 
 		/// <summary>
