@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Reflection;
 
@@ -47,6 +48,25 @@ namespace AgateLib.Drivers
 			{
 				types = ass.GetTypes();
 			}
+			catch (ReflectionTypeLoadException e)
+			{
+				string message = string.Format(
+					"Caught ReflectionTypeLoadException in {0}.", file);
+
+				foreach (var ex in e.LoaderExceptions)
+				{
+					message += Environment.NewLine;
+					message += ex.Message;
+				}
+
+				message += Environment.NewLine +
+					"This is probably a sign that the build of the file " + file +
+					" does not match the build of AgateLib.dll.";
+
+				Trace.WriteLine(message);
+
+				return retval.ToArray();
+			}
 			catch (Exception e)
 			{
 				System.Diagnostics.Trace.WriteLine(string.Format(
@@ -65,12 +85,22 @@ namespace AgateLib.Drivers
 
 				AgateDriverReporter reporter = (AgateDriverReporter)Activator.CreateInstance(t);
 
-				foreach (AgateDriverInfo info in reporter.ReportDrivers())
+				try
 				{
-					info.AssemblyFile = file;
-					info.AssemblyName = ass.FullName;
+					foreach (AgateDriverInfo info in reporter.ReportDrivers())
+					{
+						info.AssemblyFile = file;
+						info.AssemblyName = ass.FullName;
 
-					retval.Add(info);
+						retval.Add(info);
+					}
+				}
+				catch (Exception e)
+				{
+					Trace.WriteLine(string.Format(
+						"The driver reporter in {0} encountered an error." + Environment.NewLine +
+						"Caught exception {1}." + Environment.NewLine +
+						"{2}", file, e.GetType().Name, e.Message));
 				}
 			}
 

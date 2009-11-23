@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.Drivers;
 
-namespace AgateLib.DisplayLib.SystemDrawing
+namespace AgateDrawing
 {
 	class Drawing_Reporter : AgateDriverReporter
 	{

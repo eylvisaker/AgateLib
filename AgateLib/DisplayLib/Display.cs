@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+using AgateLib.DisplayLib.Shaders;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.ImplementationBase;
@@ -64,6 +65,7 @@ namespace AgateLib.DisplayLib
 		private static Rectangle mCurrentClipRect;
 		private static Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		private static RenderStateAdapter mRenderState = new RenderStateAdapter();
+		private static DisplayCapsInfo mCapsInfo = new DisplayCapsInfo();
 
 		/// <summary>
 		/// Gets the object which handles all of the actual calls to Display functions.
@@ -94,7 +96,10 @@ namespace AgateLib.DisplayLib
 			impl.Initialize();
 
 			mSurfacePacker = new SurfacePacker();
+
+			Shaders.AgateBuiltInShaders.InitializeShaders();
 		}
+
 
 		public static RenderStateAdapter RenderState
 		{
@@ -117,6 +122,8 @@ namespace AgateLib.DisplayLib
 				impl.Dispose();
 				impl = null;
 			}
+
+			Shaders.AgateBuiltInShaders.DisposeShaders();
 		}
 
 		internal static void ProcessEvents()
@@ -137,10 +144,17 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
+		[Obsolete]
 		public static Shaders.Effect Effect
 		{
-			get { return impl.Effect; }
-			set { impl.Effect = value; }
+			get { return null; }
+			set { throw new Exception(); }
+		}
+
+		public static Shaders.AgateShader Shader
+		{
+			get { return impl.Shader; }
+			internal set { impl.Shader = value; }
 		}
 
 		/// <summary>
@@ -282,7 +296,11 @@ namespace AgateLib.DisplayLib
 				throw new AgateException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
 
 			impl.BeginFrame();
-			mCurrentClipRect = new Rectangle(0, 0, RenderTarget.Width, RenderTarget.Height);
+
+			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(Point.Empty, RenderTarget.Size);
+			AgateBuiltInShaders.Basic2DShader.Activate();
+
+			mCurrentClipRect = new Rectangle(Point.Empty, RenderTarget.Size);
 		}
 		/// <summary>
 		/// EndFrame must be called at the end of each frame.
@@ -350,7 +368,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static Size MaxSurfaceSize
 		{
-			get { return impl.MaxSurfaceSize; }
+			get { return Caps.MaxSurfaceSize; }
 		}
 		/// <summary>
 		/// Gets the object which handles packing of all surfaces.
@@ -448,13 +466,10 @@ namespace AgateLib.DisplayLib
 		/// <param name="top"></param>
 		/// <param name="right"></param>
 		/// <param name="bottom"></param>
+		[Obsolete("Use a AgateBuiltInShaders.Basic2DShader.CoordinateSystem instead.", true)]
 		public static void SetOrthoProjection(int left, int top, int right, int bottom)
 		{
 			SetOrthoProjection(Rectangle.FromLTRB(left, top, right, bottom));
-		}
-		public static Matrix4x4 GetOrthoProjection()
-		{
-			return Matrix4x4.Ortho(RectangleF.FromLTRB(0, 0, RenderTarget.Width, RenderTarget.Height), -1, 1);
 		}
 
 		/// <summary>
@@ -472,9 +487,10 @@ namespace AgateLib.DisplayLib
 		/// the entire window.</para>
 		/// </remarks>
 		/// <param name="region"></param>
+		[Obsolete("Use a AgateBuiltInShaders.Basic2DShader.CoordinateSystem instead.", true)]
 		public static void SetOrthoProjection(Rectangle region)
 		{
-			impl.SetOrthoProjection(region);
+			throw new NotImplementedException();
 		}
 
 		#region --- Drawing Functions ---
@@ -660,32 +676,12 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static DisplayCapsInfo Caps
 		{
-			get { return impl.Caps; }
-		}
-
-		/// <summary>
-		/// Turns lighting functions off.
-		/// </summary>
-		[Obsolete("Use shaders instead.")]
-		public static void DisableLighting()
-		{
-			DoLighting(LightManager.Empty);
-		}
-
-		[Obsolete("Use shaders instead.")]
-		internal static void DoLighting(LightManager lights)
-		{
-			impl.DoLighting(lights);
+			get { return mCapsInfo; }
 		}
 
 		internal static void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
 		{
 			impl.SavePixelBuffer(pixelBuffer, filename, format);
-		}
-
-		internal static AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
-		{
-			return impl.GetPlatformServices();
 		}
 
 		internal static void HideCursor()
@@ -697,6 +693,7 @@ namespace AgateLib.DisplayLib
 		{
 			impl.ShowCursor();
 		}
+
 	}
 
 }

@@ -22,7 +22,7 @@ using System.Drawing;
 using System.Text;
 using AgateLib.ImplementationBase;
 
-namespace AgateLib.DisplayLib.SystemDrawing
+namespace AgateDrawing
 {
 	public interface Drawing_IRenderTarget : IRenderTargetImpl
 	{

@@ -1,13 +1,12 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{826129F3-81A8-4D87-99E0-60DA009C9E3C}</ProjectGuid>
+    <ProjectGuid>{91F57346-B574-4D52-9EB0-AA191B552C94}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon></ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>NotebookLib</AssemblyName>
@@ -17,11 +16,9 @@
     <DelaySign>false</DelaySign>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>
-    </AppDesignerFolder>
+    <AppDesignerFolder></AppDesignerFolder>
     <RootNamespace>NotebookLib</RootNamespace>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject></StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
   </PropertyGroup>
@@ -32,8 +29,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>DEBUG;TRACE;</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile></DocumentationFile>
     <DebugSymbols>True</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>False</Optimize>
@@ -42,8 +38,7 @@
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn></NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
@@ -52,8 +47,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>TRACE;</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile></DocumentationFile>
     <DebugSymbols>False</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>True</Optimize>
@@ -62,33 +56,32 @@
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn></NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
-      <Name>System</Name>
+        <Name>System</Name>
     </Reference>
     <Reference Include="System.Core">
-      <Name>System.Core</Name>
+        <Name>System.Core</Name>
     </Reference>
     <Reference Include="System.Data">
-      <Name>System.Data</Name>
+        <Name>System.Data</Name>
     </Reference>
     <Reference Include="System.Deployment">
-      <Name>System.Deployment</Name>
+        <Name>System.Deployment</Name>
     </Reference>
     <Reference Include="System.Design">
-      <Name>System.Design</Name>
+        <Name>System.Design</Name>
     </Reference>
     <Reference Include="System.Drawing">
-      <Name>System.Drawing</Name>
+        <Name>System.Drawing</Name>
     </Reference>
     <Reference Include="System.Windows.Forms">
-      <Name>System.Windows.Forms</Name>
+        <Name>System.Windows.Forms</Name>
     </Reference>
     <Reference Include="System.Xml">
-      <Name>System.Xml</Name>
+        <Name>System.Xml</Name>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +91,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HSeparator.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="HSeparator.Designer.cs">
       <DependentUpon>HSeparator.cs</DependentUpon>
@@ -117,14 +110,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Notebook.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Notebook.Designer.cs">
       <DependentUpon>Notebook.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NotebookPage.cs">
-      <SubType>Component</SubType>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="NotebookPage.Designer.cs">
       <DependentUpon>NotebookPage.cs</DependentUpon>
@@ -143,19 +136,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FlatTabs\FlatTabNavigator.cs">
-      <SubType>Component</SubType>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="FlatTabs\FlatTabProperties.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ListBookNavigator\ListBookNavigator.cs">
-      <SubType>Component</SubType>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="ListBookNavigator\ListBookProperties.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NoNavigator\NoNavigator.cs">
-      <SubType>Component</SubType>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="NoNavigator\NoNavigatorProperties.cs">
       <SubType>Code</SubType>

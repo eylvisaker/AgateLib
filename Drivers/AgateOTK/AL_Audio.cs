@@ -22,10 +22,11 @@ using System.IO;
 using System.Text;
 using AgateLib.ImplementationBase;
 using AgateLib.Drivers;
-using OpenTK.Audio;
+using OpenTK.Audio.OpenAL;
 
 namespace AgateOTK
 {
+	/*
 	class AL_Audio : AudioImpl
 	{
 		AudioContext context;
@@ -72,7 +73,11 @@ namespace AgateOTK
 			using (AudioReader reader = new AudioReader(inStream))
 			{
 				buffer = AL.GenBuffer();
-				AL.BufferData(buffer, reader.ReadToEnd());
+
+				// TODO: Figure out if OpenAL is worth supporting, and if so
+				// figure out how to update this method call.
+				throw new NotImplementedException();
+				//AL.BufferData(buffer, reader.ReadToEnd());
 			}
 		}
 		public override void Dispose()
@@ -185,11 +190,12 @@ namespace AgateOTK
 				buffer = AL.GenBuffer();
 				source = AL.GenSource();
 
-				AL.BufferData(buffer, reader.ReadToEnd());
-				AL.Source(source, ALSourcei.Buffer, buffer);
+				throw new NotImplementedException();
+				//AL.BufferData(buffer, reader.ReadToEnd());
+				//AL.Source(source, ALSourcei.Buffer, buffer);
 			}
 
-			OnSetLoop(true);
+			//OnSetLoop(true);
 		}
 
 		protected override void OnSetLoop(bool value)
@@ -251,4 +257,5 @@ namespace AgateOTK
 			}
 		}
 	}
+	 * */
 }

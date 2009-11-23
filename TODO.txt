@@ -1,7 +1,16 @@
 AgateLib Todo
 =============
 
-Goals for 0.3.1
+General:
+	Remove all OpenGL immediate mode code from AgateOTK.
+	Check GetPixelFormat method in AgateSDX
+	Test / Debug writing pixel buffer to SDX surface.
+	Deal with TODO's in font tests.
+	Implement better Platform.HasWriteAccessToAppDirectory method.
+	Test ClipRects with AgateOTK
+	Test if GL_GameWindow is viable.
+	
+Goals for 0.3.2
 --------------------------------
 	General
 		D Remove all deprecated stuff from AgateLib.

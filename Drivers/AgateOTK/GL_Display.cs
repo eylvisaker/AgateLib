@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using AgateLib.BitmapFont;
@@ -28,23 +29,24 @@ using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
 using AgateLib.ImplementationBase;
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
 namespace AgateOTK
 {
-	public sealed class GL_Display : DisplayImpl, AgateLib.PlatformSpecific.IPlatformServices
+	public sealed class GL_Display : DisplayImpl
 	{
 		GL_IRenderTarget mRenderTarget;
-		GLState mState;
 		Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		Rectangle mCurrentClip = Rectangle.Empty;
 		private bool mVSync = true;
-		private int mMaxLightsUsed = 0;
 		private bool mSupportsFramebuffer;
 		private bool mNonPowerOf2Textures;
 		private bool mSupportsShaders;
 		private decimal mGLVersion;
+
+		System.Windows.Forms.Form mFakeWindow;
+		DisplayWindow mFakeDisplayWindow;
 
 		public bool NonPowerOf2Textures
 		{
@@ -81,6 +83,11 @@ namespace AgateOTK
 		public override PixelFormat DefaultSurfaceFormat
 		{
 			get { return PixelFormat.RGBA8888; }
+		}
+
+		protected override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
+		{
+			return Shaders.ShaderFactory.CreateBuiltInShader(BuiltInShaderType);
 		}
 		public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
 		{
@@ -146,24 +153,23 @@ namespace AgateOTK
 		}
 		protected override void OnEndFrame()
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
 			mRenderTarget.EndRender();
 
 			FlushDeleteQueue();
 		}
 
-
+		[Obsolete("Use DrawBuffer instead.", true)]
 		internal GLState State
 		{
-			get { return mState; }
+			get { throw new NotImplementedException(); }
+		}
+		internal GLDrawBuffer DrawBuffer
+		{
+			get { return (RenderTarget.Impl as GL_IRenderTarget).DrawBuffer; }
 		}
 
-		// TODO: Make this not hardcoded
-		public override Size MaxSurfaceSize
-		{
-			get { return new Size(1024, 1024); }
-		}
 
 		// TODO: Test clip rect stuff.
 		public override void SetClipRect(Rectangle newClipRect)
@@ -178,94 +184,27 @@ namespace AgateOTK
 
 		public override void FlushDrawBuffer()
 		{
-			mState.DrawBuffer.Flush();
-		}
-
-		public override void SetOrthoProjection(Rectangle region)
-		{
-			GL.MatrixMode(MatrixMode.Projection);
-			GL.LoadIdentity();
-			Glu.Ortho2D(region.Left, region.Right, region.Bottom, region.Top);
-		}
-
-		Matrix4x4 projection = Matrix4x4.Identity;
-		Matrix4x4 world = Matrix4x4.Identity;
-		Matrix4x4 view = Matrix4x4.Identity;
-
-		public override Matrix4x4 MatrixProjection
-		{
-			get { return projection; }
-			set
-			{
-				projection = value;
-				SetProjection();
-			}
-		}
-		public override Matrix4x4 MatrixView
-		{
-			get { return view; }
-			set
-			{
-				view = value;
-				SetModelview();
-			}
-		}
-		public override Matrix4x4 MatrixWorld
-		{
-			get { return world; }
-			set
-			{
-				world = value;
-				SetModelview();
-			}
-		}
-
-		private void SetModelview()
-		{
-			OpenTK.Math.Matrix4 modelview = ConvertAgateMatrix(view * world, false);
-
-			GL.MatrixMode(MatrixMode.Modelview);
-			GL.LoadIdentity();
-			GL.LoadMatrix(ref modelview);
-		}
-		private void SetProjection()
-		{
-			OpenTK.Math.Matrix4 otkProjection = ConvertAgateMatrix(projection, false);
-
-			GL.MatrixMode(MatrixMode.Projection);
-			GL.LoadIdentity();
-			GL.LoadMatrix(ref otkProjection);
-		}
-
-		private OpenTK.Math.Matrix4 ConvertAgateMatrix(Matrix4x4 matrix, bool invertY)
-		{
-			int sign = invertY ? -1 : 1;
-
-			return new OpenTK.Math.Matrix4(
-				new OpenTK.Math.Vector4(matrix[0, 0], sign * matrix[1, 0], matrix[2, 0], matrix[3, 0]),
-				new OpenTK.Math.Vector4(matrix[0, 1], sign * matrix[1, 1], matrix[2, 1], matrix[3, 1]),
-				new OpenTK.Math.Vector4(matrix[0, 2], sign * matrix[1, 2], matrix[2, 2], matrix[3, 2]),
-				new OpenTK.Math.Vector4(matrix[0, 3], sign * matrix[1, 3], matrix[2, 3], matrix[3, 3]));
+			DrawBuffer.Flush();
 		}
 
 		public override void Clear(Color color)
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
 			GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, 1.0f);
 			GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
 		}
 		public override void Clear(Color color, Rectangle dest)
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
 			DrawRect(dest, Color.FromArgb(255, color));
 		}
 
 		public override void DrawLine(Point a, Point b, Color color)
 		{
-			mState.DrawBuffer.Flush();
-			mState.SetGLColor(color);
+			DrawBuffer.Flush();
+			DrawBuffer.SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
 			GL.Begin(BeginMode.Lines);
@@ -282,8 +221,8 @@ namespace AgateOTK
 		}
 		public override void DrawRect(RectangleF rect, Color color)
 		{
-			mState.DrawBuffer.Flush();
-			mState.SetGLColor(color);
+			DrawBuffer.Flush();
+			DrawBuffer.SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
 			GL.Begin(BeginMode.Lines);
@@ -310,9 +249,9 @@ namespace AgateOTK
 		}
 		public override void FillRect(RectangleF rect, Color color)
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
-			mState.SetGLColor(color);
+			DrawBuffer.SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
 
@@ -332,21 +271,21 @@ namespace AgateOTK
 		}
 		public override void FillRect(RectangleF rect, Gradient color)
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
 			GL.Disable(EnableCap.Texture2D);
 
 			GL.Begin(BeginMode.Quads);
-			mState.SetGLColor(color.TopLeft);
+			DrawBuffer.SetGLColor(color.TopLeft);
 			GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
 
-			mState.SetGLColor(color.TopRight);
+			DrawBuffer.SetGLColor(color.TopRight);
 			GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
 
-			mState.SetGLColor(color.BottomRight);
+			DrawBuffer.SetGLColor(color.BottomRight);
 			GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
 
-			mState.SetGLColor(color.BottomLeft);
+			DrawBuffer.SetGLColor(color.BottomLeft);
 			GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
 			GL.End();                                                         // Done Drawing The Quad
 
@@ -355,11 +294,11 @@ namespace AgateOTK
 
 		public override void FillPolygon(PointF[] pts, Color color)
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
 			GL.Disable(EnableCap.Texture2D);
 
-			mState.SetGLColor(color);
+			DrawBuffer.SetGLColor(color);
 
 			GL.Begin(BeginMode.TriangleFan);
 			for (int i = 0; i < pts.Length; i++)
@@ -373,58 +312,93 @@ namespace AgateOTK
 
 		public override void Initialize()
 		{
-			mState = new GLState();
-
+			CreateFakeWindow();
+			
 			Report("OpenTK / OpenGL driver instantiated for display.");
 		}
-
-		bool glInitialized = false;
-
-		internal void InitializeGL()
+		public void InitializeCurrentContext()
 		{
-			if (glInitialized)
-				return;
 
-			GL.ShadeModel(ShadingModel.Smooth);                         // Enable Smooth Shading
+			//GL.ShadeModel(ShadingModel.Smooth);                         // Enable Smooth Shading
 			GL.ClearColor(0, 0, 0, 1.0f);                                     // Black Background
 			GL.ClearDepth(1);                                                 // Depth Buffer Setup
 			GL.Enable(EnableCap.DepthTest);                            // Enables Depth Testing
 			GL.DepthFunc(DepthFunction.Lequal);                         // The Type Of Depth Testing To Do
-			GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
-				HintMode.Nicest);
+			//GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
+			//	HintMode.Nicest);
+
+		}
+		private void CreateFakeWindow()
+		{
+			mFakeWindow = new System.Windows.Forms.Form();
+			mFakeDisplayWindow = DisplayWindow.CreateFromControl(mFakeWindow);
+
+			mFakeWindow.Visible = false;
 
 			string vendor = GL.GetString(StringName.Vendor);
-			string ext = GL.GetString(StringName.Extensions);
 			mSupportsShaders = false;
 
 			mGLVersion = DetectOpenGLVersion();
+			LoadExtensions();
 
+			mSupportsFramebuffer = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
+			mNonPowerOf2Textures = SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
+
+			if (mGLVersion >= 3m)
+			{
+				mSupportsFramebuffer = true;
+				mNonPowerOf2Textures = true;
+				mSupportsShaders = true;
+			}
 			if (mGLVersion >= 2m)
 			{
-				mSupportsFramebuffer = true;
 				mNonPowerOf2Textures = true;
 				mSupportsShaders = true;
-			}
-			else if (mGLVersion >= 1.5m)
-			{
-				mSupportsFramebuffer = true;
-				mNonPowerOf2Textures = true;
-			}
-			else
-			{
-				mSupportsFramebuffer = GL.SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
-				mNonPowerOf2Textures = GL.SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
 			}
 
-			if (GL.SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
+			if (SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
 			{
 				mSupportsShaders = true;
 			}
+
+			Trace.WriteLine(string.Format("OpenGL version {0} from vendor {1} detected.", mGLVersion, vendor));
+			Trace.WriteLine("Framebuffer: " + mSupportsFramebuffer.ToString());
+			Trace.WriteLine("NPOT: " + mNonPowerOf2Textures.ToString());
+			Trace.WriteLine("Shaders: " + mSupportsShaders.ToString());
 
 			InitializeShaders();
+		}
 
-			glInitialized = true;
+		string[] extensions;
+		private void LoadExtensions()
+		{
+			try
+			{
+				// Forward compatible context (GL 3.0+)
+				int num_extensions;
+				GL.GetInteger(GetPName.NumExtensions, out num_extensions);
 
+				if (GL.GetError() != ErrorCode.NoError)
+					throw new OpenTK.Graphics.GraphicsErrorException("Not 3.0 context.");
+
+				extensions = new string[num_extensions];
+
+				for (int i = 0; i < num_extensions; i++)
+					extensions[i] = GL.GetString(StringName.Extensions, i).ToLowerInvariant();
+			}
+			catch (OpenTK.Graphics.GraphicsErrorException)
+			{
+				string ext = GL.GetString(StringName.Extensions);
+
+				extensions = ext.Split(' ');
+
+				for (int i = 0; i < extensions.Length; i++)
+					Debug.Print(extensions[i]);
+			}
+		}
+		private bool SupportsExtension(string name)
+		{
+			return extensions.Contains(name.ToLowerInvariant());
 		}
 
 		private static decimal DetectOpenGLVersion()
@@ -500,66 +474,10 @@ namespace AgateOTK
 		}
 		public override void Dispose()
 		{
+			mFakeDisplayWindow.Dispose();
+			mFakeWindow.Dispose();
 		}
 
-		public override void DoLighting(LightManager lights)
-		{
-			FlushDrawBuffer();
-
-			if (lights.Enabled == false)
-			{
-				GL.Disable(EnableCap.Lighting);
-				return;
-			}
-
-			float[] array = new float[4];
-
-			GL.Enable(EnableCap.Lighting);
-
-			SetArray(array, lights.Ambient);
-			GL.LightModelv(LightModelParameter.LightModelAmbient, array);
-
-			GL.Enable(EnableCap.ColorMaterial);
-			GL.ColorMaterial(MaterialFace.FrontAndBack,
-							 ColorMaterialParameter.AmbientAndDiffuse);
-
-			for (int i = 0; i < lights.Count || i < mMaxLightsUsed; i++)
-			{
-				EnableCap lightID = (EnableCap)((int)EnableCap.Light0 + i);
-				LightName lightName = (LightName)((int)LightName.Light0 + i);
-
-				if (i >= lights.Count)
-				{
-					GL.Disable(lightID);
-					continue;
-				}
-
-				if (lights[i].Enabled == false)
-				{
-					GL.Disable(lightID);
-					continue;
-				}
-
-				GL.Enable(lightID);
-
-				SetArray(array, lights[i].Diffuse);
-				GL.Lightv(lightName, LightParameter.Diffuse, array);
-
-				SetArray(array, lights[i].Ambient);
-				GL.Lightv(lightName, LightParameter.Ambient, array);
-
-				SetArray(array, lights[i].Position);
-				GL.Lightv(lightName, LightParameter.Position, array);
-
-				GL.Light(lightName, LightParameter.ConstantAttenuation, lights[i].AttenuationConstant);
-				GL.Light(lightName, LightParameter.LinearAttenuation, lights[i].AttenuationLinear);
-				GL.Light(lightName, LightParameter.QuadraticAttenuation, lights[i].AttenuationQuadratic);
-
-			}
-
-			mMaxLightsUsed = lights.Count;
-
-		}
 
 		private void SetArray(float[] array, Vector3 vec)
 		{
@@ -579,7 +497,7 @@ namespace AgateOTK
 
 		protected override ShaderCompilerImpl CreateShaderCompiler()
 		{
-			if (this.Caps.SupportsShaders)
+			if (this.Supports(DisplayBoolCaps.CustomShaders))
 			{
 				if (mGLVersion < 2.0m)
 					return new ArbShaderCompiler();
@@ -634,103 +552,26 @@ namespace AgateOTK
 				case DisplayBoolCaps.IsHardwareAccelerated: return true;
 				case DisplayBoolCaps.FullScreen: return true;
 				case DisplayBoolCaps.FullScreenModeSwitching: return true;
-				case DisplayBoolCaps.Shaders: return false;
+				case DisplayBoolCaps.CustomShaders: return false;
 				case DisplayBoolCaps.CanCreateBitmapFont: return true;
 			}
 
 			return false;
 		}
+		public override Size CapsSize(DisplaySizeCaps displaySizeCaps)
+		{
+			switch (displaySizeCaps)
+			{
+				case DisplaySizeCaps.MaxSurfaceSize: return new Size(1024, 1024);
+			}
 
+			return new Size(0, 0);
+		}
 		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
 		{
 			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.Glsl; }
 		}
 
-
-		#endregion
-		#region --- IPlatformServices Members ---
-
-		protected override AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices()
-		{
-			return this;
-		}
-		AgateLib.Utility.PlatformType AgateLib.PlatformSpecific.IPlatformServices.PlatformType
-		{
-			get
-			{
-				switch (Environment.OSVersion.Platform)
-				{
-					case PlatformID.WinCE:
-					case PlatformID.Win32NT:
-					case PlatformID.Win32S:
-					case PlatformID.Win32Windows:
-						return AgateLib.Utility.PlatformType.Windows;
-
-					case PlatformID.Unix:
-						string kernel = DetectUnixKernel();
-
-						if (kernel == "Darwin")
-							return AgateLib.Utility.PlatformType.MacOS;
-						else
-							return AgateLib.Utility.PlatformType.Linux;
-				}
-
-				return AgateLib.Utility.PlatformType.Unknown;
-			}
-		}
-
-		#region private static string DetectUnixKernel()
-
-		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-		struct utsname
-		{
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-			public string sysname;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-			public string nodename;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-			public string release;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-			public string version;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-			public string machine;
-
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
-			public string extraJustInCase;
-
-		}
-
-		/// <summary>
-		/// Detects the unix kernel by p/invoking the uname call in libc.
-		/// </summary>
-		/// <returns></returns>
-		private static string DetectUnixKernel()
-		{
-			Debug.Print("Size: {0}", Marshal.SizeOf(typeof(utsname)).ToString());
-			Debug.Flush();
-			utsname uts = new utsname();
-			uname(out uts);
-
-			Debug.WriteLine("System:");
-			Debug.Indent();
-			Debug.WriteLine(uts.sysname);
-			Debug.WriteLine(uts.nodename);
-			Debug.WriteLine(uts.release);
-			Debug.WriteLine(uts.version);
-			Debug.WriteLine(uts.machine);
-			Debug.Unindent();
-
-			return uts.sysname.ToString();
-		}
-
-		[DllImport("libc")]
-		private static extern void uname(out utsname uname_struct);
-
-		#endregion
 
 		#endregion
 

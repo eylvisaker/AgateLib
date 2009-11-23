@@ -140,7 +140,7 @@ namespace Tests.Display3D.Glsl
 					Display.Clear(Color.Gray);
 
 					Matrix4x4 proj = Matrix4x4.Projection(45f, wind.Width / (float)wind.Height, 1.0f, 1000f);  // projection
-					Matrix4x4 view = Matrix4x4.LookAt(eye, eye + lookDir, up);
+					Matrix4x4 view = Matrix4x4.ViewLookAt(eye, eye + lookDir, up);
 
 					// world transformation
 					Matrix4x4 world = Matrix4x4.Translation(-size / 2, -size / 2, 0) * Matrix4x4.RotateZ((float)(frequency * time));

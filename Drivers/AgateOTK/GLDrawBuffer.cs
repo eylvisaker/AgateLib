@@ -18,18 +18,20 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Geometry.VertexTypes;
 
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {
-	class GLDrawBuffer
+	public class GLDrawBuffer
 	{
 		#region --- Private types for Vertex Arrays ---
 
@@ -77,12 +79,7 @@ namespace AgateOTK
 		}
 		#endregion
 
-		GLState mState;
-
-		TexCoord[] mTexCoords;
-		ColorCoord[] mColorCoords;
-		VertexCoord[] mVertexCoords;
-		NormalCoord[] mNormalCoords;
+		PositionTextureColorNormal[] mVerts;
 
 		int mIndex;
 		int mCurrentTexture;
@@ -90,21 +87,47 @@ namespace AgateOTK
 		InterpolationMode lastInterpolation = (InterpolationMode)(-1);
 		PointF[] cachePts = new PointF[4];
 
-		public GLDrawBuffer(GLState state)
+		int mBufferID;
+
+		public GLDrawBuffer()
 		{
-			mState = state;
+			GL.GenBuffers(1, out mBufferID);
+			Debug.Print("Draw buffer ID: {0}", mBufferID);
 
 			SetBufferSize(1000);
 		}
 
 		private void SetBufferSize(int size)
 		{
-			mTexCoords = new TexCoord[size];
-			mColorCoords = new ColorCoord[size];
-			mVertexCoords = new VertexCoord[size];
-			mNormalCoords = new NormalCoord[size];
+			mVerts = new PositionTextureColorNormal[size];
 
 			mIndex = 0;
+		}
+
+
+		private void BufferData()
+		{
+			int bufferSize = mIndex * Marshal.SizeOf(typeof(PositionTextureColorNormal));
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, mBufferID);
+
+			unsafe
+			{
+				GCHandle handle = new GCHandle();
+
+				try
+				{
+					handle = GCHandle.Alloc(mVerts, GCHandleType.Pinned);
+
+					IntPtr ptr = handle.AddrOfPinnedObject();
+
+					GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)bufferSize, ptr, BufferUsageHint.StaticDraw);
+				}
+				finally
+				{
+					handle.Free();
+				}
+			}
 		}
 
 		private void SetTexture(int textureID)
@@ -159,39 +182,35 @@ namespace AgateOTK
 		{
 			SetTexture(textureID);
 
-			if (mIndex + 4 >= mVertexCoords.Length)
+			if (mIndex + 4 >= mVerts.Length)
 			{
 				Flush();
-				SetBufferSize(mVertexCoords.Length + 1000);
+				SetBufferSize(mVerts.Length + 1000);
 			}
 
 			for (int i = 0; i < 4; i++)
 			{
-				mVertexCoords[mIndex + i].x = pts[i].X;
-				mVertexCoords[mIndex + i].y = pts[i].Y;
+				mVerts[mIndex + i].X = pts[i].X;
+				mVerts[mIndex + i].Y = pts[i].Y;
 
-				mNormalCoords[mIndex + i].x = 0;
-				mNormalCoords[mIndex + i].y = 0;
-				mNormalCoords[mIndex + i].z = -1;
-
+				mVerts[mIndex + i].Normal = new Vector3(0, 0, -1);
 			}
 
-			mTexCoords[mIndex].u = texCoord.Left;
-			mTexCoords[mIndex].v = texCoord.Top;
-			mColorCoords[mIndex] = new ColorCoord(color.TopLeft);
+			mVerts[mIndex].U = texCoord.Left;
+			mVerts[mIndex].V = texCoord.Top;
+			mVerts[mIndex].Color = color.TopLeft.ToArgb();
 
-			mTexCoords[mIndex + 1].u = texCoord.Right;
-			mTexCoords[mIndex + 1].v = texCoord.Top;
-			mColorCoords[mIndex + 1] = new ColorCoord(color.TopRight);
+			mVerts[mIndex+1].U = texCoord.Right;
+			mVerts[mIndex+1].V = texCoord.Top;
+			mVerts[mIndex + 1].Color = color.TopRight.ToArgb();
 
-			mTexCoords[mIndex + 2].u = texCoord.Right;
-			mTexCoords[mIndex + 2].v = texCoord.Bottom;
-			mColorCoords[mIndex + 2] = new ColorCoord(color.BottomRight);
+			mVerts[mIndex + 2].U = texCoord.Right;
+			mVerts[mIndex + 2].V = texCoord.Bottom;
+			mVerts[mIndex + 2].Color = color.BottomRight.ToArgb();
 
-			mTexCoords[mIndex + 3].u = texCoord.Left;
-			mTexCoords[mIndex + 3].v = texCoord.Bottom;
-			mColorCoords[mIndex + 3] = new ColorCoord(color.BottomLeft);
-
+			mVerts[mIndex + 3].U = texCoord.Left;
+			mVerts[mIndex + 3].V = texCoord.Bottom;
+			mVerts[mIndex + 3].Color = color.BottomLeft.ToArgb();
 
 			mIndex += 4;
 
@@ -202,6 +221,8 @@ namespace AgateOTK
 			if (mIndex == 0)
 				return;
 
+			BufferData();
+
 			GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
 
 			SetGLInterpolation();
@@ -211,14 +232,17 @@ namespace AgateOTK
 			GL.EnableClientState(EnableCap.VertexArray);
 			GL.EnableClientState(EnableCap.NormalArray);
 
-			GL.TexCoordPointer(2, TexCoordPointerType.Float,
-							   Marshal.SizeOf(typeof(TexCoord)), mTexCoords);
-			GL.ColorPointer(4, ColorPointerType.Float,
-							Marshal.SizeOf(typeof(ColorCoord)), mColorCoords);
-			GL.VertexPointer(2, VertexPointerType.Float,
-							 Marshal.SizeOf(typeof(VertexCoord)), mVertexCoords);
-			GL.NormalPointer(NormalPointerType.Float,
-							 Marshal.SizeOf(typeof(NormalCoord)), mNormalCoords);
+			int size = Marshal.SizeOf(typeof(PositionTextureColorNormal));
+			int tex = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Texture);
+			int color = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.DiffuseColor);
+			int pos = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Position);
+			int norm = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Normal);
+
+			GL.TexCoordPointer(2, TexCoordPointerType.Float, size, (IntPtr) tex);
+			GL.ColorPointer(4, ColorPointerType.UnsignedByte, size, color);
+			GL.VertexPointer(2, VertexPointerType.Float, size, pos);
+			GL.NormalPointer(NormalPointerType.Float, size, (IntPtr)norm);
+
 			GL.DrawArrays(BeginMode.Quads, 0, mIndex);
 
 			mIndex = 0;
@@ -253,23 +277,11 @@ namespace AgateOTK
 			}
 		}
 
-		private void oldFlush()
+
+		public void SetGLColor(Color color)
 		{
-
-			GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
-
-			GL.Begin(BeginMode.Quads);
-
-			for (int i = 0; i < mIndex; i++)
-			{
-				GL.Color4(mColorCoords[i].r, mColorCoords[i].g, mColorCoords[i].b, mColorCoords[i].a);
-				GL.TexCoord2(mTexCoords[i].u, mTexCoords[i].v);
-				GL.Vertex2(mVertexCoords[i].x, mVertexCoords[i].y);
-			}
-
-			GL.End();
-
-			mIndex = 0;
+			GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
 		}
+
 	}
 }

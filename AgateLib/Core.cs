@@ -24,7 +24,6 @@ using System.Text;
 
 using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
-using AgateLib.PlatformSpecific;
 
 namespace AgateLib
 {
@@ -90,6 +89,7 @@ namespace AgateLib
 		private static bool mAutoPause = false;
 		private static bool mIsActive = true;
 		private static bool mInititalized = false;
+		private static Platform mPlatform;
 
 		#region --- Error Reporting ---
 
@@ -98,7 +98,6 @@ namespace AgateLib
 
 		public static class ErrorReporting
 		{
-
 			private static string mErrorFile = "errorlog.txt";
 			private static bool mAutoStackTrace = false;
 			private static bool mWroteHeader = false;
@@ -214,7 +213,7 @@ namespace AgateLib
 						filewriter.Write(text);
 				}
 
-				Console.Write(text);
+				Trace.WriteLine(text);
 			}
 
 			/// <summary>
@@ -263,9 +262,8 @@ namespace AgateLib
 						"Error message: " + e.Message + "\r\n" +
 						"Errors cannot be saved to a text file.";
 
-					Console.WriteLine(message);
-					System.Diagnostics.Debug.WriteLine(message);
-					System.Diagnostics.Trace.WriteLine(message);
+					Debug.WriteLine(message);
+					Trace.WriteLine(message);
 
 					return null;
 				}
@@ -296,7 +294,7 @@ namespace AgateLib
 
 		static Core()
 		{
-
+			mPlatform = new Platform();
 		}
 		/// <summary>
 		/// Initializes Core class.
@@ -309,11 +307,17 @@ namespace AgateLib
 
 			Drivers.Registrar.Initialize();
 
-			Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
 			mInititalized = true;
 		}
 
+		/// <summary>
+		/// Gets an object which describes details about the current platform.
+		/// </summary>
+		public static Platform Platform
+		{
+			get { return mPlatform; }
+		}
 
 		/// <summary>
 		/// Gets or sets a bool value which indicates whether or not your
@@ -412,5 +416,7 @@ namespace AgateLib
 		{
 			return mTime.ElapsedMilliseconds;
 		}
+
+
 	}
 }

@@ -23,6 +23,7 @@ using System.Text;
 using AgateLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
+using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
@@ -34,13 +35,15 @@ namespace AgateLib.ImplementationBase
 	public abstract class DisplayImpl : DriverImplBase
 	{
 		private double mAlphaThreshold = 5.0 / 255.0;
-		private DisplayLib.DisplayCapsInfo mCapsInfo = new DisplayCapsInfo();
 
 		private IRenderTarget mRenderTarget;
 
 		public abstract bool Supports(DisplayBoolCaps caps);
+		public abstract Size CapsSize(DisplaySizeCaps displaySizeCaps);
+
 		public abstract IEnumerable<DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages { get; }
 
+		private static AgateShader mShader;
 		
 		/// <summary>
 		/// Gets or sets the current render target.
@@ -320,10 +323,8 @@ namespace AgateLib.ImplementationBase
 		}
 
 		#endregion
-		/// <summary>
-		/// Returns the maximum size a surface object can be.
-		/// </summary>
-		public abstract Size MaxSurfaceSize { get; }
+		[Obsolete("Use Display.Caps instead.", true)]
+		public virtual Size MaxSurfaceSize { get { return Display.Caps.MaxSurfaceSize; } }
 
 		#region --- SetClipRect ---
 
@@ -546,25 +547,9 @@ namespace AgateLib.ImplementationBase
 		/// Sets the boundary coordinates of the window.
 		/// </summary>
 		/// <param name="region"></param>
-		public abstract void SetOrthoProjection(Rectangle region);
-
-		/// <summary>
-		/// Gets the capabilities of the Display object.
-		/// </summary>
-		public DisplayCapsInfo Caps
-		{
-			get { return mCapsInfo;  }
-		}
-
-		/// <summary>
-		/// Gets all the light settings from the LightManager.
-		/// </summary>
-		/// <param name="lights"></param>
-		[Obsolete()]
-		public virtual void DoLighting(LightManager lights)
-		{
-			throw new NotImplementedException("DoLighting is not implemented, and also deprecated.");
-		}
+		[Obsolete]
+		public virtual void SetOrthoProjection(Rectangle region)
+		{ }
 
 		/// <summary>
 		/// Processes pending events.
@@ -592,13 +577,6 @@ namespace AgateLib.ImplementationBase
 		}
 
 		/// <summary>
-		/// Override to return an object implementing IPlatformServices.  This object will provide
-		/// basic services that are not available in the .NET platform (high precision timing, etc.)
-		/// </summary>
-		/// <returns></returns>
-		protected internal abstract AgateLib.PlatformSpecific.IPlatformServices GetPlatformServices();
-
-		/// <summary>
 		/// Makes the OS mouse pointer visible.
 		/// </summary>
 		protected internal abstract void ShowCursor();
@@ -619,22 +597,6 @@ namespace AgateLib.ImplementationBase
 			throw new AgateException("Cannot create an index buffer with a driver that does not support 3D.");
 		}
 
-		public virtual Matrix4x4 MatrixProjection
-		{
-			get { throw new AgateException("3D is not supported."); }
-			set { throw new AgateException("3D is not supported."); }
-		}
-		public virtual Matrix4x4 MatrixView
-		{
-			get { throw new AgateException("3D is not supported."); }
-			set { throw new AgateException("3D is not supported."); }
-		}
-		public virtual Matrix4x4 MatrixWorld
-		{
-			get { throw new AgateException("3D is not supported."); }
-			set { throw new AgateException("3D is not supported."); }
-		}
-
 		/// <summary>
 		/// Override this method if shaders are supported.
 		/// Only call the base class method if shaders aren't supported, as it throws a NotSupportedException.
@@ -645,16 +607,30 @@ namespace AgateLib.ImplementationBase
 			throw new NotSupportedException("The current driver does not support shaders.");
 		}
 
+		[Obsolete]
 		public virtual Effect Effect
 		{
-			get { throw new NotSupportedException("The current driver does not support shaders."); }
+			get { return null; }
 			set { throw new NotSupportedException("The current driver does not support shaders."); }
 		}
+		public virtual AgateShader Shader
+		{
+			get { return mShader; }
+			set
+			{
+				FlushDrawBuffer();
 
+				if (mShader != null)
+					mShader.End();
+
+				mShader = value;
+				mShader.Begin();
+			}
+		}
 
 		protected void InitializeShaders()
 		{
-			if (Display.Caps.SupportsShaders)
+			if (Display.Caps.SupportsCustomShaders)
 			{
 				ShaderCompiler.Initialize(CreateShaderCompiler());
 			}
@@ -666,5 +642,14 @@ namespace AgateLib.ImplementationBase
 
 		protected internal abstract bool GetRenderState(RenderStateBool renderStateBool);
 		protected internal abstract void SetRenderState(RenderStateBool renderStateBool, bool value);
+
+		/// <summary>
+		/// Creates one of the build in shaders in AgateLib.  Implementers should 
+		/// return null for any built in shader that is not supported.
+		/// Basic2DShader must have an implementation, but any other shader can be unsupported.
+		/// </summary>
+		/// <param name="BuiltInShaderType"></param>
+		/// <returns></returns>
+		protected internal abstract AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType);
 	}
 }

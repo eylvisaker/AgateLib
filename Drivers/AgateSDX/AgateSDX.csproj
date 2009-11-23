@@ -3,7 +3,7 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6C4E3198-7D6D-41E5-BFA2-AC28ADDAE2B6}</ProjectGuid>
+    <ProjectGuid>{EF993B30-D9A9-4962-80BB-6826D39B3465}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -105,6 +105,7 @@
       <DependentUpon>frmFullScreen.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GeoHelper.cs" />
     <Compile Include="HlslCompiler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -141,6 +142,10 @@
     <Compile Include="SDX_VertexBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Shaders\FixedFunction\FixedFunctionShaderFactory.cs" />
+    <Compile Include="Shaders\FixedFunction\SDX_FF_Basic2DShader.cs" />
+    <Compile Include="Shaders\FixedFunction\SDX_FF_Lighting3D.cs" />
+    <Compile Include="Shaders\ShaderFactory.cs" />
     <Compile Include="VertexFormats.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -154,7 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
+      <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">

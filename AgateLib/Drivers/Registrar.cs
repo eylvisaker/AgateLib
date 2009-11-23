@@ -24,7 +24,6 @@ using System.Reflection;
 using System.Text;
 
 using AgateLib.ImplementationBase;
-using AgateLib.PlatformSpecific;
 using AgateLib.Utility;
 
 namespace AgateLib.Drivers

@@ -24,8 +24,8 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using OpenTK.Graphics;
-using OTKPixelFormat = OpenTK.Graphics.PixelFormat;
+using OpenTK.Graphics.OpenGL;
+using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
 using AgateLib;
@@ -42,7 +42,7 @@ namespace AgateOTK
 	public sealed class GL_Surface : SurfaceImpl, GL_IRenderTarget
 	{
 		GL_Display mDisplay;
-		GLState mState;
+		GLDrawBuffer mDrawBuffer;
 
 		string mFilename;
 
@@ -65,11 +65,17 @@ namespace AgateOTK
 
 		TextureCoordinates mTexCoord;
 
+		GLDrawBuffer mInternalDrawBuffer;
+
+		GLDrawBuffer GL_IRenderTarget.DrawBuffer
+		{
+			get { return mInternalDrawBuffer; }
+		}
 
 		public GL_Surface(string filename)
 		{
 			mDisplay = Display.Impl as GL_Display;
-			mState = mDisplay.State;
+			mDrawBuffer = mDisplay.DrawBuffer;
 
 			mFilename = filename;
 
@@ -78,7 +84,7 @@ namespace AgateOTK
 		public GL_Surface(Stream st)
 		{
 			mDisplay = Display.Impl as GL_Display;
-			mState = mDisplay.State;
+			mDrawBuffer = mDisplay.DrawBuffer;
 
 			// Load The Bitmap
 			Drawing.Bitmap sourceImage = new Drawing.Bitmap(st);
@@ -88,7 +94,7 @@ namespace AgateOTK
 		public GL_Surface(Size size)
 		{
 			mDisplay = Display.Impl as GL_Display;
-			mState = mDisplay.State;
+			mDrawBuffer = mDisplay.DrawBuffer;
 
 			mSourceRect = new Rectangle(Point.Empty, size);
 
@@ -125,7 +131,7 @@ namespace AgateOTK
 		private GL_Surface(int textureID, Rectangle sourceRect, Size textureSize)
 		{
 			mDisplay = Display.Impl as GL_Display;
-			mState = mDisplay.State;
+			mDrawBuffer = mDisplay.DrawBuffer;
 
 			AddTextureRef(textureID);
 
@@ -208,7 +214,7 @@ namespace AgateOTK
 
 			mTexCoord = GetTextureCoords(srcRect);
 
-			mState.DrawBuffer.SetInterpolationMode(InterpolationHint);
+			mDrawBuffer.SetInterpolationMode(InterpolationHint);
 
 			if (TesselateFactor == 1)
 			{
@@ -278,7 +284,7 @@ namespace AgateOTK
 			//                     new SizeF(displayWidth, displayHeight));
 
 
-			mState.DrawBuffer.AddQuad(mTextureID, color, texCoord, pt);
+			mDrawBuffer.AddQuad(mTextureID, color, texCoord, pt);
 		}
 
 		private void SetPoints(PointF[] pt, float destX, float destY, float rotationCenterX, float rotationCenterY,
@@ -422,6 +428,9 @@ namespace AgateOTK
 
 		public override void BeginRender()
 		{
+			if (mInternalDrawBuffer == null)
+				mInternalDrawBuffer = new GLDrawBuffer();
+
 			GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
 
 			mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
@@ -500,7 +509,7 @@ namespace AgateOTK
 			}
 			else
 			{
-				mState.DrawBuffer.ResetTexture();
+				mDrawBuffer.ResetTexture();
 
 				GL.BindTexture(TextureTarget.Texture2D, mTextureID);
 

@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Class which can be used to query information about what features are supported
+	/// by the display driver.
+	/// </summary>
 	public class DisplayCapsInfo
 	{
+		internal DisplayCapsInfo()
+		{ }
+
 		/// <summary>
 		/// Indicates whether or not full screen windows can be created.
 		/// </summary>
@@ -94,9 +102,9 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Indicates whether or not vertex/pixel shaders are supported.
 		/// </summary>
-		public bool SupportsShaders
+		public bool SupportsCustomShaders
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.Shaders); }
+			get { return Display.Impl.Supports(DisplayBoolCaps.CustomShaders); }
 		}
 		/// <summary>
 		/// Indicates which shader language is supported.
@@ -113,8 +121,17 @@ namespace AgateLib.DisplayLib
 		{
 			get { return Display.Impl.Supports(DisplayBoolCaps.CanCreateBitmapFont); }
 		}
+
+		public Size MaxSurfaceSize
+		{
+			get { return Display.Impl.CapsSize(DisplaySizeCaps.MaxSurfaceSize); }
+		}
 	}
 
+	public enum DisplaySizeCaps
+	{
+		MaxSurfaceSize,
+	}
 	public enum DisplayBoolCaps
 	{
 		/// <summary>
@@ -166,7 +183,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Indicates whether or not vertex/pixel shaders are supported.
 		/// </summary>
-		Shaders,
+		CustomShaders,
 		/// <summary>
 		/// Indicates whether the driver can create a bitmap font from an operating
 		/// system font.

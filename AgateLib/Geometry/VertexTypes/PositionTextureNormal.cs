@@ -7,7 +7,7 @@ using System.Text;
 namespace AgateLib.Geometry.VertexTypes
 {
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
-	public class PositionTextureNormal
+	public struct PositionTextureNormal
 	{
 		public Vector3 Position;
 		public Vector2 Texture;
