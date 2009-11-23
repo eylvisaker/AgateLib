@@ -296,9 +296,11 @@ namespace AgateLib.DisplayLib
 				throw new AgateException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
 
 			impl.BeginFrame();
+
+			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(Point.Empty, RenderTarget.Size);
 			AgateBuiltInShaders.Basic2DShader.Activate();
 
-			mCurrentClipRect = new Rectangle(0, 0, RenderTarget.Width, RenderTarget.Height);
+			mCurrentClipRect = new Rectangle(Point.Empty, RenderTarget.Size);
 		}
 		/// <summary>
 		/// EndFrame must be called at the end of each frame.
@@ -488,7 +490,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use a shader instead.")]
 		public static void SetOrthoProjection(Rectangle region)
 		{
-			impl.SetOrthoProjection(region);
+			throw new NotImplementedException();
 		}
 
 		#region --- Drawing Functions ---

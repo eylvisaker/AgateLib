@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.Shaders.Implementation;
+using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib.Shaders
 {
@@ -30,10 +31,21 @@ namespace AgateLib.DisplayLib.Shaders
 		{
 
 		}
+		
+		protected new Basic2DImpl Impl
+		{
+			get { return (Basic2DImpl)base.Impl; }
+		}
 
 		protected override BuiltInShader BuiltInShaderType
 		{
 			get { return BuiltInShader.Basic2DShader; }
+		}
+
+		public Rectangle CoordinateSystem
+		{
+			get { return Impl.CoordinateSystem; }
+			set { Impl.CoordinateSystem = value; }
 		}
 	}
 }

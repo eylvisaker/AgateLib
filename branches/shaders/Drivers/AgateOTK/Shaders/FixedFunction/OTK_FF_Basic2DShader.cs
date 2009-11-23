@@ -10,15 +10,25 @@ using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK.Shaders.FixedFunction
 {
-	class OTK_FF_Basic2DShader : AgateShaderImpl 
+	class OTK_FF_Basic2DShader : Basic2DImpl  
 	{
 		Rectangle coords;
+
+		public override Rectangle CoordinateSystem
+		{
+			get
+			{
+				return coords;
+			}
+			set
+			{
+				coords = value;
+			}
+		}
 
 		public override void Begin()
 		{
 			GL.Disable(EnableCap.Lighting);
-
-			coords = new Rectangle(Point.Empty, Display.RenderTarget.Size);
 
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();

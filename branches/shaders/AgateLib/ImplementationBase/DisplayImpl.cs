@@ -547,7 +547,9 @@ namespace AgateLib.ImplementationBase
 		/// Sets the boundary coordinates of the window.
 		/// </summary>
 		/// <param name="region"></param>
-		public abstract void SetOrthoProjection(Rectangle region);
+		[Obsolete]
+		public virtual void SetOrthoProjection(Rectangle region)
+		{ }
 
 		/// <summary>
 		/// Processes pending events.
@@ -593,22 +595,6 @@ namespace AgateLib.ImplementationBase
 		protected internal virtual IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
 		{
 			throw new AgateException("Cannot create an index buffer with a driver that does not support 3D.");
-		}
-
-		public virtual Matrix4x4 MatrixProjection
-		{
-			get { throw new AgateException("3D is not supported."); }
-			set { throw new AgateException("3D is not supported."); }
-		}
-		public virtual Matrix4x4 MatrixView
-		{
-			get { throw new AgateException("3D is not supported."); }
-			set { throw new AgateException("3D is not supported."); }
-		}
-		public virtual Matrix4x4 MatrixWorld
-		{
-			get { throw new AgateException("3D is not supported."); }
-			set { throw new AgateException("3D is not supported."); }
 		}
 
 		/// <summary>

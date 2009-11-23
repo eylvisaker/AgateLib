@@ -301,9 +301,6 @@ namespace AgateSDX
 			mRenderTarget.BeginRender();
 
 			SetClipRect(new Rectangle(new Point(0, 0), mRenderTarget.Size));
-
-			mDevice.Set2DDrawState();
-
 		}
 		protected override void OnEndFrame()
 		{
@@ -860,10 +857,6 @@ namespace AgateSDX
 		{
 			mDevice.DrawBuffer.Flush();
 		}
-		public override void SetOrthoProjection(Rectangle region)
-		{
-			mDevice.SetOrthoProjection(region);
-		}
 
 		protected override void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
 		{
@@ -914,10 +907,6 @@ namespace AgateSDX
 
 		#region --- 3D stuff ---
 
-		Matrix4x4 projection = Matrix4x4.Identity;
-		Matrix4x4 world = Matrix4x4.Identity;
-		Matrix4x4 view = Matrix4x4.Identity;
-
 		protected override VertexBufferImpl CreateVertexBuffer(
 			AgateLib.Geometry.VertexTypes.VertexLayout layout, int vertexCount)
 		{
@@ -926,58 +915,6 @@ namespace AgateSDX
 		protected override IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
 		{
 			return new SDX_IndexBuffer(this, type, size);
-		}
-
-		public override Matrix4x4 MatrixProjection
-		{
-			get
-			{
-				return projection;
-			}
-			set
-			{
-				//value = Matrix4.Projection(45, 800 / 600f, 1f, 1000f);
-				var x = SlimDX.Matrix.PerspectiveFovRH(
-					(float)(45 * Math.PI / 180), 800 / 600f, 1f, 1000f);
-
-				projection = value;
-				mDevice.Device.SetTransform(TransformState.Projection,
-					GeoHelper.TransformAgateMatrix(value));
-			}
-		}
-
-		public override Matrix4x4 MatrixView
-		{
-			get
-			{
-				return view;
-			}
-			set
-			{
-				view = value;
-
-				mDevice.Device.SetTransform(TransformState.View,
-					GeoHelper.TransformAgateMatrix(value));
-			}
-		}
-		public override Matrix4x4 MatrixWorld
-		{
-			get
-			{
-				return world;
-			}
-			set
-			{
-				world = value;
-
-				mDevice.Device.SetTransform(TransformState.World,
-					GeoHelper.TransformAgateMatrix(value));
-			}
-		}
-
-		Matrix GetTotalTransform()
-		{
-			return GeoHelper.TransformAgateMatrix(MatrixProjection * MatrixView * MatrixWorld);
 		}
 
 		#endregion

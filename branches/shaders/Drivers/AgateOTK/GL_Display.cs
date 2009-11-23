@@ -41,7 +41,6 @@ namespace AgateOTK
 		Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		Rectangle mCurrentClip = Rectangle.Empty;
 		private bool mVSync = true;
-		private int mMaxLightsUsed = 0;
 		private bool mSupportsFramebuffer;
 		private bool mNonPowerOf2Textures;
 		private bool mSupportsShaders;
@@ -183,62 +182,6 @@ namespace AgateOTK
 		public override void FlushDrawBuffer()
 		{
 			mState.DrawBuffer.Flush();
-		}
-
-		public override void SetOrthoProjection(Rectangle region)
-		{
-			GL.MatrixMode(MatrixMode.Projection);
-			GL.LoadIdentity();
-			GL.Ortho(region.Left, region.Right, region.Bottom, region.Top, -1, 1);
-		}
-
-		Matrix4x4 projection = Matrix4x4.Identity;
-		Matrix4x4 world = Matrix4x4.Identity;
-		Matrix4x4 view = Matrix4x4.Identity;
-
-		public override Matrix4x4 MatrixProjection
-		{
-			get { return projection; }
-			set
-			{
-				projection = value;
-				SetProjection();
-			}
-		}
-		public override Matrix4x4 MatrixView
-		{
-			get { return view; }
-			set
-			{
-				view = value;
-				SetModelview();
-			}
-		}
-		public override Matrix4x4 MatrixWorld
-		{
-			get { return world; }
-			set
-			{
-				world = value;
-				SetModelview();
-			}
-		}
-
-		private void SetModelview()
-		{
-			OpenTK.Matrix4 modelview = GeoHelper.ConvertAgateMatrix(view * world, false);
-
-			GL.MatrixMode(MatrixMode.Modelview);
-			GL.LoadIdentity();
-			GL.LoadMatrix(ref modelview);
-		}
-		private void SetProjection()
-		{
-			OpenTK.Matrix4 otkProjection = GeoHelper.ConvertAgateMatrix(projection, false);
-
-			GL.MatrixMode(MatrixMode.Projection);
-			GL.LoadIdentity();
-			GL.LoadMatrix(ref otkProjection);
 		}
 
 		public override void Clear(Color color)

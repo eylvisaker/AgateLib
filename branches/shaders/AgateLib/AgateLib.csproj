@@ -102,6 +102,7 @@
     <Compile Include="DisplayLib\Shaders\AgateShader.cs" />
     <Compile Include="DisplayLib\Shaders\Implementation\AgateInternalShader.cs" />
     <Compile Include="DisplayLib\Shaders\Implementation\AgateShaderImpl.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\Basic2DImpl.cs" />
     <Compile Include="DisplayLib\Shaders\Implementation\BuiltInShader.cs" />
     <Compile Include="DisplayLib\Shaders\Implementation\Lighting2DImpl.cs" />
     <Compile Include="DisplayLib\Shaders\Implementation\Lighting3DImpl.cs" />

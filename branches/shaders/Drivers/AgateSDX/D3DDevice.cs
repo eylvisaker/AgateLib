@@ -197,39 +197,7 @@ namespace AgateSDX
 				}
 			}
 		}
-		public void Set2DDrawState()
-		{
-			mDevice.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
-			mDevice.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha);
 
-			mDevice.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Clamp);
-			mDevice.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Clamp);
-
-			mDevice.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Anisotropic);
-			mDevice.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Anisotropic);
-
-			SetView2D();
-		}
-
-
-		public void SetOrthoProjection(Rectangle region)
-		{
-			Matrix orthoProj = Matrix.OrthoOffCenterRH(
-				region.Left, region.Right, region.Bottom, region.Top, -1, 1);
-
-			mDevice.SetTransform(TransformState.Projection, orthoProj);
-		}
-
-		public void SetView2D()
-		{
-			mDevice.SetRenderState(RenderState.CullMode, Cull.None);
-			mDevice.SetRenderState(RenderState.Lighting, false);
-
-			mDevice.SetTransform(TransformState.World, Matrix.Identity);
-			mDevice.SetTransform(TransformState.View, Matrix.Identity);
-
-			SetOrthoProjection(new Rectangle(0, 0, RenderTarget.Width, RenderTarget.Height));
-		}
 		public void SetFontRenderState()
 		{
 			mLastTexture = null;

@@ -15,8 +15,6 @@ namespace AgateLib.DisplayLib.Shaders
 			Basic2DShader = new Basic2DShader();
 			Lighting2D = new Lighting2D();
 			Lighting3D = new Lighting3D();
-
-			Basic2DShader.Activate();
 		}
 		internal static void DisposeShaders()
 		{
