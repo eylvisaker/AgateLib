@@ -15,7 +15,7 @@ namespace AgateOTK
 	public class GL_VertexBuffer : VertexBufferImpl
 	{
 		GL_Display mDisplay;
-		GLState mState;
+		GLDrawBuffer mDrawBuffer;
 
 		struct AttributeData
 		{
@@ -35,7 +35,7 @@ namespace AgateOTK
 		public GL_VertexBuffer(VertexLayout layout, int count)
 		{
 			mDisplay = Display.Impl as GL_Display;
-			mState = mDisplay.State;
+			mDrawBuffer = mDisplay.DrawBuffer;
 			mVertexCount = count;
 			mLayout = layout;
 
@@ -122,7 +122,7 @@ namespace AgateOTK
 
 		private void SetClientStates()
 		{
-			mState.SetGLColor(Color.White);
+			mDrawBuffer.SetGLColor(Color.White);
 
 			if (UseTexture)
 				SetTextures();

@@ -31,7 +31,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {
-	class GLDrawBuffer
+	public class GLDrawBuffer
 	{
 		#region --- Private types for Vertex Arrays ---
 
@@ -79,7 +79,6 @@ namespace AgateOTK
 		}
 		#endregion
 
-		GLState mState;
 		PositionTextureColorNormal[] mVerts;
 
 		int mIndex;
@@ -90,10 +89,8 @@ namespace AgateOTK
 
 		int mBufferID;
 
-		public GLDrawBuffer(GLState state)
+		public GLDrawBuffer()
 		{
-			mState = state;
-
 			GL.GenBuffers(1, out mBufferID);
 			Debug.Print("Draw buffer ID: {0}", mBufferID);
 
@@ -279,5 +276,12 @@ namespace AgateOTK
 					break;
 			}
 		}
+
+
+		public void SetGLColor(Color color)
+		{
+			GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
+		}
+
 	}
 }

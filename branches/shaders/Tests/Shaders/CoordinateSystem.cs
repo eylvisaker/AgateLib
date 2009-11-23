@@ -15,7 +15,6 @@ namespace Tests.CoordinateSystemTest
 		int ortho = 0;
 		DisplayWindow wind;
 
-
 		#region IAgateTest Members
 
 		public string Name { get { return "Coordinate System"; } }

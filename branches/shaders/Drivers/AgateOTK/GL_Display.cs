@@ -37,7 +37,6 @@ namespace AgateOTK
 	public sealed class GL_Display : DisplayImpl
 	{
 		GL_IRenderTarget mRenderTarget;
-		GLState mState;
 		Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		Rectangle mCurrentClip = Rectangle.Empty;
 		private bool mVSync = true;
@@ -154,17 +153,21 @@ namespace AgateOTK
 		}
 		protected override void OnEndFrame()
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
 			mRenderTarget.EndRender();
 
 			FlushDeleteQueue();
 		}
 
-
+		[Obsolete("Use DrawBuffer instead.", true)]
 		internal GLState State
 		{
-			get { return mState; }
+			get { throw new NotImplementedException(); }
+		}
+		internal GLDrawBuffer DrawBuffer
+		{
+			get { return (RenderTarget.Impl as GL_IRenderTarget).DrawBuffer; }
 		}
 
 
@@ -181,27 +184,27 @@ namespace AgateOTK
 
 		public override void FlushDrawBuffer()
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 		}
 
 		public override void Clear(Color color)
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
 			GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, 1.0f);
 			GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
 		}
 		public override void Clear(Color color, Rectangle dest)
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
 			DrawRect(dest, Color.FromArgb(255, color));
 		}
 
 		public override void DrawLine(Point a, Point b, Color color)
 		{
-			mState.DrawBuffer.Flush();
-			mState.SetGLColor(color);
+			DrawBuffer.Flush();
+			DrawBuffer.SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
 			GL.Begin(BeginMode.Lines);
@@ -218,8 +221,8 @@ namespace AgateOTK
 		}
 		public override void DrawRect(RectangleF rect, Color color)
 		{
-			mState.DrawBuffer.Flush();
-			mState.SetGLColor(color);
+			DrawBuffer.Flush();
+			DrawBuffer.SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
 			GL.Begin(BeginMode.Lines);
@@ -246,9 +249,9 @@ namespace AgateOTK
 		}
 		public override void FillRect(RectangleF rect, Color color)
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
-			mState.SetGLColor(color);
+			DrawBuffer.SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
 
@@ -268,21 +271,21 @@ namespace AgateOTK
 		}
 		public override void FillRect(RectangleF rect, Gradient color)
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
 			GL.Disable(EnableCap.Texture2D);
 
 			GL.Begin(BeginMode.Quads);
-			mState.SetGLColor(color.TopLeft);
+			DrawBuffer.SetGLColor(color.TopLeft);
 			GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
 
-			mState.SetGLColor(color.TopRight);
+			DrawBuffer.SetGLColor(color.TopRight);
 			GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
 
-			mState.SetGLColor(color.BottomRight);
+			DrawBuffer.SetGLColor(color.BottomRight);
 			GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
 
-			mState.SetGLColor(color.BottomLeft);
+			DrawBuffer.SetGLColor(color.BottomLeft);
 			GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
 			GL.End();                                                         // Done Drawing The Quad
 
@@ -291,11 +294,11 @@ namespace AgateOTK
 
 		public override void FillPolygon(PointF[] pts, Color color)
 		{
-			mState.DrawBuffer.Flush();
+			DrawBuffer.Flush();
 
 			GL.Disable(EnableCap.Texture2D);
 
-			mState.SetGLColor(color);
+			DrawBuffer.SetGLColor(color);
 
 			GL.Begin(BeginMode.TriangleFan);
 			for (int i = 0; i < pts.Length; i++)
@@ -310,7 +313,6 @@ namespace AgateOTK
 		public override void Initialize()
 		{
 			CreateFakeWindow();
-			mState = new GLState();
 			
 			Report("OpenTK / OpenGL driver instantiated for display.");
 		}

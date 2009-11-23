@@ -60,6 +60,12 @@ namespace AgateOTK
 		WindowPosition mChoosePosition;
 
 		bool mHasFrame = true;
+		GLDrawBuffer mDrawBuffer;
+
+		public GLDrawBuffer DrawBuffer
+		{
+			get { return mDrawBuffer; }
+		}
 
 		public GL_DisplayControl(CreateWindowParams windowParams)
 		{
@@ -111,6 +117,7 @@ namespace AgateOTK
 			mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);
 			mDisplay.InitializeCurrentContext();
 
+			mDrawBuffer = new GLDrawBuffer();
 		}
 
 		void mDisplay_ProcessEventsEvent(object sender, EventArgs e)

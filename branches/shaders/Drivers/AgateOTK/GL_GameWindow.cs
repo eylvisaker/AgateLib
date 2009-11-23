@@ -172,6 +172,7 @@ namespace AgateOTK
 		bool mAllowResize;
 		bool mHasFrame;
 		WindowPosition mCreatePosition;
+		GLDrawBuffer mDrawBuffer;
 
 		public GL_GameWindow(CreateWindowParams windowParams)
 		{
@@ -199,6 +200,12 @@ namespace AgateOTK
 
 			mDisplay.InitializeCurrentContext();
 
+			mDrawBuffer = new GLDrawBuffer();
+		}
+
+		public GLDrawBuffer DrawBuffer
+		{
+			get { return mDrawBuffer; }
 		}
 
 		bool done = false;
