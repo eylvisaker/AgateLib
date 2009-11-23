@@ -173,7 +173,7 @@
     <Compile Include="DisplayTests\Interpolation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DisplayTests\Ortho.cs">
+    <Compile Include="Shaders\CoordinateSystem.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayTests\RotatingSpriteTester.cs">

@@ -4,12 +4,13 @@ using System.Text;
 
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 
-namespace Tests.OrthoProjectionTest
+namespace Tests.CoordinateSystemTest
 {
-	class Ortho : IAgateTest 
+	class CoordinateSystem : IAgateTest 
 	{
 		int ortho = 0;
 		DisplayWindow wind;
@@ -17,8 +18,8 @@ namespace Tests.OrthoProjectionTest
 
 		#region IAgateTest Members
 
-		public string Name { get { return "Ortho Projection"; } }
-		public string Category { get { return "Display"; } }
+		public string Name { get { return "Coordinate System"; } }
+		public string Category { get { return "Shaders"; } }
 
 		#endregion
 
@@ -46,14 +47,17 @@ namespace Tests.OrthoProjectionTest
 					switch (ortho)
 					{
 						case 1:
-							Display.SetOrthoProjection(0, 0, surf.SurfaceWidth * 2, surf.SurfaceHeight * 2);
+							AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle
+								(0, 0, surf.SurfaceWidth * 2, surf.SurfaceHeight * 2);
 							break;
 
 						case 2:
-							Display.SetOrthoProjection(-surf.SurfaceWidth, -surf.SurfaceHeight,
-								surf.SurfaceWidth, surf.SurfaceHeight);
+							AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle
+								(-surf.SurfaceWidth, -surf.SurfaceHeight, surf.SurfaceWidth*2, surf.SurfaceHeight*2);
 							break;
 					}
+
+					AgateBuiltInShaders.Basic2DShader.Activate();
 
 					Display.FillRect(-2, -2, 4, 4, Color.Red);
 
