@@ -159,7 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{BED5DD5D-13C6-4BA4-80DC-A47478E74F84}</Project>
+      <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">

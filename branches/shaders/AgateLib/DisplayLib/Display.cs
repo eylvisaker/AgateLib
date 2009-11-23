@@ -466,7 +466,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="top"></param>
 		/// <param name="right"></param>
 		/// <param name="bottom"></param>
-		[Obsolete]
+		[Obsolete("Use a AgateBuiltInShaders.Basic2DShader.CoordinateSystem instead.", true)]
 		public static void SetOrthoProjection(int left, int top, int right, int bottom)
 		{
 			SetOrthoProjection(Rectangle.FromLTRB(left, top, right, bottom));
@@ -487,7 +487,7 @@ namespace AgateLib.DisplayLib
 		/// the entire window.</para>
 		/// </remarks>
 		/// <param name="region"></param>
-		[Obsolete("Use a shader instead.")]
+		[Obsolete("Use a AgateBuiltInShaders.Basic2DShader.CoordinateSystem instead.", true)]
 		public static void SetOrthoProjection(Rectangle region)
 		{
 			throw new NotImplementedException();
