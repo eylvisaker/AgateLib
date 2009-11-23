@@ -1,5 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{DC687DB2-90A8-484D-AB99-B3D29FDD8D44}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.WinForms", "Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj", "{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateDrawing", "Drivers\AgateDrawing\AgateDrawing.csproj", "{164A785D-924E-40FB-A517-D7E677F3B53A}"
@@ -7,8 +9,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateSDL", "Drivers\AgateSDL\AgateSDL.csproj", "{00C7FA95-98F4-43D9-9B63-34122B1DB003}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateSDX", "Drivers\AgateSDX\AgateSDX.csproj", "{EF993B30-D9A9-4962-80BB-6826D39B3465}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{DC687DB2-90A8-484D-AB99-B3D29FDD8D44}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib", "AgateLib\AgateLib.csproj", "{9490B719-829E-43A7-A5FE-8001F8A81759}"
 EndProject
