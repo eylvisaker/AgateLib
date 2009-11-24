@@ -11,29 +11,19 @@ namespace AgateOTK.Shaders.FixedFunction
 {
 	class OTK_FF_Lighting2D : Lighting2DImpl 
 	{
-		Light[] mLights;
 		Color mAmbientLight;
 
 		public OTK_FF_Lighting2D()
 		{
 		}
-		public override Light[] Lights
+		public override int MaxActiveLights
 		{
 			get
 			{
-				if (mLights == null)
-					InitializeLightsArray();
-
-				return mLights;
+				int maxLights;
+				GL.GetInteger(GetPName.MaxLights, out maxLights);
+				return maxLights;
 			}
-		}
-
-		private void InitializeLightsArray()
-		{
-			int maxLights;
-			GL.GetInteger(GetPName.MaxLights, out maxLights);
-
-			mLights = new Light[maxLights];
 		}
 
 		public override Color AmbientLight
@@ -71,12 +61,13 @@ namespace AgateOTK.Shaders.FixedFunction
 			GL.ColorMaterial(MaterialFace.FrontAndBack,
 							 ColorMaterialParameter.AmbientAndDiffuse);
 
-			for (int i = 0; i < mLights.Length; i++)
+			int i;
+			for (i = 0; i < Lights.Count && i < MaxActiveLights; i++)
 			{
 				EnableCap lightID = (EnableCap)((int)EnableCap.Light0 + i);
 				LightName lightName = (LightName)((int)LightName.Light0 + i);
 
-				if (mLights[i] == null || mLights[i].Enabled == false)
+				if (Lights[i] == null || Lights[i].Enabled == false)
 				{
 					GL.Disable(lightID);
 					continue;
@@ -84,18 +75,23 @@ namespace AgateOTK.Shaders.FixedFunction
 
 				GL.Enable(lightID);
 
-				SetArray(array, mLights[i].DiffuseColor);
+				SetArray(array, Lights[i].DiffuseColor);
 				GL.Light(lightName, LightParameter.Diffuse, array);
 
 				//SetArray(array, mLights[i]);
 				//GL.Lightv(lightName, LightParameter.Ambient, array);
 
-				SetArray(array, mLights[i].Position);
+				SetArray(array, Lights[i].Position);
 				GL.Light(lightName, LightParameter.Position, array);
 
-				GL.Light(lightName, LightParameter.ConstantAttenuation, mLights[i].AttenuationConstant);
-				GL.Light(lightName, LightParameter.LinearAttenuation, mLights[i].AttenuationLinear);
-				GL.Light(lightName, LightParameter.QuadraticAttenuation, mLights[i].AttenuationQuadratic);
+				GL.Light(lightName, LightParameter.ConstantAttenuation, Lights[i].AttenuationConstant);
+				GL.Light(lightName, LightParameter.LinearAttenuation, Lights[i].AttenuationLinear);
+				GL.Light(lightName, LightParameter.QuadraticAttenuation, Lights[i].AttenuationQuadratic);
+			}
+			for (; i < MaxActiveLights; i++)
+			{
+				EnableCap lightID = (EnableCap)((int)EnableCap.Light0 + i);
+				GL.Disable(lightID);
 			}
 		}
 

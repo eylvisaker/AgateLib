@@ -8,7 +8,13 @@ namespace AgateLib.DisplayLib.Shaders.Implementation
 {
 	public abstract class Lighting2DImpl : AgateShaderImpl 
 	{
-		public abstract Light[] Lights { get; }
+		public Lighting2DImpl()
+		{
+			Lights = new List<Light>();
+		}
+
+		public abstract int MaxActiveLights { get; }
+		public List<Light> Lights { get; private set; }
 		public abstract Color AmbientLight { get; set; }
 
 	}

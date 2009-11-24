@@ -19,19 +19,23 @@ namespace AgateLib.DisplayLib.Shaders
 			get { return (Lighting2DImpl)base.Impl; }
 		}
 
-		public Light[] Lights
+		public List<Light> Lights
 		{
 			get { return Impl.Lights; }
 		}
 		public Color AmbientLight
 		{
 			get { return Impl.AmbientLight; }
+			set { Impl.AmbientLight = value; }
 		}
-
+		public int MaxActiveLights
+		{
+			get { return Impl.MaxActiveLights; }
+		}
 
 		public void AddLight(Light ptLight)
 		{
-			for (int i = 0; i < Lights.Length; i++)
+			for (int i = 0; i < Lights.Count; i++)
 			{
 				if (Lights[i] == null)
 				{
@@ -40,7 +44,7 @@ namespace AgateLib.DisplayLib.Shaders
 				}
 			}
 
-			for (int i = 0; i < Lights.Length; i++)
+			for (int i = 0; i < Lights.Count; i++)
 			{
 				if (Lights[i].Enabled == false)
 				{
