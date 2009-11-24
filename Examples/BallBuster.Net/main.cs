@@ -25,6 +25,7 @@ using System.IO;
 
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.Sprites;
 using AgateLib.InputLib;
@@ -37,7 +38,6 @@ class BBX
     const float maxPaddleImbueV = 1000.0f;
     const float minPaddleImbueV = 200.0f;
     
-    LightManager lights = new LightManager();
     bool doLighting = true;
 
     public BBX()
@@ -285,7 +285,7 @@ class BBX
                 return 0;
 
             if (Display.Caps.IsHardwareAccelerated == false ||
-                Display.Caps.SupportsLighting == false)
+                AgateBuiltInShaders.Lighting2D == null)
                 doLighting = false;
 
             bool fulls = true;
@@ -612,7 +612,7 @@ class BBX
             resetPowerups = true;
         }
 
-        lights.Ambient = w.light;
+		AgateBuiltInShaders.Lighting2D.AmbientLight = w.light;
 
         file = "lvls/" + worlds[world].lvls[level] + ".lvl";
 
@@ -702,29 +702,43 @@ class BBX
 
         Display.Clear(Color.FromArgb(128, 0, 0, 128));
 
-        //lights.Ambient = Color.FromArgb(25, 25, 25);
-        lights.Clear();
+		var shader = AgateBuiltInShaders.Lighting2D;
 
-        for (int i = 0; i < balls.Count && i < Display.Caps.MaxLights; i++)
-        {
+		while (shader.Lights.Count > balls.Count)
+			shader.Lights.RemoveAt(shader.Lights.Count-1);
+
+        for (int i = 0; i < balls.Count; i++)
+		{
+			Light light;
+
+			if (i < shader.Lights.Count)
+				light = shader.Lights[i];
+			else
+			{
+				light = new Light();
+				shader.Lights.Add(light);
+			}
+
             if (balls[i].fireball)
             {
-                lights.AddPointLight(new Vector3(
-                    balls[i].ballx, balls[i].bally, -1), Color.FromArgb(255, 255, 0), Color.FromArgb(64, 32, 0));
+				light.Position = new Vector3(balls[i].ballx, balls[i].bally, -1);
+				light.DiffuseColor = Color.FromArgb(255, 255, 0);
+				light.AmbientColor = Color.FromArgb(64, 32, 0);
 
-                lights[i].AttenuationConstant = 0.01f;
-                lights[i].AttenuationLinear = 0.01f;
-                lights[i].AttenuationQuadratic = 0.000001f;
-                
+                light.AttenuationConstant = 0.01f;
+                light.AttenuationLinear = 0.005f;
+                light.AttenuationQuadratic = 0.000001f;
+
             }
             else
             {
-                lights.AddPointLight(new Vector3(
-                    balls[i].ballx, balls[i].bally, -1), Color.FromArgb(200, 200, 200));
+				light.Position = new Vector3(balls[i].ballx, balls[i].bally, -1);
+				light.DiffuseColor = Color.FromArgb(200, 200, 200);
+				light.AmbientColor = Color.Black;
 
-                lights[i].AttenuationConstant = 0.01f;
-                lights[i].AttenuationLinear = 0;
-                lights[i].AttenuationQuadratic = 0.00001f;
+                light.AttenuationConstant = 0.01f;
+                light.AttenuationLinear = 0;
+                light.AttenuationQuadratic = 0.00001f;
                 
             }
         }
@@ -739,7 +753,7 @@ class BBX
 
         if (doLighting)
         {
-            lights.DoLighting();
+			shader.Activate();
         }
 
         // Draw blocks and Update their animations...
@@ -755,7 +769,7 @@ class BBX
 
         if (doLighting)
         {
-            Display.DisableLighting();
+			AgateBuiltInShaders.Basic2DShader.Activate();
         }
 
         // Draw paddle, other stuff, and lastly the balls.
@@ -4074,7 +4088,6 @@ class BBX
 
         img.arrow.Color = Color.White;
 
-        lights.Ambient = Color.White;
         editorState.brush = 'r';
 
         while (Keyboard.Keys[KeyCode.Escape] == false && Display.CurrentWindow.IsClosed == false)

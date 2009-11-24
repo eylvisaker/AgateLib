@@ -95,24 +95,6 @@
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{D62BD453-79AC-4A8D-8E75-F85FFF533E4D}</Project>
-      <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateDrawing\AgateDrawing.csproj">
-      <Project>{27BF4286-BD36-4E2A-B565-EB2A2D73E63B}</Project>
-      <Name>AgateDrawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\drivers\AgateOTK\AgateOTK.csproj">
-      <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
-      <Name>AgateOTK</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateSDL\AgateSDL.csproj">
-      <Project>{FDA3969A-9EAA-4C15-A8CC-3D8DDAF705AE}</Project>
-      <Name>AgateSDL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -128,6 +110,20 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
+      <Name>AgateLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Drivers\AgateOTK\AgateOTK.csproj">
+      <Project>{9E095F03-BA3F-4EAD-A905-2A2647CE4405}</Project>
+      <Name>AgateOTK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Drivers\AgateSDL\AgateSDL.csproj">
+      <Project>{00C7FA95-98F4-43D9-9B63-34122B1DB003}</Project>
+      <Name>AgateSDL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
