@@ -292,6 +292,11 @@ namespace AgateSDX
 			return new HlslCompiler(this);
 		}
 
+		protected override FrameBufferImpl CreateFrameBuffer(Size size)
+		{
+			return new SDX_FrameBuffer(size);
+		}
+
 		#endregion
 
 		#region --- BeginFrame stuff and DeltaTime ---

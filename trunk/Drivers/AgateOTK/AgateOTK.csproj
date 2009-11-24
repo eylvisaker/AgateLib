@@ -70,7 +70,6 @@
       <Name>OpenTK</Name>
       <HintPath>.\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK.Compatibility, Version=0.9.9.4, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -102,9 +101,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="OpenTK.Compatibility.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="OpenTK.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -170,6 +166,7 @@
     <Compile Include="Otk_Reporter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GL_FrameBuffer.cs" />
     <Compile Include="Shaders\FixedFunction\FixedFunctionShaderFactory.cs" />
     <Compile Include="Shaders\FixedFunction\OTK_FF_Basic2DShader.cs" />
     <Compile Include="Shaders\FixedFunction\OTK_FF_Lighting3D.cs" />
@@ -187,16 +184,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="OpenTK.Compatibility.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="OpenTK.Compatibility.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="OpenTK.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="OpenTK.GLControl.xml" />
     <Content Include="OpenTK.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

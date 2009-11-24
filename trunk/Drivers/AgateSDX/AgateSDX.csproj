@@ -127,6 +127,7 @@
     <Compile Include="SDX_Effect.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SDX_FrameBuffer.cs" />
     <Compile Include="SDX_IndexBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
