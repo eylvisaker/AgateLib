@@ -517,46 +517,6 @@ namespace AgateSDX
 
 		#endregion
 
-		#region --- MDX1_IRenderTarget Members ---
-
-		public void BeginRender()
-		{
-			// it looks like Direct3D creates a new surface.
-			// so here we will create a new texture, and draw the current texture to it
-			// then discard the old one.  
-			Texture t = new Texture(mDevice.Device, SurfaceWidth, SurfaceHeight, 1, Usage.None,
-				Format.A8R8G8B8, Pool.Managed);
-
-			Direct3D.Surface surfaceTarget = t.GetSurfaceLevel(0);
-
-			mRenderToSurface = new RenderToSurface(mDevice.Device, SurfaceWidth, SurfaceHeight,
-				Format.A8R8G8B8, mDisplay.DepthStencilFormat);
-
-			Viewport vp = new Viewport();
-
-			vp.X = 0;
-			vp.Y = 0;
-			vp.Width = SurfaceWidth;
-			vp.Height = SurfaceHeight;
-
-			mRenderToSurface.BeginScene(surfaceTarget, vp);
-
-			Display.Clear();
-
-			SurfaceState st = new SurfaceState();
-			Draw(st);
-
-			mTexture.Dispose();
-			mTexture = new Ref<Texture>(t);
-
-		}
-		public void EndRender()
-		{
-			mRenderToSurface.EndScene(Filter.None);
-		}
-
-		#endregion
-
 		#region --- SubSurface stuff ---
 
 		public override SurfaceImpl CarveSubSurface(Rectangle srcRect)
