@@ -96,9 +96,6 @@
     <Compile Include="Drawing_FontSurface.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Drawing_IRenderTarget.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Drawing_Reporter.cs">
       <SubType>Code</SubType>
     </Compile>

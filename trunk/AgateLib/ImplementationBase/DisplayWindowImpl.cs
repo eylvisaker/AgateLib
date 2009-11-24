@@ -28,7 +28,7 @@ namespace AgateLib.ImplementationBase
 	/// <summary>
 	/// Implementation of DisplayWindow class.
 	/// </summary>
-	public abstract class DisplayWindowImpl : IRenderTargetImpl, IDisposable
+	public abstract class DisplayWindowImpl : IDisposable
 	{
 		/// <summary>
 		/// Disposes of unmanaged resources.
@@ -46,35 +46,10 @@ namespace AgateLib.ImplementationBase
 		public abstract bool IsFullScreen { get; }
 
 		/// <summary>
-		/// Toggles windowed/fullscreen.
-		/// If this is unsupported, this method should silently return
-		/// (do not throw an error).
+		/// Returns the frame buffer that is rendered to for rendering to this
+		/// window.
 		/// </summary>
-		public void ToggleFullScreen()
-		{
-			if (IsFullScreen)
-				SetWindowed();
-			else
-				SetFullScreen();
-		}
-
-		/// <summary>
-		/// Toggles windowed/fullscreen.
-		/// If this is unsupported, this method should silently return
-		/// (do not throw an error).
-		/// 
-		/// Attempts to match width, height and bpp as best as possible.
-		/// </summary>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		/// <param name="bpp"></param>
-		public void ToggleFullScreen(int width, int height, int bpp)
-		{
-			if (IsFullScreen)
-				SetWindowed();
-			else
-				SetFullScreen(width, height, bpp);
-		}
+		public abstract FrameBufferImpl FrameBuffer { get; }
 
 		/// <summary>
 		/// Sets the display to windowed.  Does nothing if the display is already
@@ -134,21 +109,5 @@ namespace AgateLib.ImplementationBase
 		/// </summary>
 		public abstract Point MousePosition { get; set; }
 
-		#region --- IRenderTargetImpl Members ---
-
-		/// <summary>
-		/// Utility function which may be called by the DisplayImpl when 
-		/// rendering begins.
-		/// </summary>
-		public abstract void BeginRender();
-		/// <summary>
-		/// Utility function which may be called by the DisplayImpl when 
-		/// rendering is done.
-		/// </summary>
-		public abstract void EndRender();
-
-		#endregion
-
 	}
-
 }

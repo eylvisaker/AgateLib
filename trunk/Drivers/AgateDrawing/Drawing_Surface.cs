@@ -34,7 +34,7 @@ using InterpolationMode = AgateLib.DisplayLib.InterpolationMode;
 
 namespace AgateDrawing
 {
-	class Drawing_Surface : SurfaceImpl, Drawing_IRenderTarget
+	class Drawing_Surface : SurfaceImpl
 	{
 		#region --- Private variables ---
 
@@ -330,23 +330,5 @@ namespace AgateDrawing
 		}
 
 		#endregion
-
-		#region --- Drawing_IRenderTarget Members ---
-
-		public override void BeginRender()
-		{
-		}
-
-		public override void EndRender()
-		{
-		}
-
-		public Bitmap BackBuffer
-		{
-			get { return mImage; }
-		}
-
-		#endregion
-
 	}
 }

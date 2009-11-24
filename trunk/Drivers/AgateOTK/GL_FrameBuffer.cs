@@ -7,20 +7,18 @@ using AgateLib.ImplementationBase;
 
 namespace AgateOTK
 {
-	class GL_FrameBufferExt: FrameBufferImpl 
+	abstract class GL_FrameBuffer: FrameBufferImpl 
 	{
-		public GL_FrameBufferExt(Size size)
-		{
-		}
+		GLDrawBuffer mDrawBuffer = new GLDrawBuffer();
 
-		public override void Dispose()
-		{
-			throw new NotImplementedException();
-		}
+		public GLDrawBuffer DrawBuffer { get { return mDrawBuffer; } }
+		public abstract void MakeCurrent();
 
-		public override Size Size
-		{
-			get { throw new NotImplementedException(); }
-		}
+		// TODO: fix this hack and remove these interface members.
+		[Obsolete]
+		public void HideCursor() { throw new NotImplementedException(); }
+		[Obsolete]
+		public void ShowCursor() { throw new NotImplementedException(); }
+
 	}
 }

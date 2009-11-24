@@ -40,7 +40,7 @@ using Vector2 = AgateLib.Geometry.Vector2;
 
 namespace AgateSDX
 {
-	public class SDX_Surface : SurfaceImpl, SDX_IRenderTarget
+	public class SDX_Surface : SurfaceImpl
 	{
 		#region --- Private Variables ---
 
@@ -456,6 +456,15 @@ namespace AgateSDX
 		public override void SaveTo(string filename, ImageFileFormat format)
 		{
 			Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
+			bool disposeSurfWhenDone = false;
+
+			if (surf.Description.Pool == Pool.Default)
+			{
+				surf = CopyRenderTargetSurfaceToSysmem(surf);
+
+				disposeSurfWhenDone = true;
+			}
+
 			Direct3D.ImageFileFormat d3dformat = SlimDX.Direct3D9.ImageFileFormat.Png;
 
 			switch (format)
@@ -485,21 +494,32 @@ namespace AgateSDX
 
 			switch (format)
 			{
-				case ImageFileFormat.Bmp: bmpFormat =  System.Drawing.Imaging.ImageFormat.Bmp; break;
-				case ImageFileFormat.Jpg: bmpFormat =  System.Drawing.Imaging.ImageFormat.Jpeg; break;
+				case ImageFileFormat.Bmp: bmpFormat = System.Drawing.Imaging.ImageFormat.Bmp; break;
+				case ImageFileFormat.Jpg: bmpFormat = System.Drawing.Imaging.ImageFormat.Jpeg; break;
 			}
 
 			bmp.Save(filename, bmpFormat);
 
-			//SurfaceLoader.Save(frameFile, d3dformat, surf, Interop.Convert(mSrcRect));
+			if (disposeSurfWhenDone)
+				surf.Dispose();
+		}
 
+		private Direct3D.Surface CopyRenderTargetSurfaceToSysmem(Direct3D.Surface surf)
+		{
+			Direct3D.Surface newSurf = Direct3D.Surface.CreateOffscreenPlain(
+							mDevice.Device, surf.Description.Width, surf.Description.Height,
+							surf.Description.Format, Pool.SystemMemory);
+
+			mDevice.Device.GetRenderTargetData(surf, newSurf);
+
+			return newSurf;
 		}
 
 		#endregion
 
 		#region --- MDX1_IRenderTarget Members ---
 
-		public override void BeginRender()
+		public void BeginRender()
 		{
 			// it looks like Direct3D creates a new surface.
 			// so here we will create a new texture, and draw the current texture to it
@@ -530,7 +550,7 @@ namespace AgateSDX
 			mTexture = new Ref<Texture>(t);
 
 		}
-		public override void EndRender()
+		public void EndRender()
 		{
 			mRenderToSurface.EndScene(Filter.None);
 		}
@@ -569,6 +589,13 @@ namespace AgateSDX
 		public override PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
 		{
 			Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
+			bool disposeSurfWhenDone = false;
+
+			if (surf.Description.Pool == Pool.Default)
+			{
+				surf = CopyRenderTargetSurfaceToSysmem(surf);
+				disposeSurfWhenDone = true;
+			}
 
 			rect.X += mSrcRect.X;
 			rect.Y += mSrcRect.Y;
@@ -608,7 +635,9 @@ namespace AgateSDX
 			}
 
 			surf.UnlockRectangle();
-			surf.Dispose();
+
+			if (disposeSurfWhenDone)
+				surf.Dispose();
 
 			return new PixelBuffer(format, rect.Size, array, pixelFormat);
 
@@ -617,6 +646,12 @@ namespace AgateSDX
 		public override void WritePixels(PixelBuffer buffer)
 		{
 			Direct3D.Surface surf = mTexture.Value.GetSurfaceLevel(0);
+			
+			if (surf.Description.Pool == Pool.Default)
+			{
+				throw new AgateLib.AgateException(
+					"Cannot write to FrameBuffer surface in Direct3D.");
+			}
 
 			int pixelPitch = mDisplay.GetPixelPitch(surf.Description.Format);
 			PixelFormat pixelFormat = mDisplay.GetPixelFormat(surf.Description.Format);

@@ -89,8 +89,7 @@ namespace AgateDrawing
 
 			if (g == null)
 			{
-
-				g = Graphics.FromImage((disp.RenderTarget.Impl as Drawing_IRenderTarget).BackBuffer);
+				g = Graphics.FromImage((disp.RenderTarget.Impl as Drawing_FrameBuffer).BackBufferBitmap);
 
 				disposeGraphics = true;
 			}

@@ -29,8 +29,9 @@ namespace Tests.ScreenCaptureExample
 
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Hello", 800, 600);
 				Surface someSurface = new Surface("wallpaper.png");
-				Surface captureSurface = new Surface(1600, 1200);
 				bool capturing = false;
+
+				FrameBuffer capture = new FrameBuffer(1600, 1200);
 
 				while (wind.IsClosed == false)
 				{
@@ -41,7 +42,8 @@ namespace Tests.ScreenCaptureExample
 					}
 					if (capturing)
 					{
-						Display.RenderTarget = captureSurface;
+						// TODO: reimplement this with framebuffers.
+						Display.RenderTarget = capture;
 						someSurface.SetScale(2, 2);
 					}
 
@@ -55,8 +57,8 @@ namespace Tests.ScreenCaptureExample
 
 					if (capturing)
 					{
-						captureSurface.SaveTo("CapturedImage.png", ImageFileFormat.Png);
-						Display.RenderTarget = wind;
+						capture.BackBuffer.SaveTo("CapturedImage.png", ImageFileFormat.Png);
+						Display.RenderTarget = wind.FrameBuffer;
 						someSurface.SetScale(1, 1);
 						capturing = false;
 

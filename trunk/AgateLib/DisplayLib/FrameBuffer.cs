@@ -27,5 +27,48 @@ namespace AgateLib.DisplayLib
 		{
 			get { return impl; }
 		}
+
+		public Size Size
+		{
+			get { return Impl.Size; }
+		}
+		public int Height
+		{
+			get { return Impl.Height; }
+		}
+		public int Width
+		{
+			get { return Impl.Width; }
+		}
+
+		public void BeginRender()
+		{
+		}
+		public void EndRender()
+		{ }
+
+		public bool CanAccessBackBuffer
+		{
+			get { return Impl.CanAccessBackBuffer; }
+		}
+
+		Surface mBackBuffer;
+
+		public Surface BackBuffer
+		{
+			get
+			{
+				if (mBackBuffer != null && mBackBuffer.Impl != Impl.BackBuffer)
+				{
+					mBackBuffer.Dispose();
+					mBackBuffer = null;
+				}
+
+				if (mBackBuffer == null)
+					mBackBuffer = new Surface(Impl.BackBuffer);
+
+				return mBackBuffer;
+			}
+		}
 	}
 }

@@ -43,7 +43,7 @@ namespace AgateDrawing
 		#region --- Private variables ---
 
 		private Graphics mGraphics;
-		private Drawing_IRenderTarget mRenderTarget;
+		private Drawing_FrameBuffer mRenderTarget;
 
 		private bool mInFrame = false;
 
@@ -51,7 +51,7 @@ namespace AgateDrawing
 
 		#region --- Events and Event Handlers ---
 
-		protected override void OnRenderTargetChange(IRenderTarget oldRenderTarget)
+		protected override void OnRenderTargetChange(FrameBuffer oldRenderTarget)
 		{
 			if (mInFrame)
 				throw new AgateException(
@@ -59,7 +59,7 @@ namespace AgateDrawing
 
 			System.Diagnostics.Debug.Assert(mGraphics == null);
 
-			mRenderTarget = RenderTarget.Impl as Drawing_IRenderTarget;
+			mRenderTarget = RenderTarget.Impl as Drawing_FrameBuffer;
 
 			OnRenderTargetResize();
 		}
@@ -206,14 +206,14 @@ namespace AgateDrawing
 
 		protected override void OnBeginFrame()
 		{
-			mGraphics = Graphics.FromImage(mRenderTarget.BackBuffer);
+			mGraphics = Graphics.FromImage(mRenderTarget.BackBufferBitmap);
 		}
 		protected override void OnEndFrame()
 		{
 			mGraphics.Dispose();
 			mGraphics = null;
 
-			Drawing_IRenderTarget renderTarget = RenderTarget.Impl as Drawing_IRenderTarget;
+			Drawing_FrameBuffer renderTarget = RenderTarget.Impl as Drawing_FrameBuffer;
 			renderTarget.EndRender();
 
 		}

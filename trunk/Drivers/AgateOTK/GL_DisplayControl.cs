@@ -39,7 +39,7 @@ using OpenTK.Platform;
 
 namespace AgateOTK
 {
-	public sealed class GL_DisplayControl : DisplayWindowImpl, GL_IRenderTarget
+	public sealed class GL_DisplayControl : DisplayWindowImpl
 	{
 		Form frm;
 		Control mRenderTarget;
@@ -60,13 +60,13 @@ namespace AgateOTK
 		WindowPosition mChoosePosition;
 
 		bool mHasFrame = true;
-		GLDrawBuffer mDrawBuffer;
 
-		public GLDrawBuffer DrawBuffer
+		ContextFB mFrameBuffer;
+
+		public override FrameBufferImpl FrameBuffer
 		{
-			get { return mDrawBuffer; }
+			get { return mFrameBuffer; }
 		}
-
 		public GL_DisplayControl(CreateWindowParams windowParams)
 		{
 			mChoosePosition = windowParams.WindowPosition;
@@ -116,8 +116,6 @@ namespace AgateOTK
 
 			mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);
 			mDisplay.InitializeCurrentContext();
-
-			mDrawBuffer = new GLDrawBuffer();
 		}
 
 		void mDisplay_ProcessEventsEvent(object sender, EventArgs e)
@@ -223,6 +221,7 @@ namespace AgateOTK
 			mContext.MakeCurrent(mWindowInfo);
 			(mContext as IGraphicsContextInternal).LoadAll();
 
+			mFrameBuffer = new ContextFB(mContext, mWindowInfo, this.Size);
 		}
 
 		private IWindowInfo CreateWindowInfo(GraphicsMode mode)
@@ -542,7 +541,7 @@ namespace AgateOTK
 
 		}
 
-		public override void BeginRender()
+		public void BeginRender()
 		{
 			MakeCurrent();
 
@@ -550,7 +549,7 @@ namespace AgateOTK
 
 		}
 
-		public override void EndRender()
+		public void EndRender()
 		{
 			if (mContext.VSync != Display.RenderState.WaitForVerticalBlank)
 				mContext.VSync = Display.RenderState.WaitForVerticalBlank;

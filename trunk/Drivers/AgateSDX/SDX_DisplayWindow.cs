@@ -34,16 +34,14 @@ using AgateLib.WinForms;
 
 namespace AgateSDX
 {
-	public class SDX_DisplayWindow : DisplayWindowImpl, SDX_IRenderTarget
+	public class SDX_DisplayWindow : DisplayWindowImpl
 	{
 		Form frm;
 		Control mRenderTarget;
 		bool mIsClosed = false;
 		bool mIsFullscreen = false;
 
-		internal SwapChain mSwap;
-		internal Direct3D.Surface mBackBuffer;
-		internal Direct3D.Surface mBackDepthStencil;
+		FrameBufferWindow mFrameBuffer;
 
 		int mChooseWidth;
 		int mChooseHeight;
@@ -78,8 +76,6 @@ namespace AgateSDX
 				mDisplay.Initialize(this);
 				mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
 
-				AttachEvents();
-				CreateBackBuffer();
 			}
 			else
 			{
@@ -98,10 +94,10 @@ namespace AgateSDX
 				mDisplay = Display.Impl as SDX_Display;
 				mDisplay.Initialize(this);
 				mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
-
-				AttachEvents();
-				CreateBackBuffer();
 			}
+
+			AttachEvents();
+			CreateBackBuffer();
 		}
 
 		public SDX_DisplayWindow(System.Windows.Forms.Control renderTarget)
@@ -265,6 +261,11 @@ namespace AgateSDX
 
 		#endregion
 
+		public override FrameBufferImpl FrameBuffer
+		{
+			get { return mFrameBuffer; }
+		}
+
 		/// <summary>
 		/// Creates a window.  Events are not attached or detached in this method,
 		/// and the old form is not disposed.
@@ -320,10 +321,8 @@ namespace AgateSDX
 
 			if (frm is frmFullScreen == false)
 			{
-				if (mBackBuffer != null)
-					mBackBuffer.Dispose();
-				if (mSwap != null)
-					mSwap.Dispose();
+				if (mFrameBuffer != null)
+					mFrameBuffer.Dispose();
 
 				frm.Dispose();
 
@@ -350,22 +349,21 @@ namespace AgateSDX
 
 		private void CreateBackBuffer()
 		{
-			if (mBackBuffer != null)
-				mBackBuffer.Dispose();
-			if (mSwap != null)
-				mSwap.Dispose();
+			if (mFrameBuffer != null)
+				mFrameBuffer.Dispose();
 
-			mSwap = mDisplay.CreateSwapChain(this, mChooseWidth, mChooseHeight,
+			SwapChain swap = mDisplay.CreateSwapChain(this, mChooseWidth, mChooseHeight,
 				mChooseBitDepth, mChooseFullscreen);
 
-			mBackBuffer = mSwap.GetBackBuffer(0);
+			Direct3D.Surface backBuffer = swap.GetBackBuffer(0);
 
-			mBackDepthStencil = Direct3D.Surface.CreateDepthStencil(
+			Direct3D.Surface backDepthStencil = Direct3D.Surface.CreateDepthStencil(
 				mDisplay.D3D_Device.Device,
 				mChooseWidth, mChooseHeight, 
 				mDisplay.DepthStencilFormat,
 				MultisampleType.None, 0, true);
 
+			mFrameBuffer = new FrameBufferWindow(swap, backBuffer, backDepthStencil);
 		}
 
 
@@ -460,29 +458,6 @@ namespace AgateSDX
 
 			CreateWindowedDisplay();
 		}
-
-		#region --- MDX1_IRenderTarget Members ---
-
-		public override void BeginRender()
-		{
-			mDisplay.D3D_Device.Device.SetRenderTarget(0, mBackBuffer);
-			mDisplay.D3D_Device.Device.DepthStencilSurface = mBackDepthStencil;
-			mDisplay.D3D_Device.Device.BeginScene();
-		}
-		public override void EndRender()
-		{
-			mDisplay.D3D_Device.Device.EndScene();
-
-			mSwap.Present(Present.None);
-		}
-
-		public SlimDX.Direct3D9.Surface RenderSurface
-		{
-			get { return mBackBuffer; }
-		}
-
-		#endregion
-
 
 		public override string Title
 		{
