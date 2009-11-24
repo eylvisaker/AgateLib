@@ -98,6 +98,8 @@
     <Compile Include="EffectParameter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FrameBufferSurface.cs" />
+    <Compile Include="FrameBufferWindow.cs" />
     <Compile Include="frmFullScreen.cs">
       <SubType>Form</SubType>
     </Compile>

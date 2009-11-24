@@ -34,7 +34,7 @@ namespace AgateSDX
 	{
 		private Device mDevice;
 		private Texture[] mLastTexture = new Texture[8];
-		private SDX_IRenderTarget mRenderTarget;
+		private SDX_FrameBuffer mRenderTarget;
 		private DrawBuffer mDrawBuffer;
 
 		private VertexFormat mVertexFormat;
@@ -139,7 +139,7 @@ namespace AgateSDX
 			}
 		}
 
-		public SDX_IRenderTarget RenderTarget
+		public SDX_FrameBuffer RenderTarget
 		{
 			get { return mRenderTarget; }
 			set { mRenderTarget = value; }

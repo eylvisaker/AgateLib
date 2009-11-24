@@ -88,7 +88,7 @@ namespace AgateLib.DisplayLib
 	/// </code>
 	/// </example>
 	/// </summary>
-	public sealed class Surface : IRenderTarget, IDisposable, ISurface
+	public sealed class Surface : IDisposable, ISurface
 	{
 		SurfaceImpl impl;
 		SurfaceState mState = new SurfaceState();
@@ -231,37 +231,6 @@ namespace AgateLib.DisplayLib
 
 		#region --- Surface properties ---
 
-		/// <summary>
-		/// Gets or sets how many times this surface should be broken down
-		/// when drawn.  A TesselateFactor of 2 indicates that each time
-		/// this surface is drawn, it's drawn in 4 (2x2) chunks.
-		/// </summary>
-		/// <remarks>
-		/// This property is used to divide a surface drawn up into smaller
-		/// surfaces which are drawn independently.  The reason to do this is
-		/// lighting calculations (without using shaders) are done on a per-vertex 
-		/// basis.  When a light source is close to a large surface, this will create
-		/// noticably bad lighting, because only the lighting properties at the 
-		/// corners are calculated, and then the lighting is interpolated between
-		/// the end points.
-		/// <para>
-		/// Changing this value while using gradients can result in ugly transitions between
-		/// different tesselation values.  The reason is AgateLib will interpolate the gradient
-		/// color to the vertices used, and then this is capped to integer values.  So avoid
-		/// doing this.</para>
-		/// <para>
-		/// Setting this value high may have a significant impact on performance.
-		/// For each time a Surface.Draw() overload is called, the number of triangles
-		/// which are calculated and sent to the rasterizer is 2 * TesselateFactor<sup>2</sup>.
-		/// </para>
-		/// </remarks>
-		/// 
-		[Obsolete("Use shaders for lighting effects.")]
-		public int TesselateFactor
-		{
-			get { return impl.TesselateFactor; }
-			set { impl.TesselateFactor = value; }
-		}
 		/// <summary>
 		/// Gets or sets a bool value that indicates whether or not this surface
 		/// should be included in a call to Display.PackAllSurfaces.
@@ -900,48 +869,5 @@ namespace AgateLib.DisplayLib
 		{
 			get { return impl; }
 		}
-
-		#region --- IRenderTarget Members ---
-
-		IRenderTargetImpl IRenderTarget.Impl
-		{
-			get { return impl; }
-		}
-
-		Size IRenderTarget.Size
-		{
-			get { return SurfaceSize; }
-		}
-
-		EventHandler ResizeEventHandlers;
-
-		event EventHandler IRenderTarget.Resize
-		{
-			add { ResizeEventHandlers += value; }
-			remove { ResizeEventHandlers -= value; }
-		}
-
-		internal void OnResize()
-		{
-			if (ResizeEventHandlers != null)
-			{
-				ResizeEventHandlers(this, EventArgs.Empty);
-			}
-		}
-
-
-		int IRenderTarget.Width
-		{
-			get { return SurfaceWidth; }
-		}
-
-		int IRenderTarget.Height
-		{
-			get { return SurfaceHeight; }
-		}
-
-		#endregion
-
-
 	}
 }

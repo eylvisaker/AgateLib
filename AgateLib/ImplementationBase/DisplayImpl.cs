@@ -36,7 +36,7 @@ namespace AgateLib.ImplementationBase
 	{
 		private double mAlphaThreshold = 5.0 / 255.0;
 
-		private IRenderTarget mRenderTarget;
+		private FrameBuffer mRenderTarget;
 
 		public abstract bool Supports(DisplayBoolCaps caps);
 		public abstract Size CapsSize(DisplaySizeCaps displaySizeCaps);
@@ -48,7 +48,7 @@ namespace AgateLib.ImplementationBase
 		/// <summary>
 		/// Gets or sets the current render target.
 		/// </summary>
-		public IRenderTarget RenderTarget
+		public FrameBuffer RenderTarget
 		{
 			get
 			{
@@ -62,7 +62,7 @@ namespace AgateLib.ImplementationBase
 				if (mInFrame)
 					throw new AgateException("Cannot change render target between BeginFrame and EndFrame");
 
-				IRenderTarget old = mRenderTarget;
+				FrameBuffer old = mRenderTarget;
 				mRenderTarget = value;
 
 				OnRenderTargetChange(old);
@@ -78,7 +78,7 @@ namespace AgateLib.ImplementationBase
 		/// Event raised when the current render target is changed.
 		/// </summary>
 		/// <param name="oldRenderTarget"></param>
-		protected abstract void OnRenderTargetChange(IRenderTarget oldRenderTarget);
+		protected abstract void OnRenderTargetChange(FrameBuffer oldRenderTarget);
 		/// <summary>
 		/// Event raised when the render target is resized.
 		/// </summary>

@@ -28,14 +28,12 @@ namespace AgateLib.ImplementationBase
 	/// <summary>
 	/// Base class for implementing a Surface structure.
 	/// </summary>
-	public abstract class SurfaceImpl : IRenderTargetImpl, IDisposable
+	public abstract class SurfaceImpl : IDisposable
 	{
 		#region --- Private Fields ---
 
 		private bool mIsDisposed = false;
 		private bool mShouldBePacked = true;
-
-		private int mTesselate = 1;
 
 		#endregion
 
@@ -133,19 +131,6 @@ namespace AgateLib.ImplementationBase
 		{
 			get { return mInterpolationHint; }
 			set { mInterpolationHint = value; }
-		}
-		/// <summary>
-		/// Gets or sets how many squares the surface should be broken into when drawn.
-		/// </summary>
-		public int TesselateFactor
-		{
-			get { return mTesselate; }
-			set
-			{
-				if (value < 1) value = 1;
-
-				mTesselate = value;
-			}
 		}
 		/// <summary>
 		/// Returns true if Dispose() has been called on this surface.
@@ -263,38 +248,5 @@ namespace AgateLib.ImplementationBase
 
 		}
 		#endregion
-
-
-
-		#region --- IRenderTargetImpl Members ---
-
-		/// <summary>
-		/// Utility function which can be called by BeginFrame to begin
-		/// a render pass.
-		/// </summary>
-		public abstract void BeginRender();
-		/// <summary>
-		/// Utility function which can be called by EndFrame to end a render pass.
-		/// </summary>
-		public abstract void EndRender();
-
-		Size IRenderTargetImpl.Size
-		{
-			get { return SurfaceSize; }
-		}
-
-		int IRenderTargetImpl.Width
-		{
-			get { return SurfaceWidth; }
-		}
-
-		int IRenderTargetImpl.Height
-		{
-			get { return SurfaceHeight; }
-		}
-
-		#endregion
-
 	};
-
 }

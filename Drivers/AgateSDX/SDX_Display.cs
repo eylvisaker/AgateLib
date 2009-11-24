@@ -43,7 +43,7 @@ namespace AgateSDX
 		private Direct3D.Direct3D mDirect3Dobject;
 		private D3DDevice mDevice;
 
-		private SDX_IRenderTarget mRenderTarget;
+		private SDX_FrameBuffer mRenderTarget;
 
 		private bool mInitialized = false;
 
@@ -294,7 +294,7 @@ namespace AgateSDX
 
 		protected override FrameBufferImpl CreateFrameBuffer(Size size)
 		{
-			return new SDX_FrameBuffer(size);
+			return new FrameBufferSurface(size);
 		}
 
 		#endregion
@@ -534,9 +534,9 @@ namespace AgateSDX
 		{
 
 		}
-		protected override void OnRenderTargetChange(IRenderTarget oldRenderTarget)
+		protected override void OnRenderTargetChange(FrameBuffer oldRenderTarget)
 		{
-			mRenderTarget = RenderTarget.Impl as SDX_IRenderTarget;
+			mRenderTarget = (SDX_FrameBuffer)RenderTarget.Impl;
 			mDevice.RenderTarget = mRenderTarget;
 		}
 
@@ -561,7 +561,7 @@ namespace AgateSDX
 				PresentParameters present =
 					CreateWindowedPresentParameters(displayWindow, width, height, bpp);
 
-				if (displayWindow.mSwap != null && displayWindow.IsFullScreen == true)
+				if (displayWindow.FrameBuffer != null && displayWindow.IsFullScreen == true)
 				{
 					// if we are in full screen mode already, we must
 					// reset the device before creating the windowed swap chain.

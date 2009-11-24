@@ -35,9 +35,10 @@ namespace AgateLib.DisplayLib
 	/// 
 	/// Alternatively, a control may be specified to render into.
 	/// </remarks>
-	public sealed class DisplayWindow : IRenderTarget, IDisposable
+	public sealed class DisplayWindow : IDisposable
 	{
 		DisplayWindowImpl impl;
+		FrameBuffer frameBuffer;
 
 		/// <summary>
 		/// Constructs a DisplayWindow from a resource.
@@ -85,8 +86,11 @@ namespace AgateLib.DisplayLib
 
 			impl = Display.Impl.CreateDisplayWindow(windowParams);
 
-			Display.RenderTarget = this;
+			Display.RenderTarget = FrameBuffer;
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+
+			// TODO: Fix this hack
+			Display.CurrentWindow = this;
 		}
 
 		#region --- Static Creation Methods ---
@@ -168,6 +172,25 @@ namespace AgateLib.DisplayLib
 		}
 
 		#endregion
+
+		public FrameBuffer FrameBuffer
+		{
+			get 
+			{
+				if (frameBuffer == null || frameBuffer.Impl != Impl.FrameBuffer)
+				{
+					frameBuffer = new FrameBuffer(Impl.FrameBuffer);
+				}
+
+				return frameBuffer;
+			}
+		}
+
+		[Obsolete]
+		public static implicit operator FrameBuffer(DisplayWindow wind)
+		{
+			return wind.FrameBuffer;
+		}
 
 		/// <summary>
 		/// Disposes of unmanaged resources.
@@ -309,12 +332,6 @@ namespace AgateLib.DisplayLib
 			get { return Matrix4x4.Ortho(new RectangleF(0, 0, Width, Height), -1, 1); }
 		}
 
-		#region --- IRenderTarget Members ---
-
-		IRenderTargetImpl IRenderTarget.Impl
-		{
-			get { return impl; }
-		}
 		/// <summary>
 		/// Event raised when the window is resized by the user.
 		/// </summary>
@@ -326,6 +343,5 @@ namespace AgateLib.DisplayLib
 				Resize(this, EventArgs.Empty);
 		}
 
-		#endregion
 	}
 }

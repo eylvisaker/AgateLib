@@ -39,7 +39,7 @@ using AgateLib.WinForms;
 namespace AgateOTK
 {
 
-	public sealed class GL_Surface : SurfaceImpl, GL_IRenderTarget
+	public sealed class GL_Surface : SurfaceImpl
 	{
 		GL_Display mDisplay;
 		GLDrawBuffer mDrawBuffer;
@@ -52,9 +52,6 @@ namespace AgateOTK
 		static Dictionary<int, int> mTextureIDs = new Dictionary<int, int>();
 		int mTextureID;
 
-		// Render to texture fields
-		int mFramebufferID;
-		int mDepthBuffer;
 
 		Rectangle mSourceRect;
 
@@ -65,12 +62,6 @@ namespace AgateOTK
 
 		TextureCoordinates mTexCoord;
 
-		GLDrawBuffer mInternalDrawBuffer;
-
-		GLDrawBuffer GL_IRenderTarget.DrawBuffer
-		{
-			get { return mInternalDrawBuffer; }
-		}
 
 		public GL_Surface(string filename)
 		{
@@ -216,51 +207,9 @@ namespace AgateOTK
 
 			mDrawBuffer.SetInterpolationMode(InterpolationHint);
 
-			if (TesselateFactor == 1)
-			{
-				BufferQuad(destX, destY, rotationCenter.X, rotationCenter.Y,
-					dispSize.Width, dispSize.Height, mTexCoord, state.ColorGradient,
-					state.DisplayAlignment, mRotationCos, mRotationSin);
-			}
-			else
-			{
-				TextureCoordinates texCoord = new TextureCoordinates();
-				float texWidth = mTexCoord.Right - mTexCoord.Left;
-				float texHeight = mTexCoord.Bottom - mTexCoord.Top;
-
-				float _displayWidth = displaySize.Width / (float)TesselateFactor;
-				float _displayHeight = displaySize.Height / (float)TesselateFactor;
-
-				for (int j = 0; j < TesselateFactor; j++)
-				{
-					texCoord.Top = mTexCoord.Top + j * texHeight / TesselateFactor;
-					texCoord.Bottom = mTexCoord.Top + (j + 1) * texHeight / TesselateFactor;
-
-					for (int i = 0; i < TesselateFactor; i++)
-					{
-						texCoord.Left = mTexCoord.Left + i * texWidth / TesselateFactor;
-						texCoord.Right = mTexCoord.Left + (i + 1) * texWidth / TesselateFactor;
-
-						float dx = destX + i * _displayWidth * mRotationCos + j * _displayHeight * mRotationSin;
-						float dy = destY - i * _displayWidth * mRotationSin + j * _displayHeight * mRotationCos;
-
-						double cx = i / (double)TesselateFactor;
-						double cy = j / (double)TesselateFactor;
-
-						Gradient color = new Gradient(
-							state.ColorGradient.Interpolate(cx, cy),
-							state.ColorGradient.Interpolate(cx + 1.0 / TesselateFactor, cy),
-							state.ColorGradient.Interpolate(cx, cy + 1.0 / TesselateFactor),
-							state.ColorGradient.Interpolate(cx + 1.0 / TesselateFactor, cy + 1.0 / TesselateFactor));
-
-						BufferQuad(dx, dy,
-							rotationCenter.X, rotationCenter.Y,
-							_displayWidth, _displayHeight, texCoord, color,
-							state.DisplayAlignment, mRotationCos, mRotationSin);
-
-					}
-				}
-			}
+			BufferQuad(destX, destY, rotationCenter.X, rotationCenter.Y,
+				dispSize.Width, dispSize.Height, mTexCoord, state.ColorGradient,
+				state.DisplayAlignment, mRotationCos, mRotationSin);
 		}
 
 		PointF[] cachePt = new PointF[4];
@@ -426,76 +375,25 @@ namespace AgateOTK
 			get { return mSourceRect.Size; }
 		}
 
-		public override void BeginRender()
+		public void BeginRender()
 		{
-			if (mInternalDrawBuffer == null)
-				mInternalDrawBuffer = new GLDrawBuffer();
-
 			GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
 
 			mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
 
 			if (mDisplay.SupportsFramebuffer)
 			{
-				// generate the frame buffer
-				GL.Ext.GenFramebuffers(1, out mFramebufferID);
-				GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
-
-				// generate a depth buffer to render to
-				GL.Ext.GenRenderbuffers(1, out mDepthBuffer);
-				GL.Ext.BindRenderbuffer(RenderbufferTarget.RenderbufferExt, mDepthBuffer);
-
-				// hack here because RenderbufferStorage enum is incomplete.
-				GL.Ext.RenderbufferStorage(RenderbufferTarget.RenderbufferExt,
-					(RenderbufferStorage)OTKPixelFormat.DepthComponent,
-					mTextureSize.Width, mTextureSize.Height);
-
-				// attach the depth buffer
-				GL.Ext.FramebufferRenderbuffer(FramebufferTarget.FramebufferExt,
-					FramebufferAttachment.DepthAttachmentExt, RenderbufferTarget.RenderbufferExt,
-					mDepthBuffer);
-
-				// attach the texture
-				GL.Ext.FramebufferTexture2D(FramebufferTarget.FramebufferExt,
-					 FramebufferAttachment.ColorAttachment0Ext, TextureTarget.Texture2D,
-					 mTextureID, 0);
-
-				FramebufferErrorCode code =
-					GL.Ext.CheckFramebufferStatus(FramebufferTarget.FramebufferExt);
-
-				if (code != FramebufferErrorCode.FramebufferCompleteExt)
-				{
-					throw new AgateException(
-						"Could not complete framebuffer object.");
-				}
-
-				GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
-				GL.PushAttrib(AttribMask.ViewportBit);
+				
 
 			}
 			else
 			{
 
 				// clear the framebuffer and draw this texture to it.
-				GL.ClearColor(0, 0, 0, 0);
-				GL.Clear(ClearBufferMask.ColorBufferBit |
-						 ClearBufferMask.DepthBufferBit);
 
-				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-					(int)TextureMinFilter.Linear);
-				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-					(int)TextureMagFilter.Linear);
-
-				SurfaceState s = new SurfaceState();
-				Draw(s);
-
-				GL.TexParameter(TextureTarget.Texture2D,
-								 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-				GL.TexParameter(TextureTarget.Texture2D,
-								 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 			}
 		}
-		public override void EndRender()
+		public void EndRender()
 		{
 			if (mDisplay.SupportsFramebuffer)
 			{
@@ -509,17 +407,7 @@ namespace AgateOTK
 			}
 			else
 			{
-				mDrawBuffer.ResetTexture();
-
-				GL.BindTexture(TextureTarget.Texture2D, mTextureID);
-
-				GL.CopyTexSubImage2D(TextureTarget.Texture2D,
-					0, 0, 0, 0, 0, mSourceRect.Width, mSourceRect.Height);
-
-				GL.TexParameter(TextureTarget.Texture2D,
-								 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-				GL.TexParameter(TextureTarget.Texture2D,
-								 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+				
 			}
 		}
 
@@ -647,17 +535,6 @@ namespace AgateOTK
 
 			return coords;
 		}
-
-		#region GL_IRenderTarget Members
-
-		void GL_IRenderTarget.HideCursor()
-		{
-		}
-		void GL_IRenderTarget.ShowCursor()
-		{
-		}
-
-		#endregion
 
 	}
 }

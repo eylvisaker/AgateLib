@@ -36,7 +36,7 @@ namespace AgateOTK
 {
 	public sealed class GL_Display : DisplayImpl
 	{
-		GL_IRenderTarget mRenderTarget;
+		GL_FrameBuffer mRenderTarget;
 		Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		Rectangle mCurrentClip = Rectangle.Empty;
 		private bool mVSync = true;
@@ -47,6 +47,8 @@ namespace AgateOTK
 
 		System.Windows.Forms.Form mFakeWindow;
 		DisplayWindow mFakeDisplayWindow;
+
+		bool mGL3;
 
 		public bool NonPowerOf2Textures
 		{
@@ -68,9 +70,9 @@ namespace AgateOTK
 				ProcessEventsEvent(this, EventArgs.Empty);
 		}
 
-		protected override void OnRenderTargetChange(IRenderTarget oldRenderTarget)
+		protected override void OnRenderTargetChange(FrameBuffer oldRenderTarget)
 		{
-			mRenderTarget = RenderTarget.Impl as GL_IRenderTarget;
+			mRenderTarget = RenderTarget.Impl as GL_FrameBuffer;
 			mRenderTarget.MakeCurrent();
 
 			OnRenderTargetResize();
@@ -136,7 +138,19 @@ namespace AgateOTK
 
 		protected override FrameBufferImpl CreateFrameBuffer(Size size)
 		{
-			return new GL_FrameBufferExt(size);
+			if (mSupportsFramebuffer)
+			{
+				if (mGL3)
+				{
+					return new GL3.FrameBuffer(size);
+				}
+				else
+				{
+					return new Legacy.FrameBufferExt(size);
+				}
+			}
+			else
+				return new Legacy.FrameBufferReadPixels(size);
 		}
 
 		internal void SetupGLOrtho(Rectangle ortho)
@@ -165,14 +179,9 @@ namespace AgateOTK
 			FlushDeleteQueue();
 		}
 
-		[Obsolete("Use DrawBuffer instead.", true)]
-		internal GLState State
-		{
-			get { throw new NotImplementedException(); }
-		}
 		internal GLDrawBuffer DrawBuffer
 		{
-			get { return (RenderTarget.Impl as GL_IRenderTarget).DrawBuffer; }
+			get { return (RenderTarget.Impl as GL_FrameBuffer).DrawBuffer; }
 		}
 
 
@@ -354,6 +363,7 @@ namespace AgateOTK
 				mSupportsFramebuffer = true;
 				mNonPowerOf2Textures = true;
 				mSupportsShaders = true;
+				mGL3 = true;
 			}
 			if (mGLVersion >= 2m)
 			{
@@ -528,7 +538,7 @@ namespace AgateOTK
 			if (Display.CurrentWindow != null)
 			{
 				DisplayWindowImpl impl = Display.CurrentWindow.Impl;
-				((GL_IRenderTarget)impl).HideCursor();
+				//((GL_DisplayW)impl).HideCursor();
 			}
 		}
 		protected override void ShowCursor()
@@ -538,7 +548,8 @@ namespace AgateOTK
 			if (Display.CurrentWindow != null)
 			{
 				DisplayWindowImpl impl = Display.CurrentWindow.Impl;
-				((GL_IRenderTarget)impl).ShowCursor();
+				
+				//((GL_FrameBufferExt)impl).ShowCursor();
 			}
 		}
 

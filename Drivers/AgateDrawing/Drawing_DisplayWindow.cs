@@ -32,11 +32,12 @@ using Geometry = AgateLib.Geometry;
 
 namespace AgateDrawing
 {
-	class Drawing_DisplayWindow : DisplayWindowImpl, Drawing_IRenderTarget
+	class Drawing_DisplayWindow : DisplayWindowImpl
 	{
 		Form frm;
 		Control mRenderTarget;
 		bool mIsClosed = false;
+		Drawing_FrameBuffer mFrameBuffer;
 
 		Icon mIcon;
 		Bitmap mBackBuffer;
@@ -75,10 +76,22 @@ namespace AgateDrawing
 				// and create the back buffer
 				OnResize();
 			}
-		}
-		public Drawing_DisplayWindow(Control renderTarget)
-		{
 
+			mFrameBuffer = new Drawing_FrameBuffer(mBackBuffer);
+			mFrameBuffer.EndRenderEvent += new EventHandler(mFrameBuffer_EndRenderEvent);
+		}
+
+		void mFrameBuffer_EndRenderEvent(object sender, EventArgs e)
+		{
+			Graphics g = RenderTarget.CreateGraphics();
+
+			g.DrawImage(BackBuffer, new Rectangle(new Point(0, 0), BackBuffer.Size));
+			g.Dispose();
+		}
+
+		public override FrameBufferImpl FrameBuffer
+		{
+			get { return mFrameBuffer; }
 		}
 
 		private void AttachEvents()
@@ -280,17 +293,7 @@ namespace AgateDrawing
 			get { return false; }
 		}
 
-		public override void BeginRender()
-		{
-		}
 
-		public override void EndRender()
-		{
-			Graphics g = RenderTarget.CreateGraphics();
-
-			g.DrawImage(BackBuffer, new Rectangle(new Point(0, 0), BackBuffer.Size));
-			g.Dispose();
-		}
 
 
 		public override string Title

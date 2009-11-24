@@ -107,12 +107,14 @@
     <Compile Include="AL_Audio.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ArbShader.cs">
+    <Compile Include="GL3\FrameBuffer.cs" />
+    <Compile Include="Legacy\ArbShader.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ArbShaderCompiler.cs">
+    <Compile Include="Legacy\ArbShaderCompiler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ContextFB.cs" />
     <Compile Include="frmFullScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,19 +126,16 @@
     <Compile Include="GLDrawBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GlslFragmentProgram.cs">
+    <Compile Include="Shaders\GlslFragmentProgram.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GlslShader.cs">
+    <Compile Include="Shaders\GlslShader.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GlslShaderCompiler.cs">
+    <Compile Include="Shaders\GlslShaderCompiler.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GlslVertexProgram.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="GLState.cs">
+    <Compile Include="Shaders\GlslVertexProgram.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GL_Display.cs">
@@ -145,13 +144,11 @@
     <Compile Include="GL_DisplayControl.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Legacy\FrameBufferExt.cs" />
     <Compile Include="GL_GameWindow.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GL_IndexBuffer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="GL_IRenderTarget.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GL_Surface.cs">
@@ -160,7 +157,8 @@
     <Compile Include="GL_VertexBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="OtkShader.cs">
+    <Compile Include="Legacy\FrameBufferReadPixels.cs" />
+    <Compile Include="Shaders\OtkShader.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Otk_Reporter.cs">

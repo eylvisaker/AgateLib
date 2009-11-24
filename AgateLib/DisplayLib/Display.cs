@@ -189,7 +189,7 @@ namespace AgateLib.DisplayLib
 		/// Must be called outside of BeginFrame..EndFrame blocks
 		/// (usually just before BeginFrame).
 		/// </summary>
-		public static IRenderTarget RenderTarget
+		public static FrameBuffer RenderTarget
 		{
 			get
 			{
@@ -202,17 +202,19 @@ namespace AgateLib.DisplayLib
 
 				impl.RenderTarget = value;
 
-				if (value is DisplayWindow)
-					mCurrentWindow = (DisplayWindow)value;
-
+				// TODO: replace this with an ActiveWindow property.
+				//if (value is DisplayWindow)
+				//	mCurrentWindow = (DisplayWindow)value;
 			}
 		}
+
 		/// <summary>
 		/// Gets the last render target used which was a DisplayWindow.
 		/// </summary>
 		public static DisplayWindow CurrentWindow
 		{
 			get { return mCurrentWindow; }
+			internal set { mCurrentWindow = value; }
 		}
 
 		/// <summary>

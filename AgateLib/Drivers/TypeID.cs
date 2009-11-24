@@ -43,12 +43,13 @@ namespace AgateLib.Drivers
 		AutoSelect = 0,
 
 		/// <summary>
-		/// The reference driver is implemented using System.Drawing.  This is useful for
+		/// The software System.Drawing driver.  This is useful for
 		/// debugging the development of a new driver, as it should behave exactly like the
-		/// reference driver (but hopefully be much faster).
+		/// reference driver for 2D drawing.
 		/// </summary>
+		Drawing = 1,
 		Reference = 1,
-
+		
 		/// <summary>
 		/// Driver Implementation using SlimDX.
 		/// </summary>
@@ -72,8 +73,9 @@ namespace AgateLib.Drivers
 
 		/// <summary>
 		/// Driver implementation using SDL.  SDL.NET does not support many of the basic features
-		/// of this library (notably);}} rotation of images) so is not considered an adequate driver
-		/// for general purpose use.
+		/// of this library (notably, rotation of images) so is not considered an adequate driver
+		/// for general purpose use.  However it may be the only driver available for certain target
+		/// platforms.
 		/// </summary>
 		SDL = 0x300,
 

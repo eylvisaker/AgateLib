@@ -13,7 +13,7 @@ namespace Tests.MultipleWindows
 	{
 		Surface surf;
 		Random rand = new Random();
-
+		FrameBuffer buffer;
 
 		public string Name
 		{
@@ -40,10 +40,8 @@ namespace Tests.MultipleWindows
 				DisplayWindow wnd_1 = DisplayWindow.CreateFromControl(myForm.pictureBox1);
 				DisplayWindow wnd_2 = DisplayWindow.CreateFromControl(myForm.pictureBox2);
 				DisplayWindow wnd_3 = DisplayWindow.CreateFromControl(myForm.pictureBox3);
-				//DisplayWindow wnd_4 = new DisplayWindow(myForm.pictureBox4);
 
-				// create a surface for drawing
-				surf = new Surface(200, 150);
+				buffer = new FrameBuffer(200, 150);
 
 				// this is the code that will be called when the button is pressed
 				myForm.btnDraw.Click += new EventHandler(btnDraw_Click);
@@ -53,7 +51,7 @@ namespace Tests.MultipleWindows
 				{
 					// Render targets must be set before the call to BeginFrame,
 					// and may not be changed between BeginFrame and EndFrame.
-					Display.RenderTarget = wnd_1;
+					Display.RenderTarget = wnd_1.FrameBuffer;
 
 					Display.BeginFrame();
 					Display.Clear(Color.Red);
@@ -61,7 +59,7 @@ namespace Tests.MultipleWindows
 					Display.EndFrame();
 
 					// now do the second window.
-					Display.RenderTarget = wnd_2;
+					Display.RenderTarget = wnd_2.FrameBuffer;
 
 					Display.BeginFrame();
 					Display.Clear(Color.Green);
@@ -69,16 +67,14 @@ namespace Tests.MultipleWindows
 					Display.EndFrame();
 
 					// draw the third window from the surface
-					Display.RenderTarget = wnd_3;
+					Display.RenderTarget = wnd_3.FrameBuffer;
+
+					surf = buffer.BackBuffer;
 
 					Display.BeginFrame();
 					Display.Clear(Color.Black);
 					surf.Draw(0, 0);
 					Display.EndFrame();
-
-					//Display.RenderTarget = wnd_4;
-					//Display.BeginFrame();
-					//Display.EndFrame();
 
 					Core.KeepAlive();
 					//System.Threading.Thread.Sleep(250);
@@ -92,7 +88,7 @@ namespace Tests.MultipleWindows
 
 		void btnClear_Click(object sender, EventArgs e)
 		{
-			Display.RenderTarget = surf;
+			Display.RenderTarget = buffer;
 
 			Display.BeginFrame();
 			Display.Clear(0, 0, 0, 0);
@@ -101,7 +97,7 @@ namespace Tests.MultipleWindows
 
 		void btnDraw_Click(object sender, EventArgs e)
 		{
-			Display.RenderTarget = surf;
+			Display.RenderTarget = buffer;
 
 			Display.BeginFrame();
 

@@ -34,7 +34,7 @@ namespace AgateOTK
 {
 	using AgateLib.DisplayLib;
 
-	class GL_GameWindow : DisplayWindowImpl, GL_IRenderTarget
+	class GL_GameWindow : DisplayWindowImpl
 	{
 		static Dictionary<OpenTK.Input.Key, KeyCode> keyMap = new Dictionary<OpenTK.Input.Key, KeyCode>();
 
@@ -173,6 +173,7 @@ namespace AgateOTK
 		bool mHasFrame;
 		WindowPosition mCreatePosition;
 		GLDrawBuffer mDrawBuffer;
+		GL_FrameBuffer mFrameBuffer;
 
 		public GL_GameWindow(CreateWindowParams windowParams)
 		{
@@ -201,6 +202,11 @@ namespace AgateOTK
 			mDisplay.InitializeCurrentContext();
 
 			mDrawBuffer = new GLDrawBuffer();
+		}
+
+		public override FrameBufferImpl FrameBuffer
+		{
+			get { return mFrameBuffer; }
 		}
 
 		public GLDrawBuffer DrawBuffer
@@ -438,7 +444,7 @@ namespace AgateOTK
 			}
 		}
 
-		public override void BeginRender()
+		public void BeginRender()
 		{
 			if (mWindow.Context.VSync != Display.RenderState.WaitForVerticalBlank)
 				mWindow.Context.VSync = Display.RenderState.WaitForVerticalBlank;
@@ -449,7 +455,7 @@ namespace AgateOTK
 
 		}
 
-		public override void EndRender()
+		public void EndRender()
 		{
 			mWindow.SwapBuffers();
 		}
