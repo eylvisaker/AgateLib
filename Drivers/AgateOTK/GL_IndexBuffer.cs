@@ -9,6 +9,9 @@ using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {
+	/// <summary>
+	/// OpenGL 3.1 compatible.
+	/// </summary>
 	class GL_IndexBuffer : IndexBufferImpl 
 	{
 		int mCount;

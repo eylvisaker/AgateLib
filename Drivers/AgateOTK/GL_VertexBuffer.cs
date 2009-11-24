@@ -12,6 +12,10 @@ using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {
+	/// <summary>
+	/// Not OpenGL 3.1 compatible.
+	/// Need replacements for SetClientStates/IndexPointer/NormalPointer/VertexPointer
+	/// </summary>
 	public class GL_VertexBuffer : VertexBufferImpl
 	{
 		GL_Display mDisplay;
