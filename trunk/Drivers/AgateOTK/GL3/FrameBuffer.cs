@@ -9,6 +9,9 @@ using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace AgateOTK.GL3
 {
+	/// <summary>
+	/// OpenGL 3.1 compatible.
+	/// </summary>
 	class FrameBuffer : GL_FrameBuffer 
 	{
 		Size mSize;

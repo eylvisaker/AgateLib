@@ -109,6 +109,8 @@
     </Compile>
     <Compile Include="GL3\FrameBuffer.cs" />
     <Compile Include="GL3\DrawBuffer.cs" />
+    <Compile Include="GL3\GLVertexBuffer.cs" />
+    <Compile Include="GL3\GLPrimitiveRenderer.cs" />
     <Compile Include="Legacy\ArbShader.cs">
       <SubType>Code</SubType>
     </Compile>

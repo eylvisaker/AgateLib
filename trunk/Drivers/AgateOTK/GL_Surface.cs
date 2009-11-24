@@ -441,7 +441,7 @@ namespace AgateOTK
 		{
 			Size retval = size;
 
-			if (mDisplay.NonPowerOf2Textures)
+			if (mDisplay.SupportsNonPowerOf2Textures)
 				return retval;
 
 			if (IsPowerOfTwo(retval.Width) == false)
