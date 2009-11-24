@@ -34,6 +34,10 @@ using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
 namespace AgateOTK
 {
+	/// <summary>
+	/// Not OpenGL 3.1 compatible.  Need replacements for:
+	/// Begin/End, Vertex2, Vertex3 used in DrawRect,FillRect,etc. functions.
+	/// </summary>
 	public sealed class GL_Display : DisplayImpl
 	{
 		GL_FrameBuffer mRenderTarget;
@@ -136,6 +140,14 @@ namespace AgateOTK
 			return AgateLib.WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
 		}
 
+		public GLDrawBuffer CreateDrawBuffer()
+		{
+			if (mGL3)
+				return new GL3.DrawBuffer();
+			else
+				return new Legacy.LegacyDrawBuffer();
+		}
+
 		protected override FrameBufferImpl CreateFrameBuffer(Size size)
 		{
 			if (mSupportsFramebuffer)
@@ -151,19 +163,6 @@ namespace AgateOTK
 			}
 			else
 				return new Legacy.FrameBufferReadPixels(size);
-		}
-
-		internal void SetupGLOrtho(Rectangle ortho)
-		{
-			SetOrthoProjection(ortho);
-
-			GL.Enable(EnableCap.Texture2D);
-
-			GL.Enable(EnableCap.Blend);
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-
-			GL.MatrixMode(MatrixMode.Modelview);
-			GL.LoadIdentity();
 		}
 
 		protected override void OnBeginFrame()
@@ -191,8 +190,6 @@ namespace AgateOTK
 			GL.Viewport(newClipRect.X, mRenderTarget.Height - newClipRect.Bottom,
 				newClipRect.Width, newClipRect.Height);
 
-			SetupGLOrtho(newClipRect);
-
 			mCurrentClip = newClipRect;
 		}
 
@@ -206,7 +203,7 @@ namespace AgateOTK
 			DrawBuffer.Flush();
 
 			GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, 1.0f);
-			GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
+			GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit);
 		}
 		public override void Clear(Color color, Rectangle dest)
 		{
@@ -387,7 +384,7 @@ namespace AgateOTK
 		string[] extensions;
 		private void LoadExtensions()
 		{
-			try
+			if (mGL3)
 			{
 				// Forward compatible context (GL 3.0+)
 				int num_extensions;
@@ -401,7 +398,7 @@ namespace AgateOTK
 				for (int i = 0; i < num_extensions; i++)
 					extensions[i] = GL.GetString(StringName.Extensions, i).ToLowerInvariant();
 			}
-			catch (OpenTK.Graphics.GraphicsErrorException)
+			else
 			{
 				string ext = GL.GetString(StringName.Extensions);
 
@@ -411,6 +408,7 @@ namespace AgateOTK
 					Debug.Print(extensions[i]);
 			}
 		}
+
 		private bool SupportsExtension(string name)
 		{
 			return extensions.Contains(name.ToLowerInvariant());

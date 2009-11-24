@@ -39,6 +39,9 @@ using OpenTK.Platform;
 
 namespace AgateOTK
 {
+	/// <summary>
+	/// No OpenGL code here.
+	/// </summary>
 	public sealed class GL_DisplayControl : DisplayWindowImpl
 	{
 		Form frm;
@@ -357,7 +360,6 @@ namespace AgateOTK
 
 		}
 
-
 		private void AttachEvents()
 		{
 			if (mRenderTarget == null)
@@ -378,7 +380,6 @@ namespace AgateOTK
 			form.KeyUp += new System.Windows.Forms.KeyEventHandler(form_KeyUp);
 
 		}
-
 		private void DetachEvents()
 		{
 			if (mRenderTarget == null)
@@ -416,15 +417,15 @@ namespace AgateOTK
 
 			return retval;
 		}
+
 		void mRenderTarget_Disposed(object sender, EventArgs e)
 		{
 			mIsClosed = true;
 		}
-
 		void mRenderTarget_Resize(object sender, EventArgs e)
 		{
 			mContext.Update(mWindowInfo);
-			GL.Viewport(0, 0, mRenderTarget.Width, mRenderTarget.Height);
+			mFrameBuffer.SetSize(new Size(mRenderTarget.Width, mRenderTarget.Height));
 		}
 
 
@@ -525,36 +526,6 @@ namespace AgateOTK
 			{
 				Cursor.Position = mRenderTarget.PointToScreen(AgateLib.WinForms.Interop.Convert(value));
 			}
-		}
-
-
-		public void MakeCurrent()
-		{
-			if (mContext.IsCurrent == false)
-			{
-				mContext.MakeCurrent(mWindowInfo);
-			}
-
-			GL.Viewport(0, 0, Width, Height);
-
-			mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, Height, Width, 0));
-
-		}
-
-		public void BeginRender()
-		{
-			MakeCurrent();
-
-			mDisplay.SetClipRect(new Rectangle(0, 0, Width, Height));
-
-		}
-
-		public void EndRender()
-		{
-			if (mContext.VSync != Display.RenderState.WaitForVerticalBlank)
-				mContext.VSync = Display.RenderState.WaitForVerticalBlank;
-
-			mContext.SwapBuffers();
 		}
 
 		public override void SetFullScreen()

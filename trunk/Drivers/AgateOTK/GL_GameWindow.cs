@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
+using AgateLib.DisplayLib;
 using AgateLib.ImplementationBase;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
@@ -32,8 +33,10 @@ using GL = OpenTK.Graphics.OpenGL.GL;
 
 namespace AgateOTK
 {
-	using AgateLib.DisplayLib;
 
+	/// <summary>
+	/// Old, needs to be updated.
+	/// </summary>
 	class GL_GameWindow : DisplayWindowImpl
 	{
 		static Dictionary<OpenTK.Input.Key, KeyCode> keyMap = new Dictionary<OpenTK.Input.Key, KeyCode>();
@@ -201,7 +204,7 @@ namespace AgateOTK
 
 			mDisplay.InitializeCurrentContext();
 
-			mDrawBuffer = new GLDrawBuffer();
+			mDrawBuffer = mDisplay.CreateDrawBuffer();
 		}
 
 		public override FrameBufferImpl FrameBuffer
@@ -450,9 +453,6 @@ namespace AgateOTK
 				mWindow.Context.VSync = Display.RenderState.WaitForVerticalBlank;
 
 			MakeCurrent();
-
-			mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, 0, Width, Height));
-
 		}
 
 		public void EndRender()

@@ -108,6 +108,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GL3\FrameBuffer.cs" />
+    <Compile Include="GL3\DrawBuffer.cs" />
     <Compile Include="Legacy\ArbShader.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -126,6 +127,7 @@
     <Compile Include="GLDrawBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Legacy\LegacyDrawBuffer.cs" />
     <Compile Include="Shaders\GlslFragmentProgram.cs">
       <SubType>Code</SubType>
     </Compile>

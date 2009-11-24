@@ -38,7 +38,9 @@ using AgateLib.WinForms;
 
 namespace AgateOTK
 {
-
+	/// <summary>
+	/// OpenGL 3.1 compatible.
+	/// </summary>
 	public sealed class GL_Surface : SurfaceImpl
 	{
 		GL_Display mDisplay;
@@ -56,7 +58,7 @@ namespace AgateOTK
 		Rectangle mSourceRect;
 
 		/// <summary>
-		/// OpenGL's texture size (always a power of 2).
+		/// OpenGL's texture size (always a power of 2, unles NPOT extension is available.).
 		/// </summary>
 		Size mTextureSize;
 
@@ -91,8 +93,6 @@ namespace AgateOTK
 
 			mTextureSize = GetOGLSize(size);
 
-			//int[] array = new int[1];
-			//GL.GenTextures(1, array);
 			int textureID;
 			GL.GenTextures(1, out textureID);
 
@@ -374,51 +374,6 @@ namespace AgateOTK
 		{
 			get { return mSourceRect.Size; }
 		}
-
-		public void BeginRender()
-		{
-			GL.Viewport(0, 0, SurfaceWidth, SurfaceHeight);
-
-			mDisplay.SetupGLOrtho(Rectangle.FromLTRB(0, SurfaceHeight, SurfaceWidth, 0));
-
-			if (mDisplay.SupportsFramebuffer)
-			{
-				
-
-			}
-			else
-			{
-
-				// clear the framebuffer and draw this texture to it.
-
-			}
-		}
-		public void EndRender()
-		{
-			if (mDisplay.SupportsFramebuffer)
-			{
-				GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
-				GL.PopAttrib();
-				GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
-
-				//GL.Ext.DeleteRenderbuffers(1, ref mDepthBuffer);
-				//GL.Ext.DeleteFramebuffers(1, ref mFramebufferID);
-			}
-			else
-			{
-				
-			}
-		}
-
-		#region GL_IRenderTarget Members
-
-		public void MakeCurrent()
-		{
-
-		}
-
-		#endregion
 
 		internal int GLTextureID { get { return mTextureID; } }
 
