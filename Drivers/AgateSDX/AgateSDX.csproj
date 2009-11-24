@@ -136,9 +136,6 @@
     <Compile Include="SDX_Input.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDX_IRenderTarget.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="SDX_Surface.cs">
       <SubType>Code</SubType>
     </Compile>
