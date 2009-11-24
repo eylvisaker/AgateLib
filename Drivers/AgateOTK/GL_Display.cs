@@ -35,8 +35,7 @@ using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 namespace AgateOTK
 {
 	/// <summary>
-	/// Not OpenGL 3.1 compatible.  Need replacements for:
-	/// Begin/End, Vertex2, Vertex3 used in DrawRect,FillRect,etc. functions.
+	/// OpenGL 3.1 compatible.  
 	/// </summary>
 	public sealed class GL_Display : DisplayImpl
 	{
@@ -51,6 +50,8 @@ namespace AgateOTK
 
 		System.Windows.Forms.Form mFakeWindow;
 		DisplayWindow mFakeDisplayWindow;
+
+		PrimitiveRenderer mPrimitives;
 
 		bool mGL3;
 
@@ -108,7 +109,10 @@ namespace AgateOTK
 		}
 		protected override VertexBufferImpl CreateVertexBuffer(VertexLayout layout, int vertexCount)
 		{
-			return new GL_VertexBuffer(layout, vertexCount);
+			if (mGL3)
+				return new Legacy.LegacyVertexBuffer(layout, vertexCount);
+			else
+				return new Legacy.LegacyVertexBuffer(layout, vertexCount);
 		}
 		protected override IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
 		{
@@ -199,23 +203,11 @@ namespace AgateOTK
 			DrawRect(dest, Color.FromArgb(255, color));
 		}
 
-		public void SetGLColor(Color color)
-		{
-			GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-		}
 
 		public override void DrawLine(Point a, Point b, Color color)
 		{
 			DrawBuffer.Flush();
-			SetGLColor(color);
-
-			GL.Disable(EnableCap.Texture2D);
-			GL.Begin(BeginMode.Lines);
-			GL.Vertex2(a.X, a.Y);
-			GL.Vertex2(b.X, b.Y);
-
-			GL.End();
-			GL.Enable(EnableCap.Texture2D);
+			mPrimitives.DrawLine(a, b, color);
 		}
 
 		public override void DrawRect(Rectangle rect, Color color)
@@ -225,25 +217,7 @@ namespace AgateOTK
 		public override void DrawRect(RectangleF rect, Color color)
 		{
 			DrawBuffer.Flush();
-			SetGLColor(color);
-
-			GL.Disable(EnableCap.Texture2D);
-			GL.Begin(BeginMode.Lines);
-
-			GL.Vertex2(rect.Left, rect.Top);
-			GL.Vertex2(rect.Right, rect.Top);
-
-			GL.Vertex2(rect.Right, rect.Top);
-			GL.Vertex2(rect.Right, rect.Bottom);
-
-			GL.Vertex2(rect.Left, rect.Bottom);
-			GL.Vertex2(rect.Right, rect.Bottom);
-
-			GL.Vertex2(rect.Left, rect.Top);
-			GL.Vertex2(rect.Left, rect.Bottom);
-
-			GL.End();
-			GL.Enable(EnableCap.Texture2D);
+			mPrimitives.DrawRect(rect, color);
 		}
 
 		public override void FillRect(Rectangle rect, Color color)
@@ -253,19 +227,7 @@ namespace AgateOTK
 		public override void FillRect(RectangleF rect, Color color)
 		{
 			DrawBuffer.Flush();
-
-			SetGLColor(color);
-
-			GL.Disable(EnableCap.Texture2D);
-
-			GL.Begin(BeginMode.Quads);
-			GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
-			GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
-			GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
-			GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
-			GL.End();                                                         // Done Drawing The Quad
-
-			GL.Enable(EnableCap.Texture2D);
+			mPrimitives.FillRect(rect, color);
 		}
 
 		public override void FillRect(Rectangle rect, Gradient color)
@@ -275,42 +237,13 @@ namespace AgateOTK
 		public override void FillRect(RectangleF rect, Gradient color)
 		{
 			DrawBuffer.Flush();
-
-			GL.Disable(EnableCap.Texture2D);
-
-			GL.Begin(BeginMode.Quads);
-			SetGLColor(color.TopLeft);
-			GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
-
-			SetGLColor(color.TopRight);
-			GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
-
-			SetGLColor(color.BottomRight);
-			GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
-
-			SetGLColor(color.BottomLeft);
-			GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
-			GL.End();                                                         // Done Drawing The Quad
-
-			GL.Enable(EnableCap.Texture2D);
+			mPrimitives.FillRect(rect, color);
 		}
 
 		public override void FillPolygon(PointF[] pts, Color color)
 		{
 			DrawBuffer.Flush();
-
-			GL.Disable(EnableCap.Texture2D);
-
-			SetGLColor(color);
-
-			GL.Begin(BeginMode.TriangleFan);
-			for (int i = 0; i < pts.Length; i++)
-			{
-				GL.Vertex3(pts[i].X, pts[i].Y, 0);
-			}
-			GL.End();                                                         // Done Drawing The Quad
-
-			GL.Enable(EnableCap.Texture2D);
+			mPrimitives.FillPolygon(pts, color);
 		}
 
 		public override void Initialize()
@@ -321,15 +254,10 @@ namespace AgateOTK
 		}
 		public void InitializeCurrentContext()
 		{
-
-			//GL.ShadeModel(ShadingModel.Smooth);                         // Enable Smooth Shading
 			GL.ClearColor(0, 0, 0, 1.0f);                                     // Black Background
 			GL.ClearDepth(1);                                                 // Depth Buffer Setup
 			GL.Enable(EnableCap.DepthTest);                            // Enables Depth Testing
 			GL.DepthFunc(DepthFunction.Lequal);                         // The Type Of Depth Testing To Do
-			//GL.Hint(HintTarget.PerspectiveCorrectionHint,             // Really Nice Perspective Calculations
-			//	HintMode.Nicest);
-
 		}
 		private void CreateFakeWindow()
 		{
@@ -343,6 +271,11 @@ namespace AgateOTK
 
 			mGLVersion = DetectOpenGLVersion();
 			LoadExtensions();
+
+			if (mGL3)
+				mPrimitives = new Legacy.LegacyPrimitiveRenderer();
+			else
+				mPrimitives = new Legacy.LegacyPrimitiveRenderer();
 
 			mSupportsFramebufferExt = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
 			mNonPowerOf2Textures = SupportsExtension("GL_ARB_NON_POWER_OF_TWO");

@@ -10,13 +10,13 @@ using AgateLib.Geometry.VertexTypes;
 using AgateLib.ImplementationBase;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK
+namespace AgateOTK.Legacy
 {
 	/// <summary>
 	/// Not OpenGL 3.1 compatible.
 	/// Need replacements for SetClientStates/IndexPointer/NormalPointer/VertexPointer
 	/// </summary>
-	public class GL_VertexBuffer : VertexBufferImpl
+	public class LegacyVertexBuffer : VertexBufferImpl
 	{
 		GL_Display mDisplay;
 		GLDrawBuffer mDrawBuffer;
@@ -36,7 +36,7 @@ namespace AgateOTK
 
 		VertexLayout mLayout;
 
-		public GL_VertexBuffer(VertexLayout layout, int count)
+		public LegacyVertexBuffer(VertexLayout layout, int count)
 		{
 			mDisplay = Display.Impl as GL_Display;
 			mDrawBuffer = mDisplay.DrawBuffer;
@@ -124,9 +124,13 @@ namespace AgateOTK
 
 		}
 
+		public void SetGLColor(Color color)
+		{
+			GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
+		}
 		private void SetClientStates()
 		{
-			mDisplay.SetGLColor(Color.White);
+			SetGLColor(Color.White);
 
 			if (UseTexture)
 				SetTextures();
