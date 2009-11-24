@@ -164,9 +164,6 @@
     <Compile Include="DisplayLib\IndexBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DisplayLib\IRenderTarget.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DisplayLib\ISurface.cs">
       <SubType>Code</SubType>
     </Compile>
