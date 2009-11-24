@@ -44,7 +44,7 @@ namespace AgateOTK
 		Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		Rectangle mCurrentClip = Rectangle.Empty;
 		private bool mVSync = true;
-		private bool mSupportsFramebuffer;
+		private bool mSupportsFramebufferExt;
 		private bool mNonPowerOf2Textures;
 		private bool mSupportsShaders;
 		private decimal mGLVersion;
@@ -58,12 +58,6 @@ namespace AgateOTK
 		{
 			get { return mNonPowerOf2Textures; }
 			private set { mNonPowerOf2Textures = value; }
-		}
-
-		public bool SupportsFramebuffer
-		{
-			get { return mSupportsFramebuffer; }
-			set { mSupportsFramebuffer = value; }
 		}
 
 		internal event EventHandler ProcessEventsEvent;
@@ -150,17 +144,10 @@ namespace AgateOTK
 
 		protected override FrameBufferImpl CreateFrameBuffer(Size size)
 		{
-			if (mSupportsFramebuffer)
-			{
-				if (mGL3)
-				{
-					return new GL3.FrameBuffer(size);
-				}
-				else
-				{
-					return new Legacy.FrameBufferExt(size);
-				}
-			}
+			if (mGL3)
+				return new GL3.FrameBuffer(size);
+			else if (mSupportsFramebufferExt)
+				return new Legacy.FrameBufferExt(size);
 			else
 				return new Legacy.FrameBufferReadPixels(size);
 		}
@@ -212,10 +199,15 @@ namespace AgateOTK
 			DrawRect(dest, Color.FromArgb(255, color));
 		}
 
+		public void SetGLColor(Color color)
+		{
+			GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
+		}
+
 		public override void DrawLine(Point a, Point b, Color color)
 		{
 			DrawBuffer.Flush();
-			DrawBuffer.SetGLColor(color);
+			SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
 			GL.Begin(BeginMode.Lines);
@@ -233,7 +225,7 @@ namespace AgateOTK
 		public override void DrawRect(RectangleF rect, Color color)
 		{
 			DrawBuffer.Flush();
-			DrawBuffer.SetGLColor(color);
+			SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
 			GL.Begin(BeginMode.Lines);
@@ -262,7 +254,7 @@ namespace AgateOTK
 		{
 			DrawBuffer.Flush();
 
-			DrawBuffer.SetGLColor(color);
+			SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
 
@@ -287,16 +279,16 @@ namespace AgateOTK
 			GL.Disable(EnableCap.Texture2D);
 
 			GL.Begin(BeginMode.Quads);
-			DrawBuffer.SetGLColor(color.TopLeft);
+			SetGLColor(color.TopLeft);
 			GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
 
-			DrawBuffer.SetGLColor(color.TopRight);
+			SetGLColor(color.TopRight);
 			GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
 
-			DrawBuffer.SetGLColor(color.BottomRight);
+			SetGLColor(color.BottomRight);
 			GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
 
-			DrawBuffer.SetGLColor(color.BottomLeft);
+			SetGLColor(color.BottomLeft);
 			GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
 			GL.End();                                                         // Done Drawing The Quad
 
@@ -309,7 +301,7 @@ namespace AgateOTK
 
 			GL.Disable(EnableCap.Texture2D);
 
-			DrawBuffer.SetGLColor(color);
+			SetGLColor(color);
 
 			GL.Begin(BeginMode.TriangleFan);
 			for (int i = 0; i < pts.Length; i++)
@@ -352,12 +344,11 @@ namespace AgateOTK
 			mGLVersion = DetectOpenGLVersion();
 			LoadExtensions();
 
-			mSupportsFramebuffer = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
+			mSupportsFramebufferExt = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
 			mNonPowerOf2Textures = SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
 
 			if (mGLVersion >= 3m)
 			{
-				mSupportsFramebuffer = true;
 				mNonPowerOf2Textures = true;
 				mSupportsShaders = true;
 				mGL3 = true;
@@ -374,7 +365,6 @@ namespace AgateOTK
 			}
 
 			Trace.WriteLine(string.Format("OpenGL version {0} from vendor {1} detected.", mGLVersion, vendor));
-			Trace.WriteLine("Framebuffer: " + mSupportsFramebuffer.ToString());
 			Trace.WriteLine("NPOT: " + mNonPowerOf2Textures.ToString());
 			Trace.WriteLine("Shaders: " + mSupportsShaders.ToString());
 

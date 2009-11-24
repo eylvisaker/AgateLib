@@ -126,7 +126,7 @@ namespace AgateOTK
 
 		private void SetClientStates()
 		{
-			mDrawBuffer.SetGLColor(Color.White);
+			mDisplay.SetGLColor(Color.White);
 
 			if (UseTexture)
 				SetTextures();
