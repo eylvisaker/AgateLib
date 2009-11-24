@@ -45,12 +45,5 @@ namespace AgateOTK
 		public abstract void AddQuad(int textureID, Gradient color, TextureCoordinates texCoord, PointF[] pts);
 
 		public abstract void Flush();
-
-		[Obsolete]
-		public void SetGLColor(Color color)
-		{
-			GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-		}
-
 	}
 }
