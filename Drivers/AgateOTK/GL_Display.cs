@@ -55,7 +55,7 @@ namespace AgateOTK
 
 		bool mGL3;
 
-		public bool NonPowerOf2Textures
+		public bool SupportsNonPowerOf2Textures
 		{
 			get { return mNonPowerOf2Textures; }
 			private set { mNonPowerOf2Textures = value; }
@@ -86,6 +86,8 @@ namespace AgateOTK
 			get { return PixelFormat.RGBA8888; }
 		}
 
+		#region --- Object Factory ---
+
 		protected override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
 		{
 			return Shaders.ShaderFactory.CreateBuiltInShader(BuiltInShaderType);
@@ -110,7 +112,7 @@ namespace AgateOTK
 		protected override VertexBufferImpl CreateVertexBuffer(VertexLayout layout, int vertexCount)
 		{
 			if (mGL3)
-				return new Legacy.LegacyVertexBuffer(layout, vertexCount);
+				return new GL3.GLVertexBuffer(layout, vertexCount);
 			else
 				return new Legacy.LegacyVertexBuffer(layout, vertexCount);
 		}
@@ -138,14 +140,6 @@ namespace AgateOTK
 			return AgateLib.WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
 		}
 
-		public GLDrawBuffer CreateDrawBuffer()
-		{
-			if (mGL3)
-				return new GL3.DrawBuffer();
-			else
-				return new Legacy.LegacyDrawBuffer();
-		}
-
 		protected override FrameBufferImpl CreateFrameBuffer(Size size)
 		{
 			if (mGL3)
@@ -155,6 +149,17 @@ namespace AgateOTK
 			else
 				return new Legacy.FrameBufferReadPixels(size);
 		}
+
+		public GLDrawBuffer CreateDrawBuffer()
+		{
+			if (mGL3)
+				return new GL3.DrawBuffer();
+			else
+				return new Legacy.LegacyDrawBuffer();
+		}
+
+		
+		#endregion
 
 		protected override void OnBeginFrame()
 		{
@@ -173,7 +178,6 @@ namespace AgateOTK
 		{
 			get { return (RenderTarget.Impl as GL_FrameBuffer).DrawBuffer; }
 		}
-
 
 		// TODO: Test clip rect stuff.
 		public override void SetClipRect(Rectangle newClipRect)
@@ -203,6 +207,7 @@ namespace AgateOTK
 			DrawRect(dest, Color.FromArgb(255, color));
 		}
 
+		#region --- Drawing Primitives ---
 
 		public override void DrawLine(Point a, Point b, Color color)
 		{
@@ -246,6 +251,9 @@ namespace AgateOTK
 			mPrimitives.FillPolygon(pts, color);
 		}
 
+		#endregion
+		#region --- Initialization ---
+
 		public override void Initialize()
 		{
 			CreateFakeWindow();
@@ -259,6 +267,7 @@ namespace AgateOTK
 			GL.Enable(EnableCap.DepthTest);                            // Enables Depth Testing
 			GL.DepthFunc(DepthFunction.Lequal);                         // The Type Of Depth Testing To Do
 		}
+		
 		private void CreateFakeWindow()
 		{
 			mFakeWindow = new System.Windows.Forms.Form();
@@ -273,7 +282,7 @@ namespace AgateOTK
 			LoadExtensions();
 
 			if (mGL3)
-				mPrimitives = new Legacy.LegacyPrimitiveRenderer();
+				mPrimitives = new GL3.GLPrimitiveRenderer();
 			else
 				mPrimitives = new Legacy.LegacyPrimitiveRenderer();
 
@@ -331,7 +340,6 @@ namespace AgateOTK
 					Debug.Print(extensions[i]);
 			}
 		}
-
 		private bool SupportsExtension(string name)
 		{
 			return extensions.Contains(name.ToLowerInvariant());
@@ -377,6 +385,22 @@ namespace AgateOTK
 			return retval;
 		}
 
+		#endregion
+
+		#region --- Shaders ---
+
+		protected override ShaderCompilerImpl CreateShaderCompiler()
+		{
+			if (this.Supports(DisplayBoolCaps.CustomShaders))
+			{
+				if (mGLVersion < 2.0m)
+					return new ArbShaderCompiler();
+				else
+					return new GlslShaderCompiler();
+			}
+			else
+				return base.CreateShaderCompiler();
+		}
 
 		OtkShader mCurrentShader;
 
@@ -429,21 +453,6 @@ namespace AgateOTK
 			array[3] = color.A / 255.0f;
 		}
 
-		#region --- Shaders ---
-
-		protected override ShaderCompilerImpl CreateShaderCompiler()
-		{
-			if (this.Supports(DisplayBoolCaps.CustomShaders))
-			{
-				if (mGLVersion < 2.0m)
-					return new ArbShaderCompiler();
-				else
-					return new GlslShaderCompiler();
-			}
-			else
-				return base.CreateShaderCompiler();
-		}
-
 		#endregion
 
 
@@ -474,7 +483,7 @@ namespace AgateOTK
 			}
 		}
 
-		#region --- IDisplayCaps Members ---
+		#region --- Display Capabilities ---
 
 		public override bool Supports(DisplayBoolCaps caps)
 		{
@@ -509,8 +518,8 @@ namespace AgateOTK
 			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.Glsl; }
 		}
 
-
 		#endregion
+		#region --- Render States ---
 
 		protected override bool GetRenderState(RenderStateBool renderStateBool)
 		{
@@ -522,7 +531,6 @@ namespace AgateOTK
 						"The specified render state, {0}, is not supported by this driver."));
 			}
 		}
-
 		protected override void SetRenderState(RenderStateBool renderStateBool, bool value)
 		{
 			switch (renderStateBool)
@@ -536,6 +544,8 @@ namespace AgateOTK
 						"The specified render state, {0}, is not supported by this driver."));
 			}
 		}
+
+		#endregion
 
 		#region --- Deletion queuing ---
 

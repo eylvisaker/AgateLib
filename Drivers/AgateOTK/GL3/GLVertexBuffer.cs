@@ -10,9 +10,13 @@ using AgateLib.Geometry.VertexTypes;
 using AgateLib.ImplementationBase;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK.Legacy
+namespace AgateOTK.GL3
 {
-	public class LegacyVertexBuffer : VertexBufferImpl
+	/// <summary>
+	/// Not OpenGL 3.1 compatible.
+	/// Need replacements for SetClientStates/IndexPointer/NormalPointer/VertexPointer
+	/// </summary>
+	public class GLVertexBuffer : VertexBufferImpl
 	{
 		GL_Display mDisplay;
 		GLDrawBuffer mDrawBuffer;
@@ -32,7 +36,7 @@ namespace AgateOTK.Legacy
 
 		VertexLayout mLayout;
 
-		public LegacyVertexBuffer(VertexLayout layout, int count)
+		public GLVertexBuffer(VertexLayout layout, int count)
 		{
 			mDisplay = Display.Impl as GL_Display;
 			mDrawBuffer = mDisplay.DrawBuffer;

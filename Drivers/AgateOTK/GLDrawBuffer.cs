@@ -31,10 +31,6 @@ using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {
-	/// <summary>
-	/// Not GL3 compatible.  Need replacements for 
-	/// EnableClientState,TexCoordPointer, etc.
-	/// </summary>
 	public abstract class GLDrawBuffer
 	{
 		public abstract void ResetTexture();
