@@ -16,13 +16,13 @@ namespace AgateSDX
 		SwapChain mSwap;
 		Direct3D.Surface mBackBuffer;
 		Direct3D.Surface mBackDepthStencil;
-		RenderToSurface mRenderToSurface;
+		Size mSize;
 
-
-		public FrameBufferWindow(SwapChain swap, Direct3D.Surface backBuffer, Direct3D.Surface backDepthStencil)
+		public FrameBufferWindow(Size size, SwapChain swap, Direct3D.Surface backBuffer, Direct3D.Surface backDepthStencil)
 		{
 			mDisplay = (SDX_Display)AgateLib.DisplayLib.Display.Impl;
 
+			mSize = size;
 			mSwap = swap;
 			mBackBuffer = backBuffer;
 			mBackDepthStencil = backDepthStencil;
@@ -37,7 +37,12 @@ namespace AgateSDX
 
 		public override Size Size
 		{
-			get { return new Size(mBackBuffer.Description.Width, mBackBuffer.Description.Height); }
+			get { return mSize; }
+		}
+
+		public void SetSize(Size size)
+		{
+			mSize = size;
 		}
 
 		public override void BeginRender()

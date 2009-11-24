@@ -61,7 +61,7 @@ namespace AgateDrawing
 		public override void DrawText(FontState state)
 		{
 			Geometry.PointF shift = Origin.CalcF(state.DisplayAlignment,
-				StringDisplaySize(state, state.Text));
+				MeasureString(state, state.Text));
 
 			PointF dest_pt = Interop.Convert(state.Location);
 			dest_pt.X -= shift.X;
@@ -81,7 +81,7 @@ namespace AgateDrawing
 
 			g.Restore(g_state);
 		}
-		public override Geometry.Size StringDisplaySize(FontState state, string text)
+		public override AgateLib.Geometry.Size MeasureString(FontState state, string text)
 		{
 			Drawing_Display disp = Display.Impl as Drawing_Display;
 			Graphics g = disp.FrameGraphics;
@@ -105,8 +105,5 @@ namespace AgateDrawing
 
 			return new Geometry.Size((int)result.Width, (int)result.Height);
 		}
-
-
 	}
-
 }

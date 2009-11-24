@@ -47,6 +47,8 @@ namespace AgateDrawing
 
 		private bool mInFrame = false;
 
+		bool mEnableAlphaBlend = true;
+
 		#endregion
 
 		#region --- Events and Event Handlers ---
@@ -207,6 +209,7 @@ namespace AgateDrawing
 		protected override void OnBeginFrame()
 		{
 			mGraphics = Graphics.FromImage(mRenderTarget.BackBufferBitmap);
+			SetAlphaBlend();
 		}
 		protected override void OnEndFrame()
 		{
@@ -227,6 +230,17 @@ namespace AgateDrawing
 
 
 		#endregion
+
+		private void SetAlphaBlend()
+		{
+			if (mGraphics == null)
+				return;
+
+			if (mEnableAlphaBlend)
+				mGraphics.CompositingMode = CompositingMode.SourceOver;
+			else
+				mGraphics.CompositingMode = CompositingMode.SourceCopy;
+		}
 
 		protected override void ProcessEvents()
 		{
@@ -318,6 +332,8 @@ namespace AgateDrawing
 			{
 				// vsync is not supported, but shouldn't throw an error.
 				case RenderStateBool.WaitForVerticalBlank: return false;
+				case RenderStateBool.AlphaBlend:					return mEnableAlphaBlend;
+
 				default:
 					throw new NotSupportedException(string.Format(
 						"The specified render state, {0}, is not supported by this driver."));
@@ -331,12 +347,20 @@ namespace AgateDrawing
 				case RenderStateBool.WaitForVerticalBlank:
 					// vsync is not supported, but shouldn't throw an error.
 					break;
+				case RenderStateBool.AlphaBlend:
+					mEnableAlphaBlend = value;
+
+
+					SetAlphaBlend();
+					
+					break;
 
 				default:
 					throw new NotSupportedException(string.Format(
 						"The specified render state, {0}, is not supported by this driver."));
 			}
 		}
+
 	}
 
 

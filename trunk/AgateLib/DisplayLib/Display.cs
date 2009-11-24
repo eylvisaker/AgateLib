@@ -412,8 +412,6 @@ namespace AgateLib.DisplayLib
 			return impl.EnumScreenModes();
 		}
 
-
-
 		/// <summary>
 		/// Event fired when PackAllSurfacesEvent
 		/// </summary>

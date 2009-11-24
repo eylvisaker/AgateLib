@@ -197,7 +197,7 @@ namespace AgateOTK
 		{
 			DrawBuffer.Flush();
 
-			GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, 1.0f);
+			GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
 			GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit);
 		}
 		public override void Clear(Color color, Rectangle dest)
@@ -521,11 +521,15 @@ namespace AgateOTK
 		#endregion
 		#region --- Render States ---
 
+		bool mAlphaBlend;
+
 		protected override bool GetRenderState(RenderStateBool renderStateBool)
 		{
 			switch (renderStateBool)
 			{
 				case RenderStateBool.WaitForVerticalBlank: return mVSync;
+				case RenderStateBool.AlphaBlend: return mAlphaBlend;
+
 				default:
 					throw new NotSupportedException(string.Format(
 						"The specified render state, {0}, is not supported by this driver."));
@@ -537,6 +541,14 @@ namespace AgateOTK
 			{
 				case RenderStateBool.WaitForVerticalBlank:
 					mVSync = value;
+					break;
+
+				case RenderStateBool.AlphaBlend:
+					mAlphaBlend = value;
+					if (value)
+						GL.Enable(EnableCap.Blend);
+					else
+						GL.Disable(EnableCap.Blend);
 					break;
 
 				default:
@@ -572,5 +584,6 @@ namespace AgateOTK
 		}
 
 		#endregion
+
 	}
 }

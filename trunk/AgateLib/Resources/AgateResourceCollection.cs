@@ -47,6 +47,13 @@ namespace AgateLib.Resources
 		public AgateResourceCollection(string filename)
 			: this(AgateFileProvider.Resources.GetProvider(filename), filename)
 		{ }
+		/// <summary>
+		/// Equivalent to calling new AgateResourceCollection(fileProvider, "Resources.xml");
+		/// </summary>
+		/// <param name="fileProvider"></param>
+		public AgateResourceCollection(IFileProvider fileProvider)
+			: this(fileProvider, "Resources.xml")
+		{ }
 		public AgateResourceCollection(IFileProvider fileProvider, string filename)
 		{
 			FileProvider = fileProvider;
@@ -54,6 +61,7 @@ namespace AgateLib.Resources
 
 			Load(filename);
 		}
+
 
 		private void Load(string filename)
 		{

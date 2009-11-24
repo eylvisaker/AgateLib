@@ -94,6 +94,8 @@ namespace AgateLib.DisplayLib
 			impl = Display.Impl.CreateFont(fontFamily, sizeInPoints, style);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+
+			System.Diagnostics.Debug.Assert(impl != null);
 		}
 		/// <summary>
 		/// Constructs a FontSurface object from a resource.
@@ -107,14 +109,16 @@ namespace AgateLib.DisplayLib
 
 			if (res is BitmapFontResource)
 			{
-				Surface surf = new Surface(bmpFont.Image);
+				Surface surf = new Surface(resources.FileProvider, bmpFont.Image);
 
-				impl = new BitmapFontImpl(surf, bmpFont.FontMetrics);
+				impl = new BitmapFontImpl(surf, bmpFont.FontMetrics, resourceName);
 			}
 			else
 				throw new AgateResourceException(string.Format(
 					"The resource {0} is of type {1} which cannot be used to construct a font.",
 					resourceName, res.GetType().Name));
+
+			System.Diagnostics.Debug.Assert(impl != null);
 		}
 		/// <summary>
 		/// Creates a bitmap font using the options passed in.  The Display driver
@@ -126,14 +130,23 @@ namespace AgateLib.DisplayLib
 			impl = Display.Impl.CreateFont(bitmapOptions);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+
+			System.Diagnostics.Debug.Assert(impl != null);
 		}
 
+		public string FontName 
+		{
+			get { return impl.FontName; }
+		}
 		/// <summary>
 		/// Private initializer to tell it what impl to use.
 		/// </summary>
 		/// <param name="implToUse"></param>
 		private FontSurface(FontSurfaceImpl implToUse)
 		{
+			if (implToUse == null)
+				throw new ArgumentNullException("implToUse");
+
 			impl = implToUse;
 		}
 
@@ -272,6 +285,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
+		[Obsolete]
 		public int StringDisplayWidth(string text)
 		{
 			return StringDisplaySize(text).Width;
@@ -281,6 +295,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
+		[Obsolete]
 		public int StringDisplayHeight(string text)
 		{
 			return StringDisplaySize(text).Height;
@@ -290,21 +305,32 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
+		[Obsolete]
 		public Size StringDisplaySize(string text)
 		{
-			return impl.StringDisplaySize(mState, text);
-		}
-		/// <summary>
-		/// Measures the display size of the specified string, using the specified state information.
-		/// </summary>
-		/// <param name="state"></param>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public Size StringDisplaySize(FontState state, string text)
-		{
-			return impl.StringDisplaySize(state, text);
+			return impl.MeasureString(mState, text);
 		}
 
+		/// <summary>
+		/// Measures the display size of the specified string.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <param name="length"></param>
+		/// <returns></returns>
+		public Size MeasureString(string text) 
+		{ 
+			return impl.MeasureString(mState, text); 
+		}
+		/// <summary>
+		/// Measures the display size of the specified string.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <param name="length"></param>
+		/// <returns></returns>
+		public Size MeasureString(FontState state, string text)
+		{
+			return impl.MeasureString(state, text);
+		}
 		/// <summary>
 		/// Gets the height in pixels of a single line of text.
 		/// </summary>
@@ -558,7 +584,7 @@ namespace AgateLib.DisplayLib
 				alter.ModifyState(t.State);
 			}
 
-			var size = StringDisplaySize(t.State, text);
+			var size = MeasureString(t.State, text);
 			var update = Origin.Calc(DisplayAlignment, size);
 
 			int newSpaceAbove = size.Height - FontHeight;
@@ -574,6 +600,98 @@ namespace AgateLib.DisplayLib
 		{
 			return obj.ToString();
 		}
+
+
+		#region --- Built-in Fonts ---
+
+		/// <summary>
+		/// This sans serif bitmap font was generated from Andika at 9 points.
+		/// </summary>
+		/// <remarks>
+		/// Andika is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Andika09
+		{
+			get { return InternalResources.Data.Andika09; }
+		}
+		/// <summary>
+		/// This sans serif bitmap font was generated from Andika at 10 points.
+		/// </summary>
+		/// <remarks>
+		/// Andika is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Andika10
+		{
+			get { return InternalResources.Data.Andika10; }
+		}
+		/// <summary>
+		/// This sans serif bitmap font was generated from Andika at 12 points.
+		/// </summary>
+		/// <remarks>
+		/// Andika is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Andika12
+		{
+			get { return InternalResources.Data.Andika12; }
+		}
+		/// <summary>
+		/// This sans serif bitmap font was generated from Andika at 14 points.
+		/// </summary>
+		/// <remarks>
+		/// Andika is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Andika14
+		{
+			get { return InternalResources.Data.Andika14; }
+		}
+
+		/// <summary>
+		/// This serif bitmap font was generated from Gentium at 10 points.
+		/// </summary>
+		/// <remarks>
+		/// Gentium is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Gentium10
+		{
+			get { return InternalResources.Data.Gentium10; }
+		}
+		/// <summary>
+		/// This serif bitmap font was generated from Gentium at 12 points.
+		/// </summary>
+		/// <remarks>
+		/// Gentium is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Gentium12
+		{
+			get { return InternalResources.Data.Gentium12; }
+		}
+		/// <summary>
+		/// This serif bitmap font was generated from Gentium at 14 points.
+		/// </summary>
+		/// <remarks>
+		/// Gentium is Copyright (c) 2004-2008, SIL International and
+		/// distributed under the Open Font License.
+		/// http://scripts.sil.org/OFL
+		/// </remarks>
+		public static FontSurface Gentium14
+		{
+			get { return InternalResources.Data.Gentium14; }
+		}
+
+		#endregion
+
 
 	}
 

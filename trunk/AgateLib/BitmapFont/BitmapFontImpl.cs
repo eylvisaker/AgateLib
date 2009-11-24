@@ -86,6 +86,7 @@ namespace AgateLib.BitmapFont
 		/// <param name="characterSize"></param>
 		public BitmapFontImpl(string filename, Size characterSize)
 		{
+			FontName = System.IO.Path.GetFileNameWithoutExtension(filename);
 			mFontMetrics = new FontMetrics();
 
 			mSurface = new Surface(filename);
@@ -101,8 +102,9 @@ namespace AgateLib.BitmapFont
 		/// <param name="surface">Surface which contains the image data for the font glyphs.</param>
 		/// <param name="fontMetrics">FontMetrics structure which describes how characters
 		/// are laid out.</param>
-		public BitmapFontImpl(Surface surface, FontMetrics fontMetrics)
+		public BitmapFontImpl(Surface surface, FontMetrics fontMetrics, string name)
 		{
+			FontName = name;
 			mFontMetrics = (FontMetrics)((ICloneable)fontMetrics).Clone();
 			float maxHeight = 0;
 
@@ -179,7 +181,7 @@ namespace AgateLib.BitmapFont
 			mAverageCharWidth = total / (double)count;
 		}
 
-		public override Size StringDisplaySize(FontState state, string text)
+		public override Size MeasureString(FontState state, string text)
 		{
 			if (string.IsNullOrEmpty(text))
 				return Size.Empty;
@@ -197,6 +199,9 @@ namespace AgateLib.BitmapFont
 
 				for (int j = 0; j < line.Length; j++)
 				{
+					if (mFontMetrics.ContainsKey(line[j]) == false)
+						continue;
+
 					lineWidth += mFontMetrics[line[j]].Width;
 				}
 
@@ -262,6 +267,10 @@ namespace AgateLib.BitmapFont
 						break;
 
 					default:
+						if (mFontMetrics.ContainsKey(text[i]) == false)
+						{
+							break;
+						}
 						GlyphMetrics glyph = mFontMetrics[text[i]];
 
 						destX = Math.Max(0, destX - glyph.LeftOverhang * ScaleWidth);
@@ -332,7 +341,7 @@ namespace AgateLib.BitmapFont
 				if (state.DisplayAlignment != OriginAlignment.TopLeft)
 				{
 					Point value = Origin.Calc(state.DisplayAlignment,
-						StringDisplaySize(state, state.Text));
+						MeasureString(state, state.Text));
 
 					dest.X -= value.X;
 					dest.Y -= value.Y;
