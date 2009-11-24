@@ -134,6 +134,11 @@ namespace AgateOTK
 			return AgateLib.WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
 		}
 
+		protected override FrameBufferImpl CreateFrameBuffer(Size size)
+		{
+			return new GL_FrameBufferExt(size);
+		}
+
 		internal void SetupGLOrtho(Rectangle ortho)
 		{
 			SetOrthoProjection(ortho);

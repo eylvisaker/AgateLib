@@ -97,6 +97,7 @@
     <Compile Include="Core.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DisplayLib\FrameBuffer.cs" />
     <Compile Include="DisplayLib\Shaders\AgateBuiltInShaders.cs" />
     <Compile Include="DisplayLib\Shaders\Basic2DShader.cs" />
     <Compile Include="DisplayLib\Shaders\AgateShader.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="IFileProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ImplementationBase\FrameBufferImpl.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="PlatformType.cs" />
     <Compile Include="Timing.cs">

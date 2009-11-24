@@ -116,6 +116,10 @@ namespace AgateDrawing
 		{
 			return AgateLib.WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
 		}
+		protected override FrameBufferImpl CreateFrameBuffer(AgateLib.Geometry.Size size)
+		{
+			return new Drawing_FrameBuffer(size);
+		}
 
 		#endregion
 		#region --- Direct modification of the back buffer ---

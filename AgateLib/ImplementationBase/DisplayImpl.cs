@@ -597,6 +597,22 @@ namespace AgateLib.ImplementationBase
 			throw new AgateException("Cannot create an index buffer with a driver that does not support 3D.");
 		}
 
+
+		/// <summary>
+		/// Creates one of the build in shaders in AgateLib.  Implementers should 
+		/// return null for any built in shader that is not supported.
+		/// Basic2DShader must have an implementation, but any other shader can be unsupported.
+		/// </summary>
+		/// <param name="BuiltInShaderType"></param>
+		/// <returns></returns>
+		protected internal abstract AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType);
+
+		/// <summary>
+		/// Creates a 
+		/// </summary>
+		/// <param name="size"></param>
+		protected internal abstract FrameBufferImpl CreateFrameBuffer(Size size);
+
 		/// <summary>
 		/// Override this method if shaders are supported.
 		/// Only call the base class method if shaders aren't supported, as it throws a NotSupportedException.
@@ -643,13 +659,5 @@ namespace AgateLib.ImplementationBase
 		protected internal abstract bool GetRenderState(RenderStateBool renderStateBool);
 		protected internal abstract void SetRenderState(RenderStateBool renderStateBool, bool value);
 
-		/// <summary>
-		/// Creates one of the build in shaders in AgateLib.  Implementers should 
-		/// return null for any built in shader that is not supported.
-		/// Basic2DShader must have an implementation, but any other shader can be unsupported.
-		/// </summary>
-		/// <param name="BuiltInShaderType"></param>
-		/// <returns></returns>
-		protected internal abstract AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType);
 	}
 }
