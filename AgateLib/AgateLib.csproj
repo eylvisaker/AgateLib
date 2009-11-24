@@ -110,6 +110,31 @@
     <Compile Include="DisplayLib\Shaders\Lighting2D.cs" />
     <Compile Include="DisplayLib\Shaders\Lighting3D.cs" />
     <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
+    <Compile Include="Gui\AgateGuiException.cs" />
+    <Compile Include="Gui\Button.cs" />
+    <Compile Include="Gui\Cache\WidgetCache.cs" />
+    <Compile Include="Gui\CheckBox.cs" />
+    <Compile Include="Gui\ComboBox.cs" />
+    <Compile Include="Gui\Container.cs" />
+    <Compile Include="Gui\GuiRoot.cs" />
+    <Compile Include="Gui\IGuiThemeEngine.cs" />
+    <Compile Include="Gui\ILayoutPerformer.cs" />
+    <Compile Include="Gui\Label.cs" />
+    <Compile Include="Gui\LayoutExpand.cs" />
+    <Compile Include="Gui\Layout\BoxLayoutBase.cs" />
+    <Compile Include="Gui\Layout\Grid.cs" />
+    <Compile Include="Gui\Layout\HorizontalBox.cs" />
+    <Compile Include="Gui\Layout\VerticalBox.cs" />
+    <Compile Include="Gui\ListBox.cs" />
+    <Compile Include="Gui\Panel.cs" />
+    <Compile Include="Gui\RadioButton.cs" />
+    <Compile Include="Gui\TextBox.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\Cache\TextBoxCache.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\Mercury.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryScheme.cs" />
+    <Compile Include="Gui\Widget.cs" />
+    <Compile Include="Gui\WidgetList.cs" />
+    <Compile Include="Gui\Window.cs" />
     <Compile Include="IFileProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -524,6 +549,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DataResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="InternalResources\agate-black-gui.zip" />
+    <None Include="InternalResources\Fonts.zip" />
+    <None Include="InternalResources\images.tar.gz" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>

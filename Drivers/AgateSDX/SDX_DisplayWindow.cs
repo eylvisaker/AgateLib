@@ -363,7 +363,14 @@ namespace AgateSDX
 				mDisplay.DepthStencilFormat,
 				MultisampleType.None, 0, true);
 
-			mFrameBuffer = new FrameBufferWindow(swap, backBuffer, backDepthStencil);
+			mFrameBuffer = new FrameBufferWindow(Size, swap, backBuffer, backDepthStencil);
+
+			mRenderTarget.Resize += new EventHandler(mRenderTarget_Resize);
+		}
+
+		void mRenderTarget_Resize(object sender, EventArgs e)
+		{
+			mFrameBuffer.SetSize(Size);
 		}
 
 

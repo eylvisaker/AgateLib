@@ -96,6 +96,7 @@
     </Compile>
     <Compile Include="CoreTests\PlatformDetection\PlatformDetector.cs" />
     <Compile Include="DisplayTests\ClipRect.cs" />
+    <Compile Include="Fonts\Builtin.cs" />
     <Compile Include="frmLauncher.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +104,8 @@
       <DependentUpon>frmLauncher.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GuiTests\RenderGui.cs" />
+    <Compile Include="GuiTests\Textboxes.cs" />
     <Compile Include="IAgateTest.cs">
       <SubType>Code</SubType>
     </Compile>

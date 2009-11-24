@@ -30,13 +30,21 @@ namespace AgateLib.ImplementationBase
 	/// </summary>
 	public abstract class FontSurfaceImpl : IDisposable
 	{
+		private OriginAlignment mAlignment = OriginAlignment.TopLeft;
+		private Color mColor = Color.White;
+		private double mScaleWidth = 1.0;
+		private double mScaleHeight = 1.0;
+		private string mFontName = "Unknown";
+
 		/// <summary>
-		/// Measures the size of the given string.
+		/// Returns the name/size of the font.
 		/// </summary>
-		/// <param name="state"></param>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public abstract Size StringDisplaySize(FontState state, string text);
+		public string FontName
+		{
+			get { return mFontName; }
+			protected internal set { mFontName = value; }
+		}
+
 		/// <summary>
 		/// Gets the height of a single line of text.
 		/// </summary>
@@ -53,7 +61,13 @@ namespace AgateLib.ImplementationBase
 		/// </summary>
 		public abstract void Dispose();
 
-
+		/// <summary>
+		/// Measures the size of the given string.
+		/// </summary>
+		/// <param name="state"></param>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		public abstract Size MeasureString(FontState state, string text);
 	}
 
 }

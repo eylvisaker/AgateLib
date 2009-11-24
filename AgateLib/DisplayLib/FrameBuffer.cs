@@ -7,7 +7,7 @@ using AgateLib.ImplementationBase;
 
 namespace AgateLib.DisplayLib
 {
-	public class FrameBuffer
+	public class FrameBuffer : IDisposable 
 	{
 		FrameBufferImpl impl;
 
@@ -21,6 +21,11 @@ namespace AgateLib.DisplayLib
 		public FrameBuffer(FrameBufferImpl impl)
 		{
 			this.impl = impl;
+		}
+
+		public void Dispose()
+		{
+			impl.Dispose();
 		}
 
 		public FrameBufferImpl Impl

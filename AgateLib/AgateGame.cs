@@ -45,6 +45,7 @@ namespace AgateLib
 		DisplayWindow mWindow;
 		AppInitParameters mInitParams;
 		FontSurface font;
+		Gui.GuiRoot mGui;
 
 		double totalSplashTime = 0;
 		bool splashFadeDone = false;
@@ -82,7 +83,7 @@ namespace AgateLib
 
 				CreateDisplayWindow();
 
-				font = new FontSurface("Arial", 12.0f);
+				font = FontSurface.Gentium12;
 
 				if (InitParams.ShowSplashScreen)
 				{
@@ -95,10 +96,16 @@ namespace AgateLib
 				{
 					Update(Display.DeltaTime);
 
+					if (GuiRoot != null)
+						GuiRoot.DoUpdate();
+
 					Display.RenderTarget = mWindow;
 					Display.BeginFrame();
 
 					Render();
+
+					if (GuiRoot != null)
+						GuiRoot.Draw();
 
 					Display.EndFrame();
 					Core.KeepAlive();
@@ -112,7 +119,11 @@ namespace AgateLib
 		{
 			get
 			{
-				mInitParams = mInitParams ?? GetAppInitParameters();
+				if (mInitParams == null)
+				{
+					mInitParams = GetAppInitParameters();
+					AdjustAppInitParameters(ref mInitParams);
+				}
 				return mInitParams;
 			}
 		}
@@ -237,7 +248,7 @@ namespace AgateLib
 			Surface powered = InternalResources.Data.PoweredBy;
 			Size size = powered.SurfaceSize;
 
-			int left = (int)(totalSplashTime * size.Width - size.Width)+1;
+			int left = (int)(totalSplashTime * size.Width - size.Width) + 1;
 			Rectangle gradientRect = new Rectangle(left, MainWindow.Height - size.Height,
 				size.Width, size.Height);
 
@@ -277,9 +288,18 @@ namespace AgateLib
 		/// Gets the initialization parameters.
 		/// </summary>
 		/// <returns></returns>
+		[Obsolete("Override AdjustAppInitParameters")]
 		protected virtual AppInitParameters GetAppInitParameters()
 		{
 			return new AppInitParameters();
+		}
+		/// <summary>
+		/// Adjusts the initialization parameters.
+		/// </summary>
+		/// <param name="initParams"></param>
+		protected virtual void AdjustAppInitParameters(ref AppInitParameters initParams)
+		{
+
 		}
 
 		protected virtual Size WindowSize { get { return new Size(800, 600); } }
@@ -294,6 +314,24 @@ namespace AgateLib
 		public DisplayWindow MainWindow
 		{
 			get { return mWindow; }
+		}
+
+		public Gui.GuiRoot GuiRoot
+		{
+			get { return mGui; }
+			set
+			{
+				if (value == null && mGui == null)
+					return;
+
+				if (mGui != null)
+					mGui.EnableInteraction = false;
+
+				mGui = value;
+
+				if (mGui != null)
+					mGui.EnableInteraction = true;
+			}
 		}
 
 		#endregion
