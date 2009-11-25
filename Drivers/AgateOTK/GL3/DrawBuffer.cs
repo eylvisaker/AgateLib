@@ -202,24 +202,40 @@ namespace AgateOTK.GL3
 
 			mVerts[mIndex].U = texCoord.Left;
 			mVerts[mIndex].V = texCoord.Top;
-			mVerts[mIndex].Color = color.TopLeft.ToArgb();
+			mVerts[mIndex].Color = ToAbgr(color.TopLeft);
 
 			mVerts[mIndex+1].U = texCoord.Right;
 			mVerts[mIndex+1].V = texCoord.Top;
-			mVerts[mIndex + 1].Color = color.TopRight.ToArgb();
+			mVerts[mIndex + 1].Color = ToAbgr(color.TopRight);
 
 			mVerts[mIndex + 2].U = texCoord.Right;
 			mVerts[mIndex + 2].V = texCoord.Bottom;
-			mVerts[mIndex + 2].Color = color.BottomRight.ToArgb();
+			mVerts[mIndex + 2].Color = ToAbgr(color.BottomRight);
 
 			mVerts[mIndex + 3].U = texCoord.Left;
 			mVerts[mIndex + 3].V = texCoord.Bottom;
-			mVerts[mIndex + 3].Color = color.BottomLeft.ToArgb();
+			mVerts[mIndex + 3].Color = ToAbgr(color.BottomLeft);
 
 			mIndex += 4;
 
 		}
 
+
+		private int ToAbgr(Color c)
+		{
+			int val = c.A;
+
+			val <<= 8;
+			val |= c.B;
+
+			val <<= 8;
+			val |= c.G;
+
+			val <<= 8;
+			val |= c.R;
+
+			return val;
+		}
 		public override void Flush()
 		{
 			if (mIndex == 0)
