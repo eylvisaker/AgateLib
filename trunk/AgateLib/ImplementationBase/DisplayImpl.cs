@@ -38,8 +38,12 @@ namespace AgateLib.ImplementationBase
 
 		private FrameBuffer mRenderTarget;
 
-		public abstract bool Supports(DisplayBoolCaps caps);
+		#region --- Capabilities Reporting ---
+
+		public abstract bool CapsBool(DisplayBoolCaps caps);
 		public abstract Size CapsSize(DisplaySizeCaps displaySizeCaps);
+
+		#endregion
 
 		public abstract IEnumerable<DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages { get; }
 

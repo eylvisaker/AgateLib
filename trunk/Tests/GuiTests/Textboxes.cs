@@ -37,7 +37,7 @@ namespace Tests.GuiTests
 			this.GuiRoot = new GuiRoot();
 
 			Window wind = new Window("Textboxes test");
-			wind.Size = new AgateLib.Geometry.Size(500, 400);
+			wind.Size = new AgateLib.Geometry.Size(320, 240);
 
 			TextBox b = new TextBox();
 			b.Text = "This is a single line textbox.";

@@ -95,6 +95,13 @@
       <DependentUpon>PlatformDetection.cs</DependentUpon>
     </Compile>
     <Compile Include="CoreTests\PlatformDetection\PlatformDetector.cs" />
+    <Compile Include="DisplayTests\Capabilities\Capabilities.cs" />
+    <Compile Include="DisplayTests\Capabilities\frmCapabilities.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayTests\Capabilities\frmCapabilities.Designer.cs">
+      <DependentUpon>frmCapabilities.cs</DependentUpon>
+    </Compile>
     <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="Fonts\Builtin.cs" />
     <Compile Include="frmLauncher.cs">
@@ -325,6 +332,9 @@
     </Compile>
     <EmbeddedResource Include="CoreTests\PlatformDetection\PlatformDetection.resx">
       <DependentUpon>PlatformDetection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayTests\Capabilities\frmCapabilities.resx">
+      <DependentUpon>frmCapabilities.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLauncher.resx">
       <SubType>Designer</SubType>

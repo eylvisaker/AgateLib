@@ -391,7 +391,7 @@ namespace AgateOTK
 
 		protected override ShaderCompilerImpl CreateShaderCompiler()
 		{
-			if (this.Supports(DisplayBoolCaps.CustomShaders))
+			if (this.CapsBool(DisplayBoolCaps.CustomShaders))
 			{
 				if (mGLVersion < 2.0m)
 					return new ArbShaderCompiler();
@@ -485,7 +485,7 @@ namespace AgateOTK
 
 		#region --- Display Capabilities ---
 
-		public override bool Supports(DisplayBoolCaps caps)
+		public override bool CapsBool(DisplayBoolCaps caps)
 		{
 			switch (caps)
 			{
@@ -508,7 +508,11 @@ namespace AgateOTK
 		{
 			switch (displaySizeCaps)
 			{
-				case DisplaySizeCaps.MaxSurfaceSize: return new Size(1024, 1024);
+				case DisplaySizeCaps.MaxSurfaceSize:
+					int val;
+					GL.GetInteger(GetPName.MaxTextureSize, out val);
+
+					return new Size(val, val);
 			}
 
 			return new Size(0, 0);
