@@ -139,7 +139,7 @@ class CImage
 
         //this.fontStyler = new CL_TextStyler("Font2", &resources);
 
-        //Display.PackAllSurfaces();
+        Display.PackAllSurfaces();
     }
 
     public void unload()
