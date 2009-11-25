@@ -48,7 +48,6 @@ namespace AgateSDX
 		D3DDevice mDevice;
 
 		Ref<Texture> mTexture;
-		RenderToSurface mRenderToSurface;
 
 		string mFileName;
 
@@ -143,17 +142,17 @@ namespace AgateSDX
 			mTexture = new Ref<Texture>(new Texture(mDevice.Device, size.Width, size.Height, 1, Usage.None,
 				Format.A8R8G8B8, Pool.Managed));
 
-			mRenderToSurface = new RenderToSurface(mDevice.Device, size.Width, size.Height,
+			RenderToSurface render = new RenderToSurface(mDevice.Device, size.Width, size.Height,
 				Format.A8R8G8B8, Format.D16);
 
 			Viewport v = new Viewport(0, 0, size.Width, size.Height);
 
-			mRenderToSurface.BeginScene(mTexture.Value.GetSurfaceLevel(0), v);
+			render.BeginScene(mTexture.Value.GetSurfaceLevel(0), v);
 			mDevice.Clear(ClearFlags.Target, Color.FromArgb(0, 0, 0, 0).ToArgb(), 1.0f, 0);
-			mRenderToSurface.EndScene(Filter.None);
+			render.EndScene(Filter.None);
 
-			mRenderToSurface.Dispose();
-			mRenderToSurface = null;
+			render.Dispose();
+			render = null;
 
 			mTextureSize = mSrcRect.Size;
 
@@ -308,6 +307,9 @@ namespace AgateSDX
 			bool alphaBlend = true;
 			float mRotationCos = (float)Math.Cos(state.RotationAngle);
 			float mRotationSin = (float)Math.Sin(state.RotationAngle);
+
+			srcRect.X += mSrcRect.Left;
+			srcRect.Y += mSrcRect.Top;
 
 			if (displaySize.Width < 0)
 			{

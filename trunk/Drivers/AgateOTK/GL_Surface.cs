@@ -192,6 +192,9 @@ namespace AgateOTK
 				srcRect.Width * (float)state.ScaleWidth,
 				srcRect.Height * (float)state.ScaleHeight);
 
+			srcRect.X += mSourceRect.X;
+			srcRect.Y += mSourceRect.Y;
+
 			if (displaySize.Width < 0)
 			{
 				destX -= dispSize.Width;
