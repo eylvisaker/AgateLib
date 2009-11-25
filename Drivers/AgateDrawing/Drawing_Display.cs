@@ -288,7 +288,7 @@ namespace AgateDrawing
 
 		#region --- IDisplayCaps Members ---
 
-		public override bool Supports(DisplayBoolCaps caps)
+		public override bool CapsBool(DisplayBoolCaps caps)
 		{
 			switch (caps)
 			{

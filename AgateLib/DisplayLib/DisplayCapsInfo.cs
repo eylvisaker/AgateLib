@@ -20,7 +20,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool SupportsFullScreen
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.FullScreen); }
+			get { return Display.Impl.CapsBool(DisplayBoolCaps.FullScreen); }
 		}
 		/// <summary>
 		/// Indicates whether or not the screen resolution can be changed.
@@ -30,28 +30,28 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool SupportsFullScreenModeSwitching
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.FullScreenModeSwitching); }
+			get { return Display.Impl.CapsBool(DisplayBoolCaps.FullScreenModeSwitching); }
 		}
 		/// <summary>
 		/// Indicates whether setting Surface.SetScale has any visible effect.
 		/// </summary>
 		public bool SupportsScaling
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.Scaling); }
+			get { return Display.Impl.CapsBool(DisplayBoolCaps.Scaling); }
 		}
 		/// <summary>
 		///  Indicates whether setting Surface.RotationAngle has any visible effect.
 		/// </summary>
 		public bool SupportsRotation
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.Rotation); }
+			get { return Display.Impl.CapsBool(DisplayBoolCaps.Rotation); }
 		}
 		/// <summary>
 		/// Indicates whether setting Surface.Color has any visible effect.
 		/// </summary>
 		public bool SupportsColor
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.Color); }
+			get { return Display.Impl.CapsBool(DisplayBoolCaps.Color); }
 		}
 		/// <summary>
 		/// Indicates whether Surface gradients are supported.  If not, then setting Surface.ColorGradient
@@ -60,51 +60,35 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool SupportsGradient
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.Gradient); }
+			get { return Display.Impl.CapsBool(DisplayBoolCaps.Gradient); }
 		}
 		/// <summary>
 		/// Indicates whether setting Surface.Alpha has any visible effect.
 		/// </summary>
 		public bool SupportsSurfaceAlpha
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.SurfaceAlpha); }
+			get { return Display.Impl.CapsBool(DisplayBoolCaps.SurfaceAlpha); }
 		}
 		/// <summary>
 		/// Indicates whether the alpha channel in surface pixels is used.
 		/// </summary>
 		public bool SupportsPixelAlpha
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.PixelAlpha); }
-		}
-		/// <summary>
-		/// Indicates whether or not lighting is supported.
-		/// </summary>
-		[Obsolete]
-		public bool SupportsLighting
-		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.Lighting); }
-		}
-		/// <summary>
-		/// Indicates the maximum number of lights which can be used.
-		/// </summary>
-		[Obsolete]
-		public int MaxLights
-		{
-			get { return 8; }
+			get { return Display.Impl.CapsBool(DisplayBoolCaps.PixelAlpha); }
 		}
 		/// <summary>
 		/// Indicates whether there is hardware acceleration available for 2D and 3D drawing.
 		/// </summary>
 		public bool IsHardwareAccelerated
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.IsHardwareAccelerated); }
+			get { return Display.Impl.CapsBool(DisplayBoolCaps.IsHardwareAccelerated); }
 		}
 		/// <summary>
 		/// Indicates whether or not vertex/pixel shaders are supported.
 		/// </summary>
 		public bool SupportsCustomShaders
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.CustomShaders); }
+			get { return Display.Impl.CapsBool(DisplayBoolCaps.CustomShaders); }
 		}
 		/// <summary>
 		/// Indicates which shader language is supported.
@@ -119,7 +103,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool CanCreateBitmapFont
 		{
-			get { return Display.Impl.Supports(DisplayBoolCaps.CanCreateBitmapFont); }
+			get { return Display.Impl.CapsBool(DisplayBoolCaps.CanCreateBitmapFont); }
 		}
 
 		public Size MaxSurfaceSize
@@ -171,11 +155,6 @@ namespace AgateLib.DisplayLib
 		/// Indicates whether the alpha channel in surface pixels is used.
 		/// </summary>
 		PixelAlpha,
-		/// <summary>
-		/// Indicates whether or not lighting is supported.
-		/// </summary>
-		[Obsolete]
-		Lighting,
 		/// <summary>
 		/// Indicates whether there is hardware acceleration available for 2D and 3D drawing.
 		/// </summary>
