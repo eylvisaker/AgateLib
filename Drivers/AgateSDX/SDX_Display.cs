@@ -407,7 +407,6 @@ namespace AgateSDX
 			mDevice.Clear(ClearFlags, color.ToArgb(), mDepthClear, mStencilClear, rects);
 		}
 
-
 		public override void DrawLine(Point a, Point b, Color color)
 		{
 			mDevice.DrawBuffer.Flush();
@@ -415,8 +414,13 @@ namespace AgateSDX
 			mLines[0] = new PositionColor(a.X, a.Y, 0, color.ToArgb());
 			mLines[1] = new PositionColor(b.X, b.Y, 0, color.ToArgb());
 
+			mDevice.SetDeviceStateTexture(null);
+			mDevice.AlphaArgument1 = TextureArgument.Diffuse;
+
 			mDevice.Device.VertexDeclaration = mPosColorDecl;
 			mDevice.Device.DrawUserPrimitives(SlimDX.Direct3D9.PrimitiveType.LineList, 1, mLines);
+
+			mDevice.AlphaArgument1 = TextureArgument.Texture;
 		}
 		public override void DrawLines(Point[] pt, Color color)
 		{
@@ -430,8 +434,11 @@ namespace AgateSDX
 				mLines[i] = new PositionColor(pt[i].X, pt[i].Y, 0, color.ToArgb());
 			}
 
+			mDevice.SetDeviceStateTexture(null);
+			mDevice.Device.SetTextureStageState(0, TextureStage.ColorArg0, TextureArgument.Diffuse);
 			mDevice.Device.VertexDeclaration = mPosColorDecl; 
 			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.LineStrip, pt.Length - 1, mLines);
+			mDevice.Device.SetTextureStageState(0, TextureStage.ColorArg0, TextureArgument.Current);
 		}
 		public override void DrawRect(Rectangle rect, Color color)
 		{
@@ -453,6 +460,7 @@ namespace AgateSDX
 			mDevice.Device.SetTextureStageState(0, TextureStage.ColorArg0, TextureArgument.Diffuse);
 			mDevice.Device.VertexDeclaration = mPosColorDecl;
 			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.LineStrip, 4, mLines);
+			mDevice.Device.SetTextureStageState(0, TextureStage.ColorArg0, TextureArgument.Current);
 		}
 
 		PositionColor[] polygonVerts = new PositionColor[10];

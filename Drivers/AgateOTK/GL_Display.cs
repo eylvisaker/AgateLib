@@ -281,11 +281,6 @@ namespace AgateOTK
 			mGLVersion = DetectOpenGLVersion();
 			LoadExtensions();
 
-			if (mGL3)
-				mPrimitives = new GL3.GLPrimitiveRenderer();
-			else
-				mPrimitives = new Legacy.LegacyPrimitiveRenderer();
-
 			mSupportsFramebufferExt = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
 			mNonPowerOf2Textures = SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
 
@@ -300,6 +295,11 @@ namespace AgateOTK
 				mNonPowerOf2Textures = true;
 				mSupportsShaders = true;
 			}
+
+			if (mGL3)
+				mPrimitives = new GL3.GLPrimitiveRenderer();
+			else
+				mPrimitives = new Legacy.LegacyPrimitiveRenderer();
 
 			if (SupportsExtension("GL_ARB_FRAGMENT_PROGRAM"))
 			{
@@ -337,7 +337,10 @@ namespace AgateOTK
 				extensions = ext.Split(' ');
 
 				for (int i = 0; i < extensions.Length; i++)
+				{
 					Debug.Print(extensions[i]);
+					extensions[i] = extensions[i].ToLowerInvariant();
+				}
 			}
 		}
 		private bool SupportsExtension(string name)
