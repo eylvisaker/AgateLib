@@ -17,6 +17,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		MercuryCheckBox mRadioButton = new MercuryCheckBox();
 		MercuryTextBox mTextBox = new MercuryTextBox();
 		MercuryListBox mListBox = new MercuryListBox();
+		MercuryScrollBar mVScroll = new MercuryScrollBar();
+		MercuryScrollBar mHScroll = new MercuryScrollBar();
 
 		private MercuryScheme()
 		{
@@ -66,6 +68,28 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 			SetListBoxImages(new Surface(files, "textbox.png"), new Size(64, 16));
 			ListBox.StretchRegion = new Rectangle(3, 3, 58, 10);
+
+			SetScrollBarImages(new Surface(files, "scrollbar.png"), 16);
+		}
+
+		private void SetScrollBarImages(Surface surface, int barSize)
+		{
+			PixelBuffer pixels = surface.ReadPixels();
+
+			VerticalScrollBar.FixedBarSize = barSize;
+			HorizontalScrollBar.FixedBarSize = barSize;
+
+			VerticalScrollBar.Decrease = new Surface(barSize, barSize);
+			VerticalScrollBar.Decrease.WritePixels(pixels, new Rectangle(0, 0, barSize, barSize), Point.Empty);
+
+			VerticalScrollBar.Increase = new Surface(barSize, barSize);
+			VerticalScrollBar.Increase.WritePixels(pixels, new Rectangle(0, pixels.Height - barSize, barSize, barSize), Point.Empty);
+
+			VerticalScrollBar.Bar = new Surface(barSize, pixels.Height - barSize * 2);
+			VerticalScrollBar.Bar.WritePixels(pixels, new Rectangle(0, barSize, barSize, VerticalScrollBar.Bar.SurfaceHeight), Point.Empty);
+			VerticalScrollBar.BarStretchRegion = new Rectangle(1, 1, VerticalScrollBar.Bar.SurfaceWidth - 2, VerticalScrollBar.Bar.SurfaceHeight - 2);
+
+
 		}
 
 		private void SetListBoxImages(Surface surface, Size boxSize)
@@ -246,10 +270,87 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 				mRadioButton = value;
 			}
 		}
-		
+		public MercuryScrollBar VerticalScrollBar
+		{
+			get { return mVScroll; }
+			set
+			{
+				if (value == null) throw new ArgumentNullException();
+				mVScroll = value; 
+			}
+		}
+		public MercuryScrollBar HorizontalScrollBar
+		{
+			get { return mHScroll; }
+			set
+			{
+				if (value == null) throw new ArgumentNullException();
+				mHScroll = value; 
+			}
+		}
 	}
 
-	public class MercuryWindow
+	public class MercurySchemeCommon
+	{
+		protected internal static void DrawStretchImage(Point loc, Size size,
+			Surface surface, Rectangle stretchRegion)
+		{
+			Rectangle scaled = new Rectangle(
+				loc.X + stretchRegion.X,
+				loc.Y + stretchRegion.Y,
+				size.Width - (surface.SurfaceWidth - stretchRegion.Right) - stretchRegion.X,
+				size.Height - (surface.SurfaceHeight - stretchRegion.Bottom) - stretchRegion.Y);
+
+			// draw top left
+			surface.Draw(
+				new Rectangle(0, 0, stretchRegion.Left, stretchRegion.Top),
+				new Rectangle(loc.X, loc.Y, stretchRegion.Left, stretchRegion.Top));
+
+			// draw top middle
+			surface.Draw(
+				new Rectangle(stretchRegion.Left, 0, stretchRegion.Width, stretchRegion.Top),
+				new Rectangle(loc.X + stretchRegion.Left, loc.Y,
+					scaled.Width, stretchRegion.Top));
+
+			// draw top right
+			surface.Draw(
+				new Rectangle(stretchRegion.Right, 0, surface.SurfaceWidth - stretchRegion.Right, stretchRegion.Top),
+				new Rectangle(scaled.Right, loc.Y, surface.SurfaceWidth - stretchRegion.Right, stretchRegion.Top));
+
+			// draw middle left
+			surface.Draw(
+				new Rectangle(0, stretchRegion.Top, stretchRegion.Left, stretchRegion.Height),
+				new Rectangle(loc.X, loc.Y + stretchRegion.Top, stretchRegion.Left, scaled.Height));
+
+			// draw middle
+			surface.Draw(
+				stretchRegion,
+				scaled);
+
+			// draw middle right
+			surface.Draw(
+				new Rectangle(stretchRegion.Right, stretchRegion.Top, surface.SurfaceWidth - stretchRegion.Right, stretchRegion.Height),
+				new Rectangle(scaled.Right, scaled.Top, surface.SurfaceWidth - stretchRegion.Right, scaled.Height));
+
+			// draw bottom left
+			surface.Draw(
+				new Rectangle(0, stretchRegion.Bottom, stretchRegion.Left, surface.SurfaceHeight - stretchRegion.Bottom),
+				new Rectangle(loc.X, scaled.Bottom, stretchRegion.Left, surface.SurfaceHeight - stretchRegion.Bottom));
+
+			// draw bottom middle
+			surface.Draw(
+				new Rectangle(stretchRegion.Left, stretchRegion.Bottom, stretchRegion.Width, surface.SurfaceHeight - stretchRegion.Bottom),
+				new Rectangle(scaled.Left, scaled.Bottom, scaled.Width, surface.SurfaceHeight - stretchRegion.Bottom));
+
+			// draw bottom right
+			surface.Draw(
+				new Rectangle(stretchRegion.Right, stretchRegion.Bottom, surface.SurfaceWidth - stretchRegion.Right, surface.SurfaceHeight - stretchRegion.Bottom),
+				new Rectangle(scaled.Right, scaled.Bottom, surface.SurfaceWidth - stretchRegion.Right, surface.SurfaceHeight - stretchRegion.Bottom));
+
+		}
+
+	}
+	public class MercuryWindow : MercurySchemeCommon
 	{
 		public Surface NoTitle { get; set; }
 		public Surface WithTitle { get; set; }
@@ -269,7 +370,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			CenterTitle = true;
 		}
 	}
-	public class MercuryButton
+	public class MercuryButton : MercurySchemeCommon
 	{
 		public Rectangle StretchRegion { get; set; }
 		public Surface Image { get; set; }
@@ -281,7 +382,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public int TextPadding { get; set; }
 		public int Margin { get; set; }
 	}
-	public class MercuryTextBox
+	public class MercuryTextBox : MercurySchemeCommon
 	{
 		public Surface Image { get; set; }
 		public Surface Disabled { get; set; }
@@ -295,7 +396,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			Margin = 3;
 		}
 	}
-	public class MercuryListBox
+	public class MercuryListBox : MercurySchemeCommon
 	{
 		public Surface Image { get; set; }
 		public Surface Disabled { get; set; }
@@ -309,7 +410,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			Margin = 3;
 		}
 	}
-	public class MercuryCheckBox
+	public class MercuryCheckBox : MercurySchemeCommon
 	{
 		public Surface Image { get; set; }
 		public Surface Disabled { get; set; }
@@ -323,6 +424,86 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		{
 			Spacing = 5;
 			Margin = 2;
+		}
+	}
+	public class MercuryScrollBar : MercurySchemeCommon
+	{
+		public Surface Decrease { get; set; }
+		public Surface Increase { get; set; }
+
+		public Surface DecreaseHover { get; set; }
+		public Surface IncreaseHover { get; set; }
+
+		public Surface DecreasePressed { get; set; }
+		public Surface IncreasePressed { get; set; }
+
+		public Surface DecreaseDisabled { get; set; }
+		public Surface IncreaseDisabled { get; set; }
+
+		public Surface Bar { get; set; }
+		public Surface BarDisabled { get; set; }
+
+		public Surface Thumb { get; set; }
+		public Surface ThumbHover { get; set; }
+
+		public Rectangle BarStretchRegion { get; set; }
+		public Rectangle ThumbStretchRegion { get; set; }
+
+		public int FixedBarSize { get; set; }
+
+
+		public void DrawScrollBar(ScrollBar scrollBar)
+		{
+			if (scrollBar is VerticalScrollBar)
+				DrawVerticalScrollBar(scrollBar);
+		}
+
+		private void DrawVerticalScrollBar(ScrollBar scrollBar)
+		{
+			Point location = scrollBar.PointToScreen(Point.Empty);
+
+			Decrease.Draw(location);
+			Increase.Draw(location.X, location.Y + scrollBar.Height - Decrease.DisplayHeight);
+
+			Point barLoc = location;
+			barLoc.Y += Increase.DisplayHeight;
+			Size sz = new Size(Increase.DisplayHeight,
+				scrollBar.Height - Increase.DisplayHeight - Decrease.DisplayHeight);
+
+			DrawStretchImage(barLoc, sz, Bar, BarStretchRegion);
+		}
+
+		public Size CalcMinScrollBarSize(ScrollBar scrollBar)
+		{
+			if (scrollBar is VerticalScrollBar)
+				return new Size(FixedBarSize, FixedBarSize * 3);
+			else
+				return new Size(FixedBarSize * 3, FixedBarSize);
+
+			throw new ArgumentException();
+		}
+		public Size CalcMaxScrollBarSize(ScrollBar scrollBar)
+		{
+			if (scrollBar is VerticalScrollBar)
+				return new Size(FixedBarSize, int.MaxValue);
+			else
+				return new Size(int.MaxValue, FixedBarSize);
+
+			throw new ArgumentException();
+		}
+
+
+		public void MouseDownInScrollBar(ScrollBar scrollBar, Point clientLocation)
+		{
+			throw mnew NotImplementedException();
+		}
+		public void MouseMoveInScrollBar(ScrollBar scrollBar, Point clientLocation)
+		{
+			throw new NotImplementedException();
+		}
+		public void MouseUpInScrollBar(ScrollBar scrollBar, Point clientLocation)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

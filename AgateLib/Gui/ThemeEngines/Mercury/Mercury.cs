@@ -62,6 +62,9 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			if (widget is RadioButton) DrawRadioButton((RadioButton)widget);
 			if (widget is TextBox) DrawTextBox((TextBox)widget);
 			if (widget is ListBox) DrawListBox((ListBox)widget);
+			if (widget is VerticalScrollBar) Scheme.VerticalScrollBar.DrawScrollBar((ScrollBar)widget);
+			if (widget is HorizontalScrollBar) Scheme.HorizontalScrollBar.DrawScrollBar((ScrollBar)widget);
+
 		}
 
 		public Size RequestClientAreaSize(Container widget, Size clientSize)
@@ -75,14 +78,17 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			if (widget is CheckBox) return CalcMinCheckBoxSize((CheckBox)widget);
 			if (widget is TextBox) return CalcTextBoxMinSize((TextBox)widget);
 			if (widget is RadioButton) return CalcMinRadioButtonSize((RadioButton)widget);
+			if (widget is VerticalScrollBar) return Scheme.VerticalScrollBar.CalcMinScrollBarSize((ScrollBar)widget);
+			if (widget is HorizontalScrollBar) return Scheme.HorizontalScrollBar.CalcMinScrollBarSize((ScrollBar)widget);
 
 			return Size.Empty;
 		}
+
 		public Size CalcMaxSize(Widget widget)
 		{
 			if (widget is TextBox) return CalcTextBoxMaxSize((TextBox)widget);
 
-			return new Size(9000, 9000);
+			return new Size(int.MaxValue, int.MinValue);
 		}
 		public bool HitTest(Widget widget, Point screenLocation)
 		{
@@ -105,14 +111,21 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public void MouseDownInWidget(Widget widget, Point clientLocation)
 		{
 			if (widget is TextBox) MouseDownInTextBox((TextBox)widget, clientLocation);
+			if (widget is VerticalScrollBar) Scheme.VerticalScrollBar.MouseDownInScrollBar((ScrollBar)widget, clientLocation);
+			if (widget is HorizontalScrollBar) Scheme.HorizontalScrollBar.MouseDownInScrollBar((ScrollBar)widget, clientLocation);
+
 		}
 		public void MouseMoveInWidget(Widget widget, Point clientLocation)
 		{
 			if (widget is TextBox) MouseMoveInTextBox((TextBox)widget, clientLocation);
+			if (widget is VerticalScrollBar) Scheme.VerticalScrollBar.MouseMoveInScrollBar((ScrollBar)widget, clientLocation);
+			if (widget is HorizontalScrollBar) Scheme.HorizontalScrollBar.MouseMoveInScrollBar((ScrollBar)widget, clientLocation);
 		}
 		public void MouseUpInWidget(Widget widget, Point clientLocation)
 		{
 			if (widget is TextBox) MouseUpInTextBox((TextBox)widget, clientLocation);
+			if (widget is VerticalScrollBar) Scheme.VerticalScrollBar.MouseUpInScrollBar((ScrollBar)widget, clientLocation);
+			if (widget is HorizontalScrollBar) Scheme.HorizontalScrollBar.MouseUpInScrollBar((ScrollBar)widget, clientLocation);
 		}
 
 		#endregion
@@ -175,7 +188,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			Size surfSize = new Size(textBox.Size.Width - fixedSize.Width,
 						 textBox.Size.Height - fixedSize.Height);
 
-			if (c.TextBoxSurface == null || c.TextBoxSurface.SurfaceSize != surfSize)
+			if (c.TextBoxFrameBuffer == null || c.TextBoxFrameBuffer.Size != surfSize)
 			{
 				if (c.TextBoxFrameBuffer != null)
 					c.TextBoxFrameBuffer.Dispose();
@@ -383,7 +396,6 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		private void DrawInsertionPoint(Widget widget, Point location, int size, double time)
 		{
 			int val = (int)time / Scheme.InsertionPointBlinkTime;
-			//Debug.Print("{0}  {1}", time, val);
 
 			if (val % 2 == 1)
 				return;
