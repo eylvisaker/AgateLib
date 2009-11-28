@@ -131,8 +131,15 @@
     <Compile Include="Gui\TextBox.cs" />
     <Compile Include="Gui\ThemeEngines\Mercury\Cache\TextBoxCache.cs" />
     <Compile Include="Gui\ThemeEngines\Mercury\Mercury.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryButton.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryCheckBox.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryListBox.cs" />
     <Compile Include="Gui\ThemeEngines\Mercury\MercuryScheme.cs" />
     <Compile Include="Gui\ScrollBar.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercurySchemeCommon.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryScrollBar.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryTextBox.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryWindow.cs" />
     <Compile Include="Gui\Widget.cs" />
     <Compile Include="Gui\WidgetList.cs" />
     <Compile Include="Gui\Window.cs" />
