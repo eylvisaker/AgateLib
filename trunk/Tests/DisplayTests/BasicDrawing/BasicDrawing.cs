@@ -169,7 +169,27 @@ namespace Tests.DisplayTests.BasicDrawing
 
 		static void btnDrawLine_Click(object sender, EventArgs e)
 		{
-			shapes.Add(new Shape(ShapeType.DrawLine, Color.FromArgb(frm.SelectedColor.ToArgb()), RandomRect()));
+			int x = random.Next(0, frm.panel1.Width * 2 / 3);
+			int y = random.Next(0, frm.panel1.Width * 2 / 3);
+
+			switch (random.Next(10))
+			{
+				case 0:
+				case 1:
+				case 2:
+					shapes.Add(new Shape(ShapeType.DrawLine, Color.FromArgb(frm.SelectedColor.ToArgb()), new Rectangle(x, y, 14, 0)));
+					break;
+
+				case 3:
+				case 4:
+				case 5:
+					shapes.Add(new Shape(ShapeType.DrawLine, Color.FromArgb(frm.SelectedColor.ToArgb()), new Rectangle(x, y, 0, 14)));
+					break;
+
+				default:
+					shapes.Add(new Shape(ShapeType.DrawLine, Color.FromArgb(frm.SelectedColor.ToArgb()), RandomRect()));
+					break;
+			}
 		}
 
 		static void btnClear_Click(object sender, EventArgs e)
