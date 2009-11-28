@@ -132,6 +132,7 @@
     <Compile Include="Gui\ThemeEngines\Mercury\Cache\TextBoxCache.cs" />
     <Compile Include="Gui\ThemeEngines\Mercury\Mercury.cs" />
     <Compile Include="Gui\ThemeEngines\Mercury\MercuryScheme.cs" />
+    <Compile Include="Gui\ScrollBar.cs" />
     <Compile Include="Gui\Widget.cs" />
     <Compile Include="Gui\WidgetList.cs" />
     <Compile Include="Gui\Window.cs" />

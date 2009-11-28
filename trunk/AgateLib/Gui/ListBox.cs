@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AgateLib.Gui
 {
-	class ListBox : Widget 
+	public class ListBox : Widget 
 	{
 		List<object> mItems = new List<object>();
 		ListBoxItemText mItemTextGetter;
