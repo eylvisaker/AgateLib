@@ -111,7 +111,9 @@
       <DependentUpon>frmLauncher.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GuiTests\Listboxes.cs" />
     <Compile Include="GuiTests\RenderGui.cs" />
+    <Compile Include="GuiTests\ScrollBar.cs" />
     <Compile Include="GuiTests\Textboxes.cs" />
     <Compile Include="IAgateTest.cs">
       <SubType>Code</SubType>
