@@ -673,6 +673,21 @@ namespace AgateSDX
 			mTexture.Value.UnlockRectangle(0);
 		}
 
+
+		internal static Size NextPowerOfTwo(Size size)
+		{
+			return new Size(NextPowerOfTwo(size.Width), NextPowerOfTwo(size.Height));
+		}
+
+		private static int NextPowerOfTwo(int value)
+		{
+			double log = Math.Log(value) / Math.Log(2);
+
+			double dval = Math.Pow(2, Math.Ceiling(log));
+			int retval = (int)dval;
+
+			return retval;
+		}
 	}
 
 }

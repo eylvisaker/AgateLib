@@ -26,9 +26,19 @@ namespace AgateSDX
 			mDevice = mDisplay.D3D_Device;
 			mSize = size;
 
-			mTexture = new Texture(mDevice.Device, mSize.Width, mSize.Height,
-				0, Usage.RenderTarget, Format.A8R8G8B8, Pool.Default);
-			
+			try
+			{
+				mTexture = new Texture(mDevice.Device, mSize.Width, mSize.Height,
+					0, Usage.RenderTarget, Format.A8R8G8B8, Pool.Default);
+			}
+			catch
+			{
+				Size newSize = SDX_Surface.NextPowerOfTwo(mSize);
+
+				mTexture = new Texture(mDevice.Device, newSize.Width, newSize.Height,
+					0, Usage.RenderTarget, Format.A8R8G8B8, Pool.Default);
+			}
+
 			mRenderTarget = mTexture.GetSurfaceLevel(0);
 
 			mAgateSurface = new SDX_Surface(new AgateLib.Utility.Ref<Texture>(mTexture),

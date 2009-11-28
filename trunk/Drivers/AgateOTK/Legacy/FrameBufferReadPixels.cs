@@ -69,5 +69,21 @@ namespace AgateOTK.Legacy
 			GL.TexParameter(TextureTarget.Texture2D,
 							 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 		}
+
+		public override bool CanAccessBackBuffer
+		{
+			get
+			{
+				return true;
+			}
+		}
+
+		public override AgateLib.ImplementationBase.SurfaceImpl BackBuffer
+		{
+			get
+			{
+				return surface;
+			}
+		}
 	}
 }

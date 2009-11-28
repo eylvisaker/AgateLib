@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using AgateLib;
@@ -13,43 +14,119 @@ namespace AgateOTK.Legacy
 	{
 		Size mSize;
 		int mFramebufferID;
-		int mDepthBuffer;
+		int mDepthBuffer, mStencilBuffer;
 		GL_Surface mTexture;
+
+		static bool sDepthSupported = true;
+		static bool sStencilSupported = true;
 
 		public FrameBufferExt(Size size)
 		{
 			mSize = size;
 
-			//AgateLib.DisplayLib.PixelBuffer pixels = new AgateLib.DisplayLib.PixelBuffer(
-			//     AgateLib.DisplayLib.PixelFormat.RGBA8888, mSize);
+			InitializeFramebuffer();
+		}
 
+		void InitializeFramebuffer()
+		{
+			// try to initialize with both depth and stencil buffers.
+			if (sDepthSupported && sStencilSupported)
+			{
+				try
+				{
+					InitializeFramebuffer(true, true);
+					return;
+				}
+				catch
+				{
+					Trace.WriteLine("Failed to create FBO with both depth and stencil buffers.");
+				}
+			}
+			if (sDepthSupported)
+			{
+				try
+				{
+					InitializeFramebuffer(true, false);
+					sStencilSupported = false;
+					return;
+				}
+				catch
+				{
+					Trace.WriteLine("Failed to create FBO with just a depth buffer.");
+				}
+			}
+			if (sStencilSupported)
+			{
+				try
+				{
+					InitializeFramebuffer(false, true);
+					sDepthSupported = false;
+					return;
+				}
+				catch
+				{
+					Trace.WriteLine("Failed to create FBO with just a stencil buffer.");
+				}
+			}
+
+			try
+			{
+				InitializeFramebuffer(false, false);
+			}
+			catch
+			{
+				Trace.WriteLine("Failed to create FBO without either depth or stencil buffer.");
+				throw;
+			}
+			sDepthSupported = false;
+			sStencilSupported = false;
+		}
+
+		void InitializeFramebuffer(bool depth, bool stencil)
+		{
 			mTexture = new GL_Surface(mSize);
 			
 			// generate the frame buffer
 			GL.Ext.GenFramebuffers(1, out mFramebufferID);
-			GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
+			GL.Ext.BindFramebuffer(FramebufferTarget.Framebuffer, mFramebufferID);
 
-			// generate a depth buffer to render to
-			GL.Ext.GenRenderbuffers(1, out mDepthBuffer);
-			GL.Ext.BindRenderbuffer(RenderbufferTarget.RenderbufferExt, mDepthBuffer);
+			if (depth)
+			{
+				// generate a depth buffer to render to
+				GL.Ext.GenRenderbuffers(1, out mDepthBuffer);
+				GL.Ext.BindRenderbuffer(RenderbufferTarget.Renderbuffer, mDepthBuffer);
 
-			// hack here because RenderbufferStorage enum is incomplete.
-			GL.Ext.RenderbufferStorage(RenderbufferTarget.RenderbufferExt,
-				RenderbufferStorage.Depth24Stencil8,
-				mSize.Width, mSize.Height);
+				GL.Ext.RenderbufferStorage(RenderbufferTarget.Renderbuffer,
+					RenderbufferStorage.DepthComponent24, mSize.Width, mSize.Height);
+			
+				// attach the depth buffer
+				GL.Ext.FramebufferRenderbuffer(FramebufferTarget.Framebuffer,
+					FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer,
+					mDepthBuffer);
+			}
 
-			// attach the depth buffer
-			GL.Ext.FramebufferRenderbuffer(FramebufferTarget.FramebufferExt,
-				FramebufferAttachment.DepthAttachmentExt, RenderbufferTarget.RenderbufferExt,
-				mDepthBuffer);
+			if (stencil)
+			{
+				// generate a stencil buffer
+				GL.Ext.GenRenderbuffers(1, out mStencilBuffer);
+				GL.Ext.BindRenderbuffer(RenderbufferTarget.Renderbuffer, mStencilBuffer);
+
+				GL.Ext.RenderbufferStorage(RenderbufferTarget.Renderbuffer,
+					RenderbufferStorage.StencilIndex8, mSize.Width, mSize.Height);
+
+				// attach it.
+				GL.Ext.FramebufferRenderbuffer(FramebufferTarget.Framebuffer,
+					FramebufferAttachment.StencilAttachment, RenderbufferTarget.Renderbuffer,
+					mStencilBuffer);
+			}
 
 			// attach the texture
-			GL.Ext.FramebufferTexture2D(FramebufferTarget.FramebufferExt,
-				 FramebufferAttachment.ColorAttachment0Ext, TextureTarget.Texture2D,
+			GL.Ext.FramebufferTexture2D(FramebufferTarget.Framebuffer,
+				 FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D,
 				 mTexture.GLTextureID, 0);
 
 			FramebufferErrorCode code =
-				GL.Ext.CheckFramebufferStatus(FramebufferTarget.FramebufferExt);
+				GL.Ext.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
 
 			if (code != FramebufferErrorCode.FramebufferCompleteExt)
 			{
