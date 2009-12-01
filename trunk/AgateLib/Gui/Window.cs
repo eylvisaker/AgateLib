@@ -1,4 +1,22 @@
-﻿using System;
+﻿//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,19 +25,31 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui
 {
+	/// <summary>
+	/// A window is a general purpose low-level container for other widgets.
+	/// </summary>
 	public class Window : Container
 	{
+		/// <summary>
+		/// Gets or sets the location of the window.
+		/// </summary>
 		public new Point Location
 		{
 			get { return base.Location; }
 			set { base.Location = value; }
 		}
+		/// <summary>
+		/// Gets or sets the size of the window.
+		/// </summary>
 		public new Size Size
 		{
 			get { return base.Size; }
 			set { base.Size = value; }
 		}
 
+		/// <summary>
+		/// Constructs a window object.
+		/// </summary>
 		public Window()
 		{
 			Name = "window";
@@ -28,6 +58,10 @@ namespace AgateLib.Gui
 			Location = new Point(20, 20);
 			Size = new Size(300, 250);
 		}
+		/// <summary>
+		/// Constructs a window object.
+		/// </summary>
+		/// <param name="title">The title of the window to be displayed.</param>
 		public Window(string title)
 			: this()
 		{
@@ -55,7 +89,14 @@ namespace AgateLib.Gui
 		/// </summary>
 		public Button CancelButton { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether the window should allow the user
+		/// to drag it around.
+		/// </summary>
 		public bool AllowDrag { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating whether the window should display a title bar.
+		/// </summary>
 		public bool ShowTitleBar { get; set; }
 
 		bool dragging;

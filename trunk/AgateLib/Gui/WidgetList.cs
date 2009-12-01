@@ -1,15 +1,41 @@
-﻿using System;
+﻿//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace AgateLib.Gui
 {
+	/// <summary>
+	/// WidgetList implements IList&lt;Widget&rt; for keeping track 
+	/// of children of a container.
+	/// </summary>
 	public sealed class WidgetList : IList<Widget>
 	{
 		List<Widget> mChildren = new List<Widget>();
 		Container mOwner;
 
+		/// <summary>
+		/// Constructs a WidgetList object.
+		/// </summary>
+		/// <param name="owner"></param>
 		public WidgetList(Container owner)
 		{
 			mOwner = owner;
@@ -50,8 +76,17 @@ namespace AgateLib.Gui
 			if (ListUpdated != null)
 				ListUpdated(this, EventArgs.Empty);
 		}
+		/// <summary>
+		/// Event raised when something is added or removed from the list.
+		/// </summary>
 		public event EventHandler ListUpdated;
 
+		/// <summary>
+		/// Enumerates the widgets in the list which have their
+		/// <c>Widget.Visible</c>
+		/// property
+		/// set to true.
+		/// </summary>
 		public IEnumerable<Widget> VisibleItems
 		{
 			get
@@ -62,11 +97,20 @@ namespace AgateLib.Gui
 
 		#region IList<Widget> Members
 
+		/// <summary>
+		/// Returns the index of the specified widget.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
 		public int IndexOf(Widget item)
 		{
 			return mChildren.IndexOf(item);
 		}
-
+		/// <summary>
+		/// Inserts the widget into the list.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="item"></param>
 		public void Insert(int index, Widget item)
 		{
 			if (item == null)
@@ -79,7 +123,10 @@ namespace AgateLib.Gui
 
 			OnListUpdated();
 		}
-
+		/// <summary>
+		/// Removes the specified item from the list.
+		/// </summary>
+		/// <param name="index"></param>
 		public void RemoveAt(int index)
 		{
 			if (index < 0 || index >= mChildren.Count)
@@ -90,7 +137,11 @@ namespace AgateLib.Gui
 
 			OnListUpdated();
 		}
-
+		/// <summary>
+		/// Gets or sets the widget at the specified index.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
 		public Widget this[int index]
 		{
 			get
@@ -118,26 +169,42 @@ namespace AgateLib.Gui
 		#endregion
 		#region ICollection<Widget> Members
 
+		/// <summary>
+		/// Adds an item to the list.
+		/// </summary>
+		/// <param name="item"></param>
 		public void Add(Widget item)
 		{
 			AddChild(item);
 		}
-
+		/// <summary>
+		/// Removes all widgets from the list.
+		/// </summary>
 		public void Clear()
 		{
 			RemoveAllChildren();
 		}
-
+		/// <summary>
+		/// Returns true of the specified widget is in this list.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
 		public bool Contains(Widget item)
 		{
 			return mChildren.Contains(item);
 		}
-
+		/// <summary>
+		/// Copies the list of widgets to an array.
+		/// </summary>
+		/// <param name="array"></param>
+		/// <param name="arrayIndex"></param>
 		void ICollection<Widget>.CopyTo(Widget[] array, int arrayIndex)
 		{
-			throw new NotImplementedException();
+			mChildren.CopyTo(array, arrayIndex);
 		}
-
+		/// <summary>
+		/// Returns the number of widgets in the list.
+		/// </summary>
 		public int Count
 		{
 			get { return mChildren.Count; }
@@ -148,6 +215,11 @@ namespace AgateLib.Gui
 			get { return false; }
 		}
 
+		/// <summary>
+		/// Removes an item from the list.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
 		public bool Remove(Widget item)
 		{
 			if (mChildren.Contains(item))
@@ -162,6 +234,10 @@ namespace AgateLib.Gui
 		#endregion
 		#region IEnumerable<Widget> Members
 
+		/// <summary>
+		/// Enumerates all items in the list.
+		/// </summary>
+		/// <returns></returns>
 		public IEnumerator<Widget> GetEnumerator()
 		{
 			return mChildren.GetEnumerator();

@@ -1,4 +1,22 @@
-﻿using System;
+﻿//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +27,9 @@ using System.Diagnostics;
 
 namespace AgateLib.Gui
 {
+	/// <summary>
+	/// Base class for a widget.
+	/// </summary>
 	public abstract class Widget
 	{
 		Rectangle mRegion;
@@ -24,16 +45,26 @@ namespace AgateLib.Gui
 		bool suspendLayout = false;
 		bool mMouseDownIn = false;
 		
+		/// <summary>
+		/// The default constructor for a Widget.
+		/// </summary>
 		public Widget()
 		{
 			mText = string.Empty;
 			mMaxSize = new Size(9000, 9000);
 		}
 
+		/// <summary>
+		/// Provides basic debugging information
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			return base.ToString() + ": " + Name;
 		}
+		/// <summary>
+		/// Gets the very lowest level control in the gui heirarchy.
+		/// </summary>
 		protected GuiRoot Root
 		{
 			get
@@ -49,9 +80,18 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Returns the WidgetCache object used by the theming engine.
+		/// </summary>
 		public Cache.WidgetCache Cache { get; set; }
 
+		/// <summary>
+		/// Gets whether or not this widget can have keyboard focus.
+		/// </summary>
 		public virtual bool CanHaveFocus { get { return false; } }
+		/// <summary>
+		/// Gets whether or not this widget has the keyboard focus.
+		/// </summary>
 		public bool HasFocus
 		{
 			get
@@ -66,6 +106,10 @@ namespace AgateLib.Gui
 				Root.FocusControl = this;
 			}
 		}
+		/// <summary>
+		/// Gets or sets the text for this widget.
+		/// When overriding, be sure to call base.Text to set the text.
+		/// </summary>
 		public virtual string Text
 		{
 			get { return mText; }
@@ -79,8 +123,19 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the name of this widget.  This is mainly used
+		/// for debugging information.
+		/// </summary>
 		public string Name { get; set; }
+		/// <summary>
+		/// Gets or sets tool tip text for this widget.
+		/// </summary>
 		public string TooltipText { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating how this widget
+		/// should share space with others when automatic layout is performed.
+		/// </summary>
 		public LayoutExpand LayoutExpand
 		{
 			get { return mLayoutExpand; }
@@ -93,6 +148,9 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Gets the parent of this control.
+		/// </summary>
 		public Container Parent
 		{
 			get { return mParent; }
@@ -103,10 +161,16 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Called when this control has a new parent.
+		/// </summary>
 		protected virtual void OnParentChanged()
 		{
 			RecalcSizeRange();
 		}
+		/// <summary>
+		/// Called when this control should recalculate its minimum and maximum size values.
+		/// </summary>
 		protected internal virtual void RecalcSizeRange()
 		{
 			if (Root == null)
@@ -132,6 +196,10 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets a boolean value indicating whether or not this widget should be visible
+		/// at runtime.
+		/// </summary>
 		public bool Visible
 		{
 			get { return mVisible; }
@@ -146,6 +214,11 @@ namespace AgateLib.Gui
 					Parent.RedoLayout();
 			}
 		}
+		/// <summary>
+		/// Gets or sets a boolean value indicating whether or not the user should
+		/// be allowed to interact with this widget.  Widgets which are disabled
+		/// are displayed as "grayed-out." 
+		/// </summary>
 		public bool Enabled
 		{
 			get { return mEnabled; }
@@ -156,11 +229,19 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the location of this widget.  Do not set this manually
+		/// if using automatic layout.
+		/// </summary>
 		public Point Location
 		{
 			get { return mRegion.Location; }
 			set { mRegion.Location = value; }
 		}
+		/// <summary>
+		/// Gets or sets the size of this widget.  Do not set this manually if
+		/// using automatic layout.
+		/// </summary>
 		public Size Size
 		{
 			get { return mRegion.Size; }
@@ -181,20 +262,33 @@ namespace AgateLib.Gui
 				OnResizePrivate();
 			}
 		}
+
+		/// <summary>
+		/// Gets the rectangle containing this widget.
+		/// </summary>
 		protected internal Rectangle Region
 		{
 			get { return mRegion; }
 		}
 
+		/// <summary>
+		/// Gets the width of this widget.
+		/// </summary>
 		public int Width
 		{
 			get { return Size.Width; }
 		}
+		/// <summary>
+		/// Gets the height of this widget.
+		/// </summary>
 		public int Height
 		{
 			get { return Size.Height; }
 		}
 
+		/// <summary>
+		/// Gets or sets the minimum size of this widget.
+		/// </summary>
 		public Size MinSize
 		{
 			get { return mMinSize; }
@@ -207,6 +301,9 @@ namespace AgateLib.Gui
 					Parent.RedoLayout();
 			}
 		}
+		/// <summary>
+		/// Gets or sets the maximum size of this widget.
+		/// </summary>
 		public Size MaxSize
 		{
 			get { return mMaxSize; }
@@ -222,6 +319,10 @@ namespace AgateLib.Gui
 					Parent.RedoLayout();
 			}
 		}
+		/// <summary>
+		/// Gets or sets a bool indicating whether or not the theming engine 
+		/// should determine the minimum size of the widget.
+		/// </summary>
 		public bool AutoCalcMinSize
 		{
 			get { return mAutoCalcMinSize; }
@@ -235,6 +336,10 @@ namespace AgateLib.Gui
 				Parent.RedoLayout();
 			}
 		}
+		/// <summary>
+		/// Gets or sets a bool indicating whether or not the theming engine 
+		/// should determine the maximum size of the widget.
+		/// </summary>
 		public bool AutoCalcMaxSize
 		{
 			get { return mAutoCalcMinSize; }
@@ -252,6 +357,9 @@ namespace AgateLib.Gui
 		bool IsDirty { get { return mDirtyRects.Count != 0; } }
 		List<Rectangle> mDirtyRects = new List<Rectangle>();
 
+		/// <summary>
+		/// Tells the widget it should redraw itself.
+		/// </summary>
 		public virtual void Invalidate()
 		{
 			mDirtyRects.Clear();
@@ -260,6 +368,10 @@ namespace AgateLib.Gui
 			if (Parent != null)
 				Parent.Invalidate(mRegion);
 		}
+		/// <summary>
+		/// Tells the widget it should redraw itself.
+		/// </summary>
+		/// <param name="region">The region which should be redrawn</param>
 		public void Invalidate(Rectangle region)
 		{
 			for (int i = 0; i < mDirtyRects.Count; i++)
@@ -279,20 +391,32 @@ namespace AgateLib.Gui
 			mDirtyRects.Add(mRegion);
 			OnResize();
 		}
+		/// <summary>
+		/// Function called to raise the Resize event.
+		/// </summary>
 		protected virtual void OnResize()
 		{
 			if (Resize != null)
 				Resize(this, EventArgs.Empty);
 
 		}
-
+		/// <summary>
+		/// Indicates whether or not this widget should accept keyboard
+		/// focus when the mouse button is pressed in it.
+		/// </summary>
 		protected internal virtual bool AcceptFocusOnMouseDown
 		{
 			get { return true; }
 		}
 
+		/// <summary>
+		/// Event which is raised when the widget is resized.
+		/// </summary>
 		public event EventHandler Resize;
 
+		/// <summary>
+		/// Function called to draw the widget.
+		/// </summary>
 		public void Draw()
 		{
 			DoDraw();
@@ -364,7 +488,13 @@ namespace AgateLib.Gui
 			get { return Root.ThemeEngine.ThemeMargin(this); }
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether or not the mouse pointer is inside this widget.
+		/// </summary>
 		public bool MouseIn { get; protected set; }
+		/// <summary>
+		/// Gets a value indicating whether or not the mouse button was pressed inside this widget.
+		/// </summary>
 		public bool MouseDownIn { get { return mMouseDownIn; } }
 
 		protected internal virtual void SendMouseDown(InputEventArgs e)

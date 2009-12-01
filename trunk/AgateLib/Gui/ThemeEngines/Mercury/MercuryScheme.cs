@@ -1,4 +1,22 @@
-﻿using System;
+﻿//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +39,13 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		MercuryScrollBar mVScroll;
 		MercuryScrollBar mHScroll;
 		Dictionary<Type, MercuryWidget> mDispatch = new Dictionary<Type, MercuryWidget>();
+
+		struct UpdaterData
+		{
+			public MercuryWidget Themer;
+			public Widget Widget;
+		}
+		List<UpdaterData> mUpdaters = new List<UpdaterData>();
 
 		private MercuryScheme()
 		{
@@ -59,6 +84,29 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public void RegisterThemer(Type type, MercuryWidget themer)
 		{
 			mDispatch.Add(type, themer);
+		}
+
+		public void RegisterUpdater(MercuryWidget themer, Widget widget)
+		{
+			mUpdaters.Add(new UpdaterData { Themer = themer, Widget = widget });
+		}
+		public void RemoveUpdater(MercuryWidget themer, Widget widget)
+		{
+			foreach(var upd in mUpdaters)
+			{
+				if (upd.Themer == themer && upd.Widget == widget)
+				{
+					mUpdaters.Remove(upd);
+					break;
+				}
+			}
+		}
+		public void ExecuteUpdates()
+		{
+			foreach (var updater in mUpdaters)
+			{
+				updater.Themer.Update(updater.Widget);
+			}
 		}
 
 		public static MercuryScheme CreateDefaultScheme()
@@ -334,4 +382,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			}
 		}
 	}
+
+	public delegate void MercuryUpdater(Widget widget);
+
 }

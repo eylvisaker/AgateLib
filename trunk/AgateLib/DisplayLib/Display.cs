@@ -144,13 +144,6 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
-		[Obsolete]
-		public static Shaders.Effect Effect
-		{
-			get { return null; }
-			set { throw new Exception(); }
-		}
-
 		public static Shaders.AgateShader Shader
 		{
 			get { return impl.Shader; }

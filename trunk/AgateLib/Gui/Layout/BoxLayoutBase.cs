@@ -1,4 +1,22 @@
-﻿using System;
+﻿//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,321 +24,321 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui.Layout
 {
-    public abstract class BoxLayoutBase : ILayoutPerformer 
-    {
-        bool doingLayout = false;
-        List<int> sizes = new List<int>();
-        Container container;
+	public abstract class BoxLayoutBase : ILayoutPerformer
+	{
+		bool doingLayout = false;
+		List<int> sizes = new List<int>();
+		Container container;
 
 
 
-        public Size RecalcMinSize(Container container)
-        {
-            this.container = container;
-            return RecalcMinSizeInternal();
-        }
+		public Size RecalcMinSize(Container container)
+		{
+			this.container = container;
+			return RecalcMinSizeInternal();
+		}
 
-        protected Size RecalcMinSizeBox(bool horizontal)
-        {
-            _horizontal = horizontal;
+		protected Size RecalcMinSizeBox(bool horizontal)
+		{
+			_horizontal = horizontal;
 
-            Size minSize = new Size();
-            int totalSize = 0;
+			Size minSize = new Size();
+			int totalSize = 0;
 
-            foreach (Widget child in container.Children)
-            {
-                child.RecalcSizeRange();
+			foreach (Widget child in container.Children)
+			{
+				child.RecalcSizeRange();
 
-                minSize.Width = Math.Max(minSize.Width, child.MinSize.Width + child.ThemeMargin * 2);
-                minSize.Height = Math.Max(minSize.Height, child.MinSize.Height + child.ThemeMargin * 2);
+				minSize.Width = Math.Max(minSize.Width, child.MinSize.Width + child.ThemeMargin * 2);
+				minSize.Height = Math.Max(minSize.Height, child.MinSize.Height + child.ThemeMargin * 2);
 
-                totalSize += GetMinSize(child) + child.ThemeMargin * 2;
-            }
+				totalSize += GetMinSize(child) + child.ThemeMargin * 2;
+			}
 
-            return SetSize(minSize, totalSize);
-        }
+			return SetSize(minSize, totalSize);
+		}
 
-        public void DoLayout(Container container)
-        {
-            if (doingLayout)
-                return;
+		public void DoLayout(Container container)
+		{
+			if (doingLayout)
+				return;
 
-            this.container = container;
+			this.container = container;
 
-            try
-            {
-                doingLayout = true;
+			try
+			{
+				doingLayout = true;
 
-                DoLayoutInternal();
-            }
-            finally
-            {
-                doingLayout = false;
-            }
-        }
+				DoLayoutInternal();
+			}
+			finally
+			{
+				doingLayout = false;
+			}
+		}
 
-        protected abstract void DoLayoutInternal();
-        protected abstract Size RecalcMinSizeInternal();
+		protected abstract void DoLayoutInternal();
+		protected abstract Size RecalcMinSizeInternal();
 
-        bool _horizontal;
-        protected void DoBoxLayout(bool horizontal)
-        {
-            _horizontal = horizontal;
-            
-            int containerSize = GetContainerSize();
-            int totalMinSize = 0;
-            int expandCount = 0;
-            int shrinkCount = 0;
-            sizes.Clear();
+		bool _horizontal;
+		protected void DoBoxLayout(bool horizontal)
+		{
+			_horizontal = horizontal;
 
-            foreach (Widget child in container.Children.VisibleItems)
-            {
-                int minSize = GetMinSize(child) + child.ThemeMargin * 2;
-                
-                switch (child.LayoutExpand)
-                {
-                    case LayoutExpand.Default:
-                        totalMinSize += minSize;
-                        break;
+			int containerSize = GetContainerSize();
+			int totalMinSize = 0;
+			int expandCount = 0;
+			int shrinkCount = 0;
+			sizes.Clear();
 
-                    case LayoutExpand.ExpandToMax:
-                        expandCount++;
-                        break;
+			foreach (Widget child in container.Children.VisibleItems)
+			{
+				int minSize = GetMinSize(child) + child.ThemeMargin * 2;
 
-                    case LayoutExpand.ShrinkToMin:
-                        totalMinSize += minSize;
-                        shrinkCount++;
-                        break;
-                }
-            }
+				switch (child.LayoutExpand)
+				{
+					case LayoutExpand.Default:
+						totalMinSize += minSize;
+						break;
 
-            int extraSpace = containerSize - totalMinSize;
-            if (extraSpace < 0)
-                extraSpace = 0;
+					case LayoutExpand.ExpandToMax:
+						expandCount++;
+						break;
 
-            if (expandCount == 0)
-            {
-                if (shrinkCount < container.Children.VisibleItems.Count() 
-                    && extraSpace > 0)
-                {
-                    int expandSize = extraSpace / 
-                        (container.Children.VisibleItems.Count() - shrinkCount);
+					case LayoutExpand.ShrinkToMin:
+						totalMinSize += minSize;
+						shrinkCount++;
+						break;
+				}
+			}
 
-                    ShareSpace(expandSize);
-                }
-                else
-                    ShareSpaceEqually(extraSpace);
+			int extraSpace = containerSize - totalMinSize;
+			if (extraSpace < 0)
+				extraSpace = 0;
 
-            }
-            else
-            {
-                int expandSize = extraSpace / expandCount;
+			if (expandCount == 0)
+			{
+				if (shrinkCount < container.Children.VisibleItems.Count()
+					&& extraSpace > 0)
+				{
+					int expandSize = extraSpace /
+						(container.Children.VisibleItems.Count() - shrinkCount);
 
-                SetMinSizes(expandSize);
-            }
-        }
+					ShareSpace(expandSize);
+				}
+				else
+					ShareSpaceEqually(extraSpace);
 
-        private void SetMinSizes(int expandSize)
-        {
-            int loc = 0;
+			}
+			else
+			{
+				int expandSize = extraSpace / expandCount;
 
-            foreach (Widget child in container.Children.VisibleItems)
-            {
-                int size;
-                loc += child.ThemeMargin;
+				SetMinSizes(expandSize);
+			}
+		}
 
-                switch (child.LayoutExpand)
-                {
-                    case LayoutExpand.Default:
-                    case LayoutExpand.ShrinkToMin:
-                        size = GetMinSize(child);
-                        break;
+		private void SetMinSizes(int expandSize)
+		{
+			int loc = 0;
 
-                    case LayoutExpand.ExpandToMax:
-                        size = expandSize;
-                        break;
+			foreach (Widget child in container.Children.VisibleItems)
+			{
+				int size;
+				loc += child.ThemeMargin;
 
-                    default:
-                        throw new NotImplementedException();
-                }
+				switch (child.LayoutExpand)
+				{
+					case LayoutExpand.Default:
+					case LayoutExpand.ShrinkToMin:
+						size = GetMinSize(child);
+						break;
 
-                if (loc + size > GetSize(container.Size))
-                    throw new AgateGuiException("Container size is not right.");
+					case LayoutExpand.ExpandToMax:
+						size = expandSize;
+						break;
 
-                SetLocation(child, loc);
-                SetSize(child, size);
+					default:
+						throw new NotImplementedException();
+				}
 
-                loc += size + child.ThemeMargin;
-            }
-        }
+				if (loc + size > GetSize(container.Size))
+					throw new AgateGuiException("Container size is not right.");
 
-        private void ShareSpace(int extraSpace)
-        {
-            int loc = 0;
-            int containerSize = GetContainerSize();
+				SetLocation(child, loc);
+				SetSize(child, size);
 
-            int totalExtraSpace = 0;
-            int nonMaxedControls = 0;
-            foreach (Widget child in container.Children.VisibleItems)
-            {
-                int size = GetMinSize(child);
-                int maxSize = GetMaxSize(child);
+				loc += size + child.ThemeMargin;
+			}
+		}
 
-                if (size + extraSpace > maxSize)
-                {
-                    totalExtraSpace += size + extraSpace - maxSize;
-                }
-                else
-                    nonMaxedControls++;
-            }
+		private void ShareSpace(int extraSpace)
+		{
+			int loc = 0;
+			int containerSize = GetContainerSize();
 
-            foreach (Widget child in container.Children.VisibleItems)
-            {
-                loc += child.ThemeMargin;
+			int totalExtraSpace = 0;
+			int nonMaxedControls = 0;
+			foreach (Widget child in container.Children.VisibleItems)
+			{
+				int size = GetMinSize(child);
+				int maxSize = GetMaxSize(child);
 
-                int size = GetMinSize(child);
-                int maxSize = GetMaxSize(child);
+				if (size + extraSpace > maxSize)
+				{
+					totalExtraSpace += size + extraSpace - maxSize;
+				}
+				else
+					nonMaxedControls++;
+			}
 
-                if (child.LayoutExpand != LayoutExpand.ShrinkToMin)
-                    size += extraSpace;
+			foreach (Widget child in container.Children.VisibleItems)
+			{
+				loc += child.ThemeMargin;
 
-                if (size > maxSize)
-                    size = maxSize;
-                else if (nonMaxedControls > 0 && totalExtraSpace > 0)
-                {
-                    size += totalExtraSpace / nonMaxedControls;
-                }
+				int size = GetMinSize(child);
+				int maxSize = GetMaxSize(child);
 
-                SetLocation(child, loc);
-                SetSize(child, size);
+				if (child.LayoutExpand != LayoutExpand.ShrinkToMin)
+					size += extraSpace;
 
-                loc += size + child.ThemeMargin;
-            }
+				if (size > maxSize)
+					size = maxSize;
+				else if (nonMaxedControls > 0 && totalExtraSpace > 0)
+				{
+					size += totalExtraSpace / nonMaxedControls;
+				}
 
-        }
-        private void ShareSpaceEqually(int extraSpace)
-        {
-            if (extraSpace < 0)
-                throw new ArgumentOutOfRangeException("extraSpace must be positive.");
+				SetLocation(child, loc);
+				SetSize(child, size);
 
-            int loc = 0;
-            int containerSize = GetContainerSize();
-            int expandSize = extraSpace / container.Children.VisibleItems.Count();
+				loc += size + child.ThemeMargin;
+			}
 
-            foreach (Widget child in container.Children.VisibleItems)
-            {
-                int minSize = GetMinSize(child);
-                int size;
-                loc += child.ThemeMargin;
+		}
+		private void ShareSpaceEqually(int extraSpace)
+		{
+			if (extraSpace < 0)
+				throw new ArgumentOutOfRangeException("extraSpace must be positive.");
 
-                if (child.LayoutExpand == LayoutExpand.ShrinkToMin)
-                    size = minSize;
-                else
-                    size = minSize + expandSize;
+			int loc = 0;
+			int containerSize = GetContainerSize();
+			int expandSize = extraSpace / container.Children.VisibleItems.Count();
 
-                SetLocation(child, loc);
-                SetSize(child, size);
+			foreach (Widget child in container.Children.VisibleItems)
+			{
+				int minSize = GetMinSize(child);
+				int size;
+				loc += child.ThemeMargin;
 
-                loc += size + child.ThemeMargin;
-            }
-             
-        }
-        int GetSize(Size size)
-        {
-            if (_horizontal)
-                return size.Width;
-            else
-                return size.Height;
-        }
-        int GetMinSize(Widget widget)
-        {
-            return GetSize(widget.MinSize);
-        }
-        int GetMaxSize(Widget widget)
-        {
-            return GetSize(widget.MaxSize);
-        }
+				if (child.LayoutExpand == LayoutExpand.ShrinkToMin)
+					size = minSize;
+				else
+					size = minSize + expandSize;
 
-        private Size SetSize(Size size, int value)
-        {
-            if (_horizontal)
-                return new Size(value, size.Height);
-            else
-                return new Size(size.Width, value);
-        }
-        void SetSize(Widget widget, int value)
-        {
+				SetLocation(child, loc);
+				SetSize(child, size);
+
+				loc += size + child.ThemeMargin;
+			}
+
+		}
+		int GetSize(Size size)
+		{
+			if (_horizontal)
+				return size.Width;
+			else
+				return size.Height;
+		}
+		int GetMinSize(Widget widget)
+		{
+			return GetSize(widget.MinSize);
+		}
+		int GetMaxSize(Widget widget)
+		{
+			return GetSize(widget.MaxSize);
+		}
+
+		private Size SetSize(Size size, int value)
+		{
+			if (_horizontal)
+				return new Size(value, size.Height);
+			else
+				return new Size(size.Width, value);
+		}
+		void SetSize(Widget widget, int value)
+		{
 			if (_horizontal)
 				widget.Size = new Size(value, Math.Min(widget.MaxSize.Height, container.ClientArea.Height - widget.ThemeMargin * 2));
 			else
 				widget.Size = new Size(Math.Min(widget.MaxSize.Width, container.ClientArea.Width - widget.ThemeMargin * 2), value);
-        }
-        void SetLocation(Widget widget, int value)
-        {
-            if (_horizontal)
-                widget.Location = new Point(value, widget.ThemeMargin);
-            else
-                widget.Location = new Point(widget.ThemeMargin, value);
-        }
+		}
+		void SetLocation(Widget widget, int value)
+		{
+			if (_horizontal)
+				widget.Location = new Point(value, widget.ThemeMargin);
+			else
+				widget.Location = new Point(widget.ThemeMargin, value);
+		}
 
-        int GetContainerSize()
-        {
-            if (_horizontal)
-                return container.ClientArea.Width;
-            else
-                return container.ClientArea.Height;
-        }
+		int GetContainerSize()
+		{
+			if (_horizontal)
+				return container.ClientArea.Width;
+			else
+				return container.ClientArea.Height;
+		}
 
-        public virtual bool AcceptInputKey(AgateLib.InputLib.KeyCode keyCode)
-        {
-            return false;
+		public virtual bool AcceptInputKey(AgateLib.InputLib.KeyCode keyCode)
+		{
+			return false;
 
-        }
-
-
-        protected GuiRoot Root(Widget widget)
-        {
-            if (widget is GuiRoot)
-                return (GuiRoot)widget;
-            else
-                return Root(widget.Parent);
-        }
-        protected int GetParentIndex(Container container, Widget widget)
-        {
-            if (widget is GuiRoot)
-                throw new AgateGuiException("Specified widget is not a child of the container.");
-
-            if (widget.Parent == container)
-                return container.Children.IndexOf(widget);
-            else
-                return GetParentIndex(container, widget.Parent);
-        }
+		}
 
 
-        public abstract Widget CanMoveFocus(Container container, Widget currentFocus, Direction direction);
+		protected GuiRoot Root(Widget widget)
+		{
+			if (widget is GuiRoot)
+				return (GuiRoot)widget;
+			else
+				return Root(widget.Parent);
+		}
+		protected int GetParentIndex(Container container, Widget widget)
+		{
+			if (widget is GuiRoot)
+				throw new AgateGuiException("Specified widget is not a child of the container.");
+
+			if (widget.Parent == container)
+				return container.Children.IndexOf(widget);
+			else
+				return GetParentIndex(container, widget.Parent);
+		}
 
 
-        protected Widget GetNextChild(Container container, int index, int direction)
-        {
-            for (index += direction; index >= 0 && index < container.Children.Count; index += direction)
-            {
-                Widget child = container.Children[index];
+		public abstract Widget CanMoveFocus(Container container, Widget currentFocus, Direction direction);
 
-                if (child is Container)
-                {
-                    if (((Container)child).AnyChildCanHaveFocus)
-                        return child;
-                }
-                if (child.CanHaveFocus == false)
-                    continue;
-                if (child.Enabled == false)
-                    continue;
 
-                return child;
-            }
+		protected Widget GetNextChild(Container container, int index, int direction)
+		{
+			for (index += direction; index >= 0 && index < container.Children.Count; index += direction)
+			{
+				Widget child = container.Children[index];
 
-            return null;
-        }
+				if (child is Container)
+				{
+					if (((Container)child).AnyChildCanHaveFocus)
+						return child;
+				}
+				if (child.CanHaveFocus == false)
+					continue;
+				if (child.Enabled == false)
+					continue;
 
-    }
+				return child;
+			}
+
+			return null;
+		}
+
+	}
 }
