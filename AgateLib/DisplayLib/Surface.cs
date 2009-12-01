@@ -50,12 +50,22 @@ namespace AgateLib.DisplayLib
 		Tga,
 	}
 
+	/// <summary>
+	/// Enum for indicating the sampling mode used when stretching or shrinking surfaces.
+	/// </summary>
 	public enum InterpolationMode
 	{
+		/// <summary>
+		/// Use whatever the driver default is.
+		/// </summary>
 		Default,
-
+		/// <summary>
+		/// Use the fastest method, usually nearest neighbor pixel sampling.
+		/// </summary>
 		Fastest,
-
+		/// <summary>
+		/// Use the nicest method, usually bilinear sampling.
+		/// </summary>
 		Nicest,
 	}
 	/// <summary>
@@ -114,7 +124,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Creates a surface object, from the specified image file.
 		/// </summary>
-		/// <param name="filename"></param>
+		/// <param name="filename">Path and file name for the image file to load.</param>
 		public Surface(string filename)
 			: this(AgateFileProvider.Images, filename)
 		{
@@ -122,8 +132,8 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Creates a surface object using the specified file provider to open the image file.
 		/// </summary>
-		/// <param name="filename"></param>
-		/// <param name="fileProvider"></param>
+		/// <param name="filename">Path and file name for the image file to load.</param>
+		/// <param name="fileProvider">The IFileProvider object which will resolve the filename and open the stream</param>
 		public Surface(IFileProvider fileProvider, string filename)
 		{
 			if (Display.Impl == null)
@@ -140,7 +150,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Creates a surface object from the data in the specified stream.
 		/// </summary>
-		/// <param name="st"></param>
+		/// <param name="st">Stream from which to load the surface data from.</param>
 		public Surface(Stream st)
 		{
 			if (Display.Impl == null)
@@ -152,10 +162,11 @@ namespace AgateLib.DisplayLib
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
 		}
 		/// <summary>
-		/// Creates a surface object of the specified size.
+		/// Creates a surface object of the specified size.  
+		/// The surface is initialized to contain pixels with ARGB = (0,0,0,0).
 		/// </summary>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
+		/// <param name="width">Width of the newly created surface.</param>
+		/// <param name="height">Height of the newly created surface.</param>
 		public Surface(int width, int height)
 			: this(new Size(width, height))
 		{
@@ -163,8 +174,9 @@ namespace AgateLib.DisplayLib
 		}
 		/// <summary>
 		/// Creates a surface object of the specified size.
+		/// The surface is initialized to contain pixels with ARGB = (0,0,0,0).
 		/// </summary>
-		/// <param name="size"></param>
+		/// <param name="size">Size of the newly created surface.</param>
 		public Surface(Size size)
 		{
 			if (Display.Impl == null)
@@ -178,7 +190,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Constructs a surface object from the specified PixelBuffer object.
 		/// </summary>
-		/// <param name="pixels"></param>
+		/// <param name="pixels">The PixelBuffer containing the pixel data to use.</param>
 		public Surface(PixelBuffer pixels)
 			: this(pixels.Size)
 		{
@@ -254,6 +266,14 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public Size SurfaceSize { get { return impl.SurfaceSize; } }
 
+		/// <summary>
+		/// Gets or sets a value indicating how to sample points from this surface.
+		/// </summary>
+		public InterpolationMode InterpolationHint
+		{
+			get { return impl.InterpolationHint; }
+			set { impl.InterpolationHint = value; }
+		}
 
 		/// <summary>
 		/// Gets or sets the state of the surface.
@@ -458,8 +478,8 @@ namespace AgateLib.DisplayLib
 		/// using all the state information defined in the properties 
 		/// of this surface.
 		/// </summary>
-		/// <param name="destX"></param>
-		/// <param name="destY"></param>
+		/// <param name="destX">X position to draw to.</param>
+		/// <param name="destY">Y position to draw to.</param>
 		public void Draw(int destX, int destY)
 		{
 			mState.DrawInstances.SetCount(1);
@@ -472,8 +492,8 @@ namespace AgateLib.DisplayLib
 		/// using all the state information defined in the properties 
 		/// of this surface.
 		/// </summary>
-		/// <param name="destX"></param>
-		/// <param name="destY"></param>
+		/// <param name="destX">X position to draw to.</param>
+		/// <param name="destY">Y position to draw to.</param>
 		public void Draw(float destX, float destY)
 		{
 			mState.DrawInstances.SetCount(1);
@@ -486,7 +506,7 @@ namespace AgateLib.DisplayLib
 		/// using all the state information defined in the properties 
 		/// of this surface.
 		/// </summary>
-		/// <param name="destPt"></param>
+		/// <param name="destPt">Destination point to draw to.</param>
 		public void Draw(Point destPt)
 		{
 			Draw(destPt.X, destPt.Y);
@@ -496,7 +516,7 @@ namespace AgateLib.DisplayLib
 		/// using all the state information defined in the properties 
 		/// of this surface.
 		/// </summary>
-		/// <param name="destPt"></param>
+		/// <param name="destPt">Destination point to draw to.</param>
 		public void Draw(Vector2 destPt)
 		{
 			Draw(destPt.X, destPt.Y);
@@ -506,7 +526,7 @@ namespace AgateLib.DisplayLib
 		/// using all the state information defined in the properties 
 		/// of this surface.
 		/// </summary>
-		/// <param name="destPt"></param>
+		/// <param name="destPt">Destination point to draw to.</param>
 		public void Draw(PointF destPt)
 		{
 			Draw(destPt.X, destPt.Y);
@@ -518,7 +538,7 @@ namespace AgateLib.DisplayLib
 		/// Ignores the value of RotationCenter and uses the specified
 		/// point to rotate around instead.  
 		/// </summary>
-		/// <param name="destPt"></param>
+		/// <param name="destPt">Destination point to draw to.</param>
 		/// <param name="rotationCenter">Center of rotation to use, relative
 		/// to the top-left of the surface.</param>
 		public void Draw(PointF destPt, PointF rotationCenter)
@@ -554,9 +574,12 @@ namespace AgateLib.DisplayLib
 			State.RotationCenter = oldrotation;
 		}
 
+		/// <summary>
+		/// Draws the surface using the parameters in the specified state object.
+		/// </summary>
+		/// <param name="state">The surface state information to use when drawing.</param>
 		public void Draw(SurfaceState state)
 		{
-			// TODO: fix this
 			impl.Draw(state);
 		}
 
@@ -569,8 +592,8 @@ namespace AgateLib.DisplayLib
 		/// DisplayAlignment and Scaling.  Color and alpha values
 		/// are still used.
 		/// </summary>
-		/// <param name="srcRect"></param>
-		/// <param name="destRect"></param>
+		/// <param name="srcRect">Source rectangle on the surface to draw from.</param>
+		/// <param name="destRect">Destination rectangle in the render target to draw to.</param>
 		public void Draw(Rectangle srcRect, Rectangle destRect)
 		{
 			if (rectState == null)
@@ -599,7 +622,7 @@ namespace AgateLib.DisplayLib
 		/// DisplayAlignment and Scaling.  Color and alpha values
 		/// are still used.
 		/// </summary>
-		/// <param name="destRect"></param>
+		/// <param name="destRect">Destination rectangle in the render target to draw to.</param>
 		public void Draw(Rectangle destRect)
 		{
 			Draw(new Rectangle(0, 0, SurfaceWidth, SurfaceHeight), destRect);
@@ -691,11 +714,6 @@ namespace AgateLib.DisplayLib
 
 		#region --- Surface Data Manipulation ---
 
-		public InterpolationMode InterpolationHint
-		{
-			get { return impl.InterpolationHint; }
-			set { impl.InterpolationHint = value; }
-		}
 
 		/// <summary>
 		/// Saves the surface to the specified file.
@@ -704,7 +722,7 @@ namespace AgateLib.DisplayLib
 		/// is no extension present or it is unrecognized, PNG is
 		/// assumed.
 		/// </summary>
-		/// <param name="filename"></param>
+		/// <param name="filename">File name to save to.</param>
 		public void SaveTo(string filename)
 		{
 			SaveTo(filename, FormatFromExtension(filename));
@@ -715,8 +733,8 @@ namespace AgateLib.DisplayLib
 		/// ".bmp" than the SaveTo(string) overload is prefered, as it
 		/// chooses a file format which is consistent with the extension.
 		/// </summary>
-		/// <param name="filename"></param>
-		/// <param name="format"></param>
+		/// <param name="filename">File name to save to.</param>
+		/// <param name="format">Image format for the target file.</param>
 		public void SaveTo(string filename, ImageFileFormat format)
 		{
 			impl.SaveTo(filename, format);
@@ -860,8 +878,8 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Gets the object which does actual rendering of this surface.
 		/// This may be cast to a surface object in whatever rendering library
-		/// is being used (eg. if using the MDX_1_1 library, this can be cast
-		/// to an MDX1_Surface object).  You only need to use this if you
+		/// is being used (eg. if using the SDX library, this can be cast
+		/// to an SDX_Surface object).  You only need to use this if you
 		/// want to access features which are specific to the graphics library
 		/// you're using.
 		/// </summary>

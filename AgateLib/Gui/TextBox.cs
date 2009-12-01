@@ -1,4 +1,22 @@
-﻿using System;
+﻿//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +24,9 @@ using AgateLib.InputLib;
 
 namespace AgateLib.Gui
 {
+	/// <summary>
+	/// A text box control allows the user to enter keyboard input.
+	/// </summary>
 	public class TextBox : Widget
 	{
 		int mInsertionPoint;
@@ -16,6 +37,9 @@ namespace AgateLib.Gui
 		{
 			get { return true; }
 		}
+		/// <summary>
+		/// Gets the location of the insertion point in the text.
+		/// </summary>
 		public int InsertionPoint
 		{
 			get { return mInsertionPoint; }
@@ -280,10 +304,18 @@ namespace AgateLib.Gui
 
 		internal double IPTime { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether or not this textbox should
+		/// display multiple lines of text.  If so, the up, down, and enter keys are considered
+		/// input for this text box.
+		/// </summary>
 		public bool MultiLine { get; set; }
 
 		#region --- Selection properties and methods ---
 
+		/// <summary>
+		/// Gets or sets the start of the text selection.
+		/// </summary>
 		public int SelectionStart
 		{
 			get { return mSelectionStart; }
@@ -299,6 +331,9 @@ namespace AgateLib.Gui
 				mSelectionStart = value;
 			}
 		}
+		/// <summary>
+		/// Gets or sets the length of the selection.
+		/// </summary>
 		public int SelectionLength
 		{
 			get { return mSelectionLength; }
@@ -318,10 +353,18 @@ namespace AgateLib.Gui
 		{
 			get { return SelectionStart + SelectionLength; }
 		}
+		/// <summary>
+		/// Gets the text which is selected.
+		/// </summary>
 		public string SelectedText
 		{
 			get { return Text.Substring(SelectionStart, SelectionLength); }
 		}
+		/// <summary>
+		/// Replaces the text which is selected.  The insertion point is 
+		/// moved to the end of the inserted text.
+		/// </summary>
+		/// <param name="newText">The new text which replaces the selected text.</param>
 		public void ReplaceSelectedText(string newText)
 		{
 			Text = TextBeforeSelection + newText + TextAfterSelection;
@@ -329,6 +372,9 @@ namespace AgateLib.Gui
 			SelectionLength = newText.Length;
 			MoveInsertionPoint(SelectionStart + SelectionLength, false);
 		}
+		/// <summary>
+		/// Deletes the selected text.
+		/// </summary>
 		public void DeleteSelectedText()
 		{
 			Text = TextBeforeSelection + TextAfterSelection;

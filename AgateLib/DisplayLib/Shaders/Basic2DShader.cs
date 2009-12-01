@@ -25,13 +25,22 @@ using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib.Shaders
 {
+	/// <summary>
+	/// The default 2D shader.  This shader supports no effects, and must be implemented
+	/// by every AgateLib display driver.
+	/// </summary>
 	public class Basic2DShader : AgateInternalShader  
 	{
+		/// <summary>
+		/// Constructs a 2D shader.
+		/// </summary>
 		public Basic2DShader()
 		{
 
 		}
-		
+		/// <summary>
+		/// Returns the implementation.
+		/// </summary>
 		protected new Basic2DImpl Impl
 		{
 			get { return (Basic2DImpl)base.Impl; }
@@ -42,6 +51,11 @@ namespace AgateLib.DisplayLib.Shaders
 			get { return BuiltInShader.Basic2DShader; }
 		}
 
+		/// <summary>
+		/// Gets or sets the coordinate system used for drawing.
+		/// The default for any render target is to use a one-to-one
+		/// mapping for pixels.
+		/// </summary>
 		public Rectangle CoordinateSystem
 		{
 			get { return Impl.CoordinateSystem; }

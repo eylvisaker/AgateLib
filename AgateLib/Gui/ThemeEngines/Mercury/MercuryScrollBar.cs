@@ -1,4 +1,22 @@
-﻿using System;
+﻿//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,6 +77,22 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 				scrollBar.Height - Increase.DisplayHeight - Decrease.DisplayHeight);
 
 			DrawStretchImage(barLoc, sz, Bar, BarStretchRegion);
+
+			var cache = GetCache(scrollBar);
+
+			if (Mercury.DebugOutlines)
+			{
+				DrawRect(scrollBar, PageDecreaseRegion(scrollBar), Color.LightGreen);
+				DrawRect(scrollBar, PageIncreaseRegion(scrollBar), Color.Green);
+				DrawRect(scrollBar, ThumbRegion(scrollBar), cache.DraggingThumb ? Color.LightBlue: Color.Blue);
+			}
+		}
+
+		private static void DrawRect(ScrollBar scrollBar, Rectangle rect, Color clr)
+		{
+			rect.Location = scrollBar.PointToScreen(rect.Location);
+
+			Display.DrawRect(rect, clr);
 		}
 
 		public override Size MinSize(Widget w)
@@ -101,6 +135,64 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			MouseUpInScrollBar((ScrollBar)widget, clientLocation);
 		}
 
+		public override void Update(Widget widget)
+		{
+			UpdateScrollBar((ScrollBar)widget);
+		}
+		void UpdateScrollBar(ScrollBar bar)
+		{
+			var cache = GetCache(bar);
+
+			if (cache.LastUpdate + 0.1 > Timing.TotalSeconds)
+				return;
+
+			UpdateMouseLocation(bar, bar.PointToClient(AgateLib.InputLib.Mouse.Position));
+
+			if (cache.DownInDecrease && cache.MouseInDecrease)
+				SafeMoveScrollBar(bar, -bar.SmallChange);
+			if (cache.DownInIncrease && cache.MouseInIncrease)
+				SafeMoveScrollBar(bar, bar.SmallChange);
+			if (cache.DownInPageDecrease && cache.MouseInPageDecrease)
+				SafeMoveScrollBar(bar, -bar.LargeChange);
+			if (cache.DownInPageIncrease && cache.MouseInPageIncrease)
+				SafeMoveScrollBar(bar, bar.LargeChange);
+
+			cache.LastUpdate = Timing.TotalSeconds;
+		}
+		private void UpdateMouseLocation(ScrollBar scrollBar, Point clientLocation)
+		{
+			var cache = GetCache(scrollBar);
+
+			cache.MouseInDecrease = false;
+			cache.MouseInIncrease = false;
+			cache.MouseInPageDecrease = false;
+			cache.MouseInPageIncrease = false;
+
+			if (DecreaseRegion(scrollBar).Contains(clientLocation))
+				cache.MouseInDecrease = true;
+			else if (IncreaseRegion(scrollBar).Contains(clientLocation))
+				cache.MouseInIncrease = true;
+			else if (PageDecreaseRegion(scrollBar).Contains(clientLocation))
+				cache.MouseInPageDecrease = true;
+			else if (PageIncreaseRegion(scrollBar).Contains(clientLocation))
+				cache.MouseInPageIncrease = true;
+		}
+
+		private void SafeMoveScrollBar(ScrollBar scrollBar, int change)
+		{
+			int newValue = scrollBar.Value + change;
+			newValue = SafeSetScrollBar(scrollBar, newValue);
+		}
+		private int SafeSetScrollBar(ScrollBar scrollBar, int newValue)
+		{
+			if (newValue < scrollBar.MinValue) newValue = scrollBar.MinValue;
+			if (newValue > scrollBar.MaxValue) newValue = scrollBar.MaxValue;
+
+			scrollBar.Value = newValue;
+
+			return newValue;
+		}
+
 		ScrollBarCache GetCache(ScrollBar bar)
 		{
 			if (bar.Cache == null)
@@ -108,6 +200,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 			return (ScrollBarCache)bar.Cache;
 		}
+
 		public void MouseDownInScrollBar(ScrollBar scrollBar, Point clientLocation)
 		{
 			var cache = GetCache(scrollBar);
@@ -115,34 +208,58 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 			cache.LastUpdate = Timing.TotalSeconds + 0.25;
 
+			Scheme.RegisterUpdater(this, scrollBar);
+
 			if (DecreaseRegion(scrollBar).Contains(clientLocation))
 			{
 				cache.DownInDecrease = true;
-				scrollBar.Value -= scrollBar.SmallChange;
+				SafeMoveScrollBar(scrollBar, -scrollBar.SmallChange);
 			}
 			else if (IncreaseRegion(scrollBar).Contains(clientLocation)) 
 			{
 				cache.DownInIncrease = true;
-				scrollBar.Value += scrollBar.SmallChange;
+				SafeMoveScrollBar(scrollBar, scrollBar.SmallChange);
 			}
 			else if (thumb.Contains(clientLocation))
 			{
-				cache.DragThumb = true;
+				cache.DraggingThumb = true;
 				cache.ThumbGrabSpot = new Point(clientLocation.X - thumb.X, clientLocation.Y - thumb.Y);
 			}
 			else if (PageDecreaseRegion(scrollBar).Contains(clientLocation))
 			{
 				cache.DownInPageDecrease = true;
-				scrollBar.Value -= scrollBar.LargeChange;
+				SafeMoveScrollBar(scrollBar, -scrollBar.LargeChange);
 			}
 			else if (PageIncreaseRegion(scrollBar).Contains(clientLocation))
 			{
 				cache.DownInPageIncrease = true;
-				scrollBar.Value += scrollBar.LargeChange;
+				SafeMoveScrollBar(scrollBar, scrollBar.LargeChange);
 			}
+
+			MouseMoveInScrollBar(scrollBar, clientLocation);
 		}
 		public void MouseMoveInScrollBar(ScrollBar scrollBar, Point clientLocation)
 		{
+			var cache = GetCache(scrollBar);
+			UpdateMouseLocation(scrollBar, clientLocation);
+
+			if (cache.DraggingThumb)
+			{
+				Point newThumbPos = new Point(clientLocation.X - cache.ThumbGrabSpot.X,
+					clientLocation.Y - cache.ThumbGrabSpot.Y);
+
+				int newThumbStart = scrollBar is VerticalScrollBar ? newThumbPos.Y : newThumbPos.X;
+				int thumbSize = ThumbSize(scrollBar);
+				int barSize = ScrollRegionSize(scrollBar) - thumbSize;
+
+				newThumbStart -= FixedBarSize;
+
+				int newValue = (int)
+					((scrollBar.MaxValue - scrollBar.MinValue) * newThumbStart / (double)barSize + scrollBar.MinValue + 0.5);
+
+				SafeSetScrollBar(scrollBar, newValue);
+
+			}
 		}
 		public void MouseUpInScrollBar(ScrollBar scrollBar, Point clientLocation)
 		{
@@ -152,6 +269,9 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			cache.DownInIncrease = false;
 			cache.DownInPageDecrease = false;
 			cache.DownInPageIncrease = false;
+			cache.DraggingThumb = false;
+
+			Scheme.RemoveUpdater(this, scrollBar);
 		}
 
 		private Rectangle DecreaseRegion(ScrollBar scrollBar)
@@ -167,15 +287,74 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		}
 		private Rectangle ThumbRegion(ScrollBar scrollBar)
 		{
-			return new Rectangle(0, 0, 0, 0);
+			int size = ThumbSize(scrollBar);
+			int start = ThumbStart(scrollBar, size);
+
+			if (scrollBar is VerticalScrollBar)
+			{
+				return new Rectangle(0, start + FixedBarSize, FixedBarSize, size);
+			}
+			else
+				return new Rectangle(start + FixedBarSize, 0, size, FixedBarSize);
 		}
 		private Rectangle PageDecreaseRegion(ScrollBar scrollBar)
 		{
-			throw new NotImplementedException();
+			return PageDecreaseRegion(scrollBar, ThumbRegion(scrollBar));
+		}
+		private Rectangle PageDecreaseRegion(ScrollBar scrollBar, Rectangle thumbRegion)
+		{
+			if (scrollBar is VerticalScrollBar)
+			{
+				return new Rectangle(0, FixedBarSize, FixedBarSize, thumbRegion.Top - FixedBarSize);
+			}
+			else
+				return new Rectangle(FixedBarSize, 0, thumbRegion.Left - FixedBarSize, FixedBarSize);
 		}
 		private Rectangle PageIncreaseRegion(ScrollBar scrollBar)
 		{
-			throw new NotImplementedException();
+			return PageIncreaseRegion(scrollBar, ThumbRegion(scrollBar));
 		}
+		private Rectangle PageIncreaseRegion(ScrollBar scrollBar, Rectangle thumbRegion)
+		{
+			if (scrollBar is VerticalScrollBar)
+				return Rectangle.FromLTRB(0, thumbRegion.Bottom, FixedBarSize, scrollBar.Height - FixedBarSize);
+			else
+				return Rectangle.FromLTRB(thumbRegion.Right, 0, scrollBar.Width - FixedBarSize, FixedBarSize);
+		}
+
+		private int ThumbStart(ScrollBar scrollBar)
+		{
+			int size = ThumbSize(scrollBar);
+			return ThumbStart(scrollBar, size);
+		}
+		private int ThumbStart(ScrollBar scrollBar, int thumbSize)
+		{
+			int barSize = ScrollRegionSize(scrollBar);
+
+			barSize -= thumbSize;
+
+			return (int)(barSize * (scrollBar.Value - scrollBar.MinValue) /
+								  (scrollBar.MaxValue - scrollBar.MinValue));
+		}
+
+		private int ThumbSize(ScrollBar scrollBar)
+		{
+			int size = ScrollRegionSize(scrollBar);
+
+			int value = (int)(scrollBar.LargeChange * size / (double)(scrollBar.MaxValue - scrollBar.MinValue));
+
+			if (value < 5)
+				value = 5;
+
+			return value;
+		}
+
+		private int ScrollRegionSize(ScrollBar scrollBar)
+		{
+			int size = (scrollBar is VerticalScrollBar) ? scrollBar.Height : scrollBar.Width;
+			size -= FixedBarSize * 2;
+			return size;
+		}
+		
 	}
 }

@@ -25,6 +25,9 @@ using AgateLib.DisplayLib.Cache;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Surface state data used for drawing.
+	/// </summary>
 	public class SurfaceState
 	{
 		private SurfaceStateCache mCache;
