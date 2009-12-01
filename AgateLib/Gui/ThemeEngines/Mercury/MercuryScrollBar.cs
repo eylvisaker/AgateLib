@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
-	public class MercuryScrollBar : MercurySchemeCommon
+	using Cache;
+
+	public class MercuryScrollBar : MercuryWidget
 	{
 		public Surface Decrease { get; set; }
 		public Surface Increase { get; set; }
@@ -30,11 +34,16 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		public int FixedBarSize { get; set; }
 
-
-		public void DrawScrollBar(ScrollBar scrollBar)
+		public MercuryScrollBar(MercuryScheme scheme)
+			: base(scheme)
 		{
-			if (scrollBar is VerticalScrollBar)
-				DrawVerticalScrollBar(scrollBar);
+			FixedBarSize = 16;
+		}
+
+		public override void DrawWidget(Widget w)
+		{
+			if (w is VerticalScrollBar)
+				DrawVerticalScrollBar((ScrollBar)w);
 		}
 
 		private void DrawVerticalScrollBar(ScrollBar scrollBar)
@@ -52,6 +61,14 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			DrawStretchImage(barLoc, sz, Bar, BarStretchRegion);
 		}
 
+		public override Size MinSize(Widget w)
+		{
+			return CalcMinScrollBarSize((ScrollBar)w);
+		}
+		public override Size MaxSize(Widget w)
+		{
+			return CalcMaxScrollBarSize((ScrollBar)w);
+		}
 		public Size CalcMinScrollBarSize(ScrollBar scrollBar)
 		{
 			if (scrollBar is VerticalScrollBar)
@@ -65,22 +82,98 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		{
 			if (scrollBar is VerticalScrollBar)
 				return new Size(FixedBarSize, int.MaxValue);
-			else
+			else if (scrollBar is HorizontalScrollBar)
 				return new Size(int.MaxValue, FixedBarSize);
 
 			throw new ArgumentException();
 		}
 
+		public override void MouseDownInWidget(Widget widget, Point clientLocation)
+		{
+			MouseDownInScrollBar((ScrollBar)widget, clientLocation);
+		}
+		public override void MouseMoveInWidget(Widget widget, Point clientLocation)
+		{
+			MouseMoveInScrollBar((ScrollBar)widget, clientLocation);
+		}
+		public override void MouseUpInWidget(Widget widget, Point clientLocation)
+		{
+			MouseUpInScrollBar((ScrollBar)widget, clientLocation);
+		}
 
+		ScrollBarCache GetCache(ScrollBar bar)
+		{
+			if (bar.Cache == null)
+				bar.Cache = new ScrollBarCache();
+
+			return (ScrollBarCache)bar.Cache;
+		}
 		public void MouseDownInScrollBar(ScrollBar scrollBar, Point clientLocation)
 		{
-			throw new NotImplementedException();
+			var cache = GetCache(scrollBar);
+			Rectangle thumb = ThumbRegion(scrollBar);
+
+			cache.LastUpdate = Timing.TotalSeconds + 0.25;
+
+			if (DecreaseRegion(scrollBar).Contains(clientLocation))
+			{
+				cache.DownInDecrease = true;
+				scrollBar.Value -= scrollBar.SmallChange;
+			}
+			else if (IncreaseRegion(scrollBar).Contains(clientLocation)) 
+			{
+				cache.DownInIncrease = true;
+				scrollBar.Value += scrollBar.SmallChange;
+			}
+			else if (thumb.Contains(clientLocation))
+			{
+				cache.DragThumb = true;
+				cache.ThumbGrabSpot = new Point(clientLocation.X - thumb.X, clientLocation.Y - thumb.Y);
+			}
+			else if (PageDecreaseRegion(scrollBar).Contains(clientLocation))
+			{
+				cache.DownInPageDecrease = true;
+				scrollBar.Value -= scrollBar.LargeChange;
+			}
+			else if (PageIncreaseRegion(scrollBar).Contains(clientLocation))
+			{
+				cache.DownInPageIncrease = true;
+				scrollBar.Value += scrollBar.LargeChange;
+			}
 		}
 		public void MouseMoveInScrollBar(ScrollBar scrollBar, Point clientLocation)
 		{
-			throw new NotImplementedException();
 		}
 		public void MouseUpInScrollBar(ScrollBar scrollBar, Point clientLocation)
+		{
+			var cache = GetCache(scrollBar);
+			
+			cache.DownInDecrease = false;
+			cache.DownInIncrease = false;
+			cache.DownInPageDecrease = false;
+			cache.DownInPageIncrease = false;
+		}
+
+		private Rectangle DecreaseRegion(ScrollBar scrollBar)
+		{
+			return new Rectangle(0, 0, FixedBarSize, FixedBarSize);
+		}
+		private Rectangle IncreaseRegion(ScrollBar scrollBar)
+		{
+			if (scrollBar is VerticalScrollBar)
+				return new Rectangle(0, scrollBar.Height - FixedBarSize, FixedBarSize, FixedBarSize);
+			else
+				return new Rectangle(scrollBar.Width - FixedBarSize, 0, FixedBarSize, FixedBarSize);
+		}
+		private Rectangle ThumbRegion(ScrollBar scrollBar)
+		{
+			return new Rectangle(0, 0, 0, 0);
+		}
+		private Rectangle PageDecreaseRegion(ScrollBar scrollBar)
+		{
+			throw new NotImplementedException();
+		}
+		private Rectangle PageIncreaseRegion(ScrollBar scrollBar)
 		{
 			throw new NotImplementedException();
 		}

@@ -30,10 +30,6 @@ namespace AgateLib.ImplementationBase
 	/// </summary>
 	public abstract class FontSurfaceImpl : IDisposable
 	{
-		private OriginAlignment mAlignment = OriginAlignment.TopLeft;
-		private Color mColor = Color.White;
-		private double mScaleWidth = 1.0;
-		private double mScaleHeight = 1.0;
 		private string mFontName = "Unknown";
 
 		/// <summary>
