@@ -11,17 +11,54 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 	public class MercuryScheme
 	{
 		int mInsertionPointBlinkTime = 500;
-		MercuryWindow mWindow = new MercuryWindow();
-		MercuryButton mButton = new MercuryButton();
-		MercuryCheckBox mCheckBox = new MercuryCheckBox();
-		MercuryCheckBox mRadioButton = new MercuryCheckBox();
-		MercuryTextBox mTextBox = new MercuryTextBox();
-		MercuryListBox mListBox = new MercuryListBox();
-		MercuryScrollBar mVScroll = new MercuryScrollBar();
-		MercuryScrollBar mHScroll = new MercuryScrollBar();
+		MercuryLabel mLabel;
+		MercuryWindow mWindow;
+		MercuryButton mButton;
+		MercuryCheckBox mCheckBox;
+		MercuryCheckBox mRadioButton;
+		MercuryTextBox mTextBox;
+		MercuryListBox mListBox;
+		MercuryScrollBar mVScroll;
+		MercuryScrollBar mHScroll;
+		Dictionary<Type, MercuryWidget> mDispatch = new Dictionary<Type, MercuryWidget>();
 
 		private MercuryScheme()
 		{
+			mLabel = new MercuryLabel(this);
+			mWindow = new MercuryWindow(this);
+			mButton = new MercuryButton(this);
+			mCheckBox = new MercuryCheckBox(this);
+			mRadioButton = new MercuryCheckBox(this);
+			mTextBox = new MercuryTextBox(this);
+			mListBox = new MercuryListBox(this);
+			mVScroll = new MercuryScrollBar(this);
+			mHScroll = new MercuryScrollBar(this);
+
+			mDispatch.Add(typeof(Label), mLabel);
+			mDispatch.Add(typeof(Window), mWindow);
+			mDispatch.Add(typeof(Button), mButton);
+			mDispatch.Add(typeof(CheckBox), mCheckBox);
+			mDispatch.Add(typeof(RadioButton), mRadioButton);
+			mDispatch.Add(typeof(TextBox), mTextBox);
+			mDispatch.Add(typeof(ListBox), mListBox);
+			mDispatch.Add(typeof(VerticalScrollBar), mVScroll);
+			mDispatch.Add(typeof(HorizontalScrollBar), mHScroll);
+			mDispatch.Add(typeof(Panel), new MercuryPanel(this));
+			mDispatch.Add(typeof(GuiRoot), new MercuryGuiRoot(this));
+
+		}
+
+		public MercuryWidget Themer(Widget w)
+		{
+			return Themer(w.GetType());
+		}
+		public MercuryWidget Themer(Type type)
+		{
+			return mDispatch[type];
+		}
+		public void RegisterThemer(Type type, MercuryWidget themer)
+		{
+			mDispatch.Add(type, themer);
 		}
 
 		public static MercuryScheme CreateDefaultScheme()
@@ -41,8 +78,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			
 			FontColor = Color.White;
 			FontColorDisabled = Color.Gray;
-			DropShadowSize = 10;
-
+			
 			SelectionFontColor = Color.Black;
 			SelectionBackColor = Color.Yellow;
 
@@ -52,6 +88,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			Window.TitleBarStretchRegion = new Rectangle(6, 3, 52, 27);
 			Window.NoTitleStretchRegion = new Rectangle(5, 5, 54, 54);
 			Window.WithTitleStretchRegion = new Rectangle(7, 4, 50, 53);
+			Window.DropShadowSize = 10;
 
 			SetButtonImages(new Surface(files, "button.png"), new Size(64, 32));
 			Button.StretchRegion = new Rectangle(6, 6, 52, 20);
@@ -209,13 +246,21 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		public FontSurface WidgetFont { get; set; }
 		public FontSurface TitleFont { get; set; }
-		public int DropShadowSize { get; set; }
-
+		
 		public Color FontColor { get; set; }
 		public Color FontColorDisabled { get; set; }
 		public Color SelectionFontColor { get; set; }
 		public Color SelectionBackColor { get; set; }
 
+		public MercuryLabel Label
+		{
+			get { return mLabel; }
+			set
+			{
+				if (value == null) throw new ArgumentNullException();
+				mLabel = value; 
+			}
+		}
 		public MercuryWindow Window 
 		{
 			get { return mWindow; }

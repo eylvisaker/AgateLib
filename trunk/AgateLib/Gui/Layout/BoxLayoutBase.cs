@@ -250,10 +250,10 @@ namespace AgateLib.Gui.Layout
         }
         void SetSize(Widget widget, int value)
         {
-            if (_horizontal)
-                widget.Size = new Size(value, container.ClientArea.Height - widget.ThemeMargin * 2);
-            else
-                widget.Size = new Size(container.ClientArea.Width - widget.ThemeMargin * 2, value);
+			if (_horizontal)
+				widget.Size = new Size(value, Math.Min(widget.MaxSize.Height, container.ClientArea.Height - widget.ThemeMargin * 2));
+			else
+				widget.Size = new Size(Math.Min(widget.MaxSize.Width, container.ClientArea.Width - widget.ThemeMargin * 2), value);
         }
         void SetLocation(Widget widget, int value)
         {

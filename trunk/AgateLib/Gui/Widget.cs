@@ -212,6 +212,9 @@ namespace AgateLib.Gui
 			get { return mMaxSize; }
 			set
 			{
+				if (value.Width < 1 || value.Height < 1)
+					throw new ArgumentException();
+
 				mMaxSize = value;
 
 				if (this == Root) return;
@@ -371,6 +374,11 @@ namespace AgateLib.Gui
 
 			mMouseDownIn = true;
 			OnMouseDown(e);
+
+			if (Root != null)
+			{
+				Root.ThemeEngine.MouseDownInWidget(this, PointToClient(e.MousePosition));
+			}
 		}
 		protected internal virtual void SendMouseUp(InputEventArgs e) 
 		{
@@ -378,13 +386,24 @@ namespace AgateLib.Gui
 				return;
 
 			mMouseDownIn = false;
-			OnMouseUp(e); 
+			OnMouseUp(e);
+
+			if (Root != null)
+			{
+				Root.ThemeEngine.MouseUpInWidget(this, PointToClient(e.MousePosition));
+			}
 		}
 		protected internal virtual void SendMouseMove(InputEventArgs e)
 		{
 			if (Enabled == false)
 				return;
+
 			OnMouseMove(e);
+
+			if (Root != null)
+			{
+				Root.ThemeEngine.MouseMoveInWidget(this, PointToClient(e.MousePosition));
+			}
 		}
 		protected internal virtual void SendMouseDoubleClick(InputEventArgs e)
 		{
