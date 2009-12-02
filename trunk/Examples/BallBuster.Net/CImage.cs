@@ -135,10 +135,6 @@ class CImage
         this.bblogo = new Sprite(spritesSrc, "bblogo");
         this.xlogo = new Sprite(spritesSrc, "xlogo");
 
-        //CL_ResourceManager resources("imgs/font.xml");
-
-        //this.fontStyler = new CL_TextStyler("Font2", &resources);
-
         Display.PackAllSurfaces();
     }
 
