@@ -9,6 +9,7 @@ using Direct3D = SlimDX.Direct3D9;
 
 namespace AgateSDX
 {
+	[Obsolete]
 	class HlslCompiler : ShaderCompilerImpl 
 	{
 		SDX_Display mDisplay;

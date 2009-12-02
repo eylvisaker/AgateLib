@@ -96,7 +96,7 @@ namespace AgateSDX
 		private bool[] mButtons;
 
 		private int[] shift = new int[8];
-		private double maxX, maxY, maxZ;
+		private double max;
 
 		private double mThreshold;
 
@@ -109,7 +109,7 @@ namespace AgateSDX
 
 			// joystick values in di seem to be from 0 (left) to 65536 (right).
 			// seems to be the right value on my joystick.
-			maxX = maxY = maxZ = 32768;
+			max = 32768;
 
 			mButtons = new bool[ButtonCount];
 			shift = new int[AxisCount];
@@ -145,7 +145,7 @@ namespace AgateSDX
 
 		public override double GetAxisValue(int axisIndex)
 		{
-			return CorrectAxisValue(mDevice.GetCurrentState().GetSliders()[axisIndex], shift[axisIndex], maxX);
+			return CorrectAxisValue(mDevice.GetCurrentState().GetSliders()[axisIndex], shift[axisIndex], max);
 
 			//if (axisIndex == 0)
 			//    return CorrectAxisValue(mDevice.GetCurrentState().X, shift[0], maxX);

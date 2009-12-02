@@ -99,7 +99,7 @@ namespace AgateLib
 					if (GuiRoot != null)
 						GuiRoot.DoUpdate();
 
-					Display.RenderTarget = mWindow;
+					Display.RenderTarget = mWindow.FrameBuffer;
 					Display.BeginFrame();
 
 					Render();
@@ -121,7 +121,7 @@ namespace AgateLib
 			{
 				if (mInitParams == null)
 				{
-					mInitParams = GetAppInitParameters();
+					mInitParams = new AppInitParameters();
 					AdjustAppInitParameters(ref mInitParams);
 				}
 				return mInitParams;
@@ -288,7 +288,7 @@ namespace AgateLib
 		/// Gets the initialization parameters.
 		/// </summary>
 		/// <returns></returns>
-		[Obsolete("Override AdjustAppInitParameters")]
+		[Obsolete("Override AdjustAppInitParameters", true)]
 		protected virtual AppInitParameters GetAppInitParameters()
 		{
 			return new AppInitParameters();

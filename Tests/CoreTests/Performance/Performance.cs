@@ -62,7 +62,6 @@ namespace Tests.PerformanceTester
 			{
 				Trace.WriteLine(string.Format("Starting driver {0}...", info.FriendlyName));
 				Trace.Indent();
-				double fps;
 
 				Display.Initialize((DisplayTypeID)info.DriverTypeID);
 				Display.RenderState.WaitForVerticalBlank = false;

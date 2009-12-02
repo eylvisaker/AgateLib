@@ -23,6 +23,10 @@ using System.Text;
 
 namespace AgateLib.DisplayLib.Shaders
 {
+	/// <summary>
+	/// 
+	/// </summary>
+	[Obsolete]
 	public class Technique
 	{
 	}

@@ -23,11 +23,23 @@ using System.Text;
 
 namespace AgateLib.DisplayLib.Shaders
 {
+	/// <summary>
+	/// Enum indicating an industry standard shading language.
+	/// </summary>
 	public enum ShaderLanguage
 	{
+		/// <summary>
+		/// No shading language is used.
+		/// </summary>
 		None,
 
+		/// <summary>
+		/// OpenGL's GLSL language.
+		/// </summary>
 		Glsl,
+		/// <summary>
+		/// Direct3D's HLSL language.
+		/// </summary>
 		Hlsl,
 		// Cg,
 

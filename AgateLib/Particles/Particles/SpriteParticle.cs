@@ -21,7 +21,7 @@ using System;
 namespace AgateLib.Particles
 {
 	/// <summary>
-	/// A particle implementation for <see cref="Sprite"/>s.
+	/// A particle implementation for <see cref="AgateLib.Sprites.Sprite"/>s.
 	/// </summary>
 	public class SpriteParticle : Particle
 	{

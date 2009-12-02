@@ -244,7 +244,7 @@ namespace Tests.SpriteTester
 			else
 			{
 				// since loading the sprite from the file failed, try it as a resource file.
-				AgateResourceCollection resources = AgateResourceLoader.LoadResources(filename);
+				AgateResourceCollection resources = new AgateResourceCollection(filename);
 
 				AgateFileProvider.Images.Clear();
 				AgateFileProvider.Images.AddPath(System.IO.Path.GetDirectoryName(filename));

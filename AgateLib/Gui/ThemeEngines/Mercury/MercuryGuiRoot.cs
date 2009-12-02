@@ -23,6 +23,9 @@ using System.Text;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
+	/// <summary>
+	/// Mercury class for "drawing" the gui root object.
+	/// </summary>
 	public class MercuryGuiRoot : MercuryWidget
 	{
 		public MercuryGuiRoot(MercuryScheme scheme)

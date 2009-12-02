@@ -32,14 +32,10 @@ namespace Tests.Fonts
 		List<FontSurface> fonts = new List<FontSurface>();
 		string nonenglish;
 
-		protected override AppInitParameters GetAppInitParameters()
+		protected override void AdjustAppInitParameters(ref AppInitParameters initParams)
 		{
-			var retval = base.GetAppInitParameters();
-
-			retval.AllowResize = true;
-			retval.ShowSplashScreen = false;
-
-			return retval;
+			initParams.AllowResize = true;
+			initParams.ShowSplashScreen = false;
 		}
 
 		protected override void Initialize()
@@ -70,7 +66,7 @@ namespace Tests.Fonts
 				font.Color = Color.White;
 
 				font.DrawText(0, y, font.FontName);
-				int x = font.StringDisplayWidth(font.FontName) + 40;
+				int x = font.MeasureString(font.FontName).Width + 40;
 
 				font.DrawText(x, y, "The quick brown fox jumped over the lazy dogs.");
 				y += font.FontHeight;

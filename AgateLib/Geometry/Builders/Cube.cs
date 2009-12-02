@@ -6,27 +6,46 @@ using AgateLib.Geometry.VertexTypes;
 
 namespace AgateLib.Geometry.Builders
 {
+	/// <summary>
+	/// Constructs a cube.
+	/// </summary>
 	public class CubeBuilder
 	{
 		VertexBuffer mVertices = null;
 		IndexBuffer mIndices = null;
 
+		/// <summary>
+		/// Constructs a cube builder.
+		/// </summary>
 		public CubeBuilder()
 		{
 			Length = 1;
 			VertexType = VertexTypes.PositionTextureNTB.VertexLayout;
 		}
 
+		/// <summary>
+		/// Gets the created vertex buffer.
+		/// </summary>
 		public VertexBuffer VertexBuffer
 		{
 			get { return mVertices; }
 		}
+		/// <summary>
+		/// Gets the created index buffer.
+		/// </summary>
 		public IndexBuffer IndexBuffer
 		{
 			get { return mIndices; }
 		}
 		
+		/// <summary>
+		/// Length of the cube.
+		/// </summary>
 		public float Length { get; set; }
+
+		/// <summary>
+		/// Position of the center of the cube.
+		/// </summary>
 		public Vector3 Location { get; set; }
 
 		bool GenerateTextureCoords
@@ -46,8 +65,13 @@ namespace AgateLib.Geometry.Builders
 			get { return VertexType.ContainsElement(VertexElement.Bitangent); }
 		}
 
+		/// <summary>
+		/// Vertex type to use when generating the cube.
+		/// </summary>
 		public VertexLayout VertexType { get; set; }
-
+		/// <summary>
+		/// Creates the vertex buffer and index buffer using the settings of the CubeBuilder.
+		/// </summary>
 		public void CreateVertexBuffer()
 		{
 			PositionTextureNTB[] vertices = new PositionTextureNTB[24];

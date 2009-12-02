@@ -70,7 +70,7 @@ namespace AgateOTK.Legacy
 							 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 		}
 
-		public override bool CanAccessBackBuffer
+		public override bool CanAccessRenderTarget
 		{
 			get
 			{
@@ -78,7 +78,7 @@ namespace AgateOTK.Legacy
 			}
 		}
 
-		public override AgateLib.ImplementationBase.SurfaceImpl BackBuffer
+		public override AgateLib.ImplementationBase.SurfaceImpl RenderTarget
 		{
 			get
 			{

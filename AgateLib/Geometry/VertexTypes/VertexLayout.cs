@@ -5,10 +5,16 @@ using System.Text;
 
 namespace AgateLib.Geometry.VertexTypes
 {
+	/// <summary>
+	/// Class which describes how vertex information is layed out in memory.
+	/// </summary>
 	public class VertexLayout : IList<VertexElementDesc>
 	{
 		List<VertexElementDesc> items = new List<VertexElementDesc>();
 
+		/// <summary>
+		/// Gets the size of a vertex structure in bytes.
+		/// </summary>
 		public int VertexSize
 		{
 			get
@@ -16,7 +22,11 @@ namespace AgateLib.Geometry.VertexTypes
 				return this.Sum(x => x.ItemSize);
 			}
 		}
-		
+		/// <summary>
+		/// Gets the element description for the specified vertex element.
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
 		public VertexElementDesc GetElement(VertexElement element)
 		{
 			for (int i = 0; i < Count; i++)
@@ -27,11 +37,20 @@ namespace AgateLib.Geometry.VertexTypes
 
 			throw new AgateException("Element {0} not found.", element);
 		}
-
+		/// <summary>
+		/// Gets whether the described vertex structure contains the specified element.
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
 		public bool ContainsElement(VertexElement element)
 		{
 			return items.Any(x => x.ElementType == element);
 		}
+		/// <summary>
+		/// Gets the byte offset into the vertex structure the specified element is at.
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
 		public int ElementByteIndex(VertexElement element)
 		{
 			int size = 0;
@@ -46,7 +65,11 @@ namespace AgateLib.Geometry.VertexTypes
 
 			throw new AgateException("Could not find the element {0} in the vertex layout.", element);
 		}
-
+		/// <summary>
+		/// Gets the size of a particular vertex element data type.
+		/// </summary>
+		/// <param name="vertexElementType"></param>
+		/// <returns></returns>
 		public static int SizeOf(VertexElementDataType vertexElementType)
 		{
 			switch (vertexElementType)
@@ -161,21 +184,38 @@ namespace AgateLib.Geometry.VertexTypes
 		#endregion
 
 	}
+	/// <summary>
+	/// A class which describes a particular element of a vertex structure.
+	/// </summary>
 	public class VertexElementDesc
 	{
 		VertexElement mDef;
 
+		/// <summary>
+		/// Constructs a VertexElementDesc structure.
+		/// </summary>
+		/// <param name="type">The data type of the vertex element.</param>
+		/// <param name="def">The semantic type of the vertex element.</param>
 		public VertexElementDesc(VertexElementDataType type, VertexElement def)
 		{
 			DataType = type;
 			ElementType = def;
 		}
-
+		/// <summary>
+		/// Gets debugging string.
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
-				return ElementType.ToString();
+			return ElementType.ToString();
 		}
+		/// <summary>
+		/// Gets the data type of the vertex element.
+		/// </summary>
 		public VertexElementDataType DataType { get; private set; }
+		/// <summary>
+		/// Gets the semantic type of the vertex element.
+		/// </summary>
 		public VertexElement ElementType
 		{
 			get { return mDef; }
@@ -184,31 +224,81 @@ namespace AgateLib.Geometry.VertexTypes
 				mDef = value;
 			}
 		}
-
+		/// <summary>
+		/// Returns the size in bytes of the vertex element.
+		/// </summary>
 		public int ItemSize
 		{
 			get { return VertexLayout.SizeOf(DataType); }
 		}
 	}
 
+	/// <summary>
+	/// Enumeration for describing the data types of vertex elements.
+	/// </summary>
 	public enum VertexElementDataType
 	{
+		/// <summary>
+		/// A single 4-byte float.
+		/// </summary>
 		Float1,
+		/// <summary>
+		/// Two 4-byte floats.
+		/// </summary>
 		Float2,
+		/// <summary>
+		/// Three 4-byte floats.
+		/// </summary>
 		Float3,
+		/// <summary>
+		/// Four 4-byte floats.
+		/// </summary>
 		Float4,
+		/// <summary>
+		/// A single 4-byte integer.
+		/// </summary>
 		Int,
 	}
+	/// <summary>
+	/// The various vertex element types.
+	/// </summary>
 	public enum VertexElement
 	{
+		/// <summary>
+		/// Vertex position.
+		/// </summary>
 		Position,
+		/// <summary>
+		/// Vertex normal.
+		/// </summary>
 		Normal,
+		/// <summary>
+		/// Vertex tangent.
+		/// </summary>
 		Tangent,
+		/// <summary>
+		/// Vertex bitangent (often called binormal).
+		/// </summary>
 		Bitangent,
+		/// <summary>
+		/// The diffuse color of the vertex.
+		/// </summary>
 		DiffuseColor,
+		/// <summary>
+		/// Texture coordinates for the vertex.
+		/// </summary>
 		Texture,
+		/// <summary>
+		/// Secondary texture coordinates for the vertex.
+		/// </summary>
 		Texture1,
+		/// <summary>
+		/// Tertiary texture coordinates for the vertex.
+		/// </summary>
 		Texture2,
+		/// <summary>
+		/// Tertiary texture coordinates for the vertex.
+		/// </summary>
 		Texture3,
 	}
 }

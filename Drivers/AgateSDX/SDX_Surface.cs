@@ -54,8 +54,6 @@ namespace AgateSDX
 		Rectangle mSrcRect;
 		Size mTextureSize;
 		PointF mCenterPoint;
-		float mRotationCos = 1.0f;
-		float mRotationSin = 0.0f;
 
 		PositionTextureColor[] mVerts = new PositionTextureColor[4];
 		short[] mIndices = new short[] { 0, 2, 1, 1, 2, 3 };
@@ -249,7 +247,7 @@ namespace AgateSDX
 			mTexture = Texture.FromStream(mDevice, stream, Usage.None, Pool.Managed);
 			 * */
 			//mTexture = new Texture(mDevice, bitmap, Usage.None, Pool.Managed);
-			Format format;
+			//Format format;
 
 			throw new NotImplementedException();
 
@@ -467,15 +465,15 @@ namespace AgateSDX
 				disposeSurfWhenDone = true;
 			}
 
-			Direct3D.ImageFileFormat d3dformat = SlimDX.Direct3D9.ImageFileFormat.Png;
+			//Direct3D.ImageFileFormat d3dformat = SlimDX.Direct3D9.ImageFileFormat.Png;
 
-			switch (format)
-			{
-				case ImageFileFormat.Bmp: d3dformat = Direct3D.ImageFileFormat.Bmp; break;
-				case ImageFileFormat.Png: d3dformat = Direct3D.ImageFileFormat.Png; break;
-				case ImageFileFormat.Jpg: d3dformat = Direct3D.ImageFileFormat.Jpg; break;
-				case ImageFileFormat.Tga: d3dformat = Direct3D.ImageFileFormat.Tga; break;
-			}
+			//switch (format)
+			//{
+			//    case ImageFileFormat.Bmp: d3dformat = Direct3D.ImageFileFormat.Bmp; break;
+			//    case ImageFileFormat.Png: d3dformat = Direct3D.ImageFileFormat.Png; break;
+			//    case ImageFileFormat.Jpg: d3dformat = Direct3D.ImageFileFormat.Jpg; break;
+			//    case ImageFileFormat.Tga: d3dformat = Direct3D.ImageFileFormat.Tga; break;
+			//}
 
 			DataRectangle rect = surf.LockRectangle(LockFlags.ReadOnly);
 

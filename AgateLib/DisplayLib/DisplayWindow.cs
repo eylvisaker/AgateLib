@@ -69,7 +69,7 @@ namespace AgateLib.DisplayLib
 				impl = Display.Impl.CreateDisplayWindow(par);
 			}
 
-			Display.RenderTarget = this;
+			Display.RenderTarget = FrameBuffer;
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 		}
 		/// <summary>

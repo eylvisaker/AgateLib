@@ -170,8 +170,7 @@ namespace AgateLib
 		/// Automatically selects the driver to use, or asks the user which
 		/// driver to use if appropriate.
 		/// </summary>
-		[Obsolete("Use Initialize(bool, bool, bool) overload instead.")]
-		public void InitializeDisplay()
+		private void InitializeDisplay()
 		{
 			DoAskUser();
 			InitializeDisplay(mSelectDisplay);
@@ -192,8 +191,7 @@ namespace AgateLib
 		/// Initializes the Audio subsystem.
 		/// Automatically picks which driver to use.
 		/// </summary>
-		[Obsolete("Use Initialize(bool, bool, bool) overload instead.")]
-		public void InitializeAudio()
+		private void InitializeAudio()
 		{
 			DoAskUser();
 			InitializeAudio(mSelectAudio);
@@ -214,8 +212,7 @@ namespace AgateLib
 		/// Initializes the Input subsystem.
 		/// Automatically picks which driver to use.
 		/// </summary>
-		[Obsolete("Use Initialize(bool, bool, bool) overload instead.")]
-		public void InitializeInput()
+		private void InitializeInput()
 		{
 			DoAskUser();
 			InitializeInput(mSelectInput);

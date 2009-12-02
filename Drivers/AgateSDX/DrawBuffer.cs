@@ -104,16 +104,7 @@ namespace AgateSDX
 
 			SDX_Display display = (SDX_Display)Display.Impl;
 
-			if (display.Effect != null)
-			{
-				HlslEffect fx = (HlslEffect)display.Effect;
-
-				fx.SetTexture(AgateLib.DisplayLib.Shaders.EffectTexture.Texture0, mTexture);
-
-				fx.InternalRender<object>(DoDraw,  null);
-			}
-			else
-				DoDraw(null);
+			DoDraw(null);
 
 			mVertPointer = 0;
 			mIndexPointer = 0;

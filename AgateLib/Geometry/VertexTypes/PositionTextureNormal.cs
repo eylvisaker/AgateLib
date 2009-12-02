@@ -6,13 +6,28 @@ using System.Text;
 
 namespace AgateLib.Geometry.VertexTypes
 {
+	/// <summary>
+	/// Vertex structure with position, texture and normal values.
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public struct PositionTextureNormal
 	{
+		/// <summary>
+		/// Position
+		/// </summary>
 		public Vector3 Position;
+		/// <summary>
+		/// Texture coordinates
+		/// </summary>
 		public Vector2 Texture;
+		/// <summary>
+		/// Normal value
+		/// </summary>
 		public Vector3 Normal;
 
+		/// <summary>
+		/// Vertex layout for PositionTextureNormal structure.
+		/// </summary>
 		public static VertexLayout VertexLayout
 		{
 			get

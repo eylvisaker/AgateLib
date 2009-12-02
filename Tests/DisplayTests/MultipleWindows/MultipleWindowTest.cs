@@ -69,7 +69,7 @@ namespace Tests.MultipleWindows
 					// draw the third window from the surface
 					Display.RenderTarget = wnd_3.FrameBuffer;
 
-					surf = buffer.BackBuffer;
+					surf = buffer.RenderTarget;
 
 					Display.BeginFrame();
 					Display.Clear(Color.Black);

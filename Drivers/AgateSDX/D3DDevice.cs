@@ -37,15 +37,12 @@ namespace AgateSDX
 		private SDX_FrameBuffer mRenderTarget;
 		private DrawBuffer mDrawBuffer;
 
-		private VertexFormat mVertexFormat;
 		private bool mAlphaBlend;
 		private TextureArgument mAlphaArgument1;
 		private TextureArgument mAlphaArgument2;
 		private TextureOperation mAlphaOperation;
 
 		private Matrix mWorld2D;
-
-		private int mMaxLightsUsed = 0;
 
 		private VertexDeclaration mSurfaceDecl;
 
@@ -82,7 +79,6 @@ namespace AgateSDX
 			// set weird values which will indicate that the device's
 			// render states need to be set.
 			mAlphaBlend = false;
-			mVertexFormat = VertexFormat.None;
 			mAlphaArgument1 = TextureArgument.Temp;
 			mAlphaArgument2 = TextureArgument.Temp;
 			mAlphaOperation = TextureOperation.Add;
@@ -196,12 +192,6 @@ namespace AgateSDX
 					mDevice.SetTextureStageState(0, TextureStage.AlphaOperation, value);
 				}
 			}
-		}
-
-		public void SetFontRenderState()
-		{
-			mLastTexture = null;
-			mVertexFormat = VertexFormat.PointSize;
 		}
 
 		public void SetDeviceStateTexture(Texture texture)
