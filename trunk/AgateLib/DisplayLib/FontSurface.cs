@@ -305,7 +305,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		[Obsolete]
+		[Obsolete("Use MeasureString instead.", true)]
 		public Size StringDisplaySize(string text)
 		{
 			return impl.MeasureString(mState, text);

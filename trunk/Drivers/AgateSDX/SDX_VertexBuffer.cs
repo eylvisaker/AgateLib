@@ -16,7 +16,6 @@ namespace AgateSDX
 		Direct3D.VertexBuffer mBuffer;
 		Direct3D.VertexDeclaration mDeclaration;
 		int mCount;
-		object data;
 		VertexLayout mLayout;
 
 		public SDX_VertexBuffer(SDX_Display display, VertexLayout layout, int vertexCount)

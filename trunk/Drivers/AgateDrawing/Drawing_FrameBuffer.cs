@@ -45,14 +45,14 @@ namespace AgateDrawing
 			if (EndRenderEvent != null)
 				EndRenderEvent(this, EventArgs.Empty);
 		}
-		public override bool CanAccessBackBuffer
+		public override bool CanAccessRenderTarget
 		{
 			get
 			{
 				return true;
 			}
 		}
-		public override SurfaceImpl BackBuffer
+		public override SurfaceImpl RenderTarget
 		{
 			get { return new Drawing_Surface(backBuffer, new System.Drawing.Rectangle(System.Drawing.Point.Empty, backBuffer.Size)); }
 		}

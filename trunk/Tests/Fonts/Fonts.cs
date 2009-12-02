@@ -52,7 +52,7 @@ namespace Tests.FontTester
 					// test display alignment property
 					Point textPoint = new Point(100, 50);
 					string text = string.Format("This text is centered on {0},{1}.", textPoint.X, textPoint.Y);
-					Size textSize = font.StringDisplaySize(text);
+					Size textSize = font.MeasureString(text);
 
 					// draw a box around where the text should be displayed.
 					Display.DrawRect(new Rectangle(textPoint.X - textSize.Width / 2, textPoint.Y - textSize.Height / 2,
@@ -66,7 +66,7 @@ namespace Tests.FontTester
 					font.SetScale(2.0, 2.0);
 					text = "This text is twice as big.";
 					textPoint = new Point(50, 75);
-					textSize = font.StringDisplaySize(text);
+					textSize = font.MeasureString(text);
 
 					// draw a box with the same size the text should appear as
 					Display.DrawRect(new Rectangle(textPoint, textSize), Color.White);
@@ -84,7 +84,7 @@ namespace Tests.FontTester
 						text += "Not Active";
 
 					// figure out how big the displayed text will be
-					textSize = font.StringDisplaySize(text);
+					textSize = font.MeasureString(text);
 
 					// draw the white background
 					Display.FillRect(new Rectangle(new Point(0, 0), textSize), Color.White);

@@ -35,7 +35,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury.Cache
 				if (TextBoxFrameBuffer == null) 
 					return null;
 				else
-					return TextBoxFrameBuffer.BackBuffer;
+					return TextBoxFrameBuffer.RenderTarget;
 			}
 		}
 

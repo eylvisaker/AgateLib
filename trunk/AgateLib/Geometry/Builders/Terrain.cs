@@ -7,10 +7,17 @@ using AgateLib.Geometry.VertexTypes;
 
 namespace AgateLib.Geometry.Builders
 {
+	/// <summary>
+	/// Constructs a terrain from a pixel buffer.
+	/// </summary>
 	public class HeightMapTerrain
 	{
 		PixelBuffer pixels;
 
+		/// <summary>
+		/// Construts a height map from a pixel buffer.
+		/// </summary>
+		/// <param name="pixels"></param>
 		public HeightMapTerrain(PixelBuffer pixels)
 		{
 			this.pixels = pixels.Clone();
@@ -47,8 +54,15 @@ namespace AgateLib.Geometry.Builders
 		/// </summary>
 		public float MaxPeak { get; set; }
 
+		/// <summary>
+		/// Type of vertex used.
+		/// </summary>
 		public VertexLayout VertexType { get; set; }
 
+		/// <summary>
+		/// Create the vertex buffer.
+		/// </summary>
+		/// <returns></returns>
 		public VertexBuffer CreateVertexBuffer()
 		{
 			Vector3[] vertices = new Vector3[pixels.Width * pixels.Height];

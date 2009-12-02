@@ -163,7 +163,7 @@ namespace Tests.AudioTester
 
 				FillMusicListBox();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 			}
 		}

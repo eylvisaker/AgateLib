@@ -169,7 +169,6 @@ namespace AgateLib.Utility
 		private void ReadHeaders()
 		{
 			FileHeader header;
-			bool valid;
 
 			do
 			{
@@ -187,7 +186,7 @@ namespace AgateLib.Utility
 					//ReadCentralDirectoryHeader(reader);
 				}
 				else
-					valid = false;
+					throw new AgateException("Failed to understand zip file.");
 
 				files.Add(header);
 

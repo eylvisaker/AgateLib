@@ -6,14 +6,32 @@ using System.Text;
 
 namespace AgateLib.Geometry.VertexTypes
 {
+	/// <summary>
+	/// Vertex structure with position, texture coordinates, normal and tangent.
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public struct PositionTextureNormalTangent
 	{
+		/// <summary>
+		/// 
+		/// </summary>
 		public Vector3 Position;
+		/// <summary>
+		/// 
+		/// </summary>
 		public Vector2 Texture;
+		/// <summary>
+		/// 
+		/// </summary>
 		public Vector3 Normal;
+		/// <summary>
+		/// 
+		/// </summary>
 		public Vector3 Tangent;
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public static VertexLayout VertexLayout
 		{
 			get
@@ -28,6 +46,10 @@ namespace AgateLib.Geometry.VertexTypes
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			return string.Format(

@@ -264,7 +264,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 				}
 			}
 
-			Size sz = WidgetFont.StringDisplaySize(
+			Size sz = WidgetFont.MeasureString(
 				textBox.Text.Substring(lineStart, textBox.InsertionPoint - lineStart));
 
 			Point loc = new Point(

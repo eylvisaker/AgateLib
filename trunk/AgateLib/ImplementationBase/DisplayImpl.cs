@@ -224,9 +224,7 @@ namespace AgateLib.ImplementationBase
 			mFrames++;
 			mInFrame = false;
 
-
 			CalcDeltaTime();
-
 		}
 
 		private void CalcDeltaTime()
@@ -622,6 +620,7 @@ namespace AgateLib.ImplementationBase
 		/// Only call the base class method if shaders aren't supported, as it throws a NotSupportedException.
 		/// </summary>
 		/// <returns></returns>
+		[Obsolete]
 		protected internal virtual ShaderCompilerImpl CreateShaderCompiler()
 		{
 			throw new NotSupportedException("The current driver does not support shaders.");
@@ -648,6 +647,7 @@ namespace AgateLib.ImplementationBase
 			}
 		}
 
+		[Obsolete]
 		protected void InitializeShaders()
 		{
 			if (Display.Caps.SupportsCustomShaders)

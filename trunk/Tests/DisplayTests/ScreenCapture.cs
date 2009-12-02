@@ -57,7 +57,7 @@ namespace Tests.ScreenCaptureExample
 
 					if (capturing)
 					{
-						capture.BackBuffer.SaveTo("CapturedImage.png", ImageFileFormat.Png);
+						capture.RenderTarget.SaveTo("CapturedImage.png", ImageFileFormat.Png);
 						Display.RenderTarget = wind.FrameBuffer;
 						someSurface.SetScale(1, 1);
 						capturing = false;

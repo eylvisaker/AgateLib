@@ -136,7 +136,7 @@ namespace AgateOTK.Legacy
 
 		}
 
-		public override AgateLib.ImplementationBase.SurfaceImpl BackBuffer
+		public override AgateLib.ImplementationBase.SurfaceImpl RenderTarget
 		{
 			get { return mTexture; }
 		}

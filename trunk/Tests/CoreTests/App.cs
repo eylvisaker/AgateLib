@@ -12,11 +12,9 @@ namespace Tests.AppTester
 			Run(args);
 		}
 
-		protected override AppInitParameters GetAppInitParameters()
+		protected override void  AdjustAppInitParameters(ref AppInitParameters initParams)
 		{
-			var retval = base.GetAppInitParameters();
-			retval.AllowResize = true;
-			return retval;
+			initParams.AllowResize = true;
 		}
 
 		#region IAgateTest Members

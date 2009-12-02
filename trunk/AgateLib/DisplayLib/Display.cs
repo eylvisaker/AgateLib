@@ -106,6 +106,7 @@ namespace AgateLib.DisplayLib
 			get { return mRenderState; }
 		}
 
+		[Obsolete]
 		private static ShaderCompilerImpl CreateShaderCompiler()
 		{
 			return impl.CreateShaderCompiler();

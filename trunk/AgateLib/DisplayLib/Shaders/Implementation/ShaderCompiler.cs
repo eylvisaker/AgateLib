@@ -24,6 +24,7 @@ using AgateLib.ImplementationBase;
 
 namespace AgateLib.DisplayLib.Shaders
 {
+	[Obsolete]
 	public static class ShaderCompiler
 	{
 		static ShaderCompilerImpl impl;

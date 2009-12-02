@@ -158,7 +158,7 @@ namespace AgateSDX
 
 			mDevice = new D3DDevice(device);
 
-			InitializeShaders();
+			//InitializeShaders();
 
 			mPosColorDecl = SDX_VertexBuffer.CreateVertexDeclaration(device, PositionColor.VertexLayout);
 		}
@@ -287,6 +287,7 @@ namespace AgateSDX
 		{
 			return BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
 		}
+		[Obsolete]
 		protected override ShaderCompilerImpl CreateShaderCompiler()
 		{
 			return new HlslCompiler(this);
@@ -357,8 +358,6 @@ namespace AgateSDX
 
 			mDevice.Device.Viewport = view;
 			mCurrentClipRect = newClipRect;
-			
-			SetOrthoProjection(newClipRect);
 		}
 
 		private Stack<Rectangle> mClipRects = new Stack<Rectangle>();
@@ -932,7 +931,6 @@ namespace AgateSDX
 
 		#endregion
 
-		[Obsolete("The necessity of this needs to be verified.")]
 		internal event EventHandler VSyncChanged;
 		private void OnVSyncChanged()
 		{

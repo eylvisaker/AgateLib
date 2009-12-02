@@ -25,15 +25,12 @@ namespace Tests.ParticleTest
 		}
 
 		#endregion
-		
-		protected override AppInitParameters GetAppInitParameters ()
+
+		protected override void AdjustAppInitParameters(ref AppInitParameters initParams)
 		{
-			AppInitParameters para = new AppInitParameters();
-			para.InitializeAudio = false;
-			para.InitializeJoysticks = false;
-			para.ShowSplashScreen = false;
-			
-			return para;
+			initParams.InitializeAudio = false;
+			initParams.InitializeJoysticks = false;
+			initParams.ShowSplashScreen = false;
 		}
 		
 		Random ran = new Random();

@@ -67,14 +67,14 @@ namespace AgateSDX
 			mDevice.Device.EndScene();
 		}
 
-		public override bool CanAccessBackBuffer
+		public override bool CanAccessRenderTarget
 		{
 			get
 			{
 				return true;
 			}
 		}
-		public override SurfaceImpl BackBuffer
+		public override SurfaceImpl RenderTarget
 		{
 			get
 			{

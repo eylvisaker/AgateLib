@@ -75,7 +75,7 @@ namespace Tests.FontLineTester
 		private void FontTests(FontSurface fontSurface, out Rectangle drawRect)
 		{
 			Point drawPoint = new Point(10, 10);
-			Size fontsize = fontSurface.StringDisplaySize(text);
+			Size fontsize = fontSurface.MeasureString(text);
 			drawRect = new Rectangle(drawPoint, fontsize);
 
 			fontSurface.DrawText(drawPoint, text);

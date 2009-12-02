@@ -82,8 +82,8 @@ namespace AgateLib.BitmapFont
 		/// Constructs a BitmapFontImpl, assuming the characters in the given file
 		/// are all the same size, and are in their ASCII order.
 		/// </summary>
-		/// <param name="filename"></param>
-		/// <param name="characterSize"></param>
+		/// <param name="filename">Path to the file which contains the image data for the font glyphs.</param>
+		/// <param name="characterSize">Size of each character in the image.</param>
 		public BitmapFontImpl(string filename, Size characterSize)
 		{
 			FontName = System.IO.Path.GetFileNameWithoutExtension(filename);
@@ -102,6 +102,7 @@ namespace AgateLib.BitmapFont
 		/// <param name="surface">Surface which contains the image data for the font glyphs.</param>
 		/// <param name="fontMetrics">FontMetrics structure which describes how characters
 		/// are laid out.</param>
+		/// <param name="name">The name of the font.</param>
 		public BitmapFontImpl(Surface surface, FontMetrics fontMetrics, string name)
 		{
 			FontName = name;
