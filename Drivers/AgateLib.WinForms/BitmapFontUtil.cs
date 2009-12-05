@@ -307,12 +307,20 @@ namespace AgateLib.WinForms
 
 				}
 			}
+			
+			if (Core.Platform.PlatformType == PlatformType.Windows)
+			{
+				GdiFontExtensions gdi = new GdiFontExtensions();
+
+				gdi.LoadKerningPairs(glyphs, font, bmp, g);
+			}
 
 			g.Dispose();
 
 			// do post processing of chars.
 			PostProcessFont(options, bmp);
 
+			
 			// place the chars on the border image
 			borderG.DrawImage(bmp, new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height));
 
