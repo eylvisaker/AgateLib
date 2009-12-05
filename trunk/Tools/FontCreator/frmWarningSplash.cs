@@ -19,7 +19,12 @@ namespace FontCreator
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.SkipWarning = chkSkipWarning.Checked;
+			try
+			{
+				Properties.Settings.Default.SkipWarning = chkSkipWarning.Checked;
+			}
+			catch
+			{ }
         }
     }
 }
