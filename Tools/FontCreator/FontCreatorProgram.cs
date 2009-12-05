@@ -35,11 +35,28 @@ namespace FontCreator
                 frm.Show();
 
                 Properties.Settings.Default.Reload();
-                if (Properties.Settings.Default.SkipWarning == false)
+
+				// workaround for bug in mono 
+				bool skipWarning  = false;
+				
+				try
+				{
+					skipWarning = Properties.Settings.Default.SkipWarning;
+				}
+				catch
+				{}
+				
+				if (skipWarning == false)
                 {
                     new frmWarningSplash().ShowDialog(frm);
                 }
-                Properties.Settings.Default.Save();
+
+				try
+				{
+					Properties.Settings.Default.Save();
+				}
+				catch
+				{ }
 
                 Application.Run(frm);
             }
