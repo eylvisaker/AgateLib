@@ -115,6 +115,7 @@
     <Compile Include="FormUtil.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GdiFontExtensions.cs" />
     <Compile Include="Icons.Designer.cs">
       <DependentUpon>Icons.resx</DependentUpon>
       <SubType>Code</SubType>
