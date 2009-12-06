@@ -267,10 +267,6 @@ namespace AgateDrawing
 					return null;
 			}
 		}
-		public override void SetOrthoProjection(AgateLib.Geometry.Rectangle region)
-		{
-			throw new AgateException("SetOrthoProjection is not implemented in AgateDrawing.dll.");
-		}
 
 		protected override void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
 		{

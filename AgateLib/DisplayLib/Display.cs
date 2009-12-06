@@ -100,7 +100,10 @@ namespace AgateLib.DisplayLib
 			Shaders.AgateBuiltInShaders.InitializeShaders();
 		}
 
-
+		/// <summary>
+		/// Gets the RenderStateAdapter object which is used to set and retrieve render
+		/// states for the display device.
+		/// </summary>
 		public static RenderStateAdapter RenderState
 		{
 			get { return mRenderState; }
@@ -145,6 +148,9 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
+		/// <summary>
+		/// Gets the shader that is currently in use.
+		/// </summary>
 		public static Shaders.AgateShader Shader
 		{
 			get { return impl.Shader; }
@@ -682,7 +688,6 @@ namespace AgateLib.DisplayLib
 		{
 			impl.HideCursor();
 		}
-
 		internal static void ShowCursor()
 		{
 			impl.ShowCursor();
