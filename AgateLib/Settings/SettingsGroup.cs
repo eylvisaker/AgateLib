@@ -5,6 +5,10 @@ using System.Text;
 
 namespace AgateLib.Settings
 {
+	/// <summary>
+	/// A group of settings.  This is essentially just a Dictionary object 
+	/// where both key and value types are strings.
+	/// </summary>
 	public class SettingsGroup : IDictionary<string, string>
 	{
 		Dictionary<string, string> mStore = new Dictionary<string, string>();
