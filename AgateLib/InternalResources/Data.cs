@@ -15,8 +15,9 @@ namespace AgateLib.InternalResources
 		static AgateResourceCollection mFontResources;
 
 		static Surface mPoweredBy;
-		static Dictionary<int, FontSurface> mGentium = new Dictionary<int, FontSurface>();
-		static Dictionary<int, FontSurface> mAndika = new Dictionary<int, FontSurface>();
+		static Dictionary<int, FontSurface> mSans = new Dictionary<int, FontSurface>();
+		static Dictionary<int, FontSurface> mSerif = new Dictionary<int, FontSurface>();
+		static Dictionary<int, FontSurface> mMono = new Dictionary<int, FontSurface>();
 
 		static Data()
 		{
@@ -31,14 +32,19 @@ namespace AgateLib.InternalResources
 				mPoweredBy = null;
 			}
 
-			foreach (var font in mAndika)
+			foreach (var font in mSans)
 				font.Value.Dispose();
 
-			foreach (var font in mGentium)
+			foreach (var font in mSerif)
 				font.Value.Dispose();
 
-			mAndika.Clear();
-			mGentium.Clear();
+			foreach (var font in mMono)
+				font.Value.Dispose();
+
+			mSans.Clear();
+			mSerif.Clear();
+			mMono.Clear();
+
 		}
 
 		private static void LoadFonts()
@@ -75,35 +81,29 @@ namespace AgateLib.InternalResources
 			return dictionary[size];
 		}
 
-		internal static FontSurface Gentium10
+		internal static FontSurface AgateSans10
 		{
-			get { return GetFont(mGentium, 10, "Gentium-10"); }
+			get { return GetFont(mSans, 10, "AgateSans-10"); }
+		}
+		internal static FontSurface AgateSans14
+		{
+			get { return GetFont(mSans, 14, "AgateSans-14"); }
 		}
 
-		internal static FontSurface Gentium12
+		internal static FontSurface AgateSerif10
 		{
-			get { return GetFont(mGentium, 12, "Gentium-12"); }
+			get { return GetFont(mSerif, 10, "AgateSerif-10"); }
 		}
-		internal static FontSurface Gentium14
+		internal static FontSurface AgateSerif14
 		{
-			get { return GetFont(mGentium, 14, "Gentium-14"); }
+			get { return GetFont(mSerif, 14, "AgateSerif-14"); }
 		}
 
-		internal static FontSurface Andika09
+		internal static FontSurface AgateMono10
 		{
-			get { return GetFont(mAndika, 9, "Andika-09"); }
+			get { return GetFont(mMono, 10, "AgateMono-10"); }
 		}
-		internal static FontSurface Andika10
-		{
-			get { return GetFont(mAndika, 10, "Andika-10"); }
-		}
-		internal static FontSurface Andika12
-		{
-			get { return GetFont(mAndika, 12, "Andika-12"); }
-		}
-		internal static FontSurface Andika14
-		{
-			get { return GetFont(mAndika, 14, "Andika-14"); }
-		}
+		
+
 	}
 }

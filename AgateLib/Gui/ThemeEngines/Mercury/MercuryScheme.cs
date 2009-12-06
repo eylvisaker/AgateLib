@@ -121,8 +121,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		void SetDefaults(IFileProvider files)
 		{
-			WidgetFont = FontSurface.Andika09;
-			TitleFont = FontSurface.Andika10;
+			WidgetFont = FontSurface.AgateSans10;
+			TitleFont = FontSurface.AgateSans14;
 			
 			FontColor = Color.White;
 			FontColorDisabled = Color.Gray;

@@ -190,50 +190,6 @@ namespace AgateLib.BitmapFont
 		}
 
 		#endregion
-
-		private void ReadGlyphs030(XmlNode rootNode)
-		{
-			foreach (XmlNode node in rootNode.ChildNodes)
-			{
-				GlyphMetrics glyph = new GlyphMetrics();
-
-				char key = (char)int.Parse(node.Attributes["Char"].Value);
-				glyph.SourceRect = Rectangle.Parse(node.Attributes["Source"].Value);
-
-				glyph.LeftOverhang = GetAttributeInt32(node, "LeftOverhang");
-				glyph.RightOverhang = GetAttributeInt32(node, "RightOverhang");
-
-				mGlyphs.Add(key, glyph);
-			}
-		}
-
-		private int GetAttributeInt32(XmlNode node, string p)
-		{
-			if (node[p] == null)
-				return 0;
-
-			return int.Parse(node[p].Value);
-		}
-
-		private static void AddAttribute(XmlDocument doc, XmlNode current, string name, int value)
-		{
-			XmlAttribute att = doc.CreateAttribute(name);
-			att.Value = value.ToString();
-			current.Attributes.Append(att);
-		}
-		private static void AddAttribute(XmlDocument doc, XmlNode current, string name, Rectangle value)
-		{
-			XmlAttribute att = doc.CreateAttribute(name);
-			att.Value = value.ToString();
-			current.Attributes.Append(att);
-		}
-		private static void AddAttribute(XmlDocument doc, XmlNode current, string name, char value)
-		{
-			XmlAttribute att = doc.CreateAttribute(name);
-			att.Value = ((int)value).ToString();
-			current.Attributes.Append(att);
-		}
-
 		#region ICloneable Members
 
 		object ICloneable.Clone()

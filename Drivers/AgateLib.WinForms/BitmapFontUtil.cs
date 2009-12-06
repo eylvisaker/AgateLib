@@ -31,113 +31,9 @@ namespace AgateLib.WinForms
 	/// <summary>
 	/// Utility class for constructing a bitmap font image.
 	/// </summary>
-	public static class BitmapFontUtil
+	public static partial class BitmapFontUtil
 	{
-		interface ICharacterRenderer
-		{
-			Drawing.Font Font { get; set; }
-
-			int Padding { get; }
-			Size MeasureText(Drawing.Graphics g, string text);
-			void DrawText(Drawing.Graphics g, string text, Point location, Drawing.Color clr);
-		}
-
-		class TextRend : ICharacterRenderer
-		{
-			Drawing.Font font;
-
-			public TextRend(Drawing.Font font)
-			{
-				Font = font;
-			}
-			public System.Drawing.Font Font
-			{
-				get { return font; }
-				set { font = value; }
-			}
-			public int Padding
-			{
-				get { return 1; }
-			}
-			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
-
-			public Size MeasureText(System.Drawing.Graphics g, string text)
-			{
-				Drawing.Size size = TextRenderer.MeasureText(g, text,
-						   font, new System.Drawing.Size(256, 256), flags);
-
-				return new Size(size.Width, size.Height);
-			}
-
-			public void DrawText(System.Drawing.Graphics g, string text, Point location, Drawing.Color clr)
-			{
-				TextRenderer.DrawText(g, text, font,
-						new System.Drawing.Rectangle(location.X, location.Y, 256, 256),
-						clr, flags);
-			}
-
-		}
-		class GraphicsRend : ICharacterRenderer
-		{
-			Drawing.Font font;
-			float padding;
-
-			public GraphicsRend(Drawing.Font font)
-			{
-				Font = font;
-			}
-			public System.Drawing.Font Font
-			{
-				get { return font; }
-				set { font = value; }
-			}
-
-			public int Padding
-			{
-				get { return (int)Math.Ceiling(padding); }
-			}
-			void CalculatePadding(Drawing.Graphics g)
-			{
-				// apparently .NET (or GDI+) does this stupid thing on Windows
-				// where is reports extra padded space around the characters drawn.
-				// Fortunately, this padding is equal the reported size of the
-				// space character, which is not drawn when by itself.
-				if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-				{
-					SizeF padSize = Interop.Convert(g.MeasureString(" ", font));
-
-					padding = padSize.Width - 1;
-				}
-			}
-			public Size MeasureText(Drawing.Graphics g, string text)
-			{
-				if (padding == 0)
-					CalculatePadding(g);
-
-				Drawing.SizeF size = g.MeasureString(text, font);
-				size.Width -= padding;
-
-				// for space character on windows.
-				if (text == " " && padding > 0)
-					size.Width = padding;
-
-				return new Size((int)(size.Width), (int)(size.Height));
-			}
-
-			public void DrawText(Drawing.Graphics g, string text, Point location, Drawing.Color clr)
-			{
-				g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-
-				// we need to adjust the position by half the padding
-				location.X -= (int)Math.Ceiling(padding / 2);
-
-				using (Drawing.Brush brush = new Drawing.SolidBrush(clr))
-				{
-					g.DrawString(text, font, brush, new Drawing.Point(location.X, location.Y));
-				}
-			}
-		}
-
+		
 		/// <summary>
 		/// Creates a bitmap font by loading an OS font, and drawing it to 
 		/// a bitmap to use as a Surface object.  You should only use this method
@@ -161,6 +57,11 @@ namespace AgateLib.WinForms
 			ICharacterRenderer rend = options.UseTextRenderer ?
 				(ICharacterRenderer)new TextRend(font) :
 				(ICharacterRenderer)new GraphicsRend(font);
+
+			if (Core.Platform.PlatformType == PlatformType.Windows && options.UseTextRenderer)
+			{
+				rend = new GdiWindows(font);
+			}
 
 			MakeBitmap(options, rend, out bmp, out glyphs);
 
@@ -204,7 +105,7 @@ namespace AgateLib.WinForms
 			{
 				for (char i = range.StartChar; i <= range.EndChar; i++)
 				{
-					Size sourceSize = rend.MeasureText(g, i.ToString());
+					Size sourceSize = rend.MeasureChar(g, i);
 
 					// skip glyphs which are not in the font.
 					if (sourceSize.Width == 0)
@@ -279,12 +180,12 @@ namespace AgateLib.WinForms
 
 					if (options.CreateBorder)
 					{
-						rend.DrawText(borderG, i.ToString(), new Point(drawX , drawY + 1), borderColor);
-						rend.DrawText(borderG, i.ToString(), new Point(drawX + 2, drawY + 1), borderColor);
-						rend.DrawText(borderG, i.ToString(), new Point(drawX + 1, drawY), borderColor);
-						rend.DrawText(borderG, i.ToString(), new Point(drawX + 1, drawY + 2), borderColor);
+						rend.DrawChar(borderG, i, new Point(drawX , drawY + 1), borderColor);
+						rend.DrawChar(borderG, i, new Point(drawX + 2, drawY + 1), borderColor);
+						rend.DrawChar(borderG, i, new Point(drawX + 1, drawY), borderColor);
+						rend.DrawChar(borderG, i, new Point(drawX + 1, drawY + 2), borderColor);
 
-						rend.DrawText(g, i.ToString(), new Point(drawX + 1, drawY + 1), System.Drawing.Color.White);
+						rend.DrawChar(g, i, new Point(drawX + 1, drawY + 1), System.Drawing.Color.White);
 
 						if (font.SizeInPoints >= 14.0)
 							glyphs[i].LeftOverhang = 1;
@@ -293,7 +194,7 @@ namespace AgateLib.WinForms
 					}
 					else
 					{
-						rend.DrawText(g, i.ToString(), new Point(drawX, drawY), System.Drawing.Color.White);
+						rend.DrawChar(g, i, new Point(drawX, drawY), System.Drawing.Color.White);
 					}
 
 					glyphs[i].SourceRect = new Rectangle(
@@ -307,13 +208,8 @@ namespace AgateLib.WinForms
 
 				}
 			}
-			
-			if (Core.Platform.PlatformType == PlatformType.Windows)
-			{
-				GdiFontExtensions gdi = new GdiFontExtensions();
 
-				gdi.LoadKerningPairs(glyphs, font, bmp, g);
-			}
+			rend.ModifyMetrics(glyphs, g);
 
 			g.Dispose();
 

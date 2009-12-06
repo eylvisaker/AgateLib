@@ -62,7 +62,7 @@ namespace FontCreator
 
 			foreach (string family in fonts)
 			{
-				if (family == "Arial" || family.Contains("Sans Serif") && index == 0)
+				if (family == "Bitstream Vera Sans" || family == "Arial")
 					index = cboFamily.Items.Count;
 
 				cboFamily.Items.Add(family);

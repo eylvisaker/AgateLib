@@ -100,7 +100,7 @@ namespace Tests.GuiTests
 			wind.Children.Add(topPanel);
 			wind.Children.Add(bottomPanel);
 			wind.AllowDrag = true;
-			wind.Size = new Size(400, 300);
+			wind.Size = new Size(500, 400);
 			bottomPanel.LayoutExpand = LayoutExpand.ExpandToMax;
 
 			wind.AcceptButton = (Button)leftPanel.Children[0];
