@@ -89,6 +89,10 @@ namespace AgateLib.InternalResources
 		{
 			get { return GetFont(mSans, 14, "AgateSans-14"); }
 		}
+		internal static FontSurface AgateSans24
+		{
+			get { return GetFont(mSans, 24, "AgateSans-24"); }
+		}
 
 		internal static FontSurface AgateSerif10
 		{

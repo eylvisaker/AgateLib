@@ -1645,6 +1645,7 @@ class BBX
         {
             Display.BeginFrame();
 
+			img.largeFont.SetScale(0.8, 0.8);
             median = (int)Timing.TotalMilliseconds - start;
 
             Display.Clear(Color.White);
