@@ -8,6 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK
 {
+	[Obsolete]
 	class ArbShaderCompiler : ShaderCompilerImpl
 	{
 		public ArbShaderCompiler()
