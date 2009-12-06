@@ -31,6 +31,9 @@ developed to include Direct3D 10/11 support.
 A particles system has been developed by Marcel Hauf and is included in the
 AgateLib.Particles namespace.
 
+A simple mechanism for saving/loading user perferences has been implemented
+in the AgateLib.Settings namespace, and is accessed through Core.Settings.
+
 Several functions have been deprecated around the library.  A compatibility 
 release versioned 0.3.9 is included which retains these deprecated functions
 to help migrate code to AgateLib 0.4.0.  Not everything could be kept however.
