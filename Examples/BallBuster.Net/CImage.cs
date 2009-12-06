@@ -58,8 +58,10 @@ class CImage
 
     public void preload()
     {
-        this.font = new FontSurface("Arial", 11.0f);
-        this.largeFont = new FontSurface("Arial", 22.0f);
+		this.font = FontSurface.AgateSans10;
+		this.largeFont = FontSurface.AgateSans24;
+		this.largeFont.SetScale(0.8, 0.8);
+
 		this.palogo = new Sprite(spritesSrc, "palogo");
     }
 

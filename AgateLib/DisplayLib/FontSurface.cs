@@ -637,6 +637,17 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
+		/// The default AgateLib sans serif font at 24 points.
+		/// </summary>
+		/// <remarks>
+		/// AgateSans was rasterized from Bitstream Vera Sans.
+		/// </remarks>
+		public static FontSurface AgateSans24
+		{
+			get { return InternalResources.Data.AgateSans24; }
+		}
+
+		/// <summary>
 		/// The default AgateLib serif font at 10 points.
 		/// </summary>
 		/// <remarks>
