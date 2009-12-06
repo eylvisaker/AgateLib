@@ -5,17 +5,64 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using AgateLib.DisplayLib;
 
 namespace FontCreator
 {
     public partial class SaveFont : UserControl 
     {
+		AgateLib.DisplayLib.DisplayWindow wind;
+
         public SaveFont()
         {
             InitializeComponent();
             
             UpdateControls();
+
+			//abcdefghijklmnopqrstuvwxyz
+			//ABCDEFGHIJKLMNOPQRSTUVWXYZ
+			//01234567890
+			//!@#$%^&*(),<.>/?;:'"-_=+\|
+			//¡¢£¤¥¦§¨©ª«¬­®¯°±²³µ¶·¸¹º»¼½¾¿À
+			//ÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚ
+			//ÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷ø
+			//ùúûüýþ
+
+			StringBuilder b = new StringBuilder();
+			b.AppendLine("The quick brown fox jumped over the lazy dogs.");
+			b.AppendLine("THE QUICK BROWN FOX JUMPED OVER THE LAZY DOGS.");
+			b.AppendLine("01234567890");
+			b.AppendLine("AV AW VA VW Ta Te Ti Ty Tu Tü Të Tö");
+			b.AppendLine("Tantalum");
+
+			text = b.ToString();
+
+			panel1.Paint += new PaintEventHandler(agateRenderTarget1_Paint);
+
         }
+
+		public FontSurface AgateFont { get; set; }
+
+		string text;
+
+		void agateRenderTarget1_Paint(object sender, PaintEventArgs e)
+		{
+			if (wind == null)
+			{
+				wind = AgateLib.DisplayLib.DisplayWindow.CreateFromControl(panel1);
+			}
+
+			
+			Display.RenderTarget = wind.FrameBuffer;
+			Display.BeginFrame();
+
+			Display.Clear(AgateLib.Geometry.Color.DarkRed);
+
+			AgateFont.Color = AgateLib.Geometry.Color.White;
+			AgateFont.DrawText(text);
+
+			Display.EndFrame();
+		}
 
         public string ResourceFilename
         {
@@ -58,7 +105,7 @@ namespace FontCreator
         {
             UpdateControls();
 
-            txtImage.Text = "fonts/" + txtFontName.Text + ".png";
+            txtImage.Text = "Fonts/" + txtFontName.Text + ".png";
         }
 
         private void UpdateControls()

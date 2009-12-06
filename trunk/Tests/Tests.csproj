@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="Fonts\Builtin.cs" />
+    <Compile Include="Fonts\Kerning.cs" />
     <Compile Include="frmLauncher.cs">
       <SubType>Form</SubType>
     </Compile>

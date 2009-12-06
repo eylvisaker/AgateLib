@@ -27,6 +27,14 @@ namespace AgateLib.Resources
 		{
 			switch (version)
 			{
+				case "0.4.0":
+					Name = node.Attributes["name"].Value;
+					mImage = XmlHelper.ReadAttributeString(node, "image", string.Empty);
+
+					ReadMetrics040(node);
+
+					break;
+
 				case "0.3.1":
 				case "0.3.0":
 					Name = node.Attributes["name"].Value;
@@ -39,6 +47,54 @@ namespace AgateLib.Resources
 				default:
 					throw new AgateResourceException("Loading the BitmapFontResource is not supported for " +
 						"version " + version + " yet. ");
+			}
+		}
+
+		private void ReadMetrics040(XmlNode parent)
+		{
+			XmlNode root = null;
+
+			// find metrics node
+			foreach (XmlNode n in parent.ChildNodes)
+			{
+				if (n.Name == "Metrics")
+				{
+					root = n;
+					break;
+				}
+			}
+
+			if (root == null)
+				throw new AgateResourceException(string.Format(
+					"Could not find Metrics node in bitmap font resource {0}.", Name));
+
+			foreach (XmlNode node in root.ChildNodes)
+			{
+				if (node.Name == "Glyph")
+				{
+					GlyphMetrics glyph = new GlyphMetrics();
+
+					char key = (char)int.Parse(node.Attributes["char"].Value);
+					glyph.SourceRect = Rectangle.Parse(node.Attributes["source"].Value);
+
+					glyph.LeftOverhang = XmlHelper.ReadAttributeInt(node, "leftOverhang", 0);
+					glyph.RightOverhang = XmlHelper.ReadAttributeInt(node, "rightOverhang", 0);
+
+					mMetrics.Add(key, glyph);
+				}
+				else if (node.Name == "Kerning")
+				{
+					char left = (char)XmlHelper.ReadAttributeInt(node, "first");
+					char right = (char)XmlHelper.ReadAttributeInt(node, "second");
+					int value = XmlHelper.ReadAttributeInt(node, "value");
+
+					mMetrics[left].KerningPairs.Add(right, value);
+				}
+				else
+				{
+					throw new AgateResourceException(string.Format(
+						"Expected to find glyph node, but found {0} instead.", node.Name));
+				}
 			}
 		}
 
@@ -101,6 +157,19 @@ namespace AgateLib.Resources
 					XmlHelper.AppendAttribute(current, doc, "rightOverhang", glyphMetrics.RightOverhang);
 
 				metrics.AppendChild(current);
+			}
+			foreach (char glyph in mMetrics.Keys)
+			{
+				foreach (var kern in mMetrics[glyph].KerningPairs)
+				{
+					XmlNode current = doc.CreateElement("Kerning");
+
+					XmlHelper.AppendAttribute(current, doc, "first", glyph);
+					XmlHelper.AppendAttribute(current, doc, "second", kern.Key);
+					XmlHelper.AppendAttribute(current, doc, "value", kern.Value);
+
+					metrics.AppendChild(current);
+				}
 			}
 
 			root.AppendChild(metrics);

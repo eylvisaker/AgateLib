@@ -55,6 +55,8 @@ namespace FontCreator
 
 					case 3:
 						pnl = pnlSaveFont;
+						saveFont1.AgateFont = AgateFont;
+
 						break;
 
 					default:

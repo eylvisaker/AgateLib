@@ -151,6 +151,16 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
+		/// Initializes a FontSurface object with a given implementation object.
+		/// </summary>
+		/// <param name="implToUse"></param>
+		/// <returns></returns>
+		public static FontSurface FromImpl(FontSurfaceImpl implToUse)
+		{
+			return new FontSurface(implToUse);
+		}
+
+		/// <summary>
 		/// Returns the implementation object.
 		/// </summary>
 		public FontSurfaceImpl Impl
@@ -605,90 +615,60 @@ namespace AgateLib.DisplayLib
 		#region --- Built-in Fonts ---
 
 		/// <summary>
-		/// This sans serif bitmap font was generated from Andika at 9 points.
+		/// The default AgateLib sans serif font at 10 points.
 		/// </summary>
 		/// <remarks>
-		/// Andika is Copyright (c) 2004-2008, SIL International and
-		/// distributed under the Open Font License.
-		/// http://scripts.sil.org/OFL
+		/// AgateSans was rasterized from Bitstream Vera Sans.
 		/// </remarks>
-		public static FontSurface Andika09
+		public static FontSurface AgateSans10
 		{
-			get { return InternalResources.Data.Andika09; }
-		}
-		/// <summary>
-		/// This sans serif bitmap font was generated from Andika at 10 points.
-		/// </summary>
-		/// <remarks>
-		/// Andika is Copyright (c) 2004-2008, SIL International and
-		/// distributed under the Open Font License.
-		/// http://scripts.sil.org/OFL
-		/// </remarks>
-		public static FontSurface Andika10
-		{
-			get { return InternalResources.Data.Andika10; }
-		}
-		/// <summary>
-		/// This sans serif bitmap font was generated from Andika at 12 points.
-		/// </summary>
-		/// <remarks>
-		/// Andika is Copyright (c) 2004-2008, SIL International and
-		/// distributed under the Open Font License.
-		/// http://scripts.sil.org/OFL
-		/// </remarks>
-		public static FontSurface Andika12
-		{
-			get { return InternalResources.Data.Andika12; }
-		}
-		/// <summary>
-		/// This sans serif bitmap font was generated from Andika at 14 points.
-		/// </summary>
-		/// <remarks>
-		/// Andika is Copyright (c) 2004-2008, SIL International and
-		/// distributed under the Open Font License.
-		/// http://scripts.sil.org/OFL
-		/// </remarks>
-		public static FontSurface Andika14
-		{
-			get { return InternalResources.Data.Andika14; }
+			get { return InternalResources.Data.AgateSans10; }
 		}
 
 		/// <summary>
-		/// This serif bitmap font was generated from Gentium at 10 points.
+		/// The default AgateLib sans serif font at 14 points.
 		/// </summary>
 		/// <remarks>
-		/// Gentium is Copyright (c) 2004-2008, SIL International and
-		/// distributed under the Open Font License.
-		/// http://scripts.sil.org/OFL
+		/// AgateSans was rasterized from Bitstream Vera Sans.
 		/// </remarks>
-		public static FontSurface Gentium10
+		public static FontSurface AgateSans14
 		{
-			get { return InternalResources.Data.Gentium10; }
+			get { return InternalResources.Data.AgateSans14; }
 		}
+
 		/// <summary>
-		/// This serif bitmap font was generated from Gentium at 12 points.
+		/// The default AgateLib serif font at 10 points.
 		/// </summary>
 		/// <remarks>
-		/// Gentium is Copyright (c) 2004-2008, SIL International and
-		/// distributed under the Open Font License.
-		/// http://scripts.sil.org/OFL
+		/// AgateSans was rasterized from Bitstream Vera Serif.
 		/// </remarks>
-		public static FontSurface Gentium12
+		public static FontSurface AgateSerif10
 		{
-			get { return InternalResources.Data.Gentium12; }
+			get { return InternalResources.Data.AgateSerif10; }
 		}
+
 		/// <summary>
-		/// This serif bitmap font was generated from Gentium at 14 points.
+		/// The default AgateLib serif font at 14 points.
 		/// </summary>
 		/// <remarks>
-		/// Gentium is Copyright (c) 2004-2008, SIL International and
-		/// distributed under the Open Font License.
-		/// http://scripts.sil.org/OFL
+		/// AgateSans was rasterized from Bitstream Vera Serif.
 		/// </remarks>
-		public static FontSurface Gentium14
+		public static FontSurface AgateSerif14
 		{
-			get { return InternalResources.Data.Gentium14; }
+			get { return InternalResources.Data.AgateSerif14; }
 		}
+
+		/// <summary>
+		/// The default AgateLib monospace font at 10 points.
+		/// </summary>
+		/// <remarks>
+		/// AgateSans was rasterized from Bitstream Vera Sans Mono.
+		/// </remarks>
+		public static FontSurface AgateMono10
+		{
+			get { return InternalResources.Data.AgateMono10; }
+		}
+
 
 		#endregion
 

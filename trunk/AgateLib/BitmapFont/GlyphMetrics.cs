@@ -104,6 +104,14 @@ namespace AgateLib.BitmapFont
 		}
 
 		/// <summary>
+		/// Gets the number of pixels the drawing position is advanced when this glyph is drawn.
+		/// </summary>
+		public int LayoutWidth
+		{
+			get { return mSourceRect.Width - LeftOverhang - RightOverhang; }
+		}
+
+		/// <summary>
 		/// A dictionary of characters which need kerning when paired with this glyph.
 		/// </summary>
 		public Dictionary<char, int> KerningPairs

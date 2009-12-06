@@ -286,6 +286,15 @@ namespace AgateLib.BitmapFont
 
 						destX += destRects[rectCount].Width - glyph.RightOverhang * ScaleWidth;
 
+						// check for kerning
+						if (i < text.Length - 1)
+						{
+							if (glyph.KerningPairs.ContainsKey(text[i + 1]))
+							{
+								destX += glyph.KerningPairs[text[i + 1]] * ScaleWidth;
+							}
+						}
+
 						rectCount++;
 						break;
 				}
@@ -328,34 +337,33 @@ namespace AgateLib.BitmapFont
 
 		private void RefreshCache(FontState state, BitmapFontCache cache)
 		{
+			if (cache.NeedsRefresh == false)
+				return;
 
-			if (cache.NeedsRefresh)
+			// this variable counts the number of rectangles actually used to display text.
+			// It may be less then text.Length because carriage return characters 
+			// don't need any rects.
+			GetRects(cache.SrcRects, cache.DestRects, out cache.DisplayTextLength,
+				state.TransformedText, state.ScaleHeight, state.ScaleWidth);
+
+			PointF dest = state.Location;
+
+			if (state.DisplayAlignment != OriginAlignment.TopLeft)
 			{
-				// this variable counts the number of rectangles actually used to display text.
-				// It may be less then text.Length because carriage return characters 
-				// don't need any rects.
-				GetRects(cache.SrcRects, cache.DestRects, out cache.DisplayTextLength,
-					state.TransformedText, state.ScaleHeight, state.ScaleWidth);
+				Point value = Origin.Calc(state.DisplayAlignment,
+					MeasureString(state, state.Text));
 
-				PointF dest = state.Location;
-
-				if (state.DisplayAlignment != OriginAlignment.TopLeft)
-				{
-					Point value = Origin.Calc(state.DisplayAlignment,
-						MeasureString(state, state.Text));
-
-					dest.X -= value.X;
-					dest.Y -= value.Y;
-				}
-
-				for (int i = 0; i < cache.DisplayTextLength; i++)
-				{
-					cache.DestRects[i].X += dest.X;
-					cache.DestRects[i].Y += dest.Y;
-				}
-
-				cache.NeedsRefresh = false;
+				dest.X -= value.X;
+				dest.Y -= value.Y;
 			}
+
+			for (int i = 0; i < cache.DisplayTextLength; i++)
+			{
+				cache.DestRects[i].X += dest.X;
+				cache.DestRects[i].Y += dest.Y;
+			}
+
+			cache.NeedsRefresh = false;
 		}
 	}
 

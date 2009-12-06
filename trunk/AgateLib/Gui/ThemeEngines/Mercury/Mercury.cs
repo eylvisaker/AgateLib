@@ -32,7 +32,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public Mercury()
 			: this(MercuryScheme.CreateDefaultScheme())
 		{
-			DebugOutlines = true;
+			
 		}
 		public Mercury(MercuryScheme scheme)
 		{
