@@ -24,15 +24,29 @@ using AgateLib.ImplementationBase;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Class which represents an index buffer in video memory.  An index buffer is
+	/// used to reduce the amount of vertex data that needs to be stored/sent to the
+	/// graphics adapter.
+	/// </summary>
 	public class IndexBuffer
 	{
 		IndexBufferImpl impl;
 
+		/// <summary>
+		/// Constructs an index buffer.
+		/// </summary>
+		/// <param name="type">The type of index buffer to create, 16 or 32 bit indices.</param>
+		/// <param name="size">The number of indices that are contained in the index buffer.</param>
 		public IndexBuffer(IndexBufferType type, int size)
 		{
 			impl = Display.Impl.CreateIndexBuffer(type, size);
 		}
 
+		/// <summary>
+		/// Writes indices to the index buffer.
+		/// </summary>
+		/// <param name="indices">The indices to write.</param>
 		public void WriteIndices(short[] indices)
 		{
 			if (impl.IndexType == IndexBufferType.Int32)
@@ -43,6 +57,11 @@ namespace AgateLib.DisplayLib
 
 			impl.WriteIndices(indices);
 		}
+		/// <summary>
+		/// Writes indices to the index buffer.
+		/// </summary>
+		/// <param name="indices">The indices to write.  If this is a 16 bit index buffer, you must not 
+		/// have an index greater than 32767.</param>
 		public void WriteIndices(int[] indices)
 		{
 			if (impl.IndexType == IndexBufferType.Int16)
@@ -92,20 +111,35 @@ namespace AgateLib.DisplayLib
 			return retval;
 		}
 
+		/// <summary>
+		/// Gets the number of indices in the buffer.
+		/// </summary>
 		public int Count
 		{
 			get { return impl.Count; }
 		}
 
+		/// <summary>
+		/// Gets the index buffer implementation.
+		/// </summary>
 		public IndexBufferImpl Impl
 		{
 			get { return impl; }
 		}
 	}
 
+	/// <summary>
+	/// Enum indicating the type of index buffer.
+	/// </summary>
 	public enum IndexBufferType
 	{
+		/// <summary>
+		/// A 16-bit index buffer.
+		/// </summary>
 		Int16,
+		/// <summary>
+		/// A 32-bit index buffer.
+		/// </summary>
 		Int32,
 	}
 }
