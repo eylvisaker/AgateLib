@@ -452,7 +452,7 @@ class BBX
 
             foreach (KeyValuePair<Point, string> kvp in editorState.Menu)
             {
-                Rectangle rect = new Rectangle(kvp.Key, img.font.StringDisplaySize(kvp.Value));
+                Rectangle rect = new Rectangle(kvp.Key, img.font.MeasureString(kvp.Value));
 
                 if (rect.Height > 16)
                     rect.Height = 16;
@@ -4024,7 +4024,7 @@ class BBX
         // draw menu
         foreach (KeyValuePair<Point, string> kvp in editorState.Menu)
         {
-            Rectangle rect = new Rectangle(kvp.Key, img.font.StringDisplaySize(kvp.Value));
+            Rectangle rect = new Rectangle(kvp.Key, img.font.MeasureString(kvp.Value));
 
             if (rect.Height > 16)
                 rect.Height = 16;

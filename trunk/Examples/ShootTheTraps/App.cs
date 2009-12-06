@@ -212,7 +212,7 @@ namespace ShootTheTraps
 
 		private void CenterText(FontSurface font, int y, string text, Color color)
 		{
-			Size size = font.StringDisplaySize(text);
+			Size size = font.MeasureString(text);
 
 			int x = (Display.RenderTarget.Width - size.Width) / 2;
 
@@ -221,7 +221,7 @@ namespace ShootTheTraps
 		}
 		private void CenterText(FontSurface font, int y, string text, Color color, Color borderColor)
 		{
-			Size size = font.StringDisplaySize(text);
+			Size size = font.MeasureString(text);
 
 			int x = (Display.RenderTarget.Width - size.Width) / 2;
 
