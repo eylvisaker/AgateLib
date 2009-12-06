@@ -1,3 +1,4 @@
+
 Version 0.3.2
 ===================
 Moved ISprite and ISpriteFrame to Sprites namespace.

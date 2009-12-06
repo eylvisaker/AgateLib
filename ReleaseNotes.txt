@@ -1,7 +1,47 @@
+Version 0.4.0
+===================
+Major changes in this version.
+
+AgateLib now has built-in fonts, which can be accessed via static members like 
+FontSurface.AgateSans14 for a 14-point sans serif font.  This are bitmap fonts
+embedded in AgateLib.dll, and they are guaranteed to look exactly the same across
+all supported platforms.
+
+A basic set of GUI controls has been included for an in-game GUI.  This is located
+in the AgateLib.Gui namespace.  This GUI has a somewhat flexible skinning engine
+called Mercury.
+
+Basic support for 3D rendering is now available.  This is accessed by using
+the shaders in AgateLib.DisplayLib.Shaders.AgateBuiltInShaders class.  You can 
+create vertex buffers and index buffers.
+
+The old IRenderTarget interface that was implemented by DisplayWindows and Surfaces
+is gone, and instead we have the FrameBuffer class.  This requires some rather
+minor changes to consumer code, and resolves ambiguities around having surfaces
+as render targets, and is much more forward compatible.
+
+No longer are you required to create a DisplayWindow before creating any Surfaces.
+Now objects can be instantiated in any order, as long as AgateSetup.Initialize has
+been called.
+
+AgateMDX has been dumped and a SlimDX based replacement, AgateSDX is included now.
+SlimDX has much better community support, and AgateSDX will eventually be
+developed to include Direct3D 10/11 support.
+
+A particles system has been developed by Marcel Hauf and is included in the
+AgateLib.Particles namespace.
+
+Several functions have been deprecated around the library.  A compatibility 
+release versioned 0.3.9 is included which retains these deprecated functions
+to help migrate code to AgateLib 0.4.0.  Not everything could be kept however.
+
 AgateLib 0.3.1  Release Notes
 ======================================
 
-This is mainly a minor update to 0.3.0.  All features deprecated in 0.3.0 have been removed.  There are a few minor bug fixes, and a few properties added.  Of note is the addition of the ZipFileProvider, which is an IFileProvider object that allows resources to be loaded from zip files.
+This is mainly a minor update to 0.3.0.  All features deprecated in 0.3.0 have
+been removed.  There are a few minor bug fixes, and a few properties added.  
+Of note is the addition of the ZipFileProvider, which is an IFileProvider object
+that allows resources to be loaded from zip files.
 
 AgateLib 0.3.0  Release Notes
 ======================================

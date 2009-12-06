@@ -71,20 +71,32 @@ namespace AgateLib.DisplayLib
 		FontState mState = new FontState();
 
 		/// <summary>
-		/// Creates a FontSurface object from the given fontFamily.
+		/// Creates a FontSurface object from the given fontFamily.  Appearance
+		/// of the font will likely be platform-dependent.
 		/// </summary>
-		/// <param name="fontFamily"></param>
-		/// <param name="sizeInPoints"></param>
+		/// <param name="fontFamily">Name of the font familty to use.</param>
+		/// <param name="sizeInPoints">Size of the font in points.</param>
+		/// <remarks>It is not recommended that you use this method 
+		/// if any cross-platform support is concerned.  For cross-platform
+		/// support, either create a bitmap font, or use one of the built-in
+		/// ones, like FontSurface.AgateSans14.
+		/// </remarks>
 		public FontSurface(string fontFamily, float sizeInPoints)
 			: this(fontFamily, sizeInPoints, FontStyle.None)
 		{ }
 
 		/// <summary>
-		/// Creates a FontSurface object from the given fontFamily.
+		/// Creates a FontSurface object from the given fontFamily.  Appearance
+		/// of the font will likely be platform-dependent.
 		/// </summary>
-		/// <param name="fontFamily"></param>
-		/// <param name="sizeInPoints"></param>
-		/// <param name="style"></param>
+		/// <param name="fontFamily">Name of the font familty to use.</param>
+		/// <param name="sizeInPoints">Size of the font in points.</param>
+		/// <param name="style">Style of the font, such as bold or italic.</param>
+		/// <remarks>It is not recommended that you use this method 
+		/// if any cross-platform support is concerned.  For cross-platform
+		/// support, either create a bitmap font, or use one of the built-in
+		/// ones, like FontSurface.AgateSans14.
+		/// </remarks>
 		public FontSurface(string fontFamily, float sizeInPoints, FontStyle style)
 		{
 			if (sizeInPoints < 1)
@@ -134,6 +146,9 @@ namespace AgateLib.DisplayLib
 			System.Diagnostics.Debug.Assert(impl != null);
 		}
 
+		/// <summary>
+		/// Gets the name of the font.
+		/// </summary>
 		public string FontName 
 		{
 			get { return impl.FontName; }
@@ -349,6 +364,9 @@ namespace AgateLib.DisplayLib
 			get { return impl.FontHeight; }
 		}
 
+		/// <summary>
+		/// Indicates how images are laid out inline with text.
+		/// </summary>
 		public TextImageLayout TextImageLayout { get; set; }
 
 		/// <summary>
@@ -399,7 +417,10 @@ namespace AgateLib.DisplayLib
 
 			DrawText(mState);
 		}
-
+		/// <summary>
+		/// Draws text using the specified FontState object.
+		/// </summary>
+		/// <param name="state">The FontState to use.</param>
 		public void DrawText(FontState state)
 		{
 			if (string.IsNullOrEmpty(state.TransformedText))
@@ -407,10 +428,14 @@ namespace AgateLib.DisplayLib
 
 			impl.DrawText(state);
 		}
-
-		Regex substituteMatch = new Regex(@"\{.*?\}|\{\{\}|\{\}\}|\r\n|\n");
-		Regex indexMatch = new Regex(@"[0-9]+:?");
-
+		/// <summary>
+		/// Draws formatted text.
+		/// </summary>
+		/// <param name="destX">X position of destination.</param>
+		/// <param name="destY">Y position of destination.</param>
+		/// <param name="formatString">The formatting string.</param>
+		/// <param name="args">Arguments that are used to fill {x} members of the formatString.  Surface objects
+		/// are laid out according to the TextImageLayout member.</param>
 		public void DrawText(int destX, int destY, string formatString, params object[] args)
 		{
 			TextLayout layout = CreateLayout(formatString, args);
@@ -419,7 +444,18 @@ namespace AgateLib.DisplayLib
 			layout.DrawAll();
 		}
 
-		public TextLayout CreateLayout(string formatString, object[] args)
+		static Regex substituteMatch = new Regex(@"\{.*?\}|\{\{\}|\{\}\}|\r\n|\n");
+		static Regex indexMatch = new Regex(@"[0-9]+:?");
+
+		/// <summary>
+		/// Creates a text layout from a format string and list of arguments.
+		/// </summary>
+		/// <param name="formatString">The formatting string.</param>
+		/// <param name="args">Arguments that are used to fill {x} members of the formatString.  Surface objects
+		/// are laid out according to the TextImageLayout member.</param>
+		/// <returns>Returns a TextLayout object which contains all the layout information needed to draw
+		/// the text/images on screen.</returns>
+		public TextLayout CreateLayout(string formatString, params object[] args)
 		{
 			var matches = substituteMatch.Matches(formatString);
 
@@ -686,10 +722,22 @@ namespace AgateLib.DisplayLib
 
 	}
 
+	/// <summary>
+	/// Enum indicating how images are laid out when drawing inline with text.
+	/// </summary>
 	public enum TextImageLayout
 	{
+		/// <summary>
+		/// The top of the image is aligned with the top of the text.
+		/// </summary>
 		InlineTop,
+		/// <summary>
+		/// The center of the image is aligned with the center of the text.
+		/// </summary>
 		InlineCenter,
+		/// <summary>
+		/// The bottom of the image is aligned with the bottom of the text.
+		/// </summary>
 		InlineBottom,
 	}
 }
