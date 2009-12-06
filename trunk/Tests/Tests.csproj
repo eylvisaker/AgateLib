@@ -88,6 +88,7 @@
     <Compile Include="AgateTestAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CoreTests\PersistantSettingsTest.cs" />
     <Compile Include="CoreTests\PlatformDetection\PlatformDetection.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -7,6 +7,16 @@ using System.Xml;
 
 namespace AgateLib.Settings
 {
+	/// <summary>
+	/// Class which stores a simple list of persistant settings.  The settings exist
+	/// in named groups, and within each group an individual setting is a key/value pair.
+	/// These settings are stored on a per-user basis.
+	/// </summary>
+	/// <remarks>On Windows Vista the file is stored in 
+	/// %HOME%\AppData\Company Name\Application Name\settings.xml.
+	/// On Unix the file is stored at
+	/// $HOME/.config/Company Name/Application Name/settings.xml.
+	/// </remarks>
 	public class PersistantSettings
 	{
 		Dictionary<string, SettingsGroup> mSettings = new Dictionary<string, SettingsGroup>();
@@ -16,7 +26,7 @@ namespace AgateLib.Settings
 			LoadSettings();
 		}
 
-		public SettingsGroup GetOrCreateSettingsGroup(string name)
+		private SettingsGroup GetOrCreateSettingsGroup(string name)
 		{
 			if (name.Contains(" "))
 				throw new AgateException("Settings group name cannot contain a string.");
@@ -37,6 +47,9 @@ namespace AgateLib.Settings
 		{
 			get { return GetOrCreateSettingsGroup(name); }
 		}
+		/// <summary>
+		/// Gets the full path to the location where the settings file is stored.
+		/// </summary>
 		public string SettingsFilename
 		{
 			get
@@ -45,6 +58,9 @@ namespace AgateLib.Settings
 			}
 		}
 
+		/// <summary>
+		/// Saves the settings to the persistant storage on disk.
+		/// </summary>
 		public void SaveSettings()
 		{
 			XmlDocument doc = new XmlDocument();
@@ -82,6 +98,10 @@ namespace AgateLib.Settings
 				doc.Load(SettingsFilename);
 			}
 			catch (FileNotFoundException)
+			{
+				return;
+			}
+			catch (DirectoryNotFoundException)
 			{
 				return;
 			}
