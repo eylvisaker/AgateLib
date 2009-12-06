@@ -26,6 +26,9 @@ using AgateLib.Geometry.VertexTypes;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Class which represents a vertex buffer in memory.
+	/// </summary>
 	public sealed class VertexBuffer
 	{
 		VertexBufferImpl impl;
