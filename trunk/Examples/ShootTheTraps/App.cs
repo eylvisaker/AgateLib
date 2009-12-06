@@ -31,10 +31,12 @@ namespace ShootTheTraps
 
 		// graphics declaration
 		FontSurface mFont;
+		FontSurface mLargeFont;
 
 		protected override void Initialize()
 		{
-			mFont = new FontSurface("Tahoma", 16);
+			mFont = FontSurface.AgateSans14;
+			mLargeFont = FontSurface.AgateSans24;
 
 			Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
 
@@ -130,11 +132,11 @@ namespace ShootTheTraps
 			mFont.Color = Color.White;
 			mFont.SetScale(1, 1);
 
-			int fontHeight = mFont.StringDisplayHeight("M");
+			int fontHeight = mFont.FontHeight;
 
 			Point textStart = new Point(10, Display.RenderTarget.Height - 52);
 
-			Display.FillRect(new Rectangle(0, textStart.Y + 2, Display.RenderTarget.Width, 50), Color.Black);
+			Display.FillRect(new Rectangle(0, textStart.Y, Display.RenderTarget.Width, 50), Color.Black);
 
 			mFont.DrawText(textStart.X, textStart.Y, "Score: " + mDisplayedScore);
 			mFont.DrawText(textStart.X, textStart.Y + fontHeight, "Need: " +
@@ -198,12 +200,10 @@ namespace ShootTheTraps
 					mLevelTime = Timing.TotalMilliseconds;
 				}
 
-				mFont.SetScale(2, 2);
-
 				int width = Display.RenderTarget.Width;
 				int x = (int)(width * (1 - (Timing.TotalMilliseconds - mLevelTime) / 2300.0));
 
-				DrawBorderedText(mFont, x, 160, "Level " + mGame.Level, Color.White, Color.Black);
+				DrawBorderedText(mLargeFont, x, 160, "Level " + mGame.Level, Color.White, Color.Black);
 
 				if (Timing.TotalMilliseconds - mLevelTime > 3000)
 					mLevelTime = 0;
