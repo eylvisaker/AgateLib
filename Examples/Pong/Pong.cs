@@ -49,7 +49,7 @@ namespace Pong
                 DisplayWindow wind = DisplayWindow.CreateWindowed
                     ("Pong Example", displayWidth, displayHeight);
 
-                font = new FontSurface("Sans Serif", 14);
+				font = FontSurface.AgateSans14;
 
                 paddle[0] = new Vector2(50, displayHeight / 2);
                 paddle[1] = new Vector2(playAreaWidth - 50 - paddleWidth, displayHeight / 2);
@@ -83,17 +83,17 @@ namespace Pong
 
         private void DrawScore()
         {
-            int x = playAreaWidth + borderSize * 3 / 2;
+            int x = playAreaWidth + borderSize ;
             int y = borderSize * 2;
 
             font.DrawText(x, y, "Score");
 
             for (int i = 0; i < 2; i++)
             {
-                y += font.StringDisplayHeight("M") * 2;
+                y += font.FontHeight * 2;
                 font.DrawText(x, y, names[i]);
 
-                y += font.StringDisplayHeight("M");
+                y += font.FontHeight;
                 font.DrawText(x, y, score[i].ToString());
             }
         }
