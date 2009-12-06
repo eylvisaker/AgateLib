@@ -74,6 +74,9 @@ namespace AgateLib
 		private AudioTypeID mSelectAudio = AudioTypeID.AutoSelect;
 		private InputTypeID mSelectInput = InputTypeID.AutoSelect;
 
+		private string mCompanyName;
+		private string mAppName;
+
 		public DisplayTypeID PreferredDisplay
 		{
 			get { return mPreferredDisplay; }
@@ -163,7 +166,15 @@ namespace AgateLib
 
 			if (mUseInput)
 				InitializeInput();
+
+			if (string.IsNullOrEmpty(mAppName) == false)
+			{
+				Core.Platform.SetFolderPaths(mCompanyName, mAppName);
+			}
 		}
+
+		public string CompanyName { get { return mCompanyName; } set { mCompanyName = value; } }
+		public string ApplicationName { get { return mAppName; } set { mAppName = value; } }
 
 		/// <summary>
 		/// Initializes the Display.
