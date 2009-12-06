@@ -1,6 +1,8 @@
 AgateLib Todo
 =============
 
+AgateLib 0.4.0
+
 General:
 	Remove all OpenGL immediate mode code from AgateOTK.
 	Check GetPixelFormat method in AgateSDX
