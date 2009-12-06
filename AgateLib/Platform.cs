@@ -79,9 +79,10 @@ namespace AgateLib
 			}
 		}
 
-		// TODO: Maybe there is a better way to inspect permissions?
 		private bool HasWriteAccessToAppDirectory()
 		{
+			// TODO: Maybe there is a better way to inspect permissions?
+			// here we just stry to write and see if we fail.
 			string filename = Path.GetTempFileName();
 
 			try
@@ -100,6 +101,19 @@ namespace AgateLib
 			{
 				return false;
 			}
+		}
+
+		internal void EnsureAppDataDirectoryExists()
+		{
+			if (Directory.Exists(AppDataDirectory))
+				return;
+
+			Directory.CreateDirectory(AppDataDirectory);
+		}
+
+		public string AppDataDirectory
+		{
+			get { return mAppData; }
 		}
 
 		static T GetCustomAttribute<T>(Assembly ass) where T : Attribute 	
@@ -309,5 +323,7 @@ namespace AgateLib
 			return retval;
 		}
 
+
+	
 	}
 }

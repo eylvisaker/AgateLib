@@ -153,6 +153,7 @@
     <Compile Include="ImplementationBase\FrameBufferImpl.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="PlatformType.cs" />
+    <Compile Include="Settings\SettingsGroup.cs" />
     <Compile Include="Timing.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -544,6 +545,7 @@
     <Compile Include="Utility\FileSystemProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Settings\PersistantSettings.cs" />
     <Compile Include="Utility\Ref.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -24,6 +24,7 @@ using System.Text;
 
 using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
+using AgateLib.Settings;
 
 namespace AgateLib
 {
@@ -90,6 +91,8 @@ namespace AgateLib
 		private static bool mIsActive = true;
 		private static bool mInititalized = false;
 		private static Platform mPlatform;
+		private static PersistantSettings mSettings;
+
 
 		#region --- Error Reporting ---
 
@@ -319,6 +322,21 @@ namespace AgateLib
 			get { return mPlatform; }
 		}
 
+		/// <summary>
+		/// Gets an object which contains the persistant settings for the application.
+		/// </summary>
+		public static PersistantSettings Settings
+		{
+			get
+			{
+				if (mSettings == null)
+				{
+					mSettings = new PersistantSettings();
+				}
+
+				return mSettings;
+			}
+		}
 		/// <summary>
 		/// Gets or sets a bool value which indicates whether or not your
 		/// app is the focused window.  This will be automatically set if
