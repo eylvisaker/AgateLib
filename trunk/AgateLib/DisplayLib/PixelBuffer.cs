@@ -37,6 +37,8 @@ namespace AgateLib.DisplayLib
 		PixelFormat mFormat;
 		byte[] mData;
 		Size mSize;
+		int mRowStride;
+		int mPixelStride;
 
 		#endregion
 
@@ -101,9 +103,12 @@ namespace AgateLib.DisplayLib
 			mFormat = format;
 			mSize = size;
 
+			SetStrides();
+
 			SetData(data, dataFormat);
 
 		}
+
 		/// <summary>
 		/// Constructs a PixelBuffer object. 
 		/// This overload allows you to specify whether or not the 
@@ -125,6 +130,9 @@ namespace AgateLib.DisplayLib
 
 			mFormat = format;
 			mSize = size;
+
+			SetStrides();
+
 
 			if (copyData == false)
 				Data = data;
@@ -159,6 +167,9 @@ namespace AgateLib.DisplayLib
 
 			mFormat = format;
 			mSize = size;
+
+			SetStrides();
+
 			mData = new byte[size.Width * size.Height * PixelStride];
 
 			SetData(data, sourceFormat, srcRowStride);
@@ -181,6 +192,12 @@ namespace AgateLib.DisplayLib
 		public PixelBuffer Clone()
 		{
 			return new PixelBuffer(this, new Rectangle(0, 0, Width, Height));
+		}
+
+		private void SetStrides()
+		{
+			mPixelStride = GetPixelStride(mFormat);
+			mRowStride = mSize.Width * mPixelStride;
 		}
 
 		/// <summary>
@@ -239,7 +256,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public int PixelStride
 		{
-			get { return GetPixelStride(mFormat); }
+			get { return mPixelStride; }
 		}
 
 		/// <summary>
@@ -270,7 +287,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public int RowStride
 		{
-			get { return Width * PixelStride; }
+			get { return mRowStride; }
 		}
 
 		/// <summary>
@@ -479,6 +496,15 @@ namespace AgateLib.DisplayLib
 			if (srcRect.X < 0 || srcRect.Y < 0 || srcRect.Right > buffer.Width || srcRect.Bottom > buffer.Height)
 				throw new ArgumentOutOfRangeException("srcRect", "Source rectangle outside size of buffer!");
 
+			if (buffer.RowStride == RowStride && buffer.PixelFormat == PixelFormat && destPt.X == 0)
+			{
+				int destIndex = GetPixelIndex(destPt.X, destPt.Y);
+				int srcIndex = buffer.GetPixelIndex(srcRect.X, srcRect.Y);
+
+				int size = buffer.RowStride * srcRect.Height;
+
+				Array.Copy(buffer.Data, srcIndex, Data, destIndex, size);
+			}
 			for (int y = 0; y < srcRect.Height; y++)
 			{
 				if (buffer.PixelFormat == PixelFormat)
@@ -576,37 +602,45 @@ namespace AgateLib.DisplayLib
 		public void SetPixel(int x, int y, Color clr)
 		{
 			int index = GetPixelIndex(x, y);
-			double A = clr.A / 255.0;
-			double R = clr.R / 255.0;
-			double G = clr.G / 255.0;
-			double B = clr.B / 255.0;
 
-			switch (PixelFormat)
+			if (this.PixelStride == 4)
 			{
-				case PixelFormat.ARGB8888:
-					SetARGB8(A, R, G, B, Data,
-						index, index + 1, index + 2, index + 3);
-					break;
+				int A = clr.A;
+				int R = clr.R;
+				int G = clr.G;
+				int B = clr.B;
 
-				case PixelFormat.ABGR8888:
-					SetARGB8(A, R, G, B, Data,
-						index, index + 3, index + 2, index + 1);
-					break;
+				switch (PixelFormat)
+				{
+					case PixelFormat.ARGB8888:
+						SetARGB8(A, R, G, B, Data,
+							index, index + 1, index + 2, index + 3);
+						break;
 
-				case PixelFormat.BGRA8888:
-					SetARGB8(A, R, G, B, Data,
-						index + 3, index + 2, index + 1, index);
-					break;
+					case PixelFormat.ABGR8888:
+						SetARGB8(A, R, G, B, Data,
+							index, index + 3, index + 2, index + 1);
+						break;
 
-				case PixelFormat.RGBA8888:
-					SetARGB8(A, R, G, B, Data,
-						index + 3, index, index + 1, index + 2);
-					break;
+					case PixelFormat.BGRA8888:
+						SetARGB8(A, R, G, B, Data,
+							index + 3, index + 2, index + 1, index);
+						break;
 
-				default:
-					throw new NotSupportedException(string.Format("Pixel format {0} not supported by SetPixel.", PixelFormat));
+					case PixelFormat.RGBA8888:
+						SetARGB8(A, R, G, B, Data,
+							index + 3, index, index + 1, index + 2);
+						break;
 
+					default:
+						throw new NotSupportedException(string.Format("Pixel format {0} not supported by SetPixel.", PixelFormat));
+
+				}
 			}
+			else
+				throw new NotSupportedException(string.Format("Pixel format {0} not supported by SetPixel.", PixelFormat));
+
+
 		}
 
 		/// <summary>
@@ -973,6 +1007,14 @@ namespace AgateLib.DisplayLib
 
 		}
 
+		private static void SetARGB8(int A, int R, int G, int B,
+			byte[] dest, int Aindex, int Rindex, int Gindex, int Bindex)
+		{
+			dest[Aindex] = (byte)A;
+			dest[Rindex] = (byte)R;
+			dest[Gindex] = (byte)G;
+			dest[Bindex] = (byte)B;
+		}
 
 		private static void SetARGB8(double A, double R, double G, double B,
 			byte[] dest, int Aindex, int Rindex, int Gindex, int Bindex)
@@ -1094,5 +1136,20 @@ namespace AgateLib.DisplayLib
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Sets every pixel in the PixelBuffer to the specified color.
+		/// </summary>
+		/// <param name="color"></param>
+		public void Clear(Color color)
+		{
+			for (int j = 0; j < Height; j++)
+			{
+				for (int i = 0; i < Width; i++)
+				{
+					SetPixel(i, j, color);
+				}
+			}
+		}
 	}
 }
