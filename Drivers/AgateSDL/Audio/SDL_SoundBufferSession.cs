@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using Tao.Sdl;
@@ -33,11 +34,14 @@ namespace AgateSDL.Audio
 		int channel;
 		double volume;
 		double pan;
+		bool loop;
 
 		public SDL_SoundBufferSession(SDL_SoundBuffer buffer)
 		{
+			loop = buffer.Loop;
+
 			sound = buffer.SoundChunk;
-			channel = SdlMixer.Mix_PlayChannel(-1, sound, 0);
+			channel = SdlMixer.Mix_PlayChannel(-1, sound, LoopCount);
 			volume = buffer.Volume;
 
 		}
@@ -74,8 +78,20 @@ namespace AgateSDL.Audio
 
 		public override void Play()
 		{
-			SdlMixer.Mix_PlayChannel(channel, sound, 0);
+			SdlMixer.Mix_PlayChannel(channel, sound, LoopCount);
 			SetPanning();
+		}
+
+		int LoopCount
+		{
+			get
+			{
+				int loops = 0;
+				if (loop)
+					loops = -1;
+
+				return loops;
+			}
 		}
 
 		public override void Stop()

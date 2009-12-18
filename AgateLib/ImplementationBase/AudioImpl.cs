@@ -80,6 +80,16 @@ namespace AgateLib.ImplementationBase
 		public virtual void Update()
 		{
 		}
+
+		public virtual SoundBufferImpl CreateSoundBuffer(int size)
+		{
+			throw new NotImplementedException();
+		}
+
+		public virtual SoundBufferImpl CreateSoundBuffer(short[] data)
+		{
+			throw new NotImplementedException();
+		}
 	}
 
 	/// <summary>
@@ -99,6 +109,14 @@ namespace AgateLib.ImplementationBase
 		/// 1.0 is maximum volume.
 		/// </summary>
 		public abstract double Volume { get; set; }
+
+		public virtual bool Loop { get { return false; } set { } }
+
+		public virtual void Write(short[] source, int srcIndex, int destIndex, int length)
+		{
+			throw new NotImplementedException();
+		}
+
 
 	}
 	/// <summary>
@@ -120,6 +138,13 @@ namespace AgateLib.ImplementationBase
 		/// Stops.
 		/// </summary>
 		public abstract void Stop();
+
+
+		public virtual int BufferPointer
+		{
+			get { return -1; }
+			set { }
+		}
 
 		/// <summary>
 		/// Gets or sets the volume this audio file is playing at.

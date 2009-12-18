@@ -246,6 +246,8 @@ namespace AgateLib
 		public void Dispose()
 		{
 			Display.Dispose();
+			Audio.Dispose();
+			InputLib.JoystickInput.Dispose();
 		}
 
 		/// <summary>

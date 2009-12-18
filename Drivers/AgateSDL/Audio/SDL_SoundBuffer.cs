@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using Tao.Sdl;
@@ -33,6 +34,8 @@ namespace AgateSDL.Audio
 		IntPtr sound;
 		string tempfile;
 		double mVolume = 1.0;
+		bool ownRam = false;
+		IntPtr soundPtr;
 
 		public SDL_SoundBuffer(Stream stream)
 		{
@@ -46,6 +49,38 @@ namespace AgateSDL.Audio
 		public SDL_SoundBuffer(string filename)
 		{
 			LoadFromFile(filename);
+		}
+		public SDL_SoundBuffer(int size)
+		{
+			int bytes = size * 2;
+			soundPtr = Marshal.AllocHGlobal(bytes);
+			ownRam = true;
+
+			sound = SdlMixer.Mix_QuickLoad_RAW(soundPtr, bytes);
+		}
+		public SDL_SoundBuffer(short[] data)
+		{
+			int bytes = data.Length * 2;
+			soundPtr = Marshal.AllocHGlobal(bytes);
+			ownRam = true;
+
+			Marshal.Copy(data, 0, soundPtr, data.Length);
+
+			sound = SdlMixer.Mix_QuickLoad_RAW(soundPtr, bytes);
+		}
+
+		public override void Write(short[] source, int srcIndex, int destIndex, int length)
+		{
+			if (soundPtr == IntPtr.Zero)
+				throw new AgateException("Cannot write to audio buffer loaded from a file.");
+
+			SdlMixer.Mix_Chunk c = 
+				(SdlMixer.Mix_Chunk)Marshal.PtrToStructure(sound, typeof(SdlMixer.Mix_Chunk));
+
+			unsafe
+			{
+				Marshal.Copy(source, srcIndex, (IntPtr)(((short*)c.abuf + destIndex)), length);
+			}
 		}
 
 		~SDL_SoundBuffer()
@@ -61,8 +96,12 @@ namespace AgateSDL.Audio
 
 		private void Dispose(bool disposing)
 		{
-			SdlMixer.Mix_FreeChunk(sound);
+			if (ownRam )
+			{
+				Marshal.FreeHGlobal(soundPtr);
+			}
 
+			SdlMixer.Mix_FreeChunk(sound);
 			//if (string.IsNullOrEmpty(tempfile) == false)
 			//{
 			//    File.Delete(tempfile);
@@ -91,6 +130,11 @@ namespace AgateSDL.Audio
 			}
 		}
 
+		public override bool Loop
+		{
+			get;
+			set;
+		}
 		internal IntPtr SoundChunk
 		{
 			get { return sound; }

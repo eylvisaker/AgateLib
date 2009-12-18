@@ -105,7 +105,13 @@ namespace AgateLib.Settings
 			{
 				return;
 			}
+			catch (XmlException e)
+			{
+				System.Diagnostics.Trace.WriteLine("Error reading settings file:" + Environment.NewLine +
+					e.Message);
 
+				return;
+			}
 			XmlElement root = doc.ChildNodes[0] as XmlElement;
 
 			if (root.Name != "Settings")

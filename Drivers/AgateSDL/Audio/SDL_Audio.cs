@@ -71,11 +71,19 @@ namespace AgateSDL.Audio
 		{
 			return new SDL_Music(musicStream);
 		}
+		
 		public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
 		{
 			return new SDL_SoundBuffer(inStream);
 		}
-
+		public override SoundBufferImpl CreateSoundBuffer(int size)
+		{
+			return new SDL_SoundBuffer(size);
+		}
+		public override SoundBufferImpl CreateSoundBuffer(short[] data)
+		{
+			return new SDL_SoundBuffer(data);
+		}
 		public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
 		{
 			return new SDL_SoundBufferSession((SDL_SoundBuffer)buffer);
