@@ -92,6 +92,20 @@ namespace AgateLib.AudioLib
 		}
 
 		/// <summary>
+		/// Creates an empty SoundBuffer object.
+		/// </summary>
+		/// <param name="size">The number of samples in this sound buffer.</param>
+		/// <param name="stereo"></param>
+		public SoundBuffer(int size)
+		{
+			impl = Audio.Impl.CreateSoundBuffer(size);
+		}
+
+		public SoundBuffer(short[] data)
+		{
+			impl = Audio.Impl.CreateSoundBuffer(data);
+		}
+		/// <summary>
 		/// Disposes of the SoundBuffer object, and all SoundBufferSession objects
 		/// created by this SoundBuffer.
 		/// </summary>
@@ -141,6 +155,12 @@ namespace AgateLib.AudioLib
 			sb.Play();
 
 			return sb;
+		}
+
+		public bool Loop
+		{
+			get { return impl.Loop; }
+			set { impl.Loop = value; }
 		}
 
 		/// <summary>
@@ -255,6 +275,11 @@ namespace AgateLib.AudioLib
 			mSessions.Remove(session);
 		}
 
+
+		public void Write(short[] source, int srcIndex, int destIndex, int length)
+		{
+			impl.Write(source, srcIndex, destIndex, length);
+		}
 	}
 
 }

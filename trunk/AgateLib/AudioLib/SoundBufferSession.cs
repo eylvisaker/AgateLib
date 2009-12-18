@@ -68,7 +68,6 @@ namespace AgateLib.AudioLib
 			mSource.RemoveSession(this);
 		}
 
-
 		/// <summary>
 		/// Returns the implemented object.
 		/// </summary>

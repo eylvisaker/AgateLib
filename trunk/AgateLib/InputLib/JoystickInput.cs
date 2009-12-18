@@ -66,5 +66,11 @@ namespace AgateLib.InputLib
 			for (int i = 0; i < mRawJoysticks.Count; i++)
 				mRawJoysticks[i].Poll();
 		}
+
+		internal static void Dispose()
+		{
+			if (impl != null)
+				impl.Dispose();
+		}
 	}
 }
