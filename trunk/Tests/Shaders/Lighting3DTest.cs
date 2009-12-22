@@ -12,7 +12,6 @@ namespace Tests.Shaders
 {
 	class Lighting3DTest : IAgateTest 
 	{
-		#region IAgateTest Members
 
 		public string Name
 		{
@@ -44,7 +43,7 @@ namespace Tests.Shaders
 
 				Surface texture = new Surface("bg-bricks.png");
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Lighting 3D", 640, 480);
-				FontSurface font = new FontSurface("Times", 14);
+				FontSurface font = FontSurface.AgateSerif14;
 
 				AgateLib.Geometry.Builders.CubeBuilder cb = new AgateLib.Geometry.Builders.CubeBuilder();
 				cb.Location = new Vector3(0, 0, 0);
@@ -147,6 +146,5 @@ namespace Tests.Shaders
 			}
 		}
 
-		#endregion
 	}
 }
