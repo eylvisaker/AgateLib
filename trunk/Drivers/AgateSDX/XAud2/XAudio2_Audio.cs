@@ -55,7 +55,13 @@ namespace AgateSDX.XAud2
 		}
 		public override void Dispose()
 		{
-			mDevice.Dispose();
+			// hack because there is access violation when XAudio2 shuts down?
+			try
+			{
+				mDevice.Dispose();
+			}
+			catch
+			{ }
 		}
 
 		public override SoundBufferImpl CreateSoundBuffer(Stream inStream)
@@ -202,6 +208,8 @@ namespace AgateSDX.XAud2
 		double mVolume;
 		double mPan;
 		bool mIsPlaying;
+		bool mLoop = false;
+		bool mDisposing = false;
 
 		public SDX_SoundBufferSession(XAudio2_Audio audio, SDX_SoundBuffer source)
 		{
@@ -209,18 +217,36 @@ namespace AgateSDX.XAud2
 			mSource = source;
 			mBuffer = source.Buffer;
 			mVolume = source.Volume;
+			mLoop = source.Loop;
 
 			mVoice = new SourceVoice(mAudio.Device, mSource.Format);
 			mVoice.BufferEnd += new EventHandler<ContextEventArgs>(mVoice_BufferEnd);
+			
 		}
 
 		void mVoice_BufferEnd(object sender, ContextEventArgs e)
 		{
-			mIsPlaying = false;
+			if (mDisposing)
+			{
+				mVoice.Dispose();
+				return;
+			}
+
+			if (mLoop)
+			{
+				mVoice.SubmitSourceBuffer(mBuffer);
+			}
+			else
+			{
+				mIsPlaying = false;
+			}
 		}
 		public override void Dispose()
 		{
-			mVoice.Dispose();
+			mLoop = false;
+			mVoice.Stop();
+
+			mDisposing = true;
 		}
 
 		protected override void Initialize()
