@@ -12,7 +12,6 @@ namespace Tests
 		[STAThread]
 		public static void Main(string[] args)
 		{
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
 			AgateFileProvider.Images.AddPath("Data");
 
 			Application.EnableVisualStyles();
