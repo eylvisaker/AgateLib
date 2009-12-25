@@ -35,8 +35,8 @@ namespace AgateSDX
 
 			yield return new AgateDriverInfo(
 				AudioTypeID.XAudio2,
-				typeof(SDX_Audio),
-				"SlimDX - DirectSound",
+				typeof(XAud2.XAudio2_Audio),
+				"SlimDX - XAudio 2",
 				100);
 
 			yield return new AgateDriverInfo(

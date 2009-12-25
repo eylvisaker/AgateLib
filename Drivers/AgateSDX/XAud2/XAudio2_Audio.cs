@@ -22,22 +22,24 @@ using System.IO;
 using System.Text;
 using SlimDX.XAudio2;
 using SlimDX.Multimedia;
+using System.Runtime.InteropServices;
 using AgateLib.AudioLib;
 using AgateLib.Drivers;
 using AgateLib.ImplementationBase;
 
-namespace AgateSDX
+namespace AgateSDX.XAud2
 {
-	public class SDX_Audio : AudioImpl
+	public class XAudio2_Audio : AudioImpl
 	{
 		XAudio2 mDevice;
+		MasteringVoice masteringVoice;
 
 		public XAudio2 Device
 		{
 			get { return mDevice; }
 		}
 
-		public SDX_Audio()
+		public XAudio2_Audio()
 		{
 
 		}
@@ -45,9 +47,10 @@ namespace AgateSDX
 		public override void Initialize()
 		{
 			Report("SlimDX XAudio2 driver instantiated for audio.");
-	
-			mDevice = new XAudio2();
-			MasteringVoice masteringVoice = new MasteringVoice(mDevice);
+
+
+			mDevice = new XAudio2();//XAudio2Flags.DebugEngine, ProcessorSpecifier.AnyProcessor);
+			masteringVoice = new MasteringVoice(mDevice);
 
 		}
 		public override void Dispose()
@@ -106,14 +109,14 @@ namespace AgateSDX
 
 	public class SDX_SoundBuffer : SoundBufferImpl
 	{
-		SDX_Audio mAudio;
+		XAudio2_Audio mAudio;
 		AudioBuffer mBuffer;
 		double mVolume;
 		WaveFormat mFormat;
 		MemoryStream mem;
 		byte[] buffer;
 
-		public SDX_SoundBuffer(SDX_Audio audio, Stream inStream)
+		public SDX_SoundBuffer(XAudio2_Audio audio, Stream inStream)
 		{
 			mAudio = audio;
 
@@ -121,13 +124,13 @@ namespace AgateSDX
 
 			mBuffer = new AudioBuffer();
 			mBuffer.AudioData = stream;
-			mBuffer.AudioBytes = (int)inStream.Length;
+			mBuffer.AudioBytes = (int)stream.Length;
 			mBuffer.Flags = BufferFlags.EndOfStream;
 
 			mFormat = stream.Format;
 		}
 
-		public SDX_SoundBuffer(SDX_Audio audio, Stream inStream, SoundFormat format)
+		public SDX_SoundBuffer(XAudio2_Audio audio, Stream inStream, SoundFormat format)
 		{
 			mAudio = audio;
 
@@ -138,13 +141,13 @@ namespace AgateSDX
 
 					mBuffer = new AudioBuffer();
 					mBuffer.AudioData = stream;
-					mBuffer.AudioBytes = (int)inStream.Length;
+					mBuffer.AudioBytes = (int)stream.Length;
 					mBuffer.Flags = BufferFlags.EndOfStream;
 
 					mFormat = stream.Format;
 					break;
 
-				case SoundFormat.Raw16:
+				case SoundFormat.RawInt16:
 					mBuffer = new AudioBuffer();
 					mBuffer.AudioData = inStream;
 					mBuffer.AudioBytes = (int)inStream.Length;
@@ -154,7 +157,7 @@ namespace AgateSDX
 					mFormat.BitsPerSample = 16;
 					mFormat.BlockAlignment = 2;
 					mFormat.Channels = 1;
-					mFormat.FormatTag = SlimDX.WaveFormatTag.Pcm;
+					mFormat.FormatTag = WaveFormatTag.Pcm;
 					mFormat.SamplesPerSecond = 44100;
 					mFormat.AverageBytesPerSecond =
 						mFormat.SamplesPerSecond * mFormat.BitsPerSample / 8;
@@ -162,7 +165,7 @@ namespace AgateSDX
 					break;
 			}
 		}
-		public SDX_SoundBuffer(SDX_Audio audio, string filename)
+		public SDX_SoundBuffer(XAudio2_Audio audio, string filename)
 			: this(audio, File.OpenRead(filename))
 		{
 
@@ -193,20 +196,27 @@ namespace AgateSDX
 	public class SDX_SoundBufferSession : SoundBufferSessionImpl
 	{
 		SDX_SoundBuffer mSource;
-		SDX_Audio mAudio;
+		XAudio2_Audio mAudio;
 		AudioBuffer mBuffer;
 		SourceVoice mVoice;
 		double mVolume;
 		double mPan;
+		bool mIsPlaying;
 
-		public SDX_SoundBufferSession(SDX_Audio audio, SDX_SoundBuffer source)
+		public SDX_SoundBufferSession(XAudio2_Audio audio, SDX_SoundBuffer source)
 		{
 			mAudio = audio;
 			mSource = source;
 			mBuffer = source.Buffer;
 			mVolume = source.Volume;
 
-			Initialize();
+			mVoice = new SourceVoice(mAudio.Device, mSource.Format);
+			mVoice.BufferEnd += new EventHandler<ContextEventArgs>(mVoice_BufferEnd);
+		}
+
+		void mVoice_BufferEnd(object sender, ContextEventArgs e)
+		{
+			mIsPlaying = false;
 		}
 		public override void Dispose()
 		{
@@ -215,13 +225,7 @@ namespace AgateSDX
 
 		protected override void Initialize()
 		{
-			if (mVoice != null)
-			{
-				mVoice.Stop();
-				mVoice.Dispose();
-			}
-
-			mVoice = new SourceVoice(mAudio.Device, mSource.Format);
+			mVoice.Stop();
 			mVoice.SubmitSourceBuffer(mBuffer);
 		}
 
@@ -229,17 +233,20 @@ namespace AgateSDX
 		{
 			get
 			{
-				return mVoice.State.SamplesPlayed;
+				return (int)mVoice.State.SamplesPlayed;
 			}
 		}
 		public override void Play()
 		{
+			mVoice.Stop();
 			mVoice.Start();
+			mIsPlaying = true;
 		}
 
 		public override void Stop()
 		{
 			mVoice.Stop();
+			
 		}
 
 		public override double Volume
@@ -256,8 +263,7 @@ namespace AgateSDX
 		{
 			get
 			{
-				//return mVoice.State.
-				return false;
+				return mIsPlaying;
 			}
 		}
 
@@ -291,9 +297,9 @@ namespace AgateSDX
 	}
 	public class SDX_Music : MusicImpl
 	{
-		SDX_Audio mAudio;
+		XAudio2_Audio mAudio;
 
-		public SDX_Music(SDX_Audio audio, string filename)
+		public SDX_Music(XAudio2_Audio audio, string filename)
 		{
 			mAudio = audio;
 
@@ -303,7 +309,7 @@ namespace AgateSDX
 			//LoadMusic(filename);
 		}
 		
-		public SDX_Music(SDX_Audio audio, Stream infile)
+		public SDX_Music(XAudio2_Audio audio, Stream infile)
 		{
 			mAudio = audio;
 
