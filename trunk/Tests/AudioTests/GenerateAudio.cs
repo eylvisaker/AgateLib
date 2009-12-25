@@ -34,7 +34,7 @@ namespace Tests.AudioTests
 
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Generate Audio", 640, 480);
 
-				short[] s = new short[22050];
+				short[] s = new short[44010];
 
 				int frequency = 100;
 				FillSoundBuffer(s, frequency);
@@ -43,7 +43,8 @@ namespace Tests.AudioTests
 				Buffer.BlockCopy(s, 0, buffer, 0, buffer.Length);
 
 				MemoryStream ms = new MemoryStream(buffer);
-				SoundBuffer buf = new SoundBuffer(ms, SoundFormat.Raw16);
+				ms.Seek(0, SeekOrigin.Begin);
+				SoundBuffer buf = new SoundBuffer(ms, SoundFormat.RawInt16);
 				
 				buf.Loop = true;
 				

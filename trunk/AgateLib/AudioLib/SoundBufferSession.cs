@@ -55,10 +55,10 @@ namespace AgateLib.AudioLib
 
 		internal void Initialize()
 		{
+			impl.Initialize();
+
 			Volume = mSource.Volume;
 			Pan = mSource.Pan;
-
-			impl.Initialize();
 		}
 
 		/// <summary>

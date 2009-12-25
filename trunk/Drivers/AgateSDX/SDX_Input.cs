@@ -74,7 +74,7 @@ namespace AgateSDX
 					case DeviceType.Gamepad:
 					case DeviceType.Joystick:
 
-						Device<JoystickState> d = new Device<JoystickState>(mDIobject, i.InstanceGuid);
+						Joystick d = new Joystick(mDIobject, i.InstanceGuid);
 
 						retval.Add(new SDX_Joystick(d));
 
@@ -92,7 +92,7 @@ namespace AgateSDX
 	/// </summary>
 	public class SDX_Joystick : JoystickImpl
 	{
-		private Device<JoystickState> mDevice;
+		private Joystick mDevice;
 		private bool[] mButtons;
 
 		private int[] shift = new int[8];
@@ -100,7 +100,7 @@ namespace AgateSDX
 
 		private double mThreshold;
 
-		public SDX_Joystick(Device<JoystickState> d)
+		public SDX_Joystick(Joystick d)
 		{
 			mDevice = d;
 			mDevice.Acquire();
@@ -117,15 +117,15 @@ namespace AgateSDX
 
 		public override string Name
 		{
-			get { return mDevice.DeviceInformation.InstanceName; }
+			get { return mDevice.Information.InstanceName; }
 		}
 		public override int AxisCount
 		{
-			get { return mDevice.Caps.AxesCount; }
+			get { return mDevice.Capabilities.AxesCount; }
 		}
 		public override int ButtonCount
 		{
-			get { return mDevice.Caps.ButtonCount; }
+			get { return mDevice.Capabilities.ButtonCount; }
 		}
 
 		public override bool GetButtonState(int buttonIndex)
