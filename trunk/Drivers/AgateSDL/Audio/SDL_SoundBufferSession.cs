@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -35,19 +36,30 @@ namespace AgateSDL.Audio
 		double volume;
 		double pan;
 		bool loop;
+		Stopwatch watch = new Stopwatch();
+		SDL_SoundBuffer buffer;
 
 		public SDL_SoundBufferSession(SDL_SoundBuffer buffer)
 		{
+			this.buffer = buffer;
 			loop = buffer.Loop;
 
 			sound = buffer.SoundChunk;
 			channel = SdlMixer.Mix_PlayChannel(-1, sound, LoopCount);
 			volume = buffer.Volume;
 
+			watch.Reset();
+			watch.Start();
+
 		}
 		public override void Dispose()
 		{
 			Stop();
+		}
+
+		protected override void Initialize()
+		{
+			
 		}
 
 		public override bool IsPlaying
@@ -68,6 +80,14 @@ namespace AgateSDL.Audio
 			}
 		}
 
+		public override int CurrentLocation
+		{
+			get
+			{
+				return (int)(watch.ElapsedMilliseconds / 1000.0 * buffer.SamplePerSec);
+			}
+		}
+
 		private void SetPanning()
 		{
 			byte leftVol = (byte)(pan <= 0 ? 255 : (int)((1.0 - pan) * 255));
@@ -80,6 +100,9 @@ namespace AgateSDL.Audio
 		{
 			SdlMixer.Mix_PlayChannel(channel, sound, LoopCount);
 			SetPanning();
+
+			watch.Reset();
+			watch.Start();
 		}
 
 		int LoopCount
@@ -97,6 +120,8 @@ namespace AgateSDL.Audio
 		public override void Stop()
 		{
 			SdlMixer.Mix_Pause(channel);
+
+			watch.Stop();
 		}
 
 		public override double Volume

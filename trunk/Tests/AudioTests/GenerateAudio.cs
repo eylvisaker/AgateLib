@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using AgateLib;
@@ -37,8 +38,12 @@ namespace Tests.AudioTests
 
 				int frequency = 100;
 				FillSoundBuffer(s, frequency);
-				
-				SoundBuffer buf = new SoundBuffer(s);
+
+				byte[] buffer = new byte[s.Length * 2];
+				Buffer.BlockCopy(s, 0, buffer, 0, buffer.Length);
+
+				MemoryStream ms = new MemoryStream(buffer);
+				SoundBuffer buf = new SoundBuffer(ms, SoundFormat.Raw16);
 				
 				buf.Loop = true;
 				
@@ -62,8 +67,10 @@ namespace Tests.AudioTests
 					{
 						frequency += 50;
 						FillSoundBuffer(s, frequency);
-						buf.Write(s, 0, 0, s.Length);
+						Buffer.BlockCopy(s, 0, buffer, 0, buffer.Length);
 
+						ms.Seek(0, SeekOrigin.Begin);
+						buf.Play();
 						w.Reset();
 						w.Start();
 					}

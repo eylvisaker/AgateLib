@@ -44,12 +44,13 @@ namespace AgateFMOD
 			mSystem = mAudio.FMODSystem;
 			mSound = mBuffer.FMODSound;
 
-			//CheckCreateChannel();
-			CreateChannel();
-
 			Volume = mBuffer.Volume;
 		}
 
+		protected override void Initialize()
+		{
+			CreateChannel();
+		}
 		private void CheckFMODResult(FMOD.RESULT result)
 		{
 			if (result == FMOD.RESULT.ERR_INVALID_HANDLE)
@@ -139,6 +140,18 @@ namespace AgateFMOD
 			get
 			{
 				return mAudio.IsChannelPlaying(mChannel);
+			}
+		}
+
+		public override int CurrentLocation
+		{
+			get
+			{
+				uint pos = 0;
+
+				mChannel.getPosition(ref pos, FMOD.TIMEUNIT.PCMBYTES);
+
+				return (int)pos / 2;
 			}
 		}
 	}

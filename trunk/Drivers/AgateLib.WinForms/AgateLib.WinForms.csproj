@@ -56,7 +56,7 @@
     <DebugSymbols>False</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\Binaries\Release\AgateLib\</OutputPath>
+    <OutputPath>..\..\Binaries\Release\</OutputPath>
     <RegisterForComInterop>False</RegisterForComInterop>
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>

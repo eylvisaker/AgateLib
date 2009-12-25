@@ -73,6 +73,16 @@ namespace AgateLib.ImplementationBase
 		public abstract SoundBufferImpl CreateSoundBuffer(Stream inStream);
 
 		/// <summary>
+		/// Creates a SoundBufferImpl object.
+		/// </summary>
+		/// <param name="inStream"></param>
+		/// <returns></returns>
+		public virtual SoundBufferImpl CreateSoundBuffer(Stream inStream, AudioLib.SoundFormat format)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
 		/// This function is called once a frame to allow the Audio driver to update
 		/// information.  There is no need to call base.Update() if overriding this
 		/// function.
@@ -81,15 +91,6 @@ namespace AgateLib.ImplementationBase
 		{
 		}
 
-		public virtual SoundBufferImpl CreateSoundBuffer(int size)
-		{
-			throw new NotImplementedException();
-		}
-
-		public virtual SoundBufferImpl CreateSoundBuffer(short[] data)
-		{
-			throw new NotImplementedException();
-		}
 	}
 
 	/// <summary>
@@ -112,12 +113,6 @@ namespace AgateLib.ImplementationBase
 
 		public virtual bool Loop { get { return false; } set { } }
 
-		public virtual void Write(short[] source, int srcIndex, int destIndex, int length)
-		{
-			throw new NotImplementedException();
-		}
-
-
 	}
 	/// <summary>
 	/// Represents a playback instance.
@@ -139,12 +134,7 @@ namespace AgateLib.ImplementationBase
 		/// </summary>
 		public abstract void Stop();
 
-
-		public virtual int BufferPointer
-		{
-			get { return -1; }
-			set { }
-		}
+		public abstract int CurrentLocation { get; }
 
 		/// <summary>
 		/// Gets or sets the volume this audio file is playing at.
@@ -164,6 +154,11 @@ namespace AgateLib.ImplementationBase
 		/// Gets whether or not this playback instance is actually playing.
 		/// </summary>
 		public abstract bool IsPlaying { get; }
+
+		/// <summary>
+		/// Initializes the SoundBufferSession to begin playing.
+		/// </summary>
+		protected internal abstract void Initialize();
 	}
 
 	/// <summary>
