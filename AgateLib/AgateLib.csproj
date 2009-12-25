@@ -56,7 +56,7 @@
     <DebugSymbols>False</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <Optimize>True</Optimize>
-    <OutputPath>..\Binaries\Release\AgateLib\</OutputPath>
+    <OutputPath>..\Binaries\Release\</OutputPath>
     <RegisterForComInterop>False</RegisterForComInterop>
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
@@ -132,6 +132,7 @@
     <Compile Include="AppInitParameters.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AudioLib\SoundFormat.cs" />
     <Compile Include="Core.cs">
       <SubType>Code</SubType>
     </Compile>

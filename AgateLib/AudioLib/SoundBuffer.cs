@@ -92,19 +92,14 @@ namespace AgateLib.AudioLib
 		}
 
 		/// <summary>
-		/// Creates an empty SoundBuffer object.
+		/// Constructs a SoundBuffer object, loading audio data from the passed stream.
 		/// </summary>
-		/// <param name="size">The number of samples in this sound buffer.</param>
-		/// <param name="stereo"></param>
-		public SoundBuffer(int size)
+		/// <param name="source"></param>
+		public SoundBuffer(Stream source, SoundFormat format)
 		{
-			impl = Audio.Impl.CreateSoundBuffer(size);
+			impl = Audio.Impl.CreateSoundBuffer(source, format);
 		}
 
-		public SoundBuffer(short[] data)
-		{
-			impl = Audio.Impl.CreateSoundBuffer(data);
-		}
 		/// <summary>
 		/// Disposes of the SoundBuffer object, and all SoundBufferSession objects
 		/// created by this SoundBuffer.
@@ -275,11 +270,6 @@ namespace AgateLib.AudioLib
 			mSessions.Remove(session);
 		}
 
-
-		public void Write(short[] source, int srcIndex, int destIndex, int length)
-		{
-			impl.Write(source, srcIndex, destIndex, length);
-		}
 	}
 
 }

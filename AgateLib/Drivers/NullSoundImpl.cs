@@ -83,6 +83,15 @@ namespace AgateLib.Drivers
 			{
 				get { return false; }
 			}
+
+			public override int CurrentLocation
+			{
+				get { return 0; }
+			}
+
+			protected internal override void Initialize()
+			{
+			}
 		}
 		public class NullMusicImpl : MusicImpl
 		{

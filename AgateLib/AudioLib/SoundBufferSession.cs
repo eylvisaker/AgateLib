@@ -57,6 +57,8 @@ namespace AgateLib.AudioLib
 		{
 			Volume = mSource.Volume;
 			Pan = mSource.Pan;
+
+			impl.Initialize();
 		}
 
 		/// <summary>
@@ -125,6 +127,12 @@ namespace AgateLib.AudioLib
 			get { return impl.Pan; }
 			set { impl.Pan = value; }
 		}
+
+		public int CurrentLocation
+		{
+			get { return impl.CurrentLocation; }
+		}
+
 		/// <summary>
 		/// Returns true if this Session is playing.
 		/// </summary>

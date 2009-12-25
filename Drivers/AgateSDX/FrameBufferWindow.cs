@@ -31,8 +31,8 @@ namespace AgateSDX
 		public override void Dispose()
 		{
 			mSwap.Dispose();
-			mBackBuffer.Dispose();
-			mBackDepthStencil.Dispose();
+			//mBackBuffer.Dispose();
+			//mBackDepthStencil.Dispose();
 		}
 
 		public override Size Size

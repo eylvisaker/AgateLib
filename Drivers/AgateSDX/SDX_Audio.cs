@@ -59,6 +59,11 @@ namespace AgateSDX
 		{
 			return new SDX_SoundBuffer(this, inStream);
 		}
+		public override SoundBufferImpl CreateSoundBuffer(Stream inStream, SoundFormat format)
+		{
+			return new SDX_SoundBuffer(this, inStream, format);
+		}
+
 		public override MusicImpl CreateMusic(System.IO.Stream musicStream)
 		{
 			CheckCoop();
@@ -105,6 +110,8 @@ namespace AgateSDX
 		AudioBuffer mBuffer;
 		double mVolume;
 		WaveFormat mFormat;
+		MemoryStream mem;
+		byte[] buffer;
 
 		public SDX_SoundBuffer(SDX_Audio audio, Stream inStream)
 		{
@@ -118,13 +125,51 @@ namespace AgateSDX
 			mBuffer.Flags = BufferFlags.EndOfStream;
 
 			mFormat = stream.Format;
+		}
 
+		public SDX_SoundBuffer(SDX_Audio audio, Stream inStream, SoundFormat format)
+		{
+			mAudio = audio;
+
+			switch (format)
+			{
+				case SoundFormat.Wave:
+					WaveStream stream = new WaveStream(inStream);
+
+					mBuffer = new AudioBuffer();
+					mBuffer.AudioData = stream;
+					mBuffer.AudioBytes = (int)inStream.Length;
+					mBuffer.Flags = BufferFlags.EndOfStream;
+
+					mFormat = stream.Format;
+					break;
+
+				case SoundFormat.Raw16:
+					mBuffer = new AudioBuffer();
+					mBuffer.AudioData = inStream;
+					mBuffer.AudioBytes = (int)inStream.Length;
+					mBuffer.Flags = BufferFlags.EndOfStream;
+
+					mFormat = new WaveFormat();
+					mFormat.BitsPerSample = 16;
+					mFormat.BlockAlignment = 2;
+					mFormat.Channels = 1;
+					mFormat.FormatTag = SlimDX.WaveFormatTag.Pcm;
+					mFormat.SamplesPerSecond = 44100;
+					mFormat.AverageBytesPerSecond =
+						mFormat.SamplesPerSecond * mFormat.BitsPerSample / 8;
+
+					break;
+			}
 		}
 		public SDX_SoundBuffer(SDX_Audio audio, string filename)
 			: this(audio, File.OpenRead(filename))
 		{
 
 		}
+
+		public override bool Loop { get; set; }
+
 		public override void Dispose()
 		{
 			mBuffer.Dispose();
@@ -147,6 +192,7 @@ namespace AgateSDX
 	}
 	public class SDX_SoundBufferSession : SoundBufferSessionImpl
 	{
+		SDX_SoundBuffer mSource;
 		SDX_Audio mAudio;
 		AudioBuffer mBuffer;
 		SourceVoice mVoice;
@@ -156,19 +202,36 @@ namespace AgateSDX
 		public SDX_SoundBufferSession(SDX_Audio audio, SDX_SoundBuffer source)
 		{
 			mAudio = audio;
+			mSource = source;
 			mBuffer = source.Buffer;
-
-			mVoice = new SourceVoice(mAudio.Device, source.Format);
-			mVoice.SubmitSourceBuffer(mBuffer);
-			mVoice.Start();
-
 			mVolume = source.Volume;
+
+			Initialize();
 		}
 		public override void Dispose()
 		{
 			mVoice.Dispose();
 		}
 
+		protected override void Initialize()
+		{
+			if (mVoice != null)
+			{
+				mVoice.Stop();
+				mVoice.Dispose();
+			}
+
+			mVoice = new SourceVoice(mAudio.Device, mSource.Format);
+			mVoice.SubmitSourceBuffer(mBuffer);
+		}
+
+		public override int CurrentLocation
+		{
+			get
+			{
+				return mVoice.State.SamplesPlayed;
+			}
+		}
 		public override void Play()
 		{
 			mVoice.Start();
