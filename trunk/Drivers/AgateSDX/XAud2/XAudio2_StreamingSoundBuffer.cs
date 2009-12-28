@@ -39,6 +39,7 @@ namespace AgateSDX.XAud2
 		BufferData[] buffer;
 		bool mPlaying;
 		int mNextData;
+		double mPan;
 
 		int mChunkSize;
 
@@ -77,6 +78,18 @@ namespace AgateSDX.XAud2
 			}
 		}
 
+		public override void Dispose()
+		{
+			try
+			{
+				mVoice.Stop();
+				mVoice.Dispose();
+			}
+			catch
+			{
+
+			}
+		}
 		void mVoice_BufferEnd(object sender, ContextEventArgs e)
 		{
 			ReadAndSubmitNextData();
@@ -157,6 +170,33 @@ namespace AgateSDX.XAud2
 		public override bool IsPlaying
 		{
 			get { return mPlaying; }
+		}
+
+		float[] channelVolumes = new float[2];
+		public override double Pan
+		{
+			get { return mPan; }
+			set
+			{
+				mPan = value;
+				mVoice.SetChannelVolumes(2, GetChannelVolumes((float)value));
+			}
+		}
+
+		private float[] GetChannelVolumes(float pan)
+		{
+			if (pan < 0)
+			{
+				channelVolumes[0] = 1;
+				channelVolumes[1] = 1 + pan;
+			}
+			else
+			{
+				channelVolumes[0] = 1 - pan;
+				channelVolumes[1] = 1;
+			}
+
+			return channelVolumes;
 		}
 	}
 }
