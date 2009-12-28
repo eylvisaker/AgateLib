@@ -24,7 +24,26 @@ using AgateLib.AudioLib.ImplementationBase;
 
 namespace AgateLib.AudioLib.ImplementationBase
 {
-	class StreamingSoundBufferImpl
+	public abstract class StreamingSoundBufferImpl
 	{
+		/// <summary>
+		/// Starts playing of the sound.
+		/// </summary>
+		public abstract void Play();
+		/// <summary>
+		/// Stops playing of the sound.
+		/// </summary>
+		public abstract void Stop();
+
+		/// <summary>
+		/// Gets or sets a value indicating how many bytes should be read from the
+		/// stream at a time.
+		/// </summary>
+		public abstract int ChunkSize { get; set; }
+
+		/// <summary>
+		/// Gets a value indiciating whether or not audio is playing.
+		/// </summary>
+		public abstract bool IsPlaying { get; }
 	}
 }

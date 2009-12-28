@@ -150,6 +150,10 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XAud2\XAudio2_Music.cs" />
+    <Compile Include="XAud2\XAudio2_SoundBuffer.cs" />
+    <Compile Include="XAud2\XAudio2_SoundBufferSession.cs" />
+    <Compile Include="XAud2\XAudio2_StreamingSoundBuffer.cs" />
     <EmbeddedResource Include="frmFullScreen.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmFullScreen.cs</DependentUpon>

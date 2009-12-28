@@ -74,13 +74,14 @@ namespace AgateLib.AudioLib.ImplementationBase
 		public abstract SoundBufferImpl CreateSoundBuffer(Stream inStream);
 
 		/// <summary>
-		/// Creates a SoundBufferImpl object.
+		/// Creates a streaming sound buffer.
 		/// </summary>
-		/// <param name="inStream"></param>
+		/// <param name="input"></param>
+		/// <param name="format"></param>
 		/// <returns></returns>
-		public virtual SoundBufferImpl CreateSoundBuffer(Stream inStream, AudioLib.SoundFormat format)
+		public virtual StreamingSoundBufferImpl CreateStreamingSoundBuffer(Stream input, SoundFormat format)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		/// <summary>
@@ -91,6 +92,7 @@ namespace AgateLib.AudioLib.ImplementationBase
 		public virtual void Update()
 		{
 		}
+
 
 	}
 
