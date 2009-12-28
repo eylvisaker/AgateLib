@@ -20,11 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
-using AgateLib.ImplementationBase;
 using AgateLib.Utility;
 
 namespace AgateLib.DisplayLib

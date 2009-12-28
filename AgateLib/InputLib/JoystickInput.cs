@@ -20,8 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.ImplementationBase;
 using AgateLib.Drivers;
+using AgateLib.InputLib.ImplementationBase;
 
 namespace AgateLib.InputLib
 {

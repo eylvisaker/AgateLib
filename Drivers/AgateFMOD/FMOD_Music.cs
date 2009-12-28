@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using AgateLib;
-using AgateLib.ImplementationBase;
+using AgateLib.AudioLib.ImplementationBase;
 
 namespace AgateFMOD
 {

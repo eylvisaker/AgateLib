@@ -22,10 +22,9 @@ using System.Drawing;
 using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
-
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.ImplementationBase;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.InputLib;
 using AgateLib.WinForms;
 using Geometry = AgateLib.Geometry;

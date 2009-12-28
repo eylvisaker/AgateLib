@@ -6,8 +6,8 @@ using SlimDX;
 using SlimDX.Direct3D9;
 using Direct3D = SlimDX.Direct3D9;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
-using AgateLib.ImplementationBase;
 
 namespace AgateSDX
 {

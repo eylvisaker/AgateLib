@@ -22,15 +22,15 @@ using Drawing = System.Drawing;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Direct3D = SlimDX.Direct3D9;
-using SlimDX.Direct3D9;
-using SlimDX;
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
-using AgateLib.ImplementationBase;
 using AgateLib.InputLib;
 using AgateLib.WinForms;
+using SlimDX;
+using SlimDX.Direct3D9;
+using Direct3D = SlimDX.Direct3D9;
 
 namespace AgateSDX
 {

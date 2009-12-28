@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.Geometry;
 using SlimDX;
 using SlimDX.Direct3D9;
 using Direct3D = SlimDX.Direct3D9;
-using AgateLib.Geometry;
-using AgateLib.ImplementationBase;
 
 namespace AgateSDX
 {

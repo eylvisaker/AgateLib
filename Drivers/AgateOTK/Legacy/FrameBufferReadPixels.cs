@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
 
@@ -78,7 +79,7 @@ namespace AgateOTK.Legacy
 			}
 		}
 
-		public override AgateLib.ImplementationBase.SurfaceImpl RenderTarget
+		public override SurfaceImpl RenderTarget
 		{
 			get
 			{

@@ -20,12 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-
 using AgateLib.DisplayLib;
-using AgateLib.ImplementationBase;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
-
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;

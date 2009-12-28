@@ -20,35 +20,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.DisplayLib.Shaders;
 
-namespace AgateLib.DisplayLib.Shaders
+namespace AgateLib.DisplayLib.ImplementationBase
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	[Obsolete]
-	public static class ShaderCompiler
+	public abstract class ShaderCompilerImpl
 	{
-		static ShaderCompilerImpl impl;
-
-		internal static void Initialize(ShaderCompilerImpl shaderCompilerImpl)
-		{
-			impl = shaderCompilerImpl;
-
-			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Display_DisposeDisplay);
-		}
-
-		static void Display_DisposeDisplay()
-		{
-			impl = null;
-		}
-
-		internal static void Disable()
-		{
-			impl = null;
-		}
-
-		public static Effect CompileEffect(ShaderLanguage language, string effectSource)
-		{
-			return impl.CompileEffect(language, effectSource);
-		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="language"></param>
+		/// <param name="effectSource"></param>
+		/// <returns></returns>
+		public abstract Effect CompileEffect(ShaderLanguage language, string effectSource);
 	}
 }

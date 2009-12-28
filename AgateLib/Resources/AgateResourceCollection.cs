@@ -23,8 +23,8 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Utility;
-using AgateLib.ImplementationBase;
 
 namespace AgateLib.Resources
 {

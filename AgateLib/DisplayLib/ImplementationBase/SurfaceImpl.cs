@@ -23,7 +23,7 @@ using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace AgateLib.ImplementationBase
+namespace AgateLib.DisplayLib.ImplementationBase
 {
 	/// <summary>
 	/// Base class for implementing a Surface structure.

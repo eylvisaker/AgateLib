@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
-using AgateLib.ImplementationBase;
 using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK.Legacy

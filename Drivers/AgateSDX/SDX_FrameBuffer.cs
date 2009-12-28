@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.ImplementationBase;
+using AgateLib.DisplayLib.ImplementationBase;
 
 namespace AgateSDX
 {

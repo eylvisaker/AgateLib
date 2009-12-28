@@ -132,7 +132,12 @@
     <Compile Include="AppInitParameters.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AudioLib\ImplementationBase\MusicImpl.cs" />
+    <Compile Include="AudioLib\ImplementationBase\SoundBufferImpl.cs" />
+    <Compile Include="AudioLib\ImplementationBase\SoundBufferSessionImpl.cs" />
+    <Compile Include="AudioLib\ImplementationBase\StreamingSoundBufferImpl.cs" />
     <Compile Include="AudioLib\SoundFormat.cs" />
+    <Compile Include="AudioLib\StreamingSoundBuffer.cs" />
     <Compile Include="Core.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -189,7 +194,7 @@
     <Compile Include="IFileProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImplementationBase\FrameBufferImpl.cs" />
+    <Compile Include="DisplayLib\ImplementationBase\FrameBufferImpl.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="PlatformType.cs" />
     <Compile Include="Settings\SettingsGroup.cs" />
@@ -400,37 +405,34 @@
     <Compile Include="Geometry\VertexTypes\VertexLayout.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImplementationBase\AudioImpl.cs">
+    <Compile Include="AudioLib\ImplementationBase\AudioImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImplementationBase\DisplayImpl.cs">
+    <Compile Include="DisplayLib\ImplementationBase\DisplayImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImplementationBase\DisplayWindowImpl.cs">
+    <Compile Include="DisplayLib\ImplementationBase\DisplayWindowImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImplementationBase\FontSurfaceImpl.cs">
+    <Compile Include="DisplayLib\ImplementationBase\FontSurfaceImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImplementationBase\IndexBufferImpl.cs">
+    <Compile Include="DisplayLib\ImplementationBase\IndexBufferImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImplementationBase\InputImpl.cs">
+    <Compile Include="InputLib\ImplementationBase\InputImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImplementationBase\JoystickImpl.cs">
+    <Compile Include="InputLib\ImplementationBase\JoystickImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImplementationBase\RenderTargetImpl.cs">
+    <Compile Include="DisplayLib\ImplementationBase\ShaderCompilerImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImplementationBase\ShaderCompilerImpl.cs">
+    <Compile Include="DisplayLib\ImplementationBase\SurfaceImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImplementationBase\SurfaceImpl.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ImplementationBase\VertexBufferImpl.cs">
+    <Compile Include="DisplayLib\ImplementationBase\VertexBufferImpl.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputLib\InputEventArgs.cs">

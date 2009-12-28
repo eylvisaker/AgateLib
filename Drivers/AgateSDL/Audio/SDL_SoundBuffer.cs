@@ -21,11 +21,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-
-using Tao.Sdl;
-
 using AgateLib;
-using AgateLib.ImplementationBase;
+using AgateLib.AudioLib.ImplementationBase;
+using Tao.Sdl;
 
 namespace AgateSDL.Audio
 {

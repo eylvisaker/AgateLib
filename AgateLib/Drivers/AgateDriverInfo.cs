@@ -19,7 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using AgateLib.ImplementationBase;
+using AgateLib.AudioLib.ImplementationBase;
+using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.InputLib.ImplementationBase;
 
 namespace AgateLib.Drivers
 {

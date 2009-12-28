@@ -23,8 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SlimDX", "..\..\slimdx-read-only\build\SlimDX.vcproj", "{8ECCE443-0440-40F4-A94C-F02E027282C3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -151,21 +149,6 @@ Global
 		{9E095F03-BA3F-4EAD-A905-2A2647CE4405}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{9E095F03-BA3F-4EAD-A905-2A2647CE4405}.Release|Mixed Platforms.Build.0 = Release|x86
 		{9E095F03-BA3F-4EAD-A905-2A2647CE4405}.Release|Win32.ActiveCfg = Release|x86
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Debug|Win32.ActiveCfg = Debug|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Debug|Win32.Build.0 = Debug|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Public|Any CPU.ActiveCfg = Public|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Public|Mixed Platforms.ActiveCfg = Public|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Public|Mixed Platforms.Build.0 = Public|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Public|Win32.ActiveCfg = Public|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Public|Win32.Build.0 = Public|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Release|Any CPU.ActiveCfg = Release|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Release|Win32.ActiveCfg = Release|Win32
-		{8ECCE443-0440-40F4-A94C-F02E027282C3}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

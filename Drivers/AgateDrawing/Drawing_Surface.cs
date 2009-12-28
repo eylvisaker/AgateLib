@@ -24,9 +24,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-
 using AgateLib.DisplayLib;
-using AgateLib.ImplementationBase;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.WinForms;
 using Geometry = AgateLib.Geometry;
 using PixelFormat = AgateLib.DisplayLib.PixelFormat;

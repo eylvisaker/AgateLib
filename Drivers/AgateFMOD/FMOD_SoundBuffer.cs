@@ -22,7 +22,7 @@ using System.IO;
 using System.Text;
 
 using AgateLib;
-using AgateLib.ImplementationBase;
+using AgateLib.AudioLib.ImplementationBase;
 
 namespace AgateFMOD
 {
