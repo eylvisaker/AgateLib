@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.Shaders;
-using AgateLib.ImplementationBase;
+using AgateLib.DisplayLib.ImplementationBase;
 using Direct3D = SlimDX.Direct3D9;
 
 namespace AgateSDX

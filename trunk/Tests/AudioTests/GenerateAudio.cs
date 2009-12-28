@@ -44,7 +44,7 @@ namespace Tests.AudioTests
 
 				MemoryStream ms = new MemoryStream(buffer);
 				ms.Seek(0, SeekOrigin.Begin);
-				SoundBuffer buf = new SoundBuffer(ms, SoundFormat.RawInt16);
+				SoundBuffer buf = new SoundBuffer(ms, SoundFormat.Pcm16(44100));
 				
 				buf.Loop = true;
 				

@@ -19,8 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AgateLib.Drivers;
 
-namespace AgateLib.ImplementationBase
+namespace AgateLib.InputLib.ImplementationBase
 {
 	/// <summary>
 	/// Implementation for Input Manager.

@@ -22,8 +22,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using AgateLib.BitmapFont;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
-using AgateLib.ImplementationBase;
 using AgateLib.Resources;
 
 namespace AgateLib.DisplayLib

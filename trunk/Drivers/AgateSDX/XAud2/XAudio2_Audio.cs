@@ -19,13 +19,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
+using AgateLib.AudioLib;
+using AgateLib.AudioLib.ImplementationBase;
+using AgateLib.Drivers;
 using SlimDX.XAudio2;
 using SlimDX.Multimedia;
-using System.Runtime.InteropServices;
-using AgateLib.AudioLib;
-using AgateLib.Drivers;
-using AgateLib.ImplementationBase;
 
 namespace AgateSDX.XAud2
 {
@@ -67,10 +67,6 @@ namespace AgateSDX.XAud2
 		public override SoundBufferImpl CreateSoundBuffer(Stream inStream)
 		{
 			return new SDX_SoundBuffer(this, inStream);
-		}
-		public override SoundBufferImpl CreateSoundBuffer(Stream inStream, SoundFormat format)
-		{
-			return new SDX_SoundBuffer(this, inStream, format);
 		}
 
 		public override MusicImpl CreateMusic(System.IO.Stream musicStream)
@@ -136,41 +132,6 @@ namespace AgateSDX.XAud2
 			mFormat = stream.Format;
 		}
 
-		public SDX_SoundBuffer(XAudio2_Audio audio, Stream inStream, SoundFormat format)
-		{
-			mAudio = audio;
-
-			switch (format)
-			{
-				case SoundFormat.Wave:
-					WaveStream stream = new WaveStream(inStream);
-
-					mBuffer = new AudioBuffer();
-					mBuffer.AudioData = stream;
-					mBuffer.AudioBytes = (int)stream.Length;
-					mBuffer.Flags = BufferFlags.EndOfStream;
-
-					mFormat = stream.Format;
-					break;
-
-				case SoundFormat.RawInt16:
-					mBuffer = new AudioBuffer();
-					mBuffer.AudioData = inStream;
-					mBuffer.AudioBytes = (int)inStream.Length;
-					mBuffer.Flags = BufferFlags.EndOfStream;
-
-					mFormat = new WaveFormat();
-					mFormat.BitsPerSample = 16;
-					mFormat.BlockAlignment = 2;
-					mFormat.Channels = 1;
-					mFormat.FormatTag = WaveFormatTag.Pcm;
-					mFormat.SamplesPerSecond = 44100;
-					mFormat.AverageBytesPerSecond =
-						mFormat.SamplesPerSecond * mFormat.BitsPerSample / 8;
-
-					break;
-			}
-		}
 		public SDX_SoundBuffer(XAudio2_Audio audio, string filename)
 			: this(audio, File.OpenRead(filename))
 		{

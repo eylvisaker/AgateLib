@@ -25,10 +25,10 @@ using SlimDX;
 
 using AgateLib.BitmapFont;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
-using AgateLib.ImplementationBase;
 using AgateLib.WinForms;
 
 using Vector2 = SlimDX.Vector2;

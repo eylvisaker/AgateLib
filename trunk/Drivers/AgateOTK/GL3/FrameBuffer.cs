@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
 using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
@@ -62,9 +63,9 @@ namespace AgateOTK.GL3
 
 		}
 
-		public override AgateLib.ImplementationBase.SurfaceImpl RenderTarget
+		public override SurfaceImpl RenderTarget
 		{
-			get {return mTexture;}
+			get { return mTexture; }
 		}
 		public override void Dispose()
 		{

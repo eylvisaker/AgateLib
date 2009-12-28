@@ -30,9 +30,9 @@ using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
-using AgateLib.ImplementationBase;
 using AgateLib.Utility;
 using AgateLib.WinForms;
 

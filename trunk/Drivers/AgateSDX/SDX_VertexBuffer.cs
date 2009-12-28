@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
-using AgateLib.ImplementationBase;
 using Direct3D = SlimDX.Direct3D9;
 
 namespace AgateSDX

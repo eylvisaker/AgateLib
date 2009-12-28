@@ -19,10 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SlimDX.DirectInput;
-
 using AgateLib.Drivers;
-using AgateLib.ImplementationBase;
+using AgateLib.InputLib.ImplementationBase;
+using SlimDX.DirectInput;
 
 namespace AgateSDX
 {

@@ -199,7 +199,7 @@ namespace AgateLib.Sprites
 				{
 					var image = (SpriteResource.SpriteImageResource)child;
 
-					ImplementationBase.SurfaceImpl thisImpl = resources.LoadSurfaceImpl(image.Filename);
+					DisplayLib.ImplementationBase.SurfaceImpl thisImpl = resources.LoadSurfaceImpl(image.Filename);
 					if (i == 0 && defaultSurface == null && resource.HasSize == false)
 					{
 						mSpriteSize = thisImpl.SurfaceSize;
@@ -222,7 +222,7 @@ namespace AgateLib.Sprites
 			}
 		}
 
-		private void AddFramesFromGrid(AgateResourceCollection resources, AgateLib.ImplementationBase.SurfaceImpl thisImpl, SpriteResource.SpriteImageResource.Grid grid)
+		private void AddFramesFromGrid(AgateResourceCollection resources, DisplayLib.ImplementationBase.SurfaceImpl thisImpl, SpriteResource.SpriteImageResource.Grid grid)
 		{
 			Point location = grid.Location;
 

@@ -25,10 +25,10 @@ using System.Text;
 using System.Runtime.InteropServices;
 using AgateLib.BitmapFont;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
-using AgateLib.ImplementationBase;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 

@@ -20,9 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
 using AgateLib.Geometry;
-using AgateLib.ImplementationBase;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Utility;
 
 namespace AgateLib.DisplayLib

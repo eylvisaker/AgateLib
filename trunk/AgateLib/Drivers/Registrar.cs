@@ -22,8 +22,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-
-using AgateLib.ImplementationBase;
+using AgateLib.AudioLib.ImplementationBase;
+using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.InputLib.ImplementationBase;
 using AgateLib.Utility;
 
 namespace AgateLib.Drivers

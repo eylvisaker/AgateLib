@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgateLib.ImplementationBase
+namespace AgateLib.InputLib.ImplementationBase
 {
 	/// <summary>
 	/// Class which implements a Joystick.

@@ -26,9 +26,9 @@ using System.Windows.Forms;
 
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
-using AgateLib.ImplementationBase;
 using AgateLib.InputLib;
 using AgateLib.WinForms;
 

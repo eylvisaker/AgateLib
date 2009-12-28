@@ -23,7 +23,7 @@ using System.Drawing.Drawing2D;
 using System.Text;
 
 using AgateLib.DisplayLib;
-using AgateLib.ImplementationBase;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.WinForms;
 using FontStyle = AgateLib.DisplayLib.FontStyle;
 using Geometry = AgateLib.Geometry;

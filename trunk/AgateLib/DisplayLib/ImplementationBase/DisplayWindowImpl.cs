@@ -23,7 +23,7 @@ using System.Text;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
-namespace AgateLib.ImplementationBase
+namespace AgateLib.DisplayLib.ImplementationBase
 {
 	/// <summary>
 	/// Implementation of DisplayWindow class.

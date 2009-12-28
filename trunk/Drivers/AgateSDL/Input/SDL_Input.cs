@@ -20,9 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-
 using AgateLib.Drivers;
-using AgateLib.ImplementationBase;
+using AgateLib.InputLib.ImplementationBase;
 
 namespace AgateSDL.Input
 {

@@ -24,10 +24,11 @@ using AgateLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
+using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 
-namespace AgateLib.ImplementationBase
+namespace AgateLib.DisplayLib.ImplementationBase
 {
 	/// <summary>
 	/// Abstract base class for implementing the Display object.

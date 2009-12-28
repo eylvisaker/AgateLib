@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using AgateLib.ImplementationBase;
+using AgateLib.AudioLib.ImplementationBase;
 using AgateLib.Drivers;
 using OpenTK.Audio.OpenAL;
 

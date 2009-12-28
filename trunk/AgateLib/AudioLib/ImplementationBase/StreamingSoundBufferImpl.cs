@@ -18,37 +18,13 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
-using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.AudioLib.ImplementationBase;
 
-namespace AgateLib.DisplayLib.Shaders
+namespace AgateLib.AudioLib.ImplementationBase
 {
-	[Obsolete]
-	public static class ShaderCompiler
+	class StreamingSoundBufferImpl
 	{
-		static ShaderCompilerImpl impl;
-
-		internal static void Initialize(ShaderCompilerImpl shaderCompilerImpl)
-		{
-			impl = shaderCompilerImpl;
-
-			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Display_DisposeDisplay);
-		}
-
-		static void Display_DisposeDisplay()
-		{
-			impl = null;
-		}
-
-		internal static void Disable()
-		{
-			impl = null;
-		}
-
-		public static Effect CompileEffect(ShaderLanguage language, string effectSource)
-		{
-			return impl.CompileEffect(language, effectSource);
-		}
 	}
 }

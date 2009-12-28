@@ -1,4 +1,4 @@
-//     The contents of this file are subject to the Mozilla Public License
+﻿//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -18,40 +18,32 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using AgateLib.AudioLib.ImplementationBase;
 
-using AgateLib.Geometry;
-
-namespace AgateLib.ImplementationBase
+namespace AgateLib.AudioLib.ImplementationBase
 {
+
 	/// <summary>
-	/// Defines the interface used for render targets.
-	/// SurfaceImpl and DisplayWindowImpl implement this interface.
+	/// Implements a SoundBuffer
 	/// </summary>
-	public interface IRenderTargetImpl
+	public abstract class SoundBufferImpl : IDisposable
 	{
 		/// <summary>
-		/// Utility functions that can be called by the rendering system
-		/// when rendering starts and ends.
+		/// Destroys unmanaged resources.
 		/// </summary>
-		void BeginRender();
+		public abstract void Dispose();
+
 		/// <summary>
-		/// Utility functions that can be called by the rendering system
-		/// when rendering starts and ends.
+		/// Gets or sets the volume this audio file is playing at.
+		/// 0.0 is completely quiet.
+		/// 0.5 sounds like half maximum volume
+		/// 1.0 is maximum volume.
 		/// </summary>
-		void EndRender();
-		/// <summary>
-		/// Gets the Size of the render target, in pixels.
-		/// </summary>
-		Size Size { get; }
-		/// <summary>
-		/// Gets the Height of the render target, in pixels.
-		/// </summary>
-		int Width { get; }
-		/// <summary>
-		/// Gets the Width of the render target, in pixels.
-		/// </summary>
-		int Height { get; }
+		public abstract double Volume { get; set; }
+
+		public virtual bool Loop { get { return false; } set { } }
 
 	}
 }

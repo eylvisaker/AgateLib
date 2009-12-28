@@ -22,8 +22,8 @@ using System.Text;
 using System.Xml;
 
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
-using AgateLib.ImplementationBase;
 using AgateLib.Resources;
 using AgateLib.DisplayLib.Cache;
 
