@@ -92,15 +92,6 @@ namespace AgateLib.AudioLib
 		}
 
 		/// <summary>
-		/// Constructs a SoundBuffer object, loading audio data from the passed stream.
-		/// </summary>
-		/// <param name="source"></param>
-		public SoundBuffer(Stream source, SoundFormat format)
-		{
-			impl = Audio.Impl.CreateSoundBuffer(source, format);
-		}
-
-		/// <summary>
 		/// Disposes of the SoundBuffer object, and all SoundBufferSession objects
 		/// created by this SoundBuffer.
 		/// </summary>

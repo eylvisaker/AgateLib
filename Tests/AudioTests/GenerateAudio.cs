@@ -12,10 +12,9 @@ namespace Tests.AudioTests
 {
 	class GenerateAudio : IAgateTest 
 	{
-
 		public string Name
 		{
-			get { return "Generate Audio"; }
+			get { return "Streaming Audio"; }
 		}
 
 		public string Category
@@ -23,6 +22,107 @@ namespace Tests.AudioTests
 			get { return "Audio"; }
 		}
 
+		class LoopingStream : Stream 
+		{
+			byte[] buffer;
+			int pos;
+
+			public LoopingStream(byte[] buffer)
+			{
+				this.buffer = buffer;
+			}
+
+			public override bool CanRead
+			{
+				get { return true; }
+			}
+
+			public override bool CanSeek
+			{
+				get { return true; }
+			}
+
+			public override bool CanWrite
+			{
+				get { return false; }
+			}
+
+			public override void Flush()
+			{
+				throw new NotSupportedException();
+			}
+
+			public override long Length
+			{
+				get { return buffer.Length; }
+			}
+
+			public override long Position
+			{
+				get
+				{
+					return pos;
+				}
+				set
+				{
+					pos = (int) value;
+				}
+			}
+
+			public override int Read(byte[] buffer, int offset, int count)
+			{
+				if (count < Length - pos)
+				{
+					Array.Copy(this.buffer, pos, buffer, offset, count);
+					pos += count;
+				}
+				else
+				{
+					int firstcount = (int)(Length - pos);
+
+					Array.Copy(this.buffer, pos, buffer, offset, firstcount);
+					
+					int secondCount = count - firstcount;
+
+					Array.Copy(this.buffer, 0, buffer, offset + firstcount, secondCount);
+					pos = secondCount;
+				}
+
+				return count;
+			}
+
+			public override long Seek(long offset, SeekOrigin origin)
+			{
+				switch (origin)
+				{
+					case SeekOrigin.Begin:
+						pos = (int)offset;
+						break;
+
+					case SeekOrigin.Current:
+						pos += (int)offset;
+						pos %= (int)Length;
+						break;
+
+					case SeekOrigin.End:
+						pos = (int)(Length + offset);
+						pos %= (int)Length;
+						break;
+				}
+
+				return pos;
+			}
+
+			public override void SetLength(long value)
+			{
+				throw new NotImplementedException();
+			}
+
+			public override void Write(byte[] buffer, int offset, int count)
+			{
+				throw new NotImplementedException();
+			}
+		}
 		public void Main(string[] args)
 		{
 			using (AgateSetup setup = new AgateSetup())
@@ -34,7 +134,7 @@ namespace Tests.AudioTests
 
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Generate Audio", 640, 480);
 
-				short[] s = new short[44010];
+				short[] s = new short[44100];
 
 				int frequency = 100;
 				FillSoundBuffer(s, frequency);
@@ -42,13 +142,10 @@ namespace Tests.AudioTests
 				byte[] buffer = new byte[s.Length * 2];
 				Buffer.BlockCopy(s, 0, buffer, 0, buffer.Length);
 
-				MemoryStream ms = new MemoryStream(buffer);
-				ms.Seek(0, SeekOrigin.Begin);
-				SoundBuffer buf = new SoundBuffer(ms, SoundFormat.Pcm16(44100));
+				LoopingStream sa = new LoopingStream(buffer);
+				StreamingSoundBuffer buf = new StreamingSoundBuffer(sa, SoundFormat.Pcm16(44100), 4100);
 				
-				buf.Loop = true;
-				
-				SoundBufferSession ses = buf.Play();
+				buf.Play();
 
 				Stopwatch w = new Stopwatch();
 				w.Start();
@@ -70,8 +167,6 @@ namespace Tests.AudioTests
 						FillSoundBuffer(s, frequency);
 						Buffer.BlockCopy(s, 0, buffer, 0, buffer.Length);
 
-						ms.Seek(0, SeekOrigin.Begin);
-						buf.Play();
 						w.Reset();
 						w.Start();
 					}
