@@ -45,5 +45,18 @@ namespace AgateLib.AudioLib.ImplementationBase
 		/// Gets a value indiciating whether or not audio is playing.
 		/// </summary>
 		public abstract bool IsPlaying { get; }
+
+		/// <summary>
+		/// Releases resources.
+		/// </summary>
+		public abstract void Dispose();
+
+		/// <summary>
+		/// Gets or sets the left-right balance.
+		/// -1 is left speaker
+		/// 0 is middle (both)
+		/// 1 is right.
+		/// </summary>
+		public abstract double Pan { get; set; }
 	}
 }

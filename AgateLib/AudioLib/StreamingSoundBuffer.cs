@@ -28,7 +28,7 @@ namespace AgateLib.AudioLib
 	/// <summary>
 	/// Class which streams PCM audio data.
 	/// </summary>
-	public class StreamingSoundBuffer
+	public class StreamingSoundBuffer : IDisposable
 	{
 		StreamingSoundBufferImpl impl;
 		Stream stream;
@@ -45,6 +45,14 @@ namespace AgateLib.AudioLib
 			impl = Audio.Impl.CreateStreamingSoundBuffer(input, format);
 			stream = input;
 			ChunkSize = chunkSize;
+		}
+
+		/// <summary>
+		/// Releases resources.
+		/// </summary>
+		public void Dispose()
+		{
+			Impl.Dispose();
 		}
 
 		/// <summary>
@@ -95,5 +103,18 @@ namespace AgateLib.AudioLib
 		{
 			get { return impl.IsPlaying; }
 		}
+
+		/// <summary>
+		/// Gets or sets the left-right balance that will be used in new sessions. 
+		/// -1 is entirely in the left speaker,
+		///  0 is equally in both and,
+		///  1 is entirely in the right speaker.
+		/// </summary>
+		public double Pan
+		{
+			get { return impl.Pan; }
+			set { impl.Pan = value; }
+		}
+
 	}
 }
