@@ -10,7 +10,7 @@ using AgateLib.DisplayLib;
 
 namespace Tests.AudioTests
 {
-	class GenerateAudio : IAgateTest 
+	class StreamAudio : IAgateTest 
 	{
 		public string Name
 		{
@@ -24,12 +24,10 @@ namespace Tests.AudioTests
 
 		class LoopingStream : Stream 
 		{
-			byte[] buffer;
-			int pos;
+			public double Frequency { get; set; }
 
-			public LoopingStream(byte[] buffer)
+			public LoopingStream()
 			{
-				this.buffer = buffer;
 			}
 
 			public override bool CanRead
@@ -54,38 +52,38 @@ namespace Tests.AudioTests
 
 			public override long Length
 			{
-				get { return buffer.Length; }
+				get { return SamplingFrequency; }
 			}
 
 			public override long Position
 			{
 				get
 				{
-					return pos;
+					return 0;
 				}
 				set
 				{
-					pos = (int) value;
 				}
 			}
 
+			double lastValue;
+			const int SamplingFrequency = 44100;
+
 			public override int Read(byte[] buffer, int offset, int count)
 			{
-				if (count < Length - pos)
+				double lv = lastValue;
+				
+				for (int i = 0; i < count / 2; i++)
 				{
-					Array.Copy(this.buffer, pos, buffer, offset, count);
-					pos += count;
-				}
-				else
-				{
-					int firstcount = (int)(Length - pos);
+					double time = i / (double)SamplingFrequency;
+					time *= 2 * Math.PI * Frequency;
+					time += lv;
+					lastValue = time;
 
-					Array.Copy(this.buffer, pos, buffer, offset, firstcount);
-					
-					int secondCount = count - firstcount;
+					short val = (short)(Math.Sin(time) * short.MaxValue/2);
 
-					Array.Copy(this.buffer, 0, buffer, offset + firstcount, secondCount);
-					pos = secondCount;
+					buffer[offset + i * 2] = (byte)(val & 0xff);
+					buffer[offset + i * 2 + 1] = (byte)(val >> 8);
 				}
 
 				return count;
@@ -93,26 +91,8 @@ namespace Tests.AudioTests
 
 			public override long Seek(long offset, SeekOrigin origin)
 			{
-				switch (origin)
-				{
-					case SeekOrigin.Begin:
-						pos = (int)offset;
-						break;
-
-					case SeekOrigin.Current:
-						pos += (int)offset;
-						pos %= (int)Length;
-						break;
-
-					case SeekOrigin.End:
-						pos = (int)(Length + offset);
-						pos %= (int)Length;
-						break;
-				}
-
-				return pos;
+				throw new NotImplementedException();
 			}
-
 			public override void SetLength(long value)
 			{
 				throw new NotImplementedException();
@@ -134,16 +114,10 @@ namespace Tests.AudioTests
 
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Generate Audio", 640, 480);
 
-				short[] s = new short[44100];
+				LoopingStream sa = new LoopingStream();
+				sa.Frequency = 100;
 
-				int frequency = 100;
-				FillSoundBuffer(s, frequency);
-
-				byte[] buffer = new byte[s.Length * 2];
-				Buffer.BlockCopy(s, 0, buffer, 0, buffer.Length);
-
-				LoopingStream sa = new LoopingStream(buffer);
-				StreamingSoundBuffer buf = new StreamingSoundBuffer(sa, SoundFormat.Pcm16(44100), 4100);
+				StreamingSoundBuffer buf = new StreamingSoundBuffer(sa, SoundFormat.Pcm16(44100), 100);
 				
 				buf.Play();
 
@@ -156,34 +130,19 @@ namespace Tests.AudioTests
 					Display.Clear();
 
 					FontSurface.AgateSans14.Color = AgateLib.Geometry.Color.White;
-					FontSurface.AgateSans14.DrawText(0, 0, string.Format("Frequency: {0}", frequency));
+					FontSurface.AgateSans14.DrawText(0, 0, string.Format("Frequency: {0}", sa.Frequency));
  
 					Display.EndFrame();
 					Core.KeepAlive();
 
-					if (w.ElapsedMilliseconds > 800)
+					if (w.ElapsedMilliseconds > 500)
 					{
-						frequency += 50;
-						FillSoundBuffer(s, frequency);
-						Buffer.BlockCopy(s, 0, buffer, 0, buffer.Length);
-
+						sa.Frequency += 50;
 						w.Reset();
 						w.Start();
 					}
 				}
 			}
 		}
-
-		private void FillSoundBuffer(short[] s, double frequency)
-		{
-			for (int i = 0; i < s.Length; i++)
-			{
-				double index = i / (double)s.Length;
-				index *= 2 * Math.PI * frequency;
-
-				s[i] = (short)(Math.Sin(index) * short.MaxValue);
-			}
-		}
-
 	}
 }
