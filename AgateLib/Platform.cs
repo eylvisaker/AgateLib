@@ -35,11 +35,13 @@ namespace AgateLib
 		string mDocuments;
 		string mAppData;
 		string mAppDir;
+		bool m64Bit;
 
 		internal Platform()
 		{
 			mType = DetectPlatformType();
 			mRuntime = DetectRuntime();
+			m64Bit = Detect64Bit();
 
 			if (PlatformType != PlatformType.Windows)
 			{
@@ -76,6 +78,21 @@ namespace AgateLib
 			catch (Exception)
 			{
 				Trace.WriteLine("Could not open debug or trace log for writing.");
+			}
+
+			Trace.WriteLine("64-bit platform: " + m64Bit.ToString());
+		}
+
+		private bool Detect64Bit()
+		{
+			int size = Marshal.SizeOf(typeof(IntPtr));
+
+			switch (size)
+			{
+				case 4: return false;
+				case 8: return true;
+				default:
+					throw new AgateException(string.Format("Size of IntPtr is {0}.", size));
 			}
 		}
 
