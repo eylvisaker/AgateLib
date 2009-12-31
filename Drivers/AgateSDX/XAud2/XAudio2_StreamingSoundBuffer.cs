@@ -40,6 +40,7 @@ namespace AgateSDX.XAud2
 		bool mPlaying;
 		int mNextData;
 		double mPan;
+		BinaryWriter w;
 
 		int mChunkSize;
 
@@ -76,12 +77,20 @@ namespace AgateSDX.XAud2
 				buffer[i].buffer = new AudioBuffer();
 				buffer[i].ms = new MemoryStream();
 			}
+
+			string tempFileName = Path.GetTempFileName();
+
+			w = new BinaryWriter(File.Open(tempFileName + ".pcm", FileMode.Create));
+
+			Pan = 0;
 		}
 
 		public override void Dispose()
 		{
 			try
 			{
+				w.BaseStream.Dispose();
+
 				mVoice.Stop();
 				mVoice.Dispose();
 			}
@@ -110,12 +119,11 @@ namespace AgateSDX.XAud2
 		{
 			mNextData = 0;
 			ReadAndSubmitNextData();
+			ReadAndSubmitNextData();
 
 			mVoice.Start();
 			mPlaying = true;
 		}
-
-
 
 		public override void Stop()
 		{
@@ -124,7 +132,6 @@ namespace AgateSDX.XAud2
 			mVoice.Stop();
 		}
 
-
 		private void ReadData(BufferData bufferData)
 		{
 			int count = mInput.Read(bufferData.backing, 0, bufferData.backing.Length);
@@ -132,6 +139,8 @@ namespace AgateSDX.XAud2
 			bufferData.ms.Position = 0;
 			bufferData.buffer.AudioData = bufferData.ms;
 			bufferData.buffer.AudioBytes = count;
+
+			w.Write(bufferData.backing, 0, count);
 		}
 
 		private void SubmitData(BufferData bufferData)
