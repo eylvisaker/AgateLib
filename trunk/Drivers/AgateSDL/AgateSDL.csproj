@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{00C7FA95-98F4-43D9-9B63-34122B1DB003}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -150,10 +150,11 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="Tao.Sdl.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Tao.Sdl.dll">
+    <Compile Include="Tao.Sdl\Sdl.cs" />
+    <Compile Include="Tao.Sdl\SdlGfx.cs" />
+    <Compile Include="Tao.Sdl\SdlMixer.cs" />
+    <Compile Include="Tao.Sdl\Smpeg.cs" />
+    <None Include="AgateSDL.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="SDL.dll">
@@ -174,6 +175,9 @@
     <None Include="Readme-SDL.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Tao.Sdl\AUTHORS" />
+    <None Include="Tao.Sdl\COPYING" />
+    <None Include="Tao.Sdl\README" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>

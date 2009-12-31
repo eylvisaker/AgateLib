@@ -87,15 +87,11 @@ namespace Tests.Shaders
 					cb.VertexBuffer.Textures[0] = texture;
 					cb.VertexBuffer.DrawIndexed(cb.IndexBuffer);
 
+					AgateBuiltInShaders.Basic2DShader.Activate();
 
-
-					if (lightEnable)
-					{
-						AgateBuiltInShaders.Basic2DShader.Activate();
-
-						font.DrawText(0, 0, "Location: {0}", eye);
-						font.DrawText(0, font.FontHeight, "Angle: {0}", lookAngle);
-					}
+					font.DrawText(0, 0, "Location: {0}", eye);
+					font.DrawText(0, font.FontHeight, "Angle: {0}", lookAngle);
+					font.DrawText(0, font.FontHeight * 2, "Press L to toggle lighting effects.");
 
 					Display.EndFrame();
 					Core.KeepAlive();
