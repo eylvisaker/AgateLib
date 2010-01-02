@@ -41,6 +41,7 @@ namespace AgateSDX.XAud2
 		int mNextData;
 		double mPan;
 		BinaryWriter w;
+		bool mIsDisposed;
 
 		int mChunkSize;
 
@@ -53,52 +54,82 @@ namespace AgateSDX.XAud2
 			public byte[] backing;
 		}
 
+		static int count = 0;
+
 		public XAudio2_StreamingSoundBuffer(XAudio2_Audio audio, Stream input, SoundFormat format)
 		{
 			mAudio = audio;
 			mInput = input;
 			mFormat = format;
 
+			Initialize();
+		}
+		public bool InvokeRequired
+		{
+			get { return mAudio.InvokeRequired; }
+		}
+		public void BeginInvoke(Delegate method, params object[] args)
+		{
+			mAudio.BeginInvoke(method, args);
+		}
+
+		private void Initialize()
+		{
+			if (InvokeRequired)
+			{
+				BeginInvoke(new DisposeDelegate(Initialize));
+				return;
+			}
+
 			xaudFormat = new WaveFormat();
-			xaudFormat.BitsPerSample = (short) mFormat.BitsPerSample;
+			xaudFormat.BitsPerSample = (short)mFormat.BitsPerSample;
 			xaudFormat.Channels = (short)mFormat.Channels;
 			xaudFormat.BlockAlignment = (short)(mFormat.Channels * mFormat.BitsPerSample / 8);
 			xaudFormat.FormatTag = WaveFormatTag.Pcm;
-			xaudFormat.SamplesPerSecond = format.SamplingFrequency;
+			xaudFormat.SamplesPerSecond = mFormat.SamplingFrequency;
 			xaudFormat.AverageBytesPerSecond = xaudFormat.BlockAlignment * xaudFormat.SamplesPerSecond;
 
-			mVoice = new SourceVoice(audio.Device, xaudFormat);
+			mVoice = new SourceVoice(mAudio.Device, xaudFormat);
 			mVoice.BufferEnd += new EventHandler<ContextEventArgs>(mVoice_BufferEnd);
 
 			buffer = new BufferData[bufferCount];
 			for (int i = 0; i < bufferCount; i++)
 			{
 				buffer[i] = new BufferData();
-				buffer[i].buffer = new AudioBuffer();
 				buffer[i].ms = new MemoryStream();
+				buffer[i].buffer = new AudioBuffer();
+				buffer[i].buffer.Flags = BufferFlags.EndOfStream;
 			}
 
-			string tempFileName = Path.GetTempFileName();
+			string tempFileName = string.Format("xaudio2_buffer{0}.pcm", count);
+			count++;
 
-			w = new BinaryWriter(File.Open(tempFileName + ".pcm", FileMode.Create));
+			w = new BinaryWriter(File.Open(tempFileName, FileMode.Create));
 
 			Pan = 0;
 		}
 
 		public override void Dispose()
 		{
-			try
+			if (InvokeRequired)
 			{
-				w.BaseStream.Dispose();
-
-				mVoice.Stop();
-				mVoice.Dispose();
+				BeginInvoke(new DisposeDelegate(Initialize));
+				return;
 			}
-			catch
+
+			mIsDisposed = true;
+
+			w.BaseStream.Dispose();
+
+			foreach (var b in buffer)
 			{
-
+				b.buffer.Dispose();
 			}
+
+			mVoice.Stop();
+			mVoice.Dispose();
 		}
+
 		void mVoice_BufferEnd(object sender, ContextEventArgs e)
 		{
 			ReadAndSubmitNextData();
@@ -106,6 +137,9 @@ namespace AgateSDX.XAud2
 
 		private void ReadAndSubmitNextData()
 		{
+			if (mIsDisposed)
+				return;
+
 			ReadData(buffer[mNextData]);
 			SubmitData(buffer[mNextData]);
 
@@ -117,6 +151,12 @@ namespace AgateSDX.XAud2
 
 		public override void Play()
 		{
+			if (InvokeRequired)
+			{
+				BeginInvoke(new DisposeDelegate(Play));
+				return;
+			}
+
 			mNextData = 0;
 			ReadAndSubmitNextData();
 			ReadAndSubmitNextData();
@@ -127,6 +167,12 @@ namespace AgateSDX.XAud2
 
 		public override void Stop()
 		{
+			if (InvokeRequired)
+			{
+				BeginInvoke(new DisposeDelegate(Stop));
+				return;
+			}
+
 			mPlaying = false;
 
 			mVoice.Stop();
@@ -156,23 +202,33 @@ namespace AgateSDX.XAud2
 			}
 			set
 			{
-				if (value <= xaudFormat.BlockAlignment)
-					throw new ArgumentOutOfRangeException(string.Format(
-						"Chunk size is too small.  Must be multiple of {0} but was {1}.",
-						xaudFormat.BlockAlignment, value));
-
-				if (value % xaudFormat.BlockAlignment != 0)
-					throw new ArgumentException(string.Format(
-						"Chunk size {0} was not a multiple of the block alignment {1}.",
-						value, xaudFormat.BlockAlignment));
-
 				mChunkSize = value;
 
-				for (int i = 0; i < buffer.Length; i++)
-				{
-					buffer[i].backing = new byte[mChunkSize];
-					buffer[i].ms = new MemoryStream(buffer[i].backing);
-				}
+				ResizeBacking();
+
+			}
+		}
+
+		int ChunkByteSize
+		{
+			get
+			{
+				return ChunkSize * xaudFormat.BlockAlignment;
+			}
+		}
+		private void ResizeBacking()
+		{
+			if (InvokeRequired)
+			{
+				BeginInvoke(new DisposeDelegate(ResizeBacking));
+				return;
+			}
+
+
+			for (int i = 0; i < buffer.Length; i++)
+			{
+				buffer[i].backing = new byte[ChunkByteSize];
+				buffer[i].ms = new MemoryStream(buffer[i].backing);
 			}
 		}
 
@@ -188,8 +244,19 @@ namespace AgateSDX.XAud2
 			set
 			{
 				mPan = value;
-				mVoice.SetChannelVolumes(2, GetChannelVolumes((float)value));
+				ResetChannelVolumes();
 			}
+		}
+
+		private void ResetChannelVolumes()
+		{
+			if (InvokeRequired)
+			{
+				BeginInvoke(new DisposeDelegate(ResetChannelVolumes));
+				return;
+			}
+
+			mVoice.SetChannelVolumes(2, GetChannelVolumes((float)mPan));
 		}
 
 		private float[] GetChannelVolumes(float pan)

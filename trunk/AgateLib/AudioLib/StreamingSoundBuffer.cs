@@ -38,7 +38,7 @@ namespace AgateLib.AudioLib
 		/// </summary>
 		/// <param name="input">The stream from which audio data will be pulled from.</param>
 		/// <param name="format">A SoundFormat object which indicates the PCM format for the data.</param>
-		/// <param name="chunkSize">The size of data that should be read from the stream each time
+		/// <param name="chunkSize">The number of samples from each channel that should be read from the stream each time
 		/// new data is required.</param>
 		public StreamingSoundBuffer(Stream input, SoundFormat format, int chunkSize)
 		{
@@ -87,7 +87,7 @@ namespace AgateLib.AudioLib
 		}
 
 		/// <summary>
-		/// Gets or sets a value indicating how many bytes should be read from the
+		/// Gets or sets a value indicating how many samples should be read from the
 		/// stream at a time.  This may only be set when the audio is stopped.
 		/// </summary>
 		public int ChunkSize
