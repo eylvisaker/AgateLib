@@ -50,5 +50,17 @@ namespace AgateLib.AudioLib
 		{
 			return new SoundFormat { BitsPerSample = 16, Channels = 1, SamplingFrequency = samplingFrequency };
 		}
+		/// <summary>
+		/// Creates and returns a SoundFormat object
+		/// for a 16-bit, single channel stream at the 
+		/// specified sampling frequency.
+		/// </summary>
+		/// <param name="samplingFrequency">The sampling frequency for the stream.</param>
+		/// <param name="channels">Number of channels in the audio stream.</param>
+		/// <returns></returns>
+		public static SoundFormat Pcm16(int samplingFrequency, int channels)
+		{
+			return new SoundFormat { BitsPerSample = 16, Channels = channels, SamplingFrequency = samplingFrequency };
+		}
 	}
 }

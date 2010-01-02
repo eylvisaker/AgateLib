@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Text;
 using AgateLib.AudioLib;
 using AgateLib.AudioLib.ImplementationBase;
@@ -42,6 +43,8 @@ namespace AgateSDX.XAud2
 		double mPan;
 		BinaryWriter w;
 		bool mIsDisposed;
+		bool mReadingData;
+		int thisBufferIndex;
 
 		int mChunkSize;
 
@@ -64,6 +67,9 @@ namespace AgateSDX.XAud2
 
 			Initialize();
 		}
+
+		#region --- Thread safety ---
+
 		public bool InvokeRequired
 		{
 			get { return mAudio.InvokeRequired; }
@@ -72,12 +78,18 @@ namespace AgateSDX.XAud2
 		{
 			mAudio.BeginInvoke(method, args);
 		}
+		void Invoke(Delegate method, params object[] args)
+		{
+			mAudio.Invoke(method, args);
+		}
+
+		#endregion
 
 		private void Initialize()
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new DisposeDelegate(Initialize));
+				Invoke(new DisposeDelegate(Initialize));
 				return;
 			}
 
@@ -101,6 +113,8 @@ namespace AgateSDX.XAud2
 				buffer[i].buffer.Flags = BufferFlags.EndOfStream;
 			}
 
+			thisBufferIndex = count;
+
 			string tempFileName = string.Format("xaudio2_buffer{0}.pcm", count);
 			count++;
 
@@ -113,40 +127,45 @@ namespace AgateSDX.XAud2
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new DisposeDelegate(Initialize));
+				Invoke(new DisposeDelegate(Dispose));
 				return;
 			}
 
+			while (mReadingData)
+				Thread.Sleep(1);
+
 			mIsDisposed = true;
 
+			mVoice.FlushSourceBuffers();
+			Thread.Sleep(1);
+			mVoice.Stop();
+
 			w.BaseStream.Dispose();
+
+			try
+			{
+				mVoice.Dispose();
+			}
+			catch (Exception e)
+			{
+				System.Diagnostics.Debug.Print("Caught exception {0}.\n{1}", e.GetType(), e.Message);
+			}
 
 			foreach (var b in buffer)
 			{
 				b.buffer.Dispose();
 			}
 
-			mVoice.Stop();
-			mVoice.Dispose();
+
+			System.Diagnostics.Debug.Print("Disposed streaming buffer {0}.", thisBufferIndex);
 		}
 
 		void mVoice_BufferEnd(object sender, ContextEventArgs e)
 		{
-			ReadAndSubmitNextData();
-		}
-
-		private void ReadAndSubmitNextData()
-		{
-			if (mIsDisposed)
+			if (IsPlaying == false)
 				return;
 
-			ReadData(buffer[mNextData]);
-			SubmitData(buffer[mNextData]);
-
-			mNextData++;
-
-			if (mNextData >= bufferCount)
-				mNextData = 0;
+			ReadAndSubmitNextData();
 		}
 
 		public override void Play()
@@ -164,7 +183,6 @@ namespace AgateSDX.XAud2
 			mVoice.Start();
 			mPlaying = true;
 		}
-
 		public override void Stop()
 		{
 			if (InvokeRequired)
@@ -178,9 +196,47 @@ namespace AgateSDX.XAud2
 			mVoice.Stop();
 		}
 
+		#region --- Reading Data ---
+
+		int bytesRead = 0;
+
+		private void ReadAndSubmitNextData()
+		{
+			if (mIsDisposed)
+				return;
+
+			if (InvokeRequired)
+			{
+				Invoke(new DisposeDelegate(ReadAndSubmitNextData));
+				return;
+			}
+
+			try
+			{
+				mReadingData = true;
+
+				ReadData(buffer[mNextData]);
+				SubmitData(buffer[mNextData]);
+
+				mNextData++;
+
+				if (mNextData >= bufferCount)
+					mNextData = 0;
+			}
+			finally
+			{
+				mReadingData = false;
+			}
+		}
 		private void ReadData(BufferData bufferData)
 		{
+			if (bufferData.backing == null)
+			{
+				ResizeBacking();
+			}
+
 			int count = mInput.Read(bufferData.backing, 0, bufferData.backing.Length);
+			bytesRead += count;
 
 			bufferData.ms.Position = 0;
 			bufferData.buffer.AudioData = bufferData.ms;
@@ -194,6 +250,8 @@ namespace AgateSDX.XAud2
 			mVoice.SubmitSourceBuffer(bufferData.buffer);
 		}
 
+		#endregion
+
 		public override int ChunkSize
 		{
 			get
@@ -205,7 +263,6 @@ namespace AgateSDX.XAud2
 				mChunkSize = value;
 
 				ResizeBacking();
-
 			}
 		}
 
@@ -220,10 +277,9 @@ namespace AgateSDX.XAud2
 		{
 			if (InvokeRequired)
 			{
-				BeginInvoke(new DisposeDelegate(ResizeBacking));
+				Invoke(new DisposeDelegate(ResizeBacking));
 				return;
 			}
-
 
 			for (int i = 0; i < buffer.Length; i++)
 			{
