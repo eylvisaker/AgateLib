@@ -37,6 +37,14 @@ namespace AgateSDX.XAud2
 		Thread xaudThread;
 		bool stopThread;
 
+		List<InvokeData> methodsToInvoke = new List<InvokeData>();
+
+		struct InvokeData
+		{
+			public Delegate method;
+			public object[] args;
+		}
+
 		public XAudio2 Device
 		{
 			get { return mDevice; }
@@ -55,6 +63,8 @@ namespace AgateSDX.XAud2
 			xaudThread.Start();
 		}
 
+		#region --- Threading ---
+
 		public bool InvokeRequired
 		{
 			get
@@ -66,24 +76,25 @@ namespace AgateSDX.XAud2
 			}
 		}
 
-		struct invk
-		{
-			public Delegate method;
-			public object[] args;
-		}
 
 		public void BeginInvoke(Delegate method, params object[] args)
 		{
-			invk k = new invk { method = method, args = args };
+			InvokeData k = new InvokeData { method = method, args = args };
 
-			lock (invokeMethod)
+			lock (methodsToInvoke)
 			{
-				invokeMethod.Add(k);
+				methodsToInvoke.Add(k);
 			}
 		}
 
-		List<invk> invokeMethod = new List<invk>();
+		public void Invoke(Delegate method, object[] args)
+		{
+			BeginInvoke(method, args);
 
+			while (methodsToInvoke.Count > 0)
+				Thread.Sleep(1);
+		}
+		
 		void Run(object unused)
 		{
 			mDevice = new XAudio2();
@@ -91,32 +102,34 @@ namespace AgateSDX.XAud2
 
 			for (; ; )
 			{
-				lock (invokeMethod)
+				int count = methodsToInvoke.Count;
+
+				for (int i = 0; i < count; i++)
 				{
-					while (invokeMethod.Count > 0)
-					{
-						if (stopThread)
-							break;
+					if (stopThread)
+						break;
 
-						invk k = invokeMethod[0];
-						invokeMethod.RemoveAt(0);
+					InvokeData k = methodsToInvoke[i];
 
-						k.method.DynamicInvoke(k.args);
+					k.method.DynamicInvoke(k.args);
+				}
 
-					}
+				lock (methodsToInvoke)
+				{
+					methodsToInvoke.RemoveRange(0, count);
 				}
 
 				if (stopThread)
 					break;
 
 				Thread.Sleep(1);
-
 			}
 
 			Dispose();
 		}
 
-		
+		#endregion
+
 		public override void Dispose()
 		{
 			if (InvokeRequired)
@@ -139,7 +152,6 @@ namespace AgateSDX.XAud2
 				return;
 	 		}
 
-			// hack because there is access violation when XAudio2 shuts down?
 			masteringVoice.Dispose();
 			mDevice.Dispose();
 		}
@@ -169,6 +181,7 @@ namespace AgateSDX.XAud2
 		{
 			return new XAudio2_StreamingSoundBuffer(this, input, format);
 		}
+
 	}
 
 	public delegate void DisposeDelegate();
