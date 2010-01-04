@@ -43,6 +43,10 @@ namespace AgateLib.AudioLib.ImplementationBase
 		/// </summary>
 		public abstract double Volume { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether the sound buffer
+		/// should be looped when played.
+		/// </summary>
 		public virtual bool Loop { get { return false; } set { } }
 
 	}

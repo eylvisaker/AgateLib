@@ -641,10 +641,10 @@ namespace AgateLib.DisplayLib.ImplementationBase
 				FlushDrawBuffer();
 
 				if (mShader != null)
-					mShader.End();
+					mShader.EndInternal();
 
 				mShader = value;
-				mShader.Begin();
+				mShader.BeginInternal();
 			}
 		}
 

@@ -25,10 +25,18 @@ using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib.Shaders
 {
+	/// <summary>
+	/// Base class for a shader.
+	/// </summary>
 	public class AgateShader
 	{
 		AgateShaderImpl impl;
 
+		/// <summary>
+		/// Sets the implementation.  If the implementation is already set, then
+		/// an exception is thrown.
+		/// </summary>
+		/// <param name="impl"></param>
 		protected internal void SetImpl(AgateShaderImpl impl)
 		{
 			if (this.impl != null)
@@ -37,81 +45,43 @@ namespace AgateLib.DisplayLib.Shaders
 			this.impl = impl;
 		}
 
+		/// <summary>
+		/// Gets the implementation.
+		/// </summary>
 		protected AgateShaderImpl Impl
 		{
 			get { return impl; }
 		}
-
-		public int Passes
-		{
-			get { return impl.Passes; }
-		}
-
-		public void Begin()
-		{
-			impl.Begin();
-		}
-		public void BeginPass(int passIndex)
-		{
-			impl.BeginPass(passIndex);
-		}
-		public void EndPass()
-		{
-			impl.EndPass();
-		}
-		public void End()
-		{
-			impl.End();
-		}
-
+		/// <summary>
+		/// Returns true if this shader has an implementation.
+		/// </summary>
 		public bool IsValid
 		{
 			get { return impl != null; }
 		}
 
+		internal void BeginInternal()
+		{
+			impl.Begin();
+		}
+		internal void EndInternal()
+		{
+			impl.End();
+		}
+
+		/// <summary>
+		/// Returns true if this is the currently active shader.
+		/// </summary>
 		public bool IsActive
 		{
 			get { return Display.Shader == this; }
 		}
-
+		/// <summary>
+		/// Activates this shader.
+		/// </summary>
 		public void Activate()
 		{
 			Display.Shader = this;
 		}
-		public void SetTexture(EffectTexture tex, string variableName)
-		{
-			impl.SetTexture(tex, variableName);
-		}
-		public void SetVariable(string name, params float[] v)
-		{
-			impl.SetVariable(name, v);
-		}
-		public void SetVariable(string name, params int[] v)
-		{
-			impl.SetVariable(name, v);
-		}
-		public void SetVariable(string name, Matrix4x4 matrix)
-		{
-			impl.SetVariable(name, matrix);
-		}
-
-		public void SetVariable(string name, Vector2 v)
-		{
-			SetVariable(name, v.X, v.Y);
-		}
-		public void SetVariable(string name, Vector3 v)
-		{
-			SetVariable(name, v.X, v.Y, v.Z);
-		}
-		public void SetVariable(string name, Vector4 v)
-		{
-			SetVariable(name, v.X, v.Y, v.Z, v.W);
-		}
-		public void SetVariable(string name, Color color)
-		{
-			impl.SetVariable(name, color);
-		}
-
 	}
-
 }

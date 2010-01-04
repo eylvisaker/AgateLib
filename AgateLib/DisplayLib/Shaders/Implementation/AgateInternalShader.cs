@@ -23,13 +23,24 @@ using System.Text;
 
 namespace AgateLib.DisplayLib.Shaders.Implementation
 {
+	/// <summary>
+	/// Base class for implementing a shader which is built-in to AgateLib.
+	/// </summary>
 	public abstract class AgateInternalShader : AgateShader
 	{
+		/// <summary>
+		/// Constructs an AgateInternalShader.
+		/// </summary>
 		protected AgateInternalShader() 
 		{
 			SetImpl(Display.Impl.CreateBuiltInShader(BuiltInShaderType));
 		}
 
+		/// <summary>
+		/// Gets an enum value which indicates what built-in shader this
+		/// class represents.  This is called from the AgateInternalShader
+		/// constructor in order to create the implementation object.
+		/// </summary>
 		protected abstract BuiltInShader BuiltInShaderType { get; }
 
 	}
