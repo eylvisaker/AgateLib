@@ -97,7 +97,7 @@ namespace Tao.Sdl
 	/// </remarks>
 	#endregion Class Documentation
 	[SuppressUnmanagedCodeSecurityAttribute()]
-	public static class SdlMixer 
+	static class SdlMixer 
 	{
 		#region Private Constants
 		#region string SDL_MIXER_NATIVE_LIBRARY

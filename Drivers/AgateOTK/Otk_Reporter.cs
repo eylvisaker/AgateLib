@@ -59,16 +59,16 @@ namespace AgateOTK
 			// OpenAL driver has not been updated to latest OpenTK API, so it is disabled.
 			return false;
 
-			try
-			{
-				// test for the presence of working OpenAL.
-				new OpenTK.Audio.AudioContext().Dispose();
-				return true;
-			}
-			catch (Exception)
-			{
-				return false;
-			}
+			//try
+			//{
+			//    // test for the presence of working OpenAL.
+			//    new OpenTK.Audio.AudioContext().Dispose();
+			//    return true;
+			//}
+			//catch (Exception)
+			//{
+			//    return false;
+			//}
 
 		}
 	}

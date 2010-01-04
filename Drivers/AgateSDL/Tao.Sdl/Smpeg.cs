@@ -41,7 +41,7 @@ namespace Tao.Sdl
 	/// </remarks>
 	#endregion Class Documentation
 	[SuppressUnmanagedCodeSecurityAttribute()]
-	public static class Smpeg 
+	static class Smpeg 
 	{
 		#region Private Constants
 		#region string SMPEG_NATIVE_LIBRARY

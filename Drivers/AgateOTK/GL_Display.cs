@@ -392,6 +392,7 @@ namespace AgateOTK
 
 		#region --- Shaders ---
 
+		[Obsolete]
 		protected override ShaderCompilerImpl CreateShaderCompiler()
 		{
 			if (this.CapsBool(DisplayBoolCaps.CustomShaders))
@@ -407,7 +408,7 @@ namespace AgateOTK
 
 		OtkShader mCurrentShader;
 
-		public OtkShader Shader
+		public new OtkShader Shader
 		{
 			get
 			{
