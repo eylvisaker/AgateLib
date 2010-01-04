@@ -9,7 +9,7 @@ namespace AgateLib.Geometry.VertexTypes
 	/// <summary>
 	/// Vertex layout which only contains position and color information.
 	/// </summary>
-	[StructLayout(LayoutKind.Sequential)]
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public struct PositionColor
 	{
 		/// <summary>
