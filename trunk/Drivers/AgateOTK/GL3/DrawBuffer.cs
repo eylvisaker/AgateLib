@@ -96,7 +96,7 @@ namespace AgateOTK.GL3
 		public DrawBuffer()
 		{
 			GL.GenBuffers(1, out mBufferID);
-			Debug.Print("Draw buffer ID: {0}", mBufferID);
+			Debug.Print("GL3 DrawBuffer: Draw buffer ID: {0}", mBufferID);
 
 			SetBufferSize(1000);
 		}
@@ -259,8 +259,8 @@ namespace AgateOTK.GL3
 			int norm = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Normal);
 
 			GL.TexCoordPointer(2, TexCoordPointerType.Float, size, (IntPtr) tex);
-			GL.ColorPointer(4, ColorPointerType.UnsignedByte, size, color);
-			GL.VertexPointer(2, VertexPointerType.Float, size, pos);
+			GL.ColorPointer(4, ColorPointerType.UnsignedByte, size, (IntPtr) color);
+			GL.VertexPointer(2, VertexPointerType.Float, size, (IntPtr) pos);
 			GL.NormalPointer(NormalPointerType.Float, size, (IntPtr)norm);
 
 			GL.DrawArrays(BeginMode.Quads, 0, mIndex);
