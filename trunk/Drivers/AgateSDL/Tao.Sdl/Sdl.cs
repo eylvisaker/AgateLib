@@ -51,7 +51,7 @@ namespace Tao.Sdl
     /// </remarks>
     #endregion Class Documentation
     [SuppressUnmanagedCodeSecurityAttribute()]
-    public static class Sdl
+    static class Sdl
     {
         #region Private Constants
         #region string SDL_NATIVE_LIBRARY

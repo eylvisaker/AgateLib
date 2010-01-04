@@ -102,10 +102,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Tao.Sdl">
-      <Name>Tao.Sdl</Name>
-      <HintPath>.\Tao.Sdl.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>

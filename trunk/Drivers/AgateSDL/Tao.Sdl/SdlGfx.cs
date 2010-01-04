@@ -49,7 +49,7 @@ namespace Tao.Sdl
     /// </summary>
     #endregion Class Documentation
     [SuppressUnmanagedCodeSecurityAttribute()]
-    public static class SdlGfx
+    static class SdlGfx
     {
         #region Private Constants
         #region string SDL_GFX_NATIVE_LIBRARY
