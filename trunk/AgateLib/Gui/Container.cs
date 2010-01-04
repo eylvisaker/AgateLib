@@ -26,6 +26,9 @@ using System.Diagnostics;
 
 namespace AgateLib.Gui
 {
+	/// <summary>
+	/// Abstract base class for a GUI component that can contain other components.
+	/// </summary>
 	public abstract class Container : Widget
 	{
 		WidgetList mChildren;

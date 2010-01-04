@@ -45,6 +45,9 @@ namespace AgateLib.AudioLib.ImplementationBase
 		/// </summary>
 		public abstract void Stop();
 
+		/// <summary>
+		/// Gets the current location in the sound buffer.
+		/// </summary>
 		public abstract int CurrentLocation { get; }
 
 		/// <summary>

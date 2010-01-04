@@ -24,18 +24,31 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui.Layout
 {
+	/// <summary>
+	/// Class which lays out GUI components horizontally.
+	/// </summary>
 	public class HorizontalBox : BoxLayoutBase
 	{
+		/// <summary>
+		/// Performs the layout.
+		/// </summary>
 		protected override void DoLayoutInternal()
 		{
 			DoBoxLayout(true);
 		}
-
+		/// <summary>
+		/// Recalculates the minimum size.
+		/// </summary>
+		/// <returns></returns>
 		protected override Size RecalcMinSizeInternal()
 		{
 			return RecalcMinSizeBox(true);
 		}
-
+		/// <summary>
+		/// Returns whether the specified input key moves focus within this container.
+		/// </summary>
+		/// <param name="keyCode"></param>
+		/// <returns></returns>
 		public override bool AcceptInputKey(AgateLib.InputLib.KeyCode keyCode)
 		{
 			switch (keyCode)
@@ -48,7 +61,13 @@ namespace AgateLib.Gui.Layout
 					return false;
 			}
 		}
-
+		/// <summary>
+		/// Gets the widget focus would move to in the specified direction.
+		/// </summary>
+		/// <param name="container"></param>
+		/// <param name="currentFocus"></param>
+		/// <param name="direction"></param>
+		/// <returns></returns>
 		public override Widget CanMoveFocus(Container container, Widget currentFocus, Direction direction)
 		{
 			if (direction == Direction.Up || direction == Direction.Down)

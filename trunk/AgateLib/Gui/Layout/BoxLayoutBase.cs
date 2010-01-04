@@ -24,6 +24,9 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui.Layout
 {
+	/// <summary>
+	/// Base class for the HorizontalBox and VerticalBox classes.
+	/// </summary>
 	public abstract class BoxLayoutBase : ILayoutPerformer
 	{
 		bool doingLayout = false;
@@ -31,13 +34,21 @@ namespace AgateLib.Gui.Layout
 		Container container;
 
 
-
+		/// <summary>
+		/// Calculates the minimum size for the container.
+		/// </summary>
+		/// <param name="container"></param>
+		/// <returns></returns>
 		public Size RecalcMinSize(Container container)
 		{
 			this.container = container;
 			return RecalcMinSizeInternal();
 		}
-
+		/// <summary>
+		/// Calculates the minimum size for the container.
+		/// </summary>
+		/// <param name="horizontal"></param>
+		/// <returns></returns>
 		protected Size RecalcMinSizeBox(bool horizontal)
 		{
 			_horizontal = horizontal;
@@ -57,7 +68,10 @@ namespace AgateLib.Gui.Layout
 
 			return SetSize(minSize, totalSize);
 		}
-
+		/// <summary>
+		/// Performs the layout of widgets in the container.
+		/// </summary>
+		/// <param name="container"></param>
 		public void DoLayout(Container container)
 		{
 			if (doingLayout)
@@ -76,11 +90,21 @@ namespace AgateLib.Gui.Layout
 				doingLayout = false;
 			}
 		}
-
+		/// <summary>
+		/// Override to do the actual layout.
+		/// </summary>
 		protected abstract void DoLayoutInternal();
+		/// <summary>
+		/// Override to recalculate the minimum size of the container.
+		/// </summary>
+		/// <returns></returns>
 		protected abstract Size RecalcMinSizeInternal();
 
 		bool _horizontal;
+		/// <summary>
+		/// Method for doing the Box layout type.
+		/// </summary>
+		/// <param name="horizontal">Pass true for a horizontal box.</param>
 		protected void DoBoxLayout(bool horizontal)
 		{
 			_horizontal = horizontal;
@@ -289,13 +313,23 @@ namespace AgateLib.Gui.Layout
 				return container.ClientArea.Height;
 		}
 
+		/// <summary>
+		/// Returns whether or not the key passed is used to move focus from one control to
+		/// another inside this container.
+		/// </summary>
+		/// <param name="keyCode"></param>
+		/// <returns></returns>
 		public virtual bool AcceptInputKey(AgateLib.InputLib.KeyCode keyCode)
 		{
 			return false;
 
 		}
 
-
+		/// <summary>
+		/// Gets the root control of the specified widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <returns></returns>
 		protected GuiRoot Root(Widget widget)
 		{
 			if (widget is GuiRoot)
@@ -303,6 +337,14 @@ namespace AgateLib.Gui.Layout
 			else
 				return Root(widget.Parent);
 		}
+		/// <summary>
+		/// Gets the index in the container's children
+		/// which contains this widget.  The index may refer to a container
+		/// which contains this widget.
+		/// </summary>
+		/// <param name="container">The container within which to search.</param>
+		/// <param name="widget">The widget to search for.</param>
+		/// <returns></returns>
 		protected int GetParentIndex(Container container, Widget widget)
 		{
 			if (widget is GuiRoot)
@@ -314,10 +356,22 @@ namespace AgateLib.Gui.Layout
 				return GetParentIndex(container, widget.Parent);
 		}
 
-
+		/// <summary>
+		/// Gets the widget that would be moved to if the focus were moved in the particular direction.
+		/// </summary>
+		/// <param name="container"></param>
+		/// <param name="currentFocus"></param>
+		/// <param name="direction"></param>
+		/// <returns></returns>
 		public abstract Widget CanMoveFocus(Container container, Widget currentFocus, Direction direction);
 
-
+		/// <summary>
+		/// Gets the next child in the specified direction.
+		/// </summary>
+		/// <param name="container"></param>
+		/// <param name="index"></param>
+		/// <param name="direction"></param>
+		/// <returns></returns>
 		protected Widget GetNextChild(Container container, int index, int direction)
 		{
 			for (index += direction; index >= 0 && index < container.Children.Count; index += direction)

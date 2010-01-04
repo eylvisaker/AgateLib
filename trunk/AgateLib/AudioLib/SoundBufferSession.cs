@@ -128,6 +128,9 @@ namespace AgateLib.AudioLib
 			set { impl.Pan = value; }
 		}
 
+		/// <summary>
+		/// Gets the current location in the sound buffer.
+		/// </summary>
 		public int CurrentLocation
 		{
 			get { return impl.CurrentLocation; }

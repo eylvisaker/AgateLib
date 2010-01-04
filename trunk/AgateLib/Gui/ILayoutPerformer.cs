@@ -24,14 +24,35 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui
 {
+	/// <summary>
+	/// Interface for an object which performs layout of GUI components.
+	/// </summary>
 	public interface ILayoutPerformer
 	{
+		/// <summary>
+		/// Called when the GUI components must be layed out.
+		/// </summary>
+		/// <param name="container">The container in which the layout occurs.</param>
 		void DoLayout(Container container);
-
+		/// <summary>
+		/// Calculates the minimum size of the container.
+		/// </summary>
+		/// <param name="container"></param>
+		/// <returns></returns>
 		Size RecalcMinSize(Container container);
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="keyCode"></param>
+		/// <returns></returns>
 		bool AcceptInputKey(AgateLib.InputLib.KeyCode keyCode);
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="container"></param>
+		/// <param name="currentFocus"></param>
+		/// <param name="direction"></param>
+		/// <returns></returns>
 		Widget CanMoveFocus(Container container, Widget currentFocus, Direction direction);
 	}
 }
