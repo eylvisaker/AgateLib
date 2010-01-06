@@ -83,7 +83,7 @@ namespace AgateOTK.GL3
 		}
 		#endregion
 
-		PositionTextureColorNormal[] mVerts;
+		PositionTextureColor[] mVerts;
 
 		int mIndex;
 		int mCurrentTexture;
@@ -103,7 +103,7 @@ namespace AgateOTK.GL3
 
 		private void SetBufferSize(int size)
 		{
-			mVerts = new PositionTextureColorNormal[size];
+			mVerts = new PositionTextureColor[size];
 
 			mIndex = 0;
 		}
@@ -196,8 +196,6 @@ namespace AgateOTK.GL3
 			{
 				mVerts[mIndex + i].X = pts[i].X;
 				mVerts[mIndex + i].Y = pts[i].Y;
-
-				mVerts[mIndex + i].Normal = new Vector3(0, 0, -1);
 			}
 
 			mVerts[mIndex].U = texCoord.Left;
@@ -243,25 +241,28 @@ namespace AgateOTK.GL3
 
 			BufferData();
 
-			GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
-
 			SetGLInterpolation();
 
-			GL.EnableClientState(EnableCap.TextureCoordArray);
-			GL.EnableClientState(EnableCap.ColorArray);
-			GL.EnableClientState(EnableCap.VertexArray);
-			GL.EnableClientState(EnableCap.NormalArray);
+			GL_Display display = (GL_Display)Display.Impl;
+			Shaders.IGL3Shader shader = (Shaders.IGL3Shader) display.Shader.Impl;
 
-			int size = Marshal.SizeOf(typeof(PositionTextureColorNormal));
-			int tex = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Texture);
-			int color = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.DiffuseColor);
-			int pos = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Position);
-			int norm = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Normal);
+			shader.SetVertexAttributes(PositionTextureColor.VertexLayout);
 
-			GL.TexCoordPointer(2, TexCoordPointerType.Float, size, (IntPtr) tex);
-			GL.ColorPointer(4, ColorPointerType.UnsignedByte, size, (IntPtr) color);
-			GL.VertexPointer(2, VertexPointerType.Float, size, (IntPtr) pos);
-			GL.NormalPointer(NormalPointerType.Float, size, (IntPtr)norm);
+			
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
+			shader.SetTexture(0);
+
+			//int size = Marshal.SizeOf(typeof(PositionTextureColorNormal));
+			//int tex = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Texture);
+			//int color = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.DiffuseColor);
+			//int pos = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Position);
+			//int norm = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Normal);
+
+			//GL.TexCoordPointer(2, TexCoordPointerType.Float, size, (IntPtr) tex);
+			//GL.ColorPointer(4, ColorPointerType.UnsignedByte, size, (IntPtr) color);
+			//GL.VertexPointer(2, VertexPointerType.Float, size, (IntPtr) pos);
+			//GL.NormalPointer(NormalPointerType.Float, size, (IntPtr)norm);
 
 			GL.DrawArrays(BeginMode.Quads, 0, mIndex);
 

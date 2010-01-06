@@ -5,9 +5,9 @@ using System.Text;
 using AgateLib.DisplayLib.Shaders;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK
+namespace AgateOTK.GL3.Shaders
 {
-	class GlslShader : OtkShader
+	class GlslShader
 	{
 		struct UniformInfo
 		{
@@ -130,7 +130,6 @@ namespace AgateOTK
 		{
 			get { return mAttributeNames; }
 		}
-
 		public IList<string> Sampler2DUniforms
 		{
 			get
@@ -139,16 +138,16 @@ namespace AgateOTK
 			}
 		}
 
-		public  GlslFragmentProgram PixelShader
+		public GlslFragmentProgram PixelShader
 		{
 			get { return pixel; }
 		}
-		public  GlslVertexProgram VertexShader
+		public GlslVertexProgram VertexShader
 		{
 			get { return vertex; }
 		}
 
-		public override int Handle
+		public int Handle
 		{
 			get { return programHandle; }
 		}
@@ -175,10 +174,10 @@ namespace AgateOTK
 			if (loc != -1)
 				return loc;
 			else
-				throw new AgateLib.AgateException("Could not find uniform {0} in the GLSL program.", name);
+				throw new AgateLib.AgateException("Could not find attribute {0} in the GLSL program.", name);
 		}
 
-		public  void SetUniform(string name, params float[] v)
+		public void SetUniform(string name, params float[] v)
 		{
 			int loc = GetUniformLocation(name);
 
@@ -205,7 +204,7 @@ namespace AgateOTK
 					throw new AgateLib.AgateException("Too many parameters to SetUniform.");
 			}
 		}
-		public  void SetUniform(string name, params int[] v)
+		public void SetUniform(string name, params int[] v)
 		{
 			int loc = GetUniformLocation(name);
 
@@ -233,7 +232,7 @@ namespace AgateOTK
 			}
 		}
 
-		public  void SetUniform(string name, AgateLib.Geometry.Matrix4x4 matrix)
+		public void SetUniform(string name, AgateLib.Geometry.Matrix4x4 matrix)
 		{
 			int loc = GetUniformLocation(name);
 
@@ -244,7 +243,7 @@ namespace AgateOTK
 		}
 
 
-		public  void Render<T>(RenderHandler<T> handler, T obj)
+		public void Render<T>(RenderHandler<T> handler, T obj)
 		{
 			throw new NotImplementedException();
 		}

@@ -146,11 +146,11 @@
     <Compile Include="GL3\DrawBuffer.cs" />
     <Compile Include="GL3\GLVertexBuffer.cs" />
     <Compile Include="GL3\GLPrimitiveRenderer.cs" />
-    <Compile Include="Legacy\ArbShader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Legacy\ArbShaderCompiler.cs">
-      <SubType>Code</SubType>
+    <Compile Include="GL3\Shaders\IGL3Shader.cs" />
+    <Compile Include="GL3\Shaders\ShaderSources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShaderSources.resx</DependentUpon>
     </Compile>
     <Compile Include="ContextFB.cs" />
     <Compile Include="frmFullScreen.cs">
@@ -167,16 +167,18 @@
     <Compile Include="Legacy\LegacyDrawBuffer.cs" />
     <Compile Include="Legacy\LegacyPrimitiveRenderer.cs" />
     <Compile Include="PrimitiveRenderer.cs" />
-    <Compile Include="Shaders\GlslFragmentProgram.cs">
+    <Compile Include="GL3\Shaders\ShaderFactory3.cs" />
+    <Compile Include="GL3\Shaders\GL3_Basic2DShader.cs" />
+    <Compile Include="GL3\Shaders\GlslFragmentProgram.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Shaders\GlslShader.cs">
+    <Compile Include="GL3\Shaders\GlslShader.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Shaders\GlslShaderCompiler.cs">
+    <Compile Include="GL3\Shaders\GlslShaderCompiler.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Shaders\GlslVertexProgram.cs">
+    <Compile Include="GL3\Shaders\GlslVertexProgram.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GL_Display.cs">
@@ -199,18 +201,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Legacy\FrameBufferReadPixels.cs" />
-    <Compile Include="Shaders\OtkShader.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Otk_Reporter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GL_FrameBuffer.cs" />
-    <Compile Include="Shaders\FixedFunction\FixedFunctionShaderFactory.cs" />
-    <Compile Include="Shaders\FixedFunction\OTK_FF_Basic2DShader.cs" />
-    <Compile Include="Shaders\FixedFunction\OTK_FF_Lighting3D.cs" />
-    <Compile Include="Shaders\FixedFunction\OTK_FF_Lighting2D.cs" />
-    <Compile Include="Shaders\ShaderFactory.cs" />
+    <Compile Include="Legacy\FixedFunction\FixedFunctionShaderFactory.cs" />
+    <Compile Include="Legacy\FixedFunction\OTK_FF_Basic2DShader.cs" />
+    <Compile Include="Legacy\FixedFunction\OTK_FF_Lighting3D.cs" />
+    <Compile Include="Legacy\FixedFunction\OTK_FF_Lighting2D.cs" />
+    <Compile Include="ShaderFactory.cs" />
     <Compile Include="TextureCoordinates.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -221,6 +220,11 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmFullScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GL3\Shaders\ShaderSources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>ShaderSources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="OpenTK.dll">
@@ -229,6 +233,8 @@
     <Content Include="OpenTK.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Basic2D_pixel.txt" />
+    <None Include="Resources\Basic2D_vert.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>

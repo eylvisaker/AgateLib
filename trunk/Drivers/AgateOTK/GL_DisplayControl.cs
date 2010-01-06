@@ -119,6 +119,7 @@ namespace AgateOTK
 
 			mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);
 			mDisplay.InitializeCurrentContext();
+
 		}
 
 		void mDisplay_ProcessEventsEvent(object sender, EventArgs e)

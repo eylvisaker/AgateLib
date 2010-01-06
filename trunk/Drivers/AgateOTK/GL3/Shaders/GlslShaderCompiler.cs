@@ -6,27 +6,19 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK
+namespace AgateOTK.GL3.Shaders
 {
-	[Obsolete]
-	class GlslShaderCompiler : ShaderCompilerImpl
+	static class GlslShaderCompiler
 	{
-		public GlslShaderCompiler()
+		static public GlslShader CompileShader(string vertexShaderSource, string pixelShaderSource)
 		{
-		}
-
-		public  OtkShader CompileShader(ShaderLanguage language, string vertexShaderSource, string pixelShaderSource)
-		{
-			if (language != ShaderLanguage.Glsl)
-				throw new NotSupportedException("AgateOTK can only compile and use GLSL shaders.");
-
 			GlslVertexProgram vert = CompileVertexProgram(vertexShaderSource);
 			GlslFragmentProgram frag = CompileFragmentProgram(pixelShaderSource);
 
 			return LinkPrograms(vert, frag);
 		}
 
-		private OtkShader LinkPrograms(GlslVertexProgram vert, GlslFragmentProgram frag)
+		static private GlslShader LinkPrograms(GlslVertexProgram vert, GlslFragmentProgram frag)
 		{
 			int program = GL.CreateProgram();
 
@@ -42,8 +34,7 @@ namespace AgateOTK
 
 			if (status == 0)
 			{
-				string info;
-				GL.GetProgramInfoLog(program, out info);
+				string info = GL.GetProgramInfoLog(program);
 
 				throw new AgateLib.AgateException("Failed to validate GLSL shader program.\n{0}", info);
 			}
@@ -51,17 +42,16 @@ namespace AgateOTK
 			return new GlslShader(program, vert, frag);
 		}
 
-		private GlslVertexProgram CompileVertexProgram(string vertexShaderSource)
+		static private GlslVertexProgram CompileVertexProgram(string vertexShaderSource)
 		{
 			return new GlslVertexProgram(CompileShader(ShaderType.VertexShader, vertexShaderSource), vertexShaderSource);
 		}
-
-		private GlslFragmentProgram CompileFragmentProgram(string pixelShaderSource)
+		static private GlslFragmentProgram CompileFragmentProgram(string pixelShaderSource)
 		{
 			return new GlslFragmentProgram(CompileShader(ShaderType.FragmentShader, pixelShaderSource), pixelShaderSource);
 		}
 
-		private int CompileShader(ShaderType type, string source)
+		static private int CompileShader(ShaderType type, string source)
 		{
 			int shaderHandle;
 
@@ -83,11 +73,6 @@ namespace AgateOTK
 			}
 
 			return shaderHandle;
-		}
-
-		public override Effect CompileEffect(ShaderLanguage language, string effectSource)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

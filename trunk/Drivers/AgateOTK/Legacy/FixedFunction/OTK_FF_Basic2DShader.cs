@@ -8,7 +8,7 @@ using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK.Shaders.FixedFunction
+namespace AgateOTK.Legacy.FixedFunction
 {
 	class OTK_FF_Basic2DShader : Basic2DImpl  
 	{
