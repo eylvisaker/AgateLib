@@ -5,7 +5,7 @@ using System.Text;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
 
-namespace AgateOTK.Shaders.FixedFunction
+namespace AgateOTK.Legacy.FixedFunction
 {
 	class FixedFunctionShaderFactory : ShaderFactory 
 	{

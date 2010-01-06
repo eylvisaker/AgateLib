@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.Shaders;
 
-namespace AgateOTK
+namespace AgateOTK.GL3.Shaders
 {
 	class GlslVertexProgram 
 	{

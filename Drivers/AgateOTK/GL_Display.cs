@@ -90,7 +90,7 @@ namespace AgateOTK
 
 		protected override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
 		{
-			return Shaders.ShaderFactory.CreateBuiltInShader(BuiltInShaderType);
+			return ShaderFactory.CreateBuiltInShader(BuiltInShaderType);
 		}
 		public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
 		{
@@ -164,6 +164,8 @@ namespace AgateOTK
 		protected override void OnBeginFrame()
 		{
 			mRenderTarget.BeginRender();
+
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 		}
 		protected override void OnEndFrame()
 		{
@@ -306,11 +308,11 @@ namespace AgateOTK
 				mSupportsShaders = true;
 			}
 
+			ShaderFactory.Initialize(mGL3);
+
 			Trace.WriteLine(string.Format("OpenGL version {0} from vendor {1} detected.", mGLVersion, vendor));
 			Trace.WriteLine("NPOT: " + mNonPowerOf2Textures.ToString());
 			Trace.WriteLine("Shaders: " + mSupportsShaders.ToString());
-
-			InitializeShaders();
 		}
 
 		string[] extensions;
@@ -392,50 +394,6 @@ namespace AgateOTK
 
 		#region --- Shaders ---
 
-		[Obsolete]
-		protected override ShaderCompilerImpl CreateShaderCompiler()
-		{
-			if (this.CapsBool(DisplayBoolCaps.CustomShaders))
-			{
-				if (mGLVersion < 2.0m)
-					return new ArbShaderCompiler();
-				else
-					return new GlslShaderCompiler();
-			}
-			else
-				return base.CreateShaderCompiler();
-		}
-
-		OtkShader mCurrentShader;
-
-		public new OtkShader Shader
-		{
-			get
-			{
-				return mCurrentShader;
-			}
-			set
-			{
-				if (value == null)
-					return;
-
-				if (value is OtkShader == false)
-					throw new AgateLib.AgateException(string.Format(
-						"Shader type is {0} but must be IGlShader.", value.GetType()));
-
-				mCurrentShader = (OtkShader)value;
-
-				if (mCurrentShader == null)
-				{
-					GL.UseProgram(0);
-				}
-				else
-				{
-					GL.UseProgram(mCurrentShader.Handle);
-				}
-
-			}
-		}
 		public override void Dispose()
 		{
 			mFakeDisplayWindow.Dispose();

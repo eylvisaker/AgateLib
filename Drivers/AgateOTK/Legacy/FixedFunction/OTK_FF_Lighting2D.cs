@@ -7,7 +7,7 @@ using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Geometry;
 
-namespace AgateOTK.Shaders.FixedFunction
+namespace AgateOTK.Legacy.FixedFunction
 {
 	class OTK_FF_Lighting2D : Lighting2DImpl 
 	{
