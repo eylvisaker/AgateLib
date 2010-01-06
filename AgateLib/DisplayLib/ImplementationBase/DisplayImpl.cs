@@ -648,18 +648,6 @@ namespace AgateLib.DisplayLib.ImplementationBase
 			}
 		}
 
-		[Obsolete]
-		protected void InitializeShaders()
-		{
-			if (Display.Caps.SupportsCustomShaders)
-			{
-				ShaderCompiler.Initialize(CreateShaderCompiler());
-			}
-			else
-				ShaderCompiler.Disable();
-		}
-
-
 
 		protected internal abstract bool GetRenderState(RenderStateBool renderStateBool);
 		protected internal abstract void SetRenderState(RenderStateBool renderStateBool, bool value);

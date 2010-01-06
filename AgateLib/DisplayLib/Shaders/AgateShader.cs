@@ -48,7 +48,7 @@ namespace AgateLib.DisplayLib.Shaders
 		/// <summary>
 		/// Gets the implementation.
 		/// </summary>
-		protected AgateShaderImpl Impl
+		public AgateShaderImpl Impl
 		{
 			get { return impl; }
 		}

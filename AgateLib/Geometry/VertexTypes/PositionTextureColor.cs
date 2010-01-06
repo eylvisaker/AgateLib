@@ -67,6 +67,15 @@ namespace AgateLib.Geometry.VertexTypes
 		public float Z { get { return Position.Z; } set { Position.Z = value; } }
 
 		/// <summary>
+		/// Gets or sets the U texture coordinate.
+		/// </summary>
+		public float U { get { return TexCoord.X; } set { TexCoord.X = value; } }
+		/// <summary>
+		/// Gets or sets the V texture coordinate.
+		/// </summary>
+		public float V { get { return TexCoord.Y; } set { TexCoord.Y = value; } }
+
+		/// <summary>
 		/// ToString debugging information.
 		/// </summary>
 		/// <returns></returns>

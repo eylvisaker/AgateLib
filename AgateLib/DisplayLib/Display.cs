@@ -302,6 +302,8 @@ namespace AgateLib.DisplayLib
 			AgateBuiltInShaders.Basic2DShader.Activate();
 
 			mCurrentClipRect = new Rectangle(Point.Empty, RenderTarget.Size);
+
+			RenderState.AlphaBlend = true;
 		}
 		/// <summary>
 		/// EndFrame must be called at the end of each frame.
