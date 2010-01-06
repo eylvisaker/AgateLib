@@ -44,7 +44,6 @@ namespace AgateLib.InternalResources
 			mSans.Clear();
 			mSerif.Clear();
 			mMono.Clear();
-
 		}
 
 		private static void LoadFonts()
