@@ -184,7 +184,7 @@ namespace AgateLib
 		private void InitializeDisplay()
 		{
 			DoAskUser();
-			InitializeDisplay(mSelectDisplay);
+			InitializeDisplay(mPreferredDisplay);
 		}
 
 		/// <summary>
@@ -205,7 +205,7 @@ namespace AgateLib
 		private void InitializeAudio()
 		{
 			DoAskUser();
-			InitializeAudio(mSelectAudio);
+			InitializeAudio(mPreferredAudio);
 		}
 		/// <summary>
 		/// Initializes the Audio subsystem, to the specified driver.
@@ -226,7 +226,7 @@ namespace AgateLib
 		private void InitializeInput()
 		{
 			DoAskUser();
-			InitializeInput(mSelectInput);
+			InitializeInput(mPreferredInput);
 		}
 		/// <summary>
 		/// Initializes the Input subsystem, to the specified driver.
