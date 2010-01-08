@@ -281,6 +281,9 @@ namespace AgateOTK
 			mSupportsShaders = false;
 
 			mGLVersion = DetectOpenGLVersion();
+			if (mGLVersion >= 3m)
+				mGL3 = true;
+
 			LoadExtensions();
 
 			mSupportsFramebufferExt = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
@@ -290,7 +293,6 @@ namespace AgateOTK
 			{
 				mNonPowerOf2Textures = true;
 				mSupportsShaders = true;
-				mGL3 = true;
 			}
 			if (mGLVersion >= 2m)
 			{

@@ -102,10 +102,11 @@ namespace AgateOTK.GL3.Shaders
 				int count = CountOf(desc.DataType);
 				VertexAttribPointerType type = AttribTypeOf(desc.DataType);
 
+				GL.EnableVertexAttribArray(pos);
+
 				GL.VertexAttribPointer(pos, count, type, false, layout.VertexSize,
 					layout.ElementByteIndex(desc.ElementType));
 				
-				GL.EnableVertexAttribArray(pos);
 			}
 		}
 

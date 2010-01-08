@@ -32,8 +32,9 @@ using OpenTK.Graphics.OpenGL;
 namespace AgateOTK.GL3
 {
 	/// <summary>
-	/// Not GL3 compatible.  Need replacements for 
-	/// EnableClientState,TexCoordPointer, etc.
+	/// Not GL3 compatible.  Need replacement for 
+	/// Quad drawing, since quads are deprecated.
+	/// Thus, we need an index buffer.
 	/// </summary>
 	public class DrawBuffer : GLDrawBuffer 
 	{
@@ -92,6 +93,7 @@ namespace AgateOTK.GL3
 		PointF[] cachePts = new PointF[4];
 
 		int mBufferID;
+		int mVaoID;
 
 		public DrawBuffer()
 		{
@@ -99,6 +101,8 @@ namespace AgateOTK.GL3
 			Debug.Print("GL3 DrawBuffer: Draw buffer ID: {0}", mBufferID);
 
 			SetBufferSize(1000);
+
+			GL.GenVertexArrays(1, out mVaoID);
 		}
 
 		private void SetBufferSize(int size)
@@ -111,7 +115,7 @@ namespace AgateOTK.GL3
 
 		private void BufferData()
 		{
-			int bufferSize = mIndex * Marshal.SizeOf(typeof(PositionTextureColorNormal));
+			int bufferSize = mIndex * Marshal.SizeOf(typeof(PositionTextureColor));
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mBufferID);
 
@@ -239,6 +243,8 @@ namespace AgateOTK.GL3
 			if (mIndex == 0)
 				return;
 
+			GL.BindVertexArray(mVaoID);
+
 			BufferData();
 
 			SetGLInterpolation();
@@ -252,17 +258,6 @@ namespace AgateOTK.GL3
 			GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
 			shader.SetTexture(0);
-
-			//int size = Marshal.SizeOf(typeof(PositionTextureColorNormal));
-			//int tex = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Texture);
-			//int color = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.DiffuseColor);
-			//int pos = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Position);
-			//int norm = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Normal);
-
-			//GL.TexCoordPointer(2, TexCoordPointerType.Float, size, (IntPtr) tex);
-			//GL.ColorPointer(4, ColorPointerType.UnsignedByte, size, (IntPtr) color);
-			//GL.VertexPointer(2, VertexPointerType.Float, size, (IntPtr) pos);
-			//GL.NormalPointer(NormalPointerType.Float, size, (IntPtr)norm);
 
 			GL.DrawArrays(BeginMode.Quads, 0, mIndex);
 
