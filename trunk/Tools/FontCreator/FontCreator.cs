@@ -5,8 +5,8 @@ using System.IO;
 
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.BitmapFont;
-using AgateLib.ImplementationBase;
 using AgateLib.Geometry;
 using AgateLib.Resources;
 

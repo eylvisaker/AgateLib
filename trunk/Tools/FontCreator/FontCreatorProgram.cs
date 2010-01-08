@@ -22,7 +22,6 @@ namespace FontCreator
 
             Directory.CreateDirectory("./images");
 
-            AgateFileProvider.Assemblies.AddPath("../../Drivers");
             AgateFileProvider.Images.AddPath("./images");
 
             using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup(args))
