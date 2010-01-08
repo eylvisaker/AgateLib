@@ -41,7 +41,7 @@ namespace AgateSDX.XAud2
 		bool mPlaying;
 		int mNextData;
 		double mPan;
-		BinaryWriter w;
+		//BinaryWriter w;
 		bool mIsDisposed;
 		bool mReadingData;
 		int thisBufferIndex;
@@ -118,7 +118,7 @@ namespace AgateSDX.XAud2
 			string tempFileName = string.Format("xaudio2_buffer{0}.pcm", count);
 			count++;
 
-			w = new BinaryWriter(File.Open(tempFileName, FileMode.Create));
+			//w = new BinaryWriter(File.Open(tempFileName, FileMode.Create));
 
 			Pan = 0;
 		}
@@ -140,7 +140,7 @@ namespace AgateSDX.XAud2
 			Thread.Sleep(1);
 			mVoice.Stop();
 
-			w.BaseStream.Dispose();
+			//w.BaseStream.Dispose();
 
 			try
 			{
@@ -242,7 +242,7 @@ namespace AgateSDX.XAud2
 			bufferData.buffer.AudioData = bufferData.ms;
 			bufferData.buffer.AudioBytes = count;
 
-			w.Write(bufferData.backing, 0, count);
+			//w.Write(bufferData.backing, 0, count);
 		}
 
 		private void SubmitData(BufferData bufferData)
