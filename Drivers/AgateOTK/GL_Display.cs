@@ -282,8 +282,13 @@ namespace AgateOTK
 
 			mGLVersion = DetectOpenGLVersion();
 			if (mGLVersion >= 3m)
-				mGL3 = true;
+			{
+				//mGL3 = true;
 
+				mGL3 = false;
+				mGLVersion = 2.1m;
+			}
+			
 			LoadExtensions();
 
 			mSupportsFramebufferExt = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");

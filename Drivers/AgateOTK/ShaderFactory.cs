@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,8 +20,8 @@ namespace AgateOTK
 
 		internal static void Initialize(bool gl3supported)
 		{
-			//if (gl3supported)
-			//    inst = new GL3.Shaders.ShaderFactory3();
+			if (gl3supported)
+			    inst = new GL3.Shaders.ShaderFactory3();
 		}
 	}
 }
