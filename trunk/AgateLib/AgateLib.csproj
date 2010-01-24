@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9490B719-829E-43A7-A5FE-8001F8A81759}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -197,6 +197,7 @@
     <Compile Include="DisplayLib\ImplementationBase\FrameBufferImpl.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="PlatformType.cs" />
+    <Compile Include="Serialization\Xle\CompressionType.cs" />
     <Compile Include="Settings\SettingsGroup.cs" />
     <Compile Include="Timing.cs">
       <SubType>Code</SubType>

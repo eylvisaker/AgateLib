@@ -18,6 +18,8 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Text;
 using System.Xml;
 using System.Runtime.InteropServices;
@@ -342,13 +344,53 @@ namespace AgateLib.Serialization.Xle
 
 		}
 		/// <summary>
+		/// Writes a binary stream to the XML data as an element.  
+		/// Compresses the stream using GZip compression.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The stream of data to write.</param>
+		public void Write(string name, Stream value)
+		{
+			Write(name, value, CompressionType.GZip);
+		}
+		/// <summary>
+		/// Writes a binary stream to the XML data as an element.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The stream of data to write.</param>
+		/// <param name="compression">The compression algorithm to use.</param>
+		public void Write(string name, Stream value, CompressionType compression)
+		{
+			WriteImpl(name, value, compression);
+		}
+
+		private void WriteImpl(string name, Stream value, CompressionType compression)
+		{
+			MemoryStream ms = new MemoryStream();
+			Stream compressed = TranslateStream(ms, compression, CompressionMode.Compress);
+
+			byte[] uncompressedData = ReadFromStream(value);
+			compressed.Write(uncompressedData, 0, uncompressedData.Length);
+
+			byte[] buffer = ms.GetBuffer();
+
+			string newValue = Convert.ToBase64String(
+				buffer, Base64FormattingOptions.InsertLineBreaks);
+
+			XmlElement el = WriteAsElement(name, newValue);
+			AddAttribute(el, "stream", "true");
+			AddAttribute(el, "compression", compression.ToString());
+			AddAttribute(el, "encoding", "Base64");
+		}
+
+		/// <summary>
 		/// Writes a byte[] array to the XML data as an element.
 		/// </summary>
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The array data to write.</param>
 		public void Write(string name, byte[] value)
 		{
-			string newValue = Convert.ToBase64String(value, Base64FormattingOptions.None);
+			string newValue = Convert.ToBase64String(value, Base64FormattingOptions.InsertLineBreaks);
 
 			XmlElement el = WriteAsElement(name, newValue);
 			AddAttribute(el, "array", "true");
@@ -403,12 +445,17 @@ namespace AgateLib.Serialization.Xle
 				XmlElement item = doc.CreateElement("Item");
 				CurrentNode.AppendChild(item);
 
-				if (value[i].GetType() != listType)
-					AddAttribute(item, "type", value[i].GetType().ToString());
+				if (value[i] == null)
+					AddAttribute(item, "type", "null");
+				else
+				{
+					if (value[i].GetType() != listType)
+						AddAttribute(item, "type", value[i].GetType().ToString());
 
-				nodes.Push(item);
-				Serialize(value[i]);
-				nodes.Pop();
+					nodes.Push(item);
+					Serialize(value[i]);
+					nodes.Pop();
+				}
 			}
 
 			nodes.Pop();
@@ -742,6 +789,47 @@ namespace AgateLib.Serialization.Xle
 		{
 			return ReadStringImpl(name, false, string.Empty);
 		}
+		/// <summary>
+		/// Reads binary data stored as a stream.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public Stream ReadStream(string name)
+		{
+			XmlElement element = (XmlElement)CurrentNode[name];
+
+			if (element == null)
+				throw new XleSerializationException("Field " + name + " was not found.");
+
+			if (element.Attributes["stream"] == null || element.Attributes["stream"].Value != "true")
+				throw new XleSerializationException("Field " + name + " is not a stream.");
+			if (element.Attributes["encoding"] == null)
+				throw new XleSerializationException("Field " + name + " does not have encoding information.");
+
+			string encoding = element.Attributes["encoding"].Value;
+			byte[] bytes;
+
+			if (encoding == "Base64")
+			{
+				bytes = Convert.FromBase64String(element.InnerText);
+			}
+			else
+				throw new XleSerializationException("Unrecognized encoding " + encoding);
+
+			CompressionType compression = CompressionType.None;
+
+			if (element.Attributes["compression"] != null)
+			{
+				compression = (CompressionType)
+					Enum.Parse(typeof(CompressionType), element.Attributes["compression"].Value, true);
+			}
+
+			MemoryStream ms = new MemoryStream(bytes);
+			ms.Position = 0;
+			Stream uncompressed = TranslateStream(ms, compression, CompressionMode.Decompress);
+
+			return uncompressed;
+		}
 
 		private string ReadStringImpl(string name, bool haveDefault, string defaultValue)
 		{
@@ -1006,7 +1094,7 @@ namespace AgateLib.Serialization.Xle
 				{
 					list.Add(item.InnerText);
 				}
-				else
+				else 
 				{
 					nodes.Push(item);
 
@@ -1078,6 +1166,50 @@ namespace AgateLib.Serialization.Xle
 
 		#endregion
 
+		#region --- Dealing with streams ---
+
+
+		/// <summary>
+		/// Reads data from a stream until the end is reached. The
+		/// data is returned as a byte array. An IOException is
+		/// thrown if any of the underlying IO calls fail.
+		/// </summary>
+		/// <param name="stream">The stream to read data from</param>
+		static byte[] ReadFromStream(Stream stream)
+		{
+			// Code is from
+			// http://www.yoda.arachsys.com/csharp/readbinary.html
+			byte[] buffer = new byte[32768];
+			using (MemoryStream ms = new MemoryStream())
+			{
+				while (true)
+				{
+					int read = stream.Read(buffer, 0, buffer.Length);
+					if (read <= 0)
+						return ms.ToArray();
+					ms.Write(buffer, 0, read);
+				}
+			}
+		}
+
+
+		private Stream TranslateStream(Stream value, CompressionType compression, CompressionMode mode)
+		{
+			switch (compression)
+			{
+				case CompressionType.None:
+					return value;
+				case CompressionType.Deflate:
+					return new DeflateStream(value, mode, true);
+				case CompressionType.GZip:
+					return new GZipStream(value, mode, true);
+
+				default:
+					throw new ArgumentException("Did not understand compression type.", "compression");
+			}
+		}
+
+		#endregion
 
 
 		internal object BeginDeserialize()
@@ -1112,6 +1244,9 @@ namespace AgateLib.Serialization.Xle
 			{
 				// load the type if it is not the default type.
 				string typename = CurrentNode.Attributes["type"].Value;
+
+				if (typename == "null")
+					return null;
 
 				type = Binder.GetType(typename);
 
