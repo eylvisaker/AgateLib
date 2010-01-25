@@ -14,7 +14,7 @@ namespace AgateLib.Utility
 	/// ZipFileProvider is the deflate method, so you must make sure that any compressed
 	/// data in the zip file is compressed with deflate.
 	/// </summary>
-	public class ZipFileProvider : IFileProvider
+	public class ZipFileProvider : IFileProvider, IDisposable
 	{
 		string zipFilename;
 		Stream inFile;
@@ -161,11 +161,15 @@ namespace AgateLib.Utility
 			ScanArchive();
 		}
 
+		public void Dispose()
+		{
+			inFile.Dispose();
+		}
+
 		private void ScanArchive()
 		{
 			ReadHeaders();
 		}
-
 		private void ReadHeaders()
 		{
 			FileHeader header;
@@ -192,7 +196,6 @@ namespace AgateLib.Utility
 
 			} while (inFile.Position < inFile.Length);
 		}
-
 
 		private void ReadFileHeader(BinaryReader reader, out FileHeader header)
 		{
@@ -314,6 +317,7 @@ namespace AgateLib.Utility
 		}
 
 		#endregion
+
 	}
 
 	enum ZipStorageType
