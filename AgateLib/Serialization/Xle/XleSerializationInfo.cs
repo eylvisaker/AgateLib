@@ -189,6 +189,21 @@ namespace AgateLib.Serialization.Xle
 
 			WriteImpl(name, value ?? string.Empty, asAttribute);
 		}
+
+		/// <summary>
+		/// Writes an enum field to the XML data as an element or an attribute.
+		/// </summary>
+		/// <typeparam name="T">Type of the enum.  If this is not an enum type, an exception is thrown</typeparam>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The value to write.</param>
+		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
+		public void WriteEnum<T>(string name, T value, bool asattribute) where T : struct
+		{
+			if (typeof(T).IsEnum == false)
+				throw new XleSerializationException("Type passed is not an enum.");
+
+			WriteImpl(name, value.ToString(), asattribute);
+		}
 		/// <summary>
 		/// Writes a field to the XML data as an element or an attribute.
 		/// </summary>
@@ -918,6 +933,33 @@ namespace AgateLib.Serialization.Xle
 
 			return int.Parse(element.InnerText);
 		}
+
+		/// <summary>
+		/// Reads an enum field from the XML data.
+		/// </summary>
+		/// <typeparam name="T">Type of the enum.  If this is not an enum type, an exception is thrown.</typeparam>
+		/// <param name="name">The name of the XML element used.</param>
+		public T ReadEnum<T>(string name) where T : struct
+		{
+			if (typeof(T).IsEnum == false)
+				throw new XleSerializationException("Type passed is not an enum.");
+
+			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, false, string.Empty));
+		}
+		/// <summary>
+		/// Reads an enum field from the XML data.
+		/// </summary>
+		/// <typeparam name="T">Type of the enum.  If this is not an enum type, an exception is thrown.</typeparam>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="defaultValue">Value returned if the key is not present in the XML data.</param>
+		public T ReadEnum<T>(string name, T defaultValue) where T : struct
+		{
+			if (typeof(T).IsEnum == false)
+				throw new XleSerializationException("Type passed is not an enum.");
+
+			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, true, defaultValue.ToString()));
+		}
+
 		/// <summary>
 		/// Reads a double value from the XML data.  If the name is not present 
 		/// an XleSerializationException is thrown.
@@ -1163,6 +1205,8 @@ namespace AgateLib.Serialization.Xle
 			}
 
 		}
+
+
 
 		#endregion
 

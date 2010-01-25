@@ -284,6 +284,7 @@ namespace AgateOTK
 			if (mGLVersion >= 3m)
 			{
 				//mGL3 = true;
+			mGL3 = false;
 
 				mGL3 = false;
 				mGLVersion = 2.1m;
