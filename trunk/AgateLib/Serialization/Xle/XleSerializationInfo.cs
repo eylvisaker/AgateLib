@@ -878,6 +878,21 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public bool ReadBoolean(string name)
 		{
+			return ReadBooleanImpl(name, false, false);
+		}
+		/// <summary>
+		/// Reads a boolean value from the XML data.  If the name is not present 
+		/// the default value is returned.
+		/// </summary>
+		/// <param name="name">Name of the field.</param>
+		/// <param name="defaultValue">Default value to return if the field is not present.</param>
+		/// <returns></returns>
+		public bool ReadBoolean(string name, bool defaultValue)
+		{
+			return ReadBooleanImpl(name, true, defaultValue);
+		}
+		private bool ReadBooleanImpl(string name, bool hasDefault, bool defaultValue)
+		{
 			string attribute = CurrentNode.GetAttribute(name);
 
 			if (string.IsNullOrEmpty(attribute) == false)
@@ -886,7 +901,12 @@ namespace AgateLib.Serialization.Xle
 			XmlElement element = (XmlElement)CurrentNode[name];
 
 			if (element == null)
-				throw new XleSerializationException("Node " + name + " not found.");
+			{
+				if (hasDefault)
+					return defaultValue;
+				else
+					throw new XleSerializationException("Node " + name + " not found.");
+			}
 
 			return bool.Parse(element.InnerText);
 		}
