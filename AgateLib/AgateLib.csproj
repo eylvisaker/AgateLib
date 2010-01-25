@@ -141,6 +141,16 @@
     <Compile Include="Core.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\AgateDatabaseException.cs" />
+    <Compile Include="Data\Column.cs" />
+    <Compile Include="Data\AgateDatabase.cs" />
+    <Compile Include="Data\Row.cs" />
+    <Compile Include="Data\Table.cs" />
+    <Compile Include="Data\ColumnDictionary.cs" />
+    <Compile Include="Data\DataHelper.cs" />
+    <Compile Include="Data\FieldType.cs" />
+    <Compile Include="Data\RowList.cs" />
+    <Compile Include="Data\TableDictionary.cs" />
     <Compile Include="DisplayLib\FrameBuffer.cs" />
     <Compile Include="DisplayLib\Shaders\AgateBuiltInShaders.cs" />
     <Compile Include="DisplayLib\Shaders\Basic2DShader.cs" />
