@@ -148,5 +148,13 @@ namespace AgateLib.Data
 
 		#endregion
 
+
+		internal void OnColumnNameChange(string oldName, string newName)
+		{
+			foreach (var row in this)
+			{
+				row.OnColumnNameChange(oldName, newName);
+			}
+		}
 	}
 }

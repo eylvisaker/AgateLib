@@ -178,5 +178,41 @@ namespace AgateLib.Data
 				table.Rows.Add(row);
 			}
 		}
+
+		public void RemoveColumn(int index)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void OverwriteColumn(int index, Column newColumn)
+		{
+			Column old = Columns[index];
+
+			Columns[index] = newColumn;
+
+			if (old.Name != newColumn.Name)
+			{
+				Rows.OnColumnNameChange(old.Name, newColumn.Name);
+			}
+
+			if (old.FieldType != newColumn.FieldType)
+			{
+				try
+				{
+					Validate();
+				}
+				catch
+				{
+					// validation of the data failed, so
+					// undo the column change and rethrow.
+					Columns[index] = old;
+
+					Rows.OnColumnNameChange(newColumn.Name, old.Name);
+
+					throw;
+				}
+			}
+
+		}
 	}
 }

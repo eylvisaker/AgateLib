@@ -16,6 +16,22 @@ namespace AgateLib.Data
 		private int nextAutoIncrementValue = 1;
 		private FieldType fieldType;
 
+
+		public Column Clone()
+		{
+			Column retval = new Column();
+
+			retval.name = name;
+			retval.description = description;
+			retval.tableLookup = tableLookup;
+			retval.lookupField = lookupField;
+			retval.primaryKey = primaryKey;
+			retval.nextAutoIncrementValue = nextAutoIncrementValue;
+			retval.fieldType = fieldType;
+
+			return retval;
+		}
+
 		#region IXleSerializable Members
 
 		void IXleSerializable.WriteData(XleSerializationInfo info)
@@ -98,27 +114,7 @@ namespace AgateLib.Data
 
 		public override string ToString()
 		{
-			return DataHelper.CreatePrefixedLine(
-				"Column", 
-				Name, FieldType, IsPrimaryKey, TableLookup, TableDisplayField, Description);
-		}
-		internal static Column FromString(string text)
-		{
-			if (text.StartsWith("Column:") == false)
-				throw new AgateDatabaseException("Could not understand column text.");
-
-			string[] data = DataHelper.Split(DataHelper.LineData(text));
-
-			Column retval = new Column();
-
-			retval.Name = data[0];
-			retval.FieldType = (FieldType)Enum.Parse(typeof(FieldType), data[1]);
-			retval.IsPrimaryKey = bool.Parse(data[2]);
-			retval.TableLookup = data[3];
-			retval.TableDisplayField = data[4];
-			retval.Description = data[5];
-
-			return retval;
+			return "Column: " + Name;
 		}
 
 		private void AssertIsValidName(string value)
@@ -134,6 +130,7 @@ namespace AgateLib.Data
 		{
 			return DataHelper.IsValidIdentifier(value);
 		}
+
 
 	}
 }

@@ -42,6 +42,10 @@ namespace AgateLib.Data
 		public Column this[int index]
 		{
 			get { return mColumns[index]; }
+			internal set
+			{
+				mColumns[index] = value; 
+			}
 		}
 
 		internal void Add(Column col)
@@ -61,6 +65,12 @@ namespace AgateLib.Data
 		{
 			get { return mColumns; }
 		}
+
+		public int Count
+		{
+			get { return mColumns.Count; }
+		}
+
 		#region IEnumerable<AgateColumn> Members
 
 		public IEnumerator<Column> GetEnumerator()

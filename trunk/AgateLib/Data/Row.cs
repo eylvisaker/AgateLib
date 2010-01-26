@@ -142,5 +142,13 @@ namespace AgateLib.Data
 			}
 		}
 
+
+		internal void OnColumnNameChange(string oldName, string newName)
+		{
+			string value = values[oldName];
+			values[newName] = value;
+
+			values.Remove(oldName);
+		}
 	}
 }
