@@ -31,7 +31,8 @@ namespace Tests.DisplayTests
 				Surface mySurface = new Surface("jellybean.png");
 
 				// Run the program while the window is open.
-				while (!(Display.CurrentWindow.IsClosed || Keyboard.Keys[KeyCode.Escape]))
+				while (Display.CurrentWindow.IsClosed == false && 
+					Keyboard.Keys[KeyCode.Escape] == false)
 				{
 					Display.BeginFrame();
 					Display.Clear(Color.DarkGreen);
