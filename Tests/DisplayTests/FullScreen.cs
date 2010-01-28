@@ -7,7 +7,7 @@ using AgateLib.InputLib;
 
 namespace Tests.DisplayTests
 {
-	class HelloWorldProgram : IAgateTest
+	class FullscreenTest : IAgateTest
 	{
 		public string Name
 		{
