@@ -96,10 +96,14 @@ namespace AgateLib
 				{
 					Update(Display.DeltaTime);
 
+					if (MainWindow.IsClosed)
+						break;
+
 					if (GuiRoot != null)
 						GuiRoot.DoUpdate();
+					
 
-					Display.RenderTarget = mWindow.FrameBuffer;
+					Display.RenderTarget = MainWindow.FrameBuffer;
 					Display.BeginFrame();
 
 					Render();

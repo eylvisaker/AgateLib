@@ -347,6 +347,12 @@ namespace AgateOTK
 		{
 			mDisplay.ProcessEventsEvent -= mDisplay_ProcessEventsEvent;
 
+			if (mFrameBuffer != null)
+			{
+				mFrameBuffer.Dispose();
+				mFrameBuffer = null;
+			}
+
 			if (mContext != null)
 			{
 				mContext.Dispose();
