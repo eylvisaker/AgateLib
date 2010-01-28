@@ -61,6 +61,15 @@ namespace AgateSDL.Audio
 			tempfiles.Clear();
 		}
 
+		protected override bool CapsBool(AgateLib.AudioLib.AudioBoolCaps audioBoolCaps)
+		{
+			switch (audioBoolCaps)
+			{
+				default:
+					return false;
+			}
+		}
+
 		public override MusicImpl CreateMusic(string filename)
 		{
 			return new SDL_Music(filename);

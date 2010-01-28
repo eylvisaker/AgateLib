@@ -33,7 +33,15 @@ namespace AgateLib.AudioLib
 	public static class Audio
 	{
 		private static AudioImpl impl;
+		private static AudioCapsInfo caps = new AudioCapsInfo();
 
+		/// <summary>
+		/// Gets the capabilities querying object for the audio subsystem.
+		/// </summary>
+		public static AudioCapsInfo Caps
+		{
+			get { return caps; }
+		}
 		/// <summary>
 		/// Gets the object which handles all of the actual calls to Audio functions.
 		/// </summary>

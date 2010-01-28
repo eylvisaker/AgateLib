@@ -118,6 +118,14 @@ namespace AgateFMOD
 			CheckFMODResult(mSystem.update());
 		}
 
+		protected override bool CapsBool(AgateLib.AudioLib.AudioBoolCaps audioBoolCaps)
+		{
+			switch (audioBoolCaps)
+			{
+				default:
+					return false;
+			}
+		}
 		public override MusicImpl CreateMusic(System.IO.Stream musicStream)
 		{
 			string filename = SaveStreamToTempFile(musicStream);

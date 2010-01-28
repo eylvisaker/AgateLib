@@ -168,5 +168,9 @@ namespace AgateLib.Drivers
 			return new NullMusicImpl();
 		}
 
+		protected internal override bool CapsBool(AgateLib.AudioLib.AudioBoolCaps audioBoolCaps)
+		{
+			return false;
+		}
 	}
 }

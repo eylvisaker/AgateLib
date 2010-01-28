@@ -296,6 +296,8 @@ namespace AgateSDX
 
 				frm.Show();
 			}
+
+			frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
 		}
 		private void CreateWindowedDisplay()
 		{

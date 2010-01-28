@@ -156,6 +156,16 @@ namespace AgateSDX.XAud2
 			mDevice.Dispose();
 		}
 
+		protected override bool CapsBool(AgateLib.AudioLib.AudioBoolCaps audioBoolCaps)
+		{
+			switch (audioBoolCaps)
+			{
+				case AudioBoolCaps.StreamingSoundBuffer:
+					return true;
+				default:
+					return false;
+			}
+		}
 		public override SoundBufferImpl CreateSoundBuffer(Stream inStream)
 		{
 			return new XAudio2_SoundBuffer(this, inStream);

@@ -245,7 +245,7 @@ namespace AgateLib.DisplayLib
 			get { return Size.Height; }
 			set
 			{
-				Size = new Size(Size.Width, Size.Height);
+				Size = new Size(Size.Width, value);
 			}
 		}
 

@@ -94,6 +94,13 @@ namespace AgateLib.AudioLib.ImplementationBase
 		}
 
 
+		/// <summary>
+		/// This function is called when a Caps property is inspected.
+		/// It should return false for any unknown value.
+		/// </summary>
+		/// <param name="audioBoolCaps"></param>
+		/// <returns></returns>
+		protected internal abstract bool CapsBool(AudioBoolCaps audioBoolCaps);
 	}
 
 }

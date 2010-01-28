@@ -132,6 +132,7 @@
     <Compile Include="AppInitParameters.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AudioLib\AudioCapsInfo.cs" />
     <Compile Include="AudioLib\ImplementationBase\MusicImpl.cs" />
     <Compile Include="AudioLib\ImplementationBase\SoundBufferImpl.cs" />
     <Compile Include="AudioLib\ImplementationBase\SoundBufferSessionImpl.cs" />

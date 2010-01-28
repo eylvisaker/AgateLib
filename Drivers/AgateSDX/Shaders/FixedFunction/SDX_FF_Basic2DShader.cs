@@ -16,7 +16,7 @@ namespace AgateSDX.Shaders
 
 		public SDX_FF_Basic2DShader()
 		{
-			mDevice = (AgateLib.DisplayLib.Display.Impl as SDX_Display).D3D_Device.Device;
+			
 		}
 
 		public override AgateLib.Geometry.Rectangle CoordinateSystem
@@ -27,6 +27,8 @@ namespace AgateSDX.Shaders
 
 		public void Set2DDrawState()
 		{
+			mDevice = (AgateLib.DisplayLib.Display.Impl as SDX_Display).D3D_Device.Device;
+
 			mDevice.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
 			mDevice.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AgateLib;
+using AgateLib.InputLib;
 
 namespace Tests.AppTester
 {
@@ -17,11 +18,20 @@ namespace Tests.AppTester
 			initParams.AllowResize = true;
 		}
 
+		
 		#region IAgateTest Members
 
 		public string Name { get { return "App Tester"; } }
 		public string Category { get { return "Core"; } }
 
 		#endregion
+
+		protected override void Update(double time_ms)
+		{
+			base.Update(time_ms);
+
+			if (Keyboard.Keys[KeyCode.Space])
+				Quit();
+		}
 	}
 }
