@@ -473,6 +473,12 @@ namespace AgateLib.DisplayLib
 				};
 			}
 
+			for (int i = 0; i < args.Length; i++)
+			{
+				if (args[i] == null)
+					args[i] = "null";
+			}
+
 			int lastIndex = 0;
 			string result = string.Empty;
 			PointF dest;
