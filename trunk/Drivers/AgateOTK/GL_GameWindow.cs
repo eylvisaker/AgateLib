@@ -144,7 +144,7 @@ namespace AgateOTK
 			keyMap.Add(OpenTK.Input.Key.ScrollLock, KeyCode.ScrollLock);
 			keyMap.Add(OpenTK.Input.Key.Semicolon, KeyCode.Semicolon);
 			keyMap.Add(OpenTK.Input.Key.ShiftLeft, KeyCode.Shift);
-			//keyMap.Add(OpenTK.Input.Key.ShiftRight, KeyCode.Shift);
+			keyMap.Add(OpenTK.Input.Key.ShiftRight, KeyCode.Shift);
 			keyMap.Add(OpenTK.Input.Key.Slash, KeyCode.Slash);
 			keyMap.Add(OpenTK.Input.Key.Sleep, KeyCode.Sleep);
 			keyMap.Add(OpenTK.Input.Key.Space, KeyCode.Space);
@@ -234,6 +234,12 @@ namespace AgateOTK
 		void Keyboard_KeyUp(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
 		{
 			KeyCode code = TransformKey(e.Key);
+
+			// Hack because sometimes escape key does not get a keydown event on windows?
+			if (code == KeyCode.Escape && Keyboard.Keys[code] == false)
+			{
+				Keyboard.Keys[code] = true;
+			}
 
 			Keyboard.Keys[code] = false;
 		}
