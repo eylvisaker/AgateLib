@@ -174,7 +174,7 @@ namespace AgateOTK
 		bool mHasFrame;
 		WindowPosition mCreatePosition;
 		GLDrawBuffer mDrawBuffer;
-		GL_FrameBuffer mFrameBuffer;
+		ContextFB mFrameBuffer;
 
 		public GL_GameWindow(CreateWindowParams windowParams)
 		{
@@ -195,6 +195,9 @@ namespace AgateOTK
 				CreateFullScreenDisplay();
 			else
 				CreateWindowedDisplay();
+
+			mFrameBuffer = new ContextFB(mWindow.Context, mWindow.WindowInfo, 
+				new Size(mWindow.ClientSize.Width, mWindow.ClientSize.Height ));
 
 			mDisplay = Display.Impl as GL_Display;
 
