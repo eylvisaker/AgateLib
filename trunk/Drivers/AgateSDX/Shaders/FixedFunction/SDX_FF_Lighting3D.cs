@@ -22,7 +22,8 @@ namespace AgateSDX.Shaders.FixedFunction
 		public SDX_FF_Lighting3D()
 		{
 			mDisplay = (SDX_Display)AgateLib.DisplayLib.Display.Impl;
-			mLights = new AgateLib.DisplayLib.Shaders.Light[mDisplay.D3D_Device.Device.Capabilities.MaxActiveLights];
+			//mLights = new AgateLib.DisplayLib.Shaders.Light[mDisplay.D3D_Device.Device.Capabilities.MaxActiveLights];
+			mLights = new AgateLib.DisplayLib.Shaders.Light[8];
 		}
 		public override Color AmbientLight
 		{

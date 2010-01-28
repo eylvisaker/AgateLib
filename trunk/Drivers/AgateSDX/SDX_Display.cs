@@ -89,7 +89,7 @@ namespace AgateSDX
 		{
 			mDirect3Dobject = new SlimDX.Direct3D9.Direct3D();
 
-			CreateFakeWindow();
+			//CreateFakeWindow();
 
 			Report("SlimDX driver instantiated for display.");
 
@@ -146,8 +146,10 @@ namespace AgateSDX
 			}
 			catch
 			{
-				mHasDepth = false;
+				mHasDepth = true;
 				mHasStencil = false;
+
+				SetHaveDepthStencil(Format.D16);
 			}
 
 			//device.DeviceLost += new EventHandler(mDevice_DeviceLost);
@@ -192,8 +194,11 @@ namespace AgateSDX
 
 		public override void Dispose()
 		{
-			mFakeDisplayWindow.Dispose();
-			mFakeWindow.Dispose();
+			if (mFakeWindow != null)
+			{
+				mFakeDisplayWindow.Dispose();
+				mFakeWindow.Dispose();
+			}
 
 			mDevice.Dispose();
 		}
@@ -617,8 +622,8 @@ namespace AgateSDX
 			PresentParameters present = new PresentParameters();
 
 			present.BackBufferCount = 1;
-			present.AutoDepthStencilFormat = GetDepthFormat(Format.A8R8G8B8);
-			present.EnableAutoDepthStencil = true;
+			present.AutoDepthStencilFormat = Format.Unknown;
+			present.EnableAutoDepthStencil = false;
 			present.DeviceWindowHandle = displayWindow.RenderTarget.Handle;
 			present.BackBufferWidth = displayWindow.Width;
 			present.BackBufferHeight = displayWindow.Height;
