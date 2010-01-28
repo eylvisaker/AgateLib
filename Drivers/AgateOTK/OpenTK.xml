@@ -9845,6 +9845,10 @@
             <summary>
             Gets the GraphicsContext that is current in the calling thread.
             </summary>
+            <remarks>
+            Note: this property will not function correctly when both desktop and EGL contexts are
+            available in the same process. This scenario is very unlikely to appear in practice.
+            </remarks>
         </member>
         <member name="P:OpenTK.Graphics.GraphicsContext.ShareContexts">
             <summary>Gets or sets a System.Boolean, indicating whether GraphicsContext resources are shared</summary>

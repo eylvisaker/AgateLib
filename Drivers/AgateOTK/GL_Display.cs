@@ -94,7 +94,10 @@ namespace AgateOTK
 		}
 		public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
 		{
-			return new GL_DisplayControl(windowParams);
+			if (windowParams.IsFullScreen && windowParams.RenderToControl == false)
+				return new GL_GameWindow(windowParams);
+			else
+				return new GL_DisplayControl(windowParams);
 
 			//if (windowParams.RenderToControl)
 			//{
