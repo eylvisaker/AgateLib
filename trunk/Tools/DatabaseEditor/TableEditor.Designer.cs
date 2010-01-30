@@ -1,4 +1,4 @@
-﻿namespace AgateDataLib
+﻿namespace AgateDatabaseEditor
 {
 	partial class TableEditor
 	{

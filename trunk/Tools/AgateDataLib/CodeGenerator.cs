@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using AgateLib.Data;
 
-namespace DatabaseEditor
+namespace AgateDataLib
 {
 	public class CodeGenerator
 	{

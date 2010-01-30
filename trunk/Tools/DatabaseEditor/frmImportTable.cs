@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using AgateLib.Data;
 
-namespace DatabaseEditor
+namespace AgateDatabaseEditor
 {
 	public partial class frmImportTable : Form
 	{

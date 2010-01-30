@@ -8,7 +8,7 @@
     <ProjectGuid>{685E7B82-4609-4ABB-B25B-0DC7C58BD45F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DatabaseEditor</RootNamespace>
+    <RootNamespace>AgateDatabaseEditor</RootNamespace>
     <AssemblyName>DatabaseEditor</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -81,11 +81,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DatabaseEditor.Designer.cs">
+      <DependentUpon>DatabaseEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCodeGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmCodeGenerator.Designer.cs">
       <DependentUpon>frmCodeGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDesignTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDesignTable.Designer.cs">
+      <DependentUpon>frmDesignTable.cs</DependentUpon>
     </Compile>
     <Compile Include="frmEditor.cs">
       <SubType>Form</SubType>
@@ -101,8 +113,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DatabaseEditor.resx">
+      <DependentUpon>DatabaseEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmCodeGenerator.resx">
       <DependentUpon>frmCodeGenerator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDesignTable.resx">
+      <DependentUpon>frmDesignTable.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmEditor.resx">
@@ -118,6 +138,10 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="TableEditor.resx">
+      <DependentUpon>TableEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -131,6 +155,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="TableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TableEditor.Designer.cs">
+      <DependentUpon>TableEditor.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
