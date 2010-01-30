@@ -245,6 +245,10 @@ namespace AgateDatabaseEditor
 
 				lstTables.SelectedItems[0].BeginEdit();
 			}
+			else if (e.KeyCode == Keys.Delete)
+			{
+				deleteToolStripMenuItem_Click(sender, e);
+			}
 		}
 
 		private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -262,6 +266,7 @@ namespace AgateDatabaseEditor
 				MessageBoxDefaultButton.Button2) == DialogResult.Yes)
 			{
 				Database.Tables.Remove(table);
+				DatabaseRefresh();
 			}
 		}
 
@@ -274,6 +279,40 @@ namespace AgateDatabaseEditor
 			AgateTable table = obj as AgateTable;
 
 			AgateTable newTable = table.Clone();
+
+			// Append _1 to a new clone, or if there is already this suffix
+			// do _(i+1) where i is the suffix.
+			do
+			{
+				IncrementTableName(newTable);
+			} while (Database.Tables.ContainsTable(newTable.Name));
+
+			Database.Tables.Add(newTable);
+			DatabaseRefresh();
+		}
+
+		private static void IncrementTableName(AgateTable table)
+		{
+			int uindex = table.Name.LastIndexOf('_');
+			bool appendCode = true;
+
+			if (uindex > -1 && uindex < table.Name.Length - 1)
+			{
+				int value;
+
+				if (int.TryParse(table.Name.Substring(uindex + 1), out value))
+				{
+					table.Name = table.Name.Substring(0, uindex);
+					table.Name += "_" + (value + 1).ToString();
+
+					appendCode = false;
+				}
+			}
+
+			if (appendCode)
+			{
+				table.Name += "_1";
+			}
 
 		}
 
