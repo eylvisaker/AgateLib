@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.newDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,17 +44,26 @@
 			this.generateCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openDatabase = new System.Windows.Forms.OpenFileDialog();
 			this.saveDatabase = new System.Windows.Forms.SaveFileDialog();
-			this.databaseEditor1 = new DatabaseEditor();
+			this.databaseEditor1 = new AgateDatabaseEditor.DatabaseEditor();
+			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
 			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabel});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 529);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(632, 22);
 			this.statusStrip1.TabIndex = 0;
 			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// statusLabel
+			// 
+			this.statusLabel.Name = "statusLabel";
+			this.statusLabel.Size = new System.Drawing.Size(118, 17);
+			this.statusLabel.Text = "toolStripStatusLabel1";
 			// 
 			// menuStrip1
 			// 
@@ -160,12 +170,15 @@
 			// databaseEditor1
 			// 
 			this.databaseEditor1.Database = null;
+			this.databaseEditor1.DirtyState = false;
 			this.databaseEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.databaseEditor1.Location = new System.Drawing.Point(0, 24);
 			this.databaseEditor1.Name = "databaseEditor1";
 			this.databaseEditor1.Size = new System.Drawing.Size(632, 505);
 			this.databaseEditor1.TabIndex = 3;
 			this.databaseEditor1.Visible = false;
+			this.databaseEditor1.DirtyStateChanged += new System.EventHandler(this.databaseEditor1_DirtyStateChanged);
+			this.databaseEditor1.StatusText += new System.EventHandler<AgateDatabaseEditor.StatusTextEventArgs>(this.databaseEditor1_StatusText);
 			// 
 			// frmEditor
 			// 
@@ -178,6 +191,9 @@
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "frmEditor";
 			this.Text = "Agate Database Editor";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmEditor_FormClosing);
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
@@ -203,6 +219,7 @@
 		private System.Windows.Forms.ToolStripMenuItem importDataToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripStatusLabel statusLabel;
 	}
 }
 

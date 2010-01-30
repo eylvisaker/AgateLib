@@ -46,6 +46,10 @@
 			this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.duplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.editColumnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabContextMenu.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -172,17 +176,21 @@
 			// tableContextMenu
 			// 
 			this.tableContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.editColumnsToolStripMenuItem,
+            this.toolStripSeparator1,
             this.renameToolStripMenuItem,
             this.duplicateToolStripMenuItem,
+            this.toolStripSeparator2,
             this.deleteToolStripMenuItem});
 			this.tableContextMenu.Name = "tableContextMenu";
-			this.tableContextMenu.Size = new System.Drawing.Size(153, 92);
+			this.tableContextMenu.Size = new System.Drawing.Size(155, 148);
 			// 
 			// renameToolStripMenuItem
 			// 
 			this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-			this.renameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.renameToolStripMenuItem.Text = "Rename...";
+			this.renameToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+			this.renameToolStripMenuItem.Text = "Rename";
 			this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
 			// 
 			// duplicateToolStripMenuItem
@@ -198,6 +206,31 @@
 			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+			// 
+			// openToolStripMenuItem
+			// 
+			this.openToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Text = "Open";
+			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+			// 
+			// editColumnsToolStripMenuItem
+			// 
+			this.editColumnsToolStripMenuItem.Name = "editColumnsToolStripMenuItem";
+			this.editColumnsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+			this.editColumnsToolStripMenuItem.Text = "Edit Columns...";
+			this.editColumnsToolStripMenuItem.Click += new System.EventHandler(this.editColumnsToolStripMenuItem_Click);
 			// 
 			// DatabaseEditor
 			// 
@@ -234,5 +267,9 @@
 		private System.Windows.Forms.ContextMenuStrip tabContextMenu;
 		private System.Windows.Forms.ToolStripMenuItem closeTabToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripMenuItem editColumnsToolStripMenuItem;
 	}
 }

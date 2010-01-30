@@ -21,25 +21,47 @@ namespace AgateDatabaseEditor
 			}
 		}
 
+		AgateDatabase mDatabase;
 		AgateTable mTable;
 		AgateColumn mColumnInEdit;
 		int mRowInEdit = -1;
 
+		public AgateDatabase TheDatabase
+		{
+			get { return mDatabase; }
+			set
+			{
+				mDatabase = value;
+
+				cboTableLookup.Items.Clear();
+
+				cboTableLookup.Items.Add(new { Name = "(none)" });
+
+				foreach (var table in mDatabase.Tables)
+				{
+					cboTableLookup.Items.Add(table);
+				}
+			}
+		}
 		public AgateTable TheTable
 		{
 			get { return mTable; }
 			set
 			{
+				if (mDatabase == null)
+					throw new ArgumentNullException("TheDatabase should be set first.");
+
 				mTable = value;
 
 				gridColumns.RowCount = mTable.Columns.Count+1;
 			}
 		}
 
-		internal static void EditColumns(AgateLib.Data.AgateTable mTable)
+		internal static void EditColumns(AgateLib.Data.AgateDatabase dbase, AgateLib.Data.AgateTable mTable)
 		{
 			frmDesignTable d = new frmDesignTable();
 
+			d.TheDatabase = dbase;
 			d.TheTable = mTable;
 
 			d.ShowDialog();
@@ -176,6 +198,105 @@ namespace AgateDatabaseEditor
 				mColumnInEdit = null;
 			}
 
+		}
+
+		AgateColumn colProperties;
+
+		private void gridColumns_RowEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex < mTable.Columns.Count)
+				colProperties = mTable.Columns[e.RowIndex];
+			else
+			{
+				colProperties = mColumnInEdit;
+			}
+
+			if (colProperties == null)
+			{
+				cboTableLookup.Enabled = false;
+				cboDisplayField.Enabled = false;
+			}
+			else if (string.IsNullOrEmpty(colProperties.TableLookup))
+			{
+				cboTableLookup.Enabled = true;
+				cboTableLookup.SelectedIndex = 0;
+				cboDisplayField.Enabled = false;
+			}
+			else
+			{
+				cboTableLookup.Enabled = true;
+				
+				AgateTable selTable = mDatabase.Tables[colProperties.TableLookup];
+
+				cboTableLookup.SelectedItem = selTable;
+				cboDisplayField.SelectedItem = selTable.Columns[colProperties.TableDisplayField];
+			}
+
+			if (colProperties == null)
+				chkPrimaryKey.Enabled = false;
+			else
+			{
+				chkPrimaryKey.Enabled = true;
+				chkPrimaryKey.Checked = colProperties.IsPrimaryKey;
+			}
+		}
+
+		private void cboTableLookup_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			AgateColumn col = colProperties;
+			if (col == null)
+				col = mColumnInEdit;
+
+			if (col == null)
+				return;
+
+			cboDisplayField.Items.Clear();
+
+			AgateTable table = cboTableLookup.SelectedItem as AgateTable;
+			if (table == null)
+			{
+				col.TableLookup = "";
+				cboDisplayField.Enabled = false;
+				return;
+			}
+
+			col.TableLookup = table.Name;
+
+			foreach (var column in table.Columns)
+			{
+				cboDisplayField.Items.Add(column);
+			}
+
+			cboDisplayField.Enabled = true;
+		}
+
+		private void cboDisplayField_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			AgateColumn col = colProperties;
+			if (col == null)
+				col = mColumnInEdit;
+
+			if (col == null)
+				return;
+
+			AgateColumn selectedField = cboDisplayField.SelectedItem as AgateColumn;
+
+			if (selectedField == null)
+				col.TableDisplayField = "";
+			else
+				col.TableDisplayField = selectedField.Name;
+		}
+
+		private void chkPrimaryKey_CheckedChanged(object sender, EventArgs e)
+		{
+			AgateColumn col = colProperties;
+			if (col == null)
+				col = mColumnInEdit;
+
+			if (col == null)
+				return;
+
+			col.IsPrimaryKey = chkPrimaryKey.Checked;
 		}
 	}
 }

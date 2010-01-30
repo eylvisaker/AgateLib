@@ -25,7 +25,9 @@ namespace AgateDatabaseEditor
 		public AgateDatabase Database
 		{
 			get { return mDatabase; }
-			set { mDatabase = value; 
+			set
+			{
+				mDatabase = value;
 				AgateTable = null;
 			}
 		}
@@ -35,7 +37,7 @@ namespace AgateDatabaseEditor
 			set
 			{
 				mTable = value;
-				TableReset();
+				TableRefresh();
 			}
 		}
 
@@ -44,12 +46,15 @@ namespace AgateDatabaseEditor
 			gridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
 			gridView.EndEdit();
 
-			DataGridViewCellEventArgs e = new DataGridViewCellEventArgs(gridView.CurrentCell.ColumnIndex, gridView.CurrentCell.RowIndex);
+			if (gridView.CurrentCell != null)
+			{
+				DataGridViewCellEventArgs e = new DataGridViewCellEventArgs(gridView.CurrentCell.ColumnIndex, gridView.CurrentCell.RowIndex);
 
-			gridView_RowValidated(gridView, e);
+				gridView_RowValidated(gridView, e);
+			}
 		}
 
-		private void TableReset()
+		public void TableRefresh()
 		{
 			gridView.SuspendLayout();
 			gridView.Columns.Clear();
@@ -60,7 +65,7 @@ namespace AgateDatabaseEditor
 
 				return;
 			}
-			
+
 			int index = 0;
 			foreach (var column in mTable.Columns)
 			{
@@ -69,9 +74,45 @@ namespace AgateDatabaseEditor
 				col.Name = column.Name;
 				col.ReadOnly = column.FieldType == FieldType.AutoNumber;
 
-				if (string.IsNullOrEmpty(column.TableLookup))
+				if (column.FieldType == FieldType.Boolean)
+				{
+					col.CellTemplate = new DataGridViewCheckBoxCell();
+				}
+				else if (string.IsNullOrEmpty(column.TableLookup) || string.IsNullOrEmpty(column.TableDisplayField))
 				{
 					col.CellTemplate = new DataGridViewTextBoxCell();
+				}
+				else
+				{
+					var cbo = new DataGridViewComboBoxCell();
+					var table = Database.Tables[column.TableLookup];
+
+					if (table == null)
+					{
+						OnStatusText(StatusTextIcon.Warning, "The lookup table " + table.Name + " does not exist.");
+
+						col.CellTemplate = new DataGridViewTextBoxCell();
+					}
+					else
+					{
+						var primaryKey = table.Columns.PrimaryKeyColumn;
+						if (primaryKey != null)
+						{
+							for (int i = 0; i < table.Rows.Count; i++)
+							{
+								cbo.Items.Add(new { ID = table.Rows[i][primaryKey], Name = table.Rows[i][column.TableDisplayField] });
+							}
+							cbo.DisplayMember = "Name";
+							cbo.ValueMember = "ID";
+
+							col.CellTemplate = cbo;
+						}
+						else
+						{
+							OnStatusText(StatusTextIcon.Warning, "The lookup table " + table.Name + " needs a primary key field.");
+							col.CellTemplate = new DataGridViewTextBoxCell();
+						}
+					}
 				}
 
 				if (column.ColumnWidth > 10)
@@ -85,6 +126,20 @@ namespace AgateDatabaseEditor
 			UpdateGridViewRowCount();
 			gridView.ResumeLayout();
 		}
+
+		private void OnStatusText(StatusTextIcon icon, string text)
+		{
+			if (StatusText != null)
+				StatusText(this, new StatusTextEventArgs(icon, text));
+		}
+		public event EventHandler<StatusTextEventArgs> StatusText;
+
+		private void OnSetDirtyFlag()
+		{
+			if (SetDirtyFlag != null)
+				SetDirtyFlag(this, EventArgs.Empty);
+		}
+		public event EventHandler SetDirtyFlag;
 
 		private void UpdateGridViewRowCount()
 		{
@@ -100,6 +155,10 @@ namespace AgateDatabaseEditor
 			return GetColumn(columnIndex).Name;
 		}
 
+		private void gridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+		{
+			// swallow unnecessary error?
+		}
 		private void gridView_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 			if (e.RowIndex == gridView.RowCount - 1)
@@ -110,9 +169,18 @@ namespace AgateDatabaseEditor
 			if (e.RowIndex == mEditingRowIndex)
 				row = mEditingRow;
 			else
-				row =  mTable.Rows[e.RowIndex];
+				row = mTable.Rows[e.RowIndex];
 
-			e.Value = row[ColumnName(e.ColumnIndex)];
+			string value = row[ColumnName(e.ColumnIndex)];
+
+			if (mTable.Columns[e.ColumnIndex].FieldType == FieldType.Boolean)
+			{
+				e.Value = bool.Parse(value);
+			}
+			else
+			{
+				e.Value = value;
+			}
 		}
 		private void gridView_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
@@ -130,7 +198,7 @@ namespace AgateDatabaseEditor
 
 				mEditingRowIndex = e.RowIndex;
 			}
-			
+
 			row = this.mEditingRow;
 
 			try
@@ -144,6 +212,8 @@ namespace AgateDatabaseEditor
 					"The field data type is " + mTable.Columns[e.ColumnIndex].FieldType.ToString() + ".",
 					"Invalid data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
+
+			OnSetDirtyFlag();
 		}
 		private void gridView_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
 		{
@@ -153,7 +223,7 @@ namespace AgateDatabaseEditor
 		private void gridView_RowValidated(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex >= mTable.Rows.Count &&
-				e.RowIndex != gridView.Rows.Count-1)
+				e.RowIndex != gridView.Rows.Count - 1)
 			{
 				mTable.Rows.Add(mEditingRow);
 				mEditingRow = null;
@@ -214,15 +284,39 @@ namespace AgateDatabaseEditor
 		private void gridView_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
 		{
 			mTable.Columns[e.Column.Index].ColumnWidth = e.Column.Width;
+
+			OnSetDirtyFlag();
 		}
 
 		private void editColumnsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			frmDesignTable.EditColumns(mTable);
+			frmDesignTable.EditColumns(Database, mTable);
 
-			TableReset();
+			TableRefresh();
+
+			OnSetDirtyFlag();
 		}
 
 
+
+	}
+
+	public class StatusTextEventArgs : EventArgs 
+	{
+		public string Text { get; private set; }
+		public StatusTextIcon StatusTextIcon { get; private set; }
+
+		public StatusTextEventArgs(StatusTextIcon icon, string text)
+		{
+			StatusTextIcon = icon;
+			Text = text;
+		}
+	}
+
+	public enum StatusTextIcon
+	{
+		Information,
+		Warning,
+		Error,
 	}
 }
