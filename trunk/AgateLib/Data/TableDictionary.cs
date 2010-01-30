@@ -67,6 +67,10 @@ namespace AgateLib.Data
 				return result;
 			}
 		}
+		public Table this[int index]
+		{
+			get { return mTables[index]; }
+		}
 
 		private void LoadTable(string name)
 		{
@@ -91,13 +95,12 @@ namespace AgateLib.Data
 			mUnloadedTables.Clear();
 		}
 
-		public Table this[int index]
-		{
-			get { return mTables[index]; }
-		}
 
 		public void Add(Table tbl)
 		{
+			if (tbl == null)
+				throw new ArgumentNullException("tbl", "Passed table cannot be null.");
+
 			if (mTables.Any(x => x.Name == tbl.Name))
 				throw new ArgumentException("Table " + tbl.Name + " already exists.");
 
@@ -117,6 +120,16 @@ namespace AgateLib.Data
 			return "Tables: " + mTables.Count;
 		}
 
+		public bool ContainsTable(string name)
+		{
+			if (mUnloadedTables.Any(x => string.Compare(x, name, true) == 0))
+				return true;
+
+			if (mTables.Any(x => string.Compare(x.Name, name, true) == 0))
+				return true;
+
+			return false;
+		}
 
 		#region IEnumerable<Table> Members
 

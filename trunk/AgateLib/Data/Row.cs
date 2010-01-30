@@ -99,7 +99,7 @@ namespace AgateLib.Data
 
 		private void ValidateTypeOrThrow(string key, string value)
 		{
-			Convert.ChangeType(value, DataHelper.GetType(parentTable.Columns[key].FieldType));
+			Convert.ChangeType(value, DataHelper.FromFieldType(parentTable.Columns[key].FieldType));
 		}
 
 		internal void ValidateData(Table agateTable)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.Serialization.Xle;
+using System.ComponentModel;
 
 namespace AgateLib.Data
 {
@@ -15,7 +16,6 @@ namespace AgateLib.Data
 		private bool primaryKey;
 		private int nextAutoIncrementValue = 1;
 		private FieldType fieldType;
-
 
 		public Column Clone()
 		{
@@ -66,9 +66,21 @@ namespace AgateLib.Data
 
 		#endregion
 
+		[Browsable(false)]
 		public int NextAutoIncrementValue
 		{
 			get { return nextAutoIncrementValue; }
+		}
+
+		public string DefaultValue
+		{
+			get
+			{
+				if (FieldType == FieldType.String)
+					return string.Empty;
+
+				return Activator.CreateInstance(FieldTypeDataType).ToString();
+			}
 		}
 
 		internal void IncrementNextAutoIncrementValue()
@@ -90,6 +102,14 @@ namespace AgateLib.Data
 		{
 			get { return fieldType; }
 			set { fieldType = value; }
+		}
+		[Browsable(false)]
+		public Type FieldTypeDataType
+		{
+			get
+			{
+				return DataHelper.FromFieldType(FieldType);
+			}
 		}
 		public bool IsPrimaryKey
 		{

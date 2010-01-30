@@ -41,7 +41,7 @@ namespace AgateLib.Data
 			return value;
 		}
 
-		internal static Type GetType(FieldType fieldType)
+		internal static Type FromFieldType(FieldType fieldType)
 		{
 			DataTypeAttribute[] dataType = (DataTypeAttribute[])
 				typeof(FieldType).GetField(fieldType.ToString()).GetCustomAttributes(typeof(DataTypeAttribute), false);
@@ -53,7 +53,15 @@ namespace AgateLib.Data
 
 		internal static bool IsValidIdentifier(string value)
 		{
-			return identifier.IsMatch(value);
+			var match = identifier.Match(value);
+
+			if (match == null || match.Success == false)
+				return false;
+
+			if (match.Index == 0 && match.Length == value.Length)
+				return true;
+
+			return false;
 		}
 
 		internal static string LineType(string line)
