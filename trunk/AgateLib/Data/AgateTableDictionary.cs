@@ -6,13 +6,13 @@ using System.Text;
 
 namespace AgateLib.Data
 {
-	public class TableDictionary : IEnumerable<Table>, IDisposable 
+	public class AgateTableDictionary : IEnumerable<AgateTable>, IDisposable 
 	{
-		List<Table> mTables = new List<Table>();
+		List<AgateTable> mTables = new List<AgateTable>();
 		AgateDatabase mParentDatabase;
 		List<string> mUnloadedTables = new List<string>();
 
-		internal TableDictionary(AgateDatabase parentDatabase)
+		internal AgateTableDictionary(AgateDatabase parentDatabase)
 		{
 			mParentDatabase = parentDatabase;
 		}
@@ -39,7 +39,7 @@ namespace AgateLib.Data
 		internal IFileProvider FileProvider { get; set; }
 		internal bool OwnFileProvider { get; set; }
 
-		public Table this[string name]
+		public AgateTable this[string name]
 		{
 			get
 			{
@@ -67,7 +67,7 @@ namespace AgateLib.Data
 				return result;
 			}
 		}
-		public Table this[int index]
+		public AgateTable this[int index]
 		{
 			get { return mTables[index]; }
 		}
@@ -78,7 +78,7 @@ namespace AgateLib.Data
 
 			using (Stream r = FileProvider.OpenRead(filename))
 			{
-				Table tbl = Table.FromStream(r);
+				AgateTable tbl = AgateTable.FromStream(r);
 
 				mTables.Add(tbl);
 			}
@@ -96,7 +96,7 @@ namespace AgateLib.Data
 		}
 
 
-		public void Add(Table tbl)
+		public void Add(AgateTable tbl)
 		{
 			if (tbl == null)
 				throw new ArgumentNullException("tbl", "Passed table cannot be null.");
@@ -133,7 +133,7 @@ namespace AgateLib.Data
 
 		#region IEnumerable<Table> Members
 
-		public IEnumerator<Table> GetEnumerator()
+		public IEnumerator<AgateTable> GetEnumerator()
 		{
 			LoadAllTables();
 

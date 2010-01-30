@@ -7,25 +7,25 @@ using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Data
 {
-	public class Table : IXleSerializable 
+	public class AgateTable : IXleSerializable 
 	{
 		string mName;
-		RowList mRows;
-		ColumnDictionary mColumns;
+		AgateRowList mRows;
+		AgateColumnDictionary mColumns;
 
 		#region --- Construction and Serialization ---
 
-		public Table()
+		public AgateTable()
 		{
-			mColumns = new ColumnDictionary(this);
-			mRows = new RowList(this);
+			mColumns = new AgateColumnDictionary(this);
+			mRows = new AgateRowList(this);
 		}
 
-		internal static Table FromStream(Stream stream)
+		internal static AgateTable FromStream(Stream stream)
 		{
-			XleSerializer ser = new XleSerializer(typeof(Table));
+			XleSerializer ser = new XleSerializer(typeof(AgateTable));
 
-			return (Table)ser.Deserialize(stream);
+			return (AgateTable)ser.Deserialize(stream);
 		}
 
 		void IXleSerializable.WriteData(XleSerializationInfo info)
@@ -44,8 +44,8 @@ namespace AgateLib.Data
 
 			if (version == "0.4.0")
 			{
-				mColumns = new ColumnDictionary(this, info.ReadList<Column>("Columns"));
-				mRows = new RowList(this, ReadRows(info.ReadString("Rows")));
+				mColumns = new AgateColumnDictionary(this, info.ReadList<AgateColumn>("Columns"));
+				mRows = new AgateRowList(this, ReadRows(info.ReadString("Rows")));
 			}
 			else
 				throw new AgateDatabaseException("Unsupported database version.");
@@ -62,17 +62,17 @@ namespace AgateLib.Data
 
 		static readonly char[] lineSplitChars = new char[] { '\n', '\r' };
 
-		private List<Row> ReadRows(string rows)
+		private List<AgateRow> ReadRows(string rows)
 		{
-			List<Row> retval = new List<Row>();
+			List<AgateRow> retval = new List<AgateRow>();
 
 			string[] lines = rows.Split(lineSplitChars, StringSplitOptions.RemoveEmptyEntries);
 
 			foreach (string line in lines)
 			{
-				string[] data = DataHelper.Split(line);
+				string[] data = AgateDataHelper.Split(line);
 
-				Row row = new Row(this);
+				AgateRow row = new AgateRow(this);
 
 				int i = 0;
 				foreach (var column in Columns)
@@ -110,19 +110,19 @@ namespace AgateLib.Data
 
 		public static bool IsValidTableName(string value)
 		{
-			return DataHelper.IsValidIdentifier(value);
+			return AgateDataHelper.IsValidIdentifier(value);
 		}
 
-		public ColumnDictionary Columns
+		public AgateColumnDictionary Columns
 		{
 			get { return mColumns; }
 		}
-		public RowList Rows
+		public AgateRowList Rows
 		{
 			get { return mRows; }
 		}
 
-		public void AddColumn(Column col)
+		public void AddColumn(AgateColumn col)
 		{
 			mColumns.Add(col);
 
@@ -158,15 +158,15 @@ namespace AgateLib.Data
 		}
 
 
-		private static void ReadRows(Table table, StreamReader r)
+		private static void ReadRows(AgateTable table, StreamReader r)
 		{
 			while (r.EndOfStream == false)
 			{
 				string line = r.ReadLine();
 
-				string[] data = DataHelper.Split(line);
+				string[] data = AgateDataHelper.Split(line);
 
-				Row row = new Row(table);
+				AgateRow row = new AgateRow(table);
 
 				int i = 0;
 				foreach (var column in table.Columns)
@@ -184,9 +184,9 @@ namespace AgateLib.Data
 			throw new NotImplementedException();
 		}
 
-		public void OverwriteColumn(int index, Column newColumn)
+		public void OverwriteColumn(int index, AgateColumn newColumn)
 		{
-			Column old = Columns[index];
+			AgateColumn old = Columns[index];
 
 			Columns[index] = newColumn;
 

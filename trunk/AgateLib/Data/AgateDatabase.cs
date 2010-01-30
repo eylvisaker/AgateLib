@@ -22,11 +22,11 @@ namespace AgateLib.Data
 	/// </remarks>
 	public class AgateDatabase : IDisposable , IXleSerializable 
 	{
-		private TableDictionary mTables;
+		private AgateTableDictionary mTables;
 
 		public AgateDatabase()
 		{
-			mTables = new TableDictionary(this);
+			mTables = new AgateTableDictionary(this);
 		}
 		public static AgateDatabase FromFile(string filename)
 		{
@@ -113,7 +113,7 @@ namespace AgateLib.Data
 		/// <summary>
 		/// Gets the dictionary of tables in the database.
 		/// </summary>
-		public TableDictionary Tables
+		public AgateTableDictionary Tables
 		{
 			get { return mTables; }
 		}

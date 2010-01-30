@@ -5,12 +5,12 @@ using System.Text;
 
 namespace AgateLib.Data
 {
-	public class Row
+	public class AgateRow
 	{
 		Dictionary<string, string> values = new Dictionary<string, string>();
-		Table parentTable;
+		AgateTable parentTable;
 
-		public Row(Table parentTable)
+		public AgateRow(AgateTable parentTable)
 		{
 			this.parentTable = parentTable;
 
@@ -20,16 +20,16 @@ namespace AgateLib.Data
 			}
 		}
 
-		public Row Clone()
+		public AgateRow Clone()
 		{
-			Row retval = new Row(parentTable);
+			AgateRow retval = new AgateRow(parentTable);
 
 			foreach (var value in values)
 				retval.values[value.Key] = value.Value;
 
 			return retval;
 		}
-		public Table ParentTable
+		public AgateTable ParentTable
 		{
 			get { return parentTable; }
 			internal set
@@ -48,7 +48,7 @@ namespace AgateLib.Data
 		/// </summary>
 		/// <param name="column"></param>
 		/// <returns></returns>
-		public string this[Column column]
+		public string this[AgateColumn column]
 		{
 			get { return values[column.Name]; }
 			set
@@ -72,7 +72,7 @@ namespace AgateLib.Data
 			}
 		}
 
-		internal void WriteWithoutValidation(Column column, string value)
+		internal void WriteWithoutValidation(AgateColumn column, string value)
 		{
 			values[column.Name] = value;
 		}
@@ -84,7 +84,7 @@ namespace AgateLib.Data
 
 			foreach (var column in parentTable.Columns)
 			{
-				string value = DataHelper.FixString(this[column.Name]);
+				string value = AgateDataHelper.FixString(this[column.Name]);
 				
 				if (count > 0)
 					b.Append(",");
@@ -99,10 +99,10 @@ namespace AgateLib.Data
 
 		private void ValidateTypeOrThrow(string key, string value)
 		{
-			Convert.ChangeType(value, DataHelper.FromFieldType(parentTable.Columns[key].FieldType));
+			Convert.ChangeType(value, AgateDataHelper.FromFieldType(parentTable.Columns[key].FieldType));
 		}
 
-		internal void ValidateData(Table agateTable)
+		internal void ValidateData(AgateTable agateTable)
 		{
 			foreach (var column in agateTable.Columns)
 			{
@@ -131,7 +131,7 @@ namespace AgateLib.Data
 								  where x != null && x[column] == this[column]
 								  select x;
 
-					List<Row> l = matches.ToList();
+					List<AgateRow> l = matches.ToList();
 					l.Remove(this);
 
 					if (l.Count > 0)

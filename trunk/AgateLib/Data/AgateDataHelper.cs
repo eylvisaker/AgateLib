@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace AgateLib.Data
 {
-	static class DataHelper
+	static class AgateDataHelper
 	{
 		public static string FixString(string value)
 		{
