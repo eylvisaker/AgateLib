@@ -62,7 +62,7 @@ namespace AgateDataLib
 					ZipEntry catalog = zip.AddEntry("catalog.txt", ms);
 
 					// now do each table
-					XleSerializer tableSer = new XleSerializer(typeof(Table));
+					XleSerializer tableSer = new XleSerializer(typeof(AgateTable));
 
 					foreach (var table in Database.Tables)
 					{
