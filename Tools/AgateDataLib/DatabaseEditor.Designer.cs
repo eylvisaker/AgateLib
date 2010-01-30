@@ -45,6 +45,7 @@
 			this.tableContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.duplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabContextMenu.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -172,9 +173,10 @@
 			// 
 			this.tableContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.renameToolStripMenuItem,
+            this.duplicateToolStripMenuItem,
             this.deleteToolStripMenuItem});
 			this.tableContextMenu.Name = "tableContextMenu";
-			this.tableContextMenu.Size = new System.Drawing.Size(127, 48);
+			this.tableContextMenu.Size = new System.Drawing.Size(153, 92);
 			// 
 			// renameToolStripMenuItem
 			// 
@@ -186,8 +188,15 @@
 			// deleteToolStripMenuItem
 			// 
 			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.deleteToolStripMenuItem.Text = "Delete";
+			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+			// 
+			// duplicateToolStripMenuItem
+			// 
+			this.duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
+			this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.duplicateToolStripMenuItem.Text = "Duplicate";
 			// 
 			// DatabaseEditor
 			// 
@@ -223,5 +232,6 @@
 		private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
 		private System.Windows.Forms.ContextMenuStrip tabContextMenu;
 		private System.Windows.Forms.ToolStripMenuItem closeTabToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem;
 	}
 }
