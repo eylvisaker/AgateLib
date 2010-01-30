@@ -71,6 +71,14 @@ namespace AgateLib.Data
 			get { return mColumns.Count; }
 		}
 
+		public AgateColumn PrimaryKeyColumn
+		{
+			get
+			{
+				return mColumns.FirstOrDefault(x => x.IsPrimaryKey); 
+			}
+		}
+
 		#region IEnumerable<AgateColumn> Members
 
 		public IEnumerator<AgateColumn> GetEnumerator()
@@ -79,7 +87,6 @@ namespace AgateLib.Data
 		}
 
 		#endregion
-
 		#region IEnumerable Members
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -88,7 +95,5 @@ namespace AgateLib.Data
 		}
 
 		#endregion
-
-
 	}
 }
