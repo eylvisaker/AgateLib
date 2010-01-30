@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AgateLib.Data
 {
-	public class AgateTableDictionary : IEnumerable<AgateTable>, IDisposable 
+	public class AgateTableDictionary : ICollection<AgateTable>, IDisposable 
 	{
 		List<AgateTable> mTables = new List<AgateTable>();
 		AgateDatabase mParentDatabase;
@@ -131,6 +131,8 @@ namespace AgateLib.Data
 			return false;
 		}
 
+
+
 		#region IEnumerable<Table> Members
 
 		public IEnumerator<AgateTable> GetEnumerator()
@@ -151,6 +153,39 @@ namespace AgateLib.Data
 
 		#endregion
 
+		#region ICollection<AgateTable> Members
 
+
+		public void Clear()
+		{
+			mTables.Clear();
+		}
+
+		public bool Contains(AgateTable item)
+		{
+			return mTables.Contains(item);
+		}
+
+		public void CopyTo(AgateTable[] array, int arrayIndex)
+		{
+			mTables.CopyTo(array, arrayIndex);
+		}
+
+		public int Count
+		{
+			get { return mTables.Count; }
+		}
+
+		public bool IsReadOnly
+		{
+			get { return false; }
+		}
+
+		public bool Remove(AgateTable table)
+		{
+			return mTables.Remove(table);
+		}
+
+		#endregion
 	}
 }
