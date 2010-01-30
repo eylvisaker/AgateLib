@@ -1,4 +1,4 @@
-﻿namespace DatabaseEditor
+﻿namespace AgateDatabaseEditor
 {
 	partial class frmImportTable
 	{
@@ -272,7 +272,7 @@
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.Image = global::DatabaseEditor.Properties.Resources.warning;
+			this.pictureBox1.Image = global::AgateDatabaseEditor.Properties.Resources.warning;
 			this.pictureBox1.Location = new System.Drawing.Point(5, 9);
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.Size = new System.Drawing.Size(16, 16);

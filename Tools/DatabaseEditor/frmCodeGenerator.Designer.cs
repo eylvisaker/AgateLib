@@ -1,4 +1,4 @@
-﻿namespace DatabaseEditor
+﻿namespace AgateDatabaseEditor
 {
 	partial class frmCodeGenerator
 	{

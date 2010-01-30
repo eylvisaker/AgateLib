@@ -1,4 +1,4 @@
-﻿namespace DatabaseEditor
+﻿namespace AgateDatabaseEditor
 {
 	partial class frmEditor
 	{
@@ -43,7 +43,7 @@
 			this.generateCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openDatabase = new System.Windows.Forms.OpenFileDialog();
 			this.saveDatabase = new System.Windows.Forms.SaveFileDialog();
-			this.databaseEditor1 = new AgateDataLib.DatabaseEditor();
+			this.databaseEditor1 = new DatabaseEditor();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -192,7 +192,7 @@
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem newDatabaseToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem openDatabaseToolStripMenuItem;
-		private AgateDataLib.DatabaseEditor databaseEditor1;
+		private DatabaseEditor databaseEditor1;
 		private System.Windows.Forms.OpenFileDialog openDatabase;
 		private System.Windows.Forms.ToolStripMenuItem saveDatabaseToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem saveDatabaseAsToolStripMenuItem;

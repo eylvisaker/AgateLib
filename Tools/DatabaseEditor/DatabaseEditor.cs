@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using AgateLib.Data;
 
-namespace AgateDataLib
+namespace AgateDatabaseEditor
 {
 	public partial class DatabaseEditor : UserControl
 	{
