@@ -137,6 +137,10 @@ namespace DatabaseEditor
 				databaseEditor1.Database.CodeNamespace = frm.Namespace;
 
 				GenerateCode(frm.CodeDomProviderType, frm.Directory, frm.Namespace);
+
+				MessageBox.Show("Code generation completed.", 
+					"Code Generation", MessageBoxButtons.OK,
+					MessageBoxIcon.Information);
 			}
 		}
 
