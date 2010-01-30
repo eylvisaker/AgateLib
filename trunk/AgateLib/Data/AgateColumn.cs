@@ -9,59 +9,66 @@ namespace AgateLib.Data
 {
 	public class AgateColumn : IXleSerializable
 	{
-		private string name;
-		private string description;
-		private string tableLookup;
-		private string lookupField;
-		private bool primaryKey;
-		private int nextAutoIncrementValue = 1;
-		private FieldType fieldType;
+		private string mName;
+		private string mDescription;
+		private string mTableLookup;
+		private string mLookupField;
+		private bool mPrimaryKey;
+		private int mNextAutoIncrementValue = 1;
+		private FieldType mFieldType;
+		private int mColumnWidth;
+
+		#region --- Construction and Serialization ---
 
 		public AgateColumn Clone()
 		{
 			AgateColumn retval = new AgateColumn();
 
-			retval.name = name;
-			retval.description = description;
-			retval.tableLookup = tableLookup;
-			retval.lookupField = lookupField;
-			retval.primaryKey = primaryKey;
-			retval.nextAutoIncrementValue = nextAutoIncrementValue;
-			retval.fieldType = fieldType;
+			retval.mName = mName;
+			retval.mDescription = mDescription;
+			retval.mTableLookup = mTableLookup;
+			retval.mLookupField = mLookupField;
+			retval.mPrimaryKey = mPrimaryKey;
+			retval.mNextAutoIncrementValue = mNextAutoIncrementValue;
+			retval.mFieldType = mFieldType;
 
 			return retval;
 		}
 
-		#region IXleSerializable Members
-
 		void IXleSerializable.WriteData(XleSerializationInfo info)
 		{
-			info.Write("Name", name, true);
-			info.WriteEnum("FieldType", fieldType, true);
+			info.Write("Name", mName, true);
+			info.WriteEnum("FieldType", mFieldType, true);
 
-			if (fieldType == FieldType.AutoNumber)
-				info.Write("NextValue", nextAutoIncrementValue, true);
-			if (primaryKey)
-				info.Write("PrimaryKey", primaryKey, true);
+			if (mFieldType == FieldType.AutoNumber)
+				info.Write("NextValue", mNextAutoIncrementValue, true);
+			if (mPrimaryKey)
+				info.Write("PrimaryKey", mPrimaryKey, true);
 
-			info.Write("Description", description);
+			info.Write("Description", mDescription);
 
-			if (string.IsNullOrEmpty(tableLookup) == false)
+			if (string.IsNullOrEmpty(mTableLookup) == false)
 			{
-				info.Write("TableLookup", tableLookup);
-				info.Write("LookupField", lookupField);
+				info.Write("TableLookup", mTableLookup);
+				info.Write("LookupField", mLookupField);
+			}
+
+			if (mColumnWidth > 0)
+			{
+				info.Write("ColumnWidth", mColumnWidth);
 			}
 		}
 
 		void IXleSerializable.ReadData(XleSerializationInfo info)
 		{
-			name = info.ReadString("Name");
-			fieldType = info.ReadEnum<FieldType>("FieldType");
-			nextAutoIncrementValue = info.ReadInt32("NextValue", 1);
-			primaryKey = info.ReadBoolean("PrimaryKey", false);
-			description = info.ReadString("Description");
-			tableLookup = info.ReadString("TableLookup", string.Empty);
-			lookupField = info.ReadString("LookupField", string.Empty);
+			mName = info.ReadString("Name");
+			mFieldType = info.ReadEnum<FieldType>("FieldType");
+			mNextAutoIncrementValue = info.ReadInt32("NextValue", 1);
+			mPrimaryKey = info.ReadBoolean("PrimaryKey", false);
+			mDescription = info.ReadString("Description");
+			mTableLookup = info.ReadString("TableLookup", string.Empty);
+			mLookupField = info.ReadString("LookupField", string.Empty);
+			mColumnWidth = info.ReadInt32("ColumnWidth", 0);
 		}
 
 		#endregion
@@ -69,8 +76,15 @@ namespace AgateLib.Data
 		[Browsable(false)]
 		public int NextAutoIncrementValue
 		{
-			get { return nextAutoIncrementValue; }
+			get { return mNextAutoIncrementValue; }
 		}
+		[Browsable(false)]
+		public int ColumnWidth
+		{
+			get { return mColumnWidth; }
+			set { mColumnWidth = value; }
+		}
+
 
 		public string DefaultValue
 		{
@@ -85,23 +99,22 @@ namespace AgateLib.Data
 
 		internal void IncrementNextAutoIncrementValue()
 		{
-			nextAutoIncrementValue++;
+			mNextAutoIncrementValue++;
 		}
-
 		public string Name
 		{
-			get { return name; }
+			get { return mName; }
 			set
 			{
 				AssertIsValidName(value);
 
-				name = value;
+				mName = value;
 			}
 		}
 		public FieldType FieldType
 		{
-			get { return fieldType; }
-			set { fieldType = value; }
+			get { return mFieldType; }
+			set { mFieldType = value; }
 		}
 		[Browsable(false)]
 		public Type FieldTypeDataType
@@ -113,23 +126,23 @@ namespace AgateLib.Data
 		}
 		public bool IsPrimaryKey
 		{
-			get { return primaryKey; }
-			set { primaryKey = value; }
+			get { return mPrimaryKey; }
+			set { mPrimaryKey = value; }
 		}
 		public string TableLookup
 		{
-			get { return tableLookup; }
-			set { tableLookup = value; }
+			get { return mTableLookup; }
+			set { mTableLookup = value; }
 		}
 		public string TableDisplayField
 		{
-			get { return lookupField; }
-			set { lookupField = value; }
+			get { return mLookupField; }
+			set { mLookupField = value; }
 		}
 		public string Description
 		{
-			get { return description; }
-			set { description = value; }
+			get { return mDescription; }
+			set { mDescription = value; }
 		}
 
 		public override string ToString()
