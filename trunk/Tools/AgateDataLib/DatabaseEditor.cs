@@ -247,6 +247,24 @@ namespace AgateDataLib
 			}
 		}
 
+		private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (lstTables.SelectedItems.Count == 0)
+				return;
+
+			object obj = lstTables.SelectedItems[0].Tag;
+			AgateTable table = obj as AgateTable;
+
+			if (MessageBox.Show(this,
+				"Really delete table " + table.Name + "?" + Environment.NewLine + Environment.NewLine + 
+				"This operation cannot be undone.",
+				"Delete Table?", MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+				MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+			{
+				Database.Tables.Remove(table);
+			}
+		}
+
 	}
 
 	delegate void InvokeDelegate();
