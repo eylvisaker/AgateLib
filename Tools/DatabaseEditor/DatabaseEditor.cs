@@ -13,6 +13,7 @@ namespace AgateDatabaseEditor
 	public partial class DatabaseEditor : UserControl
 	{
 		AgateDatabase mDatabase;
+		bool mDirtyState;
 
 		public DatabaseEditor()
 		{
@@ -90,10 +91,14 @@ namespace AgateDatabaseEditor
 
 		private void lstTables_DoubleClick(object sender, EventArgs e)
 		{
+			openToolStripMenuItem_Click(sender, e);
+		}
+		private void openToolStripMenuItem_Click(object sender, EventArgs e)
+		{
 			if (lstTables.SelectedItems.Count == 0)
 				return;
 
-			object obj = lstTables.SelectedItems[0].Tag ;
+			object obj = lstTables.SelectedItems[0].Tag;
 			AgateTable table = obj as AgateTable;
 			InvokeDelegate method = obj as InvokeDelegate;
 
@@ -109,39 +114,142 @@ namespace AgateDatabaseEditor
 
 		private void OpenTableTab(AgateTable table)
 		{
+			TabPage page = GetTableTabPage(table);
+
+			if (page == null)
+			{
+				TableEditor editor = new TableEditor();
+				editor.Database = Database;
+				editor.AgateTable = table;
+				editor.Dock = DockStyle.Fill;
+				editor.StatusText += new EventHandler<StatusTextEventArgs>(editor_StatusText);
+				editor.SetDirtyFlag += new EventHandler(editor_SetDirtyFlag);
+
+				page = new TabPage(table.Name);
+				page.Controls.Add(editor);
+
+				tabs.TabPages.Add(page);
+			}
+
+			tabs.SelectedTab = page;
+		}
+
+		void editor_SetDirtyFlag(object sender, EventArgs e)
+		{
+			DirtyState = true;
+		}
+		void editor_StatusText(object sender, StatusTextEventArgs e)
+		{
+			OnStatusText(e);
+		}
+
+		/// <summary>
+		/// Returns null if the tab page is not open.
+		/// </summary>
+		/// <param name="table"></param>
+		/// <returns></returns>
+		private TabPage GetTableTabPage(AgateTable table)
+		{
+			TabPage page = null;
+
 			foreach (TabPage tab in tabs.TabPages)
 			{
 				Control ctrl = tab.Controls[0];
-				
+
 				if (ctrl is TableEditor)
 				{
 					TableEditor tb = (TableEditor)ctrl;
 
 					if (tb.AgateTable == table)
 					{
-						tabs.SelectedTab = tab;
-						return;
+						page = tab;
+						break;
 					}
 				}
 			}
-
-			TabPage page = new TabPage(table.Name);
-			
-			TableEditor editor = new TableEditor();
-			editor.Database = Database;
-			editor.AgateTable = table;
-			editor.Dock = DockStyle.Fill;
-
-			page.Controls.Add(editor);
-
-			tabs.TabPages.Add(page);
-
-			tabs.SelectedTab = page;
+			return page;
 		}
+
+		public bool DirtyState
+		{
+			get { return mDirtyState; }
+			set
+			{
+				if (value == mDirtyState)
+					return;
+
+				mDirtyState = value;
+				OnDirtyStateChanged();
+			}
+		}
+
+		private void OnDirtyStateChanged()
+		{
+			if (DirtyStateChanged != null)
+				DirtyStateChanged(this, EventArgs.Empty);
+		}
+
+		public event EventHandler DirtyStateChanged;
+
+		private void OnStatusText(StatusTextIcon icon, string text)
+		{
+			OnStatusText(new StatusTextEventArgs(icon, text));
+		}
+		private void OnStatusText(StatusTextEventArgs e)
+		{
+			if (StatusText != null)
+				StatusText(this, e);
+		}
+
+		public event EventHandler<StatusTextEventArgs> StatusText;
+
 
 		private void NewTable()
 		{
-			MessageBox.Show("Creating new table");
+			AgateTable tbl = new AgateTable();
+			tbl.Name = "Table";
+
+			IncrementTableName(tbl);
+
+			Database.Tables.Add(tbl);
+
+			frmDesignTable.EditColumns(Database, tbl);
+			OpenTableTab(tbl);
+
+			DatabaseRefresh();
+
+			DirtyState = true;
+		}
+
+		private void editColumnsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AgateTable tbl = null;
+
+			if (lstTables.SelectedItems.Count == 0)
+				return;
+			else if (lstTables.SelectedItems.Count == 1)
+			{
+				tbl = lstTables.SelectedItems[0].Tag as AgateTable;
+			}
+
+			if (tbl == null)
+				return;
+
+			frmDesignTable.EditColumns(Database, tbl);
+
+			TabPage tab = GetTableTabPage(tbl);
+
+			if (tab == null)
+				return;
+
+			TableEditor ed = tab.Controls[0] as TableEditor;
+
+			if (ed == null)
+				return;
+
+			ed.TableRefresh();
+
+			DirtyState = true;
 		}
 
 		private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
@@ -156,6 +264,7 @@ namespace AgateDatabaseEditor
 			tabs.TabPages.Remove(tabs.SelectedTab);
 		}
 
+
 		private void largeIconsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			lstTables.View = View.LargeIcon;
@@ -164,7 +273,6 @@ namespace AgateDatabaseEditor
 			largeIconsToolStripMenuItem.Checked = true;
 			listToolStripMenuItem.Checked = false;
 		}
-
 		private void smallIconsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			lstTables.View = View.SmallIcon;
@@ -187,7 +295,6 @@ namespace AgateDatabaseEditor
 		{
 			
 		}
-
 		private void lstTables_MouseUp(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)
@@ -228,12 +335,22 @@ namespace AgateDatabaseEditor
 			object obj = lstTables.SelectedItems[0].Tag;
 			AgateTable table = obj as AgateTable;
 
+			if (table == null)
+				return;
+
+			TabPage page = GetTableTabPage(table);
+
 			if (Database.Tables.ContainsTable(e.Label))
 			{
 				e.CancelEdit = true;
 			}
 			else
+			{
 				table.Name = e.Label;
+				page.Text = table.Name;
+			}
+
+			DirtyState = true;
 		}
 
 		private void lstTables_KeyDown(object sender, KeyEventArgs e)
@@ -268,6 +385,8 @@ namespace AgateDatabaseEditor
 				Database.Tables.Remove(table);
 				DatabaseRefresh();
 			}
+
+			DirtyState = true;
 		}
 
 		private void duplicateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -289,6 +408,8 @@ namespace AgateDatabaseEditor
 
 			Database.Tables.Add(newTable);
 			DatabaseRefresh();
+
+			DirtyState = true;
 		}
 
 		private static void IncrementTableName(AgateTable table)
@@ -315,6 +436,7 @@ namespace AgateDatabaseEditor
 			}
 
 		}
+
 
 	}
 

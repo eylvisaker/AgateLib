@@ -13,10 +13,15 @@ namespace AgateDatabaseEditor
 	public partial class frmEditor : Form
 	{
 		string filename;
+		string title;
 
 		public frmEditor()
 		{
 			InitializeComponent();
+
+			statusLabel.Text = "";
+
+			title = Text;
 		}
 
 		private void openDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -30,6 +35,8 @@ namespace AgateDatabaseEditor
 			databaseEditor1.Database = AgateLib.Data.AgateDatabase.FromFile(openDatabase.FileName);
 
 			filename = openDatabase.FileName;
+
+			Text = System.IO.Path.GetFileName(filename) + " - " + title;
 		}
 
 		private void newDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -39,6 +46,8 @@ namespace AgateDatabaseEditor
 
 			databaseEditor1.Visible = true;
 			databaseEditor1.Database = new AgateLib.Data.AgateDatabase();
+
+			Text = "New Database - " + title;
 		}
 
 		/// <summary>
@@ -49,6 +58,8 @@ namespace AgateDatabaseEditor
 		private bool CheckSave()
 		{
 			if (databaseEditor1.Database == null)
+				return true;
+			if (databaseEditor1.DirtyState == false)
 				return true;
 
 			string name = System.IO.Path.GetFileName(filename);
@@ -120,7 +131,6 @@ namespace AgateDatabaseEditor
 			Save();
 		}
 
-
 		private void saveDatabaseAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			SaveAs();
@@ -143,6 +153,8 @@ namespace AgateDatabaseEditor
 					"Code Generation", MessageBoxButtons.OK,
 					MessageBoxIcon.Information);
 			}
+
+			databaseEditor1.DirtyState = true;
 		}
 
 		private void GenerateCode(Type type, string directory, string theNamespace)
@@ -177,6 +189,51 @@ namespace AgateDatabaseEditor
 		private void quitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Close();
+		}
+
+		private void databaseEditor1_StatusText(object sender, StatusTextEventArgs e)
+		{
+			switch (e.StatusTextIcon)
+			{
+				case StatusTextIcon.Information:
+					statusLabel.Image = Properties.Resources.infoBubble;
+					break;
+
+				case StatusTextIcon.Warning:
+					statusLabel.Image = Properties.Resources.warning;
+					break;
+
+				case StatusTextIcon.Error:
+					statusLabel.Image = Properties.Resources.Error;
+					break;
+			}
+
+			statusLabel.Text = e.Text;
+		}
+
+		private void frmEditor_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (CheckSave() == false)
+				e.Cancel = true;
+
+		}
+
+		private void databaseEditor1_DirtyStateChanged(object sender, EventArgs e)
+		{
+			if (databaseEditor1.DirtyState)
+			{
+				if (this.Text.StartsWith("* ") == false)
+				{
+					this.Text = "* " + this.Text;
+				}
+			}
+			else
+			{
+				if (this.Text.StartsWith("* ") == true)
+				{
+					this.Text = this.Text.Substring(2);
+				}
+			}
 		}
 	}
 }

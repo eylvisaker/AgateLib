@@ -53,6 +53,7 @@
 			this.gridView.RowValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridView_RowValidated);
 			this.gridView.RowDirtyStateNeeded += new System.Windows.Forms.QuestionEventHandler(this.gridView_RowDirtyStateNeeded);
 			this.gridView.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridView_CellValuePushed);
+			this.gridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gridView_DataError);
 			this.gridView.NewRowNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.gridView_NewRowNeeded);
 			this.gridView.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.gridView_ColumnWidthChanged);
 			this.gridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridView_CellContentClick);
