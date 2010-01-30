@@ -36,14 +36,14 @@
 			this.saveDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveDatabaseAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.generateCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openDatabase = new System.Windows.Forms.OpenFileDialog();
 			this.saveDatabase = new System.Windows.Forms.SaveFileDialog();
-			this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.databaseEditor1 = new AgateDataLib.DatabaseEditor();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -112,6 +112,13 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(168, 6);
 			// 
+			// quitToolStripMenuItem
+			// 
+			this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+			this.quitToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.quitToolStripMenuItem.Text = "Quit";
+			this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+			// 
 			// toolsToolStripMenuItem
 			// 
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -121,6 +128,18 @@
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
 			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
 			this.toolsToolStripMenuItem.Text = "Tools";
+			// 
+			// importDataToolStripMenuItem
+			// 
+			this.importDataToolStripMenuItem.Name = "importDataToolStripMenuItem";
+			this.importDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.importDataToolStripMenuItem.Text = "Import Data...";
+			this.importDataToolStripMenuItem.Click += new System.EventHandler(this.importDataToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// generateCodeToolStripMenuItem
 			// 
@@ -136,21 +155,7 @@
 			// saveDatabase
 			// 
 			this.saveDatabase.DefaultExt = "adb";
-			this.saveDatabase.Filter = "*.adb|Agate Database|*.*|All files";
-			// 
-			// importDataToolStripMenuItem
-			// 
-			this.importDataToolStripMenuItem.Name = "importDataToolStripMenuItem";
-			this.importDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.importDataToolStripMenuItem.Text = "Import Data...";
-			this.importDataToolStripMenuItem.Click += new System.EventHandler(this.importDataToolStripMenuItem_Click);
-			// 
-			// quitToolStripMenuItem
-			// 
-			this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-			this.quitToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-			this.quitToolStripMenuItem.Text = "Quit";
-			this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+			this.saveDatabase.Filter = "Agate Database (*.adb)|*.adb|All files|*.*";
 			// 
 			// databaseEditor1
 			// 
@@ -161,11 +166,6 @@
 			this.databaseEditor1.Size = new System.Drawing.Size(632, 505);
 			this.databaseEditor1.TabIndex = 3;
 			this.databaseEditor1.Visible = false;
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// frmEditor
 			// 
