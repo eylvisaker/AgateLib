@@ -6,28 +6,28 @@ using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Data
 {
-	public class ColumnDictionary : IEnumerable<Column>
+	public class AgateColumnDictionary : IEnumerable<AgateColumn>
 	{
-		Table mParentTable;
-		List<Column> mColumns = new List<Column>();
+		AgateTable mParentTable;
+		List<AgateColumn> mColumns = new List<AgateColumn>();
 
-		private ColumnDictionary() { }
-		internal ColumnDictionary(Table parentTable)
+		private AgateColumnDictionary() { }
+		internal AgateColumnDictionary(AgateTable parentTable)
 		{
 			mParentTable = parentTable;
 		}
-		internal ColumnDictionary(Table parentTable, List<Column> columns)
+		internal AgateColumnDictionary(AgateTable parentTable, List<AgateColumn> columns)
 		{
 			mParentTable = parentTable;
 			mColumns = columns;
 		}
-		internal Table ParentTable
+		internal AgateTable ParentTable
 		{
 			get { return mParentTable; }
 			set { mParentTable = value; }
 		}
 
-		public Column this[string name]
+		public AgateColumn this[string name]
 		{
 			get
 			{
@@ -39,7 +39,7 @@ namespace AgateLib.Data
 				return result;
 			}
 		}
-		public Column this[int index]
+		public AgateColumn this[int index]
 		{
 			get { return mColumns[index]; }
 			internal set
@@ -48,7 +48,7 @@ namespace AgateLib.Data
 			}
 		}
 
-		internal void Add(Column col)
+		internal void Add(AgateColumn col)
 		{
 			if (mColumns.Any(x => x.Name == col.Name))
 				throw new ArgumentException("Column " + col.Name + " already exists.");
@@ -61,7 +61,7 @@ namespace AgateLib.Data
 			return "Columns: " + mColumns.Count;
 		}
 
-		internal List<Column> ColumnList
+		internal List<AgateColumn> ColumnList
 		{
 			get { return mColumns; }
 		}
@@ -73,7 +73,7 @@ namespace AgateLib.Data
 
 		#region IEnumerable<AgateColumn> Members
 
-		public IEnumerator<Column> GetEnumerator()
+		public IEnumerator<AgateColumn> GetEnumerator()
 		{
 			return mColumns.GetEnumerator();
 		}

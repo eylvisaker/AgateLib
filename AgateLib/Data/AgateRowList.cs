@@ -6,30 +6,30 @@ using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Data
 {
-	public class RowList : IList<Row> 
+	public class AgateRowList : IList<AgateRow> 
 	{
-		Table mParentTable;
-		List<Row> mRows = new List<Row>();
+		AgateTable mParentTable;
+		List<AgateRow> mRows = new List<AgateRow>();
 
-		private RowList() { }
-		internal RowList(Table parentTable)
+		private AgateRowList() { }
+		internal AgateRowList(AgateTable parentTable)
 		{
 			mParentTable = parentTable;
 		}
-		internal RowList(Table parentTable, List<Row> rows)
+		internal AgateRowList(AgateTable parentTable, List<AgateRow> rows)
 		{
 			mParentTable = parentTable;
 			mRows = rows;
 		}
 
-		internal Table ParentTable
+		internal AgateTable ParentTable
 		{
 			get { return mParentTable; }
 			set { mParentTable = value; }
 		}
 
 
-		public void ForEach(Action<Row> action)
+		public void ForEach(Action<AgateRow> action)
 		{
 			mRows.ForEach(action);
 		}
@@ -41,12 +41,12 @@ namespace AgateLib.Data
 
 		#region IList<AgateRow> Members
 
-		public int IndexOf(Row item)
+		public int IndexOf(AgateRow item)
 		{
 			return mRows.IndexOf(item);
 		}
 
-		public void Insert(int index, Row item)
+		public void Insert(int index, AgateRow item)
 		{
 			item.ValidateData(mParentTable);
 			item.ParentTable = mParentTable;
@@ -60,7 +60,7 @@ namespace AgateLib.Data
 			mRows.RemoveAt(index);
 		}
 
-		public Row this[int index]
+		public AgateRow this[int index]
 		{
 			get
 			{
@@ -68,7 +68,7 @@ namespace AgateLib.Data
 			}
 			set
 			{
-				Row old = mRows[index];
+				AgateRow old = mRows[index];
 
 				try
 				{
@@ -90,7 +90,7 @@ namespace AgateLib.Data
 
 		#region ICollection<AgateRow> Members
 
-		public void Add(Row row)
+		public void Add(AgateRow row)
 		{
 			row.ParentTable.Rows.Remove(row);
 			row.ParentTable = mParentTable;
@@ -103,12 +103,12 @@ namespace AgateLib.Data
 			mRows.Clear();
 		}
 
-		public bool Contains(Row item)
+		public bool Contains(AgateRow item)
 		{
 			return mRows.Contains(item);
 		}
 
-		public void CopyTo(Row[] array, int arrayIndex)
+		public void CopyTo(AgateRow[] array, int arrayIndex)
 		{
 			mRows.CopyTo(array, arrayIndex);
 		}
@@ -123,7 +123,7 @@ namespace AgateLib.Data
 			get { return false; }
 		}
 
-		public bool Remove(Row item)
+		public bool Remove(AgateRow item)
 		{
 			return mRows.Remove(item);
 		}
@@ -132,7 +132,7 @@ namespace AgateLib.Data
 
 		#region IEnumerable<AgateRow> Members
 
-		public IEnumerator<Row> GetEnumerator()
+		public IEnumerator<AgateRow> GetEnumerator()
 		{
 			return mRows.GetEnumerator();
 		}

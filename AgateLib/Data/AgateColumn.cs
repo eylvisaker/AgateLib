@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace AgateLib.Data
 {
-	public class Column : IXleSerializable
+	public class AgateColumn : IXleSerializable
 	{
 		private string name;
 		private string description;
@@ -17,9 +17,9 @@ namespace AgateLib.Data
 		private int nextAutoIncrementValue = 1;
 		private FieldType fieldType;
 
-		public Column Clone()
+		public AgateColumn Clone()
 		{
-			Column retval = new Column();
+			AgateColumn retval = new AgateColumn();
 
 			retval.name = name;
 			retval.description = description;
@@ -108,7 +108,7 @@ namespace AgateLib.Data
 		{
 			get
 			{
-				return DataHelper.FromFieldType(FieldType);
+				return AgateDataHelper.FromFieldType(FieldType);
 			}
 		}
 		public bool IsPrimaryKey
@@ -148,7 +148,7 @@ namespace AgateLib.Data
 
 		public static bool IsValidColumnName(string value)
 		{
-			return DataHelper.IsValidIdentifier(value);
+			return AgateDataHelper.IsValidIdentifier(value);
 		}
 
 
