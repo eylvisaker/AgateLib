@@ -21,11 +21,11 @@ namespace AgateDataLib
 			}
 		}
 
-		Table mTable;
-		Column mColumnInEdit;
+		AgateTable mTable;
+		AgateColumn mColumnInEdit;
 		int mRowInEdit = -1;
 
-		public Table TheTable
+		public AgateTable TheTable
 		{
 			get { return mTable; }
 			set
@@ -36,7 +36,7 @@ namespace AgateDataLib
 			}
 		}
 
-		internal static void EditColumns(AgateLib.Data.Table mTable)
+		internal static void EditColumns(AgateLib.Data.AgateTable mTable)
 		{
 			frmDesignTable d = new frmDesignTable();
 
@@ -49,7 +49,7 @@ namespace AgateDataLib
 		{
 			if (e.RowIndex == gridColumns.RowCount - 1) return;
 
-			Column col = null;
+			AgateColumn col = null;
 
 			if (e.RowIndex == mRowInEdit)
 				col = mColumnInEdit;
@@ -72,7 +72,7 @@ namespace AgateDataLib
 
 		private void gridColumns_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
-			Column col = null;
+			AgateColumn col = null;
 
 			if (e.RowIndex < mTable.Columns.Count)
 			{
@@ -104,7 +104,7 @@ namespace AgateDataLib
 
 		private void gridColumns_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
 		{
-			this.mColumnInEdit = new Column();
+			this.mColumnInEdit = new AgateColumn();
 			this.mRowInEdit = gridColumns.Rows.Count - 1;
 		}
 
@@ -147,7 +147,7 @@ namespace AgateDataLib
 			{
 				// If the user has canceled the edit of a newly created row, 
 				// replace the corresponding Column object with a new, empty one.
-				mColumnInEdit = new Column();
+				mColumnInEdit = new AgateColumn();
 			}
 			else
 			{

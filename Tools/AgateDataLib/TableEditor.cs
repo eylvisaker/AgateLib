@@ -12,9 +12,9 @@ namespace AgateDataLib
 	public partial class TableEditor : UserControl
 	{
 		AgateDatabase mDatabase;
-		Table mTable;
+		AgateTable mTable;
 
-		Row mEditingRow;
+		AgateRow mEditingRow;
 		int mEditingRowIndex = -1;
 
 		public TableEditor()
@@ -29,7 +29,7 @@ namespace AgateDataLib
 				AgateTable = null;
 			}
 		}
-		public Table AgateTable
+		public AgateTable AgateTable
 		{
 			get { return mTable; }
 			set
@@ -88,7 +88,7 @@ namespace AgateDataLib
 			gridView.RowCount = mTable.Rows.Count + 1;
 		}
 
-		Column GetColumn(int columnIndex)
+		AgateColumn GetColumn(int columnIndex)
 		{
 			return mTable.Columns[columnIndex];
 		}
@@ -102,7 +102,7 @@ namespace AgateDataLib
 			if (e.RowIndex == gridView.RowCount - 1)
 				return;
 
-			Row row = null;
+			AgateRow row = null;
 
 			if (e.RowIndex == mEditingRowIndex)
 				row = mEditingRow;
@@ -113,7 +113,7 @@ namespace AgateDataLib
 		}
 		private void gridView_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
-			Row row = null;
+			AgateRow row = null;
 
 			// Store the reference to the row being edited.
 			if (e.RowIndex < mTable.Rows.Count)
@@ -144,7 +144,7 @@ namespace AgateDataLib
 		}
 		private void gridView_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
 		{
-			mEditingRow = new Row(mTable);
+			mEditingRow = new AgateRow(mTable);
 			mEditingRowIndex = gridView.Rows.Count - 1;
 		}
 		private void gridView_RowValidated(object sender, DataGridViewCellEventArgs e)
@@ -179,7 +179,7 @@ namespace AgateDataLib
 			{
 				// If the user has canceled the edit of a newly created row, 
 				// replace the corresponding Customer object with a new, empty one.
-				this.mEditingRow = new Row(mTable);
+				this.mEditingRow = new AgateRow(mTable);
 			}
 			else
 			{

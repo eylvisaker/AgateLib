@@ -84,7 +84,7 @@ namespace AgateDataLib
 				return;
 
 			object obj = lstTables.SelectedItems[0].Tag ;
-			Table table = obj as Table;
+			AgateTable table = obj as AgateTable;
 			InvokeDelegate method = obj as InvokeDelegate;
 
 			if (table != null)
@@ -97,7 +97,7 @@ namespace AgateDataLib
 			}
 		}
 
-		private void OpenTableTab(Table table)
+		private void OpenTableTab(AgateTable table)
 		{
 			foreach (TabPage tab in tabs.TabPages)
 			{
@@ -186,7 +186,7 @@ namespace AgateDataLib
 					menu = lvContextMenu;
 				else if (lstTables.SelectedItems.Count == 1)
 				{
-					if (lstTables.SelectedItems[0].Tag is Table)
+					if (lstTables.SelectedItems[0].Tag is AgateTable)
 					{
 						menu = tableContextMenu;
 					}
@@ -214,7 +214,7 @@ namespace AgateDataLib
 		private void lstTables_AfterLabelEdit(object sender, LabelEditEventArgs e)
 		{
 			object obj = lstTables.SelectedItems[0].Tag;
-			Table table = obj as Table;
+			AgateTable table = obj as AgateTable;
 
 			if (Database.Tables.ContainsTable(e.Label))
 			{
