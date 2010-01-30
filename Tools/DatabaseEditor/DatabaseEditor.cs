@@ -265,6 +265,18 @@ namespace AgateDatabaseEditor
 			}
 		}
 
+		private void duplicateToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (lstTables.SelectedItems.Count == 0)
+				return;
+
+			object obj = lstTables.SelectedItems[0].Tag;
+			AgateTable table = obj as AgateTable;
+
+			AgateTable newTable = table.Clone();
+
+		}
+
 	}
 
 	delegate void InvokeDelegate();

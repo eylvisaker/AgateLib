@@ -21,6 +21,20 @@ namespace AgateLib.Data
 			mRows = new AgateRowList(this);
 		}
 
+
+		public AgateTable Clone()
+		{
+			XleSerializer ser = new XleSerializer(typeof(AgateTable));
+
+			MemoryStream ms = new MemoryStream();
+
+			ser.Serialize(ms, this);
+
+			ms.Position = 0;
+
+			return FromStream(ms);
+		}
+
 		internal static AgateTable FromStream(Stream stream)
 		{
 			XleSerializer ser = new XleSerializer(typeof(AgateTable));
@@ -178,5 +192,6 @@ namespace AgateLib.Data
 			}
 
 		}
+
 	}
 }
