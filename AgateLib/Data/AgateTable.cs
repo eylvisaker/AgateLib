@@ -77,7 +77,14 @@ namespace AgateLib.Data
 				int i = 0;
 				foreach (var column in Columns)
 				{
-					row.WriteWithoutValidation(column, data[i]);
+					string val = data[i];
+
+					if (val.StartsWith("\"") && val.EndsWith("\""))
+					{
+						val = val.Substring(1, val.Length - 2);
+					}
+
+					row.WriteWithoutValidation(column, val);
 					i++;
 				}
 
@@ -129,55 +136,12 @@ namespace AgateLib.Data
 			mRows.ForEach(x => x.ValidateData(this));
 		}
 
-		public override string ToString()
-		{
-			StringBuilder b = new StringBuilder();
-
-			b.Append("Name:");
-			b.AppendLine(Name);
-
-			foreach (var column in mColumns)
-			{
-				b.AppendLine(column.ToString());
-			}
-
-			b.AppendLine("Rows:");
-
-			foreach (var row in mRows)
-			{
-				b.AppendLine(row.ToString());
-			}
-
-			return b.ToString();
-		}
-
 		internal void Validate()
 		{
 			foreach (var row in mRows)
 				row.ValidateData(this);
 		}
 
-
-		private static void ReadRows(AgateTable table, StreamReader r)
-		{
-			while (r.EndOfStream == false)
-			{
-				string line = r.ReadLine();
-
-				string[] data = AgateDataHelper.Split(line);
-
-				AgateRow row = new AgateRow(table);
-
-				int i = 0;
-				foreach (var column in table.Columns)
-				{
-					row[column] = data[i];
-					i++;
-				}
-
-				table.Rows.Add(row);
-			}
-		}
 
 		public void RemoveColumn(int index)
 		{
