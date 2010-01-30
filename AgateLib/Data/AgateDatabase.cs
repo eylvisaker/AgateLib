@@ -66,10 +66,10 @@ namespace AgateLib.Data
 		void IXleSerializable.WriteData(XleSerializationInfo info)
 		{
 			info.Write("Version", "0.4.0");
+			info.Write("CodeNamespace", CodeNamespace);
 
 			info.Write("Tables", TableList.ToList());
 		}
-
 		void IXleSerializable.ReadData(XleSerializationInfo info)
 		{
 			string version = info.ReadString("Version");
@@ -78,6 +78,8 @@ namespace AgateLib.Data
 			{
 				List<string> tables = info.ReadList<string>("Tables");
 				mTables.AddUnloadedTable(tables);
+
+				CodeNamespace = info.ReadString("CodeNamespace", null);
 			}
 			else
 				throw new AgateDatabaseException("Unsupported database version.");
@@ -85,6 +87,8 @@ namespace AgateLib.Data
 		}
 
 		#endregion
+
+		public string CodeNamespace { get; set; }
 
 		private IEnumerable<string> TableList
 		{
