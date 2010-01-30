@@ -72,6 +72,7 @@ namespace AgateLib.Data
 		}
 
 		#endregion
+		#region --- Properties ---
 
 		[Browsable(false)]
 		public int NextAutoIncrementValue
@@ -85,7 +86,6 @@ namespace AgateLib.Data
 			set { mColumnWidth = value; }
 		}
 
-
 		public string DefaultValue
 		{
 			get
@@ -97,10 +97,6 @@ namespace AgateLib.Data
 			}
 		}
 
-		internal void IncrementNextAutoIncrementValue()
-		{
-			mNextAutoIncrementValue++;
-		}
 		public string Name
 		{
 			get { return mName; }
@@ -145,6 +141,8 @@ namespace AgateLib.Data
 			set { mDescription = value; }
 		}
 
+		#endregion
+
 		public override string ToString()
 		{
 			return "Column: " + Name;
@@ -165,5 +163,9 @@ namespace AgateLib.Data
 		}
 
 
+		internal void IncrementNextAutoIncrementValue()
+		{
+			mNextAutoIncrementValue++;
+		}
 	}
 }
