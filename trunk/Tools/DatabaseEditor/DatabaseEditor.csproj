@@ -148,9 +148,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Warning.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\warning1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
