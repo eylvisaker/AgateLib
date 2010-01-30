@@ -74,6 +74,9 @@ namespace AgateDataLib
 					col.CellTemplate = new DataGridViewTextBoxCell();
 				}
 
+				if (column.ColumnWidth > 10)
+					col.Width = column.ColumnWidth;
+
 				gridView.Columns.Add(col);
 
 				index++;
@@ -208,6 +211,10 @@ namespace AgateDataLib
 		{
 
 		}
+		private void gridView_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+		{
+			mTable.Columns[e.Column.Index].ColumnWidth = e.Column.Width;
+		}
 
 		private void editColumnsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -215,6 +222,7 @@ namespace AgateDataLib
 
 			TableReset();
 		}
+
 
 	}
 }

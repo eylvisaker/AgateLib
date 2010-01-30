@@ -60,7 +60,7 @@
 			this.lstTables.LargeImageList = this.largeImages;
 			this.lstTables.Location = new System.Drawing.Point(0, 0);
 			this.lstTables.Name = "lstTables";
-			this.lstTables.Size = new System.Drawing.Size(133, 538);
+			this.lstTables.Size = new System.Drawing.Size(172, 538);
 			this.lstTables.SmallImageList = this.smallImages;
 			this.lstTables.TabIndex = 6;
 			this.lstTables.UseCompatibleStateImageBehavior = false;
@@ -92,7 +92,7 @@
 			this.tabs.Location = new System.Drawing.Point(0, 0);
 			this.tabs.Name = "tabs";
 			this.tabs.SelectedIndex = 0;
-			this.tabs.Size = new System.Drawing.Size(480, 538);
+			this.tabs.Size = new System.Drawing.Size(441, 538);
 			this.tabs.TabIndex = 7;
 			this.tabs.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tabs_MouseUp);
 			// 
@@ -125,7 +125,7 @@
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.tabs);
 			this.splitContainer1.Size = new System.Drawing.Size(617, 538);
-			this.splitContainer1.SplitterDistance = 133;
+			this.splitContainer1.SplitterDistance = 172;
 			this.splitContainer1.TabIndex = 8;
 			// 
 			// lvContextMenu

@@ -36,6 +36,7 @@ namespace AgateDataLib
 		public void DatabaseRefresh()
 		{
 			lstTables.Clear();
+			lstTables.Groups.Clear();
 
 			if (Database == null)
 			{
@@ -44,18 +45,27 @@ namespace AgateDataLib
 				return;
 			}
 
+			ListViewGroup taskGroup = new ListViewGroup("Tasks");
+			ListViewGroup tableGroup = new ListViewGroup("Tables");
+
+			lstTables.Groups.Add(taskGroup);
+			lstTables.Groups.Add(tableGroup);
+
 			ListViewItem newTable = new ListViewItem("New Table");
 			newTable.ImageIndex = 1;
 			newTable.Tag = new InvokeDelegate(NewTable);
+			newTable.Group = taskGroup;
 
 			lstTables.Items.Add(newTable);
 
+			
 			foreach (var table in Database.Tables)
 			{
 				ListViewItem item = new ListViewItem(table.Name);
 				item.ImageIndex = 0;
 				item.Tag = table;
-				
+				item.Group = tableGroup;
+
 				lstTables.Items.Add(item);
 			}
 
@@ -125,6 +135,8 @@ namespace AgateDataLib
 			page.Controls.Add(editor);
 
 			tabs.TabPages.Add(page);
+
+			tabs.SelectedTab = page;
 		}
 
 		private void NewTable()
