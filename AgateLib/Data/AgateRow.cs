@@ -125,7 +125,7 @@ namespace AgateLib.Data
 					values.Add(column.Name, null);
 				}
 
-				if (column.IsPrimaryKey)
+				if (column.PrimaryKey)
 				{
 					var matches = from x in agateTable.Rows
 								  where x != null && x[column] == this[column]
