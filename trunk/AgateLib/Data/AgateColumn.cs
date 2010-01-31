@@ -120,7 +120,7 @@ namespace AgateLib.Data
 				return AgateDataHelper.FromFieldType(FieldType);
 			}
 		}
-		public bool IsPrimaryKey
+		public bool PrimaryKey
 		{
 			get { return mPrimaryKey; }
 			set { mPrimaryKey = value; }
@@ -141,6 +141,29 @@ namespace AgateLib.Data
 			set { mDescription = value; }
 		}
 
+		public bool IsNumeric
+		{
+			get
+			{
+				switch (FieldType)
+				{
+					case FieldType.AutoNumber:
+					case FieldType.Byte:
+					case FieldType.Decimal:
+					case FieldType.Double:
+					case FieldType.Int16:
+					case FieldType.Int32:
+					case FieldType.SByte:
+					case FieldType.Single:
+					case FieldType.UInt16:
+					case FieldType.UInt32:
+						return true;
+
+					default:
+						return false;
+				}
+			}
+		}
 		#endregion
 
 		public override string ToString()

@@ -75,7 +75,7 @@ namespace AgateLib.Data
 		{
 			get
 			{
-				return mColumns.FirstOrDefault(x => x.IsPrimaryKey); 
+				return mColumns.FirstOrDefault(x => x.PrimaryKey); 
 			}
 		}
 

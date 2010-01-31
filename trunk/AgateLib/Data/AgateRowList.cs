@@ -33,6 +33,28 @@ namespace AgateLib.Data
 		{
 			mRows.ForEach(action);
 		}
+		public void SortDescending(AgateColumn col)
+		{
+			if (col.IsNumeric)
+			{
+				mRows.Sort((x, y) => -decimal.Parse(x[col]).CompareTo(decimal.Parse(y[col])));
+			}
+			else
+			{
+				mRows.Sort((x, y) => -x[col].CompareTo(y[col]));
+			}
+		}
+		public void SortAscending(AgateColumn col)
+		{
+			if (col.IsNumeric)
+			{
+				mRows.Sort((x, y) => decimal.Parse(x[col]).CompareTo(decimal.Parse(y[col])));
+			}
+			else
+			{
+				mRows.Sort((x, y) => x[col].CompareTo(y[col]));
+			}
+		}
 
 		public override string ToString()
 		{
