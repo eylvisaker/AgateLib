@@ -7,38 +7,38 @@ namespace AgateLib.Data
 {
 	public class AgateRow
 	{
-		Dictionary<string, string> values = new Dictionary<string, string>();
-		AgateTable parentTable;
+		Dictionary<string, string> mValues = new Dictionary<string, string>();
+		AgateTable mParentTable;
 
 		public AgateRow(AgateTable parentTable)
 		{
-			this.parentTable = parentTable;
+			this.mParentTable = parentTable;
 
 			foreach (var column in parentTable.Columns)
 			{
-				values[column.Name] = null;
+				mValues[column.Name] = null;
 			}
 		}
 
 		public AgateRow Clone()
 		{
-			AgateRow retval = new AgateRow(parentTable);
+			AgateRow retval = new AgateRow(mParentTable);
 
-			foreach (var value in values)
-				retval.values[value.Key] = value.Value;
+			foreach (var value in mValues)
+				retval.mValues[value.Key] = value.Value;
 
 			return retval;
 		}
 		public AgateTable ParentTable
 		{
-			get { return parentTable; }
+			get { return mParentTable; }
 			internal set
 			{
-				parentTable = value;
+				mParentTable = value;
 
-				if (parentTable != null)
+				if (mParentTable != null)
 				{
-					ValidateData(parentTable);
+					ValidateData(mParentTable);
 				}
 			}
 		}
@@ -50,31 +50,40 @@ namespace AgateLib.Data
 		/// <returns></returns>
 		public string this[AgateColumn column]
 		{
-			get { return values[column.Name]; }
+			get { return mValues[column.Name]; }
 			set
 			{
-				ValidateTypeOrThrow(column.Name, value);
-
 				if (column.FieldType == FieldType.AutoNumber)
 					throw new AgateDatabaseException("Cannot write to autonumber field.");
 
-				values[column.Name] = value;
+				string oldValue = mValues[column.Name];
+				mValues[column.Name] = value;
+
+				try
+				{
+					ValidateTypeOrThrow(column);
+				}
+				catch
+				{
+					mValues[column.Name] = oldValue;
+					throw;
+				}
 			}
 		}
 		public string this[string key]
 		{
-			get { return values[key]; }
+			get { return mValues[key]; }
 			set
 			{
-				this[parentTable.Columns[key]] = value;
+				this[mParentTable.Columns[key]] = value;
 				
-				values[key] = value;
+				mValues[key] = value;
 			}
 		}
 
 		internal void WriteWithoutValidation(AgateColumn column, string value)
 		{
-			values[column.Name] = value;
+			mValues[column.Name] = value;
 		}
 
 		public override string ToString()
@@ -82,7 +91,7 @@ namespace AgateLib.Data
 			StringBuilder b = new StringBuilder();
 			int count = 0;
 
-			foreach (var column in parentTable.Columns)
+			foreach (var column in mParentTable.Columns)
 			{
 				string value = AgateDataHelper.FixString(this[column.Name]);
 				
@@ -97,9 +106,31 @@ namespace AgateLib.Data
 			return b.ToString();
 		}
 
-		private void ValidateTypeOrThrow(string key, string value)
+		private void ValidateTypeOrThrow(AgateColumn column)
 		{
-			Convert.ChangeType(value, AgateDataHelper.FromFieldType(parentTable.Columns[key].FieldType));
+			if (mValues.ContainsKey(column.Name) == false ||
+				string.IsNullOrEmpty(this[column]))
+			{
+				switch (column.FieldType)
+				{
+					case FieldType.Int16:
+					case FieldType.Int32:
+					case FieldType.SByte:
+					case FieldType.Single:
+					case FieldType.Decimal:
+					case FieldType.Boolean:
+					case FieldType.Byte:
+					case FieldType.DateTime:
+					case FieldType.Double:
+					case FieldType.UInt16:
+					case FieldType.UInt32:
+					case FieldType.String:
+						mValues[column.Name] = column.DefaultValue;
+						break;
+				}
+			}
+
+			Convert.ChangeType(mValues[column.Name], column.FieldTypeDataType);
 		}
 
 		internal void ValidateData(AgateTable agateTable)
@@ -107,22 +138,22 @@ namespace AgateLib.Data
 			foreach (var column in agateTable.Columns)
 			{
 				if (column.FieldType == FieldType.AutoNumber &&
-					(values.ContainsKey(column.Name) == false ||
-					values[column.Name] == null))
+					(mValues.ContainsKey(column.Name) == false ||
+					mValues[column.Name] == null))
 				{
 					int value = column.NextAutoIncrementValue;
 					column.IncrementNextAutoIncrementValue();
 
-					values[column.Name] = value.ToString();
+					mValues[column.Name] = value.ToString();
 				}
 
-				if (values.ContainsKey(column.Name))
+				if (mValues.ContainsKey(column.Name))
 				{
-					ValidateTypeOrThrow(column.Name, values[column.Name]);
+					ValidateTypeOrThrow(column);
 				}
 				else 
 				{
-					values.Add(column.Name, null);
+					mValues.Add(column.Name, null);
 				}
 
 				if (column.PrimaryKey)
@@ -145,10 +176,14 @@ namespace AgateLib.Data
 
 		internal void OnColumnNameChange(string oldName, string newName)
 		{
-			string value = values[oldName];
-			values[newName] = value;
+			string value = mValues[oldName];
+			mValues[newName] = value;
 
-			values.Remove(oldName);
+			mValues.Remove(oldName);
+		}
+		internal void OnDeleteColumn(string text)
+		{
+			mValues.Remove(text);
 		}
 	}
 }

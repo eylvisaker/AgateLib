@@ -58,7 +58,6 @@ namespace AgateLib.Data
 				info.Write("ColumnWidth", mColumnWidth);
 			}
 		}
-
 		void IXleSerializable.ReadData(XleSerializationInfo info)
 		{
 			mName = info.ReadString("Name");
@@ -85,6 +84,12 @@ namespace AgateLib.Data
 			get { return mColumnWidth; }
 			set { mColumnWidth = value; }
 		}
+		/// <summary>
+		/// Gets or sets the display index of this column.
+		/// When saved, columns are sorted by their display index.
+		/// </summary>
+		[Browsable(false)]
+		public int DisplayIndex { get; set; }
 
 		public string DefaultValue
 		{
@@ -189,6 +194,11 @@ namespace AgateLib.Data
 		internal void IncrementNextAutoIncrementValue()
 		{
 			mNextAutoIncrementValue++;
+		}
+
+		internal void SetNextAutoIncrementValue(int value)
+		{
+			mNextAutoIncrementValue = value;
 		}
 	}
 }

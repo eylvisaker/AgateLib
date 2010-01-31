@@ -31,7 +31,7 @@ namespace AgateLib.Data
 		{
 			get
 			{
-				var result = mColumns.First(x => x.Name == name);
+				var result = mColumns.FirstOrDefault(x => x.Name == name);
 
 				if (result == null)
 					throw new ArgumentException("Column does not exist.");
@@ -50,10 +50,23 @@ namespace AgateLib.Data
 
 		internal void Add(AgateColumn col)
 		{
+			if (col == null)
+				throw new ArgumentNullException("Cannot add a null column.");
+
 			if (mColumns.Any(x => x.Name == col.Name))
 				throw new ArgumentException("Column " + col.Name + " already exists.");
 
 			mColumns.Add(col);
+		}
+
+		internal void Insert(int newIndex, AgateColumn col)
+		{
+			if (col == null)
+				throw new ArgumentNullException("Cannot add a null column.");
+			if (mColumns.Any(x => x.Name == col.Name))
+				throw new ArgumentException("Column " + col.Name + " already exists.");
+
+			mColumns.Insert(newIndex, col);
 		}
 
 		public override string ToString()
@@ -79,6 +92,11 @@ namespace AgateLib.Data
 			}
 		}
 
+		internal void Remove(int index)
+		{
+			mColumns.RemoveAt(index);
+		}
+
 		#region IEnumerable<AgateColumn> Members
 
 		public IEnumerator<AgateColumn> GetEnumerator()
@@ -95,5 +113,12 @@ namespace AgateLib.Data
 		}
 
 		#endregion
+
+
+
+		public void SortByDisplayIndex()
+		{
+			mColumns.Sort((x, y) => x.DisplayIndex.CompareTo(y.DisplayIndex));
+		}
 	}
 }
