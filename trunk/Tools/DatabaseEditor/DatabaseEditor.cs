@@ -42,7 +42,7 @@ namespace AgateDatabaseEditor
 			if (Database == null)
 			{
 				tabs.TabPages.Clear();
-			
+
 				return;
 			}
 
@@ -59,7 +59,7 @@ namespace AgateDatabaseEditor
 
 			lstTables.Items.Add(newTable);
 
-			
+
 			foreach (var table in Database.Tables)
 			{
 				ListViewItem item = new ListViewItem(table.Name);
@@ -79,7 +79,7 @@ namespace AgateDatabaseEditor
 				if (ed == null)
 					continue;
 
-				if (Database.Tables.Contains(ed.AgateTable) == false)
+				if (Database.Tables.Contains(ed.Table) == false)
 				{
 					pagesToRemove.Add(tab);
 				}
@@ -88,6 +88,28 @@ namespace AgateDatabaseEditor
 			foreach (var tab in pagesToRemove)
 				tabs.TabPages.Remove(tab);
 		}
+
+
+		public bool IsTableActive
+		{
+			get
+			{
+				if (tabs.TabPages.Count == 0)
+					return false;
+
+				if (tabs.SelectedTab.Controls[0] is TableEditor)
+					return true;
+
+				return false;
+			}
+		}
+
+		void OnTableActiveStatusChanged()
+		{
+			if (TableActiveStatusChanged != null)
+				TableActiveStatusChanged(this, EventArgs.Empty);
+		}
+		public event EventHandler TableActiveStatusChanged;
 
 		private void lstTables_DoubleClick(object sender, EventArgs e)
 		{
@@ -120,7 +142,7 @@ namespace AgateDatabaseEditor
 			{
 				TableEditor editor = new TableEditor();
 				editor.Database = Database;
-				editor.AgateTable = table;
+				editor.Table = table;
 				editor.Dock = DockStyle.Fill;
 				editor.StatusText += new EventHandler<StatusTextEventArgs>(editor_StatusText);
 				editor.SetDirtyFlag += new EventHandler(editor_SetDirtyFlag);
@@ -132,6 +154,8 @@ namespace AgateDatabaseEditor
 			}
 
 			tabs.SelectedTab = page;
+
+			OnTableActiveStatusChanged();
 		}
 
 		void editor_SetDirtyFlag(object sender, EventArgs e)
@@ -160,7 +184,7 @@ namespace AgateDatabaseEditor
 				{
 					TableEditor tb = (TableEditor)ctrl;
 
-					if (tb.AgateTable == table)
+					if (tb.Table == table)
 					{
 						page = tab;
 						break;
@@ -235,8 +259,7 @@ namespace AgateDatabaseEditor
 			if (tbl == null)
 				return;
 
-			frmDesignTable.EditColumns(Database, tbl);
-
+			
 			TabPage tab = GetTableTabPage(tbl);
 
 			if (tab == null)
@@ -247,7 +270,7 @@ namespace AgateDatabaseEditor
 			if (ed == null)
 				return;
 
-			ed.TableRefresh();
+			ed.EditColumns();
 
 			DirtyState = true;
 		}
@@ -293,7 +316,7 @@ namespace AgateDatabaseEditor
 
 		private void lstTables_MouseDown(object sender, MouseEventArgs e)
 		{
-			
+
 		}
 		private void lstTables_MouseUp(object sender, MouseEventArgs e)
 		{
@@ -377,7 +400,7 @@ namespace AgateDatabaseEditor
 			AgateTable table = obj as AgateTable;
 
 			if (MessageBox.Show(this,
-				"Really delete table " + table.Name + "?" + Environment.NewLine + Environment.NewLine + 
+				"Really delete table " + table.Name + "?" + Environment.NewLine + Environment.NewLine +
 				"This operation cannot be undone.",
 				"Delete Table?", MessageBoxButtons.YesNo, MessageBoxIcon.Question,
 				MessageBoxDefaultButton.Button2) == DialogResult.Yes)
@@ -437,7 +460,47 @@ namespace AgateDatabaseEditor
 
 		}
 
+		TableEditor CurrentTable
+		{
+			get
+			{
+				if (tabs.TabPages.Count == 0)
+					return null;
 
+				return tabs.SelectedTab.Controls[0] as TableEditor;
+			}
+		}
+
+
+		internal void DesignCurrentTable()
+		{
+			if (CurrentTable == null)
+				return;
+
+			CurrentTable.EditColumns();
+			DirtyState = true;
+
+			throw new NotImplementedException();
+		}
+
+		internal void CurrentTableSortAscending()
+		{
+			if (CurrentTable == null)
+				return;
+
+			CurrentTable.SortAscending();
+			DirtyState = true;
+
+		}
+
+		internal void CurrentTableSortDescending()
+		{
+			if (CurrentTable == null)
+				return;
+
+			CurrentTable.SortDescending();
+			DirtyState = true;
+		}
 	}
 
 	delegate void InvokeDelegate();

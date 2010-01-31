@@ -28,10 +28,10 @@ namespace AgateDatabaseEditor
 			set
 			{
 				mDatabase = value;
-				AgateTable = null;
+				Table = null;
 			}
 		}
-		public AgateTable AgateTable
+		public AgateTable Table
 		{
 			get { return mTable; }
 			set
@@ -297,8 +297,54 @@ namespace AgateDatabaseEditor
 			OnSetDirtyFlag();
 		}
 
+		private void TableEditor_Load(object sender, EventArgs e)
+		{
+		}
 
 
+
+
+		public void EditColumns()
+		{
+			frmDesignTable.EditColumns(Database, Table);
+
+			TableRefresh();
+
+			OnSetDirtyFlag();
+		}
+
+		internal void SortAscending()
+		{
+			if (CurrentColumn == null)
+				return;
+
+			Table.Rows.SortAscending(CurrentColumn);
+			gridView.Invalidate();
+
+			OnSetDirtyFlag();
+		}
+
+		internal void SortDescending()
+		{
+			if (CurrentColumn == null)
+				return;
+
+			Table.Rows.SortDescending(CurrentColumn);
+			gridView.Invalidate();
+
+			OnSetDirtyFlag();
+		}
+
+		AgateColumn CurrentColumn
+		{
+			get
+			{
+				if (gridView.CurrentCell.ColumnIndex > -1)
+					return Table.Columns[gridView.CurrentCell.ColumnIndex];
+
+				return null;
+			}
+		}
 	}
 
 	public class StatusTextEventArgs : EventArgs 
