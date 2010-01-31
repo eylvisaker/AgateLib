@@ -479,8 +479,6 @@ namespace AgateDatabaseEditor
 
 			CurrentTable.EditColumns();
 			DirtyState = true;
-
-			throw new NotImplementedException();
 		}
 
 		internal void CurrentTableSortAscending()
