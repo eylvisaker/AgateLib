@@ -205,7 +205,10 @@ namespace AgateDatabaseEditor
 
 			try
 			{
-				row[ColumnName(e.ColumnIndex)] = e.Value.ToString();
+				string value = string.Empty;
+				if (e.Value != null) value = e.Value.ToString();
+
+				row[ColumnName(e.ColumnIndex)] = value;
 			}
 			catch (FormatException)
 			{
