@@ -44,6 +44,8 @@ namespace AgateLib.Data
 
 		void IXleSerializable.WriteData(XleSerializationInfo info)
 		{
+			mColumns.SortByDisplayIndex();
+
 			info.Write("Name", mName);
 			info.Write("Version", "0.4.0");
 			info.Write("Columns", mColumns.ColumnList);
@@ -63,6 +65,9 @@ namespace AgateLib.Data
 			}
 			else
 				throw new AgateDatabaseException("Unsupported database version.");
+
+			for (int i = 0; i < mColumns.Count; i++)
+				mColumns[i].DisplayIndex = i;
 		}
 
 		private string RowString()
@@ -143,23 +148,34 @@ namespace AgateLib.Data
 			get { return mRows; }
 		}
 
-		public void AddColumn(AgateColumn col)
-		{
-			mColumns.Add(col);
-
-			mRows.ForEach(x => x.ValidateData(this));
-		}
-
+		
 		internal void Validate()
 		{
 			foreach (var row in mRows)
 				row.ValidateData(this);
 		}
 
+		public void AddColumn(AgateColumn col)
+		{
+			mColumns.Add(col);
+
+			if (col.FieldType == FieldType.AutoNumber)
+			{
+
+			}
+			mRows.ForEach(x => x.ValidateData(this));
+		}
 
 		public void RemoveColumn(int index)
 		{
-			throw new NotImplementedException();
+			string text = mColumns[index].Name;
+
+			foreach (var row in Rows)
+			{
+				row.OnDeleteColumn(text);
+			}
+
+			mColumns.Remove(index);
 		}
 
 		public void OverwriteColumn(int index, AgateColumn newColumn)
@@ -175,9 +191,17 @@ namespace AgateLib.Data
 
 			if (old.FieldType != newColumn.FieldType)
 			{
+				
 				try
 				{
 					Validate();
+
+					if (newColumn.FieldType == FieldType.AutoNumber)
+					{
+						int max = Rows.Max(x => int.Parse(x[newColumn]));
+
+						newColumn.SetNextAutoIncrementValue(max + 1);
+					}
 				}
 				catch
 				{
@@ -193,5 +217,13 @@ namespace AgateLib.Data
 
 		}
 
+
+		public void MoveColumn(int oldIndex, int newIndex)
+		{
+			AgateColumn col = mColumns[oldIndex];
+
+			mColumns.Remove(oldIndex);
+			mColumns.Insert(newIndex, col);
+		}
 	}
 }

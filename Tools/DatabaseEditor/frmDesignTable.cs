@@ -75,6 +75,8 @@ namespace AgateDatabaseEditor
 
 			if (e.RowIndex == mRowInEdit)
 				col = mColumnInEdit;
+			else if (e.RowIndex >= mTable.Columns.Count)
+				return;
 			else
 				col = mTable.Columns[e.RowIndex];
 
@@ -134,7 +136,8 @@ namespace AgateDatabaseEditor
 		{
 			// Save row changes if any were made and release the edited 
 			// Column object if there is one.
-			if (e.RowIndex >= mTable.Columns.Count &&
+			if (mColumnInEdit != null && 
+				e.RowIndex >= mTable.Columns.Count &&
 				e.RowIndex != gridColumns.Rows.Count - 1)
 			{
 				// Add the new Column object to the data store.

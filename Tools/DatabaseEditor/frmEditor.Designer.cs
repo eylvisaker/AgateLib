@@ -74,7 +74,7 @@
             this.statusLabel});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 0);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(632, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(862, 22);
 			this.statusStrip1.TabIndex = 0;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -92,7 +92,7 @@
             this.toolsToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(632, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(862, 24);
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -240,11 +240,11 @@
 			// toolStripContainer2.ContentPanel
 			// 
 			this.toolStripContainer2.ContentPanel.Controls.Add(this.databaseEditor1);
-			this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(632, 480);
+			this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(862, 583);
 			this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
 			this.toolStripContainer2.Name = "toolStripContainer2";
-			this.toolStripContainer2.Size = new System.Drawing.Size(632, 551);
+			this.toolStripContainer2.Size = new System.Drawing.Size(862, 654);
 			this.toolStripContainer2.TabIndex = 6;
 			this.toolStripContainer2.Text = "toolStripContainer2";
 			// 
@@ -261,7 +261,7 @@
 			this.databaseEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.databaseEditor1.Location = new System.Drawing.Point(0, 0);
 			this.databaseEditor1.Name = "databaseEditor1";
-			this.databaseEditor1.Size = new System.Drawing.Size(632, 480);
+			this.databaseEditor1.Size = new System.Drawing.Size(862, 583);
 			this.databaseEditor1.TabIndex = 3;
 			this.databaseEditor1.Visible = false;
 			this.databaseEditor1.DirtyStateChanged += new System.EventHandler(this.databaseEditor1_DirtyStateChanged);
@@ -280,7 +280,7 @@
             this.btnSortDescending});
 			this.tableToolStrip.Location = new System.Drawing.Point(84, 24);
 			this.tableToolStrip.Name = "tableToolStrip";
-			this.tableToolStrip.Size = new System.Drawing.Size(208, 25);
+			this.tableToolStrip.Size = new System.Drawing.Size(177, 25);
 			this.tableToolStrip.TabIndex = 10;
 			this.tableToolStrip.Text = "toolStrip1";
 			// 
@@ -329,7 +329,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(632, 551);
+			this.ClientSize = new System.Drawing.Size(862, 654);
 			this.Controls.Add(this.toolStripContainer2);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "frmEditor";

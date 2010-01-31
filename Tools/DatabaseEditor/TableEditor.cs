@@ -66,11 +66,14 @@ namespace AgateDatabaseEditor
 				return;
 			}
 
+			mTable.Columns.SortByDisplayIndex();
+
 			int index = 0;
 			foreach (var column in mTable.Columns)
 			{
 				DataGridViewColumn col = new DataGridViewColumn();
 
+				col.Tag = column;
 				col.Name = column.Name;
 				col.ReadOnly = column.FieldType == FieldType.AutoNumber;
 
@@ -161,21 +164,18 @@ namespace AgateDatabaseEditor
 		}
 		private void gridView_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
-			if (e.RowIndex == gridView.RowCount - 1)
-				return;
-			if (e.RowIndex >= mTable.Rows.Count)
-				return;
-
 			AgateRow row = null;
 
 			if (e.RowIndex == mEditingRowIndex)
 				row = mEditingRow;
-			else
+			else if (e.RowIndex >= mTable.Rows.Count)
+				return;
+			else 
 				row = mTable.Rows[e.RowIndex];
 
 			string value = row[ColumnName(e.ColumnIndex)];
 
-			if (mTable.Columns[e.ColumnIndex].FieldType == FieldType.Boolean)
+			if (mTable.Columns[ColumnName(e.ColumnIndex)].FieldType == FieldType.Boolean)
 			{
 				e.Value = bool.Parse(value);
 			}
@@ -347,6 +347,15 @@ namespace AgateDatabaseEditor
 
 				return null;
 			}
+		}
+
+		private void gridView_ColumnDisplayIndexChanged(object sender, DataGridViewColumnEventArgs e)
+		{
+			AgateColumn col = e.Column.Tag as AgateColumn;
+
+			col.DisplayIndex = e.Column.DisplayIndex;
+
+			OnSetDirtyFlag();
 		}
 	}
 

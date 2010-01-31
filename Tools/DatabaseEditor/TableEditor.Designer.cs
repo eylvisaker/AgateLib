@@ -50,6 +50,7 @@
 			this.gridView.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.gridView_UserDeletingRow);
 			this.gridView.CancelRowEdit += new System.Windows.Forms.QuestionEventHandler(this.gridView_CancelRowEdit);
 			this.gridView.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridView_CellValueNeeded);
+			this.gridView.ColumnDisplayIndexChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.gridView_ColumnDisplayIndexChanged);
 			this.gridView.RowValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridView_RowValidated);
 			this.gridView.RowDirtyStateNeeded += new System.Windows.Forms.QuestionEventHandler(this.gridView_RowDirtyStateNeeded);
 			this.gridView.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridView_CellValuePushed);
