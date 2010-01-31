@@ -74,6 +74,13 @@ namespace AgateDatabaseEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap NewDocumentHS {
+            get {
+                object obj = ResourceManager.GetObject("NewDocumentHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap warning {
             get {
                 object obj = ResourceManager.GetObject("warning", resourceCulture);

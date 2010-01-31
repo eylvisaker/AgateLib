@@ -237,7 +237,7 @@ namespace AgateDatabaseEditor
 			else
 			{
 				chkPrimaryKey.Enabled = true;
-				chkPrimaryKey.Checked = colProperties.IsPrimaryKey;
+				chkPrimaryKey.Checked = colProperties.PrimaryKey;
 			}
 		}
 
@@ -296,7 +296,7 @@ namespace AgateDatabaseEditor
 			if (col == null)
 				return;
 
-			col.IsPrimaryKey = chkPrimaryKey.Checked;
+			col.PrimaryKey = chkPrimaryKey.Checked;
 		}
 	}
 }

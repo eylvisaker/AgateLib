@@ -24,7 +24,31 @@ namespace AgateDatabaseEditor
 			title = Text;
 		}
 
-		private void openDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+		#region --- Form Events ---
+
+		private void frmEditor_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (CheckSave() == false)
+				e.Cancel = true;
+
+		}
+
+		#endregion
+
+		#region --- Basic database operations ---
+
+		private void NewDatabase()
+		{
+			if (CheckSave() == false)
+				return;
+
+			databaseEditor1.Visible = true;
+			databaseEditor1.Database = new AgateLib.Data.AgateDatabase();
+
+			Text = "New Database - " + title;
+		}
+		
+		private void OpenDatabase()
 		{
 			if (CheckSave() == false)
 				return;
@@ -39,17 +63,7 @@ namespace AgateDatabaseEditor
 			Text = System.IO.Path.GetFileName(filename) + " - " + title;
 		}
 
-		private void newDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (CheckSave() == false)
-				return;
-
-			databaseEditor1.Visible = true;
-			databaseEditor1.Database = new AgateLib.Data.AgateDatabase();
-
-			Text = "New Database - " + title;
-		}
-
+		
 		/// <summary>
 		/// Asks the user if they want to save before continuing the next operation.
 		/// Returns false if the next operation should be canceled.
@@ -126,16 +140,26 @@ namespace AgateDatabaseEditor
 				return false;
 		}
 
+		#endregion
+		#region --- Toolstrip Menu Items ---
+
+		private void newDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			NewDatabase();
+		}
+		private void openDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			OpenDatabase();
+		}
+
 		private void saveDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Save();
 		}
-
 		private void saveDatabaseAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			SaveAs();
 		}
-
 		private void generateCodeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			frmCodeGenerator frm = new frmCodeGenerator();
@@ -156,6 +180,55 @@ namespace AgateDatabaseEditor
 
 			databaseEditor1.DirtyState = true;
 		}
+		private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			frmImportTable import = new frmImportTable();
+
+			import.Database = databaseEditor1.Database;
+
+			if (import.ShowDialog() == DialogResult.OK)
+			{
+				databaseEditor1.DatabaseRefresh();
+			}
+		}
+		private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
+
+		#endregion
+		#region --- Tool strip button events ---
+
+		private void btnNew_Click(object sender, EventArgs e)
+		{
+			NewDatabase();
+		}
+		private void btnOpen_Click(object sender, EventArgs e)
+		{
+			OpenDatabase();
+		}
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			Save();
+		}
+
+
+		private void btnDesignTable_Click(object sender, EventArgs e)
+		{
+			databaseEditor1.DesignCurrentTable();
+		}
+		private void btnSortAscending_Click(object sender, EventArgs e)
+		{
+			databaseEditor1.CurrentTableSortAscending();
+		}
+		private void btnSortDescending_Click(object sender, EventArgs e)
+		{
+			databaseEditor1.CurrentTableSortDescending();
+		}
+
+		#endregion
+
+		#region --- Code generation ---
 
 		private void GenerateCode(Type type, string directory, string theNamespace)
 		{
@@ -174,23 +247,31 @@ namespace AgateDatabaseEditor
 
 		}
 
-		private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
+		#endregion
+
+		#region --- Database editor events ---
+
+		private void databaseEditor1_TableActiveStatusChanged(object sender, EventArgs e)
 		{
-			frmImportTable import = new frmImportTable();
-
-			import.Database = databaseEditor1.Database;
-
-			if (import.ShowDialog() == DialogResult.OK)
+			tableToolStrip.Enabled = databaseEditor1.IsTableActive;
+		}
+		private void databaseEditor1_DirtyStateChanged(object sender, EventArgs e)
+		{
+			if (databaseEditor1.DirtyState)
 			{
-				databaseEditor1.DatabaseRefresh();
+				if (this.Text.StartsWith("* ") == false)
+				{
+					this.Text = "* " + this.Text;
+				}
+			}
+			else
+			{
+				if (this.Text.StartsWith("* ") == true)
+				{
+					this.Text = this.Text.Substring(2);
+				}
 			}
 		}
-
-		private void quitToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Close();
-		}
-
 		private void databaseEditor1_StatusText(object sender, StatusTextEventArgs e)
 		{
 			switch (e.StatusTextIcon)
@@ -211,29 +292,8 @@ namespace AgateDatabaseEditor
 			statusLabel.Text = e.Text;
 		}
 
-		private void frmEditor_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (CheckSave() == false)
-				e.Cancel = true;
+		#endregion
 
-		}
 
-		private void databaseEditor1_DirtyStateChanged(object sender, EventArgs e)
-		{
-			if (databaseEditor1.DirtyState)
-			{
-				if (this.Text.StartsWith("* ") == false)
-				{
-					this.Text = "* " + this.Text;
-				}
-			}
-			else
-			{
-				if (this.Text.StartsWith("* ") == true)
-				{
-					this.Text = this.Text.Substring(2);
-				}
-			}
-		}
 	}
 }

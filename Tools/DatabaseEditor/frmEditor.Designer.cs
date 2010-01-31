@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditor));
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -44,16 +45,34 @@
 			this.generateCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openDatabase = new System.Windows.Forms.OpenFileDialog();
 			this.saveDatabase = new System.Windows.Forms.SaveFileDialog();
+			this.mainToolStrip = new System.Windows.Forms.ToolStrip();
+			this.btnNew = new System.Windows.Forms.ToolStripButton();
+			this.btnOpen = new System.Windows.Forms.ToolStripButton();
+			this.btnSave = new System.Windows.Forms.ToolStripButton();
+			this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
 			this.databaseEditor1 = new AgateDatabaseEditor.DatabaseEditor();
+			this.tableToolStrip = new System.Windows.Forms.ToolStrip();
+			this.btnDesignTable = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+			this.btnSortAscending = new System.Windows.Forms.ToolStripButton();
+			this.btnSortDescending = new System.Windows.Forms.ToolStripButton();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
+			this.mainToolStrip.SuspendLayout();
+			this.toolStripContainer2.BottomToolStripPanel.SuspendLayout();
+			this.toolStripContainer2.ContentPanel.SuspendLayout();
+			this.toolStripContainer2.TopToolStripPanel.SuspendLayout();
+			this.toolStripContainer2.SuspendLayout();
+			this.tableToolStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
 			// 
+			this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 529);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 0);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(632, 22);
 			this.statusStrip1.TabIndex = 0;
@@ -67,6 +86,7 @@
 			// 
 			// menuStrip1
 			// 
+			this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.toolsToolStripMenuItem});
@@ -167,27 +187,150 @@
 			this.saveDatabase.DefaultExt = "adb";
 			this.saveDatabase.Filter = "Agate Database (*.adb)|*.adb|All files|*.*";
 			// 
+			// mainToolStrip
+			// 
+			this.mainToolStrip.Dock = System.Windows.Forms.DockStyle.None;
+			this.mainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnNew,
+            this.btnOpen,
+            this.btnSave});
+			this.mainToolStrip.Location = new System.Drawing.Point(3, 24);
+			this.mainToolStrip.Name = "mainToolStrip";
+			this.mainToolStrip.Size = new System.Drawing.Size(81, 25);
+			this.mainToolStrip.TabIndex = 4;
+			this.mainToolStrip.Text = "toolStrip1";
+			// 
+			// btnNew
+			// 
+			this.btnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnNew.Image = global::AgateDatabaseEditor.Properties.Resources.NewDocumentHS;
+			this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnNew.Name = "btnNew";
+			this.btnNew.Size = new System.Drawing.Size(23, 22);
+			this.btnNew.Text = "toolStripButton1";
+			this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+			// 
+			// btnOpen
+			// 
+			this.btnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("btnOpen.Image")));
+			this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnOpen.Name = "btnOpen";
+			this.btnOpen.Size = new System.Drawing.Size(23, 22);
+			this.btnOpen.Text = "toolStripButton2";
+			this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+			// 
+			// btnSave
+			// 
+			this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
+			this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnSave.Name = "btnSave";
+			this.btnSave.Size = new System.Drawing.Size(23, 22);
+			this.btnSave.Text = "toolStripButton3";
+			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			// 
+			// toolStripContainer2
+			// 
+			// 
+			// toolStripContainer2.BottomToolStripPanel
+			// 
+			this.toolStripContainer2.BottomToolStripPanel.Controls.Add(this.statusStrip1);
+			// 
+			// toolStripContainer2.ContentPanel
+			// 
+			this.toolStripContainer2.ContentPanel.Controls.Add(this.databaseEditor1);
+			this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(632, 480);
+			this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
+			this.toolStripContainer2.Name = "toolStripContainer2";
+			this.toolStripContainer2.Size = new System.Drawing.Size(632, 551);
+			this.toolStripContainer2.TabIndex = 6;
+			this.toolStripContainer2.Text = "toolStripContainer2";
+			// 
+			// toolStripContainer2.TopToolStripPanel
+			// 
+			this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.menuStrip1);
+			this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.mainToolStrip);
+			this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.tableToolStrip);
+			// 
 			// databaseEditor1
 			// 
 			this.databaseEditor1.Database = null;
 			this.databaseEditor1.DirtyState = false;
 			this.databaseEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.databaseEditor1.Location = new System.Drawing.Point(0, 24);
+			this.databaseEditor1.Location = new System.Drawing.Point(0, 0);
 			this.databaseEditor1.Name = "databaseEditor1";
-			this.databaseEditor1.Size = new System.Drawing.Size(632, 505);
+			this.databaseEditor1.Size = new System.Drawing.Size(632, 480);
 			this.databaseEditor1.TabIndex = 3;
 			this.databaseEditor1.Visible = false;
 			this.databaseEditor1.DirtyStateChanged += new System.EventHandler(this.databaseEditor1_DirtyStateChanged);
 			this.databaseEditor1.StatusText += new System.EventHandler<AgateDatabaseEditor.StatusTextEventArgs>(this.databaseEditor1_StatusText);
+			this.databaseEditor1.TableActiveStatusChanged += new System.EventHandler(this.databaseEditor1_TableActiveStatusChanged);
+			// 
+			// tableToolStrip
+			// 
+			this.tableToolStrip.Dock = System.Windows.Forms.DockStyle.None;
+			this.tableToolStrip.Enabled = false;
+			this.tableToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnDesignTable,
+            this.toolStripSeparator3,
+            this.toolStripLabel1,
+            this.btnSortAscending,
+            this.btnSortDescending});
+			this.tableToolStrip.Location = new System.Drawing.Point(84, 24);
+			this.tableToolStrip.Name = "tableToolStrip";
+			this.tableToolStrip.Size = new System.Drawing.Size(208, 25);
+			this.tableToolStrip.TabIndex = 10;
+			this.tableToolStrip.Text = "toolStrip1";
+			// 
+			// btnDesignTable
+			// 
+			this.btnDesignTable.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnDesignTable.Image = ((System.Drawing.Image)(resources.GetObject("btnDesignTable.Image")));
+			this.btnDesignTable.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDesignTable.Name = "btnDesignTable";
+			this.btnDesignTable.Size = new System.Drawing.Size(82, 22);
+			this.btnDesignTable.Text = "Edit Columns";
+			this.btnDesignTable.Click += new System.EventHandler(this.btnDesignTable_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+			// 
+			// toolStripLabel1
+			// 
+			this.toolStripLabel1.Name = "toolStripLabel1";
+			this.toolStripLabel1.Size = new System.Drawing.Size(31, 22);
+			this.toolStripLabel1.Text = "Sort:";
+			// 
+			// btnSortAscending
+			// 
+			this.btnSortAscending.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnSortAscending.Image = ((System.Drawing.Image)(resources.GetObject("btnSortAscending.Image")));
+			this.btnSortAscending.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnSortAscending.Name = "btnSortAscending";
+			this.btnSortAscending.Size = new System.Drawing.Size(23, 22);
+			this.btnSortAscending.Text = "toolStripButton1";
+			this.btnSortAscending.Click += new System.EventHandler(this.btnSortAscending_Click);
+			// 
+			// btnSortDescending
+			// 
+			this.btnSortDescending.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnSortDescending.Image = ((System.Drawing.Image)(resources.GetObject("btnSortDescending.Image")));
+			this.btnSortDescending.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnSortDescending.Name = "btnSortDescending";
+			this.btnSortDescending.Size = new System.Drawing.Size(23, 22);
+			this.btnSortDescending.Text = "toolStripButton1";
+			this.btnSortDescending.Click += new System.EventHandler(this.btnSortDescending_Click);
 			// 
 			// frmEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(632, 551);
-			this.Controls.Add(this.databaseEditor1);
-			this.Controls.Add(this.statusStrip1);
-			this.Controls.Add(this.menuStrip1);
+			this.Controls.Add(this.toolStripContainer2);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "frmEditor";
 			this.Text = "Agate Database Editor";
@@ -196,8 +339,18 @@
 			this.statusStrip1.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.mainToolStrip.ResumeLayout(false);
+			this.mainToolStrip.PerformLayout();
+			this.toolStripContainer2.BottomToolStripPanel.ResumeLayout(false);
+			this.toolStripContainer2.BottomToolStripPanel.PerformLayout();
+			this.toolStripContainer2.ContentPanel.ResumeLayout(false);
+			this.toolStripContainer2.TopToolStripPanel.ResumeLayout(false);
+			this.toolStripContainer2.TopToolStripPanel.PerformLayout();
+			this.toolStripContainer2.ResumeLayout(false);
+			this.toolStripContainer2.PerformLayout();
+			this.tableToolStrip.ResumeLayout(false);
+			this.tableToolStrip.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -220,6 +373,17 @@
 		private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+		private System.Windows.Forms.ToolStrip mainToolStrip;
+		private System.Windows.Forms.ToolStripButton btnNew;
+		private System.Windows.Forms.ToolStripButton btnOpen;
+		private System.Windows.Forms.ToolStripButton btnSave;
+		private System.Windows.Forms.ToolStripContainer toolStripContainer2;
+		private System.Windows.Forms.ToolStrip tableToolStrip;
+		private System.Windows.Forms.ToolStripButton btnDesignTable;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+		private System.Windows.Forms.ToolStripButton btnSortAscending;
+		private System.Windows.Forms.ToolStripButton btnSortDescending;
 	}
 }
 

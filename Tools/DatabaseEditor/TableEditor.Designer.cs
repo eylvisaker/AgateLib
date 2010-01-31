@@ -44,7 +44,7 @@
 			this.gridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gridView.Location = new System.Drawing.Point(0, 0);
 			this.gridView.Name = "gridView";
-			this.gridView.Size = new System.Drawing.Size(150, 150);
+			this.gridView.Size = new System.Drawing.Size(322, 255);
 			this.gridView.TabIndex = 8;
 			this.gridView.VirtualMode = true;
 			this.gridView.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.gridView_UserDeletingRow);
@@ -78,6 +78,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.gridView);
 			this.Name = "TableEditor";
+			this.Size = new System.Drawing.Size(322, 255);
+			this.Load += new System.EventHandler(this.TableEditor_Load);
 			((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.ResumeLayout(false);
