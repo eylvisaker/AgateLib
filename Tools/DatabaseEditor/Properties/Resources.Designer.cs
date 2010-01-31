@@ -60,6 +60,13 @@ namespace AgateDatabaseEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CodeGen {
+            get {
+                object obj = ResourceManager.GetObject("CodeGen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Error {
             get {
                 object obj = ResourceManager.GetObject("Error", resourceCulture);
@@ -77,6 +84,20 @@ namespace AgateDatabaseEditor.Properties {
         internal static System.Drawing.Bitmap NewDocumentHS {
             get {
                 object obj = ResourceManager.GetObject("NewDocumentHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap openHS {
+            get {
+                object obj = ResourceManager.GetObject("openHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap saveHS {
+            get {
+                object obj = ResourceManager.GetObject("saveHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

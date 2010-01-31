@@ -164,23 +164,7 @@ namespace AgateDatabaseEditor
 		}
 		private void generateCodeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			frmCodeGenerator frm = new frmCodeGenerator();
-
-			frm.Namespace = databaseEditor1.Database.CodeNamespace;
-			frm.StartDirectory = System.IO.Path.GetDirectoryName(filename);
-
-			if (frm.ShowDialog() == DialogResult.OK)
-			{
-				databaseEditor1.Database.CodeNamespace = frm.Namespace;
-
-				GenerateCode(frm.CodeDomProviderType, frm.Directory, frm.Namespace);
-
-				MessageBox.Show("Code generation completed.", 
-					"Code Generation", MessageBoxButtons.OK,
-					MessageBoxIcon.Information);
-			}
-
-			databaseEditor1.DirtyState = true;
+			GenerateCode();
 		}
 		private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -227,10 +211,35 @@ namespace AgateDatabaseEditor
 			databaseEditor1.CurrentTableSortDescending();
 		}
 
+		private void btnCodeGen_Click(object sender, EventArgs e)
+		{
+			GenerateCode();
+		}
+
 		#endregion
 
 		#region --- Code generation ---
 
+		private void GenerateCode()
+		{
+			frmCodeGenerator frm = new frmCodeGenerator();
+
+			frm.Namespace = databaseEditor1.Database.CodeNamespace;
+			frm.StartDirectory = System.IO.Path.GetDirectoryName(filename);
+
+			if (frm.ShowDialog() == DialogResult.OK)
+			{
+				databaseEditor1.Database.CodeNamespace = frm.Namespace;
+
+				GenerateCode(frm.CodeDomProviderType, frm.Directory, frm.Namespace);
+
+				MessageBox.Show("Code generation completed.",
+					"Code Generation", MessageBoxButtons.OK,
+					MessageBoxIcon.Information);
+			}
+
+			databaseEditor1.DirtyState = true;
+		}
 		private void GenerateCode(Type type, string directory, string theNamespace)
 		{
 			GenerateCode((System.CodeDom.Compiler.CodeDomProvider)
@@ -294,6 +303,7 @@ namespace AgateDatabaseEditor
 		}
 
 		#endregion
+
 
 
 	}
