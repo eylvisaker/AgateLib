@@ -114,6 +114,9 @@ namespace AgateLib.Data
 
 		public void Add(AgateRow row)
 		{
+			if (row == null)
+				throw new ArgumentNullException("Cannot add a null row.");
+
 			row.ParentTable.Rows.Remove(row);
 			row.ParentTable = mParentTable;
 
