@@ -119,6 +119,8 @@ namespace AgateDatabaseEditor
 				return false;
 			}
 
+			databaseEditor1.DirtyState = false;
+
 			return true;
 		}
 		/// <summary>
@@ -211,7 +213,6 @@ namespace AgateDatabaseEditor
 		{
 			Save();
 		}
-
 
 		private void btnDesignTable_Click(object sender, EventArgs e)
 		{

@@ -163,6 +163,8 @@ namespace AgateDatabaseEditor
 		{
 			if (e.RowIndex == gridView.RowCount - 1)
 				return;
+			if (e.RowIndex >= mTable.Rows.Count)
+				return;
 
 			AgateRow row = null;
 
@@ -222,7 +224,8 @@ namespace AgateDatabaseEditor
 		}
 		private void gridView_RowValidated(object sender, DataGridViewCellEventArgs e)
 		{
-			if (e.RowIndex >= mTable.Rows.Count &&
+			if (mEditingRow != null && 
+				e.RowIndex >= mTable.Rows.Count &&
 				e.RowIndex != gridView.Rows.Count - 1)
 			{
 				mTable.Rows.Add(mEditingRow);
