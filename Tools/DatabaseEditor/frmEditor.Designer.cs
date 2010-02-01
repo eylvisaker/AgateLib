@@ -49,17 +49,17 @@
 			this.btnNew = new System.Windows.Forms.ToolStripButton();
 			this.btnOpen = new System.Windows.Forms.ToolStripButton();
 			this.btnSave = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnCodeGen = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
+			this.databaseEditor1 = new AgateDatabaseEditor.DatabaseEditor();
 			this.tableToolStrip = new System.Windows.Forms.ToolStrip();
 			this.btnDesignTable = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.btnSortAscending = new System.Windows.Forms.ToolStripButton();
 			this.btnSortDescending = new System.Windows.Forms.ToolStripButton();
-			this.databaseEditor1 = new AgateDatabaseEditor.DatabaseEditor();
-			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-			this.btnCodeGen = new System.Windows.Forms.ToolStripButton();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.mainToolStrip.SuspendLayout();
@@ -238,6 +238,21 @@
 			this.btnSave.Text = "Save Database";
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+			// 
+			// btnCodeGen
+			// 
+			this.btnCodeGen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.btnCodeGen.Image = global::AgateDatabaseEditor.Properties.Resources.CodeGen;
+			this.btnCodeGen.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnCodeGen.Name = "btnCodeGen";
+			this.btnCodeGen.Size = new System.Drawing.Size(23, 22);
+			this.btnCodeGen.Text = "Generate Code";
+			this.btnCodeGen.Click += new System.EventHandler(this.btnCodeGen_Click);
+			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
@@ -266,6 +281,20 @@
 			this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.menuStrip1);
 			this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.mainToolStrip);
 			this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.tableToolStrip);
+			// 
+			// databaseEditor1
+			// 
+			this.databaseEditor1.Database = null;
+			this.databaseEditor1.DirtyState = false;
+			this.databaseEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.databaseEditor1.Location = new System.Drawing.Point(0, 0);
+			this.databaseEditor1.Name = "databaseEditor1";
+			this.databaseEditor1.Size = new System.Drawing.Size(862, 583);
+			this.databaseEditor1.TabIndex = 3;
+			this.databaseEditor1.Visible = false;
+			this.databaseEditor1.DirtyStateChanged += new System.EventHandler(this.databaseEditor1_DirtyStateChanged);
+			this.databaseEditor1.StatusText += new System.EventHandler<AgateDatabaseEditor.StatusTextEventArgs>(this.databaseEditor1_StatusText);
+			this.databaseEditor1.TableActiveStatusChanged += new System.EventHandler(this.databaseEditor1_TableActiveStatusChanged);
 			// 
 			// tableToolStrip
 			// 
@@ -323,35 +352,6 @@
 			this.btnSortDescending.Size = new System.Drawing.Size(23, 22);
 			this.btnSortDescending.Text = "toolStripButton1";
 			this.btnSortDescending.Click += new System.EventHandler(this.btnSortDescending_Click);
-			// 
-			// databaseEditor1
-			// 
-			this.databaseEditor1.Database = null;
-			this.databaseEditor1.DirtyState = false;
-			this.databaseEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.databaseEditor1.Location = new System.Drawing.Point(0, 0);
-			this.databaseEditor1.Name = "databaseEditor1";
-			this.databaseEditor1.Size = new System.Drawing.Size(862, 583);
-			this.databaseEditor1.TabIndex = 3;
-			this.databaseEditor1.Visible = false;
-			this.databaseEditor1.DirtyStateChanged += new System.EventHandler(this.databaseEditor1_DirtyStateChanged);
-			this.databaseEditor1.StatusText += new System.EventHandler<AgateDatabaseEditor.StatusTextEventArgs>(this.databaseEditor1_StatusText);
-			this.databaseEditor1.TableActiveStatusChanged += new System.EventHandler(this.databaseEditor1_TableActiveStatusChanged);
-			// 
-			// toolStripSeparator5
-			// 
-			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
-			// 
-			// btnCodeGen
-			// 
-			this.btnCodeGen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnCodeGen.Image = global::AgateDatabaseEditor.Properties.Resources.CodeGen;
-			this.btnCodeGen.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnCodeGen.Name = "btnCodeGen";
-			this.btnCodeGen.Size = new System.Drawing.Size(23, 22);
-			this.btnCodeGen.Text = "toolStripButton1";
-			this.btnCodeGen.Click += new System.EventHandler(this.btnCodeGen_Click);
 			// 
 			// frmEditor
 			// 
