@@ -99,6 +99,9 @@ namespace AgateLib
 		private static CrossPlatformDebugLevel mCrossPlatform = CrossPlatformDebugLevel.Comment;
 		private static System.Diagnostics.Stopwatch mTime = Stopwatch.StartNew();
 
+		/// <summary>
+		/// Static class which is used to handle all error reports.
+		/// </summary>
 		public static class ErrorReporting
 		{
 			private static string mErrorFile = "errorlog.txt";

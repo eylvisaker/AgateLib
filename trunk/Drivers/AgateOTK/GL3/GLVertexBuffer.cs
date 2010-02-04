@@ -23,10 +23,10 @@ namespace AgateOTK.GL3
 
 		struct AttributeData
 		{
-			public string Name;
-			public int BufferID;
-			public VertexAttribPointerType Type;
-			public int ComponentCount;
+			internal string Name;
+			internal int BufferID;
+			internal VertexAttribPointerType Type;
+			internal int ComponentCount;
 		}
 
 		int mVertexCount;

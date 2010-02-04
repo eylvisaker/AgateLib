@@ -44,6 +44,10 @@ namespace AgateLib.Resources
 		{
 			this.mStore.Add(mStringTableKey, new StringTable());
 		}
+		/// <summary>
+		/// Constructs a new AgateResourceCollection object.
+		/// </summary>
+		/// <param name="filename"></param>
 		public AgateResourceCollection(string filename)
 			: this(AgateFileProvider.Resources.GetProvider(filename), filename)
 		{ }
@@ -54,6 +58,11 @@ namespace AgateLib.Resources
 		public AgateResourceCollection(IFileProvider fileProvider)
 			: this(fileProvider, "Resources.xml")
 		{ }
+		/// <summary>
+		/// Constructs a new AgateResourceCollection object.
+		/// </summary>
+		/// <param name="fileProvider"></param>
+		/// <param name="filename"></param>
 		public AgateResourceCollection(IFileProvider fileProvider, string filename)
 		{
 			FileProvider = fileProvider;
@@ -71,7 +80,13 @@ namespace AgateLib.Resources
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public IFileProvider FileProvider { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
 		public string RootDirectory { get; set; }
 
 		private IEnumerable<T> Enumerate<T>() where T : AgateResource

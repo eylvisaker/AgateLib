@@ -36,6 +36,9 @@ namespace AgateLib.Gui
 		ILayoutPerformer mLayout = new Layout.VerticalBox();
 		bool mLayoutSuspended;
 
+		/// <summary>
+		/// Constructs a container object.
+		/// </summary>
 		public Container()
 		{
 			mChildren = new WidgetList(this);
@@ -61,7 +64,14 @@ namespace AgateLib.Gui
 				return false;
 			}
 		}
+		/// <summary>
+		/// Gets the client area of the container.
+		/// </summary>
 		public Rectangle ClientArea { get { return mClientArea; } }
+
+		/// <summary>
+		/// Gets the size of the client area of the container.
+		/// </summary>
 		public Size ClientSize
 		{
 			get { return mClientArea.Size; }
@@ -70,6 +80,9 @@ namespace AgateLib.Gui
 				Size = Root.ThemeEngine.RequestClientAreaSize(this, value);
 			}
 		}
+		/// <summary>
+		/// Gets or sets the object which handles the layout for the container.
+		/// </summary>
 		public virtual ILayoutPerformer Layout
 		{
 			get { return mLayout; }

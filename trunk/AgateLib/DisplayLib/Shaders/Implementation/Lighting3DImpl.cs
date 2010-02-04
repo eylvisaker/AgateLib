@@ -24,19 +24,44 @@ using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib.Shaders.Implementation
 {
+	/// <summary>
+	/// Base class for implementing the Lighting3D shader.
+	/// </summary>
 	public abstract class Lighting3DImpl : AgateShaderImpl  
 	{
+		/// <summary>
+		/// Constructs a Lighting3DImpl object.
+		/// </summary>
 		public Lighting3DImpl()
 		{
 			AmbientLight = Color.White;
 			EnableLighting = true;
 		}
+
+		/// <summary>
+		/// Gets or sets the projection matrix.
+		/// </summary>
 		public abstract Matrix4x4 Projection { get; set; }
+		/// <summary>
+		/// Gets or sets the projection matrix.
+		/// </summary>
 		public abstract Matrix4x4 View { get; set; }
+		/// <summary>
+		/// Gets or sets the projection matrix.
+		/// </summary>
 		public abstract Matrix4x4 World { get; set; }
 
+		/// <summary>
+		/// Gets or sets the lights.
+		/// </summary>
 		public abstract Light[] Lights { get; }
+		/// <summary>
+		/// Gets or sets the ambient color.
+		/// </summary>
 		public abstract Color AmbientLight { get; set; }
+		/// <summary>
+		/// Gets or sets whether or not lighting should be enabled.
+		/// </summary>
 		public virtual bool EnableLighting { get; set; }
 
 	}

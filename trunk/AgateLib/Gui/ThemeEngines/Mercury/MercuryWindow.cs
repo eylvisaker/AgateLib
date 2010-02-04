@@ -25,6 +25,9 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
+	/// <summary>
+	/// Class which draws windows for the Mercury theme engine.
+	/// </summary>
 	public class MercuryWindow : MercuryWidget
 	{
 		public Surface NoTitle { get; set; }

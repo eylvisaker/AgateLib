@@ -27,32 +27,63 @@ using AgateLib.Gui.ThemeEngines.Mercury.Cache;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
+	/// <summary>
+	/// The first theme engine written for the AgateLib GUI.
+	/// Mercury is used as the name since the planet Mercury is the
+	/// first planet in the solar system.
+	/// </summary>
 	public class Mercury : IGuiThemeEngine
 	{
+		/// <summary>
+		/// Constructs a Mercury object.
+		/// </summary>
 		public Mercury()
 			: this(MercuryScheme.CreateDefaultScheme())
 		{
 			
 		}
+		/// <summary>
+		/// Constructs a Mercury object.
+		/// </summary>
+		/// <param name="scheme"></param>
 		public Mercury(MercuryScheme scheme)
 		{
 			this.Scheme = scheme;
 		}
 
+		/// <summary>
+		/// Gets or sets the parameters used to draw widgets.
+		/// </summary>
 		public MercuryScheme Scheme { get; set; }
+		/// <summary>
+		/// Gets or sets whether or not controls should be drawn with outlines around them.
+		/// Mainly for debugging purposes.
+		/// </summary>
 		public static bool DebugOutlines { get; set; }
 
 		#region --- Updates ---
 
+		/// <summary>
+		/// Updates the widgets.
+		/// </summary>
+		/// <param name="guiRoot"></param>
 		public void Update(GuiRoot guiRoot)
 		{
 			Scheme.ExecuteUpdates();
 		}
 
+		public void WidgetNeedsUpdate(Widget w)
+		{
+			Scheme.WidgetNeedsUpdate(w);
+		}
 		#endregion
 
 		#region --- Interface Dispatchers ---
 
+		/// <summary>
+		/// Draws a widget.
+		/// </summary>
+		/// <param name="widget"></param>
 		public void DrawWidget(Widget widget)
 		{
 			if (widget is GuiRoot)
@@ -67,39 +98,78 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			Scheme.Themer(widget).DrawWidget(widget);
 
 		}
-
+		/// <summary>
+		/// Gets the size of the widget given the specified client size.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <param name="clientSize"></param>
+		/// <returns></returns>
 		public Size RequestClientAreaSize(Container widget, Size clientSize)
 		{
 			throw new NotImplementedException();
 		}
+		/// <summary>
+		/// Calculates the minimum size of the widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <returns></returns>
 		public Size CalcMinSize(Widget widget)
 		{
 			return Scheme.Themer(widget).MinSize(widget);
 		}
+		/// <summary>
+		/// Calculates the practical maximum size of the widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <returns></returns>
 		public Size CalcMaxSize(Widget widget)
 		{
 			return Scheme.Themer(widget).MaxSize(widget);
 		}
+		/// <summary>
+		/// Checks to see whether the point is inside the specified widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <param name="screenLocation"></param>
+		/// <returns></returns>
 		public bool HitTest(Widget widget, Point screenLocation)
 		{
 			Point client = widget.PointToClient(screenLocation);
 
 			return Scheme.Themer(widget).HitTest(widget, client);
 		}
-
+		/// <summary>
+		/// Gets the margin that should be placed around the specified widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <returns></returns>
 		public int ThemeMargin(Widget widget)
 		{
 			return Scheme.Themer(widget).Margin;
 		}
-
+		/// <summary>
+		/// Function called when a mouse button is pressed in the widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <param name="clientLocation"></param>
 		public void MouseDownInWidget(Widget widget, Point clientLocation)
 		{
 			Scheme.Themer(widget).MouseDownInWidget(widget, clientLocation);
 		}
+		/// <summary>
+		/// Function called when the mouse is moved in a widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <param name="clientLocation"></param>
 		public void MouseMoveInWidget(Widget widget, Point clientLocation)
 		{
 			Scheme.Themer(widget).MouseMoveInWidget(widget, clientLocation);
 		}
+		/// <summary>
+		/// Function called when the mouse button is released in a widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <param name="clientLocation"></param>
 		public void MouseUpInWidget(Widget widget, Point clientLocation)
 		{
 			Scheme.Themer(widget).MouseUpInWidget(widget, clientLocation);
@@ -173,10 +243,15 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		}
 
-
+		/// <summary>
+		/// Gets the client area of the widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <returns></returns>
 		public Rectangle GetClientArea(Container widget)
 		{
 			return Scheme.Themer(widget).ClientArea(widget);
 		}
+
 	}
 }

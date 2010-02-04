@@ -135,8 +135,15 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		int SurfaceWidth { get; }
 
+		/// <summary>
+		/// Gets the SurfaceState object which is used to handle drawing.
+		/// </summary>
 		SurfaceState State { get; }
 
+		/// <summary>
+		/// Draws the surface using the specified state object.
+		/// </summary>
+		/// <param name="State"></param>
 		void Draw(SurfaceState State);
 	}
 }

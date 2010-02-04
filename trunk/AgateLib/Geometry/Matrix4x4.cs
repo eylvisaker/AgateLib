@@ -114,6 +114,11 @@ namespace AgateLib.Geometry
 		{
 			return RotateZ((float)angle);
 		}
+		/// <summary>
+		/// Creates a 4x4 matrix which rotates about the z-axis.
+		/// </summary>
+		/// <param name="angle"></param>
+		/// <returns></returns>
 		public static Matrix4x4 RotateZ(float angle)
 		{
 			float cos = (float)Math.Cos(angle);
@@ -125,6 +130,10 @@ namespace AgateLib.Geometry
 				0, 0, 1, 0,
 				0, 0, 0, 1);
 		}
+		/// <summary>
+		/// Creates a 4x4 matrix which reflects x coordinates.
+		/// </summary>
+		/// <returns></returns>
 		public static Matrix4x4 ReflectX()
 		{
 			return new Matrix4x4(
@@ -133,6 +142,10 @@ namespace AgateLib.Geometry
 				0, 0, 1, 0,
 				0, 0, 0, 1);
 		}
+		/// <summary>
+		/// Creates a 4x4 matrix which reflects y coordinates.
+		/// </summary>
+		/// <returns></returns>
 		public static Matrix4x4 ReflectY()
 		{
 			return new Matrix4x4(
@@ -141,6 +154,10 @@ namespace AgateLib.Geometry
 				0, 0, 1, 0,
 				0, 0, 0, 1);
 		}
+		/// <summary>
+		/// Creates a 4x4 matrix which reflects z coordinates.
+		/// </summary>
+		/// <returns></returns>
 		public static Matrix4x4 ReflectZ()
 		{
 			return new Matrix4x4(

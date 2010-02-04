@@ -318,6 +318,9 @@ namespace AgateLib.Resources
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public class SpriteSubResource
 		{
 			/// <summary>
@@ -369,15 +372,30 @@ namespace AgateLib.Resources
 		/// </summary>
 		public class SpriteImageResource : SpriteSubResource 
 		{
+			/// <summary>
+			/// 
+			/// </summary>
 			public class Grid
 			{
+				/// <summary>
+				/// 
+				/// </summary>
 				public Point Location { get; set; }
+				/// <summary>
+				/// 
+				/// </summary>
 				public Size Size { get; set; }
+				/// <summary>
+				/// 
+				/// </summary>
 				public Size Array { get; set; }
 			}
 
 			List<Grid> mGrids = new List<Grid>();
 
+			/// <summary>
+			/// 
+			/// </summary>
 			public IList<Grid> Grids
 			{
 				get { return mGrids; }

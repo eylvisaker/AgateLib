@@ -23,7 +23,7 @@ using System.Text;
 
 namespace AgateLib.DisplayLib.Shaders
 {
-	public class UniformState
+	class UniformState
 	{
 	}
 }

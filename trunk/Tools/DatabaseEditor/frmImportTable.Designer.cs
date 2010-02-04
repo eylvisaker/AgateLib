@@ -53,6 +53,7 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.propColumns = new System.Windows.Forms.PropertyGrid();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.chkMergeDelimiters = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.pnlTableWarning.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -114,6 +115,7 @@
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.chkMergeDelimiters);
 			this.groupBox1.Controls.Add(this.txtOther);
 			this.groupBox1.Controls.Add(this.chkOther);
 			this.groupBox1.Controls.Add(this.chkSpace);
@@ -326,6 +328,17 @@
 			this.panel1.Size = new System.Drawing.Size(533, 220);
 			this.panel1.TabIndex = 14;
 			// 
+			// chkMergeDelimiters
+			// 
+			this.chkMergeDelimiters.AutoSize = true;
+			this.chkMergeDelimiters.Location = new System.Drawing.Point(226, 48);
+			this.chkMergeDelimiters.Name = "chkMergeDelimiters";
+			this.chkMergeDelimiters.Size = new System.Drawing.Size(104, 17);
+			this.chkMergeDelimiters.TabIndex = 15;
+			this.chkMergeDelimiters.Text = "Merge Delimiters";
+			this.chkMergeDelimiters.UseVisualStyleBackColor = true;
+			this.chkMergeDelimiters.CheckedChanged += new System.EventHandler(this.chkMergeDelimiters_CheckedChanged);
+			// 
 			// frmImportTable
 			// 
 			this.AcceptButton = this.btnOK;
@@ -387,5 +400,6 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.PropertyGrid propColumns;
 		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.CheckBox chkMergeDelimiters;
 	}
 }

@@ -81,6 +81,10 @@ namespace AgateLib.BitmapFont
 				}
 			}
 
+			/// <summary>
+			/// Returns a string representation of the CharacterRange object.
+			/// </summary>
+			/// <returns></returns>
 			public override string ToString()
 			{
 				return ((int)mStartChar).ToString() + " - " + ((int)mEndChar).ToString();

@@ -77,16 +77,25 @@ namespace AgateLib
 		private string mCompanyName;
 		private string mAppName;
 
+		/// <summary>
+		/// Indicates the display id that is preferred by the user or application.
+		/// </summary>
 		public DisplayTypeID PreferredDisplay
 		{
 			get { return mPreferredDisplay; }
 			set { mPreferredDisplay = value; }
 		}
+		/// <summary>
+		/// Indicates the audio id that is preferred by the user or application.
+		/// </summary>
 		public AudioTypeID PreferredAudio
 		{
 			get { return mPreferredAudio; }
 			set { mPreferredAudio = value; }
 		}
+		/// <summary>
+		/// Indicates the input id that is preferred by the user or application.
+		/// </summary>
 		public InputTypeID PreferredInput
 		{
 			get { return mPreferredInput; }
@@ -173,7 +182,13 @@ namespace AgateLib
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the company name.
+		/// </summary>
 		public string CompanyName { get { return mCompanyName; } set { mCompanyName = value; } }
+		/// <summary>
+		/// Gets or sets the application name.
+		/// </summary>
 		public string ApplicationName { get { return mAppName; } set { mAppName = value; } }
 
 		/// <summary>

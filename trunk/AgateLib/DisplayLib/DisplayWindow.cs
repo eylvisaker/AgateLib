@@ -172,6 +172,9 @@ namespace AgateLib.DisplayLib
 
 		#endregion
 
+		/// <summary>
+		/// Gets the FrameBuffer object which represents the memory to draw to.
+		/// </summary>
 		public FrameBuffer FrameBuffer
 		{
 			get 
@@ -185,7 +188,12 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
-		[Obsolete]
+		/// <summary>
+		/// Compatibility conversion.  Read from the FrameBuffer property instead.
+		/// </summary>
+		/// <param name="wind"></param>
+		/// <returns></returns>
+		[Obsolete("Read from wind.FrameBuffer instead.")]
 		public static implicit operator FrameBuffer(DisplayWindow wind)
 		{
 			return wind.FrameBuffer;
@@ -326,6 +334,9 @@ namespace AgateLib.DisplayLib
 			impl.SetFullScreen(width, height, bpp);
 		}
 
+		/// <summary>
+		/// Creates an orthogonal projection matrix that maps drawing units onto pixels.
+		/// </summary>
 		public Matrix4x4 OrthoProjection
 		{
 			get { return Matrix4x4.Ortho(new RectangleF(0, 0, Width, Height), -1, 1); }

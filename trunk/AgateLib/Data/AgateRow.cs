@@ -5,11 +5,22 @@ using System.Text;
 
 namespace AgateLib.Data
 {
+	/// <summary>
+	/// Class which contains a row of data in a table of an AgateDatabase object.
+	/// Data added to this class is validated against the data types for the columns
+	/// in the table.
+	/// </summary>
 	public class AgateRow
 	{
 		Dictionary<string, string> mValues = new Dictionary<string, string>();
 		AgateTable mParentTable;
 
+		/// <summary>
+		/// Constructs a new AgateRow object representing a single instance
+		/// of the data.
+		/// </summary>
+		/// <param name="parentTable">The table into which the row will be added.
+		/// This is required to validate data that gets added to the row.</param>
 		public AgateRow(AgateTable parentTable)
 		{
 			this.mParentTable = parentTable;
@@ -20,6 +31,10 @@ namespace AgateLib.Data
 			}
 		}
 
+		/// <summary>
+		/// Creates a deep copy of the AgateRow object.
+		/// </summary>
+		/// <returns></returns>
 		public AgateRow Clone()
 		{
 			AgateRow retval = new AgateRow(mParentTable);
@@ -29,6 +44,9 @@ namespace AgateLib.Data
 
 			return retval;
 		}
+		/// <summary>
+		/// Gets the AgateTable object that this row belongs to or will be added to.
+		/// </summary>
 		public AgateTable ParentTable
 		{
 			get { return mParentTable; }
@@ -44,9 +62,9 @@ namespace AgateLib.Data
 		}
 
 		/// <summary>
-		/// Shortcut for this[column.Name].
+		/// Gets or sets the field value for this row for the specified column.
 		/// </summary>
-		/// <param name="column"></param>
+		/// <param name="column">The column which indexes the data.</param>
 		/// <returns></returns>
 		public string this[AgateColumn column]
 		{
@@ -70,14 +88,19 @@ namespace AgateLib.Data
 				}
 			}
 		}
-		public string this[string key]
+		/// <summary>
+		/// Gets or sets the field value for this row for the specified column.
+		/// </summary>
+		/// <param name="column">The name of the column which indexes the data.</param>
+		/// <returns></returns>
+		public string this[string column]
 		{
-			get { return mValues[key]; }
+			get { return mValues[column]; }
 			set
 			{
-				this[mParentTable.Columns[key]] = value;
+				this[mParentTable.Columns[column]] = value;
 				
-				mValues[key] = value;
+				mValues[column] = value;
 			}
 		}
 
@@ -86,6 +109,10 @@ namespace AgateLib.Data
 			mValues[column.Name] = value;
 		}
 
+		/// <summary>
+		/// Gets a string representation of the row.
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			StringBuilder b = new StringBuilder();

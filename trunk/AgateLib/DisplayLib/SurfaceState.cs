@@ -40,10 +40,17 @@ namespace AgateLib.DisplayLib
 		private Gradient mGradient = new Gradient(Color.White);
 		private DrawInstanceList mDrawInstances = new DrawInstanceList();
 
+		/// <summary>
+		/// Constructs a SurfaceState object.
+		/// </summary>
 		public SurfaceState()
 		{
 			mDrawInstances.Add(new SurfaceDrawInstance());
 		}
+		/// <summary>
+		/// Performs a deep copy of this SurfaceState object.
+		/// </summary>
+		/// <returns></returns>
 		public SurfaceState Clone()
 		{
 			SurfaceState retval = new SurfaceState();
@@ -51,6 +58,11 @@ namespace AgateLib.DisplayLib
 
 			return retval;
 		}
+		/// <summary>
+		/// Copies data from this SurfaceState to the destination state.
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="copyDrawInstances"></param>
 		public void CopyTo(SurfaceState target, bool copyDrawInstances)
 		{
 			target.ScaleWidth = mScaleWidth;
@@ -204,12 +216,23 @@ namespace AgateLib.DisplayLib
 			set { mCache = value; }
 		}
 
+		/// <summary>
+		/// Gets the size the surface would be drawn on screen, given the source size.
+		/// </summary>
+		/// <param name="surfaceSize"></param>
+		/// <returns></returns>
 		public SizeF GetDisplaySize(Size surfaceSize)
 		{
 			return new SizeF(
 				(float)ScaleWidth * surfaceSize.Width,
 				(float)ScaleHeight * surfaceSize.Height);
 		}
+		/// <summary>
+		/// Gets the point where the surface would be rotated around,
+		/// given the source size.
+		/// </summary>
+		/// <param name="displaySize"></param>
+		/// <returns></returns>
 		public PointF GetRotationCenter(SizeF displaySize)
 		{
 			if (RotationCenter == OriginAlignment.Specified)
@@ -219,18 +242,33 @@ namespace AgateLib.DisplayLib
 		}
 	}
 
+	/// <summary>
+	/// Class which represents a specific drawing instance of a surface.
+	/// </summary>
 	public struct SurfaceDrawInstance
 	{
+		/// <summary>
+		/// Constructs a SurfaceDrawInstance object.
+		/// </summary>
+		/// <param name="location"></param>
 		public SurfaceDrawInstance(PointF location) : this()
 		{
 			DestLocation = location;
 		}
+		/// <summary>
+		/// Constructs a SurfaceDrawInstance object.
+		/// </summary>
+		/// <param name="location"></param>
+		/// <param name="sourceRect"></param>
 		public SurfaceDrawInstance(PointF location, Rectangle sourceRect) : this()
 		{
 			DestLocation = location;
 			SourceRect = sourceRect;
 		}
 
+		/// <summary>
+		/// The destination location for drawing.
+		/// </summary>
 		public PointF DestLocation { get; set; }
 		/// <summary>
 		/// If SourceRect is empty (all values are zero), then it is ignored.
@@ -251,8 +289,15 @@ namespace AgateLib.DisplayLib
 		}
 	}
 
+	/// <summary>
+	/// Class which contains a list of SurfaceDrawInstance objects.
+	/// </summary>
 	public class DrawInstanceList : List<SurfaceDrawInstance>
 	{
+		/// <summary>
+		/// Sets the number of SurfaceDrawInstances that should be in the list.
+		/// </summary>
+		/// <param name="newCount"></param>
 		public void SetCount(int newCount)
 		{
 			if (Count == newCount)

@@ -28,19 +28,38 @@ using AgateLib.InputLib;
 
 namespace AgateLib.Gui
 {
+	/// <summary>
+	/// Root object for the Gui.  This is the object which handles and 
+	/// dispatches the input.
+	/// </summary>
 	public sealed class GuiRoot : Container
 	{
-		IGuiThemeEngine themeEngine = new ThemeEngines.Mercury.Mercury();
+		IGuiThemeEngine themeEngine;
+		bool mInteractionEnabled = false;
 
+		/// <summary>
+		/// Constructs a GuiRoot object.
+		/// </summary>
 		public GuiRoot()
 		{
 			Name = "root";
 			Layout = new Layout.Grid();
+
+			themeEngine = new ThemeEngines.Mercury.Mercury();
 		}
+		/// <summary>
+		/// Constructs a GuiRoot object and uses the specified theme engine.
+		/// </summary>
+		/// <param name="themeEngine"></param>
 		public GuiRoot(IGuiThemeEngine themeEngine)
+			: this()
 		{
 			this.themeEngine = themeEngine;
 		}
+
+		/// <summary>
+		/// Updates the Gui.
+		/// </summary>
 		protected internal override void UpdateGui()
 		{
 			this.Size = Display.RenderTarget.Size;
@@ -48,9 +67,15 @@ namespace AgateLib.Gui
 			base.UpdateGui();
 			ThemeEngine.Update(this);
 		}
+		/// <summary>
+		/// Calculates the size range.
+		/// </summary>
 		protected internal override void RecalcSizeRange()
 		{
 		}
+		/// <summary>
+		/// Gets or sets the theme engine.
+		/// </summary>
 		public IGuiThemeEngine ThemeEngine
 		{
 			get { return themeEngine; }
@@ -62,12 +87,13 @@ namespace AgateLib.Gui
 				themeEngine = value;
 			}
 		}
+		/// <summary>
+		/// Gets or sets the layout object.
+		/// The only valid layout for GuiRoot is Layout.Grid.
+		/// </summary>
 		public override ILayoutPerformer Layout
 		{
-			get
-			{
-				return base.Layout;
-			}
+			get { return base.Layout; }
 			set
 			{
 				if (value is Layout.Grid == false)
@@ -77,12 +103,18 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Does the update.
+		/// </summary>
 		public void DoUpdate()
 		{
 			OnUpdate();
 		}
 		bool isRunning = false;
 
+		/// <summary>
+		/// Runs the GUI.
+		/// </summary>
 		public void Run()
 		{
 			if (isRunning)
@@ -97,7 +129,7 @@ namespace AgateLib.Gui
 				while (Display.CurrentWindow.IsClosed == false)
 				{
 					OnUpdate();
-					
+
 					Display.BeginFrame();
 
 					OnDrawBehindGui();
@@ -115,7 +147,10 @@ namespace AgateLib.Gui
 			}
 		}
 
-		bool mInteractionEnabled = false;
+
+		/// <summary>
+		/// Gets or sets whether or not interactions should be enabled in the Gui.
+		/// </summary>
 		public bool EnableInteraction
 		{
 			get { return mInteractionEnabled; }
@@ -124,7 +159,7 @@ namespace AgateLib.Gui
 				if (value == mInteractionEnabled)
 					return;
 
-				if (value) 
+				if (value)
 					AttachEvents();
 				else
 					DetachEvents();
@@ -191,9 +226,15 @@ namespace AgateLib.Gui
 
 		}
 
+		/// <summary>
+		/// Event which is raised when drawing of stuff that is behind the
+		/// GUI should occur.
+		/// </summary>
 		public event EventHandler DrawBehindGui;
+		/// <summary>
+		/// Event which is raised when the GUI is updated.
+		/// </summary>
 		public event EventHandler Update;
-
 
 		#region --- Directing Mouse Input to Child Controls ---
 
@@ -201,6 +242,11 @@ namespace AgateLib.Gui
 		Widget lastMouseIn;
 
 		// TODO: Clean these methods up a bit.
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void SendMouseDown(InputEventArgs e)
 		{
 			Widget child = FindWidgetWithMouse(e.MousePosition);
@@ -221,7 +267,10 @@ namespace AgateLib.Gui
 				directMouseInput.SendMouseDown(e);
 			}
 		}
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void SendMouseUp(InputEventArgs e)
 		{
 			if (directMouseInput == null || directMouseInput == this)
@@ -234,6 +283,10 @@ namespace AgateLib.Gui
 
 			directMouseInput = null;
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void SendMouseMove(InputEventArgs e)
 		{
 			Widget child = FindWidgetWithMouse(e.MousePosition);
@@ -261,6 +314,10 @@ namespace AgateLib.Gui
 			else
 				OnMouseMove(e);
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void SendMouseDoubleClick(InputEventArgs e)
 		{
 			Widget child = FindWidgetWithMouse(e.MousePosition);
@@ -299,7 +356,6 @@ namespace AgateLib.Gui
 				return parent;
 
 		}
-
 		Widget FindContainerChildWithMouse(Container parent, Point screenMousePoint)
 		{
 			foreach (Widget child in parent.Children)
@@ -320,6 +376,9 @@ namespace AgateLib.Gui
 
 		Widget focusControl;
 
+		/// <summary>
+		/// Gets or sets the control which has keyboard focus.
+		/// </summary>
 		public Widget FocusControl
 		{
 			get { return focusControl; }
@@ -341,6 +400,10 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void SendKeyDown(InputEventArgs e)
 		{
 			if (IsControlKey(e.KeyCode))
@@ -366,7 +429,10 @@ namespace AgateLib.Gui
 				focusControl.SendKeyDown(e);
 			}
 		}
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void SendKeyUp(InputEventArgs e)
 		{
 			if (focusControl == null)
@@ -394,12 +460,10 @@ namespace AgateLib.Gui
 			}
 		}
 
-
 		private bool WidgetAcceptControlKey(ref Widget widget, InputEventArgs e)
 		{
 			return widget.AcceptInputKey(e.KeyCode);
 		}
-
 		private void ProcessControlKey(InputEventArgs e)
 		{
 			switch (e.KeyCode)
@@ -425,12 +489,10 @@ namespace AgateLib.Gui
 					break;
 			}
 		}
-
 		private void ClickDefaultButton()
 		{
 			// TODO: implmement this method
 		}
-
 		private void MoveFocus(Direction direction)
 		{
 			if (focusControl == null)
@@ -513,7 +575,6 @@ namespace AgateLib.Gui
 
 		#endregion
 
-
 		internal void SetFocusControl(Widget newFocus, Direction direction, Point nearPoint)
 		{
 			if (newFocus.CanHaveFocus)
@@ -527,6 +588,5 @@ namespace AgateLib.Gui
 				SetFocusControl(((Container)newFocus).NearestChildTo(nearPoint, true), direction, nearPoint);
 			}
 		}
-
 	}
 }

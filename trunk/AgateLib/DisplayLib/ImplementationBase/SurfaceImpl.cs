@@ -54,6 +54,10 @@ namespace AgateLib.DisplayLib.ImplementationBase
 
 		#region --- Drawing the surface to the screen ---
 
+		/// <summary>
+		/// Draws the surface to the screen using the specified state information.
+		/// </summary>
+		/// <param name="state"></param>
 		public abstract void Draw(SurfaceState state);
 
 		#endregion
@@ -70,7 +74,6 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <summary>
 		/// Creates a new SurfaceImpl object which comes from a small sub-rectangle on this surface.
 		/// </summary>
-		/// <param name="surface"></param>
 		/// <param name="srcRect"></param>
 		/// <returns></returns>
 		public abstract SurfaceImpl CarveSubSurface(Rectangle srcRect);
@@ -121,12 +124,15 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		}
 
 		#endregion
-
-
 		#region --- Surface properties ---
 
 
 		private InterpolationMode mInterpolationHint;
+		/// <summary>
+		/// Gets or sets the InterpolationMode value, indicating 
+		/// what sampling to use for surfaces.  This property may 
+		/// be replaced by something else in the future.
+		/// </summary>
 		public virtual InterpolationMode InterpolationHint
 		{
 			get { return mInterpolationHint; }

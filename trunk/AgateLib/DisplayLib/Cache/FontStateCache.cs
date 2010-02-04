@@ -23,22 +23,49 @@ using System.Text;
 
 namespace AgateLib.DisplayLib.Cache
 {
+	/// <summary>
+	/// Base class for cache objects used for FontState.
+	/// </summary>
 	public abstract class FontStateCache
 	{
+		/// <summary>
+		/// Performs a deep clone of the FontStateCache-derived object.
+		/// </summary>
+		/// <returns></returns>
 		protected internal abstract FontStateCache Clone();
-
+		
+		/// <summary>
+		/// Function called when the text is changed.
+		/// </summary>
+		/// <param name="fontState"></param>
 		protected internal virtual void OnTextChanged(FontState fontState)
 		{
 		}
+		/// <summary>
+		/// Function called when the location of text is changed.
+		/// </summary>
+		/// <param name="fontState"></param>
 		protected internal virtual void OnLocationChanged(FontState fontState)
 		{
 		}
+		/// <summary>
+		/// Function called when the display alignment of the text is changed.
+		/// </summary>
+		/// <param name="fontState"></param>
 		protected internal virtual void OnDisplayAlignmentChanged(FontState fontState)
 		{
 		}
+		/// <summary>
+		/// Function called when the color of the text is changed.
+		/// </summary>
+		/// <param name="fontState"></param>
 		protected internal virtual void OnColorChanged(FontState fontState)
 		{
 		}
+		/// <summary>
+		/// Function called when the scale of the text is changed.
+		/// </summary>
+		/// <param name="fontState"></param>
 		protected internal virtual void OnScaleChanged(FontState fontState)
 		{
 		}

@@ -106,16 +106,28 @@ namespace AgateLib.DisplayLib
 			get { return Display.Impl.CapsBool(DisplayBoolCaps.CanCreateBitmapFont); }
 		}
 
+		/// <summary>
+		/// Gets the maximum size a surface can be.
+		/// </summary>
 		public Size MaxSurfaceSize
 		{
 			get { return Display.Impl.CapsSize(DisplaySizeCaps.MaxSurfaceSize); }
 		}
 	}
 
+	/// <summary>
+	/// Enum which is used to specify a Caps value which should return a Size object.
+	/// </summary>
 	public enum DisplaySizeCaps
 	{
+		/// <summary>
+		/// Value for getting the maximum supported surface size.
+		/// </summary>
 		MaxSurfaceSize,
 	}
+	/// <summary>
+	/// Enum which is used to specify a Caps value which should return a logical value.
+	/// </summary>
 	public enum DisplayBoolCaps
 	{
 		/// <summary>

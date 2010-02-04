@@ -197,12 +197,12 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The value to write.</param>
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void WriteEnum<T>(string name, T value, bool asattribute) where T : struct
+		public void WriteEnum<T>(string name, T value, bool asAttribute) where T : struct
 		{
 			if (typeof(T).IsEnum == false)
 				throw new XleSerializationException("Type passed is not an enum.");
 
-			WriteImpl(name, value.ToString(), asattribute);
+			WriteImpl(name, value.ToString(), asAttribute);
 		}
 		/// <summary>
 		/// Writes a field to the XML data as an element or an attribute.
@@ -732,6 +732,12 @@ namespace AgateLib.Serialization.Xle
 			return retval;
 		}
 
+		/// <summary>
+		/// Reads a dictionary of the form Dictionary&lt;Tkey, int&gt;.
+		/// </summary>
+		/// <typeparam name="Tkey"></typeparam>
+		/// <param name="name"></param>
+		/// <returns></returns>
 		public Dictionary<Tkey, int> ReadDictionaryInt32<Tkey>(string name)
 		{
 			XmlElement element = (XmlElement)CurrentNode[name];
@@ -778,6 +784,12 @@ namespace AgateLib.Serialization.Xle
 			}
 		}
 
+		/// <summary>
+		/// Reads an object of the specified type from the Xle serialized data.
+		/// </summary>
+		/// <typeparam name="T">Type of the object to read.</typeparam>
+		/// <param name="name">Key name of the object.</param>
+		/// <returns></returns>
 		public T ReadObject<T>(string name)
 		{
 			return (T)ReadObject(name);

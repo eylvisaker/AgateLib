@@ -24,8 +24,14 @@ using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib.Shaders.Implementation
 {
+	/// <summary>
+	/// Base class for the implementation of the Basic2D shader.
+	/// </summary>
 	public abstract class Basic2DImpl : AgateShaderImpl
 	{
+		/// <summary>
+		/// Gets or sets the coordinate system used (orthogonal projection).
+		/// </summary>
 		public abstract Rectangle CoordinateSystem { get; set; }
 	}
 }

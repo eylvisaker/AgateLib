@@ -11,7 +11,7 @@ namespace AgateOTK.GL3
 	/// Not OpenGL 3.1 compatible.
 	/// Need replacements for everything.
 	/// </summary>
-	class GLPrimitiveRenderer :PrimitiveRenderer 
+	class GLPrimitiveRenderer : PrimitiveRenderer
 	{
 		public void SetGLColor(Color color)
 		{
@@ -89,16 +89,16 @@ namespace AgateOTK.GL3
 			GL.Enable(EnableCap.Texture2D);
 		}
 
-		public override void FillPolygon(PointF[] pts, Color color)
+		public override void FillPolygon(PointF[] pts, int startIndex, int length, Color color)
 		{
 			GL.Disable(EnableCap.Texture2D);
 
 			SetGLColor(color);
 
 			GL.Begin(BeginMode.TriangleFan);
-			for (int i = 0; i < pts.Length; i++)
+			for (int i = 0; i < length; i++)
 			{
-				GL.Vertex3(pts[i].X, pts[i].Y, 0);
+				GL.Vertex3(pts[startIndex + i].X, pts[startIndex + i].Y, 0);
 			}
 			GL.End();                                                         // Done Drawing The Quad
 

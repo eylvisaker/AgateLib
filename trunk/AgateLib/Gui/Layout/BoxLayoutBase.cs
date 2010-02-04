@@ -245,6 +245,9 @@ namespace AgateLib.Gui.Layout
 			if (extraSpace < 0)
 				throw new ArgumentOutOfRangeException("extraSpace must be positive.");
 
+			if (container.Children.VisibleItems.Count() == 0)
+				return;
+
 			int loc = 0;
 			int containerSize = GetContainerSize();
 			int expandSize = extraSpace / container.Children.VisibleItems.Count();

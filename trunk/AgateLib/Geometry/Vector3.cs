@@ -272,12 +272,23 @@ namespace AgateLib.Geometry
 			return (a - b).Magnitude;
 		}
 
+		/// <summary>
+		/// Returns a string representation of the Vector3 object.
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			return string.Format(System.Globalization.CultureInfo.CurrentCulture,
 				"{{X={0},Y={1},Z={2}}}", X, Y, Z);
 		}
 
+		/// <summary>
+		/// Creates a Vector3 from polar spherical coordinates.
+		/// </summary>
+		/// <param name="length"></param>
+		/// <param name="theta"></param>
+		/// <param name="phi"></param>
+		/// <returns></returns>
 		public static Vector3 FromPolar(int length, float theta, float phi)
 		{
 			return length * new Vector3(

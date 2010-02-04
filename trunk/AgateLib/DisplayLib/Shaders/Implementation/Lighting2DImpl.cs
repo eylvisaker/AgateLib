@@ -24,15 +24,30 @@ using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib.Shaders.Implementation
 {
+	/// <summary>
+	/// Base class for the implementation of the Lighting2D shader.
+	/// </summary>
 	public abstract class Lighting2DImpl : AgateShaderImpl 
 	{
+		/// <summary>
+		/// Constructs a Lighting2DImpl object.
+		/// </summary>
 		public Lighting2DImpl()
 		{
 			Lights = new List<Light>();
 		}
 
+		/// <summary>
+		/// Gets the maximum number of lights.
+		/// </summary>
 		public abstract int MaxActiveLights { get; }
+		/// <summary>
+		/// Gets the list of lights.
+		/// </summary>
 		public List<Light> Lights { get; private set; }
+		/// <summary>
+		/// Sets the ambient light color.
+		/// </summary>
 		public abstract Color AmbientLight { get; set; }
 
 	}

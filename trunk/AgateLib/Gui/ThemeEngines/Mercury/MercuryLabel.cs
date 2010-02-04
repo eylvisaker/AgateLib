@@ -25,16 +25,31 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
+	/// <summary>
+	/// Class which draws labels for the Mercury theme engine.
+	/// </summary>
 	public class MercuryLabel : MercuryWidget 
 	{
+		/// <summary>
+		/// Constructs a MercuryLabel object.
+		/// </summary>
+		/// <param name="scheme"></param>
 		public MercuryLabel(MercuryScheme scheme)
 			: base(scheme)
 		{ }
 
+		/// <summary>
+		/// Draws the label.
+		/// </summary>
+		/// <param name="w"></param>
 		public override void DrawWidget(Widget w)
 		{
 			DrawLabel((Label)w);
 		}
+		/// <summary>
+		/// Draws a label.
+		/// </summary>
+		/// <param name="label"></param>
 		public void DrawLabel(Label label)
 		{
 			Point location = new Point();
@@ -49,10 +64,20 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			WidgetFont.DrawText(location, label.Text);
 		}
 
+		/// <summary>
+		/// Gets minimum size of a label.
+		/// </summary>
+		/// <param name="w"></param>
+		/// <returns></returns>
 		public override Size MinSize(Widget w)
 		{
 			return CalcMinLabelSize((Label)w);
 		}
+		/// <summary>
+		/// Gets the minimum size of a label.
+		/// </summary>
+		/// <param name="label"></param>
+		/// <returns></returns>
 		public Size CalcMinLabelSize(Label label)
 		{
 			Size retval = WidgetFont.MeasureString(label.Text);

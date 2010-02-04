@@ -23,12 +23,26 @@ using System.Text;
 
 namespace AgateLib.Gui
 {
+	/// <summary>
+	/// Class which represents a radio button.  Radio buttons within the 
+	/// same container are constrained so that only one of them can be
+	/// checked at once.
+	/// </summary>
 	public class RadioButton : Widget
 	{
+		bool mouseDownIn;
+
+		/// <summary>
+		/// Constructs a radio button.
+		/// </summary>
 		public RadioButton()
 		{
 			Name = "RadioButton";
 		}
+		/// <summary>
+		/// Constructs a radio button with the specified text.
+		/// </summary>
+		/// <param name="text"></param>
 		public RadioButton(string text)
 		{
 			Name = text;
@@ -36,6 +50,9 @@ namespace AgateLib.Gui
 		}
 		private bool mChecked;
 
+		/// <summary>
+		/// Gets or sets whether or not this radio button object is checked.
+		/// </summary>
 		public bool Checked
 		{
 			get { return mChecked; }
@@ -63,6 +80,9 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Always returns true.
+		/// </summary>
 		public override bool CanHaveFocus
 		{
 			get
@@ -71,6 +91,10 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Processes a keydown event for the radio button.
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void SendKeyDown(AgateLib.InputLib.InputEventArgs e)
 		{
 			if (e.KeyCode == AgateLib.InputLib.KeyCode.Space)
@@ -79,7 +103,10 @@ namespace AgateLib.Gui
 			}
 		}
 
-		bool mouseDownIn;
+		/// <summary>
+		/// Processes the mouse down event.  If overriding, be sure to call base.OnMouseDown.
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void OnMouseDown(AgateLib.InputLib.InputEventArgs e)
 		{
 			if (Enabled == false)
@@ -87,6 +114,10 @@ namespace AgateLib.Gui
 
 			mouseDownIn = true;
 		}
+		/// <summary>
+		/// Processes the mouse down event.  If overriding, be sure to call base.OnMouseDown.
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void OnMouseUp(AgateLib.InputLib.InputEventArgs e)
 		{
 			if (MouseIn && mouseDownIn)
@@ -101,6 +132,9 @@ namespace AgateLib.Gui
 				CheckChanged(this, EventArgs.Empty);
 		}
 
+		/// <summary>
+		/// Event which is raised when the check state is changed.
+		/// </summary>
 		public event EventHandler CheckChanged;
 	}
 }

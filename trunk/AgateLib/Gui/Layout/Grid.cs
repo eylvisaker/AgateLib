@@ -24,32 +24,56 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui.Layout
 {
+	/// <summary>
+	/// A class which implements the ILayoutPerformer interface.
+	/// This class allows GUI elements to be positioned manually.
+	/// </summary>
 	public class Grid : ILayoutPerformer
 	{
-
+		/// <summary>
+		/// Always returns false.
+		/// </summary>
 		public bool DoingLayout
 		{
 			get { return false; }
 		}
-
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="container"></param>
 		public void DoLayout(Container container)
 		{
 			return;
 		}
 
-
+		/// <summary>
+		/// Returns the size of the container.
+		/// </summary>
+		/// <param name="container"></param>
+		/// <returns></returns>
 		public Size RecalcMinSize(Container container)
 		{
 			return container.Size;
 		}
 
-
+		/// <summary>
+		/// The grid layout does not accept any input keys, so this always
+		/// returns false.
+		/// </summary>
+		/// <param name="keyCode"></param>
+		/// <returns></returns>
 		public bool AcceptInputKey(AgateLib.InputLib.KeyCode keyCode)
 		{
 			return false;
 		}
 
-
+		/// <summary>
+		/// Does not perform directional passing of focus to other controls.
+		/// </summary>
+		/// <param name="container"></param>
+		/// <param name="currentFocus"></param>
+		/// <param name="direction"></param>
+		/// <returns></returns>
 		public Widget CanMoveFocus(Container container, Widget currentFocus, Direction direction)
 		{
 			return null;

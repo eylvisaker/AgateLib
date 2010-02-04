@@ -23,10 +23,24 @@ using System.Text;
 
 namespace AgateLib.DisplayLib.Shaders.Implementation
 {
+	/// <summary>
+	/// Enum indicating shaders which should be built into AgateLib drivers.
+	/// </summary>
 	public enum BuiltInShader
 	{
+		/// <summary>
+		/// This is the simplest 2D shader implemented.  It must be supported
+		/// by all drivers.
+		/// </summary>
 		Basic2DShader,
+		/// <summary>
+		/// This is a slightly enhanced 2D shader, which includes lighting calculations.
+		/// </summary>
 		Lighting2D,
+		/// <summary>
+		/// This is a basic 3D shader.  Any driver supporting 3D should support this
+		/// driver.  Lighting is supported.
+		/// </summary>
 		Lighting3D,
 	}
 }

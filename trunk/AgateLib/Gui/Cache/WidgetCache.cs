@@ -20,16 +20,56 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.Geometry;
 
 namespace AgateLib.Gui.Cache
 {
+	/// <summary>
+	/// Base class for a cache object used by widgets.
+	/// </summary>
 	public class WidgetCache
 	{
+		RectangleF mDisplayRect;
+
+		/// <summary>
+		/// Constructs a widget cache object.
+		/// </summary>
 		public WidgetCache()
 		{
 			Dirty = true;
 		}
 
+		/// <summary>
+		/// Indicates whether or not the cache is dirty and needs to be recalculated.
+		/// </summary>
 		public bool Dirty { get; set; }
+
+		public RectangleF DisplayRect { get{return mDisplayRect; } 
+			set { mDisplayRect = value; }
+		}
+		public SizeF DisplaySize
+		{
+			get { return mDisplayRect.Size; }
+			set { mDisplayRect.Size = value; }
+		}
+		public PointF DisplayLocation
+		{
+			get { return mDisplayRect.Location; }
+			set { mDisplayRect.Location = value; }
+		}
+
+		public float DisplayWidth
+		{
+			get { return mDisplayRect.Width; }
+			set { mDisplayRect.Width = value; }
+		}
+		public float DisplayHeight
+		{
+			get { return mDisplayRect.Height; }
+			set { mDisplayRect.Height = value; }
+		}
+
+		public bool DisplayVisible { get; set; }
+		public float DisplayAlpha { get; set; }
 	}
 }

@@ -24,10 +24,18 @@ namespace AgateLib.Data
 	{
 		private AgateTableDictionary mTables;
 
+		/// <summary>
+		/// Constructs a new AgateDatabase object.
+		/// </summary>
 		public AgateDatabase()
 		{
 			mTables = new AgateTableDictionary(this);
 		}
+		/// <summary>
+		/// Loads an AgateDatabase object from a file on disk.
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
 		public static AgateDatabase FromFile(string filename)
 		{
 			AgateDatabase db = ReadDatabase(new AgateLib.Utility.ZipFileProvider(filename));
@@ -35,16 +43,23 @@ namespace AgateLib.Data
 
 			return db;
 		}
+		/// <summary>
+		/// Loads an AgateDatabase object from the specified file provider.
+		/// </summary>
+		/// <param name="provider"></param>
+		/// <returns></returns>
 		public static AgateDatabase FromProvider(IFileProvider provider)
 		{
 			return ReadDatabase(provider);
 		}
 
+		/// <summary>
+		/// Destroys an AgateDatabase object.
+		/// </summary>
 		public void Dispose()
 		{
 			((IDisposable)mTables).Dispose();
 		}
-
 
 		private static AgateDatabase ReadDatabase(IFileProvider provider)
 		{
@@ -59,7 +74,6 @@ namespace AgateLib.Data
 				return retval;
 			}
 		}
-
 
 		#region IXleSerializable Members
 
@@ -88,6 +102,10 @@ namespace AgateLib.Data
 
 		#endregion
 
+		/// <summary>
+		/// Gets or sets the namespace that is used when code is generated
+		/// from the AgateDatabase.
+		/// </summary>
 		public string CodeNamespace { get; set; }
 
 		private IEnumerable<string> TableList
@@ -118,6 +136,10 @@ namespace AgateLib.Data
 			get { return mTables; }
 		}
 
+		/// <summary>
+		/// Gets the text that goes into catalog.txt in the database archive.
+		/// </summary>
+		/// <returns></returns>
 		public string CatalogString()
 		{
 			StringBuilder b = new StringBuilder();

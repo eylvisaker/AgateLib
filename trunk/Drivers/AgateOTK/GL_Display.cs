@@ -250,10 +250,10 @@ namespace AgateOTK
 			mPrimitives.FillRect(rect, color);
 		}
 
-		public override void FillPolygon(PointF[] pts, Color color)
+		public override void FillPolygon(PointF[] pts, int startIndex, int length, Color color)
 		{
 			DrawBuffer.Flush();
-			mPrimitives.FillPolygon(pts, color);
+			mPrimitives.FillPolygon(pts, startIndex, length, color);
 		}
 
 		#endregion

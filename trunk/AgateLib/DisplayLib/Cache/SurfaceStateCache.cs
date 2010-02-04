@@ -23,6 +23,9 @@ using System.Text;
 
 namespace AgateLib.DisplayLib.Cache
 {
+	/// <summary>
+	/// Base class for a cache object used to cache calculated values for a particular SurfaceState object.
+	/// </summary>
 	public abstract class SurfaceStateCache
 	{
 	}

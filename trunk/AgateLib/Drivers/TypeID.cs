@@ -48,6 +48,11 @@ namespace AgateLib.Drivers
 		/// reference driver for 2D drawing.
 		/// </summary>
 		Drawing = 1,
+		/// <summary>
+		/// The software System.Drawing driver.  This enum value is obsolete, use 
+		/// DisplayTypeID.Drawing instead.
+		/// </summary>
+		[Obsolete]
 		Reference = 1,
 		
 		/// <summary>

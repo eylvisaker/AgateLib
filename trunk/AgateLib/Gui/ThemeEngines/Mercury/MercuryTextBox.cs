@@ -27,6 +27,9 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 {
 	using Cache;
 
+	/// <summary>
+	/// Class which draws text boxes for the Mercury theme engine.
+	/// </summary>
 	public class MercuryTextBox : MercuryWidget
 	{
 		public Surface Image { get; set; }
@@ -35,7 +38,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public Surface Focus { get; set; }
 		public Rectangle StretchRegion { get; set; }
 
-		public MercuryTextBox(MercuryScheme scheme) : base(scheme)
+		public MercuryTextBox(MercuryScheme scheme)
+			: base(scheme)
 		{
 			Margin = 3;
 		}
@@ -59,11 +63,18 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		{
 
 		}
-
-		private static TextBoxCache GetTextBoxCache(TextBox textBox)
+		public override AgateLib.Gui.Cache.WidgetCache GetOrCreateCache(Widget w)
+		{
+			return GetTextBoxCache((TextBox)w);
+		}
+		private TextBoxCache GetTextBoxCache(TextBox textBox)
 		{
 			if (textBox.Cache == null)
+			{
 				textBox.Cache = new TextBoxCache();
+
+				base.InitializeCache(textBox, textBox.Cache);
+			}
 
 			return (TextBoxCache)textBox.Cache;
 		}
@@ -134,8 +145,10 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			if (textBox.Enabled == false)
 				image = Disabled;
 
+			TextBoxCache c = GetTextBoxCache(textBox);
+
 			Point location = textBox.PointToScreen(new Point(0, 0));
-			Size size = textBox.Size;
+			Size size = (Size)c.DisplaySize;
 
 			DrawStretchImage(location, size,
 				image, StretchRegion);
@@ -144,11 +157,11 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			{
 				if (textBox.HasFocus)
 				{
-					DrawStretchImage(location, size,						Focus, StretchRegion);
+					DrawStretchImage(location, size, Focus, StretchRegion);
 				}
 				if (textBox.MouseIn)
 				{
-					DrawStretchImage(location, size,						Hover, StretchRegion);
+					DrawStretchImage(location, size, Hover, StretchRegion);
 				}
 			}
 
@@ -159,11 +172,10 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			location.X += StretchRegion.X;
 			location.Y += StretchRegion.Y;
 
-			TextBoxCache c = (TextBoxCache)textBox.Cache;
 
 			if (c == null || c.TextBoxSurface == null)
 			{
-				WidgetFont.DrawText(					location,					textBox.Text);
+				WidgetFont.DrawText(location, textBox.Text);
 			}
 			else
 			{

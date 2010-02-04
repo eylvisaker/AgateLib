@@ -207,6 +207,10 @@ namespace AgateLib.Geometry
 			return (a - b).Magnitude;
 		}
 
+		/// <summary>
+		/// Returns a string representation of the Vector2 object.
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			return string.Format(System.Globalization.CultureInfo.CurrentCulture,

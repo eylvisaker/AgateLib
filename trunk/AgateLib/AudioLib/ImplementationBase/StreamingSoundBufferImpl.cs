@@ -24,6 +24,9 @@ using AgateLib.AudioLib.ImplementationBase;
 
 namespace AgateLib.AudioLib.ImplementationBase
 {
+	/// <summary>
+	/// Base class for a StreamingSoundBuffer implementation.
+	/// </summary>
 	public abstract class StreamingSoundBufferImpl
 	{
 		/// <summary>

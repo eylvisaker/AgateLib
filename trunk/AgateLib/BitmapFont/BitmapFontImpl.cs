@@ -182,6 +182,13 @@ namespace AgateLib.BitmapFont
 			mAverageCharWidth = total / (double)count;
 		}
 
+		/// <summary>
+		/// Measures the string based on how it would be drawn with the
+		/// specified FontState object.
+		/// </summary>
+		/// <param name="state"></param>
+		/// <param name="text"></param>
+		/// <returns></returns>
 		public override Size MeasureString(FontState state, string text)
 		{
 			if (string.IsNullOrEmpty(text))

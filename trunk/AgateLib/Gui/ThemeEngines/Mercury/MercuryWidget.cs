@@ -22,9 +22,13 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Gui.Cache;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
+	/// <summary>
+	/// Base class for classes which draw widgets for the Mercury theme engine.
+	/// </summary>
 	public abstract class MercuryWidget
 	{
 		MercuryScheme scheme;
@@ -152,6 +156,49 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		public virtual void Update(Widget widget)
 		{
+			DoTransition(widget);
+		}
+
+		const float transitionSpeed = 2;
+		internal void DoTransition(Widget widget)
+		{
+			var c = GetOrCreateCache(widget);
+
+			if (Math.Abs(widget.Width - c.DisplayWidth) > 0)
+			{
+				c.DisplayWidth += UpdateAmount(widget.Width, c.DisplayWidth );
+			}
+			if (Math.Abs(widget.Height - c.DisplayHeight) > 0)
+			{
+				c.DisplayHeight += UpdateAmount(widget.Height, c.DisplayHeight);
+			}
+			if (Math.Abs(widget.Location.X - c.DisplayLocation.X) > 0 || 
+				Math.Abs(widget.Location.Y - c.DisplayLocation.Y) > 0)
+			{
+				c.DisplayLocation = new PointF(
+					c.DisplayLocation.X + UpdateAmount(widget.Location.X, c.DisplayLocation.X),
+					c.DisplayLocation.Y + UpdateAmount(widget.Location.Y, c.DisplayLocation.Y));
+			}
+		}
+
+		private static float UpdateAmount(float target, float current)
+		{
+			return (float)((target - current) * Display.DeltaTime * transitionSpeed / 1000.0);
+		}
+
+		public virtual WidgetCache GetOrCreateCache(Widget w)
+		{
+			var retval = new WidgetCache();
+
+			InitializeCache(w, retval);
+
+			return retval;
+		}
+
+		protected void InitializeCache(Widget widget, WidgetCache c)
+		{
+			c.DisplayLocation = (PointF)widget.Location;
+			c.DisplaySize = (SizeF)widget.Size;
 		}
 	}
 }

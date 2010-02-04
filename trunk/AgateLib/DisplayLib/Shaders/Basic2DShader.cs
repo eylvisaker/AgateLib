@@ -46,6 +46,9 @@ namespace AgateLib.DisplayLib.Shaders
 			get { return (Basic2DImpl)base.Impl; }
 		}
 
+		/// <summary>
+		/// Gets the BuiltInShaderType enum corresponding to this built in shader.
+		/// </summary>
 		protected override BuiltInShader BuiltInShaderType
 		{
 			get { return BuiltInShader.Basic2DShader; }

@@ -27,6 +27,12 @@ using System.Runtime.InteropServices;
 
 namespace AgateLib
 {
+	/// <summary>
+	/// Class which contains known information about the platform.
+	/// This class also contains the folders where the application should store its data,
+	/// which are automatically created from the AssemblyCompanhy and AssemblyProduct
+	/// attributes for the assembly where the entry point for the application is.
+	/// </summary>
 	public class Platform
 	{
 		PlatformType mType;
@@ -128,6 +134,9 @@ namespace AgateLib
 			Directory.CreateDirectory(AppDataDirectory);
 		}
 
+		/// <summary>
+		/// Gets the directory where the application should store its configuration data.
+		/// </summary>
 		public string AppDataDirectory
 		{
 			get { return mAppData; }
@@ -161,6 +170,13 @@ namespace AgateLib
 			SetFolderPaths(companyName, product);
 		}
 
+		/// <summary>
+		/// Sets the folder paths for data based on the company name and application name.
+		/// This only needs to be called if the values used in the AssemblyCompany and
+		/// AssemblyProduct are not what you want to use to define these locations.
+		/// </summary>
+		/// <param name="companyName"></param>
+		/// <param name="appName"></param>
 		public void SetFolderPaths(string companyName, string appName)
 		{
 			string combDir = Path.Combine(companyName, appName);
@@ -209,10 +225,16 @@ namespace AgateLib
 			}
 		}
 
+		/// <summary>
+		/// Gets the platform type.
+		/// </summary>
 		public PlatformType PlatformType
 		{
 			get { return mType; }
 		}
+		/// <summary>
+		/// Gets the runtime being used.
+		/// </summary>
 		public DotNetRuntime Runtime
 		{
 			get { return mRuntime; }
@@ -339,8 +361,6 @@ namespace AgateLib
 
 			return retval;
 		}
-
-
 	
 	}
 }

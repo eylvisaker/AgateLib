@@ -84,33 +84,8 @@ namespace AgateLib.Geometry.VertexTypes
 			}
 		}
 
-		/*
-		
-		public VertexLayout PositionNormal
-		{
-			get
-			{
-				return new VertexLayout 
-				{ 
-					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Position),
-					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Normal),
-				};
-			}
-		}
-		public VertexLayout PositionTexture
-		{
-			get
-			{
-				return new VertexLayout 
-				{ 
-					new VertexMember(VertexMemberType.Float3, VertexMemberUsage.Position),
-					new VertexMember(VertexMemberType.Float2, VertexMemberUsage.Texture),
-				};
-			}
-		}
-		*/
 
-		#region --- IList<VertexMember> Members ---
+		#region --- IList<VertexElementDesc> Members ---
 
 		int IList<VertexElementDesc>.IndexOf(VertexElementDesc item)
 		{
@@ -120,10 +95,19 @@ namespace AgateLib.Geometry.VertexTypes
 		{
 			items.Insert(index, item);
 		}
+		/// <summary>
+		/// Removes an element by its index.
+		/// </summary>
+		/// <param name="index"></param>
 		public void RemoveAt(int index)
 		{
 			items.RemoveAt(index);
 		}
+		/// <summary>
+		/// Gets or sets an element by its index.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
 		public VertexElementDesc this[int index]
 		{
 			get { return items[index]; }
@@ -131,12 +115,19 @@ namespace AgateLib.Geometry.VertexTypes
 		}
 
 		#endregion
-		#region --- ICollection<VertexMember> Members ---
+		#region --- ICollection<VertexElementDesc> Members ---
 
+		/// <summary>
+		/// Adds a vertex element to the vertex layout.
+		/// </summary>
+		/// <param name="item"></param>
 		public void Add(VertexElementDesc item)
 		{
 			items.Add(item);
 		}
+		/// <summary>
+		/// Removes all items from the vertex layout.
+		/// </summary>
 		public void Clear()
 		{
 			items.Clear();
@@ -145,11 +136,13 @@ namespace AgateLib.Geometry.VertexTypes
 		{
 			return items.Contains(item);
 		}
-		public void CopyTo(VertexElementDesc[] array, int arrayIndex)
+		void ICollection<VertexElementDesc>.CopyTo(VertexElementDesc[] array, int arrayIndex)
 		{
 			items.CopyTo(array, arrayIndex);
 		}
-
+		/// <summary>
+		/// Returns the number of items in the vertex layout.
+		/// </summary>
 		public int Count
 		{
 			get { return items.Count; }
@@ -166,7 +159,7 @@ namespace AgateLib.Geometry.VertexTypes
 		}
 
 		#endregion
-		#region --- IEnumerable<VertexMember> Members ---
+		#region --- IEnumerable<VertexElementDesc> Members ---
 
 		IEnumerator<VertexElementDesc> IEnumerable<VertexElementDesc>.GetEnumerator()
 		{

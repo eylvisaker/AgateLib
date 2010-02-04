@@ -241,6 +241,10 @@ namespace AgateLib.Sprites
 			}
 		}
 
+		/// <summary>
+		/// Adds a surface as a frame to the sprite.
+		/// </summary>
+		/// <param name="surface"></param>
 		public void AddFrame(Surface surface)
 		{
 			SpriteFrame frame = new SpriteFrame(surface);
@@ -1016,15 +1020,21 @@ namespace AgateLib.Sprites
 
 		#endregion
 
-
+		/// <summary>
+		/// Gets or sets the SurfaceState used when drawing.
+		/// </summary>
 		public SurfaceState State
 		{
 			get { return mState; }
 			set { mState = value; }
 		}
-
+		/// <summary>
+		/// Draws the sprite with the specified state object.  (Not currently implemented.)
+		/// </summary>
+		/// <param name="State"></param>
 		public void Draw(SurfaceState State)
 		{
+			throw new NotImplementedException();
 		}
 
 	}

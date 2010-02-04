@@ -244,7 +244,6 @@ namespace AgateLib
 		/// Override this method to provide a custom splash screen.  This method
 		/// is called before the Initialize method is called.
 		/// </summary>
-		/// <param name="time_ms"></param>
 		protected virtual void RenderSplashScreen()
 		{
 			Display.Clear(Color.White);
@@ -306,7 +305,13 @@ namespace AgateLib
 
 		}
 
+		/// <summary>
+		/// Gets the initial size of the window.
+		/// </summary>
 		protected virtual Size WindowSize { get { return new Size(800, 600); } }
+		/// <summary>
+		/// Gets whether or not the initial window should be created full screen.
+		/// </summary>
 		protected virtual bool FullScreen { get { return false; } }
 
 		#endregion
@@ -320,6 +325,9 @@ namespace AgateLib
 			get { return mWindow; }
 		}
 
+		/// <summary>
+		/// Gets or sets the GuiRoot object.
+		/// </summary>
 		public Gui.GuiRoot GuiRoot
 		{
 			get { return mGui; }

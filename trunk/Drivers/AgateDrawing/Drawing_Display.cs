@@ -189,13 +189,13 @@ namespace AgateDrawing
 			FillRect(rect, color.AverageColor);
 		}
 
-		public override void FillPolygon(Geometry.PointF[] pts, Geometry.Color color)
+		public override void FillPolygon(Geometry.PointF[] pts, int startIndex, int length, Geometry.Color color)
 		{
 			SolidBrush b = new SolidBrush(Interop.Convert(color));
 
-			PointF[] p = new PointF[pts.Length];
-			for (int i = 0; i < pts.Length; i++)
-				p[i] = Interop.Convert(pts[i]);
+			PointF[] p = new PointF[length];
+			for (int i = 0; i < p.Length; i++)
+				p[i] = Interop.Convert(pts[startIndex + i]);
 
 			mGraphics.FillPolygon(b, p);
 

@@ -27,27 +27,26 @@ namespace AgateLib.Particles
 	/// <summary>
 	/// Base class for particle emitters.
 	/// </summary>
-    /// <example>This sample shows how to extend the <see cref="ParticleEmitter"/> class.
-    /// <code>
-    /// class TestClass : ParticleEmitter
-    /// {
-    ///     public override void Draw ()
-    /// 	{
-    /// 		foreach(PixelParticle ptl in Particles)
-    /// 		{
-    /// 			Display.DrawEllipse(new Rectangle(0, 0, 2, 2), Color.White);
-    /// 		}
-    /// 	}
-    /// }
-    /// </code>
-    /// </example>
-	/// </summary>
+	/// <example>This sample shows how to extend the <see cref="ParticleEmitter"/> class.
+	/// <code>
+	/// class TestClass : ParticleEmitter
+	/// {
+	///     public override void Draw ()
+	/// 	{
+	/// 		foreach(PixelParticle ptl in Particles)
+	/// 		{
+	/// 			Display.DrawEllipse(new Rectangle(0, 0, 2, 2), Color.White);
+	/// 		}
+	/// 	}
+	/// }
+	/// </code>
+	/// </example>
 	public abstract class ParticleEmitter : Particle
-	{	
+	{
 		private List<Particle> mParticles = new List<Particle>();
-		
+
 		private float mEmitLife = 1f;
-		
+
 		// 1 = emit each second a particle
 		// 2 = emit every two seconds
 		private float mEmitFrequency = 1f;
@@ -63,7 +62,7 @@ namespace AgateLib.Particles
 			get { return mParticles; }
 			set { mParticles = value; }
 		}
-		
+
 		/// <value>
 		/// Gets or sets the life of particles which will be emitted in future in seconds.
 		/// </value>
@@ -72,7 +71,7 @@ namespace AgateLib.Particles
 			get { return mEmitLife; }
 			set { mEmitLife = value; }
 		}
-		
+
 		/// <value>
 		/// Gets or sets the emit frequency in seconds.
 		/// </value>
@@ -81,7 +80,7 @@ namespace AgateLib.Particles
 			get { return mEmitFrequency; }
 			set { mEmitFrequency = value; }
 		}
-		
+
 		/// <value>
 		/// Gets or sets the emit acceleration.
 		/// </value>
@@ -90,7 +89,7 @@ namespace AgateLib.Particles
 			get { return mEmitAcceleration; }
 			set { mEmitAcceleration = value; }
 		}
-		
+
 		/// <value>
 		/// Gets or sets the emit velocity.
 		/// </value>
@@ -99,11 +98,11 @@ namespace AgateLib.Particles
 			get { return mEmitVelocity; }
 			set { mEmitVelocity = value; }
 		}
-		
+
 		/// <summary>
 		/// Draws each particle.
 		/// </summary>
-		public abstract void Draw ();
+		public abstract void Draw();
 
 		/// <summary>
 		/// Overridden update method.
@@ -112,24 +111,38 @@ namespace AgateLib.Particles
 		/// <param name="time_ms">
 		/// Passed time in milliseconds since last update.
 		/// </param>
-		public override void Update (double time_ms)
+		public override void Update(double time_ms)
 		{
-			if ( OnUpdate != null)
+			if (OnUpdate != null)
 				OnUpdate(new UpdateArgs(this, time_ms));
-			
-			foreach(Particle pt in Particles)
+
+			foreach (Particle pt in Particles)
 			{
 				pt.Update(time_ms);
 			}
 			//Updates itself
-			base.Update (time_ms);
+			base.Update(time_ms);
 		}
-		
-		public delegate void ParticleEventHandler(object sender, ParticleArgs args);		
+
+		/// <summary>
+		/// Delegate type for handling particle events.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		public delegate void ParticleEventHandler(object sender, ParticleArgs args);
+		/// <summary>
+		/// Event raised when a new particle is created.
+		/// </summary>
 		public event ParticleEventHandler OnNewParticle;
+		/// <summary>
+		/// Event raised when a particle dies.
+		/// </summary>
 		public event ParticleEventHandler OnDeadParticle;
+		/// <summary>
+		/// Event raised when a particle is recycled.
+		/// </summary>
 		public event ParticleEventHandler OnRecyledParticle;
-		
+
 		/// <summary>
 		/// Triggers a new <see cref="OnNewParticle"/> event.
 		/// </summary>
@@ -138,10 +151,10 @@ namespace AgateLib.Particles
 		/// </param>
 		protected void NewParticle(Particle particle)
 		{
-			if(OnNewParticle != null)
+			if (OnNewParticle != null)
 				OnNewParticle(this, new ParticleArgs(particle));
 		}
-		
+
 		/// <summary>
 		/// Triggers a new <see cref="OnDeadParticle"/> event.
 		/// </summary>
@@ -150,10 +163,10 @@ namespace AgateLib.Particles
 		/// </param>
 		protected void NewDeadParticle(Particle particle)
 		{
-			if(OnDeadParticle != null)
+			if (OnDeadParticle != null)
 				OnDeadParticle(this, new ParticleArgs(particle));
 		}
-		
+
 		/// <summary>
 		/// Triggers a new <see cref="OnRecyledParticle"/> event.
 		/// </summary>
@@ -162,10 +175,10 @@ namespace AgateLib.Particles
 		/// </param>
 		protected void NewRecyledParticle(Particle particle)
 		{
-			if(OnRecyledParticle != null)
+			if (OnRecyledParticle != null)
 				OnRecyledParticle(this, new ParticleArgs(particle));
 		}
-		
+
 		/// <summary>
 		/// Update event handler.
 		/// </summary>
@@ -174,8 +187,8 @@ namespace AgateLib.Particles
 		/// The UpdateEvent is called then the ParticleEmitter begins to update.
 		/// The event is called in <see cref="ParticleEmitter.Update"/>.
 		/// </summary>
-		public event UpdateEventHandler OnUpdate;		
-		
+		public event UpdateEventHandler OnUpdate;
+
 		/// <summary>
 		/// Triggers a new <see cref="OnUpdate"/> event
 		/// </summary>
@@ -184,11 +197,11 @@ namespace AgateLib.Particles
 		/// </param>
 		protected void NewUpdate(double time_ms)
 		{
-			if(OnUpdate != null)
+			if (OnUpdate != null)
 				OnUpdate(new UpdateArgs(this, time_ms));
 		}
 	}
-	
+
 	/// <summary>
 	/// Particle event args.
 	/// </summary>
@@ -202,17 +215,17 @@ namespace AgateLib.Particles
 		{
 			mParticle = particle;
 		}
-		
+
 		private Particle mParticle;
 		/// <value>
 		/// Particle that changed condition.
 		/// </value>
 		public Particle Particle
 		{
-			get{ return mParticle; }
+			get { return mParticle; }
 		}
 	}
-	
+
 	/// <summary>
 	/// Update event args.
 	/// </summary>
@@ -228,7 +241,7 @@ namespace AgateLib.Particles
 			mEmitter = emitter;
 			mTime_ms = time_ms;
 		}
-		
+
 		private ParticleEmitter mEmitter;
 		/// <value>
 		/// Emitter that triggered the update event.
@@ -237,7 +250,7 @@ namespace AgateLib.Particles
 		{
 			get { return mEmitter; }
 		}
-		
+
 		private double mTime_ms;
 		/// <value>
 		/// Passed time in milliseconds since last update.
