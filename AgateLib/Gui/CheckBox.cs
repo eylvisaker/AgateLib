@@ -28,10 +28,17 @@ namespace AgateLib.Gui
 	/// </summary>
 	public class CheckBox : Widget
 	{
+		/// <summary>
+		/// Constructs a checkbox object.
+		/// </summary>
 		public CheckBox()
 		{
 			Name = "Checkbox";
 		}
+		/// <summary>
+		/// Constructs a checkbox object.
+		/// </summary>
+		/// <param name="text"></param>
 		public CheckBox(string text)
 		{
 			Name = text;
@@ -39,6 +46,9 @@ namespace AgateLib.Gui
 		}
 		private bool mChecked;
 
+		/// <summary>
+		/// Gets or sets whether the checkbox is checked.
+		/// </summary>
 		public bool Checked
 		{
 			get { return mChecked; }
@@ -50,6 +60,9 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Returns true.
+		/// </summary>
 		public override bool CanHaveFocus
 		{
 			get
@@ -59,6 +72,10 @@ namespace AgateLib.Gui
 		}
 
 		bool mouseDownIn;
+		/// <summary>
+		/// Handles the mouse down event.
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void OnMouseDown(AgateLib.InputLib.InputEventArgs e)
 		{
 			if (Enabled == false)
@@ -66,6 +83,10 @@ namespace AgateLib.Gui
 
 			mouseDownIn = true;
 		}
+		/// <summary>
+		///  Handles the mouse up event.
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void OnMouseUp(AgateLib.InputLib.InputEventArgs e)
 		{
 			if (MouseIn && mouseDownIn)
@@ -74,7 +95,10 @@ namespace AgateLib.Gui
 			mouseDownIn = false;
 
 		}
-
+		/// <summary>
+		/// Handles the key down event.
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void SendKeyDown(AgateLib.InputLib.InputEventArgs e)
 		{
 			if (e.KeyCode == AgateLib.InputLib.KeyCode.Space)
@@ -89,6 +113,9 @@ namespace AgateLib.Gui
 				CheckChanged(this, EventArgs.Empty);
 		}
 
+		/// <summary>
+		/// Event raised when the check state is changed.
+		/// </summary>
 		public event EventHandler CheckChanged;
 	}
 }

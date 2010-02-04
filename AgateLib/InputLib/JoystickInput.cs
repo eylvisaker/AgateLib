@@ -56,6 +56,9 @@ namespace AgateLib.InputLib
 			mRawJoysticks.AddRange(impl.CreateJoysticks().Select(x => new Joystick(x)));
 		}
 
+		/// <summary>
+		/// Gets the list of joysticks.
+		/// </summary>
 		public static IList<Joystick> Joysticks
 		{
 			get { return mRawJoysticks; }

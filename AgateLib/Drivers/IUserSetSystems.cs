@@ -82,6 +82,9 @@ namespace AgateLib.Drivers
 		/// <param name="chooseDisplay"></param>
 		/// <param name="chooseAudio"></param>
 		/// <param name="chooseInput"></param>
+		/// <param name="preferredAudio"></param>
+		/// <param name="preferredDisplay"></param>
+		/// <param name="preferredInput"></param>
 		void SetChoices(bool chooseDisplay, bool chooseAudio, bool chooseInput, 
 			DisplayTypeID preferredDisplay, AudioTypeID preferredAudio, InputTypeID preferredInput);
 	}

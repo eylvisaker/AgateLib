@@ -44,8 +44,18 @@ namespace AgateLib.DisplayLib.Shaders
 			Lighting3D = null;
 		}
 
+		/// <summary>
+		/// Gets an object implementing the Basic2DShader class.
+		/// This should always be available.
+		/// </summary>
 		public static Basic2DShader Basic2DShader { get; private set; }
+		/// <summary>
+		/// Gets an object implementing the Lighting2D class.
+		/// </summary>
 		public static Lighting2D Lighting2D { get; private set; }
+		/// <summary>
+		/// Gets and object implementing the Lighting3D class.
+		/// </summary>
 		public static Lighting3D Lighting3D { get; private set; }
 
 	}

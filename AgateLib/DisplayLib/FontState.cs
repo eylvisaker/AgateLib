@@ -25,6 +25,9 @@ using AgateLib.DisplayLib.Cache;
 
 namespace AgateLib.DisplayLib
 {
+	/// <summary>
+	/// Class which represents the state information used to draw texdt on the screen.
+	/// </summary>
 	public class FontState : ICloneable
 	{
 		private OriginAlignment mAlignment = OriginAlignment.TopLeft;
@@ -51,6 +54,9 @@ namespace AgateLib.DisplayLib
 					Cache.OnTextChanged(this);
 			}
 		}
+		/// <summary>
+		/// Gets the text which was transformed by the string transformer.
+		/// </summary>
 		public string TransformedText
 		{
 			get { return mTransformedText; }
@@ -158,6 +164,10 @@ namespace AgateLib.DisplayLib
 
 		#region --- ICloneable Members ---
 
+		/// <summary>
+		/// Returns a deep copy of the FontState object.
+		/// </summary>
+		/// <returns></returns>
 		public FontState Clone()
 		{
 			FontState retval = new FontState();

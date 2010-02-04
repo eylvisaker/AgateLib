@@ -24,7 +24,7 @@ using System.Text;
 namespace AgateLib.Gui
 {
 	/// <summary>
-	/// WidgetList implements IList&lt;Widget&rt; for keeping track 
+	/// WidgetList implements IList&lt;Widget&gt; for keeping track 
 	/// of children of a container.
 	/// </summary>
 	public sealed class WidgetList : IList<Widget>

@@ -25,6 +25,7 @@ namespace AgateDatabaseEditor
 		char[] Delimiters;
 		string textQualifier;
 		bool firstRowFieldNames = true;
+		bool mergeDelimiters = false;
 		AgateTable importedTable;
 
 		private void frmImportData_Load(object sender, EventArgs e)
@@ -61,6 +62,13 @@ namespace AgateDatabaseEditor
 				delim.Add(txtOther.Text[0]);
 
 			Delimiters = delim.ToArray();
+		}
+
+
+		private void chkMergeDelimiters_CheckedChanged(object sender, EventArgs e)
+		{
+			mergeDelimiters = chkMergeDelimiters.Checked;
+			RedoImport();
 		}
 
 		private void comboBox1_TextChanged(object sender, EventArgs e)
@@ -124,6 +132,9 @@ namespace AgateDatabaseEditor
 
 		private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
+			if (importedTable == null)
+				return;
+
 			lstColumns.Items.AddRange(importedTable.Columns.ToArray());
 			lstColumns.Enabled = true;
 			propColumns.Enabled = true;
@@ -173,16 +184,10 @@ namespace AgateDatabaseEditor
 
 			for (int i = start; i < lines.Length; i++)
 			{
-				bool boolTrial;
-				int intTrial;
-				double doubleTrial;
-				decimal decimalTrial;
-				DateTime dateTrial;
-
 				if (lines[i].Trim().Length == 0)
 					continue;
 
-				string[] text = SplitLine(lines[i]);
+				string[] text = SplitLine(lines[i], mergeDelimiters);
 
 				AgateRow r = new AgateRow(retval);
 
@@ -213,7 +218,7 @@ namespace AgateDatabaseEditor
 
 		private void SetColumnNames(string line, List<AgateColumn> cols)
 		{
-			string[] text = SplitLine(line);
+			string[] text = SplitLine(line, mergeDelimiters);
 
 			for (int i = 0; i < text.Length; i++)
 			{
@@ -269,7 +274,7 @@ namespace AgateDatabaseEditor
 				if (lines[i].Trim().Length == 0)
 					continue;
 
-				string[] text = SplitLine(lines[i]);
+				string[] text = SplitLine(lines[i], mergeDelimiters);
 
 				for (int j = 0; j < text.Length; j++)
 				{
@@ -381,7 +386,7 @@ namespace AgateDatabaseEditor
 			return false;
 		}
 
-		private string[] SplitLine(string line)
+		private string[] SplitLine(string line, bool removeEmpties)
 		{
 			List<string> retval = new List<string>();
 
@@ -407,6 +412,18 @@ namespace AgateDatabaseEditor
 
 			retval.Add(line.Substring(start));
 
+			if (removeEmpties)
+			{
+				for (int i = 0; i < retval.Count; i++)
+				{
+					if (string.IsNullOrEmpty(retval[i]))
+					{
+						retval.RemoveAt(i);
+						i--;
+					}
+				}
+			}
+
 			return retval.ToArray();
 		}
 
@@ -417,7 +434,17 @@ namespace AgateDatabaseEditor
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			importedTable.Name = txtName.Text;
+			try
+			{
+				importedTable.Name = txtName.Text;
+			}
+			catch(Exception ex)
+			{
+				MessageBox.Show(this, ex.Message, "Error creating table", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				DialogResult = DialogResult.None;
+
+				return;
+			}
 
 			Database.Tables.Add(importedTable);
 		}

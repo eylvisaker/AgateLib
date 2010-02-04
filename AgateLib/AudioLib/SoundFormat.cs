@@ -24,10 +24,13 @@ using System.Text;
 namespace AgateLib.AudioLib
 {
 	/// <summary>
-	/// Class describing what format the raw audio data is in.
+	/// Class describing what format the streamed raw audio data is in.
 	/// </summary>
 	public class SoundFormat
 	{
+		/// <summary>
+		/// Constructs a SoundFormat object.
+		/// </summary>
 		public SoundFormat()
 		{
 			BitsPerSample = 16;
@@ -35,8 +38,18 @@ namespace AgateLib.AudioLib
 			SamplingFrequency = 44100;
 		}
 
+		/// <summary>
+		/// The number of bits per sample.
+		/// </summary>
 		public int BitsPerSample { get; set; }
+		/// <summary>
+		/// The number of channels in the stream.  Samples for individual channels should be
+		/// sequential and in order.
+		/// </summary>
 		public int Channels { get; set; }
+		/// <summary>
+		/// The frequency in Hz of the audio stream.
+		/// </summary>
 		public int SamplingFrequency { get; set; }
 
 		/// <summary>

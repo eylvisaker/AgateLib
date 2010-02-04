@@ -143,6 +143,10 @@ namespace AgateLib.AudioLib
 			return sb;
 		}
 
+		/// <summary>
+		/// Gets or sets a boolean value indicating whether or not the sound buffer
+		/// should loop when it reaches the end.
+		/// </summary>
 		public bool Loop
 		{
 			get { return impl.Loop; }

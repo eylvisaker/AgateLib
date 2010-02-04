@@ -388,6 +388,9 @@ namespace AgateLib.Gui
 
 		private void OnResizePrivate()
 		{
+			if (Root != null)
+				Root.ThemeEngine.WidgetNeedsUpdate(this);
+
 			mDirtyRects.Add(mRegion);
 			OnResize();
 		}

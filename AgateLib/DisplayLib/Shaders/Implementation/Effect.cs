@@ -25,6 +25,7 @@ using AgateLib.Geometry.VertexTypes;
 
 namespace AgateLib.DisplayLib.Shaders
 {
+	[Obsolete]
 	public abstract class Effect
 	{
 		public abstract string Technique { get; set; }

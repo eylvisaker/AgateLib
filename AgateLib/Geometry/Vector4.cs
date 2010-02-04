@@ -35,6 +35,7 @@ namespace AgateLib.Geometry
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="z"></param>
+		/// <param name="w"></param>
 		public Vector4(float x, float y, float z, float w)
 		{
 			mX = x;
@@ -48,6 +49,7 @@ namespace AgateLib.Geometry
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="z"></param>
+		/// <param name="w"></param>
 		public Vector4(double x, double y, double z, double w)
 		{
 			mX = (float)x;
@@ -88,6 +90,11 @@ namespace AgateLib.Geometry
 			set { mW = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets a component by index.  They are in the order 0: X, 1: Y, 2: Z, 3: W.
+		/// </summary>
+		/// <param name="component"></param>
+		/// <returns></returns>
 		public float this[int component]
 		{
 			get

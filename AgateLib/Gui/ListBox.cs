@@ -23,11 +23,17 @@ using System.Text;
 
 namespace AgateLib.Gui
 {
+	/// <summary>
+	/// A GUI widget which contains a list of items.
+	/// </summary>
 	public class ListBox : Widget 
 	{
 		List<object> mItems = new List<object>();
 		ListBoxItemText mItemTextGetter;
 
+		/// <summary>
+		/// Constructs a ListBox object.
+		/// </summary>
 		public ListBox()
 		{
 			mItemTextGetter = ItemToString;
@@ -38,6 +44,9 @@ namespace AgateLib.Gui
 			return item.ToString();
 		}
 
+		/// <summary>
+		/// Gets or sets the collection of objects in the list.
+		/// </summary>
 		public List<object> Items
 		{
 			get { return mItems; }
@@ -49,6 +58,9 @@ namespace AgateLib.Gui
 				mItems = value;
 			}
 		}
+		/// <summary>
+		/// Gets or sets the delegate that produces strings to display for items in a list box.
+		/// </summary>
 		public ListBoxItemText ItemTextGetter
 		{
 			get { return mItemTextGetter; }
@@ -61,6 +73,11 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Gets the text that will be displayed for the specified item.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
 		public string GetItemText(int index)
 		{
 			return mItemTextGetter(Items[index]);
@@ -68,5 +85,10 @@ namespace AgateLib.Gui
 		
 	}
 
+	/// <summary>
+	/// Delegate which converts an item to a string for display in a ListBox.
+	/// </summary>
+	/// <param name="item"></param>
+	/// <returns></returns>
 	public delegate string ListBoxItemText(object item);
 }

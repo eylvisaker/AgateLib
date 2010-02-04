@@ -22,9 +22,13 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Gui.Cache;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
+	/// <summary>
+	/// Class which draws buttons for the Mercury theme engine.
+	/// </summary>
 	public class MercuryButton : MercuryWidget
 	{
 		public Rectangle StretchRegion { get; set; }
@@ -47,6 +51,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public void DrawButton(Button button)
 		{
 			Surface image = Image;
+			WidgetCache c = GetButtonCache(button);
 
 			bool isDefault = button.IsDefaultButton;
 
@@ -58,7 +63,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 				image = Default;
 
 			Point location = button.PointToScreen(Point.Empty);
-			Size size = new Size(button.Width, button.Height);
+			Size size = new Size((int)c.DisplayWidth, (int)c.DisplayHeight);
 
 			DrawStretchImage(location, size,
 				image, StretchRegion);
@@ -81,7 +86,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			SetControlFontColor(button);
 
 			WidgetFont.DisplayAlignment = OriginAlignment.Center;
-			location = Origin.Calc(OriginAlignment.Center, button.Size);
+			location = Origin.Calc(OriginAlignment.Center, size);
 
 			// drop the text down a bit if the button is being pushed.
 			if (button.DrawActivated)
@@ -93,6 +98,19 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			WidgetFont.DrawText(
 				button.PointToScreen(location),
 				button.Text);
+		}
+
+		private WidgetCache GetButtonCache(Button button)
+		{
+			if (button.Cache == null)
+			{
+				button.Cache = new WidgetCache();
+
+				button.Cache.DisplayLocation = (PointF)button.Location;
+				button.Cache.DisplaySize = (SizeF)button.Size;
+			}
+
+			return button.Cache;
 		}
 
 		public override Size MinSize(Widget w)

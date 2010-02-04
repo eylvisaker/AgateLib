@@ -26,6 +26,9 @@ using AgateLib.Utility;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
+	/// <summary>
+	/// Class which contains all the parameters for the Mercury theme engine.
+	/// </summary>
 	public class MercuryScheme
 	{
 		int mInsertionPointBlinkTime = 500;
@@ -86,6 +89,10 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			mDispatch.Add(type, themer);
 		}
 
+		internal void WidgetNeedsUpdate(Widget w)
+		{
+			RegisterUpdater(Themer(w), w);
+		}
 		public void RegisterUpdater(MercuryWidget themer, Widget widget)
 		{
 			mUpdaters.Add(new UpdaterData { Themer = themer, Widget = widget });
@@ -381,6 +388,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 				mHScroll = value; 
 			}
 		}
+
 	}
 
 	public delegate void MercuryUpdater(Widget widget);

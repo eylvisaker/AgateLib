@@ -23,11 +23,22 @@ using System.Text;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
+	/// <summary>
+	/// Class which draws panels for the Mercury theme engine.
+	/// </summary>
 	public class MercuryPanel : MercuryWidget 
 	{
+		/// <summary>
+		/// Constructs a MercuryPanel object.
+		/// </summary>
+		/// <param name="scheme"></param>
 		public MercuryPanel(MercuryScheme scheme)
 			: base(scheme)
 		{ }
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="w"></param>
 		public override void DrawWidget(Widget w)
 		{
 		}

@@ -7,6 +7,9 @@ using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Data
 {
+	/// <summary>
+	/// Class which represents a table in a database.
+	/// </summary>
 	public class AgateTable : IXleSerializable 
 	{
 		string mName;
@@ -15,13 +18,19 @@ namespace AgateLib.Data
 
 		#region --- Construction and Serialization ---
 
+		/// <summary>
+		/// Constructs an AgateTable object.
+		/// </summary>
 		public AgateTable()
 		{
 			mColumns = new AgateColumnDictionary(this);
 			mRows = new AgateRowList(this);
 		}
 
-
+		/// <summary>
+		/// Creates a deep copy of an AgateTable object.
+		/// </summary>
+		/// <returns></returns>
 		public AgateTable Clone()
 		{
 			XleSerializer ser = new XleSerializer(typeof(AgateTable));
@@ -51,7 +60,6 @@ namespace AgateLib.Data
 			info.Write("Columns", mColumns.ColumnList);
 			info.Write("Rows", RowString());
 		}
-
 		void IXleSerializable.ReadData(XleSerializationInfo info)
 		{
 			mName = info.ReadString("Name");
@@ -115,6 +123,11 @@ namespace AgateLib.Data
 
 		#endregion
 
+		/// <summary>
+		/// Gets or sets the name of the table.  This must be a valid
+		/// C# identifier, so it must start with a letter or underscore 
+		/// and can contain only letters, numbers or underscores.
+		/// </summary>
 		public string Name
 		{
 			get { return mName; }
@@ -134,15 +147,26 @@ namespace AgateLib.Data
 			throw new ArgumentException("Invalid name.  Table name should be a valid C# or VB identifier.");
 		}
 
+		/// <summary>
+		/// Returns true if the specified string is valid as a table name.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public static bool IsValidTableName(string value)
 		{
 			return AgateDataHelper.IsValidIdentifier(value);
 		}
 
+		/// <summary>
+		/// Gets the list of columns in the table.
+		/// </summary>
 		public AgateColumnDictionary Columns
 		{
 			get { return mColumns; }
 		}
+		/// <summary>
+		/// Gets the list of rows in the table.
+		/// </summary>
 		public AgateRowList Rows
 		{
 			get { return mRows; }
@@ -155,6 +179,10 @@ namespace AgateLib.Data
 				row.ValidateData(this);
 		}
 
+		/// <summary>
+		/// Adds a column to the table.
+		/// </summary>
+		/// <param name="col"></param>
 		public void AddColumn(AgateColumn col)
 		{
 			mColumns.Add(col);
@@ -165,7 +193,10 @@ namespace AgateLib.Data
 			}
 			mRows.ForEach(x => x.ValidateData(this));
 		}
-
+		/// <summary>
+		/// Removes a column from the table.
+		/// </summary>
+		/// <param name="index"></param>
 		public void RemoveColumn(int index)
 		{
 			string text = mColumns[index].Name;
@@ -177,7 +208,11 @@ namespace AgateLib.Data
 
 			mColumns.Remove(index);
 		}
-
+		/// <summary>
+		/// Overwrites a column in the table.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="newColumn"></param>
 		public void OverwriteColumn(int index, AgateColumn newColumn)
 		{
 			AgateColumn old = Columns[index];
@@ -196,7 +231,7 @@ namespace AgateLib.Data
 				{
 					Validate();
 
-					if (newColumn.FieldType == FieldType.AutoNumber)
+					if (newColumn.FieldType == FieldType.AutoNumber && Rows.Count > 0)
 					{
 						int max = Rows.Max(x => int.Parse(x[newColumn]));
 
@@ -216,8 +251,11 @@ namespace AgateLib.Data
 			}
 
 		}
-
-
+		/// <summary>
+		/// Moves a column in the table to a new index.
+		/// </summary>
+		/// <param name="oldIndex"></param>
+		/// <param name="newIndex"></param>
 		public void MoveColumn(int oldIndex, int newIndex)
 		{
 			AgateColumn col = mColumns[oldIndex];

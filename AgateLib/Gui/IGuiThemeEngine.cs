@@ -24,6 +24,9 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui
 {
+	/// <summary>
+	/// Interface which must be implemented by any theme engine which draws the widgets.
+	/// </summary>
 	public interface IGuiThemeEngine
 	{
 		/// <summary>
@@ -78,12 +81,35 @@ namespace AgateLib.Gui
 		/// <returns></returns>
 		bool HitTest(Widget widget, Point screenLocation);
 
+		/// <summary>
+		/// Updates the GUI.
+		/// </summary>
+		/// <param name="guiRoot"></param>
 		void Update(GuiRoot guiRoot);
 
+		/// <summary>
+		/// Function called when a mouse button is pressed inside a widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <param name="clientLocation"></param>
 		void MouseDownInWidget(Widget widget, Point clientLocation);
-
+		/// <summary>
+		/// Function called when the mouse is moved inside a widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <param name="clientLocation"></param>
 		void MouseMoveInWidget(Widget widget, Point clientLocation);
-
+		/// <summary>
+		/// Function called when the mouse button is released inside a widget.
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <param name="clientLocation"></param>
 		void MouseUpInWidget(Widget widget, Point clientLocation);
+		/// <summary>
+		/// Called when a widget is resized or needs some other graphical and
+		/// probably transitionary update.
+		/// </summary>
+		/// <param name="widget"></param>
+		void WidgetNeedsUpdate(Widget widget);
 	}
 }

@@ -30,17 +30,24 @@ namespace AgateLib.Gui
 	/// </summary>
 	public class Button : Widget
 	{
+		/// <summary>
+		/// Constructs a button object.
+		/// </summary>
 		public Button() { Name = "Button"; }
+		/// <summary>
+		/// Constructs a button object.
+		/// </summary>
+		/// <param name="text"></param>
 		public Button(string text) { Name = text; Text = text; }
 
 		bool spaceDownFocus = false;
 
+		/// <summary>
+		/// Returns true
+		/// </summary>
 		public override bool CanHaveFocus
 		{
-			get
-			{
-				return true;
-			}
+			get			{				return true;			}
 		}
 		internal bool DrawActivated
 		{
@@ -59,6 +66,10 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// Handles the key down event
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void OnKeyDown(InputEventArgs e)
 		{
 			if (e.KeyCode == KeyCode.Space)
@@ -68,6 +79,10 @@ namespace AgateLib.Gui
 
 			base.OnKeyDown(e);
 		}
+		/// <summary>
+		/// Handles the key up event
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void OnKeyUp(InputEventArgs e)
 		{
 			if (e.KeyCode == KeyCode.Space)
@@ -78,6 +93,10 @@ namespace AgateLib.Gui
 
 			base.OnKeyUp(e);
 		}
+		/// <summary>
+		/// Handles the release of the mouse button in the widget.
+		/// </summary>
+		/// <param name="e"></param>
 		protected internal override void SendMouseUp(InputEventArgs e)
 		{
 			if (MouseIn && MouseDownIn)
@@ -91,6 +110,10 @@ namespace AgateLib.Gui
 			if (Click != null)
 				Click(this, EventArgs.Empty);
 		}
+		
+		/// <summary>
+		/// Event raised when the button is clicked.
+		/// </summary>
 		public event EventHandler Click;
 	}
 }

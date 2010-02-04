@@ -24,6 +24,9 @@ using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib.Shaders.Implementation
 {
+	/// <summary>
+	/// Base class for implementing an AgateShader object.
+	/// </summary>
 	public abstract class AgateShaderImpl
 	{
 		public abstract void SetTexture(EffectTexture tex, string variableName);

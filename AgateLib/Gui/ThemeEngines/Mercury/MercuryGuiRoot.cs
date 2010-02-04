@@ -28,10 +28,18 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 	/// </summary>
 	public class MercuryGuiRoot : MercuryWidget
 	{
+		/// <summary>
+		/// Constructs a MercuryGuiRoot object.
+		/// </summary>
+		/// <param name="scheme"></param>
 		public MercuryGuiRoot(MercuryScheme scheme)
 			: base(scheme)
 		{ }
 
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="w"></param>
 		public override void DrawWidget(Widget w)
 		{
 		}

@@ -23,7 +23,11 @@ using System.Text;
 
 namespace AgateLib.Gui
 {
-	public abstract class ScrollBar  : Widget 
+	/// <summary>
+	/// Base class for a scroll bar.  This class cannot be instantiated directly,
+	/// instead you should use VerticalScrollBar or HorizontalScrollBar
+	/// </summary>
+	public abstract class ScrollBar : Widget
 	{
 		int mMinValue = 0;
 		int mMaxValue = 100;
@@ -37,6 +41,9 @@ namespace AgateLib.Gui
 		internal bool MouseDownInPageDecrease { get; set; }
 		internal bool MouseDownInPageIncrease { get; set; }
 
+		/// <summary>
+		/// Event raised when the scroll bar value is changed.
+		/// </summary>
 		public event EventHandler ValueChanged;
 		private void OnValueChanged()
 		{
@@ -44,6 +51,9 @@ namespace AgateLib.Gui
 				ValueChanged(this, EventArgs.Empty);
 		}
 
+		/// <summary>
+		/// Gets or sets the value of the scrollbar.
+		/// </summary>
 		public int Value
 		{
 			get { return mValue; }
@@ -59,6 +69,9 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// The amount the scroll bar should move when clicked in the "page change" rgion.
+		/// </summary>
 		public int LargeChange
 		{
 			get { return mLargeChange; }
@@ -66,10 +79,13 @@ namespace AgateLib.Gui
 			{
 				if (mSmallChange < 1)
 					throw new ArgumentOutOfRangeException();
-			
+
 				mLargeChange = value;
 			}
 		}
+		/// <summary>
+		/// The amount the scroll bar should move when the up/down buttons are clicked.
+		/// </summary>
 		public int SmallChange
 		{
 			get { return mSmallChange; }
@@ -82,6 +98,9 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// The minimum value for the scroll bar.
+		/// </summary>
 		public int MinValue
 		{
 			get { return mMinValue; }
@@ -98,6 +117,9 @@ namespace AgateLib.Gui
 			}
 		}
 
+		/// <summary>
+		/// The maximum value fo rthe scroll bar.
+		/// </summary>
 		public int MaxValue
 		{
 			get { return mMaxValue; }
@@ -107,17 +129,23 @@ namespace AgateLib.Gui
 
 				if (MinValue > MaxValue)
 					MinValue = MaxValue;
-					
+
 				if (Value > MaxValue)
 					Value = MaxValue;
-				
+
 			}
 		}
 	}
 
+	/// <summary>
+	/// Class which represents a vertical scroll bar.
+	/// </summary>
 	public class VerticalScrollBar : ScrollBar
-	{	}
+	{ }
 
+	/// <summary>
+	/// Class which represents a horizontal scrollbar.
+	/// </summary>
 	public class HorizontalScrollBar : ScrollBar
 	{ }
 }

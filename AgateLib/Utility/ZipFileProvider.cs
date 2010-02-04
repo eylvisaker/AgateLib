@@ -161,6 +161,10 @@ namespace AgateLib.Utility
 			ScanArchive();
 		}
 
+		/// <summary>
+		/// Disposes of the ZipFileProvider.  This releases the file handle to the 
+		/// opened zip file.
+		/// </summary>
 		public void Dispose()
 		{
 			inFile.Dispose();

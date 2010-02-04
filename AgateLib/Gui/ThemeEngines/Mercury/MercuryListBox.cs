@@ -25,6 +25,9 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
+	/// <summary>
+	/// Class which draws listboxes for the Mercury theme engine.
+	/// </summary>
 	public class MercuryListBox : MercuryWidget
 	{
 		public Surface Image { get; set; }

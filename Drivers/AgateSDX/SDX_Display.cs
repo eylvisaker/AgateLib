@@ -469,16 +469,17 @@ namespace AgateSDX
 
 		PositionColor[] polygonVerts = new PositionColor[10];
 
-		public override void FillPolygon(PointF[] pts, Color color)
+		public override void FillPolygon(PointF[] pts, int startIndex, int length, Color color)
 		{
-			if (polygonVerts.Length < pts.Length)
-				polygonVerts = new PositionColor[pts.Length];
+			if (polygonVerts.Length < length)
+				polygonVerts = new PositionColor[length];
 
 			int clr = color.ToArgb();
 
-			for (int i = 0; i < pts.Length; i++)
+			for (int i = 0; i < length; i++)
 			{
-				polygonVerts[i].Position = new AgateLib.Geometry.Vector3(pts[i].X, pts[i].Y, 0);
+				polygonVerts[i].Position = 
+					new AgateLib.Geometry.Vector3(pts[startIndex + i].X, pts[startIndex + i].Y, 0);
 				polygonVerts[i].Color = clr;
 			}
 
@@ -490,7 +491,7 @@ namespace AgateSDX
 			mDevice.AlphaArgument1 = TextureArgument.Diffuse;
 
 			mDevice.Device.VertexDeclaration = mPosColorDecl;
-			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.TriangleFan, pts.Length - 2, polygonVerts);
+			mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.TriangleFan, length - 2, polygonVerts);
 			mDevice.AlphaArgument1 = TextureArgument.Texture;
 		}
 		public override void FillRect(Rectangle rect, Color color)

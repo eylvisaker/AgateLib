@@ -23,12 +23,32 @@ using System.Text;
 
 namespace AgateLib.DisplayLib.Shaders
 {
+	/// <summary>
+	/// Exception raised when there is an error with the shader compiler.
+	/// </summary>
 	[global::System.Serializable]
-	public class AgateShaderCompilerException : Exception
+	public class AgateShaderCompilerException : AgateException
 	{
+		/// <summary>
+		/// Constructs an AgateShaderCompilerException object.
+		/// </summary>
 		public AgateShaderCompilerException() { }
+		/// <summary>
+		/// Constructs an AgateShaderCompilerException object.
+		/// </summary>
+		/// <param name="message"></param>
 		public AgateShaderCompilerException(string message) : base(message) { }
+		/// <summary>
+		/// Constructs an AgateShaderCompilerException object.
+		/// </summary>
+		/// <param name="inner"></param>
+		/// <param name="message"></param>
 		public AgateShaderCompilerException(string message, Exception inner) : base(message, inner) { }
+		/// <summary>
+		/// Constructs an AgateShaderCompilerException object.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="info"></param>
 		protected AgateShaderCompilerException(
 		  System.Runtime.Serialization.SerializationInfo info,
 		  System.Runtime.Serialization.StreamingContext context)

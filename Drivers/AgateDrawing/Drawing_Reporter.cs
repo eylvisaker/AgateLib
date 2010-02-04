@@ -28,7 +28,7 @@ namespace AgateDrawing
 		public override IEnumerable<AgateDriverInfo> ReportDrivers()
 		{
 			yield return new AgateDriverInfo(
-				DisplayTypeID.Reference,
+				DisplayTypeID.Drawing,
 				typeof(Drawing_Display),
 				"System.Drawing",
 				0);

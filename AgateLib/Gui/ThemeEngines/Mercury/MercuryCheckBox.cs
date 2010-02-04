@@ -22,9 +22,13 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Gui.Cache;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
+	/// <summary>
+	/// Class which draws checkboxes for the Mercury theme engine.
+	/// </summary>
 	public class MercuryCheckBox : MercuryWidget
 	{
 		public Surface Image { get; set; }
@@ -57,8 +61,10 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			else
 				surf = Image;
 
+			WidgetCache c = GetOrCreateCache(checkbox);
+
 			Point destPoint = checkbox.PointToScreen(
-				Origin.Calc(OriginAlignment.CenterLeft, checkbox.Size));
+				Origin.Calc(OriginAlignment.CenterLeft, (Size)c.DisplaySize));
 
 			surf.DisplayAlignment = OriginAlignment.CenterLeft;
 			surf.Draw(destPoint);

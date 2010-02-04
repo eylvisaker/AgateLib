@@ -340,7 +340,6 @@ namespace AgateLib.DisplayLib
 		/// Measures the display size of the specified string.
 		/// </summary>
 		/// <param name="text"></param>
-		/// <param name="length"></param>
 		/// <returns></returns>
 		public Size MeasureString(string text) 
 		{ 
@@ -349,8 +348,8 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Measures the display size of the specified string.
 		/// </summary>
+		/// <param name="state"></param>
 		/// <param name="text"></param>
-		/// <param name="length"></param>
 		/// <returns></returns>
 		public Size MeasureString(FontState state, string text)
 		{

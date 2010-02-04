@@ -27,6 +27,9 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 {
 	using Cache;
 
+	/// <summary>
+	/// Class which draws scroll bars for the Mercury theme engine.
+	/// </summary>
 	public class MercuryScrollBar : MercuryWidget
 	{
 		public Surface Decrease { get; set; }

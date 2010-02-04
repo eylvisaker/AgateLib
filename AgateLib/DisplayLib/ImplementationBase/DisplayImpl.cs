@@ -36,12 +36,26 @@ namespace AgateLib.DisplayLib.ImplementationBase
 	public abstract class DisplayImpl : DriverImplBase
 	{
 		private double mAlphaThreshold = 5.0 / 255.0;
+		Point[] mEllipsePoints;
+		PointF[] mEllipsePointfs;
 
 		private FrameBuffer mRenderTarget;
 
 		#region --- Capabilities Reporting ---
 
+		/// <summary>
+		/// Gets a caps value which should return a logical value.
+		/// When implementing this, you should return false for any value 
+		/// which you do not explicitly handle.
+		/// </summary>
+		/// <param name="caps"></param>
+		/// <returns></returns>
 		public abstract bool CapsBool(DisplayBoolCaps caps);
+		/// <summary>
+		/// Gets a caps value which should return a Size object.
+		/// </summary>
+		/// <param name="displaySizeCaps"></param>
+		/// <returns></returns>
 		public abstract Size CapsSize(DisplaySizeCaps displaySizeCaps);
 
 		#endregion
@@ -326,6 +340,10 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Obsolete.  Use Display.Caps.MaxSurfaceSize instead.
+		/// </summary>
 		[Obsolete("Use Display.Caps instead.", true)]
 		public virtual Size MaxSurfaceSize { get { return Display.Caps.MaxSurfaceSize; } }
 
@@ -359,6 +377,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <param name="dest"></param>
 		public abstract void Clear(Color color, Rectangle dest);
 
+		
 		/// <summary>
 		/// Draws an ellipse by making a bunch of connected lines.
 		/// 
@@ -383,19 +402,26 @@ namespace AgateLib.DisplayLib.ImplementationBase
 
 			// we will take the circumference as being the number of points to draw
 			// on the ellipse.
-			Point[] pts = new Point[(int)Math.Ceiling(circumference * 2)];
-			double step = 2 * Math.PI / (pts.Length - 1);
+			int ptCount = (int)Math.Ceiling(circumference * 2);
+			if (mEllipsePoints == null || mEllipsePoints.Length < ptCount)
+				mEllipsePoints = new Point[ptCount];
 
-			for (int i = 0; i < pts.Length; i++)
+			double step = 2 * Math.PI / (ptCount - 1);
+
+			for (int i = 0; i < ptCount; i++)
 			{
-				pts[i] = new Point((int)(center.X + radiusX * Math.Cos(step * i) + 0.5),
+				mEllipsePoints[i] = new Point((int)(center.X + radiusX * Math.Cos(step * i) + 0.5),
 								   (int)(center.Y + radiusY * Math.Sin(step * i) + 0.5));
 			}
 
-			DrawLines(pts, color);
+			DrawLines(mEllipsePoints, 0, ptCount, color);
 		}
 
-
+		/// <summary>
+		/// Draws a solid ellipse.  
+		/// </summary>
+		/// <param name="rect">The rectangle in which the ellipse should be inscribed.</param>
+		/// <param name="color">The color of the ellipse.</param>
 		public virtual void FillEllipse(RectangleF rect, Color color)
 		{
 			PointF center = new PointF(rect.Left + rect.Width / 2,
@@ -411,19 +437,39 @@ namespace AgateLib.DisplayLib.ImplementationBase
 
 			// we will take the circumference as being the number of points to draw
 			// on the ellipse.
-			PointF[] pts = new PointF[(int)Math.Ceiling(circumference * 2)];
-			double step = 2 * Math.PI / (pts.Length - 1);
+			int ptCount = (int)Math.Ceiling(circumference * 2);
+			if (mEllipsePointfs == null || mEllipsePointfs.Length < ptCount)
+				mEllipsePointfs = new PointF[ptCount];
 
-			for (int i = 0; i < pts.Length; i++)
+			double step = 2 * Math.PI / (ptCount - 1);
+
+			for (int i = 0; i < ptCount; i++)
 			{
-				pts[i] = new PointF((float)(center.X + radiusX * Math.Cos(step * i) + 0.5),
+				mEllipsePointfs[i] = new PointF((float)(center.X + radiusX * Math.Cos(step * i) + 0.5),
 									(float)(center.Y + radiusY * Math.Sin(step * i) + 0.5));
 			}
 
-			FillPolygon(pts, color);
+			FillPolygon(mEllipsePointfs, 0, ptCount, color);
 		}
 
-		public abstract void FillPolygon(PointF[] pts, Color color);
+		/// <summary>
+		/// Draws a filled polygon of the specified color.
+		/// </summary>
+		/// <param name="pts">The array of points which make up the boundary of the polygon.</param>
+		/// <param name="color">The color to fill the polygon.</param>
+		public void FillPolygon(PointF[] pts, Color color)
+		{
+			FillPolygon(pts, 0, pts.Length, color);
+		}
+
+		/// <summary>
+		/// Draws a filled polygon of the specified color.
+		/// </summary>
+		/// <param name="pts">An array containing the points which make up the boundary of the polygon.</param>
+		/// <param name="startIndex">The index of the first point in the boundary.</param>
+		/// <param name="length">The number of points to use.</param>
+		/// <param name="color">The color to fill the polygon.</param>
+		public abstract void FillPolygon(PointF[] pts, int startIndex, int length, Color color);
 
 		/// <summary>
 		/// Draws a line between the two specified endpoints.
@@ -444,6 +490,22 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		public virtual void DrawLines(Point[] pt, Color color)
 		{
 			for (int i = 0; i < pt.Length - 1; i++)
+				DrawLine(pt[i], pt[i + 1], color);
+		}
+		/// <summary>
+		/// Draws a bunch of connected points.
+		/// 
+		/// Info for developers:
+		/// The base class implements this by making several calls to DrawLine.
+		/// You may want to override this one to minimize state changes.
+		/// </summary>
+		/// <param name="pt">An array containing the points to draw.</param>
+		/// <param name="startIndex">Index of the first point in the array.</param>
+		/// <param name="length">Number of points to use in the array.</param>
+		/// <param name="color"></param>
+		public virtual void DrawLines(Point[] pt, int startIndex, int length, Color color)
+		{
+			for (int i = startIndex; i < startIndex + pt.Length - 1; i++)
 				DrawLine(pt[i], pt[i + 1], color);
 		}
 		/// <summary>

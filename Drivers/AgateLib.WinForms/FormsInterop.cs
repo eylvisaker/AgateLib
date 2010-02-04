@@ -31,8 +31,14 @@ namespace AgateLib.WinForms
 	/// </summary>
 	public static class Interop
 	{
+		/// <summary>
+		/// Converts surface data to a bitmap for saving.
+		/// </summary>
+		/// <param name="surf"></param>
+		/// <returns></returns>
 		public static System.Drawing.Bitmap ToBitmap(this Surface surf)
 		{
+			// TODO: try to dump this save to a temp file and load bitmap round-about method.
 			string filename = System.IO.Path.GetTempFileName();
 
 			surf.SaveTo(filename);

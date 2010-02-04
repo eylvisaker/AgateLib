@@ -34,7 +34,7 @@ namespace AgateLib
 		Unknown,
 
 		/// <summary>
-		/// The Windows platform, including Windows 98, Windows NT, Windows XP, Windows Vista, etc.
+		/// The Microsoft Windows platform, including Windows 98, Windows NT, Windows XP, Windows Vista, etc.
 		/// </summary>
 		Windows,
 		/// <summary>
@@ -56,11 +56,31 @@ namespace AgateLib
 		Gp2x,
 	}
 
+	/// <summary>
+	/// Enum indicating which version of Microsoft Windows is currently being run.
+	/// </summary>
 	public enum WindowsVersion
 	{
+		/// <summary>
+		/// An unknown version of Windows.
+		/// </summary>
+		Unknown,
+
+		/// <summary>
+		/// Windows 98.
+		/// </summary>
 		Windows98,
+		/// <summary>
+		/// Windows XP or Server 2003.
+		/// </summary>
 		WindowsXP,
+		/// <summary>
+		/// Windows Vista or Server 2008.
+		/// </summary>
 		WindowsVista,
+		/// <summary>
+		/// Windows 7.
+		/// </summary>
 		Windows7,
 	}
 
@@ -79,7 +99,7 @@ namespace AgateLib
 		/// </summary>
 		MicrosoftDotNet = 1,
 		/// <summary>
-		/// The runtime of the Mono project
+		/// The runtime of the Mono project.
 		/// </summary>
 		Mono,
 		/// <summary>

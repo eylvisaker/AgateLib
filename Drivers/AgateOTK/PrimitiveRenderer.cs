@@ -14,7 +14,7 @@ namespace AgateOTK
 		public abstract void FillRect(RectangleF rect, Color color);
 		public abstract void FillRect(RectangleF rect, Gradient color);
 
-		public abstract void FillPolygon(PointF[] pts, Color color);
+		public abstract void FillPolygon(PointF[] pts, int startIndex, int length, Color color);
 
 	}
 }
