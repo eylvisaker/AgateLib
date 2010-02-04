@@ -134,7 +134,7 @@ namespace AgateLib.AudioLib
 			if (x == 0)
 				return 0;
 			else
-				return Math.Log(1000 * x, 1000);
+				return Math.Log(1000 * x) / Math.Log(1000);
 		}
 		/// <summary>
 		/// This is for use by drivers whose underlying technology does not provide

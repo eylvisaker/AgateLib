@@ -157,7 +157,8 @@ namespace AgateLib.Data
 				}
 			}
 
-			Convert.ChangeType(mValues[column.Name], column.FieldTypeDataType);
+			Convert.ChangeType(mValues[column.Name], column.FieldTypeDataType, 
+				System.Globalization.CultureInfo.InvariantCulture);
 		}
 
 		internal void ValidateData(AgateTable agateTable)

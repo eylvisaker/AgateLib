@@ -38,6 +38,7 @@ namespace AgateLib.Serialization.Xle
 		internal XleSerializationException() { }
 		internal XleSerializationException(string message) : base(message) { }
 		internal XleSerializationException(string message, Exception inner) : base(message, inner) { }
+#if !XBOX360
 		/// <summary>
 		/// Constructs an XleSerializationException object when deserializing it.
 		/// </summary>
@@ -47,5 +48,6 @@ namespace AgateLib.Serialization.Xle
 		  System.Runtime.Serialization.SerializationInfo info,
 		  System.Runtime.Serialization.StreamingContext context)
 			: base(info, context) { }
+#endif
 	}
 }

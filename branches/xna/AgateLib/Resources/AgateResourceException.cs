@@ -51,6 +51,7 @@ namespace AgateLib.Resources
 		/// <param name="message"></param>
 		/// <param name="inner"></param>
 		public AgateResourceException(string message, Exception inner) : base(inner, message) { }
+#if !XBOX360
 		/// <summary>
 		/// 
 		/// </summary>
@@ -60,5 +61,6 @@ namespace AgateLib.Resources
 		  System.Runtime.Serialization.SerializationInfo info,
 		  System.Runtime.Serialization.StreamingContext context)
 			: base(info, context) { }
+#endif
 	}
 }

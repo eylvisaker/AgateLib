@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using AgateLib.CompatibilityExtensions;
 using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Geometry
@@ -448,7 +449,7 @@ namespace AgateLib.Geometry
 
 			int start = index + name.Length;
 
-			if (int.TryParse(text.Substring(start, comma - start), out value) == false)
+			if (Numerics.TryParseInt32(text.Substring(start, comma - start), out value) == false)
 				return false;
 			else
 				return true;

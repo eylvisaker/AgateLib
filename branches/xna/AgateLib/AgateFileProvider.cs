@@ -44,6 +44,7 @@ namespace AgateLib
 
 		static void Initialize()
 		{
+#if !XBOX360
 			string location = System.Reflection.Assembly.GetEntryAssembly().Location;
 
 			mAssemblyProvider.Add(new FileSystemProvider(Path.GetDirectoryName(location)));
@@ -51,6 +52,7 @@ namespace AgateLib
 			mSoundProvider.Add(new FileSystemProvider("."));
 			mMusicProvider.Add(new FileSystemProvider("."));
 			mResourceProvider.Add(new FileSystemProvider("."));
+#endif
 		}
 
 		/// <summary>
@@ -91,6 +93,7 @@ namespace AgateLib
 			get { return mResourceProvider; }
 		}
 
+#if !XBOX360
 		/// <summary>
 		/// Saves a stream to a file in the temp path.
 		/// </summary>
@@ -111,5 +114,6 @@ namespace AgateLib
 
 			return tempfile;
 		}
+#endif
 	}
 }

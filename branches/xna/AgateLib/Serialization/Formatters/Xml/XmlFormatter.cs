@@ -55,6 +55,7 @@ using System.Collections;
 
 namespace AgateLib.Serialization.Formatters.Xml
 {
+#if !XBOX360
 	/// <summary>
 	/// The <see cref="XmlFormatter"/> class implements a custom XmlFormatter
 	/// which uses the <see cref="ISerializable"/> interace. 
@@ -2078,4 +2079,5 @@ namespace AgateLib.Serialization.Formatters.Xml
 			}
 		}
 	}
+#endif
 }

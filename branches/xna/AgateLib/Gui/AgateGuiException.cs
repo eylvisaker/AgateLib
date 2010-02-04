@@ -45,6 +45,7 @@ namespace AgateLib.Gui
 		/// <param name="message"></param>
 		/// <param name="inner"></param>
 		public AgateGuiException(string message, Exception inner) : base(message, inner) { }
+#if !XBOX360
 		/// <summary>
 		/// Constructs a new AgateGuiException.
 		/// </summary>
@@ -54,6 +55,7 @@ namespace AgateLib.Gui
 		  System.Runtime.Serialization.SerializationInfo info,
 		  System.Runtime.Serialization.StreamingContext context)
 			: base(info, context) { }
+#endif
 	}
 
 }

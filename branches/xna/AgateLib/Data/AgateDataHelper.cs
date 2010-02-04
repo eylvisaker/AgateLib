@@ -104,7 +104,6 @@ namespace AgateLib.Data
 
 			return data.ToArray();
 		}
-
 		internal static string CreatePrefixedLine(string p, params object[] values)
 		{
 			StringBuilder b = new StringBuilder();

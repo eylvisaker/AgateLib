@@ -22,6 +22,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Reflection;
+using AgateLib.CompatibilityExtensions;
 
 namespace AgateLib.Serialization.Xle
 {
@@ -48,7 +49,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="objectType">The type of the object to serialize.</param>
 		public XleSerializer(Type objectType)
 		{
-			if (objectType.GetInterface("IXleSerializable", true) == null)
+			if (typeof(IXleSerializable).IsAssignableFrom(objectType) == false)
 				throw new ArgumentException("Object type is not IXleSerializable.");
 
 			Binder = new TypeBinder();

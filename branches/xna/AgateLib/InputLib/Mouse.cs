@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using AgateLib.CompatibilityExtensions;
 using AgateLib.Geometry;
 
 namespace AgateLib.InputLib
@@ -71,7 +71,7 @@ namespace AgateLib.InputLib
 		/// </summary>
 		public class MouseState
 		{
-			bool[] mMouseButtons = new bool[Enum.GetValues(typeof(MouseButtons)).Length];
+			bool[] mMouseButtons = new bool[Enums.GetValues(typeof(MouseButtons)).Length];
 
 			internal MouseState()
 			{

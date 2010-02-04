@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using AgateLib.CompatibilityExtensions;
 
 namespace AgateLib.Geometry
 {
@@ -28,6 +29,59 @@ namespace AgateLib.Geometry
 	/// </summary>
 	class PointConverter : ExpandableObjectConverter
 	{
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="culture"></param>
+		/// <param name="str"></param>
+		/// <returns></returns>
+		public 
+#if !XBOX360
+			new 
+#endif
+			static Point ConvertFromString(
+#if XBOX360
+			object unusued,
+#else
+			ITypeDescriptorContext context, 
+#endif
+			System.Globalization.CultureInfo culture, string str)
+		{
+			if (str.StartsWith("{") && str.EndsWith("}"))
+				str = str.Substring(1, str.Length - 2);
+
+			string[] values = str.Split(',');
+			Point retval = new Point();
+
+			if (values.Length > 2)
+				throw new FormatException("Could not parse point data from text.");
+
+			retval.X = ParseEntry(values[0], "X");
+			retval.Y = ParseEntry(values[1], "Y");
+
+			return retval;
+		}
+
+		private static int ParseEntry(string str, string name)
+		{
+			var r = new System.Text.RegularExpressions.Regex(name + " *=");
+			var matches = r.Matches(str);
+
+			switch (matches.Count)
+			{
+				case 0:
+					return int.Parse(str);
+				case 1:
+					return int.Parse(str.Substring(matches[0].Index + matches[0].Length));
+				default:
+					throw new FormatException("Could not parse " + name + " value.");
+			}
+		}
+
+#if !XBOX360
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -61,45 +115,8 @@ namespace AgateLib.Geometry
 			return ConvertFrom(context, culture, str);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="culture"></param>
-		/// <param name="str"></param>
-		/// <returns></returns>
-		public new static Point ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
-		{
-			if (str.StartsWith("{") && str.EndsWith("}"))
-				str = str.Substring(1, str.Length - 2);
 
-			string[] values = str.Split(',');
-			Point retval = new Point();
-
-			if (values.Length > 2)
-				throw new FormatException("Could not parse point data from text.");
-
-			retval.X = ParseEntry(values[0], "X");
-			retval.Y = ParseEntry(values[1], "Y");
-
-			return retval;
-		}
-
-		private static int ParseEntry(string str, string name)
-		{
-			var r = new System.Text.RegularExpressions.Regex(name + " *=");
-			var matches = r.Matches(str);
-
-			switch (matches.Count)
-			{
-				case 0:
-					return int.Parse(str);
-				case 1:
-					return int.Parse(str.Substring(matches[0].Index + matches[0].Length));
-				default:
-					throw new FormatException("Could not parse " + name + " value.");
-			}
-		}
+#endif
 
 	}
 	/// <summary>
@@ -111,41 +128,20 @@ namespace AgateLib.Geometry
 		/// 
 		/// </summary>
 		/// <param name="context"></param>
-		/// <param name="sourceType"></param>
-		/// <returns></returns>
-		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-		{
-			if (sourceType == typeof(string))
-			{
-				return true;
-			}
-			return base.CanConvertFrom(context, sourceType);
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="culture"></param>
-		/// <param name="value"></param>
-		/// <returns></returns>
-		public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-		{
-			string str = value as string;
-
-			if (str == null)
-				return base.ConvertFrom(context, culture, value);
-
-			return ConvertFromString(str);
-
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="context"></param>
 		/// <param name="culture"></param>
 		/// <param name="str"></param>
 		/// <returns></returns>
-		public new static Size ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
+		public
+#if !XBOX360
+			new
+#endif
+			static Size ConvertFromString(
+#if XBOX360
+			object unusued,
+#else
+			ITypeDescriptorContext context, 
+#endif
+			System.Globalization.CultureInfo culture, string str)
 		{
 			if (str.StartsWith("{") && str.EndsWith("}"))
 			{
@@ -186,9 +182,8 @@ namespace AgateLib.Geometry
 			}
 			return retval;
 		}
-	}
-	class RectangleConverter : ExpandableObjectConverter
-	{
+
+#if !XBOX360
 		/// <summary>
 		/// 
 		/// </summary>
@@ -218,7 +213,13 @@ namespace AgateLib.Geometry
 				return base.ConvertFrom(context, culture, value);
 
 			return ConvertFromString(str);
+
 		}
+#endif
+
+	}
+	class RectangleConverter : ExpandableObjectConverter
+	{
 
 		/// <summary>
 		/// 
@@ -227,7 +228,17 @@ namespace AgateLib.Geometry
 		/// <param name="culture"></param>
 		/// <param name="str"></param>
 		/// <returns></returns>
-		public new static Rectangle ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
+		public
+#if !XBOX360 
+			new
+#endif
+			static Rectangle ConvertFromString(
+#if XBOX360
+			object unusued,
+#else
+			ITypeDescriptorContext context, 
+#endif
+			System.Globalization.CultureInfo culture, string str)
 		{
 			if (str.StartsWith("{") && str.EndsWith("}"))
 			{
@@ -283,5 +294,38 @@ namespace AgateLib.Geometry
 			int value = int.Parse(text.Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
 			return value;
 		}
+#if !XBOX360
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="sourceType"></param>
+		/// <returns></returns>
+		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+		{
+			if (sourceType == typeof(string))
+			{
+				return true;
+			}
+			return base.CanConvertFrom(context, sourceType);
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="culture"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+		{
+			string str = value as string;
+
+			if (str == null)
+				return base.ConvertFrom(context, culture, value);
+
+			return ConvertFromString(str);
+		}
+
+#endif
 	}
 }

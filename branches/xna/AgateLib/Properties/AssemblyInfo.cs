@@ -36,6 +36,18 @@ using System.Resources;
 
 [assembly: CLSCompliant(true)]
 
+#if XBOX360
+
+// Setting ComVisible to false makes the types in this assembly not visible
+// to COM components. Xbox 360 assemblies do not support COM.
+[assembly: ComVisible(false)]
+
+// If this assembly is the startup assembly, the following Guid is used to
+// uniquely identify the title storage container when deploying this assembly
+// to the Xbox 360 console.
+[assembly: Guid("1d19e12c-6cc0-4c87-8143-d74599ffb108")]
+
+#else
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
@@ -43,6 +55,8 @@ using System.Resources;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("a671f4e2-e579-42b3-aae4-9beb962581ff")]
+
+#endif
 
 // Version information for an assembly consists of the following four values:
 //
@@ -52,5 +66,7 @@ using System.Resources;
 //      Revision
 //
 [assembly: AssemblyVersion("0.3.9.0")]
+#if !XBOX360
 [assembly: AssemblyFileVersion("0.3.9.0")]
+#endif
 [assembly: NeutralResourcesLanguageAttribute("en")]

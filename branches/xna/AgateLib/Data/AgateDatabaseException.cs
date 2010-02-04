@@ -65,6 +65,7 @@ namespace AgateLib.Data
 			ErrorCount = errorCount;
 		}
 
+#if !XBOX360
 		/// <summary>
 		/// Constructs a database exception.
 		/// </summary>
@@ -74,6 +75,7 @@ namespace AgateLib.Data
 		  System.Runtime.Serialization.SerializationInfo info,
 		  System.Runtime.Serialization.StreamingContext context)
 			: base(info, context) { }
+#endif
 
 		internal int ErrorCount { get; set; }
 	}

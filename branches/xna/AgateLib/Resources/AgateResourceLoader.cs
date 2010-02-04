@@ -162,7 +162,7 @@ namespace AgateLib.Resources
 				throw new InvalidDataException(p);
 			}
 			else
-				Debug.Print(p);
+				Debug.WriteLine(p);
 		}
 
 		static bool mThrowOnReadError = true;

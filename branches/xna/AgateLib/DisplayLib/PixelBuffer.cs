@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
-
+using AgateLib.CompatibilityExtensions;
 using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib
@@ -48,7 +48,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		static void TestPixelFormatStrides()
 		{
-			foreach (PixelFormat format in Enum.GetValues(typeof(PixelFormat)))
+			foreach (PixelFormat format in Enums.GetValues(typeof(PixelFormat)))
 			{
 				if (format == PixelFormat.Any)
 					continue;

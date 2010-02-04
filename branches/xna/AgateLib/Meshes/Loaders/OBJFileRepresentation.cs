@@ -13,10 +13,11 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-
+using AgateLib.CompatibilityExtensions;
 
 namespace AgateLib.Meshes.Loaders
 {
+#if !XBOX360
     /// <summary>
     /// programmatic representation of the .obj file so we can deal with the contents without dealing with the parsing.
     /// </summary>
@@ -228,4 +229,5 @@ namespace AgateLib.Meshes.Loaders
 
         #endregion
     }
+#endif
 }

@@ -389,8 +389,11 @@ namespace AgateLib.Serialization.Xle
 
 			byte[] buffer = ms.GetBuffer();
 
-			string newValue = Convert.ToBase64String(
-				buffer, Base64FormattingOptions.InsertLineBreaks);
+			string newValue = Convert.ToBase64String(buffer
+#if !XBOX360
+				, Base64FormattingOptions.InsertLineBreaks
+#endif
+				);
 
 			XmlElement el = WriteAsElement(name, newValue);
 			AddAttribute(el, "stream", "true");
@@ -405,7 +408,11 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="value">The array data to write.</param>
 		public void Write(string name, byte[] value)
 		{
-			string newValue = Convert.ToBase64String(value, Base64FormattingOptions.InsertLineBreaks);
+			string newValue = Convert.ToBase64String(value
+#if !XBOX360
+				, Base64FormattingOptions.InsertLineBreaks
+#endif
+				);
 
 			XmlElement el = WriteAsElement(name, newValue);
 			AddAttribute(el, "array", "true");
@@ -670,7 +677,7 @@ namespace AgateLib.Serialization.Xle
 			{
 				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
 				string keyString = current.GetAttribute("key");
-				TKey key = (TKey)Convert.ChangeType(keyString, typeof(TKey));
+				TKey key = (TKey)Convert.ChangeType(keyString, typeof(TKey), System.Globalization.CultureInfo.InvariantCulture);
 
 				nodes.Push(current);
 				TValue val = (TValue)DeserializeObject(typeof(TValue));
@@ -720,7 +727,7 @@ namespace AgateLib.Serialization.Xle
 			{
 				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
 				string keyString = current.GetAttribute("key");
-				Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
+				Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey), System.Globalization.CultureInfo.InvariantCulture);
 
 				string valueString = current.GetAttribute("value");
 
@@ -750,7 +757,7 @@ namespace AgateLib.Serialization.Xle
 			{
 				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
 				string keyString = current.GetAttribute("key");
-				Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
+				Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey), System.Globalization.CultureInfo.InvariantCulture);
 
 				string valueString = current.GetAttribute("value");
 
@@ -976,7 +983,7 @@ namespace AgateLib.Serialization.Xle
 			if (typeof(T).IsEnum == false)
 				throw new XleSerializationException("Type passed is not an enum.");
 
-			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, false, string.Empty));
+			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, false, string.Empty), true);
 		}
 		/// <summary>
 		/// Reads an enum field from the XML data.
@@ -989,7 +996,7 @@ namespace AgateLib.Serialization.Xle
 			if (typeof(T).IsEnum == false)
 				throw new XleSerializationException("Type passed is not an enum.");
 
-			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, true, defaultValue.ToString()));
+			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, true, defaultValue.ToString()), true);
 		}
 
 		/// <summary>
@@ -1154,7 +1161,6 @@ namespace AgateLib.Serialization.Xle
 			}
 
 			Type listType = typeof(List<>).MakeGenericType(type);
-			Type arrayType = type.MakeArrayType();
 			System.Collections.IList list = (System.Collections.IList)Activator.CreateInstance(listType);
 
 			for (int i = 0; i < element.ChildNodes.Count; i++)
@@ -1179,10 +1185,8 @@ namespace AgateLib.Serialization.Xle
 				}
 			}
 
-			Array retval = (Array)Activator.CreateInstance(arrayType, list.Count);
-			list.CopyTo(retval, 0);
-
-			return retval;
+			var toArrayMethod = listType.GetMethod("ToArray");
+			return (Array)toArrayMethod.Invoke(list, null);
 		}
 		/// <summary>
 		/// Reads a list of objects from the XML data.  If the name is not present 
@@ -1336,7 +1340,7 @@ namespace AgateLib.Serialization.Xle
 
 			try
 			{
-				obj = (IXleSerializable)Activator.CreateInstance(type, true);
+				obj = (IXleSerializable)Activator.CreateInstance(type);
 			}
 			catch (MissingMethodException e)
 			{

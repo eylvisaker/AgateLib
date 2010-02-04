@@ -46,7 +46,7 @@ namespace AgateLib.Utility
 			}
 
 			throw new FileNotFoundException(string.Format(
-				"Could not find the file {0}.", filename), filename);
+				"Could not find the file {0}."));
 		}
 		/// <summary>
 		/// Opens a specified file by searching backwards through the list of 
@@ -66,7 +66,7 @@ namespace AgateLib.Utility
 			}
 
 			throw new FileNotFoundException(string.Format(
-				"Could not find the file {0}.", filename), filename);
+							"Could not find the file {0}."));
 		}
 
 		/// <summary>

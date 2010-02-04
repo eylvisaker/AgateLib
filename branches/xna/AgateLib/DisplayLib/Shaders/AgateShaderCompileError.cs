@@ -48,6 +48,8 @@ namespace AgateLib.DisplayLib.Shaders
 		/// Constructs an AgateShaderCompilerException object.
 		/// </summary>
 		public AgateShaderCompilerException(string message, Exception inner) : base(message, inner) { }
+
+#if !XBOX360
 		/// <summary>
 		/// Constructs an AgateShaderCompilerException object.
 		/// </summary>
@@ -55,5 +57,6 @@ namespace AgateLib.DisplayLib.Shaders
 		  System.Runtime.Serialization.SerializationInfo info,
 		  System.Runtime.Serialization.StreamingContext context)
 			: base(info, context) { }
+#endif
 	}
 }

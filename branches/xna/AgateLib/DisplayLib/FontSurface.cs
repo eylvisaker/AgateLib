@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using AgateLib.BitmapFont;
+using AgateLib.CompatibilityExtensions;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using AgateLib.Resources;
@@ -516,7 +517,7 @@ namespace AgateLib.DisplayLib
 
 					spaceAboveLine = 0;
 				}
-				else if (int.TryParse(argsIndexText.ToString(), out argsIndex))
+				else if (Numerics.TryParseInt32(argsIndexText.ToString(), out argsIndex))
 				{
 					if (argsIndex >= args.Length)
 					{

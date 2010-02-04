@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using AgateLib.CompatibilityExtensions;
 
 namespace AgateLib.Geometry
 {
@@ -738,7 +739,7 @@ namespace AgateLib.Geometry
 		{
 			int value;
 
-			if (int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out value))
+			if (Numerics.TryParseInt32(hex, System.Globalization.NumberStyles.HexNumber, null, out value))
 			{
 				if (value > 255 || value < 0)
 					throw new ArgumentException(string.Format(System.Globalization.CultureInfo.CurrentCulture,

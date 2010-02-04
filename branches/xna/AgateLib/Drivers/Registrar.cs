@@ -83,6 +83,7 @@ namespace AgateLib.Drivers
 			if (mIsInitialized)
 				return;
 
+#if !XBOX360
 			RegisterNullDrivers();
 
 			AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
@@ -135,8 +136,10 @@ namespace AgateLib.Drivers
 			SortDriverInfo(audioDrivers);
 			SortDriverInfo(inputDrivers);
 			SortDriverInfo(desktopDrivers);
+#endif
 
 		}
+#if !XBOX360
 		private static void SortDriverInfo(List<AgateDriverInfo> driverList)
 		{
 			// sorts the driver list in reverse order.
@@ -209,7 +212,7 @@ namespace AgateLib.Drivers
 			return false;
 		}
 
-
+#endif
 		/// <summary>
 		/// Asks the user to select which drivers to use.
 		/// </summary>
@@ -396,6 +399,7 @@ namespace AgateLib.Drivers
 			return Activator.CreateInstance(driverType);
 		}
 
+#if !XBOX360
 		private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
 		{
 			AgateDriverInfo info = null;
@@ -410,6 +414,7 @@ namespace AgateLib.Drivers
 
 			return LoadAssemblyLoadFrom(info);
 		}
+#endif
 
 		private static Assembly LoadAssemblyLoadFrom(AgateDriverInfo info)
 		{

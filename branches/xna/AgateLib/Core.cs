@@ -90,7 +90,7 @@ namespace AgateLib
 		private static bool mAutoPause = false;
 		private static bool mIsActive = true;
 		private static bool mInititalized = false;
-		private static Platform mPlatform;
+		private static IPlatform mPlatform;
 		private static PersistantSettings mSettings;
 
 
@@ -300,7 +300,11 @@ namespace AgateLib
 
 		static Core()
 		{
-			mPlatform = new Platform();
+#if !XBOX360
+			mPlatform = new Utility.Platform();
+#else
+			mPlatform = new Utility.XBox360Platform();
+#endif
 		}
 		/// <summary>
 		/// Initializes Core class.
@@ -320,7 +324,7 @@ namespace AgateLib
 		/// <summary>
 		/// Gets an object which describes details about the current platform.
 		/// </summary>
-		public static Platform Platform
+		public static IPlatform Platform
 		{
 			get { return mPlatform; }
 		}
@@ -418,6 +422,7 @@ namespace AgateLib
 			InputLib.JoystickInput.PollTimer();
 		}
 
+#if !XBOX360
 		/// <summary>
 		/// Returns the directory the application that was started resides in.
 		/// </summary>
@@ -428,6 +433,7 @@ namespace AgateLib
 				return System.AppDomain.CurrentDomain.BaseDirectory;
 			}
 		}
+#endif
 
 		/// <summary>
 		/// returns time since agatelib was initialized in milliseconds.

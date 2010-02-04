@@ -18,6 +18,7 @@ using System.Collections.Generic;
 
 namespace AgateLib.Meshes.Loaders.Obj
 {
+#if !XBOX360
 	/// <summary>
 	/// parser for .obj files
 	/// </summary>
@@ -224,4 +225,5 @@ namespace AgateLib.Meshes.Loaders.Obj
 			return objList;
 		}
 	}
+#endif
 }

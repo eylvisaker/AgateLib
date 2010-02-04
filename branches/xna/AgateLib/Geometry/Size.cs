@@ -197,7 +197,8 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public static Size FromString(string text)
 		{
-			return SizeConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
+			return SizeConverter.ConvertFromString(null, 
+				System.Globalization.CultureInfo.CurrentCulture, text);
 		}
 
 	}

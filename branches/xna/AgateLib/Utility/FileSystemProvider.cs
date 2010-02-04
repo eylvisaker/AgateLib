@@ -50,10 +50,11 @@ namespace AgateLib.Utility
 			string resolvedName = FindFileName(filename);
 			if (resolvedName == null)
 				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
-					filename, mPath), filename);
+					filename, mPath));
 
 			return File.OpenRead(FindFileName(filename));
 		}
+
 		/// <summary>
 		/// Returns true if the specified file exists.
 		/// </summary>
@@ -164,11 +165,13 @@ namespace AgateLib.Utility
 		/// <summary>
 		/// Checks to see if a filepath is entered in a cross-platform 
 		/// manner, and returns true if it is.
+		/// When running on the Xbox360 this always returns true.
 		/// </summary>
 		/// <param name="path">The path to check.</param>
 		/// <returns>True if the passed path is cross-platform.</returns>
 		private static bool CheckCrossPlatformFilename(string path)
 		{
+#if !XBOX360
 			if (path.Contains(Path.GetTempPath()))
 				return true;
 
@@ -179,7 +182,7 @@ namespace AgateLib.Utility
 				if (path.Contains(chars[i].ToString()))
 					return false;
 			}
-
+#endif
 			return true;
 		}
 		/// <summary>

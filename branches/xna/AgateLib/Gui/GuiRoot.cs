@@ -257,7 +257,7 @@ namespace AgateLib.Gui
 			}
 			else
 			{
-				Debug.Print("Sending mouse down to {0}", child);
+				Debug.WriteLine(string.Format("Sending mouse down to {0}", child));
 				if (child.AcceptFocusOnMouseDown)
 				{
 					FocusControl = child;
@@ -277,7 +277,7 @@ namespace AgateLib.Gui
 				OnMouseUp(e);
 			else
 			{
-				Debug.Print("Sending mouse up to {0}", directMouseInput);
+				Debug.WriteLine(string.Format("Sending mouse up to {0}", directMouseInput));
 				directMouseInput.SendMouseUp(e);
 			}
 

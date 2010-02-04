@@ -218,7 +218,7 @@ namespace AgateLib.Utility
 			byte[] extra = reader.ReadBytes(extra_len);
 
 			header = new FileHeader();
-			header.Filename = ASCIIEncoding.ASCII.GetString(name);
+			header.Filename = ASCIIEncoding.ASCII.GetString(name, 0, name.Length);
 			header.DataOffset = reader.BaseStream.Position;
 			header.DataSize = size;
 

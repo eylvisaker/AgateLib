@@ -9,7 +9,11 @@ namespace AgateLib.Geometry.VertexTypes
 	/// <summary>
 	/// Vertex structure with position, texture and normal values.
 	/// </summary>
-	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	[StructLayout(LayoutKind.Sequential
+#if !XBOX360
+		, Pack = 1
+#endif
+)]
 	public struct PositionTextureNormal
 	{
 		/// <summary>

@@ -187,7 +187,7 @@ namespace AgateLib.Utility
 
 		string GetString(BinaryReader reader, int length)
 		{
-			string retval = ASCIIEncoding.ASCII.GetString(reader.ReadBytes(length));
+			string retval = ASCIIEncoding.ASCII.GetString(reader.ReadBytes(length), 0, length);
 
 			while (retval.EndsWith("\0"))
 				retval = retval.Substring(0, retval.Length - 1);

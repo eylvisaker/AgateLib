@@ -139,6 +139,9 @@
     <Compile Include="AudioLib\ImplementationBase\StreamingSoundBufferImpl.cs" />
     <Compile Include="AudioLib\SoundFormat.cs" />
     <Compile Include="AudioLib\StreamingSoundBuffer.cs" />
+    <Compile Include="CompatibilityExtensions\Enums.cs" />
+    <Compile Include="CompatibilityExtensions\Numerics.cs" />
+    <Compile Include="CompatibilityExtensions\XboxExtensions.cs" />
     <Compile Include="Core.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -154,6 +157,7 @@
     <Compile Include="Data\AgateTableDictionary.cs" />
     <Compile Include="DisplayLib\FrameBuffer.cs" />
     <Compile Include="DisplayLib\Shaders\AgateBuiltInShaders.cs" />
+    <Compile Include="DisplayLib\Shaders\AgateShaderCompileError.cs" />
     <Compile Include="DisplayLib\Shaders\Basic2DShader.cs" />
     <Compile Include="DisplayLib\Shaders\AgateShader.cs" />
     <Compile Include="DisplayLib\Shaders\Implementation\AgateInternalShader.cs" />
@@ -206,7 +210,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\ImplementationBase\FrameBufferImpl.cs" />
-    <Compile Include="Platform.cs" />
+    <Compile Include="IPlatform.cs" />
+    <Compile Include="Utility\Platform.cs" />
     <Compile Include="PlatformType.cs" />
     <Compile Include="Serialization\Xle\CompressionType.cs" />
     <Compile Include="Settings\SettingsGroup.cs" />
@@ -301,9 +306,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\Cache\SurfaceStateCache.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayLib\Shaders\Implementation\AgateShaderCompileError.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\Shaders\Implementation\Effect.cs">
