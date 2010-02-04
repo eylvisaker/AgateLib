@@ -1,0 +1,355 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectGuid>{AFD7F131-9954-41C2-852E-0BB68F44E80F}</ProjectGuid>
+    <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AgateLibXna</RootNamespace>
+    <AssemblyName>AgateLibXna</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <XnaFrameworkVersion>v3.1</XnaFrameworkVersion>
+    <XnaPlatform>Windows</XnaPlatform>
+    <XnaCrossPlatformGroupID>8a5c3419-3b27-4e15-be28-b21f48cc86e4</XnaCrossPlatformGroupID>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\x86\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>false</XnaCompressContent>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\x86\Release</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>true</XnaCompressContent>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86">
+      <Private>False</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
+      <Private>False</Private>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AgateException.cs" />
+    <Compile Include="AgateFileProvider.cs" />
+    <Compile Include="AgateGame.cs" />
+    <Compile Include="AgateSetup.cs" />
+    <Compile Include="AppInitParameters.cs" />
+    <Compile Include="AudioLib\Audio.cs" />
+    <Compile Include="AudioLib\AudioCapsInfo.cs" />
+    <Compile Include="AudioLib\ImplementationBase\AudioImpl.cs" />
+    <Compile Include="AudioLib\ImplementationBase\MusicImpl.cs" />
+    <Compile Include="AudioLib\ImplementationBase\SoundBufferImpl.cs" />
+    <Compile Include="AudioLib\ImplementationBase\SoundBufferSessionImpl.cs" />
+    <Compile Include="AudioLib\ImplementationBase\StreamingSoundBufferImpl.cs" />
+    <Compile Include="AudioLib\Music.cs" />
+    <Compile Include="AudioLib\SoundBuffer.cs" />
+    <Compile Include="AudioLib\SoundBufferSession.cs" />
+    <Compile Include="AudioLib\SoundFormat.cs" />
+    <Compile Include="AudioLib\StreamingSoundBuffer.cs" />
+    <Compile Include="BitmapFont\BitmapFontImpl.cs" />
+    <Compile Include="BitmapFont\BitmapFontOptions.cs" />
+    <Compile Include="BitmapFont\FontMetrics.cs" />
+    <Compile Include="BitmapFont\GlyphMetrics.cs" />
+    <Compile Include="CompatibilityExtensions\Enums.cs" />
+    <Compile Include="CompatibilityExtensions\FakeAttributes.cs" />
+    <Compile Include="CompatibilityExtensions\Numerics.cs" />
+    <Compile Include="CompatibilityExtensions\XboxExtensions.cs" />
+    <Compile Include="Core.cs" />
+    <Compile Include="Data\AgateColumn.cs" />
+    <Compile Include="Data\AgateColumnDictionary.cs" />
+    <Compile Include="Data\AgateDatabase.cs" />
+    <Compile Include="Data\AgateDatabaseException.cs" />
+    <Compile Include="Data\AgateDataHelper.cs" />
+    <Compile Include="Data\AgateRow.cs" />
+    <Compile Include="Data\AgateRowList.cs" />
+    <Compile Include="Data\AgateTable.cs" />
+    <Compile Include="Data\AgateTableDictionary.cs" />
+    <Compile Include="Data\FieldType.cs" />
+    <Compile Include="DisplayLib\Cache\FontStateCache.cs" />
+    <Compile Include="DisplayLib\Cache\SurfaceStateCache.cs" />
+    <Compile Include="DisplayLib\CreateWindowParams.cs" />
+    <Compile Include="DisplayLib\Display.cs" />
+    <Compile Include="DisplayLib\DisplayCapsInfo.cs" />
+    <Compile Include="DisplayLib\DisplayWindow.cs" />
+    <Compile Include="DisplayLib\FontState.cs" />
+    <Compile Include="DisplayLib\FontSurface.cs" />
+    <Compile Include="DisplayLib\FrameBuffer.cs" />
+    <Compile Include="DisplayLib\ImplementationBase\DisplayImpl.cs" />
+    <Compile Include="DisplayLib\ImplementationBase\DisplayWindowImpl.cs" />
+    <Compile Include="DisplayLib\ImplementationBase\FontSurfaceImpl.cs" />
+    <Compile Include="DisplayLib\ImplementationBase\FrameBufferImpl.cs" />
+    <Compile Include="DisplayLib\ImplementationBase\IndexBufferImpl.cs" />
+    <Compile Include="DisplayLib\ImplementationBase\ShaderCompilerImpl.cs" />
+    <Compile Include="DisplayLib\ImplementationBase\SurfaceImpl.cs" />
+    <Compile Include="DisplayLib\ImplementationBase\VertexBufferImpl.cs" />
+    <Compile Include="DisplayLib\IndexBuffer.cs" />
+    <Compile Include="DisplayLib\ISurface.cs" />
+    <Compile Include="DisplayLib\Origin.cs" />
+    <Compile Include="DisplayLib\OriginAlignment.cs" />
+    <Compile Include="DisplayLib\PixelBuffer.cs" />
+    <Compile Include="DisplayLib\PixelFormat.cs" />
+    <Compile Include="DisplayLib\PrimitiveType.cs" />
+    <Compile Include="DisplayLib\RenderStateAdapter.cs" />
+    <Compile Include="DisplayLib\ScreenMode.cs" />
+    <Compile Include="DisplayLib\Shaders\AgateBuiltInShaders.cs" />
+    <Compile Include="DisplayLib\Shaders\AgateShader.cs" />
+    <Compile Include="DisplayLib\Shaders\AgateShaderCompileError.cs" />
+    <Compile Include="DisplayLib\Shaders\Basic2DShader.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\AgateInternalShader.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\AgateShaderImpl.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\Basic2DImpl.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\BuiltInShader.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\Effect.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\Lighting2DImpl.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\Lighting3DImpl.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\ShaderCompiler.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\ShaderLanguage.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\ShaderProgram.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\Technique.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\UniformState.cs" />
+    <Compile Include="DisplayLib\Shaders\Lighting2D.cs" />
+    <Compile Include="DisplayLib\Shaders\Lighting3D.cs" />
+    <Compile Include="DisplayLib\StringTransformer.cs" />
+    <Compile Include="DisplayLib\Surface.cs" />
+    <Compile Include="DisplayLib\SurfaceState.cs" />
+    <Compile Include="DisplayLib\TextLayout.cs" />
+    <Compile Include="DisplayLib\VertexBuffer.cs" />
+    <Compile Include="Drivers\AgateDriverInfo.cs" />
+    <Compile Include="Drivers\AgateDriverReporter.cs" />
+    <Compile Include="Drivers\AgateSandBoxLoader.cs" />
+    <Compile Include="Drivers\DriverImplBase.cs" />
+    <Compile Include="Drivers\IDesktopDriver.cs" />
+    <Compile Include="Drivers\IUserSetSystems.cs" />
+    <Compile Include="Drivers\NullInputImpl.cs" />
+    <Compile Include="Drivers\NullSoundImpl.cs" />
+    <Compile Include="Drivers\Registrar.cs" />
+    <Compile Include="Drivers\TypeID.cs" />
+    <Compile Include="Geometry\Builders\Cube.cs" />
+    <Compile Include="Geometry\Builders\Terrain.cs" />
+    <Compile Include="Geometry\Color.cs" />
+    <Compile Include="Geometry\Gradient.cs" />
+    <Compile Include="Geometry\Matrix4x4.cs" />
+    <Compile Include="Geometry\Point.cs" />
+    <Compile Include="Geometry\PointF.cs" />
+    <Compile Include="Geometry\Rectangle.cs" />
+    <Compile Include="Geometry\RectangleF.cs" />
+    <Compile Include="Geometry\Size.cs" />
+    <Compile Include="Geometry\SizeF.cs" />
+    <Compile Include="Geometry\TypeConverters.cs" />
+    <Compile Include="Geometry\Vector2.cs" />
+    <Compile Include="Geometry\Vector3.cs" />
+    <Compile Include="Geometry\Vector4.cs" />
+    <Compile Include="Geometry\VertexTypes\PositionColor.cs" />
+    <Compile Include="Geometry\VertexTypes\PositionTextureColor.cs" />
+    <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
+    <Compile Include="Geometry\VertexTypes\PositionTextureNormal.cs" />
+    <Compile Include="Geometry\VertexTypes\PositionTextureNormalTangent.cs" />
+    <Compile Include="Geometry\VertexTypes\PositionTextureNTB.cs" />
+    <Compile Include="Geometry\VertexTypes\VertexLayout.cs" />
+    <Compile Include="Gui\AgateGuiException.cs" />
+    <Compile Include="Gui\Button.cs" />
+    <Compile Include="Gui\Cache\WidgetCache.cs" />
+    <Compile Include="Gui\CheckBox.cs" />
+    <Compile Include="Gui\ComboBox.cs" />
+    <Compile Include="Gui\Container.cs" />
+    <Compile Include="Gui\GuiRoot.cs" />
+    <Compile Include="Gui\IGuiThemeEngine.cs" />
+    <Compile Include="Gui\ILayoutPerformer.cs" />
+    <Compile Include="Gui\Label.cs" />
+    <Compile Include="Gui\LayoutExpand.cs" />
+    <Compile Include="Gui\Layout\BoxLayoutBase.cs" />
+    <Compile Include="Gui\Layout\Grid.cs" />
+    <Compile Include="Gui\Layout\HorizontalBox.cs" />
+    <Compile Include="Gui\Layout\VerticalBox.cs" />
+    <Compile Include="Gui\ListBox.cs" />
+    <Compile Include="Gui\Panel.cs" />
+    <Compile Include="Gui\RadioButton.cs" />
+    <Compile Include="Gui\ScrollBar.cs" />
+    <Compile Include="Gui\TextBox.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\Cache\ScrollBarCache.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\Cache\TextBoxCache.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\Mercury.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryButton.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryCheckBox.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryGuiRoot.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryLabel.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryListBox.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryPanel.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryScheme.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryScrollBar.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryTextBox.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryWidget.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryWindow.cs" />
+    <Compile Include="Gui\Widget.cs" />
+    <Compile Include="Gui\WidgetList.cs" />
+    <Compile Include="Gui\Window.cs" />
+    <Compile Include="IFileProvider.cs" />
+    <Compile Include="InputLib\ImplementationBase\InputImpl.cs" />
+    <Compile Include="InputLib\ImplementationBase\JoystickImpl.cs" />
+    <Compile Include="InputLib\InputEventArgs.cs" />
+    <Compile Include="InputLib\Joystick.cs" />
+    <Compile Include="InputLib\JoystickInput.cs" />
+    <Compile Include="InputLib\Keyboard.cs" />
+    <Compile Include="InputLib\KeyCode.cs" />
+    <Compile Include="InputLib\KeyModifiers.cs" />
+    <Compile Include="InputLib\Mouse.cs" />
+    <Compile Include="InternalResources\Data.cs" />
+    <Compile Include="InternalResources\DataResources.Designer.cs" />
+    <Compile Include="IPlatform.cs" />
+    <Compile Include="Meshes\Loaders\OBJFileRepresentation.cs" />
+    <Compile Include="Meshes\Loaders\Obj\OBJFileRepresentation.cs" />
+    <Compile Include="Meshes\Loaders\Obj\Parser.cs" />
+    <Compile Include="Meshes\Loaders\Obj\TokenTypes.cs" />
+    <Compile Include="Particles\Emitters\PixelEmitter.cs" />
+    <Compile Include="Particles\Emitters\SpriteEmitter.cs" />
+    <Compile Include="Particles\Emitters\SurfaceEmitter.cs" />
+    <Compile Include="Particles\Manipulators\FadeOutManipulator.cs" />
+    <Compile Include="Particles\Manipulators\GravityManipulator.cs" />
+    <Compile Include="Particles\Manipulators\GravityPointManipulator.cs" />
+    <Compile Include="Particles\Particle.cs" />
+    <Compile Include="Particles\ParticleEmitter.cs" />
+    <Compile Include="Particles\Particles\PixelParticle.cs" />
+    <Compile Include="Particles\Particles\SpriteParticle.cs" />
+    <Compile Include="Particles\Particles\SurfaceParticle.cs" />
+    <Compile Include="PlatformType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\AgateResource.cs" />
+    <Compile Include="Resources\AgateResourceCollection.cs" />
+    <Compile Include="Resources\AgateResourceException.cs" />
+    <Compile Include="Resources\AgateResourceLoader.cs" />
+    <Compile Include="Resources\BitmapFontResource.cs" />
+    <Compile Include="Resources\DisplayWindowResource.cs" />
+    <Compile Include="Resources\SpriteResource.cs" />
+    <Compile Include="Resources\StringTable.cs" />
+    <Compile Include="Resources\SurfaceResource.cs" />
+    <Compile Include="Resources\XmlHelper.cs" />
+    <Compile Include="Serialization\Formatters\Xml\XmlFormatter.cs" />
+    <Compile Include="Serialization\Xle\CompressionType.cs" />
+    <Compile Include="Serialization\Xle\ITypeBinder.cs" />
+    <Compile Include="Serialization\Xle\IXleSerializable.cs" />
+    <Compile Include="Serialization\Xle\TypeBinder.cs" />
+    <Compile Include="Serialization\Xle\XleSerializationException.cs" />
+    <Compile Include="Serialization\Xle\XleSerializationInfo.cs" />
+    <Compile Include="Serialization\Xle\XleSerializer.cs" />
+    <Compile Include="Settings\PersistantSettings.cs" />
+    <Compile Include="Settings\SettingsGroup.cs" />
+    <Compile Include="Sprites\FrameList.cs" />
+    <Compile Include="Sprites\IFrameList.cs" />
+    <Compile Include="Sprites\ISprite.cs" />
+    <Compile Include="Sprites\ISpriteFrame.cs" />
+    <Compile Include="Sprites\Sprite.cs" />
+    <Compile Include="Sprites\SpriteFrame.cs" />
+    <Compile Include="Timing.cs" />
+    <Compile Include="Utility\FileProviderList.cs" />
+    <Compile Include="Utility\FileSystemProvider.cs" />
+    <Compile Include="Utility\Platform.cs" />
+    <Compile Include="Utility\Ref.cs" />
+    <Compile Include="Utility\SurfacePacker.cs" />
+    <Compile Include="Utility\TgzFileProvider.cs" />
+    <Compile Include="Utility\ZipFileProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <NestedContentProject Include="Content\Content.contentproj">
+      <Project>d562c72e-576e-4e8c-8dc1-85365a173edc</Project>
+      <Visible>False</Visible>
+    </NestedContentProject>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Xna.Framework.3.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft XNA Framework Redistributable 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="InternalResources\agate-black-gui.zip" />
+    <None Include="InternalResources\Fonts.zip" />
+    <None Include="InternalResources\images.tar.gz" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="InternalResources\DataResources.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
