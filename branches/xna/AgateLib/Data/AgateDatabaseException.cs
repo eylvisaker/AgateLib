@@ -65,7 +65,7 @@ namespace AgateLib.Data
 			ErrorCount = errorCount;
 		}
 
-#if !XBOX360
+#if !XNA
 		/// <summary>
 		/// Constructs a database exception.
 		/// </summary>

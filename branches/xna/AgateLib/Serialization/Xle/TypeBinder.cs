@@ -50,7 +50,7 @@ namespace AgateLib.Serialization.Xle
 
 			SearchAssemblies.Add(assembly);
 
-#if !XBOX360
+#if !XNA
 			// add names of assemblies referenced by the current assembly.
 			Assembly[] loaded = AppDomain.CurrentDomain.GetAssemblies();
 

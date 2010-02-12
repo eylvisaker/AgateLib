@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Xbox 360\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;XBOX;XBOX360</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;XBOX;XBOX360;XNA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoStdLib>true</NoStdLib>
@@ -30,7 +30,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Xbox 360\Release</OutputPath>
-    <DefineConstants>TRACE;XBOX;XBOX360</DefineConstants>
+    <DefineConstants>TRACE;XBOX;XBOX360;XNA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoStdLib>true</NoStdLib>
@@ -282,6 +282,10 @@
     <Compile Include="Utility\TgzFileProvider.cs" />
     <Compile Include="Utility\ZipFileProvider.cs" />
     <Compile Include="CompatibilityExtensions\XboxExtensions.cs" />
+    <Compile Include="Xna\Shaders\XnaBasic2D.cs" />
+    <Compile Include="Xna\XnaDisplay.cs" />
+    <Compile Include="Xna\XnaDisplayFrameBuffer.cs" />
+    <Compile Include="Xna\XnaDisplayWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">

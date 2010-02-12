@@ -49,7 +49,7 @@ namespace AgateLib.DisplayLib.Shaders
 		/// </summary>
 		public AgateShaderCompilerException(string message, Exception inner) : base(message, inner) { }
 
-#if !XBOX360
+#if !XNA
 		/// <summary>
 		/// Constructs an AgateShaderCompilerException object.
 		/// </summary>

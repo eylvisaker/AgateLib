@@ -58,7 +58,7 @@ namespace AgateLib
 		public AgateException(Exception inner, string format, params object[] args)
 			: base(string.Format(format, args), inner) { }
 
-#if !XBOX360
+#if !XNA
 		/// <summary>
 		/// Deserializes an AgateException.
 		/// </summary>
@@ -96,7 +96,7 @@ namespace AgateLib
 		/// Constructs a new AgateCrossPlatformException object.
 		/// </summary>
 		public AgateCrossPlatformException(string message, Exception inner) : base(message, inner) { }
-#if !XBOX360
+#if !XNA
 		/// <summary>
 		/// Constructs a new AgateCrossPlatformException object from serialization data.
 		/// </summary>

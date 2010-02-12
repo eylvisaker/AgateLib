@@ -10,7 +10,7 @@ namespace AgateLib.Geometry.VertexTypes
 	/// Vertex structure with position, texture coordinates, normal and tangent.
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential
-#if !XBOX360
+#if !XNA
 		, Pack = 1
 #endif
 )]

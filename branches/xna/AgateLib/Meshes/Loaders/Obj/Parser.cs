@@ -18,7 +18,7 @@ using System.Collections.Generic;
 
 namespace AgateLib.Meshes.Loaders.Obj
 {
-#if !XBOX360
+#if !XNA
 	/// <summary>
 	/// parser for .obj files
 	/// </summary>

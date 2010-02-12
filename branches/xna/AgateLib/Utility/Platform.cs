@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 
 namespace AgateLib.Utility
 {
-#if !XBOX360
+#if !XNA
 	/// <summary>
 	/// Class which contains known information about the platform.
 	/// This class also contains the folders where the application should store its data,
@@ -263,7 +263,7 @@ namespace AgateLib.Utility
 					return PlatformType.MacOS;
 
 				case PlatformID.Xbox:
-					return PlatformType.XBox360;
+					return PlatformType.XNA;
 			}
 
 			return PlatformType.Unknown;
@@ -366,14 +366,14 @@ namespace AgateLib.Utility
 	}
 #endif
 
-#if XBOX360
+#if XNA
 /// <summary>
 	/// Class which contains known information about the platform.
 	/// This class also contains the folders where the application should store its data,
 	/// which are automatically created from the AssemblyCompanhy and AssemblyProduct
 	/// attributes for the assembly where the entry point for the application is.
 	/// </summary>
-	public class XBox360Platform : AgateLib.IPlatform
+	public class XNAPlatform : AgateLib.IPlatform
 	{
 
 		#region IPlatform Members

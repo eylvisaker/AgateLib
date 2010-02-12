@@ -390,7 +390,7 @@ namespace AgateLib.Serialization.Xle
 			byte[] buffer = ms.GetBuffer();
 
 			string newValue = Convert.ToBase64String(buffer
-#if !XBOX360
+#if !XNA
 				, Base64FormattingOptions.InsertLineBreaks
 #endif
 				);
@@ -409,7 +409,7 @@ namespace AgateLib.Serialization.Xle
 		public void Write(string name, byte[] value)
 		{
 			string newValue = Convert.ToBase64String(value
-#if !XBOX360
+#if !XNA
 				, Base64FormattingOptions.InsertLineBreaks
 #endif
 				);

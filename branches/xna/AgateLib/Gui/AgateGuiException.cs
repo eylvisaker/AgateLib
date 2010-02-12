@@ -45,7 +45,7 @@ namespace AgateLib.Gui
 		/// <param name="message"></param>
 		/// <param name="inner"></param>
 		public AgateGuiException(string message, Exception inner) : base(message, inner) { }
-#if !XBOX360
+#if !XNA
 		/// <summary>
 		/// Constructs a new AgateGuiException.
 		/// </summary>

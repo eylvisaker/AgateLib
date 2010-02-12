@@ -44,7 +44,7 @@ namespace AgateLib
 
 		static void Initialize()
 		{
-#if !XBOX360
+#if !XNA
 			string location = System.Reflection.Assembly.GetEntryAssembly().Location;
 
 			mAssemblyProvider.Add(new FileSystemProvider(Path.GetDirectoryName(location)));
@@ -93,7 +93,7 @@ namespace AgateLib
 			get { return mResourceProvider; }
 		}
 
-#if !XBOX360
+#if !XNA
 		/// <summary>
 		/// Saves a stream to a file in the temp path.
 		/// </summary>

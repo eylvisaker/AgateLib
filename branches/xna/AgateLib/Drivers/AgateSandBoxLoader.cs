@@ -24,7 +24,7 @@ using System.Reflection;
 
 namespace AgateLib.Drivers
 {
-#if !XBOX360
+#if !XNA
 	class AgateSandBoxLoader : MarshalByRefObject
 	{
 		public AgateDriverInfo[] ReportDrivers(string file)

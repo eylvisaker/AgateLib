@@ -71,9 +71,6 @@ namespace AgateLib.Drivers
 			return info.DriverType == driverType && info.DriverTypeID == type;
 		}
 
-		static Registrar()
-		{
-		}
 		/// <summary>
 		/// Searches through FileManager.AssemblyPath for all *.dll files.  These files
 		/// are loaded and searched for classes which derive from DisplayImpl, AudioImpl, etc.
@@ -83,7 +80,7 @@ namespace AgateLib.Drivers
 			if (mIsInitialized)
 				return;
 
-#if !XBOX360
+#if !XNA
 			RegisterNullDrivers();
 
 			AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
@@ -139,7 +136,7 @@ namespace AgateLib.Drivers
 #endif
 
 		}
-#if !XBOX360
+#if !XNA
 		private static void SortDriverInfo(List<AgateDriverInfo> driverList)
 		{
 			// sorts the driver list in reverse order.
@@ -274,6 +271,7 @@ namespace AgateLib.Drivers
 
 		}
 
+
 		private static void SelectBestDrivers(bool chooseDisplay, bool chooseAudio, bool chooseInput,
 			DisplayTypeID preferredDisplay, AudioTypeID preferredAudio, InputTypeID preferredInput,
 			out DisplayTypeID selectedDisplay, out AudioTypeID selectedAudio, out InputTypeID selectedInput)
@@ -314,6 +312,9 @@ namespace AgateLib.Drivers
 
 		internal static DisplayImpl CreateDisplayDriver(DisplayTypeID displayType)
 		{
+#if XNA
+			return new AgateLib.Xna.XnaDisplay();
+#endif
 			if (displayDrivers.Count == 0)
 				throw new AgateException("No display drivers registered.");
 
@@ -399,7 +400,7 @@ namespace AgateLib.Drivers
 			return Activator.CreateInstance(driverType);
 		}
 
-#if !XBOX360
+#if !XNA
 		private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
 		{
 			AgateDriverInfo info = null;

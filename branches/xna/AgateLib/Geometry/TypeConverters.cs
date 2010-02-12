@@ -38,11 +38,11 @@ namespace AgateLib.Geometry
 		/// <param name="str"></param>
 		/// <returns></returns>
 		public 
-#if !XBOX360
+#if !XNA
 			new 
 #endif
 			static Point ConvertFromString(
-#if XBOX360
+#if XNA
 			object unusued,
 #else
 			ITypeDescriptorContext context, 
@@ -80,7 +80,7 @@ namespace AgateLib.Geometry
 			}
 		}
 
-#if !XBOX360
+#if !XNA
 
 		/// <summary>
 		/// 
@@ -132,11 +132,11 @@ namespace AgateLib.Geometry
 		/// <param name="str"></param>
 		/// <returns></returns>
 		public
-#if !XBOX360
+#if !XNA
 			new
 #endif
 			static Size ConvertFromString(
-#if XBOX360
+#if XNA
 			object unusued,
 #else
 			ITypeDescriptorContext context, 
@@ -183,7 +183,7 @@ namespace AgateLib.Geometry
 			return retval;
 		}
 
-#if !XBOX360
+#if !XNA
 		/// <summary>
 		/// 
 		/// </summary>
@@ -229,11 +229,11 @@ namespace AgateLib.Geometry
 		/// <param name="str"></param>
 		/// <returns></returns>
 		public
-#if !XBOX360 
+#if !XNA 
 			new
 #endif
 			static Rectangle ConvertFromString(
-#if XBOX360
+#if XNA
 			object unusued,
 #else
 			ITypeDescriptorContext context, 
@@ -294,7 +294,7 @@ namespace AgateLib.Geometry
 			int value = int.Parse(text.Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
 			return value;
 		}
-#if !XBOX360
+#if !XNA
 		/// <summary>
 		/// 
 		/// </summary>

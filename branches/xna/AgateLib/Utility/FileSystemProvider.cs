@@ -165,13 +165,13 @@ namespace AgateLib.Utility
 		/// <summary>
 		/// Checks to see if a filepath is entered in a cross-platform 
 		/// manner, and returns true if it is.
-		/// When running on the Xbox360 this always returns true.
+		/// When running on the XNA this always returns true.
 		/// </summary>
 		/// <param name="path">The path to check.</param>
 		/// <returns>True if the passed path is cross-platform.</returns>
 		private static bool CheckCrossPlatformFilename(string path)
 		{
-#if !XBOX360
+#if !XNA
 			if (path.Contains(Path.GetTempPath()))
 				return true;
 

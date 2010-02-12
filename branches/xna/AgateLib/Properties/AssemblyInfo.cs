@@ -36,7 +36,7 @@ using System.Resources;
 
 [assembly: CLSCompliant(true)]
 
-#if XBOX360
+#if XNA
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components. Xbox 360 assemblies do not support COM.
@@ -66,7 +66,7 @@ using System.Resources;
 //      Revision
 //
 [assembly: AssemblyVersion("0.3.9.0")]
-#if !XBOX360
+#if !XNA
 [assembly: AssemblyFileVersion("0.3.9.0")]
 #endif
 [assembly: NeutralResourcesLanguageAttribute("en")]

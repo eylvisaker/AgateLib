@@ -51,7 +51,7 @@ namespace AgateLib.Resources
 		/// <param name="message"></param>
 		/// <param name="inner"></param>
 		public AgateResourceException(string message, Exception inner) : base(inner, message) { }
-#if !XBOX360
+#if !XNA
 		/// <summary>
 		/// 
 		/// </summary>

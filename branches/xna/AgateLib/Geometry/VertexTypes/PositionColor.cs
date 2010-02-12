@@ -10,7 +10,7 @@ namespace AgateLib.Geometry.VertexTypes
 	/// Vertex layout which only contains position and color information.
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential
-#if !XBOX360
+#if !XNA
 		, Pack = 1
 #endif
 		)]

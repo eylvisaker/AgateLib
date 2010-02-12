@@ -49,7 +49,7 @@ namespace AgateLib
 		/// <summary>
 		/// Microsoft's XBox 360 console.
 		/// </summary>
-		XBox360,
+		XNA,
 		/// <summary>
 		/// The portable GP2x handheld, or compatible.
 		/// </summary>

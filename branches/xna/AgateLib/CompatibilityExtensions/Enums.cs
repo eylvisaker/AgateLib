@@ -10,7 +10,7 @@ namespace AgateLib.CompatibilityExtensions
 	{
 		public static Array GetValues(Type enumType)
 		{
-#if XBOX360
+#if XNA
 			if (enumType.IsEnum == false)
 				throw new AgateException("You must pass an enumeration type.");
 

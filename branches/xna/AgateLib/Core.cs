@@ -300,10 +300,10 @@ namespace AgateLib
 
 		static Core()
 		{
-#if !XBOX360
+#if !XNA
 			mPlatform = new Utility.Platform();
 #else
-			mPlatform = new Utility.XBox360Platform();
+			mPlatform = new Utility.XNAPlatform();
 #endif
 		}
 		/// <summary>
@@ -422,7 +422,7 @@ namespace AgateLib
 			InputLib.JoystickInput.PollTimer();
 		}
 
-#if !XBOX360
+#if !XNA
 		/// <summary>
 		/// Returns the directory the application that was started resides in.
 		/// </summary>

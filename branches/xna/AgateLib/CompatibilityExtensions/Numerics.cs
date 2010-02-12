@@ -10,7 +10,7 @@ namespace AgateLib.CompatibilityExtensions
 	{
 		public static bool TryParseInt32(string str, out int value)
 		{
-#if XBOX360
+#if XNA
 			value = 0;
 
 			try
@@ -28,7 +28,7 @@ namespace AgateLib.CompatibilityExtensions
 		}
 		public static bool TryParseInt32(string str, NumberStyles style, IFormatProvider provider, out int value)
 		{
-#if XBOX360
+#if XNA
 			throw new NotImplementedException();
 #else
 			return int.TryParse(str, style, provider, out value);

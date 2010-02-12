@@ -140,6 +140,7 @@
     <Compile Include="AudioLib\SoundFormat.cs" />
     <Compile Include="AudioLib\StreamingSoundBuffer.cs" />
     <Compile Include="CompatibilityExtensions\Enums.cs" />
+    <Compile Include="CompatibilityExtensions\FakeAttributes.cs" />
     <Compile Include="CompatibilityExtensions\Numerics.cs" />
     <Compile Include="CompatibilityExtensions\XboxExtensions.cs" />
     <Compile Include="Core.cs">

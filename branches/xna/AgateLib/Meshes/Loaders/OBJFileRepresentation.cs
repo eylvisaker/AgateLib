@@ -17,7 +17,7 @@ using AgateLib.CompatibilityExtensions;
 
 namespace AgateLib.Meshes.Loaders
 {
-#if !XBOX360
+#if !XNA
     /// <summary>
     /// programmatic representation of the .obj file so we can deal with the contents without dealing with the parsing.
     /// </summary>

@@ -226,9 +226,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		}
 
 		/// <summary>
-		/// A version of EndFrame must be called at the end of each frame.
-		/// This version allows the caller to indicate to the implementation whether or
-		/// not it is preferred to wait for the vertical blank to do the drawing.
+		/// EndFrame must be called at the end of each frame.
 		/// </summary>
 		public void EndFrame()
 		{
