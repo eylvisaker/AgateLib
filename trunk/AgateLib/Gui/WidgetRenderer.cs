@@ -22,22 +22,24 @@ using System.Linq;
 using System.Text;
 using AgateLib.Geometry;
 
-namespace AgateLib.Gui.Cache
+namespace AgateLib.Gui
 {
 	/// <summary>
 	/// Base class for a cache object used by widgets.
 	/// </summary>
-	public class WidgetCache
+	public abstract class WidgetRenderer
 	{
 		RectangleF mDisplayRect;
 
 		/// <summary>
 		/// Constructs a widget cache object.
 		/// </summary>
-		public WidgetCache()
+		public WidgetRenderer()
 		{
 			Dirty = true;
 		}
+
+		public abstract void DrawWidget(Widget w);
 
 		/// <summary>
 		/// Indicates whether or not the cache is dirty and needs to be recalculated.

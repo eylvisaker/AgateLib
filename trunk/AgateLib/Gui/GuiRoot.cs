@@ -45,7 +45,7 @@ namespace AgateLib.Gui
 			Name = "root";
 			Layout = new Layout.Grid();
 
-			themeEngine = new ThemeEngines.Mercury.Mercury();
+			ThemeEngine = new ThemeEngines.Mercury.Mercury();
 		}
 		/// <summary>
 		/// Constructs a GuiRoot object and uses the specified theme engine.
@@ -85,6 +85,8 @@ namespace AgateLib.Gui
 					throw new ArgumentNullException("RenderEngine must not be null.");
 
 				themeEngine = value;
+
+				RecreateRenderer();
 			}
 		}
 		/// <summary>

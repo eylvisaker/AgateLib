@@ -32,8 +32,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		/// Constructs a MercuryGuiRoot object.
 		/// </summary>
 		/// <param name="scheme"></param>
-		public MercuryGuiRoot(MercuryScheme scheme)
-			: base(scheme)
+		public MercuryGuiRoot(MercuryScheme scheme, Widget widget)
+			: base(scheme, widget)
 		{ }
 
 		/// <summary>

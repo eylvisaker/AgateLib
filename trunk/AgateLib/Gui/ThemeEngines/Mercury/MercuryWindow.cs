@@ -45,9 +45,28 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		public int DropShadowSize { get; set; }
 
-		public MercuryWindow(MercuryScheme scheme) : base(scheme)
+		public MercuryWindow(MercuryScheme scheme, Widget widget)
+			: base(scheme, widget)
 		{
 			CenterTitle = true;
+
+			if (scheme.Window != null)
+			{
+				NoTitle = scheme.Window.NoTitle;
+				WithTitle = scheme.Window.WithTitle;
+				TitleBar = scheme.Window.TitleBar;
+				NoTitleStretchRegion = scheme.Window.NoTitleStretchRegion;
+				WithTitleStretchRegion = scheme.Window.WithTitleStretchRegion;
+				TitleBarStretchRegion = scheme.Window.TitleBarStretchRegion;
+
+				CenterTitle = scheme.Window.CenterTitle;
+
+				CloseButton = scheme.Window.CloseButton;
+				CloseButtonHover = scheme.Window.CloseButtonHover;
+				CloseButtonInactive = scheme.Window.CloseButtonInactive;
+
+				DropShadowSize = scheme.Window.DropShadowSize;
+			}
 		}
 
 		public override void DrawWidget(Widget w)
@@ -57,8 +76,12 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public void DrawWindow(Window window)
 		{
 			DrawWindowBackground(window);
-			DrawWindowTitle(window);
-			DrawWindowDecorations(window);
+
+			if (window.ShowTitleBar)
+			{
+				DrawWindowTitle(window);
+				DrawWindowDecorations(window);
+			}
 		}
 
 		// TODO: fix this
@@ -77,7 +100,10 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 			}
 			else
-				throw new NotImplementedException();
+				DrawStretchImage(window.Parent.PointToScreen(
+					new Point(window.Location.X, window.Location.Y)),
+					window.Size, NoTitle, NoTitleStretchRegion);
+
 		}
 
 		private void DrawDropShadow(Rectangle rect)
@@ -146,7 +172,11 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			}
 			else
 			{
-				throw new NotImplementedException();
+				return new Rectangle(
+					NoTitleStretchRegion.Left,
+					NoTitleStretchRegion.Top,
+					widget.Width - (NoTitle.SurfaceWidth - NoTitleStretchRegion.Width),
+					widget.Height - (NoTitle.SurfaceHeight - NoTitleStretchRegion.Height));
 			}
 		}
 

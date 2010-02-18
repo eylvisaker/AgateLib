@@ -52,15 +52,15 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		private MercuryScheme()
 		{
-			mLabel = new MercuryLabel(this);
-			mWindow = new MercuryWindow(this);
-			mButton = new MercuryButton(this);
-			mCheckBox = new MercuryCheckBox(this);
-			mRadioButton = new MercuryCheckBox(this);
-			mTextBox = new MercuryTextBox(this);
-			mListBox = new MercuryListBox(this);
-			mVScroll = new MercuryScrollBar(this);
-			mHScroll = new MercuryScrollBar(this);
+			mLabel = new MercuryLabel(this, null);
+			mWindow = new MercuryWindow(this, null);
+			mButton = new MercuryButton(this, null);
+			mCheckBox = new MercuryCheckBox(this, null);
+			mRadioButton = new MercuryCheckBox(this, null);
+			mTextBox = new MercuryTextBox(this, null);
+			mListBox = new MercuryListBox(this, null);
+			mVScroll = new MercuryScrollBar(this, null);
+			mHScroll = new MercuryScrollBar(this, null);
 
 			mDispatch.Add(typeof(Label), mLabel);
 			mDispatch.Add(typeof(Window), mWindow);
@@ -71,9 +71,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			mDispatch.Add(typeof(ListBox), mListBox);
 			mDispatch.Add(typeof(VerticalScrollBar), mVScroll);
 			mDispatch.Add(typeof(HorizontalScrollBar), mHScroll);
-			mDispatch.Add(typeof(Panel), new MercuryPanel(this));
-			mDispatch.Add(typeof(GuiRoot), new MercuryGuiRoot(this));
-
+			mDispatch.Add(typeof(Panel), new MercuryPanel(this, null));
+			mDispatch.Add(typeof(GuiRoot), new MercuryGuiRoot(this, null));
 		}
 
 		public MercuryWidget Themer(Widget w)

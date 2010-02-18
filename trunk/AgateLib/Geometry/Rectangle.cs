@@ -191,9 +191,9 @@ namespace AgateLib.Geometry
 				return false;
 			if (pt.Y < Top)
 				return false;
-			if (pt.X > Right)
+			if (pt.X >= Right)
 				return false;
-			if (pt.Y > Bottom)
+			if (pt.Y >= Bottom)
 				return false;
 
 			return true;
@@ -470,5 +470,19 @@ namespace AgateLib.Geometry
 		}
 
 
+		/// <summary>
+		/// Returns a rectangle which has the two specified points as corners.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Rectangle FromPoints(Point a, Point b)
+		{
+			return new Rectangle(
+				Math.Min(a.X, b.X),
+				Math.Min(a.Y, b.Y),
+				Math.Abs(a.X - b.X),
+				Math.Abs(a.Y - b.Y));
+		}
 	}
 }

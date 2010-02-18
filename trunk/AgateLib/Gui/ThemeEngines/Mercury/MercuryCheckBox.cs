@@ -22,7 +22,6 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Gui.Cache;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
@@ -37,12 +36,27 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public Surface Hover { get; set; }
 		public Surface Focus { get; set; }
 		public int Spacing { get; set; }
-		
-		public MercuryCheckBox(MercuryScheme scheme)
-			: base(scheme)
+
+		public MercuryCheckBox(MercuryScheme scheme, Widget widget)
+			: base(scheme, widget)
 		{
 			Spacing = 5;
 			Margin = 2;
+
+			MercuryCheckBox src = scheme.CheckBox;
+			
+			if (widget is RadioButton)
+				src = scheme.RadioButton;
+
+			if (src != null)
+			{
+				Image = src.Image;
+				Disabled = src.Disabled;
+				Check = src.Check;
+				Hover = src.Hover;
+				Focus = src.Focus;
+				Spacing = src.Spacing;
+			}
 		}
 
 		public override void DrawWidget(Widget w)
@@ -61,10 +75,9 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			else
 				surf = Image;
 
-			WidgetCache c = GetOrCreateCache(checkbox);
 
 			Point destPoint = checkbox.PointToScreen(
-				Origin.Calc(OriginAlignment.CenterLeft, (Size)c.DisplaySize));
+				Origin.Calc(OriginAlignment.CenterLeft, (Size)DisplaySize));
 
 			surf.DisplayAlignment = OriginAlignment.CenterLeft;
 			surf.Draw(destPoint);

@@ -279,6 +279,16 @@ namespace AgateLib.Gui
 
 			return Layout.CanMoveFocus(this, currentFocus, direction);
 		}
+
+		public override void RecreateRenderer()
+		{
+			base.RecreateRenderer();
+
+			foreach (var w in Children)
+			{
+				w.RecreateRenderer();
+			}
+		}
 	}
 
 	public enum Direction
