@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9490B719-829E-43A7-A5FE-8001F8A81759}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -167,7 +167,7 @@
     <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
     <Compile Include="Gui\AgateGuiException.cs" />
     <Compile Include="Gui\Button.cs" />
-    <Compile Include="Gui\Cache\WidgetCache.cs" />
+    <Compile Include="Gui\WidgetRenderer.cs" />
     <Compile Include="Gui\CheckBox.cs" />
     <Compile Include="Gui\ComboBox.cs" />
     <Compile Include="Gui\Container.cs" />
@@ -185,7 +185,6 @@
     <Compile Include="Gui\RadioButton.cs" />
     <Compile Include="Gui\TextBox.cs" />
     <Compile Include="Gui\ThemeEngines\Mercury\Cache\ScrollBarCache.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\Cache\TextBoxCache.cs" />
     <Compile Include="Gui\ThemeEngines\Mercury\Mercury.cs" />
     <Compile Include="Gui\ThemeEngines\Mercury\MercuryButton.cs" />
     <Compile Include="Gui\ThemeEngines\Mercury\MercuryCheckBox.cs" />
@@ -199,6 +198,12 @@
     <Compile Include="Gui\ThemeEngines\Mercury\MercuryScrollBar.cs" />
     <Compile Include="Gui\ThemeEngines\Mercury\MercuryTextBox.cs" />
     <Compile Include="Gui\ThemeEngines\Mercury\MercuryWindow.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\CssData.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\Venus.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\VenusScheme.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\VenusTheme.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\VenusThemeDictionary.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\WidgetStyle.cs" />
     <Compile Include="Gui\Widget.cs" />
     <Compile Include="Gui\WidgetList.cs" />
     <Compile Include="Gui\Window.cs" />
@@ -621,6 +626,9 @@
     <None Include="InternalResources\agate-black-gui.zip" />
     <None Include="InternalResources\Fonts.zip" />
     <None Include="InternalResources\images.tar.gz" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Gui\Cache\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>

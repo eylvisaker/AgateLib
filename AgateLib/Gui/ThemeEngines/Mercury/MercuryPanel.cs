@@ -32,8 +32,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		/// Constructs a MercuryPanel object.
 		/// </summary>
 		/// <param name="scheme"></param>
-		public MercuryPanel(MercuryScheme scheme)
-			: base(scheme)
+		public MercuryPanel(MercuryScheme scheme, Widget widget)
+			: base(scheme, widget)
 		{ }
 		/// <summary>
 		/// Does nothing.

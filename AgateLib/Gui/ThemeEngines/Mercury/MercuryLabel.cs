@@ -34,8 +34,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		/// Constructs a MercuryLabel object.
 		/// </summary>
 		/// <param name="scheme"></param>
-		public MercuryLabel(MercuryScheme scheme)
-			: base(scheme)
+		public MercuryLabel(MercuryScheme scheme, Widget widget)
+			: base(scheme, widget)
 		{ }
 
 		/// <summary>

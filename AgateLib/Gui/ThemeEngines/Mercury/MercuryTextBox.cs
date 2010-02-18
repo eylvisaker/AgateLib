@@ -25,8 +25,6 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
-	using Cache;
-
 	/// <summary>
 	/// Class which draws text boxes for the Mercury theme engine.
 	/// </summary>
@@ -38,12 +36,38 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public Surface Focus { get; set; }
 		public Rectangle StretchRegion { get; set; }
 
-		public MercuryTextBox(MercuryScheme scheme)
-			: base(scheme)
+		public MercuryTextBox(MercuryScheme scheme, Widget widget)
+			: base(scheme, widget)
 		{
 			Margin = 3;
+
+			if (scheme.TextBox != null)
+			{
+				Image = scheme.TextBox.Image;
+				Disabled = scheme.TextBox.Disabled;
+				Hover = scheme.TextBox.Hover;
+				Focus = scheme.TextBox.Focus;
+				StretchRegion = scheme.TextBox.StretchRegion;
+			}
 		}
 
+		#region --- Cache ---
+
+		public FrameBuffer TextBoxFrameBuffer { get; set; }
+		public Surface TextBoxSurface
+		{
+			get
+			{
+				if (TextBoxFrameBuffer == null)
+					return null;
+				else
+					return TextBoxFrameBuffer.RenderTarget;
+			}
+		}
+
+		public Point Origin;
+
+		#endregion
 
 		public void MouseDownInTextBox(TextBox textBox, Point clientLocation)
 		{
@@ -63,26 +87,9 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		{
 
 		}
-		public override AgateLib.Gui.Cache.WidgetCache GetOrCreateCache(Widget w)
-		{
-			return GetTextBoxCache((TextBox)w);
-		}
-		private TextBoxCache GetTextBoxCache(TextBox textBox)
-		{
-			if (textBox.Cache == null)
-			{
-				textBox.Cache = new TextBoxCache();
-
-				base.InitializeCache(textBox, textBox.Cache);
-			}
-
-			return (TextBoxCache)textBox.Cache;
-		}
 		public void UpdateCache(TextBox textBox)
 		{
-			TextBoxCache c = GetTextBoxCache(textBox);
-
-			if (c.Dirty == false)
+			if (Dirty == false)
 				return;
 
 			Size fixedSize = StretchRegionFixedSize(Image.SurfaceSize, StretchRegion);
@@ -90,13 +97,13 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			Size surfSize = new Size(textBox.Size.Width - fixedSize.Width,
 						 textBox.Size.Height - fixedSize.Height);
 
-			if (c.TextBoxFrameBuffer == null || c.TextBoxFrameBuffer.Size != surfSize)
+			if (TextBoxFrameBuffer == null || TextBoxFrameBuffer.Size != surfSize)
 			{
-				if (c.TextBoxFrameBuffer != null)
-					c.TextBoxFrameBuffer.Dispose();
+				if (TextBoxFrameBuffer != null)
+					TextBoxFrameBuffer.Dispose();
 
-				c.TextBoxFrameBuffer = new FrameBuffer(surfSize);
-				c.Origin = Point.Empty;
+				TextBoxFrameBuffer = new FrameBuffer(surfSize);
+				Origin = Point.Empty;
 			}
 
 			Point ip = InsertionPointLocation(textBox);
@@ -105,16 +112,16 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			int bottom = ip.Y + InsertionPointHeight;
 
 			if (ip.Y < 0)
-				c.Origin.Y += ip.Y;
+				Origin.Y += ip.Y;
 			if (bottom > surfSize.Height)
-				c.Origin.Y += bottom - surfSize.Height;
+				Origin.Y += bottom - surfSize.Height;
 			if (ip.X < 0)
-				c.Origin.X += ip.X;
+				Origin.X += ip.X;
 			if (ip.X >= surfSize.Width)
-				c.Origin.X += ip.X - surfSize.Width + 1;
+				Origin.X += ip.X - surfSize.Width + 1;
 
 			FrameBuffer old = Display.RenderTarget;
-			Display.RenderTarget = c.TextBoxFrameBuffer;
+			Display.RenderTarget = TextBoxFrameBuffer;
 			Display.RenderState.AlphaBlend = false;
 			Display.BeginFrame();
 
@@ -125,13 +132,13 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			else
 				WidgetFont.Color = FontColorDisabled;
 
-			WidgetFont.DrawText(-c.Origin.X, -c.Origin.Y, textBox.Text);
+			WidgetFont.DrawText(-Origin.X, -Origin.Y, textBox.Text);
 
 			Display.EndFrame();
 			Display.RenderTarget = old;
 			Display.RenderState.AlphaBlend = true;
 
-			c.Dirty = false;
+			Dirty = false;
 		}
 
 		public override void DrawWidget(Widget w)
@@ -145,10 +152,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			if (textBox.Enabled == false)
 				image = Disabled;
 
-			TextBoxCache c = GetTextBoxCache(textBox);
-
 			Point location = textBox.PointToScreen(new Point(0, 0));
-			Size size = (Size)c.DisplaySize;
+			Size size = (Size)DisplaySize;
 
 			DrawStretchImage(location, size,
 				image, StretchRegion);
@@ -173,13 +178,13 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			location.Y += StretchRegion.Y;
 
 
-			if (c == null || c.TextBoxSurface == null)
+			if (TextBoxSurface == null)
 			{
 				WidgetFont.DrawText(location, textBox.Text);
 			}
 			else
 			{
-				c.TextBoxSurface.Draw(location);
+				TextBoxSurface.Draw(location);
 			}
 
 			if (textBox.HasFocus)
@@ -195,10 +200,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 		private int TextBoxClientToTextLocation(TextBox textBox, Point clientLocation)
 		{
-			TextBoxCache c = GetTextBoxCache(textBox);
-
-			clientLocation.X += c.Origin.X - StretchRegion.X;
-			clientLocation.Y += c.Origin.Y - StretchRegion.Y;
+			clientLocation.X += Origin.X - StretchRegion.X;
+			clientLocation.Y += Origin.Y - StretchRegion.Y;
 
 			Size sz = Size.Empty;
 			int last = 0;
@@ -283,13 +286,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 				sz.Width + StretchRegion.X,
 				lines * WidgetFont.FontHeight + StretchRegion.Y);
 
-			TextBoxCache c = textBox.Cache as TextBoxCache;
-
-			if (c != null)
-			{
-				loc.X -= c.Origin.X;
-				loc.Y -= c.Origin.Y;
-			}
+			loc.X -= Origin.X;
+			loc.Y -= Origin.Y;
 
 			loc.Y++;
 

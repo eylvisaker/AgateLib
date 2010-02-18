@@ -111,5 +111,7 @@ namespace AgateLib.Gui
 		/// </summary>
 		/// <param name="widget"></param>
 		void WidgetNeedsUpdate(Widget widget);
+
+		WidgetRenderer CreateRenderer(Widget widget);
 	}
 }

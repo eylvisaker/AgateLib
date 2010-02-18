@@ -83,7 +83,7 @@ namespace AgateLib.Gui
 		/// <summary>
 		/// Returns the WidgetCache object used by the theming engine.
 		/// </summary>
-		public Cache.WidgetCache Cache { get; set; }
+		public WidgetRenderer Cache { get; set; }
 
 		/// <summary>
 		/// Gets whether or not this widget can have keyboard focus.
@@ -166,7 +166,23 @@ namespace AgateLib.Gui
 		/// </summary>
 		protected virtual void OnParentChanged()
 		{
+			CreateRendererIfNecessary();
+
 			RecalcSizeRange();
+		}
+
+		private void CreateRendererIfNecessary()
+		{
+			if (Root == null) return;
+			if (Root.ThemeEngine == null) return;
+			if (Cache != null) return;
+
+			RecreateRenderer();
+		}
+
+		public virtual void RecreateRenderer()
+		{
+			Cache = Root.ThemeEngine.CreateRenderer(this);
 		}
 		/// <summary>
 		/// Called when this control should recalculate its minimum and maximum size values.
@@ -271,6 +287,11 @@ namespace AgateLib.Gui
 			get { return mRegion; }
 		}
 
+		/// <summary>
+		/// Gets or sets any custom data associated with this control.  You may use
+		/// this field to store whatever data you like.
+		/// </summary>
+		public object Tag { get; set; }
 		/// <summary>
 		/// Gets the width of this widget.
 		/// </summary>
@@ -429,7 +450,8 @@ namespace AgateLib.Gui
 		/// </summary>
 		protected virtual void DoDraw()
 		{
-			Root.ThemeEngine.DrawWidget(this);
+			//Root.ThemeEngine.DrawWidget(this);
+			Cache.DrawWidget(this);
 		}
 
 		protected internal virtual void UpdateGui()

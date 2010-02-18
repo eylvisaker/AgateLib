@@ -390,7 +390,7 @@ namespace AgateLib.Serialization.Xle
 			byte[] buffer = ms.GetBuffer();
 
 			string newValue = Convert.ToBase64String(
-				buffer, Base64FormattingOptions.InsertLineBreaks);
+				buffer/*, Base64FormattingOptions.InsertLineBreaks*/);
 
 			XmlElement el = WriteAsElement(name, newValue);
 			AddAttribute(el, "stream", "true");

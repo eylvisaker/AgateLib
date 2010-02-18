@@ -25,8 +25,6 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
-	using Cache;
-
 	/// <summary>
 	/// Class which draws scroll bars for the Mercury theme engine.
 	/// </summary>
@@ -53,10 +51,25 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public Rectangle BarStretchRegion { get; set; }
 		public Rectangle ThumbStretchRegion { get; set; }
 
+		public bool DownInDecrease { get; set; }
+		public bool DownInIncrease { get; set; }
+		public bool DownInPageDecrease { get; set; }
+		public bool DownInPageIncrease { get; set; }
+
+		public bool MouseInDecrease { get; set; }
+		public bool MouseInIncrease { get; set; }
+		public bool MouseInPageDecrease { get; set; }
+		public bool MouseInPageIncrease { get; set; }
+
+		public double LastUpdate { get; set; }
+
+		public bool DraggingThumb { get; set; }
+		public Point ThumbGrabSpot { get; set; }
+
 		public int FixedBarSize { get; set; }
 
-		public MercuryScrollBar(MercuryScheme scheme)
-			: base(scheme)
+		public MercuryScrollBar(MercuryScheme scheme, Widget widget)
+			: base(scheme, widget)
 		{
 			FixedBarSize = 16;
 		}
@@ -81,13 +94,11 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 
 			DrawStretchImage(barLoc, sz, Bar, BarStretchRegion);
 
-			var cache = GetCache(scrollBar);
-
 			if (Mercury.DebugOutlines)
 			{
 				DrawRect(scrollBar, PageDecreaseRegion(scrollBar), Color.LightGreen);
 				DrawRect(scrollBar, PageIncreaseRegion(scrollBar), Color.Green);
-				DrawRect(scrollBar, ThumbRegion(scrollBar), cache.DraggingThumb ? Color.LightBlue: Color.Blue);
+				DrawRect(scrollBar, ThumbRegion(scrollBar), DraggingThumb ? Color.LightBlue: Color.Blue);
 			}
 		}
 
@@ -144,41 +155,38 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		}
 		void UpdateScrollBar(ScrollBar bar)
 		{
-			var cache = GetCache(bar);
-
-			if (cache.LastUpdate + 0.1 > Timing.TotalSeconds)
+			if (LastUpdate + 0.1 > Timing.TotalSeconds)
 				return;
 
 			UpdateMouseLocation(bar, bar.PointToClient(AgateLib.InputLib.Mouse.Position));
 
-			if (cache.DownInDecrease && cache.MouseInDecrease)
+			if (DownInDecrease && MouseInDecrease)
 				SafeMoveScrollBar(bar, -bar.SmallChange);
-			if (cache.DownInIncrease && cache.MouseInIncrease)
+			if (DownInIncrease && MouseInIncrease)
 				SafeMoveScrollBar(bar, bar.SmallChange);
-			if (cache.DownInPageDecrease && cache.MouseInPageDecrease)
+			if (DownInPageDecrease && MouseInPageDecrease)
 				SafeMoveScrollBar(bar, -bar.LargeChange);
-			if (cache.DownInPageIncrease && cache.MouseInPageIncrease)
+			if (DownInPageIncrease && MouseInPageIncrease)
 				SafeMoveScrollBar(bar, bar.LargeChange);
 
-			cache.LastUpdate = Timing.TotalSeconds;
+			LastUpdate = Timing.TotalSeconds;
 		}
 		private void UpdateMouseLocation(ScrollBar scrollBar, Point clientLocation)
 		{
-			var cache = GetCache(scrollBar);
 
-			cache.MouseInDecrease = false;
-			cache.MouseInIncrease = false;
-			cache.MouseInPageDecrease = false;
-			cache.MouseInPageIncrease = false;
+			MouseInDecrease = false;
+			MouseInIncrease = false;
+			MouseInPageDecrease = false;
+			MouseInPageIncrease = false;
 
 			if (DecreaseRegion(scrollBar).Contains(clientLocation))
-				cache.MouseInDecrease = true;
+				MouseInDecrease = true;
 			else if (IncreaseRegion(scrollBar).Contains(clientLocation))
-				cache.MouseInIncrease = true;
+				MouseInIncrease = true;
 			else if (PageDecreaseRegion(scrollBar).Contains(clientLocation))
-				cache.MouseInPageDecrease = true;
+				MouseInPageDecrease = true;
 			else if (PageIncreaseRegion(scrollBar).Contains(clientLocation))
-				cache.MouseInPageIncrease = true;
+				MouseInPageIncrease = true;
 		}
 
 		private void SafeMoveScrollBar(ScrollBar scrollBar, int change)
@@ -196,46 +204,37 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			return newValue;
 		}
 
-		ScrollBarCache GetCache(ScrollBar bar)
-		{
-			if (bar.Cache == null)
-				bar.Cache = new ScrollBarCache();
-
-			return (ScrollBarCache)bar.Cache;
-		}
-
 		public void MouseDownInScrollBar(ScrollBar scrollBar, Point clientLocation)
 		{
-			var cache = GetCache(scrollBar);
 			Rectangle thumb = ThumbRegion(scrollBar);
 
-			cache.LastUpdate = Timing.TotalSeconds + 0.25;
+			LastUpdate = Timing.TotalSeconds + 0.25;
 
 			Scheme.RegisterUpdater(this, scrollBar);
 
 			if (DecreaseRegion(scrollBar).Contains(clientLocation))
 			{
-				cache.DownInDecrease = true;
+				DownInDecrease = true;
 				SafeMoveScrollBar(scrollBar, -scrollBar.SmallChange);
 			}
 			else if (IncreaseRegion(scrollBar).Contains(clientLocation)) 
 			{
-				cache.DownInIncrease = true;
+				DownInIncrease = true;
 				SafeMoveScrollBar(scrollBar, scrollBar.SmallChange);
 			}
 			else if (thumb.Contains(clientLocation))
 			{
-				cache.DraggingThumb = true;
-				cache.ThumbGrabSpot = new Point(clientLocation.X - thumb.X, clientLocation.Y - thumb.Y);
+				DraggingThumb = true;
+				ThumbGrabSpot = new Point(clientLocation.X - thumb.X, clientLocation.Y - thumb.Y);
 			}
 			else if (PageDecreaseRegion(scrollBar).Contains(clientLocation))
 			{
-				cache.DownInPageDecrease = true;
+				DownInPageDecrease = true;
 				SafeMoveScrollBar(scrollBar, -scrollBar.LargeChange);
 			}
 			else if (PageIncreaseRegion(scrollBar).Contains(clientLocation))
 			{
-				cache.DownInPageIncrease = true;
+				DownInPageIncrease = true;
 				SafeMoveScrollBar(scrollBar, scrollBar.LargeChange);
 			}
 
@@ -243,13 +242,12 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		}
 		public void MouseMoveInScrollBar(ScrollBar scrollBar, Point clientLocation)
 		{
-			var cache = GetCache(scrollBar);
 			UpdateMouseLocation(scrollBar, clientLocation);
 
-			if (cache.DraggingThumb)
+			if (DraggingThumb)
 			{
-				Point newThumbPos = new Point(clientLocation.X - cache.ThumbGrabSpot.X,
-					clientLocation.Y - cache.ThumbGrabSpot.Y);
+				Point newThumbPos = new Point(clientLocation.X - ThumbGrabSpot.X,
+					clientLocation.Y - ThumbGrabSpot.Y);
 
 				int newThumbStart = scrollBar is VerticalScrollBar ? newThumbPos.Y : newThumbPos.X;
 				int thumbSize = ThumbSize(scrollBar);
@@ -266,13 +264,11 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		}
 		public void MouseUpInScrollBar(ScrollBar scrollBar, Point clientLocation)
 		{
-			var cache = GetCache(scrollBar);
-			
-			cache.DownInDecrease = false;
-			cache.DownInIncrease = false;
-			cache.DownInPageDecrease = false;
-			cache.DownInPageIncrease = false;
-			cache.DraggingThumb = false;
+			DownInDecrease = false;
+			DownInIncrease = false;
+			DownInPageDecrease = false;
+			DownInPageIncrease = false;
+			DraggingThumb = false;
 
 			Scheme.RemoveUpdater(this, scrollBar);
 		}

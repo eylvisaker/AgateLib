@@ -23,7 +23,6 @@ using System.Text;
 using System.Diagnostics;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Gui.ThemeEngines.Mercury.Cache;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
@@ -49,7 +48,19 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public Mercury(MercuryScheme scheme)
 		{
 			this.Scheme = scheme;
+
+			mRendererMap.Add(typeof(TextBox), typeof(MercuryTextBox));
+			mRendererMap.Add(typeof(CheckBox), typeof(MercuryCheckBox));
+			mRendererMap.Add(typeof(RadioButton), typeof(MercuryCheckBox));
+			mRendererMap.Add(typeof(Button), typeof(MercuryButton));
+			mRendererMap.Add(typeof(GuiRoot), typeof(MercuryGuiRoot));
+			mRendererMap.Add(typeof(Label), typeof(MercuryLabel));
+			mRendererMap.Add(typeof(Panel), typeof(MercuryPanel));
+			mRendererMap.Add(typeof(Window), typeof(MercuryWindow));
+
+
 		}
+
 
 		/// <summary>
 		/// Gets or sets the parameters used to draw widgets.
@@ -78,6 +89,12 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		}
 		#endregion
 
+		Dictionary<Type, Type> mRendererMap = new Dictionary<Type, Type>();
+
+		public WidgetRenderer CreateRenderer(Widget widget)
+		{
+			return (WidgetRenderer)Activator.CreateInstance(mRendererMap[widget.GetType()], this.Scheme, widget);
+		}
 		#region --- Interface Dispatchers ---
 
 		/// <summary>
@@ -252,6 +269,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		{
 			return Scheme.Themer(widget).ClientArea(widget);
 		}
+
+
 
 	}
 }

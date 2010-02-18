@@ -22,7 +22,6 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Gui.Cache;
 
 namespace AgateLib.Gui.ThemeEngines.Mercury
 {
@@ -40,9 +39,21 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public Surface Focus { get; set; }
 		public int TextPadding { get; set; }
 
-		public MercuryButton(MercuryScheme scheme)
-			: base(scheme)
-		{ }
+		public MercuryButton(MercuryScheme scheme, Widget widget)
+			: base(scheme, widget)
+		{
+			if (scheme.Button != null)
+			{
+				StretchRegion = scheme.Button.StretchRegion;
+				Image = scheme.Button.Image;
+				Default = scheme.Button.Default;
+				Pressed = scheme.Button.Pressed;
+				Disabled = scheme.Button.Disabled;
+				Hover = scheme.Button.Hover;
+				Focus = scheme.Button.Focus;
+				TextPadding = scheme.Button.TextPadding;
+			}
+		}
 
 		public override void DrawWidget(Widget w)
 		{
@@ -51,7 +62,6 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public void DrawButton(Button button)
 		{
 			Surface image = Image;
-			WidgetCache c = GetButtonCache(button);
 
 			bool isDefault = button.IsDefaultButton;
 
@@ -63,7 +73,7 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 				image = Default;
 
 			Point location = button.PointToScreen(Point.Empty);
-			Size size = new Size((int)c.DisplayWidth, (int)c.DisplayHeight);
+			Size size = new Size((int)DisplayWidth, (int)DisplayHeight);
 
 			DrawStretchImage(location, size,
 				image, StretchRegion);
@@ -98,19 +108,6 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 			WidgetFont.DrawText(
 				button.PointToScreen(location),
 				button.Text);
-		}
-
-		private WidgetCache GetButtonCache(Button button)
-		{
-			if (button.Cache == null)
-			{
-				button.Cache = new WidgetCache();
-
-				button.Cache.DisplayLocation = (PointF)button.Location;
-				button.Cache.DisplaySize = (SizeF)button.Size;
-			}
-
-			return button.Cache;
 		}
 
 		public override Size MinSize(Widget w)

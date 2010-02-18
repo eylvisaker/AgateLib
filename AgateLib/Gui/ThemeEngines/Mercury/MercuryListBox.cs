@@ -36,8 +36,8 @@ namespace AgateLib.Gui.ThemeEngines.Mercury
 		public Surface Focus { get; set; }
 		public Rectangle StretchRegion { get; set; }
 
-		public MercuryListBox(MercuryScheme scheme)
-			:base(scheme)
+		public MercuryListBox(MercuryScheme scheme, Widget widget)
+			: base(scheme, widget)
 		{
 			Margin = 3;
 		}
