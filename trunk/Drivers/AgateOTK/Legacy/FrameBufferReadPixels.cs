@@ -43,17 +43,14 @@ namespace AgateOTK.Legacy
 			GL.Clear(ClearBufferMask.ColorBufferBit |
 					 ClearBufferMask.DepthBufferBit);
 
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-				(int)TextureMinFilter.Linear);
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-				(int)TextureMagFilter.Linear);
-
-			surface.Draw(s);
-
 			GL.TexParameter(TextureTarget.Texture2D,
 							 TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
 			GL.TexParameter(TextureTarget.Texture2D,
 							 TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+			surface.Draw(s);
+
+			DrawBuffer.Flush();
 		}
 
 		public override void EndRender()

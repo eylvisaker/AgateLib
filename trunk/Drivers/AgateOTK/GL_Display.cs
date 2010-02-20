@@ -148,9 +148,27 @@ namespace AgateOTK
 			if (mGL3)
 				return new GL3.FrameBuffer(size);
 			else if (mSupportsFramebufferExt)
-				return new Legacy.FrameBufferExt(size);
-			else
-				return new Legacy.FrameBufferReadPixels(size);
+			{
+				try
+				{
+					return new Legacy.FrameBufferExt(size);
+				}
+				catch(Exception e)
+				{
+					Trace.WriteLine(string.Format("Caught exception {0} when trying to create GL_FrameBuffer_Ext wrapper.", e.GetType()));
+					Trace.Indent();
+					Trace.WriteLine(e.Message);
+					Trace.Unindent();
+					Trace.WriteLine("");
+					Trace.WriteLine("Disabling frame buffer extension, and falling back onto glCopyTexSubImage2D.");
+					Trace.WriteLine("Extensive use of offscreen rendering targets will result in poor performance.");
+					Trace.WriteLine("");
+
+					mSupportsFramebufferExt = false;
+				}
+			}
+			
+			return new Legacy.FrameBufferReadPixels(size);
 		}
 
 		public GLDrawBuffer CreateDrawBuffer()
@@ -181,7 +199,7 @@ namespace AgateOTK
 
 		internal GLDrawBuffer DrawBuffer
 		{
-			get { return (RenderTarget.Impl as GL_FrameBuffer).DrawBuffer; }
+			get { return ((GL_FrameBuffer)RenderTarget.Impl).DrawBuffer; }
 		}
 
 		// TODO: Test clip rect stuff.
@@ -545,6 +563,9 @@ namespace AgateOTK
 		{
 			lock (mTexturesToDelete)
 			{
+				if (mTexturesToDelete.Count == 0)
+					return;
+
 				int[] tex = mTexturesToDelete.ToArray();
 				mTexturesToDelete.Clear();
 
