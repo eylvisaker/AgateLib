@@ -141,7 +141,13 @@ namespace AgateLib.Resources
 				case "DisplayWindow":
 					return new DisplayWindowResource(node, version);
 
-				case "Surface":
+				case "Image":
+					return new ImageResource(node, version);
+
+				case "GuiTheme":
+					return new GuiThemeResource(node, version);
+
+	 			case "Surface":
 					return new SurfaceResource(node, version);
 
 				case "Sprite":

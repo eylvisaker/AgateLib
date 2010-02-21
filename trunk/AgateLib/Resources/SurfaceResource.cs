@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
 namespace AgateLib.Resources
@@ -31,12 +32,23 @@ namespace AgateLib.Resources
 	/// </summary>
 	public sealed class SurfaceResource : AgateResource
 	{
-		string mFilename;
+		ImageResource mImage;
+		Rectangle mSrcRect;
 
 		/// <summary>
 		/// Gets or sets the filename for the surface to be created from.
 		/// </summary>
-		public string Filename { get { return mFilename; } set { mFilename = value; } }
+		[Obsolete]
+		public string Filename { get; set; }
+
+		/// <summary>
+		/// Gets or sets the source rectangle in the image file.
+		/// </summary>
+		public Rectangle SourceRect
+		{
+			get { return mSrcRect; }
+			set { mSrcRect = value; }
+		}
 
 		/// <summary>
 		/// Constructs a SurfaceResource object.
@@ -61,7 +73,9 @@ namespace AgateLib.Resources
 				case "0.3.1":
 				case "0.3.0":
 					Name = node.Attributes["name"].Value;
-					Filename = node.Attributes["filename"].Value;
+
+					mImage = new ImageResource();
+					mImage.Filename = node.Attributes["filename"].Value;
 
 					break;
 
@@ -88,6 +102,19 @@ namespace AgateLib.Resources
 		protected override AgateResource Clone()
 		{
 			return new SurfaceResource(Name, Filename);
+		}
+
+		internal AgateLib.DisplayLib.ImplementationBase.SurfaceImpl CreateSurfaceImpl()
+		{
+			Surface s = mImage.GetOrLoadSurface();
+			
+			return s.Impl.CarveSubSurface(mSrcRect);
+		}
+
+		internal ImageResource Image
+		{
+			get { return mImage; }
+			set { mImage = value; }
 		}
 	}
 }
