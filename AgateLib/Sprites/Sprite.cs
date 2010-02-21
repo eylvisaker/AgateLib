@@ -371,12 +371,12 @@ namespace AgateLib.Sprites
 				if (skip == false)
 					mFrames.Add(currentFrame);
 
-				location.X += size.Width;
+				location.X += size.Width + extraSpace.X;
 
 				if (location.X + size.Width > surface.SurfaceWidth)
 				{
 					location.X = 0;
-					location.Y += size.Height;
+					location.Y += size.Height + extraSpace.Y;
 				}
 
 			} while (location.Y + size.Height <= surface.SurfaceHeight);
