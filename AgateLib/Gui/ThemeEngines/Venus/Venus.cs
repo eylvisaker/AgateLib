@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using AgateLib.Geometry;
 
@@ -8,6 +9,21 @@ namespace AgateLib.Gui.ThemeEngines.Venus
 {
 	public class Venus : IGuiThemeEngine 
 	{
+		public Venus()
+		{
+
+		}
+
+		public void LoadCss(string text)
+		{
+			CssData d = new CssData();
+			d.Parse(text);
+
+			Css = d;
+		}
+		
+		public CssData Css { get; set; }
+
 		#region IGuiThemeEngine Members
 
 		public void DrawWidget(Widget widget)
@@ -77,7 +93,7 @@ namespace AgateLib.Gui.ThemeEngines.Venus
 
 		public WidgetRenderer CreateRenderer(Widget widget)
 		{
-			throw new NotImplementedException();
+			return new CssRenderer(this, widget);
 		}
 
 		#endregion

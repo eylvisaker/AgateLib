@@ -27,47 +27,6 @@ using AgateLib.Utility;
 namespace AgateLib.DisplayLib
 {
 	/// <summary>
-	/// Enum which is used to indicate what format an image file is in.
-	/// </summary>
-	public enum ImageFileFormat
-	{
-		/// <summary>
-		/// Portable Network Graphics (PNG) format.
-		/// </summary>
-		Png,
-		/// <summary>
-		/// Windows Bitmap (BMP) format.
-		/// </summary>
-		Bmp,
-		/// <summary>
-		/// Jpeg format.
-		/// </summary>
-		Jpg,
-		/// <summary>
-		/// Targa format.
-		/// </summary>
-		Tga,
-	}
-
-	/// <summary>
-	/// Enum for indicating the sampling mode used when stretching or shrinking surfaces.
-	/// </summary>
-	public enum InterpolationMode
-	{
-		/// <summary>
-		/// Use whatever the driver default is.
-		/// </summary>
-		Default,
-		/// <summary>
-		/// Use the fastest method, usually nearest neighbor pixel sampling.
-		/// </summary>
-		Fastest,
-		/// <summary>
-		/// Use the nicest method, usually bilinear sampling.
-		/// </summary>
-		Nicest,
-	}
-	/// <summary>
 	/// Class which represents a pixel surface.
 	/// There are several ways to create a Surface object.  The most common
 	/// is to pass the name of an image file.
@@ -112,10 +71,9 @@ namespace AgateLib.DisplayLib
 			if (Display.Impl == null)
 				throw new AgateException("AgateLib's display system has not been initialized.");
 
-			Resources.AgateResource res = resources[name];
-			Resources.SurfaceResource surf = res as Resources.SurfaceResource;
-
-			impl = resources.LoadSurfaceImpl(surf.Filename);
+			Resources.SurfaceResource surf = resources.Surfaces[name];
+					    
+			impl = surf.CreateSurfaceImpl();
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
@@ -886,5 +844,47 @@ namespace AgateLib.DisplayLib
 		{
 			get { return impl; }
 		}
+	}
+
+	/// <summary>
+	/// Enum which is used to indicate what format an image file is in.
+	/// </summary>
+	public enum ImageFileFormat
+	{
+		/// <summary>
+		/// Portable Network Graphics (PNG) format.
+		/// </summary>
+		Png,
+		/// <summary>
+		/// Windows Bitmap (BMP) format.
+		/// </summary>
+		Bmp,
+		/// <summary>
+		/// Jpeg format.
+		/// </summary>
+		Jpg,
+		/// <summary>
+		/// Targa format.
+		/// </summary>
+		Tga,
+	}
+
+	/// <summary>
+	/// Enum for indicating the sampling mode used when stretching or shrinking surfaces.
+	/// </summary>
+	public enum InterpolationMode
+	{
+		/// <summary>
+		/// Use whatever the driver default is.
+		/// </summary>
+		Default,
+		/// <summary>
+		/// Use the fastest method, usually nearest neighbor pixel sampling.
+		/// </summary>
+		Fastest,
+		/// <summary>
+		/// Use the nicest method, usually bilinear sampling.
+		/// </summary>
+		Nicest,
 	}
 }

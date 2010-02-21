@@ -35,13 +35,47 @@ namespace AgateLib.Resources
 	public class AgateResourceCollection : IDictionary<string, AgateResource>, ICollection<AgateResource>
 	{
 		Dictionary<string, AgateResource> mStore = new Dictionary<string, AgateResource>();
-		const string mStringTableKey = "Strings";
 
+		List<ImageResource> mImages = new List<ImageResource>();
+
+		const string mStringTableKey = "Strings";
+		bool mOwnFileProvider;
+		IFileProvider mFileProvider;
+
+		SurfaceResourceList mSurfaceAccessor;
+		
+		public class SurfaceResourceList
+		{
+			AgateResourceCollection mResources;
+
+			internal SurfaceResourceList(AgateResourceCollection resources)
+			{
+				mResources = resources;
+			}
+
+			public SurfaceResource this[string key]
+			{
+				get
+				{
+					foreach (var img in mResources.mImages)
+					{
+						foreach (var surface in img.Surfaces)
+						{
+							if (surface.Name == key)
+								return surface;
+						}
+					}
+
+					throw new AgateResourceException("Could not find the surface resource {0}.", key);
+				}
+			}
+		}
 		/// <summary>
 		/// Constructs a new AgateResourceCollection object.
 		/// </summary>
 		public AgateResourceCollection()
 		{
+			mSurfaceAccessor = new SurfaceResourceList(this);
 			this.mStore.Add(mStringTableKey, new StringTable());
 		}
 		/// <summary>
@@ -65,12 +99,31 @@ namespace AgateLib.Resources
 		/// <param name="filename"></param>
 		public AgateResourceCollection(IFileProvider fileProvider, string filename)
 		{
+			mSurfaceAccessor = new SurfaceResourceList(this);
+
 			FileProvider = fileProvider;
 			RootDirectory = Path.GetDirectoryName(filename);
 
 			Load(filename);
 		}
 
+		/// <summary>
+		/// Constructs an AgateResourceCollection by looking for the resources.xml
+		/// file in the specified archive.  All resources are expected to be in the provided
+		/// archive.
+		/// </summary>
+		/// <param name="path">Full or relative path to the archive.</param>
+		/// <returns></returns>
+		public static AgateResourceCollection FromZipArchive(string path)
+		{
+			ZipFileProvider zip = new ZipFileProvider(path);
+
+			var retval= new AgateResourceCollection(zip, "resources.xml");
+
+			retval.mOwnFileProvider = true;
+
+			return retval;
+		}
 
 		private void Load(string filename)
 		{
@@ -81,9 +134,14 @@ namespace AgateLib.Resources
 		}
 
 		/// <summary>
-		/// 
+		/// Gets or sets the file provider used to laod resources.
 		/// </summary>
-		public IFileProvider FileProvider { get; set; }
+		public IFileProvider FileProvider
+		{
+			get { return mFileProvider; }
+			set { mFileProvider = value; }
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -110,11 +168,11 @@ namespace AgateLib.Resources
 		/// <summary>
 		/// Enumerates through the SurfaceResources contained in this group of resources.
 		/// </summary>
-		public IEnumerable<SurfaceResource> Surfaces
+		public SurfaceResourceList Surfaces
 		{
 			get
 			{
-				return Enumerate<SurfaceResource>();
+				return mSurfaceAccessor;
 			}
 		}
 		/// <summary>
@@ -154,9 +212,17 @@ namespace AgateLib.Resources
 		{
 			if (item is StringTable)
 				this.AddStringsTable((StringTable)item);
+			else if (item is ImageResource)
+			{
+				ImageResource img = (ImageResource)item;
+				img.FileProvider = FileProvider;
+
+				mImages.Add(img);
+			}
 			else
 				mStore.Add(item.Name, item);
 		}
+
 
 		/// <summary>
 		/// Adds a strings
@@ -376,4 +442,5 @@ namespace AgateLib.Resources
 			}
 		}
 	}
+
 }

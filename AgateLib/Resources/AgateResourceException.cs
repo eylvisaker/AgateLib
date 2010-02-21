@@ -49,8 +49,22 @@ namespace AgateLib.Resources
 		/// 
 		/// </summary>
 		/// <param name="message"></param>
+		public AgateResourceException(string format, params object[] args)
+			: base(string.Format(format, args)) 
+		{ }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="message"></param>
 		/// <param name="inner"></param>
 		public AgateResourceException(string message, Exception inner) : base(inner, message) { }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="message"></param>
+		public AgateResourceException(Exception inner, string format, params object[] args)
+			: base(inner, string.Format(format, args))
+		{ }
 		/// <summary>
 		/// 
 		/// </summary>

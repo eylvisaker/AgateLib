@@ -30,12 +30,6 @@ namespace AgateLib.Gui
 	public interface IGuiThemeEngine
 	{
 		/// <summary>
-		/// Draws the specified widget to the screen.
-		/// </summary>
-		/// <param name="widget"></param>
-		void DrawWidget(Widget widget);
-
-		/// <summary>
 		/// Calculates and returns the minimum size for the widget.
 		/// </summary>
 		/// <param name="widget"></param>
