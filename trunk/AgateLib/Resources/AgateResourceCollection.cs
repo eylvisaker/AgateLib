@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.IO;
@@ -37,13 +38,15 @@ namespace AgateLib.Resources
 		Dictionary<string, AgateResource> mStore = new Dictionary<string, AgateResource>();
 
 		List<ImageResource> mImages = new List<ImageResource>();
+		List<GuiThemeResource> mGuiThemes = new List<GuiThemeResource>();
 
 		const string mStringTableKey = "Strings";
 		bool mOwnFileProvider;
 		IFileProvider mFileProvider;
 
 		SurfaceResourceList mSurfaceAccessor;
-		
+		GuiThemeResourceList mGuiThemeAccessor;
+
 		public class SurfaceResourceList
 		{
 			AgateResourceCollection mResources;
@@ -59,23 +62,60 @@ namespace AgateLib.Resources
 				{
 					foreach (var img in mResources.mImages)
 					{
-						foreach (var surface in img.Surfaces)
-						{
-							if (surface.Name == key)
-								return surface;
-						}
-					}
+						var retval = img.Surfaces.FirstOrDefault(x => x.Name == key);
 
+						if (retval != null)
+							return retval;
+					}
+						
 					throw new AgateResourceException("Could not find the surface resource {0}.", key);
 				}
 			}
+
+			public int Count
+			{
+				get { return mResources.mImages.Count; }
+			}
 		}
+		public class GuiThemeResourceList
+		{
+			AgateResourceCollection mResources;
+
+			internal GuiThemeResourceList(AgateResourceCollection resources)
+			{
+				mResources = resources;
+			}
+
+			public GuiThemeResource this[string key]
+			{
+				get
+				{
+					var retval = mResources.mGuiThemes.FirstOrDefault(x => x.Name == key);
+
+					if (retval == null)
+						throw new AgateResourceException("Could not find the gui theme resource {0}.", key);
+
+					return retval;
+				}
+			}
+			public GuiThemeResource this[int index]
+			{
+				get { return mResources.mGuiThemes[index]; }
+			}
+			public int Count
+			{
+				get { return mResources.mGuiThemes.Count; }
+			}
+		}
+
 		/// <summary>
 		/// Constructs a new AgateResourceCollection object.
 		/// </summary>
 		public AgateResourceCollection()
 		{
 			mSurfaceAccessor = new SurfaceResourceList(this);
+			mGuiThemeAccessor = new GuiThemeResourceList(this);
+
 			this.mStore.Add(mStringTableKey, new StringTable());
 		}
 		/// <summary>
@@ -100,6 +140,7 @@ namespace AgateLib.Resources
 		public AgateResourceCollection(IFileProvider fileProvider, string filename)
 		{
 			mSurfaceAccessor = new SurfaceResourceList(this);
+			mGuiThemeAccessor = new GuiThemeResourceList(this);
 
 			FileProvider = fileProvider;
 			RootDirectory = Path.GetDirectoryName(filename);
@@ -176,6 +217,13 @@ namespace AgateLib.Resources
 			}
 		}
 		/// <summary>
+		/// Gets the list of GuiThemeResource objects.
+		/// </summary>
+		public GuiThemeResourceList GuiThemes
+		{
+			get { return mGuiThemeAccessor; }
+		}
+		/// <summary>
 		/// Enumerates through the DisplayWindowResources contained in this group of resources.
 		/// </summary>
 		public IEnumerable<DisplayWindowResource> DisplayWindows
@@ -218,6 +266,10 @@ namespace AgateLib.Resources
 				img.FileProvider = FileProvider;
 
 				mImages.Add(img);
+			}
+			else if (item is GuiThemeResource)
+			{
+				mGuiThemes.Add((GuiThemeResource)item);
 			}
 			else
 				mStore.Add(item.Name, item);

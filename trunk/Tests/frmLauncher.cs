@@ -89,6 +89,18 @@ namespace Tests
 			LaunchTest(t);
 		}
 
+		private void lstTests_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				TestInfo t = lstTests.SelectedItem as TestInfo;
+				if (t == null)
+					return;
+
+				LaunchTest(t);
+			}
+		}
+
 		private void LaunchTest(TestInfo m)
 		{
 			IAgateTest obj = (IAgateTest)Activator.CreateInstance(m.Class);
@@ -155,10 +167,6 @@ namespace Tests
 			e.DrawFocusRectangle();
 		}
 
-		private void lstTests_MeasureItem(object sender, MeasureItemEventArgs e)
-		{
-
-		}
 
 
 	}

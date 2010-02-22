@@ -11,7 +11,7 @@ using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 
-namespace Tests.Display3D.Glsl
+namespace Tests.Shaders
 {
 	public class Hlsl: IAgateTest 
 	{

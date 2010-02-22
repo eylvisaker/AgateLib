@@ -227,5 +227,18 @@ namespace AgateLib.Utility
 		{
 			return string.Format("FileSystemProvider: {0}", mPath);
 		}
+
+		/// <summary>
+		/// Returns a string containing all the text in the specified file.
+		/// </summary>
+		/// <param name="filename">The name of the file to read from.</param>
+		/// <returns></returns>
+		public string ReadAllText(string filename)
+		{
+			Stream s = OpenRead(filename);
+
+			return new StreamReader(s).ReadToEnd();
+		}
+
 	}
 }

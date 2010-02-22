@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DC687DB2-90A8-484D-AB99-B3D29FDD8D44}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -146,10 +146,12 @@
       <DependentUpon>frmLauncher.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GuiTests\Buttons.cs" />
     <Compile Include="GuiTests\Listboxes.cs" />
     <Compile Include="GuiTests\RenderGui.cs" />
     <Compile Include="GuiTests\ScrollBars.cs" />
     <Compile Include="GuiTests\Textboxes.cs" />
+    <Compile Include="GuiTests\Transitions.cs" />
     <Compile Include="IAgateTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -220,6 +222,7 @@
     <Compile Include="DisplayTests\Interpolation.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ResourceTests\Res040.cs" />
     <Compile Include="Shaders\CoordinateSystem.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -455,6 +458,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Data\boxsprite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\gui.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Data\dogs.tar.gz">
