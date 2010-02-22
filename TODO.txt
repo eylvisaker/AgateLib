@@ -11,6 +11,8 @@ General:
 	Implement better Platform.HasWriteAccessToAppDirectory method.
 	Test ClipRects with AgateOTK
 	Test if GL_GameWindow is viable.
+	Remove old resource code so that surface and sprites are loaded only as subelements
+		of the Image tag.
 	
 Goals for 0.3.2
 --------------------------------

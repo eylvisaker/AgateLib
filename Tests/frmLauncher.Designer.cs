@@ -41,17 +41,17 @@
 			this.lstTests.Location = new System.Drawing.Point(12, 12);
 			this.lstTests.MultiColumn = true;
 			this.lstTests.Name = "lstTests";
-			this.lstTests.Size = new System.Drawing.Size(439, 368);
+			this.lstTests.Size = new System.Drawing.Size(513, 368);
 			this.lstTests.TabIndex = 0;
 			this.lstTests.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstTests_DrawItem);
-			this.lstTests.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.lstTests_MeasureItem);
 			this.lstTests.DoubleClick += new System.EventHandler(this.lstTests_DoubleClick);
+			this.lstTests.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstTests_KeyUp);
 			// 
 			// frmLauncher
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(463, 406);
+			this.ClientSize = new System.Drawing.Size(537, 391);
 			this.Controls.Add(this.lstTests);
 			this.Name = "frmLauncher";
 			this.Text = "AgateLib Test Launcher";

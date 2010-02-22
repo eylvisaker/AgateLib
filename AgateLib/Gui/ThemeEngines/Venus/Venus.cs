@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using AgateLib.Geometry;
+using AgateLib.Resources;
 
 namespace AgateLib.Gui.ThemeEngines.Venus
 {
@@ -13,6 +14,29 @@ namespace AgateLib.Gui.ThemeEngines.Venus
 		{
 
 		}
+		public Venus(AgateResourceCollection resources)
+		{
+			if (resources.GuiThemes.Count == 0)
+				throw new AgateGuiException("The specified resource collection does not contain GuiTheme resource.");
+
+			FileProvider = resources.FileProvider;
+
+			string filename = resources.GuiThemes[0].CssFile;
+
+			LoadCss(FileProvider.ReadAllText(filename));
+
+		}
+		public Venus(AgateResourceCollection resources, string guiThemeName)
+		{
+			FileProvider = resources.FileProvider;
+
+			string filename = resources.GuiThemes[guiThemeName].CssFile;
+
+			LoadCss(FileProvider.ReadAllText(filename));
+
+		}
+
+		public IFileProvider FileProvider { get; set; }
 
 		public void LoadCss(string text)
 		{

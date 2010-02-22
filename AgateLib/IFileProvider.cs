@@ -32,7 +32,7 @@ namespace AgateLib
 		/// Opens the specified file returning a stream.  Throws 
 		/// FileNotFoundException if the file does not exist.
 		/// </summary>
-		/// <param name="filename"></param>
+		/// <param name="filename">The path and filename of the file to read from.</param>
 		/// <returns></returns>
 		Stream OpenRead(string filename);
 		/// <summary>
@@ -56,5 +56,11 @@ namespace AgateLib
 		/// <param name="searchPattern"></param>
 		/// <returns></returns>
 		IEnumerable<string> GetAllFiles(string searchPattern);
+		/// <summary>
+		/// Returns a string containing the entire contents of the specified file.
+		/// </summary>
+		/// <param name="filename">The path and filename of the file to read from.</param>
+		/// <returns></returns>
+		string ReadAllText(string filename);
 	}
 }

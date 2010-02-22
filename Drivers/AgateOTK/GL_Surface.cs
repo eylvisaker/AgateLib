@@ -130,7 +130,6 @@ namespace AgateOTK
 			mTextureSize = textureSize;
 
 			mTexCoord = GetTextureCoords(mSourceRect);
-
 		}
 
 		private void AddTextureRef(int textureID)
