@@ -58,6 +58,15 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		public abstract void EndRender();
 
 		/// <summary>
+		/// Gets whether or not the frame buffer has a depth buffer.
+		/// </summary>
+		public abstract bool HasDepthBuffer { get; }
+		/// <summary>
+		/// Gets whether or not the frame buffer has a stencil buffer.
+		/// </summary>
+		public abstract bool HasStencilBuffer { get; }
+
+		/// <summary>
 		/// Return true to indicate that the back buffer can be read and used as a texture.
 		/// </summary>
 		public virtual bool CanAccessRenderTarget

@@ -19,7 +19,9 @@ namespace AgateSDX
 		SDX_Surface mAgateSurface;
 		Direct3D.Texture mTexture;
 		Direct3D.Surface mRenderTarget;
-		
+		bool mHasDepth;
+		bool mHasStencil;
+
 		public FrameBufferSurface(Size size)
 		{
 			mDisplay = Display.Impl as SDX_Display;
@@ -44,6 +46,7 @@ namespace AgateSDX
 			mAgateSurface = new SDX_Surface(new AgateLib.Utility.Ref<Texture>(mTexture),
 				new Rectangle(Point.Empty, Size));
 
+			//SetHasDepthStencil(
 		}
 
 		public override void Dispose()

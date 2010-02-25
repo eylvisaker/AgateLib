@@ -22,9 +22,17 @@ namespace AgateDrawing
 			backBuffer = bmp;
 		}
 
+		public override bool HasDepthBuffer
+		{
+			get { return false; } 
+		}
+		public override bool HasStencilBuffer
+		{
+			get { return false; }
+		}
 		public override void Dispose()
 		{
-			throw new NotImplementedException();
+			backBuffer.Dispose();
 		}
 
 		public override Size Size

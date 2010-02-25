@@ -135,6 +135,8 @@ namespace AgateOTK.Legacy
 					"Could not complete framebuffer object.");
 			}
 
+			mHasDepth = depth;
+			mHasStencil = stencil;
 		}
 
 		public override SurfaceImpl RenderTarget

@@ -83,6 +83,20 @@ namespace AgateLib.DisplayLib
 		{
 			get { return Impl.Height; }
 		}
+		/// <summary>
+		/// Gets whether or not the frame buffer has a depth buffer.
+		/// </summary>
+		public bool HasDepthBuffer
+		{
+			get { return Impl.HasDepthBuffer; }
+		}
+		/// <summary>
+		/// Gets whether or not the frame buffer has a stencil buffer.
+		/// </summary>
+		public bool HasStencilBuffer
+		{
+			get { return Impl.HasStencilBuffer; }
+		}
 
 		/// <summary>
 		/// Returns true if the RenderTarget property is readable, and this surface that is

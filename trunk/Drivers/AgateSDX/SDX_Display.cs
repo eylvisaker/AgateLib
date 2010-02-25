@@ -377,8 +377,8 @@ namespace AgateSDX
 			{
 				ClearFlags retval = ClearFlags.Target;
 
-				if (mHasDepth) retval |= ClearFlags.ZBuffer;
-				if (mHasStencil) retval |= ClearFlags.Stencil;
+				retval |= RenderTarget.HasDepthBuffer ? ClearFlags.ZBuffer : 0;
+				retval |= RenderTarget.HasStencilBuffer ? ClearFlags.Stencil : 0;
 
 				return retval;
 			}

@@ -61,6 +61,8 @@ namespace AgateOTK.GL3
 					"Could not complete framebuffer object.");
 			}
 
+			mHasDepth = true;
+			mHasStencil = true;
 		}
 
 		public override SurfaceImpl RenderTarget

@@ -225,7 +225,7 @@ namespace AgateOTK
 			mContext.MakeCurrent(mWindowInfo);
 			(mContext as IGraphicsContextInternal).LoadAll();
 
-			mFrameBuffer = new ContextFB(mContext, mWindowInfo, this.Size);
+			mFrameBuffer = new ContextFB(mContext, mWindowInfo, this.Size, true, false);
 		}
 
 		private IWindowInfo CreateWindowInfo(GraphicsMode mode)

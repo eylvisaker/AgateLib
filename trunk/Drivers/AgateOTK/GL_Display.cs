@@ -221,7 +221,13 @@ namespace AgateOTK
 			DrawBuffer.Flush();
 
 			GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-			GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit);
+
+			ClearBufferMask mask = ClearBufferMask.ColorBufferBit;
+
+			mask |= RenderTarget.HasDepthBuffer ? ClearBufferMask.DepthBufferBit : 0;
+			mask |= RenderTarget.HasStencilBuffer ? ClearBufferMask.StencilBufferBit : 0;
+
+			GL.Clear(mask);
 		}
 		public override void Clear(Color color, Rectangle dest)
 		{
