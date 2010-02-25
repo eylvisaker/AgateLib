@@ -15,11 +15,15 @@ namespace AgateOTK
 		IWindowInfo mWindowInfo;
 		Size mSize;
 
-		public ContextFB(IGraphicsContext context, IWindowInfo window, Size size)
+		public ContextFB(IGraphicsContext context, IWindowInfo window, Size size, 
+						 bool depthBuffer, bool stencilBuffer)
 		{
 			mContext = context;
 			mWindowInfo = window;
 			mSize = size;
+
+			mHasDepth = depthBuffer;
+			mHasStencil = stencilBuffer;
 		}
 
 		public override void Dispose()

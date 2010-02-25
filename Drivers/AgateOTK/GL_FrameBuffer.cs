@@ -11,6 +11,8 @@ namespace AgateOTK
 	abstract class GL_FrameBuffer: FrameBufferImpl 
 	{
 		GLDrawBuffer mDrawBuffer;
+		protected bool mHasDepth;
+		protected bool mHasStencil;
 
 		public GL_FrameBuffer()
 		{
@@ -20,11 +22,14 @@ namespace AgateOTK
 		public GLDrawBuffer DrawBuffer { get { return mDrawBuffer; } }
 		public abstract void MakeCurrent();
 
-		// TODO: fix this hack and remove these interface members.
-		[Obsolete]
-		public void HideCursor() { throw new NotImplementedException(); }
-		[Obsolete]
-		public void ShowCursor() { throw new NotImplementedException(); }
+		public override bool HasDepthBuffer
+		{
+			get { return mHasDepth; }
+		}
+		public override bool HasStencilBuffer
+		{
+			get { return mHasStencil; }
+		}
 
 	}
 }

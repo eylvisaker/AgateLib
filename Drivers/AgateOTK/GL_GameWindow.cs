@@ -197,7 +197,7 @@ namespace AgateOTK
 				CreateWindowedDisplay();
 
 			mFrameBuffer = new ContextFB(mWindow.Context, mWindow.WindowInfo, 
-				new Size(mWindow.ClientSize.Width, mWindow.ClientSize.Height ));
+				new Size(mWindow.ClientSize.Width, mWindow.ClientSize.Height), true, false);
 
 			mDisplay = Display.Impl as GL_Display;
 

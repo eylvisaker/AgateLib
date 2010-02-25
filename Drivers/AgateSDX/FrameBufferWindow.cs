@@ -26,6 +26,11 @@ namespace AgateSDX
 			mSwap = swap;
 			mBackBuffer = backBuffer;
 			mBackDepthStencil = backDepthStencil;
+
+			if (mBackDepthStencil != null)
+			{
+				SetHasDepthStencil(mBackDepthStencil.Description.Format);
+			}
 		}
 
 		public override void Dispose()
