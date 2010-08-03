@@ -155,6 +155,16 @@ namespace AgateLib.Geometry
 			return new Vector2(a.X * b, a.Y * b);
 		}
 		/// <summary>
+		/// Scales a vector by a scalar floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector2 operator *(float b, Vector2 a)
+		{
+			return new Vector2(a.X * b, a.Y * b);
+		}
+		/// <summary>
 		/// Divides a vector's components by a floating point value.
 		/// </summary>
 		/// <param name="a"></param>
