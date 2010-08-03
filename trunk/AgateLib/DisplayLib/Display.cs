@@ -441,8 +441,11 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// When using Direct3D or OpenGL, calls to Surface.Draw are cached to be sent to 
 		/// the 3D API all as a batch.  Calling Display.FlushDrawBuffer forces all cached
-		/// vertices to be sent to the rendering system.  You should not need to call this
-		/// function in normal operation of your application.
+		/// vertices to be sent to the rendering system.  This method should only be called
+		/// between BeginFrame..EndFrame.  You should not need to call this
+		/// function in normal operation of your application.  If you find that this is necessary
+		/// for proper functioning of your program, there is probably a bug in AgateLib somewhere,
+		/// and please report it at http://www.agatelib.org/
 		/// </summary>
 		public static void FlushDrawBuffer()
 		{
