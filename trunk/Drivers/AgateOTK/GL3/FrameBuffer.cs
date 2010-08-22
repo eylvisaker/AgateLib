@@ -58,7 +58,8 @@ namespace AgateOTK.GL3
 			if (code != FramebufferErrorCode.FramebufferCompleteExt)
 			{
 				throw new AgateException(
-					"Could not complete framebuffer object.");
+					"Could not complete framebuffer object.  Received error code "
+					+ code.ToString());
 			}
 
 			mHasDepth = true;

@@ -132,7 +132,8 @@ namespace AgateOTK.Legacy
 			if (code != FramebufferErrorCode.FramebufferCompleteExt)
 			{
 				throw new AgateException(
-					"Could not complete framebuffer object.");
+					"Could not complete framebuffer object.  Received error code "
+					+ code.ToString());
 			}
 
 			mHasDepth = depth;
