@@ -341,9 +341,9 @@ namespace AgateOTK
 			Marshal.FreeHGlobal(memory);
 
 			if (format == PixelFormat.RGBA8888)
-				return new PixelBuffer(format, SurfaceSize, data);
+				return new PixelBuffer(format, rect.Size, data);
 			else
-				return new PixelBuffer(format, SurfaceSize, data, PixelFormat.RGBA8888);
+				return new PixelBuffer(format, rect.Size, data, PixelFormat.RGBA8888);
 		}
 
 		public override void WritePixels(PixelBuffer buffer)
