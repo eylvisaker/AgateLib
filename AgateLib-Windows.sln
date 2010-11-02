@@ -1,5 +1,12 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{6AFA2E43-361A-4AA6-83D9-6DE946C1F0B6}"
+	ProjectSection(SolutionItems) = preProject
+		ChangeLog.txt = ChangeLog.txt
+		ReleaseNotes.txt = ReleaseNotes.txt
+		TODO.txt = TODO.txt
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{DC687DB2-90A8-484D-AB99-B3D29FDD8D44}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.WinForms", "Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj", "{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}"
@@ -15,13 +22,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateFMOD", "Drivers\AgateFMOD\AgateFMOD.csproj", "{424C08A9-6CC6-4FFF-B782-CBD58BC42FCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateOTK", "Drivers\AgateOTK\AgateOTK.csproj", "{9E095F03-BA3F-4EAD-A905-2A2647CE4405}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{6AFA2E43-361A-4AA6-83D9-6DE946C1F0B6}"
-	ProjectSection(SolutionItems) = preProject
-		ChangeLog.txt = ChangeLog.txt
-		ReleaseNotes.txt = ReleaseNotes.txt
-		TODO.txt = TODO.txt
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
