@@ -340,6 +340,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="newClipRect"></param>
 		public static void SetClipRect(Rectangle newClipRect)
 		{
+			FlushDrawBuffer();
 			impl.SetClipRect(newClipRect);
 		}
 		/// <summary>
