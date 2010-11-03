@@ -395,19 +395,24 @@ namespace AgateOTK
 
 		private void LoadFromBitmap(Drawing.Bitmap sourceImage)
 		{
+			Drawing.Bitmap textureImage;
+			Size newSize = GetOGLSize(sourceImage);
 
 			mSourceRect.Size = Interop.Convert(sourceImage.Size);
 
-			Size newSize = GetOGLSize(sourceImage);
+			if (newSize != mSourceRect.Size)
+			{
+				// create a new bitmap of the size OpenGL expects, and copy the source image to it.
+				textureImage = new Drawing.Bitmap(newSize.Width, newSize.Height);
+				Drawing.Graphics g = Drawing.Graphics.FromImage(textureImage);
 
-			// create a new bitmap of the size OpenGL expects, and copy the source image to it.
-			Drawing.Bitmap textureImage = new Drawing.Bitmap(newSize.Width, newSize.Height);
-			Drawing.Graphics g = Drawing.Graphics.FromImage(textureImage);
-
-			g.Transform = new System.Drawing.Drawing2D.Matrix();
-			g.Clear(Drawing.Color.FromArgb(0, 0, 0, 0));
-			g.DrawImage(sourceImage, new Drawing.Rectangle(new Drawing.Point(0, 0), sourceImage.Size));
-			g.Dispose();
+				g.Transform = new System.Drawing.Drawing2D.Matrix();
+				g.Clear(Drawing.Color.FromArgb(0, 0, 0, 0));
+				g.DrawImage(sourceImage, new Drawing.Rectangle(new Drawing.Point(0, 0), sourceImage.Size));
+				g.Dispose();
+			}
+			else
+				textureImage = sourceImage;
 
 			mTextureSize = Interop.Convert(textureImage.Size);
 
