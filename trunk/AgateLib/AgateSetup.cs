@@ -199,7 +199,7 @@ namespace AgateLib
 		private void InitializeDisplay()
 		{
 			DoAskUser();
-			InitializeDisplay(mPreferredDisplay);
+			InitializeDisplay(mSelectDisplay);
 		}
 
 		/// <summary>
@@ -220,7 +220,7 @@ namespace AgateLib
 		private void InitializeAudio()
 		{
 			DoAskUser();
-			InitializeAudio(mPreferredAudio);
+			InitializeAudio(mSelectAudio);
 		}
 		/// <summary>
 		/// Initializes the Audio subsystem, to the specified driver.
@@ -241,7 +241,7 @@ namespace AgateLib
 		private void InitializeInput()
 		{
 			DoAskUser();
-			InitializeInput(mPreferredInput);
+			InitializeInput(mSelectInput);
 		}
 		/// <summary>
 		/// Initializes the Input subsystem, to the specified driver.
@@ -329,7 +329,6 @@ namespace AgateLib
 			mWasCanceled = !Registrar.UserSelectDrivers(mUseDisplay, mUseAudio, mUseInput,
 				mPreferredDisplay, mPreferredAudio, mPreferredInput ,
 				out mSelectDisplay, out mSelectAudio, out mSelectInput);
-
 
 			mAlreadyAsked = true;
 		}
