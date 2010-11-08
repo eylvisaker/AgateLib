@@ -80,9 +80,10 @@ namespace AgateOTK
 			mDrawBuffer = mDisplay.DrawBuffer;
 
 			// Load The Bitmap
-			Drawing.Bitmap sourceImage = new Drawing.Bitmap(st);
-
-			LoadFromBitmap(sourceImage);
+			using (Drawing.Bitmap sourceImage = new Drawing.Bitmap(st))
+			{
+				LoadFromBitmap(sourceImage);
+			}
 		}
 		public GL_Surface(Size size)
 		{
