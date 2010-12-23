@@ -137,9 +137,18 @@ namespace AgateLib.Geometry
 			return new Point((int)a.X, (int)a.Y);
 		}
 
+		/// <summary>
+		/// Converts to a Vector2 object.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <returns></returns>
+		public static explicit operator Vector2(PointF a)
+		{
+			return new Vector2(a.x, a.y);
+		}
+
 		#endregion
-
-
+		
 		#region --- Object Overrides ---
 
 		/// <summary>
