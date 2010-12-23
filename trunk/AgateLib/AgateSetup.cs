@@ -57,6 +57,8 @@ namespace AgateLib
 	/// </summary>
 	public sealed class AgateSetup : IDisposable
 	{
+		private static AgateSetup sCreatedSetup;
+
 		private bool mWasCanceled = false;
 		private bool mAskUser = false;
 		private bool mAlreadyAsked = false;
@@ -105,8 +107,9 @@ namespace AgateLib
 		/// <summary>
 		/// Constructs a Setup object.
 		/// </summary>
-		public AgateSetup()
+		public AgateSetup() : this("AgateLib", null)
 		{
+			
 			Core.Initialize();
 		}
 		/// <summary>
@@ -114,10 +117,8 @@ namespace AgateLib
 		/// </summary>
 		/// <param name="title"></param>
 		public AgateSetup(string title)
+			: this(title, null)
 		{
-			Core.Initialize();
-
-			mTitle = title;
 		}
 		/// <summary>
 		/// Constructs a Setup object.
@@ -134,7 +135,12 @@ namespace AgateLib
 		/// <param name="args">Command line arguments to the program.</param>
 		public AgateSetup(string title, string[] args)
 		{
-			Core.Initialize();
+			if (sCreatedSetup != null)
+			{
+				throw new AgateException("Error: You have created a second AgateSetup object without disposing the previous one.");
+			}
+
+			sCreatedSetup = this;
 
 			mTitle = title;
 
@@ -263,6 +269,9 @@ namespace AgateLib
 			Display.Dispose();
 			Audio.Dispose();
 			InputLib.JoystickInput.Dispose();
+
+			if (sCreatedSetup == this)
+				sCreatedSetup = null;
 		}
 
 		/// <summary>
