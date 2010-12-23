@@ -79,6 +79,25 @@ namespace AgateLib.Geometry
 		}
 
 		/// <summary>
+		/// Converts to a PointF object.
+		/// </summary>
+		/// <param name="v"></param>
+		/// <returns></returns>
+		public static explicit operator PointF(Vector2 v)
+		{
+			return new PointF(v.X, v.Y);
+		}
+		/// <summary>
+		/// Converts to a Point object.
+		/// </summary>
+		/// <param name="v"></param>
+		/// <returns></returns>
+		public static explicit operator Point(Vector2 v)
+		{
+			return new Point((int)v.X, (int)v.Y);
+		}
+
+		/// <summary>
 		/// Vector representing the origin.
 		/// </summary>
 		public static readonly Vector2 Empty = new Vector2();
