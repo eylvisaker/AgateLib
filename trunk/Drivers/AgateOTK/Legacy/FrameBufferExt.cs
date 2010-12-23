@@ -38,9 +38,10 @@ namespace AgateOTK.Legacy
 					InitializeFramebuffer(true, true);
 					return;
 				}
-				catch
+				catch (Exception e)
 				{
 					Trace.WriteLine("Failed to create FBO with both depth and stencil buffers.");
+					Trace.WriteLine(e.Message);
 				}
 			}
 			if (sDepthSupported)
@@ -129,8 +130,18 @@ namespace AgateOTK.Legacy
 			FramebufferErrorCode code =
 				GL.Ext.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
 
+			GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
+
 			if (code != FramebufferErrorCode.FramebufferCompleteExt)
 			{
+				GL.Ext.DeleteFramebuffers(1, ref mFramebufferID);
+				GL.Ext.DeleteRenderbuffers(1, ref mDepthBuffer);
+				GL.Ext.DeleteRenderbuffers(1, ref mStencilBuffer);
+
+				mFramebufferID = 0;
+				mDepthBuffer = 0;
+				mStencilBuffer = 0;
+
 				throw new AgateException(
 					"Could not complete framebuffer object.  Received error code "
 					+ code.ToString());
