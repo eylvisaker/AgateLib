@@ -31,7 +31,13 @@ namespace AgateLib.DisplayLib.Shaders
 		internal static void InitializeShaders()
 		{
 			if (Basic2DShader != null)
+			{
+				throw new AgateException(
+					"AgateBuiltInShaders.InitializeShaders was called more than once when it shouldn't be." + Environment.NewLine +
+					"Either something strange has happened, or an AgateSetup object was never disposed of.");
+
 				throw new InvalidOperationException();
+			}
 
 			Basic2DShader = new Basic2DShader();
 			Lighting2D = new Lighting2D();
