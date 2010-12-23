@@ -114,7 +114,7 @@ namespace AgateOTK.Legacy
 				GL.Ext.BindRenderbuffer(RenderbufferTarget.Renderbuffer, mStencilBuffer);
 
 				GL.Ext.RenderbufferStorage(RenderbufferTarget.Renderbuffer,
-					RenderbufferStorage.StencilIndex8, mSize.Width, mSize.Height);
+					RenderbufferStorage.StencilIndex8Ext, mSize.Width, mSize.Height);
 
 				// attach it.
 				GL.Ext.FramebufferRenderbuffer(FramebufferTarget.Framebuffer,
