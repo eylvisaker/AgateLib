@@ -42,6 +42,14 @@ namespace AgateSDL
 			{
 				return false;
 			}
+			catch (BadImageFormatException e)
+			{
+				AgateLib.Core.ErrorReporting.Report(AgateLib.ErrorLevel.Warning,
+					"A BadImageFormatException was thrown when attempting to load SDL binaries." + Environment.NewLine +
+					"This is likely due to running a 64-bit executable with 32-bit SDL binaries.", e);
+
+				return false;
+			}
 		}
 	}
 }
