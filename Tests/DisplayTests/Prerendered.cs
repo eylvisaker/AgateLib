@@ -32,17 +32,10 @@ namespace Tests.DisplayTests
 				FrameBuffer myBuffer = new FrameBuffer(200, 35);
 				FontSurface font = FontSurface.AgateSans10;
 
-				Display.RenderTarget = myBuffer;
-				Display.BeginFrame();
+				RenderToFrameBuffer(myBuffer, font);
 
-				Display.Clear(Color.Blue);
-				font.Color = Color.Red;
-				font.DrawText(3, 3, "HELLO WORLD");
-
-				Display.EndFrame();
-				Display.FlushDrawBuffer();
-				Display.RenderTarget = MainWindow.FrameBuffer;
-
+				System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+				watch.Start();
 
 				while (MainWindow.IsClosed == false)
 				{
@@ -55,8 +48,35 @@ namespace Tests.DisplayTests
 					Display.EndFrame();
 
 					Core.KeepAlive();
+
+					if (watch.ElapsedMilliseconds > 3000)
+					{
+						RenderToFrameBuffer(myBuffer, font);
+
+						watch.Reset();
+						watch.Start();
+					}
 				}
 			}
+		}
+
+		private static void RenderToFrameBuffer(FrameBuffer myBuffer, FontSurface font)
+		{
+			FrameBuffer save = Display.RenderTarget;
+
+			Display.RenderTarget = myBuffer;
+			Display.BeginFrame();
+
+			Display.Clear(Color.Blue);
+			Display.FillRect(new Rectangle(2, 2, 20, 20), Color.Black);
+
+			font.Color = Color.Red;
+			font.DrawText(3, 3, "HELLO WORLD");
+
+			Display.EndFrame();
+
+			Display.RenderTarget = save;
+
 		}
 
 	}
