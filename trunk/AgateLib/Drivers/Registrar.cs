@@ -229,9 +229,13 @@ namespace AgateLib.Drivers
 				CreateDesktopDriver();
 
 				if (mDesktop == null)
+				{
 					SelectBestDrivers(chooseDisplay, chooseAudio, chooseInput,
 						preferredDisplay, preferredAudio, preferredInput,
 						out selectedDisplay, out selectedAudio, out selectedInput);
+
+					return true;
+				}
 			}
 
 			IUserSetSystems frm = mDesktop.CreateUserSetSystems();
