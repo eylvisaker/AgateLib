@@ -87,6 +87,8 @@ namespace AgateLib.Geometry.VertexTypes
 				Position.X, Position.Y, Position.Z, Color, Texture.X, Texture.Y, Normal.X, Normal.Y, Normal.Z);
 		}
 
+		static VertexLayout sLayout;
+
 		/// <summary>
 		/// Vertex Layout for PositionTextureColorNormal.
 		/// </summary>
@@ -94,13 +96,18 @@ namespace AgateLib.Geometry.VertexTypes
 		{
 			get
 			{
-				return new VertexLayout 
-				{ 
-					new VertexElementDesc(VertexElementDataType.Float3, VertexElement.Position),
-					new VertexElementDesc(VertexElementDataType.Float2, VertexElement.Texture),
-					new VertexElementDesc(VertexElementDataType.Int, VertexElement.DiffuseColor),
-					new VertexElementDesc(VertexElementDataType.Float3, VertexElement.Normal),
-				};
+				if (sLayout == null)
+				{
+					sLayout = new VertexLayout 
+					{ 
+						new VertexElementDesc(VertexElementDataType.Float3, VertexElement.Position),
+						new VertexElementDesc(VertexElementDataType.Float2, VertexElement.Texture),
+						new VertexElementDesc(VertexElementDataType.Int, VertexElement.DiffuseColor),
+						new VertexElementDesc(VertexElementDataType.Float3, VertexElement.Normal),
+					};
+				}
+
+				return sLayout;
 			}
 		}
 	}
