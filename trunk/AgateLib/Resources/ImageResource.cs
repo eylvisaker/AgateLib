@@ -22,9 +22,9 @@ namespace AgateLib.Resources
 
 			switch (version)
 			{
-				case "0.4.0":
+				case "0.3.2":
 					Filename = node.Attributes["filename"].Value;
-					ReadSubNodes040(node);
+					ReadSubNodes032(node);
 					break;
 
 				default:
@@ -32,7 +32,7 @@ namespace AgateLib.Resources
 			}
 		}
 
-		private void ReadSubNodes040(XmlNode node)
+		private void ReadSubNodes032(XmlNode node)
 		{
 			foreach (XmlNode n in node.ChildNodes)
 			{

@@ -167,56 +167,12 @@
     <Compile Include="DisplayLib\Shaders\Lighting2D.cs" />
     <Compile Include="DisplayLib\Shaders\Lighting3D.cs" />
     <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
-    <Compile Include="Gui\AgateGuiException.cs" />
-    <Compile Include="Gui\Button.cs" />
-    <Compile Include="Gui\ThemeEngines\Venus\CssRenderer.cs" />
-    <Compile Include="Gui\WidgetRenderer.cs" />
-    <Compile Include="Gui\CheckBox.cs" />
-    <Compile Include="Gui\ComboBox.cs" />
-    <Compile Include="Gui\Container.cs" />
-    <Compile Include="Gui\GuiRoot.cs" />
-    <Compile Include="Gui\IGuiThemeEngine.cs" />
-    <Compile Include="Gui\ILayoutPerformer.cs" />
-    <Compile Include="Gui\Label.cs" />
-    <Compile Include="Gui\LayoutExpand.cs" />
-    <Compile Include="Gui\Layout\BoxLayoutBase.cs" />
-    <Compile Include="Gui\Layout\Grid.cs" />
-    <Compile Include="Gui\Layout\HorizontalBox.cs" />
-    <Compile Include="Gui\Layout\VerticalBox.cs" />
-    <Compile Include="Gui\ListBox.cs" />
-    <Compile Include="Gui\Panel.cs" />
-    <Compile Include="Gui\RadioButton.cs" />
-    <Compile Include="Gui\TextBox.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\Cache\ScrollBarCache.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\Mercury.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\MercuryButton.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\MercuryCheckBox.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\MercuryGuiRoot.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\MercuryLabel.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\MercuryListBox.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\MercuryPanel.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\MercuryScheme.cs" />
-    <Compile Include="Gui\ScrollBar.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\MercuryWidget.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\MercuryScrollBar.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\MercuryTextBox.cs" />
-    <Compile Include="Gui\ThemeEngines\Mercury\MercuryWindow.cs" />
-    <Compile Include="Gui\ThemeEngines\Venus\CssData.cs" />
-    <Compile Include="Gui\ThemeEngines\Venus\Venus.cs" />
-    <Compile Include="Gui\ThemeEngines\Venus\VenusScheme.cs" />
-    <Compile Include="Gui\ThemeEngines\Venus\VenusTheme.cs" />
-    <Compile Include="Gui\ThemeEngines\Venus\VenusThemeDictionary.cs" />
-    <Compile Include="Gui\ThemeEngines\Venus\WidgetStyle.cs" />
-    <Compile Include="Gui\Widget.cs" />
-    <Compile Include="Gui\WidgetList.cs" />
-    <Compile Include="Gui\Window.cs" />
     <Compile Include="IFileProvider.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\ImplementationBase\FrameBufferImpl.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="PlatformType.cs" />
-    <Compile Include="Resources\GuiThemeResource.cs" />
     <Compile Include="Resources\ImageResource.cs" />
     <Compile Include="Serialization\Xle\CompressionType.cs" />
     <Compile Include="Settings\SettingsGroup.cs" />
@@ -633,9 +589,6 @@
     <None Include="InternalResources\agate-black-gui.zip" />
     <None Include="InternalResources\Fonts.zip" />
     <None Include="InternalResources\images.tar.gz" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Gui\Cache\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

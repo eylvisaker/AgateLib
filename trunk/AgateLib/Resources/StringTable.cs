@@ -40,6 +40,8 @@ namespace AgateLib.Resources
 		{
 			switch (version)
 			{
+				case "0.3.2":
+				case "0.3.1":
 				case "0.3.0":
 					for (int i = 0; i < node.ChildNodes.Count; i++)
 					{

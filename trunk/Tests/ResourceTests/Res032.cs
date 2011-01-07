@@ -8,7 +8,7 @@ using AgateLib.Resources;
 
 namespace Tests.ResourceTests
 {
-	class Resources040: AgateGame, IAgateTest
+	class Resources032: AgateGame, IAgateTest
 	{
 		public void Main(string[] args)
 		{
@@ -20,7 +20,7 @@ namespace Tests.ResourceTests
 			initParams.AllowResize = true;
 		}
 
-		public string Name { get { return "Resources 0.4.0"; } }
+		public string Name { get { return "Resources 0.3.2"; } }
 		public string Category { get { return "Resources"; } }
 
 		AgateResourceCollection resources;

@@ -132,6 +132,7 @@ namespace AgateLib.Resources
 		{
 			switch (version)
 			{
+				case "0.3.2":
 				case "0.3.1":
 					Name = node.Attributes["name"].Value;
 					mFilename = XmlHelper.ReadAttributeString(node, "image", string.Empty);
