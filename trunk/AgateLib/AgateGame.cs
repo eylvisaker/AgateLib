@@ -45,7 +45,7 @@ namespace AgateLib
 		DisplayWindow mWindow;
 		AppInitParameters mInitParams;
 		FontSurface font;
-		Gui.GuiRoot mGui;
+		//Gui.GuiRoot mGui;
 
 		double totalSplashTime = 0;
 		bool splashFadeDone = false;
@@ -99,8 +99,8 @@ namespace AgateLib
 					if (MainWindow.IsClosed)
 						break;
 
-					if (GuiRoot != null)
-						GuiRoot.DoUpdate();
+//					if (GuiRoot != null)
+//						GuiRoot.DoUpdate();
 					
 
 					Display.RenderTarget = MainWindow.FrameBuffer;
@@ -108,8 +108,8 @@ namespace AgateLib
 
 					Render();
 
-					if (GuiRoot != null)
-						GuiRoot.Draw();
+//					if (GuiRoot != null)
+//						GuiRoot.Draw();
 
 					Display.EndFrame();
 					Core.KeepAlive();
@@ -325,26 +325,26 @@ namespace AgateLib
 			get { return mWindow; }
 		}
 
-		/// <summary>
-		/// Gets or sets the GuiRoot object.
-		/// </summary>
-		public Gui.GuiRoot GuiRoot
-		{
-			get { return mGui; }
-			set
-			{
-				if (value == null && mGui == null)
-					return;
-
-				if (mGui != null)
-					mGui.EnableInteraction = false;
-
-				mGui = value;
-
-				if (mGui != null)
-					mGui.EnableInteraction = true;
-			}
-		}
+//		/ <summary>
+//		/ Gets or sets the GuiRoot object.
+//		/ </summary>
+//		public Gui.GuiRoot GuiRoot
+//		{
+//			get { return mGui; }
+//			set
+//			{
+//				if (value == null && mGui == null)
+//					return;
+//
+//				if (mGui != null)
+//					mGui.EnableInteraction = false;
+//
+//				mGui = value;
+//
+//				if (mGui != null)
+//					mGui.EnableInteraction = true;
+//			}
+//		}
 
 		#endregion
 
