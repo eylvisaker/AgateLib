@@ -31,7 +31,7 @@ namespace AgateLib
 		/// <summary>
 		/// Default value.
 		/// </summary>
-		Unknown,
+		Unknown = 0,
 
 		/// <summary>
 		/// The Microsoft Windows platform, including Windows 98, Windows NT, Windows XP, Windows Vista, etc.
@@ -64,7 +64,7 @@ namespace AgateLib
 		/// <summary>
 		/// An unknown version of Windows.
 		/// </summary>
-		Unknown,
+		Unknown = 0,
 
 		/// <summary>
 		/// Windows 98.
@@ -92,7 +92,7 @@ namespace AgateLib
 		/// <summary>
 		/// An unknown runtime.
 		/// </summary>
-		Unknown,
+		Unknown = 0,
 
 		/// <summary>
 		/// Microsoft's runtime.
@@ -101,10 +101,12 @@ namespace AgateLib
 		/// <summary>
 		/// The runtime of the Mono project.
 		/// </summary>
-		Mono,
+		Mono = 2,
 		/// <summary>
 		/// The DotGnu / Portable.NET runtime.
+		/// Note that presence of this enumeration value does not indicate
+		/// that using AgateLib on DotGnu is supported.
 		/// </summary>
-		DotGnu,
+		DotGnu = 9999,
 	}
 }
