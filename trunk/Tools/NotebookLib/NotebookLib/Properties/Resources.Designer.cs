@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NotebookLib.Properties {
+namespace ERY.NotebookLib.Properties {
     using System;
     
     
