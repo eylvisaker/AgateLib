@@ -56,7 +56,7 @@ namespace AgateLib.Data
 			mColumns.SortByDisplayIndex();
 
 			info.Write("Name", mName);
-			info.Write("Version", "0.4.0");
+			info.Write("Version", "0.3.2");
 			info.Write("Columns", mColumns.ColumnList);
 			info.Write("Rows", RowString());
 		}
@@ -66,7 +66,7 @@ namespace AgateLib.Data
 
 			string version = info.ReadString("Version");
 
-			if (version == "0.4.0")
+			if (version == "0.3.2")
 			{
 				mColumns = new AgateColumnDictionary(this, info.ReadList<AgateColumn>("Columns"));
 				mRows = new AgateRowList(this, ReadRows(info.ReadString("Rows")));

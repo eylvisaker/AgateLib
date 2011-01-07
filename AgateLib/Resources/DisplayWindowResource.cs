@@ -110,6 +110,7 @@ namespace AgateLib.Resources
 		{
 			switch (version)
 			{
+				case "0.3.2":	
 				case "0.3.1":
 				case "0.3.0":
 					Name = node.Attributes["name"].Value;

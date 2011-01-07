@@ -27,11 +27,11 @@ namespace AgateLib.Resources
 		{
 			switch (version)
 			{
-				case "0.4.0":
+				case "0.3.2":
 					Name = node.Attributes["name"].Value;
 					mImage = XmlHelper.ReadAttributeString(node, "image", string.Empty);
 
-					ReadMetrics040(node);
+					ReadMetrics032(node);
 
 					break;
 
@@ -50,7 +50,7 @@ namespace AgateLib.Resources
 			}
 		}
 
-		private void ReadMetrics040(XmlNode parent)
+		private void ReadMetrics032(XmlNode parent)
 		{
 			XmlNode root = null;
 

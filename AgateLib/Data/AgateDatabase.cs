@@ -79,7 +79,7 @@ namespace AgateLib.Data
 
 		void IXleSerializable.WriteData(XleSerializationInfo info)
 		{
-			info.Write("Version", "0.4.0");
+			info.Write("Version", "0.3.2");
 			info.Write("CodeNamespace", CodeNamespace);
 
 			info.Write("Tables", TableList.ToList());
@@ -88,7 +88,7 @@ namespace AgateLib.Data
 		{
 			string version = info.ReadString("Version");
 
-			if (version == "0.4.0")
+			if (version == "0.3.2")
 			{
 				List<string> tables = info.ReadList<string>("Tables");
 				mTables.AddUnloadedTable(tables);
@@ -144,7 +144,7 @@ namespace AgateLib.Data
 		{
 			StringBuilder b = new StringBuilder();
 
-			b.AppendLine("Version:0.4.0");
+			b.AppendLine("Version:0.3.2");
 
 			foreach (var table in mTables)
 			{
