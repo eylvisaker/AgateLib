@@ -6,13 +6,12 @@ AgateLib 0.4.0
 General:
 	Remove all OpenGL immediate mode code from AgateOTK.
 	Check GetPixelFormat method in AgateSDX
-	Test / Debug writing pixel buffer to SDX surface.
 	Deal with TODO's in font tests.
 	Implement better Platform.HasWriteAccessToAppDirectory method.
-	Test ClipRects with AgateOTK
 	Test if GL_GameWindow is viable.
 	Remove old resource code so that surface and sprites are loaded only as subelements
 		of the Image tag.
+	Skinnable GUI
 	
 Goals for 0.3.2
 --------------------------------
@@ -26,6 +25,8 @@ Goals for 0.3.2
 		D Fix bug with rotation where ScaleWidth or ScaleHeight are less than zero.
 	Drivers
 		D Update AgateOTK to not call GL functions in finalizers.
+		* Test ClipRects with AgateOTK
+		* Test / Debug writing pixel buffer to SDX surface.
 	Input
 		* Add support for POV hats on joysticks.
 
@@ -46,6 +47,7 @@ Goals for 0.3.5
 		D Convert AgateMDX to use SlimDX instead and deprecate the use of AgateMDX.
 		D Interface to allow audio to be generated at runtime.
 		D Convert AgateOTK to use vertex buffers instead of vertex arrays.
+		* Use OpenGL 3.0 forward compatible context in AgateOTK if available.
 		Gui
 			* Document GUI classes
 			* Develop data-driven skinning system for the GUI
@@ -78,7 +80,7 @@ Supplemental Projects
 	Compact Sprites Builder:
 		Utility to construct packed sprite files with an associated xml 
 		resource file describing frame locations.
-	Fonts:
+	Fonts: - Done
 		Utility to construct fonts from System.Drawing from options specified.
 	Distributions:
 		Builds distributions for Linux, Windows, and MacOS based on the assemblies and resource

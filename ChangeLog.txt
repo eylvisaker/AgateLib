@@ -1,7 +1,50 @@
 
 Version 0.3.2
 ===================
+Even though the version number has only been incremented slightly, there are a lot of changes in
+this release.  Many of the changes are backend changes that will ease the future development
+of AgateLib, but may not be noticable to a developer using AgateLib.
+
+Removed the prebuild-based build system.  Now that Mono's xbuild can build AgateLib, and 
+MonoDevelop supports Visual Studio project files, there is no need for it and the headaches
+associated with it.
+
+The source code for Tao.Sdl is absorbed into AgateSDL, so there is no need to distribute
+Tao.Sdl.dll files.
+
+AgateMDX has been dropped and replced with AgateSDX.  Now DirectX support is obtained through
+SlimDX instead of the old, buggy, deprecated Managed DirectX.
+
+A simple framework is in place for saving user preferences.  The .NET/WinForms properties 
+don't seem to be well supported under Mono so this is a simple replacement for that.
+
+The AgateLib.Data namespace has been added with classes that implement a flat-file 
+relational database. A database editor application exists in the Tools folder as well.  This
+provides cross-platform light-weight support for basic database features to provide a 
+structured data store for games without bringing in any external dependencies.  The database
+editor includes a code generator to create stongly typed objects that can easily access the
+data in the tables of the database.
+
+A system for use of vertex and pixel shaders has been developed.  Mainly, the framework is
+in place for future expansion, there is little that can be done with shaders at this point
+aside from using the built in shaders for lighting or standard rendering.
+
+Vertex buffers can be created and used.  Also, arbitrary transformation matrices can be 
+specified, so that AgateLib can now be used for basic 3D applications.  It is likely
+not very practical at the moment but the basic framework is in place for future expansion.
+
+Font rendering and surface rendering backends have been changed to utilize stateless drawing.
+All drawing options can be specified in objects passed to draw methods.  The stateful drawing
+methods can still be used, but this allows for a great deal of cleanup in the backend
+rendering methods as well as the option to circumvent the stateful drawing.  This also allows
+for AgateLib to put less pressure on the GC, especially in rendering text.
+
+Better platform detection is implemented.
+
+Various minor bugs have been fixed.
+
 Moved ISprite and ISpriteFrame to Sprites namespace.
+
 
 Version 0.3.1
 ===================
