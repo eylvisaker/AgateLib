@@ -1,0 +1,20 @@
+#version 140
+
+in vec3 position;
+in vec4 color;
+in vec2 texCoord;
+
+uniform mat4x4 transform;
+
+out vec4 colorVal;
+out vec2 texCoordVal;
+
+void main()
+{
+	vec4 pos = vec4(position, 1);
+	
+	colorVal = color;
+	texCoordVal = texCoord;
+	
+    gl_Position = transform * pos;
+}

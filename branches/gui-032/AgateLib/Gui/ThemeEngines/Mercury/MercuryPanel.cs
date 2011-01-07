@@ -1,0 +1,46 @@
+﻿//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace AgateLib.Gui.ThemeEngines.Mercury
+{
+	/// <summary>
+	/// Class which draws panels for the Mercury theme engine.
+	/// </summary>
+	public class MercuryPanel : MercuryWidget 
+	{
+		/// <summary>
+		/// Constructs a MercuryPanel object.
+		/// </summary>
+		/// <param name="scheme"></param>
+		public MercuryPanel(MercuryScheme scheme, Widget widget)
+			: base(scheme, widget)
+		{ }
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="w"></param>
+		public override void DrawWidget(Widget w)
+		{
+		}
+	}
+}

@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9490B719-829E-43A7-A5FE-8001F8A81759}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>AgateLib</AssemblyName>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>
+    </AppDesignerFolder>
+    <RootNamespace>AgateLib</RootNamespace>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Binaries\Debug\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;</DefineConstants>
+    <DocumentationFile>AgateLib.xml</DocumentationFile>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Binaries\Release\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Binaries\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>full</DebugType>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>AgateLib.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>none</DebugType>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Binaries\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>full</DebugType>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>AgateLib.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>none</DebugType>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <Name>System.Core</Name>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml">
+      <Name>System.Xml</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AgateException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AgateFileProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AgateGame.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AgateSetup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AppInitParameters.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AudioLib\AudioCapsInfo.cs" />
+    <Compile Include="AudioLib\ImplementationBase\MusicImpl.cs" />
+    <Compile Include="AudioLib\ImplementationBase\SoundBufferImpl.cs" />
+    <Compile Include="AudioLib\ImplementationBase\SoundBufferSessionImpl.cs" />
+    <Compile Include="AudioLib\ImplementationBase\StreamingSoundBufferImpl.cs" />
+    <Compile Include="AudioLib\SoundFormat.cs" />
+    <Compile Include="AudioLib\StreamingSoundBuffer.cs" />
+    <Compile Include="Core.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\AgateDatabaseException.cs" />
+    <Compile Include="Data\AgateColumn.cs" />
+    <Compile Include="Data\AgateDatabase.cs" />
+    <Compile Include="Data\AgateRow.cs" />
+    <Compile Include="Data\AgateTable.cs" />
+    <Compile Include="Data\AgateColumnDictionary.cs" />
+    <Compile Include="Data\AgateDataHelper.cs" />
+    <Compile Include="Data\FieldType.cs" />
+    <Compile Include="Data\AgateRowList.cs" />
+    <Compile Include="Data\AgateTableDictionary.cs" />
+    <Compile Include="DisplayLib\FrameBuffer.cs" />
+    <Compile Include="DisplayLib\Shaders\AgateBuiltInShaders.cs" />
+    <Compile Include="DisplayLib\Shaders\Basic2DShader.cs" />
+    <Compile Include="DisplayLib\Shaders\AgateShader.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\AgateInternalShader.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\AgateShaderImpl.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\Basic2DImpl.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\BuiltInShader.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\Lighting2DImpl.cs" />
+    <Compile Include="DisplayLib\Shaders\Implementation\Lighting3DImpl.cs" />
+    <Compile Include="DisplayLib\Shaders\Lighting2D.cs" />
+    <Compile Include="DisplayLib\Shaders\Lighting3D.cs" />
+    <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
+    <Compile Include="Gui\AgateGuiException.cs" />
+    <Compile Include="Gui\Button.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\CssRenderer.cs" />
+    <Compile Include="Gui\WidgetRenderer.cs" />
+    <Compile Include="Gui\CheckBox.cs" />
+    <Compile Include="Gui\ComboBox.cs" />
+    <Compile Include="Gui\Container.cs" />
+    <Compile Include="Gui\GuiRoot.cs" />
+    <Compile Include="Gui\IGuiThemeEngine.cs" />
+    <Compile Include="Gui\ILayoutPerformer.cs" />
+    <Compile Include="Gui\Label.cs" />
+    <Compile Include="Gui\LayoutExpand.cs" />
+    <Compile Include="Gui\Layout\BoxLayoutBase.cs" />
+    <Compile Include="Gui\Layout\Grid.cs" />
+    <Compile Include="Gui\Layout\HorizontalBox.cs" />
+    <Compile Include="Gui\Layout\VerticalBox.cs" />
+    <Compile Include="Gui\ListBox.cs" />
+    <Compile Include="Gui\Panel.cs" />
+    <Compile Include="Gui\RadioButton.cs" />
+    <Compile Include="Gui\TextBox.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\Cache\ScrollBarCache.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\Mercury.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryButton.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryCheckBox.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryGuiRoot.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryLabel.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryListBox.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryPanel.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryScheme.cs" />
+    <Compile Include="Gui\ScrollBar.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryWidget.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryScrollBar.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryTextBox.cs" />
+    <Compile Include="Gui\ThemeEngines\Mercury\MercuryWindow.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\CssData.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\Venus.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\VenusScheme.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\VenusTheme.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\VenusThemeDictionary.cs" />
+    <Compile Include="Gui\ThemeEngines\Venus\WidgetStyle.cs" />
+    <Compile Include="Gui\Widget.cs" />
+    <Compile Include="Gui\WidgetList.cs" />
+    <Compile Include="Gui\Window.cs" />
+    <Compile Include="IFileProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\ImplementationBase\FrameBufferImpl.cs" />
+    <Compile Include="Platform.cs" />
+    <Compile Include="PlatformType.cs" />
+    <Compile Include="Resources\GuiThemeResource.cs" />
+    <Compile Include="Resources\ImageResource.cs" />
+    <Compile Include="Serialization\Xle\CompressionType.cs" />
+    <Compile Include="Settings\SettingsGroup.cs" />
+    <Compile Include="Timing.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AudioLib\Audio.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AudioLib\Music.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AudioLib\SoundBuffer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AudioLib\SoundBufferSession.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BitmapFont\BitmapFontImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BitmapFont\BitmapFontOptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BitmapFont\FontMetrics.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BitmapFont\GlyphMetrics.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\CreateWindowParams.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Display.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\DisplayCapsInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\DisplayWindow.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\FontState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\FontSurface.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\IndexBuffer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\ISurface.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Origin.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\OriginAlignment.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\PixelBuffer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\PixelFormat.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\PrimitiveType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\RenderStateAdapter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\ScreenMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\StringTransformer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Surface.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\SurfaceState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\TextLayout.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\VertexBuffer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Cache\FontStateCache.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Cache\SurfaceStateCache.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Shaders\Implementation\AgateShaderCompileError.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Shaders\Implementation\Effect.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Shaders\Implementation\ShaderCompiler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Shaders\Implementation\ShaderLanguage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Shaders\Implementation\ShaderProgram.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Shaders\Implementation\Technique.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\Shaders\Implementation\UniformState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drivers\AgateDriverInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drivers\AgateDriverReporter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drivers\AgateSandBoxLoader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drivers\DriverImplBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drivers\IDesktopDriver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drivers\IUserSetSystems.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drivers\NullInputImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drivers\NullSoundImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drivers\Registrar.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drivers\TypeID.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\Color.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\Gradient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\Matrix4x4.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\Point.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\PointF.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\Rectangle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\RectangleF.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\Size.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\SizeF.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\TypeConverters.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\Vector2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\Vector3.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\Vector4.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\Builders\Cube.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\Builders\Terrain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\VertexTypes\PositionColor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\VertexTypes\PositionTextureColor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\VertexTypes\PositionTextureNormal.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\VertexTypes\PositionTextureNormalTangent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\VertexTypes\PositionTextureNTB.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\VertexTypes\VertexLayout.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AudioLib\ImplementationBase\AudioImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\ImplementationBase\DisplayImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\ImplementationBase\DisplayWindowImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\ImplementationBase\FontSurfaceImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\ImplementationBase\IndexBufferImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputLib\ImplementationBase\InputImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputLib\ImplementationBase\JoystickImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\ImplementationBase\ShaderCompilerImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\ImplementationBase\SurfaceImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayLib\ImplementationBase\VertexBufferImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputLib\InputEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputLib\Joystick.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputLib\JoystickInput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputLib\Keyboard.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputLib\KeyCode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputLib\KeyModifiers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputLib\Mouse.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InternalResources\Data.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InternalResources\DataResources.Designer.cs">
+      <DependentUpon>DataResources.resx</DependentUpon>
+      <SubType>Code</SubType>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Meshes\Loaders\OBJFileRepresentation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Meshes\Loaders\Obj\OBJFileRepresentation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Meshes\Loaders\Obj\Parser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Meshes\Loaders\Obj\TokenTypes.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Particles\Particle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Particles\ParticleEmitter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Particles\Emitters\PixelEmitter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Particles\Emitters\SpriteEmitter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Particles\Emitters\SurfaceEmitter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Particles\Manipulators\FadeOutManipulator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Particles\Manipulators\GravityManipulator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Particles\Manipulators\GravityPointManipulator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Particles\Particles\PixelParticle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Particles\Particles\SpriteParticle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Particles\Particles\SurfaceParticle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\AgateResource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\AgateResourceCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\AgateResourceException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\AgateResourceLoader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\BitmapFontResource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\DisplayWindowResource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\SpriteResource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\StringTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\SurfaceResource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\XmlHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Serialization\Formatters\Xml\XmlFormatter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Serialization\Xle\ITypeBinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Serialization\Xle\IXleSerializable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Serialization\Xle\TypeBinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Serialization\Xle\XleSerializationException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Serialization\Xle\XleSerializationInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Serialization\Xle\XleSerializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sprites\FrameList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sprites\IFrameList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sprites\ISprite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sprites\ISpriteFrame.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sprites\Sprite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sprites\SpriteFrame.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utility\FileProviderList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utility\FileSystemProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Settings\PersistantSettings.cs" />
+    <Compile Include="Utility\Ref.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utility\SurfacePacker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utility\TgzFileProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utility\ZipFileProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="InternalResources\DataResources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DataResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="InternalResources\agate-black-gui.zip" />
+    <None Include="InternalResources\Fonts.zip" />
+    <None Include="InternalResources\images.tar.gz" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Gui\Cache\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

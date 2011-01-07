@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A18DEAA1-EB7F-4B4A-B93A-83A2CAD5954A}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>FontCreator</AssemblyName>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>
+    </AppDesignerFolder>
+    <RootNamespace>FontCreator</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>True</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>False</Optimize>
+    <OutputPath>..\..\Binaries\Debug\FontCreator\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>False</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>True</Optimize>
+    <OutputPath>..\..\Binaries\Debug\FontCreator\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Binaries\Debug\FontCreator\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>..\..\Binaries\Debug\FontCreator\</OutputPath>
+    <DefineConstants>TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Binaries\Debug\FontCreator\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\..\Binaries\Debug\FontCreator\</OutputPath>
+    <DefineConstants>TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <Name>System.Core</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.Xml</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
+      <Name>AgateLib</Name>
+      <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Drivers\AgateDrawing\AgateDrawing.csproj">
+      <Project>{164A785D-924E-40FB-A517-D7E677F3B53A}</Project>
+      <Name>AgateDrawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
+      <Name>AgateLib.WinForms</Name>
+      <Project>{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\NotebookLib\NotebookLib\NotebookLib.csproj">
+      <Project>{91F57346-B574-4D52-9EB0-AA191B552C94}</Project>
+      <Name>NotebookLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="CreateFont.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CreateFont.Designer.cs">
+      <DependentUpon>CreateFont.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EditGlyphs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditGlyphs.Designer.cs">
+      <DependentUpon>EditGlyphs.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FontCreator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FontCreatorProgram.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="frmFontCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFontCreator.Designer.cs">
+      <DependentUpon>frmFontCreator.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="frmWarningSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWarningSplash.Designer.cs">
+      <DependentUpon>frmWarningSplash.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SaveFont.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SaveFont.Designer.cs">
+      <DependentUpon>SaveFont.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <SubType>Code</SubType>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <DependentUpon>Settings.settings</DependentUpon>
+      <SubType>Code</SubType>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="CreateFont.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CreateFont.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditGlyphs.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditGlyphs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFontCreator.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmFontCreator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWarningSplash.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmWarningSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaveFont.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SaveFont.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="images\bgdark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="images\bglight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zoom_in.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zoom_out.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
