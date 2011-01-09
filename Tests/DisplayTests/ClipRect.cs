@@ -58,7 +58,7 @@ namespace Tests.DisplayTests
 					for (int i = 10; i < 100; i += 10)
 					{
 						Display.SetClipRect(new Rectangle(320 + i, i, 310 - i * 2, 310 - i * 2));
-						Display.FillRect(0,0,640,480, colors[index]);
+						Display.FillRect(0, 0, 640, 480, colors[index]);
 						index++;
 					}
 
