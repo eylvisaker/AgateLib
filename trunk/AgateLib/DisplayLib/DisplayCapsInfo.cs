@@ -168,7 +168,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		PixelAlpha,
 		/// <summary>
-		/// Indicates whether there is hardware acceleration available for 2D and 3D drawing.
+		/// Indicates whether there is hardware acceleration available for 2D scaling and rotations.
 		/// </summary>
 		IsHardwareAccelerated,
 		/// <summary>
