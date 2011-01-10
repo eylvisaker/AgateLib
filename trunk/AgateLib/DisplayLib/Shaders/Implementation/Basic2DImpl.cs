@@ -33,5 +33,6 @@ namespace AgateLib.DisplayLib.Shaders.Implementation
 		/// Gets or sets the coordinate system used (orthogonal projection).
 		/// </summary>
 		public abstract Rectangle CoordinateSystem { get; set; }
+
 	}
 }

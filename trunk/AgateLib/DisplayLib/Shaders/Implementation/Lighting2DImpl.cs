@@ -49,6 +49,10 @@ namespace AgateLib.DisplayLib.Shaders.Implementation
 		/// Sets the ambient light color.
 		/// </summary>
 		public abstract Color AmbientLight { get; set; }
-
+		
+		/// <summary>
+		/// Gets or sets the coordinate system used (orthogonal projection).
+		/// </summary>
+		public abstract Rectangle CoordinateSystem { get; set; }
 	}
 }

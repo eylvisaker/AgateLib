@@ -14,6 +14,13 @@ namespace AgateOTK.Legacy.FixedFunction
 	{
 		Rectangle coords;
 
+		void SetProjection ()
+		{
+			GL.MatrixMode(MatrixMode.Projection);
+			GL.LoadIdentity();
+			GL.Ortho(coords.Left, coords.Right, coords.Bottom, coords.Top, -1, 1);
+		}
+
 		public override Rectangle CoordinateSystem
 		{
 			get
@@ -23,16 +30,15 @@ namespace AgateOTK.Legacy.FixedFunction
 			set
 			{
 				coords = value;
+				SetProjection();
 			}
 		}
 
 		public override void Begin()
 		{
+			SetProjection();
+			
 			GL.Disable(EnableCap.Lighting);
-
-			GL.MatrixMode(MatrixMode.Projection);
-			GL.LoadIdentity();
-			GL.Ortho(coords.Left, coords.Right, coords.Bottom, coords.Top, -1, 1);
 
 			GL.Enable(EnableCap.Texture2D);
 

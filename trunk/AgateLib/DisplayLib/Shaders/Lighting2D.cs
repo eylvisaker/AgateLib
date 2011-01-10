@@ -28,7 +28,7 @@ namespace AgateLib.DisplayLib.Shaders
 	/// <summary>
 	/// Lighting2D is the Basic2DShader with lighting effects added.
 	/// </summary>
-	public class Lighting2D : AgateInternalShader
+	public class Lighting2D : AgateInternalShader, IShader2D
 	{
 		protected override BuiltInShader BuiltInShaderType
 		{
@@ -86,6 +86,19 @@ namespace AgateLib.DisplayLib.Shaders
 				}
 			}
 		}
+	
+
+		#region IShader2D implementation
+		
+		public Rectangle CoordinateSystem 
+		{
+			get	{ return Impl.CoordinateSystem; }
+			set 
+			{
+				Impl.CoordinateSystem = value;
+			}
+		}
+		#endregion
 	}
 
 	public class Light

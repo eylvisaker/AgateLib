@@ -41,5 +41,6 @@ namespace AgateLib.DisplayLib.Shaders.Implementation
 		public abstract void BeginPass(int passIndex);
 		public abstract void EndPass();
 		public abstract void End();
+		
 	}
 }
