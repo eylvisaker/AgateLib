@@ -584,6 +584,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DataResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Compile Include="DisplayLib\Shaders\IShader2D.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="InternalResources\agate-black-gui.zip" />

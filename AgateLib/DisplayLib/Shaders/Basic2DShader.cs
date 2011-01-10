@@ -29,7 +29,7 @@ namespace AgateLib.DisplayLib.Shaders
 	/// The default 2D shader.  This shader supports no effects, and must be implemented
 	/// by every AgateLib display driver.
 	/// </summary>
-	public class Basic2DShader : AgateInternalShader  
+	public class Basic2DShader : AgateInternalShader, IShader2D 
 	{
 		/// <summary>
 		/// Constructs a 2D shader.

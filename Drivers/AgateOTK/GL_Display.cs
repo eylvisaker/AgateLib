@@ -207,7 +207,14 @@ namespace AgateOTK
 		{
 			GL.Viewport(newClipRect.X, mRenderTarget.Height - newClipRect.Bottom,
 				newClipRect.Width, newClipRect.Height);
-
+			
+			if (Display.Shader is AgateLib.DisplayLib.Shaders.IShader2D)
+			{
+				AgateLib.DisplayLib.Shaders.IShader2D s = (AgateLib.DisplayLib.Shaders.IShader2D)Display.Shader ;
+				
+				s.CoordinateSystem = newClipRect;
+			}
+			    
 			mCurrentClip = newClipRect;
 		}
 

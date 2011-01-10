@@ -11,11 +11,28 @@ namespace AgateOTK.Legacy.FixedFunction
 {
 	class OTK_FF_Lighting2D : Lighting2DImpl 
 	{
+		Rectangle coords;
+
 		Color mAmbientLight;
 
 		public OTK_FF_Lighting2D()
 		{
 		}
+		
+		
+		public override Rectangle CoordinateSystem
+		{
+			get
+			{
+				return coords;
+			}
+			set
+			{
+				coords = value;
+			}
+		}
+		
+		
 		public override int MaxActiveLights
 		{
 			get
@@ -48,6 +65,10 @@ namespace AgateOTK.Legacy.FixedFunction
 
 		public override void Begin()
 		{
+			GL.MatrixMode(MatrixMode.Projection);
+			GL.LoadIdentity();
+			GL.Ortho(coords.Left, coords.Right, coords.Bottom, coords.Top, -1, 1);
+
 			GL.Enable(EnableCap.Lighting);
 
 			float[] array = new float[4];

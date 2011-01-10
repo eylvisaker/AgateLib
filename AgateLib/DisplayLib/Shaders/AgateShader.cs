@@ -83,5 +83,6 @@ namespace AgateLib.DisplayLib.Shaders
 		{
 			Display.Shader = this;
 		}
+		
 	}
 }
