@@ -774,7 +774,8 @@ namespace AgateLib.DisplayLib
 		/// pixel data.  The PixelBuffer must fit within the surface.
 		/// </summary>
 		/// <param name="buffer">The PixelBuffer which contains pixel data to copy from.</param>
-		/// <param name="startPoint"></param>
+		/// <param name="startPoint">The location of the upper left corner on the Surface to start
+		/// writing pixel data.</param>
 		public void WritePixels(PixelBuffer buffer, Point startPoint)
 		{
 			if (startPoint.X + buffer.Width > SurfaceWidth ||
@@ -789,9 +790,10 @@ namespace AgateLib.DisplayLib
 		/// of the surface's pixel data.  The selected source rectangle from the pixel buffer must
 		/// fit within the surface.
 		/// </summary>
-		/// <param name="buffer"></param>
-		/// <param name="sourceRect"></param>
-		/// <param name="destPt"></param>
+		/// <param name="buffer">The PixelBuffer which contains pixel data to copy from.</param>
+		/// <param name="sourceRect">The rectangle to copy source data from on the PixelBuffer object.</param>
+		/// <param name="destPt">The location of the upper left corner on the Surface to start
+		/// writing pixel data.</param>
 		public void WritePixels(PixelBuffer buffer, Rectangle sourceRect, Point destPt)
 		{
 			PixelBuffer smallBuffer = new PixelBuffer(buffer, sourceRect);
