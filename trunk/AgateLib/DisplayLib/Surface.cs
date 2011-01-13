@@ -796,6 +796,7 @@ namespace AgateLib.DisplayLib
 		/// writing pixel data.</param>
 		public void WritePixels(PixelBuffer buffer, Rectangle sourceRect, Point destPt)
 		{
+			// TODO: add validation on the rectangle, and only do the copy if the rectangle doesn't match the buffer dimensions.
 			PixelBuffer smallBuffer = new PixelBuffer(buffer, sourceRect);
 
 			WritePixels(smallBuffer, destPt);

@@ -649,20 +649,24 @@ namespace AgateSDX
 
 			surf.Dispose();
 
+			// This should probably only lock the region of the surface we intend to update.
+			// However, as is usually the case with DirectX, doing so gives weird errors
+			// with no real explanation as to what is wrong.
 			DataRectangle stm = mTexture.Value.LockRectangle
-				(0, Interop.Convert(updateRect), LockFlags.Discard);
+				(0, LockFlags.None);
 
 			if (buffer.PixelFormat != pixelFormat)
 				buffer = buffer.ConvertTo(pixelFormat);
 
 			unsafe
 			{
-				for (int i = updateRect.Top; i < updateRect.Bottom; i++)
+				for (int i = 0; i < buffer.Height; i++)
 				{
 					int startIndex = buffer.GetPixelIndex(0, i);
 					int rowStride = buffer.RowStride;
 					IntPtr dest = (IntPtr)
-						((byte*)stm.Data.DataPointer + i * stm.Pitch + updateRect.Left * pixelPitch);
+						((byte*)stm.Data.DataPointer + (i + updateRect.Top) * stm.Pitch 
+													 + updateRect.Left * pixelPitch);
 
 					Marshal.Copy(buffer.Data, startIndex, dest, rowStride);
 				}
