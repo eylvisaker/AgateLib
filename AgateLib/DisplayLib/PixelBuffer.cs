@@ -496,6 +496,9 @@ namespace AgateLib.DisplayLib
 			if (srcRect.X < 0 || srcRect.Y < 0 || srcRect.Right > buffer.Width || srcRect.Bottom > buffer.Height)
 				throw new ArgumentOutOfRangeException("srcRect", "Source rectangle outside size of buffer!");
 
+			if (destPt.X < 0 || destPt.Y < 0)
+				throw new ArgumentOutOfRangeException("destPt", "Destination cannot be less than zero.");
+
 			if (buffer.RowStride == RowStride && buffer.PixelFormat == PixelFormat && destPt.X == 0)
 			{
 				int destIndex = GetPixelIndex(destPt.X, destPt.Y);

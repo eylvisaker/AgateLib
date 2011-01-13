@@ -11,8 +11,6 @@ namespace Tests.DisplayTests
 {
 	class PixelBufferMask : IAgateTest
 	{
-		#region IAgateTest Members
-
 		public string Name
 		{
 			get { return "Pixel Buffer Masking"; }
@@ -27,8 +25,7 @@ namespace Tests.DisplayTests
 		{
 			using (AgateSetup setup = new AgateSetup())
 			{
-				bool isRunning = false;
-
+				setup.AskUser = true;
 				setup.InitializeAll();
 
 				if (setup.WasCanceled)
@@ -54,16 +51,13 @@ namespace Tests.DisplayTests
 
 				surfRealBg.WritePixels(pbBg);
 
-				isRunning = true;
-
-				while (isRunning)
+				while (Display.CurrentWindow.IsClosed == false)
 				{
 					Display.CurrentWindow.Title = Display.FramesPerSecond.ToString();
 					Display.BeginFrame();
 
 					if (Keyboard.Keys[KeyCode.Escape])
-						isRunning = false;
-
+						return;
 
 					if (Mouse.Buttons[Mouse.MouseButtons.Primary])
 					{
@@ -93,7 +87,5 @@ namespace Tests.DisplayTests
 				}
 			}
 		}
-
-		#endregion
 	}
 }
