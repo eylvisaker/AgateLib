@@ -138,6 +138,7 @@
     <Compile Include="DisplayTests\Capabilities\frmCapabilities.Designer.cs">
       <DependentUpon>frmCapabilities.cs</DependentUpon>
     </Compile>
+    <Compile Include="DisplayTests\PixelBufferMask.cs" />
     <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="DisplayTests\Prerendered.cs" />
     <Compile Include="Fonts\Builtin.cs" />
@@ -521,6 +522,14 @@
       <Project>{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}</Project>
       <Name>AgateLib.WinForms</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\mask_bg-bricks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\mask_circle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
