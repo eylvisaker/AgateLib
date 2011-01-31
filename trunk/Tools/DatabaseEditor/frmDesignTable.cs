@@ -53,7 +53,9 @@ namespace AgateDatabaseEditor
 
 				mTable = value;
 
-				gridColumns.RowCount = mTable.Columns.Count+1;
+				cboTableLookup.Items.Remove(value);
+
+				gridColumns.RowCount = mTable.Columns.Count + 1;
 			}
 		}
 
@@ -130,6 +132,8 @@ namespace AgateDatabaseEditor
 		{
 			this.mColumnInEdit = new AgateColumn();
 			this.mRowInEdit = gridColumns.Rows.Count - 1;
+
+			this.mColumnInEdit.DisplayIndex = gridColumns.Rows.Count - 1;
 		}
 
 		private void gridColumns_RowValidated(object sender, DataGridViewCellEventArgs e)
