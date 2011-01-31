@@ -235,6 +235,11 @@ namespace AgateDatabaseEditor
 
 			IncrementTableName(tbl);
 
+			while (Database.Tables.ContainsTable(tbl.Name))
+			{
+				IncrementTableName(tbl);
+			}
+
 			Database.Tables.Add(tbl);
 
 			frmDesignTable.EditColumns(Database, tbl);
