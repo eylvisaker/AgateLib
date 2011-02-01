@@ -69,8 +69,14 @@ namespace Tests.DisplayTests
 
 						for (int x = 0; x < pbMaskCircle.Width; x++)
 						{
+							if (mX + x >= pbBg.Width)
+								break;
+							
 							for (int y = 0; y < pbMaskCircle.Height; y++)
 							{
+								if (mY + y >= pbBg.Height)
+									break;
+
 								if (pbMaskCircle.GetPixel(x, y) == Color.FromArgb(255, 0, 0, 0))
 									pbBg.SetPixel(mX + x, mY + y, Color.FromArgb(0, 0, 0, 0));
 							}

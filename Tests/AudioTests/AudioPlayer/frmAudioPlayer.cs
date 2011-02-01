@@ -109,7 +109,7 @@ namespace Tests.AudioTester
 			lstFiles.Items.Clear();
 
 			string[] files = Directory.GetFiles(Directory.GetCurrentDirectory());
-			string extensions = ".mid .mp3 .wav .wma .ogg";
+			string extensions = ".mid .wav .wma .ogg";
 
 			foreach (string filename in files)
 			{
