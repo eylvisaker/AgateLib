@@ -168,14 +168,14 @@ namespace AgateDatabaseEditor
 		}
 		private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			frmImportTable import = new frmImportTable();
+			Import.DatabaseImporter importer = new Import.DatabaseImporter();
 
-			import.Database = databaseEditor1.Database;
+			importer.Database = databaseEditor1.Database;
 
-			if (import.ShowDialog() == DialogResult.OK)
-			{
-				databaseEditor1.DatabaseRefresh();
-			}
+			importer.Run();
+
+			databaseEditor1.DatabaseRefresh();
+
 		}
 		private void quitToolStripMenuItem_Click(object sender, EventArgs e)
 		{

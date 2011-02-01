@@ -32,8 +32,8 @@
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.hSeparator1 = new ERY.NotebookLib.HSeparator();
-			this.openFile = new System.Windows.Forms.OpenFileDialog();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.chkMergeDelimiters = new System.Windows.Forms.CheckBox();
 			this.txtOther = new System.Windows.Forms.TextBox();
 			this.chkOther = new System.Windows.Forms.CheckBox();
 			this.chkSpace = new System.Windows.Forms.CheckBox();
@@ -53,7 +53,6 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.propColumns = new System.Windows.Forms.PropertyGrid();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.chkMergeDelimiters = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.pnlTableWarning.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -108,11 +107,6 @@
 			this.hSeparator1.TabIndex = 3;
 			this.hSeparator1.TabStop = true;
 			// 
-			// openFile
-			// 
-			this.openFile.FileName = "openFileDialog1";
-			this.openFile.Filter = "Text Files (*.txt,*.csv)|*.txt;*.csv|All Files|*.*";
-			// 
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.chkMergeDelimiters);
@@ -128,6 +122,17 @@
 			this.groupBox1.TabIndex = 4;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Delimiters";
+			// 
+			// chkMergeDelimiters
+			// 
+			this.chkMergeDelimiters.AutoSize = true;
+			this.chkMergeDelimiters.Location = new System.Drawing.Point(226, 48);
+			this.chkMergeDelimiters.Name = "chkMergeDelimiters";
+			this.chkMergeDelimiters.Size = new System.Drawing.Size(104, 17);
+			this.chkMergeDelimiters.TabIndex = 15;
+			this.chkMergeDelimiters.Text = "Merge Delimiters";
+			this.chkMergeDelimiters.UseVisualStyleBackColor = true;
+			this.chkMergeDelimiters.CheckedChanged += new System.EventHandler(this.chkMergeDelimiters_CheckedChanged);
 			// 
 			// txtOther
 			// 
@@ -314,6 +319,7 @@
 			this.propColumns.Name = "propColumns";
 			this.propColumns.Size = new System.Drawing.Size(401, 201);
 			this.propColumns.TabIndex = 13;
+			this.propColumns.Click += new System.EventHandler(this.propColumns_Click);
 			// 
 			// panel1
 			// 
@@ -327,17 +333,6 @@
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(533, 220);
 			this.panel1.TabIndex = 14;
-			// 
-			// chkMergeDelimiters
-			// 
-			this.chkMergeDelimiters.AutoSize = true;
-			this.chkMergeDelimiters.Location = new System.Drawing.Point(226, 48);
-			this.chkMergeDelimiters.Name = "chkMergeDelimiters";
-			this.chkMergeDelimiters.Size = new System.Drawing.Size(104, 17);
-			this.chkMergeDelimiters.TabIndex = 15;
-			this.chkMergeDelimiters.Text = "Merge Delimiters";
-			this.chkMergeDelimiters.UseVisualStyleBackColor = true;
-			this.chkMergeDelimiters.CheckedChanged += new System.EventHandler(this.chkMergeDelimiters_CheckedChanged);
 			// 
 			// frmImportTable
 			// 
@@ -379,7 +374,6 @@
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancel;
 		private ERY.NotebookLib.HSeparator hSeparator1;
-		private System.Windows.Forms.OpenFileDialog openFile;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.TextBox txtOther;
 		private System.Windows.Forms.CheckBox chkOther;

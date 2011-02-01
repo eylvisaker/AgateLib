@@ -28,17 +28,13 @@ namespace AgateDatabaseEditor
 		bool mergeDelimiters = false;
 		AgateTable importedTable;
 
+		public string Filename { get; set; }
+
 		private void frmImportData_Load(object sender, EventArgs e)
 		{
-			if (openFile.ShowDialog() == DialogResult.Cancel)
-			{
-				Close();
-				return;
-			}
+			fileContents = System.IO.File.ReadAllText(Filename);
 
-			fileContents = System.IO.File.ReadAllText(openFile.FileName);
-
-			txtName.Text = System.IO.Path.GetFileNameWithoutExtension(openFile.FileName);
+			txtName.Text = System.IO.Path.GetFileNameWithoutExtension(Filename);
 			txtFileContents.Text = fileContents;
 
 			RedoImport();
@@ -262,7 +258,27 @@ namespace AgateDatabaseEditor
 			int start = 0;
 
 			if (firstRowFieldNames)
+			{
 				start = 1;
+
+				string[] text = SplitLine(lines[0], mergeDelimiters);
+
+				for (int i = 0; i < text.Length; i++)
+				{
+					if (cols.Count == i)
+						cols.Add(new AgateColumn());
+
+					if (text[i].StartsWith("\"") && text[i].EndsWith("\""))
+					{
+						text[i] = text[i].Substring(1, text[i].Length - 2);
+					}
+
+					cols[i].Name = text[i];
+
+					// set the most conservative field type.
+					cols[i].FieldType = FieldType.Boolean;
+				}
+			}
 
 			for (int i = start; i < lines.Length; i++)
 			{
@@ -309,6 +325,11 @@ namespace AgateDatabaseEditor
 						ColumnType(FieldType.String, cols, j);
 					}
 				}
+			}
+
+			for (int i = 0; i < cols.Count; i++)
+			{
+				cols[i].DisplayIndex = i;
 			}
 		}
 
@@ -447,6 +468,11 @@ namespace AgateDatabaseEditor
 			}
 
 			Database.Tables.Add(importedTable);
+		}
+
+		private void propColumns_Click(object sender, EventArgs e)
+		{
+
 		}
 
 	}
