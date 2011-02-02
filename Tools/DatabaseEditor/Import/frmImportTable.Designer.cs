@@ -53,6 +53,7 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.propColumns = new System.Windows.Forms.PropertyGrid();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.chkOverwrite = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.pnlTableWarning.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -225,6 +226,7 @@
 			// 
 			// backgroundWorker1
 			// 
+			this.backgroundWorker1.WorkerSupportsCancellation = true;
 			this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
 			this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
 			// 
@@ -260,18 +262,19 @@
 			// 
 			// pnlTableWarning
 			// 
+			this.pnlTableWarning.Controls.Add(this.chkOverwrite);
 			this.pnlTableWarning.Controls.Add(this.label3);
 			this.pnlTableWarning.Controls.Add(this.pictureBox1);
 			this.pnlTableWarning.Location = new System.Drawing.Point(250, 243);
 			this.pnlTableWarning.Name = "pnlTableWarning";
-			this.pnlTableWarning.Size = new System.Drawing.Size(295, 37);
+			this.pnlTableWarning.Size = new System.Drawing.Size(295, 58);
 			this.pnlTableWarning.TabIndex = 10;
 			this.pnlTableWarning.Visible = false;
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(27, 12);
+			this.label3.Location = new System.Drawing.Point(27, 6);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(226, 13);
 			this.label3.TabIndex = 1;
@@ -280,7 +283,7 @@
 			// pictureBox1
 			// 
 			this.pictureBox1.Image = global::AgateDatabaseEditor.Properties.Resources.warning;
-			this.pictureBox1.Location = new System.Drawing.Point(5, 9);
+			this.pictureBox1.Location = new System.Drawing.Point(5, 3);
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.Size = new System.Drawing.Size(16, 16);
 			this.pictureBox1.TabIndex = 0;
@@ -294,7 +297,7 @@
 			this.lstColumns.FormattingEnabled = true;
 			this.lstColumns.Location = new System.Drawing.Point(3, 16);
 			this.lstColumns.Name = "lstColumns";
-			this.lstColumns.Size = new System.Drawing.Size(120, 199);
+			this.lstColumns.Size = new System.Drawing.Size(120, 186);
 			this.lstColumns.TabIndex = 11;
 			this.lstColumns.SelectedIndexChanged += new System.EventHandler(this.lstColumns_SelectedIndexChanged);
 			// 
@@ -317,7 +320,7 @@
 			this.propColumns.HelpVisible = false;
 			this.propColumns.Location = new System.Drawing.Point(129, 16);
 			this.propColumns.Name = "propColumns";
-			this.propColumns.Size = new System.Drawing.Size(401, 201);
+			this.propColumns.Size = new System.Drawing.Size(401, 196);
 			this.propColumns.TabIndex = 13;
 			this.propColumns.Click += new System.EventHandler(this.propColumns_Click);
 			// 
@@ -329,10 +332,21 @@
 			this.panel1.Controls.Add(this.label4);
 			this.panel1.Controls.Add(this.propColumns);
 			this.panel1.Controls.Add(this.lstColumns);
-			this.panel1.Location = new System.Drawing.Point(12, 286);
+			this.panel1.Location = new System.Drawing.Point(12, 291);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(533, 220);
+			this.panel1.Size = new System.Drawing.Size(533, 215);
 			this.panel1.TabIndex = 14;
+			// 
+			// chkOverwrite
+			// 
+			this.chkOverwrite.AutoSize = true;
+			this.chkOverwrite.Location = new System.Drawing.Point(32, 25);
+			this.chkOverwrite.Name = "chkOverwrite";
+			this.chkOverwrite.Size = new System.Drawing.Size(183, 17);
+			this.chkOverwrite.TabIndex = 2;
+			this.chkOverwrite.Text = "I know, and I want to overwrite it.";
+			this.chkOverwrite.UseVisualStyleBackColor = true;
+			this.chkOverwrite.CheckedChanged += new System.EventHandler(this.chkOverwrite_CheckedChanged);
 			// 
 			// frmImportTable
 			// 
@@ -395,5 +409,6 @@
 		private System.Windows.Forms.PropertyGrid propColumns;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.CheckBox chkMergeDelimiters;
+		private System.Windows.Forms.CheckBox chkOverwrite;
 	}
 }
