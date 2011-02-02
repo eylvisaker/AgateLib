@@ -53,13 +53,13 @@
 			this.btnCodeGen = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
-			this.databaseEditor1 = new AgateDatabaseEditor.DatabaseEditor();
 			this.tableToolStrip = new System.Windows.Forms.ToolStrip();
 			this.btnDesignTable = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.btnSortAscending = new System.Windows.Forms.ToolStripButton();
 			this.btnSortDescending = new System.Windows.Forms.ToolStripButton();
+			this.databaseEditor1 = new AgateDatabaseEditor.DatabaseEditor();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.mainToolStrip.SuspendLayout();
@@ -204,7 +204,7 @@
             this.btnCodeGen});
 			this.mainToolStrip.Location = new System.Drawing.Point(3, 24);
 			this.mainToolStrip.Name = "mainToolStrip";
-			this.mainToolStrip.Size = new System.Drawing.Size(141, 25);
+			this.mainToolStrip.Size = new System.Drawing.Size(110, 25);
 			this.mainToolStrip.TabIndex = 4;
 			this.mainToolStrip.Text = "toolStrip1";
 			// 
@@ -282,20 +282,6 @@
 			this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.mainToolStrip);
 			this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.tableToolStrip);
 			// 
-			// databaseEditor1
-			// 
-			this.databaseEditor1.Database = null;
-			this.databaseEditor1.DirtyState = false;
-			this.databaseEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.databaseEditor1.Location = new System.Drawing.Point(0, 0);
-			this.databaseEditor1.Name = "databaseEditor1";
-			this.databaseEditor1.Size = new System.Drawing.Size(862, 583);
-			this.databaseEditor1.TabIndex = 3;
-			this.databaseEditor1.Visible = false;
-			this.databaseEditor1.DirtyStateChanged += new System.EventHandler(this.databaseEditor1_DirtyStateChanged);
-			this.databaseEditor1.StatusText += new System.EventHandler<AgateDatabaseEditor.StatusTextEventArgs>(this.databaseEditor1_StatusText);
-			this.databaseEditor1.TableActiveStatusChanged += new System.EventHandler(this.databaseEditor1_TableActiveStatusChanged);
-			// 
 			// tableToolStrip
 			// 
 			this.tableToolStrip.Dock = System.Windows.Forms.DockStyle.None;
@@ -306,7 +292,7 @@
             this.toolStripLabel1,
             this.btnSortAscending,
             this.btnSortDescending});
-			this.tableToolStrip.Location = new System.Drawing.Point(144, 24);
+			this.tableToolStrip.Location = new System.Drawing.Point(113, 24);
 			this.tableToolStrip.Name = "tableToolStrip";
 			this.tableToolStrip.Size = new System.Drawing.Size(177, 25);
 			this.tableToolStrip.TabIndex = 10;
@@ -353,6 +339,20 @@
 			this.btnSortDescending.Text = "toolStripButton1";
 			this.btnSortDescending.Click += new System.EventHandler(this.btnSortDescending_Click);
 			// 
+			// databaseEditor1
+			// 
+			this.databaseEditor1.Database = null;
+			this.databaseEditor1.DirtyState = false;
+			this.databaseEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.databaseEditor1.Location = new System.Drawing.Point(0, 0);
+			this.databaseEditor1.Name = "databaseEditor1";
+			this.databaseEditor1.Size = new System.Drawing.Size(862, 583);
+			this.databaseEditor1.TabIndex = 3;
+			this.databaseEditor1.Visible = false;
+			this.databaseEditor1.TableActiveStatusChanged += new System.EventHandler(this.databaseEditor1_TableActiveStatusChanged);
+			this.databaseEditor1.DirtyStateChanged += new System.EventHandler(this.databaseEditor1_DirtyStateChanged);
+			this.databaseEditor1.StatusText += new System.EventHandler<AgateDatabaseEditor.StatusTextEventArgs>(this.databaseEditor1_StatusText);
+			// 
 			// frmEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -363,6 +363,7 @@
 			this.Name = "frmEditor";
 			this.Text = "Agate Database Editor";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmEditor_FormClosing);
+			this.Load += new System.EventHandler(this.frmEditor_Load);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);

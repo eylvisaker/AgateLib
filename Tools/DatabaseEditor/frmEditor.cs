@@ -35,6 +35,28 @@ namespace AgateDatabaseEditor
 
 		#endregion
 
+
+		private void DisableControls()
+		{
+			bool enabled = true;
+
+			if (databaseEditor1.Database == null)
+			{
+				enabled = false;
+			}
+
+			btnCodeGen.Enabled = enabled;
+			btnDesignTable.Enabled = enabled;
+			btnSave.Enabled = enabled;
+			btnSortAscending.Enabled = enabled;
+			btnSortDescending.Enabled = enabled;
+			saveDatabaseAsToolStripMenuItem.Enabled = enabled;
+			saveDatabaseToolStripMenuItem.Enabled = enabled;
+			importDataToolStripMenuItem.Enabled = enabled;
+			generateCodeToolStripMenuItem.Enabled = enabled;
+			
+		}
+
 		#region --- Basic database operations ---
 
 		private void NewDatabase()
@@ -46,6 +68,8 @@ namespace AgateDatabaseEditor
 			databaseEditor1.Database = new AgateLib.Data.AgateDatabase();
 
 			Text = "New Database - " + title;
+
+			DisableControls();
 		}
 		
 		private void OpenDatabase()
@@ -61,6 +85,8 @@ namespace AgateDatabaseEditor
 			filename = openDatabase.FileName;
 
 			Text = System.IO.Path.GetFileName(filename) + " - " + title;
+
+			DisableControls();
 		}
 
 		
@@ -303,6 +329,12 @@ namespace AgateDatabaseEditor
 		}
 
 		#endregion
+
+		private void frmEditor_Load(object sender, EventArgs e)
+		{
+			DisableControls();
+		}
+
 
 
 
