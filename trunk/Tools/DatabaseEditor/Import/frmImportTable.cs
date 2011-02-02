@@ -102,14 +102,7 @@ namespace AgateDatabaseEditor
 		{
 			importedTable = null;
 
-			string[] lines = fileContents.Split('\n');
-			for (int i = 0; i < lines.Length; i++)
-			{
-				if (lines[i].EndsWith("\r"))
-				{
-					lines[i] = lines[i].Substring(0, lines[i].Length - 1);
-				}
-			}
+			string[] lines = SplitFileContents();
 
 			List<AgateColumn> cols = new List<AgateColumn>();
 			DetectColumnTypes(lines, cols);
@@ -124,6 +117,19 @@ namespace AgateDatabaseEditor
 			AgateTable tbl = ImportTable(lines, cols);
 
 			importedTable = tbl;
+		}
+
+		private string[] SplitFileContents()
+		{
+			string[] lines = fileContents.Split('\n');
+			for (int i = 0; i < lines.Length; i++)
+			{
+				if (lines[i].EndsWith("\r"))
+				{
+					lines[i] = lines[i].Substring(0, lines[i].Length - 1);
+				}
+			}
+			return lines;
 		}
 
 		private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -144,16 +150,36 @@ namespace AgateDatabaseEditor
 			if (Database.Tables.ContainsTable(txtName.Text))
 				return;
 
-			btnOK.Enabled = true;
+			SetOKEnabled();
+		}
+
+		private void SetOKEnabled()
+		{
+			bool value = true;
+
+			if (backgroundWorker1.IsBusy)
+				value = false;
+
+			if (Database.Tables.ContainsTable(txtName.Text))
+			{
+				if (chkOverwrite.Checked == false)
+					value = false;
+			}
+
+			btnOK.Enabled = value;
 		}
 
 		private void txtName_TextChanged(object sender, EventArgs e)
 		{
 			if (Database.Tables.ContainsTable(txtName.Text))
+			{
 				pnlTableWarning.Visible = true;
+				chkOverwrite.Checked = false;
+			}
 			else
 				pnlTableWarning.Visible = false;
 
+			SetOKEnabled();
 		}
 
 		private void SetDefaultColumnNames(List<AgateColumn> cols)
@@ -455,6 +481,8 @@ namespace AgateDatabaseEditor
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
+			importedTable = ImportTable(SplitFileContents(), importedTable.Columns.ToList());
+
 			try
 			{
 				importedTable.Name = txtName.Text;
@@ -467,12 +495,23 @@ namespace AgateDatabaseEditor
 				return;
 			}
 
+			if (Database.Tables.ContainsTable(importedTable.Name) &&
+				chkOverwrite.Checked == true)
+			{
+				Database.Tables.Remove(Database.Tables[importedTable.Name]);
+			}
+
 			Database.Tables.Add(importedTable);
 		}
 
 		private void propColumns_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		private void chkOverwrite_CheckedChanged(object sender, EventArgs e)
+		{
+			SetOKEnabled();
 		}
 
 	}
