@@ -22,7 +22,11 @@ namespace AgateSDX.Shaders
 		public override AgateLib.Geometry.Rectangle CoordinateSystem
 		{
 			get { return mCoords;  }
-			set { mCoords = value; }
+			set
+			{
+				mCoords = value;
+				SetOrthoProjection();
+			}
 		}
 
 		public void Set2DDrawState()
@@ -44,10 +48,17 @@ namespace AgateSDX.Shaders
 			mDevice.SetTransform(TransformState.World, SlimDX.Matrix.Identity);
 			mDevice.SetTransform(TransformState.View, SlimDX.Matrix.Identity);
 
-			SlimDX.Matrix orthoProj = SlimDX.Matrix.OrthoOffCenterRH(
-				mCoords.Left, mCoords.Right, mCoords.Bottom, mCoords.Top, -1, 1);
+			SetOrthoProjection();
+		}
 
-			mDevice.SetTransform(TransformState.Projection, orthoProj);
+		private void SetOrthoProjection()
+		{
+			SlimDX.Matrix orthoProj = SlimDX.Matrix.OrthoOffCenterRH(
+						 mCoords.Left, mCoords.Right, mCoords.Bottom, mCoords.Top, -1, 1);
+
+			// TODO: figure out why this method sometimes gets called when mDevice is null?
+			if (mDevice != null)
+				mDevice.SetTransform(TransformState.Projection, orthoProj);
 		}
 
 		public override void Begin()

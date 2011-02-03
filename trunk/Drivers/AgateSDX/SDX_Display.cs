@@ -363,6 +363,13 @@ namespace AgateSDX
 
 			mDevice.Device.Viewport = view;
 			mCurrentClipRect = newClipRect;
+
+			if (Display.Shader is AgateLib.DisplayLib.Shaders.IShader2D)
+			{
+				var s2d = (AgateLib.DisplayLib.Shaders.IShader2D)Display.Shader;
+
+				s2d.CoordinateSystem = newClipRect;
+			}
 		}
 
 		private Stack<Rectangle> mClipRects = new Stack<Rectangle>();
