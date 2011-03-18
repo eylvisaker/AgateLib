@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Reflection;
 
@@ -37,10 +38,32 @@ namespace AgateLib.Drivers
 			}
 			catch (BadImageFormatException)
 			{
-				System.Diagnostics.Trace.WriteLine(string.Format(
-					"Could not load the file {0}.  Is it a CLR assembly?", file));
+				Trace.WriteLine(string.Format("Could not load the file {0}.", file));
+				Trace.WriteLine("BadImageFormatException caught.  This file probably is not a CLR assembly.");
+
 				return retval.ToArray();
 			}
+			catch (FileLoadException e)
+			{
+				Trace.WriteLine(string.Format("Could not load the file {0}.", file));
+				Trace.WriteLine("FileLoadException caught:");
+				Trace.Indent();
+				Trace.WriteLine(e.Message);
+				Trace.Unindent();
+
+				return retval.ToArray();
+			}
+			catch (Exception e)
+			{
+				Trace.WriteLine(string.Format("Could not load the file {0}.", file));
+				Trace.WriteLine(string.Format("{0} caught:"), e.GetType().Name);
+				Trace.Indent();
+				Trace.WriteLine(e.Message);
+				Trace.Unindent();
+
+				return retval.ToArray();
+			}
+
 
 			Type[] types;
 
