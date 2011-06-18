@@ -203,7 +203,7 @@ namespace AgateLib.DisplayLib
 
 				// TODO: replace this with an ActiveWindow property.
 				//if (value is DisplayWindow)
-				//	mCurrentWindow = (DisplayWindow)value;
+				//    mCurrentWindow = (DisplayWindow)value;
 			}
 		}
 
