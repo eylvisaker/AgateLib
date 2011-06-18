@@ -95,6 +95,8 @@ namespace AgateLib.DisplayLib
 		{
 			if (Display.Impl == null)
 				throw new AgateException("AgateLib's display system has not been initialized.");
+			if (string.IsNullOrEmpty(filename))
+				throw new ArgumentNullException("You must supply a file name.");
 
 			using (System.IO.Stream s = fileProvider.OpenRead(filename))
 			{

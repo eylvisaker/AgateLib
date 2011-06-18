@@ -57,6 +57,9 @@ namespace AgateLib.Utility
 		/// <returns></returns>
 		public Stream OpenRead(string filename)
 		{
+			if (string.IsNullOrEmpty(filename))
+				throw new ArgumentNullException("You must supply a file name.");
+
 			for (int i = mProviders.Count - 1; i >= 0; i--)
 			{
 				if (mProviders[i].FileExists(filename))
