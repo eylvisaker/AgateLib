@@ -25,7 +25,7 @@ using AgateLib.Serialization.Xle;
 namespace AgateLib.Geometry
 {
 	/// <summary>
-	/// Replacement for System.Drawing.Size object.
+	/// A structure with two properties, a width and height.
 	/// </summary>
 	[Serializable]
 	[TypeConverter(typeof(ExpandableObjectConverter))]

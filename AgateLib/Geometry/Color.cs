@@ -884,5 +884,62 @@ namespace AgateLib.Geometry
 			 * */
 		}
 
+		// See algorithm at http://en.wikipedia.org/wiki/YUV#Conversion_to.2Ffrom_RGB
+		const double W_R = 0.299;
+		const double W_B = 0.114;
+		const double W_G = 0.587;
+		const double Umax = 0.436;
+		const double Vmax = 0.615;
+
+		public void ToYuv(out double y, out double u, out double v)
+		{
+			y = (W_R * r + W_G * g + W_B * b) / 255.0;
+			u = Umax * (b/255.0 - y) / (1 - W_B);
+			v = Vmax * (r / 255.0 - y) / (1 - W_R);
+		}
+
+		public static Color FromYuv(double y, double u, double v)
+		{
+			return Color.FromArgb(
+				(int)(255 * (y + v * (1 - W_R) / Vmax)),
+				(int)(255 * (y - u * W_B * (1 - W_B) / (Umax * W_G) - v * W_R * (1 - W_R) / (Vmax * W_G))),
+				(int)(255 * (y + u * (1 - W_B) / Umax)));
+		}
+
+		/// <summary>
+		/// Returns a Color object calculated from hue, saturation and value.
+		/// See algorithm at http://en.wikipedia.org/wiki/HSL_and_HSV#From_HSV
+		/// </summary>
+		/// <param name="h">The hue angle in degrees.</param>
+		/// <param name="s">A value from 0 to 1 representing saturation.</param>
+		/// <param name="v">A value from 0 to 1 representing the value.</param>
+		/// <returns></returns>
+		public static Color FromHsv(double h, double s, double v)
+		{
+			while (h < 0)
+				h += 360;
+			if (h > 360)
+				h = h % 360;
+
+			double hp = h / 60;
+			double chroma = v * s;
+			double X = chroma * (1 - Math.Abs(hp % 2 - 1));
+
+			double r1 = 0, b1 = 0, g1 = 0;
+
+			switch ((int)hp)
+			{
+				case 0: r1 = chroma; g1 = X; break;
+				case 1: r1 = X; g1 = chroma; break;
+				case 2: g1 = chroma; b1 = X; break;
+				case 3: g1 = X; b1 = chroma; break;
+				case 4: r1 = X; b1 = chroma; break;
+				case 5: r1 = chroma; b1 = X; break;
+			}
+
+			double m = v - chroma;
+
+			return Color.FromArgb((int)(255 * (r1 + m)), (int)(255 * (g1 + m)), (int)(255 * b1 + m));
+		}
 	}
 }

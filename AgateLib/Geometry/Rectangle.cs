@@ -25,7 +25,7 @@ using AgateLib.Serialization.Xle;
 namespace AgateLib.Geometry
 {
 	/// <summary>
-	/// Replacement for System.Drawing.Rectangle structure.
+	/// Implements a Rectangle structure, containing position and size.
 	/// </summary>
 	[Serializable]
 	[TypeConverter(typeof(ExpandableObjectConverter))]

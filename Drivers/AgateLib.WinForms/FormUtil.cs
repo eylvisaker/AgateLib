@@ -179,23 +179,7 @@ namespace AgateLib.WinForms
 		/// <param name="format"></param>
 		public static void SavePixelBuffer(PixelBuffer buffer, string filename, ImageFileFormat format)
 		{
-
-			Bitmap bmp = new Bitmap(buffer.Width, buffer.Height);
-
-			System.Drawing.Imaging.BitmapData data = bmp.LockBits(
-				new Rectangle(Point.Empty, Interop.Convert(buffer.Size)),
-				System.Drawing.Imaging.ImageLockMode.WriteOnly,
-				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-			if (buffer.PixelFormat != PixelFormat.BGRA8888)
-			{
-				buffer = buffer.ConvertTo(PixelFormat.BGRA8888);
-			}
-
-			System.Runtime.InteropServices.Marshal.Copy(
-				buffer.Data, 0, data.Scan0, buffer.Data.Length);
-
-			bmp.UnlockBits(data);
+			Bitmap bmp = Interop.BitmapFromPixelBuffer(buffer);
 
 			switch (format)
 			{
