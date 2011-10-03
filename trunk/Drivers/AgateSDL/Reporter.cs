@@ -38,8 +38,12 @@ namespace AgateSDL
 
 				return true;
 			}
-			catch (DllNotFoundException)
+			catch (DllNotFoundException e)
 			{
+				AgateLib.Core.ErrorReporting.Report(AgateLib.ErrorLevel.Warning,
+					"A DllNotFoundException was thrown when attempting to load SDL binaries." + Environment.NewLine +
+					"This indicates that SDL.dll or SDL_mixer.dll was not found.", e);
+
 				return false;
 			}
 			catch (BadImageFormatException e)
