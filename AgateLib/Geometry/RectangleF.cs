@@ -175,7 +175,7 @@ namespace AgateLib.Geometry
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <returns></returns>
-		public bool Contains(int x, int y)
+		public bool Contains(float x, float y)
 		{
 			return Contains(new PointF(x, y));
 		}
