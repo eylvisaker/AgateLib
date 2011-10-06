@@ -637,6 +637,25 @@ namespace AgateLib.Serialization.Xle
 		#endregion
 		#region --- Reading methods ---
 
+		/// <summary>
+		/// Checks to see if the given key is in the deserialized data.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public bool ContainsKey(string name)
+		{
+			string attribute = CurrentNode.GetAttribute(name);
+
+			if (string.IsNullOrEmpty(attribute) == false)
+				return true;
+
+			XmlElement element = (XmlElement)CurrentNode[name];
+
+			if (element == null)
+				return false;
+
+			return true;
+		}
 
 		private Type GetType(string name)
 		{
