@@ -59,7 +59,8 @@ namespace AgateLib.WinForms
 			{
 				get { return 1; }
 			}
-			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
+
+			private const TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
 
 			public void ModifyMetrics(FontMetrics glyphs, Drawing.Graphics g)
 			{ }
@@ -219,7 +220,7 @@ namespace AgateLib.WinForms
 			const int MM_MAX_FIXEDSCALE = MM_TWIPS;
 
 			[StructLayout(LayoutKind.Sequential)]
-			public struct ABC
+			private struct ABC
 			{
 				public int abcA;
 				public uint abcB;

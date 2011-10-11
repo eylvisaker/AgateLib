@@ -374,8 +374,8 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// Clears a region of the buffer to the specified color.
 		/// </summary>
 		/// <param name="color"></param>
-		/// <param name="dest"></param>
-		public abstract void Clear(Color color, Rectangle dest);
+		/// <param name="destRect"></param>
+		public abstract void Clear(Color color, Rectangle destRect);
 
 		
 		/// <summary>
@@ -668,9 +668,9 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// return null for any built in shader that is not supported.
 		/// Basic2DShader must have an implementation, but any other shader can be unsupported.
 		/// </summary>
-		/// <param name="BuiltInShaderType"></param>
+		/// <param name="builtInShaderType"></param>
 		/// <returns></returns>
-		protected internal abstract AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType);
+		protected internal abstract AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType);
 
 		/// <summary>
 		/// Creates a 

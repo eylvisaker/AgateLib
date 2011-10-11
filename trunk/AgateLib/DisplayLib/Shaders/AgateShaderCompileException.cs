@@ -16,26 +16,17 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AgateLib.DisplayLib.Shaders
 {
 	/// <summary>
-	/// Exception thrown when an attempt to compile a shader fails.
+	/// Exception raised when there is an error with the shader compiler.
 	/// </summary>
 	[global::System.Serializable]
-	public class AgateShaderCompilerException : Exception
+	public class AgateShaderCompilerException : AgateException
 	{
-		//
-		// For guidelines regarding the creation of new exception types, see
-		//    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
-		// and
-		//    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
-		//
-
 		/// <summary>
 		/// Constructs an AgateShaderCompilerException object.
 		/// </summary>
@@ -43,14 +34,19 @@ namespace AgateLib.DisplayLib.Shaders
 		/// <summary>
 		/// Constructs an AgateShaderCompilerException object.
 		/// </summary>
+		/// <param name="message"></param>
 		public AgateShaderCompilerException(string message) : base(message) { }
 		/// <summary>
 		/// Constructs an AgateShaderCompilerException object.
 		/// </summary>
+		/// <param name="inner"></param>
+		/// <param name="message"></param>
 		public AgateShaderCompilerException(string message, Exception inner) : base(message, inner) { }
 		/// <summary>
 		/// Constructs an AgateShaderCompilerException object.
 		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="info"></param>
 		protected AgateShaderCompilerException(
 		  System.Runtime.Serialization.SerializationInfo info,
 		  System.Runtime.Serialization.StreamingContext context)

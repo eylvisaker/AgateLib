@@ -51,22 +51,22 @@ namespace AgateLib.Drivers
 		};
 
 
-		static bool Contains(this List<AgateDriverInfo> list, DisplayTypeID type)
+		static bool Contains(this IEnumerable<AgateDriverInfo> list, DisplayTypeID type)
 		{
 			return list.Any(
-				x => comparator(x, DriverType.Display, (int)type));
+				x => Comparator(x, DriverType.Display, (int)type));
 		}
-		static bool Contains(this List<AgateDriverInfo> list, AudioTypeID type)
+		static bool Contains(this IEnumerable<AgateDriverInfo> list, AudioTypeID type)
 		{
 			return list.Any(
-				x => comparator(x, DriverType.Audio, (int)type));
+				x => Comparator(x, DriverType.Audio, (int)type));
 		}
-		static bool Contains(this List<AgateDriverInfo> list, InputTypeID type)
+		static bool Contains(this IEnumerable<AgateDriverInfo> list, InputTypeID type)
 		{
 			return list.Any(
-				x => comparator(x, DriverType.Input, (int)type));
+				x => Comparator(x, DriverType.Input, (int)type));
 		}
-		static bool comparator(AgateDriverInfo info, DriverType driverType, int type)
+		static bool Comparator(AgateDriverInfo info, DriverType driverType, int type)
 		{
 			return info.DriverType == driverType && info.DriverTypeID == type;
 		}
@@ -136,6 +136,7 @@ namespace AgateLib.Drivers
 			SortDriverInfo(inputDrivers);
 			SortDriverInfo(desktopDrivers);
 
+			mIsInitialized = true;
 		}
 		private static void SortDriverInfo(List<AgateDriverInfo> driverList)
 		{
@@ -371,7 +372,7 @@ namespace AgateLib.Drivers
 			}
 			return theInfo;
 		}
-		private static AgateDriverInfo FindDriverInfo(List<AgateDriverInfo> driverList, string assemblyFullName)
+		private static AgateDriverInfo FindDriverInfo(IEnumerable<AgateDriverInfo> driverList, string assemblyFullName)
 		{
 			AgateDriverInfo theInfo = null;
 

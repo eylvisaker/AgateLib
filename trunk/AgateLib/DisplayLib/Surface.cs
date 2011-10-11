@@ -58,7 +58,7 @@ namespace AgateLib.DisplayLib
 	/// </summary>
 	public sealed class Surface : IDisposable, ISurface
 	{
-		SurfaceImpl impl;
+		readonly SurfaceImpl mImpl;
 		SurfaceState mState = new SurfaceState();
 
 		/// <summary>
@@ -73,7 +73,7 @@ namespace AgateLib.DisplayLib
 
 			Resources.SurfaceResource surf = resources.Surfaces[name];
 					    
-			impl = surf.CreateSurfaceImpl();
+			mImpl = surf.CreateSurfaceImpl();
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
@@ -100,7 +100,7 @@ namespace AgateLib.DisplayLib
 
 			using (System.IO.Stream s = fileProvider.OpenRead(filename))
 			{
-				impl = Display.Impl.CreateSurface(s);
+				mImpl = Display.Impl.CreateSurface(s);
 			}
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
@@ -115,7 +115,7 @@ namespace AgateLib.DisplayLib
 			if (Display.Impl == null)
 				throw new AgateException("AgateLib's display system has not been initialized.");
 
-			impl = Display.Impl.CreateSurface(st);
+			mImpl = Display.Impl.CreateSurface(st);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
@@ -141,7 +141,7 @@ namespace AgateLib.DisplayLib
 			if (Display.Impl == null)
 				throw new AgateException("AgateLib's display system has not been initialized.");
 
-			impl = Display.Impl.CreateSurface(size);
+			mImpl = Display.Impl.CreateSurface(size);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
@@ -173,7 +173,7 @@ namespace AgateLib.DisplayLib
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
 
-			impl = fromImpl;
+			mImpl = fromImpl;
 		}
 
 		/// <summary>
@@ -181,7 +181,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public void Dispose()
 		{
-			impl.Dispose();
+			mImpl.Dispose();
 
 			//Display.DisposeDisplay -= Dispose;
 			Display.PackAllSurfacesEvent -= Display_PackAllSurfacesEvent;
@@ -191,7 +191,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool IsDisposed
 		{
-			get { return impl.IsDisposed; }
+			get { return mImpl.IsDisposed; }
 		}
 
 		void Display_PackAllSurfacesEvent(object sender, EventArgs e)
@@ -208,30 +208,30 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool ShouldBePacked
 		{
-			get { return impl.ShouldBePacked; }
-			set { impl.ShouldBePacked = value; }
+			get { return mImpl.ShouldBePacked; }
+			set { mImpl.ShouldBePacked = value; }
 		}
 
 		/// <summary>
 		/// Gets the width of the source surface in pixels.
 		/// </summary>
-		public int SurfaceWidth { get { return impl.SurfaceWidth; } }
+		public int SurfaceWidth { get { return mImpl.SurfaceWidth; } }
 		/// <summary>
 		/// Gets the height of the source surface in pixels.
 		/// </summary>
-		public int SurfaceHeight { get { return impl.SurfaceHeight; } }
+		public int SurfaceHeight { get { return mImpl.SurfaceHeight; } }
 		/// <summary>
 		/// Gets the Size of the source surface in pixels.
 		/// </summary>
-		public Size SurfaceSize { get { return impl.SurfaceSize; } }
+		public Size SurfaceSize { get { return mImpl.SurfaceSize; } }
 
 		/// <summary>
 		/// Gets or sets a value indicating how to sample points from this surface.
 		/// </summary>
 		public InterpolationMode InterpolationHint
 		{
-			get { return impl.InterpolationHint; }
-			set { impl.InterpolationHint = value; }
+			get { return mImpl.InterpolationHint; }
+			set { mImpl.InterpolationHint = value; }
 		}
 
 		/// <summary>
@@ -444,7 +444,7 @@ namespace AgateLib.DisplayLib
 			mState.DrawInstances.SetCount(1);
 			mState.DrawInstances[0] = new SurfaceDrawInstance(new PointF(destX, destY));
 
-			impl.Draw(State);
+			mImpl.Draw(State);
 		}
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
@@ -458,7 +458,7 @@ namespace AgateLib.DisplayLib
 			mState.DrawInstances.SetCount(1);
 			mState.DrawInstances[0] = new SurfaceDrawInstance(new PointF(destX, destY));
 
-			impl.Draw(State);
+			mImpl.Draw(State);
 		}
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
@@ -527,7 +527,7 @@ namespace AgateLib.DisplayLib
 			State.DrawInstances.SetCount(1);
 			State.DrawInstances[0] = new SurfaceDrawInstance(destPt, srcRect);
 
-			impl.Draw(State);
+			mImpl.Draw(State);
 
 			State.RotationCenterLocation = oldcenter;
 			State.RotationCenter = oldrotation;
@@ -539,10 +539,10 @@ namespace AgateLib.DisplayLib
 		/// <param name="state">The surface state information to use when drawing.</param>
 		public void Draw(SurfaceState state)
 		{
-			impl.Draw(state);
+			mImpl.Draw(state);
 		}
 
-		SurfaceState rectState;
+		SurfaceState mRectState;
 		/// <summary>
 		/// Draws a portion of this surface to the specified destination
 		/// rectangle.  
@@ -555,22 +555,22 @@ namespace AgateLib.DisplayLib
 		/// <param name="destRect">Destination rectangle in the render target to draw to.</param>
 		public void Draw(Rectangle srcRect, Rectangle destRect)
 		{
-			if (rectState == null)
-				rectState = State.Clone();
+			if (mRectState == null)
+				mRectState = State.Clone();
 			else
-				State.CopyTo(rectState, false);
+				State.CopyTo(mRectState, false);
 
-			rectState.RotationAngle = 0;
-			rectState.ScaleWidth = destRect.Width / (double)srcRect.Width;
-			rectState.ScaleHeight = destRect.Height / (double)srcRect.Height;
+			mRectState.RotationAngle = 0;
+			mRectState.ScaleWidth = destRect.Width / (double)srcRect.Width;
+			mRectState.ScaleHeight = destRect.Height / (double)srcRect.Height;
 
-			rectState.DrawInstances[0] = new SurfaceDrawInstance
+			mRectState.DrawInstances[0] = new SurfaceDrawInstance
 			{
 				SourceRect = srcRect,
 				DestLocation = new PointF(destRect.X, destRect.Y),
 			};
 
-			impl.Draw(rectState);
+			mImpl.Draw(mRectState);
 		}
 
 		/// <summary>
@@ -589,22 +589,22 @@ namespace AgateLib.DisplayLib
 
 		void Draw(RectangleF srcRect, RectangleF destRect)
 		{
-			if (rectState == null)
-				rectState = State.Clone();
+			if (mRectState == null)
+				mRectState = State.Clone();
 			else
-				State.CopyTo(rectState, false);
+				State.CopyTo(mRectState, false);
 
-			rectState.RotationAngle = 0;
-			rectState.ScaleWidth = destRect.Width / (double)srcRect.Width;
-			rectState.ScaleHeight = destRect.Height / (double)srcRect.Height;
+			mRectState.RotationAngle = 0;
+			mRectState.ScaleWidth = destRect.Width / (double)srcRect.Width;
+			mRectState.ScaleHeight = destRect.Height / (double)srcRect.Height;
 
-			rectState.DrawInstances[0] = new SurfaceDrawInstance
+			mRectState.DrawInstances[0] = new SurfaceDrawInstance
 			{
 				SourceRect = Rectangle.Round(srcRect),
 				DestLocation = new PointF(destRect.X, destRect.Y),
 			};
 
-			impl.Draw(rectState);
+			mImpl.Draw(mRectState);
 		}
 
 		/// <summary>
@@ -696,7 +696,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="format">Image format for the target file.</param>
 		public void SaveTo(string filename, ImageFileFormat format)
 		{
-			impl.SaveTo(filename, format);
+			mImpl.SaveTo(filename, format);
 		}
 
 		/// <summary>
@@ -709,7 +709,7 @@ namespace AgateLib.DisplayLib
 		/// <returns>A Surface object containing only those pixels copied.</returns>
 		public Surface CarveSubSurface(Rectangle srcRect)
 		{
-			SurfaceImpl newImpl = impl.CarveSubSurface(srcRect);
+			SurfaceImpl newImpl = mImpl.CarveSubSurface(srcRect);
 
 			return new Surface(newImpl);
 		}
@@ -721,7 +721,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="srcRect"></param>
 		internal void SetSourceSurface(Surface surf, Rectangle srcRect)
 		{
-			impl.SetSourceSurface(surf.impl, srcRect);
+			mImpl.SetSourceSurface(surf.mImpl, srcRect);
 		}
 
 		/// <summary>
@@ -742,7 +742,7 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public PixelBuffer ReadPixels(PixelFormat format)
 		{
-			return impl.ReadPixels(format);
+			return mImpl.ReadPixels(format);
 		}
 		/// <summary>
 		/// Returns a pixel buffer which contains a copy of the pixel data in the surface,
@@ -755,7 +755,7 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public PixelBuffer ReadPixels(PixelFormat format, Rectangle rect)
 		{
-			return impl.ReadPixels(format, rect);
+			return mImpl.ReadPixels(format, rect);
 		}
 
 		/// <summary>
@@ -769,7 +769,7 @@ namespace AgateLib.DisplayLib
 				throw new ArgumentException(
 					"PixelBuffer is not the correct size to write to entire surface!");
 
-			impl.WritePixels(buffer);
+			mImpl.WritePixels(buffer);
 		}
 		/// <summary>
 		/// Copies the data directly from PixelBuffer, overwriting a portion of the surface's 
@@ -785,7 +785,7 @@ namespace AgateLib.DisplayLib
 				throw new ArgumentException(
 					"PixelBuffer is too large!");
 
-			impl.WritePixels(buffer, startPoint);
+			mImpl.WritePixels(buffer, startPoint);
 		}
 		/// <summary>
 		/// Copies the data directly from the PixelBuffer to the surface, overwriting a portion
@@ -847,7 +847,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public SurfaceImpl Impl
 		{
-			get { return impl; }
+			get { return mImpl; }
 		}
 	}
 

@@ -63,22 +63,22 @@ namespace AgateLib.DisplayLib
 	{
 		#region --- Private Fields ---
 
-		private bool isFullScreen = false;
-		private Size size = new Size(1024, 768);
-		private WindowPosition position;
-		private int bpp = 32;
-		private bool isResizable = false;
+		private bool mIsFullScreen = false;
+		private Size mSize = new Size(1024, 768);
+		private WindowPosition mPosition;
+		private int mBpp = 32;
+		private bool mIsResizable = false;
 
-		private bool hasFrame = true;
-		private bool hasMaximize = false;
-		private bool hasMinimize = true;
+		private bool mHasFrame = true;
+		private bool mHasMaximize = false;
+		private bool mHasMinimize = true;
 
-		private string iconFile = "";
+		private string mIconFile = "";
 
-		private bool renderToControl = false;
-		private object renderTarget = null;
+		private bool mRenderToControl = false;
+		private object mRenderTarget = null;
 
-		private string title = "AgateLib Application";
+		private string mTitle = "AgateLib Application";
 
 		#endregion
 		#region --- Properties ---
@@ -88,48 +88,48 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public string Title
 		{
-			get { return title; }
-			set { title = value; }
+			get { return mTitle; }
+			set { mTitle = value; }
 		}
 		/// <summary>
 		/// Whether or not the window should be created as a full screen window.  Defaults to false.
 		/// </summary>
 		public bool IsFullScreen
 		{
-			get { return isFullScreen; }
-			set { isFullScreen = value; }
+			get { return mIsFullScreen; }
+			set { mIsFullScreen = value; }
 		}
 		/// <summary>
 		/// Size of the window.  Defaults to 1024x768.
 		/// </summary>
 		public Size Size
 		{
-			get { return size; }
-			set { size = value; }
+			get { return mSize; }
+			set { mSize = value; }
 		}
 		/// <summary>
 		/// Width of the window
 		/// </summary>
 		public int Width
 		{
-			get { return size.Width; }
-			set { size.Width = value; }
+			get { return mSize.Width; }
+			set { mSize.Width = value; }
 		}
 		/// <summary>
 		/// Height of the window
 		/// </summary>
 		public int Height
 		{
-			get { return size.Height; }
-			set { size.Height = value; }
+			get { return mSize.Height; }
+			set { mSize.Height = value; }
 		}
 		/// <summary>
 		/// Sets the initial position of the window.
 		/// </summary>
 		public WindowPosition WindowPosition
 		{
-			get { return position; }
-			set { position = value; }
+			get { return mPosition; }
+			set { mPosition = value; }
 		}
 
 
@@ -139,8 +139,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public int Bpp
 		{
-			get { return bpp; }
-			set { bpp = value; }
+			get { return mBpp; }
+			set { mBpp = value; }
 		}
 
 		/// <summary>
@@ -149,8 +149,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool IsResizable
 		{
-			get { return isResizable; }
-			set { isResizable = value; }
+			get { return mIsResizable; }
+			set { mIsResizable = value; }
 		}
 
 		/// <summary>
@@ -159,8 +159,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool HasFrame
 		{
-			get { return hasFrame; }
-			set { hasFrame = value; }
+			get { return mHasFrame; }
+			set { mHasFrame = value; }
 		}
 
 		/// <summary>
@@ -169,8 +169,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool HasMaximize
 		{
-			get { return hasMaximize; }
-			set { hasMaximize = value; }
+			get { return mHasMaximize; }
+			set { mHasMaximize = value; }
 		}
 
 		/// <summary>
@@ -178,8 +178,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool HasMinimize
 		{
-			get { return hasMinimize; }
-			set { hasMinimize = value; }
+			get { return mHasMinimize; }
+			set { mHasMinimize = value; }
 		}
 
 		/// <summary>
@@ -187,10 +187,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public string IconFile
 		{
-			get { return iconFile; }
+			get { return mIconFile; }
 			set
 			{
-				iconFile = value;
+				mIconFile = value;
 			}
 		}
 
@@ -200,8 +200,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool RenderToControl
 		{
-			get { return renderToControl; }
-			set { renderToControl = value; }
+			get { return mRenderToControl; }
+			set { mRenderToControl = value; }
 		}
 
 		/// <summary>
@@ -209,8 +209,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public object RenderTarget
 		{
-			get { return renderTarget; }
-			set { renderTarget = value; }
+			get { return mRenderTarget; }
+			set { mRenderTarget = value; }
 		}
 
 		#endregion
@@ -248,7 +248,7 @@ namespace AgateLib.DisplayLib
 			retval.Title = title;
 			retval.Width = width;
 			retval.Height = height;
-			retval.bpp = bpp;
+			retval.mBpp = bpp;
 
 			return retval;
 		}

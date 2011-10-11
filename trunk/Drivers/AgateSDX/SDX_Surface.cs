@@ -170,11 +170,14 @@ namespace AgateSDX
 
 			InitVerts();
 		}
-		public override void Dispose()
+		protected override void Dispose(bool disposing)
 		{
-			if (mTexture.IsDisposed == false)
+			if (disposing)
 			{
-				mTexture.Dispose();
+				if (mTexture.IsDisposed == false)
+				{
+					mTexture.Dispose();
+				}
 			}
 		}
 

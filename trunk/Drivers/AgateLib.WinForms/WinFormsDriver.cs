@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 
 namespace AgateLib.WinForms
 {
@@ -35,7 +36,7 @@ namespace AgateLib.WinForms
 
 		public void ShowErrorDialog(string message, Exception e, ErrorLevel level)
 		{
-			System.Windows.Forms.MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.OK;
+			const MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.OK;
 			System.Windows.Forms.MessageBoxIcon icon = System.Windows.Forms.MessageBoxIcon.Asterisk;
 
 			switch (level)

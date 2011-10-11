@@ -608,30 +608,30 @@ namespace AgateLib.DisplayLib
 
 			if (this.PixelStride == 4)
 			{
-				int A = clr.A;
-				int R = clr.R;
-				int G = clr.G;
-				int B = clr.B;
+				int a = clr.A;
+				int r = clr.R;
+				int g = clr.G;
+				int b = clr.B;
 
 				switch (PixelFormat)
 				{
 					case PixelFormat.ARGB8888:
-						SetARGB8(A, R, G, B, Data,
+						SetARGB8(a, r, g, b, Data,
 							index, index + 1, index + 2, index + 3);
 						break;
 
 					case PixelFormat.ABGR8888:
-						SetARGB8(A, R, G, B, Data,
+						SetARGB8(a, r, g, b, Data,
 							index, index + 3, index + 2, index + 1);
 						break;
 
 					case PixelFormat.BGRA8888:
-						SetARGB8(A, R, G, B, Data,
+						SetARGB8(a, r, g, b, Data,
 							index + 3, index + 2, index + 1, index);
 						break;
 
 					case PixelFormat.RGBA8888:
-						SetARGB8(A, R, G, B, Data,
+						SetARGB8(a, r, g, b, Data,
 							index + 3, index, index + 1, index + 2);
 						break;
 
@@ -755,11 +755,11 @@ namespace AgateLib.DisplayLib
 		/// data in this PixelBuffer copied to the upper left corner.
 		/// </summary>
 		/// <param name="pixelFormat">PixelFormat that the newly created PixelBuffer should have.</param>
-		/// <param name="mTextureSize"></param>
+		/// <param name="textureSize"></param>
 		/// <returns></returns>
-		public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size mTextureSize)
+		public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size textureSize)
 		{
-			return ConvertTo(pixelFormat, mTextureSize, Point.Empty);
+			return ConvertTo(pixelFormat, textureSize, Point.Empty);
 		}
 
 		/// <summary>
@@ -768,12 +768,12 @@ namespace AgateLib.DisplayLib
 		/// is specified by point.
 		/// </summary>
 		/// <param name="pixelFormat">PixelFormat that the newly created PixelBuffer should have.</param>
-		/// <param name="mTextureSize"></param>
+		/// <param name="textureSize"></param>
 		/// <param name="point"></param>
 		/// <returns></returns>
-		public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size mTextureSize, Point point)
+		public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size textureSize, Point point)
 		{
-			PixelBuffer retval = new PixelBuffer(pixelFormat, mTextureSize);
+			var retval = new PixelBuffer(pixelFormat, textureSize);
 
 			for (int y = 0; y < Height; y++)
 			{
@@ -859,11 +859,11 @@ namespace AgateLib.DisplayLib
 			//    return;
 			//}
 
-			double A, R, G, B;
+			double a, r, g, b;
 
-			GetSourcePixelAttributes(src, srcIndex, srcFormat, out A, out R, out G, out B);
+			GetSourcePixelAttributes(src, srcIndex, srcFormat, out a, out r, out g, out b);
 
-			SetDestPixelAttributes(dest, destIndex, destFormat, A, R, G, B);
+			SetDestPixelAttributes(dest, destIndex, destFormat, a, r, g, b);
 		}
 
 		/// <summary>
@@ -972,33 +972,33 @@ namespace AgateLib.DisplayLib
 
 
 		private static void GetSourcePixelAttributes(byte[] src, int srcIndex, PixelFormat srcFormat,
-			out double A, out double R, out double G, out double B)
+			out double a, out double r, out double g, out double b)
 		{
 			switch (srcFormat)
 			{
 				case PixelFormat.ARGB8888:
-					GetARGB8(out A, out R, out G, out B, src, srcIndex, srcIndex + 1, srcIndex + 2, srcIndex + 3);
+					GetARGB8(out a, out r, out g, out b, src, srcIndex, srcIndex + 1, srcIndex + 2, srcIndex + 3);
 					break;
 				case PixelFormat.ABGR8888:
-					GetARGB8(out A, out R, out G, out B, src, srcIndex, srcIndex + 3, srcIndex + 2, srcIndex + 1);
+					GetARGB8(out a, out r, out g, out b, src, srcIndex, srcIndex + 3, srcIndex + 2, srcIndex + 1);
 					break;
 
 				case PixelFormat.RGBA8888:
-					GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex, srcIndex + 1, srcIndex + 2);
+					GetARGB8(out a, out r, out g, out b, src, srcIndex + 3, srcIndex, srcIndex + 1, srcIndex + 2);
 					break;
 
 				case PixelFormat.BGRA8888:
-					GetARGB8(out A, out R, out G, out B, src, srcIndex + 3, srcIndex + 2, srcIndex + 1, srcIndex);
+					GetARGB8(out a, out r, out g, out b, src, srcIndex + 3, srcIndex + 2, srcIndex + 1, srcIndex);
 					break;
 
 				case PixelFormat.XRGB8888:
-					GetARGB8(out A, out R, out G, out B, src, srcIndex, srcIndex + 1, srcIndex + 2, srcIndex + 3);
-					A = 1.0;
+					GetARGB8(out a, out r, out g, out b, src, srcIndex, srcIndex + 1, srcIndex + 2, srcIndex + 3);
+					a = 1.0;
 					break;
 
 				case PixelFormat.XBGR8888:
-					GetARGB8(out A, out R, out G, out B, src, srcIndex, srcIndex + 3, srcIndex + 2, srcIndex + 1);
-					A = 1.0;
+					GetARGB8(out a, out r, out g, out b, src, srcIndex, srcIndex + 3, srcIndex + 2, srcIndex + 1);
+					a = 1.0;
 					break;
 
 
@@ -1010,31 +1010,31 @@ namespace AgateLib.DisplayLib
 
 		}
 
-		private static void SetARGB8(int A, int R, int G, int B,
-			byte[] dest, int Aindex, int Rindex, int Gindex, int Bindex)
+		private static void SetARGB8(int a, int r, int g, int b,
+			byte[] dest, int aindex, int rindex, int gindex, int bindex)
 		{
-			dest[Aindex] = (byte)A;
-			dest[Rindex] = (byte)R;
-			dest[Gindex] = (byte)G;
-			dest[Bindex] = (byte)B;
+			dest[aindex] = (byte)a;
+			dest[rindex] = (byte)r;
+			dest[gindex] = (byte)g;
+			dest[bindex] = (byte)b;
 		}
 
-		private static void SetARGB8(double A, double R, double G, double B,
-			byte[] dest, int Aindex, int Rindex, int Gindex, int Bindex)
+		private static void SetARGB8(double a, double r, double g, double b,
+			byte[] dest, int aindex, int rindex, int gindex, int bindex)
 		{
-			dest[Aindex] = (byte)(A * 255.0 + 0.5);
-			dest[Rindex] = (byte)(R * 255.0 + 0.5);
-			dest[Gindex] = (byte)(G * 255.0 + 0.5);
-			dest[Bindex] = (byte)(B * 255.0 + 0.5);
+			dest[aindex] = (byte)(a * 255.0 + 0.5);
+			dest[rindex] = (byte)(r * 255.0 + 0.5);
+			dest[gindex] = (byte)(g * 255.0 + 0.5);
+			dest[bindex] = (byte)(b * 255.0 + 0.5);
 		}
 
-		private static void GetARGB8(out double A, out double R, out double G, out double B,
-			byte[] src, int Aindex, int Rindex, int Gindex, int Bindex)
+		private static void GetARGB8(out double a, out double r, out double g, out double b,
+			byte[] src, int aindex, int rindex, int gindex, int bindex)
 		{
-			A = src[Aindex] / 255.0;
-			R = src[Rindex] / 255.0;
-			G = src[Gindex] / 255.0;
-			B = src[Bindex] / 255.0;
+			a = src[aindex] / 255.0;
+			r = src[rindex] / 255.0;
+			g = src[gindex] / 255.0;
+			b = src[bindex] / 255.0;
 		}
 
 		#endregion

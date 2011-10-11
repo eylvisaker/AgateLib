@@ -63,14 +63,13 @@ namespace AgateLib.Meshes.Loaders.Obj
 
 			while (line != null)
 			{
-				List<object> currLine = null;
 				List<String> tokens = tokenizeLine(line);
 
 				if (tokens.Count > 0 && mParseTable.ContainsKey(tokens[0]))
 				{
 					String type = tokens[0];
 					tokens.RemoveAt(0);
-					currLine = mParseTable[type](tokens);
+					List<object> currLine = mParseTable[type](tokens);
 					fileRepresentation.Add(currLine);
 				}
 				line = sr.ReadLine();
@@ -212,7 +211,7 @@ namespace AgateLib.Meshes.Loaders.Obj
 
 		// this is here solely to hide the toThis.toThat LINQ wordiness
 		//
-		private static List<object> convertToObjectList<T>(T[] input)
+		private static List<object> convertToObjectList<T>(IEnumerable<T> input)
 		{
 			return input.ToList().Cast<object>().ToList();
 		}

@@ -176,11 +176,9 @@ namespace AgateLib.Utility
 		}
 		private void ReadHeaders()
 		{
-			FileHeader header;
-
 			do
 			{
-				header = new FileHeader();
+				FileHeader header = new FileHeader();
 
 				int magic = reader.ReadInt32();
 				if (magic == 0x04034B50)
@@ -218,7 +216,7 @@ namespace AgateLib.Utility
 			byte[] extra = reader.ReadBytes(extra_len);
 
 			header = new FileHeader();
-			header.Filename = ASCIIEncoding.ASCII.GetString(name);
+			header.Filename = Encoding.ASCII.GetString(name);
 			header.DataOffset = reader.BaseStream.Position;
 			header.DataSize = size;
 

@@ -32,7 +32,7 @@ namespace AgateLib.DisplayLib.Shaders.Implementation
 		/// <summary>
 		/// Constructs a Lighting3DImpl object.
 		/// </summary>
-		public Lighting3DImpl()
+		protected Lighting3DImpl()
 		{
 			AmbientLight = Color.White;
 			EnableLighting = true;

@@ -892,7 +892,7 @@ namespace AgateLib.Serialization.Formatters.Xml
 			{
 				// if so, get the type
 				string actualTypeName = reader.GetAttribute("type");
-				isArray = string.IsNullOrEmpty(reader.GetAttribute("isArray")) ? false : true;
+				isArray = !string.IsNullOrEmpty(reader.GetAttribute("isArray"));
 
 				int.TryParse(reader.GetAttribute("id"), out id);
 
@@ -985,12 +985,10 @@ namespace AgateLib.Serialization.Formatters.Xml
 				// read the key value pairs
 				while (reader.IsStartElement())
 				{
-					string typename;
-
 					if (reader.Name != "Key")
 						throw new SerializationException("Expected Key node, but found " + reader.Name + ".");
 
-					typename = reader.GetAttribute("type");
+					string typename = reader.GetAttribute("type");
 					object key = DetermineValue(reader, converter, Binder.BindToType("", typename));
 
 					reader.ReadEndElement();
@@ -1061,7 +1059,7 @@ namespace AgateLib.Serialization.Formatters.Xml
 					while (reader.IsStartElement())
 					{
 						// check to see if this member is null
-						bool isNull = string.IsNullOrEmpty(reader.GetAttribute("null")) ? false : true;
+						bool isNull = !string.IsNullOrEmpty(reader.GetAttribute("null"));
 
 						if (isNull)
 						{
@@ -1330,7 +1328,7 @@ namespace AgateLib.Serialization.Formatters.Xml
 			ArrayList list = new ArrayList();
 			List<SetArrayIndexCallback> fieldSet = new List<SetArrayIndexCallback>();
 
-			bool isNullArray = string.IsNullOrEmpty(reader.GetAttribute("null")) ? false : true;
+			bool isNullArray = !string.IsNullOrEmpty(reader.GetAttribute("null"));
 			bool isEmptyArray = reader.IsEmptyElement;
 
 			if (isNullArray)
@@ -1364,7 +1362,7 @@ namespace AgateLib.Serialization.Formatters.Xml
 
 			while (reader.IsStartElement())
 			{
-				bool isNull = string.IsNullOrEmpty(reader.GetAttribute("null")) ? false : true;
+				bool isNull = !string.IsNullOrEmpty(reader.GetAttribute("null"));
 
 				if (isNull)
 				{
@@ -1505,7 +1503,7 @@ namespace AgateLib.Serialization.Formatters.Xml
 
 				// determine type
 				string typeName = reader.GetAttribute("type");
-				bool isArray = string.IsNullOrEmpty(reader.GetAttribute("isArray")) ? false : true;
+				bool isArray = !string.IsNullOrEmpty(reader.GetAttribute("isArray"));
 
 				// If type is found in attribute, get the System.Type by using the Binder.
 				if (typeName != null)

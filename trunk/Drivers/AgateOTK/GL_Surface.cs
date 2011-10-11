@@ -166,7 +166,7 @@ namespace AgateOTK
 
 			mTextureID = 0;
 		}
-		public override void Dispose()
+		protected override void Dispose(bool disposing)
 		{
 			ReleaseTextureRef();
 		}

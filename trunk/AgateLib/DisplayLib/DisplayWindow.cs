@@ -36,8 +36,8 @@ namespace AgateLib.DisplayLib
 	/// </remarks>
 	public sealed class DisplayWindow : IDisposable
 	{
-		DisplayWindowImpl impl;
-		FrameBuffer frameBuffer;
+		DisplayWindowImpl mImpl;
+		FrameBuffer mFrameBuffer;
 
 		/// <summary>
 		/// Constructs a DisplayWindow from a resource.
@@ -58,14 +58,14 @@ namespace AgateLib.DisplayLib
 				CreateWindowParams par = CreateWindowParams.FullScreen(
 					disp.Title, disp.Size.Width, disp.Size.Height, disp.Bpp);
 
-				impl = Display.Impl.CreateDisplayWindow(par);
+				mImpl = Display.Impl.CreateDisplayWindow(par);
 			}
 			else
 			{
 				CreateWindowParams par = CreateWindowParams.Windowed(
 					disp.Title, disp.Size.Width, disp.Size.Height, disp.AllowResize, null);
 
-				impl = Display.Impl.CreateDisplayWindow(par);
+				mImpl = Display.Impl.CreateDisplayWindow(par);
 			}
 
 			Display.RenderTarget = FrameBuffer;
@@ -83,7 +83,7 @@ namespace AgateLib.DisplayLib
 					"Display has not been initialized." + Environment.NewLine +
 					"Did you forget to call AgateSetup.Initialize or Display.Initialize?");
 
-			impl = Display.Impl.CreateDisplayWindow(windowParams);
+			mImpl = Display.Impl.CreateDisplayWindow(windowParams);
 
 			Display.RenderTarget = FrameBuffer;
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
@@ -179,12 +179,12 @@ namespace AgateLib.DisplayLib
 		{
 			get 
 			{
-				if (frameBuffer == null || frameBuffer.Impl != Impl.FrameBuffer)
+				if (mFrameBuffer == null || mFrameBuffer.Impl != Impl.FrameBuffer)
 				{
-					frameBuffer = new FrameBuffer(Impl.FrameBuffer);
+					mFrameBuffer = new FrameBuffer(Impl.FrameBuffer);
 				}
 
-				return frameBuffer;
+				return mFrameBuffer;
 			}
 		}
 
@@ -204,10 +204,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public void Dispose()
 		{
-			if (impl != null)
+			if (mImpl != null)
 			{
-				impl.Dispose();
-				impl = null;
+				mImpl.Dispose();
+				mImpl = null;
 			}
 		}
 		/// <summary>
@@ -219,10 +219,10 @@ namespace AgateLib.DisplayLib
 		{
 			get
 			{
-				if (impl == null)
+				if (mImpl == null)
 					return true;
 
-				return impl.IsClosed;
+				return mImpl.IsClosed;
 			}
 		}
 
@@ -231,8 +231,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public Size Size
 		{
-			get { return impl.Size; }
-			set { impl.Size = value; }
+			get { return mImpl.Size; }
+			set { mImpl.Size = value; }
 		}
 		/// <summary>
 		/// Gets or sets the width of the client area in pixels.
@@ -263,10 +263,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public Point MousePosition
 		{
-			get { return impl.MousePosition; }
+			get { return mImpl.MousePosition; }
 			set
 			{
-				impl.MousePosition = value;
+				mImpl.MousePosition = value;
 			}
 		}
 		/// <summary>
@@ -274,7 +274,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public DisplayWindowImpl Impl
 		{
-			get { return impl; }
+			get { return mImpl; }
 		}
 
 		/// <summary>
@@ -282,8 +282,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public string Title
 		{
-			get { return impl.Title; }
-			set { impl.Title = value; }
+			get { return mImpl.Title; }
+			set { mImpl.Title = value; }
 		}
 
 		/// <summary>
@@ -291,7 +291,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public bool IsFullScreen
 		{
-			get { return impl.IsFullScreen; }
+			get { return mImpl.IsFullScreen; }
 		}
 		/// <summary>
 		/// Sets the display to windowed.  Does nothing if the display is already
@@ -300,7 +300,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public void SetWindowed()
 		{
-			impl.SetWindowed();
+			mImpl.SetWindowed();
 		}
 
 		/// <summary>
@@ -314,7 +314,7 @@ namespace AgateLib.DisplayLib
 		/// </remarks>
 		public void SetFullScreen()
 		{
-			impl.SetFullScreen();
+			mImpl.SetFullScreen();
 		}
 		/// <summary>
 		/// Sets the display to a full screen Display.  The resolution chosen is 
@@ -331,7 +331,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="bpp"></param>
 		public void SetFullScreen(int width, int height, int bpp)
 		{
-			impl.SetFullScreen(width, height, bpp);
+			mImpl.SetFullScreen(width, height, bpp);
 		}
 
 		/// <summary>

@@ -143,7 +143,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Draws the surface using the specified state object.
 		/// </summary>
-		/// <param name="State"></param>
-		void Draw(SurfaceState State);
+		/// <param name="state"></param>
+		void Draw(SurfaceState state);
 	}
 }

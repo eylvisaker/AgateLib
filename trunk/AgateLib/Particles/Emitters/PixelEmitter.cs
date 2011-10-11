@@ -31,12 +31,12 @@ namespace AgateLib.Particles
 	/// </summary>
 	public class PixelEmitter : ParticleEmitter
 	{
-		private Color mEmitColor = Color.White;		
-		
+		private Color mEmitColor = Color.White;
+
 		private float time = 0f;
-		
+
 		private Surface mSurface;
-		
+
 		/// <value>
 		/// Gets or sets the emit color.
 		/// </value>
@@ -44,8 +44,8 @@ namespace AgateLib.Particles
 		{
 			get { return mEmitColor; }
 			set { mEmitColor = value; }
-		}		
-		
+		}
+
 		/// <value>
 		/// Gets or sets the pixel size.
 		/// </value>
@@ -54,7 +54,7 @@ namespace AgateLib.Particles
 			get { return mSurface.DisplaySize; }
 			set { mSurface = new Surface(FillSurface(value, Color.White)); }
 		}
-		
+
 		/// <summary>
 		/// Constructs a pixel particle emitter.
 		/// </summary>
@@ -64,45 +64,46 @@ namespace AgateLib.Particles
 		{
 			Position = position;
 			mEmitColor = color;
-			mSurface = new Surface(FillSurface(new Size(1,1), Color.White));
+			mSurface = new Surface(FillSurface(new Size(1, 1), Color.White));
 		}
-		
+
 		private static PixelBuffer FillSurface(Size size, Color color)
 		{
 			PixelBuffer pb = new PixelBuffer(PixelFormat.ARGB8888, size);
-			int ii = 0;
-			for(int i = 0; i < pb.Width; i++)
+			for (int i = 0; i < pb.Width; i++)
 			{
-				for(ii = 0;ii <pb.Height; ii++)
+				for (int ii = 0; ii < pb.Height; ii++)
 				{
 					pb.SetPixel(i, ii, color);
 				}
 			}
 			return pb;
 		}
-		
+
 		/// <summary>
 		/// Constructs a pixel particle emitter.
 		/// </summary>
 		/// <param name="position"></param>
 		/// <param name="color"></param>
 		/// <param name="emitLife"></param>
-		public PixelEmitter(Vector2 position, Color color, float emitLife) : this(position, color)
+		public PixelEmitter(Vector2 position, Color color, float emitLife)
+			: this(position, color)
 		{
 			base.EmitLife = emitLife;
 		}
-		
+
 		/// <summary>
 		/// Constructs a pixel particle emitter.
 		/// </summary>
 		/// <param name="position">Position of the emitter.</param>
 		/// <param name="color">Emit color.</param>
 		/// <param name="maxParticles">Maximum amount of particles.</param>
-		public PixelEmitter(Vector2 position, Color color, int maxParticles) : this(position, color)
+		public PixelEmitter(Vector2 position, Color color, int maxParticles)
+			: this(position, color)
 		{
 			Particles = new List<Particle>(maxParticles);
 		}
-		
+
 		/// <summary>
 		/// Constructs a pixel particle emitter.
 		/// </summary>
@@ -110,27 +111,28 @@ namespace AgateLib.Particles
 		/// <param name="color"></param>
 		/// <param name="maxParticles"></param>
 		/// <param name="emitLife"></param>
-		public PixelEmitter(Vector2 position, Color color, int maxParticles, float emitLife) : this(position, color, maxParticles)
+		public PixelEmitter(Vector2 position, Color color, int maxParticles, float emitLife)
+			: this(position, color, maxParticles)
 		{
 			base.EmitLife = emitLife;
 		}
-		
+
 		/// <summary>s
 		/// Overridden Draw method.
 		/// Draws each living particle.
 		/// </summary>
-		public override void Draw ()
+		public override void Draw()
 		{
-			foreach(PixelParticle ptl in Particles)
+			foreach (PixelParticle ptl in Particles)
 			{
-				if(ptl.Condition == Condition.Alive || ptl.Condition == Condition.Frozen)
+				if (ptl.Condition == Condition.Alive || ptl.Condition == Condition.Frozen)
 				{
 					mSurface.Color = ptl.Color;
 					mSurface.Draw(ptl.Position);
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Overridden Update mehtod.
 		/// Emits particles based on the frequency property.
@@ -138,12 +140,12 @@ namespace AgateLib.Particles
 		/// Calls particle manipulators to manipulate particles.
 		/// </summary>
 		/// <param name="time_ms">Time in milliseconds.</param>
-		public override void Update (double time_ms)
+		public override void Update(double time_ms)
 		{
 			time += (float)time_ms;
-			float frequency = EmitFrequency*1000;
-			
-			while(time >= frequency)
+			float frequency = EmitFrequency * 1000;
+
+			while (time >= frequency)
 			{
 				//int index = Particles.IndexOf(Particles.FirstOrDefault(pt => pt.IsAlive == false));
 				int index = -1;
@@ -156,7 +158,7 @@ namespace AgateLib.Particles
 					}
 				}
 
-				if(index > -1)
+				if (index > -1)
 				{
 					// Recycle a dead particle
 					Particles[index].Acceleration = EmitAcceleration;
@@ -167,7 +169,7 @@ namespace AgateLib.Particles
 					Particles[index].Velocity = EmitVelocity;
 					NewRecyledParticle(Particles[index]);
 				}
-				else if(Particles.Count < Particles.Capacity)
+				else if (Particles.Count < Particles.Capacity)
 				{
 					// Add a new particle
 					PixelParticle pp = new PixelParticle(EmitColor);
@@ -186,12 +188,12 @@ namespace AgateLib.Particles
 					time = 0;
 					break;
 				}
-				
+
 				time -= frequency;
 			}
-			
+
 			// updates own position, particle positions and calls manipulators
-			base.Update (time_ms);
+			base.Update(time_ms);
 		}
 	}
 }

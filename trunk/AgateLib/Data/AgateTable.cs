@@ -87,13 +87,13 @@ namespace AgateLib.Data
 			return b.ToString();
 		}
 
-		static readonly char[] lineSplitChars = new char[] { '\n', '\r' };
+		static readonly char[] LineSplitChars = new char[] { '\n', '\r' };
 
 		private List<AgateRow> ReadRows(string rows)
 		{
 			List<AgateRow> retval = new List<AgateRow>();
 
-			string[] lines = rows.Split(lineSplitChars, StringSplitOptions.RemoveEmptyEntries);
+			string[] lines = rows.Split(LineSplitChars, StringSplitOptions.RemoveEmptyEntries);
 
 			foreach (string line in lines)
 			{

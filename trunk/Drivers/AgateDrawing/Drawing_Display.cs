@@ -132,12 +132,12 @@ namespace AgateDrawing
 
 			mGraphics.Clear(Interop.Convert(color));
 		}
-		public override void Clear(Geometry.Color color, Geometry.Rectangle dest_rect)
+		public override void Clear(Geometry.Color color, Geometry.Rectangle destRect)
 		{
 			CheckInFrame("Clear");
 
 			mGraphics.FillRectangle(
-				new SolidBrush(Interop.Convert(color)), Interop.Convert(dest_rect));
+				new SolidBrush(Interop.Convert(color)), Interop.Convert(destRect));
 		}
 
 		public override void DrawLine(Geometry.Point a, Geometry.Point b, Geometry.Color color)
@@ -208,6 +208,7 @@ namespace AgateDrawing
 
 		protected override void OnBeginFrame()
 		{
+			mInFrame = true;
 			mGraphics = Graphics.FromImage(mRenderTarget.BackBufferBitmap);
 			SetAlphaBlend();
 		}
@@ -218,6 +219,7 @@ namespace AgateDrawing
 
 			Drawing_FrameBuffer renderTarget = RenderTarget.Impl as Drawing_FrameBuffer;
 			renderTarget.EndRender();
+			mInFrame = false;
 
 		}
 		#endregion
@@ -256,9 +258,9 @@ namespace AgateDrawing
 		{
 		}
 
-		protected override AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
+		protected override AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType)
 		{
-			switch (BuiltInShaderType)
+			switch (builtInShaderType)
 			{
 				case AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader.Basic2DShader:
 					return new AgateDrawing.DrawingBasic2DShader();

@@ -98,13 +98,13 @@ namespace AgateLib.Data
 	[global::System.AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = true)]
 	sealed class DataTypeAttribute : Attribute
 	{
-		readonly Type dataType;
+		readonly Type mDataType;
 
 		public DataTypeAttribute(Type dataType)
 		{
-			this.dataType = dataType;
+			this.mDataType = dataType;
 		}
 
-		public Type DataType { get { return dataType; } }
+		public Type DataType { get { return mDataType; } }
 	}
 }

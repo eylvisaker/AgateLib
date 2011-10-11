@@ -194,7 +194,7 @@ namespace AgateLib.BitmapFont
 			if (string.IsNullOrEmpty(text))
 				return Size.Empty;
 
-			int CRcount = 0;
+			int carriageReturnCount = 0;
 			int i = 0;
 			double highestLineWidth = 0;
 
@@ -226,15 +226,15 @@ namespace AgateLib.BitmapFont
 				if (i == -1)
 					break;
 
-				CRcount++;
+				carriageReturnCount++;
 
 			} while (i != -1);
 
 			if (text[text.Length - 1] == '\n')
-				CRcount--;
+				carriageReturnCount--;
 
 			return new Size((int)Math.Ceiling(highestLineWidth * state.ScaleWidth),
-				(int)(mCharHeight * (CRcount + 1) * state.ScaleHeight));
+				(int)(mCharHeight * (carriageReturnCount + 1) * state.ScaleHeight));
 		}
 
 		/// <summary>
