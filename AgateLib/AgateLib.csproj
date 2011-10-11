@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -156,6 +156,7 @@
     <Compile Include="Data\AgateTableDictionary.cs" />
     <Compile Include="DisplayLib\FrameBuffer.cs" />
     <Compile Include="DisplayLib\Shaders\AgateBuiltInShaders.cs" />
+    <Compile Include="DisplayLib\Shaders\AgateShaderCompileException.cs" />
     <Compile Include="DisplayLib\Shaders\Basic2DShader.cs" />
     <Compile Include="DisplayLib\Shaders\AgateShader.cs" />
     <Compile Include="DisplayLib\Shaders\Implementation\AgateInternalShader.cs" />
@@ -267,9 +268,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\Cache\SurfaceStateCache.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayLib\Shaders\Implementation\AgateShaderCompileError.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\Shaders\Implementation\Effect.cs">

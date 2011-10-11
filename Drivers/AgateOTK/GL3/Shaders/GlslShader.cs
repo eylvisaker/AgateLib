@@ -65,9 +65,8 @@ namespace AgateOTK.GL3.Shaders
 				int length;
 				int size;
 				ActiveAttribType type;
-				string name;
 				GL.GetActiveAttrib(programHandle, i, 1000, out length, out size, out type, b);
-				name = b.ToString();
+				string name = b.ToString();
 
 				int loc = GL.GetAttribLocation(programHandle, name);
 
@@ -99,9 +98,8 @@ namespace AgateOTK.GL3.Shaders
 				int length;
 				int size;
 				ActiveUniformType type;
-				string name;
 				GL.GetActiveUniform(programHandle, i, 1000, out length, out size, out type, b);
-				name = b.ToString();
+				string name = b.ToString();
 
 				// Apparently OpenGL reports not just user uniforms, but also built-in uniforms
 				// that are determined "active" and accessible in program execution.  Built-in uniforms

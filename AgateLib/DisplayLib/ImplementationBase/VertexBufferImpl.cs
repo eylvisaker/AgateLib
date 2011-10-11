@@ -33,7 +33,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <summary>
 		/// Constructs a vertex buffer implementation.
 		/// </summary>
-		public VertexBufferImpl()
+		protected VertexBufferImpl()
 		{
 			Textures = new TextureList();
 		}

@@ -42,13 +42,33 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <summary>
 		/// Constructs a SurfaceImpl object.
 		/// </summary>
-		public SurfaceImpl()
+		protected SurfaceImpl()
 		{
 		}
 		/// <summary>
+		/// Finalizes a SurfaceImpl object
+		/// </summary>
+		~SurfaceImpl()
+		{
+			Dispose(false);
+		}
+
+		/// <summary>
 		/// Frees unmanaged resources.
 		/// </summary>
-		public abstract void Dispose();
+		public void Dispose()
+		{
+			Dispose(true);
+
+			mIsDisposed = true;
+			GC.SuppressFinalize(this);
+		}
+
+		/// <summary>
+		/// Implemented by deriving classes to clean up unmanaged resources.
+		/// </summary>
+		/// <param name="disposing"></param>
+		protected abstract void Dispose(bool disposing);
 
 		#endregion
 

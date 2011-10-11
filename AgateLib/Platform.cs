@@ -288,8 +288,8 @@ namespace AgateLib
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 			public string machine;
 
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
-			public string extraJustInCase;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)] 
+			private string extraJustInCase;
 
 		}
 

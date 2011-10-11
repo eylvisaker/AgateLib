@@ -261,9 +261,9 @@ namespace AgateSDX
 
 		#region --- Creation of objects ---
 
-		protected override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
+		protected override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType)
 		{
-			return Shaders.ShaderFactory.CreateBuiltInShader(BuiltInShaderType);
+			return Shaders.ShaderFactory.CreateBuiltInShader(builtInShaderType);
 		}
 		public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
 		{
@@ -408,12 +408,12 @@ namespace AgateSDX
 			//device.Clear(ClearFlags.ZBuffer, color.ToArgb(), 1.0f, 0, rect);
 
 		}
-		public override void Clear(Color color, Rectangle rect)
+		public override void Clear(Color color, Rectangle destRect)
 		{
 			mDevice.DrawBuffer.Flush();
 
 			System.Drawing.Rectangle[] rects = new System.Drawing.Rectangle[1];
-			rects[0] = Interop.Convert(rect);
+			rects[0] = Interop.Convert(destRect);
 
 			mDevice.Clear(ClearFlags, color.ToArgb(), mDepthClear, mStencilClear, rects);
 		}
@@ -711,7 +711,7 @@ namespace AgateSDX
 			return modes.ToArray();
 		}
 
-		private static void ConvertDisplayModesToScreenModes(List<ScreenMode> modes, DisplayModeCollection dxmodes)
+		private static void ConvertDisplayModesToScreenModes(List<ScreenMode> modes, IEnumerable<DisplayMode> dxmodes)
 		{
 			foreach (DisplayMode mode in dxmodes)
 			{

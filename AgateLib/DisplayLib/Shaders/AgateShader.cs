@@ -30,7 +30,7 @@ namespace AgateLib.DisplayLib.Shaders
 	/// </summary>
 	public class AgateShader
 	{
-		AgateShaderImpl impl;
+		AgateShaderImpl mImpl;
 
 		/// <summary>
 		/// Sets the implementation.  If the implementation is already set, then
@@ -39,10 +39,10 @@ namespace AgateLib.DisplayLib.Shaders
 		/// <param name="impl"></param>
 		protected internal void SetImpl(AgateShaderImpl impl)
 		{
-			if (this.impl != null)
+			if (this.mImpl != null)
 				throw new InvalidOperationException("Cannot set impl on an object which already has one.");
 
-			this.impl = impl;
+			this.mImpl = impl;
 		}
 
 		/// <summary>
@@ -50,23 +50,23 @@ namespace AgateLib.DisplayLib.Shaders
 		/// </summary>
 		public AgateShaderImpl Impl
 		{
-			get { return impl; }
+			get { return mImpl; }
 		}
 		/// <summary>
 		/// Returns true if this shader has an implementation.
 		/// </summary>
 		public bool IsValid
 		{
-			get { return impl != null; }
+			get { return mImpl != null; }
 		}
 
 		internal void BeginInternal()
 		{
-			impl.Begin();
+			mImpl.Begin();
 		}
 		internal void EndInternal()
 		{
-			impl.End();
+			mImpl.End();
 		}
 
 		/// <summary>

@@ -236,7 +236,7 @@ namespace AgateLib.WinForms
 				new Drawing.Rectangle(Drawing.Point.Empty, bmp.Size),
 				Drawing.Imaging.ImageLockMode.ReadWrite, Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-			PixelFormat bitmapFormat = PixelFormat.BGRA8888;
+			const PixelFormat bitmapFormat = PixelFormat.BGRA8888;
 
 			PixelBuffer buffer = new PixelBuffer(bitmapFormat, Interop.Convert(bmp.Size),
 				data.Scan0, bitmapFormat, data.Stride);

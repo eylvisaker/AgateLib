@@ -72,5 +72,5 @@ namespace AgateLib.DisplayLib.Shaders
 		Texture3,
 	}
 
-	public delegate void RenderHandler<T>(T obj);
+	public delegate void RenderHandler<in T>(T obj);
 }

@@ -124,7 +124,7 @@ namespace AgateLib
 		/// Constructs a Setup object.
 		/// </summary>
 		/// <param name="args">Command line arguments to the program.</param>        
-		public AgateSetup(string[] args)
+		public AgateSetup(IEnumerable<string> args)
 			: this("AgateLib", args)
 		{
 		}
@@ -133,7 +133,7 @@ namespace AgateLib
 		/// </summary>
 		/// <param name="title"></param>
 		/// <param name="args">Command line arguments to the program.</param>
-		public AgateSetup(string title, string[] args)
+		public AgateSetup(string title, IEnumerable<string> args)
 		{
 			if (sCreatedSetup != null)
 			{

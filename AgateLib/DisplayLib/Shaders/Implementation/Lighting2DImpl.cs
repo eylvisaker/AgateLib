@@ -32,7 +32,7 @@ namespace AgateLib.DisplayLib.Shaders.Implementation
 		/// <summary>
 		/// Constructs a Lighting2DImpl object.
 		/// </summary>
-		public Lighting2DImpl()
+		protected Lighting2DImpl()
 		{
 			Lights = new List<Light>();
 		}

@@ -44,7 +44,7 @@ namespace AgateLib.AudioLib
 	public sealed class SoundBuffer
 	{
 		private string mFilename;
-		private SoundBufferImpl impl;
+		private SoundBufferImpl mImpl;
 		private double mVolume = 1.0;
 		private double mPan = 0;
 		private bool mIsDisposed = false;
@@ -76,7 +76,7 @@ namespace AgateLib.AudioLib
 		{
 			using (System.IO.Stream s = fileProvider.OpenRead(filename))
 			{
-				impl = Audio.Impl.CreateSoundBuffer(s);
+				mImpl = Audio.Impl.CreateSoundBuffer(s);
 			}
 
 			mFilename = filename;
@@ -88,7 +88,7 @@ namespace AgateLib.AudioLib
 		/// <param name="source"></param>
 		public SoundBuffer(Stream source)
 		{
-			impl = Audio.Impl.CreateSoundBuffer(source);
+			mImpl = Audio.Impl.CreateSoundBuffer(source);
 		}
 
 		/// <summary>
@@ -104,10 +104,10 @@ namespace AgateLib.AudioLib
 			foreach (SoundBufferSession s in sessions)
 				s.Dispose();
 
-			if (impl != null)
+			if (mImpl != null)
 			{
-				impl.Dispose();
-				impl = null;
+				mImpl.Dispose();
+				mImpl = null;
 			}
 
 			mIsDisposed = true;
@@ -118,7 +118,7 @@ namespace AgateLib.AudioLib
 		/// </summary>
 		public SoundBufferImpl Impl
 		{
-			get { return impl; }
+			get { return mImpl; }
 		}
 		/// <summary>
 		/// Creates a SoundBufferSession object, for playing of this
@@ -149,8 +149,8 @@ namespace AgateLib.AudioLib
 		/// </summary>
 		public bool Loop
 		{
-			get { return impl.Loop; }
-			set { impl.Loop = value; }
+			get { return mImpl.Loop; }
+			set { mImpl.Loop = value; }
 		}
 
 		/// <summary>

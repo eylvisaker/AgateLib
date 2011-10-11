@@ -88,9 +88,9 @@ namespace AgateOTK
 
 		#region --- Object Factory ---
 
-		protected override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader BuiltInShaderType)
+		protected override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType)
 		{
-			return ShaderFactory.CreateBuiltInShader(BuiltInShaderType);
+			return ShaderFactory.CreateBuiltInShader(builtInShaderType);
 		}
 		public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
 		{
@@ -236,11 +236,11 @@ namespace AgateOTK
 
 			GL.Clear(mask);
 		}
-		public override void Clear(Color color, Rectangle dest)
+		public override void Clear(Color color, Rectangle destRect)
 		{
 			DrawBuffer.Flush();
 
-			DrawRect(dest, Color.FromArgb(255, color));
+			DrawRect(destRect, Color.FromArgb(255, color));
 		}
 
 		#region --- Drawing Primitives ---

@@ -32,8 +32,8 @@ namespace AgateLib.AudioLib
 	/// </summary>
 	public static class Audio
 	{
-		private static AudioImpl impl;
-		private static AudioCapsInfo caps = new AudioCapsInfo();
+		private static AudioImpl sImpl;
+		private static readonly AudioCapsInfo caps = new AudioCapsInfo();
 
 		/// <summary>
 		/// Gets the capabilities querying object for the audio subsystem.
@@ -47,7 +47,7 @@ namespace AgateLib.AudioLib
 		/// </summary>
 		public static AudioImpl Impl
 		{
-			get { return impl; }
+			get { return sImpl; }
 		}
 		/// <summary>
 		/// Initializes the audio system by instantiating the driver with the given
@@ -59,8 +59,8 @@ namespace AgateLib.AudioLib
 		{
 			Core.Initialize();
 
-			impl = Registrar.CreateAudioDriver(audioType);
-			impl.Initialize();
+			sImpl = Registrar.CreateAudioDriver(audioType);
+			sImpl.Initialize();
 
 		}
 		/// <summary>
@@ -70,10 +70,10 @@ namespace AgateLib.AudioLib
 		{
 			OnDispose();
 
-			if (impl != null)
+			if (sImpl != null)
 			{
-				impl.Dispose();
-				impl = null;
+				sImpl.Dispose();
+				sImpl = null;
 			}
 		}
 		private static void OnDispose()
@@ -156,9 +156,9 @@ namespace AgateLib.AudioLib
 		/// </summary>
 		public static void Update()
 		{
-			if (impl == null) return;
+			if (sImpl == null) return;
 
-			impl.Update();
+			sImpl.Update();
 		}
 	}
 

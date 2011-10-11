@@ -1031,8 +1031,8 @@ namespace AgateLib.Sprites
 		/// <summary>
 		/// Draws the sprite with the specified state object.  (Not currently implemented.)
 		/// </summary>
-		/// <param name="State"></param>
-		public void Draw(SurfaceState State)
+		/// <param name="state"></param>
+		public void Draw(SurfaceState state)
 		{
 			throw new NotImplementedException();
 		}

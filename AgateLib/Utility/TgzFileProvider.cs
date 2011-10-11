@@ -116,7 +116,6 @@ namespace AgateLib.Utility
 
 		void ReadTarHeaders(Stream tarFileInput)
 		{
-			bool done = false;
 			BinaryReader reader = new BinaryReader(tarFileInput);
 
 			int currentBlock = 0;
@@ -167,7 +166,7 @@ namespace AgateLib.Utility
 
 				currentBlock += blocks;
 
-			} while (!done);
+			} while (true);
 		}
 
 		int GetInt32(BinaryReader reader, int length)
@@ -187,7 +186,7 @@ namespace AgateLib.Utility
 
 		string GetString(BinaryReader reader, int length)
 		{
-			string retval = ASCIIEncoding.ASCII.GetString(reader.ReadBytes(length));
+			string retval = Encoding.ASCII.GetString(reader.ReadBytes(length));
 
 			while (retval.EndsWith("\0"))
 				retval = retval.Substring(0, retval.Length - 1);

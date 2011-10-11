@@ -66,7 +66,7 @@ namespace AgateLib.DisplayLib
 	/// </summary>
 	public sealed class FontSurface : IDisposable
 	{
-		internal FontSurfaceImpl impl;
+		private FontSurfaceImpl mImpl;
 		private StringTransformer mTransformer = StringTransformer.None;
 		FontState mState = new FontState();
 
@@ -103,11 +103,11 @@ namespace AgateLib.DisplayLib
 				throw new ArgumentOutOfRangeException("Font size must be positive and non-zero, but was " +
 					sizeInPoints.ToString() + ".");
 
-			impl = Display.Impl.CreateFont(fontFamily, sizeInPoints, style);
+			mImpl = Display.Impl.CreateFont(fontFamily, sizeInPoints, style);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 
-			System.Diagnostics.Debug.Assert(impl != null);
+			System.Diagnostics.Debug.Assert(mImpl != null);
 		}
 		/// <summary>
 		/// Constructs a FontSurface object from a resource.
@@ -123,14 +123,14 @@ namespace AgateLib.DisplayLib
 			{
 				Surface surf = new Surface(resources.FileProvider, bmpFont.Image);
 
-				impl = new BitmapFontImpl(surf, bmpFont.FontMetrics, resourceName);
+				mImpl = new BitmapFontImpl(surf, bmpFont.FontMetrics, resourceName);
 			}
 			else
 				throw new AgateResourceException(string.Format(
 					"The resource {0} is of type {1} which cannot be used to construct a font.",
 					resourceName, res.GetType().Name));
 
-			System.Diagnostics.Debug.Assert(impl != null);
+			System.Diagnostics.Debug.Assert(mImpl != null);
 		}
 		/// <summary>
 		/// Creates a bitmap font using the options passed in.  The Display driver
@@ -139,11 +139,11 @@ namespace AgateLib.DisplayLib
 		/// <param name="bitmapOptions"></param>
 		public FontSurface(BitmapFontOptions bitmapOptions)
 		{
-			impl = Display.Impl.CreateFont(bitmapOptions);
+			mImpl = Display.Impl.CreateFont(bitmapOptions);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 
-			System.Diagnostics.Debug.Assert(impl != null);
+			System.Diagnostics.Debug.Assert(mImpl != null);
 		}
 
 		/// <summary>
@@ -151,7 +151,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public string FontName 
 		{
-			get { return impl.FontName; }
+			get { return mImpl.FontName; }
 		}
 		/// <summary>
 		/// Private initializer to tell it what impl to use.
@@ -162,7 +162,7 @@ namespace AgateLib.DisplayLib
 			if (implToUse == null)
 				throw new ArgumentNullException("implToUse");
 
-			impl = implToUse;
+			mImpl = implToUse;
 		}
 
 		/// <summary>
@@ -180,7 +180,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public FontSurfaceImpl Impl
 		{
-			get { return impl; }
+			get { return mImpl; }
 		}
 		/// <summary>
 		/// This function loads a monospace bitmap font from the specified image file.
@@ -205,10 +205,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public void Dispose()
 		{
-			if (impl != null)
-				impl.Dispose();
+			if (mImpl != null)
+				mImpl.Dispose();
 
-			impl = null;
+			mImpl = null;
 		}
 
 		/// <summary>
@@ -333,7 +333,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use MeasureString instead.", true)]
 		public Size StringDisplaySize(string text)
 		{
-			return impl.MeasureString(mState, text);
+			return mImpl.MeasureString(mState, text);
 		}
 
 		/// <summary>
@@ -343,7 +343,7 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public Size MeasureString(string text) 
 		{ 
-			return impl.MeasureString(mState, text); 
+			return mImpl.MeasureString(mState, text); 
 		}
 		/// <summary>
 		/// Measures the display size of the specified string.
@@ -353,14 +353,14 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public Size MeasureString(FontState state, string text)
 		{
-			return impl.MeasureString(state, text);
+			return mImpl.MeasureString(state, text);
 		}
 		/// <summary>
 		/// Gets the height in pixels of a single line of text.
 		/// </summary>
 		public int FontHeight
 		{
-			get { return impl.FontHeight; }
+			get { return mImpl.FontHeight; }
 		}
 
 		/// <summary>
@@ -425,7 +425,7 @@ namespace AgateLib.DisplayLib
 			if (string.IsNullOrEmpty(state.TransformedText))
 				state.TransformedText = StringTransformer.Transform(state.Text);
 
-			impl.DrawText(state);
+			mImpl.DrawText(state);
 		}
 		/// <summary>
 		/// Draws formatted text.
@@ -480,9 +480,8 @@ namespace AgateLib.DisplayLib
 
 			int lastIndex = 0;
 			string result = string.Empty;
-			PointF dest;
 
-			dest = PointF.Empty;
+			PointF dest = PointF.Empty;
 
 			TextLayout layout = new TextLayout();
 			int lineHeight = FontHeight;
@@ -570,7 +569,7 @@ namespace AgateLib.DisplayLib
 			return layout;
 		}
 
-		private static void ShiftLine(TextLayout layout, int lineShift, int lineIndex)
+		private static void ShiftLine(IEnumerable<LayoutItem> layout, int lineShift, int lineIndex)
 		{
 			foreach (var item in layout.Where(x => x.LineIndex == lineIndex))
 			{
@@ -583,6 +582,9 @@ namespace AgateLib.DisplayLib
 			ref PointF dest, ref int lineHeight, ref int spaceAboveLine,
 			ISurface surface)
 		{
+			if (layout == null) 
+				throw new ArgumentNullException("layout");
+
 			int newSpaceAbove;
 			LayoutSurface t = new LayoutSurface { Location = dest, Surface = surface, LineIndex = lineIndex };
 			t.State = surface.State.Clone();

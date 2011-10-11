@@ -35,13 +35,13 @@ namespace AgateLib.Resources
 		/// <summary>
 		/// Constructs a base resource object.
 		/// </summary>
-		public AgateResource()
+		protected AgateResource()
 		{ }
 		/// <summary>
 		/// Constructs a base resource object.
 		/// </summary>
 		/// <param name="name"></param>
-		public AgateResource(string name)
+		protected AgateResource(string name)
 		{
 			mName = name;
 		}

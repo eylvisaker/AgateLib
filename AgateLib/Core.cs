@@ -87,11 +87,11 @@ namespace AgateLib
 	/// </summary>
 	public static class Core
 	{
-		private static bool mAutoPause = false;
-		private static bool mIsActive = true;
-		private static bool mInititalized = false;
-		private static Platform mPlatform;
-		private static PersistantSettings mSettings;
+		private static bool sAutoPause = false;
+		private static bool sIsActive = true;
+		private static bool sInititalized = false;
+		private static readonly Platform mPlatform = new Platform();
+		private static PersistantSettings sSettings;
 
 
 		#region --- Error Reporting ---
@@ -104,9 +104,9 @@ namespace AgateLib
 		/// </summary>
 		public static class ErrorReporting
 		{
-			private static string mErrorFile = "errorlog.txt";
-			private static bool mAutoStackTrace = false;
-			private static bool mWroteHeader = false;
+			private static string sErrorFile = "errorlog.txt";
+			private static bool sAutoStackTrace = false;
+			private static bool sWroteHeader = false;
 
 			/// <summary>
 			/// Gets or sets the file name to which errors are recorded.  Defaults
@@ -114,8 +114,8 @@ namespace AgateLib
 			/// </summary>
 			public static string ErrorFile
 			{
-				get { return mErrorFile; }
-				set { mErrorFile = value; }
+				get { return sErrorFile; }
+				set { sErrorFile = value; }
 			}
 
 			/// <summary>
@@ -133,8 +133,8 @@ namespace AgateLib
 			/// </example>
 			public static bool AutoStackTrace
 			{
-				get { return mAutoStackTrace; }
-				set { mAutoStackTrace = value; }
+				get { return sAutoStackTrace; }
+				set { sAutoStackTrace = value; }
 			}
 
 			/// <summary>
@@ -244,7 +244,7 @@ namespace AgateLib
 			{
 				try
 				{
-					if (mWroteHeader == true)
+					if (sWroteHeader == true)
 					{
 						FileStream stream = File.Open(ErrorFile, FileMode.Append, FileAccess.Write);
 
@@ -257,7 +257,7 @@ namespace AgateLib
 
 						WriteHeader(writer);
 
-						mWroteHeader = true;
+						sWroteHeader = true;
 
 						return writer;
 					}
@@ -300,7 +300,6 @@ namespace AgateLib
 
 		static Core()
 		{
-			mPlatform = new Platform();
 		}
 		/// <summary>
 		/// Initializes Core class.
@@ -308,13 +307,13 @@ namespace AgateLib
 		/// </summary>
 		public static void Initialize()
 		{
-			if (mInititalized)
+			if (sInititalized)
 				return;
 
 			Drivers.Registrar.Initialize();
 
 
-			mInititalized = true;
+			sInititalized = true;
 		}
 
 		/// <summary>
@@ -332,12 +331,12 @@ namespace AgateLib
 		{
 			get
 			{
-				if (mSettings == null)
+				if (sSettings == null)
 				{
-					mSettings = new PersistantSettings();
+					sSettings = new PersistantSettings();
 				}
 
-				return mSettings;
+				return sSettings;
 			}
 		}
 		/// <summary>
@@ -348,8 +347,8 @@ namespace AgateLib
 		/// </summary>
 		public static bool IsActive
 		{
-			get { return mIsActive; }
-			set { mIsActive = value; }
+			get { return sIsActive; }
+			set { sIsActive = value; }
 		}
 		/// <summary>
 		/// Gets or sets a bool value indicating whether or not Agate
@@ -364,8 +363,8 @@ namespace AgateLib
 		/// </summary>
 		public static bool AutoPause
 		{
-			get { return mAutoPause; }
-			set { mAutoPause = value; }
+			get { return sAutoPause; }
+			set { sAutoPause = value; }
 		}
 		/// <summary>
 		/// Delegate for types which attach to the KeepAliveEvent.

@@ -10,11 +10,11 @@ namespace AgateOTK
 {
 	abstract class GL_FrameBuffer: FrameBufferImpl 
 	{
-		GLDrawBuffer mDrawBuffer;
+		readonly GLDrawBuffer mDrawBuffer;
 		protected bool mHasDepth;
 		protected bool mHasStencil;
 
-		public GL_FrameBuffer()
+		protected GL_FrameBuffer()
 		{
 			mDrawBuffer = ((GL_Display)Display.Impl).CreateDrawBuffer();
 		}

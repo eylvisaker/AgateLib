@@ -58,13 +58,13 @@ namespace AgateLib.DisplayLib
 	/// </example>
 	public static class Display
 	{
-		private static DisplayImpl impl;
-		private static DisplayWindow mCurrentWindow;
-		private static SurfacePacker mSurfacePacker;
-		private static Rectangle mCurrentClipRect;
-		private static Stack<Rectangle> mClipRects = new Stack<Rectangle>();
-		private static RenderStateAdapter mRenderState = new RenderStateAdapter();
-		private static DisplayCapsInfo mCapsInfo = new DisplayCapsInfo();
+		private static DisplayImpl sImpl;
+		private static DisplayWindow sCurrentWindow;
+		private static SurfacePacker sSurfacePacker;
+		private static Rectangle sCurrentClipRect;
+		private static Stack<Rectangle> sClipRects = new Stack<Rectangle>();
+		private static RenderStateAdapter sRenderState = new RenderStateAdapter();
+		private static DisplayCapsInfo sCapsInfo = new DisplayCapsInfo();
 
 		/// <summary>
 		/// Gets the object which handles all of the actual calls to Display functions.
@@ -76,7 +76,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static DisplayImpl Impl
 		{
-			get { return impl; }
+			get { return sImpl; }
 		}
 		/// <summary>
 		/// Initializes the display by instantiating the driver with the given
@@ -91,10 +91,10 @@ namespace AgateLib.DisplayLib
 		{
 			Core.Initialize();
 
-			impl = Registrar.CreateDisplayDriver(displayType);
-			impl.Initialize();
+			sImpl = Registrar.CreateDisplayDriver(displayType);
+			sImpl.Initialize();
 
-			mSurfacePacker = new SurfacePacker();
+			sSurfacePacker = new SurfacePacker();
 
 			Shaders.AgateBuiltInShaders.InitializeShaders();
 		}
@@ -105,7 +105,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static RenderStateAdapter RenderState
 		{
-			get { return mRenderState; }
+			get { return sRenderState; }
 		}
 
 		/// <summary>
@@ -115,10 +115,10 @@ namespace AgateLib.DisplayLib
 		{
 			OnDispose();
 
-			if (impl != null)
+			if (sImpl != null)
 			{
-				impl.Dispose();
-				impl = null;
+				sImpl.Dispose();
+				sImpl = null;
 			}
 
 			Shaders.AgateBuiltInShaders.DisposeShaders();
@@ -126,19 +126,19 @@ namespace AgateLib.DisplayLib
 
 		internal static void ProcessEvents()
 		{
-			if (impl == null)
+			if (sImpl == null)
 				return;
 
-			impl.ProcessEvents();
+			sImpl.ProcessEvents();
 		}
 		internal static bool IsAppIdle
 		{
 			get
 			{
-				if (impl == null)
+				if (sImpl == null)
 					return false;
 
-				return impl.IsAppIdle;
+				return sImpl.IsAppIdle;
 			}
 		}
 
@@ -147,8 +147,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static Shaders.AgateShader Shader
 		{
-			get { return impl.Shader; }
-			internal set { impl.Shader = value; }
+			get { return sImpl.Shader; }
+			internal set { sImpl.Shader = value; }
 		}
 
 		/// <summary>
@@ -175,7 +175,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static PixelFormat DefaultSurfaceFormat
 		{
-			get { return impl.DefaultSurfaceFormat; }
+			get { return sImpl.DefaultSurfaceFormat; }
 		}
 
 		/// <summary>
@@ -187,14 +187,14 @@ namespace AgateLib.DisplayLib
 		{
 			get
 			{
-				return impl.RenderTarget;
+				return sImpl.RenderTarget;
 			}
 			set
 			{
 				if (value == null)
 					throw new ArgumentNullException("RenderTarget cannot be null.");
 
-				impl.RenderTarget = value;
+				sImpl.RenderTarget = value;
 
 				// TODO: replace this with an ActiveWindow property.
 				//if (value is DisplayWindow)
@@ -207,8 +207,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static DisplayWindow CurrentWindow
 		{
-			get { return mCurrentWindow; }
-			internal set { mCurrentWindow = value; }
+			get { return sCurrentWindow; }
+			internal set { sCurrentWindow = value; }
 		}
 
 		/// <summary>
@@ -218,8 +218,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static double AlphaThreshold
 		{
-			get { return impl.AlphaThreshold; }
-			set { impl.AlphaThreshold = value; }
+			get { return sImpl.AlphaThreshold; }
+			set { sImpl.AlphaThreshold = value; }
 		}
 
 		/// <summary>
@@ -246,7 +246,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void Clear(Color color)
 		{
-			impl.Clear(color);
+			sImpl.Clear(color);
 		}
 		/// <summary>
 		/// Clears the buffer to the specified color.
@@ -254,7 +254,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color">32-bit integer indicating the color.  The color will be constructed from Color.FromArgb.</param>
 		public static void Clear(int color)
 		{
-			impl.Clear(Color.FromArgb(color));
+			sImpl.Clear(Color.FromArgb(color));
 		}
 		/// <summary>
 		/// Clears a region of the buffer to the specified color.
@@ -265,7 +265,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="dest">Destination rectangle to clear.</param>
 		public static void Clear(Color color, Rectangle dest)
 		{
-			impl.Clear(color, dest);
+			sImpl.Clear(color, dest);
 		}
 		/// <summary>
 		/// Clears a region of the buffer to the specified color.
@@ -276,7 +276,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="dest"></param>
 		public static void Clear(int color, Rectangle dest)
 		{
-			impl.Clear(Color.FromArgb(color), dest);
+			sImpl.Clear(Color.FromArgb(color), dest);
 		}
 		// BeginFrame and EndFrame must be called at the start and end of each frame.
 		/// <summary>
@@ -291,12 +291,12 @@ namespace AgateLib.DisplayLib
 			if (CurrentWindow.IsClosed)
 				throw new AgateException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
 
-			impl.BeginFrame();
+			sImpl.BeginFrame();
 
 			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(Point.Empty, RenderTarget.Size);
 			AgateBuiltInShaders.Basic2DShader.Activate();
 
-			mCurrentClipRect = new Rectangle(Point.Empty, RenderTarget.Size);
+			sCurrentClipRect = new Rectangle(Point.Empty, RenderTarget.Size);
 
 			RenderState.AlphaBlend = true;
 		}
@@ -307,27 +307,27 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static void EndFrame()
 		{
-			impl.EndFrame();
+			sImpl.EndFrame();
 		}
 
 		/// <summary>
 		/// Gets the amount of time in milliseconds that has passed between this frame
 		/// and the last one.
 		/// </summary>
-		public static double DeltaTime { get { return impl.DeltaTime; } }
+		public static double DeltaTime { get { return sImpl.DeltaTime; } }
 		/// <summary>
 		/// Provides a means to set the value returned by DeltaTime.
 		/// </summary>
 		/// <param name="deltaTime"></param>
 		public static void SetDeltaTime(double deltaTime)
 		{
-			impl.SetDeltaTime(deltaTime);
+			sImpl.SetDeltaTime(deltaTime);
 		}
 
 		/// <summary>
 		/// Gets the framerate
 		/// </summary>
-		public static double FramesPerSecond { get { return impl.FramesPerSecond; } }
+		public static double FramesPerSecond { get { return sImpl.FramesPerSecond; } }
 
 		/// <summary>
 		/// Set the current clipping rect.
@@ -336,7 +336,7 @@ namespace AgateLib.DisplayLib
 		public static void SetClipRect(Rectangle newClipRect)
 		{
 			FlushDrawBuffer();
-			impl.SetClipRect(newClipRect);
+			sImpl.SetClipRect(newClipRect);
 		}
 		/// <summary>
 		/// Pushes a clip rect onto the clip rect stack.
@@ -344,7 +344,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="newClipRect"></param>
 		public static void PushClipRect(Rectangle newClipRect)
 		{
-			mClipRects.Push(mCurrentClipRect);
+			sClipRects.Push(sCurrentClipRect);
 			SetClipRect(newClipRect);
 		}
 		/// <summary>
@@ -352,13 +352,13 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static void PopClipRect()
 		{
-			if (mClipRects.Count == 0)
+			if (sClipRects.Count == 0)
 			{
 				throw new AgateException("You have popped the cliprect too many times.");
 			}
 			else
 			{
-				SetClipRect(mClipRects.Pop());
+				SetClipRect(sClipRects.Pop());
 			}
 		}
 
@@ -374,7 +374,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static SurfacePacker SurfacePacker
 		{
-			get { return mSurfacePacker; }
+			get { return sSurfacePacker; }
 		}
 
 		/// <summary>
@@ -388,12 +388,12 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static void PackAllSurfaces()
 		{
-			mSurfacePacker.ClearQueue();
+			sSurfacePacker.ClearQueue();
 
 			if (PackAllSurfacesEvent != null)
 				PackAllSurfacesEvent(null, EventArgs.Empty);
 
-			mSurfacePacker.PackQueue();
+			sSurfacePacker.PackQueue();
 
 			GC.Collect();
 		}
@@ -406,7 +406,7 @@ namespace AgateLib.DisplayLib
 		/// <returns>An array of available full-screen modes.</returns>
 		public static ScreenMode[] EnumScreenModes()
 		{
-			return impl.EnumScreenModes();
+			return sImpl.EnumScreenModes();
 		}
 
 		/// <summary>
@@ -416,7 +416,7 @@ namespace AgateLib.DisplayLib
 
 		internal static Surface BuildPackedSurface(Size size, SurfacePacker.RectPacker<Surface> packedRects)
 		{
-			Surface retval = impl.BuildPackedSurface(size, packedRects);
+			Surface retval = sImpl.BuildPackedSurface(size, packedRects);
 			retval.ShouldBePacked = false;
 
 			return retval;
@@ -445,7 +445,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static void FlushDrawBuffer()
 		{
-			impl.FlushDrawBuffer();
+			sImpl.FlushDrawBuffer();
 		}
 
 		/// <summary>
@@ -502,7 +502,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void DrawEllipse(Rectangle rect, Color color)
 		{
-			impl.DrawEllipse(rect, color);
+			sImpl.DrawEllipse(rect, color);
 		}
 		/// <summary>
 		/// Draws a line between the two points specified.
@@ -514,7 +514,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void DrawLine(int x1, int y1, int x2, int y2, Color color)
 		{
-			impl.DrawLine(new Point(x1, y1), new Point(x2, y2), color);
+			sImpl.DrawLine(new Point(x1, y1), new Point(x2, y2), color);
 		}
 		/// <summary>
 		/// Draws a line between the two points specified.
@@ -524,7 +524,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void DrawLine(Point a, Point b, Color color)
 		{
-			impl.DrawLine(a, b, color);
+			sImpl.DrawLine(a, b, color);
 		}
 		/// <summary>
 		/// Draws a bunch of connected lines.  The last point and the
@@ -534,7 +534,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void DrawLines(Point[] pts, Color color)
 		{
-			impl.DrawLines(pts, color);
+			sImpl.DrawLines(pts, color);
 		}
 		/// <summary>
 		/// Draws a bunch of line segments.  Each pair of points represents
@@ -547,7 +547,7 @@ namespace AgateLib.DisplayLib
 		{
 			if (pts.Length % 2 == 1)
 				throw new ArgumentException("pts argument is not an even number of points!");
-			impl.DrawLineSegments(pts, color);
+			sImpl.DrawLineSegments(pts, color);
 		}
 		/// <summary>
 		/// Draws the outline of a rectangle.
@@ -556,7 +556,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void DrawRect(Rectangle rect, Color color)
 		{
-			impl.DrawRect(rect, color);
+			sImpl.DrawRect(rect, color);
 		}
 		/// <summary>
 		/// Draws the outline of a rectangle.
@@ -565,7 +565,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void DrawRect(RectangleF rect, Color color)
 		{
-			impl.DrawRect(rect, color);
+			sImpl.DrawRect(rect, color);
 		}
 		/// <summary>
 		/// Draws the outline of a rectangle
@@ -577,7 +577,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void DrawRect(int x, int y, int width, int height, Color color)
 		{
-			impl.DrawRect(new Rectangle(x, y, width, height), color);
+			sImpl.DrawRect(new Rectangle(x, y, width, height), color);
 		}
 
 		/// <summary>
@@ -587,7 +587,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void FillEllipse(Rectangle rect, Color color)
 		{
-			impl.FillEllipse((RectangleF)rect, color);
+			sImpl.FillEllipse((RectangleF)rect, color);
 		}
 		/// <summary>
 		/// Draws a filled ellipse inscribed in the specified rectangle.
@@ -596,7 +596,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void FillEllipse(RectangleF rect, Color color)
 		{
-			impl.FillEllipse(rect, color);
+			sImpl.FillEllipse(rect, color);
 		}
 		/// <summary>
 		/// Draws a filled polygon.  The last point will be connected to the first point.
@@ -605,7 +605,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void FillPolygon(PointF[] pts, Color color)
 		{
-			impl.FillPolygon(pts, color);
+			sImpl.FillPolygon(pts, color);
 		}
 		/// <summary>
 		/// Draws a filled rectangle.
@@ -614,7 +614,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void FillRect(Rectangle rect, Color color)
 		{
-			impl.FillRect(rect, color);
+			sImpl.FillRect(rect, color);
 		}
 		/// <summary>
 		/// Draws a filled rectangle.
@@ -626,7 +626,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void FillRect(int x, int y, int width, int height, Color color)
 		{
-			impl.FillRect(new Rectangle(x, y, width, height), color);
+			sImpl.FillRect(new Rectangle(x, y, width, height), color);
 		}
 		/// <summary>
 		/// Draws a filled rectangle with a gradient.
@@ -635,7 +635,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void FillRect(Rectangle rect, Gradient color)
 		{
-			impl.FillRect(rect, color);
+			sImpl.FillRect(rect, color);
 		}
 		/// <summary>
 		/// Draws a filled rectangle with a gradient.
@@ -647,7 +647,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void FillRect(int x, int y, int width, int height, Gradient color)
 		{
-			impl.FillRect(new Rectangle(x, y, width, height), color);
+			sImpl.FillRect(new Rectangle(x, y, width, height), color);
 		}
 		/// <summary>
 		/// Draws a filled rectangle.
@@ -656,7 +656,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void FillRect(RectangleF rect, Color color)
 		{
-			impl.FillRect(rect, color);
+			sImpl.FillRect(rect, color);
 		}
 		/// <summary>
 		/// Draws a filled rectangle with a gradient.
@@ -665,7 +665,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="color"></param>
 		public static void FillRect(RectangleF rect, Gradient color)
 		{
-			impl.FillRect(rect, color);
+			sImpl.FillRect(rect, color);
 		}
 
 
@@ -676,21 +676,21 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static DisplayCapsInfo Caps
 		{
-			get { return mCapsInfo; }
+			get { return sCapsInfo; }
 		}
 
 		internal static void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
 		{
-			impl.SavePixelBuffer(pixelBuffer, filename, format);
+			sImpl.SavePixelBuffer(pixelBuffer, filename, format);
 		}
 
 		internal static void HideCursor()
 		{
-			impl.HideCursor();
+			sImpl.HideCursor();
 		}
 		internal static void ShowCursor()
 		{
-			impl.ShowCursor();
+			sImpl.ShowCursor();
 		}
 
 	}

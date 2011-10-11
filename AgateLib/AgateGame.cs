@@ -44,11 +44,11 @@ namespace AgateLib
 	{
 		DisplayWindow mWindow;
 		AppInitParameters mInitParams;
-		FontSurface font;
+		FontSurface mFont;
 		//Gui.GuiRoot mGui;
 
-		double totalSplashTime = 0;
-		bool splashFadeDone = false;
+		double mTotalSplashTime = 0;
+		bool mSplashFadeDone = false;
 
 		#region --- Run Method ---
 
@@ -83,7 +83,7 @@ namespace AgateLib
 
 				CreateDisplayWindow();
 
-				font = FontSurface.AgateSans14;
+				mFont = FontSurface.AgateSans14;
 
 				if (InitParams.ShowSplashScreen)
 				{
@@ -187,20 +187,20 @@ namespace AgateLib
 		{
 			RenderSplashScreen();
 
-			if (splashFadeDone)
+			if (mSplashFadeDone)
 			{
 				Surface powered = InternalResources.Data.PoweredBy;
 				Size size = powered.SurfaceSize;
 
 				int bottom = MainWindow.Height - size.Height;
-				int h = font.FontHeight;
+				int h = mFont.FontHeight;
 
-				font.DisplayAlignment = OriginAlignment.BottomLeft;
-				font.Color = Color.Black;
+				mFont.DisplayAlignment = OriginAlignment.BottomLeft;
+				mFont.Color = Color.Black;
 
-				font.DrawText(0, bottom - 2 * h, "Welcome to AgateLib.");
-				font.DrawText(0, bottom - h, "Your application framework is ready.");
-				font.DrawText(0, bottom, "Override the Render method in order to do your own drawing.");
+				mFont.DrawText(0, bottom - 2 * h, "Welcome to AgateLib.");
+				mFont.DrawText(0, bottom - h, "Your application framework is ready.");
+				mFont.DrawText(0, bottom, "Override the Render method in order to do your own drawing.");
 			}
 		}
 
@@ -233,9 +233,9 @@ namespace AgateLib
 		/// <param name="time_ms"></param>
 		protected virtual bool UpdateSplashScreen(double time_ms)
 		{
-			totalSplashTime += time_ms / 1000.0;
+			mTotalSplashTime += time_ms / 1000.0;
 
-			if (totalSplashTime > 3.0)
+			if (mTotalSplashTime > 3.0)
 				return false;
 			else
 				return true;
@@ -251,14 +251,14 @@ namespace AgateLib
 			Surface powered = InternalResources.Data.PoweredBy;
 			Size size = powered.SurfaceSize;
 
-			int left = (int)(totalSplashTime * size.Width - size.Width) + 1;
+			int left = (int)(mTotalSplashTime * size.Width - size.Width) + 1;
 			Rectangle gradientRect = new Rectangle(left, MainWindow.Height - size.Height,
 				size.Width, size.Height);
 
 			if (left < 0)
 				Display.PushClipRect(gradientRect);
 			else if (left > size.Width)
-				splashFadeDone = true;
+				mSplashFadeDone = true;
 
 			powered.DisplayAlignment = OriginAlignment.BottomLeft;
 			powered.Draw(0, MainWindow.Height);

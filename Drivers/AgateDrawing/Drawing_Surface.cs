@@ -57,7 +57,7 @@ namespace AgateDrawing
 		{
 			mDisplay = Display.Impl as Drawing_Display;
 
-			mImage = (Bitmap)Bitmap.FromStream(st);
+			mImage = (Bitmap)Image.FromStream(st);
 			ConvertImage();
 
 			System.Diagnostics.Debug.Assert(mImage != null);
@@ -65,7 +65,7 @@ namespace AgateDrawing
 
 		private void ConvertImage()
 		{
-			Bitmap newImage = new Bitmap(mImage.Width, mImage.Height);
+			var newImage = new Bitmap(mImage.Width, mImage.Height);
 
 			Graphics g = Graphics.FromImage(newImage);
 			g.DrawImage(mImage, new Rectangle(0, 0, mImage.Width, mImage.Height));
@@ -100,14 +100,17 @@ namespace AgateDrawing
 			System.Diagnostics.Debug.Assert(mImage != null);
 		}
 
-		public override void Dispose()
+		protected override void Dispose(bool disposing)
 		{
-			if (mImage != null)
+			if (disposing)
 			{
-				mImage.Dispose();
-			}
+				if (mImage != null)
+				{
+					mImage.Dispose();
+				}
 
-			mImage = null;
+				mImage = null;
+			}
 		}
 
 		#endregion
