@@ -419,13 +419,19 @@ namespace AgateLib.Serialization.Xle
 		public void Write(string name, IXleSerializable value)
 		{
 			XmlElement element = CreateElement(name);
-			AddAttribute(element, "type", value.GetType().ToString());
 
-			nodes.Push(element);
+			if (value == null)
+				AddAttribute(element, "type", "null");
+			else
+			{
+				AddAttribute(element, "type", value.GetType().ToString());
 
-			Serialize(value);
+				nodes.Push(element);
 
-			nodes.Pop();
+				Serialize(value);
+
+				nodes.Pop();
+			}
 		}
 
 		/// <summary>
