@@ -240,6 +240,7 @@ namespace AgateLib.DisplayLib
 			else
 				return Origin.CalcF(RotationCenter, displaySize);
 		}
+
 	}
 
 	/// <summary>
