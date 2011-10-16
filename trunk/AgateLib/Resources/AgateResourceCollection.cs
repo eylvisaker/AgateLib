@@ -493,6 +493,13 @@ namespace AgateLib.Resources
 				return mOwnedSurfaces[filename];
 			}
 		}
-	}
 
+		internal string FullFileName(string filename)
+		{
+			if (string.IsNullOrEmpty(RootDirectory))
+				return filename;
+
+			return RootDirectory + "/" + filename;
+		}
+	}
 }
