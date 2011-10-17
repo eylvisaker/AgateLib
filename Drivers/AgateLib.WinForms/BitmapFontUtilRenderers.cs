@@ -413,8 +413,8 @@ namespace AgateLib.WinForms
 					int left = -abc.abcA;
 					int right = -(abc.AdvanceWidth - abc.AgateWidth - 1 + left);
 
-					glyphs[c].LeftOverhang = left;
-					glyphs[c].RightOverhang = right;
+					glyphs[c].LeftOverhang += left;
+					glyphs[c].RightOverhang += right;
 				}
 
 				uint numPairs = GetKerningPairs(hdc, 0, null);
