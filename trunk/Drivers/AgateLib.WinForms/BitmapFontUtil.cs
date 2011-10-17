@@ -188,9 +188,13 @@ namespace AgateLib.WinForms
 						rend.DrawChar(g, i, new Point(drawX + 1, drawY + 1), System.Drawing.Color.White);
 
 						if (font.SizeInPoints >= 14.0)
+						{
 							glyphs[i].LeftOverhang = 1;
+							glyphs[i].RightOverhang = 1;
+						}
+						else
+							glyphs[i].RightOverhang = 1;
 
-						glyphs[i].RightOverhang = 1;
 					}
 					else
 					{
