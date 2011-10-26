@@ -126,6 +126,10 @@ namespace AgateSDX
 		{
 			get { return mDevice.Capabilities.ButtonCount; }
 		}
+		public override int HatCount
+		{
+			get { return mDevice.Capabilities.PovCount; }
+		}
 
 		public override bool GetButtonState(int buttonIndex)
 		{
@@ -160,6 +164,12 @@ namespace AgateSDX
 			//    return mDevice.GetCurrentState().GetSliders()[axisIndex - 4] / maxX;
 		}
 
+		public override AgateLib.InputLib.HatState GetHatState(int hatIndex)
+		{
+			int value = mDevice.GetCurrentState().GetPointOfViewControllers()[hatIndex];
+
+			return (AgateLib.InputLib.HatState)value;
+		}
 		private double CorrectAxisValue(int axisValue, int shiftValue, double maxX)
 		{
 			double retval = (axisValue - shiftValue) / (double)maxX;

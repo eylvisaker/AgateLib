@@ -15,10 +15,11 @@ using AgateLib.InputLib;
 
 namespace Tests.InputTester
 {
-	public partial class Form1 : Form
+	public partial class frmInputTester : Form
 	{
+		private Label[] joystickLabels = new Label[4];
 
-		public Form1()
+		public frmInputTester()
 		{
 			InitializeComponent();
 
@@ -33,51 +34,76 @@ namespace Tests.InputTester
 
 			new DisplayWindow(CreateWindowParams.FromControl(agateRenderTarget1));
 
-			Application.Idle += new EventHandler(Application_Idle);
+			joystickLabels[0] = lblJoystick1;
+			joystickLabels[1] = lblJoystick2;
+			joystickLabels[2] = lblJoystick3;
+			joystickLabels[3] = lblJoystick4;
+
 		}
 
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			Application_Idle(sender, e);
+		}
 		void Application_Idle(object sender, EventArgs e)
 		{
-			numericUpDown1.Maximum = JoystickInput.Joysticks.Count - 1;
-			if (JoystickInput.Joysticks.Count > 0)
+			for (int i = 0; i < JoystickInput.Joysticks.Count; i++ )
 			{
-				Joystick j = JoystickInput.Joysticks[(int)numericUpDown1.Value];
+				FillJoystickInfo(i, joystickLabels[i]);
+			}
+				
+			Core.KeepAlive();
+		}
 
-				StringBuilder b = new StringBuilder();
-				b.AppendLine(j.Name);
-				b.Append("Axis Count: ");
-				b.AppendLine(j.AxisCount.ToString());
+		private void FillJoystickInfo(int index, Label label)
+		{
+			Joystick j = JoystickInput.Joysticks[index];
 
-				for (int i = 0; i < j.AxisCount; i++)
-				{
-					b.Append("Axis ");
-					b.Append(i.ToString());
-					b.Append(": ");
-					b.Append(j.GetAxisValue(i).ToString());
-					b.AppendLine();
-				}
+			StringBuilder b = new StringBuilder();
+			b.Append("Joystick ");
+			b.AppendLine(index.ToString());
+			b.AppendLine(j.Name);
+			b.Append("Axis Count: ");
+			b.AppendLine(j.AxisCount.ToString());
 
+			for (int i = 0; i < j.AxisCount; i++)
+			{
+				b.Append("Axis ");
+				b.Append(i.ToString());
+				b.Append(": ");
+				b.Append(j.GetAxisValue(i).ToString());
 				b.AppendLine();
-
-				b.Append("X: ");
-				b.AppendLine(j.Xaxis.ToString());
-				b.Append("Y: ");
-				b.AppendLine(j.Yaxis.ToString());
-				b.AppendLine();
-
-				b.Append("Buttons: ");
-
-				for (int i = 0; i < j.ButtonCount; i++)
-				{
-					if (j.GetButtonState(i))
-						b.Append(i.ToString());
-				}
-
-
-				lblJoystick.Text = b.ToString();
 			}
 
-			Core.KeepAlive();
+			b.AppendLine();
+
+			b.Append("X: ");
+			b.AppendLine(j.Xaxis.ToString());
+			b.Append("Y: ");
+			b.AppendLine(j.Yaxis.ToString());
+			b.AppendLine();
+
+			b.Append("Buttons: ");
+
+			for (int i = 0; i < j.ButtonCount; i++)
+			{
+				if (j.GetButtonState(i))
+					b.Append(i.ToString());
+			}
+
+			b.AppendLine();
+			b.Append("Hats:");
+
+			for (int i = 0; i < j.HatCount; i++)
+			{
+				b.Append("    ");
+				b.Append(i.ToString());
+				b.Append(": ");
+				b.Append(j.GetHatState(i).ToString());
+				b.AppendLine();
+			}
+
+			label.Text = b.ToString();
 		}
 
 		void Mouse_MouseDoubleClickEvent(InputEventArgs e)
@@ -134,5 +160,6 @@ namespace Tests.InputTester
 		{
 
 		}
+
 	}
 }

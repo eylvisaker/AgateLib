@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AgateLib.Geometry;
 using AgateLib.InputLib.ImplementationBase;
 
 namespace AgateLib.InputLib
@@ -50,7 +51,20 @@ namespace AgateLib.InputLib
 		/// Returns the number of buttons this joystick has.
 		/// </summary>
 		public int ButtonCount { get { return impl.ButtonCount; } }
+		/// <summary>
+		/// Returns the number of POV hats this joystick has.
+		/// </summary>
+		public int HatCount { get { return impl.HatCount; } }
 
+		/// <summary>
+		/// Gets the state of the specified POV hat.
+		/// </summary>
+		/// <param name="hatIndex"></param>
+		/// <returns></returns>
+		public HatState GetHatState(int hatIndex)
+		{
+			return impl.GetHatState(hatIndex);
+		}
 		/// <summary>
 		/// Gets the current value for the given axis.
 		/// Axis 0 is always the x-axis, axis 1 is always the y-axis on

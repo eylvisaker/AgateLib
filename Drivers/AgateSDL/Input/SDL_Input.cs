@@ -49,16 +49,16 @@ namespace AgateSDL.Input
 
 		public override void Initialize()
 		{
-			if (Tao.Sdl.Sdl.SDL_InitSubSystem(Tao.Sdl.Sdl.SDL_INIT_JOYSTICK) != 0)
+			// apparently initializing the video has some side-effect 
+			// that is required for joysticks to work on windows (at least).
+			if (Tao.Sdl.Sdl.SDL_InitSubSystem(Tao.Sdl.Sdl.SDL_INIT_JOYSTICK | Tao.Sdl.Sdl.SDL_INIT_VIDEO) != 0)
 			{
 				throw new AgateLib.AgateException("Failed to initialize SDL joysticks.");
 			}
 
-			// apparently initializing the video has some side-effect 
-			// that is required for joysticks to work on windows (at least).
-			Tao.Sdl.Sdl.SDL_InitSubSystem(Tao.Sdl.Sdl.SDL_INIT_VIDEO);
+			Tao.Sdl.Sdl.SDL_version version = Tao.Sdl.Sdl.SDL_VERSION();
 
-			Report("SDL driver instantiated for joystick input.");
+			Report("SDL driver version " + version.ToString() + " instantiated for joystick input.");
 
 		}
 	}
@@ -79,12 +79,21 @@ namespace AgateSDL.Input
 
 		public override string Name
 		{
-			get { return Tao.Sdl.Sdl.SDL_JoystickName(joystickIndex); }
+			get
+			{
+				string retval = Tao.Sdl.Sdl.SDL_JoystickName(joystickIndex);
+
+				return retval;
+			}
 		}
 
 		public override int AxisCount
 		{
 			get { return Tao.Sdl.Sdl.SDL_JoystickNumAxes(joystick); }
+		}
+		public override int HatCount
+		{
+			get { return Tao.Sdl.Sdl.SDL_JoystickNumHats(joystick); }
 		}
 
 		public override double AxisThreshold
@@ -108,7 +117,24 @@ namespace AgateSDL.Input
 		{
 			return buttons[buttonIndex];
 		}
+		public override AgateLib.InputLib.HatState GetHatState(int hatIndex)
+		{
+			switch(Tao.Sdl.Sdl.SDL_JoystickGetHat(joystick, hatIndex))
+			{
+				case Tao.Sdl.Sdl.SDL_HAT_RIGHTUP: return AgateLib.InputLib.HatState.UpRight;
+				case Tao.Sdl.Sdl.SDL_HAT_RIGHT: return AgateLib.InputLib.HatState.Right;
+				case Tao.Sdl.Sdl.SDL_HAT_RIGHTDOWN: return AgateLib.InputLib.HatState.DownRight;
+				case Tao.Sdl.Sdl.SDL_HAT_LEFTUP: return AgateLib.InputLib.HatState.UpLeft;
+				case Tao.Sdl.Sdl.SDL_HAT_LEFT: return AgateLib.InputLib.HatState.Left;
+				case Tao.Sdl.Sdl.SDL_HAT_LEFTDOWN: return AgateLib.InputLib.HatState.DownLeft;
+				case Tao.Sdl.Sdl.SDL_HAT_DOWN: return AgateLib.InputLib.HatState.Down;
+				case Tao.Sdl.Sdl.SDL_HAT_UP: return AgateLib.InputLib.HatState.Up;
 
+				case Tao.Sdl.Sdl.SDL_HAT_CENTERED: 
+				default:
+					return AgateLib.InputLib.HatState.None;
+			}
+		}
 		public override double GetAxisValue(int axisIndex)
 		{
 			// Convert joystick coordinate to the agatelib coordinate system of -1..1.

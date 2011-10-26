@@ -330,6 +330,8 @@ namespace AgateLib
 		/// </summary>
 		private void DoAskUser()
 		{
+			Core.Initialize();
+
 			if (mAlreadyAsked)
 				return;
 			if (mAskUser == false)
