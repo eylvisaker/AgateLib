@@ -1,4 +1,9 @@
 
+Current
+===================
+
+POV hat support for joysticks has been added.
+
 Version 0.3.2
 ===================
 Even though the version number has only been incremented slightly, there are a lot of changes in

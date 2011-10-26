@@ -26,7 +26,7 @@ namespace Tests.InputTester
 				if (setup.WasCanceled)
 					return;
 
-				new Form1().ShowDialog();
+				new frmInputTester().ShowDialog();
 			}
 		}
 	}

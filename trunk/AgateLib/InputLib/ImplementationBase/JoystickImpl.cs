@@ -35,6 +35,10 @@ namespace AgateLib.InputLib.ImplementationBase
 		/// Gets how many buttons are on this joystick.
 		/// </summary>
 		public abstract int ButtonCount { get; }
+		/// <summary>
+		/// Gets how many POV hats are on this joystick.
+		/// </summary>
+		public abstract int HatCount { get; }
 
 		/// <summary>
 		/// Gets the reported name of the joystick.
@@ -57,6 +61,13 @@ namespace AgateLib.InputLib.ImplementationBase
 		/// <param name="axisIndex"></param>
 		/// <returns></returns>
 		public abstract double GetAxisValue(int axisIndex);
+		
+		/// <summary>
+		/// Gets the state of the specified POV hat.
+		/// </summary>
+		/// <param name="hatIndex"></param>
+		/// <returns></returns>
+		public abstract HatState GetHatState(int hatIndex);
 
 		/// <summary>
 		/// Recalibrates the joystick.
@@ -73,9 +84,11 @@ namespace AgateLib.InputLib.ImplementationBase
 		/// </summary>
 		public abstract bool PluggedIn { get; }
 
+		
 		/// <summary>
 		/// Polls the joystick for input.
 		/// </summary>
 		public abstract void Poll();
+
 	}
 }

@@ -28,7 +28,7 @@ Goals for 0.3.2
 		* Test ClipRects with AgateOTK
 		* Test / Debug writing pixel buffer to SDX surface.
 	Input
-		* Add support for POV hats on joysticks.
+		D Add support for POV hats on joysticks.
 
 Goals for 0.3.5
 ---------------------------------------------------
