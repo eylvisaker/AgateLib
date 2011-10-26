@@ -177,7 +177,10 @@ namespace AgateDatabaseEditor
 
 			if (mTable.Columns[ColumnName(e.ColumnIndex)].FieldType == FieldType.Boolean)
 			{
-				e.Value = bool.Parse(value);
+				if (value == null)
+					e.Value = false;
+				else
+					e.Value = bool.Parse(value);
 			}
 			else
 			{
