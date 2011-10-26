@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Runtime.InteropServices;
@@ -480,6 +481,15 @@ namespace AgateLib.Serialization.Xle
 			}
 
 			nodes.Pop();
+		}
+		/// <summary>
+		/// Writes an array of strings to the XML data as an element.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The array data to write.</param>
+		public void Write(string name, string[] value)
+		{
+			Write(name, value.ToList());
 		}
 		/// <summary>
 		/// Writes a List&lt;T&gt; of strings to the XML data as an element.
