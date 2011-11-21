@@ -47,10 +47,13 @@ namespace AgateLib.Settings
 		private SettingsGroup GetOrCreateSettingsGroup(string name)
 		{
 			if (name.Contains(" "))
-				throw new AgateException("Settings group name cannot contain a string.");
+				throw new AgateException("Settings group name cannot contain a space.");
 
 			if (mSettings.ContainsKey(name) == false)
+			{
 				mSettings[name] = new SettingsGroup();
+				mSettings[name].Name = name;	
+			}
 
 			return mSettings[name];
 		}
@@ -144,7 +147,8 @@ namespace AgateLib.Settings
 				{
 					g.Add(pair.Name, pair.InnerXml);
 				}
-
+				
+				g.Name = node.Name;
 				mSettings.Add(node.Name, g);
 			}
 		}

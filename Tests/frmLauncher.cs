@@ -31,8 +31,28 @@ namespace Tests
 			LoadTests();
 
 			bold = new Font(lstTests.Font, FontStyle.Bold | FontStyle.Italic);
+			
+			AgateLib.Core.Settings["AgateLib"].Debug = true;
+			
+			FillDrivers();
 		}
-
+		
+		private void FillDrivers()
+		{
+			displayList.Items.Clear();
+			displayList.Items.Add("Default");
+			
+			if (AgateLib.Core.Platform.PlatformType == AgateLib.PlatformType.Windows &&
+				AgateLib.Core.Platform.Runtime == AgateLib.DotNetRuntime.MicrosoftDotNet)
+			{
+				displayList.Items.Add("Direct3D");
+			}				
+			
+			displayList.Items.Add("OpenGL");
+			displayList.Items.Add("Drawing");
+			
+			displayList.SelectedItem = 0;
+		}
 		private void FillList()
 		{
 			tests.Sort((x, y) =>
@@ -105,10 +125,11 @@ namespace Tests
 		{
 			IAgateTest obj = (IAgateTest)Activator.CreateInstance(m.Class);
 
-			string[] args = { "--choose" };
+			string[] args = { };
 
 			this.Hide();
-
+			AgateLib.Core.Settings["AgateLib"]["DisplayDriver"] = displayList.Text;
+			
 			try
 			{
 				obj.Main(args);
@@ -166,8 +187,6 @@ namespace Tests
 
 			e.DrawFocusRectangle();
 		}
-
-
 
 	}
 }

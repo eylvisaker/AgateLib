@@ -29,7 +29,6 @@ namespace Tests.MultipleWindows
 		{
 			using (AgateSetup setup = new AgateSetup(args))
 			{
-				setup.AskUser = true;
 				setup.Initialize(true, false, false);
 				if (setup.WasCanceled) return;
 

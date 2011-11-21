@@ -211,6 +211,8 @@ namespace AgateDatabaseEditor
 
 		private void gridColumns_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
+			if (mTable == null) return;
+			
 			if (e.RowIndex < mTable.Columns.Count)
 				colProperties = mTable.Columns[e.RowIndex];
 			else

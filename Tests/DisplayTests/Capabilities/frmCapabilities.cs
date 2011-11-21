@@ -14,8 +14,10 @@ namespace Tests.DisplayTests.Capabilities
 		public frmCapabilities()
 		{
 			InitializeComponent();
-
+			
+			Text += " ";
 			Text += AgateLib.Drivers.Registrar.DisplayDrivers[0].FriendlyName;
+			
 			propertyGrid1.SelectedObject = AgateLib.DisplayLib.Display.Caps;
 		}
 	}
