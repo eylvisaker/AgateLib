@@ -1,8 +1,31 @@
-﻿using System;
+﻿//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2009.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime;
+using System.Runtime.InteropServices;
 using System.Text;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Geometry.VertexTypes;
 using OpenTK.Graphics.OpenGL;
 
 namespace AgateOTK.GL3
@@ -13,6 +36,19 @@ namespace AgateOTK.GL3
 	/// </summary>
 	class GLPrimitiveRenderer : PrimitiveRenderer
 	{
+		PositionColor[] mVerts = new PositionColor[6];
+
+		int mBufferID;
+		int mVaoID;
+
+		public GLPrimitiveRenderer()
+		{
+			GL.GenBuffers(1, out mBufferID);
+			GL.GenVertexArrays(1, out mVaoID); 
+			
+			Debug.Print("GL3 PrimitiveRenderer: Draw buffer ID: {0}", mBufferID);
+		}
+
 		public void SetGLColor(Color color)
 		{
 			GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
@@ -20,15 +56,56 @@ namespace AgateOTK.GL3
 
 		public override void DrawLine(Point a, Point b, Color color)
 		{
-			SetGLColor(color);
+			mVerts[0].Position.X = a.X;
+			mVerts[0].Position.Y = a.Y;
+			mVerts[0].Color = color.ToArgb();
 
-			GL.Disable(EnableCap.Texture2D);
-			GL.Begin(BeginMode.Lines);
-			GL.Vertex2(a.X, a.Y);
-			GL.Vertex2(b.X, b.Y);
+			mVerts[1].Position.X = b.X;
+			mVerts[1].Position.Y = b.Y;
+			mVerts[1].Color = color.ToArgb();
 
-			GL.End();
-			GL.Enable(EnableCap.Texture2D);
+			BufferData();
+
+			GL_Display display = (GL_Display)Display.Impl;
+			Shaders.IGL3Shader shader = (Shaders.IGL3Shader)display.Shader.Impl;
+
+			shader.SetVertexAttributes(PositionColor.VertexLayout);
+
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.Texture2D, 0);
+			shader.SetTexture(0);
+
+			GL.DrawArrays(BeginMode.Lines, 0, 1);
+
+		}
+
+		private void BufferData()
+		{
+			GL.BindVertexArray(mVaoID);
+
+			int bufferSize = mVerts.Length * Marshal.SizeOf(typeof(PositionColor));
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, mBufferID);
+
+			unsafe
+			{
+				GCHandle handle = new GCHandle();
+
+				try
+				{
+					handle = GCHandle.Alloc(mVerts, GCHandleType.Pinned);
+
+					IntPtr ptr = handle.AddrOfPinnedObject();
+
+					GL.BufferData(BufferTarget.ArrayBuffer, 
+						(IntPtr)bufferSize, ptr, 
+						BufferUsageHint.StaticDraw);
+				}
+				finally
+				{
+					handle.Free();
+				}
+			}
 		}
 
 		public override void DrawRect(RectangleF rect, Color color)

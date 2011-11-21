@@ -83,12 +83,12 @@ namespace AgateOTK.GL3
 		public override void BeginRender()
 		{
 			GL.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
-			GL.PushAttrib(AttribMask.ViewportBit);
+			//GL.PushAttrib(AttribMask.ViewportBit);
 		}
 
 		public override void EndRender()
 		{
-			GL.PopAttrib();
+			//GL.PopAttrib();
 			GL.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
 
 			GL.BindTexture(TextureTarget.Texture2D, mTexture.GLTextureID);
