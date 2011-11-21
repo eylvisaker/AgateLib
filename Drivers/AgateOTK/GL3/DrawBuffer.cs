@@ -38,52 +38,6 @@ namespace AgateOTK.GL3
 	/// </summary>
 	public class DrawBuffer : GLDrawBuffer 
 	{
-		#region --- Private types for Vertex Arrays ---
-
-		[StructLayout(LayoutKind.Sequential)]
-		private struct TexCoord
-		{
-			public float u;
-			public float v;
-		}
-		[StructLayout(LayoutKind.Sequential)]
-		private struct VertexCoord
-		{
-			public float x;
-			public float y;
-		}
-		[StructLayout(LayoutKind.Sequential)]
-		private struct ColorCoord
-		{
-			public float r;
-			public float g;
-			public float b;
-			public float a;
-
-			public ColorCoord(Color clr)
-			{
-				r = clr.R / 255.0f;
-				g = clr.G / 255.0f;
-				b = clr.B / 255.0f;
-				a = clr.A / 255.0f;
-			}
-		}
-		[StructLayout(LayoutKind.Sequential)]
-		private struct NormalCoord
-		{
-			public float x;
-			public float y;
-			public float z;
-
-			public NormalCoord(float x, float y, float z)
-			{
-				this.x = x;
-				this.y = y;
-				this.z = z;
-			}
-		}
-		#endregion
-
 		PositionTextureColor[] mVerts;
 
 		int mIndex;
