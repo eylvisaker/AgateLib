@@ -11,7 +11,7 @@
 //     The Original Code is AgateLib.
 //
 //     The Initial Developer of the Original Code is Erik Ylvisaker.
-//     Portions created by Erik Ylvisaker are Copyright (C) 2009.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2011.
 //     All Rights Reserved.
 //
 //     Contributor(s): Erik Ylvisaker

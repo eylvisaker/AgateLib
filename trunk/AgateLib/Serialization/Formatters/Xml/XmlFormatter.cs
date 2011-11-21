@@ -41,8 +41,28 @@
  * The only license text at ecodebank.com states only 
  * "The code is free to use in your projects."
  * It appears that this means the code may be freely distributed and 
- * used without restriction.  
+ * used without restriction.  I'm including the MPL license text in this file
+ * until such time that I am notified that some other copyright notice would
+ * be more appropriate.
  * */
+//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2011.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
 
 using System;
 using System.Collections.Generic;
