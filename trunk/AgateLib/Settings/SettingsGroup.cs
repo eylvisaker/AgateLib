@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -30,7 +31,24 @@ namespace AgateLib.Settings
 	public class SettingsGroup : IDictionary<string, string>
 	{
 		Dictionary<string, string> mStore = new Dictionary<string, string>();
-
+		
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>
+		/// The name.
+		/// </value>
+		public string Name { get; internal set; }
+		
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="AgateLib.Settings.SettingsGroup"/> is in
+		/// debugging mode. If true, every access to a member will be echoed to System.Diagnostics.Trace.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if debug; otherwise, <c>false</c>.
+		/// </value>
+		public bool Debug { get; set; }
+		
 		/// <summary>
 		/// Returns true if this settings group has no members.
 		/// </summary>
@@ -49,6 +67,11 @@ namespace AgateLib.Settings
 		public void Add(string key, string value)
 		{
 			mStore.Add(key, value);
+			
+			if (Debug)
+			{
+				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] written.", Name, key));
+			}
 		}
 
 		/// <summary>
@@ -58,6 +81,11 @@ namespace AgateLib.Settings
 		/// <returns></returns>
 		public bool ContainsKey(string key)
 		{
+			if (Debug)
+			{
+				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] checked.", Name, key));
+			}
+
 			return mStore.ContainsKey(key);
 		}
 
@@ -86,6 +114,11 @@ namespace AgateLib.Settings
 		/// <returns></returns>
 		public bool TryGetValue(string key, out string value)
 		{
+			if (Debug)
+			{
+				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] checked.", Name, key));
+			}
+
 			return mStore.TryGetValue(key, out value);
 		}
 
@@ -104,8 +137,22 @@ namespace AgateLib.Settings
 		/// <returns></returns>
 		public string this[string key]
 		{
-			get { return mStore[key]; }
-			set { mStore[key] = value; }
+			get 
+			{ 
+				if (Debug)
+				{
+					Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] checked.", Name, key));
+				}
+				return mStore[key]; 
+			}
+			set
+			{
+				if (Debug)
+				{
+					Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] written.", Name, key));
+				} 
+				mStore[key] = value; 
+			}
 		}
 
 		#endregion

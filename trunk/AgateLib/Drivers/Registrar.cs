@@ -179,7 +179,7 @@ namespace AgateLib.Drivers
 			// hack, because mono crashes if AgateMDX.dll is present.
 			// annoying, because it should report a failure to load the types in the
 			// assembly, and then the try catch should continue after that.
-			// this seems unnecessary in the current version of Mono.
+			// TODO: this hack seems unnecessary in recent versions of Mono. Should it be removed?
 			if ((Environment.OSVersion.Platform == PlatformID.Unix ||
 				 Environment.OSVersion.Platform == (PlatformID)128) &&
 				(System.IO.Path.GetFileName(file).ToLower().Contains("agatemdx.dll") ||
@@ -318,8 +318,17 @@ namespace AgateLib.Drivers
 		{
 			if (displayDrivers.Count == 0)
 				throw new AgateException("No display drivers registered.");
-
-			AgateDriverInfo info = FindDriverInfo(displayDrivers, (int)displayType);
+			
+			AgateDriverInfo info;
+			string text;
+			
+			if (displayType == DisplayTypeID.AutoSelect && 
+				Core.Settings["AgateLib"].TryGetValue("DisplayDriver", out text))
+			{
+				info = FindDriverInfo(displayDrivers, text);
+			}
+			else
+				info = FindDriverInfo(displayDrivers, (int)displayType);
 
 			if (info == null)
 				throw new AgateException(string.Format("Could not find the driver {0}.", displayType));
@@ -330,8 +339,17 @@ namespace AgateLib.Drivers
 		{
 			if (audioDrivers.Count == 0)
 				throw new AgateException("No audio drivers registered.");
-
-			AgateDriverInfo info = FindDriverInfo(audioDrivers, (int)audioType);
+			
+			AgateDriverInfo info;
+			string text;
+			
+			if (audioType == AudioTypeID.AutoSelect && 
+				Core.Settings["AgateLib"].TryGetValue("AudioDriver", out text))
+			{
+				info = FindDriverInfo(audioDrivers, text);
+			}
+			else 
+				info = FindDriverInfo(audioDrivers, (int)audioType);
 
 			if (info == null)
 				throw new AgateException(string.Format("Could not find the driver {0}.", audioType));
@@ -342,16 +360,39 @@ namespace AgateLib.Drivers
 		{
 			if (inputDrivers.Count == 0)
 				throw new AgateException("No audio drivers registered.");
-
-			AgateDriverInfo info = FindDriverInfo(inputDrivers, (int)inputType);
-
+			
+			AgateDriverInfo info;
+			string text;
+			
+			if (inputType == InputTypeID.AutoSelect && 
+				Core.Settings["AgateLib"].TryGetValue("InputDriver", out text))
+			{
+				info = FindDriverInfo(inputDrivers, text);
+			}
+			else 
+				info = FindDriverInfo(inputDrivers, (int)inputType);
+			
 			if (info == null)
 				throw new AgateException(string.Format("Could not find the driver {0}.", inputType));
 
 			return (InputImpl)CreateDriverInstance(info);
 		}
 
-
+		private static AgateDriverInfo FindDriverInfo(List<AgateDriverInfo> driverList, string matchText)
+		{
+			AgateDriverInfo retval = null;
+			
+			if (driverList.Count == 0)
+				return null;
+			
+			foreach(AgateDriverInfo info in driverList)
+			{
+				if (info.FriendlyName.Contains(matchText))
+					retval = info;
+			}
+			
+			return retval;
+		}
 		private static AgateDriverInfo FindDriverInfo(List<AgateDriverInfo> driverList, int typeID)
 		{
 			AgateDriverInfo theInfo = null;

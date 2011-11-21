@@ -216,7 +216,7 @@ namespace AgateLib
 		{
 			if (WasCanceled)
 				return;
-
+			
 			Display.Initialize(type);
 		}
 		/// <summary>
