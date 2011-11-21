@@ -25,9 +25,11 @@ namespace Tests.Shaders
 
 		Vector3 eye = new Vector3(-3, 0, 4);
 		Vector3 up = new Vector3(0, 0, 1);
+		Vector3 lightPos = new Vector3(0, 1.5, 2.5);
 		double lookAngle = 0;
 		double angle = 0;
-		bool lightEnable;
+		double lightAngle = 0;
+		bool lightEnable = true;
 		bool paused = false;
 		bool advance = false;
 		bool done = false;
@@ -41,9 +43,9 @@ namespace Tests.Shaders
 				if (setup.WasCanceled)
 					return;
 
-				Surface texture = new Surface("bg-bricks.png");
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Lighting 3D", 640, 480);
 				FontSurface font = FontSurface.AgateSerif14;
+				Surface texture = new Surface("bg-bricks.png");
 
 				AgateLib.Geometry.Builders.CubeBuilder cb = new AgateLib.Geometry.Builders.CubeBuilder();
 				cb.Location = new Vector3(0, 0, 0);
@@ -53,6 +55,10 @@ namespace Tests.Shaders
 				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 
 				int frameCount = 0;
+
+				AgateLib.Geometry.Builders.CubeBuilder lightMesh = new AgateLib.Geometry.Builders.CubeBuilder();
+				lightMesh.Length = 0.02f;
+				lightMesh.CreateVertexBuffer();
 
 				while (wind.IsClosed == false)
 				{
@@ -64,9 +70,12 @@ namespace Tests.Shaders
 
 					if (lightEnable)
 					{
+						lightPos.X = 2f * (float)Math.Sin(lightAngle);
+						lightPos.Y = 2f * (float)Math.Cos(lightAngle);
+
 						shader.EnableLighting = true;
 						shader.Lights[0] = new Light();
-						shader.Lights[0].Position = new Vector3(0, 3, eye.Z);
+						shader.Lights[0].Position = lightPos;
 						shader.Lights[0].DiffuseColor = Color.White;
 						shader.Lights[0].AttenuationConstant = 1f;
 						shader.Lights[0].AttenuationLinear = 0.1f;
@@ -79,13 +88,20 @@ namespace Tests.Shaders
 					Vector3 target = eye + dir * 3;
 					target.Z = 0;
 
-					shader.Projection = Matrix4x4.Projection(45, 640 / 480.0f, 1, 200);
+					shader.Projection = Matrix4x4.Projection(45, 640 / 480.0f, 0.1f, 200);
 					shader.View = Matrix4x4.ViewLookAt(eye, target, up);
 					shader.World = Matrix4x4.RotateZ(angle);
 					shader.Activate();
 
 					cb.VertexBuffer.Textures[0] = texture;
 					cb.VertexBuffer.DrawIndexed(cb.IndexBuffer);
+
+					shader.EnableLighting = false;
+					shader.World = Matrix4x4.Translation(lightPos);
+					shader.Activate();
+
+					lightMesh.VertexBuffer.Textures[0] = texture;
+					lightMesh.VertexBuffer.DrawIndexed(lightMesh.IndexBuffer);
 
 					AgateBuiltInShaders.Basic2DShader.Activate();
 
@@ -97,7 +113,10 @@ namespace Tests.Shaders
 					Core.KeepAlive();
 
 					angle += 1 * Display.DeltaTime / 1000.0f;
+					lightAngle += 2.1 * Display.DeltaTime / 1000.0f;
+
 					if (angle > 6 * Math.PI) angle -= 6 * Math.PI;
+					if (lightAngle > 6 * Math.PI) lightAngle -= 6 * Math.PI;
 
 					frameCount++;
 
