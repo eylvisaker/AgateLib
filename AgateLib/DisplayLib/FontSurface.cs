@@ -310,7 +310,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		[Obsolete]
+		[Obsolete("Use MeasureString instead.", true)]
 		public int StringDisplayWidth(string text)
 		{
 			return StringDisplaySize(text).Width;
@@ -320,7 +320,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		[Obsolete]
+		[Obsolete("Use MeasureString instead.", true)]
 		public int StringDisplayHeight(string text)
 		{
 			return StringDisplaySize(text).Height;
