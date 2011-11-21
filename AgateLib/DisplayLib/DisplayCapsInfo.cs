@@ -113,7 +113,15 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public AgateLib.DisplayLib.Shaders.ShaderLanguage ShaderLanguage
 		{
-			get { return AgateLib.DisplayLib.Shaders.ShaderLanguage.Hlsl; }
+			get 
+			{ 
+				var shad = Display.Impl.SupportedShaderLanguages.ToList(); 
+			
+				if (shad.Count == 0)
+					return Shaders.ShaderLanguage.None;
+				else
+					return shad[0];
+			}
 		}
 		/// <summary>
 		/// Indicates whether the driver can create a bitmap font from an operating
