@@ -167,6 +167,7 @@
     <Compile Include="GLDrawBuffer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Legacy\FrameBufferArb.cs" />
     <Compile Include="Legacy\LegacyDrawBuffer.cs" />
     <Compile Include="Legacy\LegacyPrimitiveRenderer.cs" />
     <Compile Include="PrimitiveRenderer.cs" />

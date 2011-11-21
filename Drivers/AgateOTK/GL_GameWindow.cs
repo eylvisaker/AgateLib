@@ -37,6 +37,8 @@ namespace AgateOTK
 	/// </summary>
 	class GL_GameWindow : DisplayWindowImpl
 	{
+		#region --- Static Members ---
+
 		static Dictionary<OpenTK.Input.Key, KeyCode> keyMap = new Dictionary<OpenTK.Input.Key, KeyCode>();
 
 		static GL_GameWindow()
@@ -163,6 +165,8 @@ namespace AgateOTK
 
 
 		}
+
+		#endregion
 
 		GL_Display mDisplay;
 		System.Drawing.Icon mIcon;

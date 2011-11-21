@@ -9,5 +9,6 @@ out vec4 color;
 
 void main()
 {
-	color =  texture2D(texture, texCoordVal);
+	color = texture2D(texture, texCoordVal);
+	color = color * colorVal;
 }

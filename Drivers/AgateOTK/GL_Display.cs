@@ -43,6 +43,7 @@ namespace AgateOTK
 		Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		Rectangle mCurrentClip = Rectangle.Empty;
 		private bool mVSync = true;
+		private bool mSupportsFramebufferArb;
 		private bool mSupportsFramebufferExt;
 		private bool mNonPowerOf2Textures;
 		private bool mSupportsShaders;
@@ -147,13 +148,15 @@ namespace AgateOTK
 		{
 			if (mGL3)
 				return new GL3.FrameBuffer(size);
+			else if (mSupportsFramebufferArb)
+				return new Legacy.FrameBufferArb(size);
 			else if (mSupportsFramebufferExt)
 			{
 				try
 				{
 					return new Legacy.FrameBufferExt(size);
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					Trace.WriteLine(string.Format("Caught exception {0} when trying to create GL_FrameBuffer_Ext wrapper.", e.GetType()));
 					Trace.Indent();
@@ -318,7 +321,6 @@ namespace AgateOTK
 			if (mGLVersion >= 3m)
 			{
 				//mGL3 = true;
-			mGL3 = false;
 
 				mGL3 = false;
 				mGLVersion = 2.1m;
@@ -326,6 +328,7 @@ namespace AgateOTK
 			
 			LoadExtensions();
 
+			mSupportsFramebufferArb = SupportsExtension("GL_ARB_FRAMEBUFFER_OBJECT");
 			mSupportsFramebufferExt = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
 			mNonPowerOf2Textures = SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
 
