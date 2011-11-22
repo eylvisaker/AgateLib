@@ -39,15 +39,7 @@ namespace AgateLib.Settings
 		/// The name.
 		/// </value>
 		public string Name { get; internal set; }
-		
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="AgateLib.Settings.SettingsGroup"/> is in
-		/// debugging mode. If true, every access to a member will be echoed to System.Diagnostics.Trace.
-		/// </summary>
-		/// <value>
-		/// <c>true</c> if debug; otherwise, <c>false</c>.
-		/// </value>
-		public bool Debug { get; set; }
+
 		
 		/// <summary>
 		/// Returns true if this settings group has no members.
@@ -66,12 +58,9 @@ namespace AgateLib.Settings
 		/// <param name="value"></param>
 		public void Add(string key, string value)
 		{
-			mStore.Add(key, value);
+			Core.Settings.TraceSettingsWrite(Name, key, value);
 			
-			if (Debug)
-			{
-				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] written.", Name, key));
-			}
+			mStore.Add(key, value);
 		}
 
 		/// <summary>
@@ -81,11 +70,8 @@ namespace AgateLib.Settings
 		/// <returns></returns>
 		public bool ContainsKey(string key)
 		{
-			if (Debug)
-			{
-				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] checked.", Name, key));
-			}
-
+			Core.Settings.TraceSettingsRead(Name, key, (mStore.ContainsKey(key) ? mStore[key] : null));
+			
 			return mStore.ContainsKey(key);
 		}
 
@@ -114,11 +100,8 @@ namespace AgateLib.Settings
 		/// <returns></returns>
 		public bool TryGetValue(string key, out string value)
 		{
-			if (Debug)
-			{
-				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] checked.", Name, key));
-			}
-
+			Core.Settings.TraceSettingsRead(Name, key, (mStore.ContainsKey(key) ? mStore[key] : null));
+			
 			return mStore.TryGetValue(key, out value);
 		}
 
@@ -138,19 +121,15 @@ namespace AgateLib.Settings
 		public string this[string key]
 		{
 			get 
-			{ 
-				if (Debug)
-				{
-					Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] checked.", Name, key));
-				}
+			{
+				Core.Settings.TraceSettingsRead(Name, key, (mStore.ContainsKey(key) ? mStore[key] : null));
+			
 				return mStore[key]; 
 			}
 			set
 			{
-				if (Debug)
-				{
-					Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] written.", Name, key));
-				} 
+				Core.Settings.TraceSettingsWrite(Name, key, value);
+			
 				mStore[key] = value; 
 			}
 		}

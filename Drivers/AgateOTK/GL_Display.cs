@@ -146,9 +146,9 @@ namespace AgateOTK
 
 		protected override FrameBufferImpl CreateFrameBuffer(Size size)
 		{
-			if (mGL3 || mSupportsFramebufferArb)
+			if (mGL3 || (mSupportsFramebufferArb && ReadSettingsBool("DisableFramebufferArb") == false))
 				return new GL3.FrameBuffer(size);
-			else if (mSupportsFramebufferExt)
+			else if (mSupportsFramebufferExt && ReadSettingsBool("DisableFramebufferExt") == false)
 			{
 				try
 				{
@@ -171,7 +171,20 @@ namespace AgateOTK
 			
 			return new Legacy.FrameBufferReadPixels(size);
 		}
-
+		
+		bool ReadSettingsBool(string name)
+		{
+			string value;
+			
+			if (AgateLib.Core.Settings["AgateLib.OpenGL"].TryGetValue(name, out value) == false)
+				return false;
+			
+			if (value == "false" || value == "0")
+				return false;
+			
+			return true;
+		}
+		
 		public GLDrawBuffer CreateDrawBuffer()
 		{
 			if (mGL3)
@@ -318,10 +331,15 @@ namespace AgateOTK
 			mGLVersion = DetectOpenGLVersion();
 			if (mGLVersion >= 3m)
 			{
-				//mGL3 = true;
-
-				mGL3 = false;
-				mGLVersion = 2.1m;
+				if (ReadSettingsBool("EnableGL3"))
+				{
+					mGL3 = true;
+				}
+				else
+				{
+					mGL3 = false;
+					mGLVersion = 2.1m;
+				}
 			}
 			
 			LoadExtensions();

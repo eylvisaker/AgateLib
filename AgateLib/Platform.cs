@@ -358,6 +358,7 @@ namespace AgateLib
 					break;
 				case 8:
 					retval = WindowsVersion.Windows8;
+					break;
 			}
 
 			return retval;

@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -10,7 +11,7 @@ using System.Reflection;
 
 namespace Tests
 {
-	public partial class frmLauncher : Form
+	public partial class frmLauncher : Form, AgateLib.Settings.ISettingsTracer
 	{
 		class TestInfo
 		{
@@ -28,15 +29,20 @@ namespace Tests
 
 			Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
 
-			AgateLib.Core.Settings["AgateLib"].Debug = true;
-			
 			LoadTests();
 
 			bold = new Font(lstTests.Font, FontStyle.Bold | FontStyle.Italic);
 			
+			ReadSettingsNames();
 			
+			AgateLib.Core.Settings.SettingsTracer = this;
+			AgateLib.Core.Settings.Debug = true;
+			
+			FillDrivers();
+			
+			this.FormClosed += HandleFormClosed;
 		}
-
+		
 		private void frmLauncher_Load(object sender, EventArgs e)
 		{
 			FillDrivers();
@@ -63,6 +69,95 @@ namespace Tests
 
 			list.SelectedIndex = 0;
 		}
+		void HandleFormClosed (object sender, FormClosedEventArgs e)
+		{
+			using (StreamWriter w =new StreamWriter(settingsFile))
+			{
+				foreach(var setting in mSettings)
+				{
+					string text = setting.Key + " " + setting.Value;
+					
+					System.Diagnostics.Debug.Print(text);
+					w.WriteLine(text);
+				}
+			}
+		}
+
+		#region --- ISettingsTracer implementation ---
+		
+		Dictionary<string, string> mSettings = new Dictionary<string, string>();
+		string settingsFile;
+		
+		void AgateLib.Settings.ISettingsTracer.OnReadSetting (string groupName, string key, string value)
+		{
+			string name = groupName + "." + key;
+			
+			StoreSetting(name, value);
+		}
+
+		void AgateLib.Settings.ISettingsTracer.OnWriteSetting (string groupName, string key, string value)
+		{
+			string name = groupName + "." + key;
+			
+			StoreSetting(name, value);
+		}
+		
+		void ReadSettingsNames()
+		{
+			StreamReader r = null;
+			string targetDirectory = "../../Tests/";
+			string filename = "settings_list.txt";
+			
+			try
+			{
+				using (r)
+				{
+					try 
+					{
+						settingsFile = targetDirectory + filename;
+						r = new StreamReader(targetDirectory + filename);
+					}
+					catch (DirectoryNotFoundException)
+					{
+						settingsFile = filename;
+						r = new StreamReader(filename);	
+					}
+					
+					while (r.EndOfStream == false)
+					{
+						string x = r.ReadLine().Trim();
+						if (string.IsNullOrEmpty(x) == false)
+						{
+							int index = x.IndexOf(' ');
+							
+							if (index == -1)
+							{
+								mSettings.Add(x, null);
+							}
+							else
+								mSettings.Add(x.Substring(0, index), x.Substring(index + 1));
+						}
+					}
+				}
+			}
+			catch
+			{
+				if (settingsFile == null)
+					settingsFile = filename;
+			}
+			
+		}
+		void StoreSetting(string name, string value)
+		{
+			if (mSettings.ContainsKey(name)) return;
+			
+			System.Diagnostics.Debug.Print("Storing setting " + name);
+			
+			mSettings.Add(name, value);
+		}
+		
+		#endregion		
+		
 		private void FillList()
 		{
 			tests.Sort((x, y) =>
@@ -136,12 +231,12 @@ namespace Tests
 		private void LaunchTest(TestInfo m)
 		{
 			IAgateTest obj = (IAgateTest)Activator.CreateInstance(m.Class);
-
 			if (runningTest)
 			{
 				System.Diagnostics.Debug.Print("Bug in mono? A second test was launched while the first was still running.");
 				return;
 			}
+
 
 			string[] args = { };
 
@@ -150,6 +245,7 @@ namespace Tests
 			AgateLib.Core.Settings["AgateLib"]["AudioDriver"] = audioList.Text;
 			AgateLib.Core.Settings["AgateLib"]["InputDriver"] = inputList.Text;
 
+							
 			try
 			{
 				runningTest = true;
