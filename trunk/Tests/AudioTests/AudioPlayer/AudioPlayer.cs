@@ -17,7 +17,6 @@ namespace Tests.AudioTester
 		{
 			using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup("Agate Audio Tester", args))
 			{
-				setup.AskUser = true;
 				setup.Initialize(false, true, false);
 				if (setup.WasCanceled)
 					return;

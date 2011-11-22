@@ -49,9 +49,12 @@ namespace AgateLib
 			mRuntime = DetectRuntime();
 			m64Bit = Detect64Bit();
 
+			// According to http://msdn.microsoft.com/query/dev10.query?appId=Dev10IDEF1&l=EN-US&k=k%28SYSTEM.DIAGNOSTICS.DEBUG.LISTENERS%29;k%28TargetFrameworkMoniker-%22.NETFRAMEWORK%2cVERSION%3dV3.5%22%29;k%28DevLang-CSHARP%29&rd=true
+			//		The Listeners collection is shared by both the Debug and the Trace classes; 
+			//		adding a trace listener to either class adds the listener to both.
+			// So we will just use the Trace.Listeners class.
 			if (PlatformType != PlatformType.Windows)
 			{
-				Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
 				Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 			}
 
@@ -63,23 +66,19 @@ namespace AgateLib
 			SetFolders();
 
 			string debugLog = "agate-debuglog.txt";
-			string traceLog = "debuglog.txt";
 
 			if (HasWriteAccessToAppDirectory())
 			{
 				debugLog = Path.Combine(mAppDir, debugLog);
-				traceLog = Path.Combine(mAppDir, traceLog);
 			}
 			else
 			{
 				debugLog = Path.Combine(mAppData, debugLog);
-				traceLog = Path.Combine(mAppData, traceLog);
 			}
 
 			try
 			{
-				Debug.Listeners.Add(new TextWriterTraceListener(new StreamWriter(debugLog)));
-				Trace.Listeners.Add(new TextWriterTraceListener(new StreamWriter(traceLog)));
+				Trace.Listeners.Add(new TextWriterTraceListener(new StreamWriter(debugLog)));
 			}
 			catch (Exception)
 			{

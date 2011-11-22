@@ -23,7 +23,6 @@ namespace Tests.DisplayTests.Capabilities
 		{
 			using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup())
 			{
-				setup.AskUser = true;
 				setup.Initialize(true, false, false);
 				if (setup.WasCanceled)
 					return;

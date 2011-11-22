@@ -302,7 +302,7 @@ namespace AgateLib
 		{
 		}
 		/// <summary>
-		/// Initializes Core class.
+		/// Initializes Core class. Also causes the Registrar to probe drivers.
 		/// Can be called multiple times without adverse effects.
 		/// </summary>
 		public static void Initialize()
@@ -311,7 +311,6 @@ namespace AgateLib
 				return;
 
 			Drivers.Registrar.Initialize();
-
 
 			sInititalized = true;
 		}

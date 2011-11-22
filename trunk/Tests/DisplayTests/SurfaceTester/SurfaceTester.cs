@@ -25,7 +25,6 @@ namespace Tests.SurfaceTester
 
 			using (AgateSetup displaySetup = new AgateSetup(args))
 			{
-				displaySetup.AskUser = true;
 				displaySetup.Initialize(true, false, false);
 				if (displaySetup.WasCanceled)
 					return;

@@ -21,7 +21,6 @@ namespace Tests.InputTester
 		{
 			using (AgateSetup setup = new AgateSetup(args))
 			{
-				setup.AskUser = true;
 				setup.Initialize(true, false, true);
 				if (setup.WasCanceled)
 					return;

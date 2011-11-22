@@ -107,7 +107,6 @@ namespace Tests.AudioTests
 		{
 			using (AgateSetup setup = new AgateSetup())
 			{
-				setup.AskUser = true;
 				setup.Initialize(true, true, false);
 				if (setup.WasCanceled)
 					return;

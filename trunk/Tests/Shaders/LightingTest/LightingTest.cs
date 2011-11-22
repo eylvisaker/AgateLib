@@ -23,8 +23,6 @@ namespace Tests.LightingTest
 		{
 			using (AgateSetup setup = new AgateSetup(args))
 			{
-				setup.AskUser = true;
-				setup.PreferredDisplay = AgateLib.Drivers.DisplayTypeID.OpenGL;
 				setup.Initialize(true, false, false);
 				if (setup.WasCanceled)
 					return;

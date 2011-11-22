@@ -24,7 +24,6 @@ namespace Tests.FontTester
 		{
 			using (AgateSetup setupDisplay = new AgateSetup())
 			{
-				setupDisplay.AskUser = true;
 				setupDisplay.Initialize(true, false, false);
 
 				if (setupDisplay.WasCanceled)

@@ -24,7 +24,6 @@ namespace Tests.TileTester
 		{
 			using (AgateSetup setup = new AgateSetup())
 			{
-				setup.AskUser = true;
 				setup.Initialize(true, false, false);
 				if (setup.WasCanceled)
 					return;

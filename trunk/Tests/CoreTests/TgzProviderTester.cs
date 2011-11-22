@@ -16,7 +16,6 @@ namespace Tests.TgzProviderTester
 
 			using (AgateSetup setup = new AgateSetup())
 			{
-				setup.AskUser = true;
 				setup.Initialize(true, false, false);
 				if (setup.WasCanceled)
 					return;
