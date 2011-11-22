@@ -82,6 +82,10 @@ namespace AgateLib
 		/// Windows 7.
 		/// </summary>
 		Windows7,
+		/// <summary>
+		/// Windows 8.
+		/// </summary>
+		Windows8
 	}
 
 	/// <summary>
