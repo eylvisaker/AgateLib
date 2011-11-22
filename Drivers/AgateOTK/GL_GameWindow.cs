@@ -31,7 +31,6 @@ using GL = OpenTK.Graphics.OpenGL.GL;
 
 namespace AgateOTK
 {
-
 	/// <summary>
 	/// Old, needs to be updated.
 	/// </summary>

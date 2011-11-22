@@ -23,7 +23,6 @@ namespace Tests.DisplayTests
 		{
 			using (AgateSetup setup = new AgateSetup())
 			{
-				setup.AskUser = true;
 				setup.Initialize(true, false, true);
 				if (setup.WasCanceled)
 					return;

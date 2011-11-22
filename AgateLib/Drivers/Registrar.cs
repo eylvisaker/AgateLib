@@ -48,6 +48,10 @@ namespace AgateLib.Drivers
 		private static readonly string[] KnownNativeLibraries = new string[]
 		{
 			"SDL.dll",
+			"SDL_mixer.dll",
+			"libogg-0.dll",
+			"libvorbis-0.dll",
+			"libvorbisfile-3.dll",
 		};
 
 
@@ -319,15 +323,21 @@ namespace AgateLib.Drivers
 			if (displayDrivers.Count == 0)
 				throw new AgateException("No display drivers registered.");
 			
-			AgateDriverInfo info;
+			AgateDriverInfo info = null;
 			string text;
-			
-			if (displayType == DisplayTypeID.AutoSelect && 
-				Core.Settings["AgateLib"].TryGetValue("DisplayDriver", out text))
+
+			bool settingsSelect = displayType == DisplayTypeID.AutoSelect;
+			settingsSelect &= Core.Settings["AgateLib"].TryGetValue("DisplayDriver", out text);
+
+			if (settingsSelect)
 			{
 				info = FindDriverInfo(displayDrivers, text);
+
+				if (info == null)
+					settingsSelect = false;
 			}
-			else
+			
+			if (settingsSelect == false)
 				info = FindDriverInfo(displayDrivers, (int)displayType);
 
 			if (info == null)
@@ -339,16 +349,22 @@ namespace AgateLib.Drivers
 		{
 			if (audioDrivers.Count == 0)
 				throw new AgateException("No audio drivers registered.");
-			
-			AgateDriverInfo info;
+
+			AgateDriverInfo info = null;
 			string text;
-			
-			if (audioType == AudioTypeID.AutoSelect && 
-				Core.Settings["AgateLib"].TryGetValue("AudioDriver", out text))
+
+			bool settingsSelect = audioType == AudioTypeID.AutoSelect;
+			settingsSelect &= Core.Settings["AgateLib"].TryGetValue("AudioDriver", out text);
+
+			if (settingsSelect)
 			{
 				info = FindDriverInfo(audioDrivers, text);
+
+				if (info == null)
+					settingsSelect = false;
 			}
-			else 
+			
+			if (settingsSelect == false)
 				info = FindDriverInfo(audioDrivers, (int)audioType);
 
 			if (info == null)
@@ -361,15 +377,21 @@ namespace AgateLib.Drivers
 			if (inputDrivers.Count == 0)
 				throw new AgateException("No audio drivers registered.");
 			
-			AgateDriverInfo info;
+			AgateDriverInfo info = null;
 			string text;
-			
-			if (inputType == InputTypeID.AutoSelect && 
-				Core.Settings["AgateLib"].TryGetValue("InputDriver", out text))
+
+			bool settingsSelect = inputType == InputTypeID.AutoSelect;
+			settingsSelect &= Core.Settings["AgateLib"].TryGetValue("AudioDriver", out text);
+
+			if (settingsSelect)
 			{
 				info = FindDriverInfo(inputDrivers, text);
+
+				if (info == null)
+					settingsSelect = false;
 			}
-			else 
+
+			if (settingsSelect == false)
 				info = FindDriverInfo(inputDrivers, (int)inputType);
 			
 			if (info == null)

@@ -28,7 +28,6 @@ namespace Tests.FontLineTester
 		{
 			using (AgateSetup setup = new AgateSetup())
 			{
-				setup.AskUser = true;
 				setup.Initialize(true, false, false);
 				if (setup.WasCanceled)
 					return;

@@ -84,7 +84,6 @@ namespace Tests.DisplayTests.BasicDrawing
 				Random rand = new Random();
 
 				// initialize the display, asking the user what display driver to use.
-				setup.AskUser = true;
 				setup.Initialize(true, false, false);
 
 				// normally, the display should initialize fine, and goahead will be true.

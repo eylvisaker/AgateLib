@@ -146,10 +146,8 @@ namespace AgateOTK
 
 		protected override FrameBufferImpl CreateFrameBuffer(Size size)
 		{
-			if (mGL3)
+			if (mGL3 || mSupportsFramebufferArb)
 				return new GL3.FrameBuffer(size);
-			else if (mSupportsFramebufferArb)
-				return new Legacy.FrameBufferArb(size);
 			else if (mSupportsFramebufferExt)
 			{
 				try
