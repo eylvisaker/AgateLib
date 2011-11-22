@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,7 @@ namespace AgateLib.Settings
 	/// in named groups, and within each group an individual setting is a key/value pair.
 	/// These settings are stored on a per-user basis.
 	/// </summary>
-	/// <remarks>On Windows Vista the file is stored in 
+	/// <remarks>On Windows Vista and up the file is stored in 
 	/// %HOME%\AppData\Company Name\Application Name\settings.xml.
 	/// On Unix the file is stored at
 	/// $HOME/.config/Company Name/Application Name/settings.xml.
@@ -43,7 +44,41 @@ namespace AgateLib.Settings
 		{
 			LoadSettings();
 		}
-
+		
+		public ISettingsTracer SettingsTracer { get; set; }
+				
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="AgateLib.Settings.PersistantSettings"/> is in
+		/// debugging mode. If true, every access to a setting value will be echoed to System.Diagnostics.Trace.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if debug; otherwise, <c>false</c>.
+		/// </value>
+		public bool Debug { get; set; }
+		
+		internal void TraceSettingsRead(string groupName, string key, string value)
+		{
+			if (Debug)
+			{
+				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] read.", groupName, key));
+			}
+			
+			if (SettingsTracer == null) return;
+			
+			SettingsTracer.OnReadSetting(groupName, key, value);
+		}
+		internal void TraceSettingsWrite(string groupName, string key, string value)
+		{
+			if (Debug)
+			{
+				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] written.", groupName, key));
+			}
+			
+			if (SettingsTracer == null) return;
+			
+			SettingsTracer.OnWriteSetting(groupName, key, value);
+		}
+		
 		private SettingsGroup GetOrCreateSettingsGroup(string name)
 		{
 			if (name.Contains(" "))

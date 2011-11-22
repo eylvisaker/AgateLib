@@ -381,7 +381,7 @@ namespace AgateLib.Drivers
 			string text;
 
 			bool settingsSelect = inputType == InputTypeID.AutoSelect;
-			settingsSelect &= Core.Settings["AgateLib"].TryGetValue("AudioDriver", out text);
+			settingsSelect &= Core.Settings["AgateLib"].TryGetValue("InputDriver", out text);
 
 			if (settingsSelect)
 			{

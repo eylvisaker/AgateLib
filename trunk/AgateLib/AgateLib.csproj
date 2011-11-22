@@ -584,6 +584,7 @@
       <LastGenOutput>DataResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Compile Include="DisplayLib\Shaders\IShader2D.cs" />
+    <Compile Include="Settings\ISettingsTracer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="InternalResources\agate-black-gui.zip" />
