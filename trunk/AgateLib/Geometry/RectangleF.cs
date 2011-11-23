@@ -234,6 +234,16 @@ namespace AgateLib.Geometry
 			return !a.Equals(b);
 		}
 
+		/// <summary>
+		/// Conversion to Rectangle structure.
+		/// </summary>
+		/// <param name="r"></param>
+		/// <returns></returns>
+		public static explicit operator Rectangle(RectangleF r)
+		{
+			return new Rectangle((int)r.X, (int)r.Y, (int)r.Width, (int)r.Height);
+		}
+
 		#endregion
 		#region --- Object Overrides ---
 

@@ -505,7 +505,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <param name="color"></param>
 		public virtual void DrawLines(Point[] pt, int startIndex, int length, Color color)
 		{
-			for (int i = startIndex; i < startIndex + pt.Length - 1; i++)
+			for (int i = startIndex; i < startIndex + length - 1; i++)
 				DrawLine(pt[i], pt[i + 1], color);
 		}
 		/// <summary>
