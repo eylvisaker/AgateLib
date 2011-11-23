@@ -36,47 +36,26 @@ namespace AgateOTK.GL3
 	/// </summary>
 	class GLPrimitiveRenderer : PrimitiveRenderer
 	{
-		PositionColor[] mVerts = new PositionColor[6];
+		PositionTextureColor[] mVerts = new PositionTextureColor[12];
 
 		int mBufferID;
 		int mVaoID;
 
+		GL_Display mDisplay;
+
 		public GLPrimitiveRenderer()
 		{
+			mDisplay = (GL_Display)Display.Impl;
+
 			GL.GenBuffers(1, out mBufferID);
 			GL.GenVertexArrays(1, out mVaoID); 
 			
 			Debug.Print("GL3 PrimitiveRenderer: Draw buffer ID: {0}", mBufferID);
 		}
 
-		public void SetGLColor(Color color)
+		GL_Surface WhiteSurface
 		{
-			GL.Color4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-		}
-
-		public override void DrawLine(Point a, Point b, Color color)
-		{
-			mVerts[0].Position.X = a.X;
-			mVerts[0].Position.Y = a.Y;
-			mVerts[0].Color = color.ToArgb();
-
-			mVerts[1].Position.X = b.X;
-			mVerts[1].Position.Y = b.Y;
-			mVerts[1].Color = color.ToArgb();
-
-			BufferData();
-
-			GL_Display display = (GL_Display)Display.Impl;
-			Shaders.IGL3Shader shader = (Shaders.IGL3Shader)display.Shader.Impl;
-
-			shader.SetVertexAttributes(PositionColor.VertexLayout);
-
-			GL.ActiveTexture(TextureUnit.Texture0);
-			GL.BindTexture(TextureTarget.Texture2D, 0);
-			shader.SetTexture(0);
-
-			GL.DrawArrays(BeginMode.Lines, 0, 1);
-
+			get { return (GL_Surface) mDisplay.WhiteSurface.Impl; }
 		}
 
 		private void BufferData()
@@ -97,8 +76,8 @@ namespace AgateOTK.GL3
 
 					IntPtr ptr = handle.AddrOfPinnedObject();
 
-					GL.BufferData(BufferTarget.ArrayBuffer, 
-						(IntPtr)bufferSize, ptr, 
+					GL.BufferData(BufferTarget.ArrayBuffer,
+						(IntPtr)bufferSize, ptr,
 						BufferUsageHint.StaticDraw);
 				}
 				finally
@@ -108,78 +87,122 @@ namespace AgateOTK.GL3
 			}
 		}
 
+		public override void DrawLine(Point a, Point b, Color color)
+		{
+			mVerts[0].Position.X = a.X;
+			mVerts[0].Position.Y = a.Y;
+			mVerts[0].TexCoord.X = 0;
+			mVerts[0].TexCoord.Y = 0;
+			mVerts[0].Color = color.ToArgb();
+
+			mVerts[1].Position.X = b.X;
+			mVerts[1].Position.Y = b.Y;
+			mVerts[1].TexCoord.X = 1;
+			mVerts[1].TexCoord.Y = 1;
+			mVerts[1].Color = color.ToArgb();
+
+			BufferData();
+
+			Shaders.IGL3Shader shader = (Shaders.IGL3Shader)mDisplay.Shader.Impl;
+
+			shader.SetVertexAttributes(PositionColor.VertexLayout);
+
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.Texture2D, WhiteSurface.GLTextureID);
+			shader.SetTexture(0);
+
+			GL.DrawArrays(BeginMode.Lines, 0, 1);
+		}
 		public override void DrawRect(RectangleF rect, Color color)
 		{
-			SetGLColor(color);
+			mVerts[0].Position.X = rect.Left;
+			mVerts[0].Position.Y = rect.Top;
+			mVerts[0].TexCoord.X = 0;
+			mVerts[0].TexCoord.Y = 0;
 
-			GL.Disable(EnableCap.Texture2D);
-			GL.Begin(BeginMode.Lines);
+			mVerts[1].Position.X = rect.Right;
+			mVerts[1].Position.Y = rect.Top;
+			mVerts[1].TexCoord.X = 1;
+			mVerts[1].TexCoord.Y = 0;
 
-			GL.Vertex2(rect.Left, rect.Top);
-			GL.Vertex2(rect.Right, rect.Top);
+			mVerts[2] = mVerts[1];
+			
+			mVerts[3].Position.X = rect.Right;
+			mVerts[3].Position.Y = rect.Bottom;
+			mVerts[3].TexCoord.X = 1;
+			mVerts[3].TexCoord.Y = 1;
+			
+			mVerts[4] = mVerts[3];
 
-			GL.Vertex2(rect.Right, rect.Top);
-			GL.Vertex2(rect.Right, rect.Bottom);
+			mVerts[5].Position.X = rect.Left;
+			mVerts[5].Position.Y = rect.Bottom;
+			mVerts[5].TexCoord.X = 0;
+			mVerts[5].TexCoord.Y = 1;
+			
+			mVerts[6] = mVerts[3];
 
-			GL.Vertex2(rect.Left, rect.Bottom);
-			GL.Vertex2(rect.Right, rect.Bottom);
+			mVerts[7].Position.X = rect.Left;
+			mVerts[7].Position.Y = rect.Top;
+			mVerts[7].TexCoord.X = 0;
+			mVerts[7].TexCoord.Y = 0;
+			
+			int colorValue = color.ToArgb();
+			for (int i = 0; i < 7; i++)
+			{
+				mVerts[i].Color = colorValue;
+			}
 
-			GL.Vertex2(rect.Left, rect.Top);
-			GL.Vertex2(rect.Left, rect.Bottom);
+			BufferData();
 
-			GL.End();
-			GL.Enable(EnableCap.Texture2D);
+			GL_Display display = (GL_Display)Display.Impl;
+			Shaders.IGL3Shader shader = (Shaders.IGL3Shader)display.Shader.Impl;
+
+			shader.SetVertexAttributes(PositionColor.VertexLayout);
+
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.Texture2D, WhiteSurface.GLTextureID);
+			shader.SetTexture(0);
+
+			GL.DrawArrays(BeginMode.Lines, 0, 4);
 		}
 		public override void FillRect(RectangleF rect, Color color)
 		{
-			SetGLColor(color);
-
-			GL.Disable(EnableCap.Texture2D);
-
-			GL.Begin(BeginMode.Quads);
-			GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
-			GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
-			GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
-			GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
-			GL.End();                                                         // Done Drawing The Quad
-
-			GL.Enable(EnableCap.Texture2D);
+			mDisplay.WhiteSurface.Color = color;
+			mDisplay.WhiteSurface.Draw((Rectangle)rect);
+			mDisplay.WhiteSurface.Color = Color.White;
 		}
 		public override void FillRect(RectangleF rect, Gradient color)
 		{
-			GL.Disable(EnableCap.Texture2D);
-
-			GL.Begin(BeginMode.Quads);
-			SetGLColor(color.TopLeft);
-			GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
-
-			SetGLColor(color.TopRight);
-			GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
-
-			SetGLColor(color.BottomRight);
-			GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
-
-			SetGLColor(color.BottomLeft);
-			GL.Vertex3(rect.Left, rect.Bottom, 0);                                       // Bottom Left
-			GL.End();                                                         // Done Drawing The Quad
-
-			GL.Enable(EnableCap.Texture2D);
+			mDisplay.WhiteSurface.ColorGradient = color;
+			mDisplay.WhiteSurface.Draw((Rectangle)rect);
+			mDisplay.WhiteSurface.Color = Color.White;
 		}
 
 		public override void FillPolygon(PointF[] pts, int startIndex, int length, Color color)
 		{
-			GL.Disable(EnableCap.Texture2D);
+			if (mVerts.Length < pts.Length + 1)
+				mVerts = new PositionTextureColor[pts.Length+1];
 
-			SetGLColor(color);
-
-			GL.Begin(BeginMode.TriangleFan);
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < pts.Length; i++)
 			{
-				GL.Vertex3(pts[startIndex + i].X, pts[startIndex + i].Y, 0);
+				mVerts[i].Position.X = pts[i].X;
+				mVerts[i].Position.Y = pts[i].Y;
+				mVerts[i].TexCoord.X = 0;
+				mVerts[i].TexCoord.Y = 0;
+				mVerts[i].Color = color.ToArgb();
 			}
-			GL.End();                                                         // Done Drawing The Quad
 
-			GL.Enable(EnableCap.Texture2D);
+			mVerts[pts.Length] = mVerts[0];
+
+			Shaders.IGL3Shader shader = (Shaders.IGL3Shader)mDisplay.Shader.Impl;
+
+			shader.SetVertexAttributes(PositionColor.VertexLayout);
+
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.Texture2D, WhiteSurface.GLTextureID);
+			shader.SetTexture(0);
+
+			GL.DrawArrays(BeginMode.Lines, 0, 1);
 		}
 
 	}

@@ -56,6 +56,11 @@ namespace AgateOTK
 
 		bool mGL3;
 
+		internal Surface WhiteSurface
+		{
+			get;
+			private set;
+		}
 		public bool SupportsNonPowerOf2Textures
 		{
 			get { return mNonPowerOf2Textures; }
@@ -168,23 +173,23 @@ namespace AgateOTK
 					mSupportsFramebufferExt = false;
 				}
 			}
-			
+
 			return new Legacy.FrameBufferReadPixels(size);
 		}
-		
+
 		bool ReadSettingsBool(string name)
 		{
 			string value;
-			
+
 			if (AgateLib.Core.Settings["AgateLib.OpenGL"].TryGetValue(name, out value) == false)
 				return false;
-			
+
 			if (value == "false" || value == "0")
 				return false;
-			
+
 			return true;
 		}
-		
+
 		public GLDrawBuffer CreateDrawBuffer()
 		{
 			if (mGL3)
@@ -193,7 +198,7 @@ namespace AgateOTK
 				return new Legacy.LegacyDrawBuffer();
 		}
 
-		
+
 		#endregion
 
 		protected override void OnBeginFrame()
@@ -221,14 +226,14 @@ namespace AgateOTK
 		{
 			GL.Viewport(newClipRect.X, mRenderTarget.Height - newClipRect.Bottom,
 				newClipRect.Width, newClipRect.Height);
-			
+
 			if (Display.Shader is AgateLib.DisplayLib.Shaders.IShader2D)
 			{
-				AgateLib.DisplayLib.Shaders.IShader2D s = (AgateLib.DisplayLib.Shaders.IShader2D)Display.Shader ;
-				
+				AgateLib.DisplayLib.Shaders.IShader2D s = (AgateLib.DisplayLib.Shaders.IShader2D)Display.Shader;
+
 				s.CoordinateSystem = newClipRect;
 			}
-			    
+
 			mCurrentClip = newClipRect;
 		}
 
@@ -307,7 +312,7 @@ namespace AgateOTK
 		public override void Initialize()
 		{
 			CreateFakeWindow();
-			
+
 			Report("OpenTK / OpenGL driver instantiated for display.");
 		}
 		public void InitializeCurrentContext()
@@ -316,8 +321,30 @@ namespace AgateOTK
 			GL.ClearDepth(1);                                                 // Depth Buffer Setup
 			GL.Enable(EnableCap.DepthTest);                            // Enables Depth Testing
 			GL.DepthFunc(DepthFunction.Lequal);                         // The Type Of Depth Testing To Do
+
+			
 		}
-		
+
+		private void CreateWhiteSurface()
+		{
+			if (WhiteSurface == null)
+			{
+				int size = 2;
+
+				PixelBuffer buffer = new PixelBuffer(PixelFormat.ARGB8888, new Size(size, size));
+
+				for (int i = 0; i < size; i++)
+				{
+					for (int j = 0; j < size; j++)
+					{
+						buffer.SetPixel(i, j, Color.White);
+					}
+				}
+
+				WhiteSurface = new Surface(buffer);
+			}
+		}
+
 		private void CreateFakeWindow()
 		{
 			mFakeWindow = new System.Windows.Forms.Form();
@@ -341,7 +368,7 @@ namespace AgateOTK
 					mGLVersion = 2.1m;
 				}
 			}
-			
+
 			LoadExtensions();
 
 			mSupportsFramebufferArb = SupportsExtension("GL_ARB_FRAMEBUFFER_OBJECT");
@@ -374,6 +401,8 @@ namespace AgateOTK
 			Trace.WriteLine(string.Format("OpenGL version {0} from vendor {1} detected.", mGLVersion, vendor));
 			Trace.WriteLine("NPOT: " + mNonPowerOf2Textures.ToString());
 			Trace.WriteLine("Shaders: " + mSupportsShaders.ToString());
+
+			CreateWhiteSurface();
 		}
 
 		string[] extensions;
@@ -501,7 +530,7 @@ namespace AgateOTK
 			if (Display.CurrentWindow != null)
 			{
 				DisplayWindowImpl impl = Display.CurrentWindow.Impl;
-				
+
 				//((GL_FrameBufferExt)impl).ShowCursor();
 			}
 		}

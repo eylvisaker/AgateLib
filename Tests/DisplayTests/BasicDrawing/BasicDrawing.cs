@@ -66,9 +66,9 @@ namespace Tests.DisplayTests.BasicDrawing
 			}
 		}
 
-		static List<Shape> shapes = new List<Shape>();
-		static Random random = new Random();
-		static DrawingTester frm;
+		List<Shape> shapes = new List<Shape>();
+		Random random = new Random();
+		DrawingTester frm;
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -142,12 +142,12 @@ namespace Tests.DisplayTests.BasicDrawing
 			shapes.Add(new Shape(ShapeType.FillEllipse, Color.FromArgb(frm.SelectedColor.ToArgb()), RandomRect()));
 		}
 
-		static void btnDrawCircle_Click(object sender, EventArgs e)
+		void btnDrawCircle_Click(object sender, EventArgs e)
 		{
 			shapes.Add(new Shape(ShapeType.DrawEllipse, Color.FromArgb(frm.SelectedColor.ToArgb()), RandomRect()));
 		}
 
-		static Rectangle RandomRect()
+		Rectangle RandomRect()
 		{
 			return new Rectangle(
 				random.Next(0, frm.panel1.Width * 2 / 3),
@@ -156,17 +156,17 @@ namespace Tests.DisplayTests.BasicDrawing
 				random.Next(10, frm.panel1.Height / 2)
 				);
 		}
-		static void btnFillRect_Click(object sender, EventArgs e)
+		void btnFillRect_Click(object sender, EventArgs e)
 		{
 			shapes.Add(new Shape(ShapeType.FillRect, Color.FromArgb(frm.SelectedColor.ToArgb()), RandomRect()));
 		}
 
-		static void btnDrawRect_Click(object sender, EventArgs e)
+		void btnDrawRect_Click(object sender, EventArgs e)
 		{
 			shapes.Add(new Shape(ShapeType.DrawRect, Color.FromArgb(frm.SelectedColor.ToArgb()), RandomRect()));
 		}
 
-		static void btnDrawLine_Click(object sender, EventArgs e)
+		void btnDrawLine_Click(object sender, EventArgs e)
 		{
 			int x = random.Next(0, frm.panel1.Width * 2 / 3);
 			int y = random.Next(0, frm.panel1.Width * 2 / 3);
@@ -191,7 +191,7 @@ namespace Tests.DisplayTests.BasicDrawing
 			}
 		}
 
-		static void btnClear_Click(object sender, EventArgs e)
+		void btnClear_Click(object sender, EventArgs e)
 		{
 			shapes.Clear();
 

@@ -32,17 +32,17 @@ namespace Tests
 			LoadTests();
 
 			bold = new Font(lstTests.Font, FontStyle.Bold | FontStyle.Italic);
-			
+
 			ReadSettingsNames();
-			
+
 			AgateLib.Core.Settings.SettingsTracer = this;
 			AgateLib.Core.Settings.Debug = true;
-			
+
 			FillDrivers();
-			
+
 			this.FormClosed += HandleFormClosed;
 		}
-		
+
 		private void frmLauncher_Load(object sender, EventArgs e)
 		{
 			FillDrivers();
@@ -69,14 +69,14 @@ namespace Tests
 
 			list.SelectedIndex = 0;
 		}
-		void HandleFormClosed (object sender, FormClosedEventArgs e)
+		void HandleFormClosed(object sender, FormClosedEventArgs e)
 		{
-			using (StreamWriter w =new StreamWriter(settingsFile))
+			using (StreamWriter w = new StreamWriter(settingsFile))
 			{
-				foreach(var setting in mSettings)
+				foreach (var setting in mSettings)
 				{
 					string text = setting.Key + " " + setting.Value;
-					
+
 					System.Diagnostics.Debug.Print(text);
 					w.WriteLine(text);
 				}
@@ -84,35 +84,35 @@ namespace Tests
 		}
 
 		#region --- ISettingsTracer implementation ---
-		
+
 		Dictionary<string, string> mSettings = new Dictionary<string, string>();
 		string settingsFile;
-		
-		void AgateLib.Settings.ISettingsTracer.OnReadSetting (string groupName, string key, string value)
+
+		void AgateLib.Settings.ISettingsTracer.OnReadSetting(string groupName, string key, string value)
 		{
 			string name = groupName + "." + key;
-			
+
 			StoreSetting(name, value);
 		}
 
-		void AgateLib.Settings.ISettingsTracer.OnWriteSetting (string groupName, string key, string value)
+		void AgateLib.Settings.ISettingsTracer.OnWriteSetting(string groupName, string key, string value)
 		{
 			string name = groupName + "." + key;
-			
+
 			StoreSetting(name, value);
 		}
-		
+
 		void ReadSettingsNames()
 		{
 			StreamReader r = null;
 			string targetDirectory = "../../Tests/";
 			string filename = "settings_list.txt";
-			
+
 			try
 			{
 				using (r)
 				{
-					try 
+					try
 					{
 						settingsFile = targetDirectory + filename;
 						r = new StreamReader(targetDirectory + filename);
@@ -120,16 +120,16 @@ namespace Tests
 					catch (DirectoryNotFoundException)
 					{
 						settingsFile = filename;
-						r = new StreamReader(filename);	
+						r = new StreamReader(filename);
 					}
-					
+
 					while (r.EndOfStream == false)
 					{
 						string x = r.ReadLine().Trim();
 						if (string.IsNullOrEmpty(x) == false)
 						{
 							int index = x.IndexOf(' ');
-							
+
 							if (index == -1)
 							{
 								mSettings.Add(x, null);
@@ -145,19 +145,19 @@ namespace Tests
 				if (settingsFile == null)
 					settingsFile = filename;
 			}
-			
+
 		}
 		void StoreSetting(string name, string value)
 		{
 			if (mSettings.ContainsKey(name)) return;
-			
+
 			System.Diagnostics.Debug.Print("Storing setting " + name);
-			
+
 			mSettings.Add(name, value);
 		}
-		
-		#endregion		
-		
+
+		#endregion
+
 		private void FillList()
 		{
 			tests.Sort((x, y) =>
@@ -245,7 +245,24 @@ namespace Tests
 			AgateLib.Core.Settings["AgateLib"]["AudioDriver"] = audioList.Text;
 			AgateLib.Core.Settings["AgateLib"]["InputDriver"] = inputList.Text;
 
-							
+			foreach (var kvp in mSettings)
+			{
+				if (kvp.Value == null)
+					continue;
+
+				string group, key;
+				SplitName(kvp.Key, out group, out key);
+
+				if (group == "AgateLib")
+				{
+					if (key == "DisplayDriver") continue;
+					if (key == "AudioDriver") continue;
+					if (key == "InputDriver") continue;
+				}
+
+				AgateLib.Core.Settings[group][key] = kvp.Value;
+			}
+
 			try
 			{
 				runningTest = true;
@@ -273,6 +290,20 @@ namespace Tests
 				this.Activate();
 			}
 		}
+
+		private void SplitName(string p, out string group, out string key)
+		{
+			int period = p.LastIndexOf('.');
+
+			if (period == -1)
+				throw new DataException("Invalid key name");
+
+			group = p.Substring(0, period);
+			key = p.Substring(period + 1);
+
+		}
+
+
 
 		private void lstTests_DrawItem(object sender, DrawItemEventArgs e)
 		{
