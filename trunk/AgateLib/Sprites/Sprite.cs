@@ -132,7 +132,7 @@ namespace AgateLib.Sprites
 		public Sprite(Surface surface, bool ownSurface, Size size)
 			: this(size)
 		{
-			AddNewFrames(surface, true, Point.Empty, Point.Empty, size, true);
+			AddNewFrames(surface, ownSurface, Point.Empty, Point.Empty, size, true);
 		}
 
 		/// <summary>
