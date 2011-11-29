@@ -41,9 +41,17 @@ namespace Tests.MultipleWindows
 			this.btnDraw = new System.Windows.Forms.Button();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.btnClearSurface = new System.Windows.Forms.Button();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
+			this.splitContainer2.Panel1.SuspendLayout();
+			this.splitContainer2.Panel2.SuspendLayout();
+			this.splitContainer2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pictureBox1
@@ -51,18 +59,21 @@ namespace Tests.MultipleWindows
 			this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox1.Location = new System.Drawing.Point(12, 38);
+			this.pictureBox1.Location = new System.Drawing.Point(12, 32);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(136, 32);
+			this.pictureBox1.Size = new System.Drawing.Size(203, 91);
 			this.pictureBox1.TabIndex = 0;
 			this.pictureBox1.TabStop = false;
 			this.pictureBox1.Tag = "Red Window";
 			// 
 			// pictureBox2
 			// 
-			this.pictureBox2.Location = new System.Drawing.Point(12, 156);
+			this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox2.Location = new System.Drawing.Point(12, 29);
 			this.pictureBox2.Name = "pictureBox2";
-			this.pictureBox2.Size = new System.Drawing.Size(136, 70);
+			this.pictureBox2.Size = new System.Drawing.Size(203, 97);
 			this.pictureBox2.TabIndex = 1;
 			this.pictureBox2.TabStop = false;
 			this.pictureBox2.Tag = "Green Window";
@@ -70,7 +81,7 @@ namespace Tests.MultipleWindows
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 3);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(133, 26);
 			this.label1.TabIndex = 2;
@@ -79,7 +90,7 @@ namespace Tests.MultipleWindows
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 127);
+			this.label2.Location = new System.Drawing.Point(12, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(148, 26);
 			this.label2.TabIndex = 3;
@@ -88,7 +99,7 @@ namespace Tests.MultipleWindows
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(179, 9);
+			this.label3.Location = new System.Drawing.Point(3, 16);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(142, 13);
 			this.label3.TabIndex = 5;
@@ -96,16 +107,20 @@ namespace Tests.MultipleWindows
 			// 
 			// pictureBox3
 			// 
-			this.pictureBox3.Location = new System.Drawing.Point(182, 35);
+			this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pictureBox3.Location = new System.Drawing.Point(6, 32);
 			this.pictureBox3.Name = "pictureBox3";
-			this.pictureBox3.Size = new System.Drawing.Size(200, 150);
+			this.pictureBox3.Size = new System.Drawing.Size(279, 170);
 			this.pictureBox3.TabIndex = 4;
 			this.pictureBox3.TabStop = false;
 			this.pictureBox3.Tag = "Red Window";
 			// 
 			// btnDraw
 			// 
-			this.btnDraw.Location = new System.Drawing.Point(307, 198);
+			this.btnDraw.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnDraw.Location = new System.Drawing.Point(208, 208);
 			this.btnDraw.Name = "btnDraw";
 			this.btnDraw.Size = new System.Drawing.Size(75, 39);
 			this.btnDraw.TabIndex = 6;
@@ -115,34 +130,76 @@ namespace Tests.MultipleWindows
 			// 
 			// btnClearSurface
 			// 
-			this.btnClearSurface.Location = new System.Drawing.Point(226, 198);
+			this.btnClearSurface.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnClearSurface.Location = new System.Drawing.Point(127, 208);
 			this.btnClearSurface.Name = "btnClearSurface";
 			this.btnClearSurface.Size = new System.Drawing.Size(75, 39);
 			this.btnClearSurface.TabIndex = 8;
 			this.btnClearSurface.Text = "Clear Surface";
 			this.btnClearSurface.UseVisualStyleBackColor = true;
 			// 
+			// splitContainer1
+			// 
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer1.Name = "splitContainer1";
+			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.label3);
+			this.splitContainer1.Panel2.Controls.Add(this.btnClearSurface);
+			this.splitContainer1.Panel2.Controls.Add(this.pictureBox3);
+			this.splitContainer1.Panel2.Controls.Add(this.btnDraw);
+			this.splitContainer1.Size = new System.Drawing.Size(517, 259);
+			this.splitContainer1.SplitterDistance = 218;
+			this.splitContainer1.TabIndex = 9;
+			// 
+			// splitContainer2
+			// 
+			this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer2.Name = "splitContainer2";
+			this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer2.Panel1
+			// 
+			this.splitContainer2.Panel1.Controls.Add(this.label1);
+			this.splitContainer2.Panel1.Controls.Add(this.pictureBox1);
+			// 
+			// splitContainer2.Panel2
+			// 
+			this.splitContainer2.Panel2.Controls.Add(this.label2);
+			this.splitContainer2.Panel2.Controls.Add(this.pictureBox2);
+			this.splitContainer2.Size = new System.Drawing.Size(218, 259);
+			this.splitContainer2.SplitterDistance = 126;
+			this.splitContainer2.TabIndex = 0;
+			// 
 			// MultipleRenderTargetExample
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(401, 249);
-			this.Controls.Add(this.btnClearSurface);
-			this.Controls.Add(this.btnDraw);
-			this.Controls.Add(this.label3);
-			this.Controls.Add(this.pictureBox3);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.pictureBox2);
-			this.Controls.Add(this.pictureBox1);
+			this.ClientSize = new System.Drawing.Size(517, 259);
+			this.Controls.Add(this.splitContainer1);
 			this.Name = "MultipleRenderTargetExample";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
 			this.Text = "Multiple Render Targets Example";
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.Panel2.PerformLayout();
+			this.splitContainer1.ResumeLayout(false);
+			this.splitContainer2.Panel1.ResumeLayout(false);
+			this.splitContainer2.Panel1.PerformLayout();
+			this.splitContainer2.Panel2.ResumeLayout(false);
+			this.splitContainer2.Panel2.PerformLayout();
+			this.splitContainer2.ResumeLayout(false);
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -157,6 +214,8 @@ namespace Tests.MultipleWindows
 		private System.Windows.Forms.ToolTip toolTip1;
 		public System.Windows.Forms.Button btnDraw;
 		public System.Windows.Forms.Button btnClearSurface;
+		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.SplitContainer splitContainer2;
 	}
 }
 

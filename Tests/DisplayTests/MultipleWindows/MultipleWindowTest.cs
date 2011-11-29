@@ -46,15 +46,28 @@ namespace Tests.MultipleWindows
 				myForm.btnDraw.Click += new EventHandler(btnDraw_Click);
 				myForm.btnClearSurface.Click += new EventHandler(btnClear_Click);
 
+				Surface image1 = new Surface("jellybean.png");
+				Surface image2 = new Surface("9ball.png");
+				image1.DisplayWidth = 40;
+				image1.DisplayHeight = (int)(image1.DisplayWidth * image1.SurfaceHeight / (double)image1.SurfaceWidth);
+				image2.DisplayWidth = 40;
+				image2.DisplayHeight = (int)(image2.DisplayWidth * image2.SurfaceHeight / (double)image2.SurfaceWidth);
+
+				double time = 0;
+
 				while (myForm.Visible)
 				{
 					// Render targets must be set before the call to BeginFrame,
 					// and may not be changed between BeginFrame and EndFrame.
+					// Use the FrameBuffer property of each DisplayWindow object
+					// to set the Display.RenderTarget value.
 					Display.RenderTarget = wnd_1.FrameBuffer;
 
 					Display.BeginFrame();
 					Display.Clear(Color.Red);
 					Display.FillRect(new Rectangle(20, 20, 40, 30), Color.Blue);
+					image1.Draw(120 + (int)(30 * Math.Sin(time)), 20);
+
 					Display.EndFrame();
 
 					// now do the second window.
@@ -63,6 +76,8 @@ namespace Tests.MultipleWindows
 					Display.BeginFrame();
 					Display.Clear(Color.Green);
 					Display.FillRect(new Rectangle(20, 20, 40, 30), Color.Yellow);
+					image2.Draw(120 + (int)(30 * Math.Cos(time)), 20);
+
 					Display.EndFrame();
 
 					// draw the third window from the surface
@@ -76,6 +91,7 @@ namespace Tests.MultipleWindows
 					Display.EndFrame();
 
 					Core.KeepAlive();
+					time = Timing.TotalSeconds;
 					//System.Threading.Thread.Sleep(250);
 
 				}
