@@ -187,6 +187,11 @@ namespace AgateLib.AudioLib
 		{
 			if (StopEvent != null)
 				StopEvent();
+
+			foreach (SoundBufferSession session in mSessions)
+			{
+				session.Stop();
+			}
 		}
 		/// <summary>
 		/// Event which occurs when Stop is called on the SoundBuffer object.
