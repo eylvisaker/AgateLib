@@ -84,7 +84,7 @@ namespace AgateLib.DisplayLib
 					"Did you forget to call AgateSetup.Initialize or Display.Initialize?");
 
 			mImpl = Display.Impl.CreateDisplayWindow(windowParams);
-
+			
 			Display.RenderTarget = FrameBuffer;
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 

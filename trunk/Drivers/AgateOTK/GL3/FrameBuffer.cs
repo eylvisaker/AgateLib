@@ -83,16 +83,19 @@ namespace AgateOTK.GL3
 			mHasDepth = true;
 			mHasStencil = true;
 		}
+		public override void Dispose()
+		{
+			GL.DeleteFramebuffers(1, ref mFramebufferID);
+			GL.DeleteRenderbuffers(1, ref mDepthBuffer);
+
+			// TODO: Should we delete the surface also?
+		}
 
 		public override SurfaceImpl RenderTarget
 		{
 			get { return mTexture; }
 		}
-		public override void Dispose()
-		{
-			throw new NotImplementedException();
-		}
-
+		
 		public override AgateLib.Geometry.Size Size
 		{
 			get { return mSize; }
