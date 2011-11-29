@@ -61,6 +61,7 @@ namespace AgateDrawing
 		public System.Drawing.Bitmap BackBufferBitmap
 		{
 			get { return backBuffer; }
+			set { backBuffer = value; }
 		}
 
 		public override void BeginRender()
