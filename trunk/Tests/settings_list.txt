@@ -2,5 +2,5 @@ AgateLib.AudioDriver
 AgateLib.DisplayDriver 
 AgateLib.InputDriver 
 AgateLib.OpenGL.DisableFramebufferArb 
-AgateLib.OpenGL.EnableGL3 true
+AgateLib.OpenGL.EnableGL3 false
 AgateLib.OpenGL.DisableFramebufferExt 

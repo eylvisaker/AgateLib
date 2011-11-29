@@ -40,7 +40,8 @@ namespace Tests.MultipleWindows
 				DisplayWindow wnd_2 = DisplayWindow.CreateFromControl(myForm.pictureBox2);
 				DisplayWindow wnd_3 = DisplayWindow.CreateFromControl(myForm.pictureBox3);
 
-				buffer = new FrameBuffer(200, 150);
+				buffer = new FrameBuffer(wnd_3.Width, wnd_3.Height);
+				myForm.pictureBox3.Resize += new EventHandler(wnd_3_Resize);
 
 				// this is the code that will be called when the button is pressed
 				myForm.btnDraw.Click += new EventHandler(btnDraw_Click);
@@ -101,6 +102,25 @@ namespace Tests.MultipleWindows
 
 		}
 
+		void wnd_3_Resize(object sender, EventArgs e)
+		{
+			var ctrl = (System.Windows.Forms.Control )sender;
+
+			FrameBuffer newBuffer = new FrameBuffer(ctrl.Width, ctrl.Height);
+
+			Display.RenderTarget = newBuffer;
+			
+			Display.BeginFrame();
+			Display.Clear();
+
+			buffer.RenderTarget.Draw(new Rectangle(0, 0, buffer.Width, buffer.Height));
+
+			Display.EndFrame();
+
+			buffer.Dispose();
+			buffer = newBuffer;
+		}
+
 		void btnClear_Click(object sender, EventArgs e)
 		{
 			Display.RenderTarget = buffer;
@@ -116,11 +136,15 @@ namespace Tests.MultipleWindows
 
 			Display.BeginFrame();
 
+			int width = rand.Next(20, 100);
+			int height = rand.Next(20, 100);
+
 			Rectangle rect = new Rectangle(
-				rand.Next(-10, 190),
-				rand.Next(-10, 140),
-				rand.Next(20, 100),
-				rand.Next(20, 100));
+				rand.Next(0, buffer.Width - width),
+				rand.Next(0, buffer.Height - height),
+				width,
+				height);
+
 			Color clr = Color.FromArgb(255 /*rand.Next(200, 256)*/, rand.Next(0, 256),
 					rand.Next(0, 256), rand.Next(0, 256));
 
