@@ -123,7 +123,6 @@ namespace AgateOTK
 		private GL_Surface(int textureID, Rectangle sourceRect, Size textureSize)
 		{
 			mDisplay = Display.Impl as GL_Display;
-			mDrawBuffer = mDisplay.DrawBuffer;
 
 			AddTextureRef(textureID);
 
@@ -208,6 +207,7 @@ namespace AgateOTK
 
 			mTexCoord = GetTextureCoords(srcRect);
 
+			mDrawBuffer = mDisplay.DrawBuffer;
 			mDrawBuffer.SetInterpolationMode(InterpolationHint);
 
 			BufferQuad(destX, destY, rotationCenter.X, rotationCenter.Y,
@@ -221,7 +221,7 @@ namespace AgateOTK
 			float displayWidth, float displayHeight, TextureCoordinates texCoord, Gradient color,
 			 OriginAlignment DisplayAlignment, float mRotationCos, float mRotationSin)
 		{
-
+	
 			// order is 
 			//  1 -- 2
 			//  |    |
