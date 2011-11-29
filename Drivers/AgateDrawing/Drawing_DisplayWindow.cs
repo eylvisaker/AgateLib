@@ -117,6 +117,7 @@ namespace AgateDrawing
 			form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
 			form.KeyUp += new System.Windows.Forms.KeyEventHandler(form_KeyUp);
 
+			// TODO: This can probably be removed as of 11/2011.
 			// fuck, it seems that FormClosing had a different name in .NET 1.1, which is
 			// the version of windows that Mono implements.  
 			// So here's an ugly System.Reflection hack around it.
@@ -242,7 +243,13 @@ namespace AgateDrawing
 			if (mRenderTarget.ClientSize.Width == 0 || mRenderTarget.ClientSize.Height == 0)
 				return;
 
+			if (mBackBuffer != null)
+				mBackBuffer.Dispose();
+
 			mBackBuffer = new Bitmap(mRenderTarget.ClientSize.Width, mRenderTarget.ClientSize.Height);
+			
+			if (mFrameBuffer != null)
+				mFrameBuffer.BackBufferBitmap = mBackBuffer;
 		}
 
 		public Control RenderTarget
