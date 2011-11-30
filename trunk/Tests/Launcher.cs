@@ -13,6 +13,7 @@ namespace Tests
 		public static void Main(string[] args)
 		{
 			AgateFileProvider.Images.AddPath("Data");
+			AgateFileProvider.Sounds.AddPath("Data");
 			
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

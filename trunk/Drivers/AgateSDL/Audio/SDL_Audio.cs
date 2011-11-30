@@ -29,6 +29,8 @@ namespace AgateSDL.Audio
 	public class SDL_Audio : AudioImpl
 	{
 		List<string> tempfiles = new List<string>();
+		Dictionary<int, SDL_SoundBufferSession> mChannels = new Dictionary<int, SDL_SoundBufferSession>();
+		SdlMixer.ChannelFinishedDelegate mChannelFinishedDelegate;
 
 		~SDL_Audio()
 		{
@@ -102,13 +104,27 @@ namespace AgateSDL.Audio
 				throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
 			}
 
+			mChannelFinishedDelegate = ChannelFinished;
+
+			SdlMixer.Mix_ChannelFinished(mChannelFinishedDelegate);
+
 			Report("SDL driver instantiated for audio.");
+		}
+
+		void ChannelFinished(int channel)
+		{
+			mChannels[channel].mIsPlaying = false;
+
+			mChannels.Remove(channel);
 		}
 
 		internal void RegisterTempFile(string filename)
 		{
 			tempfiles.Add(filename);
 		}
-
+		internal void RegisterChannel(int channel, SDL_SoundBufferSession session)
+		{
+			mChannels[channel] = session;
+		}
 	}
 }

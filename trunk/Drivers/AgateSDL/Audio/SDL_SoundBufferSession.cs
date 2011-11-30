@@ -36,6 +36,9 @@ namespace AgateSDL.Audio
 		bool loop;
 		Stopwatch watch = new Stopwatch();
 		SDL_SoundBuffer buffer;
+		SDL_Audio audio;
+
+		public bool mIsPlaying;
 
 		public SDL_SoundBufferSession(SDL_SoundBuffer buffer)
 		{
@@ -43,12 +46,16 @@ namespace AgateSDL.Audio
 			loop = buffer.Loop;
 
 			sound = buffer.SoundChunk;
-			channel = SdlMixer.Mix_PlayChannel(-1, sound, LoopCount);
 			volume = buffer.Volume;
+
+			channel = SdlMixer.Mix_PlayChannel(-1, sound, LoopCount);
+			audio = (SDL_Audio)AgateLib.AudioLib.Audio.Impl;
+			SetPanning();
 
 			watch.Reset();
 			watch.Start();
 
+			audio.RegisterChannel(channel, this);
 		}
 		public override void Dispose()
 		{
@@ -62,7 +69,7 @@ namespace AgateSDL.Audio
 
 		public override bool IsPlaying
 		{
-			get { return SdlMixer.Mix_Playing(channel) != 0; }
+			get { return mIsPlaying; }
 		}
 
 		public override double Pan
@@ -96,11 +103,23 @@ namespace AgateSDL.Audio
 
 		public override void Play()
 		{
-			SdlMixer.Mix_PlayChannel(channel, sound, LoopCount);
+			if (IsPlaying == false)
+			{
+				channel = SdlMixer.Mix_PlayChannel(-1, sound, LoopCount);
+			}
+			else
+			{
+				SdlMixer.Mix_PlayChannel(channel, sound, LoopCount);
+			}
+
 			SetPanning();
 
 			watch.Reset();
 			watch.Start();
+
+			audio.RegisterChannel(channel, this);
+
+			mIsPlaying = true;
 		}
 
 		int LoopCount
