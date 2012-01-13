@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ERY.NotebookLib.NoNavigator
+namespace NotebookLib.NoNavigator
 {
     class NoNavigator : Control, INavigator
     {

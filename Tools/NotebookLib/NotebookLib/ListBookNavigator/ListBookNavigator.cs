@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ERY.NotebookLib.ListBookNavigator
+namespace NotebookLib.ListBookNavigator
 {
     [ToolboxItem(false)]
     public partial class ListBookNavigator : ListBox, INavigator 

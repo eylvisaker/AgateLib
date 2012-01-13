@@ -1,4 +1,4 @@
-namespace ERY.NotebookLib
+namespace NotebookLib
 {
     public enum NavigatorLocation
     {

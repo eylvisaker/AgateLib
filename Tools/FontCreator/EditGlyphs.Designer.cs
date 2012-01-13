@@ -32,7 +32,7 @@ namespace FontCreator
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.pctImage = new System.Windows.Forms.PictureBox();
 			this.pctZoom = new System.Windows.Forms.PictureBox();
-			this.hSeparator1 = new ERY.NotebookLib.HSeparator();
+			this.hSeparator1 = new NotebookLib.HSeparator();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.lstItems = new System.Windows.Forms.ListBox();
 			this.properties = new System.Windows.Forms.PropertyGrid();
@@ -242,7 +242,7 @@ namespace FontCreator
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.PropertyGrid properties;
         private System.Windows.Forms.ListBox lstItems;
-		private ERY.NotebookLib.HSeparator hSeparator1;
+		private NotebookLib.HSeparator hSeparator1;
 		private System.Windows.Forms.PictureBox pctZoom;
 		private System.Windows.Forms.SplitContainer splitContainer3;
 		private System.Windows.Forms.ToolStrip toolStrip1;

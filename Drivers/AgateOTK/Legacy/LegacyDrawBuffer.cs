@@ -32,8 +32,7 @@ using OpenTK.Graphics.OpenGL;
 namespace AgateOTK.Legacy
 {
 	/// <summary>
-	/// Not GL3 compatible.  Need replacements for 
-	/// EnableClientState,TexCoordPointer, etc.
+	/// Uses 
 	/// </summary>
 	public class LegacyDrawBuffer: GLDrawBuffer 
 	{
@@ -87,6 +86,7 @@ namespace AgateOTK.Legacy
 
 		int mIndex;
 		int mCurrentTexture;
+        bool mValid = true;
 
 		InterpolationMode lastInterpolation = (InterpolationMode)(-1);
 		PointF[] cachePts = new PointF[4];
@@ -95,10 +95,22 @@ namespace AgateOTK.Legacy
 
 		public LegacyDrawBuffer()
 		{
-			GL.GenBuffers(1, out mBufferID);
-			Debug.Print("LegacyDrawBuffer: Draw buffer ID: {0}", mBufferID);
+            try
+            {
+                GL.GenBuffers(1, out mBufferID);
+                Debug.Print("LegacyDrawBuffer: Draw buffer ID: {0}", mBufferID);
 
-			SetBufferSize(1000);
+                SetBufferSize(1000);
+            }
+            catch (EntryPointNotFoundException e)
+            {
+                mValid = false;
+
+                Trace.WriteLine("ERROR: Failed to create draw buffer.");
+                Trace.WriteLine("\tEntry point for glGenBuffers was not found.");
+                Trace.WriteLine("\tIt is likely that only a very old OpenGL is available.");
+
+            }
 		}
 
 		private void SetBufferSize(int size)

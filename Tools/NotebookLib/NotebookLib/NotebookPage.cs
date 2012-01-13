@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ERY.NotebookLib
+namespace NotebookLib
 {
     [ToolboxItem(false)]
     [Designer(typeof(DesignerClass.PageDesigner))]

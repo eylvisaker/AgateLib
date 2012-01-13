@@ -4,7 +4,7 @@ using System.Text;
 using System.ComponentModel.Design;
 using System.ComponentModel;
 
-namespace ERY.NotebookLib.DesignerClass
+namespace NotebookLib.DesignerClass
 {
     class EditPagesList : DesignerActionList 
     {

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Windows.Forms.Design.Behavior;
 
-namespace ERY.NotebookLib.DesignerClass
+namespace NotebookLib.DesignerClass
 {
     class NotebookDesigner : ParentControlDesigner
     {
