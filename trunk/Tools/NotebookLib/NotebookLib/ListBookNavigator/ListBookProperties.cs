@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace ERY.NotebookLib.ListBookNavigator
+namespace NotebookLib.ListBookNavigator
 {
     [Editor(typeof(System.Drawing.Design.UITypeEditor), typeof(System.Drawing.Design.UITypeEditor))]
     class ListBookProperties : NavigatorProperties 

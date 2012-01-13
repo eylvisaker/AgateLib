@@ -385,6 +385,14 @@ namespace AgateOTK
 				mNonPowerOf2Textures = true;
 				mSupportsShaders = true;
 			}
+            if (mGLVersion < 1.2m)
+            {
+                System.Windows.Forms.MessageBox.Show(
+                    "Error: OpenGL 1.2 or higher is required, but your system only supports OpenGL " + mGLVersion.ToString(),
+                    "OpenGL 1.2 not aviable", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Stop);
+
+                throw new AgateLib.AgateException("OpenGL 1.2 or higher is required, but this system only supports OpenGL " + mGLVersion.ToString() + ".");
+            }
 
 			if (mGL3)
 				mPrimitives = new GL3.GLPrimitiveRenderer();

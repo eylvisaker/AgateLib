@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ERY.NotebookLib
+namespace NotebookLib
 {
     [Designer(typeof(DesignerClass.NotebookDesigner))]
     [ToolboxBitmap(typeof(Notebook), "book_reportHS")]

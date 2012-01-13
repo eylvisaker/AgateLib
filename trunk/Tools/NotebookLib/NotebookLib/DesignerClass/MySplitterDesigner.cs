@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Text;
 
-namespace ERY.NotebookLib.DesignerClass
+namespace NotebookLib.DesignerClass
 {
     class MySplitterDesigner : ControlDesigner 
     {

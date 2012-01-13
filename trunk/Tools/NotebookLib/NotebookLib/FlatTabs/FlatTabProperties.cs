@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ERY.NotebookLib.FlatTabs
+namespace NotebookLib.FlatTabs
 {
     class FlatTabProperties : NavigatorProperties 
     {

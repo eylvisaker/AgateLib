@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ERY.NotebookLib
+namespace NotebookLib
 {
     public partial class HSeparator : UserControl
     {

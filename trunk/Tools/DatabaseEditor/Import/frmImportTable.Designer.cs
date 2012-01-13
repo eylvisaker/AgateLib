@@ -31,7 +31,7 @@
 			this.txtFileContents = new System.Windows.Forms.TextBox();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
-			this.hSeparator1 = new ERY.NotebookLib.HSeparator();
+			this.hSeparator1 = new NotebookLib.HSeparator();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.chkMergeDelimiters = new System.Windows.Forms.CheckBox();
 			this.txtOther = new System.Windows.Forms.TextBox();
@@ -387,7 +387,7 @@
 		private System.Windows.Forms.TextBox txtFileContents;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancel;
-		private ERY.NotebookLib.HSeparator hSeparator1;
+		private NotebookLib.HSeparator hSeparator1;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.TextBox txtOther;
 		private System.Windows.Forms.CheckBox chkOther;

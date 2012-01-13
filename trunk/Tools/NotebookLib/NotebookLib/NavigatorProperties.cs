@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ERY.NotebookLib
+namespace NotebookLib
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
     [Editor(typeof(System.Drawing.Design.UITypeEditor), typeof(System.Drawing.Design.UITypeEditor))]

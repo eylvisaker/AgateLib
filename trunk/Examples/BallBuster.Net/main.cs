@@ -983,7 +983,7 @@ class BBX
             }
 
              powerupLeft = 755;
-             powerupTop = 10 + img.font.StringDisplayHeight("A");
+             powerupTop = 10 + img.font.FontHeight;
 
             for (int i = 0; i < lastPowerups.Count; i++)
             {
@@ -1128,7 +1128,8 @@ class BBX
 
         if (start > -1)
         {
-            int fw = img.font.StringDisplayWidth(time);
+            Size size = img.font.MeasureString(time);
+            int fw = size.Width;
             int pos = powerupLeft + (40 - fw) / 2;
 
             img.font.Color = Color.Black;
@@ -3495,8 +3496,9 @@ class BBX
 
         img.font.SetScale(scale, scale);
 
-        int width = img.font.StringDisplayWidth (str);
-        int height = img.font.StringDisplayHeight(str);
+        Size size = img.font.MeasureString(str);
+        int width = size.Width;
+        int height = size.Height;
 
         myx -= width / 2;
         myy -= height / 2;
@@ -4115,7 +4117,7 @@ class BBX
     {
         editorState.Menu.Clear();
 
-        int height = img.font.StringDisplayHeight("M");
+        int height = img.font.FontHeight;
 
         editorState.Menu.Add(new Point(13, 500), "[TITLE SCREEN]");
         editorState.Menu.Add(new Point(13, 516), "[NEW LEVEL]");

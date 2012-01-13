@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERY.NotebookLib
+namespace NotebookLib
 {
     public enum NavigatorType
     {

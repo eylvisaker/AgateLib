@@ -30,7 +30,7 @@
         {
             this.languageLabel = new System.Windows.Forms.Label();
             this.box = new System.Windows.Forms.TextBox();
-            this.hSeparator1 = new ERY.NotebookLib.HSeparator();
+            this.hSeparator1 = new NotebookLib.HSeparator();
             this.SuspendLayout();
             // 
             // languageLabel
@@ -86,6 +86,6 @@
 
         private System.Windows.Forms.Label languageLabel;
         private System.Windows.Forms.TextBox box;
-        private ERY.NotebookLib.HSeparator hSeparator1;
+        private NotebookLib.HSeparator hSeparator1;
     }
 }

@@ -6,7 +6,7 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ERY.NotebookLib.FlatTabs
+namespace NotebookLib.FlatTabs
 {
     [ToolboxItem(false)]
     class FlatTabNavigator : Control, INavigator

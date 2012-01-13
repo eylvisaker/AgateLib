@@ -181,6 +181,10 @@
       <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AgateDataLib\AgateDataLib.csproj">
+      <Project>{2F7A686B-2272-4803-9EF9-0B34BA7802DC}</Project>
+      <Name>AgateDataLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NotebookLib\NotebookLib\NotebookLib.csproj">
       <Project>{91F57346-B574-4D52-9EB0-AA191B552C94}</Project>
       <Name>NotebookLib</Name>
