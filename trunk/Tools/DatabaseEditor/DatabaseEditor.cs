@@ -504,6 +504,45 @@ namespace AgateDatabaseEditor
 			CurrentTable.SortDescending();
 			DirtyState = true;
 		}
+
+		private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (lstTables.SelectedItems.Count == 0) return;
+
+			object obj = lstTables.SelectedItems[0].Tag;
+			
+			if (obj == null || obj is AgateTable != true)
+				return;
+
+			AgateTable table = obj as AgateTable;
+
+			saveExportDialog.FileName = table.Name + ".txt";
+
+			if (saveExportDialog.ShowDialog() == DialogResult.Cancel)
+				return;
+
+			using (System.IO.StreamWriter w = new System.IO.StreamWriter(saveExportDialog.FileName))
+			{
+				for (int i = 0; i < table.Columns.Count; i++)
+				{
+					if (i != 0) w.Write("\t");
+
+					w.Write(table.Columns[i].Name);
+				}
+
+				for (int i = 0; i < table.Rows.Count; i++)
+				{
+					w.WriteLine();
+
+					for (int j = 0; j < table.Columns.Count; j++)
+					{
+						if (j != 0) w.Write("\t");
+
+						w.Write(table.Rows[i][table.Columns[j]]);
+					}
+				}
+			}
+		}
 	}
 
 	delegate void InvokeDelegate();
