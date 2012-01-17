@@ -209,6 +209,8 @@ namespace AgateOTK
 			mDisplay.InitializeCurrentContext();
 
 			mDrawBuffer = mDisplay.CreateDrawBuffer();
+
+
 		}
 
 		public override FrameBufferImpl FrameBuffer
@@ -222,10 +224,7 @@ namespace AgateOTK
 		}
 
 		bool done = false;
-		void mWindow_CloseWindow(object sender, EventArgs e)
-		{
-			done = true;
-		}
+
 
 		void Keyboard_KeyDown(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
 		{
@@ -289,7 +288,8 @@ namespace AgateOTK
 
 		private void AttachEvents()
 		{
-			mWindow.Closing += mWindow_CloseWindow;
+			mWindow.Closed += new EventHandler<EventArgs>(mWindow_Closed);
+			mWindow.Closing += new EventHandler<System.ComponentModel.CancelEventArgs>(mWindow_Closing);
 			mWindow.Resize += new EventHandler<EventArgs>(mWindow_Resize);
 
 			mWindow.Keyboard.KeyRepeat = true;
@@ -301,17 +301,19 @@ namespace AgateOTK
 			mWindow.Mouse.Move += new EventHandler<OpenTK.Input.MouseMoveEventArgs>(Mouse_Move);
 		}
 
-		private void DetachEvents()
+		void mWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			mWindow.Closing -= mWindow_CloseWindow;
-			mWindow.Resize -= mWindow_Resize;
+			bool cancel = false;
 
-			mWindow.Keyboard.KeyDown -= Keyboard_KeyDown;
-			mWindow.Keyboard.KeyUp -= Keyboard_KeyUp;
+			OnClosing(ref cancel);
 
-			mWindow.Mouse.ButtonDown -= Mouse_ButtonDown;
-			mWindow.Mouse.ButtonUp -= Mouse_ButtonUp;
-			mWindow.Mouse.Move -= Mouse_Move;
+			e.Cancel = cancel;
+		}
+		void mWindow_Closed(object sender, EventArgs e)
+		{
+			done = true;
+
+			OnClosed(); 
 		}
 
 		void mWindow_Resize(object sender, EventArgs e)
@@ -319,6 +321,8 @@ namespace AgateOTK
 			Debug.Print("Reseting viewport to {0}x{1}", mWindow.Width, mWindow.Height);
 
 			GL.Viewport(0, 0, mWindow.Width, mWindow.Height);
+
+			OnResize();
 		}
 
 		private void CreateWindowedDisplay()

@@ -53,7 +53,7 @@ namespace AgateDrawing
 
 				AttachEvents();
 
-				OnResize();
+				RecreateBackBuffer();
 			}
 			else
 			{
@@ -73,7 +73,7 @@ namespace AgateDrawing
 				AttachEvents();
 
 				// and create the back buffer
-				OnResize();
+				RecreateBackBuffer();
 			}
 
 			mFrameBuffer = new Drawing_FrameBuffer(mBackBuffer);
@@ -117,43 +117,9 @@ namespace AgateDrawing
 			form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
 			form.KeyUp += new System.Windows.Forms.KeyEventHandler(form_KeyUp);
 
-			// TODO: This can probably be removed as of 11/2011.
-			// fuck, it seems that FormClosing had a different name in .NET 1.1, which is
-			// the version of windows that Mono implements.  
-			// So here's an ugly System.Reflection hack around it.
-			{
-				EventInfo formClosing = GetFormEvent("FormClosing", "Closing");
-				MethodInfo method = this.GetType().GetMethod("form_FormClosing");
-
-				Delegate d = Delegate.CreateDelegate(formClosing.EventHandlerType, this, method);
-
-				formClosing.AddEventHandler(form, d);
-			}
-			{
-				EventInfo formClosed = GetFormEvent("FormClosed", "Closed");
-				MethodInfo method = this.GetType().GetMethod("form_FormClosed");
-
-				Delegate d = Delegate.CreateDelegate(formClosed.EventHandlerType, this, method);
-
-				formClosed.AddEventHandler(form, d);
-			}
+			form.FormClosed += new FormClosedEventHandler(form_FormClosed);
+			form.FormClosing += new FormClosingEventHandler(form_FormClosing);
 		}
-
-		private EventInfo GetFormEvent(params string[] eventNames)
-		{
-			Type formType = typeof(System.Windows.Forms.Form);
-
-			foreach (string name in eventNames)
-			{
-				EventInfo evt = formType.GetEvent(name);
-
-				if (evt != null)
-					return evt;
-			}
-
-			return null;
-		}
-
 
 		Mouse.MouseButtons GetButtons(MouseButtons buttons)
 		{
@@ -173,14 +139,23 @@ namespace AgateDrawing
 			return retval;
 		}
 
-		public void form_FormClosed(object sender, EventArgs e)
+		
+		void form_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			mIsClosed = true;
-		}
-		public void form_FormClosing(object sender, EventArgs e)
-		{
 
+			OnClosed();
 		}
+
+		void form_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			bool cancel = false;
+
+			OnClosing(ref cancel);
+
+			e.Cancel = cancel;
+		}
+
 		void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
 			Keyboard.Keys[FormUtil.TransformWinFormsKey(e.KeyCode)] = false;
@@ -237,17 +212,23 @@ namespace AgateDrawing
 		{
 			OnResize();
 		}
+		protected override void OnResize()
+		{
+			RecreateBackBuffer();
 
-		private void OnResize()
+			base.OnResize();
+		}
+
+		private void RecreateBackBuffer()
 		{
 			if (mRenderTarget.ClientSize.Width == 0 || mRenderTarget.ClientSize.Height == 0)
 				return;
-
+			
 			if (mBackBuffer != null)
 				mBackBuffer.Dispose();
 
 			mBackBuffer = new Bitmap(mRenderTarget.ClientSize.Width, mRenderTarget.ClientSize.Height);
-			
+
 			if (mFrameBuffer != null)
 				mFrameBuffer.BackBufferBitmap = mBackBuffer;
 		}

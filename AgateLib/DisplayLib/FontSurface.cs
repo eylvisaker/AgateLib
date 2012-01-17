@@ -313,7 +313,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use MeasureString instead.", true)]
 		public int StringDisplayWidth(string text)
 		{
-			return StringDisplaySize(text).Width;
+			return MeasureString(text).Width;
 		}
 		/// <summary>
 		/// Measures the display height of the specified string.
@@ -323,7 +323,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("Use MeasureString instead.", true)]
 		public int StringDisplayHeight(string text)
 		{
-			return StringDisplaySize(text).Height;
+			return MeasureString(text).Height;
 		}
 		/// <summary>
 		/// Measures the display size of the specified string.
@@ -411,6 +411,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="text"></param>
 		public void DrawText(string text)
 		{
+			if (string.IsNullOrEmpty(text))
+				return;
+
 			mState.Location = PointF.Empty;
 			mState.Text = mTransformer.Transform(text);
 
