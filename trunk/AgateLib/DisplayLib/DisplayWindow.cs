@@ -84,7 +84,7 @@ namespace AgateLib.DisplayLib
 					"Did you forget to call AgateSetup.Initialize or Display.Initialize?");
 
 			mImpl = Display.Impl.CreateDisplayWindow(windowParams);
-			
+
 			Display.RenderTarget = FrameBuffer;
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 
@@ -177,7 +177,7 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public FrameBuffer FrameBuffer
 		{
-			get 
+			get
 			{
 				if (mFrameBuffer == null || mFrameBuffer.Impl != Impl.FrameBuffer)
 				{
@@ -345,13 +345,32 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Event raised when the window is resized by the user.
 		/// </summary>
-		public event EventHandler Resize;
-
-		internal void OnResize()
+		public event EventHandler Resize
 		{
-			if (Resize != null)
-				Resize(this, EventArgs.Empty);
+			add { mImpl.Resize += value; }
+			remove { mImpl.Resize -= value; }
+		}
+
+		/// <summary>
+		/// Event raised when the window is closed by the user.
+		/// </summary>
+		public event EventHandler Closed
+		{
+			add { mImpl.Closed += value; }
+			remove { mImpl.Closed -= value; }
+		}
+
+		/// <summary>
+		/// Event raised when the user clicks the close box but before the window is closed.
+		/// </summary>
+		public event CancelEventHandler Closing
+		{
+			add { mImpl.Closing += value; }
+			remove { mImpl.Closing -= value; }
 		}
 
 	}
+
+	public delegate void CancelEventHandler(object sender, ref bool cancel);
+
 }

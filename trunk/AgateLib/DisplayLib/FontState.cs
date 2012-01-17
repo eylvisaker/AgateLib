@@ -35,7 +35,7 @@ namespace AgateLib.DisplayLib
 		private double mScaleWidth = 1.0;
 		private double mScaleHeight = 1.0;
 		private PointF mLocation;
-		private string mText;
+		private string mText = string.Empty;
 		private FontStateCache mCache;
 		private string mTransformedText;
 

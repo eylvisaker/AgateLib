@@ -380,12 +380,15 @@ namespace AgateOTK
 			mRenderTarget.MouseDown += new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
 			mRenderTarget.MouseUp += new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
 			mRenderTarget.DoubleClick += new EventHandler(mRenderTarget_DoubleClick);
+			
 			System.Windows.Forms.Form form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
-
 			form.KeyPreview = true;
+
 			form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
 			form.KeyUp += new System.Windows.Forms.KeyEventHandler(form_KeyUp);
-
+			form.FormClosing += new FormClosingEventHandler(form_FormClosing);
+			form.FormClosed += new FormClosedEventHandler(form_FormClosed);
+			
 		}
 		private void DetachEvents()
 		{
@@ -400,11 +403,28 @@ namespace AgateOTK
 			mRenderTarget.MouseDown -= new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
 			mRenderTarget.MouseUp -= new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
 			mRenderTarget.DoubleClick -= new EventHandler(mRenderTarget_DoubleClick);
+
 			System.Windows.Forms.Form form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
 
 			form.KeyDown -= new System.Windows.Forms.KeyEventHandler(form_KeyDown);
 			form.KeyUp -= new System.Windows.Forms.KeyEventHandler(form_KeyUp);
+			form.FormClosing -= new FormClosingEventHandler(form_FormClosing);
+			form.FormClosed -= new FormClosedEventHandler(form_FormClosed);
+			
+		}
 
+		void form_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			OnClosed();
+		}
+
+		void form_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			bool cancel = false;
+
+			OnClosing(ref cancel);
+
+			e.Cancel = cancel;
 		}
 
 		Mouse.MouseButtons GetButtons(System.Windows.Forms.MouseButtons buttons)
@@ -433,8 +453,9 @@ namespace AgateOTK
 		{
 			mContext.Update(mWindowInfo);
 			mFrameBuffer.SetSize(new Size(mRenderTarget.Width, mRenderTarget.Height));
-		}
 
+			OnResize();
+		}
 
 		void mRenderTarget_DoubleClick(object sender, EventArgs e)
 		{
@@ -465,11 +486,6 @@ namespace AgateOTK
 			mIsClosed = true;
 		}
 
-
-		void form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
-		{
-			mIsClosed = true;
-		}
 		void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
 			Keyboard.Keys[FormUtil.TransformWinFormsKey(e.KeyCode)] = false;
@@ -478,6 +494,7 @@ namespace AgateOTK
 		{
 			Keyboard.Keys[FormUtil.TransformWinFormsKey(e.KeyCode)] = true;
 		}
+
 		public override bool IsClosed
 		{
 			get { return mIsClosed; }

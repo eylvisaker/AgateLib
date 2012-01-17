@@ -141,6 +141,7 @@
       <DependentUpon>frmCapabilities.cs</DependentUpon>
     </Compile>
     <Compile Include="DisplayTests\ColorTest.cs" />
+    <Compile Include="DisplayTests\DisplayWindowEvents.cs" />
     <Compile Include="DisplayTests\PixelBufferMask.cs" />
     <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="DisplayTests\Prerendered.cs" />

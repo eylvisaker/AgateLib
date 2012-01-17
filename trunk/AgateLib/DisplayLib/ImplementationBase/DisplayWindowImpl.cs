@@ -109,5 +109,53 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		public abstract Point MousePosition { get; set; }
 
+
+		/// <summary>
+		/// Event raised when the window is resized by the user.
+		/// Be sure to call the base class method so that client events are raised.
+		/// </summary>
+		protected virtual void OnResize()
+		{
+			if (Resize != null)
+				Resize(this, EventArgs.Empty);
+		}
+
+		/// <summary>
+		/// Event raised when the window is closed by the user.
+		/// Be sure to call the base class method so that client events are raised.
+		/// </summary>
+		protected virtual void OnClosed()
+		{
+			if (Closed != null)
+				Closed(this, EventArgs.Empty);
+		}
+
+		/// <summary>
+		/// Event raised when the user clicks the close box but before the window is closed.
+		/// Be sure to call the base class method so that client events are raised.
+		/// </summary>
+		protected virtual void OnClosing(ref bool cancel)
+		{
+			if (Closing != null)
+			{
+				Closing(this, ref cancel);
+			}
+		}
+
+		/// <summary>
+		/// Event raised when the window is resized by the user.
+		/// </summary>
+		public event EventHandler Resize;
+
+		/// <summary>
+		/// Event raised when the window is closed by the user.
+		/// </summary>
+		public event EventHandler Closed;
+
+		/// <summary>
+		/// Event raised when the user clicks the close box but before the window is closed.
+		/// </summary>
+		public event CancelEventHandler Closing;
+
 	}
 }
