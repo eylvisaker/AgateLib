@@ -149,7 +149,7 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Gets the name of the font.
 		/// </summary>
-		public string FontName 
+		public string FontName
 		{
 			get { return mImpl.FontName; }
 		}
@@ -341,9 +341,9 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public Size MeasureString(string text) 
-		{ 
-			return mImpl.MeasureString(mState, text); 
+		public Size MeasureString(string text)
+		{
+			return mImpl.MeasureString(mState, text);
 		}
 		/// <summary>
 		/// Measures the display size of the specified string.
@@ -376,6 +376,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="text"></param>
 		public void DrawText(double destX, double destY, string text)
 		{
+			if (string.IsNullOrEmpty(text))
+				return;
+
 			mState.Location = new PointF((float)destX, (float)destY);
 			mState.Text = mTransformer.Transform(text);
 
@@ -388,6 +391,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="text"></param>
 		public void DrawText(Point destPt, string text)
 		{
+			if (string.IsNullOrEmpty(text))
+				return;
+
 			mState.Location = new PointF(destPt.X, destPt.Y);
 			mState.Text = mTransformer.Transform(text);
 
@@ -400,6 +406,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="text"></param>
 		public void DrawText(PointF destPt, string text)
 		{
+			if (string.IsNullOrEmpty(text))
+				return;
+
 			mState.Location = destPt;
 			mState.Text = mTransformer.Transform(text);
 
@@ -440,6 +449,9 @@ namespace AgateLib.DisplayLib
 		/// are laid out according to the TextImageLayout member.</param>
 		public void DrawText(int destX, int destY, string formatString, params object[] args)
 		{
+			if (string.IsNullOrEmpty(formatString))
+				return;
+
 			TextLayout layout = CreateLayout(formatString, args);
 
 			layout.Translate(new Point(destX, destY));
@@ -585,7 +597,7 @@ namespace AgateLib.DisplayLib
 			ref PointF dest, ref int lineHeight, ref int spaceAboveLine,
 			ISurface surface)
 		{
-			if (layout == null) 
+			if (layout == null)
 				throw new ArgumentNullException("layout");
 
 			int newSpaceAbove;
