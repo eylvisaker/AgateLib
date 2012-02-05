@@ -173,7 +173,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\ImplementationBase\FrameBufferImpl.cs" />
+    <Compile Include="InputLib\Delegates.cs" />
     <Compile Include="InputLib\HatState.cs" />
+    <Compile Include="InputLib\JoystickEventArgs.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="PlatformType.cs" />
     <Compile Include="Resources\ImageResource.cs" />

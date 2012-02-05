@@ -24,13 +24,6 @@ using AgateLib.Geometry;
 
 namespace AgateLib.InputLib
 {
-
-	/// <summary>
-	/// Event handler event type.
-	/// </summary>
-	/// <param name="e"></param>
-	public delegate void InputEventHandler(InputEventArgs e);
-
 	/// <summary>
 	/// Static class which represents Keyboard input.
 	/// </summary>
