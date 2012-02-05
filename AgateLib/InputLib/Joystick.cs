@@ -30,12 +30,18 @@ namespace AgateLib.InputLib
 	public class Joystick
 	{
 		JoystickImpl impl;
+		bool[] mButtonState;
+		HatState[] mHatState;
 
 		internal Joystick(JoystickImpl i)
 		{
 			impl = i;
 
 			AxisThreshold = 0.02;
+
+			mButtonState = new bool[ButtonCount];
+			mHatState = new HatState[HatCount];
+
 		}
 
 		/// <summary>
@@ -61,9 +67,22 @@ namespace AgateLib.InputLib
 		/// </summary>
 		/// <param name="hatIndex"></param>
 		/// <returns></returns>
+		[Obsolete("Use HatState property instead.")]
 		public HatState GetHatState(int hatIndex)
 		{
+			return GetHatStateImpl(hatIndex);
+		}
+		private HatState GetHatStateImpl(int hatIndex)
+		{
 			return impl.GetHatState(hatIndex);
+		}
+
+		/// <summary>
+		/// Gets an array indicating the state of the joystick hats.
+		/// </summary>
+		public HatState[] HatState
+		{
+			get { return mHatState; }
 		}
 		/// <summary>
 		/// Gets the current value for the given axis.
@@ -81,9 +100,22 @@ namespace AgateLib.InputLib
 		/// </summary>
 		/// <param name="buttonIndex"></param>
 		/// <returns></returns>
+		[Obsolete("Use ButtonState property instead.")]
 		public bool GetButtonState(int buttonIndex)
 		{
+			return GetButtonStateImpl(buttonIndex);
+		}
+		private bool GetButtonStateImpl(int buttonIndex)
+		{
 			return impl.GetButtonState(buttonIndex);
+		}
+
+		/// <summary>
+		/// Gets an array indicating the state of the buttons.
+		/// </summary>
+		public bool[] ButtonState
+		{
+			get { return mButtonState; }
 		}
 
 		/// <summary>
@@ -158,6 +190,56 @@ namespace AgateLib.InputLib
 		public void Poll()
 		{
 			impl.Poll();
+
+			for (int i = 0; i < mButtonState.Length; i++)
+			{
+				bool newValue = GetButtonStateImpl(i);
+
+				if (newValue != mButtonState[i])
+				{
+					mButtonState[i] = newValue;
+
+					if (newValue)
+						OnButtonPressed(i);
+					else
+						OnButtonReleased(i);
+				}
+			}
+			for (int i = 0; i < mHatState.Length; i++)
+			{
+				HatState newValue = GetHatStateImpl(i);
+
+				if (newValue != mHatState[i])
+				{
+					mHatState[i] = newValue;
+
+					OnHatStateChanged(i);
+				}
+			}
+		}
+
+
+		public event JoystickEventHandler ButtonPressed;
+		public event JoystickEventHandler ButtonReleased;
+		public event JoystickEventHandler HatStateChanged;
+
+		private void OnButtonPressed(int index)
+		{
+			if (ButtonPressed != null)
+				ButtonPressed(this, 
+					new JoystickEventArgs(JoystickEventType.Button, index));
+		}
+		private void OnButtonReleased(int index)
+		{
+			if (ButtonReleased != null)
+				ButtonReleased(this,
+					new JoystickEventArgs(JoystickEventType.Button, index));
+		}
+		private void OnHatStateChanged(int index)
+		{
+			if (HatStateChanged != null)
+				HatStateChanged(this,
+					new JoystickEventArgs(JoystickEventType.Hat, index));
 		}
 	}
 }

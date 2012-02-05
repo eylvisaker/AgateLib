@@ -122,5 +122,4 @@ namespace AgateLib.InputLib
 			get { return mWheelDelta; }
 		}
 	}
-
 }
