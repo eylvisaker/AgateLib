@@ -183,7 +183,7 @@ namespace AgateOTK
 			float destX = inst.DestLocation.X;
 			float destY = inst.DestLocation.Y;
 			Rectangle srcRect = inst.GetSourceRect(SurfaceSize);
-			SizeF displaySize = state.GetDisplaySize(SurfaceSize);
+			SizeF displaySize = state.GetDisplaySize(srcRect.Size);
 			PointF rotationCenter = state.GetRotationCenter(displaySize);
 			float mRotationCos = (float)Math.Cos(state.RotationAngle);
 			float mRotationSin = (float)Math.Sin(state.RotationAngle);
