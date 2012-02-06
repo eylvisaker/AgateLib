@@ -145,6 +145,7 @@
     <Compile Include="DisplayTests\PixelBufferMask.cs" />
     <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="DisplayTests\Prerendered.cs" />
+    <Compile Include="DisplayTests\RenderTargetContinuous.cs" />
     <Compile Include="Fonts\Builtin.cs" />
     <Compile Include="Fonts\Kerning.cs" />
     <Compile Include="frmLauncher.cs">
