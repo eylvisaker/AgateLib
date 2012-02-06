@@ -46,7 +46,8 @@ namespace AgateOTK.GL3
 			//     AgateLib.DisplayLib.PixelFormat.RGBA8888, mSize);
 
 			mTexture = new GL_Surface(mSize);
-			
+			mTexture.FlipVertical = true;
+
 			// generate the frame buffer
 			GL.GenFramebuffers(1, out mFramebufferID);
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, mFramebufferID);

@@ -486,6 +486,13 @@ namespace AgateOTK
 				(srcRect.Right) / (float)mTextureSize.Width,
 				(srcRect.Bottom) / (float)mTextureSize.Height);
 
+			if (FlipVertical)
+			{
+				var t = coords.Top;
+				coords.Top = coords.Bottom;
+				coords.Bottom = t;
+			}
+
 			return coords;
 		}
 		private TextureCoordinates GetTextureCoords(RectangleF srcRect)
@@ -496,8 +503,19 @@ namespace AgateOTK
 				(srcRect.Right) / (float)mTextureSize.Width,
 				(srcRect.Bottom) / (float)mTextureSize.Height);
 
+			if (FlipVertical)
+			{
+				var t = coords.Top;
+				coords.Top = coords.Bottom;
+				coords.Bottom = t;
+			}
+
 			return coords;
 		}
 
+		/// <summary>
+		/// Used for framebuffer surfaces which need to be flipped vertically for some reason.
+		/// </summary>
+		public bool FlipVertical { get; set; }
 	}
 }

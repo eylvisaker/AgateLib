@@ -48,6 +48,9 @@ namespace AgateOTK.Legacy
 
 		void InitializeFramebuffer()
 		{
+			mTexture = new GL_Surface(mSize);
+			mTexture.FlipVertical = true;
+
 			// try to initialize with both depth and stencil buffers.
 			if (sDepthSupported && sStencilSupported)
 			{
@@ -104,8 +107,6 @@ namespace AgateOTK.Legacy
 
 		void InitializeFramebuffer(bool depth, bool stencil)
 		{
-			mTexture = new GL_Surface(mSize);
-			
 			// generate the frame buffer
 			GL.Ext.GenFramebuffers(1, out mFramebufferID);
 			GL.Ext.BindFramebuffer(FramebufferTarget.Framebuffer, mFramebufferID);
