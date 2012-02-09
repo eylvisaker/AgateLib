@@ -257,9 +257,20 @@ namespace AgateOTK
 		}
 		public override void Clear(Color color, Rectangle destRect)
 		{
-			DrawBuffer.Flush();
+			// hack because FBO's need to be flipped. So we shift the rectangle.
+			if (mRenderTarget is GL3.FrameBuffer)
+			{
+				destRect.Y = mRenderTarget.Height - destRect.Y - destRect.Height;
+			}
 
-			DrawRect(destRect, Color.FromArgb(255, color));
+			// OpenGL apparently doesn't have direct capability to clear within a 
+			// destination region, but we can use the glScissor function to restrict
+			// the clear to a specified area.
+			GL.Scissor(destRect.Left, destRect.Top, destRect.Width, destRect.Height);
+			GL.Enable(EnableCap.ScissorTest);
+
+			Clear(color);
+			GL.Disable(EnableCap.ScissorTest);
 		}
 
 		#region --- Drawing Primitives ---
