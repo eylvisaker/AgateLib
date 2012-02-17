@@ -92,7 +92,7 @@ namespace AgateSDL.Audio
 
 		protected override void OnSetLoop(bool value)
 		{
-			SdlMixer.Mix_PlayMusic(music, -1);
+			SdlMixer.Mix_PlayMusic(music, IsLooping ? -1 : 1);
 		}
 
 		public override double Pan
@@ -109,7 +109,7 @@ namespace AgateSDL.Audio
 
 		public override void Play()
 		{
-			SdlMixer.Mix_PlayMusic(music, -1);
+			SdlMixer.Mix_PlayMusic(music, IsLooping ? -1 : 1);
 		}
 
 		public override void Stop()
