@@ -475,16 +475,17 @@ namespace AgateLib.DisplayLib
 
 			if (matches.Count == 0)
 			{
-				return new TextLayout 
-				{ 
-					new LayoutText 
-					{ 
-						Font = this, 
-						State = this.State.Clone(), 
-						LineIndex = 0, 
-						Text = formatString
-					}
+				var singleLayout = new LayoutText
+				{
+					Font = this,
+					State = this.State.Clone(),
+					LineIndex = 0,
+					Text = formatString
 				};
+
+				singleLayout.State.Location = PointF.Empty;
+
+				return new TextLayout { singleLayout };
 			}
 
 			for (int i = 0; i < args.Length; i++)
