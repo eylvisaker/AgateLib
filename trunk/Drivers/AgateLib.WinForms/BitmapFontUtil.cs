@@ -99,6 +99,7 @@ namespace AgateLib.WinForms
 			int x = rend.Padding, y = 2;
 			int height = 0;
 			char lastChar = ' ';
+			int digitWidth = 0;
 
 			// first measure the required height of the image.
 			foreach (BitmapFontOptions.CharacterRange range in options.CharacterRanges)
@@ -133,6 +134,9 @@ namespace AgateLib.WinForms
 					}
 
 					glyphs[i] = new GlyphMetrics(new Rectangle(0, 0, sourceSize.Width, sourceSize.Height));
+
+					if ('0' <= i && i <= '9')
+						digitWidth = Math.Max(digitWidth, sourceSize.Width);
 
 					lastChar = i;
 				}
@@ -189,11 +193,11 @@ namespace AgateLib.WinForms
 
 						if (font.SizeInPoints >= 14.0)
 						{
-							glyphs[i].LeftOverhang = 1;
-							glyphs[i].RightOverhang = 1;
+							glyphs[i].LeftOverhang += 1;
+							glyphs[i].RightOverhang += 1;
 						}
 						else
-							glyphs[i].RightOverhang = 1;
+							glyphs[i].RightOverhang += 1;
 
 					}
 					else
@@ -214,6 +218,22 @@ namespace AgateLib.WinForms
 			}
 
 			rend.ModifyMetrics(glyphs, g);
+
+			if (options.MonospaceNumbers)
+			{
+				digitWidth += options.NumberWidthAdjust;
+
+				for (char i = '0'; i <= '9'; i++)
+				{
+					int delta = digitWidth - glyphs[i].Width;
+
+					int leftShift = -delta / 2;
+					int rightShift = -delta - leftShift;
+
+					glyphs[i].LeftOverhang = leftShift;
+					glyphs[i].RightOverhang = rightShift;
+				}
+			}
 
 			g.Dispose();
 

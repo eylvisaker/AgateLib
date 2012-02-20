@@ -28,6 +28,7 @@ namespace FontCreator
         /// </summary>
         private void InitializeComponent()
         {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateFont));
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.cboFamily = new System.Windows.Forms.ComboBox();
@@ -39,8 +40,6 @@ namespace FontCreator
 			this.chkStrikeout = new System.Windows.Forms.CheckBox();
 			this.txtSampleText = new System.Windows.Forms.TextBox();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.renderTarget = new AgateLib.WinForms.AgateRenderTarget();
-			this.zoomRenderTarget = new AgateLib.WinForms.AgateRenderTarget();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.label10 = new System.Windows.Forms.Label();
 			this.nudBottomMargin = new System.Windows.Forms.NumericUpDown();
@@ -61,7 +60,12 @@ namespace FontCreator
 			this.btnDisplayColor = new System.Windows.Forms.Button();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
+			this.chkMonospaceNumbers = new System.Windows.Forms.CheckBox();
+			this.nudNumberWidthAdjust = new System.Windows.Forms.NumericUpDown();
+			this.renderTarget = new AgateLib.WinForms.AgateRenderTarget();
+			this.zoomRenderTarget = new AgateLib.WinForms.AgateRenderTarget();
 			((System.ComponentModel.ISupportInitialize)(this.nudSize)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -71,6 +75,7 @@ namespace FontCreator
 			((System.ComponentModel.ISupportInitialize)(this.nudOpacity)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudScale)).BeginInit();
 			this.groupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudNumberWidthAdjust)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -189,9 +194,7 @@ namespace FontCreator
 			this.txtSampleText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.txtSampleText.Size = new System.Drawing.Size(186, 89);
 			this.txtSampleText.TabIndex = 10;
-			this.txtSampleText.Text = "abcdefghijklmnopqrstuvwxyz\r\nABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n01234567890\r\n!@#$%^&*(),<" +
-				".>/?;:\'\"-_=+\\|\r\n¡¢£¤¥¦§¨©ª«¬­®¯°±²³µ¶·¸¹º»¼½¾¿À\r\nÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚ\r\nÛÜÝ" +
-				"Þßàáâãäåæçèéêëìíîïðñòóôõö÷ø\r\nùúûüýþ";
+			this.txtSampleText.Text = resources.GetString("txtSampleText.Text");
 			this.txtSampleText.TextChanged += new System.EventHandler(this.txtSampleText_TextChanged);
 			// 
 			// splitContainer1
@@ -199,7 +202,7 @@ namespace FontCreator
 			this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.splitContainer1.Location = new System.Drawing.Point(3, 225);
+			this.splitContainer1.Location = new System.Drawing.Point(3, 260);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -209,33 +212,15 @@ namespace FontCreator
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.zoomRenderTarget);
-			this.splitContainer1.Size = new System.Drawing.Size(564, 170);
+			this.splitContainer1.Size = new System.Drawing.Size(564, 150);
 			this.splitContainer1.SplitterDistance = 208;
 			this.splitContainer1.SplitterWidth = 8;
 			this.splitContainer1.TabIndex = 11;
 			// 
-			// renderTarget
-			// 
-			this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.renderTarget.Location = new System.Drawing.Point(0, 0);
-			this.renderTarget.Name = "renderTarget";
-			this.renderTarget.Size = new System.Drawing.Size(208, 170);
-			this.renderTarget.TabIndex = 0;
-			this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-			// 
-			// zoomRenderTarget
-			// 
-			this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
-			this.zoomRenderTarget.Name = "zoomRenderTarget";
-			this.zoomRenderTarget.Size = new System.Drawing.Size(348, 170);
-			this.zoomRenderTarget.TabIndex = 1;
-			this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.nudNumberWidthAdjust);
+			this.groupBox1.Controls.Add(this.chkMonospaceNumbers);
 			this.groupBox1.Controls.Add(this.label10);
 			this.groupBox1.Controls.Add(this.nudBottomMargin);
 			this.groupBox1.Controls.Add(this.nudTopMargin);
@@ -257,7 +242,7 @@ namespace FontCreator
 			this.groupBox1.Controls.Add(this.chkBold);
 			this.groupBox1.Location = new System.Drawing.Point(3, 3);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(265, 216);
+			this.groupBox1.Size = new System.Drawing.Size(265, 251);
 			this.groupBox1.TabIndex = 12;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Font Creation Options";
@@ -265,7 +250,7 @@ namespace FontCreator
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(160, 167);
+			this.label10.Location = new System.Drawing.Point(157, 190);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(40, 13);
 			this.label10.TabIndex = 21;
@@ -273,7 +258,7 @@ namespace FontCreator
 			// 
 			// nudBottomMargin
 			// 
-			this.nudBottomMargin.Location = new System.Drawing.Point(206, 165);
+			this.nudBottomMargin.Location = new System.Drawing.Point(203, 188);
 			this.nudBottomMargin.Maximum = new decimal(new int[] {
             50,
             0,
@@ -291,7 +276,7 @@ namespace FontCreator
 			// 
 			// nudTopMargin
 			// 
-			this.nudTopMargin.Location = new System.Drawing.Point(85, 165);
+			this.nudTopMargin.Location = new System.Drawing.Point(82, 188);
 			this.nudTopMargin.Maximum = new decimal(new int[] {
             50,
             0,
@@ -310,7 +295,7 @@ namespace FontCreator
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(9, 167);
+			this.label9.Location = new System.Drawing.Point(6, 190);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(69, 13);
 			this.label9.TabIndex = 18;
@@ -318,7 +303,7 @@ namespace FontCreator
 			// 
 			// nudOpacity
 			// 
-			this.nudOpacity.Location = new System.Drawing.Point(150, 139);
+			this.nudOpacity.Location = new System.Drawing.Point(147, 162);
 			this.nudOpacity.Maximum = new decimal(new int[] {
             255,
             0,
@@ -337,7 +322,7 @@ namespace FontCreator
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(147, 123);
+			this.label6.Location = new System.Drawing.Point(144, 146);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(80, 13);
 			this.label6.TabIndex = 16;
@@ -346,7 +331,7 @@ namespace FontCreator
 			// chkBorder
 			// 
 			this.chkBorder.AutoSize = true;
-			this.chkBorder.Location = new System.Drawing.Point(12, 130);
+			this.chkBorder.Location = new System.Drawing.Point(9, 153);
 			this.chkBorder.Name = "chkBorder";
 			this.chkBorder.Size = new System.Drawing.Size(91, 17);
 			this.chkBorder.TabIndex = 15;
@@ -357,7 +342,7 @@ namespace FontCreator
 			// btnBorderColor
 			// 
 			this.btnBorderColor.BackColor = System.Drawing.Color.Black;
-			this.btnBorderColor.Location = new System.Drawing.Point(106, 126);
+			this.btnBorderColor.Location = new System.Drawing.Point(103, 149);
 			this.btnBorderColor.Name = "btnBorderColor";
 			this.btnBorderColor.Size = new System.Drawing.Size(32, 23);
 			this.btnBorderColor.TabIndex = 14;
@@ -371,7 +356,7 @@ namespace FontCreator
 			this.cboEdges.DropDownWidth = 300;
 			this.cboEdges.FormattingEnabled = true;
 			this.cboEdges.IntegralHeight = false;
-			this.cboEdges.Location = new System.Drawing.Point(82, 98);
+			this.cboEdges.Location = new System.Drawing.Point(79, 121);
 			this.cboEdges.Name = "cboEdges";
 			this.cboEdges.Size = new System.Drawing.Size(145, 21);
 			this.cboEdges.TabIndex = 12;
@@ -380,7 +365,7 @@ namespace FontCreator
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(9, 101);
+			this.label4.Location = new System.Drawing.Point(6, 124);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(67, 13);
 			this.label4.TabIndex = 11;
@@ -391,7 +376,7 @@ namespace FontCreator
 			this.chkTextRenderer.AutoSize = true;
 			this.chkTextRenderer.Checked = true;
 			this.chkTextRenderer.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkTextRenderer.Location = new System.Drawing.Point(9, 193);
+			this.chkTextRenderer.Location = new System.Drawing.Point(6, 216);
 			this.chkTextRenderer.Name = "chkTextRenderer";
 			this.chkTextRenderer.Size = new System.Drawing.Size(207, 17);
 			this.chkTextRenderer.TabIndex = 10;
@@ -484,6 +469,58 @@ namespace FontCreator
 			this.label7.TabIndex = 16;
 			this.label7.Text = "Scale:";
 			// 
+			// chkMonospaceNumbers
+			// 
+			this.chkMonospaceNumbers.AutoSize = true;
+			this.chkMonospaceNumbers.Checked = true;
+			this.chkMonospaceNumbers.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkMonospaceNumbers.Location = new System.Drawing.Point(48, 98);
+			this.chkMonospaceNumbers.Name = "chkMonospaceNumbers";
+			this.chkMonospaceNumbers.Size = new System.Drawing.Size(127, 17);
+			this.chkMonospaceNumbers.TabIndex = 22;
+			this.chkMonospaceNumbers.Text = "Monospace Numbers";
+			this.chkMonospaceNumbers.UseVisualStyleBackColor = true;
+			this.chkMonospaceNumbers.CheckedChanged += new System.EventHandler(this.chkMonospaceNumbers_CheckedChanged);
+			// 
+			// nudNumberWidthAdjust
+			// 
+			this.nudNumberWidthAdjust.DecimalPlaces = 1;
+			this.nudNumberWidthAdjust.Location = new System.Drawing.Point(181, 97);
+			this.nudNumberWidthAdjust.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+			this.nudNumberWidthAdjust.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            -2147483648});
+			this.nudNumberWidthAdjust.Name = "nudNumberWidthAdjust";
+			this.nudNumberWidthAdjust.Size = new System.Drawing.Size(59, 20);
+			this.nudNumberWidthAdjust.TabIndex = 23;
+			this.nudNumberWidthAdjust.ValueChanged += new System.EventHandler(this.nudNumberWidthAdjust_ValueChanged);
+			// 
+			// renderTarget
+			// 
+			this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.renderTarget.Location = new System.Drawing.Point(0, 0);
+			this.renderTarget.Name = "renderTarget";
+			this.renderTarget.Size = new System.Drawing.Size(208, 150);
+			this.renderTarget.TabIndex = 0;
+			this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+			// 
+			// zoomRenderTarget
+			// 
+			this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
+			this.zoomRenderTarget.Name = "zoomRenderTarget";
+			this.zoomRenderTarget.Size = new System.Drawing.Size(348, 150);
+			this.zoomRenderTarget.TabIndex = 1;
+			this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+			// 
 			// CreateFont
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -492,10 +529,11 @@ namespace FontCreator
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.splitContainer1);
 			this.Name = "CreateFont";
-			this.Size = new System.Drawing.Size(570, 398);
+			this.Size = new System.Drawing.Size(570, 413);
 			((System.ComponentModel.ISupportInitialize)(this.nudSize)).EndInit();
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
@@ -505,6 +543,7 @@ namespace FontCreator
 			((System.ComponentModel.ISupportInitialize)(this.nudScale)).EndInit();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudNumberWidthAdjust)).EndInit();
 			this.ResumeLayout(false);
 
         }
@@ -544,6 +583,8 @@ namespace FontCreator
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.NumericUpDown nudBottomMargin;
+		private System.Windows.Forms.CheckBox chkMonospaceNumbers;
+		private System.Windows.Forms.NumericUpDown nudNumberWidthAdjust;
     }
 }
 
