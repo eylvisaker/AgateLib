@@ -96,6 +96,7 @@ namespace AgateLib.BitmapFont
 		private FontStyle mStyle;
 		private bool mUseTextRenderer = true;
 		private bool mCreateBorder;
+		private bool mMonospaceNumbers = true;
 		private Color mBorderColor = Color.FromArgb(128, Color.Black);
 		private BitmapFontEdgeOptions mEdgeOptions;
 		private List<CharacterRange> mRanges = new List<CharacterRange>();
@@ -288,6 +289,21 @@ namespace AgateLib.BitmapFont
 		/// Indicates how much to increase the bottom margin of letters.  Can be negative.
 		/// </summary>
 		public int BottomMarginAdjust { get; set; }
+
+		/// <summary>
+		/// Set to true to force the digits 0-9 to be generated at the same width.
+		/// </summary>
+		public bool MonospaceNumbers
+		{
+			get { return mMonospaceNumbers; }
+			set { mMonospaceNumbers = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the number of pixels the width of numbers is to be increased or decreased.
+		/// This value is only used if MonospaceNumbers is enabled.
+		/// </summary>
+		public int NumberWidthAdjust { get; set; }
 	}
 
 }

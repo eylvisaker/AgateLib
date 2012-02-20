@@ -147,6 +147,7 @@
     <Compile Include="DisplayTests\Prerendered.cs" />
     <Compile Include="DisplayTests\RenderTargetContinuous.cs" />
     <Compile Include="Fonts\Builtin.cs" />
+    <Compile Include="Fonts\FontAlignment.cs" />
     <Compile Include="Fonts\Kerning.cs" />
     <Compile Include="frmLauncher.cs">
       <SubType>Form</SubType>
@@ -533,6 +534,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\fonts\MedievalSharp14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\fonts\MedievalSharp18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\fonts\MedievalSharpBold14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\fonts\MedievalSharpBold18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\fonts\MedievalSharpBold22.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\mask_bg-bricks.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

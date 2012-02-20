@@ -210,7 +210,7 @@ namespace AgateLib.BitmapFont
 					if (mFontMetrics.ContainsKey(line[j]) == false)
 						continue;
 
-					lineWidth += mFontMetrics[line[j]].Width;
+					lineWidth += mFontMetrics[line[j]].LayoutWidth;
 				}
 
 				if (lineWidth > highestLineWidth)

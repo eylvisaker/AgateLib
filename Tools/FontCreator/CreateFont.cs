@@ -246,6 +246,20 @@ namespace FontCreator
 			sample.CreateFont();
 		}
 
+		private void chkMonospaceNumbers_CheckedChanged(object sender, EventArgs e)
+		{
+			sample.Options.MonospaceNumbers = chkMonospaceNumbers.Checked;
+
+			sample.CreateFont();
+		}
+
+		private void nudNumberWidthAdjust_ValueChanged(object sender, EventArgs e)
+		{
+			sample.Options.NumberWidthAdjust = (int)nudNumberWidthAdjust.Value;
+
+			sample.CreateFont();
+		}
+
 
 
 	}
