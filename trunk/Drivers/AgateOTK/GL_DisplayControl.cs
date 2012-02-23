@@ -44,6 +44,7 @@ namespace AgateOTK
 	/// </summary>
 	public sealed class GL_DisplayControl : DisplayWindowImpl
 	{
+		DisplayWindow mOwner;
 		Form frm;
 		Control mRenderTarget;
 		IGraphicsContext mContext;
@@ -70,8 +71,9 @@ namespace AgateOTK
 		{
 			get { return mFrameBuffer; }
 		}
-		public GL_DisplayControl(CreateWindowParams windowParams)
+		public GL_DisplayControl(DisplayWindow owner, CreateWindowParams windowParams)
 		{
+			mOwner = owner;
 			mChoosePosition = windowParams.WindowPosition;
 
 			if (windowParams.RenderToControl)
@@ -226,6 +228,7 @@ namespace AgateOTK
 			(mContext as IGraphicsContextInternal).LoadAll();
 
 			mFrameBuffer = new ContextFB(mContext, mWindowInfo, this.Size, true, false);
+			mFrameBuffer.mAttachedWindow = mOwner;
 		}
 
 		private IWindowInfo CreateWindowInfo(GraphicsMode mode)

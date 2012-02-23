@@ -36,6 +36,7 @@ namespace AgateSDX
 {
 	public class SDX_DisplayWindow : DisplayWindowImpl
 	{
+		DisplayWindow mOwner;
 		Form frm;
 		Control mRenderTarget;
 		bool mIsClosed = false;
@@ -57,9 +58,10 @@ namespace AgateSDX
 
 		#region --- Creation / Destruction ---
 
-		public SDX_DisplayWindow(CreateWindowParams windowParams)
+		public SDX_DisplayWindow(DisplayWindow owner, CreateWindowParams windowParams)
 		{
 			mChoosePosition = windowParams.WindowPosition;
+			mOwner = owner;
 
 			if (windowParams.RenderToControl)
 			{
@@ -365,7 +367,7 @@ namespace AgateSDX
 				mDisplay.DepthStencilFormat,
 				MultisampleType.None, 0, true);
 
-			mFrameBuffer = new FrameBufferWindow(Size, swap, backBuffer, backDepthStencil);
+			mFrameBuffer = new FrameBufferWindow(Size, swap, mOwner, backBuffer, backDepthStencil);
 
 			mRenderTarget.Resize += new EventHandler(mRenderTarget_Resize);
 		}

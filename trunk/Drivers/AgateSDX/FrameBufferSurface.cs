@@ -102,5 +102,13 @@ namespace AgateSDX
 				return mAgateSurface;
 			}
 		}
+
+		public override DisplayWindow AttachedWindow
+		{
+			get
+			{
+				return null;
+			}
+		}
 	}
 }

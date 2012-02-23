@@ -29,7 +29,7 @@ using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace AgateOTK.Legacy
 {
-	class FrameBufferExt : GL_FrameBuffer 
+	class FrameBufferExt : GL_FrameBuffer
 	{
 		Size mSize;
 		int mFramebufferID;
@@ -119,7 +119,7 @@ namespace AgateOTK.Legacy
 
 				GL.Ext.RenderbufferStorage(RenderbufferTarget.Renderbuffer,
 					RenderbufferStorage.DepthComponent24, mSize.Width, mSize.Height);
-			
+
 				// attach the depth buffer
 				GL.Ext.FramebufferRenderbuffer(FramebufferTarget.Framebuffer,
 					FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer,
@@ -202,6 +202,19 @@ namespace AgateOTK.Legacy
 		public override void MakeCurrent()
 		{
 			GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
+		}
+
+		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow
+		{
+			get { return null; }
+		}
+		public override bool HasDepthBuffer
+		{
+			get { return mHasDepth; }
+		}
+		public override bool HasStencilBuffer
+		{
+			get { return mHasStencil; }
 		}
 	}
 }

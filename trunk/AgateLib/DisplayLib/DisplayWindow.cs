@@ -58,14 +58,14 @@ namespace AgateLib.DisplayLib
 				CreateWindowParams par = CreateWindowParams.FullScreen(
 					disp.Title, disp.Size.Width, disp.Size.Height, disp.Bpp);
 
-				mImpl = Display.Impl.CreateDisplayWindow(par);
+				mImpl = Display.Impl.CreateDisplayWindow(this, par);
 			}
 			else
 			{
 				CreateWindowParams par = CreateWindowParams.Windowed(
 					disp.Title, disp.Size.Width, disp.Size.Height, disp.AllowResize, null);
 
-				mImpl = Display.Impl.CreateDisplayWindow(par);
+				mImpl = Display.Impl.CreateDisplayWindow(this, par);
 			}
 
 			Display.RenderTarget = FrameBuffer;
@@ -83,7 +83,7 @@ namespace AgateLib.DisplayLib
 					"Display has not been initialized." + Environment.NewLine +
 					"Did you forget to call AgateSetup.Initialize or Display.Initialize?");
 
-			mImpl = Display.Impl.CreateDisplayWindow(windowParams);
+			mImpl = Display.Impl.CreateDisplayWindow(this, windowParams);
 
 			Display.RenderTarget = FrameBuffer;
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);

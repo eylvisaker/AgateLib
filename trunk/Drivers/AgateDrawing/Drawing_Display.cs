@@ -106,9 +106,9 @@ namespace AgateDrawing
 		{
 			return new Drawing_Surface(surfaceSize);
 		}
-		public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
+		public override DisplayWindowImpl CreateDisplayWindow(DisplayWindow owner, CreateWindowParams windowParams)
 		{
-			return new Drawing_DisplayWindow(windowParams);
+			return new Drawing_DisplayWindow(owner, windowParams);
 		}
 		public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyle style)
 		{

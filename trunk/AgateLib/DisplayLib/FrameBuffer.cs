@@ -117,6 +117,15 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
+		/// Gets the window that this frame buffer is attached to. Returns null
+		/// if this FrameBuffer is not attached to any window.
+		/// </summary>
+		public DisplayWindow AttachedWindow
+		{
+			get { return Impl.AttachedWindow; }
+		}
+
+		/// <summary>
 		/// Returns true if the RenderTarget property is readable, and this surface that is
 		/// rendered to can be used to draw from.
 		/// </summary>

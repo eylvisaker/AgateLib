@@ -32,6 +32,7 @@ namespace AgateOTK
 		IGraphicsContext mContext;
 		IWindowInfo mWindowInfo;
 		Size mSize;
+		internal AgateLib.DisplayLib.DisplayWindow mAttachedWindow;
 
 		public ContextFB(IGraphicsContext context, IWindowInfo window, Size size, 
 						 bool depthBuffer, bool stencilBuffer)
@@ -58,7 +59,10 @@ namespace AgateOTK
 			mSize = size;
 		}
 
-
+		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow
+		{
+			get { return mAttachedWindow; }
+		}
 		public override void MakeCurrent()
 		{
 			if (mContext.IsCurrent == false)

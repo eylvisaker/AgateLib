@@ -265,9 +265,9 @@ namespace AgateSDX
 		{
 			return Shaders.ShaderFactory.CreateBuiltInShader(builtInShaderType);
 		}
-		public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
+		public override DisplayWindowImpl CreateDisplayWindow(DisplayWindow owner, CreateWindowParams windowParams)
 		{
-			return new SDX_DisplayWindow(windowParams);
+			return new SDX_DisplayWindow(owner, windowParams);
 		}
 		public override SurfaceImpl CreateSurface(string fileName)
 		{

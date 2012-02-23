@@ -196,9 +196,8 @@ namespace AgateLib.DisplayLib
 
 				sImpl.RenderTarget = value;
 
-				// TODO: replace this with an ActiveWindow property.
-				//if (value is DisplayWindow)
-				//    mCurrentWindow = (DisplayWindow)value;
+				if (value.AttachedWindow != null)
+					sCurrentWindow = value.AttachedWindow;
 			}
 		}
 

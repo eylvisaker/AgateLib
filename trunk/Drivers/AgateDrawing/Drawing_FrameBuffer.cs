@@ -30,6 +30,7 @@ namespace AgateDrawing
 	class Drawing_FrameBuffer: FrameBufferImpl 
 	{
 		Bitmap backBuffer;
+		internal AgateLib.DisplayLib.DisplayWindow mAttachedWindow;
 
 		public Drawing_FrameBuffer(Size size)
 		{
@@ -83,7 +84,11 @@ namespace AgateDrawing
 		{
 			get { return new Drawing_Surface(backBuffer, new System.Drawing.Rectangle(System.Drawing.Point.Empty, backBuffer.Size)); }
 		}
-
+		
+		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow
+		{
+			get { return mAttachedWindow; }
+		}
 
 		public event EventHandler EndRenderEvent;
 	}
