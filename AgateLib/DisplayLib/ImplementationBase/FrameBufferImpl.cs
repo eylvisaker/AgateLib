@@ -81,5 +81,11 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		{
 			get { throw new AgateException("Cannot access the back buffer in this frame buffer."); }
 		}
+
+		/// <summary>
+		/// Gets the window that this frame buffer is attached to. Returns null
+		/// if this FrameBuffer is not attached to any window.
+		/// </summary>
+		public abstract DisplayWindow AttachedWindow { get; }
 	}
 }

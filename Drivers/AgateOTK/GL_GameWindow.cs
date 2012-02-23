@@ -178,9 +178,11 @@ namespace AgateOTK
 		WindowPosition mCreatePosition;
 		GLDrawBuffer mDrawBuffer;
 		ContextFB mFrameBuffer;
+		DisplayWindow mOwner;
 
-		public GL_GameWindow(CreateWindowParams windowParams)
+		public GL_GameWindow(DisplayWindow owner, CreateWindowParams windowParams)
 		{
+			mOwner = owner;
 			mCreatePosition = windowParams.WindowPosition;
 
 			if (string.IsNullOrEmpty(windowParams.IconFile) == false)
@@ -201,6 +203,7 @@ namespace AgateOTK
 
 			mFrameBuffer = new ContextFB(mWindow.Context, mWindow.WindowInfo, 
 				new Size(mWindow.ClientSize.Width, mWindow.ClientSize.Height), true, false);
+			mFrameBuffer.mAttachedWindow = mOwner;
 
 			mDisplay = Display.Impl as GL_Display;
 

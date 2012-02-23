@@ -58,7 +58,7 @@ namespace AgateLib.Settings
 		/// <param name="value"></param>
 		public void Add(string key, string value)
 		{
-			Core.Settings.TraceSettingsWrite(Name, key, value);
+			PersistantSettings.TraceSettingsWrite(Name, key, value);
 			
 			mStore.Add(key, value);
 		}
@@ -70,7 +70,7 @@ namespace AgateLib.Settings
 		/// <returns></returns>
 		public bool ContainsKey(string key)
 		{
-			Core.Settings.TraceSettingsRead(Name, key, (mStore.ContainsKey(key) ? mStore[key] : null));
+			PersistantSettings.TraceSettingsRead(Name, key, (mStore.ContainsKey(key) ? mStore[key] : null));
 			
 			return mStore.ContainsKey(key);
 		}
@@ -100,7 +100,7 @@ namespace AgateLib.Settings
 		/// <returns></returns>
 		public bool TryGetValue(string key, out string value)
 		{
-			Core.Settings.TraceSettingsRead(Name, key, (mStore.ContainsKey(key) ? mStore[key] : null));
+			PersistantSettings.TraceSettingsRead(Name, key, (mStore.ContainsKey(key) ? mStore[key] : null));
 			
 			return mStore.TryGetValue(key, out value);
 		}
@@ -122,13 +122,13 @@ namespace AgateLib.Settings
 		{
 			get 
 			{
-				Core.Settings.TraceSettingsRead(Name, key, (mStore.ContainsKey(key) ? mStore[key] : null));
+				PersistantSettings.TraceSettingsRead(Name, key, (mStore.ContainsKey(key) ? mStore[key] : null));
 			
 				return mStore[key]; 
 			}
 			set
 			{
-				Core.Settings.TraceSettingsWrite(Name, key, value);
+				PersistantSettings.TraceSettingsWrite(Name, key, value);
 			
 				mStore[key] = value; 
 			}

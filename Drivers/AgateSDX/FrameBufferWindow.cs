@@ -30,15 +30,17 @@ namespace AgateSDX
 {
 	class FrameBufferWindow : SDX_FrameBuffer 
 	{
+		AgateLib.DisplayLib.DisplayWindow mAttachedWindow;
 		SDX_Display mDisplay;
 		SwapChain mSwap;
 		Direct3D.Surface mBackBuffer;
 		Direct3D.Surface mBackDepthStencil;
 		Size mSize;
 
-		public FrameBufferWindow(Size size, SwapChain swap, Direct3D.Surface backBuffer, Direct3D.Surface backDepthStencil)
+		public FrameBufferWindow(Size size, SwapChain swap, AgateLib.DisplayLib.DisplayWindow attachedWindow, Direct3D.Surface backBuffer, Direct3D.Surface backDepthStencil)
 		{
 			mDisplay = (SDX_Display)AgateLib.DisplayLib.Display.Impl;
+			mAttachedWindow = attachedWindow;
 
 			mSize = size;
 			mSwap = swap;
@@ -80,6 +82,11 @@ namespace AgateSDX
 			mDisplay.D3D_Device.Device.EndScene();
 
 			mSwap.Present(Present.None);
+		}
+
+		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow
+		{
+			get { return mAttachedWindow; }
 		}
 	}
 }

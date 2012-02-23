@@ -40,9 +40,12 @@ namespace AgateDrawing
 
 		Icon mIcon;
 		Bitmap mBackBuffer;
+		DisplayWindow mOwner;
 
-		public Drawing_DisplayWindow(CreateWindowParams windowParams)
+		public Drawing_DisplayWindow(DisplayWindow owner, CreateWindowParams windowParams)
 		{
+			mOwner = owner;
+
 			if (windowParams.RenderToControl == true)
 			{
 				if (typeof(Control).IsAssignableFrom(windowParams.RenderTarget.GetType()) == false)
@@ -78,6 +81,8 @@ namespace AgateDrawing
 
 			mFrameBuffer = new Drawing_FrameBuffer(mBackBuffer);
 			mFrameBuffer.EndRenderEvent += new EventHandler(mFrameBuffer_EndRenderEvent);
+			mFrameBuffer.mAttachedWindow = mOwner;
+
 		}
 
 		void mFrameBuffer_EndRenderEvent(object sender, EventArgs e)

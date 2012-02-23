@@ -39,45 +39,50 @@ namespace AgateLib.Settings
 	public class PersistantSettings
 	{
 		Dictionary<string, SettingsGroup> mSettings = new Dictionary<string, SettingsGroup>();
-
-		internal PersistantSettings()
-		{
-			LoadSettings();
-		}
 		
-		public ISettingsTracer SettingsTracer { get; set; }
-				
+		#region --- Static Members ---
+
+		public static ISettingsTracer SettingsTracer { get; set; }
+
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="AgateLib.Settings.PersistantSettings"/> is in
+		/// Gets or sets a value indicating whether PersistantSettings objects are in
 		/// debugging mode. If true, every access to a setting value will be echoed to System.Diagnostics.Trace.
 		/// </summary>
 		/// <value>
 		/// <c>true</c> if debug; otherwise, <c>false</c>.
 		/// </value>
-		public bool Debug { get; set; }
-		
-		internal void TraceSettingsRead(string groupName, string key, string value)
+		public static bool Debug { get; set; }
+
+		internal static void TraceSettingsRead(string groupName, string key, string value)
 		{
 			if (Debug)
 			{
 				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] read.", groupName, key));
 			}
-			
+
 			if (SettingsTracer == null) return;
-			
+
 			SettingsTracer.OnReadSetting(groupName, key, value);
 		}
-		internal void TraceSettingsWrite(string groupName, string key, string value)
+		internal static void TraceSettingsWrite(string groupName, string key, string value)
 		{
 			if (Debug)
 			{
 				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] written.", groupName, key));
 			}
-			
+
 			if (SettingsTracer == null) return;
-			
+
 			SettingsTracer.OnWriteSetting(groupName, key, value);
 		}
+
+		#endregion
+
+		internal PersistantSettings()
+		{
+			LoadSettings();
+		}
+
 		
 		private SettingsGroup GetOrCreateSettingsGroup(string name)
 		{

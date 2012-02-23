@@ -343,6 +343,8 @@ namespace AgateLib.Drivers
 			if (info == null)
 				throw new AgateException(string.Format("Could not find the driver {0}.", displayType));
 
+			Core.Settings["AgateLib"]["DisplayDriver"] = info.FriendlyName;
+
 			return (DisplayImpl)CreateDriverInstance(info);
 		}
 		internal static AudioImpl CreateAudioDriver(AudioTypeID audioType)

@@ -101,5 +101,10 @@ namespace AgateOTK.Legacy
 				return surface;
 			}
 		}
+
+		public override DisplayWindow AttachedWindow
+		{
+			get { return null; }
+		}
 	}
 }

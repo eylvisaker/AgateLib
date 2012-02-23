@@ -35,8 +35,8 @@ namespace Tests
 
 			ReadSettingsNames();
 
-			AgateLib.Core.Settings.SettingsTracer = this;
-			AgateLib.Core.Settings.Debug = true;
+			AgateLib.Settings.PersistantSettings.SettingsTracer = this;
+			AgateLib.Settings.PersistantSettings.Debug = true;
 
 			FillDrivers();
 

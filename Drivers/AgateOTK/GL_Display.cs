@@ -98,12 +98,12 @@ namespace AgateOTK
 		{
 			return ShaderFactory.CreateBuiltInShader(builtInShaderType);
 		}
-		public override DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams)
+		public override DisplayWindowImpl CreateDisplayWindow(DisplayWindow owner, CreateWindowParams windowParams)
 		{
 			if (windowParams.IsFullScreen && windowParams.RenderToControl == false)
-				return new GL_GameWindow(windowParams);
+				return new GL_GameWindow(owner, windowParams);
 			else
-				return new GL_DisplayControl(windowParams);
+				return new GL_DisplayControl(owner, windowParams);
 
 			//if (windowParams.RenderToControl)
 			//{

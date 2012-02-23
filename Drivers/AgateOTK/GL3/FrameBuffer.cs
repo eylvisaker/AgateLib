@@ -121,5 +121,29 @@ namespace AgateOTK.GL3
 		{
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, mFramebufferID);
 		}
+
+		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow
+		{
+			get { return null; }
+		}
+		public override bool CanAccessRenderTarget
+		{
+			get			{				return true;			}
+		}
+
+		public override bool HasDepthBuffer
+		{
+			get
+			{
+				return mHasDepth;
+			}
+		}
+		public override bool HasStencilBuffer
+		{
+			get
+			{
+				return mHasStencil;
+			}
+		}
 	}
 }

@@ -124,7 +124,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		/// <param name="windowParams"></param>
 		/// <returns></returns>
-		public abstract DisplayWindowImpl CreateDisplayWindow(CreateWindowParams windowParams);
+		public abstract DisplayWindowImpl CreateDisplayWindow(DisplayWindow owner, CreateWindowParams windowParams);
 
 		/// <summary>
 		/// Creates a SurfaceImpl derived object.
