@@ -372,6 +372,8 @@ namespace AgateLib.Drivers
 			if (info == null)
 				throw new AgateException(string.Format("Could not find the driver {0}.", audioType));
 
+			Core.Settings["AgateLib"]["AudioDriver"] = info.FriendlyName;
+
 			return (AudioImpl)CreateDriverInstance(info);
 		}
 		internal static InputImpl CreateInputDriver(InputTypeID inputType)
@@ -398,6 +400,8 @@ namespace AgateLib.Drivers
 			
 			if (info == null)
 				throw new AgateException(string.Format("Could not find the driver {0}.", inputType));
+
+			Core.Settings["AgateLib"]["InputDriver"] = info.FriendlyName;
 
 			return (InputImpl)CreateDriverInstance(info);
 		}
