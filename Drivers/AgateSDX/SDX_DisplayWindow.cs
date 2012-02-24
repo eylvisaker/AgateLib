@@ -188,10 +188,15 @@ namespace AgateSDX
 		void form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
 		{
 			mIsClosed = true;
+			OnClosed();
+
 		}
 		void form_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
 		{
+			bool cancel = e.Cancel;
+			OnClosing(ref cancel);
 
+			e.Cancel = cancel;
 		}
 
 		void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)

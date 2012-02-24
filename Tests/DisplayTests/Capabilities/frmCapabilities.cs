@@ -14,7 +14,9 @@ namespace Tests.DisplayTests.Capabilities
 		public frmCapabilities()
 		{
 			InitializeComponent();
-			
+
+			AgateLib.DisplayLib.DisplayWindow wind = AgateLib.DisplayLib.DisplayWindow.CreateFromControl(this);
+
 			Text += " ";
 			Text += AgateLib.Drivers.Registrar.DisplayDrivers[0].FriendlyName;
 			

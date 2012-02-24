@@ -490,6 +490,7 @@
     </None>
     <None Include="Data\TestResourceFile.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Data\wallpaper.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

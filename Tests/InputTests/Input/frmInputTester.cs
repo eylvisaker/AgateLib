@@ -51,8 +51,11 @@ namespace Tests.InputTester
 			{
 				FillJoystickInfo(i, joystickLabels[i]);
 			}
-				
+
+			timer1.Enabled = false;
 			Core.KeepAlive();
+
+			timer1.Enabled = true;
 		}
 
 		private void FillJoystickInfo(int index, Label label)
