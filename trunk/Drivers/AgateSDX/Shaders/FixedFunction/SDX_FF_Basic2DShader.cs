@@ -76,7 +76,16 @@ namespace AgateSDX.Shaders
 
 			// TODO: figure out why this method sometimes gets called when mDevice is null?
 			if (mDevice != null)
-				mDevice.SetTransform(TransformState.Projection, orthoProj);
+			{
+				try
+				{
+					mDevice.SetTransform(TransformState.Projection, orthoProj);
+				}
+				catch (NullReferenceException e)
+				{
+					System.Diagnostics.Debug.Print("NullReferenceException when setting transformation.");
+				}
+			}
 		}
 
 		public override void Begin()
