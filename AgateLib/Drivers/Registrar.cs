@@ -41,6 +41,10 @@ namespace AgateLib.Drivers
 			inputDrivers = new List<AgateDriverInfo>(),
 			desktopDrivers = new List<AgateDriverInfo>();
 
+		private static AgateDriverInfo mDisplayUsed;
+		private static AgateDriverInfo mAudioUsed;
+		private static AgateDriverInfo mInputUsed;
+
 		private static bool mIsInitialized = false;
 
 		private static IDesktopDriver mDesktop;
@@ -344,6 +348,7 @@ namespace AgateLib.Drivers
 				throw new AgateException(string.Format("Could not find the driver {0}.", displayType));
 
 			Core.Settings["AgateLib"]["DisplayDriver"] = info.FriendlyName;
+			mDisplayUsed = info;
 
 			return (DisplayImpl)CreateDriverInstance(info);
 		}
@@ -373,6 +378,7 @@ namespace AgateLib.Drivers
 				throw new AgateException(string.Format("Could not find the driver {0}.", audioType));
 
 			Core.Settings["AgateLib"]["AudioDriver"] = info.FriendlyName;
+			mAudioUsed = info;
 
 			return (AudioImpl)CreateDriverInstance(info);
 		}
@@ -402,6 +408,7 @@ namespace AgateLib.Drivers
 				throw new AgateException(string.Format("Could not find the driver {0}.", inputType));
 
 			Core.Settings["AgateLib"]["InputDriver"] = info.FriendlyName;
+			mInputUsed = info;
 
 			return (InputImpl)CreateDriverInstance(info);
 		}
@@ -493,7 +500,7 @@ namespace AgateLib.Drivers
 		}
 
 		/// <summary>
-		/// Returns a collection with all the DriverInfo&lt;DisplayTypeID&gt; structures for
+		/// Returns a collection with all the AgateDriverInfo structures for
 		/// registered display drivers.
 		/// </summary>
 		/// <returns></returns>
@@ -502,7 +509,7 @@ namespace AgateLib.Drivers
 			get { return displayDrivers; }
 		}
 		/// <summary>
-		/// Returns a collection with all the DriverInfo&lt;AudioTypeID&gt; structures for
+		/// Returns a collection with all the AgateDriverInfo structures for
 		/// registered display drivers.
 		/// </summary>
 		/// <returns></returns>
@@ -511,7 +518,7 @@ namespace AgateLib.Drivers
 			get { return audioDrivers; }
 		}
 		/// <summary>
-		/// Returns a collection with all the DriverInfo&lt;InputTypeID&gt; structures for
+		/// Returns a collection with all the AgateDriverInfo structures for
 		/// registered display drivers.
 		/// </summary>
 		/// <returns></returns>
@@ -520,6 +527,26 @@ namespace AgateLib.Drivers
 			get { return inputDrivers; }
 		}
 
-
+		/// <summary>
+		/// Returns the AgateDriverInfo for the initialized display driver.
+		/// </summary>
+		public static AgateDriverInfo DisplayUsed
+		{
+			get { return mDisplayUsed; }
+		}
+		/// <summary>
+		/// Returns the AgateDriverInfo for the initialized audio driver.
+		/// </summary>
+		public static AgateDriverInfo AudioUsed
+		{
+			get { return mAudioUsed; }
+		}
+		/// <summary>
+		/// Returns the AgateDriverInfo for the initialized input driver.
+		/// </summary>
+		public static AgateDriverInfo InputUsed
+		{
+			get { return mInputUsed; }
+		}
 	}
 }
