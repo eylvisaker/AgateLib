@@ -502,7 +502,7 @@ namespace AgateLib.DisplayLib
 		/// to the top-left of the surface.</param>
 		public void Draw(PointF destPt, PointF rotationCenter)
 		{
-			Draw(destPt, Rectangle.Empty, rotationCenter);
+			Draw(Rectangle.Empty, destPt, rotationCenter);
 		}
 		/// <summary>
 		/// Draws this surface to the screen at the specified point, 
@@ -516,7 +516,7 @@ namespace AgateLib.DisplayLib
 			Draw(new PointF(destX, destY), new PointF(rotationCenterX, rotationCenterY));
 		}
 
-		internal void Draw(PointF destPt, Rectangle srcRect, PointF rotationCenter)
+		internal void Draw(Rectangle srcRect, PointF destPt, PointF rotationCenter)
 		{
 			OriginAlignment oldrotation = State.RotationCenter;
 			PointF oldcenter = State.RotationCenterLocation;
@@ -531,6 +531,31 @@ namespace AgateLib.DisplayLib
 
 			State.RotationCenterLocation = oldcenter;
 			State.RotationCenter = oldrotation;
+		}
+
+		/// <summary>
+		/// Draws the specified source rect at the given destination point.
+		/// </summary>
+		/// <param name="srcRect"></param>
+		/// <param name="destPt"></param>
+		public void Draw(Rectangle srcRect, PointF destPt)
+		{
+			State.DrawInstances.SetCount(1);
+			State.DrawInstances[0] = new SurfaceDrawInstance(destPt, srcRect);
+
+			mImpl.Draw(State);
+		}
+		/// <summary>
+		/// Draws the specified source rect at the given destination point.
+		/// </summary>
+		/// <param name="srcRect"></param>
+		/// <param name="destPt"></param>
+		public void Draw(Rectangle srcRect, Point destPt)
+		{
+			State.DrawInstances.SetCount(1);
+			State.DrawInstances[0] = new SurfaceDrawInstance((PointF)destPt, srcRect);
+
+			mImpl.Draw(State);
 		}
 
 		/// <summary>
