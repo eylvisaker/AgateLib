@@ -246,5 +246,27 @@ namespace AgateLib.Geometry
 				"{{X={0},Y={1}}}", X, Y);
 		}
 
+		/// <summary>
+		/// Produces a Vector2 object from polar coordinates. 
+		/// </summary>
+		/// <remarks>Angles in the first
+		/// quadrant (between 0 and pi/2) will have positive x and y coordinates, 
+		/// which will be downright in the usual screen coordinates.
+		/// </remarks>
+		/// <param name="radius"></param>
+		/// <param name="angle">The angle in radians</param>
+		/// <returns></returns>
+		public static Vector2 FromPolar(double radius, double angle)
+		{
+			Vector2 retval = new Vector2(
+				radius * Math.Cos(angle),
+				radius * Math.Sin(angle));
+
+			return retval;
+		}
+		public static Vector2 FromPolarDegrees(double radius, double angle)
+		{
+			return FromPolar(radius, angle * Math.PI / 180.0);
+		}
 	}
 }
