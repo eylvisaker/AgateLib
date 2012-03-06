@@ -36,11 +36,6 @@ namespace AgateLib.Serialization.Xle
 		XmlDocument doc;
 		Stack<XmlElement> nodes = new Stack<XmlElement>();
 
-		/// <summary>
-		/// The ITypeBinder object used.
-		/// </summary>
-		public ITypeBinder Binder { get; internal set; }
-
 		internal XleSerializationInfo()
 		{
 			doc = new XmlDocument();
@@ -92,6 +87,8 @@ namespace AgateLib.Serialization.Xle
 		}
 
 		#region --- Writing methods ---
+
+		#region --- Writing single values to the XML ---
 
 		/// <summary>
 		/// Writes a field to the XML data as an element.
@@ -302,117 +299,6 @@ namespace AgateLib.Serialization.Xle
 		}
 
 		/// <summary>
-		/// Writes an int[] array to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The array data to write.</param>
-		public void Write(string name, int[] value)
-		{
-			byte[] array = new byte[value.Length * 4];
-
-			if (array.Length > 0)
-			{
-				unsafe
-				{
-					fixed (int* val = value)
-					{
-						Marshal.Copy((IntPtr)val, array, 0, array.Length);
-					}
-				}
-			}
-			Write(name, array);
-
-		}
-
-
-		/// <summary>
-		/// Writes a bool[] array to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The array data to write.</param>
-		public void Write(string name, bool[] value)
-		{
-			byte[] array = new byte[value.Length];
-
-			for (int i = 0; i < value.Length; i++)
-				array[i] = (byte)(value[i] ? 1 : 0);
-			
-			Write(name, array);
-		}
-
-		/// <summary>
-		/// Writes an double[] array to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The array data to write.</param>
-		public void Write(string name, double[] value)
-		{
-			byte[] array = new byte[value.Length * 8];
-
-			unsafe
-			{
-				fixed (double* val = value)
-				{
-					Marshal.Copy((IntPtr)val, array, 0, array.Length);
-				}
-			}
-			Write(name, array);
-
-		}
-		/// <summary>
-		/// Writes a binary stream to the XML data as an element.  
-		/// Compresses the stream using GZip compression.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The stream of data to write.</param>
-		public void Write(string name, Stream value)
-		{
-			Write(name, value, CompressionType.GZip);
-		}
-		/// <summary>
-		/// Writes a binary stream to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The stream of data to write.</param>
-		/// <param name="compression">The compression algorithm to use.</param>
-		public void Write(string name, Stream value, CompressionType compression)
-		{
-			WriteImpl(name, value, compression);
-		}
-
-		private void WriteImpl(string name, Stream value, CompressionType compression)
-		{
-			MemoryStream ms = new MemoryStream();
-			Stream compressed = TranslateStream(ms, compression, CompressionMode.Compress);
-
-			byte[] uncompressedData = ReadFromStream(value);
-			compressed.Write(uncompressedData, 0, uncompressedData.Length);
-
-			byte[] buffer = ms.GetBuffer();
-
-			string newValue = Convert.ToBase64String(
-				buffer/*, Base64FormattingOptions.InsertLineBreaks*/);
-
-			XmlElement el = WriteAsElement(name, newValue);
-			AddAttribute(el, "stream", "true");
-			AddAttribute(el, "compression", compression.ToString());
-			AddAttribute(el, "encoding", "Base64");
-		}
-
-		/// <summary>
-		/// Writes a byte[] array to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The array data to write.</param>
-		public void Write(string name, byte[] value)
-		{
-			string newValue = Convert.ToBase64String(value, Base64FormattingOptions.InsertLineBreaks);
-
-			XmlElement el = WriteAsElement(name, newValue);
-			AddAttribute(el, "array", "true");
-			AddAttribute(el, "encoding", "Base64");
-		}
-		/// <summary>
 		/// Writes an object implementing IXleSerializable to the XML data as an element.
 		/// </summary>
 		/// <param name="name">The name of the XML element used.</param>
@@ -434,6 +320,149 @@ namespace AgateLib.Serialization.Xle
 				nodes.Pop();
 			}
 		}
+		private XmlElement WriteAsElement<T>(string name, T value) where T : IConvertible
+		{
+			XmlElement element = doc.CreateElement(name);
+
+			element.InnerText = value.ToString();
+
+			CurrentNode.AppendChild(element);
+
+			return element;
+		}
+		private void WriteAsAttribute<T>(string name, T value) where T : IConvertible
+		{
+			AddAttribute(CurrentNode, name, Convert.ToString(value));
+		}
+
+		private XmlElement CreateElement(string name)
+		{
+			XmlElement element = doc.CreateElement(name);
+
+			for (int i = 0; i < CurrentNode.ChildNodes.Count; i++)
+			{
+				if (CurrentNode.ChildNodes[i].Name == name)
+					throw new XleSerializationException("The name " + name + " already exists.");
+			}
+
+			CurrentNode.AppendChild(element);
+
+			return element;
+		}
+		#endregion
+		#region --- Writing arrays ---
+
+		/// <summary>
+		/// Writes an int[] array to the XML data as an element.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The array data to write.</param>
+		public void Write(string name, int[] value)
+		{
+			WriteImpl(name, value, NumericEncoding.Base64);
+		}
+		/// <summary>
+		/// Writes an int[] array to the XML data as an element with the specified encoding.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		/// <param name="encoding"></param>
+		public void Write(string name, int[] value, NumericEncoding encoding)
+		{
+			WriteImpl(name, value, encoding);
+		}
+
+		private void WriteImpl(string name, int[] value, NumericEncoding encoding)
+		{
+			switch (encoding)
+			{
+				case NumericEncoding.Base64:
+					byte[] array = new byte[value.Length * 4];
+
+					if (array.Length > 0)
+					{
+						unsafe
+						{
+							fixed (int* val = value)
+							{
+								Marshal.Copy((IntPtr)val, array, 0, array.Length);
+							}
+						}
+					}
+
+					WriteBase64Encoded(name, array);
+					break;
+
+				case NumericEncoding.Csv:
+					string newValue = string.Join(",", value);
+
+					XmlElement el = WriteAsElement(name, newValue);
+
+					AddAttribute(el, "array", "true");
+					AddAttribute(el, "encoding", "Csv");
+
+					break;
+
+				default:
+					throw new ArgumentException("Value of encoding is not understood.");
+			}
+		}
+
+		/// <summary>
+		/// Writes a bool[] array to the XML data as an element.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The array data to write.</param>
+		public void Write(string name, bool[] value)
+		{
+			byte[] array = new byte[value.Length];
+
+			for (int i = 0; i < value.Length; i++)
+				array[i] = (byte)(value[i] ? 1 : 0);
+
+			WriteBase64Encoded(name, array);
+		}
+
+		/// <summary>
+		/// Writes an double[] array to the XML data as an element.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The array data to write.</param>
+		public void Write(string name, double[] value)
+		{
+			byte[] array = new byte[value.Length * 8];
+
+			unsafe
+			{
+				fixed (double* val = value)
+				{
+					Marshal.Copy((IntPtr)val, array, 0, array.Length);
+				}
+			}
+
+			WriteBase64Encoded(name, array);
+		}
+
+		/// <summary>
+		/// Writes a byte[] array to the XML data as an element.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The array data to write.</param>
+		public void Write(string name, byte[] value)
+		{
+			WriteBase64Encoded(name, value);
+		}
+
+		private void WriteBase64Encoded(string name, byte[] value)
+		{
+			string newValue = Convert.ToBase64String(value, Base64FormattingOptions.InsertLineBreaks);
+
+			XmlElement el = WriteAsElement(name, newValue);
+
+			AddAttribute(el, "array", "true");
+			AddAttribute(el, "encoding", "Base64");
+		}
+
 
 		/// <summary>
 		/// Writes an array of objects implementing IXleSerializable to the XML data as an element.
@@ -496,11 +525,11 @@ namespace AgateLib.Serialization.Xle
 		/// </summary>
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The list data to write.</param>
-		public void Write(string name, List<string> value) 
+		public void Write(string name, List<string> value)
 		{
 			XmlElement element = CreateElement(name);
 			AddAttribute(element, "array", "true");
-			
+
 			nodes.Push(element);
 
 			for (int i = 0; i < value.Count; i++)
@@ -619,36 +648,50 @@ namespace AgateLib.Serialization.Xle
 			nodes.Pop();
 		}
 
-		private XmlElement WriteAsElement<T>(string name, T value) where T : IConvertible
+		#endregion
+		#region --- Writing Streams ---
+
+		/// <summary>
+		/// Writes a binary stream to the XML data as an element.  
+		/// Compresses the stream using GZip compression.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The stream of data to write.</param>
+		public void Write(string name, Stream value)
 		{
-			XmlElement element = doc.CreateElement(name);
-
-			element.InnerText = value.ToString();
-
-			CurrentNode.AppendChild(element);
-
-			return element;
+			Write(name, value, CompressionType.GZip);
 		}
-		private void WriteAsAttribute<T>(string name, T value) where T : IConvertible
+		/// <summary>
+		/// Writes a binary stream to the XML data as an element.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The stream of data to write.</param>
+		/// <param name="compression">The compression algorithm to use.</param>
+		public void Write(string name, Stream value, CompressionType compression)
 		{
-			AddAttribute(CurrentNode, name, Convert.ToString(value));
-		}
-
-		private XmlElement CreateElement(string name)
-		{
-			XmlElement element = doc.CreateElement(name);
-
-			for (int i = 0; i < CurrentNode.ChildNodes.Count; i++)
-			{
-				if (CurrentNode.ChildNodes[i].Name == name)
-					throw new XleSerializationException("The name " + name + " already exists.");
-			}
-
-			CurrentNode.AppendChild(element);
-
-			return element;
+			WriteImpl(name, value, compression);
 		}
 
+		private void WriteImpl(string name, Stream value, CompressionType compression)
+		{
+			MemoryStream ms = new MemoryStream();
+			Stream compressed = TranslateStream(ms, compression, CompressionMode.Compress);
+
+			byte[] uncompressedData = ReadFromStream(value);
+			compressed.Write(uncompressedData, 0, uncompressedData.Length);
+
+			byte[] buffer = ms.GetBuffer();
+
+			string newValue = Convert.ToBase64String(
+				buffer/*, Base64FormattingOptions.InsertLineBreaks*/);
+
+			XmlElement el = WriteAsElement(name, newValue);
+			AddAttribute(el, "stream", "true");
+			AddAttribute(el, "compression", compression.ToString());
+			AddAttribute(el, "encoding", "Base64");
+		}
+
+		#endregion
 
 		#endregion
 		#region --- Reading methods ---
@@ -673,129 +716,8 @@ namespace AgateLib.Serialization.Xle
 			return true;
 		}
 
-		private Type GetType(string name)
-		{
-			return Binder.GetType(name);
-		}
+		#region --- Reading single values ---
 
-		/// <summary>
-		/// Reads a dictionary type from the XML data.
-		/// The key type must implement IConvertible and the value type must implement
-		/// IXleSerializable.
-		/// </summary>
-		/// <typeparam name="TKey"></typeparam>
-		/// <typeparam name="TValue"></typeparam>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		[CLSCompliant(false)]
-		public Dictionary<TKey, TValue> ReadDictionary<TKey, TValue>(string name)
-			where TKey : IConvertible
-			where TValue : IXleSerializable
-		{
-			XmlElement element = (XmlElement)CurrentNode[name];
-
-			if (element == null)
-				throw new XleSerializationException("Node " + name + " was not found.");
-
-			nodes.Push(element);
-
-			Dictionary<TKey, TValue> retval = new Dictionary<TKey, TValue>();
-
-			for (int i = 0; i < element.ChildNodes.Count; i++)
-			{
-				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
-				string keyString = current.GetAttribute("key");
-				TKey key = (TKey)Convert.ChangeType(keyString, typeof(TKey));
-
-				nodes.Push(current);
-				TValue val = (TValue)DeserializeObject(typeof(TValue));
-				nodes.Pop();
-
-				retval.Add(key, val);
-			}
-
-			nodes.Pop();
-
-			return retval;
-		}
-		/// <summary>
-		/// Reads a dictionary type of strings from the XML data.
-		/// The key type must implement IConvertible and the value type must implement
-		/// IXleSerializable.
-		/// </summary>
-		/// <typeparam name="Tkey">The key type of the dictionary.</typeparam>
-		/// <param name="name">The name of the element in the XML stream to decode.</param>
-		/// <returns></returns> 
-		[CLSCompliant(false)]
-		[Obsolete("Use ReadDictionaryString instead.")]
-		public Dictionary<Tkey, string> ReadDictionary<Tkey>(string name)
-			where Tkey : IConvertible 
-		{
-			return ReadDictionaryString<Tkey>(name);
-		}
-		/// <summary>
-		/// Reads a dictionary type of strings from the XML data.
-		/// The key type must implement IConvertible and the value type must implement
-		/// IXleSerializable.
-		/// </summary>
-		/// <typeparam name="Tkey">The key type of the dictionary.</typeparam>
-		/// <param name="name">The name of the element in the XML stream to decode.</param>
-		/// <returns></returns> 
-		[CLSCompliant(false)]
-		public Dictionary<Tkey, string> ReadDictionaryString<Tkey>(string name)
-			where Tkey : IConvertible
-		{
-			XmlElement element = (XmlElement)CurrentNode[name];
-
-			nodes.Push(element);
-
-			Dictionary<Tkey, string> retval = new Dictionary<Tkey, string>();
-
-			for (int i = 0; i < element.ChildNodes.Count; i++)
-			{
-				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
-				string keyString = current.GetAttribute("key");
-				Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
-
-				string valueString = current.GetAttribute("value");
-
-				retval.Add(key, valueString);
-			}
-
-			nodes.Pop();
-
-			return retval;
-		}
-
-		/// <summary>
-		/// Reads a dictionary of the form Dictionary&lt;Tkey, int&gt;.
-		/// </summary>
-		/// <typeparam name="Tkey"></typeparam>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		public Dictionary<Tkey, int> ReadDictionaryInt32<Tkey>(string name)
-		{
-			XmlElement element = (XmlElement)CurrentNode[name];
-
-			nodes.Push(element);
-
-			Dictionary<Tkey, int> retval = new Dictionary<Tkey, int>();
-
-			for (int i = 0; i < element.ChildNodes.Count; i++)
-			{
-				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
-				string keyString = current.GetAttribute("key");
-				Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
-
-				string valueString = current.GetAttribute("value");
-
-				retval.Add(key, int.Parse(valueString));
-			}
-
-			nodes.Pop();
-
-			return retval;
-		}
 		/// <summary>
 		/// Reads an object from the XML data.
 		/// </summary>
@@ -850,47 +772,6 @@ namespace AgateLib.Serialization.Xle
 		public string ReadString(string name)
 		{
 			return ReadStringImpl(name, false, string.Empty);
-		}
-		/// <summary>
-		/// Reads binary data stored as a stream.
-		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		public Stream ReadStream(string name)
-		{
-			XmlElement element = (XmlElement)CurrentNode[name];
-
-			if (element == null)
-				throw new XleSerializationException("Field " + name + " was not found.");
-
-			if (element.Attributes["stream"] == null || element.Attributes["stream"].Value != "true")
-				throw new XleSerializationException("Field " + name + " is not a stream.");
-			if (element.Attributes["encoding"] == null)
-				throw new XleSerializationException("Field " + name + " does not have encoding information.");
-
-			string encoding = element.Attributes["encoding"].Value;
-			byte[] bytes;
-
-			if (encoding == "Base64")
-			{
-				bytes = Convert.FromBase64String(element.InnerText);
-			}
-			else
-				throw new XleSerializationException("Unrecognized encoding " + encoding);
-
-			CompressionType compression = CompressionType.None;
-
-			if (element.Attributes["compression"] != null)
-			{
-				compression = (CompressionType)
-					Enum.Parse(typeof(CompressionType), element.Attributes["compression"].Value, true);
-			}
-
-			MemoryStream ms = new MemoryStream(bytes);
-			ms.Position = 0;
-			Stream uncompressed = TranslateStream(ms, compression, CompressionMode.Decompress);
-
-			return uncompressed;
 		}
 
 		private string ReadStringImpl(string name, bool haveDefault, string defaultValue)
@@ -1068,6 +949,48 @@ namespace AgateLib.Serialization.Xle
 
 			return float.Parse(element.InnerText);
 		}
+
+		#endregion
+		#region --- Reading array values ---
+
+		private string GetEncoding(string name)
+		{
+			XmlElement element = (XmlElement)CurrentNode[name];
+
+			if (element == null)
+				throw new XleSerializationException("Node " + name + " not found.");
+			if (element.Attributes["encoding"] == null)
+				throw new XleSerializationException("Element " + name + " does not have encoding information.");
+
+			return element.Attributes["encoding"].Value;
+		}
+
+		/// <summary>
+		/// Reads a byte array from the XML data.  If the name is not present 
+		/// an XleSerializationException is thrown.
+		/// </summary>
+		/// <param name="name">Name of the field.</param>
+		/// <returns></returns>
+		public byte[] ReadByteArray(string name)
+		{
+			XmlElement element = (XmlElement)CurrentNode[name];
+
+			string encoding = GetEncoding(name);
+
+			if (element.Attributes["array"] == null || element.Attributes["array"].Value != "true")
+				throw new XleSerializationException("Element " + name + " is not an array.");
+
+			if (encoding == "Base64")
+			{
+				byte[] array = Convert.FromBase64String(element.InnerText);
+				return array;
+			}
+			else
+			{
+				throw new XleSerializationException("Unrecognized encoding " + element.Attributes["encoding"]);
+			}
+		}
+
 		/// <summary>
 		/// Reads a integer array from the XML data.  If the name is not present 
 		/// an XleSerializationException is thrown.
@@ -1076,25 +999,46 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public int[] ReadInt32Array(string name)
 		{
-			byte[] array = ReadByteArray(name);
-			int[] result = new int[array.Length / 4];
+			XmlElement element = (XmlElement)CurrentNode[name];
+			string encoding = GetEncoding(name);
+			int[] result;
 
-			if (array.Length % 4 != 0)
-				throw new XleSerializationException("Encoded array is wrong size!");
-
-			if (array.Length > 0)
+			switch ((NumericEncoding)Enum.Parse(typeof(NumericEncoding), encoding))
 			{
-				unsafe
-				{
-					fixed (byte* ar = array)
-					{
-						Marshal.Copy((IntPtr)ar, result, 0, result.Length);
-					}
-				}
-			}
+				case NumericEncoding.Base64:
+					byte[] array = ReadByteArray(name);
+					result = new int[array.Length / 4];
 
-			return result;
+					if (array.Length % 4 != 0)
+						throw new XleSerializationException("Encoded array is wrong size!");
+
+					if (array.Length > 0)
+					{
+						unsafe
+						{
+							fixed (byte* ar = array)
+							{
+								Marshal.Copy((IntPtr)ar, result, 0, result.Length);
+							}
+						}
+					}
+
+					return result;
+
+				case NumericEncoding.Csv:
+					string value = element.InnerText;
+					string[] vals = value.Split(new char[] { ',' }, 
+									StringSplitOptions.RemoveEmptyEntries);
+
+					result = vals.Select(x => int.Parse(x)).ToArray();
+
+					return result;
+
+				default:
+					throw new XleSerializationException("Encoding information could not be parsed.");
+			}
 		}
+
 		/// <summary>
 		/// Reads a boolean array from the XML data.  If the name is not present 
 		/// an XleSerializationException is thrown.
@@ -1203,7 +1147,7 @@ namespace AgateLib.Serialization.Xle
 				{
 					list.Add(item.InnerText);
 				}
-				else 
+				else
 				{
 					nodes.Push(item);
 
@@ -1236,49 +1180,189 @@ namespace AgateLib.Serialization.Xle
 			else
 				ar = ReadArrayImpl(name, typeof(T));
 
-			List<T> retval = new List<T>();
-			retval.AddRange((T[])ar);
-
-			return retval;
+			return ((T[])ar).ToList();
 		}
 
-
 		/// <summary>
-		/// Reads a byte array from the XML data.  If the name is not present 
-		/// an XleSerializationException is thrown.
+		/// Reads a dictionary type from the XML data.
+		/// The key type must implement IConvertible and the value type must implement
+		/// IXleSerializable.
 		/// </summary>
-		/// <param name="name">Name of the field.</param>
+		/// <typeparam name="TKey"></typeparam>
+		/// <typeparam name="TValue"></typeparam>
+		/// <param name="name"></param>
 		/// <returns></returns>
-		public byte[] ReadByteArray(string name)
+		[CLSCompliant(false)]
+		public Dictionary<TKey, TValue> ReadDictionary<TKey, TValue>(string name)
+			where TKey : IConvertible
+			where TValue : IXleSerializable
 		{
 			XmlElement element = (XmlElement)CurrentNode[name];
 
 			if (element == null)
-				throw new XleSerializationException("Node " + name + " not found.");
+				throw new XleSerializationException("Node " + name + " was not found.");
 
-			if (element.Attributes["array"] == null || element.Attributes["array"].Value != "true")
-				throw new XleSerializationException("Element " + name + " is not an array.");
-			if (element.Attributes["encoding"] == null)
-				throw new XleSerializationException("Element " + name + " does not have encoding information.");
+			nodes.Push(element);
 
-			if (element.Attributes["encoding"].Value == "Base64")
+			Dictionary<TKey, TValue> retval = new Dictionary<TKey, TValue>();
+
+			for (int i = 0; i < element.ChildNodes.Count; i++)
 			{
-				byte[] array = Convert.FromBase64String(element.InnerText);
-				return array;
-			}
-			else
-			{
-				throw new XleSerializationException("Unrecognized encoding " + element.Attributes["encoding"]);
+				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
+				string keyString = current.GetAttribute("key");
+				TKey key = (TKey)Convert.ChangeType(keyString, typeof(TKey));
+
+				nodes.Push(current);
+				TValue val = (TValue)DeserializeObject(typeof(TValue));
+				nodes.Pop();
+
+				retval.Add(key, val);
 			}
 
+			nodes.Pop();
+
+			return retval;
+		}
+		/// <summary>
+		/// Reads a dictionary type of strings from the XML data.
+		/// The key type must implement IConvertible and the value type must implement
+		/// IXleSerializable.
+		/// </summary>
+		/// <typeparam name="Tkey">The key type of the dictionary.</typeparam>
+		/// <param name="name">The name of the element in the XML stream to decode.</param>
+		/// <returns></returns> 
+		[CLSCompliant(false)]
+		[Obsolete("Use ReadDictionaryString instead.")]
+		public Dictionary<Tkey, string> ReadDictionary<Tkey>(string name)
+			where Tkey : IConvertible
+		{
+			return ReadDictionaryString<Tkey>(name);
+		}
+		/// <summary>
+		/// Reads a dictionary type of strings from the XML data.
+		/// The key type must implement IConvertible and the value type must implement
+		/// IXleSerializable.
+		/// </summary>
+		/// <typeparam name="Tkey">The key type of the dictionary.</typeparam>
+		/// <param name="name">The name of the element in the XML stream to decode.</param>
+		/// <returns></returns> 
+		[CLSCompliant(false)]
+		public Dictionary<Tkey, string> ReadDictionaryString<Tkey>(string name)
+			where Tkey : IConvertible
+		{
+			XmlElement element = (XmlElement)CurrentNode[name];
+
+			nodes.Push(element);
+
+			Dictionary<Tkey, string> retval = new Dictionary<Tkey, string>();
+
+			for (int i = 0; i < element.ChildNodes.Count; i++)
+			{
+				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
+				string keyString = current.GetAttribute("key");
+				Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
+
+				string valueString = current.GetAttribute("value");
+
+				retval.Add(key, valueString);
+			}
+
+			nodes.Pop();
+
+			return retval;
 		}
 
+		/// <summary>
+		/// Reads a dictionary of the form Dictionary&lt;Tkey, int&gt;.
+		/// </summary>
+		/// <typeparam name="Tkey"></typeparam>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public Dictionary<Tkey, int> ReadDictionaryInt32<Tkey>(string name)
+		{
+			XmlElement element = (XmlElement)CurrentNode[name];
 
+			nodes.Push(element);
+
+			Dictionary<Tkey, int> retval = new Dictionary<Tkey, int>();
+
+			for (int i = 0; i < element.ChildNodes.Count; i++)
+			{
+				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
+				string keyString = current.GetAttribute("key");
+				Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
+
+				string valueString = current.GetAttribute("value");
+
+				retval.Add(key, int.Parse(valueString));
+			}
+
+			nodes.Pop();
+
+			return retval;
+		}
+
+		#endregion
+		#region --- Reading streams ---
+		/// <summary>
+		/// Reads binary data stored as a stream.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public Stream ReadStream(string name)
+		{
+			XmlElement element = (XmlElement)CurrentNode[name];
+
+			if (element == null)
+				throw new XleSerializationException("Field " + name + " was not found.");
+
+			if (element.Attributes["stream"] == null || element.Attributes["stream"].Value != "true")
+				throw new XleSerializationException("Field " + name + " is not a stream.");
+			if (element.Attributes["encoding"] == null)
+				throw new XleSerializationException("Field " + name + " does not have encoding information.");
+
+			string encoding = element.Attributes["encoding"].Value;
+			byte[] bytes;
+
+			if (encoding == "Base64")
+			{
+				bytes = Convert.FromBase64String(element.InnerText);
+			}
+			else
+				throw new XleSerializationException("Unrecognized encoding " + encoding);
+
+			CompressionType compression = CompressionType.None;
+
+			if (element.Attributes["compression"] != null)
+			{
+				compression = (CompressionType)
+					Enum.Parse(typeof(CompressionType), element.Attributes["compression"].Value, true);
+			}
+
+			MemoryStream ms = new MemoryStream(bytes);
+			ms.Position = 0;
+			Stream uncompressed = TranslateStream(ms, compression, CompressionMode.Decompress);
+
+			return uncompressed;
+		}
 
 		#endregion
 
-		#region --- Dealing with streams ---
+		#endregion
+		#region --- Type Binding ---
 
+		private Type GetType(string name)
+		{
+			return Binder.GetType(name);
+		}
+
+		/// <summary>
+		/// The ITypeBinder object used.
+		/// </summary>
+		public ITypeBinder Binder { get; internal set; }
+
+		#endregion
+		#region --- Dealing with streams ---
 
 		/// <summary>
 		/// Reads data from a stream until the end is reached. The
@@ -1302,7 +1386,6 @@ namespace AgateLib.Serialization.Xle
 				}
 			}
 		}
-
 
 		private Stream TranslateStream(Stream value, CompressionType compression, CompressionMode mode)
 		{

@@ -180,6 +180,7 @@
     <Compile Include="PlatformType.cs" />
     <Compile Include="Resources\ImageResource.cs" />
     <Compile Include="Serialization\Xle\CompressionType.cs" />
+    <Compile Include="Serialization\Xle\NumericEncoding.cs" />
     <Compile Include="Settings\SettingsGroup.cs" />
     <Compile Include="Timing.cs">
       <SubType>Code</SubType>
