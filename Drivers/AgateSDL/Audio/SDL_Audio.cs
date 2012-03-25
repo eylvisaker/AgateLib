@@ -57,7 +57,6 @@ namespace AgateSDL.Audio
 					System.Diagnostics.Trace.WriteLine(string.Format(
 						"Failed to delete the temp file {0}.", file));
 				}
-
 			}
 
 			tempfiles.Clear();

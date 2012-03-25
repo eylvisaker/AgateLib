@@ -776,10 +776,10 @@ namespace AgateLib.Serialization.Xle
 
 		private string ReadStringImpl(string name, bool haveDefault, string defaultValue)
 		{
-			string attribute = CurrentNode.GetAttribute(name);
+			var attrib = CurrentNode.Attributes[name];
 
-			if (string.IsNullOrEmpty(attribute) == false)
-				return attribute;
+			if (attrib != null)
+				return attrib.Value;
 
 			XmlElement element = (XmlElement)CurrentNode[name];
 
