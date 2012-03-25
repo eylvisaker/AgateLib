@@ -186,7 +186,7 @@ namespace AgateLib.Drivers
 		/// <returns></returns>
 		public override string ToString()
 		{
-			return "AgateDriverInfo: " + AssemblyFile;
+			return "AgateDriverInfo: " + DriverTypeName + " in " + AssemblyFile;
 		}
 	}
 

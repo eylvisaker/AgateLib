@@ -154,6 +154,7 @@ namespace AgateLib.Settings
 		private void LoadSettings()
 		{
 			XmlDocument doc = new XmlDocument();
+
 			try
 			{
 				doc.Load(SettingsFilename);
@@ -173,6 +174,7 @@ namespace AgateLib.Settings
 
 				return;
 			}
+
 			XmlElement root = doc.ChildNodes[0] as XmlElement;
 
 			if (root.Name != "Settings")
