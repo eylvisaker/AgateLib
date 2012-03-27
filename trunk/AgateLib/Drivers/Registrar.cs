@@ -322,6 +322,7 @@ namespace AgateLib.Drivers
 			get { return mDesktop; }
 		}
 
+		public static bool IgnoreSavedSettings { get; set; }
 		internal static DisplayImpl CreateDisplayDriver(DisplayTypeID displayType)
 		{
 			if (displayDrivers.Count == 0)
@@ -332,6 +333,7 @@ namespace AgateLib.Drivers
 
 			bool settingsSelect = displayType == DisplayTypeID.AutoSelect;
 			settingsSelect &= Core.Settings["AgateLib"].TryGetValue("DisplayDriver", out text);
+			settingsSelect &= !IgnoreSavedSettings;
 
 			if (settingsSelect)
 			{
@@ -362,6 +364,7 @@ namespace AgateLib.Drivers
 
 			bool settingsSelect = audioType == AudioTypeID.AutoSelect;
 			settingsSelect &= Core.Settings["AgateLib"].TryGetValue("AudioDriver", out text);
+			settingsSelect &= !IgnoreSavedSettings;
 
 			if (settingsSelect)
 			{
@@ -377,7 +380,11 @@ namespace AgateLib.Drivers
 			if (info == null)
 				throw new AgateException(string.Format("Could not find the driver {0}.", audioType));
 
-			Core.Settings["AgateLib"]["AudioDriver"] = info.FriendlyName;
+			if (info.DriverTypeName.Contains("NullSoundImpl") == false)
+			{
+				Core.Settings["AgateLib"]["AudioDriver"] = info.FriendlyName;
+			}
+
 			mAudioUsed = info;
 
 			return (AudioImpl)CreateDriverInstance(info);
@@ -392,6 +399,7 @@ namespace AgateLib.Drivers
 
 			bool settingsSelect = inputType == InputTypeID.AutoSelect;
 			settingsSelect &= Core.Settings["AgateLib"].TryGetValue("InputDriver", out text);
+			settingsSelect &= !IgnoreSavedSettings;
 
 			if (settingsSelect)
 			{
@@ -407,7 +415,11 @@ namespace AgateLib.Drivers
 			if (info == null)
 				throw new AgateException(string.Format("Could not find the driver {0}.", inputType));
 
-			Core.Settings["AgateLib"]["InputDriver"] = info.FriendlyName;
+			if (info.DriverTypeName.Contains("NullInputImpl") == false)
+			{
+				Core.Settings["AgateLib"]["InputDriver"] = info.FriendlyName;
+			}
+
 			mInputUsed = info;
 
 			return (InputImpl)CreateDriverInstance(info);
@@ -491,7 +503,6 @@ namespace AgateLib.Drivers
 
 			return LoadAssemblyLoadFrom(info);
 		}
-
 		private static Assembly LoadAssemblyLoadFrom(AgateDriverInfo info)
 		{
 			Core.ErrorReporting.Report(ErrorLevel.Warning,
