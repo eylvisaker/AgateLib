@@ -110,6 +110,7 @@ namespace AgateSDL.Audio
 		public override void Play()
 		{
 			SdlMixer.Mix_PlayMusic(music, IsLooping ? -1 : 1);
+			mVolume = SdlMixer.Mix_VolumeMusic(-1) / (double)SdlMixer.MIX_MAX_VOLUME;
 		}
 
 		public override void Stop()
@@ -125,8 +126,13 @@ namespace AgateSDL.Audio
 			}
 			set
 			{
-				SdlMixer.Mix_VolumeMusic((int)(value * SdlMixer.MIX_MAX_VOLUME));
 				mVolume = value;
+				if (mVolume < 0) mVolume = 0;
+				if (mVolume > 1) mVolume = 1;
+
+				int v = (int)(mVolume * SdlMixer.MIX_MAX_VOLUME);
+
+				SdlMixer.Mix_VolumeMusic(v);
 			}
 		}
 	}
