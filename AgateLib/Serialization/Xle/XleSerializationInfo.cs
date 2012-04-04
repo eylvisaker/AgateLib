@@ -313,11 +313,16 @@ namespace AgateLib.Serialization.Xle
 			{
 				AddAttribute(element, "type", value.GetType().ToString());
 
-				nodes.Push(element);
+				try
+				{
+					nodes.Push(element);
 
-				Serialize(value);
-
-				nodes.Pop();
+					Serialize(value);
+				}
+				finally
+				{
+					nodes.Pop();
+				}
 			}
 		}
 		private XmlElement WriteAsElement<T>(string name, T value) where T : IConvertible
@@ -489,27 +494,38 @@ namespace AgateLib.Serialization.Xle
 			AddAttribute(element, "array", "true");
 			AddAttribute(element, "type", listType.ToString());
 
-			nodes.Push(element);
-
-			for (int i = 0; i < value.Count; i++)
+			try
 			{
-				XmlElement item = doc.CreateElement("Item");
-				CurrentNode.AppendChild(item);
+				nodes.Push(element);
 
-				if (value[i] == null)
-					AddAttribute(item, "type", "null");
-				else
+				for (int i = 0; i < value.Count; i++)
 				{
-					if (value[i].GetType() != listType)
-						AddAttribute(item, "type", value[i].GetType().ToString());
+					XmlElement item = doc.CreateElement("Item");
+					CurrentNode.AppendChild(item);
 
-					nodes.Push(item);
-					Serialize(value[i]);
-					nodes.Pop();
+					if (value[i] == null)
+						AddAttribute(item, "type", "null");
+					else
+					{
+						if (value[i].GetType() != listType)
+							AddAttribute(item, "type", value[i].GetType().ToString());
+
+						try
+						{
+							nodes.Push(item);
+							Serialize(value[i]);
+						}
+						finally
+						{
+							nodes.Pop();
+						}
+					}
 				}
 			}
-
-			nodes.Pop();
+			finally
+			{
+				nodes.Pop();
+			}
 		}
 		/// <summary>
 		/// Writes an array of strings to the XML data as an element.
@@ -530,16 +546,21 @@ namespace AgateLib.Serialization.Xle
 			XmlElement element = CreateElement(name);
 			AddAttribute(element, "array", "true");
 
-			nodes.Push(element);
-
-			for (int i = 0; i < value.Count; i++)
+			try
 			{
-				XmlElement item = doc.CreateElement("Item");
-				CurrentNode.AppendChild(item);
-				item.InnerText = value[i];
-			}
+				nodes.Push(element);
 
-			nodes.Pop();
+				for (int i = 0; i < value.Count; i++)
+				{
+					XmlElement item = doc.CreateElement("Item");
+					CurrentNode.AppendChild(item);
+					item.InnerText = value[i];
+				}
+			}
+			finally
+			{
+				nodes.Pop();
+			}
 		}
 		/// <summary>
 		/// Writes a Dictionary of objects implementing IXleSerializable to the XML data as an element.
@@ -560,27 +581,38 @@ namespace AgateLib.Serialization.Xle
 			//AddAttribute(element, "keytype", keyType.ToString());
 			//AddAttribute(element, "valuetype", valueType.ToString());
 
-			nodes.Push(element);
-
-			foreach (KeyValuePair<Tkey, Tvalue> kvp in value)
+			try
 			{
-				XmlElement item = doc.CreateElement("Item");
-				CurrentNode.AppendChild(item);
+				nodes.Push(element);
 
-				AddAttribute(item, "key", kvp.Key.ToString());
+				foreach (KeyValuePair<Tkey, Tvalue> kvp in value)
+				{
+					XmlElement item = doc.CreateElement("Item");
+					CurrentNode.AppendChild(item);
 
-				//if (keyType != kvp.Key.GetType())
-				//    AddAttribute(item, "IDtype", kvp.Key.GetType().ToString());
+					AddAttribute(item, "key", kvp.Key.ToString());
 
-				if (kvp.Value.GetType() != valueType)
-					AddAttribute(item, "type", kvp.Value.GetType().ToString());
+					//if (keyType != kvp.Key.GetType())
+					//    AddAttribute(item, "IDtype", kvp.Key.GetType().ToString());
 
-				nodes.Push(item);
-				Serialize(kvp.Value);
+					if (kvp.Value.GetType() != valueType)
+						AddAttribute(item, "type", kvp.Value.GetType().ToString());
+
+					try
+					{
+						nodes.Push(item);
+						Serialize(kvp.Value);
+					}
+					finally
+					{
+						nodes.Pop();
+					}
+				}
+			}
+			finally
+			{
 				nodes.Pop();
 			}
-
-			nodes.Pop();
 		}
 		/// <summary>
 		/// Writes a Dictionary of integers to the XML data as an element.
@@ -599,18 +631,23 @@ namespace AgateLib.Serialization.Xle
 			//AddAttribute(element, "keytype", keyType.ToString());
 			//AddAttribute(element, "valuetype", valueType.ToString());
 
-			nodes.Push(element);
-
-			foreach (KeyValuePair<Tkey, int> kvp in value)
+			try
 			{
-				XmlElement item = doc.CreateElement("Item");
-				CurrentNode.AppendChild(item);
+				nodes.Push(element);
 
-				AddAttribute(item, "key", kvp.Key.ToString());
-				AddAttribute(item, "value", kvp.Value.ToString());
+				foreach (KeyValuePair<Tkey, int> kvp in value)
+				{
+					XmlElement item = doc.CreateElement("Item");
+					CurrentNode.AppendChild(item);
+
+					AddAttribute(item, "key", kvp.Key.ToString());
+					AddAttribute(item, "value", kvp.Value.ToString());
+				}
 			}
-
-			nodes.Pop();
+			finally
+			{
+				nodes.Pop();
+			}
 		}
 		/// <summary>
 		/// Writes a Dictionary of strings implementing IXleSerializable to the XML data as an element.
@@ -630,22 +667,27 @@ namespace AgateLib.Serialization.Xle
 			//AddAttribute(element, "keytype", keyType.ToString());
 			//AddAttribute(element, "valuetype", typeof(string).ToString());
 
-			nodes.Push(element);
-
-			foreach (KeyValuePair<Tkey, string> kvp in value)
+			try
 			{
-				XmlElement item = doc.CreateElement("Item");
-				CurrentNode.AppendChild(item);
+				nodes.Push(element);
 
-				AddAttribute(item, "key", kvp.Key.ToString());
+				foreach (KeyValuePair<Tkey, string> kvp in value)
+				{
+					XmlElement item = doc.CreateElement("Item");
+					CurrentNode.AppendChild(item);
 
-				//if (keyType != kvp.Key.GetType())
-				//    AddAttribute(item, "keytype", kvp.Key.GetType().ToString());
+					AddAttribute(item, "key", kvp.Key.ToString());
 
-				AddAttribute(item, "value", kvp.Value.ToString());
+					//if (keyType != kvp.Key.GetType())
+					//    AddAttribute(item, "keytype", kvp.Key.GetType().ToString());
+
+					AddAttribute(item, "value", kvp.Value.ToString());
+				}
 			}
-
-			nodes.Pop();
+			finally
+			{
+				nodes.Pop();
+			}
 		}
 
 		#endregion
@@ -1149,12 +1191,17 @@ namespace AgateLib.Serialization.Xle
 				}
 				else
 				{
-					nodes.Push(item);
+					try
+					{
+						nodes.Push(item);
 
-					object o = DeserializeObject(type);
-					list.Add(o);
-
-					nodes.Pop();
+						object o = DeserializeObject(type);
+						list.Add(o);
+					}
+					finally
+					{
+						nodes.Pop();
+					}
 				}
 			}
 
@@ -1202,26 +1249,37 @@ namespace AgateLib.Serialization.Xle
 			if (element == null)
 				throw new XleSerializationException("Node " + name + " was not found.");
 
-			nodes.Push(element);
-
-			Dictionary<TKey, TValue> retval = new Dictionary<TKey, TValue>();
-
-			for (int i = 0; i < element.ChildNodes.Count; i++)
+			try
 			{
-				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
-				string keyString = current.GetAttribute("key");
-				TKey key = (TKey)Convert.ChangeType(keyString, typeof(TKey));
+				nodes.Push(element);
 
-				nodes.Push(current);
-				TValue val = (TValue)DeserializeObject(typeof(TValue));
-				nodes.Pop();
+				Dictionary<TKey, TValue> retval = new Dictionary<TKey, TValue>();
 
-				retval.Add(key, val);
+				for (int i = 0; i < element.ChildNodes.Count; i++)
+				{
+					XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
+					string keyString = current.GetAttribute("key");
+					TKey key = (TKey)Convert.ChangeType(keyString, typeof(TKey));
+
+					try
+					{
+						nodes.Push(current);
+						TValue val = (TValue)DeserializeObject(typeof(TValue));
+
+						retval.Add(key, val);
+					}
+					finally
+					{
+						nodes.Pop();
+					}
+				}
+
+				return retval;
 			}
-
-			nodes.Pop();
-
-			return retval;
+			finally
+			{
+				nodes.Pop();
+			}
 		}
 		/// <summary>
 		/// Reads a dictionary type of strings from the XML data.
@@ -1252,24 +1310,30 @@ namespace AgateLib.Serialization.Xle
 		{
 			XmlElement element = (XmlElement)CurrentNode[name];
 
-			nodes.Push(element);
-
-			Dictionary<Tkey, string> retval = new Dictionary<Tkey, string>();
-
-			for (int i = 0; i < element.ChildNodes.Count; i++)
+			try
 			{
-				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
-				string keyString = current.GetAttribute("key");
-				Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
+				nodes.Push(element);
 
-				string valueString = current.GetAttribute("value");
+				Dictionary<Tkey, string> retval = new Dictionary<Tkey, string>();
 
-				retval.Add(key, valueString);
+				for (int i = 0; i < element.ChildNodes.Count; i++)
+				{
+					XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
+					string keyString = current.GetAttribute("key");
+					Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
+
+					string valueString = current.GetAttribute("value");
+
+					retval.Add(key, valueString);
+				}
+
+				return retval;
+			}
+			finally
+			{
+				nodes.Pop();
 			}
 
-			nodes.Pop();
-
-			return retval;
 		}
 
 		/// <summary>
@@ -1282,24 +1346,29 @@ namespace AgateLib.Serialization.Xle
 		{
 			XmlElement element = (XmlElement)CurrentNode[name];
 
-			nodes.Push(element);
-
-			Dictionary<Tkey, int> retval = new Dictionary<Tkey, int>();
-
-			for (int i = 0; i < element.ChildNodes.Count; i++)
+			try
 			{
-				XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
-				string keyString = current.GetAttribute("key");
-				Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
+				nodes.Push(element);
 
-				string valueString = current.GetAttribute("value");
+				Dictionary<Tkey, int> retval = new Dictionary<Tkey, int>();
 
-				retval.Add(key, int.Parse(valueString));
+				for (int i = 0; i < element.ChildNodes.Count; i++)
+				{
+					XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
+					string keyString = current.GetAttribute("key");
+					Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
+
+					string valueString = current.GetAttribute("value");
+
+					retval.Add(key, int.Parse(valueString));
+				}
+
+				return retval;
 			}
-
-			nodes.Pop();
-
-			return retval;
+			finally
+			{
+				nodes.Pop();
+			}
 		}
 
 		#endregion
@@ -1413,14 +1482,20 @@ namespace AgateLib.Serialization.Xle
 			if (root.Name != "XleRoot")
 				throw new XleSerializationException("Could not understand stream.  Expected to find an XleRoot element, but found " + root.Name + ".");
 
-			nodes.Push(root);
+			try
+			{
+				nodes.Push(root);
 
-			object retval = DeserializeObject();
+				object retval = DeserializeObject();
 
-			System.Diagnostics.Debug.Assert(nodes.Count == 1);
-			nodes.Pop();
+				System.Diagnostics.Debug.Assert(nodes.Count == 1);
 
-			return retval;
+				return retval;
+			}
+			finally
+			{
+				nodes.Pop();
+			}
 		}
 
 		private object DeserializeObject()

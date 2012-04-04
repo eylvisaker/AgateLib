@@ -718,17 +718,43 @@ namespace AgateLib.DisplayLib
 					int destIndex = 0;
 					IntPtr rowPtr = data;
 					byte* dataPtr = (byte*)data;
+					int width = Width;
+					int destPixelStride = PixelStride;
 
 					for (int y = 0; y < Height; y++)
 					{
 						Marshal.Copy(rowPtr, srcPixel, 0, srcRowStride);
-
-						for (int x = 0; x < Width; x++)
+						
+						// check for common Win32 - OpenGL conversion case
+						if (this.PixelFormat == PixelFormat.RGBA8888 &&
+							srcFormat == PixelFormat.BGRA8888)
 						{
-							//Marshal.Copy(pixelPtr, srcPixel, 0, sourceStride);
-							ConvertPixel(mData, destIndex, this.PixelFormat, srcPixel, x * sourceStride, srcFormat);
+							// this setup here is OPTIMIZED.
+							// Calling ConvertPixel for each pixel when loading a large
+							// image adds about 35% more CPU time to do the conversion.
+							// By eliminating the function call and processing this special
+							// case here we save some time on image loading.
+							int srcIndex = 0;
 
-							destIndex += PixelStride;
+							for (int x = 0; x < width; x++)
+							{
+								mData[destIndex] = srcPixel[srcIndex + 2];
+								mData[destIndex + 1] = srcPixel[srcIndex + 1];
+								mData[destIndex + 2] = srcPixel[srcIndex];
+								mData[destIndex + 3] = srcPixel[srcIndex + 3];
+
+								destIndex += destPixelStride;
+								srcIndex += sourceStride;
+							}
+						}
+						else
+						{
+							for (int x = 0; x < width; x++)
+							{
+								ConvertPixel(mData, destIndex, this.PixelFormat, srcPixel, x * sourceStride, srcFormat);
+
+								destIndex += destPixelStride;
+							}
 						}
 
 						dataPtr += srcRowStride;
@@ -851,6 +877,7 @@ namespace AgateLib.DisplayLib
 		public static void ConvertPixel(byte[] dest, int destIndex, PixelFormat destFormat, byte[] src, int srcIndex, PixelFormat srcFormat)
 		{
 			// check for trivial case.
+			// this is commented because it should be checked for above this method.
 			//if (destFormat == srcFormat)
 			//{
 			//    for (int i = 0; i < GetPixelStride(destFormat); i++)
@@ -859,6 +886,21 @@ namespace AgateLib.DisplayLib
 			//    return;
 			//}
 
+			// check for common Win32 - OpenGL conversion case
+			if (destFormat == PixelFormat.RGBA8888 &&
+				srcFormat == PixelFormat.BGRA8888)
+			{
+				dest[destIndex] = src[srcIndex + 2];
+				dest[destIndex + 1] = src[srcIndex + 1];
+				dest[destIndex + 2] = src[srcIndex];
+				dest[destIndex + 3] = src[srcIndex + 3];
+
+				return;
+			}
+
+			// This approach is very slow partly because it uses floating point
+			// arithmetic. It is especially slow if you have a profiler attached
+			// to your process and are loading large images.
 			double a, r, g, b;
 
 			GetSourcePixelAttributes(src, srcIndex, srcFormat, out a, out r, out g, out b);
