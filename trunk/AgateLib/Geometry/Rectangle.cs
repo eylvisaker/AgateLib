@@ -29,7 +29,7 @@ namespace AgateLib.Geometry
 	/// </summary>
 	[Serializable]
 	[TypeConverter(typeof(ExpandableObjectConverter))]
-	public struct Rectangle : IXleSerializable 
+	public struct Rectangle : IXleSerializable
 	{
 		Point pt;
 		Size sz;
@@ -484,6 +484,34 @@ namespace AgateLib.Geometry
 				Math.Min(a.Y, b.Y),
 				Math.Abs(a.X - b.X),
 				Math.Abs(a.Y - b.Y));
+		}
+
+		/// <summary>
+		/// Expands the rectangle structure by the specified 
+		/// size structure. Actually, the size is increased by 
+		/// double the amount because the rectangle is expanded
+		/// in all directions.
+		/// </summary>
+		/// <param name="size"></param>
+		public void Inflate(Size size)
+		{
+			X -= size.Width;
+			Y -= size.Height;
+
+			Width += size.Width * 2;
+			Height += size.Height * 2;
+		}
+		/// <summary>
+		/// Expands the rectangle structure by the specified 
+		/// size. Actually, the size is increased by 
+		/// double the amount specified because the rectangle is expanded
+		/// in all directions.
+		/// </summary>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		public void Inflate(int width, int height)
+		{
+			Inflate(new Size(width, height));
 		}
 	}
 }
