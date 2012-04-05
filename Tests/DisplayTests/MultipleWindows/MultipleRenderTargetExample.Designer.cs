@@ -43,12 +43,15 @@ namespace Tests.MultipleWindows
 			this.btnClearSurface = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+			this.btnDrawText = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
 			this.splitContainer2.Panel1.SuspendLayout();
 			this.splitContainer2.Panel2.SuspendLayout();
 			this.splitContainer2.SuspendLayout();
@@ -120,7 +123,7 @@ namespace Tests.MultipleWindows
 			// btnDraw
 			// 
 			this.btnDraw.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnDraw.Location = new System.Drawing.Point(208, 208);
+			this.btnDraw.Location = new System.Drawing.Point(127, 208);
 			this.btnDraw.Name = "btnDraw";
 			this.btnDraw.Size = new System.Drawing.Size(75, 39);
 			this.btnDraw.TabIndex = 6;
@@ -131,7 +134,7 @@ namespace Tests.MultipleWindows
 			// btnClearSurface
 			// 
 			this.btnClearSurface.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnClearSurface.Location = new System.Drawing.Point(127, 208);
+			this.btnClearSurface.Location = new System.Drawing.Point(46, 208);
 			this.btnClearSurface.Name = "btnClearSurface";
 			this.btnClearSurface.Size = new System.Drawing.Size(75, 39);
 			this.btnClearSurface.TabIndex = 8;
@@ -150,6 +153,7 @@ namespace Tests.MultipleWindows
 			// 
 			// splitContainer1.Panel2
 			// 
+			this.splitContainer1.Panel2.Controls.Add(this.btnDrawText);
 			this.splitContainer1.Panel2.Controls.Add(this.label3);
 			this.splitContainer1.Panel2.Controls.Add(this.btnClearSurface);
 			this.splitContainer1.Panel2.Controls.Add(this.pictureBox3);
@@ -178,6 +182,17 @@ namespace Tests.MultipleWindows
 			this.splitContainer2.SplitterDistance = 126;
 			this.splitContainer2.TabIndex = 0;
 			// 
+			// btnDrawText
+			// 
+			this.btnDrawText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnDrawText.Location = new System.Drawing.Point(208, 208);
+			this.btnDrawText.Name = "btnDrawText";
+			this.btnDrawText.Size = new System.Drawing.Size(75, 39);
+			this.btnDrawText.TabIndex = 9;
+			this.btnDrawText.Text = "Draw Text On Surface";
+			this.toolTip1.SetToolTip(this.btnDrawText, "Tests using a surface as a render target\r\nby drawing directly to the surface.");
+			this.btnDrawText.UseVisualStyleBackColor = true;
+			// 
 			// MultipleRenderTargetExample
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -193,11 +208,13 @@ namespace Tests.MultipleWindows
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.Panel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.splitContainer2.Panel1.ResumeLayout(false);
 			this.splitContainer2.Panel1.PerformLayout();
 			this.splitContainer2.Panel2.ResumeLayout(false);
 			this.splitContainer2.Panel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
 			this.splitContainer2.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -216,6 +233,7 @@ namespace Tests.MultipleWindows
 		public System.Windows.Forms.Button btnClearSurface;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.SplitContainer splitContainer2;
+		public System.Windows.Forms.Button btnDrawText;
 	}
 }
 

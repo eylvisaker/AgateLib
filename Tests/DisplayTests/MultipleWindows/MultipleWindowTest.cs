@@ -46,7 +46,7 @@ namespace Tests.MultipleWindows
 				// this is the code that will be called when the button is pressed
 				myForm.btnDraw.Click += new EventHandler(btnDraw_Click);
 				myForm.btnClearSurface.Click += new EventHandler(btnClear_Click);
-
+				myForm.btnDrawText.Click += new EventHandler(btnDrawText_Click);
 				Surface image1 = new Surface("jellybean.png");
 				Surface image2 = new Surface("9ball.png");
 				image1.DisplayWidth = 40;
@@ -100,6 +100,27 @@ namespace Tests.MultipleWindows
 			}
 
 
+		}
+
+		void btnDrawText_Click(object sender, EventArgs e)
+		{
+			Display.RenderTarget = buffer;
+
+			Display.BeginFrame();
+
+			int x = rand.Next(20, 100);
+			int y = rand.Next(20, 100);
+
+			Color clr = Color.White;
+
+			FontSurface.AgateSans14.DrawText(x, y, "Sample Text");
+
+			Display.EndFrame();
+
+			surf.SaveTo("test.png", ImageFileFormat.Png);
+
+			System.Diagnostics.Debug.Print("Wrote text to {0},{1}.", x,y);
+			System.Diagnostics.Debug.Flush();
 		}
 
 		void wnd_3_Resize(object sender, EventArgs e)
