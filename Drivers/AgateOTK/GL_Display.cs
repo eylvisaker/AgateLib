@@ -206,6 +206,7 @@ namespace AgateOTK
 			mRenderTarget.BeginRender();
 
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+			GL.Viewport(0, 0, mRenderTarget.Width, mRenderTarget.Height);
 		}
 		protected override void OnEndFrame()
 		{

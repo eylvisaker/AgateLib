@@ -31,6 +31,7 @@ namespace AgateDrawing
 	{
 		Bitmap backBuffer;
 		internal AgateLib.DisplayLib.DisplayWindow mAttachedWindow;
+		SurfaceImpl mRenderTarget;
 
 		public Drawing_FrameBuffer(Size size)
 		{
@@ -51,7 +52,8 @@ namespace AgateDrawing
 		}
 		public override void Dispose()
 		{
-			backBuffer.Dispose();
+			if (mRenderTarget == null)
+				backBuffer.Dispose();
 		}
 
 		public override Size Size
@@ -62,7 +64,13 @@ namespace AgateDrawing
 		public System.Drawing.Bitmap BackBufferBitmap
 		{
 			get { return backBuffer; }
-			set { backBuffer = value; }
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException();
+
+				backBuffer = value;
+			}
 		}
 
 		public override void BeginRender()
@@ -82,7 +90,13 @@ namespace AgateDrawing
 		}
 		public override SurfaceImpl RenderTarget
 		{
-			get { return new Drawing_Surface(backBuffer, new System.Drawing.Rectangle(System.Drawing.Point.Empty, backBuffer.Size)); }
+			get
+			{
+				if (mRenderTarget == null)
+					mRenderTarget = new Drawing_Surface(backBuffer);
+
+				return mRenderTarget;
+			}
 		}
 		
 		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow

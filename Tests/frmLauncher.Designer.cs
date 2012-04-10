@@ -39,9 +39,9 @@
 			// 
 			// lstTests
 			// 
-			this.lstTests.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lstTests.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.lstTests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.lstTests.FormattingEnabled = true;
 			this.lstTests.Location = new System.Drawing.Point(324, 12);
@@ -62,6 +62,7 @@
 			this.displayList.Name = "displayList";
 			this.displayList.Size = new System.Drawing.Size(229, 21);
 			this.displayList.TabIndex = 8;
+			this.displayList.SelectedIndexChanged += new System.EventHandler(this.displayList_SelectedIndexChanged);
 			// 
 			// inputList
 			// 
@@ -72,6 +73,7 @@
 			this.inputList.Name = "inputList";
 			this.inputList.Size = new System.Drawing.Size(229, 21);
 			this.inputList.TabIndex = 10;
+			this.inputList.SelectedIndexChanged += new System.EventHandler(this.inputList_SelectedIndexChanged);
 			// 
 			// audioList
 			// 
@@ -82,6 +84,7 @@
 			this.audioList.Name = "audioList";
 			this.audioList.Size = new System.Drawing.Size(229, 21);
 			this.audioList.TabIndex = 12;
+			this.audioList.SelectedIndexChanged += new System.EventHandler(this.audioList_SelectedIndexChanged);
 			// 
 			// label1
 			// 

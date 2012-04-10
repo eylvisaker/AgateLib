@@ -33,19 +33,18 @@ namespace Tests
 
 			bold = new Font(lstTests.Font, FontStyle.Bold | FontStyle.Italic);
 
+			FillDrivers();
+
 			ReadSettingsNames();
 
 			AgateLib.Settings.PersistantSettings.SettingsTracer = this;
 			AgateLib.Settings.PersistantSettings.Debug = true;
-
-			FillDrivers();
 
 			this.FormClosed += HandleFormClosed;
 		}
 
 		private void frmLauncher_Load(object sender, EventArgs e)
 		{
-			FillDrivers();
 		}
 
 		private void FillDrivers()
@@ -75,7 +74,7 @@ namespace Tests
 			{
 				foreach (var setting in mSettings)
 				{
-					string text = setting.Key + " " + setting.Value;
+					string text = setting.Key + "\t" + setting.Value;
 
 					System.Diagnostics.Debug.Print(text);
 					w.WriteLine(text);
@@ -110,42 +109,38 @@ namespace Tests
 
 			try
 			{
-				using (r)
+				settingsFile = targetDirectory + filename;
+				r = new StreamReader(targetDirectory + filename);
+			}
+			catch (DirectoryNotFoundException)
+			{
+				settingsFile = filename;
+				r = new StreamReader(filename);
+			}
+
+			using (r)
+			{
+				while (r.EndOfStream == false)
 				{
-					try
-					{
-						settingsFile = targetDirectory + filename;
-						r = new StreamReader(targetDirectory + filename);
-					}
-					catch (DirectoryNotFoundException)
-					{
-						settingsFile = filename;
-						r = new StreamReader(filename);
-					}
+					string x = r.ReadLine().Trim();
 
-					while (r.EndOfStream == false)
-					{
-						string x = r.ReadLine().Trim();
-						if (string.IsNullOrEmpty(x) == false)
-						{
-							int index = x.IndexOf(' ');
+					if (string.IsNullOrWhiteSpace(x))
+						continue;
 
-							if (index == -1)
-							{
-								mSettings.Add(x, null);
-							}
-							else
-								mSettings.Add(x.Substring(0, index), x.Substring(index + 1));
-						}
+					int index = x.IndexOf('\t');
+
+					if (index == -1)
+					{
+						mSettings[x] = null;
 					}
+					else
+						mSettings[x.Substring(0, index)] = x.Substring(index + 1);
 				}
 			}
-			catch
-			{
-				if (settingsFile == null)
-					settingsFile = filename;
-			}
 
+			displayList.SelectedItem = mSettings["AgateLib.DisplayDriver"];
+			audioList.SelectedItem = mSettings["AgateLib.AudioDriver"];
+			inputList.SelectedItem = mSettings["AgateLib.InputDriver"];
 		}
 		void StoreSetting(string name, string value)
 		{
@@ -241,10 +236,6 @@ namespace Tests
 			string[] args = { };
 
 			this.Hide();
-			AgateLib.Core.Settings["AgateLib"]["DisplayDriver"] = displayList.Text;
-			AgateLib.Core.Settings["AgateLib"]["AudioDriver"] = audioList.Text;
-			AgateLib.Core.Settings["AgateLib"]["InputDriver"] = inputList.Text;
-
 			foreach (var kvp in mSettings)
 			{
 				if (kvp.Value == null)
@@ -252,13 +243,6 @@ namespace Tests
 
 				string group, key;
 				SplitName(kvp.Key, out group, out key);
-
-				if (group == "AgateLib")
-				{
-					if (key == "DisplayDriver") continue;
-					if (key == "AudioDriver") continue;
-					if (key == "InputDriver") continue;
-				}
 
 				AgateLib.Core.Settings[group][key] = kvp.Value;
 			}
@@ -335,6 +319,19 @@ namespace Tests
 			}
 
 			e.DrawFocusRectangle();
+		}
+
+		private void displayList_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			mSettings["AgateLib.DisplayDriver"] = displayList.Text;
+		}
+		private void audioList_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			mSettings["AgateLib.AudioDriver"] = audioList.Text;
+		}
+		private void inputList_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			mSettings["AgateLib.InputDriver"] = inputList.Text;
 		}
 
 	}

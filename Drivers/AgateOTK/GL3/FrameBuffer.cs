@@ -52,6 +52,11 @@ namespace AgateOTK.GL3
 			GL.GenFramebuffers(1, out mFramebufferID);
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, mFramebufferID);
 
+			// attach the texture
+			GL.FramebufferTexture2D(FramebufferTarget.Framebuffer,
+				 FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D,
+				 mTexture.GLTextureID, 0);
+
 			// generate a depth buffer to render to
 			GL.GenRenderbuffers(1, out mDepthBuffer);
 			GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, mDepthBuffer);
@@ -66,10 +71,6 @@ namespace AgateOTK.GL3
 				FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer,
 				mDepthBuffer);
 
-			// attach the texture
-			GL.FramebufferTexture2D(FramebufferTarget.Framebuffer,
-				 FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D,
-				 mTexture.GLTextureID, 0);
 
 			FramebufferErrorCode code =
 				GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
@@ -128,7 +129,7 @@ namespace AgateOTK.GL3
 		}
 		public override bool CanAccessRenderTarget
 		{
-			get			{				return true;			}
+			get { return true; }
 		}
 
 		public override bool HasDepthBuffer

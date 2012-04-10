@@ -62,19 +62,23 @@ namespace AgateDrawing
 
 			System.Diagnostics.Debug.Assert(mImage != null);
 		}
-
-		private void ConvertImage()
+		/// <summary>
+		/// Creates a Drawing_Surface object which wraps the specified image.
+		/// </summary>
+		/// <param name="image"></param>
+		public Drawing_Surface(Bitmap image)
 		{
-			var newImage = new Bitmap(mImage.Width, mImage.Height);
+			mDisplay = Display.Impl as Drawing_Display;
 
-			Graphics g = Graphics.FromImage(newImage);
-			g.DrawImage(mImage, new Rectangle(0, 0, mImage.Width, mImage.Height));
+			mImage = image;
 
-			g.Dispose();
-			mImage.Dispose();
-
-			mImage = newImage;
+			System.Diagnostics.Debug.Assert(mImage != null);
 		}
+		/// <summary>
+		/// Creates a Drawing_Surface object and copies pixels from the specified image.
+		/// </summary>
+		/// <param name="image"></param>
+		/// <param name="sourceRect"></param>
 		public Drawing_Surface(Bitmap image, Rectangle sourceRect)
 		{
 			mDisplay = Display.Impl as Drawing_Display;
@@ -89,7 +93,9 @@ namespace AgateDrawing
 				(Rectangle)sourceRect, GraphicsUnit.Pixel);
 
 			g.Dispose();
+			
 
+			System.Diagnostics.Debug.Assert(mImage != null);
 		}
 		public Drawing_Surface(Geometry.Size sz)
 		{
@@ -111,6 +117,19 @@ namespace AgateDrawing
 
 				mImage = null;
 			}
+		}
+
+		private void ConvertImage()
+		{
+			var newImage = new Bitmap(mImage.Width, mImage.Height);
+
+			Graphics g = Graphics.FromImage(newImage);
+			g.DrawImage(mImage, new Rectangle(0, 0, mImage.Width, mImage.Height));
+
+			g.Dispose();
+			mImage.Dispose();
+
+			mImage = newImage;
 		}
 
 		#endregion
@@ -149,7 +168,7 @@ namespace AgateDrawing
 
 			Geometry.SizeF displaySize = s.GetDisplaySize(SurfaceSize);
 			Geometry.PointF rotationCenter = s.GetRotationCenter(displaySize);
-			
+
 			Drawing_Display disp = Display.Impl as Drawing_Display;
 			Graphics g = disp.FrameGraphics;
 			GraphicsState state = g.Save();
@@ -235,6 +254,7 @@ namespace AgateDrawing
 					break;
 			}
 		}
+
 		#endregion
 		#region --- Public overriden properties ---
 
@@ -274,8 +294,6 @@ namespace AgateDrawing
 
 			mImage.Save(filename, drawformat);
 		}
-
-
 		public override void SetSourceSurface(SurfaceImpl surf, Geometry.Rectangle srcRect)
 		{
 			mImage.Dispose();
@@ -289,13 +307,13 @@ namespace AgateDrawing
 
 			g.Dispose();
 
+			System.Diagnostics.Debug.Assert(mImage != null);
 		}
 
 		public override PixelBuffer ReadPixels(PixelFormat format)
 		{
 			return ReadPixels(format, new Geometry.Rectangle(Geometry.Point.Empty, SurfaceSize));
 		}
-
 		public override PixelBuffer ReadPixels(PixelFormat format, Geometry.Rectangle rect)
 		{
 			BitmapData data = mImage.LockBits(Interop.Convert(rect), ImageLockMode.ReadOnly,
@@ -315,7 +333,6 @@ namespace AgateDrawing
 
 			return buffer;
 		}
-
 		public override void WritePixels(PixelBuffer buffer)
 		{
 			BitmapData data = mImage.LockBits(new Rectangle(Point.Empty, Interop.Convert(SurfaceSize)),
