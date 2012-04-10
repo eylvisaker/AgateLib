@@ -126,11 +126,13 @@ namespace Tests.MultipleWindows
 			Display.RenderTarget = newBuffer;
 			
 			Display.BeginFrame();
-			Display.Clear();
+			Display.Clear(Color.FromArgb(0, 0, 0, 0));
+			Display.RenderState.AlphaBlend = false;
 
 			frameBuffer.RenderTarget.Draw();
 
 			Display.EndFrame();
+			Display.RenderState.AlphaBlend = true;
 
 			frameBuffer.Dispose();
 			frameBuffer = newBuffer;
