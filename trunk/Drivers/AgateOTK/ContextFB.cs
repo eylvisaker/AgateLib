@@ -71,13 +71,11 @@ namespace AgateOTK
 			}
 
 			GL.Viewport(0, 0, Width, Height);
-
 		}
 
 		public override void BeginRender()
 		{
 			MakeCurrent();
-
 		}
 
 		public override void EndRender()

@@ -13,7 +13,7 @@ namespace Tests.MultipleWindows
 	{
 		Surface surf;
 		Random rand = new Random();
-		FrameBuffer buffer;
+		FrameBuffer frameBuffer;
 
 		public string Name
 		{
@@ -40,7 +40,7 @@ namespace Tests.MultipleWindows
 				DisplayWindow wnd_2 = DisplayWindow.CreateFromControl(myForm.pictureBox2);
 				DisplayWindow wnd_3 = DisplayWindow.CreateFromControl(myForm.pictureBox3);
 
-				buffer = new FrameBuffer(wnd_3.Width, wnd_3.Height);
+				frameBuffer = new FrameBuffer(wnd_3.Width, wnd_3.Height);
 				myForm.pictureBox3.Resize += new EventHandler(wnd_3_Resize);
 
 				// this is the code that will be called when the button is pressed
@@ -84,28 +84,22 @@ namespace Tests.MultipleWindows
 					// draw the third window from the surface
 					Display.RenderTarget = wnd_3.FrameBuffer;
 
-					surf = buffer.RenderTarget;
+					surf = frameBuffer.RenderTarget;
 
 					Display.BeginFrame();
-					Display.Clear(Color.Black);
+					Display.Clear(Color.Gray);
 					surf.Draw(0, 0);
 					Display.EndFrame();
 
 					Core.KeepAlive();
 					time = Timing.TotalSeconds;
-					//System.Threading.Thread.Sleep(250);
-
 				}
-
 			}
-
-
 		}
 
 		void btnDrawText_Click(object sender, EventArgs e)
 		{
-			Display.RenderTarget = buffer;
-
+			Display.RenderTarget = frameBuffer;
 			Display.BeginFrame();
 
 			int x = rand.Next(20, 100);
@@ -134,18 +128,17 @@ namespace Tests.MultipleWindows
 			Display.BeginFrame();
 			Display.Clear();
 
-			buffer.RenderTarget.Draw(new Rectangle(0, 0, buffer.Width, buffer.Height));
+			frameBuffer.RenderTarget.Draw();
 
 			Display.EndFrame();
 
-			buffer.Dispose();
-			buffer = newBuffer;
+			frameBuffer.Dispose();
+			frameBuffer = newBuffer;
 		}
 
 		void btnClear_Click(object sender, EventArgs e)
 		{
-			Display.RenderTarget = buffer;
-
+			Display.RenderTarget = frameBuffer;
 			Display.BeginFrame();
 			Display.Clear(0, 0, 0, 0);
 			Display.EndFrame();
@@ -153,16 +146,15 @@ namespace Tests.MultipleWindows
 
 		void btnDraw_Click(object sender, EventArgs e)
 		{
-			Display.RenderTarget = buffer;
-
+			Display.RenderTarget = frameBuffer;
 			Display.BeginFrame();
 
 			int width = rand.Next(20, 100);
 			int height = rand.Next(20, 100);
 
 			Rectangle rect = new Rectangle(
-				rand.Next(0, buffer.Width - width),
-				rand.Next(0, buffer.Height - height),
+				rand.Next(0, frameBuffer.Width - width),
+				rand.Next(0, frameBuffer.Height - height),
 				width,
 				height);
 

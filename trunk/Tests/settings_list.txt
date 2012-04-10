@@ -1,6 +1,6 @@
-AgateLib.AudioDriver 
-AgateLib.DisplayDriver 
-AgateLib.InputDriver 
-AgateLib.OpenGL.DisableFramebufferArb 
-AgateLib.OpenGL.EnableGL3 false
-AgateLib.OpenGL.DisableFramebufferExt 
+AgateLib.DisplayDriver	OpenGL through OpenTK 1.0.278.44921
+AgateLib.AudioDriver	Default
+AgateLib.InputDriver	Default
+AgateLib.OpenGL.DisableFramebufferArb	
+AgateLib.OpenGL.EnableGL3	false
+AgateLib.OpenGL.DisableFramebufferExt	

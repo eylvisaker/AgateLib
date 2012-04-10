@@ -109,7 +109,7 @@ namespace AgateOTK
 				GL.BindTexture(TextureTarget.Texture2D, mTextureID);
 				GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba,
 					mTextureSize.Width, mTextureSize.Height, 0, OTKPixelFormat.Rgba,
-					PixelType.UnsignedByte, fake);
+					PixelType.UnsignedByte, IntPtr.Zero);
 
 				mTexCoord = GetTextureCoords(mSourceRect);
 			}

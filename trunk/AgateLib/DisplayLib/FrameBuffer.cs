@@ -143,12 +143,6 @@ namespace AgateLib.DisplayLib
 		{
 			get
 			{
-				if (mRenderTarget != null && mRenderTarget.Impl != Impl.RenderTarget)
-				{
-					mRenderTarget.Dispose();
-					mRenderTarget = null;
-				}
-
 				if (mRenderTarget == null)
 					mRenderTarget = new Surface(Impl.RenderTarget);
 
