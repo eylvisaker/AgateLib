@@ -30,6 +30,7 @@ namespace Tests.FontTester
 					return;
 
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Font Tester", 800, 600);
+				DisplayWindow fullWind = null;
 
 				FontSurface font = new FontSurface("Sans Serif", 12);
 				FontSurface bitmapFont = FontSurface.BitmapMonospace("lotafont.png", new Size(16, 16));
@@ -126,10 +127,16 @@ namespace Tests.FontTester
 						System.Diagnostics.Debug.Print("IsFullscreen: {0}", Display.CurrentWindow.IsFullScreen);
 
 						if (Display.CurrentWindow.IsFullScreen == false)
-							Display.CurrentWindow.SetFullScreen(800, 600, 32);
+						{
+							fullWind = DisplayWindow.CreateFullScreen("Font Tester", 800, 600);
+						}
 						else
-							Display.CurrentWindow.SetWindowed();
+						{
+							fullWind.Dispose();
+							Display.RenderTarget = wind;
+						}
 
+						Keyboard.ReleaseAllKeys();
 						System.Diagnostics.Debug.Print("IsFullscreen: {0}", Display.CurrentWindow.IsFullScreen);
 					}
 					else if (Keyboard.Keys[KeyCode.F2])

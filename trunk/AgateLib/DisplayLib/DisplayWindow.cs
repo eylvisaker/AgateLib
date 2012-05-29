@@ -298,6 +298,7 @@ namespace AgateLib.DisplayLib
 		/// windowed.  The DisplayWindow retains the same height and width as the
 		/// previous full screen resolution.
 		/// </summary>
+		[Obsolete("Instead of calling SetWindowed, you should create another DisplayWindow by calling DisplayWindow.CreateWindowed() and Dispose of the full screen DisplayWindow object.")]
 		public void SetWindowed()
 		{
 			mImpl.SetWindowed();
@@ -312,6 +313,7 @@ namespace AgateLib.DisplayLib
 		/// fullscreen displays.  If this fails it returns without any error
 		/// thrown.  Check to see if it worked by examining IsFullScreen property.
 		/// </remarks>
+		[Obsolete("Instead of calling SetFullScreen, you should create another DisplayWindow by calling DisplayWindow.CreateFullScreen()")]
 		public void SetFullScreen()
 		{
 			mImpl.SetFullScreen();
@@ -329,6 +331,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <param name="bpp"></param>
+		[Obsolete("Instead of calling SetFullScreen, you should create another DisplayWindow by calling DisplayWindow.CreateFullScreen()")]
 		public void SetFullScreen(int width, int height, int bpp)
 		{
 			mImpl.SetFullScreen(width, height, bpp);
