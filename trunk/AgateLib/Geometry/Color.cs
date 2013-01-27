@@ -40,7 +40,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color AntiqueWhite { get { return Color.FromArgb(250, 235, 215); } }
 		/// <summary>
-		/// Color Aqua.  0x0ffff
+		/// Color Aqua.  0x00ffff
 		/// </summary>
 		public static Color Aqua { get { return Color.FromArgb(0, 255, 255); } }
 		/// <summary>
@@ -60,7 +60,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color Bisque { get { return Color.FromArgb(255, 228, 196); } }
 		/// <summary>
-		/// Color Black.  0x000
+		/// Color Black.  0x000000
 		/// </summary>
 		public static Color Black { get { return Color.FromArgb(0, 0, 0); } }
 		/// <summary>
@@ -68,7 +68,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color BlanchedAlmond { get { return Color.FromArgb(255, 235, 205); } }
 		/// <summary>
-		/// Color Blue.  0x00ff
+		/// Color Blue.  0x0000ff
 		/// </summary>
 		public static Color Blue { get { return Color.FromArgb(0, 0, 255); } }
 		/// <summary>
@@ -88,7 +88,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color CadetBlue { get { return Color.FromArgb(95, 158, 160); } }
 		/// <summary>
-		/// Color Chartreuse.  0x7fff0
+		/// Color Chartreuse.  0x7fff00
 		/// </summary>
 		public static Color Chartreuse { get { return Color.FromArgb(127, 255, 0); } }
 		/// <summary>
@@ -112,15 +112,15 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color Crimson { get { return Color.FromArgb(220, 20, 60); } }
 		/// <summary>
-		/// Color Cyan.  0x0ffff
+		/// Color Cyan.  0x00ffff
 		/// </summary>
 		public static Color Cyan { get { return Color.FromArgb(0, 255, 255); } }
 		/// <summary>
-		/// Color DarkBlue.  0x008b
+		/// Color DarkBlue.  0x00008b
 		/// </summary>
 		public static Color DarkBlue { get { return Color.FromArgb(0, 0, 139); } }
 		/// <summary>
-		/// Color DarkCyan.  0x08b8b
+		/// Color DarkCyan.  0x008b8b
 		/// </summary>
 		public static Color DarkCyan { get { return Color.FromArgb(0, 139, 139); } }
 		/// <summary>
@@ -132,7 +132,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color DarkGray { get { return Color.FromArgb(169, 169, 169); } }
 		/// <summary>
-		/// Color DarkGreen.  0x0640
+		/// Color DarkGreen.  0x006400
 		/// </summary>
 		public static Color DarkGreen { get { return Color.FromArgb(0, 100, 0); } }
 		/// <summary>
@@ -140,7 +140,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color DarkKhaki { get { return Color.FromArgb(189, 183, 107); } }
 		/// <summary>
-		/// Color DarkMagenta.  0x8b08b
+		/// Color DarkMagenta.  0x8b008b
 		/// </summary>
 		public static Color DarkMagenta { get { return Color.FromArgb(139, 0, 139); } }
 		/// <summary>
@@ -148,7 +148,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color DarkOliveGreen { get { return Color.FromArgb(85, 107, 47); } }
 		/// <summary>
-		/// Color DarkOrange.  0xff8c0
+		/// Color DarkOrange.  0xff8c00
 		/// </summary>
 		public static Color DarkOrange { get { return Color.FromArgb(255, 140, 0); } }
 		/// <summary>
@@ -156,7 +156,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color DarkOrchid { get { return Color.FromArgb(153, 50, 204); } }
 		/// <summary>
-		/// Color DarkRed.  0x8b00
+		/// Color DarkRed.  0x8b0000
 		/// </summary>
 		public static Color DarkRed { get { return Color.FromArgb(139, 0, 0); } }
 		/// <summary>
@@ -176,11 +176,11 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color DarkSlateGray { get { return Color.FromArgb(47, 79, 79); } }
 		/// <summary>
-		/// Color DarkTurquoise.  0x0ced1
+		/// Color DarkTurquoise.  0x00ced1
 		/// </summary>
 		public static Color DarkTurquoise { get { return Color.FromArgb(0, 206, 209); } }
 		/// <summary>
-		/// Color DarkViolet.  0x940d3
+		/// Color DarkViolet.  0x9400d3
 		/// </summary>
 		public static Color DarkViolet { get { return Color.FromArgb(148, 0, 211); } }
 		/// <summary>
@@ -188,7 +188,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color DeepPink { get { return Color.FromArgb(255, 20, 147); } }
 		/// <summary>
-		/// Color DeepSkyBlue.  0x0bfff
+		/// Color DeepSkyBlue.  0x00bfff
 		/// </summary>
 		public static Color DeepSkyBlue { get { return Color.FromArgb(0, 191, 255); } }
 		/// <summary>
@@ -212,7 +212,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color ForestGreen { get { return Color.FromArgb(34, 139, 34); } }
 		/// <summary>
-		/// Color Fuchsia.  0xff0ff
+		/// Color Fuchsia.  0xff00ff
 		/// </summary>
 		public static Color Fuchsia { get { return Color.FromArgb(255, 0, 255); } }
 		/// <summary>
@@ -224,7 +224,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color GhostWhite { get { return Color.FromArgb(248, 248, 255); } }
 		/// <summary>
-		/// Color Gold.  0xffd70
+		/// Color Gold.  0xffd700
 		/// </summary>
 		public static Color Gold { get { return Color.FromArgb(255, 215, 0); } }
 		/// <summary>
@@ -236,7 +236,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color Gray { get { return Color.FromArgb(128, 128, 128); } }
 		/// <summary>
-		/// Color Green.  0x0800
+		/// Color Green.  0x008000
 		/// </summary>
 		public static Color Green { get { return Color.FromArgb(0, 128, 0); } }
 		/// <summary>
@@ -256,7 +256,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color IndianRed { get { return Color.FromArgb(205, 92, 92); } }
 		/// <summary>
-		/// Color Indigo.  0x4b082
+		/// Color Indigo.  0x4b0082
 		/// </summary>
 		public static Color Indigo { get { return Color.FromArgb(75, 0, 130); } }
 		/// <summary>
@@ -276,7 +276,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color LavenderBlush { get { return Color.FromArgb(255, 240, 245); } }
 		/// <summary>
-		/// Color LawnGreen.  0x7cfc0
+		/// Color LawnGreen.  0x7cfc00
 		/// </summary>
 		public static Color LawnGreen { get { return Color.FromArgb(124, 252, 0); } }
 		/// <summary>
@@ -336,7 +336,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color LightYellow { get { return Color.FromArgb(255, 255, 224); } }
 		/// <summary>
-		/// Color Lime.  0x0ff0
+		/// Color Lime.  0x00ff00
 		/// </summary>
 		public static Color Lime { get { return Color.FromArgb(0, 255, 0); } }
 		/// <summary>
@@ -348,11 +348,11 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color Linen { get { return Color.FromArgb(250, 240, 230); } }
 		/// <summary>
-		/// Color Magenta.  0xff0ff
+		/// Color Magenta.  0xff00ff
 		/// </summary>
 		public static Color Magenta { get { return Color.FromArgb(255, 0, 255); } }
 		/// <summary>
-		/// Color Maroon.  0x8000
+		/// Color Maroon.  0x800000
 		/// </summary>
 		public static Color Maroon { get { return Color.FromArgb(128, 0, 0); } }
 		/// <summary>
@@ -360,7 +360,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color MediumAquamarine { get { return Color.FromArgb(102, 205, 170); } }
 		/// <summary>
-		/// Color MediumBlue.  0x00cd
+		/// Color MediumBlue.  0x0000cd
 		/// </summary>
 		public static Color MediumBlue { get { return Color.FromArgb(0, 0, 205); } }
 		/// <summary>
@@ -380,7 +380,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color MediumSlateBlue { get { return Color.FromArgb(123, 104, 238); } }
 		/// <summary>
-		/// Color MediumSpringGreen.  0x0fa9a
+		/// Color MediumSpringGreen.  0x00fa9a
 		/// </summary>
 		public static Color MediumSpringGreen { get { return Color.FromArgb(0, 250, 154); } }
 		/// <summary>
@@ -412,7 +412,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color NavajoWhite { get { return Color.FromArgb(255, 222, 173); } }
 		/// <summary>
-		/// Color Navy.  0x0080
+		/// Color Navy.  0x000080
 		/// </summary>
 		public static Color Navy { get { return Color.FromArgb(0, 0, 128); } }
 		/// <summary>
@@ -420,7 +420,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color OldLace { get { return Color.FromArgb(253, 245, 230); } }
 		/// <summary>
-		/// Color Olive.  0x80800
+		/// Color Olive.  0x808000
 		/// </summary>
 		public static Color Olive { get { return Color.FromArgb(128, 128, 0); } }
 		/// <summary>
@@ -428,11 +428,11 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color OliveDrab { get { return Color.FromArgb(107, 142, 35); } }
 		/// <summary>
-		/// Color Orange.  0xffa50
+		/// Color Orange.  0xffa500
 		/// </summary>
 		public static Color Orange { get { return Color.FromArgb(255, 165, 0); } }
 		/// <summary>
-		/// Color OrangeRed.  0xff450
+		/// Color OrangeRed.  0xff4500
 		/// </summary>
 		public static Color OrangeRed { get { return Color.FromArgb(255, 69, 0); } }
 		/// <summary>
@@ -480,11 +480,11 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color PowderBlue { get { return Color.FromArgb(176, 224, 230); } }
 		/// <summary>
-		/// Color Purple.  0x80080
+		/// Color Purple.  0x800080
 		/// </summary>
 		public static Color Purple { get { return Color.FromArgb(128, 0, 128); } }
 		/// <summary>
-		/// Color Red.  0xff00
+		/// Color Red.  0xff0000
 		/// </summary>
 		public static Color Red { get { return Color.FromArgb(255, 0, 0); } }
 		/// <summary>
@@ -540,7 +540,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color Snow { get { return Color.FromArgb(255, 250, 250); } }
 		/// <summary>
-		/// Color SpringGreen.  0x0ff7f
+		/// Color SpringGreen.  0x00ff7f
 		/// </summary>
 		public static Color SpringGreen { get { return Color.FromArgb(0, 255, 127); } }
 		/// <summary>
@@ -552,7 +552,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color Tan { get { return Color.FromArgb(210, 180, 140); } }
 		/// <summary>
-		/// Color Teal.  0x08080
+		/// Color Teal.  0x008080
 		/// </summary>
 		public static Color Teal { get { return Color.FromArgb(0, 128, 128); } }
 		/// <summary>
@@ -588,7 +588,7 @@ namespace AgateLib.Geometry
 		/// </summary>
 		public static Color WhiteSmoke { get { return Color.FromArgb(245, 245, 245); } }
 		/// <summary>
-		/// Color Yellow.  0xffff0
+		/// Color Yellow.  0xffff00
 		/// </summary>
 		public static Color Yellow { get { return Color.FromArgb(255, 255, 0); } }
 		/// <summary>
