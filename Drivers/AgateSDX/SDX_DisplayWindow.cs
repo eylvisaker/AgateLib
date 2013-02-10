@@ -48,7 +48,6 @@ namespace AgateSDX
 		int mChooseHeight;
 		int mChooseBitDepth = 32;
 		System.Drawing.Icon mIcon;
-		bool mChooseFullscreen = false;
 		bool mChooseResize = false;
 		WindowPosition mChoosePosition;
 		bool mHasFrame = true;
@@ -70,12 +69,12 @@ namespace AgateSDX
 
 				mRenderTarget = (Control)windowParams.RenderTarget;
 
-				mChooseFullscreen = false;
+				mIsFullscreen = false;
 				mChooseWidth = mRenderTarget.ClientSize.Width;
 				mChooseHeight = mRenderTarget.ClientSize.Height;
 
 				mDisplay = Display.Impl as SDX_Display;
-				mDisplay.Initialize(this);
+				mDisplay.Initialize(this, windowParams);
 				mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
 
 			}
@@ -85,21 +84,22 @@ namespace AgateSDX
 					mIcon = new Drawing.Icon(windowParams.IconFile);
 
 				mTitle = windowParams.Title;
-				mChooseFullscreen = windowParams.IsFullScreen;
+				mIsFullscreen = windowParams.IsFullScreen;
 				mChooseWidth = windowParams.Width;
 				mChooseHeight = windowParams.Height;
 				mChooseResize = windowParams.IsResizable;
 				mHasFrame = windowParams.HasFrame;
 
-				CreateWindow(mChooseFullscreen);
+				CreateWindow(mIsFullscreen);
+				mIsFullscreen = true;
 
 				mDisplay = Display.Impl as SDX_Display;
-				mDisplay.Initialize(this);
+				mDisplay.Initialize(this, windowParams);
 				mDisplay.VSyncChanged += new EventHandler(mDisplay_VSyncChanged);
 			}
 
 			AttachEvents();
-			CreateBackBuffer();
+			CreateBackBuffer(mIsFullscreen);
 		}
 
 		public SDX_DisplayWindow(System.Windows.Forms.Control renderTarget)
@@ -109,6 +109,13 @@ namespace AgateSDX
 
 		public override void Dispose()
 		{
+			if (IsFullScreen)
+			{
+				SetWindowed();
+			}
+
+			mFrameBuffer.Dispose();
+
 			if (frm != null && frm is frmFullScreen == false)
 			{
 				frm.Dispose();
@@ -181,7 +188,7 @@ namespace AgateSDX
 
 		void mDisplay_VSyncChanged(object sender, EventArgs e)
 		{
-			CreateBackBuffer();
+			CreateBackBuffer(mIsFullscreen);
 		}
 
 
@@ -262,7 +269,7 @@ namespace AgateSDX
 			if (mChooseWidth == 0 || mChooseHeight == 0)
 				return;
 
-			CreateBackBuffer();
+			CreateBackBuffer(mIsFullscreen);
 
 		}
 
@@ -296,7 +303,7 @@ namespace AgateSDX
 			else
 			{
 				FormUtil.InitializeWindowsForm(out frm, out mRenderTarget, mChoosePosition, mTitle,
-					mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
+					mChooseWidth, mChooseHeight, mIsFullscreen, mChooseResize, mHasFrame);
 
 				if (mIcon != null)
 					frm.Icon = mIcon;
@@ -313,7 +320,7 @@ namespace AgateSDX
 			Form oldForm = frm;
 
 			CreateWindow(false);
-			CreateBackBuffer();
+			CreateBackBuffer(false);
 
 			if (oldForm != null)
 				oldForm.Dispose();
@@ -341,7 +348,7 @@ namespace AgateSDX
 			frm.Activate();
 			frm.Refresh();
 
-			CreateBackBuffer();
+			CreateBackBuffer(true);
 
 			frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
 
@@ -356,14 +363,16 @@ namespace AgateSDX
 		}
 
 
-		private void CreateBackBuffer()
+		private void CreateBackBuffer(bool fullScreen)
 		{
 			if (mFrameBuffer != null)
 				mFrameBuffer.Dispose();
 
+			// Created swap chain will be owned by the FrameBufferWindow object, and
+			// disposal will be handled by that object.
 			SwapChain swap = mDisplay.CreateSwapChain(this, mChooseWidth, mChooseHeight,
-				mChooseBitDepth, mChooseFullscreen);
-
+				mChooseBitDepth, fullScreen);
+			
 			Direct3D.Surface backBuffer = swap.GetBackBuffer(0);
 
 			Direct3D.Surface backDepthStencil = Direct3D.Surface.CreateDepthStencil(
@@ -450,6 +459,7 @@ namespace AgateSDX
 				throw new InvalidOperationException("This DisplayWindow was created on a " +
 					"System.Windows.Forms.Control object, and cannot be set to full screen.");
 
+			
 			//return;
 
 			ScreenMode mode = ScreenMode.SelectBestMode(width, height, bpp);
@@ -461,7 +471,7 @@ namespace AgateSDX
 			mChooseHeight = mode.Height;
 			mChooseBitDepth = mode.Bpp;
 
-			mChooseFullscreen = true;
+			mIsFullscreen = true;
 
 			CreateFullScreenDisplay();
 			Keyboard.ReleaseAllKeys();
@@ -470,9 +480,9 @@ namespace AgateSDX
 
 		public override void SetWindowed()
 		{
-			mChooseFullscreen = false;
-
 			CreateWindowedDisplay();
+
+			mIsFullscreen = false;
 		}
 
 		public override string Title
