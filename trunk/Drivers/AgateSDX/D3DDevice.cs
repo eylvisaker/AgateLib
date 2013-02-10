@@ -91,12 +91,14 @@ namespace AgateSDX
 		private void Dispose(bool disposing)
 		{
 			if (disposing)
+			{
 				GC.SuppressFinalize(this);
 
-			if (mDevice != null)
-			{
-				mDevice.Dispose();
-				mDevice = null;
+				if (mDevice != null)
+				{
+					mDevice.Dispose();
+					mDevice = null;
+				}
 			}
 		}
 

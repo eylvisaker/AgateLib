@@ -104,7 +104,7 @@ namespace AgateSDX
 		}
 
 
-		internal void Initialize(SDX_DisplayWindow window)
+		internal void Initialize(SDX_DisplayWindow window, CreateWindowParams windowParams)
 		{
 			if (mInitialized)
 				return;
@@ -117,7 +117,9 @@ namespace AgateSDX
 			mInitialized = true;
 
 			// ok, create D3D device
-			PresentParameters present = CreateWindowedPresentParameters(window, 0, 0, 32);
+			PresentParameters present = windowParams.IsFullScreen ? 
+				CreateFullScreenPresentParameters(window, windowParams.Width, windowParams.Height, windowParams.Bpp) : 
+				CreateWindowedPresentParameters(window, 0, 0, 32);
 
 			DeviceType dtype = DeviceType.Hardware;
 
@@ -588,9 +590,12 @@ namespace AgateSDX
 					present.BackBufferHeight = 1;
 					present.BackBufferWidth = 1;
 					present.DeviceWindowHandle = displayWindow.RenderTarget.TopLevelControl.Handle;
-
+					
 					OnDeviceAboutToReset();
 
+					var result = mDevice.Device.TestCooperativeLevel();
+
+					System.Diagnostics.Debug.Print("TestCooperativeLevel result: {0}", result);
 					System.Diagnostics.Debug.Print("{0} Going to windowed mode...", DateTime.Now);
 					mDevice.Device.Reset(present);
 					System.Diagnostics.Debug.Print("{0} Windowed mode success.", DateTime.Now);
