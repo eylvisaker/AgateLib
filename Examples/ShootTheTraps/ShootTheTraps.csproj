@@ -81,7 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="Arrow.cs" />
+    <Compile Include="Bullet.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="ShootTraps.cs" />
@@ -107,6 +107,42 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\barrel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\timecannonimages\barrel-h.png" />
+    <Content Include="Resources\timecannonimages\barrel-m.png" />
+    <Content Include="Resources\timecannonimages\bullet-h.png" />
+    <Content Include="Resources\timecannonimages\bullet-m.png" />
+    <Content Include="Resources\bullet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\timecannonimages\clockcannon.svg" />
+    <Content Include="Resources\enemy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\splatter-1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\splatter-2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\splatter-3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\splatter-4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\timecannonimages\time-03.png" />
+    <Content Include="Resources\timecannonimages\time-06.png" />
+    <Content Include="Resources\timecannonimages\time-09.png" />
+    <Content Include="Resources\timecannonimages\time-12.png" />
+    <Content Include="License.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
