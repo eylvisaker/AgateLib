@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
@@ -7,37 +8,27 @@ using AgateLib.InputLib;
 
 namespace ShootTheTraps
 {
-
-	public class ShootTraps
+	public class ShootTraps : IDisposable
 	{
 		List<GameObject> mGameObjects;
 		Random mRandom;
 
-		readonly int yvalue;
-		readonly int halfx;
-		readonly int yvelScale;
-		readonly int xvelScale;
+		readonly int mGroundY;
+		readonly int mTrapVYScale;
+		readonly int mTrapMaxVX;
+		readonly int mTrapMinVX;
 
-		readonly int xpos;
-		readonly int ypos;
+		readonly int mGunX;
+		readonly int mGunY;
 
-		const int ARROWSPEED = 800;
-		const int MAXARROWS = 4;
+		const int BulletSpeed = 1000;
+		const int MaxBullets = 4;
 
-		private int mScore;
-
-		int[] mXVals;
-
-		int mLevel = 0;
-		int mPullsLeft = 0;
-		int mTrapsHit = 0;
-		int mBonusPoints = 0;
-		int mPointsThisLevel = 0;
-
-
-		bool mGameOver = false;
-		bool mBonusDone = false;
-		bool mCanAdvanceLevel = true;
+		int[] mLaunchX;
+		
+		Surface mGun = new Surface("Resources/barrel.png");
+		Point mMousePos;
+		double mGunAngle;
 
 		/// <summary>
 		/// Creates a new instance of ShootTraps 
@@ -51,46 +42,66 @@ namespace ShootTheTraps
 			mGameObjects = new List<GameObject>();
 			mRandom = new Random();
 
-			halfx = width / 2;
-			yvalue = height - 10;
-			yvelScale = (int)Math.Sqrt(2 * Trap.GRAVITY * (height - 10));
-			xvelScale = (int)width / 2;
+			mGroundY = height - 10;
 
-			xpos = halfx;
-			ypos = yvalue - 5;
+			// choose a y velocity (pixels / second) that will get the 
+			// traps nearly to the top of the screen
+			mTrapVYScale = (int)Math.Sqrt(2 * GameObject.Gravity * (height - 10));
 
+			double timeInAir = mTrapVYScale * 2 / GameObject.Gravity;
 
-			mXVals = new int[4];
+			// choose a minimum x velocity so that the trap will make it at least 1/3
+			// the way across the field.
+			mTrapMaxVX = mTrapVYScale / 2;
+			mTrapMinVX = (int)(width / (3.0 * timeInAir));
 
-			mXVals[0] = 10;
-			mXVals[1] = 40;
+			mGunX = width / 2;
+			mGunY = mGroundY + 15;
 
-			mXVals[2] = 2 * halfx - mXVals[1];
-			mXVals[3] = 2 * halfx - mXVals[0];
+			mLaunchX = new int[4];
 
-			//this.width = width;
-			//this.height = height;
+			int launchScale = width / 2 - 50;
 
-			Arrow.XMax = width + 10;
+			mLaunchX[0] = width / 2 - launchScale + 10;
+			mLaunchX[1] = width / 2 - launchScale + 50;
 
+			mLaunchX[2] = width - mLaunchX[1];
+			mLaunchX[3] = width - mLaunchX[0];
+
+			GameObject.FieldArea = Rectangle.FromLTRB(-10, -20, width + 10, mGunY);
+			
+			Bullet.Image = new Surface("Resources/bullet.png");
+			Trap.Image = new Surface("Resources/enemy.png");
+			Particle.Images.Add(new Surface("Resources/splatter-1.png"));
+			Particle.Images.Add(new Surface("Resources/splatter-2.png"));
+			Particle.Images.Add(new Surface("Resources/splatter-3.png"));
+			Particle.Images.Add(new Surface("Resources/splatter-4.png"));
+		}
+
+		public void Dispose()
+		{
+			mGun.Dispose();
+			Bullet.Image.Dispose();
+			Trap.Image.Dispose();
+			Particle.Images.ForEach(x => x.Dispose());
 		}
 
 		private void AddScore(int points)
 		{
-			mScore += points;
-			mPointsThisLevel += points;
+			Score += points;
+			PointsThisLevel += points;
 		}
 		public void NextLevel()
 		{
-			if (mCanAdvanceLevel == false)
+			if (CanAdvanceLevel == false)
 				return;
 
-			mCanAdvanceLevel = false;
+			CanAdvanceLevel = false;
 
-			mLevel++;
-			mPullsLeft = Math.Min(12 + 2 * mLevel, 21);
+			Level++;
+			PullsLeft = Math.Min(12 + 2 * Level, 21);
 
-			mPointsThisLevel = 0;
+			PointsThisLevel = 0;
 		}
 
 		public void Update(double milliseconds)
@@ -102,6 +113,11 @@ namespace ShootTheTraps
 
 			DeleteObjects();
 		}
+		private void UpdateAllObjects(double milliseconds)
+		{
+			mGameObjects.ForEach(x => x.Update(milliseconds));
+		}
+
 		public void Draw()
 		{
 			foreach (GameObject obj in mGameObjects)
@@ -109,6 +125,11 @@ namespace ShootTheTraps
 				obj.Draw();
 			}
 
+			mGun.DisplayAlignment = OriginAlignment.BottomCenter;
+			mGun.RotationCenter = OriginAlignment.BottomCenter;
+			mGun.RotationAngle = mGunAngle;
+
+			mGun.Draw(mGunX, mGunY);
 		}
 
 		private void DeleteObjects()
@@ -117,7 +138,7 @@ namespace ShootTheTraps
 			{
 				if (mGameObjects[i].DeleteMe)
 				{
-					List<GameObject> extras = mGameObjects[i].DeleteObjects();
+					List<GameObject> extras = mGameObjects[i].CreateDebris();
 
 					mGameObjects.RemoveAt(i--);
 
@@ -131,37 +152,35 @@ namespace ShootTheTraps
 		{
 			if (TrapCount != 0)
 				return;
-			if (mBonusDone)
+			if (BonusAdded)
 				return;
 
-			mBonusDone = true;
-			mBonusPoints = 0;
+			BonusAdded = true;
+			BonusPoints = 0;
 
-			if (mTrapsHit > 1)
-				mBonusPoints = 250 * (mTrapsHit - 1);
+			if (TrapsHit > 1)
+				BonusPoints = 250 * (TrapsHit - 1);
 
-			AddScore(mBonusPoints);
+			AddScore(BonusPoints);
 
 			// check for game over conditions
-			if (mPullsLeft == 0)
+			if (PullsLeft == 0)
 			{
-				if (mPointsThisLevel >= LevelRequirement)
-					mCanAdvanceLevel = true;
+				if (PointsThisLevel >= LevelRequirement)
+					CanAdvanceLevel = true;
 				else
-					mGameOver = true;
+					GameOver = true;
 			}
 		}
 
 		private void CheckForCollisions()
 		{
-
-			// check for collisions
 			foreach (GameObject obj in mGameObjects)
 			{
-				if (!(obj is Arrow))
+				if (obj is Bullet == false)
 					continue;
 
-				Arrow ar = (Arrow)obj;
+				Bullet ar = (Bullet)obj;
 
 				foreach (GameObject t in mGameObjects)
 				{
@@ -173,9 +192,9 @@ namespace ShootTheTraps
 					if (trap.ContainsPoint(ar.Position) && trap.DeleteMe == false)
 					{
 						trap.SetDeleteMeFlag();
-						trap.mDoDeleteObjects = true;
+						trap.ShouldCreateDebris = true;
 
-						mTrapsHit++;
+						TrapsHit++;
 
 						int score = 50;
 
@@ -188,24 +207,22 @@ namespace ShootTheTraps
 			}
 		}
 
-		private void UpdateAllObjects(double milliseconds)
+		public void MouseMove(int mouseX, int mouseY)
 		{
-			foreach (GameObject obj in mGameObjects)
-			{
-				obj.Update(milliseconds);
-			}
+			mMousePos = new Point(mouseX, mouseY);
+
+			mGunAngle = Math.Atan2(
+				mGunY - mouseY, mouseX - mGunX) - Math.PI / 2;
 		}
 
-
-
-		public void FireArrow(int towardsX, int towardsY)
+		public void FireBullet(int towardsX, int towardsY)
 		{
-			if (ArrowCount >= MAXARROWS)
+			if (BulletCount >= MaxBullets)
 				return;
-			if (mGameOver)
+			if (GameOver)
 				return;
 
-			Vector3d direction = new Vector3d(towardsX - xpos, towardsY - ypos, 0).Normalize();
+			Vector3d direction = new Vector3d(towardsX - mGunX, towardsY - mGunY, 0).Normalize();
 
 			if (direction.Y > 0)
 			{
@@ -217,55 +234,60 @@ namespace ShootTheTraps
 				direction = direction.Normalize();
 			}
 
-			Arrow ar = new Arrow();
+			Bullet ar = new Bullet();
 
-			ar.Position.X = xpos;
-			ar.Position.Y = ypos;
+			ar.RotationAngle = mGunAngle;
+			ar.Position.X = mGunX;
+			ar.Position.Y = mGunY;
 
-			ar.Velocity.X = direction.X * ARROWSPEED;
-			ar.Velocity.Y = direction.Y * ARROWSPEED;
+			ar.Velocity.X = direction.X * BulletSpeed;
+			ar.Velocity.Y = direction.Y * BulletSpeed;
 
 			mGameObjects.Add(ar);
 		}
-
 		public void FireTraps()
 		{
+			if (GameOver)
+				return;
+			if (PullsLeft <= 0)
+				return;
+			
+			// Don't fire traps if there are any traps left on the screen, or 
+			// if the player has fired some bullets on the screen. No cheating that way!
 			if (mGameObjects.Count > 0)
 				return;
-			if (mGameOver)
-				return;
-			if (mPullsLeft <= 0)
-				return;
 
-			mPullsLeft--;
-			mBonusDone = false;
-			mTrapsHit = 0;
-			mBonusPoints = 0;
+			PullsLeft--;
+			TrapsHit = 0;
+			BonusPoints = 0;
+			BonusAdded = false;
 
-			int maxTraps = mLevel / 2 + 2;
+			int maxTraps = Level / 2 + 2;
 			if (maxTraps > 8)
 				maxTraps = 8;
 
 			int r = mRandom.Next(maxTraps) + 1;
 
-			if (mPullsLeft == 0)
+			if (PullsLeft == 0)
 				r = maxTraps;
 
 			for (int i = 0; i < r; i++)
 			{
 				Trap t = new Trap();
 
-				int xpos = mRandom.Next(mXVals.Length);
+				int xpos = mRandom.Next(mLaunchX.Length);
 
-				t.Position.X = mXVals[xpos];
-				t.Position.Y = yvalue;
+				t.Position.X = mLaunchX[xpos];
+				t.Position.Y = mGroundY;
 
-				t.FinalY = yvalue + 50;
+				t.FinalY = mGroundY + 50;
 
-				t.Velocity.X = 10 + mRandom.Next(xvelScale - 10);
-				t.Velocity.Y = -yvelScale * (1 - mRandom.Next(50) / 200.0);
+				t.Velocity.X = mTrapMinVX + mRandom.Next(mTrapMaxVX - mTrapMinVX);
+				t.Velocity.Y = -mTrapVYScale * (1 - mRandom.Next(50) / 200.0);
 
-				if (t.Position.X > halfx)
+				t.RotationalVelocity = (mRandom.NextDouble() - 0.5) * 40;
+
+				if (t.Position.X > mGunX)
 					t.Velocity.X *= -1;
 
 				mGameObjects.Add(t);
@@ -273,97 +295,28 @@ namespace ShootTheTraps
 
 		}
 
-		public int ArrowCount
+		public int BulletCount
 		{
-			get
-			{
-				int result = 0;
-
-				foreach (GameObject obj in mGameObjects)
-				{
-					if (obj is Arrow)
-						result++;
-				}
-
-				return result;
-			}
+			get { return mGameObjects.Count(x => x is Bullet); }
 		}
-
 		public int TrapCount
 		{
-			get
-			{
-				return mGameObjects.Count - ArrowCount;
-			}
+			get { return mGameObjects.Count(x => x is Trap); }
 		}
 
-		public bool CanAdvanceLevel
-		{
-			get
-			{
-				return mCanAdvanceLevel;
-			}
-		}
-		public bool GameOver
-		{
-			get
-			{
-				return mGameOver;
-			}
-		}
-		public int Level
-		{
-			get
-			{
-				return mLevel;
-			}
-		}
-		public int PullsLeft
-		{
-			get
-			{
-				return mPullsLeft;
-			}
-		}
-		public int TrapsHit
-		{
-			get
-			{
-				return mTrapsHit;
-			}
-		}
-		public bool AddedBonus
-		{
-			get
-			{
-				return mBonusDone;
-			}
-		}
-		public int BonusPoints
-		{
-			get
-			{
-				return mBonusPoints;
-			}
-		}
+		public bool CanAdvanceLevel { get; private set; }
+		public bool GameOver { get; private set; }
+		public int Level { get; private set; }
 		public int LevelRequirement
 		{
-			get
-			{
-				return 1000 * mLevel;
-			}
+			get { return 1000 * Level; }
 		}
-		public int PointsThisLevel
-		{
-			get { return mPointsThisLevel; }
-			set { mPointsThisLevel = value; }
-		}
-
-		public int Score
-		{
-			get { return mScore; }
-			set { mScore = value; }
-		}
+		public int PullsLeft { get; private set; }
+		public int TrapsHit { get; private set; }
+		public bool BonusAdded { get; private set; }
+		public int BonusPoints { get; private set; }
+		public int PointsThisLevel { get; set; }
+		public int Score { get; set; }
 	}
 
 }

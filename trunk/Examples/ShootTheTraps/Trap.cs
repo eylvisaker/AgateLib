@@ -7,121 +7,125 @@ using AgateLib.Geometry;
 
 namespace ShootTheTraps
 {
-    public class Trap : GameObject
-    {
-        const int width = 14;
-        const int height = 8;
-        int mFinalY = 0;
-        Color mColor = Color.Red;
+	public class Trap : GameObject
+	{
+		const int width = 24;
+		const int height = 16;
+		int mFinalY = 0;
+		Color mColor = Color.Red;
 
-        bool delete = false;
+		bool mDeleteMe = false;
 
-        static Random sRandom;
-        static Color[] sColors = { Color.White, Color.Blue, Color.Red, Color.Purple, Color.Yellow,
+		static Random sRandom;
+		static Color[] sColors = { Color.White, Color.Blue, Color.Red, Color.Purple, Color.Yellow,
             Color.Green };
 
-        /// Creates a new instance of Trap */
-        public Trap()
-        {
-            if (sRandom == null)
-                sRandom = new Random();
+		public static Surface Image { get; set; }
 
-            // only gravity affects this object.
-            Acceleration = new Vector3d(0, GRAVITY, 0);
+		/// Creates a new instance of Trap */
+		public Trap()
+		{
+			if (sRandom == null)
+				sRandom = new Random();
 
-            mColor = sColors[sRandom.Next(sColors.Length)];
-        }
+			// only gravity affects this object.
+			Acceleration = new Vector3d(0, Gravity, 0);
 
-        /// <summary>
-        /// The highest (low on screen) value that the trap can get before it
-        /// should be deleted.
-        /// </summary>
-        public int FinalY
-        {
-            get { return mFinalY; }
-            set { mFinalY = value; }
-        }
+			mColor = sColors[sRandom.Next(sColors.Length)];
+		}
 
-        public void SetDeleteMeFlag()
-        {
-            delete = true;
-        }
+		/// <summary>
+		/// The highest (low on screen) value that the trap can get before it
+		/// should be deleted.
+		/// </summary>
+		public int FinalY
+		{
+			get { return mFinalY; }
+			set { mFinalY = value; }
+		}
 
-        public bool ContainsPoint(Vector3d pt)
-        {
-            Vector3d dist = Position - pt;
+		public void SetDeleteMeFlag()
+		{
+			mDeleteMe = true;
+		}
 
-            // formula for oval
-            dist.X /= width;
-            dist.Y /= height;
+		public bool ContainsPoint(Vector3d pt)
+		{
+			Vector3d dist = Position - pt;
 
-            if (dist.Magnitude <= 1)
-                return true;
-            else
-                return false;
-        }
+			if (Math.Abs(dist.X) > width / 2) return false;
+			if (Math.Abs(dist.Y) > height / 2) return false;
 
-        public override void Draw()
-        {
-            Display.FillRect((int)Position.X - width / 2, (int)Position.Y - height / 2, width, height, Color);
+			return true;
+		}
 
-            if (Position.Y > mFinalY && Velocity.Y > 0)
-                delete = true;
-            else
-                delete = false;
-        }
+		public override void Draw()
+		{
+			Image.DisplayAlignment = OriginAlignment.Center;
+			Image.RotationCenter = OriginAlignment.Center;
 
-        public override bool DeleteMe
-        {
-            get
-            {
-                return delete;
-            }
-        }
+			Image.Color = mColor;
+			Image.RotationAngle = RotationAngle;
 
-        public Color Color
-        {
-            get { return mColor; }
-            set { mColor = value; }
-        }
+			Image.Draw((float)Position.X, (float)Position.Y);
 
-        const int NUMPARTICLES = 20;
-        const double particleSpeed = 100;
+			if (Position.Y > mFinalY && Velocity.Y > 0)
+				mDeleteMe = true;
+			else
+				mDeleteMe = false;
+		}
 
-        protected override List<GameObject> DeleteObjectsInternal()
-        {
-            List<GameObject> retval = new List<GameObject>();
-            Vector3d totalVelocity = new Vector3d(0, 0, 0);
+		public override bool DeleteMe
+		{
+			get { return mDeleteMe; }
+		}
 
-            for (int i = 0; i < NUMPARTICLES; i++)
-            {
-                Particle p = new Particle(Color);
+		public Color Color
+		{
+			get { return mColor; }
+			set { mColor = value; }
+		}
 
-                p.Position = Position;
+		const int NumberOfParticles = 20;
+		const double ParticleSpeed = 100;
 
-                p.Velocity.X = sRandom.NextDouble() * 2 - 1;
-                p.Velocity.Y = sRandom.NextDouble() * 2 - 1;
+		protected override List<GameObject> ProtectedCreateDebris()
+		{
+			List<GameObject> retval = new List<GameObject>();
+			Vector3d totalVelocity = new Vector3d(0, 0, 0);
+			Random rnd = new Random();
 
-                p.Velocity = p.Velocity.Normalize() * (sRandom.NextDouble() * particleSpeed);
+			for (int i = 0; i < NumberOfParticles; i++)
+			{
+				Particle p = new Particle(Color, rnd);
 
-                totalVelocity = totalVelocity + p.Velocity;
-                retval.Add(p);
-            }
+				p.Position = Position;
 
-            // now apply conservation of momentum, by giving a small portion
-            // of the excess momentum to each particle
-            Vector3d give = totalVelocity * (-1.0 / NUMPARTICLES);
+				p.Velocity.X = sRandom.NextDouble() * 2 - 1;
+				p.Velocity.Y = sRandom.NextDouble() * 2 - 1;
 
-            for (int i = 0; i < NUMPARTICLES; i++)
-            {
-                Particle p = (Particle)retval[i];
+				p.Velocity = p.Velocity.Normalize() * (sRandom.NextDouble() * ParticleSpeed);
+				p.RotationalVelocity = (sRandom.NextDouble() - 0.5) * 40;
 
-                p.Velocity = p.Velocity + Velocity + give;
-            }
+				totalVelocity = totalVelocity + p.Velocity;
+				retval.Add(p);
+			}
+
+			// now apply conservation of momentum, by giving a small portion
+			// of the excess momentum to each particle
+			Vector3d give = totalVelocity * (-1.0 / NumberOfParticles);
+
+			for (int i = 0; i < NumberOfParticles; i++)
+			{
+				Particle p = (Particle)retval[i];
+
+				p.Velocity = p.Velocity + Velocity + give;
+			}
 
 
-            return retval;
-        }
+			return retval;
+		}
 
-    }
+
+	}
 }

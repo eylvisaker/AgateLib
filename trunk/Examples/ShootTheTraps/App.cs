@@ -32,15 +32,27 @@ namespace ShootTheTraps
 		// graphics declaration
 		FontSurface mFont;
 		FontSurface mLargeFont;
+		Surface mBackground;
 
 		protected override void Initialize()
 		{
 			mFont = FontSurface.AgateSans14;
 			mLargeFont = FontSurface.AgateSans24;
+			mBackground = new Surface("Resources/background.png");
 
 			Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
+			Mouse.MouseMove += Mouse_MouseMove;
 
 			NewGame();
+		}
+
+		protected override void AdjustAppInitParameters(ref AppInitParameters initParams)
+		{
+			initParams.ShowSplashScreen = false;
+		}
+		protected override Size WindowSize
+		{
+			get { return new Size(1280, 720); }
 		}
 		protected override void Update(double time_ms)
 		{
@@ -50,11 +62,17 @@ namespace ShootTheTraps
 		protected override void Render()
 		{
 			Display.Clear(Color.LightBlue);
+			mBackground.Draw(new Rectangle(Point.Empty, WindowSize));
 
 			mGame.Draw();
-			DrawDisplay();
+			DrawHud();
 		}
 
+
+		void Mouse_MouseMove(InputEventArgs e)
+		{
+			mGame.MouseMove(e.MousePosition.X, e.MousePosition.Y);
+		}
 		void Mouse_MouseDown(InputEventArgs e)
 		{
 			if (ContinueYet)
@@ -70,7 +88,7 @@ namespace ShootTheTraps
 			// left click
 			if ((e.MouseButtons & Mouse.MouseButtons.Primary) != 0)
 			{
-				mGame.FireArrow(e.MousePosition.X, e.MousePosition.Y);
+				mGame.FireBullet(e.MousePosition.X, e.MousePosition.Y);
 			}
 			// right click
 			if ((e.MouseButtons & Mouse.MouseButtons.Secondary) != 0)
@@ -127,27 +145,30 @@ namespace ShootTheTraps
 				mDisplayedScore -= displayIncrement;
 
 		}
-		public void DrawDisplay()
+		public void DrawHud()
 		{
 			mFont.Color = Color.White;
 			mFont.SetScale(1, 1);
 
 			int fontHeight = mFont.FontHeight;
+			int TextBoxHeight = mFont.FontHeight * 2;
 
-			Point textStart = new Point(10, Display.RenderTarget.Height - 52);
+			Point textStart = new Point(10, Display.RenderTarget.Height - TextBoxHeight);
 
-			Display.FillRect(new Rectangle(0, textStart.Y, Display.RenderTarget.Width, 50), Color.Black);
+			Display.FillRect(new Rectangle(0, textStart.Y, Display.RenderTarget.Width, TextBoxHeight), Color.Black);
+
+			textStart.X = Display.RenderTarget.Width / 4;
 
 			mFont.DrawText(textStart.X, textStart.Y, "Score: " + mDisplayedScore);
 			mFont.DrawText(textStart.X, textStart.Y + fontHeight, "Need: " +
 				Math.Max(0, mGame.LevelRequirement - mGame.PointsThisLevel + (mGame.Score - mDisplayedScore)));
 
-			textStart.X = Display.RenderTarget.Width / 2;
+			textStart.X = Display.RenderTarget.Width * 3 / 4;
 
 			mFont.DrawText(textStart.X, textStart.Y, "Level: " + mGame.Level);
 			mFont.DrawText(textStart.X, textStart.Y + fontHeight, "Pulls Left: " + mGame.PullsLeft);
 
-			if (mGame.Score != mDisplayedScore && mGame.AddedBonus && mGame.TrapsHit > 1)
+			if (mGame.Score != mDisplayedScore && mGame.BonusAdded && mGame.TrapsHit > 1)
 			{
 				if (mBonusTime == 0)
 					mBonusTime = Timing.TotalMilliseconds;

@@ -1,0 +1,8 @@
+﻿The code here is licensed under a do-anything-you-please-with-it sort of license.
+
+Images are licensed under the CC-BY 3.0 license.
+See http://creativecommons.org/licenses/by/3.0/us/ for details.
+
+Image authors: 
+	Erik Ylvisaker
+	qubodup - http://www.opengameart.org
