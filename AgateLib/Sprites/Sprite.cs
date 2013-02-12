@@ -443,6 +443,7 @@ namespace AgateLib.Sprites
 			SpriteFrame currentFrame = CurrentFrame;
 			Surface surf = currentFrame.Surface;
 
+			surf.InterpolationHint = InterpolationHint;
 			currentFrame.DisplaySize = DisplaySize;
 
 			PointF alignment = Origin.CalcF(DisplayAlignment, DisplaySize);
@@ -1037,5 +1038,6 @@ namespace AgateLib.Sprites
 			throw new NotImplementedException();
 		}
 
+		public InterpolationMode InterpolationHint { get; set; }
 	}
 }
