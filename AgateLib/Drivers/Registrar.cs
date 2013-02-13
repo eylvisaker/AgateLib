@@ -107,8 +107,13 @@ namespace AgateLib.Drivers
 				if (ShouldSkipLibrary(file))
 					continue;
 
+				Trace.WriteLine("Probing " + file + "...");
+				Trace.Indent();
+
 				foreach (AgateDriverInfo info in loader.ReportDrivers(file))
 				{
+					Trace.WriteLine("Found driver " + info.FriendlyName);
+
 					switch (info.DriverType)
 					{
 						case DriverType.Display:
@@ -135,6 +140,8 @@ namespace AgateLib.Drivers
 							break;
 					}
 				}
+
+				Trace.Unindent();
 			}
 
 			AppDomain.Unload(sandbox);
