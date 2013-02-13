@@ -65,7 +65,7 @@ namespace ShootTheTraps
 			mBackground.Draw(new Rectangle(Point.Empty, WindowSize));
 
 			mGame.Draw();
-			DrawHud();
+			DrawInformation();
 		}
 
 
@@ -145,17 +145,114 @@ namespace ShootTheTraps
 				mDisplayedScore -= displayIncrement;
 
 		}
-		public void DrawHud()
+		public void DrawInformation()
+		{
+			int fontHeight = mFont.FontHeight;
+			
+			DrawBottomStatus();
+
+			if (mGame.Score != mDisplayedScore && mGame.BonusAdded && mGame.TrapsHit > 1)
+			{
+				if (mBonusTime == 0)
+					mBonusTime = Timing.TotalMilliseconds;
+			}
+
+			if (mBonusTime != 0)
+			{
+				DrawBonusText();
+			}
+			else if (mGame.GameOver && mDisplayedScore == mGame.Score)
+			{
+				DrawGameOverText();
+			}
+			else if ((mGame.CanAdvanceLevel && mGame.Score == mDisplayedScore) || mLevelTime != 0)
+			{
+				BeginNextLevel();
+			}
+		}
+
+		private void BeginNextLevel()
+		{
+			const double mLevelTextTotalTime = 2500;
+
+			if (mGame.CanAdvanceLevel)
+			{
+				mGame.NextLevel();
+				mLevelTime = Timing.TotalMilliseconds;
+			}
+
+			mLargeFont.SetScale(2, 2);
+
+			int fontHeight = mLargeFont.FontHeight * 2;
+			int textY = 160;
+
+			Display.FillRect(
+				new Rectangle(0, textY, Display.RenderTarget.Width, fontHeight), 
+				Color.FromArgb(128, Color.Black));
+
+			// back the border color for the text oscillate between red and black
+			int r = (int)(255 * Math.Abs(Math.Sin(12 * (Timing.TotalMilliseconds - mLevelTime) / mLevelTextTotalTime)));
+
+			CenterText(mLargeFont, textY, "Level " + mGame.Level, Color.White, Color.FromArgb(r, 0, 0));
+
+			if (Timing.TotalMilliseconds - mLevelTime > mLevelTextTotalTime)
+				mLevelTime = 0;
+		}
+
+		private void DrawGameOverText()
+		{
+			int fontHeight = mFont.FontHeight;
+			
+			if (mGameOverTime == 0)
+				mGameOverTime = Timing.TotalMilliseconds;
+
+			double deltaTime = Math.Min((Timing.TotalMilliseconds - mGameOverTime) / 3000, 1);
+
+			double extraScaleFactor = -3 * (1.1 - Math.Pow(deltaTime, 2));
+
+			double scale = 3 + extraScaleFactor;
+
+			mFont.SetScale(scale, scale);
+
+			CenterText(mFont, (int)(200 + fontHeight - scale * fontHeight / 2.0),
+				"GAME OVER", Color.White, Color.Black);
+
+			mFont.SetScale(1.5, 1.5);
+
+			if (ContinueYet)
+				CenterText(mFont, 240 + (int)(fontHeight * mFont.ScaleHeight), "Click to restart", Color.White, Color.Black);
+		}
+
+		private void DrawBonusText()
+		{
+			mFont.SetScale(2, 2);
+
+			CenterText(mFont, 160, "HIT " + mGame.TrapsHit + " TRAPS", Color.White, Color.Black);
+
+			Color bonusColor = Color.White;
+
+			if (Timing.TotalMilliseconds % 500 < 250)
+				bonusColor = Color.Yellow;
+
+			CenterText(mFont, 160 + (int)(mFont.FontHeight * mFont.ScaleHeight), "BONUS: " + mGame.BonusPoints, bonusColor, Color.Black);
+
+			if (Timing.TotalMilliseconds - mBonusTime > 2000)
+			{
+				mBonusTime = 0;
+			}
+		}
+
+		private int DrawBottomStatus()
 		{
 			mFont.Color = Color.White;
 			mFont.SetScale(1, 1);
 
 			int fontHeight = mFont.FontHeight;
-			int TextBoxHeight = mFont.FontHeight * 2;
+			int textBoxHeight = mFont.FontHeight * 2;
 
-			Point textStart = new Point(10, Display.RenderTarget.Height - TextBoxHeight);
+			Point textStart = new Point(10, Display.RenderTarget.Height - textBoxHeight);
 
-			Display.FillRect(new Rectangle(0, textStart.Y, Display.RenderTarget.Width, TextBoxHeight), Color.Black);
+			Display.FillRect(new Rectangle(0, textStart.Y, Display.RenderTarget.Width, textBoxHeight), Color.Black);
 
 			textStart.X = Display.RenderTarget.Width / 4;
 
@@ -167,68 +264,7 @@ namespace ShootTheTraps
 
 			mFont.DrawText(textStart.X, textStart.Y, "Level: " + mGame.Level);
 			mFont.DrawText(textStart.X, textStart.Y + fontHeight, "Pulls Left: " + mGame.PullsLeft);
-
-			if (mGame.Score != mDisplayedScore && mGame.BonusAdded && mGame.TrapsHit > 1)
-			{
-				if (mBonusTime == 0)
-					mBonusTime = Timing.TotalMilliseconds;
-			}
-
-			if (mBonusTime != 0)
-			{
-				mFont.SetScale(2, 2);
-
-				CenterText(mFont, 160, "HIT " + mGame.TrapsHit + " TRAPS", Color.White, Color.Black);
-
-				Color bonusColor = Color.White;
-
-				if (Timing.TotalMilliseconds % 500 < 250)
-					bonusColor = Color.Yellow;
-
-				CenterText(mFont, 160 + (int)(fontHeight * mFont.ScaleHeight), "BONUS: " + mGame.BonusPoints, bonusColor, Color.Black);
-
-				if (Timing.TotalMilliseconds - mBonusTime > 2000)
-				{
-					mBonusTime = 0;
-				}
-			}
-			else if (mGame.GameOver && mDisplayedScore == mGame.Score)
-			{
-				if (mGameOverTime == 0)
-					mGameOverTime = Timing.TotalMilliseconds;
-
-				double deltaTime = Math.Min((Timing.TotalMilliseconds - mGameOverTime) / 3000, 1);
-
-				double extraScaleFactor = -3 * (1.1 - Math.Pow(deltaTime, 2));
-
-				double scale = 3 + extraScaleFactor;
-
-				mFont.SetScale(scale, scale);
-
-				CenterText(mFont, (int)(200 + fontHeight - scale * fontHeight / 2.0),
-					"GAME OVER", Color.White, Color.Black);
-
-				mFont.SetScale(1.5, 1.5);
-
-				if (ContinueYet)
-					CenterText(mFont, 240 + (int)(fontHeight * mFont.ScaleHeight), "Click to restart", Color.White, Color.Black);
-			}
-			else if ((mGame.CanAdvanceLevel && mGame.Score == mDisplayedScore) || mLevelTime != 0)
-			{
-				if (mGame.CanAdvanceLevel)
-				{
-					mGame.NextLevel();
-					mLevelTime = Timing.TotalMilliseconds;
-				}
-
-				int width = Display.RenderTarget.Width;
-				int x = (int)(width * (1 - (Timing.TotalMilliseconds - mLevelTime) / 2300.0));
-
-				DrawBorderedText(mLargeFont, x, 160, "Level " + mGame.Level, Color.White, Color.Black);
-
-				if (Timing.TotalMilliseconds - mLevelTime > 3000)
-					mLevelTime = 0;
-			}
+			return fontHeight;
 		}
 
 		private void CenterText(FontSurface font, int y, string text, Color color)

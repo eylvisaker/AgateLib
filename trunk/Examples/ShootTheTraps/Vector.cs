@@ -14,7 +14,6 @@ namespace ShootTheTraps
 			set { mX = value; }
 		}
 
-
 		public double Y
 		{
 			get { return mY; }

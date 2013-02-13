@@ -29,6 +29,21 @@ namespace ShootTheTraps
 
 		}
 
+		public override Rectangle BoundingRect
+		{
+			get
+			{
+				int width = Image.DisplayWidth;
+				int height = Image.DisplayHeight;
+
+				return new Rectangle(
+					(int)Position.X - width / 2,
+					(int)Position.Y - height / 2,
+					width,
+					height);
+			}
+		}
+
 		/// <summary>
 		/// Delete the bullet if it has gone outside the bounds of the screen.
 		/// </summary>

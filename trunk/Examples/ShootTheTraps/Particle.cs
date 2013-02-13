@@ -13,7 +13,7 @@ namespace ShootTheTraps
 		Color mColor;
 		int mAlpha = 255;
 		int mImageIndex;
-		const double particleLifeTimeMilliseconds = 3000;
+		const double particleLifeTimeMilliseconds = 2000;
 
 		public static List<Surface> Images { get; private set; }
 
@@ -23,6 +23,17 @@ namespace ShootTheTraps
 			Images = new List<Surface>();
 		}
 
+		public override Rectangle BoundingRect
+		{
+			get
+			{
+				return new Rectangle(
+					(int)Position.X,
+					(int)Position.Y,
+					1,
+					1);
+			}
+		}
 		/// Creates a new instance of Particle */
 		public Particle(Color clr, Random rnd)
 		{
