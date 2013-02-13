@@ -11,18 +11,23 @@ namespace ShootTheTraps
 	{
 		const int width = 24;
 		const int height = 16;
-		int mFinalY = 0;
 		Color mColor = Color.Red;
 
 		bool mDeleteMe = false;
 
 		static Random sRandom;
-		static Color[] sColors = { Color.White, Color.Blue, Color.Red, Color.Purple, Color.Yellow,
-            Color.Green };
+		static Color[] sColors = 
+		{
+			Color.White, Color.Blue, Color.Red, 
+			Color.Purple, Color.Yellow, Color.Green,
+			Color.Cyan,
+		};
 
 		public static Surface Image { get; set; }
 
-		/// Creates a new instance of Trap */
+		/// <summary>
+		/// Creates a new instance of Trap 
+		/// </summary>
 		public Trap()
 		{
 			if (sRandom == null)
@@ -47,15 +52,6 @@ namespace ShootTheTraps
 					width,
 					height);
 			}
-		}
-		/// <summary>
-		/// The highest (low on screen) value that the trap can get before it
-		/// should be deleted.
-		/// </summary>
-		public int FinalY
-		{
-			get { return mFinalY; }
-			set { mFinalY = value; }
 		}
 
 		public void SetDeleteMeFlag()
@@ -83,7 +79,7 @@ namespace ShootTheTraps
 
 			Image.Draw((float)Position.X, (float)Position.Y);
 
-			if (Position.Y > mFinalY && Velocity.Y > 0)
+			if (OutsideField && Velocity.Y > 0)
 				mDeleteMe = true;
 			else
 				mDeleteMe = false;
@@ -139,7 +135,6 @@ namespace ShootTheTraps
 
 			return retval;
 		}
-
 
 	}
 }

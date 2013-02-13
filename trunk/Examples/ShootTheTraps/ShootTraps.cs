@@ -21,12 +21,14 @@ namespace ShootTheTraps
 		readonly int mGunX;
 		readonly int mGunY;
 
-		const int BulletSpeed = 1000;
+		const int BulletSpeed = 800;
 		const int MaxBullets = 4;
 
 		int[] mLaunchX;
+		bool mFiredTraps;
 
 		Surface mGun = new Surface("Resources/barrel.png");
+		Surface mGunBolt = new Surface("Resources/barrel-hex.png");
 		Point mMousePos;
 		double mGunAngle;
 
@@ -56,7 +58,7 @@ namespace ShootTheTraps
 			mTrapMinVX = (int)(width / (3.0 * timeInAir));
 
 			mGunX = width / 2;
-			mGunY = mGroundY + 15;
+			mGunY = mGroundY;
 
 			mLaunchX = new int[4];
 
@@ -77,6 +79,7 @@ namespace ShootTheTraps
 			Particle.Images.Add(new Surface("Resources/splatter-2.png"));
 			Particle.Images.Add(new Surface("Resources/splatter-3.png"));
 			Particle.Images.Add(new Surface("Resources/splatter-4.png"));
+
 		}
 
 		public void Dispose()
@@ -89,6 +92,11 @@ namespace ShootTheTraps
 
 		private void AddScore(int points)
 		{
+			if (points == BonusPoints)
+				BonusPoints *= ScoreMultiplier;
+
+			points *= ScoreMultiplier;
+
 			Score += points;
 			PointsThisLevel += points;
 		}
@@ -97,10 +105,13 @@ namespace ShootTheTraps
 			if (CanAdvanceLevel == false)
 				return;
 
+			ScoreMultiplier = 1;
+			ClearBonus();
+
 			CanAdvanceLevel = false;
 
 			Level++;
-			PullsLeft = Math.Min(12 + 2 * Level, 21);
+			PullsLeft = Math.Min(9 + 2 * Level, 21);
 
 			PointsThisLevel = 0;
 		}
@@ -111,6 +122,7 @@ namespace ShootTheTraps
 			CheckForCollisions();
 
 			CalcBonus();
+			CheckEndLevel();
 
 			DeleteObjects();
 		}
@@ -131,6 +143,13 @@ namespace ShootTheTraps
 			mGun.RotationAngle = mGunAngle;
 
 			mGun.Draw(mGunX, mGunY);
+
+			mGunBolt.DisplayAlignment = OriginAlignment.Center;
+			mGunBolt.RotationCenter = OriginAlignment.Center;
+			mGunBolt.RotationAngle = mGunAngle;
+
+			mGunBolt.Draw(mGunX, mGunY);
+
 		}
 
 		private void DeleteObjects()
@@ -151,28 +170,78 @@ namespace ShootTheTraps
 
 		private void CalcBonus()
 		{
-			if (TrapCount != 0)
+			if (TrapCount != 0 || mFiredTraps == false)
 				return;
 			if (BonusAdded)
 				return;
+			if (EndOfLevelBonus)
+				return;
+
+			if (TrapsHit >= 5 && TrapsHit >= MaxTraps - 2 && Level >= 6)
+			{
+				if (ScoreMultiplier < 3)
+					ScoreMultiplier++;
+			}
+			else if (TrapsHit == 0)
+				ScoreMultiplier = 1;
+			else if (TrapsHit < TrapsFired && ScoreMultiplier > 1)
+				ScoreMultiplier--;
 
 			BonusAdded = true;
 			BonusPoints = 0;
 
-			if (TrapsHit > 1)
-				BonusPoints = 250 * (TrapsHit - 1);
+			int bonusRate = 250;
 
+			if (Level >= 15) bonusRate = 100;
+			else if (Level >= 10) bonusRate = 150;
+			else if (Level >= 5) bonusRate = 200;
+
+			if (TrapsHit > 1)
+			{
+				BonusPoints = bonusRate * (TrapsHit - 1);
+			}
+
+			if (BonusPoints == 0)
+			{
+				BonusAdded = false;
+			}
+
+			mFiredTraps = false;
 			AddScore(BonusPoints);
+		}
+
+		private void CheckEndLevel()
+		{
+			if (TrapCount != 0)
+				return;
+			if (BonusAdded)
+				return;
+			if (EndOfLevelBonus)
+				return;
 
 			// check for game over conditions
-			if (PullsLeft == 0)
+			if (PointsThisLevel >= LevelRequirement)
 			{
-				if (PointsThisLevel >= LevelRequirement)
-					CanAdvanceLevel = true;
-				else
-					GameOver = true;
+				if (BonusPoints != 0)
+					return;
+
+				CanAdvanceLevel = true;
+
+				if (PullsLeft > 0 && EndOfLevelBonus == false)
+				{
+					ScoreMultiplier = 1;
+					EndOfLevelBonus = true;
+					BonusPoints = ExtraPullBonus * PullsLeft;
+					AddScore(BonusPoints);
+				}
+			}
+			else if (PullsLeft == 0)
+			{
+				GameOver = true;
 			}
 		}
+
+		#region --- Collision Checking ---
 
 		private void CheckForCollisions()
 		{
@@ -251,7 +320,7 @@ namespace ShootTheTraps
 				if (nextnext == va.Length) nextnext = 0;
 
 				Vector2 edge = va[next] - va[i];
-				
+
 				bool separating = true;
 
 				// first check to see which side of the axis the points in 
@@ -264,7 +333,7 @@ namespace ShootTheTraps
 				for (int j = 0; j < vb.Length; j++)
 				{
 					Vector2 diff = vb[j] - va[i];
-					
+
 					var dot = diff.DotProduct(edge);
 					var side = Math.Sign(dot);
 
@@ -295,7 +364,6 @@ namespace ShootTheTraps
 
 			return false;
 		}
-
 		private void ComputeVertices(Rectangle rect, double angle, Vector2[] verts)
 		{
 			Vector2 center = RectCenter(rect);
@@ -315,7 +383,6 @@ namespace ShootTheTraps
 		{
 			return new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
 		}
-
 		private Vector2 RotatePoint(double cos, double sin, Vector2 point)
 		{
 			Vector2 retval = new Vector2(
@@ -325,6 +392,8 @@ namespace ShootTheTraps
 			return retval;
 		}
 
+		#endregion
+
 		public void MouseMove(int mouseX, int mouseY)
 		{
 			mMousePos = new Point(mouseX, mouseY);
@@ -332,7 +401,6 @@ namespace ShootTheTraps
 			mGunAngle = Math.Atan2(
 				mGunY - mouseY, mouseX - mGunX) - Math.PI / 2;
 		}
-
 		public void FireBullet(int towardsX, int towardsY)
 		{
 			if (BulletCount >= MaxBullets)
@@ -344,8 +412,6 @@ namespace ShootTheTraps
 
 			if (direction.Y > 0)
 			{
-				direction.Y = 0;
-
 				if (direction.X == 0)
 					direction.X = 1;
 
@@ -379,17 +445,14 @@ namespace ShootTheTraps
 			TrapsHit = 0;
 			BonusPoints = 0;
 			BonusAdded = false;
+			mFiredTraps = true;
 
-			int maxTraps = Level / 2 + 2;
-			if (maxTraps > 8)
-				maxTraps = 8;
-
-			int r = mRandom.Next(maxTraps) + 1;
+			TrapsFired = mRandom.Next(MinTraps, MaxTraps + 1);
 
 			if (PullsLeft == 0)
-				r = maxTraps;
+				TrapsFired = MaxTraps;
 
-			for (int i = 0; i < r; i++)
+			for (int i = 0; i < TrapsFired; i++)
 			{
 				Trap t = new Trap();
 
@@ -397,8 +460,6 @@ namespace ShootTheTraps
 
 				t.Position.X = mLaunchX[xpos];
 				t.Position.Y = mGroundY;
-
-				t.FinalY = mGroundY + 50;
 
 				t.Velocity.X = mTrapMinVX + mRandom.Next(mTrapMaxVX - mTrapMinVX);
 				t.Velocity.Y = -mTrapVYScale * (1 - mRandom.Next(50) / 200.0);
@@ -410,7 +471,19 @@ namespace ShootTheTraps
 
 				mGameObjects.Add(t);
 			}
+		}
 
+		private int MinTraps
+		{
+			get
+			{
+				int minTraps = 1;
+
+				if (Level >= 8) minTraps++;
+				if (Level >= 16) minTraps++;
+
+				return minTraps;
+			}
 		}
 
 		public int BulletCount
@@ -421,7 +494,12 @@ namespace ShootTheTraps
 		{
 			get { return mGameObjects.Count(x => x is Trap); }
 		}
+		public int TrapsFired { get; private set; }
 
+		public int MaxTraps
+		{
+			get { return Level / 2 + 2; }
+		}
 		public bool CanAdvanceLevel { get; private set; }
 		public bool GameOver { get; private set; }
 		public int Level { get; private set; }
@@ -432,9 +510,51 @@ namespace ShootTheTraps
 		public int PullsLeft { get; private set; }
 		public int TrapsHit { get; private set; }
 		public bool BonusAdded { get; private set; }
+		public bool EndOfLevelBonus { get; private set; }
 		public int BonusPoints { get; private set; }
 		public int PointsThisLevel { get; set; }
 		public int Score { get; set; }
+		public int ScoreMultiplier { get; set; }
+		public bool FiredTraps { get { return mFiredTraps; } }
+
+		public int ExtraPullBonus
+		{
+			get { return 250; }
+		}
+		public string LevelMessage
+		{
+			get
+			{
+				switch (Level)
+				{
+					case 2: return "Extra pulls! Score " + LevelRequirement.ToString() + " to advance";
+					case 4: return "Up to 4 traps at a time!";
+					case 6: return "Hit 5 traps to multiply score!";
+					case 8: return "Bonus chance on every pull!";
+					case 12: return "Hit 6 traps to multiply score!";
+					case 16: return "At least 3 traps at a time!";
+					case 5:
+					case 10:
+					case 15:
+						return "Bonus REDUCED!";
+					default:
+						return "Score " + LevelRequirement.ToString() + " to advance";
+				}
+			}
+		}
+
+		public void SkipToNextLevel()
+		{
+			CanAdvanceLevel = true;
+		}
+
+		public void ClearBonus()
+		{
+			BonusAdded = false;
+			EndOfLevelBonus = false;
+			BonusPoints = 0;
+			TrapsHit = 0;
+		}
 	}
 
 }
