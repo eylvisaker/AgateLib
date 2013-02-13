@@ -25,7 +25,7 @@ namespace ShootTheTraps
 		const int MaxBullets = 4;
 
 		int[] mLaunchX;
-		
+
 		Surface mGun = new Surface("Resources/barrel.png");
 		Point mMousePos;
 		double mGunAngle;
@@ -60,16 +60,17 @@ namespace ShootTheTraps
 
 			mLaunchX = new int[4];
 
+			// area of screen where traps are launched from.
 			int launchScale = width / 2 - 50;
 
-			mLaunchX[0] = width / 2 - launchScale + 10;
-			mLaunchX[1] = width / 2 - launchScale + 50;
+			mLaunchX[0] = width / 2 - launchScale;
+			mLaunchX[1] = width / 2 - launchScale + 40;
 
 			mLaunchX[2] = width - mLaunchX[1];
 			mLaunchX[3] = width - mLaunchX[0];
 
 			GameObject.FieldArea = Rectangle.FromLTRB(-10, -20, width + 10, mGunY);
-			
+
 			Bullet.Image = new Surface("Resources/bullet.png");
 			Trap.Image = new Surface("Resources/enemy.png");
 			Particle.Images.Add(new Surface("Resources/splatter-1.png"));
@@ -180,16 +181,18 @@ namespace ShootTheTraps
 				if (obj is Bullet == false)
 					continue;
 
-				Bullet ar = (Bullet)obj;
+				Bullet bullet = (Bullet)obj;
+
+				Rectangle bulletRect = bullet.BoundingRect;
 
 				foreach (GameObject t in mGameObjects)
 				{
-					if (!(t is Trap))
-						continue;
+					if (t is Trap == false) continue;
+					if (t.DeleteMe) continue;
 
 					Trap trap = (Trap)t;
 
-					if (trap.ContainsPoint(ar.Position) && trap.DeleteMe == false)
+					if (RectsIntersect(bulletRect, bullet.RotationAngle, trap.BoundingRect, trap.RotationAngle))
 					{
 						trap.SetDeleteMeFlag();
 						trap.ShouldCreateDebris = true;
@@ -205,6 +208,121 @@ namespace ShootTheTraps
 					}
 				}
 			}
+		}
+
+		// store these in the object instance so that we
+		// don't generate a whole lot of garbage when checking for
+		// intersections.
+		Vector2[] vertsA = new Vector2[4];
+		Vector2[] vertsB = new Vector2[4];
+
+		private bool RectsIntersect(Rectangle rectA, double angleA, Rectangle rectB, double angleB)
+		{
+			// produce vertices for each rectangle
+			ComputeVertices(rectA, angleA, vertsA);
+			ComputeVertices(rectB, angleB, vertsB);
+
+			// now we need to do the separating axis test for each edge in each square.
+			if (FindSeparatingAxis(vertsA, vertsB))
+				return false;
+
+			if (FindSeparatingAxis(vertsB, vertsA))
+				return false;
+
+			return true;
+		}
+
+		/// <summary>
+		/// Checks to see if any of the lines in the first set of vectors groups
+		/// all the points in the second set of vectors entirely into one side.
+		/// This algorithm can be used to determine if two convex polygons intersect.
+		/// </summary>
+		/// <param name="va"></param>
+		/// <param name="vb"></param>
+		/// <returns></returns>
+		private bool FindSeparatingAxis(Vector2[] va, Vector2[] vb)
+		{
+			for (int i = 0; i < va.Length; i++)
+			{
+				int next = i + 1;
+				if (next == va.Length) next = 0;
+
+				int nextnext = next + 1;
+				if (nextnext == va.Length) nextnext = 0;
+
+				Vector2 edge = va[next] - va[i];
+				
+				bool separating = true;
+
+				// first check to see which side of the axis the points in 
+				// va are on, stored in the inSide variable.
+				Vector2 indiff = va[nextnext] - va[i];
+				var indot = indiff.DotProduct(edge);
+				int inSide = Math.Sign(indot);
+				int lastSide = 0;
+
+				for (int j = 0; j < vb.Length; j++)
+				{
+					Vector2 diff = vb[j] - va[i];
+					
+					var dot = diff.DotProduct(edge);
+					var side = Math.Sign(dot);
+
+					// this means points in vb are on the same side 
+					// of the edge as points in va. Thus, it is not 
+					// a separating axis.
+					if (side == inSide)
+					{
+						separating = false;
+						break;
+					}
+
+					if (lastSide == 0)
+						lastSide = side;
+					else if (lastSide != side)
+					{
+						// if we fail here, it means the axis goes right through
+						// the polygon defined in vb, so this is not a separating
+						// axis.
+						separating = false;
+						break;
+					}
+				}
+
+				if (separating)
+					return true;
+			}
+
+			return false;
+		}
+
+		private void ComputeVertices(Rectangle rect, double angle, Vector2[] verts)
+		{
+			Vector2 center = RectCenter(rect);
+
+			double cos = Math.Cos(angle);
+			double sin = Math.Sin(angle);
+
+			// translate so the center of the rect is at the origin, apply the rotation
+			// and translate back.
+			verts[0] = center + RotatePoint(cos, sin, new Vector2(rect.Left, rect.Top) - center);
+			verts[1] = center + RotatePoint(cos, sin, new Vector2(rect.Right, rect.Top) - center);
+			verts[2] = center + RotatePoint(cos, sin, new Vector2(rect.Right, rect.Bottom) - center);
+			verts[3] = center + RotatePoint(cos, sin, new Vector2(rect.Left, rect.Bottom) - center);
+		}
+
+		private Vector2 RectCenter(Rectangle rect)
+		{
+			return new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
+		}
+
+		private Vector2 RotatePoint(double cos, double sin, Vector2 point)
+		{
+			Vector2 retval = new Vector2(
+				(cos * point.X - sin * point.Y),
+				(sin * point.X + cos * point.Y));
+
+			return retval;
 		}
 
 		public void MouseMove(int mouseX, int mouseY)
@@ -251,7 +369,7 @@ namespace ShootTheTraps
 				return;
 			if (PullsLeft <= 0)
 				return;
-			
+
 			// Don't fire traps if there are any traps left on the screen, or 
 			// if the player has fired some bullets on the screen. No cheating that way!
 			if (mGameObjects.Count > 0)

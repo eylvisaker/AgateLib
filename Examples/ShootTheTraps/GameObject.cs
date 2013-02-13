@@ -40,7 +40,7 @@ namespace ShootTheTraps
 		/// <summary>
 		/// The value for gravity, in pixels / second / second. 
 		/// </summary>
-		public const float Gravity = 200;
+		public const float Gravity = 300;
 
 		/// Creates a new instance of GameObject 
 		/// </summary>
@@ -132,6 +132,8 @@ namespace ShootTheTraps
 				return false;
 			}
 		}
+
+		public abstract Rectangle BoundingRect { get; }		
 	}
 
 }

@@ -34,6 +34,20 @@ namespace ShootTheTraps
 			mColor = sColors[sRandom.Next(sColors.Length)];
 		}
 
+		public override Rectangle BoundingRect
+		{
+			get
+			{
+				int width = Image.DisplayWidth;
+				int height = Image.DisplayHeight;
+
+				return new Rectangle(
+					(int)Position.X - width / 2,
+					(int)Position.Y - height / 2,
+					width,
+					height);
+			}
+		}
 		/// <summary>
 		/// The highest (low on screen) value that the trap can get before it
 		/// should be deleted.
