@@ -399,7 +399,7 @@ namespace AgateLib.Serialization.Xle
 					break;
 
 				case NumericEncoding.Csv:
-					string newValue = string.Join(",", value);
+					string newValue = string.Join(",", value.Select(x => x.ToString()).ToArray());
 
 					XmlElement el = WriteAsElement(name, newValue);
 
