@@ -102,6 +102,8 @@ namespace AgateLib.Drivers
 
 			IEnumerable<string> files = AgateFileProvider.Assemblies.GetAllFiles("*.dll");
 
+			Trace.AutoFlush = true;
+
 			foreach (string file in files)
 			{
 				if (ShouldSkipLibrary(file))
@@ -110,9 +112,12 @@ namespace AgateLib.Drivers
 				Trace.WriteLine("Probing " + file + "...");
 				Trace.Indent();
 
+				int driverCount = 0;
+
 				foreach (AgateDriverInfo info in loader.ReportDrivers(file))
 				{
 					Trace.WriteLine("Found driver " + info.FriendlyName);
+					driverCount++;
 
 					switch (info.DriverType)
 					{
@@ -140,6 +145,9 @@ namespace AgateLib.Drivers
 							break;
 					}
 				}
+
+				if (driverCount == 0)
+					Trace.WriteLine("No drivers found in " + file + ".");
 
 				Trace.Unindent();
 			}

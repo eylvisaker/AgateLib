@@ -450,7 +450,7 @@ namespace AgateOTK
 
 				for (int i = 0; i < extensions.Length; i++)
 				{
-					Debug.Print(extensions[i]);
+					//Debug.Print(extensions[i]);
 					extensions[i] = extensions[i].ToLowerInvariant();
 				}
 			}

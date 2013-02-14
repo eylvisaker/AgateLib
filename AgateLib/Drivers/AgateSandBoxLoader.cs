@@ -35,6 +35,7 @@ namespace AgateLib.Drivers
 			try
 			{
 				ass = Assembly.LoadFrom(file);
+				Trace.WriteLine("Loaded assembly " + file + " in sandbox.");
 			}
 			catch (BadImageFormatException)
 			{
@@ -92,7 +93,7 @@ namespace AgateLib.Drivers
 			}
 			catch (Exception e)
 			{
-				System.Diagnostics.Trace.WriteLine(string.Format(
+				Trace.WriteLine(string.Format(
 					"Could not load types in the file {0}.  Check to make sure its dependencies are available.  " +
 					"Caught exception {1}.  {2}", file, e.GetType().ToString(), e.Message));
 
