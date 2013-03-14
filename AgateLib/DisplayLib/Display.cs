@@ -535,6 +535,10 @@ namespace AgateLib.DisplayLib
 		{
 			sImpl.DrawLines(pts, color);
 		}
+		public static void DrawLines(Color color, params Point[] pts)
+		{
+			sImpl.DrawLines(pts, color);
+		}
 		/// <summary>
 		/// Draws a bunch of line segments.  Each pair of points represents
 		/// a line segment which is drawn.  No connections between the line segments

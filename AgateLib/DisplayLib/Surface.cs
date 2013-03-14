@@ -516,7 +516,7 @@ namespace AgateLib.DisplayLib
 			Draw(new PointF(destX, destY), new PointF(rotationCenterX, rotationCenterY));
 		}
 
-		internal void Draw(Rectangle srcRect, PointF destPt, PointF rotationCenter)
+		public void Draw(Rectangle srcRect, PointF destPt, PointF rotationCenter)
 		{
 			OriginAlignment oldrotation = State.RotationCenter;
 			PointF oldcenter = State.RotationCenterLocation;
