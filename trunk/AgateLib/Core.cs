@@ -149,6 +149,17 @@ namespace AgateLib
 
 			/// <summary>
 			/// Saves an error message to the ErrorFile.
+			/// It is recommended to use an overload which takes an exception parameter,
+			/// if there is an exception available which provides more information.
+			/// </summary>
+			/// <param name="level"></param>
+			/// <param name="message"></param>
+			public static void Report(ErrorLevel level, string message)
+			{
+				Report(level, message, null);
+			}
+			/// <summary>
+			/// Saves an error message to the ErrorFile.
 			/// Outputs a stack trace and shows a dialog box if the ErrorLevel 
 			/// is Bug or Fatal.
 			/// </summary>
