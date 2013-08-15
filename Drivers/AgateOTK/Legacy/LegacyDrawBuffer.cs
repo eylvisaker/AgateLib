@@ -137,7 +137,7 @@ namespace AgateOTK.Legacy
 
 					IntPtr ptr = handle.AddrOfPinnedObject();
 
-					GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)bufferSize, ptr, BufferUsageHint.StaticDraw);
+					GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)bufferSize, ptr, BufferUsageHint.DynamicDraw);
 				}
 				finally
 				{
