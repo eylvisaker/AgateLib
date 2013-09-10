@@ -1196,5 +1196,34 @@ namespace AgateLib.DisplayLib
 				}
 			}
 		}
+
+		/// <summary>
+		/// Fills an elipse within the specified rectangle.
+		/// </summary>
+		/// <param name="color"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		public void FillEllipse(Color color, int x, int y, int width, int height)
+		{
+			double centerx = x + width * 0.5;
+			double centery = y + width * 0.5;
+
+			double _height = height * 0.5;
+			double _width = width * 0.5;
+
+			for (int j = y; j < y + height; j++)
+			{
+				for (int i = x; i < x + width; i++)
+				{
+					if (Math.Pow(i - centerx, 2) * _height * _height + Math.Pow(j - centery, 2) * _width * _width 
+						<= _height * _height * _width * _width)
+					{
+						SetPixel(i, j, color);
+					}
+				}
+			}
+		}
 	}
 }
