@@ -124,7 +124,7 @@ namespace Tests
 				{
 					string x = r.ReadLine().Trim();
 
-					if (string.IsNullOrWhiteSpace(x))
+					if (string.IsNullOrEmpty(x))
 						continue;
 
 					int index = x.IndexOf('\t');
