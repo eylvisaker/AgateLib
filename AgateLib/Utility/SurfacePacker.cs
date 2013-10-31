@@ -400,6 +400,13 @@ namespace AgateLib.Utility
 		public void PackQueue()
 		{
 			Size size = Display.MaxSurfaceSize;
+
+			// Cap the size to avoid running out of memory. 
+			// An ATI Radeon 7850 will apparently report a max surface size of 16384x16384, which would take
+			// a GB of memory for the surface. We shouldn't preallocate that much space.
+			if (size.Width > 2048) size.Width = 2048;
+			if (size.Height > 2048) size.Height = 2048;
+
 			PackedSurface packedSurf = new PackedSurface(size);
 
 			foreach (Surface surf in mSurfQueue)
