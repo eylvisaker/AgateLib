@@ -104,7 +104,7 @@ namespace AgateLib
 		private bool HasWriteAccessToAppDirectory()
 		{
 			// TODO: Maybe there is a better way to inspect permissions?
-			// here we just stry to write and see if we fail.
+			// here we just try to write and see if we fail.
 			string filename = Path.GetTempFileName();
 
 			try
@@ -218,7 +218,7 @@ namespace AgateLib
 			{
 				if (PlatformType != PlatformType.Windows)
 					throw new AgateCrossPlatformException(
-						"Current platform is not Windows, but the WindowsVersion propety was checked.");
+						"Current platform is not Windows, but the WindowsVersion property was checked.");
 
 				return mWindowsVersion;
 			}
