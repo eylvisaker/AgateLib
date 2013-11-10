@@ -68,6 +68,12 @@
         Regex="(AssemblyCopyright)\(&quot;(.*)?&quot;\)"
         ReplacementText="$1(&quot;Copyright © 2006-$(Year)&quot;)" />
 
+    <FileUpdate Files="$(MSBuildProjectDirectory)\Documentation\Doxyfile"
+            Multiline="true"
+            Singleline="false"
+            Regex="(PROJECT_NUMBER *)= [0-9\.]*"
+            ReplacementText="$1= $(Version)" />
+
   </Target>
   
   <!-- Projects to Build -->
