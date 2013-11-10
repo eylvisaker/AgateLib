@@ -30,7 +30,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AgateLib")]
-[assembly: AssemblyCopyright("Copyright © 2006-9")]
+[assembly: AssemblyCopyright("Copyright © 2006-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,6 +51,6 @@ using System.Resources;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("0.3.9.0")]
-[assembly: AssemblyFileVersion("0.3.9.0")]
+[assembly: AssemblyVersion("0.3.5.1456")]
+[assembly: AssemblyFileVersion("0.3.5.1456")]
 [assembly: NeutralResourcesLanguageAttribute("en")]

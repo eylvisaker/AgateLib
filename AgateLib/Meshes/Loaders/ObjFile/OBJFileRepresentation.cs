@@ -16,7 +16,7 @@ using System.IO;
 using System.Collections.Generic;
 
 
-namespace AgateLib.Meshes.Loaders.Obj
+namespace AgateLib.Meshes.Loaders.ObjFile
 {
 	/// <summary>
 	/// typed representation of the .obj file
