@@ -236,6 +236,7 @@
     <Content Include="OpenTK.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="packages.config" />
     <None Include="Resources\Basic2D_pixel.txt" />
     <None Include="Resources\Basic2D_vert.txt" />
   </ItemGroup>

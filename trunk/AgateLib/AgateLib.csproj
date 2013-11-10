@@ -451,13 +451,13 @@
     <Compile Include="Meshes\Loaders\OBJFileRepresentation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Meshes\Loaders\Obj\OBJFileRepresentation.cs">
+    <Compile Include="Meshes\Loaders\ObjFile\OBJFileRepresentation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Meshes\Loaders\Obj\Parser.cs">
+    <Compile Include="Meshes\Loaders\ObjFile\Parser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Meshes\Loaders\Obj\TokenTypes.cs">
+    <Compile Include="Meshes\Loaders\ObjFile\TokenTypes.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Particles\Particle.cs">
@@ -596,6 +596,7 @@
     <None Include="InternalResources\agate-black-gui.zip" />
     <None Include="InternalResources\Fonts.zip" />
     <None Include="InternalResources\images.tar.gz" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

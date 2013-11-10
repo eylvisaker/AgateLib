@@ -155,6 +155,7 @@
     <None Include="AgateSDL.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
     <None Include="SDL.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

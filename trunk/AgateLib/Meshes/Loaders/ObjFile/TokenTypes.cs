@@ -10,7 +10,7 @@
 //
 //     The Original Code is AgateLib.
 //
-namespace AgateLib.Meshes.Loaders.Obj
+namespace AgateLib.Meshes.Loaders.ObjFile
 {
 	internal enum TokenTypes
 	{

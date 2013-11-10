@@ -91,7 +91,6 @@ namespace AgateSDX
 				mHasFrame = windowParams.HasFrame;
 
 				CreateWindow(mIsFullscreen);
-				mIsFullscreen = true;
 
 				mDisplay = Display.Impl as SDX_Display;
 				mDisplay.Initialize(this, windowParams);

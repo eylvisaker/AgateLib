@@ -523,6 +523,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="ResourceTests\Res032.cs" />
+    <None Include="packages.config" />
     <None Include="settings_list.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
