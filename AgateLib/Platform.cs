@@ -154,7 +154,7 @@ namespace AgateLib
 		}
 		private void SetFolders()
 		{
-			Assembly entryPt = Assembly.GetEntryAssembly();
+			Assembly entryPt = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
 			string fqn = entryPt.GetLoadedModules()[0].FullyQualifiedName;
 
 			var companyAttribute = GetCustomAttribute<AssemblyCompanyAttribute>(entryPt);

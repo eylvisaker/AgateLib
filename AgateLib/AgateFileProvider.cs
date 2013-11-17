@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using AgateLib.Utility;
+using System.Reflection;
 
 namespace AgateLib
 {
@@ -44,7 +45,7 @@ namespace AgateLib
 
 		static void Initialize()
 		{
-			string location = System.Reflection.Assembly.GetEntryAssembly().Location;
+			string location = (Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly()).Location;
 
 			mAssemblyProvider.Add(new FileSystemProvider(Path.GetDirectoryName(location)));
 			mImageProvider.Add(new FileSystemProvider("."));

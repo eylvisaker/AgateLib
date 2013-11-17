@@ -109,7 +109,6 @@ namespace AgateLib
 		/// </summary>
 		public AgateSetup() : this("AgateLib", null)
 		{
-			
 			Core.Initialize();
 		}
 		/// <summary>
