@@ -9,6 +9,7 @@ namespace AgateLib.UnitTests.DisplayTest
 	[TestClass]
 	public class DisplayTest
 	{
+		/*
 		[TestMethod]
 		public void InitializeDisplay()
 		{
@@ -23,5 +24,6 @@ namespace AgateLib.UnitTests.DisplayTest
 				
 			}
 		}
+		 * */
 	}
 }
