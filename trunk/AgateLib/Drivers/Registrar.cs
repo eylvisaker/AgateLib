@@ -94,7 +94,11 @@ namespace AgateLib.Drivers
 			RegisterNullDrivers();
 
 			AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
-			AppDomain sandbox = AppDomain.CreateDomain("AgateSandBox");
+			AppDomain sandbox = AppDomain.CreateDomain("AgateSandBox", null,
+				new AppDomainSetup
+				{
+					ApplicationBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase
+				});
 
 			AgateSandBoxLoader loader = (AgateSandBoxLoader)
 				sandbox.CreateInstanceAndUnwrap(Assembly.GetExecutingAssembly().FullName,

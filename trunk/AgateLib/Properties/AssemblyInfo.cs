@@ -33,6 +33,7 @@ using System.Resources;
 [assembly: AssemblyCopyright("Copyright © 2006-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: InternalsVisibleTo("AgateLib.UnitTests")]
 
 [assembly: CLSCompliant(true)]
 
