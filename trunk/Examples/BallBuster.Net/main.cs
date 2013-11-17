@@ -253,7 +253,7 @@ class BBX
     //List<CEnemy>			enemies;
 
     List<CWorld> worlds = new List<CWorld>();
-    List<CHighscore> highscores = new List<CHighscore>();
+    List<Highscore> highscores = new List<Highscore>();
 
 
 
@@ -612,7 +612,8 @@ class BBX
             resetPowerups = true;
         }
 
-		AgateBuiltInShaders.Lighting2D.AmbientLight = w.light;
+		if (Display.Caps.IsHardwareAccelerated)
+			AgateBuiltInShaders.Lighting2D.AmbientLight = w.light;
 
         file = "lvls/" + worlds[world].lvls[level] + ".lvl";
 
@@ -701,47 +702,7 @@ class BBX
         DB_EnterSubsection("Draw");
 
         Display.Clear(Color.FromArgb(128, 0, 0, 128));
-
-		var shader = AgateBuiltInShaders.Lighting2D;
-
-		while (shader.Lights.Count > balls.Count)
-			shader.Lights.RemoveAt(shader.Lights.Count-1);
-
-        for (int i = 0; i < balls.Count; i++)
-		{
-			Light light;
-
-			if (i < shader.Lights.Count)
-				light = shader.Lights[i];
-			else
-			{
-				light = new Light();
-				shader.Lights.Add(light);
-			}
-
-            if (balls[i].fireball)
-            {
-				light.Position = new Vector3(balls[i].ballx, balls[i].bally, -1);
-				light.DiffuseColor = Color.FromArgb(255, 255, 0);
-				light.AmbientColor = Color.FromArgb(64, 32, 0);
-
-                light.AttenuationConstant = 0.01f;
-                light.AttenuationLinear = 0.005f;
-                light.AttenuationQuadratic = 0.000001f;
-
-            }
-            else
-            {
-				light.Position = new Vector3(balls[i].ballx, balls[i].bally, -1);
-				light.DiffuseColor = Color.FromArgb(200, 200, 200);
-				light.AmbientColor = Color.Black;
-
-                light.AttenuationConstant = 0.01f;
-                light.AttenuationLinear = 0;
-                light.AttenuationQuadratic = 0.00001f;
-                
-            }
-        }
+		SetLightingForLevel();
 
         // Draw the background tile, scrolled
         DrawBackground(bgy);
@@ -751,10 +712,7 @@ class BBX
         img.leftborder.Draw(0, 0);
         img.rightborder.Draw(735, 0);
 
-        if (doLighting)
-        {
-			shader.Activate();
-        }
+		ActivateLighting();
 
         // Draw blocks and Update their animations...
         DrawBlocks();
@@ -940,6 +898,65 @@ class BBX
 
         DB_ExitSubsection();
     }
+
+	private void ActivateLighting()
+	{
+		if (Display.Caps.IsHardwareAccelerated == false)
+			return;
+
+		if (doLighting)
+		{
+			var shader = AgateBuiltInShaders.Lighting2D;
+
+			shader.Activate();
+		}
+	}
+
+	private void SetLightingForLevel()
+	{
+		if (Display.Caps.IsHardwareAccelerated == false)
+			return;
+
+		var shader = AgateBuiltInShaders.Lighting2D;
+
+		while (shader.Lights.Count > balls.Count)
+			shader.Lights.RemoveAt(shader.Lights.Count - 1);
+
+		for (int i = 0; i < balls.Count; i++)
+		{
+			Light light;
+
+			if (i < shader.Lights.Count)
+				light = shader.Lights[i];
+			else
+			{
+				light = new Light();
+				shader.Lights.Add(light);
+			}
+
+			if (balls[i].fireball)
+			{
+				light.Position = new Vector3(balls[i].ballx, balls[i].bally, -1);
+				light.DiffuseColor = Color.FromArgb(255, 255, 0);
+				light.AmbientColor = Color.FromArgb(64, 32, 0);
+
+				light.AttenuationConstant = 0.01f;
+				light.AttenuationLinear = 0.005f;
+				light.AttenuationQuadratic = 0.000001f;
+
+			}
+			else
+			{
+				light.Position = new Vector3(balls[i].ballx, balls[i].bally, -1);
+				light.DiffuseColor = Color.FromArgb(200, 200, 200);
+				light.AmbientColor = Color.Black;
+
+				light.AttenuationConstant = 0.01f;
+				light.AttenuationLinear = 0;
+				light.AttenuationQuadratic = 0.00001f;
+			}
+		}
+	}
 
     private void EndFrame()
     {
@@ -1502,7 +1519,7 @@ class BBX
         if (addhighscore)
         {
             // new high score!
-            CHighscore ns = new CHighscore();
+            Highscore ns = new Highscore();
 
             ns.score = getScore();
 
@@ -4341,15 +4358,15 @@ class BBX
         {
             // highscores file isn't there.. just return
             // and it will be saved.
-			highscores.Add(new CHighscore("Kanato", 500000));
-			highscores.Add(new CHighscore("Skel1", 400000));
-			highscores.Add(new CHighscore("Yelena", 300000));
-			highscores.Add(new CHighscore("Dave", 200000));
-			highscores.Add(new CHighscore("John", 100000));
-			highscores.Add(new CHighscore("Robert", 50000));
-			highscores.Add(new CHighscore("Victor", 25000));
-			highscores.Add(new CHighscore("Brant", 10000));
-			highscores.Add(new CHighscore("Alexis", 5000));
+			highscores.Add(new Highscore("Kanato", 500000));
+			highscores.Add(new Highscore("Skel1", 400000));
+			highscores.Add(new Highscore("Yelena", 300000));
+			highscores.Add(new Highscore("Dave", 200000));
+			highscores.Add(new Highscore("John", 100000));
+			highscores.Add(new Highscore("Robert", 50000));
+			highscores.Add(new Highscore("Victor", 25000));
+			highscores.Add(new Highscore("Brant", 10000));
+			highscores.Add(new Highscore("Alexis", 5000));
 
             return;
         }
@@ -4357,7 +4374,7 @@ class BBX
 
         while (hs.EndOfStream == false)
         {
-            CHighscore myscore;
+            Highscore myscore;
 
             buffer = hs.ReadLine();
 
@@ -4365,7 +4382,7 @@ class BBX
             {
                 if (buffer[0] != 0)
                 {
-                    myscore = new CHighscore(buffer);
+                    myscore = new Highscore(buffer);
 
                     highscores.Add(myscore);
                 }

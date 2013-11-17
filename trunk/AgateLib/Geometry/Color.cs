@@ -939,7 +939,7 @@ namespace AgateLib.Geometry
 
 			double m = v - chroma;
 
-			return Color.FromArgb((int)(255 * (r1 + m)), (int)(255 * (g1 + m)), (int)(255 * b1 + m));
+			return Color.FromArgb((int)(255 * (r1 + m)), (int)(255 * (g1 + m)), (int)(255 * (b1 + m)));
 		}
 	}
 }
