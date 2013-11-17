@@ -8,7 +8,7 @@
     <ProjectGuid>{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BallBuster.Net</RootNamespace>
+    <RootNamespace>BallBusterX</RootNamespace>
     <AssemblyName>BallBuster.Net</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -101,7 +101,7 @@
     <Compile Include="CSound.cs" />
     <Compile Include="fadeball.cs" />
     <Compile Include="flash.cs" />
-    <Compile Include="Highscores.cs" />
+    <Compile Include="Highscore.cs" />
     <Compile Include="main.cs" />
     <Compile Include="powerup.cs" />
     <Compile Include="Program.cs" />
@@ -117,6 +117,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="highscores">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="OpenTK.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -155,6 +158,10 @@
       <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Drivers\AgateDrawing\AgateDrawing.csproj">
+      <Project>{164a785d-924e-40fb-a517-d7e677f3b53a}</Project>
+      <Name>AgateDrawing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Drivers\AgateOTK\AgateOTK.csproj">
       <Project>{9E095F03-BA3F-4EAD-A905-2A2647CE4405}</Project>
       <Name>AgateOTK</Name>
@@ -162,6 +169,10 @@
     <ProjectReference Include="..\..\Drivers\AgateSDL\AgateSDL.csproj">
       <Project>{00C7FA95-98F4-43D9-9B63-34122B1DB003}</Project>
       <Name>AgateSDL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Drivers\AgateSDX\AgateSDX.csproj">
+      <Project>{ef993b30-d9a9-4962-80bb-6826d39b3465}</Project>
+      <Name>AgateSDX</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
