@@ -27,18 +27,21 @@ namespace AgateSDX.Shaders.FixedFunction
 {
 	class FixedFunctionShaderFactory : ShaderFactory 
 	{
-		protected override AgateShaderImpl CreateBuiltInShaderImpl(BuiltInShader BuiltInShaderType)
+		protected override AgateShaderImpl CreateBuiltInShaderImpl(BuiltInShader shaderType)
 		{
-			switch (BuiltInShaderType)
+			switch (shaderType)
 			{
 				case BuiltInShader.Basic2DShader:
 					return new SDX_FF_Basic2DShader();
+
+				case BuiltInShader.Lighting2D:
+					return new SDX_FF_Lighting2D();
 
 				case BuiltInShader.Lighting3D:
 					return new SDX_FF_Lighting3D();
 
 				default:
-					return null;
+					throw new NotImplementedException();
 			}
 		}
 	}
