@@ -32,7 +32,7 @@ namespace AgateLib.DisplayLib
 	/// after rendering to it.  For the most part, FrameBuffers which are associated with
 	/// a DisplayWindow cannot be used as Surfaces.
 	/// </summary>
-	public class FrameBuffer : IDisposable 
+	public class FrameBuffer : IDisposable, AgateLib.DisplayLib.IFrameBuffer 
 	{
 		FrameBufferImpl impl;
 		Surface mRenderTarget;

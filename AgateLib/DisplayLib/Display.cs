@@ -192,7 +192,7 @@ namespace AgateLib.DisplayLib
 			set
 			{
 				if (value == null)
-					throw new ArgumentNullException("RenderTarget cannot be null.");
+					throw new ArgumentNullException("RenderTarget", "RenderTarget cannot be null.");
 
 				sImpl.RenderTarget = value;
 

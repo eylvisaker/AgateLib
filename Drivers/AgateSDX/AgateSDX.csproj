@@ -155,6 +155,7 @@
     <Compile Include="Reporter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Shaders\FixedFunction\SDX_FF_Lighting2D.cs" />
     <Compile Include="XAud2\XAudio2_Audio.cs">
       <SubType>Code</SubType>
     </Compile>

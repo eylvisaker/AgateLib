@@ -27,15 +27,11 @@ namespace Tests.LightingTest
 				if (setup.WasCanceled)
 					return;
 
-				//if (Display.Caps.SupportsCustomShaders == false)
-				//{
-				//    MessageBox.Show("You must have a driver that supports shaders.", "Lighting Test");
-				//    return;
-				//}
-				LightingTestForm frm = new LightingTestForm();
-				frm.Show();
+				//LightingTestForm frm = new LightingTestForm();
+				//frm.Show();
 
-				DisplayWindow wnd = new DisplayWindow(CreateWindowParams.FromControl(frm.agateRenderTarget1));
+				//DisplayWindow wnd = new DisplayWindow(CreateWindowParams.FromControl(frm.agateRenderTarget1));
+				DisplayWindow wnd = DisplayWindow.CreateWindowed("TItle", 640, 480);
 
 				Surface image = new Surface("jellybean.png");
 				Surface ball = new Surface("ball.png");
@@ -69,14 +65,14 @@ namespace Tests.LightingTest
 
 				Display.RenderState.WaitForVerticalBlank = false;
 
-				Mouse.MouseMove += delegate(InputEventArgs e)
+				Mouse.MouseMove += e =>
 					{
 						lt2.Position = new Vector3(e.MousePosition.X, e.MousePosition.Y, -1);
 					};
 
-				while (frm.Visible == true)
+				while (true)//(frm.Visible == true)
 				{
-					if (frm.chkMoveLight.Checked)
+					//if (frm.chkMoveLight.Checked)
 						time += Display.DeltaTime / 1000.0;
 
 					ballPt = new Point((int)(120 + 110 * Math.Cos(time)),
@@ -85,12 +81,12 @@ namespace Tests.LightingTest
 					lt1.Position = new Vector3(ballPt.X, ballPt.Y, -1);
 
 
-					image.RotationAngleDegrees = (double)frm.nudAngle.Value;
+					//image.RotationAngleDegrees = (double)frm.nudAngle.Value;
 
 					Display.BeginFrame();
 					Display.Clear(Color.DarkRed);
 
-					lights.Activate();
+					//lights.Activate();
 
 					//lights.Enabled = frm.enableLightingCheck.Checked;
 					//lights.DoLighting();
@@ -103,13 +99,13 @@ namespace Tests.LightingTest
 					//else
 					//    Display.Effect = null;
 
-					if (frm.chkSurfaceGradient.Checked)
-					{
-						Gradient g = new Gradient(Color.Red, Color.Blue, Color.Cyan, Color.Green);
+					//if (frm.chkSurfaceGradient.Checked)
+					//{
+					//	Gradient g = new Gradient(Color.Red, Color.Blue, Color.Cyan, Color.Green);
 
-						image.ColorGradient = g;
-					}
-					else
+					//	image.ColorGradient = g;
+					//}
+					//else
 						image.Color = Color.White;
 
 					//image.TesselateFactor = (int)frm.nudTess.Value;
@@ -124,7 +120,7 @@ namespace Tests.LightingTest
 					Display.EndFrame();
 					Core.KeepAlive();
 
-					frm.lblFPS.Text = "FPS: " + Display.FramesPerSecond.ToString("0.00");
+					//frm.lblFPS.Text = "FPS: " + Display.FramesPerSecond.ToString("0.00");
 				}
 			}
 		}

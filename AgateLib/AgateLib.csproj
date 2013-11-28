@@ -158,6 +158,7 @@
     <Compile Include="Data\AgateRowList.cs" />
     <Compile Include="Data\AgateTableDictionary.cs" />
     <Compile Include="DisplayLib\FrameBuffer.cs" />
+    <Compile Include="DisplayLib\IFrameBuffer.cs" />
     <Compile Include="DisplayLib\Shaders\AgateBuiltInShaders.cs" />
     <Compile Include="DisplayLib\Shaders\AgateShaderCompileException.cs" />
     <Compile Include="DisplayLib\Shaders\Basic2DShader.cs" />
