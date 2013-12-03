@@ -234,7 +234,7 @@ namespace AgateSDX
 		}
 		void pct_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			Mouse.OnMouseMove();
+			SetInternalMousePosition(Interop.Convert(e.Location));
 		}
 		void renderTarget_Disposed(object sender, EventArgs e)
 		{

@@ -144,7 +144,7 @@ namespace AgateDrawing
 			return retval;
 		}
 
-		
+
 		void form_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			mIsClosed = true;
@@ -193,7 +193,7 @@ namespace AgateDrawing
 
 		void pct_MouseMove(object sender, MouseEventArgs e)
 		{
-			Mouse.OnMouseMove();
+			SetInternalMousePosition(Interop.Convert(e.Location));
 		}
 
 		void renderTarget_Disposed(object sender, EventArgs e)
@@ -228,7 +228,7 @@ namespace AgateDrawing
 		{
 			if (mRenderTarget.ClientSize.Width == 0 || mRenderTarget.ClientSize.Height == 0)
 				return;
-			
+
 			if (mBackBuffer != null)
 				mBackBuffer.Dispose();
 
@@ -240,10 +240,7 @@ namespace AgateDrawing
 
 		public Control RenderTarget
 		{
-			get
-			{
-				return mRenderTarget;
-			}
+			get { return mRenderTarget; }
 		}
 		public Bitmap BackBuffer
 		{

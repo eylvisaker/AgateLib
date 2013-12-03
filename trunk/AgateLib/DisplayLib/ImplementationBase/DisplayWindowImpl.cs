@@ -109,6 +109,10 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		public abstract Point MousePosition { get; set; }
 
+		protected void SetInternalMousePosition(AgateLib.Geometry.Point pt)
+		{
+			AgateLib.InputLib.Mouse.SetStoredPosition(pt);
+		}
 
 		/// <summary>
 		/// Event raised when the window is resized by the user.
