@@ -27,7 +27,8 @@ namespace AgateLib.InputLib
 	using AgateLib.DisplayLib;
 
 	/// <summary>
-	/// Class which encapsulates input from the mouse.
+	/// Class which encapsulates input from the mouse. The information provided by the Mouse
+	/// class is only accurate for applications which have a single DisplayWindow.
 	/// </summary>
 	public static class Mouse
 	{
@@ -115,6 +116,7 @@ namespace AgateLib.InputLib
 
 		private static MouseState mState = new MouseState();
 		private static bool mIsHidden = false;
+		private static Point mPosition;
 
 		static Mouse()
 		{
@@ -125,21 +127,29 @@ namespace AgateLib.InputLib
 		{
 			ClearEvents();
 		}
+		
 
+		internal static void SetStoredPosition(Point pt)
+		{
+			mPosition = pt;
+
+			OnMouseMove();
+		}
 		/// <summary>
 		/// Gets or sets the position of the cursor, in client coordinates
 		/// of the current display window.
 		/// </summary>
 		public static Point Position
 		{
-			get { return Display.CurrentWindow.MousePosition; }
+			get { return mPosition; }
 			set
 			{
 				// do not adjust the mouse position if we are not the active application.
 				if (Core.IsActive == false)
 					return;
 
-				Display.CurrentWindow.MousePosition = value;
+				mPosition = value;
+				OnMouseMove();
 			}
 		}
 
@@ -149,8 +159,12 @@ namespace AgateLib.InputLib
 		/// </summary>
 		public static int X
 		{
-			get { return Display.CurrentWindow.MousePosition.X; }
-			set { Display.CurrentWindow.MousePosition = new Point(value, Position.Y); }
+			get { return mPosition.X; }
+			set
+			{
+				mPosition.X = value;
+				OnMouseMove();
+			}
 		}
 		/// <summary>
 		/// Gets or sets the Y position of the cursor, in client coordinates
@@ -158,8 +172,12 @@ namespace AgateLib.InputLib
 		/// </summary>
 		public static int Y
 		{
-			get { return Display.CurrentWindow.MousePosition.Y; }
-			set { Display.CurrentWindow.MousePosition = new Point(Position.X, value); }
+			get { return mPosition.Y; }
+			set
+			{
+				mPosition.Y = value;
+				OnMouseMove();
+			}
 		}
 
 		/// <summary>
@@ -247,17 +265,21 @@ namespace AgateLib.InputLib
 			if (inMouseMove)
 				return;
 
-			inMouseMove = true;
+			try
+			{
+				inMouseMove = true;
 
-			if (MouseMove != null)
-				MouseMove(new InputEventArgs());
+				if (MouseMove != null)
+					MouseMove(new InputEventArgs());
 
-			// this is required, because if the mouse position is adjusted
-			// a new MouseMove event will be generated.
-			Core.KeepAlive();
-
-			inMouseMove = false;
-
+				// this is required, because if the mouse position is adjusted
+				// a new MouseMove event will be generated.
+				Core.KeepAlive();
+			}
+			finally
+			{
+				inMouseMove = false;
+			}
 		}
 		private static void OnMouseDown(MouseButtons btn)
 		{
@@ -278,8 +300,5 @@ namespace AgateLib.InputLib
 			if (MouseDoubleClick != null)
 				MouseDoubleClick(new InputEventArgs(btn));
 		}
-
-
-
 	}
 }

@@ -261,7 +261,7 @@ namespace AgateOTK
 		}
 		void Mouse_Move(object sender, OpenTK.Input.MouseMoveEventArgs e)
 		{
-			Mouse.Position = new Point(e.X, e.Y);
+			SetInternalMousePosition(new Point(e.X, e.Y));
 		}
 
 		private static KeyCode TransformKey(OpenTK.Input.Key key)

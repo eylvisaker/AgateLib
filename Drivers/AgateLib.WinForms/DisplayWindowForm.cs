@@ -26,7 +26,7 @@ using System.Windows.Forms;
 namespace AgateLib.WinForms
 {
 	/// <summary>
-	/// Form which is used fora generic Display.
+	/// Form which is used for a generic Display.
 	/// </summary>
 	/// <remarks>
 	/// [Experimental - This class will be moved to into a different assembly
