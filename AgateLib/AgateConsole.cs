@@ -10,7 +10,7 @@ using AgateLib.InputLib;
 
 namespace AgateLib
 {
-	public class AgateConsole : TraceListener
+	public class AgateConsole
 	{
 		#region --- Static Members ---
 
@@ -33,8 +33,16 @@ namespace AgateLib
 			if (sInstance != null)
 				return;
 
+			PrivateInitialize();
+
+		}
+
+		private static void PrivateInitialize()
+		{
+			if (sInstance == null)
+				sInstance = new AgateConsole();
+
 			VisibleToggleKey = KeyCode.Tilde;
-			sInstance = new AgateConsole();
 
 			TextColor = Color.White;
 			EntryColor = Color.Yellow;
@@ -42,10 +50,15 @@ namespace AgateLib
 
 			AgateLib.InputLib.Keyboard.KeyDown += Keyboard_KeyDown;
 		}
+		/// <summary>
+		/// Draws the console window. Call this right before your Display.EndFrame call.
+		/// </summary>
 		public static void Draw()
 		{
-			if (sInstance == null)
-				return;
+			if (sInstance == null) return;
+
+			if (Font == null)
+				Font = FontSurface.AgateSans10;
 
 			sInstance.DrawImpl();
 		}
@@ -59,65 +72,245 @@ namespace AgateLib
 			}
 			else if (sInstance.mVisible)
 			{
-				sInstance.KeyDown(e);
+				sInstance.ProcessKeyDown(e);
 			}
 		}
 
-		public static ConsoleDictionary Commands { get { return sInstance.mCommands; } }
-
-
 		#endregion
 
-		ConsoleDictionary mCommands = new ConsoleDictionary();
+		class AgateConsoleTraceListener : TraceListener
+		{
+			AgateConsole mOwner;
+			ConsoleMessage current;
+			Stopwatch watch = new Stopwatch();
+
+			public AgateConsoleTraceListener(AgateConsole owner)
+			{
+				mOwner = owner;
+				Trace.Listeners.Add(this);
+
+				watch.Start();
+			}
+
+			public override void Write(string message)
+			{
+				if (current == null)
+				{
+					current = new ConsoleMessage();
+					mOwner.mMessages.Add(current);
+				}
+
+				current.Time = watch.ElapsedMilliseconds;
+				current.Text += message;
+			}
+			public override void WriteLine(string message)
+			{
+				if (current == null)
+				{
+					current = new ConsoleMessage();
+					mOwner.mMessages.Add(current);
+				}
+
+				current.Text += message;
+				current.Time = watch.ElapsedMilliseconds;
+				current = null;
+			}
+
+			public Stopwatch Watch { get { return watch; } }
+		}
+		public class AgateConsoleCommandProcessor
+		{
+			ConsoleDictionary mCommands = new ConsoleDictionary();
+
+			public AgateConsoleCommandProcessor()
+			{
+				mCommands.Add("help", new Action<string>(HelpCommand));
+			}
+
+			public ConsoleDictionary Commands { get { return mCommands; } }
+
+			public void ExecuteCommand(string[] tokens)
+			{
+				if (mCommands.ContainsKey(tokens[0]) == false)
+				{
+					WriteLine("Invalid command: " + tokens[0]);
+				}
+				else
+				{
+					ExecuteDelegate(mCommands[tokens[0]], tokens);
+				}
+			}
+
+			private void ExecuteDelegate(Delegate p, string[] tokens)
+			{
+				var parameters = p.Method.GetParameters();
+				object[] args = new object[parameters.Length];
+				bool notEnoughArgs = false;
+				bool badArgs = false;
+
+				for (int i = 0; i < parameters.Length || i < tokens.Length - 1; i++)
+				{
+					if (i < args.Length && i < tokens.Length - 1)
+					{
+						try
+						{
+							args[i] = Convert.ChangeType(tokens[i + 1], parameters[i].ParameterType);
+						}
+						catch
+						{
+							WriteLine("Argument #" + (i + 1).ToString() + " invalid: \"" +
+								tokens[i + 1] + "\" not convertable to " + parameters[i].ParameterType.Name);
+							badArgs = true;
+						}
+					}
+					else if (i < args.Length)
+					{
+						if (parameters[i].IsOptional)
+						{
+							args[i] = Type.Missing;
+						}
+						else
+						{
+							if (notEnoughArgs == false)
+							{
+								WriteLine("Insufficient arguments for command: " + tokens[0]);
+							}
+							notEnoughArgs = true;
+
+							WriteLine("    missing " + parameters[i].ParameterType.Name + " argument: " + parameters[i].Name);
+						}
+					}
+					else
+					{
+						WriteLine("[Ignoring extra argument: " + tokens[i + 1] + "]");
+					}
+				}
+
+				if (badArgs || notEnoughArgs)
+					return;
+
+				object retval = p.Method.Invoke(p.Target, args);
+
+				if (p.Method.ReturnType != typeof(void) && retval != null)
+				{
+					WriteLine(retval.ToString());
+				}
+			}
+
+
+			private void HelpCommand(string command = "")
+			{
+				command = command.ToLowerInvariant().Trim();
+
+				if (string.IsNullOrEmpty(command) || mCommands.ContainsKey(command) == false)
+				{
+					WriteLine("Available Commands:");
+
+					foreach (var cmd in mCommands.Keys)
+					{
+						if (cmd == "help")
+							continue;
+
+						WriteLine("    " + cmd);
+					}
+
+					WriteLine("Type \"help <command>\" for help on a specific command.");
+				}
+				else
+				{
+					Delegate d = mCommands[command];
+
+					Write("Usage: ");
+					Write(command + " ");
+
+					var parameters = d.Method.GetParameters();
+					for (int i = 0; i < parameters.Length; i++)
+					{
+						if (parameters[i].IsOptional)
+							Write("[");
+
+						Write(parameters[i].Name);
+
+						if (parameters[i].IsOptional)
+							Write("]");
+					}
+
+					WriteLine("");
+
+					if (DescribeCommand != null)
+					{
+						string text = DescribeCommand(command);
+
+						if (string.IsNullOrEmpty(text) == false)
+						{
+							WriteLine("");
+							WriteLine(DescribeCommand(command));
+						}
+					}
+				}
+			}
+
+			void WriteLine(string text)
+			{
+				AgateConsole.Instance.WriteLine(text);
+			}
+			void Write(string text)
+			{
+				AgateConsole.Instance.Write(text);
+			}
+
+			public event DescribeCommandHandler DescribeCommand;
+		}
+
 		List<ConsoleMessage> mInputHistory = new List<ConsoleMessage>();
 		List<ConsoleMessage> mMessages = new List<ConsoleMessage>();
-		ConsoleMessage current;
-		Stopwatch watch = new Stopwatch();
+		AgateConsoleTraceListener mTraceListener;
+		AgateConsoleCommandProcessor mCommandProcessor = new AgateConsoleCommandProcessor();
+
 		bool mVisible = false;
 		string mCurrentLine;
 		int mHeight;
 		int mHistoryIndex;
 
-		private AgateConsole()
+		public AgateConsole()
 		{
-			Trace.Listeners.Add(this);
-			watch.Start();
+			if (sInstance != null)
+				throw new InvalidOperationException("Cannot create two AgateConsole objects!");
 
-			if (Font == null)
-				Font = FontSurface.AgateSans10;
+			sInstance = this;
+			Initialize();
 
-			mCommands.Add("help", new Action<string>(HelpCommand));
+			mTraceListener = new AgateConsoleTraceListener(this);
 		}
 
-		public override void Write(string message)
+		public AgateConsoleCommandProcessor CommandProcessor
 		{
-			if (current == null)
-			{
-				current = new ConsoleMessage();
-				mMessages.Add(current);
-			}
-
-			current.Time = watch.ElapsedMilliseconds;
-			current.Text += message;
+			get { return mCommandProcessor; }
+			set { mCommandProcessor = value; }
 		}
-		public override void WriteLine(string message)
-		{
-			if (current == null)
-			{
-				current = new ConsoleMessage();
-				mMessages.Add(current);
-			}
 
-			current.Text += message;
-			current.Time = watch.ElapsedMilliseconds;
-			current = null;
+		/// <summary>
+		/// Writes a line to the output part of the console window.
+		/// </summary>
+		/// <param name="text"></param>
+		public void WriteLine(string text)
+		{
+			mTraceListener.WriteLine(text);
+		}
+		/// <summary>
+		/// Writes some text to the output part of the console window.
+		/// </summary>
+		/// <param name="text"></param>
+		public void Write(string text)
+		{
+			mTraceListener.Write(text);
 		}
 
 		void DrawImpl()
 		{
 			if (mVisible == false)
 			{
-				long time = watch.ElapsedMilliseconds;
+				long time = mTraceListener.Watch.ElapsedMilliseconds;
 				int y = 0;
 				Font.DisplayAlignment = OriginAlignment.TopLeft;
 				Font.Color = TextColor;
@@ -154,7 +347,7 @@ namespace AgateLib
 				Font.DrawText(0, y, currentLineText);
 
 				// draw insertion point
-				if (watch.ElapsedMilliseconds % 1000 < 500)
+				if (mTraceListener.Watch.ElapsedMilliseconds % 1000 < 500)
 				{
 					int x = Font.MeasureString(currentLineText).Width;
 
@@ -194,31 +387,42 @@ namespace AgateLib
 			return p.Replace("{", "{{}");
 		}
 
-		private void KeyDown(InputEventArgs e)
+
+
+		public void ProcessKeys(string keys)
+		{
+			ModifyHistoryLine();
+			mCurrentLine += keys;
+		}
+		/// <summary>
+		/// Processes an input key.
+		/// </summary>
+		/// <param name="e"></param>
+		public void ProcessKeyDown(InputEventArgs e)
 		{
 			if (e.KeyCode == KeyCode.Up)
 			{
 				mHistoryIndex++;
-			
+
 				if (mHistoryIndex > mInputHistory.Count)
 					mHistoryIndex = mInputHistory.Count;
 			}
 			else if (e.KeyCode == KeyCode.Down)
 			{
 				mHistoryIndex--;
-				
+
 				if (mHistoryIndex < 0)
 					mHistoryIndex = 0;
 			}
 			else if (e.KeyCode == KeyCode.Enter || e.KeyCode == KeyCode.Return)
-			{ 
+			{
 				ModifyHistoryLine();
 
 				ConsoleMessage input = new ConsoleMessage
 				{
 					Text = mCurrentLine,
 					MessageType = ConsoleMessageType.UserInput,
-					Time = watch.ElapsedMilliseconds
+					Time = mTraceListener.Watch.ElapsedMilliseconds
 				};
 
 				mMessages.Add(input);
@@ -277,125 +481,9 @@ namespace AgateLib
 
 			mCurrentLine = string.Empty;
 
-			if (mCommands.ContainsKey(tokens[0]) == false)
-			{
-				WriteLine("Invalid command: " + tokens[0]);
-			}
-			else
-			{
-				ExecuteDelegate(mCommands[tokens[0]], tokens);
-			}
+			mCommandProcessor.ExecuteCommand(tokens);
 
 		}
-		private void ExecuteDelegate(Delegate p, string[] tokens)
-		{
-			var parameters = p.Method.GetParameters();
-			object[] args = new object[parameters.Length];
-			bool notEnoughArgs = false;
-			bool badArgs = false;
-
-			for (int i = 0; i < parameters.Length || i < tokens.Length - 1; i++)
-			{
-				if (i < args.Length && i < tokens.Length - 1)
-				{
-					try
-					{
-						args[i] = Convert.ChangeType(tokens[i + 1], parameters[i].ParameterType);
-					}
-					catch
-					{
-						WriteLine("Argument #" + (i + 1).ToString() + " invalid: \"" +
-							tokens[i + 1] + "\" not convertable to " + parameters[i].ParameterType.Name);
-						badArgs = true;
-					}
-				}
-				else if (i < args.Length)
-				{
-					if (parameters[i].IsOptional)
-					{
-						args[i] = Type.Missing;
-					}
-					else 
-					{
-						if (notEnoughArgs == false)
-						{
-							WriteLine("Insufficient arguments for command: " + tokens[0]);
-						}
-						notEnoughArgs = true;
-
-						WriteLine("    missing " + parameters[i].ParameterType.Name + " argument: " + parameters[i].Name);
-					}
-				}
-				else
-				{
-					WriteLine("[Ignoring extra argument: " + tokens[i + 1] + "]");
-				}
-			}
-
-			if (badArgs || notEnoughArgs)
-				return;
-
-			object retval = p.Method.Invoke(p.Target, args);
-
-			if (p.Method.ReturnType != typeof(void) && retval != null)
-			{
-				WriteLine(retval.ToString());
-			}
-		}
-
-		private void HelpCommand(string command = "")
-		{
-			command = command.ToLowerInvariant().Trim();
-
-			if (string.IsNullOrEmpty(command) || mCommands.ContainsKey(command) == false)
-			{
-				WriteLine("Available Commands:");
-
-				foreach (var cmd in mCommands.Keys)
-				{
-					if (cmd == "help") 
-						continue;
-
-					WriteLine("    " + cmd);
-				}
-
-				WriteLine("Type \"help <command>\" for help on a specific command.");
-			}
-			else
-			{
-				Delegate d = mCommands[command];
-
-				Write("Usage: ");
-				Write(command + " ");
-
-				var parameters = d.Method.GetParameters();
-				for(int i = 0; i < parameters.Length; i++)
-				{
-					if (parameters[i].IsOptional) 
-						Write("[");
-					
-					Write(parameters[i].Name);
-				
-					if (parameters[i].IsOptional) 
-						Write("]");
-				}
-
-				WriteLine("");
-
-				if (DescribeCommand != null)
-				{
-					string text = DescribeCommand(command);
-
-					if (string.IsNullOrEmpty(text) == false)
-					{
-						WriteLine("");
-						WriteLine(DescribeCommand(command));
-					}
-				}
-			}
-		}
-
-		public static event DescribeCommandHandler DescribeCommand;
 	}
 
 	public class ConsoleDictionary : Dictionary<string, Delegate>
