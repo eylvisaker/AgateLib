@@ -172,6 +172,7 @@
     <Compile Include="DisplayLib\Shaders\Lighting2D.cs" />
     <Compile Include="DisplayLib\Shaders\Lighting3D.cs" />
     <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
+    <Compile Include="ICommandProcessor.cs" />
     <Compile Include="IFileProvider.cs">
       <SubType>Code</SubType>
     </Compile>
