@@ -28,6 +28,8 @@ namespace AgateLib
 		public static Color BackgroundColor { get; set; }
 		public static AgateConsole Instance { get { return sInstance; } }
 
+		public static ConsoleDictionary Commands { get { return Instance.CommandProcessor.Commands; } }
+
 		public static void Initialize()
 		{
 			if (sInstance != null)
@@ -118,154 +120,11 @@ namespace AgateLib
 
 			public Stopwatch Watch { get { return watch; } }
 		}
-		public class AgateConsoleCommandProcessor
-		{
-			ConsoleDictionary mCommands = new ConsoleDictionary();
-
-			public AgateConsoleCommandProcessor()
-			{
-				mCommands.Add("help", new Action<string>(HelpCommand));
-			}
-
-			public ConsoleDictionary Commands { get { return mCommands; } }
-
-			public void ExecuteCommand(string[] tokens)
-			{
-				if (mCommands.ContainsKey(tokens[0]) == false)
-				{
-					WriteLine("Invalid command: " + tokens[0]);
-				}
-				else
-				{
-					ExecuteDelegate(mCommands[tokens[0]], tokens);
-				}
-			}
-
-			private void ExecuteDelegate(Delegate p, string[] tokens)
-			{
-				var parameters = p.Method.GetParameters();
-				object[] args = new object[parameters.Length];
-				bool notEnoughArgs = false;
-				bool badArgs = false;
-
-				for (int i = 0; i < parameters.Length || i < tokens.Length - 1; i++)
-				{
-					if (i < args.Length && i < tokens.Length - 1)
-					{
-						try
-						{
-							args[i] = Convert.ChangeType(tokens[i + 1], parameters[i].ParameterType);
-						}
-						catch
-						{
-							WriteLine("Argument #" + (i + 1).ToString() + " invalid: \"" +
-								tokens[i + 1] + "\" not convertable to " + parameters[i].ParameterType.Name);
-							badArgs = true;
-						}
-					}
-					else if (i < args.Length)
-					{
-						if (parameters[i].IsOptional)
-						{
-							args[i] = Type.Missing;
-						}
-						else
-						{
-							if (notEnoughArgs == false)
-							{
-								WriteLine("Insufficient arguments for command: " + tokens[0]);
-							}
-							notEnoughArgs = true;
-
-							WriteLine("    missing " + parameters[i].ParameterType.Name + " argument: " + parameters[i].Name);
-						}
-					}
-					else
-					{
-						WriteLine("[Ignoring extra argument: " + tokens[i + 1] + "]");
-					}
-				}
-
-				if (badArgs || notEnoughArgs)
-					return;
-
-				object retval = p.Method.Invoke(p.Target, args);
-
-				if (p.Method.ReturnType != typeof(void) && retval != null)
-				{
-					WriteLine(retval.ToString());
-				}
-			}
-
-
-			private void HelpCommand(string command = "")
-			{
-				command = command.ToLowerInvariant().Trim();
-
-				if (string.IsNullOrEmpty(command) || mCommands.ContainsKey(command) == false)
-				{
-					WriteLine("Available Commands:");
-
-					foreach (var cmd in mCommands.Keys)
-					{
-						if (cmd == "help")
-							continue;
-
-						WriteLine("    " + cmd);
-					}
-
-					WriteLine("Type \"help <command>\" for help on a specific command.");
-				}
-				else
-				{
-					Delegate d = mCommands[command];
-
-					Write("Usage: ");
-					Write(command + " ");
-
-					var parameters = d.Method.GetParameters();
-					for (int i = 0; i < parameters.Length; i++)
-					{
-						if (parameters[i].IsOptional)
-							Write("[");
-
-						Write(parameters[i].Name);
-
-						if (parameters[i].IsOptional)
-							Write("]");
-					}
-
-					WriteLine("");
-
-					if (DescribeCommand != null)
-					{
-						string text = DescribeCommand(command);
-
-						if (string.IsNullOrEmpty(text) == false)
-						{
-							WriteLine("");
-							WriteLine(DescribeCommand(command));
-						}
-					}
-				}
-			}
-
-			void WriteLine(string text)
-			{
-				AgateConsole.Instance.WriteLine(text);
-			}
-			void Write(string text)
-			{
-				AgateConsole.Instance.Write(text);
-			}
-
-			public event DescribeCommandHandler DescribeCommand;
-		}
-
+		
 		List<ConsoleMessage> mInputHistory = new List<ConsoleMessage>();
 		List<ConsoleMessage> mMessages = new List<ConsoleMessage>();
 		AgateConsoleTraceListener mTraceListener;
-		AgateConsoleCommandProcessor mCommandProcessor = new AgateConsoleCommandProcessor();
+		ICommandProcessor mCommandProcessor = new AgateConsoleCommandProcessor();
 
 		bool mVisible = false;
 		string mCurrentLine;
@@ -283,11 +142,12 @@ namespace AgateLib
 			mTraceListener = new AgateConsoleTraceListener(this);
 		}
 
-		public AgateConsoleCommandProcessor CommandProcessor
+		public ICommandProcessor CommandProcessor
 		{
 			get { return mCommandProcessor; }
 			set { mCommandProcessor = value; }
 		}
+
 		public void Dispose()
 		{
 			Dispose(true);
@@ -570,4 +430,149 @@ namespace AgateLib
 		Text,
 		UserInput,
 	}
+
+	public class AgateConsoleCommandProcessor : ICommandProcessor
+	{
+		ConsoleDictionary mCommands = new ConsoleDictionary();
+
+		public AgateConsoleCommandProcessor()
+		{
+			mCommands.Add("help", new Action<string>(HelpCommand));
+		}
+
+		public ConsoleDictionary Commands { get { return mCommands; } }
+
+		public void ExecuteCommand(string[] tokens)
+		{
+			if (mCommands.ContainsKey(tokens[0]) == false)
+			{
+				WriteLine("Invalid command: " + tokens[0]);
+			}
+			else
+			{
+				ExecuteDelegate(mCommands[tokens[0]], tokens);
+			}
+		}
+
+		private void ExecuteDelegate(Delegate p, string[] tokens)
+		{
+			var parameters = p.Method.GetParameters();
+			object[] args = new object[parameters.Length];
+			bool notEnoughArgs = false;
+			bool badArgs = false;
+
+			for (int i = 0; i < parameters.Length || i < tokens.Length - 1; i++)
+			{
+				if (i < args.Length && i < tokens.Length - 1)
+				{
+					try
+					{
+						args[i] = Convert.ChangeType(tokens[i + 1], parameters[i].ParameterType);
+					}
+					catch
+					{
+						WriteLine("Argument #" + (i + 1).ToString() + " invalid: \"" +
+							tokens[i + 1] + "\" not convertable to " + parameters[i].ParameterType.Name);
+						badArgs = true;
+					}
+				}
+				else if (i < args.Length)
+				{
+					if (parameters[i].IsOptional)
+					{
+						args[i] = Type.Missing;
+					}
+					else
+					{
+						if (notEnoughArgs == false)
+						{
+							WriteLine("Insufficient arguments for command: " + tokens[0]);
+						}
+						notEnoughArgs = true;
+
+						WriteLine("    missing " + parameters[i].ParameterType.Name + " argument: " + parameters[i].Name);
+					}
+				}
+				else
+				{
+					WriteLine("[Ignoring extra argument: " + tokens[i + 1] + "]");
+				}
+			}
+
+			if (badArgs || notEnoughArgs)
+				return;
+
+			object retval = p.Method.Invoke(p.Target, args);
+
+			if (p.Method.ReturnType != typeof(void) && retval != null)
+			{
+				WriteLine(retval.ToString());
+			}
+		}
+
+
+		private void HelpCommand(string command = "")
+		{
+			command = command.ToLowerInvariant().Trim();
+
+			if (string.IsNullOrEmpty(command) || mCommands.ContainsKey(command) == false)
+			{
+				WriteLine("Available Commands:");
+
+				foreach (var cmd in mCommands.Keys)
+				{
+					if (cmd == "help")
+						continue;
+
+					WriteLine("    " + cmd);
+				}
+
+				WriteLine("Type \"help <command>\" for help on a specific command.");
+			}
+			else
+			{
+				Delegate d = mCommands[command];
+
+				Write("Usage: ");
+				Write(command + " ");
+
+				var parameters = d.Method.GetParameters();
+				for (int i = 0; i < parameters.Length; i++)
+				{
+					if (parameters[i].IsOptional)
+						Write("[");
+
+					Write(parameters[i].Name);
+
+					if (parameters[i].IsOptional)
+						Write("]");
+				}
+
+				WriteLine("");
+
+				if (DescribeCommand != null)
+				{
+					string text = DescribeCommand(command);
+
+					if (string.IsNullOrEmpty(text) == false)
+					{
+						WriteLine("");
+						WriteLine(DescribeCommand(command));
+					}
+				}
+			}
+		}
+
+		void WriteLine(string text)
+		{
+			AgateConsole.Instance.WriteLine(text);
+		}
+		void Write(string text)
+		{
+			AgateConsole.Instance.Write(text);
+		}
+
+		public event DescribeCommandHandler DescribeCommand;
+	}
+
 }
