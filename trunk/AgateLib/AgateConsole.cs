@@ -10,7 +10,7 @@ using AgateLib.InputLib;
 
 namespace AgateLib
 {
-	public class AgateConsole
+	public class AgateConsole : IDisposable
 	{
 		#region --- Static Members ---
 
@@ -288,6 +288,12 @@ namespace AgateLib
 			get { return mCommandProcessor; }
 			set { mCommandProcessor = value; }
 		}
+		public void Dispose()
+		{
+			Dispose(true);
+			sInstance = null;
+		}
+		protected virtual void Dispose(bool disposing) { }
 
 		/// <summary>
 		/// Writes a line to the output part of the console window.
@@ -388,10 +394,32 @@ namespace AgateLib
 		}
 
 
-
+		/// <summary>
+		/// Sends the key string to the console as if the user typed it.
+		/// </summary>
+		/// <param name="keys"></param>
+		/// <remarks>
+		/// Control characters are treated specially. A line feed (\n) is
+		/// treated as the end of line. \r is ignored. 
+		/// \t is converted to a space.
+		/// </remarks>
 		public void ProcessKeys(string keys)
 		{
+			keys = keys.Replace('\t', ' ');
+			keys = keys.Replace("\r", "");
+
 			ModifyHistoryLine();
+
+			int index = keys.IndexOf('\n');
+			while (index > -1)
+			{
+				mCurrentLine += keys.Substring(0, index);
+				ProcessKeyDown(new InputEventArgs(KeyCode.Enter, new KeyModifiers()));
+
+				keys = keys.Substring(index + 1);
+				index = keys.IndexOf('\n');
+			}
+
 			mCurrentLine += keys;
 		}
 		/// <summary>
@@ -441,10 +469,10 @@ namespace AgateLib
 			}
 			else if (e.KeyCode == KeyCode.BackSpace)
 			{
+				ModifyHistoryLine();
+
 				if (mCurrentLine.Length > 0)
 				{
-					ModifyHistoryLine();
-
 					mCurrentLine = mCurrentLine.Substring(0, mCurrentLine.Length - 1);
 				}
 			}
@@ -484,6 +512,8 @@ namespace AgateLib
 			mCommandProcessor.ExecuteCommand(tokens);
 
 		}
+
+		public string CurrentLine { get { return mCurrentLine; } }
 	}
 
 	public class ConsoleDictionary : Dictionary<string, Delegate>

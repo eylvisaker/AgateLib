@@ -7,26 +7,68 @@ namespace AgateLib.UnitTests.Core
 	[TestClass]
 	public class ConsoleTests
 	{
+		AgateConsole console;
+		int describeCallCount = 0;
+
+		[TestInitialize]
+		public void Init()
+		{
+			console = new AgateConsole();
+
+			console.CommandProcessor.DescribeCommand += (cmd) => { describeCallCount++; return string.Empty; };
+		}
+		[TestCleanup]
+		public void Cleanup()
+		{
+			console.Dispose();
+		}
+
 		[TestMethod]
 		public void HelpCommand()
 		{
-			AgateConsole c = new AgateConsole();
-			int count = 0;
+			console.ProcessKeys("help");
+			console.ProcessKeyDown(new InputEventArgs(KeyCode.Enter, new KeyModifiers()));
 
-			c.CommandProcessor.DescribeCommand += (cmd) => { count++; return string.Empty; };
+			Assert.AreEqual(0, describeCallCount);
 
-			c.ProcessKeys("help");
-			c.ProcessKeyDown(new InputEventArgs(KeyCode.Enter, new KeyModifiers(false, false, false)));
+			console.ProcessKeys("help help");
+			console.ProcessKeyDown(new InputEventArgs(KeyCode.Enter, new KeyModifiers()));
+			Assert.AreEqual(1, describeCallCount);
 
-			Assert.AreEqual(0, count);
+			console.ProcessKeys("help unknown_command");
+			console.ProcessKeyDown(new InputEventArgs(KeyCode.Enter, new KeyModifiers()));
+			Assert.AreEqual(1, describeCallCount);
+		}
 
-			c.ProcessKeys("help help");
-			c.ProcessKeyDown(new InputEventArgs(KeyCode.Enter, new KeyModifiers(false, false, false)));
-			Assert.AreEqual(1, count);
+		[TestMethod]
+		public void KeystrokeEditing()
+		{
+			console.ProcessKeys("help");
+			console.ProcessKeyDown(new InputEventArgs(KeyCode.BackSpace, new KeyModifiers()));
 
-			c.ProcessKeys("help unknown_command");
-			c.ProcessKeyDown(new InputEventArgs(KeyCode.Enter, new KeyModifiers(false, false, false)));
-			Assert.AreEqual(1, count);
+			Assert.AreEqual("hel", console.CurrentLine);
+
+			console.ProcessKeys("x");
+			Assert.AreEqual("helx", console.CurrentLine);
+		}
+
+		[TestMethod]
+		public void HistoryBrowsing()
+		{
+			console.ProcessKeys("help\nhelp help\nhelp unknown_command\n");
+			console.ProcessKeyDown(new InputEventArgs(KeyCode.Up, new KeyModifiers()));
+			console.ProcessKeys("x");
+			Assert.AreEqual("help unknown_commandx", console.CurrentLine);
+
+			console.ProcessKeys("\n");
+			Assert.AreEqual("", console.CurrentLine);
+
+			console.ProcessKeyDown(new InputEventArgs(KeyCode.Up, new KeyModifiers()));
+			console.ProcessKeyDown(new InputEventArgs(KeyCode.Up, new KeyModifiers()));
+			console.ProcessKeyDown(new InputEventArgs(KeyCode.Up, new KeyModifiers()));
+			console.ProcessKeyDown(new InputEventArgs(KeyCode.BackSpace, new KeyModifiers()));
+			Assert.AreEqual("help hel", console.CurrentLine);
+
 		}
 	}
 }
