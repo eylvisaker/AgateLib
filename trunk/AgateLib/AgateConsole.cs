@@ -78,6 +78,24 @@ namespace AgateLib
 			}
 		}
 
+
+		/// <summary>
+		/// Writes a line to the output part of the console window.
+		/// </summary>
+		/// <param name="text"></param>
+		public static void WriteLine(string text)
+		{
+			Instance.WriteLineImpl(text);
+		}
+		/// <summary>
+		/// Writes some text to the output part of the console window.
+		/// </summary>
+		/// <param name="text"></param>
+		public static void Write(string text)
+		{
+			Instance.WriteImpl(text);
+		}
+
 		#endregion
 
 		class AgateConsoleTraceListener : TraceListener
@@ -155,19 +173,12 @@ namespace AgateLib
 		}
 		protected virtual void Dispose(bool disposing) { }
 
-		/// <summary>
-		/// Writes a line to the output part of the console window.
-		/// </summary>
-		/// <param name="text"></param>
-		public void WriteLine(string text)
+
+		protected void WriteLineImpl(string text)
 		{
 			mTraceListener.WriteLine(text);
 		}
-		/// <summary>
-		/// Writes some text to the output part of the console window.
-		/// </summary>
-		/// <param name="text"></param>
-		public void Write(string text)
+		protected void WriteImpl(string text)
 		{
 			mTraceListener.Write(text);
 		}
@@ -565,11 +576,11 @@ namespace AgateLib
 
 		void WriteLine(string text)
 		{
-			AgateConsole.Instance.WriteLine(text);
+			AgateConsole.WriteLine(text);
 		}
 		void Write(string text)
 		{
-			AgateConsole.Instance.Write(text);
+			AgateConsole.Write(text);
 		}
 
 		public event DescribeCommandHandler DescribeCommand;
