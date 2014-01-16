@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using System.ComponentModel;
 
 namespace AgateLib
 {
@@ -15,12 +16,27 @@ namespace AgateLib
 		#region --- Static Members ---
 
 		static AgateConsole sInstance;
+
+		public static bool IsInitialized { get { return sInstance != null; } }
+
 		public static FontSurface Font { get; set; }
 		public static KeyCode VisibleToggleKey { get; set; }
 		public static bool IsVisible
 		{
-			get { return sInstance.mVisible; }
-			set { sInstance.mVisible = value; }
+			get
+			{
+				if (sInstance == null)
+					return false; 
+				
+				return sInstance.mVisible;
+			}
+			set
+			{
+				if (sInstance == null)
+					throw new AgateException("You must initalize the console before making it visible.");
+
+				sInstance.mVisible = value;
+			}
 		}
 
 		public static Color TextColor { get; set; }
@@ -36,7 +52,6 @@ namespace AgateLib
 				return;
 
 			PrivateInitialize();
-
 		}
 
 		private static void PrivateInitialize()
@@ -48,9 +63,7 @@ namespace AgateLib
 
 			TextColor = Color.White;
 			EntryColor = Color.Yellow;
-			BackgroundColor = Color.FromArgb(128, Color.Black);
-
-			AgateLib.InputLib.Keyboard.KeyDown += Keyboard_KeyDown;
+			BackgroundColor = Color.FromArgb(192, Color.Black);
 		}
 		/// <summary>
 		/// Draws the console window. Call this right before your Display.EndFrame call.
@@ -65,7 +78,7 @@ namespace AgateLib
 			sInstance.DrawImpl();
 		}
 
-		static void Keyboard_KeyDown(InputEventArgs e)
+		internal static void Keyboard_KeyDown(InputEventArgs e)
 		{
 			if (e.KeyCode == VisibleToggleKey)
 			{
@@ -77,15 +90,18 @@ namespace AgateLib
 				sInstance.ProcessKeyDown(e);
 			}
 		}
+		internal static void Keyboard_KeyUp(InputEventArgs eventArgs)
+		{
+		}
 
 
 		/// <summary>
 		/// Writes a line to the output part of the console window.
 		/// </summary>
 		/// <param name="text"></param>
-		public static void WriteLine(string text)
+		public static void WriteLine(string text, params object[] args)
 		{
-			Instance.WriteLineImpl(text);
+			Instance.WriteLineImpl(string.Format(text, args));
 		}
 		/// <summary>
 		/// Writes some text to the output part of the console window.
@@ -138,7 +154,7 @@ namespace AgateLib
 
 			public Stopwatch Watch { get { return watch; } }
 		}
-		
+
 		List<ConsoleMessage> mInputHistory = new List<ConsoleMessage>();
 		List<ConsoleMessage> mMessages = new List<ConsoleMessage>();
 		AgateConsoleTraceListener mTraceListener;
@@ -380,8 +396,17 @@ namespace AgateLib
 
 			mCurrentLine = string.Empty;
 
-			mCommandProcessor.ExecuteCommand(tokens);
+			try
+			{
+				mCommandProcessor.ExecuteCommand(tokens);
+			}
+			catch (System.Reflection.TargetInvocationException ex)
+			{
+				var e = ex.InnerException;
 
+				WriteLine("Caught exception: {0}", e.GetType());
+				WriteLine(e.Message);
+			}
 		}
 
 		public string CurrentLine { get { return mCurrentLine; } }
@@ -561,16 +586,25 @@ namespace AgateLib
 
 				WriteLine("");
 
+				string description = "";
+
 				if (DescribeCommand != null)
 				{
-					string text = DescribeCommand(command);
-
-					if (string.IsNullOrEmpty(text) == false)
-					{
-						WriteLine("");
-						WriteLine(DescribeCommand(command));
-					}
+					description = DescribeCommand(command);
 				}
+				if (string.IsNullOrEmpty(description))
+				{
+					var descripAttrib = (DescriptionAttribute)d.Method.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
+
+					if (descripAttrib != null)
+						description = descripAttrib.Description;
+				}
+
+				if (string.IsNullOrEmpty(description) == false)
+				{
+					WriteLine(description);
+				}
+
 			}
 		}
 

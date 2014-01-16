@@ -306,6 +306,9 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static void EndFrame()
 		{
+			if (AgateConsole.IsVisible)
+				AgateConsole.Draw();
+
 			sImpl.EndFrame();
 		}
 
