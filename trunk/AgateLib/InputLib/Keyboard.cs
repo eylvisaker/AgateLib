@@ -223,13 +223,26 @@ namespace AgateLib.InputLib
 		}
 		private static void OnKeyDown(KeyCode id, KeyModifiers mods, int repeatCount)
 		{
-			if (KeyDown != null)
-				KeyDown(new InputEventArgs(id, mods, repeatCount));
+			var eventArgs = new InputEventArgs(id, mods, repeatCount);
+
+			if (AgateConsole.IsInitialized &&
+				(AgateConsole.IsVisible || id == AgateConsole.VisibleToggleKey))
+			{
+				AgateConsole.Keyboard_KeyDown(eventArgs);
+			}
+			else if (KeyDown != null)
+				KeyDown(eventArgs);
 		}
 		private static void OnKeyUp(KeyCode id, KeyModifiers mods)
 		{
-			if (KeyUp != null)
-				KeyUp(new InputEventArgs(id, mods));
+			var eventArgs = new InputEventArgs(id, mods);
+
+			if (AgateConsole.IsVisible)
+			{
+				AgateConsole.Keyboard_KeyUp(eventArgs);
+			}
+			else if (KeyUp != null)
+				KeyUp(eventArgs);
 		}
 
 		/// <summary>
