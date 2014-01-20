@@ -118,8 +118,7 @@
       <Name>System.Xml</Name>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="AgateConsole.cs" />
     <Compile Include="AgateException.cs">
@@ -171,6 +170,8 @@
     <Compile Include="DisplayLib\Shaders\Implementation\Lighting3DImpl.cs" />
     <Compile Include="DisplayLib\Shaders\Lighting2D.cs" />
     <Compile Include="DisplayLib\Shaders\Lighting3D.cs" />
+    <Compile Include="Extensions\Collections\ListSorting.cs" />
+    <Compile Include="Extensions\Collections\NonGeneric\NonGenericListSorting.cs" />
     <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
     <Compile Include="ICommandProcessor.cs" />
     <Compile Include="IFileProvider.cs">
