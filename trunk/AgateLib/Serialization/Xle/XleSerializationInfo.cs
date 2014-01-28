@@ -298,6 +298,24 @@ namespace AgateLib.Serialization.Xle
 
 		}
 
+		public void Write<T>(string name, T? value, bool asAttribute = false) where T : struct, IConvertible
+		{
+			if (asAttribute)
+			{
+				if (value == null)
+					AddAttribute(CurrentNode, name, "null");
+				else
+					WriteAsAttribute(name, (T)value);
+			}
+			else
+			{
+				if (value == null)
+					WriteAsElement(name, "null");
+				else
+					WriteAsElement(name, (T)value);
+			}
+		}
+
 		/// <summary>
 		/// Writes an object implementing IXleSerializable to the XML data as an element.
 		/// </summary>
@@ -545,6 +563,7 @@ namespace AgateLib.Serialization.Xle
 		{
 			XmlElement element = CreateElement(name);
 			AddAttribute(element, "array", "true");
+			AddAttribute(element, "type", "string");
 
 			try
 			{
@@ -881,6 +900,32 @@ namespace AgateLib.Serialization.Xle
 			return bool.Parse(element.InnerText);
 		}
 		/// <summary>
+		/// Reads a integer value from the XML data.  If the name is not present 
+		/// an XleSerializationException is thrown.
+		/// </summary>
+		/// <param name="name">Name of the field.</param>
+		/// <returns></returns>
+		public int? ReadInt32Nullable(string name)
+		{
+			string attribute = CurrentNode.GetAttribute(name);
+
+			if (attribute == "null")
+				return null;
+			else if (string.IsNullOrEmpty(attribute) == false)
+				return int.Parse(attribute);
+
+			XmlElement element = (XmlElement)CurrentNode[name];
+
+			if (element != null)
+			{
+				if (element.InnerText == "null")
+					return null;
+
+				return int.Parse(element.InnerText);
+			}
+
+			throw new XleSerializationException("Node " + name + " not found.");
+		}/// <summary>
 		/// Reads a integer value from the XML data.  If the name is not present 
 		/// an XleSerializationException is thrown.
 		/// </summary>
@@ -1540,7 +1585,5 @@ namespace AgateLib.Serialization.Xle
 
 			return obj;
 		}
-
-
 	}
 }
