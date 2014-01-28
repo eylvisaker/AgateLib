@@ -29,6 +29,9 @@ namespace AgateLib.Serialization.Xle
 
 		public Type GetType(string typename)
 		{
+			if (typename == "string")
+				return typeof(string);
+
 			if (Type.GetType(typename) != null)
 				return Type.GetType(typename);
 
