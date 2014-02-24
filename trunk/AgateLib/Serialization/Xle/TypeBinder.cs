@@ -48,6 +48,8 @@ namespace AgateLib.Serialization.Xle
 
 		internal void AddAssembly(Assembly assembly)
 		{
+			if (assembly == null)
+				throw new ArgumentNullException("assembly cannot be null.");
 			if (SearchAssemblies.Contains(assembly))
 				return;
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.Extensions.Collections
+namespace AgateLib.Extensions.Collections.Generic
 {
 	public static class ListSorting
 	{

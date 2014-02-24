@@ -52,8 +52,12 @@ namespace AgateLib.Serialization.Xle
 				throw new ArgumentException("Object type is not IXleSerializable.");
 
 			var typeBinder = new TypeBinder();
+			var assembly = Assembly.GetEntryAssembly();
 
-			typeBinder.AddAssembly(Assembly.GetEntryAssembly());
+			if (assembly == null)
+				assembly = Assembly.GetCallingAssembly();
+
+			typeBinder.AddAssembly(assembly);
 			
 			Binder = typeBinder;
 			
