@@ -1585,5 +1585,57 @@ namespace AgateLib.Serialization.Xle
 
 			return obj;
 		}
+
+		public void WritePublicProperties(IXleSerializable item)
+		{
+			Type type = item.GetType();
+
+			foreach(var prop in type.GetProperties())
+			{
+				prop_WriteValue(prop.Name, prop.GetValue(item, null));
+			}
+		}
+
+		public void ReadPublicProperties(IXleSerializable item, bool allowDefaults = false)
+		{
+			Type type = item.GetType();
+
+			foreach (var prop in type.GetProperties())
+			{
+				if (ContainsKey(prop.Name) == false && allowDefaults == true)
+					continue;
+
+				object value = prop_ReadValue(prop.Name, prop.PropertyType);
+
+				prop.SetValue(item, prop_ReadValue(prop.Name, prop.PropertyType), null);
+			}
+		}
+
+		private object prop_ReadValue(string item, Type t)
+		{
+			if (t == typeof(string)) return ReadString(item);
+			else if (t == typeof(double)) return ReadDouble(item);
+			else if (t == typeof(int)) return ReadInt32(item);
+			else if (t == typeof(bool)) return ReadBoolean(item);
+
+			else throw new NotImplementedException();
+		}
+
+		private void prop_WriteValue(string name, object value)
+		{
+			if (value is string) Write(name, (string)value);
+			else if (value is int) Write(name, (int)value);
+			else if (value is double) Write(name, (double)value);
+			else if (value is bool) Write(name, (bool)value);
+
+			else throw new NotImplementedException();
+		}
+
+		private Type TypeOfValue(string item)
+		{
+			XmlElement el = (XmlElement)CurrentNode[item];
+
+			return Binder.GetType(el.Attributes["type"].Value);
+		}
 	}
 }
