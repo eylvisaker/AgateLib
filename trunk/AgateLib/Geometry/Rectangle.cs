@@ -246,10 +246,10 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public bool IntersectsWith(Rectangle rect)
 		{
-			if (this.Left > rect.Right) return false;
-			if (rect.Left > this.Right) return false;
-			if (this.Top > rect.Bottom) return false;
-			if (rect.Top > this.Bottom) return false;
+			if (this.Left >= rect.Right) return false;
+			if (rect.Left >= this.Right) return false;
+			if (this.Top >= rect.Bottom) return false;
+			if (rect.Top >= this.Bottom) return false;
 
 			return true;
 		}
