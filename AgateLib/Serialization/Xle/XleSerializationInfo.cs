@@ -1617,6 +1617,7 @@ namespace AgateLib.Serialization.Xle
 			else if (t == typeof(double)) return ReadDouble(item);
 			else if (t == typeof(int)) return ReadInt32(item);
 			else if (t == typeof(bool)) return ReadBoolean(item);
+			else if (t == typeof(int[])) return ReadInt32Array(item);
 
 			else throw new NotImplementedException();
 		}
@@ -1627,6 +1628,7 @@ namespace AgateLib.Serialization.Xle
 			else if (value is int) Write(name, (int)value);
 			else if (value is double) Write(name, (double)value);
 			else if (value is bool) Write(name, (bool)value);
+			else if (value is int[]) Write(name, (int[])value);
 
 			else throw new NotImplementedException();
 		}
