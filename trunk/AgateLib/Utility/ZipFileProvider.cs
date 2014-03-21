@@ -349,6 +349,15 @@ namespace AgateLib.Utility
 			return new StreamReader(s).ReadToEnd();
 		}
 
+		public bool IsRealFile(string filename)
+		{
+			return false;
+		}
+
+		public string ResolveFile(string filename)
+		{
+			throw new InvalidOperationException("This file provider does not provide access to a physical file system.");
+		}
 	}
 
 	enum ZipStorageType

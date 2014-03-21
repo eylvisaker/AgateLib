@@ -30,7 +30,7 @@ namespace AgateSDL.Audio
 	class SDL_SoundBufferSession : SoundBufferSessionImpl
 	{
 		IntPtr sound;
-		int channel;
+		int channel = -1;
 		double volume;
 		double pan;
 		bool loop;
@@ -48,14 +48,7 @@ namespace AgateSDL.Audio
 			sound = buffer.SoundChunk;
 			volume = buffer.Volume;
 
-			channel = SdlMixer.Mix_PlayChannel(-1, sound, LoopCount);
 			audio = (SDL_Audio)AgateLib.AudioLib.Audio.Impl;
-			SetPanning();
-
-			watch.Reset();
-			watch.Start();
-
-			audio.RegisterChannel(channel, this);
 		}
 		public override void Dispose()
 		{
@@ -64,12 +57,20 @@ namespace AgateSDL.Audio
 
 		protected override void Initialize()
 		{
-			
+
 		}
 
 		public override bool IsPlaying
 		{
-			get { return mIsPlaying; }
+			get
+			{
+				if (channel == -1)
+					return false;
+
+				return SdlMixer.Mix_Playing(channel) != 0;
+
+				//return mIsPlaying;
+			}
 		}
 
 		public override double Pan
@@ -95,6 +96,9 @@ namespace AgateSDL.Audio
 
 		private void SetPanning()
 		{
+			if (channel == -1)
+				return;
+
 			byte leftVol = (byte)(pan <= 0 ? 255 : (int)((1.0 - pan) * 255));
 			byte rightVol = (byte)(pan >= 0 ? 255 : (int)((pan + 1.0) * 255));
 
@@ -106,6 +110,9 @@ namespace AgateSDL.Audio
 			if (IsPlaying == false)
 			{
 				channel = SdlMixer.Mix_PlayChannel(-1, sound, LoopCount);
+
+				if (channel == -1)
+					Trace.WriteLine(string.Format("Error: {0}", SdlMixer.Mix_GetError()));
 			}
 			else
 			{
@@ -113,6 +120,7 @@ namespace AgateSDL.Audio
 			}
 
 			SetPanning();
+			SetVolume();
 
 			watch.Reset();
 			watch.Start();
@@ -136,7 +144,7 @@ namespace AgateSDL.Audio
 
 		public override void Stop()
 		{
-			SdlMixer.Mix_Pause(channel);
+			SdlMixer.Mix_HaltChannel(channel);
 
 			watch.Stop();
 		}
@@ -151,6 +159,14 @@ namespace AgateSDL.Audio
 			{
 				volume = value;
 
+				SetVolume();
+			}
+		}
+
+		private void SetVolume()
+		{
+			if (channel != -1)
+			{
 				SdlMixer.Mix_Volume(channel, (int)(volume * 128));
 			}
 		}

@@ -47,7 +47,7 @@ namespace AgateLib.AudioLib
 			impl = Audio.Impl.CreateSoundBufferSession(source.Impl);
 
 			mSource = source;
-			mSource.StopEvent += new Audio.AudioCoreEventDelegate(Stop);
+			//mSource.StopEvent += new Audio.AudioCoreEventDelegate(Stop);
 
 			Initialize();
 

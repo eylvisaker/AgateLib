@@ -62,5 +62,21 @@ namespace AgateLib
 		/// <param name="filename">The path and filename of the file to read from.</param>
 		/// <returns></returns>
 		string ReadAllText(string filename);
+
+		/// <summary>
+		/// Returns true if the specified filename points to an actual file on disk.
+		/// If this method returns false, then ResolveFile will throw an exception
+		/// for that file.
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		bool IsRealFile(string filename);
+
+		/// <summary>
+		/// Returns the full path of the given filename.
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		string ResolveFile(string filename);
 	}
 }

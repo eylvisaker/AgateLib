@@ -68,6 +68,23 @@ namespace AgateLib.Utility
 		}
 
 
+		public bool IsRealFile(string filename)
+		{
+			if (FindFileName(filename) != null)
+				return true;
+			else
+				return false;
+		}
+
+		public string ResolveFile(string filename)
+		{
+			var result = FindFileName(filename);
+
+			if (result == null)
+				throw new FileNotFoundException(filename);
+
+			return result;
+		}
 		/// <summary>
 		/// Searches through all directories in the SearchPathList object for the specified
 		/// filename.  The search is performed in the order directories have been added,
@@ -239,6 +256,5 @@ namespace AgateLib.Utility
 
 			return new StreamReader(s).ReadToEnd();
 		}
-
 	}
 }

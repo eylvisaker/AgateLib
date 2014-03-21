@@ -72,6 +72,42 @@ namespace AgateLib.Utility
 				"Could not find the file {0}.", filename), filename);
 		}
 
+
+
+		public bool IsRealFile(string filename)
+		{
+			if (string.IsNullOrEmpty(filename))
+				throw new ArgumentNullException("You must supply a file name.");
+
+			for (int i = mProviders.Count - 1; i >= 0; i--)
+			{
+				if (mProviders[i].FileExists(filename))
+				{
+					return mProviders[i].IsRealFile(filename);
+				}
+			}
+
+			throw new FileNotFoundException(string.Format(
+				"Could not find the file {0}.", filename), filename);
+		}
+
+		public string ResolveFile(string filename)
+		{
+			if (string.IsNullOrEmpty(filename))
+				throw new ArgumentNullException("You must supply a file name.");
+
+			for (int i = mProviders.Count - 1; i >= 0; i--)
+			{
+				if (mProviders[i].FileExists(filename))
+				{
+					return mProviders[i].ResolveFile(filename);
+				}
+			}
+
+			throw new FileNotFoundException(string.Format(
+				"Could not find the file {0}.", filename), filename);
+		}
+
 		/// <summary>
 		/// Returns all filenames matching the specified filter in 
 		/// all file providers.

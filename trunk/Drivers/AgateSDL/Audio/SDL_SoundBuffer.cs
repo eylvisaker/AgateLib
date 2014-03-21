@@ -32,13 +32,13 @@ namespace AgateSDL.Audio
 		IntPtr sound;
 		string tempfile;
 		double mVolume = 1.0;
-		bool ownRam = false;
-		IntPtr soundPtr;
 		int samplesPerSec = 22050;
+		string filename;
 
 		public SDL_SoundBuffer(Stream stream)
 		{
 			tempfile = AgateFileProvider.SaveStreamToTempFile(stream);
+			this.filename = tempfile;
 
 			LoadFromFile(tempfile);
 
@@ -47,6 +47,7 @@ namespace AgateSDL.Audio
 		}
 		public SDL_SoundBuffer(string filename)
 		{
+			this.filename = filename;
 			LoadFromFile(filename);
 		}
 
@@ -55,6 +56,8 @@ namespace AgateSDL.Audio
 		{
 			Dispose(false);
 		}
+
+		public string Filename { get { return filename; } }
 
 		public int SamplePerSec
 		{
@@ -69,11 +72,6 @@ namespace AgateSDL.Audio
 
 		private void Dispose(bool disposing)
 		{
-			if (ownRam )
-			{
-				Marshal.FreeHGlobal(soundPtr);
-			}
-
 			SdlMixer.Mix_FreeChunk(sound);
 			//if (string.IsNullOrEmpty(tempfile) == false)
 			//{

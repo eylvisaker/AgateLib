@@ -1611,24 +1611,29 @@ namespace AgateLib.Serialization.Xle
 			}
 		}
 
-		private object prop_ReadValue(string item, Type t)
+		private object prop_ReadValue(string name, Type t)
 		{
-			if (t == typeof(string)) return ReadString(item);
-			else if (t == typeof(double)) return ReadDouble(item);
-			else if (t == typeof(int)) return ReadInt32(item);
-			else if (t == typeof(bool)) return ReadBoolean(item);
-			else if (t == typeof(int[])) return ReadInt32Array(item);
+			if (t == typeof(string)) return ReadString(name);
+			else if (t == typeof(double)) return ReadDouble(name);
+			else if (t == typeof(int)) return ReadInt32(name);
+			else if (t == typeof(bool)) return ReadBoolean(name);
+			else if (t == typeof(int[])) return ReadInt32Array(name);
+			else if (t == typeof(IXleSerializable)) return ReadObject(name);
 
 			else throw new NotImplementedException();
 		}
 
 		private void prop_WriteValue(string name, object value)
 		{
-			if (value is string) Write(name, (string)value);
+			var type = value.GetType();
+
+			if (value == null) Write(name, (IXleSerializable)null);
+			else if (value is string) Write(name, (string)value);
 			else if (value is int) Write(name, (int)value);
 			else if (value is double) Write(name, (double)value);
 			else if (value is bool) Write(name, (bool)value);
 			else if (value is int[]) Write(name, (int[])value);
+			else if (value is IXleSerializable) Write(name, (IXleSerializable)value);
 
 			else throw new NotImplementedException();
 		}
