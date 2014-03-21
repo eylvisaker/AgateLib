@@ -74,9 +74,16 @@ namespace AgateLib.AudioLib
 		/// <param name="filename"></param>
 		public SoundBuffer(IFileProvider fileProvider, string filename)
 		{
-			using (System.IO.Stream s = fileProvider.OpenRead(filename))
+			if (fileProvider.IsRealFile(filename))
 			{
-				mImpl = Audio.Impl.CreateSoundBuffer(s);
+				mImpl = Audio.Impl.CreateSoundBuffer(fileProvider.ResolveFile(filename));
+			}
+			else
+			{
+				using (System.IO.Stream s = fileProvider.OpenRead(filename))
+				{
+					mImpl = Audio.Impl.CreateSoundBuffer(s);
+				}
 			}
 
 			mFilename = filename;
@@ -190,7 +197,8 @@ namespace AgateLib.AudioLib
 
 			foreach (SoundBufferSession session in mSessions)
 			{
-				session.Stop();
+				if (session.IsPlaying)
+					session.Stop();
 			}
 		}
 		/// <summary>

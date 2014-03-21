@@ -79,7 +79,11 @@ namespace AgateSDL.Audio
 		{
 			return new SDL_Music(musicStream);
 		}
-		
+
+		public override SoundBufferImpl CreateSoundBuffer(string filename)
+		{
+			return new SDL_SoundBuffer(filename);
+		}
 		public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
 		{
 			return new SDL_SoundBuffer(inStream);
@@ -102,6 +106,8 @@ namespace AgateSDL.Audio
 			{
 				throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
 			}
+
+			SdlMixer.Mix_AllocateChannels(64);
 
 			mChannelFinishedDelegate = ChannelFinished;
 
