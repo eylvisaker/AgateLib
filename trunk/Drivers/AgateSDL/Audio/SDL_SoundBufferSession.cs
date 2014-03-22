@@ -68,8 +68,6 @@ namespace AgateSDL.Audio
 					return false;
 
 				return SdlMixer.Mix_Playing(channel) != 0;
-
-				//return mIsPlaying;
 			}
 		}
 
@@ -168,6 +166,31 @@ namespace AgateSDL.Audio
 			if (channel != -1)
 			{
 				SdlMixer.Mix_Volume(channel, (int)(volume * 128));
+			}
+		}
+
+		public override bool IsPaused
+		{
+			get
+			{
+				if (channel == -1)
+					return false;
+				else
+					return SdlMixer.Mix_Paused(channel) != 0;
+			}
+			set
+			{
+				if (channel == -1)
+					return;
+
+				if (IsPaused)
+				{
+					SdlMixer.Mix_Resume(channel);
+				}
+				else
+				{
+					SdlMixer.Mix_Pause(channel);
+				}
 			}
 		}
 	}

@@ -92,7 +92,7 @@ namespace AgateLib.AudioLib
 			impl.Play();
 		}
 		/// <summary>
-		/// Stops playback.
+		/// Stops playback. Allows the SoundBufferSession to release sound card resources.
 		/// </summary>
 		public void Stop()
 		{
@@ -142,6 +142,17 @@ namespace AgateLib.AudioLib
 		public bool IsPlaying
 		{
 			get { return impl.IsPlaying; }
+		}
+
+		/// <summary>
+		/// Gets or sets whether this SoundBufferSession playback is paused.
+		/// If it is paused it still retains resources. Call Stop to allow
+		/// the SoundBufferSession to release resources.
+		/// </summary>
+		public bool IsPaused
+		{
+			get { return impl.IsPaused; }
+			set { impl.IsPaused = value; }
 		}
 		/// <summary>
 		/// Gets or sets a bool value which indicates whether or not this

@@ -92,6 +92,8 @@ namespace AgateLib.Drivers
 			protected internal override void Initialize()
 			{
 			}
+
+			public override bool IsPaused { get; set; }
 		}
 		public class NullMusicImpl : MusicImpl
 		{

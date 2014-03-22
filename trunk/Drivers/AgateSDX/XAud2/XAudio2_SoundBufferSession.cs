@@ -39,6 +39,7 @@ namespace AgateSDX.XAud2
 		double mVolume;
 		double mPan;
 		bool mIsPlaying;
+		bool mIsPaused;
 		bool mLoop = false;
 		bool mDisposing = false;
 
@@ -103,7 +104,23 @@ namespace AgateSDX.XAud2
 		public override void Stop()
 		{
 			mVoice.Stop();
+		}
+		
+		public override bool IsPaused
+		{
+			get
+			{
+				return mIsPaused;
+			}
+			set
+			{
+				mIsPaused = value;
 
+				if (mIsPaused)
+					mVoice.Stop();
+				else
+					mVoice.Start();
+			}
 		}
 
 		public override double Volume

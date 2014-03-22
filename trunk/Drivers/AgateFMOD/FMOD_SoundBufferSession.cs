@@ -97,6 +97,20 @@ namespace AgateFMOD
 			mChannel.stop();
 		}
 
+		public override bool IsPaused
+		{
+			get
+			{
+				bool result = false;
+				FMOD_Audio.CheckFMODResult(mChannel.getPaused(ref result));
+
+				return result;
+			}
+			set
+			{
+				FMOD_Audio.CheckFMODResult(mChannel.setPaused(value));
+			}
+		}
 		public override double Volume
 		{
 			get
