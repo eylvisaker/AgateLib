@@ -8,6 +8,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 using System.ComponentModel;
+using AgateLib.DisplayLib.Shaders;
 
 namespace AgateLib
 {
@@ -224,6 +225,9 @@ namespace AgateLib
 			}
 			else
 			{
+				Display.Shader = AgateBuiltInShaders.Basic2DShader;
+				AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(0, 0, Display.CurrentWindow.Width, Display.CurrentWindow.Height);
+
 				Display.FillRect(new Rectangle(0, 0, Display.RenderTarget.Width, mHeight), BackgroundColor);
 
 				int y = mHeight;
