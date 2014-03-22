@@ -70,9 +70,14 @@ namespace AgateLib.AudioLib.ImplementationBase
 		public abstract bool IsPlaying { get; }
 
 		/// <summary>
+		/// Gets or sets whether or not this playback instance is paused.
+		/// </summary>
+		public abstract bool IsPaused { get; set; }
+		/// <summary>
 		/// Initializes the SoundBufferSession to begin playing.
 		/// </summary>
 		protected internal abstract void Initialize();
+
 	}
 
 }
