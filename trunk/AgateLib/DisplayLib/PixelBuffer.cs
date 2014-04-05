@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -483,7 +484,11 @@ namespace AgateLib.DisplayLib
 		/// <param name="clip">If true, the copied region will automatically
 		/// be clipped.  If false, this method will throw an exception if the area
 		/// being copied to is out of range.</param>
-		public void CopyFrom(PixelBuffer buffer, Rectangle srcRect, Point destPt, bool clip)
+		/// <param name="skipTransparent">Pass true to avoid copying transparent pixels
+		/// for pixel formats that contain an alpha channel. This will only avoid copying
+		/// a pixel if it has an alpha of exactly 0. Passing true can reduce performance
+		/// significantly.</param>
+		public void CopyFrom(PixelBuffer buffer, Rectangle srcRect, Point destPt, bool clip, bool skipTransparent = false)
 		{
 			if (clip == false)
 			{
@@ -499,31 +504,49 @@ namespace AgateLib.DisplayLib
 			if (destPt.X < 0 || destPt.Y < 0)
 				throw new ArgumentOutOfRangeException("destPt", "Destination cannot be less than zero.");
 
-			if (buffer.RowStride == RowStride && buffer.PixelFormat == PixelFormat && destPt.X == 0)
+			if (skipTransparent)
 			{
-				int destIndex = GetPixelIndex(destPt.X, destPt.Y);
-				int srcIndex = buffer.GetPixelIndex(srcRect.X, srcRect.Y);
-
-				int size = buffer.RowStride * srcRect.Height;
-
-				Array.Copy(buffer.Data, srcIndex, Data, destIndex, size);
-			}
-			for (int y = 0; y < srcRect.Height; y++)
-			{
-				if (buffer.PixelFormat == PixelFormat)
-				{
-					int destIndex = GetPixelIndex(destPt.X, y + destPt.Y);
-					int srcIndex = buffer.GetPixelIndex(srcRect.X, y + srcRect.Y);
-
-					Array.Copy(buffer.Data, srcIndex,
-							   Data, destIndex, PixelStride * srcRect.Width);
-				}
-				else
+				for (int y = 0; y < srcRect.Height; y++)
 				{
 					for (int x = 0; x < srcRect.Width; x++)
 					{
 						Color pixel = buffer.GetPixel(x + srcRect.X, y + srcRect.Y);
+
+						if (pixel.A == 0)
+							continue;
+
 						SetPixel(x + destPt.X, y + destPt.Y, pixel);
+					}
+				}
+			}
+			else
+			{
+				if (buffer.RowStride == RowStride && buffer.PixelFormat == PixelFormat && destPt.X == 0)
+				{
+					int destIndex = GetPixelIndex(destPt.X, destPt.Y);
+					int srcIndex = buffer.GetPixelIndex(srcRect.X, srcRect.Y);
+
+					int size = buffer.RowStride * srcRect.Height;
+
+					Array.Copy(buffer.Data, srcIndex, Data, destIndex, size);
+				}
+				for (int y = 0; y < srcRect.Height; y++)
+				{
+					if (buffer.PixelFormat == PixelFormat)
+					{
+						int destIndex = GetPixelIndex(destPt.X, y + destPt.Y);
+						int srcIndex = buffer.GetPixelIndex(srcRect.X, y + srcRect.Y);
+
+						Array.Copy(buffer.Data, srcIndex,
+								   Data, destIndex, PixelStride * srcRect.Width);
+					}
+					else
+					{
+						for (int x = 0; x < srcRect.Width; x++)
+						{
+							Color pixel = buffer.GetPixel(x + srcRect.X, y + srcRect.Y);
+							SetPixel(x + destPt.X, y + destPt.Y, pixel);
+						}
 					}
 				}
 			}
@@ -724,7 +747,7 @@ namespace AgateLib.DisplayLib
 					for (int y = 0; y < Height; y++)
 					{
 						Marshal.Copy(rowPtr, srcPixel, 0, srcRowStride);
-						
+
 						// check for common Win32 - OpenGL conversion case
 						if (this.PixelFormat == PixelFormat.RGBA8888 &&
 							srcFormat == PixelFormat.BGRA8888)
@@ -1217,13 +1240,43 @@ namespace AgateLib.DisplayLib
 			{
 				for (int i = x; i < x + width; i++)
 				{
-					if (Math.Pow(i - centerx, 2) * _height * _height + Math.Pow(j - centery, 2) * _width * _width 
+					if (Math.Pow(i - centerx, 2) * _height * _height + Math.Pow(j - centery, 2) * _width * _width
 						<= _height * _height * _width * _width)
 					{
 						SetPixel(i, j, color);
 					}
 				}
 			}
+		}
+
+		public static bool PixelsEqual(PixelBuffer a, PixelBuffer b)
+		{
+			if (object.ReferenceEquals(a, b))
+				return true;
+
+			if (a.Width != b.Width)
+				return false;
+			if (a.Height != b.Height)
+				return false;
+
+			if (a.PixelFormat == b.PixelFormat)
+			{
+				if (a.Data.SequenceEqual(b.Data))
+					return true;
+				else
+					return false;
+			}
+
+			for (int y = 0; y < a.Height; y++)
+			{
+				for (int x = 0; x < a.Width; x++)
+				{
+					if (a.GetPixel(x, y) != b.GetPixel(x, y))
+						return false;
+				}
+			}
+
+			return true;
 		}
 	}
 }
