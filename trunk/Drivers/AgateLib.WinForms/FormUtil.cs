@@ -24,6 +24,7 @@ using System.Windows.Forms;
 
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
+using System.IO;
 
 namespace AgateLib.WinForms
 {
@@ -180,6 +181,9 @@ namespace AgateLib.WinForms
 		public static void SavePixelBuffer(PixelBuffer buffer, string filename, ImageFileFormat format)
 		{
 			Bitmap bmp = Interop.BitmapFromPixelBuffer(buffer);
+
+			if (Directory.Exists(Path.GetDirectoryName(filename)) == false)
+				throw new DirectoryNotFoundException("The directory " + Path.GetDirectoryName(filename) + " does not exist.");
 
 			switch (format)
 			{

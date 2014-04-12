@@ -1248,6 +1248,21 @@ namespace AgateLib.DisplayLib
 				}
 			}
 		}
+		/// <summary>
+		/// Fills the specified rectangle with the passed color.
+		/// </summary>
+		/// <param name="color"></param>
+		/// <param name="inside"></param>
+		public void FillRectangle(Color color, Rectangle inside)
+		{
+			for (int j = inside.Y; j < inside.Bottom ;j++)
+			{
+				for (int i = inside.X; i < inside.Right; i++)
+				{
+					SetPixel(i, j, color);
+				}
+			}
+		}
 
 		public static bool PixelsEqual(PixelBuffer a, PixelBuffer b)
 		{
