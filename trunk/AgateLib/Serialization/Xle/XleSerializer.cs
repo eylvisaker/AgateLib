@@ -58,7 +58,8 @@ namespace AgateLib.Serialization.Xle
 				assembly = Assembly.GetCallingAssembly();
 
 			typeBinder.AddAssembly(assembly);
-			
+			typeBinder.AddAssembly(Assembly.GetCallingAssembly());
+
 			Binder = typeBinder;
 			
 			this.objectType = objectType;
