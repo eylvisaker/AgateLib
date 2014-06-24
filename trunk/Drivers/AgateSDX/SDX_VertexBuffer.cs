@@ -217,7 +217,7 @@ namespace AgateSDX
 			SetTextures();
 
 			mDisplay.D3D_Device.AlphaArgument1 = Direct3D.TextureArgument.Texture;
-
+			
 			mDisplay.D3D_Device.Device.VertexDeclaration = mDeclaration;
 			mDisplay.D3D_Device.Device.Indices = indexbuffer.DeviceIndexBuffer;
 			mDisplay.D3D_Device.Device.SetStreamSource(0, mBuffer, 0, mLayout.VertexSize);

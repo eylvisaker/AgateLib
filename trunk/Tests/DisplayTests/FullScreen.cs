@@ -35,6 +35,8 @@ namespace Tests.DisplayTests
 				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 				FontSurface font = FontSurface.AgateSans14;
 
+				int frames = 1;
+
 				// Run the program while the window is open.
 				while (Display.CurrentWindow.IsClosed == false && 
 					Keyboard.Keys[KeyCode.Escape] == false && 
@@ -44,10 +46,14 @@ namespace Tests.DisplayTests
 					Display.Clear(Color.DarkGreen);
 
 					font.DrawText(text);
+
+					font.DrawText(0, 480 - font.FontHeight, "Frames: {0}", frames);
+
 					mySurface.Draw(Mouse.X, Mouse.Y);
 
 					Display.EndFrame();
 					Core.KeepAlive();
+					frames++;
 				}
 			}
 		}

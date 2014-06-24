@@ -85,6 +85,8 @@ namespace AgateLib.DisplayLib.Shaders
 					return;
 				}
 			}
+
+			Lights.Add(ptLight);
 		}
 	
 
