@@ -89,6 +89,9 @@ namespace Tests
 
 		void AgateLib.Settings.ISettingsTracer.OnReadSetting(string groupName, string key, string value)
 		{
+			if (string.IsNullOrEmpty(groupName))
+				throw new ArgumentException();
+
 			string name = groupName + "." + key;
 
 			StoreSetting(name, value);
@@ -96,6 +99,9 @@ namespace Tests
 
 		void AgateLib.Settings.ISettingsTracer.OnWriteSetting(string groupName, string key, string value)
 		{
+			if (string.IsNullOrEmpty(groupName))
+				throw new ArgumentException();
+
 			string name = groupName + "." + key;
 
 			StoreSetting(name, value);
@@ -236,7 +242,7 @@ namespace Tests
 			string[] args = { };
 
 			this.Hide();
-			foreach (var kvp in mSettings)
+			foreach (var kvp in mSettings.ToArray())
 			{
 				if (kvp.Value == null)
 					continue;

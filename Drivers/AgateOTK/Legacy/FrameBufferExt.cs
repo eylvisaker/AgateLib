@@ -35,9 +35,11 @@ namespace AgateOTK.Legacy
 		int mFramebufferID;
 		int mDepthBuffer, mStencilBuffer;
 		GL_Surface mTexture;
+		bool first = true;
 
 		static bool sDepthSupported = true;
 		static bool sStencilSupported = true;
+
 
 		public FrameBufferExt(Size size)
 		{
@@ -188,6 +190,12 @@ namespace AgateOTK.Legacy
 		{
 			GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, mFramebufferID);
 			GL.PushAttrib(AttribMask.ViewportBit);
+
+			if (first)
+			{
+				AgateLib.DisplayLib.Display.Clear(Color.FromArgb(0, 0, 0, 0));
+				first = false;
+			}
 		}
 
 		public override void EndRender()

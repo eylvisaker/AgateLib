@@ -1,6 +1,6 @@
-AgateLib.DisplayDriver	SlimDX - Direct3D 9
+AgateLib.DisplayDriver	OpenGL through OpenTK 1.1.1631.6093
 AgateLib.AudioDriver	Default
 AgateLib.InputDriver	Default
-AgateLib.OpenGL.DisableFramebufferArb	
+AgateLib.OpenGL.DisableFramebufferArb	false
 AgateLib.OpenGL.EnableGL3	false
-AgateLib.OpenGL.DisableFramebufferExt	
+AgateLib.OpenGL.DisableFramebufferExt	false

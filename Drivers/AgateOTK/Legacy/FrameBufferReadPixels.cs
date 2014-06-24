@@ -39,6 +39,7 @@ namespace AgateOTK.Legacy
 			this.size = size;
 			surface = new GL_Surface(size);
 
+			surface.FlipVertical = true;
 		}
 
 		public override void MakeCurrent()

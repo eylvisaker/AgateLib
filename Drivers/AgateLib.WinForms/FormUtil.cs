@@ -181,9 +181,10 @@ namespace AgateLib.WinForms
 		public static void SavePixelBuffer(PixelBuffer buffer, string filename, ImageFileFormat format)
 		{
 			Bitmap bmp = Interop.BitmapFromPixelBuffer(buffer);
+			var dirname = Path.GetDirectoryName(filename);
 
-			if (Directory.Exists(Path.GetDirectoryName(filename)) == false)
-				throw new DirectoryNotFoundException("The directory " + Path.GetDirectoryName(filename) + " does not exist.");
+			if (string.IsNullOrEmpty(dirname) == false && Directory.Exists(dirname) == false)
+				throw new DirectoryNotFoundException("The directory " + dirname + " does not exist.");
 
 			switch (format)
 			{
