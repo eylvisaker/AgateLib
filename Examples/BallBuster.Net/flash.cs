@@ -22,30 +22,32 @@
 using AgateLib;
 using AgateLib.DisplayLib;
 
-
-internal class CFlash
+namespace BallBuster.Net
 {
-    public CFlash(int myx, int myy)
-    {
-        this.alpha = 0.8f;
-        this.x = (float)myx;
-        this.y = (float)myy;
-        this.delay = 25;
-        this.start = (int)Timing.TotalMilliseconds;
-    }
+	internal class CFlash
+	{
+		public CFlash(int myx, int myy)
+		{
+			this.alpha = 0.8f;
+			this.x = (float)myx;
+			this.y = (float)myy;
+			this.delay = 25;
+			this.start = (int)Timing.TotalMilliseconds;
+		}
 
-    public float x, y, alpha;
-    public int start, delay;
-    public bool update()
-    {
-        if ((int)Timing.TotalMilliseconds > (this.start + this.delay))
-        {
-            this.start = (int)Timing.TotalMilliseconds;
-            this.alpha -= 0.2f;
-            if (this.alpha < 0) return false;
+		public float x, y, alpha;
+		public int start, delay;
+		public bool update()
+		{
+			if ((int)Timing.TotalMilliseconds > (this.start + this.delay))
+			{
+				this.start = (int)Timing.TotalMilliseconds;
+				this.alpha -= 0.2f;
+				if (this.alpha < 0) return false;
 
-        }
-        return true;
+			}
+			return true;
 
-    }
+		}
+	}
 }
