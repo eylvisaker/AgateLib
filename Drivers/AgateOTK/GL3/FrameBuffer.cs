@@ -84,6 +84,9 @@ namespace AgateOTK.GL3
 
 			mHasDepth = true;
 			mHasStencil = true;
+
+
+			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 		}
 		public override void Dispose()
 		{

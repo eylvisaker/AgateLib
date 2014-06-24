@@ -75,8 +75,6 @@ namespace Tests.DisplayTests
 			Display.EndFrame();
 
 			Display.RenderTarget = save;
-
 		}
-
 	}
 }
