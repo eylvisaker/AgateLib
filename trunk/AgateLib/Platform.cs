@@ -127,9 +127,6 @@ namespace AgateLib
 
 		internal void EnsureAppDataDirectoryExists()
 		{
-			if (Directory.Exists(AppDataDirectory))
-				return;
-
 			Directory.CreateDirectory(AppDataDirectory);
 		}
 

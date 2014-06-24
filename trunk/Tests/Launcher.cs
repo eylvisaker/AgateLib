@@ -18,6 +18,8 @@ namespace Tests
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new frmLauncher());
+
+			Core.Settings.SaveSettings();
 		}
 	}
 }

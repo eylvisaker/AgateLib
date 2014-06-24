@@ -40,7 +40,6 @@ namespace Tests.MultipleWindows
 				DisplayWindow wnd_2 = DisplayWindow.CreateFromControl(myForm.pictureBox2);
 				DisplayWindow wnd_3 = DisplayWindow.CreateFromControl(myForm.pictureBox3);
 
-				frameBuffer = new FrameBuffer(wnd_3.Width, wnd_3.Height);
 				myForm.pictureBox3.Resize += new EventHandler(wnd_3_Resize);
 
 				// this is the code that will be called when the button is pressed
@@ -55,6 +54,8 @@ namespace Tests.MultipleWindows
 				image2.DisplayHeight = (int)(image2.DisplayWidth * image2.SurfaceHeight / (double)image2.SurfaceWidth);
 
 				double time = 0;
+
+				frameBuffer = new FrameBuffer(wnd_3.Width, wnd_3.Height);
 
 				while (myForm.Visible)
 				{

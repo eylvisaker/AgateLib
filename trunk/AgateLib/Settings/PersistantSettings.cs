@@ -39,7 +39,7 @@ namespace AgateLib.Settings
 	public class PersistantSettings
 	{
 		Dictionary<string, SettingsGroup> mSettings = new Dictionary<string, SettingsGroup>();
-		
+
 		#region --- Static Members ---
 
 		public static ISettingsTracer SettingsTracer { get; set; }
@@ -57,7 +57,7 @@ namespace AgateLib.Settings
 		{
 			if (Debug)
 			{
-				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] read.", groupName, key));
+				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"]=\"{2}\" read.", groupName, key, value));
 			}
 
 			if (SettingsTracer == null) return;
@@ -68,7 +68,7 @@ namespace AgateLib.Settings
 		{
 			if (Debug)
 			{
-				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"] written.", groupName, key));
+				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"]=\"{2}\" written.", groupName, key, value));
 			}
 
 			if (SettingsTracer == null) return;
@@ -83,16 +83,16 @@ namespace AgateLib.Settings
 			LoadSettings();
 		}
 
-		
+
 		private SettingsGroup GetOrCreateSettingsGroup(string name)
 		{
-			if (name.Contains(" "))
-				throw new AgateException("Settings group name cannot contain a space.");
+			if (name.Contains(" ")) throw new ArgumentException("Settings group name cannot contain a space.");
+			if (string.IsNullOrEmpty(name)) throw new ArgumentException("Settings group name cannot be blank.");
 
 			if (mSettings.ContainsKey(name) == false)
 			{
 				mSettings[name] = new SettingsGroup();
-				mSettings[name].Name = name;	
+				mSettings[name].Name = name;
 			}
 
 			return mSettings[name];
@@ -185,12 +185,13 @@ namespace AgateLib.Settings
 			{
 				SettingsGroup g = new SettingsGroup();
 
+				g.Name = node.Name;
+
 				foreach (XmlElement pair in node.ChildNodes)
 				{
 					g.Add(pair.Name, pair.InnerXml);
 				}
-				
-				g.Name = node.Name;
+
 				mSettings.Add(node.Name, g);
 			}
 		}

@@ -235,9 +235,9 @@ namespace AgateOTK.Legacy
 			BeginMode beginMode;
 			switch (PrimitiveType)
 			{
-				case PrimitiveType.TriangleList: beginMode = BeginMode.Triangles; break;
-				case PrimitiveType.TriangleFan: beginMode = BeginMode.TriangleFan; break;
-				case PrimitiveType.TriangleStrip: beginMode = BeginMode.TriangleStrip; break;
+				case AgateLib.DisplayLib.PrimitiveType.TriangleList: beginMode = BeginMode.Triangles; break;
+				case AgateLib.DisplayLib.PrimitiveType.TriangleFan: beginMode = BeginMode.TriangleFan; break;
+				case AgateLib.DisplayLib.PrimitiveType.TriangleStrip: beginMode = BeginMode.TriangleStrip; break;
 
 				default:
 					throw new AgateException(string.Format(
