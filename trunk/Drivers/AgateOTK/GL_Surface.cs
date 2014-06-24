@@ -332,13 +332,20 @@ namespace AgateOTK
 			{
 				for (int i = rect.Top; i < rect.Bottom; i++)
 				{
-					int dataIndex = (i - rect.Top) * pixelStride * rect.Width;
+					int row = i - rect.Top;
+
+					if (FlipVertical)
+					{
+						row = rect.Height - row - 1;
+					}
+
+					int dataIndex = (row) * pixelStride * rect.Width;
 					IntPtr memPtr = (IntPtr)((byte*)memory + i * memStride + rect.Left * pixelStride);
 
 					Marshal.Copy(memPtr, data, dataIndex, pixelStride * rect.Width);
 				}
 			}
-
+			
 			Marshal.FreeHGlobal(memory);
 
 			if (format == PixelFormat.RGBA8888)

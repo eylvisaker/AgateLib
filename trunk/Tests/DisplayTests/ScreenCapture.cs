@@ -41,7 +41,6 @@ namespace Tests.ScreenCaptureExample
 					}
 					if (capturing)
 					{
-						// TODO: reimplement this with framebuffers.
 						Display.RenderTarget = capture;
 						someSurface.SetScale(2, 2);
 					}
@@ -51,6 +50,7 @@ namespace Tests.ScreenCaptureExample
 					Display.Clear(Color.White);
 
 					someSurface.Draw();
+					Display.FillRect(10, 10, 10, 10, Color.Gray);
 
 					Display.EndFrame();
 
