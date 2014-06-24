@@ -70,7 +70,7 @@ namespace Tests.LightingTest
 						lt2.Position = new Vector3(e.MousePosition.X, e.MousePosition.Y, -1);
 					};
 
-				while (true)//(frm.Visible == true)
+				while (wnd.IsClosed == false)
 				{
 					//if (frm.chkMoveLight.Checked)
 						time += Display.DeltaTime / 1000.0;
@@ -86,9 +86,8 @@ namespace Tests.LightingTest
 					Display.BeginFrame();
 					Display.Clear(Color.DarkRed);
 
-					//lights.Activate();
-
-					//lights.Enabled = frm.enableLightingCheck.Checked;
+					lights.Activate();
+					
 					//lights.DoLighting();
 					//fx.SetVariable("worldViewProj", wnd.OrthoProjection);
 

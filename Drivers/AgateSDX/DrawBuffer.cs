@@ -100,6 +100,10 @@ namespace AgateSDX
 
 			mDevice.SetDeviceStateTexture(mTexture);
 			mDevice.AlphaBlend = mAlphaBlend;
+			mDevice.AlphaArgument1 = TextureArgument.Texture;
+			mDevice.AlphaArgument2 = TextureArgument.Diffuse;
+			mDevice.AlphaOperation = TextureOperation.Modulate;
+
 			mDevice.SetVertexDeclarationForSurfaces();
 
 			SDX_Display display = (SDX_Display)Display.Impl;

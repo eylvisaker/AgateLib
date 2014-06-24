@@ -94,52 +94,61 @@ namespace AgateSDX.Shaders
 
 			Set2DDrawState();
 
-			//if (EnableLighting == false)
-			//{
-			//	mDisplay.D3D_Device.Device.SetRenderState(RenderState.Lighting, false);
-			//	return;
-			//}
+			mDisplay.D3D_Device.Device.SetRenderState(RenderState.Lighting, true);
+			mDisplay.D3D_Device.Device.SetRenderState(RenderState.Ambient, AmbientLight.ToArgb());
+			mDisplay.D3D_Device.Device.SetRenderState(RenderState.ColorVertex, true);
 
-			//mDisplay.D3D_Device.Device.SetRenderState(RenderState.Lighting, true);
-			//mDisplay.D3D_Device.Device.SetRenderState(RenderState.Ambient, AmbientLight.ToArgb());
+			TextureArgument arg0 = (TextureArgument)mDisplay.D3D_Device.Device.GetTextureStageState(0, TextureStage.ColorArg0);
+			TextureArgument arg1 = (TextureArgument)mDisplay.D3D_Device.Device.GetTextureStageState(0, TextureStage.ColorArg1);
+			TextureArgument arg2 = (TextureArgument)mDisplay.D3D_Device.Device.GetTextureStageState(0, TextureStage.ColorArg2);
+			TextureOperation op = (TextureOperation)mDisplay.D3D_Device.Device.GetTextureStageState(0, TextureStage.ColorOperation);
 
-			//Material material = new Material();
-			//material.Diffuse = new SlimDX.Color4(Color.White.ToArgb());
-			//material.Ambient = new SlimDX.Color4(Color.White.ToArgb());
+			mDisplay.D3D_Device.Device.SetTextureStageState(0, TextureStage.ColorArg0, TextureArgument.Current);
+			mDisplay.D3D_Device.Device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Texture);
+			mDisplay.D3D_Device.Device.SetTextureStageState(0, TextureStage.ColorArg2, TextureArgument.Current);
+			mDisplay.D3D_Device.Device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Modulate);
+			mDisplay.D3D_Device.Device.SetRenderState(RenderState.DiffuseMaterialSource, ColorSource.Color1);
+			mDisplay.D3D_Device.Device.SetRenderState(RenderState.AmbientMaterialSource, ColorSource.Color1);
+			
+			Material material = new Material();
+			material.Diffuse = new SlimDX.Color4(Color.White.ToArgb());
+			material.Ambient = new SlimDX.Color4(Color.White.ToArgb());
+			
+			
+			mDisplay.D3D_Device.Device.Material = material;
 
-			//mDisplay.D3D_Device.Device.Material = material;
+			int index = 0;
 
-			//int index = 0;
+			for (int i = 0; i < Lights.Count; i++)
+			{
+				var agateLight = Lights[i];
 
-			//for (int i = 0; i < Lights.Count; i++)
-			//{
-			//	var agateLight = Lights[i];
+				if (agateLight == null)
+					continue;
+				if (agateLight.Enabled == false)
+					continue;
 
-			//	if (agateLight == null)
-			//		continue;
-			//	if (agateLight.Enabled == false)
-			//		continue;
+				SlimDX.Direct3D9.Light l = new SlimDX.Direct3D9.Light();
 
-			//	SlimDX.Direct3D9.Light l = new SlimDX.Direct3D9.Light();
+				l.Ambient = new SlimDX.Color4(agateLight.AmbientColor.ToArgb());
+				l.Attenuation0 = agateLight.AttenuationConstant;
+				l.Attenuation1 = agateLight.AttenuationLinear;
+				l.Attenuation2 = agateLight.AttenuationQuadratic;
+				l.Diffuse = new SlimDX.Color4(agateLight.DiffuseColor.ToArgb());
+				l.Type = LightType.Point;
+				l.Direction = new SlimDX.Vector3(0, 0, 1);
+				l.Range = 100;
+				
 
-			//	l.Ambient = new SlimDX.Color4(agateLight.AmbientColor.ToArgb());
-			//	l.Attenuation0 = agateLight.AttenuationConstant;
-			//	l.Attenuation1 = agateLight.AttenuationLinear;
-			//	l.Attenuation2 = agateLight.AttenuationQuadratic;
-			//	l.Diffuse = new SlimDX.Color4(agateLight.DiffuseColor.ToArgb());
-			//	l.Type = LightType.Point;
-			//	l.Direction = new SlimDX.Vector3(0, 0, 1);
-			//	l.Range = 100;
+				Vector3 pos = agateLight.Position;
 
-			//	Vector3 pos = agateLight.Position;
+				l.Position = new SlimDX.Vector3(pos.X, pos.Y, pos.Z);
 
-			//	l.Position = new SlimDX.Vector3(pos.X, pos.Y, pos.Z);
+				mDisplay.D3D_Device.Device.SetLight(index, l);
+				mDisplay.D3D_Device.Device.EnableLight(index, true);
 
-			//	mDisplay.D3D_Device.Device.SetLight(index, l);
-			//	mDisplay.D3D_Device.Device.EnableLight(index, true);
-
-			//	index++;
-			//}
+				index++;
+			}
 		}
 
 		public override void BeginPass(int passIndex)

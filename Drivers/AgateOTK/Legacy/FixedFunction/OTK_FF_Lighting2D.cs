@@ -86,9 +86,7 @@ namespace AgateOTK.Legacy.FixedFunction
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
 			GL.Ortho(coords.Left, coords.Right, coords.Bottom, coords.Top, -1, 1);
-
-			GL.Enable(EnableCap.Lighting);
-
+			
 			float[] array = new float[4];
 
 			GL.Enable(EnableCap.Lighting);

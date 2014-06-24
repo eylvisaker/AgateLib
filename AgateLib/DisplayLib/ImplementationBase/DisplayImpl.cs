@@ -705,9 +705,18 @@ namespace AgateLib.DisplayLib.ImplementationBase
 				if (mShader != null)
 					mShader.EndInternal();
 
+				if (value is IShader2D && mShader is IShader2D)
+					TransferShader2DSettings((IShader2D)value, (IShader2D)mShader);
+
 				mShader = value;
 				mShader.BeginInternal();
 			}
+		}
+
+		private void TransferShader2DSettings(IShader2D target, IShader2D src)
+		{
+			if (target.CoordinateSystem.IsEmpty)
+				target.CoordinateSystem = src.CoordinateSystem;
 		}
 
 
