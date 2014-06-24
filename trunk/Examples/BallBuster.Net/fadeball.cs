@@ -21,60 +21,63 @@
 
 using System;
 
-internal class CFadeBall
+namespace BallBuster.Net
 {
-    public CFadeBall(CBall ball)
-    {
-        alpha = 0.75f;
+	internal class CFadeBall
+	{
+		public CFadeBall(CBall ball)
+		{
+			alpha = 0.75f;
 
-        x = ball.ballx;
-        y = ball.bally;
+			x = ball.ballx;
+			y = ball.bally;
 
-        angle = ball.Ballangle;
+			angle = ball.Ballangle;
 
-        vx = vy = 0;
+			vx = vy = 0;
 
-        scale = 1.0f;
-        scaleV = -6.0f;
+			scale = 1.0f;
+			scaleV = -6.0f;
 
-        const int max = 45;
+			const int max = 45;
 
-        vx = (float)BBX.random.Next(-max, max + 1);
-        vy = (float)BBX.random.Next(-max, max + 1);
+			vx = (float)BBX.random.Next(-max, max + 1);
+			vy = (float)BBX.random.Next(-max, max + 1);
 
-        if (ball.ballsticking)
-            vy += -45;
+			if (ball.ballsticking)
+				vy += -45;
 
-    }
+		}
 
-    public float x, y;
-    public float angle;
+		public float x, y;
+		public float angle;
 
-    public float vx, vy;
-    public float scale;
-    public float scaleV;
+		public float vx, vy;
+		public float scale;
+		public float scaleV;
 
-    public float alpha;
+		public float alpha;
 
-    public bool update(float time_s)
-    {
-        alpha -= 9.0f * time_s;
-        scale += scaleV * time_s;
+		public bool update(float time_s)
+		{
+			alpha -= 9.0f * time_s;
+			scale += scaleV * time_s;
 
-        if (alpha < 0 || scale <= 0)
-        {
-            alpha = 0;
-            scale = 0;
+			if (alpha < 0 || scale <= 0)
+			{
+				alpha = 0;
+				scale = 0;
 
-            return false;
-        }
+				return false;
+			}
 
-        x += vx * time_s;
-        y += vy * time_s;
-
-
-        return true;
-    }
+			x += vx * time_s;
+			y += vy * time_s;
 
 
+			return true;
+		}
+
+
+	}
 }

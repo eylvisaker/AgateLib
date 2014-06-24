@@ -24,176 +24,179 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Sprites;
 
-internal class CBlock
+namespace BallBuster.Net
 {
-    private int str;
-    private int originalStr;
+	internal class CBlock
+	{
+		private int str;
+		private int originalStr;
 
 
 
-    public float x, y, w, h;
+		public float x, y, w, h;
 
-    public enum BlockType
-    {
-        Glass,
-        Wood,
-        Stone,
-        Invincible,
-        Ruby,
+		public enum BlockType
+		{
+			Glass,
+			Wood,
+			Stone,
+			Invincible,
+			Ruby,
 
-        Invalid = -1,
-    };
+			Invalid = -1,
+		};
 
-    public Sprite block;
+		public Sprite block;
 
-    public CBlock()
-    {
+		public CBlock()
+		{
 
-        x = y = 0.0f;
-        w = 40.0f;
-        h = 20.0f;
+			x = y = 0.0f;
+			w = 40.0f;
+			h = 20.0f;
 
-        this.str = 1;
-        this.block = null;
+			this.str = 1;
+			this.block = null;
 
-        mBlockType = BlockType.Invalid;
+			mBlockType = BlockType.Invalid;
 
-        animStart = (int)Timing.TotalMilliseconds - 1000;
+			animStart = (int)Timing.TotalMilliseconds - 1000;
 
-        flipcrack = false;
+			flipcrack = false;
 
-        offsety = 0;
+			offsety = 0;
 
-        shaking = false;
+			shaking = false;
 
-    }
-    public bool collision(float myx, float myy, float myw, float myh)
-    {
+		}
+		public bool collision(float myx, float myy, float myw, float myh)
+		{
 
-        if (myx + myw < x) return false;
-        if (myx > x + w) return false;
-        if (myy + myh < y + offsety) return false;
-        if (myy > y + h + offsety) return false;
+			if (myx + myw < x) return false;
+			if (myx > x + w) return false;
+			if (myy + myh < y + offsety) return false;
+			if (myy > y + h + offsety) return false;
 
-        return true;
+			return true;
 
-    }
+		}
 
-    // "Color" of block... the value read from the input file for this block.
-    public char color;
+		// "Color" of block... the value read from the input file for this block.
+		public char color;
 
-    public int getStr() { return str; }
-    public void setStr(int strength) { originalStr = str = strength; }
+		public int getStr() { return str; }
+		public void setStr(int strength) { originalStr = str = strength; }
 
-    public void decreaseStr(int amount) { str -= amount; }
+		public void decreaseStr(int amount) { str -= amount; }
 
-    public void setCoords(float myx, float myy) { x = myx; y = myy; }
+		public void setCoords(float myx, float myy) { x = myx; y = myy; }
 
-    public BlockType mBlockType;
+		public BlockType mBlockType;
 
-    public Color clr;
-    public bool flipcrack;
+		public Color clr;
+		public bool flipcrack;
 
-    public int animShift;
-    public int animStart;
+		public int animShift;
+		public int animStart;
 
-    public float offsety;
-
-
-    public bool shaking;
-    public int shakeStart;
-
-    int frame;
+		public float offsety;
 
 
-    public float crackPercentage()
-    {
-        // I want a function that is linear, and it returns 
-        //		0 when str = originalStr
-        //		1 when str = 1
-        // varies linearly with str in between
-        // it would be easier with another variable, altstr = str - 1
-        float altstr = str / 100.0f - 1;
+		public bool shaking;
+		public int shakeStart;
 
-        // slope of something like that: 
-        //		rise = -1
-        //		run = originalstr - 1
-        //		intercept = 1
-
-        float retVal = -1 / (originalStr / 100.0f - 1) * altstr + 1.0f;
-
-        if (retVal > 1.0f)
-            retVal = 1.0f;
-
-        return retVal;
-    }
-
-    public void setFrame()
-    {
-        int realtime = (int)Timing.TotalMilliseconds;
-        int time = animShift + realtime;
-        const int frameTime = 40;
-
-        if (time > animStart + 5000)
-        {
-            animStart = time;
-        }
+		int frame;
 
 
-        int newframe = ((time - animStart) / frameTime) % block.Frames.Count;
+		public float crackPercentage()
+		{
+			// I want a function that is linear, and it returns 
+			//		0 when str = originalStr
+			//		1 when str = 1
+			// varies linearly with str in between
+			// it would be easier with another variable, altstr = str - 1
+			float altstr = str / 100.0f - 1;
+
+			// slope of something like that: 
+			//		rise = -1
+			//		run = originalstr - 1
+			//		intercept = 1
+
+			float retVal = -1 / (originalStr / 100.0f - 1) * altstr + 1.0f;
+
+			if (retVal > 1.0f)
+				retVal = 1.0f;
+
+			return retVal;
+		}
+
+		public void setFrame()
+		{
+			int realtime = (int)Timing.TotalMilliseconds;
+			int time = animShift + realtime;
+			const int frameTime = 40;
+
+			if (time > animStart + 5000)
+			{
+				animStart = time;
+			}
 
 
-        frame = newframe;
-
-        block.CurrentFrameIndex = frame;
-
-    }
-
-    public void shake()
-    {
-        shaking = true;
-        shakeStart = (int)Timing.TotalMilliseconds;
-
-    }
-
-    const int shakeMagnitude = 2;
+			int newframe = ((time - animStart) / frameTime) % block.Frames.Count;
 
 
-    public float getx()
-    {
-        return getx(true);
-    }
-    public float getx(bool allowShake)
-    {
-        if (shaking && allowShake)
-            return x + BBX.random.Next (-shakeMagnitude, shakeMagnitude+1);
-        else
-            return x;
+			frame = newframe;
 
-    }
-    public float gety()
-    {
-        return gety(true);
-    }
-    public float gety(bool allowShake)
-    {
-        if (shaking && allowShake)
-            return y + offsety + BBX.random.Next (-shakeMagnitude, shakeMagnitude+1);
-        else
-            return y + offsety;
-    }
+			block.CurrentFrameIndex = frame;
 
-    public float Height
-    {
-        get
-        { return h; }
-    }
-    public float Width
-    {
-        get
+		}
 
-        { return w; }
-    }
+		public void shake()
+		{
+			shaking = true;
+			shakeStart = (int)Timing.TotalMilliseconds;
+
+		}
+
+		const int shakeMagnitude = 2;
 
 
+		public float getx()
+		{
+			return getx(true);
+		}
+		public float getx(bool allowShake)
+		{
+			if (shaking && allowShake)
+				return x + BBX.random.Next(-shakeMagnitude, shakeMagnitude + 1);
+			else
+				return x;
+
+		}
+		public float gety()
+		{
+			return gety(true);
+		}
+		public float gety(bool allowShake)
+		{
+			if (shaking && allowShake)
+				return y + offsety + BBX.random.Next(-shakeMagnitude, shakeMagnitude + 1);
+			else
+				return y + offsety;
+		}
+
+		public float Height
+		{
+			get
+			{ return h; }
+		}
+		public float Width
+		{
+			get
+
+			{ return w; }
+		}
+
+
+	}
 }

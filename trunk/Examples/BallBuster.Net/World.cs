@@ -25,16 +25,19 @@ using System.Collections.Generic;
 using AgateLib;
 using AgateLib.Geometry;
 
-class CWorld
+namespace BallBuster.Net
 {
-    public CWorld()
-    {
-    }
+	class CWorld
+	{
+		public CWorld()
+		{
+		}
 
-    public string name;
+		public string name;
 
-    public List<string> lvls = new List<string>();
-    public string background;
-    public Color light;
+		public List<string> lvls = new List<string>();
+		public string background;
+		public Color light;
 
+	}
 }
