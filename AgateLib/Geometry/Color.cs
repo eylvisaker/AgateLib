@@ -29,8 +29,8 @@ namespace AgateLib.Geometry
 	[Serializable]
 	public struct Color
 	{
-
 		#region --- Static Named Color properties ---
+
 		/// <summary>
 		/// Color AliceBlue.  0xf0f8ff
 		/// </summary>
@@ -595,6 +595,49 @@ namespace AgateLib.Geometry
 		/// Color YellowGreen.  0x9acd32
 		/// </summary>
 		public static Color YellowGreen { get { return Color.FromArgb(154, 205, 50); } }
+
+		#endregion
+		#region --- Accessing Static Named Colors ---
+
+		static System.Reflection.PropertyInfo NamedColorStaticProperty(string name)
+		{
+			var retval = typeof(Color).GetProperty(name,
+				System.Reflection.BindingFlags.Static |
+				System.Reflection.BindingFlags.Public | 
+				System.Reflection.BindingFlags.IgnoreCase);
+
+			if (retval.PropertyType == typeof(Color))
+				return retval;
+			else
+				return null;
+		}
+
+		/// <summary>
+		/// Gets whether or not the specified value is a named color.
+		/// Named colors correspond to the public static properties of the Color structure.
+		/// </summary>
+		/// <param name="colorName"></param>
+		/// <returns></returns>
+		public static bool IsNamedColor(string colorName)
+		{
+			return NamedColorStaticProperty(colorName) != null;
+		}
+
+		/// <summary>
+		/// Returns the color structure corresponding to the named value.
+		/// Named colors correspond to the public static properties of the Color structure.
+		/// </summary>
+		/// <param name="colorName"></param>
+		/// <returns></returns>
+		public static Color GetNamedColor(string colorName)
+		{
+			var pi = NamedColorStaticProperty(colorName);
+
+			if (pi == null)
+				throw new ArgumentException("Argument passed was not the name of a color.");
+
+			return (Color)pi.GetValue(null, null);
+		}
 
 		#endregion
 
