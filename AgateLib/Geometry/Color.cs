@@ -606,6 +606,9 @@ namespace AgateLib.Geometry
 				System.Reflection.BindingFlags.Public | 
 				System.Reflection.BindingFlags.IgnoreCase);
 
+			if (retval == null)
+				return null;
+
 			if (retval.PropertyType == typeof(Color))
 				return retval;
 			else
