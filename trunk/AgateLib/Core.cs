@@ -444,7 +444,7 @@ namespace AgateLib
 		/// <returns></returns>
 		internal static double GetTime()
 		{
-			return mTime.ElapsedMilliseconds;
+			return mTime.ElapsedTicks / (double)System.Diagnostics.Stopwatch.Frequency * 1000.0;
 		}
 
 
