@@ -38,7 +38,7 @@ namespace AgateLib.Resources
 		{
 			XmlDocument doc = new XmlDocument();
 			XmlElement root = doc.CreateElement("AgateResources");
-			XmlHelper.AppendAttribute(root, doc, "Version", "0.3.2");
+			XmlHelper.AppendAttribute(root, doc, "Version", "1.0.0");
 
 			doc.AppendChild(root);
 
@@ -99,10 +99,13 @@ namespace AgateLib.Resources
 
 			switch (version)
 			{
+				case "1.0.0":
+				case "0.4.0":
+				case "0.3.5":
 				case "0.3.2":
 				case "0.3.1":
 				case "0.3.0":
-					ReadVersion032(resources, root, version);
+					ReadVersion100(resources, root, version);
 					break;
 
 				default:
@@ -111,7 +114,7 @@ namespace AgateLib.Resources
 		}
 
 
-		private static void ReadVersion032(AgateResourceCollection resources, XmlNode root, string version)
+		private static void ReadVersion100(AgateResourceCollection resources, XmlNode root, string version)
 		{
 			for (int i = 0; i < root.ChildNodes.Count; i++)
 			{
