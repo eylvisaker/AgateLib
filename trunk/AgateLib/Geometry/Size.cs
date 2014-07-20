@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Geometry
 {
@@ -178,9 +177,46 @@ namespace AgateLib.Geometry
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public static Size FromString(string text)
+		public static Size FromString(string str)
 		{
-			return SizeConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
+			if (str.StartsWith("{") && str.EndsWith("}"))
+			{
+				str = str.Substring(1, str.Length - 2);
+			}
+
+			string[] values = str.Split(',');
+			Size retval = new Size();
+
+			if (values.Length != 2)
+				throw new FormatException("Could not parse size data from text.");
+
+			if (str.Contains("="))
+			{
+				// parse named arguments
+				for (int i = 0; i < values.Length; i++)
+				{
+					if (values[i].ToLowerInvariant().Contains("width")
+						&& values[i].Contains("="))
+					{
+						int equals = values[i].IndexOf("=", StringComparison.OrdinalIgnoreCase);
+
+						retval.Width = int.Parse(values[i].Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
+					}
+					else if (values[i].ToLowerInvariant().Contains("height")
+						&& values[i].Contains("="))
+					{
+						int equals = values[i].IndexOf('=');
+
+						retval.Height = int.Parse(values[i].Substring(equals + 1));
+					}
+				}
+			}
+			else
+			{
+				retval.Width = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
+				retval.Height = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
+			}
+			return retval;
 		}
 
 	}

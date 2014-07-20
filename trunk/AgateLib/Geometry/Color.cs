@@ -26,7 +26,6 @@ namespace AgateLib.Geometry
 	/// Replacement for System.Drawing.Color structure.
 	/// </summary>
 	[StructLayout(LayoutKind.Explicit)]
-	[Serializable]
 	public struct Color
 	{
 		#region --- Static Named Color properties ---
@@ -749,7 +748,7 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public static Color FromArgb(string str)
 		{
-			if (str.StartsWith("0x", StringComparison.InvariantCultureIgnoreCase))
+			if (str.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
 				str = str.Substring(2);
 
 			if (str.Length == 6)

@@ -60,6 +60,40 @@ namespace AgateLib.Geometry
 			this.y = size.Height;
 		}
 
+		public static Point FromString(string str)
+		{
+			if (str.StartsWith("{") && str.EndsWith("}"))
+				str = str.Substring(1, str.Length - 2);
+
+			string[] values = str.Split(',');
+			Point retval = new Point();
+
+			if (values.Length > 2)
+				throw new FormatException("Could not parse point data from text.");
+
+			retval.X = ParseEntry(values[0], "X");
+			retval.Y = ParseEntry(values[1], "Y");
+
+			return retval;
+		}
+
+
+		private static int ParseEntry(string str, string name)
+		{
+			var r = new System.Text.RegularExpressions.Regex(name + " *=");
+			var matches = r.Matches(str);
+
+			switch (matches.Count)
+			{
+				case 0:
+					return int.Parse(str);
+				case 1:
+					return int.Parse(str.Substring(matches[0].Index + matches[0].Length));
+				default:
+					throw new FormatException("Could not parse " + name + " value.");
+			}
+		}
+
 		#endregion
 		#region --- Public Properties ---
 

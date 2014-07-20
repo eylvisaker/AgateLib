@@ -81,7 +81,6 @@
     <Compile Include="DisplayLib\Shaders\Lighting3D.cs" />
     <Compile Include="Extensions\Collections\Generic\ListSorting.cs" />
     <Compile Include="Extensions\Collections\NonGeneric\NonGenericListSorting.cs" />
-    <Compile Include="Geometry\TypeConverters.cs" />
     <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
     <Compile Include="ICommandProcessor.cs" />
     <Compile Include="IFileProvider.cs">
