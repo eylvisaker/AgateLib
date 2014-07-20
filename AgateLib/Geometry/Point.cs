@@ -98,7 +98,7 @@ namespace AgateLib.Geometry
 		/// <summary>
 		/// Returns true if X and Y are zero.
 		/// </summary>
-		[Browsable(false)]
+		
 		public bool IsEmpty
 		{
 			get { return x == 0 && y == 0; }

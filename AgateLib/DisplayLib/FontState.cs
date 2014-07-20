@@ -28,7 +28,7 @@ namespace AgateLib.DisplayLib
 	/// <summary>
 	/// Class which represents the state information used to draw texdt on the screen.
 	/// </summary>
-	public class FontState : ICloneable
+	public class FontState 
 	{
 		private OriginAlignment mAlignment = OriginAlignment.TopLeft;
 		private Color mColor = Color.White;
@@ -185,11 +185,6 @@ namespace AgateLib.DisplayLib
 			}
 
 			return retval;
-		}
-
-		object ICloneable.Clone()
-		{
-			return Clone();
 		}
 
 		#endregion

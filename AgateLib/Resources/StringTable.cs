@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace AgateLib.Resources
 {
@@ -35,7 +35,7 @@ namespace AgateLib.Resources
 		internal StringTable()
 			: base("StringTable")
 		{ }
-		internal StringTable(XmlNode node, string version)
+		internal StringTable(XElement node, string version)
 			: base("StringTable")
 		{
 			switch (version)
@@ -43,19 +43,17 @@ namespace AgateLib.Resources
 				case "0.3.2":
 				case "0.3.1":
 				case "0.3.0":
-					for (int i = 0; i < node.ChildNodes.Count; i++)
+					foreach(var stringNode in node.Elements())
 					{
-						XmlNode stringNode = node.ChildNodes[i];
-
 						if (stringNode.Name != "string")
 							throw new AgateResourceException(
 								"Invalid node appeared in string table.");
-						if (stringNode.Attributes["name"] == null)
+						if (stringNode.Attribute("name") == null)
 							throw new AgateResourceException(
 								"Unnamed string node found.");
 
-						string key = stringNode.Attributes["name"].Value;
-						string value = stringNode.InnerText;
+						string key = stringNode.Attribute("name").Value;
+						string value = stringNode.Value;
 
 						mTable.Add(key, value);
 					}
@@ -72,24 +70,24 @@ namespace AgateLib.Resources
 			}
 		}
 
-		internal override void BuildNodes(System.Xml.XmlElement parent, System.Xml.XmlDocument doc)
+		internal override void BuildNodes(XElement parent)
 		{
-			XmlElement element = doc.CreateElement("StringTable");
+			XElement element = new XElement("StringTable");
 
 			foreach (string keyName in mTable.Keys)
 			{
 				if (string.IsNullOrEmpty(mTable[keyName]))
 					continue;
 
-				XmlElement key = doc.CreateElement("string");
-				XmlHelper.AppendAttribute(key, doc, "name", keyName);
+				XElement key = new XElement("string");
+				key.Add(new XAttribute("name", keyName));
 
-				key.InnerText = mTable[keyName];
+				key.Value = mTable[keyName];
 
-				element.AppendChild(key);
+				element.Add(key);
 			}
 
-			parent.AppendChild(element);
+			parent.Add(element);
 		}
 
 		/// <summary>

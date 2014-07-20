@@ -84,7 +84,7 @@ namespace AgateLib.InputLib
 						mKeyState[intID]++;
 						mWaitForKeyUp[intID] = true;
 
-						//System.Diagnostics.Debug.Print("Set key {0} to {1}, repeat count {2}.",
+						//System.Diagnostics.Debug.WriteLine("Set key {0} to {1}, repeat count {2}.",
 						//    id, value, mKeyState[(int)id] - 1);
 
 						Keyboard.OnKeyDown(id,
@@ -115,7 +115,7 @@ namespace AgateLib.InputLib
 			{
 				mKeyState[(int)id] = 0;
 				mWaitForKeyUp[(int)id] = waitKeyUp;
-				//System.Diagnostics.Debug.Print("Set key {0} to {1}.", id, false);
+				//System.Diagnostics.Debug.WriteLine("Set key {0} to {1}.", id, false);
 
 				Keyboard.OnKeyUp(id,
 					  new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]));

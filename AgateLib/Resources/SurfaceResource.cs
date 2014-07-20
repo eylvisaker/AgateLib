@@ -22,6 +22,7 @@ using System.Text;
 using System.Xml;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using System.Xml.Linq;
 
 namespace AgateLib.Resources
 {
@@ -65,7 +66,7 @@ namespace AgateLib.Resources
 			Filename = filename;
 		}
 
-		internal SurfaceResource(XmlNode node, string version)
+		internal SurfaceResource(XElement node, string version)
 			: base(string.Empty)
 		{
 			switch (version)
@@ -73,10 +74,10 @@ namespace AgateLib.Resources
 				case "0.3.2":	
 				case "0.3.1":
 				case "0.3.0":
-					Name = node.Attributes["name"].Value;
+					Name = node.Attribute("name").Value;
 
 					mImage = new ImageResource();
-					mImage.Filename = node.Attributes["filename"].Value;
+					mImage.Filename = node.Attribute("filename").Value;
 
 					break;
 
@@ -86,14 +87,11 @@ namespace AgateLib.Resources
 						" is not supported yet.  Check the version string in your resource file.");
 			}
 		}
-		internal override void BuildNodes(System.Xml.XmlElement parent, System.Xml.XmlDocument doc)
+		internal override void BuildNodes(XElement parent)
 		{
-			XmlElement el = doc.CreateElement("Surface");
-
-			XmlHelper.AppendAttribute(el, doc, "name", Name);
-			XmlHelper.AppendAttribute(el, doc, "filename", Filename);
-
-			parent.AppendChild(el);
+			parent.Add(new XElement("Surface",
+				new XAttribute("name", Name),
+				new XAttribute("filename", Filename)));
 		}
 
 		/// <summary>

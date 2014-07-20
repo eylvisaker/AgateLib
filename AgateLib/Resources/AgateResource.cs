@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace AgateLib.Resources
@@ -27,7 +28,7 @@ namespace AgateLib.Resources
 	/// <summary>
 	/// Class which represents a resource.
 	/// </summary>
-	public abstract class AgateResource : ICloneable
+	public abstract class AgateResource 
 	{
 		private string mName;
 		private string mLanguage = "Default";
@@ -68,7 +69,7 @@ namespace AgateLib.Resources
 		/// </summary>
 		/// <param name="parent">The parent element of this resource.</param>
 		/// <param name="doc">The XML document used to create elements.</param>
-		internal abstract void BuildNodes(XmlElement parent, XmlDocument doc);
+		internal abstract void BuildNodes(XElement parent);
 
 		#region --- ICloneable Members ---
 
@@ -78,10 +79,6 @@ namespace AgateLib.Resources
 		/// <returns></returns>
 		protected abstract AgateResource Clone();
 
-		object ICloneable.Clone()
-		{
-			return Clone();
-		}
 
 		#endregion
 	}

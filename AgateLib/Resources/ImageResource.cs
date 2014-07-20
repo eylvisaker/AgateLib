@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using AgateLib.DisplayLib;
+using System.Xml.Linq;
 
 namespace AgateLib.Resources
 {
@@ -33,15 +34,15 @@ namespace AgateLib.Resources
 		public ImageResource()
 		{ }
 
-		internal ImageResource(XmlNode node, string version)
+		internal ImageResource(XElement node, string version)
 		{
-			if (node.Attributes["filename"] == null)
+			if (node.Attribute("filename") == null)
 				throw new AgateResourceException("Image node did not include the required filename attribute.");
 
 			switch (version)
 			{
 				case "0.3.2":
-					Filename = node.Attributes["filename"].Value;
+					Filename = node.Attribute("filename").Value;
 					ReadSubNodes032(node);
 					break;
 
@@ -50,11 +51,11 @@ namespace AgateLib.Resources
 			}
 		}
 
-		private void ReadSubNodes032(XmlNode node)
+		private void ReadSubNodes032(XElement node)
 		{
-			foreach (XmlNode n in node.ChildNodes)
+			foreach (XElement n in node.Elements())
 			{
-				switch (n.Name)
+				switch (n.Name.LocalName)
 				{
 					case "Surface":
 						ReadSurface(n);
@@ -71,19 +72,19 @@ namespace AgateLib.Resources
 			}
 		}
 
-		private void ReadSprite(XmlNode n)
+		private void ReadSprite(XElement n)
 		{
 			throw new NotImplementedException();
 		}
 
-		private void ReadSurface(XmlNode n)
+		private void ReadSurface(XElement n)
 		{
 			SurfaceResource res = new SurfaceResource(XmlHelper.ReadAttributeString(n, "name"));
 
-			if (n.Attributes["left"] != null ||
-				n.Attributes["top"] != null ||
-				n.Attributes["width"] != null ||
-				n.Attributes["height"] != null)
+			if (n.Attribute("left") != null ||
+				n.Attribute("top") != null ||
+				n.Attribute("width") != null ||
+				n.Attribute("height") != null)
 			{
 				res.SourceRect = new AgateLib.Geometry.Rectangle(
 					XmlHelper.ReadAttributeInt(n, "left"),
@@ -110,7 +111,7 @@ namespace AgateLib.Resources
 
 			return mBackingSurface;
 		}
-		internal override void BuildNodes(XmlElement parent, XmlDocument doc)
+		internal override void BuildNodes(XElement parent)
 		{
 			throw new NotImplementedException();
 		}

@@ -30,8 +30,7 @@ namespace AgateLib.DisplayLib
 	/// Class which encapsulates raw pixel data.  This can be used to 
 	/// construct or modify surface data programmatically.
 	/// </summary>
-	[Serializable]
-	public sealed class PixelBuffer : ICloneable
+	public sealed class PixelBuffer 
 	{
 		#region --- Private Data ---
 
@@ -1100,14 +1099,6 @@ namespace AgateLib.DisplayLib
 			r = src[rindex] / 255.0;
 			g = src[gindex] / 255.0;
 			b = src[bindex] / 255.0;
-		}
-
-		#endregion
-		#region --- ICloneable Members ---
-
-		object ICloneable.Clone()
-		{
-			return Clone();
 		}
 
 		#endregion

@@ -103,7 +103,7 @@ namespace AgateLib.Data
 		/// auto increment field.  If this is not an autoincrement
 		/// field, the return value is undefined and meaningless.
 		/// </summary>
-		[Browsable(false)]
+		
 		public int NextAutoIncrementValue
 		{
 			get { return mNextAutoIncrementValue; }
@@ -111,7 +111,7 @@ namespace AgateLib.Data
 		/// <summary>
 		/// Gets the width of the column as displayed in the database editor.
 		/// </summary>
-		[Browsable(false)]
+		
 		public int ColumnWidth
 		{
 			get { return mColumnWidth; }
@@ -121,7 +121,7 @@ namespace AgateLib.Data
 		/// Gets or sets the display index of this column.
 		/// When saved, columns are sorted by their display index.
 		/// </summary>
-		[Browsable(false)]
+		
 		public int DisplayIndex { get; set; }
 
 		/// <summary>
@@ -165,7 +165,7 @@ namespace AgateLib.Data
 		/// Gets the actual Type object that corresponds to the
 		/// FieldType enum.
 		/// </summary>
-		[Browsable(false)]
+		
 		public Type FieldTypeDataType
 		{
 			get

@@ -20,8 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Xml;
 using System.Reflection;
+using System.Xml.Linq;
+using System.Xml;
 
 namespace AgateLib.Serialization.Xle
 {
@@ -80,7 +81,7 @@ namespace AgateLib.Serialization.Xle
 			info.Binder = Binder;
 			info.BeginSerialize(objectGraph);
 
-			info.XmlDoc.Save(outStream);
+			info.XmlDoc.Save(XmlWriter.Create(outStream));
 
 		}
 
@@ -91,8 +92,8 @@ namespace AgateLib.Serialization.Xle
 		/// <returns>The deserialized object.</returns>
 		public object Deserialize(Stream inStream)
 		{
-			XmlDocument doc = new XmlDocument();
-			doc.Load(inStream);
+			XDocument doc = XDocument.Load(XmlReader.Create(inStream));
+
 			XleSerializationInfo info = new XleSerializationInfo(doc);
 
 			info.Binder = Binder;

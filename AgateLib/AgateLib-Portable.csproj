@@ -1,129 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9490B719-829E-43A7-A5FE-8001F8A81759}</ProjectGuid>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <AssemblyKeyContainerName>
-    </AssemblyKeyContainerName>
-    <AssemblyName>AgateLib</AssemblyName>
-    <DefaultClientScript>JScript</DefaultClientScript>
-    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
-    <DefaultTargetSchema>IE50</DefaultTargetSchema>
-    <DelaySign>false</DelaySign>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <ProjectGuid>{DB2152AD-E467-40A2-94E8-EB3804863C71}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>
-    </AppDesignerFolder>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AgateLib</RootNamespace>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <TargetFrameworkProfile />
+    <AssemblyName>AgateLib</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile344</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <BaseAddress>285212672</BaseAddress>
-    <ConfigurationOverrideFile>
-    </ConfigurationOverrideFile>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
-    <FileAlignment>4096</FileAlignment>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Binaries\Debug\</OutputPath>
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <RemoveIntegerChecks>False</RemoveIntegerChecks>
-    <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
-    <Prefer32Bit>false</Prefer32Bit>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <BaseAddress>285212672</BaseAddress>
-    <ConfigurationOverrideFile>
-    </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;</DefineConstants>
-    <DocumentationFile>AgateLib.xml</DocumentationFile>
-    <FileAlignment>4096</FileAlignment>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Binaries\Release\</OutputPath>
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DebugType>none</DebugType>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\Binaries\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
-    <BaseAddress>285212672</BaseAddress>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <FileAlignment>4096</FileAlignment>
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>full</DebugType>
-    <WarningLevel>4</WarningLevel>
-    <Optimize>false</Optimize>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;</DefineConstants>
-    <BaseAddress>285212672</BaseAddress>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>AgateLib.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\Binaries\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
-    <BaseAddress>285212672</BaseAddress>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <FileAlignment>4096</FileAlignment>
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>full</DebugType>
-    <WarningLevel>4</WarningLevel>
-    <Optimize>false</Optimize>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\Binaries\Release\</OutputPath>
-    <DefineConstants>TRACE;</DefineConstants>
-    <BaseAddress>285212672</BaseAddress>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>AgateLib.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>none</DebugType>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System">
-      <Name>System</Name>
-    </Reference>
-    <Reference Include="System.Core">
-      <Name>System.Core</Name>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.XML" />
-    <Reference Include="System.Xml.Linq" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <Folder Include="Serialization\Xle\" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Compile Include="AgateConsole.cs" />
     <Compile Include="AgateException.cs">
@@ -189,9 +103,6 @@
     <Compile Include="Platform.cs" />
     <Compile Include="PlatformType.cs" />
     <Compile Include="Resources\ImageResource.cs" />
-    <Compile Include="Serialization\Xle\CompressionType.cs" />
-    <Compile Include="Serialization\Xle\NumericEncoding.cs" />
-    <Compile Include="Serialization\Xle\TypeSerializer.cs" />
     <Compile Include="Settings\SettingsGroup.cs" />
     <Compile Include="Timing.cs">
       <SubType>Code</SubType>
@@ -359,9 +270,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Geometry\SizeF.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Geometry\TypeConverters.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Geometry\Vector2.cs">
@@ -535,27 +443,6 @@
     <Compile Include="Resources\XmlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Serialization\Formatters\Xml\XmlFormatter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Serialization\Xle\ITypeBinder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Serialization\Xle\IXleSerializable.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Serialization\Xle\TypeBinder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Serialization\Xle\XleSerializationException.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Serialization\Xle\XleSerializationInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Serialization\Xle\XleSerializer.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Sprites\FrameList.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -587,12 +474,6 @@
     <Compile Include="Utility\SurfacePacker.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utility\TgzFileProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utility\ZipFileProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <EmbeddedResource Include="InternalResources\DataResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -607,12 +488,12 @@
     <None Include="InternalResources\images.tar.gz" />
     <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

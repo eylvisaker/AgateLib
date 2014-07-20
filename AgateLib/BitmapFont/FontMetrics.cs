@@ -28,7 +28,7 @@ namespace AgateLib.BitmapFont
 	/// FontMetrics is a class which describes everything needed to render a font
 	/// from a bitmap image.
 	/// </summary>
-	public sealed class FontMetrics : IDictionary<char, GlyphMetrics>, ICloneable
+	public sealed class FontMetrics : IDictionary<char, GlyphMetrics>
 	{
 		Dictionary<char, GlyphMetrics> mGlyphs = new Dictionary<char, GlyphMetrics>();
 
@@ -187,14 +187,6 @@ namespace AgateLib.BitmapFont
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
-		}
-
-		#endregion
-		#region ICloneable Members
-
-		object ICloneable.Clone()
-		{
-			return Clone();
 		}
 
 		#endregion

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using AgateLib.Geometry;
+using System.Xml.Linq;
 
 namespace AgateLib.Resources
 {
@@ -105,7 +106,7 @@ namespace AgateLib.Resources
 			: base(name)
 		{
 		}
-		internal DisplayWindowResource(XmlNode node, string version)
+		internal DisplayWindowResource(XElement node, string version)
 			: base(string.Empty)
 		{
 			switch (version)
@@ -113,7 +114,7 @@ namespace AgateLib.Resources
 				case "0.3.2":	
 				case "0.3.1":
 				case "0.3.0":
-					Name = node.Attributes["name"].Value;
+					Name = node.Attribute("name").Value;
 
 					Size = XmlHelper.ReadAttributeSize(node, "preferred_size");
 					MinimumSize = XmlHelper.ReadAttributeSize(node, "minimum_size", Size.Empty);
@@ -122,7 +123,7 @@ namespace AgateLib.Resources
 					AllowResize = XmlHelper.ReadAttributeBool(node, "allow_resize", false);
 					FullScreen = XmlHelper.ReadAttributeBool(node, "full_screen", false);
 
-					Title = node.InnerText.Trim();
+					Title = node.Value.Trim();
 
 					break;
 
@@ -133,21 +134,20 @@ namespace AgateLib.Resources
 			}
 		}
 
-		internal override void BuildNodes(System.Xml.XmlElement parent, System.Xml.XmlDocument doc)
+		internal override void BuildNodes(XElement parent)
 		{
-			XmlElement el = doc.CreateElement("DisplayWindow");
+			XElement el = new XElement("DisplayWindow",
+			new XAttribute("name", Name),
+			new XAttribute("preferred_size", Size.ToString()),
+			new XAttribute("minimum_size", MinimumSize.ToString()),
+			new XAttribute("maximum_size", MaximumSize.ToString()),
+			new XAttribute("allow_resize", AllowResize),
+			new XAttribute("full_screen", FullScreen),
+			new XAttribute("bpp", Bpp));
 
-			XmlHelper.AppendAttribute(el, doc, "name", Name);
-			XmlHelper.AppendAttribute(el, doc, "preferred_size", Size.ToString());
-			XmlHelper.AppendAttribute(el, doc, "minimum_size", MinimumSize.ToString());
-			XmlHelper.AppendAttribute(el, doc, "maximum_size", MaximumSize.ToString());
-			XmlHelper.AppendAttribute(el, doc, "allow_resize", AllowResize);
-			XmlHelper.AppendAttribute(el, doc, "full_screen", FullScreen);
-			XmlHelper.AppendAttribute(el, doc, "bpp", Bpp);
+			el.Value = Title;
 
-			el.InnerText = Title;
-
-			parent.AppendChild(el);
+			parent.Add(el);
 		}
 
 	}

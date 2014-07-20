@@ -22,7 +22,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 using System.Runtime.InteropServices;
 
 namespace AgateLib.Serialization.Xle
@@ -33,24 +33,24 @@ namespace AgateLib.Serialization.Xle
 	/// </summary>
 	public class XleSerializationInfo
 	{
-		XmlDocument doc;
-		Stack<XmlElement> nodes = new Stack<XmlElement>();
+		XDocument doc;
+		Stack<XElement> nodes = new Stack<XElement>();
 
 		internal XleSerializationInfo()
 		{
-			doc = new XmlDocument();
+			doc = new XDocument();
 		}
-		internal XleSerializationInfo(XmlDocument doc)
+		internal XleSerializationInfo(XDocument doc)
 		{
 			this.doc = doc;
 		}
 
-		internal XmlDocument XmlDoc
+		internal XDocument XmlDoc
 		{
 			get { return doc; }
 		}
 
-		XmlElement CurrentNode
+		XElement CurrentNode
 		{
 			get
 			{
@@ -63,21 +63,20 @@ namespace AgateLib.Serialization.Xle
 			o.WriteData(this);
 		}
 
-		void AddAttribute(XmlNode node, string name, string value)
+		void AddAttribute(XElement node, string name, string value)
 		{
-			XmlAttribute attrib = doc.CreateAttribute(name);
-			attrib.Value = value;
+			XAttribute attrib = new XAttribute(name, value);
 
-			node.Attributes.Append(attrib);
+			node.Add(attrib);
 		}
 
 		internal void BeginSerialize(IXleSerializable objectGraph)
 		{
-			var root = doc.CreateElement("XleRoot");
+			var root = new XElement("XleRoot");
 
 			AddAttribute(root, "type", objectGraph.GetType().ToString());
 
-			doc.AppendChild(root);
+			doc.Add(root);
 
 			nodes.Push(root);
 			Serialize(objectGraph);
@@ -323,7 +322,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="value">The object data to write.</param>
 		public void Write(string name, IXleSerializable value)
 		{
-			XmlElement element = CreateElement(name);
+			XElement element = CreateElement(name);
 
 			if (value == null)
 				AddAttribute(element, "type", "null");
@@ -343,13 +342,13 @@ namespace AgateLib.Serialization.Xle
 				}
 			}
 		}
-		private XmlElement WriteAsElement<T>(string name, T value) where T : IConvertible
+		private XElement WriteAsElement<T>(string name, T value) where T : IConvertible
 		{
-			XmlElement element = doc.CreateElement(name);
+			XElement element = new XElement(name);
 
-			element.InnerText = value.ToString();
+			element.Value = value.ToString();
 
-			CurrentNode.AppendChild(element);
+			CurrentNode.Add(element);
 
 			return element;
 		}
@@ -358,17 +357,14 @@ namespace AgateLib.Serialization.Xle
 			AddAttribute(CurrentNode, name, Convert.ToString(value));
 		}
 
-		private XmlElement CreateElement(string name)
+		private XElement CreateElement(string name)
 		{
-			XmlElement element = doc.CreateElement(name);
+			XElement element = new XElement(name);
 
-			for (int i = 0; i < CurrentNode.ChildNodes.Count; i++)
-			{
-				if (CurrentNode.ChildNodes[i].Name == name)
-					throw new XleSerializationException("The name " + name + " already exists.");
-			}
+			if (CurrentNode.Elements(name).Count() > 0)
+				throw new XleSerializationException("The name " + name + " already exists.");
 
-			CurrentNode.AppendChild(element);
+			CurrentNode.Add(element);
 
 			return element;
 		}
@@ -419,7 +415,7 @@ namespace AgateLib.Serialization.Xle
 				case NumericEncoding.Csv:
 					string newValue = string.Join(",", value.Select(x => x.ToString()).ToArray());
 
-					XmlElement el = WriteAsElement(name, newValue);
+					XElement el = WriteAsElement(name, newValue);
 
 					AddAttribute(el, "array", "true");
 					AddAttribute(el, "encoding", "Csv");
@@ -480,7 +476,7 @@ namespace AgateLib.Serialization.Xle
 		{
 			string newValue = Convert.ToBase64String(value, Base64FormattingOptions.InsertLineBreaks);
 
-			XmlElement el = WriteAsElement(name, newValue);
+			XElement el = WriteAsElement(name, newValue);
 
 			AddAttribute(el, "array", "true");
 			AddAttribute(el, "encoding", "Base64");
@@ -508,7 +504,7 @@ namespace AgateLib.Serialization.Xle
 		{
 			Type listType = typeof(T);
 
-			XmlElement element = CreateElement(name);
+			XElement element = CreateElement(name);
 			AddAttribute(element, "array", "true");
 			AddAttribute(element, "type", listType.ToString());
 
@@ -518,8 +514,8 @@ namespace AgateLib.Serialization.Xle
 
 				for (int i = 0; i < value.Count; i++)
 				{
-					XmlElement item = doc.CreateElement("Item");
-					CurrentNode.AppendChild(item);
+					XElement item = new XElement("Item");
+					CurrentNode.Add(item);
 
 					if (value[i] == null)
 						AddAttribute(item, "type", "null");
@@ -561,7 +557,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="value">The list data to write.</param>
 		public void Write(string name, List<string> value)
 		{
-			XmlElement element = CreateElement(name);
+			XElement element = CreateElement(name);
 			AddAttribute(element, "array", "true");
 			AddAttribute(element, "type", "string");
 
@@ -571,9 +567,9 @@ namespace AgateLib.Serialization.Xle
 
 				for (int i = 0; i < value.Count; i++)
 				{
-					XmlElement item = doc.CreateElement("Item");
-					CurrentNode.AppendChild(item);
-					item.InnerText = value[i];
+					XElement item = new XElement("Item");
+					CurrentNode.Add(item);
+					item.Value = value[i];
 				}
 			}
 			finally
@@ -595,7 +591,7 @@ namespace AgateLib.Serialization.Xle
 			Type keyType = typeof(Tkey);
 			Type valueType = typeof(Tvalue);
 
-			XmlElement element = CreateElement(name);
+			XElement element = CreateElement(name);
 			AddAttribute(element, "dictionary", "true");
 			//AddAttribute(element, "keytype", keyType.ToString());
 			//AddAttribute(element, "valuetype", valueType.ToString());
@@ -606,8 +602,8 @@ namespace AgateLib.Serialization.Xle
 
 				foreach (KeyValuePair<Tkey, Tvalue> kvp in value)
 				{
-					XmlElement item = doc.CreateElement("Item");
-					CurrentNode.AppendChild(item);
+					XElement item = new XElement("Item");
+					CurrentNode.Add(item);
 
 					AddAttribute(item, "key", kvp.Key.ToString());
 
@@ -645,7 +641,7 @@ namespace AgateLib.Serialization.Xle
 		{
 			Type keyType = typeof(Tkey);
 
-			XmlElement element = CreateElement(name);
+			XElement element = CreateElement(name);
 			//AddAttribute(element, "dictionary", "true");
 			//AddAttribute(element, "keytype", keyType.ToString());
 			//AddAttribute(element, "valuetype", valueType.ToString());
@@ -656,8 +652,8 @@ namespace AgateLib.Serialization.Xle
 
 				foreach (KeyValuePair<Tkey, int> kvp in value)
 				{
-					XmlElement item = doc.CreateElement("Item");
-					CurrentNode.AppendChild(item);
+					XElement item = new XElement("Item");
+					CurrentNode.Add(item);
 
 					AddAttribute(item, "key", kvp.Key.ToString());
 					AddAttribute(item, "value", kvp.Value.ToString());
@@ -681,7 +677,7 @@ namespace AgateLib.Serialization.Xle
 			Type[] args = value.GetType().GetGenericArguments();
 			Type keyType = args[0];
 
-			XmlElement element = CreateElement(name);
+			XElement element = CreateElement(name);
 			//AddAttribute(element, "dictionary", "true");
 			//AddAttribute(element, "keytype", keyType.ToString());
 			//AddAttribute(element, "valuetype", typeof(string).ToString());
@@ -692,8 +688,8 @@ namespace AgateLib.Serialization.Xle
 
 				foreach (KeyValuePair<Tkey, string> kvp in value)
 				{
-					XmlElement item = doc.CreateElement("Item");
-					CurrentNode.AppendChild(item);
+					XElement item = new XElement("Item");
+					CurrentNode.Add(item);
 
 					AddAttribute(item, "key", kvp.Key.ToString());
 
@@ -746,7 +742,7 @@ namespace AgateLib.Serialization.Xle
 			string newValue = Convert.ToBase64String(
 				buffer/*, Base64FormattingOptions.InsertLineBreaks*/);
 
-			XmlElement el = WriteAsElement(name, newValue);
+			XElement el = WriteAsElement(name, newValue);
 			AddAttribute(el, "stream", "true");
 			AddAttribute(el, "compression", compression.ToString());
 			AddAttribute(el, "encoding", "Base64");
@@ -764,12 +760,12 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public bool ContainsKey(string name)
 		{
-			string attribute = CurrentNode.GetAttribute(name);
+			var attribute = CurrentNode.Attribute(name);
 
-			if (string.IsNullOrEmpty(attribute) == false)
+			if (attribute == null)
 				return true;
 
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element == null)
 				return false;
@@ -786,7 +782,7 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public object ReadObject(string name)
 		{
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element == null)
 				throw new XleSerializationException("Node " + name + " not found.");
@@ -837,21 +833,21 @@ namespace AgateLib.Serialization.Xle
 
 		private string ReadStringImpl(string name, bool haveDefault, string defaultValue)
 		{
-			var attrib = CurrentNode.Attributes[name];
+			var attrib = CurrentNode.Attribute(name);
 
 			if (attrib != null)
 				return attrib.Value;
 
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element != null)
 			{
-				if (element.Attributes["encoding"] != null)
+				if (element.Attribute("encoding") != null)
 				{
 					throw new XleSerializationException("Cannot decode encoded strings.");
 				}
 
-				return element.InnerText;
+				return element.Value;
 			}
 
 			if (haveDefault)
@@ -882,12 +878,12 @@ namespace AgateLib.Serialization.Xle
 		}
 		private bool ReadBooleanImpl(string name, bool hasDefault, bool defaultValue)
 		{
-			string attribute = CurrentNode.GetAttribute(name);
+			var attribute = CurrentNode.Attribute(name);
 
-			if (string.IsNullOrEmpty(attribute) == false)
-				return bool.Parse(attribute);
+			if (attribute != null && string.IsNullOrEmpty(attribute.Value) == false)
+				return bool.Parse(attribute.Value);
 
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element == null)
 			{
@@ -897,7 +893,7 @@ namespace AgateLib.Serialization.Xle
 					throw new XleSerializationException("Node " + name + " not found.");
 			}
 
-			return bool.Parse(element.InnerText);
+			return bool.Parse(element.Value);
 		}
 		/// <summary>
 		/// Reads a integer value from the XML data.  If the name is not present 
@@ -907,21 +903,24 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public int? ReadInt32Nullable(string name)
 		{
-			string attribute = CurrentNode.GetAttribute(name);
-
-			if (attribute == "null")
+			var attribute = CurrentNode.Attribute(name);
+			if (attribute == null)
 				return null;
-			else if (string.IsNullOrEmpty(attribute) == false)
-				return int.Parse(attribute);
 
-			XmlElement element = (XmlElement)CurrentNode[name];
+			string attributeValue = attribute.Value;
+			if (attributeValue == "null")
+				return null;
+			else if (string.IsNullOrEmpty(attributeValue) == false)
+				return int.Parse(attributeValue);
+
+			XElement element = CurrentNode.Element(name);
 
 			if (element != null)
 			{
-				if (element.InnerText == "null")
+				if (element.Value == "null")
 					return null;
 
-				return int.Parse(element.InnerText);
+				return int.Parse(element.Value);
 			}
 
 			throw new XleSerializationException("Node " + name + " not found.");
@@ -933,16 +932,16 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public int ReadInt32(string name)
 		{
-			string attribute = CurrentNode.GetAttribute(name);
+			var attribute = CurrentNode.Attribute(name);
 
-			if (string.IsNullOrEmpty(attribute) == false)
-				return int.Parse(attribute);
+			if (attribute != null && string.IsNullOrEmpty(attribute.Value) == false)
+				return int.Parse(attribute.Value);
 
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element != null)
 			{
-				return int.Parse(element.InnerText);
+				return int.Parse(element.Value);
 			}
 
 			throw new XleSerializationException("Node " + name + " not found.");
@@ -956,17 +955,17 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public int ReadInt32(string name, int defaultValue)
 		{
-			string attribute = CurrentNode.GetAttribute(name);
+			var attribute = CurrentNode.Attribute(name);
 
-			if (string.IsNullOrEmpty(attribute) == false)
-				return int.Parse(attribute);
+			if (attribute != null && string.IsNullOrEmpty(attribute.Value) == false)
+				return int.Parse(attribute.Value);
 
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element == null)
 				return defaultValue;
 
-			return int.Parse(element.InnerText);
+			return int.Parse(element.Value);
 		}
 
 		/// <summary>
@@ -1003,17 +1002,17 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public double ReadDouble(string name)
 		{
-			string attribute = CurrentNode.GetAttribute(name);
+			var attribute = CurrentNode.Attribute(name);
 
-			if (string.IsNullOrEmpty(attribute) == false)
-				return double.Parse(attribute);
+			if (attribute != null && string.IsNullOrEmpty(attribute.Value) == false)
+				return double.Parse(attribute.Value);
 
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element == null)
 				throw new XleSerializationException("Node " + name + " not found.");
 
-			return double.Parse(element.InnerText);
+			return double.Parse(element.Value);
 		}
 
 		/// <summary>
@@ -1024,17 +1023,17 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public float ReadFloat(string name)
 		{
-			string attribute = CurrentNode.GetAttribute(name);
+			var attribute = CurrentNode.Attribute(name);
 
-			if (string.IsNullOrEmpty(attribute) == false)
-				return float.Parse(attribute);
+			if (attribute != null && string.IsNullOrEmpty(attribute.Value) == false)
+				return float.Parse(attribute.Value);
 
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element == null)
 				throw new XleSerializationException("Node " + name + " not found.");
 
-			return float.Parse(element.InnerText);
+			return float.Parse(element.Value);
 		}
 
 		#endregion
@@ -1042,14 +1041,14 @@ namespace AgateLib.Serialization.Xle
 
 		private string GetEncoding(string name)
 		{
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element == null)
 				throw new XleSerializationException("Node " + name + " not found.");
-			if (element.Attributes["encoding"] == null)
+			if (element.Attribute("encoding") == null)
 				throw new XleSerializationException("Element " + name + " does not have encoding information.");
 
-			return element.Attributes["encoding"].Value;
+			return element.Attribute("encoding").Value;
 		}
 
 		/// <summary>
@@ -1060,21 +1059,21 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public byte[] ReadByteArray(string name)
 		{
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			string encoding = GetEncoding(name);
 
-			if (element.Attributes["array"] == null || element.Attributes["array"].Value != "true")
+			if (element.Attribute("array") == null || element.Attribute("array").Value != "true")
 				throw new XleSerializationException("Element " + name + " is not an array.");
 
 			if (encoding == "Base64")
 			{
-				byte[] array = Convert.FromBase64String(element.InnerText);
+				byte[] array = Convert.FromBase64String(element.Value);
 				return array;
 			}
 			else
 			{
-				throw new XleSerializationException("Unrecognized encoding " + element.Attributes["encoding"]);
+				throw new XleSerializationException("Unrecognized encoding " + element.Attribute("encoding"));
 			}
 		}
 
@@ -1086,7 +1085,7 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public int[] ReadInt32Array(string name)
 		{
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 			string encoding = GetEncoding(name);
 			int[] result;
 
@@ -1113,8 +1112,8 @@ namespace AgateLib.Serialization.Xle
 					return result;
 
 				case NumericEncoding.Csv:
-					string value = element.InnerText;
-					string[] vals = value.Split(new char[] { ',' }, 
+					string value = element.Value;
+					string[] vals = value.Split(new char[] { ',' },
 									StringSplitOptions.RemoveEmptyEntries);
 
 					result = vals.Select(x => int.Parse(x)).ToArray();
@@ -1196,22 +1195,22 @@ namespace AgateLib.Serialization.Xle
 		}
 		private Array ReadArrayImpl(string name, Type defaultType)
 		{
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element == null)
 				throw new XleSerializationException("Node " + name + " not found.");
 
-			if (element.Attributes["array"] == null || element.Attributes["array"].Value != "true")
+			if (element.Attribute("array") == null || element.Attribute("array").Value != "true")
 				throw new XleSerializationException("Element " + name + " is not an array.");
-			if (element.Attributes["type"] == null && defaultType == null)
+			if (element.Attribute("type") == null && defaultType == null)
 				throw new XleSerializationException("Element " + name + " does not have type information.");
 
 			Type type;
-			if (element.Attributes["type"] == null)
+			if (element.Attribute("type") == null)
 				type = defaultType;
 			else
 			{
-				string typename = element.Attributes["type"].Value;
+				string typename = element.Attribute("type").Value;
 
 				type = GetType(typename);
 
@@ -1223,16 +1222,14 @@ namespace AgateLib.Serialization.Xle
 			Type arrayType = type.MakeArrayType();
 			System.Collections.IList list = (System.Collections.IList)Activator.CreateInstance(listType);
 
-			for (int i = 0; i < element.ChildNodes.Count; i++)
+			foreach (XElement item in element.Elements())
 			{
-				XmlElement item = (XmlElement)element.ChildNodes[i];
-
 				if (item.Name != "Item")
 					throw new XleSerializationException("Could not understand data.  Expected Item, found " + item.Name + ".");
 
 				if (type == typeof(string))
 				{
-					list.Add(item.InnerText);
+					list.Add(item.Value);
 				}
 				else
 				{
@@ -1289,7 +1286,7 @@ namespace AgateLib.Serialization.Xle
 			where TKey : IConvertible
 			where TValue : IXleSerializable
 		{
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element == null)
 				throw new XleSerializationException("Node " + name + " was not found.");
@@ -1300,10 +1297,9 @@ namespace AgateLib.Serialization.Xle
 
 				Dictionary<TKey, TValue> retval = new Dictionary<TKey, TValue>();
 
-				for (int i = 0; i < element.ChildNodes.Count; i++)
+				foreach (var current in CurrentNode.Elements())
 				{
-					XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
-					string keyString = current.GetAttribute("key");
+					string keyString = current.Attribute("key").Value;
 					TKey key = (TKey)Convert.ChangeType(keyString, typeof(TKey));
 
 					try
@@ -1353,7 +1349,7 @@ namespace AgateLib.Serialization.Xle
 		public Dictionary<Tkey, string> ReadDictionaryString<Tkey>(string name)
 			where Tkey : IConvertible
 		{
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			try
 			{
@@ -1361,13 +1357,12 @@ namespace AgateLib.Serialization.Xle
 
 				Dictionary<Tkey, string> retval = new Dictionary<Tkey, string>();
 
-				for (int i = 0; i < element.ChildNodes.Count; i++)
+				foreach (var current in element.Elements())
 				{
-					XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
-					string keyString = current.GetAttribute("key");
+					string keyString = current.Attribute("key").Value;
 					Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
 
-					string valueString = current.GetAttribute("value");
+					string valueString = current.Attribute("value").Value;
 
 					retval.Add(key, valueString);
 				}
@@ -1389,7 +1384,7 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public Dictionary<Tkey, int> ReadDictionaryInt32<Tkey>(string name)
 		{
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			try
 			{
@@ -1397,13 +1392,12 @@ namespace AgateLib.Serialization.Xle
 
 				Dictionary<Tkey, int> retval = new Dictionary<Tkey, int>();
 
-				for (int i = 0; i < element.ChildNodes.Count; i++)
+				foreach (var current in element.Elements())
 				{
-					XmlElement current = (XmlElement)CurrentNode.ChildNodes[i];
-					string keyString = current.GetAttribute("key");
+					string keyString = current.Attribute("key").Value;
 					Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
 
-					string valueString = current.GetAttribute("value");
+					string valueString = current.Attribute("value").Value;
 
 					retval.Add(key, int.Parse(valueString));
 				}
@@ -1425,32 +1419,32 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public Stream ReadStream(string name)
 		{
-			XmlElement element = (XmlElement)CurrentNode[name];
+			XElement element = CurrentNode.Element(name);
 
 			if (element == null)
 				throw new XleSerializationException("Field " + name + " was not found.");
 
-			if (element.Attributes["stream"] == null || element.Attributes["stream"].Value != "true")
+			if (element.Attribute("stream") == null || element.Attribute("stream").Value != "true")
 				throw new XleSerializationException("Field " + name + " is not a stream.");
-			if (element.Attributes["encoding"] == null)
+			if (element.Attribute("encoding") == null)
 				throw new XleSerializationException("Field " + name + " does not have encoding information.");
 
-			string encoding = element.Attributes["encoding"].Value;
+			string encoding = element.Attribute("encoding").Value;
 			byte[] bytes;
 
 			if (encoding == "Base64")
 			{
-				bytes = Convert.FromBase64String(element.InnerText);
+				bytes = Convert.FromBase64String(element.Value);
 			}
 			else
 				throw new XleSerializationException("Unrecognized encoding " + encoding);
 
 			CompressionType compression = CompressionType.None;
 
-			if (element.Attributes["compression"] != null)
+			if (element.Attribute("compression") != null)
 			{
 				compression = (CompressionType)
-					Enum.Parse(typeof(CompressionType), element.Attributes["compression"].Value, true);
+					Enum.Parse(typeof(CompressionType), element.Attribute("compression").Value, true);
 			}
 
 			MemoryStream ms = new MemoryStream(bytes);
@@ -1507,10 +1501,6 @@ namespace AgateLib.Serialization.Xle
 			{
 				case CompressionType.None:
 					return value;
-				case CompressionType.Deflate:
-					return new DeflateStream(value, mode, true);
-				case CompressionType.GZip:
-					return new GZipStream(value, mode, true);
 
 				default:
 					throw new ArgumentException("Did not understand compression type.", "compression");
@@ -1522,9 +1512,9 @@ namespace AgateLib.Serialization.Xle
 
 		internal object BeginDeserialize()
 		{
-			XmlElement root = (XmlElement)doc.ChildNodes[0];
+			XElement root = doc.Element("XleRoot");
 
-			if (root.Name != "XleRoot")
+			if (root == null || root.Name != "XleRoot")
 				throw new XleSerializationException("Could not understand stream.  Expected to find an XleRoot element, but found " + root.Name + ".");
 
 			try
@@ -1549,7 +1539,7 @@ namespace AgateLib.Serialization.Xle
 		}
 		private object DeserializeObject(Type defaultType)
 		{
-			XmlAttribute attrib = CurrentNode.Attributes["type"];
+			XAttribute attrib = CurrentNode.Attribute("type");
 			Type type = defaultType;
 
 			if (attrib == null && defaultType == null)
@@ -1557,7 +1547,7 @@ namespace AgateLib.Serialization.Xle
 			else if (attrib != null)
 			{
 				// load the type if it is not the default type.
-				string typename = CurrentNode.Attributes["type"].Value;
+				string typename = CurrentNode.Attribute("type").Value;
 
 				if (typename == "null")
 					return null;
@@ -1590,7 +1580,7 @@ namespace AgateLib.Serialization.Xle
 		{
 			Type type = item.GetType();
 
-			foreach(var prop in type.GetProperties())
+			foreach (var prop in type.GetProperties())
 			{
 				prop_WriteValue(prop.Name, prop.GetValue(item, null));
 			}
@@ -1640,9 +1630,9 @@ namespace AgateLib.Serialization.Xle
 
 		private Type TypeOfValue(string item)
 		{
-			XmlElement el = (XmlElement)CurrentNode[item];
+			XElement el = CurrentNode.Element(item);
 
-			return Binder.GetType(el.Attributes["type"].Value);
+			return Binder.GetType(el.Attribute("type").Value);
 		}
 	}
 }

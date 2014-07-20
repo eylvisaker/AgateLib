@@ -22,6 +22,7 @@ using System.Text;
 using System.Xml;
 using AgateLib.BitmapFont;
 using AgateLib.Geometry;
+using System.Xml.Linq;
 
 namespace AgateLib.Resources
 {
@@ -40,13 +41,13 @@ namespace AgateLib.Resources
 		public BitmapFontResource(string name)
 			: base(name)
 		{ }
-		internal BitmapFontResource(XmlNode node, string version)
+		internal BitmapFontResource(XElement node, string version)
 			: base(string.Empty)
 		{
 			switch (version)
 			{
 				case "0.3.2":
-					Name = node.Attributes["name"].Value;
+					Name = node.Attribute("name").Value;
 					mImage = XmlHelper.ReadAttributeString(node, "image", string.Empty);
 
 					ReadMetrics032(node);
@@ -55,7 +56,7 @@ namespace AgateLib.Resources
 
 				case "0.3.1":
 				case "0.3.0":
-					Name = node.Attributes["name"].Value;
+					Name = node.Attribute("name").Value;
 					mImage = XmlHelper.ReadAttributeString(node, "image", string.Empty);
 
 					ReadMetrics030(node);
@@ -68,12 +69,12 @@ namespace AgateLib.Resources
 			}
 		}
 
-		private void ReadMetrics032(XmlNode parent)
+		private void ReadMetrics032(XElement parent)
 		{
-			XmlNode root = null;
+			XElement root = null;
 
 			// find metrics node
-			foreach (XmlNode n in parent.ChildNodes)
+			foreach (XElement n in parent.Elements())
 			{
 				if (n.Name == "Metrics")
 				{
@@ -86,14 +87,14 @@ namespace AgateLib.Resources
 				throw new AgateResourceException(string.Format(
 					"Could not find Metrics node in bitmap font resource {0}.", Name));
 
-			foreach (XmlNode node in root.ChildNodes)
+			foreach (XElement node in root.Elements())
 			{
 				if (node.Name == "Glyph")
 				{
 					GlyphMetrics glyph = new GlyphMetrics();
 
-					char key = (char)int.Parse(node.Attributes["char"].Value);
-					glyph.SourceRect = Rectangle.Parse(node.Attributes["source"].Value);
+					char key = (char)int.Parse(node.Attribute("char").Value);
+					glyph.SourceRect = Rectangle.Parse(node.Attribute("source").Value);
 
 					glyph.LeftOverhang = XmlHelper.ReadAttributeInt(node, "leftOverhang", 0);
 					glyph.RightOverhang = XmlHelper.ReadAttributeInt(node, "rightOverhang", 0);
@@ -116,12 +117,12 @@ namespace AgateLib.Resources
 			}
 		}
 
-		private void ReadMetrics030(XmlNode parent)
+		private void ReadMetrics030(XElement parent)
 		{
-			XmlNode root = null;
+			XElement root = null;
 
 			// find metrics node
-			foreach (XmlNode n in parent.ChildNodes)
+			foreach (XElement n in parent.Elements())
 			{
 				if (n.Name == "Metrics")
 				{
@@ -134,16 +135,12 @@ namespace AgateLib.Resources
 				throw new AgateResourceException(string.Format(
 					"Could not find Metrics node in bitmap font resource {0}.", Name));
 
-			foreach (XmlNode node in root.ChildNodes)
+			foreach (XElement node in root.Elements("Glyph"))
 			{
-				if (node.Name != "Glyph")
-					throw new AgateResourceException(string.Format(
-						"Expected to find glyph node, but found {0} instead.", node.Name));
-
 				GlyphMetrics glyph = new GlyphMetrics();
 
-				char key = (char)int.Parse(node.Attributes["char"].Value);
-				glyph.SourceRect = Rectangle.Parse(node.Attributes["source"].Value);
+				char key = (char)int.Parse(node.Attribute("char").Value);
+				glyph.SourceRect = Rectangle.Parse(node.Attribute("source").Value);
 
 				glyph.LeftOverhang = XmlHelper.ReadAttributeInt(node, "leftOverhang", 0);
 				glyph.RightOverhang = XmlHelper.ReadAttributeInt(node, "rightOverhang", 0);
@@ -152,46 +149,46 @@ namespace AgateLib.Resources
 			}
 		}
 
-		internal override void BuildNodes(XmlElement parent, XmlDocument doc)
+		internal override void BuildNodes(XElement parent)
 		{
-			XmlNode root = doc.CreateElement("BitmapFont");
+			XElement root = new XElement("BitmapFont");
 
-			XmlHelper.AppendAttribute(root, doc, "name", Name);
-			XmlHelper.AppendAttribute(root, doc, "image", mImage);
+			root.Add(new XAttribute("name", Name));
+			root.Add(new XAttribute("image", mImage));
 
-			XmlNode metrics = doc.CreateElement("Metrics");
+			XElement metrics = new XElement("Metrics");
 
 			foreach (char glyph in mMetrics.Keys)
 			{
-				XmlNode current = doc.CreateElement("Glyph");
+				XElement current = new XElement("Glyph");
 				GlyphMetrics glyphMetrics = mMetrics[glyph];
 
-				XmlHelper.AppendAttribute(current, doc, "char", glyph);
-				XmlHelper.AppendAttribute(current, doc, "source", glyphMetrics.SourceRect.ToString());
+				current.Add(new XAttribute("char", glyph));
+				current.Add(new XAttribute("source", glyphMetrics.SourceRect.ToString()));
 
 				if (glyphMetrics.LeftOverhang != 0)
-					XmlHelper.AppendAttribute(current, doc, "leftOverhang", glyphMetrics.LeftOverhang);
+					current.Add(new XAttribute("leftOverhang", glyphMetrics.LeftOverhang));
 				if (glyphMetrics.RightOverhang != 0)
-					XmlHelper.AppendAttribute(current, doc, "rightOverhang", glyphMetrics.RightOverhang);
+					current.Add(new XAttribute("rightOverhang", glyphMetrics.RightOverhang));
 
-				metrics.AppendChild(current);
+				metrics.Add(current);
 			}
 			foreach (char glyph in mMetrics.Keys)
 			{
 				foreach (var kern in mMetrics[glyph].KerningPairs)
 				{
-					XmlNode current = doc.CreateElement("Kerning");
+					XElement current = new XElement("Kerning");
 
-					XmlHelper.AppendAttribute(current, doc, "first", glyph);
-					XmlHelper.AppendAttribute(current, doc, "second", kern.Key);
-					XmlHelper.AppendAttribute(current, doc, "value", kern.Value);
+					current.Add(new XAttribute("first", glyph));
+					current.Add(new XAttribute("second", kern.Key));
+					current.Add(new XAttribute("value", kern.Value));
 
-					metrics.AppendChild(current);
+					metrics.Add(current);
 				}
 			}
 
-			root.AppendChild(metrics);
-			parent.AppendChild(root);
+			root.Add(metrics);
+			parent.Add(root);
 		}
 
 		/// <summary>

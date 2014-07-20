@@ -123,7 +123,7 @@ namespace AgateLib.Geometry
 		/// <summary>
 		/// Gets bottom.
 		/// </summary>
-		[Browsable(false)]
+		
 		public int Bottom
 		{
 			get { return pt.Y + sz.Height; }
@@ -131,7 +131,7 @@ namespace AgateLib.Geometry
 		/// <summary>
 		/// Gets left.
 		/// </summary>
-		[Browsable(false)]
+		
 		public int Left
 		{
 			get { return pt.X; }
@@ -139,7 +139,7 @@ namespace AgateLib.Geometry
 		/// <summary>
 		/// Gets top.
 		/// </summary>
-		[Browsable(false)]
+		
 		public int Top
 		{
 			get { return pt.Y; }
@@ -147,7 +147,7 @@ namespace AgateLib.Geometry
 		/// <summary>
 		/// Gets right.
 		/// </summary>
-		[Browsable(false)]
+		
 		public int Right
 		{
 			get { return pt.X + sz.Width; }
@@ -155,7 +155,7 @@ namespace AgateLib.Geometry
 		/// <summary>
 		/// Gets or sets top-left point.
 		/// </summary>
-		[Browsable(false)]
+		
 		public Point Location
 		{
 			get { return pt; }
@@ -164,7 +164,7 @@ namespace AgateLib.Geometry
 		/// <summary>
 		/// Gets or sets size.
 		/// </summary>
-		[Browsable(false)]
+		
 		public Size Size
 		{
 			get { return sz; }
@@ -256,7 +256,7 @@ namespace AgateLib.Geometry
 		/// <summary>
 		/// True if this is (0,0,0,0).
 		/// </summary>
-		[Browsable(false)]
+		
 		public bool IsEmpty
 		{
 			get { return pt.IsEmpty && sz.IsEmpty; }
