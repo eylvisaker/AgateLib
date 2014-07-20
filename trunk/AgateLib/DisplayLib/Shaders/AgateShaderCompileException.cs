@@ -11,7 +11,7 @@
 //     The Original Code is AgateLib.
 //
 //     The Initial Developer of the Original Code is Erik Ylvisaker.
-//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2011.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2014.
 //     All Rights Reserved.
 //
 //     Contributor(s): Erik Ylvisaker
@@ -24,7 +24,6 @@ namespace AgateLib.DisplayLib.Shaders
 	/// <summary>
 	/// Exception raised when there is an error with the shader compiler.
 	/// </summary>
-	[global::System.Serializable]
 	public class AgateShaderCompilerException : AgateException
 	{
 		/// <summary>
@@ -42,14 +41,5 @@ namespace AgateLib.DisplayLib.Shaders
 		/// <param name="inner"></param>
 		/// <param name="message"></param>
 		public AgateShaderCompilerException(string message, Exception inner) : base(message, inner) { }
-		/// <summary>
-		/// Constructs an AgateShaderCompilerException object.
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="info"></param>
-		protected AgateShaderCompilerException(
-		  System.Runtime.Serialization.SerializationInfo info,
-		  System.Runtime.Serialization.StreamingContext context)
-			: base(info, context) { }
 	}
 }

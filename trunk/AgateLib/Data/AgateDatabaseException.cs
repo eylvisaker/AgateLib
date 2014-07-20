@@ -11,7 +11,7 @@
 //     The Original Code is AgateLib.
 //
 //     The Initial Developer of the Original Code is Erik Ylvisaker.
-//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2011.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2014.
 //     All Rights Reserved.
 //
 //     Contributor(s): Erik Ylvisaker
@@ -82,16 +82,6 @@ namespace AgateLib.Data
 		{
 			ErrorCount = errorCount;
 		}
-
-		/// <summary>
-		/// Constructs a database exception.
-		/// </summary>
-		/// <param name="info"></param>
-		/// <param name="context"></param>
-		protected AgateDatabaseException(
-		  System.Runtime.Serialization.SerializationInfo info,
-		  System.Runtime.Serialization.StreamingContext context)
-			: base(info, context) { }
 
 		internal int ErrorCount { get; set; }
 	}
