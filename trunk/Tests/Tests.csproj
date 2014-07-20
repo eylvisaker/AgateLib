@@ -535,16 +535,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgateLib\AgateLib.csproj">
-      <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
-      <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}</Project>
-      <Name>AgateLib.WinForms</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Data\largeimage.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -575,6 +565,19 @@
     <Content Include="Data\sndb.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AgateLib\AgateLib.csproj">
+      <Project>{9490b719-829e-43a7-a5fe-8001f8a81759}</Project>
+      <Name>AgateLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
+      <Project>{bef6d67b-4c84-4d3e-8047-6db2c8754d77}</Project>
+      <Name>AgateLib.WinForms</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

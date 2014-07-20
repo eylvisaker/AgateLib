@@ -32,6 +32,7 @@ namespace AgateLib.Serialization.Xle
 	public class XleSerializer
 	{
 		Type objectType;
+		XleTypeSerializerCollection mTypeSerializers = new XleTypeSerializerCollection();
 
 		/// <summary>
 		/// An object which implements the AgateLib.Serialization.Xle.ITypeBinder interface.
@@ -40,6 +41,10 @@ namespace AgateLib.Serialization.Xle
 		/// it may be replaced for custom type binding.
 		/// </summary>
 		public ITypeBinder Binder { get; set; }
+		/// <summary>
+		/// Gets the collection of type serializers that can be used to serialize arbitrary types.
+		/// </summary>
+		public XleTypeSerializerCollection TypeSerializers { get { return mTypeSerializers; } }
 
 		/// <summary>
 		/// Constructs the XleSerializer.  Pass in the type of the object which is 
@@ -76,12 +81,11 @@ namespace AgateLib.Serialization.Xle
 			if (objectType.IsAssignableFrom(objectGraph.GetType()) == false)
 				throw new ArgumentException("Object is not of type " + objectType.Name);
 
-			XleSerializationInfo info = new XleSerializationInfo();
+			XleSerializationInfo info = new XleSerializationInfo(Binder, TypeSerializers);
 
-			info.Binder = Binder;
 			info.BeginSerialize(objectGraph);
 
-			info.XmlDoc.Save(XmlWriter.Create(outStream));
+			info.XmlDoc.Save(outStream);
 
 		}
 
@@ -94,9 +98,8 @@ namespace AgateLib.Serialization.Xle
 		{
 			XDocument doc = XDocument.Load(XmlReader.Create(inStream));
 
-			XleSerializationInfo info = new XleSerializationInfo(doc);
+			XleSerializationInfo info = new XleSerializationInfo(Binder, TypeSerializers, doc);
 
-			info.Binder = Binder;
 			return info.BeginDeserialize();
 		}
 

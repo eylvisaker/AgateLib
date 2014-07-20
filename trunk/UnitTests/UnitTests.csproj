@@ -95,6 +95,8 @@
     <Compile Include="Fakes\FakeReporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PlatformTests.cs" />
+    <Compile Include="Serialization\Xle\Serializable.cs" />
+    <Compile Include="Serialization\Xle\XSTests.cs" />
     <Compile Include="Utility\RefTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -27,7 +27,6 @@ namespace AgateLib.Geometry
 	/// A four color gradient, with a different color value for each corner.
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
-	[Serializable]
 	public struct Gradient
 	{
 		private Color mTopLeft;

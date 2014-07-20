@@ -20,16 +20,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Geometry
 {
 	/// <summary>
 	/// SizeF structure.
 	/// </summary>
-	[Serializable]
-	[TypeConverter(typeof(ExpandableObjectConverter))]
-	public struct SizeF : IXleSerializable 
+	public struct SizeF  
 	{
 		float width, height;
 
@@ -54,20 +51,6 @@ namespace AgateLib.Geometry
 			this.height = height;
 		}
 
-		#region IXleSerializable Members
-
-		void IXleSerializable.WriteData(XleSerializationInfo info)
-		{
-			info.Write("Width", Width, true);
-			info.Write("Height", Height, true);
-		}
-		void IXleSerializable.ReadData(XleSerializationInfo info)
-		{
-			Width = info.ReadFloat("Width");
-			Height = info.ReadFloat("Height");
-		}
-
-		#endregion
 		/// <summary>
 		/// Gets or sets the width.
 		/// </summary>

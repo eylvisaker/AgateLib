@@ -177,6 +177,7 @@
     <Compile Include="DisplayLib\Shaders\Lighting3D.cs" />
     <Compile Include="Extensions\Collections\Generic\ListSorting.cs" />
     <Compile Include="Extensions\Collections\NonGeneric\NonGenericListSorting.cs" />
+    <Compile Include="Geometry\TypeConverters.cs" />
     <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
     <Compile Include="ICommandProcessor.cs" />
     <Compile Include="IFileProvider.cs">
@@ -190,8 +191,16 @@
     <Compile Include="PlatformType.cs" />
     <Compile Include="Resources\ImageResource.cs" />
     <Compile Include="Serialization\Xle\CompressionType.cs" />
+    <Compile Include="Serialization\Xle\IXleTypeSerializer.cs" />
     <Compile Include="Serialization\Xle\NumericEncoding.cs" />
-    <Compile Include="Serialization\Xle\TypeSerializer.cs" />
+    <Compile Include="Serialization\Xle\TypeSerializers\PointFSerializer.cs" />
+    <Compile Include="Serialization\Xle\TypeSerializers\PointSerializer.cs" />
+    <Compile Include="Serialization\Xle\TypeSerializers\RectangleFSerializer.cs" />
+    <Compile Include="Serialization\Xle\TypeSerializers\RectangleSerializer.cs" />
+    <Compile Include="Serialization\Xle\TypeSerializers\SizeFSerializer.cs" />
+    <Compile Include="Serialization\Xle\TypeSerializers\SizeSerializer.cs" />
+    <Compile Include="Serialization\Xle\XleTypeSerializerBase.cs" />
+    <Compile Include="Serialization\Xle\XleTypeSerializerCollection.cs" />
     <Compile Include="Settings\SettingsGroup.cs" />
     <Compile Include="Timing.cs">
       <SubType>Code</SubType>
@@ -359,9 +368,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Geometry\SizeF.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Geometry\TypeConverters.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Geometry\Vector2.cs">
