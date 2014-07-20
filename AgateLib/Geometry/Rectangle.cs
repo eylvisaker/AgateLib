@@ -54,6 +54,62 @@ namespace AgateLib.Geometry
 			this.sz = sz;
 		}
 
+		public static Rectangle FromString(string text)
+		{
+			if (text.StartsWith("{") && text.EndsWith("}"))
+			{
+				text = text.Substring(1, text.Length - 2);
+			}
+
+			string[] values = text.Split(',');
+			Rectangle retval = new Rectangle();
+
+			if (values.Length != 4)
+				throw new FormatException("Could not parse rectangle data from text.");
+
+			if (text.Contains("="))
+			{
+				// parse named arguments
+				for (int i = 0; i < values.Length; i++)
+				{
+					if (values[i].ToLowerInvariant().Contains("width")
+						&& values[i].Contains("="))
+					{
+						retval.Width = ParseNumeric(values[i]);
+					}
+					else if (values[i].ToLowerInvariant().Contains("height")
+						&& values[i].Contains("="))
+					{
+						retval.Height = ParseNumeric(values[i]);
+					}
+					else if (values[i].ToLowerInvariant().Contains("x")
+						&& values[i].Contains("="))
+					{
+						retval.X = ParseNumeric(values[i]);
+					}
+					else if (values[i].ToLowerInvariant().Contains("y")
+						&& values[i].Contains("="))
+					{
+						retval.Y = ParseNumeric(values[i]);
+					}
+				}
+			}
+			else
+			{
+				retval.X = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
+				retval.Y = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
+				retval.Width = int.Parse(values[2], System.Globalization.CultureInfo.InvariantCulture);
+				retval.Height = int.Parse(values[3], System.Globalization.CultureInfo.InvariantCulture);
+			}
+			return retval;
+		}
+		private static int ParseNumeric(string text)
+		{
+			int equals = text.IndexOf("=", StringComparison.InvariantCultureIgnoreCase);
+			int value = int.Parse(text.Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
+			return value;
+		}
+
 		/// <summary>
 		/// Static method which returns a rectangle with specified left, top, right and bottom.
 		/// </summary>

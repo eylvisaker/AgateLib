@@ -164,6 +164,7 @@
       <DependentUpon>SetSystemsForm.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeConverters.cs" />
     <Compile Include="WinFormsDriver.cs">
       <SubType>Code</SubType>
     </Compile>

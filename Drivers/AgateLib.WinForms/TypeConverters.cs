@@ -70,37 +70,8 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public new static Point ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
 		{
-			if (str.StartsWith("{") && str.EndsWith("}"))
-				str = str.Substring(1, str.Length - 2);
-
-			string[] values = str.Split(',');
-			Point retval = new Point();
-
-			if (values.Length > 2)
-				throw new FormatException("Could not parse point data from text.");
-
-			retval.X = ParseEntry(values[0], "X");
-			retval.Y = ParseEntry(values[1], "Y");
-
-			return retval;
+			return Point.FromString(str);
 		}
-
-		private static int ParseEntry(string str, string name)
-		{
-			var r = new System.Text.RegularExpressions.Regex(name + " *=");
-			var matches = r.Matches(str);
-
-			switch (matches.Count)
-			{
-				case 0:
-					return int.Parse(str);
-				case 1:
-					return int.Parse(str.Substring(matches[0].Index + matches[0].Length));
-				default:
-					throw new FormatException("Could not parse " + name + " value.");
-			}
-		}
-
 	}
 	/// <summary>
 	/// 
@@ -147,44 +118,7 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public new static Size ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
 		{
-			if (str.StartsWith("{") && str.EndsWith("}"))
-			{
-				str = str.Substring(1, str.Length - 2);
-			}
-
-			string[] values = str.Split(',');
-			Size retval = new Size();
-
-			if (values.Length != 2)
-				throw new FormatException("Could not parse size data from text.");
-
-			if (str.Contains("="))
-			{
-				// parse named arguments
-				for (int i = 0; i < values.Length; i++)
-				{
-					if (values[i].ToLowerInvariant().Contains("width")
-						&& values[i].Contains("="))
-					{
-						int equals = values[i].IndexOf("=", StringComparison.InvariantCultureIgnoreCase);
-
-						retval.Width = int.Parse(values[i].Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
-					}
-					else if (values[i].ToLowerInvariant().Contains("height")
-						&& values[i].Contains("="))
-					{
-						int equals = values[i].IndexOf('=');
-
-						retval.Height = int.Parse(values[i].Substring(equals + 1));
-					}
-				}
-			}
-			else
-			{
-				retval.Width = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
-				retval.Height = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
-			}
-			return retval;
+			return Size.FromString(str);
 		}
 	}
 	class RectangleConverter : ExpandableObjectConverter
@@ -229,59 +163,8 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public new static Rectangle ConvertFromString(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, string str)
 		{
-			if (str.StartsWith("{") && str.EndsWith("}"))
-			{
-				str = str.Substring(1, str.Length - 2);
-			}
-
-			string[] values = str.Split(',');
-			Rectangle retval = new Rectangle();
-
-			if (values.Length != 4)
-				throw new FormatException("Could not parse rectangle data from text.");
-
-			if (str.Contains("="))
-			{
-				// parse named arguments
-				for (int i = 0; i < values.Length; i++)
-				{
-					if (values[i].ToLowerInvariant().Contains("width")
-						&& values[i].Contains("="))
-					{
-						retval.Width = ParseNumeric(values[i]);
-					}
-					else if (values[i].ToLowerInvariant().Contains("height")
-						&& values[i].Contains("="))
-					{
-						retval.Height = ParseNumeric(values[i]);
-					}
-					else if (values[i].ToLowerInvariant().Contains("x")
-						&& values[i].Contains("="))
-					{
-						retval.X = ParseNumeric(values[i]);
-					}
-					else if (values[i].ToLowerInvariant().Contains("y")
-						&& values[i].Contains("="))
-					{
-						retval.Y = ParseNumeric(values[i]);
-					}
-				}
-			}
-			else
-			{
-				retval.X = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
-				retval.Y = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
-				retval.Width = int.Parse(values[2], System.Globalization.CultureInfo.InvariantCulture);
-				retval.Height = int.Parse(values[3], System.Globalization.CultureInfo.InvariantCulture);
-			}
-			return retval;
+			return Rectangle.FromString(str);
 		}
 
-		private static int ParseNumeric(string text)
-		{
-			int equals = text.IndexOf("=", StringComparison.InvariantCultureIgnoreCase);
-			int value = int.Parse(text.Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
-			return value;
-		}
 	}
 }

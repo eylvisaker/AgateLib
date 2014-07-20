@@ -67,7 +67,7 @@ namespace AgateLib.Resources
 			CheckAttributeExists(node, attributeName);
 			string text = node.Attribute(attributeName).Value;
 
-			return PointConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
+			return Point.FromString(text);
 		}
 		internal static Point ReadAttributePoint(XElement node, string attributeName, Point defaultValue)
 		{
@@ -82,7 +82,7 @@ namespace AgateLib.Resources
 			CheckAttributeExists(node, attributeName);
 			string text = node.Attribute(attributeName).Value;
 
-			return SizeConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
+			return Size.FromString(text);
 		}
 		internal static Size ReadAttributeSize(XElement node, string attributeName, Size defaultValue)
 		{
@@ -97,7 +97,7 @@ namespace AgateLib.Resources
 			CheckAttributeExists(node, attributeName);
 			string text = node.Attribute(attributeName).Value;
 
-			return RectangleConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
+			return Rectangle.FromString(text);
 		}
 		internal static Rectangle ReadAttributeRectangle(XElement node, string attributeName, Rectangle defaultValue)
 		{
