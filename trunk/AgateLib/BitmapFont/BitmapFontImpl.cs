@@ -106,7 +106,7 @@ namespace AgateLib.BitmapFont
 		public BitmapFontImpl(Surface surface, FontMetrics fontMetrics, string name)
 		{
 			FontName = name;
-			mFontMetrics = (FontMetrics)((ICloneable)fontMetrics).Clone();
+			mFontMetrics = fontMetrics.Clone();
 			float maxHeight = 0;
 
 			foreach (KeyValuePair<char, GlyphMetrics> kvp in mFontMetrics)

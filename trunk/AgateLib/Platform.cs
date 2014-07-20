@@ -45,6 +45,7 @@ namespace AgateLib
 
 		internal Platform()
 		{
+			
 			mType = DetectPlatformType();
 			mRuntime = DetectRuntime();
 			m64Bit = Detect64Bit();
@@ -58,10 +59,10 @@ namespace AgateLib
 				Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 			}
 
-			CheckOSVersion();
+			//CheckOSVersion();
 
-			if (mType == PlatformType.Windows)
-				mWindowsVersion = DetectWindowsVersion();
+			//if (mType == PlatformType.Windows)
+			//	mWindowsVersion = DetectWindowsVersion();
 
 			SetFolders();
 
@@ -86,23 +87,30 @@ namespace AgateLib
 			}
 
 			Trace.WriteLine("64-bit platform: " + m64Bit.ToString());
+
 		}
 
 		private bool Detect64Bit()
 		{
-			int size = Marshal.SizeOf(typeof(IntPtr));
-
-			switch (size)
+			unsafe
 			{
-				case 4: return false;
-				case 8: return true;
-				default:
-					throw new AgateException(string.Format("Size of IntPtr is {0}.", size));
+				int size = sizeof(IntPtr);
+
+				switch (size)
+				{
+					case 4: return false;
+					case 8: return true;
+					default:
+						throw new AgateException(string.Format("Size of IntPtr is {0}.", size));
+				}
 			}
 		}
 
 		private bool HasWriteAccessToAppDirectory()
 		{
+			return false;
+			/*
+			 * TODO: Fix this!!
 			// TODO: Maybe there is a better way to inspect permissions?
 			// here we just try to write and see if we fail.
 			string filename = Path.GetTempFileName();
@@ -111,7 +119,7 @@ namespace AgateLib
 			{
 				string targetFile = Path.Combine(mAppDir, Path.GetFileName(filename));
 
-				using (var w = new StreamWriter(targetFile))
+				using (var w = new StreamWriter( targetFile))
 				{
 					w.WriteLine("x");
 				}
@@ -122,7 +130,7 @@ namespace AgateLib
 			catch
 			{
 				return false;
-			}
+			}*/
 		}
 
 		internal void EnsureAppDataDirectoryExists()
@@ -149,6 +157,7 @@ namespace AgateLib
 				return null;
 			}
 		}
+
 		private void SetFolders()
 		{
 			Assembly entryPt = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
@@ -289,26 +298,24 @@ namespace AgateLib
 
 		}
 
-		/// <summary>
-		/// Detects the unix kernel by p/invoking the uname call in libc.
-		/// </summary>
-		/// <returns></returns>
+		 /// <summary>
+		 /// Detects the unix kernel by p/invoking the uname call in libc.
+		 /// </summary>
+		 /// <returns></returns>
 		private static string DetectUnixKernel()
 		{
-			Debug.Print("Size: {0}", Marshal.SizeOf(typeof(utsname)).ToString());
+			Debug.WriteLine("Size: {0}", Marshal.SizeOf(typeof(utsname)).ToString());
 			Debug.Flush();
 			
 			utsname uts = new utsname();
 			uname(out uts);
 
 			Debug.WriteLine("System:");
-			Debug.Indent();
 			Debug.WriteLine(uts.sysname);
 			Debug.WriteLine(uts.nodename);
 			Debug.WriteLine(uts.release);
 			Debug.WriteLine(uts.version);
 			Debug.WriteLine(uts.machine);
-			Debug.Unindent();
 
 			return uts.sysname.ToString();
 		}
@@ -323,15 +330,16 @@ namespace AgateLib
 		{
 			var version = System.Environment.OSVersion.Version;
 
-			Debug.Print("OS Version: {0}", System.Environment.OSVersion.VersionString);
+
+			Debug.WriteLine("OS Version: {0}", System.Environment.OSVersion.VersionString);
 			Debug.IndentLevel++;
-			Debug.Print("Major: {0}", version.Major);
-			Debug.Print("Major revision: {0}", version.MajorRevision);
-			Debug.Print("Minor: {0}", version.Minor);
-			Debug.Print("Minor revision: {0}", version.MinorRevision);
-			Debug.Print("Revision: {0}", version.Revision);
-			Debug.Print("Build: {0}", version.Build);
-			Debug.Print("Service Pack: {0}", System.Environment.OSVersion.ServicePack);
+			Debug.WriteLine("Major: {0}", version.Major);
+			Debug.WriteLine("Major revision: {0}", version.MajorRevision);
+			Debug.WriteLine("Minor: {0}", version.Minor);
+			Debug.WriteLine("Minor revision: {0}", version.MinorRevision);
+			Debug.WriteLine("Revision: {0}", version.Revision);
+			Debug.WriteLine("Build: {0}", version.Build);
+			Debug.WriteLine("Service Pack: {0}", System.Environment.OSVersion.ServicePack);
 			Debug.IndentLevel--;
 		}
 
@@ -360,6 +368,7 @@ namespace AgateLib
 
 			return retval;
 		}
-	
+
+
 	}
 }

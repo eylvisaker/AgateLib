@@ -88,7 +88,7 @@ namespace AgateLib.Geometry
 		/// <summary>
 		/// Returns true if width and height are zero.
 		/// </summary>
-		[Browsable(false)]
+		
 		public bool IsEmpty
 		{
 			get { return width == 0 && height == 0; }

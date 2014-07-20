@@ -28,7 +28,7 @@ namespace AgateLib.BitmapFont
 	/// GlyphMetrics defines the metrics for a particular glyph in a font, including
 	/// the rectangle of the glyph on the source image, overhang, and kerning pairs.
 	/// </summary>
-	public sealed class GlyphMetrics : ICloneable
+	public sealed class GlyphMetrics
 	{
 		private Rectangle mSourceRect;
 
@@ -139,13 +139,5 @@ namespace AgateLib.BitmapFont
 			return retval;
 		}
 
-		#region ICloneable Members
-
-		object ICloneable.Clone()
-		{
-			return Clone();
-		}
-
-		#endregion
 	}
 }

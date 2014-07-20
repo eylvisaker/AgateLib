@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace AgateLib.Settings
 {
@@ -124,25 +125,25 @@ namespace AgateLib.Settings
 		/// </summary>
 		public void SaveSettings()
 		{
-			XmlDocument doc = new XmlDocument();
-			XmlElement root = doc.CreateElement("Settings");
+			XDocument doc = new XDocument();
+			XElement root = new XElement("Settings");
 
 			foreach (string group in mSettings.Keys)
 			{
-				XmlElement groupNode = doc.CreateElement(group);
+				XElement groupNode = new XElement(group);
 
 				foreach (var kvp in mSettings[group])
 				{
-					XmlElement set = doc.CreateElement(kvp.Key);
-					set.InnerText = kvp.Value;
+					XElement set = new XElement(kvp.Key);
+					set.Value = kvp.Value;
 
-					groupNode.AppendChild(set);
+					groupNode.Add(set);
 				}
 
-				root.AppendChild(groupNode);
+				root.Add(groupNode);
 			}
 
-			doc.AppendChild(root);
+			doc.Add(root);
 
 			System.Diagnostics.Trace.WriteLine("Saving settings to " + SettingsFilename);
 
@@ -153,11 +154,11 @@ namespace AgateLib.Settings
 
 		private void LoadSettings()
 		{
-			XmlDocument doc = new XmlDocument();
+			XDocument doc;
 
 			try
 			{
-				doc.Load(SettingsFilename);
+				doc = XDocument.Load(SettingsFilename);
 			}
 			catch (FileNotFoundException)
 			{
@@ -175,24 +176,24 @@ namespace AgateLib.Settings
 				return;
 			}
 
-			XmlElement root = doc.ChildNodes[0] as XmlElement;
+			XElement root = doc.Element("Settings");
 
-			if (root.Name != "Settings")
+			if (root == null)
 				throw new AgateException("Could not understand settings file\n" + SettingsFilename +
 					"\nYou may need to delete it.");
 
-			foreach (XmlElement node in root.ChildNodes)
+			foreach (XElement node in root.Elements())
 			{
 				SettingsGroup g = new SettingsGroup();
 
-				g.Name = node.Name;
+				g.Name = node.Name.LocalName;
 
-				foreach (XmlElement pair in node.ChildNodes)
+				foreach (XElement pair in node.Elements())
 				{
-					g.Add(pair.Name, pair.InnerXml);
+					g.Add(pair.Name.LocalName, pair.Value);
 				}
 
-				mSettings.Add(node.Name, g);
+				mSettings.Add(g.Name, g);
 			}
 		}
 	}

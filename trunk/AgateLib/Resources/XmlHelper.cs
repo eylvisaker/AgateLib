@@ -19,134 +19,132 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 using AgateLib.Geometry;
 
 namespace AgateLib.Resources
 {
 	static internal class XmlHelper
 	{
-		internal static void AppendAttribute(XmlNode node, XmlDocument doc,
-			string name, string value)
+		internal static void AppendAttribute(XElement node, string name, string value)
 		{
-			XmlAttribute attrib = doc.CreateAttribute(name);
-			attrib.Value = value;
+			XAttribute attrib = new XAttribute(name, value);
 
-			node.Attributes.Append(attrib);
+			node.Add(attrib);
 		}
 
-		internal static void AppendAttribute(XmlNode node, XmlDocument doc, string name, double value)
+		internal static void AppendAttribute(XElement node, string name, double value)
 		{
-			AppendAttribute(node, doc, name, value.ToString());
+			AppendAttribute(node, name, value.ToString());
 		}
-		internal static void AppendAttribute(XmlNode node, XmlDocument doc, string name, int value)
+		internal static void AppendAttribute(XElement node, string name, int value)
 		{
-			AppendAttribute(node, doc, name, value.ToString());
+			AppendAttribute(node, name, value.ToString());
 		}
-		internal static void AppendAttribute(XmlNode node, XmlDocument doc, string name, bool value)
+		internal static void AppendAttribute(XElement node, string name, bool value)
 		{
-			AppendAttribute(node, doc, name, value.ToString());
+			AppendAttribute(node, name, value.ToString());
 		}
-		internal static void AppendAttribute(XmlElement node, XmlDocument doc, string name, Point point)
+		internal static void AppendAttribute(XElement node, string name, Point point)
 		{
-			AppendAttribute(node, doc, name, string.Format("{0},{1}", point.X, point.Y));
+			AppendAttribute(node, name, string.Format("{0},{1}", point.X, point.Y));
 		}
-		internal static void AppendAttribute(XmlElement node, XmlDocument doc, string name, Size size)
+		internal static void AppendAttribute(XElement node, string name, Size size)
 		{
-			AppendAttribute(node, doc, name, string.Format("{0},{1}", size.Width, size.Height));
+			AppendAttribute(node, name, string.Format("{0},{1}", size.Width, size.Height));
 		}
 
 
-		private static void CheckAttributeExists(XmlNode node, string attributeName)
+		private static void CheckAttributeExists(XElement node, string attributeName)
 		{
-			if (node.Attributes[attributeName] == null)
+			if (node.Attribute(attributeName) == null)
 				throw new AgateResourceException(string.Format(
 					"Could not find attribute {0} in node {1}", attributeName, node.Name));
 		}
 
-		internal static Point ReadAttributePoint(XmlNode node, string attributeName)
+		internal static Point ReadAttributePoint(XElement node, string attributeName)
 		{
 			CheckAttributeExists(node, attributeName);
-			string text = node.Attributes[attributeName].Value;
+			string text = node.Attribute(attributeName).Value;
 
 			return PointConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
 		}
-		internal static Point ReadAttributePoint(XmlNode node, string attributeName, Point defaultValue)
+		internal static Point ReadAttributePoint(XElement node, string attributeName, Point defaultValue)
 		{
-			if (node.Attributes[attributeName] == null)
+			if (node.Attribute(attributeName) == null)
 				return defaultValue;
 			else
 				return ReadAttributePoint(node, attributeName);
 		}
 
-		internal static Size ReadAttributeSize(XmlNode node, string attributeName)
+		internal static Size ReadAttributeSize(XElement node, string attributeName)
 		{
 			CheckAttributeExists(node, attributeName);
-			string text = node.Attributes[attributeName].Value;
+			string text = node.Attribute(attributeName).Value;
 
 			return SizeConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
 		}
-		internal static Size ReadAttributeSize(XmlNode node, string attributeName, Size defaultValue)
+		internal static Size ReadAttributeSize(XElement node, string attributeName, Size defaultValue)
 		{
-			if (node.Attributes[attributeName] == null)
+			if (node.Attribute(attributeName) == null)
 				return defaultValue;
 			else
 				return ReadAttributeSize(node, attributeName);
 		}
 
-		internal static Rectangle ReadAttributeRectangle(XmlNode node, string attributeName)
+		internal static Rectangle ReadAttributeRectangle(XElement node, string attributeName)
 		{
 			CheckAttributeExists(node, attributeName);
-			string text = node.Attributes[attributeName].Value;
+			string text = node.Attribute(attributeName).Value;
 
 			return RectangleConverter.ConvertFromString(null, System.Globalization.CultureInfo.CurrentCulture, text);
 		}
-		internal static Rectangle ReadAttributeRectangle(XmlNode node, string attributeName, Rectangle defaultValue)
+		internal static Rectangle ReadAttributeRectangle(XElement node, string attributeName, Rectangle defaultValue)
 		{
-			if (node.Attributes[attributeName] == null)
+			if (node.Attribute(attributeName) == null)
 				return defaultValue;
 			else
 				return ReadAttributeRectangle(node, attributeName);
 		}
-		internal static int ReadAttributeInt(XmlNode node, string attributeName)
+		internal static int ReadAttributeInt(XElement node, string attributeName)
 		{
 			CheckAttributeExists(node, attributeName);
-			string text = node.Attributes[attributeName].Value;
+			string text = node.Attribute(attributeName).Value;
 
 			return int.Parse(text, System.Globalization.CultureInfo.InvariantCulture);
 		}
 
-		internal static int ReadAttributeInt(XmlNode node, string attributeName, int defaultValue)
+		internal static int ReadAttributeInt(XElement node, string attributeName, int defaultValue)
 		{
-			if (node.Attributes[attributeName] == null)
+			if (node.Attribute(attributeName) == null)
 				return defaultValue;
 			else
 				return ReadAttributeInt(node, attributeName);
 		}
 
-		internal static bool ReadAttributeBool(XmlNode node, string attributeName)
+		internal static bool ReadAttributeBool(XElement node, string attributeName)
 		{
 			CheckAttributeExists(node, attributeName);
-			string text = node.Attributes[attributeName].Value;
+			string text = node.Attribute(attributeName).Value;
 
 			return bool.Parse(text);
 		}
-		internal static bool ReadAttributeBool(XmlNode node, string attributeName, bool defaultValue)
+		internal static bool ReadAttributeBool(XElement node, string attributeName, bool defaultValue)
 		{
-			if (node.Attributes[attributeName] == null)
+			if (node.Attribute(attributeName) == null)
 				return defaultValue;
 			else
 				return ReadAttributeBool(node, attributeName);
 		}
 
-		internal static string ReadAttributeString(XmlNode node, string attributeName)
+		internal static string ReadAttributeString(XElement node, string attributeName)
 		{
 			CheckAttributeExists(node, attributeName);
-			return node.Attributes[attributeName].Value;
+			return node.Attribute(attributeName).Value;
 		}
-		internal static string ReadAttributeString(XmlNode node, string attributeName, string defaultValue)
+		internal static string ReadAttributeString(XElement node, string attributeName, string defaultValue)
 		{
-			if (node.Attributes[attributeName] == null)
+			if (node.Attribute(attributeName) == null)
 				return defaultValue;
 			else
 				return ReadAttributeString(node, attributeName);

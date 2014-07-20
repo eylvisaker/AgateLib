@@ -18,11 +18,13 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml;
 using AgateLib.Utility;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace AgateLib.Resources
 {
@@ -36,15 +38,15 @@ namespace AgateLib.Resources
 		/// </summary>
 		public static void SaveResources(AgateResourceCollection resources, string filename)
 		{
-			XmlDocument doc = new XmlDocument();
-			XmlElement root = doc.CreateElement("AgateResources");
-			XmlHelper.AppendAttribute(root, doc, "Version", "1.0.0");
+			XDocument doc = new XDocument();
+			XElement root = new XElement("AgateResources",
+				new XAttribute("Version", "1.0.0"));
 
-			doc.AppendChild(root);
+			doc.Add(root);
 
 			foreach (AgateResource res in resources)
 			{
-				res.BuildNodes(root, doc);
+				res.BuildNodes(root);
 			}
 
 			doc.Save(filename);
@@ -70,32 +72,30 @@ namespace AgateLib.Resources
 		/// <param name="stream"></param>
 		public static void LoadResources(AgateResourceCollection resources, Stream stream)
 		{
-			XmlDocument doc = new XmlDocument();
+			XDocument doc = new XDocument();
 			try
 			{
-				doc.Load(stream);
+				doc = XDocument.Load(new StreamReader(stream));
 			}
 			catch (XmlException e)
 			{
 				throw new AgateResourceException("The XML resource file is malformed.", e);
 			}
 
-			XmlNode root;
+			XElement root;
 			try
 			{
-				root = doc.ChildNodes[0];
-				if (root is XmlDeclaration)
-					root = doc.ChildNodes[1];
+				root = doc.Elements().First(x => x is XDeclaration == false);
 			}
 			catch (XmlException e)
 			{
 				throw new AgateResourceException("Could not understand root XML element.", e);
 			}
 
-			if (root.Attributes["Version"] == null)
+			if (root.Attribute("Version") == null)
 				throw new AgateResourceException("XML resource file does not contain the required version attibute.");
 
-			string version = root.Attributes["Version"].Value;
+			string version = root.Attribute("Version").Value;
 
 			switch (version)
 			{
@@ -114,14 +114,10 @@ namespace AgateLib.Resources
 		}
 
 
-		private static void ReadVersion100(AgateResourceCollection resources, XmlNode root, string version)
+		private static void ReadVersion100(AgateResourceCollection resources, XElement root, string version)
 		{
-			for (int i = 0; i < root.ChildNodes.Count; i++)
+			foreach (var node in root.Elements())
 			{
-				XmlNode node = root.ChildNodes[i];
-
-				if (node is XmlComment) continue;
-
 				try
 				{
 					resources.Add(ReadNode(node, version));
@@ -134,9 +130,9 @@ namespace AgateLib.Resources
 			}
 		}
 
-		private static AgateResource ReadNode(XmlNode node, string version)
+		private static AgateResource ReadNode(XElement node, string version)
 		{
-			switch (node.Name)
+			switch (node.Name.LocalName)
 			{
 				case "StringTable":
 					return new StringTable(node, version);
@@ -147,7 +143,7 @@ namespace AgateLib.Resources
 				case "Image":
 					return new ImageResource(node, version);
 
-	 			case "Surface":
+				case "Surface":
 					return new SurfaceResource(node, version);
 
 				case "Sprite":
@@ -168,7 +164,7 @@ namespace AgateLib.Resources
 				throw new InvalidDataException(p);
 			}
 			else
-				Debug.Print(p);
+				Debug.WriteLine(p);
 		}
 
 		static bool mThrowOnReadError = true;
