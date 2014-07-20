@@ -11,7 +11,7 @@
 //     The Original Code is AgateLib.
 //
 //     The Initial Developer of the Original Code is Erik Ylvisaker.
-//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2011.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2014.
 //     All Rights Reserved.
 //
 //     Contributor(s): Erik Ylvisaker
@@ -65,14 +65,5 @@ namespace AgateLib.Resources
 		public AgateResourceException(Exception inner, string format, params object[] args)
 			: base(inner, string.Format(format, args))
 		{ }
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="info"></param>
-		/// <param name="context"></param>
-		protected AgateResourceException(
-		  System.Runtime.Serialization.SerializationInfo info,
-		  System.Runtime.Serialization.StreamingContext context)
-			: base(info, context) { }
 	}
 }
