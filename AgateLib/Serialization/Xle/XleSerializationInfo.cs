@@ -35,14 +35,17 @@ namespace AgateLib.Serialization.Xle
 	{
 		XDocument doc;
 		Stack<XElement> nodes = new Stack<XElement>();
+		XleTypeSerializerCollection TypeSerializers;
 
-		internal XleSerializationInfo()
+		internal XleSerializationInfo(ITypeBinder Binder1, XleTypeSerializerCollection TypeSerializers, XDocument document = null)
 		{
-			doc = new XDocument();
-		}
-		internal XleSerializationInfo(XDocument doc)
-		{
-			this.doc = doc;
+			this.Binder = Binder1;
+			this.TypeSerializers = TypeSerializers;
+
+			this.doc = document;
+
+			if (this.doc == null)
+				this.doc = new XDocument();
 		}
 
 		internal XDocument XmlDoc
@@ -90,97 +93,12 @@ namespace AgateLib.Serialization.Xle
 		#region --- Writing single values to the XML ---
 
 		/// <summary>
-		/// Writes a field to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The value to write.</param>
-		public void Write(string name, string value)
-		{
-			if (value == null) value = "";
-
-			Write(name, value, false);
-		}
-		/// <summary>
-		/// Writes a field to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The value to write.</param>
-		public void Write(string name, double value)
-		{
-			Write(name, value, false);
-		}
-		/// <summary>
-		/// Writes a field to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The value to write.</param>
-		public void Write(string name, float value)
-		{
-			Write(name, value, false);
-		}
-		/// <summary>
-		/// Writes a field to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The value to write.</param>
-		public void Write(string name, bool value)
-		{
-			Write(name, value, false);
-		}
-		/// <summary>
-		/// Writes a field to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The value to write.</param>
-		public void Write(string name, char value)
-		{
-			Write(name, value, false);
-		}
-		/// <summary>
-		/// Writes a field to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The value to write.</param>
-		public void Write(string name, short value)
-		{
-			Write(name, value, false);
-		}
-		/// <summary>
-		/// Writes a field to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The value to write.</param>
-		public void Write(string name, int value)
-		{
-			Write(name, value, false);
-		}
-		/// <summary>
-		/// Writes a field to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The value to write.</param>
-		public void Write(string name, long value)
-		{
-			Write(name, value, false);
-		}
-		/// <summary>
-		/// Writes a field to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The value to write.</param>
-		public void Write(string name, decimal value)
-		{
-			Write(name, value, false);
-		}
-
-
-		/// <summary>
 		/// Writes a field to the XML data as an element or an attribute.
 		/// </summary>
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The value to write.</param>
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void Write(string name, string value, bool asAttribute)
+		public void Write(string name, string value, bool asAttribute = false)
 		{
 			if (value == null) value = "";
 
@@ -194,7 +112,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The value to write.</param>
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void WriteEnum<T>(string name, T value, bool asAttribute) where T : struct
+		public void WriteEnum<T>(string name, T value, bool asAttribute = false) where T : struct
 		{
 			if (typeof(T).IsEnum == false)
 				throw new XleSerializationException("Type passed is not an enum.");
@@ -207,7 +125,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The value to write.</param>
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void Write(string name, double value, bool asAttribute)
+		public void Write(string name, double value, bool asAttribute = false)
 		{
 			WriteImpl(name, value, asAttribute);
 		}
@@ -217,7 +135,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The value to write.</param>
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void Write(string name, float value, bool asAttribute)
+		public void Write(string name, float value, bool asAttribute = false)
 		{
 			WriteImpl(name, value, asAttribute);
 		}
@@ -227,7 +145,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The value to write.</param>
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void Write(string name, bool value, bool asAttribute)
+		public void Write(string name, bool value, bool asAttribute = false)
 		{
 			WriteImpl(name, value, asAttribute);
 		}
@@ -237,7 +155,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The value to write.</param>
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void Write(string name, char value, bool asAttribute)
+		public void Write(string name, char value, bool asAttribute = false)
 		{
 			WriteImpl(name, value, asAttribute);
 		}
@@ -247,7 +165,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The value to write.</param>
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void Write(string name, short value, bool asAttribute)
+		public void Write(string name, short value, bool asAttribute = false)
 		{
 			WriteImpl(name, value, asAttribute);
 		}
@@ -257,7 +175,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The value to write.</param>
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void Write(string name, int value, bool asAttribute)
+		public void Write(string name, int value, bool asAttribute = false)
 		{
 			WriteImpl(name, value, asAttribute);
 		}
@@ -267,7 +185,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The value to write.</param>
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void Write(string name, long value, bool asAttribute)
+		public void Write(string name, long value, bool asAttribute = false)
 		{
 			WriteImpl(name, value, asAttribute);
 		}
@@ -277,16 +195,12 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the XML element used.</param>
 		/// <param name="value">The value to write.</param>
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void Write(string name, decimal value, bool asAttribute)
+		public void Write(string name, decimal value, bool asAttribute = false)
 		{
 			WriteImpl(name, value, asAttribute);
 		}
 
-		void WriteImpl<T>(string name, T value) where T : IConvertible
-		{
-			WriteImpl(name, value, false);
-		}
-		void WriteImpl<T>(string name, T value, bool asAttribute) where T : IConvertible
+		void WriteImpl<T>(string name, T value, bool asAttribute = false) where T : IConvertible
 		{
 			if (asAttribute)
 			{
@@ -297,6 +211,13 @@ namespace AgateLib.Serialization.Xle
 
 		}
 
+		/// <summary>
+		/// Writes a nullable value to 
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		/// <param name="asAttribute"></param>
 		public void Write<T>(string name, T? value, bool asAttribute = false) where T : struct, IConvertible
 		{
 			if (asAttribute)
@@ -315,40 +236,11 @@ namespace AgateLib.Serialization.Xle
 			}
 		}
 
-		/// <summary>
-		/// Writes an object implementing IXleSerializable to the XML data as an element.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The object data to write.</param>
-		public void Write(string name, IXleSerializable value)
+		private XElement WriteAsElement<T>(string name, T value) where T : IConvertible
 		{
 			XElement element = CreateElement(name);
 
-			if (value == null)
-				AddAttribute(element, "type", "null");
-			else
-			{
-				AddAttribute(element, "type", value.GetType().ToString());
-
-				try
-				{
-					nodes.Push(element);
-
-					Serialize(value);
-				}
-				finally
-				{
-					nodes.Pop();
-				}
-			}
-		}
-		private XElement WriteAsElement<T>(string name, T value) where T : IConvertible
-		{
-			XElement element = new XElement(name);
-
 			element.Value = value.ToString();
-
-			CurrentNode.Add(element);
 
 			return element;
 		}
@@ -368,6 +260,7 @@ namespace AgateLib.Serialization.Xle
 
 			return element;
 		}
+
 		#endregion
 		#region --- Writing arrays ---
 
@@ -378,7 +271,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="value">The array data to write.</param>
 		public void Write(string name, int[] value)
 		{
-			WriteImpl(name, value, NumericEncoding.Base64);
+			WriteImpl(name, value, NumericEncoding.Csv);
 		}
 		/// <summary>
 		/// Writes an int[] array to the XML data as an element with the specified encoding.
@@ -749,6 +642,129 @@ namespace AgateLib.Serialization.Xle
 		}
 
 		#endregion
+		#region --- Writing generic objects ---
+
+		public void Write(string name, Array value)
+		{
+			XElement element = CreateElement(name);
+			AddAttribute(element, "array", "true");
+
+			if (value == null)
+				AddAttribute(element, "type", "null");
+			else
+			{
+				AddAttribute(element, "type", value.GetType().GetElementType().FullName);
+
+				IXleTypeSerializer typeSer = TypeSerializers[value.GetType().GetElementType()];
+				if (typeSer == null)
+					throw new XleSerializationException("Could not serialize object of type " + value.GetType().FullName);
+
+				try
+				{
+					nodes.Push(element);
+
+					for (int i = 0; i < value.Length; i++)
+					{
+						object item = value.GetValue(i);
+
+						if (item == null)
+						{
+							XElement eitem = new XElement("Item", new XAttribute("type", "null"));
+							element.Add(eitem);
+						}
+						else
+						{
+							XElement eitem = new XElement("Item",
+								new XAttribute("type", item.GetType().FullName));
+
+							element.Add(eitem);
+
+							try
+							{
+								nodes.Push(eitem);
+
+								typeSer.Serialize(this, value.GetValue(i));
+							}
+							finally
+							{
+								nodes.Pop();
+							}
+						}
+					}
+				}
+				finally
+				{
+					nodes.Pop();
+				}
+			}
+		}
+		public void Write(string name, object value)
+		{
+			if (value is IXleSerializable)
+			{
+				Write(name, (IXleSerializable)value);
+				return;
+			}
+			if (value is Array)
+			{
+				Write(name, (Array)value);
+				return;
+			}
+
+			XElement element = CreateElement(name);
+
+			if (value == null)
+				AddAttribute(element, "type", "null");
+			else
+			{
+				AddAttribute(element, "type", value.GetType().ToString());
+
+				IXleTypeSerializer typeSer = TypeSerializers[value.GetType()];
+				if (typeSer == null)
+					throw new XleSerializationException("Could not serialize object of type " + value.GetType().FullName);
+
+				try
+				{
+					nodes.Push(element);
+
+					typeSer.Serialize(this, value);
+				}
+				finally
+				{
+					nodes.Pop();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Writes an object implementing IXleSerializable to the XML data as an element.
+		/// </summary>
+		/// <param name="name">The name of the XML element used.</param>
+		/// <param name="value">The object data to write.</param>
+		public void Write(string name, IXleSerializable value)
+		{
+			XElement element = CreateElement(name);
+
+			if (value == null)
+				AddAttribute(element, "type", "null");
+			else
+			{
+				AddAttribute(element, "type", value.GetType().ToString());
+
+				try
+				{
+					nodes.Push(element);
+
+					Serialize(value);
+				}
+				finally
+				{
+					nodes.Pop();
+				}
+			}
+		}
+
+		#endregion
 
 		#endregion
 		#region --- Reading methods ---
@@ -1057,7 +1073,55 @@ namespace AgateLib.Serialization.Xle
 		/// </summary>
 		/// <param name="name">Name of the field.</param>
 		/// <returns></returns>
+		[Obsolete("Use ReadArray<byte> instead.")]
 		public byte[] ReadByteArray(string name)
+		{
+			return ReadArray<byte>(name);
+		}
+
+		/// <summary>
+		/// Reads a integer array from the XML data.  If the name is not present 
+		/// an XleSerializationException is thrown.
+		/// </summary>
+		/// <param name="name">Name of the field.</param>
+		/// <returns></returns>
+		[Obsolete("Use ReadArray<int> instead.")]
+		public int[] ReadInt32Array(string name)
+		{
+			return ReadArray<int>(name);
+		}
+
+		/// <summary>
+		/// Reads a boolean array from the XML data.  If the name is not present 
+		/// an XleSerializationException is thrown.
+		/// </summary>
+		/// <param name="name">Name of the field.</param>
+		/// <returns></returns>
+		[Obsolete("Use ReadArray<bool> instead.")]
+		public bool[] ReadBooleanArray(string name)
+		{
+			return ReadArray<bool>(name);
+		}
+
+		/// <summary>
+		/// Reads a double array from the XML data.  If the name is not present 
+		/// an XleSerializationException is thrown.
+		/// </summary>
+		/// <param name="name">Name of the field.</param>
+		/// <returns></returns>
+		[Obsolete("Use ReadArray<double> instead.")]
+		public double[] ReadDoubleArray(string name)
+		{
+			return ReadArray<double>(name);
+		}
+
+		/// <summary>
+		/// Reads a byte array from the XML data.  If the name is not present 
+		/// an XleSerializationException is thrown.
+		/// </summary>
+		/// <param name="name">Name of the field.</param>
+		/// <returns></returns>
+		byte[] _ReadByteArray(string name)
 		{
 			XElement element = CurrentNode.Element(name);
 
@@ -1083,7 +1147,7 @@ namespace AgateLib.Serialization.Xle
 		/// </summary>
 		/// <param name="name">Name of the field.</param>
 		/// <returns></returns>
-		public int[] ReadInt32Array(string name)
+		int[] _ReadInt32Array(string name)
 		{
 			XElement element = CurrentNode.Element(name);
 			string encoding = GetEncoding(name);
@@ -1131,7 +1195,7 @@ namespace AgateLib.Serialization.Xle
 		/// </summary>
 		/// <param name="name">Name of the field.</param>
 		/// <returns></returns>
-		public bool[] ReadBooleanArray(string name)
+		bool[] _ReadBooleanArray(string name)
 		{
 			byte[] array = ReadByteArray(name);
 			bool[] result = new bool[array.Length];
@@ -1148,7 +1212,7 @@ namespace AgateLib.Serialization.Xle
 		/// </summary>
 		/// <param name="name">Name of the field.</param>
 		/// <returns></returns>
-		public double[] ReadDoubleArray(string name)
+		double[] _ReadDoubleArray(string name)
 		{
 			byte[] array = ReadByteArray(name);
 			double[] result = new double[array.Length / 8];
@@ -1175,8 +1239,10 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public T[] ReadArray<T>(string name)
 		{
-			if (typeof(T) == typeof(int) || typeof(T) == typeof(double))
-				throw new XleSerializationException("Cannot use the generic ReadArray method to deserialize an array of primitives.");
+			if (typeof(T) == typeof(int)) return (T[])(object)_ReadInt32Array(name);
+			if (typeof(T) == typeof(double)) return (T[])(object)_ReadDoubleArray(name);
+			if (typeof(T) == typeof(bool)) return (T[])(object)_ReadBooleanArray(name);
+			if (typeof(T) == typeof(byte)) return (T[])(object)_ReadByteArray(name);
 
 			try
 			{
@@ -1208,6 +1274,7 @@ namespace AgateLib.Serialization.Xle
 			Type type;
 			if (element.Attribute("type") == null)
 				type = defaultType;
+
 			else
 			{
 				string typename = element.Attribute("type").Value;
@@ -1467,7 +1534,7 @@ namespace AgateLib.Serialization.Xle
 		/// <summary>
 		/// The ITypeBinder object used.
 		/// </summary>
-		public ITypeBinder Binder { get; internal set; }
+		public ITypeBinder Binder { get; private set; }
 
 		#endregion
 		#region --- Dealing with streams ---
@@ -1508,7 +1575,6 @@ namespace AgateLib.Serialization.Xle
 		}
 
 		#endregion
-
 
 		internal object BeginDeserialize()
 		{
@@ -1560,20 +1626,32 @@ namespace AgateLib.Serialization.Xle
 				}
 			}
 
-			IXleSerializable obj;
-
-			try
+			if (typeof(IXleSerializable).IsAssignableFrom(type))
 			{
-				obj = (IXleSerializable)Activator.CreateInstance(type, true);
+				IXleSerializable obj;
+
+				try
+				{
+					obj = (IXleSerializable)Activator.CreateInstance(type, true);
+				}
+				catch (MissingMethodException e)
+				{
+					throw new XleSerializationException("Type " + type.ToString() + " does not have a default constructor.", e);
+				}
+
+				obj.ReadData(this);
+
+				return obj;
 			}
-			catch (MissingMethodException e)
+			else
 			{
-				throw new XleSerializationException("Type " + type.ToString() + " does not have a default constructor.", e);
+				var typser = TypeSerializers[type];
+
+				if (typser == null)
+					throw new XleSerializationException("Could not deserialize type " + type.ToString());
+
+				return typser.Deserialize(this);
 			}
-
-			obj.ReadData(this);
-
-			return obj;
 		}
 
 		public void WritePublicProperties(IXleSerializable item)

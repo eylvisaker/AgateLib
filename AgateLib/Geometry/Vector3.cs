@@ -26,7 +26,6 @@ namespace AgateLib.Geometry
 	/// <summary>
 	/// Structure which describes a vector in 3-space.
 	/// </summary>
-	[Serializable]
 	[StructLayout(LayoutKind.Sequential)]
 	public struct Vector3
 	{

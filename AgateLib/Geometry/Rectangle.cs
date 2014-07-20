@@ -20,16 +20,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-using AgateLib.Serialization.Xle;
 
 namespace AgateLib.Geometry
 {
 	/// <summary>
 	/// Implements a Rectangle structure, containing position and size.
 	/// </summary>
-	[Serializable]
-	[TypeConverter(typeof(ExpandableObjectConverter))]
-	public struct Rectangle : IXleSerializable
+	public struct Rectangle
 	{
 		Point pt;
 		Size sz;
@@ -56,25 +53,6 @@ namespace AgateLib.Geometry
 			this.pt = pt;
 			this.sz = sz;
 		}
-
-		#region IXleSerializable Members
-
-		void IXleSerializable.WriteData(XleSerializationInfo info)
-		{
-			info.Write("X", X, true);
-			info.Write("Y", Y, true);
-			info.Write("Width", Width, true);
-			info.Write("Height", Height, true);
-		}
-		void IXleSerializable.ReadData(XleSerializationInfo info)
-		{
-			X = info.ReadInt32("X");
-			Y = info.ReadInt32("Y");
-			Width = info.ReadInt32("Width");
-			Height = info.ReadInt32("Height");
-		}
-
-		#endregion
 
 		/// <summary>
 		/// Static method which returns a rectangle with specified left, top, right and bottom.
@@ -442,10 +420,10 @@ namespace AgateLib.Geometry
 		}
 		static bool FindValue(string text, string name, out int value)
 		{
-			int index = text.IndexOf(name, StringComparison.InvariantCultureIgnoreCase);
-			int comma = text.IndexOf(",", index, StringComparison.InvariantCultureIgnoreCase);
+			int index = text.IndexOf(name, StringComparison.OrdinalIgnoreCase);
+			int comma = text.IndexOf(",", index, StringComparison.OrdinalIgnoreCase);
 			if (comma == -1)
-				comma = text.IndexOf("}", index, StringComparison.InvariantCultureIgnoreCase);
+				comma = text.IndexOf("}", index, StringComparison.OrdinalIgnoreCase);
 
 			int start = index + name.Length;
 
