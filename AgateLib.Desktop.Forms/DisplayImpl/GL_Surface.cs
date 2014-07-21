@@ -41,7 +41,7 @@ namespace AgateOTK
 	/// <summary>
 	/// OpenGL 3.1 compatible.
 	/// </summary>
-	public sealed class GL_Surface : SurfaceImpl
+	public sealed class GL_Surface : SurfaceImpl, IGL_Surface
 	{
 		GL_Display mDisplay;
 		GLDrawBuffer mDrawBuffer;
@@ -385,7 +385,7 @@ namespace AgateOTK
 			get { return mSourceRect.Size; }
 		}
 
-		internal int GLTextureID { get { return mTextureID; } }
+		public int GLTextureID { get { return mTextureID; } }
 
 		private void Load()
 		{

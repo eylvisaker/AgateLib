@@ -36,16 +36,13 @@ namespace AgateOTK.GL3
 		Size mSize;
 		int mFramebufferID;
 		int mDepthBuffer;
-		GL_Surface mTexture;
+		IGL_Surface mTexture;
 
-		public FrameBuffer(Size size)
+		public FrameBuffer(IGL_Surface surface)
 		{
-			mSize = size;
+			mTexture = surface;
+			mSize = surface.SurfaceSize;
 
-			//AgateLib.DisplayLib.PixelBuffer pixels = new AgateLib.DisplayLib.PixelBuffer(
-			//     AgateLib.DisplayLib.PixelFormat.RGBA8888, mSize);
-
-			mTexture = new GL_Surface(mSize);
 			mTexture.FlipVertical = true;
 
 			// generate the frame buffer
@@ -98,7 +95,7 @@ namespace AgateOTK.GL3
 
 		public override SurfaceImpl RenderTarget
 		{
-			get { return mTexture; }
+			get { return (SurfaceImpl)mTexture; }
 		}
 		
 		public override AgateLib.Geometry.Size Size

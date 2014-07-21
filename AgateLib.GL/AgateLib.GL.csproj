@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{94734E5A-0344-43E8-BB30-E32E3F57F611}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AgateLib.GL</RootNamespace>
+    <AssemblyName>AgateLib.GL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AgateLib">
+      <HintPath>..\Binaries\Debug\AgateLib.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Drivers\AgateOTK\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AL_Audio.cs" />
+    <Compile Include="ContextFB.cs" />
+    <Compile Include="GeoHelper.cs" />
+    <Compile Include="GL3\DrawBuffer.cs" />
+    <Compile Include="GL3\FrameBuffer.cs" />
+    <Compile Include="GL3\GLPrimitiveRenderer.cs" />
+    <Compile Include="GL3\GLVertexBuffer.cs" />
+    <Compile Include="GL3\Shaders\GL3_Basic2DShader.cs" />
+    <Compile Include="GL3\Shaders\GlslFragmentProgram.cs" />
+    <Compile Include="GL3\Shaders\GlslShader.cs" />
+    <Compile Include="GL3\Shaders\GlslShaderCompiler.cs" />
+    <Compile Include="GL3\Shaders\GlslVertexProgram.cs" />
+    <Compile Include="GL3\Shaders\IGL3Shader.cs" />
+    <Compile Include="GL3\Shaders\ShaderFactory3.cs" />
+    <Compile Include="GL3\Shaders\ShaderSources.Designer.cs">
+      <DependentUpon>ShaderSources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="GLDrawBuffer.cs" />
+    <Compile Include="GL_FrameBuffer.cs" />
+    <Compile Include="GL_IndexBuffer.cs" />
+    <Compile Include="IGL_Display.cs" />
+    <Compile Include="IGL_Surface.cs" />
+    <Compile Include="Legacy\FixedFunction\FixedFunctionShaderFactory.cs" />
+    <Compile Include="Legacy\FixedFunction\OTK_FF_Basic2DShader.cs" />
+    <Compile Include="Legacy\FixedFunction\OTK_FF_Lighting2D.cs" />
+    <Compile Include="Legacy\FixedFunction\OTK_FF_Lighting3D.cs" />
+    <Compile Include="Legacy\FrameBufferExt.cs" />
+    <Compile Include="Legacy\FrameBufferReadPixels.cs" />
+    <Compile Include="Legacy\LegacyDrawBuffer.cs" />
+    <Compile Include="Legacy\LegacyPrimitiveRenderer.cs" />
+    <Compile Include="Legacy\LegacyVertexBuffer.cs" />
+    <Compile Include="PrimitiveRenderer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShaderFactory.cs" />
+    <Compile Include="TextureCoordinates.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GL3\Shaders\ShaderSources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ShaderSources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShaderSources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenTK.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Resources\Basic2D_pixel.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Basic2D_vert.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OpenTK.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="OpenTK.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

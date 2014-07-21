@@ -31,13 +31,13 @@ namespace AgateOTK.Legacy
 	class FrameBufferReadPixels : GL_FrameBuffer 
 	{
 		Size size;
-		GL_Surface surface;
+		IGL_Surface surface;
 		SurfaceState s = new SurfaceState();
 			
-		public FrameBufferReadPixels(Size size)
+		public FrameBufferReadPixels(IGL_Surface surf)
 		{
-			this.size = size;
-			surface = new GL_Surface(size);
+			surface = surf;
+			this.size = surf.SurfaceSize;
 
 			surface.FlipVertical = true;
 		}
@@ -99,7 +99,7 @@ namespace AgateOTK.Legacy
 		{
 			get
 			{
-				return surface;
+				return (SurfaceImpl)surface;
 			}
 		}
 

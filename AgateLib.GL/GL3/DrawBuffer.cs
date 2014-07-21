@@ -203,7 +203,7 @@ namespace AgateOTK.GL3
 
 			SetGLInterpolation();
 
-			GL_Display display = (GL_Display)Display.Impl;
+			IGL_Display display = (IGL_Display)Display.Impl;
 			Shaders.IGL3Shader shader = (Shaders.IGL3Shader) display.Shader.Impl;
 
 			shader.SetVertexAttributes(PositionTextureColor.VertexLayout);

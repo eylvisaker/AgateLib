@@ -41,11 +41,11 @@ namespace AgateOTK.GL3
 		int mBufferID;
 		int mVaoID;
 
-		GL_Display mDisplay;
+		IGL_Display mDisplay;
 
 		public GLPrimitiveRenderer()
 		{
-			mDisplay = (GL_Display)Display.Impl;
+			mDisplay = (IGL_Display)Display.Impl;
 
 			GL.GenBuffers(1, out mBufferID);
 			GL.GenVertexArrays(1, out mVaoID); 
@@ -53,9 +53,9 @@ namespace AgateOTK.GL3
 			Debug.Print("GL3 PrimitiveRenderer: Draw buffer ID: {0}", mBufferID);
 		}
 
-		GL_Surface WhiteSurface
+		IGL_Surface WhiteSurface
 		{
-			get { return (GL_Surface) mDisplay.WhiteSurface.Impl; }
+			get { return (IGL_Surface) mDisplay.WhiteSurface.Impl; }
 		}
 
 		private void BufferData()
@@ -154,7 +154,7 @@ namespace AgateOTK.GL3
 
 			BufferData();
 
-			GL_Display display = (GL_Display)Display.Impl;
+			IGL_Display display = (IGL_Display)Display.Impl;
 			Shaders.IGL3Shader shader = (Shaders.IGL3Shader)display.Shader.Impl;
 
 			shader.SetVertexAttributes(PositionColor.VertexLayout);

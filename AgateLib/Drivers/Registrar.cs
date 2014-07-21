@@ -344,6 +344,9 @@ namespace AgateLib.Drivers
 		public static bool IgnoreSavedSettings { get; set; }
 		internal static DisplayImpl CreateDisplayDriver(DisplayTypeID displayType)
 		{
+			if (TypeRegistry.DisplayDriver != null)
+				return (DisplayImpl)Activator.CreateInstance(TypeRegistry.DisplayDriver);
+
 			if (displayDrivers.Count == 0)
 				throw new AgateException("No display drivers registered.");
 			

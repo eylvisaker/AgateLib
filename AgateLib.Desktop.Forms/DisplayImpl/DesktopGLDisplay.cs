@@ -37,8 +37,8 @@ namespace AgateOTK
 	/// <summary>
 	/// OpenGL 3.1 compatible.  
 	/// </summary>
-	public sealed class GL_Display : DisplayImpl
-	{
+	public sealed class GL_Display : DisplayImpl, AgateOTK.IGL_Display
+	{ 
 		GL_FrameBuffer mRenderTarget;
 		Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		Rectangle mCurrentClip = Rectangle.Empty;
@@ -56,7 +56,7 @@ namespace AgateOTK
 
 		bool mGL3;
 
-		internal Surface WhiteSurface
+		public Surface WhiteSurface
 		{
 			get;
 			private set;
@@ -152,12 +152,12 @@ namespace AgateOTK
 		protected override FrameBufferImpl CreateFrameBuffer(Size size)
 		{
 			if (mGL3 || (mSupportsFramebufferArb && ReadSettingsBool("DisableFramebufferArb") == false))
-				return new GL3.FrameBuffer(size);
+				return new GL3.FrameBuffer((IGL_Surface)new Surface(size).Impl);
 			else if (mSupportsFramebufferExt && ReadSettingsBool("DisableFramebufferExt") == false)
 			{
 				try
 				{
-					return new Legacy.FrameBufferExt(size);
+					return new Legacy.FrameBufferExt((IGL_Surface)new Surface(size).Impl);
 				}
 				catch (Exception e)
 				{
@@ -174,8 +174,8 @@ namespace AgateOTK
 				}
 			}
 
-			return new Legacy.FrameBufferReadPixels(size);
-		}
+			return new Legacy.FrameBufferReadPixels((IGL_Surface)new Surface(size).Impl);
+		} 
 
 		bool ReadSettingsBool(string name)
 		{
@@ -217,7 +217,7 @@ namespace AgateOTK
 			FlushDeleteQueue();
 		}
 
-		internal GLDrawBuffer DrawBuffer
+		public GLDrawBuffer DrawBuffer
 		{
 			get { return ((GL_FrameBuffer)RenderTarget.Impl).DrawBuffer; }
 		}

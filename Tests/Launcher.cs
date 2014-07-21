@@ -12,6 +12,8 @@ namespace Tests
 		[STAThread]
 		public static void Main(string[] args)
 		{
+			AgateLib.Desktop.Forms.Setup.Initialize();
+
 			AgateFileProvider.Images.AddPath("Data");
 			AgateFileProvider.Sounds.AddPath("Data");
 			

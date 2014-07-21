@@ -18,36 +18,20 @@
 //
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using AgateLib.DisplayLib;
-using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Geometry;
+using AgateLib.Drivers;
 
-namespace AgateOTK
+namespace AgateLib.WinForms
 {
-	abstract class GL_FrameBuffer: FrameBufferImpl 
+	class WinFormsReporter : AgateDriverReporter
 	{
-		readonly GLDrawBuffer mDrawBuffer;
-		protected bool mHasDepth;
-		protected bool mHasStencil;
-
-		protected GL_FrameBuffer()
+		public override IEnumerable<AgateDriverInfo> ReportDrivers()
 		{
-			mDrawBuffer = ((GL_Display)Display.Impl).CreateDrawBuffer();
+			yield return new AgateDriverInfo(
+				 DesktopTypeID.WinForms,
+				 typeof(WinFormsDriver),
+				 "Windows.Forms",
+				 0);
 		}
-
-		public GLDrawBuffer DrawBuffer { get { return mDrawBuffer; } }
-		public abstract void MakeCurrent();
-
-		public override bool HasDepthBuffer
-		{
-			get { return mHasDepth; }
-		}
-		public override bool HasStencilBuffer
-		{
-			get { return mHasStencil; }
-		}
-
 	}
 }

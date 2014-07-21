@@ -175,6 +175,7 @@
     <Compile Include="DisplayLib\Shaders\Implementation\Lighting3DImpl.cs" />
     <Compile Include="DisplayLib\Shaders\Lighting2D.cs" />
     <Compile Include="DisplayLib\Shaders\Lighting3D.cs" />
+    <Compile Include="Drivers\TypeRegistry.cs" />
     <Compile Include="Extensions\Collections\Generic\ListSorting.cs" />
     <Compile Include="Extensions\Collections\NonGeneric\NonGenericListSorting.cs" />
     <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
