@@ -34,23 +34,23 @@ namespace AgateOTK.Legacy
 		Size mSize;
 		int mFramebufferID;
 		int mDepthBuffer, mStencilBuffer;
-		GL_Surface mTexture;
+		IGL_Surface mTexture;
 		bool first = true;
 
 		static bool sDepthSupported = true;
 		static bool sStencilSupported = true;
 
 
-		public FrameBufferExt(Size size)
+		public FrameBufferExt(IGL_Surface target)
 		{
-			mSize = size;
+			mTexture = target;
+			mSize = target.SurfaceSize;
 
 			InitializeFramebuffer();
 		}
 
 		void InitializeFramebuffer()
 		{
-			mTexture = new GL_Surface(mSize);
 			mTexture.FlipVertical = true;
 
 			// try to initialize with both depth and stencil buffers.
@@ -174,7 +174,7 @@ namespace AgateOTK.Legacy
 
 		public override SurfaceImpl RenderTarget
 		{
-			get { return mTexture; }
+			get { return (SurfaceImpl)mTexture; }
 		}
 		public override void Dispose()
 		{

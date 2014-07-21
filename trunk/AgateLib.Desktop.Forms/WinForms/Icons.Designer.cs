@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgateOTK.GL3.Shaders {
+namespace AgateLib.Desktop.Forms.WinForms {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace AgateOTK.GL3.Shaders {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ShaderSources {
+    internal class Icons {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ShaderSources() {
+        internal Icons() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace AgateOTK.GL3.Shaders {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AgateOTK.GL3.Shaders.ShaderSources", typeof(ShaderSources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AgateLib.Desktop.Forms.WinForms.Icons", typeof(Icons).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,54 +61,32 @@ namespace AgateOTK.GL3.Shaders {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #version 140
-        ///
-        ///uniform sampler2D texture;
-        ///
-        ///in vec4 colorVal;
-        ///in vec2 texCoordVal;
-        ///
-        ///out vec4 color;
-        ///
-        ///void main()
-        ///{
-        ///	color = texture2D(texture, texCoordVal);
-        ///	color = color * colorVal;
-        ///}
-        ///.
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static string Basic2D_pixel {
+        internal static System.Drawing.Icon AgateLib {
             get {
-                return ResourceManager.GetString("Basic2D_pixel", resourceCulture);
+                object obj = ResourceManager.GetObject("AgateLib", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #version 140
-        ///
-        ///in vec3 position;
-        ///in vec4 color;
-        ///in vec2 texCoord;
-        ///
-        ///uniform mat4x4 transform;
-        ///
-        ///out vec4 colorVal;
-        ///out vec2 texCoordVal;
-        ///
-        ///void main()
-        ///{
-        ///	vec4 pos = vec4(position, 1);
-        ///	
-        ///	colorVal = color;
-        ///	texCoordVal = texCoord;
-        ///	
-        ///    gl_Position = transform * pos;
-        ///}
-        ///.
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static string Basic2D_vert {
+        internal static System.Drawing.Icon AgateLib_mono {
             get {
-                return ResourceManager.GetString("Basic2D_vert", resourceCulture);
+                object obj = ResourceManager.GetObject("AgateLib_mono", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] blankcursor {
+            get {
+                object obj = ResourceManager.GetObject("blankcursor", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

@@ -30,12 +30,12 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.WinForms;
 
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using OpenTK.Platform;
+using AgateLib.WinForms;
 
 namespace AgateOTK
 {

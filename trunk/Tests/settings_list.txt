@@ -1,4 +1,4 @@
-AgateLib.DisplayDriver	OpenGL through OpenTK 1.1.1631.6093
+AgateLib.DisplayDriver	System.Drawing
 AgateLib.AudioDriver	No audio
 AgateLib.InputDriver	No input
 AgateLib.OpenGL.DisableFramebufferArb	false

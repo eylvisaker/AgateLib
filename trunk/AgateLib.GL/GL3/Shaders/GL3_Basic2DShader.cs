@@ -23,6 +23,7 @@ using System.Text;
 using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
+using AgateLib.GL.GL3.Shaders;
 
 namespace AgateOTK.GL3.Shaders
 {

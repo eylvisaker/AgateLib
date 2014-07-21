@@ -28,19 +28,23 @@ using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK.Legacy
+namespace AgateOTK.GL3
 {
-	public class LegacyVertexBuffer : VertexBufferImpl
+	/// <summary>
+	/// Not OpenGL 3.1 compatible.
+	/// Need replacements for SetClientStates/IndexPointer/NormalPointer/VertexPointer
+	/// </summary>
+	public class GLVertexBuffer : VertexBufferImpl
 	{
-		GL_Display mDisplay;
+		IGL_Display mDisplay;
 		GLDrawBuffer mDrawBuffer;
 
 		struct AttributeData
 		{
-			public string Name;
-			public int BufferID;
-			public VertexAttribPointerType Type;
-			public int ComponentCount;
+			internal string Name;
+			internal int BufferID;
+			internal VertexAttribPointerType Type;
+			internal int ComponentCount;
 		}
 
 		int mVertexCount;
@@ -50,9 +54,9 @@ namespace AgateOTK.Legacy
 
 		VertexLayout mLayout;
 
-		public LegacyVertexBuffer(VertexLayout layout, int count)
+		public GLVertexBuffer(VertexLayout layout, int count)
 		{
-			mDisplay = Display.Impl as GL_Display;
+			mDisplay = Display.Impl as IGL_Display;
 			mDrawBuffer = mDisplay.DrawBuffer;
 			mVertexCount = count;
 			mLayout = layout;
@@ -226,7 +230,7 @@ namespace AgateOTK.Legacy
 			}
 			else
 			{
-				GL.BindTexture(TextureTarget.Texture2D, ((GL_Surface)Textures[0].Impl).GLTextureID);
+				GL.BindTexture(TextureTarget.Texture2D, ((IGL_Surface)Textures[0].Impl).GLTextureID);
 			}
 		}
 
