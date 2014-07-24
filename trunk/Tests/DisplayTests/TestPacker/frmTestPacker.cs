@@ -7,11 +7,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
-
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Utility;
-using AgateLib.WinForms;
+using AgateLib.Platform.WindowsForms.WinForms;
 
 namespace Tests.TestPacker
 {

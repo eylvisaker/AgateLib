@@ -134,10 +134,6 @@
       <Project>{164A785D-924E-40FB-A517-D7E677F3B53A}</Project>
       <Name>AgateDrawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Name>AgateLib.WinForms</Name>
-      <Project>{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\NotebookLib\NotebookLib\NotebookLib.csproj">
       <Project>{91F57346-B574-4D52-9EB0-AA191B552C94}</Project>
       <Name>NotebookLib</Name>

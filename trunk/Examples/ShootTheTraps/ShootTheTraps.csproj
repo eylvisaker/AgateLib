@@ -103,10 +103,6 @@
       <Project>{198C4842-0000-0000-0000-000000000000}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{8C84DA52-0000-0000-0000-000000000000}</Project>
-      <Name>AgateLib.WinForms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Drivers\AgateOTK\AgateOTK.csproj">
       <Project>{CAB8A0C1-0000-0000-0000-000000000000}</Project>
       <Name>AgateOTK</Name>

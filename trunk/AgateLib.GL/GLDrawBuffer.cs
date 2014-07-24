@@ -29,7 +29,7 @@ using AgateLib.Geometry.VertexTypes;
 
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK
+namespace AgateLib.OpenGL
 {
 	public abstract class GLDrawBuffer
 	{

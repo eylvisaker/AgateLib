@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AgateLib.InputLib;
+using AgateLib.Diagnostics;
 
 namespace AgateLib.UnitTests.Core
 {
@@ -13,7 +14,7 @@ namespace AgateLib.UnitTests.Core
 		[TestInitialize]
 		public void Init()
 		{
-			console = new AgateConsole();
+			console = new AgateConsoleImpl();
 
 			console.CommandProcessor.DescribeCommand += (cmd) => { describeCallCount++; return string.Empty; };
 		}

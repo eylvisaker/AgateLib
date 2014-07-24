@@ -28,7 +28,7 @@ using AgateLib.Geometry;
 using AgateLib.Geometry.VertexTypes;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK.GL3
+namespace AgateLib.OpenGL.GL3
 {
 	/// <summary>
 	/// Not OpenGL 3.1 compatible.

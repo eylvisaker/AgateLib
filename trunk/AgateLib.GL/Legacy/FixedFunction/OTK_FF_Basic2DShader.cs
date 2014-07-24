@@ -26,7 +26,7 @@ using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK.Legacy.FixedFunction
+namespace AgateLib.OpenGL.Legacy.FixedFunction
 {
 	class OTK_FF_Basic2DShader : Basic2DImpl  
 	{

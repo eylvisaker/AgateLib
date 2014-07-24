@@ -26,7 +26,7 @@ using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK.Legacy.FixedFunction
+namespace AgateLib.OpenGL.Legacy.FixedFunction
 {
 	class OTK_FF_Lighting3D : Lighting3DImpl  
 	{

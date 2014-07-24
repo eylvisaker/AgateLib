@@ -1,7 +1,7 @@
 ﻿using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using System;
-namespace AgateOTK
+namespace AgateLib.OpenGL
 {
 	public interface IGL_Display
 	{

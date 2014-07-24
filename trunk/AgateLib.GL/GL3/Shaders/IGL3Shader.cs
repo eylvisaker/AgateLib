@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.Geometry.VertexTypes;
 
-namespace AgateOTK.GL3.Shaders
+namespace AgateLib.OpenGL.GL3.Shaders
 {
 	interface IGL3Shader
 	{

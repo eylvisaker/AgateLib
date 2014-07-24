@@ -24,7 +24,7 @@ using AgateLib.AudioLib.ImplementationBase;
 using AgateLib.Drivers;
 using OpenTK.Audio.OpenAL;
 
-namespace AgateOTK
+namespace AgateLib.OpenGL
 {
 	/*
 	class AL_Audio : AudioImpl

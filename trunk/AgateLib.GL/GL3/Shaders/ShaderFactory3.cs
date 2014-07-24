@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.DisplayLib.Shaders.Implementation;
 
-namespace AgateOTK.GL3.Shaders
+namespace AgateLib.OpenGL.GL3.Shaders
 {
 	class ShaderFactory3 : ShaderFactory 
 	{

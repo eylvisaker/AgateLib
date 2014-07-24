@@ -23,7 +23,7 @@ using System.Text;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
 
-namespace AgateOTK.Legacy.FixedFunction
+namespace AgateLib.OpenGL.Legacy.FixedFunction
 {
 	class FixedFunctionShaderFactory : ShaderFactory 
 	{

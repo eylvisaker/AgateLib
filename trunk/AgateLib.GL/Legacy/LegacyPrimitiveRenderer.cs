@@ -23,7 +23,7 @@ using System.Text;
 using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK.Legacy
+namespace AgateLib.OpenGL.Legacy
 {
 	class LegacyPrimitiveRenderer : PrimitiveRenderer
 	{

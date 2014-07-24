@@ -23,9 +23,9 @@ using System.Text;
 using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
-using AgateLib.GL.GL3.Shaders;
+using AgateLib.OpenGL.GL3.Shaders;
 
-namespace AgateOTK.GL3.Shaders
+namespace AgateLib.OpenGL.GL3.Shaders
 {
 	class GL3_Basic2DShader : Basic2DImpl, IGL3Shader
 	{

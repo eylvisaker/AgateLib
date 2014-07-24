@@ -7,10 +7,10 @@ namespace AgateLib.UnitTests
 	[TestClass]
 	public class PlatformTests
 	{
-		[TestMethod]
-		public void InitializePlatform()
-		{
-			Platform p = new Platform();
-		}
+		//[TestMethod]
+		//public void InitializePlatform()
+		//{
+		//	Platform p = new Platform();
+		//}
 	}
 }
