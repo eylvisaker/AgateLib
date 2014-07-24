@@ -29,7 +29,7 @@ using AgateLib.Geometry.VertexTypes;
 
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK.Legacy
+namespace AgateLib.OpenGL.Legacy
 {
 	/// <summary>
 	/// Uses 

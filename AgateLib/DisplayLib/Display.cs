@@ -25,6 +25,7 @@ using AgateLib.DisplayLib.Shaders;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Utility;
+using AgateLib.Diagnostics;
 
 namespace AgateLib.DisplayLib
 {

@@ -130,10 +130,6 @@
       <Name>AgateDrawing</Name>
       <Project>{164A785D-924E-40FB-A517-D7E677F3B53A}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Name>AgateLib.WinForms</Name>
-      <Project>{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="frmAddSpriteFrames.cs">

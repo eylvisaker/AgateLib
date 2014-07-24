@@ -25,7 +25,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK
+namespace AgateLib.OpenGL
 {
 	/// <summary>
 	/// OpenGL 3.1 compatible.

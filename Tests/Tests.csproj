@@ -570,9 +570,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgateLib.Desktop.Forms\AgateLib.Desktop.Forms.csproj">
+    <ProjectReference Include="..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
       <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
-      <Name>AgateLib.Desktop.Forms</Name>
+      <Name>AgateLib.Platform.WindowsForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\AgateLib\AgateLib.csproj">
       <Project>{9490b719-829e-43a7-a5fe-8001f8a81759}</Project>

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace AgateOTK
+namespace AgateLib.OpenGL
 {
 	interface IGL_Surface : IDisposable
 	{

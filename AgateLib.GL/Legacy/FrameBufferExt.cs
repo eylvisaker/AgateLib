@@ -27,7 +27,7 @@ using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
 using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
-namespace AgateOTK.Legacy
+namespace AgateLib.OpenGL.Legacy
 {
 	class FrameBufferExt : GL_FrameBuffer
 	{

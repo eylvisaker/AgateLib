@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.agateRenderTarget1 = new AgateLib.WinForms.AgateRenderTarget();
+			this.agateRenderTarget1 = new AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget();
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -87,7 +87,7 @@
 
 		#endregion
 
-		private AgateLib.WinForms.AgateRenderTarget agateRenderTarget1;
+		private AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget agateRenderTarget1;
 		private System.Windows.Forms.PropertyGrid propertyGrid1;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 	}

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgateLib.GL.GL3.Shaders {
+namespace AgateLib.OpenGL.GL3.Shaders {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AgateLib.GL.GL3.Shaders {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AgateLib.GL.GL3.Shaders.ShaderSources", typeof(ShaderSources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AgateLib.OpenGL.GL3.Shaders.ShaderSources", typeof(ShaderSources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

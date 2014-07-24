@@ -26,7 +26,7 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK.Legacy
+namespace AgateLib.OpenGL.Legacy
 {
 	class FrameBufferReadPixels : GL_FrameBuffer 
 	{

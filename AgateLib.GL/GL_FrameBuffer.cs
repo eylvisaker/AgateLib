@@ -24,7 +24,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 
-namespace AgateOTK
+namespace AgateLib.OpenGL
 {
 	public abstract class GL_FrameBuffer: FrameBufferImpl 
 	{

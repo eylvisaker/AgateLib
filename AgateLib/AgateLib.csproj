@@ -125,7 +125,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="AgateConsole.cs" />
     <Compile Include="AgateException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -161,6 +160,11 @@
     <Compile Include="Data\FieldType.cs" />
     <Compile Include="Data\AgateRowList.cs" />
     <Compile Include="Data\AgateTableDictionary.cs" />
+    <Compile Include="Diagnostics\AgateConsole.cs" />
+    <Compile Include="Diagnostics\ConsoleSupport\AgateConsoleCommandProcessor.cs" />
+    <Compile Include="Diagnostics\ConsoleSupport\ConsoleDictionary.cs" />
+    <Compile Include="Diagnostics\ConsoleSupport\ConsoleMessage.cs" />
+    <Compile Include="Diagnostics\ConsoleSupport\ConsoleMessageType.cs" />
     <Compile Include="DisplayLib\FrameBuffer.cs" />
     <Compile Include="DisplayLib\IFrameBuffer.cs" />
     <Compile Include="DisplayLib\Shaders\AgateBuiltInShaders.cs" />
@@ -179,7 +183,7 @@
     <Compile Include="Extensions\Collections\Generic\ListSorting.cs" />
     <Compile Include="Extensions\Collections\NonGeneric\NonGenericListSorting.cs" />
     <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />
-    <Compile Include="ICommandProcessor.cs" />
+    <Compile Include="Diagnostics\ConsoleSupport\ICommandProcessor.cs" />
     <Compile Include="IFileProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -187,8 +191,8 @@
     <Compile Include="InputLib\Delegates.cs" />
     <Compile Include="InputLib\HatState.cs" />
     <Compile Include="InputLib\JoystickEventArgs.cs" />
-    <Compile Include="Platform.cs" />
-    <Compile Include="PlatformType.cs" />
+    <Compile Include="Platform\Platform.cs" />
+    <Compile Include="Platform\PlatformType.cs" />
     <Compile Include="Resources\ImageResource.cs" />
     <Compile Include="Serialization\Xle\CompressionType.cs" />
     <Compile Include="Serialization\Xle\IXleTypeSerializer.cs" />

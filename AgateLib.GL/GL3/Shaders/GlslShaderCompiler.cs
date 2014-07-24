@@ -24,7 +24,7 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders;
 using OpenTK.Graphics.OpenGL;
 
-namespace AgateOTK.GL3.Shaders
+namespace AgateLib.OpenGL.GL3.Shaders
 {
 	static class GlslShaderCompiler
 	{

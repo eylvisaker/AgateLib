@@ -25,6 +25,7 @@ using System.Text;
 using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
 using AgateLib.Settings;
+using AgateLib.Platform;
 
 namespace AgateLib
 {
@@ -90,7 +91,7 @@ namespace AgateLib
 		private static bool sAutoPause = false;
 		private static bool sIsActive = true;
 		private static bool sInititalized = false;
-		private static readonly Platform mPlatform = new Platform();
+		private static readonly PlatformInfo mPlatform = new PlatformInfo();
 		private static PersistantSettings sSettings;
 
 
@@ -329,7 +330,7 @@ namespace AgateLib
 		/// <summary>
 		/// Gets an object which describes details about the current platform.
 		/// </summary>
-		public static Platform Platform
+		public static PlatformInfo Platform
 		{
 			get { return mPlatform; }
 		}

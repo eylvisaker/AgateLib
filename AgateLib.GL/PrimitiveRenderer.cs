@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text;
 using AgateLib.Geometry;
 
-namespace AgateOTK
+namespace AgateLib.OpenGL
 {
 	abstract class PrimitiveRenderer
 	{

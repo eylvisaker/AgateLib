@@ -26,7 +26,7 @@ using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
 using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
-namespace AgateOTK.GL3
+namespace AgateLib.OpenGL.GL3
 {
 	/// <summary>
 	/// OpenGL 3.1 compatible.

@@ -120,10 +120,6 @@
       <Project>{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}</Project>
       <Name>AgateDrawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Project>{8C84DA52-0000-0000-0000-000000000000}</Project>
-      <Name>AgateLib.WinForms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\drivers\AgateOTK\AgateOTK.csproj">
       <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
       <Name>AgateOTK</Name>

@@ -25,7 +25,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
 using AgateLib.Geometry;
 
-namespace AgateOTK
+namespace AgateLib.OpenGL
 {
 	class ContextFB : GL_FrameBuffer 
 	{

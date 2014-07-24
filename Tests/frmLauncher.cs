@@ -27,7 +27,7 @@ namespace Tests
 		{
 			InitializeComponent();
 
-			Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
+			Icon = AgateLib.Platform.WindowsForms.WinForms.FormUtil.AgateLibIcon;
 
 			LoadTests();
 

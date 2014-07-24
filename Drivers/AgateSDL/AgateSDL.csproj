@@ -127,10 +127,6 @@
       <Name>AgateLib</Name>
       <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\AgateLib.WinForms\AgateLib.WinForms.csproj">
-      <Name>AgateLib.WinForms</Name>
-      <Project>{BEF6D67B-4C84-4D3E-8047-6DB2C8754D77}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Reporter.cs">
