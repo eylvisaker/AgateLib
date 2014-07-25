@@ -55,13 +55,10 @@ namespace AgateLib.AudioLib
 		/// class.
 		/// </summary>
 		/// <param name="audioType"></param>
-		public static void Initialize(AudioTypeID audioType)
+		public static void Initialize(AudioImpl audioImpl)
 		{
-			Core.Initialize();
-
-			sImpl = Registrar.CreateAudioDriver(audioType);
+			sImpl = audioImpl;
 			sImpl.Initialize();
-
 		}
 		/// <summary>
 		/// Disposes of the audio driver.

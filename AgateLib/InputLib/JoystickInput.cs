@@ -31,7 +31,7 @@ namespace AgateLib.InputLib
 	/// </summary>
 	public static class JoystickInput
 	{
-		static InputImpl impl;
+		static InputImpl sImpl;
 		static List<Joystick> mRawJoysticks = new List<Joystick>();
 
 		/// <summary>
@@ -40,12 +40,10 @@ namespace AgateLib.InputLib
 		/// class.
 		/// </summary>
 		/// <param name="inputType"></param>
-		public static void Initialize(InputTypeID inputType)
+		public static void Initialize(InputImpl impl)
 		{
-			Core.Initialize();
-
-			impl = Registrar.CreateInputDriver(inputType);
-			impl.Initialize();
+			sImpl = impl;
+			sImpl.Initialize();
 
 			InitializeJoysticks();
 		}
@@ -53,7 +51,7 @@ namespace AgateLib.InputLib
 		private static void InitializeJoysticks()
 		{
 			mRawJoysticks.Clear();
-			mRawJoysticks.AddRange(impl.CreateJoysticks().Select(x => new Joystick(x)));
+			mRawJoysticks.AddRange(sImpl.CreateJoysticks().Select(x => new Joystick(x)));
 		}
 
 		/// <summary>
@@ -72,8 +70,8 @@ namespace AgateLib.InputLib
 
 		internal static void Dispose()
 		{
-			if (impl != null)
-				impl.Dispose();
+			if (sImpl != null)
+				sImpl.Dispose();
 		}
 	}
 }

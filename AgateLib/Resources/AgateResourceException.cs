@@ -26,7 +26,6 @@ namespace AgateLib.Resources
 	/// AgateException derived exception class used when there is a problem reading
 	/// from a resource file.
 	/// </summary>
-	[global::System.Serializable]
 	public class AgateResourceException : AgateException
 	{
 		//

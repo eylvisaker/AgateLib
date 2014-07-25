@@ -109,7 +109,6 @@ namespace AgateLib
 		/// </summary>
 		public AgateSetup() : this("AgateLib", null)
 		{
-			Core.Initialize();
 		}
 		/// <summary>
 		/// Constructs a Setup object.
@@ -204,20 +203,20 @@ namespace AgateLib
 		private void InitializeDisplay()
 		{
 			DoAskUser();
-			InitializeDisplay(mSelectDisplay);
+			InitializeDisplay();
 		}
 
-		/// <summary>
-		/// Initializes the display to the specified subsystem.
-		/// </summary>
-		/// <param name="type"></param>
-		public void InitializeDisplay(DisplayTypeID type)
-		{
-			if (WasCanceled)
-				return;
+		///// <summary>
+		///// Initializes the display to the specified subsystem.
+		///// </summary>
+		///// <param name="type"></param>
+		//public void InitializeDisplay(DisplayTypeID type)
+		//{
+		//	if (WasCanceled)
+		//		return;
 			
-			Display.Initialize(type);
-		}
+		//	Display.Initialize(type);
+		//}
 		/// <summary>
 		/// Initializes the Audio subsystem.
 		/// Automatically picks which driver to use.
@@ -225,19 +224,19 @@ namespace AgateLib
 		private void InitializeAudio()
 		{
 			DoAskUser();
-			InitializeAudio(mSelectAudio);
+			InitializeAudio();
 		}
-		/// <summary>
-		/// Initializes the Audio subsystem, to the specified driver.
-		/// </summary>
-		/// <param name="type"></param>
-		public void InitializeAudio(AudioTypeID type)
-		{
-			if (WasCanceled)
-				return;
+		///// <summary>
+		///// Initializes the Audio subsystem, to the specified driver.
+		///// </summary>
+		///// <param name="type"></param>
+		//public void InitializeAudio(AudioTypeID type)
+		//{
+		//	if (WasCanceled)
+		//		return;
 
-			AudioLib.Audio.Initialize(type);
-		}
+		//	AudioLib.Audio.Initialize(type);
+		//}
 
 		/// <summary>
 		/// Initializes the Input subsystem.
@@ -246,20 +245,20 @@ namespace AgateLib
 		private void InitializeInput()
 		{
 			DoAskUser();
-			InitializeInput(mSelectInput);
+			InitializeInput();
 		}
 		/// <summary>
 		/// Initializes the Input subsystem, to the specified driver.
 		/// </summary>
 		/// <param name="inputTypeID"></param>
-		public void InitializeInput(InputTypeID inputTypeID)
-		{
-			if (WasCanceled)
-				return;
+		//public void InitializeInput(InputTypeID inputTypeID)
+		//{
+		//	if (WasCanceled)
+		//		return;
 
-			InputLib.JoystickInput.Initialize(inputTypeID);
+		//	InputLib.JoystickInput.Initialize(inputTypeID);
 
-		}
+		//}
 		/// <summary>
 		/// Disposes of the SetupDisplay object and all initialized sub-systems.
 		/// </summary>
@@ -329,8 +328,6 @@ namespace AgateLib
 		/// </summary>
 		private void DoAskUser()
 		{
-			Core.Initialize();
-
 			if (mAlreadyAsked)
 				return;
 			if (mAskUser == false)

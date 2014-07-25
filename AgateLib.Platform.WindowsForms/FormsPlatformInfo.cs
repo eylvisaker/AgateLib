@@ -25,7 +25,7 @@ using System.Text;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace AgateLib.Platform
+namespace AgateLib.Platform.WindowsForms
 {
 	/// <summary>
 	/// Class which contains known information about the platform.
@@ -33,7 +33,7 @@ namespace AgateLib.Platform
 	/// which are automatically created from the AssemblyCompanhy and AssemblyProduct
 	/// attributes for the assembly where the entry point for the application is.
 	/// </summary>
-	public class PlatformInfo
+	public class FormsPlatformInfo : PlatformInfo
 	{
 		PlatformType mType;
 		DotNetRuntime mRuntime;
@@ -43,7 +43,7 @@ namespace AgateLib.Platform
 		string mAppDir;
 		bool m64Bit;
 
-		internal PlatformInfo()
+		internal FormsPlatformInfo()
 		{
 			
 			mType = DetectPlatformType();
@@ -133,7 +133,7 @@ namespace AgateLib.Platform
 			}*/
 		}
 
-		internal void EnsureAppDataDirectoryExists()
+		protected override void EnsureAppDataDirectoryExists()
 		{
 			Directory.CreateDirectory(AppDataDirectory);
 		}
@@ -141,7 +141,7 @@ namespace AgateLib.Platform
 		/// <summary>
 		/// Gets the directory where the application should store its configuration data.
 		/// </summary>
-		public string AppDataDirectory
+		public override string AppDataDirectory
 		{
 			get { return mAppData; }
 		}
@@ -182,7 +182,7 @@ namespace AgateLib.Platform
 		/// </summary>
 		/// <param name="companyName"></param>
 		/// <param name="appName"></param>
-		public void SetFolderPaths(string companyName, string appName)
+		protected override void SetFolderPaths(string companyName, string appName)
 		{
 			string combDir = Path.Combine(companyName, appName);
 
@@ -233,14 +233,14 @@ namespace AgateLib.Platform
 		/// <summary>
 		/// Gets the platform type.
 		/// </summary>
-		public PlatformType PlatformType
+		public override PlatformType PlatformType
 		{
 			get { return mType; }
 		}
 		/// <summary>
 		/// Gets the runtime being used.
 		/// </summary>
-		public DotNetRuntime Runtime
+		public override DotNetRuntime Runtime
 		{
 			get { return mRuntime; }
 		}

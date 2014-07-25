@@ -66,18 +66,5 @@ namespace AgateLib
 		/// </summary>
 		public bool InitializeJoysticks { get; set; }
 
-		/// <summary>
-		/// Gets or sets the preferred display driver.
-		/// </summary>
-		public Drivers.DisplayTypeID PreferredDisplay { get; set; }
-		/// <summary>
-		/// Gets or sets the preferred audio driver.
-		/// </summary>
-		public Drivers.AudioTypeID PreferredAudio { get; set; }
-		/// <summary>
-		/// Gets or sets the preferred input driver.
-		/// </summary>
-		public Drivers.InputTypeID PreferredInput { get; set; }
-
 	}
 }

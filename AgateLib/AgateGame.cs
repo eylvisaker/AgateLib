@@ -87,10 +87,6 @@ namespace AgateLib
 		{
 			using (AgateSetup setup = new AgateSetup(args))
 			{
-				setup.PreferredDisplay = InitParams.PreferredDisplay;
-				setup.PreferredAudio = InitParams.PreferredAudio;
-				setup.PreferredInput = InitParams.PreferredInput;
-
 				setup.Initialize(
 					InitParams.InitializeDisplay,
 					InitParams.InitializeAudio,
