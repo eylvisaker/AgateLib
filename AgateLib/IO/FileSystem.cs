@@ -12,5 +12,15 @@ namespace AgateLib.IO
 		{
 			throw new NotImplementedException();
 		}
+		public static Stream OpenWrite(string ErrorFile, bool append = false)
+		{
+			throw new NotImplementedException();
+		}
+
+
+		public static IFile File { get; set; }
+		public static IPath Path { get; set; }
+		public static IDirectory Directory { get; set; }
+
 	}
 }

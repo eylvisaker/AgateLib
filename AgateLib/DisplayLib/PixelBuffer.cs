@@ -712,78 +712,80 @@ namespace AgateLib.DisplayLib
 		/// <param name="srcRowStride"></param>
 		public void SetData(IntPtr data, PixelFormat srcFormat, int srcRowStride)
 		{
-			int sourceStride = GetPixelStride(srcFormat);
+			throw new NotImplementedException();
 
-			unsafe
-			{
-				if (srcFormat == this.PixelFormat)
-				{
-					// optimized copy for same type of data
-					int startIndex = 0;
-					int rowLength = sourceStride * Width;
+			//int sourceStride = GetPixelStride(srcFormat);
 
-					IntPtr rowPtr = data;
-					byte* dataPtr = (byte*)data;
+			//unsafe
+			//{
+			//	if (srcFormat == this.PixelFormat)
+			//	{
+			//		// optimized copy for same type of data
+			//		int startIndex = 0;
+			//		int rowLength = sourceStride * Width;
 
-					for (int y = 0; y < Height; y++)
-					{
-						Marshal.Copy(rowPtr, mData, startIndex, rowLength);
+			//		IntPtr rowPtr = data;
+			//		byte* dataPtr = (byte*)data;
 
-						startIndex += RowStride;
-						dataPtr += srcRowStride;
-						rowPtr = (IntPtr)dataPtr;
-					}
-				}
-				else
-				{
-					byte[] srcPixel = new byte[srcRowStride];
-					int destIndex = 0;
-					IntPtr rowPtr = data;
-					byte* dataPtr = (byte*)data;
-					int width = Width;
-					int destPixelStride = PixelStride;
+			//		for (int y = 0; y < Height; y++)
+			//		{
+			//			Marshal.Copy(rowPtr, mData, startIndex, rowLength);
 
-					for (int y = 0; y < Height; y++)
-					{
-						Marshal.Copy(rowPtr, srcPixel, 0, srcRowStride);
+			//			startIndex += RowStride;
+			//			dataPtr += srcRowStride;
+			//			rowPtr = (IntPtr)dataPtr;
+			//		}
+			//	}
+			//	else
+			//	{
+			//		byte[] srcPixel = new byte[srcRowStride];
+			//		int destIndex = 0;
+			//		IntPtr rowPtr = data;
+			//		byte* dataPtr = (byte*)data;
+			//		int width = Width;
+			//		int destPixelStride = PixelStride;
 
-						// check for common Win32 - OpenGL conversion case
-						if (this.PixelFormat == PixelFormat.RGBA8888 &&
-							srcFormat == PixelFormat.BGRA8888)
-						{
-							// this setup here is OPTIMIZED.
-							// Calling ConvertPixel for each pixel when loading a large
-							// image adds about 35% more CPU time to do the conversion.
-							// By eliminating the function call and processing this special
-							// case here we save some time on image loading.
-							int srcIndex = 0;
+			//		for (int y = 0; y < Height; y++)
+			//		{
+			//			Marshal.Copy(rowPtr, srcPixel, 0, srcRowStride);
 
-							for (int x = 0; x < width; x++)
-							{
-								mData[destIndex] = srcPixel[srcIndex + 2];
-								mData[destIndex + 1] = srcPixel[srcIndex + 1];
-								mData[destIndex + 2] = srcPixel[srcIndex];
-								mData[destIndex + 3] = srcPixel[srcIndex + 3];
+			//			// check for common Win32 - OpenGL conversion case
+			//			if (this.PixelFormat == PixelFormat.RGBA8888 &&
+			//				srcFormat == PixelFormat.BGRA8888)
+			//			{
+			//				// this setup here is OPTIMIZED.
+			//				// Calling ConvertPixel for each pixel when loading a large
+			//				// image adds about 35% more CPU time to do the conversion.
+			//				// By eliminating the function call and processing this special
+			//				// case here we save some time on image loading.
+			//				int srcIndex = 0;
 
-								destIndex += destPixelStride;
-								srcIndex += sourceStride;
-							}
-						}
-						else
-						{
-							for (int x = 0; x < width; x++)
-							{
-								ConvertPixel(mData, destIndex, this.PixelFormat, srcPixel, x * sourceStride, srcFormat);
+			//				for (int x = 0; x < width; x++)
+			//				{
+			//					mData[destIndex] = srcPixel[srcIndex + 2];
+			//					mData[destIndex + 1] = srcPixel[srcIndex + 1];
+			//					mData[destIndex + 2] = srcPixel[srcIndex];
+			//					mData[destIndex + 3] = srcPixel[srcIndex + 3];
 
-								destIndex += destPixelStride;
-							}
-						}
+			//					destIndex += destPixelStride;
+			//					srcIndex += sourceStride;
+			//				}
+			//			}
+			//			else
+			//			{
+			//				for (int x = 0; x < width; x++)
+			//				{
+			//					ConvertPixel(mData, destIndex, this.PixelFormat, srcPixel, x * sourceStride, srcFormat);
 
-						dataPtr += srcRowStride;
-						rowPtr = (IntPtr)dataPtr;
-					}
-				}
-			}
+			//					destIndex += destPixelStride;
+			//				}
+			//			}
+
+			//			dataPtr += srcRowStride;
+			//			rowPtr = (IntPtr)dataPtr;
+			//		}
+			//	}
+			//}
 		}
 
 

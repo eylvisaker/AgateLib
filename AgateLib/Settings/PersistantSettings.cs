@@ -1,4 +1,6 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+﻿using AgateLib.Diagnostics;
+using AgateLib.IO;
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -58,7 +60,7 @@ namespace AgateLib.Settings
 		{
 			if (Debug)
 			{
-				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"]=\"{2}\" read.", groupName, key, value));
+				Log.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"]=\"{2}\" read.", groupName, key, value));
 			}
 
 			if (SettingsTracer == null) return;
@@ -69,7 +71,7 @@ namespace AgateLib.Settings
 		{
 			if (Debug)
 			{
-				Trace.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"]=\"{2}\" written.", groupName, key, value));
+				Log.WriteLine(string.Format("Settings[\"{0}\"][\"{1}\"]=\"{2}\" written.", groupName, key, value));
 			}
 
 			if (SettingsTracer == null) return;
@@ -116,7 +118,7 @@ namespace AgateLib.Settings
 		{
 			get
 			{
-				return System.IO.Path.Combine(Core.Platform.AppDataDirectory, "settings.xml");
+				return FileSystem.Path.Combine(Core.Platform.AppDataDirectory, "settings.xml");
 			}
 		}
 
@@ -145,11 +147,12 @@ namespace AgateLib.Settings
 
 			doc.Add(root);
 
-			System.Diagnostics.Trace.WriteLine("Saving settings to " + SettingsFilename);
+			Log.WriteLine("Saving settings to " + SettingsFilename);
 
 			Core.Platform.EnsureAppDataDirectoryExists();
 
-			doc.Save(SettingsFilename);
+			//doc.Save(SettingsFilename);
+			throw new NotImplementedException();
 		}
 
 		private void LoadSettings()
@@ -158,19 +161,15 @@ namespace AgateLib.Settings
 
 			try
 			{
-				doc = XDocument.Load(SettingsFilename);
+				doc = XDocument.Load(XmlReader.Create(FileSystem.OpenRead(SettingsFilename)));
 			}
 			catch (FileNotFoundException)
 			{
 				return;
 			}
-			catch (DirectoryNotFoundException)
-			{
-				return;
-			}
 			catch (XmlException e)
 			{
-				System.Diagnostics.Trace.WriteLine("Error reading settings file:" + Environment.NewLine +
+				Log.WriteLine("Error reading settings file:" + Environment.NewLine +
 					e.Message);
 
 				return;

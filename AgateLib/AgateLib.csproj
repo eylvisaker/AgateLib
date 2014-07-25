@@ -198,6 +198,9 @@
     <Compile Include="InputLib\HatState.cs" />
     <Compile Include="InputLib\JoystickEventArgs.cs" />
     <Compile Include="IO\FileSystem.cs" />
+    <Compile Include="IO\IDirectory.cs" />
+    <Compile Include="IO\IFile.cs" />
+    <Compile Include="IO\IPath.cs" />
     <Compile Include="Platform\IStopWatch.cs" />
     <Compile Include="Platform\PlatformInfo.cs" />
     <Compile Include="Platform\PlatformType.cs" />

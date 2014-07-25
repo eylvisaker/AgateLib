@@ -23,6 +23,7 @@ using System.Text;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Utility;
+using AgateLib.IO;
 
 namespace AgateLib.DisplayLib
 {
@@ -83,22 +84,13 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="filename">Path and file name for the image file to load.</param>
 		public Surface(string filename)
-			: this(AgateFileProvider.Images, filename)
-		{
-		}
-		/// <summary>
-		/// Creates a surface object using the specified file provider to open the image file.
-		/// </summary>
-		/// <param name="filename">Path and file name for the image file to load.</param>
-		/// <param name="fileProvider">The IFileProvider object which will resolve the filename and open the stream</param>
-		public Surface(IFileProvider fileProvider, string filename)
 		{
 			if (Display.Impl == null)
 				throw new AgateException("AgateLib's display system has not been initialized.");
 			if (string.IsNullOrEmpty(filename))
 				throw new ArgumentNullException("You must supply a file name.");
 
-			using (System.IO.Stream s = fileProvider.OpenRead(filename))
+			using (System.IO.Stream s = FileSystem.OpenRead(filename))
 			{
 				mImpl = Display.Impl.CreateSurface(s);
 			}
@@ -840,7 +832,7 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static ImageFileFormat FormatFromExtension(string filename)
 		{
-			string ext = System.IO.Path.GetExtension(filename);
+			string ext = FileSystem.Path.GetExtension(filename);
 
 			switch (ext)
 			{

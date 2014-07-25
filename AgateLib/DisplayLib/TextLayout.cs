@@ -35,7 +35,8 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public void DrawAll()
 		{
-			ForEach(x => x.Draw());
+			foreach (var x in this)
+				x.Draw();
 		}
 
 		/// <summary>

@@ -1,3 +1,4 @@
+using AgateLib.Diagnostics;
 //     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
@@ -43,8 +44,7 @@ namespace AgateLib.Drivers
 		/// <param name="text"></param>
 		protected void Report(string text)
 		{
-			//Console.WriteLine(text);
-			System.Diagnostics.Trace.WriteLine(text);
+			Log.WriteLine(text);
 		}
 	}
 }

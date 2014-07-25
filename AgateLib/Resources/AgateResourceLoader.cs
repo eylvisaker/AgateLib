@@ -29,7 +29,7 @@ using System.Xml.Linq;
 namespace AgateLib.Resources
 {
 	/// <summary>
-	/// Statis class which loads and saves AgateResourceCollection objects to disk.
+	/// Static class which loads and saves AgateResourceCollection objects to disk.
 	/// </summary>
 	public static class AgateResourceLoader
 	{
@@ -49,8 +49,8 @@ namespace AgateLib.Resources
 				res.BuildNodes(root);
 			}
 
-			doc.Save(filename);
-
+			//doc.Save(filename);
+			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -82,15 +82,7 @@ namespace AgateLib.Resources
 				throw new AgateResourceException("The XML resource file is malformed.", e);
 			}
 
-			XElement root;
-			try
-			{
-				root = doc.Elements().First(x => x is XDeclaration == false);
-			}
-			catch (XmlException e)
-			{
-				throw new AgateResourceException("Could not understand root XML element.", e);
-			}
+			XElement root = doc.Elements().First();
 
 			if (root.Attribute("Version") == null)
 				throw new AgateResourceException("XML resource file does not contain the required version attibute.");
@@ -157,14 +149,14 @@ namespace AgateLib.Resources
 					return null;
 			}
 		}
-		private static void ReadError(string p)
+		private static void ReadError(string message)
 		{
 			if (ThrowOnReadError)
 			{
-				throw new InvalidDataException(p);
+				throw new InvalidOperationException(message);
 			}
 			else
-				Debug.WriteLine(p);
+				Debug.WriteLine(message);
 		}
 
 		static bool mThrowOnReadError = true;

@@ -525,5 +525,87 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		/// Used for framebuffer surfaces which need to be flipped vertically for some reason.
 		/// </summary>
 		public bool FlipVertical { get; set; }
+
+
+
+
+		/// <summary>
+		/// Scans a memory area to see if it entirely contains pixels which won't be
+		/// seen when drawn.
+		/// </summary>
+		/// <param name="pixelData">Pointer to the data</param>
+		/// <param name="row">Which row to check</param>
+		/// <param name="cols">How many columns to check</param>
+		/// <param name="strideInBytes">The stride of each row</param>
+		/// <param name="alphaThreshold">The maximum value of alpha to consider a pixel transparent.</param>
+		/// <param name="alphaMask">The mask to use to extract the alpha value from the data.</param>
+		/// <param name="alphaShift">How many bits to shift it to get alpha in the range of 0-255.
+		/// For example, if alphaMask = 0xff000000 then alphaShift should be 24.</param>
+		/// <returns></returns>
+		[CLSCompliant(false)]
+		protected override bool IsRowBlankScanARGB(IntPtr pixelData, int row, int cols, int strideInBytes,
+			int alphaThreshold, uint alphaMask, int alphaShift)
+		{
+			unsafe
+			{
+				uint* ptr = (uint*)pixelData;
+
+				int start = row * strideInBytes / sizeof(uint);
+
+				for (int i = 0; i < cols; i++)
+				{
+					int index = start + i;
+					uint pixel = ptr[index];
+					byte alpha = (byte)((pixel & alphaMask) >> alphaShift);
+
+					if (alpha > alphaThreshold)
+					{
+						return false;
+					}
+
+				}
+			}
+
+			return true;
+		}
+		/// <summary>
+		/// Scans a memory area to see if it entirely contains pixels which won't be
+		/// seen when drawn.
+		/// </summary>
+		/// <param name="pixelData">Pointer to the data</param>
+		/// <param name="col">Which col to check</param>
+		/// <param name="rows">How many columns to check</param>
+		/// <param name="strideInBytes">The stride of each row</param>
+		/// <param name="alphaThreshold">The maximum value of alpha to consider a pixel transparent.</param>
+		/// <param name="alphaMask">The mask to use to extract the alpha value from the data.</param>
+		/// <param name="alphaShift">How many bits to shift it to get alpha in the range of 0-255.
+		/// For example, if alphaMask = 0xff000000 then alphaShift should be 24.</param>
+		/// <returns></returns>
+		[CLSCompliant(false)]
+		protected override bool IsColBlankScanARGB(IntPtr pixelData, int col, int rows, int strideInBytes,
+			int alphaThreshold, uint alphaMask, int alphaShift)
+		{
+			unsafe
+			{
+				uint* ptr = (uint*)pixelData;
+
+
+				for (int i = 0; i < rows; i++)
+				{
+					int index = col + i * strideInBytes / sizeof(uint);
+					uint pixel = ptr[index];
+					byte alpha = (byte)((pixel & alphaMask) >> alphaShift);
+
+					if (alpha > alphaThreshold)
+					{
+						return false;
+					}
+
+				}
+			}
+
+			return true;
+
+		}
 	}
 }

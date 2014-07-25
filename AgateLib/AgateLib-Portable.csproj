@@ -60,9 +60,6 @@
     <Compile Include="AgateException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AgateFileProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="AgateGame.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -84,6 +81,7 @@
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleDictionary.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleMessage.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleMessageType.cs" />
+    <Compile Include="Diagnostics\ConsoleSupport\DescriptionAttribute.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ICommandProcessor.cs" />
     <Compile Include="Diagnostics\Log.cs" />
     <Compile Include="DisplayLib\FrameBuffer.cs" />
@@ -120,6 +118,9 @@
     <Compile Include="InputLib\HatState.cs" />
     <Compile Include="InputLib\JoystickEventArgs.cs" />
     <Compile Include="IO\FileSystem.cs" />
+    <Compile Include="IO\IDirectory.cs" />
+    <Compile Include="IO\IFile.cs" />
+    <Compile Include="IO\IPath.cs" />
     <Compile Include="Platform\IStopWatch.cs" />
     <Compile Include="Platform\PlatformInfo.cs" />
     <Compile Include="Platform\PlatformType.cs" />
@@ -353,12 +354,6 @@
     <Compile Include="InputLib\Mouse.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InternalResources\DataResources.Designer.cs">
-      <DependentUpon>DataResources.resx</DependentUpon>
-      <SubType>Code</SubType>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Meshes\Loaders\OBJFileRepresentation.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -468,18 +463,10 @@
     <Compile Include="Utility\SurfacePacker.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="InternalResources\DataResources.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DataResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <Compile Include="DisplayLib\Shaders\IShader2D.cs" />
     <Compile Include="Settings\ISettingsTracer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="InternalResources\agate-black-gui.zip" />
-    <None Include="InternalResources\Fonts.zip" />
-    <None Include="InternalResources\images.tar.gz" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

@@ -85,49 +85,38 @@ namespace AgateLib
 		/// <returns></returns>
 		public int Run(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			CreateDisplayWindow();
+
+			mFont = new FontSurface("Arial", 14);
+
+			if (InitParams.ShowSplashScreen)
 			{
-				setup.Initialize(
-					InitParams.InitializeDisplay,
-					InitParams.InitializeAudio,
-					InitParams.InitializeJoysticks);
+				DoSplash();
+			}
 
-				if (setup.WasCanceled)
-					return 1;
+			Initialize();
 
-				CreateDisplayWindow();
+			while (MainWindow.IsClosed == false)
+			{
+				Update(Display.DeltaTime);
 
-				mFont = FontSurface.AgateSans14;
+				if (MainWindow.IsClosed)
+					break;
 
-				if (InitParams.ShowSplashScreen)
-				{
-					DoSplash();
-				}
+				//					if (GuiRoot != null)
+				//						GuiRoot.DoUpdate();
 
-				Initialize();
 
-				while (MainWindow.IsClosed == false)
-				{
-					Update(Display.DeltaTime);
+				Display.RenderTarget = MainWindow.FrameBuffer;
+				Display.BeginFrame();
 
-					if (MainWindow.IsClosed)
-						break;
+				Render();
 
-//					if (GuiRoot != null)
-//						GuiRoot.DoUpdate();
-					
+				//					if (GuiRoot != null)
+				//						GuiRoot.Draw();
 
-					Display.RenderTarget = MainWindow.FrameBuffer;
-					Display.BeginFrame();
-
-					Render();
-
-//					if (GuiRoot != null)
-//						GuiRoot.Draw();
-
-					Display.EndFrame();
-					Core.KeepAlive();
-				}
+				Display.EndFrame();
+				Core.KeepAlive();
 			}
 
 			return 0;
@@ -203,8 +192,8 @@ namespace AgateLib
 
 			if (mSplashFadeDone)
 			{
-				Surface powered = InternalResources.Data.PoweredBy;
-				Size size = powered.SurfaceSize;
+				Surface powered = null;// InternalResources.Data.PoweredBy;
+				Size size = Size.Empty;// powered.SurfaceSize;
 
 				int bottom = MainWindow.Height - size.Height;
 				int h = mFont.FontHeight;
@@ -231,8 +220,6 @@ namespace AgateLib
 
 				Display.EndFrame();
 				Core.KeepAlive();
-
-				System.Threading.Thread.Sleep(0);
 
 				if (MainWindow.IsClosed)
 					return;
@@ -262,8 +249,8 @@ namespace AgateLib
 		{
 			Display.Clear(Color.White);
 
-			Surface powered = InternalResources.Data.PoweredBy;
-			Size size = powered.SurfaceSize;
+			Surface powered = null;//= InternalResources.Data.PoweredBy;
+			Size size = Size.Empty;// powered.SurfaceSize;
 
 			int left = (int)(mTotalSplashTime * size.Width - size.Width) + 1;
 			Rectangle gradientRect = new Rectangle(left, MainWindow.Height - size.Height,
@@ -274,8 +261,11 @@ namespace AgateLib
 			else if (left > size.Width)
 				mSplashFadeDone = true;
 
-			powered.DisplayAlignment = OriginAlignment.BottomLeft;
-			powered.Draw(0, MainWindow.Height);
+			if (powered != null)
+			{
+				powered.DisplayAlignment = OriginAlignment.BottomLeft;
+				powered.Draw(0, MainWindow.Height);
+			}
 
 			Gradient g = new Gradient(
 				Color.FromArgb(0, Color.White),
@@ -339,26 +329,26 @@ namespace AgateLib
 			get { return mWindow; }
 		}
 
-//		/ <summary>
-//		/ Gets or sets the GuiRoot object.
-//		/ </summary>
-//		public Gui.GuiRoot GuiRoot
-//		{
-//			get { return mGui; }
-//			set
-//			{
-//				if (value == null && mGui == null)
-//					return;
-//
-//				if (mGui != null)
-//					mGui.EnableInteraction = false;
-//
-//				mGui = value;
-//
-//				if (mGui != null)
-//					mGui.EnableInteraction = true;
-//			}
-//		}
+		//		/ <summary>
+		//		/ Gets or sets the GuiRoot object.
+		//		/ </summary>
+		//		public Gui.GuiRoot GuiRoot
+		//		{
+		//			get { return mGui; }
+		//			set
+		//			{
+		//				if (value == null && mGui == null)
+		//					return;
+		//
+		//				if (mGui != null)
+		//					mGui.EnableInteraction = false;
+		//
+		//				mGui = value;
+		//
+		//				if (mGui != null)
+		//					mGui.EnableInteraction = true;
+		//			}
+		//		}
 
 		#endregion
 

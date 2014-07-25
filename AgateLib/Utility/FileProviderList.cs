@@ -46,7 +46,7 @@ namespace AgateLib.Utility
 			}
 
 			throw new FileNotFoundException(string.Format(
-				"Could not find the file {0}.", filename), filename);
+				"Could not find the file {0}.", filename));
 		}
 		/// <summary>
 		/// Opens a specified file by searching backwards through the list of 
@@ -69,7 +69,7 @@ namespace AgateLib.Utility
 			}
 
 			throw new FileNotFoundException(string.Format(
-				"Could not find the file {0}.", filename), filename);
+				"Could not find the file {0}.", filename));
 		}
 
 
@@ -88,7 +88,7 @@ namespace AgateLib.Utility
 			}
 
 			throw new FileNotFoundException(string.Format(
-				"Could not find the file {0}.", filename), filename);
+				"Could not find the file {0}.", filename));
 		}
 
 		public string ResolveFile(string filename)
@@ -105,7 +105,7 @@ namespace AgateLib.Utility
 			}
 
 			throw new FileNotFoundException(string.Format(
-				"Could not find the file {0}.", filename), filename);
+				"Could not find the file {0}.", filename));
 		}
 
 		/// <summary>

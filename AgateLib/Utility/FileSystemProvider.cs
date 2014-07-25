@@ -1,4 +1,5 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+﻿using AgateLib.IO;
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -50,9 +51,9 @@ namespace AgateLib.Utility
 			string resolvedName = FindFileName(filename);
 			if (resolvedName == null)
 				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
-					filename, mPath), filename);
+					filename, mPath));
 
-			return File.OpenRead(FindFileName(filename));
+			return FileSystem.OpenRead(FindFileName(filename));
 		}
 		/// <summary>
 		/// Returns true if the specified file exists.
@@ -99,21 +100,21 @@ namespace AgateLib.Utility
 
 			DebugCrossPlatform(filename);
 
-			string path = Path.Combine(mPath, filename);
+			string path = FileSystem.Path.Combine(mPath, filename);
 
-			if (File.Exists(path) == false)
+			if (FileSystem.File.Exists(path) == false)
 				return null;
 
 			if (Core.ErrorReporting.CrossPlatformDebugLevel != CrossPlatformDebugLevel.Comment)
 			{
-				string[] files = Directory.GetFiles(mPath);
+				string[] files = FileSystem.Directory.GetFiles(mPath);
 				string badMatch = "";
 				bool badCaseMatch = false;
 				int matchCount = 0;
 
 				for (int i = 0; i < files.Length; i++)
 				{
-					string shortFilename = Path.GetFileName(files[i]);
+					string shortFilename = FileSystem.Path.GetFileName(files[i]);
 					if (shortFilename.Equals(filename, StringComparison.OrdinalIgnoreCase) == false)
 						continue;
 
@@ -186,7 +187,7 @@ namespace AgateLib.Utility
 		/// <returns>True if the passed path is cross-platform.</returns>
 		private static bool CheckCrossPlatformFilename(string path)
 		{
-			if (path.Contains(Path.GetTempPath()))
+			if (path.Contains(FileSystem.Path.GetTempPath()))
 				return true;
 
 			string chars = NonCrossPlatformChars;
@@ -218,7 +219,7 @@ namespace AgateLib.Utility
 		{
 			List<string> files = new List<string>();
 
-			files.AddRange(Directory.GetFiles(mPath));
+			files.AddRange(FileSystem.Directory.GetFiles(mPath));
 
 			return files;
 		}
@@ -231,7 +232,7 @@ namespace AgateLib.Utility
 		{
 			List<string> files = new List<string>();
 
-			files.AddRange(Directory.GetFiles(mPath, searchPattern));
+			files.AddRange(FileSystem.Directory.GetFiles(mPath, searchPattern));
 
 			return files;
 		}

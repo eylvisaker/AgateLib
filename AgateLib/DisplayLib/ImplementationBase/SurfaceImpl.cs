@@ -194,7 +194,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		#endregion
 
 		#region --- Protected Methods ---
-
+		
 		/// <summary>
 		/// Scans a memory area to see if it entirely contains pixels which won't be
 		/// seen when drawn.
@@ -209,31 +209,12 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// For example, if alphaMask = 0xff000000 then alphaShift should be 24.</param>
 		/// <returns></returns>
 		[CLSCompliant(false)]
-		protected bool IsRowBlankScanARGB(IntPtr pixelData, int row, int cols, int strideInBytes,
+		protected virtual bool IsRowBlankScanARGB(IntPtr pixelData, int row, int cols, int strideInBytes,
 			int alphaThreshold, uint alphaMask, int alphaShift)
 		{
-			unsafe
-			{
-				uint* ptr = (uint*)pixelData;
-
-				int start = row * strideInBytes / sizeof(uint);
-
-				for (int i = 0; i < cols; i++)
-				{
-					int index = start + i;
-					uint pixel = ptr[index];
-					byte alpha = (byte)((pixel & alphaMask) >> alphaShift);
-
-					if (alpha > alphaThreshold)
-					{
-						return false;
-					}
-
-				}
-			}
-
-			return true;
+			throw new NotImplementedException();
 		}
+
 		/// <summary>
 		/// Scans a memory area to see if it entirely contains pixels which won't be
 		/// seen when drawn.
@@ -248,31 +229,12 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// For example, if alphaMask = 0xff000000 then alphaShift should be 24.</param>
 		/// <returns></returns>
 		[CLSCompliant(false)]
-		protected bool IsColBlankScanARGB(IntPtr pixelData, int col, int rows, int strideInBytes,
+		protected virtual bool IsColBlankScanARGB(IntPtr pixelData, int col, int rows, int strideInBytes,
 			int alphaThreshold, uint alphaMask, int alphaShift)
 		{
-			unsafe
-			{
-				uint* ptr = (uint*)pixelData;
-
-
-				for (int i = 0; i < rows; i++)
-				{
-					int index = col + i * strideInBytes / sizeof(uint);
-					uint pixel = ptr[index];
-					byte alpha = (byte)((pixel & alphaMask) >> alphaShift);
-
-					if (alpha > alphaThreshold)
-					{
-						return false;
-					}
-
-				}
-			}
-
-			return true;
-
+			throw new NotImplementedException();
 		}
+
 		#endregion
 	};
 }

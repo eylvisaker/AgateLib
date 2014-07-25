@@ -74,7 +74,7 @@ namespace AgateLib.Diagnostics
 			if (sInstance == null) return;
 
 			if (Font == null)
-				Font = FontSurface.AgateSans10;
+				Font = new FontSurface("Arial", 10);
 
 			sInstance.DrawImpl();
 		}
