@@ -47,27 +47,6 @@ namespace Tests
 		{
 		}
 
-		private void FillDrivers()
-		{
-			AgateLib.Core.Initialize();
-
-			AddDrivers(displayList, AgateLib.Drivers.Registrar.DisplayDrivers);
-			AddDrivers(audioList, AgateLib.Drivers.Registrar.AudioDrivers);
-			AddDrivers(inputList, AgateLib.Drivers.Registrar.InputDrivers);
-		}
-
-		private void AddDrivers(ComboBox list, List<AgateLib.Drivers.AgateDriverInfo> drivers)
-		{
-			list.Items.Clear();
-			list.Items.Add("Default");
-
-			foreach (var driver in drivers)
-			{
-				list.Items.Add(driver.FriendlyName);
-			}
-
-			list.SelectedIndex = 0;
-		}
 		void HandleFormClosed(object sender, FormClosedEventArgs e)
 		{
 			using (StreamWriter w = new StreamWriter(settingsFile))

@@ -190,12 +190,6 @@
     <Compile Include="CoreTests\Resources.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CoreTests\TgzProviderTester.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CoreTests\ZipProviderTester.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="CoreTests\ErrorReport\ErrorReport.cs">
       <SubType>Code</SubType>
     </Compile>
