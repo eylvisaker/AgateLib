@@ -31,11 +31,11 @@ namespace AgateLib.Platform
 	{
 		private static IStopWatch mAppTimer;
 
-		private delegate void TimerDelegate();
+		public delegate void TimerDelegate();
 
-		private static event TimerDelegate PauseAllTimersEvent;
-		private static event TimerDelegate ResumeAllTimersEvent;
-		private static event TimerDelegate ForceResumeAllTimersEvent;
+		public static event TimerDelegate PauseAllTimersEvent;
+		public static event TimerDelegate ResumeAllTimersEvent;
+		public static event TimerDelegate ForceResumeAllTimersEvent;
 
 		static Timing()
 		{

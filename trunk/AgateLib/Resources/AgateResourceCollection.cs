@@ -26,6 +26,7 @@ using System.IO;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Utility;
+using AgateLib.IO;
 
 namespace AgateLib.Resources
 {
@@ -123,47 +124,13 @@ namespace AgateLib.Resources
 		/// </summary>
 		/// <param name="filename"></param>
 		public AgateResourceCollection(string filename)
-			: this(AgateFileProvider.Resources.GetProvider(filename), filename)
-		{ }
-		/// <summary>
-		/// Equivalent to calling new AgateResourceCollection(fileProvider, "Resources.xml");
-		/// </summary>
-		/// <param name="fileProvider"></param>
-		public AgateResourceCollection(IFileProvider fileProvider)
-			: this(fileProvider, "Resources.xml")
-		{ }
-		/// <summary>
-		/// Constructs a new AgateResourceCollection object.
-		/// </summary>
-		/// <param name="fileProvider"></param>
-		/// <param name="filename"></param>
-		public AgateResourceCollection(IFileProvider fileProvider, string filename)
 		{
 			mSurfaceAccessor = new SurfaceResourceList(this);
 			//mGuiThemeAccessor = new GuiThemeResourceList(this);
 
-			FileProvider = fileProvider;
-			RootDirectory = Path.GetDirectoryName(filename);
+			RootDirectory = FileSystem.Path.GetDirectoryName(filename);
 
 			Load(filename);
-		}
-
-		/// <summary>
-		/// Constructs an AgateResourceCollection by looking for the resources.xml
-		/// file in the specified archive.  All resources are expected to be in the provided
-		/// archive.
-		/// </summary>
-		/// <param name="path">Full or relative path to the archive.</param>
-		/// <returns></returns>
-		public static AgateResourceCollection FromZipArchive(string path)
-		{
-			ZipFileProvider zip = new ZipFileProvider(path);
-
-			var retval= new AgateResourceCollection(zip, "resources.xml");
-
-			retval.mOwnFileProvider = true;
-
-			return retval;
 		}
 
 		private void Load(string filename)

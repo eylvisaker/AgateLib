@@ -105,7 +105,7 @@ namespace AgateLib.Geometry
 		}
 		private static int ParseNumeric(string text)
 		{
-			int equals = text.IndexOf("=", StringComparison.InvariantCultureIgnoreCase);
+			int equals = text.IndexOf("=", StringComparison.OrdinalIgnoreCase);
 			int value = int.Parse(text.Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
 			return value;
 		}

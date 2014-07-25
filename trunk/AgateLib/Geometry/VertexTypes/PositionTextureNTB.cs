@@ -27,7 +27,7 @@ namespace AgateLib.Geometry.VertexTypes
 	/// <summary>
 	/// Vertex structure with position, texture coordinates, normal, tangent, bitangent.
 	/// </summary>
-	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	[StructLayout(LayoutKind.Sequential)]
 	public struct PositionTextureNTB
 	{
 		/// <summary>

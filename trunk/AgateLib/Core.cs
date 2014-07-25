@@ -27,6 +27,8 @@ using AgateLib.DisplayLib;
 using AgateLib.Settings;
 using AgateLib.Platform;
 using AgateLib.Drivers;
+using AgateLib.Diagnostics;
+using AgateLib.IO;
 
 namespace AgateLib
 {
@@ -221,10 +223,10 @@ namespace AgateLib
 				string text = b.ToString();
 
 				// show the error dialog if AgateWinForms.dll is present.
-				if (showDialog && Drivers.Registrar.WinForms != null)
-				{
-					Drivers.Registrar.WinForms.ShowErrorDialog(message, e, level);
-				}
+				//if (showDialog && Drivers.Registrar.WinForms != null)
+				//{
+				//	Drivers.Registrar.WinForms.ShowErrorDialog(message, e, level);
+				//}
 
 				using (StreamWriter filewriter = OpenErrorFile())
 				{
@@ -232,7 +234,7 @@ namespace AgateLib
 						filewriter.Write(text);
 				}
 
-				Trace.WriteLine(text);
+				Log.WriteLine(text);
 			}
 
 			/// <summary>
@@ -259,13 +261,13 @@ namespace AgateLib
 				{
 					if (sWroteHeader == true)
 					{
-						FileStream stream = File.Open(ErrorFile, FileMode.Append, FileAccess.Write);
+						Stream stream = FileSystem.OpenWrite(ErrorFile, true);
 
 						return new StreamWriter(stream);
 					}
 					else
 					{
-						FileStream stream = File.Open(ErrorFile, FileMode.Create, FileAccess.Write);
+						var stream = FileSystem.OpenWrite(ErrorFile);
 						StreamWriter writer = new StreamWriter(stream);
 
 						WriteHeader(writer);
@@ -281,8 +283,7 @@ namespace AgateLib
 						"Error message: " + e.Message + "\r\n" +
 						"Errors cannot be saved to a text file.";
 
-					Debug.WriteLine(message);
-					Trace.WriteLine(message);
+					Log.WriteLine(message);
 
 					return null;
 				}
@@ -410,7 +411,7 @@ namespace AgateLib
 
 				while (IsActive == false && AutoPause)
 				{
-					System.Threading.Thread.Sleep(25);
+					//System.Threading.Thread.Sleep(25);
 					Display.ProcessEvents();
 
 					// Update Audio Engine, if necessary
@@ -433,16 +434,6 @@ namespace AgateLib
 			InputLib.JoystickInput.PollTimer();
 		}
 
-		/// <summary>
-		/// Returns the directory the application that was started resides in.
-		/// </summary>
-		public static string BaseDirectory
-		{
-			get
-			{
-				return System.AppDomain.CurrentDomain.BaseDirectory;
-			}
-		}
 
 		/// <summary>
 		/// returns time since agatelib was initialized in milliseconds.
@@ -450,7 +441,7 @@ namespace AgateLib
 		/// <returns></returns>
 		internal static double GetTime()
 		{
-			return mTime.ElapsedTicks / (double)System.Diagnostics.Stopwatch.Frequency * 1000.0;
+			return mTime.TotalSeconds;
 		}
 
 

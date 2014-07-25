@@ -25,6 +25,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Sprites;
 using System.Xml.Linq;
+using AgateLib.Diagnostics;
 
 namespace AgateLib.Resources
 {
@@ -193,7 +194,7 @@ namespace AgateLib.Resources
 				else if (child.Name == "Frame")
 					ReadFrame030(child);
 				else
-					System.Diagnostics.Trace.WriteLine(
+					Log.WriteLine(
 						"Unrecognized node in Sprite " + Name + ": " + child.Name);
 			}
 		}

@@ -266,9 +266,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 				// hack to make sure delta time is never zero.
 				if (mDeltaTime == 0.0)
 				{
-					System.Threading.Thread.Sleep(1);
-					CalcDeltaTime();
-					return;
+					mDeltaTime += 0.0000001;
 				}
 			}
 			else

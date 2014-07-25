@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AgateLib.Platform;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace AgateLib.Desktop.Forms.PlatformImplementation
 		/// Constructs a timer object, and immediately begins 
 		/// keeping track of time.
 		/// </summary>
-		public StopWatch()
+		public DiagnosticsStopwatch()
 			: this(true)
 		{
 		}
@@ -32,11 +33,11 @@ namespace AgateLib.Desktop.Forms.PlatformImplementation
 		/// </summary>
 		/// <param name="autostart">Pass true to immediately begin keeping track of time.
 		/// False to pause the timer initially.</param>
-		public StopWatch(bool autostart)
+		public DiagnosticsStopwatch(bool autostart)
 		{
-			PauseAllTimersEvent += Pause;
-			ResumeAllTimersEvent += Resume;
-			ForceResumeAllTimersEvent += ForceResume;
+			Timing.PauseAllTimersEvent += Pause;
+			Timing.ResumeAllTimersEvent += Resume;
+			Timing.ForceResumeAllTimersEvent += ForceResume;
 
 			if (autostart)
 			{
@@ -61,9 +62,9 @@ namespace AgateLib.Desktop.Forms.PlatformImplementation
 		{
 			if (manual)
 			{
-				PauseAllTimersEvent -= Pause;
-				ResumeAllTimersEvent -= Resume;
-				ForceResumeAllTimersEvent -= ForceResume;
+				Timing.PauseAllTimersEvent -= Pause;
+				Timing.ResumeAllTimersEvent -= Resume;
+				Timing.ForceResumeAllTimersEvent -= ForceResume;
 			}
 		}
 

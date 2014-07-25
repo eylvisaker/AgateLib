@@ -106,7 +106,7 @@ namespace AgateLib.Resources
 		{
 			if (mBackingSurface == null)
 			{
-				mBackingSurface = new Surface(FileProvider, Filename);
+				mBackingSurface = new Surface(Filename);
 			}
 
 			return mBackingSurface;

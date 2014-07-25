@@ -26,6 +26,7 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using AgateLib.Resources;
 using AgateLib.DisplayLib.Cache;
+using AgateLib.IO;
 
 namespace AgateLib.BitmapFont
 {
@@ -86,7 +87,7 @@ namespace AgateLib.BitmapFont
 		/// <param name="characterSize">Size of each character in the image.</param>
 		public BitmapFontImpl(string filename, Size characterSize)
 		{
-			FontName = System.IO.Path.GetFileNameWithoutExtension(filename);
+			FontName = FileSystem.Path.GetFileNameWithoutExtension(filename);
 			mFontMetrics = new FontMetrics();
 
 			mSurface = new Surface(filename);

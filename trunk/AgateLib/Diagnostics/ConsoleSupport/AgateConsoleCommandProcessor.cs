@@ -43,7 +43,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 				{
 					try
 					{
-						args[i] = Convert.ChangeType(tokens[i + 1], parameters[i].ParameterType);
+						args[i] = Convert.ChangeType(tokens[i + 1], parameters[i].ParameterType, System.Globalization.CultureInfo.InvariantCulture);
 					}
 					catch
 					{
