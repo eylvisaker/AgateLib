@@ -26,6 +26,7 @@ using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
 using AgateLib.Settings;
 using AgateLib.Platform;
+using AgateLib.Drivers;
 
 namespace AgateLib
 {
@@ -91,14 +92,14 @@ namespace AgateLib
 		private static bool sAutoPause = false;
 		private static bool sIsActive = true;
 		private static bool sInititalized = false;
-		private static readonly PlatformInfo mPlatform = new PlatformInfo();
+		private static PlatformInfo mPlatform;
 		private static PersistantSettings sSettings;
-
+		private static IAgateFactory mFactory;
 
 		#region --- Error Reporting ---
 
 		private static CrossPlatformDebugLevel mCrossPlatform = CrossPlatformDebugLevel.Comment;
-		private static System.Diagnostics.Stopwatch mTime = Stopwatch.StartNew();
+		private static IStopWatch mTime;
 
 		/// <summary>
 		/// Static class which is used to handle all error reports.
@@ -310,21 +311,25 @@ namespace AgateLib
 
 		#endregion
 
-		static Core()
-		{
-		}
 		/// <summary>
 		/// Initializes Core class. Also causes the Registrar to probe drivers.
 		/// Can be called multiple times without adverse effects.
 		/// </summary>
-		public static void Initialize()
+		public static void Initialize(IAgateFactory factory)
 		{
 			if (sInititalized)
 				return;
 
-			Drivers.Registrar.Initialize();
+			mFactory = factory;
+			mPlatform = factory.PlatformFactory.CreatePlatformInfo();
+			mTime = factory.PlatformFactory.CreateStopwatch();
 
 			sInititalized = true;
+		}
+
+		public static IAgateFactory Factory
+		{
+			get { return mFactory; }
 		}
 
 		/// <summary>

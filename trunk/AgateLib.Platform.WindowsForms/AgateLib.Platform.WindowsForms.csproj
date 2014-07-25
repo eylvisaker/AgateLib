@@ -80,6 +80,8 @@
     <Compile Include="DisplayImplementation\GL_DisplayControl.cs" />
     <Compile Include="DisplayImplementation\GL_GameWindow.cs" />
     <Compile Include="DisplayImplementation\GL_Surface.cs" />
+    <Compile Include="FormsPlatformInfo.cs" />
+    <Compile Include="PlatformImplementation\DiagnosticsStopwatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="WinForms\AgateRenderTarget.cs">

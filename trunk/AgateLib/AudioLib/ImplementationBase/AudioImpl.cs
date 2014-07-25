@@ -18,9 +18,10 @@
 //
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using AgateLib.Drivers;
+using AgateLib.IO;
+using System.IO;
 
 namespace AgateLib.AudioLib.ImplementationBase
 {
@@ -36,7 +37,7 @@ namespace AgateLib.AudioLib.ImplementationBase
 		/// <returns></returns>
 		public virtual SoundBufferImpl CreateSoundBuffer(string filename)
 		{
-			using (Stream stream = File.OpenRead(filename))
+			using (Stream stream = FileSystem.OpenRead(filename))
 			{
 				return CreateSoundBuffer(stream);
 			}
@@ -49,7 +50,7 @@ namespace AgateLib.AudioLib.ImplementationBase
 		/// <returns></returns>
 		public virtual MusicImpl CreateMusic(string filename)
 		{
-			using (Stream stream = File.OpenRead(filename))
+			using (Stream stream = FileSystem.OpenRead(filename))
 			{
 				return CreateMusic(stream);
 			}

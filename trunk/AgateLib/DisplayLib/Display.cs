@@ -88,11 +88,9 @@ namespace AgateLib.DisplayLib
 		/// a using block, to ensure that the Display is disposed of properly.
 		/// </summary>
 		/// <param name="displayType"></param>
-		public static void Initialize(DisplayTypeID displayType)
+		public static void Initialize(DisplayImpl impl)
 		{
-			Core.Initialize();
-
-			sImpl = Registrar.CreateDisplayDriver(displayType);
+			sImpl = impl;
 			sImpl.Initialize();
 
 			sSurfacePacker = new SurfacePacker();

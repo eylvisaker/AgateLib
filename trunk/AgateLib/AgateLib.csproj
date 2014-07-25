@@ -165,6 +165,7 @@
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleDictionary.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleMessage.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleMessageType.cs" />
+    <Compile Include="Diagnostics\Log.cs" />
     <Compile Include="DisplayLib\FrameBuffer.cs" />
     <Compile Include="DisplayLib\IFrameBuffer.cs" />
     <Compile Include="DisplayLib\Shaders\AgateBuiltInShaders.cs" />
@@ -179,6 +180,11 @@
     <Compile Include="DisplayLib\Shaders\Implementation\Lighting3DImpl.cs" />
     <Compile Include="DisplayLib\Shaders\Lighting2D.cs" />
     <Compile Include="DisplayLib\Shaders\Lighting3D.cs" />
+    <Compile Include="Drivers\IAgateFactory.cs" />
+    <Compile Include="Drivers\IAudioFactory.cs" />
+    <Compile Include="Drivers\IDisplayFactory.cs" />
+    <Compile Include="Drivers\IInputFactory.cs" />
+    <Compile Include="Drivers\IPlatformFactory.cs" />
     <Compile Include="Drivers\TypeRegistry.cs" />
     <Compile Include="Extensions\Collections\Generic\ListSorting.cs" />
     <Compile Include="Extensions\Collections\NonGeneric\NonGenericListSorting.cs" />
@@ -191,8 +197,11 @@
     <Compile Include="InputLib\Delegates.cs" />
     <Compile Include="InputLib\HatState.cs" />
     <Compile Include="InputLib\JoystickEventArgs.cs" />
-    <Compile Include="Platform\Platform.cs" />
+    <Compile Include="IO\FileSystem.cs" />
+    <Compile Include="Platform\IStopWatch.cs" />
+    <Compile Include="Platform\PlatformInfo.cs" />
     <Compile Include="Platform\PlatformType.cs" />
+    <Compile Include="Platform\Timing.cs" />
     <Compile Include="Resources\ImageResource.cs" />
     <Compile Include="Serialization\Xle\CompressionType.cs" />
     <Compile Include="Serialization\Xle\IXleTypeSerializer.cs" />
@@ -206,9 +215,6 @@
     <Compile Include="Serialization\Xle\XleTypeSerializerBase.cs" />
     <Compile Include="Serialization\Xle\XleTypeSerializerCollection.cs" />
     <Compile Include="Settings\SettingsGroup.cs" />
-    <Compile Include="Timing.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="AudioLib\Audio.cs">
       <SubType>Code</SubType>
     </Compile>
