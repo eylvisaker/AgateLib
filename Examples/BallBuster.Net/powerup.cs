@@ -24,6 +24,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Sprites;
+using AgateLib.Platform;
 
 namespace BallBuster.Net
 {

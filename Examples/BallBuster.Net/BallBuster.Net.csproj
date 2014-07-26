@@ -157,25 +157,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
+      <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
+      <Name>AgateLib.Platform.WindowsForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
       <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateDrawing\AgateDrawing.csproj">
-      <Project>{164a785d-924e-40fb-a517-d7e677f3b53a}</Project>
-      <Name>AgateDrawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateOTK\AgateOTK.csproj">
-      <Project>{9E095F03-BA3F-4EAD-A905-2A2647CE4405}</Project>
-      <Name>AgateOTK</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateSDL\AgateSDL.csproj">
-      <Project>{00C7FA95-98F4-43D9-9B63-34122B1DB003}</Project>
-      <Name>AgateSDL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateSDX\AgateSDX.csproj">
-      <Project>{ef993b30-d9a9-4962-80bb-6826d39b3465}</Project>
-      <Name>AgateSDX</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

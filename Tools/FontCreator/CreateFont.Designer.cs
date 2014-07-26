@@ -62,8 +62,8 @@ namespace FontCreator
 			this.label7 = new System.Windows.Forms.Label();
 			this.chkMonospaceNumbers = new System.Windows.Forms.CheckBox();
 			this.nudNumberWidthAdjust = new System.Windows.Forms.NumericUpDown();
-			this.renderTarget = new AgateLib.WinForms.AgateRenderTarget();
-			this.zoomRenderTarget = new AgateLib.WinForms.AgateRenderTarget();
+			this.renderTarget = new AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget();
+			this.zoomRenderTarget = new AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget();
 			((System.ComponentModel.ISupportInitialize)(this.nudSize)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -550,7 +550,7 @@ namespace FontCreator
 
         #endregion
 
-        private AgateLib.WinForms.AgateRenderTarget renderTarget;
+        private AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget renderTarget;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cboFamily;
@@ -561,7 +561,7 @@ namespace FontCreator
         private System.Windows.Forms.CheckBox chkUnderline;
         private System.Windows.Forms.CheckBox chkStrikeout;
         private System.Windows.Forms.TextBox txtSampleText;
-        private AgateLib.WinForms.AgateRenderTarget zoomRenderTarget;
+        private AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget zoomRenderTarget;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkTextRenderer;

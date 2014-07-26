@@ -23,6 +23,7 @@ using System;
 
 using AgateLib;
 using AgateLib.Geometry;
+using AgateLib.Platform;
 
 namespace BallBuster.Net
 {

@@ -45,7 +45,7 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.agateRenderTarget1 = new AgateLib.WinForms.AgateRenderTarget();
+            this.agateRenderTarget1 = new AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget();
             this.chkAnimating = new System.Windows.Forms.CheckBox();
             this.btnNewSprite = new System.Windows.Forms.Button();
             this.propertiesPanel.SuspendLayout();
@@ -332,7 +332,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown nudTimePerFrame;
         private System.Windows.Forms.Label label3;
-        private AgateLib.WinForms.AgateRenderTarget agateRenderTarget1;
+        private AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget agateRenderTarget1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListBox lstFrames;
         private System.Windows.Forms.Button btnDelete;

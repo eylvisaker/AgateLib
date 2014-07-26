@@ -99,13 +99,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
+      <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
+      <Name>AgateLib.Platform.WindowsForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{198C4842-0000-0000-0000-000000000000}</Project>
       <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateOTK\AgateOTK.csproj">
-      <Project>{CAB8A0C1-0000-0000-0000-000000000000}</Project>
-      <Name>AgateOTK</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
