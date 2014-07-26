@@ -2,7 +2,7 @@
 
 namespace AgateLib.Platform
 {
-	public interface IStopWatch
+	public interface IStopwatch
 	{
 		void Dispose();
 		void ForceResume();

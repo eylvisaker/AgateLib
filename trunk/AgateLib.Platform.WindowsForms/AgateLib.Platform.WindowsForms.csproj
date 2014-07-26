@@ -90,6 +90,7 @@
     <Compile Include="Factories\PlatformFactory.cs" />
     <Compile Include="Factories\SdlFactory.cs" />
     <Compile Include="Factories\SysIoFile.cs" />
+    <Compile Include="Factories\SysIoPath.cs" />
     <Compile Include="PixelBufferExtensions.cs" />
     <Compile Include="PlatformImplementation\FileProviderList.cs" />
     <Compile Include="PlatformImplementation\FileSystemProvider.cs" />

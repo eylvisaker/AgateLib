@@ -13,7 +13,7 @@ namespace AgateLib.Platform.WindowsForms.PlatformImplementation
 	/// A StopWatch can be paused and reset independently of other
 	/// StopWatches.
 	/// </summary>
-	public class DiagnosticsStopwatch : IDisposable, AgateLib.Platform.IStopWatch
+	public class DiagnosticsStopwatch : IDisposable, AgateLib.Platform.IStopwatch
 	{
 		Watch watch = new Watch();
 		int mPause = 1;

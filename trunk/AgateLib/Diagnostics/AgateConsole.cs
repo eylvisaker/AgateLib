@@ -52,6 +52,7 @@ namespace AgateLib.Diagnostics
 			if (sInstance != null)
 				return;
 
+			sInstance = Core.Factory.PlatformFactory.CreateConsole();
 			PrivateInitialize();
 		}
 

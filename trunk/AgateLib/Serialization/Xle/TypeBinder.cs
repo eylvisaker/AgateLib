@@ -23,7 +23,7 @@ using System.Reflection;
 
 namespace AgateLib.Serialization.Xle
 {
-	class TypeBinder : ITypeBinder
+	public class TypeBinder : ITypeBinder
 	{
 		public List<Assembly> SearchAssemblies = new List<Assembly>();
 
@@ -46,7 +46,13 @@ namespace AgateLib.Serialization.Xle
 			return null;
 		}
 
-		internal void AddAssembly(Assembly assembly)
+		public void AddAssemblies(IEnumerable<Assembly> assemblies)
+		{
+			foreach (var assembly in assemblies)
+				AddAssembly(assembly);
+		}
+
+		public void AddAssembly(Assembly assembly)
 		{
 			if (assembly == null)
 				throw new ArgumentNullException("assembly cannot be null.");
@@ -54,22 +60,6 @@ namespace AgateLib.Serialization.Xle
 				return;
 
 			SearchAssemblies.Add(assembly);
-
-			// TODO: See if this is still required.
-
-			// add names of assemblies referenced by the current assembly.
-			//Assembly[] loaded = assembly. AppDomain.CurrentDomain.GetAssemblies();
-
-			//foreach (AssemblyName assname in assembly.GetReferencedAssemblies())
-			//{
-			//	foreach (Assembly ass in loaded)
-			//	{
-			//		AssemblyName thisname = ass.GetName();
-
-			//		if (thisname.FullName == assname.FullName)
-			//			AddAssembly(ass);
-			//	}
-			//}
 		}
 	}
 }

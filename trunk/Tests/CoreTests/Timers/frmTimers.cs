@@ -17,7 +17,7 @@ namespace Tests.TimerTester
 {
 	public partial class frmTimerTester : Form
 	{
-		IStopWatch timer = Timing.CreateStopWatch();
+		IStopwatch timer = Timing.CreateStopWatch();
 		int start = Environment.TickCount;
 		double deltaTimeSum = 0;
 		int count = 0;
