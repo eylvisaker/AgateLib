@@ -1591,7 +1591,7 @@ namespace AgateLib.Serialization.Xle
 
 				try
 				{
-					obj = (IXleSerializable)Activator.CreateInstance(type, true);
+					obj = (IXleSerializable)Activator.CreateInstance(type);
 				}
 				catch (Exception e)
 				{

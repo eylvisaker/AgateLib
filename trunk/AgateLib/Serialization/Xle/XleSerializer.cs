@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Reflection;
+using System.Linq;
 using System.Xml.Linq;
 using System.Xml;
 
@@ -54,7 +55,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="objectType">The type of the object to serialize.</param>
 		public XleSerializer(Type objectType)
 		{
-			if (typeof(IXleSerializable).IsAssignableFrom(objectType))
+			if (objectType.GetInterfaces().Contains(typeof(IXleSerializable)) == false)
 				throw new ArgumentException("Object type is not IXleSerializable.");
 
 			var typeBinder = new TypeBinder();
