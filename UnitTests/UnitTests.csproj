@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Core\ConsoleTests.cs" />
     <Compile Include="Display\DisplayTests.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Fakes\FakeDisplayDriver.cs" />
     <Compile Include="Fakes\FakeDisplayWindow.cs" />
     <Compile Include="Fakes\FakeFrameBuffer.cs" />

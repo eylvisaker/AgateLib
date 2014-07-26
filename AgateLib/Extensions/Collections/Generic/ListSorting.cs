@@ -19,16 +19,34 @@ namespace AgateLib.Extensions.Collections.Generic
 		{
 			if (list == null) throw new ArgumentNullException("list");
 
-			Comparison<T> comp;
+			Comparison<T> comp = null;
 
 			if (typeof(IComparable<T>).IsAssignableFrom(typeof(T)))
 			{
-				InsertionSort(list, (x, y) => ((IComparable<T>)x).CompareTo(y));
+				comp = (x, y) => ((IComparable<T>)x).CompareTo(y);
 			}
 			else if (typeof(IComparable).IsAssignableFrom(typeof(T)))
 			{
-				InsertionSort(list, (x, y) => ((IComparable)x).CompareTo(y));
+				comp = (x, y) => ((IComparable)x).CompareTo(y);
 			}
+
+			if (comp == null)
+				throw new InvalidOperationException("No comparison method available for " + typeof(T).FullName);
+
+			InsertionSort(list, comp);
+		}
+		/// <summary>
+		/// Provides a sort method for IList&lt;T&gt; objects which 
+		/// is stable, unlike the List&lt;T&gt;.Sort() method.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="list"></param>
+		/// <param name="comparison"></param>
+		public static void InsertionSort<T>(this IList<T> list, IComparer<T> comparer)
+		{
+			if (list == null) throw new ArgumentNullException("list");
+
+			InsertionSort(list, (x, y) => comparer.Compare(x, y));
 		}
 		/// <summary>
 		/// Provides a sort method for IList&lt;T&gt; objects which 
