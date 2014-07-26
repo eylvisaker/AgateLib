@@ -761,7 +761,7 @@ namespace AgateLib.Serialization.Xle
 			var attribute = CurrentNode.Attribute(name);
 
 			if (attribute == null)
-				return true;
+				return false;
 
 			XElement element = CurrentNode.Element(name);
 

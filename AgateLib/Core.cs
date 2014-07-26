@@ -102,7 +102,7 @@ namespace AgateLib
 		#region --- Error Reporting ---
 
 		private static CrossPlatformDebugLevel mCrossPlatform = CrossPlatformDebugLevel.Comment;
-		private static IStopWatch mTime;
+		private static IStopwatch mTime;
 
 		/// <summary>
 		/// Static class which is used to handle all error reports.
@@ -327,6 +327,7 @@ namespace AgateLib
 			mTime = factory.PlatformFactory.CreateStopwatch();
 
 			FileSystem.File = factory.PlatformFactory.CreateFile();
+			FileSystem.Path = factory.PlatformFactory.CreatePath();
 
 			Display.Initialize(factory.DisplayFactory.CreateDisplayImpl());
 			Audio.Initialize(factory.AudioFactory.CreateAudioImpl());

@@ -29,7 +29,7 @@ namespace AgateLib.Platform
 	/// </summary>
 	public static class Timing
 	{
-		private static IStopWatch mAppTimer;
+		private static IStopwatch mAppTimer;
 
 		public delegate void TimerDelegate();
 
@@ -60,7 +60,7 @@ namespace AgateLib.Platform
 			mAppTimer.Resume();
 		}
 
-		public static IStopWatch CreateStopWatch()
+		public static IStopwatch CreateStopWatch()
 		{
 			return Core.Factory.PlatformFactory.CreateStopwatch();
 		}

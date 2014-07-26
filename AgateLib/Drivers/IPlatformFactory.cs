@@ -10,8 +10,14 @@ namespace AgateLib.Drivers
 	{
 		PlatformInfo CreatePlatformInfo();
 
-		IStopWatch CreateStopwatch();
+		IStopwatch CreateStopwatch();
 
 		IO.IFile CreateFile();
+
+		Diagnostics.AgateConsole CreateConsole();
+
+		IO.IPath CreatePath();
+
+		IEnumerable<System.Reflection.Assembly> GetSerializationSearchAssemblies(Type objectType);
 	}
 }
