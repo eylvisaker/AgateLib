@@ -63,8 +63,11 @@ namespace AgateLib.Serialization.Xle
 			typeBinder.AddAssembly(objectType.Assembly);
 			typeBinder.AddAssembly(Assembly.GetExecutingAssembly());
 
-			typeBinder.AddAssemblies(
-				Core.Factory.PlatformFactory.GetSerializationSearchAssemblies(objectType));
+			if (Core.Factory != null)
+			{
+				typeBinder.AddAssemblies(
+					Core.Factory.PlatformFactory.GetSerializationSearchAssemblies(objectType));
+			}
 
 			Binder = typeBinder;
 			
