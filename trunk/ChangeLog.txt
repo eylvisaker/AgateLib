@@ -78,7 +78,7 @@ A new cross platform build system has been implemented.  Now AgateLib is easy to
 Linux and MacOS with MonoDevelop.  This should help users of other operating systems use and contribute to
 AgateLib.
 
-Added AgateLib.WinForms.dll to encapsulate all references to System.Drawing and System.Windows.Forms
+Added AgateLib.Platform.WindowsForms.WinForms.dll to encapsulate all references to System.Drawing and System.Windows.Forms
 inside AgateLib.dll.  This is the last release of AgateLib.dll which will contain any methods which
 take System.Drawing types, such as Point and Size.
 

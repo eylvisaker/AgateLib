@@ -14,7 +14,7 @@ namespace FontCreator
         {
             InitializeComponent();
 
-            Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
+            Icon = AgateLib.Platform.WindowsForms.WinForms.FormUtil.AgateLibIcon;
         }
 
         private void btnOK_Click(object sender, EventArgs e)

@@ -6,6 +6,8 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms.Resources;
+using AgateLib.Platform;
 
 namespace ShootTheTraps
 {
@@ -37,8 +39,8 @@ namespace ShootTheTraps
 
 		protected override void Initialize()
 		{
-			mFont = FontSurface.AgateSans14;
-			mLargeFont = FontSurface.AgateSans24;
+			mFont = BuiltinResources.AgateSans14;
+			mLargeFont = BuiltinResources.AgateSans24;
 			mBackground = new Surface("Resources/background.png");
 
 			Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);

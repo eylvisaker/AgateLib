@@ -112,17 +112,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
+      <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
+      <Name>AgateLib.Platform.WindowsForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{D62BD453-79AC-4A8D-8E75-F85FFF533E4D}</Project>
       <Name>AgateLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\drivers\AgateDrawing\AgateDrawing.csproj">
-      <Project>{1AC2AEF6-2EF1-4A8B-8D2D-0480D6EDE65D}</Project>
-      <Name>AgateDrawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\drivers\AgateOTK\AgateOTK.csproj">
-      <Project>{B8476DD4-981E-47CD-A8C2-9E28E84A156D}</Project>
-      <Name>AgateOTK</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

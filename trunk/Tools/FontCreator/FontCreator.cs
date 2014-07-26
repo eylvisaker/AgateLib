@@ -9,6 +9,7 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.BitmapFont;
 using AgateLib.Geometry;
 using AgateLib.Resources;
+using AgateLib.Platform.WindowsForms;
 
 namespace FontCreator
 {

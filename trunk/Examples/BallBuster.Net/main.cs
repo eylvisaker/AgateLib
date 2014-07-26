@@ -30,6 +30,8 @@ using AgateLib.Geometry;
 using AgateLib.Sprites;
 using AgateLib.InputLib;
 using AgateLib.AudioLib;
+using AgateLib.Platform;
+using AgateLib.Platform.WindowsForms;
 
 namespace BallBuster.Net
 {
@@ -129,7 +131,7 @@ namespace BallBuster.Net
 
 		EditorState editorState = new EditorState();
 
-		Timing.StopWatch mPauseTimer = new Timing.StopWatch();
+		IStopwatch mPauseTimer = Timing.CreateStopWatch();
 
 		// the variables here are REALLY sloppy, sorry......... :P
 		private string gamemode;
@@ -278,68 +280,59 @@ namespace BallBuster.Net
 		[STAThread]
 		public int Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			if (Display.Caps.IsHardwareAccelerated == false ||
+				AgateBuiltInShaders.Lighting2D == null)
 			{
-				setup.AskUser = true;
-				setup.Initialize(true, true, true);
-
-				if (setup.WasCanceled)
-					return 0;
-
-				if (Display.Caps.IsHardwareAccelerated == false ||
-					AgateBuiltInShaders.Lighting2D == null)
-				{
-					doLighting = false;
-				}
-
-				bool fulls = true;
-
-				if (args.Length > 0)
-					if (args[0] == "-debug") debugger = true;
-
-				if (debugger)
-				{
-					fulls = false;
-					playmusic = false;
-				}
-				fulls = false;
-
-				// now it gets fun, set up the display mode
-				DisplayWindow mywindow;
-
-				if (fulls)
-					mywindow = DisplayWindow.CreateFullScreen("Ball: Buster Xtreme.NET", 800, 600);
-				else
-					mywindow = DisplayWindow.CreateWindowed("Ball: Buster Xtreme.NET", 800, 600);
-
-				Mouse.Hide();
-
-				// load the images, initiation frame rate counter, and register signals
-				AgateLib.AgateFileProvider.Images.AddPath("imgs");
-
-				splash();
-
-				img.load();
-				snd.load();
-
-				Mouse.MouseMove += new InputEventHandler(Mouse_MouseMoveEvent);
-				Mouse.MouseUp += new InputEventHandler(Mouse_MouseUpEvent);
-				Mouse.MouseDown += new InputEventHandler(Mouse_MouseDownEvent);
-				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
-
-				loadHighscores();
-				loadWorlds();
-
-
-				//here we go!
-				run();
-
-				img.unload();
-
-				saveHighscores();
-
-				freeWorlds();
+				doLighting = false;
 			}
+
+			bool fulls = true;
+
+			if (args.Length > 0)
+				if (args[0] == "-debug") debugger = true;
+
+			if (debugger)
+			{
+				fulls = false;
+				playmusic = false;
+			}
+			fulls = false;
+
+			// now it gets fun, set up the display mode
+			DisplayWindow mywindow;
+
+			if (fulls)
+				mywindow = DisplayWindow.CreateFullScreen("Ball: Buster Xtreme.NET", 800, 600);
+			else
+				mywindow = DisplayWindow.CreateWindowed("Ball: Buster Xtreme.NET", 800, 600);
+
+			Mouse.Hide();
+
+			// load the images, initiation frame rate counter, and register signals
+			Configuration.Images.AddPath("imgs");
+
+			splash();
+
+			img.load();
+			snd.load();
+
+			Mouse.MouseMove += new InputEventHandler(Mouse_MouseMoveEvent);
+			Mouse.MouseUp += new InputEventHandler(Mouse_MouseUpEvent);
+			Mouse.MouseDown += new InputEventHandler(Mouse_MouseDownEvent);
+			Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
+
+			loadHighscores();
+			loadWorlds();
+
+
+			//here we go!
+			run();
+
+			img.unload();
+
+			saveHighscores();
+
+			freeWorlds();
 			return 0;
 		}
 

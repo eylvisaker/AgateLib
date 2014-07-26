@@ -25,6 +25,7 @@ using System;
 using AgateLib.Resources;
 using AgateLib.Sprites;
 using AgateLib.DisplayLib;
+using AgateLib.Platform.WindowsForms.Resources;
 
 namespace BallBuster.Net
 {
@@ -60,8 +61,8 @@ namespace BallBuster.Net
 
 		public void preload()
 		{
-			this.font = FontSurface.AgateSans10;
-			this.largeFont = FontSurface.AgateSans24;
+			this.font = BuiltinResources.AgateSans10;
+			this.largeFont = BuiltinResources.AgateSans24;
 			this.largeFont.SetScale(0.8, 0.8);
 
 			this.palogo = new Sprite(spritesSrc, "palogo");

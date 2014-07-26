@@ -214,7 +214,7 @@ namespace PackedSpriteCreator
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
 			frmAddSpriteFrames frm = new frmAddSpriteFrames();
-			frm.SpriteSize = AgateLib.WinForms.Interop.Convert(mCurrentSprite.Size);
+			frm.SpriteSize = AgateLib.Platform.WindowsForms.WinForms.Interop.Convert(mCurrentSprite.Size);
 
 			if (frm.ShowDialog(this) == DialogResult.OK)
 			{

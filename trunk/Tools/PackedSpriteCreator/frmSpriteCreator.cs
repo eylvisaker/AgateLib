@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AgateLib.Platform.WindowsForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,7 +16,7 @@ namespace PackedSpriteCreator
         {
             InitializeComponent();
 
-            Icon = AgateLib.WinForms.FormUtil.AgateLibIcon;
+            Icon = AgateLib.Platform.WindowsForms.WinForms.FormUtil.AgateLibIcon;
             spriteEditor1.Enabled = false;
         }
 
@@ -43,8 +44,8 @@ namespace PackedSpriteCreator
             System.IO.Directory.SetCurrentDirectory(
                 System.IO.Path.GetDirectoryName(openDialog.FileName));
 
-            AgateLib.AgateFileProvider.Images.Clear();
-            AgateLib.AgateFileProvider.Images.AddPath(".");
+            Configuration.Images.Clear();
+            Configuration.Images.AddPath(".");
         }
 
         private void closeResourceFileToolStripMenuItem_Click(object sender, EventArgs e)

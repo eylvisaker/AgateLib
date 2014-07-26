@@ -760,15 +760,15 @@ namespace AgateLib.Serialization.Xle
 		{
 			var attribute = CurrentNode.Attribute(name);
 
-			if (attribute == null)
-				return false;
+			if (attribute != null)
+				return true;
 
 			XElement element = CurrentNode.Element(name);
 
-			if (element == null)
-				return false;
+			if (element != null)
+				return true;
 
-			return true;
+			return false;
 		}
 
 		#region --- Reading single values ---

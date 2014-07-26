@@ -122,13 +122,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
+      <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
+      <Name>AgateLib.Platform.WindowsForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Name>AgateLib</Name>
       <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Drivers\AgateDrawing\AgateDrawing.csproj">
-      <Name>AgateDrawing</Name>
-      <Project>{164A785D-924E-40FB-A517-D7E677F3B53A}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
