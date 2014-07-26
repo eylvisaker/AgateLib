@@ -5,6 +5,7 @@ using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.PixelBufferTest
 {
@@ -24,12 +25,8 @@ namespace Tests.PixelBufferTest
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				frm = new PixelBufferForm();
 				frm.Show();
 
@@ -52,7 +49,7 @@ namespace Tests.PixelBufferTest
 					Core.KeepAlive();
 				}
 
-			}
+			});
 		}
 
 		void Mouse_MouseMove(InputEventArgs e)

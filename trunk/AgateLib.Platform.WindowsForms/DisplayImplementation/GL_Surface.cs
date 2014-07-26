@@ -44,7 +44,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 	/// </summary>
 	public sealed class GL_Surface : SurfaceImpl, IGL_Surface
 	{
-		GL_Display mDisplay;
+		DesktopGLDisplay mDisplay;
 		GLDrawBuffer mDrawBuffer;
 
 		string mFilename;
@@ -68,16 +68,16 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 		public GL_Surface(string filename)
 		{
-			mDisplay = Display.Impl as GL_Display;
+			mDisplay = Display.Impl as DesktopGLDisplay;
 			mDrawBuffer = mDisplay.DrawBuffer;
 
-			mFilename = filename;
+			mFilename = Configuration.Images.ResolveFile(filename);
 
 			Load();
 		}
 		public GL_Surface(Stream st)
 		{
-			mDisplay = Display.Impl as GL_Display;
+			mDisplay = Display.Impl as DesktopGLDisplay;
 			mDrawBuffer = mDisplay.DrawBuffer;
 
 			// Load The Bitmap
@@ -88,7 +88,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		}
 		public GL_Surface(Size size)
 		{
-			mDisplay = Display.Impl as GL_Display;
+			mDisplay = Display.Impl as DesktopGLDisplay;
 			mDrawBuffer = mDisplay.DrawBuffer;
 
 			mSourceRect = new Rectangle(Point.Empty, size);
@@ -123,7 +123,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 		private GL_Surface(int textureID, Rectangle sourceRect, Size textureSize)
 		{
-			mDisplay = Display.Impl as GL_Display;
+			mDisplay = Display.Impl as DesktopGLDisplay;
 
 			AddTextureRef(textureID);
 
@@ -435,8 +435,9 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 				ImageLockMode.ReadOnly, Drawing.Imaging.PixelFormat.Format32bppArgb);
 
 			// use a pixelbuffer to do format conversion.
-			PixelBuffer buffer = new PixelBuffer(PixelFormat.RGBA8888, mTextureSize,
-				bitmapData.Scan0, PixelFormat.BGRA8888, bitmapData.Stride);
+			PixelBuffer buffer = new PixelBuffer(PixelFormat.RGBA8888, mTextureSize);
+
+			buffer.SetData(bitmapData.Scan0, PixelFormat.BGRA8888, bitmapData.Stride);
 
 			// Create The GL Texture object
 			int textureID;

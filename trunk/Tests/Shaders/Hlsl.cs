@@ -10,6 +10,8 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.Shaders
 {
@@ -57,13 +59,8 @@ namespace Tests.Shaders
 		}
 		private void Run(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.PreferredDisplay = AgateLib.Drivers.DisplayTypeID.Direct3D9_SDX;
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				wind = DisplayWindow.CreateWindowed("HLSL", 800, 600);
 				Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
 
@@ -156,7 +153,7 @@ namespace Tests.Shaders
 					Display.EndFrame();
 					Core.KeepAlive();
 				}
-			}
+			});
 		}
 
 		void Mouse_MouseDown(InputEventArgs e)

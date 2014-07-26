@@ -7,6 +7,8 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
+using AgateLib.Platform.WindowsForms.Resources;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.Shaders
 {
@@ -36,14 +38,10 @@ namespace Tests.Shaders
 
 		public void Main(string[] args)
 		{
-			using (var setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Lighting 3D", 640, 480);
-				FontSurface font = FontSurface.AgateSerif14;
+				FontSurface font = BuiltinResources.AgateSerif14;
 				Surface texture = new Surface("bg-bricks.png");
 
 				AgateLib.Geometry.Builders.CubeBuilder cb = new AgateLib.Geometry.Builders.CubeBuilder();
@@ -130,7 +128,7 @@ namespace Tests.Shaders
 					if (done)
 						break;
 				}
-			}
+			});
 		}
 
 		private Vector3 LookDir

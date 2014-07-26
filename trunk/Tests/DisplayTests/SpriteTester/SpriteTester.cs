@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.SpriteTester
 {
@@ -19,15 +20,9 @@ namespace Tests.SpriteTester
 
 		public void Main(string[] args)
 		{
-			frmSpriteTester form = new frmSpriteTester();
-
-			AgateSetup displaySetup = new AgateSetup(args);
-
-			using (displaySetup)
+			PassiveModel.Run(args, () =>
 			{
-				displaySetup.Initialize(true, false, false);
-				if (displaySetup.WasCanceled)
-					return;
+				frmSpriteTester form = new frmSpriteTester();
 
 				form.Show();
 
@@ -38,7 +33,7 @@ namespace Tests.SpriteTester
 					//System.Threading.Thread.Sleep(10);
 					Core.KeepAlive();
 				}
-			}
+			});
 		}
 	}
 }

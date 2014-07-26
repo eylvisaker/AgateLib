@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 
 using AgateLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.SurfaceTester
 {
@@ -21,13 +22,9 @@ namespace Tests.SurfaceTester
 
 		public void Main(string[] args)
 		{
-			frmSurfaceTester form = new frmSurfaceTester();
-
-			using (AgateSetup displaySetup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				displaySetup.Initialize(true, false, false);
-				if (displaySetup.WasCanceled)
-					return;
+				frmSurfaceTester form = new frmSurfaceTester();
 
 				form.Show();
 
@@ -40,7 +37,7 @@ namespace Tests.SurfaceTester
 					frame++;
 
 				}
-			}
+			});
 
 		}
 

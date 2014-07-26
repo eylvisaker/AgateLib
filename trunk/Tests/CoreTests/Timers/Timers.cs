@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform;
 
 namespace Tests.TimerTester
 {
@@ -12,23 +14,24 @@ namespace Tests.TimerTester
 	{
 		public void Main(string[] args)
 		{
-			frmTimerTester frm = new frmTimerTester();
-			frm.Show();
-
-			Core.Initialize();
-
-			Application.DoEvents();
-			System.Threading.Thread.Sleep(0);
-
-			double startTime = Timing.TotalMilliseconds;
-
-			while (frm.Visible)
+			PassiveModel.Run(args, () =>
 			{
-				frm.UpdateControls(Timing.TotalMilliseconds - startTime);
+				frmTimerTester frm = new frmTimerTester();
+				frm.Show();
 
 				Application.DoEvents();
 				System.Threading.Thread.Sleep(0);
-			}
+
+				double startTime = Timing.TotalMilliseconds;
+
+				while (frm.Visible)
+				{
+					frm.UpdateControls(Timing.TotalMilliseconds - startTime);
+
+					Application.DoEvents();
+					System.Threading.Thread.Sleep(0);
+				}
+			});
 		}
 
 		#region IAgateTest Members

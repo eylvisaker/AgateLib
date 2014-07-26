@@ -29,8 +29,6 @@ namespace AgateLib.AudioLib
 {
 	/// <summary>
 	/// A class which performs Music playback.
-	/// 
-	/// This class should support loading of .ogg and .mid files, at the very least.
 	/// </summary>
 	public sealed class Music
 	{
@@ -47,10 +45,7 @@ namespace AgateLib.AudioLib
 		/// <param name="filename">The name of the file to load.</param>
 		public Music(string filename)
 		{
-			using (System.IO.Stream s = FileSystem.OpenRead(filename))
-			{
-				impl = Audio.Impl.CreateMusic(s);
-			}
+			impl = Audio.Impl.CreateMusic(filename);
 			mFilename = filename;
 		}
 

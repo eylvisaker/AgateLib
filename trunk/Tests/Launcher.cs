@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AgateLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WindowsForms;
 
 namespace Tests
 {
@@ -12,13 +14,13 @@ namespace Tests
 		[STAThread]
 		public static void Main(string[] args)
 		{
-			AgateLib.Platform.WindowsForms.Setup.Initialize();
-
-			AgateFileProvider.Images.AddPath("Data");
-			AgateFileProvider.Sounds.AddPath("Data");
-			
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			Configuration.Initialize();
+			Configuration.Images.AddPath("Data");
+			Configuration.Sounds.AddPath("Data");
+
 			Application.Run(new frmLauncher());
 
 			Core.Settings.SaveSettings();

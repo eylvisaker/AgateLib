@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.TileTester
 {
@@ -22,12 +23,8 @@ namespace Tests.TileTester
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				frmTileTester frm = new frmTileTester();
 				frm.Show();
 
@@ -56,7 +53,7 @@ namespace Tests.TileTester
 
 					frm.FPS = Display.FramesPerSecond;
 				}
-			}
+			});
 		}
 
 		private void DrawTiles()

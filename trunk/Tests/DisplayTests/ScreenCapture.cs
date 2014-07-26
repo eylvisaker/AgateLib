@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.ScreenCaptureExample
 {
@@ -21,11 +22,8 @@ namespace Tests.ScreenCaptureExample
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled) return;
-
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Hello", 800, 600);
 				Surface someSurface = new Surface("wallpaper.png");
 				bool capturing = false;
@@ -67,7 +65,7 @@ namespace Tests.ScreenCaptureExample
 					Core.KeepAlive();
 					System.Threading.Thread.Sleep(10);
 				}
-			}
+			});
 		}
 	}
 }

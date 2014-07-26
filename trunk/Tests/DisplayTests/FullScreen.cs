@@ -4,6 +4,8 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms.Resources;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.DisplayTests
 {
@@ -23,23 +25,19 @@ namespace Tests.DisplayTests
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.InitializeAll();
-				if (setup.WasCanceled)
-					return;
-
 				DisplayWindow wind = DisplayWindow.CreateFullScreen("Hello World", 640, 480);
 				Surface mySurface = new Surface("jellybean.png");
 
 				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
-				FontSurface font = FontSurface.AgateSans14;
+				FontSurface font = BuiltinResources.AgateSans14;
 
 				int frames = 1;
 
 				// Run the program while the window is open.
-				while (Display.CurrentWindow.IsClosed == false && 
-					Keyboard.Keys[KeyCode.Escape] == false && 
+				while (Display.CurrentWindow.IsClosed == false &&
+					Keyboard.Keys[KeyCode.Escape] == false &&
 					Keyboard.Keys[KeyCode.Tilde] == false)
 				{
 					Display.BeginFrame();
@@ -55,7 +53,7 @@ namespace Tests.DisplayTests
 					Core.KeepAlive();
 					frames++;
 				}
-			}
+			});
 		}
 
 		void Keyboard_KeyDown(InputEventArgs e)

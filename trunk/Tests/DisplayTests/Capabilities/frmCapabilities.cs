@@ -18,7 +18,7 @@ namespace Tests.DisplayTests.Capabilities
 			AgateLib.DisplayLib.DisplayWindow wind = AgateLib.DisplayLib.DisplayWindow.CreateFromControl(this);
 
 			Text += " ";
-			Text += AgateLib.Drivers.Registrar.DisplayDrivers[0].FriendlyName;
+			Text += AgateLib.DisplayLib.Display.Impl.GetType().FullName;
 			
 			propertyGrid1.SelectedObject = AgateLib.DisplayLib.Display.Caps;
 		}

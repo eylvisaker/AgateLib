@@ -7,6 +7,8 @@ using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms.Resources;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.AudioTests
 {
@@ -28,19 +30,15 @@ namespace Tests.AudioTests
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, true, false);
-				if (setup.WasCanceled)
-					return;
-
 				DisplayWindow wind = new DisplayWindow(CreateWindowParams.Windowed(
 					"Sound Buffer Tester", 640, 480, false, null));
 
 				snda = new SoundBuffer("snda.wav");
 				sndb = new SoundBuffer("sndb.wav");
 
-				FontSurface font = FontSurface.AgateSans14;
+				FontSurface font = BuiltinResources.AgateSans14;
 
 				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 
@@ -60,7 +58,7 @@ namespace Tests.AudioTests
 					Display.EndFrame();
 					Core.KeepAlive();
 				}
-			}
+			});
 		}
 
 		void Keyboard_KeyDown(InputEventArgs e)

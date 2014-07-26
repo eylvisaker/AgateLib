@@ -39,7 +39,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 	/// <summary>
 	/// OpenGL 3.1 compatible.  
 	/// </summary>
-	public sealed class GL_Display : DisplayImpl, AgateLib.OpenGL.IGL_Display
+	public sealed class DesktopGLDisplay : DisplayImpl, AgateLib.OpenGL.IGL_Display
 	{ 
 		GL_FrameBuffer mRenderTarget;
 		Stack<Rectangle> mClipRects = new Stack<Rectangle>();
@@ -582,6 +582,10 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		{
 			switch (displaySizeCaps)
 			{
+				case DisplaySizeCaps.NativeScreenResolution:
+					return WinForms.Interop.Convert(
+						System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size);
+
 				case DisplaySizeCaps.MaxSurfaceSize:
 					int val;
 					GL.GetInteger(GetPName.MaxTextureSize, out val);

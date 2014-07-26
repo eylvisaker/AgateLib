@@ -13,6 +13,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Resources;
 using AgateLib.Sprites;
+using AgateLib.Platform.WindowsForms;
 
 namespace Tests.SpriteTester
 {
@@ -246,8 +247,8 @@ namespace Tests.SpriteTester
 				// since loading the sprite from the file failed, try it as a resource file.
 				AgateResourceCollection resources = new AgateResourceCollection(filename);
 
-				AgateFileProvider.Images.Clear();
-				AgateFileProvider.Images.AddPath(System.IO.Path.GetDirectoryName(filename));
+				Configuration.Images.Clear();
+				Configuration.Images.AddPath(System.IO.Path.GetDirectoryName(filename));
 
 				if (resources.Sprites.ToArray().Length == 1)
 				{

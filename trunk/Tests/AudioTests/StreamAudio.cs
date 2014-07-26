@@ -7,6 +7,8 @@ using System.Text;
 using AgateLib;
 using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
+using AgateLib.Platform.WindowsForms.Resources;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.AudioTests
 {
@@ -105,19 +107,15 @@ namespace Tests.AudioTests
 		}
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, true, false);
-				if (setup.WasCanceled)
-					return;
-
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Generate Audio", 640, 480);
 
 				LoopingStream sa = new LoopingStream();
 				sa.Frequency = 100;
 
 				StreamingSoundBuffer buf = new StreamingSoundBuffer(sa, SoundFormat.Pcm16(44100), 100);
-				
+
 				buf.Play();
 
 				Stopwatch w = new Stopwatch();
@@ -128,9 +126,9 @@ namespace Tests.AudioTests
 					Display.BeginFrame();
 					Display.Clear();
 
-					FontSurface.AgateSans14.Color = AgateLib.Geometry.Color.White;
-					FontSurface.AgateSans14.DrawText(0, 0, string.Format("Frequency: {0}", sa.Frequency));
- 
+					BuiltinResources.AgateSans14.Color = AgateLib.Geometry.Color.White;
+					BuiltinResources.AgateSans14.DrawText(0, 0, string.Format("Frequency: {0}", sa.Frequency));
+
 					Display.EndFrame();
 					Core.KeepAlive();
 
@@ -141,7 +139,7 @@ namespace Tests.AudioTests
 						w.Start();
 					}
 				}
-			}
+			});
 		}
 	}
 }

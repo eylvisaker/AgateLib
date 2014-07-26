@@ -31,7 +31,7 @@ namespace AgateLib.OpenGL.GL3
 	/// <summary>
 	/// OpenGL 3.1 compatible.
 	/// </summary>
-	class FrameBuffer : GL_FrameBuffer 
+	public class FrameBuffer : GL_FrameBuffer 
 	{
 		Size mSize;
 		int mFramebufferID;

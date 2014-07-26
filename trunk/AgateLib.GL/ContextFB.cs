@@ -27,16 +27,19 @@ using AgateLib.Geometry;
 
 namespace AgateLib.OpenGL
 {
-	class ContextFB : GL_FrameBuffer 
+	public class ContextFB : GL_FrameBuffer 
 	{
 		IGraphicsContext mContext;
 		IWindowInfo mWindowInfo;
 		Size mSize;
-		internal AgateLib.DisplayLib.DisplayWindow mAttachedWindow;
+		AgateLib.DisplayLib.DisplayWindow mAttachedWindow;
 
-		public ContextFB(IGraphicsContext context, IWindowInfo window, Size size, 
+		public ContextFB(AgateLib.DisplayLib.DisplayWindow attachedWindow, 
+						IGraphicsContext context, IWindowInfo window, Size size, 
 						 bool depthBuffer, bool stencilBuffer)
 		{
+			mAttachedWindow = attachedWindow;
+
 			mContext = context;
 			mWindowInfo = window;
 			mSize = size;

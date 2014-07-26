@@ -7,8 +7,8 @@
     <ProjectGuid>{4B12561E-D37B-48A1-B6DB-218E94906C22}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgateLib.Desktop.Forms</RootNamespace>
-    <AssemblyName>AgateLib.Desktop.Forms</AssemblyName>
+    <RootNamespace>AgateLib.Platform.WindowsForms</RootNamespace>
+    <AssemblyName>AgateLib.Platform.WindowsForms</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -56,6 +56,7 @@
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AgateLib.GL\OpenTK.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,6 +69,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationModels\FormsModelBase.cs" />
+    <Compile Include="ApplicationModels\PassiveModel.cs" />
+    <Compile Include="ApplicationModels\SceneModel.cs" />
+    <Compile Include="ApplicationModels\SerialModel.cs" />
     <Compile Include="Diagnostics\AgateConsoleImpl.cs" />
     <Compile Include="Diagnostics\AgateConsoleTraceListener.cs" />
     <Compile Include="DisplayImplementation\frmFullScreen.cs">
@@ -80,10 +85,22 @@
     <Compile Include="DisplayImplementation\GL_DisplayControl.cs" />
     <Compile Include="DisplayImplementation\GL_GameWindow.cs" />
     <Compile Include="DisplayImplementation\GL_Surface.cs" />
-    <Compile Include="FormsPlatformInfo.cs" />
+    <Compile Include="Factories\DisplayFactory.cs" />
+    <Compile Include="Factories\FormsFactory.cs" />
+    <Compile Include="Factories\PlatformFactory.cs" />
+    <Compile Include="Factories\SdlFactory.cs" />
+    <Compile Include="Factories\SysIoFile.cs" />
+    <Compile Include="PixelBufferExtensions.cs" />
+    <Compile Include="PlatformImplementation\FileProviderList.cs" />
+    <Compile Include="PlatformImplementation\FileSystemProvider.cs" />
+    <Compile Include="PlatformImplementation\FormsPlatformInfo.cs" />
     <Compile Include="PlatformImplementation\DiagnosticsStopwatch.cs" />
+    <Compile Include="PlatformImplementation\TgzFileProvider.cs" />
+    <Compile Include="PlatformImplementation\ZipFileProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Resources\BuiltinResources.cs" />
+    <Compile Include="SurfaceExtensions.cs" />
     <Compile Include="WinForms\AgateRenderTarget.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -33,8 +33,6 @@ namespace Tests
 
 			bold = new Font(lstTests.Font, FontStyle.Bold | FontStyle.Italic);
 
-			FillDrivers();
-
 			ReadSettingsNames();
 
 			AgateLib.Settings.PersistantSettings.SettingsTracer = this;

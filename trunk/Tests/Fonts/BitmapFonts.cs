@@ -6,6 +6,8 @@ using AgateLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.ApplicationModels;
 
 namespace Tests.BitmapFontTester
 {
@@ -20,15 +22,12 @@ namespace Tests.BitmapFontTester
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(new ModelParameters(args)
+				{
+					ApplicationName = "Bitmap Font Tester",
+					DisplayWindowSize = new Size(800, 600),
+				}, () => 
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
-				DisplayWindow wind = DisplayWindow.CreateWindowed(
-					"Bitmap Font Tester", 800, 600, false);
-
 				Display.BeginFrame();
 				Display.Clear(Color.Navy);
 				Display.EndFrame();
@@ -42,10 +41,9 @@ namespace Tests.BitmapFontTester
 				// TODO: Fix this
 				//font.Save("testfont.xml");
 
-
 				//FontSurface second = FontSurface.LoadBitmapFont("testfont.png", "testfont.xml");
 
-				while (wind.IsClosed == false)
+				while (PassiveModel.IsAlive)
 				{
 					Display.BeginFrame();
 					Display.Clear(Color.Navy);
@@ -57,7 +55,7 @@ namespace Tests.BitmapFontTester
 					Display.EndFrame();
 					Core.KeepAlive();
 				}
-			}
+			});
 		}
 	}
 }

@@ -172,7 +172,8 @@ namespace AgateLib.DisplayLib
 
 			mData = new byte[size.Width * size.Height * PixelStride];
 
-			SetData(data, sourceFormat, srcRowStride);
+			throw new NotImplementedException();
+			//SetData(data, sourceFormat, srcRowStride);
 		}
 
 		/// <summary>
@@ -699,93 +700,6 @@ namespace AgateLib.DisplayLib
 				sourceIndex += sourceStride;
 				destIndex += this.PixelStride;
 			}
-		}
-
-		/// <summary>
-		/// Copies the data from the unmanaged memory pointer passed in into the internal pixel 
-		/// buffer array. Automatic conversion is performed if the format the data 
-		/// is in (indicated by format parameter) differs from the format the
-		/// pixel buffer is in.
-		/// </summary>
-		/// <param name="data"></param>
-		/// <param name="srcFormat"></param>
-		/// <param name="srcRowStride"></param>
-		public void SetData(IntPtr data, PixelFormat srcFormat, int srcRowStride)
-		{
-			throw new NotImplementedException();
-
-			//int sourceStride = GetPixelStride(srcFormat);
-
-			//unsafe
-			//{
-			//	if (srcFormat == this.PixelFormat)
-			//	{
-			//		// optimized copy for same type of data
-			//		int startIndex = 0;
-			//		int rowLength = sourceStride * Width;
-
-			//		IntPtr rowPtr = data;
-			//		byte* dataPtr = (byte*)data;
-
-			//		for (int y = 0; y < Height; y++)
-			//		{
-			//			Marshal.Copy(rowPtr, mData, startIndex, rowLength);
-
-			//			startIndex += RowStride;
-			//			dataPtr += srcRowStride;
-			//			rowPtr = (IntPtr)dataPtr;
-			//		}
-			//	}
-			//	else
-			//	{
-			//		byte[] srcPixel = new byte[srcRowStride];
-			//		int destIndex = 0;
-			//		IntPtr rowPtr = data;
-			//		byte* dataPtr = (byte*)data;
-			//		int width = Width;
-			//		int destPixelStride = PixelStride;
-
-			//		for (int y = 0; y < Height; y++)
-			//		{
-			//			Marshal.Copy(rowPtr, srcPixel, 0, srcRowStride);
-
-			//			// check for common Win32 - OpenGL conversion case
-			//			if (this.PixelFormat == PixelFormat.RGBA8888 &&
-			//				srcFormat == PixelFormat.BGRA8888)
-			//			{
-			//				// this setup here is OPTIMIZED.
-			//				// Calling ConvertPixel for each pixel when loading a large
-			//				// image adds about 35% more CPU time to do the conversion.
-			//				// By eliminating the function call and processing this special
-			//				// case here we save some time on image loading.
-			//				int srcIndex = 0;
-
-			//				for (int x = 0; x < width; x++)
-			//				{
-			//					mData[destIndex] = srcPixel[srcIndex + 2];
-			//					mData[destIndex + 1] = srcPixel[srcIndex + 1];
-			//					mData[destIndex + 2] = srcPixel[srcIndex];
-			//					mData[destIndex + 3] = srcPixel[srcIndex + 3];
-
-			//					destIndex += destPixelStride;
-			//					srcIndex += sourceStride;
-			//				}
-			//			}
-			//			else
-			//			{
-			//				for (int x = 0; x < width; x++)
-			//				{
-			//					ConvertPixel(mData, destIndex, this.PixelFormat, srcPixel, x * sourceStride, srcFormat);
-
-			//					destIndex += destPixelStride;
-			//				}
-			//			}
-
-			//			dataPtr += srcRowStride;
-			//			rowPtr = (IntPtr)dataPtr;
-			//		}
-			//	}
-			//}
 		}
 
 

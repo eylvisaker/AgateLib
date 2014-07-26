@@ -25,7 +25,7 @@ using System.Text;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace AgateLib.Platform.WindowsForms
+namespace AgateLib.Platform.WindowsForms.PlatformImplementation
 {
 	/// <summary>
 	/// Class which contains known information about the platform.

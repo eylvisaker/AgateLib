@@ -5,6 +5,7 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Platform.WindowsForms.Resources;
 
 namespace Tests.Fonts
 {
@@ -42,11 +43,11 @@ namespace Tests.Fonts
 		{
 			base.Initialize();
 
-			fonts.Add(FontSurface.AgateSans10);
-			fonts.Add(FontSurface.AgateSans14);
-			fonts.Add(FontSurface.AgateSerif10);
-			fonts.Add(FontSurface.AgateSerif14);
-			fonts.Add(FontSurface.AgateMono10);
+			fonts.Add(BuiltinResources.AgateSans10);
+			fonts.Add(BuiltinResources.AgateSans14);
+			fonts.Add(BuiltinResources.AgateSerif10);
+			fonts.Add(BuiltinResources.AgateSerif14);
+			fonts.Add(BuiltinResources.AgateMono10);
 
 			for (char i = (char)128; i < 255; i++)
 			{

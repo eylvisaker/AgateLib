@@ -115,6 +115,18 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <returns></returns>
+		public static DisplayWindow CreateFullScreen(string title, Size size)
+		{
+			return new DisplayWindow(CreateWindowParams.FullScreen(title, size.Width, size.Height, 32));
+		}
+		/// <summary>
+		/// Creates a DisplayWindow object which renders to the entire screen, setting
+		/// the resolution to the value specified.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <returns></returns>
 		public static DisplayWindow CreateFullScreen(string title, int width, int height)
 		{
 			return new DisplayWindow(CreateWindowParams.FullScreen(title, width, height, 32));

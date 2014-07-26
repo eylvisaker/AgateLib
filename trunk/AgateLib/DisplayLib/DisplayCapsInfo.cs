@@ -139,6 +139,11 @@ namespace AgateLib.DisplayLib
 		{
 			get { return Display.Impl.CapsSize(DisplaySizeCaps.MaxSurfaceSize); }
 		}
+
+		public Size ScreenResolution
+		{
+			get { return Display.Impl.CapsSize(DisplaySizeCaps.NativeScreenResolution); }
+		}
 	}
 
 	/// <summary>
@@ -150,6 +155,7 @@ namespace AgateLib.DisplayLib
 		/// Value for getting the maximum supported surface size.
 		/// </summary>
 		MaxSurfaceSize,
+		NativeScreenResolution,
 	}
 	/// <summary>
 	/// Enum which is used to specify a Caps value which should return a logical value.

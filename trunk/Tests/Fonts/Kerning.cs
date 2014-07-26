@@ -7,6 +7,8 @@ using AgateLib.BitmapFont;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms.Resources;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.Fonts
 {
@@ -26,16 +28,12 @@ namespace Tests.Fonts
 
 		public void Main(string[] args)
 		{
-			using (var setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Kerning test", 800, 600);
 
-				FontSurface font = FontSurface.AgateSans14;
+				FontSurface font = BuiltinResources.AgateSans14;
 				FontSurface unkerned = ConstructUnkernedFont(font);
 
 				string text = ConstructKerningText(wind, font);
@@ -51,14 +49,14 @@ namespace Tests.Fonts
 						thisFont.DrawText("Using kerning. (space to toggle)");
 					else
 						thisFont.DrawText("No kerning used. (space to toggle)");
-					
+
 					thisFont.Color = Color.White;
 					thisFont.DrawText(0, thisFont.FontHeight, text);
 
 					Display.EndFrame();
 					Core.KeepAlive();
 				}
-			}
+			});
 		}
 
 		void Keyboard_KeyDown(InputEventArgs e)

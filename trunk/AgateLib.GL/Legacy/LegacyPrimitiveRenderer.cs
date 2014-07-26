@@ -25,7 +25,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace AgateLib.OpenGL.Legacy
 {
-	class LegacyPrimitiveRenderer : PrimitiveRenderer
+	public class LegacyPrimitiveRenderer : PrimitiveRenderer
 	{
 		public void SetGLColor(Color color)
 		{

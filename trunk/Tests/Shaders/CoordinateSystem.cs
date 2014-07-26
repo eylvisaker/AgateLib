@@ -7,6 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.CoordinateSystemTest
 {
@@ -24,12 +25,8 @@ namespace Tests.CoordinateSystemTest
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 
 				wind = DisplayWindow.CreateWindowed("Ortho Projection Test", 640, 480, false);
@@ -51,7 +48,7 @@ namespace Tests.CoordinateSystemTest
 
 						case 2:
 							AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle
-								(-surf.SurfaceWidth, -surf.SurfaceHeight, surf.SurfaceWidth*2, surf.SurfaceHeight*2);
+								(-surf.SurfaceWidth, -surf.SurfaceHeight, surf.SurfaceWidth * 2, surf.SurfaceHeight * 2);
 							break;
 					}
 
@@ -65,7 +62,7 @@ namespace Tests.CoordinateSystemTest
 
 					Core.KeepAlive();
 				}
-			}
+			});
 		}
 
 		void Keyboard_KeyDown(InputEventArgs e)

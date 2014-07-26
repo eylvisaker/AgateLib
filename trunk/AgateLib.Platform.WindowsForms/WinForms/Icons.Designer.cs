@@ -8,8 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgateLib.Platform.WindowsForms.WinForms
-{
+namespace AgateLib.Platform.WindowsForms.WinForms {
     using System;
     
     
@@ -40,7 +39,7 @@ namespace AgateLib.Platform.WindowsForms.WinForms
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AgateLib.Desktop.Forms.WinForms.Icons", typeof(Icons).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AgateLib.Platform.WindowsForms.WinForms.Icons", typeof(Icons).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

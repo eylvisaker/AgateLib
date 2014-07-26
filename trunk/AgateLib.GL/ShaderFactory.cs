@@ -25,7 +25,7 @@ using AgateLib.DisplayLib.Shaders.Implementation;
 
 namespace AgateLib.OpenGL
 {
-	abstract class ShaderFactory
+	public abstract class ShaderFactory
 	{
 		static ShaderFactory inst = new Legacy.FixedFunction.FixedFunctionShaderFactory();
 
@@ -36,7 +36,7 @@ namespace AgateLib.OpenGL
 
 		protected abstract AgateShaderImpl CreateBuiltInShaderImpl(BuiltInShader builtInShader);
 
-		internal static void Initialize(bool gl3supported)
+		public static void Initialize(bool gl3supported)
 		{
 			if (gl3supported)
 			    inst = new GL3.Shaders.ShaderFactory3();

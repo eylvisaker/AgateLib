@@ -8,5 +8,6 @@ namespace AgateLib.Drivers
 {
 	public interface IInputFactory
 	{
+		InputLib.ImplementationBase.InputImpl CreateJoystickInputImpl();
 	}
 }

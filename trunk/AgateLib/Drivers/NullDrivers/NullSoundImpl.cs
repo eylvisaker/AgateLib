@@ -23,9 +23,9 @@ using System.Text;
 using AgateLib.Drivers;
 using AgateLib.AudioLib.ImplementationBase;
 
-namespace AgateLib.Drivers
+namespace AgateLib.Drivers.NullDrivers
 {
-	class NullSoundImpl : AudioImpl
+	public class NullSoundImpl : AudioImpl
 	{
 		class NullSoundBufferImpl : SoundBufferImpl
 		{

@@ -35,26 +35,15 @@ namespace AgateLib.AudioLib.ImplementationBase
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public virtual SoundBufferImpl CreateSoundBuffer(string filename)
-		{
-			using (Stream stream = FileSystem.OpenRead(filename))
-			{
-				return CreateSoundBuffer(stream);
-			}
-		}
+		public abstract SoundBufferImpl CreateSoundBuffer(string filename);
 
 		/// <summary>
 		/// Creates a MusicImpl object.
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public virtual MusicImpl CreateMusic(string filename)
-		{
-			using (Stream stream = FileSystem.OpenRead(filename))
-			{
-				return CreateMusic(stream);
-			}
-		}
+		public abstract MusicImpl CreateMusic(string filename);
+		
 		/// <summary>
 		/// Creates a MusicImpl object.
 		/// </summary>

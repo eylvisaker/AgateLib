@@ -4,6 +4,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.DisplayTests
 {
@@ -21,15 +22,11 @@ namespace Tests.DisplayTests
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, true);
-				if (setup.WasCanceled)
-					return;
-
 				DisplayWindow MainWindow = DisplayWindow.CreateWindowed("Test", 800, 600);
 				FrameBuffer myBuffer = new FrameBuffer(200, 35);
-				FontSurface font = FontSurface.AgateSans10;
+				FontSurface font = new FontSurface("Arial", 10);
 
 				RenderToFrameBuffer(myBuffer, font);
 
@@ -56,7 +53,7 @@ namespace Tests.DisplayTests
 						watch.Start();
 					}
 				}
-			}
+			});
 		}
 
 		private static void RenderToFrameBuffer(FrameBuffer myBuffer, FontSurface font)

@@ -14,8 +14,6 @@ namespace Tests.ErrorReportTester
 		public frmErrorReportTester()
 		{
 			InitializeComponent();
-
-			AgateLib.Core.Initialize();
 		}
 
 		private void button1_Click(object sender, EventArgs e)

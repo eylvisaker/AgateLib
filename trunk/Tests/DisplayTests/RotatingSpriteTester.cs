@@ -10,6 +10,7 @@ using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.Sprites;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.RotatingSpriteTester
 {
@@ -24,13 +25,8 @@ namespace Tests.RotatingSpriteTester
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-
-				if (setup.WasCanceled)
-					return;
-
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Rotating sprite", 300, 300);
 				Sprite sp = new Sprite("spike.png", 16, 16);
 
@@ -72,7 +68,7 @@ namespace Tests.RotatingSpriteTester
 					if (Keyboard.Keys[KeyCode.Escape])
 						return;
 				}
-			}
+			});
 		}
 	}
 }
