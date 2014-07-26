@@ -6,6 +6,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.DisplayTests
 {
@@ -23,13 +24,8 @@ namespace Tests.DisplayTests
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.InitializeAll();
-
-				if (setup.WasCanceled)
-					return;
-
 				DisplayWindow window = DisplayWindow.CreateWindowed("Test", 800, 600);
 
 				PixelBuffer pbMaskBg = PixelBuffer.FromFile("mask_bg-bricks.png");
@@ -70,7 +66,7 @@ namespace Tests.DisplayTests
 						{
 							if (mX + x >= pbBg.Width)
 								break;
-							
+
 							for (int y = 0; y < pbMaskCircle.Height; y++)
 							{
 								if (mY + y >= pbBg.Height)
@@ -90,7 +86,7 @@ namespace Tests.DisplayTests
 					Display.EndFrame();
 					Core.KeepAlive();
 				}
-			}
+			});
 		}
 	}
 }

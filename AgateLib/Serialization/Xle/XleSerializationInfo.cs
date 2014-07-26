@@ -19,11 +19,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace AgateLib.Serialization.Xle
 {
@@ -127,17 +127,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
 		public void Write(string name, double value, bool asAttribute = false)
 		{
-			WriteImpl(name, value, asAttribute);
-		}
-		/// <summary>
-		/// Writes a field to the XML data as an element or an attribute.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The value to write.</param>
-		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void Write(string name, float value, bool asAttribute = false)
-		{
-			WriteImpl(name, value, asAttribute);
+			WriteImpl(name, value.ToString(), asAttribute);
 		}
 		/// <summary>
 		/// Writes a field to the XML data as an element or an attribute.
@@ -147,7 +137,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
 		public void Write(string name, bool value, bool asAttribute = false)
 		{
-			WriteImpl(name, value, asAttribute);
+			WriteImpl(name, value.ToString(), asAttribute);
 		}
 		/// <summary>
 		/// Writes a field to the XML data as an element or an attribute.
@@ -157,17 +147,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
 		public void Write(string name, char value, bool asAttribute = false)
 		{
-			WriteImpl(name, value, asAttribute);
-		}
-		/// <summary>
-		/// Writes a field to the XML data as an element or an attribute.
-		/// </summary>
-		/// <param name="name">The name of the XML element used.</param>
-		/// <param name="value">The value to write.</param>
-		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
-		public void Write(string name, short value, bool asAttribute = false)
-		{
-			WriteImpl(name, value, asAttribute);
+			WriteImpl(name, value.ToString(), asAttribute);
 		}
 		/// <summary>
 		/// Writes a field to the XML data as an element or an attribute.
@@ -177,7 +157,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
 		public void Write(string name, int value, bool asAttribute = false)
 		{
-			WriteImpl(name, value, asAttribute);
+			WriteImpl(name, value.ToString(), asAttribute);
 		}
 		/// <summary>
 		/// Writes a field to the XML data as an element or an attribute.
@@ -187,7 +167,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
 		public void Write(string name, long value, bool asAttribute = false)
 		{
-			WriteImpl(name, value, asAttribute);
+			WriteImpl(name, value.ToString(), asAttribute);
 		}
 		/// <summary>
 		/// Writes a field to the XML data as an element or an attribute.
@@ -197,14 +177,14 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
 		public void Write(string name, decimal value, bool asAttribute = false)
 		{
-			WriteImpl(name, value, asAttribute);
+			WriteImpl(name, value.ToString(), asAttribute);
 		}
 
-		void WriteImpl<T>(string name, T value, bool asAttribute = false) where T : IConvertible
+		void WriteImpl(string name, string value, bool asAttribute = false)
 		{
 			if (asAttribute)
 			{
-				WriteAsAttribute<T>(name, value);
+				WriteAsAttribute(name, value);
 			}
 			else
 				WriteAsElement(name, value);
@@ -225,28 +205,28 @@ namespace AgateLib.Serialization.Xle
 				if (value == null)
 					AddAttribute(CurrentNode, name, "null");
 				else
-					WriteAsAttribute(name, (T)value);
+					WriteAsAttribute(name, ((T)value).ToString());
 			}
 			else
 			{
 				if (value == null)
 					WriteAsElement(name, "null");
 				else
-					WriteAsElement(name, (T)value);
+					WriteAsElement(name, ((T)value).ToString());
 			}
 		}
 
-		private XElement WriteAsElement<T>(string name, T value) where T : IConvertible
+		private XElement WriteAsElement(string name, string value)
 		{
 			XElement element = CreateElement(name);
 
-			element.Value = value.ToString();
+			element.Value = value;
 
 			return element;
 		}
-		private void WriteAsAttribute<T>(string name, T value) where T : IConvertible
+		private void WriteAsAttribute(string name, string value)
 		{
-			AddAttribute(CurrentNode, name, Convert.ToString(value));
+			AddAttribute(CurrentNode, name, value);
 		}
 
 		private XElement CreateElement(string name)
@@ -293,11 +273,13 @@ namespace AgateLib.Serialization.Xle
 
 					if (array.Length > 0)
 					{
-						unsafe
+						for (int j = 0; j < value.Length; j++)
 						{
-							fixed (int* val = value)
+							var bytes = BitConverter.GetBytes(value[j]);
+
+							for (int i = 0; i < bytes.Length; i++)
 							{
-								Marshal.Copy((IntPtr)val, array, 0, array.Length);
+								array[j * 4 + i] = bytes[i];
 							}
 						}
 					}
@@ -306,18 +288,27 @@ namespace AgateLib.Serialization.Xle
 					break;
 
 				case NumericEncoding.Csv:
-					string newValue = string.Join(",", value.Select(x => x.ToString()).ToArray());
-
-					XElement el = WriteAsElement(name, newValue);
-
-					AddAttribute(el, "array", "true");
-					AddAttribute(el, "encoding", "Csv");
+					WriteAsCsv(name, value);
 
 					break;
 
 				default:
 					throw new ArgumentException("Value of encoding is not understood.");
 			}
+		}
+
+		private void WriteAsCsv<T>(string name, IEnumerable<T> value)
+		{
+			WriteAsCsv(name, value, x => x.ToString());
+		}
+		private void WriteAsCsv<T>(string name, IEnumerable<T> value, Func<T, string> converter)
+		{
+			string newValue = string.Join(",", value.Select(x => converter(x)).ToArray());
+
+			XElement el = WriteAsElement(name, newValue);
+
+			AddAttribute(el, "array", "true");
+			AddAttribute(el, "encoding", "Csv");
 		}
 
 		/// <summary>
@@ -327,12 +318,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="value">The array data to write.</param>
 		public void Write(string name, bool[] value)
 		{
-			byte[] array = new byte[value.Length];
-
-			for (int i = 0; i < value.Length; i++)
-				array[i] = (byte)(value[i] ? 1 : 0);
-
-			WriteBase64Encoded(name, array);
+			WriteAsCsv(name, value);
 		}
 
 		/// <summary>
@@ -342,17 +328,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="value">The array data to write.</param>
 		public void Write(string name, double[] value)
 		{
-			byte[] array = new byte[value.Length * 8];
-
-			unsafe
-			{
-				fixed (double* val = value)
-				{
-					Marshal.Copy((IntPtr)val, array, 0, array.Length);
-				}
-			}
-
-			WriteBase64Encoded(name, array);
+			WriteAsCsv(name, value);
 		}
 
 		/// <summary>
@@ -362,12 +338,12 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="value">The array data to write.</param>
 		public void Write(string name, byte[] value)
 		{
-			WriteBase64Encoded(name, value);
+			WriteAsCsv(name, value);
 		}
 
 		private void WriteBase64Encoded(string name, byte[] value)
 		{
-			string newValue = Convert.ToBase64String(value, Base64FormattingOptions.InsertLineBreaks);
+			string newValue = Convert.ToBase64String(value);
 
 			XElement el = WriteAsElement(name, newValue);
 
@@ -624,16 +600,22 @@ namespace AgateLib.Serialization.Xle
 
 		private void WriteImpl(string name, Stream value, CompressionType compression)
 		{
-			MemoryStream ms = new MemoryStream();
-			Stream compressed = TranslateStream(ms, compression, CompressionMode.Compress);
+			if (compression != CompressionType.None)
+			{
+				MemoryStream ms = new MemoryStream();
+				Stream compressed = TranslateStream(ms, compression, CompressionMode.Compress);
 
-			byte[] uncompressedData = ReadFromStream(value);
-			compressed.Write(uncompressedData, 0, uncompressedData.Length);
+				byte[] uncompressedData = ReadFromStream(value);
+				compressed.Write(uncompressedData, 0, uncompressedData.Length);
 
-			byte[] buffer = ms.GetBuffer();
+				value = ms;
+				value.Seek(0, SeekOrigin.Begin);
+			}
 
-			string newValue = Convert.ToBase64String(
-				buffer/*, Base64FormattingOptions.InsertLineBreaks*/);
+			byte[] buffer = new byte[value.Length];
+			value.Read(buffer, 0, (int)value.Length);
+
+			string newValue = Convert.ToBase64String(buffer);
 
 			XElement el = WriteAsElement(name, newValue);
 			AddAttribute(el, "stream", "true");
@@ -994,7 +976,7 @@ namespace AgateLib.Serialization.Xle
 			if (typeof(T).IsEnum == false)
 				throw new XleSerializationException("Type passed is not an enum.");
 
-			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, false, string.Empty));
+			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, false, string.Empty), true);
 		}
 		/// <summary>
 		/// Reads an enum field from the XML data.
@@ -1007,7 +989,7 @@ namespace AgateLib.Serialization.Xle
 			if (typeof(T).IsEnum == false)
 				throw new XleSerializationException("Type passed is not an enum.");
 
-			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, true, defaultValue.ToString()));
+			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, true, defaultValue.ToString()), true);
 		}
 
 		/// <summary>
@@ -1055,7 +1037,7 @@ namespace AgateLib.Serialization.Xle
 		#endregion
 		#region --- Reading array values ---
 
-		private string GetEncoding(string name)
+		private NumericEncoding GetEncoding(string name)
 		{
 			XElement element = CurrentNode.Element(name);
 
@@ -1064,7 +1046,7 @@ namespace AgateLib.Serialization.Xle
 			if (element.Attribute("encoding") == null)
 				throw new XleSerializationException("Element " + name + " does not have encoding information.");
 
-			return element.Attribute("encoding").Value;
+			return (NumericEncoding)Enum.Parse(typeof(NumericEncoding), element.Attribute("encoding").Value, true);
 		}
 
 		/// <summary>
@@ -1124,23 +1106,28 @@ namespace AgateLib.Serialization.Xle
 		byte[] _ReadByteArray(string name)
 		{
 			XElement element = CurrentNode.Element(name);
-
-			string encoding = GetEncoding(name);
-
-			if (element.Attribute("array") == null || element.Attribute("array").Value != "true")
-				throw new XleSerializationException("Element " + name + " is not an array.");
-
-			if (encoding == "Base64")
-			{
-				byte[] array = Convert.FromBase64String(element.Value);
-				return array;
-			}
-			else
-			{
-				throw new XleSerializationException("Unrecognized encoding " + element.Attribute("encoding"));
-			}
+			return Convert.FromBase64String(element.Value);
 		}
 
+		T[] _ReadBase64Array<T>(string name, int byteCount, Func<byte[], T> converter)
+		{
+			List<T> retval = new List<T>();
+
+			byte[] array = ReadArray<byte>(name);
+
+			if (array.Length % 4 != 0)
+				throw new XleSerializationException("Encoded array is wrong size!");
+
+			byte[] bytes = new byte[byteCount];
+
+			for (int i = 0; i < array.Length; i += byteCount)
+			{
+				Array.Copy(array, i, bytes, 0, byteCount);
+				retval.Add(converter(bytes));
+			}
+
+			return retval.ToArray();
+		}
 		/// <summary>
 		/// Reads a integer array from the XML data.  If the name is not present 
 		/// an XleSerializationException is thrown.
@@ -1149,44 +1136,7 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		int[] _ReadInt32Array(string name)
 		{
-			XElement element = CurrentNode.Element(name);
-			string encoding = GetEncoding(name);
-			int[] result;
-
-			switch ((NumericEncoding)Enum.Parse(typeof(NumericEncoding), encoding))
-			{
-				case NumericEncoding.Base64:
-					byte[] array = ReadByteArray(name);
-					result = new int[array.Length / 4];
-
-					if (array.Length % 4 != 0)
-						throw new XleSerializationException("Encoded array is wrong size!");
-
-					if (array.Length > 0)
-					{
-						unsafe
-						{
-							fixed (byte* ar = array)
-							{
-								Marshal.Copy((IntPtr)ar, result, 0, result.Length);
-							}
-						}
-					}
-
-					return result;
-
-				case NumericEncoding.Csv:
-					string value = element.Value;
-					string[] vals = value.Split(new char[] { ',' },
-									StringSplitOptions.RemoveEmptyEntries);
-
-					result = vals.Select(x => int.Parse(x)).ToArray();
-
-					return result;
-
-				default:
-					throw new XleSerializationException("Encoding information could not be parsed.");
-			}
+			return _ReadBase64Array(name, 4, x => BitConverter.ToInt32(x, 0));
 		}
 
 		/// <summary>
@@ -1197,7 +1147,7 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		bool[] _ReadBooleanArray(string name)
 		{
-			byte[] array = ReadByteArray(name);
+			byte[] array = ReadArray<byte>(name);
 			bool[] result = new bool[array.Length];
 
 			for (int i = 0; i < array.Length; i++)
@@ -1214,21 +1164,18 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		double[] _ReadDoubleArray(string name)
 		{
-			byte[] array = ReadByteArray(name);
-			double[] result = new double[array.Length / 8];
+			return _ReadBase64Array<double>(name, 8, x => BitConverter.ToDouble(x, 0));
+		}
 
-			if (array.Length % 8 != 0)
-				throw new XleSerializationException("Encoded array is wrong size!");
+		T[] _ReadCsvArray<T>(string name, Func<string, T> converter)
+		{
+			XElement element = CurrentNode.Element(name);
 
-			unsafe
-			{
-				fixed (byte* ar = array)
-				{
-					Marshal.Copy((IntPtr)ar, result, 0, result.Length);
-				}
-			}
+			string value = element.Value;
+			string[] vals = value.Split(new char[] { ',' },
+							StringSplitOptions.RemoveEmptyEntries);
 
-			return result;
+			return vals.Select(x => converter(x)).ToArray();
 		}
 
 		/// <summary>
@@ -1239,10 +1186,22 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public T[] ReadArray<T>(string name)
 		{
-			if (typeof(T) == typeof(int)) return (T[])(object)_ReadInt32Array(name);
-			if (typeof(T) == typeof(double)) return (T[])(object)_ReadDoubleArray(name);
-			if (typeof(T) == typeof(bool)) return (T[])(object)_ReadBooleanArray(name);
-			if (typeof(T) == typeof(byte)) return (T[])(object)_ReadByteArray(name);
+			if (typeof(T).IsPrimitive)
+			{
+				switch (GetEncoding(name))
+				{
+					case NumericEncoding.Csv:
+						return _ReadCsvArray(name, x => (T)Convert.ChangeType(x, typeof(T), System.Globalization.CultureInfo.InvariantCulture));
+
+					case NumericEncoding.Base64:
+						if (typeof(T) == typeof(int)) return (T[])(object)_ReadInt32Array(name);
+						if (typeof(T) == typeof(double)) return (T[])(object)_ReadDoubleArray(name);
+						if (typeof(T) == typeof(bool)) return (T[])(object)_ReadBooleanArray(name);
+						if (typeof(T) == typeof(byte)) return (T[])(object)_ReadByteArray(name);
+
+						throw new NotImplementedException();
+				}
+			}
 
 			try
 			{
@@ -1367,7 +1326,7 @@ namespace AgateLib.Serialization.Xle
 				foreach (var current in CurrentNode.Elements())
 				{
 					string keyString = current.Attribute("key").Value;
-					TKey key = (TKey)Convert.ChangeType(keyString, typeof(TKey));
+					TKey key = (TKey)Convert.ChangeType(keyString, typeof(TKey), CultureInfo.InvariantCulture);
 
 					try
 					{
@@ -1427,7 +1386,7 @@ namespace AgateLib.Serialization.Xle
 				foreach (var current in element.Elements())
 				{
 					string keyString = current.Attribute("key").Value;
-					Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
+					Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey), CultureInfo.InvariantCulture);
 
 					string valueString = current.Attribute("value").Value;
 
@@ -1462,7 +1421,7 @@ namespace AgateLib.Serialization.Xle
 				foreach (var current in element.Elements())
 				{
 					string keyString = current.Attribute("key").Value;
-					Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey));
+					Tkey key = (Tkey)Convert.ChangeType(keyString, typeof(Tkey), CultureInfo.InvariantCulture);
 
 					string valueString = current.Attribute("value").Value;
 
@@ -1634,9 +1593,9 @@ namespace AgateLib.Serialization.Xle
 				{
 					obj = (IXleSerializable)Activator.CreateInstance(type, true);
 				}
-				catch (MissingMethodException e)
+				catch (Exception e)
 				{
-					throw new XleSerializationException("Type " + type.ToString() + " does not have a default constructor.", e);
+					throw new XleSerializationException("Type " + type.ToString() + " threw an exception on construction.", e);
 				}
 
 				obj.ReadData(this);

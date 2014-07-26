@@ -1,7 +1,7 @@
 ﻿using System;
 namespace AgateLib.OpenGL
 {
-	interface IGL_Surface : IDisposable
+	public interface IGL_Surface : IDisposable
 	{
 		AgateLib.Geometry.Size SurfaceSize { get; }
 

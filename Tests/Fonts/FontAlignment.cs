@@ -7,6 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Resources;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.Fonts
 {
@@ -26,12 +27,8 @@ namespace Tests.Fonts
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				DisplayWindow wind = DisplayWindow.CreateWindowed(
 					"Bitmap Font Tester", 800, 600, false);
 
@@ -74,14 +71,14 @@ namespace Tests.Fonts
 						f.DrawText(300.0, i * f.FontHeight, numbers[i].ToString());
 					}
 
-					
+
 					Display.EndFrame();
 					Core.KeepAlive();
 
 					if (fontIndex >= fonts.Count)
 						fontIndex = fonts.Count - 1;
 				}
-			}
+			});
 		}
 
 		void Keyboard_KeyDown(InputEventArgs e)

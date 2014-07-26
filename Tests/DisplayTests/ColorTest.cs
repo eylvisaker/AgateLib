@@ -5,6 +5,7 @@ using System.Text;
 using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.DisplayTests
 {
@@ -24,12 +25,8 @@ namespace Tests.DisplayTests
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				DisplayWindow wind = DisplayWindow.CreateWindowed(
 					"Color Test", 640, 480);
 
@@ -46,7 +43,7 @@ namespace Tests.DisplayTests
 					Display.EndFrame();
 					Core.KeepAlive();
 				}
-			}
+			});
 		}
 
 		#endregion

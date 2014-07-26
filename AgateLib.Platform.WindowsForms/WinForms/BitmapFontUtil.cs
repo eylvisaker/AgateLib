@@ -262,8 +262,9 @@ namespace AgateLib.Platform.WindowsForms.WinForms
 
 			const PixelFormat bitmapFormat = PixelFormat.BGRA8888;
 
-			PixelBuffer buffer = new PixelBuffer(bitmapFormat, Interop.Convert(bmp.Size),
-				data.Scan0, bitmapFormat, data.Stride);
+			PixelBuffer buffer = new PixelBuffer(bitmapFormat, Interop.Convert(bmp.Size));
+				
+			buffer.SetData(data.Scan0, bitmapFormat, data.Stride);
 
 			// now convert pixels to gray scale.
 			for (int j = 0; j < buffer.Height; j++)

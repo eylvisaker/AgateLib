@@ -90,10 +90,7 @@ namespace AgateLib.DisplayLib
 			if (string.IsNullOrEmpty(filename))
 				throw new ArgumentNullException("You must supply a file name.");
 
-			using (System.IO.Stream s = FileSystem.OpenRead(filename))
-			{
-				mImpl = Display.Impl.CreateSurface(s);
-			}
+			mImpl = Display.Impl.CreateSurface(filename);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
@@ -692,18 +689,6 @@ namespace AgateLib.DisplayLib
 
 
 		/// <summary>
-		/// Saves the surface to the specified file.
-		/// 
-		/// Infers the file format from the extension.  If there
-		/// is no extension present or it is unrecognized, PNG is
-		/// assumed.
-		/// </summary>
-		/// <param name="filename">File name to save to.</param>
-		public void SaveTo(string filename)
-		{
-			SaveTo(filename, FormatFromExtension(filename));
-		}
-		/// <summary>
 		/// Saves the surface to the specified file, with the specified
 		/// file format.  If the file has an extension such as ".png" or
 		/// ".bmp" than the SaveTo(string) overload is prefered, as it
@@ -713,7 +698,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="format">Image format for the target file.</param>
 		public void SaveTo(string filename, ImageFileFormat format)
 		{
-			mImpl.SaveTo(filename, format);
+			Impl.SaveTo(filename, format);
 		}
 
 		/// <summary>
@@ -822,37 +807,6 @@ namespace AgateLib.DisplayLib
 		}
 
 		#endregion
-
-		/// <summary>
-		/// Returns a value in the ImageFileFormat enum based on the file
-		/// extension of the given filename.  No checks are done to see
-		/// if that file exists.
-		/// </summary>
-		/// <param name="filename"></param>
-		/// <returns></returns>
-		public static ImageFileFormat FormatFromExtension(string filename)
-		{
-			string ext = FileSystem.Path.GetExtension(filename);
-
-			switch (ext)
-			{
-				case ".bmp":
-					return ImageFileFormat.Bmp;
-
-				case ".jpg":
-				case ".jpe":
-				case ".jpeg":
-					return ImageFileFormat.Jpg;
-
-				case ".tga":
-					return ImageFileFormat.Tga;
-
-				case ".png":
-				default:
-					return ImageFileFormat.Png;
-			}
-
-		}
 
 		/// <summary>
 		/// Gets the object which does actual rendering of this surface.

@@ -56,7 +56,15 @@ namespace AgateLib.Platform
 			//Console.WriteLine("  Timer is accurate within {0} nanoseconds",
 			//	nanosecPerTick);
 
+			mAppTimer = CreateStopWatch();
+			mAppTimer.Resume();
 		}
+
+		public static IStopWatch CreateStopWatch()
+		{
+			return Core.Factory.PlatformFactory.CreateStopwatch();
+		}
+
 		/// <summary>
 		/// Returns the number of seconds since the application started.
 		/// </summary>

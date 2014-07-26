@@ -11,5 +11,7 @@ namespace AgateLib.Drivers
 		PlatformInfo CreatePlatformInfo();
 
 		IStopWatch CreateStopwatch();
+
+		IO.IFile CreateFile();
 	}
 }

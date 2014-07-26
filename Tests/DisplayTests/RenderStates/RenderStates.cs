@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.DisplayTests.RenderStates
 {
@@ -23,12 +24,8 @@ namespace Tests.DisplayTests.RenderStates
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				frmRenderStateTest frm = new frmRenderStateTest();
 				frm.Show();
 
@@ -46,7 +43,7 @@ namespace Tests.DisplayTests.RenderStates
 
 
 				}
-			}
+			});
 		}
 
 		#endregion

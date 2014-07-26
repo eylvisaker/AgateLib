@@ -11,14 +11,13 @@ using System.Windows.Forms;
 
 using AgateLib;
 using AgateLib.Utility;
-using AgateLib.Desktop.Forms.PlatformImplementation;
 using AgateLib.Platform;
 
 namespace Tests.TimerTester
 {
 	public partial class frmTimerTester : Form
 	{
-		DiagnosticsStopwatch timer = new DiagnosticsStopwatch();
+		IStopWatch timer = Timing.CreateStopWatch();
 		int start = Environment.TickCount;
 		double deltaTimeSum = 0;
 		int count = 0;

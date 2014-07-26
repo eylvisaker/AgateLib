@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.ErrorReportTester
 {
@@ -13,9 +14,7 @@ namespace Tests.ErrorReportTester
 		[STAThread]
 		public void Main(string[] args)
 		{
-			AgateLib.Core.Initialize();
-
-			new frmErrorReportTester().ShowDialog();
+			PassiveModel.Run(args, () => new frmErrorReportTester().ShowDialog());
 		}
 
 

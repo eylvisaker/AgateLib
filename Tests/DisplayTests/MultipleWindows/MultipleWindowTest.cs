@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Platform;
+using AgateLib.Platform.WindowsForms;
+using AgateLib.Platform.WindowsForms.Resources;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.MultipleWindows
 {
@@ -27,11 +31,8 @@ namespace Tests.MultipleWindows
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled) return;
-
 				MultipleRenderTargetExample myForm = new MultipleRenderTargetExample();
 				myForm.Show();
 
@@ -95,7 +96,7 @@ namespace Tests.MultipleWindows
 					Core.KeepAlive();
 					time = Timing.TotalSeconds;
 				}
-			}
+			});
 		}
 
 		void btnDrawText_Click(object sender, EventArgs e)
@@ -108,7 +109,7 @@ namespace Tests.MultipleWindows
 
 			Color clr = Color.White;
 
-			FontSurface.AgateSans14.DrawText(x, y, "Sample Text");
+			BuiltinResources.AgateSans14.DrawText(x, y, "Sample Text");
 
 			Display.EndFrame();
 

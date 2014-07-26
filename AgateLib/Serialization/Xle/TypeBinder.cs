@@ -55,19 +55,21 @@ namespace AgateLib.Serialization.Xle
 
 			SearchAssemblies.Add(assembly);
 
+			// TODO: See if this is still required.
+
 			// add names of assemblies referenced by the current assembly.
-			Assembly[] loaded = AppDomain.CurrentDomain.GetAssemblies();
+			//Assembly[] loaded = assembly. AppDomain.CurrentDomain.GetAssemblies();
 
-			foreach (AssemblyName assname in assembly.GetReferencedAssemblies())
-			{
-				foreach (Assembly ass in loaded)
-				{
-					AssemblyName thisname = ass.GetName();
+			//foreach (AssemblyName assname in assembly.GetReferencedAssemblies())
+			//{
+			//	foreach (Assembly ass in loaded)
+			//	{
+			//		AssemblyName thisname = ass.GetName();
 
-					if (thisname.FullName == assname.FullName)
-						AddAssembly(ass);
-				}
-			}
+			//		if (thisname.FullName == assname.FullName)
+			//			AddAssembly(ass);
+			//	}
+			//}
 		}
 	}
 }

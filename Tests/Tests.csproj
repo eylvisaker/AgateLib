@@ -200,16 +200,6 @@
       <DependentUpon>frmErrorReport.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CoreTests\Performance\frmPerformance.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CoreTests\Performance\frmPerformance.Designer.cs">
-      <DependentUpon>frmPerformance.cs</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CoreTests\Performance\Performance.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="CoreTests\Timers\frmTimers.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -396,10 +386,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmErrorReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CoreTests\Performance\frmPerformance.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmPerformance.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CoreTests\Timers\frmTimers.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmTimers.cs</DependentUpon>
@@ -522,7 +508,6 @@
     <None Include="Data\CssTest.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="ResourceTests\Res032.cs" />
     <None Include="packages.config" />
     <None Include="settings_list.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -572,6 +557,10 @@
       <Project>{9490b719-829e-43a7-a5fe-8001f8a81759}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CoreTests\Performance\" />
+    <Folder Include="ResourceTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

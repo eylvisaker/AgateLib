@@ -1,19 +1,18 @@
 ﻿using AgateLib.Drivers;
 using AgateLib.Platform.WindowsForms.DisplayImplementation;
-using AgateLib.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WindowsForms
+namespace AgateLib.Platform.WindowsForms.Factories
 {
-	public static class Setup
+	class DisplayFactory : IDisplayFactory
 	{
-		public static void Initialize()
+		public DisplayLib.ImplementationBase.DisplayImpl CreateDisplayImpl()
 		{
-			TypeRegistry.DisplayDriver = typeof(GL_Display);
+			return new DesktopGLDisplay();
 		}
 	}
 }

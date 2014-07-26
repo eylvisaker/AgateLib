@@ -6,6 +6,9 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform.WindowsForms;
+using AgateLib.Platform.WindowsForms.Resources;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.DisplayTests
 {
@@ -30,16 +33,12 @@ namespace Tests.DisplayTests
 			
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.InitializeAll();
-				if (setup.WasCanceled)
-					return;
+				DisplayWindow wind = DisplayWindow.CreateWindowed("Multiple Framebuffer Test", 
+					640, 480);
 
-				DisplayWindow wind = DisplayWindow.CreateWindowed("Multiple Framebuffer Test - " + 
-					AgateLib.Drivers.Registrar.DisplayUsed.FriendlyName, 640, 480);
-
-				font = FontSurface.AgateSans14;
+				font = BuiltinResources.AgateSans14;
 
 				CreateTests();
 
@@ -72,7 +71,7 @@ namespace Tests.DisplayTests
 					Display.EndFrame();
 					Core.KeepAlive();
 				}
-			}
+			});
 		}
 
 		void Keyboard_KeyDown(InputEventArgs e)

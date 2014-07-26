@@ -8,5 +8,6 @@ namespace AgateLib.Drivers
 {
 	public interface IAudioFactory
 	{
+		AudioLib.ImplementationBase.AudioImpl CreateAudioImpl();
 	}
 }

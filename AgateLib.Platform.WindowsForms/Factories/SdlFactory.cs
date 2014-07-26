@@ -1,0 +1,22 @@
+﻿using AgateLib.Drivers;
+using AgateLib.Drivers.NullDrivers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace AgateLib.Platform.WindowsForms.Factories
+{
+	class SdlFactory : IAudioFactory, IInputFactory
+	{
+		public InputLib.ImplementationBase.InputImpl CreateJoystickInputImpl()
+		{
+			return new NullInputImpl();
+		}
+
+		public AudioLib.ImplementationBase.AudioImpl CreateAudioImpl()
+		{
+			return new NullSoundImpl();
+		}
+	}
+}

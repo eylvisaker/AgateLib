@@ -28,7 +28,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace AgateLib.OpenGL.Legacy
 {
-	class FrameBufferReadPixels : GL_FrameBuffer 
+	public class FrameBufferReadPixels : GL_FrameBuffer 
 	{
 		Size size;
 		IGL_Surface surface;

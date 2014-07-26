@@ -4,6 +4,7 @@ using System.Linq;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Platform.WindowsForms;
 
 namespace Tests.Fonts.TextLayout
 {
@@ -17,8 +18,7 @@ namespace Tests.Fonts.TextLayout
 		{
 			// These two lines are used by AgateLib tests to locate
 			// driver plugins and images.
-			AgateFileProvider.Assemblies.AddPath("../Drivers");
-			AgateFileProvider.Images.AddPath("Images");
+			Configuration.Images.AddPath("Images");
 
 			new TextLayout().Run(args);
 		}

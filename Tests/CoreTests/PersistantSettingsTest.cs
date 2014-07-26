@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.ApplicationModels;
 
 namespace Tests.CoreTests
 {
@@ -21,14 +23,11 @@ namespace Tests.CoreTests
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			PassiveModel.Run(new ModelParameters(args)
+				{
+					ApplicationName = "Testing",
+				}, () =>
 			{
-				setup.CompanyName = "Tester Inc.";
-				setup.ApplicationName = "Testing";
-				setup.InitializeAll();
-				if (setup.WasCanceled) 
-					return;
-
 				if (Core.Settings["Testy"].IsEmpty)
 				{
 					InitializeSettings();
@@ -39,7 +38,7 @@ namespace Tests.CoreTests
 				Core.Settings["Testy"]["RunCount"] = runcount.ToString();
 
 				Core.Settings.SaveSettings();
-			}
+			});
 		}
 
 		private void InitializeSettings()

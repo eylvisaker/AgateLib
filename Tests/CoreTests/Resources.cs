@@ -6,6 +6,8 @@ using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.Resources;
 using AgateLib.Sprites;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WindowsForms;
 
 namespace Tests.ResourceTester
 {
@@ -13,13 +15,9 @@ namespace Tests.ResourceTester
 	{
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup("Resource Tester", args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.InitializeAll();
-				if (setup.WasCanceled)
-					return;
-
-				AgateFileProvider.Resources.Add(new AgateLib.Utility.FileSystemProvider("Data"));
+				Configuration.Resources.AddPath("Data");
 
 				AgateResourceCollection resources = new AgateResourceCollection("TestResourceFile.xml");
 
@@ -45,7 +43,7 @@ namespace Tests.ResourceTester
 					Display.EndFrame();
 					Core.KeepAlive();
 				}
-			}
+			});
 		}
 
 

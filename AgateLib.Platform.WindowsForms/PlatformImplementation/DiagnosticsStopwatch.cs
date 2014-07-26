@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Watch = System.Diagnostics.Stopwatch;
 
-namespace AgateLib.Desktop.Forms.PlatformImplementation
+namespace AgateLib.Platform.WindowsForms.PlatformImplementation
 {
 	/// <summary>
 	/// Class which represents a StopWatch.

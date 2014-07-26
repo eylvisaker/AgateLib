@@ -30,7 +30,7 @@ namespace AgateLib.OpenGL
 	/// <summary>
 	/// OpenGL 3.1 compatible.
 	/// </summary>
-	class GL_IndexBuffer : IndexBufferImpl 
+	public class GL_IndexBuffer : IndexBufferImpl 
 	{
 		int mCount;
 		IndexBufferType mType;

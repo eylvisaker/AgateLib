@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.InputTester
 {
@@ -19,14 +20,10 @@ namespace Tests.InputTester
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, true);
-				if (setup.WasCanceled)
-					return;
-
 				new frmInputTester().ShowDialog();
-			}
+			});
 		}
 	}
 }

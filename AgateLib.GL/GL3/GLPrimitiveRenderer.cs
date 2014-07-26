@@ -34,7 +34,7 @@ namespace AgateLib.OpenGL.GL3
 	/// Not OpenGL 3.1 compatible.
 	/// Need replacements for everything.
 	/// </summary>
-	class GLPrimitiveRenderer : PrimitiveRenderer
+	public class GLPrimitiveRenderer : PrimitiveRenderer
 	{
 		PositionTextureColor[] mVerts = new PositionTextureColor[12];
 

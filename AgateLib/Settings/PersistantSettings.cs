@@ -118,7 +118,8 @@ namespace AgateLib.Settings
 		{
 			get
 			{
-				return FileSystem.Path.Combine(Core.Platform.AppDataDirectory, "settings.xml");
+				return "settings";
+				//return FileSystem.Path.Combine(Core.Platform.AppDataDirectory, "settings.xml");
 			}
 		}
 
@@ -159,9 +160,12 @@ namespace AgateLib.Settings
 		{
 			XDocument doc;
 
+			if (FileSystem.File == null)
+				return;
+
 			try
 			{
-				doc = XDocument.Load(XmlReader.Create(FileSystem.OpenRead(SettingsFilename)));
+				doc = XDocument.Load(XmlReader.Create(FileSystem.File.OpenRead(SettingsFilename)));
 			}
 			catch (FileNotFoundException)
 			{

@@ -6,6 +6,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Utility;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.FontLineTester
 {
@@ -26,12 +27,8 @@ namespace Tests.FontLineTester
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Font Line Tester", 640, 480);
 				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 				Core.AutoPause = true;
@@ -68,7 +65,7 @@ namespace Tests.FontLineTester
 					if (Keyboard.Keys[KeyCode.Escape])
 						return;
 				}
-			}
+			});
 		}
 
 		private void FontTests(FontSurface fontSurface, out Rectangle drawRect)

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.DisplayTests.BasicDrawing
 {
@@ -76,21 +77,11 @@ namespace Tests.DisplayTests.BasicDrawing
 		[STAThread]
 		public void Main(string[] args)
 		{
-
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
 				// create a random number generation object 
 				// so that we can make pretty colors.
 				Random rand = new Random();
-
-				// initialize the display, asking the user what display driver to use.
-				setup.Initialize(true, false, false);
-
-				// normally, the display should initialize fine, and goahead will be true.
-				// However, here we are asking the user what display mode they want to pick,
-				// and they may push the cancel button.  If they do, then exit the program.
-				if (setup.WasCanceled)
-					return;
 
 				frm = new DrawingTester();
 
@@ -134,7 +125,7 @@ namespace Tests.DisplayTests.BasicDrawing
 					System.Threading.Thread.Sleep(10);
 				}
 
-			}
+			});
 		}
 
 		void btnFillCircle_Click(object sender, EventArgs e)

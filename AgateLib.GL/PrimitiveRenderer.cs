@@ -24,7 +24,7 @@ using AgateLib.Geometry;
 
 namespace AgateLib.OpenGL
 {
-	abstract class PrimitiveRenderer
+	public abstract class PrimitiveRenderer
 	{
 		public abstract void DrawLine(Point a, Point b, Color color);
 

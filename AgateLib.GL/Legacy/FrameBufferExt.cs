@@ -29,7 +29,7 @@ using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace AgateLib.OpenGL.Legacy
 {
-	class FrameBufferExt : GL_FrameBuffer
+	public class FrameBufferExt : GL_FrameBuffer
 	{
 		Size mSize;
 		int mFramebufferID;

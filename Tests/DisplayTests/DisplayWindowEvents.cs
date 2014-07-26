@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
+using AgateLib.Platform.WindowsForms.Resources;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.DisplayTests
 {
@@ -25,12 +27,8 @@ namespace Tests.DisplayTests
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.InitializeAll();
-				if (setup.WasCanceled)
-					return;
-
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Display Window Events", 640, 480, true);
 
 				wind.Resize += new EventHandler(wind_Resize);
@@ -42,12 +40,12 @@ namespace Tests.DisplayTests
 					Display.BeginFrame();
 					Display.Clear();
 
-					FontSurface.AgateSans24.DrawText(text);
+					BuiltinResources.AgateSans24.DrawText(text);
 
 					Display.EndFrame();
 					Core.KeepAlive();
 				}
-			}
+			});
 
 			if (closedEvent == false)
 			{

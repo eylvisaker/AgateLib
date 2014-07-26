@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -7,9 +8,13 @@ namespace AgateLib.Diagnostics
 {
 	public static class Log
 	{
-		internal static void WriteLine(string p)
+		public static void WriteLine(string message)
 		{
-			throw new NotImplementedException();
+			Debug.WriteLine(message);
+		}
+		public static void WriteLine(string format, params object[] args)
+		{
+			Debug.WriteLine(format, args);
 		}
 	}
 }

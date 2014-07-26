@@ -5,6 +5,8 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform;
 
 namespace Tests.DisplayTests
 {
@@ -22,17 +24,14 @@ namespace Tests.DisplayTests
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled) return;
-
 				DisplayWindow wind = DisplayWindow.CreateWindowed(Name, 300, 300);
 				FrameBuffer buffer = new FrameBuffer(300, 300);
 
-				FontSurface font = FontSurface.AgateSans24;
+				FontSurface font = new FontSurface("Arial", 24);
 				font.Color = Color.White;
-				
+
 				while (wind.IsClosed == false)
 				{
 					Display.RenderTarget = buffer;
@@ -52,7 +51,7 @@ namespace Tests.DisplayTests
 					Display.EndFrame();
 					Core.KeepAlive();
 				}
-			}
+			});
 		}
 	}
 }

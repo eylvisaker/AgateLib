@@ -7,6 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.LightingTest
 {
@@ -21,12 +22,8 @@ namespace Tests.LightingTest
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup(args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				//LightingTestForm frm = new LightingTestForm();
 				//frm.Show();
 
@@ -73,7 +70,7 @@ namespace Tests.LightingTest
 				while (wnd.IsClosed == false)
 				{
 					//if (frm.chkMoveLight.Checked)
-						time += Display.DeltaTime / 1000.0;
+					time += Display.DeltaTime / 1000.0;
 
 					ballPt = new Point((int)(120 + 110 * Math.Cos(time)),
 									   (int)(120 + 110 * Math.Sin(time)));
@@ -87,7 +84,7 @@ namespace Tests.LightingTest
 					Display.Clear(Color.DarkRed);
 
 					lights.Activate();
-					
+
 					//lights.DoLighting();
 					//fx.SetVariable("worldViewProj", wnd.OrthoProjection);
 
@@ -105,7 +102,7 @@ namespace Tests.LightingTest
 					//	image.ColorGradient = g;
 					//}
 					//else
-						image.Color = Color.White;
+					image.Color = Color.White;
 
 					//image.TesselateFactor = (int)frm.nudTess.Value;
 
@@ -121,7 +118,7 @@ namespace Tests.LightingTest
 
 					//frm.lblFPS.Text = "FPS: " + Display.FramesPerSecond.ToString("0.00");
 				}
-			}
+			});
 		}
 
 	}

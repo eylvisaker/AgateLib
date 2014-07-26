@@ -23,9 +23,9 @@ using System.Text;
 using AgateLib.Drivers;
 using AgateLib.InputLib.ImplementationBase;
 
-namespace AgateLib.Drivers
+namespace AgateLib.Drivers.NullDrivers
 {
-	class NullInputImpl : InputImpl
+	public class NullInputImpl : InputImpl
 	{
 		public override void Initialize()
 		{

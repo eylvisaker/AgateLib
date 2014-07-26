@@ -29,6 +29,7 @@ using AgateLib.Platform;
 using AgateLib.Drivers;
 using AgateLib.Diagnostics;
 using AgateLib.IO;
+using AgateLib.InputLib;
 
 namespace AgateLib
 {
@@ -261,13 +262,13 @@ namespace AgateLib
 				{
 					if (sWroteHeader == true)
 					{
-						Stream stream = FileSystem.OpenWrite(ErrorFile, true);
+						Stream stream = FileSystem.File.OpenWrite(ErrorFile, true);
 
 						return new StreamWriter(stream);
 					}
 					else
 					{
-						var stream = FileSystem.OpenWrite(ErrorFile);
+						var stream = FileSystem.File.OpenWrite(ErrorFile);
 						StreamWriter writer = new StreamWriter(stream);
 
 						WriteHeader(writer);
@@ -324,6 +325,12 @@ namespace AgateLib
 			mFactory = factory;
 			mPlatform = factory.PlatformFactory.CreatePlatformInfo();
 			mTime = factory.PlatformFactory.CreateStopwatch();
+
+			FileSystem.File = factory.PlatformFactory.CreateFile();
+
+			Display.Initialize(factory.DisplayFactory.CreateDisplayImpl());
+			Audio.Initialize(factory.AudioFactory.CreateAudioImpl());
+			JoystickInput.Initialize(factory.InputFactory.CreateJoystickInputImpl());
 
 			sInititalized = true;
 		}

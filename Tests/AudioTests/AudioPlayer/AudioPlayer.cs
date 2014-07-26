@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.ApplicationModels;
 
 namespace Tests.AudioTester
 {
@@ -15,14 +17,10 @@ namespace Tests.AudioTester
 		/// </summary>
 		public void Main(string[] args)
 		{
-			using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup("Agate Audio Tester", args))
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(false, true, false);
-				if (setup.WasCanceled)
-					return;
-
 				new frmAudioTester().ShowDialog();
-			}
+			});
 		}
 
 		#region IAgateTest Members

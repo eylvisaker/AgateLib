@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,14 +23,10 @@ namespace Tests.DisplayTests.Capabilities
 
 		public void Main(string[] args)
 		{
-			using (AgateLib.AgateSetup setup = new AgateLib.AgateSetup())
+			PassiveModel.Run(args, () =>
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled)
-					return;
-
 				new frmCapabilities().ShowDialog();
-			}
+			});
 		}
 
 		#endregion

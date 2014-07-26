@@ -51,7 +51,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		IGraphicsContext mContext;
 		IWindowInfo mWindowInfo;
 
-		GL_Display mDisplay;
+		DesktopGLDisplay mDisplay;
 		Drawing.Icon mIcon;
 		bool mIsClosed = false;
 		bool mIsFullScreen = false;
@@ -94,7 +94,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 				mChooseWidth = mRenderTarget.ClientSize.Width;
 				mChooseHeight = mRenderTarget.ClientSize.Height;
 
-				mDisplay = Display.Impl as GL_Display;
+				mDisplay = Display.Impl as DesktopGLDisplay;
 
 				CreateContext();
 
@@ -117,7 +117,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 				else
 					CreateWindowedDisplay();
 
-				mDisplay = Display.Impl as GL_Display;
+				mDisplay = Display.Impl as DesktopGLDisplay;
 			}
 
 			mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);
@@ -229,8 +229,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			mContext.MakeCurrent(mWindowInfo);
 			(mContext as IGraphicsContextInternal).LoadAll();
 
-			mFrameBuffer = new ContextFB(mContext, mWindowInfo, this.Size, true, false);
-			mFrameBuffer.mAttachedWindow = mOwner;
+			mFrameBuffer = new ContextFB(mOwner, mContext, mWindowInfo, this.Size, true, false);
 		}
 
 		private IWindowInfo CreateWindowInfo(GraphicsMode mode)

@@ -21,32 +21,27 @@ namespace Tests.ScreenCaptureExample
 
 		public void Main(string[] args)
 		{
-			using (AgateSetup setup = new AgateSetup())
+			DisplayWindow wind = DisplayWindow.CreateWindowed("Hello", 800, 600);
+
+			System.Diagnostics.Stopwatch watch = new Stopwatch();
+			watch.Start();
+			Surface someSurface = new Surface("largeimage.png");
+			watch.Stop();
+			double loadTime = watch.ElapsedMilliseconds / 1000.0;
+			FontSurface font = new FontSurface("Arial", 24);
+
+			while (wind.IsClosed == false)
 			{
-				setup.Initialize(true, false, false);
-				if (setup.WasCanceled) return;
+				Display.BeginFrame();
+				Display.Clear(Color.White);
 
-				DisplayWindow wind = DisplayWindow.CreateWindowed("Hello", 800, 600);
+				someSurface.Draw();
+				font.DrawText(0, 0, "Load took {0} seconds.", loadTime);
 
-				System.Diagnostics.Stopwatch watch = new Stopwatch();
-				watch.Start();
-				Surface someSurface = new Surface("largeimage.png");
-				watch.Stop();
-				double loadTime = watch.ElapsedMilliseconds / 1000.0;
+				Display.EndFrame();
 
-				while (wind.IsClosed == false)
-				{
-					Display.BeginFrame();
-					Display.Clear(Color.White);
-
-					someSurface.Draw();
-					FontSurface.AgateSans24.DrawText(0,0, "Load took {0} seconds.", loadTime);
-
-					Display.EndFrame();
-
-					Core.KeepAlive();
-					System.Threading.Thread.Sleep(10);
-				}
+				Core.KeepAlive();
+				System.Threading.Thread.Sleep(10);
 			}
 		}
 	}
