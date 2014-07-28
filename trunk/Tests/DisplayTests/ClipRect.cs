@@ -25,7 +25,7 @@ namespace Tests.DisplayTests
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = DisplayWindow.CreateWindowed(
 					"Test clip rects", 640, 480);

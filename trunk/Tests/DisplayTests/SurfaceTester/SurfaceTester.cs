@@ -22,7 +22,7 @@ namespace Tests.SurfaceTester
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				frmSurfaceTester form = new frmSurfaceTester();
 

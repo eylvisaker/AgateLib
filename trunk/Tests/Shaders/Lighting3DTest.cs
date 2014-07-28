@@ -38,7 +38,7 @@ namespace Tests.Shaders
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Lighting 3D", 640, 480);
 				FontSurface font = BuiltinResources.AgateSerif14;

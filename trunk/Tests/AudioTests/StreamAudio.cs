@@ -107,7 +107,7 @@ namespace Tests.AudioTests
 		}
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Generate Audio", 640, 480);
 

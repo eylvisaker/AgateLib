@@ -25,7 +25,7 @@ namespace Tests.PixelBufferTest
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				frm = new PixelBufferForm();
 				frm.Show();

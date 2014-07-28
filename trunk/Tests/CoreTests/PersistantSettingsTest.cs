@@ -23,10 +23,10 @@ namespace Tests.CoreTests
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(new ModelParameters(args)
+			new PassiveModel(new PassiveModelParameters()
 				{
 					ApplicationName = "Testing",
-				}, () =>
+				}).Run(args, () =>
 			{
 				if (Core.Settings["Testy"].IsEmpty)
 				{

@@ -35,7 +35,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 	/// <summary>
 	/// Old, needs to be updated.
 	/// </summary>
-	class GL_GameWindow : DisplayWindowImpl
+	class GL_GameWindow : DisplayWindowImpl, IPrimaryWindow
 	{
 		#region --- Static Members ---
 
@@ -202,8 +202,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			else
 				CreateWindowedDisplay();
 
-			mFrameBuffer = new ContextFB(mOwner, mWindow.Context, mWindow.WindowInfo, 
-				new Size(mWindow.ClientSize.Width, mWindow.ClientSize.Height), true, false);
+			CreateFrameBuffer();
 
 			mDisplay = Display.Impl as DesktopGLDisplay;
 
@@ -212,8 +211,21 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			mDisplay.InitializeCurrentContext();
 
 			mDrawBuffer = mDisplay.CreateDrawBuffer();
+		}
 
+		private void CreateFrameBuffer()
+		{
+			GraphicsContext context = new GraphicsContext(mWindow.Context.GraphicsMode, mWindow.WindowInfo);
+			Debug.WriteLine(string.Format("Created context {0}", context.ToString()));
 
+			mFrameBuffer = new ContextFB(mOwner, context, mWindow.WindowInfo,
+						 new Size(mWindow.ClientSize.Width, mWindow.ClientSize.Height), true, false);
+
+			if (mOwner.Impl != null)
+			{
+				// force recreation of the parent FrameBuffer object which wraps mFrameBuffer.
+				Display.RenderTarget = mOwner.FrameBuffer;
+			}
 		}
 
 		public override FrameBufferImpl FrameBuffer
@@ -495,5 +507,21 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		}
 
 		#endregion
+
+		public void RunApplication()
+		{
+			mWindow.Run();
+		}
+
+
+		void IPrimaryWindow.RunApplication()
+		{
+			mWindow.Run();
+		}
+
+		public void ReinitializeFramebuffer()
+		{
+			CreateFrameBuffer();
+		}
 	}
 }

@@ -14,7 +14,7 @@ namespace Tests.TimerTester
 	{
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				frmTimerTester frm = new frmTimerTester();
 				frm.Show();

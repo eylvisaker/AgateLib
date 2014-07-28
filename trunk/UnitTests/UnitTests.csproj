@@ -87,6 +87,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ApplicationModels\ArgumentProcessing.cs" />
     <Compile Include="Core\ConsoleTests.cs" />
     <Compile Include="Display\DisplayTests.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />

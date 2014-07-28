@@ -20,7 +20,7 @@ namespace Tests.SpriteTester
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				frmSpriteTester form = new frmSpriteTester();
 

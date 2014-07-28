@@ -23,7 +23,7 @@ namespace Tests.FontTester
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 {
 	DisplayWindow wind = DisplayWindow.CreateWindowed("Font Tester", 800, 600);
 	DisplayWindow fullWind = null;

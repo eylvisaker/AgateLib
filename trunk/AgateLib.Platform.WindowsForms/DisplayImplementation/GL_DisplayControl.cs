@@ -43,7 +43,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 	/// <summary>
 	/// No OpenGL code here.
 	/// </summary>
-	public sealed class GL_DisplayControl : DisplayWindowImpl
+	public sealed class GL_DisplayControl : DisplayWindowImpl, IPrimaryWindow
 	{
 		DisplayWindow mOwner;
 		Form frm;
@@ -84,6 +84,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 						"which does not derive from System.Windows.Forms.Control.", windowParams.RenderTarget.GetType().Name));
 
 				mRenderTarget = (Control)windowParams.RenderTarget;
+				mWindowInfo = CreateWindowInfo(CreateGraphicsMode());
 
 				if (mRenderTarget.TopLevelControl == null)
 					throw new ArgumentException("The specified render target has not been added to a Form yet.  " +
@@ -96,7 +97,8 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 				mDisplay = Display.Impl as DesktopGLDisplay;
 
-				CreateContext();
+				mContext = CreateContext();
+				mFrameBuffer = CreateFrameBuffer();
 
 				AttachEvents();
 			}
@@ -148,11 +150,10 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			frm.TopLevel = true;
 
 			mRenderTarget = frm;
+			mWindowInfo = CreateWindowInfo(CreateGraphicsMode());
 
 			AttachEvents();
-
-			CreateContext();
-
+			ReinitializeFramebuffer();
 
 			OpenTK.DisplayResolution resolution = OpenTK.DisplayDevice.Default.SelectResolution(
 				mChooseWidth, mChooseHeight, 32, 0);
@@ -194,12 +195,13 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 			frm = myform;
 			mRenderTarget = myRenderTarget;
+			mWindowInfo = CreateWindowInfo(CreateGraphicsMode());
 
 			if (mIcon != null)
 				frm.Icon = mIcon;
 
-			frm.Show();
-			CreateContext();
+			frm.Show(); 
+			ReinitializeFramebuffer();
 
 			AttachEvents();
 
@@ -210,26 +212,40 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			Core.IsActive = true;
 		}
 
-		private void CreateContext()
+		public void ReinitializeFramebuffer()
 		{
-			GraphicsMode newMode = new GraphicsMode(
-				GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
-				0, 0, new ColorFormat(0), 2, false);
+			mContext = CreateContext();
+			mFrameBuffer = CreateFrameBuffer();
+		}
+
+		public OpenTK.Graphics.GraphicsContext CreateContext()
+		{
+			GraphicsMode newMode = CreateGraphicsMode();
 
 			Debug.Print("AgateLib GraphicsMode: {0}", newMode);
-
-
-			mWindowInfo = CreateWindowInfo(newMode);
 
 			GraphicsContextFlags flags = GraphicsContextFlags.Default;
 #if DEBUG
 			//flags = GraphicsContextFlags.ForwardCompatible;
 #endif
-			mContext = new OpenTK.Graphics.GraphicsContext(newMode, mWindowInfo, 3, 1, flags);
-			mContext.MakeCurrent(mWindowInfo);
-			(mContext as IGraphicsContextInternal).LoadAll();
+			var context = new OpenTK.Graphics.GraphicsContext(newMode, mWindowInfo, 3, 1, flags);
+			context.MakeCurrent(mWindowInfo);
+			(context as IGraphicsContextInternal).LoadAll();
 
-			mFrameBuffer = new ContextFB(mOwner, mContext, mWindowInfo, this.Size, true, false);
+			return context;
+		}
+
+		private static GraphicsMode CreateGraphicsMode()
+		{
+			GraphicsMode newMode = new GraphicsMode(
+						 GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
+						 0, 0, new ColorFormat(0), 2, false);
+			return newMode;
+		}
+
+		private ContextFB CreateFrameBuffer()
+		{
+			return new ContextFB(mOwner, mContext, mWindowInfo, this.Size, true, false);
 		}
 
 		private IWindowInfo CreateWindowInfo(GraphicsMode mode)
@@ -581,7 +597,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			Keyboard.ReleaseAllKeys();
 		}
 
-
 		#region GL_IRenderTarget Members
 
 
@@ -595,5 +610,10 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		}
 
 		#endregion
+
+		void IPrimaryWindow.RunApplication()
+		{
+			Application.Run(frm);
+		}
 	}
 }

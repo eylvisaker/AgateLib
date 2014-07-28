@@ -22,7 +22,7 @@ namespace Tests.LightingTest
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				//LightingTestForm frm = new LightingTestForm();
 				//frm.Show();

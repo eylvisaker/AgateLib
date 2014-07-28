@@ -21,6 +21,11 @@ namespace AgateLib.Platform.WindowsForms
 		public static void Initialize()
 		{
 			Core.Initialize(new FormsFactory());
+
+			Resources.AddPath(".");
+			Images.AddPath(".");
+			Sounds.AddPath(".");
+			MusicProvider.AddPath(".");
 		}
 
 		public static FileProviderList Resources { get { return mResourceProvider; } }

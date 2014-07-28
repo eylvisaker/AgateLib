@@ -13,6 +13,10 @@ namespace AgateLib.UnitTests.Fakes
 		{
 			throw new NotImplementedException();
 		}
+		public override double CapsDouble(DisplayLib.DisplayDoubleCaps caps)
+		{
+			throw new NotImplementedException();
+		}
 
 		public override AgateLib.Geometry.Size CapsSize(AgateLib.DisplayLib.DisplaySizeCaps displaySizeCaps)
 		{

@@ -13,66 +13,31 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 
 		static PassiveModel()
 		{
-			DefaultParameters = new ModelParameters
-			{
-				ApplicationName = "AgateLib Application",
-				AutoCreateDisplayWindow = false,
-			};
+			DefaultParameters = new PassiveModelParameters();
 		}
 
-		static Func<int> ActionToFunc(Action entry)
-		{
-			return () => { entry(); return 0; };
-		}
-		public static int Run(Action entry)
-		{
-			return RunImpl(entry);
-		}
-		public static int Run(Func<int> entry)
-		{
-			return RunImpl(entry);
-		}
-		public static int Run(string[] args, Action entry)
-		{
-			DefaultParameters.Arguments = args;
-
-			return RunImpl(entry);
-		}
-		public static int Run(string[] args, Func<int> entry) 
-		{
-			DefaultParameters.Arguments = args;
-
-			return RunImpl(entry);
-		}
-		public static int Run(ModelParameters parameters, Action entry)
-		{
-			DefaultParameters = parameters;
-
-			return RunImpl(entry);
-		}
-		public static int Run(ModelParameters parameters, Func<int> entry)
-		{
-			DefaultParameters = parameters;
-
-			return RunImpl(entry);
-		}
-		private static int RunImpl(Action entry)
-		{
-			return RunImpl(ActionToFunc(entry));
-		}
-		private static int RunImpl(Func<int> entry)
-		{
-			return new PassiveModel(DefaultParameters).RunModel(entry);
-		}
-
-		public static ModelParameters DefaultParameters { get; set; }
+		
+		public static PassiveModelParameters DefaultParameters { get; set; }
 
 		#endregion
 
-		PassiveModel(ModelParameters parameters)
+		public PassiveModel() : this(DefaultParameters)
+		{ }
+
+		public PassiveModel(PassiveModelParameters parameters)
 			: base(parameters)
 		{
+		}
+		public PassiveModel(string[] args) : this(DefaultParameters)
+		{
+			Parameters.Arguments = args;
 
+			ProcessArguments();
+		}
+
+		public new PassiveModelParameters Parameters
+		{
+			get { return (PassiveModelParameters)base.Parameters; }
 		}
 
 		protected override int BeginModel(Func<int> entryPoint)

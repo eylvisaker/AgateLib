@@ -33,7 +33,7 @@ namespace Tests.DisplayTests
 			
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Multiple Framebuffer Test", 
 					640, 480);

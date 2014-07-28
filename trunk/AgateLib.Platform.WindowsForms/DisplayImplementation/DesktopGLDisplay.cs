@@ -578,9 +578,9 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 			return false;
 		}
-		public override Size CapsSize(DisplaySizeCaps displaySizeCaps)
+		public override Size CapsSize(DisplaySizeCaps caps)
 		{
-			switch (displaySizeCaps)
+			switch (caps)
 			{
 				case DisplaySizeCaps.NativeScreenResolution:
 					return WinForms.Interop.Convert(
@@ -595,6 +595,22 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 			return new Size(0, 0);
 		}
+		public override double CapsDouble(DisplayDoubleCaps caps)
+		{
+			switch(caps)
+			{
+				case DisplayDoubleCaps.AspectRatio:
+					return AspectRatio(CapsSize(DisplaySizeCaps.NativeScreenResolution));
+			}
+
+			return 0;
+		}
+
+		private double AspectRatio(Size size)
+		{
+			return size.Width / (double)size.Height;
+		}
+
 		public override IEnumerable<AgateLib.DisplayLib.Shaders.ShaderLanguage> SupportedShaderLanguages
 		{
 			get { yield return AgateLib.DisplayLib.Shaders.ShaderLanguage.Glsl; }

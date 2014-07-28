@@ -14,7 +14,7 @@ namespace Tests.ErrorReportTester
 		[STAThread]
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () => new frmErrorReportTester().ShowDialog());
+			new PassiveModel(args).Run( () => new frmErrorReportTester().ShowDialog());
 		}
 
 

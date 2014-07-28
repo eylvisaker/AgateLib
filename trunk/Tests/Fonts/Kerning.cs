@@ -28,7 +28,7 @@ namespace Tests.Fonts
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Kerning test", 800, 600);

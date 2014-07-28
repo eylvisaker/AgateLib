@@ -25,7 +25,7 @@ namespace Tests.RotatingSpriteTester
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Rotating sprite", 300, 300);
 				Sprite sp = new Sprite("spike.png", 16, 16);

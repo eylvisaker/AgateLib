@@ -77,7 +77,7 @@ namespace Tests.DisplayTests.BasicDrawing
 		[STAThread]
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				// create a random number generation object 
 				// so that we can make pretty colors.

@@ -187,6 +187,8 @@ namespace AgateLib.Geometry
 			string[] values = str.Split(',');
 			Size retval = new Size();
 
+			if (values.Length == 1 && str.Contains("x") && str.Contains("=") == false)
+				values = str.Split('x');
 			if (values.Length != 2)
 				throw new FormatException("Could not parse size data from text.");
 

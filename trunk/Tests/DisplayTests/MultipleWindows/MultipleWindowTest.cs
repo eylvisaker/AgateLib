@@ -31,7 +31,7 @@ namespace Tests.MultipleWindows
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				MultipleRenderTargetExample myForm = new MultipleRenderTargetExample();
 				myForm.Show();

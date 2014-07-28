@@ -24,7 +24,7 @@ namespace Tests.DisplayTests
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow window = DisplayWindow.CreateWindowed("Test", 800, 600);
 

@@ -20,12 +20,12 @@ namespace TilingTest
 		[STAThread]
 		static void Main(string[] args)
 		{
-			PassiveModel.Run(new ModelParameters(args)
+			new PassiveModel(new PassiveModelParameters()
 				{
 					AutoCreateDisplayWindow = true,
 					DisplayWindowSize = new Size(600, 600),
 					CreateFullScreenWindow = false,
-				},
+				}).Run(args,
 				() =>
 				{
 					DisplayWindow wnd = DisplayWindow.CreateWindowed("Tiling Test", 600, 600);

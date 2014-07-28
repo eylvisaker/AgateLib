@@ -59,7 +59,7 @@ namespace Tests.Shaders
 		}
 		private void Run(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				wind = DisplayWindow.CreateWindowed("HLSL", 800, 600);
 				Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);

@@ -22,11 +22,11 @@ namespace Tests.BitmapFontTester
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(new ModelParameters(args)
+			new PassiveModel(new PassiveModelParameters()
 				{
 					ApplicationName = "Bitmap Font Tester",
 					DisplayWindowSize = new Size(800, 600),
-				}, () => 
+				}).Run(args, () => 
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Navy);

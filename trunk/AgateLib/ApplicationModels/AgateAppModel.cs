@@ -30,6 +30,12 @@ namespace AgateLib.ApplicationModels
 			}
 		}
 
+		
+		static Func<int> ActionToFunc(Action entry)
+		{
+			return () => { entry(); return 0; };
+		}
+
 		#endregion
 
 		DisplayWindow window;
@@ -42,6 +48,81 @@ namespace AgateLib.ApplicationModels
 				throw new AgateException("Cannot create a new application model when an existing one is active.");
 
 			Instance = this;
+
+			ProcessArguments();
+		}
+
+		public int Run(Action entry)
+		{
+			return RunImpl(entry);
+		}
+		public int Run(Func<int> entry)
+		{
+			return RunImpl(entry);
+		}
+		public int Run(string[] args, Action entry)
+		{
+			Parameters.Arguments = args;
+
+			return RunImpl(entry);
+		}
+		public int Run(string[] args, Func<int> entry)
+		{
+			Parameters.Arguments = args;
+
+			return RunImpl(entry);
+		}
+
+		private int RunImpl(Action entry)
+		{
+			return RunImpl(ActionToFunc(entry));
+		}
+		protected virtual int RunImpl(Func<int> entry)
+		{
+			return RunModel(entry);
+		}
+
+		protected virtual void ProcessArguments()
+		{
+			if (Parameters.Arguments == null) return;
+
+			for(int i = 0; i < Parameters.Arguments.Length; i++)
+			{
+				var arg = Parameters.Arguments[i];
+				int extraArguments = Parameters.Arguments.Length - i- 1;
+				bool nextArgIsParam = extraArguments > 0 && Parameters.Arguments[i+1].StartsWith("--") == false;
+
+				if (arg.StartsWith("--"))
+				{
+					if (nextArgIsParam)
+					{
+						ProcessArgument(arg, Parameters.Arguments[i + 1]);
+						i++;
+					}
+					else
+						ProcessArgument(arg, "");
+				}
+			}
+		}
+
+		protected virtual void ProcessArgument(string arg, string parm)
+		{
+			switch(arg)
+			{
+				case "--window":
+					Parameters.CreateFullScreenWindow = false;
+					Parameters.DisplayWindowSize = Size.FromString(parm);
+					break;
+
+				default:
+					break;
+			}
+		}
+
+		private Size ParseSize(string parm)
+		{
+			Size.FromString(parm);
+			throw new NotImplementedException();
 		}
 
 		protected int RunModel(Func<int> entryPoint)
@@ -65,7 +146,7 @@ namespace AgateLib.ApplicationModels
 		}
 
 		protected abstract int BeginModel(Func<int> entryPoint);
-
+		
 		private void AutoCreateDisplayWindow()
 		{
 			if (Parameters.AutoCreateDisplayWindow == false)
@@ -76,6 +157,28 @@ namespace AgateLib.ApplicationModels
 				window = DisplayWindow.CreateFullScreen(
 					Parameters.ApplicationName,
 					GetFullScreenSize());
+			}
+			else
+			{
+				window = DisplayWindow.CreateWindowed(
+					Parameters.ApplicationName,
+					GetWindowedScreenSize());
+			}
+		}
+
+		private Size GetWindowedScreenSize()
+		{
+			if (Parameters.DisplayWindowSize.IsEmpty)
+			{
+				var size = Display.Caps.NativeScreenResolution;
+				size.Width -= 60;
+				size.Height -= 60;
+
+				return size;
+			}
+			else
+			{
+				return Parameters.DisplayWindowSize;
 			}
 		}
 
@@ -92,11 +195,13 @@ namespace AgateLib.ApplicationModels
 
 		private Size GetScreenSize()
 		{
-			return Display.Caps.ScreenResolution;
+			return Display.Caps.NativeScreenResolution;
 		}
 
 		protected abstract void Initialize();
 		protected abstract void Dispose();
+
+		protected DisplayWindow AutoCreatedWindow { get { return window; } }
 
 		public ModelParameters Parameters { get; set; }
 	}
