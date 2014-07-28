@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WindowsForms.ApplicationModels
 {
+	/// <summary>
+	/// The passive model does very little - it simply initializes AgateLib and cleans up when your
+	/// program exits. The passive model is suitable for applications which provide their own message
+	/// pump and render loop logic. 
+	/// </summary>
 	public class PassiveModel : FormsModelBase
 	{
 		#region --- Static Members ---
@@ -45,5 +50,10 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 			return entryPoint();
 		}
 
+
+		public override void KeepAlive()
+		{
+			System.Windows.Forms.Application.DoEvents();
+		}
 	}
 }

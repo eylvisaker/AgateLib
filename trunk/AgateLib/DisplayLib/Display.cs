@@ -123,13 +123,6 @@ namespace AgateLib.DisplayLib
 			Shaders.AgateBuiltInShaders.DisposeShaders();
 		}
 
-		internal static void ProcessEvents()
-		{
-			if (sImpl == null)
-				return;
-
-			sImpl.ProcessEvents();
-		}
 		internal static bool IsAppIdle
 		{
 			get

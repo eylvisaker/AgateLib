@@ -69,14 +69,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			private set { mNonPowerOf2Textures = value; }
 		}
 
-		internal event EventHandler ProcessEventsEvent;
-
-		protected override void ProcessEvents()
-		{
-			if (ProcessEventsEvent != null)
-				ProcessEventsEvent(this, EventArgs.Empty);
-		}
-
 		protected override void OnRenderTargetChange(FrameBuffer oldRenderTarget)
 		{
 			mRenderTarget = RenderTarget.Impl as GL_FrameBuffer;

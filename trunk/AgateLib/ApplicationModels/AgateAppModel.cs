@@ -79,7 +79,14 @@ namespace AgateLib.ApplicationModels
 		}
 		protected virtual int RunImpl(Func<int> entry)
 		{
-			return RunModel(entry);
+			try
+			{
+				return RunModel(entry);
+			}
+			catch (ExitGameException)
+			{
+				return 0;
+			}
 		}
 
 		protected virtual void ProcessArguments()
@@ -204,5 +211,7 @@ namespace AgateLib.ApplicationModels
 		protected DisplayWindow AutoCreatedWindow { get { return window; } }
 
 		public ModelParameters Parameters { get; set; }
+
+		public abstract void KeepAlive();
 	}
 }

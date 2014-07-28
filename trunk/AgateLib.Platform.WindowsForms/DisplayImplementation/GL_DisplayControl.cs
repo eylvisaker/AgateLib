@@ -122,14 +122,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 				mDisplay = Display.Impl as DesktopGLDisplay;
 			}
 
-			mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);
 			mDisplay.InitializeCurrentContext();
-
-		}
-
-		void mDisplay_ProcessEventsEvent(object sender, EventArgs e)
-		{
-			System.Windows.Forms.Application.DoEvents();
 		}
 
 		private void CreateFullScreenDisplay()
@@ -365,8 +358,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 		public override void Dispose()
 		{
-			mDisplay.ProcessEventsEvent -= mDisplay_ProcessEventsEvent;
-
 			if (mFrameBuffer != null)
 			{
 				mFrameBuffer.Dispose();

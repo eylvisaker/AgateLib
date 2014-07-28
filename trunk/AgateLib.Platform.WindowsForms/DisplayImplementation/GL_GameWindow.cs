@@ -206,8 +206,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 			mDisplay = Display.Impl as DesktopGLDisplay;
 
-			mDisplay.ProcessEventsEvent += new EventHandler(mDisplay_ProcessEventsEvent);
-
 			mDisplay.InitializeCurrentContext();
 
 			mDrawBuffer = mDisplay.CreateDrawBuffer();
@@ -361,6 +359,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		}
 
 		Point lastMouse;
+		[Obsolete]
 		void mDisplay_ProcessEventsEvent(object sender, EventArgs e)
 		{
 			try
@@ -393,8 +392,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 				mWindow.Dispose();
 				mWindow = null;
 			}
-
-			mDisplay.ProcessEventsEvent -= mDisplay_ProcessEventsEvent;
 		}
 
 		public override bool IsClosed
