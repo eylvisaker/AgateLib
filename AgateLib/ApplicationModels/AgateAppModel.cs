@@ -48,10 +48,16 @@ namespace AgateLib.ApplicationModels
 				throw new AgateException("Cannot create a new application model when an existing one is active.");
 
 			Instance = this;
-
-			ProcessArguments();
 		}
-		public abstract void Initialize();
+		public void Initialize()
+		{
+			ProcessArguments();
+
+			InitializeImpl();
+		}
+
+		protected virtual void InitializeImpl()
+		{ }
 
 		public void Dispose()
 		{

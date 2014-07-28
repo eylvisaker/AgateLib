@@ -11,6 +11,8 @@ namespace AgateLib.UnitTests.ApplicationModels
 {
 	public class ArgumentProcessing : AgateAppModel
 	{
+		List<string> expected = new List<string>();
+
 		public ArgumentProcessing(ModelParameters param)
 			: base(param)
 		{
@@ -21,16 +23,33 @@ namespace AgateLib.UnitTests.ApplicationModels
 			return 0;
 		}
 
-		protected override void Initialize()
-		{
-		}
+		public List<string> Expected { get { return expected; } }
 
-		protected override void Dispose()
+		protected override void InitializeImpl()
 		{
 		}
 
 		public override void KeepAlive()
 		{
+		}
+
+		protected override void ProcessArgument(string arg, string parm)
+		{
+			if (Expected.Count > 0)
+			{
+				Assert.AreEqual(expected[0], arg);
+				Assert.IsTrue(arg.StartsWith("--"));
+
+				expected.RemoveAt(0);
+
+				if (parm != "")
+				{
+					Assert.AreEqual(expected[0], parm);
+					expected.RemoveAt(0);
+				}
+			}
+
+			base.ProcessArgument(arg, parm);
 		}
 	}
 
@@ -45,6 +64,30 @@ namespace AgateLib.UnitTests.ApplicationModels
 				Arguments =
 					"--window 640x480".Split(' ')
 			});
+
+			p.Initialize();
+
+			Assert.IsFalse(p.Parameters.CreateFullScreenWindow);
+			Assert.AreEqual(new Size(640, 480), p.Parameters.DisplayWindowSize);
+		}
+
+		[TestMethod]
+		public void ExtraArguments()
+		{
+			ArgumentProcessing p = new ArgumentProcessing(new ModelParameters
+			{
+				Arguments =
+					"--window 640x480 --something --else 14 --nothing".Split(' ')
+			});
+
+			p.Expected.Add("--window");
+			p.Expected.Add("640x480");
+			p.Expected.Add("--something");
+			p.Expected.Add("--else");
+			p.Expected.Add("14");
+			p.Expected.Add("--nothing");
+
+			p.Initialize();
 
 			Assert.IsFalse(p.Parameters.CreateFullScreenWindow);
 			Assert.AreEqual(new Size(640, 480), p.Parameters.DisplayWindowSize);
