@@ -615,5 +615,11 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		{
 			Application.Run(frm);
 		}
+
+
+		public void ExitMessageLoop()
+		{
+			Application.Exit();
+		}
 	}
 }

@@ -16,7 +16,7 @@ namespace PackedSpriteCreator
 		[STAThread]
 		static void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run(() =>
 			{
 				System.Windows.Forms.Application.Run(new frmSpriteCreator());
 			});

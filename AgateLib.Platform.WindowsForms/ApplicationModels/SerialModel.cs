@@ -41,15 +41,26 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 			get { return (SerialModelParameters)base.Parameters; }
 		}
 
+		bool done = false;
+
 		int ExecuteEntry(Func<int> entryPoint)
 		{
-			OpenTK.Graphics.GraphicsContext.ShareContexts = true;
-			var window = AutoCreatedWindow.Impl as IPrimaryWindow;
+			try
+			{
+				OpenTK.Graphics.GraphicsContext.ShareContexts = true;
+				var window = AutoCreatedWindow.Impl as IPrimaryWindow;
 
-			window.ReinitializeFramebuffer();
+				window.ReinitializeFramebuffer();
 
-			return entryPoint();
+				return entryPoint();
+			}
+			finally
+			{
+				var primaryWindow = AutoCreatedWindow.Impl as IPrimaryWindow;
+				primaryWindow.ExitMessageLoop();
+			}
 		}
+
 		protected override int BeginModel(Func<int> entryPoint)
 		{
 			int retval = 0;
@@ -57,7 +68,6 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 			thread.Start();
 
 			var primaryWindow = AutoCreatedWindow.Impl as IPrimaryWindow;
-
 			primaryWindow.RunApplication();
 
 			return retval;
