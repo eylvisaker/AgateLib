@@ -6,6 +6,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform.WindowsForms.ApplicationModels;
 using AgateLib.Platform.WindowsForms.Resources;
+using AgateLib.ApplicationModels;
 
 namespace Pong
 {
@@ -18,7 +19,11 @@ namespace Pong
 		[STAThread]
 		static void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new SerialModel(new SerialModelParameters
+				{
+					Arguments = args,
+					ApplicationName = "Pong Example",
+				}).Run(() =>
 			{
 				new Program().Run(args);
 			});
@@ -45,9 +50,6 @@ namespace Pong
 
 		void Run(string[] args)
 		{
-			DisplayWindow wind = DisplayWindow.CreateWindowed
-				("Pong Example", displayWidth, displayHeight);
-
 			font = BuiltinResources.AgateSans14;
 
 			paddle[0] = new Vector2(50, displayHeight / 2);
@@ -55,11 +57,11 @@ namespace Pong
 			ball = new Vector2(playAreaWidth / 2, displayHeight / 2);
 			ballvelocity = new Vector2(-70, 70);
 
-			while (wind.IsClosed == false)
+			while (AgateAppModel.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.DarkGray);
-
+				
 				DrawBorder();
 				DrawPaddles();
 				DrawBall();
@@ -69,7 +71,7 @@ namespace Pong
 				Core.KeepAlive();
 
 				if (Keyboard.Keys[KeyCode.Escape])
-					wind.Dispose();
+					return;
 
 				float time_s = (float)Display.DeltaTime / 1000.0f;
 

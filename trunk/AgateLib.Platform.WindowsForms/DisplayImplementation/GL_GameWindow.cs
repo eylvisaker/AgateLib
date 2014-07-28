@@ -523,5 +523,11 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		{
 			CreateFrameBuffer();
 		}
+
+
+		public void ExitMessageLoop()
+		{
+			mWindow.Exit();
+		}
 	}
 }

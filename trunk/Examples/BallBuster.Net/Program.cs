@@ -31,7 +31,7 @@ namespace BallBuster.Net
 		[STAThread]
 		static void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run(() =>
 			{
 				BBX bbx = new BBX();
 

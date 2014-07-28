@@ -20,7 +20,7 @@ namespace FontCreator
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run(() =>
 			{
 				Directory.CreateDirectory("./images");
 
