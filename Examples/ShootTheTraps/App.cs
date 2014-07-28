@@ -8,6 +8,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform.WindowsForms.Resources;
 using AgateLib.Platform;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace ShootTheTraps
 {
@@ -19,7 +20,7 @@ namespace ShootTheTraps
 		[STAThread]
 		static void Main(string[] args)
 		{
-			new App().Run(args);
+			new PassiveModel(args).Run(() => new App().Run(args));
 		}
 
 		// Game declarations
