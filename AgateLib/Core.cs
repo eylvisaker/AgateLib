@@ -30,6 +30,7 @@ using AgateLib.Drivers;
 using AgateLib.Diagnostics;
 using AgateLib.IO;
 using AgateLib.InputLib;
+using AgateLib.ApplicationModels;
 
 namespace AgateLib
 {
@@ -394,12 +395,14 @@ namespace AgateLib
 		/// <summary>
 		/// Delegate for types which attach to the KeepAliveEvent.
 		/// </summary>
+		[Obsolete("This type is obsoleted by the Action delegate.", true)]
 		public delegate void KeepAliveDelegate();
 		/// <summary>
 		/// Event which occurs when KeepAlive is called.
 		/// This allows subsystems (such as GUI, Input, Sound) to make updates each frame.
 		/// </summary>
-		public static event KeepAliveDelegate KeepAliveEvent;
+		[Obsolete("This is not relevant in the new application models.", true)]
+		public static event Action KeepAliveEvent;
 		/// <summary>
 		/// Plays nice with the OS, by allowing events to be handled.
 		/// This also handles user input events associated with the application,
@@ -407,33 +410,21 @@ namespace AgateLib
 		/// </summary>
 		public static void KeepAlive()
 		{
-			// Some tests indicate that using the Win32 platform-specific call 
-			// to PeekMessage before calling DoEvents is about 1 fps faster,
-			// when there are no events to process.  It's not clear whether or
-			// not this is worth it when there lots of events being generated
-			// (ie lots of mouse move events) but it does seem to speed up for
-			// Direct3D.
-			if (Display.IsAppIdle == false)
+			var appmodel = AgateAppModel.Instance;
+
+			appmodel.KeepAlive();
+
+			while (IsActive == false && AutoPause)
 			{
-				Display.ProcessEvents();
+				appmodel.KeepAlive();
 
-				while (IsActive == false && AutoPause)
-				{
-					//System.Threading.Thread.Sleep(25);
-					Display.ProcessEvents();
+				AudioLib.Audio.Update();
 
-					// Update Audio Engine, if necessary
-					AudioLib.Audio.Update();
-
-					if (Display.CurrentWindow == null)
-						break;
-					else if (Display.CurrentWindow.IsClosed)
-						break;
-				}
+				if (Display.CurrentWindow == null)
+					break;
+				else if (Display.CurrentWindow.IsClosed)
+					break;
 			}
-
-			if (KeepAliveEvent != null)
-				KeepAliveEvent();
 
 			// Update Audio Engine.
 			AudioLib.Audio.Update();

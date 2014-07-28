@@ -41,8 +41,6 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 			get { return (SerialModelParameters)base.Parameters; }
 		}
 
-		bool done = false;
-
 		int ExecuteEntry(Func<int> entryPoint)
 		{
 			try
@@ -52,7 +50,14 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 
 				window.ReinitializeFramebuffer();
 
-				return entryPoint();
+				try
+				{
+					return entryPoint();
+				}
+				catch(ExitGameException)
+				{
+					return 0;
+				}
 			}
 			finally
 			{
@@ -73,5 +78,9 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 			return retval;
 		}
 
+
+		public override void KeepAlive()
+		{
+		}
 	}
 }

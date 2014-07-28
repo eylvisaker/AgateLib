@@ -18,5 +18,10 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 		{
 			throw new NotImplementedException();
 		}
+
+		public override void KeepAlive()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

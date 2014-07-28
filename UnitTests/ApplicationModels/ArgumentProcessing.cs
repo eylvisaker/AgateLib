@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace AgateLib.UnitTests.ApplicationModels
 {
-	public 	class ArgumentProcessing : AgateAppModel
+	public class ArgumentProcessing : AgateAppModel
 	{
-		public ArgumentProcessing(ModelParameters param) : base(param)
+		public ArgumentProcessing(ModelParameters param)
+			: base(param)
 		{
 
 		}
@@ -25,6 +26,10 @@ namespace AgateLib.UnitTests.ApplicationModels
 		}
 
 		protected override void Dispose()
+		{
+		}
+
+		public override void KeepAlive()
 		{
 		}
 	}

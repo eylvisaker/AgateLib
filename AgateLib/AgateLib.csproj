@@ -108,6 +108,7 @@
     <Compile Include="Drivers\IInputFactory.cs" />
     <Compile Include="Drivers\IPlatformFactory.cs" />
     <Compile Include="Drivers\TypeRegistry.cs" />
+    <Compile Include="ApplicationModels\ExitGameException.cs" />
     <Compile Include="Extensions\Collections\Generic\ListSorting.cs" />
     <Compile Include="Extensions\Collections\NonGeneric\NonGenericListSorting.cs" />
     <Compile Include="Geometry\VertexTypes\PositionTextureColorNormal.cs" />

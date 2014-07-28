@@ -142,11 +142,6 @@ namespace AgateLib.UnitTests.Fakes
 			throw new NotImplementedException();
 		}
 
-		protected internal override void ProcessEvents()
-		{
-			throw new NotImplementedException();
-		}
-
 		protected internal override void ShowCursor()
 		{
 			throw new NotImplementedException();
