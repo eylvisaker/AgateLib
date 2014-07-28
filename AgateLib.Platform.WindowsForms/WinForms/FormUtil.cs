@@ -179,7 +179,7 @@ namespace AgateLib.Platform.WindowsForms.WinForms
 		/// <param name="format"></param>
 		public static void SavePixelBuffer(PixelBuffer buffer, string filename, ImageFileFormat format)
 		{
-			Bitmap bmp = Interop.BitmapFromPixelBuffer(buffer);
+			Bitmap bmp = buffer.ToBitmap();
 			var dirname = Path.GetDirectoryName(filename);
 
 			if (string.IsNullOrEmpty(dirname) == false && Directory.Exists(dirname) == false)

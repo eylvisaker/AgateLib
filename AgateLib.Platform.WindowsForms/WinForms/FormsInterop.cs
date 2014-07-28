@@ -191,31 +191,5 @@ namespace AgateLib.Platform.WindowsForms.WinForms
 			return new Draw.SizeF(sz.Width, sz.Height);
 		}
 
-		/// <summary>
-		/// Converts an AgateLib.DisplayLib.PixelBuffer object into a System.Drawing.Bitmap object.
-		/// </summary>
-		/// <param name="buffer">The PixelBuffer object containing the pixel data.</param>
-		/// <returns></returns>
-		public static System.Drawing.Bitmap BitmapFromPixelBuffer(PixelBuffer buffer)
-		{
-			System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(buffer.Width, buffer.Height);
-
-			System.Drawing.Imaging.BitmapData data = bmp.LockBits(
-				new Draw.Rectangle(Draw.Point.Empty, Interop.Convert(buffer.Size)),
-				System.Drawing.Imaging.ImageLockMode.WriteOnly,
-				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-			if (buffer.PixelFormat != PixelFormat.BGRA8888)
-			{
-				buffer = buffer.ConvertTo(PixelFormat.BGRA8888);
-			}
-
-			System.Runtime.InteropServices.Marshal.Copy(
-				buffer.Data, 0, data.Scan0, buffer.Data.Length);
-
-			bmp.UnlockBits(data);
-
-			return bmp;
-		}
 	}
 }
