@@ -23,7 +23,7 @@ namespace Tests.TileTester
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				frmTileTester frm = new frmTileTester();
 				frm.Show();

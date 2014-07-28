@@ -24,7 +24,7 @@ namespace Tests.DisplayTests.RenderStates
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				frmRenderStateTest frm = new frmRenderStateTest();
 				frm.Show();

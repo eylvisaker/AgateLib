@@ -140,9 +140,20 @@ namespace AgateLib.DisplayLib
 			get { return Display.Impl.CapsSize(DisplaySizeCaps.MaxSurfaceSize); }
 		}
 
-		public Size ScreenResolution
+		/// <summary>
+		/// Gets the native resolution of the main screen.
+		/// </summary>
+		public Size NativeScreenResolution
 		{
 			get { return Display.Impl.CapsSize(DisplaySizeCaps.NativeScreenResolution); }
+		}
+
+		/// <summary>
+		/// Gets the aspect ratio of the monitor.
+		/// </summary>
+		public double AspectRatio
+		{
+			get { return Display.Impl.CapsDouble(DisplayDoubleCaps.AspectRatio); }
 		}
 	}
 
@@ -212,5 +223,12 @@ namespace AgateLib.DisplayLib
 		/// system font.
 		/// </summary>
 		CanCreateBitmapFont,
+	}
+	public enum DisplayDoubleCaps
+	{
+		/// <summary>
+		/// Indicates the aspect ratio (width / height) of the main monitor.
+		/// </summary>
+		AspectRatio,
 	}
 }

@@ -328,7 +328,7 @@ namespace AgateLib
 
 			FileSystem.File = factory.PlatformFactory.CreateFile();
 			FileSystem.Path = factory.PlatformFactory.CreatePath();
-
+			
 			Display.Initialize(factory.DisplayFactory.CreateDisplayImpl());
 			Audio.Initialize(factory.AudioFactory.CreateAudioImpl());
 			JoystickInput.Initialize(factory.InputFactory.CreateJoystickInputImpl());
@@ -449,7 +449,7 @@ namespace AgateLib
 		/// <returns></returns>
 		internal static double GetTime()
 		{
-			return mTime.TotalSeconds;
+			return mTime.TotalMilliseconds;
 		}
 
 

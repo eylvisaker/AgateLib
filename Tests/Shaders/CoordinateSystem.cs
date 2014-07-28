@@ -25,7 +25,7 @@ namespace Tests.CoordinateSystemTest
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 

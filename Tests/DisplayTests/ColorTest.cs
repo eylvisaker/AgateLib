@@ -25,7 +25,7 @@ namespace Tests.DisplayTests
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = DisplayWindow.CreateWindowed(
 					"Color Test", 640, 480);

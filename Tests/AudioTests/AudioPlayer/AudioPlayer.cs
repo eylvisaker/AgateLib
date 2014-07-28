@@ -17,7 +17,7 @@ namespace Tests.AudioTester
 		/// </summary>
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				new frmAudioTester().ShowDialog();
 			});

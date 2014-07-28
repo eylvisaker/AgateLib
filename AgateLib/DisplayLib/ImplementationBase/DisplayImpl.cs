@@ -56,7 +56,14 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		/// <param name="displaySizeCaps"></param>
 		/// <returns></returns>
-		public abstract Size CapsSize(DisplaySizeCaps displaySizeCaps);
+		public abstract Size CapsSize(DisplaySizeCaps caps);
+
+		/// <summary>
+		/// Gets a caps value which should return a floating point value.
+		/// </summary>
+		/// <param name="caps"></param>
+		/// <returns></returns>
+		public abstract double CapsDouble(DisplayDoubleCaps caps);
 
 		#endregion
 

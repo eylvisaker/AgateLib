@@ -23,7 +23,7 @@ namespace Tests.DisplayTests.Capabilities
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				new frmCapabilities().ShowDialog();
 			});

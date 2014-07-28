@@ -30,7 +30,7 @@ namespace Tests.AudioTests
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = new DisplayWindow(CreateWindowParams.Windowed(
 					"Sound Buffer Tester", 640, 480, false, null));

@@ -27,7 +27,7 @@ namespace Tests.FontLineTester
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Font Line Tester", 640, 480);
 				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);

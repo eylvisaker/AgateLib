@@ -13,7 +13,9 @@ namespace AgateLib.ApplicationModels
 
 		public ModelParameters()
 		{
+			AutoCreateDisplayWindow = true;
 			CreateFullScreenWindow = true;
+			ApplicationName = "AgateLib Application";
 		}
 		public ModelParameters(string[] args) : this()
 		{
@@ -26,19 +28,6 @@ namespace AgateLib.ApplicationModels
 		public Size DisplayWindowSize { get; set; }
 		public bool CreateFullScreenWindow { get; set; }
 
-		public string[] Arguments
-		{
-			get { return args; }
-			set
-			{
-				args = value;
-				ParseArguments();
-			}
-		}
-
-		private void ParseArguments()
-		{
-		}
-
+		public string[] Arguments { get; set; }
 	}
 }

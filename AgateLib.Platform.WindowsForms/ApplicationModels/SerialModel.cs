@@ -1,35 +1,67 @@
 ﻿using AgateLib.ApplicationModels;
+using AgateLib.Platform.WindowsForms.DisplayImplementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WindowsForms.ApplicationModels
 {
 	public class SerialModel : FormsModelBase
 	{
+		#region --- Static Members ---
+
 		static SerialModel()
 		{
-			DefaultParameters = new ModelParameters
-			{
-				ApplicationName = "AgateLib Application",
-				AutoCreateDisplayWindow = true,
-			};
+			DefaultParameters = new SerialModelParameters();
 		}
-		private SerialModel(ModelParameters parameters) : base(parameters)
+		
+		public static SerialModelParameters DefaultParameters { get; set; }
+
+		#endregion
+
+		public SerialModel() : this(DefaultParameters)
 		{ }
 
-		public static void Run(string[] parameters, Action entryPoint)
+		public SerialModel(SerialModelParameters parameters)
+			: base(parameters)
 		{
-			Configuration.Initialize();
+		}
+		public SerialModel(string[] args) : this(DefaultParameters)
+		{
+			Parameters.Arguments = args;
+
+			ProcessArguments();
 		}
 
-		public static ModelParameters DefaultParameters { get; set; }
+		public new SerialModelParameters Parameters
+		{
+			get { return (SerialModelParameters)base.Parameters; }
+		}
 
+		int ExecuteEntry(Func<int> entryPoint)
+		{
+			OpenTK.Graphics.GraphicsContext.ShareContexts = true;
+			var window = AutoCreatedWindow.Impl as IPrimaryWindow;
+
+			window.ReinitializeFramebuffer();
+
+			return entryPoint();
+		}
 		protected override int BeginModel(Func<int> entryPoint)
 		{
-			throw new NotImplementedException();
+			int retval = 0;
+			Thread thread = new Thread(() => { retval = ExecuteEntry(entryPoint); });
+			thread.Start();
+
+			var primaryWindow = AutoCreatedWindow.Impl as IPrimaryWindow;
+
+			primaryWindow.RunApplication();
+
+			return retval;
 		}
+
 	}
 }

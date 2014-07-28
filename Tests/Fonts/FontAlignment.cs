@@ -27,7 +27,7 @@ namespace Tests.Fonts
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = DisplayWindow.CreateWindowed(
 					"Bitmap Font Tester", 800, 600, false);

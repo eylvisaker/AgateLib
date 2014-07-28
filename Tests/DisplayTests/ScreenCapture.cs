@@ -22,7 +22,7 @@ namespace Tests.ScreenCaptureExample
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Hello", 800, 600);
 				Surface someSurface = new Surface("wallpaper.png");

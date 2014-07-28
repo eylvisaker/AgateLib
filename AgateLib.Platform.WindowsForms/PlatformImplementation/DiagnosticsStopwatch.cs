@@ -25,6 +25,7 @@ namespace AgateLib.Platform.WindowsForms.PlatformImplementation
 		public DiagnosticsStopwatch()
 			: this(true)
 		{
+			watch.Start();
 		}
 		/// <summary>
 		/// Constructs a timer object.

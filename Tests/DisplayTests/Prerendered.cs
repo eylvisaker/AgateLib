@@ -22,7 +22,7 @@ namespace Tests.DisplayTests
 
 		public void Main(string[] args)
 		{
-			PassiveModel.Run(args, () =>
+			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow MainWindow = DisplayWindow.CreateWindowed("Test", 800, 600);
 				FrameBuffer myBuffer = new FrameBuffer(200, 35);
