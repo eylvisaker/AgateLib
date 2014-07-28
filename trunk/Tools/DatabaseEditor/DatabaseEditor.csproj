@@ -183,9 +183,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
+      <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
+      <Name>AgateLib.Platform.WindowsForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
       <Name>AgateLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgateDataLib\AgateDataLib.csproj">
+      <Project>{2f7a686b-2272-4803-9ef9-0b34ba7802dc}</Project>
+      <Name>AgateDataLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\NotebookLib\NotebookLib\NotebookLib.csproj">
       <Project>{91F57346-B574-4D52-9EB0-AA191B552C94}</Project>

@@ -26,7 +26,6 @@ namespace AgateLib.Data
 	/// <summary>
 	/// Exception which is thrown if there is an error when working with the database.
 	/// </summary>
-	[global::System.Serializable]
 	public class AgateDatabaseException : AgateException
 	{
 		//

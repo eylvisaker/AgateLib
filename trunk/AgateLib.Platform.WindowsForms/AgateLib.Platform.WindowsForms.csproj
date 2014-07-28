@@ -75,6 +75,16 @@
     <Compile Include="ApplicationModels\SceneModel.cs" />
     <Compile Include="ApplicationModels\SerialModel.cs" />
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
+    <Compile Include="Data\AgateColumn.cs" />
+    <Compile Include="Data\AgateColumnDictionary.cs" />
+    <Compile Include="Data\AgateDatabase.cs" />
+    <Compile Include="Data\AgateDatabaseException.cs" />
+    <Compile Include="Data\AgateDataHelper.cs" />
+    <Compile Include="Data\AgateRow.cs" />
+    <Compile Include="Data\AgateRowList.cs" />
+    <Compile Include="Data\AgateTable.cs" />
+    <Compile Include="Data\AgateTableDictionary.cs" />
+    <Compile Include="Data\FieldType.cs" />
     <Compile Include="Diagnostics\AgateConsoleImpl.cs" />
     <Compile Include="Diagnostics\AgateConsoleTraceListener.cs" />
     <Compile Include="DisplayImplementation\frmFullScreen.cs">

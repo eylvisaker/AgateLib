@@ -1,4 +1,5 @@
 ﻿using AgateLib.DisplayLib;
+using AgateLib.Platform.WindowsForms.WinForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,33 @@ namespace AgateLib.Platform.WindowsForms
 {
 	public static class PixelBufferExtensions
 	{
+		/// <summary>
+		/// Converts an AgateLib.DisplayLib.PixelBuffer object into a System.Drawing.Bitmap object.
+		/// </summary>
+		/// <param name="buffer">The PixelBuffer object containing the pixel data.</param>
+		/// <returns></returns>
+		public static System.Drawing.Bitmap ToBitmap(this PixelBuffer buffer)
+		{
+			System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(buffer.Width, buffer.Height);
+
+			System.Drawing.Imaging.BitmapData data = bmp.LockBits(
+				new System.Drawing.Rectangle(System.Drawing.Point.Empty, Interop.Convert(buffer.Size)),
+				System.Drawing.Imaging.ImageLockMode.WriteOnly,
+				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+			if (buffer.PixelFormat != PixelFormat.BGRA8888)
+			{
+				buffer = buffer.ConvertTo(PixelFormat.BGRA8888);
+			}
+
+			System.Runtime.InteropServices.Marshal.Copy(
+				buffer.Data, 0, data.Scan0, buffer.Data.Length);
+
+			bmp.UnlockBits(data);
+
+			return bmp;
+		}
+
 		/// <summary>
 		/// Copies the data from the unmanaged memory pointer passed in into the internal pixel 
 		/// buffer array. Automatic conversion is performed if the format the data 
