@@ -16,7 +16,7 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 
 		}
 
-		public override void Initialize()
+		protected override void InitializeImpl()
 		{
 			Configuration.Initialize();
 		}
