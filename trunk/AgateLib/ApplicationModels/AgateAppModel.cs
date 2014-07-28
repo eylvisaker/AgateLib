@@ -7,7 +7,7 @@ using System.Text;
 
 namespace AgateLib.ApplicationModels
 {
-	public abstract class AgateAppModel
+	public abstract class AgateAppModel : IDisposable
 	{
 		#region --- Static Members ---
 
@@ -51,6 +51,18 @@ namespace AgateLib.ApplicationModels
 
 			ProcessArguments();
 		}
+		public abstract void Initialize();
+
+		public void Dispose()
+		{
+			Dispose(true);
+
+			if (Instance == this)
+				Instance = null;
+		}
+		protected virtual void Dispose(bool disposing)
+		{ }
+
 
 		public int Run(Action entry)
 		{
@@ -204,9 +216,6 @@ namespace AgateLib.ApplicationModels
 		{
 			return Display.Caps.NativeScreenResolution;
 		}
-
-		protected abstract void Initialize();
-		protected abstract void Dispose();
 
 		protected DisplayWindow AutoCreatedWindow { get { return window; } }
 

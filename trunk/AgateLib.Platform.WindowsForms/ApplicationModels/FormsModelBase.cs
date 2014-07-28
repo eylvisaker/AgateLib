@@ -16,13 +16,12 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 
 		}
 
-		protected override void Initialize()
+		public override void Initialize()
 		{
 			Configuration.Initialize();
 		}
-		protected override void Dispose()
+		protected override void Dispose(bool disposing)
 		{
-			
 		}
 	}
 }
