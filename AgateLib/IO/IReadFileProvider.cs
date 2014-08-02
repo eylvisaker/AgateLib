@@ -26,7 +26,7 @@ namespace AgateLib
 	/// <summary>
 	/// Public interface that should be implemented 
 	/// </summary>
-	public interface IFileProvider
+	public interface IReadFileProvider
 	{
 		/// <summary>
 		/// Opens the specified file returning a stream.  Throws 
@@ -43,7 +43,7 @@ namespace AgateLib
 		bool FileExists(string filename);
 
 		/// <summary>
-		/// Enumerates through all filenames in the file provider.
+		/// Enumerates through all existing filenames in the file provider.
 		/// </summary>
 		/// <returns></returns>
 		IEnumerable<string> GetAllFiles();

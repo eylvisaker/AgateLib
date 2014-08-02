@@ -13,8 +13,9 @@ namespace AgateLib.Platform.WindowsForms
 {
 	public static class Configuration
 	{
+		static FileProviderList mAssetProvider = new FileProviderList();
 		static FileProviderList mResourceProvider = new FileProviderList();
-		static FileProviderList mImageProvider = new FileProviderList();
+		static FileProviderList mSurfaceProvider = new FileProviderList();
 		static FileProviderList mSoundProvider = new FileProviderList();
 		static FileProviderList mMusicProvider = new FileProviderList();
 
@@ -29,7 +30,7 @@ namespace AgateLib.Platform.WindowsForms
 		}
 
 		public static FileProviderList Resources { get { return mResourceProvider; } }
-		public static FileProviderList Images { get { return mImageProvider; } }
+		public static FileProviderList Images { get { return mSurfaceProvider; } }
 		public static FileProviderList Sounds { get { return mSoundProvider; } }
 		public static FileProviderList MusicProvider { get { return mMusicProvider; } }
 	}

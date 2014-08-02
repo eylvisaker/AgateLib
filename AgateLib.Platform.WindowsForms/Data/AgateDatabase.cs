@@ -66,7 +66,7 @@ namespace AgateLib.Data
 		/// </summary>
 		/// <param name="provider"></param>
 		/// <returns></returns>
-		public static AgateDatabase FromProvider(IFileProvider provider)
+		public static AgateDatabase FromProvider(IReadFileProvider provider)
 		{
 			return ReadDatabase(provider);
 		}
@@ -79,7 +79,7 @@ namespace AgateLib.Data
 			((IDisposable)mTables).Dispose();
 		}
 
-		private static AgateDatabase ReadDatabase(IFileProvider provider)
+		private static AgateDatabase ReadDatabase(IReadFileProvider provider)
 		{
 			XleSerializer ser = new XleSerializer(typeof(AgateDatabase));
 

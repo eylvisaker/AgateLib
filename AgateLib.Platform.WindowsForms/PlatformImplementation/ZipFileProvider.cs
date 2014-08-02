@@ -32,7 +32,7 @@ namespace AgateLib.Utility
 	/// ZipFileProvider is the deflate method, so you must make sure that any compressed
 	/// data in the zip file is compressed with deflate.
 	/// </summary>
-	public class ZipFileProvider : IFileProvider, IDisposable
+	public class ZipFileProvider : IReadFileProvider, IDisposable
 	{
 		string zipFilename;
 		Stream inFile;

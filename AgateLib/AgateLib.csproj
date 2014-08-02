@@ -118,7 +118,8 @@
     <Compile Include="InputLib\Input.cs" />
     <Compile Include="InputLib\Legacy\LegacyInputHandler.cs" />
     <Compile Include="InputLib\MouseButton.cs" />
-    <Compile Include="IO\IFileProvider.cs">
+    <Compile Include="IO\FileProvider.cs" />
+    <Compile Include="IO\IReadFileProvider.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\ImplementationBase\FrameBufferImpl.cs" />
@@ -129,6 +130,8 @@
     <Compile Include="IO\IDirectory.cs" />
     <Compile Include="IO\IFile.cs" />
     <Compile Include="IO\IPath.cs" />
+    <Compile Include="IO\IReadWriteFileProvider.cs" />
+    <Compile Include="IO\IWriteFileProvider.cs" />
     <Compile Include="Platform\IStopWatch.cs" />
     <Compile Include="Platform\PlatformInfo.cs" />
     <Compile Include="Platform\PlatformType.cs" />

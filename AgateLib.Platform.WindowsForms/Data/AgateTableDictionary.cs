@@ -57,7 +57,7 @@ namespace AgateLib.Data
 			}
 		}
 
-		internal IFileProvider FileProvider { get; set; }
+		internal IReadFileProvider FileProvider { get; set; }
 		internal bool OwnFileProvider { get; set; }
 
 		/// <summary>

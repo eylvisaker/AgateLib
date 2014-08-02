@@ -98,7 +98,7 @@ namespace AgateLib.Resources
 		}
 
 		public string Filename { get; set; }
-		public IFileProvider FileProvider { get; set; }
+		public IReadFileProvider FileProvider { get; set; }
 
 		public List<SurfaceResource> Surfaces { get { return mSurfaces; } }
 

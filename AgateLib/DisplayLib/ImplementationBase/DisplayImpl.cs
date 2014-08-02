@@ -139,7 +139,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <param name="provider"></param>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public virtual SurfaceImpl CreateSurface(IFileProvider provider, string filename)
+		public virtual SurfaceImpl CreateSurface(IReadFileProvider provider, string filename)
 		{
 			return CreateSurface(provider.OpenRead(filename));
 		}

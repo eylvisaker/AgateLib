@@ -27,9 +27,9 @@ namespace AgateLib.Utility
 	/// Contains a list of IFileProvider objects that are used to search for
 	/// and open files.
 	/// </summary>
-	public class FileProviderList : IList<IFileProvider>, IFileProvider
+	public class FileProviderList : IList<IReadFileProvider>, IReadFileProvider
 	{
-		List<IFileProvider> mProviders = new List<IFileProvider>();
+		List<IReadFileProvider> mProviders = new List<IReadFileProvider>();
 
 		/// <summary>
 		/// Returns the IFileProvider object which would return the specified
@@ -37,7 +37,7 @@ namespace AgateLib.Utility
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public IFileProvider GetProvider(string filename)
+		public IReadFileProvider GetProvider(string filename)
 		{
 			for (int i = mProviders.Count - 1; i >= 0; i--)
 			{
@@ -166,7 +166,7 @@ namespace AgateLib.Utility
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public int IndexOf(IFileProvider item)
+		public int IndexOf(IReadFileProvider item)
 		{
 			return mProviders.IndexOf(item);
 		}
@@ -176,7 +176,7 @@ namespace AgateLib.Utility
 		/// </summary>
 		/// <param name="index"></param>
 		/// <param name="item"></param>
-		public void Insert(int index, IFileProvider item)
+		public void Insert(int index, IReadFileProvider item)
 		{
 			if (item is FileProviderList)
 			{
@@ -198,7 +198,7 @@ namespace AgateLib.Utility
 		/// </summary>
 		/// <param name="index"></param>
 		/// <returns></returns>
-		public IFileProvider this[int index]
+		public IReadFileProvider this[int index]
 		{
 			get
 			{
@@ -222,7 +222,7 @@ namespace AgateLib.Utility
 		/// Adds an IFileProvider to the list.
 		/// </summary>
 		/// <param name="item"></param>
-		public void Add(IFileProvider item)
+		public void Add(IReadFileProvider item)
 		{
 			if (item is FileProviderList)
 			{
@@ -242,12 +242,12 @@ namespace AgateLib.Utility
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public bool Contains(IFileProvider item)
+		public bool Contains(IReadFileProvider item)
 		{
 			return mProviders.Contains(item);
 		}
 
-		void ICollection<IFileProvider>.CopyTo(IFileProvider[] array, int arrayIndex)
+		void ICollection<IReadFileProvider>.CopyTo(IReadFileProvider[] array, int arrayIndex)
 		{
 			mProviders.CopyTo(array, arrayIndex);
 		}
@@ -270,7 +270,7 @@ namespace AgateLib.Utility
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public bool Remove(IFileProvider item)
+		public bool Remove(IReadFileProvider item)
 		{
 			return mProviders.Remove(item);
 		}
@@ -282,7 +282,7 @@ namespace AgateLib.Utility
 		/// Enumerates items.
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerator<IFileProvider> GetEnumerator()
+		public IEnumerator<IReadFileProvider> GetEnumerator()
 		{
 			return mProviders.GetEnumerator();
 		}

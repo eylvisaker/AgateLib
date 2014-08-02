@@ -16,6 +16,7 @@ namespace AgateLib.ApplicationModels
 			AutoCreateDisplayWindow = true;
 			CreateFullScreenWindow = true;
 			ApplicationName = "AgateLib Application";
+			VerticalSync = true;
 		}
 		public ModelParameters(string[] args) : this()
 		{
@@ -27,6 +28,8 @@ namespace AgateLib.ApplicationModels
 		public bool AutoCreateDisplayWindow { get; set; }
 		public Size DisplayWindowSize { get; set; }
 		public bool CreateFullScreenWindow { get; set; }
+
+		public bool VerticalSync { get; set; }
 
 		public string[] Arguments { get; set; }
 	}
