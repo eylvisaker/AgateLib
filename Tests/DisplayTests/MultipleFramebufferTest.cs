@@ -9,6 +9,7 @@ using AgateLib.InputLib;
 using AgateLib.Platform.WindowsForms;
 using AgateLib.Platform.WindowsForms.Resources;
 using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.InputLib.Legacy;
 
 namespace Tests.DisplayTests
 {

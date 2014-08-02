@@ -21,71 +21,80 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.Geometry;
 
-namespace AgateLib.InputLib
+namespace AgateLib.InputLib.Legacy
 {
 	/// <summary>
 	/// Class which describes details about an input event.
 	/// </summary>
+	[Obsolete("Use AgateInputEventArgs instead.")]
 	public class InputEventArgs
 	{
-		KeyCode mKeyCode;
-		KeyModifiers mModifiers;
+		private AgateInputEventArgs args;
 		int mRepeatCount;
-		string mKeyString;
-		Point mMousePosition;
-		Mouse.MouseButtons mButtons;
-		int mWheelDelta;
 
+		internal InputEventArgs(AgateInputEventArgs args)
+		{
+			this.args = args;
+			Initialize();
+		}
+		private void Initialize()
+		{
+			if (args == null)
+				args = new AgateInputEventArgs();
+
+			MousePosition = Mouse.Position;
+		}
 		internal InputEventArgs()
 		{
 			Initialize();
 		}
 		internal InputEventArgs(KeyCode keyID, KeyModifiers mods)
 		{
-			mKeyCode = keyID;
-			mKeyString = Keyboard.GetKeyString(keyID, mods);
-			mModifiers = mods;
+			KeyCode = keyID;
+			KeyString = Keyboard.GetKeyString(keyID, mods);
+			Modifiers = mods;
 
 			Initialize();
 		}
+		[Obsolete("Don't use this one.", true)]
 		internal InputEventArgs(KeyCode keyID, KeyModifiers mods, int repeatCount)
 			: this(keyID, mods)
 		{
 			mRepeatCount = repeatCount;
 		}
 
-		internal InputEventArgs(Mouse.MouseButtons mouseButtons)
+		internal InputEventArgs(MouseButton mouseButtons)
 		{
-			mButtons = mouseButtons;
+			args = new AgateInputEventArgs();
+			MouseButtons = mouseButtons;
 
 			Initialize();
 		}
 		internal InputEventArgs(int wheelDelta)
 		{
-			mWheelDelta = wheelDelta;
+			args = new AgateInputEventArgs();
+			WheelDelta = wheelDelta;
 
 			Initialize();
 		}
 
-		private void Initialize()
-		{
-			mMousePosition = Mouse.Position;
-		}
+
 
 		/// <summary>
 		/// Gets which key was pressed.
 		/// </summary>
 		public KeyCode KeyCode
 		{
-			get { return mKeyCode; }
-			internal set { mKeyCode = value; }
+			get { return args.KeyCode; }
+			internal set { args.KeyCode = value; }
 		}
 		/// <summary>
 		/// Gets the text created by the key which was pressed.
 		/// </summary>
 		public string KeyString
 		{
-			get { return mKeyString; }
+			get { return args.KeyString; }
+			internal set { args.KeyString = value; }
 		}
 
 		/// <summary>
@@ -93,7 +102,8 @@ namespace AgateLib.InputLib
 		/// </summary>
 		public Point MousePosition
 		{
-			get { return mMousePosition; }
+			get { return args.MousePosition; }
+			internal set { args.MousePosition = value; }
 		}
 
 		/// <summary>
@@ -101,6 +111,7 @@ namespace AgateLib.InputLib
 		/// This is zero for the first time a key is pressed, and increases
 		/// as the key is held down and KeyDown events are generated after that.
 		/// </summary>
+		[Obsolete("Use KeyPress event instead.", true)]
 		public int RepeatCount
 		{
 			get { return mRepeatCount; }
@@ -109,9 +120,10 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Gets which mouse buttons were pressed.
 		/// </summary>
-		public Mouse.MouseButtons MouseButtons
+		public MouseButton MouseButtons
 		{
-			get { return mButtons; }
+			get { return args.MouseButton; }
+			internal set { args.MouseButton = value; }
 		}
 
 		/// <summary>
@@ -119,7 +131,14 @@ namespace AgateLib.InputLib
 		/// </summary>
 		public int WheelDelta
 		{
-			get { return mWheelDelta; }
+			get { return args.MouseWheelDelta; }
+			internal set { args.MouseWheelDelta = value; }
+		}
+
+		public KeyModifiers Modifiers
+		{
+			get { return args.KeyModifiers; }
+			set { args.KeyModifiers = value; }
 		}
 	}
 }

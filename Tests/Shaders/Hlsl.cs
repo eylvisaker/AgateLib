@@ -12,6 +12,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform.WindowsForms;
 using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.InputLib.Legacy;
 
 namespace Tests.Shaders
 {
@@ -158,7 +159,7 @@ namespace Tests.Shaders
 
 		void Mouse_MouseDown(InputEventArgs e)
 		{
-			if (e.MouseButtons == Mouse.MouseButtons.Secondary)
+			if (e.MouseButtons == MouseButton.Secondary)
 			{
 				rotating = !rotating;
 			}

@@ -5,6 +5,7 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace Tests.DisplayTests
 {
@@ -57,7 +58,7 @@ namespace Tests.DisplayTests
 
 		public void Main(string[] args)
 		{
-			Run(args);
+			new PassiveModel(args).Run(() => Run(args));
 		}
 
 		#endregion

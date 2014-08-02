@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AgateLib.InputLib;
 using AgateLib.Diagnostics;
+using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.UnitTests.Core
 {

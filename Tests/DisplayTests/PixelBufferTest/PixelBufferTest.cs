@@ -6,6 +6,7 @@ using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.InputLib.Legacy;
 
 namespace Tests.PixelBufferTest
 {
@@ -64,7 +65,7 @@ namespace Tests.PixelBufferTest
 				return;
 			}
 
-			if (Mouse.Buttons[Mouse.MouseButtons.Primary])
+			if (Mouse.Buttons[MouseButton.Primary])
 			{
 				// do a circle of radius 3
 				for (int y = -3; y <= 3; y++)

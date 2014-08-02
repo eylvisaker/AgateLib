@@ -7,6 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.InputLib.Legacy;
 
 namespace Tests.DisplayTests
 {
@@ -54,7 +55,7 @@ namespace Tests.DisplayTests
 					if (Keyboard.Keys[KeyCode.Escape])
 						return;
 
-					if (Mouse.Buttons[Mouse.MouseButtons.Primary])
+					if (Mouse.Buttons[MouseButton.Primary])
 					{
 						int mX = Mouse.X;
 						int mY = Mouse.Y;

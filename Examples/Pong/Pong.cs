@@ -7,6 +7,7 @@ using AgateLib.InputLib;
 using AgateLib.Platform.WindowsForms.ApplicationModels;
 using AgateLib.Platform.WindowsForms.Resources;
 using AgateLib.ApplicationModels;
+using AgateLib.InputLib.Legacy;
 
 namespace Pong
 {

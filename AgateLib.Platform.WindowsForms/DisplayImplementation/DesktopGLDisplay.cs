@@ -620,9 +620,13 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 				case RenderStateBool.WaitForVerticalBlank: return mVSync;
 				case RenderStateBool.AlphaBlend: return mAlphaBlend;
 
+				case RenderStateBool.StencilBufferTest: return false;
+				case RenderStateBool.ZBufferTest: return false;
+				case RenderStateBool.ZBufferWrite: return false;
+
 				default:
 					throw new NotSupportedException(string.Format(
-						"The specified render state, {0}, is not supported by this driver."));
+						"The specified render state, {0}, is not supported by this driver.", renderStateBool));
 			}
 		}
 		protected override void SetRenderState(RenderStateBool renderStateBool, bool value)
