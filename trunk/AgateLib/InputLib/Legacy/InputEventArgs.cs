@@ -50,32 +50,32 @@ namespace AgateLib.InputLib.Legacy
 		}
 		internal InputEventArgs(KeyCode keyID, KeyModifiers mods)
 		{
+			Initialize();
+
 			KeyCode = keyID;
 			KeyString = Keyboard.GetKeyString(keyID, mods);
 			Modifiers = mods;
-
-			Initialize();
 		}
 		[Obsolete("Don't use this one.", true)]
 		internal InputEventArgs(KeyCode keyID, KeyModifiers mods, int repeatCount)
 			: this(keyID, mods)
 		{
+			Initialize();
+
 			mRepeatCount = repeatCount;
 		}
 
 		internal InputEventArgs(MouseButton mouseButtons)
 		{
-			args = new AgateInputEventArgs();
-			MouseButtons = mouseButtons;
-
 			Initialize();
+
+			MouseButtons = mouseButtons;
 		}
 		internal InputEventArgs(int wheelDelta)
 		{
-			args = new AgateInputEventArgs();
-			WheelDelta = wheelDelta;
-
 			Initialize();
+			
+			WheelDelta = wheelDelta;
 		}
 
 
