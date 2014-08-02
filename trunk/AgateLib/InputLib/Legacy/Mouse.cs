@@ -22,7 +22,7 @@ using System.Text;
 
 using AgateLib.Geometry;
 
-namespace AgateLib.InputLib
+namespace AgateLib.InputLib.Legacy
 {
 	using AgateLib.DisplayLib;
 
@@ -33,46 +33,11 @@ namespace AgateLib.InputLib
 	public static class Mouse
 	{
 		/// <summary>
-		/// Mouse Buttons enum.
-		/// </summary>
-		public enum MouseButtons
-		{
-			/// <summary>
-			/// No mouse button
-			/// </summary>
-			None,
-			/// <summary>
-			/// Primary button, typically the left button.
-			/// </summary>
-			Primary,
-			/// <summary>
-			/// Secondary button, typically the right button.
-			/// </summary>
-			Secondary,
-			/// <summary>
-			/// Middle button on some mice.
-			/// </summary>
-			Middle,
-			/// <summary>
-			/// First Extra Button
-			/// </summary>
-			ExtraButton1,
-			/// <summary>
-			/// Second Extra Button
-			/// </summary>
-			ExtraButton2,
-			/// <summary>
-			/// Third Extra Button
-			/// </summary>
-			ExtraButton3,
-		}
-
-		/// <summary>
 		/// Class which encapsulates the state of the mouse.
 		/// </summary>
 		public class MouseState
 		{
-			bool[] mMouseButtons = new bool[Enum.GetValues(typeof(MouseButtons)).Length];
+			bool[] mMouseButtons = new bool[Enum.GetValues(typeof(MouseButton)).Length];
 
 			internal MouseState()
 			{
@@ -90,7 +55,7 @@ namespace AgateLib.InputLib
 			/// </summary>
 			/// <param name="id"></param>
 			/// <returns></returns>
-			public bool this[MouseButtons id]
+			public bool this[MouseButton id]
 			{
 				get
 				{
@@ -98,7 +63,7 @@ namespace AgateLib.InputLib
 				}
 				set
 				{
-					if (id == MouseButtons.None)
+					if (id == MouseButton.None)
 					{
 						mMouseButtons[(int)id] = false;
 						return;
@@ -281,12 +246,12 @@ namespace AgateLib.InputLib
 				inMouseMove = false;
 			}
 		}
-		private static void OnMouseDown(MouseButtons btn)
+		private static void OnMouseDown(MouseButton btn)
 		{
 			if (MouseDown != null)
 				MouseDown(new InputEventArgs(btn));
 		}
-		private static void OnMouseUp(MouseButtons btn)
+		private static void OnMouseUp(MouseButton btn)
 		{
 			if (MouseUp != null)
 				MouseUp(new InputEventArgs(btn));
@@ -295,10 +260,31 @@ namespace AgateLib.InputLib
 		/// Raises the MouseDoubleClick event.
 		/// </summary>
 		/// <param name="btn"></param>
-		public static void OnMouseDoubleClick(MouseButtons btn)
+		public static void OnMouseDoubleClick(MouseButton btn)
 		{
 			if (MouseDoubleClick != null)
 				MouseDoubleClick(new InputEventArgs(btn));
 		}
+
+		internal static void OnMouseDown(AgateInputEventArgs args)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static void OnMouseUp(AgateInputEventArgs args)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static void OnMouseWheel(AgateInputEventArgs args)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static void OnMouseMove(AgateInputEventArgs args)
+		{
+			throw new NotImplementedException();
+		}
 	}
+
 }

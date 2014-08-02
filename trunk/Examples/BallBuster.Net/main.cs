@@ -32,6 +32,7 @@ using AgateLib.InputLib;
 using AgateLib.AudioLib;
 using AgateLib.Platform;
 using AgateLib.Platform.WindowsForms;
+using AgateLib.InputLib.Legacy;
 
 namespace BallBuster.Net
 {

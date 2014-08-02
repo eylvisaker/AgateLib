@@ -9,6 +9,7 @@ using AgateLib.InputLib;
 using AgateLib.Platform.WindowsForms.Resources;
 using AgateLib.Platform;
 using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.InputLib.Legacy;
 
 namespace ShootTheTraps
 {
@@ -188,12 +189,12 @@ Click to start.";
 				return;
 
 			// left click
-			if ((e.MouseButtons & Mouse.MouseButtons.Primary) != 0)
+			if ((e.MouseButtons & MouseButton.Primary) != 0)
 			{
 				mGame.FireBullet(e.MousePosition.X, e.MousePosition.Y);
 			}
 			// right click
-			if ((e.MouseButtons & Mouse.MouseButtons.Secondary) != 0)
+			if ((e.MouseButtons & MouseButton.Secondary) != 0)
 			{
 				// make sure that the score is done updating.
 				if (mGame.Score == mDisplayedScore)

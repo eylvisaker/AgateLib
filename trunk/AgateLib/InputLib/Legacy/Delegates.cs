@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.InputLib
+namespace AgateLib.InputLib.Legacy
 {
 	/// <summary>
 	/// Input Event handler event type.

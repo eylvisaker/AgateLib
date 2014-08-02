@@ -54,6 +54,8 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 		public override void KeepAlive()
 		{
 			System.Windows.Forms.Application.DoEvents();
+
+			base.KeepAlive();
 		}
 	}
 }

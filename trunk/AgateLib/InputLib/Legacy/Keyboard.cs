@@ -23,7 +23,7 @@ using System.Text;
 using AgateLib.Geometry;
 using AgateLib.Diagnostics;
 
-namespace AgateLib.InputLib
+namespace AgateLib.InputLib.Legacy
 {
 	/// <summary>
 	/// Static class which represents Keyboard input.
@@ -88,9 +88,7 @@ namespace AgateLib.InputLib
 						//System.Diagnostics.Debug.WriteLine("Set key {0} to {1}, repeat count {2}.",
 						//    id, value, mKeyState[(int)id] - 1);
 
-						Keyboard.OnKeyDown(id,
-								new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]),
-								mKeyState[(int)id] - 1);
+						Input.QueueInputEvent(AgateInputEventArgs.KeyDown(id, CurrentModifiers));
 					}
 					// value is false here:
 					else if (mKeyState[(int)id] > 0)
@@ -102,6 +100,11 @@ namespace AgateLib.InputLib
 						mWaitForKeyUp[intID] = false;
 					}
 				}
+			}
+
+			private KeyModifiers CurrentModifiers
+			{
+				get { return new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]); }
 			}
 
 			/// <summary>
@@ -118,8 +121,7 @@ namespace AgateLib.InputLib
 				mWaitForKeyUp[(int)id] = waitKeyUp;
 				//System.Diagnostics.Debug.WriteLine("Set key {0} to {1}.", id, false);
 
-				Keyboard.OnKeyUp(id,
-					  new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]));
+				Input.QueueInputEvent(AgateInputEventArgs.KeyUp(id, CurrentModifiers));
 			}
 			internal bool AnyKeyPressed
 			{
@@ -222,9 +224,10 @@ namespace AgateLib.InputLib
 				return Keys.AnyKeyPressed;
 			}
 		}
+		[Obsolete("Use Input.QueueInputEvent instead.", true)]
 		private static void OnKeyDown(KeyCode id, KeyModifiers mods, int repeatCount)
 		{
-			var eventArgs = new InputEventArgs(id, mods, repeatCount);
+			var eventArgs = new InputEventArgs(id, mods);
 
 			if (AgateConsole.IsInitialized &&
 				(AgateConsole.IsVisible || id == AgateConsole.VisibleToggleKey))
@@ -234,6 +237,7 @@ namespace AgateLib.InputLib
 			else if (KeyDown != null)
 				KeyDown(eventArgs);
 		}
+		[Obsolete("Use Input.QueueInputEvent instead.", true)]
 		private static void OnKeyUp(KeyCode id, KeyModifiers mods)
 		{
 			var eventArgs = new InputEventArgs(id, mods);
@@ -447,6 +451,18 @@ namespace AgateLib.InputLib
 			return "";
 		}
 
+		internal static void OnKeyDown(AgateInputEventArgs args)
+		{
+			if (KeyDown != null)
+				KeyDown(new InputEventArgs(args));
+		}
+
+		internal static void OnKeyUp(AgateInputEventArgs args)
+		{
+			if (KeyUp != null)
+				KeyUp(new InputEventArgs(args));
+		}
+
 		/// <summary>
 		/// Event which occurs when a key is pressed.
 		/// </summary>
@@ -462,5 +478,6 @@ namespace AgateLib.InputLib
 			KeyDown = null;
 			KeyUp = null;
 		}
+
 	}
 }

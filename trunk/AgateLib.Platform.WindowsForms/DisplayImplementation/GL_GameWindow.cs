@@ -29,6 +29,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using AgateLib.OpenGL;
+using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 {
@@ -261,12 +262,12 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 		void Mouse_ButtonUp(object sender, OpenTK.Input.MouseButtonEventArgs e)
 		{
-			Mouse.MouseButtons agatebutton = TransformButton(e.Button);
+			var agatebutton = TransformButton(e.Button);
 			Mouse.Buttons[agatebutton] = false;
 		}
 		void Mouse_ButtonDown(object sender, OpenTK.Input.MouseButtonEventArgs e)
 		{
-			Mouse.MouseButtons agatebutton = TransformButton(e.Button);
+			var agatebutton = TransformButton(e.Button);
 			Mouse.Buttons[agatebutton] = true;
 		}
 		void Mouse_Move(object sender, OpenTK.Input.MouseMoveEventArgs e)
@@ -283,18 +284,18 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 			return KeyCode.None;
 		}
-		private static Mouse.MouseButtons TransformButton(OpenTK.Input.MouseButton button)
+		private static MouseButton TransformButton(OpenTK.Input.MouseButton button)
 		{
-			Mouse.MouseButtons agatebutton = Mouse.MouseButtons.None;
+			MouseButton agatebutton = MouseButton.None;
 
 			switch (button)
 			{
-				case OpenTK.Input.MouseButton.Left: agatebutton = Mouse.MouseButtons.Primary; break;
-				case OpenTK.Input.MouseButton.Middle: agatebutton = Mouse.MouseButtons.Middle; break;
-				case OpenTK.Input.MouseButton.Right: agatebutton = Mouse.MouseButtons.Secondary; break;
-				case OpenTK.Input.MouseButton.Button1: agatebutton = Mouse.MouseButtons.ExtraButton1; break;
-				case OpenTK.Input.MouseButton.Button2: agatebutton = Mouse.MouseButtons.ExtraButton2; break;
-				case OpenTK.Input.MouseButton.Button3: agatebutton = Mouse.MouseButtons.ExtraButton3; break;
+				case OpenTK.Input.MouseButton.Left: agatebutton = MouseButton.Primary; break;
+				case OpenTK.Input.MouseButton.Middle: agatebutton = MouseButton.Middle; break;
+				case OpenTK.Input.MouseButton.Right: agatebutton = MouseButton.Secondary; break;
+				case OpenTK.Input.MouseButton.Button1: agatebutton = MouseButton.ExtraButton1; break;
+				case OpenTK.Input.MouseButton.Button2: agatebutton = MouseButton.ExtraButton2; break;
+				case OpenTK.Input.MouseButton.Button3: agatebutton = MouseButton.ExtraButton3; break;
 			}
 			return agatebutton;
 		}

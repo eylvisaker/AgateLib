@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
+using AgateLib.InputLib.Legacy;
 
 namespace Tests.InputTester
 {
@@ -47,6 +48,9 @@ namespace Tests.InputTester
 		}
 		void Application_Idle(object sender, EventArgs e)
 		{
+			if (Visible == false)
+				return;
+
 			for (int i = 0; i < JoystickInput.Joysticks.Count; i++ )
 			{
 				FillJoystickInfo(i, joystickLabels[i]);

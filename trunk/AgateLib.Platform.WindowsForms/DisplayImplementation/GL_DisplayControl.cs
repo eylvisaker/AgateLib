@@ -37,6 +37,7 @@ using GL = OpenTK.Graphics.OpenGL.GL;
 using OpenTK.Platform;
 using AgateLib.OpenGL;
 using AgateLib.Platform.WindowsForms.WinForms;
+using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 {
@@ -438,20 +439,20 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			e.Cancel = cancel;
 		}
 
-		Mouse.MouseButtons GetButtons(System.Windows.Forms.MouseButtons buttons)
+		InputLib.MouseButton GetButtons(System.Windows.Forms.MouseButtons buttons)
 		{
-			Mouse.MouseButtons retval = Mouse.MouseButtons.None;
+			var retval = InputLib.MouseButton.None;
 
 			if ((buttons & System.Windows.Forms.MouseButtons.Left) != 0)
-				retval |= Mouse.MouseButtons.Primary;
+				retval |= InputLib.MouseButton.Primary;
 			if ((buttons & System.Windows.Forms.MouseButtons.Right) != 0)
-				retval |= Mouse.MouseButtons.Secondary;
+				retval |= InputLib.MouseButton.Secondary;
 			if ((buttons & System.Windows.Forms.MouseButtons.Middle) != 0)
-				retval |= Mouse.MouseButtons.Middle;
+				retval |= InputLib.MouseButton.Middle;
 			if ((buttons & System.Windows.Forms.MouseButtons.XButton1) != 0)
-				retval |= Mouse.MouseButtons.ExtraButton1;
+				retval |= InputLib.MouseButton.ExtraButton1;
 			if ((buttons & System.Windows.Forms.MouseButtons.XButton2) != 0)
-				retval |= Mouse.MouseButtons.ExtraButton2;
+				retval |= InputLib.MouseButton.ExtraButton2;
 
 			return retval;
 		}
@@ -470,7 +471,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 		void mRenderTarget_DoubleClick(object sender, EventArgs e)
 		{
-			Mouse.OnMouseDoubleClick(Mouse.MouseButtons.Primary);
+			Mouse.OnMouseDoubleClick(InputLib.MouseButton.Primary);
 		}
 		void mRenderTarget_MouseWheel(object sender, MouseEventArgs e)
 		{
@@ -478,13 +479,13 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		}
 		void pct_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			Mouse.MouseButtons btn = GetButtons(e.Button);
+			var btn = GetButtons(e.Button);
 
 			Mouse.Buttons[btn] = false;
 		}
 		void pct_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			Mouse.MouseButtons btn = GetButtons(e.Button);
+			var btn = GetButtons(e.Button);
 
 			Mouse.Buttons[btn] = true;
 		}

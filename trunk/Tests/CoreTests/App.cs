@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AgateLib;
 using AgateLib.InputLib;
+using AgateLib.InputLib.Legacy;
 
 namespace Tests.AppTester
 {

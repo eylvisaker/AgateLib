@@ -1,5 +1,6 @@
 ﻿using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.InputLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -227,6 +228,9 @@ namespace AgateLib.ApplicationModels
 
 		public ModelParameters Parameters { get; set; }
 
-		public abstract void KeepAlive();
+		public virtual void KeepAlive()
+		{
+			Input.DispatchEvents();
+		}
 	}
 }
