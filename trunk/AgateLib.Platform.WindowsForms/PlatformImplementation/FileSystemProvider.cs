@@ -28,7 +28,7 @@ namespace AgateLib.Utility
 	/// FileSystemProvider implements IFileProvider, providing access to files
 	/// from the operating system file system.
 	/// </summary>
-	public class FileSystemProvider : IFileProvider
+	public class FileSystemProvider : IReadFileProvider
 	{
 		string mPath;
 

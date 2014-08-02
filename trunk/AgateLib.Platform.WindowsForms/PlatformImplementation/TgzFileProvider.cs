@@ -31,7 +31,7 @@ namespace AgateLib.Utility
 	/// tar archives.  This provides basic support for reading files from a compressed
 	/// archive external to the application.
 	/// </summary>
-	public class TgzFileProvider : IFileProvider
+	public class TgzFileProvider : IReadFileProvider
 	{
 		class FileInfo
 		{

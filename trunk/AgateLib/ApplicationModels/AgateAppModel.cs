@@ -140,6 +140,10 @@ namespace AgateLib.ApplicationModels
 					Parameters.DisplayWindowSize = Size.FromString(parm);
 					break;
 
+				case "--novsync":
+					Parameters.VerticalSync = false;
+					break;
+
 				default:
 					break;
 			}
@@ -157,6 +161,7 @@ namespace AgateLib.ApplicationModels
 			{
 				Initialize();
 				AutoCreateDisplayWindow();
+				Display.RenderState.WaitForVerticalBlank = Parameters.VerticalSync;
 
 				int retval = BeginModel(entryPoint);
 

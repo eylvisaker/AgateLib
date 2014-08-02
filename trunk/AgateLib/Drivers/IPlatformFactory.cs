@@ -19,5 +19,7 @@ namespace AgateLib.Drivers
 		IO.IPath CreatePath();
 
 		IEnumerable<System.Reflection.Assembly> GetSerializationSearchAssemblies(Type objectType);
+
+		IReadFileProvider CreateAssetFileProvider();
 	}
 }

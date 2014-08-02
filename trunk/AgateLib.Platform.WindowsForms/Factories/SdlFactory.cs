@@ -16,7 +16,7 @@ namespace AgateLib.Platform.WindowsForms.Factories
 
 		public AudioLib.ImplementationBase.AudioImpl CreateAudioImpl()
 		{
-			return new NullSoundImpl();
+			return new AgateLib.SDL.Audio.SDL_Audio();
 		}
 	}
 }

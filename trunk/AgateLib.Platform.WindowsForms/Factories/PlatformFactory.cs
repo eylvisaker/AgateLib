@@ -2,8 +2,10 @@
 using AgateLib.Drivers;
 using AgateLib.IO;
 using AgateLib.Platform.WindowsForms.PlatformImplementation;
+using AgateLib.Utility;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -41,6 +43,21 @@ namespace AgateLib.Platform.WindowsForms.Factories
 			return new SysIoPath();
 		}
 
+		public IReadFileProvider CreateAssetFileProvider()
+		{
+			return new FileSystemProvider(AssemblyLoadDirectory);
+		}
+
+		static public string AssemblyLoadDirectory
+		{
+			get
+			{
+				string codeBase = Assembly.GetCallingAssembly().CodeBase;
+				UriBuilder uri = new UriBuilder(codeBase);
+				string path = Uri.UnescapeDataString(uri.Path);
+				return Path.GetDirectoryName(path);
+			}
+		}
 
 		public IEnumerable<Assembly> GetSerializationSearchAssemblies(Type objectType)
 		{

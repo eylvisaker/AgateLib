@@ -43,7 +43,7 @@ namespace AgateLib.Resources
 
 		const string mStringTableKey = "Strings";
 		bool mOwnFileProvider;
-		IFileProvider mFileProvider;
+		IReadFileProvider mFileProvider;
 
 		SurfaceResourceList mSurfaceAccessor;
 		//GuiThemeResourceList mGuiThemeAccessor;
@@ -68,7 +68,7 @@ namespace AgateLib.Resources
 						if (retval != null)
 							return retval;
 					}
-						
+
 					throw new AgateResourceException("Could not find the surface resource {0}.", key);
 				}
 			}
@@ -78,36 +78,36 @@ namespace AgateLib.Resources
 				get { return mResources.mImages.Count; }
 			}
 		}
-//		public class GuiThemeResourceList
-//		{
-//			AgateResourceCollection mResources;
-//
-//			internal GuiThemeResourceList(AgateResourceCollection resources)
-//			{
-//				mResources = resources;
-//			}
-//
-//			public GuiThemeResource this[string key]
-//			{
-//				get
-//				{
-//					var retval = mResources.mGuiThemes.FirstOrDefault(x => x.Name == key);
-//
-//					if (retval == null)
-//						throw new AgateResourceException("Could not find the gui theme resource {0}.", key);
-//
-//					return retval;
-//				}
-//			}
-//			public GuiThemeResource this[int index]
-//			{
-//				get { return mResources.mGuiThemes[index]; }
-//			}
-//			public int Count
-//			{
-//				get { return mResources.mGuiThemes.Count; }
-//			}
-//		}
+		//		public class GuiThemeResourceList
+		//		{
+		//			AgateResourceCollection mResources;
+		//
+		//			internal GuiThemeResourceList(AgateResourceCollection resources)
+		//			{
+		//				mResources = resources;
+		//			}
+		//
+		//			public GuiThemeResource this[string key]
+		//			{
+		//				get
+		//				{
+		//					var retval = mResources.mGuiThemes.FirstOrDefault(x => x.Name == key);
+		//
+		//					if (retval == null)
+		//						throw new AgateResourceException("Could not find the gui theme resource {0}.", key);
+		//
+		//					return retval;
+		//				}
+		//			}
+		//			public GuiThemeResource this[int index]
+		//			{
+		//				get { return mResources.mGuiThemes[index]; }
+		//			}
+		//			public int Count
+		//			{
+		//				get { return mResources.mGuiThemes.Count; }
+		//			}
+		//		}
 
 		/// <summary>
 		/// Constructs a new AgateResourceCollection object.
@@ -144,9 +144,15 @@ namespace AgateLib.Resources
 		/// <summary>
 		/// Gets or sets the file provider used to laod resources.
 		/// </summary>
-		public IFileProvider FileProvider
+		public IReadFileProvider FileProvider
 		{
-			get { return mFileProvider; }
+			get
+			{
+				if (mFileProvider == null)
+					return AgateLib.IO.FileProvider.ResourceAssets;
+
+				return mFileProvider;
+			}
 			set { mFileProvider = value; }
 		}
 
@@ -186,10 +192,10 @@ namespace AgateLib.Resources
 		/// <summary>
 		/// Gets the list of GuiThemeResource objects.
 		/// </summary>
-//		public GuiThemeResourceList GuiThemes
-//		{
-//			get { return mGuiThemeAccessor; }
-//		}
+		//		public GuiThemeResourceList GuiThemes
+		//		{
+		//			get { return mGuiThemeAccessor; }
+		//		}
 		/// <summary>
 		/// Enumerates through the DisplayWindowResources contained in this group of resources.
 		/// </summary>
@@ -234,10 +240,10 @@ namespace AgateLib.Resources
 
 				mImages.Add(img);
 			}
-//			else if (item is GuiThemeResource)
-//			{
-//				mGuiThemes.Add((GuiThemeResource)item);
-//			}
+			//			else if (item is GuiThemeResource)
+			//			{
+			//				mGuiThemes.Add((GuiThemeResource)item);
+			//			}
 			else
 				mStore.Add(item.Name, item);
 		}
