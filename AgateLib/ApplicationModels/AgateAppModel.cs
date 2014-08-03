@@ -161,7 +161,7 @@ namespace AgateLib.ApplicationModels
 			{
 				Initialize();
 				AutoCreateDisplayWindow();
-				Display.RenderState.WaitForVerticalBlank = Parameters.VerticalSync;
+				//Display.RenderState.WaitForVerticalBlank = Parameters.VerticalSync;
 
 				int retval = BeginModel(entryPoint);
 

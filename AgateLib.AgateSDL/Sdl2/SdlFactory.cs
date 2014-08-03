@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.SDL.Sdl2
+namespace AgateLib.AgateSDL.Sdl2
 {
 	static class SdlFactory
 	{

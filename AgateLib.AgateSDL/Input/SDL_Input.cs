@@ -22,61 +22,73 @@ using System.Diagnostics;
 using System.Text;
 using AgateLib.Drivers;
 using AgateLib.InputLib.ImplementationBase;
+using AgateLib.AgateSDL.Sdl2;
 
-namespace AgateLib.SDL.Input
+namespace AgateLib.AgateSDL.Input
 {
 	public class SDL_Input : InputImpl
 	{
+		ISDL sdl;
+
 		public SDL_Input()
 		{
+			sdl = SdlFactory.CreateSDL();
 		}
 		public override int JoystickCount
 		{
-			get { return SDL2.SDL.SDL_NumJoysticks(); }
+			get { return sdl.SDL_NumJoysticks(); }
 		}
 
 		public override IEnumerable<JoystickImpl> CreateJoysticks()
 		{
 			for (int i = 0; i < JoystickCount; i++)
 			{
-				Debug.Print(SDL2.SDL.SDL_JoystickName((IntPtr)i));
+				Debug.Print(sdl.SDL_JoystickName((IntPtr)i));
 				yield return new Joystick_SDL(i);
 			}
 		}
 
 		public override void Dispose()
 		{
-			SDL2.SDL.SDL_QuitSubSystem(SDL2.SDL.SDL_INIT_JOYSTICK);
+			sdl.SDL_QuitSubSystem(SDLConstants.SDL_INIT_JOYSTICK);
 		}
 
 		public override void Initialize()
 		{
 			// apparently initializing the video has some side-effect 
 			// that is required for joysticks to work on windows (at least).
-			if (SDL2.SDL.SDL_InitSubSystem(SDL2.SDL.SDL_INIT_JOYSTICK | SDL2.SDL.SDL_INIT_VIDEO) != 0)
+			if (sdl.SDL_InitSubSystem(SDLConstants.SDL_INIT_JOYSTICK | SDLConstants.SDL_INIT_VIDEO) != 0)
 			{
 				throw new AgateLib.AgateException("Failed to initialize SDL joysticks.");
 			}
+			
+			sdl.SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1"); 
 
-			SDL2.SDL.SDL_version version;
-			SDL2.SDL.SDL_VERSION(out version);
+			Report("SDL driver version 2.0.3 instantiated for joystick input.");
+		}
 
-			Report("SDL driver version " + version.ToString() + " instantiated for joystick input.");
-
+		public override void Poll()
+		{
+			sdl.CallPollEvent();
 		}
 	}
 
 	public class Joystick_SDL : JoystickImpl
 	{
+		ISDL sdl;
+
 		IntPtr joystick;
 		IntPtr joystickIndex;
 		double axisTheshold = 0.04f;
 		bool[] buttons;
+		int buttonCount = -1;
 
 		public Joystick_SDL(int index)
 		{
+			sdl = SdlFactory.CreateSDL();
+
 			this.joystickIndex = (IntPtr) index;
-			this.joystick = SDL2.SDL.SDL_JoystickOpen(index);
+			this.joystick = sdl.SDL_JoystickOpen(index);
 			buttons = new bool[ButtonCount];
 		}
 
@@ -84,7 +96,7 @@ namespace AgateLib.SDL.Input
 		{
 			get
 			{
-				string retval = SDL2.SDL.SDL_JoystickName(joystickIndex);
+				string retval = sdl.SDL_JoystickName(joystickIndex);
 
 				return retval;
 			}
@@ -92,11 +104,11 @@ namespace AgateLib.SDL.Input
 
 		public override int AxisCount
 		{
-			get { return SDL2.SDL.SDL_JoystickNumAxes(joystick); }
+			get { return sdl.SDL_JoystickNumAxes(joystick); }
 		}
 		public override int HatCount
 		{
-			get { return SDL2.SDL.SDL_JoystickNumHats(joystick); }
+			get { return sdl.SDL_JoystickNumHats(joystick); }
 		}
 
 		public override double AxisThreshold
@@ -113,7 +125,13 @@ namespace AgateLib.SDL.Input
 
 		public override int ButtonCount
 		{
-			get { return SDL2.SDL.SDL_JoystickNumButtons(joystick); }
+			get
+			{
+				if (buttonCount == -1)
+					buttonCount = sdl.SDL_JoystickNumButtons(joystick);
+
+				return buttonCount;
+			}
 		}
 
 		public override bool GetButtonState(int buttonIndex)
@@ -122,18 +140,18 @@ namespace AgateLib.SDL.Input
 		}
 		public override AgateLib.InputLib.HatState GetHatState(int hatIndex)
 		{
-			switch(SDL2.SDL.SDL_JoystickGetHat(joystick, hatIndex))
+			switch(sdl.SDL_JoystickGetHat(joystick, hatIndex))
 			{
-				case SDL2.SDL.SDL_HAT_RIGHTUP: return AgateLib.InputLib.HatState.UpRight;
-				case SDL2.SDL.SDL_HAT_RIGHT: return AgateLib.InputLib.HatState.Right;
-				case SDL2.SDL.SDL_HAT_RIGHTDOWN: return AgateLib.InputLib.HatState.DownRight;
-				case SDL2.SDL.SDL_HAT_LEFTUP: return AgateLib.InputLib.HatState.UpLeft;
-				case SDL2.SDL.SDL_HAT_LEFT: return AgateLib.InputLib.HatState.Left;
-				case SDL2.SDL.SDL_HAT_LEFTDOWN: return AgateLib.InputLib.HatState.DownLeft;
-				case SDL2.SDL.SDL_HAT_DOWN: return AgateLib.InputLib.HatState.Down;
-				case SDL2.SDL.SDL_HAT_UP: return AgateLib.InputLib.HatState.Up;
+				case SDLConstants.SDL_HAT_RIGHTUP: return AgateLib.InputLib.HatState.UpRight;
+				case SDLConstants.SDL_HAT_RIGHT: return AgateLib.InputLib.HatState.Right;
+				case SDLConstants.SDL_HAT_RIGHTDOWN: return AgateLib.InputLib.HatState.DownRight;
+				case SDLConstants.SDL_HAT_LEFTUP: return AgateLib.InputLib.HatState.UpLeft;
+				case SDLConstants.SDL_HAT_LEFT: return AgateLib.InputLib.HatState.Left;
+				case SDLConstants.SDL_HAT_LEFTDOWN: return AgateLib.InputLib.HatState.DownLeft;
+				case SDLConstants.SDL_HAT_DOWN: return AgateLib.InputLib.HatState.Down;
+				case SDLConstants.SDL_HAT_UP: return AgateLib.InputLib.HatState.Up;
 
-				case SDL2.SDL.SDL_HAT_CENTERED: 
+				case SDLConstants.SDL_HAT_CENTERED: 
 				default:
 					return AgateLib.InputLib.HatState.None;
 			}
@@ -141,7 +159,7 @@ namespace AgateLib.SDL.Input
 		public override double GetAxisValue(int axisIndex)
 		{
 			// Convert joystick coordinate to the agatelib coordinate system of -1..1.
-			double value = SDL2.SDL.SDL_JoystickGetAxis(joystick, axisIndex) / 32767.0;
+			double value = sdl.SDL_JoystickGetAxis(joystick, axisIndex) / 32767.0;
 
 			if (value < -1) value = -1;
 			else if (value > 1) value = 1;
@@ -159,12 +177,9 @@ namespace AgateLib.SDL.Input
 
 		public override void Poll()
 		{
-			SDL2.SDL.SDL_Event evt;
-			SDL2.SDL.SDL_PollEvent(out evt);
-
 			for (int i = 0; i < ButtonCount; i++)
 			{
-				buttons[i] = (SDL2.SDL.SDL_JoystickGetButton(joystick, i) != 0) ? true : false;
+				buttons[i] = (sdl.SDL_JoystickGetButton(joystick, i) != 0) ? true : false;
 			}
 		}
 

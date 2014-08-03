@@ -64,6 +64,8 @@ namespace AgateLib.InputLib
 
 		internal static void PollTimer()
 		{
+			sImpl.Poll();
+
 			for (int i = 0; i < mRawJoysticks.Count; i++)
 				mRawJoysticks[i].Poll();
 		}

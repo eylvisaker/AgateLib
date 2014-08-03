@@ -11,12 +11,12 @@ namespace AgateLib.Platform.WindowsForms.Factories
 	{
 		public InputLib.ImplementationBase.InputImpl CreateJoystickInputImpl()
 		{
-			return new NullInputImpl();
+			return new AgateLib.AgateSDL.Input.SDL_Input();
 		}
 
 		public AudioLib.ImplementationBase.AudioImpl CreateAudioImpl()
 		{
-			return new AgateLib.SDL.Audio.SDL_Audio();
+			return new AgateLib.AgateSDL.Audio.SDL_Audio();
 		}
 	}
 }

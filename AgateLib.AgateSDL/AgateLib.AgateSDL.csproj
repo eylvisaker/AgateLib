@@ -7,7 +7,7 @@
     <ProjectGuid>{935D67A0-931E-46DE-9F6A-2D6DBC99AFF3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgateLib.SDL</RootNamespace>
+    <RootNamespace>AgateLib.AgateSDL</RootNamespace>
     <AssemblyName>AgateLib.SDL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Binaries\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Binaries\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -65,9 +65,7 @@
     <Compile Include="Sdl2\ThirtyTwo\SDL2_ttf.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AgateLib.SDL.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="AgateLib.AgateSDL.dll.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

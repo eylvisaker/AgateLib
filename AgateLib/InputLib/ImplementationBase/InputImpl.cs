@@ -39,5 +39,7 @@ namespace AgateLib.InputLib.ImplementationBase
 		/// </summary>
 		/// <returns></returns>
 		public abstract IEnumerable<JoystickImpl> CreateJoysticks();
+
+		public abstract void Poll();
 	}
 }
