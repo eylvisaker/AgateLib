@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.SDL.Sdl2
+namespace AgateLib.AgateSDL.Sdl2
 {
 	class SDLConstants
 	{
@@ -56,5 +56,21 @@ namespace AgateLib.SDL.Sdl2
 
 		public const int SDL_MIX_MAXVOLUME = 128;
 
+
+		public static readonly int MIX_DEFAULT_FREQUENCY = 22050;
+		public static readonly ushort MIX_DEFAULT_FORMAT =
+			BitConverter.IsLittleEndian ? SDLConstants.AUDIO_S16LSB : SDLConstants.AUDIO_S16MSB;
+		public static readonly int MIX_DEFAULT_CHANNELS = 2;
+		public static readonly byte MIX_MAX_VOLUME = 128;
+
+		public const byte SDL_HAT_CENTERED = 0x00;
+		public const byte SDL_HAT_UP = 0x01;
+		public const byte SDL_HAT_RIGHT = 0x02;
+		public const byte SDL_HAT_DOWN = 0x04;
+		public const byte SDL_HAT_LEFT = 0x08;
+		public const byte SDL_HAT_RIGHTUP = SDL_HAT_RIGHT | SDL_HAT_UP;
+		public const byte SDL_HAT_RIGHTDOWN = SDL_HAT_RIGHT | SDL_HAT_DOWN;
+		public const byte SDL_HAT_LEFTUP = SDL_HAT_LEFT | SDL_HAT_UP;
+		public const byte SDL_HAT_LEFTDOWN = SDL_HAT_LEFT | SDL_HAT_DOWN;
 	}
 }

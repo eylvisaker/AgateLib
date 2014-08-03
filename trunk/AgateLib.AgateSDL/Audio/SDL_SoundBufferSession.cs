@@ -24,11 +24,13 @@ using System.Text;
 using AgateLib;
 using AgateLib.AudioLib.ImplementationBase;
 using SDL2;
+using AgateLib.AgateSDL.Sdl2;
 
-namespace AgateLib.SDL.Audio
+namespace AgateLib.AgateSDL.Audio
 {
 	class SDL_SoundBufferSession : SoundBufferSessionImpl
 	{
+		ISDL sdl;
 		IntPtr sound;
 		int channel = -1;
 		double volume;
@@ -42,6 +44,8 @@ namespace AgateLib.SDL.Audio
 
 		public SDL_SoundBufferSession(SDL_SoundBuffer buffer)
 		{
+			sdl = SdlFactory.CreateSDL();
+
 			this.buffer = buffer;
 			loop = buffer.Loop;
 
@@ -49,6 +53,8 @@ namespace AgateLib.SDL.Audio
 			volume = buffer.Volume;
 
 			audio = (SDL_Audio)AgateLib.AudioLib.Audio.Impl;
+
+			Debug.Print("Playing " + buffer.Filename);
 		}
 		public override void Dispose()
 		{
@@ -67,7 +73,7 @@ namespace AgateLib.SDL.Audio
 				if (channel == -1)
 					return false;
 
-				return SDL_mixer.Mix_Playing(channel) != 0;
+				return sdl.Mixer.Mix_Playing(channel) != 0;
 			}
 		}
 
@@ -100,21 +106,21 @@ namespace AgateLib.SDL.Audio
 			byte leftVol = (byte)(pan <= 0 ? 255 : (int)((1.0 - pan) * 255));
 			byte rightVol = (byte)(pan >= 0 ? 255 : (int)((pan + 1.0) * 255));
 
-			SDL_mixer.Mix_SetPanning(channel, leftVol, rightVol);
+			sdl.Mixer.Mix_SetPanning(channel, leftVol, rightVol);
 		}
 
 		public override void Play()
 		{
 			if (IsPlaying == false)
 			{
-				channel = SDL_mixer.Mix_PlayChannel(-1, sound, LoopCount);
+				channel = sdl.Mixer.Mix_PlayChannel(-1, sound, LoopCount);
 
 				if (channel == -1)
 					Trace.WriteLine(string.Format("Error: {0}", "unknown" /*SDL_mixer.Mix_GetError() */));
 			}
 			else
 			{
-				SDL_mixer.Mix_PlayChannel(channel, sound, LoopCount);
+				sdl.Mixer.Mix_PlayChannel(channel, sound, LoopCount);
 			}
 
 			SetPanning();
@@ -142,7 +148,7 @@ namespace AgateLib.SDL.Audio
 
 		public override void Stop()
 		{
-			SDL_mixer.Mix_HaltChannel(channel);
+			sdl.Mixer.Mix_HaltChannel(channel);
 
 			watch.Stop();
 		}
@@ -165,7 +171,7 @@ namespace AgateLib.SDL.Audio
 		{
 			if (channel != -1)
 			{
-				SDL_mixer.Mix_Volume(channel, (int)(volume * 128));
+				sdl.Mixer.Mix_Volume(channel, (int)(volume * 128));
 			}
 		}
 
@@ -176,7 +182,7 @@ namespace AgateLib.SDL.Audio
 				if (channel == -1)
 					return false;
 				else
-					return SDL_mixer.Mix_Paused(channel) != 0;
+					return sdl.Mixer.Mix_Paused(channel) != 0;
 			}
 			set
 			{
@@ -185,11 +191,11 @@ namespace AgateLib.SDL.Audio
 
 				if (IsPaused)
 				{
-					SDL_mixer.Mix_Resume(channel);
+					sdl.Mixer.Mix_Resume(channel);
 				}
 				else
 				{
-					SDL_mixer.Mix_Pause(channel);
+					sdl.Mixer.Mix_Pause(channel);
 				}
 			}
 		}

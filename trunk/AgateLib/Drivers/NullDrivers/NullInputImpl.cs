@@ -46,5 +46,9 @@ namespace AgateLib.Drivers.NullDrivers
 		{
 			return new List<JoystickImpl>();
 		}
+
+		public override void Poll()
+		{
+		}
 	}
 }

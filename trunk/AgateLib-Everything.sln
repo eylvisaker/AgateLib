@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.GL", "AgateLib.GL\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Platform.WindowsForms", "AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj", "{4B12561E-D37B-48A1-B6DB-218E94906C22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.SDL", "AgateLib.SDL\AgateLib.SDL.csproj", "{935D67A0-931E-46DE-9F6A-2D6DBC99AFF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.AgateSDL", "AgateLib.AgateSDL\AgateLib.AgateSDL.csproj", "{935D67A0-931E-46DE-9F6A-2D6DBC99AFF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

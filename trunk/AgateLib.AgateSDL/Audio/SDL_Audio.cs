@@ -23,15 +23,15 @@ using System.Text;
 using AgateLib;
 using AgateLib.AudioLib.ImplementationBase;
 using SDL2;
-using AgateLib.SDL.Sdl2;
+using AgateLib.AgateSDL.Sdl2;
 
-namespace AgateLib.SDL.Audio
+namespace AgateLib.AgateSDL.Audio
 {
 	public class SDL_Audio : AudioImpl
 	{
 		List<string> tempfiles = new List<string>();
 		Dictionary<int, SDL_SoundBufferSession> mChannels = new Dictionary<int, SDL_SoundBufferSession>();
-		Func<int> mChannelFinishedDelegate;
+		Action<int> mChannelFinishedDelegate;
 		ISDL sdl;
 
 		public SDL_Audio()
@@ -117,7 +117,7 @@ namespace AgateLib.SDL.Audio
 			}
 
 			if (sdl.Mixer.Mix_OpenAudio(
-				sdl.Mixer.MIX_DEFAULT_FREQUENCY, SDLConstants.AUDIO_S16, 2, 512) != 0)
+				SDLConstants.MIX_DEFAULT_FREQUENCY, SDLConstants.AUDIO_S16, 2, 512) != 0)
 			{
 				throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
 			}
