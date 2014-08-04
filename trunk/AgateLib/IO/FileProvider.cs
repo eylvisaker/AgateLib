@@ -22,22 +22,22 @@ namespace AgateLib.IO
 		public static IReadFileProvider SurfaceAssets
 		{
 			get { return mSurfaceAssets ?? Assets; }
-			set { mSurfaceAssets = Assets; }
+			set { mSurfaceAssets = value; }
 		}
 		public static IReadFileProvider ResourceAssets
 		{
 			get { return mResourceAssets ?? Assets; }
-			set { mResourceAssets = Assets; }
+			set { mResourceAssets = value; }
 		}
 		public static IReadFileProvider MusicAssets
 		{
 			get { return mMusicAssets ?? Assets; }
-			set { mMusicAssets = Assets; }
+			set { mMusicAssets = value; }
 		}
 		public static IReadFileProvider SoundAssets
 		{
 			get { return mSoundAssets ?? Assets; }
-			set { mSoundAssets = Assets; }
+			set { mSoundAssets = value; }
 		}
 		
 		public static IReadWriteFileProvider UserFiles { get; private set; }

@@ -33,6 +33,7 @@ namespace AgateLib.AgateSDL.Audio
 		SDL_Audio audio;
 		IntPtr music;
 		string tempfile;
+		string filename;
 		double mVolume;
 
 		public SDL_Music(SDL_Audio audio, Stream stream)
@@ -52,8 +53,8 @@ namespace AgateLib.AgateSDL.Audio
 			sdl = SdlFactory.CreateSDL();
 
 			this.audio = audio;
-
-			LoadFromFile(filename);
+			this.filename = AgateLib.IO.FileProvider.MusicAssets.ResolveFile(filename);
+			LoadFromFile(this.filename);
 		}
 
 		~SDL_Music()

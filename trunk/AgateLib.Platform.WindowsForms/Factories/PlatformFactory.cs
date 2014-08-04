@@ -45,7 +45,8 @@ namespace AgateLib.Platform.WindowsForms.Factories
 
 		public IReadFileProvider CreateAssetFileProvider()
 		{
-			return new FileSystemProvider(AssemblyLoadDirectory);
+			//return new FileSystemProvider(AssemblyLoadDirectory);
+			return new FileSystemProvider(".");
 		}
 
 		static public string AssemblyLoadDirectory
