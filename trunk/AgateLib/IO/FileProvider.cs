@@ -42,5 +42,9 @@ namespace AgateLib.IO
 		
 		public static IReadWriteFileProvider UserFiles { get; private set; }
 
+		public static IReadFileProvider NewProviderFromSubdirectory(IReadFileProvider parent, string subdir)
+		{
+			return new SubdirectoryProvider(parent, subdir);
+		}
 	}
 }
