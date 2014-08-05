@@ -52,7 +52,7 @@ namespace AgateLib.AgateSDL.Audio
 			sdl = SdlFactory.CreateSDL();
 
 			this.filename = AgateLib.IO.FileProvider.SoundAssets.ResolveFile(filename);
-			LoadFromFile(filename);
+			LoadFromFile(this.filename);
 		}
 
 
@@ -88,7 +88,11 @@ namespace AgateLib.AgateSDL.Audio
 			sound = sdl.Mixer.Mix_LoadWAV(file);
 
 			if (sound == IntPtr.Zero)
-				throw new AgateException("Could not load audio file.");
+			{
+				var error = sdl.Mixer.GetError();
+
+				throw new AgateException("Could not load audio file:" + error);
+			}
 		}
 
 		public override double Volume

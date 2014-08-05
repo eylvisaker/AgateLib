@@ -49,5 +49,7 @@ namespace AgateLib.AgateSDL.Sdl2
 		void Mix_Resume(int channel);
 
 		void Mix_Pause(int channel);
+
+		string GetError();
 	}
 }

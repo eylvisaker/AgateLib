@@ -55,6 +55,8 @@ namespace AgateLib.AgateSDL.Audio
 			audio = (SDL_Audio)AgateLib.AudioLib.Audio.Impl;
 
 			Debug.Print("Playing " + buffer.Filename);
+
+			Play();
 		}
 		public override void Dispose()
 		{
