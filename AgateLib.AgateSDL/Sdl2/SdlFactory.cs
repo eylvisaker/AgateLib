@@ -18,6 +18,8 @@ namespace AgateLib.AgateSDL.Sdl2
 					sdl = new SDL64();
 				else
 					sdl = new SDL32();
+
+				sdl.SDL_Init(SDLConstants.SDL_INIT_AUDIO | SDLConstants.SDL_INIT_GAMECONTROLLER | SDLConstants.SDL_INIT_JOYSTICK);
 			}
 
 			return sdl;

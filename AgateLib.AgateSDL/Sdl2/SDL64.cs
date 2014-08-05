@@ -2,17 +2,43 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace AgateLib.AgateSDL.Sdl2
 {
 	class SDL64 : ISDL
 	{
+		[DllImport("kernel32.dll")]
+		public static extern IntPtr LoadLibrary(string dllToLoad);
+
 		SDLMixer64 mixer = new SDLMixer64();
+
+		public SDL64()
+		{
+			LoadLibrary("lib64/libogg-0.dll");
+			LoadLibrary("lib64/libvorbis-0.dll");
+			LoadLibrary("lib64/libvorbisfile-3.dll");
+			LoadLibrary("lib64/libFLAC-8.dll");
+			LoadLibrary("lib64/smepg2.dll");
+			LoadLibrary("lib64/libmikmod-2.dll");
+			LoadLibrary("lib64/libmodplug-1.dll");
+		}
 
 		ISDLMixer ISDL.Mixer
 		{
 			get { return mixer; }
+		}
+
+		public void CheckReturnValue(int val)
+		{
+			if (val != 0)
+				throw new AgateException(SDL.SDL_GetError());
+		}
+
+		public void SDL_Init(uint flags)
+		{
+			CheckReturnValue(SDL.SDL_Init(flags));
 		}
 
 		public void SDL_QuitSubSystem(uint p)
@@ -77,6 +103,10 @@ namespace AgateLib.AgateSDL.Sdl2
 		public void SDL_SetHint(string name, string value)
 		{
 			SDL.SDL_SetHint(name, value);
+		}
+		public string GetError()
+		{
+			return SDL.SDL_GetError();
 		}
 	}
 
@@ -195,6 +225,10 @@ namespace AgateLib.AgateSDL.Sdl2
 		public void Mix_Pause(int channel)
 		{
 			SDL_mixer.Mix_Pause(channel);
+		}
+		public string GetError()
+		{
+			return SDL.SDL_GetError();
 		}
 	}
 }

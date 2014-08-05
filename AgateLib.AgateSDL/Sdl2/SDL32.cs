@@ -15,6 +15,17 @@ namespace AgateLib.AgateSDL.Sdl2
 			get { return mixer; }
 		}
 
+		public void CheckReturnValue(int val)
+		{
+			if (val != 0)
+				throw new AgateException(SDL.SDL_GetError());
+		}
+
+		public void SDL_Init(uint flags)
+		{
+			CheckReturnValue(SDL.SDL_Init(flags));
+		}
+
 		public void SDL_QuitSubSystem(uint flags)
 		{
 			SDL.SDL_QuitSubSystem(flags);
@@ -85,6 +96,13 @@ namespace AgateLib.AgateSDL.Sdl2
 		{
 			SDL.SDL_SetHint(name, value);
 		}
+
+
+		public string GetError()
+		{
+			return SDL.SDL_GetError();
+		}
+
 	}
 
 	class SDLMixer32 : ISDLMixer
@@ -202,6 +220,12 @@ namespace AgateLib.AgateSDL.Sdl2
 		public void Mix_Pause(int channel)
 		{
 			SDL_mixer.Mix_Pause(channel);
+		}
+
+
+		public string GetError()
+		{
+			return SDL.SDL_GetError();
 		}
 	}
 }

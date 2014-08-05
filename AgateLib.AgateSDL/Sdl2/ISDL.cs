@@ -34,5 +34,9 @@ namespace AgateLib.AgateSDL.Sdl2
 		void CallPollEvent();
 
 		void SDL_SetHint(string p1, string p2);
+
+		string GetError();
+
+		void SDL_Init(uint flags);
 	}
 }
