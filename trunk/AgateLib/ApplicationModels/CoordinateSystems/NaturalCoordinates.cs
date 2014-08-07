@@ -12,7 +12,7 @@ namespace AgateLib.ApplicationModels.CoordinateSystems
 	/// </summary>
 	public class NaturalCoordinates : ICoordinateSystemCreator
 	{
-		public Rectangle DetermineCoordinateSystem(Size displayWindowSize, double aspectRatio)
+		public Rectangle DetermineCoordinateSystem(Size displayWindowSize)
 		{
 			return new Rectangle(0, 0, displayWindowSize.Width, displayWindowSize.Height);
 		}
