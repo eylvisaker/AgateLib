@@ -189,6 +189,14 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
+		/// Gets the coordinate system for the current render target. Equivalent to Display.RenderTarget.CoordinateSystem.
+		/// </summary>
+		public static Rectangle CoordinateSystem
+		{
+			get { return RenderTarget.CoordinateSystem; }
+		}
+
+		/// <summary>
 		/// Gets the last render target used which was a DisplayWindow.
 		/// </summary>
 		public static DisplayWindow CurrentWindow
