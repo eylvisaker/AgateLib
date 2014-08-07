@@ -10,19 +10,17 @@ namespace AgateLib.AgateSDL.Sdl2
 	class SDL64 : ISDL
 	{
 		[DllImport("kernel32.dll")]
-		public static extern IntPtr LoadLibrary(string dllToLoad);
+		static extern IntPtr LoadLibrary(string dllToLoad);
 
 		SDLMixer64 mixer = new SDLMixer64();
 
 		public SDL64()
 		{
-			LoadLibrary("lib64/libogg-0.dll");
-			LoadLibrary("lib64/libvorbis-0.dll");
-			LoadLibrary("lib64/libvorbisfile-3.dll");
-			LoadLibrary("lib64/libFLAC-8.dll");
-			LoadLibrary("lib64/smepg2.dll");
-			LoadLibrary("lib64/libmikmod-2.dll");
-			LoadLibrary("lib64/libmodplug-1.dll");
+		}
+
+		public void PreloadLibrary(string name)
+		{
+			LoadLibrary("lib64/" + name);
 		}
 
 		ISDLMixer ISDL.Mixer

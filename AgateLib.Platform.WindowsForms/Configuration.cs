@@ -11,6 +11,7 @@ using AgateLib.Utility;
 
 namespace AgateLib.Platform.WindowsForms
 {
+	[Obsolete]
 	public static class Configuration
 	{
 		static FileProviderList mAssetProvider = new FileProviderList();
@@ -19,19 +20,19 @@ namespace AgateLib.Platform.WindowsForms
 		static FileProviderList mSoundProvider = new FileProviderList();
 		static FileProviderList mMusicProvider = new FileProviderList();
 
+		[Obsolete]
 		public static void Initialize()
 		{
-			Core.Initialize(new FormsFactory());
 
-			Resources.AddPath(".");
-			Images.AddPath(".");
-			Sounds.AddPath(".");
-			MusicProvider.AddPath(".");
 		}
 
+		[Obsolete("Use AgateLib.IO.FileProvider instead.", true)]
 		public static FileProviderList Resources { get { return mResourceProvider; } }
+		[Obsolete("Use AgateLib.IO.FileProvider instead.", true)]
 		public static FileProviderList Images { get { return mSurfaceProvider; } }
+		[Obsolete("Use AgateLib.IO.FileProvider instead.", true)]
 		public static FileProviderList Sounds { get { return mSoundProvider; } }
+		[Obsolete("Use AgateLib.IO.FileProvider instead.", true)]
 		public static FileProviderList MusicProvider { get { return mMusicProvider; } }
 	}
 }

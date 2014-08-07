@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using AgateLib.BitmapFont;
+using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using AgateLib.Resources;
@@ -304,36 +304,14 @@ namespace AgateLib.DisplayLib
 			x = ScaleWidth;
 			y = ScaleHeight;
 		}
-
+		
 		/// <summary>
-		/// Measures the display width of the specified string.
+		/// Gets or sets a value indicating how the font should be scaled when drawn.
 		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		[Obsolete("Use MeasureString instead.", true)]
-		public int StringDisplayWidth(string text)
+		public InterpolationMode InterpolationHint
 		{
-			return MeasureString(text).Width;
-		}
-		/// <summary>
-		/// Measures the display height of the specified string.
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		[Obsolete("Use MeasureString instead.", true)]
-		public int StringDisplayHeight(string text)
-		{
-			return MeasureString(text).Height;
-		}
-		/// <summary>
-		/// Measures the display size of the specified string.
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		[Obsolete("Use MeasureString instead.", true)]
-		public Size StringDisplaySize(string text)
-		{
-			return mImpl.MeasureString(mState, text);
+			get { return mState.InterpolationHint; }
+			set { mState.InterpolationHint = value; }
 		}
 
 		/// <summary>

@@ -162,6 +162,10 @@ namespace AgateLib.DisplayLib
 			set { mCache = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating how the font should be scaled when drawn.
+		/// </summary>
+		public InterpolationMode InterpolationHint { get; set; }
 		#region --- ICloneable Members ---
 
 		/// <summary>
@@ -178,6 +182,7 @@ namespace AgateLib.DisplayLib
 			retval.mScaleHeight = mScaleHeight;
 			retval.mLocation = mLocation;
 			retval.mText = mText;
+			retval.InterpolationHint = InterpolationHint;
 
 			if (mCache != null)
 			{

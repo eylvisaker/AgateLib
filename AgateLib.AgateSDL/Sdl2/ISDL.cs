@@ -38,5 +38,7 @@ namespace AgateLib.AgateSDL.Sdl2
 		string GetError();
 
 		void SDL_Init(uint flags);
+
+		void PreloadLibrary(string name);
 	}
 }

@@ -22,7 +22,7 @@ using System.Text;
 using System.Xml;
 using AgateLib.Geometry;
 
-namespace AgateLib.BitmapFont
+namespace AgateLib.DisplayLib.BitmapFont
 {
 	/// <summary>
 	/// FontMetrics is a class which describes everything needed to render a font

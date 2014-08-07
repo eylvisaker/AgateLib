@@ -1,4 +1,5 @@
-﻿using AgateLib.Drivers;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.Drivers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,42 +9,35 @@ namespace AgateLib.IO
 {
 	public static class FileProvider
 	{
-		static IReadFileProvider mSurfaceAssets;
-		static IReadFileProvider mResourceAssets;
-		static IReadFileProvider mMusicAssets;
-		static IReadFileProvider mSoundAssets;
-
 		internal static void Initialize(IPlatformFactory platformFactory)
 		{
 			Assets = platformFactory.CreateAssetFileProvider();
 		}
 
-		public static IReadFileProvider Assets { get; private set; }
-		public static IReadFileProvider SurfaceAssets
+		public static void Initialize(IReadFileProvider assetProvider, AssetLocations assetLocations)
 		{
-			get { return mSurfaceAssets ?? Assets; }
-			set { mSurfaceAssets = value; }
-		}
-		public static IReadFileProvider ResourceAssets
-		{
-			get { return mResourceAssets ?? Assets; }
-			set { mResourceAssets = value; }
-		}
-		public static IReadFileProvider MusicAssets
-		{
-			get { return mMusicAssets ?? Assets; }
-			set { mMusicAssets = value; }
-		}
-		public static IReadFileProvider SoundAssets
-		{
-			get { return mSoundAssets ?? Assets; }
-			set { mSoundAssets = value; }
-		}
-		
-		public static IReadWriteFileProvider UserFiles { get; private set; }
+			Assets = assetProvider;
 
-		public static IReadFileProvider NewProviderFromSubdirectory(IReadFileProvider parent, string subdir)
+			SurfaceAssets = NewProviderFromSubdirectory(Assets, assetLocations.Surfaces);
+			SoundAssets = NewProviderFromSubdirectory(Assets, assetLocations.Sound);
+			MusicAssets = NewProviderFromSubdirectory(Assets, assetLocations.Music);
+			ResourceAssets = NewProviderFromSubdirectory(Assets, assetLocations.Resources);
+		}
+
+		public static IReadFileProvider Assets { get; set; }
+
+		public static IReadFileProvider SurfaceAssets { get; set; }
+		public static IReadFileProvider ResourceAssets { get; set; }
+		public static IReadFileProvider MusicAssets { get; set; }
+		public static IReadFileProvider SoundAssets { get; set; }
+
+		public static IReadWriteFileProvider UserFiles { get; set; }
+
+		static IReadFileProvider NewProviderFromSubdirectory(IReadFileProvider parent, string subdir)
 		{
+			if (string.IsNullOrWhiteSpace(subdir) || subdir == ".")
+				return parent;
+
 			return new SubdirectoryProvider(parent, subdir);
 		}
 	}

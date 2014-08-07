@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationModels\FormsModelBase.cs" />
+    <Compile Include="ApplicationModels\FormsModelParameters.cs" />
     <Compile Include="ApplicationModels\PassiveModel.cs" />
     <Compile Include="ApplicationModels\PassiveModelParameters.cs" />
     <Compile Include="ApplicationModels\SceneModel.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Data\FieldType.cs" />
     <Compile Include="Diagnostics\AgateConsoleImpl.cs" />
     <Compile Include="Diagnostics\AgateConsoleTraceListener.cs" />
+    <Compile Include="DisplayImplementation\ContextInfo.cs" />
     <Compile Include="DisplayImplementation\frmFullScreen.cs">
       <SubType>Form</SubType>
     </Compile>

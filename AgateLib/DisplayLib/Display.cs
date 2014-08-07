@@ -80,12 +80,7 @@ namespace AgateLib.DisplayLib
 			get { return sImpl; }
 		}
 		/// <summary>
-		/// Initializes the display by instantiating the driver with the given
-		/// DisplayTypeID.  The display driver must be registered with the Registrar
-		/// class.
-		/// 
-		/// It is recommended that you instantiate a SetupDisplay object from within
-		/// a using block, to ensure that the Display is disposed of properly.
+		/// Initializes the display with the passed object implementing DisplayImpl.
 		/// </summary>
 		/// <param name="displayType"></param>
 		public static void Initialize(DisplayImpl impl)
@@ -284,7 +279,8 @@ namespace AgateLib.DisplayLib
 
 			sImpl.BeginFrame();
 
-			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(Point.Empty, RenderTarget.Size);
+			AgateBuiltInShaders.Basic2DShader.CoordinateSystem =
+				RenderTarget.CoordinateSystem;
 			AgateBuiltInShaders.Basic2DShader.Activate();
 
 			sCurrentClipRect = new Rectangle(Point.Empty, RenderTarget.Size);

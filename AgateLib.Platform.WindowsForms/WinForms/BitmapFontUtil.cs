@@ -23,7 +23,7 @@ using System.Text;
 using System.Windows.Forms;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.BitmapFont;
+using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Resources;
 
 namespace AgateLib.Platform.WindowsForms.WinForms

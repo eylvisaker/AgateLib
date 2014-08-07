@@ -28,11 +28,15 @@ namespace AgateLib.OpenGL
 {
 	public abstract class GL_FrameBuffer: FrameBufferImpl 
 	{
-		readonly GLDrawBuffer mDrawBuffer;
+		GLDrawBuffer mDrawBuffer;
 		protected bool mHasDepth;
 		protected bool mHasStencil;
 
 		protected GL_FrameBuffer()
+		{
+		}
+
+		protected void InitializeDrawBuffer()
 		{
 			mDrawBuffer = ((IGL_Display)Display.Impl).CreateDrawBuffer();
 		}

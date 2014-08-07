@@ -52,7 +52,23 @@ namespace AgateLib.IO
 
 		public string ResolveFile(string filename)
 		{
+			if (IsRooted(filename))
+				return parent.ResolveFile(filename);
+
 			return parent.ResolveFile(subdir + filename);
+		}
+
+		private bool IsRooted(string filename)
+		{
+			if (char.IsLetter(filename[0]) && filename[1] == ':')
+				return true;
+			if (filename.StartsWith("/"))
+				return true;
+			if (Core.Platform.PlatformType == Platform.PlatformType.Windows &&
+				filename.StartsWith("\\"))
+				return true;
+
+			return false;
 		}
 	}
 }

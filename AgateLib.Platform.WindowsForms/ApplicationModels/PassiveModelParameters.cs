@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WindowsForms.ApplicationModels
 {
-	public class PassiveModelParameters : ModelParameters
+	public class PassiveModelParameters : FormsModelParameters
 	{
 		public PassiveModelParameters()
 		{
 			AutoCreateDisplayWindow = false;
+		}
+
+		public PassiveModelParameters(string[] args) : this()
+		{
+			Arguments = args;
 		}
 	}
 }

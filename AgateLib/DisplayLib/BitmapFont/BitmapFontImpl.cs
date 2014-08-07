@@ -28,7 +28,7 @@ using AgateLib.Resources;
 using AgateLib.DisplayLib.Cache;
 using AgateLib.IO;
 
-namespace AgateLib.BitmapFont
+namespace AgateLib.DisplayLib.BitmapFont
 {
 	/// <summary>
 	/// Provides a basic implementation for the use of non-system fonts provided
@@ -339,6 +339,7 @@ namespace AgateLib.BitmapFont
 
 			RefreshCache(state, cache);
 
+			mSurface.InterpolationHint = state.InterpolationHint;
 			mSurface.Color = state.Color;
 			mSurface.DrawRects(cache.SrcRects, cache.DestRects, 0, cache.DisplayTextLength);
 		}

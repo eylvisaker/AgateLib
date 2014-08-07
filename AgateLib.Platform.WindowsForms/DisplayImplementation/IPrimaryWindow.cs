@@ -5,8 +5,8 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 	{
 		void RunApplication();
 
-		void ReinitializeFramebuffer();
-
 		void ExitMessageLoop();
+
+		void CreateContextForThread();
 	}
 }

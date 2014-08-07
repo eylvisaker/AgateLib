@@ -84,6 +84,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ApplicationModels\AgateAppModel.cs" />
+    <Compile Include="ApplicationModels\AssetLocations.cs" />
+    <Compile Include="ApplicationModels\CoordinateSystems\NaturalCoordinates.cs" />
+    <Compile Include="ApplicationModels\CoordinateSystems\FixedAreaCoordinates.cs" />
+    <Compile Include="ApplicationModels\ICoordinateSystemCreator.cs" />
     <Compile Include="ApplicationModels\ModelParameters.cs" />
     <Compile Include="AudioLib\AudioCapsInfo.cs" />
     <Compile Include="AudioLib\ImplementationBase\MusicImpl.cs" />
@@ -189,16 +193,16 @@
     <Compile Include="AudioLib\SoundBufferSession.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BitmapFont\BitmapFontImpl.cs">
+    <Compile Include="DisplayLib\BitmapFont\BitmapFontImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BitmapFont\BitmapFontOptions.cs">
+    <Compile Include="DisplayLib\BitmapFont\BitmapFontOptions.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BitmapFont\FontMetrics.cs">
+    <Compile Include="DisplayLib\BitmapFont\FontMetrics.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BitmapFont\GlyphMetrics.cs">
+    <Compile Include="DisplayLib\BitmapFont\GlyphMetrics.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\CreateWindowParams.cs">

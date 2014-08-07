@@ -22,7 +22,7 @@ using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace AgateLib.BitmapFont
+namespace AgateLib.DisplayLib.BitmapFont
 {
 	/// <summary>
 	/// Class which indicates how a bitmap font should be generated

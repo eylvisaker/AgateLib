@@ -7,16 +7,13 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WindowsForms.ApplicationModels
 {
-	public class SerialModelParameters : FormsModelParameters
+	public class FormsModelParameters : ModelParameters
 	{
-		public SerialModelParameters()
+		public FormsModelParameters()
 		{
+			AssetPath = ".";
 		}
 
-		public SerialModelParameters(string[] args)
-			: this()
-		{
-			Arguments = args;
-		}
+		public string AssetPath { get; set; }
 	}
 }

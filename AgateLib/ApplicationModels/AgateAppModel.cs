@@ -149,19 +149,12 @@ namespace AgateLib.ApplicationModels
 			}
 		}
 
-		private Size ParseSize(string parm)
-		{
-			Size.FromString(parm);
-			throw new NotImplementedException();
-		}
-
 		protected int RunModel(Func<int> entryPoint)
 		{
 			try
 			{
 				Initialize();
 				AutoCreateDisplayWindow();
-				//Display.RenderState.WaitForVerticalBlank = Parameters.VerticalSync;
 
 				int retval = BeginModel(entryPoint);
 
@@ -195,6 +188,18 @@ namespace AgateLib.ApplicationModels
 					Parameters.ApplicationName,
 					GetWindowedScreenSize());
 			}
+
+			window.FrameBuffer.CoordinateSystem =
+				Parameters.CoordinateSystem.DetermineCoordinateSystem(
+				window.Size, window.Width / (double)window.Height);
+
+			Display.RenderState.WaitForVerticalBlank = Parameters.VerticalSync;
+
+			window.Closing += window_Closing;
+		}
+
+		protected virtual void window_Closing(object sender, ref bool cancel)
+		{
 		}
 
 		private Size GetWindowedScreenSize()
@@ -235,7 +240,7 @@ namespace AgateLib.ApplicationModels
 
 		public virtual void KeepAlive()
 		{
-			Input.DispatchEvents();
+			Input.DispatchQueuedEvents();
 		}
 	}
 }

@@ -12,29 +12,32 @@ namespace AgateLib.InputLib
 
 		public static void QueueInputEvent(AgateInputEventArgs args)
 		{
-			lock(mEvents)
+			lock (mEvents)
 			{
 				mEvents.Add(args);
 			}
 		}
 
-		public static void DispatchEvents()
+		public static void DispatchQueuedEvents()
 		{
 			while (mEvents.Count > 0)
 			{
 				AgateInputEventArgs args;
 
-				lock(mEvents)
+				lock (mEvents)
 				{
+					if (mEvents.Count == 0)
+						return;
+
 					args = mEvents[0];
 					mEvents.RemoveAt(0);
 				}
-
-				DispatchEvents(args);
+			
+				DispatchEvent(args);
 			}
 		}
 
-		private static void DispatchEvents(AgateInputEventArgs args)
+		private static void DispatchEvent(AgateInputEventArgs args)
 		{
 			mInputHandlers.Dispatch(args);
 		}

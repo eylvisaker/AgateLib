@@ -45,6 +45,7 @@ namespace AgateLib.DisplayLib
 		public FrameBuffer(Size size)
 		{
 			impl = Display.Impl.CreateFrameBuffer(size);
+			CoordinateSystem = new Rectangle(Point.Empty, size);
 		}
 		/// <summary>
 		/// Constructs a frame buffer to be used as a render target.  FrameBuffers constructed
@@ -149,5 +150,13 @@ namespace AgateLib.DisplayLib
 				return mRenderTarget;
 			}
 		}
+
+		/// <summary>
+		/// Gets or sets the default coordinate system that is used for
+		/// this framebuffer. When Display.BeginFrame is called with this
+		/// framebuffer as a render target, this coordinate system is automatically
+		/// loaded.
+		/// </summary>
+		public Rectangle CoordinateSystem { get; set; }
 	}
 }
