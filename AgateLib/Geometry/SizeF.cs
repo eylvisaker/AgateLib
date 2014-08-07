@@ -69,6 +69,14 @@ namespace AgateLib.Geometry
 		}
 
 		/// <summary>
+		/// Gets the aspect ratio (width / height) of this Size object.
+		/// </summary>
+		public double AspectRatio
+		{
+			get { return width / height; }
+		}
+
+		/// <summary>
 		/// True if width and height are zero.
 		/// </summary>
 		

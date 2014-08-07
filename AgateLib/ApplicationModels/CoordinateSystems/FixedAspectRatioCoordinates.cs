@@ -12,16 +12,17 @@ namespace AgateLib.ApplicationModels.CoordinateSystems
 	/// ratio of the display, providing extra space outside the requested render area
 	/// which the application must fill in somehow.
 	/// </summary>
-	public class FixedAreaCoordinates : ICoordinateSystemCreator
+	public class FixedAspectRatioCoordinates : ICoordinateSystemCreator
 	{
-		public FixedAreaCoordinates()
+		public FixedAspectRatioCoordinates()
 		{
 			PreserveDisplayAspectRatio = true;
+			AspectRatio = 16 / (double)9;
 		}
 
-		public Rectangle DetermineCoordinateSystem(Size displayWindowSize, double aspectRatio)
+		public Rectangle DetermineCoordinateSystem(Size displayWindowSize)
 		{
-			var retval = GetUnshiftedRectangle(displayWindowSize, aspectRatio);
+			var retval = GetUnshiftedRectangle(displayWindowSize);
 
 			retval.X += Origin.X;
 			retval.Y += Origin.Y;
@@ -29,20 +30,18 @@ namespace AgateLib.ApplicationModels.CoordinateSystems
 			return retval;
 		}
 
-		private Rectangle GetUnshiftedRectangle(Size displayWindowSize, double aspectRatio)
+		private Rectangle GetUnshiftedRectangle(Size displayWindowSize)
 		{
-			Size desiredArea = displayWindowSize;
-
-			desiredArea = AdjustToRange(aspectRatio, desiredArea);
+			var desiredArea = AdjustToRange(displayWindowSize);
 
 			if (PreserveDisplayAspectRatio)
 			{
-				double desiredAspectRatio = desiredArea.Width / (double)desiredArea.Height;
+				double desiredAspectRatio = desiredArea.AspectRatio;
 
-				if (desiredAspectRatio < aspectRatio)
+				if (AspectRatio < displayWindowSize.AspectRatio)
 				{
-					int width = (int)(desiredArea.Height * aspectRatio);
-					int extraWidth = width - desiredArea.Width;
+					int logicalWindowWidth = (int)(desiredArea.Height / (double)displayWindowSize.Height * displayWindowSize.Width);
+					int extraWidth = logicalWindowWidth - desiredArea.Width;
 
 					return Rectangle.FromLTRB(
 						-extraWidth / 2,
@@ -50,10 +49,10 @@ namespace AgateLib.ApplicationModels.CoordinateSystems
 						desiredArea.Width + extraWidth / 2,
 						desiredArea.Height);
 				}
-				else if (desiredAspectRatio > aspectRatio)
+				else if (AspectRatio > displayWindowSize.AspectRatio)
 				{
-					int height = (int)(desiredArea.Width / aspectRatio);
-					int extraHeight = height - desiredArea.Height;
+					int logicalWindowHeight = (int)(desiredArea.Width / (double)displayWindowSize.Width * displayWindowSize.Height);
+					int extraHeight = logicalWindowHeight - desiredArea.Height;
 
 					return Rectangle.FromLTRB(
 						0,
@@ -66,16 +65,31 @@ namespace AgateLib.ApplicationModels.CoordinateSystems
 			return new Rectangle(0, 0, desiredArea.Width, desiredArea.Height);
 		}
 
-		private Size AdjustToRange(double aspectRatio, Size area)
+		private Size AdjustToRange(Size area)
 		{
-			if (MinWidth != null && (int)MinWidth > area.Height)
-				area.Width = MinWidth.Value;
-			if (MaxWidth != null && (int)MaxWidth < area.Height)
-				area.Width = MaxWidth.Value;
+			area.Width = (int)(AspectRatio * area.Height);
+
 			if (MinHeight != null && (int)MinHeight > area.Height)
+			{
 				area.Height = MinHeight.Value;
+				area.Width = (int)(area.Height * AspectRatio);
+			}
 			if (MaxHeight != null && (int)MaxHeight < area.Height)
+			{
 				area.Height = MaxHeight.Value;
+				area.Width = (int)(area.Height * AspectRatio);
+			}
+
+			if (MinWidth != null && (int)MinWidth > area.Width)
+			{
+				area.Width = MinWidth.Value;
+				area.Height = (int)(area.Width / AspectRatio);
+			}
+			if (MaxWidth != null && (int)MaxWidth < area.Width)
+			{
+				area.Width = MaxWidth.Value;
+				area.Height = (int)(area.Width / AspectRatio);
+			}
 
 			return area;
 		}
@@ -85,6 +99,8 @@ namespace AgateLib.ApplicationModels.CoordinateSystems
 		public int? MaxHeight { get; set; }
 		public int? MinWidth { get; set; }
 		public int? MaxWidth { get; set; }
+
+		public double AspectRatio { get; set; }
 
 		/// <summary>
 		/// The value of the coordinate system in the upper left corner of 

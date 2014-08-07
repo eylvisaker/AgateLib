@@ -8,6 +8,15 @@ namespace AgateLib.ApplicationModels
 {
 	public interface ICoordinateSystemCreator
 	{
-		Rectangle DetermineCoordinateSystem(Size displayWindowSize, double aspectRatio);
+		Rectangle DetermineCoordinateSystem(Size displayWindowSize);
+	}
+
+	public static class CoordinateSystemCreatorExtensions
+	{
+		public static Rectangle DetermineCoordinateSystem(
+			this ICoordinateSystemCreator csc, Size displayWindowSize)
+		{
+			return csc.DetermineCoordinateSystem(displayWindowSize);
+		}
 	}
 }

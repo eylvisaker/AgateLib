@@ -86,7 +86,7 @@
     <Compile Include="ApplicationModels\AgateAppModel.cs" />
     <Compile Include="ApplicationModels\AssetLocations.cs" />
     <Compile Include="ApplicationModels\CoordinateSystems\NaturalCoordinates.cs" />
-    <Compile Include="ApplicationModels\CoordinateSystems\FixedAreaCoordinates.cs" />
+    <Compile Include="ApplicationModels\CoordinateSystems\FixedAspectRatioCoordinates.cs" />
     <Compile Include="ApplicationModels\ICoordinateSystemCreator.cs" />
     <Compile Include="ApplicationModels\ModelParameters.cs" />
     <Compile Include="AudioLib\AudioCapsInfo.cs" />

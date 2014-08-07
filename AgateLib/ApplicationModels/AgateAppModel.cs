@@ -190,8 +190,7 @@ namespace AgateLib.ApplicationModels
 			}
 
 			window.FrameBuffer.CoordinateSystem =
-				Parameters.CoordinateSystem.DetermineCoordinateSystem(
-				window.Size, window.Width / (double)window.Height);
+				Parameters.CoordinateSystem.DetermineCoordinateSystem(window.Size);
 
 			Display.RenderState.WaitForVerticalBlank = Parameters.VerticalSync;
 
