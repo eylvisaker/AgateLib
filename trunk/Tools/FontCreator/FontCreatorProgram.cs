@@ -20,11 +20,13 @@ namespace FontCreator
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			new PassiveModel(args).Run(() =>
+			var parameters = new PassiveModelParameters(args);
+
+			parameters.AssetLocations.Surfaces = "images";
+
+			new PassiveModel(parameters).Run(() =>
 			{
 				Directory.CreateDirectory("./images");
-
-				Configuration.Images.AddPath("./images");
 
 				frmFontCreator frm = new frmFontCreator();
 				frm.Show();

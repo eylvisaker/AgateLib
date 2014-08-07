@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using AgateLib;
-using AgateLib.BitmapFont;
+using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;

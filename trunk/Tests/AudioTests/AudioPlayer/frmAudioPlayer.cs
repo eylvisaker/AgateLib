@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using AgateLib;
+using AgateLib.ApplicationModels;
 
 namespace Tests.AudioTester
 {
@@ -170,6 +171,9 @@ namespace Tests.AudioTester
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
+			if (AgateAppModel.Instance == null)
+				return;
+
 			AgateLib.Core.KeepAlive();
 		}
 

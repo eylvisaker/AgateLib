@@ -9,7 +9,7 @@ using AgateLib.Platform.WindowsForms;
 
 namespace Tests
 {
-	class Launcher
+	class TestLauncher
 	{
 		[STAThread]
 		public static void Main(string[] args)
@@ -17,13 +17,17 @@ namespace Tests
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			Configuration.Initialize();
-			Configuration.Images.AddPath("Data");
-			Configuration.Sounds.AddPath("Data");
+			PassiveParameters = new PassiveModelParameters(args);
+			PassiveParameters.AssetPath = "Data";
 
-			Application.Run(new frmLauncher());
+			new PassiveModel(PassiveParameters).Run(() =>
+				{
+					Application.Run(new frmLauncher());
+				});
 
 			Core.Settings.SaveSettings();
 		}
+
+		public static PassiveModelParameters PassiveParameters { get; private set; }
 	}
 }

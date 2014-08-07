@@ -16,10 +16,6 @@ namespace Tests.Fonts.TextLayout
 		[STAThread]
 		static void Main(string[] args)
 		{
-			// These two lines are used by AgateLib tests to locate
-			// driver plugins and images.
-			Configuration.Images.AddPath("Images");
-
 			new TextLayout().Run(args);
 		}
 
