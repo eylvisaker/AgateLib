@@ -29,16 +29,16 @@ namespace AgateLib.UnitTests.Core
 		public void HelpCommand()
 		{
 			console.ProcessKeys("help");
-			console.ProcessKeyDown(new InputEventArgs(KeyCode.Enter, new KeyModifiers()));
+			console.ProcessKeyDown(KeyCode.Enter, "\n");
 
 			Assert.AreEqual(0, describeCallCount);
 
 			console.ProcessKeys("help help");
-			console.ProcessKeyDown(new InputEventArgs(KeyCode.Enter, new KeyModifiers()));
+			console.ProcessKeyDown(KeyCode.Enter, "\n");
 			Assert.AreEqual(1, describeCallCount);
 
 			console.ProcessKeys("help unknown_command");
-			console.ProcessKeyDown(new InputEventArgs(KeyCode.Enter, new KeyModifiers()));
+			console.ProcessKeyDown(KeyCode.Enter, "\n");
 			Assert.AreEqual(1, describeCallCount);
 		}
 
@@ -46,7 +46,7 @@ namespace AgateLib.UnitTests.Core
 		public void KeystrokeEditing()
 		{
 			console.ProcessKeys("help");
-			console.ProcessKeyDown(new InputEventArgs(KeyCode.BackSpace, new KeyModifiers()));
+			console.ProcessKeyDown(KeyCode.BackSpace, "");
 
 			Assert.AreEqual("hel", console.CurrentLine);
 
@@ -58,17 +58,17 @@ namespace AgateLib.UnitTests.Core
 		public void HistoryBrowsing()
 		{
 			console.ProcessKeys("help\nhelp help\nhelp unknown_command\n");
-			console.ProcessKeyDown(new InputEventArgs(KeyCode.Up, new KeyModifiers()));
+			console.ProcessKeyDown(KeyCode.Up, "");
 			console.ProcessKeys("x");
 			Assert.AreEqual("help unknown_commandx", console.CurrentLine);
 
 			console.ProcessKeys("\n");
 			Assert.AreEqual("", console.CurrentLine);
 
-			console.ProcessKeyDown(new InputEventArgs(KeyCode.Up, new KeyModifiers()));
-			console.ProcessKeyDown(new InputEventArgs(KeyCode.Up, new KeyModifiers()));
-			console.ProcessKeyDown(new InputEventArgs(KeyCode.Up, new KeyModifiers()));
-			console.ProcessKeyDown(new InputEventArgs(KeyCode.BackSpace, new KeyModifiers()));
+			console.ProcessKeyDown(KeyCode.Up, "");
+			console.ProcessKeyDown(KeyCode.Up, "");
+			console.ProcessKeyDown(KeyCode.Up, "");
+			console.ProcessKeyDown(KeyCode.BackSpace, "");
 			Assert.AreEqual("help hel", console.CurrentLine);
 
 		}

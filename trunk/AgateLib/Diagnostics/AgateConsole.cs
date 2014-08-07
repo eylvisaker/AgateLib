@@ -249,14 +249,14 @@ namespace AgateLib.Diagnostics
 			{
 				if (args.InputEventType == InputEventType.KeyDown)
 				{
-					ProcessKeyPress(args.KeyCode, args.KeyString);
+					ProcessKeyDown(args.KeyCode, args.KeyString);
 				}
 
 				args.Handled = true;
 			}
 		}
 
-		private void ProcessKeyPress(KeyCode keyCode, string keystring)
+		public void ProcessKeyDown(KeyCode keyCode, string keystring)
 		{
 			if (keyCode == KeyCode.Up)
 			{
@@ -308,11 +308,6 @@ namespace AgateLib.Diagnostics
 			}
 		}
 
-		private void ProcessKeyDown(KeyCode key)
-		{
-			
-		}
-
 		/// <summary>
 		/// Sends the key string to the console as if the user typed it.
 		/// </summary>
@@ -333,7 +328,7 @@ namespace AgateLib.Diagnostics
 			while (index > -1)
 			{
 				mCurrentLine += keys.Substring(0, index);
-				ProcessKeyPress(KeyCode.Enter, "\n");
+				ProcessKeyDown(KeyCode.Enter, "\n");
 
 				keys = keys.Substring(index + 1);
 				index = keys.IndexOf('\n');
