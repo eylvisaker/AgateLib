@@ -22,7 +22,7 @@ using System.Text;
 
 using AgateLib.Geometry;
 
-namespace AgateLib.BitmapFont
+namespace AgateLib.DisplayLib.BitmapFont
 {
 	/// <summary>
 	/// GlyphMetrics defines the metrics for a particular glyph in a font, including

@@ -24,30 +24,63 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
 using AgateLib.Geometry;
+using System.Threading;
+using System.Diagnostics;
 
 namespace AgateLib.OpenGL
 {
-	public class ContextFB : GL_FrameBuffer 
+	public class ContextFB : GL_FrameBuffer
 	{
-		IGraphicsContext mContext;
+		Dictionary<Thread, GraphicsContext> mContexts = new Dictionary<Thread, GraphicsContext>();
+
+		GraphicsMode mGraphicsMode;
 		IWindowInfo mWindowInfo;
 		Size mSize;
 		AgateLib.DisplayLib.DisplayWindow mAttachedWindow;
 
-		public ContextFB(AgateLib.DisplayLib.DisplayWindow attachedWindow, 
-						IGraphicsContext context, IWindowInfo window, Size size, 
+		public ContextFB(AgateLib.DisplayLib.DisplayWindow attachedWindow,
+						 GraphicsMode graphicsMode, IWindowInfo window, Size size,
 						 bool depthBuffer, bool stencilBuffer)
 		{
+			mGraphicsMode = graphicsMode;
 			mAttachedWindow = attachedWindow;
 
-			mContext = context;
 			mWindowInfo = window;
 			mSize = size;
 
 			mHasDepth = depthBuffer;
 			mHasStencil = stencilBuffer;
+
+			CreateContextForThread();
+
+			InitializeDrawBuffer();
 		}
 
+		public void CreateContextForThread()
+		{
+			if (mContexts.ContainsKey(Thread.CurrentThread))
+				return;
+
+			var context = new GraphicsContext(mGraphicsMode, mWindowInfo);
+			mContexts.Add(Thread.CurrentThread, context);
+			
+			context.LoadAll();
+			context.MakeCurrent(mWindowInfo);
+
+			Debug.WriteLine(string.Format("Created context {0} for thread {1}",
+				context.ToString(), Thread.CurrentThread.ManagedThreadId));
+		}
+
+		GraphicsContext CurrentContext
+		{
+			get
+			{
+				if (mContexts.ContainsKey(Thread.CurrentThread) == false)
+					return null;
+
+				return mContexts[Thread.CurrentThread];
+			}
+		}
 		public override void Dispose()
 		{
 		}
@@ -68,9 +101,9 @@ namespace AgateLib.OpenGL
 		}
 		public override void MakeCurrent()
 		{
-			if (mContext.IsCurrent == false)
+			if (CurrentContext.IsCurrent == false)
 			{
-				mContext.MakeCurrent(mWindowInfo);
+				CurrentContext.MakeCurrent(mWindowInfo);
 			}
 
 			GL.Viewport(0, 0, Width, Height);
@@ -84,10 +117,10 @@ namespace AgateLib.OpenGL
 		public override void EndRender()
 		{
 			bool vsync = AgateLib.DisplayLib.Display.RenderState.WaitForVerticalBlank;
-			if (mContext.VSync != vsync)
-				mContext.VSync = vsync;
+			if (CurrentContext.VSync != vsync)
+				CurrentContext.VSync = vsync;
 
-			mContext.SwapBuffers();
+			CurrentContext.SwapBuffers();
 		}
 
 	}

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics
 {
-	public abstract class AgateConsole : IDisposable
+	public abstract class AgateConsole : IDisposable, IInputHandler
 	{
 		#region --- Static Members ---
 
@@ -54,6 +54,8 @@ namespace AgateLib.Diagnostics
 				return;
 
 			sInstance = Core.Factory.PlatformFactory.CreateConsole();
+			InputLib.Input.InputHandlers.Add(sInstance);
+
 			PrivateInitialize();
 		}
 
@@ -76,27 +78,10 @@ namespace AgateLib.Diagnostics
 			if (sInstance == null) return;
 
 			if (Font == null)
-				Font = new FontSurface("Arial", 10);
+				Font = Core.Factory.DefaultFont;
 
 			sInstance.DrawImpl();
 		}
-
-		internal static void Keyboard_KeyDown(InputEventArgs e)
-		{
-			if (e.KeyCode == VisibleToggleKey)
-			{
-				sInstance.mVisible = !sInstance.mVisible;
-				sInstance.mHeight = Display.RenderTarget.Height * 5 / 12;
-			}
-			else if (sInstance.mVisible)
-			{
-				sInstance.ProcessKeyDown(e);
-			}
-		}
-		internal static void Keyboard_KeyUp(InputEventArgs eventArgs)
-		{
-		}
-
 
 		/// <summary>
 		/// Writes a line to the output part of the console window.
@@ -238,6 +223,96 @@ namespace AgateLib.Diagnostics
 		protected abstract void WriteLineImpl(string text);
 		protected abstract void WriteImpl(string text);
 
+		#region --- Input Handling ---
+
+
+		void IInputHandler.ProcessEvent(AgateInputEventArgs args)
+		{
+			ProcessEvent(args);
+		}
+		bool IInputHandler.ForwardUnhandledEvents
+		{
+			get { return true; }
+		}
+
+		private void ProcessEvent(AgateInputEventArgs args)
+		{
+			if (args.InputEventType == InputEventType.KeyDown &&
+				VisibleToggleKey == args.KeyCode)
+			{
+				IsVisible = !IsVisible;
+				args.Handled = true;
+
+				sInstance.mHeight = Display.RenderTarget.CoordinateSystem.Height * 5 / 12;
+			}
+			else if (IsVisible)
+			{
+				if (args.InputEventType == InputEventType.KeyDown)
+				{
+					ProcessKeyPress(args.KeyCode, args.KeyString);
+				}
+
+				args.Handled = true;
+			}
+		}
+
+		private void ProcessKeyPress(KeyCode keyCode, string keystring)
+		{
+			if (keyCode == KeyCode.Up)
+			{
+				mHistoryIndex++;
+
+				if (mHistoryIndex > mInputHistory.Count)
+					mHistoryIndex = mInputHistory.Count;
+			}
+			else if (keyCode == KeyCode.Down)
+			{
+				mHistoryIndex--;
+
+				if (mHistoryIndex < 0)
+					mHistoryIndex = 0;
+			}
+			else if (keyCode == KeyCode.Enter || keyCode == KeyCode.Return)
+			{
+				ModifyHistoryLine();
+
+				ConsoleMessage input = new ConsoleMessage
+				{
+					Text = mCurrentLine,
+					MessageType = ConsoleMessageType.UserInput,
+					Time = CurrentTime
+				};
+
+				mMessages.Add(input);
+				mInputHistory.Add(input);
+
+				ExecuteCommand();
+			} 
+			else if (string.IsNullOrEmpty(keystring) == false)
+			{
+				ModifyHistoryLine();
+
+				if (keyCode == KeyCode.Tab)
+					mCurrentLine += " ";
+				else
+					mCurrentLine += keystring;
+			} 
+			else if (keyCode == KeyCode.BackSpace)
+			{
+				ModifyHistoryLine();
+
+				if (mCurrentLine.Length > 0)
+				{
+					mCurrentLine = mCurrentLine.Substring(0, mCurrentLine.Length - 1);
+				}
+			}
+		}
+
+		private void ProcessKeyDown(KeyCode key)
+		{
+			
+		}
+
 		/// <summary>
 		/// Sends the key string to the console as if the user typed it.
 		/// </summary>
@@ -258,7 +333,7 @@ namespace AgateLib.Diagnostics
 			while (index > -1)
 			{
 				mCurrentLine += keys.Substring(0, index);
-				ProcessKeyDown(new InputEventArgs(KeyCode.Enter, new KeyModifiers()));
+				ProcessKeyPress(KeyCode.Enter, "\n");
 
 				keys = keys.Substring(index + 1);
 				index = keys.IndexOf('\n');
@@ -266,61 +341,8 @@ namespace AgateLib.Diagnostics
 
 			mCurrentLine += keys;
 		}
-		/// <summary>
-		/// Processes an input key.
-		/// </summary>
-		/// <param name="e"></param>
-		public void ProcessKeyDown(InputEventArgs e)
-		{
-			if (e.KeyCode == KeyCode.Up)
-			{
-				mHistoryIndex++;
 
-				if (mHistoryIndex > mInputHistory.Count)
-					mHistoryIndex = mInputHistory.Count;
-			}
-			else if (e.KeyCode == KeyCode.Down)
-			{
-				mHistoryIndex--;
-
-				if (mHistoryIndex < 0)
-					mHistoryIndex = 0;
-			}
-			else if (e.KeyCode == KeyCode.Enter || e.KeyCode == KeyCode.Return)
-			{
-				ModifyHistoryLine();
-
-				ConsoleMessage input = new ConsoleMessage
-				{
-					Text = mCurrentLine,
-					MessageType = ConsoleMessageType.UserInput,
-					Time = CurrentTime
-				};
-
-				mMessages.Add(input);
-				mInputHistory.Add(input);
-
-				ExecuteCommand();
-			}
-			else if (string.IsNullOrEmpty(e.KeyString) == false)
-			{
-				ModifyHistoryLine();
-
-				if (e.KeyCode == KeyCode.Tab)
-					mCurrentLine += " ";
-				else
-					mCurrentLine += e.KeyString;
-			}
-			else if (e.KeyCode == KeyCode.BackSpace)
-			{
-				ModifyHistoryLine();
-
-				if (mCurrentLine.Length > 0)
-				{
-					mCurrentLine = mCurrentLine.Substring(0, mCurrentLine.Length - 1);
-				}
-			}
-		}
+		#endregion
 
 		private void ExecuteCommand()
 		{
@@ -369,5 +391,6 @@ namespace AgateLib.Diagnostics
 
 
 		protected abstract long CurrentTime { get; }
+
 	}
 }

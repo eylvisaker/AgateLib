@@ -105,6 +105,8 @@ namespace AgateLib.OpenGL.Legacy
 			}
 			sDepthSupported = false;
 			sStencilSupported = false;
+
+			InitializeDrawBuffer();
 		}
 
 		void InitializeFramebuffer(bool depth, bool stencil)

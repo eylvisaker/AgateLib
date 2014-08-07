@@ -23,7 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
-using AgateLib.BitmapFont;
+using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
@@ -327,8 +327,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			GL.ClearDepth(1);                                                 // Depth Buffer Setup
 			GL.Enable(EnableCap.DepthTest);                            // Enables Depth Testing
 			GL.DepthFunc(DepthFunction.Lequal);                         // The Type Of Depth Testing To Do
-
-			
 		}
 
 		private void CreateWhiteSurface()

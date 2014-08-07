@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using AgateLib.BitmapFont;
+using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
 using System.Xml.Linq;
 

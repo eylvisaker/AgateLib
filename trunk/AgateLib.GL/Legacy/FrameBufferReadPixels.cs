@@ -40,6 +40,9 @@ namespace AgateLib.OpenGL.Legacy
 			this.size = surf.SurfaceSize;
 
 			surface.FlipVertical = true;
+
+
+			InitializeDrawBuffer();
 		}
 
 		public override void MakeCurrent()

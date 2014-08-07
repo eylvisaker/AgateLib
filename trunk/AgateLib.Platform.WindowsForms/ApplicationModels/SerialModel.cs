@@ -22,6 +22,10 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 
 		#endregion
 
+		Thread gameThread;
+		bool exit;
+		bool threadRunning;
+
 		public SerialModel() : this(DefaultParameters)
 		{ }
 
@@ -45,10 +49,12 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 		{
 			try
 			{
+				threadRunning = true;
+
 				OpenTK.Graphics.GraphicsContext.ShareContexts = true;
 				var window = AutoCreatedWindow.Impl as IPrimaryWindow;
 
-				window.ReinitializeFramebuffer();
+				window.CreateContextForThread();
 
 				try
 				{
@@ -63,14 +69,16 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 			{
 				var primaryWindow = AutoCreatedWindow.Impl as IPrimaryWindow;
 				primaryWindow.ExitMessageLoop();
+
+				threadRunning = false;
 			}
 		}
 
 		protected override int BeginModel(Func<int> entryPoint)
 		{
 			int retval = 0;
-			Thread thread = new Thread(() => { retval = ExecuteEntry(entryPoint); });
-			thread.Start();
+			gameThread = new Thread(() => { retval = ExecuteEntry(entryPoint); });
+			gameThread.Start();
 
 			var primaryWindow = AutoCreatedWindow.Impl as IPrimaryWindow;
 			primaryWindow.RunApplication();
@@ -78,9 +86,25 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 			return retval;
 		}
 
-
 		public override void KeepAlive()
 		{
+			if (exit)
+			{
+				throw new ExitGameException();
+			}
+
+			base.KeepAlive();
+		}
+
+		protected override void window_Closing(object sender, ref bool cancel)
+		{
+			if (Thread.CurrentThread == gameThread)
+				return;
+
+			exit = true;
+
+			while (threadRunning)
+				Thread.Sleep(0);
 		}
 	}
 }

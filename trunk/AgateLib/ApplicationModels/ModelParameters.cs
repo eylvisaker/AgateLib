@@ -1,4 +1,5 @@
-﻿using AgateLib.Geometry;
+﻿using AgateLib.ApplicationModels.CoordinateSystems;
+using AgateLib.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,11 @@ namespace AgateLib.ApplicationModels
 {
 	public class ModelParameters
 	{
-		string[] args;
-
 		public ModelParameters()
 		{
+			AssetLocations = new AssetLocations();
+			CoordinateSystem = new NaturalCoordinates();
+
 			AutoCreateDisplayWindow = true;
 			CreateFullScreenWindow = true;
 			ApplicationName = "AgateLib Application";
@@ -32,5 +34,14 @@ namespace AgateLib.ApplicationModels
 		public bool VerticalSync { get; set; }
 
 		public string[] Arguments { get; set; }
+
+		public AssetLocations AssetLocations { get; set; }
+
+		/// <summary>
+		/// Gets or sets the object which determines how to set the coordinate
+		/// system for the automatically created display window. If 
+		/// AutoCreateDisplayWindow is false, this property is not used.
+		/// </summary>
+		public ICoordinateSystemCreator CoordinateSystem { get; set; }
 	}
 }

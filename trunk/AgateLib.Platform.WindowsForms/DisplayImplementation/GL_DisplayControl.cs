@@ -98,8 +98,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 				mDisplay = Display.Impl as DesktopGLDisplay;
 
-				mContext = CreateContext();
-				mFrameBuffer = CreateFrameBuffer();
+				CreateFrameBuffer();
 
 				AttachEvents();
 			}
@@ -147,7 +146,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			mWindowInfo = CreateWindowInfo(CreateGraphicsMode());
 
 			AttachEvents();
-			ReinitializeFramebuffer();
+			CreateFrameBuffer();
 
 			OpenTK.DisplayResolution resolution = OpenTK.DisplayDevice.Default.SelectResolution(
 				mChooseWidth, mChooseHeight, 32, 0);
@@ -194,8 +193,8 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			if (mIcon != null)
 				frm.Icon = mIcon;
 
-			frm.Show(); 
-			ReinitializeFramebuffer();
+			frm.Show();
+			CreateFrameBuffer();
 
 			AttachEvents();
 
@@ -204,12 +203,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			if (oldForm != null) oldForm.Dispose();
 
 			Core.IsActive = true;
-		}
-
-		public void ReinitializeFramebuffer()
-		{
-			mContext = CreateContext();
-			mFrameBuffer = CreateFrameBuffer();
 		}
 
 		public OpenTK.Graphics.GraphicsContext CreateContext()
@@ -237,9 +230,14 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			return newMode;
 		}
 
-		private ContextFB CreateFrameBuffer()
+		private void CreateFrameBuffer()
 		{
-			return new ContextFB(mOwner, mContext, mWindowInfo, this.Size, true, false);
+			var old = mFrameBuffer;
+
+			mFrameBuffer = new ContextFB(mOwner, CreateGraphicsMode(), mWindowInfo, this.Size, true, false);
+
+			if (old != null)
+				old.Dispose();
 		}
 
 		private IWindowInfo CreateWindowInfo(GraphicsMode mode)
@@ -398,10 +396,11 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 			form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
 			form.KeyUp += new System.Windows.Forms.KeyEventHandler(form_KeyUp);
+			
 			form.FormClosing += new FormClosingEventHandler(form_FormClosing);
 			form.FormClosed += new FormClosedEventHandler(form_FormClosed);
-			
 		}
+
 		private void DetachEvents()
 		{
 			if (mRenderTarget == null)
@@ -504,7 +503,9 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		}
 		void form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			Keyboard.Keys[FormUtil.TransformWinFormsKey(e.KeyCode)] = true;
+			var key = FormUtil.TransformWinFormsKey(e.KeyCode);
+
+			Keyboard.Keys[key] = true;
 		}
 
 		public override bool IsClosed
@@ -612,6 +613,12 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		public void ExitMessageLoop()
 		{
 			Application.Exit();
+		}
+
+
+		public void CreateContextForThread()
+		{
+			mFrameBuffer.CreateContextForThread();
 		}
 	}
 }

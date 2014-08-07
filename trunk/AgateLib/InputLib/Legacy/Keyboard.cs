@@ -102,7 +102,7 @@ namespace AgateLib.InputLib.Legacy
 				}
 			}
 
-			private KeyModifiers CurrentModifiers
+			public KeyModifiers CurrentModifiers
 			{
 				get { return new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]); }
 			}
@@ -229,12 +229,7 @@ namespace AgateLib.InputLib.Legacy
 		{
 			var eventArgs = new InputEventArgs(id, mods);
 
-			if (AgateConsole.IsInitialized &&
-				(AgateConsole.IsVisible || id == AgateConsole.VisibleToggleKey))
-			{
-				AgateConsole.Keyboard_KeyDown(eventArgs);
-			}
-			else if (KeyDown != null)
+			if (KeyDown != null)
 				KeyDown(eventArgs);
 		}
 		[Obsolete("Use Input.QueueInputEvent instead.", true)]
@@ -242,11 +237,7 @@ namespace AgateLib.InputLib.Legacy
 		{
 			var eventArgs = new InputEventArgs(id, mods);
 
-			if (AgateConsole.IsVisible)
-			{
-				AgateConsole.Keyboard_KeyUp(eventArgs);
-			}
-			else if (KeyUp != null)
+			if (KeyUp != null)
 				KeyUp(eventArgs);
 		}
 

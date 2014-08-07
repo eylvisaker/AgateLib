@@ -214,11 +214,9 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 		private void CreateFrameBuffer()
 		{
-			GraphicsContext context = new GraphicsContext(mWindow.Context.GraphicsMode, mWindow.WindowInfo);
-			Debug.WriteLine(string.Format("Created context {0}", context.ToString()));
-
-			mFrameBuffer = new ContextFB(mOwner, context, mWindow.WindowInfo,
-						 new Size(mWindow.ClientSize.Width, mWindow.ClientSize.Height), true, false);
+			mFrameBuffer = new ContextFB(mOwner, 
+				mWindow.Context.GraphicsMode, mWindow.WindowInfo,
+				new Size(mWindow.ClientSize.Width, mWindow.ClientSize.Height), true, false);
 
 			if (mOwner.Impl != null)
 			{
@@ -309,7 +307,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			mWindow.Keyboard.KeyRepeat = true;
 			mWindow.Keyboard.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(Keyboard_KeyDown);
 			mWindow.Keyboard.KeyUp += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(Keyboard_KeyUp);
-
+			
 			mWindow.Mouse.ButtonDown += new EventHandler<OpenTK.Input.MouseButtonEventArgs>(Mouse_ButtonDown);
 			mWindow.Mouse.ButtonUp += new EventHandler<OpenTK.Input.MouseButtonEventArgs>(Mouse_ButtonUp);
 			mWindow.Mouse.Move += new EventHandler<OpenTK.Input.MouseMoveEventArgs>(Mouse_Move);
@@ -517,15 +515,15 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			mWindow.Run();
 		}
 
-		public void ReinitializeFramebuffer()
-		{
-			CreateFrameBuffer();
-		}
-
-
 		public void ExitMessageLoop()
 		{
 			mWindow.Exit();
+		}
+
+
+		public void CreateContextForThread()
+		{
+			mFrameBuffer.CreateContextForThread();
 		}
 	}
 }

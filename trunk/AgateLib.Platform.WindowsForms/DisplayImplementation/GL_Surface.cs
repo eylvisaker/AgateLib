@@ -71,7 +71,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			mDisplay = Display.Impl as DesktopGLDisplay;
 			mDrawBuffer = mDisplay.DrawBuffer;
 
-			mFilename = Configuration.Images.ResolveFile(filename);
+			mFilename = AgateLib.IO.FileProvider.SurfaceAssets.ResolveFile(filename);
 
 			Load();
 		}

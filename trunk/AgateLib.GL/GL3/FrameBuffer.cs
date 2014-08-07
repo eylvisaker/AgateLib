@@ -84,6 +84,8 @@ namespace AgateLib.OpenGL.GL3
 
 
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+
+			InitializeDrawBuffer();
 		}
 		public override void Dispose()
 		{

@@ -1,4 +1,5 @@
 ﻿using AgateLib.Geometry;
+using AgateLib.InputLib.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,22 +23,24 @@ namespace AgateLib.InputLib
 		public int MouseWheelDelta { get; set; }
 
 
-		internal static AgateInputEventArgs KeyDown(KeyCode code, KeyModifiers modifiers)
+		public static AgateInputEventArgs KeyDown(KeyCode code, KeyModifiers modifiers)
 		{
 			return new AgateInputEventArgs
 			{
 				InputEventType = InputEventType.KeyDown,
 				KeyCode = code,
+				KeyString = Keyboard.GetKeyString(code, modifiers),
 				KeyModifiers = modifiers,
 			};
 		}
 
-		internal static AgateInputEventArgs KeyUp(KeyCode code, KeyModifiers modifiers)
+		public static AgateInputEventArgs KeyUp(KeyCode code, KeyModifiers modifiers)
 		{
 			return new AgateInputEventArgs
 			{
 				InputEventType = InputEventType.KeyUp,
 				KeyCode = code,
+				KeyString = Keyboard.GetKeyString(code, modifiers),
 				KeyModifiers = modifiers,
 			};
 		}
@@ -46,7 +49,6 @@ namespace AgateLib.InputLib
 	public enum InputEventType
 	{
 		KeyDown,
-		KeyPress,
 		KeyUp,
 
 		MouseDown,
@@ -57,6 +59,5 @@ namespace AgateLib.InputLib
 		JoystickButton,
 		JoystickPovHat,
 		MouseWheel,
-
 	}
 }

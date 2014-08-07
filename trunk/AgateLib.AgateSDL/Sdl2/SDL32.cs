@@ -3,12 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SDL2.ThirtyTwo;
+using System.Runtime.InteropServices;
 
 namespace AgateLib.AgateSDL.Sdl2
 {
 	class SDL32 : ISDL
 	{
 		SDLMixer32 mixer = new SDLMixer32();
+
+		[DllImport("kernel32.dll")]
+		static extern IntPtr LoadLibrary(string dllToLoad);
+
+		public SDL32()
+		{
+		}
+
+		public void PreloadLibrary(string name)
+		{
+			LoadLibrary("lib32/" + name);
+		}
+
 
 		ISDLMixer ISDL.Mixer
 		{
