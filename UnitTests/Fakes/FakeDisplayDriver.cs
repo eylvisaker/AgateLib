@@ -1,4 +1,5 @@
-﻿using AgateLib.DisplayLib.ImplementationBase;
+﻿using AgateLib.DisplayLib.BitmapFont;
+using AgateLib.DisplayLib.ImplementationBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,7 +68,7 @@ namespace AgateLib.UnitTests.Fakes
 			throw new NotImplementedException();
 		}
 
-		public override FontSurfaceImpl CreateFont(AgateLib.BitmapFont.BitmapFontOptions bitmapOptions)
+		public override FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
 		{
 			throw new NotImplementedException();
 		}
