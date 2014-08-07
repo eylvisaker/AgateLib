@@ -98,6 +98,9 @@ namespace AgateLib.AgateSDL.Input
 			{
 				string retval = sdl.SDL_JoystickName(joystickIndex);
 
+				if (retval == null)
+					return "";
+
 				return retval;
 			}
 		}
