@@ -121,7 +121,7 @@ namespace AgateLib.DisplayLib
 
 			if (res is BitmapFontResource)
 			{
-				Surface surf = new Surface(resources.FullFileName(bmpFont.Image));
+				Surface surf = new Surface(resources.FullFileName(bmpFont.Image), AgateLib.IO.FileProvider.ResourceAssets);
 
 				mImpl = new BitmapFontImpl(surf, bmpFont.FontMetrics, resourceName);
 			}
