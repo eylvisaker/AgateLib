@@ -15,10 +15,8 @@ namespace Tests.ResourceTester
 	{
 		public void Main(string[] args)
 		{
-			new PassiveModel(args).Run( () =>
+			new PassiveModel(TestLauncher.PassiveParameters).Run( () =>
 			{
-				Configuration.Resources.AddPath("Data");
-
 				AgateResourceCollection resources = new AgateResourceCollection("TestResourceFile.xml");
 
 				DisplayWindow wind = new DisplayWindow(resources, "main_window");

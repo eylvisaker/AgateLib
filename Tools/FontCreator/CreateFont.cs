@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using AgateLib;
-using AgateLib.BitmapFont;
+using AgateLib.DisplayLib.BitmapFont;
 
 namespace FontCreator
 {

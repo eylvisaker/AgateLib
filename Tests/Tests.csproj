@@ -19,7 +19,7 @@
     <AppDesignerFolder>
     </AppDesignerFolder>
     <RootNamespace>Tests</RootNamespace>
-    <StartupObject>Tests.Launcher</StartupObject>
+    <StartupObject>Tests.TestLauncher</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -168,7 +168,7 @@
     <Compile Include="IAgateTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Launcher.cs">
+    <Compile Include="TestLauncher.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AudioTests\AudioPlayer\AudioPlayer.cs">

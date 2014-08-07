@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.BitmapFont;
+using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
@@ -69,7 +69,7 @@ namespace Tests.Fonts
 
 		private FontSurface ConstructUnkernedFont(FontSurface font)
 		{
-			var bmp = font.Impl as AgateLib.BitmapFont.BitmapFontImpl;
+			var bmp = font.Impl as AgateLib.DisplayLib.BitmapFont.BitmapFontImpl;
 
 			FontMetrics metrics = bmp.FontMetrics.Clone();
 
@@ -84,7 +84,7 @@ namespace Tests.Fonts
 		private static string ConstructKerningText(DisplayWindow wind, FontSurface font)
 		{
 
-			var bmp = font.Impl as AgateLib.BitmapFont.BitmapFontImpl;
+			var bmp = font.Impl as AgateLib.DisplayLib.BitmapFont.BitmapFontImpl;
 
 			FontMetrics metrics = bmp.FontMetrics.Clone();
 
