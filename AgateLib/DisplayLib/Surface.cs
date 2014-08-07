@@ -83,14 +83,17 @@ namespace AgateLib.DisplayLib
 		/// Creates a surface object, from the specified image file.
 		/// </summary>
 		/// <param name="filename">Path and file name for the image file to load.</param>
-		public Surface(string filename)
+		public Surface(string filename, IReadFileProvider fileprovider = null)
 		{
 			if (Display.Impl == null)
 				throw new AgateException("AgateLib's display system has not been initialized.");
 			if (string.IsNullOrEmpty(filename))
 				throw new ArgumentNullException("You must supply a file name.");
 
-			mImpl = Display.Impl.CreateSurface(filename);
+			if (fileprovider == null)
+				fileprovider = AgateLib.IO.FileProvider.SurfaceAssets;
+
+			mImpl = Display.Impl.CreateSurface(fileprovider.ResolveFile(filename));
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);

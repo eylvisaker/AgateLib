@@ -24,6 +24,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Runtime.InteropServices;
 using System.Globalization;
+using System.Reflection;
 
 namespace AgateLib.Serialization.Xle
 {
@@ -1171,7 +1172,7 @@ namespace AgateLib.Serialization.Xle
 		{
 			XElement element = CurrentNode.Element(name);
 
-			string value = element.Value;
+			string value = element.Value.Trim();
 			string[] vals = value.Split(new char[] { ',' },
 							StringSplitOptions.RemoveEmptyEntries);
 

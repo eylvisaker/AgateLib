@@ -233,7 +233,7 @@ namespace AgateLib.ApplicationModels
 			return Display.Caps.NativeScreenResolution;
 		}
 
-		protected DisplayWindow AutoCreatedWindow { get { return window; } }
+		public DisplayWindow AutoCreatedWindow { get { return window; } }
 
 		public ModelParameters Parameters { get; set; }
 
