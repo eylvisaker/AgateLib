@@ -21,5 +21,10 @@ namespace AgateLib.DisplayLib
 		/// Size of the IFrameBuffer object. Should equal new Size(Width, Height).
 		/// </summary>
 		Size Size { get; }
+
+		/// <summary>
+		/// Gets or sets the coordinate system for the render target.
+		/// </summary>
+		Rectangle CoordinateSystem { get; set; }
 	}
 }
