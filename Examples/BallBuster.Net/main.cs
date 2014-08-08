@@ -310,8 +310,6 @@ namespace BallBuster.Net
 			Mouse.Hide();
 
 			// load the images, initiation frame rate counter, and register signals
-			Configuration.Images.AddPath("imgs");
-
 			splash();
 
 			img.load();
