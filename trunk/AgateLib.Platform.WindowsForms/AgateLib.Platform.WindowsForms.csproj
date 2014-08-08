@@ -120,6 +120,7 @@
     <Compile Include="DisplayImplementation\GL_GameWindow.cs" />
     <Compile Include="DisplayImplementation\GL_Surface.cs" />
     <Compile Include="DisplayImplementation\IPrimaryWindow.cs" />
+    <Compile Include="Factories\ActivatorConstructor.cs" />
     <Compile Include="Factories\DisplayFactory.cs" />
     <Compile Include="Factories\FormsFactory.cs" />
     <Compile Include="Factories\PlatformFactory.cs" />

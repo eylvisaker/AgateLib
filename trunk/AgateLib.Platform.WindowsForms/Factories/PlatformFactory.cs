@@ -78,5 +78,11 @@ namespace AgateLib.Platform.WindowsForms.Factories
 					yield return ass;
 			}
 		}
+
+
+		public IObjectConstructor CreateDefaultSerializationConstructor()
+		{
+			return new ActivatorConstructor();
+		}
 	}
 }
