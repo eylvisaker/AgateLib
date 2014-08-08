@@ -25,6 +25,7 @@ using System.Xml.Linq;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using System.Reflection;
+using AgateLib.Drivers;
 
 namespace AgateLib.Serialization.Xle
 {
@@ -38,12 +39,13 @@ namespace AgateLib.Serialization.Xle
 		Stack<XElement> nodes = new Stack<XElement>();
 		XleTypeSerializerCollection TypeSerializers;
 
-		internal XleSerializationInfo(ITypeBinder Binder1, XleTypeSerializerCollection TypeSerializers, XDocument document = null)
+		internal XleSerializationInfo(ITypeBinder Binder1, XleTypeSerializerCollection TypeSerializers, IObjectConstructor constructor = null, XDocument document = null)
 		{
 			this.Binder = Binder1;
 			this.TypeSerializers = TypeSerializers;
 
 			this.doc = document;
+			this.ObjectConstructor = constructor;
 
 			if (this.doc == null)
 				this.doc = new XDocument();
@@ -54,6 +56,7 @@ namespace AgateLib.Serialization.Xle
 			get { return doc; }
 		}
 
+		IObjectConstructor ObjectConstructor { get; set; }
 		XElement CurrentNode
 		{
 			get
@@ -1592,7 +1595,7 @@ namespace AgateLib.Serialization.Xle
 
 				try
 				{
-					obj = (IXleSerializable)Activator.CreateInstance(type);
+					obj = (IXleSerializable)ObjectConstructor.CreateInstance(type);
 				}
 				catch (Exception e)
 				{

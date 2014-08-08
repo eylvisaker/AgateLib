@@ -21,5 +21,7 @@ namespace AgateLib.Drivers
 		IEnumerable<System.Reflection.Assembly> GetSerializationSearchAssemblies(Type objectType);
 
 		IReadFileProvider CreateAssetFileProvider();
+
+		IObjectConstructor CreateDefaultSerializationConstructor();
 	}
 }

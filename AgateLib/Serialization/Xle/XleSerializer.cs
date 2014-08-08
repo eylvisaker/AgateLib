@@ -24,6 +24,7 @@ using System.Reflection;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml;
+using AgateLib.Drivers;
 
 namespace AgateLib.Serialization.Xle
 {
@@ -35,6 +36,7 @@ namespace AgateLib.Serialization.Xle
 		Type objectType;
 		XleTypeSerializerCollection mTypeSerializers = new XleTypeSerializerCollection();
 
+		public IObjectConstructor ObjectConstructor { get; set; }
 		/// <summary>
 		/// An object which implements the AgateLib.Serialization.Xle.ITypeBinder interface.
 		/// This object is used to convert strings to System.Type objects.  The default value
@@ -53,10 +55,15 @@ namespace AgateLib.Serialization.Xle
 		/// implement the IXleSerializable interface.
 		/// </summary>
 		/// <param name="objectType">The type of the object to serialize.</param>
-		public XleSerializer(Type objectType)
+		public XleSerializer(Type objectType, IObjectConstructor objectConstructor = null)
 		{
 			if (objectType.GetInterfaces().Contains(typeof(IXleSerializable)) == false)
 				throw new ArgumentException("Object type is not IXleSerializable.");
+
+			if (objectConstructor == null)
+				objectConstructor = Core.Factory.PlatformFactory.CreateDefaultSerializationConstructor();
+
+			ObjectConstructor = objectConstructor;
 
 			var typeBinder = new TypeBinder();
 
@@ -101,7 +108,7 @@ namespace AgateLib.Serialization.Xle
 		{
 			XDocument doc = XDocument.Load(XmlReader.Create(inStream));
 
-			XleSerializationInfo info = new XleSerializationInfo(Binder, TypeSerializers, doc);
+			XleSerializationInfo info = new XleSerializationInfo(Binder, TypeSerializers, ObjectConstructor, doc);
 
 			return info.BeginDeserialize();
 		}
