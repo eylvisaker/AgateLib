@@ -1,4 +1,5 @@
-﻿using AgateLib.Geometry;
+﻿using AgateLib.Drivers;
+using AgateLib.Geometry;
 using AgateLib.Serialization.Xle;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -13,9 +14,16 @@ namespace AgateLib.UnitTests.Serialization.Xle
 	[TestClass]
 	public class XSTests
 	{
+		class Initializer : IObjectConstructor
+		{
+			public object CreateInstance(Type t)
+			{
+				return Activator.CreateInstance(t, true);
+			}
+		}
 		private static Serializable RoundTrip(Serializable obj)
 		{
-			XleSerializer ser = new XleSerializer(obj.GetType());
+			XleSerializer ser = new XleSerializer(obj.GetType(), new Initializer());
 			var memory = new MemoryStream();
 
 			ser.Serialize(memory, obj);

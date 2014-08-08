@@ -31,12 +31,17 @@ namespace BallBuster.Net
 		[STAThread]
 		static void Main(string[] args)
 		{
-			new PassiveModel(args).Run(() =>
-			{
-				BBX bbx = new BBX();
+			var parameters = new PassiveModelParameters(args);
 
-				bbx.Main(args);
-			});
+			parameters.AssetLocations.Surfaces = "imgs";
+			var model = new PassiveModel(parameters);
+
+			model.Run(() =>
+			 {
+				 BBX bbx = new BBX();
+
+				 bbx.Main(args);
+			 });
 		}
 	}
 }

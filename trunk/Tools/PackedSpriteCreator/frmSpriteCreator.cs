@@ -1,4 +1,5 @@
 ﻿using AgateLib.Platform.WindowsForms;
+using AgateLib.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,8 +45,7 @@ namespace PackedSpriteCreator
             System.IO.Directory.SetCurrentDirectory(
                 System.IO.Path.GetDirectoryName(openDialog.FileName));
 
-            Configuration.Images.Clear();
-            Configuration.Images.AddPath(".");
+			AgateLib.IO.FileProvider.SurfaceAssets = new FileSystemProvider(".");
         }
 
         private void closeResourceFileToolStripMenuItem_Click(object sender, EventArgs e)
