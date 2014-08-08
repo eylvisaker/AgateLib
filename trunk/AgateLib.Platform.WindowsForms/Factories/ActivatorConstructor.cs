@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AgateLib.Platform.WindowsForms.Factories
 {
-	class ActivatorConstructor : IObjectConstructor
+	public class ActivatorConstructor : IObjectConstructor
 	{
 		public object CreateInstance(Type t)
 		{
