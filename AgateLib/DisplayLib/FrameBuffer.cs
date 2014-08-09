@@ -64,6 +64,7 @@ namespace AgateLib.DisplayLib
 		internal FrameBuffer(FrameBufferImpl impl)
 		{
 			this.impl = impl;
+			CoordinateSystem = new Rectangle(Point.Empty, impl.Size);
 		}
 		/// <summary>
 		/// Disposes of unmanaged resources.
