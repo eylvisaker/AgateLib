@@ -46,6 +46,11 @@ namespace AgateLib.InputLib.ImplementationBase
 		public abstract string Name { get; }
 
 		/// <summary>
+		/// Gets the GUID identifying the hardware of this joystick
+		/// </summary>
+		public abstract Guid Guid { get; }
+
+		/// <summary>
 		/// Gets the state of the specified button.  
 		/// </summary>
 		/// <param name="buttonIndex">Index of the button to check.  Valid values are
@@ -89,6 +94,7 @@ namespace AgateLib.InputLib.ImplementationBase
 		/// Polls the joystick for input.
 		/// </summary>
 		public abstract void Poll();
+
 
 	}
 }

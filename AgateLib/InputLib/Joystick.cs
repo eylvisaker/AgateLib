@@ -49,6 +49,10 @@ namespace AgateLib.InputLib
 		/// Returns the name of the joystick.
 		/// </summary>
 		public string Name { get { return impl.Name; } }
+		/// <summary>
+		/// Returns the GUID that identifies this joystick hardware.
+		/// </summary>
+		public Guid Guid { get { return impl.Guid; } }
 
 		/// <summary>
 		/// Gets how many axes are available on this joystick.
@@ -62,6 +66,7 @@ namespace AgateLib.InputLib
 		/// Returns the number of POV hats this joystick has.
 		/// </summary>
 		public int HatCount { get { return impl.HatCount; } }
+
 
 		/// <summary>
 		/// Gets the state of the specified POV hat.
