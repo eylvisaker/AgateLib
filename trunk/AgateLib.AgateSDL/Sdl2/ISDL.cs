@@ -15,7 +15,9 @@ namespace AgateLib.AgateSDL.Sdl2
 
 		int SDL_NumJoysticks();
 
-		string SDL_JoystickName(IntPtr joystick);
+		string SDL_JoystickNameForIndex(int device_index);
+
+		Guid SDL_JoystickGetDeviceGUID(int device_index);
 
 		IntPtr SDL_JoystickOpen(int index);
 

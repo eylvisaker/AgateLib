@@ -54,9 +54,9 @@ namespace AgateLib.AgateSDL.Sdl2
 			return SDL.SDL_NumJoysticks();
 		}
 
-		public string SDL_JoystickName(IntPtr joystick)
+		public string SDL_JoystickNameForIndex(int device_index)
 		{
-			return SDL.SDL_JoystickName(joystick);
+			return SDL.SDL_JoystickNameForIndex(device_index);
 		}
 		public IntPtr SDL_JoystickOpen(int index)
 		{
@@ -105,6 +105,12 @@ namespace AgateLib.AgateSDL.Sdl2
 		public string GetError()
 		{
 			return SDL.SDL_GetError();
+		}
+
+
+		public Guid SDL_JoystickGetDeviceGUID(int device_index)
+		{
+			return SDL.SDL_JoystickGetDeviceGUID(device_index);
 		}
 	}
 
