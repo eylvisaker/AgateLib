@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.Platform.WindowsForms.ApplicationModels;
 using AgateLib.Platform.WindowsForms;
+using System.IO;
 
 namespace Tests
 {
@@ -17,13 +18,16 @@ namespace Tests
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			PassiveParameters = new PassiveModelParameters(args);
-			PassiveParameters.AssetPath = "Data";
+			Directory.SetCurrentDirectory("Data");
+			//PassiveParameters = new PassiveModelParameters(args);
+			//PassiveParameters.AssetPath = "Data";
 
-			new PassiveModel(PassiveParameters).Run(() =>
-				{
-					Application.Run(new frmLauncher());
-				});
+			//new PassiveModel(PassiveParameters).Run(() =>
+			//	{
+			//		Application.Run(new frmLauncher());
+			//	});
+
+			Application.Run(new frmLauncher());
 
 			Core.Settings.SaveSettings();
 		}

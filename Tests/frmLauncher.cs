@@ -87,12 +87,12 @@ namespace Tests
 		void ReadSettingsNames()
 		{
 			StreamReader r = null;
-			string targetDirectory = "../../Tests/";
+			string targetDirectory = "../../../Tests/Data/";
 			string filename = "settings_list.txt";
 
 			try
 			{
-				settingsFile = targetDirectory + filename;
+				settingsFile = System.IO.Path.GetFullPath(targetDirectory + filename);
 				r = new StreamReader(targetDirectory + filename);
 			}
 			catch (DirectoryNotFoundException)

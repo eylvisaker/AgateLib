@@ -87,6 +87,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Algorithms\AStarTest.cs" />
+    <Compile Include="Algorithms\EMathTest.cs" />
     <Compile Include="ApplicationModels\ArgumentProcessing.cs" />
     <Compile Include="ApplicationModels\CoordinateSystemTest.cs" />
     <Compile Include="Core\ConsoleTests.cs" />
@@ -101,6 +103,12 @@
     <Compile Include="PlatformTests.cs" />
     <Compile Include="Serialization\Xle\Serializable.cs" />
     <Compile Include="Serialization\Xle\XSTests.cs" />
+    <Compile Include="UserInterface\Css\AdapterTest.cs" />
+    <Compile Include="UserInterface\Css\BindingTest.cs" />
+    <Compile Include="UserInterface\Css\CssTestBase.cs" />
+    <Compile Include="UserInterface\Css\LayoutTest.cs" />
+    <Compile Include="UserInterface\Css\ParseTest.cs" />
+    <Compile Include="UserInterface\Widgets\ConversionTests.cs" />
     <Compile Include="Utility\RefTest.cs" />
   </ItemGroup>
   <ItemGroup>

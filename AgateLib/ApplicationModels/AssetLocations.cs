@@ -15,7 +15,7 @@ namespace AgateLib.ApplicationModels
 		public string Surfaces { get; set; }
 		public string Sound { get; set; }
 		public string Music { get; set; }
-
 		public string Resources { get; set; }
+		public string UserInterface { get; set; }
 	}
 }

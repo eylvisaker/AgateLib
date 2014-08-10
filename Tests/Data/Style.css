@@ -1,0 +1,32 @@
+﻿
+window {
+    background-color: blue;
+    padding: 8px;
+    border: 10px solid black;
+    background-image: url(Images/ui_back_1.png);
+    border-image-source: url(Images/ui_border_2.png);
+    border-image-slice: 10;
+    transition: slide;
+    layout: column;
+}
+
+
+menuitem:hover {
+    border-image-source: url(Images/ui_border_1.png);
+    border-image-slice: 6;
+}
+
+menuitem:selected {
+    border-image-source: url(Images/ui_border_1.png);
+    border-image-slice: 6;
+}
+
+label {
+    color: lightgreen;
+    margin-left: 4px;
+    background-color: rgba(255, 216, 0, 0.15);
+}
+
+label#label1 {
+    color: pink;
+}

@@ -22,6 +22,7 @@ namespace AgateLib.IO
 			SoundAssets = NewProviderFromSubdirectory(Assets, assetLocations.Sound);
 			MusicAssets = NewProviderFromSubdirectory(Assets, assetLocations.Music);
 			ResourceAssets = NewProviderFromSubdirectory(Assets, assetLocations.Resources);
+			UserInterfaceAssets = NewProviderFromSubdirectory(Assets, assetLocations.UserInterface);
 		}
 
 		public static IReadFileProvider Assets { get; set; }
@@ -30,6 +31,7 @@ namespace AgateLib.IO
 		public static IReadFileProvider ResourceAssets { get; set; }
 		public static IReadFileProvider MusicAssets { get; set; }
 		public static IReadFileProvider SoundAssets { get; set; }
+		public static IReadFileProvider UserInterfaceAssets { get; set; }
 
 		public static IReadWriteFileProvider UserFiles { get; set; }
 
@@ -40,5 +42,6 @@ namespace AgateLib.IO
 
 			return new SubdirectoryProvider(parent, subdir);
 		}
+
 	}
 }
