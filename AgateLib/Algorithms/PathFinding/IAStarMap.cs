@@ -3,9 +3,9 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Algorithms.PathFinding
 {
-	public interface IAStarMap
+	public interface IAStarMap<T>
 	{
-		void ReportProgress(AStarTask task);
+		void ReportProgress(AStarState<T> task);
 
 		/// <summary>
 		/// Calculate the heuristic for reaching the destination.
@@ -15,18 +15,12 @@ namespace AgateLib.Algorithms.PathFinding
 		/// If this method returns a negative number, the A* algorithm
 		/// assumes that this point is invalid.
 		/// </summary>
-		/// <param name="location">
-		/// A <see cref="Point"/>
-		/// </param>
-		/// <param name="destination">
-		/// A <see cref="Point"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="System.Int32"/>
-		/// </returns>
-		int CalculateHeuristic(Point location, List<Point> destination);
-		IEnumerable<Point> GetAvailableSteps(AStarTask task, Point location);
-		int GetStepCost(Point target, Point start);
+		/// <param name="location"></param>
+		/// <param name="destination"></param>
+		/// <returns></returns>
+		int CalculateHeuristic(T location, List<T> destination);
+		IEnumerable<T> GetAvailableSteps(AStarState<T> task, T location);
+		int GetStepCost(T target, T start);
 	}
 }
 
