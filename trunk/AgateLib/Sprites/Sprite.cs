@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Resources;
@@ -45,6 +46,7 @@ namespace AgateLib.Sprites
 		private bool mVisible = true;
 
 		private SurfaceState mState = new SurfaceState();
+
 
 		#region --- Construction / Destruction ---
 		/// <summary>
@@ -136,112 +138,6 @@ namespace AgateLib.Sprites
 		}
 
 		/// <summary>
-		/// Constructs a sprite from a resource.
-		/// </summary>
-		/// <param name="resources"></param>
-		/// <param name="name"></param>
-		public Sprite(AgateResourceCollection resources, string name)
-		{
-			AgateResource generic_res = resources[name];
-			SpriteResource sprite_res = generic_res as SpriteResource;
-
-			if (sprite_res == null)
-				throw new AgateResourceException("Resource " + generic_res.Name + " is not a sprite.");
-
-			BuildSpriteFromResource(resources, resources.RootDirectory, sprite_res);
-		}
-
-		private void BuildSpriteFromResource(AgateResourceCollection resources,
-			string root, SpriteResource resource)
-		{
-			Surface defaultSurface = null;
-
-			if (string.IsNullOrEmpty(resource.Filename) == false)
-			{
-				defaultSurface = new Surface(resources.LoadSurfaceImpl(resource.Filename));
-				mOwnedSurfaces.Add(defaultSurface);
-			}
-
-			if (resource.HasSize)
-				mSpriteSize = resource.Size;
-			else if (defaultSurface != null)
-				mSpriteSize = defaultSurface.SurfaceSize;
-
-			for (int i = 0; i < resource.ChildElements.Count; i++)
-			{
-				SpriteResource.SpriteSubResource child = resource.ChildElements[i];
-				Surface thisSurface = defaultSurface;
-
-				if (child is SpriteResource.SpriteFrameResource)
-				{
-					SpriteResource.SpriteFrameResource frame = (SpriteResource.SpriteFrameResource)child;
-					if (string.IsNullOrEmpty(frame.Filename) == false)
-					{
-						thisSurface = new Surface(resources.LoadSurfaceImpl(frame.Filename));
-						mOwnedSurfaces.Add(thisSurface);
-
-						if (i == 0 && defaultSurface == null && resource.HasSize == false)
-						{
-							mSpriteSize = thisSurface.SurfaceSize;
-						}
-					}
-					if (thisSurface == null)
-					{
-						throw new AgateException(string.Format(
-							"The surface to create the sprite from in resource {0} was not specified.", resource.Name));
-					}
-
-					// we pass false to ownSurface here because the surface has already been added to the
-					// owned surfaces list.
-					AddFrame(thisSurface, false, frame.Bounds, frame.Offset);
-				}
-				else
-				{
-					var image = (SpriteResource.SpriteImageResource)child;
-
-					DisplayLib.ImplementationBase.SurfaceImpl thisImpl = resources.LoadSurfaceImpl(image.Filename);
-					if (i == 0 && defaultSurface == null && resource.HasSize == false)
-					{
-						mSpriteSize = thisImpl.SurfaceSize;
-					}
-
-					if (image.Grids.Count == 0)
-					{
-						AddFrame(new Surface(thisImpl), false,
-							new Rectangle(0, 0, mSpriteSize.Width, mSpriteSize.Height),
-							Point.Empty);
-					}
-					else
-					{
-						for (int j = 0; j < image.Grids.Count; j++)
-						{
-							AddFramesFromGrid(resources, thisImpl, image.Grids[j]);
-						}
-					}
-				}
-			}
-		}
-
-		private void AddFramesFromGrid(AgateResourceCollection resources, DisplayLib.ImplementationBase.SurfaceImpl thisImpl, SpriteResource.SpriteImageResource.Grid grid)
-		{
-			Point location = grid.Location;
-
-			for (int y = 0; y < grid.Array.Height; y++)
-			{
-				for (int x = 0; x < grid.Array.Width; x++)
-				{
-					var surfImpl = thisImpl.CarveSubSurface(new Rectangle(location, grid.Size));
-					AddFrame(new Surface(surfImpl), false, new Rectangle(0, 0, grid.Size.Width, grid.Size.Height), Point.Empty);
-
-					location.X += grid.Size.Width;
-				}
-
-				location.Y += grid.Size.Height;
-				location.X = grid.Location.X;
-			}
-		}
-
-		/// <summary>
 		/// Adds a surface as a frame to the sprite.
 		/// </summary>
 		/// <param name="surface"></param>
@@ -249,9 +145,9 @@ namespace AgateLib.Sprites
 		{
 			SpriteFrame frame = new SpriteFrame(surface);
 			frame.SourceRect = new Rectangle(0, 0, surface.SurfaceWidth, surface.SurfaceHeight);
-			frame.Offset = Point.Empty;
+			frame.Anchor = Point.Empty;
 			frame.SpriteSize = SpriteSize;
-			
+
 			mFrames.Add(frame);
 		}
 
@@ -266,9 +162,15 @@ namespace AgateLib.Sprites
 		{
 			SpriteFrame frame = new SpriteFrame(surface);
 			frame.SourceRect = bounds;
-			frame.Offset = offset;
+			frame.Anchor = offset;
 			frame.SpriteSize = SpriteSize;
 
+			mFrames.Add(frame);
+		}
+
+		public void AddFrame(SpriteFrame frame)
+		{
+			frame.DisplaySize = DisplaySize;
 			mFrames.Add(frame);
 		}
 
@@ -388,33 +290,6 @@ namespace AgateLib.Sprites
 		#region --- Drawing the sprite to the screen ---
 
 		/// <summary>
-		/// Draw the sprite to the given destination rectangle.
-		/// Overrides scaling settings.
-		/// </summary>
-		/// <param name="destRect"></param>
-		public void Draw(Rectangle destRect)
-		{
-			if (mFrames.Count == 0)
-				return;
-
-			SpriteFrame current = (SpriteFrame)CurrentFrame;
-
-			current.DisplaySize = destRect.Size;
-			Surface surf = current.Surface;
-
-			PointF alignment = Origin.CalcF(DisplayAlignment, DisplaySize);
-			PointF rotation = Origin.CalcF(RotationCenter, DisplaySize);
-
-			surf.Alpha = Alpha;
-			surf.DisplayAlignment = DisplayAlignment;
-			surf.RotationAngle = RotationAngle;
-			surf.RotationCenter = RotationCenter;
-			surf.Color = Color;
-
-			current.Draw(destRect.X - alignment.X, destRect.Y - alignment.Y,
-									rotation.X, rotation.Y);
-		}
-		/// <summary>
 		/// Draws the sprite at the specified position on screen.
 		/// </summary>
 		/// <param name="destX"></param>
@@ -447,12 +322,15 @@ namespace AgateLib.Sprites
 			currentFrame.DisplaySize = DisplaySize;
 
 			PointF alignment = Origin.CalcF(DisplayAlignment, DisplaySize);
-			PointF rotation = Origin.CalcF(RotationCenter, DisplaySize);
+			PointF rotation = new PointF();// Origin.CalcF(RotationCenter, DisplaySize);
 
 			surf.Alpha = Alpha;
 			surf.DisplayAlignment = OriginAlignment.TopLeft;
 			surf.RotationAngle = RotationAngle;
 			surf.Color = Color;
+
+			currentFrame.FlipHorizontal = FlipHorizontal;
+			currentFrame.FlipVertical = FlipVertical;
 
 			currentFrame.Draw(destX - alignment.X, destY - alignment.Y,
 								  rotation.X, rotation.Y);
@@ -482,29 +360,6 @@ namespace AgateLib.Sprites
 			Draw(destPt.X, destPt.Y);
 		}
 
-		/// <summary>
-		/// Draws the sprite at all the specified positions on screen.
-		/// </summary>
-		/// <param name="dest_pts"></param>
-		public void DrawPoints(Point[] dest_pts)
-		{
-			for (int i = 0; i < dest_pts.Length; i++)
-				Draw(dest_pts[i]);
-		}
-		/// <summary>
-		/// Draws the sprite at the origin.
-		/// </summary>
-		public void Draw() { Draw(0, 0); }
-
-		/// <summary>
-		/// Draws the sprite at the specified rectangles.
-		/// </summary>
-		/// <param name="dest_rects"></param>
-		public void DrawRects(Rectangle[] dest_rects)
-		{
-			foreach (Rectangle r in dest_rects)
-				Draw(r);
-		}
 
 		#endregion
 		#region --- Queueing rects to draw to the screen ---
@@ -711,6 +566,9 @@ namespace AgateLib.Sprites
 			set { mVisible = value; }
 		}
 
+		public Point Anchor { get; set; }
+		public Rectangle InnerRect { get; set; }
+
 		#endregion
 
 		#region --- Animation Properties and Methods ---
@@ -747,10 +605,118 @@ namespace AgateLib.Sprites
 		/// </summary>
 		public void AdvanceFrame()
 		{
+			int newFrameIndex = CurrentFrameIndex;
+
 			if (PlayReverse)
-				CurrentFrameIndex--;
+				newFrameIndex--;
 			else
-				CurrentFrameIndex++;
+				newFrameIndex++;
+
+			switch (AnimationType)
+			{
+				case SpriteAnimType.Looping:
+					while (newFrameIndex < 0)
+						newFrameIndex += mFrames.Count;
+
+					newFrameIndex = newFrameIndex % mFrames.Count;
+
+					break;
+
+				case SpriteAnimType.Once:
+					if (PlayReverse && newFrameIndex == -1)
+					{
+						newFrameIndex = mFrames.Count - 1;
+						IsAnimating = false;
+					}
+					else if (PlayReverse == false && newFrameIndex == mFrames.Count)
+					{
+						newFrameIndex = 0;
+						IsAnimating = false;
+					}
+
+					break;
+
+				case SpriteAnimType.Twice:
+					if (PlayReverse && newFrameIndex == -1)
+					{
+						newFrameIndex = mFrames.Count - 1;
+						mAnimType = SpriteAnimType.Once;
+					}
+					else if (PlayReverse == false && newFrameIndex == mFrames.Count)
+					{
+						newFrameIndex = 0;
+						mAnimType = SpriteAnimType.Once;
+					}
+
+					break;
+
+				case SpriteAnimType.OnceHoldLast:
+					if (PlayReverse && newFrameIndex == -1)
+					{
+						newFrameIndex = 0;
+						IsAnimating = false;
+					}
+					else if (PlayReverse == false && newFrameIndex == mFrames.Count)
+					{
+						newFrameIndex = mFrames.Count - 1;
+						IsAnimating = false;
+					}
+
+					break;
+
+				case SpriteAnimType.PingPong:
+					/*
+					// this makes it so that you can have a 10 frame pingpong animation, 
+					// set it to frame 12, and it will actually show frame 8, because of 
+					// the reflection at the end.
+					newFrameIndex %= (mFrames.Count * 2);
+
+					if (newFrameIndex >= mFrames.Count)
+						newFrameIndex = 2 * mFrames.Count - 1 - newFrameIndex;
+					
+					 * // this is old stuff need to figure out how/whether to include it
+					 * // in new implementation
+					 * */
+
+					if (Frames.Count <= 1)
+						break;
+
+					// check for the ping-ponging.
+					if (PlayReverse && newFrameIndex == -1)
+					{
+						PlayReverse = false;
+						newFrameIndex = 1;
+					}
+					else if (PlayReverse == false && newFrameIndex == mFrames.Count)
+					{
+						PlayReverse = true;
+						newFrameIndex = mFrames.Count - 2;
+					}
+
+					break;
+
+				case SpriteAnimType.OnceDisappear:
+					if (PlayReverse && newFrameIndex == -1)
+					{
+						newFrameIndex = 0;
+						mVisible = false;
+					}
+					else if (PlayReverse == false && newFrameIndex == mFrames.Count)
+					{
+						newFrameIndex = mFrames.Count - 1;
+						mVisible = false;
+					}
+
+					break;
+
+				default:
+					throw new AgateException("Error: AnimationType not valid!");
+			}
+
+			CurrentFrameIndex = newFrameIndex;
+
+			if (mCurrentFrameIndex < 0 || mCurrentFrameIndex >= mFrames.Count)
+				throw new AgateException("Error: Frame Index is in the wrong place!");
 		}
 
 
@@ -780,119 +746,11 @@ namespace AgateLib.Sprites
 					return;
 				}
 
-				switch (AnimationType)
-				{
-					case SpriteAnimType.Looping:
+				if (value < 0 || value >= mFrames.Count)
+					throw new ArgumentOutOfRangeException("CurrentFrameIndex must be between 0 and mFrames.Count - 1");
 
-						while (value < 0)
-							value += mFrames.Count;
+				mCurrentFrameIndex = value;
 
-						mCurrentFrameIndex = value % mFrames.Count;
-
-
-
-						break;
-
-					case SpriteAnimType.Once:
-						if (PlayReverse && value == 0)
-						{
-							mCurrentFrameIndex = mFrames.Count - 1;
-							IsAnimating = false;
-						}
-						else if (PlayReverse == false && value == mFrames.Count - 1)
-						{
-							mCurrentFrameIndex = 0;
-							IsAnimating = false;
-						}
-						else
-						{
-							mCurrentFrameIndex = value % mFrames.Count;
-						}
-
-						break;
-
-					case SpriteAnimType.Twice:
-						if (PlayReverse && value == 0)
-						{
-							mCurrentFrameIndex = mFrames.Count - 1;
-							mAnimType = SpriteAnimType.Once;
-						}
-						else if (PlayReverse == false && value == mFrames.Count - 1)
-						{
-							mCurrentFrameIndex = 0;
-							mAnimType = SpriteAnimType.Once;
-						}
-						else
-						{
-							mCurrentFrameIndex = value % mFrames.Count;
-						}
-
-						break;
-					case SpriteAnimType.OnceHoldLast:
-						if (PlayReverse && value == 0)
-						{
-							mCurrentFrameIndex = 0;
-							mIsAnimating = false;
-						}
-						else if (PlayReverse == false && value == mFrames.Count - 1)
-						{
-							mCurrentFrameIndex = mFrames.Count - 1;
-							mIsAnimating = false;
-						}
-						else
-						{
-							mCurrentFrameIndex = value % mFrames.Count;
-						}
-
-						break;
-
-					case SpriteAnimType.PingPong:
-						// this makes it so that you can have a 10 frame pingpong animation, 
-						// set it to frame 12, and it will actually show frame 8, because of 
-						// the reflection at the end.
-						value %= (mFrames.Count * 2);
-
-						if (value >= mFrames.Count)
-							value = 2 * mFrames.Count - 1 - value;
-
-						mCurrentFrameIndex = value;
-
-						// check for the ping-ponging.
-						if (PlayReverse && value == 0)
-						{
-							PlayReverse = false;
-						}
-						else if (PlayReverse == false && value == mFrames.Count - 1)
-						{
-							PlayReverse = true;
-						}
-
-						break;
-
-					case SpriteAnimType.OnceDisappear:
-						if (PlayReverse && value == 0)
-						{
-							mCurrentFrameIndex = value;
-							mVisible = false;
-						}
-						else if (PlayReverse == false && value == mFrames.Count - 1)
-						{
-							mCurrentFrameIndex = value;
-							mVisible = false;
-						}
-						else
-						{
-							mCurrentFrameIndex = value % mFrames.Count;
-						}
-
-						break;
-
-					default:
-						throw new AgateException("Error: AnimationType not valid!");
-				}
-
-				if (mCurrentFrameIndex < 0 || mCurrentFrameIndex >= mFrames.Count)
-					throw new AgateException("Error: Frame Index is in the wrong place!");
 			}
 		}
 		/// <summary>
@@ -982,7 +840,7 @@ namespace AgateLib.Sprites
 		/// <summary>
 		/// Gets the list of frames in this sprite.
 		/// </summary>
-		public IFrameList Frames
+		public FrameList<SpriteFrame> Frames
 		{
 			get { return mFrames; }
 		}
@@ -1039,5 +897,15 @@ namespace AgateLib.Sprites
 		}
 
 		public InterpolationMode InterpolationHint { get; set; }
+		public bool FlipHorizontal { get; set; }
+		public bool FlipVertical { get; set; }
+
+		/// <summary>
+		/// Returns the total animation time in milliseconds.
+		/// </summary>
+		public double TotalAnimTime
+		{
+			get { return TimePerFrame * Frames.Count; }
+		}
 	}
 }

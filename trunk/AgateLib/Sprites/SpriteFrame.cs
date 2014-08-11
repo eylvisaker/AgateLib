@@ -46,6 +46,7 @@ namespace AgateLib.Sprites
 		Rectangle mSrcRect;
 		Size mDisplaySize;
 		Size mSpriteSize;
+		Dictionary<string, CollisionRegion> mRegions = new Dictionary<string, CollisionRegion>();
 
 		internal SpriteFrame(Surface surface)
 		{
@@ -77,7 +78,7 @@ namespace AgateLib.Sprites
 		/// <summary>
 		/// Gets or sets the offset for drawing this frame.
 		/// </summary>
-		public Point Offset
+		public Point Anchor
 		{
 			get { return mOffset; }
 			set { mOffset = value; }
@@ -90,8 +91,6 @@ namespace AgateLib.Sprites
 		{
 			return false;
 		}
-
-
 
 		internal Size SpriteSize
 		{
@@ -115,11 +114,6 @@ namespace AgateLib.Sprites
 		//    get { return mOriginalSize; }
 		//}
 
-		internal Point FrameOffset
-		{
-			get { return mOffset; }
-		}
-
 		#region ISpriteFrame Members
 
 		/// <summary>
@@ -135,11 +129,35 @@ namespace AgateLib.Sprites
 			float scaleX = mDisplaySize.Width / (float)SpriteSize.Width;
 			float scaleY = mDisplaySize.Height / (float)SpriteSize.Height;
 
+			PointF dest = new PointF(dest_x, dest_y);
+
+			if (FlipHorizontal)
+			{
+				dest.X -= (SourceRect.Width - mOffset.X) * scaleX;
+
+				scaleX *= -1;
+			}
+			else
+			{
+				dest.X -= mOffset.X * scaleX;
+			}
+			if (FlipVertical)
+			{
+				dest.Y -= (SourceRect.Height - mOffset.Y) * scaleY;
+
+				scaleY *= -1;
+			}
+			else
+				dest.Y -= mOffset.Y * scaleY;
+
+			
 			mSurface.SetScale(scaleX, scaleY);
 
-			mSurface.Draw(mSrcRect, new PointF(dest_x + (mOffset.X * scaleX),
-						  dest_y + (mOffset.Y * scaleY)), new PointF(rotationCenterX - (mOffset.X * scaleX),
-						  rotationCenterY - (mOffset.Y * scaleY)));
+			var rotationCenter =
+				new PointF(rotationCenterX + (mOffset.X * Math.Abs(scaleX)),
+						  rotationCenterY + (mOffset.Y * Math.Abs(scaleY)));
+
+			mSurface.Draw(mSrcRect, dest, rotationCenter);
 		}
 
 		/// <summary>
@@ -148,7 +166,7 @@ namespace AgateLib.Sprites
 		/// <returns></returns>
 		public override string ToString()
 		{
-			return "SpriteFrame: " + SourceRect.ToString() + " Offset: " + Offset.ToString();
+			return "SpriteFrame: " + SourceRect.ToString() + " Anchor: " + Anchor.ToString();
 		}
 
 		/// <summary>
@@ -160,6 +178,15 @@ namespace AgateLib.Sprites
 		}
 
 		#endregion
+
+		internal bool FlipVertical { get; set; }
+		internal bool FlipHorizontal { get; set; }
+
+
+		public Dictionary<string, CollisionRegion> Regions
+		{
+			get { return mRegions; }
+		}
 	}
 
 }

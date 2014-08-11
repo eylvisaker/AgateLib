@@ -93,7 +93,7 @@ namespace AgateLib.Sprites
 		/// <summary>
 		/// Gets the list of SpriteFrame objects in this sprite.
 		/// </summary>
-		Sprites.IFrameList Frames { get; }
+		Sprites.FrameList<SpriteFrame> Frames { get; }
 
 		/// <summary>
 		/// The amount of time each frame should display, in milliseconds.

@@ -96,6 +96,10 @@
     <Compile Include="ApplicationModels\CoordinateSystems\FixedAspectRatioCoordinates.cs" />
     <Compile Include="ApplicationModels\ICoordinateSystemCreator.cs" />
     <Compile Include="ApplicationModels\ModelParameters.cs" />
+    <Compile Include="Sprites\CollisionRegion.cs" />
+    <Compile Include="Sprites\ISpriteContainer.cs" />
+    <Compile Include="Sprites\Polygon.cs" />
+    <Compile Include="Sprites\SpriteContainer.cs" />
     <Compile Include="UnitTesting\AssertThrows.cs" />
     <Compile Include="AudioLib\AudioCapsInfo.cs" />
     <Compile Include="AudioLib\ImplementationBase\MusicImpl.cs" />
