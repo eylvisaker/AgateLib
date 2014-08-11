@@ -159,7 +159,6 @@ namespace AgateLib.Sprites
 
 		#endregion
 
-
 		#region IFrameList Members
 
 
@@ -192,6 +191,5 @@ namespace AgateLib.Sprites
 		}
 
 		#endregion
-
 	}
 }
