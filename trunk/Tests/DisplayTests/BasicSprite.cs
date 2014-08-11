@@ -48,7 +48,7 @@ namespace Tests.DisplayTests
 		{
 			Display.Clear(Color.Blue);
 
-			p.Draw();
+			p.Draw(0,0);
 		}
 	}
 }
