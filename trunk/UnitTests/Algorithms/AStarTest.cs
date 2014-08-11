@@ -9,9 +9,9 @@ namespace ZodiacTests.Algorithms
 	[TestClass]
 	public class AStarTest
 	{
-		class FakeMap : IAStarMap
+		class FakeMap : IAStarMap<Point>
 		{
-			public void ReportProgress(AStarTask task)
+			public void ReportProgress(AStarState<Point> task)
 			{
 			}
 
@@ -23,7 +23,7 @@ namespace ZodiacTests.Algorithms
 			{
 				int minval = int.MaxValue;
 
-				foreach(var dest in destination)
+				foreach (var dest in destination)
 				{
 					int val = CalculateHeuristic(location, dest);
 					if (val < minval) minval = val;
@@ -32,19 +32,19 @@ namespace ZodiacTests.Algorithms
 				return minval;
 			}
 
-			public IEnumerable<Point> GetAvailableSteps(AStarTask task, Point location)
+			public IEnumerable<Point> GetAvailableSteps(AStarState<Point> task, Point location)
 			{
 				for (int j = -1; j <= 1; j++)
 				{
-				for (int i = -1; i <= 1; i++)
-				{
-					if (i == j || i == -j) continue;
+					for (int i = -1; i <= 1; i++)
+					{
+						if (i == j || i == -j) continue;
 
-					Point trial = new Point(location.X + i, location.Y + j);
+						Point trial = new Point(location.X + i, location.Y + j);
 
-					if (IsAvailable(trial))
-						yield return trial;
-				}
+						if (IsAvailable(trial))
+							yield return trial;
+					}
 				}
 			}
 
@@ -73,12 +73,13 @@ namespace ZodiacTests.Algorithms
 		[TestMethod]
 		public void AStarPath()
 		{
-			AStarTask task = new AStarTask();
+			AStarState<Point> task = new AStarState<Point>();
 			task.Start = new AgateLib.Geometry.Point(4, 2);
 			task.EndPoints.Add(new AgateLib.Geometry.Point(5, 15));
 
-			AStar.SetMap(new FakeMap());
-			AStar.FindPathSync(task);
+			var astar = new AStar<Point>(new FakeMap());
+
+			astar.FindPathSync(task);
 
 			// two steps to the left to get to (2, 2)
 			// 13 steps down to get to (2, 15)
