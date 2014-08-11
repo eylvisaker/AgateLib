@@ -7,15 +7,29 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Algorithms.PathFinding
 {
-	public static class AStar
+	public class AStar<T>
 	{
 		const int maxSteps = 200;
-		static IAStarMap sMap;
-		static bool mAbort;
-		static int mActiveTasks;
+		IAStarMap<T> mMap;
+		bool mAbort;
+		int mActiveTasks;
 
-		[Obsolete("Do something about this. It should be replaced by the async implementation.")]
-		public static void SetMap(IAStarMap map)
+		Func<T, T, bool> mEquals;
+
+		public AStar(IAStarMap<T> map)
+			: this(map, (x, y) => x.Equals(y))
+		{ }
+		public AStar(IAStarMap<T> map, IEqualityComparer<T> comparer)
+			: this(map, (x, y) => comparer.Equals(x, y))
+		{ }
+		public AStar(IAStarMap<T> map, Func<T, T, bool> comparison)
+		{
+			mMap = map;
+			mEquals = comparison;
+		}
+
+		[Obsolete("Set map in constructor.", true)]
+		public void SetMap(IAStarMap<T> map)
 		{
 			mAbort = true;
 
@@ -25,13 +39,13 @@ namespace AgateLib.Algorithms.PathFinding
 				Core.KeepAlive();
 			}
 
-			sMap = map;
+			mMap = map;
 
 			mAbort = false;
 		}
 
-		
-		public static void QueueFindPath(AStarTask task)
+
+		public void QueueFindPath(AStarState<T> task)
 		{
 			System.Diagnostics.Debug.Assert(task.Tag != null);
 
@@ -45,7 +59,7 @@ namespace AgateLib.Algorithms.PathFinding
 		/// task.CompletedCallBack is ignored.
 		/// </summary>
 		/// <param name="task"></param>
-		public static void FindPathSync(AStarTask task)
+		public void FindPathSync(AStarState<T> task)
 		{
 			try
 			{
@@ -59,21 +73,18 @@ namespace AgateLib.Algorithms.PathFinding
 			}
 		}
 
-		static void FindPathThreadPoolCallback(object _task)
+		void FindPathThreadPoolCallback(object _task)
 		{
-			AStarTask task = null;
+			AStarState<T> task = null;
 
 			try
 			{
-				task = (AStarTask)_task;
+				task = (AStarState<T>)_task;
 
 				FindPath(task);
 				task.Complete = true;
 
-				if (task.CompletedCallBack != null)
-				{
-					task.CompletedCallBack(task);
-				}
+				task.OnCompleted();
 			}
 			finally
 			{
@@ -82,69 +93,69 @@ namespace AgateLib.Algorithms.PathFinding
 			}
 		}
 
-		static void FindPath(AStarTask task)
+		public void FindPath(AStarState<T> task)
 		{
-			List<AStarNode> openNodes = task.openNodes;
-			List<AStarNode> closedNodes = task.closedNodes;
+			var openNodes = task.openNodes;
+			var closedNodes = task.closedNodes;
 
 			openNodes.Clear();
 			closedNodes.Clear();
 			task.Path.Clear();
 			task.AbortOperation = false;
 
-			var node = new AStarNode
+			var node = new AStarNode<T>
 			{
-				Location = task.Start, 
-				Parent = null, 
-				Heuristic = sMap.CalculateHeuristic(task.Start, task.EndPoints), 
+				Location = task.Start,
+				Parent = null,
+				Heuristic = mMap.CalculateHeuristic(task.Start, task.EndPoints),
 				PaidCost = 0
 			};
 
 			task.openNodes.Add(node);
-			
+
 			bool found = false;
 			int steps = 0;
-			
+
 			do
 			{
 				SortOpenNodes(openNodes);
-				
+
 				//sMap.ReportProgress(openNodes, closedNodes, end);
-				
+
 				node = openNodes[0];
 				openNodes.RemoveAt(0);
 				closedNodes.Add(node);
-				
+
 				if (task.EndPoints.Contains(node.Location))
 				{
 					found = true;
 					break;
 				}
-				
-				steps ++;
+
+				steps++;
 				if (steps > maxSteps)
 					break;
-				
-				foreach(Point test in sMap.GetAvailableSteps(task, node.Location))
+
+				foreach (T test in mMap.GetAvailableSteps(task, node.Location))
 				{
 					if (mAbort)
 						return;
 					if (task.AbortOperation)
 						return;
 
-					if (PointInClosedNodes(closedNodes, test))
+					if (LocationIn(closedNodes, test))
 						continue;
-					
-					int deltaCost = sMap.GetStepCost(test, node.Location);
-					
+
+					int deltaCost = mMap.GetStepCost(test, node.Location);
+
 					int index = FindPointInOpenNodes(openNodes, test);
-						
+
 					if (index >= 0)
 					{
 						if (node.PaidCost + deltaCost < openNodes[index].PaidCost)
 						{
-							AStarNode target = openNodes[index];
-							
+							var target = openNodes[index];
+
 							target.Parent = node;
 							target.PaidCost = node.PaidCost + deltaCost;
 
@@ -153,13 +164,13 @@ namespace AgateLib.Algorithms.PathFinding
 					}
 					else
 					{
-						var newtarget = new AStarNode
-						                	{
-						                		Location = test,
-						                		Parent = node,
-						                		PaidCost = node.PaidCost + deltaCost,
-						                		Heuristic = sMap.CalculateHeuristic(test, task.EndPoints)
-						                	};
+						var newtarget = new AStarNode<T>
+											{
+												Location = test,
+												Parent = node,
+												PaidCost = node.PaidCost + deltaCost,
+												Heuristic = mMap.CalculateHeuristic(test, task.EndPoints)
+											};
 
 						if (newtarget.Heuristic < 0)
 						{
@@ -167,28 +178,28 @@ namespace AgateLib.Algorithms.PathFinding
 						}
 
 						openNodes.Add(newtarget);
-						
+
 						if (newtarget.Heuristic == 0)
 						{
 							node = newtarget;
 							found = true;
 						}
 					}
-					
+
 					if (found)
 						break;
 				}
 
 			} while (openNodes.Count > 0 && found == false);
-			
+
 			if (!found)
 			{
 				task.FoundPath = false;
 				return;
 			}
-			
+
 			task.Path.Add(node.Location);
-			
+
 			while (node.Parent != null && node.Parent != node)
 			{
 				if (mAbort)
@@ -201,25 +212,32 @@ namespace AgateLib.Algorithms.PathFinding
 			task.FoundPath = true;
 		}
 
-		static int FindPointInOpenNodes(List<AStarNode> openNodes, Point location)
+		int FindPointInOpenNodes(List<AStarNode<T>> openNodes, T location)
 		{
-			for(int i = 0; i < openNodes.Count; i++)
+			for (int i = 0; i < openNodes.Count; i++)
 			{
-				if (openNodes[i].Location == location)
+				if (mEquals(openNodes[i].Location, location))
 					return i;
 			}
-			
+
 			return -1;
 		}
-		static bool PointInOpenNodes(List<AStarNode> openNodes, Point location)
+		[Obsolete("Use LocationIn", true)]
+		bool PointInOpenNodes(List<AStarNode<T>> openNodes, T location)
 		{
-			return openNodes.Any(x => x.Location == location);	
+			return LocationIn(openNodes, location);
 		}
-		static bool PointInClosedNodes(List<AStarNode> closedNodes, Point location)
+		[Obsolete("Use LocationIn", true)]
+		bool PointInClosedNodes(List<AStarNode<T>> closedNodes, T location)
 		{
-			return closedNodes.Any(x => x.Location == location);
+			return LocationIn(closedNodes, location);
 		}
-		static void SortOpenNodes(List<AStarNode> openNodes)
+		bool LocationIn(List<AStarNode<T>> nodeList, T location)
+		{
+			return nodeList.Any(x => mEquals(x.Location, location));
+		}
+
+		void SortOpenNodes(List<AStarNode<T>> openNodes)
 		{
 			openNodes.Sort((x, y) =>
 			{

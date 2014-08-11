@@ -2,10 +2,10 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Algorithms.PathFinding
 {
-	public class AStarNode 
+	public class AStarNode<T>
 	{
-		public Point Location;
-		public AStarNode Parent;
+		public T Location;
+		public AStarNode<T> Parent;
 		
 		public int PaidCost;
 		public int Heuristic;
