@@ -176,7 +176,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <param name="style"></param>
 		/// <returns></returns>
 		public abstract FontSurfaceImpl CreateFont(string fontFamily,
-			float sizeInPoints, FontStyle style);
+			float sizeInPoints, FontStyles style);
 
 		/// <summary>
 		/// Creates a BitmapFontImpl object from the specified options.

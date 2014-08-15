@@ -1,5 +1,6 @@
 ﻿using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.Drivers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace AgateLib.UnitTests.Fakes
 			throw new NotImplementedException();
 		}
 
-		public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, AgateLib.DisplayLib.FontStyle style)
+		public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, AgateLib.DisplayLib.FontStyles style)
 		{
 			throw new NotImplementedException();
 		}
@@ -181,4 +182,13 @@ namespace AgateLib.UnitTests.Fakes
 		{
 		}
 	}
+
+	class FakeDisplayFactory : IDisplayFactory
+	{
+		public DisplayImpl CreateDisplayImpl()
+		{
+			return new FakeDisplayDriver();
+		}
+	}
+
 }

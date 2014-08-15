@@ -31,16 +31,16 @@ namespace AgateLib.UserInterface.Css.Tests
 		{
 			ff = new Font("times");
 
-			ff.AddFont(new FontSettings(8, FontStyle.None),
+			ff.AddFont(new FontSettings(8, FontStyles.None),
 				FontSurface.FromImpl(new FakeFontSurface { Height = 8 }));
 
-			ff.AddFont(new FontSettings(8, FontStyle.Bold),
+			ff.AddFont(new FontSettings(8, FontStyles.Bold),
 				FontSurface.FromImpl(new FakeFontSurface { Height = 8 }));
 
-			ff.AddFont(new FontSettings(10, FontStyle.None),
+			ff.AddFont(new FontSettings(10, FontStyles.None),
 				FontSurface.FromImpl(new FakeFontSurface { Height = 8 }));
 
-			ff.AddFont(new FontSettings(10, FontStyle.Bold),
+			ff.AddFont(new FontSettings(10, FontStyles.Bold),
 				FontSurface.FromImpl(new FakeFontSurface { Height = 8 }));
 
 			CssDocument doc = CssDocument.FromText("window { layout: column; margin: 8px; } label { margin-left: 4px; }");

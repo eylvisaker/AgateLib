@@ -23,7 +23,7 @@ using System.Xml;
 using AgateLib.Geometry;
 using System.Xml.Linq;
 
-namespace AgateLib.Resources
+namespace AgateLib.Resources.Legacy
 {
 	/// <summary>
 	/// The DisplayWindowResource represents a display window.
@@ -38,6 +38,7 @@ namespace AgateLib.Resources
 	/// will be preserved if the resource file is loaded and saved, but they are not used in the construction
 	/// of the DisplayWindow.
 	/// </remarks>
+	[Obsolete("Use new resource system instaed.")]
 	public class DisplayWindowResource : AgateResource
 	{
 		Size mSize;

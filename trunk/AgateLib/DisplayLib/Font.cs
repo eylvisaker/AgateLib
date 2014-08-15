@@ -19,7 +19,7 @@ namespace AgateLib.DisplayLib
 			Name = name;
 		}
 
-		public void AddFont(FontSurface fontSurface, int size, FontStyle style)
+		public void AddFont(FontSurface fontSurface, int size, FontStyles style)
 		{
 			AddFont(new FontSettings(size, style), fontSurface);
 		}
@@ -33,11 +33,11 @@ namespace AgateLib.DisplayLib
 
 		public string Name { get; set; }
 		public int Size { get { return mSettings.Size; } set { mSettings.Size = value; } }
-		public FontStyle Style { get { return mSettings.Style; } set { mSettings.Style = value; } }
+		public FontStyles Style { get { return mSettings.Style; } set { mSettings.Style = value; } }
 
 		public int FontHeight { get { return FontSurface.FontHeight; } }
 
-		int MaxSize(FontStyle style)
+		int MaxSize(FontStyles style)
 		{
 			var keys = mFontSurfaces.Keys.Where(x => x.Style == style);
 			if (keys.Count() > 0)
@@ -58,7 +58,7 @@ namespace AgateLib.DisplayLib
 
 		#region --- Finding correctly sized font ---
 
-		public FontSurface GetClosestFont(int size, FontStyle style)
+		public FontSurface GetClosestFont(int size, FontStyles style)
 		{
 			return GetClosestFont(new FontSettings(size, style));
 		}
@@ -74,7 +74,7 @@ namespace AgateLib.DisplayLib
 			return retval;
 		}
 
-		internal FontSettings GetClosestFontSettings(int size, FontStyle style)
+		internal FontSettings GetClosestFontSettings(int size, FontStyles style)
 		{
 			return GetClosestFontSettings(new FontSettings(size, style));
 		}
@@ -88,16 +88,16 @@ namespace AgateLib.DisplayLib
 			// this happens if we have no font surfaces of this style.
 			if (maxSize <= 0)
 			{
-				FontStyle newStyle;
+				FontStyles newStyle;
 
 				// OK remove styles until we find an actual font.
-				if (TryRemoveStyle(settings.Style, FontStyle.Strikeout, out newStyle))
+				if (TryRemoveStyle(settings.Style, FontStyles.Strikeout, out newStyle))
 					return GetClosestFontSettings(settings.Size, newStyle);
-				if (TryRemoveStyle(settings.Style, FontStyle.Italic, out newStyle))
+				if (TryRemoveStyle(settings.Style, FontStyles.Italic, out newStyle))
 					return GetClosestFontSettings(settings.Size, newStyle);
-				if (TryRemoveStyle(settings.Style, FontStyle.Underline, out newStyle))
+				if (TryRemoveStyle(settings.Style, FontStyles.Underline, out newStyle))
 					return GetClosestFontSettings(settings.Size, newStyle);
-				if (TryRemoveStyle(settings.Style, FontStyle.Bold, out newStyle))
+				if (TryRemoveStyle(settings.Style, FontStyles.Bold, out newStyle))
 					return GetClosestFontSettings(settings.Size, newStyle);
 				else
 				{
@@ -122,7 +122,7 @@ namespace AgateLib.DisplayLib
 
 		#endregion
 
-		private bool TryRemoveStyle(FontStyle value, FontStyle remove, out FontStyle result)
+		private bool TryRemoveStyle(FontStyles value, FontStyles remove, out FontStyles result)
 		{
 			if ((value & remove) == remove)
 			{
@@ -167,28 +167,4 @@ namespace AgateLib.DisplayLib
 		}
 	}
 
-	public struct FontSettings : IEquatable<FontSettings>
-	{
-		int mSize;
-		FontStyle mStyle;
-
-		public int Size { get { return mSize; } set { mSize = value; } }
-		public FontStyle Style { get { return mStyle; } set { mStyle = value; } }
-
-		public bool Equals(FontSettings other)
-		{
-			if (Size != other.Size)
-				return false;
-			if (Style != other.Style)
-				return false;
-
-			return true;
-		}
-
-		public FontSettings(int size, FontStyle style)
-		{
-			mSize = size;
-			mStyle = style;
-		}
-	}
 }

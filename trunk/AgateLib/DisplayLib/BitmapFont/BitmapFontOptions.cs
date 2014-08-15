@@ -93,7 +93,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 
 		private string mFamily;
 		private float mSize;
-		private FontStyle mStyle;
+		private FontStyles mStyle;
 		private bool mUseTextRenderer = true;
 		private bool mCreateBorder;
 		private bool mMonospaceNumbers = true;
@@ -132,7 +132,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <param name="fontFamily"></param>
 		/// <param name="sizeInPoints"></param>
 		/// <param name="style"></param>
-		public BitmapFontOptions(string fontFamily, float sizeInPoints, FontStyle style)
+		public BitmapFontOptions(string fontFamily, float sizeInPoints, FontStyles style)
 			: this(fontFamily, sizeInPoints)
 		{
 			mStyle = style;
@@ -240,7 +240,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Style of the font to be generated.
 		/// </summary>
-		public FontStyle FontStyle
+		public FontStyles FontStyle
 		{
 			get { return mStyle; }
 			set { mStyle = value; }

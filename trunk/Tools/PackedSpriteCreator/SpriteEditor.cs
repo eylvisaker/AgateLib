@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using AgateLib.Resources;
+using AgateLib.Resources.Legacy;
 using AgateLib.Sprites;
 
 namespace PackedSpriteCreator

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AgateLib.DisplayLib.ImplementationBase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace AgateLib.Drivers
 {
 	public interface IDisplayFactory
 	{
-		DisplayLib.ImplementationBase.DisplayImpl CreateDisplayImpl();
+		DisplayImpl CreateDisplayImpl();
 	}
 }

@@ -67,12 +67,12 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="resources"></param>
 		/// <param name="name"></param>
-		public Surface(Resources.AgateResourceCollection resources, string name)
+		public Surface(Resources.Legacy.AgateResourceCollection resources, string name)
 		{
 			if (Display.Impl == null)
 				throw new AgateException("AgateLib's display system has not been initialized.");
 
-			Resources.SurfaceResource surf = resources.Surfaces[name];
+			Resources.Legacy.SurfaceResource surf = resources.Surfaces[name];
 					    
 			mImpl = surf.CreateSurfaceImpl();
 

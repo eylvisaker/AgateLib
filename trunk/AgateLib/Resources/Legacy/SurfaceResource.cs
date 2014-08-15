@@ -24,13 +24,14 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using System.Xml.Linq;
 
-namespace AgateLib.Resources
+namespace AgateLib.Resources.Legacy
 {
 	/// <summary>
 	/// Resource which loads a surface. <br/>
 	/// XML Attributes:<br/> 
 	///   string name, string filename
 	/// </summary>
+	[Obsolete("Use new resource system instaed.")]
 	public sealed class SurfaceResource : AgateResource
 	{
 		ImageResource mImage;

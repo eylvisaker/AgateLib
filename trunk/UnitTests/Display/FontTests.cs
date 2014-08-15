@@ -23,16 +23,16 @@ namespace AgateLib.UnitTests.Display
 		{
 			ff = new Font("times");
 
-			ff.AddFont(new FontSettings(8, FontStyle.None),
+			ff.AddFont(new FontSettings(8, FontStyles.None),
 				FontSurface.FromImpl(new FakeFontSurface { Height = 8 }));
 
-			ff.AddFont(new FontSettings(8, FontStyle.Bold),
+			ff.AddFont(new FontSettings(8, FontStyles.Bold),
 				FontSurface.FromImpl(new FakeFontSurface { Height = 8 }));
 
-			ff.AddFont(new FontSettings(10, FontStyle.None),
+			ff.AddFont(new FontSettings(10, FontStyles.None),
 				FontSurface.FromImpl(new FakeFontSurface { Height = 10 }));
 
-			ff.AddFont(new FontSettings(10, FontStyle.Bold),
+			ff.AddFont(new FontSettings(10, FontStyles.Bold),
 				FontSurface.FromImpl(new FakeFontSurface { Height = 10 }));
 		}
 		[TestCleanup]
@@ -43,18 +43,18 @@ namespace AgateLib.UnitTests.Display
 		[TestMethod]
 		public void FFBasicRetrieval()
 		{
-			Assert.AreEqual(new FontSettings(8, FontStyle.None), ff.GetClosestFontSettings(new FontSettings(8, FontStyle.None)));
-			Assert.AreEqual(new FontSettings(10, FontStyle.None), ff.GetClosestFontSettings(new FontSettings(10, FontStyle.None)));
+			Assert.AreEqual(new FontSettings(8, FontStyles.None), ff.GetClosestFontSettings(new FontSettings(8, FontStyles.None)));
+			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.GetClosestFontSettings(new FontSettings(10, FontStyles.None)));
 
-			Assert.AreEqual(new FontSettings(8, FontStyle.None), ff.GetClosestFontSettings(new FontSettings(7, FontStyle.None)));
-			Assert.AreEqual(new FontSettings(10, FontStyle.None), ff.GetClosestFontSettings(new FontSettings(9, FontStyle.None)));
-			Assert.AreEqual(new FontSettings(10, FontStyle.None), ff.GetClosestFontSettings(new FontSettings(11, FontStyle.None)));
+			Assert.AreEqual(new FontSettings(8, FontStyles.None), ff.GetClosestFontSettings(new FontSettings(7, FontStyles.None)));
+			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.GetClosestFontSettings(new FontSettings(9, FontStyles.None)));
+			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.GetClosestFontSettings(new FontSettings(11, FontStyles.None)));
 		}
 
 		[TestMethod]
 		public void FFAutoScale()
 		{
-			var font = ff.GetClosestFont(9, FontStyle.None);
+			var font = ff.GetClosestFont(9, FontStyles.None);
 
 			Assert.AreEqual(0.9, font.ScaleHeight, 0.00001);
 		}
@@ -62,8 +62,8 @@ namespace AgateLib.UnitTests.Display
 		[TestMethod]
 		public void FFRemoveStyleRetrieval()
 		{
-			Assert.AreEqual(new FontSettings(10, FontStyle.None), ff.GetClosestFontSettings(new FontSettings(9, FontStyle.Italic)));
-			Assert.AreEqual(new FontSettings(10, FontStyle.Bold), ff.GetClosestFontSettings(new FontSettings(9, FontStyle.Italic | FontStyle.Bold)));
+			Assert.AreEqual(new FontSettings(10, FontStyles.None), ff.GetClosestFontSettings(new FontSettings(9, FontStyles.Italic)));
+			Assert.AreEqual(new FontSettings(10, FontStyles.Bold), ff.GetClosestFontSettings(new FontSettings(9, FontStyles.Italic | FontStyles.Bold)));
 
 		}
 	}

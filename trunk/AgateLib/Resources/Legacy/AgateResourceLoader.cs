@@ -26,11 +26,12 @@ using AgateLib.Utility;
 using System.Diagnostics;
 using System.Xml.Linq;
 
-namespace AgateLib.Resources
+namespace AgateLib.Resources.Legacy
 {
 	/// <summary>
 	/// Static class which loads and saves AgateResourceCollection objects to disk.
 	/// </summary>
+	[Obsolete("Use new resource system instaed.")]
 	public static class AgateResourceLoader
 	{
 		/// <summary>

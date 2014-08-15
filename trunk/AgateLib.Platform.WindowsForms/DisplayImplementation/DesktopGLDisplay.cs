@@ -132,7 +132,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		{
 			return new GL_Surface(fileStream);
 		}
-		public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyle style)
+		public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyles style)
 		{
 			BitmapFontOptions options = new BitmapFontOptions(fontFamily, sizeInPoints, style);
 

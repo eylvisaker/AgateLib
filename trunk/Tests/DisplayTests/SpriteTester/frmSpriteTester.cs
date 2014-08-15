@@ -8,10 +8,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Resources;
+using AgateLib.Resources.Legacy;
 using AgateLib.Sprites;
 using AgateLib.Platform.WindowsForms;
 using AgateLib.Utility;

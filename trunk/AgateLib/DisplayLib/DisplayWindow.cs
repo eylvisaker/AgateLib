@@ -44,10 +44,10 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		/// <param name="resources"></param>
 		/// <param name="name"></param>
-		public DisplayWindow(Resources.AgateResourceCollection resources, string name)
+		public DisplayWindow(Resources.Legacy.AgateResourceCollection resources, string name)
 		{
-			Resources.AgateResource res = resources[name];
-			Resources.DisplayWindowResource disp = res as Resources.DisplayWindowResource;
+			Resources.Legacy.AgateResource res = resources[name];
+			Resources.Legacy.DisplayWindowResource disp = res as Resources.Legacy.DisplayWindowResource;
 
 			if (disp == null)
 				throw new Resources.AgateResourceException("Resource " + name + " was found, but was of type " + name.GetType().ToString() + ", not DisplayWindowResource.");

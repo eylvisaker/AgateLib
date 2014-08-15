@@ -24,11 +24,12 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
 using System.Xml.Linq;
 
-namespace AgateLib.Resources
+namespace AgateLib.Resources.Legacy
 {
 	/// <summary>
 	/// Resource representing a bitmap font.
 	/// </summary>
+	[Obsolete("Use new resource system instaed.")]
 	public class BitmapFontResource : AgateResource
 	{
 		string mImage;

@@ -2,7 +2,7 @@
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.InputLib.Legacy;
-using AgateLib.Resources;
+using AgateLib.Resources.Legacy;
 using AgateLib.UserInterface.Css;
 using AgateLib.UserInterface.Css.Layout;
 using AgateLib.UserInterface.Css.Rendering;
@@ -29,8 +29,8 @@ namespace GuiTester
 			AgateResourceCollection res = new AgateResourceCollection("Resources/fonts.xml");
 
 			font = new Font("Medieval Sharp");
-			font.AddFont(new FontSurface(res, "MedievalSharp18"), 18, FontStyle.None);
-			font.AddFont(new FontSurface(res, "MedievalSharp14"), 14, FontStyle.None);
+			font.AddFont(new FontSurface(res, "MedievalSharp18"), 18, FontStyles.None);
+			font.AddFont(new FontSurface(res, "MedievalSharp14"), 14, FontStyles.None);
 
 			var doc = CssDocument.Load("Style.css");
 			adapter = new CssAdapter(doc, font);

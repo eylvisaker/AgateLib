@@ -45,10 +45,10 @@ namespace AgateLib.Platform.WindowsForms.WinForms
 		{
 			System.Drawing.FontStyle drawingStyle = System.Drawing.FontStyle.Regular;
 
-			if ((options.FontStyle & FontStyle.Bold) > 0) drawingStyle |= System.Drawing.FontStyle.Bold;
-			if ((options.FontStyle & FontStyle.Italic) > 0) drawingStyle |= System.Drawing.FontStyle.Italic;
-			if ((options.FontStyle & FontStyle.Strikeout) > 0) drawingStyle |= System.Drawing.FontStyle.Strikeout;
-			if ((options.FontStyle & FontStyle.Underline) > 0) drawingStyle |= System.Drawing.FontStyle.Underline;
+			if ((options.FontStyle & FontStyles.Bold) > 0) drawingStyle |= System.Drawing.FontStyle.Bold;
+			if ((options.FontStyle & FontStyles.Italic) > 0) drawingStyle |= System.Drawing.FontStyle.Italic;
+			if ((options.FontStyle & FontStyles.Strikeout) > 0) drawingStyle |= System.Drawing.FontStyle.Strikeout;
+			if ((options.FontStyle & FontStyles.Underline) > 0) drawingStyle |= System.Drawing.FontStyle.Underline;
 
 			Drawing.Font font = new Drawing.Font(options.FontFamily, options.SizeInPoints, drawingStyle);
 			Drawing.Bitmap bmp;
@@ -76,7 +76,7 @@ namespace AgateLib.Platform.WindowsForms.WinForms
 			System.IO.File.Delete(tempFile);
 
 			string name = string.Format("{0} {1}{2}", options.FontFamily, options.SizeInPoints, 
-				(options.FontStyle != FontStyle.None) ? " " + options.FontStyle.ToString():string.Empty );
+				(options.FontStyle != FontStyles.None) ? " " + options.FontStyle.ToString():string.Empty );
 
 			return new BitmapFontImpl(surf, glyphs, name);
 		}

@@ -55,11 +55,10 @@ namespace AgateLib.Serialization.Xle
 		/// implement the IXleSerializable interface.
 		/// </summary>
 		/// <param name="objectType">The type of the object to serialize.</param>
+		/// <param name="objectConstructor">An object which can construct arbitrary types. If this is null
+		/// it will be obtained from the platform factory.</param>
 		public XleSerializer(Type objectType, IObjectConstructor objectConstructor = null)
 		{
-			if (objectType.GetInterfaces().Contains(typeof(IXleSerializable)) == false)
-				throw new ArgumentException("Object type is not IXleSerializable.");
-
 			if (objectConstructor == null)
 				objectConstructor = Core.Factory.PlatformFactory.CreateDefaultSerializationConstructor();
 
@@ -96,7 +95,23 @@ namespace AgateLib.Serialization.Xle
 			info.BeginSerialize(objectGraph);
 
 			info.XmlDoc.Save(outStream);
+		}
 
+		/// <summary>
+		/// Serializes an object to the specified stream.
+		/// </summary>
+		/// <param name="outStream">The stream to write the XML data to.</param>
+		/// <param name="objectGraph">The object to serialize.</param>
+		public void Serialize(Stream outStream, object objectGraph)
+		{
+			if (objectType.IsAssignableFrom(objectGraph.GetType()) == false)
+				throw new ArgumentException("Object is not of type " + objectType.Name);
+
+			XleSerializationInfo info = new XleSerializationInfo(Binder, TypeSerializers);
+
+			info.BeginSerialize(objectGraph);
+
+			info.XmlDoc.Save(outStream);
 		}
 
 		/// <summary>
