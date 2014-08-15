@@ -28,12 +28,13 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Utility;
 using AgateLib.IO;
 
-namespace AgateLib.Resources
+namespace AgateLib.Resources.Legacy
 {
 	/// <summary>
 	/// Class which wraps an XML based resource file.  This class provides methods for adding
 	/// and extracting resources.
 	/// </summary>
+	[Obsolete("Use new resource system instaed.")]
 	public class AgateResourceCollection : IDictionary<string, AgateResource>, ICollection<AgateResource>
 	{
 		Dictionary<string, AgateResource> mStore = new Dictionary<string, AgateResource>();

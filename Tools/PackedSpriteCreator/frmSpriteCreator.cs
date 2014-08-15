@@ -23,7 +23,7 @@ namespace PackedSpriteCreator
 
         private void newResourceFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            spriteEditor1.Resources = new AgateLib.Resources.AgateResourceCollection();
+            spriteEditor1.Resources = new AgateLib.Resources.Legacy.AgateResourceCollection();
         }
 
         private void openResourceFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -39,7 +39,7 @@ namespace PackedSpriteCreator
             if (openDialog.ShowDialog() == DialogResult.Cancel)
                 return;
 
-            spriteEditor1.Resources = AgateLib.Resources.AgateResourceLoader.LoadResources(openDialog.FileName);
+            spriteEditor1.Resources = AgateLib.Resources.Legacy.AgateResourceLoader.LoadResources(openDialog.FileName);
             spriteEditor1.Enabled = true;
 
             System.IO.Directory.SetCurrentDirectory(

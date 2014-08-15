@@ -69,6 +69,10 @@ namespace AgateLib.Serialization.Xle
 		{
 			o.WriteData(this);
 		}
+		void Serialize(object o)
+		{
+			WritePublicProperties(o);
+		}
 
 		void AddAttribute(XElement node, string name, string value)
 		{
@@ -85,6 +89,19 @@ namespace AgateLib.Serialization.Xle
 
 			doc.Add(root);
 
+			nodes.Push(root);
+			Serialize(objectGraph);
+
+			System.Diagnostics.Debug.Assert(nodes.Count == 1);
+			nodes.Clear();
+		}
+		internal void BeginSerialize(object objectGraph)
+		{
+			var root = new XElement("XleRoot");
+
+			AddAttribute(root, "type", objectGraph.GetType().ToString());
+
+			doc.Add(root);
 			nodes.Push(root);
 			Serialize(objectGraph);
 
@@ -1617,7 +1634,7 @@ namespace AgateLib.Serialization.Xle
 			}
 		}
 
-		public void WritePublicProperties(IXleSerializable item)
+		public void WritePublicProperties(object item)
 		{
 			Type type = item.GetType();
 

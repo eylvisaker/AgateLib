@@ -27,7 +27,7 @@ using AgateLib.Sprites;
 using System.Xml.Linq;
 using AgateLib.Diagnostics;
 
-namespace AgateLib.Resources
+namespace AgateLib.Resources.Legacy
 {
 	/// <summary>
 	/// Resource which loads a sprite.  There are two different types of sprites, a general purpose

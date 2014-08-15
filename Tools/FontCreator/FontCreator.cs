@@ -8,7 +8,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
-using AgateLib.Resources;
+using AgateLib.Resources.Legacy;
 using AgateLib.Platform.WindowsForms;
 
 namespace FontCreator
@@ -31,7 +31,7 @@ namespace FontCreator
 			get { return font; }
 		}
 
-		private void SetStyle(FontStyle fontStyle, bool value)
+		private void SetStyle(FontStyles fontStyle, bool value)
 		{
 			if (value)
 			{
@@ -44,30 +44,30 @@ namespace FontCreator
 
 			CreateFont();
 		}
-		private bool StyleContains(FontStyle fontStyle)
+		private bool StyleContains(FontStyles fontStyle)
 		{
 			return (mOptions.FontStyle & fontStyle) == fontStyle;
 		}
 
 		public bool Underline
 		{
-			get { return StyleContains(FontStyle.Underline); }
-			set { SetStyle(FontStyle.Underline, value); }
+			get { return StyleContains(FontStyles.Underline); }
+			set { SetStyle(FontStyles.Underline, value); }
 		}
 		public bool Strikeout
 		{
-			get { return StyleContains(FontStyle.Strikeout); }
-			set { SetStyle(FontStyle.Strikeout, value); }
+			get { return StyleContains(FontStyles.Strikeout); }
+			set { SetStyle(FontStyles.Strikeout, value); }
 		}
 		public bool Italic
 		{
-			get { return StyleContains(FontStyle.Italic); }
-			set { SetStyle(FontStyle.Italic, value); }
+			get { return StyleContains(FontStyles.Italic); }
+			set { SetStyle(FontStyles.Italic, value); }
 		}
 		public bool Bold
 		{
-			get { return StyleContains(FontStyle.Bold); }
-			set { SetStyle(FontStyle.Bold, value); }
+			get { return StyleContains(FontStyles.Bold); }
+			set { SetStyle(FontStyles.Bold, value); }
 		}
 
 		public float FontSize
@@ -174,15 +174,15 @@ namespace FontCreator
 			Draw();
 		}
 
-		FontStyle Style
+		FontStyles Style
 		{
 			get
 			{
 				return
-					(Bold ? FontStyle.Bold : 0) |
-					(Italic ? FontStyle.Italic : 0) |
-					(Underline ? FontStyle.Underline : 0) |
-					(Strikeout ? FontStyle.Strikeout : 0);
+					(Bold ? FontStyles.Bold : 0) |
+					(Italic ? FontStyles.Italic : 0) |
+					(Underline ? FontStyles.Underline : 0) |
+					(Strikeout ? FontStyles.Strikeout : 0);
 			}
 		}
 		public BitmapFontOptions Options

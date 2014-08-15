@@ -104,7 +104,7 @@ namespace Tests.ParticleTest
 			gpm = new GravityPointManipulator(new Vector2(400f, 350f), -1f);
 			gpm.SubscribeToEmitter(pe);
 			
-			fontSurface = new FontSurface("Arial", 10f, FontStyle.Bold);
+			fontSurface = new FontSurface("Arial", 10f, FontStyles.Bold);
 		}		
 
 		protected override void Update(double time_ms)

@@ -25,39 +25,10 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using AgateLib.Resources;
+using AgateLib.Resources.Legacy;
 
 namespace AgateLib.DisplayLib
 {
-	/// <summary>
-	/// Enumeration which allows selection of font styles when creating
-	/// a font from the OS.  This enum has the FlagsAttribute, so its members
-	/// can be combined in a bitwise fashion.
-	/// </summary>
-	[Flags]
-	public enum FontStyle
-	{
-		/// <summary>
-		/// No style is applied.
-		/// </summary>
-		None = 0,
-		/// <summary>
-		/// Make the font bold.
-		/// </summary>
-		Bold = 1,
-		/// <summary>
-		/// Use italics.
-		/// </summary>
-		Italic = 2,
-		/// <summary>
-		/// Strikeout through the font glyphs.
-		/// </summary>
-		Strikeout = 4,
-		/// <summary>
-		/// Underline beneath the glyphs.
-		/// </summary>
-		Underline = 8,
-	}
-
 	/// <summary>
 	/// Class which represents a font to draw on the screen.
 	/// <remarks>When creating a FontSurface, if you are going to be
@@ -82,7 +53,7 @@ namespace AgateLib.DisplayLib
 		/// ones, like FontSurface.AgateSans14.
 		/// </remarks>
 		public FontSurface(string fontFamily, float sizeInPoints)
-			: this(fontFamily, sizeInPoints, FontStyle.None)
+			: this(fontFamily, sizeInPoints, FontStyles.None)
 		{ }
 
 		/// <summary>
@@ -97,7 +68,7 @@ namespace AgateLib.DisplayLib
 		/// support, either create a bitmap font, or use one of the built-in
 		/// ones, like FontSurface.AgateSans14.
 		/// </remarks>
-		public FontSurface(string fontFamily, float sizeInPoints, FontStyle style)
+		public FontSurface(string fontFamily, float sizeInPoints, FontStyles style)
 		{
 			if (sizeInPoints < 1)
 				throw new ArgumentOutOfRangeException("Font size must be positive and non-zero, but was " +

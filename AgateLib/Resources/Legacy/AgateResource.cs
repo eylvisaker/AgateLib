@@ -23,11 +23,12 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace AgateLib.Resources
+namespace AgateLib.Resources.Legacy
 {
 	/// <summary>
 	/// Class which represents a resource.
 	/// </summary>
+	[Obsolete("Use new resource system instaed.")]
 	public abstract class AgateResource 
 	{
 		private string mName;

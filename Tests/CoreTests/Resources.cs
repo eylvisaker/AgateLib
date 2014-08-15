@@ -4,7 +4,7 @@ using System.Text;
 using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
-using AgateLib.Resources;
+using AgateLib.Resources.Legacy;
 using AgateLib.Sprites;
 using AgateLib.Platform.WindowsForms.ApplicationModels;
 using AgateLib.Platform.WindowsForms;

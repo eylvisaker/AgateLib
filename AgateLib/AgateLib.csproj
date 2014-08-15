@@ -84,6 +84,10 @@
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Algorithms\Inverting.cs" />
+    <Compile Include="DisplayLib\FontSettings.cs" />
+    <Compile Include="DisplayLib\FontStyles.cs" />
+    <Compile Include="Drivers\NullDrivers\NullInputFactory.cs" />
+    <Compile Include="Drivers\NullDrivers\NullSoundFactory.cs" />
     <Compile Include="Mathematics\MathHelper.cs" />
     <Compile Include="Algorithms\PathFinding\IAStarMap.cs" />
     <Compile Include="Algorithms\Pair.cs" />
@@ -96,9 +100,17 @@
     <Compile Include="ApplicationModels\CoordinateSystems\FixedAspectRatioCoordinates.cs" />
     <Compile Include="ApplicationModels\ICoordinateSystemCreator.cs" />
     <Compile Include="ApplicationModels\ModelParameters.cs" />
+    <Compile Include="Resources\DC\AgateResource.cs" />
+    <Compile Include="Resources\DC\FontResource.cs" />
+    <Compile Include="Resources\DC\FontSurfaceResource.cs" />
+    <Compile Include="Resources\DC\ResourceCollection.cs" />
+    <Compile Include="Resources\DC\AgateResourceCollection.cs" />
+    <Compile Include="Resources\DC\SpriteFrameResource.cs" />
+    <Compile Include="Resources\DC\SpriteResource.cs" />
+    <Compile Include="Resources\DC\SurfaceResource.cs" />
     <Compile Include="Sprites\CollisionRegion.cs" />
     <Compile Include="Sprites\ISpriteContainer.cs" />
-    <Compile Include="Sprites\Polygon.cs" />
+    <Compile Include="Geometry\Polygon.cs" />
     <Compile Include="Sprites\SpriteContainer.cs" />
     <Compile Include="UnitTesting\AssertThrows.cs" />
     <Compile Include="AudioLib\AudioCapsInfo.cs" />
@@ -172,7 +184,7 @@
     <Compile Include="Platform\IStopWatch.cs" />
     <Compile Include="Platform\PlatformInfo.cs" />
     <Compile Include="Platform\PlatformType.cs" />
-    <Compile Include="Resources\ImageResource.cs" />
+    <Compile Include="Resources\Legacy\ImageResource.cs" />
     <Compile Include="Serialization\Xle\CompressionMode.cs" />
     <Compile Include="Serialization\Xle\CompressionType.cs" />
     <Compile Include="Serialization\Xle\ITypeBinder.cs" />
@@ -456,34 +468,34 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\AgateResource.cs">
+    <Compile Include="Resources\Legacy\AgateResource.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\AgateResourceCollection.cs">
+    <Compile Include="Resources\Legacy\AgateResourceCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Resources\AgateResourceException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\AgateResourceLoader.cs">
+    <Compile Include="Resources\Legacy\AgateResourceLoader.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\BitmapFontResource.cs">
+    <Compile Include="Resources\Legacy\BitmapFontResource.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\DisplayWindowResource.cs">
+    <Compile Include="Resources\Legacy\DisplayWindowResource.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\SpriteResource.cs">
+    <Compile Include="Resources\Legacy\SpriteResource.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\StringTable.cs">
+    <Compile Include="Resources\Legacy\StringTable.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\SurfaceResource.cs">
+    <Compile Include="Resources\Legacy\SurfaceResource.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\XmlHelper.cs">
+    <Compile Include="Resources\Legacy\XmlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Sprites\FrameList.cs">

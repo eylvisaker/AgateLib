@@ -22,7 +22,7 @@ using System.Text;
 using System.Xml.Linq;
 using AgateLib.Geometry;
 
-namespace AgateLib.Resources
+namespace AgateLib.Resources.Legacy
 {
 	static internal class XmlHelper
 	{

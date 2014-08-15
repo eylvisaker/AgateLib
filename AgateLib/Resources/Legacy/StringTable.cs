@@ -21,13 +21,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
 
-namespace AgateLib.Resources
+namespace AgateLib.Resources.Legacy
 {
 	/// <summary>
 	/// Class which contains a table of string-string mappings.
 	/// Similar to a Dictionary, but includes methods for reading to / writing from
 	/// an AgateLib resource file.
 	/// </summary>
+	[Obsolete("Use new resource system instaed.")]
 	public sealed class StringTable : AgateResource, IDictionary<string, string>
 	{
 		Dictionary<string, string> mTable = new Dictionary<string, string>();

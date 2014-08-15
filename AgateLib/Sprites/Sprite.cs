@@ -24,6 +24,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Resources;
+using AgateLib.Resources.Legacy;
 
 namespace AgateLib.Sprites
 {

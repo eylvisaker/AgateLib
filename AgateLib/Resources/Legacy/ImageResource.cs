@@ -24,8 +24,9 @@ using System.Xml;
 using AgateLib.DisplayLib;
 using System.Xml.Linq;
 
-namespace AgateLib.Resources
+namespace AgateLib.Resources.Legacy
 {
+	[Obsolete("Use new resource system instaed.")]
 	public class ImageResource : AgateResource 
 	{
 		Surface mBackingSurface;

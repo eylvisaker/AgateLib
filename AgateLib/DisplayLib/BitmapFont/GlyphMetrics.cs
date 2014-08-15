@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using AgateLib.Geometry;
+using System.Runtime.Serialization;
 
 namespace AgateLib.DisplayLib.BitmapFont
 {
