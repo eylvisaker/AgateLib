@@ -44,6 +44,5 @@ namespace AgateLib.UserInterface.Css
 		Column,
 		Row,
 		Grid,
-
 	}
 }

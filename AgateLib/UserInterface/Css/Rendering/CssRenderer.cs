@@ -31,7 +31,7 @@ namespace AgateLib.UserInterface.Css.Rendering
 
 		public void Update(Gui gui, double deltaTime)
 		{
-			foreach (var widget in gui.Desktop.Descendants())
+			foreach (var widget in gui.Desktop.Descendants)
 			{
 				var style = mAdapter.GetStyle(widget);
 

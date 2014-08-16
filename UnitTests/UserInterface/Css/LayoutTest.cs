@@ -1,22 +1,17 @@
-﻿using AgateLib;
-using AgateLib.DisplayLib;
+﻿using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
+using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.UnitTests.Fakes;
 using AgateLib.UserInterface.Css.Layout;
 using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Widgets.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface.Css.Tests
 {
-	using AgateLib.DisplayLib.ImplementationBase;
-	using AgateLib.Platform.WindowsForms.ApplicationModels;
-	using Widgets.Linq;
-
 	[TestClass]
 	public class LayoutTest : CssTestBase
 	{
@@ -43,12 +38,26 @@ namespace AgateLib.UserInterface.Css.Tests
 			ff.AddFont(new FontSettings(10, FontStyles.Bold),
 				FontSurface.FromImpl(new FakeFontSurface { Height = 8 }));
 
-			CssDocument doc = CssDocument.FromText("window { layout: column; margin: 8px; } label { margin-left: 4px; }");
+			CssDocument doc = CssDocument.FromText(
+				"window { layout: column; margin: 6px; padding: 8px;} label { margin-left: 4px; } " +
+				"window.fixed { position: fixed; right: 4px; bottom: 8px; margin: 0px; padding: 0px;} ");
 			adapter = new CssAdapter(doc, ff);
 
 			engine = new CssLayoutEngine(adapter);
 
 			gui = new Gui(new FakeRenderer(), engine);
+
+			Core.Initialize(new FakeAgateFactory());
+		}
+		private void RedoLayout()
+		{
+			engine.RedoLayout(gui, new Size(1000, 1000));
+
+			foreach (var d in gui.Desktop.Descendants)
+			{
+				var style = adapter.GetStyle(d);
+				style.Animator.Update(1000);
+			}
 		}
 
 		[TestMethod]
@@ -62,7 +71,7 @@ namespace AgateLib.UserInterface.Css.Tests
 
 			Assert.AreEqual(35, style.BoxModel.Left);
 		}
-		/*
+
 		[TestMethod]
 		public void ColumnLayout()
 		{
@@ -74,19 +83,25 @@ namespace AgateLib.UserInterface.Css.Tests
 			wind.Children.Add(new Label("label 3"));
 
 			gui.Desktop.Children.Add(wind);
+			RedoLayout();
 
-			engine.RedoLayout(gui);
+			Assert.AreEqual(new Point(14, 14), wind.ClientRect.Location);
+			Assert.AreEqual(new Point(18, 14), wind.Children[0].ClientToScreen(Point.Empty));
+			Assert.AreEqual(new Point(18, 14 + fh), wind.Children[1].ClientToScreen(Point.Empty));
+		}
 
-			foreach (var d in wind.Descendants())
-			{
-				var style = adapter.GetStyle(d);
-				style.Animator.Update(1000);
-			}
 
-			Assert.AreEqual(new Point(8,8), wind.ClientRect.Location);
-			Assert.AreEqual(new Point(12, 8), wind.Children[0].ClientToScreen(wind.Children[0].ClientRect.Location));
-			Assert.AreEqual(new Point(12, 16 + fh), wind.Children[1].ClientToScreen(wind.Children[1].ClientRect.Location));
-		}*/
+		[TestMethod]
+		public void FixedPosition()
+		{
+			Window wind = new Window() { Style = "fixed" };
+			gui.Desktop.Children.Add(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(1000 - 4, wind.WidgetRect.Right);
+			Assert.AreEqual(1000 - 8, wind.WidgetRect.Bottom);
+		}
 	}
 
 	[Obsolete]

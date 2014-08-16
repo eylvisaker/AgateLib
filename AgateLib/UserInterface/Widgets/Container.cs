@@ -19,6 +19,26 @@ namespace AgateLib.UserInterface.Widgets
 
 		public WidgetList Children { get; protected set; }
 
+		/// <summary>
+		/// Enumerates all descendants of this container.
+		/// </summary>
+		public IEnumerable<Widget> Descendants
+		{
+			get
+			{
+				foreach (var w in Children)
+				{
+					yield return w;
+				}
+
+				foreach (var w in Children.OfType<Container>())
+				{
+					foreach (var ww in ((Container)w).Descendants)
+						yield return ww;
+				}
+			}
+		}
+
 		public bool ChildHasMouseIn
 		{
 			get

@@ -17,6 +17,7 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		public Window(string name)
 		{
+			Name = name;
 		}
 		public Window(params Widget[] contents)
 			: base(contents)

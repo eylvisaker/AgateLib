@@ -8,12 +8,20 @@ using System.Text;
 
 namespace AgateLib.UserInterface.Css
 {
-	public class CssBackground
+	public class CssBackground : ICssPropertyFromText
 	{
 		public CssBackground()
 		{
+			Initialize();
+		}
+
+		private void Initialize()
+		{
 			Color = Color.FromArgb(0, 0, 0, 0);
+			Image = null;
+			Repeat = 0;
 			Position = new CssBackgroundPosition();
+			Clip = 0;
 		}
 
 		public Color Color { get; set; }
@@ -21,6 +29,16 @@ namespace AgateLib.UserInterface.Css
 		public CssBackgroundRepeat Repeat { get; set; }
 		public CssBackgroundClip Clip { get; set; }
 		public CssBackgroundPosition Position { get; set; }
+
+		public void SetValueFromText(string value)
+		{
+			if (value == "none")
+			{
+				Initialize();
+			}
+			else
+				throw new NotImplementedException();
+		}
 	}
 
 	public class CssBackgroundPosition : ICssPropertyFromText

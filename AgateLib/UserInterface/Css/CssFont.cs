@@ -11,6 +11,11 @@ namespace AgateLib.UserInterface.Css
 {
 	public class CssFont
 	{
+		public CssFont()
+		{
+			Color = Color.Black;
+		}
+
 		[CssAlias("font-family")]
 		public string Family { get; set; }
 

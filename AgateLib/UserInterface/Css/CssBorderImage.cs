@@ -11,9 +11,16 @@ namespace AgateLib.UserInterface.Css
 	{
 		public CssBorderImage()
 		{
+			Initialize();
+		}
+
+		private void Initialize()
+		{
+			Source = string.Empty;
 			Slice = new CssBorderImageComponent();
 			Width = new CssBorderImageComponent();
 			Outset = new CssBorderImageComponent();
+			Repeat = CssBorderImageRepeat.Initial;
 		}
 
 		public string Source { get; set; }
@@ -24,7 +31,14 @@ namespace AgateLib.UserInterface.Css
 
 		public void SetValueFromText(string value)
 		{
-			throw new NotImplementedException();
+			if (value == "none")
+			{
+				Initialize();
+			}
+			else
+			{
+				throw new NotImplementedException();
+			}
 		}
 	}
 
