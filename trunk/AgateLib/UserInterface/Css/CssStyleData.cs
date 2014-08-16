@@ -21,7 +21,7 @@ namespace AgateLib.UserInterface.Css
 		{
 			Selector = "";
 
-			Position = new CssRectangle();
+			PositionData = new CssRectangle();
 			Font = new CssFont();
 			Background = new CssBackground();
 			Margin = new CssBoxComponent();
@@ -36,7 +36,9 @@ namespace AgateLib.UserInterface.Css
 		public CssSelectorGroup Selector { get; set; }
 
 		[CssPromoteProperties]
-		public CssRectangle Position { get; set; }
+		public CssRectangle PositionData { get; set; }
+
+		public CssPosition Position { get; set; }
 
 		[CssPromoteProperties]
 		public CssFont Font { get; set; }
@@ -60,5 +62,14 @@ namespace AgateLib.UserInterface.Css
 
 		[CssPromoteProperties(prefix: "transition")]
 		public CssTransition Transition { get; set; }
+	}
+
+	public enum CssPosition
+	{
+		Initial,
+		Static = Initial,
+		Relative,
+		Absolute,
+		Fixed,
 	}
 }

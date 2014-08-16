@@ -68,7 +68,7 @@ namespace GuiTester
 			}
 
 
-			foreach (var ctrl in gui.Desktop.Descendants())
+			foreach (var ctrl in gui.Desktop.Descendants)
 				ctrl.MouseDown += ctrl_MouseDown;
 		}
 

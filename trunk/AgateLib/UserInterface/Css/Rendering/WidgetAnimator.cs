@@ -45,5 +45,7 @@ namespace AgateLib.UserInterface.Css.Rendering
 				Transition.Update(deltaTime);
 			}
 		}
+
+		public Widgets.Widget ParentCoordinateSystem { get; set; }
 	}
 }

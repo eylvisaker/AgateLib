@@ -82,7 +82,7 @@ namespace AgateLib.Utility
 			var result = FindFileName(filename);
 
 			if (result == null)
-				throw new FileNotFoundException(filename);
+				 throw new FileNotFoundException(filename);
 
 			return result;
 		}

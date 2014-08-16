@@ -22,7 +22,7 @@ namespace AgateLib.UserInterface.Css.Tests
 			var style = adapter.GetStyle(window);
 
 			Assert.AreEqual(Color.Red, style.Data.Font.Color);
-			DistanceAssert(false, 20, DistanceUnit.FontHeight, style.Data.Position.Left);
+			DistanceAssert(false, 20, DistanceUnit.FontHeight, style.Data.PositionData.Left);
 			DistanceAssert(false, 4, DistanceUnit.Pixels, style.Data.Padding.Left);
 			DistanceAssert(false, 4, DistanceUnit.Pixels, style.Data.Padding.Right);
 			DistanceAssert(false, 4, DistanceUnit.Pixels, style.Data.Padding.Top);

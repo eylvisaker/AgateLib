@@ -18,7 +18,7 @@ namespace AgateLib.UserInterface.Css.Rendering
 				file = file.Substring(4, file.Length - 5);
 
 				if (mSurfaces.ContainsKey(file) == false)
-					mSurfaces.Add(file, new Surface(file));
+					mSurfaces.Add(file, new Surface(file, AgateLib.IO.FileProvider.UserInterfaceAssets));
 
 				return mSurfaces[file];
 			}

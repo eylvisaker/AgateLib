@@ -20,6 +20,10 @@ namespace AgateLib.IO
 				this.subdir += "/";
 		}
 
+		public override string ToString()
+		{
+			return parent.ToString() + subdir;
+		}
 		public System.IO.Stream OpenRead(string filename)
 		{
 			return parent.OpenRead(subdir + filename);

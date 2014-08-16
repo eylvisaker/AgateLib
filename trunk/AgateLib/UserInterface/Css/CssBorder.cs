@@ -75,6 +75,18 @@ namespace AgateLib.UserInterface.Css
 
 	public class CssBorderData : ICssPropertyFromText
 	{
+		public CssBorderData()
+		{
+			Initialize();
+		}
+
+		private void Initialize()
+		{
+			Style = CssBorderStyle.None;
+			Width = new CssDistance();
+			Color = Color.FromArgb(0, 0, 0, 0);
+		}
+
 		public CssBorderStyle Style { get; set; }
 
 		public CssDistance Width { get; set; }
@@ -83,6 +95,12 @@ namespace AgateLib.UserInterface.Css
 
 		public void SetValueFromText(string value)
 		{
+			if (value == "none")
+			{
+				Initialize();
+				return;
+			}
+
 			string[] values = value.Split(Extensions.WhiteSpace);
 
 			foreach (var v in values)
@@ -104,6 +122,7 @@ namespace AgateLib.UserInterface.Css
 				}
 			}
 		}
+
 	}
 
 	public enum CssBorderStyle

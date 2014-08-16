@@ -10,7 +10,7 @@ using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public class Gui
+	public class Gui : IInputHandler
 	{
 		Desktop mDesktop;
 		IAudioPlayer mAudioPlayer;
@@ -28,6 +28,8 @@ namespace AgateLib.UserInterface.Widgets
 
 			mDesktop = new Desktop(this);
 			InputMap = InputMap.CreateDefaultMapping();
+
+			ForwardUnhandledEvents = true;
 		}
 
 		public InputMap InputMap { get ; set; }
@@ -51,44 +53,6 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			get { return mFocusWidget; }
 			set { mFocusWidget = value; }
-		}
-
-		public void OnKeyDown(InputEventArgs args)
-		{
-			bool handled = false;
-			GuiInput input = InputMap.MapKey(args.KeyCode);
-
-			if (mFocusWidget == null)
-				FindFocusWidget();
-
-			if (mFocusWidget != null)
-			{
-				mFocusWidget.OnKeyDown(args.KeyCode, args.KeyString);
-				if (input != GuiInput.None)
-				{
-					mFocusWidget.OnGuiInput(input, ref handled);
-				}
-			}
-			else
-			{
-				DispatchEvent(window => { window.OnInputButtonDown(args.KeyCode, ref handled); return handled; });
-			}
-		}
-		public void OnKeyUp(InputEventArgs args)
-		{
-			bool handled = false;
-
-			if (mFocusWidget == null)
-				FindFocusWidget();
-
-			if (mFocusWidget != null)
-			{
-				mFocusWidget.OnKeyUp(args.KeyCode, args.KeyString);
-			}
-			else
-			{
-				DispatchEvent(window => { window.OnInputButtonUp(args.KeyCode, ref handled); return handled; });
-			}
 		}
 
 		private void FindFocusWidget()
@@ -124,6 +88,129 @@ namespace AgateLib.UserInterface.Widgets
 			return container;
 		}
 
+		#region --- Event Handling ---
+
+		public void OnKeyDown(AgateInputEventArgs args)
+		{
+			bool handled = false;
+			GuiInput input = InputMap.MapKey(args.KeyCode);
+
+			if (mFocusWidget == null)
+				FindFocusWidget();
+
+			if (mFocusWidget != null)
+			{
+				mFocusWidget.OnKeyDown(args.KeyCode, args.KeyString);
+				if (input != GuiInput.None)
+				{
+					mFocusWidget.OnGuiInput(input, ref handled);
+				}
+			}
+			else
+			{
+				DispatchEvent(window => { window.OnInputButtonDown(args.KeyCode, ref handled); return handled; });
+			}
+		}
+		public void OnKeyUp(AgateInputEventArgs args)
+		{
+			bool handled = false;
+
+			if (mFocusWidget == null)
+				FindFocusWidget();
+
+			if (mFocusWidget != null)
+			{
+				mFocusWidget.OnKeyUp(args.KeyCode, args.KeyString);
+			}
+			else
+			{
+				DispatchEvent(window => { window.OnInputButtonUp(args.KeyCode, ref handled); return handled; });
+			}
+		}
+
+		public void OnMouseMove(AgateInputEventArgs e)
+		{
+			Widget targetWidget = mMouseEventWidget;
+
+			if (targetWidget == null)
+				targetWidget = WidgetAt(e.MousePosition);
+
+			if (mHoverWidget != targetWidget)
+			{
+				if (mHoverWidget != null)
+				{
+					mHoverWidget.MouseIn = false;
+					mHoverWidget.OnMouseLeave();
+				}
+
+				targetWidget.MouseIn = true;
+				targetWidget.OnMouseEnter();
+
+				mHoverWidget = targetWidget;
+			}
+
+			targetWidget.OnMouseMove(targetWidget.ScreenToClient(e.MousePosition));
+		}
+		public void OnMouseDown(AgateInputEventArgs e)
+		{
+			var targetWidget = WidgetAt(e.MousePosition);
+
+			mMouseEventWidget = targetWidget;
+
+			targetWidget.OnMouseDown(e.MouseButton, targetWidget.ScreenToClient(e.MousePosition));
+		}
+		public void OnMouseUp(AgateInputEventArgs e)
+		{
+			Widget targetWidget = mMouseEventWidget;
+
+			if (targetWidget == null)
+				targetWidget = WidgetAt(e.MousePosition);
+
+			mMouseEventWidget = null;
+			targetWidget.OnMouseUp(e.MouseButton, targetWidget.ScreenToClient(e.MousePosition));
+		}
+
+		[Obsolete]
+		public void OnKeyDown(InputEventArgs args)
+		{
+			bool handled = false;
+			GuiInput input = InputMap.MapKey(args.KeyCode);
+
+			if (mFocusWidget == null)
+				FindFocusWidget();
+
+			if (mFocusWidget != null)
+			{
+				mFocusWidget.OnKeyDown(args.KeyCode, args.KeyString);
+				if (input != GuiInput.None)
+				{
+					mFocusWidget.OnGuiInput(input, ref handled);
+				}
+			}
+			else
+			{
+				DispatchEvent(window => { window.OnInputButtonDown(args.KeyCode, ref handled); return handled; });
+			}
+		}
+		[Obsolete]
+		public void OnKeyUp(InputEventArgs args)
+		{
+			bool handled = false;
+
+			if (mFocusWidget == null)
+				FindFocusWidget();
+
+			if (mFocusWidget != null)
+			{
+				mFocusWidget.OnKeyUp(args.KeyCode, args.KeyString);
+			}
+			else
+			{
+				DispatchEvent(window => { window.OnInputButtonUp(args.KeyCode, ref handled); return handled; });
+			}
+		}
+
+		[Obsolete]
 		public void OnMouseMove(InputEventArgs e)
 		{
 			Widget targetWidget = mMouseEventWidget;
@@ -147,6 +234,7 @@ namespace AgateLib.UserInterface.Widgets
 
 			targetWidget.OnMouseMove(targetWidget.ScreenToClient(e.MousePosition));
 		}
+		[Obsolete]
 		public void OnMouseDown(InputEventArgs e)
 		{
 			var targetWidget = WidgetAt(e.MousePosition);
@@ -155,7 +243,7 @@ namespace AgateLib.UserInterface.Widgets
 
 			targetWidget.OnMouseDown(e.MouseButtons, targetWidget.ScreenToClient(e.MousePosition));
 		}
-		public void OnMouseUp(InputEventArgs e)
+		[Obsolete] public void OnMouseUp(InputEventArgs e)
 		{
 			Widget targetWidget = mMouseEventWidget;
 
@@ -165,6 +253,8 @@ namespace AgateLib.UserInterface.Widgets
 			mMouseEventWidget = null;
 			targetWidget.OnMouseUp(e.MouseButtons, targetWidget.ScreenToClient(e.MousePosition));
 		}
+
+		#endregion
 
 		public void OnUpdate(double delta_t, bool processInput)
 		{
@@ -251,7 +341,19 @@ namespace AgateLib.UserInterface.Widgets
 
 		internal AgateLib.UserInterface.Css.CssDocument CssDocument { get; set; }
 
+		public void ProcessEvent(AgateInputEventArgs args)
+		{
+			switch(args.InputEventType)
+			{
+				case InputEventType.KeyDown: OnKeyDown(args); break;
+				case InputEventType.KeyUp: OnKeyUp(args); break;
+				case InputEventType.MouseDown: OnMouseDown(args); break;
+				case InputEventType.MouseUp: OnMouseUp(args); break;
+				case InputEventType.MouseMove: OnMouseMove(args); break;
+			}
+		}
 
+		public bool ForwardUnhandledEvents { get;set;}
 	}
 
 	class WindowList : IList<Window>

@@ -12,8 +12,8 @@ namespace AgateLib.UserInterface.Css
 {
 	public class CssStyle
 	{
-		string mClassValue;
-		List<string> mSplitClasses;
+		string mClassValue = string.Empty;
+		List<string> mSplitClasses = new List<string>();
 
 		public CssStyle(Widget widget)
 		{
@@ -39,6 +39,7 @@ namespace AgateLib.UserInterface.Css
 			get { return mClassValue; }
 			set
 			{
+				if (value == null) throw new ArgumentNullException();
 				if (mClassValue.Equals(value, StringComparison.OrdinalIgnoreCase))
 					return;
 

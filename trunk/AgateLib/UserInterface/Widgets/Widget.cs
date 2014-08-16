@@ -18,6 +18,7 @@ namespace AgateLib.UserInterface.Widgets
 		private Font mFont;
 		private Color? mFontColor;
 		private bool mEnabled = true;
+		string mStyle = string.Empty;
 
 		public Widget()
 		{
@@ -243,7 +244,17 @@ namespace AgateLib.UserInterface.Widgets
 
 		public virtual bool Visible { get; set; }
 
-		public string Style { get; set; }
+		public string Style
+		{
+			get { return mStyle; }
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException();
+
+				mStyle = value;
+			}
+		}
 
 		public virtual bool LayoutDirty { get; set; }
 

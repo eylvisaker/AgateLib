@@ -7,14 +7,24 @@ using System.Text;
 namespace AgateLib.ApplicationModels.CoordinateSystems
 {
 	/// <summary>
-	/// Constructs a coordinate system that provides a one-to-one mapping to the pixels
-	/// in the display window.
+	/// Constructs a coordinate system which matches the pixels coordinates of the display window,
+	/// up to an optional maximum height and width.
 	/// </summary>
 	public class NaturalCoordinates : ICoordinateSystemCreator
 	{
 		public Rectangle DetermineCoordinateSystem(Size displayWindowSize)
 		{
-			return new Rectangle(0, 0, displayWindowSize.Width, displayWindowSize.Height);
+			Rectangle retval = new Rectangle(Point.Empty, displayWindowSize);
+
+			if (MaxSize != null)
+			{
+				retval.Width = Math.Min(retval.Width, MaxSize.Value.Width);
+				retval.Height = Math.Max(retval.Height, MaxSize.Value.Height);
+			}
+
+			return retval;
 		}
+
+		public Size? MaxSize { get; set; }
 	}
 }
