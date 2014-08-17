@@ -10,7 +10,10 @@ namespace AgateLib.UserInterface.Widgets
 	{
 		public MenuItem()
 		{
+			Children.WidgetAdded += Children_WidgetAdded;
+			Children.WidgetRemoved += Children_WidgetRemoved;
 		}
+
 		public MenuItem(params Widget[] children) : this()
 		{
 			Children.AddRange(children);
@@ -22,17 +25,17 @@ namespace AgateLib.UserInterface.Widgets
 		}
 
 		[Obsolete("Use static MenuItem.OfLabel method instead.")]
-		public MenuItem(string name, string text)
+		public MenuItem(string name, string text) : this()
 		{
 			Name = name;
 
 			Children.Add(new Label(text));
 		}
-		public MenuItem(Widget child)
+		public MenuItem(Widget child) : this()
 		{
 			Children.Add(child);
 		}
-		public MenuItem(string name, Widget child)
+		public MenuItem(string name, Widget child) : this()
 		{
 			Name = name;
 
@@ -61,6 +64,72 @@ namespace AgateLib.UserInterface.Widgets
 		public event EventHandler PressToggle;
 		public event EventHandler PressMenu;
 		public event EventHandler Select;
+
+		void Children_WidgetAdded(object sender, WidgetEventArgs e)
+		{
+			var widget = e.Widget;
+			ListenToEventsIn(widget);
+		}
+		void Children_WidgetRemoved(object sender, WidgetEventArgs e)
+		{
+			var widget = e.Widget;
+			IgnoreEventsIn(widget);
+		}
+
+		private void ListenToEventsIn(Widget widget)
+		{
+			var container = widget as Container;
+
+			if (container != null)
+			{
+				container.Children.WidgetAdded += Children_WidgetAdded;
+				container.Children.WidgetRemoved += Children_WidgetRemoved;
+
+				foreach (var c in container.Children)
+					ListenToEventsIn(c);
+			}
+
+			widget.MouseDown += widget_MouseDown;
+			widget.MouseMove += widget_MouseMove;
+			widget.MouseUp += widget_MouseUp;
+		}
+
+		private void IgnoreEventsIn(Widget widget)
+		{
+			var container = widget as Container;
+
+			if (container != null)
+			{
+				container.Children.WidgetAdded -= Children_WidgetAdded;
+				container.Children.WidgetRemoved -= Children_WidgetRemoved;
+
+				foreach (var c in container.Children)
+					IgnoreEventsIn(c);
+			}
+
+			widget.MouseDown -= widget_MouseDown;
+			widget.MouseUp -= widget_MouseUp;
+		}
+
+		bool mouseDown;
+		void widget_MouseDown(object sender, MouseEventArgs e)
+		{
+			mouseDown = true;
+		}
+		void widget_MouseUp(object sender, MouseEventArgs e)
+		{
+			if (mouseDown)
+			{
+				OnPressAccept();
+			}
+
+			mouseDown = false;
+		}
+		void widget_MouseMove(object sender, MouseEventArgs e)
+		{
+			OnSelect();
+		}
+
 
 		internal void OnSelect()
 		{

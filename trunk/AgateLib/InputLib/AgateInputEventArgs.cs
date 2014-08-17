@@ -22,6 +22,32 @@ namespace AgateLib.InputLib
 		public MouseButton MouseButton { get; set; }
 		public int MouseWheelDelta { get; set; }
 
+		public static AgateInputEventArgs MouseDown(object sender, Point mousePosition, MouseButton button)
+		{
+			return new AgateInputEventArgs
+			{
+				InputEventType = InputEventType.MouseDown,
+				MousePosition = mousePosition,
+				MouseButton = button,
+			};
+		}
+		public static AgateInputEventArgs MouseUp(object sender, Point mousePosition, MouseButton button)
+		{
+			return new AgateInputEventArgs
+			{
+				InputEventType = InputEventType.MouseUp,
+				MousePosition = mousePosition,
+				MouseButton = button,
+			};
+		}
+		public static AgateInputEventArgs MouseMove(object sender, Point mousePosition)
+		{
+			return new AgateInputEventArgs
+			{
+				InputEventType = InputEventType.MouseMove,
+				MousePosition = mousePosition,
+			};
+		}
 
 		public static AgateInputEventArgs KeyDown(KeyCode code, KeyModifiers modifiers)
 		{
@@ -33,7 +59,6 @@ namespace AgateLib.InputLib
 				KeyModifiers = modifiers,
 			};
 		}
-
 		public static AgateInputEventArgs KeyUp(KeyCode code, KeyModifiers modifiers)
 		{
 			return new AgateInputEventArgs

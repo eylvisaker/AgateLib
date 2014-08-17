@@ -161,5 +161,42 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		public event CancelEventHandler Closing;
 
+		/// <summary>
+		/// Converts a pixel location on screen to the logical coordinate system used by AgateLib.
+		/// This function is primarily for supporting input mouse and touch events.
+		/// </summary>
+		/// <param name="point"></param>
+		/// <returns></returns>
+		public Point PixelToLogicalCoords(Point point)
+		{
+			double x = point.X / (double)Width;
+			double y = point.Y / (double)Height;
+
+			Point retval = new Point(
+				(int)(x * FrameBuffer.CoordinateSystem.Width),
+				(int)(y * FrameBuffer.CoordinateSystem.Height));
+
+			retval.X += FrameBuffer.CoordinateSystem.X;
+			retval.Y += FrameBuffer.CoordinateSystem.Y;
+
+			return retval;
+		}
+		/// <summary>
+		/// Converts a logical coordinate to actual pixel coordinates.
+		/// </summary>
+		/// <param name="point"></param>
+		/// <returns></returns>
+		public Point LogicalToPixelCoords(Point point)
+		{
+			point.X -= FrameBuffer.CoordinateSystem.X;
+			point.Y -= FrameBuffer.CoordinateSystem.Y;
+
+			double x = point.X / (double)FrameBuffer.CoordinateSystem.Width;
+			double y = point.Y / (double)FrameBuffer.CoordinateSystem.Height;
+
+			return new Point(
+				(int)(x * Width),
+				(int)(y * Height));
+		}
 	}
 }

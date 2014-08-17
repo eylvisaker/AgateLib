@@ -594,6 +594,7 @@
     <Compile Include="UserInterface\Widgets\Panel.cs" />
     <Compile Include="UserInterface\Widgets\ProgressBar.cs" />
     <Compile Include="UserInterface\Widgets\Widget.cs" />
+    <Compile Include="UserInterface\Widgets\WidgetEventArgs.cs" />
     <Compile Include="UserInterface\Widgets\WidgetList.cs" />
     <Compile Include="UserInterface\Widgets\Window.cs" />
     <Compile Include="UserInterface\WindowTransition.cs" />

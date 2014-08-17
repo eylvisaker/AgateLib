@@ -261,12 +261,19 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		void Mouse_ButtonUp(object sender, OpenTK.Input.MouseButtonEventArgs e)
 		{
 			var agatebutton = TransformButton(e.Button);
-			Mouse.Buttons[agatebutton] = false;
+			//Mouse.Buttons[agatebutton] = false;
+
+			Input.QueueInputEvent(AgateInputEventArgs.MouseUp(
+				this, PixelToLogicalCoords(new Point(e.X, e.Y)), agatebutton));
 		}
 		void Mouse_ButtonDown(object sender, OpenTK.Input.MouseButtonEventArgs e)
 		{
 			var agatebutton = TransformButton(e.Button);
-			Mouse.Buttons[agatebutton] = true;
+
+			Input.QueueInputEvent(AgateInputEventArgs.MouseDown(
+				this, PixelToLogicalCoords(new Point(e.X, e.Y)), agatebutton));
+
+			//Mouse.Buttons[agatebutton] = true;
 		}
 		void Mouse_Move(object sender, OpenTK.Input.MouseMoveEventArgs e)
 		{

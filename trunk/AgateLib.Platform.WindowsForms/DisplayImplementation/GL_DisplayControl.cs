@@ -421,7 +421,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			form.KeyUp -= new System.Windows.Forms.KeyEventHandler(form_KeyUp);
 			form.FormClosing -= new FormClosingEventHandler(form_FormClosing);
 			form.FormClosed -= new FormClosedEventHandler(form_FormClosed);
-			
 		}
 
 		void form_FormClosed(object sender, FormClosedEventArgs e)
@@ -480,17 +479,24 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		{
 			var btn = GetButtons(e.Button);
 
-			Mouse.Buttons[btn] = false;
+			//Mouse.Buttons[btn] = false;
+
+			Input.QueueInputEvent(AgateInputEventArgs.MouseUp(
+				this, PixelToLogicalCoords(new Point(e.X, e.Y)), btn));
 		}
 		void pct_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			var btn = GetButtons(e.Button);
 
-			Mouse.Buttons[btn] = true;
+			//Mouse.Buttons[btn] = true;
+			Input.QueueInputEvent(AgateInputEventArgs.MouseDown(
+				this, PixelToLogicalCoords(new Point(e.X, e.Y)), btn));
 		}
 		void pct_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			SetInternalMousePosition(Interop.Convert(e.Location));
+			Input.QueueInputEvent(AgateInputEventArgs.MouseMove(
+				this, PixelToLogicalCoords(new Point(e.X, e.Y))));
 		}
 		void renderTarget_Disposed(object sender, EventArgs e)
 		{
