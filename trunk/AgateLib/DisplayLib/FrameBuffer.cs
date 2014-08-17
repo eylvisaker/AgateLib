@@ -36,6 +36,7 @@ namespace AgateLib.DisplayLib
 	{
 		FrameBufferImpl impl;
 		Surface mRenderTarget;
+		Rectangle mCoordinateSystem;
 
 		/// <summary>
 		/// Constructs a frame buffer to be used as a render target.  FrameBuffers constructed
@@ -158,6 +159,13 @@ namespace AgateLib.DisplayLib
 		/// framebuffer as a render target, this coordinate system is automatically
 		/// loaded.
 		/// </summary>
-		public Rectangle CoordinateSystem { get; set; }
+		public Rectangle CoordinateSystem
+		{
+			get { return mCoordinateSystem; }
+			set
+			{
+				mCoordinateSystem = value;
+			}
+		}
 	}
 }

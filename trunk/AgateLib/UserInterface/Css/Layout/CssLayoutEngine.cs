@@ -19,7 +19,7 @@ namespace AgateLib.UserInterface.Css.Layout
 		}
 		public void RedoLayout(Gui gui)
 		{
-			RedoLayout(gui, Display.RenderTarget.Size);
+			RedoLayout(gui, Display.RenderTarget.CoordinateSystem.Size);
 		}
 		public void RedoLayout(Gui gui, Size renderTargetSize)
 		{
@@ -57,6 +57,40 @@ namespace AgateLib.UserInterface.Css.Layout
 				}
 			}
 		}
+		private void SetFixedCoordinates(CssStyle style, CssBoxModel box, Size sz)
+		{
+			var anim = style.Animator;
+			var position = style.Data.PositionData;
+			var parentStyle = mAdapter.GetStyle(style.Animator.ParentCoordinateSystem);
+
+			if (position.Left.Automatic == false)
+			{
+				var targetLeft = ConvertDistance(style.Widget, position.Left, true, false).Value;
+
+				anim.ClientRect.X = targetLeft + box.Left;
+			}
+			if (position.Right.Automatic == false)
+			{
+				int targetRight = ConvertDistance(style.Widget, position.Right, true, false).Value;
+				targetRight = parentStyle.Animator.WidgetSize.Width - targetRight;
+
+				anim.ClientRect.X = targetRight - anim.ClientRect.Width - box.Right;
+			}
+			if (position.Top.Automatic == false)
+			{
+				int targetTop = ConvertDistance(style.Widget, position.Top, false, false).Value;
+
+				anim.ClientRect.Y = targetTop + box.Top;
+			}
+			if (position.Bottom.Automatic == false)
+			{
+				int targetBottom = ConvertDistance(style.Widget, position.Bottom, false, false).Value;
+				targetBottom = parentStyle.Animator.WidgetSize.Height - targetBottom;
+
+				anim.ClientRect.Y = targetBottom - anim.ClientRect.Height - box.Bottom;
+			}
+		}
+
 
 		private void RedoLayout(Container container)
 		{
@@ -194,36 +228,6 @@ namespace AgateLib.UserInterface.Css.Layout
 			}
 
 
-		}
-
-		private void SetFixedCoordinates(CssStyle style, CssBoxModel box, Size sz)
-		{
-			var anim = style.Animator;
-			var position = style.Data.PositionData;
-			var parentStyle = mAdapter.GetStyle(style.Widget.Parent);
-
-			if (position.Left.Automatic == false)
-			{
-				anim.ClientRect.X = ConvertDistance(style.Widget, position.Left, true, false).Value;
-			}
-			if (position.Right.Automatic == false)
-			{
-				int targetRight = ConvertDistance(style.Widget, position.Right, true, false).Value;
-				targetRight = parentStyle.Animator.WidgetSize.Width - targetRight;
-
-				anim.ClientRect.X = targetRight - anim.ClientRect.Width;
-			}
-			if (position.Top.Automatic == false)
-			{
-				anim.ClientRect.Y = ConvertDistance(style.Widget, position.Top, false, false).Value;
-			}
-			if (position.Bottom.Automatic == false)
-			{
-				int targetBottom = ConvertDistance(style.Widget, position.Bottom, false, false).Value;
-				targetBottom = parentStyle.Animator.WidgetSize.Height - targetBottom;
-
-				anim.ClientRect.Y = targetBottom - anim.ClientRect.Height;
-			}
 		}
 
 		private Widget TopLevelWidget(Widget child)
