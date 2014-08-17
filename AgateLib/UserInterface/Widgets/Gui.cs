@@ -90,6 +90,20 @@ namespace AgateLib.UserInterface.Widgets
 
 		#region --- Event Handling ---
 
+		public bool ForwardUnhandledEvents { get; set; }
+
+		public void ProcessEvent(AgateInputEventArgs args)
+		{
+			switch (args.InputEventType)
+			{
+				case InputEventType.KeyDown: OnKeyDown(args); break;
+				case InputEventType.KeyUp: OnKeyUp(args); break;
+				case InputEventType.MouseDown: OnMouseDown(args); break;
+				case InputEventType.MouseUp: OnMouseUp(args); break;
+				case InputEventType.MouseMove: OnMouseMove(args); break;
+			}
+		}
+
 		public void OnKeyDown(AgateInputEventArgs args)
 		{
 			bool handled = false;
@@ -265,7 +279,6 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		public void Draw()
 		{
-			mLayout.RedoLayout(this);
 			mRenderer.Draw(this);
 		}
 
@@ -341,19 +354,6 @@ namespace AgateLib.UserInterface.Widgets
 
 		internal AgateLib.UserInterface.Css.CssDocument CssDocument { get; set; }
 
-		public void ProcessEvent(AgateInputEventArgs args)
-		{
-			switch(args.InputEventType)
-			{
-				case InputEventType.KeyDown: OnKeyDown(args); break;
-				case InputEventType.KeyUp: OnKeyUp(args); break;
-				case InputEventType.MouseDown: OnMouseDown(args); break;
-				case InputEventType.MouseUp: OnMouseUp(args); break;
-				case InputEventType.MouseMove: OnMouseMove(args); break;
-			}
-		}
-
-		public bool ForwardUnhandledEvents { get;set;}
 	}
 
 	class WindowList : IList<Window>

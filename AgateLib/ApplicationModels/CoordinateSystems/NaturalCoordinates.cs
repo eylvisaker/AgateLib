@@ -19,7 +19,7 @@ namespace AgateLib.ApplicationModels.CoordinateSystems
 			if (MaxSize != null)
 			{
 				retval.Width = Math.Min(retval.Width, MaxSize.Value.Width);
-				retval.Height = Math.Max(retval.Height, MaxSize.Value.Height);
+				retval.Height = Math.Min(retval.Height, MaxSize.Value.Height);
 			}
 
 			return retval;
