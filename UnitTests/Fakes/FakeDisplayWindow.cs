@@ -1,5 +1,6 @@
 ﻿using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,18 @@ namespace AgateLib.UnitTests.Fakes
 	class FakeDisplayWindow : DisplayWindowImpl
 	{
 		private DisplayWindow owner;
-
 		private CreateWindowParams windowParams;
+		private FrameBufferImpl frameBuffer;
+		private bool isDisposed;
 
+		public FakeDisplayWindow(Size size)
+		{
+			frameBuffer = new FakeFrameBuffer(this);
+
+			this.Size = size;
+		}
 		public FakeDisplayWindow(DisplayWindow owner, CreateWindowParams windowParams)
+			:this(windowParams.Size)
 		{
 			// TODO: Complete member initialization
 			this.owner = owner;
@@ -28,72 +37,41 @@ namespace AgateLib.UnitTests.Fakes
 		}
 		public override void Dispose()
 		{
+			isDisposed = true;
 		}
 
 		public override bool IsClosed
 		{
-			get { throw new NotImplementedException(); }
+			get { return isDisposed; }
 		}
 
 		public override bool IsFullScreen
 		{
-			get { throw new NotImplementedException(); }
+			get { return false; }
 		}
 
 		public override FrameBufferImpl FrameBuffer
 		{
-			get { return new FakeFrameBuffer(this); }
+			get { return frameBuffer; }
 		}
 
 		public override void SetWindowed()
 		{
 			throw new NotImplementedException();
 		}
-
 		public override void SetFullScreen()
 		{
 			throw new NotImplementedException();
 		}
-
 		public override void SetFullScreen(int width, int height, int bpp)
 		{
 			throw new NotImplementedException();
 		}
 
-		public override Geometry.Size Size
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+		public override Size Size { get;set;}
 
-		public override string Title
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+		public override string Title { get;set;}
 
-		public override Geometry.Point MousePosition
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+		public override Point MousePosition { get;set;}
 	}
 }

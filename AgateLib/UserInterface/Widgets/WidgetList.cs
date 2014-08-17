@@ -37,11 +37,13 @@ namespace AgateLib.UserInterface.Widgets
 			mItems.Insert(index, item);
 
 			item.Parent = mParent;
+			OnWidgetAdded(item);
 		}
 
 		public void RemoveAt(int index)
 		{
 			mItems[index].Parent = null;
+			OnWidgetRemoved(mItems[index]);
 			mItems.RemoveAt(index);
 		}
 
@@ -59,9 +61,11 @@ namespace AgateLib.UserInterface.Widgets
 				ValidateItem(value);
 
 				mItems[index].Parent = null;
-				value.Parent = mParent;
+				OnWidgetRemoved(mItems[index]);
 
+				value.Parent = mParent;
 				mItems[index] = value;
+				OnWidgetAdded(value);
 			}
 		}
 
@@ -71,21 +75,26 @@ namespace AgateLib.UserInterface.Widgets
 
 			mItems.Add(item);
 			item.Parent = mParent;
+
+			OnWidgetAdded(item);
 		}
 		public void AddRange(IEnumerable<Widget> items)
 		{
 			if (items == null) throw new ArgumentNullException("item");
 
-			mItems.AddRange(items);
-
 			foreach (var item in items)
-				item.Parent = mParent;
+			{
+				Add(item);
+			}
 		}
 
 		public void Clear()
 		{
 			foreach (var item in mItems)
+			{
 				item.Parent = null;
+				OnWidgetRemoved(item);
+			}
 
 			mItems.Clear();
 		}
@@ -115,7 +124,10 @@ namespace AgateLib.UserInterface.Widgets
 			if (item == null) throw new ArgumentNullException("item");
 
 			if (mItems.Contains(item))
+			{
 				item.Parent = null;
+				OnWidgetRemoved(item);
+			}
 
 			return mItems.Remove(item);
 		}
@@ -152,6 +164,19 @@ namespace AgateLib.UserInterface.Widgets
 
 			return retval;
 		}
+
+		protected virtual void OnWidgetAdded(Widget widget)
+		{
+			if (WidgetAdded != null)
+				WidgetAdded(this, new WidgetEventArgs(widget));
+		}
+		protected virtual void OnWidgetRemoved(Widget widget)
+		{
+			if (WidgetRemoved != null)
+				WidgetRemoved(this, new WidgetEventArgs(widget));
+		}
+		public event EventHandler<WidgetEventArgs> WidgetAdded;
+		public event EventHandler<WidgetEventArgs> WidgetRemoved;
 	}
 
 	public class WidgetListOf<T> : WidgetList where T : Widget

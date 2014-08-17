@@ -87,5 +87,10 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// if this FrameBuffer is not attached to any window.
 		/// </summary>
 		public abstract DisplayWindow AttachedWindow { get; }
+
+		/// <summary>
+		/// Gets or sets the coordinate system that is used to map 2d coordinates to pixels in the render target.
+		/// </summary>
+		public virtual Rectangle CoordinateSystem { get; set; }
 	}
 }

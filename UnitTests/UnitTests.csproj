@@ -93,6 +93,7 @@
     <Compile Include="ApplicationModels\CoordinateSystemTest.cs" />
     <Compile Include="Core\ConsoleTests.cs" />
     <Compile Include="Display\DisplayTests.cs" />
+    <Compile Include="Display\DisplayWindowTest.cs" />
     <Compile Include="Display\FontTests.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Fakes\FakeAgateFactory.cs" />

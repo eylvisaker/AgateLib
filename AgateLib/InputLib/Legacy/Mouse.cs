@@ -268,22 +268,23 @@ namespace AgateLib.InputLib.Legacy
 
 		internal static void OnMouseDown(AgateInputEventArgs args)
 		{
-			throw new NotImplementedException();
+			Buttons[args.MouseButton] = true;
 		}
 
 		internal static void OnMouseUp(AgateInputEventArgs args)
 		{
-			throw new NotImplementedException();
+			Buttons[args.MouseButton] = false;
+			
 		}
 
 		internal static void OnMouseWheel(AgateInputEventArgs args)
 		{
-			throw new NotImplementedException();
+			OnMouseWheel(args.MouseWheelDelta);
 		}
 
 		internal static void OnMouseMove(AgateInputEventArgs args)
 		{
-			throw new NotImplementedException();
+			Position = args.MousePosition;
 		}
 	}
 
