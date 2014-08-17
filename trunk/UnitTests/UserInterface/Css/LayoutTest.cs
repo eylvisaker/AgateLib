@@ -40,7 +40,8 @@ namespace AgateLib.UserInterface.Css.Tests
 
 			CssDocument doc = CssDocument.FromText(
 				"window { layout: column; margin: 6px; padding: 8px;} label { margin-left: 4px; } " +
-				"window.fixed { position: fixed; right: 4px; bottom: 8px; margin: 0px; padding: 0px;} ");
+				"window.fixed { position: fixed; right: 4px; bottom: 8px; margin: 14px; padding: 9px; border: 2px; } "+
+				"window.fixedleft { position: fixed; left: 4px; top: 8px; margin: 14px; padding: 9px; border: 2px; }");
 			adapter = new CssAdapter(doc, ff);
 
 			engine = new CssLayoutEngine(adapter);
@@ -92,15 +93,27 @@ namespace AgateLib.UserInterface.Css.Tests
 
 
 		[TestMethod]
-		public void FixedPosition()
+		public void FixedRightBottom()
 		{
 			Window wind = new Window() { Style = "fixed" };
 			gui.Desktop.Children.Add(wind);
 
 			RedoLayout();
 
-			Assert.AreEqual(1000 - 4, wind.WidgetRect.Right);
-			Assert.AreEqual(1000 - 8, wind.WidgetRect.Bottom);
+			Assert.AreEqual(1000 - 18, wind.WidgetRect.Right);
+			Assert.AreEqual(1000 -22, wind.WidgetRect.Bottom);
+		}
+
+		[TestMethod]
+		public void FixedTopLeft()
+		{
+			Window wind = new Window() { Style = "fixedleft" };
+			gui.Desktop.Children.Add(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(18, wind.WidgetRect.Left);
+			Assert.AreEqual(22, wind.WidgetRect.Top);
 		}
 	}
 
