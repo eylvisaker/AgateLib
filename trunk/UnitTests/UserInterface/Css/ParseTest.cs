@@ -1,7 +1,7 @@
 ﻿using AgateLib.Geometry;
 using AgateLib.UnitTesting;
 using AgateLib.UserInterface.Css.Binders;
-using AgateLib.UserInterface.Css.Properties;
+using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Selectors;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

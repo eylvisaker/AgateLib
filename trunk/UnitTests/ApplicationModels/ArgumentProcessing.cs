@@ -1,5 +1,6 @@
 ﻿using AgateLib.ApplicationModels;
 using AgateLib.Geometry;
+using AgateLib.Platform;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace AgateLib.UnitTests.ApplicationModels
 		{
 		}
 
-		protected override void ProcessArgument(string arg, string parm)
+		protected override void ProcessArgument(string arg, IList<string> parm)
 		{
 			if (Expected.Count > 0)
 			{
@@ -42,9 +43,9 @@ namespace AgateLib.UnitTests.ApplicationModels
 
 				expected.RemoveAt(0);
 
-				if (parm != "")
+				if (parm.Count > 0)
 				{
-					Assert.AreEqual(expected[0], parm);
+					Assert.AreEqual(expected[0], parm[0]);
 					expected.RemoveAt(0);
 				}
 			}
@@ -91,6 +92,25 @@ namespace AgateLib.UnitTests.ApplicationModels
 
 			Assert.IsFalse(p.Parameters.CreateFullScreenWindow);
 			Assert.AreEqual(new Size(640, 480), p.Parameters.DisplayWindowSize);
+		}
+
+
+		[TestMethod]
+		public void DeviceEmulation()
+		{
+			ArgumentProcessing p = EmulationArgument(DeviceType.Handheld);
+			Assert.AreEqual(DeviceType.Handheld, p.Parameters.EmulateDeviceType);
+		}
+
+		private static ArgumentProcessing EmulationArgument(DeviceType type)
+		{
+			ArgumentProcessing p = new ArgumentProcessing(new ModelParameters
+			{
+				Arguments = ("--emulate-device " + type.ToString()).Split(' '),
+			});
+
+			p.Initialize();
+			return p;
 		}
 	}
 }

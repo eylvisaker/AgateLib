@@ -22,15 +22,5 @@ namespace AgateLib.UnitTests.Fakes
 		{
 			throw new NotImplementedException();
 		}
-
-		public override PlatformType PlatformType
-		{
-			get { throw new NotImplementedException(); }
-		}
-
-		public override DotNetRuntime Runtime
-		{
-			get { throw new NotImplementedException(); }
-		}
 	}
 }
