@@ -1,4 +1,23 @@
-﻿using AgateLib.DisplayLib;
+﻿//     The contents of this file are subject to the Mozilla Public License
+//     Version 1.1 (the "License"); you may not use this file except in
+//     compliance with the License. You may obtain a copy of the License at
+//     http://www.mozilla.org/MPL/
+//
+//     Software distributed under the License is distributed on an "AS IS"
+//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+//     License for the specific language governing rights and limitations
+//     under the License.
+//
+//     The Original Code is AgateLib.
+//
+//     The Initial Developer of the Original Code is Erik Ylvisaker.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2014.
+//     All Rights Reserved.
+//
+//     Contributor(s): Erik Ylvisaker
+//
+using AgateLib.Diagnostics;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform;
@@ -149,8 +168,17 @@ namespace AgateLib.ApplicationModels
 		}
 
 		/// <summary>
-		/// Processes command line arguments. 
+		/// Processes command line arguments. Override this to completely replace the 
+		/// comand line argument processor. 
 		/// </summary>
+		/// <remarks>
+		/// Arguments are only processed if they start
+		/// with a dash (-). Any arguments which do not start with a dash are considered
+		/// parameters to the previous argument. For example, the argument string 
+		/// <code>--window 640,480 test --novsync</code> would call ProcessArgument once
+		/// for --window with the parameters <code>640,480 test</code> and again for
+		/// --novsync.
+		/// </remarks>
 		protected virtual void ProcessArguments()
 		{
 			if (Parameters.Arguments == null) return;
@@ -171,7 +199,7 @@ namespace AgateLib.ApplicationModels
 						break;
 				}
 
-				if (arg.StartsWith("--"))
+				if (arg.StartsWith("-"))
 				{
 					ProcessArgument(arg, p);
 
@@ -180,6 +208,13 @@ namespace AgateLib.ApplicationModels
 			}
 		}
 
+		/// <summary>
+		/// Processes a single command line argument. Override this to replace how
+		/// command line arguments interact with AgateLib. Unrecognized arguments will be
+		/// passed to ProcessCustomArgument. 
+		/// </summary>
+		/// <param name="arg"></param>
+		/// <param name="parm"></param>
 		protected virtual void ProcessArgument(string arg, IList<string> parm)
 		{
 			switch (arg)
@@ -200,10 +235,33 @@ namespace AgateLib.ApplicationModels
 					break;
 
 				default:
+					ProcessCustomArgument(arg, parm);
 					break;
 			}
 		}
 
+		/// <summary>
+		/// Called when a command-line argument is unhandled. This function logs the argument
+		/// to AgateLib.Diagnostics.Log. Override this to handle custom arguments.
+		/// </summary>
+		/// <param name="arg"></param>
+		/// <param name="parm"></param>
+		/// <remarks>
+		/// All arguments to AgateLib start with two dashes (--). Custom arguments for your
+		/// application can safely start with a single dash (-) and they won't clash with AgateLib
+		/// arguments.
+		/// </remarks>
+		protected virtual void ProcessCustomArgument(string arg, IList<string> parm)
+		{
+			Log.WriteLine("Unknown command line argument:");
+			Log.WriteLine("    {0} {1}", arg, string.Join(" ", parm));
+		}
+
+		/// <summary>
+		/// Runs the application model.
+		/// </summary>
+		/// <param name="entryPoint"></param>
+		/// <returns></returns>
 		protected int RunModel(Func<int> entryPoint)
 		{
 			try
@@ -233,6 +291,13 @@ namespace AgateLib.ApplicationModels
 			}
 		}
 
+		/// <summary>
+		/// Override this to implement the application model. This function
+		/// should call the entry point and return its return value.
+		/// It should not catch ExitGameException.
+		/// </summary>
+		/// <param name="entryPoint">The application entry point to call.</param>
+		/// <returns></returns>
 		protected abstract int BeginModel(Func<int> entryPoint);
 
 		private void AutoCreateDisplayWindow()
@@ -261,6 +326,11 @@ namespace AgateLib.ApplicationModels
 			window.Closing += window_Closing;
 		}
 
+		/// <summary>
+		/// Method called when the autocreated display window is closing.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="cancel"></param>
 		protected virtual void window_Closing(object sender, ref bool cancel)
 		{
 		}
@@ -297,10 +367,20 @@ namespace AgateLib.ApplicationModels
 			return Display.Caps.NativeScreenResolution;
 		}
 
+		/// <summary>
+		/// Returns the auto created display window. If the application model did not
+		/// automatically create a display window, this is null.
+		/// </summary>
 		public DisplayWindow AutoCreatedWindow { get { return window; } }
 
+		/// <summary>
+		/// These are the parameters used to initialize and start up the application model.
+		/// </summary>
 		public ModelParameters Parameters { get; set; }
 
+		/// <summary>
+		/// Processes input events.
+		/// </summary>
 		public virtual void KeepAlive()
 		{
 			Input.DispatchQueuedEvents();
