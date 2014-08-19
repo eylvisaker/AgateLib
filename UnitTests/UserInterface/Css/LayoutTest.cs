@@ -3,6 +3,7 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using AgateLib.Platform.WindowsForms.ApplicationModels;
 using AgateLib.UnitTests.Fakes;
+using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Layout;
 using AgateLib.UserInterface.Widgets;
 using AgateLib.UserInterface.Widgets.Tests;

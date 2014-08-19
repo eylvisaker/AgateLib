@@ -4,6 +4,7 @@ using AgateLib.InputLib;
 using AgateLib.InputLib.Legacy;
 using AgateLib.Resources.Legacy;
 using AgateLib.UserInterface.Css;
+using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Layout;
 using AgateLib.UserInterface.Css.Rendering;
 using AgateLib.UserInterface.Widgets;
