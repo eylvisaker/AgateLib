@@ -17,7 +17,6 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using AgateLib.Geometry;
-using AgateLib.UserInterface.Css.Binders;
 using AgateLib.UserInterface.Css.Parser;
 using System;
 using System.Collections.Generic;
@@ -25,22 +24,39 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.UserInterface.Css.Properties
+namespace AgateLib.UserInterface.Css.Documents
 {
-	public class CssFont
+	public class CssBackground : ICssPropertyFromText
 	{
-		public CssFont()
+		public CssBackground()
 		{
-			Color = Color.Black;
+			Initialize();
 		}
 
-		[CssAlias("font-family")]
-		public string Family { get; set; }
-
-		[CssAlias("font-size")]
-		public CssDistance Size { get; set; }
+		private void Initialize()
+		{
+			Color = Color.FromArgb(0, 0, 0, 0);
+			Image = null;
+			Repeat = 0;
+			Position = new CssBackgroundPosition();
+			Clip = 0;
+		}
 
 		public Color Color { get; set; }
+		public string Image { get; set; }
+		public CssBackgroundRepeat Repeat { get; set; }
+		public CssBackgroundClip Clip { get; set; }
+		public CssBackgroundPosition Position { get; set; }
 
+		public void SetValueFromText(string value)
+		{
+			if (value == "none")
+			{
+				Initialize();
+			}
+			else
+				throw new NotImplementedException();
+		}
 	}
+
 }

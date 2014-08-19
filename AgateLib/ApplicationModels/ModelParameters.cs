@@ -1,5 +1,6 @@
 ﻿using AgateLib.ApplicationModels.CoordinateSystems;
 using AgateLib.Geometry;
+using AgateLib.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,5 +44,7 @@ namespace AgateLib.ApplicationModels
 		/// AutoCreateDisplayWindow is false, this property is not used.
 		/// </summary>
 		public ICoordinateSystemCreator CoordinateSystem { get; set; }
+
+		public DeviceType EmulateDeviceType { get; set; }
 	}
 }

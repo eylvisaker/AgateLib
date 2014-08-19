@@ -1,6 +1,7 @@
 ﻿using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace AgateLib.ApplicationModels
 
 		public static AgateAppModel Instance { get; private set; }
 
-		public static bool IsAlive 
-		{ 
+		public static bool IsAlive
+		{
 			get
 			{
 				if (Instance == null)
@@ -31,7 +32,7 @@ namespace AgateLib.ApplicationModels
 			}
 		}
 
-		
+
 		static Func<int> ActionToFunc(Action entry)
 		{
 			return () => { entry(); return 0; };
@@ -50,6 +51,11 @@ namespace AgateLib.ApplicationModels
 
 			Instance = this;
 		}
+		/// <summary>
+		/// Initializes the applicatin model. This will process command line arguments and initialize AgateLib.
+		/// It is not required to call this function manually, it will be called by the Run method if it has not
+		/// been called.
+		/// </summary>
 		public void Initialize()
 		{
 			ProcessArguments();
@@ -57,6 +63,9 @@ namespace AgateLib.ApplicationModels
 			InitializeImpl();
 		}
 
+		/// <summary>
+		/// Override this to provide proper platform initialization of AgateLib.
+		/// </summary>
 		protected virtual void InitializeImpl()
 		{ }
 
@@ -67,24 +76,49 @@ namespace AgateLib.ApplicationModels
 			if (Instance == this)
 				Instance = null;
 		}
+		/// <summary>
+		/// Override this to clean up the platform initialization of AgateLib.
+		/// </summary>
+		/// <param name="disposing"></param>
 		protected virtual void Dispose(bool disposing)
 		{ }
 
-
+		/// <summary>
+		/// Runs the application model with the specified entry point for your application.
+		/// </summary>
+		/// <param name="entry">A delegate which will be called to run your application.</param>
+		/// <returns>Returns 0.</returns>
 		public int Run(Action entry)
 		{
 			return RunImpl(entry);
 		}
+		/// <summary>
+		/// Runs the application model with the specified entry point for your application.
+		/// </summary>
+		/// <param name="entry">A delegate which will be called to run your application.</param>
+		/// <returns>Returns the return value from the <c>entry</c> parameter.</returns>
 		public int Run(Func<int> entry)
 		{
 			return RunImpl(entry);
 		}
+		/// <summary>
+		/// Runs the application model with the specified entry point and command line arguments for your application.
+		/// </summary>
+		/// <param name="args">The command arguments to process.</param>
+		/// <param name="entry">A delegate which will be called to run your application.</param>
+		/// <returns>Returns 0.</returns>
 		public int Run(string[] args, Action entry)
 		{
 			Parameters.Arguments = args;
 
 			return RunImpl(entry);
 		}
+		/// <summary>
+		/// Runs the application model with the specified entry point and command line arguments for your application.
+		/// </summary>
+		/// <param name="args">The command arguments to process.</param>
+		/// <param name="entry">A delegate which will be called to run your application.</param>
+		/// <returns>Returns the return value from the <c>entry</c> parameter.</returns>
 		public int Run(string[] args, Func<int> entry)
 		{
 			Parameters.Arguments = args;
@@ -96,6 +130,12 @@ namespace AgateLib.ApplicationModels
 		{
 			return RunImpl(ActionToFunc(entry));
 		}
+		/// <summary>
+		/// Runs the application model by calling RunModel. If you override this, make
+		/// sure to catch the ExitGameException and return 0 in the exception handler.
+		/// </summary>
+		/// <param name="entry"></param>
+		/// <returns></returns>
 		protected virtual int RunImpl(Func<int> entry)
 		{
 			try
@@ -108,40 +148,55 @@ namespace AgateLib.ApplicationModels
 			}
 		}
 
+		/// <summary>
+		/// Processes command line arguments. 
+		/// </summary>
 		protected virtual void ProcessArguments()
 		{
 			if (Parameters.Arguments == null) return;
 
-			for(int i = 0; i < Parameters.Arguments.Length; i++)
+			List<string> p = new List<string>();
+
+			for (int i = 0; i < Parameters.Arguments.Length; i++)
 			{
 				var arg = Parameters.Arguments[i];
-				int extraArguments = Parameters.Arguments.Length - i- 1;
-				bool nextArgIsParam = extraArguments > 0 && Parameters.Arguments[i+1].StartsWith("--") == false;
+				int extraArguments = Parameters.Arguments.Length - i - 1;
+
+				p.Clear();
+				for (int j = i+1; j < Parameters.Arguments.Length; j++)
+				{
+					if (Parameters.Arguments[j].StartsWith("-") == false)
+						p.Add(Parameters.Arguments[j]);
+					else
+						break;
+				}
 
 				if (arg.StartsWith("--"))
 				{
-					if (nextArgIsParam)
-					{
-						ProcessArgument(arg, Parameters.Arguments[i + 1]);
-						i++;
-					}
-					else
-						ProcessArgument(arg, "");
+					ProcessArgument(arg, p);
+
+					i += p.Count;
 				}
 			}
 		}
 
-		protected virtual void ProcessArgument(string arg, string parm)
+		protected virtual void ProcessArgument(string arg, IList<string> parm)
 		{
-			switch(arg)
+			switch (arg)
 			{
 				case "--window":
 					Parameters.CreateFullScreenWindow = false;
-					Parameters.DisplayWindowSize = Size.FromString(parm);
+					if (parm.Count > 0)
+						Parameters.DisplayWindowSize = Size.FromString(parm[0]);
 					break;
 
 				case "--novsync":
 					Parameters.VerticalSync = false;
+					break;
+
+				case "--emulate-device":
+					if (parm.Count > 0)
+						Parameters.EmulateDeviceType = (DeviceType)Enum.Parse(typeof(DeviceType), parm[0], true);
 					break;
 
 				default:
@@ -155,6 +210,7 @@ namespace AgateLib.ApplicationModels
 			{
 				Initialize();
 				AutoCreateDisplayWindow();
+				SetPlatformEmulation();
 
 				int retval = BeginModel(entryPoint);
 
@@ -169,15 +225,23 @@ namespace AgateLib.ApplicationModels
 			}
 		}
 
+		private void SetPlatformEmulation()
+		{
+			if (Parameters.EmulateDeviceType != DeviceType.Unknown)
+			{
+				Core.Platform.DeviceType = Parameters.EmulateDeviceType;
+			}
+		}
+
 		protected abstract int BeginModel(Func<int> entryPoint);
-		
+
 		private void AutoCreateDisplayWindow()
 		{
 			if (Parameters.AutoCreateDisplayWindow == false)
 				return;
 
 			if (Parameters.CreateFullScreenWindow)
- 			{
+			{
 				window = DisplayWindow.CreateFullScreen(
 					Parameters.ApplicationName,
 					GetFullScreenSize());
@@ -221,8 +285,8 @@ namespace AgateLib.ApplicationModels
 		{
 			if (Parameters.DisplayWindowSize.IsEmpty)
 				return GetScreenSize();
-			
-			if (Parameters.DisplayWindowSize.Width == 0 ) throw new AgateException("Cannot create a display window with width 0.");
+
+			if (Parameters.DisplayWindowSize.Width == 0) throw new AgateException("Cannot create a display window with width 0.");
 			if (Parameters.DisplayWindowSize.Height == 0) throw new AgateException("Cannot create a display window with height 0.");
 
 			return Parameters.DisplayWindowSize;

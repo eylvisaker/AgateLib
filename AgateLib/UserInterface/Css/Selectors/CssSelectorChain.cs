@@ -42,7 +42,7 @@ namespace AgateLib.UserInterface.Css.Selectors
 
 		public IEnumerable<ICssSelector> Selectors { get { return mSelectors; } }
 
-		public bool Matches(Widget control, string id, CssPseudoClass pc, IEnumerable<string> classes)
+		public bool Matches(string typename, string id, CssPseudoClass pc, IEnumerable<string> classes)
 		{
 			//for (int i = mSelectors.Count - 1; i >= 0; i--)
 			//{

@@ -16,33 +16,15 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.UserInterface.Css.Documents;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Rendering.Transitions
+namespace AgateLib.UserInterface.Css.Documents
 {
-	public static class TransitionFactory
+	public interface ICssBoxComponent
 	{
-		static Dictionary<CssTransitionType, Type> mTypes = new Dictionary<CssTransitionType, Type>();
-
-		static TransitionFactory()
-		{
-			RegisterType(CssTransitionType.None, typeof(NullTransition));
-			RegisterType(CssTransitionType.Slide, typeof(SlideTransition));
-		}
-
-		public static void RegisterType(CssTransitionType transition, Type type)
-		{
-			mTypes[transition] = type;
-		}
-
-		public static IWidgetTransition CreateTransition(CssTransitionType transition)
-		{
-			return (IWidgetTransition)Activator.CreateInstance(mTypes[transition]);
-		}
+		CssDistance Bottom { get; set; }
+		CssDistance Left { get; set; }
+		CssDistance Right { get; set; }
+		CssDistance Top { get; set; }
 	}
 }

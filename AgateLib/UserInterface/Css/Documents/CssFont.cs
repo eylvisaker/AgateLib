@@ -16,23 +16,31 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.UserInterface.Css.Selectors;
+using AgateLib.Geometry;
+using AgateLib.UserInterface.Css.Binders;
+using AgateLib.UserInterface.Css.Parser;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css
+namespace AgateLib.UserInterface.Css.Documents
 {
-	public class CssMedia : ICssCanSelect
+	public class CssFont
 	{
-		public CssMedia()
+		public CssFont()
 		{
-			RuleBlocks = new List<CssRuleBlock>();
+			Color = Color.Black;
 		}
 
-		public CssSelectorGroup Selector { get;set;}
-		public List<CssRuleBlock> RuleBlocks { get; private set; }
+		[CssAlias("font-family")]
+		public string Family { get; set; }
+
+		[CssAlias("font-size")]
+		public CssDistance Size { get; set; }
+
+		public Color Color { get; set; }
+
 	}
 }

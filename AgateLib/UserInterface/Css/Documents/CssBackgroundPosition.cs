@@ -16,46 +16,38 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.UserInterface.Css.Binders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css
+namespace AgateLib.UserInterface.Css.Documents
 {
-	public class CssDocument
+	public class CssBackgroundPosition : ICssPropertyFromText
 	{
-		List<CssMedia> mMedia = new List<CssMedia>();
-
-		public CssDocument()
+		public CssBackgroundPosition()
 		{
-			var defaultMedium = new CssMedia { Selector = "all" };
-			Media.Add(defaultMedium);
-		}
-		public static CssDocument Load(string filename)
-		{
-			CssDocument doc = new CssDocument();
-			CssParser parser = new CssParser();
-
-			parser.Load(doc, filename);
-
-			return doc;
-		}
-		public static CssDocument FromText(string text)
-		{
-			CssDocument doc = new CssDocument();
-			CssParser parser = new CssParser();
-
-			parser.ParseCss(doc, text);
-
-			return doc;
+			Left = new CssDistance();
+			Top = new CssDistance();
 		}
 
+		public CssDistance Left;
+		public CssDistance Top;
 
-		public List<CssMedia> Media { get { return mMedia; } }
+		public void SetValueFromText(string value)
+		{
+			int index = value.IndexOf(' ');
 
-		public CssMedia DefaultMedium { get { return mMedia.First(x => x.Selector.Text == "all"); } }
+			if (index >= 0)
+			{
+				Left = CssDistance.FromString(value.Substring(0, index));
+				Top = CssDistance.FromString(value.Substring(index + 1));
+			}
+			else
+			{
+				Left = CssDistance.FromString(value);
+				Top = Left;
+			}
+		}
 	}
 }

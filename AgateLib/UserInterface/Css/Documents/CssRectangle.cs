@@ -25,34 +25,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Properties
+namespace AgateLib.UserInterface.Css.Documents
 {
-	public class CssLayout : ICssPropertyFromText
+	public class CssRectangle : ICssPropertyFromText
 	{
-		[CssAlias("layout-kind")]
-		public CssLayoutKind Kind { get; set; }
+		public CssDistance Top { get; set; }
+		public CssDistance Left { get; set; }
+		public CssDistance Right { get; set; }
+		public CssDistance Bottom { get; set; }
 
-		[CssAlias("layout-grid-columns")]
-		public int GridColumns { get; set; }
+		public CssDistance Width { get; set; }
+		public CssDistance Height { get; set; }
+
+		[CssAlias("min-width")]
+		public CssDistance MinWidth { get; set; }
+		[CssAlias("min-height")]
+		public CssDistance MinHeight { get; set; }
+
+		[CssAlias("max-width")]
+		public CssDistance MaxWidth { get; set; }
+		[CssAlias("max-height")]
+		public CssDistance MaxHeight { get; set; }
+
+		public CssRectangle()
+		{
+			Top = new CssDistance(true);
+			Left = new CssDistance(true);
+			Right = new CssDistance(true);
+			Bottom = new CssDistance(true);
+
+			Width = new CssDistance(true);
+			Height = new CssDistance(true);
+
+			MinWidth = new CssDistance(true);
+			MinHeight = new CssDistance(true);
+
+			MaxWidth = new CssDistance(true);
+			MaxHeight = new CssDistance(true);
+		}
 
 		public void SetValueFromText(string value)
 		{
-			string[] values = value.Split(' ');
-
-			foreach(var v in values)
-			{
-				CssLayoutKind result;
-				int columns;
-
-				if (Enum.TryParse<CssLayoutKind>(v, true, out result))
-				{
-					Kind = result;
-				}
-				else if (int.TryParse(v, out columns))
-				{
-					GridColumns = columns;
-				}
-			}
+			throw new NotImplementedException();
 		}
 	}
 }

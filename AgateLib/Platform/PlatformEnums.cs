@@ -54,6 +54,35 @@ namespace AgateLib.Platform
 		/// The portable GP2x handheld, or compatible.
 		/// </summary>
 		Gp2x,
+
+		/// <summary>
+		/// An device running the Android operating system.
+		/// </summary>
+		Android,
+	}
+
+	/// <summary>
+	/// Enum which indicates which type of device we are running on.
+	/// </summary>
+	public enum DeviceType
+	{
+		/// <summary>
+		/// Undetermined device type
+		/// </summary>
+		Unknown = 0,
+
+		/// <summary>
+		/// A desktop or laptop computer with a mouse and keyboard for input.
+		/// </summary>
+		Computer,
+		/// <summary>
+		/// A tablet with a large screen and the main input method is the touch screen.
+		/// </summary>
+		Tablet,
+		/// <summary>
+		/// A handheld device such as a smart phone with a small but possibly high resolution screen.
+		/// </summary>
+		Handheld,
 	}
 
 	/// <summary>

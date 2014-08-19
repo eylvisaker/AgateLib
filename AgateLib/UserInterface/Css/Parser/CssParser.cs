@@ -19,6 +19,7 @@
 using AgateLib.Diagnostics;
 using AgateLib.Geometry;
 using AgateLib.UserInterface.Css.Binders;
+using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Parser.Lexer;
 using AgateLib.UserInterface.Css.Selectors;
 using System;
@@ -40,9 +41,9 @@ namespace AgateLib.UserInterface.Css
 		List<Token<CssTokenType>> tokenList;
 		int index;
 
-		CssMedia defaultMedium;
+		CssMediaSelector defaultMedium;
 
-		CssMedia currentMedium;
+		CssMediaSelector currentMedium;
 		CssRuleBlock currentBlock;
 
 		Token<CssTokenType> currentToken;
@@ -177,7 +178,7 @@ namespace AgateLib.UserInterface.Css
 
 				if (currentMedium == null)
 				{
-					currentMedium = new CssMedia { Selector = selector };
+					currentMedium = new CssMediaSelector { Selector = selector };
 					target.Media.Add(currentMedium);
 				}
 

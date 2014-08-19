@@ -16,7 +16,6 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.UserInterface.Css.Binders;
 using AgateLib.UserInterface.Css.Parser;
 using System;
 using System.Collections.Generic;
@@ -25,48 +24,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Properties
+namespace AgateLib.UserInterface.Css.Documents
 {
-	public class CssRectangle : ICssPropertyFromText
+	public class CssBoxComponent : ICssPropertyFromText, ICssBoxComponent
 	{
 		public CssDistance Top { get; set; }
+		public CssDistance Bottom { get; set; }
 		public CssDistance Left { get; set; }
 		public CssDistance Right { get; set; }
-		public CssDistance Bottom { get; set; }
 
-		public CssDistance Width { get; set; }
-		public CssDistance Height { get; set; }
-
-		[CssAlias("min-width")]
-		public CssDistance MinWidth { get; set; }
-		[CssAlias("min-height")]
-		public CssDistance MinHeight { get; set; }
-
-		[CssAlias("max-width")]
-		public CssDistance MaxWidth { get; set; }
-		[CssAlias("max-height")]
-		public CssDistance MaxHeight { get; set; }
-
-		public CssRectangle()
+		public CssBoxComponent()
 		{
-			Top = new CssDistance(true);
-			Left = new CssDistance(true);
-			Right = new CssDistance(true);
-			Bottom = new CssDistance(true);
-
-			Width = new CssDistance(true);
-			Height = new CssDistance(true);
-
-			MinWidth = new CssDistance(true);
-			MinHeight = new CssDistance(true);
-
-			MaxWidth = new CssDistance(true);
-			MaxHeight = new CssDistance(true);
+			Top = new CssDistance(false);
+			Bottom = new CssDistance(false);
+			Right = new CssDistance(false);
+			Left = new CssDistance(false);
 		}
 
+		static char[] sep = new char[] { '\t', '\n', '\r', ' ' };
+		static int[,] indices = new int[4, 4] { { 0, 0, 0, 0 }, {0, 1, 0, 1}, {0, 1, 2, 1}, {0, 1, 2, 3} };
+		
 		public void SetValueFromText(string value)
 		{
-			throw new NotImplementedException();
+			string[] values = value.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+
+			Top = CssDistance.FromString(values[indices[values.Length-1, 0]]);
+			Right = CssDistance.FromString(values[indices[values.Length-1, 1]]);
+			Bottom = CssDistance.FromString(values[indices[values.Length-1, 2]]);
+			Left = CssDistance.FromString(values[indices[values.Length-1, 3]]);
 		}
 	}
 }
