@@ -16,41 +16,47 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+using AgateLib.Geometry;
+using AgateLib.UserInterface.Css.Parser;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Layout
+namespace AgateLib.UserInterface.Css.Properties
 {
-	public struct CssBox
+	public class CssBackground : ICssPropertyFromText
 	{
-		private int top, left, right, bottom;
-
-		public int Bottom
+		public CssBackground()
 		{
-			get { return bottom; }
-			set { bottom = value; }
+			Initialize();
 		}
 
-		public int Right
+		private void Initialize()
 		{
-			get { return right; }
-			set { right = value; }
+			Color = Color.FromArgb(0, 0, 0, 0);
+			Image = null;
+			Repeat = 0;
+			Position = new CssBackgroundPosition();
+			Clip = 0;
 		}
 
-		public int Left
-		{
-			get { return left; }
-			set { left = value; }
-		}
+		public Color Color { get; set; }
+		public string Image { get; set; }
+		public CssBackgroundRepeat Repeat { get; set; }
+		public CssBackgroundClip Clip { get; set; }
+		public CssBackgroundPosition Position { get; set; }
 
-		public int Top
+		public void SetValueFromText(string value)
 		{
-			get { return top; }
-			set { top = value; }
+			if (value == "none")
+			{
+				Initialize();
+			}
+			else
+				throw new NotImplementedException();
 		}
 	}
+
 }

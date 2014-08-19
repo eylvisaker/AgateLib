@@ -16,6 +16,8 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+using AgateLib.UserInterface.Css.Binders;
+using AgateLib.UserInterface.Css.Parser;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,34 +25,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Layout
+namespace AgateLib.UserInterface.Css.Properties
 {
-	public struct CssBox
+	public class CssLayout : ICssPropertyFromText
 	{
-		private int top, left, right, bottom;
+		[CssAlias("layout-kind")]
+		public CssLayoutKind Kind { get; set; }
 
-		public int Bottom
-		{
-			get { return bottom; }
-			set { bottom = value; }
-		}
+		[CssAlias("layout-grid-columns")]
+		public int GridColumns { get; set; }
 
-		public int Right
+		public void SetValueFromText(string value)
 		{
-			get { return right; }
-			set { right = value; }
-		}
+			string[] values = value.Split(' ');
 
-		public int Left
-		{
-			get { return left; }
-			set { left = value; }
-		}
+			foreach(var v in values)
+			{
+				CssLayoutKind result;
+				int columns;
 
-		public int Top
-		{
-			get { return top; }
-			set { top = value; }
+				if (Enum.TryParse<CssLayoutKind>(v, true, out result))
+				{
+					Kind = result;
+				}
+				else if (int.TryParse(v, out columns))
+				{
+					GridColumns = columns;
+				}
+			}
 		}
 	}
 }
