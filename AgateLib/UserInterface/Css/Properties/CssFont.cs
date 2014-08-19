@@ -16,41 +16,31 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+using AgateLib.Geometry;
+using AgateLib.UserInterface.Css.Binders;
+using AgateLib.UserInterface.Css.Parser;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Layout
+namespace AgateLib.UserInterface.Css.Properties
 {
-	public struct CssBox
+	public class CssFont
 	{
-		private int top, left, right, bottom;
-
-		public int Bottom
+		public CssFont()
 		{
-			get { return bottom; }
-			set { bottom = value; }
+			Color = Color.Black;
 		}
 
-		public int Right
-		{
-			get { return right; }
-			set { right = value; }
-		}
+		[CssAlias("font-family")]
+		public string Family { get; set; }
 
-		public int Left
-		{
-			get { return left; }
-			set { left = value; }
-		}
+		[CssAlias("font-size")]
+		public CssDistance Size { get; set; }
 
-		public int Top
-		{
-			get { return top; }
-			set { top = value; }
-		}
+		public Color Color { get; set; }
+
 	}
 }

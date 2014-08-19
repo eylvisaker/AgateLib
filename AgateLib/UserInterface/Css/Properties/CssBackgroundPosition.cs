@@ -18,39 +18,36 @@
 //
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Layout
+namespace AgateLib.UserInterface.Css.Properties
 {
-	public struct CssBox
+	public class CssBackgroundPosition : ICssPropertyFromText
 	{
-		private int top, left, right, bottom;
-
-		public int Bottom
+		public CssBackgroundPosition()
 		{
-			get { return bottom; }
-			set { bottom = value; }
+			Left = new CssDistance();
+			Top = new CssDistance();
 		}
 
-		public int Right
-		{
-			get { return right; }
-			set { right = value; }
-		}
+		public CssDistance Left;
+		public CssDistance Top;
 
-		public int Left
+		public void SetValueFromText(string value)
 		{
-			get { return left; }
-			set { left = value; }
-		}
+			int index = value.IndexOf(' ');
 
-		public int Top
-		{
-			get { return top; }
-			set { top = value; }
+			if (index >= 0)
+			{
+				Left = CssDistance.FromString(value.Substring(0, index));
+				Top = CssDistance.FromString(value.Substring(index + 1));
+			}
+			else
+			{
+				Left = CssDistance.FromString(value);
+				Top = Left;
+			}
 		}
 	}
 }

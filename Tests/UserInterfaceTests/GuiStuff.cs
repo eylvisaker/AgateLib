@@ -7,7 +7,6 @@ using AgateLib.UserInterface.Css;
 using AgateLib.UserInterface.Css.Layout;
 using AgateLib.UserInterface.Css.Rendering;
 using AgateLib.UserInterface.Widgets;
-using AgateLib.UserInterface.Widgets.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;

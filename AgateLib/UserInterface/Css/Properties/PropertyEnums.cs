@@ -18,39 +18,80 @@
 //
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Layout
+namespace AgateLib.UserInterface.Css.Properties
 {
-	public struct CssBox
+	public enum CssDisplay
 	{
-		private int top, left, right, bottom;
+		Initial,
+		None,
+	}
 
-		public int Bottom
-		{
-			get { return bottom; }
-			set { bottom = value; }
-		}
+	public enum CssTransitionType
+	{
+		None,
+		Slide,
+	}
+	public enum CssTransitionDirection
+	{
+		Left,
+		Right,
+		Top,
+		Bottom,
+	}
 
-		public int Right
-		{
-			get { return right; }
-			set { right = value; }
-		}
+	public enum CssLayoutKind
+	{
+		Flow,
+		Column,
+		Row,
+		Grid,
+	}
 
-		public int Left
-		{
-			get { return left; }
-			set { left = value; }
-		}
+	public enum DistanceUnit
+	{
+		Pixels,
+		Percent,
+		FontHeight,
+		FontAverageWidth,
+		FontNumericWidth,
+		ViewportWidthFrac,
+		ViewportHeightFrac,
+		ViewportMinFrac,
+		ViewportMaxFrac,
+	}
 
-		public int Top
-		{
-			get { return top; }
-			set { top = value; }
-		}
+	public enum CssBorderImageRepeat
+	{
+		Initial,
+		Inherit,
+		Stretch,
+		Repeat,
+		Round,
+	}
+
+	public enum CssBorderStyle
+	{
+		None,
+		Single,
+		Double,
+	}
+	public enum CssBackgroundRepeat
+	{
+		Repeat,
+		Repeat_X,
+		Repeat_Y,
+		Space,
+		Round,
+		No_Repeat,
+	}
+	public enum CssBackgroundClip
+	{
+		Border_Box,
+		Padding_Box,
+		Content_Box,
 	}
 }
