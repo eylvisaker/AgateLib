@@ -16,47 +16,48 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
-using AgateLib.UserInterface.Css.Parser;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.UserInterface.Css.Properties
+namespace AgateLib.UserInterface.Css.Documents
 {
-	public class CssBackground : ICssPropertyFromText
+	public class CssTransition : ICssPropertyFromText
 	{
-		public CssBackground()
+		public CssTransition()
 		{
-			Initialize();
+			Clear();
 		}
-
-		private void Initialize()
-		{
-			Color = Color.FromArgb(0, 0, 0, 0);
-			Image = null;
-			Repeat = 0;
-			Position = new CssBackgroundPosition();
-			Clip = 0;
-		}
-
-		public Color Color { get; set; }
-		public string Image { get; set; }
-		public CssBackgroundRepeat Repeat { get; set; }
-		public CssBackgroundClip Clip { get; set; }
-		public CssBackgroundPosition Position { get; set; }
 
 		public void SetValueFromText(string value)
 		{
-			if (value == "none")
-			{
-				Initialize();
-			}
-			else
-				throw new NotImplementedException();
-		}
-	}
+			var values = value.Split(' ');
 
+			foreach(var v in values)
+			{
+				CssTransitionType type;
+				CssTransitionDirection dir;
+				double time;
+
+				if (double.TryParse(v, out time))
+					Time = time;
+				else if (Enum.TryParse(v, true, out type))
+					Type = type;
+				else if (Enum.TryParse(v, true, out dir))
+					Direction = dir;
+			}
+		}
+
+		public void Clear()
+		{
+			Type = CssTransitionType.None;
+			Time = 0.5;
+		}
+
+		public CssTransitionType Type { get; set; }
+		public CssTransitionDirection Direction { get; set; }
+		public double Time { get; set; }
+	}
 }

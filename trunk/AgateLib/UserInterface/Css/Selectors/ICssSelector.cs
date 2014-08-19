@@ -27,6 +27,14 @@ namespace AgateLib.UserInterface.Css.Selectors
 {
 	public interface ICssSelector
 	{
-		bool Matches(Widget control, string id, CssPseudoClass pseudoClass, IEnumerable<string> classes);
+		bool Matches(string type, string id, CssPseudoClass pseudoClass, IEnumerable<string> classes);
+	}
+
+	public static class SelectorExtensions
+	{
+		public static bool Matches(this ICssSelector selector, Widget widget, string id, CssPseudoClass pseudoClass, IEnumerable<string> classes)
+		{
+			return selector.Matches(widget.GetType().Name, id, pseudoClass, classes);
+		}
 	}
 }

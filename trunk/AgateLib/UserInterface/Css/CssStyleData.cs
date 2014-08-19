@@ -18,7 +18,7 @@
 //
 using AgateLib.Geometry;
 using AgateLib.UserInterface.Css.Parser;
-using AgateLib.UserInterface.Css.Properties;
+using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Selectors;
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface.Css
 {
-	public class CssStyleData : ICssCanSelect
+	public class CssStyleData
 	{
 		public CssStyleData()
 		{
@@ -38,8 +38,6 @@ namespace AgateLib.UserInterface.Css
 
 		public void Clear()
 		{
-			Selector = "";
-
 			PositionData = new CssRectangle();
 			Font = new CssFont();
 			Background = new CssBackground();
@@ -51,8 +49,6 @@ namespace AgateLib.UserInterface.Css
 
 			Display = CssDisplay.Initial;
 		}
-
-		public CssSelectorGroup Selector { get; set; }
 
 		[CssPromoteProperties]
 		public CssRectangle PositionData { get; set; }
@@ -81,14 +77,5 @@ namespace AgateLib.UserInterface.Css
 
 		[CssPromoteProperties(prefix: "transition")]
 		public CssTransition Transition { get; set; }
-	}
-
-	public enum CssPosition
-	{
-		Initial,
-		Static = Initial,
-		Relative,
-		Absolute,
-		Fixed,
 	}
 }

@@ -20,12 +20,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Properties
+namespace AgateLib.UserInterface.Css
 {
-	public interface ICssPropertyFromText
+	public class CssMediumInfo
 	{
-		void SetValueFromText(string value);
+		public MediaType MediaType { get; set; }
+	}
+
+	public enum MediaType
+	{
+		Any = -1,
+		Unknown,
+		Screen,
+		Tablet,
+		Handheld,
 	}
 }

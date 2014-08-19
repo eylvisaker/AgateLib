@@ -13,8 +13,9 @@ namespace AgateLib.Platform
 		protected internal abstract void SetFolderPaths(string mCompanyName, string mAppName);
 		protected internal abstract void EnsureAppDataDirectoryExists();
 
-		public abstract PlatformType PlatformType { get; }
+		public PlatformType PlatformType { get; protected internal set; }
+		public DeviceType DeviceType { get; protected internal set; }
 
-		public abstract DotNetRuntime Runtime { get; }
+		public DotNetRuntime Runtime { get; protected internal set; }
 	}
 }

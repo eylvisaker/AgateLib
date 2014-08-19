@@ -25,7 +25,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace AgateLib.UserInterface.Css.Properties
+namespace AgateLib.UserInterface.Css.Documents
 {
 	public class CssBorder : ICssPropertyFromText, ICssBoxComponent
 	{

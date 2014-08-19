@@ -17,14 +17,15 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Properties
+namespace AgateLib.UserInterface.Css.Documents
 {
-	public interface ICssBoxComponent
+	public interface ICssPropertyFromText
 	{
-		CssDistance Bottom { get; set; }
-		CssDistance Left { get; set; }
-		CssDistance Right { get; set; }
-		CssDistance Top { get; set; }
+		void SetValueFromText(string value);
 	}
 }

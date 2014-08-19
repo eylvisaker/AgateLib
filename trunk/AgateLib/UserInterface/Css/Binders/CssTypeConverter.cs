@@ -17,7 +17,7 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using AgateLib.Geometry;
-using AgateLib.UserInterface.Css.Properties;
+using AgateLib.UserInterface.Css.Documents;
 using System;
 using System.Collections.Generic;
 using System.Linq;

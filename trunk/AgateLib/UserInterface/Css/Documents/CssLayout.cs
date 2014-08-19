@@ -16,37 +16,42 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+using AgateLib.UserInterface.Css.Binders;
+using AgateLib.UserInterface.Css.Parser;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Properties
+namespace AgateLib.UserInterface.Css.Documents
 {
-	public class CssBackgroundPosition : ICssPropertyFromText
+	public class CssLayout : ICssPropertyFromText
 	{
-		public CssBackgroundPosition()
-		{
-			Left = new CssDistance();
-			Top = new CssDistance();
-		}
+		[CssAlias("layout-kind")]
+		public CssLayoutKind Kind { get; set; }
 
-		public CssDistance Left;
-		public CssDistance Top;
+		[CssAlias("layout-grid-columns")]
+		public int GridColumns { get; set; }
 
 		public void SetValueFromText(string value)
 		{
-			int index = value.IndexOf(' ');
+			string[] values = value.Split(' ');
 
-			if (index >= 0)
+			foreach(var v in values)
 			{
-				Left = CssDistance.FromString(value.Substring(0, index));
-				Top = CssDistance.FromString(value.Substring(index + 1));
-			}
-			else
-			{
-				Left = CssDistance.FromString(value);
-				Top = Left;
+				CssLayoutKind result;
+				int columns;
+
+				if (Enum.TryParse<CssLayoutKind>(v, true, out result))
+				{
+					Kind = result;
+				}
+				else if (int.TryParse(v, out columns))
+				{
+					GridColumns = columns;
+				}
 			}
 		}
 	}

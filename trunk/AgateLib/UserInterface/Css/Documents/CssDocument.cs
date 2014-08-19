@@ -16,52 +16,46 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+using AgateLib.UserInterface.Css.Binders;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Properties
+namespace AgateLib.UserInterface.Css.Documents
 {
-	public class CssBorderImage : ICssPropertyFromText
+	public class CssDocument
 	{
-		public CssBorderImage()
+		List<CssMediaSelector> mMedia = new List<CssMediaSelector>();
+
+		public CssDocument()
 		{
-			Initialize();
+			var defaultMedium = new CssMediaSelector { Selector = "all" };
+			Media.Add(defaultMedium);
+		}
+		public static CssDocument Load(string filename)
+		{
+			CssDocument doc = new CssDocument();
+			CssParser parser = new CssParser();
+
+			parser.Load(doc, filename);
+
+			return doc;
+		}
+		public static CssDocument FromText(string text)
+		{
+			CssDocument doc = new CssDocument();
+			CssParser parser = new CssParser();
+
+			parser.ParseCss(doc, text);
+
+			return doc;
 		}
 
-		private void Initialize()
-		{
-			Source = string.Empty;
-			Slice = new CssBorderImageComponent();
-			Width = new CssBorderImageComponent();
-			Outset = new CssBorderImageComponent();
-			Repeat = CssBorderImageRepeat.Initial;
-		}
 
-		public string Source { get; set; }
-		public CssBorderImageComponent Slice { get; set; }
-		public CssBorderImageComponent Width { get; set; }
-		public CssBorderImageComponent Outset { get; set; }
-		public CssBorderImageRepeat Repeat { get; set; }
+		public List<CssMediaSelector> Media { get { return mMedia; } }
 
-		public void SetValueFromText(string value)
-		{
-			if (value == "none")
-			{
-				Initialize();
-			}
-			else
-			{
-				throw new NotImplementedException();
-			}
-		}
-	}
-
-	public class CssBorderImageComponent : CssBoxComponent
-	{
-
+		public CssMediaSelector DefaultMedium { get { return mMedia.First(x => x.Selector.Text == "all"); } }
 	}
 }

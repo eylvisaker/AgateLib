@@ -110,12 +110,10 @@ namespace AgateLib.UserInterface.Css.Selectors
 		public IList<string> CssClasses { get { return classes; } }
 		public CssPseudoClass PseudoClass { get; private set; }
 
-		public bool Matches(Widgets.Widget control, string id, CssPseudoClass pc, IEnumerable<string> classes)
+		public bool Matches(string typename, string id, CssPseudoClass pc, IEnumerable<string> classes)
 		{
-			var type = control.GetType().Name;
-
 			if (ObjectType != null &&
-				ObjectType.Equals(type, StringComparison.OrdinalIgnoreCase)
+				ObjectType.Equals(typename, StringComparison.OrdinalIgnoreCase)
 				== false)
 			{
 				return false;

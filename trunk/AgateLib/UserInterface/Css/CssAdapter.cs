@@ -19,7 +19,7 @@
 using AgateLib.DisplayLib;
 using AgateLib.UserInterface.Css.Layout;
 using AgateLib.UserInterface.Css.Layout.Defaults;
-using AgateLib.UserInterface.Css.Properties;
+using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Selectors;
 using AgateLib.UserInterface.Widgets;
 using System;
@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Platform;
 
 namespace AgateLib.UserInterface.Css
 {
@@ -35,13 +36,31 @@ namespace AgateLib.UserInterface.Css
 		Dictionary<Widget, CssStyle> mObjectStyles = new Dictionary<Widget, CssStyle>();
 		DefaultStyleCollection mDefaultStyles = new DefaultStyleCollection();
 		private CssDocument mDocument;
-		
+
 		internal CssAdapter(CssDocument doc)
 		{
 			Document = doc;
+
+			MediumInfo = new CssMediumInfo();
+
+			switch (Core.Platform.DeviceType)
+			{
+				case DeviceType.Computer:
+					MediumInfo.MediaType = MediaType.Screen;
+					break;
+
+				case DeviceType.Handheld:
+					MediumInfo.MediaType = MediaType.Handheld;
+					break;
+
+				case DeviceType.Tablet:
+					MediumInfo.MediaType = MediaType.Tablet;
+					break;
+			}
 		}
 
-		public CssAdapter(CssDocument doc, Font defaultFont) : this(doc)
+		public CssAdapter(CssDocument doc, Font defaultFont)
+			: this(doc)
 		{
 			this.DefaultFont = defaultFont;
 		}
@@ -54,8 +73,6 @@ namespace AgateLib.UserInterface.Css
 			set
 			{
 				mDocument = value;
-
-				CurrentMedium = mDocument.DefaultMedium;
 
 				foreach (var style in mObjectStyles.Values)
 				{
@@ -233,7 +250,7 @@ namespace AgateLib.UserInterface.Css
 				return;
 
 			mDefaultStyles[style.Widget.GetType()].InheritParentProperties(style, GetStyle(style.Widget.Parent));
-			
+
 		}
 
 		private void ReportError(string p)
@@ -254,20 +271,23 @@ namespace AgateLib.UserInterface.Css
 			string id = control.Name;
 			IEnumerable<string> classes = GetCssClasses(style);
 
-			foreach (var block in CurrentMedium.RuleBlocks)
+			foreach (var medium in ApplicableMedia)
 			{
-				if (BlockAppliesTo(block, control, id, classes))
+				foreach (var block in medium.RuleBlocks)
 				{
-					if (style.AppliedBlocks.Contains(block) == false)
+					if (BlockAppliesTo(block, control, id, classes))
 					{
-						style.AppliedBlocks.Add(block);
+						if (style.AppliedBlocks.Contains(block) == false)
+						{
+							style.AppliedBlocks.Add(block);
+						}
 					}
-				}
-				else
-				{
-					if (style.AppliedBlocks.Contains(block))
+					else
 					{
-						style.AppliedBlocks.Remove(block);
+						if (style.AppliedBlocks.Contains(block))
+						{
+							style.AppliedBlocks.Remove(block);
+						}
 					}
 				}
 			}
@@ -327,8 +347,31 @@ namespace AgateLib.UserInterface.Css
 			return style.SplitClasses;
 		}
 
+		public CssMediumInfo MediumInfo { get; set; }
 
+		public IEnumerable<CssMediaSelector> ApplicableMedia
+		{
+			get
+			{
+				yield return Document.DefaultMedium;
 
-		CssMedia CurrentMedium { get; set; }
+				foreach (var medium in Document.Media)
+				{
+					if (MediaSelectorApplies(medium.Selector, MediumInfo))
+						yield return medium;
+				}
+			}
+		}
+
+		private bool MediaSelectorApplies(CssSelectorGroup selectorGroup, CssMediumInfo medium)
+		{
+			foreach (var sel in selectorGroup.IndividualSelectors)
+			{
+				if (sel.Matches(medium.MediaType.ToString(), null, CssPseudoClass.None, null))
+					return true;
+			}
+
+			return false;
+		}
 	}
 }
