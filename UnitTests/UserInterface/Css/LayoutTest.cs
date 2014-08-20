@@ -53,7 +53,7 @@ namespace AgateLib.UserInterface.Css.Tests
 		}
 		private void RedoLayout()
 		{
-			engine.RedoLayout(gui, new Size(1000, 1000));
+			engine.UpdateLayout(gui, new Size(1000, 1000));
 
 			foreach (var d in gui.Desktop.Descendants)
 			{

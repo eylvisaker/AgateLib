@@ -19,7 +19,7 @@ namespace AgateLib.UserInterface.Widgets.Tests
 	}
 	class FakeLayout : IGuiLayoutEngine
 	{
-		public void RedoLayout(Gui gui)
+		public void UpdateLayout(Gui gui)
 		{
 		}
 	}
