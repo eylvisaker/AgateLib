@@ -124,8 +124,7 @@ namespace AgateLib.Platform.WindowsForms.WinForms
 		/// <summary>
 		/// Gets a System.Windows.Forms.Cursor object which is completely transparent.
 		/// </summary>
-		[Obsolete("This will be made private in the next release.  Don't use it.")]
-		public static Cursor BlankCursor
+		internal static Cursor BlankCursor
 		{
 			get
 			{
