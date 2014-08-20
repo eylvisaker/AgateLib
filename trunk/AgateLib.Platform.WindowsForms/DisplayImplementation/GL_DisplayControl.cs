@@ -494,7 +494,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		}
 		void pct_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			SetInternalMousePosition(Interop.Convert(e.Location));
+			//SetInternalMousePosition(Interop.Convert(e.Location));
 			Input.QueueInputEvent(AgateInputEventArgs.MouseMove(
 				this, PixelToLogicalCoords(new Point(e.X, e.Y))));
 		}

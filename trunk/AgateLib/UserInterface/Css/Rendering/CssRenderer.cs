@@ -337,6 +337,14 @@ namespace AgateLib.UserInterface.Css.Rendering
 		{
 			var border = style.Data.Border;
 
+			if (border.Top.Color.A == 0 &&
+				border.Left.Color.A == 0 &&
+				border.Right.Color.A == 0 &&
+				border.Bottom.Color.A == 0)
+			{
+				return;
+			}
+
 			// draw top
 			Rectangle rect = new Rectangle(borderRect.X, borderRect.Y, borderRect.Width, (int)border.Top.Width.Amount);
 

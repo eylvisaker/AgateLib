@@ -130,11 +130,11 @@ namespace AgateLib.UserInterface.Css.Documents
 				{
 					Width = CssDistance.FromString(v);
 				}
-				if (Enum.TryParse(v, out stl))
+				else if (Enum.TryParse(v, out stl))
 				{
 					Style = stl;
 				}
-				if (CssTypeConverter.TryParseColor(v, out clr))
+				else if (CssTypeConverter.TryParseColor(v, out clr))
 				{
 					Color = clr;
 				}
