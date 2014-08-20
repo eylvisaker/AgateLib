@@ -25,6 +25,6 @@ namespace AgateLib.UserInterface.Widgets
 {
 	public interface IGuiLayoutEngine
 	{
-		void RedoLayout(Gui gui);
+		void UpdateLayout(Gui gui);
 	}
 }

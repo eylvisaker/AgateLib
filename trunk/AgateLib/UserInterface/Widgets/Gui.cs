@@ -290,7 +290,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		public void OnUpdate(double delta_t, bool processInput)
 		{
-			mLayout.RedoLayout(this);
+			mLayout.UpdateLayout(this);
 			mRenderer.Update(this, delta_t);
 
 			DispatchEvent(window => { window.Update(delta_t, ref processInput); return false; });

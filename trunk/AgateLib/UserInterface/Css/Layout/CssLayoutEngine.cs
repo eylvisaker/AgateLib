@@ -36,17 +36,23 @@ namespace AgateLib.UserInterface.Css.Layout
 		{
 			this.mAdapter = adapter;
 		}
-		public void RedoLayout(Gui gui)
+		public void UpdateLayout(Gui gui)
 		{
-			RedoLayout(gui, Display.RenderTarget.CoordinateSystem.Size);
+			UpdateLayout(gui, Display.RenderTarget.CoordinateSystem.Size);
 		}
-		public void RedoLayout(Gui gui, Size renderTargetSize)
+		public void UpdateLayout(Gui gui, Size renderTargetSize)
 		{
+			bool totalRefresh = false;
+
+			totalRefresh |= gui.Desktop.Width != renderTargetSize.Width;
+			totalRefresh |= gui.Desktop.Height != renderTargetSize.Height;
+
 			gui.Desktop.Width = renderTargetSize.Width;
 			gui.Desktop.Height = renderTargetSize.Height;
+
 			SetDesktopAnimatorProperties(gui.Desktop);
 
-			RedoLayout(gui.Desktop);
+			RedoLayout(gui.Desktop, totalRefresh);
 
 			RedoFixedLayout(gui.Desktop);
 		}
@@ -111,7 +117,7 @@ namespace AgateLib.UserInterface.Css.Layout
 		}
 
 
-		private void RedoLayout(Container container)
+		private void RedoLayout(Container container, bool forceRefresh = false)
 		{
 			var containerStyle = mAdapter.GetStyle(container);
 			var containerAnim = containerStyle.Animator;
@@ -119,6 +125,12 @@ namespace AgateLib.UserInterface.Css.Layout
 
 			containerAnim.ClientRect.X = 0;
 			containerAnim.ClientRect.Y = 0;
+
+			if (forceRefresh == false)
+			{
+				if (container.Descendants.Any(x => x.LayoutDirty) == false)
+					return;
+			}
 
 			int maxWidth = ComputeMaxWidthForContainer(containerStyle);
 			Point nextPos = Point.Empty;
@@ -210,6 +222,8 @@ namespace AgateLib.UserInterface.Css.Layout
 					maxHeight = Math.Max(maxHeight, anim.ClientRect.Height + box.Top + box.Bottom);
 					bottom = Math.Max(bottom, anim.ClientRect.Y + anim.ClientRect.Height + box.Bottom); // only add box.Bottom here, because box.Top is taken into account in child.Y.
 				}
+
+				child.LayoutDirty = false;
 			}
 
 			containerAnim.ClientRect.Width = Math.Min(largestWidth, maxWidth);
@@ -246,7 +260,7 @@ namespace AgateLib.UserInterface.Css.Layout
 					break;
 			}
 
-
+			container.LayoutDirty = false;
 		}
 
 		private Widget TopLevelWidget(Widget child)
