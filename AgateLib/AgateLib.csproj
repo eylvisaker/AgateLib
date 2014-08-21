@@ -577,7 +577,6 @@
     <Compile Include="UserInterface\Css\Selectors\ICssSelector.cs" />
     <Compile Include="UserInterface\IAudioPlayer.cs" />
     <Compile Include="UserInterface\ISurfaceProvider.cs" />
-    <Compile Include="UserInterface\Margin.cs" />
     <Compile Include="UserInterface\Widgets\Container.cs" />
     <Compile Include="UserInterface\Widgets\Desktop.cs" />
     <Compile Include="UserInterface\Widgets\Gui.cs" />
@@ -598,7 +597,6 @@
     <Compile Include="UserInterface\Widgets\WidgetEventArgs.cs" />
     <Compile Include="UserInterface\Widgets\WidgetList.cs" />
     <Compile Include="UserInterface\Widgets\Window.cs" />
-    <Compile Include="UserInterface\WindowTransition.cs" />
     <Compile Include="Utility\Ref.cs">
       <SubType>Code</SubType>
     </Compile>
