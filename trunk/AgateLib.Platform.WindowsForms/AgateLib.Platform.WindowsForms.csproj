@@ -89,7 +89,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationModels\FormsModelBase.cs" />
     <Compile Include="ApplicationModels\FormsModelParameters.cs" />
     <Compile Include="ApplicationModels\PassiveModel.cs" />
     <Compile Include="ApplicationModels\PassiveModelParameters.cs" />
@@ -135,7 +134,7 @@
     <Compile Include="PlatformImplementation\TgzFileProvider.cs" />
     <Compile Include="PlatformImplementation\ZipFileProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Configuration.cs" />
+    <Compile Include="Initializer.cs" />
     <Compile Include="Resources\BuiltinResources.cs" />
     <Compile Include="SurfaceExtensions.cs" />
     <Compile Include="WinForms\AgateRenderTarget.cs">

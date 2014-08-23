@@ -19,10 +19,10 @@ namespace AgateLib.UnitTests.ApplicationModels
 		{
 
 		}
-		protected override int BeginModel(Func<int> entryPoint)
-		{
-			return 0;
-		}
+		//protected override int BeginModel(Func<int> entryPoint)
+		//{
+		//	return 0;
+		//}
 
 		public List<string> Expected { get { return expected; } }
 

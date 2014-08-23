@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WindowsForms.ApplicationModels
 {
-	public class SerialModel : FormsModelBase
+	public class SerialModel : EntryPointAppModelBase
 	{
 		#region --- Static Members ---
 

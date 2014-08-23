@@ -52,11 +52,6 @@ namespace AgateLib.ApplicationModels
 		}
 
 
-		static Func<int> ActionToFunc(Action entry)
-		{
-			return () => { entry(); return 0; };
-		}
-
 		#endregion
 
 		DisplayWindow window;
@@ -91,81 +86,28 @@ namespace AgateLib.ApplicationModels
 		public void Dispose()
 		{
 			Dispose(true);
+			DisposeAutoCreatedWindow();
 
 			if (Instance == this)
 				Instance = null;
 		}
+
+
+		protected void DisposeAutoCreatedWindow()
+		{
+			if (window != null)
+			{
+				window.Dispose();
+				window = null;
+			}
+		}
+
 		/// <summary>
 		/// Override this to clean up the platform initialization of AgateLib.
 		/// </summary>
 		/// <param name="disposing"></param>
 		protected virtual void Dispose(bool disposing)
 		{ }
-
-		/// <summary>
-		/// Runs the application model with the specified entry point for your application.
-		/// </summary>
-		/// <param name="entry">A delegate which will be called to run your application.</param>
-		/// <returns>Returns 0.</returns>
-		public int Run(Action entry)
-		{
-			return RunImpl(entry);
-		}
-		/// <summary>
-		/// Runs the application model with the specified entry point for your application.
-		/// </summary>
-		/// <param name="entry">A delegate which will be called to run your application.</param>
-		/// <returns>Returns the return value from the <c>entry</c> parameter.</returns>
-		public int Run(Func<int> entry)
-		{
-			return RunImpl(entry);
-		}
-		/// <summary>
-		/// Runs the application model with the specified entry point and command line arguments for your application.
-		/// </summary>
-		/// <param name="args">The command arguments to process.</param>
-		/// <param name="entry">A delegate which will be called to run your application.</param>
-		/// <returns>Returns 0.</returns>
-		public int Run(string[] args, Action entry)
-		{
-			Parameters.Arguments = args;
-
-			return RunImpl(entry);
-		}
-		/// <summary>
-		/// Runs the application model with the specified entry point and command line arguments for your application.
-		/// </summary>
-		/// <param name="args">The command arguments to process.</param>
-		/// <param name="entry">A delegate which will be called to run your application.</param>
-		/// <returns>Returns the return value from the <c>entry</c> parameter.</returns>
-		public int Run(string[] args, Func<int> entry)
-		{
-			Parameters.Arguments = args;
-
-			return RunImpl(entry);
-		}
-
-		private int RunImpl(Action entry)
-		{
-			return RunImpl(ActionToFunc(entry));
-		}
-		/// <summary>
-		/// Runs the application model by calling RunModel. If you override this, make
-		/// sure to catch the ExitGameException and return 0 in the exception handler.
-		/// </summary>
-		/// <param name="entry"></param>
-		/// <returns></returns>
-		protected virtual int RunImpl(Func<int> entry)
-		{
-			try
-			{
-				return RunModel(entry);
-			}
-			catch (ExitGameException)
-			{
-				return 0;
-			}
-		}
 
 		/// <summary>
 		/// Processes command line arguments. Override this to completely replace the 
@@ -257,30 +199,9 @@ namespace AgateLib.ApplicationModels
 			Log.WriteLine("    {0} {1}", arg, string.Join(" ", parm));
 		}
 
-		/// <summary>
-		/// Runs the application model.
-		/// </summary>
-		/// <param name="entryPoint"></param>
-		/// <returns></returns>
-		protected int RunModel(Func<int> entryPoint)
+		protected void PrerunInitialization()
 		{
-			try
-			{
-				Initialize();
-				AutoCreateDisplayWindow();
-				SetPlatformEmulation();
-
-				int retval = BeginModel(entryPoint);
-
-				return retval;
-			}
-			finally
-			{
-				if (window != null)
-					window.Dispose();
-
-				Dispose();
-			}
+			SetPlatformEmulation();
 		}
 
 		private void SetPlatformEmulation()
@@ -291,17 +212,11 @@ namespace AgateLib.ApplicationModels
 			}
 		}
 
-		/// <summary>
-		/// Override this to implement the application model. This function
-		/// should call the entry point and return its return value.
-		/// It should not catch ExitGameException.
-		/// </summary>
-		/// <param name="entryPoint">The application entry point to call.</param>
-		/// <returns></returns>
-		protected abstract int BeginModel(Func<int> entryPoint);
-
-		private void AutoCreateDisplayWindow()
+		protected void AutoCreateDisplayWindow()
 		{
+			if (window != null)
+				throw new InvalidOperationException("Cannot do autocreation of window if one already exists.");
+
 			if (Parameters.AutoCreateDisplayWindow == false)
 				return;
 
