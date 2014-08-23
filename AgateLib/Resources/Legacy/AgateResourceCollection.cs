@@ -456,7 +456,7 @@ namespace AgateLib.Resources.Legacy
 			{
 				string path = string.IsNullOrEmpty(RootDirectory) ? filename :
 					RootDirectory + "/" + filename;
-				SurfaceImpl impl = Display.Impl.CreateSurface(FileProvider, path);
+				SurfaceImpl impl = Core.Factory.DisplayFactory.CreateSurface(FileProvider, path);
 
 				mOwnedSurfaces.Add(filename, impl);
 

@@ -93,7 +93,7 @@ namespace AgateLib.DisplayLib
 			if (fileprovider == null)
 				fileprovider = AgateLib.IO.FileProvider.SurfaceAssets;
 
-			mImpl = Display.Impl.CreateSurface(fileprovider.ResolveFile(filename));
+			mImpl = Core.Factory.DisplayFactory.CreateSurface(fileprovider, filename);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
@@ -107,7 +107,7 @@ namespace AgateLib.DisplayLib
 			if (Display.Impl == null)
 				throw new AgateException("AgateLib's display system has not been initialized.");
 
-			mImpl = Display.Impl.CreateSurface(st);
+			mImpl = Core.Factory.DisplayFactory.CreateSurface(st);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
@@ -133,7 +133,7 @@ namespace AgateLib.DisplayLib
 			if (Display.Impl == null)
 				throw new AgateException("AgateLib's display system has not been initialized.");
 
-			mImpl = Display.Impl.CreateSurface(size);
+			mImpl = Core.Factory.DisplayFactory.CreateSurface(size);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);

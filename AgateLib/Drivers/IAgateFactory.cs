@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
 
 namespace AgateLib.Drivers
 {
@@ -31,6 +32,6 @@ namespace AgateLib.Drivers
 		IInputFactory InputFactory { get; }
 		IPlatformFactory PlatformFactory { get; }
 
-		DisplayLib.FontSurface DefaultFont { get; set; }
+		FontSurface DefaultFont { get; set; }
 	}
 }

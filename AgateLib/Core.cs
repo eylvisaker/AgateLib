@@ -331,7 +331,7 @@ namespace AgateLib
 			FileSystem.Path = factory.PlatformFactory.CreatePath();
 			FileProvider.Initialize(factory.PlatformFactory);
 
-			Display.Initialize(factory.DisplayFactory.CreateDisplayImpl());
+			Display.Initialize(factory.DisplayFactory.DisplayImpl);
 			Audio.Initialize(factory.AudioFactory.CreateAudioImpl());
 			JoystickInput.Initialize(factory.InputFactory.CreateJoystickInputImpl());
 
