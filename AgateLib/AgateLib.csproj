@@ -85,6 +85,10 @@
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Algorithms\Inverting.cs" />
     <Compile Include="ApplicationModels\CoordinateSystems\NaturalCoordinates.cs" />
+    <Compile Include="ApplicationModels\EntryPointAppModelBase.cs" />
+    <Compile Include="ApplicationModels\Scene.cs" />
+    <Compile Include="ApplicationModels\SceneAppModelBase.cs" />
+    <Compile Include="ApplicationModels\SceneStack.cs" />
     <Compile Include="DisplayLib\FontSettings.cs" />
     <Compile Include="DisplayLib\FontStyles.cs" />
     <Compile Include="Drivers\NullDrivers\NullInputFactory.cs" />

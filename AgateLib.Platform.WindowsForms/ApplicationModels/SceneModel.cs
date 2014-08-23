@@ -1,4 +1,5 @@
 ﻿using AgateLib.ApplicationModels;
+using AgateLib.DisplayLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,21 +8,33 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WindowsForms.ApplicationModels
 {
-	public class SceneModel : FormsModelBase
+	public class SceneModel : SceneAppModelBase
 	{
 		private SceneModel(ModelParameters parameters) : base(parameters)
 		{ }
 
 		public static ModelParameters DefaultParameters { get; set; }
 
-		protected override int BeginModel(Func<int> entryPoint)
+		public int Run(Scene scene)
 		{
-			throw new NotImplementedException();
+			if (SceneStack.Contains(scene) == false)
+				SceneStack.Add(scene);
+
+			while(SceneStack.Count > 0)
+			{
+				foreach (var sc in SceneStack.UpdateScenes)
+					sc.Update(Display.DeltaTime);
+
+				foreach (var sc in SceneStack.DrawScenes)
+					sc.Draw();
+			}
+
+			return 0;
 		}
 
 		public override void KeepAlive()
 		{
-			throw new NotImplementedException();
+			base.KeepAlive();
 		}
 	}
 }
