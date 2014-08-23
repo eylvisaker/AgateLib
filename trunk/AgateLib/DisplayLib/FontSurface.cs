@@ -74,7 +74,7 @@ namespace AgateLib.DisplayLib
 				throw new ArgumentOutOfRangeException("Font size must be positive and non-zero, but was " +
 					sizeInPoints.ToString() + ".");
 
-			mImpl = Display.Impl.CreateFont(fontFamily, sizeInPoints, style);
+			mImpl = Core.Factory.DisplayFactory.CreateFont(fontFamily, sizeInPoints, style);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 
@@ -110,7 +110,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="bitmapOptions"></param>
 		public FontSurface(BitmapFontOptions bitmapOptions)
 		{
-			mImpl = Display.Impl.CreateFont(bitmapOptions);
+			mImpl = Core.Factory.DisplayFactory.CreateFont(bitmapOptions);
 
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
 

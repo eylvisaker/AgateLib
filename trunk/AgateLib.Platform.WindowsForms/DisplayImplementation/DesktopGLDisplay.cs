@@ -45,8 +45,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		Rectangle mCurrentClip = Rectangle.Empty;
 		private bool mVSync = true;
-		private bool mSupportsFramebufferArb;
-		private bool mSupportsFramebufferExt;
 		private bool mNonPowerOf2Textures;
 		private bool mSupportsShaders;
 		private decimal mGLVersion;
@@ -55,8 +53,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		DisplayWindow mFakeDisplayWindow;
 
 		PrimitiveRenderer mPrimitives;
-
-		bool mGL3;
 
 		public Surface WhiteSurface
 		{
@@ -68,6 +64,10 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			get { return mNonPowerOf2Textures; }
 			private set { mNonPowerOf2Textures = value; }
 		}
+
+		public bool GL3 { get; private set; }
+		public bool SupportsFramebufferExt { get; internal set; }
+		public bool SupportsFramebufferArb { get; private set;}
 
 		protected override void OnRenderTargetChange(FrameBuffer oldRenderTarget)
 		{
@@ -92,29 +92,10 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		{
 			return ShaderFactory.CreateBuiltInShader(builtInShaderType);
 		}
-		public override DisplayWindowImpl CreateDisplayWindow(DisplayWindow owner, CreateWindowParams windowParams)
-		{
-			if (windowParams.IsFullScreen && windowParams.RenderToControl == false)
-				return new GL_GameWindow(owner, windowParams);
-			else
-				return new GL_DisplayControl(owner, windowParams);
 
-			//if (windowParams.RenderToControl)
-			//{
-			//    return new GL_DisplayControl(windowParams);
-			//}
-			//else
-			//{
-			//    return new GL_GameWindow(windowParams);
-			//}
-		}
-		public override SurfaceImpl CreateSurface(string fileName)
-		{
-			return new GL_Surface(fileName);
-		}
 		protected override VertexBufferImpl CreateVertexBuffer(VertexLayout layout, int vertexCount)
 		{
-			if (mGL3)
+			if (GL3)
 				return new AgateLib.OpenGL.GL3.GLVertexBuffer(layout, vertexCount);
 			else
 				return new AgateLib.OpenGL.Legacy.LegacyVertexBuffer(layout, vertexCount);
@@ -124,54 +105,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			return new GL_IndexBuffer(type, size);
 		}
 
-		public override SurfaceImpl CreateSurface(Size surfaceSize)
-		{
-			return new GL_Surface(surfaceSize);
-		}
-		public override SurfaceImpl CreateSurface(System.IO.Stream fileStream)
-		{
-			return new GL_Surface(fileStream);
-		}
-		public override FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyles style)
-		{
-			BitmapFontOptions options = new BitmapFontOptions(fontFamily, sizeInPoints, style);
-
-			return AgateLib.Platform.WindowsForms.WinForms.BitmapFontUtil.ConstructFromOSFont(options);
-		}
-		public override FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
-		{
-			return AgateLib.Platform.WindowsForms.WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
-		}
-
-		protected override FrameBufferImpl CreateFrameBuffer(Size size)
-		{
-			if (mGL3 || (mSupportsFramebufferArb && ReadSettingsBool("DisableFramebufferArb") == false))
-				return new AgateLib.OpenGL.GL3.FrameBuffer((IGL_Surface)new Surface(size).Impl);
-			else if (mSupportsFramebufferExt && ReadSettingsBool("DisableFramebufferExt") == false)
-			{
-				try
-				{
-					return new AgateLib.OpenGL.Legacy.FrameBufferExt((IGL_Surface)new Surface(size).Impl);
-				}
-				catch (Exception e)
-				{
-					Trace.WriteLine(string.Format("Caught exception {0} when trying to create GL_FrameBuffer_Ext wrapper.", e.GetType()));
-					Trace.Indent();
-					Trace.WriteLine(e.Message);
-					Trace.Unindent();
-					Trace.WriteLine("");
-					Trace.WriteLine("Disabling frame buffer extension, and falling back onto glCopyTexSubImage2D.");
-					Trace.WriteLine("Extensive use of offscreen rendering targets will result in poor performance.");
-					Trace.WriteLine("");
-
-					mSupportsFramebufferExt = false;
-				}
-			}
-
-			return new AgateLib.OpenGL.Legacy.FrameBufferReadPixels((IGL_Surface)new Surface(size).Impl);
-		} 
-
-		bool ReadSettingsBool(string name)
+		public bool ReadSettingsBool(string name)
 		{
 			string value;
 
@@ -186,7 +120,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 		public GLDrawBuffer CreateDrawBuffer()
 		{
-			if (mGL3)
+			if (GL3)
 				return new AgateLib.OpenGL.GL3.DrawBuffer();
 			else
 				return new AgateLib.OpenGL.Legacy.LegacyDrawBuffer();
@@ -364,19 +298,19 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			{
 				if (ReadSettingsBool("EnableGL3"))
 				{
-					mGL3 = true;
+					GL3 = true;
 				}
 				else
 				{
-					mGL3 = false;
+					GL3 = false;
 					mGLVersion = 2.1m;
 				}
 			}
 
 			LoadExtensions();
 
-			mSupportsFramebufferArb = SupportsExtension("GL_ARB_FRAMEBUFFER_OBJECT");
-			mSupportsFramebufferExt = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
+			SupportsFramebufferArb = SupportsExtension("GL_ARB_FRAMEBUFFER_OBJECT");
+			SupportsFramebufferExt = SupportsExtension("GL_EXT_FRAMEBUFFER_OBJECT");
 			mNonPowerOf2Textures = SupportsExtension("GL_ARB_NON_POWER_OF_TWO");
 
 			if (mGLVersion >= 3m)
@@ -398,7 +332,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
                 throw new AgateLib.AgateException("OpenGL 1.2 or higher is required, but this system only supports OpenGL " + mGLVersion.ToString() + ".");
             }
 
-			if (mGL3)
+			if (GL3)
 				mPrimitives = new AgateLib.OpenGL.GL3.GLPrimitiveRenderer();
 			else
 				mPrimitives = new AgateLib.OpenGL.Legacy.LegacyPrimitiveRenderer();
@@ -408,7 +342,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 				mSupportsShaders = true;
 			}
 
-			ShaderFactory.Initialize(mGL3);
+			ShaderFactory.Initialize(GL3);
 
 			Trace.WriteLine(string.Format("OpenGL version {0} from vendor {1} detected.", mGLVersion, vendor));
 			Trace.WriteLine("NPOT: " + mNonPowerOf2Textures.ToString());
@@ -420,7 +354,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		string[] extensions;
 		private void LoadExtensions()
 		{
-			if (mGL3)
+			if (GL3)
 			{
 				// Forward compatible context (GL 3.0+)
 				int num_extensions;

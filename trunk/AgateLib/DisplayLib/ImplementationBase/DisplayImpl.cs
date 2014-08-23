@@ -110,81 +110,6 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		protected abstract void OnRenderTargetResize();
 
-		///// <summary>
-		///// Creates a DisplayWindowImpl derived object.
-		///// </summary>
-		///// <param name="title"></param>
-		///// <param name="clientWidth"></param>
-		///// <param name="clientHeight"></param>
-		///// <param name="allowResize"></param>
-		///// <param name="iconFile"></param>
-		///// <param name="startFullscreen"></param>
-		///// <returns></returns>
-		//public abstract DisplayWindowImpl CreateDisplayWindow(string title, int clientWidth, int clientHeight, string iconFile, bool startFullscreen, bool allowResize);
-		///// <summary>
-		///// Creates a DisplayWindowImpl derived object.
-		///// </summary>
-		//public abstract DisplayWindowImpl CreateDisplayWindow(System.Windows.Forms.Control renderTarget);
-
-		/// <summary>
-		/// Creates a DisplayWindowImpl derived object.
-		/// </summary>
-		/// <param name="windowParams"></param>
-		/// <returns></returns>
-		public abstract DisplayWindowImpl CreateDisplayWindow(DisplayWindow owner, CreateWindowParams windowParams);
-
-		/// <summary>
-		/// Creates a SurfaceImpl derived object.
-		/// </summary>
-		/// <param name="provider"></param>
-		/// <param name="filename"></param>
-		/// <returns></returns>
-		public virtual SurfaceImpl CreateSurface(IReadFileProvider provider, string filename)
-		{
-			return CreateSurface(provider.OpenRead(filename));
-		}
-		/// <summary>
-		/// Creates a SurfaceImpl derived object.
-		/// </summary>
-		public abstract SurfaceImpl CreateSurface(string fileName);
-		/// <summary>
-		/// Creates a SurfaceImpl derived object from a stream containing 
-		/// the file contents.
-		/// </summary>
-		/// <param name="fileStream"></param>
-		/// <returns></returns>
-		public abstract SurfaceImpl CreateSurface(Stream fileStream);
-
-		/// <summary>
-		/// Creates a SurfaceImpl derived object.
-		/// </summary>
-		public abstract SurfaceImpl CreateSurface(Size surfaceSize);
-
-		/// <summary>
-		/// Creates a SurfaceImpl derived object.
-		/// Forwards the call to CreateSurface(Size).
-		/// </summary>
-		public SurfaceImpl CreateSurface(int width, int height)
-		{
-			return CreateSurface(new Size(width, height));
-		}
-		/// <summary>
-		/// Creates a FontSurfaceImpl derived object.
-		/// </summary>
-		/// <param name="fontFamily"></param>
-		/// <param name="sizeInPoints"></param>
-		/// <param name="style"></param>
-		/// <returns></returns>
-		public abstract FontSurfaceImpl CreateFont(string fontFamily,
-			float sizeInPoints, FontStyles style);
-
-		/// <summary>
-		/// Creates a BitmapFontImpl object from the specified options.
-		/// </summary>
-		/// <param name="bitmapOptions"></param>
-		/// <returns></returns>
-		public abstract FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions);
-
 		/// <summary>
 		/// Gets or sets the threshold value for alpha transparency below which
 		/// pixels are considered completely transparent, and may not be drawn.
@@ -651,50 +576,6 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		protected internal abstract void HideCursor();
 
 
-		protected internal virtual VertexBufferImpl CreateVertexBuffer(
-			Geometry.VertexTypes.VertexLayout layout, int vertexCount)
-		{
-			throw new AgateException("Cannot create a vertex buffer with a driver that does not support 3D.");
-		}
-
-		protected internal virtual IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
-		{
-			throw new AgateException("Cannot create an index buffer with a driver that does not support 3D.");
-		}
-
-
-		/// <summary>
-		/// Creates one of the build in shaders in AgateLib.  Implementers should 
-		/// return null for any built in shader that is not supported.
-		/// Basic2DShader must have an implementation, but any other shader can be unsupported.
-		/// </summary>
-		/// <param name="builtInShaderType"></param>
-		/// <returns></returns>
-		protected internal abstract AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType);
-
-		/// <summary>
-		/// Creates a 
-		/// </summary>
-		/// <param name="size"></param>
-		protected internal abstract FrameBufferImpl CreateFrameBuffer(Size size);
-
-		/// <summary>
-		/// Override this method if shaders are supported.
-		/// Only call the base class method if shaders aren't supported, as it throws a NotSupportedException.
-		/// </summary>
-		/// <returns></returns>
-		[Obsolete]
-		protected internal virtual ShaderCompilerImpl CreateShaderCompiler()
-		{
-			throw new NotSupportedException("The current driver does not support shaders.");
-		}
-
-		[Obsolete]
-		public virtual Effect Effect
-		{
-			get { return null; }
-			set { throw new NotSupportedException("The current driver does not support shaders."); }
-		}
 		public virtual AgateShader Shader
 		{
 			get { return mShader; }
@@ -722,6 +603,27 @@ namespace AgateLib.DisplayLib.ImplementationBase
 
 		protected internal abstract bool GetRenderState(RenderStateBool renderStateBool);
 		protected internal abstract void SetRenderState(RenderStateBool renderStateBool, bool value);
+
+		protected internal virtual VertexBufferImpl CreateVertexBuffer(
+			Geometry.VertexTypes.VertexLayout layout, int vertexCount)
+		{
+			throw new AgateException("Cannot create a vertex buffer with a driver that does not support 3D.");
+		}
+
+		protected internal virtual IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
+		{
+			throw new AgateException("Cannot create an index buffer with a driver that does not support 3D.");
+		}
+
+
+		/// <summary>
+		/// Creates one of the build in shaders in AgateLib.  Implementers should 
+		/// return null for any built in shader that is not supported.
+		/// Basic2DShader must have an implementation, but any other shader can be unsupported.
+		/// </summary>
+		/// <param name="builtInShaderType"></param>
+		/// <returns></returns>
+		protected internal abstract AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType);
 
 	}
 }
