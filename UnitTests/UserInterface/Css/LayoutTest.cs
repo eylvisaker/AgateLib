@@ -1,4 +1,5 @@
-﻿using AgateLib.DisplayLib;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using AgateLib.Platform.WindowsForms.ApplicationModels;
@@ -49,7 +50,7 @@ namespace AgateLib.UserInterface.Css.Tests
 
 			gui = new Gui(new FakeRenderer(), engine);
 
-			Core.Initialize(new FakeAgateFactory());
+			Core.Initialize(new FakeAgateFactory(), new AssetLocations());
 		}
 		private void RedoLayout()
 		{

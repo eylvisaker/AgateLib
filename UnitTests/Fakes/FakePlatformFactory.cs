@@ -16,6 +16,7 @@ namespace AgateLib.UnitTests.Fakes
 			Info = new FakePlatformInfo();
 		}
 		public Platform.PlatformInfo Info { get; private set; }
+		public IReadFileProvider AssetFileProvider { get; private set;}
 
 		public Platform.IStopwatch CreateStopwatch()
 		{
@@ -43,10 +44,6 @@ namespace AgateLib.UnitTests.Fakes
 			yield break;
 		}
 
-		public IReadFileProvider CreateAssetFileProvider()
-		{
-			return null;
-		}
 
 		public IPlatformSerialization CreateDefaultSerializationConstructor()
 		{

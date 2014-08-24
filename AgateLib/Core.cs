@@ -318,7 +318,7 @@ namespace AgateLib
 		/// Initializes Core class. Also causes the Registrar to probe drivers.
 		/// Can be called multiple times without adverse effects.
 		/// </summary>
-		public static void Initialize(IAgateFactory factory)
+		public static void Initialize(IAgateFactory factory, AssetLocations assets)
 		{
 			if (sInititalized)
 				return;
@@ -329,7 +329,7 @@ namespace AgateLib
 
 			FileSystem.File = factory.PlatformFactory.CreateFile();
 			FileSystem.Path = factory.PlatformFactory.CreatePath();
-			FileProvider.Initialize(factory.PlatformFactory);
+			FileProvider.Initialize(factory.PlatformFactory.AssetFileProvider, assets);
 
 			Display.Initialize(factory.DisplayFactory.DisplayImpl);
 			Audio.Initialize(factory.AudioFactory.CreateAudioImpl());

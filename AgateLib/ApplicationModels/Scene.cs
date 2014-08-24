@@ -11,6 +11,11 @@ namespace AgateLib.ApplicationModels
 		public bool UpdateBelow { get; set; }
 		public bool DrawBelow { get; set; }
 
+		protected internal virtual void OnSceneStart()
+		{ }
+		protected internal virtual void OnSceneEnd()
+		{ }
+
 		public abstract void Update(double delta_t);
 		public abstract void Draw();
 	}

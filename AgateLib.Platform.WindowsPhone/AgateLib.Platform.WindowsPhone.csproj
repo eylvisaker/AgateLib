@@ -18,7 +18,7 @@
     <ValidateXaml>true</ValidateXaml>
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <NuGetPackageImportStamp>ddef659b</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>15cec27f</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -104,7 +104,7 @@
     <Compile Include="Factories\WPPlatformFactory.cs" />
     <Compile Include="Factories\WindowsPhoneFactory.cs" />
     <Compile Include="Interop.cs" />
-    <Compile Include="PlatformImplementation\AssetFileProvider.cs" />
+    <Compile Include="PlatformImplementation\WPAssetFileProvider.cs" />
     <Compile Include="PlatformImplementation\WPPlatformInfo.cs" />
     <Compile Include="PlatformImplementation\DiagnosticsStopwatch.cs" />
     <Compile Include="DisplayImplementation\Shaders\SDX_Basic2DShader.cs" />
@@ -128,6 +128,12 @@
     <Reference Include="SharpDX.SimpleInitializer">
       <HintPath>..\packages\SharpDX.SimpleInitializer.1.0.0\lib\wp8\SharpDX.SimpleInitializer.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX.Toolkit">
+      <HintPath>$(SharpDXPackageBinDir)\SharpDX.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Toolkit.Graphics">
+      <HintPath>$(SharpDXPackageBinDir)\SharpDX.Toolkit.Graphics.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -149,7 +155,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\SharpDX.2.6.2\build\SharpDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpDX.2.6.2\build\SharpDX.targets'))" />
+    <Error Condition="!Exists('..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets'))" />
   </Target>
+  <Import Project="..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets" Condition="Exists('..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

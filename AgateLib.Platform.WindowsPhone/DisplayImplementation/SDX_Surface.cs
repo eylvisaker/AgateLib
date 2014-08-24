@@ -31,7 +31,10 @@ using AgateLib.Utility;
 using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
 using Surface = AgateLib.DisplayLib.Surface;
 using Vector2 = AgateLib.Geometry.Vector2;
-using SharpDX.Direct3D11;
+using System.Windows.Resources;
+using System.Windows.Media.Imaging;
+using SharpDX.IO;
+using Texture2D = SharpDX.Direct3D11.Texture2D;
 
 namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 {
@@ -41,6 +44,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 
 		SDX_Display mDisplay;
 		D3DDevice mDevice;
+		SharpDX.Toolkit.Graphics.GraphicsDevice mGraphicsDevice { get { return mDevice.GraphicsDevice; } }
 
 		Ref<Texture2D> mTexture;
 
@@ -55,6 +59,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 
 		PositionTextureColor[] mExtraVerts = new PositionTextureColor[4];
 		short[] mExtraIndices = new short[] { 0, 2, 1, 1, 2, 3 };
+		private SharpDX.Direct3D11.ShaderResourceView mTextureView;
 
 		#endregion
 
@@ -187,97 +192,69 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		}
 		public void LoadFromStream(Stream st)
 		{
-			throw new NotImplementedException();
-			//Drawing.Bitmap bitmap = new Drawing.Bitmap(st);
-
-			//mSrcRect = new Rectangle(Point.Empty, Interop.Convert(bitmap.Size));
-			
-			//// this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
-			//System.IO.MemoryStream stream = new System.IO.MemoryStream();
-			//bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
-
-			//bitmap.Dispose();
-
-			//stream.Position = 0;
-
-			////mTexture = Texture(mDevice, bitmap, Usage.None, Pool.Managed);
-
-			//Format format;
-
-
-			//switch (mDisplay.DisplayMode.Format)
-			//{
-			//	case Format.X8R8G8B8:
-			//		format = Format.A8R8G8B8;
-			//		break;
-
-			//	case Format.X8B8G8R8:
-			//		format = Format.A8B8G8R8;
-			//		break;
-
-			//	default:
-			//		System.Diagnostics.Debug.Assert(false);
-			//		throw new Exception("What format do I use?");
-
-			//}
-
-			//mTexture = new Ref<Texture>(Texture.FromStream(mDevice.Device,
-			//	stream, 0, 0, 1, Usage.None,
-			//	format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
-			
-			//mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
-			//	mTexture.Value.GetSurfaceLevel(0).Description.Height);
-
-			//stream.Dispose();
+			System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
+			{
+				ReadFromStream(st);
+			});
 		}
+
 		public void LoadFromFile()
 		{
-			throw new NotImplementedException();
-
 			if (string.IsNullOrEmpty(mFileName))
 				return;
 
-			//string path = mFileName;
-			//Drawing.Bitmap bitmap = new Drawing.Bitmap(path);
+			//mTexture = new Ref<Texture2D>(Texture2D.Load(
+			//	mGraphicsDevice, mFileName));
 
-			//mSrcRect = new Rectangle(Point.Empty, Interop.Convert(bitmap.Size));
-			/*
-			// this is the speed issue fix in the debugger found on the net (thezbuffer.com has it documented)
-			System.IO.MemoryStream stream = new System.IO.MemoryStream();
-			bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+			System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
+			{
+				using (MemoryStream sourceStream = new MemoryStream(NativeFile.ReadAllBytes(mFileName)))
+				{
+					ReadFromStream(sourceStream);
+				}
+			});
+		}
 
-			stream.Position = 0;
-            
-			mTexture = Texture.FromStream(mDevice, stream, Usage.None, Pool.Managed);
-			 * */
-			//mTexture = new Texture(mDevice, bitmap, Usage.None, Pool.Managed);
-			//Format format;
+		/// <summary>
+		/// Only call thsi function on the main UI thread.
+		/// </summary>
+		/// <param name="sourceStream"></param>
+		private void ReadFromStream(Stream sourceStream)
+		{
+			var image = new BitmapImage();
+			image.CreateOptions = BitmapCreateOptions.None;
+			image.SetSource(sourceStream);
 
-			throw new NotImplementedException();
+			var bitmap = new WriteableBitmap(image);
 
-			//switch (mDevice.Device.DisplayMode.Format)
-			//{
-			//    case Format.X8R8G8B8:
-			//        format = Format.A8R8G8B8;
-			//        break;
+			using (var dataStream = new SharpDX.DataStream(bitmap.Pixels.Length * 4, true, true))
+			{
+				dataStream.WriteRange<int>(bitmap.Pixels);
 
-			//    case Format.X8B8G8R8:
-			//        format = Format.A8B8G8R8;
-			//        break;
+				dataStream.Seek(0, SeekOrigin.Begin);
 
-			//    default:
-			//        System.Diagnostics.Debug.Assert(false);
-			//        throw new Exception("What format do I use?");
+				var dataRectangle = new SharpDX.DataRectangle(dataStream.DataPointer, (int)(bitmap.PixelWidth * 4));
 
-			//}
+				var texture = new Texture2D(mDevice.Device, new SharpDX.Direct3D11.Texture2DDescription()
+				{
+					Format = SharpDX.DXGI.Format.B8G8R8A8_UNorm,
+					Width = (int)bitmap.PixelWidth,
+					Height = (int)bitmap.PixelHeight,
+					ArraySize = 1,
+					MipLevels = 1,
+					BindFlags = SharpDX.Direct3D11.BindFlags.ShaderResource,
+					Usage = SharpDX.Direct3D11.ResourceUsage.Default,
+					CpuAccessFlags = SharpDX.Direct3D11.CpuAccessFlags.None,
+					OptionFlags = SharpDX.Direct3D11.ResourceOptionFlags.None,
+					SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0)
+				}, dataRectangle);
 
-			//mTexture = new Ref<Texture>(TextureLoader.FromFile(mDevice.Device, path, 0, 0, 1, Usage.None,
-			//     format, Pool.Managed, Filter.None, Filter.None, 0x00000000));
+				mTexture = new Ref<Texture2D>(texture);
+				mTextureView = new SharpDX.Direct3D11.ShaderResourceView(mDevice.Device, texture);
+			}
 
-			//mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
-			//    mTexture.Value.GetSurfaceLevel(0).Description.Height);
-
-			//bitmap.Dispose();
+			bitmap = null;
+			image = null;
 		}
 
 		#endregion
@@ -616,7 +593,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 			throw new NotImplementedException();
 
 			//SharpDX.DXGI.Surface surf = mTexture.Value.GetSurfaceLevel(0);
-			
+
 			//if (surf.Description.Pool == Pool.Default)
 			//{
 			//	throw new AgateLib.AgateException(

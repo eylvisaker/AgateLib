@@ -178,17 +178,19 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		
 		private void SetTextures()
 		{
-			for (int i = 0; i < Textures.Count; i++)
-			{
-				if (Textures[i] == null)
-					mDisplay.D3D_Device.SetDeviceStateTexture(null, i);
-				else
-				{
-					SDX_Surface surf = (SDX_Surface)Textures[i].Impl;
+			throw new NotImplementedException();
+			//for (int i = 0; i < Textures.Count; i++)
+			//{
+			//	if (Textures[i] == null)
+			//		mDisplay.D3D_Device.SetDeviceStateTexture(null, i);
+			//	else
+			//	{
+			//		SDX_Surface surf = (SDX_Surface)Textures[i].Impl;
 
-					mDisplay.D3D_Device.SetDeviceStateTexture(surf.D3dTexture, i);
-				}
-			}
+			//		mDisplay.D3D_Device.GraphicsDevice.effec
+			//		mDisplay.D3D_Device.SetDeviceStateTexture(surf.D3dTexture, i);
+			//	}
+			//}
 		}
 
 		public override int VertexCount

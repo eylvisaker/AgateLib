@@ -27,9 +27,19 @@ namespace AgateLib.Platform.WindowsPhone.ApplicationModels
 		{
 			context = new SharpDXContext();
 			context.Render += context_Render;
+			context.DeviceReset += context_DeviceReset;
 			context.BindToControl(Parameters.RenderTarget);
 
-			WindowsPhoneInitializer.Initialize(context, Parameters.RenderTarget);
+			WindowsPhoneInitializer.Initialize(context, Parameters.RenderTarget, Parameters.AssetLocations);
+		}
+
+		void context_DeviceReset(object sender, DeviceResetEventArgs e)
+		{
+			if (sceneToStartWith != null)
+			{
+				SceneStack.Add(sceneToStartWith);
+				sceneToStartWith = null;
+			}
 		}
 
 		void context_Render(object sender, EventArgs e)
@@ -43,7 +53,6 @@ namespace AgateLib.Platform.WindowsPhone.ApplicationModels
 				sc.Draw();
 
 			Display.EndFrame();
-
 			Core.KeepAlive();
 		}
 

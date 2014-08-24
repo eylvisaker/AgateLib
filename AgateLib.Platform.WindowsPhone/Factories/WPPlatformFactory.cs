@@ -12,9 +12,12 @@ namespace AgateLib.Platform.WindowsPhone.Factories
 		public WPPlatformFactory()
 		{
 			Info = new WPPlatformInfo();
+			AssetFileProvider = new WPAssetFileProvider();
+
 		}
 		public PlatformInfo Info { get; private set;}
-
+		public IReadFileProvider AssetFileProvider { get; private set; }
+		
 		public IStopwatch CreateStopwatch()
 		{
 			return new DiagnosticsStopwatch();
@@ -40,10 +43,6 @@ namespace AgateLib.Platform.WindowsPhone.Factories
 			throw new NotImplementedException();
 		}
 
-		public IReadFileProvider CreateAssetFileProvider()
-		{
-			return new AssetFileProvider();
-		}
 
 		public IPlatformSerialization CreateDefaultSerializationConstructor()
 		{

@@ -12,10 +12,20 @@ namespace AgateLib.ApplicationModels
 
 		public static void Add(Scene scene)
 		{
+			if (mScenes.Contains(scene))
+				throw new InvalidOperationException();
+
 			mScenes.Add(scene);
+
+			scene.OnSceneStart();
 		}
 		public static void Remove(Scene scene)
 		{
+			if (mScenes.Contains(scene) == false)
+				throw new InvalidOperationException();
+
+			scene.OnSceneEnd();
+
 			mScenes.Remove(scene);
 		}
 
