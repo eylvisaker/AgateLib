@@ -1,4 +1,5 @@
-﻿using AgateLib.Platform.WindowsPhone.Factories;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.Platform.WindowsPhone.Factories;
 using SharpDX.SimpleInitializer;
 using System;
 using System.Net;
@@ -15,9 +16,9 @@ namespace AgateLib.Platform.WindowsPhone
 {
 	static class WindowsPhoneInitializer
 	{
-		internal static void Initialize(SharpDXContext context, DrawingSurfaceBackgroundGrid renderTarget)
+		internal static void Initialize(SharpDXContext context, DrawingSurfaceBackgroundGrid renderTarget, AssetLocations assets)
 		{
-			Core.Initialize(new WindowsPhoneFactory(context, renderTarget));
+			Core.Initialize(new WindowsPhoneFactory(context, renderTarget), assets);
 		}
 	}
 }

@@ -22,7 +22,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry.VertexTypes;
-using SharpDX.Direct3D11;
+using Texture2D = SharpDX.Direct3D11.Texture2D;
+using SharpDX.Toolkit.Graphics;
 
 namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 {
@@ -36,6 +37,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		int pages = 1;
 
 		D3DDevice mDevice;
+		BasicEffect mEffect;
 
 		PositionTextureColor[] mVerts;
 		short[] mIndices;
@@ -49,6 +51,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		public DrawBuffer(D3DDevice device)
 		{
 			mDevice = device;
+			mEffect = mDevice.Effect;
 
 			AllocateVerts();
 		}
@@ -96,7 +99,6 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 			if (mVertPointer == 0)
 				return;
 
-			mDevice.SetDeviceStateTexture(mTexture);
 			mDevice.AlphaBlend = mAlphaBlend;
 			//mDevice.AlphaArgument1 = TextureArgument.Texture;
 			//mDevice.AlphaArgument2 = TextureArgument.Diffuse;

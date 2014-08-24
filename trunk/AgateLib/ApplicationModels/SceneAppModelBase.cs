@@ -11,17 +11,17 @@ namespace AgateLib.ApplicationModels
 			: base(parameters)
 		{ }
 
+		protected Scene sceneToStartWith;
+
 		public void Run(Scene scene)
 		{
-			if (SceneStack.Contains(scene) == false)
-				SceneStack.Add(scene);
-
 			try
 			{
 				Initialize();
 				AutoCreateDisplayWindow();
 				PrerunInitialization();
 
+				sceneToStartWith = scene;
 				BeginModel();
 			}
 			finally

@@ -14,7 +14,6 @@ namespace AgateLib.Platform.WindowsPhone.Factories
 {
 	class DisplayFactory : IDisplayFactory
 	{
-		private SharpDX.SimpleInitializer.SharpDXContext context;
 		private System.Windows.Controls.DrawingSurfaceBackgroundGrid renderTarget;
 
 		public DisplayFactory(SharpDX.SimpleInitializer.SharpDXContext context, System.Windows.Controls.DrawingSurfaceBackgroundGrid renderTarget)

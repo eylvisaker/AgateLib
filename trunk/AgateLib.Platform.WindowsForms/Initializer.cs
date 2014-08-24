@@ -6,12 +6,12 @@ namespace AgateLib.Platform.WindowsForms
 {
 	static class Initializer
 	{
-		public static void Initialize(FormsModelParameters Parameters)
+		public static void Initialize(FormsModelParameters parameters)
 		{
-			Core.Initialize(new FormsFactory());
+			Core.Initialize(new FormsFactory(), parameters.AssetLocations);
 
-			var assetProvider = new FileSystemProvider(System.IO.Path.GetFullPath(Parameters.AssetPath));
-			AgateLib.IO.FileProvider.Initialize(assetProvider, Parameters.AssetLocations);
+			var assetProvider = new FileSystemProvider(System.IO.Path.GetFullPath(parameters.AssetPath));
+			AgateLib.IO.FileProvider.Initialize(assetProvider, parameters.AssetLocations);
 
 			System.IO.Directory.SetCurrentDirectory(assetProvider.SearchPath);
 		}

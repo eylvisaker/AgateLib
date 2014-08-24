@@ -19,9 +19,11 @@ namespace AgateLib.Platform.WindowsForms.Factories
 		public PlatformFactory()
 		{
 			Info = new FormsPlatformInfo();
+			AssetFileProvider = new FileSystemProvider(".");
 		}
 
 		public PlatformInfo Info { get; private set; }
+		public IReadFileProvider AssetFileProvider { get; private set; }
 
 		public IStopwatch CreateStopwatch()
 		{
@@ -44,12 +46,6 @@ namespace AgateLib.Platform.WindowsForms.Factories
 		public IPath CreatePath()
 		{
 			return new SysIoPath();
-		}
-
-		public IReadFileProvider CreateAssetFileProvider()
-		{
-			//return new FileSystemProvider(AssemblyLoadDirectory);
-			return new FileSystemProvider(".");
 		}
 
 		static public string AssemblyLoadDirectory

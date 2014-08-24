@@ -27,11 +27,6 @@ namespace AgateLib.IO
 {
 	public static class FileProvider
 	{
-		internal static void Initialize(IPlatformFactory platformFactory)
-		{
-			Assets = platformFactory.CreateAssetFileProvider();
-		}
-
 		public static void Initialize(IReadFileProvider assetProvider, AssetLocations assetLocations)
 		{
 			Assets = assetProvider;

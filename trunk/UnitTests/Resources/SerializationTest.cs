@@ -1,4 +1,5 @@
-﻿using AgateLib.DisplayLib;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
 using AgateLib.Resources.DC;
@@ -21,7 +22,7 @@ namespace AgateLib.UnitTests.Resources
 		public void SerializeFontResource()
 		{
 			AgateResourceCollection rc = new AgateResourceCollection();
-			AgateLib.Core.Initialize(new FakeAgateFactory());
+			AgateLib.Core.Initialize(new FakeAgateFactory(), new AssetLocations());
 
 			rc.Resources.Add("mainfont",
 				new FontResource("times new roman",

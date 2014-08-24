@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 
 namespace AgateLib.Platform.WindowsPhone.PlatformImplementation
 {
-	class AssetFileProvider : IReadFileProvider
+	class WPAssetFileProvider : IReadFileProvider
 	{
 		public System.IO.Stream OpenRead(string filename)
 		{
@@ -40,7 +41,7 @@ namespace AgateLib.Platform.WindowsPhone.PlatformImplementation
 
 		public string ResolveFile(string filename)
 		{
-			throw new NotImplementedException();
+			return Package.Current.InstalledLocation.Path + "/Assets/" + filename;
 		}
 	}
 }

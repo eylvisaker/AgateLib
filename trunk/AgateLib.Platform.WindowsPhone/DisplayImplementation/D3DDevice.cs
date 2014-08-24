@@ -35,7 +35,8 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		private SharpDXContext context;
 
 		private Device mDevice { get { return context.D3DDevice; } }
-		private DeviceContext mContext { get { return context.D3DContext; } }
+		private DeviceContext mDeviceContext { get { return context.D3DContext; } }
+		SharpDX.Toolkit.Graphics.GraphicsDevice mGraphicsDevice;
 
 		private Texture2D[] mLastTexture = new Texture2D[8];
 		private SDX_FrameBuffer mRenderTarget;
@@ -43,6 +44,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 
 		private bool mAlphaBlend;
 		private Matrix mWorld2D;
+
 
 		//VertexBuffer mSurfaceVB;
 		//const int NumVertices = 1000;
@@ -57,7 +59,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 			this.context = context;
 			
 			mWorld2D = Matrix.Identity;
-
+			
 			mDrawBuffer = new DrawBuffer(this);
 		}
 
@@ -99,7 +101,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		}
 		public DeviceContext DeviceContext
 		{
-			get { return mContext; }
+			get { return mDeviceContext; }
 		}
 		public SharpDXContext Context
 		{
@@ -222,11 +224,11 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 
 		public void Clear(AgateLib.Geometry.Color color, float zdepth, int stencil)
 		{
-			mContext.ClearDepthStencilView(mRenderTarget.DepthStencilView, 
+			mDeviceContext.ClearDepthStencilView(mRenderTarget.DepthStencilView, 
 				DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil,
 				zdepth, (byte)stencil);
 	
-			mContext.ClearRenderTargetView(mRenderTarget.RenderTargetView, new Color4(color.ToArgb()));
+			mDeviceContext.ClearRenderTargetView(mRenderTarget.RenderTargetView, color.ToColor4());
 		}
 
 		//public void WriteToSurfaceVBAndRender
@@ -323,5 +325,21 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 			mMaxLightsUsed = lights.Count;
 		}
 		 * */
+
+		public SharpDX.Toolkit.Graphics.GraphicsDevice GraphicsDevice
+		{
+			get
+			{
+				if (mGraphicsDevice == null)
+				{
+					mGraphicsDevice = SharpDX.Toolkit.Graphics.GraphicsDevice.New
+						(context.D3DDevice);
+				}
+
+				return mGraphicsDevice;
+			}
+		}
+
+		public SharpDX.Toolkit.Graphics.BasicEffect Effect { get; set; }
 	}
 }
