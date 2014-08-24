@@ -39,7 +39,7 @@ namespace AgateLib.Serialization.Xle
 		Stack<XElement> nodes = new Stack<XElement>();
 		XleTypeSerializerCollection TypeSerializers;
 
-		internal XleSerializationInfo(ITypeBinder Binder1, XleTypeSerializerCollection TypeSerializers, IObjectConstructor constructor = null, XDocument document = null)
+		internal XleSerializationInfo(ITypeBinder Binder1, XleTypeSerializerCollection TypeSerializers, IPlatformSerialization constructor = null, XDocument document = null)
 		{
 			this.Binder = Binder1;
 			this.TypeSerializers = TypeSerializers;
@@ -56,7 +56,7 @@ namespace AgateLib.Serialization.Xle
 			get { return doc; }
 		}
 
-		IObjectConstructor ObjectConstructor { get; set; }
+		IPlatformSerialization ObjectConstructor { get; set; }
 		XElement CurrentNode
 		{
 			get

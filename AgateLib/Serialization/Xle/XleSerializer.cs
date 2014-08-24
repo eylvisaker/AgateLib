@@ -36,7 +36,7 @@ namespace AgateLib.Serialization.Xle
 		Type objectType;
 		XleTypeSerializerCollection mTypeSerializers = new XleTypeSerializerCollection();
 
-		public IObjectConstructor ObjectConstructor { get; set; }
+		public IPlatformSerialization ObjectConstructor { get; set; }
 		/// <summary>
 		/// An object which implements the AgateLib.Serialization.Xle.ITypeBinder interface.
 		/// This object is used to convert strings to System.Type objects.  The default value
@@ -57,7 +57,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="objectType">The type of the object to serialize.</param>
 		/// <param name="objectConstructor">An object which can construct arbitrary types. If this is null
 		/// it will be obtained from the platform factory.</param>
-		public XleSerializer(Type objectType, IObjectConstructor objectConstructor = null)
+		public XleSerializer(Type objectType, IPlatformSerialization objectConstructor = null)
 		{
 			if (objectConstructor == null)
 				objectConstructor = Core.Factory.PlatformFactory.CreateDefaultSerializationConstructor();

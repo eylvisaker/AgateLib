@@ -284,6 +284,7 @@ namespace AgateLib.DisplayLib
 		/// Gets or sets the position of the cursor, in the 
 		/// client coordinates of the window.
 		/// </summary>
+		[Obsolete("Don't use this", true)]
 		public Point MousePosition
 		{
 			get { return mImpl.MousePosition; }
@@ -315,49 +316,6 @@ namespace AgateLib.DisplayLib
 		public bool IsFullScreen
 		{
 			get { return mImpl.IsFullScreen; }
-		}
-		/// <summary>
-		/// Sets the display to windowed.  Does nothing if the display is already
-		/// windowed.  The DisplayWindow retains the same height and width as the
-		/// previous full screen resolution.
-		/// </summary>
-		[Obsolete("Instead of calling SetWindowed, you should create another DisplayWindow by calling DisplayWindow.CreateWindowed() and Dispose of the full screen DisplayWindow object.")]
-		public void SetWindowed()
-		{
-			mImpl.SetWindowed();
-		}
-
-		/// <summary>
-		/// Sets the display to a full screen Display.  This overload uses the
-		/// desktop resolution for the full-screen Display.
-		/// </summary>
-		/// <remarks>
-		/// This call is not guaranteed to work; some drivers (eg. GDI) don't support 
-		/// fullscreen displays.  If this fails it returns without any error
-		/// thrown.  Check to see if it worked by examining IsFullScreen property.
-		/// </remarks>
-		[Obsolete("Instead of calling SetFullScreen, you should create another DisplayWindow by calling DisplayWindow.CreateFullScreen()")]
-		public void SetFullScreen()
-		{
-			mImpl.SetFullScreen();
-		}
-		/// <summary>
-		/// Sets the display to a full screen Display.  The resolution chosen is 
-		/// driver/video card/monitor dependent, but it should be fairly close to
-		/// values specified.
-		/// </summary>
-		/// <remarks>
-		/// This call is not guaranteed to work; some drivers (eg. GDI) don't support 
-		/// fullscreen displays.  If this fails it returns without any error
-		/// thrown.  Check to see if it worked by examining IsFullScreen property.
-		/// </remarks>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		/// <param name="bpp"></param>
-		[Obsolete("Instead of calling SetFullScreen, you should create another DisplayWindow by calling DisplayWindow.CreateFullScreen()")]
-		public void SetFullScreen(int width, int height, int bpp)
-		{
-			mImpl.SetFullScreen(width, height, bpp);
 		}
 
 		/// <summary>

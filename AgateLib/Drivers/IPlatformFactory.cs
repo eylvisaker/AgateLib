@@ -26,7 +26,7 @@ namespace AgateLib.Drivers
 {
 	public interface IPlatformFactory
 	{
-		PlatformInfo CreatePlatformInfo();
+		PlatformInfo Info { get; }
 
 		IStopwatch CreateStopwatch();
 
@@ -40,6 +40,6 @@ namespace AgateLib.Drivers
 
 		IReadFileProvider CreateAssetFileProvider();
 
-		IObjectConstructor CreateDefaultSerializationConstructor();
+		IPlatformSerialization CreateDefaultSerializationConstructor();
 	}
 }

@@ -52,28 +52,6 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		public abstract FrameBufferImpl FrameBuffer { get; }
 
 		/// <summary>
-		/// Sets the display to windowed.  Does nothing if the display is already
-		/// windowed.  The DisplayWindow retains the same height and width as the
-		/// previous full screen resolution.
-		/// </summary>
-		public abstract void SetWindowed();
-
-		/// <summary>
-		/// Sets the display to a full screen Display.  This overload should use the
-		/// same resolution as the desktop environment.
-		/// </summary>
-		public abstract void SetFullScreen();
-		/// <summary>
-		/// Sets the display to a full screen Display.  The resolution chosen is 
-		/// driver/video card/monitor dependent, but it should be fairly close to
-		/// values specified.
-		/// </summary>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		/// <param name="bpp"></param>
-		public abstract void SetFullScreen(int width, int height, int bpp);
-
-		/// <summary>
 		/// Gets or sets the size of the render area.
 		/// </summary>
 		public abstract Size Size { get; set; }

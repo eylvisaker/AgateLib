@@ -52,20 +52,6 @@ namespace Tests.RotatingSpriteTester
 					Display.EndFrame();
 					Core.KeepAlive();
 
-					if (Keyboard.Keys[KeyCode.F5])
-					{
-						if (wind.IsFullScreen)
-						{
-							wind.SetWindowed();
-							wind.Size = new Size(500, 500);
-						}
-						else
-						{
-							wind.SetFullScreen(800, 600, 32);
-						}
-
-						Keyboard.ReleaseKey(KeyCode.F5);
-					}
 					if (Keyboard.Keys[KeyCode.Escape])
 						return;
 				}

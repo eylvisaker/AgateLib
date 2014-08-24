@@ -571,30 +571,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			}
 		}
 
-		public override void SetFullScreen()
-		{
-			SetFullScreen(mChooseWidth, mChooseHeight, mChooseBitDepth);
-		}
-		public override void SetFullScreen(int width, int height, int bpp)
-		{
-			if (frm == null)
-				throw new AgateException("This DisplayWindow was created on a " +
-					"System.Windows.Forms.Control object, and cannot be set to full screen.");
-
-			ScreenMode mode = ScreenMode.SelectBestMode(width, height, bpp);
-
-			mChooseWidth = width;
-			mChooseHeight = height;
-			mChooseBitDepth = bpp;
-
-			CreateFullScreenDisplay();
-			Keyboard.ReleaseAllKeys();
-		}
-		public override void SetWindowed()
-		{
-			CreateWindowedDisplay();
-			Keyboard.ReleaseAllKeys();
-		}
 
 		#region GL_IRenderTarget Members
 

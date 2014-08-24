@@ -120,6 +120,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AgateLib.Platform.Common\AgateLib.Platform.Common.csproj">
+      <Project>{fc9e7036-aa75-4a6b-82db-0f5e98b5fbcb}</Project>
+      <Name>AgateLib.Platform.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
       <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
       <Name>AgateLib.Platform.WindowsForms</Name>

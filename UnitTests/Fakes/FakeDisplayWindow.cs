@@ -55,19 +55,6 @@ namespace AgateLib.UnitTests.Fakes
 			get { return frameBuffer; }
 		}
 
-		public override void SetWindowed()
-		{
-			throw new NotImplementedException();
-		}
-		public override void SetFullScreen()
-		{
-			throw new NotImplementedException();
-		}
-		public override void SetFullScreen(int width, int height, int bpp)
-		{
-			throw new NotImplementedException();
-		}
-
 		public override Size Size { get;set;}
 
 		public override string Title { get;set;}

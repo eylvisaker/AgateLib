@@ -14,7 +14,7 @@ namespace AgateLib.UnitTests.Serialization.Xle
 	[TestClass]
 	public class XSTests
 	{
-		class Initializer : IObjectConstructor
+		class Initializer : IPlatformSerialization
 		{
 			public object CreateInstance(Type t)
 			{

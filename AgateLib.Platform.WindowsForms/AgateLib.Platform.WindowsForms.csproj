@@ -91,6 +91,7 @@
     <Compile Include="ApplicationModels\PassiveModel.cs" />
     <Compile Include="ApplicationModels\PassiveModelParameters.cs" />
     <Compile Include="ApplicationModels\SceneModel.cs" />
+    <Compile Include="ApplicationModels\SceneModelParameters.cs" />
     <Compile Include="ApplicationModels\SerialModel.cs" />
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
     <Compile Include="Data\AgateColumn.cs" />
@@ -117,7 +118,6 @@
     <Compile Include="DisplayImplementation\GL_GameWindow.cs" />
     <Compile Include="DisplayImplementation\GL_Surface.cs" />
     <Compile Include="DisplayImplementation\IPrimaryWindow.cs" />
-    <Compile Include="Factories\ActivatorConstructor.cs" />
     <Compile Include="Factories\DisplayFactory.cs" />
     <Compile Include="Factories\FormsFactory.cs" />
     <Compile Include="Factories\PlatformFactory.cs" />
@@ -128,7 +128,6 @@
     <Compile Include="PlatformImplementation\FileProviderList.cs" />
     <Compile Include="PlatformImplementation\FileSystemProvider.cs" />
     <Compile Include="PlatformImplementation\FormsPlatformInfo.cs" />
-    <Compile Include="PlatformImplementation\DiagnosticsStopwatch.cs" />
     <Compile Include="PlatformImplementation\TgzFileProvider.cs" />
     <Compile Include="PlatformImplementation\ZipFileProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -167,6 +166,10 @@
       <Project>{94734e5a-0344-43e8-bb30-e32e3f57f611}</Project>
       <Name>AgateLib.GL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AgateLib.Platform.Common\AgateLib.Platform.Common.csproj">
+      <Project>{fc9e7036-aa75-4a6b-82db-0f5e98b5fbcb}</Project>
+      <Name>AgateLib.Platform.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AgateLib\AgateLib.csproj">
       <Project>{9490b719-829e-43a7-a5fe-8001f8a81759}</Project>
       <Name>AgateLib</Name>
@@ -195,6 +198,7 @@
     <Content Include="Resources\AgateLib.ico" />
     <Content Include="Resources\blankcursor.cur" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

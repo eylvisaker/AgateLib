@@ -10,16 +10,18 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 {
 	public class SceneModel : SceneAppModelBase
 	{
-		private SceneModel(ModelParameters parameters) : base(parameters)
+		private SceneModel(SceneModelParameters parameters) : base(parameters)
 		{ }
 
-		public static ModelParameters DefaultParameters { get; set; }
+		public SceneModelParameters Parameters { get { return (SceneModelParameters)base.Parameters; } }
 
-		public int Run(Scene scene)
+		protected override void InitializeImpl()
 		{
-			if (SceneStack.Contains(scene) == false)
-				SceneStack.Add(scene);
+			Initializer.Initialize(Parameters);
+		}
 
+		protected override void BeginModel()
+		{
 			while(SceneStack.Count > 0)
 			{
 				foreach (var sc in SceneStack.UpdateScenes)
@@ -28,8 +30,6 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 				foreach (var sc in SceneStack.DrawScenes)
 					sc.Draw();
 			}
-
-			return 0;
 		}
 
 		public override void KeepAlive()

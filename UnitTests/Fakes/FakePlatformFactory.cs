@@ -1,4 +1,5 @@
 ﻿using AgateLib.Drivers;
+using AgateLib.Platform.Common.PlatformImplementation;
 using AgateLib.Platform.WindowsForms.Factories;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,15 @@ namespace AgateLib.UnitTests.Fakes
 {
 	class FakePlatformFactory : IPlatformFactory
 	{
-		public Platform.PlatformInfo CreatePlatformInfo()
+		public FakePlatformFactory()
 		{
-			return new FakePlatformInfo();
+			Info = new FakePlatformInfo();
 		}
+		public Platform.PlatformInfo Info { get; private set; }
 
 		public Platform.IStopwatch CreateStopwatch()
 		{
-			return new AgateLib.Platform.WindowsForms.PlatformImplementation.DiagnosticsStopwatch();
+			return new DiagnosticsStopwatch();
 		}
 
 		public IO.IFile CreateFile()
@@ -46,9 +48,9 @@ namespace AgateLib.UnitTests.Fakes
 			return null;
 		}
 
-		public IObjectConstructor CreateDefaultSerializationConstructor()
+		public IPlatformSerialization CreateDefaultSerializationConstructor()
 		{
-			return new ActivatorConstructor();
+			return new PlatformSerialization();
 		}
 	}
 	
