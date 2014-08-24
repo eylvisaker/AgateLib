@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.Platform.WindowsForms.Factories
+namespace AgateLib.Platform.Common.PlatformImplementation
 {
-	public class ActivatorConstructor : IObjectConstructor
+	public class PlatformSerialization : IPlatformSerialization
 	{
 		public object CreateInstance(Type t)
 		{

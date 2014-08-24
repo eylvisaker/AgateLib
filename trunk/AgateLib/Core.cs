@@ -324,7 +324,7 @@ namespace AgateLib
 				return;
 
 			mFactory = factory;
-			mPlatform = factory.PlatformFactory.CreatePlatformInfo();
+			mPlatform = factory.PlatformFactory.Info;
 			mTime = factory.PlatformFactory.CreateStopwatch();
 
 			FileSystem.File = factory.PlatformFactory.CreateFile();

@@ -23,7 +23,7 @@ using System.Text;
 
 namespace AgateLib.Drivers
 {
-	public interface IObjectConstructor
+	public interface IPlatformSerialization
 	{
 		object CreateInstance(Type t);
 	}

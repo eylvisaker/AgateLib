@@ -1,6 +1,7 @@
 ﻿using AgateLib.Diagnostics;
 using AgateLib.Drivers;
 using AgateLib.IO;
+using AgateLib.Platform.Common.PlatformImplementation;
 using AgateLib.Platform.WindowsForms.PlatformImplementation;
 using AgateLib.Utility;
 using System;
@@ -15,10 +16,12 @@ namespace AgateLib.Platform.WindowsForms.Factories
 {
 	class PlatformFactory : IPlatformFactory
 	{
-		public PlatformInfo CreatePlatformInfo()
+		public PlatformFactory()
 		{
-			return new FormsPlatformInfo();
+			Info = new FormsPlatformInfo();
 		}
+
+		public PlatformInfo Info { get; private set; }
 
 		public IStopwatch CreateStopwatch()
 		{
@@ -80,9 +83,9 @@ namespace AgateLib.Platform.WindowsForms.Factories
 		}
 
 
-		public IObjectConstructor CreateDefaultSerializationConstructor()
+		public IPlatformSerialization CreateDefaultSerializationConstructor()
 		{
-			return new ActivatorConstructor();
+			return new PlatformSerialization();
 		}
 	}
 }

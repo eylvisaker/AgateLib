@@ -18,24 +18,31 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using AgateLib.DisplayLib.Shaders;
+using AgateLib.DisplayLib.Shaders.Implementation;
 
-namespace AgateLib.Drivers
+namespace AgateLib.Platform.WindowsPhone.DisplayImplementation.Shaders
 {
-	/// <summary>
-	/// Class which is used by the <c>Registrar</c> to enumerate the drivers available
-	/// in a satellite assembly.  Any assembly with drivers for use by AgateLib should
-	/// have a class inheriting from AgateDriverReporter and should construct AgateDriverInfo
-	/// objects for each driver in the assembly.
-	/// </summary>
-	[Serializable]
-	public abstract class AgateDriverReporter
+	abstract class ShaderFactory
 	{
-		/// <summary>
-		/// Constructs and returns AgateDriverInfo objects for each driver
-		/// in the hosted assembly.
-		/// </summary>
-		/// <returns></returns>
-		public abstract IEnumerable<AgateDriverInfo> ReportDrivers();
+		public static AgateShaderImpl CreateBuiltInShader(BuiltInShader shaderType)
+		{
+			switch (shaderType)
+			{
+				case BuiltInShader.Basic2DShader:
+					return new SDX_Basic2DShader();
+
+				case BuiltInShader.Lighting2D:
+					return new SDX_Lighting2DShader();
+
+				case BuiltInShader.Lighting3D:
+					return new SDL_Lighting3DShader();
+
+				default:
+					throw new NotImplementedException();
+			}
+		}
 	}
 }
