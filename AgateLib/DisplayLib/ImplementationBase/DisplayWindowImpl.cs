@@ -85,8 +85,10 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <summary>
 		/// Gets or sets the mouse position within the render area.
 		/// </summary>
+		[Obsolete("This is probably obsolete.")]
 		public abstract Point MousePosition { get; set; }
 
+		[Obsolete("This is probably obsolete.")]
 		protected void SetInternalMousePosition(AgateLib.Geometry.Point pt)
 		{
 			AgateLib.InputLib.Legacy.Mouse.SetStoredPosition(pt);
@@ -147,15 +149,17 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <returns></returns>
 		public Point PixelToLogicalCoords(Point point)
 		{
+			var coords = FrameBuffer.CoordinateSystem.DetermineCoordinateSystem(FrameBuffer.Size);
+			
 			double x = point.X / (double)Width;
 			double y = point.Y / (double)Height;
-
+			
 			Point retval = new Point(
-				(int)(x * FrameBuffer.CoordinateSystem.Width),
-				(int)(y * FrameBuffer.CoordinateSystem.Height));
+				(int)(x * coords.Width),
+				(int)(y * coords.Height));
 
-			retval.X += FrameBuffer.CoordinateSystem.X;
-			retval.Y += FrameBuffer.CoordinateSystem.Y;
+			retval.X += coords.X;
+			retval.Y += coords.Y;
 
 			return retval;
 		}
@@ -166,11 +170,13 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <returns></returns>
 		public Point LogicalToPixelCoords(Point point)
 		{
-			point.X -= FrameBuffer.CoordinateSystem.X;
-			point.Y -= FrameBuffer.CoordinateSystem.Y;
+			var coords = FrameBuffer.CoordinateSystem.DetermineCoordinateSystem(FrameBuffer.Size);
 
-			double x = point.X / (double)FrameBuffer.CoordinateSystem.Width;
-			double y = point.Y / (double)FrameBuffer.CoordinateSystem.Height;
+			point.X -= coords.X;
+			point.Y -= coords.Y;
+			
+			double x = point.X / (double)coords.Width;
+			double y = point.Y / (double)coords.Height;
 
 			return new Point(
 				(int)(x * Width),

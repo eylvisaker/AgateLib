@@ -31,7 +31,7 @@ namespace Tests.PixelBufferTest
 				frm = new PixelBufferForm();
 				frm.Show();
 
-				DisplayWindow wind = new DisplayWindow(CreateWindowParams.FromControl(frm.panel1));
+				DisplayWindow wind = DisplayWindow.CreateFromControl(frm.panel1);
 
 				image = new Surface("9ball.png");
 				buffer = image.ReadPixels(PixelFormat.Any);

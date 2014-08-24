@@ -112,10 +112,11 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 
 			LoadFromFile();
 
-			//mDevice.Device.DeviceReset += new EventHandler(mDevice_DeviceReset);
+			mDevice.Context.DeviceReset += Context_DeviceReset;
 
 			InitVerts();
 		}
+
 		public SDX_Surface(Stream stream)
 		{
 			mDisplay = Display.Impl as SDX_Display;
@@ -132,29 +133,22 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		}
 		public SDX_Surface(Size size)
 		{
-			throw new NotImplementedException();
+			var texture = new Texture2D(mDevice.Device, new SharpDX.Direct3D11.Texture2DDescription()
+			{
+				Format = SharpDX.DXGI.Format.B8G8R8A8_UNorm,
+				Width = size.Width,
+				Height = size.Height,
+				ArraySize = 1,
+				MipLevels = 1,
+				BindFlags = SharpDX.Direct3D11.BindFlags.ShaderResource | SharpDX.Direct3D11.BindFlags.RenderTarget,
+				Usage = SharpDX.Direct3D11.ResourceUsage.Default,
+				CpuAccessFlags = SharpDX.Direct3D11.CpuAccessFlags.None,
+				OptionFlags = SharpDX.Direct3D11.ResourceOptionFlags.None,
+				SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0)
+			});
 
-			//mSrcRect = new Rectangle(new Point(0, 0), size);
-
-			//mDisplay = Display.Impl as SDX_Display;
-			//mDevice = mDisplay.D3D_Device;
-
-			//mTexture = new Ref<Texture2D>(new Texture2D(mDevice.Device, size.Width, size.Height, 1, Usage.None,
-			//	Format.A8R8G8B8, Pool.Managed));
-
-			//RenderToSurface render = new RenderToSurface(mDevice.Device, size.Width, size.Height,
-			//	Format.A8R8G8B8, Format.D16);
-
-			//Viewport v = new Viewport(0, 0, size.Width, size.Height);
-
-			//render.BeginScene(mTexture.Value.GetSurfaceLevel(0), v);
-			//mDevice.Clear(ClearFlags.Target, Color.FromArgb(0, 0, 0, 0).ToArgb(), 1.0f, 0);
-			//render.EndScene(Filter.None);
-
-			//render.Dispose();
-			//render = null;
-
-			//mTextureSize = mSrcRect.Size;
+			mTexture = new Ref<Texture2D>(texture);
+			mTextureView = new SharpDX.Direct3D11.ShaderResourceView(mDevice.Device, texture);
 
 			InitVerts();
 		}
@@ -167,9 +161,9 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 
 			mTexture = new Ref<Texture2D>(texture);
 
-			throw new NotImplementedException();
-			//mTextureSize = new Size(mTexture.Value.GetSurfaceLevel(0).Description.Width,
-			//	mTexture.Value.GetSurfaceLevel(0).Description.Height);
+			mTextureSize = new Size(
+				texture.Value.Description.Width,
+				texture.Value.Description.Height);
 
 			InitVerts();
 		}
@@ -216,7 +210,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		}
 
 		/// <summary>
-		/// Only call thsi function on the main UI thread.
+		/// Only call this function on the main UI thread.
 		/// </summary>
 		/// <param name="sourceStream"></param>
 		private void ReadFromStream(Stream sourceStream)
@@ -260,7 +254,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		#endregion
 		#region --- Events and event handlers ---
 
-		public void mDevice_DeviceReset(object sender, EventArgs e)
+		void Context_DeviceReset(object sender, SharpDX.SimpleInitializer.DeviceResetEventArgs e)
 		{
 			LoadFromFile();
 		}

@@ -81,6 +81,23 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 
 		#region --- Creation / Destruction ---
 
+		public SDX_Display(SharpDX.SimpleInitializer.SharpDXContext context, DrawingSurfaceBackgroundGrid renderTarget)
+		{
+			if (context == null) throw new ArgumentNullException();
+			if (renderTarget == null) throw new ArgumentNullException();
+
+			this.sdxContext = context;
+			this.mRenderControl = renderTarget;
+
+			mDevice = new D3DDevice(context);
+			context.DeviceReset += context_DeviceReset;
+		}
+
+		void context_DeviceReset(object sender, SharpDX.SimpleInitializer.DeviceResetEventArgs e)
+		{
+			OnDeviceReset();
+		}
+
 		public override void Initialize()
 		{
 			Report("SharpDX driver instantiated for display.");
@@ -140,6 +157,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 			if (DeviceReset != null)
 				DeviceReset(this, EventArgs.Empty);
 		}
+
 		private void OnDeviceLost()
 		{
 			Log.WriteLine("{0} Device Lost", DateTime.Now);
@@ -710,18 +728,6 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		#endregion
 
 		internal event EventHandler VSyncChanged;
-
-		public SDX_Display(SharpDX.SimpleInitializer.SharpDXContext context,
-		DrawingSurfaceBackgroundGrid renderTarget)
-		{
-			if (context == null) throw new ArgumentNullException();
-			if (renderTarget == null) throw new ArgumentNullException();
-
-			this.sdxContext = context;
-			this.mRenderControl = renderTarget;
-
-			mDevice = new D3DDevice(context);
-		}
 
 		private void OnVSyncChanged()
 		{

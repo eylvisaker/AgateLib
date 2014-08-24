@@ -96,8 +96,13 @@
     <Compile Include="DisplayImplementation\SDX_IndexBuffer.cs" />
     <Compile Include="DisplayImplementation\SDX_Surface.cs" />
     <Compile Include="DisplayImplementation\SDX_VertexBuffer.cs" />
-    <Compile Include="DisplayImplementation\Shaders\SDL_Lighting3DShader.cs" />
+    <Compile Include="DisplayImplementation\Shaders\SDX_Lighting3DShader.cs" />
     <Compile Include="DisplayImplementation\Shaders\SDX_Lighting2DShader.cs" />
+    <Compile Include="DisplayImplementation\Shaders\ShaderResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShaderResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Factories\DisplayFactory.cs" />
     <Compile Include="Factories\FakeFile.cs" />
     <Compile Include="Factories\FakePath.cs" />
@@ -113,6 +118,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Basic2Dpixel.fxo" />
+    <None Include="Resources\Basic2Dvert.fxo" />
+    <None Include="Resources\buildshaders.bat" />
+    <None Include="Resources\fxc.bat" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -125,8 +134,9 @@
     <Reference Include="SharpDX.DXGI">
       <HintPath>$(SharpDXPackageBinDir)\SharpDX.DXGI.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.SimpleInitializer">
-      <HintPath>..\packages\SharpDX.SimpleInitializer.1.0.0\lib\wp8\SharpDX.SimpleInitializer.dll</HintPath>
+    <Reference Include="SharpDX.SimpleInitializer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Testing\SharpDX.SimpleInitializer\trunk\Binaries\WP\x86\SharpDX.SimpleInitializer.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Toolkit">
       <HintPath>$(SharpDXPackageBinDir)\SharpDX.Toolkit.dll</HintPath>
@@ -135,7 +145,12 @@
       <HintPath>$(SharpDXPackageBinDir)\SharpDX.Toolkit.Graphics.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="DisplayImplementation\Shaders\ShaderResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ShaderResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AgateLib.Platform.Common\AgateLib.Platform.Common.csproj">
       <Project>{fc9e7036-aa75-4a6b-82db-0f5e98b5fbcb}</Project>
@@ -145,6 +160,10 @@
       <Project>{9490b719-829e-43a7-a5fe-8001f8a81759}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\ShaderSource\Basic2Dpixel.hlsl" />
+    <Content Include="Resources\ShaderSource\Basic2Dvert.hlsl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
@@ -158,6 +177,9 @@
     <Error Condition="!Exists('..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets'))" />
   </Target>
   <Import Project="..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets" Condition="Exists('..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>$(ProjectDir)Resources\buildshaders.bat $(ProjectDir)</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

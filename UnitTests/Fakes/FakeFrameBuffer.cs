@@ -1,4 +1,5 @@
 ﻿using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.Geometry.CoordinateSystems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace AgateLib.UnitTests.Fakes
 	class FakeFrameBuffer : FrameBufferImpl
 	{
 		public FakeFrameBuffer(FakeDisplayWindow owner)
+			: base(new NativeCoordinates())
 		{
 			this.Owner = owner;
 		}
@@ -20,7 +22,7 @@ namespace AgateLib.UnitTests.Fakes
 
 		public override Geometry.Size Size
 		{
-			get { throw new NotImplementedException(); }
+			get { return Owner.Size; }
 		}
 
 		public override void BeginRender()

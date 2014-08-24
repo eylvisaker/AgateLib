@@ -16,9 +16,12 @@ namespace AgateLib.Platform.WindowsPhone
 {
 	static class WindowsPhoneInitializer
 	{
+		static WindowsPhoneFactory factory;
+
 		internal static void Initialize(SharpDXContext context, DrawingSurfaceBackgroundGrid renderTarget, AssetLocations assets)
 		{
-			Core.Initialize(new WindowsPhoneFactory(context, renderTarget), assets);
+			factory = new WindowsPhoneFactory(context, renderTarget);
+			Core.Initialize(factory, assets);
 		}
 	}
 }

@@ -48,7 +48,7 @@
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Algorithms\Inverting.cs" />
-    <Compile Include="ApplicationModels\CoordinateSystems\NaturalCoordinates.cs" />
+    <Compile Include="Geometry\CoordinateSystems\NativeCoordinates.cs" />
     <Compile Include="ApplicationModels\EntryPointAppModelBase.cs" />
     <Compile Include="ApplicationModels\Scene.cs" />
     <Compile Include="ApplicationModels\SceneAppModelBase.cs" />
@@ -65,8 +65,8 @@
     </Compile>
     <Compile Include="ApplicationModels\AgateAppModel.cs" />
     <Compile Include="ApplicationModels\AssetLocations.cs" />
-    <Compile Include="ApplicationModels\CoordinateSystems\FixedAspectRatioCoordinates.cs" />
-    <Compile Include="ApplicationModels\ICoordinateSystemCreator.cs" />
+    <Compile Include="Geometry\CoordinateSystems\FixedAspectRatioCoordinates.cs" />
+    <Compile Include="Geometry\ICoordinateSystemCreator.cs" />
     <Compile Include="ApplicationModels\ModelParameters.cs" />
     <Compile Include="Resources\DC\AgateResource.cs" />
     <Compile Include="Resources\DC\FontResource.cs" />

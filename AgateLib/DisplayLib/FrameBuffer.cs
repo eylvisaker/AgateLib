@@ -21,7 +21,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.Geometry;
+using AgateLib.Geometry.CoordinateSystems;
 using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.ApplicationModels;
 
 namespace AgateLib.DisplayLib
 {
@@ -45,7 +47,7 @@ namespace AgateLib.DisplayLib
 		public FrameBuffer(Size size)
 		{
 			impl = Core.Factory.DisplayFactory.CreateFrameBuffer(size);
-			CoordinateSystem = new Rectangle(Point.Empty, size);
+			CoordinateSystem = new NativeCoordinates();
 		}
 		/// <summary>
 		/// Constructs a frame buffer to be used as a render target.  FrameBuffers constructed
@@ -64,7 +66,6 @@ namespace AgateLib.DisplayLib
 		internal FrameBuffer(FrameBufferImpl impl)
 		{
 			this.impl = impl;
-			CoordinateSystem = new Rectangle(Point.Empty, impl.Size);
 		}
 		/// <summary>
 		/// Disposes of unmanaged resources.
@@ -158,7 +159,7 @@ namespace AgateLib.DisplayLib
 		/// framebuffer as a render target, this coordinate system is automatically
 		/// loaded.
 		/// </summary>
-		public Rectangle CoordinateSystem
+		public ICoordinateSystemCreator CoordinateSystem
 		{
 			get { return Impl.CoordinateSystem; }
 			set { Impl.CoordinateSystem = value; }

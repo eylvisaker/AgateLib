@@ -15,14 +15,18 @@ namespace AgateLib.Platform.WindowsPhone.Factories
 	class DisplayFactory : IDisplayFactory
 	{
 		private System.Windows.Controls.DrawingSurfaceBackgroundGrid renderTarget;
+		SDX_Display mDisplayImpl;
 
 		public DisplayFactory(SharpDX.SimpleInitializer.SharpDXContext context, System.Windows.Controls.DrawingSurfaceBackgroundGrid renderTarget)
 		{
-			DisplayImpl = new SDX_Display(context, renderTarget);
+			mDisplayImpl = new SDX_Display(context, renderTarget);
 			this.renderTarget = renderTarget;
 		}
 
-		public DisplayImpl DisplayImpl { get; private set; }
+		public DisplayImpl DisplayImpl
+		{
+			get { return mDisplayImpl; }
+		}
 
 		public DisplayWindowImpl CreateDisplayWindow(DisplayWindow owner, CreateWindowParams windowParams)
 		{
@@ -57,5 +61,6 @@ namespace AgateLib.Platform.WindowsPhone.Factories
 		{
 			return new FrameBufferSurface(size);
 		}
+
 	}
 }

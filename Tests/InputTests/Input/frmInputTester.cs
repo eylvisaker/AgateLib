@@ -33,7 +33,7 @@ namespace Tests.InputTester
 			Mouse.MouseUp += new InputEventHandler(Mouse_MouseUp);
 			Mouse.MouseDoubleClick += new InputEventHandler(Mouse_MouseDoubleClickEvent);
 
-			new DisplayWindow(CreateWindowParams.FromControl(agateRenderTarget1));
+			DisplayWindow.CreateFromControl(agateRenderTarget1);
 
 			joystickLabels[0] = lblJoystick1;
 			joystickLabels[1] = lblJoystick2;

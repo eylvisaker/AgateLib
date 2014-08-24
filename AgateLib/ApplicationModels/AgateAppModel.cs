@@ -224,17 +224,16 @@ namespace AgateLib.ApplicationModels
 			{
 				window = DisplayWindow.CreateFullScreen(
 					Parameters.ApplicationName,
-					GetFullScreenSize());
+					GetFullScreenSize(),
+					Parameters.CoordinateSystem);
 			}
 			else
 			{
 				window = DisplayWindow.CreateWindowed(
 					Parameters.ApplicationName,
-					GetWindowedScreenSize());
+					GetWindowedScreenSize(),
+					Parameters.CoordinateSystem);
 			}
-
-			window.FrameBuffer.CoordinateSystem =
-				Parameters.CoordinateSystem.DetermineCoordinateSystem(window.Size);
 
 			Display.RenderState.WaitForVerticalBlank = Parameters.VerticalSync;
 

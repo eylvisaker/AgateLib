@@ -11,16 +11,21 @@ namespace AgateLib.Platform.WindowsPhone.Factories
 {
 	class WindowsPhoneFactory : IAgateFactory
 	{
+		DisplayFactory mDisplayFactory;
+
 		public WindowsPhoneFactory(SharpDXContext context, System.Windows.Controls.DrawingSurfaceBackgroundGrid renderTarget)
 		{
-			DisplayFactory = new DisplayFactory(context, renderTarget);
+			mDisplayFactory = new DisplayFactory(context, renderTarget);
 			PlatformFactory = new WPPlatformFactory();
 
 			AudioFactory = new NullSoundFactory();
 			InputFactory = new NullInputFactory();
 		}
 
-		public IDisplayFactory DisplayFactory { get; private set; }
+		public IDisplayFactory DisplayFactory
+		{
+			get { return mDisplayFactory; }
+		}
 		public IAudioFactory AudioFactory { get; private set; }
 		public IInputFactory InputFactory { get; private set; }
 		public IPlatformFactory PlatformFactory { get; private set; }

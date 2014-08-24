@@ -22,27 +22,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.ApplicationModels.CoordinateSystems
+namespace AgateLib.Geometry
 {
 	/// <summary>
-	/// Constructs a coordinate system which matches the pixels coordinates of the display window,
-	/// up to an optional maximum height and width.
+	/// Interface for classes which create a coordinate system for a given DisplayWindow size.
 	/// </summary>
-	public class NaturalCoordinates : ICoordinateSystemCreator
+	public interface ICoordinateSystemCreator
 	{
-		public Rectangle DetermineCoordinateSystem(Size displayWindowSize)
-		{
-			Rectangle retval = new Rectangle(Point.Empty, displayWindowSize);
-
-			if (MaxSize != null)
-			{
-				retval.Width = Math.Min(retval.Width, MaxSize.Value.Width);
-				retval.Height = Math.Min(retval.Height, MaxSize.Value.Height);
-			}
-
-			return retval;
-		}
-
-		public Size? MaxSize { get; set; }
+		/// <summary>
+		/// Returns the coordinate system given the size of the display window.
+		/// </summary>
+		/// <param name="displayWindowSize"></param>
+		/// <returns></returns>
+		Rectangle DetermineCoordinateSystem(Size displayWindowSize);
 	}
 }

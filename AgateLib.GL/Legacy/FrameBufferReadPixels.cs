@@ -25,6 +25,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
+using AgateLib.Geometry.CoordinateSystems;
 
 namespace AgateLib.OpenGL.Legacy
 {
@@ -34,7 +35,7 @@ namespace AgateLib.OpenGL.Legacy
 		IGL_Surface surface;
 		SurfaceState s = new SurfaceState();
 			
-		public FrameBufferReadPixels(IGL_Surface surf)
+		public FrameBufferReadPixels(IGL_Surface surf) : base(new NativeCoordinates())
 		{
 			surface = surf;
 			this.size = surf.SurfaceSize;

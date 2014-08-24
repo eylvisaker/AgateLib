@@ -38,7 +38,7 @@ namespace AgateLib.UserInterface.Css.Layout
 		}
 		public void UpdateLayout(Gui gui)
 		{
-			UpdateLayout(gui, Display.RenderTarget.CoordinateSystem.Size);
+			UpdateLayout(gui, Display.CoordinateSystem.Size);
 		}
 		public void UpdateLayout(Gui gui, Size renderTargetSize)
 		{

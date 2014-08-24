@@ -38,7 +38,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation.Shaders
 					return new SDX_Lighting2DShader();
 
 				case BuiltInShader.Lighting3D:
-					return new SDL_Lighting3DShader();
+					return new SDX_Lighting3DShader();
 
 				default:
 					throw new NotImplementedException();

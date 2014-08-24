@@ -32,6 +32,10 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		bool mHasDepth;
 		bool mHasStencil;
 
+		public SDX_FrameBuffer(ICoordinateSystemCreator coords) : base(coords)
+		{
+		}
+
 		protected void SetHasDepthStencil(Format fmt)
 		{
 			mHasDepth = false;

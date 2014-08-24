@@ -33,8 +33,8 @@ namespace Tests.AudioTests
 		{
 			new PassiveModel(args).Run( () =>
 			{
-				DisplayWindow wind = new DisplayWindow(CreateWindowParams.Windowed(
-					"Sound Buffer Tester", 640, 480, false, null));
+				DisplayWindow wind = DisplayWindow.CreateWindowed(
+					"Sound Buffer Tester", 640, 480, false, null);
 
 				snda = new SoundBuffer("snda.wav");
 				sndb = new SoundBuffer("sndb.wav");

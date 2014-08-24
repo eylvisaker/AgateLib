@@ -68,6 +68,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		bool mHasFrame = true;
 
 		ContextFB mFrameBuffer;
+		ICoordinateSystemCreator mCoords;
 
 		public override FrameBufferImpl FrameBuffer
 		{
@@ -77,6 +78,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		{
 			mOwner = owner;
 			mChoosePosition = windowParams.WindowPosition;
+			mCoords = windowParams.Coordinates;
 
 			if (windowParams.RenderToControl)
 			{
@@ -98,7 +100,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 				mDisplay = Display.Impl as DesktopGLDisplay;
 
-				CreateFrameBuffer();
+				CreateFrameBuffer(mCoords);
 
 				AttachEvents();
 			}
@@ -146,7 +148,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			mWindowInfo = CreateWindowInfo(CreateGraphicsMode());
 
 			AttachEvents();
-			CreateFrameBuffer();
+			CreateFrameBuffer(mCoords);
 
 			OpenTK.DisplayResolution resolution = OpenTK.DisplayDevice.Default.SelectResolution(
 				mChooseWidth, mChooseHeight, 32, 0);
@@ -194,7 +196,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 				frm.Icon = mIcon;
 
 			frm.Show();
-			CreateFrameBuffer();
+			CreateFrameBuffer(mCoords);
 
 			AttachEvents();
 
@@ -230,11 +232,11 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			return newMode;
 		}
 
-		private void CreateFrameBuffer()
+		private void CreateFrameBuffer(ICoordinateSystemCreator coords)
 		{
 			var old = mFrameBuffer;
 
-			mFrameBuffer = new ContextFB(mOwner, CreateGraphicsMode(), mWindowInfo, this.Size, true, false);
+			mFrameBuffer = new ContextFB(mOwner, CreateGraphicsMode(), mWindowInfo, this.Size, true, false, coords);
 
 			if (old != null)
 				old.Dispose();

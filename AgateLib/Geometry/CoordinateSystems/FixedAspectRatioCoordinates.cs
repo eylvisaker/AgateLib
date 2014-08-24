@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.ApplicationModels.CoordinateSystems
+namespace AgateLib.Geometry.CoordinateSystems
 {
 	/// <summary>
 	/// Constructs a coordinate system that gives a render area constrained to a 

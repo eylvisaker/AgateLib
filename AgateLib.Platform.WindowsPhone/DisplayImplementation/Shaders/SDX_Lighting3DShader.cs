@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AgateLib.Platform.WindowsPhone.DisplayImplementation.Shaders
 {
-	class SDL_Lighting3DShader : AgateShaderImpl
+	class SDX_Lighting3DShader : AgateShaderImpl
 	{
 		public override void SetTexture(DisplayLib.Shaders.EffectTexture tex, string variableName)
 		{

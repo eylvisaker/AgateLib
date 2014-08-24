@@ -16,8 +16,8 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.ApplicationModels.CoordinateSystems;
 using AgateLib.Geometry;
+using AgateLib.Geometry.CoordinateSystems;
 using AgateLib.Platform;
 using System;
 using System.Collections.Generic;
@@ -39,7 +39,7 @@ namespace AgateLib.ApplicationModels
 		public ModelParameters()
 		{
 			AssetLocations = new AssetLocations();
-			CoordinateSystem = new NaturalCoordinates();
+			CoordinateSystem = new NativeCoordinates();
 
 			AutoCreateDisplayWindow = true;
 			CreateFullScreenWindow = true;

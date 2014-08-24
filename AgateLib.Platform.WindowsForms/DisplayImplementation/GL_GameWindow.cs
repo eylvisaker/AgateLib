@@ -203,7 +203,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			else
 				CreateWindowedDisplay();
 
-			CreateFrameBuffer();
+			CreateFrameBuffer(windowParams.Coordinates);
 
 			mDisplay = Display.Impl as DesktopGLDisplay;
 
@@ -212,11 +212,12 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			mDrawBuffer = mDisplay.CreateDrawBuffer();
 		}
 
-		private void CreateFrameBuffer()
+		private void CreateFrameBuffer(ICoordinateSystemCreator coords)
 		{
 			mFrameBuffer = new ContextFB(mOwner, 
 				mWindow.Context.GraphicsMode, mWindow.WindowInfo,
-				new Size(mWindow.ClientSize.Width, mWindow.ClientSize.Height), true, false);
+				new Size(mWindow.ClientSize.Width, mWindow.ClientSize.Height), true, false,
+				coords);
 
 			if (mOwner.Impl != null)
 			{

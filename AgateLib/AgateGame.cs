@@ -153,7 +153,7 @@ namespace AgateLib
 			if (FullScreen)
 			{
 				windp = CreateWindowParams.FullScreen(ApplicationTitle,
-					WindowSize.Width, WindowSize.Height, 32);
+					WindowSize.Width, WindowSize.Height, 32, null);
 
 				windp.IconFile = InitParams.IconFile;
 			}
@@ -161,7 +161,7 @@ namespace AgateLib
 			{
 				windp = CreateWindowParams.Windowed(ApplicationTitle,
 					WindowSize.Width, WindowSize.Height,
-					InitParams.AllowResize, InitParams.IconFile);
+					InitParams.AllowResize, InitParams.IconFile, null);
 			}
 
 			mWindow = new DisplayWindow(windp);
