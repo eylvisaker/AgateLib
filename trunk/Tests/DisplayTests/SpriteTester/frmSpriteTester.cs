@@ -71,7 +71,7 @@ namespace Tests.SpriteTester
 			// control on this form
 			// It doesn't matter if this goes out of scope, because a reference
 			// will be maintained by the Display object.
-			wind = new DisplayWindow(CreateWindowParams.FromControl(pctGraphics));
+			wind = DisplayWindow.CreateFromControl(pctGraphics);
 
 			//srcSurf = new Surface();
 

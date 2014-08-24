@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.ApplicationModels;
 
 namespace AgateLib.DisplayLib
 {
@@ -38,6 +39,7 @@ namespace AgateLib.DisplayLib
 	{
 		DisplayWindowImpl mImpl;
 		FrameBuffer mFrameBuffer;
+		ICoordinateSystemCreator mCoordinates;
 
 		/// <summary>
 		/// Constructs a DisplayWindow from a resource.
@@ -56,14 +58,14 @@ namespace AgateLib.DisplayLib
 			if (disp.FullScreen)
 			{
 				CreateWindowParams par = CreateWindowParams.FullScreen(
-					disp.Title, disp.Size.Width, disp.Size.Height, disp.Bpp);
+					disp.Title, disp.Size.Width, disp.Size.Height, disp.Bpp, null);
 
 				mImpl = Core.Factory.DisplayFactory.CreateDisplayWindow(this, par);
 			}
 			else
 			{
 				CreateWindowParams par = CreateWindowParams.Windowed(
-					disp.Title, disp.Size.Width, disp.Size.Height, disp.AllowResize, null);
+					disp.Title, disp.Size.Width, disp.Size.Height, disp.AllowResize, null, null);
 
 				mImpl = Core.Factory.DisplayFactory.CreateDisplayWindow(this, par);
 			}
@@ -103,9 +105,9 @@ namespace AgateLib.DisplayLib
 		/// new DisplayWindow(CreateWindowParams.FromControl(control)).</remarks>
 		/// <param name="control">Windows.Forms control which should be used as the
 		/// render target.</param>
-		public static DisplayWindow CreateFromControl(object control)
+		public static DisplayWindow CreateFromControl(object control, ICoordinateSystemCreator coordinates = null)
 		{
-			return new DisplayWindow(CreateWindowParams.FromControl(control));
+			return new DisplayWindow(CreateWindowParams.FromControl(control, coordinates));
 		}
 		/// <summary>
 		/// Creates a DisplayWindow object which renders to the entire screen, setting
@@ -115,9 +117,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <returns></returns>
-		public static DisplayWindow CreateFullScreen(string title, Size size)
+		public static DisplayWindow CreateFullScreen(string title, Size size, ICoordinateSystemCreator coordinates = null)
 		{
-			return new DisplayWindow(CreateWindowParams.FullScreen(title, size.Width, size.Height, 32));
+			return new DisplayWindow(CreateWindowParams.FullScreen(title, size.Width, size.Height, 32, coordinates));
 		}
 		/// <summary>
 		/// Creates a DisplayWindow object which renders to the entire screen, setting
@@ -127,9 +129,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <returns></returns>
-		public static DisplayWindow CreateFullScreen(string title, int width, int height)
+		public static DisplayWindow CreateFullScreen(string title, int width, int height, ICoordinateSystemCreator coordinates = null)
 		{
-			return new DisplayWindow(CreateWindowParams.FullScreen(title, width, height, 32));
+			return new DisplayWindow(CreateWindowParams.FullScreen(title, width, height, 32, null));
 		}
 		/// <summary>
 		/// Creates a DisplayWindow object which generates a desktop window to render into.
@@ -138,34 +140,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="title"></param>
 		/// <param name="size"></param>
 		/// <returns></returns>
-		public static DisplayWindow CreateWindowed(string title, Size size)
+		public static DisplayWindow CreateWindowed(string title, Size size, ICoordinateSystemCreator coordinates = null)
 		{
-			return DisplayWindow.CreateWindowed(title, size.Width, size.Height);
-		}
-		/// <summary>
-		/// Creates a DisplayWindow object which generates a desktop window to render into.
-		/// This overload creates a window which has the default icon and is not resizeable.
-		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		/// <returns></returns>
-		public static DisplayWindow CreateWindowed(string title, int width, int height)
-		{
-			return DisplayWindow.CreateWindowed(title, width, height, false, null);
-		}
-		/// <summary>
-		/// Creates a DisplayWindow object which generates a desktop window to render into.
-		/// This overload creates a window which has the default icon and is not resizeable.
-		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		/// <param name="allowResize"></param>
-		/// <returns></returns>
-		public static DisplayWindow CreateWindowed(string title, int width, int height, bool allowResize)
-		{
-			return DisplayWindow.CreateWindowed(title, width, height, allowResize, null);
+			return DisplayWindow.CreateWindowed(title, size.Width, size.Height, false, null, coordinates);
 		}
 		/// <summary>
 		/// Creates a DisplayWindow object which generates a desktop window to render into.
@@ -176,9 +153,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="iconFile"></param>
 		/// <param name="allowResize"></param>
 		/// <returns></returns>
-		public static DisplayWindow CreateWindowed(string title, int width, int height, bool allowResize, string iconFile)
+		public static DisplayWindow CreateWindowed(string title, int width, int height, bool allowResize = false, string iconFile = null, ICoordinateSystemCreator coordinates = null)
 		{
-			return new DisplayWindow(CreateWindowParams.Windowed(title, width, height, allowResize, iconFile));
+			return new DisplayWindow(CreateWindowParams.Windowed(title, width, height, allowResize, iconFile, null));
 		}
 		/// <summary>
 		/// Creates a DisplayWindow object which is a desktop window with no frame or
@@ -188,9 +165,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <returns></returns>
-		public static DisplayWindow CreateNoFrame(string title, int width, int height)
+		public static DisplayWindow CreateNoFrame(string title, int width, int height, ICoordinateSystemCreator coordinates = null)
 		{
-			return new DisplayWindow(CreateWindowParams.NoFrame(title, width, height));
+			return new DisplayWindow(CreateWindowParams.NoFrame(title, width, height, null));
 		}
 
 		#endregion
@@ -352,7 +329,6 @@ namespace AgateLib.DisplayLib
 			add { mImpl.Closing += value; }
 			remove { mImpl.Closing -= value; }
 		}
-
 	}
 
 	public delegate void CancelEventHandler(object sender, ref bool cancel);

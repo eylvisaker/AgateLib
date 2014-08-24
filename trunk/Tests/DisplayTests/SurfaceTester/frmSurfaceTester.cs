@@ -54,7 +54,7 @@ namespace Tests.SurfaceTester
         {
             // This will create a display "window" that renders to the graphics
             // control on this form
-            DisplayWindow wind = new DisplayWindow(CreateWindowParams.FromControl(pctGraphics));
+            DisplayWindow wind = DisplayWindow.CreateFromControl(pctGraphics);
 
             // load an image
             string fileName = @"jellybean.png";

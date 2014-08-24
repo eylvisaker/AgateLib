@@ -24,6 +24,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using SharpDX.Direct3D11;
+using AgateLib.Geometry.CoordinateSystems;
 
 namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 {
@@ -38,7 +39,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		bool mHasDepth;
 		bool mHasStencil;
 
-		public FrameBufferSurface(Size size)
+		public FrameBufferSurface(Size size) : base(new NativeCoordinates())
 		{
 			throw new NotImplementedException();
 			//mDisplay = Display.Impl as SDX_Display;

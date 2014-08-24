@@ -1,4 +1,5 @@
-﻿using AgateLib.Geometry;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.Geometry;
 using System;
 namespace AgateLib.DisplayLib
 {
@@ -25,6 +26,6 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Gets or sets the coordinate system for the render target.
 		/// </summary>
-		Rectangle CoordinateSystem { get; set; }
+		ICoordinateSystemCreator CoordinateSystem { get; set; }
 	}
 }

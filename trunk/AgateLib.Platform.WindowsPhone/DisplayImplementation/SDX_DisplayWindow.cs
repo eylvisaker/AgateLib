@@ -28,6 +28,7 @@ using AgateLib.InputLib;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AgateLib.InputLib.Legacy;
+using System.Diagnostics;
 
 namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 {
@@ -54,7 +55,8 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 			mFrameBuffer = new FrameBufferWindow(
 				renderTarget.RenderSize.ToAgateSize(),
 				null, owner, 
-				mDisplay.D3D_Device.Context);
+				mDisplay.D3D_Device.Context,
+				windowParams.Coordinates);
 			//CreateBackBuffer(mIsFullscreen);
 		}
 
@@ -108,15 +110,15 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 			Mouse.OnMouseDoubleClick(MouseButton.Primary);
 		}
 
+		void mRenderTarget_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			Debug.WriteLine("Mouse down at: {0}", e.GetPosition(mRenderTarget));
+			Input.QueueInputEvent(AgateInputEventArgs.MouseDown(
+				this, e.GetPosition(mRenderTarget).ToAgatePoint(), MouseButton.Primary));
+		}
 		void mRenderTarget_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			Input.QueueInputEvent(AgateInputEventArgs.MouseUp(
-				this, e.GetPosition(mRenderTarget).ToAgatePoint(), MouseButton.Primary));
-		}
-
-		void mRenderTarget_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			Input.QueueInputEvent(AgateInputEventArgs.MouseDown(
 				this, e.GetPosition(mRenderTarget).ToAgatePoint(), MouseButton.Primary));
 		}
 		void mRenderTarget_MouseMove(object sender, MouseEventArgs e)

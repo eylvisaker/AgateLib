@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.Geometry;
+using AgateLib.ApplicationModels;
 
 namespace AgateLib.DisplayLib.ImplementationBase
 {
@@ -29,6 +30,11 @@ namespace AgateLib.DisplayLib.ImplementationBase
 	/// </summary>
 	public abstract class FrameBufferImpl : IDisposable 
 	{
+		public FrameBufferImpl(ICoordinateSystemCreator coords)
+		{
+			this.CoordinateSystem = coords;
+		}
+
 		/// <summary>
 		/// Disposes of the unmanaged resources.
 		/// </summary>
@@ -91,6 +97,6 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <summary>
 		/// Gets or sets the coordinate system that is used to map 2d coordinates to pixels in the render target.
 		/// </summary>
-		public virtual Rectangle CoordinateSystem { get; set; }
+		public virtual ICoordinateSystemCreator CoordinateSystem { get; set; }
 	}
 }

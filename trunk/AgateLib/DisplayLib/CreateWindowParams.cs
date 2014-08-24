@@ -22,6 +22,8 @@ using System.Text;
 
 using AgateLib.Geometry;
 using AgateLib.Utility;
+using AgateLib.ApplicationModels;
+using AgateLib.Geometry.CoordinateSystems;
 
 namespace AgateLib.DisplayLib
 {
@@ -213,6 +215,12 @@ namespace AgateLib.DisplayLib
 			set { mRenderTarget = value; }
 		}
 
+		/// <summary>
+		/// The object which will be used to set the coordinate system for the window
+		/// at the beginning of each frame.
+		/// </summary>
+		public ICoordinateSystemCreator Coordinates { get; set; }
+
 		#endregion
 
 		#region --- Static creation methods ---
@@ -221,13 +229,15 @@ namespace AgateLib.DisplayLib
 		/// Creates a CreateWindowParams object which describes rendering into a WinForms control.
 		/// </summary>
 		/// <param name="control"></param>
+		/// <param name="coordinates">Coordinate system creator object. May be null</param>
 		/// <returns></returns>
-		public static CreateWindowParams FromControl(object control)
+		public static CreateWindowParams FromControl(object control, ICoordinateSystemCreator coordinates)
 		{
 			CreateWindowParams retval = new CreateWindowParams();
 
 			retval.RenderToControl = true;
 			retval.RenderTarget = control;
+			retval.Coordinates = coordinates ?? new NativeCoordinates();
 
 			return retval;
 		}
@@ -239,8 +249,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <param name="bpp"></param>
+		/// <param name="coordinates">Coordinate system creator object. May be null</param>
 		/// <returns></returns>
-		public static CreateWindowParams FullScreen(string title, int width, int height, int bpp)
+		public static CreateWindowParams FullScreen(string title, int width, int height, int bpp, ICoordinateSystemCreator coordinates)
 		{
 			CreateWindowParams retval = new CreateWindowParams();
 
@@ -249,6 +260,7 @@ namespace AgateLib.DisplayLib
 			retval.Width = width;
 			retval.Height = height;
 			retval.mBpp = bpp;
+			retval.Coordinates = coordinates ?? new NativeCoordinates();
 
 			return retval;
 		}
@@ -260,8 +272,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="height"></param>
 		/// <param name="iconFile"></param>
 		/// <param name="allowResize"></param>
+		/// <param name="coordinates">Coordinate system creator object. May be null</param>
 		/// <returns></returns>
-		public static CreateWindowParams Windowed(string title, int width, int height, bool allowResize, string iconFile)
+		public static CreateWindowParams Windowed(string title, int width, int height, bool allowResize, string iconFile, ICoordinateSystemCreator coordinates)
 		{
 			CreateWindowParams retval = new CreateWindowParams();
 
@@ -271,6 +284,7 @@ namespace AgateLib.DisplayLib
 			retval.IconFile = iconFile;
 			retval.IsResizable = allowResize;
 			retval.HasMaximize = allowResize;
+			retval.Coordinates = coordinates ?? new NativeCoordinates();
 
 			return retval;
 		}
@@ -282,8 +296,9 @@ namespace AgateLib.DisplayLib
 		/// <param name="title"></param>
 		/// <param name="width"></param>
 		/// <param name="height"></param>
+		/// <param name="coordinates">Coordinate system creator object. May be null</param>
 		/// <returns></returns>
-		public static CreateWindowParams NoFrame(string title, int width, int height)
+		public static CreateWindowParams NoFrame(string title, int width, int height, ICoordinateSystemCreator coordinates)
 		{
 			CreateWindowParams retval = new CreateWindowParams();
 
@@ -292,10 +307,12 @@ namespace AgateLib.DisplayLib
 			retval.Height = height;
 			retval.IsResizable = false;
 			retval.HasFrame = false;
+			retval.Coordinates = coordinates ?? new NativeCoordinates();
 
 			return retval;
 		}
 
 		#endregion
+
 	}
 }

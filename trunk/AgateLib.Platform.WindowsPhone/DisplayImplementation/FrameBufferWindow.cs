@@ -39,7 +39,8 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		public FrameBufferWindow(Size size,
 			SwapChain swap,
 			DisplayWindow attachedWindow,
-			SharpDXContext context)
+			SharpDXContext context,
+			ICoordinateSystemCreator coords) : base(coords)
 		{
 			if (context == null) throw new ArgumentNullException();
 

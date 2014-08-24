@@ -189,11 +189,11 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Gets the coordinate system for the current render target. Equivalent to Display.RenderTarget.CoordinateSystem.
+		/// Gets the coordinate system for the current render target. 
 		/// </summary>
 		public static Rectangle CoordinateSystem
 		{
-			get { return RenderTarget.CoordinateSystem; }
+			get { return RenderTarget.CoordinateSystem.DetermineCoordinateSystem(RenderTarget.Size); }
 		}
 
 		/// <summary>
@@ -288,7 +288,7 @@ namespace AgateLib.DisplayLib
 			sImpl.BeginFrame();
 
 			AgateBuiltInShaders.Basic2DShader.CoordinateSystem =
-				RenderTarget.CoordinateSystem;
+				RenderTarget.CoordinateSystem.DetermineCoordinateSystem(RenderTarget.Size);
 			AgateBuiltInShaders.Basic2DShader.Activate();
 
 			sCurrentClipRect = new Rectangle(Point.Empty, RenderTarget.Size);

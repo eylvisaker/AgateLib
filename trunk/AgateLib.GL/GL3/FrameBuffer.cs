@@ -25,6 +25,7 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 using OpenTK.Graphics.OpenGL;
 using OTKPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
+using AgateLib.Geometry.CoordinateSystems;
 
 namespace AgateLib.OpenGL.GL3
 {
@@ -38,7 +39,7 @@ namespace AgateLib.OpenGL.GL3
 		int mDepthBuffer;
 		IGL_Surface mTexture;
 
-		public FrameBuffer(IGL_Surface surface)
+		public FrameBuffer(IGL_Surface surface) : base(new NativeCoordinates())
 		{
 			mTexture = surface;
 			mSize = surface.SurfaceSize;

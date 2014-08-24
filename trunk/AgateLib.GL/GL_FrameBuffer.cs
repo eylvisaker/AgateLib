@@ -32,7 +32,7 @@ namespace AgateLib.OpenGL
 		protected bool mHasDepth;
 		protected bool mHasStencil;
 
-		protected GL_FrameBuffer()
+		protected GL_FrameBuffer(ICoordinateSystemCreator coords) : base(coords)
 		{
 		}
 

@@ -40,7 +40,9 @@ namespace AgateLib.OpenGL
 
 		public ContextFB(AgateLib.DisplayLib.DisplayWindow attachedWindow,
 						 GraphicsMode graphicsMode, IWindowInfo window, Size size,
-						 bool depthBuffer, bool stencilBuffer)
+						 bool depthBuffer, bool stencilBuffer,
+						 ICoordinateSystemCreator coords)
+			: base(coords)
 		{
 			mGraphicsMode = graphicsMode;
 			mAttachedWindow = attachedWindow;
@@ -63,7 +65,7 @@ namespace AgateLib.OpenGL
 
 			var context = new GraphicsContext(mGraphicsMode, mWindowInfo);
 			mContexts.Add(Thread.CurrentThread, context);
-			
+
 			context.LoadAll();
 			context.MakeCurrent(mWindowInfo);
 

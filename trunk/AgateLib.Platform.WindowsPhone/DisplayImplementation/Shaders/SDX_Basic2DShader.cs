@@ -23,6 +23,7 @@ using System.Text;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Geometry;
+using SharpDX.Direct3D11;
 
 namespace AgateLib.Platform.WindowsPhone.DisplayImplementation.Shaders
 {
@@ -30,9 +31,38 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation.Shaders
 	{
 		Rectangle mCoords;
 
+		SDX_Display mDisplay;
+		D3DDevice mDevice;
+
+		VertexShader mVertexShader;
+		PixelShader mPixelShader;
+		SharpDX.Direct3D11.Buffer mConstantBuffer;
+
 		public SDX_Basic2DShader()
 		{
-			
+			mDisplay = (SDX_Display)DisplayLib.Display.Impl;
+			mDisplay.DeviceReset += mDisplay_DeviceReset;
+
+			mDevice = mDisplay.D3D_Device;
+
+			InitializeShaders();
+		}
+
+		void mDisplay_DeviceReset(object sender, EventArgs e)
+		{
+			InitializeShaders();
+		}
+
+		private void InitializeShaders()
+		{
+			if (mDevice.Device == null)
+				return;
+
+			var vs = (byte[])ShaderResources.ResourceManager.GetObject("Basic2Dvert");
+			var ps = (byte[])ShaderResources.ResourceManager.GetObject("Basic2Dpixel");
+
+			mVertexShader = new VertexShader(mDevice.Device, vs);
+			mPixelShader = new PixelShader(mDevice.Device, ps);
 		}
 
 		public override AgateLib.Geometry.Rectangle CoordinateSystem
@@ -69,8 +99,8 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation.Shaders
 
 		private void SetOrthoProjection()
 		{
-			//SlimDX.Matrix orthoProj = SlimDX.Matrix.OrthoOffCenterRH(
-			//			 mCoords.Left, mCoords.Right, mCoords.Bottom, mCoords.Top, -1, 1);
+			SharpDX.Matrix orthoProj = SharpDX.Matrix.OrthoOffCenterRH(
+						 mCoords.Left, mCoords.Right, mCoords.Bottom, mCoords.Top, -1, 1);
 
 			//// TODO: figure out why this method sometimes gets called when mDevice is null?
 			//if (mDevice != null)
@@ -112,8 +142,9 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation.Shaders
 
 		public override void SetTexture(EffectTexture tex, string variableName)
 		{
-			throw new NotImplementedException();
+			//mDevice.DeviceContext.PixelShader.SetShaderResource();
 		}
+
 
 		public override void SetVariable(string name, AgateLib.Geometry.Color color)
 		{
