@@ -17,11 +17,12 @@ namespace AgateLib.ApplicationModels
 		{
 			try
 			{
+				sceneToStartWith = scene;
+
 				Initialize();
 				AutoCreateDisplayWindow();
 				PrerunInitialization();
 
-				sceneToStartWith = scene;
 				BeginModel();
 			}
 			finally
