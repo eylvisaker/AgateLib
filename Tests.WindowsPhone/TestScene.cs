@@ -30,6 +30,10 @@ namespace Tests.WindowsPhone
 		public override void Draw()
 		{
 			Display.Clear(clr);
+
+			int pos = (int)(time * 100);
+
+			image.Draw(pos % 100, pos % 200);
 		}
 	}
 }

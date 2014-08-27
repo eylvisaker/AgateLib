@@ -66,7 +66,12 @@ namespace AgateLib.OpenGL.GL3
 
 		}
 
-		public override void  Write<T>(T[] vertices)
+		public override void Dispose()
+		{
+			GL.DeleteBuffer(mVertexBufferID);
+		}
+
+		public override void Write<T>(T[] vertices)
 		{
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
 			int size = vertices.Length * Marshal.SizeOf(typeof(T));
@@ -106,7 +111,7 @@ namespace AgateLib.OpenGL.GL3
 		}
 		public override void DrawIndexed(IndexBuffer indexbuffer, int start, int count)
 		{
-			GL_IndexBuffer gl_indexbuffer = (GL_IndexBuffer) indexbuffer.Impl;
+			GL_IndexBuffer gl_indexbuffer = (GL_IndexBuffer)indexbuffer.Impl;
 
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, gl_indexbuffer.BufferID);
 			GL.IndexPointer(IndexPointerType.Short, 0, start);
@@ -161,8 +166,8 @@ namespace AgateLib.OpenGL.GL3
 			if (HasNormals)
 			{
 				GL.EnableClientState(EnableCap.NormalArray);
-				GL.NormalPointer(NormalPointerType.Float, mLayout.VertexSize, 
-					(IntPtr) mLayout.ElementByteIndex(VertexElement.Normal));
+				GL.NormalPointer(NormalPointerType.Float, mLayout.VertexSize,
+					(IntPtr)mLayout.ElementByteIndex(VertexElement.Normal));
 			}
 			else
 			{
@@ -195,7 +200,7 @@ namespace AgateLib.OpenGL.GL3
 						(IntPtr)mLayout.ElementByteIndex(VertexElement.Texture));
 			}
 
-			
+
 			//GlslShader shader = Display.Shader as GlslShader;
 
 			if (Textures.ActiveTextures > 1)

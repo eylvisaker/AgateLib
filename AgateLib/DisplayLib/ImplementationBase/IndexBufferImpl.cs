@@ -27,8 +27,13 @@ namespace AgateLib.DisplayLib.ImplementationBase
 	/// <summary>
 	/// Base class for implementing a hardware stored index buffer.
 	/// </summary>
-	public abstract class IndexBufferImpl
+	public abstract class IndexBufferImpl : IDisposable
 	{
+		/// <summary>
+		/// Disposes of the buffer.
+		/// </summary>
+		public abstract void Dispose();
+
 		/// <summary>
 		/// Writes indices to the index buffer.
 		/// </summary>

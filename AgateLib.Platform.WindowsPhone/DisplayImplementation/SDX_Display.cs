@@ -89,7 +89,6 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 			this.sdxContext = context;
 			this.mRenderControl = renderTarget;
 
-			mDevice = new D3DDevice(context);
 			context.DeviceReset += context_DeviceReset;
 		}
 
@@ -100,6 +99,8 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 
 		public override void Initialize()
 		{
+			mDevice = new D3DDevice(sdxContext);
+
 			Report("SharpDX driver instantiated for display.");
 		}
 

@@ -47,6 +47,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		SharpDX.Toolkit.Graphics.GraphicsDevice mGraphicsDevice { get { return mDevice.GraphicsDevice; } }
 
 		Ref<Texture2D> mTexture;
+		SharpDX.Direct3D11.ShaderResourceView mTextureView;
 
 		string mFileName;
 
@@ -59,13 +60,16 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 
 		PositionTextureColor[] mExtraVerts = new PositionTextureColor[4];
 		short[] mExtraIndices = new short[] { 0, 2, 1, 1, 2, 3 };
-		private SharpDX.Direct3D11.ShaderResourceView mTextureView;
 
 		#endregion
 
 		public Texture2D D3dTexture
 		{
 			get { return mTexture.Value; }
+		}
+		public SharpDX.Direct3D11.ShaderResourceView TextureView
+		{
+			get { return mTextureView; }
 		}
 
 		#region --- TextureCoordinates structure ---
@@ -272,6 +276,11 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		}
 		private void Draw(SurfaceState state, SurfaceDrawInstance inst)
 		{
+			if (SurfaceSize.IsEmpty)
+			{
+				InitializeValues();
+			}
+
 			float destX = inst.DestLocation.X;
 			float destY = inst.DestLocation.Y;
 			Rectangle srcRect = inst.GetSourceRect(SurfaceSize);
@@ -307,7 +316,14 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 							   rotationCenter.X, rotationCenter.Y,
 							   state.DisplayAlignment, mRotationCos, mRotationSin);
 
-			mDevice.DrawBuffer.CacheDrawIndexedTriangles(mVerts, mIndices, mTexture.Value, alphaBlend);
+			mDevice.DrawBuffer.CacheDrawIndexedTriangles(mVerts, mIndices, 
+				mTexture.Value, mTextureView, alphaBlend);
+		}
+
+		private void InitializeValues()
+		{
+			mTextureSize = new Size( mTexture.Value.Description.Width, mTexture.Value.Description.Height);
+			mSrcRect = new Rectangle(Point.Empty, mTextureSize);
 		}
 
 		private void SetVertsTextureCoordinates(PositionTextureColor[] verts, int startIndex,

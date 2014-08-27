@@ -29,7 +29,7 @@ namespace AgateLib.DisplayLib
 	/// <summary>
 	/// Class which represents a vertex buffer in memory.
 	/// </summary>
-	public sealed class VertexBuffer
+	public sealed class VertexBuffer : IDisposable
 	{
 		VertexBufferImpl impl;
 
@@ -51,6 +51,14 @@ namespace AgateLib.DisplayLib
 					"The supplied VertexLayout has no items in it.  You must supply a valid layout.");
 
 			impl = Display.Impl.CreateVertexBuffer(layout, vertexCount);
+		}
+
+		/// <summary>
+		/// Disposes of the buffer.
+		/// </summary>
+		public void Dispose()
+		{
+			impl.Dispose();
 		}
 
 		/// <summary>

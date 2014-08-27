@@ -12,7 +12,6 @@ struct VertexInputType
 {
 	float4 position : POSITION;
 	float2 tex : TEXCOORD0;
-	float3 normal : NORMAL;
 	float4 color  : COLOR0;
 };
 
@@ -20,7 +19,6 @@ struct PixelInputType
 {
 	float4 position : SV_POSITION;
 	float2 tex : TEXCOORD0;
-	float3 normal : NORMAL;
 	float4 color  : COLOR;
 };
 
@@ -40,12 +38,6 @@ PixelInputType VertexShaderMain(VertexInputType input)
 
 	// Store the texture coordinates for the pixel shader.
 	output.tex = input.tex;
-
-	// No separate world transformation for 2D
-	output.normal = input.normal;
-
-	// Normalize the normal vector.
-	output.normal = normalize(output.normal);
 
 	output.color = input.color;
 

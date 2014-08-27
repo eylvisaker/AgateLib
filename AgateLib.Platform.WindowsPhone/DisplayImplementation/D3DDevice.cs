@@ -60,7 +60,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 			
 			mWorld2D = Matrix.Identity;
 			
-			mDrawBuffer = new DrawBuffer(this);
+			mDrawBuffer = new DrawBuffer(this, context);
 		}
 
 
