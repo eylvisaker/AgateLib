@@ -168,5 +168,18 @@ namespace AgateLib.Utility
 			v.Dispose();
 			v = null;
 		}
+
+		public static bool operator==(Ref<T> r, object obj)
+		{
+			if (obj == null && r.v == null)
+				return true;
+
+			else 
+				return false;
+		}
+		public static bool operator !=(Ref<T> r, object obj)
+		{
+			return !(r == obj);
+		}
 	}
 }

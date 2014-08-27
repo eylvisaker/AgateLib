@@ -12,13 +12,16 @@
     <RootNamespace>AgateLib.Platform.WindowsPhone</RootNamespace>
     <AssemblyName>AgateLib.Platform.WindowsPhone</AssemblyName>
     <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
-    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <SilverlightVersion>
+    </SilverlightVersion>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
-    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <NuGetPackageImportStamp>15cec27f</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>041e0f8f</NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <DefaultLanguage>en-US</DefaultLanguage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +55,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -62,6 +66,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM' ">
     <DebugSymbols>true</DebugSymbols>
@@ -73,6 +78,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM' ">
     <DebugType>pdbonly</DebugType>
@@ -83,46 +89,19 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget />
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ApplicationModels\SceneModel.cs" />
     <Compile Include="ApplicationModels\SceneModelParameters.cs" />
-    <Compile Include="DisplayImplementation\D3DDevice.cs" />
-    <Compile Include="DisplayImplementation\DrawBuffer.cs" />
-    <Compile Include="DisplayImplementation\FrameBufferSurface.cs" />
-    <Compile Include="DisplayImplementation\FrameBufferWindow.cs" />
-    <Compile Include="DisplayImplementation\SDX_Display.cs" />
-    <Compile Include="DisplayImplementation\SDX_DisplayWindow.cs" />
-    <Compile Include="DisplayImplementation\SDX_FrameBuffer.cs" />
-    <Compile Include="DisplayImplementation\SDX_IndexBuffer.cs" />
-    <Compile Include="DisplayImplementation\SDX_Surface.cs" />
-    <Compile Include="DisplayImplementation\SDX_VertexBuffer.cs" />
-    <Compile Include="DisplayImplementation\Shaders\SDX_Lighting3DShader.cs" />
-    <Compile Include="DisplayImplementation\Shaders\SDX_Lighting2DShader.cs" />
-    <Compile Include="DisplayImplementation\Shaders\ShaderResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShaderResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Factories\DisplayFactory.cs" />
-    <Compile Include="Factories\FakeFile.cs" />
-    <Compile Include="Factories\FakePath.cs" />
-    <Compile Include="Factories\WPPlatformFactory.cs" />
     <Compile Include="Factories\WindowsPhoneFactory.cs" />
+    <Compile Include="Factories\WPPlatformFactory.cs" />
     <Compile Include="Interop.cs" />
-    <Compile Include="PlatformImplementation\WPAssetFileProvider.cs" />
-    <Compile Include="PlatformImplementation\WPPlatformInfo.cs" />
-    <Compile Include="PlatformImplementation\DiagnosticsStopwatch.cs" />
-    <Compile Include="DisplayImplementation\Shaders\SDX_Basic2DShader.cs" />
-    <Compile Include="DisplayImplementation\Shaders\ShaderFactory.cs" />
+    <Compile Include="SwapChainBackgroundPanelAdapter.cs" />
     <Compile Include="WindowsPhoneInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Basic2Dpixel.fxo" />
-    <None Include="Resources\Basic2Dvert.fxo" />
-    <None Include="Resources\buildshaders.bat" />
-    <None Include="Resources\fxc.bat" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -139,32 +118,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Testing\SharpDX.SimpleInitializer\trunk\Binaries\WP\x86\SharpDX.SimpleInitializer.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Toolkit">
-      <HintPath>$(SharpDXPackageBinDir)\SharpDX.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Toolkit.Graphics">
-      <HintPath>$(SharpDXPackageBinDir)\SharpDX.Toolkit.Graphics.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DisplayImplementation\Shaders\ShaderResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ShaderResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AgateLib.Platform.Common\AgateLib.Platform.Common.csproj">
       <Project>{fc9e7036-aa75-4a6b-82db-0f5e98b5fbcb}</Project>
       <Name>AgateLib.Platform.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AgateLib.Platform.WindowsStoreCommon\AgateLib.Platform.WindowsStoreCommon.csproj">
+      <Project>{c7f9ae34-b781-4490-a9b2-5728f44f3523}</Project>
+      <Name>AgateLib.Platform.WindowsStoreCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AgateLib\AgateLib.csproj">
       <Project>{9490b719-829e-43a7-a5fe-8001f8a81759}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\ShaderSource\Basic2Dpixel.hlsl" />
-    <Content Include="Resources\ShaderSource\Basic2Dvert.hlsl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
@@ -175,11 +142,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\SharpDX.2.6.2\build\SharpDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpDX.2.6.2\build\SharpDX.targets'))" />
-    <Error Condition="!Exists('..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets'))" />
   </Target>
-  <Import Project="..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets" Condition="Exists('..\packages\SharpDX.Toolkit.2.6.2\build\SharpDX.Toolkit.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>$(ProjectDir)Resources\buildshaders.bat $(ProjectDir)</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
