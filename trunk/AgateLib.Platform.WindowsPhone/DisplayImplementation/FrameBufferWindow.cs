@@ -94,6 +94,11 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 			//mDisplay.D3D_Device.Device.SetRenderTarget(0, mBackBuffer);
 			//mDisplay.D3D_Device.Device.DepthStencilSurface = mBackDepthStencil;
 			//mDisplay.D3D_Device.Device.BeginScene();
+
+			mContext.D3DContext.OutputMerger.SetTargets(
+				mContext.DepthStencilView,
+				mContext.BackBufferView);
+
 		}
 
 		public override void EndRender()

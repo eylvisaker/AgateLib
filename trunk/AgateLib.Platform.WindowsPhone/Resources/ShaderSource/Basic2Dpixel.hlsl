@@ -20,7 +20,6 @@ struct PixelInputType
 {
 	float4 position : SV_POSITION;
 	float2 tex : TEXCOORD0;
-	float3 normal : NORMAL;
 	float4 color  : COLOR;
 };
 
@@ -30,6 +29,8 @@ struct PixelInputType
 ////////////////////////////////////////////////////////////////////////////////
 float4 PixelShaderMain(PixelInputType input) : SV_TARGET
 {
+	return float4(0, 0, 0, 1);
+	
 	float4 textureColor;
 	float3 lightDir;
 	float lightIntensity;
@@ -42,7 +43,7 @@ float4 PixelShaderMain(PixelInputType input) : SV_TARGET
 	lightDir = -lightDirection;
 
 	// Calculate the amount of light on this pixel.
-	lightIntensity = saturate(dot(input.normal, lightDir));
+	lightIntensity = saturate(lightDir.z);
 
 	// Determine the final amount of diffuse color based on the diffuse color combined with the light intensity.
 	color = saturate(diffuseColor * lightIntensity);

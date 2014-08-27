@@ -23,7 +23,8 @@ using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry.VertexTypes;
 using Texture2D = SharpDX.Direct3D11.Texture2D;
-using SharpDX.Toolkit.Graphics;
+using SharpDX.Direct3D11;
+using SharpDX.SimpleInitializer;
 
 namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 {
@@ -36,8 +37,8 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		const int vertPageSize = 1000;
 		int pages = 1;
 
+		SharpDXContext mContext;
 		D3DDevice mDevice;
-		BasicEffect mEffect;
 
 		PositionTextureColor[] mVerts;
 		short[] mIndices;
@@ -46,29 +47,92 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		int mIndexPointer = 0;
 
 		Texture2D mTexture;
+		ShaderResourceView mTextureView;
 		bool mAlphaBlend;
 
-		public DrawBuffer(D3DDevice device)
+		SharpDX.Direct3D11.Buffer mVertexBuffer;
+		SharpDX.Direct3D11.Buffer mIndexBuffer;
+		SharpDX.Direct3D11.InputLayout mVertexLayout;
+		VertexBufferBinding mVertexBinding;
+
+		public DrawBuffer(D3DDevice device, SharpDXContext context)
 		{
+			mContext = context;
 			mDevice = device;
-			mEffect = mDevice.Effect;
+
+			mContext.DeviceReset += Context_DeviceReset;
 
 			AllocateVerts();
+
+			
+		}
+
+		void Context_DeviceReset(object sender, SharpDX.SimpleInitializer.DeviceResetEventArgs e)
+		{
+			AllocateHardwareResources();
+		}
+
+		public void AllocateHardwareResources()
+		{
+			if (mDevice.Device == null)
+				return;
+
+			if (mVertexLayout != null)
+			{
+				mVertexLayout.Dispose();
+				mVertexBuffer.Dispose();
+				mIndexBuffer.Dispose();
+			}
+
+			mVertexLayout = new SharpDX.Direct3D11.InputLayout(
+				mDevice.Device, (byte[])Shaders.ShaderResources.ResourceManager.GetObject("Basic2Dvert"),
+				new[]           {
+                new SharpDX.Direct3D11.InputElement("POSITION", 0, SharpDX.DXGI.Format.R32G32B32A32_Float, 0, 0),
+                new SharpDX.Direct3D11.InputElement("TEXCOORD", 0, SharpDX.DXGI.Format.R32G32_Float, 16, 0),
+				new SharpDX.Direct3D11.InputElement("COLOR", 0, SharpDX.DXGI.Format.R8G8B8A8_UInt, 0)
+            });
+
+			var layout = PositionTextureColor.VertexLayout;
+
+			mVertexBuffer = new SharpDX.Direct3D11.Buffer(
+				mDevice.Device,
+				new BufferDescription(mVerts.Length * layout.VertexSize,
+					ResourceUsage.Dynamic,
+					BindFlags.VertexBuffer,
+					CpuAccessFlags.Write,
+					ResourceOptionFlags.None,
+					layout.VertexSize));
+
+			mIndexBuffer = new SharpDX.Direct3D11.Buffer(
+				mDevice.Device,
+				new BufferDescription(mIndices.Length * 2,
+					ResourceUsage.Dynamic,
+					BindFlags.IndexBuffer,
+					CpuAccessFlags.Write,
+					ResourceOptionFlags.None,
+					2));
+
+			mVertexBinding = new VertexBufferBinding(mVertexBuffer, layout.VertexSize, 0);
 		}
 
 		private void AllocateVerts()
 		{
 			mVerts = new PositionTextureColor[vertPageSize * pages];
 			mIndices = new short[vertPageSize / 2 * 3 * pages];
+
+			AllocateHardwareResources();
 		}
-		public void CacheDrawIndexedTriangles(PositionTextureColor[] verts, short[] indices,
-			Texture2D texture, bool alphaBlend)
+
+		public void CacheDrawIndexedTriangles(
+			PositionTextureColor[] verts, short[] indices,
+			Texture2D texture, ShaderResourceView textureView, bool alphaBlend)
 		{
 			if (mTexture != texture || mAlphaBlend != alphaBlend)
 			{
 				Flush();
 
 				mTexture = texture;
+				mTextureView = textureView;
 				mAlphaBlend = alphaBlend;
 			}
 
@@ -117,7 +181,17 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 
 		private void DoDraw(object ignored)
 		{
-			throw new NotImplementedException();
+			//mDevice.DeviceContext.OutputMerger.SetTargets(this.parentContext.DepthStencilView, this.parentContext.BackBufferView);
+
+			mDevice.DeviceContext.UpdateSubresource(mVerts, mVertexBuffer);
+			mDevice.DeviceContext.UpdateSubresource(mIndices, mIndexBuffer);
+
+			mDevice.DeviceContext.InputAssembler.SetVertexBuffers(0, mVertexBinding);
+			mDevice.DeviceContext.InputAssembler.SetIndexBuffer(mIndexBuffer, SharpDX.DXGI.Format.R16_UInt, 0);
+			mDevice.DeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
+
+			mDevice.DeviceContext.PixelShader.SetShaderResource(0, mTextureView);
+			mDevice.DeviceContext.DrawIndexed(mIndexPointer, 0, 0);
 
 			try
 			{

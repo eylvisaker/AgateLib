@@ -35,7 +35,6 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 		SharpDX.Direct3D11.Buffer mBuffer;
 		int mCount;
 		VertexLayout mLayout;
-		DataStream mStream;
 
 		public SDX_VertexBuffer(SDX_Display display, VertexLayout layout, int vertexCount)
 		{
@@ -56,6 +55,11 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 					layout.VertexSize));
 
 			//mStream = display.D3D_Device.DeviceContext. mBuffer.Map
+		}
+
+		public override void Dispose()
+		{
+			mBuffer.Dispose();
 		}
 
 		public override VertexLayout VertexLayout

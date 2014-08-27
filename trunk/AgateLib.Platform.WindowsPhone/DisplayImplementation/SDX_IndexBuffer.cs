@@ -43,6 +43,11 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation
 			CreateIndexBuffer();
 		}
 
+		public override void Dispose()
+		{
+			mBuffer.Dispose();
+		}
+
 		public SharpDX.Direct3D11.Buffer DeviceIndexBuffer
 		{
 			get { return mBuffer; }

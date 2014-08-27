@@ -38,6 +38,8 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation.Shaders
 		PixelShader mPixelShader;
 		SharpDX.Direct3D11.Buffer mConstantBuffer;
 
+		SamplerState mSampler;
+
 		public SDX_Basic2DShader()
 		{
 			mDisplay = (SDX_Display)DisplayLib.Display.Impl;
@@ -63,6 +65,29 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation.Shaders
 
 			mVertexShader = new VertexShader(mDevice.Device, vs);
 			mPixelShader = new PixelShader(mDevice.Device, ps);
+
+			mConstantBuffer = new SharpDX.Direct3D11.Buffer(
+				mDevice.Device,
+				SharpDX.Utilities.SizeOf<SharpDX.Matrix>(),
+				ResourceUsage.Default,
+				BindFlags.ConstantBuffer,
+				CpuAccessFlags.None,
+				ResourceOptionFlags.None,
+				0);
+
+			mSampler = new SamplerState(mDevice.Device, new SamplerStateDescription()
+			{
+				Filter = Filter.MinMagMipLinear,
+				AddressU = TextureAddressMode.Wrap,
+				AddressV = TextureAddressMode.Wrap,
+				AddressW = TextureAddressMode.Wrap,
+				BorderColor = SharpDX.Color.Black,
+				ComparisonFunction = Comparison.Never,
+				MaximumAnisotropy = 16,
+				MipLodBias = 0,
+				MinimumLod = -float.MaxValue,
+				MaximumLod = float.MaxValue
+			});
 		}
 
 		public override AgateLib.Geometry.Rectangle CoordinateSystem
@@ -102,6 +127,7 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation.Shaders
 			SharpDX.Matrix orthoProj = SharpDX.Matrix.OrthoOffCenterRH(
 						 mCoords.Left, mCoords.Right, mCoords.Bottom, mCoords.Top, -1, 1);
 
+			mDevice.DeviceContext.UpdateSubresource(ref orthoProj, mConstantBuffer, 0);
 			//// TODO: figure out why this method sometimes gets called when mDevice is null?
 			//if (mDevice != null)
 			//{
@@ -118,6 +144,12 @@ namespace AgateLib.Platform.WindowsPhone.DisplayImplementation.Shaders
 
 		public override void Begin()
 		{
+			mDevice.DeviceContext.VertexShader.SetConstantBuffer(0, mConstantBuffer);
+			mDevice.DeviceContext.VertexShader.Set(mVertexShader);
+
+			mDevice.DeviceContext.PixelShader.Set(mPixelShader);
+			mDevice.DeviceContext.PixelShader.SetSampler(0, mSampler);
+
 			//SDX_Display mDisplay = (SDX_Display)AgateLib.DisplayLib.Display.Impl;
 
 			//Set2DDrawState();

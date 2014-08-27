@@ -62,6 +62,11 @@ namespace AgateLib.OpenGL.Legacy
 
 		}
 
+		public override void Dispose()
+		{
+			GL.DeleteBuffer(mVertexBufferID);
+		}
+
 		public override void  Write<T>(T[] vertices)
 		{
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);

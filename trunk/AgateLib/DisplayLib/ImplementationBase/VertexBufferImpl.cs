@@ -28,7 +28,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 	/// <summary>
 	/// Class for implementing a vertex buffer stored in hardware memory.
 	/// </summary>
-	public abstract class VertexBufferImpl
+	public abstract class VertexBufferImpl : IDisposable
 	{
 		/// <summary>
 		/// Constructs a vertex buffer implementation.
@@ -37,6 +37,11 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		{
 			Textures = new TextureList();
 		}
+
+		/// <summary>
+		/// Disposes of the buffer.
+		/// </summary>
+		public abstract void Dispose();
 
 		/// <summary>
 		/// Writes vertices to the vertex buffer.
@@ -80,5 +85,6 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// Gets the vertex layout which is used to interpret the data in the vertex buffer.
 		/// </summary>
 		public abstract VertexLayout VertexLayout { get; }
+
 	}
 }

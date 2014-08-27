@@ -46,6 +46,11 @@ namespace AgateLib.OpenGL
 			System.Diagnostics.Debug.Print("Created {0} index buffer.", type);
 		}
 
+		public override void Dispose()
+		{
+			GL.DeleteBuffer(mBufferID);
+		}
+
 		private void CreateBuffer()
 		{
 			GL.GenBuffers(1, out mBufferID);

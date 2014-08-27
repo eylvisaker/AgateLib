@@ -29,7 +29,7 @@ namespace AgateLib.DisplayLib
 	/// used to reduce the amount of vertex data that needs to be stored/sent to the
 	/// graphics adapter.
 	/// </summary>
-	public class IndexBuffer
+	public class IndexBuffer : IDisposable
 	{
 		IndexBufferImpl impl;
 
@@ -41,6 +41,14 @@ namespace AgateLib.DisplayLib
 		public IndexBuffer(IndexBufferType type, int size)
 		{
 			impl = Display.Impl.CreateIndexBuffer(type, size);
+		}
+
+		/// <summary>
+		/// Disposes of the buffer.
+		/// </summary>
+		public void Dispose()
+		{
+			impl.Dispose();
 		}
 
 		/// <summary>
