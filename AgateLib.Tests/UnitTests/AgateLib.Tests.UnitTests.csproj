@@ -121,15 +121,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgateLib.Platform.Common\AgateLib.Platform.Common.csproj">
+    <ProjectReference Include="..\..\AgateLib.Platform.Common\AgateLib.Platform.Common.csproj">
       <Project>{fc9e7036-aa75-4a6b-82db-0f5e98b5fbcb}</Project>
       <Name>AgateLib.Platform.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
+    <ProjectReference Include="..\..\AgateLib.Platform.WinForms\AgateLib.Platform.WinForms.csproj">
       <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
       <Name>AgateLib.Platform.WindowsForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AgateLib\AgateLib.csproj">
+    <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{9490b719-829e-43a7-a5fe-8001f8a81759}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
