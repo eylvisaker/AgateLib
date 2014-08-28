@@ -169,15 +169,24 @@ namespace AgateLib.Utility
 			v = null;
 		}
 
-		public static bool operator==(Ref<T> r, object obj)
+		public static bool operator ==(Ref<T> r, T obj)
 		{
-			if (obj == null && r.v == null)
-				return true;
+			if (obj == null)
+			{
+				if (r.v == null)
+					return true;
+				else
+					return false;
+			}
 
-			else 
+			if (r.v == null)
 				return false;
+			if (r.v.Value == null)
+				return false;
+
+			return r.v.Value.Equals(obj);
 		}
-		public static bool operator !=(Ref<T> r, object obj)
+		public static bool operator !=(Ref<T> r, T obj)
 		{
 			return !(r == obj);
 		}
