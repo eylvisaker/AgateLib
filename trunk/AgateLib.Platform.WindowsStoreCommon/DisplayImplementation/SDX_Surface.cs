@@ -55,10 +55,10 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 		PointF mCenterPoint;
 
 		PositionTextureColor[] mVerts = new PositionTextureColor[4];
-		short[] mIndices = new short[] { 0, 2, 1, 1, 2, 3 };
+		short[] mIndices = new short[] { 0, 1, 2, 2, 1, 3 };
 
 		PositionTextureColor[] mExtraVerts = new PositionTextureColor[4];
-		short[] mExtraIndices = new short[] { 0, 2, 1, 1, 2, 3 };
+		short[] mExtraIndices = new short[] { 0, 1, 2, 2, 1, 3 };
 
 		#endregion
 

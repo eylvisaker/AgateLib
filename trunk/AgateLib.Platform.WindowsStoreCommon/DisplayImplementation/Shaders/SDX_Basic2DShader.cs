@@ -27,7 +27,7 @@ using SharpDX.Direct3D11;
 
 namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation.Shaders
 {
-	class SDX_Basic2DShader : Basic2DImpl  
+	class SDX_Basic2DShader : Basic2DImpl
 	{
 		Rectangle mCoords;
 
@@ -39,6 +39,7 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation.Shaders
 		SharpDX.Direct3D11.Buffer mConstantBuffer;
 
 		SamplerState mSampler;
+		BlendState mBlendState;
 
 		public SDX_Basic2DShader()
 		{
@@ -88,11 +89,29 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation.Shaders
 				MinimumLod = -float.MaxValue,
 				MaximumLod = float.MaxValue
 			});
+
+
+			var desc = new BlendStateDescription();
+
+			desc.RenderTarget[0] = new RenderTargetBlendDescription
+			{
+				SourceBlend = BlendOption.SourceAlpha,
+				SourceAlphaBlend = BlendOption.SourceAlpha,
+				DestinationBlend = BlendOption.InverseSourceAlpha,
+				DestinationAlphaBlend = BlendOption.InverseSourceAlpha,
+				AlphaBlendOperation = BlendOperation.Add,
+				BlendOperation = BlendOperation.Add,
+				IsBlendEnabled = true,
+				RenderTargetWriteMask = ColorWriteMaskFlags.All,
+			};
+
+			mBlendState = new BlendState(mDevice.Device, desc);
+
 		}
 
 		public override AgateLib.Geometry.Rectangle CoordinateSystem
 		{
-			get { return mCoords;  }
+			get { return mCoords; }
 			set
 			{
 				mCoords = value;
@@ -118,6 +137,9 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation.Shaders
 
 			//mDevice.SetTransform(TransformState.World, SlimDX.Matrix.Identity);
 			//mDevice.SetTransform(TransformState.View, SlimDX.Matrix.Identity);
+			
+			mDevice.DeviceContext.OutputMerger.BlendState = mBlendState;
+			//mDevice.DeviceContext.Rasterizer.State = rs;
 
 			SetOrthoProjection();
 		}
@@ -138,9 +160,7 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation.Shaders
 			mDevice.DeviceContext.PixelShader.Set(mPixelShader);
 			mDevice.DeviceContext.PixelShader.SetSampler(0, mSampler);
 
-			//SDX_Display mDisplay = (SDX_Display)AgateLib.DisplayLib.Display.Impl;
-
-			//Set2DDrawState();
+			Set2DDrawState();
 		}
 
 		public override void BeginPass(int passIndex)

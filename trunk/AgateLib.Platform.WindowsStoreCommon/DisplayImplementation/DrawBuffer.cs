@@ -31,7 +31,7 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 {
 	public class DrawBuffer
 	{
-		const int vertPageSize = 8;
+		const int vertPageSize = 1000;
 		int pages = 1;
 
 		SharpDXContext mContext;
@@ -177,8 +177,6 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 
 		private void DoDraw(object ignored)
 		{
-			//mDevice.DeviceContext.OutputMerger.SetTargets(this.parentContext.DepthStencilView, this.parentContext.BackBufferView);
-
 			mDevice.DeviceContext.UpdateSubresource(mVerts, mVertexBuffer);
 			mDevice.DeviceContext.UpdateSubresource(mIndices, mIndexBuffer);
 
@@ -186,12 +184,10 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 			mDevice.DeviceContext.InputAssembler.InputLayout = mVertexLayout;
 
 			mDevice.DeviceContext.InputAssembler.SetIndexBuffer(mIndexBuffer, SharpDX.DXGI.Format.R16_UInt, 0);
-			mDevice.DeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleStrip;
+			mDevice.DeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
 
 			mDevice.DeviceContext.PixelShader.SetShaderResource(0, mTextureView);
 			mDevice.DeviceContext.DrawIndexed(mIndexPointer, 0, 0);
-			mDevice.DeviceContext.Draw(4, 0);
 		}
-
 	}
 }

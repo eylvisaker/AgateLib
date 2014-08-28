@@ -34,6 +34,8 @@ namespace Tests.WindowsStore
 			int pos = (int)(time * 100);
 
 			image.Draw(pos % 100, pos % 200);
+
+			image.Draw(200, 200);
 		}
 	}
 }
