@@ -10,16 +10,14 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Platform.WindowsForms;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace Tests.Shaders
+namespace AgateLib.Testing.Shaders
 {
 	public class Hlsl: IAgateTest 
 	{
-		#region IAgateTest Members
-
 		public string Name
 		{
 			get { return "Hlsl (Direct3D only)"; }
@@ -30,12 +28,10 @@ namespace Tests.Shaders
 			get { return "Shaders"; }
 		}
 
-		void IAgateTest.Main(string[] args)
+		void Main(string[] args)
 		{
 			Run(args);
 		}
-
-		#endregion
 
 		bool rotating = false;
 		const float velocity = 0.04f;

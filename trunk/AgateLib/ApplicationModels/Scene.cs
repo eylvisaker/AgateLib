@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AgateLib.Geometry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace AgateLib.ApplicationModels
 {
 	public abstract class Scene
 	{
+		public bool SceneFinished { get; set; }
+
 		public bool UpdateBelow { get; set; }
 		public bool DrawBelow { get; set; }
 

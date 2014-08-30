@@ -35,9 +35,8 @@ using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 using AgateLib.OpenGL;
-using AgateLib.Platform.WindowsForms.WinForms;
 
-namespace AgateLib.Platform.WindowsForms.DisplayImplementation
+namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	/// <summary>
 	/// OpenGL 3.1 compatible.
@@ -385,7 +384,12 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		{
 			get { return mSourceRect.Size; }
 		}
-
+		public override bool IsLoaded
+		{
+			// We don't currently support background loading for OpenGL.
+			// So return true because if the surface is constructed, it's been loaded.
+			get { return true; }
+		}
 		public int GLTextureID { get { return mTextureID; } }
 
 		private void Load()
@@ -407,7 +411,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			Drawing.Bitmap textureImage;
 			Size newSize = GetOGLSize(sourceImage);
 
-			mSourceRect.Size = Interop.Convert(sourceImage.Size);
+			mSourceRect.Size = sourceImage.Size.ToGeometry();
 
 			if (newSize != mSourceRect.Size)
 			{
@@ -423,7 +427,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			else
 				textureImage = sourceImage;
 
-			mTextureSize = Interop.Convert(textureImage.Size);
+			mTextureSize = textureImage.Size.ToGeometry();
 
 			mTexCoord = GetTextureCoords(mSourceRect);
 
@@ -431,7 +435,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			Rectangle rectangle = new Rectangle(0, 0, textureImage.Width, textureImage.Height);
 
 			// Get The Bitmap's Pixel Data From The Locked Bitmap
-			BitmapData bitmapData = textureImage.LockBits(Interop.Convert(rectangle),
+			BitmapData bitmapData = textureImage.LockBits(rectangle.ToDrawing(),
 				ImageLockMode.ReadOnly, Drawing.Imaging.PixelFormat.Format32bppArgb);
 
 			// use a pixelbuffer to do format conversion.
@@ -452,7 +456,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 		private Size GetOGLSize(System.Drawing.Bitmap image)
 		{
-			return GetOGLSize(Interop.Convert(image.Size));
+			return GetOGLSize(image.Size.ToGeometry());
 		}
 		private Size GetOGLSize(Size size)
 		{
@@ -526,9 +530,6 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		/// Used for framebuffer surfaces which need to be flipped vertically for some reason.
 		/// </summary>
 		public bool FlipVertical { get; set; }
-
-
-
 
 		/// <summary>
 		/// Scans a memory area to see if it entirely contains pixels which won't be

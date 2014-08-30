@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using AgateLib.Resources.Legacy;
 
-namespace Tests.SpriteTester
+namespace AgateLib.Testing.DisplayTests.SpriteTester
 {
 	public partial class frmChooseSprite : Form
 	{

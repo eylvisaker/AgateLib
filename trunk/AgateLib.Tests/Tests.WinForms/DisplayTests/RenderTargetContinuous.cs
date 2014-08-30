@@ -5,10 +5,10 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Platform;
 
-namespace Tests.DisplayTests
+namespace AgateLib.Testing.DisplayTests
 {
 	class RenderTargetContinuous : IAgateTest
 	{

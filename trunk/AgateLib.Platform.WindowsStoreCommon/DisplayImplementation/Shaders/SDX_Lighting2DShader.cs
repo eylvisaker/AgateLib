@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation.Shaders
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation.Shaders
 {
 	class SDX_Lighting2DShader : AgateShaderImpl
 	{

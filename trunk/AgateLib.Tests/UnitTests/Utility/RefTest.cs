@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnitTests.Utility
+namespace AgateLib.Utility
 {
 	[TestClass]
 	public class RefTester : IDisposable
@@ -33,10 +33,15 @@ namespace UnitTests.Utility
 				}
 
 				Assert.AreEqual(1, r.Counter.GetRefCount());
+
+				// even though the second reference has been disposed, the object
+				// has not been disposed until we exit the current using block.
 				Assert.AreEqual(0, disposeCount);
 			}
 
+			// now the object has been disposed.
 			Assert.AreEqual(1, disposeCount);
 		}
+
 	}
 }

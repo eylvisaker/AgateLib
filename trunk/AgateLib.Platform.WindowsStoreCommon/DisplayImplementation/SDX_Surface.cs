@@ -35,19 +35,21 @@ using SharpDX.IO;
 using Texture2D = SharpDX.Direct3D11.Texture2D;
 using Windows.UI.Core;
 using Windows.Graphics.Imaging;
+using Windows.Storage;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	public class SDX_Surface : SurfaceImpl
 	{
 		#region --- Private Variables ---
 
 		SDX_Display mDisplay;
-		D3DDevice mDevice;
+		D3DDevice mDevice { get { return mDisplay.D3D_Device; } }
 
 		Ref<Texture2D> mTexture;
 		SharpDX.Direct3D11.ShaderResourceView mTextureView;
 
+		bool mIsLoaded;
 		string mFileName;
 
 		Rectangle mSrcRect;
@@ -93,20 +95,14 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 
 		#region --- Creation / Destruction ---
 
-		public SDX_Surface()
+		private SDX_Surface()
 		{
 			mDisplay = Display.Impl as SDX_Display;
-			mDevice = mDisplay.D3D_Device;
-
-			InitVerts();
 		}
 
-		public SDX_Surface(string fileName)
+		public SDX_Surface(string fileName) : this()
 		{
 			mFileName = fileName;
-
-			mDisplay = Display.Impl as SDX_Display;
-			mDevice = mDisplay.D3D_Device;
 
 			if (mDevice == null)
 			{
@@ -119,12 +115,9 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 
 			InitVerts();
 		}
-
 		public SDX_Surface(Stream stream)
+			: this()
 		{
-			mDisplay = Display.Impl as SDX_Display;
-			mDevice = mDisplay.D3D_Device;
-
 			if (mDevice == null)
 			{
 				throw new Exception("Error: It appears that AgateLib has not been initialized yet.  Have you created a DisplayWindow?");
@@ -135,6 +128,7 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 			InitVerts();
 		}
 		public SDX_Surface(Size size)
+			: this()
 		{
 			var texture = new Texture2D(mDevice.Device, new SharpDX.Direct3D11.Texture2DDescription()
 			{
@@ -156,11 +150,9 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 			InitVerts();
 		}
 		public SDX_Surface(Ref<Texture2D> texture, Rectangle sourceRect)
+			: this()
 		{
 			mSrcRect = sourceRect;
-
-			mDisplay = Display.Impl as SDX_Display;
-			mDevice = mDisplay.D3D_Device;
 
 			mTexture = new Ref<Texture2D>(texture);
 
@@ -170,6 +162,13 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 
 			InitVerts();
 		}
+
+		public SDX_Surface(PixelBuffer pixels)
+			: this()
+		{
+			InitializeFrom(pixels);
+		}
+
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -194,15 +193,18 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 				ReadFromStream(st, false);
 			});
 		}
-
 		public async void LoadFromFileAsync()
 		{
 			if (string.IsNullOrEmpty(mFileName))
 				return;
 
-			await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+			var window = SDX_Display.MainThreadCoreWindow;
+
+			await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
 			{
-				MemoryStream sourceStream = new MemoryStream(NativeFile.ReadAllBytes(mFileName));
+				var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(mFileName));
+				var sourceStream = await file.OpenStreamForReadAsync();
+
 				ReadFromStream(sourceStream, true);
 			});
 		}
@@ -223,20 +225,38 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 					ExifOrientationMode.IgnoreExifOrientation,
 					ColorManagementMode.DoNotColorManage);
 				byte[] pixelData = dataProvider.DetachPixelData();
+				
+				PixelBuffer pb = new PixelBuffer(PixelFormat.BGRA8888, 
+					new Size((int)bitmap.PixelWidth, (int)bitmap.PixelHeight));
 
-				using (var dataStream = new SharpDX.DataStream(pixelData.Length, true, true))
-				{
-					dataStream.WriteRange<byte>(pixelData);
+				pb.SetData(pixelData, PixelFormat.BGRA8888);
 
-					dataStream.Seek(0, SeekOrigin.Begin);
+				InitializeFrom(pb);
+			}
+			finally
+			{
+				if (disposeWhenDone)
+					sourceStream.Dispose();
+			}
+		}
 
-					var dataRectangle = new SharpDX.DataRectangle(dataStream.DataPointer, (int)(bitmap.PixelWidth * 4));
+		private void InitializeFrom(PixelBuffer pb)
+		{
+			using (var dataStream = new SharpDX.DataStream(pb.Data.Length, true, true))
+			{
+				dataStream.WriteRange<byte>(pb.Data);
 
-					var texture = new Texture2D(mDevice.Device, new SharpDX.Direct3D11.Texture2DDescription()
+				dataStream.Seek(0, SeekOrigin.Begin);
+
+				var dataRectangle = new SharpDX.DataRectangle(dataStream.DataPointer,
+					(int)(pb.Width * 4));
+
+				var texture = new Texture2D(mDevice.Device,
+					new SharpDX.Direct3D11.Texture2DDescription()
 					{
 						Format = SharpDX.DXGI.Format.B8G8R8A8_UNorm,
-						Width = (int)bitmap.PixelWidth,
-						Height = (int)bitmap.PixelHeight,
+						Width = pb.Width,
+						Height = pb.Height,
 						ArraySize = 1,
 						MipLevels = 1,
 						BindFlags = SharpDX.Direct3D11.BindFlags.ShaderResource,
@@ -246,15 +266,12 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 						SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0)
 					}, dataRectangle);
 
-					mTexture = new Ref<Texture2D>(texture);
-					mTextureView = new SharpDX.Direct3D11.ShaderResourceView(mDevice.Device, texture);
-				}
+				mTexture = new Ref<Texture2D>(texture);
+				mTextureView = new SharpDX.Direct3D11.ShaderResourceView(mDevice.Device, texture);
 			}
-			finally
-			{
-				if (disposeWhenDone)
-					sourceStream.Dispose();
-			}
+
+			InitializeValues();
+			mIsLoaded = true;
 		}
 
 		#endregion
@@ -379,10 +396,10 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 
 		private void SetVertsColor(Gradient ColorGradient, PositionTextureColor[] verts, int startIndex, int count)
 		{
-			verts[startIndex].Color = ColorGradient.TopLeft.ToArgb();
-			verts[startIndex + 1].Color = ColorGradient.TopRight.ToArgb();
-			verts[startIndex + 2].Color = ColorGradient.BottomLeft.ToArgb();
-			verts[startIndex + 3].Color = ColorGradient.BottomRight.ToArgb();
+			verts[startIndex].Color = ColorGradient.TopLeft.ToAbgr();
+			verts[startIndex + 1].Color = ColorGradient.TopRight.ToAbgr();
+			verts[startIndex + 2].Color = ColorGradient.BottomLeft.ToAbgr();
+			verts[startIndex + 3].Color = ColorGradient.BottomRight.ToAbgr();
 		}
 		private void SetVertsColor(Gradient ColorGradient, PositionTextureColor[] verts, int startIndex, int count,
 			double x, double y, double width, double height)
@@ -447,6 +464,12 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 		{
 			get { return mSrcRect.Size; }
 		}
+
+		public override bool IsLoaded
+		{
+			get { return mIsLoaded; }
+		}
+
 		#endregion
 
 		#region --- Surface saving ---

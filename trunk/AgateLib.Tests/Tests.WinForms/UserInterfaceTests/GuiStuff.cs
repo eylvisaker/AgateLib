@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GuiTester
+namespace AgateLib.Testing.UserInterfaceTests
 {
 	class GuiStuff
 	{

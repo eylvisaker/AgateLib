@@ -23,7 +23,7 @@ using System.Text;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.DisplayLib.Shaders.Implementation;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation.Shaders
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation.Shaders
 {
 	abstract class ShaderFactory
 	{

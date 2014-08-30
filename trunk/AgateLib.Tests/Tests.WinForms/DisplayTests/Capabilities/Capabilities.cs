@@ -1,16 +1,14 @@
 ﻿using AgateLib.ApplicationModels;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Tests.DisplayTests.Capabilities
+namespace AgateLib.Testing.DisplayTests.Capabilities
 {
-	class Capabilities : IAgateTest 
+	class Capabilities : IDiscreteAgateTest
 	{
-		#region IAgateTest Members
-
 		public string Name
 		{
 			get { return "Capabilities"; }
@@ -23,12 +21,13 @@ namespace Tests.DisplayTests.Capabilities
 
 		public void Main(string[] args)
 		{
-			new PassiveModel(args).Run( () =>
+			using (var model = new PassiveModel(args))
 			{
-				new frmCapabilities().ShowDialog();
-			});
+				model.Run(() =>
+				{
+					new frmCapabilities().ShowDialog();
+				});
+			}
 		}
-
-		#endregion
 	}
 }

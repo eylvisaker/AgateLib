@@ -6,16 +6,17 @@ using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.Resources.Legacy;
 using AgateLib.Sprites;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
-using AgateLib.Platform.WindowsForms;
+using AgateLib.Platform.WinForms.ApplicationModels;
+using AgateLib.Platform.WinForms;
+using AgateLib.ApplicationModels;
 
-namespace Tests.ResourceTester
+namespace AgateLib.Testing.CoreTests
 {
-	class ResourceTester : IAgateTest
+	class ResourceTester : IDiscreteAgateTest
 	{
 		public void Main(string[] args)
 		{
-			new PassiveModel(TestLauncher.PassiveParameters).Run( () =>
+			new PassiveModel(new PassiveModelParameters(args)).Run( () =>
 			{
 				AgateResourceCollection resources = new AgateResourceCollection("TestResourceFile.xml");
 
@@ -44,12 +45,7 @@ namespace Tests.ResourceTester
 			});
 		}
 
-
-		#region IAgateTest Members
-
 		public string Name { get { return "Resources"; } }
 		public string Category { get { return "Core"; } }
-
-		#endregion
 	}
 }

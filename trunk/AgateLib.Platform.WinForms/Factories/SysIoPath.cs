@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.Platform.WindowsForms.Factories
+namespace AgateLib.Platform.WinForms.Factories
 {
 	class SysIoPath : IPath
 	{

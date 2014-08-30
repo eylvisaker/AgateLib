@@ -4,11 +4,11 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Platform.WindowsForms.Resources;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.Resources;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace Tests.DisplayTests
+namespace AgateLib.Testing.DisplayTests
 {
 	class FullscreenTest : IAgateTest
 	{

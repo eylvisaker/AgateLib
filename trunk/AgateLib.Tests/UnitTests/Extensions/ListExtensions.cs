@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using AgateLib.Extensions.Collections.Generic;
 
-namespace AgateLib.UnitTests.Extensions
+namespace AgateLib.Extensions
 {
 	[TestClass]
 	public class ListExtensions

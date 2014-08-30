@@ -3,27 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Tests.CoreTests.PlatformDetection
+namespace AgateLib.Testing.CoreTests.PlatformDetection
 {
-	class PlatformDetector: IAgateTest
+	class PlatformDetector: IDiscreteAgateTest
 	{
-		#region IAgateTest Members
-
-		string IAgateTest.Name
+		public string Name
 		{
 			get { return "Platform Detection"; }
 		}
 
-		string IAgateTest.Category
+		public string Category
 		{
 			get { return "Core"; }
 		}
 
-		void IAgateTest.Main(string[] args)
+		public void Main(string[] args)
 		{
 			new PlatformDetection().ShowDialog();
 		}
-
-		#endregion
 	}
 }

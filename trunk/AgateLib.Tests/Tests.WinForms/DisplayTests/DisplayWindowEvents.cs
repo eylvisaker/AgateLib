@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Platform.WindowsForms.Resources;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.Resources;
+using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace Tests.DisplayTests
+namespace AgateLib.Testing.DisplayTests
 {
 	class DisplayWindowEvents : IAgateTest
 	{

@@ -2,8 +2,8 @@
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
-using AgateLib.UnitTests.Fakes;
+using AgateLib.Platform.WinForms.ApplicationModels;
+using AgateLib.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.UnitTests.Display
+namespace AgateLib.Display
 {
 	[TestClass]
 	public class FontTests

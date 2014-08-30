@@ -2,8 +2,8 @@
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
-using AgateLib.UnitTests.Fakes;
+using AgateLib.Platform.WinForms.ApplicationModels;
+using AgateLib.Testing.Fakes;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Layout;
 using AgateLib.UserInterface.Widgets;
@@ -26,6 +26,9 @@ namespace AgateLib.UserInterface.Css.Tests
 		[TestInitialize]
 		public void Init()
 		{
+			Core.Initialize(new FakeAgateFactory());
+			Core.InitAssetLocations(new AssetLocations());
+
 			ff = new Font("times");
 
 			ff.AddFont(new FontSettings(8, FontStyles.None),
@@ -50,7 +53,8 @@ namespace AgateLib.UserInterface.Css.Tests
 
 			gui = new Gui(new FakeRenderer(), engine);
 
-			Core.Initialize(new FakeAgateFactory(), new AssetLocations());
+			Core.Initialize(new FakeAgateFactory());
+			Core.InitAssetLocations(new AssetLocations());
 		}
 		private void RedoLayout()
 		{
@@ -116,30 +120,6 @@ namespace AgateLib.UserInterface.Css.Tests
 
 			Assert.AreEqual(18, wind.WidgetRect.Left);
 			Assert.AreEqual(22, wind.WidgetRect.Top);
-		}
-	}
-
-	[Obsolete]
-	public class FakeFontSurface : FontSurfaceImpl
-	{
-		public int Height { get; set; }
-
-		public override int FontHeight
-		{
-			get { return Height; }
-		}
-
-		public override void DrawText(FontState state)
-		{
-		}
-
-		public override void Dispose()
-		{
-		}
-
-		public override Size MeasureString(FontState state, string text)
-		{
-			return new Size(Height * text.Length, Height);
 		}
 	}
 }

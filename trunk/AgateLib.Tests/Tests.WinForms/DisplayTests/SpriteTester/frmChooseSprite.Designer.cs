@@ -1,4 +1,4 @@
-﻿namespace Tests.SpriteTester
+﻿namespace AgateLib.Testing.DisplayTests.SpriteTester
 {
 	partial class frmChooseSprite
 	{

@@ -7,17 +7,12 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 
-namespace Tests.ScreenCaptureExample
+namespace AgateLib.Testing.DisplayTests
 {
 	class LargeImageTest : IAgateTest
 	{
-
-		#region IAgateTest Members
-
 		public string Name { get { return "Large Image"; } }
 		public string Category { get { return "Display"; } }
-
-		#endregion
 
 		public void Main(string[] args)
 		{

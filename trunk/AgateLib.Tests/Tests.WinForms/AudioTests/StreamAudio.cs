@@ -7,10 +7,10 @@ using System.Text;
 using AgateLib;
 using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
-using AgateLib.Platform.WindowsForms.Resources;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.Resources;
+using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace Tests.AudioTests
+namespace AgateLib.Testing.AudioTests
 {
 	class StreamAudio : IAgateTest 
 	{

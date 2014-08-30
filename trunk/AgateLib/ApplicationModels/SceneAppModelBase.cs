@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AgateLib.DisplayLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,5 +35,22 @@ namespace AgateLib.ApplicationModels
 		}
 
 		protected abstract void BeginModel();
+
+
+		protected void RunSingleFrame()
+		{
+			foreach (var sc in SceneStack.UpdateScenes)
+				sc.Update(Display.DeltaTime);
+
+			SceneStack.CheckForFinishedScenes();
+			Display.BeginFrame();
+
+			foreach (var sc in SceneStack.DrawScenes)
+				sc.Draw();
+
+			Display.EndFrame();
+			Core.KeepAlive();
+		}
+
 	}
 }

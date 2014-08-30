@@ -1,12 +1,13 @@
 ﻿using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using SharpDX.SimpleInitializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WindowsStoreCommon
+namespace AgateLib.Platform.WindowsStore
 {
 	public interface IRenderTargetAdapter
 	{
@@ -17,5 +18,7 @@ namespace AgateLib.Platform.WindowsStoreCommon
 		void DetachEvents();
 
 		event EventHandler Disposed;
+
+		void BindContextToRenderTarget(SharpDXContext context);
 	}
 }

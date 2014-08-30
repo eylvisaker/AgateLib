@@ -5,55 +5,53 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace Tests.TileTester
+namespace AgateLib.Testing.DisplayTests.TileTester
 {
-	class TileTester : IAgateTest
+	class TileTester : IDiscreteAgateTest
 	{
-		#region IAgateTest Members
-
-		public string Name { get { return "Tiling"; } }
+		public string Name { get { return "Tile Tester"; } }
 		public string Category { get { return "Display"; } }
-
-		#endregion
 
 		Surface tile;
 		float xval, yval;
 
 		public void Main(string[] args)
 		{
-			new PassiveModel(args).Run( () =>
+			using (var model = new PassiveModel(args))
 			{
-				frmTileTester frm = new frmTileTester();
-				frm.Show();
-
-				tile = new Surface("bg-bricks.png");
-
-				Display.RenderState.WaitForVerticalBlank = true;
-				while (frm.IsDisposed == false)
+				model.Run(() =>
 				{
-					Display.BeginFrame();
-					Display.Clear(Color.FromArgb(255, 0, 255));
+					frmTileTester frm = new frmTileTester();
+					frm.Show();
 
-					DrawTiles();
+					tile = new Surface("bg-bricks.png");
 
-					Display.EndFrame();
-					Core.KeepAlive();
-
-					// move at 100 pixels per second
-					if (frm.ScrollX)
+					while (frm.IsDisposed == false)
 					{
-						xval += (float)Display.DeltaTime / 10.0f;
-					}
-					if (frm.ScrollY)
-					{
-						yval += (float)Display.DeltaTime / 10.0f;
-					}
+						Display.BeginFrame();
+						Display.Clear(Color.FromArgb(255, 0, 255));
 
-					frm.FPS = Display.FramesPerSecond;
-				}
-			});
+						DrawTiles();
+
+						Display.EndFrame();
+						Core.KeepAlive();
+
+						// move at 100 pixels per second
+						if (frm.ScrollX)
+						{
+							xval += (float)Display.DeltaTime / 10.0f;
+						}
+						if (frm.ScrollY)
+						{
+							yval += (float)Display.DeltaTime / 10.0f;
+						}
+
+						frm.FPS = Display.FramesPerSecond;
+					}
+				});
+			}
 		}
 
 		private void DrawTiles()

@@ -135,7 +135,7 @@ namespace AgateLib.Sprites
 		public Sprite(Surface surface, bool ownSurface, Size size)
 			: this(size)
 		{
-			AddNewFrames(surface, ownSurface, Point.Empty, Point.Empty, size, true);
+			AddNewFrames(surface, ownSurface, Point.Empty, Point.Empty, size, false);
 		}
 
 		/// <summary>
@@ -357,10 +357,18 @@ namespace AgateLib.Sprites
 		public void AddNewFrames(Surface surface, bool ownSurface, Point startPoint, Point extraSpace, Size size, bool skipBlank)
 		{
 			Point location = startPoint;
-			PixelBuffer pixels = surface.ReadPixels();
+			PixelBuffer pixels = null;
+			
+			if (skipBlank)
+				pixels = surface.ReadPixels();
 
 			if (ownSurface)
 				mOwnedSurfaces.Add(surface);
+
+			while (surface.IsLoaded == false)
+			{
+				throw new NotImplementedException();
+			}
 
 			do
 			{
@@ -371,8 +379,8 @@ namespace AgateLib.Sprites
 				currentFrame.SourceRect = currentRect;
 				currentFrame.SpriteSize = SpriteSize;
 
-				if (currentFrame.SourceRect.Right > pixels.Width) skip = true;
-				if (currentFrame.SourceRect.Bottom > pixels.Height) skip = true;
+				if (currentFrame.SourceRect.Right > surface.SurfaceWidth) skip = true;
+				if (currentFrame.SourceRect.Bottom > surface.SurfaceHeight) skip = true;
 
 				if (skipBlank && pixels.IsRegionBlank(currentFrame.SourceRect))
 					skip = true;
@@ -857,7 +865,6 @@ namespace AgateLib.Sprites
 					throw new ArgumentOutOfRangeException("CurrentFrameIndex must be between 0 and mFrames.Count - 1");
 
 				mCurrentFrameIndex = value;
-
 			}
 		}
 		/// <summary>

@@ -4,7 +4,7 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
 using AgateLib.Resources.DC;
 using AgateLib.Sprites;
-using AgateLib.UnitTests.Fakes;
+using AgateLib.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.UnitTests.Resources
+namespace AgateLib.Resources
 {
 	[TestClass]
 	public class SerializationTest
@@ -22,7 +22,8 @@ namespace AgateLib.UnitTests.Resources
 		public void SerializeFontResource()
 		{
 			AgateResourceCollection rc = new AgateResourceCollection();
-			AgateLib.Core.Initialize(new FakeAgateFactory(), new AssetLocations());
+			AgateLib.Core.Initialize(new FakeAgateFactory());
+			AgateLib.Core.InitAssetLocations(new AssetLocations());
 
 			rc.Resources.Add("mainfont",
 				new FontResource("times new roman",

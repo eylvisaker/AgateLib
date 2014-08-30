@@ -56,7 +56,7 @@ namespace AgateLib.Data
 		/// <returns></returns>
 		public static AgateDatabase FromFile(string filename)
 		{
-			AgateDatabase db = ReadDatabase(new AgateLib.Utility.ZipFileProvider(filename));
+			AgateDatabase db = ReadDatabase(new AgateLib.Platform.WinForms.IO.ZipFileProvider(filename));
 			db.mTables.OwnFileProvider = true;
 
 			return db;

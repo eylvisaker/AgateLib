@@ -5,19 +5,15 @@ using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace Tests.PixelBufferTest
+namespace AgateLib.Testing.DisplayTests.PixelBufferTest
 {
-	class PixelBufferTest : IAgateTest
+	class PixelBufferTest : IDiscreteAgateTest
 	{
-		#region IAgateTest Members
-
 		public string Name { get { return "Pixel Buffer"; } }
 		public string Category { get { return "Display"; } }
-
-		#endregion
 
 		Surface image;
 		Point imageLocation = new Point(50, 50);
@@ -26,31 +22,34 @@ namespace Tests.PixelBufferTest
 
 		public void Main(string[] args)
 		{
-			new PassiveModel(args).Run( () =>
+			using (var model = new PassiveModel(args))
 			{
-				frm = new PixelBufferForm();
-				frm.Show();
-
-				DisplayWindow wind = DisplayWindow.CreateFromControl(frm.panel1);
-
-				image = new Surface("9ball.png");
-				buffer = image.ReadPixels(PixelFormat.Any);
-
-				Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
-				Mouse.MouseMove += new InputEventHandler(Mouse_MouseMove);
-
-				while (wind.IsClosed == false)
+				model.Run(() =>
 				{
-					Display.BeginFrame();
-					Display.Clear();
+					frm = new PixelBufferForm();
+					frm.Show();
 
-					image.Draw(imageLocation);
+					DisplayWindow wind = DisplayWindow.CreateFromControl(frm.panel1);
 
-					Display.EndFrame();
-					Core.KeepAlive();
-				}
+					image = new Surface("9ball.png");
+					buffer = image.ReadPixels(PixelFormat.Any);
 
-			});
+					Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
+					Mouse.MouseMove += new InputEventHandler(Mouse_MouseMove);
+
+					while (wind.IsClosed == false)
+					{
+						Display.BeginFrame();
+						Display.Clear();
+
+						image.Draw(imageLocation);
+
+						Display.EndFrame();
+						Core.KeepAlive();
+					}
+
+				});
+			}
 		}
 
 		void Mouse_MouseMove(InputEventArgs e)

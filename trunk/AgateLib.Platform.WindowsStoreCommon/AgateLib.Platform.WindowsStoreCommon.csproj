@@ -8,7 +8,7 @@
     <ProjectGuid>{C7F9AE34-B781-4490-A9B2-5728F44F3523}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgateLib.Platform.WindowsStoreCommon</RootNamespace>
+    <RootNamespace>AgateLib.Platform.WindowsStore</RootNamespace>
     <AssemblyName>AgateLib.Platform.WindowsStoreCommon</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
@@ -16,6 +16,8 @@
     <TargetFrameworkProfile>Profile32</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <NuGetPackageImportStamp>2455b0df</NuGetPackageImportStamp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -48,6 +51,7 @@
     <None Include="Resources\fxc.bat" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationModels\WindowsStoreSerialModelParameters.cs" />
     <Compile Include="DisplayImplementation\D3DDevice.cs" />
     <Compile Include="DisplayImplementation\DrawBuffer.cs" />
     <Compile Include="DisplayImplementation\FrameBufferSurface.cs" />
@@ -69,11 +73,13 @@
     <Compile Include="Interop.cs" />
     <Compile Include="IRenderTargetAdapter.cs" />
     <Compile Include="PlatformImplementation\DiagnosticsStopwatch.cs" />
-    <Compile Include="PlatformImplementation\WPAssetFileProvider.cs" />
+    <Compile Include="PlatformImplementation\WindowsStoreAssetFileProvider.cs" />
     <Compile Include="PlatformImplementation\WindowsStorePlatformFactory.cs" />
-    <Compile Include="PlatformImplementation\WPPlatformInfo.cs" />
+    <Compile Include="PlatformImplementation\WindowsStorePlatformInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SwapChainPanelAdapter.cs" />
     <Compile Include="SwapChainBackgroundPanelAdapter.cs" />
+    <Compile Include="ApplicationModels\WindowsStoreSceneModelParameters.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SharpDX">
@@ -114,10 +120,12 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\SharpDX.2.6.2\build\SharpDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpDX.2.6.2\build\SharpDX.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
   <PropertyGroup>
     <PreBuildEvent>cd $(ProjectDir)\Resources &amp; $(ProjectDir)Resources\buildshaders.bat /Zi</PreBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

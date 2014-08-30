@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.Platform.WindowsForms.DisplayImplementation
+namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	class ContextInfo : IDisposable
 	{

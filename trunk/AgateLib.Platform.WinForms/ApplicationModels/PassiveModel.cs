@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WindowsForms.ApplicationModels
+namespace AgateLib.Platform.WinForms.ApplicationModels
 {
 	/// <summary>
 	/// The passive model does very little - it simply initializes AgateLib and cleans up when your
@@ -38,6 +38,11 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 			Parameters.Arguments = args;
 
 			ProcessArguments();
+		}
+
+		protected override void InitializeImpl()
+		{
+			WinFormsInitializer.Initialize(Parameters);
 		}
 
 		public new PassiveModelParameters Parameters

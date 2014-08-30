@@ -1,5 +1,4 @@
 ﻿using AgateLib.DisplayLib;
-using AgateLib.Platform.WindowsForms.WinForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WindowsForms
+namespace AgateLib.Platform.WinForms
 {
 	public static class PixelBufferExtensions
 	{
@@ -21,7 +20,7 @@ namespace AgateLib.Platform.WindowsForms
 			System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(buffer.Width, buffer.Height);
 
 			System.Drawing.Imaging.BitmapData data = bmp.LockBits(
-				new System.Drawing.Rectangle(System.Drawing.Point.Empty, Interop.Convert(buffer.Size)),
+				new System.Drawing.Rectangle(System.Drawing.Point.Empty, buffer.Size.ToDrawing()),
 				System.Drawing.Imaging.ImageLockMode.WriteOnly,
 				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 

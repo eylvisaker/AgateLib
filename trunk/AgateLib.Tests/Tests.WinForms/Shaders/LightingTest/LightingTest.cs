@@ -7,19 +7,15 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace Tests.LightingTest
+namespace AgateLib.Testing.Shaders.LightingTest
 {
 	class LightingTest : IAgateTest
 	{
-		#region IAgateTest Members
-
 		public string Name { get { return "Lighting"; } }
 		public string Category { get { return "Shaders"; } }
-
-		#endregion
 
 		public void Main(string[] args)
 		{

@@ -12,10 +12,11 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Resources.Legacy;
 using AgateLib.Sprites;
-using AgateLib.Platform.WindowsForms;
+using AgateLib.Platform.WinForms;
 using AgateLib.Utility;
+using AgateLib.Platform.WinForms.IO;
 
-namespace Tests.SpriteTester
+namespace AgateLib.Testing.DisplayTests.SpriteTester
 {
 	public partial class frmSpriteTester : Form
 	{

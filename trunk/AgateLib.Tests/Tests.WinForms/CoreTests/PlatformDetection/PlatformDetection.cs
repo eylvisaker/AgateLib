@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Tests.CoreTests.PlatformDetection
+namespace AgateLib.Testing.CoreTests.PlatformDetection
 {
 	public partial class PlatformDetection : Form 
 	{

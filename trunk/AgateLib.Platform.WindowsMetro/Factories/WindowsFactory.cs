@@ -1,24 +1,25 @@
-﻿using AgateLib.DisplayLib;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 using AgateLib.Drivers.NullDrivers;
-using AgateLib.Platform.WindowsStoreCommon;
-using AgateLib.Platform.WindowsStoreCommon.Factories;
+using AgateLib.Platform.WindowsStore;
+using AgateLib.Platform.WindowsStore.Factories;
 using SharpDX.SimpleInitializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.Platform.Windows.Factories
+namespace AgateLib.Platform.WindowsMetro.Factories
 {
 	class WindowsFactory : IAgateFactory
 	{
 		DisplayFactory mDisplayFactory;
 
-		public WindowsFactory(SharpDXContext context, IRenderTargetAdapter renderTarget)
+		public WindowsFactory(IRenderTargetAdapter renderTarget, AssetLocations assets)
 		{
-			mDisplayFactory = new DisplayFactory(context, renderTarget);
-			PlatformFactory = new WinPlatformFactory();
+			mDisplayFactory = new DisplayFactory();
+			PlatformFactory = new WinPlatformFactory(assets);
 
 			AudioFactory = new NullSoundFactory();
 			InputFactory = new NullInputFactory();
@@ -32,5 +33,11 @@ namespace AgateLib.Platform.Windows.Factories
 		public IInputFactory InputFactory { get; private set; }
 		public IPlatformFactory PlatformFactory { get; private set; }
 		public FontSurface DefaultFont { get; set; }
+
+		public IRenderTargetAdapter RenderTargetAdapter
+		{
+			get { return mDisplayFactory.RenderTargetAdapter; }
+			set { mDisplayFactory.RenderTargetAdapter = value; }
+		}
 	}
 }

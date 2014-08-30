@@ -100,9 +100,9 @@ namespace AgateLib.ApplicationModels
 			}
 			finally
 			{
-				DisposeAutoCreatedWindow();
+				//DisposeAutoCreatedWindow();
 
-				Dispose();
+				//Dispose();
 			}
 		}
 

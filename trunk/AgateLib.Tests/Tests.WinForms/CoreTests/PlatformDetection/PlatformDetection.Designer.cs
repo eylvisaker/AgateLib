@@ -1,4 +1,4 @@
-﻿namespace Tests.CoreTests.PlatformDetection
+﻿namespace AgateLib.Testing.CoreTests.PlatformDetection
 {
 	partial class PlatformDetection
 	{

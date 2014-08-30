@@ -1,17 +1,18 @@
 ﻿using AgateLib.Drivers;
-using AgateLib.Platform.WindowsStoreCommon.PlatformImplementation;
-using AgateLib.Platform.WindowsStoreCommon.Factories;
+using AgateLib.Platform.WindowsStore.PlatformImplementation;
+using AgateLib.Platform.WindowsStore.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.ApplicationModels;
 
-namespace AgateLib.Platform.Windows.Factories
+namespace AgateLib.Platform.WindowsMetro.Factories
 {
 	class WinPlatformFactory : WindowsStorePlatformFactory
 	{
-		public WinPlatformFactory()
-			: base(false)
+		public WinPlatformFactory(AssetLocations assets)
+			: base(false, assets)
 		{ }
 	}
 }

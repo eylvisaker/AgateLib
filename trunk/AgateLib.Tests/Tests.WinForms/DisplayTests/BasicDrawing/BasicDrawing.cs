@@ -6,67 +6,12 @@ using System.Collections.Generic;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace Tests.DisplayTests.BasicDrawing
+namespace AgateLib.Testing.DisplayTests.BasicDrawing
 {
-	class BasicDrawing : IAgateTest
+	class BasicDrawing : IDiscreteAgateTest
 	{
-		enum ShapeType
-		{
-			FillRect,
-			FillEllipse,
-			DrawRect,
-			DrawEllipse,
-			DrawLine,
-		}
-
-		class Shape
-		{
-			public Shape()
-			{
-			}
-			public Shape(ShapeType shapeType, Color color, Rectangle rect)
-			{
-				FigureType = shapeType;
-				Color = color;
-				Rect = rect;
-			}
-
-			public ShapeType FigureType;
-			public Color Color;
-			public Rectangle Rect;
-
-			public void Draw()
-			{
-				switch (FigureType)
-				{
-					case ShapeType.DrawLine:
-						Display.DrawLine(Rect.Left, Rect.Top, Rect.Right, Rect.Bottom, Color);
-						break;
-
-					case ShapeType.DrawRect:
-						Display.DrawRect(Rect, Color);
-						break;
-
-					case ShapeType.DrawEllipse:
-						Display.DrawEllipse(Rect, Color);
-						break;
-
-					case ShapeType.FillRect:
-						Display.FillRect(Rect, Color);
-						break;
-
-					case ShapeType.FillEllipse:
-						Display.FillEllipse(Rect, Color);
-						break;
-
-					default:
-						throw new NotImplementedException();
-				}
-			}
-		}
-
 		List<Shape> shapes = new List<Shape>();
 		Random random = new Random();
 		DrawingTester frm;
@@ -74,7 +19,6 @@ namespace Tests.DisplayTests.BasicDrawing
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		[STAThread]
 		public void Main(string[] args)
 		{
 			new PassiveModel(args).Run( () =>
@@ -188,7 +132,7 @@ namespace Tests.DisplayTests.BasicDrawing
 
 		}
 
-		#region IAgateTest Members
+		
 
 		public string Name
 		{
@@ -200,6 +144,60 @@ namespace Tests.DisplayTests.BasicDrawing
 			get { return "Display"; }
 		}
 
-		#endregion
 	}
+	enum ShapeType
+	{
+		FillRect,
+		FillEllipse,
+		DrawRect,
+		DrawEllipse,
+		DrawLine,
+	}
+
+	class Shape
+	{
+		public Shape()
+		{
+		}
+		public Shape(ShapeType shapeType, Color color, Rectangle rect)
+		{
+			FigureType = shapeType;
+			Color = color;
+			Rect = rect;
+		}
+
+		public ShapeType FigureType;
+		public Color Color;
+		public Rectangle Rect;
+
+		public void Draw()
+		{
+			switch (FigureType)
+			{
+				case ShapeType.DrawLine:
+					Display.DrawLine(Rect.Left, Rect.Top, Rect.Right, Rect.Bottom, Color);
+					break;
+
+				case ShapeType.DrawRect:
+					Display.DrawRect(Rect, Color);
+					break;
+
+				case ShapeType.DrawEllipse:
+					Display.DrawEllipse(Rect, Color);
+					break;
+
+				case ShapeType.FillRect:
+					Display.FillRect(Rect, Color);
+					break;
+
+				case ShapeType.FillEllipse:
+					Display.FillEllipse(Rect, Color);
+					break;
+
+				default:
+					throw new NotImplementedException();
+			}
+		}
+	}
+
 }

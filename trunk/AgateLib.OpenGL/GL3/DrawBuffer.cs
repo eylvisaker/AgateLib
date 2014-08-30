@@ -36,7 +36,7 @@ namespace AgateLib.OpenGL.GL3
 	/// Quad drawing, since quads are deprecated.
 	/// Thus, we need an index buffer.
 	/// </summary>
-	public class DrawBuffer : GLDrawBuffer 
+	public class DrawBuffer : GLDrawBuffer
 	{
 		PositionTextureColor[] mVerts;
 
@@ -140,7 +140,7 @@ namespace AgateLib.OpenGL.GL3
 		{
 			AddQuad(textureID, new Gradient(color), texCoord, pts);
 		}
-		public override  void AddQuad(int textureID, Gradient color, TextureCoordinates texCoord, PointF[] pts)
+		public override void AddQuad(int textureID, Gradient color, TextureCoordinates texCoord, PointF[] pts)
 		{
 			SetTexture(textureID);
 
@@ -158,40 +158,24 @@ namespace AgateLib.OpenGL.GL3
 
 			mVerts[mIndex].U = texCoord.Left;
 			mVerts[mIndex].V = texCoord.Top;
-			mVerts[mIndex].Color = ToAbgr(color.TopLeft);
+			mVerts[mIndex].Color = color.TopLeft.ToAbgr();
 
-			mVerts[mIndex+1].U = texCoord.Right;
-			mVerts[mIndex+1].V = texCoord.Top;
-			mVerts[mIndex + 1].Color = ToAbgr(color.TopRight);
+			mVerts[mIndex + 1].U = texCoord.Right;
+			mVerts[mIndex + 1].V = texCoord.Top;
+			mVerts[mIndex + 1].Color = color.TopRight.ToAbgr();
 
 			mVerts[mIndex + 2].U = texCoord.Right;
 			mVerts[mIndex + 2].V = texCoord.Bottom;
-			mVerts[mIndex + 2].Color = ToAbgr(color.BottomRight);
+			mVerts[mIndex + 2].Color = color.BottomRight.ToAbgr();
 
 			mVerts[mIndex + 3].U = texCoord.Left;
 			mVerts[mIndex + 3].V = texCoord.Bottom;
-			mVerts[mIndex + 3].Color = ToAbgr(color.BottomLeft);
+			mVerts[mIndex + 3].Color = color.BottomLeft.ToAbgr();
 
 			mIndex += 4;
 
 		}
 
-
-		private int ToAbgr(Color c)
-		{
-			int val = c.A;
-
-			val <<= 8;
-			val |= c.B;
-
-			val <<= 8;
-			val |= c.G;
-
-			val <<= 8;
-			val |= c.R;
-
-			return val;
-		}
 		public override void Flush()
 		{
 			if (mIndex == 0)
@@ -204,11 +188,10 @@ namespace AgateLib.OpenGL.GL3
 			SetGLInterpolation();
 
 			IGL_Display display = (IGL_Display)Display.Impl;
-			Shaders.IGL3Shader shader = (Shaders.IGL3Shader) display.Shader.Impl;
+			Shaders.IGL3Shader shader = (Shaders.IGL3Shader)display.Shader.Impl;
 
 			shader.SetVertexAttributes(PositionTextureColor.VertexLayout);
 
-			
 			GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
 			shader.SetTexture(0);

@@ -36,10 +36,10 @@ using OpenTK.Graphics.OpenGL;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using OpenTK.Platform;
 using AgateLib.OpenGL;
-using AgateLib.Platform.WindowsForms.WinForms;
 using AgateLib.InputLib.Legacy;
+using AgateLib.Platform.WinForms.Controls;
 
-namespace AgateLib.Platform.WindowsForms.DisplayImplementation
+namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	/// <summary>
 	/// No OpenGL code here.
@@ -184,7 +184,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 			OpenTK.DisplayDevice.Default.RestoreResolution();
 
-			AgateLib.Platform.WindowsForms.WinForms.FormUtil.InitializeWindowsForm(
+			AgateLib.Platform.WinForms.Controls.FormUtil.InitializeWindowsForm(
 				out myform, out myRenderTarget, mChoosePosition,
 				mTitle, mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
 
@@ -496,7 +496,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		}
 		void pct_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			//SetInternalMousePosition(Interop.Convert(e.Location));
+			//SetInternalMousePosition(e.Location));
 			Input.QueueInputEvent(AgateInputEventArgs.MouseMove(
 				this, PixelToLogicalCoords(new Point(e.X, e.Y))));
 		}
@@ -534,14 +534,14 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		{
 			get
 			{
-				return Interop.Convert(mRenderTarget.ClientSize);
+				return mRenderTarget.ClientSize.ToGeometry();
 			}
 			set
 			{
-				mRenderTarget.ClientSize = Interop.Convert(value);
+				mRenderTarget.ClientSize = value.ToDrawing();
 
 				if (frm != null)
-					frm.ClientSize = Interop.Convert(value);
+					frm.ClientSize = value.ToDrawing();
 			}
 		}
 
@@ -565,11 +565,11 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 		{
 			get
 			{
-				return Interop.Convert(mRenderTarget.PointToClient(Cursor.Position));
+				return mRenderTarget.PointToClient(Cursor.Position).ToGeometry();
 			}
 			set
 			{
-				Cursor.Position = mRenderTarget.PointToScreen(Interop.Convert(value));
+				Cursor.Position = mRenderTarget.PointToScreen(value.ToDrawing());
 			}
 		}
 
@@ -588,15 +588,31 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 
 		#endregion
 
+		bool customMessageLoop;
+
 		void IPrimaryWindow.RunApplication()
 		{
-			Application.Run(frm);
+			if (Application.MessageLoop == false)
+			{
+				Application.Run(frm);
+			}
+			else
+			{
+				customMessageLoop = true;
+				while(customMessageLoop)
+				{
+					Application.DoEvents();
+				}
+			}
 		}
 
 
 		public void ExitMessageLoop()
 		{
-			Application.Exit();
+			if (customMessageLoop)
+				customMessageLoop = false;
+			else
+				Application.Exit();
 		}
 
 

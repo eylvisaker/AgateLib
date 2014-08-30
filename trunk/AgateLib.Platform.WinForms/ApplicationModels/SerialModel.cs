@@ -1,5 +1,5 @@
 ﻿using AgateLib.ApplicationModels;
-using AgateLib.Platform.WindowsForms.DisplayImplementation;
+using AgateLib.Platform.WinForms.DisplayImplementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WindowsForms.ApplicationModels
+namespace AgateLib.Platform.WinForms.ApplicationModels
 {
 	public class SerialModel : EntryPointAppModelBase
 	{
@@ -43,6 +43,11 @@ namespace AgateLib.Platform.WindowsForms.ApplicationModels
 		public new SerialModelParameters Parameters
 		{
 			get { return (SerialModelParameters)base.Parameters; }
+		}
+
+		protected override void InitializeImpl()
+		{
+			WinFormsInitializer.Initialize(Parameters);
 		}
 
 		int ExecuteEntry(Func<int> entryPoint)

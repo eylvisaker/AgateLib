@@ -5,7 +5,7 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.OpenGL;
-using AgateLib.Platform.WindowsForms.DisplayImplementation;
+using AgateLib.Platform.WinForms.DisplayImplementation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WindowsForms.Factories
+namespace AgateLib.Platform.WinForms.Factories
 {
 	class DisplayFactory : IDisplayFactory
 	{
@@ -48,16 +48,26 @@ namespace AgateLib.Platform.WindowsForms.Factories
 			return new GL_Surface(surfaceSize);
 		}
 
+
+		public SurfaceImpl CreateSurface(PixelBuffer pixels)
+		{
+			var retval = CreateSurface(pixels.Size);
+
+			retval.WritePixels(pixels);
+
+			return retval;
+		}
+
 		public FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyles style)
 		{
 			BitmapFontOptions options = new BitmapFontOptions(fontFamily, sizeInPoints, style);
 
-			return AgateLib.Platform.WindowsForms.WinForms.BitmapFontUtil.ConstructFromOSFont(options);
+			return AgateLib.Platform.WinForms.Fonts.BitmapFontUtil.ConstructFromOSFont(options);
 		}
 
 		public FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
 		{
-			return AgateLib.Platform.WindowsForms.WinForms.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
+			return AgateLib.Platform.WinForms.Fonts.BitmapFontUtil.ConstructFromOSFont(bitmapOptions);
 		}
 
 

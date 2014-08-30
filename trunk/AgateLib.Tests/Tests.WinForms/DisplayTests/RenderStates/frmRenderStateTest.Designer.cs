@@ -1,4 +1,4 @@
-﻿namespace Tests.DisplayTests.RenderStates
+﻿namespace AgateLib.Testing.DisplayTests.RenderStates
 {
 	partial class frmRenderStateTest
 	{
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.agateRenderTarget1 = new AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget();
+			this.agateRenderTarget1 = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -87,7 +87,7 @@
 
 		#endregion
 
-		private AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget agateRenderTarget1;
+		private AgateLib.Platform.WinForms.Controls.AgateRenderTarget agateRenderTarget1;
 		private System.Windows.Forms.PropertyGrid propertyGrid1;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 	}

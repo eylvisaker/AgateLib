@@ -1,4 +1,4 @@
-﻿namespace Tests
+﻿namespace AgateLib.Testing
 {
 	partial class frmLauncher
 	{
@@ -28,118 +28,89 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLauncher));
 			this.lstTests = new System.Windows.Forms.ListBox();
-			this.displayList = new System.Windows.Forms.ComboBox();
-			this.inputList = new System.Windows.Forms.ComboBox();
-			this.audioList = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
+			this.txtCommandLine = new System.Windows.Forms.TextBox();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.txtTestInfo = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// lstTests
 			// 
-			this.lstTests.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lstTests.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.lstTests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.lstTests.FormattingEnabled = true;
-			this.lstTests.Location = new System.Drawing.Point(324, 12);
+			this.lstTests.Location = new System.Drawing.Point(12, 36);
 			this.lstTests.MultiColumn = true;
 			this.lstTests.Name = "lstTests";
-			this.lstTests.Size = new System.Drawing.Size(349, 472);
+			this.lstTests.Size = new System.Drawing.Size(646, 290);
 			this.lstTests.TabIndex = 0;
 			this.lstTests.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstTests_DrawItem);
+			this.lstTests.SelectedIndexChanged += new System.EventHandler(this.lstTests_SelectedIndexChanged);
 			this.lstTests.DoubleClick += new System.EventHandler(this.lstTests_DoubleClick);
 			this.lstTests.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstTests_KeyUp);
 			// 
-			// displayList
-			// 
-			this.displayList.DisplayMember = "FriendlyName";
-			this.displayList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.displayList.FormattingEnabled = true;
-			this.displayList.Location = new System.Drawing.Point(70, 12);
-			this.displayList.Name = "displayList";
-			this.displayList.Size = new System.Drawing.Size(229, 21);
-			this.displayList.TabIndex = 8;
-			this.displayList.SelectedIndexChanged += new System.EventHandler(this.displayList_SelectedIndexChanged);
-			// 
-			// inputList
-			// 
-			this.inputList.DisplayMember = "FriendlyName";
-			this.inputList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.inputList.FormattingEnabled = true;
-			this.inputList.Location = new System.Drawing.Point(70, 66);
-			this.inputList.Name = "inputList";
-			this.inputList.Size = new System.Drawing.Size(229, 21);
-			this.inputList.TabIndex = 10;
-			this.inputList.SelectedIndexChanged += new System.EventHandler(this.inputList_SelectedIndexChanged);
-			// 
-			// audioList
-			// 
-			this.audioList.DisplayMember = "FriendlyName";
-			this.audioList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.audioList.FormattingEnabled = true;
-			this.audioList.Location = new System.Drawing.Point(70, 39);
-			this.audioList.Name = "audioList";
-			this.audioList.Size = new System.Drawing.Size(229, 21);
-			this.audioList.TabIndex = 12;
-			this.audioList.SelectedIndexChanged += new System.EventHandler(this.audioList_SelectedIndexChanged);
-			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(9, 15);
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(248, 15);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(55, 18);
-			this.label1.TabIndex = 9;
-			this.label1.Text = "Display";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.Size = new System.Drawing.Size(131, 13);
+			this.label1.TabIndex = 1;
+			this.label1.Text = "Command line parameters:";
 			// 
-			// label2
+			// txtCommandLine
 			// 
-			this.label2.Location = new System.Drawing.Point(24, 69);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(40, 18);
-			this.label2.TabIndex = 11;
-			this.label2.Text = "Input";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.txtCommandLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtCommandLine.Location = new System.Drawing.Point(385, 12);
+			this.txtCommandLine.Name = "txtCommandLine";
+			this.txtCommandLine.Size = new System.Drawing.Size(273, 20);
+			this.txtCommandLine.TabIndex = 2;
+			this.txtCommandLine.Text = "--window 800x600 --novsync";
+			this.txtCommandLine.TextChanged += new System.EventHandler(this.txtCommandLine_TextChanged);
 			// 
-			// label3
+			// txtTestInfo
 			// 
-			this.label3.Location = new System.Drawing.Point(23, 42);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(41, 18);
-			this.label3.TabIndex = 13;
-			this.label3.Text = "Audio";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.txtTestInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtTestInfo.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtTestInfo.Location = new System.Drawing.Point(12, 337);
+			this.txtTestInfo.Multiline = true;
+			this.txtTestInfo.Name = "txtTestInfo";
+			this.txtTestInfo.ReadOnly = true;
+			this.txtTestInfo.Size = new System.Drawing.Size(646, 91);
+			this.txtTestInfo.TabIndex = 3;
 			// 
 			// frmLauncher
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(685, 494);
-			this.Controls.Add(this.lstTests);
-			this.Controls.Add(this.inputList);
-			this.Controls.Add(this.audioList);
-			this.Controls.Add(this.label3);
-			this.Controls.Add(this.label2);
+			this.ClientSize = new System.Drawing.Size(670, 440);
+			this.Controls.Add(this.txtTestInfo);
+			this.Controls.Add(this.txtCommandLine);
 			this.Controls.Add(this.label1);
-			this.Controls.Add(this.displayList);
+			this.Controls.Add(this.lstTests);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MinimumSize = new System.Drawing.Size(450, 400);
 			this.Name = "frmLauncher";
 			this.Text = "AgateLib Test Launcher";
 			this.Load += new System.EventHandler(this.frmLauncher_Load);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
 
 		private System.Windows.Forms.ListBox lstTests;
-		private System.Windows.Forms.ComboBox displayList;
-		private System.Windows.Forms.ComboBox inputList;
-		private System.Windows.Forms.ComboBox audioList;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.TextBox txtCommandLine;
+		private System.Windows.Forms.ToolTip toolTip1;
+		private System.Windows.Forms.TextBox txtTestInfo;
 	}
 }

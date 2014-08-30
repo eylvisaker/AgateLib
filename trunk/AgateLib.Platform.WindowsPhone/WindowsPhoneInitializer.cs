@@ -1,20 +1,26 @@
 ﻿using AgateLib.ApplicationModels;
-using AgateLib.Platform.WindowsStoreCommon.Factories;
-using AgateLib.Platform.WindowsStoreCommon;
+using AgateLib.Platform.WindowsStore.Factories;
+using AgateLib.Platform.WindowsStore;
 using SharpDX.SimpleInitializer;
 using System;
-using AgateLib.Platform.WindowsPhone8.Factories;
+using AgateLib.Platform.WindowsPhone.Factories;
 
-namespace AgateLib.Platform.WindowsPhone8
+namespace AgateLib.Platform.WindowsPhone
 {
 	static class WindowsPhoneInitializer
 	{
 		static WindowsPhoneFactory factory;
 
-		internal static void Initialize(SharpDXContext context, IRenderTargetAdapter renderTarget, AssetLocations assets)
+		internal static void Initialize(IRenderTargetAdapter renderTargetAdapter, AssetLocations assets)
 		{
-			factory = new WindowsPhoneFactory(context, renderTarget);
-			Core.Initialize(factory, assets);
+			if (factory == null)
+			{
+				factory = new WindowsPhoneFactory(assets);
+				Core.Initialize(factory);
+			}
+
+			factory.RenderTargetAdapter = renderTargetAdapter;
+			Core.InitAssetLocations(assets);
 		}
 	}
 }

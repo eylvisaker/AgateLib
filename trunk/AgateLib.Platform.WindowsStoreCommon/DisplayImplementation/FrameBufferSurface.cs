@@ -26,7 +26,7 @@ using AgateLib.Geometry;
 using SharpDX.Direct3D11;
 using AgateLib.Geometry.CoordinateSystems;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	class FrameBufferSurface : SDX_FrameBuffer 
 	{

@@ -5,18 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace Tests.InputTester
+namespace AgateLib.Testing.InputTests.InputTester
 {
 	class InputTester : IAgateTest
 	{
-		#region IAgateTest Members
-
 		public string Name { get { return "Input Tester"; } }
 		public string Category { get { return "Input"; } }
-
-		#endregion
 
 		public void Main(string[] args)
 		{

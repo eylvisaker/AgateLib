@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using AgateLib.DisplayLib;
 
-namespace Tests.DisplayTests.RenderStates
+namespace AgateLib.Testing.DisplayTests.RenderStates
 {
 	public partial class frmRenderStateTest : Form
 	{

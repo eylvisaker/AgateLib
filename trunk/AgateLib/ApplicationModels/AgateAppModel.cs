@@ -32,7 +32,13 @@ namespace AgateLib.ApplicationModels
 	{
 		#region --- Static Members ---
 
-		public static AgateAppModel Instance { get; private set; }
+		static AgateAppModel sInstance;
+
+		public static AgateAppModel Instance
+		{
+			get { return sInstance; }
+			private set { sInstance = value; }
+		}
 
 		public static bool IsAlive
 		{
@@ -55,6 +61,7 @@ namespace AgateLib.ApplicationModels
 		#endregion
 
 		DisplayWindow window;
+		protected bool QuitModel { get; private set; }
 
 		public AgateAppModel(ModelParameters parameters)
 		{
@@ -66,7 +73,7 @@ namespace AgateLib.ApplicationModels
 			Instance = this;
 		}
 		/// <summary>
-		/// Initializes the applicatin model. This will process command line arguments and initialize AgateLib.
+		/// Initializes the application model. This will process command line arguments and initialize AgateLib.
 		/// It is not required to call this function manually, it will be called by the Run method if it has not
 		/// been called.
 		/// </summary>
@@ -78,10 +85,22 @@ namespace AgateLib.ApplicationModels
 		}
 
 		/// <summary>
+		/// Call to exit the application model.
+		/// </summary>
+		public void Exit()
+		{
+			Instance = null;
+			QuitModel = true;
+
+			SceneStack.Clear();
+
+			Dispose();
+		}
+
+		/// <summary>
 		/// Override this to provide proper platform initialization of AgateLib.
 		/// </summary>
-		protected virtual void InitializeImpl()
-		{ }
+		protected abstract void InitializeImpl();
 
 		public void Dispose()
 		{
@@ -133,7 +152,7 @@ namespace AgateLib.ApplicationModels
 				int extraArguments = Parameters.Arguments.Length - i - 1;
 
 				p.Clear();
-				for (int j = i+1; j < Parameters.Arguments.Length; j++)
+				for (int j = i + 1; j < Parameters.Arguments.Length; j++)
 				{
 					if (Parameters.Arguments[j].StartsWith("-") == false)
 						p.Add(Parameters.Arguments[j]);

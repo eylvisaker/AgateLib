@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation.Shaders
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation.Shaders
 {
 	static class ShaderSourceProvider
 	{

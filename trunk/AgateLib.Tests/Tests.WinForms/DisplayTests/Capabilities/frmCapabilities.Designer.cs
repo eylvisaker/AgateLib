@@ -1,4 +1,4 @@
-﻿namespace Tests.DisplayTests.Capabilities
+﻿namespace AgateLib.Testing.DisplayTests.Capabilities
 {
 	partial class frmCapabilities
 	{

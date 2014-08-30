@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.ApplicationModels;
 
-namespace Tests.CoreTests
+namespace AgateLib.Testing.CoreTests
 {
-	class PersistantSettingsTest : IAgateTest 
+	class PersistantSettingsTest : IDiscreteAgateTest 
 	{
 
 		public string Name

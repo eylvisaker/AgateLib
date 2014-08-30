@@ -31,7 +31,7 @@ using GL = OpenTK.Graphics.OpenGL.GL;
 using AgateLib.OpenGL;
 using AgateLib.InputLib.Legacy;
 
-namespace AgateLib.Platform.WindowsForms.DisplayImplementation
+namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	/// <summary>
 	/// Old, needs to be updated.
@@ -190,7 +190,7 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			if (string.IsNullOrEmpty(windowParams.IconFile) == false)
 				mIcon = new System.Drawing.Icon(windowParams.IconFile);
 			else
-				mIcon = AgateLib.Platform.WindowsForms.WinForms.FormUtil.AgateLibIcon;
+				mIcon = AgateLib.Platform.WinForms.Controls.Icons.AgateLib;
 
 			mTitle = windowParams.Title;
 			mWidth = windowParams.Width;

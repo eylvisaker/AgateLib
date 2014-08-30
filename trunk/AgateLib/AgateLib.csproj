@@ -15,6 +15,8 @@
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile>Profile344</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,13 +44,15 @@
     <Compile Include="AgateException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AgateGame.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Algorithms\PathFinding\AStar.cs" />
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Algorithms\Inverting.cs" />
+    <Compile Include="ApplicationModels\PassiveModelParameters.cs" />
+    <Compile Include="ApplicationModels\SceneModelParameters.cs" />
+    <Compile Include="ApplicationModels\SerialModelParameters.cs" />
+    <Compile Include="Assets\Fonts.cs" />
+    <Compile Include="Geometry\CoordinateSystems\FixedCoordinateSystem.cs" />
     <Compile Include="Geometry\CoordinateSystems\NativeCoordinates.cs" />
     <Compile Include="ApplicationModels\EntryPointAppModelBase.cs" />
     <Compile Include="ApplicationModels\Scene.cs" />
@@ -578,6 +582,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
