@@ -1,18 +1,19 @@
-﻿using AgateLib.Drivers;
-using AgateLib.Platform.WindowsStoreCommon.PlatformImplementation;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.Drivers;
+using AgateLib.Platform.WindowsStore.PlatformImplementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.Platform.WindowsStoreCommon.Factories
+namespace AgateLib.Platform.WindowsStore.Factories
 {
 	public abstract class WindowsStorePlatformFactory : IPlatformFactory
 	{
-		public WindowsStorePlatformFactory(bool handheld)
+		public WindowsStorePlatformFactory(bool handheld, AssetLocations assetLocations)
 		{
-			Info = new WPPlatformInfo(handheld);
-			AssetFileProvider = new WPAssetFileProvider();
+			Info = new WindowsStorePlatformInfo(handheld);
+			AssetFileProvider = new WindowsStoreAssetFileProvider(assetLocations.Path);
 
 		}
 		public PlatformInfo Info { get; private set;}

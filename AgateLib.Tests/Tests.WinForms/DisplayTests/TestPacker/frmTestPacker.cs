@@ -10,9 +10,10 @@ using System.Windows.Forms;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Utility;
-using AgateLib.Platform.WindowsForms.WinForms;
+using AgateLib.Platform.WinForms;
+using AgateLib.Platform.WinForms.Controls;
 
-namespace Tests.TestPacker
+namespace AgateLib.Testing.DisplayTests.TestPacker
 {
 
 	public partial class frmTestPacker : Form
@@ -28,13 +29,13 @@ namespace Tests.TestPacker
 
 		private void btnClear_Click(object sender, EventArgs e)
 		{
-			packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
+			packer = new SurfacePacker.RectPacker<object>(pictureBox1.ClientSize.ToGeometry());
 
 			Redraw();
 		}
 		private void btnLotsSorted_Click(object sender, EventArgs e)
 		{
-			packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
+			packer = new SurfacePacker.RectPacker<object>(pictureBox1.ClientSize.ToGeometry());
 			Random rand = new Random();
 
 			btnOne.Enabled = true;
@@ -52,7 +53,7 @@ namespace Tests.TestPacker
 		}
 		private void btnMany_Click(object sender, EventArgs e)
 		{
-			packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
+			packer = new SurfacePacker.RectPacker<object>(pictureBox1.ClientSize.ToGeometry());
 			Random rand = new Random();
 
 			btnOne.Enabled = true;
@@ -74,7 +75,7 @@ namespace Tests.TestPacker
 		{
 
 			if (packer == null)
-				packer = new SurfacePacker.RectPacker<object>(Interop.Convert(pictureBox1.ClientSize));
+				packer = new SurfacePacker.RectPacker<object>(pictureBox1.ClientSize.ToGeometry());
 
 			Random rand = new Random();
 			Size sz = new Size(rand.Next(minSize, maxSize), rand.Next(minSize, maxSize));
@@ -102,8 +103,8 @@ namespace Tests.TestPacker
 
 			foreach (SurfacePacker.RectHolder<object> r in packer)
 			{
-				g.FillRectangle(brush, Interop.Convert(r.Rect));
-				g.DrawRectangle(pen, Interop.Convert(r.Rect));
+				g.FillRectangle(brush, r.Rect.ToDrawing());
+				g.DrawRectangle(pen, r.Rect.ToDrawing());
 			}
 
 			g.Dispose();

@@ -7,13 +7,13 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Platform;
-using AgateLib.Platform.WindowsForms;
-using AgateLib.Platform.WindowsForms.Resources;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms;
+using AgateLib.Platform.WinForms.Resources;
+using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace Tests.MultipleWindows
+namespace AgateLib.Testing.DisplayTests.MultipleWindows
 {
-	class MultipleWindowTest : IAgateTest 
+	class MultipleWindowTest : IDiscreteAgateTest 
 	{
 		Surface surf;
 		Random rand = new Random();

@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace Tests.DisplayTests.RenderStates
+namespace AgateLib.Testing.DisplayTests.RenderStates
 {
-	class RenderStates : IAgateTest 
+	class RenderStates : IDiscreteAgateTest
 	{
-
-		#region IAgateTest Members
-
 		public string Name
 		{
 			get { return "Render States"; }
@@ -24,28 +21,29 @@ namespace Tests.DisplayTests.RenderStates
 
 		public void Main(string[] args)
 		{
-			new PassiveModel(args).Run( () =>
+			using (var model = new PassiveModel(args))
 			{
-				frmRenderStateTest frm = new frmRenderStateTest();
-				frm.Show();
-
-				int count = 0;
-
-				while (frm.Visible)
+				model.Run(() =>
 				{
-					frm.UpdateFrame();
+					frmRenderStateTest frm = new frmRenderStateTest();
+					frm.Show();
 
-					count++;
-					if (count > 60)
-						frm.Text = string.Format("Render States - {0:0.00} FPS", AgateLib.DisplayLib.Display.FramesPerSecond);
+					int count = 0;
 
-					Core.KeepAlive();
+					while (frm.Visible)
+					{
+						frm.UpdateFrame();
+
+						count++;
+						if (count > 60)
+							frm.Text = string.Format("Render States - {0:0.00} FPS", AgateLib.DisplayLib.Display.FramesPerSecond);
+
+						Core.KeepAlive();
 
 
-				}
-			});
+					}
+				});
+			}
 		}
-
-		#endregion
 	}
 }

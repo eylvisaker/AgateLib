@@ -1,5 +1,4 @@
-﻿using AgateLib.ApplicationModels;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 using AgateLib.Geometry;
 using AgateLib.Geometry.CoordinateSystems;
 
-namespace AgateLib.UnitTests.ApplicationModels
+namespace AgateLib.ApplicationModels
 {
 	[TestClass]
 	public class CoordinateSystemTest

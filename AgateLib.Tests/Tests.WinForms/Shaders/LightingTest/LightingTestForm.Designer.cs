@@ -1,4 +1,4 @@
-namespace Tests.LightingTest
+namespace AgateLib.Testing.Shaders.LightingTest
 {
 	partial class LightingTestForm
 	{
@@ -40,7 +40,7 @@ namespace Tests.LightingTest
 			this.enableShader = new System.Windows.Forms.CheckBox();
 			this.lblFPS = new System.Windows.Forms.Label();
 			this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-			this.agateRenderTarget1 = new AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget();
+			this.agateRenderTarget1 = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudAngle)).BeginInit();
 			this.SuspendLayout();
@@ -202,7 +202,7 @@ namespace Tests.LightingTest
 
 		private System.Windows.Forms.Panel panel1;
 		public System.Windows.Forms.CheckBox enableShader;
-		public AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget agateRenderTarget1;
+		public AgateLib.Platform.WinForms.Controls.AgateRenderTarget agateRenderTarget1;
 		public System.Windows.Forms.CheckBox chkMoveLight;
 		public System.Windows.Forms.Label lblFPS;
 		private System.Windows.Forms.Label label3;

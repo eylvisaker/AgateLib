@@ -53,7 +53,7 @@ namespace AgateLib.Geometry.VertexTypes
 		/// <param name="tu"></param>
 		/// <param name="tv"></param>
 		public PositionTextureColor(float x, float y, float z, Color color, float tu, float tv)
-			: this(x, y, z, color.ToArgb(), tu, tv)
+			: this(x, y, z, color.ToAbgr(), tu, tv)
 		{ }
 		/// <summary>
 		/// 

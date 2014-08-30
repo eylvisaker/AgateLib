@@ -1,5 +1,5 @@
 ﻿using System;
-namespace AgateLib.Platform.WindowsForms.DisplayImplementation
+namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	interface IPrimaryWindow
 	{

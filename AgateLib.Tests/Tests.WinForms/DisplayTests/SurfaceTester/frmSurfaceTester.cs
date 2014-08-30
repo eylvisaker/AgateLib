@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.DisplayLib;
 
-namespace Tests.SurfaceTester
+namespace AgateLib.Testing.DisplayTests.SurfaceTester
 {
     public partial class frmSurfaceTester : Form
     {

@@ -7,39 +7,36 @@ using System.Threading;
 using System.Windows.Forms;
 
 using AgateLib;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace Tests.SurfaceTester
+namespace AgateLib.Testing.DisplayTests.SurfaceTester
 {
-	class SurfaceTester : IAgateTest
+	class SurfaceTester : IDiscreteAgateTest
 	{
-		#region IAgateTest Members
-
 		public string Name { get { return "Surface Tester"; } }
 		public string Category { get { return "Display"; } }
 
-		#endregion
-
 		public void Main(string[] args)
 		{
-			new PassiveModel(args).Run( () =>
+			using (var model = new PassiveModel(args))
 			{
-				frmSurfaceTester form = new frmSurfaceTester();
-
-				form.Show();
-
-				int frame = 0;
-
-				while (form.Visible)
+				model.Run(() =>
 				{
-					form.UpdateDisplay();
+					frmSurfaceTester form = new frmSurfaceTester();
 
-					frame++;
+					form.Show();
 
-				}
-			});
+					int frame = 0;
 
+					while (form.Visible)
+					{
+						form.UpdateDisplay();
+
+						frame++;
+
+					}
+				});
+			}
 		}
-
 	}
 }

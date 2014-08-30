@@ -24,7 +24,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using SharpDX.Direct3D11;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	class SDX_IndexBuffer : IndexBufferImpl 
 	{

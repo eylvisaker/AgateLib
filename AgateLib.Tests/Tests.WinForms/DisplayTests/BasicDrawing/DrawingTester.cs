@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Tests.DisplayTests.BasicDrawing
+namespace AgateLib.Testing.DisplayTests.BasicDrawing
 {
 	public partial class DrawingTester : Form
 	{

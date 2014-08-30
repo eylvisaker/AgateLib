@@ -5,11 +5,13 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Platform.WindowsForms.WinForms;
+using AgateLib.ApplicationModels;
+using AgateLib.Testing;
+using AgateLib.Platform.WinForms;
 
-namespace Tests.WinFormsTests
+namespace AgateLib.Testing.WinFormsTests
 {
-	class Converters : AgateGame, IAgateTest 
+	class Converters : Scene, ISceneModelTest 
 	{
 		public string Name
 		{
@@ -21,18 +23,31 @@ namespace Tests.WinFormsTests
 			get { return "WinForms"; }
 		}
 
-		public void Main(string[] args)
-		{
-			Run(args);
-		}
-
-		protected override void Initialize()
+		protected override void OnSceneStart()
 		{
 			Surface surf = new Surface("attacke.png");
 
 			System.Drawing.Bitmap bmp = surf.ToBitmap();
 
 			bmp.Save("test.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+		}
+
+		public void ModifyModelParameters(SceneModelParameters parameters)
+		{
+		}
+
+		public Scene StartScene
+		{
+			get { return this; }
+		}
+
+		public override void Update(double delta_t)
+		{
+		}
+
+		public override void Draw()
+		{
+			SceneFinished = true;
 		}
 	}
 }

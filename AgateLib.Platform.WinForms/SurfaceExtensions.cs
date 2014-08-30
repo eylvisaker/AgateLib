@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WindowsForms
+namespace AgateLib.Platform.WinForms
 {
 	public static class SurfaceExtensions
 	{

@@ -25,9 +25,9 @@ using AgateLib.Geometry.VertexTypes;
 using Texture2D = SharpDX.Direct3D11.Texture2D;
 using SharpDX.Direct3D11;
 using SharpDX.SimpleInitializer;
-using AgateLib.Platform.WindowsStoreCommon.DisplayImplementation.Shaders;
+using AgateLib.Platform.WindowsStore.DisplayImplementation.Shaders;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	public class DrawBuffer
 	{
@@ -85,7 +85,7 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 				{
 					new SharpDX.Direct3D11.InputElement("POSITION", 0, SharpDX.DXGI.Format.R32G32B32_Float, 0, 0),
 					new SharpDX.Direct3D11.InputElement("TEXCOORD", 0, SharpDX.DXGI.Format.R32G32_Float, 12, 0),
-					new SharpDX.Direct3D11.InputElement("COLOR", 0, SharpDX.DXGI.Format.R8G8B8A8_UInt, 20, 0)
+					new SharpDX.Direct3D11.InputElement("COLOR", 0, SharpDX.DXGI.Format.R8G8B8A8_UNorm, 20, 0)
 				});
 
 			var layout = PositionTextureColor.VertexLayout;

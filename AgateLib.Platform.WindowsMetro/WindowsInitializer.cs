@@ -1,20 +1,26 @@
 ﻿using AgateLib.ApplicationModels;
-using AgateLib.Platform.WindowsStoreCommon.Factories;
-using AgateLib.Platform.WindowsStoreCommon;
+using AgateLib.Platform.WindowsStore.Factories;
+using AgateLib.Platform.WindowsStore;
 using SharpDX.SimpleInitializer;
 using System;
-using AgateLib.Platform.Windows.Factories;
+using AgateLib.Platform.WindowsMetro.Factories;
 
-namespace AgateLib.Platform.Windows
+namespace AgateLib.Platform.WindowsMetro
 {
 	static class WindowsInitializer
 	{
 		static WindowsFactory factory;
 
-		internal static void Initialize(SharpDXContext context, IRenderTargetAdapter renderTarget, AssetLocations assets)
+		internal static void Initialize(IRenderTargetAdapter renderTargetAdapter, AssetLocations assets)
 		{
-			factory = new WindowsFactory(context, renderTarget);
-			Core.Initialize(factory, assets);
+			if (factory == null)
+			{
+				factory = new WindowsFactory(renderTargetAdapter, assets);
+				Core.Initialize(factory);
+			}
+
+			factory.RenderTargetAdapter = renderTargetAdapter;
+			Core.InitAssetLocations(assets);
 		}
 	}
 }

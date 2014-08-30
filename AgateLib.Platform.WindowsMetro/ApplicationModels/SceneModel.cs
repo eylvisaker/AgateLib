@@ -1,24 +1,26 @@
 ﻿using AgateLib.ApplicationModels;
 using AgateLib.DisplayLib;
-using AgateLib.Platform.WindowsStoreCommon;
+using AgateLib.Platform.WindowsStore.ApplicationModels;
+using AgateLib.Platform.WindowsStore;
 using SharpDX.SimpleInitializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Platform.WindowsStore.DisplayImplementation;
 
-namespace AgateLib.Platform.Windows.ApplicationModels
+namespace AgateLib.Platform.WindowsMetro.ApplicationModels
 {
 	public class SceneModel : SceneAppModelBase
 	{
 		SharpDXContext context;
 
-		public SceneModel(SceneModelParameters parameters)
+		public SceneModel(WindowsStoreSceneModelParameters parameters)
 			: base(parameters)
 		{ }
 
-		public new SceneModelParameters Parameters { get { return (SceneModelParameters)base.Parameters; } }
+		public new WindowsStoreSceneModelParameters Parameters { get { return (WindowsStoreSceneModelParameters)base.Parameters; } }
 
 		protected override void BeginModel()
 		{
@@ -26,17 +28,15 @@ namespace AgateLib.Platform.Windows.ApplicationModels
 
 		protected override void InitializeImpl()
 		{
-			context = new SharpDXContext();
+			WindowsInitializer.Initialize(Parameters.RenderTarget, Parameters.AssetLocations);
+
+			context = SDX_Display.InitializerContext;
 			context.Render += context_Render;
 			context.DeviceReset += context_DeviceReset;
 
-			var adapter = (SwapChainBackgroundPanelAdapter)Parameters.RenderTarget;
-
-			WindowsInitializer.Initialize(context, Parameters.RenderTarget, Parameters.AssetLocations);
-
-			context.BindToControl(adapter.RenderTarget);
+			Parameters.RenderTarget.BindContextToRenderTarget(context);
 		}
-
+		
 		void context_DeviceReset(object sender, DeviceResetEventArgs e)
 		{
 			if (sceneToStartWith != null)
@@ -48,16 +48,14 @@ namespace AgateLib.Platform.Windows.ApplicationModels
 
 		void context_Render(object sender, EventArgs e)
 		{
-			foreach (var sc in SceneStack.UpdateScenes)
-				sc.Update(Display.DeltaTime);
-
-			Display.BeginFrame();
-
-			foreach (var sc in SceneStack.DrawScenes)
-				sc.Draw();
-
-			Display.EndFrame();
-			Core.KeepAlive();
+			try
+			{
+				RunSingleFrame();
+			}
+			catch (ExitGameException)
+			{
+				Dispose();
+			}
 		}
 
 		public override void KeepAlive()

@@ -1,4 +1,4 @@
-namespace Tests.PixelBufferTest
+namespace AgateLib.Testing.DisplayTests.PixelBufferTest
 {
 	partial class PixelBufferForm
 	{

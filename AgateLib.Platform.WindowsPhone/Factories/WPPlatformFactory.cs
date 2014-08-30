@@ -1,17 +1,18 @@
 ﻿using AgateLib.Drivers;
-using AgateLib.Platform.WindowsStoreCommon.PlatformImplementation;
-using AgateLib.Platform.WindowsStoreCommon.Factories;
+using AgateLib.Platform.WindowsStore.PlatformImplementation;
+using AgateLib.Platform.WindowsStore.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.ApplicationModels;
 
-namespace AgateLib.Platform.WindowsPhone8.Factories
+namespace AgateLib.Platform.WindowsPhone.Factories
 {
 	class WPPlatformFactory : WindowsStorePlatformFactory
 	{
-		public WPPlatformFactory()
-			: base(true)
+		public WPPlatformFactory(AssetLocations assets)
+			: base(true, assets)
 		{ }
 	}
 }

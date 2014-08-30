@@ -30,17 +30,18 @@ using Vector2 = SharpDX.Vector2;
 using ImageFileFormat = AgateLib.DisplayLib.ImageFileFormat;
 using SharpDX.DXGI;
 using AgateLib.Diagnostics;
+using Windows.UI.Core;
+using SharpDX.SimpleInitializer;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	public class SDX_Display : DisplayImpl
 	{
 		#region --- Private Variables ---
 
-		private SharpDX.SimpleInitializer.SharpDXContext sdxContext;
-		private D3DDevice mDevice;
-		IRenderTargetAdapter mRenderControl;
+		private SharpDX.SimpleInitializer.SharpDXContext sdxContext { get { return InitializerContext; } }
 
+		private D3DDevice mDevice;
 		private SDX_FrameBuffer mRenderTarget;
 
 		private bool mInitialized = false;
@@ -57,13 +58,19 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 		private int mStencilClear = 0;
 
 		Format mDepthStencilFormat;
+		SharpDX.Direct3D11.DepthStencilState mDepthStencilState;
 
 		#endregion
+
+		AgateLib.DisplayLib.Surface mBlankSurface;
 
 		public Format DepthStencilFormat
 		{
 			get { return mDepthStencilFormat; }
 		}
+
+		internal static CoreWindow MainThreadCoreWindow { get; set; }
+		public static SharpDXContext InitializerContext { get; private set; }
 
 		//public VertexDeclaration SurfaceDeclaration
 		//{
@@ -80,27 +87,38 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 
 		#region --- Creation / Destruction ---
 
-		public SDX_Display(SharpDX.SimpleInitializer.SharpDXContext context, IRenderTargetAdapter renderTarget)
+		public SDX_Display()
 		{
-			if (context == null) throw new ArgumentNullException();
-			if (renderTarget == null) throw new ArgumentNullException();
-
-			this.sdxContext = context;
-			this.mRenderControl = renderTarget;
-
-			context.DeviceReset += context_DeviceReset;
+			MainThreadCoreWindow = CoreWindow.GetForCurrentThread();
 		}
 
 		void context_DeviceReset(object sender, SharpDX.SimpleInitializer.DeviceResetEventArgs e)
 		{
 			OnDeviceReset();
+
+			PixelBuffer mBlankBuffer = new PixelBuffer(PixelFormat.RGBA8888, new Size(16,16));
+			mBlankBuffer.Clear(Color.White);
+
+			mBlankSurface = new DisplayLib.Surface(mBlankBuffer);
+
+			mDepthStencilState = new SharpDX.Direct3D11.DepthStencilState(mDevice.Device,
+				new SharpDX.Direct3D11.DepthStencilStateDescription
+				{
+					IsDepthEnabled = true,
+					IsStencilEnabled = false,
+					DepthComparison = SharpDX.Direct3D11.Comparison.LessEqual
+				});
+
 		}
 
 		public override void Initialize()
 		{
-			mDevice = new D3DDevice(sdxContext);
-
 			Report("SharpDX driver instantiated for display.");
+		}
+
+		private void InitializeDeviceWrapper()
+		{
+			mDevice = new D3DDevice(sdxContext);
 		}
 
 
@@ -213,7 +231,8 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 		{
 			mRenderTarget.BeginRender();
 
-			//SetClipRect(new AgateLib.Geometry.Rectangle(new AgateLib.Geometry.Point(0, 0), mRenderTarget.Size));
+			SetClipRect(new AgateLib.Geometry.Rectangle(new AgateLib.Geometry.Point(0, 0), mRenderTarget.Size));
+			mDevice.DeviceContext.OutputMerger.SetDepthStencilState(mDepthStencilState);
 		}
 		protected override void OnEndFrame()
 		{
@@ -255,24 +274,23 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 			view.Y = newClipRect.Y;
 			view.Width = newClipRect.Width;
 			view.Height = newClipRect.Height;
-			//view.MinZ = 0;
-			//view.MaxZ = 1;
+			view.MinDepth = 0;
+			view.MaxDepth = 1;
 
 			if (view.Width == 0 || view.Height == 0)
 			{
 				throw new AgateLib.AgateException("Cannot set a cliprect with a width / height of zero.");
 			}
 
-			throw new NotImplementedException();
-			//mDevice.Device.Viewport = view;
-			//mCurrentClipRect = newClipRect;
+			mDevice.DeviceContext.Rasterizer.SetViewport(view);
+			mCurrentClipRect = newClipRect;
 
-			//if (Display.Shader is AgateLib.DisplayLib.Shaders.IShader2D)
-			//{
-			//	var s2d = (AgateLib.DisplayLib.Shaders.IShader2D)Display.Shader;
+			if (Display.Shader is AgateLib.DisplayLib.Shaders.IShader2D)
+			{
+				var s2d = (AgateLib.DisplayLib.Shaders.IShader2D)Display.Shader;
 
-			//	s2d.CoordinateSystem = newClipRect;
-			//}
+				s2d.CoordinateSystem = newClipRect;
+			}
 		}
 
 		private Stack<AgateLib.Geometry.Rectangle> mClipRects = new Stack<AgateLib.Geometry.Rectangle>();
@@ -386,36 +404,14 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 		}
 		public override void FillRect(Rectangle rect, Gradient color)
 		{
-			FillRect((RectangleF)rect, color);
+			mBlankSurface.ColorGradient = color;
+
+			mBlankSurface.Draw(rect);
+
 		}
 		public override void FillRect(RectangleF rect, Gradient color)
 		{
-			mFillRectVerts[0].Position = new AgateLib.Geometry.Vector3(rect.Left, rect.Top, 0f);
-			mFillRectVerts[0].Color = color.TopLeft.ToArgb();
-
-			mFillRectVerts[1].Position = new AgateLib.Geometry.Vector3(rect.Right, rect.Top, 0f);
-			mFillRectVerts[1].Color = color.TopRight.ToArgb();
-
-			mFillRectVerts[2].Position = new AgateLib.Geometry.Vector3(rect.Left, rect.Bottom, 0f);
-			mFillRectVerts[2].Color = color.BottomLeft.ToArgb();
-
-			mFillRectVerts[3] = mFillRectVerts[1];
-
-			mFillRectVerts[4].Position = new AgateLib.Geometry.Vector3(rect.Right, rect.Bottom, 0f);
-			mFillRectVerts[4].Color = color.BottomRight.ToArgb();
-
-			mFillRectVerts[5] = mFillRectVerts[2];
-
-			mDevice.DrawBuffer.Flush();
-
-			mDevice.AlphaBlend = true;
-
-			mDevice.SetDeviceStateTexture(null);
-			//mDevice.AlphaArgument1 = TextureArgument.Diffuse;
-
-			//mDevice.Device.VertexDeclaration = mPosColorDecl;
-			//mDevice.Device.DrawUserPrimitives(Direct3D.PrimitiveType.TriangleList, 2, mFillRectVerts);
-			//mDevice.AlphaArgument1 = TextureArgument.Texture;
+			FillRect((Rectangle)rect, color);
 		}
 
 
@@ -700,7 +696,7 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 			switch (displaySizeCaps)
 			{
 				case DisplaySizeCaps.MaxSurfaceSize: return mDevice.MaxSurfaceSize;
-				case DisplaySizeCaps.NativeScreenResolution: return mRenderControl.Size;
+				case DisplaySizeCaps.NativeScreenResolution: return RenderTargetAdapter.Size;
 				default:
 					throw new NotImplementedException();
 			}
@@ -794,6 +790,28 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 		protected override void OnRenderTargetResize()
 		{
 			throw new NotImplementedException();
+		}
+
+		public static bool PauseWhenNotRendering { get; set; }
+
+		public static bool RenderingFrame { get; set; }
+
+		public IRenderTargetAdapter RenderTargetAdapter { get; private set; }
+
+		public void ResetRenderTarget(IRenderTargetAdapter adapter)
+		{
+			if (InitializerContext  != null)
+			{
+				InitializerContext.Dispose();
+				D3D_Device.Dispose();
+			}
+
+			RenderTargetAdapter = adapter;
+
+			InitializerContext = new SharpDXContext();
+			InitializerContext.DeviceReset += context_DeviceReset;
+
+			InitializeDeviceWrapper();
 		}
 	}
 }

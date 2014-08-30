@@ -135,20 +135,21 @@ namespace AgateLib.DisplayLib
 
 			mImpl = Core.Factory.DisplayFactory.CreateSurface(size);
 
-			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
-			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+			AttachEvents();
 		}
+
 		/// <summary>
 		/// Constructs a surface object from the specified PixelBuffer object.
 		/// </summary>
 		/// <param name="pixels">The PixelBuffer containing the pixel data to use.</param>
 		public Surface(PixelBuffer pixels)
-			: this(pixels.Size)
 		{
 			if (Display.Impl == null)
 				throw new AgateException("AgateLib's display system has not been initialized.");
 
-			WritePixels(pixels);
+			mImpl = Core.Factory.DisplayFactory.CreateSurface(pixels);
+
+			AttachEvents();
 		}
 		/// <summary>
 		/// Creates a surface object and to be ready to attach to an implemented object.
@@ -162,8 +163,7 @@ namespace AgateLib.DisplayLib
 			if (fromImpl == null)
 				throw new ArgumentNullException("The argument fromImpl must not be null.");
 
-			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
-			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+			AttachEvents();
 
 			mImpl = fromImpl;
 		}
@@ -175,9 +175,9 @@ namespace AgateLib.DisplayLib
 		{
 			mImpl.Dispose();
 
-			//Display.DisposeDisplay -= Dispose;
-			Display.PackAllSurfacesEvent -= Display_PackAllSurfacesEvent;
+			DetachEvents();
 		}
+
 		/// <summary>
 		/// Returns true if Dispose() has been called on this surface.
 		/// </summary>
@@ -190,6 +190,16 @@ namespace AgateLib.DisplayLib
 		{
 			if (ShouldBePacked && !IsDisposed)
 				Display.SurfacePacker.QueueSurface(this);
+		}
+		private void AttachEvents()
+		{
+			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+		}
+		private void DetachEvents()
+		{
+			Display.DisposeDisplay -= Dispose;
+			Display.PackAllSurfacesEvent -= Display_PackAllSurfacesEvent;
 		}
 
 		#region --- Surface properties ---
@@ -822,6 +832,15 @@ namespace AgateLib.DisplayLib
 		public SurfaceImpl Impl
 		{
 			get { return mImpl; }
+		}
+
+		/// <summary>
+		/// Gets a boolean value indicating whether loading of this surface is completed.
+		/// Returns false if the background loading operation is still queued.
+		/// </summary>
+		public bool IsLoaded
+		{
+			get { return Impl.IsLoaded; }
 		}
 	}
 

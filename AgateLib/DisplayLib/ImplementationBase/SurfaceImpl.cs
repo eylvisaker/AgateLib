@@ -236,5 +236,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		}
 
 		#endregion
+
+		public abstract bool IsLoaded { get; }
 	};
 }

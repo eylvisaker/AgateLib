@@ -5,21 +5,16 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Platform.WindowsForms;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace Tests.ScreenCaptureExample
+namespace AgateLib.Testing.DisplayTests
 {
 	class ScreenCaptureTest : IAgateTest
 	{
-
-		#region IAgateTest Members
-
 		public string Name { get { return "Screen Capture"; } }
 		public string Category { get { return "Display"; } }
-
-		#endregion
 
 		public void Main(string[] args)
 		{

@@ -27,7 +27,7 @@ using SharpDX.Direct3D11;
 using SharpDX;
 using SharpDX.SimpleInitializer;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	public class D3DDevice : IDisposable
 	{

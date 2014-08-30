@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.DisplayLib
 {
-	public class Font
+	public class Font : IDisposable
 	{
 		Dictionary<FontSettings, FontSurface> mFontSurfaces = new Dictionary<FontSettings, FontSurface>();
 		FontSettings mSettings;
@@ -17,6 +17,12 @@ namespace AgateLib.DisplayLib
 		public Font(string name)
 		{
 			Name = name;
+		}
+
+		public void Dispose()
+		{
+			foreach (var fs in mFontSurfaces.Values)
+				fs.Dispose();
 		}
 
 		public void AddFont(FontSurface fontSurface, int size, FontStyles style)
@@ -164,6 +170,38 @@ namespace AgateLib.DisplayLib
 		public Size MeasureString(string text)
 		{
 			return FontSurface.MeasureString(text);
+		}
+
+		[Obsolete("This needs to be thought through more carefully.")]
+		internal static Font Create(string name, int minSize, int maxSize, FontStyles styles)
+		{
+			Font retval = new Font(name);
+
+			int inc = FontSizeStep(minSize);
+			bool bold = (styles & FontStyles.Bold) == FontStyles.Bold;
+			bool italic = (styles & FontStyles.Italic) == FontStyles.Italic;
+
+			for (int size = minSize; size <= maxSize; size += inc)
+			{
+				retval.AddFont(new FontSurface(name, size, FontStyles.None), size, FontStyles.None);
+
+				if (bold)
+					retval.AddFont(new FontSurface(name, size, FontStyles.Bold), size, FontStyles.Bold);
+				if (italic)
+					retval.AddFont(new FontSurface(name, size, FontStyles.Italic), size, FontStyles.Italic);
+				if (bold && italic)
+					retval.AddFont(new FontSurface(name, size, FontStyles.Bold | FontStyles.Italic), size, FontStyles.Bold | FontStyles.Italic);
+			}
+
+			return retval;
+		}
+
+		private static int FontSizeStep(int minSize)
+		{
+			if (minSize < 18)
+				return 2;
+			else
+				return 4;
 		}
 	}
 

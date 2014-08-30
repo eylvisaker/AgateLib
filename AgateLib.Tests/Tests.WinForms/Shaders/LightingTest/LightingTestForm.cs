@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Tests.LightingTest
+namespace AgateLib.Testing.Shaders.LightingTest
 {
 	public partial class LightingTestForm : Form
 	{
@@ -14,7 +14,7 @@ namespace Tests.LightingTest
 		{
 			InitializeComponent();
 
-			Icon = AgateLib.Platform.WindowsForms.WinForms.FormUtil.AgateLibIcon;
+			Icon = AgateLib.Platform.WinForms.Controls.FormUtil.AgateLibIcon;
 		}
 
 		private void btnDiffuse_Click(object sender, EventArgs e)

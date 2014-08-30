@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.ApplicationModels;
 
-namespace Tests.AudioTester
+namespace AgateLib.Testing.AudioTests.AudioPlayer
 {
 	public partial class frmAudioTester : Form
 	{
@@ -23,7 +23,7 @@ namespace Tests.AudioTester
 		{
 			InitializeComponent();
 
-			Icon = AgateLib.Platform.WindowsForms.WinForms.FormUtil.AgateLibIcon;
+			Icon = AgateLib.Platform.WinForms.Controls.FormUtil.AgateLibIcon;
 
 			statusLabel.Text = "";
 

@@ -6,29 +6,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WindowsForms.ApplicationModels
+namespace AgateLib.Platform.WinForms.ApplicationModels
 {
 	public class SceneModel : SceneAppModelBase
 	{
-		private SceneModel(SceneModelParameters parameters) : base(parameters)
+		public SceneModel(SceneModelParameters parameters) : base(parameters)
 		{ }
 
 		public SceneModelParameters Parameters { get { return (SceneModelParameters)base.Parameters; } }
 
 		protected override void InitializeImpl()
 		{
-			Initializer.Initialize(Parameters);
+			WinFormsInitializer.Initialize(Parameters);
 		}
 
 		protected override void BeginModel()
 		{
-			while(SceneStack.Count > 0)
-			{
-				foreach (var sc in SceneStack.UpdateScenes)
-					sc.Update(Display.DeltaTime);
+			if (sceneToStartWith != null)
+				SceneStack.Add(sceneToStartWith);
 
-				foreach (var sc in SceneStack.DrawScenes)
-					sc.Draw();
+			while(SceneStack.Count > 0 && QuitModel == false)
+			{
+				RunSingleFrame();
+
+				if (Display.CurrentWindow.IsClosed)
+					throw new ExitGameException();
 			}
 		}
 

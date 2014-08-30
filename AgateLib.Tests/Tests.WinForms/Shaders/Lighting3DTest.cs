@@ -7,11 +7,11 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
-using AgateLib.Platform.WindowsForms.Resources;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.Resources;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace Tests.Shaders
+namespace AgateLib.Testing.Shaders
 {
 	class Lighting3DTest : IAgateTest 
 	{

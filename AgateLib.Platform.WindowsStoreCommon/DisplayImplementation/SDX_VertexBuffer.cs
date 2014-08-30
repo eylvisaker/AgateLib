@@ -27,7 +27,7 @@ using AgateLib.Geometry.VertexTypes;
 using SharpDX.Direct3D11;
 using SharpDX;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	class SDX_VertexBuffer : VertexBufferImpl
 	{

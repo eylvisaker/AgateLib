@@ -26,6 +26,7 @@ using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Utility;
 using AgateLib.Diagnostics;
+using AgateLib.ApplicationModels;
 
 namespace AgateLib.DisplayLib
 {
@@ -283,7 +284,7 @@ namespace AgateLib.DisplayLib
 			if (RenderTarget == null)
 				throw new AgateException("A render target must be set before beginning to render.");
 			if (CurrentWindow.IsClosed)
-				throw new AgateException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
+				throw new ExitGameException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
 
 			sImpl.BeginFrame();
 

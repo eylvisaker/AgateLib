@@ -1,7 +1,7 @@
 // The contents of this file are public domain.
 // You may use them as you wish.
 //
-namespace Tests.InputTester
+namespace AgateLib.Testing.InputTests.InputTester
 {
 	partial class frmInputTester
 	{
@@ -40,7 +40,7 @@ namespace Tests.InputTester
 			this.lblJoystick1 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.agateRenderTarget1 = new AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget();
+			this.agateRenderTarget1 = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
 			this.lblJoystick2 = new System.Windows.Forms.Label();
 			this.lblJoystick3 = new System.Windows.Forms.Label();
 			this.lblJoystick4 = new System.Windows.Forms.Label();
@@ -180,7 +180,7 @@ namespace Tests.InputTester
 		private System.Windows.Forms.Label lblKeyString;
 		private System.Windows.Forms.Label lblJoystick1;
 		private System.Windows.Forms.Button button1;
-		private AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget agateRenderTarget1;
+		private AgateLib.Platform.WinForms.Controls.AgateRenderTarget agateRenderTarget1;
 		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.Label lblJoystick2;
 		private System.Windows.Forms.Label lblJoystick3;

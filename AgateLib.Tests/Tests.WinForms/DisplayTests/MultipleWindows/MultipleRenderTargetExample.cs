@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Tests.MultipleWindows
+namespace AgateLib.Testing.DisplayTests.MultipleWindows
 {
 	public partial class MultipleRenderTargetExample : Form
 	{

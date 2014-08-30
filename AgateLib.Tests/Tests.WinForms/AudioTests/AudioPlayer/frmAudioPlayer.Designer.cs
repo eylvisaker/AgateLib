@@ -1,7 +1,7 @@
 // The contents of this file are public domain.
 // You may use them as you wish.
 //
-namespace Tests.AudioTester
+namespace AgateLib.Testing.AudioTests.AudioPlayer
 {
 	partial class frmAudioTester
 	{

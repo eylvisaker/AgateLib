@@ -6,17 +6,16 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Platform.WindowsForms;
-using AgateLib.Platform.WindowsForms.Resources;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms;
+using AgateLib.Platform.WinForms.Resources;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace Tests.DisplayTests
+namespace AgateLib.Testing.DisplayTests
 {
 	class MultipleFramebufferTest : IAgateTest
 	{
 		List<Surface> mRegionColors = new List<Surface>();
-
 
 		public string Name
 		{

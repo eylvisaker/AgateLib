@@ -31,6 +31,7 @@ namespace AgateLib.ApplicationModels
 	{
 		public AssetLocations()
 		{
+			Path = ".";
 		}
 
 		/// <summary>
@@ -53,5 +54,10 @@ namespace AgateLib.ApplicationModels
 		/// Path prefix to load user interface files from.
 		/// </summary>
 		public string UserInterface { get; set; }
+
+		/// <summary>
+		/// Root path used to load all assets.
+		/// </summary>
+		public string Path { get; set; }
 	}
 }

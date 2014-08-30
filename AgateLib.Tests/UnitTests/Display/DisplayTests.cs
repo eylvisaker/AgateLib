@@ -4,7 +4,7 @@ using AgateLib;
 using AgateLib.Drivers;
 using AgateLib.DisplayLib;
 
-namespace AgateLib.UnitTests.DisplayTest
+namespace AgateLib.DisplayTest
 {
 	[TestClass]
 	public class DisplayTest

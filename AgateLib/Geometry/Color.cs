@@ -648,17 +648,17 @@ namespace AgateLib.Geometry
 		[FieldOffset(3)]
 		byte a;
 
-		[FieldOffset(2)]
+		[FieldOffset(0)]
 		byte r;
 
 		[FieldOffset(1)]
 		byte g;
 
-		[FieldOffset(0)]
+		[FieldOffset(2)]
 		byte b;
 
 		[FieldOffset(0)]
-		int argb;
+		int abgr;
 
 		#endregion
 
@@ -666,7 +666,7 @@ namespace AgateLib.Geometry
 
 		private Color(int a, int r, int g, int b)
 		{
-			this.argb = 0;
+			this.abgr = 0;
 			this.a = (byte)a;
 			this.r = (byte)r;
 			this.g = (byte)g;
@@ -911,9 +911,6 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public int ToArgb()
 		{
-			return argb;
-
-			/*
 			int val = A;
 
 			val <<= 8;
@@ -926,7 +923,16 @@ namespace AgateLib.Geometry
 			val |= B;
 
 			return val;
-			 * */
+		}
+		/// <summary>
+		/// Converts this Color structure to a 32-bit integer in the format
+		/// 0xAABBGGRR.  This is suitable for passing to Direct3D or OpenGL
+		/// in a vertex structure.
+		/// </summary>
+		/// <returns></returns>
+		public int ToAbgr()
+		{
+			return abgr;
 		}
 
 		// See algorithm at http://en.wikipedia.org/wiki/YUV#Conversion_to.2Ffrom_RGB

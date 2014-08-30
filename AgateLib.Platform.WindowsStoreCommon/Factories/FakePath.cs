@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.Platform.WindowsStoreCommon.Factories
+namespace AgateLib.Platform.WindowsStore.Factories
 {
 	class FakePath : IPath
 	{

@@ -13,7 +13,7 @@ using AgateLib;
 using AgateLib.Utility;
 using AgateLib.Platform;
 
-namespace Tests.TimerTester
+namespace AgateLib.Testing.CoreTests
 {
 	public partial class frmTimerTester : Form
 	{

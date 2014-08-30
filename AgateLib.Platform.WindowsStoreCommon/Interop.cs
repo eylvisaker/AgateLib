@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WindowsStoreCommon
+namespace AgateLib.Platform.WindowsStore
 {
 	public static class Interop
 	{

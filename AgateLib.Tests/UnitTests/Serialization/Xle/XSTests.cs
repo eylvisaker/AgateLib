@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.UnitTests.Serialization.Xle
+namespace AgateLib.Serialization.Xle
 {
 	[TestClass]
 	public class XSTests
@@ -21,7 +21,7 @@ namespace AgateLib.UnitTests.Serialization.Xle
 				return Activator.CreateInstance(t, true);
 			}
 		}
-		private static Serializable RoundTrip(Serializable obj)
+		private static TestSerializable RoundTrip(TestSerializable obj)
 		{
 			XleSerializer ser = new XleSerializer(obj.GetType(), new Initializer());
 			var memory = new MemoryStream();
@@ -31,7 +31,7 @@ namespace AgateLib.UnitTests.Serialization.Xle
 			string val = System.Text.Encoding.UTF8.GetString(memory.GetBuffer());
 
 			memory.Seek(0, SeekOrigin.Begin);
-			Serializable newobj = (Serializable)ser.Deserialize(memory);
+			TestSerializable newobj = (TestSerializable)ser.Deserialize(memory);
 			return newobj;
 		}
 
@@ -48,7 +48,7 @@ namespace AgateLib.UnitTests.Serialization.Xle
 		[TestMethod]
 		public void XSRoundTrip()
 		{
-			Serializable obj = new Serializable();
+			TestSerializable obj = new TestSerializable();
 
 			obj.Text = "This is a test";
 			obj.Number = 88.990098;
@@ -64,7 +64,7 @@ namespace AgateLib.UnitTests.Serialization.Xle
 			obj.IntArray = new int[] { 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 8, 9, 10, -99 };
 			obj.DoubleArray = new double[] { 3, 53.5, 1.888e-8, -3.8484e-32, 1.999e24 };
 
-			Serializable newobj = RoundTrip(obj);
+			TestSerializable newobj = RoundTrip(obj);
 
 			Assert.AreEqual(obj.Text, newobj.Text);
 			Assert.AreEqual(obj.Number, newobj.Number);

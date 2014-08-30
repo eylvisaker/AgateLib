@@ -27,7 +27,7 @@ using SharpDX.SimpleInitializer;
 using AgateLib.DisplayLib;
 using SharpDX.Direct3D11;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	class FrameBufferWindow : SDX_FrameBuffer
 	{
@@ -57,9 +57,6 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 
 		public override void Dispose()
 		{
-			//mSwap.Dispose();
-			//mBackBuffer.Dispose();
-			//mBackDepthStencil.Dispose();
 		}
 
 		public override Size Size
@@ -89,21 +86,22 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
 
 		public override void BeginRender()
 		{
-			//mDisplay.D3D_Device.Device.SetRenderTarget(0, mBackBuffer);
-			//mDisplay.D3D_Device.Device.DepthStencilSurface = mBackDepthStencil;
-			//mDisplay.D3D_Device.Device.BeginScene();
+			if (SDX_Display.PauseWhenNotRendering)
+			{
+				while (SDX_Display.RenderingFrame == false)
+				{
+					
+				}
+			}
 
 			mContext.D3DContext.OutputMerger.SetTargets(
 				mContext.DepthStencilView,
 				mContext.BackBufferView);
-
 		}
 
 		public override void EndRender()
 		{
-			//mDisplay.D3D_Device.Device.EndScene();
-
-			//mSwap.Present(Present.None);
+			SDX_Display.RenderingFrame = false;
 		}
 
 		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow

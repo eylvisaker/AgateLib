@@ -1,4 +1,4 @@
-namespace Tests.TileTester
+namespace AgateLib.Testing.DisplayTests.TileTester
 {
 	partial class frmTileTester
 	{
@@ -29,7 +29,7 @@ namespace Tests.TileTester
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTileTester));
-			this.agateRenderTarget1 = new AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget();
+			this.agateRenderTarget1 = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
 			this.chkScrollX = new System.Windows.Forms.CheckBox();
 			this.chkScrollY = new System.Windows.Forms.CheckBox();
 			this.chkVSync = new System.Windows.Forms.CheckBox();
@@ -105,7 +105,7 @@ namespace Tests.TileTester
 
 		#endregion
 
-		private AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget agateRenderTarget1;
+		private AgateLib.Platform.WinForms.Controls.AgateRenderTarget agateRenderTarget1;
 		private System.Windows.Forms.CheckBox chkScrollX;
 		private System.Windows.Forms.CheckBox chkScrollY;
 		private System.Windows.Forms.CheckBox chkVSync;

@@ -63,6 +63,12 @@ namespace AgateLib.Drivers
 		/// Creates a SurfaceImpl derived object that is blank of the specified size.
 		/// </summary>
 		SurfaceImpl CreateSurface(Size surfaceSize);
+		/// <summary>
+		/// Creates a Surface implementation from the specified pixel buffer.
+		/// </summary>
+		/// <param name="pixels"></param>
+		/// <returns></returns>
+		SurfaceImpl CreateSurface(PixelBuffer pixels);
 
 		/// <summary>
 		/// Creates a FontSurfaceImpl derived object based on an operating system font.
@@ -86,6 +92,7 @@ namespace AgateLib.Drivers
 		/// </summary>
 		/// <param name="size"></param>
 		FrameBufferImpl CreateFrameBuffer(Size size);
+
 
 	}
 }

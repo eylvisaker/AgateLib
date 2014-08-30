@@ -8,26 +8,23 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
+using AgateLib.Platform.WinForms.ApplicationModels;
+using AgateLib.ApplicationModels;
 
-namespace Tests
+namespace AgateLib.Testing
 {
 	public partial class frmLauncher : Form, AgateLib.Settings.ISettingsTracer
 	{
-		class TestInfo
-		{
-			public string Name { get; set; }
-			public string Category { get; set; }
-			public Type Class { get; set; }
-		}
 
-		List<TestInfo> tests = new List<TestInfo>();
+		IList<TestInfo> tests { get { return TestCollection.Tests; } }
+
 		Font bold;
 
 		public frmLauncher()
 		{
 			InitializeComponent();
 
-			Icon = AgateLib.Platform.WindowsForms.WinForms.FormUtil.AgateLibIcon;
+			Icon = AgateLib.Platform.WinForms.Controls.FormUtil.AgateLibIcon;
 
 			LoadTests();
 
@@ -39,6 +36,8 @@ namespace Tests
 			AgateLib.Settings.PersistantSettings.Debug = true;
 
 			this.FormClosed += HandleFormClosed;
+
+			ResetCommandLine();
 		}
 
 		private void frmLauncher_Load(object sender, EventArgs e)
@@ -86,44 +85,40 @@ namespace Tests
 
 		void ReadSettingsNames()
 		{
-			StreamReader r = null;
-			string targetDirectory = "../../../Tests/Data/";
-			string filename = "settings_list.txt";
+			//StreamReader r = null;
+			//string targetDirectory = "../../../Tests/Assets/";
+			//string filename = "settings_list.txt";
 
-			try
-			{
-				settingsFile = System.IO.Path.GetFullPath(targetDirectory + filename);
-				r = new StreamReader(targetDirectory + filename);
-			}
-			catch (DirectoryNotFoundException)
-			{
-				settingsFile = filename;
-				r = new StreamReader(filename);
-			}
+			//try
+			//{
+			//	settingsFile = System.IO.Path.GetFullPath(targetDirectory + filename);
+			//	r = new StreamReader(targetDirectory + filename);
+			//}
+			//catch (DirectoryNotFoundException)
+			//{
+			//	settingsFile = filename;
+			//	r = new StreamReader(filename);
+			//}
 
-			using (r)
-			{
-				while (r.EndOfStream == false)
-				{
-					string x = r.ReadLine().Trim();
+			//using (r)
+			//{
+			//	while (r.EndOfStream == false)
+			//	{
+			//		string x = r.ReadLine().Trim();
 
-					if (string.IsNullOrEmpty(x))
-						continue;
+			//		if (string.IsNullOrEmpty(x))
+			//			continue;
 
-					int index = x.IndexOf('\t');
+			//		int index = x.IndexOf('\t');
 
-					if (index == -1)
-					{
-						mSettings[x] = null;
-					}
-					else
-						mSettings[x.Substring(0, index)] = x.Substring(index + 1);
-				}
-			}
-
-			displayList.SelectedItem = mSettings["AgateLib.DisplayDriver"];
-			audioList.SelectedItem = mSettings["AgateLib.AudioDriver"];
-			inputList.SelectedItem = mSettings["AgateLib.InputDriver"];
+			//		if (index == -1)
+			//		{
+			//			mSettings[x] = null;
+			//		}
+			//		else
+			//			mSettings[x.Substring(0, index)] = x.Substring(index + 1);
+			//	}
+			//}
 		}
 		void StoreSetting(string name, string value)
 		{
@@ -138,14 +133,6 @@ namespace Tests
 
 		private void FillList()
 		{
-			tests.Sort((x, y) =>
-			{
-				if (x.Category != y.Category)
-					return x.Category.CompareTo(y.Category);
-				else
-					return x.Name.CompareTo(y.Name);
-			});
-
 			string lastCategory = null;
 
 			foreach (var test in tests)
@@ -162,15 +149,7 @@ namespace Tests
 
 		private void LoadTests()
 		{
-			Assembly myass = Assembly.GetAssembly(typeof(frmLauncher));
-
-			foreach (var t in myass.GetTypes())
-			{
-				if (typeof(IAgateTest).IsAssignableFrom(t) && t.IsAbstract == false)
-				{
-					AddTest(t);
-				}
-			}
+			TestCollection.AddTests(Assembly.GetAssembly(GetType()));
 
 			FillList();
 		}
@@ -178,9 +157,6 @@ namespace Tests
 
 		private void AddTest(Type t)
 		{
-			IAgateTest obj = (IAgateTest)Activator.CreateInstance(t);
-
-			tests.Add(new TestInfo { Name = obj.Name, Category = obj.Category, Class = t });
 		}
 
 		private void lstTests_DoubleClick(object sender, EventArgs e)
@@ -233,7 +209,7 @@ namespace Tests
 			try
 			{
 				runningTest = true;
-				obj.Main(args);
+				LaunchTestModel(obj);
 			}
 			catch (TargetInvocationException e)
 			{
@@ -256,6 +232,54 @@ namespace Tests
 				this.TopMost = false;
 				this.Activate();
 			}
+		}
+
+		private void LaunchTestModel(IAgateTest test)
+		{
+			try
+			{
+				if (test is ISerialModelTest) LaunchTestModel((ISerialModelTest)test);
+				else if (test is ISceneModelTest) LaunchTestModel((ISceneModelTest)test);
+				else if (test is IDiscreteAgateTest) LaunchTestModel((IDiscreteAgateTest)test);
+				else
+					MessageBox.Show(this, "The test " + test.Name + " does not have a model defined.", "AgateLib Test can't run", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+			}
+			catch (ExitGameException)
+			{ }
+		}
+		private void LaunchTestModel(ISerialModelTest test)
+		{
+			var parameters = CreateParameters<SerialModelParameters>();
+			test.ModifyModelParameters(parameters);
+
+			using (var model = new SerialModel(parameters))
+			{
+				model.Run(new Action(test.EntryPoint));
+			}
+		}
+		private void LaunchTestModel(ISceneModelTest test)
+		{
+			var parameters = CreateParameters<SceneModelParameters>();
+			test.ModifyModelParameters(parameters);
+
+			using (var model = new SceneModel(parameters))
+			{
+				model.Run(test.StartScene);
+			}
+		}
+		private void LaunchTestModel(IDiscreteAgateTest test)
+		{
+			test.Main(CommandLineArguments);
+		}
+
+		private T CreateParameters<T>() where T : ModelParameters, new()
+		{
+			var parameters = new T();
+
+			parameters.Arguments = CommandLineArguments;
+			parameters.AssetLocations.Path = "Assets";
+
+			return parameters;
 		}
 
 		private void SplitName(string p, out string group, out string key)
@@ -290,10 +314,14 @@ namespace Tests
 			{
 				TestInfo t = item as TestInfo;
 				loc.X += indent;
+				string text = t.Name;
 
-				e.Graphics.DrawString(t.Name, lstTests.Font, b, loc);
+				if (GetTestType(t.Class) == null)
+					text += " *INVALID";
 
-				var size = e.Graphics.MeasureString(t.Name, lstTests.Font);
+				e.Graphics.DrawString(text, lstTests.Font, b, loc);
+
+				var size = e.Graphics.MeasureString(text, lstTests.Font);
 
 				size.Width += indent + 5;
 
@@ -304,18 +332,54 @@ namespace Tests
 			e.DrawFocusRectangle();
 		}
 
-		private void displayList_SelectedIndexChanged(object sender, EventArgs e)
+		readonly char[] separator = new char[] { ' ' };
+
+		private void txtCommandLine_TextChanged(object sender, EventArgs e)
 		{
-			mSettings["AgateLib.DisplayDriver"] = displayList.Text;
-		}
-		private void audioList_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			mSettings["AgateLib.AudioDriver"] = audioList.Text;
-		}
-		private void inputList_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			mSettings["AgateLib.InputDriver"] = inputList.Text;
+			ResetCommandLine();
 		}
 
+		private void ResetCommandLine()
+		{
+			CommandLineArguments = txtCommandLine.Text.Split(separator,
+						 StringSplitOptions.RemoveEmptyEntries);
+		}
+
+		string[] CommandLineArguments { get; set; }
+		Type[] interfaces = new Type[] { typeof(ISceneModelTest), typeof(ISerialModelTest), typeof(IDiscreteAgateTest) };
+
+		private void lstTests_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			StringBuilder b = new StringBuilder();
+
+			TestInfo test = lstTests.SelectedItem as TestInfo;
+
+			if (test != null)
+			{
+				var testtype = GetTestType(test.Class);
+
+				b.AppendLine(test.Name);
+				if (testtype != null)
+					b.AppendLine(testtype.Name);
+				else
+					b.AppendLine("NO VALID INTERFACE");
+
+				b.AppendLine(test.Class.FullName);
+				b.AppendLine(test.Class.Assembly.GetName().Name);
+			}
+
+			txtTestInfo.Text = b.ToString();
+		}
+
+		Type GetTestType(Type testclass)
+		{
+			foreach (var type in interfaces)
+			{
+				if (type.IsAssignableFrom(testclass))
+					return type;
+			}
+
+			return null;
+		}
 	}
 }

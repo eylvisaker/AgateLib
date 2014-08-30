@@ -5,12 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.ApplicationModels;
 
-namespace Tests.AudioTester
+namespace AgateLib.Testing.AudioTests.AudioPlayer
 {
-	class AudioTester : IAgateTest
+	class AudioPlayer : IDiscreteAgateTest
 	{
 		/// <summary>
 		/// The main entry point for the application.
@@ -23,7 +23,7 @@ namespace Tests.AudioTester
 			});
 		}
 
-		#region IAgateTest Members
+		
 
 		public string Name
 		{
@@ -34,6 +34,5 @@ namespace Tests.AudioTester
 			get { return "Audio"; }
 		}
 
-		#endregion
 	}
 }

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SharpDX.SimpleInitializer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
-namespace AgateLib.Platform.WindowsStoreCommon
+namespace AgateLib.Platform.WindowsStore
 {
 	public class SwapChainBackgroundPanelAdapter : IRenderTargetAdapter
 	{
@@ -159,5 +160,11 @@ namespace AgateLib.Platform.WindowsStoreCommon
 
 		//	public event EventHandler Disposed;
 
+
+
+		public void BindContextToRenderTarget(SharpDXContext context)
+		{
+			context.BindToControl(mRenderTarget);
+		}
 	}
 }

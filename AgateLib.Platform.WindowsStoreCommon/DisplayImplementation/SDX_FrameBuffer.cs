@@ -25,7 +25,7 @@ using AgateLib.Geometry;
 using AgateLib.DisplayLib.ImplementationBase;
 using SharpDX.DXGI;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	public abstract class SDX_FrameBuffer: FrameBufferImpl 
 	{

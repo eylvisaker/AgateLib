@@ -25,14 +25,14 @@ using AgateLib.DisplayLib.Shaders.Implementation;
 using AgateLib.Geometry;
 using SharpDX.Direct3D11;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation.Shaders
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation.Shaders
 {
 	class SDX_Basic2DShader : Basic2DImpl
 	{
 		Rectangle mCoords;
 
 		SDX_Display mDisplay;
-		D3DDevice mDevice;
+		D3DDevice mDevice { get { return mDisplay.D3D_Device; } }
 
 		VertexShader mVertexShader;
 		PixelShader mPixelShader;
@@ -45,10 +45,6 @@ namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation.Shaders
 		{
 			mDisplay = (SDX_Display)DisplayLib.Display.Impl;
 			mDisplay.DeviceReset += mDisplay_DeviceReset;
-
-			mDevice = mDisplay.D3D_Device;
-
-			InitializeShaders();
 		}
 
 		void mDisplay_DeviceReset(object sender, EventArgs e)

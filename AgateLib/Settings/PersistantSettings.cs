@@ -150,10 +150,12 @@ namespace AgateLib.Settings
 
 			Log.WriteLine("Saving settings to " + SettingsFilename);
 
-			Core.Platform.EnsureAppDataDirectoryExists();
+			// TODO: Implement settings saving.
 
-			//doc.Save(SettingsFilename);
-			throw new NotImplementedException();
+			//Core.Platform.EnsureAppDataDirectoryExists();
+
+			////doc.Save(SettingsFilename);
+			//throw new NotImplementedException();
 		}
 
 		private void LoadSettings()

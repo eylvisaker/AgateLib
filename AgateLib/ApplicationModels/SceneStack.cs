@@ -29,6 +29,11 @@ namespace AgateLib.ApplicationModels
 			mScenes.Remove(scene);
 		}
 
+		public static Scene CurrentScene
+		{
+			get { return mScenes[mScenes.Count - 1]; }
+		}
+
 		static IEnumerable<Scene> ScenesAbove(Func<Scene, bool> pred)
 		{
 			if (mScenes.Count == 0)
@@ -60,6 +65,19 @@ namespace AgateLib.ApplicationModels
 		public static bool Contains(Scene scene)
 		{
 			return mScenes.Contains(scene);
+		}
+
+		public static void CheckForFinishedScenes()
+		{
+			while (mScenes.Count > 0 && CurrentScene.SceneFinished)
+			{
+				mScenes.Remove(CurrentScene);
+			}
+		}
+
+		public static void Clear()
+		{
+			mScenes.Clear();
 		}
 	}
 }

@@ -25,17 +25,17 @@ using AgateLib.Geometry;
 using AgateLib.Sprites;
 
 namespace AgateLib.Particles
-{	
+{
 	/// <summary>
 	/// Emitter class optimized for simulating sprite particles.
 	/// </summary>
 	public class SpriteEmitter : ParticleEmitter
 	{
 		private List<Sprite> mSprites = new List<Sprite>();
-		
+
 		private int mEmitSpriteKey;
 		private double mEmitAlpha = 1d;
-		
+
 		private float time;
 
 		/// <value>
@@ -46,7 +46,7 @@ namespace AgateLib.Particles
 			get { return mEmitAlpha; }
 			set { mEmitAlpha = value; }
 		}
-		
+
 		/// <value>
 		/// Gets or sets the SpriteKey of emitting <see cref="SpriteParticle"/>s.
 		/// </value>
@@ -55,22 +55,22 @@ namespace AgateLib.Particles
 			get { return mEmitSpriteKey; }
 			set { mEmitSpriteKey = value; }
 		}
-		
+
 		/// <summary>
 		/// Constructs a SpriteEmitter with default values:
 		/// EmitLife = 1f, maxParticle = 1000, emitSpriteKey = 0
 		/// </summary>
 		/// <param name="position"></param>
-		public SpriteEmitter(Vector2 position) : this(position, 1f, 1000, 0) {}
-		
+		public SpriteEmitter(Vector2 position) : this(position, 1f, 1000, 0) { }
+
 		/// <summary>
 		/// Constructs a SpriteEmitter with default values:
 		/// maxParticle = 1000, emitSpriteKey = 0
 		/// </summary>
 		/// <param name="position"></param>
 		/// <param name="emitLife"></param>
-		public SpriteEmitter(Vector2 position, float emitLife) : this(position, emitLife, 1000, 0) {}
-		
+		public SpriteEmitter(Vector2 position, float emitLife) : this(position, emitLife, 1000, 0) { }
+
 		/// <summary>
 		/// Constructs a SpriteEmitter with default values:
 		/// emitSpriteKey = 0
@@ -78,8 +78,8 @@ namespace AgateLib.Particles
 		/// <param name="position"></param>
 		/// <param name="emitLife"></param>
 		/// <param name="maxParticle"></param>
-		public SpriteEmitter(Vector2 position, float emitLife, int maxParticle) : this(position, emitLife, maxParticle, 0) {}
-		
+		public SpriteEmitter(Vector2 position, float emitLife, int maxParticle) : this(position, emitLife, maxParticle, 0) { }
+
 		/// <summary>
 		/// Constructs a SpriteEmitter.
 		/// </summary>
@@ -94,7 +94,7 @@ namespace AgateLib.Particles
 			base.Particles = new List<Particle>(maxParticle);
 			mEmitSpriteKey = emitSpriteKey;
 		}
-		
+
 		/// <summary>
 		/// Gets a stored <see cref="Sprite"/> by key.
 		/// </summary>
@@ -104,7 +104,7 @@ namespace AgateLib.Particles
 		{
 			return mSprites[key];
 		}
-		
+
 		/// <summary>
 		/// Adds a <see cref="Sprite"/> to the storage.
 		/// </summary>
@@ -116,16 +116,16 @@ namespace AgateLib.Particles
 			mSprites.Insert(index, sprite);
 			return index;
 		}
-		
+
 		/// <summary>s
 		/// Overridden Draw method.
 		/// Draws each living particle.
 		/// </summary>
-		public override void Draw ()
-		{			
-			foreach(SpriteParticle sp in base.Particles)
+		public override void Draw()
+		{
+			foreach (SpriteParticle sp in base.Particles)
 			{
-				if(sp.Condition == Condition.Alive || sp.Condition == Condition.Frozen)
+				if (sp.Condition == Condition.Alive || sp.Condition == Condition.Frozen)
 				{
 					mSprites[sp.SpriteKey].CurrentFrameIndex = sp.Frame;
 					mSprites[sp.SpriteKey].Alpha = sp.Alpha;
@@ -133,7 +133,7 @@ namespace AgateLib.Particles
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Overridden Update mehtod.
 		/// Emits particles based on the frequency property.
@@ -142,12 +142,12 @@ namespace AgateLib.Particles
 		/// Updates the animation of each <see cref="Sprite"/>.
 		/// </summary>
 		/// <param name="time_ms">Time in milliseconds.</param>
-		public override void Update (double time_ms)
+		public override void Update(double time_ms)
 		{
 			time += (float)time_ms;
-			float frequency = EmitFrequency*1000;
-			
-			while(time >= frequency)
+			float frequency = EmitFrequency * 1000;
+
+			while (time >= frequency)
 			{
 				//int index = Particles.IndexOf(Particles.FirstOrDefault(pt => pt.IsAlive == false));
 				int index = -1;
@@ -159,8 +159,8 @@ namespace AgateLib.Particles
 						break;
 					}
 				}
-				
-				if(index > -1)
+
+				if (index > -1)
 				{
 					// Recycle a dead particle
 					Particles[index].Acceleration = EmitAcceleration;
@@ -174,7 +174,7 @@ namespace AgateLib.Particles
 					Particles[index].Velocity = EmitVelocity;
 					NewRecyledParticle(Particles[index]);
 				}
-				else if(Particles.Count < Particles.Capacity)
+				else if (Particles.Count < Particles.Capacity)
 				{
 					// Add a new particle
 					SpriteParticle sp = new SpriteParticle();
@@ -195,32 +195,40 @@ namespace AgateLib.Particles
 					// No capacity left and no dead particles to recycle
 					time = 0;
 					break;
-				}				
+				}
 				time -= frequency;
 			}
-			
+
 			// Update animation
-			foreach(SpriteParticle sp in Particles)
+			foreach (SpriteParticle sp in Particles)
 			{
-				if(mSprites[sp.SpriteKey].Frames.Count <= 1)
+				if (mSprites[sp.SpriteKey].Frames.Count <= 1)
 				{
 					sp.SpriteKey = 0;
 					continue;
 				}
-				sp.FrameTime += time_ms/1000;
+				sp.FrameTime += time_ms / 1000;
 				while (sp.FrameTime >= mSprites[sp.SpriteKey].TimePerFrame)
 				{
 					sp.FrameTime -= mSprites[sp.SpriteKey].TimePerFrame;
-					if(mSprites[sp.SpriteKey].PlayReverse)
+					if (mSprites[sp.SpriteKey].PlayReverse)
+					{
 						sp.Frame--;
+						if (sp.Frame < 0)
+							sp.Frame = mSprites[sp.SpriteKey].Frames.Count;
+					}
 					else
+					{
 						sp.Frame++;
+						if (sp.Frame >= mSprites[sp.SpriteKey].Frames.Count)
+							sp.Frame = 0;
+					}
 					// TODO: Handle AnimationType
 				}
 			}
-			
+
 			// updates own position, particle positions and calls manipulators
-			base.Update (time_ms);
+			base.Update(time_ms);
 		}
 	}
 }

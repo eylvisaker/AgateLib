@@ -1,4 +1,4 @@
-﻿namespace GuiTester
+﻿namespace AgateLib.Testing.UserInterfaceTests
 {
 	partial class Form1
 	{
@@ -28,14 +28,14 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.artGuiTest = new AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget();
+			this.artGuiTest = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.cboPropertyItems = new System.Windows.Forms.ComboBox();
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.lblFrames = new System.Windows.Forms.Label();
 			this.txtCss = new System.Windows.Forms.TextBox();
-			this.artGuiTest = new AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget();
+			this.artGuiTest = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.btnHideShow = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -180,7 +180,7 @@
 
 		#endregion
 
-		private AgateLib.Platform.WindowsForms.WinForms.AgateRenderTarget artGuiTest;
+		private AgateLib.Platform.WinForms.Controls.AgateRenderTarget artGuiTest;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.TextBox txtCss;
 		private System.Windows.Forms.Panel panel1;

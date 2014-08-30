@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using AgateLib;
 
-namespace Tests.ErrorReportTester
+namespace AgateLib.Testing.CoreTests.ErrorReport
 {
 	public partial class frmErrorReportTester : Form
 	{

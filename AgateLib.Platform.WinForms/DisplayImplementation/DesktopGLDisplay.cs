@@ -32,9 +32,9 @@ using AgateLib.Geometry.VertexTypes;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = AgateLib.DisplayLib.PixelFormat;
 using AgateLib.OpenGL;
-using AgateLib.Platform.WindowsForms.WinForms;
+using AgateLib.Platform.WinForms.Controls;
 
-namespace AgateLib.Platform.WindowsForms.DisplayImplementation
+namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	/// <summary>
 	/// OpenGL 3.1 compatible.  
@@ -507,8 +507,8 @@ namespace AgateLib.Platform.WindowsForms.DisplayImplementation
 			switch (caps)
 			{
 				case DisplaySizeCaps.NativeScreenResolution:
-					return WinForms.Interop.Convert(
-						System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size);
+					return 
+						System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size.ToGeometry();
 
 				case DisplaySizeCaps.MaxSurfaceSize:
 					int val;

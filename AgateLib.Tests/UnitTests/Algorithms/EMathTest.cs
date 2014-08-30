@@ -4,7 +4,7 @@ using AgateLib.Mathematics;
 using AgateLib.Algorithms;
 using AgateLib.UnitTesting;
 
-namespace ZodiacTests.Algorithms
+namespace AgateLib.Algorithms
 {
 	[TestClass]
 	public class MathFunctionsTest

@@ -9,7 +9,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>Tests</AssemblyName>
+    <AssemblyName>AgateLib.Testing.WinForms</AssemblyName>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -18,13 +18,15 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>
     </AppDesignerFolder>
-    <RootNamespace>Tests</RootNamespace>
-    <StartupObject>Tests.TestLauncher</StartupObject>
+    <RootNamespace>AgateLib.Testing</RootNamespace>
+    <StartupObject>AgateLib.Testing.TestLauncher</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <BaseAddress>285212672</BaseAddress>
@@ -42,6 +44,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <BaseAddress>285212672</BaseAddress>
@@ -127,9 +130,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgateTestAttribute.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="AudioTests\SoundbufferStopTester.cs" />
     <Compile Include="AudioTests\StreamAudio.cs" />
     <Compile Include="CoreTests\PersistantSettingsTest.cs" />
@@ -147,25 +147,19 @@
     <Compile Include="DisplayTests\Capabilities\frmCapabilities.Designer.cs">
       <DependentUpon>frmCapabilities.cs</DependentUpon>
     </Compile>
-    <Compile Include="DisplayTests\ColorTest.cs" />
     <Compile Include="DisplayTests\LargeImage.cs" />
     <Compile Include="DisplayTests\DisplayWindowEvents.cs" />
     <Compile Include="DisplayTests\MultipleFramebufferTest.cs" />
     <Compile Include="DisplayTests\PixelBufferMask.cs" />
-    <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="DisplayTests\Prerendered.cs" />
     <Compile Include="DisplayTests\RenderTargetContinuous.cs" />
-    <Compile Include="Fonts\Builtin.cs" />
-    <Compile Include="Fonts\FontAlignment.cs" />
-    <Compile Include="Fonts\Kerning.cs" />
+    <Compile Include="FontTests\FontAlignment.cs" />
+    <Compile Include="FontTests\Kerning.cs" />
     <Compile Include="frmLauncher.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmLauncher.Designer.cs">
       <DependentUpon>frmLauncher.cs</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IAgateTest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TestLauncher.cs">
@@ -179,12 +173,6 @@
     </Compile>
     <Compile Include="AudioTests\AudioPlayer\frmAudioPlayer.Designer.cs">
       <DependentUpon>frmAudioPlayer.cs</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CoreTests\App.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CoreTests\RefCounters.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CoreTests\Resources.cs">
@@ -210,25 +198,13 @@
     <Compile Include="CoreTests\Timers\Timers.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DisplayTests\BasicSprite.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DisplayTests\FullScreen.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DisplayTests\Interpolation.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Shaders\CoordinateSystem.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayTests\RotatingSpriteTester.cs">
+    <Compile Include="DisplayTests\CoordinateSystem.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayTests\ScreenCapture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayTests\Tiling.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayTests\BasicDrawing\BasicDrawing.cs">
@@ -249,9 +225,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayTests\MultipleWindows\MultipleWindowTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayTests\ParticleTests\ParticleTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayTests\PixelBufferTest\PixelBufferForm.cs">
@@ -321,16 +294,13 @@
     <Compile Include="DisplayTests\TileTester\TileTester.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Fonts\BitmapFonts.cs">
+    <Compile Include="FontTests\BitmapFonts.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Fonts\FontLineTester.cs">
+    <Compile Include="FontTests\FontLineTester.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Fonts\Fonts.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Fonts\TextLayout.cs">
+    <Compile Include="FontTests\Fonts.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputTests\Input\frmInputTester.cs">
@@ -343,7 +313,7 @@
     <Compile Include="InputTests\Input\InputTester.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InputTests\InputState\InputStateTester.cs">
+    <Compile Include="InputTests\InputStateTester.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -446,154 +416,144 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="Data\9ball.png">
+    <None Include="Assets\9ball.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\attacke.png">
+    <None Include="Assets\attacke.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\ball.png">
+    <None Include="Assets\ball.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\bg-bricks-heightmap.png">
+    <None Include="Assets\bg-bricks-heightmap.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\bg-bricks.png">
+    <None Include="Assets\bg-bricks.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\boxsprite.png">
+    <None Include="Assets\gui.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\gui.zip">
+    <None Include="Assets\dogs.tar.gz">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\dogs.tar.gz">
+    <None Include="Assets\dogs.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\dogs.zip">
+    <None Include="Assets\jellybean.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\jellybean.png">
+    <None Include="Assets\lotafont.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\lotafont.png">
+    <None Include="Assets\smoke.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\smoke.png">
+    <None Include="Assets\smoke2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\smoke2.png">
+    <None Include="Assets\spike.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\spike.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\TestResourceFile.xml">
+    <None Include="Assets\TestResourceFile.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Data\wallpaper.png">
+    <None Include="Assets\fonts\sample_font.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\fonts\sample_font.png">
+    <None Include="Assets\shaders\glsl\BumpMap_fragment.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\shaders\glsl\BumpMap_fragment.txt">
+    <None Include="Assets\shaders\glsl\BumpMap_vertex.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\shaders\glsl\BumpMap_vertex.txt">
+    <None Include="Assets\shaders\glsl\PerPixelLighting_fragment.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\shaders\glsl\PerPixelLighting_fragment.txt">
+    <None Include="Assets\shaders\glsl\PerPixelLighting_vertex.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\shaders\glsl\PerPixelLighting_vertex.txt">
+    <None Include="Assets\shaders\hlsl\Lighting.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\shaders\hlsl\Lighting.fx">
+    <None Include="Assets\shaders\hlsl\PerPixelLighting.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\shaders\hlsl\PerPixelLighting.fx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\CssTest.css">
+    <None Include="Assets\CssTest.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <None Include="Data\settings_list.txt">
+    <None Include="Assets\settings_list.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Style.css">
+    <None Include="Assets\Style.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\largeimage.png">
+    <None Include="Assets\largeimage.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="Data\fonts\MedievalSharp14.png">
+    <Content Include="Assets\fonts\MedievalSharp14.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\fonts\MedievalSharp18.png">
+    <Content Include="Assets\fonts\MedievalSharp18.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\fonts\MedievalSharpBold14.png">
+    <Content Include="Assets\fonts\MedievalSharpBold14.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\fonts\MedievalSharpBold18.png">
+    <Content Include="Assets\fonts\MedievalSharpBold18.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\fonts\MedievalSharpBold22.png">
+    <Content Include="Assets\fonts\MedievalSharpBold22.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Images\ui_back_1.png">
+    <Content Include="Assets\Images\ui_back_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Images\ui_border_1.png">
+    <Content Include="Assets\Images\ui_border_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Images\ui_border_2.png">
+    <Content Include="Assets\Images\ui_border_2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Images\ui_widget.png">
+    <Content Include="Assets\Images\ui_widget.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\mask_bg-bricks.png">
+    <Content Include="Assets\mask_bg-bricks.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\mask_circle.png">
+    <Content Include="Assets\mask_circle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Resources\fonts.xml">
+    <Content Include="Assets\Resources\fonts.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Resources\Fonts\MedievalSharp14.png">
+    <Content Include="Assets\Resources\Fonts\MedievalSharp14.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Resources\Fonts\MedievalSharp18.png">
+    <Content Include="Assets\Resources\Fonts\MedievalSharp18.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Resources\Fonts\MedievalSharpBold14.png">
+    <Content Include="Assets\Resources\Fonts\MedievalSharpBold14.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Resources\Fonts\MedievalSharpBold18.png">
+    <Content Include="Assets\Resources\Fonts\MedievalSharpBold18.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Resources\Fonts\MedievalSharpBold22.png">
+    <Content Include="Assets\Resources\Fonts\MedievalSharpBold22.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\snda.wav">
+    <Content Include="Assets\snda.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\sndb.wav">
+    <Content Include="Assets\sndb.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CoreTests\Performance\" />
     <Folder Include="ResourceTests\" />
   </ItemGroup>
   <ItemGroup>
@@ -625,4 +585,11 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
 </Project>

@@ -2,7 +2,8 @@
 using AgateLib.Drivers;
 using AgateLib.IO;
 using AgateLib.Platform.Common.PlatformImplementation;
-using AgateLib.Platform.WindowsForms.PlatformImplementation;
+using AgateLib.Platform.WinForms.IO;
+using AgateLib.Platform.WinForms.PlatformImplementation;
 using AgateLib.Utility;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WindowsForms.Factories
+namespace AgateLib.Platform.WinForms.Factories
 {
 	class PlatformFactory : IPlatformFactory
 	{

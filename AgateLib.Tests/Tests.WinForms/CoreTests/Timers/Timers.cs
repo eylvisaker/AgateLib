@@ -5,12 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Platform;
 
-namespace Tests.TimerTester
+namespace AgateLib.Testing.CoreTests.Timers
 {
-	class TimerTester : IAgateTest
+	class TimerTester : IDiscreteAgateTest
 	{
 		public void Main(string[] args)
 		{
@@ -34,11 +34,7 @@ namespace Tests.TimerTester
 			});
 		}
 
-		#region IAgateTest Members
-
 		public string Name { get { return "Timers"; } }
 		public string Category { get { return "Core"; } }
-
-		#endregion
 	}
 }

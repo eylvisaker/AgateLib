@@ -7,15 +7,15 @@ using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Platform.WindowsForms.Resources;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+using AgateLib.Platform.WinForms.Resources;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace Tests.AudioTests
+namespace AgateLib.Testing.AudioTests
 {
 	class SoundbufferStopTester : IAgateTest
 	{
-		#region IAgateTest Members
+		
 
 		public string Name
 		{
@@ -71,6 +71,5 @@ namespace Tests.AudioTests
 				sndb.Play();
 		}
 
-		#endregion
 	}
 }

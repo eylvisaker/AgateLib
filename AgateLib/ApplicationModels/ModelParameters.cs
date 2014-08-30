@@ -107,5 +107,6 @@ namespace AgateLib.ApplicationModels
 		/// implementation.
 		/// </summary>
 		public DeviceType EmulateDeviceType { get; set; }
+
 	}
 }

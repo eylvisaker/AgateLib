@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WindowsForms.Resources
+namespace AgateLib.Platform.WinForms.Resources
 {
 	public static class BuiltinResources
 	{

@@ -28,9 +28,9 @@ using AgateLib.InputLib;
 using System.Windows.Input;
 using AgateLib.InputLib.Legacy;
 using System.Diagnostics;
-using AgateLib.Platform.WindowsStoreCommon;
+using AgateLib.Platform.WindowsStore;
 
-namespace AgateLib.Platform.WindowsStoreCommon.DisplayImplementation
+namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	public class SDX_DisplayWindow : DisplayWindowImpl
 	{

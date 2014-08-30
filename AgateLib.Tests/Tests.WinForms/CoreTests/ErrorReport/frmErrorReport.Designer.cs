@@ -1,4 +1,4 @@
-namespace Tests.ErrorReportTester
+namespace AgateLib.Testing.CoreTests.ErrorReport
 {
 	partial class frmErrorReportTester
 	{
