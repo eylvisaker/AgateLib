@@ -113,7 +113,7 @@ namespace AgateLib.Platform.WinForms.Controls
 				{
 					AgateLib.Core.ErrorReporting.Report(ErrorLevel.Warning,
 						"Caught a MissingManifestResourceException when looking for the AgateLib Icon.  " +
-						"This indicates a problem with the way resources were embedded into AgateLib.Platform.WindowsForms.WinForms.dll when it was built.",
+						"This indicates a problem with the way resources were embedded into AgateLib.Platform.WinForms.dll when it was built.",
 						e);
 
 					return null;

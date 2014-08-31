@@ -42,7 +42,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlatformImplementation\ActivatorConstructor.cs" />
+    <Compile Include="PlatformImplementation\PlatformSerialization.cs" />
     <Compile Include="PlatformImplementation\DiagnosticsStopwatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
