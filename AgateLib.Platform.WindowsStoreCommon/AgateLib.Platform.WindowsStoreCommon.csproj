@@ -51,6 +51,7 @@
     <None Include="Resources\fxc.bat" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationModels\WindowsStoreSerialModel.cs" />
     <Compile Include="ApplicationModels\WindowsStoreSerialModelParameters.cs" />
     <Compile Include="DisplayImplementation\D3DDevice.cs" />
     <Compile Include="DisplayImplementation\DrawBuffer.cs" />

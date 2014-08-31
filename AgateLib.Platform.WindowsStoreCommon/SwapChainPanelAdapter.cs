@@ -24,6 +24,7 @@ namespace AgateLib.Platform.WindowsStore
 			AttachEvents();
 		}
 
+
 		public SwapChainPanel RenderTarget { get { return mRenderTarget; } }
 
 		public DisplayLib.DisplayWindow Owner { get; set; }
@@ -54,6 +55,19 @@ namespace AgateLib.Platform.WindowsStore
 
 			mRenderTarget.KeyDown += mRenderTarget_KeyDown;
 			mRenderTarget.KeyUp += mRenderTarget_KeyUp;
+			
+			mRenderTarget.Unloaded += renderTarget_Unloaded;
+		}
+
+		void renderTarget_Unloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+		{
+			OnDisposed();
+		}
+
+		private void OnDisposed()
+		{
+			if (Disposed != null)
+				Disposed(this, EventArgs.Empty);
 		}
 
 		void mRenderTarget_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)

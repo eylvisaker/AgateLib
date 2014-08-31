@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationModels\SceneModel.cs" />
+    <Compile Include="ApplicationModels\SerialModel.cs" />
     <Compile Include="Factories\WindowsPhoneFactory.cs" />
     <Compile Include="Factories\WPPlatformFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

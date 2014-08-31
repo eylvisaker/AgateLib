@@ -89,12 +89,13 @@ namespace AgateLib.ApplicationModels
 		/// </summary>
 		public void Exit()
 		{
-			Instance = null;
 			QuitModel = true;
 
 			SceneStack.Clear();
 
 			Dispose();
+
+			Instance = null;
 		}
 
 		/// <summary>
