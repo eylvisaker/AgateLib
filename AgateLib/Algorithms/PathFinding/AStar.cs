@@ -63,14 +63,14 @@ namespace AgateLib.Algorithms.PathFinding
 		}
 
 
-		public void QueueFindPath(AStarState<T> task)
+		public async void QueueFindPath(AStarState<T> task)
 		{
 			System.Diagnostics.Debug.Assert(task.Tag != null);
 
 			task.SearchingPath = true;
 			mActiveTasks++;
 
-			ThreadPool.QueueUserWorkItem(FindPathThreadPoolCallback, task);
+			await FindPathThreadPoolCallback(task);
 		}
 		/// <summary>
 		/// Finds a path on the current thread and returns.
@@ -83,7 +83,7 @@ namespace AgateLib.Algorithms.PathFinding
 			{
 				task.SearchingPath = true;
 
-				FindPath(task);
+				FindPath(task).RunSynchronously();
 			}
 			finally
 			{
@@ -91,15 +91,11 @@ namespace AgateLib.Algorithms.PathFinding
 			}
 		}
 
-		void FindPathThreadPoolCallback(object _task)
+		async Task FindPathThreadPoolCallback(AStarState<T> task)
 		{
-			AStarState<T> task = null;
-
 			try
 			{
-				task = (AStarState<T>)_task;
-
-				FindPath(task);
+				await FindPath(task);
 				task.Complete = true;
 
 				task.OnCompleted();
@@ -111,25 +107,25 @@ namespace AgateLib.Algorithms.PathFinding
 			}
 		}
 
-		public void FindPath(AStarState<T> task)
+		public async Task FindPath(AStarState<T> state)
 		{
-			var openNodes = task.openNodes;
-			var closedNodes = task.closedNodes;
+			var openNodes = state.openNodes;
+			var closedNodes = state.closedNodes;
 
 			openNodes.Clear();
 			closedNodes.Clear();
-			task.Path.Clear();
-			task.AbortOperation = false;
+			state.Path.Clear();
+			state.AbortOperation = false;
 
 			var node = new AStarNode<T>
 			{
-				Location = task.Start,
+				Location = state.Start,
 				Parent = null,
-				Heuristic = mMap.CalculateHeuristic(task.Start, task.EndPoints),
+				Heuristic = mMap.CalculateHeuristic(state.Start, state.EndPoints),
 				PaidCost = 0
 			};
 
-			task.openNodes.Add(node);
+			state.openNodes.Add(node);
 
 			bool found = false;
 			int steps = 0;
@@ -144,7 +140,7 @@ namespace AgateLib.Algorithms.PathFinding
 				openNodes.RemoveAt(0);
 				closedNodes.Add(node);
 
-				if (task.EndPoints.Contains(node.Location))
+				if (state.EndPoints.Contains(node.Location))
 				{
 					found = true;
 					break;
@@ -154,11 +150,11 @@ namespace AgateLib.Algorithms.PathFinding
 				if (steps > maxSteps)
 					break;
 
-				foreach (T test in mMap.GetAvailableSteps(task, node.Location))
+				foreach (T test in mMap.GetAvailableSteps(state, node.Location))
 				{
 					if (mAbort)
 						return;
-					if (task.AbortOperation)
+					if (state.AbortOperation)
 						return;
 
 					if (LocationIn(closedNodes, test))
@@ -187,7 +183,7 @@ namespace AgateLib.Algorithms.PathFinding
 												Location = test,
 												Parent = node,
 												PaidCost = node.PaidCost + deltaCost,
-												Heuristic = mMap.CalculateHeuristic(test, task.EndPoints)
+												Heuristic = mMap.CalculateHeuristic(test, state.EndPoints)
 											};
 
 						if (newtarget.Heuristic < 0)
@@ -212,11 +208,11 @@ namespace AgateLib.Algorithms.PathFinding
 
 			if (!found)
 			{
-				task.FoundPath = false;
+				state.FoundPath = false;
 				return;
 			}
 
-			task.Path.Add(node.Location);
+			state.Path.Add(node.Location);
 
 			while (node.Parent != null && node.Parent != node)
 			{
@@ -224,10 +220,10 @@ namespace AgateLib.Algorithms.PathFinding
 					return;
 
 				node = node.Parent;
-				task.Path.Add(node.Location);
+				state.Path.Add(node.Location);
 			}
 
-			task.FoundPath = true;
+			state.FoundPath = true;
 		}
 
 		int FindPointInOpenNodes(List<AStarNode<T>> openNodes, T location)

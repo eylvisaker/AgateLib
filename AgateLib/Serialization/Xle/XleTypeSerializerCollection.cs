@@ -20,6 +20,7 @@ using AgateLib.Serialization.Xle.TypeSerializers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -85,7 +86,7 @@ namespace AgateLib.Serialization.Xle
 
 				foreach (var supertype in mInherited.Keys)
 				{
-					if (supertype.IsAssignableFrom(type))
+					if (supertype.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()))
 						return mInherited[supertype];
 				}
 

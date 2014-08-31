@@ -51,6 +51,7 @@
     <Compile Include="DisplayTests\BasicSprite.cs" />
     <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="DisplayTests\ColorTest.cs" />
+    <Compile Include="DisplayTests\CoordinateSystem.cs" />
     <Compile Include="DisplayTests\Interpolation.cs" />
     <Compile Include="DisplayTests\ParticleTests.cs" />
     <Compile Include="DisplayTests\RotatingSpriteTester.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Fakes\FakePlatformInfo.cs" />
     <Compile Include="Fakes\FakeRenderTarget.cs" />
     <Compile Include="FontTests\Builtin.cs" />
+    <Compile Include="FontTests\FontAlignment.cs" />
     <Compile Include="FontTests\TextLayout.cs" />
     <Compile Include="IAgateTest.cs" />
     <Compile Include="IDiscreteAgateTest.cs" />
@@ -80,7 +82,29 @@
     <Content Include="Assets\boxsprite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\fonts\MedievalSharp14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\fonts\MedievalSharp18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\fonts\MedievalSharpBold14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\fonts\MedievalSharpBold18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\fonts\MedievalSharpBold22.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\fonts\sample_font.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\spike.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\TestResourceFile.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\tile1.png">

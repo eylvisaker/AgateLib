@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WinForms.IO
 {
@@ -55,7 +56,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// </summary>
 		/// <param name="filename">The filename to search for.</param>
 		/// <returns></returns>
-		public Stream OpenRead(string filename)
+		public async Task<Stream> OpenRead(string filename)
 		{
 			if (string.IsNullOrEmpty(filename))
 				throw new ArgumentNullException("You must supply a file name.");
@@ -64,7 +65,7 @@ namespace AgateLib.Platform.WinForms.IO
 			{
 				if (mProviders[i].FileExists(filename))
 				{
-					return mProviders[i].OpenRead(filename);
+					return await mProviders[i].OpenRead(filename);
 				}
 			}
 
@@ -304,7 +305,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// <returns></returns>
 		public string ReadAllText(string filename)
 		{
-			Stream s = OpenRead(filename);
+			Stream s = OpenRead(filename).Result;
 
 			return new StreamReader(s).ReadToEnd();
 		}

@@ -21,6 +21,7 @@ using AgateLib.UserInterface.Css.Documents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,7 +37,7 @@ namespace AgateLib.UserInterface.Css.Binders
 				return ParseColor(value);
 			if (targetType == typeof(CssDistance))
 				return CssDistance.FromString(value);
-			if (targetType.IsEnum)
+			if (targetType.GetTypeInfo().IsEnum)
 				return Enum.Parse(targetType, value.Replace("-", "_"), true);
 
 			throw new NotImplementedException();

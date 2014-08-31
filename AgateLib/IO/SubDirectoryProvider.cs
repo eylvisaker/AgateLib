@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AgateLib.IO
 {
@@ -42,9 +43,9 @@ namespace AgateLib.IO
 		{
 			return parent.ToString() + subdir;
 		}
-		public System.IO.Stream OpenRead(string filename)
+		public async Task<System.IO.Stream> OpenRead(string filename)
 		{
-			return parent.OpenRead(subdir + filename);
+			return await parent.OpenRead(subdir + filename);
 		}
 
 		public bool FileExists(string filename)

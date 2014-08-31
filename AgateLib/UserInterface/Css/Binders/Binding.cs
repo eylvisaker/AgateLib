@@ -43,7 +43,7 @@ namespace AgateLib.UserInterface.Css.Binders
 
 			var property = FinalProperty;
 
-			if (typeof(ICssPropertyFromText).IsAssignableFrom(property.PropertyType))
+			if (property.PropertyType.GetTypeInfo().ImplementedInterfaces.Contains(typeof(ICssPropertyFromText)))
 			{
 				convertedValue = value;
 			}
@@ -66,7 +66,7 @@ namespace AgateLib.UserInterface.Css.Binders
 
 			var property = chain[chain.Count - 1];
 
-			if (typeof(ICssPropertyFromText).IsAssignableFrom(property.PropertyType))
+			if (property.PropertyType.GetTypeInfo().ImplementedInterfaces.Contains(typeof(ICssPropertyFromText)))
 			{
 				var rfs = (ICssPropertyFromText)property.GetValue(obj, null);
 				rfs.SetValueFromText(value);

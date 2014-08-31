@@ -9,7 +9,14 @@
 
     <Grid Background="#FF350053">
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="AgateLib Tests" VerticalAlignment="Top" FontSize="60" FontWeight="Bold" Margin="74,33,0,0"/>
-        <ListView HorizontalAlignment="Left" Height="559" VerticalAlignment="Top" Width="1152" Margin="158,149,0,0" Name="lvTests" IsItemClickEnabled="True" ItemClick="lvTests_ItemClick" Grid.ColumnSpan="3">
+        <ListView Margin="158,149,56,60" Name="lvTests" IsItemClickEnabled="True" ItemClick="lvTests_ItemClick">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapGrid Orientation="Vertical">
+                        <WrapGrid.ItemWidth>250</WrapGrid.ItemWidth>
+                    </WrapGrid>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical" Margin="4">

@@ -66,8 +66,8 @@ namespace AgateLib.Serialization.Xle
 
 			var typeBinder = new TypeBinder();
 
-			typeBinder.AddAssembly(objectType.Assembly);
-			typeBinder.AddAssembly(Assembly.GetExecutingAssembly());
+			typeBinder.AddAssembly(objectType.GetTypeInfo().Assembly);
+			typeBinder.AddAssembly(typeof(XleSerializer).GetTypeInfo().Assembly);
 
 			if (Core.Factory != null)
 			{
@@ -87,7 +87,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="objectGraph">The object to serialize.</param>
 		public void Serialize(Stream outStream, IXleSerializable objectGraph)
 		{
-			if (objectType.IsAssignableFrom(objectGraph.GetType()) == false)
+			if (objectType.GetTypeInfo().IsAssignableFrom(objectGraph.GetType().GetTypeInfo()) == false)
 				throw new ArgumentException("Object is not of type " + objectType.Name);
 
 			XleSerializationInfo info = new XleSerializationInfo(Binder, TypeSerializers);
@@ -104,7 +104,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="objectGraph">The object to serialize.</param>
 		public void Serialize(Stream outStream, object objectGraph)
 		{
-			if (objectType.IsAssignableFrom(objectGraph.GetType()) == false)
+			if (objectType.GetTypeInfo().IsAssignableFrom(objectGraph.GetType().GetTypeInfo()) == false)
 				throw new ArgumentException("Object is not of type " + objectType.Name);
 
 			XleSerializationInfo info = new XleSerializationInfo(Binder, TypeSerializers);

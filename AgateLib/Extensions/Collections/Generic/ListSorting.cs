@@ -20,6 +20,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace AgateLib.Extensions.Collections.Generic
@@ -42,11 +43,11 @@ namespace AgateLib.Extensions.Collections.Generic
 
 			Comparison<T> comp = null;
 
-			if (typeof(IComparable<T>).IsAssignableFrom(typeof(T)))
+			if (typeof(T).GetTypeInfo().ImplementedInterfaces.Contains(typeof(IComparable<T>)))
 			{
 				comp = (x, y) => ((IComparable<T>)x).CompareTo(y);
 			}
-			else if (typeof(IComparable).IsAssignableFrom(typeof(T)))
+			else if (typeof(T).GetTypeInfo().ImplementedInterfaces.Contains(typeof(IComparable)))
 			{
 				comp = (x, y) => ((IComparable)x).CompareTo(y);
 			}

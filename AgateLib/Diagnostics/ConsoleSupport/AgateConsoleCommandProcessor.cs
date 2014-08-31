@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,7 +51,8 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 		private void ExecuteDelegate(Delegate p, string[] tokens)
 		{
-			var parameters = p.Method.GetParameters();
+			var method = p.GetMethodInfo();
+			var parameters = method.GetParameters();
 			object[] args = new object[parameters.Length];
 			bool notEnoughArgs = false;
 			bool badArgs = false;
@@ -96,9 +98,9 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			if (badArgs || notEnoughArgs)
 				return;
 
-			object retval = p.Method.Invoke(p.Target, args);
+			object retval = method.Invoke(p.Target, args);
 
-			if (p.Method.ReturnType != typeof(void) && retval != null)
+			if (method.ReturnType != typeof(void) && retval != null)
 			{
 				WriteLine(retval.ToString());
 			}
@@ -126,11 +128,11 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			else
 			{
 				Delegate d = mCommands[command];
-
+				var method = d.GetMethodInfo();
 				Write("Usage: ");
 				Write(command + " ");
 
-				var parameters = d.Method.GetParameters();
+				var parameters = method.GetParameters();
 				for (int i = 0; i < parameters.Length; i++)
 				{
 					if (parameters[i].IsOptional)
@@ -152,7 +154,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 				}
 				if (string.IsNullOrEmpty(description))
 				{
-					var descripAttrib = (DescriptionAttribute)d.Method.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
+					var descripAttrib = (DescriptionAttribute)method.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
 
 					if (descripAttrib != null)
 						description = descripAttrib.Description;

@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace AgateLib.UserInterface.Css.Parser.Lexer
 
 		public Tokenizer()
 		{
-			if (typeof(T).IsEnum)
+			if (typeof(T).GetTypeInfo().IsEnum)
 				tokenTypeConverter = new EnumParser<T>();
 		}
 		public Tokenizer(ITokenTypeConverter<T> converter)

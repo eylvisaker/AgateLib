@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AgateLib
 {
@@ -34,7 +35,7 @@ namespace AgateLib
 		/// </summary>
 		/// <param name="filename">The path and filename of the file to read from.</param>
 		/// <returns></returns>
-		Stream OpenRead(string filename);
+		Task<Stream> OpenRead(string filename);
 		/// <summary>
 		/// Checks to if the specified file exists in the file provider.
 		/// </summary>

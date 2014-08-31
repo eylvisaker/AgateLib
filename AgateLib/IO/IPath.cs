@@ -29,8 +29,6 @@ namespace AgateLib.IO
 
 		string GetFileNameWithoutExtension(string filename);
 
-		string GetDirectoryName(string filename);
-
 		string GetFileName(string p);
 
 		string GetExtension(string filename);
