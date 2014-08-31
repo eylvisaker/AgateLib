@@ -227,17 +227,26 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 
 		#region --- BeginFrame stuff and DeltaTime ---
 
+		public bool InFrame { get; private set; }
+
 		protected override void OnBeginFrame()
 		{
+			if (mRenderTarget is FrameBufferWindow)
+				FrameCount++;
+
 			mRenderTarget.BeginRender();
 
 			SetClipRect(new AgateLib.Geometry.Rectangle(new AgateLib.Geometry.Point(0, 0), mRenderTarget.Size));
 			mDevice.DeviceContext.OutputMerger.SetDepthStencilState(mDepthStencilState);
+
+			InFrame = true;
 		}
 		protected override void OnEndFrame()
 		{
 			mDevice.DrawBuffer.Flush();
 			mRenderTarget.EndRender();
+
+			InFrame = false;
 		}
 
 		#endregion
@@ -813,5 +822,9 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 
 			InitializeDeviceWrapper();
 		}
+
+		public static int FrameCount { get; set; }
+
+		public static bool WaitingForMainThread { get; set; }
 	}
 }

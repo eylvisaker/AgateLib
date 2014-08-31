@@ -33,7 +33,7 @@ namespace AgateLib.Testing.WindowsPhone
 		}
 
 		public TestInfo Info { get; set;}
-		SceneModel model;
+		AgateAppModel model;
 
 		/// <summary>
 		/// Invoked when this page is about to be displayed in a Frame.
@@ -47,26 +47,45 @@ namespace AgateLib.Testing.WindowsPhone
 			IAgateTest t = (IAgateTest)Activator.CreateInstance(Info.Class);
 
 			if (t is ISceneModelTest)
-			{
 				RunTest((ISceneModelTest)t);
-			}
+			else if (t is ISerialModelTest)
+				RunTest((ISerialModelTest)t);
 		}
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
 		{
 			AgateAppModel.Instance.Exit();
 		}
 
-		private void RunTest(ISceneModelTest t)
+		private void RunTest(ISerialModelTest t)
 		{
-			var assemblyName = t.GetType().GetTypeInfo().Assembly.GetName().Name;
+			var parameters = new WindowsStoreSerialModelParameters(new SwapChainPanelAdapter(RenderTarget));
 
-			var parameters = new WindowsStoreSceneModelParameters(new SwapChainPanelAdapter(RenderTarget));
-			parameters.AssetLocations.Path = "ms-appx:///" + assemblyName + "/Assets";
+			SetAssetPath(t, parameters.AssetLocations);
 
 			t.ModifyModelParameters(parameters);
 
-			model = new SceneModel(parameters);
-			model.Run(t.StartScene);
+			var smodel = new SerialModel(parameters);
+			model = smodel;
+			smodel.Run(new Action(t.EntryPoint));
 		}
+		private void RunTest(ISceneModelTest t)
+		{
+			var parameters = new WindowsStoreSceneModelParameters(new SwapChainPanelAdapter(RenderTarget));
+
+			SetAssetPath(t, parameters.AssetLocations);
+
+			t.ModifyModelParameters(parameters);
+
+			var smodel = new SceneModel(parameters);
+			model = smodel;
+			smodel.Run(t.StartScene);
+		}
+
+		private static void SetAssetPath(IAgateTest t, AssetLocations assets)
+		{
+			var assemblyName = t.GetType().GetTypeInfo().Assembly.GetName().Name;
+			assets.Path = "ms-appx:///" + assemblyName + "/Assets";
+		}
+
 	}
 }

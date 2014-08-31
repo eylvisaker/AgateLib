@@ -35,6 +35,8 @@ namespace AgateLib.Platform.WindowsMetro.ApplicationModels
 			context.DeviceReset += context_DeviceReset;
 
 			Parameters.RenderTarget.BindContextToRenderTarget(context);
+
+			SDX_Display.PauseWhenNotRendering = false;
 		}
 		
 		void context_DeviceReset(object sender, DeviceResetEventArgs e)

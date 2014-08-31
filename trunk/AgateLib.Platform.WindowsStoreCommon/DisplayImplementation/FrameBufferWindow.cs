@@ -88,10 +88,8 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 		{
 			if (SDX_Display.PauseWhenNotRendering)
 			{
-				while (SDX_Display.RenderingFrame == false)
-				{
-					
-				}
+				SDX_Display.WaitingForMainThread = true;
+				while (SDX_Display.RenderingFrame == false && SDX_Display.WaitingForMainThread) ;
 			}
 
 			mContext.D3DContext.OutputMerger.SetTargets(
@@ -102,6 +100,7 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 		public override void EndRender()
 		{
 			SDX_Display.RenderingFrame = false;
+			SDX_Display.WaitingForMainThread = false;
 		}
 
 		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow

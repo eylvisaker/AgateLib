@@ -15,6 +15,18 @@ namespace AgateLib.Platform.WindowsStore
 		public SwapChainBackgroundPanelAdapter(SwapChainBackgroundPanel renderTarget)
 		{
 			mRenderTarget = renderTarget;
+			renderTarget.Unloaded += renderTarget_Unloaded;
+		}
+
+		void renderTarget_Unloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+		{
+			OnDisposed();
+		}
+
+		private void OnDisposed()
+		{
+			if (Disposed != null)
+				Disposed(this, EventArgs.Empty);
 		}
 
 		public SwapChainBackgroundPanel RenderTarget { get { return mRenderTarget; } }
