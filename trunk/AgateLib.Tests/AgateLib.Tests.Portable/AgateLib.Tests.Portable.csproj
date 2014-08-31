@@ -60,6 +60,7 @@
     <Compile Include="Fakes\FakeFrameBuffer.cs" />
     <Compile Include="Fakes\FakePlatformFactory.cs" />
     <Compile Include="Fakes\FakePlatformInfo.cs" />
+    <Compile Include="Fakes\FakeRenderTarget.cs" />
     <Compile Include="FontTests\Builtin.cs" />
     <Compile Include="FontTests\TextLayout.cs" />
     <Compile Include="IAgateTest.cs" />

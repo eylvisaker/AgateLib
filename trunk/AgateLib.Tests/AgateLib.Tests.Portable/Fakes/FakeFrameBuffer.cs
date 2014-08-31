@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Testing.Fakes
 {
-	class FakeFrameBuffer : FrameBufferImpl
+	public class FakeFrameBuffer : FrameBufferImpl
 	{
 		public FakeFrameBuffer(FakeDisplayWindow owner)
 			: base(new NativeCoordinates())
