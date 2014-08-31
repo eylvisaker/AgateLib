@@ -164,7 +164,7 @@
     </ProjectReference>
     <ProjectReference Include="..\AgateLib.OpenGL\AgateLib.OpenGL.csproj">
       <Project>{94734e5a-0344-43e8-bb30-e32e3f57f611}</Project>
-      <Name>AgateLib.GL</Name>
+      <Name>AgateLib.OpenGL</Name>
     </ProjectReference>
     <ProjectReference Include="..\AgateLib.Platform.Common\AgateLib.Platform.Common.csproj">
       <Project>{fc9e7036-aa75-4a6b-82db-0f5e98b5fbcb}</Project>
