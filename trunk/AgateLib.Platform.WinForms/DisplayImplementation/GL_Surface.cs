@@ -221,7 +221,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			float displayWidth, float displayHeight, TextureCoordinates texCoord, Gradient color,
 			 OriginAlignment DisplayAlignment, float mRotationCos, float mRotationSin)
 		{
-	
+
 			// order is 
 			//  1 -- 2
 			//  |    |
@@ -345,7 +345,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					Marshal.Copy(memPtr, data, dataIndex, pixelStride * rect.Width);
 				}
 			}
-			
+
 			Marshal.FreeHGlobal(memory);
 
 			if (format == PixelFormat.RGBA8888)
@@ -390,6 +390,17 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			// So return true because if the surface is constructed, it's been loaded.
 			get { return true; }
 		}
+		public override event EventHandler LoadComplete
+		{
+			add
+			{
+				// since loading is synchronously performed in the constructor, just
+				// execute any delegate that comes in immediately.
+				value(this, EventArgs.Empty);
+			}
+			remove { }
+		}
+
 		public int GLTextureID { get { return mTextureID; } }
 
 		private void Load()
