@@ -117,7 +117,6 @@ namespace AgateLib.Resources.Legacy
 		public AgateResourceCollection()
 		{
 			mSurfaceAccessor = new SurfaceResourceList(this);
-			//mGuiThemeAccessor = new GuiThemeResourceList(this);
 
 			this.mStore.Add(mStringTableKey, new StringTable());
 		}
@@ -128,7 +127,6 @@ namespace AgateLib.Resources.Legacy
 		public AgateResourceCollection(string filename)
 		{
 			mSurfaceAccessor = new SurfaceResourceList(this);
-			//mGuiThemeAccessor = new GuiThemeResourceList(this);
 
 			RootDirectory = System.IO.Path.GetDirectoryName(filename);
 
@@ -137,7 +135,7 @@ namespace AgateLib.Resources.Legacy
 
 		private async Task Load(string filename)
 		{
-			using (Stream s = await FileProvider.OpenRead(filename))
+			using (Stream s = await FileProvider.OpenReadAsync(filename))
 			{
 				AgateResourceLoader.LoadResources(this, s);
 			}

@@ -43,9 +43,9 @@ namespace AgateLib.IO
 		{
 			return parent.ToString() + subdir;
 		}
-		public async Task<System.IO.Stream> OpenRead(string filename)
+		public async Task<System.IO.Stream> OpenReadAsync(string filename)
 		{
-			return await parent.OpenRead(subdir + filename);
+			return await parent.OpenReadAsync(subdir + filename);
 		}
 
 		public bool FileExists(string filename)

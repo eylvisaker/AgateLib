@@ -35,7 +35,7 @@ namespace AgateLib
 		/// </summary>
 		/// <param name="filename">The path and filename of the file to read from.</param>
 		/// <returns></returns>
-		Task<Stream> OpenRead(string filename);
+		Task<Stream> OpenReadAsync(string filename);
 		/// <summary>
 		/// Checks to if the specified file exists in the file provider.
 		/// </summary>

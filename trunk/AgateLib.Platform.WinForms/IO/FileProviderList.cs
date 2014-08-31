@@ -56,7 +56,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// </summary>
 		/// <param name="filename">The filename to search for.</param>
 		/// <returns></returns>
-		public async Task<Stream> OpenRead(string filename)
+		public async Task<Stream> OpenReadAsync(string filename)
 		{
 			if (string.IsNullOrEmpty(filename))
 				throw new ArgumentNullException("You must supply a file name.");
@@ -65,7 +65,7 @@ namespace AgateLib.Platform.WinForms.IO
 			{
 				if (mProviders[i].FileExists(filename))
 				{
-					return await mProviders[i].OpenRead(filename);
+					return await mProviders[i].OpenReadAsync(filename);
 				}
 			}
 
@@ -305,7 +305,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// <returns></returns>
 		public string ReadAllText(string filename)
 		{
-			Stream s = OpenRead(filename).Result;
+			Stream s = OpenReadAsync(filename).Result;
 
 			return new StreamReader(s).ReadToEnd();
 		}

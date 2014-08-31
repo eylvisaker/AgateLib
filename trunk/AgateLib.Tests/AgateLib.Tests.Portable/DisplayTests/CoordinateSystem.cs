@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
@@ -14,7 +13,6 @@ namespace AgateLib.Testing.DisplayTests
 	class CoordinateSystem : ISerialModelTest 
 	{
 		int ortho = 0;
-		DisplayWindow wind;
 
 		public string Name { get { return "Coordinate System"; } }
 		public string Category { get { return "Shaders"; } }
@@ -26,7 +24,7 @@ namespace AgateLib.Testing.DisplayTests
 			Surface surf = new Surface("jellybean.png");
 			surf.Color = Color.Cyan;
 
-			while (wind.IsClosed == false)
+			while (Display.CurrentWindow.IsClosed == false)
 			{
 				Display.BeginFrame();
 				Display.Clear();
@@ -70,7 +68,7 @@ namespace AgateLib.Testing.DisplayTests
 				Keyboard.ReleaseKey(KeyCode.Space);
 			}
 			else if (e.KeyCode == KeyCode.Escape)
-				wind.Dispose();
+				Display.CurrentWindow.Dispose();
 
 		}
 

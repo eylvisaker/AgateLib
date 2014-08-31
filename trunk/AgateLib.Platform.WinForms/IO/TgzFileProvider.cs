@@ -202,7 +202,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public async Task<Stream> OpenRead(string filename)
+		public async Task<Stream> OpenReadAsync(string filename)
 		{
 			for (int i = 0; i < mFiles.Count; i++)
 			{
@@ -278,7 +278,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// <returns></returns>
 		public string ReadAllText(string filename)
 		{
-			Stream s = OpenRead(filename).Result;
+			Stream s = OpenReadAsync(filename).Result;
 
 			return new StreamReader(s).ReadToEnd();
 		}

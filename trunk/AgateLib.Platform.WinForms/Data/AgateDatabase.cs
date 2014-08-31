@@ -84,7 +84,7 @@ namespace AgateLib.Data
 		{
 			XleSerializer ser = new XleSerializer(typeof(AgateDatabase));
 
-			using (Stream x = await provider.OpenRead("catalog.txt"))
+			using (Stream x = await provider.OpenReadAsync("catalog.txt"))
 			{
 				AgateDatabase retval = (AgateDatabase)ser.Deserialize(x);
 
