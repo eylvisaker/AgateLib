@@ -27,6 +27,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Utility;
 using AgateLib.IO;
+using System.Threading.Tasks;
 
 namespace AgateLib.Resources.Legacy
 {
@@ -129,14 +130,14 @@ namespace AgateLib.Resources.Legacy
 			mSurfaceAccessor = new SurfaceResourceList(this);
 			//mGuiThemeAccessor = new GuiThemeResourceList(this);
 
-			RootDirectory = FileSystem.Path.GetDirectoryName(filename);
+			RootDirectory = System.IO.Path.GetDirectoryName(filename);
 
-			Load(filename);
+			Task.WaitAll(Load(filename));
 		}
 
-		private void Load(string filename)
+		private async Task Load(string filename)
 		{
-			using (Stream s = FileProvider.OpenRead(filename))
+			using (Stream s = await FileProvider.OpenRead(filename))
 			{
 				AgateResourceLoader.LoadResources(this, s);
 			}

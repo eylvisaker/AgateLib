@@ -1,9 +1,12 @@
-﻿using System;
+﻿using AgateLib.Platform.WindowsStore.DisplayImplementation;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.Storage;
 
 namespace AgateLib.Platform.WindowsStore.PlatformImplementation
 {
@@ -18,9 +21,16 @@ namespace AgateLib.Platform.WindowsStore.PlatformImplementation
 
 			this.path = path;
 		}
-		public System.IO.Stream OpenRead(string filename)
+		public async Task<System.IO.Stream> OpenRead(string filename)
 		{
-			throw new NotImplementedException();
+			Uri uri = new Uri(path + filename);
+
+			StorageFile storageFile =
+				await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+
+			var randomAccessStream = await storageFile.OpenReadAsync();
+			
+			return randomAccessStream.AsStreamForRead();
 		}
 
 		public bool FileExists(string filename)

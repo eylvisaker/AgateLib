@@ -26,6 +26,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AgateLib.Resources.DC
 {
@@ -39,16 +40,21 @@ namespace AgateLib.Resources.DC
 			FileProvider = AgateLib.IO.FileProvider.ResourceAssets;
 		}
 
-		public AgateResourceCollection(string filename, IReadFileProvider fileProvider = null)
-			: this()
+		public async Task<AgateResourceCollection> FromFile(string filename, IReadFileProvider fileProvider = null)
 		{
+			var retval = new AgateResourceCollection();
+
 			if (fileProvider == null)
 				fileProvider = AgateLib.IO.FileProvider.ResourceAssets;
 
-			using (var stream = fileProvider.OpenRead(filename))
+			retval.FileProvider = FileProvider;
+
+			using (var stream = await retval.FileProvider.OpenRead(filename))
 			{
-				LoadFrom(stream);
+				retval.LoadFrom(stream);
 			}
+
+			return retval;
 		}
 		public AgateResourceCollection(Stream stream)
 		{

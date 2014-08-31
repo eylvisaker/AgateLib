@@ -18,6 +18,8 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace AgateLib.Geometry
@@ -600,11 +602,11 @@ namespace AgateLib.Geometry
 
 		static System.Reflection.PropertyInfo NamedColorStaticProperty(string name)
 		{
-			var retval = typeof(Color).GetProperty(name,
-				System.Reflection.BindingFlags.Static |
-				System.Reflection.BindingFlags.Public | 
-				System.Reflection.BindingFlags.IgnoreCase);
-
+			var retval = typeof(Color).GetTypeInfo().DeclaredProperties.First(
+				x => x.PropertyType == typeof(Color) && 
+					x.GetMethod.IsStatic && x.GetMethod.IsPublic && 
+					x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+			
 			if (retval == null)
 				return null;
 

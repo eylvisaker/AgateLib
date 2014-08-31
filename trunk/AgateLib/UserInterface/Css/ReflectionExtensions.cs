@@ -37,9 +37,9 @@ namespace AgateLib.UserInterface.Css
 		/// <param name="member"></param>
 		/// <param name="inherit"></param>
 		/// <returns></returns>
-		public static T GetCustomAttribute<T>(this MemberInfo member, bool inherit)
+		public static T GetCustomAttribute<T>(this MemberInfo member, bool inherit) where T:class
 		{
-			return (T)member.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
+			return member.GetCustomAttributes(typeof(T), inherit).FirstOrDefault() as T;
 		}
 	}
 }

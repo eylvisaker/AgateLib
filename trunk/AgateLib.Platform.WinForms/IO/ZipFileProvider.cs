@@ -22,6 +22,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WinForms.IO
 {
@@ -270,7 +271,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public Stream OpenRead(string filename)
+		public async Task<Stream> OpenRead(string filename)
 		{
 			FileHeader header = GetFile(filename);
 
@@ -344,7 +345,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// <returns></returns>
 		public string ReadAllText(string filename)
 		{
-			Stream s = OpenRead(filename);
+			Stream s = OpenRead(filename).Result;
 
 			return new StreamReader(s).ReadToEnd();
 		}

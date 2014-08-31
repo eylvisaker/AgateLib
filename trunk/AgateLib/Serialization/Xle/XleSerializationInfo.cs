@@ -135,7 +135,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
 		public void WriteEnum<T>(string name, T value, bool asAttribute = false) where T : struct
 		{
-			if (typeof(T).IsEnum == false)
+			if (typeof(T).GetTypeInfo().IsEnum == false)
 				throw new XleSerializationException("Type passed is not an enum.");
 
 			WriteImpl(name, value.ToString(), asAttribute);
@@ -219,7 +219,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name"></param>
 		/// <param name="value"></param>
 		/// <param name="asAttribute"></param>
-		public void Write<T>(string name, T? value, bool asAttribute = false) where T : struct, IConvertible
+		public void Write<T>(string name, T? value, bool asAttribute = false) where T : struct
 		{
 			if (asAttribute)
 			{
@@ -475,7 +475,6 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="value">The dictionary to write.</param>
 		[CLSCompliant(false)]
 		public void Write<Tkey, Tvalue>(string name, Dictionary<Tkey, Tvalue> value)
-			where Tkey : IConvertible
 			where Tvalue : IXleSerializable
 		{
 			Type keyType = typeof(Tkey);
@@ -527,7 +526,6 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="value">The dictionary to write.</param>
 		[CLSCompliant(false)]
 		public void Write<Tkey>(string name, Dictionary<Tkey, int> value)
-			where Tkey : IConvertible
 		{
 			Type keyType = typeof(Tkey);
 
@@ -562,9 +560,8 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="value">The dictionary to write.</param>
 		[CLSCompliant(false)]
 		public void Write<Tkey>(string name, Dictionary<Tkey, string> value)
-			where Tkey : IConvertible
 		{
-			Type[] args = value.GetType().GetGenericArguments();
+			Type[] args = value.GetType().GetTypeInfo().GenericTypeArguments;
 			Type keyType = args[0];
 
 			XElement element = CreateElement(name);
@@ -994,7 +991,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="name">The name of the XML element used.</param>
 		public T ReadEnum<T>(string name) where T : struct
 		{
-			if (typeof(T).IsEnum == false)
+			if (typeof(T).GetTypeInfo().IsEnum == false)
 				throw new XleSerializationException("Type passed is not an enum.");
 
 			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, false, string.Empty), true);
@@ -1007,7 +1004,7 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="defaultValue">Value returned if the key is not present in the XML data.</param>
 		public T ReadEnum<T>(string name, T defaultValue) where T : struct
 		{
-			if (typeof(T).IsEnum == false)
+			if (typeof(T).GetTypeInfo().IsEnum == false)
 				throw new XleSerializationException("Type passed is not an enum.");
 
 			return (T)Enum.Parse(typeof(T), ReadStringImpl(name, true, defaultValue.ToString()), true);
@@ -1207,7 +1204,7 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		public T[] ReadArray<T>(string name)
 		{
-			if (typeof(T).IsPrimitive)
+			if (typeof(T).GetTypeInfo().IsPrimitive)
 			{
 				switch (GetEncoding(name))
 				{
@@ -1330,7 +1327,6 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns>
 		[CLSCompliant(false)]
 		public Dictionary<TKey, TValue> ReadDictionary<TKey, TValue>(string name)
-			where TKey : IConvertible
 			where TValue : IXleSerializable
 		{
 			XElement element = CurrentNode.Element(name);
@@ -1380,7 +1376,6 @@ namespace AgateLib.Serialization.Xle
 		[CLSCompliant(false)]
 		[Obsolete("Use ReadDictionaryString instead.")]
 		public Dictionary<Tkey, string> ReadDictionary<Tkey>(string name)
-			where Tkey : IConvertible
 		{
 			return ReadDictionaryString<Tkey>(name);
 		}
@@ -1394,7 +1389,6 @@ namespace AgateLib.Serialization.Xle
 		/// <returns></returns> 
 		[CLSCompliant(false)]
 		public Dictionary<Tkey, string> ReadDictionaryString<Tkey>(string name)
-			where Tkey : IConvertible
 		{
 			XElement element = CurrentNode.Element(name);
 
@@ -1606,7 +1600,7 @@ namespace AgateLib.Serialization.Xle
 				}
 			}
 
-			if (typeof(IXleSerializable).IsAssignableFrom(type))
+			if (typeof(IXleSerializable).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()))
 			{
 				IXleSerializable obj;
 
@@ -1638,7 +1632,7 @@ namespace AgateLib.Serialization.Xle
 		{
 			Type type = item.GetType();
 
-			foreach (var prop in type.GetProperties())
+			foreach (var prop in type.GetTypeInfo().DeclaredProperties)
 			{
 				prop_WriteValue(prop.Name, prop.GetValue(item, null));
 			}
@@ -1648,7 +1642,7 @@ namespace AgateLib.Serialization.Xle
 		{
 			Type type = item.GetType();
 
-			foreach (var prop in type.GetProperties())
+			foreach (var prop in type.GetTypeInfo().DeclaredProperties)
 			{
 				if (ContainsKey(prop.Name) == false && allowDefaults == true)
 					continue;

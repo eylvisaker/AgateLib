@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using AgateLib.Serialization.Xle;
+using System.Threading.Tasks;
 
 namespace AgateLib.Data
 {
@@ -56,7 +57,7 @@ namespace AgateLib.Data
 		/// <returns></returns>
 		public static AgateDatabase FromFile(string filename)
 		{
-			AgateDatabase db = ReadDatabase(new AgateLib.Platform.WinForms.IO.ZipFileProvider(filename));
+			AgateDatabase db = ReadDatabase(new AgateLib.Platform.WinForms.IO.ZipFileProvider(filename)).Result;
 			db.mTables.OwnFileProvider = true;
 
 			return db;
@@ -68,7 +69,7 @@ namespace AgateLib.Data
 		/// <returns></returns>
 		public static AgateDatabase FromProvider(IReadFileProvider provider)
 		{
-			return ReadDatabase(provider);
+			return ReadDatabase(provider).Result;
 		}
 
 		/// <summary>
@@ -79,11 +80,11 @@ namespace AgateLib.Data
 			((IDisposable)mTables).Dispose();
 		}
 
-		private static AgateDatabase ReadDatabase(IReadFileProvider provider)
+		private static async Task<AgateDatabase> ReadDatabase(IReadFileProvider provider)
 		{
 			XleSerializer ser = new XleSerializer(typeof(AgateDatabase));
 
-			using (Stream x = provider.OpenRead("catalog.txt"))
+			using (Stream x = await provider.OpenRead("catalog.txt"))
 			{
 				AgateDatabase retval = (AgateDatabase)ser.Deserialize(x);
 

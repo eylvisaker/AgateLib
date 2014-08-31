@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using AgateLib.IO;
+using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WinForms.IO
 {
@@ -46,14 +47,14 @@ namespace AgateLib.Platform.WinForms.IO
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public Stream OpenRead(string filename)
+		public async Task<Stream> OpenRead(string filename)
 		{
 			string resolvedName = FindFileName(filename);
 			if (resolvedName == null)
 				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
 					filename, mPath));
 
-			return File.OpenRead(FindFileName(filename));
+			return await Task.Run(() => File.OpenRead(FindFileName(filename)));
 		}
 		/// <summary>
 		/// Returns true if the specified file exists.
@@ -82,7 +83,7 @@ namespace AgateLib.Platform.WinForms.IO
 			var result = FindFileName(filename);
 
 			if (result == null)
-				 throw new FileNotFoundException(filename);
+				throw new FileNotFoundException(filename);
 
 			return result;
 		}
@@ -253,7 +254,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// <returns></returns>
 		public string ReadAllText(string filename)
 		{
-			Stream s = OpenRead(filename);
+			Stream s = OpenRead(filename).Result;
 
 			return new StreamReader(s).ReadToEnd();
 		}

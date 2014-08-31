@@ -30,14 +30,14 @@ namespace AgateLib.UserInterface.Css.Binders
 	public class ReflectionPropertyBinder
 	{
 		Type theType;
-		PropertyInfo[] properties;
+		IEnumerable<PropertyInfo> properties;
 		private CssBindingMapper mMap;
 
 		public ReflectionPropertyBinder(Type type, CssBindingMapper map)
 		{
 			mMap = map;
 			theType = type;
-			properties = theType.GetProperties();
+			properties = theType.GetTypeInfo().DeclaredProperties;
 		}
 
 		public PropertyChain GetCssPropertyChain(Type type, string name)
