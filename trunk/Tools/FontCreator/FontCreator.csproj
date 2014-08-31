@@ -126,9 +126,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
+    <ProjectReference Include="..\..\AgateLib.Platform.WinForms\AgateLib.Platform.WinForms.csproj">
       <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
-      <Name>AgateLib.Platform.WindowsForms</Name>
+      <Name>AgateLib.Platform.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Name>AgateLib</Name>

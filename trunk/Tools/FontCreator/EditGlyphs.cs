@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using AgateLib.DisplayLib.BitmapFont;
-using AgateLib.Platform.WindowsForms.WinForms;
+using AgateLib.Platform.WinForms;
 using AgateLib.Resources;
 
 namespace FontCreator
@@ -70,7 +70,7 @@ namespace FontCreator
 			if (lstItems.SelectedIndex != -1)
 			{
 				GlyphMetrics metric = SelectedMetric;
-				Rectangle r = Interop.Convert(metric.SourceRect);
+				Rectangle r = metric.SourceRect.ToDrawing();
 
 				
 				Rectangle glyph = r;
@@ -105,7 +105,7 @@ namespace FontCreator
 				if (lstItems.SelectedItem == null)
 					return null;
 
-				return Interop.Convert(font[(char)lstItems.SelectedItem].SourceRect);
+				return font[(char)lstItems.SelectedItem].SourceRect.ToDrawing();
 			}
 		}
 
@@ -139,7 +139,7 @@ namespace FontCreator
 			int width = (int)(pctZoom.Width / scale);
 			int height = (int)(pctZoom.Height / scale);
 
-			Rectangle r = Interop.Convert(font[(char)lstItems.SelectedItem].SourceRect);
+			Rectangle r = font[(char)lstItems.SelectedItem].SourceRect.ToDrawing();
 
 			zoomLeft = (int)(r.X + r.Width / 2 - width / 2);
 			zoomTop = (int)(r.Y + r.Height / 2 - height / 2);

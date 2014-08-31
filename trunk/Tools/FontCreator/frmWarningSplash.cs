@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AgateLib.Platform.WinForms.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,7 +15,7 @@ namespace FontCreator
         {
             InitializeComponent();
 
-            Icon = AgateLib.Platform.WindowsForms.WinForms.FormUtil.AgateLibIcon;
+            Icon = FormUtil.AgateLibIcon;
         }
 
         private void btnOK_Click(object sender, EventArgs e)

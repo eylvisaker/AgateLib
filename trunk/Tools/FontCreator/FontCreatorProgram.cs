@@ -1,5 +1,6 @@
-﻿using AgateLib.Platform.WindowsForms;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.Platform.WinForms;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
