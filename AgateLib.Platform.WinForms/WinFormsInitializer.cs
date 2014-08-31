@@ -18,6 +18,7 @@ namespace AgateLib.Platform.WinForms
 				Core.Initialize(factory);
 			}
 
+			factory.SetAssetLocations(parameters.AssetLocations);
 			Core.InitAssetLocations(parameters.AssetLocations);
 
 			////var assetProvider = new FileSystemProvider(System.IO.Path.GetFullPath(parameters.AssetLocations.Path));

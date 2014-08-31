@@ -109,7 +109,7 @@ namespace AgateLib.Data
 		{
 			string filename = string.Format("data/{0}.txt", name);
 
-			using (Stream r = FileProvider.OpenRead(filename).Result)
+			using (Stream r = FileProvider.OpenReadAsync(filename).Result)
 			{
 				AgateTable tbl = AgateTable.FromStream(r);
 

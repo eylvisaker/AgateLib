@@ -26,6 +26,12 @@ namespace AgateLib.Platform.WinForms.Factories
 		public PlatformInfo Info { get; private set; }
 		public IReadFileProvider AssetFileProvider { get; private set; }
 
+
+		public void SetAssetLocations(AgateLib.ApplicationModels.AssetLocations assetLocations)
+		{
+			AssetFileProvider = new FileSystemProvider(System.IO.Path.GetFullPath(assetLocations.Path));
+		}
+
 		public IStopwatch CreateStopwatch()
 		{
 			return new DiagnosticsStopwatch();

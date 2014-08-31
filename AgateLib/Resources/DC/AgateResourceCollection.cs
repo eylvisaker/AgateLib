@@ -49,7 +49,7 @@ namespace AgateLib.Resources.DC
 
 			retval.FileProvider = FileProvider;
 
-			using (var stream = await retval.FileProvider.OpenRead(filename))
+			using (var stream = await retval.FileProvider.OpenReadAsync(filename))
 			{
 				retval.LoadFrom(stream);
 			}

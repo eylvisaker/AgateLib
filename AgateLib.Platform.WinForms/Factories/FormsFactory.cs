@@ -1,4 +1,5 @@
-﻿using AgateLib.DisplayLib;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 using AgateLib.Platform.WinForms.Resources;
 using System;
@@ -12,11 +13,12 @@ namespace AgateLib.Platform.WinForms.Factories
 	class FormsFactory : IAgateFactory
 	{
 		FontSurface mDefaultFont;
+		PlatformFactory mPlatformFactory;
 
 		public FormsFactory()
 		{
 			DisplayFactory = new DisplayFactory();
-			PlatformFactory = new PlatformFactory();
+			mPlatformFactory = new PlatformFactory();
 
 			var sdl = new SdlFactory();
 
@@ -24,10 +26,15 @@ namespace AgateLib.Platform.WinForms.Factories
 			InputFactory = sdl;
 		}
 
+		public void SetAssetLocations(AssetLocations assetLocations)
+		{
+			mPlatformFactory.SetAssetLocations(assetLocations);
+		}
+
 		public IDisplayFactory DisplayFactory { get; private set; }
 		public IAudioFactory AudioFactory { get; private set; }
 		public IInputFactory InputFactory { get; private set; }
-		public IPlatformFactory PlatformFactory { get; private set; }
+		public IPlatformFactory PlatformFactory { get { return mPlatformFactory; } }
 
 
 		public DisplayLib.FontSurface DefaultFont

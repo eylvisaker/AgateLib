@@ -21,7 +21,7 @@ namespace AgateLib.Platform.WindowsStore.PlatformImplementation
 
 			this.path = path;
 		}
-		public async Task<System.IO.Stream> OpenRead(string filename)
+		public async Task<System.IO.Stream> OpenReadAsync(string filename)
 		{
 			Uri uri = new Uri(path + filename);
 
