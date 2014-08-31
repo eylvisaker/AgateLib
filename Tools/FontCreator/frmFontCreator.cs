@@ -7,7 +7,8 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using AgateLib.DisplayLib.BitmapFont;
-using AgateLib.Platform.WindowsForms;
+using AgateLib.Platform.WinForms;
+using AgateLib.Platform.WinForms.Controls;
 
 namespace FontCreator
 {
@@ -19,7 +20,7 @@ namespace FontCreator
 		{
 			InitializeComponent();
 
-			Icon = AgateLib.Platform.WindowsForms.WinForms.FormUtil.AgateLibIcon;
+			Icon = FormUtil.AgateLibIcon;
 			CurrentPage = 1;
 		}
 
