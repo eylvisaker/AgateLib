@@ -842,6 +842,20 @@ namespace AgateLib.DisplayLib
 		{
 			get { return Impl.IsLoaded; }
 		}
+
+		/// <summary>
+		/// Event which is raised when loading is completed. If loading is already complete,
+		/// the delegate gets executed immediately.
+		/// </summary>
+		/// <remarks>Delegates added to this event are executed exactly once, after which 
+		/// they are removed. Event handlers may be executed on the thread that is loading
+		/// the surface, or they may be executed on the thread that adds them to the delegate.
+		/// </remarks>
+		public event EventHandler LoadComplete
+		{
+			add { mImpl.LoadComplete += value; }
+			remove { mImpl.LoadComplete -= value; }
+		}
 	}
 
 	/// <summary>

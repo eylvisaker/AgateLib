@@ -237,6 +237,18 @@ namespace AgateLib.DisplayLib.ImplementationBase
 
 		#endregion
 
+		/// <summary>
+		/// Returns true if loading of the surface data is complete.
+		/// </summary>
 		public abstract bool IsLoaded { get; }
+		/// <summary>
+		/// Event which is raised when loading is completed. If loading is already complete,
+		/// the delegate gets executed immediately.
+		/// </summary>
+		/// <remarks>Delegates added to this event are executed exactly once, after which 
+		/// they are removed. Event handlers may be executed on the thread that is loading
+		/// the surface, or they may be executed on the thread that adds them to the delegate.
+		/// </remarks>
+		public abstract event EventHandler LoadComplete;
 	};
 }

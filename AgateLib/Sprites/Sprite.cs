@@ -365,39 +365,36 @@ namespace AgateLib.Sprites
 			if (ownSurface)
 				mOwnedSurfaces.Add(surface);
 
-			while (surface.IsLoaded == false)
+			surface.LoadComplete += (sender, e) =>
 			{
-				throw new NotImplementedException();
-			}
-
-			do
-			{
-				SpriteFrame currentFrame = new SpriteFrame(surface);
-				Rectangle currentRect = new Rectangle(location, size);
-				bool skip = false;
-
-				currentFrame.SourceRect = currentRect;
-				currentFrame.SpriteSize = SpriteSize;
-
-				if (currentFrame.SourceRect.Right > surface.SurfaceWidth) skip = true;
-				if (currentFrame.SourceRect.Bottom > surface.SurfaceHeight) skip = true;
-
-				if (skipBlank && pixels.IsRegionBlank(currentFrame.SourceRect))
-					skip = true;
-
-				if (skip == false)
-					mFrames.Add(currentFrame);
-
-				location.X += size.Width + extraSpace.X;
-
-				if (location.X + size.Width > surface.SurfaceWidth)
+				do
 				{
-					location.X = 0;
-					location.Y += size.Height + extraSpace.Y;
-				}
+					SpriteFrame currentFrame = new SpriteFrame(surface);
+					Rectangle currentRect = new Rectangle(location, size);
+					bool skip = false;
 
-			} while (location.Y + size.Height <= surface.SurfaceHeight);
+					currentFrame.SourceRect = currentRect;
+					currentFrame.SpriteSize = SpriteSize;
 
+					if (currentFrame.SourceRect.Right > surface.SurfaceWidth) skip = true;
+					if (currentFrame.SourceRect.Bottom > surface.SurfaceHeight) skip = true;
+
+					if (skipBlank && pixels.IsRegionBlank(currentFrame.SourceRect))
+						skip = true;
+
+					if (skip == false)
+						mFrames.Add(currentFrame);
+
+					location.X += size.Width + extraSpace.X;
+
+					if (location.X + size.Width > surface.SurfaceWidth)
+					{
+						location.X = 0;
+						location.Y += size.Height + extraSpace.Y;
+					}
+
+				} while (location.Y + size.Height <= surface.SurfaceHeight);
+			};
 		}
 
 		#endregion

@@ -41,7 +41,6 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	public class SDX_Surface : SurfaceImpl
 	{
-		#region --- Private Variables ---
 
 		SDX_Display mDisplay;
 		D3DDevice mDevice { get { return mDisplay.D3D_Device; } }
@@ -62,7 +61,8 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 		PositionTextureColor[] mExtraVerts = new PositionTextureColor[4];
 		short[] mExtraIndices = new short[] { 0, 1, 2, 2, 1, 3 };
 
-		#endregion
+		EventHandler mLoadCompleteStorage;
+		object mLoadCompletLockObject = new object();
 
 		public Texture2D D3dTexture
 		{
@@ -100,7 +100,8 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 			mDisplay = Display.Impl as SDX_Display;
 		}
 
-		public SDX_Surface(string fileName) : this()
+		public SDX_Surface(string fileName)
+			: this()
 		{
 			mFileName = fileName;
 
@@ -225,8 +226,8 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 					ExifOrientationMode.IgnoreExifOrientation,
 					ColorManagementMode.DoNotColorManage);
 				byte[] pixelData = dataProvider.DetachPixelData();
-				
-				PixelBuffer pb = new PixelBuffer(PixelFormat.BGRA8888, 
+
+				PixelBuffer pb = new PixelBuffer(PixelFormat.BGRA8888,
 					new Size((int)bitmap.PixelWidth, (int)bitmap.PixelHeight));
 
 				pb.SetData(pixelData, PixelFormat.BGRA8888);
@@ -271,7 +272,49 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 			}
 
 			InitializeValues();
-			mIsLoaded = true;
+
+			OnLoadComplete();
+		}
+
+		private void OnLoadComplete()
+		{
+			Delegate[] handlers = null;
+
+			lock (mLoadCompletLockObject)
+			{
+				mIsLoaded = true;
+				if (mLoadCompleteStorage != null)
+				{
+					handlers =mLoadCompleteStorage.GetInvocationList();
+
+					foreach (EventHandler handler in handlers)
+						mLoadCompleteStorage -= handler;
+				}
+			}
+
+			if (handlers != null)
+			{
+				foreach (EventHandler handler in handlers)
+					handler(this, EventArgs.Empty);
+			}
+		}
+
+		public override event EventHandler LoadComplete
+		{
+			add
+			{
+				lock (mLoadCompletLockObject)
+				{
+					if (mIsLoaded)
+					{
+						value(this, EventArgs.Empty);
+						return;
+					}
+
+					mLoadCompleteStorage += value;
+				}
+			}
+			remove { }
 		}
 
 		#endregion
@@ -295,7 +338,7 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 		}
 		private void Draw(SurfaceState state, SurfaceDrawInstance inst)
 		{
-			if (mTexture == null) 
+			if (mTexture == null)
 				return;
 			if (SurfaceSize.IsEmpty)
 			{
@@ -337,7 +380,7 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 							   rotationCenter.X, rotationCenter.Y,
 							   state.DisplayAlignment, mRotationCos, mRotationSin);
 
-			mDevice.DrawBuffer.CacheDrawIndexedTriangles(mVerts, mIndices, 
+			mDevice.DrawBuffer.CacheDrawIndexedTriangles(mVerts, mIndices,
 				mTexture.Value, mTextureView, alphaBlend);
 		}
 
@@ -346,7 +389,7 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 			if (mTexture == null)
 				return;
 
-			mTextureSize = new Size( mTexture.Value.Description.Width, mTexture.Value.Description.Height);
+			mTextureSize = new Size(mTexture.Value.Description.Width, mTexture.Value.Description.Height);
 			mSrcRect = new Rectangle(Point.Empty, mTextureSize);
 		}
 
