@@ -73,6 +73,8 @@
     <Compile Include="Geometry\CoordinateSystems\FixedAspectRatioCoordinates.cs" />
     <Compile Include="Geometry\ICoordinateSystemCreator.cs" />
     <Compile Include="ApplicationModels\ModelParameters.cs" />
+    <Compile Include="Platform\DiagnosticsStopwatch.cs" />
+    <Compile Include="Platform\PlatformSerialization.cs" />
     <Compile Include="Resources\DC\AgateResource.cs" />
     <Compile Include="Resources\DC\FontResource.cs" />
     <Compile Include="Resources\DC\FontSurfaceResource.cs" />
