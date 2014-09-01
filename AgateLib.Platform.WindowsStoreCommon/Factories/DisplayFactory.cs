@@ -70,5 +70,10 @@ namespace AgateLib.Platform.WindowsStore.Factories
 			return new FrameBufferSurface(size);
 		}
 
+
+
+		public async Task InitializeDefaultResourcesAsync(Assets.DefaultResources res)
+		{
+		}
 	}
 }

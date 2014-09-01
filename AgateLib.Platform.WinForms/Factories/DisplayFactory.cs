@@ -6,6 +6,7 @@ using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.OpenGL;
 using AgateLib.Platform.WinForms.DisplayImplementation;
+using AgateLib.Platform.WinForms.Resources;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +36,10 @@ namespace AgateLib.Platform.WinForms.Factories
 
 		public SurfaceImpl CreateSurface(IReadFileProvider provider, string filename)
 		{
-			return new GL_Surface(provider.ResolveFile(filename));
+			if (provider.IsLogicalFilesystem)
+				return new GL_Surface(provider.OpenReadAsync(filename).Result);
+			else
+				return new GL_Surface(provider.ResolveFile(filename));
 		}
 
 		public SurfaceImpl CreateSurface(Stream fileStream)
@@ -111,6 +115,25 @@ namespace AgateLib.Platform.WinForms.Factories
 		{
 			get { return FullDisplayImpl.SupportsFramebufferExt; }
 			set { FullDisplayImpl.SupportsFramebufferExt = value; }
+		}
+
+
+		public async Task InitializeDefaultResourcesAsync(Assets.DefaultResources res)
+		{
+			res.Dispose();
+
+			res.AgateSans = new Font("AgateSans");
+			res.AgateSerif = new Font("AgateSerif");
+			res.AgateMono = new Font("AgateMono");
+
+			res.AgateSans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-10"), 10, FontStyles.None);
+			res.AgateSans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-14"), 14, FontStyles.None);
+			res.AgateSans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-24"), 24, FontStyles.None);
+
+			res.AgateSerif.AddFont(await BuiltinResources.GetFontAsync("AgateSerif-10"), 10, FontStyles.None);
+			res.AgateSerif.AddFont(await BuiltinResources.GetFontAsync("AgateSerif-14"), 14, FontStyles.None);
+
+			res.AgateMono.AddFont(await BuiltinResources.GetFontAsync("AgateMono-10"), 10, FontStyles.None);
 		}
 	}
 }

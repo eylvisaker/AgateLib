@@ -359,6 +359,10 @@ namespace AgateLib.Platform.WinForms.IO
 		{
 			throw new InvalidOperationException("This file provider does not provide access to a physical file system.");
 		}
+		public bool IsLogicalFilesystem
+		{
+			get { return true; }
+		}
 	}
 
 	enum ZipStorageType

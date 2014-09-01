@@ -9,7 +9,7 @@ using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Testing.DisplayTests
 {
-	class DisplayWindowEvents : IAgateTest
+	class DisplayWindowEvents : IDiscreteAgateTest
 	{
 		public string Name
 		{
@@ -40,8 +40,8 @@ namespace AgateLib.Testing.DisplayTests
 					Display.BeginFrame();
 					Display.Clear();
 
-					BuiltinResources.AgateSans24.DrawText(text);
-
+					Assets.Fonts.AgateSans.DrawText(text);
+					
 					Display.EndFrame();
 					Core.KeepAlive();
 				}

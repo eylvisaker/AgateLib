@@ -93,5 +93,11 @@ namespace AgateLib.IO
 
 			return false;
 		}
+
+
+		public bool IsLogicalFilesystem
+		{
+			get { return parent.IsLogicalFilesystem; }
+		}
 	}
 }

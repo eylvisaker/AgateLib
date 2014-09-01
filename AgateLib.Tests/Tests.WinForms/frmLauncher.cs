@@ -249,7 +249,7 @@ namespace AgateLib.Testing
 		}
 		private void LaunchTestModel(ISerialModelTest test)
 		{
-			var parameters = CreateParameters<SerialModelParameters>();
+			var parameters = CreateParameters<SerialModelParameters>(test);
 			test.ModifyModelParameters(parameters);
 
 			using (var model = new SerialModel(parameters))
@@ -259,7 +259,7 @@ namespace AgateLib.Testing
 		}
 		private void LaunchTestModel(ISceneModelTest test)
 		{
-			var parameters = CreateParameters<SceneModelParameters>();
+			var parameters = CreateParameters<SceneModelParameters>(test);
 			test.ModifyModelParameters(parameters);
 
 			using (var model = new SceneModel(parameters))
@@ -272,12 +272,13 @@ namespace AgateLib.Testing
 			test.Main(CommandLineArguments);
 		}
 
-		private T CreateParameters<T>() where T : ModelParameters, new()
+		private T CreateParameters<T>(IAgateTest test) where T : ModelParameters, new()
 		{
 			var parameters = new T();
 
 			parameters.Arguments = CommandLineArguments;
 			parameters.AssetLocations.Path = "Assets";
+			parameters.ApplicationName = test.Name + " :: " + test.Category + " test";
 
 			return parameters;
 		}

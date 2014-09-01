@@ -31,7 +31,5 @@ namespace AgateLib.Drivers
 		IAudioFactory AudioFactory { get; }
 		IInputFactory InputFactory { get; }
 		IPlatformFactory PlatformFactory { get; }
-
-		FontSurface DefaultFont { get; set; }
 	}
 }

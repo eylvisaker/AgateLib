@@ -54,7 +54,7 @@ namespace AgateLib.Platform.WinForms.IO
 				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
 					filename, mPath));
 
-			return await Task.Run(() => File.OpenRead(FindFileName(filename)));
+			return File.OpenRead(FindFileName(filename));
 		}
 		/// <summary>
 		/// Returns true if the specified file exists.
@@ -257,6 +257,12 @@ namespace AgateLib.Platform.WinForms.IO
 			Stream s = OpenReadAsync(filename).Result;
 
 			return new StreamReader(s).ReadToEnd();
+		}
+
+
+		public bool IsLogicalFilesystem
+		{
+			get { return true; }
 		}
 	}
 }

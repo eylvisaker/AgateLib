@@ -310,5 +310,9 @@ namespace AgateLib.Platform.WinForms.IO
 			return new StreamReader(s).ReadToEnd();
 		}
 
+		public bool IsLogicalFilesystem
+		{
+			get { return true; }
+		}
 	}
 }

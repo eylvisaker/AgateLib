@@ -31,6 +31,8 @@ using AgateLib.Diagnostics;
 using AgateLib.IO;
 using AgateLib.InputLib;
 using AgateLib.ApplicationModels;
+using AgateLib.Assets;
+using System.Threading.Tasks;
 
 namespace AgateLib
 {
@@ -329,12 +331,24 @@ namespace AgateLib
 
 			FileSystem.File = factory.PlatformFactory.CreateFile();
 			FileSystem.Path = factory.PlatformFactory.CreatePath();
-			
+
 			Display.Initialize(factory.DisplayFactory.DisplayImpl);
 			Audio.Initialize(factory.AudioFactory.CreateAudioImpl());
 			JoystickInput.Initialize(factory.InputFactory.CreateJoystickInputImpl());
 
+			InitializeDefaultResources();
+
 			sInititalized = true;
+		}
+
+		public static void InitializeDefaultResources()
+		{
+			DefaultResources res = new DefaultResources();
+
+			var task = mFactory.DisplayFactory.InitializeDefaultResourcesAsync(res);
+			Assets.Fonts.Initialize(res);
+
+			Task.WaitAll(task);
 		}
 
 		public static void InitAssetLocations(AssetLocations assets)

@@ -131,6 +131,11 @@
     <Compile Include="IO\TgzFileProvider.cs" />
     <Compile Include="IO\ZipFileProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Builtin.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Builtin.resx</DependentUpon>
+    </Compile>
     <Compile Include="WinFormsInitializer.cs" />
     <Compile Include="Resources\BuiltinResources.cs" />
     <Compile Include="SurfaceExtensions.cs" />
@@ -185,9 +190,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Icons.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Builtin.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Builtin.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\Fonts.zip" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\AgateLib-mono.ico" />
