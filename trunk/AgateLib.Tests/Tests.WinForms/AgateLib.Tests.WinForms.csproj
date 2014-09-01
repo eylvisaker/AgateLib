@@ -130,8 +130,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioTests\SoundbufferStopTester.cs" />
-    <Compile Include="AudioTests\StreamAudio.cs" />
     <Compile Include="CoreTests\PersistantSettingsTest.cs" />
     <Compile Include="CoreTests\PlatformDetection\PlatformDetection.cs">
       <SubType>Form</SubType>
@@ -172,9 +170,6 @@
     </Compile>
     <Compile Include="AudioTests\AudioPlayer\frmAudioPlayer.Designer.cs">
       <DependentUpon>frmAudioPlayer.cs</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CoreTests\Resources.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CoreTests\ErrorReport\ErrorReport.cs">
@@ -415,9 +410,6 @@
     <None Include="Assets\9ball.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\attacke.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Assets\ball.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -434,9 +426,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Assets\dogs.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\jellybean.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Assets\lotafont.png">

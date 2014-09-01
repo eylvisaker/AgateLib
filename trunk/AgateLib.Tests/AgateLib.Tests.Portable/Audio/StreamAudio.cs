@@ -7,12 +7,10 @@ using System.Text;
 using AgateLib;
 using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
-using AgateLib.Platform.WinForms.Resources;
-using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Testing.AudioTests
 {
-	class StreamAudio : IAgateTest 
+	class StreamAudio : ISerialModelTest
 	{
 		public string Name
 		{
@@ -24,7 +22,7 @@ namespace AgateLib.Testing.AudioTests
 			get { return "Audio"; }
 		}
 
-		class LoopingStream : Stream 
+		class LoopingStream : Stream
 		{
 			public double Frequency { get; set; }
 
@@ -74,7 +72,7 @@ namespace AgateLib.Testing.AudioTests
 			public override int Read(byte[] buffer, int offset, int count)
 			{
 				double lv = lastValue;
-				
+
 				for (int i = 0; i < count / 2; i++)
 				{
 					double time = i / (double)SamplingFrequency;
@@ -82,7 +80,7 @@ namespace AgateLib.Testing.AudioTests
 					time += lv;
 					lastValue = time;
 
-					short val = (short)(Math.Sin(time) * short.MaxValue/2);
+					short val = (short)(Math.Sin(time) * short.MaxValue / 2);
 
 					buffer[offset + i * 2] = (byte)(val & 0xff);
 					buffer[offset + i * 2 + 1] = (byte)(val >> 8);
@@ -105,41 +103,43 @@ namespace AgateLib.Testing.AudioTests
 				throw new NotImplementedException();
 			}
 		}
-		public void Main(string[] args)
+
+		public void EntryPoint()
 		{
-			new PassiveModel(args).Run( () =>
+			LoopingStream sa = new LoopingStream();
+			sa.Frequency = 100;
+
+			StreamingSoundBuffer buf = new StreamingSoundBuffer(sa, SoundFormat.Pcm16(44100), 100);
+
+			buf.Play();
+
+			Stopwatch w = new Stopwatch();
+			w.Start();
+
+			var font = Assets.Fonts.AgateSans;
+
+			while (Display.CurrentWindow.IsClosed == false)
 			{
-				DisplayWindow wind = DisplayWindow.CreateWindowed("Generate Audio", 640, 480);
+				Display.BeginFrame();
+				Display.Clear();
 
-				LoopingStream sa = new LoopingStream();
-				sa.Frequency = 100;
+				font.Color = AgateLib.Geometry.Color.White;
+				font.DrawText(0, 0, string.Format("Frequency: {0}", sa.Frequency));
 
-				StreamingSoundBuffer buf = new StreamingSoundBuffer(sa, SoundFormat.Pcm16(44100), 100);
+				Display.EndFrame();
+				Core.KeepAlive();
 
-				buf.Play();
-
-				Stopwatch w = new Stopwatch();
-				w.Start();
-
-				while (wind.IsClosed == false)
+				if (w.ElapsedMilliseconds > 500)
 				{
-					Display.BeginFrame();
-					Display.Clear();
-
-					BuiltinResources.AgateSans14.Color = AgateLib.Geometry.Color.White;
-					BuiltinResources.AgateSans14.DrawText(0, 0, string.Format("Frequency: {0}", sa.Frequency));
-
-					Display.EndFrame();
-					Core.KeepAlive();
-
-					if (w.ElapsedMilliseconds > 500)
-					{
-						sa.Frequency += 50;
-						w.Reset();
-						w.Start();
-					}
+					sa.Frequency += 50;
+					w.Reset();
+					w.Start();
 				}
-			});
+			}
+		}
+
+		public void ModifyModelParameters(ApplicationModels.SerialModelParameters parameters)
+		{
 		}
 	}
 }

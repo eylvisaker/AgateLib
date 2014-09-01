@@ -63,15 +63,14 @@ namespace AgateLib.Resources.Legacy
 			{
 				get
 				{
-					foreach (var img in mResources.mImages)
+					try
 					{
-						var retval = img.Surfaces.FirstOrDefault(x => x.Name == key);
-
-						if (retval != null)
-							return retval;
+						return (SurfaceResource) mResources.mStore.First(x => x.Key == key).Value;
 					}
-
-					throw new AgateResourceException("Could not find the surface resource {0}.", key);
+					catch (Exception e)
+					{
+						throw new AgateResourceException(e, "Could not find the surface resource {0}.", key);
+					}
 				}
 			}
 
@@ -117,6 +116,7 @@ namespace AgateLib.Resources.Legacy
 		public AgateResourceCollection()
 		{
 			mSurfaceAccessor = new SurfaceResourceList(this);
+			FileProvider = AgateLib.IO.FileProvider.ResourceAssets;
 
 			this.mStore.Add(mStringTableKey, new StringTable());
 		}

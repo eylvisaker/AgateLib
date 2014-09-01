@@ -94,5 +94,7 @@ namespace AgateLib.Drivers
 		FrameBufferImpl CreateFrameBuffer(Size size);
 
 
+
+		Task InitializeDefaultResourcesAsync(Assets.DefaultResources res);
 	}
 }

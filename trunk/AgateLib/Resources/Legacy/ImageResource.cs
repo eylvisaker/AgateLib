@@ -42,6 +42,7 @@ namespace AgateLib.Resources.Legacy
 
 			switch (version)
 			{
+				case "1.0.0":
 				case "0.3.2":
 					Filename = node.Attribute("filename").Value;
 					ReadSubNodes032(node);

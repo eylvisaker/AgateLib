@@ -36,20 +36,5 @@ namespace AgateLib.Platform.WinForms.Factories
 		public IInputFactory InputFactory { get; private set; }
 		public IPlatformFactory PlatformFactory { get { return mPlatformFactory; } }
 
-
-		public DisplayLib.FontSurface DefaultFont
-		{
-			get
-			{
-				if (mDefaultFont == null)
-					mDefaultFont = BuiltinResources.AgateSans10;
-
-				return mDefaultFont;
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
 	}
 }

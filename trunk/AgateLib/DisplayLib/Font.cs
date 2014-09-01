@@ -25,6 +25,10 @@ namespace AgateLib.DisplayLib
 				fs.Dispose();
 		}
 
+		public string Name { get; set; }
+		public int Size { get { return mSettings.Size; } set { mSettings.Size = value; } }
+		public FontStyles Style { get { return mSettings.Style; } set { mSettings.Style = value; } }
+
 		public void AddFont(FontSurface fontSurface, int size, FontStyles style)
 		{
 			AddFont(new FontSettings(size, style), fontSurface);
@@ -37,9 +41,15 @@ namespace AgateLib.DisplayLib
 			mFontSurfaces[settings] = fontSurface;
 		}
 
-		public string Name { get; set; }
-		public int Size { get { return mSettings.Size; } set { mSettings.Size = value; } }
-		public FontStyles Style { get { return mSettings.Style; } set { mSettings.Style = value; } }
+		public FontSurface GetFontSurface(int size, FontStyles fontStyles)
+		{
+			return GetFontSurface(new FontSettings(size, fontStyles));
+		}
+		public FontSurface GetFontSurface(FontSettings settings)
+		{
+			return mFontSurfaces[settings];
+		}
+
 
 		public int FontHeight { get { return FontSurface.FontHeight; } }
 
@@ -154,6 +164,10 @@ namespace AgateLib.DisplayLib
 			set { mState.DisplayAlignment = value; }
 		}
 
+		public void DrawText(string text)
+		{
+			FontSurface.DrawText(text);
+		}
 		public void DrawText(Point dest, string text)
 		{
 			FontSurface.DrawText(dest, text);

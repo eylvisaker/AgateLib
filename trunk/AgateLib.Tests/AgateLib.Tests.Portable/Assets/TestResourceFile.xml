@@ -4,7 +4,6 @@
     <string name="How are you">How are you?</string>
     <string name="I want some beer">I want some beer.</string>
   </StringTable>
-  <DisplayWindow name="main_window" preferred_size="{Width=400,Height=200}" minimum_size="{Width=0,Height=0}" maximum_size="{Width=0,Height=0}" allow_resize="True" full_screen="False" bpp="32">Main Window</DisplayWindow>
   <Surface name="sample_surf" filename="jellybean.png" />
   <Sprite name="sample_sprite" image="attacke.png" timePerFrame="60" size="{Width=96,Height=96}">
     <Frame rect="{X=0,Y=0,Width=96,Height=96}" offset="{X=0,Y=0}" />

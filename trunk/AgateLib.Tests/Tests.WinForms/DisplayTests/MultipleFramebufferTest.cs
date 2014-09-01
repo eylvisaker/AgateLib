@@ -29,7 +29,7 @@ namespace AgateLib.Testing.DisplayTests
 
 		List<Surface> tests = new List<Surface>();
 		bool done;
-		FontSurface font;
+		Font font;
 			
 		public void Main(string[] args)
 		{
@@ -38,7 +38,7 @@ namespace AgateLib.Testing.DisplayTests
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Multiple Framebuffer Test", 
 					640, 480);
 
-				font = BuiltinResources.AgateSans14;
+				font = Assets.Fonts.AgateSans;
 
 				CreateTests();
 

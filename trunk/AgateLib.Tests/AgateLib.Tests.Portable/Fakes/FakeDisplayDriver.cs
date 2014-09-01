@@ -195,6 +195,11 @@ namespace AgateLib.Testing.Fakes
 		{
 			throw new NotImplementedException();
 		}
+
+
+		public async Task InitializeDefaultResourcesAsync(Assets.DefaultResources res)
+		{
+		}
 	}
 
 }

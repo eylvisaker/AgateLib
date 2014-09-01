@@ -44,6 +44,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\SoundbufferStopTester.cs" />
+    <Compile Include="Audio\StreamAudio.cs" />
     <Compile Include="DisplayTests\BasicSprite.cs" />
     <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="DisplayTests\ColorTest.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="FontTests\Builtin.cs" />
     <Compile Include="FontTests\FontAlignment.cs" />
     <Compile Include="FontTests\TextLayout.cs" />
+    <Compile Include="FoundationTests\Resources.cs" />
     <Compile Include="IAgateTest.cs" />
     <Compile Include="IDiscreteAgateTest.cs" />
     <Compile Include="ISceneModelTest.cs" />
@@ -75,6 +78,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\attacke.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Assets\boxsprite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -96,6 +102,9 @@
     <Content Include="Assets\fonts\sample_font.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Assets\jellybean.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Assets\spike.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -113,6 +122,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

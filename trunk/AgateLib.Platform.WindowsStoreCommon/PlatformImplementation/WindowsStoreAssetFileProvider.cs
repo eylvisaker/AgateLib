@@ -62,5 +62,11 @@ namespace AgateLib.Platform.WindowsStore.PlatformImplementation
 		{
 			return path + filename;
 		}
+
+
+		public bool IsLogicalFilesystem
+		{
+			get { return true; }
+		}
 	}
 }

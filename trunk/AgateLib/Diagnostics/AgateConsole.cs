@@ -39,7 +39,7 @@ namespace AgateLib.Diagnostics
 
 		public static bool IsInitialized { get { return sInstance != null; } }
 
-		public static FontSurface Font { get; set; }
+		public static Font Font { get; set; }
 		public static KeyCode VisibleToggleKey { get; set; }
 		public static bool IsVisible
 		{
@@ -96,7 +96,7 @@ namespace AgateLib.Diagnostics
 			if (sInstance == null) return;
 
 			if (Font == null)
-				Font = Core.Factory.DefaultFont;
+				Font = Assets.Fonts.AgateMono;
 
 			sInstance.DrawImpl();
 		}

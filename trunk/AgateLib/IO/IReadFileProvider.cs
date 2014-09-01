@@ -79,5 +79,10 @@ namespace AgateLib
 		/// <param name="filename"></param>
 		/// <returns></returns>
 		string ResolveFile(string filename);
+
+		/// <summary>
+		/// Returns true if the file system is not a physical file system.
+		/// </summary>
+		bool IsLogicalFilesystem { get; }
 	}
 }

@@ -7,6 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
+using AgateLib.ApplicationModels;
 
 namespace AgateLib.Testing.DisplayTests.PixelBufferTest
 {
@@ -22,7 +23,11 @@ namespace AgateLib.Testing.DisplayTests.PixelBufferTest
 
 		public void Main(string[] args)
 		{
-			using (var model = new PassiveModel(args))
+			var p = new PassiveModelParameters();
+			p.ApplicationName = "Pixel Buffer Test";
+			p.AssetLocations.Path = "Assets";
+
+			using (var model = new PassiveModel(p))
 			{
 				model.Run(() =>
 				{
