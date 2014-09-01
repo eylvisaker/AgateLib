@@ -38,10 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\..\AgateLib.Platform.Common\AgateLib.Platform.Common.csproj">
-      <Project>{fc9e7036-aa75-4a6b-82db-0f5e98b5fbcb}</Project>
-      <Name>AgateLib.Platform.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{9490b719-829e-43a7-a5fe-8001f8a81759}</Project>
       <Name>AgateLib</Name>

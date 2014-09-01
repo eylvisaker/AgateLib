@@ -22,8 +22,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.AgateSDL", "AgateL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.OpenGL", "AgateLib.OpenGL\AgateLib.OpenGL.csproj", "{94734E5A-0344-43E8-BB30-E32E3F57F611}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Platform.Common", "AgateLib.Platform.Common\AgateLib.Platform.Common.csproj", "{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Platform.WindowsMetro", "AgateLib.Platform.WindowsMetro\AgateLib.Platform.WindowsMetro.csproj", "{C9B8F763-187D-4F2E-BAEE-827B7247C278}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Platform.WindowsPhone", "AgateLib.Platform.WindowsPhone\AgateLib.Platform.WindowsPhone.csproj", "{9BEF78DB-B535-47D3-9C14-453D373807EC}"
@@ -124,23 +122,6 @@ Global
 		{94734E5A-0344-43E8-BB30-E32E3F57F611}.Release|x64.Build.0 = Release|x64
 		{94734E5A-0344-43E8-BB30-E32E3F57F611}.Release|x86.ActiveCfg = Release|x86
 		{94734E5A-0344-43E8-BB30-E32E3F57F611}.Release|x86.Build.0 = Release|x86
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Debug|ARM.Build.0 = Debug|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Debug|x86.Build.0 = Debug|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Public|Any CPU.ActiveCfg = Release|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Public|Any CPU.Build.0 = Release|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Public|ARM.ActiveCfg = Release|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Public|x64.ActiveCfg = Release|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Public|x86.ActiveCfg = Release|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Release|ARM.ActiveCfg = Release|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Release|x64.ActiveCfg = Release|Any CPU
-		{FC9E7036-AA75-4A6B-82DB-0F5E98B5FBCB}.Release|x86.ActiveCfg = Release|Any CPU
 		{C9B8F763-187D-4F2E-BAEE-827B7247C278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C9B8F763-187D-4F2E-BAEE-827B7247C278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9B8F763-187D-4F2E-BAEE-827B7247C278}.Debug|ARM.ActiveCfg = Debug|ARM

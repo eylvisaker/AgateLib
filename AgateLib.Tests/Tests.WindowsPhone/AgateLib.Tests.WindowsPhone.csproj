@@ -82,10 +82,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\..\AgateLib.Platform.Common\AgateLib.Platform.Common.csproj">
-      <Project>{fc9e7036-aa75-4a6b-82db-0f5e98b5fbcb}</Project>
-      <Name>AgateLib.Platform.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\AgateLib.Platform.WindowsPhone\AgateLib.Platform.WindowsPhone.csproj">
       <Project>{9bef78db-b535-47d3-9c14-453d373807ec}</Project>
       <Name>AgateLib.Platform.WindowsPhone</Name>
