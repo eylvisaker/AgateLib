@@ -25,7 +25,6 @@ namespace AgateLib.Testing.FontTests
 	DisplayWindow wind = DisplayWindow.CreateWindowed("Font Tester", 800, 600);
 	DisplayWindow fullWind = null;
 
-	FontSurface font = new FontSurface("Sans Serif", 12);
 	FontSurface bitmapFont = FontSurface.BitmapMonospace("lotafont.png", new Size(16, 16));
 
 	int frame = 0;
@@ -36,6 +35,8 @@ namespace AgateLib.Testing.FontTests
 		Display.BeginFrame();
 		Display.Clear(Color.DarkGray);
 
+		Font font = AgateLib.Assets.Fonts.AgateSans;
+		font.Size = 12;
 
 		// test the color changing
 		font.Color = Color.LightGreen;
@@ -56,7 +57,7 @@ namespace AgateLib.Testing.FontTests
 		font.DisplayAlignment = OriginAlignment.TopLeft;
 
 		// test text scaling
-		font.SetScale(2.0, 2.0);
+		font.Size = 24;
 		text = "This text is twice as big.";
 		textPoint = new Point(50, 75);
 		textSize = font.MeasureString(text);
@@ -65,7 +66,7 @@ namespace AgateLib.Testing.FontTests
 		Display.DrawRect(new Rectangle(textPoint, textSize), Color.White);
 
 		font.DrawText(textPoint, text);
-		font.SetScale(1.0, 1.0);
+		font.Size = 12;
 
 		// this draws a white background behind the text we want to Display.
 		text = "F2: Toggle VSync   F5:  Toggle Windowed / Fullscreen      ";

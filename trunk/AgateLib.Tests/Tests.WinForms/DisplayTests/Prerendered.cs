@@ -26,8 +26,8 @@ namespace AgateLib.Testing.DisplayTests
 			{
 				DisplayWindow MainWindow = DisplayWindow.CreateWindowed("Test", 800, 600);
 				FrameBuffer myBuffer = new FrameBuffer(200, 35);
-				FontSurface font = new FontSurface("Arial", 10);
 
+				Font font = AgateLib.Assets.Fonts.AgateSans;
 				RenderToFrameBuffer(myBuffer, font);
 
 				System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
@@ -56,7 +56,7 @@ namespace AgateLib.Testing.DisplayTests
 			});
 		}
 
-		private static void RenderToFrameBuffer(FrameBuffer myBuffer, FontSurface font)
+		private static void RenderToFrameBuffer(FrameBuffer myBuffer, Font font)
 		{
 			FrameBuffer save = Display.RenderTarget;
 

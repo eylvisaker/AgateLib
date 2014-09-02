@@ -8,6 +8,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.ApplicationModels;
+using AgateLib.Platform.WinForms.Fonts;
 
 namespace AgateLib.Testing.FontTests
 {
@@ -32,7 +33,7 @@ namespace AgateLib.Testing.FontTests
 				BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 18, FontStyles.Bold);
 				fontOptions.UseTextRenderer = true;
 
-				FontSurface font = new FontSurface(fontOptions);
+				FontSurface font = new FontSurface(BitmapFontUtil.ConstructFromOSFont(fontOptions));
 
 				// TODO: Fix this
 				//font.Save("testfont.xml");

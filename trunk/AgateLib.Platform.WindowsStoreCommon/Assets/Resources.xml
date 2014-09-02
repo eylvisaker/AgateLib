@@ -1,0 +1,1952 @@
+<AgateResources Version="0.3.2">
+  <StringTable />
+  <BitmapFont name="AgateSans-14" image="Fonts/AgateSans-14.png">
+    <Metrics>
+      <Glyph char="32" source="{X=0,Y=2,Width=7,Height=25}" rightOverhang="1" />
+      <Glyph char="33" source="{X=9,Y=2,Width=9,Height=25}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="34" source="{X=20,Y=2,Width=9,Height=25}" rightOverhang="1" />
+      <Glyph char="35" source="{X=31,Y=2,Width=17,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="36" source="{X=50,Y=2,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="37" source="{X=65,Y=2,Width=19,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="38" source="{X=86,Y=2,Width=17,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="39" source="{X=105,Y=2,Width=5,Height=25}" rightOverhang="1" />
+      <Glyph char="40" source="{X=112,Y=2,Width=8,Height=25}" rightOverhang="1" />
+      <Glyph char="41" source="{X=122,Y=2,Width=8,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="42" source="{X=132,Y=2,Width=11,Height=25}" rightOverhang="1" />
+      <Glyph char="43" source="{X=145,Y=2,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="44" source="{X=164,Y=2,Width=7,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="45" source="{X=173,Y=2,Width=8,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="46" source="{X=183,Y=2,Width=7,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="47" source="{X=192,Y=2,Width=9,Height=25}" rightOverhang="3" />
+      <Glyph char="48" source="{X=203,Y=2,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="49" source="{X=218,Y=2,Width=13,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="50" source="{X=233,Y=2,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="51" source="{X=0,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="52" source="{X=15,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="53" source="{X=30,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="54" source="{X=45,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="55" source="{X=60,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="56" source="{X=75,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="57" source="{X=90,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="58" source="{X=105,Y=30,Width=7,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="59" source="{X=114,Y=30,Width=7,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="60" source="{X=123,Y=30,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="61" source="{X=142,Y=30,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="62" source="{X=161,Y=30,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="63" source="{X=180,Y=30,Width=11,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="64" source="{X=193,Y=30,Width=20,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="65" source="{X=215,Y=30,Width=14,Height=25}" rightOverhang="1" />
+      <Glyph char="66" source="{X=231,Y=30,Width=14,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="67" source="{X=0,Y=58,Width=14,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="68" source="{X=16,Y=58,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="69" source="{X=34,Y=58,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="70" source="{X=49,Y=58,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="71" source="{X=63,Y=58,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="72" source="{X=81,Y=58,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="73" source="{X=98,Y=58,Width=7,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="74" source="{X=107,Y=58,Width=9,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="75" source="{X=118,Y=58,Width=15,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="76" source="{X=135,Y=58,Width=12,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="77" source="{X=149,Y=58,Width=17,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="78" source="{X=168,Y=58,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="79" source="{X=185,Y=58,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="80" source="{X=203,Y=58,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="81" source="{X=218,Y=58,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="82" source="{X=236,Y=58,Width=14,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="83" source="{X=0,Y=86,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="84" source="{X=15,Y=86,Width=13,Height=25}" rightOverhang="1" />
+      <Glyph char="85" source="{X=30,Y=86,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="86" source="{X=47,Y=86,Width=14,Height=25}" rightOverhang="1" />
+      <Glyph char="87" source="{X=63,Y=86,Width=21,Height=25}" rightOverhang="1" />
+      <Glyph char="88" source="{X=86,Y=86,Width=15,Height=25}" rightOverhang="1" />
+      <Glyph char="89" source="{X=103,Y=86,Width=13,Height=25}" rightOverhang="1" />
+      <Glyph char="90" source="{X=118,Y=86,Width=14,Height=25}" rightOverhang="1" />
+      <Glyph char="91" source="{X=134,Y=86,Width=8,Height=25}" rightOverhang="1" />
+      <Glyph char="92" source="{X=144,Y=86,Width=9,Height=25}" rightOverhang="3" />
+      <Glyph char="93" source="{X=155,Y=86,Width=8,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="94" source="{X=165,Y=86,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="95" source="{X=184,Y=86,Width=13,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="96" source="{X=199,Y=86,Width=11,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="97" source="{X=212,Y=86,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="98" source="{X=226,Y=86,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="99" source="{X=240,Y=86,Width=12,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="100" source="{X=0,Y=114,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="101" source="{X=14,Y=114,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="102" source="{X=30,Y=114,Width=12,Height=25}" leftOverhang="1" rightOverhang="6" />
+      <Glyph char="103" source="{X=44,Y=114,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="104" source="{X=58,Y=114,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="105" source="{X=73,Y=114,Width=6,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="106" source="{X=81,Y=114,Width=8,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="107" source="{X=91,Y=114,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="108" source="{X=105,Y=114,Width=6,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="109" source="{X=113,Y=114,Width=18,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="110" source="{X=133,Y=114,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="111" source="{X=148,Y=114,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="112" source="{X=164,Y=114,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="113" source="{X=178,Y=114,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="114" source="{X=192,Y=114,Width=9,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="115" source="{X=203,Y=114,Width=10,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="116" source="{X=215,Y=114,Width=9,Height=25}" rightOverhang="1" />
+      <Glyph char="117" source="{X=226,Y=114,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="118" source="{X=241,Y=114,Width=12,Height=25}" rightOverhang="1" />
+      <Glyph char="119" source="{X=0,Y=142,Width=18,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="120" source="{X=20,Y=142,Width=12,Height=25}" rightOverhang="1" />
+      <Glyph char="121" source="{X=34,Y=142,Width=12,Height=25}" rightOverhang="1" />
+      <Glyph char="122" source="{X=48,Y=142,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="123" source="{X=62,Y=142,Width=13,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="124" source="{X=77,Y=142,Width=7,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="125" source="{X=86,Y=142,Width=13,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="126" source="{X=101,Y=142,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="161" source="{X=120,Y=142,Width=9,Height=25}" leftOverhang="-4" rightOverhang="5" />
+      <Glyph char="162" source="{X=131,Y=142,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="163" source="{X=146,Y=142,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="164" source="{X=161,Y=142,Width=13,Height=25}" rightOverhang="1" />
+      <Glyph char="165" source="{X=176,Y=142,Width=13,Height=25}" rightOverhang="1" />
+      <Glyph char="166" source="{X=191,Y=142,Width=7,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="167" source="{X=200,Y=142,Width=11,Height=25}" rightOverhang="1" />
+      <Glyph char="168" source="{X=213,Y=142,Width=11,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="169" source="{X=226,Y=142,Width=20,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="170" source="{X=0,Y=170,Width=10,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="171" source="{X=12,Y=170,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="172" source="{X=27,Y=170,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="173" source="{X=46,Y=170,Width=8,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="174" source="{X=56,Y=170,Width=20,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="175" source="{X=78,Y=170,Width=11,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="176" source="{X=91,Y=170,Width=11,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="177" source="{X=104,Y=170,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="178" source="{X=123,Y=170,Width=9,Height=25}" rightOverhang="1" />
+      <Glyph char="179" source="{X=134,Y=170,Width=9,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="180" source="{X=145,Y=170,Width=11,Height=25}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="181" source="{X=158,Y=170,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="182" source="{X=173,Y=170,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="183" source="{X=188,Y=170,Width=7,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="184" source="{X=197,Y=170,Width=11,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="185" source="{X=210,Y=170,Width=9,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="186" source="{X=221,Y=170,Width=10,Height=25}" rightOverhang="1" />
+      <Glyph char="187" source="{X=233,Y=170,Width=13,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="188" source="{X=0,Y=198,Width=19,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="189" source="{X=21,Y=198,Width=19,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="190" source="{X=42,Y=198,Width=19,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="191" source="{X=63,Y=198,Width=11,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="192" source="{X=76,Y=198,Width=14,Height=25}" rightOverhang="1" />
+      <Glyph char="193" source="{X=92,Y=198,Width=14,Height=25}" rightOverhang="1" />
+      <Glyph char="194" source="{X=108,Y=198,Width=14,Height=25}" rightOverhang="1" />
+      <Glyph char="195" source="{X=124,Y=198,Width=14,Height=25}" rightOverhang="1" />
+      <Glyph char="196" source="{X=140,Y=198,Width=14,Height=25}" rightOverhang="1" />
+      <Glyph char="197" source="{X=156,Y=198,Width=14,Height=25}" rightOverhang="1" />
+      <Glyph char="198" source="{X=172,Y=198,Width=19,Height=25}" rightOverhang="1" />
+      <Glyph char="199" source="{X=193,Y=198,Width=14,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="200" source="{X=209,Y=198,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="201" source="{X=224,Y=198,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="202" source="{X=239,Y=198,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="203" source="{X=0,Y=226,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="204" source="{X=15,Y=226,Width=7,Height=25}" rightOverhang="1" />
+      <Glyph char="205" source="{X=24,Y=226,Width=7,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="206" source="{X=33,Y=226,Width=7,Height=25}" rightOverhang="1" />
+      <Glyph char="207" source="{X=42,Y=226,Width=9,Height=25}" rightOverhang="3" />
+      <Glyph char="208" source="{X=53,Y=226,Width=16,Height=25}" rightOverhang="1" />
+      <Glyph char="209" source="{X=71,Y=226,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="210" source="{X=88,Y=226,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="211" source="{X=106,Y=226,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="212" source="{X=124,Y=226,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="213" source="{X=142,Y=226,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="214" source="{X=160,Y=226,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="215" source="{X=178,Y=226,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="216" source="{X=197,Y=226,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="217" source="{X=215,Y=226,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="218" source="{X=232,Y=226,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="219" source="{X=0,Y=254,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="220" source="{X=17,Y=254,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="221" source="{X=34,Y=254,Width=13,Height=25}" rightOverhang="1" />
+      <Glyph char="222" source="{X=49,Y=254,Width=13,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="223" source="{X=64,Y=254,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="224" source="{X=79,Y=254,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="225" source="{X=93,Y=254,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="226" source="{X=107,Y=254,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="227" source="{X=121,Y=254,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="228" source="{X=135,Y=254,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="229" source="{X=149,Y=254,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="230" source="{X=163,Y=254,Width=19,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="231" source="{X=184,Y=254,Width=12,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="232" source="{X=198,Y=254,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="233" source="{X=214,Y=254,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="234" source="{X=230,Y=254,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="235" source="{X=0,Y=282,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="236" source="{X=16,Y=282,Width=8,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="237" source="{X=26,Y=282,Width=8,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="238" source="{X=36,Y=282,Width=10,Height=25}" leftOverhang="1" rightOverhang="4" />
+      <Glyph char="239" source="{X=48,Y=282,Width=10,Height=25}" leftOverhang="1" rightOverhang="4" />
+      <Glyph char="240" source="{X=60,Y=282,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="241" source="{X=76,Y=282,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="242" source="{X=91,Y=282,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="243" source="{X=107,Y=282,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="244" source="{X=123,Y=282,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="245" source="{X=139,Y=282,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="246" source="{X=155,Y=282,Width=14,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="247" source="{X=171,Y=282,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="248" source="{X=190,Y=282,Width=14,Height=25}" rightOverhang="3" />
+      <Glyph char="249" source="{X=206,Y=282,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="250" source="{X=221,Y=282,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="251" source="{X=236,Y=282,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="252" source="{X=0,Y=310,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="253" source="{X=15,Y=310,Width=12,Height=25}" rightOverhang="1" />
+      <Glyph char="254" source="{X=29,Y=310,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="255" source="{X=43,Y=310,Width=12,Height=25}" rightOverhang="1" />
+      <Kerning first="45" second="84" value="-1" />
+      <Kerning first="45" second="89" value="-1" />
+      <Kerning first="45" second="221" value="-1" />
+      <Kerning first="70" second="46" value="-1" />
+      <Kerning first="70" second="65" value="-1" />
+      <Kerning first="70" second="97" value="-1" />
+      <Kerning first="70" second="121" value="-1" />
+      <Kerning first="70" second="196" value="-1" />
+      <Kerning first="70" second="225" value="-1" />
+      <Kerning first="70" second="224" value="-1" />
+      <Kerning first="70" second="226" value="-1" />
+      <Kerning first="70" second="228" value="-1" />
+      <Kerning first="70" second="227" value="-1" />
+      <Kerning first="70" second="229" value="-1" />
+      <Kerning first="70" second="192" value="-1" />
+      <Kerning first="70" second="195" value="-1" />
+      <Kerning first="70" second="255" value="-1" />
+      <Kerning first="70" second="194" value="-1" />
+      <Kerning first="70" second="193" value="-1" />
+      <Kerning first="70" second="253" value="-1" />
+      <Kerning first="75" second="45" value="-1" />
+      <Kerning first="76" second="84" value="-1" />
+      <Kerning first="76" second="86" value="-1" />
+      <Kerning first="76" second="87" value="-1" />
+      <Kerning first="76" second="89" value="-1" />
+      <Kerning first="76" second="121" value="-1" />
+      <Kerning first="76" second="255" value="-1" />
+      <Kerning first="76" second="221" value="-1" />
+      <Kerning first="76" second="253" value="-1" />
+      <Kerning first="80" second="46" value="-1" />
+      <Kerning first="84" second="45" value="-1" />
+      <Kerning first="84" second="46" value="-1" />
+      <Kerning first="84" second="58" value="-1" />
+      <Kerning first="84" second="97" value="-1" />
+      <Kerning first="84" second="99" value="-1" />
+      <Kerning first="84" second="101" value="-1" />
+      <Kerning first="84" second="111" value="-1" />
+      <Kerning first="84" second="114" value="-1" />
+      <Kerning first="84" second="115" value="-1" />
+      <Kerning first="84" second="117" value="-1" />
+      <Kerning first="84" second="119" value="-1" />
+      <Kerning first="84" second="121" value="-1" />
+      <Kerning first="84" second="225" value="-1" />
+      <Kerning first="84" second="224" value="-1" />
+      <Kerning first="84" second="226" value="-1" />
+      <Kerning first="84" second="228" value="-1" />
+      <Kerning first="84" second="227" value="-1" />
+      <Kerning first="84" second="229" value="-1" />
+      <Kerning first="84" second="231" value="-1" />
+      <Kerning first="84" second="233" value="-1" />
+      <Kerning first="84" second="232" value="-1" />
+      <Kerning first="84" second="234" value="-1" />
+      <Kerning first="84" second="235" value="-1" />
+      <Kerning first="84" second="243" value="-1" />
+      <Kerning first="84" second="242" value="-1" />
+      <Kerning first="84" second="244" value="-1" />
+      <Kerning first="84" second="246" value="-1" />
+      <Kerning first="84" second="245" value="-1" />
+      <Kerning first="84" second="250" value="-1" />
+      <Kerning first="84" second="249" value="-1" />
+      <Kerning first="84" second="251" value="-1" />
+      <Kerning first="84" second="252" value="-1" />
+      <Kerning first="84" second="171" value="-1" />
+      <Kerning first="84" second="255" value="-1" />
+      <Kerning first="84" second="253" value="-1" />
+      <Kerning first="86" second="46" value="-1" />
+      <Kerning first="86" second="58" value="-1" />
+      <Kerning first="86" second="171" value="-1" />
+      <Kerning first="87" second="46" value="-1" />
+      <Kerning first="89" second="45" value="-1" />
+      <Kerning first="89" second="46" value="-2" />
+      <Kerning first="89" second="58" value="-1" />
+      <Kerning first="89" second="97" value="-1" />
+      <Kerning first="89" second="101" value="-1" />
+      <Kerning first="89" second="111" value="-1" />
+      <Kerning first="89" second="117" value="-1" />
+      <Kerning first="89" second="225" value="-1" />
+      <Kerning first="89" second="224" value="-1" />
+      <Kerning first="89" second="226" value="-1" />
+      <Kerning first="89" second="228" value="-1" />
+      <Kerning first="89" second="227" value="-1" />
+      <Kerning first="89" second="229" value="-1" />
+      <Kerning first="89" second="233" value="-1" />
+      <Kerning first="89" second="232" value="-1" />
+      <Kerning first="89" second="234" value="-1" />
+      <Kerning first="89" second="235" value="-1" />
+      <Kerning first="89" second="243" value="-1" />
+      <Kerning first="89" second="242" value="-1" />
+      <Kerning first="89" second="244" value="-1" />
+      <Kerning first="89" second="246" value="-1" />
+      <Kerning first="89" second="245" value="-1" />
+      <Kerning first="89" second="250" value="-1" />
+      <Kerning first="89" second="249" value="-1" />
+      <Kerning first="89" second="251" value="-1" />
+      <Kerning first="89" second="252" value="-1" />
+      <Kerning first="89" second="171" value="-1" />
+      <Kerning first="114" second="46" value="-1" />
+      <Kerning first="119" second="46" value="-1" />
+      <Kerning first="121" second="46" value="-1" />
+      <Kerning first="187" second="84" value="-1" />
+      <Kerning first="187" second="86" value="-1" />
+      <Kerning first="187" second="89" value="-1" />
+      <Kerning first="187" second="221" value="-1" />
+      <Kerning first="221" second="45" value="-1" />
+      <Kerning first="221" second="46" value="-2" />
+      <Kerning first="221" second="58" value="-1" />
+      <Kerning first="221" second="97" value="-1" />
+      <Kerning first="221" second="101" value="-1" />
+      <Kerning first="221" second="111" value="-1" />
+      <Kerning first="221" second="117" value="-1" />
+      <Kerning first="221" second="225" value="-1" />
+      <Kerning first="221" second="224" value="-1" />
+      <Kerning first="221" second="226" value="-1" />
+      <Kerning first="221" second="228" value="-1" />
+      <Kerning first="221" second="227" value="-1" />
+      <Kerning first="221" second="229" value="-1" />
+      <Kerning first="221" second="233" value="-1" />
+      <Kerning first="221" second="232" value="-1" />
+      <Kerning first="221" second="234" value="-1" />
+      <Kerning first="221" second="235" value="-1" />
+      <Kerning first="221" second="243" value="-1" />
+      <Kerning first="221" second="242" value="-1" />
+      <Kerning first="221" second="244" value="-1" />
+      <Kerning first="221" second="246" value="-1" />
+      <Kerning first="221" second="245" value="-1" />
+      <Kerning first="221" second="250" value="-1" />
+      <Kerning first="221" second="249" value="-1" />
+      <Kerning first="221" second="251" value="-1" />
+      <Kerning first="221" second="252" value="-1" />
+      <Kerning first="221" second="171" value="-1" />
+      <Kerning first="253" second="46" value="-1" />
+      <Kerning first="255" second="46" value="-1" />
+    </Metrics>
+  </BitmapFont>
+  <BitmapFont name="AgateSans-10" image="Fonts/AgateSans-10.png">
+    <Metrics>
+      <Glyph char="32" source="{X=0,Y=2,Width=5,Height=17}" rightOverhang="1" />
+      <Glyph char="33" source="{X=7,Y=2,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="34" source="{X=15,Y=2,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="35" source="{X=23,Y=2,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="36" source="{X=37,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="37" source="{X=48,Y=2,Width=15,Height=17}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="38" source="{X=65,Y=2,Width=12,Height=17}" rightOverhang="1" />
+      <Glyph char="39" source="{X=79,Y=2,Width=4,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="40" source="{X=85,Y=2,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="41" source="{X=93,Y=2,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="42" source="{X=101,Y=2,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="43" source="{X=111,Y=2,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="44" source="{X=125,Y=2,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="45" source="{X=132,Y=2,Width=6,Height=17}" rightOverhang="1" />
+      <Glyph char="46" source="{X=140,Y=2,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="47" source="{X=147,Y=2,Width=7,Height=17}" rightOverhang="3" />
+      <Glyph char="48" source="{X=156,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="49" source="{X=167,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="50" source="{X=178,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="51" source="{X=189,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="52" source="{X=200,Y=2,Width=11,Height=17}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="53" source="{X=213,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="54" source="{X=224,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="55" source="{X=235,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="56" source="{X=246,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="57" source="{X=0,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="58" source="{X=11,Y=22,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="59" source="{X=18,Y=22,Width=5,Height=17}" rightOverhang="1" />
+      <Glyph char="60" source="{X=25,Y=22,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="61" source="{X=39,Y=22,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="62" source="{X=53,Y=22,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="63" source="{X=67,Y=22,Width=8,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="64" source="{X=77,Y=22,Width=14,Height=17}" rightOverhang="1" />
+      <Glyph char="65" source="{X=93,Y=22,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="66" source="{X=105,Y=22,Width=10,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="67" source="{X=117,Y=22,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="68" source="{X=129,Y=22,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="69" source="{X=142,Y=22,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="70" source="{X=153,Y=22,Width=8,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="71" source="{X=163,Y=22,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="72" source="{X=176,Y=22,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="73" source="{X=189,Y=22,Width=4,Height=17}" rightOverhang="1" />
+      <Glyph char="74" source="{X=195,Y=22,Width=8,Height=17}" leftOverhang="2" rightOverhang="3" />
+      <Glyph char="75" source="{X=205,Y=22,Width=11,Height=17}" leftOverhang="-1" rightOverhang="3" />
+      <Glyph char="76" source="{X=218,Y=22,Width=8,Height=17}" leftOverhang="-1" rightOverhang="1" />
+      <Glyph char="77" source="{X=228,Y=22,Width=12,Height=17}" leftOverhang="-1" rightOverhang="1" />
+      <Glyph char="78" source="{X=242,Y=22,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="79" source="{X=0,Y=42,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="80" source="{X=13,Y=42,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="81" source="{X=24,Y=42,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="82" source="{X=37,Y=42,Width=11,Height=17}" leftOverhang="-1" rightOverhang="3" />
+      <Glyph char="83" source="{X=50,Y=42,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="84" source="{X=62,Y=42,Width=10,Height=17}" rightOverhang="2" />
+      <Glyph char="85" source="{X=74,Y=42,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="86" source="{X=87,Y=42,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="87" source="{X=99,Y=42,Width=16,Height=17}" rightOverhang="4" />
+      <Glyph char="88" source="{X=117,Y=42,Width=11,Height=17}" leftOverhang="-1" rightOverhang="1" />
+      <Glyph char="89" source="{X=130,Y=42,Width=10,Height=17}" rightOverhang="2" />
+      <Glyph char="90" source="{X=142,Y=42,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="91" source="{X=155,Y=42,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="92" source="{X=163,Y=42,Width=7,Height=17}" rightOverhang="3" />
+      <Glyph char="93" source="{X=172,Y=42,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="94" source="{X=180,Y=42,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="95" source="{X=194,Y=42,Width=10,Height=17}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="96" source="{X=206,Y=42,Width=8,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="97" source="{X=216,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="98" source="{X=227,Y=42,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="99" source="{X=238,Y=42,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="100" source="{X=0,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="101" source="{X=11,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="102" source="{X=22,Y=62,Width=8,Height=17}" leftOverhang="1" rightOverhang="4" />
+      <Glyph char="103" source="{X=32,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="104" source="{X=43,Y=62,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="105" source="{X=54,Y=62,Width=4,Height=17}" rightOverhang="1" />
+      <Glyph char="106" source="{X=60,Y=62,Width=6,Height=17}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="107" source="{X=68,Y=62,Width=10,Height=17}" leftOverhang="-1" rightOverhang="3" />
+      <Glyph char="108" source="{X=80,Y=62,Width=4,Height=17}" rightOverhang="1" />
+      <Glyph char="109" source="{X=86,Y=62,Width=14,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="110" source="{X=102,Y=62,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="111" source="{X=113,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="112" source="{X=124,Y=62,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="113" source="{X=135,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="114" source="{X=146,Y=62,Width=8,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="115" source="{X=156,Y=62,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="116" source="{X=166,Y=62,Width=6,Height=17}" rightOverhang="1" />
+      <Glyph char="117" source="{X=174,Y=62,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="118" source="{X=185,Y=62,Width=10,Height=17}" rightOverhang="2" />
+      <Glyph char="119" source="{X=197,Y=62,Width=14,Height=17}" leftOverhang="1" rightOverhang="3" />
+      <Glyph char="120" source="{X=213,Y=62,Width=10,Height=17}" rightOverhang="2" />
+      <Glyph char="121" source="{X=225,Y=62,Width=10,Height=17}" rightOverhang="2" />
+      <Glyph char="122" source="{X=237,Y=62,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="123" source="{X=247,Y=62,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="124" source="{X=0,Y=82,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="125" source="{X=7,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="126" source="{X=18,Y=82,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="161" source="{X=32,Y=82,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="162" source="{X=40,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="163" source="{X=51,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="164" source="{X=62,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="165" source="{X=73,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="166" source="{X=84,Y=82,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="167" source="{X=91,Y=82,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="168" source="{X=101,Y=82,Width=8,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="169" source="{X=111,Y=82,Width=14,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="170" source="{X=127,Y=82,Width=7,Height=17}" rightOverhang="1" />
+      <Glyph char="171" source="{X=136,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="172" source="{X=147,Y=82,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="173" source="{X=161,Y=82,Width=6,Height=17}" rightOverhang="1" />
+      <Glyph char="174" source="{X=169,Y=82,Width=14,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="175" source="{X=185,Y=82,Width=8,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="176" source="{X=195,Y=82,Width=8,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="177" source="{X=205,Y=82,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="178" source="{X=219,Y=82,Width=6,Height=17}" rightOverhang="1" />
+      <Glyph char="179" source="{X=227,Y=82,Width=6,Height=17}" rightOverhang="1" />
+      <Glyph char="180" source="{X=235,Y=82,Width=8,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="181" source="{X=245,Y=82,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="182" source="{X=0,Y=102,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="183" source="{X=11,Y=102,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="184" source="{X=18,Y=102,Width=8,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="185" source="{X=28,Y=102,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="186" source="{X=36,Y=102,Width=7,Height=17}" rightOverhang="1" />
+      <Glyph char="187" source="{X=45,Y=102,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="188" source="{X=56,Y=102,Width=14,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="189" source="{X=72,Y=102,Width=14,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="190" source="{X=88,Y=102,Width=14,Height=17}" rightOverhang="1" />
+      <Glyph char="191" source="{X=104,Y=102,Width=8,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="192" source="{X=114,Y=102,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="193" source="{X=126,Y=102,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="194" source="{X=138,Y=102,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="195" source="{X=150,Y=102,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="196" source="{X=162,Y=102,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="197" source="{X=174,Y=102,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="198" source="{X=186,Y=102,Width=14,Height=17}" rightOverhang="1" />
+      <Glyph char="199" source="{X=202,Y=102,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="200" source="{X=214,Y=102,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="201" source="{X=225,Y=102,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="202" source="{X=236,Y=102,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="203" source="{X=247,Y=102,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="204" source="{X=0,Y=122,Width=4,Height=17}" rightOverhang="1" />
+      <Glyph char="205" source="{X=6,Y=122,Width=6,Height=17}" rightOverhang="3" />
+      <Glyph char="206" source="{X=14,Y=122,Width=6,Height=17}" rightOverhang="3" />
+      <Glyph char="207" source="{X=22,Y=122,Width=6,Height=17}" rightOverhang="3" />
+      <Glyph char="208" source="{X=30,Y=122,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="209" source="{X=43,Y=122,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="210" source="{X=56,Y=122,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="211" source="{X=69,Y=122,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="212" source="{X=82,Y=122,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="213" source="{X=95,Y=122,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="214" source="{X=108,Y=122,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="215" source="{X=121,Y=122,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="216" source="{X=135,Y=122,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="217" source="{X=148,Y=122,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="218" source="{X=161,Y=122,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="219" source="{X=174,Y=122,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="220" source="{X=187,Y=122,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="221" source="{X=200,Y=122,Width=10,Height=17}" rightOverhang="3" />
+      <Glyph char="222" source="{X=212,Y=122,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="223" source="{X=223,Y=122,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="224" source="{X=234,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="225" source="{X=245,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="226" source="{X=0,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="227" source="{X=11,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="228" source="{X=22,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="229" source="{X=33,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="230" source="{X=44,Y=142,Width=14,Height=17}" rightOverhang="1" />
+      <Glyph char="231" source="{X=60,Y=142,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="232" source="{X=70,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="233" source="{X=81,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="234" source="{X=92,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="235" source="{X=103,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="236" source="{X=114,Y=142,Width=6,Height=17}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="237" source="{X=122,Y=142,Width=6,Height=17}" rightOverhang="3" />
+      <Glyph char="238" source="{X=130,Y=142,Width=8,Height=17}" leftOverhang="1" rightOverhang="4" />
+      <Glyph char="239" source="{X=140,Y=142,Width=6,Height=17}" rightOverhang="3" />
+      <Glyph char="240" source="{X=148,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="241" source="{X=159,Y=142,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="242" source="{X=170,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="243" source="{X=181,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="244" source="{X=192,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="245" source="{X=203,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="246" source="{X=214,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="247" source="{X=225,Y=142,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="248" source="{X=239,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="249" source="{X=0,Y=162,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="250" source="{X=11,Y=162,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="251" source="{X=22,Y=162,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="252" source="{X=33,Y=162,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="253" source="{X=44,Y=162,Width=10,Height=17}" rightOverhang="3" />
+      <Glyph char="254" source="{X=56,Y=162,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="255" source="{X=67,Y=162,Width=10,Height=17}" rightOverhang="3" />
+      <Kerning first="45" second="89" value="-1" />
+      <Kerning first="45" second="221" value="-1" />
+      <Kerning first="70" second="46" value="-1" />
+      <Kerning first="76" second="84" value="-1" />
+      <Kerning first="76" second="89" value="-1" />
+      <Kerning first="76" second="221" value="-1" />
+      <Kerning first="80" second="46" value="-1" />
+      <Kerning first="84" second="46" value="-1" />
+      <Kerning first="84" second="97" value="-1" />
+      <Kerning first="84" second="99" value="-1" />
+      <Kerning first="84" second="101" value="-1" />
+      <Kerning first="84" second="111" value="-1" />
+      <Kerning first="84" second="114" value="-1" />
+      <Kerning first="84" second="115" value="-1" />
+      <Kerning first="84" second="117" value="-1" />
+      <Kerning first="84" second="119" value="-1" />
+      <Kerning first="84" second="121" value="-1" />
+      <Kerning first="84" second="225" value="-1" />
+      <Kerning first="84" second="224" value="-1" />
+      <Kerning first="84" second="226" value="-1" />
+      <Kerning first="84" second="228" value="-1" />
+      <Kerning first="84" second="227" value="-1" />
+      <Kerning first="84" second="229" value="-1" />
+      <Kerning first="84" second="231" value="-1" />
+      <Kerning first="84" second="233" value="-1" />
+      <Kerning first="84" second="232" value="-1" />
+      <Kerning first="84" second="234" value="-1" />
+      <Kerning first="84" second="235" value="-1" />
+      <Kerning first="84" second="243" value="-1" />
+      <Kerning first="84" second="242" value="-1" />
+      <Kerning first="84" second="244" value="-1" />
+      <Kerning first="84" second="246" value="-1" />
+      <Kerning first="84" second="245" value="-1" />
+      <Kerning first="84" second="250" value="-1" />
+      <Kerning first="84" second="249" value="-1" />
+      <Kerning first="84" second="251" value="-1" />
+      <Kerning first="84" second="252" value="-1" />
+      <Kerning first="84" second="255" value="-1" />
+      <Kerning first="84" second="253" value="-1" />
+      <Kerning first="86" second="46" value="-1" />
+      <Kerning first="89" second="45" value="-1" />
+      <Kerning first="89" second="46" value="-1" />
+      <Kerning first="89" second="58" value="-1" />
+      <Kerning first="89" second="97" value="-1" />
+      <Kerning first="89" second="101" value="-1" />
+      <Kerning first="89" second="111" value="-1" />
+      <Kerning first="89" second="225" value="-1" />
+      <Kerning first="89" second="224" value="-1" />
+      <Kerning first="89" second="226" value="-1" />
+      <Kerning first="89" second="228" value="-1" />
+      <Kerning first="89" second="227" value="-1" />
+      <Kerning first="89" second="229" value="-1" />
+      <Kerning first="89" second="233" value="-1" />
+      <Kerning first="89" second="232" value="-1" />
+      <Kerning first="89" second="234" value="-1" />
+      <Kerning first="89" second="235" value="-1" />
+      <Kerning first="89" second="243" value="-1" />
+      <Kerning first="89" second="242" value="-1" />
+      <Kerning first="89" second="244" value="-1" />
+      <Kerning first="89" second="246" value="-1" />
+      <Kerning first="89" second="245" value="-1" />
+      <Kerning first="121" second="46" value="-1" />
+      <Kerning first="221" second="45" value="-1" />
+      <Kerning first="221" second="46" value="-1" />
+      <Kerning first="221" second="58" value="-1" />
+      <Kerning first="221" second="97" value="-1" />
+      <Kerning first="221" second="101" value="-1" />
+      <Kerning first="221" second="111" value="-1" />
+      <Kerning first="221" second="225" value="-1" />
+      <Kerning first="221" second="224" value="-1" />
+      <Kerning first="221" second="226" value="-1" />
+      <Kerning first="221" second="228" value="-1" />
+      <Kerning first="221" second="227" value="-1" />
+      <Kerning first="221" second="229" value="-1" />
+      <Kerning first="221" second="233" value="-1" />
+      <Kerning first="221" second="232" value="-1" />
+      <Kerning first="221" second="234" value="-1" />
+      <Kerning first="221" second="235" value="-1" />
+      <Kerning first="221" second="243" value="-1" />
+      <Kerning first="221" second="242" value="-1" />
+      <Kerning first="221" second="244" value="-1" />
+      <Kerning first="221" second="246" value="-1" />
+      <Kerning first="221" second="245" value="-1" />
+      <Kerning first="253" second="46" value="-1" />
+      <Kerning first="255" second="46" value="-1" />
+    </Metrics>
+  </BitmapFont>
+  <BitmapFont name="AgateSerif-14" image="Fonts/AgateSerif-14.png">
+    <Metrics>
+      <Glyph char="32" source="{X=0,Y=2,Width=7,Height=25}" rightOverhang="1" />
+      <Glyph char="33" source="{X=9,Y=2,Width=9,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="34" source="{X=20,Y=2,Width=10,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="35" source="{X=32,Y=2,Width=17,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="36" source="{X=51,Y=2,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="37" source="{X=66,Y=2,Width=19,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="38" source="{X=87,Y=2,Width=18,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="39" source="{X=107,Y=2,Width=6,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="40" source="{X=115,Y=2,Width=8,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="41" source="{X=125,Y=2,Width=8,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="42" source="{X=135,Y=2,Width=11,Height=25}" rightOverhang="1" />
+      <Glyph char="43" source="{X=148,Y=2,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="44" source="{X=167,Y=2,Width=7,Height=25}" rightOverhang="1" />
+      <Glyph char="45" source="{X=176,Y=2,Width=7,Height=25}" rightOverhang="1" />
+      <Glyph char="46" source="{X=185,Y=2,Width=7,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="47" source="{X=194,Y=2,Width=9,Height=25}" rightOverhang="3" />
+      <Glyph char="48" source="{X=205,Y=2,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="49" source="{X=220,Y=2,Width=13,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="50" source="{X=235,Y=2,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="51" source="{X=0,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="52" source="{X=15,Y=30,Width=13,Height=25}" rightOverhang="1" />
+      <Glyph char="53" source="{X=30,Y=30,Width=13,Height=25}" rightOverhang="1" />
+      <Glyph char="54" source="{X=45,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="55" source="{X=60,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="56" source="{X=75,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="57" source="{X=90,Y=30,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="58" source="{X=105,Y=30,Width=7,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="59" source="{X=114,Y=30,Width=7,Height=25}" rightOverhang="1" />
+      <Glyph char="60" source="{X=123,Y=30,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="61" source="{X=142,Y=30,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="62" source="{X=161,Y=30,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="63" source="{X=180,Y=30,Width=11,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="64" source="{X=193,Y=30,Width=20,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="65" source="{X=215,Y=30,Width=17,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="66" source="{X=234,Y=30,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="67" source="{X=0,Y=58,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="68" source="{X=18,Y=58,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="69" source="{X=36,Y=58,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="70" source="{X=53,Y=58,Width=14,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="71" source="{X=69,Y=58,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="72" source="{X=87,Y=58,Width=18,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="73" source="{X=107,Y=58,Width=9,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="74" source="{X=118,Y=58,Width=13,Height=25}" leftOverhang="2" rightOverhang="3" />
+      <Glyph char="75" source="{X=133,Y=58,Width=17,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="76" source="{X=152,Y=58,Width=14,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="77" source="{X=168,Y=58,Width=21,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="78" source="{X=191,Y=58,Width=18,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="79" source="{X=211,Y=58,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="80" source="{X=229,Y=58,Width=14,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="81" source="{X=0,Y=86,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="82" source="{X=18,Y=86,Width=17,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="83" source="{X=37,Y=86,Width=13,Height=25}" rightOverhang="1" />
+      <Glyph char="84" source="{X=52,Y=86,Width=15,Height=25}" rightOverhang="3" />
+      <Glyph char="85" source="{X=69,Y=86,Width=16,Height=25}" rightOverhang="1" />
+      <Glyph char="86" source="{X=87,Y=86,Width=17,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="87" source="{X=106,Y=86,Width=23,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="88" source="{X=131,Y=86,Width=17,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="89" source="{X=150,Y=86,Width=16,Height=25}" rightOverhang="3" />
+      <Glyph char="90" source="{X=168,Y=86,Width=14,Height=25}" rightOverhang="1" />
+      <Glyph char="91" source="{X=184,Y=86,Width=8,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="92" source="{X=194,Y=86,Width=9,Height=25}" rightOverhang="3" />
+      <Glyph char="93" source="{X=205,Y=86,Width=8,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="94" source="{X=215,Y=86,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="95" source="{X=234,Y=86,Width=11,Height=25}" rightOverhang="1" />
+      <Glyph char="96" source="{X=0,Y=114,Width=11,Height=25}" rightOverhang="1" />
+      <Glyph char="97" source="{X=13,Y=114,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="98" source="{X=27,Y=114,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="99" source="{X=42,Y=114,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="100" source="{X=56,Y=114,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="101" source="{X=71,Y=114,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="102" source="{X=85,Y=114,Width=9,Height=25}" rightOverhang="3" />
+      <Glyph char="103" source="{X=96,Y=114,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="104" source="{X=111,Y=114,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="105" source="{X=126,Y=114,Width=7,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="106" source="{X=135,Y=114,Width=11,Height=25}" leftOverhang="2" rightOverhang="3" />
+      <Glyph char="107" source="{X=148,Y=114,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="108" source="{X=163,Y=114,Width=7,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="109" source="{X=172,Y=114,Width=19,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="110" source="{X=193,Y=114,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="111" source="{X=208,Y=114,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="112" source="{X=222,Y=114,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="113" source="{X=237,Y=114,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="114" source="{X=0,Y=142,Width=10,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="115" source="{X=12,Y=142,Width=11,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="116" source="{X=25,Y=142,Width=9,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="117" source="{X=36,Y=142,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="118" source="{X=51,Y=142,Width=12,Height=25}" rightOverhang="1" />
+      <Glyph char="119" source="{X=65,Y=142,Width=17,Height=25}" rightOverhang="1" />
+      <Glyph char="120" source="{X=84,Y=142,Width=12,Height=25}" rightOverhang="1" />
+      <Glyph char="121" source="{X=98,Y=142,Width=12,Height=25}" rightOverhang="1" />
+      <Glyph char="122" source="{X=112,Y=142,Width=11,Height=25}" rightOverhang="1" />
+      <Glyph char="123" source="{X=125,Y=142,Width=13,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="124" source="{X=140,Y=142,Width=7,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="125" source="{X=149,Y=142,Width=13,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="126" source="{X=164,Y=142,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="161" source="{X=183,Y=142,Width=9,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="162" source="{X=194,Y=142,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="163" source="{X=209,Y=142,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="164" source="{X=224,Y=142,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="165" source="{X=239,Y=142,Width=17,Height=25}" leftOverhang="1" rightOverhang="4" />
+      <Glyph char="166" source="{X=0,Y=170,Width=7,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="167" source="{X=9,Y=170,Width=11,Height=25}" rightOverhang="1" />
+      <Glyph char="168" source="{X=22,Y=170,Width=11,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="169" source="{X=35,Y=170,Width=20,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="170" source="{X=57,Y=170,Width=10,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="171" source="{X=69,Y=170,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="172" source="{X=84,Y=170,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="173" source="{X=103,Y=170,Width=7,Height=25}" rightOverhang="1" />
+      <Glyph char="174" source="{X=112,Y=170,Width=20,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="175" source="{X=134,Y=170,Width=11,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="176" source="{X=147,Y=170,Width=11,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="177" source="{X=160,Y=170,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="178" source="{X=179,Y=170,Width=9,Height=25}" rightOverhang="1" />
+      <Glyph char="179" source="{X=190,Y=170,Width=9,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="180" source="{X=201,Y=170,Width=11,Height=25}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="181" source="{X=214,Y=170,Width=13,Height=25}" rightOverhang="1" />
+      <Glyph char="182" source="{X=229,Y=170,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="183" source="{X=244,Y=170,Width=7,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="184" source="{X=0,Y=198,Width=11,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="185" source="{X=13,Y=198,Width=9,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="186" source="{X=24,Y=198,Width=10,Height=25}" rightOverhang="1" />
+      <Glyph char="187" source="{X=36,Y=198,Width=13,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="188" source="{X=51,Y=198,Width=19,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="189" source="{X=72,Y=198,Width=19,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="190" source="{X=93,Y=198,Width=19,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="191" source="{X=114,Y=198,Width=11,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="192" source="{X=127,Y=198,Width=17,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="193" source="{X=146,Y=198,Width=17,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="194" source="{X=165,Y=198,Width=17,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="195" source="{X=184,Y=198,Width=17,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="196" source="{X=203,Y=198,Width=17,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="197" source="{X=222,Y=198,Width=17,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="198" source="{X=0,Y=226,Width=22,Height=25}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="199" source="{X=24,Y=226,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="200" source="{X=42,Y=226,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="201" source="{X=59,Y=226,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="202" source="{X=76,Y=226,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="203" source="{X=93,Y=226,Width=15,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="204" source="{X=110,Y=226,Width=9,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="205" source="{X=121,Y=226,Width=9,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="206" source="{X=132,Y=226,Width=9,Height=25}" rightOverhang="1" />
+      <Glyph char="207" source="{X=143,Y=226,Width=9,Height=25}" rightOverhang="1" />
+      <Glyph char="208" source="{X=154,Y=226,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="209" source="{X=172,Y=226,Width=18,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="210" source="{X=192,Y=226,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="211" source="{X=210,Y=226,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="212" source="{X=228,Y=226,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="213" source="{X=0,Y=254,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="214" source="{X=18,Y=254,Width=16,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="215" source="{X=36,Y=254,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="216" source="{X=55,Y=254,Width=16,Height=25}" rightOverhang="1" />
+      <Glyph char="217" source="{X=73,Y=254,Width=16,Height=25}" rightOverhang="1" />
+      <Glyph char="218" source="{X=91,Y=254,Width=16,Height=25}" rightOverhang="1" />
+      <Glyph char="219" source="{X=109,Y=254,Width=16,Height=25}" rightOverhang="1" />
+      <Glyph char="220" source="{X=127,Y=254,Width=16,Height=25}" rightOverhang="1" />
+      <Glyph char="221" source="{X=145,Y=254,Width=16,Height=25}" rightOverhang="3" />
+      <Glyph char="222" source="{X=163,Y=254,Width=14,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="223" source="{X=179,Y=254,Width=14,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="224" source="{X=195,Y=254,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="225" source="{X=209,Y=254,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="226" source="{X=223,Y=254,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="227" source="{X=237,Y=254,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="228" source="{X=0,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="229" source="{X=14,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="230" source="{X=28,Y=282,Width=19,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="231" source="{X=49,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="232" source="{X=63,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="233" source="{X=77,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="234" source="{X=91,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="235" source="{X=105,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="236" source="{X=119,Y=282,Width=11,Height=25}" leftOverhang="2" rightOverhang="3" />
+      <Glyph char="237" source="{X=132,Y=282,Width=9,Height=25}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="238" source="{X=143,Y=282,Width=7,Height=25}" rightOverhang="1" />
+      <Glyph char="239" source="{X=152,Y=282,Width=7,Height=25}" rightOverhang="1" />
+      <Glyph char="240" source="{X=161,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="241" source="{X=175,Y=282,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="242" source="{X=190,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="243" source="{X=204,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="244" source="{X=218,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="245" source="{X=232,Y=282,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="246" source="{X=0,Y=310,Width=12,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="247" source="{X=14,Y=310,Width=17,Height=25}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="248" source="{X=33,Y=310,Width=12,Height=25}" rightOverhang="1" />
+      <Glyph char="249" source="{X=47,Y=310,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="250" source="{X=62,Y=310,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="251" source="{X=77,Y=310,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="252" source="{X=92,Y=310,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="253" source="{X=107,Y=310,Width=12,Height=25}" rightOverhang="1" />
+      <Glyph char="254" source="{X=121,Y=310,Width=13,Height=25}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="255" source="{X=136,Y=310,Width=12,Height=25}" rightOverhang="1" />
+      <Kerning first="45" second="89" value="-1" />
+      <Kerning first="45" second="221" value="-1" />
+      <Kerning first="70" second="44" value="-1" />
+      <Kerning first="70" second="46" value="-1" />
+      <Kerning first="70" second="65" value="-1" />
+      <Kerning first="70" second="196" value="-1" />
+      <Kerning first="70" second="192" value="-1" />
+      <Kerning first="70" second="195" value="-1" />
+      <Kerning first="70" second="194" value="-1" />
+      <Kerning first="70" second="193" value="-1" />
+      <Kerning first="76" second="84" value="-1" />
+      <Kerning first="76" second="86" value="-1" />
+      <Kerning first="76" second="87" value="-1" />
+      <Kerning first="76" second="89" value="-1" />
+      <Kerning first="76" second="221" value="-1" />
+      <Kerning first="80" second="44" value="-2" />
+      <Kerning first="80" second="46" value="-2" />
+      <Kerning first="80" second="65" value="-1" />
+      <Kerning first="80" second="196" value="-1" />
+      <Kerning first="80" second="192" value="-1" />
+      <Kerning first="80" second="195" value="-1" />
+      <Kerning first="80" second="194" value="-1" />
+      <Kerning first="80" second="193" value="-1" />
+      <Kerning first="84" second="44" value="-1" />
+      <Kerning first="84" second="45" value="-1" />
+      <Kerning first="84" second="46" value="-1" />
+      <Kerning first="85" second="44" value="-1" />
+      <Kerning first="85" second="46" value="-1" />
+      <Kerning first="86" second="44" value="-1" />
+      <Kerning first="86" second="45" value="-1" />
+      <Kerning first="86" second="46" value="-1" />
+      <Kerning first="86" second="58" value="-1" />
+      <Kerning first="86" second="59" value="-1" />
+      <Kerning first="86" second="97" value="-1" />
+      <Kerning first="86" second="101" value="-1" />
+      <Kerning first="86" second="111" value="-1" />
+      <Kerning first="86" second="225" value="-1" />
+      <Kerning first="86" second="224" value="-1" />
+      <Kerning first="86" second="226" value="-1" />
+      <Kerning first="86" second="228" value="-1" />
+      <Kerning first="86" second="227" value="-1" />
+      <Kerning first="86" second="229" value="-1" />
+      <Kerning first="86" second="233" value="-1" />
+      <Kerning first="86" second="232" value="-1" />
+      <Kerning first="86" second="234" value="-1" />
+      <Kerning first="86" second="235" value="-1" />
+      <Kerning first="86" second="243" value="-1" />
+      <Kerning first="86" second="242" value="-1" />
+      <Kerning first="86" second="244" value="-1" />
+      <Kerning first="86" second="246" value="-1" />
+      <Kerning first="86" second="245" value="-1" />
+      <Kerning first="86" second="230" value="-1" />
+      <Kerning first="86" second="248" value="-1" />
+      <Kerning first="87" second="44" value="-1" />
+      <Kerning first="87" second="46" value="-1" />
+      <Kerning first="87" second="58" value="-1" />
+      <Kerning first="87" second="59" value="-1" />
+      <Kerning first="87" second="97" value="-1" />
+      <Kerning first="87" second="101" value="-1" />
+      <Kerning first="87" second="225" value="-1" />
+      <Kerning first="87" second="224" value="-1" />
+      <Kerning first="87" second="226" value="-1" />
+      <Kerning first="87" second="228" value="-1" />
+      <Kerning first="87" second="227" value="-1" />
+      <Kerning first="87" second="229" value="-1" />
+      <Kerning first="87" second="233" value="-1" />
+      <Kerning first="87" second="232" value="-1" />
+      <Kerning first="87" second="234" value="-1" />
+      <Kerning first="87" second="235" value="-1" />
+      <Kerning first="89" second="44" value="-1" />
+      <Kerning first="89" second="45" value="-1" />
+      <Kerning first="89" second="46" value="-1" />
+      <Kerning first="89" second="58" value="-1" />
+      <Kerning first="89" second="59" value="-1" />
+      <Kerning first="89" second="101" value="-1" />
+      <Kerning first="89" second="111" value="-1" />
+      <Kerning first="89" second="117" value="-1" />
+      <Kerning first="89" second="233" value="-1" />
+      <Kerning first="89" second="232" value="-1" />
+      <Kerning first="89" second="234" value="-1" />
+      <Kerning first="89" second="235" value="-1" />
+      <Kerning first="89" second="243" value="-1" />
+      <Kerning first="89" second="242" value="-1" />
+      <Kerning first="89" second="244" value="-1" />
+      <Kerning first="89" second="246" value="-1" />
+      <Kerning first="89" second="245" value="-1" />
+      <Kerning first="89" second="250" value="-1" />
+      <Kerning first="89" second="249" value="-1" />
+      <Kerning first="89" second="251" value="-1" />
+      <Kerning first="89" second="252" value="-1" />
+      <Kerning first="89" second="230" value="-1" />
+      <Kerning first="89" second="248" value="-1" />
+      <Kerning first="114" second="44" value="-1" />
+      <Kerning first="114" second="46" value="-1" />
+      <Kerning first="118" second="44" value="-1" />
+      <Kerning first="118" second="46" value="-1" />
+      <Kerning first="119" second="44" value="-1" />
+      <Kerning first="119" second="46" value="-1" />
+      <Kerning first="121" second="44" value="-1" />
+      <Kerning first="121" second="46" value="-1" />
+      <Kerning first="217" second="44" value="-1" />
+      <Kerning first="217" second="46" value="-1" />
+      <Kerning first="218" second="44" value="-1" />
+      <Kerning first="218" second="46" value="-1" />
+      <Kerning first="219" second="44" value="-1" />
+      <Kerning first="219" second="46" value="-1" />
+      <Kerning first="220" second="44" value="-1" />
+      <Kerning first="220" second="46" value="-1" />
+      <Kerning first="221" second="44" value="-1" />
+      <Kerning first="221" second="45" value="-1" />
+      <Kerning first="221" second="46" value="-1" />
+      <Kerning first="221" second="58" value="-1" />
+      <Kerning first="221" second="59" value="-1" />
+      <Kerning first="221" second="101" value="-1" />
+      <Kerning first="221" second="111" value="-1" />
+      <Kerning first="221" second="117" value="-1" />
+      <Kerning first="221" second="233" value="-1" />
+      <Kerning first="221" second="232" value="-1" />
+      <Kerning first="221" second="234" value="-1" />
+      <Kerning first="221" second="235" value="-1" />
+      <Kerning first="221" second="243" value="-1" />
+      <Kerning first="221" second="242" value="-1" />
+      <Kerning first="221" second="244" value="-1" />
+      <Kerning first="221" second="246" value="-1" />
+      <Kerning first="221" second="245" value="-1" />
+      <Kerning first="221" second="250" value="-1" />
+      <Kerning first="221" second="249" value="-1" />
+      <Kerning first="221" second="251" value="-1" />
+      <Kerning first="221" second="252" value="-1" />
+      <Kerning first="221" second="230" value="-1" />
+      <Kerning first="221" second="248" value="-1" />
+      <Kerning first="222" second="44" value="-1" />
+      <Kerning first="222" second="46" value="-1" />
+      <Kerning first="253" second="44" value="-1" />
+      <Kerning first="253" second="46" value="-1" />
+      <Kerning first="255" second="44" value="-1" />
+      <Kerning first="255" second="46" value="-1" />
+    </Metrics>
+  </BitmapFont>
+  <BitmapFont name="AgateSerif-10" image="Fonts/AgateSerif-10.png">
+    <Metrics>
+      <Glyph char="32" source="{X=0,Y=2,Width=5,Height=17}" rightOverhang="1" />
+      <Glyph char="33" source="{X=7,Y=2,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="34" source="{X=15,Y=2,Width=7,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="35" source="{X=24,Y=2,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="36" source="{X=38,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="37" source="{X=49,Y=2,Width=13,Height=17}" rightOverhang="1" />
+      <Glyph char="38" source="{X=64,Y=2,Width=13,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="39" source="{X=79,Y=2,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="40" source="{X=86,Y=2,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="41" source="{X=94,Y=2,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="42" source="{X=102,Y=2,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="43" source="{X=112,Y=2,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="44" source="{X=126,Y=2,Width=5,Height=17}" rightOverhang="1" />
+      <Glyph char="45" source="{X=133,Y=2,Width=5,Height=17}" rightOverhang="1" />
+      <Glyph char="46" source="{X=140,Y=2,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="47" source="{X=147,Y=2,Width=7,Height=17}" rightOverhang="3" />
+      <Glyph char="48" source="{X=156,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="49" source="{X=167,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="50" source="{X=178,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="51" source="{X=189,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="52" source="{X=200,Y=2,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="53" source="{X=213,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="54" source="{X=224,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="55" source="{X=235,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="56" source="{X=246,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="57" source="{X=0,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="58" source="{X=11,Y=22,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="59" source="{X=18,Y=22,Width=5,Height=17}" rightOverhang="1" />
+      <Glyph char="60" source="{X=25,Y=22,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="61" source="{X=39,Y=22,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="62" source="{X=53,Y=22,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="63" source="{X=67,Y=22,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="64" source="{X=77,Y=22,Width=14,Height=17}" rightOverhang="1" />
+      <Glyph char="65" source="{X=93,Y=22,Width=12,Height=17}" rightOverhang="3" />
+      <Glyph char="66" source="{X=107,Y=22,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="67" source="{X=120,Y=22,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="68" source="{X=133,Y=22,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="69" source="{X=147,Y=22,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="70" source="{X=160,Y=22,Width=10,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="71" source="{X=172,Y=22,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="72" source="{X=186,Y=22,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="73" source="{X=200,Y=22,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="74" source="{X=208,Y=22,Width=10,Height=17}" leftOverhang="2" rightOverhang="3" />
+      <Glyph char="75" source="{X=220,Y=22,Width=12,Height=17}" leftOverhang="-1" rightOverhang="3" />
+      <Glyph char="76" source="{X=234,Y=22,Width=10,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="77" source="{X=0,Y=42,Width=14,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="78" source="{X=16,Y=42,Width=13,Height=17}" leftOverhang="-1" rightOverhang="3" />
+      <Glyph char="79" source="{X=31,Y=42,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="80" source="{X=45,Y=42,Width=10,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="81" source="{X=57,Y=42,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="82" source="{X=71,Y=42,Width=13,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="83" source="{X=86,Y=42,Width=10,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="84" source="{X=98,Y=42,Width=10,Height=17}" rightOverhang="1" />
+      <Glyph char="85" source="{X=110,Y=42,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="86" source="{X=124,Y=42,Width=14,Height=17}" leftOverhang="1" rightOverhang="3" />
+      <Glyph char="87" source="{X=140,Y=42,Width=16,Height=17}" rightOverhang="2" />
+      <Glyph char="88" source="{X=158,Y=42,Width=12,Height=17}" rightOverhang="3" />
+      <Glyph char="89" source="{X=172,Y=42,Width=12,Height=17}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="90" source="{X=186,Y=42,Width=11,Height=17}" rightOverhang="1" />
+      <Glyph char="91" source="{X=199,Y=42,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="92" source="{X=207,Y=42,Width=7,Height=17}" rightOverhang="3" />
+      <Glyph char="93" source="{X=216,Y=42,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="94" source="{X=224,Y=42,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="95" source="{X=238,Y=42,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="96" source="{X=248,Y=42,Width=8,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="97" source="{X=0,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="98" source="{X=11,Y=62,Width=11,Height=17}" leftOverhang="-1" rightOverhang="3" />
+      <Glyph char="99" source="{X=24,Y=62,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="100" source="{X=34,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="101" source="{X=45,Y=62,Width=8,Height=17}" />
+      <Glyph char="102" source="{X=55,Y=62,Width=9,Height=17}" rightOverhang="4" />
+      <Glyph char="103" source="{X=66,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="104" source="{X=77,Y=62,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="105" source="{X=90,Y=62,Width=7,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="106" source="{X=99,Y=62,Width=7,Height=17}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="107" source="{X=108,Y=62,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="108" source="{X=121,Y=62,Width=7,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="109" source="{X=130,Y=62,Width=15,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="110" source="{X=147,Y=62,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="111" source="{X=160,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="112" source="{X=171,Y=62,Width=11,Height=17}" rightOverhang="3" />
+      <Glyph char="113" source="{X=184,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="114" source="{X=195,Y=62,Width=9,Height=17}" leftOverhang="-1" rightOverhang="3" />
+      <Glyph char="115" source="{X=206,Y=62,Width=7,Height=17}" rightOverhang="1" />
+      <Glyph char="116" source="{X=215,Y=62,Width=6,Height=17}" />
+      <Glyph char="117" source="{X=223,Y=62,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="118" source="{X=236,Y=62,Width=10,Height=17}" rightOverhang="3" />
+      <Glyph char="119" source="{X=0,Y=82,Width=12,Height=17}" rightOverhang="1" />
+      <Glyph char="120" source="{X=14,Y=82,Width=10,Height=17}" rightOverhang="3" />
+      <Glyph char="121" source="{X=26,Y=82,Width=10,Height=17}" rightOverhang="3" />
+      <Glyph char="122" source="{X=38,Y=82,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="123" source="{X=48,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="124" source="{X=59,Y=82,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="125" source="{X=66,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="126" source="{X=77,Y=82,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="161" source="{X=91,Y=82,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="162" source="{X=99,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="163" source="{X=110,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="164" source="{X=121,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="165" source="{X=132,Y=82,Width=13,Height=17}" leftOverhang="1" rightOverhang="4" />
+      <Glyph char="166" source="{X=147,Y=82,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="167" source="{X=154,Y=82,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="168" source="{X=164,Y=82,Width=10,Height=17}" leftOverhang="-3" rightOverhang="6" />
+      <Glyph char="169" source="{X=176,Y=82,Width=14,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="170" source="{X=192,Y=82,Width=7,Height=17}" rightOverhang="1" />
+      <Glyph char="171" source="{X=201,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="172" source="{X=212,Y=82,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="173" source="{X=226,Y=82,Width=5,Height=17}" rightOverhang="1" />
+      <Glyph char="174" source="{X=233,Y=82,Width=14,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="175" source="{X=0,Y=102,Width=8,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="176" source="{X=10,Y=102,Width=8,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="177" source="{X=20,Y=102,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="178" source="{X=34,Y=102,Width=6,Height=17}" rightOverhang="1" />
+      <Glyph char="179" source="{X=42,Y=102,Width=6,Height=17}" rightOverhang="1" />
+      <Glyph char="180" source="{X=50,Y=102,Width=8,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="181" source="{X=60,Y=102,Width=11,Height=17}" rightOverhang="3" />
+      <Glyph char="182" source="{X=73,Y=102,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="183" source="{X=84,Y=102,Width=5,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="184" source="{X=91,Y=102,Width=8,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="185" source="{X=101,Y=102,Width=6,Height=17}" rightOverhang="1" />
+      <Glyph char="186" source="{X=109,Y=102,Width=7,Height=17}" rightOverhang="1" />
+      <Glyph char="187" source="{X=118,Y=102,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="188" source="{X=129,Y=102,Width=14,Height=17}" rightOverhang="1" />
+      <Glyph char="189" source="{X=145,Y=102,Width=14,Height=17}" rightOverhang="1" />
+      <Glyph char="190" source="{X=161,Y=102,Width=14,Height=17}" rightOverhang="1" />
+      <Glyph char="191" source="{X=177,Y=102,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="192" source="{X=187,Y=102,Width=12,Height=17}" rightOverhang="3" />
+      <Glyph char="193" source="{X=201,Y=102,Width=12,Height=17}" rightOverhang="3" />
+      <Glyph char="194" source="{X=215,Y=102,Width=12,Height=17}" rightOverhang="3" />
+      <Glyph char="195" source="{X=229,Y=102,Width=12,Height=17}" rightOverhang="3" />
+      <Glyph char="196" source="{X=243,Y=102,Width=12,Height=17}" rightOverhang="3" />
+      <Glyph char="197" source="{X=0,Y=122,Width=12,Height=17}" rightOverhang="3" />
+      <Glyph char="198" source="{X=14,Y=122,Width=17,Height=17}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="199" source="{X=33,Y=122,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="200" source="{X=46,Y=122,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="201" source="{X=59,Y=122,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="202" source="{X=72,Y=122,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="203" source="{X=85,Y=122,Width=11,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="204" source="{X=98,Y=122,Width=6,Height=17}" rightOverhang="1" />
+      <Glyph char="205" source="{X=106,Y=122,Width=6,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="206" source="{X=114,Y=122,Width=6,Height=17}" rightOverhang="1" />
+      <Glyph char="207" source="{X=122,Y=122,Width=8,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="208" source="{X=132,Y=122,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="209" source="{X=146,Y=122,Width=13,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="210" source="{X=161,Y=122,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="211" source="{X=175,Y=122,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="212" source="{X=189,Y=122,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="213" source="{X=203,Y=122,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="214" source="{X=217,Y=122,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="215" source="{X=231,Y=122,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="216" source="{X=0,Y=142,Width=12,Height=17}" rightOverhang="1" />
+      <Glyph char="217" source="{X=14,Y=142,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="218" source="{X=28,Y=142,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="219" source="{X=42,Y=142,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="220" source="{X=56,Y=142,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="221" source="{X=70,Y=142,Width=12,Height=17}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="222" source="{X=84,Y=142,Width=10,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="223" source="{X=96,Y=142,Width=10,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="224" source="{X=108,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="225" source="{X=119,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="226" source="{X=130,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="227" source="{X=141,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="228" source="{X=152,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="229" source="{X=163,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="230" source="{X=174,Y=142,Width=13,Height=17}" rightOverhang="1" />
+      <Glyph char="231" source="{X=189,Y=142,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="232" source="{X=199,Y=142,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="233" source="{X=209,Y=142,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="234" source="{X=219,Y=142,Width=8,Height=17}" rightOverhang="1" />
+      <Glyph char="235" source="{X=229,Y=142,Width=10,Height=17}" rightOverhang="3" />
+      <Glyph char="236" source="{X=241,Y=142,Width=7,Height=17}" rightOverhang="3" />
+      <Glyph char="237" source="{X=0,Y=162,Width=7,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="238" source="{X=9,Y=162,Width=9,Height=17}" leftOverhang="-1" rightOverhang="6" />
+      <Glyph char="239" source="{X=20,Y=162,Width=11,Height=17}" leftOverhang="-1" rightOverhang="8" />
+      <Glyph char="240" source="{X=33,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="241" source="{X=44,Y=162,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="242" source="{X=57,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="243" source="{X=68,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="244" source="{X=79,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="245" source="{X=90,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="246" source="{X=101,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="247" source="{X=112,Y=162,Width=12,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="248" source="{X=126,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="249" source="{X=137,Y=162,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="250" source="{X=150,Y=162,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="251" source="{X=163,Y=162,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="252" source="{X=176,Y=162,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="253" source="{X=189,Y=162,Width=10,Height=17}" rightOverhang="3" />
+      <Glyph char="254" source="{X=201,Y=162,Width=11,Height=17}" leftOverhang="-1" rightOverhang="4" />
+      <Glyph char="255" source="{X=214,Y=162,Width=10,Height=17}" rightOverhang="3" />
+      <Kerning first="70" second="44" value="-1" />
+      <Kerning first="70" second="46" value="-1" />
+      <Kerning first="76" second="86" value="-1" />
+      <Kerning first="80" second="44" value="-1" />
+      <Kerning first="80" second="46" value="-1" />
+      <Kerning first="84" second="44" value="-1" />
+      <Kerning first="84" second="45" value="-1" />
+      <Kerning first="84" second="46" value="-1" />
+      <Kerning first="86" second="44" value="-1" />
+      <Kerning first="86" second="46" value="-1" />
+      <Kerning first="87" second="44" value="-1" />
+      <Kerning first="87" second="46" value="-1" />
+      <Kerning first="89" second="44" value="-1" />
+      <Kerning first="89" second="46" value="-1" />
+      <Kerning first="89" second="58" value="-1" />
+      <Kerning first="89" second="59" value="-1" />
+      <Kerning first="118" second="44" value="-1" />
+      <Kerning first="118" second="46" value="-1" />
+      <Kerning first="119" second="44" value="-1" />
+      <Kerning first="119" second="46" value="-1" />
+      <Kerning first="121" second="44" value="-1" />
+      <Kerning first="121" second="46" value="-1" />
+      <Kerning first="221" second="44" value="-1" />
+      <Kerning first="221" second="46" value="-1" />
+      <Kerning first="221" second="58" value="-1" />
+      <Kerning first="221" second="59" value="-1" />
+      <Kerning first="222" second="44" value="-1" />
+      <Kerning first="222" second="46" value="-1" />
+      <Kerning first="253" second="44" value="-1" />
+      <Kerning first="253" second="46" value="-1" />
+      <Kerning first="255" second="44" value="-1" />
+      <Kerning first="255" second="46" value="-1" />
+    </Metrics>
+  </BitmapFont>
+  <BitmapFont name="AgateMono-10" image="Fonts/AgateMono-10.png">
+    <Metrics>
+      <Glyph char="32" source="{X=0,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="33" source="{X=11,Y=2,Width=9,Height=17}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="34" source="{X=22,Y=2,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="35" source="{X=33,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="36" source="{X=44,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="37" source="{X=55,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="38" source="{X=66,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="39" source="{X=77,Y=2,Width=9,Height=17}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="40" source="{X=88,Y=2,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="41" source="{X=99,Y=2,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="42" source="{X=110,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="43" source="{X=121,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="44" source="{X=132,Y=2,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="45" source="{X=143,Y=2,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="46" source="{X=154,Y=2,Width=9,Height=17}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="47" source="{X=165,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="48" source="{X=176,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="49" source="{X=187,Y=2,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="50" source="{X=198,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="51" source="{X=209,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="52" source="{X=220,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="53" source="{X=231,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="54" source="{X=242,Y=2,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="55" source="{X=0,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="56" source="{X=11,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="57" source="{X=22,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="58" source="{X=33,Y=22,Width=9,Height=17}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="59" source="{X=44,Y=22,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="60" source="{X=55,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="61" source="{X=66,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="62" source="{X=77,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="63" source="{X=88,Y=22,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="64" source="{X=99,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="65" source="{X=110,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="66" source="{X=121,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="67" source="{X=132,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="68" source="{X=143,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="69" source="{X=154,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="70" source="{X=165,Y=22,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="71" source="{X=176,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="72" source="{X=187,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="73" source="{X=198,Y=22,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="74" source="{X=209,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="75" source="{X=220,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="76" source="{X=231,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="77" source="{X=242,Y=22,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="78" source="{X=0,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="79" source="{X=11,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="80" source="{X=22,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="81" source="{X=33,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="82" source="{X=44,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="83" source="{X=55,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="84" source="{X=66,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="85" source="{X=77,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="86" source="{X=88,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="87" source="{X=99,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="88" source="{X=110,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="89" source="{X=121,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="90" source="{X=132,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="91" source="{X=143,Y=42,Width=9,Height=17}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="92" source="{X=154,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="93" source="{X=165,Y=42,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="94" source="{X=176,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="95" source="{X=187,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="96" source="{X=198,Y=42,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="97" source="{X=209,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="98" source="{X=220,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="99" source="{X=231,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="100" source="{X=242,Y=42,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="101" source="{X=0,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="102" source="{X=11,Y=62,Width=8,Height=17}" />
+      <Glyph char="103" source="{X=21,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="104" source="{X=32,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="105" source="{X=43,Y=62,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="106" source="{X=54,Y=62,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="107" source="{X=65,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="108" source="{X=76,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="109" source="{X=87,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="110" source="{X=98,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="111" source="{X=109,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="112" source="{X=120,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="113" source="{X=131,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="114" source="{X=142,Y=62,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="115" source="{X=153,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="116" source="{X=164,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="117" source="{X=175,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="118" source="{X=186,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="119" source="{X=197,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="120" source="{X=208,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="121" source="{X=219,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="122" source="{X=230,Y=62,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="123" source="{X=241,Y=62,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="124" source="{X=0,Y=82,Width=9,Height=17}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="125" source="{X=11,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="126" source="{X=22,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="161" source="{X=33,Y=82,Width=9,Height=17}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="162" source="{X=44,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="163" source="{X=55,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="164" source="{X=66,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="165" source="{X=77,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="166" source="{X=88,Y=82,Width=9,Height=17}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="167" source="{X=99,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="168" source="{X=110,Y=82,Width=9,Height=17}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="169" source="{X=121,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="170" source="{X=132,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="171" source="{X=143,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="172" source="{X=154,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="173" source="{X=165,Y=82,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="174" source="{X=176,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="175" source="{X=187,Y=82,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="176" source="{X=198,Y=82,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="177" source="{X=209,Y=82,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="178" source="{X=220,Y=82,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="179" source="{X=231,Y=82,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="180" source="{X=242,Y=82,Width=9,Height=17}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="181" source="{X=0,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="182" source="{X=11,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="183" source="{X=22,Y=102,Width=9,Height=17}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="184" source="{X=33,Y=102,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="185" source="{X=44,Y=102,Width=9,Height=17}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="186" source="{X=55,Y=102,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="187" source="{X=66,Y=102,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="188" source="{X=77,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="189" source="{X=88,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="190" source="{X=99,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="191" source="{X=110,Y=102,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="192" source="{X=121,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="193" source="{X=132,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="194" source="{X=143,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="195" source="{X=154,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="196" source="{X=165,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="197" source="{X=176,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="198" source="{X=187,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="199" source="{X=198,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="200" source="{X=209,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="201" source="{X=220,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="202" source="{X=231,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="203" source="{X=242,Y=102,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="204" source="{X=0,Y=122,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="205" source="{X=11,Y=122,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="206" source="{X=22,Y=122,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="207" source="{X=33,Y=122,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="208" source="{X=44,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="209" source="{X=55,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="210" source="{X=66,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="211" source="{X=77,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="212" source="{X=88,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="213" source="{X=99,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="214" source="{X=110,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="215" source="{X=121,Y=122,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="216" source="{X=132,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="217" source="{X=143,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="218" source="{X=154,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="219" source="{X=165,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="220" source="{X=176,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="221" source="{X=187,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="222" source="{X=198,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="223" source="{X=209,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="224" source="{X=220,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="225" source="{X=231,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="226" source="{X=242,Y=122,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="227" source="{X=0,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="228" source="{X=11,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="229" source="{X=22,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="230" source="{X=33,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="231" source="{X=44,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="232" source="{X=55,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="233" source="{X=66,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="234" source="{X=77,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="235" source="{X=88,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="236" source="{X=99,Y=142,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="237" source="{X=110,Y=142,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="238" source="{X=121,Y=142,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="239" source="{X=132,Y=142,Width=9,Height=17}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="240" source="{X=143,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="241" source="{X=154,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="242" source="{X=165,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="243" source="{X=176,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="244" source="{X=187,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="245" source="{X=198,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="246" source="{X=209,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="247" source="{X=220,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="248" source="{X=231,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="249" source="{X=242,Y=142,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="250" source="{X=0,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="251" source="{X=11,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="252" source="{X=22,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="253" source="{X=33,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="254" source="{X=44,Y=162,Width=9,Height=17}" rightOverhang="1" />
+      <Glyph char="255" source="{X=55,Y=162,Width=9,Height=17}" rightOverhang="1" />
+    </Metrics>
+  </BitmapFont>
+  <BitmapFont name="AgateSans-24" image="Fonts/AgateSans-24.png">
+    <Metrics>
+      <Glyph char="32" source="{X=0,Y=2,Width=11,Height=44}" rightOverhang="1" />
+      <Glyph char="33" source="{X=13,Y=2,Width=14,Height=44}" leftOverhang="-4" rightOverhang="5" />
+      <Glyph char="34" source="{X=29,Y=2,Width=16,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="35" source="{X=47,Y=2,Width=28,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="36" source="{X=77,Y=2,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="37" source="{X=100,Y=2,Width=31,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="38" source="{X=133,Y=2,Width=26,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="39" source="{X=161,Y=2,Width=10,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="40" source="{X=173,Y=2,Width=13,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="41" source="{X=188,Y=2,Width=13,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="42" source="{X=203,Y=2,Width=17,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="43" source="{X=222,Y=2,Width=28,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="44" source="{X=0,Y=49,Width=11,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="45" source="{X=13,Y=49,Width=13,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="46" source="{X=28,Y=49,Width=11,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="47" source="{X=41,Y=49,Width=12,Height=44}" rightOverhang="1" />
+      <Glyph char="48" source="{X=55,Y=49,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="49" source="{X=78,Y=49,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="50" source="{X=101,Y=49,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="51" source="{X=124,Y=49,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="52" source="{X=147,Y=49,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="53" source="{X=170,Y=49,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="54" source="{X=193,Y=49,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="55" source="{X=216,Y=49,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="56" source="{X=0,Y=96,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="57" source="{X=23,Y=96,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="58" source="{X=46,Y=96,Width=12,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="59" source="{X=60,Y=96,Width=12,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="60" source="{X=74,Y=96,Width=28,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="61" source="{X=104,Y=96,Width=28,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="62" source="{X=134,Y=96,Width=28,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="63" source="{X=164,Y=96,Width=18,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="64" source="{X=184,Y=96,Width=33,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="65" source="{X=219,Y=96,Width=23,Height=44}" rightOverhang="1" />
+      <Glyph char="66" source="{X=0,Y=143,Width=23,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="67" source="{X=25,Y=143,Width=23,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="68" source="{X=50,Y=143,Width=26,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="69" source="{X=78,Y=143,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="70" source="{X=101,Y=143,Width=19,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="71" source="{X=122,Y=143,Width=26,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="72" source="{X=150,Y=143,Width=25,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="73" source="{X=177,Y=143,Width=10,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="74" source="{X=189,Y=143,Width=14,Height=44}" leftOverhang="2" rightOverhang="3" />
+      <Glyph char="75" source="{X=205,Y=143,Width=24,Height=44}" leftOverhang="-3" rightOverhang="6" />
+      <Glyph char="76" source="{X=231,Y=143,Width=19,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="77" source="{X=0,Y=190,Width=29,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="78" source="{X=31,Y=190,Width=25,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="79" source="{X=58,Y=190,Width=26,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="80" source="{X=86,Y=190,Width=20,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="81" source="{X=108,Y=190,Width=26,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="82" source="{X=136,Y=190,Width=23,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="83" source="{X=161,Y=190,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="84" source="{X=184,Y=190,Width=23,Height=44}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="85" source="{X=209,Y=190,Width=24,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="86" source="{X=0,Y=237,Width=23,Height=44}" rightOverhang="1" />
+      <Glyph char="87" source="{X=25,Y=237,Width=33,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="88" source="{X=60,Y=237,Width=23,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="89" source="{X=85,Y=237,Width=23,Height=44}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="90" source="{X=110,Y=237,Width=23,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="91" source="{X=135,Y=237,Width=13,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="92" source="{X=150,Y=237,Width=12,Height=44}" rightOverhang="1" />
+      <Glyph char="93" source="{X=164,Y=237,Width=13,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="94" source="{X=179,Y=237,Width=28,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="95" source="{X=209,Y=237,Width=21,Height=44}" leftOverhang="1" rightOverhang="4" />
+      <Glyph char="96" source="{X=232,Y=237,Width=17,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="97" source="{X=0,Y=284,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="98" source="{X=23,Y=284,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="99" source="{X=46,Y=284,Width=19,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="100" source="{X=67,Y=284,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="101" source="{X=90,Y=284,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="102" source="{X=113,Y=284,Width=17,Height=44}" leftOverhang="1" rightOverhang="6" />
+      <Glyph char="103" source="{X=132,Y=284,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="104" source="{X=155,Y=284,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="105" source="{X=178,Y=284,Width=10,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="106" source="{X=190,Y=284,Width=12,Height=44}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="107" source="{X=204,Y=284,Width=20,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="108" source="{X=226,Y=284,Width=10,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="109" source="{X=0,Y=331,Width=32,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="110" source="{X=34,Y=331,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="111" source="{X=57,Y=331,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="112" source="{X=80,Y=331,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="113" source="{X=103,Y=331,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="114" source="{X=126,Y=331,Width=16,Height=44}" leftOverhang="-3" rightOverhang="6" />
+      <Glyph char="115" source="{X=144,Y=331,Width=18,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="116" source="{X=164,Y=331,Width=14,Height=44}" rightOverhang="1" />
+      <Glyph char="117" source="{X=180,Y=331,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="118" source="{X=203,Y=331,Width=20,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="119" source="{X=225,Y=331,Width=27,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="120" source="{X=0,Y=378,Width=20,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="121" source="{X=22,Y=378,Width=20,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="122" source="{X=44,Y=378,Width=18,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="123" source="{X=64,Y=378,Width=21,Height=44}" leftOverhang="-4" rightOverhang="5" />
+      <Glyph char="124" source="{X=87,Y=378,Width=12,Height=44}" leftOverhang="-4" rightOverhang="5" />
+      <Glyph char="125" source="{X=101,Y=378,Width=21,Height=44}" leftOverhang="-4" rightOverhang="5" />
+      <Glyph char="126" source="{X=124,Y=378,Width=28,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="161" source="{X=154,Y=378,Width=14,Height=44}" leftOverhang="-4" rightOverhang="5" />
+      <Glyph char="162" source="{X=170,Y=378,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="163" source="{X=193,Y=378,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="164" source="{X=216,Y=378,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="165" source="{X=0,Y=425,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="166" source="{X=23,Y=425,Width=12,Height=44}" leftOverhang="-4" rightOverhang="5" />
+      <Glyph char="167" source="{X=37,Y=425,Width=17,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="168" source="{X=56,Y=425,Width=17,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="169" source="{X=75,Y=425,Width=33,Height=44}" leftOverhang="-4" rightOverhang="5" />
+      <Glyph char="170" source="{X=110,Y=425,Width=16,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="171" source="{X=128,Y=425,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="172" source="{X=151,Y=425,Width=28,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="173" source="{X=181,Y=425,Width=13,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="174" source="{X=196,Y=425,Width=33,Height=44}" leftOverhang="-4" rightOverhang="5" />
+      <Glyph char="175" source="{X=231,Y=425,Width=17,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="176" source="{X=0,Y=472,Width=17,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="177" source="{X=19,Y=472,Width=28,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="178" source="{X=49,Y=472,Width=14,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="179" source="{X=65,Y=472,Width=14,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="180" source="{X=81,Y=472,Width=17,Height=44}" leftOverhang="-5" rightOverhang="6" />
+      <Glyph char="181" source="{X=100,Y=472,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="182" source="{X=123,Y=472,Width=21,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="183" source="{X=146,Y=472,Width=11,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="184" source="{X=159,Y=472,Width=17,Height=44}" leftOverhang="-4" rightOverhang="5" />
+      <Glyph char="185" source="{X=178,Y=472,Width=14,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="186" source="{X=194,Y=472,Width=16,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="187" source="{X=212,Y=472,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="188" source="{X=0,Y=519,Width=32,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="189" source="{X=34,Y=519,Width=32,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="190" source="{X=68,Y=519,Width=32,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="191" source="{X=102,Y=519,Width=18,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="192" source="{X=122,Y=519,Width=23,Height=44}" rightOverhang="1" />
+      <Glyph char="193" source="{X=147,Y=519,Width=23,Height=44}" rightOverhang="1" />
+      <Glyph char="194" source="{X=172,Y=519,Width=23,Height=44}" rightOverhang="1" />
+      <Glyph char="195" source="{X=197,Y=519,Width=23,Height=44}" rightOverhang="1" />
+      <Glyph char="196" source="{X=222,Y=519,Width=23,Height=44}" rightOverhang="1" />
+      <Glyph char="197" source="{X=0,Y=566,Width=23,Height=44}" rightOverhang="1" />
+      <Glyph char="198" source="{X=25,Y=566,Width=32,Height=44}" rightOverhang="1" />
+      <Glyph char="199" source="{X=59,Y=566,Width=23,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="200" source="{X=84,Y=566,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="201" source="{X=107,Y=566,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="202" source="{X=130,Y=566,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="203" source="{X=153,Y=566,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="204" source="{X=176,Y=566,Width=10,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="205" source="{X=188,Y=566,Width=10,Height=44}" leftOverhang="-2" rightOverhang="3" />
+      <Glyph char="206" source="{X=200,Y=566,Width=12,Height=44}" rightOverhang="3" />
+      <Glyph char="207" source="{X=214,Y=566,Width=12,Height=44}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="208" source="{X=228,Y=566,Width=26,Height=44}" rightOverhang="1" />
+      <Glyph char="209" source="{X=0,Y=613,Width=25,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="210" source="{X=27,Y=613,Width=26,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="211" source="{X=55,Y=613,Width=26,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="212" source="{X=83,Y=613,Width=26,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="213" source="{X=111,Y=613,Width=26,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="214" source="{X=139,Y=613,Width=26,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="215" source="{X=167,Y=613,Width=28,Height=44}" leftOverhang="-4" rightOverhang="5" />
+      <Glyph char="216" source="{X=197,Y=613,Width=26,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="217" source="{X=225,Y=613,Width=24,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="218" source="{X=0,Y=660,Width=24,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="219" source="{X=26,Y=660,Width=24,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="220" source="{X=52,Y=660,Width=24,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="221" source="{X=78,Y=660,Width=23,Height=44}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="222" source="{X=103,Y=660,Width=20,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="223" source="{X=125,Y=660,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="224" source="{X=148,Y=660,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="225" source="{X=171,Y=660,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="226" source="{X=194,Y=660,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="227" source="{X=217,Y=660,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="228" source="{X=0,Y=707,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="229" source="{X=23,Y=707,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="230" source="{X=46,Y=707,Width=32,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="231" source="{X=80,Y=707,Width=19,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="232" source="{X=101,Y=707,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="233" source="{X=124,Y=707,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="234" source="{X=147,Y=707,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="235" source="{X=170,Y=707,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="236" source="{X=193,Y=707,Width=12,Height=44}" leftOverhang="1" rightOverhang="2" />
+      <Glyph char="237" source="{X=207,Y=707,Width=12,Height=44}" leftOverhang="-2" rightOverhang="5" />
+      <Glyph char="238" source="{X=221,Y=707,Width=14,Height=44}" leftOverhang="1" rightOverhang="4" />
+      <Glyph char="239" source="{X=237,Y=707,Width=14,Height=44}" leftOverhang="1" rightOverhang="4" />
+      <Glyph char="240" source="{X=0,Y=754,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="241" source="{X=23,Y=754,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="242" source="{X=46,Y=754,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="243" source="{X=69,Y=754,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="244" source="{X=92,Y=754,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="245" source="{X=115,Y=754,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="246" source="{X=138,Y=754,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="247" source="{X=161,Y=754,Width=28,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="248" source="{X=191,Y=754,Width=21,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="249" source="{X=214,Y=754,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="250" source="{X=0,Y=801,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="251" source="{X=23,Y=801,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="252" source="{X=46,Y=801,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="253" source="{X=69,Y=801,Width=20,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Glyph char="254" source="{X=91,Y=801,Width=21,Height=44}" leftOverhang="-3" rightOverhang="4" />
+      <Glyph char="255" source="{X=114,Y=801,Width=20,Height=44}" leftOverhang="-1" rightOverhang="2" />
+      <Kerning first="45" second="74" value="1" />
+      <Kerning first="45" second="84" value="-1" />
+      <Kerning first="45" second="86" value="-1" />
+      <Kerning first="45" second="88" value="-1" />
+      <Kerning first="45" second="89" value="-2" />
+      <Kerning first="45" second="221" value="-2" />
+      <Kerning first="65" second="84" value="-1" />
+      <Kerning first="65" second="86" value="-1" />
+      <Kerning first="65" second="87" value="-1" />
+      <Kerning first="65" second="89" value="-1" />
+      <Kerning first="65" second="118" value="-1" />
+      <Kerning first="65" second="121" value="-1" />
+      <Kerning first="65" second="255" value="-1" />
+      <Kerning first="65" second="221" value="-1" />
+      <Kerning first="65" second="253" value="-1" />
+      <Kerning first="66" second="89" value="-1" />
+      <Kerning first="66" second="221" value="-1" />
+      <Kerning first="68" second="89" value="-1" />
+      <Kerning first="68" second="221" value="-1" />
+      <Kerning first="70" second="46" value="-2" />
+      <Kerning first="70" second="58" value="-1" />
+      <Kerning first="70" second="65" value="-1" />
+      <Kerning first="70" second="97" value="-1" />
+      <Kerning first="70" second="101" value="-1" />
+      <Kerning first="70" second="105" value="-1" />
+      <Kerning first="70" second="114" value="-1" />
+      <Kerning first="70" second="117" value="-1" />
+      <Kerning first="70" second="121" value="-1" />
+      <Kerning first="70" second="196" value="-1" />
+      <Kerning first="70" second="225" value="-1" />
+      <Kerning first="70" second="224" value="-1" />
+      <Kerning first="70" second="226" value="-1" />
+      <Kerning first="70" second="228" value="-1" />
+      <Kerning first="70" second="227" value="-1" />
+      <Kerning first="70" second="229" value="-1" />
+      <Kerning first="70" second="233" value="-1" />
+      <Kerning first="70" second="232" value="-1" />
+      <Kerning first="70" second="234" value="-1" />
+      <Kerning first="70" second="235" value="-1" />
+      <Kerning first="70" second="250" value="-1" />
+      <Kerning first="70" second="249" value="-1" />
+      <Kerning first="70" second="251" value="-1" />
+      <Kerning first="70" second="252" value="-1" />
+      <Kerning first="70" second="192" value="-1" />
+      <Kerning first="70" second="195" value="-1" />
+      <Kerning first="70" second="255" value="-1" />
+      <Kerning first="70" second="194" value="-1" />
+      <Kerning first="70" second="193" value="-1" />
+      <Kerning first="70" second="253" value="-1" />
+      <Kerning first="71" second="89" value="-1" />
+      <Kerning first="71" second="221" value="-1" />
+      <Kerning first="75" second="45" value="-1" />
+      <Kerning first="75" second="67" value="-1" />
+      <Kerning first="75" second="79" value="-1" />
+      <Kerning first="75" second="84" value="-1" />
+      <Kerning first="75" second="101" value="-1" />
+      <Kerning first="75" second="111" value="-1" />
+      <Kerning first="75" second="117" value="-1" />
+      <Kerning first="75" second="121" value="-1" />
+      <Kerning first="75" second="199" value="-1" />
+      <Kerning first="75" second="214" value="-1" />
+      <Kerning first="75" second="233" value="-1" />
+      <Kerning first="75" second="232" value="-1" />
+      <Kerning first="75" second="234" value="-1" />
+      <Kerning first="75" second="235" value="-1" />
+      <Kerning first="75" second="243" value="-1" />
+      <Kerning first="75" second="242" value="-1" />
+      <Kerning first="75" second="244" value="-1" />
+      <Kerning first="75" second="246" value="-1" />
+      <Kerning first="75" second="245" value="-1" />
+      <Kerning first="75" second="250" value="-1" />
+      <Kerning first="75" second="249" value="-1" />
+      <Kerning first="75" second="251" value="-1" />
+      <Kerning first="75" second="252" value="-1" />
+      <Kerning first="75" second="171" value="-1" />
+      <Kerning first="75" second="213" value="-1" />
+      <Kerning first="75" second="255" value="-1" />
+      <Kerning first="75" second="211" value="-1" />
+      <Kerning first="75" second="212" value="-1" />
+      <Kerning first="75" second="210" value="-1" />
+      <Kerning first="75" second="253" value="-1" />
+      <Kerning first="76" second="84" value="-2" />
+      <Kerning first="76" second="85" value="-1" />
+      <Kerning first="76" second="86" value="-2" />
+      <Kerning first="76" second="87" value="-1" />
+      <Kerning first="76" second="89" value="-2" />
+      <Kerning first="76" second="121" value="-1" />
+      <Kerning first="76" second="220" value="-1" />
+      <Kerning first="76" second="255" value="-1" />
+      <Kerning first="76" second="218" value="-1" />
+      <Kerning first="76" second="219" value="-1" />
+      <Kerning first="76" second="217" value="-1" />
+      <Kerning first="76" second="221" value="-2" />
+      <Kerning first="76" second="253" value="-1" />
+      <Kerning first="79" second="88" value="-1" />
+      <Kerning first="79" second="89" value="-1" />
+      <Kerning first="79" second="221" value="-1" />
+      <Kerning first="80" second="46" value="-2" />
+      <Kerning first="80" second="65" value="-1" />
+      <Kerning first="80" second="196" value="-1" />
+      <Kerning first="80" second="192" value="-1" />
+      <Kerning first="80" second="195" value="-1" />
+      <Kerning first="80" second="194" value="-1" />
+      <Kerning first="80" second="193" value="-1" />
+      <Kerning first="82" second="67" value="-1" />
+      <Kerning first="82" second="84" value="-1" />
+      <Kerning first="82" second="86" value="-1" />
+      <Kerning first="82" second="89" value="-1" />
+      <Kerning first="82" second="121" value="-1" />
+      <Kerning first="82" second="199" value="-1" />
+      <Kerning first="82" second="171" value="-1" />
+      <Kerning first="82" second="255" value="-1" />
+      <Kerning first="82" second="221" value="-1" />
+      <Kerning first="82" second="253" value="-1" />
+      <Kerning first="84" second="45" value="-1" />
+      <Kerning first="84" second="46" value="-2" />
+      <Kerning first="84" second="58" value="-2" />
+      <Kerning first="84" second="65" value="-1" />
+      <Kerning first="84" second="67" value="-1" />
+      <Kerning first="84" second="97" value="-2" />
+      <Kerning first="84" second="99" value="-2" />
+      <Kerning first="84" second="101" value="-2" />
+      <Kerning first="84" second="111" value="-2" />
+      <Kerning first="84" second="114" value="-2" />
+      <Kerning first="84" second="115" value="-2" />
+      <Kerning first="84" second="117" value="-2" />
+      <Kerning first="84" second="119" value="-2" />
+      <Kerning first="84" second="121" value="-2" />
+      <Kerning first="84" second="196" value="-1" />
+      <Kerning first="84" second="199" value="-1" />
+      <Kerning first="84" second="225" value="-2" />
+      <Kerning first="84" second="224" value="-2" />
+      <Kerning first="84" second="226" value="-2" />
+      <Kerning first="84" second="228" value="-2" />
+      <Kerning first="84" second="227" value="-2" />
+      <Kerning first="84" second="229" value="-2" />
+      <Kerning first="84" second="231" value="-2" />
+      <Kerning first="84" second="233" value="-2" />
+      <Kerning first="84" second="232" value="-2" />
+      <Kerning first="84" second="234" value="-2" />
+      <Kerning first="84" second="235" value="-2" />
+      <Kerning first="84" second="243" value="-2" />
+      <Kerning first="84" second="242" value="-2" />
+      <Kerning first="84" second="244" value="-2" />
+      <Kerning first="84" second="246" value="-2" />
+      <Kerning first="84" second="245" value="-2" />
+      <Kerning first="84" second="250" value="-2" />
+      <Kerning first="84" second="249" value="-2" />
+      <Kerning first="84" second="251" value="-2" />
+      <Kerning first="84" second="252" value="-2" />
+      <Kerning first="84" second="171" value="-1" />
+      <Kerning first="84" second="187" value="-1" />
+      <Kerning first="84" second="192" value="-1" />
+      <Kerning first="84" second="195" value="-1" />
+      <Kerning first="84" second="255" value="-2" />
+      <Kerning first="84" second="194" value="-1" />
+      <Kerning first="84" second="193" value="-1" />
+      <Kerning first="84" second="253" value="-2" />
+      <Kerning first="86" second="45" value="-1" />
+      <Kerning first="86" second="46" value="-2" />
+      <Kerning first="86" second="58" value="-1" />
+      <Kerning first="86" second="65" value="-1" />
+      <Kerning first="86" second="97" value="-1" />
+      <Kerning first="86" second="101" value="-1" />
+      <Kerning first="86" second="111" value="-1" />
+      <Kerning first="86" second="117" value="-1" />
+      <Kerning first="86" second="196" value="-1" />
+      <Kerning first="86" second="225" value="-1" />
+      <Kerning first="86" second="224" value="-1" />
+      <Kerning first="86" second="226" value="-1" />
+      <Kerning first="86" second="228" value="-1" />
+      <Kerning first="86" second="227" value="-1" />
+      <Kerning first="86" second="229" value="-1" />
+      <Kerning first="86" second="233" value="-1" />
+      <Kerning first="86" second="232" value="-1" />
+      <Kerning first="86" second="234" value="-1" />
+      <Kerning first="86" second="235" value="-1" />
+      <Kerning first="86" second="243" value="-1" />
+      <Kerning first="86" second="242" value="-1" />
+      <Kerning first="86" second="244" value="-1" />
+      <Kerning first="86" second="246" value="-1" />
+      <Kerning first="86" second="245" value="-1" />
+      <Kerning first="86" second="250" value="-1" />
+      <Kerning first="86" second="249" value="-1" />
+      <Kerning first="86" second="251" value="-1" />
+      <Kerning first="86" second="252" value="-1" />
+      <Kerning first="86" second="171" value="-1" />
+      <Kerning first="86" second="187" value="-1" />
+      <Kerning first="86" second="192" value="-1" />
+      <Kerning first="86" second="195" value="-1" />
+      <Kerning first="86" second="194" value="-1" />
+      <Kerning first="86" second="193" value="-1" />
+      <Kerning first="87" second="46" value="-2" />
+      <Kerning first="87" second="58" value="-1" />
+      <Kerning first="87" second="65" value="-1" />
+      <Kerning first="87" second="97" value="-1" />
+      <Kerning first="87" second="101" value="-1" />
+      <Kerning first="87" second="111" value="-1" />
+      <Kerning first="87" second="196" value="-1" />
+      <Kerning first="87" second="225" value="-1" />
+      <Kerning first="87" second="224" value="-1" />
+      <Kerning first="87" second="226" value="-1" />
+      <Kerning first="87" second="228" value="-1" />
+      <Kerning first="87" second="227" value="-1" />
+      <Kerning first="87" second="229" value="-1" />
+      <Kerning first="87" second="233" value="-1" />
+      <Kerning first="87" second="232" value="-1" />
+      <Kerning first="87" second="234" value="-1" />
+      <Kerning first="87" second="235" value="-1" />
+      <Kerning first="87" second="243" value="-1" />
+      <Kerning first="87" second="242" value="-1" />
+      <Kerning first="87" second="244" value="-1" />
+      <Kerning first="87" second="246" value="-1" />
+      <Kerning first="87" second="245" value="-1" />
+      <Kerning first="87" second="171" value="-1" />
+      <Kerning first="87" second="192" value="-1" />
+      <Kerning first="87" second="195" value="-1" />
+      <Kerning first="87" second="194" value="-1" />
+      <Kerning first="87" second="193" value="-1" />
+      <Kerning first="88" second="45" value="-1" />
+      <Kerning first="88" second="67" value="-1" />
+      <Kerning first="88" second="79" value="-1" />
+      <Kerning first="88" second="199" value="-1" />
+      <Kerning first="88" second="214" value="-1" />
+      <Kerning first="88" second="171" value="-1" />
+      <Kerning first="88" second="213" value="-1" />
+      <Kerning first="88" second="211" value="-1" />
+      <Kerning first="88" second="212" value="-1" />
+      <Kerning first="88" second="210" value="-1" />
+      <Kerning first="89" second="45" value="-2" />
+      <Kerning first="89" second="46" value="-3" />
+      <Kerning first="89" second="58" value="-2" />
+      <Kerning first="89" second="65" value="-1" />
+      <Kerning first="89" second="67" value="-1" />
+      <Kerning first="89" second="79" value="-1" />
+      <Kerning first="89" second="97" value="-2" />
+      <Kerning first="89" second="101" value="-2" />
+      <Kerning first="89" second="111" value="-2" />
+      <Kerning first="89" second="117" value="-2" />
+      <Kerning first="89" second="196" value="-1" />
+      <Kerning first="89" second="199" value="-1" />
+      <Kerning first="89" second="214" value="-1" />
+      <Kerning first="89" second="225" value="-2" />
+      <Kerning first="89" second="224" value="-2" />
+      <Kerning first="89" second="226" value="-2" />
+      <Kerning first="89" second="228" value="-2" />
+      <Kerning first="89" second="227" value="-2" />
+      <Kerning first="89" second="229" value="-2" />
+      <Kerning first="89" second="233" value="-2" />
+      <Kerning first="89" second="232" value="-2" />
+      <Kerning first="89" second="234" value="-2" />
+      <Kerning first="89" second="235" value="-2" />
+      <Kerning first="89" second="243" value="-2" />
+      <Kerning first="89" second="242" value="-2" />
+      <Kerning first="89" second="244" value="-2" />
+      <Kerning first="89" second="246" value="-2" />
+      <Kerning first="89" second="245" value="-2" />
+      <Kerning first="89" second="250" value="-2" />
+      <Kerning first="89" second="249" value="-2" />
+      <Kerning first="89" second="251" value="-2" />
+      <Kerning first="89" second="252" value="-2" />
+      <Kerning first="89" second="171" value="-2" />
+      <Kerning first="89" second="187" value="-1" />
+      <Kerning first="89" second="192" value="-1" />
+      <Kerning first="89" second="195" value="-1" />
+      <Kerning first="89" second="213" value="-1" />
+      <Kerning first="89" second="194" value="-1" />
+      <Kerning first="89" second="193" value="-1" />
+      <Kerning first="89" second="211" value="-1" />
+      <Kerning first="89" second="212" value="-1" />
+      <Kerning first="89" second="210" value="-1" />
+      <Kerning first="102" second="45" value="-1" />
+      <Kerning first="102" second="46" value="-1" />
+      <Kerning first="114" second="45" value="-1" />
+      <Kerning first="114" second="46" value="-1" />
+      <Kerning first="118" second="46" value="-1" />
+      <Kerning first="118" second="58" value="-1" />
+      <Kerning first="119" second="46" value="-1" />
+      <Kerning first="119" second="58" value="-1" />
+      <Kerning first="121" second="46" value="-2" />
+      <Kerning first="121" second="58" value="-1" />
+      <Kerning first="171" second="84" value="-1" />
+      <Kerning first="171" second="86" value="-1" />
+      <Kerning first="171" second="89" value="-1" />
+      <Kerning first="171" second="198" value="1" />
+      <Kerning first="171" second="221" value="-1" />
+      <Kerning first="187" second="84" value="-1" />
+      <Kerning first="187" second="86" value="-1" />
+      <Kerning first="187" second="87" value="-1" />
+      <Kerning first="187" second="88" value="-1" />
+      <Kerning first="187" second="89" value="-2" />
+      <Kerning first="187" second="221" value="-2" />
+      <Kerning first="192" second="84" value="-1" />
+      <Kerning first="192" second="86" value="-1" />
+      <Kerning first="192" second="87" value="-1" />
+      <Kerning first="192" second="89" value="-1" />
+      <Kerning first="192" second="118" value="-1" />
+      <Kerning first="192" second="121" value="-1" />
+      <Kerning first="192" second="255" value="-1" />
+      <Kerning first="192" second="221" value="-1" />
+      <Kerning first="192" second="253" value="-1" />
+      <Kerning first="193" second="84" value="-1" />
+      <Kerning first="193" second="86" value="-1" />
+      <Kerning first="193" second="87" value="-1" />
+      <Kerning first="193" second="89" value="-1" />
+      <Kerning first="193" second="118" value="-1" />
+      <Kerning first="193" second="121" value="-1" />
+      <Kerning first="193" second="255" value="-1" />
+      <Kerning first="193" second="221" value="-1" />
+      <Kerning first="193" second="253" value="-1" />
+      <Kerning first="194" second="84" value="-1" />
+      <Kerning first="194" second="86" value="-1" />
+      <Kerning first="194" second="87" value="-1" />
+      <Kerning first="194" second="89" value="-1" />
+      <Kerning first="194" second="118" value="-1" />
+      <Kerning first="194" second="121" value="-1" />
+      <Kerning first="194" second="255" value="-1" />
+      <Kerning first="194" second="221" value="-1" />
+      <Kerning first="194" second="253" value="-1" />
+      <Kerning first="195" second="84" value="-1" />
+      <Kerning first="195" second="86" value="-1" />
+      <Kerning first="195" second="87" value="-1" />
+      <Kerning first="195" second="89" value="-1" />
+      <Kerning first="195" second="118" value="-1" />
+      <Kerning first="195" second="121" value="-1" />
+      <Kerning first="195" second="255" value="-1" />
+      <Kerning first="195" second="221" value="-1" />
+      <Kerning first="195" second="253" value="-1" />
+      <Kerning first="196" second="84" value="-1" />
+      <Kerning first="196" second="86" value="-1" />
+      <Kerning first="196" second="87" value="-1" />
+      <Kerning first="196" second="89" value="-1" />
+      <Kerning first="196" second="118" value="-1" />
+      <Kerning first="196" second="121" value="-1" />
+      <Kerning first="196" second="255" value="-1" />
+      <Kerning first="196" second="221" value="-1" />
+      <Kerning first="196" second="253" value="-1" />
+      <Kerning first="210" second="88" value="-1" />
+      <Kerning first="210" second="89" value="-1" />
+      <Kerning first="210" second="221" value="-1" />
+      <Kerning first="211" second="88" value="-1" />
+      <Kerning first="211" second="89" value="-1" />
+      <Kerning first="211" second="221" value="-1" />
+      <Kerning first="212" second="88" value="-1" />
+      <Kerning first="212" second="89" value="-1" />
+      <Kerning first="212" second="221" value="-1" />
+      <Kerning first="213" second="88" value="-1" />
+      <Kerning first="213" second="89" value="-1" />
+      <Kerning first="213" second="221" value="-1" />
+      <Kerning first="214" second="88" value="-1" />
+      <Kerning first="214" second="89" value="-1" />
+      <Kerning first="214" second="221" value="-1" />
+      <Kerning first="221" second="45" value="-2" />
+      <Kerning first="221" second="46" value="-3" />
+      <Kerning first="221" second="58" value="-2" />
+      <Kerning first="221" second="65" value="-1" />
+      <Kerning first="221" second="67" value="-1" />
+      <Kerning first="221" second="79" value="-1" />
+      <Kerning first="221" second="97" value="-2" />
+      <Kerning first="221" second="101" value="-2" />
+      <Kerning first="221" second="111" value="-2" />
+      <Kerning first="221" second="117" value="-2" />
+      <Kerning first="221" second="196" value="-1" />
+      <Kerning first="221" second="199" value="-1" />
+      <Kerning first="221" second="214" value="-1" />
+      <Kerning first="221" second="225" value="-2" />
+      <Kerning first="221" second="224" value="-2" />
+      <Kerning first="221" second="226" value="-2" />
+      <Kerning first="221" second="228" value="-2" />
+      <Kerning first="221" second="227" value="-2" />
+      <Kerning first="221" second="229" value="-2" />
+      <Kerning first="221" second="233" value="-2" />
+      <Kerning first="221" second="232" value="-2" />
+      <Kerning first="221" second="234" value="-2" />
+      <Kerning first="221" second="235" value="-2" />
+      <Kerning first="221" second="243" value="-2" />
+      <Kerning first="221" second="242" value="-2" />
+      <Kerning first="221" second="244" value="-2" />
+      <Kerning first="221" second="246" value="-2" />
+      <Kerning first="221" second="245" value="-2" />
+      <Kerning first="221" second="250" value="-2" />
+      <Kerning first="221" second="249" value="-2" />
+      <Kerning first="221" second="251" value="-2" />
+      <Kerning first="221" second="252" value="-2" />
+      <Kerning first="221" second="171" value="-2" />
+      <Kerning first="221" second="187" value="-1" />
+      <Kerning first="221" second="192" value="-1" />
+      <Kerning first="221" second="195" value="-1" />
+      <Kerning first="221" second="213" value="-1" />
+      <Kerning first="221" second="194" value="-1" />
+      <Kerning first="221" second="193" value="-1" />
+      <Kerning first="221" second="211" value="-1" />
+      <Kerning first="221" second="212" value="-1" />
+      <Kerning first="221" second="210" value="-1" />
+      <Kerning first="222" second="46" value="-1" />
+      <Kerning first="253" second="46" value="-2" />
+      <Kerning first="253" second="58" value="-1" />
+      <Kerning first="255" second="46" value="-2" />
+      <Kerning first="255" second="58" value="-1" />
+    </Metrics>
+  </BitmapFont>
+</AgateResources>

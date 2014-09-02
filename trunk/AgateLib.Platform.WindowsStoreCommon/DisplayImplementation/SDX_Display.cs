@@ -109,6 +109,7 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 					DepthComparison = SharpDX.Direct3D11.Comparison.LessEqual
 				});
 
+			Core.InitializeDefaultResources();
 		}
 
 		public override void Initialize()

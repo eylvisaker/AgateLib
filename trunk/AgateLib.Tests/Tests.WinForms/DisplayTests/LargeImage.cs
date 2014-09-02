@@ -6,38 +6,50 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.ApplicationModels;
 
 namespace AgateLib.Testing.DisplayTests
 {
-	class LargeImageTest : IAgateTest
+	class LargeImageTest : Scene, ISceneModelTest
 	{
 		public string Name { get { return "Large Image"; } }
 		public string Category { get { return "Display"; } }
 
-		public void Main(string[] args)
-		{
-			DisplayWindow wind = DisplayWindow.CreateWindowed("Hello", 800, 600);
+		double loadTime;
+		Surface someSurface;
 
+		protected override void OnSceneStart()
+		{
 			System.Diagnostics.Stopwatch watch = new Stopwatch();
 			watch.Start();
-			Surface someSurface = new Surface("largeimage.png");
-			watch.Stop();
-			double loadTime = watch.ElapsedMilliseconds / 1000.0;
-			FontSurface font = new FontSurface("Arial", 24);
+			someSurface = new Surface("largeimage.png");
+			someSurface.LoadComplete += (sender, e) =>
+				{
+					watch.Stop();
+					double loadTime = watch.ElapsedMilliseconds / 1000.0;
+				};
+		}
+		public override void Update(double delta_t)
+		{
+		}
 
-			while (wind.IsClosed == false)
-			{
-				Display.BeginFrame();
-				Display.Clear(Color.White);
+		public override void Draw()
+		{
+			Display.Clear(Color.White);
 
-				someSurface.Draw();
-				font.DrawText(0, 0, "Load took {0} seconds.", loadTime);
+			var font = AgateLib.Assets.Fonts.AgateSans;
+			font.Size = 24;
+			someSurface.Draw();
+			font.DrawText(0, 0, "Load took {0} seconds.", loadTime);
+		}
 
-				Display.EndFrame();
+		public void ModifyModelParameters(SceneModelParameters parameters)
+		{
+		}
 
-				Core.KeepAlive();
-				System.Threading.Thread.Sleep(10);
-			}
+		public Scene StartScene
+		{
+			get { return this; }
 		}
 	}
 }

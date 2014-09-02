@@ -4,6 +4,8 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Platform.WindowsStore.DisplayImplementation;
+using AgateLib.Platform.WindowsStore.PlatformImplementation;
+using AgateLib.Resources.Legacy;
 using SharpDX.SimpleInitializer;
 using System;
 using System.Collections.Generic;
@@ -70,10 +72,37 @@ namespace AgateLib.Platform.WindowsStore.Factories
 			return new FrameBufferSurface(size);
 		}
 
-
+		AgateResourceCollection resources;
 
 		public async Task InitializeDefaultResourcesAsync(Assets.DefaultResources res)
 		{
+			if (Display.Impl == null) return;
+			var display = (SDX_Display)Display.Impl;
+			if (display.D3D_Device == null) return;
+
+			if (resources == null)
+			{
+				var assets = new WindowsStoreAssetFileProvider("ms-appx:///AgateLib.Platform.WindowsStoreCommon/Assets");
+
+				resources = new AgateResourceCollection();
+				AgateResourceLoader.LoadResources(resources, 
+					await assets.OpenReadAsync("Resources.xml").ConfigureAwait(false));
+
+				resources.FileProvider = assets;
+			}
+	
+			res.AgateSans = new Font("AgateSans");
+			res.AgateSerif = new Font("AgateSerif");
+			res.AgateMono = new Font("AgateMono");
+
+			res.AgateSans.AddFont(new FontSurface(resources, "AgateSans-10"), 10, FontStyles.None);
+			res.AgateSans.AddFont(new FontSurface(resources, "AgateSans-14"), 14, FontStyles.None);
+			res.AgateSans.AddFont(new FontSurface(resources, "AgateSans-24"), 24, FontStyles.None);
+
+			res.AgateSerif.AddFont(new FontSurface(resources, "AgateSerif-10"), 10, FontStyles.None);
+			res.AgateSerif.AddFont(new FontSurface(resources, "AgateSerif-14"), 14, FontStyles.None);
+
+			res.AgateMono.AddFont(new FontSurface(resources, "AgateMono-10"), 10, FontStyles.None);
 		}
 	}
 }

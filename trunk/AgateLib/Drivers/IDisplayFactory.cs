@@ -69,32 +69,18 @@ namespace AgateLib.Drivers
 		/// <param name="pixels"></param>
 		/// <returns></returns>
 		SurfaceImpl CreateSurface(PixelBuffer pixels);
-
-		/// <summary>
-		/// Creates a FontSurfaceImpl derived object based on an operating system font.
-		/// </summary>
-		/// <param name="fontFamily"></param>
-		/// <param name="sizeInPoints"></param>
-		/// <param name="style"></param>
-		/// <returns></returns>
-		FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyles style);
-
-		/// <summary>
-		/// Creates a BitmapFontImpl object from the specified options.
-		/// </summary>
-		/// <param name="bitmapOptions"></param>
-		/// <returns></returns>
-		FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions);
-
-
+		
 		/// <summary>
 		/// Creates a FrameBufferImpl object of the specified size.
 		/// </summary>
 		/// <param name="size"></param>
 		FrameBufferImpl CreateFrameBuffer(Size size);
 
-
-
+		/// <summary>
+		/// Initializes the default resources.
+		/// </summary>
+		/// <param name="res"></param>
+		/// <returns></returns>
 		Task InitializeDefaultResourcesAsync(Assets.DefaultResources res);
 	}
 }

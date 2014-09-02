@@ -13,7 +13,7 @@ namespace AgateLib.Testing.FontTests
 {
 	class FontLineTester : IAgateTest
 	{
-		List<FontSurface> fonts = new List<FontSurface>();
+		List<Font> fonts = new List<Font>();
 		int currentFont = 0;
 		string text = "This text is a test\nof multiline text.  How\ndid it work?\n\n" +
 			"You can type into this box with the keyboard.\nThe rectangle is drawn by calling " +
@@ -34,12 +34,9 @@ namespace AgateLib.Testing.FontTests
 				//FontSurface bmpFont = FontSurface.LoadBitmapFont("bitmapfont.png", "bitmapfont.xml");
 
 				//fonts.Add(bmpFont);
-				fonts.Add(new FontSurface("Arial", 12));
-				fonts.Add(new FontSurface("Arial", 20));
-				fonts.Add(new FontSurface("Times", 12));
-				fonts.Add(new FontSurface("Times", 20));
-				fonts.Add(new FontSurface("Tahoma", 14));
-				fonts.Add(new FontSurface("Comic", 16));
+				fonts.Add(AgateLib.Assets.Fonts.AgateSans);
+				fonts.Add(AgateLib.Assets.Fonts.AgateSerif);
+				fonts.Add(AgateLib.Assets.Fonts.AgateMono);
 
 				while (wind.IsClosed == false)
 				{
@@ -65,13 +62,13 @@ namespace AgateLib.Testing.FontTests
 			});
 		}
 
-		private void FontTests(FontSurface fontSurface, out Rectangle drawRect)
+		private void FontTests(Font font, out Rectangle drawRect)
 		{
 			Point drawPoint = new Point(10, 10);
-			Size fontsize = fontSurface.MeasureString(text);
+			Size fontsize = font.MeasureString(text);
 			drawRect = new Rectangle(drawPoint, fontsize);
 
-			fontSurface.DrawText(drawPoint, text);
+			font.DrawText(drawPoint, text);
 		}
 
 		void Keyboard_KeyDown(InputEventArgs e)

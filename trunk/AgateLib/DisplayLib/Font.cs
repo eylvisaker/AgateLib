@@ -163,6 +163,15 @@ namespace AgateLib.DisplayLib
 			get { return mState.DisplayAlignment; }
 			set { mState.DisplayAlignment = value; }
 		}
+		public TextImageLayout TextImageLayout
+		{
+			get { return mFontSurfaces.Values.First().TextImageLayout; }
+			set
+			{
+				foreach (var fs in mFontSurfaces.Values)
+					fs.TextImageLayout = value;
+			}
+		}
 
 		public void DrawText(string text)
 		{
@@ -179,6 +188,10 @@ namespace AgateLib.DisplayLib
 		public void DrawText(int x, int y, string text, params object[] Parameters)
 		{
 			FontSurface.DrawText(x, y, text, Parameters);
+		}
+		public void DrawTest(double x, double y, string text)
+		{
+			FontSurface.DrawText(x, y, text);
 		}
 
 		public Size MeasureString(string text)
