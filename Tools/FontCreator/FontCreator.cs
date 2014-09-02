@@ -169,7 +169,7 @@ namespace FontCreator
 			if (font != null)
 				font.Dispose();
 
-			font = new FontSurface(mOptions);
+			font = new FontSurface(AgateLib.Platform.WinForms.Fonts.BitmapFontUtil.ConstructFromOSFont(mOptions));
 
 			Draw();
 		}
