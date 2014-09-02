@@ -10,14 +10,10 @@ namespace AgateLib.Testing.FontTests.TextLayout
 {
 	class TextLayout : Scene, ISceneModelTest
 	{
-		FontSurface font;
 		Surface image;
 
 		protected override void OnSceneStart()
 		{
-			font = new FontSurface("Arial", 10);
-			font.Color = Color.Black;
-
 			image = new Surface("9ball.png");
 			image.SetScale(0.5, 0.5);
 		}
@@ -25,6 +21,9 @@ namespace AgateLib.Testing.FontTests.TextLayout
 		public override void Draw()
 		{
 			Display.Clear(Color.White);
+
+			Font font = AgateLib.Assets.Fonts.AgateSans;
+			font.Color = Color.Black;
 
 			font.TextImageLayout = TextImageLayout.InlineTop;
 			font.DrawText(0, 0, "Test InlineTop:\n{0}Test Layout {0} Text\nTest second line.",

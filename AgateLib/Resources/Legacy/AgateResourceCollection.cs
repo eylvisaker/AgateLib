@@ -124,9 +124,10 @@ namespace AgateLib.Resources.Legacy
 		/// Constructs a new AgateResourceCollection object.
 		/// </summary>
 		/// <param name="filename"></param>
-		public AgateResourceCollection(string filename)
+		public AgateResourceCollection(string filename, IReadFileProvider fileProvider = null)
 		{
 			mSurfaceAccessor = new SurfaceResourceList(this);
+			FileProvider = fileProvider;
 
 			RootDirectory = System.IO.Path.GetDirectoryName(filename);
 
@@ -135,7 +136,7 @@ namespace AgateLib.Resources.Legacy
 
 		private async Task Load(string filename)
 		{
-			using (Stream s = await FileProvider.OpenReadAsync(filename))
+			using (Stream s = await FileProvider.OpenReadAsync(filename).ConfigureAwait(false))
 			{
 				AgateResourceLoader.LoadResources(this, s);
 			}

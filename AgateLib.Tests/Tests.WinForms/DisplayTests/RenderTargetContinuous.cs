@@ -29,11 +29,12 @@ namespace AgateLib.Testing.DisplayTests
 				DisplayWindow wind = DisplayWindow.CreateWindowed(Name, 300, 300);
 				FrameBuffer buffer = new FrameBuffer(300, 300);
 
-				FontSurface font = new FontSurface("Arial", 24);
-				font.Color = Color.White;
-
 				while (wind.IsClosed == false)
 				{
+					Font font = AgateLib.Assets.Fonts.AgateSans;
+					font.Size = 24;
+					font.Color = Color.White;
+
 					Display.RenderTarget = buffer;
 					Display.BeginFrame();
 					Display.Clear(Color.Gray);

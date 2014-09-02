@@ -52,6 +52,7 @@ namespace AgateLib.DisplayLib
 		/// support, either create a bitmap font, or use one of the built-in
 		/// ones, like FontSurface.AgateSans14.
 		/// </remarks>
+		[Obsolete("Do not use this.", true)]
 		public FontSurface(string fontFamily, float sizeInPoints)
 			: this(fontFamily, sizeInPoints, FontStyles.None)
 		{ }
@@ -68,18 +69,22 @@ namespace AgateLib.DisplayLib
 		/// support, either create a bitmap font, or use one of the built-in
 		/// ones, like FontSurface.AgateSans14.
 		/// </remarks>
+		[Obsolete("Do not use this.", true)]
 		public FontSurface(string fontFamily, float sizeInPoints, FontStyles style)
 		{
-			if (sizeInPoints < 1)
-				throw new ArgumentOutOfRangeException("Font size must be positive and non-zero, but was " +
-					sizeInPoints.ToString() + ".");
-
-			mImpl = Core.Factory.DisplayFactory.CreateFont(fontFamily, sizeInPoints, style);
-
-			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
-
-			System.Diagnostics.Debug.Assert(mImpl != null);
+			throw new InvalidOperationException("Obsolete method.");
 		}
+		/// <summary>
+		/// Creates a bitmap font using the options passed in.  The Display driver
+		/// must be capable of this, which is indicated in Display.Caps.CanCreateBitmapFont.
+		/// </summary>
+		/// <param name="bitmapOptions"></param>
+		[Obsolete("Do not use this.", true)]
+		public FontSurface(BitmapFontOptions bitmapOptions)
+		{
+			throw new InvalidOperationException("Obsolete method.");
+		}
+
 		/// <summary>
 		/// Constructs a FontSurface object from a resource.
 		/// </summary>
@@ -104,36 +109,24 @@ namespace AgateLib.DisplayLib
 			System.Diagnostics.Debug.Assert(mImpl != null);
 		}
 		/// <summary>
-		/// Creates a bitmap font using the options passed in.  The Display driver
-		/// must be capable of this, which is indicated in Display.Caps.CanCreateBitmapFont.
-		/// </summary>
-		/// <param name="bitmapOptions"></param>
-		public FontSurface(BitmapFontOptions bitmapOptions)
-		{
-			mImpl = Core.Factory.DisplayFactory.CreateFont(bitmapOptions);
-
-			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
-
-			System.Diagnostics.Debug.Assert(mImpl != null);
-		}
-
-		/// <summary>
 		/// Gets the name of the font.
 		/// </summary>
 		public string FontName
 		{
 			get { return mImpl.FontName; }
 		}
+
 		/// <summary>
-		/// Private initializer to tell it what impl to use.
+		/// Initializer passing in a FontSurfaceImpl object.
 		/// </summary>
 		/// <param name="implToUse"></param>
-		private FontSurface(FontSurfaceImpl implToUse)
+		public FontSurface(FontSurfaceImpl implToUse)
 		{
 			if (implToUse == null)
 				throw new ArgumentNullException("implToUse");
 
 			mImpl = implToUse;
+			Display.DisposeDisplay += Dispose;
 		}
 
 		/// <summary>

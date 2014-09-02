@@ -29,8 +29,6 @@ namespace AgateLib.Testing.DisplayTests.ParticleTest
 		//SpriteParticle
 		SpriteEmitter se;
 		
-		FontSurface fontSurface;
-		
 		FadeOutManipulator fom;
 		FadeOutManipulator fom2;
 		
@@ -86,8 +84,6 @@ namespace AgateLib.Testing.DisplayTests.ParticleTest
 			
 			gpm = new GravityPointManipulator(new Vector2(400f, 350f), -1f);
 			gpm.SubscribeToEmitter(pe);
-			
-			fontSurface = new FontSurface("Arial", 10f, FontStyles.Bold);
 		}		
 
 		public override void Update(double time_ms)
@@ -109,17 +105,19 @@ namespace AgateLib.Testing.DisplayTests.ParticleTest
 		public override void Draw()
 		{
 			Display.Clear(Color.Black);
-			
-			fontSurface.DrawText("FPS: " + Display.FramesPerSecond);
+			Font font = AgateLib.Assets.Fonts.AgateSans;
+			font.Size = 14;
+
+			font.DrawText("FPS: " + Display.FramesPerSecond);
 			
 			pe.Draw();
-			fontSurface.DrawText(pe.Position.X, pe.Position.Y, "Particles: " + pe.Particles.Count + "/" + pe.Particles.Capacity);
+			font.DrawText((int)pe.Position.X, (int)pe.Position.Y, "Particles: " + pe.Particles.Count + "/" + pe.Particles.Capacity);
 			
 			sm.Draw();
-			fontSurface.DrawText(sm.Position.X, sm.Position.Y, "Particles: " + sm.Particles.Count + "/" + sm.Particles.Capacity);
+			font.DrawText((int)sm.Position.X, (int)sm.Position.Y, "Particles: " + sm.Particles.Count + "/" + sm.Particles.Capacity);
 			
 			se.Draw();
-			fontSurface.DrawText(se.Position.X, se.Position.Y, "Particles: " + se.Particles.Count + "/" + se.Particles.Capacity);
+			font.DrawText((int)se.Position.X, (int)se.Position.Y, "Particles: " + se.Particles.Count + "/" + se.Particles.Capacity);
 		}
 
 		public void ModifyModelParameters(SceneModelParameters parameters)

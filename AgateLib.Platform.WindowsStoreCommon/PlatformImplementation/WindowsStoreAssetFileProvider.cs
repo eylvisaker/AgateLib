@@ -26,9 +26,9 @@ namespace AgateLib.Platform.WindowsStore.PlatformImplementation
 			Uri uri = new Uri(path + filename);
 
 			StorageFile storageFile =
-				await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+				await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri).AsTask().ConfigureAwait(false);
 
-			var randomAccessStream = await storageFile.OpenReadAsync();
+			var randomAccessStream = await storageFile.OpenReadAsync().AsTask().ConfigureAwait(false);
 			
 			return randomAccessStream.AsStreamForRead();
 		}

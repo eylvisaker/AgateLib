@@ -22,16 +22,13 @@ namespace AgateLib.Testing.DisplayTests
 		}
 
 		Surface surf, surf2;
-		FontSurface font;
 
 		protected override void OnSceneStart()
 		{
 			surf = new Surface("jellybean.png");
 			surf2 = new Surface("jellybean.png");
-			font = new FontSurface("Arial", 14);
 
 			surf.SetScale(6.0, 6.0);
-			font.SetScale(3.0, 3.0);
 			surf2.SetScale(6.0, 6.0);
 		}
 
@@ -42,6 +39,8 @@ namespace AgateLib.Testing.DisplayTests
 			surf.InterpolationHint = InterpolationMode.Fastest;
 			surf.Draw(10, 10);
 
+			Font font = AgateLib.Assets.Fonts.AgateSans;
+			font.Size = 30;
 			font.DrawText(10, 500, "Chonky chonk chonk");
 
 			surf2.InterpolationHint = InterpolationMode.Fastest;
