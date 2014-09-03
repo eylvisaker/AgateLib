@@ -7,8 +7,8 @@
     <ProjectGuid>{94734E5A-0344-43E8-BB30-E32E3F57F611}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgateLib.GL</RootNamespace>
-    <AssemblyName>AgateLib.GL</AssemblyName>
+    <RootNamespace>AgateLib.OpenGL</RootNamespace>
+    <AssemblyName>AgateLib.OpenGL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
