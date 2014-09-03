@@ -230,9 +230,7 @@ namespace AgateLib.OpenGL.Legacy
 			mVerts[mIndex + 3].Color = ToAbgr(color.BottomLeft);
 
 			mIndex += 4;
-
 		}
-
 
 		private int ToAbgr(Color c)
 		{

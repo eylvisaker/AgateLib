@@ -30,7 +30,7 @@ namespace AgateLib.Geometry.CoordinateSystems
 	/// ratio of the display, providing extra space outside the requested render area
 	/// which the application must fill in somehow.
 	/// </summary>
-	public class FixedAspectRatioCoordinates : ICoordinateSystemCreator
+	public class FixedAspectRatioCoordinates : ICoordinateSystem
 	{
 		public FixedAspectRatioCoordinates()
 		{
@@ -38,14 +38,27 @@ namespace AgateLib.Geometry.CoordinateSystems
 			AspectRatio = 16 / (double)9;
 		}
 
-		public Rectangle DetermineCoordinateSystem(Size displayWindowSize)
+		Size mRenderTargetSize;
+
+		public Size RenderTargetSize
 		{
-			var retval = GetUnshiftedRectangle(displayWindowSize);
+			get { return mRenderTargetSize; }
+			set
+			{
+				mRenderTargetSize = value;
+				DetermineCoordinateSystem();
+			}
+		}
+		public Rectangle Coordinates { get; private set; }
+
+		public void DetermineCoordinateSystem()
+		{
+			var retval = GetUnshiftedRectangle(RenderTargetSize);
 
 			retval.X += Origin.X;
 			retval.Y += Origin.Y;
 
-			return retval;
+			Coordinates = retval;
 		}
 
 		private Rectangle GetUnshiftedRectangle(Size displayWindowSize)
@@ -125,5 +138,6 @@ namespace AgateLib.Geometry.CoordinateSystems
 		/// the display area.
 		/// </summary>
 		public Point Origin { get; set; }
+
 	}
 }

@@ -212,7 +212,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			mDrawBuffer = mDisplay.CreateDrawBuffer();
 		}
 
-		private void CreateFrameBuffer(ICoordinateSystemCreator coords)
+		private void CreateFrameBuffer(ICoordinateSystem coords)
 		{
 			mFrameBuffer = new ContextFB(mOwner, 
 				mWindow.Context.GraphicsMode, mWindow.WindowInfo,

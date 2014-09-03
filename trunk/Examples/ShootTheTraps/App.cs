@@ -6,14 +6,14 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Platform.WindowsForms.Resources;
 using AgateLib.Platform;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
+using AgateLib.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace ShootTheTraps
 {
-	class App : AgateGame
+	class App : Scene
 	{
 		/// <summary>
 		/// The main entry point for the application.
@@ -21,7 +21,12 @@ namespace ShootTheTraps
 		[STAThread]
 		static void Main(string[] args)
 		{
-			new PassiveModel(args).Run(() => new App().Run(args));
+			SceneModelParameters p = new SceneModelParameters(args);
+			p.ApplicationName = "Shoot the Traps";
+			p.CoordinateSystem = new AgateLib.Geometry.CoordinateSystems.SingleFixedDimension();
+			SceneModel model = new SceneModel(p);
+
+			model.Run(new App());
 		}
 
 		// Game declarations
@@ -35,14 +40,14 @@ namespace ShootTheTraps
 		ShootTraps mGame;
 
 		// graphics declaration
-		FontSurface mFont;
-		FontSurface mLargeFont;
+		Font mFont;
 		Surface mBackground;
 
-		protected override void Initialize()
+		protected override void OnSceneStart()
 		{
-			mFont = BuiltinResources.AgateSans14;
-			mLargeFont = BuiltinResources.AgateSans24;
+			mFont = AgateLib.Assets.Fonts.AgateSans;
+			mFont.Size = 14;
+
 			mBackground = new Surface("Resources/background.png");
 
 			Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
@@ -59,7 +64,7 @@ namespace ShootTheTraps
 
 		readonly string mIntroduction = @"{1}Shoot the Traps{2}
 
-You mission: Destroy as many filthy traps as you can.
+Your mission: Destroy as many filthy traps as you can.
 These are traps: {0}
 They are ugly.
 
@@ -88,7 +93,7 @@ Click to start.";
 				mIntroLines = mIntroduction.Split('\n');
 			}
 
-			FontSurface font = mFont;
+			Font font = mFont;
 
 			int largestWidth = 0;
 
@@ -98,7 +103,7 @@ Click to start.";
 			}
 
 			// center introduction text
-			Point textPt = new Point((Display.RenderTarget.Width - largestWidth) / 2, 20);
+			Point textPt = new Point((Display.Coordinates.Width - largestWidth) / 2, 20);
 			Rectangle boxArea = new Rectangle(
 				textPt.X - 10, 
 				textPt.Y - 10,
@@ -118,6 +123,8 @@ Click to start.";
 
 				textPt.Y += font.FontHeight;
 			}
+
+			Display.FillRect(0, 0, 320, 240, Color.FromArgb(128, 128, 0, 0));
 		}
 
 		#endregion
@@ -130,19 +137,7 @@ Click to start.";
 			}
 		}
 
-		protected override string ApplicationTitle
-		{
-			get { return "Shoot the Traps"; }
-		}
-		protected override void AdjustAppInitParameters(ref AppInitParameters initParams)
-		{
-			initParams.ShowSplashScreen = false;
-		}
-		protected override Size WindowSize
-		{
-			get { return new Size(1280, 720); }
-		}
-		protected override void Update(double time_ms)
+		public override void Update(double time_ms)
 		{
 			if (mShowIntro)
 				return;
@@ -150,10 +145,10 @@ Click to start.";
 			mGame.Update(Display.DeltaTime);
 			UpdateDisplay();
 		}
-		protected override void Render()
+		public override void Draw()
 		{
 			Display.Clear(Color.LightBlue);
-			mBackground.Draw(new Rectangle(Point.Empty, WindowSize));
+			mBackground.Draw(Display.Coordinates);
 
 			if (mShowIntro)
 			{
@@ -208,7 +203,7 @@ Click to start.";
 
 		private void NewGame()
 		{
-			mGame = new ShootTraps(Display.RenderTarget.Width, Display.RenderTarget.Height - 50);
+			mGame = new ShootTraps(Display.Coordinates.Width, Display.Coordinates.Height - 50);
 			mDisplayedScore = 0;
 			mGameOverTime = 0;
 			mDisplayedMultiplier = 1;
@@ -321,46 +316,46 @@ Click to start.";
 		}
 		private void DrawLevelBeginText()
 		{
-			mLargeFont.SetScale(2, 2);
+			mFont.Size = 48;
 
-			int textHeight = mLargeFont.FontHeight * 3;
+			int textHeight = mFont.FontHeight * 3;
 			int textY = 160;
 
 			Display.FillRect(
-				new Rectangle(0, textY, Display.RenderTarget.Width, textHeight),
+				new Rectangle(0, textY, Display.Coordinates.Width, textHeight),
 				Color.FromArgb(128, Color.Black));
 
 			// back the border color for the text oscillate between red and black
 			int r = (int)(255 * Math.Abs(Math.Sin(12 * (Timing.TotalMilliseconds - mLevelTime) / mLevelTextTotalTime)));
 			var borderColor = Color.FromArgb(r, 0, 0);
 
-			CenterText(mLargeFont, textY, "Level " + mGame.Level, Color.White, borderColor);
+			CenterText(mFont, textY, "Level " + mGame.Level, Color.White, borderColor);
 
-			mLargeFont.SetScale(1, 1);
-			CenterText(mLargeFont, textY + mLargeFont.FontHeight * 2, mGame.LevelMessage, Color.White, borderColor);
+			mFont.Size = 24;
+			CenterText(mFont, textY + mFont.FontHeight * 2, mGame.LevelMessage, Color.White, borderColor);
 
 			if (Timing.TotalMilliseconds - mLevelTime > mLevelTextTotalTime)
 				mLevelTime = 0;
 		}
 		private void DrawLevelEndText()
 		{
-			mLargeFont.SetScale(2, 2);
+			mFont.Size = 48;
 
-			int textHeight = mLargeFont.FontHeight * 3;
+			int textHeight = mFont.FontHeight * 3;
 			int textY = 160;
 
 			Display.FillRect(
-				new Rectangle(0, textY, Display.RenderTarget.Width, textHeight),
+				new Rectangle(0, textY, Display.Coordinates.Width, textHeight),
 				Color.FromArgb(128, Color.Black));
 
 			// back the border color for the text oscillate between red and black
 			int b = (int)(255 * Math.Abs(Math.Sin(12 * (Timing.TotalMilliseconds - mLevelTime) / mLevelTextTotalTime)));
 			var borderColor = Color.FromArgb(0, 0, b);
 
-			CenterText(mLargeFont, textY, "End of Level " + mGame.Level, Color.White, borderColor);
+			CenterText(mFont, textY, "End of Level " + mGame.Level, Color.White, borderColor);
 
-			mLargeFont.SetScale(1, 1);
-			CenterText(mLargeFont, textY + mLargeFont.FontHeight * 2,
+			mFont.Size = 24;
+			CenterText(mFont, textY + mFont.FontHeight * 2,
 				"BONUS for remaining pulls: " + mGame.BonusPoints.ToString(),
 				Color.White, borderColor);
 
@@ -378,20 +373,20 @@ Click to start.";
 			double extraScaleFactor = -3 * (1.1 - Math.Pow(deltaTime, 2));
 			double scale = 3 + extraScaleFactor;
 
-			mFont.SetScale(scale, scale);
+			mFont.Size = (int)(14 * scale);
 
 			CenterText(mFont, (int)(200 + fontHeight - scale * fontHeight / 2.0),
 				"GAME OVER", Color.White, Color.Black);
 
-			mFont.SetScale(1.5, 1.5);
+			mFont.Size = 21;
 
 			if (ContinueYet)
-				CenterText(mFont, 240 + (int)(fontHeight * mFont.ScaleHeight), "Click to restart", Color.White, Color.Black);
+				CenterText(mFont, 240 + (int)(mFont.FontHeight), "Click to restart", Color.White, Color.Black);
 		}
 		private void DrawBonusText()
 		{
 			int textY = 160;
-			mFont.SetScale(2, 2);
+			mFont.Size = 28;
 
 			Color bonusColor = Color.White;
 
@@ -399,11 +394,11 @@ Click to start.";
 				bonusColor = Color.Yellow;
 
 			Display.FillRect(
-				new Rectangle(0, textY, Display.RenderTarget.Width, mFont.FontHeight * 4),
+				new Rectangle(0, textY, Display.Coordinates.Width, mFont.FontHeight * 4),
 				Color.FromArgb(128, Color.Black));
 
 			CenterText(mFont, textY, "HIT " + mGame.TrapsHit + " TRAPS", Color.White, Color.Black);
-			textY += (int)(mFont.FontHeight * mFont.ScaleHeight);
+			textY += mFont.FontHeight;
 
 			CenterText(mFont, textY, "BONUS: " + mGame.BonusPoints, bonusColor, Color.Black);
 
@@ -416,57 +411,59 @@ Click to start.";
 		private int DrawBottomStatus()
 		{
 			mFont.Color = Color.White;
-			mFont.SetScale(1, 1);
+			mFont.Size = 14;
 
 			int fontHeight = mFont.FontHeight;
 			int textBoxHeight = mFont.FontHeight * 2;
 
-			Point textStart = new Point(10, Display.RenderTarget.Height - textBoxHeight);
+			Point textStart = new Point(10, Display.Coordinates.Height - textBoxHeight);
 
 			if (mShowHelpText && mLevelTime == 0)
 			{
 				mFont.DrawText(textStart.X, textStart.Y - fontHeight, "Left-click to shoot... Right-click to release traps.");
 			}
 
-			Display.FillRect(new Rectangle(0, textStart.Y, Display.RenderTarget.Width, textBoxHeight), Color.Black);
+			Display.FillRect(new Rectangle(0, textStart.Y, Display.Coordinates.Width, textBoxHeight), Color.Black);
 
-			textStart.X = Display.RenderTarget.Width / 4;
+			textStart.X = Display.Coordinates.Width / 4;
 
 			mFont.DrawText(textStart.X, textStart.Y, "Score: " + mDisplayedScore);
 			mFont.DrawText(textStart.X, textStart.Y + fontHeight, "Need: " +
 				Math.Max(0, mGame.LevelRequirement - mGame.PointsThisLevel + (mGame.Score - mDisplayedScore)));
 
 			if (mGame.ScoreMultiplier != 1)
-				CenterText(mLargeFont, textStart.Y, "x " + mGame.ScoreMultiplier.ToString(), Color.White);
+			{
+				mFont.Size = 24;
+				CenterText(mFont, textStart.Y, "x " + mGame.ScoreMultiplier.ToString(), Color.White);
+			}
 
-			textStart.X = Display.RenderTarget.Width * 3 / 4;
+			mFont.Size = 14;
+			textStart.X = Display.Coordinates.Width * 3 / 4;
 
 			mFont.DrawText(textStart.X, textStart.Y, "Level: " + mGame.Level);
 			mFont.DrawText(textStart.X, textStart.Y + fontHeight, "Pulls Left: " + mGame.PullsLeft);
 			return fontHeight;
 		}
 
-		private void CenterText(FontSurface font, int y, string text, Color color)
+		private void CenterText(Font font, int y, string text, Color color)
 		{
 			Size size = font.MeasureString(text);
 
-			int x = (Display.RenderTarget.Width - size.Width) / 2;
+			int x = (Display.Coordinates.Width - size.Width) / 2;
 
 			font.Color = color;
 			font.DrawText(x, y, text);
 		}
-		private void CenterText(FontSurface font, int y, string text, Color color, Color borderColor)
+		private void CenterText(Font font, int y, string text, Color color, Color borderColor)
 		{
 			Size size = font.MeasureString(text);
 
-			int x = (Display.RenderTarget.Width - size.Width) / 2;
+			int x = (Display.Coordinates.Width - size.Width) / 2;
 
 			DrawBorderedText(font, x, y, text, color, borderColor);
-
-
 		}
 
-		private static void DrawBorderedText(FontSurface font, int x, int y, string text, Color color, Color borderColor)
+		private static void DrawBorderedText(Font font, int x, int y, string text, Color color, Color borderColor)
 		{
 			font.Color = borderColor;
 			font.DrawText(x + 1, y, text);

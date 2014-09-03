@@ -10,7 +10,8 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 {
 	public class SceneModel : SceneAppModelBase
 	{
-		public SceneModel(SceneModelParameters parameters) : base(parameters)
+		public SceneModel(SceneModelParameters parameters)
+			: base(parameters)
 		{ }
 
 		public SceneModelParameters Parameters { get { return (SceneModelParameters)base.Parameters; } }
@@ -25,12 +26,21 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 			if (sceneToStartWith != null)
 				SceneStack.Add(sceneToStartWith);
 
-			while(SceneStack.Count > 0 && QuitModel == false)
+			try
 			{
-				RunSingleFrame();
+				while (SceneStack.Count > 0 && QuitModel == false)
+				{
+					RunSingleFrame();
 
-				if (Display.CurrentWindow.IsClosed)
-					throw new ExitGameException();
+					if (Display.CurrentWindow.IsClosed)
+						throw new ExitGameException();
+				}
+			}
+			finally
+			{
+				DisposeAutoCreatedWindow();
+
+				Dispose();
 			}
 		}
 

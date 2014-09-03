@@ -261,7 +261,7 @@ namespace AgateLib.Diagnostics
 				IsVisible = !IsVisible;
 				args.Handled = true;
 
-				sInstance.mHeight = Display.CoordinateSystem.Height * 5 / 12;
+				sInstance.mHeight = Display.Coordinates.Height * 5 / 12;
 			}
 			else if (IsVisible)
 			{

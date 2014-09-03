@@ -27,13 +27,18 @@ namespace AgateLib.Geometry
 	/// <summary>
 	/// Interface for classes which create a coordinate system for a given DisplayWindow size.
 	/// </summary>
-	public interface ICoordinateSystemCreator
+	public interface ICoordinateSystem
 	{
 		/// <summary>
-		/// Returns the coordinate system given the size of the display window.
+		/// Gets or sets size in pixels of the render target.
+		/// </summary>
+		Size RenderTargetSize { get; set; }
+		/// <summary>
+		/// Gets the coordinate system given the size of the display window. This is calculated when 
+		/// RenderTargetSize is set.
 		/// </summary>
 		/// <param name="displayWindowSize"></param>
 		/// <returns></returns>
-		Rectangle DetermineCoordinateSystem(Size displayWindowSize);
+		Rectangle Coordinates { get; }
 	}
 }

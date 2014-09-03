@@ -153,6 +153,12 @@ namespace AgateLib.DisplayLib
 		}
 
 
+
+		public double Alpha
+		{
+			get { return mState.Alpha; }
+			set { mState.Alpha = value; }
+		}
 		public Color Color
 		{
 			get { return mState.Color; }
