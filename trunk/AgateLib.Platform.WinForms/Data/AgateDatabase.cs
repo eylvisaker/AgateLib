@@ -39,7 +39,7 @@ namespace AgateLib.Data
 	/// There is no SQL query engine, however LINQ should be adequate
 	/// for any query needs.
 	/// </remarks>
-	public class AgateDatabase : IDisposable , IXleSerializable 
+	public class AgateDatabase : IDisposable, IXleSerializable
 	{
 		private AgateTableDictionary mTables;
 
@@ -57,7 +57,7 @@ namespace AgateLib.Data
 		/// <returns></returns>
 		public static AgateDatabase FromFile(string filename)
 		{
-			AgateDatabase db = ReadDatabase(new AgateLib.Platform.WinForms.IO.ZipFileProvider(filename)).Result;
+			AgateDatabase db = ReadDatabase(new AgateLib.Platform.WinForms.IO.ZipFileProvider(AgateLib.IO.FileProvider.Assets.ResolveFile(filename))).Result;
 			db.mTables.OwnFileProvider = true;
 
 			return db;
@@ -186,7 +186,7 @@ namespace AgateLib.Data
 
 			foreach (var table in mTables)
 			{
-				
+
 				try
 				{
 					table.Validate();

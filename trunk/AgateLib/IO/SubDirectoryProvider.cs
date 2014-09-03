@@ -41,11 +41,16 @@ namespace AgateLib.IO
 
 		public override string ToString()
 		{
-			return parent.ToString() + subdir;
+			return System.IO.Path.Combine(parent.ToString(), subdir);
 		}
 		public async Task<System.IO.Stream> OpenReadAsync(string filename)
 		{
-			return await parent.OpenReadAsync(subdir + filename);
+			if (System.IO.Path.IsPathRooted(filename) == false)
+			{
+				return await parent.OpenReadAsync(subdir + filename);
+			}
+			else
+				return await parent.OpenReadAsync(filename);
 		}
 
 		public bool FileExists(string filename)
