@@ -1,5 +1,6 @@
 ﻿using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Geometry.CoordinateSystems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,13 @@ namespace AgateLib.Testing.Fakes
 	{
 		public FakeRenderTarget()
 		{
-			CoordinateSystem = new Rectangle(0, 0, 640, 400);
+			CoordinateSystem = new NativeCoordinates();
 		}
 
 		public int Height { get { return 400; } }
 		public int Width { get { return 640; } }
 		public Size Size { get { return new Size(Width, Height); } }
-		public Rectangle CoordinateSystem { get; set; }
 
-		ICoordinateSystemCreator IFrameBuffer.CoordinateSystem { get; set; }
+		public ICoordinateSystemCreator CoordinateSystem { get;set;}
 	}
 }

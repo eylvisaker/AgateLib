@@ -602,7 +602,9 @@ namespace AgateLib.Geometry
 
 		static System.Reflection.PropertyInfo NamedColorStaticProperty(string name)
 		{
-			var retval = typeof(Color).GetTypeInfo().DeclaredProperties.First(
+			var colorType = typeof(Color).GetTypeInfo();
+
+			var retval = colorType.DeclaredProperties.FirstOrDefault(
 				x => x.PropertyType == typeof(Color) && 
 					x.GetMethod.IsStatic && x.GetMethod.IsPublic && 
 					x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
