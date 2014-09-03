@@ -157,7 +157,7 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static DisplayWindow CreateWindowed(string title, int width, int height, bool allowResize = false, string iconFile = null, ICoordinateSystem coordinates = null)
 		{
-			return new DisplayWindow(CreateWindowParams.Windowed(title, width, height, allowResize, iconFile, null));
+			return new DisplayWindow(CreateWindowParams.Windowed(title, width, height, allowResize, iconFile, coordinates));
 		}
 		/// <summary>
 		/// Creates a DisplayWindow object which is a desktop window with no frame or
