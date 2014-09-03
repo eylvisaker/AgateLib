@@ -25,7 +25,7 @@
   </PropertyGroup>
 
   <Target Name="Clean">
-    <DeleteTree Directories="**\obj\**;**\bin\**" />
+    <DeleteTree Directories="**\obj\**;AgateLib**\bin\**;" />
   </Target>
 
   <Target Name="UpdateVersion">
