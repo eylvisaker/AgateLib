@@ -22,10 +22,11 @@ namespace ShootTheTraps
 		static void Main(string[] args)
 		{
 			SceneModelParameters p = new SceneModelParameters(args);
+
 			p.ApplicationName = "Shoot the Traps";
 			p.CoordinateSystem = new AgateLib.Geometry.CoordinateSystems.SingleFixedDimension();
-			SceneModel model = new SceneModel(p);
 
+			SceneModel model = new SceneModel(p);
 			model.Run(new App());
 		}
 
@@ -105,10 +106,10 @@ Click to start.";
 			// center introduction text
 			Point textPt = new Point((Display.Coordinates.Width - largestWidth) / 2, 20);
 			Rectangle boxArea = new Rectangle(
-				textPt.X - 10, 
+				textPt.X - 10,
 				textPt.Y - 10,
 				largestWidth + 20,
-				(mIntroLines.Length +1) * font.FontHeight + 20);
+				(mIntroLines.Length + 1) * font.FontHeight + 20);
 
 			Display.FillRect(boxArea, Color.FromArgb(196, Color.Black));
 
@@ -123,8 +124,6 @@ Click to start.";
 
 				textPt.Y += font.FontHeight;
 			}
-
-			Display.FillRect(0, 0, 320, 240, Color.FromArgb(128, 128, 0, 0));
 		}
 
 		#endregion

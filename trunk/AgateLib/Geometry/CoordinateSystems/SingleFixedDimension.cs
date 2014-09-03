@@ -12,6 +12,7 @@ namespace AgateLib.Geometry.CoordinateSystems
 
 		public SingleFixedDimension()
 		{
+			FixedDimension = Dimension.Vertical;
 			FixedDimensionValue = 600;
 		}
 
@@ -31,6 +32,42 @@ namespace AgateLib.Geometry.CoordinateSystems
 		{
 			if (FixedDimensionValue < 1)
 				throw new InvalidOperationException();
+
+			switch (FixedDimension)
+			{
+				case Dimension.Vertical:
+				case Dimension.Horizontal:
+					SetRect(FixedDimension);
+					break;
+
+				case Dimension.Smaller:
+					if (RenderTargetSize.AspectRatio >= 1)
+						SetRect(Dimension.Vertical);
+					else
+						SetRect(Dimension.Horizontal);
+					break;
+
+				case Dimension.Larger:
+					if (RenderTargetSize.AspectRatio >= 1)
+						SetRect(Dimension.Horizontal);
+					else
+						SetRect(Dimension.Vertical);
+					break;
+			}
+		}
+
+		private void SetRect(Dimension dimension)
+		{
+			switch (dimension)
+			{
+				case Dimension.Vertical:
+					Coordinates = new Rectangle(0, 0, (int)(FixedDimensionValue * RenderTargetSize.AspectRatio), FixedDimensionValue);
+					break;
+
+				case Dimension.Horizontal:
+					Coordinates = new Rectangle(0, 0, FixedDimensionValue, (int)(FixedDimensionValue / RenderTargetSize.AspectRatio));
+					break;
+			}
 		}
 
 		/// <summary>
@@ -44,9 +81,14 @@ namespace AgateLib.Geometry.CoordinateSystems
 		public Dimension FixedDimension { get; set; }
 	}
 
+	/// <summary>
+	/// Indicates a dimension which will be fixed.
+	/// </summary>
 	public enum Dimension
 	{
 		Vertical,
 		Horizontal,
+		Smaller,
+		Larger,
 	}
 }

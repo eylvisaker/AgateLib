@@ -185,7 +185,8 @@ namespace AgateLib.DisplayLib
 				sImpl.RenderTarget = value;
 
 				if (value.AttachedWindow != null)
-					sCurrentWindow = value.AttachedWindow;
+					CurrentWindow = value.AttachedWindow;
+
 			}
 		}
 
@@ -203,7 +204,11 @@ namespace AgateLib.DisplayLib
 		public static DisplayWindow CurrentWindow
 		{
 			get { return sCurrentWindow; }
-			internal set { sCurrentWindow = value; }
+			internal set
+			{
+				sCurrentWindow = value;
+				sImpl.RenderTarget.CoordinateSystem.RenderTargetSize = sImpl.RenderTarget.Size;
+			}
 		}
 
 		/// <summary>

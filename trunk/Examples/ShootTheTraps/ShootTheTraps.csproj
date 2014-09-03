@@ -113,7 +113,7 @@
       <Name>AgateLib.Platform.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
-      <Project>{198C4842-0000-0000-0000-000000000000}</Project>
+      <Project>{9490b719-829e-43a7-a5fe-8001f8a81759}</Project>
       <Name>AgateLib</Name>
     </ProjectReference>
   </ItemGroup>
