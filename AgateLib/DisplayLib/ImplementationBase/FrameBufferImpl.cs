@@ -30,7 +30,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 	/// </summary>
 	public abstract class FrameBufferImpl : IDisposable 
 	{
-		public FrameBufferImpl(ICoordinateSystemCreator coords)
+		public FrameBufferImpl(ICoordinateSystem coords)
 		{
 			this.CoordinateSystem = coords;
 		}
@@ -97,6 +97,6 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <summary>
 		/// Gets or sets the coordinate system that is used to map 2d coordinates to pixels in the render target.
 		/// </summary>
-		public virtual ICoordinateSystemCreator CoordinateSystem { get; set; }
+		public virtual ICoordinateSystem CoordinateSystem { get; set; }
 	}
 }

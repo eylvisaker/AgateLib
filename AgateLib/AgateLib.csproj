@@ -63,6 +63,7 @@
     <Compile Include="DisplayLib\FontStyles.cs" />
     <Compile Include="Drivers\NullDrivers\NullInputFactory.cs" />
     <Compile Include="Drivers\NullDrivers\NullSoundFactory.cs" />
+    <Compile Include="Geometry\CoordinateSystems\SingleFixedDimension.cs" />
     <Compile Include="Mathematics\MathHelper.cs" />
     <Compile Include="Algorithms\PathFinding\IAStarMap.cs" />
     <Compile Include="Algorithms\Pair.cs" />

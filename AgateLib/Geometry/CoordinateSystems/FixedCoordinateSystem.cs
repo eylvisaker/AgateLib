@@ -5,18 +5,23 @@ using System.Text;
 
 namespace AgateLib.Geometry.CoordinateSystems
 {
-	public class FixedCoordinateSystem : ICoordinateSystemCreator
+	public class FixedCoordinateSystem : ICoordinateSystem
 	{
 		public FixedCoordinateSystem(Rectangle coords)
 		{
 			Coordinates = coords;
 		}
 
-		public Rectangle Coordinates { get; set; }
+		Size mRenderTargetSize;
 
-		public Rectangle DetermineCoordinateSystem(Size displayWindowSize)
+		public Size RenderTargetSize
 		{
-			return Coordinates;
+			get { return mRenderTargetSize; }
+			set
+			{
+				mRenderTargetSize = value;
+			}
 		}
+		public Rectangle Coordinates { get; set; }
 	}
 }

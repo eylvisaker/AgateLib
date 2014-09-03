@@ -68,7 +68,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		bool mHasFrame = true;
 
 		ContextFB mFrameBuffer;
-		ICoordinateSystemCreator mCoords;
+		ICoordinateSystem mCoords;
 
 		public override FrameBufferImpl FrameBuffer
 		{
@@ -232,7 +232,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			return newMode;
 		}
 
-		private void CreateFrameBuffer(ICoordinateSystemCreator coords)
+		private void CreateFrameBuffer(ICoordinateSystem coords)
 		{
 			var old = mFrameBuffer;
 

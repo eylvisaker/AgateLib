@@ -31,7 +31,6 @@ using AgateLib.Sprites;
 using AgateLib.InputLib;
 using AgateLib.AudioLib;
 using AgateLib.Platform;
-using AgateLib.Platform.WindowsForms;
 using AgateLib.InputLib.Legacy;
 
 namespace BallBuster.Net
@@ -486,7 +485,6 @@ namespace BallBuster.Net
 				}
 				if (mousex > 100 - 20 && mousex < 500 && mousey > 190 && mousey < 220)
 				{
-					Display.CurrentWindow.SetFullScreen();
 					return;
 				}
 				if (mousex > 100 - 20 && mousex < 500 && mousey > 220 && mousey < 250)
@@ -823,7 +821,7 @@ namespace BallBuster.Net
 
 			string message = "Score: " + getScore().ToString();
 
-			img.font.SetScale(1.0, 1.0);
+			img.font.Size = 14;
 			img.font.Color = Color.Black;
 			img.font.DrawText(11, 585, message);
 			img.font.Color = Color.White;
@@ -875,16 +873,16 @@ namespace BallBuster.Net
 
 				if (mPauseTimer.TotalMilliseconds % 1000 < 500)
 				{
-					img.largeFont.Color = Color.White;
-					img.largeFont.SetScale(1.5f, 1.5f);
-					img.largeFont.DisplayAlignment = OriginAlignment.Center;
+					img.font.Size = 30;
+					img.font.Color = Color.White;
+					img.font.DisplayAlignment = OriginAlignment.Center;
 
-					img.largeFont.DrawText(400, 200, "PAUSED");
-					img.largeFont.DrawText(400, 300, "Press 'P' to unpause.");
+					img.font.DrawText(400, 200, "PAUSED");
+					img.font.DrawText(400, 300, "Press 'P' to unpause.");
 
-					img.largeFont.DisplayAlignment = OriginAlignment.TopLeft;
+					img.font.DisplayAlignment = OriginAlignment.TopLeft;
 
-					img.largeFont.SetScale(1.0f, 1.0f);
+					img.font.Size = 14;
 
 				}
 
@@ -1046,21 +1044,22 @@ namespace BallBuster.Net
 				if (seconds < 0)
 					blaster = false;
 
+				img.font.Size = 24;
 				// Draw flashing CLICK! above paddle
 				if ((int)Timing.TotalMilliseconds % 200 < 100)
-					img.largeFont.Color = Color.Red;
+					img.font.Color = Color.Red;
 				else
-					img.largeFont.Color = Color.White;
+					img.font.Color = Color.White;
 
-				img.largeFont.DisplayAlignment = OriginAlignment.TopCenter;
+				img.font.DisplayAlignment = OriginAlignment.TopCenter;
 
 
-				img.largeFont.DrawText(400 + (int)Timing.TotalMilliseconds % 3 - 2,
+				img.font.DrawText(400 + (int)Timing.TotalMilliseconds % 3 - 2,
 								(int)(paddley) - 100 + (int)Timing.TotalMilliseconds % 3 - 2, "Click!");
 
-				img.largeFont.DisplayAlignment = OriginAlignment.TopLeft;
+				img.font.DisplayAlignment = OriginAlignment.TopLeft;
 
-				img.largeFont.Color = Color.White;
+				img.font.Color = Color.White;
 
 			}
 
@@ -1092,10 +1091,7 @@ namespace BallBuster.Net
 
 					gainPoints(250, powerupLeft + 20, powerupTop + 20);
 					snd.powerup.Play();
-
 				}
-
-
 			}
 
 			if (pow)
@@ -1542,24 +1538,24 @@ namespace BallBuster.Net
 					Display.BeginFrame();
 					Display.Clear(Color.White);
 
-
-					img.largeFont.Color = Color.Black;
-					img.largeFont.DrawText(200, 50, "New High Score!");
+					img.font.Size = 24;
+					img.font.Color = Color.Black;
+					img.font.DrawText(200, 50, "New High Score!");
 
 					for (int j = 0; j < highscores.Count; j++)
 					{
 						int Drawy = 100 + 30 * j;
 
-						img.largeFont.Color = Color.Black;
+						img.font.Color = Color.Black;
 
 						if (addposition == j)
 						{
-							img.largeFont.Color = Color.FromHsv((time % 3600) / 10.0f, 0.7f, 0.7f);
+							img.font.Color = Color.FromHsv((time % 3600) / 10.0f, 0.7f, 0.7f);
 						}
 
-						img.largeFont.DrawText(200, Drawy, (j + 1) + ".");
-						img.largeFont.DrawText(230, Drawy, highscores[j].name);
-						img.largeFont.DrawText(550, Drawy, highscores[j].score.ToString());
+						img.font.DrawText(200, Drawy, (j + 1) + ".");
+						img.font.DrawText(230, Drawy, highscores[j].name);
+						img.font.DrawText(550, Drawy, highscores[j].score.ToString());
 					}
 
 					KeyCode key = getkeypress();
@@ -1658,7 +1654,7 @@ namespace BallBuster.Net
 			{
 				Display.BeginFrame();
 
-				img.largeFont.SetScale(0.8, 0.8);
+				img.font.Size = 19;
 				median = (int)Timing.TotalMilliseconds - start;
 
 				Display.Clear(Color.White);
@@ -1669,31 +1665,31 @@ namespace BallBuster.Net
 
 				const int xpt = 175;
 
-				img.largeFont.Color = Color.Black;
-				img.largeFont.DrawText(xpt, 50, string.Format("Completed level {0}-{1}", world + 1, level + 1));
+				img.font.Color = Color.Black;
+				img.font.DrawText(xpt, 50, string.Format("Completed level {0}-{1}", world + 1, level + 1));
 
 				if (median > 1000)
 				{
-					img.largeFont.DrawText(xpt, 100, "Score:");
-					img.largeFont.DrawText(tab, 100, getScore().ToString());
+					img.font.DrawText(xpt, 100, "Score:");
+					img.font.DrawText(tab, 100, getScore().ToString());
 				}
 
 				if (median > 1500)
 				{
-					img.largeFont.DrawText(xpt, 150, "Level Bonus:");
-					img.largeFont.DrawText(tab, 150, ((int)Math.Min(bonus, (median - 1500) / countRate)).ToString());
+					img.font.DrawText(xpt, 150, "Level Bonus:");
+					img.font.DrawText(tab, 150, ((int)Math.Min(bonus, (median - 1500) / countRate)).ToString());
 				}
 
 				if (median > 2000)
 				{
-					img.largeFont.DrawText(xpt, 200, "Time: ");
-					img.largeFont.DrawText(tab, 200, timeString);
+					img.font.DrawText(xpt, 200, "Time: ");
+					img.font.DrawText(tab, 200, timeString);
 				}
 
 				if (median > 2500)
 				{
-					img.largeFont.DrawText(xpt, 230, "Time Bonus: ");
-					img.largeFont.DrawText(tab, 230, ((int)Math.Min(timeBonus, (median - 2500) / countRate)).ToString());
+					img.font.DrawText(xpt, 230, "Time Bonus: ");
+					img.font.DrawText(tab, 230, ((int)Math.Min(timeBonus, (median - 2500) / countRate)).ToString());
 				}
 
 				if (median > 3000)
@@ -1706,8 +1702,8 @@ namespace BallBuster.Net
 
 				if (ballslost == 0 && lineCount < lineLimit)
 				{
-					img.largeFont.DrawText(xpt, 280 + lineCount * 50, "No balls lost");
-					img.largeFont.DrawText(tab, 280 + lineCount * 50, "500");
+					img.font.DrawText(xpt, 280 + lineCount * 50, "No balls lost");
+					img.font.DrawText(tab, 280 + lineCount * 50, "500");
 
 					lineCount++;
 				}
@@ -1715,30 +1711,19 @@ namespace BallBuster.Net
 				/// show other bonuses.
 				if (powerupcount == 0 && lineCount < lineLimit)
 				{
-					img.largeFont.DrawText(xpt, 280 + lineCount * 50, "No powerups");
-					img.largeFont.DrawText(tab, 280 + lineCount * 50, "1500");
+					img.font.DrawText(xpt, 280 + lineCount * 50, "No powerups");
+					img.font.DrawText(tab, 280 + lineCount * 50, "1500");
 
 					lineCount++;
 				}
-				/*
-						if (perfectgame && lineCount < lineLimit)
-						{
-							// perfect game means no extra balls used, did not get blaster powerup
-							// and no lives lost
-							img.font.DrawText(200, 280 + lineCount * 50, "Perfect Game");
-							img.font.DrawText(tab, 280 + lineCount * 50, "1500");
-
-							lineCount++;
-						}
-				*/
 
 				/// display the final score
 				if (lineCount < lineLimit)
 				{
 					int medianstart = 3000 + (lineCount) * 500;
 
-					img.largeFont.DrawText(xpt, 280 + lineCount * 50, "Final Score:");
-					img.largeFont.DrawText(tab, 280 + lineCount * 50,
+					img.font.DrawText(xpt, 280 + lineCount * 50, "Final Score:");
+					img.font.DrawText(tab, 280 + lineCount * 50,
 						((int)Math.Min(newscore, getScore() + (median - medianstart) / countRate)).ToString());
 
 					lineCount++;
@@ -3506,7 +3491,7 @@ namespace BallBuster.Net
 			if (amount >= 1000)
 				scale *= 1.2;
 
-			img.font.SetScale(scale, scale);
+			img.font.Size = (int)(14 * scale);
 
 			Size size = img.font.MeasureString(str);
 			int width = size.Width;
@@ -3561,24 +3546,24 @@ namespace BallBuster.Net
 				int y = mybyte.gety;
 				string amount = mybyte.getAmount();
 
-				img.largeFont.Color = Color.Black;
-				img.largeFont.Alpha = (mybyte.getAlpha());
-				img.largeFont.SetScale(mybyte.Scale / 2.0, mybyte.Scale / 2.0);
+				img.font.Size = 24;
+				img.font.Color = Color.Black;
+				img.font.Alpha = (mybyte.getAlpha());
+				img.font.Size = (int)(24 * mybyte.Scale / 2.0);
 
-				img.largeFont.DrawText(x + 1, y, amount);
-				img.largeFont.DrawText(x - 1, y, amount);
-				img.largeFont.DrawText(x, y + 1, amount);
-				img.largeFont.DrawText(x, y - 1, amount);
+				img.font.DrawText(x + 1, y, amount);
+				img.font.DrawText(x - 1, y, amount);
+				img.font.DrawText(x, y + 1, amount);
+				img.font.DrawText(x, y - 1, amount);
 
+				img.font.Color = mybyte.getColor();
+				img.font.Alpha = (mybyte.getAlpha());
 
-				img.largeFont.Color = mybyte.getColor();
-				img.largeFont.Alpha = (mybyte.getAlpha());
-
-				img.largeFont.DrawText(x, y, amount);
+				img.font.DrawText(x, y, amount);
 
 			}
 
-			img.largeFont.SetScale(1.0, 1.0);
+			img.font.Size = 14;
 
 		}
 		void dropPowerUp(int myx, int myy, CPowerUp.PowerupTypes type)
@@ -3896,56 +3881,58 @@ namespace BallBuster.Net
 					Color.FromArgb(0, 0, 0, 100)
 					);
 
-				img.largeFont.Color = Color.White;
+				img.font.Size = 24;
+
+				img.font.Color = Color.White;
 				if (mousex > 100 - 20 && mousex < 500 && mousey > 100 && mousey < 130)
 				{
-					img.largeFont.Color = Color.Yellow;
+					img.font.Color = Color.Yellow;
 				}
-				img.largeFont.DrawText(100, 100, "[START THE GAME]");
-				img.largeFont.Color = Color.White;
+				img.font.DrawText(100, 100, "[START THE GAME]");
+				img.font.Color = Color.White;
 				if (mousex > 100 - 20 && mousex < 500 && mousey > 130 && mousey < 160)
 				{
-					img.largeFont.Color = Color.Yellow;
+					img.font.Color = Color.Yellow;
 				}
-				img.largeFont.DrawText(100, 130, "[LEVEL EDITOR]");
-				img.largeFont.Color = Color.White;
+				img.font.DrawText(100, 130, "[LEVEL EDITOR]");
+				img.font.Color = Color.White;
 				if (mousex > 100 - 20 && mousex < 500 && mousey > 160 && mousey < 190)
 				{
-					img.largeFont.Color = Color.Yellow;
+					img.font.Color = Color.Yellow;
 				}
-				img.largeFont.DrawText(100, 160, "[QUIT]");
-				img.largeFont.Color = Color.White;
+				img.font.DrawText(100, 160, "[QUIT]");
+				img.font.Color = Color.White;
 				if (mousex > 100 - 20 && mousex < 500 && mousey > 190 && mousey < 220)
 				{
-					img.largeFont.Color = Color.Yellow;
+					img.font.Color = Color.Yellow;
 				}
-				img.largeFont.DrawText(100, 190, "[Full Screen / Windowed]");
-				img.largeFont.Color = Color.White;
+				img.font.DrawText(100, 190, "[Full Screen / Windowed]");
+				img.font.Color = Color.White;
 				if (mousex > 100 - 20 && mousex < 500 && mousey > 220 && mousey < 250)
 				{
-					img.largeFont.Color = Color.Yellow;
+					img.font.Color = Color.Yellow;
 				}
-				if (bgscroll) img.largeFont.DrawText(100, 220, "[Background Scroll On]");
-				if (!bgscroll) img.largeFont.DrawText(100, 220, "[Background Scroll Off]");
-				img.largeFont.Color = Color.White;
+				if (bgscroll) img.font.DrawText(100, 220, "[Background Scroll On]");
+				if (!bgscroll) img.font.DrawText(100, 220, "[Background Scroll Off]");
+				img.font.Color = Color.White;
 				if (mousex > 100 - 20 && mousex < 500 && mousey > 250 && mousey < 280)
 				{
-					img.largeFont.Color = Color.Yellow;
+					img.font.Color = Color.Yellow;
 				}
-				if (vsync) img.largeFont.DrawText(100, 250, "[VSync On]");
-				if (!vsync) img.largeFont.DrawText(100, 250, "[VSync Off]");
-				img.largeFont.Color = Color.White;
+				if (vsync) img.font.DrawText(100, 250, "[VSync On]");
+				if (!vsync) img.font.DrawText(100, 250, "[VSync Off]");
+				img.font.Color = Color.White;
 				if (mousex > 100 - 20 && mousex < 500 && mousey > 280 && mousey < 310)
 				{
-					img.largeFont.Color = Color.Yellow;
+					img.font.Color = Color.Yellow;
 				}
-				if (playmusic) img.largeFont.DrawText(100, 280, "[Play Music]");
-				if (!playmusic) img.largeFont.DrawText(100, 280, "[Do not play Music]");
-				img.largeFont.Color = Color.White;
+				if (playmusic) img.font.DrawText(100, 280, "[Play Music]");
+				if (!playmusic) img.font.DrawText(100, 280, "[Do not play Music]");
+				img.font.Color = Color.White;
 
 
 				// Draw high scores
-				img.largeFont.DrawText(500, 100, "High scores");
+				img.font.DrawText(500, 100, "High scores");
 
 
 				for (int i = 0; i < highscores.Count; i++)
@@ -3963,7 +3950,7 @@ namespace BallBuster.Net
 				img.xlogo.Update();
 				img.xlogo.Draw(640, 350);
 
-
+				img.font.Size = 14;
 				img.font.Color = Color.White;
 
 				img.font.DrawText(100, 540, "Ball: Buster, by Patrick Avella (C) 2004");
@@ -3973,17 +3960,18 @@ namespace BallBuster.Net
 			}
 			else
 			{
-
+				img.font.Size = 24;
 				if ((int)Timing.TotalMilliseconds % 100 < 50)
-					img.largeFont.Color = Color.FromArgb(255, 120, 120);
+					img.font.Color = Color.FromArgb(255, 120, 120);
 				else
-					img.largeFont.Color = Color.White;
+					img.font.Color = Color.White;
 
-				img.largeFont.DrawText(200, 30, "Move mouse for title screen.");
+				img.font.DrawText(200, 30, "Move mouse for title screen.");
 
-				img.largeFont.Color = Color.White;
+				img.font.Color = Color.White;
 			}
 
+			img.font.Size = 14;
 			img.font.DrawText(100, 500, "Starting on level " + (beginningWorld + 1) + " - " + (beginningLevel + 1));
 
 
@@ -4033,6 +4021,7 @@ namespace BallBuster.Net
 			// Draw whatever text
 			string message = "EDITING LEVEL: " + (world + 1).ToString() + "-" + (level + 1);
 
+			img.font.Size = 14;
 			img.font.Color = Color.White;
 			img.font.DrawText(13, 583, message);
 
@@ -4332,7 +4321,7 @@ namespace BallBuster.Net
 
 			}
 
-			img.font.SetScale(1.0f, 1.0f);
+			img.font.Size = 14;
 			img.font.Color = Color.White;
 		}
 

@@ -149,7 +149,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <returns></returns>
 		public Point PixelToLogicalCoords(Point point)
 		{
-			var coords = FrameBuffer.CoordinateSystem.DetermineCoordinateSystem(FrameBuffer.Size);
+			var coords = FrameBuffer.CoordinateSystem.Coordinates;
 			
 			double x = point.X / (double)Width;
 			double y = point.Y / (double)Height;
@@ -170,7 +170,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <returns></returns>
 		public Point LogicalToPixelCoords(Point point)
 		{
-			var coords = FrameBuffer.CoordinateSystem.DetermineCoordinateSystem(FrameBuffer.Size);
+			var coords = FrameBuffer.CoordinateSystem.Coordinates;
 
 			point.X -= coords.X;
 			point.Y -= coords.Y;

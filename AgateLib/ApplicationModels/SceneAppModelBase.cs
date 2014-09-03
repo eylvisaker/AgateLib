@@ -26,12 +26,8 @@ namespace AgateLib.ApplicationModels
 
 				BeginModel();
 			}
-			finally
-			{
-				//DisposeAutoCreatedWindow();
-
-				//Dispose();
-			}
+			catch (ExitGameException)
+			{ }
 		}
 
 		protected abstract void BeginModel();

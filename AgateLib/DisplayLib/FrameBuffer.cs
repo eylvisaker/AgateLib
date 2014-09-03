@@ -159,7 +159,7 @@ namespace AgateLib.DisplayLib
 		/// framebuffer as a render target, this coordinate system is automatically
 		/// loaded.
 		/// </summary>
-		public ICoordinateSystemCreator CoordinateSystem
+		public ICoordinateSystem CoordinateSystem
 		{
 			get { return Impl.CoordinateSystem; }
 			set { Impl.CoordinateSystem = value; }

@@ -28,11 +28,13 @@ namespace AgateLib.Geometry.CoordinateSystems
 	/// Constructs a coordinate system which matches the pixels coordinates of the display window,
 	/// up to an optional maximum height and width.
 	/// </summary>
-	public class NativeCoordinates : ICoordinateSystemCreator
+	public class NativeCoordinates : ICoordinateSystem
 	{
-		public Rectangle DetermineCoordinateSystem(Size displayWindowSize)
+		Size mRenderTargetSize;
+
+		void DetermineCoordinateSystem()
 		{
-			Rectangle retval = new Rectangle(Point.Empty, displayWindowSize);
+			Rectangle retval = new Rectangle(Point.Empty, mRenderTargetSize);
 
 			if (MaxSize != null)
 			{
@@ -40,9 +42,24 @@ namespace AgateLib.Geometry.CoordinateSystems
 				retval.Height = Math.Min(retval.Height, MaxSize.Value.Height);
 			}
 
-			return retval;
+			Coordinates = retval;
 		}
 
 		public Size? MaxSize { get; set; }
+
+		public Size RenderTargetSize
+		{
+			get
+			{
+				return mRenderTargetSize;
+			}
+			set
+			{
+				mRenderTargetSize = value;
+				DetermineCoordinateSystem();
+			}
+		}
+
+		public Rectangle Coordinates { get; private set;}
 	}
 }

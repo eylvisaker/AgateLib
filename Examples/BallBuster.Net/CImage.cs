@@ -22,7 +22,6 @@ using System;
 using AgateLib.Resources.Legacy;
 using AgateLib.Sprites;
 using AgateLib.DisplayLib;
-using AgateLib.Platform.WindowsForms.Resources;
 
 namespace BallBuster.Net
 {
@@ -51,16 +50,13 @@ namespace BallBuster.Net
 
 		public Sprite arrow, bblogo, palogo, xlogo;
 
-		public FontSurface font;
-		public FontSurface largeFont;
+		public Font font;
 
 		//public TextStyler fontStyler;
 
 		public void preload()
 		{
-			this.font = BuiltinResources.AgateSans10;
-			this.largeFont = BuiltinResources.AgateSans24;
-			this.largeFont.SetScale(0.8, 0.8);
+			this.font = AgateLib.Assets.Fonts.AgateSans;
 
 			this.palogo = new Sprite(spritesSrc, "palogo");
 		}

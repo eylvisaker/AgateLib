@@ -26,6 +26,6 @@ namespace AgateLib.DisplayLib
 		/// <summary>
 		/// Gets or sets the coordinate system for the render target.
 		/// </summary>
-		ICoordinateSystemCreator CoordinateSystem { get; set; }
+		ICoordinateSystem CoordinateSystem { get; set; }
 	}
 }

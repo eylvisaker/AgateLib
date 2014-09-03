@@ -4,10 +4,9 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
-using AgateLib.Platform.WindowsForms.Resources;
 using AgateLib.ApplicationModels;
 using AgateLib.InputLib.Legacy;
+using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace Pong
 {
@@ -30,7 +29,7 @@ namespace Pong
 			});
 		}
 
-		FontSurface font;
+		Font font;
 		int[] score = new int[2];
 		string[] names = new string[] { "Player", "CPU" };
 
@@ -51,7 +50,8 @@ namespace Pong
 
 		void Run(string[] args)
 		{
-			font = BuiltinResources.AgateSans14;
+			font = AgateLib.Assets.Fonts.AgateSans;
+			font.Size = 14;
 
 			paddle[0] = new Vector2(50, displayHeight / 2);
 			paddle[1] = new Vector2(playAreaWidth - 50 - paddleWidth, displayHeight / 2);

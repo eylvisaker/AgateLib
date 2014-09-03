@@ -41,7 +41,7 @@ namespace AgateLib.OpenGL
 		public ContextFB(AgateLib.DisplayLib.DisplayWindow attachedWindow,
 						 GraphicsMode graphicsMode, IWindowInfo window, Size size,
 						 bool depthBuffer, bool stencilBuffer,
-						 ICoordinateSystemCreator coords)
+						 ICoordinateSystem coords)
 			: base(coords)
 		{
 			mGraphicsMode = graphicsMode;

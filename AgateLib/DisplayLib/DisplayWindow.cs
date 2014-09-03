@@ -39,7 +39,7 @@ namespace AgateLib.DisplayLib
 	{
 		DisplayWindowImpl mImpl;
 		FrameBuffer mFrameBuffer;
-		ICoordinateSystemCreator mCoordinates;
+		ICoordinateSystem mCoordinates;
 
 		/// <summary>
 		/// Constructs a DisplayWindow from a resource.
@@ -53,7 +53,6 @@ namespace AgateLib.DisplayLib
 
 			if (disp == null)
 				throw new Resources.AgateResourceException("Resource " + name + " was found, but was of type " + name.GetType().ToString() + ", not DisplayWindowResource.");
-
 
 			if (disp.FullScreen)
 			{
@@ -92,6 +91,9 @@ namespace AgateLib.DisplayLib
 
 			// TODO: Fix this hack
 			Display.CurrentWindow = this;
+
+			mCoordinates = windowParams.Coordinates;
+			mCoordinates.RenderTargetSize = Size;
 		}
 
 		#region --- Static Creation Methods ---
@@ -105,7 +107,7 @@ namespace AgateLib.DisplayLib
 		/// new DisplayWindow(CreateWindowParams.FromControl(control)).</remarks>
 		/// <param name="control">Windows.Forms control which should be used as the
 		/// render target.</param>
-		public static DisplayWindow CreateFromControl(object control, ICoordinateSystemCreator coordinates = null)
+		public static DisplayWindow CreateFromControl(object control, ICoordinateSystem coordinates = null)
 		{
 			return new DisplayWindow(CreateWindowParams.FromControl(control, coordinates));
 		}
@@ -117,7 +119,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <returns></returns>
-		public static DisplayWindow CreateFullScreen(string title, Size size, ICoordinateSystemCreator coordinates = null)
+		public static DisplayWindow CreateFullScreen(string title, Size size, ICoordinateSystem coordinates = null)
 		{
 			return new DisplayWindow(CreateWindowParams.FullScreen(title, size.Width, size.Height, 32, coordinates));
 		}
@@ -129,7 +131,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <returns></returns>
-		public static DisplayWindow CreateFullScreen(string title, int width, int height, ICoordinateSystemCreator coordinates = null)
+		public static DisplayWindow CreateFullScreen(string title, int width, int height, ICoordinateSystem coordinates = null)
 		{
 			return new DisplayWindow(CreateWindowParams.FullScreen(title, width, height, 32, null));
 		}
@@ -140,7 +142,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="title"></param>
 		/// <param name="size"></param>
 		/// <returns></returns>
-		public static DisplayWindow CreateWindowed(string title, Size size, ICoordinateSystemCreator coordinates = null)
+		public static DisplayWindow CreateWindowed(string title, Size size, ICoordinateSystem coordinates = null)
 		{
 			return DisplayWindow.CreateWindowed(title, size.Width, size.Height, false, null, coordinates);
 		}
@@ -153,7 +155,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="iconFile"></param>
 		/// <param name="allowResize"></param>
 		/// <returns></returns>
-		public static DisplayWindow CreateWindowed(string title, int width, int height, bool allowResize = false, string iconFile = null, ICoordinateSystemCreator coordinates = null)
+		public static DisplayWindow CreateWindowed(string title, int width, int height, bool allowResize = false, string iconFile = null, ICoordinateSystem coordinates = null)
 		{
 			return new DisplayWindow(CreateWindowParams.Windowed(title, width, height, allowResize, iconFile, null));
 		}
@@ -165,7 +167,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <returns></returns>
-		public static DisplayWindow CreateNoFrame(string title, int width, int height, ICoordinateSystemCreator coordinates = null)
+		public static DisplayWindow CreateNoFrame(string title, int width, int height, ICoordinateSystem coordinates = null)
 		{
 			return new DisplayWindow(CreateWindowParams.NoFrame(title, width, height, null));
 		}

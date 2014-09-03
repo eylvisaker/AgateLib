@@ -17,9 +17,10 @@
 //along with Ball: Buster; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using AgateLib.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 using System;
 using System.Collections.Generic;
-using AgateLib.Platform.WindowsForms.ApplicationModels;
 
 namespace BallBuster.Net
 {
@@ -31,10 +32,10 @@ namespace BallBuster.Net
 		[STAThread]
 		static void Main(string[] args)
 		{
-			var parameters = new PassiveModelParameters(args);
+			var parameters = new SerialModelParameters(args);
 
 			parameters.AssetLocations.Surfaces = "imgs";
-			var model = new PassiveModel(parameters);
+			var model = new SerialModel(parameters);
 
 			model.Run(() =>
 			 {

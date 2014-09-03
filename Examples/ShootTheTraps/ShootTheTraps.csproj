@@ -17,6 +17,7 @@
     </UpgradeBackupLocation>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <_ResolveReferenceDependencies>true</_ResolveReferenceDependencies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -99,9 +100,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
+    <ProjectReference Include="..\..\AgateLib.AgateSDL\AgateLib.AgateSDL.csproj">
+      <Project>{935d67a0-931e-46de-9f6a-2d6dbc99aff3}</Project>
+      <Name>AgateLib.AgateSDL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AgateLib.OpenGL\AgateLib.OpenGL.csproj">
+      <Project>{94734e5a-0344-43e8-bb30-e32e3f57f611}</Project>
+      <Name>AgateLib.OpenGL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AgateLib.Platform.WinForms\AgateLib.Platform.WinForms.csproj">
       <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
-      <Name>AgateLib.Platform.WindowsForms</Name>
+      <Name>AgateLib.Platform.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{198C4842-0000-0000-0000-000000000000}</Project>

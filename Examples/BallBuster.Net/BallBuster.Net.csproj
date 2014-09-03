@@ -82,6 +82,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>out\</OutputPath>
@@ -157,9 +158,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
+    <ProjectReference Include="..\..\AgateLib.AgateSDL\AgateLib.AgateSDL.csproj">
+      <Project>{935d67a0-931e-46de-9f6a-2d6dbc99aff3}</Project>
+      <Name>AgateLib.AgateSDL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AgateLib.OpenGL\AgateLib.OpenGL.csproj">
+      <Project>{94734e5a-0344-43e8-bb30-e32e3f57f611}</Project>
+      <Name>AgateLib.OpenGL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AgateLib.Platform.WinForms\AgateLib.Platform.WinForms.csproj">
       <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
-      <Name>AgateLib.Platform.WindowsForms</Name>
+      <Name>AgateLib.Platform.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>

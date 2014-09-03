@@ -219,7 +219,7 @@ namespace AgateLib.DisplayLib
 		/// The object which will be used to set the coordinate system for the window
 		/// at the beginning of each frame.
 		/// </summary>
-		public ICoordinateSystemCreator Coordinates { get; set; }
+		public ICoordinateSystem Coordinates { get; set; }
 
 		#endregion
 
@@ -231,7 +231,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="control"></param>
 		/// <param name="coordinates">Coordinate system creator object. May be null</param>
 		/// <returns></returns>
-		public static CreateWindowParams FromControl(object control, ICoordinateSystemCreator coordinates)
+		public static CreateWindowParams FromControl(object control, ICoordinateSystem coordinates)
 		{
 			CreateWindowParams retval = new CreateWindowParams();
 
@@ -251,7 +251,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="bpp"></param>
 		/// <param name="coordinates">Coordinate system creator object. May be null</param>
 		/// <returns></returns>
-		public static CreateWindowParams FullScreen(string title, int width, int height, int bpp, ICoordinateSystemCreator coordinates)
+		public static CreateWindowParams FullScreen(string title, int width, int height, int bpp, ICoordinateSystem coordinates)
 		{
 			CreateWindowParams retval = new CreateWindowParams();
 
@@ -274,7 +274,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="allowResize"></param>
 		/// <param name="coordinates">Coordinate system creator object. May be null</param>
 		/// <returns></returns>
-		public static CreateWindowParams Windowed(string title, int width, int height, bool allowResize, string iconFile, ICoordinateSystemCreator coordinates)
+		public static CreateWindowParams Windowed(string title, int width, int height, bool allowResize, string iconFile, ICoordinateSystem coordinates)
 		{
 			CreateWindowParams retval = new CreateWindowParams();
 
@@ -298,7 +298,7 @@ namespace AgateLib.DisplayLib
 		/// <param name="height"></param>
 		/// <param name="coordinates">Coordinate system creator object. May be null</param>
 		/// <returns></returns>
-		public static CreateWindowParams NoFrame(string title, int width, int height, ICoordinateSystemCreator coordinates)
+		public static CreateWindowParams NoFrame(string title, int width, int height, ICoordinateSystem coordinates)
 		{
 			CreateWindowParams retval = new CreateWindowParams();
 

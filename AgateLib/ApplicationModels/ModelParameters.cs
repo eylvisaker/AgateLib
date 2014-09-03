@@ -100,7 +100,7 @@ namespace AgateLib.ApplicationModels
 		/// system for the automatically created display window. If 
 		/// AutoCreateDisplayWindow is false, this property is not used.
 		/// </summary>
-		public ICoordinateSystemCreator CoordinateSystem { get; set; }
+		public ICoordinateSystem CoordinateSystem { get; set; }
 
 		/// <summary>
 		/// Indicates the device type to emulate. This primarily affects the built-in user interface
