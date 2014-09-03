@@ -189,9 +189,13 @@ namespace AgateLib.DisplayLib
 		{
 			FontSurface.DrawText(x, y, text, Parameters);
 		}
-		public void DrawTest(double x, double y, string text)
+		public void DrawText(double x, double y, string text)
 		{
 			FontSurface.DrawText(x, y, text);
+		}
+		public void DrawText(PointF dest, string text)
+		{
+			FontSurface.DrawText(dest, text);
 		}
 
 		public Size MeasureString(string text)

@@ -77,17 +77,19 @@ namespace AgateLib.Algorithms.PathFinding
 		/// task.CompletedCallBack is ignored.
 		/// </summary>
 		/// <param name="task"></param>
-		public void FindPathSync(AStarState<T> task)
+		public void FindPathSync(AStarState<T> state)
 		{
 			try
 			{
-				task.SearchingPath = true;
+				state.SearchingPath = true;
 
-				FindPath(task).RunSynchronously();
+				var task = FindPath(state);
+
+				task.Wait();
 			}
 			finally
 			{
-				task.SearchingPath = false;
+				state.SearchingPath = false;
 			}
 		}
 
