@@ -234,5 +234,19 @@ namespace AgateLib.AgateSDL.Sdl2
 		{
 			return SDL.SDL_GetError();
 		}
+		
+		SDL_mixer.MixFuncDelegate mixFuncStorage;
+		public void Mix_HookMusic(SDL_mixer_MixFuncDelegate mix_func, IntPtr arg)
+		{
+			if (mix_func != null)
+			{
+				mixFuncStorage = new SDL_mixer.MixFuncDelegate(mix_func);
+				SDL_mixer.Mix_HookMusic(mixFuncStorage, arg);
+			}
+			else
+			{
+				SDL_mixer.Mix_HookMusic(null, arg);
+			}
+		}
 	}
 }

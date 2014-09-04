@@ -51,5 +51,7 @@ namespace AgateLib.AgateSDL.Sdl2
 		void Mix_Pause(int channel);
 
 		string GetError();
+
+		void Mix_HookMusic(SDL_mixer_MixFuncDelegate mix_func, IntPtr arg);
 	}
 }

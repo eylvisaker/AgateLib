@@ -1,4 +1,5 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+﻿using AgateLib.AudioLib.ImplementationBase;
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -25,9 +26,37 @@ namespace AgateLib.Drivers.NullDrivers
 {
 	public class NullSoundFactory : IAudioFactory
 	{
-		public AudioLib.ImplementationBase.AudioImpl CreateAudioImpl()
+		public NullSoundFactory()
 		{
-			return new NullSoundImpl();
+			AudioImpl = new NullSoundImpl();
+		}
+
+		public AudioImpl AudioImpl { get;private set;}
+
+		public SoundBufferImpl CreateSoundBuffer(string filename)
+		{
+			return new NullSoundBufferImpl();
+		}
+		public SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
+		{
+			return new NullSoundBufferImpl();
+		}
+		public MusicImpl CreateMusic(string filename)
+		{
+			return new NullMusicImpl();
+		}
+		public SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
+		{
+			return new NullSoundBufferSessionImpl();
+		}
+		public MusicImpl CreateMusic(System.IO.Stream musicStream)
+		{
+			return new NullMusicImpl();
+		}
+
+		public StreamingSoundBufferImpl CreateStreamingSoundBuffer(System.IO.Stream input, AudioLib.SoundFormat format)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
