@@ -21,7 +21,7 @@ namespace AgateLib.Platform.WindowsMetro.Factories
 			mDisplayFactory = new DisplayFactory();
 			PlatformFactory = new WinPlatformFactory(assets);
 
-			AudioFactory = new NullSoundFactory();
+			AudioFactory = new AudioFactoryDX();
 			InputFactory = new NullInputFactory();
 		}
 

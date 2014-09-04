@@ -15,7 +15,7 @@ namespace AgateLib.Display
 	{
 		FakeDisplayWindow wind;
 
-		class FixedCoords : ICoordinateSystemCreator
+		class FixedCoords : ICoordinateSystem
 		{
 			public Rectangle Coordinates { get; set; }
 			public FixedCoords(Rectangle rect)
@@ -27,7 +27,10 @@ namespace AgateLib.Display
 			{
 				return Coordinates;
 			}
+
+			public Size RenderTargetSize { get; set; }
 		}
+
 		[TestInitialize]
 		public void Initialize()
 		{

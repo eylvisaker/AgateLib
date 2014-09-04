@@ -21,7 +21,7 @@ namespace AgateLib.Platform.WindowsPhone.Factories
 			mDisplayFactory = new DisplayFactory();
 			PlatformFactory = new WPPlatformFactory(assets);
 
-			AudioFactory = new NullSoundFactory();
+			AudioFactory = new AudioFactoryDX();
 			InputFactory = new NullInputFactory();
 		}
 

@@ -20,6 +20,6 @@ namespace AgateLib.Testing.Fakes
 		public int Width { get { return 640; } }
 		public Size Size { get { return new Size(Width, Height); } }
 
-		public ICoordinateSystemCreator CoordinateSystem { get;set;}
+		public ICoordinateSystem CoordinateSystem { get; set; }
 	}
 }

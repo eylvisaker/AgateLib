@@ -59,7 +59,7 @@ namespace AgateLib.Drivers
 		/// </summary>
 		/// <param name="buffer"></param>
 		/// <returns></returns>
-		SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer);
+		SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferSession owner, SoundBufferImpl buffer);
 		/// <summary>
 		/// Creates a SoundBufferImpl object.
 		/// </summary>
