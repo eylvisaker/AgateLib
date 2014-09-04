@@ -18,16 +18,14 @@ namespace AgateLib.ApplicationModels
 			var fac = new FixedAspectRatioCoordinates();
 			fac.PreserveDisplayAspectRatio = false;
 
-			Assert.AreEqual(new Rectangle(0, 0, 1280, 720),
-				fac.DetermineCoordinateSystem(new Size(1280, 720)));
+			fac.RenderTargetSize = new Size(1280, 720);
+			Assert.AreEqual(new Rectangle(0, 0, 1280, 720), fac.Coordinates);
 
-			Assert.AreEqual(new Rectangle(0, 0, 1422, 800),
-				fac.DetermineCoordinateSystem(new Size(1500, 800)));
+			fac.RenderTargetSize = new Size(1500, 800);
+			Assert.AreEqual(new Rectangle(0, 0, 1422, 800), fac.Coordinates);
 
 			fac.Origin = new Point(-21, -52);
-
-			Assert.AreEqual(new Rectangle(-21, -52, 1280, 720),
-				fac.DetermineCoordinateSystem(new Size(1280, 720)));
+			Assert.AreEqual(new Rectangle(-21, -52, 1422, 800), fac.Coordinates);
 
 			fac.MinWidth = 1280;
 			fac.MaxWidth = 1920;
@@ -35,20 +33,20 @@ namespace AgateLib.ApplicationModels
 			fac.MinHeight = 720;
 			fac.MaxHeight = 1080;
 
-			Assert.AreEqual(new Rectangle(-21, -52, 1280, 720),
-				fac.DetermineCoordinateSystem(new Size(1000, 500)));
+			fac.RenderTargetSize = new Size(1000, 500);
+			Assert.AreEqual(new Rectangle(-21, -52, 1280, 720), fac.Coordinates);
 
-			Assert.AreEqual(new Rectangle(-21, -52, 1280, 720),
-				fac.DetermineCoordinateSystem(new Size(1280, 720)));
+			fac.RenderTargetSize = new Size(1280, 720);
+			Assert.AreEqual(new Rectangle(-21, -52, 1280, 720), fac.Coordinates);
 
-			Assert.AreEqual(new Rectangle(-21, -52, 1422, 800),
-				fac.DetermineCoordinateSystem(new Size(1500, 800)));
+			fac.RenderTargetSize = new Size(1500, 800);
+			Assert.AreEqual(new Rectangle(-21, -52, 1422, 800), fac.Coordinates);
 
-			Assert.AreEqual(new Rectangle(-21, -52, 1920, 1080),
-				fac.DetermineCoordinateSystem(new Size(2000, 2000)));
+			fac.RenderTargetSize = new Size(2000, 2000);
+			Assert.AreEqual(new Rectangle(-21, -52, 1920, 1080), fac.Coordinates);
 
-			Assert.AreEqual(new Rectangle(-21, -52, 1920, 1080),
-				fac.DetermineCoordinateSystem(new Size(1920, 1080)));
+			fac.RenderTargetSize = new Size(1920, 1080);
+			Assert.AreEqual(new Rectangle(-21, -52, 1920, 1080), fac.Coordinates);
 		}
 
 		[TestMethod]
@@ -56,8 +54,8 @@ namespace AgateLib.ApplicationModels
 		{
 			var fac = new FixedAspectRatioCoordinates();
 
-			Assert.AreEqual(new Rectangle(0, 0, 1280, 720),
-				fac.DetermineCoordinateSystem(new Size(1280, 720)));
+			fac.RenderTargetSize = new Size(1280, 720);
+			Assert.AreEqual(new Rectangle(0, 0, 1280, 720), fac.Coordinates);
 
 			fac.MinWidth = 1280;
 			fac.MaxWidth = 1920;
@@ -70,9 +68,8 @@ namespace AgateLib.ApplicationModels
 			// total height in logical units will also be 1280. 
 			// But the range from 0 to 720 will be centered
 			// so the vertical axis will split the difference above and below that.
-			Assert.AreEqual(Rectangle.FromLTRB(0, -280, 1280, 1000),
-				fac.DetermineCoordinateSystem(new Size(500, 500)));
-
+			fac.RenderTargetSize = new Size(500, 500);
+			Assert.AreEqual(Rectangle.FromLTRB(0, -280, 1280, 1000), fac.Coordinates);
 
 			// the height will be fit to 500 pixels, so 720 logical points = 500 pixels high.
 			// We want to preserve aspect ratio, so since the window is 1500 pixels wide the 
@@ -80,8 +77,8 @@ namespace AgateLib.ApplicationModels
 			// But the range from 0 to 1280 will be centered
 			// so the horizontal axis will split the difference of 880 to the left and right 
 			// of that.
-			Assert.AreEqual(Rectangle.FromLTRB(-440, 0, 1720, 720),
-				fac.DetermineCoordinateSystem(new Size(1500, 500)));
+			fac.RenderTargetSize = new Size(1500, 500);
+			Assert.AreEqual(Rectangle.FromLTRB(-440, 0, 1720, 720), fac.Coordinates);
 		}
 	}
 }

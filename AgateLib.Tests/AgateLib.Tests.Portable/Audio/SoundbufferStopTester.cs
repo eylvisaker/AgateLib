@@ -24,6 +24,7 @@ namespace AgateLib.Testing.AudioTests
 		}
 
 		SoundBuffer snda, sndb;
+		SoundBuffer last;
 
 		public void EntryPoint()
 		{
@@ -33,12 +34,13 @@ namespace AgateLib.Testing.AudioTests
 			Font font = Assets.Fonts.AgateSans;
 
 			Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
-
+			Mouse.MouseDown += Mouse_MouseDown;
 			while (Display.CurrentWindow.IsClosed == false)
 			{
 				Display.BeginFrame();
 				Display.Clear();
 
+				font.Size = 14;
 				font.Color = Color.White;
 				font.DrawText("Press a for first sound, b for second sound.");
 
@@ -50,6 +52,19 @@ namespace AgateLib.Testing.AudioTests
 				Display.EndFrame();
 				Core.KeepAlive();
 			}
+
+			Keyboard.KeyDown -= Keyboard_KeyDown;
+			Mouse.MouseDown -= Mouse_MouseDown;
+		}
+
+		void Mouse_MouseDown(InputEventArgs e)
+		{
+			if (last == snda)
+				last = sndb;
+			else
+				last = snda;
+
+			last.Play();
 		}
 
 		void Keyboard_KeyDown(InputEventArgs e)

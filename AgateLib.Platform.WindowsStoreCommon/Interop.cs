@@ -20,5 +20,9 @@ namespace AgateLib.Platform.WindowsStore
 		{
 			return new Geometry.Size((int)size.Width, (int)size.Height);
 		}
+		public static Geometry.Point ToAgatePoint(this Windows.Foundation.Point pt)
+		{
+			return new Geometry.Point((int)pt.X, (int)pt.Y);
+		}
 	}
 }

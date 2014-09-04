@@ -42,7 +42,7 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 			DisplayWindow attachedWindow,
 			SharpDXContext context,
 			IRenderTargetAdapter renderTarget,
-			ICoordinateSystemCreator coords) : base(coords)
+			ICoordinateSystem coords) : base(coords)
 		{
 			if (context == null) throw new ArgumentNullException();
 

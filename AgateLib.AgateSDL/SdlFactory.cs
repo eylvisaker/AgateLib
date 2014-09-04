@@ -45,9 +45,9 @@ namespace AgateLib.AgateSDL
 		{
 			return new SDL_SoundBuffer(inStream);
 		}
-		public SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
+		public SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferSession owner, SoundBufferImpl buffer)
 		{
-			return new SDL_SoundBufferSession((SDL_SoundBuffer)buffer);
+			return new SDL_SoundBufferSession(owner, (SDL_SoundBuffer)buffer);
 		}
 		public StreamingSoundBufferImpl CreateStreamingSoundBuffer(Stream input, SoundFormat format)
 		{

@@ -32,13 +32,14 @@ namespace AgateLib.Geometry.CoordinateSystems
 	/// </summary>
 	public class FixedAspectRatioCoordinates : ICoordinateSystem
 	{
+		Point mOrigin;
+		Size mRenderTargetSize;
+
 		public FixedAspectRatioCoordinates()
 		{
 			PreserveDisplayAspectRatio = true;
 			AspectRatio = 16 / (double)9;
 		}
-
-		Size mRenderTargetSize;
 
 		public Size RenderTargetSize
 		{
@@ -49,6 +50,20 @@ namespace AgateLib.Geometry.CoordinateSystems
 				DetermineCoordinateSystem();
 			}
 		}
+		/// <summary>
+		/// The value of the coordinate system in the upper left corner of 
+		/// the display area.
+		/// </summary>
+		public Point Origin
+		{
+			get { return mOrigin; }
+			set
+			{
+				mOrigin = value;
+				DetermineCoordinateSystem();
+			}
+		}
+
 		public Rectangle Coordinates { get; private set; }
 
 		public void DetermineCoordinateSystem()
@@ -132,12 +147,6 @@ namespace AgateLib.Geometry.CoordinateSystems
 		public int? MaxWidth { get; set; }
 
 		public double AspectRatio { get; set; }
-
-		/// <summary>
-		/// The value of the coordinate system in the upper left corner of 
-		/// the display area.
-		/// </summary>
-		public Point Origin { get; set; }
 
 	}
 }

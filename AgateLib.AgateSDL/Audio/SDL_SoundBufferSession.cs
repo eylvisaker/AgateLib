@@ -25,6 +25,7 @@ using AgateLib;
 using AgateLib.AudioLib.ImplementationBase;
 using SDL2;
 using AgateLib.AgateSDL.Sdl2;
+using AgateLib.AudioLib;
 
 namespace AgateLib.AgateSDL.Audio
 {
@@ -42,10 +43,11 @@ namespace AgateLib.AgateSDL.Audio
 
 		public bool mIsPlaying;
 
-		public SDL_SoundBufferSession(SDL_SoundBuffer buffer)
+		public SDL_SoundBufferSession(SoundBufferSession owner, SDL_SoundBuffer buffer)
 		{
 			sdl = SdlFactory.CreateSDL();
-
+			Owner = owner;
+			
 			this.buffer = buffer;
 			loop = buffer.Loop;
 
@@ -62,6 +64,7 @@ namespace AgateLib.AgateSDL.Audio
 		{
 			Stop();
 		}
+		public SoundBufferSession Owner { get; private set; }
 
 		protected override void Initialize()
 		{

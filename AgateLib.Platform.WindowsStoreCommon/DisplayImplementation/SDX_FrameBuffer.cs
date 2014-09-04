@@ -32,7 +32,7 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 		bool mHasDepth;
 		bool mHasStencil;
 
-		public SDX_FrameBuffer(ICoordinateSystemCreator coords) : base(coords)
+		public SDX_FrameBuffer(ICoordinateSystem coords) : base(coords)
 		{
 		}
 
