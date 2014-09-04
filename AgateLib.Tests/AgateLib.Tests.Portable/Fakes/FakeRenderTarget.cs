@@ -14,6 +14,7 @@ namespace AgateLib.Testing.Fakes
 		public FakeRenderTarget()
 		{
 			CoordinateSystem = new NativeCoordinates();
+			CoordinateSystem.RenderTargetSize = Size;
 		}
 
 		public int Height { get { return 400; } }
