@@ -36,8 +36,6 @@ namespace AgateLib.AgateSDL.Audio
 
 		public SDL_Audio()
 		{
-			sdl = SdlFactory.CreateSDL();
-
 			FileProvider = AgateLib.IO.FileProvider.SoundAssets;
 		}
 		public SDL_Audio(IReadFileProvider fileProvider)
@@ -86,38 +84,16 @@ namespace AgateLib.AgateSDL.Audio
 			}
 		}
 
-		public override MusicImpl CreateMusic(string filename)
-		{
-			return new SDL_Music(this, filename);
-		}
-		public override MusicImpl CreateMusic(System.IO.Stream musicStream)
-		{
-			return new SDL_Music(this, musicStream);
-		}
-
-		public override SoundBufferImpl CreateSoundBuffer(string filename)
-		{
-			return new SDL_SoundBuffer(filename);
-		}
-		public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
-		{
-			return new SDL_SoundBuffer(inStream);
-		}
-		public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
-		{
-			return new SDL_SoundBufferSession((SDL_SoundBuffer)buffer);
-		}
-
-
 		public override void Initialize()
 		{
+			sdl = SdlFactory.CreateSDL();
+
 			if (sdl.SDL_InitSubSystem(SDLConstants.SDL_INIT_AUDIO) != 0)
 			{
 				throw new AgateLib.AgateException("Failed to initialize SDL for audio playback.");
 			}
 
-			if (sdl.Mixer.Mix_OpenAudio(
-				SDLConstants.MIX_DEFAULT_FREQUENCY, SDLConstants.AUDIO_S16, 2, 512) != 0)
+			if (sdl.Mixer.Mix_OpenAudio(44100, SDLConstants.AUDIO_S16, 2, 512) != 0)
 			{
 				throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
 			}
@@ -146,5 +122,15 @@ namespace AgateLib.AgateSDL.Audio
 		{
 			mChannels[channel] = session;
 		}
+
+		public override void Update()
+		{
+			base.Update();
+
+			if (UpdateCalled != null)
+				UpdateCalled(this, EventArgs.Empty);
+		}
+
+		public event EventHandler UpdateCalled;
 	}
 }

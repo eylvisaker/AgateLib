@@ -1,4 +1,5 @@
-﻿using AgateLib.ApplicationModels;
+﻿using AgateLib.AgateSDL;
+using AgateLib.ApplicationModels;
 using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 using AgateLib.Platform.WinForms.Resources;
@@ -20,7 +21,7 @@ namespace AgateLib.Platform.WinForms.Factories
 			DisplayFactory = new DisplayFactory();
 			mPlatformFactory = new PlatformFactory();
 
-			var sdl = new SdlFactory();
+			var sdl = new AgateSdlFactory();
 
 			AudioFactory = sdl;
 			InputFactory = sdl;

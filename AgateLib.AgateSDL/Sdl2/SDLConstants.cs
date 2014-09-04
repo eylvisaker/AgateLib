@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AgateLib.AgateSDL.Sdl2
 {
-	class SDLConstants
+	static class SDLConstants
 	{
 		public const uint SDL_INIT_TIMER = 0x00000001;
 		public const uint SDL_INIT_AUDIO = 0x00000010;
@@ -73,4 +74,11 @@ namespace AgateLib.AgateSDL.Sdl2
 		public const byte SDL_HAT_LEFTUP = SDL_HAT_LEFT | SDL_HAT_UP;
 		public const byte SDL_HAT_LEFTDOWN = SDL_HAT_LEFT | SDL_HAT_DOWN;
 	}
+	
+	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	public delegate void SDL_mixer_MixFuncDelegate(
+		IntPtr udata, // void*
+		IntPtr stream, // Uint8*
+		int len
+	);
 }

@@ -27,119 +27,6 @@ namespace AgateLib.Drivers.NullDrivers
 {
 	public class NullSoundImpl : AudioImpl
 	{
-		class NullSoundBufferImpl : SoundBufferImpl
-		{
-			public override void Dispose()
-			{
-
-			}
-			public override double Volume
-			{
-				get
-				{
-					return 0;
-				}
-				set
-				{
-
-				}
-			}
-
-		}
-		public class NullSoundBufferSessionImpl : SoundBufferSessionImpl
-		{
-			public override void Dispose()
-			{
-			}
-			public override void Play()
-			{
-			}
-			public override void Stop()
-			{
-			}
-			public override double Volume
-			{
-				get
-				{
-					return 0;
-				}
-				set
-				{
-
-				}
-			}
-			public override double Pan
-			{
-				get
-				{
-					return 0;
-				}
-				set
-				{
-
-				}
-			}
-			public override bool IsPlaying
-			{
-				get { return false; }
-			}
-
-			public override int CurrentLocation
-			{
-				get { return 0; }
-			}
-
-			protected internal override void Initialize()
-			{
-			}
-
-			public override bool IsPaused { get; set; }
-		}
-		public class NullMusicImpl : MusicImpl
-		{
-			protected override void OnSetLoop(bool value)
-			{
-
-			}
-			public override void Dispose()
-			{
-
-			}
-			public override void Play()
-			{
-
-			}
-			public override void Stop()
-			{
-
-			}
-			public override double Volume
-			{
-				get
-				{
-					return 0;
-				}
-				set
-				{
-
-				}
-			}
-			public override double Pan
-			{
-				get
-				{
-					return 0;
-				}
-				set
-				{
-
-				}
-			}
-			public override bool IsPlaying
-			{
-				get { return false; }
-			}
-		}
 		public override void Initialize()
 		{
 			Report("No audio driver found.  Audio will not be heard.");
@@ -149,30 +36,146 @@ namespace AgateLib.Drivers.NullDrivers
 		{
 		}
 
-		public override SoundBufferImpl CreateSoundBuffer(string filename)
-		{
-			return new NullSoundBufferImpl();
-		}
-		public override SoundBufferImpl CreateSoundBuffer(System.IO.Stream inStream)
-		{
-			return new NullSoundBufferImpl();
-		}
-		public override MusicImpl CreateMusic(string filename)
-		{
-			return new NullMusicImpl();
-		}
-		public override SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer)
-		{
-			return new NullSoundBufferSessionImpl();
-		}
-		public override MusicImpl CreateMusic(System.IO.Stream musicStream)
-		{
-			return new NullMusicImpl();
-		}
-
 		protected internal override bool CapsBool(AgateLib.AudioLib.AudioBoolCaps audioBoolCaps)
 		{
 			return false;
 		}
+	}
+	class NullSoundBufferImpl : SoundBufferImpl
+	{
+		public override void Dispose()
+		{
+
+		}
+		public override double Volume
+		{
+			get
+			{
+				return 0;
+			}
+			set
+			{
+
+			}
+		}
+
+	}
+	public class NullSoundBufferSessionImpl : SoundBufferSessionImpl
+	{
+		public override void Dispose()
+		{
+		}
+		public override void Play()
+		{
+		}
+		public override void Stop()
+		{
+		}
+		public override double Volume
+		{
+			get
+			{
+				return 0;
+			}
+			set
+			{
+
+			}
+		}
+		public override double Pan
+		{
+			get
+			{
+				return 0;
+			}
+			set
+			{
+
+			}
+		}
+		public override bool IsPlaying
+		{
+			get { return false; }
+		}
+
+		public override int CurrentLocation
+		{
+			get { return 0; }
+		}
+
+		protected internal override void Initialize()
+		{
+		}
+
+		public override bool IsPaused { get; set; }
+	}
+
+	public class NullMusicImpl : MusicImpl
+	{
+		protected override void OnSetLoop(bool value)
+		{
+
+		}
+		public override void Dispose()
+		{
+
+		}
+		public override void Play()
+		{
+
+		}
+		public override void Stop()
+		{
+
+		}
+		public override double Volume
+		{
+			get
+			{
+				return 0;
+			}
+			set
+			{
+
+			}
+		}
+		public override double Pan
+		{
+			get
+			{
+				return 0;
+			}
+			set
+			{
+
+			}
+		}
+		public override bool IsPlaying
+		{
+			get { return false; }
+		}
+	}
+
+	public class NullStreamingSoundBuffer : StreamingSoundBufferImpl
+	{
+		public override void Play()
+		{
+		}
+
+		public override void Stop()
+		{
+		}
+
+		public override int ChunkSize { get;set;}
+		public override bool IsPlaying
+		{
+			get { return false; }
+		}
+
+		public override void Dispose()
+		{
+		}
+
+		public override double Pan { get;set;}
 	}
 }

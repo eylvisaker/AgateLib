@@ -1,4 +1,6 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+﻿using AgateLib.AudioLib;
+using AgateLib.AudioLib.ImplementationBase;
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -18,6 +20,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +29,50 @@ namespace AgateLib.Drivers
 {
 	public interface IAudioFactory
 	{
-		AudioLib.ImplementationBase.AudioImpl CreateAudioImpl();
+		/// <summary>
+		/// Gets the audio system implementation object.
+		/// </summary>
+		AudioImpl AudioImpl { get; }
+
+		/// <summary>
+		/// Creates a SoundBufferImpl object.
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		SoundBufferImpl CreateSoundBuffer(string filename);
+
+		/// <summary>
+		/// Creates a MusicImpl object.
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		MusicImpl CreateMusic(string filename);
+
+		/// <summary>
+		/// Creates a MusicImpl object.
+		/// </summary>
+		/// <param name="musicStream"></param>
+		/// <returns></returns>
+		MusicImpl CreateMusic(Stream musicStream);
+		/// <summary>
+		/// Creates a SoundBufferSessionImpl object.
+		/// </summary>
+		/// <param name="buffer"></param>
+		/// <returns></returns>
+		SoundBufferSessionImpl CreateSoundBufferSession(SoundBufferImpl buffer);
+		/// <summary>
+		/// Creates a SoundBufferImpl object.
+		/// </summary>
+		/// <param name="inStream"></param>
+		/// <returns></returns>
+		SoundBufferImpl CreateSoundBuffer(Stream inStream);
+
+		/// <summary>
+		/// Creates a streaming sound buffer.
+		/// </summary>
+		/// <param name="input"></param>
+		/// <param name="format"></param>
+		/// <returns></returns>
+		StreamingSoundBufferImpl CreateStreamingSoundBuffer(Stream input, SoundFormat format);
 	}
 }

@@ -89,6 +89,7 @@
     <Compile Include="Audio\SDL_Music.cs" />
     <Compile Include="Audio\SDL_SoundBuffer.cs" />
     <Compile Include="Audio\SDL_SoundBufferSession.cs" />
+    <Compile Include="Audio\SDL_StreamingSoundBuffer.cs" />
     <Compile Include="Input\Joysitck_SDL.cs" />
     <Compile Include="Input\SDL_Input.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Sdl2\ThirtyTwo\SDL2_image.cs" />
     <Compile Include="Sdl2\ThirtyTwo\SDL2_mixer.cs" />
     <Compile Include="Sdl2\ThirtyTwo\SDL2_ttf.cs" />
+    <Compile Include="SdlFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AgateLib.AgateSDL.dll.config" />
