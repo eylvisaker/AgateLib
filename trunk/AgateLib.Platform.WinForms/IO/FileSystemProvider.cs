@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using AgateLib.IO;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ namespace AgateLib.Platform.WinForms.IO
 	public class FileSystemProvider : IReadFileProvider
 	{
 		string mPath;
+		Uri mPathUri;
 
 		/// <summary>
 		/// Constructs a FileSystemProvider object directing it to read files from the
@@ -41,6 +43,16 @@ namespace AgateLib.Platform.WinForms.IO
 		public FileSystemProvider(string path)
 		{
 			mPath = path;
+
+			if (path.EndsWith("/") == false && path.EndsWith("\\") == false)
+				path += "/";
+
+			path = path.Replace('\\', '/');
+
+			if (path.StartsWith("./"))
+				path = Directory.GetCurrentDirectory() + path.Substring(1);
+
+			mPathUri = new Uri(path);
 		}
 		/// <summary>
 		/// Opens a file.
@@ -233,9 +245,23 @@ namespace AgateLib.Platform.WinForms.IO
 		{
 			List<string> files = new List<string>();
 
-			files.AddRange(Directory.GetFiles(mPath, searchPattern));
+			files.AddRange(Directory.GetFiles(mPath, searchPattern)
+				.Select(x => MakeRelativePath(x)));
 
 			return files;
+		}
+
+		/// <summary>
+		/// Constructs a path relative to the root of this file system provider.
+		/// </summary>
+		/// <param name="fullpath"></param>
+		/// <returns></returns>
+		public string MakeRelativePath(string fullpath)
+		{
+			var uri = new Uri(fullpath);
+			var rel = mPathUri.MakeRelativeUri(uri);
+
+			return rel.ToString();
 		}
 
 		/// <summary>
