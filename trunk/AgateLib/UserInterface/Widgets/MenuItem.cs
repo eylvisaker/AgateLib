@@ -65,7 +65,7 @@ namespace AgateLib.UserInterface.Widgets
 			get { return base.Parent; }
 			set
 			{
-				if (value is Menu == false)
+				if (value != null && value is Menu == false)
 					throw new InvalidOperationException("Cannot add a menu item to a container which is not a menu.");
 
 				base.Parent = value;
