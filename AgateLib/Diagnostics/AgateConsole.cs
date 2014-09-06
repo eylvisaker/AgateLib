@@ -56,6 +56,11 @@ namespace AgateLib.Diagnostics
 					throw new AgateException("You must initalize the console before making it visible.");
 
 				sInstance.mVisible = value;
+
+				if (sInstance.mVisible)
+					Input.InputHandlers.BringToTop(sInstance);
+				else
+					Input.InputHandlers.SendToBack(sInstance);
 			}
 		}
 
@@ -72,7 +77,7 @@ namespace AgateLib.Diagnostics
 				return;
 
 			sInstance = Core.Factory.PlatformFactory.CreateConsole();
-			InputLib.Input.InputHandlers.Add(sInstance);
+			Input.InputHandlers.Add(sInstance);
 
 			PrivateInitialize();
 		}

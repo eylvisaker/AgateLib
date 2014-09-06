@@ -216,14 +216,15 @@ namespace AgateLib.UserInterface.Css
 			style.Cache.CssClasses.Clear();
 			style.Cache.CssClasses.AddRange(style.MatchParameters.Classes);
 
-			control.LayoutDirty = false;
+			control.StyleDirty = false;
 		}
 		private bool NeedStyleRefresh(Widget control)
 		{
 			CssStyle style = mObjectStyles[control];
 
-			if (control.LayoutDirty) return true;
 			style.MatchParameters.UpdateWidgetProperties();
+
+			if (control.StyleDirty) return true;
 
 			IEnumerable<string> classes = style.MatchParameters.Classes;
 

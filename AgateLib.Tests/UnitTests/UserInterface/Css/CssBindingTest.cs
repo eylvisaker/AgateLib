@@ -32,12 +32,23 @@ namespace AgateLib.UserInterface.Css.Tests
 		[TestMethod]
 		public void SelectorMatching()
 		{
+			Gui gui = new Gui(null, null);
+			Desktop desktop = new Desktop(gui);
+			Window window = new Window();
+			desktop.Children.Add(window);
+
 			var label1 = new WidgetMatchParameters( new Label { Name = "label1" });
 			var noname = new WidgetMatchParameters(new Label { });
 			var hover = new WidgetMatchParameters( new Label { MouseIn = true });
 
+			window.Children.Add(hover.Widget);
+
 			CssSelectorIndividual sel = new CssSelectorIndividual("label");
 			CssAdapter adapter = new CssAdapter(CssDocument.FromText(""));
+
+			label1.UpdateWidgetProperties();
+			noname.UpdateWidgetProperties();
+			hover.UpdateWidgetProperties();
 
 			Assert.IsTrue(sel.Matches(adapter, label1), "Failed match test 1.");
 			Assert.IsTrue(sel.Matches(adapter, noname), "Failed match test 2.");
@@ -57,9 +68,13 @@ namespace AgateLib.UserInterface.Css.Tests
 		[TestMethod]
 		public void PseudoClassMatching()
 		{
+			Gui gui = new Gui(null, null);
+			Desktop desktop = new Desktop(gui);
+			Window wind = new Window();
+			desktop.Children.Add(wind);
+
 			CssDocument doc = CssDocument.FromText("window:hover { padding: 8px; }");
 			CssAdapter adapter = new CssAdapter(doc);
-			Window wind = new Window();
 			wind.MouseIn = true;
 
 			var style = adapter.GetStyle(wind);

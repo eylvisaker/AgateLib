@@ -24,7 +24,7 @@ namespace AgateLib.UserInterface.Css.Tests
 		CssAdapter adapter;
 
 		[TestInitialize]
-		public void Init()
+		public void CssLInit()
 		{
 			Core.Initialize(new FakeAgateFactory());
 			Core.InitAssetLocations(new AssetLocations());
@@ -47,11 +47,13 @@ namespace AgateLib.UserInterface.Css.Tests
 				"window { layout: column; margin: 6px; padding: 8px;} label { margin-left: 4px; } " +
 				"window.fixed { position: fixed; right: 4px; bottom: 8px; margin: 14px; padding: 9px; border: 2px; } "+
 				"window.fixedleft { position: fixed; left: 4px; top: 8px; margin: 14px; padding: 9px; border: 2px; }");
+
 			adapter = new CssAdapter(doc, ff);
 
 			engine = new CssLayoutEngine(adapter);
 
-			gui = new Gui(new FakeRenderer(), engine);
+			gui = new Gui(new FakeRenderer(), engine); 
+			
 
 			Core.Initialize(new FakeAgateFactory());
 			Core.InitAssetLocations(new AssetLocations());
@@ -68,7 +70,7 @@ namespace AgateLib.UserInterface.Css.Tests
 		}
 
 		[TestMethod]
-		public void BoxModel()
+		public void CssLBoxModel()
 		{
 			CssDocument doc = CssDocument.FromText("window { border: 5px solid black; padding: 10px; margin: 20px; }");
 			CssAdapter adapter = new CssAdapter(doc);
@@ -80,7 +82,7 @@ namespace AgateLib.UserInterface.Css.Tests
 		}
 
 		[TestMethod]
-		public void ColumnLayout()
+		public void CssLColumnLayout()
 		{
 			int fh = ff.FontHeight;
 
@@ -99,7 +101,7 @@ namespace AgateLib.UserInterface.Css.Tests
 
 
 		[TestMethod]
-		public void FixedRightBottom()
+		public void CssLFixedRightBottom()
 		{
 			Window wind = new Window() { Style = "fixed" };
 			gui.Desktop.Children.Add(wind);
@@ -111,7 +113,7 @@ namespace AgateLib.UserInterface.Css.Tests
 		}
 
 		[TestMethod]
-		public void FixedTopLeft()
+		public void CssLFixedTopLeft()
 		{
 			Window wind = new Window() { Style = "fixedleft" };
 			gui.Desktop.Children.Add(wind);
@@ -120,6 +122,63 @@ namespace AgateLib.UserInterface.Css.Tests
 
 			Assert.AreEqual(18, wind.WidgetRect.Left);
 			Assert.AreEqual(22, wind.WidgetRect.Top);
+		}
+
+		[TestMethod]
+		public void CssLNestedContainers()
+		{
+			Window wind = new Window();
+			Menu mnu = new Menu();
+			Container c = new Container();
+			ImageBox ib = new ImageBox();
+			Label lbl1 = new Label("Test1");
+			Label lbl2 = new Label("Test2");
+
+			c.Children.AddRange(new Widget[] { ib, lbl1, lbl2 });
+			mnu.Children.Add(new MenuItem(c));
+			wind.Children.Add(mnu);
+
+			gui.Desktop.Children.Add(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(40, ff.MeasureString(lbl1.Text).Width);
+			Assert.AreEqual(new Rectangle(100, 0, 40, 8), lbl1.WidgetRect);
+			Assert.AreEqual(new Rectangle(144, 0, 40, 8), lbl2.WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ib.WidgetRect);
+		}
+		[TestMethod]
+		public void CssLNestedContainersWithUpdate()
+		{
+			Window wind = new Window();
+			Menu mnu = new Menu();
+			Container c = new Container();
+			ImageBox ib = new ImageBox();
+			Label lbl1 = new Label("Test1");
+			Label lbl2 = new Label("Test2");
+
+			c.Children.AddRange(new Widget[] { ib, lbl1, lbl2 });
+			mnu.Children.Add(new MenuItem(c));
+			wind.Children.Add(mnu);
+
+			gui.Desktop.Children.Add(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(40, ff.MeasureString(lbl1.Text).Width);
+			Assert.AreEqual(new Rectangle(100, 0, 40, 8), lbl1.WidgetRect);
+			Assert.AreEqual(new Rectangle(144, 0, 40, 8), lbl2.WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ib.WidgetRect);
+
+			lbl1.Text = "Test1Test2Test3";
+
+			RedoLayout();
+
+			Assert.AreEqual(120, ff.MeasureString(lbl1.Text).Width);
+			Assert.AreEqual(new Rectangle(100, 0, 120, 8), lbl1.WidgetRect);
+			Assert.AreEqual(new Rectangle(224, 0, 40, 8), lbl2.WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ib.WidgetRect);
+
 		}
 	}
 }

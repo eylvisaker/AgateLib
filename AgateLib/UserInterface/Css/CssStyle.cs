@@ -37,6 +37,7 @@ namespace AgateLib.UserInterface.Css
 		public CssStyle(Widget widget)
 		{
 			Widget = widget;
+
 			Data = new CssStyleData();
 			BoxModel = new CssBoxModel();
 
