@@ -53,7 +53,11 @@ namespace AgateLib.UserInterface.Css.Binders
 				return true;
 			}
 
-			if (value.StartsWith("#"))
+			if (value == "none")
+			{
+				return true;
+			} 
+			else if (value.StartsWith("#"))
 			{
 				string subtext = value.Substring(1);
 

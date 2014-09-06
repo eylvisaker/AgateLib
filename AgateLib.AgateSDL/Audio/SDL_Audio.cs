@@ -93,7 +93,7 @@ namespace AgateLib.AgateSDL.Audio
 				throw new AgateLib.AgateException("Failed to initialize SDL for audio playback.");
 			}
 
-			if (sdl.Mixer.Mix_OpenAudio(44100, SDLConstants.AUDIO_S16, 2, 512) != 0)
+			if (sdl.Mixer.Mix_OpenAudio(44100, SDLConstants.AUDIO_S16, 2, 4096) != 0)
 			{
 				throw new AgateLib.AgateException("Failed to initialize SDL_mixer.");
 			}

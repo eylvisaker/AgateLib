@@ -1,4 +1,6 @@
-﻿using AgateLib.Geometry;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.Geometry;
+using AgateLib.Testing.Fakes;
 using AgateLib.UnitTesting;
 using AgateLib.UserInterface.Css.Binders;
 using AgateLib.UserInterface.Css.Documents;
@@ -14,8 +16,15 @@ using System.Threading.Tasks;
 namespace AgateLib.UserInterface.Css.Tests
 {
 	[TestClass]
-	public class ParseTest : CssTestBase
+	public class CssParseTest : CssTestBase
 	{
+		[TestInitialize]
+		public void Init()
+		{
+			Core.Initialize(new FakeAgateFactory());
+			Core.InitAssetLocations(new AssetLocations());
+		}
+
 		[TestMethod]
 		public void TokenizerTest()
 		{
@@ -80,7 +89,7 @@ namespace AgateLib.UserInterface.Css.Tests
 			Assert.AreEqual("window", style.Selector.Text);
 			Assert.AreEqual("red", style.Properties["color"]);
 
-			medium = doc.Media.First(x => x.Selector.Text == "phone");
+			medium = doc.Media.First(x => x.Text == "phone");
 
 			style = medium.RuleBlocks.First(x => x.Selector.Text == "label");
 			Assert.AreEqual("green", style.Properties["color"]);
@@ -124,13 +133,13 @@ namespace AgateLib.UserInterface.Css.Tests
 		[TestMethod]
 		public void SelectorParsing()
 		{
-			TestSelector(new CssSelector("div"), objectType: "div");
-			TestSelector(new CssSelector("#name"), Id: "name");
-			TestSelector(new CssSelector(".class"), classes: "class");
-			TestSelector(new CssSelector("div#name"), objectType: "div", Id: "name");
-			TestSelector(new CssSelector("div.CLass2.class1"), objectType: "div", classes: new string[] { "class1", "class2" });
-			TestSelector(new CssSelector("div:hover"), objectType: "div", pseudo: CssPseudoClass.Hover);
-			TestSelector(new CssSelector("div.CLASSNAME:focus"), objectType: "div", pseudo: CssPseudoClass.Focus, classes: "classname");
+			TestSelector(new CssSelectorIndividual("div"), objectType: "div");
+			TestSelector(new CssSelectorIndividual("#name"), Id: "name");
+			TestSelector(new CssSelectorIndividual(".class"), classes: "class");
+			TestSelector(new CssSelectorIndividual("div#name"), objectType: "div", Id: "name");
+			TestSelector(new CssSelectorIndividual("div.CLass2.class1"), objectType: "div", classes: new string[] { "class1", "class2" });
+			TestSelector(new CssSelectorIndividual("div:hover"), objectType: "div", pseudo: CssPseudoClass.Hover);
+			TestSelector(new CssSelectorIndividual("div.CLASSNAME:focus"), objectType: "div", pseudo: CssPseudoClass.Focus, classes: "classname");
 		}
 
 		[TestMethod]
@@ -145,13 +154,13 @@ namespace AgateLib.UserInterface.Css.Tests
 		[TestMethod]
 		public void SelectorGroupParsing()
 		{
-			CssSelectorGroup group = new CssSelectorGroup(
+			CssSelector group = new CssSelector(
 				"div#d1, span#s");
 
-			TestSelector((CssSelector)group.IndividualSelectors.First(),
+			TestSelector((CssSelectorIndividual)group.IndividualSelectors.First(),
 				"div", "d1");
 
-			TestSelector((CssSelector)group.IndividualSelectors.Last(),
+			TestSelector((CssSelectorIndividual)group.IndividualSelectors.Last(),
 				"span", "s");
 		}
 
@@ -204,7 +213,7 @@ namespace AgateLib.UserInterface.Css.Tests
 		{
 			CssDocument doc = CssDocument.FromText("window:hover { padding: 8px; }");
 
-			Assert.AreEqual(typeof(CssSelector), doc.DefaultMedium.RuleBlocks.First().Selector.IndividualSelectors.First().GetType());
+			Assert.AreEqual(typeof(CssSelectorIndividual), doc.DefaultMedium.RuleBlocks.First().Selector.IndividualSelectors.First().GetType());
 			Assert.AreEqual("window:hover", doc.DefaultMedium.RuleBlocks.First().Selector.Text);
 
 		}

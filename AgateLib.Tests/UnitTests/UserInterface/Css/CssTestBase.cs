@@ -1,4 +1,6 @@
-﻿using AgateLib.Geometry;
+﻿using AgateLib.ApplicationModels;
+using AgateLib.Geometry;
+using AgateLib.Testing.Fakes;
 using AgateLib.UserInterface.Css.Binders;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Selectors;
@@ -14,6 +16,13 @@ namespace AgateLib.UserInterface.Css.Tests
 {
 	public class CssTestBase
 	{
+		[TestInitialize]
+		public void Init()
+		{
+			Core.Initialize(new FakeAgateFactory());
+			Core.InitAssetLocations(new AssetLocations());
+		}
+
 		protected void CssDistanceAssert(string value)
 		{
 			var result = CssDistance.FromString(value);
@@ -32,9 +41,9 @@ namespace AgateLib.UserInterface.Css.Tests
 
 		protected void TestSelector(ICssSelector sel, string objectType = null, string Id = null, CssPseudoClass pseudo = CssPseudoClass.None, params string[] classes)
 		{
-			TestSelector((CssSelector)sel, objectType, Id, pseudo, classes);
+			TestSelector((CssSelectorIndividual)sel, objectType, Id, pseudo, classes);
 		}
-		protected void TestSelector(CssSelector sel, string objectType = null, string Id = null, CssPseudoClass pseudo = CssPseudoClass.None, params string[] classes)
+		protected void TestSelector(CssSelectorIndividual sel, string objectType = null, string Id = null, CssPseudoClass pseudo = CssPseudoClass.None, params string[] classes)
 		{
 			Assert.AreEqual(objectType, sel.ObjectType);
 			Assert.AreEqual(Id, sel.Id);

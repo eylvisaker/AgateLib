@@ -215,9 +215,29 @@ namespace AgateLib.ApplicationModels
 		/// </remarks>
 		protected virtual void ProcessCustomArgument(string arg, IList<string> parm)
 		{
-			Log.WriteLine("Unknown command line argument:");
-			Log.WriteLine("    {0} {1}", arg, string.Join(" ", parm));
+			OnUnhandledArgument(arg, parm);
 		}
+
+		private void OnUnhandledArgument(string arg, IList<string> parm)
+		{
+			bool handled = false;
+			if (UnhandledArgument != null)
+			{
+				var args = new ArgumentEventArgs(arg, parm);
+
+				UnhandledArgument(this, args);
+
+				handled = args.Handled;
+			}
+
+			if (handled == false)
+			{
+				Log.WriteLine("Unknown command line argument:");
+				Log.WriteLine("    {0} {1}", arg, string.Join(" ", parm));
+			}
+		}
+
+		public event EventHandler<ArgumentEventArgs> UnhandledArgument;
 
 		protected void PrerunInitialization()
 		{

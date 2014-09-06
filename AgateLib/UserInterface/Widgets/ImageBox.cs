@@ -25,30 +25,27 @@ using AgateLib.Geometry;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public class ImageDisplay : Widget
+	public class ImageBox : Widget
 	{
-		public Surface Surface { get; set; }
+		public IDrawable Image { get; set; }
 
-		public ImageDisplay()
-		{
-			Width = 96;
-			Height = 96;
-		}
+		public ImageBox()
+		{ }
 
 		public override void DrawImpl()
 		{
-			if (Surface == null)
+			if (Image == null)
 				return;
 
-			Surface.Draw(ClientToScreen(new Point(X, Y)));
+			Image.Draw(ClientToScreen(new Point(X, Y)));
 		}
 
 		internal override Size ComputeSize(int? minWidth, int? minHeight, int? maxWidth, int? maxHeight)
 		{
-			if (Surface == null)
+			if (Image == null)
 				return new Size(96, 96);
 
-			return Surface.DisplaySize;
+			return Image.DisplaySize;
 		}
 	}
 }

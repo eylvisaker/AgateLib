@@ -27,6 +27,6 @@ namespace AgateLib.UserInterface.Css
 {
 	public interface ICssCanSelect
 	{
-		CssSelectorGroup Selector { get; set; }
+		CssSelector Selector { get; set; }
 	}
 }

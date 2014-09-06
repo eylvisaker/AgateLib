@@ -211,14 +211,10 @@ namespace AgateLib.UserInterface.Css
 			var control = style.Widget;
 
 			style.Cache.Id = control.Name;
-			style.Cache.PseudoClass = GetPseudoClass(control);
-
-			var classes = GetCssClasses(style);
+			style.Cache.PseudoClass = style.MatchParameters.PseudoClass;
 
 			style.Cache.CssClasses.Clear();
-
-			if (classes != null)
-				style.Cache.CssClasses.AddRange(classes);
+			style.Cache.CssClasses.AddRange(style.MatchParameters.Classes);
 
 			control.LayoutDirty = false;
 		}
@@ -227,12 +223,12 @@ namespace AgateLib.UserInterface.Css
 			CssStyle style = mObjectStyles[control];
 
 			if (control.LayoutDirty) return true;
+			style.MatchParameters.UpdateWidgetProperties();
 
-			string id = control.Name;
-			IEnumerable<string> classes = GetCssClasses(style);
+			IEnumerable<string> classes = style.MatchParameters.Classes;
 
-			if (style.Cache.Id != id) return true;
-			if (style.Cache.PseudoClass != GetPseudoClass(control)) return true;
+			if (style.Cache.Id != style.MatchParameters.Id) return true;
+			if (style.Cache.PseudoClass != style.MatchParameters.PseudoClass) return true;
 			if (classes != null)
 			{
 				if (style.Cache.CssClasses.All(x => classes.Contains(x)) == false) return true;
@@ -250,7 +246,6 @@ namespace AgateLib.UserInterface.Css
 				return;
 
 			mDefaultStyles[style.Widget.GetType()].InheritParentProperties(style, GetStyle(style.Widget.Parent));
-
 		}
 
 		private void ReportError(string p)
@@ -267,15 +262,13 @@ namespace AgateLib.UserInterface.Css
 
 		private void AssignApplicableBlocks(CssStyle style)
 		{
-			var control = style.Widget;
-			string id = control.Name;
-			IEnumerable<string> classes = GetCssClasses(style);
+			style.MatchParameters.UpdateWidgetProperties();
 
 			foreach (var medium in ApplicableMedia)
 			{
 				foreach (var block in medium.RuleBlocks)
 				{
-					if (BlockAppliesTo(block, control, id, classes))
+					if (BlockAppliesTo(block, style.MatchParameters))
 					{
 						if (style.AppliedBlocks.Contains(block) == false)
 						{
@@ -293,58 +286,21 @@ namespace AgateLib.UserInterface.Css
 			}
 		}
 
-		private bool BlockAppliesTo(CssRuleBlock block, Widget control, string id,
-			IEnumerable<string> classes)
+		private bool BlockAppliesTo(CssRuleBlock block, WidgetMatchParameters wmp)
 		{
-			CssPseudoClass pseudoClass = GetPseudoClass(control);
-
 			foreach (var selector in block.Selector.IndividualSelectors)
 			{
-				if (SelectorAppliesTo(selector, control, id, pseudoClass, classes))
+				if (SelectorAppliesTo(selector, wmp))
 					return true;
 			}
 
 			return false;
 		}
 
-		private CssPseudoClass GetPseudoClass(Widget control)
+
+		private bool SelectorAppliesTo(ICssSelector selector, WidgetMatchParameters wmp)
 		{
-			if (control.MouseIn)
-				return CssPseudoClass.Hover;
-			if (control is Container)
-			{
-				Container container = (Container)control;
-
-				if (container.ChildHasMouseIn)
-					return CssPseudoClass.Hover;
-			}
-			if (control is MenuItem)
-			{
-				MenuItem mnuit = (MenuItem)control;
-
-				if (mnuit.Selected)
-					return CssPseudoClass.Selected;
-			}
-
-			return CssPseudoClass.None;
-		}
-
-		private bool SelectorAppliesTo(ICssSelector selector, Widget control,
-			string id, CssPseudoClass pseudoClass, IEnumerable<string> classes)
-		{
-			return selector.Matches(control, id, pseudoClass, classes);
-		}
-
-		private IEnumerable<string> GetCssClasses(CssStyle style)
-		{
-			Widget control = style.Widget;
-
-			if (control.Style != style.ObjectClass)
-			{
-				style.ObjectClass = control.Style;
-			}
-
-			return style.SplitClasses;
+			return selector.Matches(this, wmp);
 		}
 
 		public CssMediumInfo MediumInfo { get; set; }
@@ -357,17 +313,17 @@ namespace AgateLib.UserInterface.Css
 
 				foreach (var medium in Document.Media)
 				{
-					if (MediaSelectorApplies(medium.Selector, MediumInfo))
+					if (MediaSelectorApplies(medium, MediumInfo))
 						yield return medium;
 				}
 			}
 		}
 
-		private bool MediaSelectorApplies(CssSelectorGroup selectorGroup, CssMediumInfo medium)
+		private bool MediaSelectorApplies(CssMediaSelector selectorGroup, CssMediumInfo medium)
 		{
 			foreach (var sel in selectorGroup.IndividualSelectors)
 			{
-				if (sel.Matches(medium.MediaType.ToString(), null, CssPseudoClass.None, null))
+				if (sel.Matches(medium.MediaType.ToString()))
 					return true;
 			}
 

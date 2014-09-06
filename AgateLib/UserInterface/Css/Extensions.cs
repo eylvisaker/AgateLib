@@ -38,9 +38,13 @@ namespace AgateLib.UserInterface.Css
 			throw new Exception("the value is not found in the dictionary");
 		}
 
-		public static T FindExactMatch<T>(this IEnumerable<T> list, CssSelectorGroup selector) where T : ICssCanSelect
+		public static CssRuleBlock FindExactMatch(this IEnumerable<CssRuleBlock> list, CssSelector selector) 
 		{
 			return list.SingleOrDefault(x => x.Selector.Equals(selector));
+		}
+		public static CssMediaSelector FindExactMatch(this IEnumerable<CssMediaSelector> list, CssMediaSelector selector)
+		{
+			return list.SingleOrDefault(x => x.Equals(selector));
 		}
 
 		internal static readonly char[] WhiteSpace = new char[] { ' ', '\r', '\n', '\t' };

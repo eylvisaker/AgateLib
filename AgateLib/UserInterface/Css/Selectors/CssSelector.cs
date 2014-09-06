@@ -24,119 +24,65 @@ using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface.Css.Selectors
 {
-	public class CssSelector : ICssSelector 
+	public class CssSelector : IEquatable<CssSelector>
 	{
-		List<string> classes = new List<string>();
+		string mText;
+		static readonly char[] comma = new char[] { ',' };
 
+		public CssSelector() { }
 		public CssSelector(string text)
 		{
-			Text = text.ToLowerInvariant();
-
-			Parse();
+			Text = text;
+		}
+		public static implicit operator CssSelector(string text)
+		{
+			return new CssSelector { Text = text };
 		}
 
-		private void Parse()
+		public string Text
 		{
-			if (Text.Contains(":"))
+			get { return mText; }
+			set
 			{
-				try
-				{
-					PseudoClass = (CssPseudoClass)Enum.Parse(typeof(CssPseudoClass), CutIdentifier(Text.IndexOf(":") + 1), true);
-				}
-				catch(Exception)
-				{
+				mText = value;
 
-				}
+				IndividualSelectors = mText
+					.Split(comma, StringSplitOptions.RemoveEmptyEntries)
+					.Select(x => CreateSelector(x.Trim()));
 			}
-			if (Text.Contains("#"))
-			{
-				Id = CutIdentifier(Text.IndexOf('#') + 1);
-			}
-
-			int dot = Text.IndexOf('.');
-			while (dot >= 0)
-			{
-				var cls = CutIdentifier(dot + 1);
-
-				if (cls != null)
-					classes.Add(cls);
-
-				dot = Text.IndexOf('.', dot + 1);
-			}
-
-			ObjectType = CutIdentifier(0);
-
-			classes.Sort();
 		}
 
-		private string CutIdentifier(int start)
+		private ICssSelector CreateSelector(string text)
 		{
-			int nextToken = FindNextToken(".#:", start);
-
-			if (nextToken == start)
-				return null;
-
-			if (nextToken == -1)
-				return Text.Substring(start);
-
-			return Text.Substring(start, nextToken - start);
+			if (text.Contains(" ") || text.Contains(">"))
+			{
+				return new CssSelectorChain(text);
+			}
+			else
+				return new CssSelectorIndividual(text);
 		}
 
-		private int FindNextToken(string tokens, int start)
+		public IEnumerable<ICssSelector> IndividualSelectors { get; private set; }
+
+		public bool Equals(CssSelector other)
 		{
-			int retval = int.MaxValue;
+			return Text.Equals(other.Text, StringComparison.Ordinal);
+		}
+		public override bool Equals(object obj)
+		{
+			if (obj is CssSelector)
+				return Equals((CssSelector)obj);
 
-			for(int i = 0; i < tokens.Length; i++)
-			{
-				int current = Text.IndexOf(tokens[i], start);
-
-				if (current == -1)
-					continue;
-
-				if (current < retval)
-					retval = current;
-			}
-
-			if (retval == int.MaxValue)
-				return -1;
-
-			return retval;
+			return false;
+		}
+		public override int GetHashCode()
+		{
+			return Text.GetHashCode();
 		}
 
-		public string Text { get; private set; }
-
-		public string ObjectType { get; private set; }
-		public string Id { get; private set; }
-		public IList<string> CssClasses { get { return classes; } }
-		public CssPseudoClass PseudoClass { get; private set; }
-
-		public bool Matches(string typename, string id, CssPseudoClass pc, IEnumerable<string> classes)
+		public override string ToString()
 		{
-			if (ObjectType != null &&
-				ObjectType.Equals(typename, StringComparison.OrdinalIgnoreCase)
-				== false)
-			{
-				return false;
-			}
-
-			if (PseudoClass != CssPseudoClass.None && PseudoClass != pc)
-				return false;
-
-			if (Id != null)
-			{
-				if (Id.Equals(id, StringComparison.OrdinalIgnoreCase))
-					return true;
-				else
-					return false;
-			}
-
-			foreach (var cls in CssClasses)
-			{
-				if (classes.Contains(cls) == false)
-					return false;
-			}
-
-			return true;
+			return Text;
 		}
 	}
 }
