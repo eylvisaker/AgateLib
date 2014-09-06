@@ -42,7 +42,6 @@ namespace AgateLib.UserInterface.Css
 		int index;
 
 		CssMediaSelector defaultMedium;
-
 		CssMediaSelector currentMedium;
 		CssRuleBlock currentBlock;
 
@@ -153,7 +152,7 @@ namespace AgateLib.UserInterface.Css
 
 		private void ParseBlock(string token)
 		{
-			CssSelectorGroup selector = ReadSelector(token);
+			CssSelector selector = ReadSelector(token);
 
 			currentBlock = currentMedium.RuleBlocks.FindExactMatch(selector);
 
@@ -172,13 +171,13 @@ namespace AgateLib.UserInterface.Css
 		{
 			if (rule.StartsWith("@media"))
 			{
-				CssSelectorGroup selector = ReadSelector();
+				CssMediaSelector selector = ReadMediaSelector();
 
 				currentMedium = target.Media.FindExactMatch(selector);
 
 				if (currentMedium == null)
 				{
-					currentMedium = new CssMediaSelector { Selector = selector };
+					currentMedium = selector;
 					target.Media.Add(currentMedium);
 				}
 
@@ -188,9 +187,14 @@ namespace AgateLib.UserInterface.Css
 			}
 		}
 
-		private CssSelectorGroup ReadSelector(string startText = "")
+		private CssSelector ReadSelector(string startText = "")
 		{
-			return new CssSelectorGroup(ReadUntilToken(startText, CssTokenType.BlockOpen));
+			return new CssSelector(ReadUntilToken(startText, CssTokenType.BlockOpen));
+
+		}
+		private CssMediaSelector ReadMediaSelector(string startText = "")
+		{
+			return new CssMediaSelector(ReadUntilToken(startText, CssTokenType.BlockOpen));
 
 		}
 

@@ -15,7 +15,7 @@ using System.Collections.Generic;
 namespace AgateLib.UserInterface.Css.Tests
 {
 	[TestClass]
-	public class LayoutTest : CssTestBase
+	public class CssLayoutTest : CssTestBase
 	{
 		PassiveModel model;
 		Font ff;

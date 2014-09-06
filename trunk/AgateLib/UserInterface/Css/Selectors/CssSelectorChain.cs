@@ -35,23 +35,39 @@ namespace AgateLib.UserInterface.Css.Selectors
 
 			mSelectors.AddRange(text
 				.Split(Extensions.WhiteSpace, StringSplitOptions.RemoveEmptyEntries)
-				.Select(x => new CssSelector(x)));
+				.Select(x => new CssSelectorIndividual(x)));
 		}
 
 		public string Text { get; private set; }
 
 		public IEnumerable<ICssSelector> Selectors { get { return mSelectors; } }
 
-		public bool Matches(string typename, string id, CssPseudoClass pc, IEnumerable<string> classes)
+		public bool Matches(CssAdapter adapter, WidgetMatchParameters wmp)
 		{
-			//for (int i = mSelectors.Count - 1; i >= 0; i--)
-			//{
-			//	var sel = mSelectors[i];
+			// last selector must match
+			if (mSelectors.Last().Matches(adapter, wmp) == false)
+				return false;
 
-			//	if (sel.Matches(control, id, classes) == false)
-			//}
-			return false;
-			throw new NotImplementedException();
+			var ancestor = wmp.Widget;
+			CssStyle ancestorStyle;
+
+			for (int i = mSelectors.Count - 2; i >= 0; i--)
+			{
+				var selector = mSelectors[i];
+
+				do
+				{
+					ancestor = ancestor.Parent;
+
+					if (ancestor == null)
+						return false;
+
+					ancestorStyle = adapter.GetStyle(ancestor);
+
+				} while (selector.Matches(adapter, ancestorStyle.MatchParameters) == false);
+			}
+		
+			return true;
 		}
 	}
 }

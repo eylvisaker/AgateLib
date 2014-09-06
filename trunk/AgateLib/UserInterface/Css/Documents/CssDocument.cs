@@ -17,6 +17,7 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using AgateLib.UserInterface.Css.Binders;
+using AgateLib.UserInterface.Css.Selectors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace AgateLib.UserInterface.Css.Documents
 
 		public CssDocument()
 		{
-			var defaultMedium = new CssMediaSelector { Selector = "all" };
+			var defaultMedium = new CssMediaSelector("all");
 			Media.Add(defaultMedium);
 		}
 		public static CssDocument Load(string filename)
@@ -56,6 +57,6 @@ namespace AgateLib.UserInterface.Css.Documents
 
 		public List<CssMediaSelector> Media { get { return mMedia; } }
 
-		public CssMediaSelector DefaultMedium { get { return mMedia.First(x => x.Selector.Text == "all"); } }
+		public CssMediaSelector DefaultMedium { get { return mMedia.First(); } }
 	}
 }

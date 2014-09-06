@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace AgateLib.UserInterface.Css.Tests
 {
 	[TestClass]
-	public class AdapterTest : CssTestBase
+	public class CssAdapterTest : CssTestBase
 	{
 		[TestMethod]
 		public void DocumentConstruction()

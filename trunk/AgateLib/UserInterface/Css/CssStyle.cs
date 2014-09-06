@@ -19,6 +19,7 @@
 using AgateLib.UserInterface.Css.Cache;
 using AgateLib.UserInterface.Css.Layout;
 using AgateLib.UserInterface.Css.Rendering;
+using AgateLib.UserInterface.Css.Selectors;
 using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,8 @@ namespace AgateLib.UserInterface.Css
 			Cache = new StyleCache();
 
 			Animator = new WidgetAnimator(this);
+
+			MatchParameters = new WidgetMatchParameters(widget);
 		}
 
 		public CssStyleData Data { get; set; }
@@ -51,24 +54,6 @@ namespace AgateLib.UserInterface.Css
 		public WidgetAnimator Animator { get; set; }
 
 		public Widget Widget { get; set; }
-
-		public string ObjectClass
-		{
-			get { return mClassValue; }
-			set
-			{
-				if (value == null) throw new ArgumentNullException();
-				if (mClassValue.Equals(value, StringComparison.OrdinalIgnoreCase))
-					return;
-
-				mClassValue = value.ToLowerInvariant();
-				mSplitClasses = ObjectClass
-					.Split(Extensions.WhiteSpace, StringSplitOptions.RemoveEmptyEntries)
-					.ToList();
-
-				mSplitClasses.Sort();
-			}
-		}
 
 		public IEnumerable<string> SplitClasses { get { return mSplitClasses; } }
 
@@ -85,5 +70,7 @@ namespace AgateLib.UserInterface.Css
 		}
 
 		public AgateLib.DisplayLib.Font Font { get; set; }
+
+		public WidgetMatchParameters MatchParameters { get; private set; }
 	}
 }

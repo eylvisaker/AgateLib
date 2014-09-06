@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface.Css
 		public Dictionary<string, Binding> Bindings { get; private set; }
 		public Dictionary<string, string> Properties { get; private set; }
 
-		public CssSelectorGroup Selector { get; set; }
+		public CssSelector Selector { get; set; }
 
 		public override string ToString()
 		{

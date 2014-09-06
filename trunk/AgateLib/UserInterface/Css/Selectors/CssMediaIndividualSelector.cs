@@ -16,6 +16,7 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+using AgateLib.UserInterface.Css;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,54 +25,32 @@ using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface.Css.Selectors
 {
-	public class CssSelectorGroup : IEquatable<CssSelectorGroup>
+	public class CssMediaIndividualSelector : ICssMediaSelector
 	{
-		string mText;
-		static readonly char[] comma = new char[] { ',' };
-
-		public CssSelectorGroup() { }
-		public CssSelectorGroup(string text)
+		public CssMediaIndividualSelector(string text)
 		{
-			Text = text;
-		}
-		public static implicit operator CssSelectorGroup(string text)
-		{
-			return new CssSelectorGroup { Text = text };
+			Text = text.ToLowerInvariant();
+			Parse();
 		}
 
-		public string Text
+		private void Parse()
 		{
-			get { return mText; }
-			set
-			{
-				mText = value;
-
-				IndividualSelectors = mText
-					.Split(comma, StringSplitOptions.RemoveEmptyEntries)
-					.Select(x => CreateSelector(x.Trim()));
-			}
 		}
 
-		private ICssSelector CreateSelector(string text)
-		{
-			if (text.Contains(" "))
-			{
-				return new CssSelectorChain(text);
-			}
-			else
-				return new CssSelector(text);
-		}
+		public CssMediaSelector Selector { get; set; }
 
-		public IEnumerable<ICssSelector> IndividualSelectors { get; private set; }
+		public string Text { get; set; }
 
-		public bool Equals(CssSelectorGroup other)
+		public bool Matches(string type)
 		{
-			return Text.Equals(other.Text, StringComparison.Ordinal);
-		}
+			if (Text == "all")
+				return true;
 
-		public override string ToString()
-		{
-			return Text;
+			if (Text == type)
+				return true;
+
+
+			return false;
 		}
 	}
 }

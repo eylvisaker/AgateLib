@@ -24,7 +24,7 @@ namespace AgateLib.DisplayLib
 	/// <summary>
 	/// Public Surface interface.
 	/// </summary>
-	public interface ISurface : IDisposable
+	public interface ISurface : IDisposable, IDrawable
 	{
 		/// <summary>
 		/// Gets or sets the alpha value for the surface.
