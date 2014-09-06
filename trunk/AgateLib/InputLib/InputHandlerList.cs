@@ -58,5 +58,23 @@ namespace AgateLib.InputLib
 					break;
 			}
 		}
+
+		internal void BringToTop(IInputHandler handler)
+		{
+			if (mHandlers.Contains(handler) == false)
+				throw new InvalidOperationException("Cannot move a handler which is not registered.");
+
+			mHandlers.Remove(handler);
+			mHandlers.Add(handler);
+		}
+
+		internal void SendToBack(IInputHandler handler)
+		{
+			if (mHandlers.Contains(handler) == false)
+				throw new InvalidOperationException("Cannot move a handler which is not registered.");
+
+			mHandlers.Remove(handler);
+			mHandlers.Insert(0, handler);
+		}
 	}
 }

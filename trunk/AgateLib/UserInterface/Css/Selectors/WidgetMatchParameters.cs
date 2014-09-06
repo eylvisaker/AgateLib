@@ -32,24 +32,55 @@ namespace AgateLib.UserInterface.Css.Selectors
 
 		private CssPseudoClass GetPseudoClass(Widget control)
 		{
-			if (control.MouseIn)
-				return CssPseudoClass.Hover;
-			if (control is Container)
+			if (InActiveWindow(control))
 			{
-				Container container = (Container)control;
-
-				if (container.ChildHasMouseIn)
+				if (control.MouseIn)
 					return CssPseudoClass.Hover;
-			}
-			if (control is MenuItem)
-			{
-				MenuItem mnuit = (MenuItem)control;
+				if (control is Container)
+				{
+					Container container = (Container)control;
 
-				if (mnuit.Selected)
-					return CssPseudoClass.Selected;
+					if (container.ChildHasMouseIn)
+						return CssPseudoClass.Hover;
+				}
+				if (control is MenuItem)
+				{
+					MenuItem mnuit = (MenuItem)control;
+
+					if (mnuit.Selected)
+						return CssPseudoClass.Selected;
+				}
 			}
 
 			return CssPseudoClass.None;
+		}
+
+		private bool InActiveWindow(Widget control)
+		{
+			var window = TopWindow(control);
+
+			if (window == null)
+				return false;
+
+			if (window.IsActive)
+				return true;
+			else
+				return false;
+		}
+
+		private Window TopWindow(Widget control)
+		{
+			var retval = control;
+
+			while (retval != null && retval.Parent != null)
+			{
+				if (retval.Parent is Desktop)
+					return retval as Window;
+
+				retval = retval.Parent;
+			}
+
+			return null;
 		}
 
 		private IEnumerable<string> GetCssClasses(Widget control)

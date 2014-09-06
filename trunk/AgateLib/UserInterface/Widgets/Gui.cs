@@ -371,7 +371,6 @@ namespace AgateLib.UserInterface.Widgets
 		//}
 
 		internal AgateLib.UserInterface.Css.Documents.CssDocument CssDocument { get; set; }
-
 	}
 
 	class WindowList : IList<Window>

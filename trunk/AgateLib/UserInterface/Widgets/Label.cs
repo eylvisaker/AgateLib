@@ -42,7 +42,12 @@ namespace AgateLib.UserInterface.Widgets
 				if (value == null)
 					value = string.Empty;
 
-				mText = value.Replace("\r", "");
+				value = value.Replace("\r", "");
+				if (value == mText)
+					return;
+
+				LayoutDirty = true;
+				mText = value;
 
 				if (WrapText)
 				{

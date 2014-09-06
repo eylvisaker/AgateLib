@@ -37,6 +37,7 @@ namespace AgateLib.UserInterface.Widgets
 		private Color? mFontColor;
 		private bool mEnabled = true;
 		string mStyle = string.Empty;
+		bool mLayoutDirty;
 
 		public Widget()
 		{
@@ -274,7 +275,16 @@ namespace AgateLib.UserInterface.Widgets
 			}
 		}
 
-		public virtual bool LayoutDirty { get; set; }
+		public virtual bool LayoutDirty
+		{
+			get { return mLayoutDirty; }
+			set
+			{
+				mLayoutDirty = value;
+				StyleDirty = true;
+			}
+		}
+		internal bool StyleDirty { get; set; }
 
 		protected virtual Gui MyGui
 		{
@@ -362,7 +372,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		public bool TabStop { get; set; }
 		protected bool AcceptFocus { get; set; }
-		
+
 		protected internal virtual Widget FindFocusWidget()
 		{
 			if (AcceptFocus)

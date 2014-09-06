@@ -38,5 +38,16 @@ namespace AgateLib.UserInterface.Widgets
 			: base(contents)
 		{
 		}
+
+		public bool IsActive
+		{
+			get
+			{
+				if (Parent == null)
+					return false;
+
+				return ((Desktop)Parent).TopWindow == this;
+			}
+		}
 	}
 }
