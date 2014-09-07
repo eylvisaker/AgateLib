@@ -65,7 +65,15 @@ namespace AgateLib.IO
 
 		public IEnumerable<string> GetAllFiles(string searchPattern)
 		{
-			return parent.GetAllFiles(subdir + searchPattern);
+			var results = parent.GetAllFiles(subdir + searchPattern);
+
+			foreach(var result in results)
+			{
+				if (result.StartsWith(subdir))
+					yield return result.Substring(subdir.Length);
+				else
+					yield return result;
+			}
 		}
 
 		public string ReadAllText(string filename)
