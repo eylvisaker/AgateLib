@@ -32,7 +32,9 @@ namespace AgateLib.Testing.UserInterfaceTests
 			font.AddFont(new FontSurface(res, "MedievalSharp18"), 18, FontStyles.None);
 			font.AddFont(new FontSurface(res, "MedievalSharp14"), 14, FontStyles.None);
 
-			var doc = CssDocument.Load("Style.css");
+			var doc = new CssDocument();
+			
+			doc.Load("Style.css");
 			adapter = new CssAdapter(doc, font);
 
 			gui = new Gui(new CssRenderer(adapter), new CssLayoutEngine(adapter));
