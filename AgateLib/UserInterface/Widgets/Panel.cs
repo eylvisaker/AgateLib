@@ -23,7 +23,7 @@ using System.Text;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	class Panel : Container 
+	public class Panel : Container 
 	{
 	}
 }

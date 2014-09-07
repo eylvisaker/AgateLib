@@ -25,7 +25,7 @@ using AgateLib.Geometry;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public class Label : Widget
+	public class Label : Widget, ITextAlignment
 	{
 		string mText = string.Empty;
 		bool mWrapText;

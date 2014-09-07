@@ -96,6 +96,10 @@ namespace AgateLib.UserInterface.Widgets
 
 			OnWidgetAdded(item);
 		}
+		public void Add(params Widget[] items)
+		{
+			AddRange(items);
+		}
 		public void AddRange(IEnumerable<Widget> items)
 		{
 			if (items == null) throw new ArgumentNullException("item");

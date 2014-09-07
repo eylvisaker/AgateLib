@@ -29,6 +29,7 @@ namespace AgateLib.UserInterface.Widgets
 {
 	public class Widget
 	{
+		Container mParentCoordinateSystem;
 		private Point mClientWidgetOffset;
 		private Size mWidgetSize;
 
@@ -38,6 +39,7 @@ namespace AgateLib.UserInterface.Widgets
 		private bool mEnabled = true;
 		string mStyle = string.Empty;
 		bool mLayoutDirty;
+		bool mVisible;
 
 		public Widget()
 		{
@@ -82,7 +84,10 @@ namespace AgateLib.UserInterface.Widgets
 		public Size WidgetSize
 		{
 			get { return mWidgetSize; }
-			set { mWidgetSize = value; }
+			set
+			{
+				mWidgetSize = value;
+			}
 		}
 
 		public override string ToString()
@@ -106,6 +111,20 @@ namespace AgateLib.UserInterface.Widgets
 		public bool AutoSize { get; set; }
 
 		public virtual Container Parent { get; set; }
+		protected internal Container ParentCoordinateSystem
+		{
+			get
+			{
+				if (mParentCoordinateSystem == null)
+					return Parent;
+				else
+					return mParentCoordinateSystem;
+			}
+			internal set
+			{
+				mParentCoordinateSystem = value;
+			}
+		}
 		public Font Font
 		{
 			get
@@ -120,7 +139,7 @@ namespace AgateLib.UserInterface.Widgets
 				mFont = value;
 			}
 		}
-		public Color FontColor
+		public virtual Color FontColor
 		{
 			get
 			{
@@ -192,7 +211,7 @@ namespace AgateLib.UserInterface.Widgets
 
 			Point translated = ClientToParent(clientPoint);
 
-			return Parent.ClientToScreen(translated);
+			return ParentCoordinateSystem.ClientToScreen(translated);
 		}
 		public Point ScreenToClient(Point screenPoint)
 		{
@@ -261,7 +280,18 @@ namespace AgateLib.UserInterface.Widgets
 		public virtual void Refresh()
 		{ }
 
-		public virtual bool Visible { get; set; }
+		public virtual bool Visible
+		{
+			get { return mVisible; }
+			set
+			{
+				if (value == mVisible)
+					return;
+
+				mVisible = value;
+				LayoutDirty = true;
+			}
+		}
 
 		public string Style
 		{
@@ -270,8 +300,11 @@ namespace AgateLib.UserInterface.Widgets
 			{
 				if (value == null)
 					throw new ArgumentNullException();
+				if (value == mStyle)
+					return;
 
 				mStyle = value;
+				LayoutDirty = true;
 			}
 		}
 
@@ -281,7 +314,8 @@ namespace AgateLib.UserInterface.Widgets
 			set
 			{
 				mLayoutDirty = value;
-				StyleDirty = true;
+				if (value)
+					StyleDirty = true;
 			}
 		}
 		internal bool StyleDirty { get; set; }

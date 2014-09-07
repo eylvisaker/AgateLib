@@ -52,9 +52,9 @@ namespace AgateLib.UserInterface.Css
 
 		public void AddProperty(string name, string value)
 		{
-			Properties.Add(name, value);
+			Properties[name] = value;
 
-			Bindings.Add(name, new Binding(map, name, value));
+			Bindings[name] = new Binding(map, name, value);
 		}
 
 

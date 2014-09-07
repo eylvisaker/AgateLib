@@ -28,6 +28,7 @@ namespace AgateLib.UserInterface.Css.Documents
 	{
 		Initial,
 		None,
+		Block,
 	}
 
 	public enum CssTransitionType
@@ -102,5 +103,14 @@ namespace AgateLib.UserInterface.Css.Documents
 		Relative,
 		Absolute,
 		Fixed,
+	}
+
+	public enum CssTextAlign
+	{
+		Inherit,
+		Initial,
+		Left,
+		Right,
+		Center,
 	}
 }

@@ -47,7 +47,7 @@ namespace AgateLib.UserInterface.Widgets
 		public override void DrawImpl()
 		{
 			Rectangle destRect = ClientToScreen(
-				new Rectangle(X, Y, Width, Height));
+				new Rectangle(0, 0, Width, Height));
 
 			if (Max > 0)
 			{
@@ -55,6 +55,8 @@ namespace AgateLib.UserInterface.Widgets
 
 				int maxBarWidth = Width;
 				int width = (int)(percentage * maxBarWidth);
+
+				destRect.Width = width;
 
 				var grad = new Gradient(Gradient.TopLeft);
 				grad.TopRight = Gradient.Interpolate(width, 0);

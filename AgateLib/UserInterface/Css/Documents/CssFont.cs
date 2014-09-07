@@ -1,4 +1,5 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+﻿using AgateLib.DisplayLib;
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -40,7 +41,12 @@ namespace AgateLib.UserInterface.Css.Documents
 		[CssAlias("font-size")]
 		public CssDistance Size { get; set; }
 
+		[CssAlias("font-weight")]
+		public FontStyles Weight { get; set; }
+
 		public Color Color { get; set; }
 
 	}
+
+
 }

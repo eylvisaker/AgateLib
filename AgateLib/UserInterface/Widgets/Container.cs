@@ -24,7 +24,7 @@ using AgateLib.Geometry;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public class Container : Widget
+	public abstract class Container : Widget
 	{
 		public Container()
 		{
@@ -47,22 +47,13 @@ namespace AgateLib.UserInterface.Widgets
 				foreach (var w in Children)
 				{
 					yield return w;
-				}
 
-				foreach (var w in Children.OfType<Container>())
-				{
-					foreach (var ww in ((Container)w).Descendants)
-						yield return ww;
+					if (w is Container)
+					{
+						foreach (var ww in ((Container)w).Descendants)
+							yield return ww;
+					}
 				}
-			}
-		}
-
-		public bool ChildHasMouseIn
-		{
-			get
-			{
-				return Children.Any(x => x.MouseIn) ||
-					Children.OfType<Container>().Any(x => x.ChildHasMouseIn);
 			}
 		}
 

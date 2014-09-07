@@ -46,6 +46,7 @@ namespace AgateLib.UserInterface.Css
 			Border = new CssBorder();
 			Layout = new CssLayout();
 			Transition = new CssTransition();
+			Text = new CssText();
 
 			Display = CssDisplay.Initial;
 		}
@@ -77,5 +78,8 @@ namespace AgateLib.UserInterface.Css
 
 		[CssPromoteProperties(prefix: "transition")]
 		public CssTransition Transition { get; set; }
+
+		[CssPromoteProperties]
+		public CssText Text { get; set; }
 	}
 }

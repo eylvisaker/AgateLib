@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface.Widgets.Extensions;
 
 namespace AgateLib.UserInterface.Css.Selectors
 {
@@ -40,7 +41,7 @@ namespace AgateLib.UserInterface.Css.Selectors
 				{
 					Container container = (Container)control;
 
-					if (container.ChildHasMouseIn)
+					if (container.ChildHasMouseIn())
 						return CssPseudoClass.Hover;
 				}
 				if (control is MenuItem)

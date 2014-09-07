@@ -40,7 +40,7 @@ namespace AgateLib.UserInterface.Css
 		internal CssAdapter(CssDocument doc)
 		{
 			Document = doc;
-
+			Document.Updated += Document_Updated;
 			MediumInfo = new CssMediumInfo();
 
 			switch (Core.Platform.DeviceType)
@@ -114,6 +114,7 @@ namespace AgateLib.UserInterface.Css
 		{
 			int scale = 1;
 			double amount = distance.Amount;
+			Font font = null;
 
 			switch (distance.DistanceUnit)
 			{
@@ -134,10 +135,20 @@ namespace AgateLib.UserInterface.Css
 					break;
 
 				case DistanceUnit.FontHeight:
-					var font = style.Widget.Font;
+					font = style.Widget.Font;
 
 					if (font != null)
 						scale = font.FontHeight;
+					else
+						scale = 0;
+
+					break;
+
+				case DistanceUnit.FontAverageWidth:
+					font = style.Widget.Font;
+
+					if (font != null)
+						scale = font.FontHeight / 2;
 					else
 						scale = 0;
 
@@ -329,6 +340,27 @@ namespace AgateLib.UserInterface.Css
 			}
 
 			return false;
+		}
+
+
+		void Document_Updated(object sender, EventArgs e)
+		{
+			foreach (var widget in mObjectStyles.Keys)
+			{
+				widget.LayoutDirty = true;
+				widget.StyleDirty = true;
+
+				mObjectStyles[widget].AppliedBlocks.Clear();
+			}
+		}
+
+
+		public void SetFont(Widget control)
+		{
+			var style = GetStyle(control);
+
+			control.Font = style.Font;
+			control.Font.Style = style.Data.Font.Weight;
 		}
 	}
 }
