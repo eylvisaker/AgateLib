@@ -46,6 +46,7 @@ namespace AgateLib.UserInterface.Css.Layout
 
 			totalRefresh |= gui.Desktop.Width != renderTargetSize.Width;
 			totalRefresh |= gui.Desktop.Height != renderTargetSize.Height;
+			totalRefresh |= gui.Desktop.LayoutDirty;
 
 			gui.Desktop.Width = renderTargetSize.Width;
 			gui.Desktop.Height = renderTargetSize.Height;
@@ -54,7 +55,14 @@ namespace AgateLib.UserInterface.Css.Layout
 
 			RedoLayout(gui.Desktop, totalRefresh);
 
-			RedoFixedLayout(gui.Desktop);
+			if (totalRefresh || gui.Desktop.Descendants.Any(x => x.LayoutDirty))
+			{
+				RedoFixedLayout(gui.Desktop);
+
+				gui.Desktop.LayoutDirty = false;
+				foreach (var w in gui.Desktop.Descendants)
+					w.LayoutDirty = false;
+			}
 		}
 
 		private void SetDesktopAnimatorProperties(Desktop desktop)
@@ -62,12 +70,16 @@ namespace AgateLib.UserInterface.Css.Layout
 			var style = mAdapter.GetStyle(desktop);
 
 			style.Animator.ClientRect = new Rectangle(0, 0, desktop.Width, desktop.Height);
-			style.Animator.WidgetSize = new Size(desktop.Width, desktop.Height);
 		}
 
 		private void RedoFixedLayout(Desktop desktop)
 		{
-			foreach (var child in desktop.Descendants)
+			var deskStyle = mAdapter.GetStyle(desktop);
+			deskStyle.Animator.ClientRect = new Rectangle(0, 0, desktop.Width, desktop.Height);
+
+			foreach (var child in desktop.Descendants.Where(x => {
+				var pos = mAdapter.GetStyle(x).Data.Position;
+				return pos == CssPosition.Absolute || pos == CssPosition.Fixed;} ))
 			{
 				var style = mAdapter.GetStyle(child);
 				var sz = style.Animator.ClientRect.Size;
@@ -97,7 +109,7 @@ namespace AgateLib.UserInterface.Css.Layout
 			if (position.Right.Automatic == false)
 			{
 				int targetRight = ConvertDistance(style.Widget, position.Right, true, false).Value;
-				targetRight = parentStyle.Animator.WidgetSize.Width - targetRight;
+				targetRight = parentStyle.Animator.ClientRect.Width - targetRight;
 
 				anim.ClientRect.X = targetRight - anim.ClientRect.Width - box.Right;
 			}
@@ -110,7 +122,7 @@ namespace AgateLib.UserInterface.Css.Layout
 			if (position.Bottom.Automatic == false)
 			{
 				int targetBottom = ConvertDistance(style.Widget, position.Bottom, false, false).Value;
-				targetBottom = parentStyle.Animator.WidgetSize.Height - targetBottom;
+				targetBottom = parentStyle.Animator.ClientRect.Height - targetBottom;
 
 				anim.ClientRect.Y = targetBottom - anim.ClientRect.Height - box.Bottom;
 			}
@@ -123,21 +135,24 @@ namespace AgateLib.UserInterface.Css.Layout
 			var containerAnim = containerStyle.Animator;
 			CssBoxModel containerBox = containerStyle.BoxModel;
 
-			containerAnim.ClientRect.X = 0;
-			containerAnim.ClientRect.Y = 0;
-
 			if (forceRefresh == false)
 			{
-				if (container.Descendants.Any(x => x.LayoutDirty) == false)
+				if (container.LayoutDirty == false &&
+					container.Descendants.Any(x => x.LayoutDirty) == false)
+				{
 					return;
+				}
 			}
+
+			containerAnim.ClientRect.X = 0;
+			containerAnim.ClientRect.Y = 0;
 
 			int maxWidth = ComputeMaxWidthForContainer(containerStyle);
 			Point nextPos = Point.Empty;
 			int maxHeight = 0;
 
 			maxWidth -= containerBox.Left + containerBox.Right;
-			
+
 			int largestWidth = 0;
 			int bottom = 0;
 
@@ -148,12 +163,19 @@ namespace AgateLib.UserInterface.Css.Layout
 			if (fixedContainerWidth != null)
 				maxWidth = (int)fixedContainerWidth;
 
+			bool resetNextPosition = false;
+
 			foreach (var child in container.Children)
 			{
 				var style = mAdapter.GetStyle(child);
 				child.Font = style.Font;
 
-				var sz = ComputeSize(child, containerStyle);
+				if (child.Visible == false)
+					continue;
+				if (style.Data.Display == CssDisplay.None)
+					continue;
+
+				var sz = ComputeSize(child, containerStyle, forceRefresh);
 				var box = style.BoxModel;
 				int? fixedWidth = ConvertDistance(child, style.Data.PositionData.Width, true);
 				int? fixedHeight = ConvertDistance(child, style.Data.PositionData.Height, false);
@@ -161,10 +183,32 @@ namespace AgateLib.UserInterface.Css.Layout
 				if (fixedWidth != null) sz.Width = (int)fixedWidth;
 				if (fixedHeight != null) sz.Height = (int)fixedHeight;
 
+				int? minWidth = ConvertDistance(child, style.Data.PositionData.MinWidth, true, true);
+				int? minHeight = ConvertDistance(child, style.Data.PositionData.MinHeight, true, true);
+
+				if (minWidth != null && sz.Width < (int)minWidth) sz.Width = (int)minWidth;
+				if (minHeight != null && sz.Height < (int)minHeight) sz.Height = (int)minHeight;
+
+				bool resetPosition = false;
+
 				switch (containerStyle.Data.Layout.Kind)
 				{
 					case CssLayoutKind.Flow:
+						if (resetNextPosition)
+						{
+							resetPosition = true;
+							resetNextPosition = false;
+						}
+						if (style.Data.Display == CssDisplay.Block)
+						{
+							resetPosition = true;
+							resetNextPosition = true;
+						}
+
 						if (nextPos.X + sz.Width + style.BoxModel.Left + style.BoxModel.Right > maxWidth)
+							resetPosition = true;
+
+						if (resetPosition)
 						{
 							nextPos.X = 0;
 							nextPos.Y += maxHeight;
@@ -174,11 +218,8 @@ namespace AgateLib.UserInterface.Css.Layout
 				}
 
 				bool includeInLayout = true;
-				
-				var anim = style.Animator;
 
-				anim.ClientRect.X = nextPos.X + box.Left;
-				anim.ClientRect.Y = nextPos.Y + box.Top;
+				var anim = style.Animator;
 				anim.ClientRect.Width = sz.Width;
 				anim.ClientRect.Height = sz.Height;
 
@@ -186,7 +227,7 @@ namespace AgateLib.UserInterface.Css.Layout
 				{
 					case CssPosition.Absolute:
 						includeInLayout = false;
-						anim.ParentCoordinateSystem = TopLevelWidget(child, x => mAdapter.GetStyle(x).Data.Position == CssPosition.Relative);
+						anim.ParentCoordinateSystem = TopLevelWidget(child, x => mAdapter.GetStyle(x).Data.Position == CssPosition.Static);
 						break;
 
 					case CssPosition.Fixed:
@@ -195,13 +236,15 @@ namespace AgateLib.UserInterface.Css.Layout
 						break;
 				}
 
+				if (includeInLayout)
+				{
+					anim.ClientRect.X = nextPos.X + box.Left;
+					anim.ClientRect.Y = nextPos.Y + box.Top;
+				}
+
 				anim.ClientWidgetOffset = new Point(
 					box.Padding.Left + box.Border.Left,
 					box.Padding.Top + box.Border.Top);
-
-				anim.WidgetSize = new Size(
-					anim.ClientRect.Width + box.Padding.Left + box.Padding.Right + box.Border.Left + box.Border.Right,
-					anim.ClientRect.Height + box.Padding.Top + box.Padding.Bottom + box.Border.Bottom + box.Border.Top);
 
 				if (includeInLayout)
 				{
@@ -223,7 +266,6 @@ namespace AgateLib.UserInterface.Css.Layout
 					bottom = Math.Max(bottom, anim.ClientRect.Y + anim.ClientRect.Height + box.Bottom); // only add box.Bottom here, because box.Top is taken into account in child.Y.
 				}
 
-				child.LayoutDirty = false;
 			}
 
 			containerAnim.ClientRect.Width = Math.Min(largestWidth, maxWidth);
@@ -260,7 +302,6 @@ namespace AgateLib.UserInterface.Css.Layout
 					break;
 			}
 
-			container.LayoutDirty = false;
 		}
 
 		private Widget TopLevelWidget(Widget child)
@@ -302,15 +343,16 @@ namespace AgateLib.UserInterface.Css.Layout
 			}
 		}
 
-		private Size ComputeSize(Widget control, CssStyle parentStyle)
+		private Size ComputeSize(Widget control, CssStyle parentStyle, bool forceRefresh)
 		{
-			return ComputeSize(control, parentStyle.Data);
+			return ComputeSize(control, parentStyle.Data, forceRefresh);
 		}
-		private Size ComputeSize(Widget control, CssStyleData parentStyle)
+		private Size ComputeSize(Widget control, CssStyleData parentStyle, bool forceRefresh)
 		{
 			if (control is Container)
-				return ComputeContainerSize((Container)control);
+				return ComputeContainerSize((Container)control, forceRefresh);
 
+			mAdapter.SetFont(control);
 			var style = mAdapter.GetStyle(control);
 
 			return control.ComputeSize(
@@ -328,9 +370,9 @@ namespace AgateLib.UserInterface.Css.Layout
 			return mAdapter.CssDistanceToPixels(control, cssDistance, width);
 		}
 
-		private Size ComputeContainerSize(Container container)
+		private Size ComputeContainerSize(Container container, bool forceRefresh)
 		{
-			RedoLayout(container);
+			RedoLayout(container, forceRefresh);
 			var anim = mAdapter.GetStyle(container).Animator;
 
 			return new Size(anim.ClientRect.Width, anim.ClientRect.Height);

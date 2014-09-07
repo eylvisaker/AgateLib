@@ -509,6 +509,8 @@
     <Compile Include="UserInterface\Css\Documents\CssBorder.cs" />
     <Compile Include="UserInterface\Css\Documents\CssBorderImage.cs" />
     <Compile Include="UserInterface\Css\Documents\CssBoxComponent.cs" />
+    <Compile Include="UserInterface\Css\Documents\CssText.cs" />
+    <Compile Include="UserInterface\Css\Layout\Defaults\ProgressBarDefaultStyle.cs" />
     <Compile Include="UserInterface\Css\Selectors\CssMediaSelector.cs" />
     <Compile Include="UserInterface\Css\Documents\PropertyEnums.cs" />
     <Compile Include="UserInterface\Css\Documents\CssDistance.cs" />
@@ -559,6 +561,7 @@
     <Compile Include="UserInterface\ISurfaceProvider.cs" />
     <Compile Include="UserInterface\Widgets\Container.cs" />
     <Compile Include="UserInterface\Widgets\Desktop.cs" />
+    <Compile Include="UserInterface\Widgets\Extensions\WidgetExtensions.cs" />
     <Compile Include="UserInterface\Widgets\Gui.cs" />
     <Compile Include="UserInterface\Widgets\GuiInput.cs" />
     <Compile Include="UserInterface\Widgets\GuiSound.cs" />
@@ -567,6 +570,7 @@
     <Compile Include="UserInterface\Widgets\IGuiRenderer.cs" />
     <Compile Include="UserInterface\Widgets\ImageBox.cs" />
     <Compile Include="UserInterface\Widgets\InputMap.cs" />
+    <Compile Include="UserInterface\Widgets\ITextAlignment.cs" />
     <Compile Include="UserInterface\Widgets\KeyboardEventArgs.cs" />
     <Compile Include="UserInterface\Widgets\Label.cs" />
     <Compile Include="UserInterface\Widgets\LabelImage.cs" />

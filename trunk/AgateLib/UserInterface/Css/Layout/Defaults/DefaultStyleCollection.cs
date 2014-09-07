@@ -34,6 +34,7 @@ namespace AgateLib.UserInterface.Css.Layout.Defaults
 		{
 			mSetters[typeof(Window)] = new WindowDefaultStyle();
 			mSetters[typeof(Menu)] = new MenuDefaultStyle();
+			mSetters[typeof(ProgressBar)] = new ProgressBarDefaultStyle();
 		}
 
 		public void Add(IDefaultStyleSetter styleSetter, params Type[] types)

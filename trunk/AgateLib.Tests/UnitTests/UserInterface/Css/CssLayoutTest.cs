@@ -22,6 +22,7 @@ namespace AgateLib.UserInterface.Css.Tests
 		CssLayoutEngine engine;
 		Gui gui;
 		CssAdapter adapter;
+		CssDocument doc;
 
 		[TestInitialize]
 		public void CssLInit()
@@ -43,17 +44,24 @@ namespace AgateLib.UserInterface.Css.Tests
 			ff.AddFont(new FontSettings(10, FontStyles.Bold),
 				FontSurface.FromImpl(new FakeFontSurface { Height = 10 }));
 
-			CssDocument doc = CssDocument.FromText(
-				"window { layout: column; margin: 6px; padding: 8px;} label { margin-left: 4px; } " +
-				"window.fixed { position: fixed; right: 4px; bottom: 8px; margin: 14px; padding: 9px; border: 2px; } "+
-				"window.fixedleft { position: fixed; left: 4px; top: 8px; margin: 14px; padding: 9px; border: 2px; }");
+			doc = new CssDocument();
+
+			doc.Parse(@"
+window { layout: column; margin: 6px; padding: 8px;} 
+label { margin-left: 4px; } 
+window.fixed { position: fixed; right: 4px; bottom: 8px; margin: 14px; padding: 9px; border: 2px; } 
+window.fixedleft { position: fixed; left: 4px; top: 8px; margin: 14px; padding: 9px; border: 2px; }
+window.minsize { min-width: 500px; min-height: 400px; }
+.invisible { display: none; }
+.block { display:block; }
+				");
 
 			adapter = new CssAdapter(doc, ff);
 
 			engine = new CssLayoutEngine(adapter);
 
-			gui = new Gui(new FakeRenderer(), engine); 
-			
+			gui = new Gui(new FakeRenderer(), engine);
+
 
 			Core.Initialize(new FakeAgateFactory());
 			Core.InitAssetLocations(new AssetLocations());
@@ -99,17 +107,28 @@ namespace AgateLib.UserInterface.Css.Tests
 			Assert.AreEqual(new Point(18, 14 + fh), wind.Children[1].ClientToScreen(Point.Empty));
 		}
 
+		[TestMethod]
+		public void CssLMinSizes()
+		{
+			Window wind = new Window { Style = "minsize" };
+
+			gui.Desktop.Children.Add(wind);
+			RedoLayout();
+
+			Assert.AreEqual(500, wind.ClientRect.Width, "Failed to set min width");
+			Assert.AreEqual(400, wind.ClientRect.Height, "Failed to set min height");
+		}
 
 		[TestMethod]
 		public void CssLFixedRightBottom()
 		{
-			Window wind = new Window() { Style = "fixed" };
+			Window wind = new Window { Style = "fixed" };
 			gui.Desktop.Children.Add(wind);
 
 			RedoLayout();
 
 			Assert.AreEqual(1000 - 18, wind.WidgetRect.Right);
-			Assert.AreEqual(1000 -22, wind.WidgetRect.Bottom);
+			Assert.AreEqual(1000 - 22, wind.WidgetRect.Bottom);
 		}
 
 		[TestMethod]
@@ -129,13 +148,13 @@ namespace AgateLib.UserInterface.Css.Tests
 		{
 			Window wind = new Window();
 			Menu mnu = new Menu();
-			Container c = new Container();
+			Panel pnl = new Panel();
 			ImageBox ib = new ImageBox();
 			Label lbl1 = new Label("Test1");
 			Label lbl2 = new Label("Test2");
 
-			c.Children.AddRange(new Widget[] { ib, lbl1, lbl2 });
-			mnu.Children.Add(new MenuItem(c));
+			pnl.Children.AddRange(new Widget[] { ib, lbl1, lbl2 });
+			mnu.Children.Add(new MenuItem(pnl));
 			wind.Children.Add(mnu);
 
 			gui.Desktop.Children.Add(wind);
@@ -152,13 +171,13 @@ namespace AgateLib.UserInterface.Css.Tests
 		{
 			Window wind = new Window();
 			Menu mnu = new Menu();
-			Container c = new Container();
+			Panel pnl = new Panel();
 			ImageBox ib = new ImageBox();
 			Label lbl1 = new Label("Test1");
 			Label lbl2 = new Label("Test2");
 
-			c.Children.AddRange(new Widget[] { ib, lbl1, lbl2 });
-			mnu.Children.Add(new MenuItem(c));
+			pnl.Children.AddRange(new Widget[] { ib, lbl1, lbl2 });
+			mnu.Children.Add(new MenuItem(pnl));
 			wind.Children.Add(mnu);
 
 			gui.Desktop.Children.Add(wind);
@@ -171,14 +190,213 @@ namespace AgateLib.UserInterface.Css.Tests
 			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ib.WidgetRect);
 
 			lbl1.Text = "Test1Test2Test3";
+			Assert.AreEqual(120, ff.MeasureString(lbl1.Text).Width);
 
 			RedoLayout();
 
-			Assert.AreEqual(120, ff.MeasureString(lbl1.Text).Width);
 			Assert.AreEqual(new Rectangle(100, 0, 120, 8), lbl1.WidgetRect);
 			Assert.AreEqual(new Rectangle(224, 0, 40, 8), lbl2.WidgetRect);
 			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ib.WidgetRect);
+		}
 
+		[TestMethod]
+		public void CssLHiddenWidgets()
+		{
+			Window wind = new Window();
+			Menu mnu = new Menu();
+			Panel pnl = new Panel();
+			ImageBox ib = new ImageBox();
+			Label lbl1 = new Label("Test1");
+			Label lbl2 = new Label("Test2");
+
+			pnl.Children.AddRange(new Widget[] { ib, lbl1, lbl2 });
+			mnu.Children.Add(new MenuItem(pnl));
+			wind.Children.Add(mnu);
+
+			gui.Desktop.Children.Add(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(40, ff.MeasureString(lbl1.Text).Width);
+			Assert.AreEqual(new Rectangle(100, 0, 40, 8), lbl1.WidgetRect);
+			Assert.AreEqual(new Rectangle(144, 0, 40, 8), lbl2.WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ib.WidgetRect);
+
+			lbl1.Style = "invisible";
+			RedoLayout();
+
+			Assert.AreEqual(new Rectangle(100, 0, 40, 8), lbl2.WidgetRect, "Failed to exclude display:none from layout.");
+			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ib.WidgetRect);
+
+			lbl1.Style = "";
+			RedoLayout();
+
+			Assert.AreEqual(new Rectangle(144, 0, 40, 8), lbl2.WidgetRect, "Failed to reinclude display:initial in layout.");
+			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ib.WidgetRect);
+
+			lbl1.Visible = false;
+			RedoLayout();
+
+			Assert.AreEqual(new Rectangle(100, 0, 40, 8), lbl2.WidgetRect, "Failed to exclude visible=false from layout.");
+			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ib.WidgetRect);
+		}
+
+		[TestMethod]
+		public void CssLDisplayBlock()
+		{
+			Window wind = new Window();
+			Menu mnu = new Menu();
+			Panel pnl = new Panel();
+			ImageBox ib = new ImageBox();
+			Label lbl1 = new Label("Test1");
+			Label lbl2 = new Label("Test2");
+			Label lbl3 = new Label("Test3") { Style = "block" };
+			Label lbl4 = new Label("Test4");
+
+			pnl.Children.AddRange(new Widget[] { ib, lbl1, lbl2, lbl3, lbl4 });
+			mnu.Children.Add(new MenuItem(pnl));
+			wind.Children.Add(mnu);
+
+			gui.Desktop.Children.Add(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(40, ff.MeasureString(lbl1.Text).Width);
+			Assert.AreEqual(new Rectangle(100, 0, 40, 8), lbl1.WidgetRect);
+			Assert.AreEqual(new Rectangle(144, 0, 40, 8), lbl2.WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ib.WidgetRect);
+			Assert.AreEqual(new Rectangle(4, 96, 40, 8), lbl3.WidgetRect);
+			Assert.AreEqual(new Rectangle(4, 104, 40, 8), lbl4.WidgetRect);
+		}
+
+		[TestMethod]
+		public void CssLFixedPositioning()
+		{
+			doc.Clear();
+			doc.Parse(@"
+window { position: absolute; left: 20px; top: 30px; width: 50px; height: 40px; }
+label { position: fixed; left: 40px; top: 70px;  width: 60px; height: 50px; }
+");
+
+			Window wind = new Window();
+			Label lbl = new Label();
+
+			wind.Children.Add(lbl);
+
+			gui.Desktop.Children.Add(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(new Size(50, 40), wind.ClientRect.Size);
+			Assert.AreEqual(new Point(20, 30), wind.ClientRect.Location);
+
+			Assert.AreEqual(new Point(40, 70), lbl.ClientRect.Location);
+		}
+
+		[TestMethod]
+		public void CssLAbsolutePositioning()
+		{
+			doc.Clear();
+			doc.Parse(@"
+window { position: absolute; top: 10px; left: 10px; width: 800px; height: 600px; }
+panel {  width:50px; height:30px; }
+#p1 { position: absolute; top:0; left:0; }
+#p2 { position: absolute; top:0; right:0; }
+#p3 { position: absolute; bottom:0; left:0; }
+#p4 { position: absolute; bottom:0; right:0; }
+");
+
+			Window wind = new Window();
+			Panel p1 = new Panel { Name = "p1" };
+			Panel p2 = new Panel { Name = "p2" };
+			Panel p3 = new Panel { Name = "p3" };
+			Panel p4 = new Panel { Name = "p4" };
+
+			wind.Children.Add(p1, p2, p3, p4);
+			gui.Desktop.Children.Add(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(new Rectangle(10, 10, 800, 600), wind.WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 0, 50, 30), p1.WidgetRect, "Failed p1");
+			Assert.AreEqual(new Rectangle(750, 0, 50, 30), p2.WidgetRect, "Failed p2");
+			Assert.AreEqual(new Rectangle(0, 570, 50, 30), p3.WidgetRect, "Failed p3");
+			Assert.AreEqual(new Rectangle(750, 570, 50, 30), p4.WidgetRect, "Failed p4");
+		}
+
+		[TestMethod]
+		public void CssLAbsPositionTree()
+		{
+			doc.Clear();
+			doc.Parse(@"
+window { position: absolute; left: 130px; top: 40px; }
+.statdisplay { layout: flow; width: 400px; height: 100px; }
+.statpanel { height: 100px; position: absolute; left: 105px; width:295px; }
+.levelstatus { position: absolute; top: 0; right: 0; width: 100px; height: 45px; }
+.hppanel { position: absolute; top: 1em; left: 0px; }
+");
+			var window = new Window();
+			var statdisplay = new Panel { Style = "statdisplay" };
+			var ibFace = new ImageBox { Style = "face" };
+			var lblName = new Label { Style = "name", Text = "Name" };
+			var lblLevelLabel = new Label { Style = "levelLabel", Text = "Level" };
+			var lblLevel = new Label { Style = "level" };
+			var pbExp = new ProgressBar { Style = "expBar" };
+
+			var lblHPLabel = new Label { Style = "hplabel", Text = "HP" };
+			var blHP = new Panel { Style = "hp" };
+
+			var lblMPLabel = new Label { Style = "mplabel", Text = "MP" };
+			var blMP = new Panel { Style = "mp" };
+
+			var statpanel = new Panel { Style = "statpanel" };
+			var pnlHP = new Panel { Style = "hppanel" };
+			pnlHP.Children.AddRange(new Widget[] { lblHPLabel, blHP });
+
+			var pnlMP = new Panel { Style = "mppanel" };
+			pnlMP.Children.AddRange(new Widget[] { lblMPLabel, blMP });
+
+			var levelstatus = new Panel { Style = "levelstatus" };
+			levelstatus.Children.Add(lblLevelLabel, lblLevel, pbExp);
+
+			statpanel.Children.Add(lblName, levelstatus, pnlHP, pnlMP);
+			statdisplay.Children.Add(ibFace, statpanel);
+			window.Children.Add(statdisplay);
+
+			gui.Desktop.Children.Add(window);
+
+			RedoLayout();
+
+			Assert.AreEqual(new Rectangle(130, 40, 400, 100), window.WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ibFace.WidgetRect);
+			Assert.AreEqual(new Rectangle(105, 0, 295, 100), statpanel.WidgetRect);
+			Assert.AreEqual(new Rectangle(195, 0, 100, 45), levelstatus.WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 0, 32, 8), lblName.WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 8, 16, 8), pnlHP.WidgetRect);
+		}
+
+		[TestMethod]
+		public void CssLAbsolutePositioningBoxModel()
+		{
+			doc.Clear();
+			doc.Parse(@"
+window { position: absolute; left: 130px; top: 40px; width: 500px; height: 400px; border: 3px solid black; }
+panel { position: absolute; top: 0px; right: 0px; width: 50px; height: 40px; }
+.statpanel { height: 100px; position: absolute; left: 105px; width:295px; }
+.levelstatus { position: absolute; top: 0; right: 0; width: 100px; height: 45px; }
+.hppanel { position: absolute; top: 1em; left: 0px; }
+");
+			var window = new Window();
+			var panel = new Panel();
+
+			window.Children.Add(panel);
+			gui.Desktop.Children.Add(window);
+
+			RedoLayout();
+
+			Assert.AreEqual(new Rectangle(130, 40, 506, 406), window.WidgetRect);
+			Assert.AreEqual(new Rectangle(133, 43, 500, 400), window.ClientRect);
+			Assert.AreEqual(new Rectangle(450, 0, 50, 40), panel.WidgetRect);
 		}
 	}
 }

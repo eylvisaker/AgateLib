@@ -32,31 +32,55 @@ namespace AgateLib.UserInterface.Css.Documents
 
 		public CssDocument()
 		{
+			Clear();
+		}
+
+		public static CssDocument FromText(string css)
+		{
+			CssDocument doc = new CssDocument();
+
+			doc.Parse(css);
+
+			return doc;
+		}
+
+		public void Clear()
+		{
+			mMedia.Clear();
+
 			var defaultMedium = new CssMediaSelector("all");
 			Media.Add(defaultMedium);
 		}
-		public static CssDocument Load(string filename)
+
+		public void Load(string filename)
 		{
-			CssDocument doc = new CssDocument();
 			CssParser parser = new CssParser();
 
-			parser.Load(doc, filename);
+			parser.Load(this, filename);
 
-			return doc;
+			OnUpdated();
 		}
-		public static CssDocument FromText(string text)
+		public void Parse(string css)
 		{
-			CssDocument doc = new CssDocument();
 			CssParser parser = new CssParser();
 
-			parser.ParseCss(doc, text);
+			parser.ParseCss(this, css);
 
-			return doc;
+			OnUpdated();
+		}
+
+		private void OnUpdated()
+		{
+			if (Updated != null)
+				Updated(this, EventArgs.Empty);
 		}
 
 
 		public List<CssMediaSelector> Media { get { return mMedia; } }
 
 		public CssMediaSelector DefaultMedium { get { return mMedia.First(); } }
+
+
+		public event EventHandler Updated;
 	}
 }

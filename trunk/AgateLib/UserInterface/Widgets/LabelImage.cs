@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public class LabelImage : Container
+	public class LabelImage : Container, ITextAlignment
 	{
 		Label mLabel;
 		ImageBox mImageBox;
@@ -21,7 +21,7 @@ namespace AgateLib.UserInterface.Widgets
 			Children.Add(mLabel);
 		}
 		public LabelImage(string text, IDrawable image)
-			:this()
+			: this()
 		{
 			Text = text;
 			Image = image;
@@ -32,5 +32,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		public Label Label { get { return mLabel; } }
 		public ImageBox ImageBox { get { return mImageBox; } }
+
+		public OriginAlignment TextAlign { get { return Label.TextAlign; } set { Label.TextAlign = value; } }
 	}
 }

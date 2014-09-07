@@ -92,7 +92,14 @@ namespace AgateLib.UserInterface.Css.Rendering
 		{
 			CssStyle style = mAdapter.GetStyle(control);
 
-			control.Font = style.Font;
+			mAdapter.SetFont(control);
+
+			if (control is ITextAlignment)
+			{
+				ITextAlignment txa = (ITextAlignment)control;
+
+				txa.TextAlign = ConvertTextAlign(style.Data.Text.Align);
+			}
 
 			if (style.Animator.Visible == false)
 				return;
@@ -102,6 +109,21 @@ namespace AgateLib.UserInterface.Css.Rendering
 
 			SetFontProperties(style);
 			control.DrawImpl();
+		}
+
+		private OriginAlignment ConvertTextAlign(CssTextAlign cssTextAlign)
+		{
+			switch(cssTextAlign)
+			{
+				case CssTextAlign.Right:
+					return OriginAlignment.TopRight;
+
+				case CssTextAlign.Center:
+					return OriginAlignment.TopCenter;
+
+				default:
+					return OriginAlignment.TopLeft;
+			}
 		}
 
 		private void SetFontProperties(CssStyle style)
@@ -178,7 +200,6 @@ namespace AgateLib.UserInterface.Css.Rendering
 
 			DrawRepeatedClipped(image, srcRect, startPt, clipRect, repeatX, repeatY);
 		}
-
 		private void DrawRepeatedClipped(Surface image, Rectangle srcRect, Point startPt, Rectangle clipRect, bool repeatX, bool repeatY)
 		{
 			int countX = (int)Math.Ceiling(clipRect.Width / (double)srcRect.Width);

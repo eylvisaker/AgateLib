@@ -5,25 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Testing.Fakes;
 
 namespace AgateLib.UserInterface.Widgets.Tests
 {
-
-	class FakeRenderer : IGuiRenderer
-	{
-		public void Draw(Gui gui)
-		{
-		}
-		public void Update(Gui gui, double deltaTime)
-		{ }
-	}
-	class FakeLayout : IGuiLayoutEngine
-	{
-		public void UpdateLayout(Gui gui)
-		{
-		}
-	}
-
 	[TestClass]
 	public class ConversionTests
 	{
