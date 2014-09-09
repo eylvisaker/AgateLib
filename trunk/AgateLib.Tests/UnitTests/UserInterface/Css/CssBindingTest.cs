@@ -17,7 +17,7 @@ namespace AgateLib.UserInterface.Css.Tests
 	public class CssBindingTest : CssTestBase
 	{
 		[TestMethod]
-		public void PropertyMapping()
+		public void CssBPropertyMapping()
 		{
 			CssPropertyMap pm = new CssPropertyMap();
 			CssBindingMapper bm = new CssBindingMapper(pm);
@@ -30,7 +30,7 @@ namespace AgateLib.UserInterface.Css.Tests
 		}
 
 		[TestMethod]
-		public void SelectorMatching()
+		public void CssBSelectorMatching()
 		{
 			Gui gui = new Gui(null, null);
 			Desktop desktop = new Desktop(gui);
@@ -66,7 +66,7 @@ namespace AgateLib.UserInterface.Css.Tests
 		}
 
 		[TestMethod]
-		public void PseudoClassMatching()
+		public void CssBPseudoClassMatching()
 		{
 			Gui gui = new Gui(null, null);
 			Desktop desktop = new Desktop(gui);
@@ -83,7 +83,7 @@ namespace AgateLib.UserInterface.Css.Tests
 		}
 
 		[TestMethod]
-		public void DescendentMatching()
+		public void CssBDescendentMatching()
 		{
 			CssDocument doc = CssDocument.FromText("labelimage imagebox { margin-right: 12px; }");
 			CssAdapter adapter = new CssAdapter(doc);
@@ -101,6 +101,45 @@ namespace AgateLib.UserInterface.Css.Tests
 
 			style = adapter.GetStyle(ib);
 			Assert.AreEqual(0, style.AppliedBlocks.Count);
+		}
+
+		class CustomWindow : Window
+		{
+
+		}
+
+		[TestMethod]
+		public void CssBInheritanceMatching()
+		{
+			CssDocument doc = CssDocument.FromText("window { margin: 4px; }");
+			CssAdapter adapter = new CssAdapter(doc);
+			var customWindow = new CustomWindow();
+
+			var style = adapter.GetStyle(customWindow);
+
+			Assert.AreEqual(1, style.AppliedBlocks.Count);
+			DistanceAssert(false, 4, DistanceUnit.Pixels, style.Data.Margin.Top);
+		}
+
+		[TestMethod]
+		public void CssBStyleMatching()
+		{
+			CssDocument doc = CssDocument.FromText("window { transition: slide top; } window.style { transition: none; }");
+			CssAdapter adapter = new CssAdapter(doc);
+
+			var window = new Window();
+			var stylish = new Window { Style = "style" };
+
+			var swindow = adapter.GetStyle(window);
+			Assert.AreEqual(1, swindow.AppliedBlocks.Count);
+			var selector = swindow.AppliedBlocks[0].Selector.IndividualSelectors.First();
+			Assert.IsTrue(selector is CssSelectorIndividual);
+
+			CssSelectorIndividual indv = (CssSelectorIndividual)selector;
+			Assert.AreEqual(0, indv.CssClasses.Count);
+
+			var sstyle = adapter.GetStyle(stylish);
+			Assert.AreEqual(2, sstyle.AppliedBlocks.Count);
 		}
 	}
 }

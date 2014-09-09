@@ -19,6 +19,7 @@
 using AgateLib.Geometry;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Rendering.Transitions;
+using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace AgateLib.UserInterface.Css.Rendering
 	public class WidgetAnimator
 	{
 		CssStyle mStyle;
+		Rectangle mClientRect;
 
 		public Point ClientWidgetOffset { get; set; }
 		public Size WidgetSize
@@ -45,7 +47,32 @@ namespace AgateLib.UserInterface.Css.Rendering
 				return widgetSize;
 			}
 		}
-		public Rectangle ClientRect;
+		public Rectangle ClientRect
+		{
+			get { return mClientRect; }
+			set { mClientRect = value; }
+		}
+		public int ClientX
+		{
+			get { return mClientRect.X; }
+			set { mClientRect.X = value; }
+		}
+		public int ClientY
+		{
+			get { return mClientRect.Y; }
+			set { mClientRect.Y = value; }
+		}
+		public int ClientWidth
+		{
+			get { return mClientRect.Width; }
+			set { mClientRect.Width = value; }
+		}
+		public int ClientHeight
+		{
+			get { return mClientRect.Height; }
+			set { mClientRect.Height = value; }
+		}
+
 
 		public bool Active { get; private set; }
 		public bool Visible { get; set; }
@@ -76,6 +103,13 @@ namespace AgateLib.UserInterface.Css.Rendering
 			}
 		}
 
-		public Widgets.Widget ParentCoordinateSystem { get; set; }
+		public Container ParentCoordinateSystem { get { return mStyle.Widget.ParentCoordinateSystem; } }
+
+		public override string ToString()
+		{
+			return "Animator: " + mStyle.Widget.ToString();
+		}
+
+		public bool IncludeInLayout { get; set; }
 	}
 }

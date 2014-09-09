@@ -248,8 +248,6 @@ namespace AgateLib.UserInterface.Widgets
 					OnCancelPressed();
 					break;
 			}
-
-			handled = true;
 		}
 		protected internal override void OnUpdate(double deltaTime)
 		{

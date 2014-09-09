@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface.Widgets.Extensions;
@@ -11,11 +12,13 @@ namespace AgateLib.UserInterface.Css.Selectors
 	public class WidgetMatchParameters
 	{
 		Widget mWidget;
+		List<string> mTypeNames = new List<string>();
 
 		public WidgetMatchParameters(Widget w)
 		{
 			mWidget = w;
 
+			UpdateWidgetTypeNames();
 			UpdateWidgetProperties();
 		}
 
@@ -26,9 +29,21 @@ namespace AgateLib.UserInterface.Css.Selectors
 
 		public void UpdateWidgetProperties()
 		{
-			TypeName = mWidget.GetType().Name;
 			PseudoClass = GetPseudoClass(mWidget);
 			Classes = GetCssClasses(mWidget);
+		}
+
+		private void UpdateWidgetTypeNames()
+		{
+			mTypeNames.Clear();
+
+			var type = mWidget.GetType();
+
+			while (type != typeof(Widget))
+			{
+				mTypeNames.Add(type.Name);
+				type = type.GetTypeInfo().BaseType;
+			}
 		}
 
 		private CssPseudoClass GetPseudoClass(Widget control)
@@ -98,7 +113,7 @@ namespace AgateLib.UserInterface.Css.Selectors
 
 		string cachedClass;
 
-		public string TypeName { get; private set; }
+		public IEnumerable<string> TypeNames { get { return mTypeNames; } }
 		public string Id { get { return Widget.Name; } }
 
 		public CssPseudoClass PseudoClass { get; private set; }

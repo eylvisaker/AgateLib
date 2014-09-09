@@ -113,12 +113,21 @@ namespace AgateLib.UserInterface.Css.Selectors
 
 		public bool Matches(CssAdapter adapter, WidgetMatchParameters wmp)
 		{
-			var typename = wmp.TypeName;
-			if (ObjectType != null &&
-				ObjectType.Equals(typename, StringComparison.OrdinalIgnoreCase)
-				== false)
+			if (string.IsNullOrEmpty(ObjectType) == false)
 			{
-				return false;
+				bool typeMatch = false;
+
+				foreach (var typename in wmp.TypeNames)
+				{
+					if (ObjectType.Equals(typename, StringComparison.OrdinalIgnoreCase))
+					{
+						typeMatch = true;
+						break;
+					}
+				}
+
+				if (typeMatch == false)
+					return false;
 			}
 
 			if (PseudoClass != CssPseudoClass.None && PseudoClass != wmp.PseudoClass)

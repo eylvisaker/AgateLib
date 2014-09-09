@@ -104,27 +104,27 @@ namespace AgateLib.UserInterface.Css.Layout
 			{
 				var targetLeft = ConvertDistance(style.Widget, position.Left, true, false).Value;
 
-				anim.ClientRect.X = targetLeft + box.Left;
+				anim.ClientX = targetLeft + box.Left;
 			}
 			if (position.Right.Automatic == false)
 			{
 				int targetRight = ConvertDistance(style.Widget, position.Right, true, false).Value;
 				targetRight = parentStyle.Animator.ClientRect.Width - targetRight;
 
-				anim.ClientRect.X = targetRight - anim.ClientRect.Width - box.Right;
+				anim.ClientX = targetRight - anim.ClientRect.Width - box.Right;
 			}
 			if (position.Top.Automatic == false)
 			{
 				int targetTop = ConvertDistance(style.Widget, position.Top, false, false).Value;
 
-				anim.ClientRect.Y = targetTop + box.Top;
+				anim.ClientY = targetTop + box.Top;
 			}
 			if (position.Bottom.Automatic == false)
 			{
 				int targetBottom = ConvertDistance(style.Widget, position.Bottom, false, false).Value;
 				targetBottom = parentStyle.Animator.ClientRect.Height - targetBottom;
 
-				anim.ClientRect.Y = targetBottom - anim.ClientRect.Height - box.Bottom;
+				anim.ClientY = targetBottom - anim.ClientRect.Height - box.Bottom;
 			}
 		}
 
@@ -144,8 +144,8 @@ namespace AgateLib.UserInterface.Css.Layout
 				}
 			}
 
-			containerAnim.ClientRect.X = 0;
-			containerAnim.ClientRect.Y = 0;
+			containerAnim.ClientX = 0;
+			containerAnim.ClientY = 0;
 
 			int maxWidth = ComputeMaxWidthForContainer(containerStyle);
 			Point nextPos = Point.Empty;
@@ -156,7 +156,7 @@ namespace AgateLib.UserInterface.Css.Layout
 			int largestWidth = 0;
 			int bottom = 0;
 
-			containerAnim.ClientRect.Width = maxWidth;
+			containerAnim.ClientWidth = maxWidth;
 
 			int? fixedContainerWidth = ConvertDistance(container, containerStyle.Data.PositionData.Width, true);
 			int? fixedContainerHeight = ConvertDistance(container, containerStyle.Data.PositionData.Height, true);
@@ -217,36 +217,35 @@ namespace AgateLib.UserInterface.Css.Layout
 						break;
 				}
 
-				bool includeInLayout = true;
-
 				var anim = style.Animator;
-				anim.ClientRect.Width = sz.Width;
-				anim.ClientRect.Height = sz.Height;
+				anim.IncludeInLayout = true;
+				anim.ClientWidth = sz.Width;
+				anim.ClientHeight = sz.Height;
 
 				switch (style.Data.Position)
 				{
 					case CssPosition.Absolute:
-						includeInLayout = false;
-						anim.ParentCoordinateSystem = TopLevelWidget(child, x => mAdapter.GetStyle(x).Data.Position == CssPosition.Static);
+						anim.IncludeInLayout = false;
+						child.ParentCoordinateSystem = TopLevelWidget(child, x => mAdapter.GetStyle(x).Data.Position != CssPosition.Static);
 						break;
 
 					case CssPosition.Fixed:
-						includeInLayout = false;
-						anim.ParentCoordinateSystem = TopLevelWidget(child);
+						anim.IncludeInLayout = false;
+						child.ParentCoordinateSystem = TopLevelWidget(child, x => x is Desktop);
 						break;
 				}
 
-				if (includeInLayout)
+				if (anim.IncludeInLayout)
 				{
-					anim.ClientRect.X = nextPos.X + box.Left;
-					anim.ClientRect.Y = nextPos.Y + box.Top;
+					anim.ClientX = nextPos.X + box.Left;
+					anim.ClientY = nextPos.Y + box.Top;
 				}
 
 				anim.ClientWidgetOffset = new Point(
 					box.Padding.Left + box.Border.Left,
 					box.Padding.Top + box.Border.Top);
 
-				if (includeInLayout)
+				if (anim.IncludeInLayout)
 				{
 					switch (containerStyle.Data.Layout.Kind)
 					{
@@ -265,16 +264,15 @@ namespace AgateLib.UserInterface.Css.Layout
 					maxHeight = Math.Max(maxHeight, anim.ClientRect.Height + box.Top + box.Bottom);
 					bottom = Math.Max(bottom, anim.ClientRect.Y + anim.ClientRect.Height + box.Bottom); // only add box.Bottom here, because box.Top is taken into account in child.Y.
 				}
-
 			}
 
-			containerAnim.ClientRect.Width = Math.Min(largestWidth, maxWidth);
-			containerAnim.ClientRect.Height = bottom;
+			containerAnim.ClientWidth = Math.Min(largestWidth, maxWidth);
+			containerAnim.ClientHeight = bottom;
 
 			if (fixedContainerWidth != null)
-				containerAnim.ClientRect.Width = (int)fixedContainerWidth;
+				containerAnim.ClientWidth = (int)fixedContainerWidth;
 			if (fixedContainerHeight != null)
-				containerAnim.ClientRect.Height = (int)fixedContainerHeight;
+				containerAnim.ClientHeight = (int)fixedContainerHeight;
 
 			switch (containerStyle.Data.Layout.Kind)
 			{
@@ -285,6 +283,9 @@ namespace AgateLib.UserInterface.Css.Layout
 						var anim = style.Animator;
 						var box = style.BoxModel;
 						int width = containerAnim.ClientRect.Width - box.Left - box.Right;
+
+						if (anim.IncludeInLayout == false)
+							continue;
 
 						if (style.Data.PositionData.MinWidth.Automatic == false)
 						{
@@ -297,28 +298,28 @@ namespace AgateLib.UserInterface.Css.Layout
 							width = Math.Min(width, maxwidth);
 						}
 
-						anim.ClientRect.Width = width;
+						anim.ClientWidth = width;
 					}
 					break;
 			}
 
 		}
 
-		private Widget TopLevelWidget(Widget child)
+		private Container TopLevelWidget(Widget child)
 		{
 			return TopLevelWidget(child, x => true);
 		}
-		private Widget TopLevelWidget(Widget child, Func<Widget, bool> continueToParent)
+		private Container TopLevelWidget(Widget child, Func<Widget, bool> validMatch)
 		{
 			var retval = child.Parent;
 
 			if (retval == null)
-				return child;
+				return null;
 
-			if (continueToParent(retval) == false)
+			if (validMatch(retval))
 				return retval;
 
-			return TopLevelWidget(retval, continueToParent);
+			return TopLevelWidget(retval, validMatch);
 		}
 
 		private int ComputeMaxWidthForContainer(CssStyle style)
