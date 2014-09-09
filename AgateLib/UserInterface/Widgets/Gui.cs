@@ -50,7 +50,7 @@ namespace AgateLib.UserInterface.Widgets
 			ForwardUnhandledEvents = true;
 		}
 
-		public InputMap InputMap { get ; set; }
+		public InputMap InputMap { get; set; }
 		public Desktop Desktop { get { return mDesktop; } }
 
 		void DispatchEvent(Func<Window, bool> action)
@@ -142,6 +142,8 @@ namespace AgateLib.UserInterface.Widgets
 			{
 				DispatchEvent(window => { window.OnInputButtonDown(args.KeyCode, ref handled); return handled; });
 			}
+
+			args.Handled = handled;
 		}
 		public void OnKeyUp(AgateInputEventArgs args)
 		{
@@ -275,7 +277,8 @@ namespace AgateLib.UserInterface.Widgets
 
 			targetWidget.OnMouseDown(e.MouseButtons, targetWidget.ScreenToClient(e.MousePosition));
 		}
-		[Obsolete] public void OnMouseUp(InputEventArgs e)
+		[Obsolete]
+		public void OnMouseUp(InputEventArgs e)
 		{
 			Widget targetWidget = mMouseEventWidget;
 
@@ -371,6 +374,11 @@ namespace AgateLib.UserInterface.Widgets
 		//}
 
 		internal AgateLib.UserInterface.Css.Documents.CssDocument CssDocument { get; set; }
+
+		public void AddWindow(Window wind)
+		{
+			Desktop.Children.Add(wind);
+		}
 	}
 
 	class WindowList : IList<Window>

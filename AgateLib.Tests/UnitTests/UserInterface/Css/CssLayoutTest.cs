@@ -398,5 +398,26 @@ panel { position: absolute; top: 0px; right: 0px; width: 50px; height: 40px; }
 			Assert.AreEqual(new Rectangle(133, 43, 500, 400), window.ClientRect);
 			Assert.AreEqual(new Rectangle(450, 0, 50, 40), panel.WidgetRect);
 		}
+
+		[TestMethod]
+		public void CssLAbsolutePositionSizing()
+		{
+			doc.Clear();
+			doc.Parse(@"window { layout: column; } 
+#abs { position: absolute; width: 400px; }");
+
+
+			var window = new Window();
+			var label = new Label { Text = "text" };
+			var test = new Label { Name = "abs" };
+
+			window.Children.Add(label, test);
+			gui.AddWindow(window);
+
+			RedoLayout();
+
+			Assert.AreEqual(label.Width, window.Width);
+			Assert.AreEqual(400, test.Width);
+		}
 	}
 }

@@ -65,6 +65,9 @@ namespace AgateLib.UserInterface.Widgets
 		
 		private void RewrapText(int maxWidth)
 		{
+			if (Font == null)
+				return;
+
 			mWrapPositions.Clear();
 
 			List<int> spacePositions = new List<int>();
