@@ -128,6 +128,7 @@ namespace AgateLib.UserInterface.Css.Layout
 			}
 		}
 
+		public CssAdapter Adapter { get { return mAdapter; } }
 
 		private void RedoLayout(Container container, bool forceRefresh = false)
 		{

@@ -113,4 +113,14 @@ namespace AgateLib.UserInterface.Css.Documents
 		Right,
 		Center,
 	}
+
+	public enum CssOverflow
+	{
+		Visible,
+		Initial = Visible,
+		Hidden,
+		Scroll,
+		Auto,
+		Inherit,
+	}
 }

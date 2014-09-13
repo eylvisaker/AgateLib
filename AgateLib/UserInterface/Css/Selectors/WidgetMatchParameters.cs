@@ -50,6 +50,13 @@ namespace AgateLib.UserInterface.Css.Selectors
 		{
 			if (InActiveWindow(control))
 			{
+				if (control is MenuItem)
+				{
+					MenuItem mnuit = (MenuItem)control;
+
+					if (mnuit.Selected)
+						return CssPseudoClass.Selected;
+				}
 				if (control.MouseIn)
 					return CssPseudoClass.Hover;
 				if (control is Container)
@@ -58,13 +65,6 @@ namespace AgateLib.UserInterface.Css.Selectors
 
 					if (container.ChildHasMouseIn())
 						return CssPseudoClass.Hover;
-				}
-				if (control is MenuItem)
-				{
-					MenuItem mnuit = (MenuItem)control;
-
-					if (mnuit.Selected)
-						return CssPseudoClass.Selected;
 				}
 			}
 
@@ -119,5 +119,29 @@ namespace AgateLib.UserInterface.Css.Selectors
 		public CssPseudoClass PseudoClass { get; private set; }
 		public IEnumerable<string> Classes { get; private set; }
 
+		public override string ToString()
+		{
+			StringBuilder b = new StringBuilder();
+
+			b.Append("Match Params: ");
+			b.Append(mTypeNames[0]);
+
+			var classes = GetCssClasses(mWidget);
+
+			if (classes != null && classes.Count() > 0)
+			{
+				b.Append(".");
+				b.Append(string.Join(".", classes));
+			}
+
+			var pc = GetPseudoClass(mWidget);
+			if (pc != CssPseudoClass.None)
+			{
+				b.Append(":");
+				b.Append(pc.ToString());
+			}
+
+			return b.ToString();
+		}
 	}
 }

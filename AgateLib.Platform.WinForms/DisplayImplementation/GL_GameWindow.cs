@@ -509,5 +509,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			mFrameBuffer.CreateContextForThread();
 		}
+
 	}
 }

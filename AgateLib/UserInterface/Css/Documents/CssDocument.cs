@@ -46,17 +46,23 @@ namespace AgateLib.UserInterface.Css.Documents
 
 		public void Clear()
 		{
-			mMedia.Clear();
+			lock (this)
+			{
+				mMedia.Clear();
 
-			var defaultMedium = new CssMediaSelector("all");
-			Media.Add(defaultMedium);
+				var defaultMedium = new CssMediaSelector("all");
+				Media.Add(defaultMedium);
+			}
 		}
 
 		public void Load(string filename)
 		{
 			CssParser parser = new CssParser();
 
-			parser.Load(this, filename);
+			lock (this)
+			{
+				parser.Load(this, filename);
+			}
 
 			OnUpdated();
 		}
@@ -64,7 +70,10 @@ namespace AgateLib.UserInterface.Css.Documents
 		{
 			CssParser parser = new CssParser();
 
-			parser.ParseCss(this, css);
+			lock (this)
+			{
+				parser.ParseCss(this, css);
+			}
 
 			OnUpdated();
 		}

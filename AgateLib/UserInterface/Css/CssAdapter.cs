@@ -97,7 +97,10 @@ namespace AgateLib.UserInterface.Css
 
 			if (refresh)
 			{
-				RebuildStyle(control);
+				lock (Document)
+				{
+					RebuildStyle(control);
+				}
 			}
 
 			var style = mObjectStyles[control];

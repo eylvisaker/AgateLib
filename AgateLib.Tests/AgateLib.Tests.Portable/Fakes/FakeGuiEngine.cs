@@ -14,6 +14,9 @@ namespace AgateLib.Testing.Fakes
 		}
 		public void Update(Gui gui, double deltaTime)
 		{ }
+
+
+		public Gesture ActiveGesture { get;set;}
 	}
 	public class FakeLayout : IGuiLayoutEngine
 	{

@@ -167,6 +167,9 @@ namespace AgateLib.Settings
 
 			try
 			{
+				if (FileSystem.File.Exists(SettingsFilename) == false)
+					return;
+
 				doc = XDocument.Load(XmlReader.Create(FileSystem.File.OpenRead(SettingsFilename)));
 			}
 			catch (FileNotFoundException)

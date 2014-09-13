@@ -92,10 +92,16 @@ namespace AgateLib.Testing.InputTests.InputTester
 
 			b.Append("Buttons: ");
 
+			bool comma = false;
 			for (int i = 0; i < j.ButtonCount; i++)
 			{
 				if (j.GetButtonState(i))
+				{
+					if (comma)
+						b.Append(",");
 					b.Append(i.ToString());
+					comma = true;
+				}
 			}
 
 			b.AppendLine();

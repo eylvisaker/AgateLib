@@ -37,6 +37,7 @@ namespace AgateLib.UserInterface.Css.Rendering
 		ICssImageProvider mImageProvider = new CssDefaultImageProvider();
 		private CssAdapter adapter;
 
+
 		public CssRenderer(CssAdapter adapter)
 		{
 			mAdapter = adapter;
@@ -47,11 +48,16 @@ namespace AgateLib.UserInterface.Css.Rendering
 			mBlankSurface = new Surface(buffer);
 		}
 
+		public Gesture ActiveGesture { get; set; }
+
 		public void Update(Gui gui, double deltaTime)
 		{
 			foreach (var widget in gui.Desktop.Descendants)
 			{
 				var style = mAdapter.GetStyle(widget);
+
+				if (ActiveGesture != null)
+					style.Animator.Gesture = ActiveGesture.TargetWidget == widget ? ActiveGesture : null;
 
 				style.Animator.Update(deltaTime);
 
@@ -77,14 +83,38 @@ namespace AgateLib.UserInterface.Css.Rendering
 			DrawComponentContents(window);
 		}
 
+		private bool PushClipRect(CssStyle style)
+		{
+			Rectangle clipRect = style.Widget.ClientToScreen(new Rectangle(0, 0, style.Widget.ClientRect.Width, style.Widget.ClientRect.Height));
+
+			if (style.Data.Overflow == CssOverflow.Visible)
+				return false;
+
+			Display.PushClipRect(clipRect);
+			return true;
+		}
+
 		private void DrawComponentContents(Container window)
 		{
-			foreach (var control in window.Children)
+			var style = mAdapter.GetStyle(window);
+			bool clipping = false;
+
+			try
 			{
-				if (control is Container)
-					DrawComponent((Container)control);
-				else
-					DrawComponentStyle(control);
+				clipping = PushClipRect(style);
+
+				foreach (var control in window.Children)
+				{
+					if (control is Container)
+						DrawComponent((Container)control);
+					else
+						DrawComponentStyle(control);
+				}
+			}
+			finally
+			{
+				if (clipping)
+					Display.PopClipRect();
 			}
 		}
 
@@ -113,7 +143,7 @@ namespace AgateLib.UserInterface.Css.Rendering
 
 		private OriginAlignment ConvertTextAlign(CssTextAlign cssTextAlign)
 		{
-			switch(cssTextAlign)
+			switch (cssTextAlign)
 			{
 				case CssTextAlign.Right:
 					return OriginAlignment.TopRight;
@@ -391,5 +421,6 @@ namespace AgateLib.UserInterface.Css.Rendering
 			mBlankSurface.Color = border.Right.Color;
 			mBlankSurface.Draw(rect);
 		}
+
 	}
 }

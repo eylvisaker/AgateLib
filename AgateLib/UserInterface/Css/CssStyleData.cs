@@ -49,12 +49,15 @@ namespace AgateLib.UserInterface.Css
 			Text = new CssText();
 
 			Display = CssDisplay.Initial;
+			Overflow = CssOverflow.Visible;
 		}
+
+		public CssDisplay Display { get; set; }
+		public CssOverflow Overflow { get; set; }
+		public CssPosition Position { get; set; }
 
 		[CssPromoteProperties]
 		public CssRectangle PositionData { get; set; }
-
-		public CssPosition Position { get; set; }
 
 		[CssPromoteProperties]
 		public CssFont Font { get; set; }
@@ -74,12 +77,11 @@ namespace AgateLib.UserInterface.Css
 		[CssPromoteProperties]
 		public CssLayout Layout { get; set; }
 
-		public CssDisplay Display { get; set; }
-
 		[CssPromoteProperties(prefix: "transition")]
 		public CssTransition Transition { get; set; }
 
 		[CssPromoteProperties]
 		public CssText Text { get; set; }
+
 	}
 }

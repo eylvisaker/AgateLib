@@ -83,6 +83,49 @@ namespace AgateLib.UserInterface.Css.Tests
 		}
 
 		[TestMethod]
+		public void CssBMenuItemPseudoClassMatching()
+		{
+			Gui gui = new Gui(null, null);
+			Desktop desktop = new Desktop(gui);
+			Window wind = new Window();
+			Menu mnu = new Menu();
+			MenuItem alpha = new MenuItem();
+			MenuItem beta = new MenuItem();
+
+			mnu.Children.Add(alpha, beta);
+			wind.Children.Add(mnu);
+			desktop.Children.Add(wind);
+
+			CssDocument doc = CssDocument.FromText("menuitem:selected { background-color: blue; }");
+			CssAdapter adapter = new CssAdapter(doc);
+
+			mnu.SelectedItem = alpha;
+
+			var alphaStyle = adapter.GetStyle(alpha);
+			var betaStyle = adapter.GetStyle(beta);
+
+			Assert.AreEqual(1, alphaStyle.AppliedBlocks.Count);
+			Assert.AreEqual(0, betaStyle.AppliedBlocks.Count);
+
+			mnu.SelectedItem = beta;
+
+			alphaStyle = adapter.GetStyle(alpha);
+			betaStyle = adapter.GetStyle(beta);
+
+			Assert.AreEqual(0, alphaStyle.AppliedBlocks.Count);
+			Assert.AreEqual(1, betaStyle.AppliedBlocks.Count);
+
+			beta.OnMouseLeave();
+			alpha.OnMouseEnter();
+
+			alphaStyle = adapter.GetStyle(alpha);
+			betaStyle = adapter.GetStyle(beta);
+
+			Assert.AreEqual(1, alphaStyle.AppliedBlocks.Count);
+			Assert.AreEqual(0, betaStyle.AppliedBlocks.Count);
+		}
+
+		[TestMethod]
 		public void CssBDescendentMatching()
 		{
 			CssDocument doc = CssDocument.FromText("labelimage imagebox { margin-right: 12px; }");

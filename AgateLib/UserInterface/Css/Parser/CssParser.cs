@@ -142,7 +142,14 @@ namespace AgateLib.UserInterface.Css
 
 			if (mBindingMapper.FindPropertyChain(property))
 			{
-				currentBlock.AddProperty(name, value);
+				try
+				{
+					currentBlock.AddProperty(name, value);
+				}
+				catch(Exception)
+				{
+					Log.WriteLine(string.Format("Failed to parse property {0}.", property));
+				}
 			}
 			else
 			{

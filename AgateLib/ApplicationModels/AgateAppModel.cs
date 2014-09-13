@@ -337,6 +337,8 @@ namespace AgateLib.ApplicationModels
 		/// </summary>
 		public virtual void KeepAlive()
 		{
+			Input.PollJoysticks();
+
 			Input.DispatchQueuedEvents();
 		}
 	}

@@ -392,13 +392,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			mRenderTarget.MouseDown += new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
 			mRenderTarget.MouseUp += new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
 			mRenderTarget.DoubleClick += new EventHandler(mRenderTarget_DoubleClick);
-			
+
 			System.Windows.Forms.Form form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
 			form.KeyPreview = true;
 
 			form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
 			form.KeyUp += new System.Windows.Forms.KeyEventHandler(form_KeyUp);
-			
+
 			form.FormClosing += new FormClosingEventHandler(form_FormClosing);
 			form.FormClosed += new FormClosedEventHandler(form_FormClosed);
 		}
@@ -599,7 +599,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			else
 			{
 				customMessageLoop = true;
-				while(customMessageLoop)
+				while (customMessageLoop)
 				{
 					Application.DoEvents();
 				}
@@ -619,6 +619,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		public void CreateContextForThread()
 		{
 			mFrameBuffer.CreateContextForThread();
+		}
+
+
+		public Control TopLevelForm
+		{
+			get { return mRenderTarget.TopLevelControl; }
 		}
 	}
 }

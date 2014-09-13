@@ -1,5 +1,6 @@
 ﻿using AgateLib.ApplicationModels;
 using AgateLib.Platform.WinForms.DisplayImplementation;
+using AgateLib.Platform.WinForms.GuiDebug;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 		Thread gameThread;
 		bool exit;
 		bool threadRunning;
+		bool createDebugForm;
 
 		public SerialModel() : this(DefaultParameters)
 		{ }
@@ -38,6 +40,20 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 			Parameters.Arguments = args;
 
 			ProcessArguments();
+		}
+
+		protected override void ProcessArgument(string arg, IList<string> parm)
+		{
+			if (arg == "--debuggui")
+			{
+				createDebugForm = true;
+				CreateGuiDebug();	
+				return;
+			}
+
+
+			
+			base.ProcessArgument(arg, parm);
 		}
 
 		public new SerialModelParameters Parameters
@@ -79,6 +95,21 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 			}
 		}
 
+		private void CreateGuiDebug()
+		{
+			//if (createDebugForm == false)
+			//	return;
+
+			frmGuiDebug debugform = new frmGuiDebug();
+
+			//var gdc = AutoCreatedWindow.Impl as GL_DisplayControl;
+
+			//if (gdc != null)
+			//	debugform.Show(gdc.TopLevelForm);
+			//else
+				debugform.Show();
+		}
+
 		protected override int BeginModel(Func<int> entryPoint)
 		{
 			int retval = 0;
@@ -87,6 +118,7 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 
 			var primaryWindow = AutoCreatedWindow.Impl as IPrimaryWindow;
 			primaryWindow.RunApplication();
+
 
 			return retval;
 		}

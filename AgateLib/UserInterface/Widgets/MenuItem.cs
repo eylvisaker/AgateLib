@@ -32,7 +32,8 @@ namespace AgateLib.UserInterface.Widgets
 			Children.WidgetRemoved += Children_WidgetRemoved;
 		}
 
-		public MenuItem(params Widget[] children) : this()
+		public MenuItem(params Widget[] children)
+			: this()
 		{
 			Children.AddRange(children);
 		}
@@ -43,17 +44,20 @@ namespace AgateLib.UserInterface.Widgets
 		}
 
 		[Obsolete("Use static MenuItem.OfLabel method instead.")]
-		public MenuItem(string name, string text) : this()
+		public MenuItem(string name, string text)
+			: this()
 		{
 			Name = name;
 
 			Children.Add(new Label(text));
 		}
-		public MenuItem(Widget child) : this()
+		public MenuItem(Widget child)
+			: this()
 		{
 			Children.Add(child);
 		}
-		public MenuItem(string name, Widget child) : this()
+		public MenuItem(string name, Widget child)
+			: this()
 		{
 			Name = name;
 
@@ -82,6 +86,7 @@ namespace AgateLib.UserInterface.Widgets
 		public event EventHandler PressToggle;
 		public event EventHandler PressMenu;
 		public event EventHandler Select;
+		public event EventHandler Discard;
 
 		void Children_WidgetAdded(object sender, WidgetEventArgs e)
 		{
@@ -126,28 +131,55 @@ namespace AgateLib.UserInterface.Widgets
 			}
 
 			widget.MouseDown -= widget_MouseDown;
+			widget.MouseMove -= widget_MouseMove;
 			widget.MouseUp -= widget_MouseUp;
 		}
 
 		bool mouseDown;
 		void widget_MouseDown(object sender, MouseEventArgs e)
 		{
-			mouseDown = true;
+			OnMouseDown(e.Buttons, e.Location);
 		}
 		void widget_MouseUp(object sender, MouseEventArgs e)
 		{
-			if (mouseDown)
+			OnMouseUp(e.Buttons, e.Location);
+		}
+		void widget_MouseMove(object sender, MouseEventArgs e)
+		{
+			OnMouseMove(e.Location);
+		}
+
+		protected internal override void OnMouseDown(InputLib.MouseButton mouseButtons, Point point)
+		{
+			mouseDown = true;
+
+			base.OnMouseDown(mouseButtons, point);
+		}
+		protected internal override void OnMouseUp(InputLib.MouseButton mouseButtons, Point point)
+		{
+			base.OnMouseUp(mouseButtons, point);
+
+			if (mouseDown && MouseIn && ParentMenu.SelectedItem == this)
 			{
-				OnPressAccept();
+				//OnPressAccept();
 			}
 
 			mouseDown = false;
 		}
-		void widget_MouseMove(object sender, MouseEventArgs e)
-		{
-			OnSelect();
-		}
 
+		protected internal override void OnMouseEnter()
+		{
+			base.OnMouseEnter();
+
+			ParentMenu.SelectedItem = this;
+		}
+		protected internal override void OnMouseLeave()
+		{
+			if (ParentMenu.SelectedItem == this)
+				ParentMenu.SelectedItem = null;
+
+			base.OnMouseLeave();
+		}
 
 		internal void OnSelect()
 		{
@@ -174,5 +206,13 @@ namespace AgateLib.UserInterface.Widgets
 
 		public Point Pointer { get; set; }
 		public bool ManualSetPointer { get; set; }
+
+		public bool AllowDiscard { get; set; }
+
+		internal void OnDiscard()
+		{
+			if (Discard != null)
+				Discard(this, EventArgs.Empty);
+		}
 	}
 }

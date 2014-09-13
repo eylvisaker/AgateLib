@@ -61,5 +61,10 @@ namespace AgateLib.InputLib
 		}
 
 		public static InputHandlerList InputHandlers { get { return mInputHandlers; } }
+
+		internal static void PollJoysticks()
+		{
+			JoystickInput.PollTimer();
+		}
 	}
 }

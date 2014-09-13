@@ -11,7 +11,7 @@ using System.Text;
 
 namespace AgateLib.AgateSDL
 {
-	class AgateSdlFactory : IAudioFactory, IInputFactory
+	public class AgateSdlFactory : IAudioFactory, IInputFactory
 	{
 		#region --- Audio Factory ---
 

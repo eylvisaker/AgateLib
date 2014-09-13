@@ -38,7 +38,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		public InputMap()
 		{ }
-		public static InputMap CreateDefaultMapping()
+		public static InputMap CreateDefaultInputMap()
 		{
 			InputMap retval = new InputMap();
 

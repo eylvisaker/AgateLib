@@ -25,6 +25,7 @@ namespace AgateLib.InputLib
 {
 	public enum JoystickEventType
 	{
+		Axis,
 		Button,
 		Hat,
 	}
