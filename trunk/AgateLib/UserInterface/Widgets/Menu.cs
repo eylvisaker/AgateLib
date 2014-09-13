@@ -52,6 +52,9 @@ namespace AgateLib.UserInterface.Widgets
 			AcceptFocus = true;
 
 			Children = new WidgetListOf<MenuItem>(this);
+
+			if (PreferredInputMode == InputMode.Mouse)
+				mSelIndex = -1;
 		}
 
 		public Menu(string name)
@@ -65,7 +68,8 @@ namespace AgateLib.UserInterface.Widgets
 		public bool WrapTopBottom { get; set; }
 		public bool WrapLeftRight { get; set; }
 		public bool DrawMenuItemFrame { get; set; }
-
+		public bool AllowReorder { get; set; }
+		
 		public int Columns
 		{
 			get { return mColumns; }
@@ -88,12 +92,20 @@ namespace AgateLib.UserInterface.Widgets
 			get { return mSelIndex; }
 			set
 			{
-				if (value < 0)
-					value = 0;
+				if (PreferredInputMode == InputMode.Mouse)
+				{
+					if (value < 0) value = -1;
+					if (value >= Children.Count) value = -1;
+				}
+				else 
+				{
+					if (value < 0)
+						value = 0;
 
-				if (value >= Children.Count)
-					value = Children.Count - 1;
-
+					if (value >= Children.Count)
+						value = Children.Count - 1;
+				}
+				
 				mSelIndex = value;
 
 				OnSelect(false);
@@ -129,7 +141,7 @@ namespace AgateLib.UserInterface.Widgets
 			{
 				int index = Children.IndexOf(value);
 
-				if (index == -1)
+				if (index == -1 && value != null)
 					throw new ArgumentException("MenuItem " + value.Name + " is not part of this menu!");
 
 				SelectedIndex = index;
@@ -264,12 +276,12 @@ namespace AgateLib.UserInterface.Widgets
 			if (item == null) return;
 			if (item.Enabled == false)
 			{
-				//ZodiacAudio.PlaySound("invalid");
+				MyGui.PlaySound(GuiSound.Invalid);
 				return;
 			}
 			else
 			{
-				//ZodiacAudio.PlaySound("menuselect");
+				MyGui.PlaySound(GuiSound.MenuSelect);
 			}
 
 			if (AllowDualSelection)
@@ -474,5 +486,69 @@ namespace AgateLib.UserInterface.Widgets
 
 		public event EventHandler MenuCancel;
 		public event EventHandler DualSelect;
+
+		protected internal override bool AcceptGestureInput
+		{
+			get { return true; }
+		}
+
+		MenuItem mGestureItem;
+
+		protected internal override void OnGestureBegin(Gesture gesture)
+		{
+			mGestureItem = (MenuItem)Children.WidgetAt(ScreenToClient(gesture.StartPoint));
+			SelectedItem = mGestureItem;
+
+			gesture.TargetWidget = mGestureItem;
+
+		}
+		protected internal override void OnGestureChange(Gesture gesture)
+		{
+			switch(gesture.GestureType)
+			{
+				case GestureType.Touch:
+					gesture.IsValidForTarget = mGestureItem.Enabled;
+					break;
+
+				case GestureType.Drag:
+				case GestureType.Swipe:
+					if (gesture.Axis == AxisType.Vertical)
+					{
+						gesture.IsValidForTarget = true;
+						gesture.TargetWidget = this;
+						gesture.Effect = GestureEffect.MoveItem;
+					}
+					else
+					{
+						gesture.IsValidForTarget = mGestureItem.AllowDiscard;
+						gesture.Effect = GestureEffect.DiscardItem;
+					}
+
+					break;
+			}
+		}
+
+		protected internal override void OnGestureComplete(Gesture gesture)
+		{
+			switch(gesture.GestureType)
+			{
+				case GestureType.Touch:
+				case GestureType.LongPress:
+					SelectedItem.OnPressAccept();
+					break;
+
+				case GestureType.Swipe:
+				case GestureType.Drag:
+					var item = gesture.TargetWidget as MenuItem;
+
+					if (item != null)
+					{
+						if (gesture.AmountDragged.Magnitude > ClientRect.Width / 2 && item.AllowDiscard)
+							item.OnDiscard();
+					}
+
+					break;
+			}
+		}
 	}
 }

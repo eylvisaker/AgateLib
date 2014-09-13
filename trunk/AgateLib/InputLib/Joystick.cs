@@ -33,6 +33,7 @@ namespace AgateLib.InputLib
 		JoystickImpl impl;
 		bool[] mButtonState;
 		HatState[] mHatState;
+		double[] mAxisState;
 
 		internal Joystick(JoystickImpl i)
 		{
@@ -42,7 +43,7 @@ namespace AgateLib.InputLib
 
 			mButtonState = new bool[ButtonCount];
 			mHatState = new HatState[HatCount];
-
+			mAxisState = new double[AxisCount];
 		}
 
 		/// <summary>
@@ -222,17 +223,33 @@ namespace AgateLib.InputLib
 					OnHatStateChanged(i);
 				}
 			}
+
+			for (int i = 0; i < mAxisState.Length; i++)
+			{
+				double newValue = GetAxisValue(i);
+
+				if (Math.Abs(newValue - mAxisState[i]) > 0.001)
+				{
+					mAxisState[i] = newValue;
+					OnAxisChanged(i);
+				}
+			}
 		}
 
-
+		public event JoystickEventHandler AxisChanged;
 		public event JoystickEventHandler ButtonPressed;
 		public event JoystickEventHandler ButtonReleased;
 		public event JoystickEventHandler HatStateChanged;
 
+		private void OnAxisChanged(int axisIndex)
+		{
+			if (AxisChanged != null)
+				AxisChanged(this, new JoystickEventArgs(JoystickEventType.Axis, axisIndex));
+		}
 		private void OnButtonPressed(int index)
 		{
 			if (ButtonPressed != null)
-				ButtonPressed(this, 
+				ButtonPressed(this,
 					new JoystickEventArgs(JoystickEventType.Button, index));
 		}
 		private void OnButtonReleased(int index)

@@ -88,19 +88,19 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		#region --- Object Factory ---
 
-		protected override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType)
+		protected internal override AgateLib.DisplayLib.Shaders.Implementation.AgateShaderImpl CreateBuiltInShader(AgateLib.DisplayLib.Shaders.Implementation.BuiltInShader builtInShaderType)
 		{
 			return ShaderFactory.CreateBuiltInShader(builtInShaderType);
 		}
 
-		protected override VertexBufferImpl CreateVertexBuffer(VertexLayout layout, int vertexCount)
+		protected internal override VertexBufferImpl CreateVertexBuffer(VertexLayout layout, int vertexCount)
 		{
 			if (GL3)
 				return new AgateLib.OpenGL.GL3.GLVertexBuffer(layout, vertexCount);
 			else
 				return new AgateLib.OpenGL.Legacy.LegacyVertexBuffer(layout, vertexCount);
 		}
-		protected override IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
+		protected internal override IndexBufferImpl CreateIndexBuffer(IndexBufferType type, int size)
 		{
 			return new GL_IndexBuffer(type, size);
 		}
@@ -454,12 +454,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		#endregion
 
 
-		protected override void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
+		protected internal override void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
 		{
 			FormUtil.SavePixelBuffer(pixelBuffer, filename, format);
 		}
 
-		protected override void HideCursor()
+		protected internal override void HideCursor()
 		{
 			System.Windows.Forms.Cursor.Hide();
 
@@ -469,7 +469,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				//((GL_DisplayW)impl).HideCursor();
 			}
 		}
-		protected override void ShowCursor()
+		protected internal override void ShowCursor()
 		{
 			System.Windows.Forms.Cursor.Show();
 
@@ -545,7 +545,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		bool mAlphaBlend;
 
-		protected override bool GetRenderState(RenderStateBool renderStateBool)
+		protected internal override bool GetRenderState(RenderStateBool renderStateBool)
 		{
 			switch (renderStateBool)
 			{
@@ -561,7 +561,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 						"The specified render state, {0}, is not supported by this driver.", renderStateBool));
 			}
 		}
-		protected override void SetRenderState(RenderStateBool renderStateBool, bool value)
+		protected internal override void SetRenderState(RenderStateBool renderStateBool, bool value)
 		{
 			switch (renderStateBool)
 			{

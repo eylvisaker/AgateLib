@@ -1,4 +1,5 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+﻿using AgateLib.Geometry;
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -90,6 +91,8 @@ namespace AgateLib.UserInterface.Widgets
 		public void Add(Widget item)
 		{
 			if (item == null) throw new ArgumentNullException("item");
+
+			ValidateItem(item);
 
 			mItems.Add(item);
 			item.Parent = mParent;
@@ -199,6 +202,23 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		public event EventHandler<WidgetEventArgs> WidgetAdded;
 		public event EventHandler<WidgetEventArgs> WidgetRemoved;
+
+		/// <summary>
+		/// Returns the immediate child which occupies the specified client point.
+		/// </summary>
+		/// <param name="point">The point in client coordinates of this container to search for child widgets at.</param>
+		/// <returns>The widget at the specified point, or null if nothing is found.</returns>
+		/// <remarks>This method does not walk through the descendants of child controls, it will only return null or a member of this WidgetList.</remarks>
+		public Widget WidgetAt(Point point)
+		{
+			foreach(var child in System.Linq.Enumerable.Reverse(mItems))
+			{
+				if (child.WidgetRect.Contains(point))
+					return child;
+			}
+
+			return null;
+		}
 	}
 
 	public class WidgetListOf<T> : WidgetList where T : Widget

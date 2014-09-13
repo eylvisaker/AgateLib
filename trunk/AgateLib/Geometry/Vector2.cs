@@ -52,6 +52,16 @@ namespace AgateLib.Geometry
 			mY = (float)y;
 		}
 		/// <summary>
+		/// Constructs a Vector2 object from a Point.
+		/// </summary>
+		/// <param name="pt"></param>
+		public Vector2(Point pt)
+		{
+			mX = pt.X;
+			mY = pt.Y;
+		}
+
+		/// <summary>
 		/// X coordinate.
 		/// </summary>
 		public float X
@@ -184,6 +194,26 @@ namespace AgateLib.Geometry
 			return new Vector2(a.X * b, a.Y * b);
 		}
 		/// <summary>
+		/// Scales a vector by a scalar floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector2 operator *(Vector2 a, double b)
+		{
+			return new Vector2(a.X * b, a.Y * b);
+		}
+		/// <summary>
+		/// Scales a vector by a scalar floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector2 operator *(double b, Vector2 a)
+		{
+			return new Vector2(a.X * b, a.Y * b);
+		}
+		/// <summary>
 		/// Divides a vector's components by a floating point value.
 		/// </summary>
 		/// <param name="a"></param>
@@ -192,6 +222,17 @@ namespace AgateLib.Geometry
 		public static Vector2 operator /(Vector2 a, float b)
 		{
 			return a * (1.0f / b);
+		}
+
+		/// <summary>
+		/// Divides a vector's components by a floating point value.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
+		public static Vector2 operator /(Vector2 a, double b)
+		{
+			return a * (float)(1.0f / b);
 		}
 
 		/// <summary>

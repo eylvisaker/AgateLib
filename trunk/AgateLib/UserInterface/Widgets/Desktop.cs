@@ -27,19 +27,67 @@ namespace AgateLib.UserInterface.Widgets
 	public class Desktop : Container
 	{
 		private Gui gui;
+		Widget mFocusWidget;
+
+		class WindowList : WidgetList
+		{
+			public WindowList(Desktop owner)
+				: base(owner)
+			{ }
+
+			protected override void ValidateItem(Widget item)
+			{
+				if (item is Window == false)
+					throw new InvalidOperationException();
+			}
+		}
 
 		internal Desktop(Gui gui)
 		{
 			this.gui = gui;
+
+			Children = new WindowList(this);
+			Children.WidgetAdded += Children_WidgetAdded;
+			Children.WidgetRemoved += Children_WidgetRemoved;
 		}
-		
+
+
+		void Children_WidgetAdded(object sender, WidgetEventArgs e)
+		{
+			UpdateFocusWidget();
+		}
+		void Children_WidgetRemoved(object sender, WidgetEventArgs e)
+		{
+			UpdateFocusWidget();
+		}
+
+		internal void UpdateFocusWidget()
+		{
+			foreach (var window in Windows.Reverse())
+			{
+				mFocusWidget = window.FindFocusWidget();
+
+				if (mFocusWidget != null)
+					return;
+			}
+		}
+
+		public Widget FocusWidget
+		{
+			get { return mFocusWidget; }
+			set { mFocusWidget = value; }
+		}
 		public Window TopWindow
 		{
-			get { return (Window)Children[Children.Count - 1]; }
+			get
+			{
+				if (Children.Count == 0)
+					return null; return (Window)Children[Children.Count - 1];
+			}
 		}
 
 		public IEnumerable<Window> Windows { get { return Children.OfType<Window>(); } }
 
-		protected override Gui MyGui { get { return gui; } }
+		protected internal override Gui MyGui { get { return gui; } }
 	}
 }

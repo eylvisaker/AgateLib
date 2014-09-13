@@ -25,32 +25,60 @@ using AgateLib.UserInterface.Widgets;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib.Legacy;
+using AgateLib.UserInterface.Css.Documents;
+using AgateLib.UserInterface.Widgets.Gestures;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public class Gui : IInputHandler
+	public class Gui : IInputHandler, IDisposable
 	{
 		Desktop mDesktop;
 		IAudioPlayer mAudioPlayer;
 		IGuiRenderer mRenderer;
 		IGuiLayoutEngine mLayout;
 
-		Widget mFocusWidget;
 		Widget mHoverWidget;
 		Widget mMouseEventWidget;
 
+		Gamepad mGamepad;
+		Gesture mCurrentGesture = new Gesture();
+		IGestureController mGestureController;
+
+		
 		public Gui(IGuiRenderer renderer, IGuiLayoutEngine layout)
 		{
 			mRenderer = renderer;
 			mLayout = layout;
 
 			mDesktop = new Desktop(this);
-			InputMap = InputMap.CreateDefaultMapping();
+			InputMap = InputMap.CreateDefaultInputMap();
 
 			ForwardUnhandledEvents = true;
+
+			GuiStack.Add(this);
+
+			if (JoystickInput.Joysticks.Count > 0)
+			{
+				CreateGamepad();
+			}
+		}
+
+		private void CreateGamepad()
+		{
+			mGamepad = new Gamepad(JoystickInput.Joysticks.First());
+
+			mGamepad.LeftStickMoved += mGamepad_LeftStickMoved;
+			mGamepad.ButtonPressed += mGamepad_ButtonPressed;
+			mGamepad.ButtonReleased += mGamepad_ButtonReleased;
 		}
 
 		public InputMap InputMap { get; set; }
+
+		public void Dispose()
+		{
+			GuiStack.Remove(this);
+		}
+
 		public Desktop Desktop { get { return mDesktop; } }
 
 		void DispatchEvent(Func<Window, bool> action)
@@ -66,31 +94,19 @@ namespace AgateLib.UserInterface.Widgets
 			}
 		}
 
-
 		public Widget FocusWidget
 		{
-			get { return mFocusWidget; }
-			set { mFocusWidget = value; }
+			get { return Desktop.FocusWidget; }
+			set { Desktop.FocusWidget = value; }
 		}
 
-		private void FindFocusWidget()
+		private Widget WidgetAt(Point screenPoint)
 		{
-			foreach (var window in mDesktop.Windows.Reverse())
-			{
-				mFocusWidget = window.FindFocusWidget();
-
-				if (mFocusWidget != null)
-					return;
-			}
-		}
-
-		private Widget WidgetAt(Point point)
-		{
-			return WidgetAt(Desktop, point);
+			return WidgetAt(Desktop, screenPoint);
 		}
 		private Widget WidgetAt(Container container, Point point)
 		{
-			foreach (var child in container.Children)
+			foreach (var child in container.Children.Reverse())
 			{
 				if (child.WidgetRect.Contains(point))
 				{
@@ -104,6 +120,15 @@ namespace AgateLib.UserInterface.Widgets
 			}
 
 			return container;
+		}
+		private bool WidgetContainsScreenPoint(Widget widget, Point screenPoint)
+		{
+			if (widget is Desktop)
+				return true;
+			if (widget.Parent == null)
+				return false;
+
+			return widget.WidgetRect.Contains(widget.Parent.ScreenToClient(screenPoint));
 		}
 
 		#region --- Event Handling ---
@@ -127,15 +152,23 @@ namespace AgateLib.UserInterface.Widgets
 			bool handled = false;
 			GuiInput input = InputMap.MapKey(args.KeyCode);
 
-			if (mFocusWidget == null)
-				FindFocusWidget();
+			Widget.PreferredInputMode = InputMode.Controller;
 
-			if (mFocusWidget != null)
+			if (Desktop.Descendants.Contains(FocusWidget) == false)
+				Desktop.UpdateFocusWidget();
+
+			if (FocusWidget == null)
+				Desktop.UpdateFocusWidget();
+
+			if (FocusWidget != null)
 			{
-				mFocusWidget.OnKeyDown(args.KeyCode, args.KeyString);
+				GuiStack.ListenEvent(FocusWidget, args);
+
+				FocusWidget.OnKeyDown(args.KeyCode, args.KeyString);
+
 				if (input != GuiInput.None)
 				{
-					mFocusWidget.OnGuiInput(input, ref handled);
+					FocusWidget.OnGuiInput(input, ref handled);
 				}
 			}
 			else
@@ -149,12 +182,14 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			bool handled = false;
 
-			if (mFocusWidget == null)
-				FindFocusWidget();
+			if (FocusWidget == null)
+				Desktop.UpdateFocusWidget();
 
-			if (mFocusWidget != null)
+			if (FocusWidget != null)
 			{
-				mFocusWidget.OnKeyUp(args.KeyCode, args.KeyString);
+				GuiStack.ListenEvent(FocusWidget, args);
+
+				FocusWidget.OnKeyUp(args.KeyCode, args.KeyString);
 			}
 			else
 			{
@@ -165,25 +200,56 @@ namespace AgateLib.UserInterface.Widgets
 		public void OnMouseMove(AgateInputEventArgs e)
 		{
 			Widget targetWidget = mMouseEventWidget;
+			Widget hoverWidget = WidgetAt(e.MousePosition);
 
 			if (targetWidget == null)
-				targetWidget = WidgetAt(e.MousePosition);
+				targetWidget = hoverWidget;
 
-			if (mHoverWidget != targetWidget)
+			if (mHoverWidget != hoverWidget)
 			{
 				if (mHoverWidget != null)
 				{
-					mHoverWidget.MouseIn = false;
-					mHoverWidget.OnMouseLeave();
+					var p = mHoverWidget;
+					while (p.MouseIn && WidgetContainsScreenPoint(p, e.MousePosition) == false)
+					{
+						p.MouseIn = false;
+
+						p = p.Parent;
+						if (p == null)
+							break;
+					}
 				}
 
-				targetWidget.MouseIn = true;
-				targetWidget.OnMouseEnter();
+				if (hoverWidget != null)
+				{
+					var p = hoverWidget;
+					while (p.MouseIn == false && WidgetContainsScreenPoint(p, e.MousePosition))
+					{
+						p.MouseIn = true;
 
-				mHoverWidget = targetWidget;
+						p = p.Parent;
+						if (p == null)
+							break;
+					}
+
+					mHoverWidget = hoverWidget;
+				}
+
 			}
 
+			if (targetWidget is Desktop == false)
+				Widget.PreferredInputMode = InputMode.Mouse;
+
+			GuiStack.ListenEvent(targetWidget, e);
 			targetWidget.OnMouseMove(targetWidget.ScreenToClient(e.MousePosition));
+
+			if (mGestureController != null)
+			{
+				mCurrentGesture.CurrentPoint = e.MousePosition;
+				mGestureController.Update();
+			}
+
+			e.Handled = true;
 		}
 		public void OnMouseDown(AgateInputEventArgs e)
 		{
@@ -191,8 +257,20 @@ namespace AgateLib.UserInterface.Widgets
 
 			mMouseEventWidget = targetWidget;
 
+			GuiStack.ListenEvent(targetWidget, e);
 			targetWidget.OnMouseDown(e.MouseButton, targetWidget.ScreenToClient(e.MousePosition));
+
+			if (e.MouseButton == MouseButton.Primary)
+			{
+				mCurrentGesture.Initialize(GestureType.Touch, e.MousePosition, GetGestureWidget(targetWidget));
+
+				mGestureController = new MouseGesture { GestureData = mCurrentGesture };
+				mGestureController.OnBegin();
+			}
+
+			e.Handled = true;
 		}
+
 		public void OnMouseUp(AgateInputEventArgs e)
 		{
 			Widget targetWidget = mMouseEventWidget;
@@ -201,7 +279,36 @@ namespace AgateLib.UserInterface.Widgets
 				targetWidget = WidgetAt(e.MousePosition);
 
 			mMouseEventWidget = null;
+			GuiStack.ListenEvent(targetWidget, e);
 			targetWidget.OnMouseUp(e.MouseButton, targetWidget.ScreenToClient(e.MousePosition));
+
+			if (mGestureController != null)
+			{
+				mGestureController.OnComplete();
+			}
+			mCurrentGesture.GestureType = GestureType.None;
+
+			e.Handled = true;
+		}
+
+		private Widget GetGestureWidget(Widget targetWidget)
+		{
+			while (targetWidget is Desktop == false && targetWidget.AcceptGestureInput == false)
+				targetWidget = targetWidget.Parent;
+
+			return targetWidget;
+		}
+
+		void mGamepad_ButtonReleased(object sender, GamepadButtonEventArgs e)
+		{
+		}
+
+		void mGamepad_ButtonPressed(object sender, GamepadButtonEventArgs e)
+		{
+		}
+
+		void mGamepad_LeftStickMoved(object sender, EventArgs e)
+		{
 		}
 
 		[Obsolete]
@@ -210,15 +317,15 @@ namespace AgateLib.UserInterface.Widgets
 			bool handled = false;
 			GuiInput input = InputMap.MapKey(args.KeyCode);
 
-			if (mFocusWidget == null)
-				FindFocusWidget();
+			if (FocusWidget == null)
+				Desktop.UpdateFocusWidget();
 
-			if (mFocusWidget != null)
+			if (FocusWidget != null)
 			{
-				mFocusWidget.OnKeyDown(args.KeyCode, args.KeyString);
+				FocusWidget.OnKeyDown(args.KeyCode, args.KeyString);
 				if (input != GuiInput.None)
 				{
-					mFocusWidget.OnGuiInput(input, ref handled);
+					FocusWidget.OnGuiInput(input, ref handled);
 				}
 			}
 			else
@@ -231,12 +338,12 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			bool handled = false;
 
-			if (mFocusWidget == null)
-				FindFocusWidget();
+			if (FocusWidget == null)
+				Desktop.UpdateFocusWidget();
 
-			if (mFocusWidget != null)
+			if (FocusWidget != null)
 			{
-				mFocusWidget.OnKeyUp(args.KeyCode, args.KeyString);
+				FocusWidget.OnKeyUp(args.KeyCode, args.KeyString);
 			}
 			else
 			{
@@ -293,6 +400,9 @@ namespace AgateLib.UserInterface.Widgets
 
 		public void OnUpdate(double delta_t, bool processInput)
 		{
+			if (mGestureController != null)
+				mGestureController.OnTimePass();
+
 			mLayout.UpdateLayout(this);
 			mRenderer.Update(this, delta_t);
 
@@ -300,6 +410,7 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		public void Draw()
 		{
+			mRenderer.ActiveGesture = mCurrentGesture;
 			mRenderer.Draw(this);
 		}
 
@@ -364,6 +475,8 @@ namespace AgateLib.UserInterface.Widgets
 			mAudioPlayer.PlaySound(sound);
 		}
 
+		public IGuiRenderer Renderer { get { return mRenderer; } }
+		public IGuiLayoutEngine LayoutEngine { get { return mLayout; } }
 
 		//public void Refresh()
 		//{
@@ -373,12 +486,11 @@ namespace AgateLib.UserInterface.Widgets
 		//	}
 		//}
 
-		internal AgateLib.UserInterface.Css.Documents.CssDocument CssDocument { get; set; }
-
 		public void AddWindow(Window wind)
 		{
 			Desktop.Children.Add(wind);
 		}
+
 	}
 
 	class WindowList : IList<Window>

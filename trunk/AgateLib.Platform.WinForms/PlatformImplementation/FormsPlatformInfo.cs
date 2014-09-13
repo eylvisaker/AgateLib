@@ -78,6 +78,8 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 				debugLog = Path.Combine(mAppData, debugLog);
 			}
 
+			Directory.CreateDirectory(Path.GetDirectoryName(debugLog));
+
 			try
 			{
 				Trace.Listeners.Add(new TextWriterTraceListener(new StreamWriter(debugLog)));
@@ -134,7 +136,7 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 			}*/
 		}
 
-		protected override void EnsureAppDataDirectoryExists()
+		protected internal override void EnsureAppDataDirectoryExists()
 		{
 			Directory.CreateDirectory(AppDataDirectory);
 		}
@@ -183,7 +185,7 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 		/// </summary>
 		/// <param name="companyName"></param>
 		/// <param name="appName"></param>
-		protected override void SetFolderPaths(string companyName, string appName)
+		protected internal override void SetFolderPaths(string companyName, string appName)
 		{
 			string combDir = Path.Combine(companyName, appName);
 

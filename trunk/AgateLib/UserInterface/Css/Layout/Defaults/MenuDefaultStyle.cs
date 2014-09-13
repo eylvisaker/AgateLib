@@ -30,6 +30,7 @@ namespace AgateLib.UserInterface.Css.Layout.Defaults
 		public override void SetDefaultStyle(CssStyle style)
 		{
 			style.Data.Layout.Kind = CssLayoutKind.Column;
+			style.Data.Overflow = CssOverflow.Hidden;
 		}
 
 	}

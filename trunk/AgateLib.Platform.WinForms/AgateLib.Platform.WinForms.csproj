@@ -8,12 +8,13 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AgateLib.Platform.WinForms</RootNamespace>
-    <AssemblyName>AgateLib.Platform.WindowsForms</AssemblyName>
+    <AssemblyName>AgateLib.Platform.WinForms</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <_ResolveReferenceDependencies>true</_ResolveReferenceDependencies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -123,6 +124,12 @@
     <Compile Include="Factories\PlatformFactory.cs" />
     <Compile Include="Factories\SysIoFile.cs" />
     <Compile Include="Factories\SysIoPath.cs" />
+    <Compile Include="GuiDebug\frmGuiDebug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GuiDebug\frmGuiDebug.Designer.cs">
+      <DependentUpon>frmGuiDebug.cs</DependentUpon>
+    </Compile>
     <Compile Include="PixelBufferExtensions.cs" />
     <Compile Include="IO\FileProviderList.cs" />
     <Compile Include="IO\FileSystemProvider.cs" />
@@ -188,6 +195,9 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Icons.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GuiDebug\frmGuiDebug.resx">
+      <DependentUpon>frmGuiDebug.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Builtin.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -27,5 +27,7 @@ namespace AgateLib.UserInterface.Widgets
 	public enum GuiSound
 	{
 		MenuNavigate,
+		Invalid,
+		MenuSelect,
 	}
 }

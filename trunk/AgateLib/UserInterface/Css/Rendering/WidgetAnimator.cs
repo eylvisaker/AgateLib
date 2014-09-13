@@ -101,6 +101,44 @@ namespace AgateLib.UserInterface.Css.Rendering
 			{
 				Transition.Update(deltaTime);
 			}
+
+			if (Gesture != null)
+			{
+				AnimateForGesture();
+			}
+		}
+
+		private void AnimateForGesture()
+		{
+			switch (Gesture.GestureType)
+			{
+				case GestureType.Drag:
+				case GestureType.Swipe:
+				case GestureType.LongPressDrag:
+					AnimateDrag();
+					break;
+			}
+
+		}
+
+		private void AnimateDrag()
+		{
+			if (Gesture.IsValidForTarget == false)
+				return;
+
+			Vector2 delta = new Vector2(Gesture.CurrentPoint);
+			delta -= new Vector2(Gesture.StartPoint);
+
+			if (Gesture.Axis == AxisType.Horizontal)
+				delta.Y = 0;
+			else if (Gesture.Axis == AxisType.Vertical)
+				delta.X = 0;
+
+			mStyle.Widget.ClientRect = new Rectangle(
+				mClientRect.X + (int)delta.X,
+				mClientRect.Y + (int)delta.Y,
+				mClientRect.Width,
+				mClientRect.Height);
 		}
 
 		public Container ParentCoordinateSystem { get { return mStyle.Widget.ParentCoordinateSystem; } }
@@ -111,5 +149,7 @@ namespace AgateLib.UserInterface.Css.Rendering
 		}
 
 		public bool IncludeInLayout { get; set; }
+
+		public Gesture Gesture { get; set; }
 	}
 }

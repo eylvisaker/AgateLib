@@ -9,7 +9,7 @@ using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Testing.InputTests.InputTester
 {
-	class InputTester : IAgateTest
+	class InputTester : IDiscreteAgateTest
 	{
 		public string Name { get { return "Input Tester"; } }
 		public string Category { get { return "Input"; } }

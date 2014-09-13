@@ -29,6 +29,8 @@ namespace AgateLib.UserInterface.Widgets
 {
 	public class Widget
 	{
+		static internal InputMode PreferredInputMode { get; set; }
+
 		Container mParentCoordinateSystem;
 		private Point mClientWidgetOffset;
 		private Size mWidgetSize;
@@ -320,7 +322,7 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		internal bool StyleDirty { get; set; }
 
-		protected virtual Gui MyGui
+		protected internal virtual Gui MyGui
 		{
 			get
 			{
@@ -336,7 +338,22 @@ namespace AgateLib.UserInterface.Widgets
 		bool mMouseIn;
 		MouseButton mMouseButtons;
 
-		public bool MouseIn { get { return mMouseIn; } internal set { mMouseIn = value; } }
+		public bool MouseIn
+		{
+			get { return mMouseIn; }
+			internal set
+			{
+				if (value == mMouseIn)
+					return;
+
+				mMouseIn = value;
+
+				if (value)
+					OnMouseEnter();
+				else
+					OnMouseLeave();
+			}
+		}
 
 		protected internal virtual void OnMouseMove(Point clientPoint)
 		{
@@ -425,5 +442,22 @@ namespace AgateLib.UserInterface.Widgets
 		protected internal virtual void OnUpdate(double deltaTime)
 		{
 		}
+
+		protected internal virtual void OnGestureBegin(Gesture gesture)
+		{
+		}
+		protected internal virtual void OnGestureComplete(Gesture gesture)
+		{
+		}
+		protected internal virtual void OnGestureChange(Gesture gesture)
+		{
+		}
+
+		protected internal virtual bool AcceptGestureInput { get { return false; } }
+		/// <summary>
+		/// Returns false by default. If this returns false, then gestures will be fixed to 
+		/// either the vertical or horizontal axis.
+		/// </summary>
+		protected internal virtual bool AnyDirectionGestures { get { return false; } }
 	}
 }
