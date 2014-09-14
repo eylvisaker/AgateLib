@@ -73,13 +73,6 @@ namespace AgateLib.Platform.WindowsStore
 				Disposed(this, EventArgs.Empty);
 		}
 
-		void mRenderTarget_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
-		{
-			Input.QueueInputEvent(AgateInputEventArgs.KeyUp(
-				TransformKey(e.Key),
-				GetKeyModifiers()));
-		}
-
 		private KeyModifiers GetKeyModifiers()
 		{
 			return new KeyModifiers(false, false, false);
@@ -102,9 +95,17 @@ namespace AgateLib.Platform.WindowsStore
 				TransformKey(e.Key),
 				GetKeyModifiers()));
 		}
+		void mRenderTarget_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+		{
+			Input.QueueInputEvent(AgateInputEventArgs.KeyUp(
+				TransformKey(e.Key),
+				GetKeyModifiers()));
+		}
 
 		void mRenderTarget_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
+			Input.QueueInputEvent(AgateInputEventArgs.MouseUp(Owner,
+				e.GetCurrentPoint(RenderTargetControl).Position.ToAgatePoint(), MouseButton.Primary));
 		}
 
 		void mRenderTarget_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -116,6 +117,8 @@ namespace AgateLib.Platform.WindowsStore
 
 		void mRenderTarget_PointerMoved(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
+			Input.QueueInputEvent(AgateInputEventArgs.MouseMove(Owner,
+				e.GetCurrentPoint(RenderTargetControl).Position.ToAgatePoint()));
 		}
 
 		void mRenderTarget_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

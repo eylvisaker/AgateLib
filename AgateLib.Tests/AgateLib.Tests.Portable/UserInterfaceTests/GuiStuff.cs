@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Testing.UserInterfaceTests
 {
-	class GuiStuff
+	public class GuiStuff
 	{
 		Gui gui;
 		CssAdapter adapter;
@@ -46,15 +46,19 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 			joy = AgateLib.InputLib.JoystickInput.Joysticks.FirstOrDefault();
 
-			var wind = CreateWindow(res);
+			var wind = CreateWindow();
 			var menu = new Menu();
 
-			menu.Children.Add(MenuItem.OfLabel("lblA", "lblA"));
-			menu.Children.Add(MenuItem.OfLabel("lblB", "lblB"));
-			menu.Children.Add(MenuItem.OfLabel("lblC", "lblC"));
+			menu.Children.Add(MenuItem.OfLabel("First Label", "lblA"));
+			menu.Children.Add(MenuItem.OfLabel("Second Label", "lblB"));
+			menu.Children.Add(MenuItem.OfLabel("Third Label", "lblC"));
+
+			foreach(MenuItem menuItem in menu.Children)
+			{
+				menuItem.AllowDiscard = true;
+			}
 
 			wind.Children.Add(menu);
-
 
 			Mouse.MouseMove += Mouse_MouseMove;
 			Mouse.MouseDown += Mouse_MouseDown;
@@ -69,6 +73,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 				joy.ButtonReleased += joy_ButtonReleased;
 			}
 
+			AgateLib.InputLib.Input.InputHandlers.Add(gui);
 
 			foreach (var ctrl in gui.Desktop.Descendants)
 				ctrl.MouseDown += ctrl_MouseDown;
@@ -93,10 +98,9 @@ namespace AgateLib.Testing.UserInterfaceTests
 			gui.OnKeyDown(e);
 		}
 
-		private Window CreateWindow(AgateResourceCollection res)
+		private Window CreateWindow()
 		{
 			var wind = new Window();
-			wind.Font = font;
 
 			windows.Add(wind);
 			gui.Desktop.Children.Add(wind);
@@ -146,7 +150,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 			gui.Draw();
 		}
 
-		internal void Render()
+		public void Render()
 		{
 			gui.OnUpdate(Display.DeltaTime / 1000.0, true);
 
@@ -160,7 +164,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 		int index;
 
-		internal void HideShow()
+		public void HideShow()
 		{
 			windows[index].Visible = !windows[index].Visible;
 

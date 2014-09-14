@@ -1,6 +1,6 @@
 ﻿namespace AgateLib.Testing.UserInterfaceTests
 {
-	partial class Form1
+	partial class frmCssEdit
 	{
 		/// <summary>
 		/// Required designer variable.

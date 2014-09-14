@@ -82,7 +82,7 @@ namespace AgateLib.Platform.WindowsStore.Factories
 
 			if (resources == null)
 			{
-				var assets = new WindowsStoreAssetFileProvider("ms-appx:///AgateLib.Platform.WindowsStoreCommon/Assets");
+				var assets = new WindowsStoreAssetFileProvider("AgateLib.Platform.WindowsStoreCommon/Assets");
 
 				resources = new AgateResourceCollection();
 				AgateResourceLoader.LoadResources(resources, 

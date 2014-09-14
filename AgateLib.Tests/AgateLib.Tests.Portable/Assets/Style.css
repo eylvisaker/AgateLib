@@ -11,9 +11,8 @@ window {
 }
 
 
-menuitem:hover {
-    border-image-source: url(Images/ui_border_1.png);
-    border-image-slice: 6;
+menuitem {
+    padding: 8px;
 }
 
 menuitem:selected {
@@ -22,9 +21,7 @@ menuitem:selected {
 }
 
 label {
-    color: lightgreen;
-    margin-left: 4px;
-    background-color: rgba(255, 216, 0, 0.15);
+    color: navy;
 }
 
 label#label1 {

@@ -85,7 +85,7 @@ namespace AgateLib.Testing.WindowsMetro
 		private static void SetAssetPath(IAgateTest t, AssetLocations assets)
 		{
 			var assemblyName = t.GetType().GetTypeInfo().Assembly.GetName().Name;
-			assets.Path = "ms-appx:///" + assemblyName + "/Assets";
+			assets.Path = assemblyName + "/Assets";
 		}
 
 		private void btnBack_Click(object sender, RoutedEventArgs e)

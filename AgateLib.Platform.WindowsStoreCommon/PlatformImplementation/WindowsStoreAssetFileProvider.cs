@@ -1,4 +1,5 @@
 ﻿using AgateLib.Platform.WindowsStore.DisplayImplementation;
+using SharpDX.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,7 @@ namespace AgateLib.Platform.WindowsStore.PlatformImplementation
 	public class WindowsStoreAssetFileProvider : IReadFileProvider
 	{
 		string path;
+		string uriBase;
 
 		public WindowsStoreAssetFileProvider(string path)
 		{
@@ -20,10 +22,12 @@ namespace AgateLib.Platform.WindowsStore.PlatformImplementation
 				path += "/";
 
 			this.path = path;
+
+			uriBase = "ms-appx:///" + path;
 		}
 		public async Task<System.IO.Stream> OpenReadAsync(string filename)
 		{
-			Uri uri = new Uri(path + filename);
+			Uri uri = new Uri(uriBase + filename);
 
 			StorageFile storageFile =
 				await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri).AsTask().ConfigureAwait(false);
@@ -50,7 +54,7 @@ namespace AgateLib.Platform.WindowsStore.PlatformImplementation
 
 		public string ReadAllText(string filename)
 		{
-			throw new NotImplementedException();
+			return NativeFile.ReadAllText(path + filename);
 		}
 
 		public bool IsRealFile(string filename)

@@ -20,7 +20,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 		{
 			new PassiveModel(args).Run(() =>
 			{
-				var f1 = new Form1();
+				var f1 = new frmCssEdit();
 				f1.Show();
 
 				Display.RenderState.WaitForVerticalBlank = false;
