@@ -6,14 +6,11 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Platform.WinForms;
-using AgateLib.Platform.WinForms.Resources;
-using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Testing.DisplayTests
 {
-	class MultipleFramebufferTest : IAgateTest
+	class MultipleFramebufferTest : ISerialModelTest
 	{
 		List<Surface> mRegionColors = new List<Surface>();
 
@@ -30,66 +27,61 @@ namespace AgateLib.Testing.DisplayTests
 		List<Surface> tests = new List<Surface>();
 		bool done;
 		Font font;
-			
-		public void Main(string[] args)
+		Surface mySurface;
+
+		public void EntryPoint()
 		{
-			new PassiveModel(args).Run( () =>
+			font = Assets.Fonts.AgateSans;
+			font.Size = 14;
+
+			Mouse.MouseDown += Mouse_MouseDown;
+
+			mySurface = new Surface("9ball.png");
+
+			while (Display.CurrentWindow.IsClosed == false && done == false)
 			{
-				DisplayWindow wind = DisplayWindow.CreateWindowed("Multiple Framebuffer Test", 
-					640, 480);
+				Display.RenderTarget = Display.CurrentWindow.FrameBuffer;
+				Display.BeginFrame();
+				Display.Clear(Color.Gray);
 
-				font = Assets.Fonts.AgateSans;
+				font.Color = Color.White;
+				font.DisplayAlignment = OriginAlignment.TopLeft;
+				font.DrawText("Click or tap to create another frame buffer.");
 
-				CreateTests();
-
-				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
-
-				while (wind.IsClosed == false && done == false)
+				int y = font.FontHeight;
+				int x = 10;
+				foreach (var surf in tests)
 				{
-					Display.RenderTarget = wind.FrameBuffer;
-					Display.BeginFrame();
-					Display.Clear(Color.Gray);
+					surf.Draw(x, y);
+					y += surf.DisplayHeight + 10;
 
-					font.Color = Color.White;
-					font.DisplayAlignment = OriginAlignment.TopLeft;
-					font.DrawText("Press space to create another frame buffer.");
-
-					int y = font.FontHeight;
-					int x = 10;
-					foreach (var surf in tests)
+					if (y + 42 >= Display.CurrentWindow.Height)
 					{
-						surf.Draw(x, y);
-						y += surf.DisplayHeight + 10;
-
-						if (y + 42 >= wind.Height)
-						{
-							y = font.FontHeight;
-							x += 42;
-						}
+						y = font.FontHeight;
+						x += 42;
 					}
-
-					Display.EndFrame();
-					Core.KeepAlive();
 				}
-			});
+
+				Display.EndFrame();
+				Core.KeepAlive();
+			}
 		}
 
-		void Keyboard_KeyDown(InputEventArgs e)
+		void Mouse_MouseDown(InputEventArgs e)
 		{
-			if (e.KeyCode == KeyCode.Escape)
-				done = true;
-
-			if (e.KeyCode == KeyCode.Space)
+			if (e.MouseButtons == MouseButton.Primary)
 				CreateTests();
+			else
+				done = true;
 		}
 
 		int hueAngle = 0;
+
 		private void CreateTests()
 		{
 			const int angleIncrement = 373 / 8;
 			font.Color = Color.Black;
 			font.DisplayAlignment = OriginAlignment.CenterRight;
-			Surface mySurface = new Surface("jellybean.png");
 
 			FrameBuffer frame = new FrameBuffer(32, 32);
 			var clr = Color.FromHsv(hueAngle, 1, 1);
@@ -97,7 +89,7 @@ namespace AgateLib.Testing.DisplayTests
 			Display.RenderTarget = frame;
 			Display.BeginFrame();
 			Display.Clear();
-			mySurface.Draw();
+			mySurface.Draw(new Rectangle(Point.Empty, frame.Size));
 			Display.FillRect(new Rectangle(0, 0, 8, 32), clr);
 
 			var pt = new Point(31, 16);
@@ -114,9 +106,12 @@ namespace AgateLib.Testing.DisplayTests
 
 			Display.EndFrame();
 			tests.Add(frame.RenderTarget);
-			frame.RenderTarget.SaveTo("test.png", ImageFileFormat.Png);
 
 			hueAngle += angleIncrement;
+		}
+
+		public void ModifyModelParameters(ApplicationModels.SerialModelParameters parameters)
+		{
 		}
 	}
 }
