@@ -10,6 +10,7 @@ using AgateLib.Platform;
 using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.Resources;
 using AgateLib.Platform.WinForms.ApplicationModels;
+using AgateLib.ApplicationModels;
 
 namespace AgateLib.Testing.DisplayTests.MultipleWindows
 {
@@ -31,72 +32,81 @@ namespace AgateLib.Testing.DisplayTests.MultipleWindows
 
 		public void Main(string[] args)
 		{
-			new PassiveModel(args).Run( () =>
+			var parameters = new PassiveModelParameters(args);
+			parameters.AssetLocations.Path = "Assets";
+
+			new PassiveModel(parameters).Run( () =>
 			{
-				MultipleRenderTargetExample myForm = new MultipleRenderTargetExample();
-				myForm.Show();
-
-				// create three display windows
-				DisplayWindow wnd_1 = DisplayWindow.CreateFromControl(myForm.pictureBox1);
-				DisplayWindow wnd_2 = DisplayWindow.CreateFromControl(myForm.pictureBox2);
-				DisplayWindow wnd_3 = DisplayWindow.CreateFromControl(myForm.pictureBox3);
-
-				myForm.pictureBox3.Resize += new EventHandler(wnd_3_Resize);
-
-				// this is the code that will be called when the button is pressed
-				myForm.btnDraw.Click += new EventHandler(btnDraw_Click);
-				myForm.btnClearSurface.Click += new EventHandler(btnClear_Click);
-				myForm.btnDrawText.Click += new EventHandler(btnDrawText_Click);
-				Surface image1 = new Surface("jellybean.png");
-				Surface image2 = new Surface("9ball.png");
-				image1.DisplayWidth = 40;
-				image1.DisplayHeight = (int)(image1.DisplayWidth * image1.SurfaceHeight / (double)image1.SurfaceWidth);
-				image2.DisplayWidth = 40;
-				image2.DisplayHeight = (int)(image2.DisplayWidth * image2.SurfaceHeight / (double)image2.SurfaceWidth);
-
-				double time = 0;
-
-				frameBuffer = new FrameBuffer(wnd_3.Width, wnd_3.Height);
-
-				while (myForm.Visible)
-				{
-					// Render targets must be set before the call to BeginFrame,
-					// and may not be changed between BeginFrame and EndFrame.
-					// Use the FrameBuffer property of each DisplayWindow object
-					// to set the Display.RenderTarget value.
-					Display.RenderTarget = wnd_1.FrameBuffer;
-
-					Display.BeginFrame();
-					Display.Clear(Color.Red);
-					Display.FillRect(new Rectangle(20, 20, 40, 30), Color.Blue);
-					image1.Draw(120 + (int)(30 * Math.Sin(time)), 20);
-
-					Display.EndFrame();
-
-					// now do the second window.
-					Display.RenderTarget = wnd_2.FrameBuffer;
-
-					Display.BeginFrame();
-					Display.Clear(Color.Green);
-					Display.FillRect(new Rectangle(20, 20, 40, 30), Color.Yellow);
-					image2.Draw(120 + (int)(30 * Math.Cos(time)), 20);
-
-					Display.EndFrame();
-
-					// draw the third window from the surface
-					Display.RenderTarget = wnd_3.FrameBuffer;
-
-					surf = frameBuffer.RenderTarget;
-
-					Display.BeginFrame();
-					Display.Clear(Color.Gray);
-					surf.Draw(0, 0);
-					Display.EndFrame();
-
-					Core.KeepAlive();
-					time = Timing.TotalSeconds;
-				}
+				EntryPoint();
 			});
+		}
+
+		private void EntryPoint()
+		{
+			MultipleRenderTargetExample myForm = new MultipleRenderTargetExample();
+			myForm.Show();
+
+			// create three display windows
+			DisplayWindow wnd_1 = DisplayWindow.CreateFromControl(myForm.pictureBox1);
+			DisplayWindow wnd_2 = DisplayWindow.CreateFromControl(myForm.pictureBox2);
+			DisplayWindow wnd_3 = DisplayWindow.CreateFromControl(myForm.pictureBox3);
+
+			myForm.pictureBox3.Resize += new EventHandler(wnd_3_Resize);
+
+			// this is the code that will be called when the button is pressed
+			myForm.btnDraw.Click += new EventHandler(btnDraw_Click);
+			myForm.btnClearSurface.Click += new EventHandler(btnClear_Click);
+			myForm.btnDrawText.Click += new EventHandler(btnDrawText_Click);
+			Surface image1 = new Surface("jellybean.png");
+			Surface image2 = new Surface("9ball.png");
+			image1.DisplayWidth = 40;
+			image1.DisplayHeight = (int)(image1.DisplayWidth * image1.SurfaceHeight / (double)image1.SurfaceWidth);
+			image2.DisplayWidth = 40;
+			image2.DisplayHeight = (int)(image2.DisplayWidth * image2.SurfaceHeight / (double)image2.SurfaceWidth);
+
+			double time = 0;
+
+			frameBuffer = new FrameBuffer(wnd_3.Width, wnd_3.Height);
+			ClearFrameBuffer();
+
+			while (myForm.Visible)
+			{
+				// Render targets must be set before the call to BeginFrame,
+				// and may not be changed between BeginFrame and EndFrame.
+				// Use the FrameBuffer property of each DisplayWindow object
+				// to set the Display.RenderTarget value.
+				Display.RenderTarget = wnd_1.FrameBuffer;
+
+				Display.BeginFrame();
+				Display.Clear(Color.Red);
+				Display.FillRect(new Rectangle(20, 20, 40, 30), Color.Blue);
+				image1.Draw(120 + (int)(30 * Math.Sin(time)), 20);
+
+				Display.EndFrame();
+
+				// now do the second window.
+				Display.RenderTarget = wnd_2.FrameBuffer;
+
+				Display.BeginFrame();
+				Display.Clear(Color.Green);
+				Display.FillRect(new Rectangle(20, 20, 40, 30), Color.Yellow);
+				image2.Draw(120 + (int)(30 * Math.Cos(time)), 20);
+
+				Display.EndFrame();
+
+				// draw the third window from the surface
+				Display.RenderTarget = wnd_3.FrameBuffer;
+
+				surf = frameBuffer.RenderTarget;
+
+				Display.BeginFrame();
+				Display.Clear(Color.Gray);
+				surf.Draw(0, 0);
+				Display.EndFrame();
+
+				Core.KeepAlive();
+				time = Timing.TotalSeconds;
+			}
 		}
 
 		void btnDrawText_Click(object sender, EventArgs e)
@@ -141,6 +151,11 @@ namespace AgateLib.Testing.DisplayTests.MultipleWindows
 		}
 
 		void btnClear_Click(object sender, EventArgs e)
+		{
+			ClearFrameBuffer();
+		}
+
+		private void ClearFrameBuffer()
 		{
 			Display.RenderTarget = frameBuffer;
 			Display.BeginFrame();

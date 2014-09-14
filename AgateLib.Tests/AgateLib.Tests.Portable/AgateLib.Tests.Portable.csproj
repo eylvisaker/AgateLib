@@ -51,6 +51,7 @@
     <Compile Include="DisplayTests\ColorTest.cs" />
     <Compile Include="DisplayTests\CoordinateSystem.cs" />
     <Compile Include="DisplayTests\Interpolation.cs" />
+    <Compile Include="DisplayTests\MultipleFramebufferTest.cs" />
     <Compile Include="DisplayTests\ParticleTests.cs" />
     <Compile Include="DisplayTests\RotatingSpriteTester.cs" />
     <Compile Include="DisplayTests\Tiling.cs" />

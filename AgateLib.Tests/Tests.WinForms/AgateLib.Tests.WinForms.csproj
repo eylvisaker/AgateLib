@@ -147,7 +147,6 @@
     </Compile>
     <Compile Include="DisplayTests\LargeImage.cs" />
     <Compile Include="DisplayTests\DisplayWindowEvents.cs" />
-    <Compile Include="DisplayTests\MultipleFramebufferTest.cs" />
     <Compile Include="DisplayTests\PixelBufferMask.cs" />
     <Compile Include="DisplayTests\Prerendered.cs" />
     <Compile Include="DisplayTests\RenderTargetContinuous.cs" />

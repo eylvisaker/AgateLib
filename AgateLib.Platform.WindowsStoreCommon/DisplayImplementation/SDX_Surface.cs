@@ -41,7 +41,6 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
 	public class SDX_Surface : SurfaceImpl
 	{
-
 		SDX_Display mDisplay;
 		D3DDevice mDevice { get { return mDisplay.D3D_Device; } }
 

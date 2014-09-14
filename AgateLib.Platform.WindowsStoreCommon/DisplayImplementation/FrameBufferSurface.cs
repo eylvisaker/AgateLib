@@ -28,48 +28,39 @@ using AgateLib.Geometry.CoordinateSystems;
 
 namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
-	class FrameBufferSurface : SDX_FrameBuffer 
+	class FrameBufferSurface : SDX_FrameBuffer
 	{
 		Size mSize;
 		SDX_Display mDisplay;
 		D3DDevice mDevice;
 		SDX_Surface mAgateSurface;
 		Texture2D mTexture;
-		SharpDX.DXGI.Surface mRenderTarget;
+		RenderTargetView mRenderTargetView;
 		bool mHasDepth;
 		bool mHasStencil;
 
-		public FrameBufferSurface(Size size) : base(new NativeCoordinates())
+		public FrameBufferSurface(Size size)
+			: base(new NativeCoordinates())
 		{
-			throw new NotImplementedException();
-			//mDisplay = Display.Impl as SDX_Display;
-			//mDevice = mDisplay.D3D_Device;
-			//mSize = size;
+			mDisplay = Display.Impl as SDX_Display;
+			mDevice = mDisplay.D3D_Device;
+			mSize = size;
 
-			//try
-			//{
-			//	mTexture = new Texture2D(mDevice.Device, mSize.Width, mSize.Height,
-			//		0, Usage.RenderTarget, Format.A8R8G8B8, Pool.Default);
-			//}
-			//catch
-			//{
-			//	Size newSize = SDX_Surface.NextPowerOfTwo(mSize);
+			mAgateSurface = new SDX_Surface(mSize);
+			mTexture = mAgateSurface.D3dTexture;
 
-			//	mTexture = new Texture(mDevice.Device, newSize.Width, newSize.Height,
-			//		0, Usage.RenderTarget, Format.A8R8G8B8, Pool.Default);
-			//}
+			var rtvdesc = new RenderTargetViewDescription
+			{
+				Format = mTexture.Description.Format,
+				Dimension = RenderTargetViewDimension.Texture2D,
+			};
 
-			//mRenderTarget = mTexture.GetSurfaceLevel(0);
-
-			//mAgateSurface = new SDX_Surface(new AgateLib.Utility.Ref<Texture>(mTexture),
-			//	new Rectangle(Point.Empty, Size));
-
-			//SetHasDepthStencil(
+			mRenderTargetView = new RenderTargetView(mDevice.Device, mTexture, rtvdesc);
 		}
 
 		public override void Dispose()
 		{
-			mRenderTarget.Dispose();
+			mRenderTargetView.Dispose();
 		}
 
 		public override AgateLib.Geometry.Size Size
@@ -79,13 +70,11 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 
 		public override void BeginRender()
 		{
-			//mDevice.Device.SetRenderTarget(0, mRenderTarget);
-			//mDevice.Device.BeginScene();
+			mDevice.DeviceContext.OutputMerger.SetRenderTargets(mRenderTargetView);
 		}
 
 		public override void EndRender()
 		{
-			//mDevice.Device.EndScene();
 		}
 
 		public override bool CanAccessRenderTarget
