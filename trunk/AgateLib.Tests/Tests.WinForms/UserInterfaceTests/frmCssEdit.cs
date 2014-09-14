@@ -12,13 +12,13 @@ using System.Windows.Forms;
 
 namespace AgateLib.Testing.UserInterfaceTests
 {
-	public partial class Form1 : Form
+	public partial class frmCssEdit : Form
 	{
 		DisplayWindow wind;
 
 		GuiStuff gui;
 
-		public Form1()
+		public frmCssEdit()
 		{
 			InitializeComponent();
 

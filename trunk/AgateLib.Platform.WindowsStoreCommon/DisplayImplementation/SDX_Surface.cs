@@ -203,9 +203,10 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 
 			await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
 			{
-				var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(mFileName));
-				var sourceStream = await file.OpenStreamForReadAsync();
-
+				//var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(mFileName));
+				//var sourceStream = await file.OpenStreamForReadAsync();
+				var sourceStream = new NativeFileStream(mFileName, NativeFileMode.Open, NativeFileAccess.Read);
+			
 				ReadFromStream(sourceStream, true);
 			});
 		}

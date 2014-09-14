@@ -136,6 +136,7 @@ namespace AgateLib.UserInterface.Widgets
 		}
 
 		bool mouseDown;
+
 		void widget_MouseDown(object sender, MouseEventArgs e)
 		{
 			OnMouseDown(e.Buttons, e.Location);
