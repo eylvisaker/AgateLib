@@ -488,9 +488,17 @@ namespace AgateLib.UserInterface.Widgets
 
 		public void AddWindow(Window wind)
 		{
+			if (Desktop.Children.Contains(wind))
+				return;
+
 			Desktop.Children.Add(wind);
 		}
 
+
+		public void RemoveWindow(Window wind)
+		{
+			Desktop.Children.Remove(wind);
+		}
 	}
 
 	class WindowList : IList<Window>

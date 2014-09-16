@@ -25,5 +25,10 @@ namespace AgateLib.UserInterface.Widgets
 {
 	public class Panel : Container 
 	{
+		public Panel() { }
+		public Panel(string name) : this()
+		{
+			this.Name = name;
+		}
 	}
 }
