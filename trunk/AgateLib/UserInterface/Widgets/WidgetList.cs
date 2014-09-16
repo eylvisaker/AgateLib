@@ -101,6 +101,9 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		public void Add(params Widget[] items)
 		{
+			if (items.Length == 0)
+				throw new ArgumentException("No items to add.");
+
 			AddRange(items);
 		}
 		public void AddRange(IEnumerable<Widget> items)

@@ -63,7 +63,7 @@ namespace AgateLib.UserInterface.Widgets
 				throw new InvalidOperationException("Selected child is not part of this container!");
 
 			Children.Remove(item);
-			Children.Insert(0, item);
+			Children.Add(item);
 		}
 
 		public override void Update(double delta_t, ref bool processInput)
