@@ -28,6 +28,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Platform;
+using AgateLib.UserInterface.Css.Rendering.Animators;
 
 namespace AgateLib.UserInterface.Css
 {

@@ -1,4 +1,5 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+﻿using AgateLib.UserInterface.Css.Rendering.Animators;
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -29,9 +30,9 @@ namespace AgateLib.UserInterface.Css.Rendering.Transitions
 	{
 		bool mActive;
 
-		public CssStyle Style {get;set;}
-		public WidgetAnimator Animator { get;set;}
-		protected Widget Widget { get { return Style.Widget; } }
+		public CssStyle Style { get; set; }
+		public WidgetAnimator Animator { get; set; }
+		public Widget Widget { get { return Style.Widget; } }
 
 		public virtual bool Active
 		{
@@ -44,7 +45,7 @@ namespace AgateLib.UserInterface.Css.Rendering.Transitions
 		{
 			CopyLayoutDataToAnimator();
 		}
-		
+
 		public virtual void Update(double deltaTime)
 		{
 			CopyLayoutDataToAnimator();
@@ -55,37 +56,42 @@ namespace AgateLib.UserInterface.Css.Rendering.Transitions
 		protected void CopyLayoutDataToAnimator()
 		{
 			Animator.Visible = Widget.Visible;
-			Widget.ClientRect = Animator.ClientRect;
-
-			Widget.ClientWidgetOffset = Animator.ClientWidgetOffset;
-			Widget.WidgetSize = Animator.WidgetSize;
+			Animator.ClientRect = Widget.ClientRect;
+			//Animator.WidgetSize = Widget.WidgetSize;
 		}
 
-		public virtual bool NeedTransition()
+		public virtual bool NeedTransition
 		{
-			bool retval = false;
-
-			if (Animator.Visible != Widget.Visible)
-				retval = true;
-			if (Animator.Visible == false && retval == false)
-				return false;
-
-			if (Animator.ClientRect != Widget.ClientRect)
-				retval = true;
-
-			if (retval != mActive)
+			get
 			{
-				mActive = retval;
-				StartTransition();
+				if (Widget is Desktop)
+					return false;
+
+				if (Animator.Visible != Widget.Visible)
+					return true;
+				if (Animator.Visible == false)
+					return false;
+				if (Animator.IsDead == false && Animator.Widget.Parent == null)
+					return true;
+
+				if (Animator.ClientRect != Widget.ClientRect)
+					return true;
+
+				return false;
 			}
-
-			return mActive;
 		}
 
-		protected virtual void StartTransition()
+		public virtual void ActivateTransition()
 		{
+			CopyLayoutDataToAnimator();
+
+			mActive = false;
+
+			if (Animator.Widget.Parent == null)
+				AnimationDead = true;
 		}
 
 
+		public bool AnimationDead { get; protected set; }
 	}
 }

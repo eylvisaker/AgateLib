@@ -47,8 +47,12 @@ namespace AgateLib.UserInterface.Widgets
 		
 		public Gui(IGuiRenderer renderer, IGuiLayoutEngine layout)
 		{
+			if (renderer == null) throw new ArgumentNullException("renderer cannot be null.");
+
 			mRenderer = renderer;
 			mLayout = layout;
+
+			mRenderer.MyGui = this;
 
 			mDesktop = new Desktop(this);
 			InputMap = InputMap.CreateDefaultInputMap();
@@ -404,14 +408,14 @@ namespace AgateLib.UserInterface.Widgets
 				mGestureController.OnTimePass();
 
 			mLayout.UpdateLayout(this);
-			mRenderer.Update(this, delta_t);
+			mRenderer.Update(delta_t);
 
 			DispatchEvent(window => { window.Update(delta_t, ref processInput); return false; });
 		}
 		public void Draw()
 		{
 			mRenderer.ActiveGesture = mCurrentGesture;
-			mRenderer.Draw(this);
+			mRenderer.Draw();
 		}
 
 		//internal void OnWindowAdded(int index)

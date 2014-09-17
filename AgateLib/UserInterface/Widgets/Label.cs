@@ -168,12 +168,12 @@ namespace AgateLib.UserInterface.Widgets
 			return false;
 		}
 
-		public override void DrawImpl()
+		public override void DrawImpl(Rectangle screenRect)
 		{
 			Font.Color = FontColor;
 			Font.DisplayAlignment = TextAlign;
 
-			Point dest = ClientToScreen(Point.Empty);
+			Point dest = screenRect.Location;
 
 			switch (Font.DisplayAlignment)
 			{

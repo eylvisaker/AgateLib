@@ -43,11 +43,9 @@ namespace AgateLib.UserInterface.Widgets
 
 			return retval;
 		}
-
-		public override void DrawImpl()
+		public override void DrawImpl(Rectangle screenRect)
 		{
-			Rectangle destRect = ClientToScreen(
-				new Rectangle(0, 0, Width, Height));
+			Rectangle destRect = screenRect;
 
 			if (Max > 0)
 			{

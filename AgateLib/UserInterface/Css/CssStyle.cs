@@ -19,6 +19,7 @@
 using AgateLib.UserInterface.Css.Cache;
 using AgateLib.UserInterface.Css.Layout;
 using AgateLib.UserInterface.Css.Rendering;
+using AgateLib.UserInterface.Css.Rendering.Animators;
 using AgateLib.UserInterface.Css.Selectors;
 using AgateLib.UserInterface.Widgets;
 using System;
@@ -45,14 +46,11 @@ namespace AgateLib.UserInterface.Css
 
 			Cache = new StyleCache();
 
-			Animator = new WidgetAnimator(this);
-
 			MatchParameters = new WidgetMatchParameters(widget);
 		}
 
 		public CssStyleData Data { get; set; }
 		public CssBoxModel BoxModel { get; set; }
-		public WidgetAnimator Animator { get; set; }
 
 		public Widget Widget { get; set; }
 
@@ -73,5 +71,7 @@ namespace AgateLib.UserInterface.Css
 		public AgateLib.DisplayLib.Font Font { get; set; }
 
 		public WidgetMatchParameters MatchParameters { get; private set; }
+
+		public bool IncludeInLayout { get; set; }
 	}
 }

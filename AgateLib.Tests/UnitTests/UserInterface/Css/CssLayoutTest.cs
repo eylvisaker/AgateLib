@@ -69,14 +69,8 @@ window.minsize { min-width: 500px; min-height: 400px; }
 		private void RedoLayout()
 		{
 			engine.UpdateLayout(gui, new Size(1000, 1000));
-
-			foreach (var d in gui.Desktop.Descendants)
-			{
-				var style = adapter.GetStyle(d);
-				style.Animator.Update(1000);
-			}
 		}
-
+		
 		[TestMethod]
 		public void CssLBoxModel()
 		{
@@ -313,7 +307,7 @@ panel {  width:50px; height:30px; }
 			Panel p4 = new Panel { Name = "p4" };
 
 			wind.Children.Add(p1, p2, p3, p4);
-			gui.Desktop.Children.Add(wind);
+			gui.AddWindow(wind);
 
 			RedoLayout();
 
@@ -418,6 +412,40 @@ panel { position: absolute; top: 0px; right: 0px; width: 50px; height: 40px; }
 
 			Assert.AreEqual(label.Width, window.Width);
 			Assert.AreEqual(400, test.Width);
+		}
+
+		[TestMethod]
+		public void CssLBasicPositioning()
+		{
+			doc.Clear();
+			doc.Parse(@"window { padding: 8px; border: 10px solid black; layout: column; }
+menuitem { padding: 8px; }");
+
+			var wind1 = new Window("window 1");
+			Label label1, label2;
+
+			wind1.Children.Add(label1 = new Label("label1") { Name = "label1" });
+			wind1.Children.Add(label2 = new Label("label2") { Name = "label2" });
+
+			gui.AddWindow(wind1);
+
+			var wind2 = new Window("window 2");
+			var menu = new Menu();
+
+			menu.Children.Add(MenuItem.OfLabel("First Label", "lblA"));
+			menu.Children.Add(MenuItem.OfLabel("Second Label", "lblB"));
+			menu.Children.Add(MenuItem.OfLabel("Third Label", "lblC"));
+
+			wind2.Children.Add(menu);
+			gui.AddWindow(wind2);
+
+			RedoLayout();
+
+			Assert.AreEqual(new Rectangle(0, 0, 84, 52), wind1.WidgetRect);
+			Assert.AreEqual(new Rectangle(18, 18, 48, 16), wind1.ClientRect);
+			Assert.AreEqual(new Rectangle(0, 0, 48, 8), label1.ClientRect);
+
+			Assert.AreEqual(new Point(18, 18), label1.ClientToScreen(Point.Empty));
 		}
 	}
 }

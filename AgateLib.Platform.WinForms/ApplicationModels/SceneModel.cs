@@ -1,5 +1,6 @@
 ﻿using AgateLib.ApplicationModels;
 using AgateLib.DisplayLib;
+using AgateLib.Platform.WinForms.GuiDebug;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,18 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 			WinFormsInitializer.Initialize(Parameters);
 		}
 
+		protected override void ProcessArgument(string arg, IList<string> parm)
+		{
+			if (arg == "--debuggui")
+			{
+				frmGuiDebug debugform = new frmGuiDebug();
+				debugform.Show();
+
+				return;
+			} 
+
+			base.ProcessArgument(arg, parm);
+		}
 		protected override void BeginModel()
 		{
 			if (sceneToStartWith != null)

@@ -33,7 +33,7 @@ namespace AgateLib.UserInterface.Css.Rendering.Transitions
 
 		public CssTransitionDirection TransitionType { get; private set; }
 
-		Vector2 mStartPosition;
+		Vector2 mOutsidePosition;
 		Vector2 mTargetDestination;
 		float mVelocityMag;
 		float mAccelerationMag;
@@ -54,28 +54,40 @@ namespace AgateLib.UserInterface.Css.Rendering.Transitions
 			TransitionType = Style.Data.Transition.Direction;
 			mFinalTime = Style.Data.Transition.Time;
 
-			mTargetDestination = new Vector2(Animator.ClientRect.X, Animator.ClientRect.Y);
-			mStartPosition = mTargetDestination;
+			mTargetDestination = new Vector2(Widget.ClientRect.X, Widget.ClientRect.Y);
+			mOutsidePosition = mTargetDestination;
 			mVelocity = Vector2.Empty;
+
+			const int leeway = 40;
 
 			switch (TransitionType)
 			{
 				case CssTransitionDirection.Left:
-					mStartPosition.X = -Widget.Width - 20;
+					mOutsidePosition.X = -Widget.Width - leeway;
 					break;
 
 				case CssTransitionDirection.Top:
-					mStartPosition.Y = -Widget.Height - 20;
+					mOutsidePosition.Y = -Widget.Height - leeway;
 					break;
 
 				case CssTransitionDirection.Right:
-					mStartPosition.X = Widget.Parent.Width + 20;
+					mOutsidePosition.X = Widget.Parent.Width + leeway;
 					break;
 
 				case CssTransitionDirection.Bottom:
-					mStartPosition.Y = Widget.Parent.Height + 20;
+					mOutsidePosition.Y = Widget.Parent.Height + leeway;
 					break;
 			}
+
+			mDestination = mTargetDestination;
+			SetDynamicVariables();
+
+			SetInitialAnimatorProperties();
+		}
+
+		private void SetDynamicVariables()
+		{
+			mPosition = new Vector2(Animator.ClientRect.Location);
 
 			// we are using a parabola to slow down as the window reaches its destination.
 			// r controls the initial speed and amount of slowdown required. at the time
@@ -83,59 +95,95 @@ namespace AgateLib.UserInterface.Css.Rendering.Transitions
 			// the value chosen 2+sqrt(2) gives a zero velocity as the windows come to rest.
 			const double r = 3.414213562;
 
-			double distance = (mStartPosition - mTargetDestination).Magnitude;
+			double distance = (mDestination - mPosition).Magnitude;
 
 			mVelocityMag = -(float)(distance / (mFinalTime * (r - 1)) * (1 - r * r * 0.5));
 			mAccelerationMag = (float)(distance / (mFinalTime * mFinalTime * (r - 1)) * (r * r - 2 * r));
-
-			SetInitialWidgetProperties();
-
 		}
 
-		protected override void StartTransition()
+		public override void ActivateTransition()
 		{
 			if (mFirstTransition)
 			{
 				TransitionIn();
 				mFirstTransition = false;
 			}
-			else if (Widget.Visible)
-				TransitionIn();
-			else
+			else if (Widget.Visible != Animator.Visible)
+			{
+				if (Widget.Visible)
+					TransitionIn();
+				else
+					TransitionOut();
+			}
+			else if (Widget.Parent == null)
+			{
 				TransitionOut();
+			}
+			else
+			{
+				VisibleTransition();
+			}
+			Active = true;
+		}
+
+		public override bool NeedTransition
+		{
+			get
+			{
+				if (Widget.Visible == false && Animator.Visible == false)
+					return false;
+				if (Widget.Parent == null)
+				{
+					if (Animator.Visible)
+						return true;
+					else
+						return false;
+				}
+
+				return base.NeedTransition;
+			}
+		}
+
+		void VisibleTransition()
+		{
+			Active = true;
+			movingOut = false;
+			mTime = 0;
+			mDestination = new Vector2(Widget.ClientRect.Location);
+
+			SetDynamicVariables();
+			RecalculateVectors();
 		}
 
 		void TransitionOut()
 		{
-			Initialize();
-
 			Active = true;
 			movingOut = true;
 			mTime = 0;
 			mVelocity = Vector2.Empty;
 
-			mPosition = mTargetDestination;
-			mDestination = mStartPosition;
+			mDestination = mOutsidePosition;
 
+			SetDynamicVariables();
 			RecalculateVectors();
 
-			mVelocity += (float)mFinalTime * mAcceleration;
-			mVelocity *= -1;
-			mAcceleration *= -1;
+			//mVelocity += (float)mFinalTime * mAcceleration;
+			//mVelocity *= -1;
+			//mAcceleration *= -1;
 		}
 		void TransitionIn()
 		{
-			Initialize();
-
 			Active = true;
 			movingOut = false;
+			Animator.Visible = true;
 
 			mTime = 0;
 			mVelocity = Vector2.Empty;
 
-			mPosition = mStartPosition;
-			mDestination = mTargetDestination;
-
+			mPosition = mOutsidePosition;
+			mDestination = new Vector2(Widget.ClientRect.X, Widget.ClientRect.Y);
+			
+			SetDynamicVariables();
 			RecalculateVectors();
 		}
 
@@ -167,38 +215,31 @@ namespace AgateLib.UserInterface.Css.Rendering.Transitions
 			{
 				Active = false;
 
-				Animator.Visible = Widget.Visible;
+				SetPosition(mDestination);
 
-				if (movingOut == false)
-				{
-					Widget.ClientRect = Animator.ClientRect;
-				}
+				if (movingOut)
+					Animator.Visible = false;
 			}
 			else
 			{
-				SetWidgetPosition(mPosition);
+				SetPosition(mPosition);
 			}
 		}
 
-		void SetWidgetPosition(Vector2 pos)
+		void SetPosition(Vector2 pos)
 		{
-			Widget.X = (int)(pos.X + 0.5);
-			Widget.Y = (int)(pos.Y + 0.5);
-
-			Widget.ClientRect = new Rectangle(
-				Widget.ClientRect.Location, Animator.ClientRect.Size);
-
-			Widget.ClientWidgetOffset = Animator.ClientWidgetOffset;
-			Widget.WidgetSize = Animator.WidgetSize;
+			Animator.X = (int)(pos.X + 0.5);
+			Animator.Y = (int)(pos.Y + 0.5);
+			Animator.Width = Widget.Width;
+			Animator.Height = Widget.Height;
 		}
-		private void SetInitialWidgetProperties()
+		private void SetInitialAnimatorProperties()
 		{
-			Animator.Visible = true;
+			Animator.Visible = Widget.Visible;
 
-			Widget.ClientRect = Animator.ClientRect;
+			Animator.ClientRect = Widget.ClientRect;
 
-			SetWidgetPosition(mStartPosition);
-
+			SetPosition(mOutsidePosition);
 		}
 	}
 }

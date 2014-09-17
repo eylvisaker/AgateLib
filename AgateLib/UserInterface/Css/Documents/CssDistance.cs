@@ -50,6 +50,9 @@ namespace AgateLib.UserInterface.Css.Documents
 			int numberLength = 0;
 			int start = 0;
 
+			if (string.IsNullOrWhiteSpace(value))
+				return new CssDistance(true);
+
 			if (value.Equals("auto", StringComparison.OrdinalIgnoreCase))
 			{
 				return new CssDistance(true);

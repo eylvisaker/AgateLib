@@ -9,14 +9,22 @@ namespace AgateLib.Testing.Fakes
 {
 	public class FakeRenderer : IGuiRenderer
 	{
-		public void Draw(Gui gui)
+		public void Draw()
 		{
 		}
-		public void Update(Gui gui, double deltaTime)
+		public void Update(double deltaTime)
 		{ }
 
 
-		public Gesture ActiveGesture { get;set;}
+		public Gesture ActiveGesture { get; set; }
+
+
+		public bool InTransition
+		{
+			get { return false; }
+		}
+
+		public Gui MyGui { get; set; }
 	}
 	public class FakeLayout : IGuiLayoutEngine
 	{

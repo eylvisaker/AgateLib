@@ -77,6 +77,7 @@
     <Compile Include="TestCollection.cs" />
     <Compile Include="UserInterfaceTests\BasicGuiTest.cs" />
     <Compile Include="UserInterfaceTests\GuiStuff.cs" />
+    <Compile Include="UserInterfaceTests\TransitionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

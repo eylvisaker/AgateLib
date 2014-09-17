@@ -135,9 +135,7 @@ namespace AgateLib.UserInterface.Css.Selectors
 
 			if (Id != null)
 			{
-				if (Id.Equals(wmp.Id, StringComparison.OrdinalIgnoreCase))
-					return true;
-				else
+				if (Id.Equals(wmp.Id, StringComparison.OrdinalIgnoreCase) == false)
 					return false;
 			}
 

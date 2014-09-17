@@ -19,6 +19,7 @@
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.UserInterface.Css.Documents;
+using AgateLib.UserInterface.Css.Rendering.Animators;
 using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
@@ -35,8 +36,11 @@ namespace AgateLib.UserInterface.Css.Rendering
 		private CssAdapter mAdapter;
 		Surface mBlankSurface;
 		ICssImageProvider mImageProvider = new CssDefaultImageProvider();
-		private CssAdapter adapter;
+		Gui mGui;
 
+		Dictionary<Widget, WidgetAnimator> mAnimators = new Dictionary<Widget, WidgetAnimator>();
+
+		WidgetAnimator mRootAnimator { get { return GetOrCreateAnimator(mGui.Desktop); } }
 
 		public CssRenderer(CssAdapter adapter)
 		{
@@ -48,67 +52,148 @@ namespace AgateLib.UserInterface.Css.Rendering
 			mBlankSurface = new Surface(buffer);
 		}
 
+		public Gui MyGui { get { return mGui; } set { mGui = value; } }
 		public Gesture ActiveGesture { get; set; }
 
-		public void Update(Gui gui, double deltaTime)
+		public void Update(double deltaTime)
 		{
-			foreach (var widget in gui.Desktop.Descendants)
+			UpdateAnimatorTree();
+
+
+			InTransition = false;
+
+			foreach (var anim in mAnimators.Values)
 			{
-				var style = mAdapter.GetStyle(widget);
+				if (ActiveGesture != null && ActiveGesture.TargetWidget == anim.Widget)
+				{
+					anim.Gesture = ActiveGesture;
+				}
+				else
+					anim.Gesture = null;
 
-				if (ActiveGesture != null)
-					style.Animator.Gesture = ActiveGesture.TargetWidget == widget ? ActiveGesture : null;
+				anim.Update(deltaTime);
+				anim.Widget.OnUpdate(deltaTime);
 
-				style.Animator.Update(deltaTime);
-
-				widget.OnUpdate(deltaTime);
+				if (anim.InTransition)
+					InTransition = true;
 			}
 		}
 
-		public void Draw(Gui gui)
+		public WidgetAnimator GetAnimator(Widget widget)
 		{
-			foreach (var window in gui.Desktop.Windows)
+			return mAnimators[widget];
+		}
+		WidgetAnimator GetOrCreateAnimator(Widget widget)
+		{
+			if (mAnimators.ContainsKey(widget) == false)
 			{
-				DrawComponent(window);
+				mAnimators.Add(widget, new WidgetAnimator(mAdapter.GetStyle(widget)));
+			}
+
+			return GetAnimator(widget);
+		}
+
+
+		#region --- Animation Tree Updating ---
+
+		public void UpdateAnimatorTree()
+		{
+			// update animator tree
+			var rootAnimator = GetOrCreateAnimator(MyGui.Desktop);
+
+			TreeAddMissingAnimators(rootAnimator, MyGui.Desktop);
+			TreeRemoveDeadAnimators(rootAnimator, MyGui.Desktop);
+		}
+
+		List<WidgetAnimator> animsToRemove = new List<WidgetAnimator>();
+
+		private void TreeAddMissingAnimators(WidgetAnimator anim, Container container)
+		{
+			foreach (var widget in container.Children)
+			{
+				var childAnim = GetOrCreateAnimator(widget);
+
+				if (anim.Children.Contains(childAnim) == false)
+				{
+					anim.Children.Add(childAnim);
+					childAnim.Parent = anim;
+				}
+
+				if (widget is Container)
+				{
+					TreeAddMissingAnimators(childAnim, (Container)widget);
+				}
+			}
+		}
+		private void TreeRemoveDeadAnimators(WidgetAnimator anim, Widget widget)
+		{
+			lock (animsToRemove)
+			{
+				animsToRemove.Clear();
+
+				foreach (var animator in anim.Children)
+				{
+					if (animator.IsDead)
+						animsToRemove.Add(animator);
+				}
+
+				foreach (var deadAnimator in animsToRemove)
+				{
+					anim.Children.Remove(deadAnimator);
+					mAnimators.Remove(deadAnimator.Widget);
+				}
+
+
+				foreach (var animator in anim.Children)
+				{
+					TreeRemoveDeadAnimators(animator, animator.Widget);
+				}
 			}
 		}
 
-		private void DrawComponent(Container window)
+		#endregion;
+
+		public bool InTransition { get; private set;}
+
+		public void Draw()
 		{
-			var style = mAdapter.GetStyle(window);
-			if (style.Animator.Visible == false)
+			foreach (var anim in mRootAnimator.Children)
+			{
+				DrawComponent(anim);
+			}
+		}
+
+		private void DrawComponent(WidgetAnimator anim)
+		{
+			if (anim.Visible == false)
 				return;
 
-			DrawComponentStyle(window);
-			DrawComponentContents(window);
+			DrawComponentStyle(anim);
+			DrawComponentContents(anim);
 		}
 
-		private bool PushClipRect(CssStyle style)
+		private bool PushClipRect(WidgetAnimator anim)
 		{
-			Rectangle clipRect = style.Widget.ClientToScreen(new Rectangle(0, 0, style.Widget.ClientRect.Width, style.Widget.ClientRect.Height));
-
-			if (style.Data.Overflow == CssOverflow.Visible)
+			if (anim.Style.Data.Overflow == CssOverflow.Visible)
 				return false;
+
+			Rectangle clipRect = anim.ClientToScreen(new Rectangle(0, 0, anim.ClientRect.Width, anim.ClientRect.Height));
 
 			Display.PushClipRect(clipRect);
 			return true;
 		}
 
-		private void DrawComponentContents(Container window)
+		private void DrawComponentContents(WidgetAnimator anim)
 		{
-			var style = mAdapter.GetStyle(window);
 			bool clipping = false;
 
 			try
 			{
-				clipping = PushClipRect(style);
+				clipping = PushClipRect(anim);
 
-				foreach (var control in window.Children)
+				foreach (var child in anim.Children)
 				{
-					if (control is Container)
-						DrawComponent((Container)control);
-					else
-						DrawComponentStyle(control);
+					DrawComponent(child);
 				}
 			}
 			finally
@@ -118,27 +203,27 @@ namespace AgateLib.UserInterface.Css.Rendering
 			}
 		}
 
-		private void DrawComponentStyle(Widget control)
+		private void DrawComponentStyle(WidgetAnimator anim)
 		{
-			CssStyle style = mAdapter.GetStyle(control);
+			CssStyle style = anim.Style;
 
-			mAdapter.SetFont(control);
+			mAdapter.SetFont(anim.Widget);
 
-			if (control is ITextAlignment)
+			if (anim.Widget is ITextAlignment)
 			{
-				ITextAlignment txa = (ITextAlignment)control;
+				ITextAlignment txa = (ITextAlignment)anim.Widget;
 
 				txa.TextAlign = ConvertTextAlign(style.Data.Text.Align);
 			}
 
-			if (style.Animator.Visible == false)
+			if (anim.Visible == false)
 				return;
 
-			DrawBackground(style);
-			DrawBorder(style);
+			DrawBackground(anim);
+			DrawBorder(anim);
 
 			SetFontProperties(style);
-			control.DrawImpl();
+			anim.Widget.DrawImpl(anim.ClientToScreen(new Rectangle(Point.Empty, anim.ClientRect.Size)));
 		}
 
 		private OriginAlignment ConvertTextAlign(CssTextAlign cssTextAlign)
@@ -161,33 +246,34 @@ namespace AgateLib.UserInterface.Css.Rendering
 			style.Widget.FontColor = style.Data.Font.Color;
 		}
 
-		private void DrawBackground(CssStyle style)
+		private void DrawBackground(WidgetAnimator anim)
 		{
 			Rectangle clipRect;
-			var control = style.Widget;
+			var style = anim.Style;
+			var control = anim.Widget;
 
 			switch (style.Data.Background.Clip)
 			{
 				case CssBackgroundClip.Content_Box:
-					clipRect = control.ClientRect;
+					clipRect = anim.ClientRect;
 					break;
 
 				case CssBackgroundClip.Padding_Box:
 					clipRect = Rectangle.FromLTRB(
-						control.WidgetRect.Left + style.BoxModel.Border.Left,
-						control.WidgetRect.Top + style.BoxModel.Border.Top,
-						control.WidgetRect.Right + style.BoxModel.Border.Right,
-						control.WidgetRect.Bottom + style.BoxModel.Border.Bottom);
+						anim.WidgetRect.Left + style.BoxModel.Border.Left,
+						anim.WidgetRect.Top + style.BoxModel.Border.Top,
+						anim.WidgetRect.Right + style.BoxModel.Border.Right,
+						anim.WidgetRect.Bottom + style.BoxModel.Border.Bottom);
 
 					break;
 
 				case CssBackgroundClip.Border_Box:
 				default:
-					clipRect = control.WidgetRect;
+					clipRect = anim.WidgetRect;
 					break;
 			}
 
-			clipRect = control.Parent.ClientToScreen(clipRect);
+			clipRect = anim.ParentCoordinateSystem.ClientToScreen(clipRect);
 
 			if (style.Data.Background.Color.A > 0)
 			{
@@ -354,9 +440,11 @@ namespace AgateLib.UserInterface.Css.Rendering
 			frameSurface.Draw(src, dest);
 		}
 
-		private void DrawBorder(CssStyle style)
+		private void DrawBorder(WidgetAnimator anim)
 		{
-			Rectangle borderRect = style.Widget.Parent.ClientToScreen(style.Widget.WidgetRect);
+			Rectangle borderRect = anim.ParentCoordinateSystem.ClientToScreen(
+				anim.WidgetRect);
+			var style = anim.Style;
 
 			var border = style.Data.Border;
 

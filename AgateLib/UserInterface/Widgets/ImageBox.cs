@@ -32,12 +32,12 @@ namespace AgateLib.UserInterface.Widgets
 		public ImageBox()
 		{ }
 
-		public override void DrawImpl()
+		public override void DrawImpl(Rectangle screenRect)
 		{
 			if (Image == null)
 				return;
 
-			Image.Draw(ClientToScreen(new Point(X, Y)));
+			Image.Draw(screenRect.Location);
 		}
 
 		internal override Size ComputeSize(int? minWidth, int? minHeight, int? maxWidth, int? maxHeight)
