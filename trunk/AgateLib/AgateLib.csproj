@@ -553,7 +553,7 @@
     <Compile Include="UserInterface\Css\Rendering\Transitions\NullTransition.cs" />
     <Compile Include="UserInterface\Css\Rendering\Transitions\SlideTransition.cs" />
     <Compile Include="UserInterface\Css\Rendering\Transitions\TransitionFactory.cs" />
-    <Compile Include="UserInterface\Css\Rendering\WidgetAnimator.cs" />
+    <Compile Include="UserInterface\Css\Rendering\Animators\WidgetAnimator.cs" />
     <Compile Include="UserInterface\Css\Selectors\CssSelectorIndividual.cs" />
     <Compile Include="UserInterface\Css\Selectors\CssSelectorChain.cs" />
     <Compile Include="UserInterface\Css\Selectors\CssSelector.cs" />

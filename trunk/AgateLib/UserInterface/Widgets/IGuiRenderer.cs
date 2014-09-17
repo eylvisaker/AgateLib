@@ -25,10 +25,17 @@ namespace AgateLib.UserInterface.Widgets
 {
 	public interface IGuiRenderer
 	{
-		void Draw(Gui gui);
+		Gui MyGui { get; set; }
 
-		void Update(Gui gui, double deltaTime);
+		void Draw();
+		void Update(double deltaTime);
 
 		Gesture ActiveGesture { get; set; }
+		/// <summary>
+		/// Gets a boolean value indicating whether the renderer is currently in a transition.
+		/// During a transition, mouse and touch inputs are ignored and keyboard inputs
+		/// are queued.
+		/// </summary>
+		bool InTransition { get; }
 	}
 }

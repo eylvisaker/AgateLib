@@ -33,6 +33,8 @@ namespace AgateLib.InputLib
 		}
 		public void Add(IInputHandler handler)
 		{
+			if (handler == null)
+				throw new ArgumentNullException("Cannot add a null input handler.");
 			if (mHandlers.Contains(handler))
 				throw new InvalidOperationException("Cannot add the same input handler twice.");
 

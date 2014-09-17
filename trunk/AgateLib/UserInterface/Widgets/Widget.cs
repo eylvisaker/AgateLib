@@ -252,16 +252,9 @@ namespace AgateLib.UserInterface.Widgets
 			if (Visible == false)
 				return;
 
-			DrawImpl();
+			DrawImpl(ClientToScreen(new Rectangle(Point.Empty, ClientRect.Size)));
 		}
-		public void Draw(Rectangle parentClient)
-		{
-			if (Visible == false)
-				return;
-
-			DrawImpl();
-		}
-		public virtual void DrawImpl()
+		public virtual void DrawImpl(Rectangle screenRect)
 		{ }
 
 		internal virtual Size ComputeSize(int? minWidth, int? minHeight, int? maxWidth, int? maxHeight)

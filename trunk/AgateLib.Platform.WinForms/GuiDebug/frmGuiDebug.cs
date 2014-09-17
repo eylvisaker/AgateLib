@@ -21,20 +21,19 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 		public frmGuiDebug()
 		{
 			InitializeComponent();
-
 		}
 
-		protected override CreateParams CreateParams
-		{
-			get
-			{
-				const int WS_EX_NOACTIVATE = 0x08000000;
+		//protected override CreateParams CreateParams
+		//{
+		//	get
+		//	{
+		//		const int WS_EX_NOACTIVATE = 0x08000000;
 
-				CreateParams cp = base.CreateParams;
-				cp.ExStyle |= WS_EX_NOACTIVATE;
-				return cp;
-			}
-		}
+		//		CreateParams cp = base.CreateParams;
+		//		cp.ExStyle |= WS_EX_NOACTIVATE;
+		//		return cp;
+		//	}
+		//}
 
 		private void frmGuiDebug_Load(object sender, EventArgs e)
 		{
@@ -123,7 +122,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 
 		private void UpdateTreeView()
 		{
-			foreach (var gui in AgateLib.UserInterface.GuiStack.Items.ToArray())
+			foreach (var gui in AgateLib.UserInterface.GuiStack.Items.ToList())
 			{
 				var adapter = GetAdapter(gui);
 
@@ -208,10 +207,11 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 			var widget = (AgateLib.UserInterface.Widgets.Widget)e.Node.Tag;
 			var adapter = GetAdapter(widget);
 			var style = adapter.GetStyle(widget);
+			var renderer = (AgateLib.UserInterface.Css.Rendering.CssRenderer)widget.MyGui.Renderer;
 
 			pgWidget.SelectedObject = widget;
 			pgStyle.SelectedObject = style;
-			pgAnimator.SelectedObject = style.Animator;
+			pgAnimator.SelectedObject = renderer.GetAnimator(widget);
 		}
 
 		private UserInterface.Css.CssAdapter GetAdapter(UserInterface.Widgets.Widget widget)

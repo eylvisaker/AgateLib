@@ -97,17 +97,9 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 
 		private void CreateGuiDebug()
 		{
-			//if (createDebugForm == false)
-			//	return;
-
 			frmGuiDebug debugform = new frmGuiDebug();
 
-			//var gdc = AutoCreatedWindow.Impl as GL_DisplayControl;
-
-			//if (gdc != null)
-			//	debugform.Show(gdc.TopLevelForm);
-			//else
-				debugform.Show();
+			debugform.Show();
 		}
 
 		protected override int BeginModel(Func<int> entryPoint)

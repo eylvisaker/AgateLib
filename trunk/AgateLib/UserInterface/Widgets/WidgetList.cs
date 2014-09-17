@@ -1,5 +1,4 @@
-﻿using AgateLib.Geometry;
-//     The contents of this file are subject to the Mozilla Public License
+﻿//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -21,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.Geometry;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -56,11 +56,14 @@ namespace AgateLib.UserInterface.Widgets
 			mItems.Insert(index, item);
 
 			item.Parent = mParent;
+
 			OnWidgetAdded(item);
 		}
 
 		public void RemoveAt(int index)
 		{
+			mParent.LayoutDirty = true;
+
 			mItems[index].Parent = null;
 			OnWidgetRemoved(mItems[index]);
 			mItems.RemoveAt(index);
@@ -153,7 +156,7 @@ namespace AgateLib.UserInterface.Widgets
 
 			if (mItems.Contains(item))
 			{
-				item.Parent = null;
+				item.Parent = null; 
 				OnWidgetRemoved(item);
 			}
 
@@ -195,11 +198,15 @@ namespace AgateLib.UserInterface.Widgets
 
 		protected virtual void OnWidgetAdded(Widget widget)
 		{
+			widget.LayoutDirty = true;
+
 			if (WidgetAdded != null)
 				WidgetAdded(this, new WidgetEventArgs(widget));
 		}
 		protected virtual void OnWidgetRemoved(Widget widget)
 		{
+			mParent.LayoutDirty = true;
+
 			if (WidgetRemoved != null)
 				WidgetRemoved(this, new WidgetEventArgs(widget));
 		}

@@ -38,15 +38,18 @@ namespace AgateLib.Testing.UserInterfaceTests
 			adapter = new CssAdapter(doc, font);
 
 			gui = new Gui(new CssRenderer(adapter), new CssLayoutEngine(adapter));
-			
-			//var wind = CreateWindow(res);
 
-			//wind.Children.Add(new Label("This is a label") { Name = "label1" });
-			//wind.Children.Add(new Label("This is another label") { Name = "label2" });
+			var wind = new Window("window 1");
+
+			wind.Children.Add(new Label("This is a label") { Name = "label1" });
+			wind.Children.Add(new Label("This is another label") { Name = "label2" });
 
 			joy = AgateLib.InputLib.JoystickInput.Joysticks.FirstOrDefault();
 
-			var wind = CreateWindow();
+			gui.AddWindow(wind);
+			windows.Add(wind);
+
+			wind = new Window("window 2");
 			var menu = new Menu();
 
 			menu.Children.Add(MenuItem.OfLabel("First Label", "lblA"));
@@ -59,6 +62,8 @@ namespace AgateLib.Testing.UserInterfaceTests
 			}
 
 			wind.Children.Add(menu);
+			gui.AddWindow(wind);
+			windows.Add(wind);
 
 			Mouse.MouseMove += Mouse_MouseMove;
 			Mouse.MouseDown += Mouse_MouseDown;
@@ -96,16 +101,6 @@ namespace AgateLib.Testing.UserInterfaceTests
 		void Keyboard_KeyDown(InputEventArgs e)
 		{
 			gui.OnKeyDown(e);
-		}
-
-		private Window CreateWindow()
-		{
-			var wind = new Window();
-
-			windows.Add(wind);
-			gui.Desktop.Children.Add(wind);
-			
-			return wind;
 		}
 
 		public CssAdapter Adapter { get { return adapter; } }
@@ -166,7 +161,17 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 		public void HideShow()
 		{
-			windows[index].Visible = !windows[index].Visible;
+			if (index % 2 == 0)
+			{
+				windows[index].Visible = !windows[index].Visible;
+			}
+			else
+			{
+				if (gui.Desktop.Children.Contains(windows[index]))
+					gui.RemoveWindow(windows[index]);
+				else
+					gui.AddWindow(windows[index]);
+			}
 
 			index++;
 			index %= windows.Count;

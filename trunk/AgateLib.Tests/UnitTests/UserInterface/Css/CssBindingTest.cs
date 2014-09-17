@@ -32,10 +32,9 @@ namespace AgateLib.UserInterface.Css.Tests
 		[TestMethod]
 		public void CssBSelectorMatching()
 		{
-			Gui gui = new Gui(null, null);
-			Desktop desktop = new Desktop(gui);
+			Gui gui = new Gui(new FakeRenderer(), null);
 			Window window = new Window();
-			desktop.Children.Add(window);
+			gui.AddWindow(window);
 
 			var label1 = new WidgetMatchParameters( new Label { Name = "label1" });
 			var noname = new WidgetMatchParameters(new Label { });
@@ -68,10 +67,9 @@ namespace AgateLib.UserInterface.Css.Tests
 		[TestMethod]
 		public void CssBPseudoClassMatching()
 		{
-			Gui gui = new Gui(null, null);
-			Desktop desktop = new Desktop(gui);
+			Gui gui = new Gui(new FakeRenderer(), null);
 			Window wind = new Window();
-			desktop.Children.Add(wind);
+			gui.AddWindow(wind);
 
 			CssDocument doc = CssDocument.FromText("window:hover { padding: 8px; }");
 			CssAdapter adapter = new CssAdapter(doc);
@@ -85,8 +83,7 @@ namespace AgateLib.UserInterface.Css.Tests
 		[TestMethod]
 		public void CssBMenuItemPseudoClassMatching()
 		{
-			Gui gui = new Gui(null, null);
-			Desktop desktop = new Desktop(gui);
+			Gui gui = new Gui(new FakeRenderer(), null);
 			Window wind = new Window();
 			Menu mnu = new Menu();
 			MenuItem alpha = new MenuItem();
@@ -94,7 +91,7 @@ namespace AgateLib.UserInterface.Css.Tests
 
 			mnu.Children.Add(alpha, beta);
 			wind.Children.Add(mnu);
-			desktop.Children.Add(wind);
+			gui.AddWindow(wind);
 
 			CssDocument doc = CssDocument.FromText("menuitem:selected { background-color: blue; }");
 			CssAdapter adapter = new CssAdapter(doc);
@@ -183,6 +180,23 @@ namespace AgateLib.UserInterface.Css.Tests
 
 			var sstyle = adapter.GetStyle(stylish);
 			Assert.AreEqual(2, sstyle.AppliedBlocks.Count);
+		}
+
+		[TestMethod]
+		public void CssBMultiFactorMatching()
+		{
+			CssDocument doc = CssDocument.FromText("#a.b { width: 400px; }");
+			CssAdapter adapter = new CssAdapter(doc);
+
+			var window = new Window("a");
+			var window2 = new Window("a") { Style = "b" };
+
+			var style = adapter.GetStyle(window);
+			var style2 = adapter.GetStyle(window2);
+
+			Assert.AreEqual(0, style.AppliedBlocks.Count);
+			Assert.AreEqual(1, style2.AppliedBlocks.Count);
+
 		}
 	}
 }

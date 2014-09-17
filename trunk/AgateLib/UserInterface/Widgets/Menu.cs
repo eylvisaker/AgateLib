@@ -534,6 +534,9 @@ namespace AgateLib.UserInterface.Widgets
 			{
 				case GestureType.Touch:
 				case GestureType.LongPress:
+					if (SelectedItem == null)
+						return;
+
 					SelectedItem.OnPressAccept();
 					break;
 

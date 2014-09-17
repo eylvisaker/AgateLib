@@ -71,7 +71,7 @@
 			this.txtCommandLine.Name = "txtCommandLine";
 			this.txtCommandLine.Size = new System.Drawing.Size(273, 20);
 			this.txtCommandLine.TabIndex = 2;
-			this.txtCommandLine.Text = "--window 800x600";
+			this.txtCommandLine.Text = "--window 800x600 --debuggui";
 			this.txtCommandLine.TextChanged += new System.EventHandler(this.txtCommandLine_TextChanged);
 			// 
 			// txtTestInfo
