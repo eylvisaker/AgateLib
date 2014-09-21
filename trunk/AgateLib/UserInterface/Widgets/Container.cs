@@ -185,5 +185,13 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			throw new NotImplementedException();
 		}
+
+
+		/// <summary>
+		/// If this is set to true, then the layout engine will not determine the
+		/// size of this control, or the size or positions of any child controls.
+		/// Grandchildren of this control will have layout performed as normal.
+		/// </summary>
+		public bool ManualLayout { get; set; }
 	}
 }
