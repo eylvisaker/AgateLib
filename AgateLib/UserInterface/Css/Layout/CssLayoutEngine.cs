@@ -150,6 +150,7 @@ namespace AgateLib.UserInterface.Css.Layout
 				}
 			}
 
+			Rectangle originalContainerClient = container.ClientRect;
 			Rectangle containerClientRect = container.ClientRect;
 			containerClientRect.X = 0;
 			containerClientRect.Y = 0;
@@ -164,7 +165,6 @@ namespace AgateLib.UserInterface.Css.Layout
 			int bottom = 0;
 
 			containerClientRect.Width = maxWidth;
-
 			int? fixedContainerWidth = ConvertDistance(container, containerStyle.Data.PositionData.Width, true);
 			int? fixedContainerHeight = ConvertDistance(container, containerStyle.Data.PositionData.Height, true);
 			if (fixedContainerWidth != null)
@@ -175,10 +175,18 @@ namespace AgateLib.UserInterface.Css.Layout
 			if (container is Desktop == false)
 				container.ClientRect = containerClientRect;
 
+			if (container.ManualLayout)
+			{
+				containerClientRect.Size = originalContainerClient.Size;
+				fixedContainerWidth = originalContainerClient.Width;
+				fixedContainerHeight = originalContainerClient.Height;
+			}
+
 			foreach (var child in container.Children)
 			{
 				var style = mAdapter.GetStyle(child);
 				child.Font = style.Font;
+				Rectangle originalClient = child.ClientRect;
 
 				if (child.Visible == false)
 					continue;
@@ -186,6 +194,7 @@ namespace AgateLib.UserInterface.Css.Layout
 					continue;
 
 				var sz = ComputeSize(child, containerStyle, forceRefresh);
+				
 				var box = style.BoxModel;
 				int? fixedWidth = ConvertDistance(child, style.Data.PositionData.Width, true);
 				int? fixedHeight = ConvertDistance(child, style.Data.PositionData.Height, false);
@@ -199,6 +208,7 @@ namespace AgateLib.UserInterface.Css.Layout
 				if (minWidth != null && sz.Width < (int)minWidth) sz.Width = (int)minWidth;
 				if (minHeight != null && sz.Height < (int)minHeight) sz.Height = (int)minHeight;
 
+				
 				bool resetPosition = false;
 
 				switch (containerStyle.Data.Layout.Kind)
@@ -285,6 +295,12 @@ namespace AgateLib.UserInterface.Css.Layout
 					bottom = Math.Max(bottom, clientRect.Y + clientRect.Height + box.Bottom); // only add box.Bottom here, because box.Top is taken into account in child.Y.
 				}
 
+				if (container.ManualLayout)
+				{
+					clientRect = originalClient;
+					style.IncludeInLayout = false;
+				}
+				
 				style.Widget.ClientRect = clientRect;
 			}
 

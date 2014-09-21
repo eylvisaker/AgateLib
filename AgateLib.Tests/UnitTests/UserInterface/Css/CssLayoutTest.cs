@@ -71,11 +71,38 @@ window.minsize { min-width: 500px; min-height: 400px; }
 			engine.UpdateLayout(gui, new Size(1000, 1000));
 		}
 		
+
+		[TestMethod]
+		public void CssLManualLayout()
+		{
+			Window wind = new Window();
+			wind.ManualLayout = true;
+			wind.ClientRect = new Rectangle(40, 40, 500, 600);
+
+			Menu menu = new Menu();
+			menu.ClientRect = new Rectangle(30, 50, 100, 300);
+			menu.Children.Add(MenuItem.OfLabel("Menu 1"));
+			menu.Children.Add(MenuItem.OfLabel("Menu 2"));
+
+			wind.Children.Add(menu);
+
+			gui.AddWindow(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(new Rectangle(14, 14, 500, 600), wind.ClientRect);
+			Assert.AreEqual(new Rectangle(30, 50, 100, 300), menu.ClientRect);
+
+			Assert.AreEqual(new Rectangle(0, 0, 52, 8), menu.Children[0].ClientRect);
+			Assert.AreEqual(new Rectangle(0, 8, 52, 8), menu.Children[1].ClientRect);
+		}
+
 		[TestMethod]
 		public void CssLBoxModel()
 		{
-			CssDocument doc = CssDocument.FromText("window { border: 5px solid black; padding: 10px; margin: 20px; }");
-			CssAdapter adapter = new CssAdapter(doc);
+			doc.Clear();
+			doc.Parse("window { border: 5px solid black; padding: 10px; margin: 20px; }");
+			
 			Window wind = new Window();
 
 			var style = adapter.GetStyle(wind);
