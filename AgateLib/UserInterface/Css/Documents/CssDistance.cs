@@ -52,6 +52,8 @@ namespace AgateLib.UserInterface.Css.Documents
 
 			if (string.IsNullOrWhiteSpace(value))
 				return new CssDistance(true);
+			if (value == "none")
+				return new CssDistance { Amount = 0, Automatic = false, DistanceUnit = DistanceUnit.Pixels };
 
 			if (value.Equals("auto", StringComparison.OrdinalIgnoreCase))
 			{

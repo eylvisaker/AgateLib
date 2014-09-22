@@ -125,7 +125,7 @@ window.minsize { min-width: 500px; min-height: 400px; }
 
 			Assert.AreEqual(new Point(14, 14), wind.ClientRect.Location);
 			Assert.AreEqual(new Point(18, 14), wind.Children[0].ClientToScreen(Point.Empty));
-			Assert.AreEqual(new Point(18, 14 + fh), wind.Children[1].ClientToScreen(Point.Empty));
+			Assert.AreEqual(new Point(18, 22), wind.Children[1].ClientToScreen(Point.Empty));
 		}
 
 		[TestMethod]
@@ -473,6 +473,23 @@ menuitem { padding: 8px; }");
 			Assert.AreEqual(new Rectangle(0, 0, 48, 8), label1.ClientRect);
 
 			Assert.AreEqual(new Point(18, 18), label1.ClientToScreen(Point.Empty));
+		}
+
+		[TestMethod]
+		public void CssLTextWrapping()
+		{
+			doc.Clear();
+			doc.Parse(@"window { max-width: 50px; }");
+
+			Window wind = new Window();
+			Label lbl = new Label("This is a test label with lots of text.");
+
+			wind.Children.Add(lbl);
+			gui.AddWindow(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(new Rectangle(0, 0, 48, 64), lbl.ClientRect);
 		}
 	}
 }

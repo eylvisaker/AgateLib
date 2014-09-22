@@ -34,6 +34,18 @@ namespace AgateLib.UserInterface.Widgets
 		double mSlowReadTime;
 		const double mSlowReadTextPeriod = 0.05;
 
+
+		public Label()
+		{
+			TextAlign = OriginAlignment.TopLeft;
+			WrapText = true;
+		}
+		public Label(string text)
+			: this()
+		{
+			this.Text = text;
+		}
+
 		public string Text
 		{
 			get { return mText; }
@@ -96,7 +108,7 @@ namespace AgateLib.UserInterface.Widgets
 				string text = mText.Substring(lineStart, length);
 				int width = Font.MeasureString(text).Width;
 
-				if (width > this.Width)
+				if (width > maxWidth)
 				{
 					lineStart = spacePositions[i - 1] + 1;
 					mWrapPositions.Add(lineStart);
@@ -108,17 +120,32 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		int WrappedHeight
 		{
-			get { return (mWrapPositions.Count + 1) * Font.FontHeight; }
+			get { return mWrapPositions.Count * Font.FontHeight; }
 		}
+		int WrappedWidth
+		{
+			get
+			{
+				int lastPos = 0;
+				int largestWidth = 0;
 
-		public Label()
-		{
-			TextAlign = OriginAlignment.TopLeft;
-		}
-		public Label(string text)
-			: this()
-		{
-			this.Text = text;
+				for(int i = 0; i <= mWrapPositions.Count; i++)
+				{
+					string text;
+
+					if (i == mWrapPositions.Count)
+						text = mText.Substring(lastPos);
+					else
+					{
+						text = mText.Substring(lastPos, mWrapPositions[i] - lastPos);
+						lastPos = mWrapPositions[i];
+					}
+
+					largestWidth = Math.Max(largestWidth, Font.MeasureString(text).Width);
+				}
+
+				return largestWidth;
+			}
 		}
 
 		public override void Update(double delta_t, ref bool processInput)
@@ -256,12 +283,17 @@ namespace AgateLib.UserInterface.Widgets
 
 		internal override Size ComputeSize(int? minWidth, int? minHeight, int? maxWidth, int? maxHeight)
 		{
+			if (WrapText == false)
+			{
+				return Font.MeasureString(Text);
+			}
+
 			if (maxWidth != null)
 			{
 				RewrapText(maxWidth.Value);
 
 				if (mWrapPositions.Count > 0)
-					return new Size(maxWidth.Value, WrappedHeight);
+					return new Size(WrappedWidth, WrappedHeight);
 			}
 
 			var retval = Font.MeasureString(Text);
