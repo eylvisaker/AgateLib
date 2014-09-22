@@ -1,4 +1,5 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+﻿using AgateLib.Diagnostics;
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -38,7 +39,17 @@ namespace AgateLib.UserInterface.Css.Binders
 			if (targetType == typeof(CssDistance))
 				return CssDistance.FromString(value);
 			if (targetType.GetTypeInfo().IsEnum)
-				return Enum.Parse(targetType, value.Replace("-", "_"), true);
+			{
+				try
+				{
+					return Enum.Parse(targetType, value.Replace("-", "_"), true);
+				}
+				catch
+				{
+					Log.WriteLine("Failed to parse {0}: {1}", targetType.Name, value);
+					return 0;
+				}
+			}
 
 			throw new NotImplementedException();
 		}

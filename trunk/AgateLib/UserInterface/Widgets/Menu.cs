@@ -504,6 +504,9 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		protected internal override void OnGestureChange(Gesture gesture)
 		{
+			if (mGestureItem == null)
+				return;
+
 			switch(gesture.GestureType)
 			{
 				case GestureType.Touch:
