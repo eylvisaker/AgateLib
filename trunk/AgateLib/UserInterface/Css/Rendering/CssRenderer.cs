@@ -81,7 +81,7 @@ namespace AgateLib.UserInterface.Css.Rendering
 
 		public WidgetAnimator GetAnimator(Widget widget)
 		{
-			return mAnimators[widget];
+			return GetOrCreateAnimator(widget);
 		}
 		WidgetAnimator GetOrCreateAnimator(Widget widget)
 		{
@@ -90,7 +90,7 @@ namespace AgateLib.UserInterface.Css.Rendering
 				mAnimators.Add(widget, new WidgetAnimator(mAdapter.GetStyle(widget)));
 			}
 
-			return GetAnimator(widget);
+			return mAnimators[widget];
 		}
 
 

@@ -26,6 +26,8 @@ namespace AgateLib.UserInterface.Widgets
 {
 	public class MenuItem : Container
 	{
+		bool mSelected;
+
 		public MenuItem()
 		{
 			Children.WidgetAdded += Children_WidgetAdded;
@@ -80,12 +82,28 @@ namespace AgateLib.UserInterface.Widgets
 			get { return (Menu)Parent; }
 		}
 
-		public bool Selected { get; set; }
+		public bool Selected
+		{
+			get { return mSelected; }
+			set
+			{
+				if (value == mSelected)
+					return;
+
+				mSelected = value;
+
+				if (mSelected)
+					OnSelect();
+				else
+					OnDeselect();
+			}
+		}
 
 		public event EventHandler PressAccept;
 		public event EventHandler PressToggle;
 		public event EventHandler PressMenu;
 		public event EventHandler Select;
+		public event EventHandler Deselect;
 		public event EventHandler Discard;
 
 		void Children_WidgetAdded(object sender, WidgetEventArgs e)
@@ -187,6 +205,12 @@ namespace AgateLib.UserInterface.Widgets
 			if (Select != null)
 				Select(this, EventArgs.Empty);
 		}
+		void OnDeselect()
+		{
+			if (Deselect != null)
+				Deselect(this, EventArgs.Empty);
+		}
+
 		internal void OnPressAccept()
 		{
 			if (PressAccept != null)
