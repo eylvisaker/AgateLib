@@ -37,6 +37,7 @@ namespace AgateLib.OpenGL
 		IWindowInfo mWindowInfo;
 		Size mSize;
 		AgateLib.DisplayLib.DisplayWindow mAttachedWindow;
+		bool mIsDisposed;
 
 		public ContextFB(AgateLib.DisplayLib.DisplayWindow attachedWindow,
 						 GraphicsMode graphicsMode, IWindowInfo window, Size size,
@@ -60,6 +61,8 @@ namespace AgateLib.OpenGL
 
 		public void CreateContextForThread()
 		{
+			if (IsDisposed)
+				throw new InvalidOperationException("Cannot create a context for a framebuffer which is disposed.");
 			if (mContexts.ContainsKey(Thread.CurrentThread))
 				return;
 
@@ -73,6 +76,8 @@ namespace AgateLib.OpenGL
 				context.ToString(), Thread.CurrentThread.ManagedThreadId));
 		}
 
+		public bool IsDisposed { get { return mIsDisposed; } }
+
 		GraphicsContext CurrentContext
 		{
 			get
@@ -85,6 +90,16 @@ namespace AgateLib.OpenGL
 		}
 		public override void Dispose()
 		{
+			if (mIsDisposed)
+				return;
+
+			foreach(var context in mContexts.Values)
+			{
+				context.Dispose();
+			}
+
+			mContexts.Clear();
+			mIsDisposed = true;
 		}
 
 		public override AgateLib.Geometry.Size Size
@@ -95,6 +110,9 @@ namespace AgateLib.OpenGL
 		public void SetSize(Size size)
 		{
 			mSize = size;
+
+			foreach (var context in mContexts.Values)
+				context.Update(mWindowInfo);
 		}
 
 		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow

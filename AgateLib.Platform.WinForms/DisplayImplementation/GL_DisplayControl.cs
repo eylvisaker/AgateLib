@@ -49,7 +49,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		DisplayWindow mOwner;
 		Form frm;
 		Control mRenderTarget;
-		IGraphicsContext mContext;
 		IWindowInfo mWindowInfo;
 
 		DesktopGLDisplay mDisplay;
@@ -132,10 +131,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			DetachEvents();
 
 			Form oldForm = frm;
-			IGraphicsContext oldcontext = mContext;
 			IWindowInfo oldWindowInfo = mWindowInfo;
-
-			mContext = null;
 
 			frm = new frmFullScreen();
 			frm.Show();
@@ -162,7 +158,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			mIsFullScreen = true;
 
 			if (oldWindowInfo != null) oldWindowInfo.Dispose();
-			if (oldcontext != null) oldcontext.Dispose();
 			if (oldForm != null) oldForm.Dispose();
 
 			Core.IsActive = true;
@@ -173,10 +168,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			DetachEvents();
 
 			Form oldForm = frm;
-			IGraphicsContext oldcontext = mContext;
 			IWindowInfo oldWindowInfo = mWindowInfo;
 
-			mContext = null;
 			mIsFullScreen = false;
 
 			Form myform;
@@ -201,7 +194,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			AttachEvents();
 
 			if (oldWindowInfo != null) oldWindowInfo.Dispose();
-			if (oldcontext != null) oldcontext.Dispose();
 			if (oldForm != null) oldForm.Dispose();
 
 			Core.IsActive = true;
@@ -365,12 +357,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				mFrameBuffer = null;
 			}
 
-			if (mContext != null)
-			{
-				mContext.Dispose();
-				mContext = null;
-			}
-
 			if (frm != null)
 			{
 				frm.Close();
@@ -463,7 +449,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		}
 		void mRenderTarget_Resize(object sender, EventArgs e)
 		{
-			mContext.Update(mWindowInfo);
 			mFrameBuffer.SetSize(new Size(mRenderTarget.Width, mRenderTarget.Height));
 
 			OnResize();

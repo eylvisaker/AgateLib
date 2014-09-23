@@ -461,8 +461,6 @@ namespace AgateLib.UserInterface.Widgets
 					mScrollRow++;
 				}
 			}
-
-			SelectedItem.OnSelect();
 		}
 
 		private void UpdateSelectedItem()
