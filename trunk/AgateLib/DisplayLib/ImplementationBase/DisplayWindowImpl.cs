@@ -91,7 +91,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		[Obsolete("This is probably obsolete.")]
 		protected void SetInternalMousePosition(AgateLib.Geometry.Point pt)
 		{
-			AgateLib.InputLib.Legacy.Mouse.SetStoredPosition(pt);
+			AgateLib.InputLib.Legacy.Mouse.SetStoredPosition(PixelToLogicalCoords(pt));
 		}
 
 		/// <summary>
