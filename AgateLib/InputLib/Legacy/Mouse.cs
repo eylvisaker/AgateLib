@@ -61,7 +61,7 @@ namespace AgateLib.InputLib.Legacy
 				{
 					return mMouseButtons[(int)id];
 				}
-				set
+				internal set
 				{
 					if (id == MouseButton.None)
 					{

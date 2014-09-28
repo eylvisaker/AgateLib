@@ -13,10 +13,22 @@ namespace AgateLib.InputLib.Legacy
 			{
 				case InputEventType.KeyDown: Keyboard.OnKeyDown(args); break;
 				case InputEventType.KeyUp: Keyboard.OnKeyUp(args); break;
-				case InputEventType.MouseDown: Mouse.OnMouseDown(args); break;
-				case InputEventType.MouseUp: Mouse.OnMouseUp(args); break;
-				case InputEventType.MouseWheel: Mouse.OnMouseWheel(args); break;
-				case InputEventType.MouseMove: Mouse.OnMouseMove(args); break;
+				case InputEventType.MouseDown:
+					Mouse.Position = args.MousePosition;
+					Mouse.OnMouseDown(args); 
+					break;
+				case InputEventType.MouseUp: 
+					Mouse.Position = args.MousePosition; 
+					Mouse.OnMouseUp(args); 
+					break;
+				case InputEventType.MouseWheel: 
+					Mouse.Position = args.MousePosition; 
+					Mouse.OnMouseWheel(args); 
+					break;
+				case InputEventType.MouseMove: 
+					Mouse.Position = args.MousePosition;
+					Mouse.OnMouseMove(args); 
+					break;
 			}
 		}
 
