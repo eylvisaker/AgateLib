@@ -42,9 +42,9 @@ namespace AgateLib.Testing.DisplayTests
 			get { return this; }
 		}
 
-		public override void Update(double delta_t)
+		public override void Update(double deltaT)
 		{
-			time += delta_t / 1000.0;
+			time += deltaT / 1000.0;
 		}
 
 		public override void Draw()

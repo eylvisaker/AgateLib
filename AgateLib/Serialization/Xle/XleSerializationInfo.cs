@@ -121,8 +121,6 @@ namespace AgateLib.Serialization.Xle
 		/// <param name="asAttribute">Pass true to write the field as an attribute in the parent element.</param>
 		public void Write(string name, string value, bool asAttribute = false)
 		{
-			if (value == null) value = "";
-
 			WriteImpl(name, value ?? string.Empty, asAttribute);
 		}
 

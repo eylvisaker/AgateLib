@@ -41,7 +41,7 @@ namespace AgateLib.Testing.WinFormsTests
 			get { return this; }
 		}
 
-		public override void Update(double delta_t)
+		public override void Update(double deltaT)
 		{
 		}
 

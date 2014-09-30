@@ -37,7 +37,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 			gs = new GuiStuff();
 			gs.CreateGui();
 		}
-		public override void Update(double delta_t)
+		public override void Update(double deltaT)
 		{
 			gs.Update();
 		}

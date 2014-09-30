@@ -86,19 +86,19 @@ namespace AgateLib.Testing.DisplayTests.ParticleTest
 			gpm.SubscribeToEmitter(pe);
 		}		
 
-		public override void Update(double time_ms)
+		public override void Update(double deltaT)
 		{
 			gm2.Gravity = new Vector2((float)ran.Next(-300, 300), 0f);
 			
 			fom.AlphaAmount = (float)ran.NextDouble() * 1.3f;
 			fom.LifeBarrier = (float)ran.NextDouble() * 5f;
 			
-			pe.Update(time_ms);
+			pe.Update(deltaT);
 			pe.EmitVelocity = new Vector2((float)ran.Next(-10, 10), 0f);
 			
-			sm.Update(time_ms);
+			sm.Update(deltaT);
 			
-			se.Update(time_ms);
+			se.Update(deltaT);
 			se.GetSpriteByKey(0).TimePerFrame = ran.NextDouble() * 3 + 1.5d;
 		}
 		

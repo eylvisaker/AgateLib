@@ -81,7 +81,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			if (windowParams.RenderToControl)
 			{
-				if (typeof(Control).IsAssignableFrom(windowParams.RenderTarget.GetType()) == false)
+				if (windowParams.RenderTarget is Control == false)
 					throw new AgateException(string.Format("The specified render target is of type {0}, " +
 						"which does not derive from System.Windows.Forms.Control.", windowParams.RenderTarget.GetType().Name));
 

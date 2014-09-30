@@ -49,18 +49,9 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		int DisplayHeight { get; set; }
 		/// <summary>
-		/// Gets or sets the display size of the surface, in pixels.
-		/// </summary>
-		Size DisplaySize { get; set; }
-		/// <summary>
 		/// Gets or sets the display width of the surface, in pixels.
 		/// </summary>
 		int DisplayWidth { get; set; }
-		/// <summary>
-		/// Draws the surface at the specified point.
-		/// </summary>
-		/// <param name="destPt"></param>
-		void Draw(Point destPt);
 		/// <summary>
 		/// Draws the surface at the specified point.
 		/// </summary>
