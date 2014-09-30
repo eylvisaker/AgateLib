@@ -36,9 +36,9 @@ namespace AgateLib.Testing.DisplayTests
 			p.Dispose();
 		}
 
-		public override void Update(double time_ms)
+		public override void Update(double deltaT)
 		{
-			p.Update(time_ms);
+			p.Update(deltaT);
 		}
 	
 		public override void Draw()

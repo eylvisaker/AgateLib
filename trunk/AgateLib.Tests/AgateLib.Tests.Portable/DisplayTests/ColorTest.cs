@@ -21,7 +21,7 @@ namespace AgateLib.Testing.DisplayTests
 			get { return "Display"; }
 		}
 
-		public override void Update(double delta_t)
+		public override void Update(double deltaT)
 		{
 		}
 

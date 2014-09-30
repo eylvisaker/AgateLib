@@ -49,7 +49,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 			}
 		}
 
-		public override void Update(double delta_t)
+		public override void Update(double deltaT)
 		{
 			gs.Update();
 		}

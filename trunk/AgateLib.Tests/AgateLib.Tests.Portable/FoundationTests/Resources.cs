@@ -30,7 +30,7 @@ namespace AgateLib.Testing.FoundationTests
 			sprite.StartAnimation();
 		}
 
-		public override void Update(double delta_t)
+		public override void Update(double deltaT)
 		{
 			sprite.Update();
 		}

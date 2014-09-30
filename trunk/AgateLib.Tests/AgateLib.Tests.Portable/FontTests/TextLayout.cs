@@ -57,7 +57,7 @@ namespace AgateLib.Testing.FontTests.TextLayout
 		}
 
 
-		public override void Update(double delta_t)
+		public override void Update(double deltaT)
 		{
 		}
 

@@ -56,7 +56,7 @@ namespace AgateLib.DisplayLib
 		int MaxSize(FontStyles style)
 		{
 			var keys = mFontSurfaces.Keys.Where(x => x.Style == style);
-			if (keys.Count() > 0)
+			if (keys.Any())
 				return keys.Max(x => x.Size);
 			else
 				return -1;

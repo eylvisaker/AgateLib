@@ -346,7 +346,7 @@ namespace AgateLib
 			DefaultResources res = new DefaultResources();
 
 			var task = mFactory.DisplayFactory.InitializeDefaultResourcesAsync(res);
-			Assets.Fonts.Initialize(res);
+			Fonts.Initialize(res);
 
 			Task.WaitAll(task);
 		}

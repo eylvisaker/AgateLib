@@ -47,7 +47,7 @@ namespace AgateLib.Testing.DisplayTests
 			surf2.Draw(500, 10);
 		}
 
-		public override void Update(double delta_t)
+		public override void Update(double deltaT)
 		{
 		}
 

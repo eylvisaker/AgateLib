@@ -38,7 +38,7 @@ namespace AgateLib.Algorithms.PathFinding
 			: this(map, (x, y) => x.Equals(y))
 		{ }
 		public AStar(IAStarMap<T> map, IEqualityComparer<T> comparer)
-			: this(map, (x, y) => comparer.Equals(x, y))
+			: this(map, comparer.Equals)
 		{ }
 		public AStar(IAStarMap<T> map, Func<T, T, bool> comparison)
 		{

@@ -19,7 +19,7 @@ namespace AgateLib.ApplicationModels
 		protected internal virtual void OnSceneEnd()
 		{ }
 
-		public abstract void Update(double delta_t);
+		public abstract void Update(double deltaT);
 		public abstract void Draw();
 	}
 }

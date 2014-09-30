@@ -40,7 +40,7 @@ namespace AgateLib.Testing.DisplayTests.RotatingSpriteTester
 			sp.RotationAngleDegrees = 90;
 			sp.SetScale(2, 2);
 		}
-		public override void Update(double delta_t)
+		public override void Update(double deltaT)
 		{
 			if (Keyboard.Keys[KeyCode.Escape])
 				SceneFinished = true;
