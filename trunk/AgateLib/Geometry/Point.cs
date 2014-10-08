@@ -19,14 +19,17 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace AgateLib.Geometry
 {
 	/// <summary>
 	/// Replacement for System.Drawing.Point structure.
 	/// </summary>
+	[DataContract]
 	public struct Point 
 	{
+		[DataMember]
 		int x, y;
 
 		#region --- Construction ---

@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace AgateLib.Geometry
@@ -26,8 +27,10 @@ namespace AgateLib.Geometry
 	/// <summary>
 	/// SizeF structure.
 	/// </summary>
+	[DataContract]
 	public struct SizeF  
 	{
+		[DataMember]
 		float width, height;
 
 		/// <summary>
