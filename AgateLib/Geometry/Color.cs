@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 
 namespace AgateLib.Geometry
 {
@@ -28,6 +29,7 @@ namespace AgateLib.Geometry
 	/// Replacement for System.Drawing.Color structure.
 	/// </summary>
 	[StructLayout(LayoutKind.Explicit)]
+	[DataContract]
 	public struct Color
 	{
 		#region --- Static Named Color properties ---
@@ -662,6 +664,7 @@ namespace AgateLib.Geometry
 		byte b;
 
 		[FieldOffset(0)]
+		[DataMember]
 		int abgr;
 
 		#endregion

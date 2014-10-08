@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace AgateLib.Geometry
@@ -26,9 +27,12 @@ namespace AgateLib.Geometry
 	/// <summary>
 	/// Replacement for System.Drawing.RectangleF structure.
 	/// </summary>
+	[DataContract]
 	public struct RectangleF 
 	{
+		[DataMember]
 		PointF pt;
+		[DataMember]
 		SizeF sz;
 
 		/// <summary>

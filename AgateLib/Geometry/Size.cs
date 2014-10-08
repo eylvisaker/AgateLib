@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace AgateLib.Geometry
@@ -26,8 +27,10 @@ namespace AgateLib.Geometry
 	/// <summary>
 	/// A structure with two properties, a width and height.
 	/// </summary>
-	public partial struct Size
+	[DataContract]
+	public struct Size
 	{
+		[DataMember]
 		int width, height;
 
 		/// <summary>

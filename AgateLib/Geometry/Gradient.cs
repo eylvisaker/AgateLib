@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace AgateLib.Geometry
@@ -27,11 +28,16 @@ namespace AgateLib.Geometry
 	/// A four color gradient, with a different color value for each corner.
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
+	[DataContract]
 	public struct Gradient
 	{
+		[DataMember]
 		private Color mTopLeft;
+		[DataMember]
 		private Color mTopRight;
+		[DataMember]
 		private Color mBottomLeft;
+		[DataMember]
 		private Color mBottomRight;
 
 		/// <summary>

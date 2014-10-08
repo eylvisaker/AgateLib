@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace AgateLib.Geometry
@@ -25,8 +26,10 @@ namespace AgateLib.Geometry
 	/// <summary>
 	/// Structure which describes a vector in 3-space.
 	/// </summary>
+	[DataContract]
 	public struct Vector4
 	{
+		[DataMember]
 		private float mX, mY, mZ, mW;
 
 		/// <summary>

@@ -37,8 +37,6 @@ namespace AgateLib.Geometry
 		/// Gets the coordinate system given the size of the display window. This is calculated when 
 		/// RenderTargetSize is set.
 		/// </summary>
-		/// <param name="displayWindowSize"></param>
-		/// <returns></returns>
 		Rectangle Coordinates { get; }
 	}
 }

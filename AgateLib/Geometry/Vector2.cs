@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace AgateLib.Geometry
@@ -27,8 +28,10 @@ namespace AgateLib.Geometry
 	/// contains overloads for mathematical operations to make computation expressions
 	/// involving the Vector2 simple and expressive.
 	/// </summary>
+	[DataContract]
 	public struct Vector2
 	{
+		[DataMember]
 		private float mX, mY;
 
 		/// <summary>

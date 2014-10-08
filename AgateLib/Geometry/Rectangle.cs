@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace AgateLib.Geometry
@@ -26,9 +27,12 @@ namespace AgateLib.Geometry
 	/// <summary>
 	/// Implements a Rectangle structure, containing position and size.
 	/// </summary>
+	[DataContract]
 	public struct Rectangle
 	{
+		[DataMember]
 		Point pt;
+		[DataMember]
 		Size sz;
 
 		/// <summary>

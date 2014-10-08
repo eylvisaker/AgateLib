@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace AgateLib.Geometry
@@ -25,8 +26,10 @@ namespace AgateLib.Geometry
 	/// <summary>
 	/// Replacement for System.Drawing.PointF structure.
 	/// </summary>
+	[DataContract]
 	public struct PointF 
 	{
+		[DataMember]
 		float x, y;
 
 		#region --- Construction ---
