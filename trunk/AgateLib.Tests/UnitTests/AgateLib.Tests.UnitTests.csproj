@@ -117,9 +117,6 @@
     <Compile Include="Utility\RefTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\AgateLib.Platform.WinForms\AgateLib.Platform.WinForms.csproj">
       <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
       <Name>AgateLib.Platform.WinForms</Name>
@@ -132,6 +129,9 @@
       <Project>{3aaa6832-55d7-47a9-af95-9393792ecb2c}</Project>
       <Name>AgateLib.Tests.Portable</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
