@@ -85,4 +85,14 @@ namespace AgateLib
 		/// </summary>
 		bool IsLogicalFilesystem { get; }
 	}
+
+	public static class FileProviderExtensions
+	{
+		public static Stream OpenRead(this IReadFileProvider provider, string filename)
+		{
+			var task = provider.OpenReadAsync(filename);
+
+			return task.Result;
+		}
+	}
 }
