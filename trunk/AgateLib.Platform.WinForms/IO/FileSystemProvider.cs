@@ -30,7 +30,7 @@ namespace AgateLib.Platform.WinForms.IO
 	/// FileSystemProvider implements IFileProvider, providing access to files
 	/// from the operating system file system.
 	/// </summary>
-	public class FileSystemProvider : IReadFileProvider
+	public class FileSystemProvider : IReadWriteFileProvider
 	{
 		string mPath;
 		Uri mPathUri;
@@ -66,7 +66,7 @@ namespace AgateLib.Platform.WinForms.IO
 				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
 					filename, mPath));
 
-			return File.OpenRead(FindFileName(filename));
+			return await Task.Run(() => File.OpenRead(FindFileName(filename)));
 		}
 		/// <summary>
 		/// Returns true if the specified file exists.
@@ -289,6 +289,19 @@ namespace AgateLib.Platform.WinForms.IO
 		public bool IsLogicalFilesystem
 		{
 			get { return true; }
+		}
+
+		public async Task<Stream> OpenWriteAsync(string file)
+		{
+			string resolvedName = FindFileName(file);
+
+			return await Task.Run(() => File.Open(resolvedName, FileMode.Create));
+		}
+
+		public void CreateDirectory(string folder)
+		{
+			DebugCrossPlatform(folder);
+			Directory.CreateDirectory(Path.Combine(mPath, folder));
 		}
 	}
 }
