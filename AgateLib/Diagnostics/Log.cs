@@ -34,5 +34,13 @@ namespace AgateLib.Diagnostics
 		{
 			Debug.WriteLine(format, args);
 		}
+
+		public static void Indent()
+		{
+		}
+
+		public static void Unindent()
+		{
+		}
 	}
 }

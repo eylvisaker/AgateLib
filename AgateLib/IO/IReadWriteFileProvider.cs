@@ -18,12 +18,17 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AgateLib.IO
 {
 	public interface IReadWriteFileProvider : IReadFileProvider, IWriteFileProvider
 	{
+		Task<Stream> OpenWriteAsync(string file);
+
+		void CreateDirectory(string folder);
 	}
 }
