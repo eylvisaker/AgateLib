@@ -38,9 +38,9 @@ namespace AgateLib.Platform.WindowsStore.Factories
 		{
 			return new SDX_DisplayWindow(owner, windowParams, RenderTargetAdapter);
 		}
-		public SurfaceImpl CreateSurface(IReadFileProvider provider, string fileName)
+		public SurfaceImpl CreateSurface(IReadFileProvider provider, string filename)
 		{
-			return new SDX_Surface(provider.ResolveFile(fileName));
+			return new SDX_Surface(provider, filename);
 		}
 		public SurfaceImpl CreateSurface(Size surfaceSize)
 		{

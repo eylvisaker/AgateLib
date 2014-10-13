@@ -2,6 +2,7 @@
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
+using AgateLib.IO;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Testing.Fakes;
 using AgateLib.UserInterface.Css.Documents;

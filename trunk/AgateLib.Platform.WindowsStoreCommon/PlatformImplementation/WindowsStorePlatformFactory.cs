@@ -1,5 +1,6 @@
 ﻿using AgateLib.ApplicationModels;
 using AgateLib.Drivers;
+using AgateLib.IO;
 using AgateLib.Platform.WindowsStore.PlatformImplementation;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ namespace AgateLib.Platform.WindowsStore.Factories
 		public WindowsStorePlatformFactory(bool handheld, AssetLocations assetLocations)
 		{
 			Info = new WindowsStorePlatformInfo(handheld);
-			AssetFileProvider = new WindowsStoreAssetFileProvider(assetLocations.Path);
-
+			AssetFileProvider = new WindowsStoreAssetFileProvider(".");
+			FileProvider.UserFiles = new IsolatedStorageFileProvider();
 		}
 		public PlatformInfo Info { get; private set;}
 		public IReadFileProvider AssetFileProvider { get; private set; }
@@ -31,7 +32,7 @@ namespace AgateLib.Platform.WindowsStore.Factories
 
 		public Diagnostics.AgateConsole CreateConsole()
 		{
-			return null;
+			return new AgateConsoleImpl();
 		}
 
 		public IO.IPath CreatePath()

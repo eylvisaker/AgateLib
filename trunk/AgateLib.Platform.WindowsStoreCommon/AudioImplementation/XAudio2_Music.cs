@@ -188,50 +188,44 @@ namespace AgateLib.Platform.WindowsStore.AudioImplementation
 		 * */
 		public override void Dispose()
 		{
-			throw new NotImplementedException();
 		}
 
 		public override bool IsPlaying
 		{
-			get { throw new NotImplementedException(); }
+			get { return false; }
 		}
 
 		protected override void OnSetLoop(bool value)
 		{
-			throw new NotImplementedException();
 		}
 
 		public override double Pan
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return 0;
 			}
 			set
 			{
-				throw new NotImplementedException();
 			}
 		}
 
 		public override void Play()
 		{
-			throw new NotImplementedException();
 		}
 
 		public override void Stop()
 		{
-			throw new NotImplementedException();
 		}
 
 		public override double Volume
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return 1;
 			}
 			set
 			{
-				throw new NotImplementedException();
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 ﻿using AgateLib.ApplicationModels;
 using AgateLib.Geometry;
+using AgateLib.IO;
 using AgateLib.Testing.Fakes;
 using AgateLib.UserInterface.Css.Binders;
 using AgateLib.UserInterface.Css.Documents;

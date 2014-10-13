@@ -22,13 +22,13 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.WinForms.IO
+namespace AgateLib.IO
 {
 	/// <summary>
 	/// Contains a list of IFileProvider objects that are used to search for
 	/// and open files.
 	/// </summary>
-	public class FileProviderList : IList<IReadFileProvider>, IReadFileProvider
+	public class ReadFileProviderList : IList<IReadFileProvider>, IReadFileProvider
 	{
 		List<IReadFileProvider> mProviders = new List<IReadFileProvider>();
 
@@ -151,14 +151,6 @@ namespace AgateLib.Platform.WinForms.IO
 
 			return false;
 		}
-		/// <summary>
-		/// Adds a path in the filesystem to the list of locations to search when opening a file.
-		/// </summary>
-		/// <param name="path"></param>
-		public void AddPath(string path)
-		{
-			Add(new FileSystemProvider(path));
-		}
 
 		#region IList<IFileProvider> Members
 
@@ -179,7 +171,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// <param name="item"></param>
 		public void Insert(int index, IReadFileProvider item)
 		{
-			if (item is FileProviderList)
+			if (item is ReadFileProviderList)
 			{
 				if (item == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
 			}
@@ -207,7 +199,7 @@ namespace AgateLib.Platform.WinForms.IO
 			}
 			set
 			{
-				if (value is FileProviderList)
+				if (value is ReadFileProviderList)
 				{
 					if (value == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
 				}
@@ -225,7 +217,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// <param name="item"></param>
 		public void Add(IReadFileProvider item)
 		{
-			if (item is FileProviderList)
+			if (item is ReadFileProviderList)
 			{
 				if (item == this) throw new ArgumentException("Cannot add a FileProviderList to itself!");
 			}

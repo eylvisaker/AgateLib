@@ -153,7 +153,7 @@ namespace AgateLib.UserInterface.Css.Rendering
 
 		#endregion;
 
-		public bool InTransition { get; private set;}
+		public bool InTransition { get; private set; }
 
 		public void Draw()
 		{
@@ -176,6 +176,8 @@ namespace AgateLib.UserInterface.Css.Rendering
 		{
 			if (anim.Style.Data.Overflow == CssOverflow.Visible)
 				return false;
+			if (anim.ClientRect.Width == 0 || anim.ClientRect.Height == 0)
+				return true;
 
 			Rectangle clipRect = anim.ClientToScreen(new Rectangle(0, 0, anim.ClientRect.Width, anim.ClientRect.Height));
 
@@ -186,6 +188,12 @@ namespace AgateLib.UserInterface.Css.Rendering
 		private void DrawComponentContents(WidgetAnimator anim)
 		{
 			bool clipping = false;
+
+			if (anim.Style.Data.Overflow != CssOverflow.Visible &&
+				 (anim.ClientRect.Width == 0 || anim.ClientRect.Height == 0))
+			{
+				return;
+			}
 
 			try
 			{

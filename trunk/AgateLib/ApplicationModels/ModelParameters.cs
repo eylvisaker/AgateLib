@@ -18,6 +18,7 @@
 //
 using AgateLib.Geometry;
 using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.IO;
 using AgateLib.Platform;
 using System;
 using System.Collections.Generic;

@@ -2,6 +2,7 @@
 using AgateLib.ApplicationModels;
 using AgateLib.DisplayLib;
 using AgateLib.Drivers;
+using AgateLib.IO;
 using AgateLib.Platform.WinForms.Resources;
 using System;
 using System.Collections.Generic;

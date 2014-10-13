@@ -248,7 +248,7 @@ namespace AgateLib.Testing.DisplayTests.SpriteTester
 				// since loading the sprite from the file failed, try it as a resource file.
 				AgateResourceCollection resources = new AgateResourceCollection(filename);
 
-				AgateLib.IO.FileProvider.SurfaceAssets = new FileSystemProvider
+				AgateLib.IO.Assets.Surfaces = new FileSystemProvider
 					(System.IO.Path.GetDirectoryName(filename));
 
 				if (resources.Sprites.ToArray().Length == 1)

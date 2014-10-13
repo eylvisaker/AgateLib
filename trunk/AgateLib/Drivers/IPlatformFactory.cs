@@ -38,6 +38,9 @@ namespace AgateLib.Drivers
 
 		IEnumerable<System.Reflection.Assembly> GetSerializationSearchAssemblies(Type objectType);
 
+		/// <summary>
+		/// Gets a file provider which points to the application directory.
+		/// </summary>
 		IReadFileProvider AssetFileProvider { get; }
 
 		IPlatformSerialization CreateDefaultSerializationConstructor();
