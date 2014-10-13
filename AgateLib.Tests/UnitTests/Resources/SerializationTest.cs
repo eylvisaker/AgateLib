@@ -2,6 +2,7 @@
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
+using AgateLib.IO;
 using AgateLib.Resources.DC;
 using AgateLib.Sprites;
 using AgateLib.Testing.Fakes;

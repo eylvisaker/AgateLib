@@ -60,7 +60,7 @@ namespace AgateLib.Serialization.Xle
 		public XleSerializer(Type objectType, IPlatformSerialization objectConstructor = null)
 		{
 			if (objectConstructor == null)
-				objectConstructor = Core.Factory.PlatformFactory.CreateDefaultSerializationConstructor();
+				objectConstructor = new AgateLib.Platform.Common.PlatformImplementation.PlatformSerialization();// Core.Factory.PlatformFactory.CreateDefaultSerializationConstructor();
 
 			ObjectConstructor = objectConstructor;
 

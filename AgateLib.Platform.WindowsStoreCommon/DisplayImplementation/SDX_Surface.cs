@@ -36,6 +36,7 @@ using Texture2D = SharpDX.Direct3D11.Texture2D;
 using Windows.UI.Core;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
@@ -48,6 +49,7 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 		SharpDX.Direct3D11.ShaderResourceView mTextureView;
 
 		bool mIsLoaded;
+		IReadFileProvider mFileProvider;
 		string mFileName;
 
 		Rectangle mSrcRect;
@@ -99,9 +101,10 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 			mDisplay = Display.Impl as SDX_Display;
 		}
 
-		public SDX_Surface(string fileName)
+		public SDX_Surface(IReadFileProvider fileProvider, string fileName)
 			: this()
 		{
+			mFileProvider = fileProvider;
 			mFileName = fileName;
 
 			if (mDevice == null)
@@ -200,14 +203,17 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 
 			var window = SDX_Display.MainThreadCoreWindow;
 
-			await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-			{
-				//var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(mFileName));
-				//var sourceStream = await file.OpenStreamForReadAsync();
-				var sourceStream = new NativeFileStream(mFileName, NativeFileMode.Open, NativeFileAccess.Read);
+			await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => await LoadFromFileDispatch());
+		}
+
+		private async Task LoadFromFileDispatch()
+		{
+			//var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(mFileName));
+			//var sourceStream = await file.OpenStreamForReadAsync();
+			//var sourceStream = new NativeFileStream(mFileName, NativeFileMode.Open, NativeFileAccess.Read);
+			var sourceStream = await mFileProvider.OpenReadAsync(mFileName);
 			
-				ReadFromStream(sourceStream, true);
-			});
+			ReadFromStream(sourceStream, true);
 		}
 
 		/// <summary>

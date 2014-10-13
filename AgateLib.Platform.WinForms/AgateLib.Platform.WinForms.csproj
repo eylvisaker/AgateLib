@@ -131,7 +131,6 @@
       <DependentUpon>frmGuiDebug.cs</DependentUpon>
     </Compile>
     <Compile Include="PixelBufferExtensions.cs" />
-    <Compile Include="IO\FileProviderList.cs" />
     <Compile Include="IO\FileSystemProvider.cs" />
     <Compile Include="PlatformImplementation\FormsPlatformInfo.cs" />
     <Compile Include="IO\TgzFileProvider.cs" />

@@ -4,6 +4,7 @@ using AgateLib.Platform.WindowsStore;
 using SharpDX.SimpleInitializer;
 using System;
 using AgateLib.Platform.WindowsMetro.Factories;
+using AgateLib.IO;
 
 namespace AgateLib.Platform.WindowsMetro
 {

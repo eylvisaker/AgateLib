@@ -27,7 +27,7 @@ namespace AgateLib.Platform.WinForms.Factories
 		public IReadFileProvider AssetFileProvider { get; private set; }
 
 
-		public void SetAssetLocations(AgateLib.ApplicationModels.AssetLocations assetLocations)
+		public void SetAssetLocations(AssetLocations assetLocations)
 		{
 			AssetFileProvider = new FileSystemProvider(System.IO.Path.GetFullPath(assetLocations.Path));
 		}

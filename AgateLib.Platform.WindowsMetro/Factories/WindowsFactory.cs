@@ -2,6 +2,7 @@
 using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 using AgateLib.Drivers.NullDrivers;
+using AgateLib.IO;
 using AgateLib.Platform.WindowsStore;
 using AgateLib.Platform.WindowsStore.Factories;
 using SharpDX.SimpleInitializer;

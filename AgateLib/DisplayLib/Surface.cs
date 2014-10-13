@@ -91,7 +91,7 @@ namespace AgateLib.DisplayLib
 				throw new ArgumentNullException("You must supply a file name.");
 
 			if (fileprovider == null)
-				fileprovider = AgateLib.IO.FileProvider.SurfaceAssets;
+				fileprovider = AgateLib.IO.Assets.Surfaces;
 
 			mImpl = Core.Factory.DisplayFactory.CreateSurface(fileprovider, filename);
 

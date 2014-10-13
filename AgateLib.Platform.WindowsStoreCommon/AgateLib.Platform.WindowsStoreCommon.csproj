@@ -100,7 +100,9 @@
     <Compile Include="Factories\FakePath.cs" />
     <Compile Include="Interop.cs" />
     <Compile Include="IRenderTargetAdapter.cs" />
+    <Compile Include="PlatformImplementation\AgateConsoleImpl.cs" />
     <Compile Include="PlatformImplementation\DiagnosticsStopwatch.cs" />
+    <Compile Include="PlatformImplementation\IsolatedStorageFileProvider.cs" />
     <Compile Include="PlatformImplementation\WindowsStoreAssetFileProvider.cs" />
     <Compile Include="PlatformImplementation\WindowsStorePlatformFactory.cs" />
     <Compile Include="PlatformImplementation\WindowsStorePlatformInfo.cs" />

@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.ApplicationModels
+namespace AgateLib.IO
 {
 	/// <summary>
 	/// Structure which indicates where various assets are stored.
@@ -59,5 +59,7 @@ namespace AgateLib.ApplicationModels
 		/// Root path used to load all assets.
 		/// </summary>
 		public string Path { get; set; }
+
+		public AssetLocations ExtraAssets { get; set; }
 	}
 }
