@@ -28,11 +28,6 @@ namespace AgateLib.Platform.WinForms.Factories
 			InputFactory = sdl;
 		}
 
-		public void SetAssetLocations(AssetLocations assetLocations)
-		{
-			mPlatformFactory.SetAssetLocations(assetLocations);
-		}
-
 		public IDisplayFactory DisplayFactory { get; private set; }
 		public IAudioFactory AudioFactory { get; private set; }
 		public IInputFactory InputFactory { get; private set; }

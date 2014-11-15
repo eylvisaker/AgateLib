@@ -21,7 +21,6 @@ namespace AgateLib.Platform.WinForms
 				Core.Initialize(factory);
 			}
 
-			factory.SetAssetLocations(parameters.AssetLocations);
 			Core.InitAssetLocations(parameters.AssetLocations);
 
 			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

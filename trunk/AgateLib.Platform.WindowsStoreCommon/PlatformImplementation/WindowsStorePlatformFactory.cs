@@ -14,11 +14,11 @@ namespace AgateLib.Platform.WindowsStore.Factories
 		public WindowsStorePlatformFactory(bool handheld, AssetLocations assetLocations)
 		{
 			Info = new WindowsStorePlatformInfo(handheld);
-			AssetFileProvider = new WindowsStoreAssetFileProvider(".");
+			ApplicationFolderFileProvider = new WindowsStoreAssetFileProvider(".");
 			FileProvider.UserFiles = new IsolatedStorageFileProvider();
 		}
 		public PlatformInfo Info { get; private set;}
-		public IReadFileProvider AssetFileProvider { get; private set; }
+		public IReadFileProvider ApplicationFolderFileProvider { get; private set; }
 		
 		public IStopwatch CreateStopwatch()
 		{

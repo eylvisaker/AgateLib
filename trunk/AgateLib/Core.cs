@@ -353,7 +353,7 @@ namespace AgateLib
 
 		public static void InitAssetLocations(AssetLocations assets)
 		{
-			FileProvider.Initialize(mFactory.PlatformFactory.AssetFileProvider, assets);
+			FileProvider.Initialize(mFactory.PlatformFactory.ApplicationFolderFileProvider, assets);
 		}
 
 		public static IAgateFactory Factory

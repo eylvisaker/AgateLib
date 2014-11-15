@@ -245,8 +245,13 @@ namespace AgateLib.Platform.WinForms.IO
 		{
 			List<string> files = new List<string>();
 
-			files.AddRange(Directory.GetFiles(mPath, searchPattern)
-				.Select(x => MakeRelativePath(x)));
+			try
+			{
+				files.AddRange(Directory.GetFiles(mPath, searchPattern)
+					.Select(x => MakeRelativePath(x)));
+			}
+			catch (DirectoryNotFoundException)
+			{ }
 
 			return files;
 		}

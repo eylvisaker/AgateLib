@@ -37,6 +37,11 @@ namespace AgateLib.Algorithms
 		}
 
 		[TestMethod]
+		public void IterateInvertMaxIterationsTest()
+		{
+			AssertThrows.Throws<Exception>(() => Inverting.IterateInvert(x => x, 4, itermax: 1));
+		}
+		[TestMethod]
 		public void InterateInvertTest()
 		{
 			Assert.AreEqual(0, Inverting.IterateInvert(x => 2 * x, 0), 0.000001);
