@@ -41,7 +41,7 @@ namespace AgateLib.Drivers
 		/// <summary>
 		/// Gets a file provider which points to the application directory.
 		/// </summary>
-		IReadFileProvider AssetFileProvider { get; }
+		IReadFileProvider ApplicationFolderFileProvider { get; }
 
 		IPlatformSerialization CreateDefaultSerializationConstructor();
 	}

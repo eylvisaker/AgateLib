@@ -25,16 +25,11 @@ namespace AgateLib.Algorithms
 {
 	public class Inverting
 	{
-		public static double IterateInvert(Func<double, double> func, double targetVal)
-		{
-			return IterateInvert(func, targetVal, 0);
-		}
-		public static double IterateInvert(Func<double, double> func, double targetVal, double initialPt)
+		public static double IterateInvert(Func<double, double> func, double targetVal, double initialPt = 0, int itermax = 500)
 		{
 			bool hasLower = false;
 			bool hasUpper = false;
 			int iter = 0;
-			const int itermax = 500;
 
 			var p1 = new Pair<double, double>(initialPt, func(initialPt));
 			Pair<double, double> lowerVal, upperVal;

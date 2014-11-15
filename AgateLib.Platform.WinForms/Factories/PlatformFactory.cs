@@ -20,17 +20,15 @@ namespace AgateLib.Platform.WinForms.Factories
 		public PlatformFactory()
 		{
 			Info = new FormsPlatformInfo();
-			AssetFileProvider = new FileSystemProvider(".");
+
+			var appdir = Path.GetDirectoryName(System.IO.Path.GetFullPath(Assembly.GetEntryAssembly().Location));
+		
+			ApplicationFolderFileProvider = new FileSystemProvider(appdir);
 		}
 
 		public PlatformInfo Info { get; private set; }
-		public IReadFileProvider AssetFileProvider { get; private set; }
+		public IReadFileProvider ApplicationFolderFileProvider { get; private set; }
 
-
-		public void SetAssetLocations(AssetLocations assetLocations)
-		{
-			AssetFileProvider = new FileSystemProvider(System.IO.Path.GetFullPath(assetLocations.Path));
-		}
 
 		public IStopwatch CreateStopwatch()
 		{

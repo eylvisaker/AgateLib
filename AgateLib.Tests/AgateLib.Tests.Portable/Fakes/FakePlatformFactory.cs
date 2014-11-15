@@ -15,7 +15,7 @@ namespace AgateLib.Testing.Fakes
 			Info = new FakePlatformInfo();
 		}
 		public Platform.PlatformInfo Info { get; private set; }
-		public IReadFileProvider AssetFileProvider { get; private set;}
+		public IReadFileProvider ApplicationFolderFileProvider { get; private set;}
 
 		public Platform.IStopwatch CreateStopwatch()
 		{
