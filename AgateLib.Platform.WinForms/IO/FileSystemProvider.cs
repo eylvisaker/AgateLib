@@ -66,7 +66,7 @@ namespace AgateLib.Platform.WinForms.IO
 				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
 					filename, mPath));
 
-			return await Task.Run(() => File.OpenRead(FindFileName(filename)));
+			return await Task.Run(() => File.OpenRead(resolvedName)).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Returns true if the specified file exists.
