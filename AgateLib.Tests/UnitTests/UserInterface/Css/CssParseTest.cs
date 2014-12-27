@@ -19,13 +19,6 @@ namespace AgateLib.UserInterface.Css.Tests
 	[TestClass]
 	public class CssParseTest : CssTestBase
 	{
-		[TestInitialize]
-		public void Init()
-		{
-			Core.Initialize(new FakeAgateFactory());
-			Core.InitAssetLocations(new AssetLocations());
-		}
-
 		[TestMethod]
 		public void TokenizerTest()
 		{
@@ -98,8 +91,6 @@ namespace AgateLib.UserInterface.Css.Tests
 			style = medium.RuleBlocks.First(x => x.Selector.Text == "label#step1");
 			Assert.AreEqual("black", style.Properties["color"]);
 		}
-
-
 
 		[TestMethod]
 		public void ColorParseTest()
