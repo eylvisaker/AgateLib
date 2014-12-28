@@ -95,7 +95,7 @@ namespace AgateLib.Testing.InputTests.InputTester
 			bool comma = false;
 			for (int i = 0; i < j.ButtonCount; i++)
 			{
-				if (j.GetButtonState(i))
+				if (j.ButtonState[i])
 				{
 					if (comma)
 						b.Append(",");

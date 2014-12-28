@@ -40,18 +40,18 @@ namespace AgateLib.AgateSDL.Audio
 		{
 			throw new NotImplementedException();
 			//tempfile = AgateFileProvider.SaveStreamToTempFile(stream);
-			this.filename = tempfile;
+			//this.filename = tempfile;
 
-			LoadFromFile(tempfile);
+			//LoadFromFile(tempfile);
 
-			(AgateLib.AudioLib.Audio.Impl as SDL_Audio).RegisterTempFile(tempfile);
+			//(AgateLib.AudioLib.Audio.Impl as SDL_Audio).RegisterTempFile(tempfile);
 
 		}
 		public SDL_SoundBuffer(string filename)
 		{
 			sdl = SdlFactory.CreateSDL();
 
-			this.filename = AgateLib.IO.FileProvider.SoundAssets.ResolveFile(filename);
+			this.filename = IO.Assets.Sounds.ResolveFile(filename);
 			LoadFromFile(this.filename);
 		}
 
