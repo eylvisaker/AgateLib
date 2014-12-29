@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ using AgateLib.DisplayLib;
 
 namespace AgateLib.Drivers
 {
+	[ContractClass(typeof(AgateFactoryContract))]
 	public interface IAgateFactory
 	{
 		IDisplayFactory DisplayFactory { get; }

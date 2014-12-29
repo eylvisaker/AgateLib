@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DefaultAssets;
 
 namespace AgateLib.Testing.Fakes
 {
@@ -197,8 +198,9 @@ namespace AgateLib.Testing.Fakes
 		}
 
 
-		public async Task InitializeDefaultResourcesAsync(Assets.DefaultResources res)
+		public Task InitializeDefaultResourcesAsync(DefaultResources res)
 		{
+			return Task.Run(() => { });
 		}
 	}
 

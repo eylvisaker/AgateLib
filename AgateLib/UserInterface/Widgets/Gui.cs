@@ -33,7 +33,6 @@ namespace AgateLib.UserInterface.Widgets
 	public class Gui : IInputHandler, IDisposable
 	{
 		Desktop mDesktop;
-		IAudioPlayer mAudioPlayer;
 		IGuiRenderer mRenderer;
 		IGuiLayoutEngine mLayout;
 
@@ -466,19 +465,20 @@ namespace AgateLib.UserInterface.Widgets
 		//}
 		public void PlaySound(GuiSound sound)
 		{
-			if (mAudioPlayer == null)
+			if (AudioPlayer == null)
 				return;
 
-			mAudioPlayer.PlaySound(sound);
+			AudioPlayer.PlaySound(sound);
 		}
 		public void PlaySound(string sound)
 		{
-			if (mAudioPlayer == null)
+			if (AudioPlayer == null)
 				return;
 
-			mAudioPlayer.PlaySound(sound);
+			AudioPlayer.PlaySound(sound);
 		}
 
+		public IAudioPlayer AudioPlayer { get;set; }
 		public IGuiRenderer Renderer { get { return mRenderer; } }
 		public IGuiLayoutEngine LayoutEngine { get { return mLayout; } }
 

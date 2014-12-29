@@ -71,21 +71,41 @@ namespace AgateLib.Algorithms.PathFinding
 		}
 
 		[TestMethod]
-		public void AStarPath()
+		public void AStarPathSync()
 		{
-			AStarState<Point> task = new AStarState<Point>();
-			task.Start = new AgateLib.Geometry.Point(4, 2);
-			task.EndPoints.Add(new AgateLib.Geometry.Point(5, 15));
+			AStarState<Point> state = new AStarState<Point>();
+			state.Start = new AgateLib.Geometry.Point(4, 2);
+			state.EndPoints.Add(new AgateLib.Geometry.Point(5, 15));
 
 			var astar = new AStar<Point>(new FakeMap());
 
-			astar.FindPathSync(task);
+			astar.FindPathSync(state);
 
 			// two steps to the left to get to (2, 2)
 			// 13 steps down to get to (2, 15)
 			// 3 steps to the right to get to (5, 15)
 			// that's 18 steps, plus the start point makes 19.
-			Assert.AreEqual(19, task.Path.Count);
+			Assert.AreEqual(19, state.Path.Count);
+		}
+
+		[TestMethod]
+		public void AStarPath()
+		{
+			AStarState<Point> state = new AStarState<Point>();
+			state.Start = new AgateLib.Geometry.Point(4, 2);
+			state.EndPoints.Add(new AgateLib.Geometry.Point(5, 15));
+
+			var astar = new AStar<Point>(new FakeMap());
+
+			var task = astar.FindPath(state);
+
+			task.Wait();
+
+			// two steps to the left to get to (2, 2)
+			// 13 steps down to get to (2, 15)
+			// 3 steps to the right to get to (5, 15)
+			// that's 18 steps, plus the start point makes 19.
+			Assert.AreEqual(19, state.Path.Count);
 		}
 	}
 }

@@ -44,7 +44,6 @@ namespace AgateLib.Resources.Legacy
 		//List<GuiThemeResource> mGuiThemes = new List<GuiThemeResource>();
 
 		const string mStringTableKey = "Strings";
-		bool mOwnFileProvider;
 		IReadFileProvider mFileProvider;
 
 		SurfaceResourceList mSurfaceAccessor;

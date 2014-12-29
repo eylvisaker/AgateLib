@@ -40,7 +40,7 @@ namespace AgateLib.Testing.DisplayTests
 					Display.BeginFrame();
 					Display.Clear();
 
-					Assets.Fonts.AgateSans.DrawText(text);
+					DefaultAssets.Fonts.AgateSans.DrawText(text);
 					
 					Display.EndFrame();
 					Core.KeepAlive();

@@ -31,9 +31,9 @@ using AgateLib.Diagnostics;
 using AgateLib.IO;
 using AgateLib.InputLib;
 using AgateLib.ApplicationModels;
-using AgateLib.Assets;
 using System.Threading.Tasks;
 using System.Diagnostics.Contracts;
+using AgateLib.DefaultAssets;
 
 namespace AgateLib
 {

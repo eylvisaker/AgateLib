@@ -201,7 +201,8 @@ namespace AgateLib.AgateSDL.Sdl2
 
 		public int Mix_PlayChannel(int channel, IntPtr chunk, int loops)
 		{
-			if (chunk == null) throw new ArgumentNullException();
+			if (chunk == IntPtr.Zero)
+				throw new ArgumentNullException();
 
 			return SDL_mixer.Mix_PlayChannel(channel, chunk, loops);
 		}

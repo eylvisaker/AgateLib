@@ -149,8 +149,9 @@ namespace AgateLib.Platform.WindowsStore.AudioImplementation
 			{
 				stopThread = true;
 
-				int count = 0;
 				/*
+				int count = 0;
+
 				while (xaudThread.ThreadState == ThreadState.Running)
 				{
 					Thread.Sleep(10);

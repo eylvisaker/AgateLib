@@ -34,9 +34,9 @@ namespace AgateLib.Testing.FontTests
 				//FontSurface bmpFont = FontSurface.LoadBitmapFont("bitmapfont.png", "bitmapfont.xml");
 
 				//fonts.Add(bmpFont);
-				fonts.Add(AgateLib.Assets.Fonts.AgateSans);
-				fonts.Add(AgateLib.Assets.Fonts.AgateSerif);
-				fonts.Add(AgateLib.Assets.Fonts.AgateMono);
+				fonts.Add(AgateLib.DefaultAssets.Fonts.AgateSans);
+				fonts.Add(AgateLib.DefaultAssets.Fonts.AgateSerif);
+				fonts.Add(AgateLib.DefaultAssets.Fonts.AgateMono);
 
 				while (wind.IsClosed == false)
 				{

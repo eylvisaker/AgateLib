@@ -26,6 +26,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DefaultAssets;
 
 namespace AgateLib.Drivers
 {
@@ -81,6 +82,6 @@ namespace AgateLib.Drivers
 		/// </summary>
 		/// <param name="res"></param>
 		/// <returns></returns>
-		Task InitializeDefaultResourcesAsync(Assets.DefaultResources res);
+		Task InitializeDefaultResourcesAsync(DefaultResources res);
 	}
 }

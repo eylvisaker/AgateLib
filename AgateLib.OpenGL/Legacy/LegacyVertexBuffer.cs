@@ -91,9 +91,9 @@ namespace AgateLib.OpenGL.Legacy
 		{
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
 			SetClientStates();
-			BeginMode beginMode = SelectBeginMode();
+			var primitiveType = SelectPrimitiveType();
 
-			GL.DrawArrays(beginMode, start, count);
+			GL.DrawArrays(primitiveType, start, count);
 		}
 		public override void DrawIndexed(IndexBuffer indexbuffer, int start, int count)
 		{
@@ -105,7 +105,8 @@ namespace AgateLib.OpenGL.Legacy
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
 			SetClientStates();
 
-			BeginMode beginMode = SelectBeginMode();
+			var beginMode = SelectPrimitiveType();
+
 			GL.DrawElements(beginMode, count, DrawElementsType.UnsignedShort, (IntPtr)0);
 		}
 
@@ -225,20 +226,21 @@ namespace AgateLib.OpenGL.Legacy
 			}
 		}
 
-		private BeginMode SelectBeginMode()
+		private OpenTK.Graphics.OpenGL.PrimitiveType SelectPrimitiveType()
 		{
-			BeginMode beginMode;
+			OpenTK.Graphics.OpenGL.PrimitiveType primitiveType;
+
 			switch (PrimitiveType)
 			{
-				case AgateLib.DisplayLib.PrimitiveType.TriangleList: beginMode = BeginMode.Triangles; break;
-				case AgateLib.DisplayLib.PrimitiveType.TriangleFan: beginMode = BeginMode.TriangleFan; break;
-				case AgateLib.DisplayLib.PrimitiveType.TriangleStrip: beginMode = BeginMode.TriangleStrip; break;
+				case AgateLib.DisplayLib.PrimitiveType.TriangleList: primitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles; break;
+				case AgateLib.DisplayLib.PrimitiveType.TriangleFan: primitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.TriangleFan; break;
+				case AgateLib.DisplayLib.PrimitiveType.TriangleStrip: primitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip; break;
 
 				default:
 					throw new AgateException(string.Format(
 						"Unsupported PrimitiveType {0}", PrimitiveType));
 			}
-			return beginMode;
+			return primitiveType;
 		}
 
 		private static void CheckError()

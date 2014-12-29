@@ -37,7 +37,7 @@ namespace AgateLib.Testing.DisplayTests
 		{
 			Display.Clear(Color.White);
 
-			var font = AgateLib.Assets.Fonts.AgateSans;
+			var font = AgateLib.DefaultAssets.Fonts.AgateSans;
 			font.Size = 24;
 			mSomeSurface.Draw();
 			font.DrawText(0, 0, "Load took {0} seconds.", mLoadTime);

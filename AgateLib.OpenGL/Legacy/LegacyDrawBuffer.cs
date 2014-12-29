@@ -34,7 +34,7 @@ namespace AgateLib.OpenGL.Legacy
 	/// <summary>
 	/// Uses 
 	/// </summary>
-	public class LegacyDrawBuffer: GLDrawBuffer 
+	public class LegacyDrawBuffer : GLDrawBuffer
 	{
 		#region --- Private types for Vertex Arrays ---
 
@@ -86,7 +86,7 @@ namespace AgateLib.OpenGL.Legacy
 
 		int mIndex;
 		int mCurrentTexture;
-        bool mValid = true;
+		bool mValid = true;
 
 		InterpolationMode lastInterpolation = (InterpolationMode)(-1);
 		PointF[] cachePts = new PointF[4];
@@ -95,22 +95,22 @@ namespace AgateLib.OpenGL.Legacy
 
 		public LegacyDrawBuffer()
 		{
-            try
-            {
-                GL.GenBuffers(1, out mBufferID);
-                Debug.Print("LegacyDrawBuffer: Draw buffer ID: {0}", mBufferID);
+			try
+			{
+				GL.GenBuffers(1, out mBufferID);
+				Debug.Print("LegacyDrawBuffer: Draw buffer ID: {0}", mBufferID);
 
-                SetBufferSize(1000);
-            }
-            catch (EntryPointNotFoundException e)
-            {
-                mValid = false;
+				SetBufferSize(1000);
+			}
+			catch (EntryPointNotFoundException)
+			{
+				mValid = false;
 
-                Trace.WriteLine("ERROR: Failed to create draw buffer.");
-                Trace.WriteLine("\tEntry point for glGenBuffers was not found.");
-                Trace.WriteLine("\tIt is likely that only a very old OpenGL is available.");
+				Trace.WriteLine("ERROR: Failed to create draw buffer.");
+				Trace.WriteLine("\tEntry point for glGenBuffers was not found.");
+				Trace.WriteLine("\tIt is likely that only a very old OpenGL is available.");
 
-            }
+			}
 		}
 
 		private void SetBufferSize(int size)
@@ -270,9 +270,9 @@ namespace AgateLib.OpenGL.Legacy
 			int pos = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Position);
 			int norm = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Normal);
 
-			GL.TexCoordPointer(2, TexCoordPointerType.Float, size, (IntPtr) tex);
-			GL.ColorPointer(4, ColorPointerType.UnsignedByte, size, (IntPtr) color);
-			GL.VertexPointer(2, VertexPointerType.Float, size, (IntPtr) pos);
+			GL.TexCoordPointer(2, TexCoordPointerType.Float, size, (IntPtr)tex);
+			GL.ColorPointer(4, ColorPointerType.UnsignedByte, size, (IntPtr)color);
+			GL.VertexPointer(2, VertexPointerType.Float, size, (IntPtr)pos);
 			GL.NormalPointer(NormalPointerType.Float, size, (IntPtr)norm);
 
 			GL.DrawArrays(OpenTK.Graphics.OpenGL.PrimitiveType.Quads, 0, mIndex);

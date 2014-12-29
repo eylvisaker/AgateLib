@@ -39,7 +39,7 @@ namespace AgateLib.Platform.WindowsStore.AudioImplementation
 
 		static Stream OpenFile(string filename)
 		{
-			return AgateLib.IO.FileProvider.SoundAssets.OpenReadAsync(filename).Result;
+			return AgateLib.IO.Assets.Sounds.OpenReadAsync(filename).Result;
 		}
 		public XAudio2_SoundBuffer(XAudio2_Audio audio, Stream inStream)
 		{

@@ -59,6 +59,7 @@ namespace AgateLib.Testing.Fakes
 
 		public override string Title { get;set;}
 
+		[Obsolete]
 		public override Point MousePosition { get;set;}
 	}
 }

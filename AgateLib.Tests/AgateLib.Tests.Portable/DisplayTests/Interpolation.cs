@@ -39,7 +39,7 @@ namespace AgateLib.Testing.DisplayTests
 			surf.InterpolationHint = InterpolationMode.Fastest;
 			surf.Draw(10, 10);
 
-			Font font = AgateLib.Assets.Fonts.AgateSans;
+			Font font = AgateLib.DefaultAssets.Fonts.AgateSans;
 			font.Size = 30;
 			font.DrawText(10, 500, "Chonky chonk chonk");
 

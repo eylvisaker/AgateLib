@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DefaultAssets;
 
 namespace AgateLib.Platform.WinForms.Factories
 {
@@ -118,7 +119,7 @@ namespace AgateLib.Platform.WinForms.Factories
 		}
 
 
-		public async Task InitializeDefaultResourcesAsync(Assets.DefaultResources res)
+		public async Task InitializeDefaultResourcesAsync(DefaultResources res)
 		{
 			res.Dispose();
 

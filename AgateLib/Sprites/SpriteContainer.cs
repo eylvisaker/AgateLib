@@ -28,7 +28,6 @@ namespace AgateLib.Sprites
 {
 	public class SpriteContainer<TKey> : ISpriteContainer
 	{
-		List<Surface> mOwnedSurfaces;
 		Dictionary<TKey, Sprite> mSprites = new Dictionary<TKey, Sprite>();
 		TKey mCurrent;
 

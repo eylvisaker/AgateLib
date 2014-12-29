@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Text;
 
 using AgateLib.Geometry;
@@ -28,6 +29,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 	/// <summary>
 	/// Implementation of DisplayWindow class.
 	/// </summary>
+	[ContractClass(typeof(DisplayWindowImplContract))]
 	public abstract class DisplayWindowImpl : IDisposable
 	{
 		/// <summary>

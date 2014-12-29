@@ -31,7 +31,7 @@ namespace AgateLib.Testing.DisplayTests
 
 		public void EntryPoint()
 		{
-			font = Assets.Fonts.AgateSans;
+			font = DefaultAssets.Fonts.AgateSans;
 			font.Size = 14;
 
 			Mouse.MouseDown += Mouse_MouseDown;

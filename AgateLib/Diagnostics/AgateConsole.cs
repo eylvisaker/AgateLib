@@ -101,7 +101,7 @@ namespace AgateLib.Diagnostics
 			if (sInstance == null) return;
 
 			if (Font == null)
-				Font = Assets.Fonts.AgateMono;
+				Font = DefaultAssets.Fonts.AgateMono;
 
 			sInstance.DrawImpl();
 		}

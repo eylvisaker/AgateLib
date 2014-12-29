@@ -31,7 +31,7 @@ namespace AgateLib.Testing.DisplayTests
 
 				while (wind.IsClosed == false)
 				{
-					Font font = AgateLib.Assets.Fonts.AgateSans;
+					Font font = AgateLib.DefaultAssets.Fonts.AgateSans;
 					font.Size = 24;
 					font.Color = Color.White;
 

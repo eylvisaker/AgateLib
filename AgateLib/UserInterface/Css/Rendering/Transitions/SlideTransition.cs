@@ -42,7 +42,6 @@ namespace AgateLib.UserInterface.Css.Rendering.Transitions
 		Vector2 mPosition;
 		Vector2 mVelocity;
 		Vector2 mAcceleration;
-		Point mClientWidgetDiff;
 
 		double mTime;
 		double mFinalTime = 0.2;

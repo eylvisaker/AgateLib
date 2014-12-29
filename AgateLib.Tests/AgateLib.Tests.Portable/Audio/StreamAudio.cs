@@ -116,7 +116,7 @@ namespace AgateLib.Testing.AudioTests
 			Stopwatch w = new Stopwatch();
 			w.Start();
 
-			var font = Assets.Fonts.AgateSans;
+			var font = DefaultAssets.Fonts.AgateSans;
 
 			while (Display.CurrentWindow.IsClosed == false)
 			{

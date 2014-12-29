@@ -122,32 +122,6 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 			mDevice = new D3DDevice(sdxContext);
 		}
 
-
-		private void SetHaveDepthStencil(Format depthFormat)
-		{
-			mDepthStencilFormat = depthFormat;
-
-			switch (depthFormat)
-			{
-				case Format.D32_Float_S8X24_UInt:
-				case Format.D24_UNorm_S8_UInt:
-					mHasStencil = true;
-					mHasDepth = true;
-					break;
-
-				case Format.D32_Float:
-				case Format.D16_UNorm:
-					mHasStencil = false;
-					mHasDepth = true;
-					break;
-
-				default:
-					mHasDepth = false;
-					mHasStencil = false;
-					break;
-			}
-		}
-
 		public override void Dispose()
 		{
 		}

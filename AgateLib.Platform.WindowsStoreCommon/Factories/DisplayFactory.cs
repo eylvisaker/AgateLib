@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DefaultAssets;
 
 namespace AgateLib.Platform.WindowsStore.Factories
 {
@@ -74,7 +75,7 @@ namespace AgateLib.Platform.WindowsStore.Factories
 
 		AgateResourceCollection resources;
 
-		public async Task InitializeDefaultResourcesAsync(Assets.DefaultResources res)
+		public async Task InitializeDefaultResourcesAsync(DefaultResources res)
 		{
 			if (Display.Impl == null) return;
 			var display = (SDX_Display)Display.Impl;

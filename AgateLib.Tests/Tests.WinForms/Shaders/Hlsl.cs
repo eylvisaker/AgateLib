@@ -61,7 +61,7 @@ namespace AgateLib.Testing.Shaders
 				wind = DisplayWindow.CreateWindowed("HLSL", 800, 600);
 				Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
 
-				Font font = AgateLib.Assets.Fonts.AgateSans;
+				Font font = AgateLib.DefaultAssets.Fonts.AgateSans;
 				font.Size = 14;
 
 				Surface texture = new Surface("bg-bricks.png");

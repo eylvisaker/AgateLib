@@ -46,32 +46,6 @@ namespace AgateLib.Algorithms.PathFinding
 			mEquals = comparison;
 		}
 
-		[Obsolete("Set map in constructor.", true)]
-		public void SetMap(IAStarMap<T> map)
-		{
-			mAbort = true;
-
-			while (mActiveTasks > 0)
-			{
-				//Thread.Sleep(0);
-				Core.KeepAlive();
-			}
-
-			mMap = map;
-
-			mAbort = false;
-		}
-
-
-		public async void QueueFindPath(AStarState<T> task)
-		{
-			System.Diagnostics.Debug.Assert(task.Tag != null);
-
-			task.SearchingPath = true;
-			mActiveTasks++;
-
-			await FindPathThreadPoolCallback(task);
-		}
 		/// <summary>
 		/// Finds a path on the current thread and returns.
 		/// task.CompletedCallBack is ignored.
@@ -83,9 +57,7 @@ namespace AgateLib.Algorithms.PathFinding
 			{
 				state.SearchingPath = true;
 
-				var task = FindPath(state);
-
-				task.Wait();
+				FindPathExec(state);
 			}
 			finally
 			{
@@ -93,24 +65,24 @@ namespace AgateLib.Algorithms.PathFinding
 			}
 		}
 
-		async Task FindPathThreadPoolCallback(AStarState<T> task)
+		public async Task FindPath(AStarState<T> state)
 		{
 			try
 			{
-				await FindPath(task);
-				task.Complete = true;
+				state.SearchingPath = true;
+				await Task.Run(() => FindPathExec(state)).ConfigureAwait(false);
 
-				task.OnCompleted();
 			}
 			finally
 			{
-				task.SearchingPath = false;
-				mActiveTasks--;
+				state.SearchingPath = false;
 			}
+
+			state.Complete = true;
 		}
 
-		public async Task FindPath(AStarState<T> state)
-		{
+		void FindPathExec(AStarState<T> state)
+		{ 
 			var openNodes = state.openNodes;
 			var closedNodes = state.closedNodes;
 
@@ -214,7 +186,9 @@ namespace AgateLib.Algorithms.PathFinding
 				return;
 			}
 
-			state.Path.Add(node.Location);
+			var path = new List<T>();
+
+			path.Add(node.Location);
 
 			while (node.Parent != null && node.Parent != node)
 			{
@@ -222,9 +196,10 @@ namespace AgateLib.Algorithms.PathFinding
 					return;
 
 				node = node.Parent;
-				state.Path.Add(node.Location);
+				path.Add(node.Location);
 			}
 
+			state.Path.AddRange(path);
 			state.FoundPath = true;
 		}
 
@@ -238,16 +213,7 @@ namespace AgateLib.Algorithms.PathFinding
 
 			return -1;
 		}
-		[Obsolete("Use LocationIn", true)]
-		bool PointInOpenNodes(List<AStarNode<T>> openNodes, T location)
-		{
-			return LocationIn(openNodes, location);
-		}
-		[Obsolete("Use LocationIn", true)]
-		bool PointInClosedNodes(List<AStarNode<T>> closedNodes, T location)
-		{
-			return LocationIn(closedNodes, location);
-		}
+
 		bool LocationIn(List<AStarNode<T>> nodeList, T location)
 		{
 			return nodeList.Any(x => mEquals(x.Location, location));

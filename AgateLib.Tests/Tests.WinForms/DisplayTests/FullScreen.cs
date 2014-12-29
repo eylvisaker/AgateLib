@@ -32,7 +32,7 @@ namespace AgateLib.Testing.DisplayTests
 				Surface mySurface = new Surface("jellybean.png");
 
 				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
-				Font font = AgateLib.Assets.Fonts.AgateSans;
+				Font font = AgateLib.DefaultAssets.Fonts.AgateSans;
 
 				int frames = 1;
 

@@ -441,6 +441,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 
+		[Obsolete]
 		public override Point MousePosition
 		{
 			get

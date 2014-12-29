@@ -37,7 +37,7 @@ namespace AgateLib.Resources.DC
 
 		public AgateResourceCollection()
 		{
-			FileProvider = AgateLib.IO.FileProvider.ResourceAssets;
+			FileProvider = AgateLib.IO.Assets.Resources;
 		}
 
 		public async Task<AgateResourceCollection> FromFile(string filename, IReadFileProvider fileProvider = null)
@@ -45,7 +45,7 @@ namespace AgateLib.Resources.DC
 			var retval = new AgateResourceCollection();
 
 			if (fileProvider == null)
-				fileProvider = AgateLib.IO.FileProvider.ResourceAssets;
+				fileProvider = AgateLib.IO.Assets.Resources;
 
 			retval.FileProvider = FileProvider;
 

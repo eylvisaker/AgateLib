@@ -92,8 +92,10 @@
     <Compile Include="ApplicationModels\PassiveModelParameters.cs" />
     <Compile Include="ApplicationModels\SceneModelParameters.cs" />
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
-    <Compile Include="Assets\DefaultResources.cs" />
-    <Compile Include="Assets\Fonts.cs" />
+    <Compile Include="DefaultAssets\DefaultResources.cs" />
+    <Compile Include="DefaultAssets\Fonts.cs" />
+    <Compile Include="DisplayLib\ImplementationBase\DisplayWindowImplContract.cs" />
+    <Compile Include="Drivers\AgateFactoryContract.cs" />
     <Compile Include="Geometry\CoordinateSystems\FixedCoordinateSystem.cs" />
     <Compile Include="Geometry\CoordinateSystems\NativeCoordinates.cs" />
     <Compile Include="ApplicationModels\EntryPointAppModelBase.cs" />

@@ -1657,7 +1657,7 @@ namespace AgateLib.Serialization.Xle
 			else if (t == typeof(double)) return ReadDouble(name);
 			else if (t == typeof(int)) return ReadInt32(name);
 			else if (t == typeof(bool)) return ReadBoolean(name);
-			else if (t == typeof(int[])) return ReadInt32Array(name);
+			else if (t == typeof(int[])) return ReadArray<int>(name);
 			else if (t == typeof(IXleSerializable)) return ReadObject(name);
 
 			else throw new NotImplementedException();

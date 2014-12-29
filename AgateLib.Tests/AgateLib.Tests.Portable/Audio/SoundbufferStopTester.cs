@@ -31,7 +31,7 @@ namespace AgateLib.Testing.AudioTests
 			snda = new SoundBuffer("snda.wav");
 			sndb = new SoundBuffer("sndb.wav");
 
-			Font font = Assets.Fonts.AgateSans;
+			Font font = DefaultAssets.Fonts.AgateSans;
 
 			Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 			Mouse.MouseDown += Mouse_MouseDown;
