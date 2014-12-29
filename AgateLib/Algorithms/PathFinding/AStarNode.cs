@@ -20,7 +20,7 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Algorithms.PathFinding
 {
-	public class AStarNode<T>
+	class AStarNode<T>
 	{
 		public T Location;
 		public AStarNode<T> Parent;

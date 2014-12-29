@@ -42,8 +42,8 @@ namespace AgateLib.Algorithms.PathFinding
 			get { return mPath; }
 		}
 
-		public List<AStarNode<T>> openNodes = new List<AStarNode<T>>();
-		public List<AStarNode<T>> closedNodes = new List<AStarNode<T>>();
+		internal List<AStarNode<T>> openNodes = new List<AStarNode<T>>();
+		internal List<AStarNode<T>> closedNodes = new List<AStarNode<T>>();
 
 		internal void OnCompleted()
 		{
