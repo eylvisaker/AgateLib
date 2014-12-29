@@ -458,8 +458,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public void BeginRender()
 		{
-			if (mWindow.Context.VSync != Display.RenderState.WaitForVerticalBlank)
-				mWindow.Context.VSync = Display.RenderState.WaitForVerticalBlank;
+			if (Display.RenderState.WaitForVerticalBlank)
+				mWindow.Context.SwapInterval = -1;
+			else
+				mWindow.Context.SwapInterval = 0;
 
 			MakeCurrent();
 		}

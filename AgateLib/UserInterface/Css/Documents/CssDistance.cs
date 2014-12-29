@@ -106,9 +106,6 @@ namespace AgateLib.UserInterface.Css.Documents
 
 		public bool Equals(CssDistance other)
 		{
-			if (other == null) 
-				return false;
-
 			if (Automatic && other.Automatic)
 				return true;
 

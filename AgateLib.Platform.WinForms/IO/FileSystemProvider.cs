@@ -59,14 +59,15 @@ namespace AgateLib.Platform.WinForms.IO
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public async Task<Stream> OpenReadAsync(string filename)
+		public Task<Stream> OpenReadAsync(string filename)
 		{
 			string resolvedName = FindFileName(filename);
 			if (resolvedName == null)
 				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
 					filename, mPath));
 
-			return await Task.Run(() => File.OpenRead(resolvedName)).ConfigureAwait(false);
+			var result = File.OpenRead(resolvedName);
+			return Task.FromResult<Stream>(result);
 		}
 		/// <summary>
 		/// Returns true if the specified file exists.
@@ -296,11 +297,12 @@ namespace AgateLib.Platform.WinForms.IO
 			get { return true; }
 		}
 
-		public async Task<Stream> OpenWriteAsync(string file)
+		public Task<Stream> OpenWriteAsync(string file)
 		{
 			string resolvedName = FindFileName(file);
+			var result = File.Open(resolvedName, FileMode.Create);
 
-			return await Task.Run(() => File.Open(resolvedName, FileMode.Create));
+			return Task.FromResult<Stream>(result);
 		}
 
 		public void CreateDirectory(string folder)

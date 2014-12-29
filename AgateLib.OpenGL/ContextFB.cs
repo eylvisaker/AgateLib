@@ -137,8 +137,11 @@ namespace AgateLib.OpenGL
 		public override void EndRender()
 		{
 			bool vsync = AgateLib.DisplayLib.Display.RenderState.WaitForVerticalBlank;
-			if (CurrentContext.VSync != vsync)
-				CurrentContext.VSync = vsync;
+
+			if (vsync)
+				CurrentContext.SwapInterval = -1;
+			else
+				CurrentContext.SwapInterval = 0;
 
 			CurrentContext.SwapBuffers();
 		}

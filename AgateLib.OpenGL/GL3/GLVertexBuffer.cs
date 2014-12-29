@@ -39,18 +39,8 @@ namespace AgateLib.OpenGL.GL3
 		IGL_Display mDisplay;
 		GLDrawBuffer mDrawBuffer;
 
-		struct AttributeData
-		{
-			internal string Name;
-			internal int BufferID;
-			internal VertexAttribPointerType Type;
-			internal int ComponentCount;
-		}
-
 		int mVertexCount;
 		int mVertexBufferID;
-
-		List<AttributeData> mAttributeBuffers = new List<AttributeData>();
 
 		VertexLayout mLayout;
 
@@ -105,7 +95,7 @@ namespace AgateLib.OpenGL.GL3
 		{
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
 			SetClientStates();
-			BeginMode beginMode = SelectBeginMode();
+			var beginMode = MapPrimitiveType();
 
 			GL.DrawArrays(beginMode, start, count);
 		}
@@ -119,7 +109,7 @@ namespace AgateLib.OpenGL.GL3
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mVertexBufferID);
 			SetClientStates();
 
-			BeginMode beginMode = SelectBeginMode();
+			var beginMode = MapPrimitiveType();
 			GL.DrawElements(beginMode, count, DrawElementsType.UnsignedShort, (IntPtr)0);
 		}
 
@@ -160,29 +150,29 @@ namespace AgateLib.OpenGL.GL3
 			else
 			{
 				GL.Disable(EnableCap.Texture2D);
-				GL.DisableClientState(EnableCap.TextureCoordArray);
+				GL.DisableClientState(ArrayCap.TextureCoordArray);
 			}
 
 			if (HasNormals)
 			{
-				GL.EnableClientState(EnableCap.NormalArray);
+				GL.EnableClientState(ArrayCap.NormalArray);
 				GL.NormalPointer(NormalPointerType.Float, mLayout.VertexSize,
 					(IntPtr)mLayout.ElementByteIndex(VertexElement.Normal));
 			}
 			else
 			{
-				GL.DisableClientState(EnableCap.NormalArray);
+				GL.DisableClientState(ArrayCap.NormalArray);
 			}
 
 			if (HasPositions)
 			{
-				GL.EnableClientState(EnableCap.VertexArray);
+				GL.EnableClientState(ArrayCap.VertexArray);
 				GL.VertexPointer(
 					PositionSize / sizeof(float), VertexPointerType.Float, mLayout.VertexSize,
 					mLayout.ElementByteIndex(VertexElement.Position));
 			}
 
-			GL.DisableClientState(EnableCap.ColorArray);
+			GL.DisableClientState(ArrayCap.ColorArray);
 
 
 			SetAttributes();
@@ -194,7 +184,7 @@ namespace AgateLib.OpenGL.GL3
 
 			if (HasTextureCoords)
 			{
-				GL.EnableClientState(EnableCap.TextureCoordArray);
+				GL.EnableClientState(ArrayCap.TextureCoordArray);
 				GL.TexCoordPointer(
 						2, TexCoordPointerType.Float, mLayout.VertexSize,
 						(IntPtr)mLayout.ElementByteIndex(VertexElement.Texture));
@@ -239,20 +229,22 @@ namespace AgateLib.OpenGL.GL3
 			}
 		}
 
-		private BeginMode SelectBeginMode()
+		private OpenTK.Graphics.OpenGL.PrimitiveType MapPrimitiveType()
 		{
-			BeginMode beginMode;
+			OpenTK.Graphics.OpenGL.PrimitiveType primitiveType;
+
 			switch (PrimitiveType)
 			{
-				case AgateLib.DisplayLib.PrimitiveType.TriangleList: beginMode = BeginMode.Triangles; break;
-				case AgateLib.DisplayLib.PrimitiveType.TriangleFan: beginMode = BeginMode.TriangleFan; break;
-				case AgateLib.DisplayLib.PrimitiveType.TriangleStrip: beginMode = BeginMode.TriangleStrip; break;
+				case AgateLib.DisplayLib.PrimitiveType.TriangleList: primitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.Triangles; break;
+				case AgateLib.DisplayLib.PrimitiveType.TriangleFan: primitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.TriangleFan; break;
+				case AgateLib.DisplayLib.PrimitiveType.TriangleStrip: primitiveType = OpenTK.Graphics.OpenGL.PrimitiveType.TriangleStrip; break;
 
 				default:
 					throw new AgateException(string.Format(
 						"Unsupported PrimitiveType {0}", PrimitiveType));
 			}
-			return beginMode;
+
+			return primitiveType;
 		}
 
 		private static void CheckError()

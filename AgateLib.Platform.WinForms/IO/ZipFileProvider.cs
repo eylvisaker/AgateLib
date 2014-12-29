@@ -271,18 +271,18 @@ namespace AgateLib.Platform.WinForms.IO
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public async Task<Stream> OpenReadAsync(string filename)
+		public Task<Stream> OpenReadAsync(string filename)
 		{
 			FileHeader header = GetFile(filename);
-
+			
 			ZipFileEntryStream file = new ZipFileEntryStream(inFile, header.DataOffset, header.DataSize);
 
 			switch (header.StorageType)
 			{
 				case ZipStorageType.Store:
-					return file;
+					return Task.FromResult<Stream>(file);
 				case ZipStorageType.Deflate:
-					return new DeflateStream(file, CompressionMode.Decompress);
+					return Task.FromResult<Stream>(new DeflateStream(file, CompressionMode.Decompress));
 
 				case ZipStorageType.Unsupported:
 				default:

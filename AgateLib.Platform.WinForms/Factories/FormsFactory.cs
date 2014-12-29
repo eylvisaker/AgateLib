@@ -14,7 +14,6 @@ namespace AgateLib.Platform.WinForms.Factories
 {
 	class FormsFactory : IAgateFactory
 	{
-		FontSurface mDefaultFont;
 		PlatformFactory mPlatformFactory;
 
 		public FormsFactory()

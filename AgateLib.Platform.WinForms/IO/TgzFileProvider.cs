@@ -202,7 +202,7 @@ namespace AgateLib.Platform.WinForms.IO
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public async Task<Stream> OpenReadAsync(string filename)
+		public Task<Stream> OpenReadAsync(string filename)
 		{
 			for (int i = 0; i < mFiles.Count; i++)
 			{
@@ -219,7 +219,7 @@ namespace AgateLib.Platform.WinForms.IO
 				BinaryWriter writer = new BinaryWriter(st);
 				writer.Write(reader.ReadBytes(mFiles[i].size), 0, mFiles[i].size);
 
-				return st;
+				return Task.FromResult<Stream>(st);
 			}
 
 			throw new FileNotFoundException(string.Format(

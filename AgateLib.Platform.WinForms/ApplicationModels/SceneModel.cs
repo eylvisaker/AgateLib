@@ -15,7 +15,7 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 			: base(parameters)
 		{ }
 
-		public SceneModelParameters Parameters { get { return (SceneModelParameters)base.Parameters; } }
+		public new SceneModelParameters Parameters { get { return (SceneModelParameters)base.Parameters; } }
 
 		protected override void InitializeImpl()
 		{

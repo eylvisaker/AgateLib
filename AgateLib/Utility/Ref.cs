@@ -169,6 +169,59 @@ namespace AgateLib.Utility
 			v = null;
 		}
 
+		/// <summary>
+		/// Returns a hash code for this object.
+		/// </summary>
+		/// <returns></returns>
+		public override int GetHashCode()
+		{
+			if (Value == null)
+				return 0;
+
+			return
+				Value.GetHashCode();
+		}
+
+		/// <summary>
+		/// Compares two object instances.
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
+		public override bool Equals(object obj)
+		{
+			if (obj is Ref<T>)
+				return Equals((Ref<T>)obj);
+			if (obj is T)
+				return this == (T)obj;
+
+			return false;
+		}
+
+		/// <summary>
+		/// Compares two object instances.
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
+		public bool Equals(Ref<T> obj)
+		{
+			return this == obj.Value;
+		}
+
+		/// <summary>
+		/// Compares two object instances
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
+		public bool Equals(T obj)
+		{
+			return this == obj;
+		}
+		/// <summary>
+		/// Compares two object instances.
+		/// </summary>
+		/// <param name="r"></param>
+		/// <param name="obj"></param>
+		/// <returns></returns>
 		public static bool operator ==(Ref<T> r, T obj)
 		{
 			if (obj == null)
@@ -186,6 +239,13 @@ namespace AgateLib.Utility
 
 			return r.v.Value.Equals(obj);
 		}
+
+		/// <summary>
+		/// Compares two object instances.
+		/// </summary>
+		/// <param name="r"></param>
+		/// <param name="obj"></param>
+		/// <returns></returns>
 		public static bool operator !=(Ref<T> r, T obj)
 		{
 			return !(r == obj);

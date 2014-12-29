@@ -37,7 +37,7 @@ namespace AgateLib.OpenGL.Legacy
 			SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
-			GL.Begin(BeginMode.Lines);
+			GL.Begin(PrimitiveType.Lines);
 			GL.Vertex2(a.X, a.Y);
 			GL.Vertex2(b.X, b.Y);
 
@@ -50,7 +50,7 @@ namespace AgateLib.OpenGL.Legacy
 			SetGLColor(color);
 
 			GL.Disable(EnableCap.Texture2D);
-			GL.Begin(BeginMode.Lines);
+			GL.Begin(PrimitiveType.Lines);
 
 			GL.Vertex2(rect.Left, rect.Top);
 			GL.Vertex2(rect.Right, rect.Top);
@@ -73,7 +73,7 @@ namespace AgateLib.OpenGL.Legacy
 
 			GL.Disable(EnableCap.Texture2D);
 
-			GL.Begin(BeginMode.Quads);
+			GL.Begin(PrimitiveType.Quads);
 			GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
 			GL.Vertex3(rect.Right, rect.Top, 0);                                         // Top Right
 			GL.Vertex3(rect.Right, rect.Bottom, 0);                                        // Bottom Right
@@ -86,7 +86,7 @@ namespace AgateLib.OpenGL.Legacy
 		{
 			GL.Disable(EnableCap.Texture2D);
 
-			GL.Begin(BeginMode.Quads);
+			GL.Begin(PrimitiveType.Quads);
 			SetGLColor(color.TopLeft);
 			GL.Vertex3(rect.Left, rect.Top, 0);                                        // Top Left
 
@@ -109,7 +109,7 @@ namespace AgateLib.OpenGL.Legacy
 
 			SetGLColor(color);
 
-			GL.Begin(BeginMode.TriangleFan);
+			GL.Begin(PrimitiveType.TriangleFan);
 			for (int i = 0; i < length; i++)
 			{
 				GL.Vertex3(pts[startIndex + i].X, pts[startIndex + i].Y, 0);

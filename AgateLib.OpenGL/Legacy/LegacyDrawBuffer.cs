@@ -259,10 +259,10 @@ namespace AgateLib.OpenGL.Legacy
 
 			SetGLInterpolation();
 
-			GL.EnableClientState(EnableCap.TextureCoordArray);
-			GL.EnableClientState(EnableCap.ColorArray);
-			GL.EnableClientState(EnableCap.VertexArray);
-			GL.EnableClientState(EnableCap.NormalArray);
+			GL.EnableClientState(ArrayCap.TextureCoordArray);
+			GL.EnableClientState(ArrayCap.ColorArray);
+			GL.EnableClientState(ArrayCap.VertexArray);
+			GL.EnableClientState(ArrayCap.NormalArray);
 
 			int size = Marshal.SizeOf(typeof(PositionTextureColorNormal));
 			int tex = PositionTextureColorNormal.VertexLayout.ElementByteIndex(VertexElement.Texture);
@@ -275,7 +275,7 @@ namespace AgateLib.OpenGL.Legacy
 			GL.VertexPointer(2, VertexPointerType.Float, size, (IntPtr) pos);
 			GL.NormalPointer(NormalPointerType.Float, size, (IntPtr)norm);
 
-			GL.DrawArrays(BeginMode.Quads, 0, mIndex);
+			GL.DrawArrays(OpenTK.Graphics.OpenGL.PrimitiveType.Quads, 0, mIndex);
 
 			mIndex = 0;
 		}

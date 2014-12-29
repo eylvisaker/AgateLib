@@ -18,7 +18,6 @@
     <TestProjectType>UnitTest</TestProjectType>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    
     <_ResolveReferenceDependencies>true</_ResolveReferenceDependencies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -115,6 +114,7 @@
     <Compile Include="UserInterface\Css\CssParseTest.cs" />
     <Compile Include="UserInterface\Widgets\ConversionTests.cs" />
     <Compile Include="Utility\RefTest.cs" />
+    <Compile Include="Utility\RefTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib.Platform.WinForms\AgateLib.Platform.WinForms.csproj">

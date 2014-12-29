@@ -35,18 +35,8 @@ namespace AgateLib.OpenGL.Legacy
 		IGL_Display mDisplay;
 		GLDrawBuffer mDrawBuffer;
 
-		struct AttributeData
-		{
-			public string Name;
-			public int BufferID;
-			public VertexAttribPointerType Type;
-			public int ComponentCount;
-		}
-
 		int mVertexCount;
 		int mVertexBufferID;
-
-		List<AttributeData> mAttributeBuffers = new List<AttributeData>();
 
 		VertexLayout mLayout;
 
@@ -156,29 +146,29 @@ namespace AgateLib.OpenGL.Legacy
 			else
 			{
 				GL.Disable(EnableCap.Texture2D);
-				GL.DisableClientState(EnableCap.TextureCoordArray);
+				GL.DisableClientState(ArrayCap.TextureCoordArray);
 			}
 
 			if (HasNormals)
 			{
-				GL.EnableClientState(EnableCap.NormalArray);
+				GL.EnableClientState(ArrayCap.NormalArray);
 				GL.NormalPointer(NormalPointerType.Float, mLayout.VertexSize, 
 					(IntPtr) mLayout.ElementByteIndex(VertexElement.Normal));
 			}
 			else
 			{
-				GL.DisableClientState(EnableCap.NormalArray);
+				GL.DisableClientState(ArrayCap.NormalArray);
 			}
 
 			if (HasPositions)
 			{
-				GL.EnableClientState(EnableCap.VertexArray);
+				GL.EnableClientState(ArrayCap.VertexArray);
 				GL.VertexPointer(
 					PositionSize / sizeof(float), VertexPointerType.Float, mLayout.VertexSize,
 					mLayout.ElementByteIndex(VertexElement.Position));
 			}
 
-			GL.DisableClientState(EnableCap.ColorArray);
+			GL.DisableClientState(ArrayCap.ColorArray);
 
 
 			SetAttributes();
@@ -190,7 +180,7 @@ namespace AgateLib.OpenGL.Legacy
 
 			if (HasTextureCoords)
 			{
-				GL.EnableClientState(EnableCap.TextureCoordArray);
+				GL.EnableClientState(ArrayCap.TextureCoordArray);
 				GL.TexCoordPointer(
 						2, TexCoordPointerType.Float, mLayout.VertexSize,
 						(IntPtr)mLayout.ElementByteIndex(VertexElement.Texture));

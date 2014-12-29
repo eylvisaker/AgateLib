@@ -35,9 +35,6 @@ namespace AgateLib.UserInterface.Widgets
 		bool mHasFocus;
 		int mChildCountLastUpdate;
 
-		static Surface sPointer;
-		static Surface sSecondPointer;
-
 		Dictionary<int, int> mRowY = new Dictionary<int, int>();
 		Dictionary<int, int> mRowHeight = new Dictionary<int, int>();
 

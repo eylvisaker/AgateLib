@@ -47,10 +47,10 @@ namespace AgateLib.IO
 		{
 			if (System.IO.Path.IsPathRooted(filename) == false)
 			{
-				return await parent.OpenReadAsync(subdir + filename);
+				return await parent.OpenReadAsync(subdir + filename).ConfigureAwait(false);
 			}
 			else
-				return await parent.OpenReadAsync(filename);
+				return await parent.OpenReadAsync(filename).ConfigureAwait(false);
 		}
 
 		public bool FileExists(string filename)

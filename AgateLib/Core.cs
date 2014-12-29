@@ -33,6 +33,7 @@ using AgateLib.InputLib;
 using AgateLib.ApplicationModels;
 using AgateLib.Assets;
 using System.Threading.Tasks;
+using System.Diagnostics.Contracts;
 
 namespace AgateLib
 {
@@ -322,6 +323,8 @@ namespace AgateLib
 		/// </summary>
 		public static void Initialize(IAgateFactory factory)
 		{
+			Contract.Requires<ArgumentNullException>(factory != null);
+
 			if (sInititalized)
 				return;
 
@@ -353,6 +356,8 @@ namespace AgateLib
 
 		public static void InitAssetLocations(AssetLocations assets)
 		{
+			Contract.Requires<ArgumentNullException>(assets != null);
+
 			FileProvider.Initialize(mFactory.PlatformFactory.ApplicationFolderFileProvider, assets);
 		}
 
@@ -411,17 +416,7 @@ namespace AgateLib
 			get { return sAutoPause; }
 			set { sAutoPause = value; }
 		}
-		/// <summary>
-		/// Delegate for types which attach to the KeepAliveEvent.
-		/// </summary>
-		[Obsolete("This type is obsoleted by the Action delegate.", true)]
-		public delegate void KeepAliveDelegate();
-		/// <summary>
-		/// Event which occurs when KeepAlive is called.
-		/// This allows subsystems (such as GUI, Input, Sound) to make updates each frame.
-		/// </summary>
-		[Obsolete("This is not relevant in the new application models.", true)]
-		public static event Action KeepAliveEvent;
+
 		/// <summary>
 		/// Plays nice with the OS, by allowing events to be handled.
 		/// This also handles user input events associated with the application,

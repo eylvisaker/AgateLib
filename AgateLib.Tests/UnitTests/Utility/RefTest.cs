@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace AgateLib.Utility
 {
 	[TestClass]
-	public class RefTester : IDisposable
+	public class RefTest : IDisposable
 	{
 		int disposeCount = 0;
 
@@ -23,11 +23,11 @@ namespace AgateLib.Utility
 		{
 			disposeCount = 0;
 
-			using (Ref<RefTester> r = new Ref<RefTester>(this))
+			using (Ref<RefTest> r = new Ref<RefTest>(this))
 			{
 				Assert.AreEqual(1, r.Counter.GetRefCount());
 
-				using (Ref<RefTester> other = new Ref<RefTester>(r))
+				using (Ref<RefTest> other = new Ref<RefTest>(r))
 				{
 					Assert.AreEqual(2, r.Counter.GetRefCount());
 				}
@@ -42,6 +42,5 @@ namespace AgateLib.Utility
 			// now the object has been disposed.
 			Assert.AreEqual(1, disposeCount);
 		}
-
 	}
 }

@@ -41,7 +41,7 @@ namespace AgateLib.Settings
 	/// </remarks>
 	public class PersistantSettings
 	{
-		Dictionary<string, SettingsGroup> mSettings = new Dictionary<string, SettingsGroup>();
+		readonly Dictionary<string, SettingsGroup> mSettings = new Dictionary<string, SettingsGroup>();
 
 		#region --- Static Members ---
 

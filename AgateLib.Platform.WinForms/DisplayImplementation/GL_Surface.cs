@@ -555,7 +555,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		/// <param name="alphaShift">How many bits to shift it to get alpha in the range of 0-255.
 		/// For example, if alphaMask = 0xff000000 then alphaShift should be 24.</param>
 		/// <returns></returns>
-		[CLSCompliant(false)]
 		protected override bool IsRowBlankScanARGB(IntPtr pixelData, int row, int cols, int strideInBytes,
 			int alphaThreshold, uint alphaMask, int alphaShift)
 		{
@@ -594,7 +593,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		/// <param name="alphaShift">How many bits to shift it to get alpha in the range of 0-255.
 		/// For example, if alphaMask = 0xff000000 then alphaShift should be 24.</param>
 		/// <returns></returns>
-		[CLSCompliant(false)]
 		protected override bool IsColBlankScanARGB(IntPtr pixelData, int col, int rows, int strideInBytes,
 			int alphaThreshold, uint alphaMask, int alphaShift)
 		{

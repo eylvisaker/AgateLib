@@ -196,7 +196,7 @@ namespace AgateLib.OpenGL.GL3
 			GL.BindTexture(TextureTarget.Texture2D, mCurrentTexture);
 			shader.SetTexture(0);
 
-			GL.DrawArrays(BeginMode.Quads, 0, mIndex);
+			GL.DrawArrays(OpenTK.Graphics.OpenGL.PrimitiveType.Quads, 0, mIndex);
 
 			mIndex = 0;
 		}

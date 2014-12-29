@@ -112,7 +112,7 @@ namespace AgateLib.Testing.InputTests.InputTester
 				b.Append("    ");
 				b.Append(i.ToString());
 				b.Append(": ");
-				b.Append(j.GetHatState(i).ToString());
+				b.Append(j.HatState[i].ToString());
 				b.AppendLine();
 			}
 

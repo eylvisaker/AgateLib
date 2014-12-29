@@ -366,7 +366,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				extensions = new string[num_extensions];
 
 				for (int i = 0; i < num_extensions; i++)
-					extensions[i] = GL.GetString(StringName.Extensions, i).ToLowerInvariant();
+					extensions[i] = GL.GetString(StringNameIndexed.Extensions, i).ToLowerInvariant();
 			}
 			else
 			{

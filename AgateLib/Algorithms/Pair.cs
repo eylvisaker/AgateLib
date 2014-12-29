@@ -26,8 +26,7 @@ namespace AgateLib.Algorithms
 	/// </summary>
 	/// <typeparam name="T1"></typeparam>
 	/// <typeparam name="T2"></typeparam>
-	[Obsolete("Is this still used? Or should it be replaced?", false)]
-	public struct Pair<T1, T2>
+	struct Pair<T1, T2>
 	{
 		public T1 First;
 		public T2 Second;

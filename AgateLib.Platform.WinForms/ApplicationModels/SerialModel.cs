@@ -26,7 +26,6 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 		Thread gameThread;
 		bool exit;
 		bool threadRunning;
-		bool createDebugForm;
 
 		public SerialModel() : this(DefaultParameters)
 		{ }
@@ -46,7 +45,6 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 		{
 			if (arg == "--debuggui")
 			{
-				createDebugForm = true;
 				CreateGuiDebug();	
 				return;
 			}

@@ -65,13 +65,6 @@ namespace AgateLib.Testing.UserInterfaceTests
 			gui.AddWindow(wind);
 			windows.Add(wind);
 
-			Mouse.MouseMove += Mouse_MouseMove;
-			Mouse.MouseDown += Mouse_MouseDown;
-			Mouse.MouseUp += Mouse_MouseUp;
-
-			Keyboard.KeyDown += Keyboard_KeyDown;
-			Keyboard.KeyUp += Keyboard_KeyUp;
-
 			if (joy != null)
 			{
 				joy.ButtonPressed += joy_ButtonPressed;
@@ -93,37 +86,12 @@ namespace AgateLib.Testing.UserInterfaceTests
 		{
 		}
 
-		void Keyboard_KeyUp(InputEventArgs e)
-		{
-			gui.OnKeyUp(e);
-		}
-
-		void Keyboard_KeyDown(InputEventArgs e)
-		{
-			gui.OnKeyDown(e);
-		}
-
 		public CssAdapter Adapter { get { return adapter; } }
 
 		void ctrl_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (ItemClicked != null)
 				ItemClicked(sender, e);
-		}
-
-		void Mouse_MouseUp(InputEventArgs e)
-		{
-			gui.OnMouseUp(e);
-		}
-
-		void Mouse_MouseDown(InputEventArgs e)
-		{
-			gui.OnMouseDown(e);
-		}
-
-		void Mouse_MouseMove(InputEventArgs e)
-		{
-			gui.OnMouseMove(e);
 		}
 
 		public event EventHandler ItemClicked;

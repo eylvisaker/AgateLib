@@ -111,7 +111,7 @@ namespace AgateLib.OpenGL.GL3
 			GL.BindTexture(TextureTarget.Texture2D, WhiteSurface.GLTextureID);
 			shader.SetTexture(0);
 
-			GL.DrawArrays(BeginMode.Lines, 0, 1);
+			GL.DrawArrays(OpenTK.Graphics.OpenGL.PrimitiveType.Lines, 0, 1);
 		}
 		public override void DrawRect(RectangleF rect, Color color)
 		{
@@ -163,7 +163,7 @@ namespace AgateLib.OpenGL.GL3
 			GL.BindTexture(TextureTarget.Texture2D, WhiteSurface.GLTextureID);
 			shader.SetTexture(0);
 
-			GL.DrawArrays(BeginMode.Lines, 0, 4);
+			GL.DrawArrays(OpenTK.Graphics.OpenGL.PrimitiveType.Lines, 0, 4);
 		}
 		public override void FillRect(RectangleF rect, Color color)
 		{
@@ -202,7 +202,7 @@ namespace AgateLib.OpenGL.GL3
 			GL.BindTexture(TextureTarget.Texture2D, WhiteSurface.GLTextureID);
 			shader.SetTexture(0);
 
-			GL.DrawArrays(BeginMode.Lines, 0, 1);
+			GL.DrawArrays(OpenTK.Graphics.OpenGL.PrimitiveType.Lines, 0, 1);
 		}
 
 	}

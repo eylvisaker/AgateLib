@@ -191,7 +191,7 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 		}
 		public async void LoadFromStreamAsync(Stream st)
 		{
-			await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+			await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 			{
 				ReadFromStream(st, false);
 			});

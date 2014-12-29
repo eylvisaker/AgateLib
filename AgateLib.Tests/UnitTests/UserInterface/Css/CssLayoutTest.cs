@@ -18,7 +18,6 @@ namespace AgateLib.UserInterface.Css.Tests
 	[TestClass]
 	public class CssLayoutTest : CssTestBase
 	{
-		PassiveModel model;
 		Font ff;
 		CssLayoutEngine engine;
 		Gui gui;

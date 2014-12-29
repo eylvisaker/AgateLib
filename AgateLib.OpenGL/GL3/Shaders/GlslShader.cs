@@ -75,7 +75,7 @@ namespace AgateLib.OpenGL.GL3.Shaders
 		private void LoadAttributes()
 		{
 			int count;
-			GL.GetProgram(programHandle, ProgramParameter.ActiveAttributes, out count);
+			GL.GetProgram(programHandle, GetProgramParameterName.ActiveAttributes, out count);
 
 			StringBuilder b = new StringBuilder(1000);
 			for (int i = 0; i < count; i++)
@@ -108,7 +108,7 @@ namespace AgateLib.OpenGL.GL3.Shaders
 		private void LoadUniforms()
 		{
 			int count;
-			GL.GetProgram(programHandle, ProgramParameter.ActiveUniforms, out count);
+			GL.GetProgram(programHandle, GetProgramParameterName.ActiveUniforms, out count);
 
 			StringBuilder b = new StringBuilder(1000);
 			for (int i = 0; i < count; i++)

@@ -35,8 +35,6 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 	/// </summary>
 	public class FormsPlatformInfo : PlatformInfo
 	{
-		PlatformType mType;
-		DotNetRuntime mRuntime;
 		WindowsVersion mWindowsVersion;
 		string mDocuments;
 		string mAppData;
@@ -45,11 +43,13 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 
 		internal FormsPlatformInfo()
 		{
-			
 			PlatformType = DetectPlatformType();
 			DeviceType = DeviceType.Computer;
 			Runtime = DetectRuntime();
 			m64Bit = Detect64Bit();
+
+			if (PlatformType == PlatformType.Windows)
+				mWindowsVersion = DetectWindowsVersion();
 
 			// According to http://msdn.microsoft.com/query/dev10.query?appId=Dev10IDEF1&l=EN-US&k=k%28SYSTEM.DIAGNOSTICS.DEBUG.LISTENERS%29;k%28TargetFrameworkMoniker-%22.NETFRAMEWORK%2cVERSION%3dV3.5%22%29;k%28DevLang-CSHARP%29&rd=true
 			//		The Listeners collection is shared by both the Debug and the Trace classes; 
