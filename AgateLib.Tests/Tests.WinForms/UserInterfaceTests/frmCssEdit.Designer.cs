@@ -35,7 +35,6 @@
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.lblFrames = new System.Windows.Forms.Label();
 			this.txtCss = new System.Windows.Forms.TextBox();
-			this.artGuiTest = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.btnHideShow = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();

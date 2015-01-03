@@ -17,7 +17,9 @@ namespace AgateLib.UserInterface.Widgets.Tests
 		Label label1;
 		Label label2;
 		Label label3;
-		Panel panel;
+		Panel panel1;
+		Panel panel2;
+		Label label4;
 
 		[TestInitialize]
 		public void initialize()
@@ -27,17 +29,22 @@ namespace AgateLib.UserInterface.Widgets.Tests
 
 			window = gui.Desktop.Windows.First();
 
-			panel = new Panel() { X = 15, Y = 80 };
+			panel1 = new Panel() { X = 15, Y = 80 };
+			panel2 = new Panel() { X = 88, Y = 44 };
 
 			label1 = new Label("label1") { X = 10, Y = 15 };
 			label2 = new Label("label2") { X = 40, Y = 18 };
 			label3 = new Label("label3") { X = 5, Y = 6 };
+			label4 = new Label("label4") { X = 35, Y = 16 };
 
 			window.Children.Add(label1);
-			window.Children.Add(panel);
+			window.Children.Add(panel1);
 
-			panel.Children.Add(label2);
-			panel.Children.Add(label3);
+			panel1.Children.Add(label2);
+			panel1.Children.Add(label3);
+			panel1.Children.Add(panel2);
+
+			panel2.Children.Add(label4);
 		}
 
 		[TestMethod]
@@ -69,6 +76,12 @@ namespace AgateLib.UserInterface.Widgets.Tests
 		public void RoundTripPoint()
 		{
 			TestRoundTrip(label3, new Point(8, 24));
+		}
+
+		[TestMethod]
+		public void ClientLocationOf()
+		{
+			Assert.AreEqual(new Point(88 + 35, 44 + 16), panel1.ClientLocationOf(label4));
 		}
 	}
 }

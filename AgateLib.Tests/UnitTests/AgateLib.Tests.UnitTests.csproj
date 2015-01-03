@@ -113,6 +113,7 @@
     <Compile Include="UserInterface\Css\CssLayoutTest.cs" />
     <Compile Include="UserInterface\Css\CssParseTest.cs" />
     <Compile Include="UserInterface\Widgets\ConversionTests.cs" />
+    <Compile Include="UserInterface\Widgets\ScrollingTests.cs" />
     <Compile Include="Utility\RefTest.cs" />
     <Compile Include="Utility\RefTester.cs" />
   </ItemGroup>
