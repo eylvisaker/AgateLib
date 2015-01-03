@@ -128,6 +128,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Algorithms\PathFinding\AStar.cs" />
+    <Compile Include="Algorithms\PathFinding\AStarMapContract.cs" />
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Algorithms\Inverting.cs" />
@@ -657,6 +658,7 @@
     <Compile Include="UserInterface\Widgets\AxisType.cs" />
     <Compile Include="UserInterface\Widgets\Container.cs" />
     <Compile Include="UserInterface\Widgets\Desktop.cs" />
+    <Compile Include="UserInterface\Widgets\Extensions\ScrollAreaExtensions.cs" />
     <Compile Include="UserInterface\Widgets\Extensions\WidgetExtensions.cs" />
     <Compile Include="UserInterface\Widgets\Gesture.cs" />
     <Compile Include="UserInterface\Widgets\Gestures\IGestureController.cs" />
