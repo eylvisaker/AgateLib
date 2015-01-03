@@ -57,12 +57,9 @@ namespace AgateLib.UserInterface.Widgets
 		public void ScrollToWidgetAtRight()
 		{
 			panel1.ScrollToWidget(label1);
-
 			Assert.AreEqual(new Point(5048+48-140,0), panel1.ScrollOffset, "Failed to scroll right.");
 
-
 			panel1.ScrollToWidget(label0);
-
 			Assert.AreEqual(new Point(10, 0), panel1.ScrollOffset, "Failed to scroll left.");
 		}
 
@@ -72,12 +69,6 @@ namespace AgateLib.UserInterface.Widgets
 			panel1.ScrollToWidget(label2);
 
 			Assert.AreEqual(new Point(-50, 0), panel1.ScrollOffset);
-		}
-
-		[TestMethod]
-		public void ScrollToWidgetAtRightAndBack()
-		{
-			ScrollToWidgetAtRight();
 		}
 
 		[TestMethod]
