@@ -156,6 +156,7 @@ namespace AgateLib.UserInterface.Css.Layout
 			containerClientRect.Y = 0;
 
 			int maxContWidth = ComputeMaxWidthForContainer(containerStyle);
+			int maxContHeight = ComputeMaxHeightForContainer(containerStyle);
 			Point nextPos = Point.Empty;
 			int largestHeight = 0;
 
@@ -354,6 +355,9 @@ namespace AgateLib.UserInterface.Css.Layout
 					break;
 			}
 
+			if (containerClientRect.Height > maxContHeight)
+				containerClientRect.Height = maxContHeight;
+
 			if (container is Desktop == false)
 				container.ClientRect = containerClientRect;
 		}
@@ -396,7 +400,28 @@ namespace AgateLib.UserInterface.Css.Layout
 				return Math.Min(availableWidth, maxWidth);
 			}
 		}
+		
+		private int ComputeMaxHeightForContainer(CssStyle style)
+		{
+			Container container = (Container)style.Widget;
+			CssStyleData styleData = style.Data;
 
+			if (container.Parent == null)
+				return container.Height;
+
+			var parentStyle = mAdapter.GetStyle(container.Parent);
+
+			int availableHeight = ComputeMaxHeightForContainer(mAdapter.GetStyle(container.Parent)) - container.Y;
+
+			if (styleData.PositionData.MaxHeight.Automatic)
+				return availableHeight;
+			else
+			{
+				int maxHeight = mAdapter.CssDistanceToPixels(style, styleData.PositionData.MaxHeight, false);
+
+				return Math.Min(availableHeight, maxHeight);
+			}
+		}
 		private Size ComputeSize(Widget control, CssStyle parentStyle, bool forceRefresh, int? maxWidth, int? maxHeight)
 		{
 			return ComputeSize(control, parentStyle.Data, forceRefresh, maxWidth, maxHeight);

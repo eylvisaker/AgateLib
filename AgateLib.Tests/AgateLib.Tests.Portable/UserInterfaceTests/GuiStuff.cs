@@ -24,6 +24,14 @@ namespace AgateLib.Testing.UserInterfaceTests
 		Font font;
 		Joystick joy;
 
+		public GuiStuff()
+		{
+			WindowChildCount = 2;
+			MenuChildCount = 3;
+		}
+		public int WindowChildCount { get; set; }
+		public int MenuChildCount { get; set; }
+
 		public void CreateGui()
 		{
 			AgateResourceCollection res = new AgateResourceCollection("Resources/fonts.xml");
@@ -41,8 +49,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 			var wind = new Window("window 1");
 
-			wind.Children.Add(new Label("This is a label") { Name = "label1" });
-			wind.Children.Add(new Label("This is another label") { Name = "label2" });
+			BuildWindowChildren(wind);
 
 			joy = AgateLib.InputLib.JoystickInput.Joysticks.FirstOrDefault();
 
@@ -52,9 +59,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 			wind = new Window("window 2");
 			var menu = new Menu();
 
-			menu.Children.Add(MenuItem.OfLabel("First Label", "lblA"));
-			menu.Children.Add(MenuItem.OfLabel("Second Label", "lblB"));
-			menu.Children.Add(MenuItem.OfLabel("Third Label", "lblC"));
+			BuildMenuChildren(menu);
 
 			foreach(MenuItem menuItem in menu.Children)
 			{
@@ -75,6 +80,41 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 			foreach (var ctrl in gui.Desktop.Descendants)
 				ctrl.MouseDown += ctrl_MouseDown;
+		}
+
+		private void BuildWindowChildren(Window wind)
+		{
+			string[] text = new [] { "This is a label", "This is another label" };
+
+			var labels = CreateLabels(WindowChildCount, text);
+
+			wind.Children.AddRange(labels);
+			wind.Children.Add(new Label("This is a label") { Name = "label1" });
+			wind.Children.Add(new Label("This is another label") { Name = "label2" });
+		}
+
+		private IEnumerable<Label> CreateLabels(int labelCount, string[] text)
+		{
+			for (int i = 0; i < labelCount; i++)
+			{
+				if (i < text.Length)
+				{
+					yield return new Label(text[i]);
+				}
+				else
+				{
+					yield return new Label("label" + (i+1).ToString());
+				}
+			}
+		}
+
+		private void BuildMenuChildren(Menu menu)
+		{
+			string[] text = new[] { "First Label", "Second Label", "Third Label", "Fourth Label", 
+					"Fifth Label" };
+
+			menu.Children.AddRange(from label in CreateLabels(MenuChildCount, text)
+								   select new MenuItem(label));
 		}
 
 		void joy_ButtonReleased(object sender, JoystickEventArgs e)

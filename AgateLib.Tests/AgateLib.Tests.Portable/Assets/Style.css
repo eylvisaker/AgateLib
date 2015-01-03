@@ -8,6 +8,7 @@ window {
     border-image-slice: 10;
     transition: slide 2;
     layout: column;
+    max-height: 500px;
 }
 
 
