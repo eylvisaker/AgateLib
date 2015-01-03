@@ -16,7 +16,6 @@
     <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -77,6 +76,7 @@
     <Compile Include="TestCollection.cs" />
     <Compile Include="UserInterfaceTests\BasicGuiTest.cs" />
     <Compile Include="UserInterfaceTests\GuiStuff.cs" />
+    <Compile Include="UserInterfaceTests\ScrollTest.cs" />
     <Compile Include="UserInterfaceTests\TransitionTest.cs" />
   </ItemGroup>
   <ItemGroup>

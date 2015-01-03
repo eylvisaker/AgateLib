@@ -54,6 +54,7 @@ window.fixedleft { position: fixed; left: 4px; top: 8px; margin: 14px; padding: 
 window.minsize { min-width: 500px; min-height: 400px; }
 .invisible { display: none; }
 .block { display:block; }
+window.maxsize { max-width: 600px; max-height: 650px; }
 				");
 
 			adapter = new CssAdapter(doc, ff);
@@ -218,6 +219,20 @@ window.minsize { min-width: 500px; min-height: 400px; }
 			Assert.AreEqual(new Rectangle(100, 0, 120, 8), lbl1.WidgetRect);
 			Assert.AreEqual(new Rectangle(224, 0, 40, 8), lbl2.WidgetRect);
 			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ib.WidgetRect);
+		}
+
+		[TestMethod]
+		public void CssLMaxHeight ()
+		{
+			Window wind = new Window() { Style = "maxsize" };
+			for (int i = 0; i < 100; i++)
+				wind.Children.Add(new Label("Test" + i));
+
+			gui.Desktop.Children.Add(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(650, wind.Height);
 		}
 
 		[TestMethod]
@@ -388,12 +403,12 @@ window { position: absolute; left: 130px; top: 40px; }
 
 			RedoLayout();
 
-			Assert.AreEqual(new Rectangle(130, 40, 400, 100), window.WidgetRect);
-			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ibFace.WidgetRect);
-			Assert.AreEqual(new Rectangle(105, 0, 295, 100), statpanel.WidgetRect);
-			Assert.AreEqual(new Rectangle(195, 0, 100, 45), levelstatus.WidgetRect);
-			Assert.AreEqual(new Rectangle(0, 0, 32, 8), lblName.WidgetRect);
-			Assert.AreEqual(new Rectangle(0, 8, 16, 8), pnlHP.WidgetRect);
+			Assert.AreEqual(new Rectangle(130, 40, 400, 100), window.WidgetRect, "window.WidgetRect was wrong.");
+			Assert.AreEqual(new Rectangle(0, 0, 96, 96), ibFace.WidgetRect, "ibFace.WidgetRect was wrong.");
+			Assert.AreEqual(new Rectangle(105, 0, 295, 100), statpanel.WidgetRect, "statpanel.WidgetRect was wrong.");
+			Assert.AreEqual(new Rectangle(195, 0, 100, 45), levelstatus.WidgetRect, "levelstatus.WidgetRect was wrong.");
+			Assert.AreEqual(new Rectangle(0, 0, 32, 8), lblName.WidgetRect, "lblName.WidgetRect was wrong.");
+			Assert.AreEqual(new Rectangle(0, 8, 16, 8), pnlHP.WidgetRect, "pnlHP.WidgetRect was wrong.");
 		}
 
 		[TestMethod]
