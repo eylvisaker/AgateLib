@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AgateLib.Mathematics;
 using AgateLib.Algorithms;
-using AgateLib.UnitTesting;
+using AgateLib.Quality;
 
 namespace AgateLib.Algorithms
 {
@@ -39,7 +39,7 @@ namespace AgateLib.Algorithms
 		[TestMethod]
 		public void IterateInvertMaxIterationsTest()
 		{
-			AssertThrows.Throws<Exception>(() => Inverting.IterateInvert(x => x, 4, itermax: 1));
+			AssertX.Throws<Exception>(() => Inverting.IterateInvert(x => x, 4, itermax: 1));
 		}
 		[TestMethod]
 		public void InterateInvertTest()
@@ -49,7 +49,7 @@ namespace AgateLib.Algorithms
 			Assert.AreEqual(0, Inverting.IterateInvert(x => 2 * x, 0, -5), 0.000001);
 			Assert.AreEqual(0, Inverting.IterateInvert(x => 2 * x, 0, 0), 0.000001);
 
-			AssertThrows.Throws<Exception>(() => Inverting.IterateInvert(x => 1 + x * x, 0, 5));
+			AssertX.Throws<Exception>(() => Inverting.IterateInvert(x => 1 + x * x, 0, 5));
 		}
 
 		[TestMethod]

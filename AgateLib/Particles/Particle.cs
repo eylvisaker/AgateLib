@@ -29,7 +29,7 @@ namespace AgateLib.Particles
 	public class Particle
 	{
 		private float mLife = 10f;
-		private Condition mCondition = Condition.Paused;
+		private ParticleState mCondition = ParticleState.Paused;
 		
 		private Vector2 mAcceleration = Vector2.Empty;
 		private Vector2 mPosition = Vector2.Empty;
@@ -51,7 +51,7 @@ namespace AgateLib.Particles
 		public bool IsAlive
 		{
 			get {
-				if(mCondition == Condition.Dead)
+				if(mCondition == ParticleState.Dead)
 					return false;
 				else
 					return true;
@@ -61,7 +61,7 @@ namespace AgateLib.Particles
 		/// <value>
 		/// Gets or sets the condition.
 		/// </value>
-		public Condition Condition
+		public ParticleState Condition
 		{
 			get { return mCondition; }
 			set { mCondition = value; }
@@ -103,7 +103,7 @@ namespace AgateLib.Particles
 		public virtual void Update(double time_ms)
 		{
 			// If the particle is not alive don't simulate
-			if(mCondition != Condition.Alive)
+			if(mCondition != ParticleState.Alive)
 				return;
 			
 			// passed time in seconds
@@ -112,7 +112,7 @@ namespace AgateLib.Particles
 			
 			if(mLife <= 0)
 			{
-				mCondition = Condition.Dead;
+				mCondition = ParticleState.Dead;
 			}
 			
 			// Euler method
@@ -134,7 +134,7 @@ namespace AgateLib.Particles
 	/// <summary>
 	/// Describes the condition of an Particle
 	/// </summary>
-	public enum Condition
+	public enum ParticleState
 	{
 		/// <summary>
 		/// Particle is alive and will be simulated.

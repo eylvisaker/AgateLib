@@ -179,7 +179,7 @@ namespace AgateLib.Particles
 					(Particles[index] as SurfaceParticle).SurfaceKey = mEmitSurfaceKey;
 					(Particles[index] as SurfaceParticle).Alpha = mEmitAlpha;
 					(Particles[index] as SurfaceParticle).Scale = mEmitScale;
-					Particles[index].Condition = Condition.Alive;
+					Particles[index].Condition = ParticleState.Alive;
 					Particles[index].Life = EmitLife;
 					Particles[index].Position = Position;
 					Particles[index].Velocity = EmitVelocity;
@@ -193,7 +193,7 @@ namespace AgateLib.Particles
 					sp.SurfaceKey = mEmitSurfaceKey;
 					sp.Alpha = mEmitAlpha;
 					sp.Scale = mEmitScale;
-					sp.Condition = Condition.Alive;
+					sp.Condition = ParticleState.Alive;
 					sp.Life = EmitLife;
 					sp.Position = Position;
 					sp.Velocity = EmitVelocity;
@@ -222,7 +222,7 @@ namespace AgateLib.Particles
 		{
 			foreach(SurfaceParticle sp in Particles)
 			{
-				if(sp.Condition == Condition.Alive || sp.Condition == Condition.Frozen)
+				if(sp.Condition == ParticleState.Alive || sp.Condition == ParticleState.Frozen)
 				{
 					mSurfaces[sp.SurfaceKey].ScaleHeight = sp.ScaleHeight;
 					mSurfaces[sp.SurfaceKey].ScaleWidth = sp.ScaleWidth;

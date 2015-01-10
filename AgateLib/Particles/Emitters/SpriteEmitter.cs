@@ -125,7 +125,7 @@ namespace AgateLib.Particles
 		{
 			foreach (SpriteParticle sp in base.Particles)
 			{
-				if (sp.Condition == Condition.Alive || sp.Condition == Condition.Frozen)
+				if (sp.Condition == ParticleState.Alive || sp.Condition == ParticleState.Frozen)
 				{
 					mSprites[sp.SpriteKey].CurrentFrameIndex = sp.Frame;
 					mSprites[sp.SpriteKey].Alpha = sp.Alpha;
@@ -168,7 +168,7 @@ namespace AgateLib.Particles
 					(Particles[index] as SpriteParticle).Alpha = mEmitAlpha;
 					(Particles[index] as SpriteParticle).Frame = 0;
 					(Particles[index] as SpriteParticle).FrameTime = 0d;
-					Particles[index].Condition = Condition.Alive;
+					Particles[index].Condition = ParticleState.Alive;
 					Particles[index].Life = EmitLife;
 					Particles[index].Position = Position;
 					Particles[index].Velocity = EmitVelocity;
@@ -183,7 +183,7 @@ namespace AgateLib.Particles
 					sp.Alpha = mEmitAlpha;
 					sp.Frame = 0;
 					sp.FrameTime = 0d;
-					sp.Condition = Condition.Alive;
+					sp.Condition = ParticleState.Alive;
 					sp.Life = EmitLife;
 					sp.Position = Position;
 					sp.Velocity = EmitVelocity;

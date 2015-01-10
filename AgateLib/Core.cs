@@ -32,8 +32,8 @@ using AgateLib.IO;
 using AgateLib.InputLib;
 using AgateLib.ApplicationModels;
 using System.Threading.Tasks;
-using System.Diagnostics.Contracts;
 using AgateLib.DefaultAssets;
+using AgateLib.Quality;
 
 namespace AgateLib
 {
@@ -323,7 +323,7 @@ namespace AgateLib
 		/// </summary>
 		public static void Initialize(IAgateFactory factory)
 		{
-			Contract.Requires<ArgumentNullException>(factory != null);
+			Condition.Requires<ArgumentNullException>(factory != null);
 
 			if (sInititalized)
 				return;
@@ -356,7 +356,7 @@ namespace AgateLib
 
 		public static void InitAssetLocations(AssetLocations assets)
 		{
-			Contract.Requires<ArgumentNullException>(assets != null);
+			Condition.Requires<ArgumentNullException>(assets != null);
 
 			FileProvider.Initialize(mFactory.PlatformFactory.ApplicationFolderFileProvider, assets);
 		}

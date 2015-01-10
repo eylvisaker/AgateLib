@@ -22,7 +22,7 @@ using System.Text;
 using System.Xml;
 using AgateLib.Geometry;
 using System.Runtime.Serialization;
-using System.Diagnostics.Contracts;
+using AgateLib.Quality;
 
 namespace AgateLib.DisplayLib.BitmapFont
 {
@@ -121,9 +121,11 @@ namespace AgateLib.DisplayLib.BitmapFont
 		{
 			get
 			{
-				Contract.Ensures(Contract.Result<GlyphMetrics>() != null);
+				var result = mGlyphs[key];
 
-				return mGlyphs[key];
+				Condition.Requires(result != null);
+
+				return result;
 			}
 			set
 			{

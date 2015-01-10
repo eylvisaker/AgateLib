@@ -18,11 +18,9 @@
 //
 using System.Collections.Generic;
 using AgateLib.Geometry;
-using System.Diagnostics.Contracts;
 
 namespace AgateLib.Algorithms.PathFinding
 {
-	[ContractClass(typeof(AStarMapContract<>))]
 	public interface IAStarMap<T>
 	{
 		void ReportProgress(AStarState<T> task);

@@ -22,7 +22,6 @@ using System.Text;
 
 using AgateLib.Geometry;
 using System.Runtime.Serialization;
-using System.Diagnostics.Contracts;
 
 namespace AgateLib.DisplayLib.BitmapFont
 {
@@ -118,11 +117,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// </summary>
 		public Dictionary<char, int> KerningPairs
 		{
-			get
-			{
-				Contract.Ensures(Contract.Result<Dictionary<char, int>>() != null);
-				return mKerning;
-			}
+			get { return mKerning; }
 		}
 
 		/// <summary>

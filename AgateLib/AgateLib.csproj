@@ -26,9 +26,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
     <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
     <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
@@ -79,12 +79,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
     <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
     <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
     <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
-    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
     <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
     <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
     <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
@@ -128,7 +128,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Algorithms\PathFinding\AStar.cs" />
-    <Compile Include="Algorithms\PathFinding\AStarMapContract.cs" />
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Algorithms\Inverting.cs" />
@@ -138,8 +137,6 @@
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
     <Compile Include="DefaultAssets\DefaultResources.cs" />
     <Compile Include="DefaultAssets\Fonts.cs" />
-    <Compile Include="DisplayLib\ImplementationBase\DisplayWindowImplContract.cs" />
-    <Compile Include="Drivers\AgateFactoryContract.cs" />
     <Compile Include="Geometry\CoordinateSystems\FixedCoordinateSystem.cs" />
     <Compile Include="Geometry\CoordinateSystems\NativeCoordinates.cs" />
     <Compile Include="ApplicationModels\EntryPointAppModelBase.cs" />
@@ -172,6 +169,8 @@
     <Compile Include="ApplicationModels\ModelParameters.cs" />
     <Compile Include="Platform\DiagnosticsStopwatch.cs" />
     <Compile Include="Platform\PlatformSerialization.cs" />
+    <Compile Include="Quality\Condition.cs" />
+    <Compile Include="Quality\InvalidConditionException.cs" />
     <Compile Include="Resources\DC\AgateResource.cs" />
     <Compile Include="Resources\DC\FontResource.cs" />
     <Compile Include="Resources\DC\FontSurfaceResource.cs" />
@@ -184,7 +183,7 @@
     <Compile Include="Sprites\ISpriteContainer.cs" />
     <Compile Include="Geometry\Polygon.cs" />
     <Compile Include="Sprites\SpriteContainer.cs" />
-    <Compile Include="UnitTesting\AssertThrows.cs" />
+    <Compile Include="Quality\AssertX.cs" />
     <Compile Include="AudioLib\AudioCapsInfo.cs" />
     <Compile Include="AudioLib\ImplementationBase\MusicImpl.cs" />
     <Compile Include="AudioLib\ImplementationBase\SoundBufferImpl.cs" />
@@ -696,6 +695,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UnitTesting\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib.Geometry;
-using System.Diagnostics.Contracts;
+using AgateLib.Quality;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -42,7 +42,6 @@ namespace AgateLib.UserInterface.Widgets
 		/// <summary>
 		/// Enumerates all descendants of this container.
 		/// </summary>
-		[Pure]
 		public IEnumerable<Widget> Descendants
 		{
 			get
@@ -203,7 +202,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		public void ScrollToWidget(Widget widget)
 		{
-			Contract.Requires(IsDescendant(widget));
+			Condition.Requires(IsDescendant(widget));
 
 			Point location = ClientLocationOf(widget);
 			var newOffset = ScrollOffset;
@@ -240,7 +239,6 @@ namespace AgateLib.UserInterface.Widgets
 			ScrollOffset = newOffset;
 		}
 
-		[Pure]
 		public bool IsDescendant(Widget widget)
 		{
 			foreach(var child in Children)
@@ -259,7 +257,6 @@ namespace AgateLib.UserInterface.Widgets
 			return false;
 		}
 
-		[Pure]
 		private bool InOverflow(Widget widget)
 		{
 			var bounds = ClientRect;
@@ -276,7 +273,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		public Point ClientLocationOf(Widget widget)
 		{
-			Contract.Requires<ArgumentException>(Descendants.Contains(widget));
+			Condition.Requires<ArgumentException>(Descendants.Contains(widget));
 
 			var w = widget;
 			Point pt = Point.Empty;

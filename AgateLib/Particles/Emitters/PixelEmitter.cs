@@ -125,7 +125,7 @@ namespace AgateLib.Particles
 		{
 			foreach (PixelParticle ptl in Particles)
 			{
-				if (ptl.Condition == Condition.Alive || ptl.Condition == Condition.Frozen)
+				if (ptl.Condition == ParticleState.Alive || ptl.Condition == ParticleState.Frozen)
 				{
 					mSurface.Color = ptl.Color;
 					mSurface.Draw(ptl.Position);
@@ -163,7 +163,7 @@ namespace AgateLib.Particles
 					// Recycle a dead particle
 					Particles[index].Acceleration = EmitAcceleration;
 					(Particles[index] as PixelParticle).Color = EmitColor;
-					Particles[index].Condition = Condition.Alive;
+					Particles[index].Condition = ParticleState.Alive;
 					Particles[index].Life = EmitLife;
 					Particles[index].Position = Position;
 					Particles[index].Velocity = EmitVelocity;
@@ -175,7 +175,7 @@ namespace AgateLib.Particles
 					PixelParticle pp = new PixelParticle(EmitColor);
 					pp.Acceleration = EmitVelocity;
 					pp.Color = EmitColor;
-					pp.Condition = Condition.Alive;
+					pp.Condition = ParticleState.Alive;
 					pp.Life = EmitLife;
 					pp.Position = Position;
 					pp.Velocity = EmitVelocity;

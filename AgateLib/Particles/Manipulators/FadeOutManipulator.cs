@@ -82,12 +82,12 @@ namespace AgateLib.Particles
 			{
 				foreach(PixelParticle pt in args.Emitter.Particles)
 				{
-					if(pt.Condition == Condition.Alive && pt.Life <= LifeBarrier)
+					if(pt.Condition == ParticleState.Alive && pt.Life <= LifeBarrier)
 					{
 						fadeout = pt.Color.A - (int)(255 * mAlphaAmount * time);
 						pt.Color = Color.FromArgb(fadeout, pt.Color);
 						if(mRecyleInvisible == true && pt.Color.A == 0)
-							pt.Condition = Condition.Dead;
+							pt.Condition = ParticleState.Dead;
 					}
 				}
 			}
@@ -95,11 +95,11 @@ namespace AgateLib.Particles
 			{
 				foreach(SurfaceParticle sp in args.Emitter.Particles)
 				{
-					if(sp.Condition == Condition.Alive && sp.Life <= LifeBarrier)
+					if(sp.Condition == ParticleState.Alive && sp.Life <= LifeBarrier)
 					{
 						sp.Alpha -= mAlphaAmount * time;
 						if(mRecyleInvisible == true && sp.Alpha == 0)
-							sp.Condition = Condition.Dead;
+							sp.Condition = ParticleState.Dead;
 					}
 				}
 			}
@@ -107,11 +107,11 @@ namespace AgateLib.Particles
 			{
 				foreach(SpriteParticle sp in args.Emitter.Particles)
 				{
-					if(sp.Condition == Condition.Alive && sp.Life <= LifeBarrier)
+					if(sp.Condition == ParticleState.Alive && sp.Life <= LifeBarrier)
 					{
 						sp.Alpha -= mAlphaAmount * time;
 						if(mRecyleInvisible == true && sp.Alpha == 0)
-							sp.Condition = Condition.Dead;
+							sp.Condition = ParticleState.Dead;
 					}
 				}
 			}

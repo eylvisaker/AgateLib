@@ -25,7 +25,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Resources;
 using AgateLib.Resources.Legacy;
-using System.Diagnostics.Contracts;
+using AgateLib.Quality;
 
 namespace AgateLib.Sprites
 {
@@ -852,15 +852,15 @@ namespace AgateLib.Sprites
 		{
 			get
 			{
-				Contract.Ensures(Contract.Result<int>() >= 0);
-				Contract.Ensures(Contract.Result<int>() < Frames.Count || Frames.Count == 0);
+				Condition.Requires(mCurrentFrameIndex >= 0);
+				Condition.Requires(mCurrentFrameIndex < Frames.Count || Frames.Count == 0);
 
 				return mCurrentFrameIndex;
 			}
 			set
 			{
-				Contract.Requires<ArgumentOutOfRangeException>((value >= 0 && value < Frames.Count) || Frames.Count == 0);
-				Contract.Requires<ArgumentOutOfRangeException>(Frames.Count > 0 || value == 0);
+				Condition.Requires<ArgumentOutOfRangeException>((value >= 0 && value < Frames.Count) || Frames.Count == 0);
+				Condition.Requires<ArgumentOutOfRangeException>(Frames.Count > 0 || value == 0);
 
 				if (Frames.Count <= 1)
 				{

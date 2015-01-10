@@ -2,7 +2,7 @@
 using AgateLib.Geometry;
 using AgateLib.IO;
 using AgateLib.Testing.Fakes;
-using AgateLib.UnitTesting;
+using AgateLib.Quality;
 using AgateLib.UserInterface.Css.Binders;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Selectors;
@@ -101,10 +101,10 @@ namespace AgateLib.UserInterface.Css.Tests
 			Assert.AreEqual(Color.FromArgb(0xbb, 0xcc, 0xdd), CssTypeConverter.ChangeType(typeof(Color), "#bcd"));
 			Assert.AreEqual(Color.FromArgb(0xff, 0x80, 0xc0), CssTypeConverter.ChangeType(typeof(Color), "rgb(100%, 50%, 75%)"));
 
-			AssertThrows.Throws<FormatException>(() => CssTypeConverter.ChangeType(typeof(Color), "#bdae"));
-			AssertThrows.Throws<FormatException>(() => CssTypeConverter.ChangeType(typeof(Color), "rgb(25, 40)"));
-			AssertThrows.Throws<FormatException>(() => CssTypeConverter.ChangeType(typeof(Color), "rgba(25, 40, 36)"));
-			AssertThrows.Throws<FormatException>(() => CssTypeConverter.ChangeType(typeof(Color), "rgb(25, 40, 36, 45)"));
+			AssertX.Throws<FormatException>(() => CssTypeConverter.ChangeType(typeof(Color), "#bdae"));
+			AssertX.Throws<FormatException>(() => CssTypeConverter.ChangeType(typeof(Color), "rgb(25, 40)"));
+			AssertX.Throws<FormatException>(() => CssTypeConverter.ChangeType(typeof(Color), "rgba(25, 40, 36)"));
+			AssertX.Throws<FormatException>(() => CssTypeConverter.ChangeType(typeof(Color), "rgb(25, 40, 36, 45)"));
 
 			Color unused;
 			Assert.IsFalse(CssTypeConverter.TryParseColor("#bdae", out unused));

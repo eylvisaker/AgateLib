@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AgateLib.DisplayLib;
-using System.Diagnostics.Contracts;
 
 namespace AgateLib.Sprites
 {
@@ -118,12 +117,7 @@ namespace AgateLib.Sprites
 		/// </summary>
 		public int Count
 		{
-			get
-			{
-				Contract.Ensures(Contract.Result<int>() >= 0);
-
-				return mFrames.Count;
-			}
+			get { return mFrames.Count; }
 		}
 		/// <summary>
 		/// Always false.
