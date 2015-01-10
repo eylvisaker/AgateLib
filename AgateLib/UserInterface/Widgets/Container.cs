@@ -203,9 +203,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		public void ScrollToWidget(Widget widget)
 		{
-			Contract.Ensures(InOverflow(widget) == false);
-
-			Contract.Assert(IsDescendant(widget));
+			Contract.Requires(IsDescendant(widget));
 
 			Point location = ClientLocationOf(widget);
 			var newOffset = ScrollOffset;
@@ -243,7 +241,7 @@ namespace AgateLib.UserInterface.Widgets
 		}
 
 		[Pure]
-		protected bool IsDescendant(Widget widget)
+		public bool IsDescendant(Widget widget)
 		{
 			foreach(var child in Children)
 			{

@@ -1,0 +1,8 @@
+AgateLib.AgateSDL/bin/
+AgateLib.AgateSDL/obj/
+*/bin/
+*/obj/
+*/*/bin/
+*/*/obj/
+AgateLib.Tests/Binaries/
+Binaries/

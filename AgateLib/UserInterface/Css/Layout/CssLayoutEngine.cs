@@ -187,7 +187,7 @@ namespace AgateLib.UserInterface.Css.Layout
 			foreach (var child in container.Children)
 			{
 				var style = mAdapter.GetStyle(child);
-				child.Font = style.Font;
+				SetStaticProperties(child);
 				Rectangle originalClient = child.ClientRect;
 
 				if (child.Visible == false)
@@ -213,13 +213,13 @@ namespace AgateLib.UserInterface.Css.Layout
 				int? maxWidth = ConvertDistance(child, style.Data.PositionData.MaxWidth, true, true);
 				int? maxHeight = ConvertDistance(child, style.Data.PositionData.MaxHeight, true, true);
 
-				if(style.IncludeInLayout)
+				if (style.IncludeInLayout)
 				{
 					maxWidth = maxContWidth - nextPos.X;
 				}
 
 				var sz = ComputeSize(child, containerStyle, forceRefresh, maxWidth, maxHeight);
-				
+
 				var box = style.BoxModel;
 				int? fixedWidth = ConvertDistance(child, style.Data.PositionData.Width, true);
 				int? fixedHeight = ConvertDistance(child, style.Data.PositionData.Height, false);
@@ -233,7 +233,7 @@ namespace AgateLib.UserInterface.Css.Layout
 				if (minWidth != null && sz.Width < (int)minWidth) sz.Width = (int)minWidth;
 				if (minHeight != null && sz.Height < (int)minHeight) sz.Height = (int)minHeight;
 
-				
+
 				bool resetPosition = false;
 
 				switch (containerStyle.Data.Layout.Kind)
@@ -303,7 +303,7 @@ namespace AgateLib.UserInterface.Css.Layout
 					}
 
 					largestHeight = Math.Max(largestHeight, clientRect.Height + box.Top + box.Bottom);
-					bottom = Math.Max(bottom, clientRect.Y + clientRect.Height + box.Bottom); // only add box.Bottom here, because box.Top is taken into account in child.Y.
+					bottom = Math.Max(bottom, clientRect.Y + clientRect.Height + box.Bottom);  // only add box.Bottom here, because box.Top is taken into account in child.Y.
 				}
 
 				if (container.ManualLayout)
@@ -311,7 +311,7 @@ namespace AgateLib.UserInterface.Css.Layout
 					clientRect = originalClient;
 					style.IncludeInLayout = false;
 				}
-				
+
 				style.Widget.ClientRect = clientRect;
 			}
 
@@ -360,6 +360,22 @@ namespace AgateLib.UserInterface.Css.Layout
 
 			if (container is Desktop == false)
 				container.ClientRect = containerClientRect;
+		}
+
+		private void SetStaticProperties(Widget child)
+		{
+			var style = mAdapter.GetStyle(child);
+			var container = child as Container;
+
+			child.Font = style.Font;
+			
+			switch(style.Data.Overflow)
+			{
+				case CssOverflow.Scroll:
+					if (container != null)
+						container.AllowScroll = ScrollAxes.Both;
+					break;
+			}
 		}
 
 		private Container TopLevelWidget(Widget child)

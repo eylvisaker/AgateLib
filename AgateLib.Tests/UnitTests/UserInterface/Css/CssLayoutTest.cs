@@ -55,6 +55,7 @@ window.minsize { min-width: 500px; min-height: 400px; }
 .invisible { display: none; }
 .block { display:block; }
 window.maxsize { max-width: 600px; max-height: 650px; }
+.overflowscroll { overflow: scroll }
 				");
 
 			adapter = new CssAdapter(doc, ff);
@@ -505,6 +506,18 @@ menuitem { padding: 8px; }");
 			RedoLayout();
 
 			Assert.AreEqual(new Rectangle(0, 0, 48, 64), lbl.ClientRect);
+		}
+
+		[TestMethod]
+		public void CssLOverflowValue()
+		{
+			Window wind = new Window { Style = "overflowscroll" };
+
+			gui.AddWindow(wind);
+
+			RedoLayout();
+
+			Assert.AreEqual(ScrollAxes.Both, wind.AllowScroll);
 		}
 	}
 }
