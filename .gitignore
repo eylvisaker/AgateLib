@@ -7,3 +7,5 @@ AgateLib.AgateSDL/obj/
 AgateLib.Tests/Binaries/
 Binaries/
 AgateLib.Platform.WindowsStoreCommon/Resources/*.fxo
+AgateLib.sln.ide/
+AgateLib-Windows.sln.ide/
