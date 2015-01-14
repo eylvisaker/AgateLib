@@ -27,6 +27,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib.Legacy;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Widgets.Gestures;
+using AgateLib.Quality;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -79,7 +80,16 @@ namespace AgateLib.UserInterface.Widgets
 
 		public void Dispose()
 		{
-			GuiStack.Remove(this);
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				GuiStack.Remove(this);
+			}
 		}
 
 		public Desktop Desktop { get { return mDesktop; } }
@@ -140,6 +150,8 @@ namespace AgateLib.UserInterface.Widgets
 
 		public void ProcessEvent(AgateInputEventArgs args)
 		{
+			Condition.Requires<ArgumentNullException>(args != null, "args");
+
 			switch (args.InputEventType)
 			{
 				case InputEventType.KeyDown: OnKeyDown(args); break;
@@ -314,91 +326,6 @@ namespace AgateLib.UserInterface.Widgets
 		{
 		}
 
-		[Obsolete]
-		public void OnKeyDown(InputEventArgs args)
-		{
-			bool handled = false;
-			GuiInput input = InputMap.MapKey(args.KeyCode);
-
-			if (FocusWidget == null)
-				Desktop.UpdateFocusWidget();
-
-			if (FocusWidget != null)
-			{
-				FocusWidget.OnKeyDown(args.KeyCode, args.KeyString);
-				if (input != GuiInput.None)
-				{
-					FocusWidget.OnGuiInput(input, ref handled);
-				}
-			}
-			else
-			{
-				DispatchEvent(window => { window.OnInputButtonDown(args.KeyCode, ref handled); return handled; });
-			}
-		}
-		[Obsolete]
-		public void OnKeyUp(InputEventArgs args)
-		{
-			bool handled = false;
-
-			if (FocusWidget == null)
-				Desktop.UpdateFocusWidget();
-
-			if (FocusWidget != null)
-			{
-				FocusWidget.OnKeyUp(args.KeyCode, args.KeyString);
-			}
-			else
-			{
-				DispatchEvent(window => { window.OnInputButtonUp(args.KeyCode, ref handled); return handled; });
-			}
-		}
-
-		[Obsolete]
-		public void OnMouseMove(InputEventArgs e)
-		{
-			Widget targetWidget = mMouseEventWidget;
-
-			if (targetWidget == null)
-				targetWidget = WidgetAt(e.MousePosition);
-
-			if (mHoverWidget != targetWidget)
-			{
-				if (mHoverWidget != null)
-				{
-					mHoverWidget.MouseIn = false;
-					mHoverWidget.OnMouseLeave();
-				}
-
-				targetWidget.MouseIn = true;
-				targetWidget.OnMouseEnter();
-
-				mHoverWidget = targetWidget;
-			}
-
-			targetWidget.OnMouseMove(targetWidget.ScreenToClient(e.MousePosition));
-		}
-		[Obsolete]
-		public void OnMouseDown(InputEventArgs e)
-		{
-			var targetWidget = WidgetAt(e.MousePosition);
-
-			mMouseEventWidget = targetWidget;
-
-			targetWidget.OnMouseDown(e.MouseButtons, targetWidget.ScreenToClient(e.MousePosition));
-		}
-		[Obsolete]
-		public void OnMouseUp(InputEventArgs e)
-		{
-			Widget targetWidget = mMouseEventWidget;
-
-			if (targetWidget == null)
-				targetWidget = WidgetAt(e.MousePosition);
-
-			mMouseEventWidget = null;
-			targetWidget.OnMouseUp(e.MouseButtons, targetWidget.ScreenToClient(e.MousePosition));
-		}
-
 		#endregion
 
 		public void OnUpdate(double delta_t, bool processInput)
@@ -417,52 +344,12 @@ namespace AgateLib.UserInterface.Widgets
 			mRenderer.Draw();
 		}
 
-		//internal void OnWindowAdded(int index)
-		//{
-		//	Desktop.Windows[index].DoAutoSize();
-		//}
-		//internal void BringToFront(string windowName, bool cancelTransition = false)
-		//{
-		//	var window = FindWindow(windowName);
-
-		//	Windows.Remove(window);
-		//	Windows.Add(window);
-
-		//}
-
 		public Window FindWindow(string windowName)
 		{
 			var window = Desktop.Windows.First(x => x.Name == windowName);
 			return window;
 		}
 
-		public bool Transitioning
-		{
-			get
-			{
-				return false;
-			}
-		}
-
-		//public void BeginTransitionOut()
-		//{
-		//	bool playSound = false;
-
-		//	foreach (var window in mWindows)
-		//	{
-		//	}
-
-		//	if (playSound)
-		//		PlaySound("menuout");
-		//}
-		//public void BeginTransitionIn()
-		//{
-		//	PlaySound("menuin");
-
-		//	foreach (var window in mWindows)
-		//	{
-		//	}
-		//}
 		public void PlaySound(GuiSound sound)
 		{
 			if (AudioPlayer == null)
@@ -481,14 +368,6 @@ namespace AgateLib.UserInterface.Widgets
 		public IAudioPlayer AudioPlayer { get;set; }
 		public IGuiRenderer Renderer { get { return mRenderer; } }
 		public IGuiLayoutEngine LayoutEngine { get { return mLayout; } }
-
-		//public void Refresh()
-		//{
-		//	foreach (var window in mWindows)
-		//	{
-		//		window.Refresh();
-		//	}
-		//}
 
 		public void AddWindow(Window wind)
 		{
@@ -517,7 +396,6 @@ namespace AgateLib.UserInterface.Widgets
 
 		private void OnWindowAdded(int index)
 		{
-			//mOwner.OnWindowAdded(index);
 		}
 
 		public int IndexOf(Window item)

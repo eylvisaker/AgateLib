@@ -68,7 +68,7 @@ namespace AgateLib.Resources.Legacy
 					}
 					catch (Exception e)
 					{
-						throw new AgateResourceException(e, "Could not find the surface resource {0}.", key);
+						throw new KeyNotFoundException(string.Format("Could not find the surface resource {0}.", key), e);
 					}
 				}
 			}

@@ -106,10 +106,8 @@ namespace AgateLib.ApplicationModels
 		public void Dispose()
 		{
 			Dispose(true);
-			DisposeAutoCreatedWindow();
 
-			if (Instance == this)
-				Instance = null;
+			GC.SuppressFinalize(this);
 		}
 
 
@@ -127,7 +125,15 @@ namespace AgateLib.ApplicationModels
 		/// </summary>
 		/// <param name="disposing"></param>
 		protected virtual void Dispose(bool disposing)
-		{ }
+		{
+			if (disposing)
+			{
+				DisposeAutoCreatedWindow();
+			}
+
+			if (Instance == this)
+				Instance = null;
+		}
 
 		/// <summary>
 		/// Processes command line arguments. Override this to completely replace the 
