@@ -170,6 +170,7 @@
     <Compile Include="ApplicationModels\ModelParameters.cs" />
     <Compile Include="Platform\DiagnosticsStopwatch.cs" />
     <Compile Include="Platform\PlatformSerialization.cs" />
+    <Compile Include="Quality\AssertFailedException.cs" />
     <Compile Include="Quality\Condition.cs" />
     <Compile Include="Quality\InvalidConditionException.cs" />
     <Compile Include="Resources\DC\AgateResource.cs" />

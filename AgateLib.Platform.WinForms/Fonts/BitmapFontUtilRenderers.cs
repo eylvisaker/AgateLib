@@ -344,7 +344,7 @@ namespace AgateLib.Platform.WinForms.Fonts
 				IntPtr hdc = g.GetHdc();
 
 				if (SetMapMode(hdc, MM_TEXT) == 0)
-					throw new Exception("Failed to set map mode.");
+					throw new InvalidOperationException("Failed to set map mode.");
 
 				SelectObject(hdc, fontHandle);
 
@@ -403,8 +403,9 @@ namespace AgateLib.Platform.WinForms.Fonts
 			{
 				IntPtr hdc = g.GetHdc();
 				SelectObject(hdc, font.ToHfont());
+
 				if (SetMapMode(hdc, MM_TEXT) == 0)
-					throw new Exception("Failed to set map mode.");
+					throw new InvalidOperationException("Failed to set map mode.");
 
 				foreach (char c in glyphs.Keys)
 				{
@@ -426,7 +427,8 @@ namespace AgateLib.Platform.WinForms.Fonts
 
 				uint err = GetKerningPairs(hdc, numPairs, kerningArray);
 
-				if (err == 0) throw new Exception();
+				if (err == 0)
+					throw new InvalidOperationException();
 
 				foreach (var kern in kerningArray)
 				{

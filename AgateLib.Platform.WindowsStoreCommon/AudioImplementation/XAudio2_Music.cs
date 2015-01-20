@@ -39,7 +39,7 @@ namespace AgateLib.Platform.WindowsStore.AudioImplementation
 			mAudio = audio;
 
 			if (System.IO.Path.GetExtension(filename) == ".mp3")
-				throw new Exception("MP3 files cannot be played due to license restrictions.");
+				throw new InvalidOperationException("MP3 files cannot be played due to license restrictions.");
 
 			//LoadMusic(filename);
 		}

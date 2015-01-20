@@ -246,7 +246,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					return CreateX11WindowInfo(mode);
 				case PlatformType.Gp2x:
 				default:
-					throw new Exception("Platform not implemented.");
+					throw new InvalidOperationException("Platform not implemented.");
 			}
 		}
 

@@ -53,9 +53,6 @@ namespace AgateLib.Testing.CoreTests.ErrorReport
 			{
 				AgateLib.Core.ErrorReporting.Report(ErrorLevel.Bug, "Oops, a bug.", e);
 			}
-
-			// unhandled error
-			//throw new Exception("This exception is unhandled!");
 		}
 
 		private void FillTextBox()

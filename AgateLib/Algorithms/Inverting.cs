@@ -77,7 +77,7 @@ namespace AgateLib.Algorithms
 				step *= 2;
 
 				if (iter > itermax)
-					throw new Exception("No solution found.");
+					throw new InvalidOperationException("No solution found.");
 
 			}
 
@@ -106,7 +106,7 @@ namespace AgateLib.Algorithms
 
 				iter++;
 				if (iter > itermax)
-					throw new Exception("No solution found.");
+					throw new InvalidOperationException("No solution found.");
 			}
 
 			return p1.First;

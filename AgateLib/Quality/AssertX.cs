@@ -37,7 +37,7 @@ namespace AgateLib.Quality
 				return;
 			}
 
-			throw new Exception("Expression did not throw " + typeof(T).Name);
+			throw new AssertFailedException("Expression did not throw " + typeof(T).Name);
 		}
 	}
 }
