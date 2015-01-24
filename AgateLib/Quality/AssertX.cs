@@ -24,9 +24,35 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Quality
 {
+    /// <summary>
+    /// Extra methods that aren't in the MSTest Assert class.
+    /// </summary>
 	public static class AssertX
-	{
-		public static void Throws<T>(Action expression) where T:Exception
+    {
+        /// <summary>
+        /// Verifies that the method throws any exception.
+        /// </summary>
+        /// <param name="expression"></param>
+        public static void Throws(Action expression) 
+        {
+            try
+            {
+                expression();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+            throw new AssertFailedException("Expression did not throw any exception.");
+        }
+        /// <summary>
+        /// Verifies that the method throws an exception of the specified type, 
+        /// or an exception type deriving from it. 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="expression"></param>
+        public static void Throws<T>(Action expression) where T:Exception
 		{
 			try
 			{
