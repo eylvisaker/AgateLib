@@ -1305,9 +1305,9 @@ namespace AgateLib.Serialization.Xle
 			Array ar;
 
 			if (typeof(T) == typeof(int))
-				ar = ReadInt32Array(name);
+				ar = ReadArray<int>(name);
 			else if (typeof(T) == typeof(double))
-				ar = ReadDoubleArray(name);
+				ar = ReadArray<double>(name);
 			else
 				ar = ReadArrayImpl(name, typeof(T));
 
