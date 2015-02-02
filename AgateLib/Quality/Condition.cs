@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,13 +9,15 @@ namespace AgateLib.Quality
 {
 	public static class Condition
 	{
-		public static void Requires<TE>(bool state) where TE :Exception, new()
+        [DebuggerStepThrough]
+        public static void Requires<TE>(bool state) where TE :Exception, new()
 		{
 			if (state == true)
 				return;
 
 			throw new TE();
 		}
+        [DebuggerStepThrough]
 		public static void Requires(bool state)
 		{
 			if (state == true)
@@ -22,7 +25,8 @@ namespace AgateLib.Quality
 
 			throw new InvalidConditionException();
 		}
-		public static void Requires<TE>(bool state, string message) where TE :Exception, new()
+        [DebuggerStepThrough]
+        public static void Requires<TE>(bool state, string message) where TE :Exception, new()
 		{
 			if (state == true)
 				return;
@@ -31,7 +35,8 @@ namespace AgateLib.Quality
 			throw exception;
 		}
 
-		public static bool ForAll<T>(IEnumerable<T> collection, Func<T, bool> predicate)
+        [DebuggerStepThrough]
+        public static bool ForAll<T>(IEnumerable<T> collection, Func<T, bool> predicate)
 		{
 			bool state = true;
 

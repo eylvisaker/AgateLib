@@ -226,6 +226,10 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 		private static UserInterface.Css.CssAdapter GetAdapter(UserInterface.Widgets.Gui gui)
 		{
 			var layout = (CssLayoutEngine)gui.LayoutEngine;
+
+            if (layout == null)
+                return null;
+
 			var adapter = layout.Adapter;
 			return adapter;
 		}
