@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface.Css.Tests
 {
+    [TestClass]
 	public class CssTestBase
 	{
 		[TestInitialize]
