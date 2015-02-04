@@ -72,7 +72,8 @@ namespace AgateLib.DisplayLib
         /// <summary>
         /// Draws the surface at the specified point.
         /// </summary>
-        /// <param name="destPt"></param>
+        /// <param name="srcRect"></param>
+        /// <param name="destRect"></param>
         void Draw(Rectangle srcRect, Rectangle destRect);
         /// <summary>
         /// Gets the current scale values.
