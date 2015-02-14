@@ -1034,5 +1034,23 @@ namespace AgateLib.Sprites
 		{
 			get { return TimePerFrame * Frames.Count; }
 		}
-	}
+
+
+        public ISurface CarveSubSurface(Rectangle srcRect)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void Draw(Rectangle srcRect, Point point)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void Draw(Rectangle destRect)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
