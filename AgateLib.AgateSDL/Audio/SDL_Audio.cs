@@ -47,14 +47,10 @@ namespace AgateLib.AgateSDL.Audio
 		{
 			Dispose(false);
 		}
-		public override void Dispose()
-		{
-			Dispose(true);
-		}
 
 		public IReadFileProvider FileProvider { get; private set; }
 
-		private void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
 		{
 			sdl.Mixer.Mix_CloseAudio();
 			sdl.SDL_QuitSubSystem(SDLConstants.SDL_INIT_AUDIO);
@@ -73,6 +69,8 @@ namespace AgateLib.AgateSDL.Audio
 			}
 
 			tempfiles.Clear();
+
+            base.Dispose(disposing);
 		}
 
 		protected override bool CapsBool(AgateLib.AudioLib.AudioBoolCaps audioBoolCaps)

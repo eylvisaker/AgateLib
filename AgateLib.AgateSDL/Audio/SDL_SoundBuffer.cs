@@ -68,13 +68,7 @@ namespace AgateLib.AgateSDL.Audio
 			get { return samplesPerSec; }
 		}
 
-		public override void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
-		private void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
 		{
 			sdl.Mixer.Mix_FreeChunk(sound);
 			//if (string.IsNullOrEmpty(tempfile) == false)
@@ -82,6 +76,8 @@ namespace AgateLib.AgateSDL.Audio
 			//    File.Delete(tempfile);
 			//    tempfile = "";
 			//}
+
+            base.Dispose(disposing);
 		}
 		private void LoadFromFile(string file)
 		{

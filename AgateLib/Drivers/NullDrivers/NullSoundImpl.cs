@@ -32,10 +32,6 @@ namespace AgateLib.Drivers.NullDrivers
 			Report("No audio driver found.  Audio will not be heard.");
 		}
 
-		public override void Dispose()
-		{
-		}
-
 		protected internal override bool CapsBool(AgateLib.AudioLib.AudioBoolCaps audioBoolCaps)
 		{
 			return false;
@@ -43,10 +39,6 @@ namespace AgateLib.Drivers.NullDrivers
 	}
 	class NullSoundBufferImpl : SoundBufferImpl
 	{
-		public override void Dispose()
-		{
-
-		}
 		public override double Volume
 		{
 			get
@@ -62,9 +54,6 @@ namespace AgateLib.Drivers.NullDrivers
 	}
 	public class NullSoundBufferSessionImpl : SoundBufferSessionImpl
 	{
-		public override void Dispose()
-		{
-		}
 		public override void Play()
 		{
 		}

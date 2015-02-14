@@ -52,9 +52,11 @@ namespace AgateLib.AgateSDL.Input
 			}
 		}
 
-		public override void Dispose()
+        protected override void Dispose(bool disposing)
 		{
 			sdl.SDL_QuitSubSystem(SDLConstants.SDL_INIT_JOYSTICK);
+
+            base.Dispose(disposing);
 		}
 
 		public override void Initialize()

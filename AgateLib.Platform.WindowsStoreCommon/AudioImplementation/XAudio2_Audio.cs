@@ -143,32 +143,37 @@ namespace AgateLib.Platform.WindowsStore.AudioImplementation
 
 		#endregion
 
-		public override void Dispose()
-		{
-			if (InvokeRequired)
-			{
-				stopThread = true;
+        protected override void Dispose(bool disposing)
+        {
+            if (InvokeRequired)
+            {
+                stopThread = true;
 
-				/*
-				int count = 0;
+                /*
+                int count = 0;
 
-				while (xaudThread.ThreadState == ThreadState.Running)
-				{
-					Thread.Sleep(10);
-					count++;
+                while (xaudThread.ThreadState == ThreadState.Running)
+                {
+                    Thread.Sleep(10);
+                    count++;
 
-					if (count > 20)
-					{
-						xaudThread.Abort();
-					}
-				}
-				*/
-				return;
-	 		}
+                    if (count > 20)
+                    {
+                        xaudThread.Abort();
+                    }
+                }
+                */
+                return;
+            }
 
-			mMasteringVoice.Dispose();
-			mDevice.Dispose();
-		}
+            if (disposing)
+            {
+                mMasteringVoice.Dispose();
+                mDevice.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
 
 		protected override bool CapsBool(AgateLib.AudioLib.AudioBoolCaps audioBoolCaps)
 		{
