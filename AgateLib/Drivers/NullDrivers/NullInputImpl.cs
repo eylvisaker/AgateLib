@@ -32,11 +32,6 @@ namespace AgateLib.Drivers.NullDrivers
 			Report("No input driver found.  Joysticks will not work.");
 		}
 
-		public override void Dispose()
-		{
-
-		}
-
 		public override int JoystickCount
 		{
 			get { return 0; }

@@ -120,10 +120,6 @@ namespace AgateLib.Testing.Fakes
 		{
 		}
 
-		public override void Dispose()
-		{
-		}
-
 		protected override void ShowCursor()
 		{
 		}

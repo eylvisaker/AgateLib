@@ -430,11 +430,16 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		#region --- Shaders ---
 
-		public override void Dispose()
-		{
-			mFakeDisplayWindow.Dispose();
-			mFakeWindow.Dispose();
-		}
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                mFakeDisplayWindow.Dispose();
+                mFakeWindow.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
 
 
 		private void SetArray(float[] array, Vector3 vec)
