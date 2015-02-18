@@ -13,6 +13,7 @@ using AgateLib.InputLib;
 using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
+using AgateLib.Algorithms.ThreeD;
 
 namespace AgateLib.Testing.Shaders
 {
@@ -87,8 +88,7 @@ namespace AgateLib.Testing.Shaders
 				IndexBuffer index = b.IndexBuffer;
 				VertexBuffer buffer = b.VertexBuffer;
 				buffer.Textures[0] = texture;
-				buffer.Textures[1] = new Surface(
-					PixelBuffer.NormalMapFromHeightMap(height.ReadPixels(), 2.0f));
+				buffer.Textures[1] = new Surface(MapConversion.NormalMapFromHeightMap(height.ReadPixels(), 2.0f));
 				buffer.Textures[1].SaveTo("normal.png");
 
 				resetmouse();
