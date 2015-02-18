@@ -1,19 +1,15 @@
-﻿using AgateLib.ApplicationModels;
-using AgateLib.DisplayLib;
-using AgateLib.DisplayLib.ImplementationBase;
+﻿using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.IO;
-using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Testing.Fakes;
+using AgateLib.UserInterface.Css;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Layout;
 using AgateLib.UserInterface.Widgets;
-using AgateLib.UserInterface.Widgets.Tests;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 
-namespace AgateLib.UserInterface.Css.Tests
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.UserInterface.Css
 {
 	[TestClass]
 	public class CssLayoutTest : CssTestBase

@@ -132,6 +132,7 @@
     <Compile Include="Algorithms\PathFinding\AStarNode.cs" />
     <Compile Include="Algorithms\PathFinding\AStarState.cs" />
     <Compile Include="Algorithms\Inverting.cs" />
+    <Compile Include="Algorithms\ThreeD\MapConversion.cs" />
     <Compile Include="ApplicationModels\ArgumentEventArgs.cs" />
     <Compile Include="ApplicationModels\PassiveModelParameters.cs" />
     <Compile Include="ApplicationModels\SceneModelParameters.cs" />

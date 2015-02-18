@@ -6,7 +6,7 @@
     <ProjectGuid>{F22ADCCC-7991-4F52-B2D0-697D60121BB3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgateLib</RootNamespace>
+    <RootNamespace>AgateLib.UnitTests</RootNamespace>
     <AssemblyName>AgateLib.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -92,14 +92,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AgateUnitTest.cs" />
     <Compile Include="Algorithms\PathFinding\AStarTest.cs" />
     <Compile Include="Algorithms\EMathTest.cs" />
     <Compile Include="ApplicationModels\ArgumentProcessing.cs" />
     <Compile Include="ApplicationModels\CoordinateSystemTest.cs" />
     <Compile Include="Diagnostics\ConsoleTests.cs" />
-    <Compile Include="Display\DisplayTests.cs" />
-    <Compile Include="Display\DisplayWindowTest.cs" />
-    <Compile Include="Display\FontTests.cs" />
+    <Compile Include="DisplayLib\DisplayTests.cs" />
+    <Compile Include="DisplayLib\DisplayWindowTest.cs" />
+    <Compile Include="DisplayLib\FontTests.cs" />
+    <Compile Include="DisplayLib\PixelBufferTest.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Geometry\ColorTests.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />

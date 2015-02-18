@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AgateLib.Utility;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgateLib.Utility
+namespace AgateLib.UnitTests.Utility
 {
 	[TestClass]
 	public class RefTester

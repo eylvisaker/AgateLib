@@ -1,4 +1,5 @@
-﻿using AgateLib.ApplicationModels;
+﻿using System.IO;
+
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
@@ -6,15 +7,10 @@ using AgateLib.IO;
 using AgateLib.Resources.DC;
 using AgateLib.Sprites;
 using AgateLib.Testing.Fakes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.Resources
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.Resources
 {
 	[TestClass]
 	public class SerializationTest
@@ -61,7 +57,7 @@ namespace AgateLib.Resources
 			{
 				metrics.Add(i, new GlyphMetrics
 				{
-					Size = new Geometry.Size(size, size),
+					Size = new AgateLib.Geometry.Size(size, size),
 					SourceRect = new Rectangle(i * size, 0, size, size),
 					LeftOverhang = i % 2,
 					RightOverhang = i % 4,

@@ -1,11 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AgateLib.Geometry;
 
-namespace AgateLib.Geometry
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.Geometry
 {
 	[TestClass]
 	public class ColorTests
