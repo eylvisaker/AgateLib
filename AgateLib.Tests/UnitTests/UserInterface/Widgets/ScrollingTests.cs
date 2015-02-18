@@ -1,13 +1,10 @@
 ﻿using AgateLib.Geometry;
 using AgateLib.Testing.Fakes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UserInterface.Widgets
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.UserInterface.Widgets
 {
 	[TestClass]
 	public class ScrollingTests

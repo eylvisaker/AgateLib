@@ -1,12 +1,10 @@
-﻿using AgateLib.Utility;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace AgateLib.Utility
+using AgateLib.Utility;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.Utility
 {
 	[TestClass]
 	public class RefTest : IDisposable

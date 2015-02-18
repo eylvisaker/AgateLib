@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgateLib.Platform
+namespace AgateLib.UnitTests.Platform
 {
 	[TestClass]
 	public class PlatformTests

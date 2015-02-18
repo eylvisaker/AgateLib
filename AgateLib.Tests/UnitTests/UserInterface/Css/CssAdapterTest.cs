@@ -1,14 +1,11 @@
 ﻿using AgateLib.Geometry;
+using AgateLib.UserInterface.Css;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Widgets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Tests
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.UserInterface.Css
 {
 	[TestClass]
 	public class CssAdapterTest : CssTestBase
