@@ -202,7 +202,10 @@ namespace AgateLib.UserInterface.Widgets
 
 		internal void OnSelect()
 		{
-			Parent.ScrollToWidget(this);
+            if (Parent != null)
+            {
+                Parent.ScrollToWidget(this);
+            }
 
 			if (Select != null)
 				Select(this, EventArgs.Empty);

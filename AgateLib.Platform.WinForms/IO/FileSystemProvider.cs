@@ -299,7 +299,7 @@ namespace AgateLib.Platform.WinForms.IO
 
 		public Task<Stream> OpenWriteAsync(string file)
 		{
-			string resolvedName = FindFileName(file);
+            string resolvedName = Path.Combine(mPath, file);
 			var result = File.Open(resolvedName, FileMode.Create);
 
 			return Task.FromResult<Stream>(result);
