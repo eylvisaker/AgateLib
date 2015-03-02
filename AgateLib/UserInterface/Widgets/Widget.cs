@@ -198,6 +198,18 @@ namespace AgateLib.UserInterface.Widgets
 				return AgateLib.Geometry.Color.Magenta;
 		}
 
+        /// <summary>
+        /// Converts the client rectangle into screen coordinates.
+        /// </summary>
+        /// <returns></returns>
+        public Rectangle ClientToScreen()
+        {
+            Rectangle translated = ClientRect;
+            
+            translated.Location = ClientToScreen(Point.Empty);
+
+            return translated;
+        }
 		public Rectangle ClientToScreen(Rectangle value)
 		{
 			Rectangle translated = value;
