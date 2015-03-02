@@ -18,6 +18,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,15 +26,17 @@ using System.Threading.Tasks;
 namespace AgateLib.Quality
 {
     /// <summary>
-    /// Extra methods that aren't in the MSTest Assert class.
+    /// Extra methods useful for testing that aren't in the MSTest Assert class.
     /// </summary>
 	public static class AssertX
     {
         /// <summary>
         /// Verifies that the method throws any exception.
         /// </summary>
-        /// <param name="expression"></param>
-        public static void Throws(Action expression) 
+        /// <param name="expression">A delegate or lambda which should throw an exception.</param>
+        /// <param name="message">A message to be displayed if the expression fails to throw an exception.</param>
+        [DebuggerStepThrough]
+        public static void Throws(Action expression, string message = null) 
         {
             try
             {
@@ -44,15 +47,18 @@ namespace AgateLib.Quality
                 return;
             }
 
-            throw new AssertFailedException("Expression did not throw any exception.");
+            throw new AssertFailedException(message ?? "Expression did not throw any exception.");
         }
+
         /// <summary>
         /// Verifies that the method throws an exception of the specified type, 
         /// or an exception type deriving from it. 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="expression"></param>
-        public static void Throws<T>(Action expression) where T:Exception
+        /// <typeparam name="T">The base type of the exception which should be thrown.</typeparam>
+        /// <param name="expression">A delegate or lambda which should throw an exception.</param>
+        /// <param name="message">A message to be displayed if the expression fails to throw an exception of the specified type.</param>
+        [DebuggerStepThrough]
+        public static void Throws<T>(Action expression, string message = null) where T : Exception
 		{
 			try
 			{
@@ -63,7 +69,7 @@ namespace AgateLib.Quality
 				return;
 			}
 
-			throw new AssertFailedException("Expression did not throw " + typeof(T).Name);
+			throw new AssertFailedException(message ?? string.Format("Expression did not throw {0}", typeof(T).Name));
 		}
 	}
 }
