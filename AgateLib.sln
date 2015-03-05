@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Tests.Portable", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Tests.UnitTests", "AgateLib.Tests\UnitTests\AgateLib.Tests.UnitTests.csproj", "{F22ADCCC-7991-4F52-B2D0-697D60121BB3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Platform.WinForms", "AgateLib.Platform.WinForms\AgateLib.Platform.WinForms.csproj", "{4B12561E-D37B-48A1-B6DB-218E94906C22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,20 @@ Global
 		{F22ADCCC-7991-4F52-B2D0-697D60121BB3}.Release|x64.Build.0 = Release|x64
 		{F22ADCCC-7991-4F52-B2D0-697D60121BB3}.Release|x86.ActiveCfg = Release|x86
 		{F22ADCCC-7991-4F52-B2D0-697D60121BB3}.Release|x86.Build.0 = Release|x86
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Debug|x64.ActiveCfg = Debug|x64
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Debug|x64.Build.0 = Debug|x64
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Debug|x86.ActiveCfg = Debug|x86
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Debug|x86.Build.0 = Debug|x86
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Release|ARM.ActiveCfg = Release|Any CPU
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Release|x64.ActiveCfg = Release|x64
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Release|x64.Build.0 = Release|x64
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Release|x86.ActiveCfg = Release|x86
+		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,5 +120,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{935D67A0-931E-46DE-9F6A-2D6DBC99AFF3} = {D499A339-7F4C-4AF5-87E5-BE06021B3C8B}
 		{94734E5A-0344-43E8-BB30-E32E3F57F611} = {D499A339-7F4C-4AF5-87E5-BE06021B3C8B}
+		{4B12561E-D37B-48A1-B6DB-218E94906C22} = {D499A339-7F4C-4AF5-87E5-BE06021B3C8B}
 	EndGlobalSection
 EndGlobal
