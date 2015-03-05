@@ -19,6 +19,7 @@ namespace AgateLib.UnitTests.UserInterface.Css
 		Gui gui;
 		CssAdapter adapter;
 		CssDocument doc;
+	    Size renderTargetsize = new Size(1000, 1000);
 
 		[TestInitialize]
 		public void CssLInit()
@@ -44,6 +45,7 @@ namespace AgateLib.UnitTests.UserInterface.Css
 
 			doc.Parse(@"
 window { layout: column; margin: 6px; padding: 8px;} 
+window.border { border: 11px; }
 label { margin-left: 4px; } 
 window.fixed { position: fixed; right: 4px; bottom: 8px; margin: 14px; padding: 9px; border: 2px; } 
 window.fixedleft { position: fixed; left: 4px; top: 8px; margin: 14px; padding: 9px; border: 2px; }
@@ -60,15 +62,14 @@ window.maxsize { max-width: 600px; max-height: 650px; }
 
 			gui = new Gui(new FakeRenderer(), engine);
 
-
 			Core.Initialize(new FakeAgateFactory());
 			Core.InitAssetLocations(new AssetLocations());
 		}
+
 		private void RedoLayout()
 		{
-			engine.UpdateLayout(gui, new Size(1000, 1000));
+		    engine.UpdateLayout(gui, renderTargetsize);
 		}
-		
 
 		[TestMethod]
 		public void CssLManualLayout()
@@ -515,5 +516,26 @@ menuitem { padding: 8px; }");
 
 			Assert.AreEqual(ScrollAxes.Both, wind.AllowScroll);
 		}
+
+	    [TestMethod]
+	    public void CssLMaximumWindowSize()
+	    {
+	        Window wind = new Window() { Style = "border" };
+
+	        for (int i = 0; i < 500; i++)
+	        {
+	            wind.Children.Add(new Label("Label " + i.ToString()));
+	        }
+
+	        gui.AddWindow(wind);
+
+	        RedoLayout();
+
+	        var box = adapter.GetStyle(wind).BoxModel;
+	        var margin = box.Margin.Top + box.Margin.Bottom;
+
+	        Assert.AreEqual(renderTargetsize.Height - margin, wind.WidgetRect.Height);
+	        Assert.AreEqual(margin / 2, wind.WidgetRect.Top);
+	    }
 	}
 }

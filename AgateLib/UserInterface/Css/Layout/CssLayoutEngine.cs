@@ -428,9 +428,12 @@ namespace AgateLib.UserInterface.Css.Layout
 			var parentStyle = mAdapter.GetStyle(container.Parent);
 
 			int availableHeight = ComputeMaxHeightForContainer(mAdapter.GetStyle(container.Parent)) - container.Y;
+		    var box = style.BoxModel;
 
-			if (styleData.PositionData.MaxHeight.Automatic)
-				return availableHeight;
+		    if (styleData.PositionData.MaxHeight.Automatic)
+		    {
+		        return availableHeight - box.Top - box.Bottom;
+		    }
 			else
 			{
 				int maxHeight = mAdapter.CssDistanceToPixels(style, styleData.PositionData.MaxHeight, false);
