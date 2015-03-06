@@ -46,6 +46,7 @@ namespace AgateLib.UnitTests.UserInterface.Css
 			doc.Parse(@"
 window { layout: column; margin: 6px; padding: 8px;} 
 window.border { border: 11px; }
+window.position { position: absolute; left: 100px; top: 100px; }
 label { margin-left: 4px; } 
 window.fixed { position: fixed; right: 4px; bottom: 8px; margin: 14px; padding: 9px; border: 2px; } 
 window.fixedleft { position: fixed; left: 4px; top: 8px; margin: 14px; padding: 9px; border: 2px; }
@@ -532,10 +533,32 @@ menuitem { padding: 8px; }");
 	        RedoLayout();
 
 	        var box = adapter.GetStyle(wind).BoxModel;
-	        var margin = box.Margin.Top + box.Margin.Bottom;
+	        var margin = box.Margin.Bottom;
 
-	        Assert.AreEqual(renderTargetsize.Height - margin, wind.WidgetRect.Height);
-	        Assert.AreEqual(margin / 2, wind.WidgetRect.Top);
+	        Assert.AreEqual(renderTargetsize.Height - margin, wind.WidgetRect.Bottom);
+	        Assert.AreEqual(margin, wind.WidgetRect.Top);
 	    }
+
+        [TestMethod]
+        public void CssLMaximumWindowSizeWithPosition()
+        {
+            Window wind = new Window() { Style = "border position" };
+
+            for (int i = 0; i < 500; i++)
+            {
+                wind.Children.Add(new Label("Label " + i.ToString()));
+            }
+
+            gui.AddWindow(wind);
+
+            RedoLayout();
+
+            var box = adapter.GetStyle(wind).BoxModel;
+            var margin = box.Margin.Bottom;
+
+            Assert.AreEqual(new Point(125, 125), wind.ClientRect.Location);
+
+            Assert.AreEqual(renderTargetsize.Height - margin, wind.WidgetRect.Bottom);
+        }
 	}
 }
