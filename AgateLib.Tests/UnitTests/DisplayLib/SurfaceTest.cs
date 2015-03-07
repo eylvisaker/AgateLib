@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.Quality;
 using AgateLib.UnitTests.Fakes;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -80,6 +81,7 @@ namespace AgateLib.UnitTests.DisplayLib
             Assert.AreEqual(2, surfaceImpl.LastDraw.ScaleHeight);
         }
 
+
         [TestMethod]
         public void DrawWithRotationCenter()
         {
@@ -92,7 +94,7 @@ namespace AgateLib.UnitTests.DisplayLib
 
             var draw = surfaceImpl.LastDraw.DrawInstances.Single();
 
-            Assert.AreEqual(new PointF(15,13), surfaceImpl.LastDraw.RotationCenterLocation);
+            Assert.AreEqual(new PointF(15, 13), surfaceImpl.LastDraw.RotationCenterLocation);
             Assert.AreEqual(Math.PI / 3.0, surfaceImpl.LastDraw.RotationAngle, 0.00001);
             Assert.AreEqual(1.0, surfaceImpl.LastDraw.Alpha);
             Assert.AreEqual(Color.White, surfaceImpl.LastDraw.Color);
@@ -101,5 +103,13 @@ namespace AgateLib.UnitTests.DisplayLib
             Assert.AreEqual(1, surfaceImpl.LastDraw.ScaleWidth);
             Assert.AreEqual(1, surfaceImpl.LastDraw.ScaleHeight);
         }
+
+        [TestMethod]
+        public void SurfaceConstruction()
+        {
+            AssertX.Throws<ArgumentException>(() => new Surface((string)null));
+            surface = new Surface("test");
+        }
+
     }
 }

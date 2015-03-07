@@ -60,6 +60,7 @@
     <Compile Include="Fakes\FakeDisplayWindow.cs" />
     <Compile Include="Fakes\FakeFontSurface.cs" />
     <Compile Include="Fakes\FakeFrameBuffer.cs" />
+    <Compile Include="Fakes\FakeSurface.cs" />
     <Compile Include="Fakes\UserInterface\FakeGuiEngine.cs" />
     <Compile Include="Fakes\UserInterface\FakeLayout.cs" />
     <Compile Include="Fakes\FakePlatformFactory.cs" />

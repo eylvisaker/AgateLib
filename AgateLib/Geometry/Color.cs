@@ -801,6 +801,7 @@ namespace AgateLib.Geometry
 			else
 				throw new ArgumentException("Not a hex number.");
 		}
+
 		private static void ValidateByteValue(ref int val)
 		{
 			if (val > 255)

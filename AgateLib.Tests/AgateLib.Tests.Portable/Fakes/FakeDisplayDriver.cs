@@ -159,7 +159,7 @@ namespace AgateLib.Testing.Fakes
 
 		public SurfaceImpl CreateSurface(IReadFileProvider fileProvider, string fileName)
 		{
-			throw new NotImplementedException();
+		    return new FakeSurface();
 		}
 
 		public SurfaceImpl CreateSurface(System.IO.Stream fileStream)
