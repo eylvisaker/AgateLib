@@ -293,7 +293,9 @@ namespace AgateLib.UserInterface.Css.Layout
 
                 int bottomMargin = box.Bottom;
 
-                if (clientRect.Bottom + bottomMargin > maxContBottom)
+
+                // Only apply max container bottom to size of child widget if its overflow is set to disallow.
+                if (containerStyle.Data.Overflow == CssOverflow.Disallow && clientRect.Bottom + bottomMargin > maxContBottom)
                 {
                     clientRect.Height -= clientRect.Bottom - maxContBottom - bottomMargin;
                 }
@@ -446,6 +448,8 @@ namespace AgateLib.UserInterface.Css.Layout
                 return container.Height;
 
             var parentStyle = mAdapter.GetStyle(container.Parent);
+            if (parentStyle.Data.Overflow != CssOverflow.Disallow)
+                return int.MaxValue;
 
             int availableHeight = ComputeMaxHeightForContainer(mAdapter.GetStyle(container.Parent)) - container.Y;
             var box = style.BoxModel;

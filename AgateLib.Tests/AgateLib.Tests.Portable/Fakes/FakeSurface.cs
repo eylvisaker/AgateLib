@@ -11,7 +11,6 @@ namespace AgateLib.Testing.Fakes
     {
         protected override void Dispose(bool disposing)
         {
-            throw new NotImplementedException();
         }
 
         public override void Draw(DisplayLib.SurfaceState state)
