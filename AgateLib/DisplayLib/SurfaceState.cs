@@ -70,6 +70,7 @@ namespace AgateLib.DisplayLib
 			target.DisplayAlignment = mAlignment;
 			target.RotationAngle = mRotation;
 			target.RotationCenter = mRotationSpot;
+		    target.RotationCenterLocation = mRotationCenter;
 			target.ColorGradient = mGradient;
 
 			if (copyDrawInstances)

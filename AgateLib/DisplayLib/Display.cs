@@ -24,6 +24,7 @@ using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
+using AgateLib.Quality;
 using AgateLib.Utility;
 using AgateLib.Diagnostics;
 using AgateLib.ApplicationModels;
@@ -86,6 +87,8 @@ namespace AgateLib.DisplayLib
 		/// <param name="displayType"></param>
 		public static void Initialize(DisplayImpl impl)
 		{
+            Condition.Requires<ArgumentNullException>(impl != null, "Cannot initialize Display with a null object.");
+
 			sImpl = impl;
 			sImpl.Initialize();
 

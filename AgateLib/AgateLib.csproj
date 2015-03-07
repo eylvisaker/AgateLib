@@ -139,6 +139,7 @@
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
     <Compile Include="DefaultAssets\DefaultResources.cs" />
     <Compile Include="DefaultAssets\Fonts.cs" />
+    <Compile Include="DisplayLib\Verify.cs" />
     <Compile Include="Geometry\CoordinateSystems\FixedCoordinateSystem.cs" />
     <Compile Include="Geometry\CoordinateSystems\NativeCoordinates.cs" />
     <Compile Include="ApplicationModels\EntryPointAppModelBase.cs" />
