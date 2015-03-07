@@ -112,6 +112,7 @@
     <Compile Include="Fakes\FakePlatformFactory.cs" />
     <Compile Include="Fakes\FakeSurfaceImpl.cs" />
     <Compile Include="Geometry\ColorTests.cs" />
+    <Compile Include="Geometry\RectangleTest.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Platform\PlatformTests.cs" />
