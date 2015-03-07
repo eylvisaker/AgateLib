@@ -137,14 +137,17 @@ namespace AgateLib.UserInterface.Css.Layout
 
             widget.ClientRect = clientRect;
 
-            int maxBottom = desktopBounds.Bottom - box.Margin.Bottom;
-
-            if (widget.WidgetRect.Bottom > maxBottom)
+            if (parentStyle.Data.Overflow == CssOverflow.Disallow)
             {
-                int excess = widget.WidgetRect.Bottom - maxBottom;
+                int maxBottom = desktopBounds.Bottom - box.Margin.Bottom;
 
-                clientRect.Height -= excess;
-                widgetSize.Height -= excess;
+                if (widget.WidgetRect.Bottom > maxBottom)
+                {
+                    int excess = widget.WidgetRect.Bottom - maxBottom;
+
+                    clientRect.Height -= excess;
+                    widgetSize.Height -= excess;
+                }
             }
 
             widget.WidgetSize = widgetSize;
@@ -337,13 +340,8 @@ namespace AgateLib.UserInterface.Css.Layout
                 style.Widget.ClientRect = clientRect;
             }
 
-            containerClientRect.Width = Math.Min(largestWidth, maxContWidth);
-            containerClientRect.Height = bottom;
-
-            if (fixedContainerWidth != null)
-                containerClientRect.Width = (int)fixedContainerWidth;
-            if (fixedContainerHeight != null)
-                containerClientRect.Height = (int)fixedContainerHeight;
+            containerClientRect.Width = fixedContainerWidth ?? Math.Min(largestWidth, maxContWidth);
+            containerClientRect.Height = fixedContainerHeight ?? bottom;
 
             switch (containerStyle.Data.Layout.Kind)
             {

@@ -99,9 +99,15 @@ namespace AgateLib.UserInterface.Widgets
 			}
 		}
 
+        /// <summary>
+        /// Event raised when an accept event (button, mouse click) occurs on this menu item.
+        /// </summary>
 		public event EventHandler PressAccept;
 		public event EventHandler PressToggle;
 		public event EventHandler PressMenu;
+        /// <summary>
+        /// Event raised when the menu item is selected (gains focus).
+        /// </summary>
 		public event EventHandler Select;
 		public event EventHandler Deselect;
 		public event EventHandler Discard;

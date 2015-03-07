@@ -122,5 +122,6 @@ namespace AgateLib.UserInterface.Css.Documents
 		Scroll,
 		Auto,
 		Inherit,
+        Disallow,
 	}
 }

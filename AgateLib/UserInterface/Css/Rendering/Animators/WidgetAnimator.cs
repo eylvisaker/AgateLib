@@ -130,6 +130,9 @@ namespace AgateLib.UserInterface.Css.Rendering.Animators
 			translated.X += X;
 			translated.Y += Y;
 
+            translated.X -= Parent.ScrollOffset.X;
+            translated.Y -= Parent.ScrollOffset.Y;
+
 			return translated;
 		}
 		public Point ParentToClient(Point parentClientPoint)
@@ -153,6 +156,16 @@ namespace AgateLib.UserInterface.Css.Rendering.Animators
 		CssTransitionType mTransitionType;
 		public IWidgetTransition Transition { get; private set; }
 
+        public Point ScrollOffset
+        {
+            get
+            {
+                var container = Widget as Container;
+                if (container == null)
+                    return Point.Empty;
+                return container.ScrollOffset;
+            }
+        }
 		public bool InTransition
 		{
 			get

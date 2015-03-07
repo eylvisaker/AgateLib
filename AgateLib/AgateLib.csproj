@@ -606,6 +606,7 @@
     <Compile Include="UserInterface\Css\Documents\CssBorderImage.cs" />
     <Compile Include="UserInterface\Css\Documents\CssBoxComponent.cs" />
     <Compile Include="UserInterface\Css\Documents\CssText.cs" />
+    <Compile Include="UserInterface\Css\Layout\Defaults\DesktopDefaultStyle.cs" />
     <Compile Include="UserInterface\Css\Layout\Defaults\ProgressBarDefaultStyle.cs" />
     <Compile Include="UserInterface\Css\Selectors\CssMediaSelector.cs" />
     <Compile Include="UserInterface\Css\Documents\PropertyEnums.cs" />
