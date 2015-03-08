@@ -16,12 +16,13 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.ApplicationModels;
-using AgateLib.Drivers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.ApplicationModels;
+using AgateLib.Drivers;
+using AgateLib.Quality;
 
 namespace AgateLib.IO
 {
@@ -29,6 +30,8 @@ namespace AgateLib.IO
 	{
 		public static void Initialize(IReadFileProvider assetProvider, AssetLocations assetLocations)
 		{
+            Condition.Requires<ArgumentNullException>(assetProvider != null, "assetProvider");
+
 			AgateLib.IO.Assets.AddAssetLocations(assetProvider, assetLocations);
 		}
 

@@ -8,7 +8,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 
-namespace AgateLib.UnitTests.Fakes
+namespace AgateLib.Platform.Test
 {
     public class FakeSurfaceImpl : SurfaceImpl
     {

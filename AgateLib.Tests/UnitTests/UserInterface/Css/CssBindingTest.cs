@@ -8,6 +8,7 @@ using AgateLib.UserInterface.Css.Selectors;
 using AgateLib.UserInterface.Widgets;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AgateLib.Testing.Fakes.UserInterface;
 
 namespace AgateLib.UnitTests.UserInterface.Css
 {

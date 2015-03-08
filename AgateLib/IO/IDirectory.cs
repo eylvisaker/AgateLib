@@ -25,8 +25,8 @@ namespace AgateLib.IO
 {
 	public interface IDirectory
 	{
-		string[] GetFiles(string mPath);
+		string[] GetFiles(string path);
 
-		IEnumerable<string> GetFiles(string mPath, string searchPattern);
+        IEnumerable<string> GetFiles(string path, string searchPattern);
 	}
 }

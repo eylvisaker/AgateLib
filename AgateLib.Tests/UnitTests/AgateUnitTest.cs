@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AgateLib.Testing.Fakes;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AgateLib.Platform.Test;
 
 namespace AgateLib.UnitTests
 {
@@ -15,11 +16,18 @@ namespace AgateLib.UnitTests
     {
         public AgateUnitTest()
         {
-            Factory = new FakeAgateFactory();
-
-            Core.Initialize(Factory);
+            Factory = InitializeAgateLib();
         }
 
         public FakeAgateFactory Factory { get; set; }
+
+        public static FakeAgateFactory InitializeAgateLib()
+        {
+            var result = new FakeAgateFactory();
+
+            Core.Initialize(result);
+
+            return result;
+        }
     }
 }

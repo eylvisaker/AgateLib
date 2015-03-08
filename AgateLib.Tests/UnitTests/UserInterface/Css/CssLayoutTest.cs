@@ -1,14 +1,14 @@
 ﻿using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.IO;
+using AgateLib.Platform.Test;
 using AgateLib.Testing.Fakes;
+using AgateLib.Testing.Fakes.UserInterface;
 using AgateLib.UserInterface.Css;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Layout;
 using AgateLib.UserInterface.Widgets;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System.Linq;
 using System.Text;
 

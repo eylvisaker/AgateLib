@@ -158,6 +158,7 @@
     <Compile Include="InputLib\GamepadMapDatabase.cs" />
     <Compile Include="InputLib\GamepadStickEventArgs.cs" />
     <Compile Include="IO\Assets.cs" />
+    <Compile Include="IO\FileSystemObjects.cs" />
     <Compile Include="IO\ReadFileProviderList.cs" />
     <Compile Include="Mathematics\MathHelper.cs" />
     <Compile Include="Algorithms\PathFinding\IAStarMap.cs" />

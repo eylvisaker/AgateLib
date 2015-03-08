@@ -24,10 +24,18 @@ using System.Text;
 
 namespace AgateLib.IO
 {
-	public static class FileSystem
-	{
-		public static IFile File { get; set; }
-		public static IPath Path { get; set; }
-		public static IDirectory Directory { get; set; }
-	}
+    public static class FileSystem
+    {
+        static FileSystemObjects fileSystemObjects;
+
+        public static IFile File { get { return fileSystemObjects.File; } }
+        public static IPath Path { get { return fileSystemObjects.Path; } }
+        public static IDirectory Directory { get { return fileSystemObjects.Directory; } }
+
+        internal static void Initialize(Drivers.IPlatformFactory platformFactory)
+        {
+            fileSystemObjects = new FileSystemObjects();
+            platformFactory.Initialize(fileSystemObjects);
+        }
+    }
 }

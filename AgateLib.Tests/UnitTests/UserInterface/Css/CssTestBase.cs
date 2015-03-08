@@ -7,6 +7,7 @@ using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Selectors;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AgateLib.Platform.Test;
 
 namespace AgateLib.UnitTests.UserInterface.Css
 {
@@ -16,7 +17,7 @@ namespace AgateLib.UnitTests.UserInterface.Css
 		[TestInitialize]
 		public void Init()
 		{
-			Core.Initialize(new FakeAgateFactory());
+            Core.Initialize(new FakeAgateFactory());
 			Core.InitAssetLocations(new AssetLocations());
 		}
 

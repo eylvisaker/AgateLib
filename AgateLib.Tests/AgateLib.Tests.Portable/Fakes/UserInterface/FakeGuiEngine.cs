@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Testing.Fakes
+namespace AgateLib.Testing.Fakes.UserInterface
 {
 	public class FakeRenderer : IGuiRenderer
 	{

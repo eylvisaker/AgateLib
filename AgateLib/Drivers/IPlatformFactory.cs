@@ -24,25 +24,23 @@ using System.Text;
 
 namespace AgateLib.Drivers
 {
-	public interface IPlatformFactory
-	{
-		PlatformInfo Info { get; }
+    public interface IPlatformFactory
+    {
+        PlatformInfo Info { get; }
 
-		IStopwatch CreateStopwatch();
+        void Initialize(IO.FileSystemObjects fileSystemObjects);
 
-		IO.IFile CreateFile();
+        IStopwatch CreateStopwatch();
 
-		Diagnostics.AgateConsole CreateConsole();
+        Diagnostics.AgateConsole CreateConsole();
 
-		IO.IPath CreatePath();
+        IEnumerable<System.Reflection.Assembly> GetSerializationSearchAssemblies(Type objectType);
 
-		IEnumerable<System.Reflection.Assembly> GetSerializationSearchAssemblies(Type objectType);
+        /// <summary>
+        /// Gets a file provider which points to the application directory.
+        /// </summary>
+        IReadFileProvider ApplicationFolderFileProvider { get; }
 
-		/// <summary>
-		/// Gets a file provider which points to the application directory.
-		/// </summary>
-		IReadFileProvider ApplicationFolderFileProvider { get; }
-
-		IPlatformSerialization CreateDefaultSerializationConstructor();
-	}
+        IPlatformSerialization CreateDefaultSerializationConstructor();
+    }
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Quality;
-using AgateLib.UnitTests.Fakes;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AgateLib.Platform.Test;
 
 namespace AgateLib.UnitTests.DisplayLib
 {

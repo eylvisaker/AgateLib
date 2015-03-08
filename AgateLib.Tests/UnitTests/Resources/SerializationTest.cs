@@ -9,6 +9,7 @@ using AgateLib.Sprites;
 using AgateLib.Testing.Fakes;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AgateLib.Platform.Test;
 
 namespace AgateLib.UnitTests.Resources
 {

@@ -5,7 +5,7 @@ using System.Text;
 
 using AgateLib.DisplayLib.ImplementationBase;
 
-namespace AgateLib.Testing.Fakes
+namespace AgateLib.Platform.Test
 {
     public class FakeSurface : SurfaceImpl
     {
