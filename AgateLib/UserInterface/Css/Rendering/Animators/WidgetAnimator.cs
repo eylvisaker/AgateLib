@@ -97,7 +97,7 @@ namespace AgateLib.UserInterface.Css.Rendering.Animators
 			set { mClientRect.Height = value; }
 		}
 
-		public Rectangle ClientToScreen(Rectangle value)
+        public Rectangle ClientToScreen(Rectangle value, bool translateForScroll = true)
 		{
 			Rectangle translated = value;
 
@@ -105,12 +105,18 @@ namespace AgateLib.UserInterface.Css.Rendering.Animators
 
 			return translated;
 		}
-		public Point ClientToScreen(Point clientPoint)
+		public Point ClientToScreen(Point clientPoint, bool translateForScroll = true)
 		{
 			if (Parent == null)
 				return clientPoint;
 
 			Point translated = ClientToParent(clientPoint);
+
+            if (translateForScroll)
+            {
+                translated.X -= ScrollOffset.X;
+                translated.Y -= ScrollOffset.Y;
+            }
 
 			return ParentCoordinateSystem.ClientToScreen(translated);
 		}
@@ -129,9 +135,6 @@ namespace AgateLib.UserInterface.Css.Rendering.Animators
 
 			translated.X += X;
 			translated.Y += Y;
-
-            translated.X -= Parent.ScrollOffset.X;
-            translated.Y -= Parent.ScrollOffset.Y;
 
 			return translated;
 		}
