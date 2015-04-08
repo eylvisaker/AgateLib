@@ -85,7 +85,7 @@ namespace AgateLib.UserInterface.Css.Selectors
 
 		private int FindNextToken(string tokens, int start)
 		{
-			int retval = int.MaxValue;
+			int result = int.MaxValue;
 
 			for(int i = 0; i < tokens.Length; i++)
 			{
@@ -94,14 +94,14 @@ namespace AgateLib.UserInterface.Css.Selectors
 				if (current == -1)
 					continue;
 
-				if (current < retval)
-					retval = current;
+				if (current < result)
+					result = current;
 			}
 
-			if (retval == int.MaxValue)
+			if (result == int.MaxValue)
 				return -1;
 
-			return retval;
+			return result;
 		}
 
 		public string Text { get; private set; }

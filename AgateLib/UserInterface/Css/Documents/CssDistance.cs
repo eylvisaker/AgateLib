@@ -69,18 +69,18 @@ namespace AgateLib.UserInterface.Css.Documents
 					break;
 			}
 			
-			CssDistance retval = new CssDistance(false);
+			CssDistance result = new CssDistance(false);
 
-			retval.Amount = double.Parse(value.Substring(0, numberLength));
+			result.Amount = double.Parse(value.Substring(0, numberLength));
 
 			if (value.Length > numberLength)
 			{
 				string unit = value.Substring(numberLength);
 				if (UnitMap.ContainsKey(unit))
-					retval.DistanceUnit = UnitMap[unit];
+					result.DistanceUnit = UnitMap[unit];
 			}
 
-			return retval;
+			return result;
 		}
 
 		public override string ToString()

@@ -43,7 +43,7 @@ namespace AgateLib.UserInterface.Css.Binders
 		public PropertyChain GetCssPropertyChain(Type type, string name)
 		{
 			if (type != theType) throw new ArgumentException("Wrong type of object passed!");
-			PropertyChain retval = new PropertyChain();
+			PropertyChain result = new PropertyChain();
 
 			var property = properties.FirstOrDefault(
 				p =>
@@ -57,8 +57,8 @@ namespace AgateLib.UserInterface.Css.Binders
 
 			if (property != null)
 			{
-				retval.Add(property);
-				return retval;
+				result.Add(property);
+				return result;
 			}
 
 			foreach (var prop in properties)
@@ -79,9 +79,9 @@ namespace AgateLib.UserInterface.Css.Binders
 
 					if (newprops != null)
 					{
-						retval.Add(prop);
-						retval.AddRange(newprops);
-						return retval;
+						result.Add(prop);
+						result.AddRange(newprops);
+						return result;
 					}
 				}
 			}

@@ -83,7 +83,7 @@ namespace AgateLib.DisplayLib
 
 		private short[] ConvertToInt16(int[] indices)
 		{
-			short[] retval = new short[indices.Length];
+			short[] result = new short[indices.Length];
 
 			int i = 0;
 
@@ -91,9 +91,9 @@ namespace AgateLib.DisplayLib
 			{
 				checked
 				{
-					for (i = 0; i < retval.Length; i++)
+					for (i = 0; i < result.Length; i++)
 					{
-						retval[i] = (short)indices[i];
+						result[i] = (short)indices[i];
 					}
 				}
 			}
@@ -105,18 +105,18 @@ namespace AgateLib.DisplayLib
 					short.MaxValue, indices[i], i));
 			}
 
-			return retval;
+			return result;
 		}
 		private int[] ConvertToInt32(short[] indices)
 		{
-			int[] retval = new int[indices.Length];
+			int[] result = new int[indices.Length];
 
-			for (int i = 0; i < retval.Length; i++)
+			for (int i = 0; i < result.Length; i++)
 			{
-				retval[i] = (short)indices[i];
+				result[i] = (short)indices[i];
 			}
 
-			return retval;
+			return result;
 		}
 
 		/// <summary>

@@ -38,23 +38,23 @@ namespace AgateLib.Geometry
 
 		public Polygon Clone()
 		{
-			var retval = new Polygon();
+			var result = new Polygon();
 
-			retval.mPoints.AddRange(mPoints);
+			result.mPoints.AddRange(mPoints);
 
-			return retval;
+			return result;
 		}
 
 		public static Polygon FromRect(Rectangle rect)
 		{
-			Polygon retval = new Polygon();
+			Polygon result = new Polygon();
 
-			retval.AddPoint(rect.X, rect.Y);
-			retval.AddPoint(rect.Right, rect.Y);
-			retval.AddPoint(rect.Right, rect.Bottom);
-			retval.AddPoint(rect.X, rect.Bottom);
+			result.AddPoint(rect.X, rect.Y);
+			result.AddPoint(rect.Right, rect.Y);
+			result.AddPoint(rect.Right, rect.Bottom);
+			result.AddPoint(rect.X, rect.Bottom);
 
-			return retval;
+			return result;
 		}
 
 		private void AddPoint(int x, int y)

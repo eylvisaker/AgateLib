@@ -47,14 +47,14 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <returns></returns>
 		public FontMetrics Clone()
 		{
-			FontMetrics retval = new FontMetrics();
+			FontMetrics result = new FontMetrics();
 
 			foreach (KeyValuePair<char, GlyphMetrics> v in this.mGlyphs)
 			{
-				retval.Add(v.Key, v.Value.Clone());
+				result.Add(v.Key, v.Value.Clone());
 			}
 
-			return retval;
+			return result;
 		}
 
 		#region IDictionary<char,GlyphMetrics> Members

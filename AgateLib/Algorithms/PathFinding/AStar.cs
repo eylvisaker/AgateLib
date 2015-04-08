@@ -223,10 +223,10 @@ namespace AgateLib.Algorithms.PathFinding
 		{
 			openNodes.Sort((x, y) =>
 			{
-				int retval = x.TotalCost.CompareTo(y.TotalCost);
-				if (retval == 0)
-					retval = -x.PaidCost.CompareTo(y.PaidCost);
-				return retval;
+				int result = x.TotalCost.CompareTo(y.TotalCost);
+				if (result == 0)
+					result = -x.PaidCost.CompareTo(y.PaidCost);
+				return result;
 			});
 		}
 

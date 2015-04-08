@@ -81,13 +81,13 @@ namespace AgateLib.DisplayLib
 		public FontSurface GetClosestFont(FontSettings fontSettings)
 		{
 			var settings = GetClosestFontSettings(fontSettings);
-			var retval = mFontSurfaces[settings];
+			var result = mFontSurfaces[settings];
 
 			var ratio = fontSettings.Size / (double)settings.Size;
 
-			retval.SetScale(ratio, ratio);
+			result.SetScale(ratio, ratio);
 
-			return retval;
+			return result;
 		}
 
 		internal FontSettings GetClosestFontSettings(int size, FontStyles style)
@@ -212,7 +212,7 @@ namespace AgateLib.DisplayLib
 		[Obsolete("This needs to be thought through more carefully.")]
 		internal static Font Create(string name, int minSize, int maxSize, FontStyles styles)
 		{
-			Font retval = new Font(name);
+			Font result = new Font(name);
 
 			int inc = FontSizeStep(minSize);
 			bool bold = (styles & FontStyles.Bold) == FontStyles.Bold;
@@ -220,17 +220,17 @@ namespace AgateLib.DisplayLib
 
 			for (int size = minSize; size <= maxSize; size += inc)
 			{
-				retval.AddFont(new FontSurface(name, size, FontStyles.None), size, FontStyles.None);
+				result.AddFont(new FontSurface(name, size, FontStyles.None), size, FontStyles.None);
 
 				if (bold)
-					retval.AddFont(new FontSurface(name, size, FontStyles.Bold), size, FontStyles.Bold);
+					result.AddFont(new FontSurface(name, size, FontStyles.Bold), size, FontStyles.Bold);
 				if (italic)
-					retval.AddFont(new FontSurface(name, size, FontStyles.Italic), size, FontStyles.Italic);
+					result.AddFont(new FontSurface(name, size, FontStyles.Italic), size, FontStyles.Italic);
 				if (bold && italic)
-					retval.AddFont(new FontSurface(name, size, FontStyles.Bold | FontStyles.Italic), size, FontStyles.Bold | FontStyles.Italic);
+					result.AddFont(new FontSurface(name, size, FontStyles.Bold | FontStyles.Italic), size, FontStyles.Bold | FontStyles.Italic);
 			}
 
-			return retval;
+			return result;
 		}
 
 		private static int FontSizeStep(int minSize)

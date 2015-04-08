@@ -333,28 +333,28 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 
 		private WindowsVersion DetectWindowsVersion()
 		{
-			WindowsVersion retval = WindowsVersion.WindowsVista;
+			WindowsVersion result = WindowsVersion.WindowsVista;
 			
 			switch (System.Environment.OSVersion.Version.Major)
 			{
 				case 4:
-					retval = WindowsVersion.Windows98;
+					result = WindowsVersion.Windows98;
 					break;
 				case 5:
-					retval = WindowsVersion.WindowsXP;
+					result = WindowsVersion.WindowsXP;
 					break;
 				case 6:
-					retval = WindowsVersion.WindowsVista;
+					result = WindowsVersion.WindowsVista;
 					break;
 				case 7:
-					retval = WindowsVersion.Windows7;
+					result = WindowsVersion.Windows7;
 					break;
 				case 8:
-					retval = WindowsVersion.Windows8;
+					result = WindowsVersion.Windows8;
 					break;
 			}
 
-			return retval;
+			return result;
 		}
 
 

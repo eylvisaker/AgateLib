@@ -94,9 +94,9 @@ namespace AgateLib.ApplicationModels
 				AutoCreateDisplayWindow();
 				PrerunInitialization();
 
-				int retval = BeginModel(entryPoint);
+				int result = BeginModel(entryPoint);
 
-				return retval;
+				return result;
 			}
 			finally
 			{

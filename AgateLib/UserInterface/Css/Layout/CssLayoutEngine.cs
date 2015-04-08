@@ -384,15 +384,15 @@ namespace AgateLib.UserInterface.Css.Layout
 		}
 		private Container TopLevelWidget(Widget child, Func<Widget, bool> validMatch)
 		{
-			var retval = child.Parent;
+			var result = child.Parent;
 
-			if (retval == null)
+			if (result == null)
 				return null;
 
-			if (validMatch(retval))
-				return retval;
+			if (validMatch(result))
+				return result;
 
-			return TopLevelWidget(retval, validMatch);
+			return TopLevelWidget(result, validMatch);
 		}
 
 		private int ComputeMaxWidthForContainer(CssStyle style)

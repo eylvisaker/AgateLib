@@ -86,11 +86,11 @@ namespace AgateLib.Data
 
 			using (Stream x = await provider.OpenReadAsync("catalog.txt"))
 			{
-				AgateDatabase retval = (AgateDatabase)ser.Deserialize(x);
+				AgateDatabase result = (AgateDatabase)ser.Deserialize(x);
 
-				retval.mTables.FileProvider = provider;
+				result.mTables.FileProvider = provider;
 
-				return retval;
+				return result;
 			}
 		}
 

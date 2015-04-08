@@ -606,16 +606,16 @@ namespace AgateLib.Geometry
 		{
 			var colorType = typeof(Color).GetTypeInfo();
 
-			var retval = colorType.DeclaredProperties.FirstOrDefault(
+			var result = colorType.DeclaredProperties.FirstOrDefault(
 				x => x.PropertyType == typeof(Color) && 
 					x.GetMethod.IsStatic && x.GetMethod.IsPublic && 
 					x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 			
-			if (retval == null)
+			if (result == null)
 				return null;
 
-			if (retval.PropertyType == typeof(Color))
-				return retval;
+			if (result.PropertyType == typeof(Color))
+				return result;
 			else
 				return null;
 		}

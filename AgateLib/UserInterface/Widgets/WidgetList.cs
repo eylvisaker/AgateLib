@@ -175,9 +175,9 @@ namespace AgateLib.UserInterface.Widgets
 
 		public T Find<T>(string name) where T : Widget
 		{
-			T retval = (T)mItems.SingleOrDefault(x => x.Name == name);
+			T result = (T)mItems.SingleOrDefault(x => x.Name == name);
 
-			if (retval == null)
+			if (result == null)
 			{
 				foreach (var child in this)
 				{
@@ -186,14 +186,14 @@ namespace AgateLib.UserInterface.Widgets
 					if (c == null)
 						continue;
 
-					retval = c.Children.Find<T>(name);
+					result = c.Children.Find<T>(name);
 
-					if (retval != null)
-						return retval;
+					if (result != null)
+						return result;
 				}
 			}
 
-			return retval;
+			return result;
 		}
 
 		protected virtual void OnWidgetAdded(Widget widget)

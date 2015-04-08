@@ -737,12 +737,12 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size textureSize, Point point)
 		{
-			var retval = new PixelBuffer(pixelFormat, textureSize);
+			var result = new PixelBuffer(pixelFormat, textureSize);
 
 			for (int y = 0; y < Height; y++)
 			{
 				int srcIndex = RowStride * y;
-				int destIndex = retval.RowStride * y + point.X;
+				int destIndex = result.RowStride * y + point.X;
 
 				// same format copy, no conversion necessary.
 				if (pixelFormat == PixelFormat)
@@ -750,22 +750,22 @@ namespace AgateLib.DisplayLib
 
 					//for (int x = 0; x < Width * PixelStride; x++)
 					//{
-					//    retval.Data[destIndex + x] = Data[srcIndex + x];
+					//    result.Data[destIndex + x] = Data[srcIndex + x];
 					//}
 					Array.Copy(Data, srcIndex,
-							   retval.Data, destIndex, Width * PixelStride);
+							   result.Data, destIndex, Width * PixelStride);
 				}
 				else
 				{
 					// different formats must convert.
 					for (int x = 0; x < Width; x++)
 					{
-						retval.SetPixel(x, y, GetPixel(x, y));
+						result.SetPixel(x, y, GetPixel(x, y));
 					}
 				}
 			}
 
-			return retval;
+			return result;
 		}
 
 		/// <summary>
@@ -1052,12 +1052,12 @@ namespace AgateLib.DisplayLib
 				}
 			}
 
-			PixelBuffer retval = new PixelBuffer(buffer.PixelFormat, buffer.Size);
+			PixelBuffer result = new PixelBuffer(buffer.PixelFormat, buffer.Size);
 			int[,] square = new int[3, 3];
 
-			for (int j = 0; j < retval.Height; j++)
+			for (int j = 0; j < result.Height; j++)
 			{
-				for (int i = 0; i < retval.Width; i++)
+				for (int i = 0; i < result.Width; i++)
 				{
 					GetSquare(square, heights, i, j);
 
@@ -1080,11 +1080,11 @@ namespace AgateLib.DisplayLib
 									   (int)(vec.Y * 255),
 									   (int)(vec.Z * 255));
 
-					retval.SetPixel(i, j, clr);
+					result.SetPixel(i, j, clr);
 				}
 			}
 
-			return retval;
+			return result;
 		}
 
 		private static void GetSquare(int[,] square, int[,] heights, int x, int y)

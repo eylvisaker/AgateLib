@@ -70,9 +70,9 @@ namespace AgateLib.Sprites
 		{
 			get
 			{
-				var retval = mTransformedPoly.BoundingRect;
+				var result = mTransformedPoly.BoundingRect;
 
-				return retval;
+				return result;
 			}
 		}
 

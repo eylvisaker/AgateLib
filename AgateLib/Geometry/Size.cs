@@ -195,7 +195,7 @@ namespace AgateLib.Geometry
 			}
 
 			string[] values = str.Split(',');
-			Size retval = new Size();
+			Size result = new Size();
 
 			if (values.Length == 1 && str.Contains("x") && str.Contains("=") == false)
 				values = str.Split('x');
@@ -212,23 +212,23 @@ namespace AgateLib.Geometry
 					{
 						int equals = values[i].IndexOf("=", StringComparison.OrdinalIgnoreCase);
 
-						retval.Width = int.Parse(values[i].Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
+						result.Width = int.Parse(values[i].Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
 					}
 					else if (values[i].ToLowerInvariant().Contains("height")
 						&& values[i].Contains("="))
 					{
 						int equals = values[i].IndexOf('=');
 
-						retval.Height = int.Parse(values[i].Substring(equals + 1));
+						result.Height = int.Parse(values[i].Substring(equals + 1));
 					}
 				}
 			}
 			else
 			{
-				retval.Width = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
-				retval.Height = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
+				result.Width = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
+				result.Height = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
 			}
-			return retval;
+			return result;
 		}
 
 	}

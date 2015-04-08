@@ -56,11 +56,11 @@ namespace AgateLib.Platform.WinForms.Factories
 
 		public SurfaceImpl CreateSurface(PixelBuffer pixels)
 		{
-			var retval = CreateSurface(pixels.Size);
+			var result = CreateSurface(pixels.Size);
 
-			retval.WritePixels(pixels);
+			result.WritePixels(pixels);
 
-			return retval;
+			return result;
 		}
 
 		public FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, FontStyles style)
