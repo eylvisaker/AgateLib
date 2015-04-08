@@ -1,15 +1,13 @@
-﻿using AgateLib.Drivers;
+﻿using System;
+using System.IO;
+
+using AgateLib.Drivers;
 using AgateLib.Geometry;
 using AgateLib.Serialization.Xle;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.Serialization.Xle
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.Serialization.Xle
 {
 	[TestClass]
 	public class XSTests

@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -42,7 +43,8 @@ namespace AgateLib.Geometry
 		/// <param name="y"></param>
 		/// <param name="width"></param>
 		/// <param name="height"></param>
-		public Rectangle(int x, int y, int width, int height)
+        [DebuggerStepThrough]
+        public Rectangle(int x, int y, int width, int height)
 		{
 			this.pt = new Point(x, y);
 			this.sz = new Size(width, height);
@@ -52,7 +54,8 @@ namespace AgateLib.Geometry
 		/// </summary>
 		/// <param name="pt"></param>
 		/// <param name="sz"></param>
-		public Rectangle(Point pt, Size sz)
+        [DebuggerStepThrough]
+        public Rectangle(Point pt, Size sz)
 		{
 			this.pt = pt;
 			this.sz = sz;
@@ -122,91 +125,102 @@ namespace AgateLib.Geometry
 		/// <param name="right"></param>
 		/// <param name="bottom"></param>
 		/// <returns></returns>
-		public static Rectangle FromLTRB(int left, int top, int right, int bottom)
+        [DebuggerStepThrough]
+        public static Rectangle FromLTRB(int left, int top, int right, int bottom)
 		{
 			return new Rectangle(left, top, right - left, bottom - top);
 		}
 		/// <summary>
 		/// X value
 		/// </summary>
-		public int X
+        public int X
 		{
-			get { return pt.X; }
-			set { pt.X = value; }
+            [DebuggerStepThrough]
+            get { return pt.X; }
+            [DebuggerStepThrough]
+            set { pt.X = value; }
 		}
 		/// <summary>
 		/// Y value
 		/// </summary>
-		public int Y
+        public int Y
 		{
-			get { return pt.Y; }
-			set { pt.Y = value; }
+            [DebuggerStepThrough]
+            get { return pt.Y; }
+            [DebuggerStepThrough]
+            set { pt.Y = value; }
 		}
 		/// <summary>
 		/// Width
 		/// </summary>
-		public int Width
+        public int Width
 		{
-			get { return sz.Width; }
-			set { sz.Width = value; }
+            [DebuggerStepThrough]
+            get { return sz.Width; }
+            [DebuggerStepThrough]
+            set { sz.Width = value; }
 		}
 		/// <summary>
 		/// Height
 		/// </summary>
-		public int Height
+        public int Height
 		{
-			get { return sz.Height; }
-			set { sz.Height = value; }
+            [DebuggerStepThrough]
+            get { return sz.Height; }
+            [DebuggerStepThrough]
+            set { sz.Height = value; }
 		}
 		/// <summary>
 		/// Gets bottom.
 		/// </summary>
-		
-		public int Bottom
+        public int Bottom
 		{
-			get { return pt.Y + sz.Height; }
+            [DebuggerStepThrough]
+            get { return pt.Y + sz.Height; }
 		}
 		/// <summary>
 		/// Gets left.
 		/// </summary>
-		
 		public int Left
 		{
-			get { return pt.X; }
+            [DebuggerStepThrough]
+            get { return pt.X; }
 		}
 		/// <summary>
 		/// Gets top.
 		/// </summary>
-		
 		public int Top
 		{
-			get { return pt.Y; }
+            [DebuggerStepThrough]
+            get { return pt.Y; }
 		}
 		/// <summary>
 		/// Gets right.
 		/// </summary>
-		
 		public int Right
 		{
-			get { return pt.X + sz.Width; }
+            [DebuggerStepThrough]
+            get { return pt.X + sz.Width; }
 		}
 		/// <summary>
 		/// Gets or sets top-left point.
 		/// </summary>
-		
 		public Point Location
 		{
-			get { return pt; }
-			set { pt = value; }
+            [DebuggerStepThrough]
+            get { return pt; }
+            [DebuggerStepThrough]
+            set { pt = value; }
 		}
 		/// <summary>
 		/// Gets or sets size.
 		/// </summary>
-		
 		public Size Size
 		{
-			get { return sz; }
-			set { sz = value; }
+            [DebuggerStepThrough]
+            get { return sz; }
+            [DebuggerStepThrough]
+            set { sz = value; }
 		}
 		/// <summary>
 		/// Returns true if the rectangle contains the specified point.

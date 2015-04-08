@@ -122,10 +122,6 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 			mDevice = new D3DDevice(sdxContext);
 		}
 
-		public override void Dispose()
-		{
-		}
-
 		#endregion
 
 		#region --- Implementation Specific Public Properties ---

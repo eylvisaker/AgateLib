@@ -6,7 +6,7 @@
     <ProjectGuid>{F22ADCCC-7991-4F52-B2D0-697D60121BB3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgateLib</RootNamespace>
+    <RootNamespace>AgateLib.UnitTests</RootNamespace>
     <AssemblyName>AgateLib.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -92,17 +92,25 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AgateLib.Platform.Test\IntegrationTestPlatformFactory.cs" />
+    <Compile Include="AgateLib.Platform.Test\IntegrationTestPlatform.cs" />
+    <Compile Include="AgateUnitTest.cs" />
     <Compile Include="Algorithms\PathFinding\AStarTest.cs" />
     <Compile Include="Algorithms\EMathTest.cs" />
     <Compile Include="ApplicationModels\ArgumentProcessing.cs" />
     <Compile Include="ApplicationModels\CoordinateSystemTest.cs" />
     <Compile Include="Diagnostics\ConsoleTests.cs" />
-    <Compile Include="Display\DisplayTests.cs" />
-    <Compile Include="Display\DisplayWindowTest.cs" />
-    <Compile Include="Display\FontTests.cs" />
+    <Compile Include="AgateUninitializedUnitTest.cs" />
+    <Compile Include="DisplayLib\DisplayTests.cs" />
+    <Compile Include="DisplayLib\DisplayWindowTest.cs" />
+    <Compile Include="DisplayLib\FontTests.cs" />
+    <Compile Include="DisplayLib\PixelBufferTest.cs" />
+    <Compile Include="DisplayLib\SurfaceTest.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Geometry\ColorTests.cs" />
+    <Compile Include="Geometry\RectangleTest.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
+    <Compile Include="AgateLib.Platform.Test\FileSystemProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Platform\PlatformTests.cs" />
     <Compile Include="Resources\SerializationTest.cs" />
@@ -135,6 +143,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

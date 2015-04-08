@@ -62,10 +62,15 @@ namespace AgateLib.Platform.WindowsStore.AudioImplementation
 
 		public override bool Loop { get; set; }
 
-		public override void Dispose()
-		{
-			mBuffer.Stream.Dispose();
-		}
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                mBuffer.Stream.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
 
 		public AudioBuffer Buffer
 		{

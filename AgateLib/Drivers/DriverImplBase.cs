@@ -32,10 +32,24 @@ namespace AgateLib.Drivers
 		/// Initialization beyond what the constructor does.
 		/// </summary>
 		public abstract void Initialize();
+
 		/// <summary>
-		/// Disposes of unmanaged resources.
+		/// Disposes of owned resources.
 		/// </summary>
-		public abstract void Dispose();
+		public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes of owned resources. If disposing is fals, only unmanaged resources
+        /// should be disposed.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+        }
 
 		/// <summary>
 		/// Called by drivers in their Initialize routine to report

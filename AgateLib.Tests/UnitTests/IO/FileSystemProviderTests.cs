@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AgateLib.Platform.WinForms.IO;
+﻿using AgateLib.Platform.WinForms.IO;
 
-namespace AgateLib.IO
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.IO
 {
 	[TestClass]
 	public class FileSystemProviderTests

@@ -1,4 +1,5 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+﻿using AgateLib.Quality;
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -32,6 +33,7 @@ namespace AgateLib.UserInterface.Css.Layout.Defaults
 
 		public DefaultStyleCollection()
 		{
+            mSetters[typeof(Desktop)] = new DesktopDefaultStyle();
 			mSetters[typeof(Window)] = new WindowDefaultStyle();
 			mSetters[typeof(Menu)] = new MenuDefaultStyle();
 			mSetters[typeof(ProgressBar)] = new ProgressBarDefaultStyle();
@@ -39,8 +41,8 @@ namespace AgateLib.UserInterface.Css.Layout.Defaults
 
 		public void Add(IDefaultStyleSetter styleSetter, params Type[] types)
 		{
-			if (types.Length == 0)
-				throw new ArgumentException("You must supply at least one type to use.");
+            Condition.Requires<ArgumentException>(types != null, "You must supply at least one type to use.");
+            Condition.Requires<ArgumentException>(types.Length > 0, "You must supply at least one type to use.");
 
 			foreach (var t in types)
 				mSetters[t] = styleSetter;

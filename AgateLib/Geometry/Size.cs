@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -27,7 +28,7 @@ namespace AgateLib.Geometry
 	/// <summary>
 	/// A structure with two properties, a width and height.
 	/// </summary>
-	[DataContract]
+    [DataContract]
 	public struct Size
 	{
 		[DataMember]
@@ -37,7 +38,8 @@ namespace AgateLib.Geometry
 		/// Constructs a Size.
 		/// </summary>
 		/// <param name="pt"></param>
-		public Size(Point pt)
+        [DebuggerStepThrough]
+        public Size(Point pt)
 		{
 			width = pt.X;
 			height = pt.Y;
@@ -47,7 +49,8 @@ namespace AgateLib.Geometry
 		/// </summary>
 		/// <param name="width"></param>
 		/// <param name="height"></param>
-		public Size(int width, int height)
+        [DebuggerStepThrough]
+        public Size(int width, int height)
 		{
 			this.width = width;
 			this.height = height;
@@ -56,27 +59,31 @@ namespace AgateLib.Geometry
 		/// <summary>
 		/// Gets or sets the width.
 		/// </summary>
-		public int Width
+        public int Width
 		{
-			get { return width; }
-			set { width = value; }
+            [DebuggerStepThrough]
+            get { return width; }
+            [DebuggerStepThrough]
+            set { width = value; }
 		}
 		/// <summary>
 		/// Gets or sets the height.
 		/// </summary>
-		public int Height
+        public int Height
 		{
-			get { return height; }
-			set { height = value; }
+            [DebuggerStepThrough]
+            get { return height; }
+            [DebuggerStepThrough]
+            set { height = value; }
 		}
 
 		/// <summary>
 		/// Returns true if width and height are zero.
 		/// </summary>
-		
-		public bool IsEmpty
+        public bool IsEmpty
 		{
-			get { return width == 0 && height == 0; }
+            [DebuggerStepThrough]
+            get { return width == 0 && height == 0; }
 		}
 
 		/// <summary>

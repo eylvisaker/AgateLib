@@ -21,96 +21,100 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Quality;
 
 namespace AgateLib.IO
 {
-	public class SubdirectoryProvider : IReadFileProvider
-	{
-		private IReadFileProvider parent;
-		private string subdir;
+    public class SubdirectoryProvider : IReadFileProvider
+    {
+        private IReadFileProvider parent;
+        private string subdir;
 
-		public SubdirectoryProvider(IReadFileProvider parent, string subdir)
-		{
-			// TODO: Complete member initialization
-			this.parent = parent;
-			this.subdir = subdir.Replace('\\', '/');
+        public SubdirectoryProvider(IReadFileProvider parent, string subdir)
+        {
+            Condition.Requires<ArgumentNullException>(parent != null);
+            Condition.Requires<ArgumentException>(string.IsNullOrWhiteSpace(subdir) == false, "subdir must not be null");
 
-			if (this.subdir.EndsWith("/") == false)
-				this.subdir += "/";
-		}
+            // TODO: Complete member initialization
+            this.parent = parent;
+            this.subdir = subdir.Replace('\\', '/');
 
-		public override string ToString()
-		{
-			return System.IO.Path.Combine(parent.ToString(), subdir);
-		}
-		public async Task<System.IO.Stream> OpenReadAsync(string filename)
-		{
-			if (System.IO.Path.IsPathRooted(filename) == false)
-			{
-				return await parent.OpenReadAsync(subdir + filename).ConfigureAwait(false);
-			}
-			else
-				return await parent.OpenReadAsync(filename).ConfigureAwait(false);
-		}
+            if (this.subdir.EndsWith("/") == false)
+                this.subdir += "/";
+        }
 
-		public bool FileExists(string filename)
-		{
-			return parent.FileExists(subdir + filename);
-		}
+        public override string ToString()
+        {
+            return System.IO.Path.Combine(parent.ToString(), subdir);
+        }
+        public async Task<System.IO.Stream> OpenReadAsync(string filename)
+        {
+            if (System.IO.Path.IsPathRooted(filename) == false)
+            {
+                return await parent.OpenReadAsync(subdir + filename).ConfigureAwait(false);
+            }
+            else
+                return await parent.OpenReadAsync(filename).ConfigureAwait(false);
+        }
 
-		public IEnumerable<string> GetAllFiles()
-		{
-			return parent.GetAllFiles(subdir + "**");
-		}
+        public bool FileExists(string filename)
+        {
+            return parent.FileExists(subdir + filename);
+        }
 
-		public IEnumerable<string> GetAllFiles(string searchPattern)
-		{
-			var results = parent.GetAllFiles(subdir + searchPattern);
+        public IEnumerable<string> GetAllFiles()
+        {
+            return parent.GetAllFiles(subdir + "**");
+        }
 
-			foreach(var result in results)
-			{
-				if (result.StartsWith(subdir))
-					yield return result.Substring(subdir.Length);
-				else
-					yield return result;
-			}
-		}
+        public IEnumerable<string> GetAllFiles(string searchPattern)
+        {
+            var results = parent.GetAllFiles(subdir + searchPattern);
 
-		public string ReadAllText(string filename)
-		{
-			return parent.ReadAllText(subdir + filename);
-		}
+            foreach (var result in results)
+            {
+                if (result.StartsWith(subdir))
+                    yield return result.Substring(subdir.Length);
+                else
+                    yield return result;
+            }
+        }
 
-		public bool IsRealFile(string filename)
-		{
-			return parent.IsRealFile(subdir + filename);
-		}
+        public string ReadAllText(string filename)
+        {
+            return parent.ReadAllText(subdir + filename);
+        }
 
-		public string ResolveFile(string filename)
-		{
-			if (IsRooted(filename))
-				return parent.ResolveFile(filename);
+        public bool IsRealFile(string filename)
+        {
+            return parent.IsRealFile(subdir + filename);
+        }
 
-			return parent.ResolveFile(subdir + filename);
-		}
+        public string ResolveFile(string filename)
+        {
+            if (IsRooted(filename))
+                return parent.ResolveFile(filename);
 
-		private bool IsRooted(string filename)
-		{
-			if (char.IsLetter(filename[0]) && filename[1] == ':')
-				return true;
-			if (filename.StartsWith("/"))
-				return true;
-			if (Core.Platform.PlatformType == Platform.PlatformType.Windows &&
-				filename.StartsWith("\\"))
-				return true;
+            return parent.ResolveFile(subdir + filename);
+        }
 
-			return false;
-		}
+        private bool IsRooted(string filename)
+        {
+            if (char.IsLetter(filename[0]) && filename[1] == ':')
+                return true;
+            if (filename.StartsWith("/"))
+                return true;
+            if (Core.Platform.PlatformType == Platform.PlatformType.Windows &&
+                filename.StartsWith("\\"))
+                return true;
+
+            return false;
+        }
 
 
-		public bool IsLogicalFilesystem
-		{
-			get { return parent.IsLogicalFilesystem; }
-		}
-	}
+        public bool IsLogicalFilesystem
+        {
+            get { return parent.IsLogicalFilesystem; }
+        }
+    }
 }

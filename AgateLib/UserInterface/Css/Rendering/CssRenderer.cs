@@ -179,7 +179,7 @@ namespace AgateLib.UserInterface.Css.Rendering
 			if (anim.ClientRect.Width == 0 || anim.ClientRect.Height == 0)
 				return true;
 
-			Rectangle clipRect = anim.ClientToScreen(new Rectangle(0, 0, anim.ClientRect.Width, anim.ClientRect.Height));
+			Rectangle clipRect = anim.ClientToScreen(new Rectangle(0, 0, anim.ClientRect.Width, anim.ClientRect.Height), false);
 
 			Display.PushClipRect(clipRect);
 			return true;

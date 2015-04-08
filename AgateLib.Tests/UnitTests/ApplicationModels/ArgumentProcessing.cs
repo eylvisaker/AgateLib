@@ -1,13 +1,12 @@
-﻿using AgateLib.Geometry;
-using AgateLib.Platform;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace AgateLib.ApplicationModels
+using AgateLib.ApplicationModels;
+using AgateLib.Geometry;
+using AgateLib.Platform;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.ApplicationModels
 {
 	public class ArgumentProcessing : AgateAppModel
 	{

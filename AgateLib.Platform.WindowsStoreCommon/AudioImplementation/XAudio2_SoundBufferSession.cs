@@ -75,10 +75,15 @@ namespace AgateLib.Platform.WindowsStore.AudioImplementation
 				mIsPlaying = false;
 			}
 		}
-		public override void Dispose()
+
+		protected override void Dispose(bool disposing)
 		{
 			mLoop = false;
-			mVoice.Stop();
+
+            if (disposing)
+            {
+                mVoice.Stop();
+            }
 
 			mDisposing = true;
 		}

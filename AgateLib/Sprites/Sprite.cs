@@ -1013,8 +1013,17 @@ namespace AgateLib.Sprites
 		{
 			throw new NotImplementedException();
 		}
+        /// <summary>
+        /// Draws the sprite.  (This overload not currently implemented.)
+        /// </summary>
+        /// <param name="srcRect"></param>
+        /// <param name="destRect"></param>
+        public void Draw(Rectangle srcRect, Rectangle destRect)
+        {
+            throw new NotImplementedException();
+        }
 
-		public InterpolationMode InterpolationHint { get; set; }
+        public InterpolationMode InterpolationHint { get; set; }
 		public bool FlipHorizontal { get; set; }
 		public bool FlipVertical { get; set; }
 
@@ -1025,5 +1034,23 @@ namespace AgateLib.Sprites
 		{
 			get { return TimePerFrame * Frames.Count; }
 		}
-	}
+
+
+        public ISurface CarveSubSurface(Rectangle srcRect)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void Draw(Rectangle srcRect, Point point)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void Draw(Rectangle destRect)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
