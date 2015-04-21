@@ -39,6 +39,15 @@ namespace AgateLib.Quality
         }
 
         [DebuggerStepThrough]
+        public static void RequireArgumentNotNull<T>(T param, string paramName) where T : class
+        {
+            if (param != null)
+                return;
+
+            throw new ArgumentNullException(paramName, paramName + " must not be null");
+        }
+
+        [DebuggerStepThrough]
         public static void Requires<TE>(bool state, string paramName, string message) where TE: ArgumentException, new ()
         {
             if (state == true)
@@ -75,5 +84,6 @@ namespace AgateLib.Quality
 
             return state;
         }
+
     }
 }
