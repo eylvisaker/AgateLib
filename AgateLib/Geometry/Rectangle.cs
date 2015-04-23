@@ -69,7 +69,7 @@ namespace AgateLib.Geometry
 			}
 
 			string[] values = text.Split(',');
-			Rectangle retval = new Rectangle();
+			Rectangle result = new Rectangle();
 
 			if (values.Length != 4)
 				throw new FormatException("Could not parse rectangle data from text.");
@@ -82,33 +82,33 @@ namespace AgateLib.Geometry
 					if (values[i].ToLowerInvariant().Contains("width")
 						&& values[i].Contains("="))
 					{
-						retval.Width = ParseNumeric(values[i]);
+						result.Width = ParseNumeric(values[i]);
 					}
 					else if (values[i].ToLowerInvariant().Contains("height")
 						&& values[i].Contains("="))
 					{
-						retval.Height = ParseNumeric(values[i]);
+						result.Height = ParseNumeric(values[i]);
 					}
 					else if (values[i].ToLowerInvariant().Contains("x")
 						&& values[i].Contains("="))
 					{
-						retval.X = ParseNumeric(values[i]);
+						result.X = ParseNumeric(values[i]);
 					}
 					else if (values[i].ToLowerInvariant().Contains("y")
 						&& values[i].Contains("="))
 					{
-						retval.Y = ParseNumeric(values[i]);
+						result.Y = ParseNumeric(values[i]);
 					}
 				}
 			}
 			else
 			{
-				retval.X = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
-				retval.Y = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
-				retval.Width = int.Parse(values[2], System.Globalization.CultureInfo.InvariantCulture);
-				retval.Height = int.Parse(values[3], System.Globalization.CultureInfo.InvariantCulture);
+				result.X = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
+				result.Y = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
+				result.Width = int.Parse(values[2], System.Globalization.CultureInfo.InvariantCulture);
+				result.Height = int.Parse(values[3], System.Globalization.CultureInfo.InvariantCulture);
 			}
-			return retval;
+			return result;
 		}
 		private static int ParseNumeric(string text)
 		{
@@ -282,14 +282,14 @@ namespace AgateLib.Geometry
 		/// the rectangle is contracted.</param>
 		public Rectangle Expand(int amount)
 		{
-			var retval = this;
+			var result = this;
 
-			retval.X -= amount;
-			retval.Y -= amount;
-			retval.Width += amount * 2;
-			retval.Height += amount * 2;
+			result.X -= amount;
+			result.Y -= amount;
+			result.Width += amount * 2;
+			result.Height += amount * 2;
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Returns true if this intersects another rectangle.
@@ -438,24 +438,24 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public static Rectangle Union(Rectangle a, Rectangle b)
 		{
-			Rectangle retval = a;
+			Rectangle result = a;
 
 			if (b.Top < a.Top)
 			{
-				retval.Y = b.Y;
+				result.Y = b.Y;
 			}
 			if (b.Left < a.Left)
 			{
-				retval.X = b.X;
+				result.X = b.X;
 			}
 
-			if (a.Right > retval.Right) retval.Width = a.Right - retval.Left;
-			if (b.Right > retval.Right) retval.Width = b.Right - retval.Left;
+			if (a.Right > result.Right) result.Width = a.Right - result.Left;
+			if (b.Right > result.Right) result.Width = b.Right - result.Left;
 
-			if (a.Bottom > retval.Bottom) retval.Height = a.Bottom - retval.Top;
-			if (b.Bottom > retval.Bottom) retval.Height = b.Bottom - retval.Top;
+			if (a.Bottom > result.Bottom) result.Height = a.Bottom - result.Top;
+			if (b.Bottom > result.Bottom) result.Height = b.Bottom - result.Top;
 
-			return retval;
+			return result;
 
 		}
 
@@ -466,12 +466,12 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public static Rectangle Parse(string text)
 		{
-			Rectangle retval;
+			Rectangle result;
 
-			if (TryParse(text, out retval) == false)
+			if (TryParse(text, out result) == false)
 				throw new FormatException("Could not parse rectangle data from text.");
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Parses a string for a rectangle.

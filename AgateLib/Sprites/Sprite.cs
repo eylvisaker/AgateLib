@@ -289,23 +289,23 @@ namespace AgateLib.Sprites
 		public Sprite Clone()
 		{
 			// TODO: Update this method to cover owned surfaces.
-			Sprite retval = new Sprite(mSpriteSize.Width, mSpriteSize.Height);
+			Sprite result = new Sprite(mSpriteSize.Width, mSpriteSize.Height);
 
-			retval.mTimePerFrame = mTimePerFrame;
-			retval.mCurrentFrameIndex = mCurrentFrameIndex;
-			retval.mFrameTime = mFrameTime;
-			retval.mAnimType = mAnimType;
-			retval.mPlayReverse = mPlayReverse;
-			retval.mIsAnimating = mIsAnimating;
+			result.mTimePerFrame = mTimePerFrame;
+			result.mCurrentFrameIndex = mCurrentFrameIndex;
+			result.mFrameTime = mFrameTime;
+			result.mAnimType = mAnimType;
+			result.mPlayReverse = mPlayReverse;
+			result.mIsAnimating = mIsAnimating;
 
-			retval.mState = mState.Clone();
+			result.mState = mState.Clone();
 
 			foreach (SpriteFrame frame in mFrames)
 			{
-				retval.mFrames.Add(frame.Clone());
+				result.mFrames.Add(frame.Clone());
 			}
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Disposes of unmanaged resources associated with this sprite.

@@ -102,11 +102,11 @@ namespace AgateLib.Platform.WinForms.IO
 			{
 				baseStream.Seek(this.offset + position, SeekOrigin.Begin);
 
-				int retval = baseStream.Read(buffer, offset, count);
+				int result = baseStream.Read(buffer, offset, count);
 
-				position += retval;
+				position += result;
 
-				return retval;
+				return result;
 			}
 			public override long Seek(long offset, SeekOrigin origin)
 			{

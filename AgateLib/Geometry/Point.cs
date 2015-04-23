@@ -73,15 +73,15 @@ namespace AgateLib.Geometry
                 str = str.Substring(1, str.Length - 2);
 
             string[] values = str.Split(',');
-            Point retval = new Point();
+            Point result = new Point();
 
             if (values.Length > 2)
                 throw new FormatException("Could not parse point data from text.");
 
-            retval.X = ParseEntry(values[0], "X");
-            retval.Y = ParseEntry(values[1], "Y");
+            result.X = ParseEntry(values[0], "X");
+            result.Y = ParseEntry(values[1], "Y");
 
-            return retval;
+            return result;
         }
 
         private static int ParseEntry(string str, string name)
