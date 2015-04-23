@@ -38,32 +38,32 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static Point Calc(OriginAlignment origin, Size size)
 		{
-			Point retval = new Point();
+			Point result = new Point();
 			int tb = ((int)origin) & 0xf0;
 			int lr = ((int)origin) & 0x0f;
 			int width = Math.Abs(size.Width);
 			int height = Math.Abs(size.Height);
 
 			if (lr == 0x01)
-				retval.X = 0;
+				result.X = 0;
 			else if (lr == 0x02)
-				retval.X = width / 2;
+				result.X = width / 2;
 			else if (lr == 0x03)
 			{
-				retval.X = width;
+				result.X = width;
 
 			}
 
 			if (tb == 0x10)
-				retval.Y = 0;
+				result.Y = 0;
 			else if (tb == 0x20)
-				retval.Y = height / 2;
+				result.Y = height / 2;
 			else if (tb == 0x30)
 			{
-				retval.Y = height;
+				result.Y = height;
 			}
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Returns a point which should be subtracted from the interpreted
@@ -74,9 +74,9 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static PointF CalcF(OriginAlignment origin, Size size)
 		{
-			Point retval = Calc(origin, size);
+			Point result = Calc(origin, size);
 
-			return new PointF(retval.X, retval.Y);
+			return new PointF(result.X, result.Y);
 		}
 		/// <summary>
 		/// Returns a point which should be subtracted from the interpreted
@@ -87,25 +87,25 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static PointF CalcF(OriginAlignment origin, SizeF size)
 		{
-			PointF retval = new PointF();
+			PointF result = new PointF();
 			int tb = ((int)origin) & 0xf0;
 			int lr = ((int)origin) & 0x0f;
 
 			if (lr == 0x01)
-				retval.X = 0;
+				result.X = 0;
 			else if (lr == 0x02)
-				retval.X = size.Width / 2;
+				result.X = size.Width / 2;
 			else if (lr == 0x03)
-				retval.X = size.Width;
+				result.X = size.Width;
 
 			if (tb == 0x10)
-				retval.Y = 0;
+				result.Y = 0;
 			else if (tb == 0x20)
-				retval.Y = size.Height / 2;
+				result.Y = size.Height / 2;
 			else if (tb == 0x30)
-				retval.Y = size.Height;
+				result.Y = size.Height;
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Returns a point which should be subtracted from the interpreted
@@ -145,12 +145,12 @@ namespace AgateLib.DisplayLib
 		public static Rectangle CalcRect(OriginAlignment origin, Rectangle rect, Size effectiveSize)
 		{
 			Point pt = Origin.Calc(origin, effectiveSize);
-			Rectangle retval = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
+			Rectangle result = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
 
-			retval.X -= pt.X;
-			retval.Y -= pt.Y;
+			result.X -= pt.X;
+			result.Y -= pt.Y;
 
-			return retval;
+			return result;
 		}
 	};
 

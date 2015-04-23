@@ -143,9 +143,9 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public Vector2 Normalize()
 		{
-			Vector2 retval = this / Magnitude;
+			Vector2 result = this / Magnitude;
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Adds two vectors.
@@ -302,11 +302,11 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public static Vector2 FromPolar(double radius, double angle)
 		{
-			Vector2 retval = new Vector2(
+			Vector2 result = new Vector2(
 				radius * Math.Cos(angle),
 				radius * Math.Sin(angle));
 
-			return retval;
+			return result;
 		}
 		public static Vector2 FromPolarDegrees(double radius, double angle)
 		{

@@ -40,28 +40,28 @@ namespace AgateLib.UserInterface.Widgets
 		{ }
 		public static InputMap CreateDefaultInputMap()
 		{
-			InputMap retval = new InputMap();
+			InputMap result = new InputMap();
 
-			retval.AddKey(KeyCode.Up, GuiInput.Up);
-			retval.AddKey(KeyCode.Down, GuiInput.Down);
-			retval.AddKey(KeyCode.Left, GuiInput.Left);
-			retval.AddKey(KeyCode.Right, GuiInput.Right);
-			retval.AddKey(KeyCode.Enter, GuiInput.Accept);
-			retval.AddKey(KeyCode.Escape, GuiInput.Cancel);
-			retval.AddKey(KeyCode.PageUp, GuiInput.PageUp);
-			retval.AddKey(KeyCode.PageDown, GuiInput.PageDown);
+			result.AddKey(KeyCode.Up, GuiInput.Up);
+			result.AddKey(KeyCode.Down, GuiInput.Down);
+			result.AddKey(KeyCode.Left, GuiInput.Left);
+			result.AddKey(KeyCode.Right, GuiInput.Right);
+			result.AddKey(KeyCode.Enter, GuiInput.Accept);
+			result.AddKey(KeyCode.Escape, GuiInput.Cancel);
+			result.AddKey(KeyCode.PageUp, GuiInput.PageUp);
+			result.AddKey(KeyCode.PageDown, GuiInput.PageDown);
 
-			retval.AddKey(KeyCode.NumPad8, GuiInput.Up);
-			retval.AddKey(KeyCode.NumPad4, GuiInput.Left);
-			retval.AddKey(KeyCode.NumPad6, GuiInput.Right);
-			retval.AddKey(KeyCode.NumPad2, GuiInput.Down);
-			retval.AddKey(KeyCode.NumPad0, GuiInput.Cancel);
-			retval.AddKey(KeyCode.NumPadPlus, GuiInput.Menu);
-			retval.AddKey(KeyCode.NumPadMinus, GuiInput.Switch);
-			retval.AddKey(KeyCode.NumPad9, GuiInput.PageUp);
-			retval.AddKey(KeyCode.NumPad3, GuiInput.PageDown);
+			result.AddKey(KeyCode.NumPad8, GuiInput.Up);
+			result.AddKey(KeyCode.NumPad4, GuiInput.Left);
+			result.AddKey(KeyCode.NumPad6, GuiInput.Right);
+			result.AddKey(KeyCode.NumPad2, GuiInput.Down);
+			result.AddKey(KeyCode.NumPad0, GuiInput.Cancel);
+			result.AddKey(KeyCode.NumPadPlus, GuiInput.Menu);
+			result.AddKey(KeyCode.NumPadMinus, GuiInput.Switch);
+			result.AddKey(KeyCode.NumPad9, GuiInput.PageUp);
+			result.AddKey(KeyCode.NumPad3, GuiInput.PageDown);
 
-			return retval;
+			return result;
 		}
 
 		public void AddKey(KeyCode keyCode, GuiInput guiInput)

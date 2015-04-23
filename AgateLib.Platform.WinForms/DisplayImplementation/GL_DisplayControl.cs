@@ -427,20 +427,20 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		InputLib.MouseButton GetButtons(System.Windows.Forms.MouseButtons buttons)
 		{
-			var retval = InputLib.MouseButton.None;
+			var result = InputLib.MouseButton.None;
 
 			if ((buttons & System.Windows.Forms.MouseButtons.Left) != 0)
-				retval |= InputLib.MouseButton.Primary;
+				result |= InputLib.MouseButton.Primary;
 			if ((buttons & System.Windows.Forms.MouseButtons.Right) != 0)
-				retval |= InputLib.MouseButton.Secondary;
+				result |= InputLib.MouseButton.Secondary;
 			if ((buttons & System.Windows.Forms.MouseButtons.Middle) != 0)
-				retval |= InputLib.MouseButton.Middle;
+				result |= InputLib.MouseButton.Middle;
 			if ((buttons & System.Windows.Forms.MouseButtons.XButton1) != 0)
-				retval |= InputLib.MouseButton.ExtraButton1;
+				result |= InputLib.MouseButton.ExtraButton1;
 			if ((buttons & System.Windows.Forms.MouseButtons.XButton2) != 0)
-				retval |= InputLib.MouseButton.ExtraButton2;
+				result |= InputLib.MouseButton.ExtraButton2;
 
-			return retval;
+			return result;
 		}
 
 		void mRenderTarget_Disposed(object sender, EventArgs e)

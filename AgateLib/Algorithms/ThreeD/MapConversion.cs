@@ -44,12 +44,12 @@ namespace AgateLib.Algorithms.ThreeD
                 }
             }
 
-            PixelBuffer retval = new PixelBuffer(buffer.PixelFormat, buffer.Size);
+            PixelBuffer result = new PixelBuffer(buffer.PixelFormat, buffer.Size);
             int[,] square = new int[3, 3];
 
-            for (int j = 0; j < retval.Height; j++)
+            for (int j = 0; j < result.Height; j++)
             {
-                for (int i = 0; i < retval.Width; i++)
+                for (int i = 0; i < result.Width; i++)
                 {
                     GetSquare(square, heights, i, j);
 
@@ -72,11 +72,11 @@ namespace AgateLib.Algorithms.ThreeD
                                        (int)(vec.Y * 255),
                                        (int)(vec.Z * 255));
 
-                    retval.SetPixel(i, j, clr);
+                    result.SetPixel(i, j, clr);
                 }
             }
 
-            return retval;
+            return result;
         }
 
         private static void GetSquare(int[,] square, int[,] heights, int x, int y)

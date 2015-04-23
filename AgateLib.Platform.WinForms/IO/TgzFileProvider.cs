@@ -187,14 +187,14 @@ namespace AgateLib.Platform.WinForms.IO
 
 		string GetString(BinaryReader reader, int length)
 		{
-			string retval = Encoding.ASCII.GetString(reader.ReadBytes(length));
+			string result = Encoding.ASCII.GetString(reader.ReadBytes(length));
 
-			while (retval.EndsWith("\0"))
-				retval = retval.Substring(0, retval.Length - 1);
-			while (retval.StartsWith("\0"))
-				retval = retval.Substring(1, retval.Length - 1);
+			while (result.EndsWith("\0"))
+				result = result.Substring(0, result.Length - 1);
+			while (result.StartsWith("\0"))
+				result = result.Substring(1, result.Length - 1);
 
-			return retval.Trim();
+			return result.Trim();
 		}
 
 		/// <summary>

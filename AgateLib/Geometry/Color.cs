@@ -606,15 +606,15 @@ namespace AgateLib.Geometry
 		{
 			var colorType = typeof(Color).GetTypeInfo();
 
-            var retval = colorType.DeclaredFields.FirstOrDefault(
+            var result = colorType.DeclaredFields.FirstOrDefault(
 				x => x.FieldType == typeof(Color) && 
 					x.IsStatic && x.IsPublic && x.IsInitOnly && 
 					x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 			
-			if (retval == null)
+			if (result == null)
 				return null;
 
-			return retval;
+			return result;
 		}
 
 		/// <summary>

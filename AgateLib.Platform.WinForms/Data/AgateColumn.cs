@@ -47,17 +47,17 @@ namespace AgateLib.Data
 		/// <returns></returns>
 		public AgateColumn Clone()
 		{
-			AgateColumn retval = new AgateColumn();
+			AgateColumn result = new AgateColumn();
 
-			retval.mName = mName;
-			retval.mDescription = mDescription;
-			retval.mTableLookup = mTableLookup;
-			retval.mLookupField = mLookupField;
-			retval.mPrimaryKey = mPrimaryKey;
-			retval.mNextAutoIncrementValue = mNextAutoIncrementValue;
-			retval.mFieldType = mFieldType;
+			result.mName = mName;
+			result.mDescription = mDescription;
+			result.mTableLookup = mTableLookup;
+			result.mLookupField = mLookupField;
+			result.mPrimaryKey = mPrimaryKey;
+			result.mNextAutoIncrementValue = mNextAutoIncrementValue;
+			result.mFieldType = mFieldType;
 
-			return retval;
+			return result;
 		}
 
 		void IXleSerializable.WriteData(XleSerializationInfo info)

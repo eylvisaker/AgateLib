@@ -109,7 +109,7 @@ namespace AgateLib.Data
 
 		private List<AgateRow> ReadRows(string rows)
 		{
-			List<AgateRow> retval = new List<AgateRow>();
+			List<AgateRow> result = new List<AgateRow>();
 
 			string[] lines = rows.Split(LineSplitChars, StringSplitOptions.RemoveEmptyEntries);
 
@@ -133,10 +133,10 @@ namespace AgateLib.Data
 					i++;
 				}
 
-				retval.Add(row);
+				result.Add(row);
 			}
 
-			return retval;
+			return result;
 		}
 
 		#endregion

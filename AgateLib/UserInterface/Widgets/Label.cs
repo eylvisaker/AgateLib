@@ -296,8 +296,8 @@ namespace AgateLib.UserInterface.Widgets
 					return new Size(WrappedWidth, WrappedHeight);
 			}
 
-			var retval = Font.MeasureString(Text);
-			return retval;
+			var result = Font.MeasureString(Text);
+			return result;
 		}
 
 		public OriginAlignment TextAlign { get; set; }

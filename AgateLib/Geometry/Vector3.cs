@@ -116,9 +116,9 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public Vector3 Normalize()
 		{
-			Vector3 retval = this / Magnitude;
+			Vector3 result = this / Magnitude;
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Adds two vectors.

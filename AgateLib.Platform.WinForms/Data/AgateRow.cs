@@ -55,12 +55,12 @@ namespace AgateLib.Data
 		/// <returns></returns>
 		public AgateRow Clone()
 		{
-			AgateRow retval = new AgateRow(mParentTable);
+			AgateRow result = new AgateRow(mParentTable);
 
 			foreach (var value in mValues)
-				retval.mValues[value.Key] = value.Value;
+				result.mValues[value.Key] = value.Value;
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Gets the AgateTable object that this row belongs to or will be added to.

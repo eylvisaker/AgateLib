@@ -86,14 +86,14 @@ namespace AgateLib.UserInterface.Css.Selectors
 
 		private Window TopWindow(Widget control)
 		{
-			var retval = control;
+			var result = control;
 
-			while (retval != null && retval.Parent != null)
+			while (result != null && result.Parent != null)
 			{
-				if (retval.Parent is Desktop)
-					return retval as Window;
+				if (result.Parent is Desktop)
+					return result as Window;
 
-				retval = retval.Parent;
+				result = result.Parent;
 			}
 
 			return null;

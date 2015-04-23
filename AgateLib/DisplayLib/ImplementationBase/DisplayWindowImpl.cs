@@ -154,14 +154,14 @@ namespace AgateLib.DisplayLib.ImplementationBase
 			double x = point.X / (double)Width;
 			double y = point.Y / (double)Height;
 			
-			Point retval = new Point(
+			Point result = new Point(
 				(int)(x * coords.Width),
 				(int)(y * coords.Height));
 
-			retval.X += coords.X;
-			retval.Y += coords.Y;
+			result.X += coords.X;
+			result.Y += coords.Y;
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Converts a logical coordinate to actual pixel coordinates.

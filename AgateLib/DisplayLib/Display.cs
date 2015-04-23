@@ -423,10 +423,10 @@ namespace AgateLib.DisplayLib
 
 		internal static Surface BuildPackedSurface(Size size, SurfacePacker.RectPacker<Surface> packedRects)
 		{
-			Surface retval = sImpl.BuildPackedSurface(size, packedRects);
-			retval.ShouldBePacked = false;
+			Surface result = sImpl.BuildPackedSurface(size, packedRects);
+			result.ShouldBePacked = false;
 
-			return retval;
+			return result;
 
 		}
 

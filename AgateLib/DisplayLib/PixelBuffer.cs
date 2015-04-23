@@ -697,12 +697,12 @@ namespace AgateLib.DisplayLib
         /// <returns></returns>
         public PixelBuffer ConvertTo(PixelFormat pixelFormat, Size textureSize, Point point)
         {
-            var retval = new PixelBuffer(pixelFormat, textureSize);
+            var result = new PixelBuffer(pixelFormat, textureSize);
 
             for (int y = 0; y < Height; y++)
             {
                 int srcIndex = RowStride * y;
-                int destIndex = retval.RowStride * y + point.X;
+                int destIndex = result.RowStride * y + point.X;
 
                 // same format copy, no conversion necessary.
                 if (pixelFormat == PixelFormat)
@@ -710,22 +710,22 @@ namespace AgateLib.DisplayLib
 
                     //for (int x = 0; x < Width * PixelStride; x++)
                     //{
-                    //    retval.Data[destIndex + x] = Data[srcIndex + x];
+                    //    result.Data[destIndex + x] = Data[srcIndex + x];
                     //}
                     Array.Copy(Data, srcIndex,
-                               retval.Data, destIndex, Width * PixelStride);
+                               result.Data, destIndex, Width * PixelStride);
                 }
                 else
                 {
                     // different formats must convert.
                     for (int x = 0; x < Width; x++)
                     {
-                        retval.SetPixel(x, y, GetPixel(x, y));
+                        result.SetPixel(x, y, GetPixel(x, y));
                     }
                 }
             }
 
-            return retval;
+            return result;
         }
 
         /// <summary>

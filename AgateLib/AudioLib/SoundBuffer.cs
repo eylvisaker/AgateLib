@@ -161,11 +161,11 @@ namespace AgateLib.AudioLib
 				}
 			}
 
-			SoundBufferSession retval = new SoundBufferSession(this);
+			SoundBufferSession result = new SoundBufferSession(this);
 
-			mSessions.Add(retval);
+			mSessions.Add(result);
 
-			return retval;
+			return result;
 		}
 
 		/// <summary>

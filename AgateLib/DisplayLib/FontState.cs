@@ -174,22 +174,22 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public FontState Clone()
 		{
-			FontState retval = new FontState();
+			FontState result = new FontState();
 
-			retval.mAlignment = mAlignment;
-			retval.mColor = mColor;
-			retval.mScaleWidth = mScaleWidth;
-			retval.mScaleHeight = mScaleHeight;
-			retval.mLocation = mLocation;
-			retval.mText = mText;
-			retval.InterpolationHint = InterpolationHint;
+			result.mAlignment = mAlignment;
+			result.mColor = mColor;
+			result.mScaleWidth = mScaleWidth;
+			result.mScaleHeight = mScaleHeight;
+			result.mLocation = mLocation;
+			result.mText = mText;
+			result.InterpolationHint = InterpolationHint;
 
 			if (mCache != null)
 			{
-				retval.mCache = mCache.Clone();
+				result.mCache = mCache.Clone();
 			}
 
-			return retval;
+			return result;
 		}
 
 		#endregion

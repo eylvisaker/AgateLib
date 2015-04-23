@@ -207,13 +207,13 @@ namespace AgateLib.Geometry
 
 			Vector3 u = s.CrossProduct(f);
 
-			Matrix4x4 retval = new Matrix4x4(
+			Matrix4x4 result = new Matrix4x4(
 				s.X, s.Y, s.Z, -s.DotProduct(eye),
 				u.X, u.Y, u.Z, -u.DotProduct(eye),
 				-f.X, -f.Y, -f.Z, f.DotProduct(eye),
 				0, 0, 0, 1);
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Creates a projection matrix for perspective corrected views.
@@ -377,7 +377,7 @@ namespace AgateLib.Geometry
 
 		private Matrix4x4 Mult(Matrix4x4 m)
 		{
-			Matrix4x4 retval = new Matrix4x4();
+			Matrix4x4 result = new Matrix4x4();
 
 			for (int row = 0; row < 4; row++)
 			{
@@ -385,13 +385,13 @@ namespace AgateLib.Geometry
 				{
 					for (int inner = 0; inner < 4; inner++)
 					{
-						retval[row, col] +=
+						result[row, col] +=
 							this[row, inner] * m[inner, col];
 					}
 				}
 			}
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Multiplies two matrices together.
@@ -411,17 +411,17 @@ namespace AgateLib.Geometry
 		/// <returns></returns>
 		public static Vector4 operator *(Matrix4x4 left, Vector4 right)
 		{
-			Vector4 retval = new Vector4();
+			Vector4 result = new Vector4();
 
 			for (int row = 0; row < 4; row++)
 			{
 				for (int col = 0; col < 4; col++)
 				{
-					retval[row] += left[row, col] * right[col];
+					result[row] += left[row, col] * right[col];
 				}
 			}
 
-			return retval;
+			return result;
 		}
 	}
 }

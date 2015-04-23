@@ -1127,7 +1127,7 @@ namespace AgateLib.Serialization.Xle
 
 		T[] _ReadBase64Array<T>(string name, int byteCount, Func<byte[], T> converter)
 		{
-			List<T> retval = new List<T>();
+			List<T> result = new List<T>();
 
 			byte[] array = ReadArray<byte>(name);
 
@@ -1139,10 +1139,10 @@ namespace AgateLib.Serialization.Xle
 			for (int i = 0; i < array.Length; i += byteCount)
 			{
 				Array.Copy(array, i, bytes, 0, byteCount);
-				retval.Add(converter(bytes));
+				result.Add(converter(bytes));
 			}
 
-			return retval.ToArray();
+			return result.ToArray();
 		}
 		/// <summary>
 		/// Reads a integer array from the XML data.  If the name is not present 
@@ -1221,8 +1221,8 @@ namespace AgateLib.Serialization.Xle
 
 			try
 			{
-				T[] retval = (T[])ReadArray(name);
-				return retval;
+				T[] result = (T[])ReadArray(name);
+				return result;
 			}
 			catch (InvalidCastException ex)
 			{
@@ -1289,10 +1289,10 @@ namespace AgateLib.Serialization.Xle
 				}
 			}
 
-			Array retval = (Array)Activator.CreateInstance(arrayType, list.Count);
-			list.CopyTo(retval, 0);
+			Array result = (Array)Activator.CreateInstance(arrayType, list.Count);
+			list.CopyTo(result, 0);
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Reads a list of objects from the XML data.  If the name is not present 
@@ -1336,7 +1336,7 @@ namespace AgateLib.Serialization.Xle
 			{
 				nodes.Push(element);
 
-				Dictionary<TKey, TValue> retval = new Dictionary<TKey, TValue>();
+				Dictionary<TKey, TValue> result = new Dictionary<TKey, TValue>();
 
 				foreach (var current in CurrentNode.Elements())
 				{
@@ -1348,7 +1348,7 @@ namespace AgateLib.Serialization.Xle
 						nodes.Push(current);
 						TValue val = (TValue)DeserializeObject(typeof(TValue));
 
-						retval.Add(key, val);
+						result.Add(key, val);
 					}
 					finally
 					{
@@ -1356,7 +1356,7 @@ namespace AgateLib.Serialization.Xle
 					}
 				}
 
-				return retval;
+				return result;
 			}
 			finally
 			{
@@ -1394,7 +1394,7 @@ namespace AgateLib.Serialization.Xle
 			{
 				nodes.Push(element);
 
-				Dictionary<Tkey, string> retval = new Dictionary<Tkey, string>();
+				Dictionary<Tkey, string> result = new Dictionary<Tkey, string>();
 
 				foreach (var current in element.Elements())
 				{
@@ -1403,10 +1403,10 @@ namespace AgateLib.Serialization.Xle
 
 					string valueString = current.Attribute("value").Value;
 
-					retval.Add(key, valueString);
+					result.Add(key, valueString);
 				}
 
-				return retval;
+				return result;
 			}
 			finally
 			{
@@ -1429,7 +1429,7 @@ namespace AgateLib.Serialization.Xle
 			{
 				nodes.Push(element);
 
-				Dictionary<Tkey, int> retval = new Dictionary<Tkey, int>();
+				Dictionary<Tkey, int> result = new Dictionary<Tkey, int>();
 
 				foreach (var current in element.Elements())
 				{
@@ -1438,10 +1438,10 @@ namespace AgateLib.Serialization.Xle
 
 					string valueString = current.Attribute("value").Value;
 
-					retval.Add(key, int.Parse(valueString));
+					result.Add(key, int.Parse(valueString));
 				}
 
-				return retval;
+				return result;
 			}
 			finally
 			{
@@ -1559,11 +1559,11 @@ namespace AgateLib.Serialization.Xle
 			{
 				nodes.Push(root);
 
-				object retval = DeserializeObject();
+				object result = DeserializeObject();
 
 				System.Diagnostics.Debug.Assert(nodes.Count == 1);
 
-				return retval;
+				return result;
 			}
 			finally
 			{

@@ -208,12 +208,12 @@ namespace AgateLib.DisplayLib.BitmapFont
 		{
 			get
 			{
-				int retval = 0;
+				int result = 0;
 
 				for (int i = 0; i < mRanges.Count; i++)
-					retval += (int)(mRanges[i].EndChar - mRanges[i].StartChar + 1);
+					result += (int)(mRanges[i].EndChar - mRanges[i].StartChar + 1);
 
-				return retval;
+				return result;
 			}
 		}
 
