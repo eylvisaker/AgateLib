@@ -308,10 +308,12 @@ namespace AgateLib.UserInterface.Widgets
 
 		private Widget GetGestureWidget(Widget targetWidget)
 		{
-			while (targetWidget is Desktop == false && targetWidget.AcceptGestureInput == false)
-				targetWidget = targetWidget.Parent;
+            var testWidget = targetWidget;
 
-			return targetWidget;
+            while (testWidget is Desktop == false && testWidget.AcceptGestureInput == false)
+                testWidget = testWidget.Parent;
+
+            return testWidget;
 		}
 
 		void mGamepad_ButtonReleased(object sender, GamepadButtonEventArgs e)

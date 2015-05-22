@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using AgateLib.Extensions.Collections.Generic;
 using AgateLib.Geometry;
 
 namespace AgateLib.UserInterface.Widgets
@@ -38,6 +40,11 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			return mItems.IndexOf(item);
 		}
+
+        public void Sort(Comparison<Widget> comparison)
+        {
+            mItems.InsertionSort(comparison);
+        }
 
 		protected virtual void ValidateItem(Widget item)
 		{
@@ -150,6 +157,18 @@ namespace AgateLib.UserInterface.Widgets
 			get { return false; }
 		}
 
+	    /// <summary>
+	    /// Removes all items that match the specified predicate
+	    /// </summary>
+	    /// <param name="pred"></param>
+	    /// <returns></returns>
+	    public int RemoveAll(Func<Widget, bool> pred)
+	    {
+	        var itemsToRemove = mItems.Where(pred).ToList();
+
+	        return mItems.RemoveAll(itemsToRemove.Contains);
+	    }
+
 		public bool Remove(Widget item)
 		{
 			if (item == null) throw new ArgumentNullException("item");
@@ -229,6 +248,7 @@ namespace AgateLib.UserInterface.Widgets
 
 			return null;
 		}
+
 	}
 
 	public class WidgetListOf<T> : WidgetList where T : Widget
