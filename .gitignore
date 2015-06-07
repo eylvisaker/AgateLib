@@ -1,5 +1,3 @@
-AgateLib.AgateSDL/bin/
-AgateLib.AgateSDL/obj/
 */bin/
 */obj/
 */*/bin/
@@ -7,3 +5,5 @@ AgateLib.AgateSDL/obj/
 AgateLib.Tests/Binaries/
 Binaries/
 AgateLib.Platform.WindowsStoreCommon/Resources/*.fxo
+*/Binaries/*
+Binaries/*
