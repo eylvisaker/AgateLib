@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Quality;
 
 namespace AgateLib.UserInterface.Css
 {
@@ -29,13 +30,15 @@ namespace AgateLib.UserInterface.Css
 	{
 		public static TKey FindKeyByValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TValue value)
 		{
-			if (dictionary == null)
-				throw new ArgumentNullException("dictionary");
+			Condition.Requires<ArgumentNullException>(dictionary != null, "dictionary");
 
 			foreach (KeyValuePair<TKey, TValue> pair in dictionary)
-				if (value.Equals(pair.Value)) return pair.Key;
+			{
+				if (value.Equals(pair.Value))
+					return pair.Key;
+			}
 
-			throw new Exception("the value is not found in the dictionary");
+			throw new KeyNotFoundException("The value is not found in the dictionary");
 		}
 
 		public static CssRuleBlock FindExactMatch(this IEnumerable<CssRuleBlock> list, CssSelector selector) 

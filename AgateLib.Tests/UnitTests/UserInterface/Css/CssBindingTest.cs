@@ -1,17 +1,16 @@
-﻿using AgateLib.ApplicationModels;
+﻿using System.Linq;
+
 using AgateLib.Testing.Fakes;
+using AgateLib.UserInterface.Css;
 using AgateLib.UserInterface.Css.Binders;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Selectors;
 using AgateLib.UserInterface.Widgets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Css.Tests
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AgateLib.Testing.Fakes.UserInterface;
+
+namespace AgateLib.UnitTests.UserInterface.Css
 {
 	[TestClass]
 	public class CssBindingTest : CssTestBase

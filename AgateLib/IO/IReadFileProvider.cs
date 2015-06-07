@@ -1,4 +1,5 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
+﻿using AgateLib.Quality;
+//     The contents of this file are subject to the Mozilla Public License
 //     Version 1.1 (the "License"); you may not use this file except in
 //     compliance with the License. You may obtain a copy of the License at
 //     http://www.mozilla.org/MPL/
@@ -91,6 +92,9 @@ namespace AgateLib
 	{
 		public static Stream OpenRead(this IReadFileProvider provider, string filename)
 		{
+            Condition.Requires<ArgumentNullException>(provider != null, "provider");
+            Condition.Requires<ArgumentNullException>(filename != null, "filename");
+
 			var task = provider.OpenReadAsync(filename);
 
 			return task.Result;

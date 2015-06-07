@@ -31,7 +31,7 @@ namespace AgateLib.Utility
 	/// [Experimental - This class may disappear in the future.]
 	/// </remarks>
 	/// <typeparam name="T"></typeparam>
-	public class RefCounter<T> : IDisposable where T : IDisposable
+	public sealed class RefCounter<T> : IDisposable where T : IDisposable
 	{
 		int mRefs = 0;
 		T v;

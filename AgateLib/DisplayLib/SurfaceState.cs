@@ -53,10 +53,10 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public SurfaceState Clone()
 		{
-			SurfaceState retval = new SurfaceState();
-			CopyTo(retval, true);
+			SurfaceState result = new SurfaceState();
+			CopyTo(result, true);
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Copies data from this SurfaceState to the destination state.
@@ -70,6 +70,7 @@ namespace AgateLib.DisplayLib
 			target.DisplayAlignment = mAlignment;
 			target.RotationAngle = mRotation;
 			target.RotationCenter = mRotationSpot;
+		    target.RotationCenterLocation = mRotationCenter;
 			target.ColorGradient = mGradient;
 
 			if (copyDrawInstances)

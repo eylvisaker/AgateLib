@@ -70,10 +70,10 @@ namespace AgateLib.Platform.WinForms.Controls
 				// supposedly this should improve compatibility on Windows Vista
 				// when the compositing manager is used and Agate is running through
 				// OpenGL.
-				CreateParams retval = base.CreateParams;
-				retval.ClassStyle |= (int)ClassStyles.CS_OWNDC;
+				CreateParams result = base.CreateParams;
+				result.ClassStyle |= (int)ClassStyles.CS_OWNDC;
 
-				return retval;
+				return result;
 			}
 		}
 

@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -27,7 +28,7 @@ namespace AgateLib.Geometry
 	/// <summary>
 	/// A structure with two properties, a width and height.
 	/// </summary>
-	[DataContract]
+    [DataContract]
 	public struct Size
 	{
 		[DataMember]
@@ -37,7 +38,8 @@ namespace AgateLib.Geometry
 		/// Constructs a Size.
 		/// </summary>
 		/// <param name="pt"></param>
-		public Size(Point pt)
+        [DebuggerStepThrough]
+        public Size(Point pt)
 		{
 			width = pt.X;
 			height = pt.Y;
@@ -47,7 +49,8 @@ namespace AgateLib.Geometry
 		/// </summary>
 		/// <param name="width"></param>
 		/// <param name="height"></param>
-		public Size(int width, int height)
+        [DebuggerStepThrough]
+        public Size(int width, int height)
 		{
 			this.width = width;
 			this.height = height;
@@ -56,27 +59,31 @@ namespace AgateLib.Geometry
 		/// <summary>
 		/// Gets or sets the width.
 		/// </summary>
-		public int Width
+        public int Width
 		{
-			get { return width; }
-			set { width = value; }
+            [DebuggerStepThrough]
+            get { return width; }
+            [DebuggerStepThrough]
+            set { width = value; }
 		}
 		/// <summary>
 		/// Gets or sets the height.
 		/// </summary>
-		public int Height
+        public int Height
 		{
-			get { return height; }
-			set { height = value; }
+            [DebuggerStepThrough]
+            get { return height; }
+            [DebuggerStepThrough]
+            set { height = value; }
 		}
 
 		/// <summary>
 		/// Returns true if width and height are zero.
 		/// </summary>
-		
-		public bool IsEmpty
+        public bool IsEmpty
 		{
-			get { return width == 0 && height == 0; }
+            [DebuggerStepThrough]
+            get { return width == 0 && height == 0; }
 		}
 
 		/// <summary>
@@ -195,7 +202,7 @@ namespace AgateLib.Geometry
 			}
 
 			string[] values = str.Split(',');
-			Size retval = new Size();
+			Size result = new Size();
 
 			if (values.Length == 1 && str.Contains("x") && str.Contains("=") == false)
 				values = str.Split('x');
@@ -212,23 +219,23 @@ namespace AgateLib.Geometry
 					{
 						int equals = values[i].IndexOf("=", StringComparison.OrdinalIgnoreCase);
 
-						retval.Width = int.Parse(values[i].Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
+						result.Width = int.Parse(values[i].Substring(equals + 1), System.Globalization.CultureInfo.CurrentCulture);
 					}
 					else if (values[i].ToLowerInvariant().Contains("height")
 						&& values[i].Contains("="))
 					{
 						int equals = values[i].IndexOf('=');
 
-						retval.Height = int.Parse(values[i].Substring(equals + 1));
+						result.Height = int.Parse(values[i].Substring(equals + 1));
 					}
 				}
 			}
 			else
 			{
-				retval.Width = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
-				retval.Height = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
+				result.Width = int.Parse(values[0], System.Globalization.CultureInfo.InvariantCulture);
+				result.Height = int.Parse(values[1], System.Globalization.CultureInfo.InvariantCulture);
 			}
-			return retval;
+			return result;
 		}
 
 	}

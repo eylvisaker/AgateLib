@@ -60,10 +60,14 @@ namespace AgateLib.AgateSDL.Audio
 
 			Play();
 		}
-		public override void Dispose()
+
+		protected override void Dispose(bool disposing)
 		{
-			Stop();
+            HaltChannel();
+
+            base.Dispose(disposing);
 		}
+
 		public SoundBufferSession Owner { get; private set; }
 
 		protected override void Initialize()
@@ -153,10 +157,15 @@ namespace AgateLib.AgateSDL.Audio
 
 		public override void Stop()
 		{
-			sdl.Mixer.Mix_HaltChannel(channel);
+            HaltChannel();
 
 			watch.Stop();
 		}
+
+        private void HaltChannel()
+        {
+            sdl.Mixer.Mix_HaltChannel(channel);
+        }
 
 		public override double Volume
 		{

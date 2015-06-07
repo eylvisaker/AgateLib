@@ -37,11 +37,11 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		internal override Size ComputeSize(int? minWidth, int? minHeight, int? maxWidth, int? maxHeight)
 		{
-			Size retval = new Size();
+			Size result = new Size();
 
-			retval.Width = 40;
+			result.Width = 40;
 
-			return retval;
+			return result;
 		}
 		public override void DrawImpl(Rectangle screenRect)
 		{

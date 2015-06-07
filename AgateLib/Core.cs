@@ -332,8 +332,7 @@ namespace AgateLib
 			mPlatform = factory.PlatformFactory.Info;
 			mTime = factory.PlatformFactory.CreateStopwatch();
 
-			FileSystem.File = factory.PlatformFactory.CreateFile();
-			FileSystem.Path = factory.PlatformFactory.CreatePath();
+			FileSystem.Initialize(factory.PlatformFactory);
 
 			Display.Initialize(factory.DisplayFactory.DisplayImpl);
 			Audio.Initialize(factory.AudioFactory.AudioImpl);

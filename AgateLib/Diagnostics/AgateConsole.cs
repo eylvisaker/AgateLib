@@ -112,6 +112,9 @@ namespace AgateLib.Diagnostics
 		/// <param name="text"></param>
 		public static void WriteLine(string text, params object[] args)
 		{
+		    if (sInstance == null)
+		        return;
+
 			Instance.WriteLineImpl(string.Format(text, args));
 		}
 		/// <summary>
@@ -119,7 +122,10 @@ namespace AgateLib.Diagnostics
 		/// </summary>
 		/// <param name="text"></param>
 		public static void Write(string text)
-		{
+        {
+            if (sInstance == null)
+                return;
+
 			Instance.WriteImpl(text);
 		}
 

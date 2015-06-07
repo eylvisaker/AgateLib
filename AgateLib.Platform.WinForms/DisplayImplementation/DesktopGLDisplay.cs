@@ -409,10 +409,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				versionString = versionString.Substring(0, versionString.IndexOf(" "));
 			}
 
-			decimal retval;
+			decimal result;
 
 			if (decimal.TryParse(versionString, System.Globalization.NumberStyles.Number,
-				System.Globalization.CultureInfo.InvariantCulture, out retval) == false)
+				System.Globalization.CultureInfo.InvariantCulture, out result) == false)
 			{
 				Trace.WriteLine("AgateLib.OpenGL was unable to parse the OpenGL version string.");
 				Trace.WriteLine("    The reported string was: " + versionString);
@@ -420,21 +420,26 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				Trace.WriteLine("    with details about your operating system and graphics drivers.");
 				Trace.WriteLine("    Falling back to OpenGL 1.1 supported functionality.");
 
-				retval = 1.1m;
+				result = 1.1m;
 			}
 
-			return retval;
+			return result;
 		}
 
 		#endregion
 
 		#region --- Shaders ---
 
-		public override void Dispose()
-		{
-			mFakeDisplayWindow.Dispose();
-			mFakeWindow.Dispose();
-		}
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                mFakeDisplayWindow.Dispose();
+                mFakeWindow.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
 
 
 		private void SetArray(float[] array, Vector3 vec)

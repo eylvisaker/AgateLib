@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AgateLib.Diagnostics;
 using AgateLib.InputLib;
-using AgateLib.Diagnostics;
-using AgateLib.InputLib.Legacy;
 
-namespace AgateLib.Diagnostics
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.Diagnostics
 {
 	[TestClass]
 	public class ConsoleTests

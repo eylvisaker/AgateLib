@@ -113,28 +113,28 @@ namespace AgateLib.Geometry.Builders
 
 		private short[] GetIndexData()
 		{
-			short[] retval = new short[36];
+			short[] result = new short[36];
 
 			int i = 0;
 			short index = 0;
 			for (int face = 0; face < 6; face++)
 			{
-				retval[i++] = index;
-				retval[i++] = (short)(index + 1);
-				retval[i++] = (short)(index + 2);
-				retval[i++] = (short)(index + 1);
-				retval[i++] = (short)(index + 2);
-				retval[i++] = (short)(index + 3);
+				result[i++] = index;
+				result[i++] = (short)(index + 1);
+				result[i++] = (short)(index + 2);
+				result[i++] = (short)(index + 1);
+				result[i++] = (short)(index + 2);
+				result[i++] = (short)(index + 3);
 
 				index += 4;
 			}
 
-			return retval;
+			return result;
 		}
 
 		private void GenerateBitangentData(PositionTextureNTB[] vertices)
 		{
-			Vector3[] retval = new Vector3[24];
+			Vector3[] result = new Vector3[24];
 
 			int i = 0;
 

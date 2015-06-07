@@ -31,12 +31,12 @@ namespace AgateLib.AgateSDL.Input
 		{
 			get
 			{
-				string retval = sdl.SDL_JoystickNameForIndex(joystickIndex);
+				string result = sdl.SDL_JoystickNameForIndex(joystickIndex);
 
-				if (retval == null)
+				if (result == null)
 					return "";
 
-				return retval;
+				return result;
 			}
 		}
 		public override Guid Guid

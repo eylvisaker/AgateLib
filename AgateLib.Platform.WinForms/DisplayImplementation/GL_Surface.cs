@@ -471,17 +471,17 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		}
 		private Size GetOGLSize(Size size)
 		{
-			Size retval = size;
+			Size result = size;
 
 			if (mDisplay.SupportsNonPowerOf2Textures)
-				return retval;
+				return result;
 
-			if (IsPowerOfTwo(retval.Width) == false)
-				retval.Width = NextPowerOfTwo(retval.Width);
-			if (IsPowerOfTwo(retval.Height) == false)
-				retval.Height = NextPowerOfTwo(retval.Height);
+			if (IsPowerOfTwo(result.Width) == false)
+				result.Width = NextPowerOfTwo(result.Width);
+			if (IsPowerOfTwo(result.Height) == false)
+				result.Height = NextPowerOfTwo(result.Height);
 
-			return retval;
+			return result;
 		}
 		private bool IsPowerOfTwo(int value)
 		{

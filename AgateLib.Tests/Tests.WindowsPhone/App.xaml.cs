@@ -112,7 +112,7 @@ namespace AgateLib.Testing.WindowsPhone
 				// parameter
 				if (!rootFrame.Navigate(typeof(MainPage), e.Arguments))
 				{
-					throw new Exception("Failed to create initial page");
+					throw new InvalidOperationException("Failed to create initial page");
 				}
 			}
 

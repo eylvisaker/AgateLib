@@ -513,14 +513,14 @@ namespace AgateLib.DisplayLib.ImplementationBase
 					dest.Location, false);
 			}
 
-			Surface retval = new Surface(buffer);
+			Surface result = new Surface(buffer);
 
 			foreach (SurfacePacker.RectHolder<Surface> rect in packedRects)
 			{
-				rect.Tag.SetSourceSurface(retval, rect.Rect);
+				rect.Tag.SetSourceSurface(result, rect.Rect);
 			}
 
-			return retval;
+			return result;
 
 		}
 

@@ -132,17 +132,17 @@ namespace AgateLib.UserInterface.Widgets
 			if (AutoSize == false)
 				return new Size(Width, Height);
 
-			Size retval = new Size();
+			Size result = new Size();
 
 			foreach (var child in Children)
 			{
 				var sz = child.ComputeSize(minWidth, minHeight, maxWidth, maxHeight);
 
-				retval.Width = Math.Max(sz.Width + child.X, retval.Width);
-				retval.Height = Math.Max(sz.Height + child.Y, retval.Height);
+				result.Width = Math.Max(sz.Width + child.X, result.Width);
+				result.Height = Math.Max(sz.Height + child.Y, result.Height);
 			}
 
-			return retval;
+			return result;
 		}
 
 		internal override void DoAutoSize()
@@ -171,10 +171,10 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			foreach (var ctrl in Children)
 			{
-				var retval = ctrl.FindFocusWidget();
+				var result = ctrl.FindFocusWidget();
 
-				if (retval != null)
-					return retval;
+				if (result != null)
+					return result;
 			}
 
 			if (AcceptFocus)

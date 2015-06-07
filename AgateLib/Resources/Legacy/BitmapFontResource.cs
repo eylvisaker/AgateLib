@@ -198,12 +198,12 @@ namespace AgateLib.Resources.Legacy
 		/// <returns></returns>
 		protected override AgateResource Clone()
 		{
-			BitmapFontResource retval = new BitmapFontResource(Name);
+			BitmapFontResource result = new BitmapFontResource(Name);
 
-			retval.mImage = mImage;
-			retval.mMetrics = mMetrics.Clone();
+			result.mImage = mImage;
+			result.mMetrics = mMetrics.Clone();
 
-			return retval;
+			return result;
 		}
 
 		/// <summary>

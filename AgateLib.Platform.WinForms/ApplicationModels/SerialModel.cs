@@ -102,15 +102,15 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 
 		protected override int BeginModel(Func<int> entryPoint)
 		{
-			int retval = 0;
-			gameThread = new Thread(() => { retval = ExecuteEntry(entryPoint); });
+			int result = 0;
+			gameThread = new Thread(() => { result = ExecuteEntry(entryPoint); });
 			gameThread.Start();
 
 			var primaryWindow = AutoCreatedWindow.Impl as IPrimaryWindow;
 			primaryWindow.RunApplication();
 
 
-			return retval;
+			return result;
 		}
 
 		public override void KeepAlive()

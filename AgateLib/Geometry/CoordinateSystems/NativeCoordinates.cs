@@ -34,15 +34,15 @@ namespace AgateLib.Geometry.CoordinateSystems
 
 		void DetermineCoordinateSystem()
 		{
-			Rectangle retval = new Rectangle(Point.Empty, mRenderTargetSize);
+			Rectangle result = new Rectangle(Point.Empty, mRenderTargetSize);
 
 			if (MaxSize != null)
 			{
-				retval.Width = Math.Min(retval.Width, MaxSize.Value.Width);
-				retval.Height = Math.Min(retval.Height, MaxSize.Value.Height);
+				result.Width = Math.Min(result.Width, MaxSize.Value.Width);
+				result.Height = Math.Min(result.Height, MaxSize.Value.Height);
 			}
 
-			Coordinates = retval;
+			Coordinates = result;
 		}
 
 		public Size? MaxSize { get; set; }

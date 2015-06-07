@@ -42,19 +42,19 @@ namespace AgateLib.Resources.DC
 
 		public async Task<AgateResourceCollection> FromFile(string filename, IReadFileProvider fileProvider = null)
 		{
-			var retval = new AgateResourceCollection();
+			var result = new AgateResourceCollection();
 
 			if (fileProvider == null)
 				fileProvider = AgateLib.IO.Assets.Resources;
 
-			retval.FileProvider = FileProvider;
+			result.FileProvider = FileProvider;
 
-			using (var stream = await retval.FileProvider.OpenReadAsync(filename))
+			using (var stream = await result.FileProvider.OpenReadAsync(filename))
 			{
-				retval.LoadFrom(stream);
+				result.LoadFrom(stream);
 			}
 
-			return retval;
+			return result;
 		}
 		public AgateResourceCollection(Stream stream)
 		{
@@ -95,17 +95,17 @@ namespace AgateLib.Resources.DC
 		{
 			FontResource fr = (FontResource)mResources[name];
 
-			Font retval = new Font(fr.FontName);
+			Font result = new Font(fr.FontName);
 
 			foreach(var fs in fr.FontSurfaces)
 			{
 				FontSurface surf = FontSurface.FromImpl(new BitmapFontImpl(
 					GetSurface(fs.ImageFilename), fs.FontMetrics, fs.FontSettings.FontName(fr.FontName)));
 
-				retval.AddFont(fs.FontSettings, surf);
+				result.AddFont(fs.FontSettings, surf);
 			}
 
-			return retval;
+			return result;
 		}
 
 		private Surface GetSurface(string filename)

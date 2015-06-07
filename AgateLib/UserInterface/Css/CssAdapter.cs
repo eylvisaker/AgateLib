@@ -175,14 +175,14 @@ namespace AgateLib.UserInterface.Css
 		}
 		private CssBox GetBox(CssStyle style, ICssBoxComponent box)
 		{
-			CssBox retval = new CssBox();
+			CssBox result = new CssBox();
 
-			retval.Left = CssDistanceToPixels(style, box.Left, true);
-			retval.Right = CssDistanceToPixels(style, box.Right, true);
-			retval.Top = CssDistanceToPixels(style, box.Top, true);
-			retval.Bottom = CssDistanceToPixels(style, box.Bottom, true);
+			result.Left = CssDistanceToPixels(style, box.Left, true);
+			result.Right = CssDistanceToPixels(style, box.Right, true);
+			result.Top = CssDistanceToPixels(style, box.Top, true);
+			result.Bottom = CssDistanceToPixels(style, box.Bottom, true);
 
-			return retval;
+			return result;
 		}
 
 		private void RebuildStyle(Widget control)

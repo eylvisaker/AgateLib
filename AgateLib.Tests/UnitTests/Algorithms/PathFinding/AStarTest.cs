@@ -1,10 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using AgateLib.Geometry;
-using AgateLib.Algorithms.PathFinding;
 
-namespace AgateLib.Algorithms.PathFinding
+using AgateLib.Algorithms.PathFinding;
+using AgateLib.Geometry;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.Algorithms.PathFinding
 {
 	[TestClass]
 	public class AStarTest

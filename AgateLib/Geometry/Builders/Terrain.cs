@@ -91,14 +91,14 @@ namespace AgateLib.Geometry.Builders
 
 			FillVertices(vertices, normal, texture, indices);
 
-			VertexBuffer retval = new VertexBuffer(VertexType, vertices.Length);
+			VertexBuffer result = new VertexBuffer(VertexType, vertices.Length);
 
-			retval.WriteVertexData(vertices);
-			//retval.WriteTextureCoords(texture);
-			//retval.WriteNormalData(normal);
-			//retval.WriteIndices(indices);
+			result.WriteVertexData(vertices);
+			//result.WriteTextureCoords(texture);
+			//result.WriteNormalData(normal);
+			//result.WriteIndices(indices);
 
-			return retval;
+			return result;
 		}
 
 		private void FillVertices(Vector3[] vertices, Vector3[] normal, Vector2[] texture, short[] indices)

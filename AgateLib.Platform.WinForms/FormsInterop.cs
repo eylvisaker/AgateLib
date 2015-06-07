@@ -43,16 +43,16 @@ namespace AgateLib.Platform.WinForms
 
 			surf.SaveTo(filename);
 
-			System.Drawing.Bitmap retval;
+			System.Drawing.Bitmap result;
 
 			using (var stream = System.IO.File.OpenRead(filename))
 			{
-				retval = new System.Drawing.Bitmap(stream);
+				result = new System.Drawing.Bitmap(stream);
 			}
 
 			System.IO.File.Delete(filename);
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Converts color structures.

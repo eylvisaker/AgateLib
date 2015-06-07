@@ -3,34 +3,48 @@ using AgateLib.IO;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Platform.WinForms.Factories;
 using AgateLib.Platform.WinForms.IO;
+using AgateLib.Quality;
 using AgateLib.Utility;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace AgateLib.Platform.WinForms
 {
-	static class WinFormsInitializer
-	{
-		static FormsFactory factory;
+    /// <summary>
+    /// Initializes AgateLib to use the Windows Forms platform.
+    /// </summary>
+    public static class WinFormsInitializer
+    {
+        static FormsFactory factory;
 
-		public static void Initialize(ModelParameters parameters)
-		{
-			if (factory == null)
-			{
-				factory = new FormsFactory();
-				Core.Initialize(factory);
-			}
+        public static void Initialize(ModelParameters parameters)
+        {
+            var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
 
-			Core.InitAssetLocations(parameters.AssetLocations);
+            Initialize(parameters, Path.GetDirectoryName(Path.GetFullPath(assembly.Location)));
+        }
+        /// <summary>
+        /// Initializes AgateLib.
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <param name="assemblyPath">Path to the folder where the application files reside in.</param>
+        public static void Initialize(ModelParameters parameters, string appRootPath)
+        {
+            Condition.Requires<ArgumentNullException>(parameters != null, "parameters");
+            Condition.Requires<ArgumentNullException>(appRootPath != null, "appRootPath");
 
-			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            if (factory == null)
+            {
+                factory = new FormsFactory(appRootPath);
+                Core.Initialize(factory);
+            }
 
-			FileProvider.UserFiles = new FileSystemProvider(Path.Combine(appData, parameters.ApplicationName));
+            Core.InitAssetLocations(parameters.AssetLocations);
 
-			////var assetProvider = new FileSystemProvider(System.IO.Path.GetFullPath(parameters.AssetLocations.Path));
-			////AgateLib.IO.FileProvider.Initialize(assetProvider, parameters.AssetLocations);
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-			//System.IO.Directory.SetCurrentDirectory(assetProvider.SearchPath);
-		}
-	}
+            FileProvider.UserFiles = new FileSystemProvider(Path.Combine(appData, parameters.ApplicationName));
+        }
+    }
 }

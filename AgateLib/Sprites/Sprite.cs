@@ -289,23 +289,23 @@ namespace AgateLib.Sprites
 		public Sprite Clone()
 		{
 			// TODO: Update this method to cover owned surfaces.
-			Sprite retval = new Sprite(mSpriteSize.Width, mSpriteSize.Height);
+			Sprite result = new Sprite(mSpriteSize.Width, mSpriteSize.Height);
 
-			retval.mTimePerFrame = mTimePerFrame;
-			retval.mCurrentFrameIndex = mCurrentFrameIndex;
-			retval.mFrameTime = mFrameTime;
-			retval.mAnimType = mAnimType;
-			retval.mPlayReverse = mPlayReverse;
-			retval.mIsAnimating = mIsAnimating;
+			result.mTimePerFrame = mTimePerFrame;
+			result.mCurrentFrameIndex = mCurrentFrameIndex;
+			result.mFrameTime = mFrameTime;
+			result.mAnimType = mAnimType;
+			result.mPlayReverse = mPlayReverse;
+			result.mIsAnimating = mIsAnimating;
 
-			retval.mState = mState.Clone();
+			result.mState = mState.Clone();
 
 			foreach (SpriteFrame frame in mFrames)
 			{
-				retval.mFrames.Add(frame.Clone());
+				result.mFrames.Add(frame.Clone());
 			}
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Disposes of unmanaged resources associated with this sprite.
@@ -1013,8 +1013,17 @@ namespace AgateLib.Sprites
 		{
 			throw new NotImplementedException();
 		}
+        /// <summary>
+        /// Draws the sprite.  (This overload not currently implemented.)
+        /// </summary>
+        /// <param name="srcRect"></param>
+        /// <param name="destRect"></param>
+        public void Draw(Rectangle srcRect, Rectangle destRect)
+        {
+            throw new NotImplementedException();
+        }
 
-		public InterpolationMode InterpolationHint { get; set; }
+        public InterpolationMode InterpolationHint { get; set; }
 		public bool FlipHorizontal { get; set; }
 		public bool FlipVertical { get; set; }
 
@@ -1025,5 +1034,23 @@ namespace AgateLib.Sprites
 		{
 			get { return TimePerFrame * Frames.Count; }
 		}
-	}
+
+
+        public ISurface CarveSubSurface(Rectangle srcRect)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void Draw(Rectangle srcRect, Point point)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void Draw(Rectangle destRect)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

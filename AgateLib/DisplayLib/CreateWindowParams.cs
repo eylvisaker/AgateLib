@@ -233,13 +233,13 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static CreateWindowParams FromControl(object control, ICoordinateSystem coordinates)
 		{
-			CreateWindowParams retval = new CreateWindowParams();
+			CreateWindowParams result = new CreateWindowParams();
 
-			retval.RenderToControl = true;
-			retval.RenderTarget = control;
-			retval.Coordinates = coordinates ?? new NativeCoordinates();
+			result.RenderToControl = true;
+			result.RenderTarget = control;
+			result.Coordinates = coordinates ?? new NativeCoordinates();
 
-			return retval;
+			return result;
 		}
 
 		/// <summary>
@@ -253,16 +253,16 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static CreateWindowParams FullScreen(string title, int width, int height, int bpp, ICoordinateSystem coordinates)
 		{
-			CreateWindowParams retval = new CreateWindowParams();
+			CreateWindowParams result = new CreateWindowParams();
 
-			retval.IsFullScreen = true;
-			retval.Title = title;
-			retval.Width = width;
-			retval.Height = height;
-			retval.mBpp = bpp;
-			retval.Coordinates = coordinates ?? new NativeCoordinates();
+			result.IsFullScreen = true;
+			result.Title = title;
+			result.Width = width;
+			result.Height = height;
+			result.mBpp = bpp;
+			result.Coordinates = coordinates ?? new NativeCoordinates();
 
-			return retval;
+			return result;
 		}
 		/// <summary>
 		/// Creates a CreateWindowParams object which describes a typical window for non-fullscreen use.
@@ -276,17 +276,17 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static CreateWindowParams Windowed(string title, int width, int height, bool allowResize, string iconFile, ICoordinateSystem coordinates)
 		{
-			CreateWindowParams retval = new CreateWindowParams();
+			CreateWindowParams result = new CreateWindowParams();
 
-			retval.Title = title;
-			retval.Width = width;
-			retval.Height = height;
-			retval.IconFile = iconFile;
-			retval.IsResizable = allowResize;
-			retval.HasMaximize = allowResize;
-			retval.Coordinates = coordinates ?? new NativeCoordinates();
+			result.Title = title;
+			result.Width = width;
+			result.Height = height;
+			result.IconFile = iconFile;
+			result.IsResizable = allowResize;
+			result.HasMaximize = allowResize;
+			result.Coordinates = coordinates ?? new NativeCoordinates();
 
-			return retval;
+			return result;
 		}
 
 		/// <summary>
@@ -300,16 +300,16 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static CreateWindowParams NoFrame(string title, int width, int height, ICoordinateSystem coordinates)
 		{
-			CreateWindowParams retval = new CreateWindowParams();
+			CreateWindowParams result = new CreateWindowParams();
 
-			retval.Title = title;
-			retval.Width = width;
-			retval.Height = height;
-			retval.IsResizable = false;
-			retval.HasFrame = false;
-			retval.Coordinates = coordinates ?? new NativeCoordinates();
+			result.Title = title;
+			result.Width = width;
+			result.Height = height;
+			result.IsResizable = false;
+			result.HasFrame = false;
+			result.Coordinates = coordinates ?? new NativeCoordinates();
 
-			return retval;
+			return result;
 		}
 
 		#endregion

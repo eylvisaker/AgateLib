@@ -98,11 +98,11 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			if (badArgs || notEnoughArgs)
 				return;
 
-			object retval = method.Invoke(p.Target, args);
+			object result = method.Invoke(p.Target, args);
 
-			if (method.ReturnType != typeof(void) && retval != null)
+			if (method.ReturnType != typeof(void) && result != null)
 			{
-				WriteLine(retval.ToString());
+				WriteLine(result.ToString());
 			}
 		}
 

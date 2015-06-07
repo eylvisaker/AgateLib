@@ -64,7 +64,7 @@ namespace AgateLib.Platform.WinForms.IO
 			string resolvedName = FindFileName(filename);
 			if (resolvedName == null)
 				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
-					filename, mPath));
+					filename, mPath), filename);
 
 			var result = File.OpenRead(resolvedName);
 			return Task.FromResult<Stream>(result);
@@ -299,7 +299,7 @@ namespace AgateLib.Platform.WinForms.IO
 
 		public Task<Stream> OpenWriteAsync(string file)
 		{
-			string resolvedName = FindFileName(file);
+            string resolvedName = Path.Combine(mPath, file);
 			var result = File.Open(resolvedName, FileMode.Create);
 
 			return Task.FromResult<Stream>(result);

@@ -31,9 +31,21 @@ namespace AgateLib.AudioLib.ImplementationBase
 	public abstract class SoundBufferSessionImpl : IDisposable
 	{
 		/// <summary>
-		/// Destroyes unmanaged resources.
-		/// </summary>
-		public abstract void Dispose();
+        /// Disposes of resources.
+        /// </summary>
+		public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes of resources.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+        }
 
 		/// <summary>
 		/// Starts at the beginning.

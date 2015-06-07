@@ -68,12 +68,12 @@ namespace AgateLib.Geometry.CoordinateSystems
 
 		public void DetermineCoordinateSystem()
 		{
-			var retval = GetUnshiftedRectangle(RenderTargetSize);
+			var result = GetUnshiftedRectangle(RenderTargetSize);
 
-			retval.X += Origin.X;
-			retval.Y += Origin.Y;
+			result.X += Origin.X;
+			result.Y += Origin.Y;
 
-			Coordinates = retval;
+			Coordinates = result;
 		}
 
 		private Rectangle GetUnshiftedRectangle(Size displayWindowSize)

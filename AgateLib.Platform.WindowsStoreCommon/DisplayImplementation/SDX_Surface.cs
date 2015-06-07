@@ -37,6 +37,7 @@ using Windows.UI.Core;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using System.Threading.Tasks;
+using AgateLib.Quality;
 
 namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 {
@@ -107,10 +108,7 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 			mFileProvider = fileProvider;
 			mFileName = fileName;
 
-			if (mDevice == null)
-			{
-				throw new Exception("Error: It appears that AgateLib has not been initialized yet.  Have you created a DisplayWindow?");
-			}
+			Condition.Requires<InvalidOperationException>(mDevice != null, "Error: It appears that AgateLib has not been initialized yet.  Have you created a DisplayWindow?");
 
 			LoadFromFileAsync();
 
@@ -121,10 +119,7 @@ namespace AgateLib.Platform.WindowsStore.DisplayImplementation
 		public SDX_Surface(Stream stream)
 			: this()
 		{
-			if (mDevice == null)
-			{
-				throw new Exception("Error: It appears that AgateLib has not been initialized yet.  Have you created a DisplayWindow?");
-			}
+			Condition.Requires<InvalidOperationException>(mDevice != null, "Error: It appears that AgateLib has not been initialized yet.  Have you created a DisplayWindow?");
 
 			LoadFromStreamAsync(stream);
 

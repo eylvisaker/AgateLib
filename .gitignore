@@ -2,8 +2,12 @@
 */obj/
 */*/bin/
 */*/obj/
+*/*/*/bin/
+*/*/*/obj/
 AgateLib.Tests/Binaries/
 Binaries/
 AgateLib.Platform.WindowsStoreCommon/Resources/*.fxo
 */Binaries/*
 Binaries/*
+AgateLib.sln.ide/
+AgateLib-Windows.sln.ide/

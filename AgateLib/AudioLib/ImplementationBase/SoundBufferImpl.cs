@@ -31,9 +31,22 @@ namespace AgateLib.AudioLib.ImplementationBase
 	public abstract class SoundBufferImpl : IDisposable
 	{
 		/// <summary>
-		/// Destroys unmanaged resources.
+		/// Disposes owned resources.
 		/// </summary>
-		public abstract void Dispose();
+		public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes of owned resources.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            
+        }
 
 		/// <summary>
 		/// Gets or sets the volume this audio file is playing at.
@@ -47,7 +60,11 @@ namespace AgateLib.AudioLib.ImplementationBase
 		/// Gets or sets a value indicating whether the sound buffer
 		/// should be looped when played.
 		/// </summary>
-		public virtual bool Loop { get { return false; } set { } }
+        public virtual bool Loop
+        {
+            get { return false; }
+            set { }
+        }
 
 	}
 }

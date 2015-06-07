@@ -1,13 +1,13 @@
-﻿using AgateLib.Geometry;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AgateLib.Testing.Fakes;
+﻿using System.Linq;
 
-namespace AgateLib.UserInterface.Widgets.Tests
+using AgateLib.Geometry;
+using AgateLib.Testing.Fakes;
+using AgateLib.UserInterface.Widgets;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AgateLib.Testing.Fakes.UserInterface;
+
+namespace AgateLib.UnitTests.UserInterface.Widgets
 {
 	[TestClass]
 	public class ConversionTests

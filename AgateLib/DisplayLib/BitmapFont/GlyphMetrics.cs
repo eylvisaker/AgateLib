@@ -126,18 +126,18 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <returns></returns>
 		public GlyphMetrics Clone()
 		{
-			GlyphMetrics retval = new GlyphMetrics();
+			GlyphMetrics result = new GlyphMetrics();
 
-			retval.SourceRect = SourceRect;
-			retval.LeftOverhang = LeftOverhang;
-			retval.RightOverhang = RightOverhang;
+			result.SourceRect = SourceRect;
+			result.LeftOverhang = LeftOverhang;
+			result.RightOverhang = RightOverhang;
 
 			foreach (KeyValuePair<char, int> kvp in KerningPairs)
 			{
-				retval.KerningPairs.Add(kvp.Key, kvp.Value);
+				result.KerningPairs.Add(kvp.Key, kvp.Value);
 			}
 
-			return retval;
+			return result;
 		}
 
 	}

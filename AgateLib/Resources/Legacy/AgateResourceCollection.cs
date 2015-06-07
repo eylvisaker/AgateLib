@@ -68,7 +68,7 @@ namespace AgateLib.Resources.Legacy
 					}
 					catch (Exception e)
 					{
-						throw new AgateResourceException(e, "Could not find the surface resource {0}.", key);
+						throw new KeyNotFoundException(string.Format("Could not find the surface resource {0}.", key), e);
 					}
 				}
 			}
@@ -91,12 +91,12 @@ namespace AgateLib.Resources.Legacy
 		//			{
 		//				get
 		//				{
-		//					var retval = mResources.mGuiThemes.FirstOrDefault(x => x.Name == key);
+		//					var result = mResources.mGuiThemes.FirstOrDefault(x => x.Name == key);
 		//
-		//					if (retval == null)
+		//					if (result == null)
 		//						throw new AgateResourceException("Could not find the gui theme resource {0}.", key);
 		//
-		//					return retval;
+		//					return result;
 		//				}
 		//			}
 		//			public GuiThemeResource this[int index]

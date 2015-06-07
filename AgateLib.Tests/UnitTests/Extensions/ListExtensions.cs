@@ -1,9 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using AgateLib.Extensions.Collections.Generic;
 
-namespace AgateLib.Extensions
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.Extensions
 {
 	[TestClass]
 	public class ListExtensions

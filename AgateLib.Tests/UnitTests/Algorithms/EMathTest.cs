@@ -1,10 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AgateLib.Mathematics;
+
 using AgateLib.Algorithms;
+using AgateLib.Mathematics;
 using AgateLib.Quality;
 
-namespace AgateLib.Algorithms
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace AgateLib.UnitTests.Algorithms
 {
 	[TestClass]
 	public class MathFunctionsTest

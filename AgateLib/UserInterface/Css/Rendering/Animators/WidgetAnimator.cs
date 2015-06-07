@@ -28,218 +28,234 @@ using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface.Css.Rendering.Animators
 {
-	public class WidgetAnimator
-	{
-		CssStyle mStyle;
-		Rectangle mClientRect;
-		WidgetAnimator mParentCoordinates;
+    public class WidgetAnimator
+    {
+        CssStyle mStyle;
+        Rectangle mClientRect;
+        WidgetAnimator mParentCoordinates;
 
-		public List<WidgetAnimator> Children { get; private set; }
-		public WidgetAnimator Parent { get; set; }
-		public WidgetAnimator ParentCoordinateSystem
-		{
-			get
-			{
-				return mParentCoordinates ?? Parent;
-			}
-			set { mParentCoordinates = value; }
-		}
+        public List<WidgetAnimator> Children { get; private set; }
+        public WidgetAnimator Parent { get; set; }
+        public WidgetAnimator ParentCoordinateSystem
+        {
+            get
+            {
+                return mParentCoordinates ?? Parent;
+            }
+            set { mParentCoordinates = value; }
+        }
 
-		public Point ClientWidgetOffset { get { return Widget.ClientWidgetOffset; } }
-		public Size WidgetSize
-		{
-			get
-			{
-				var widgetSize = ClientRect.Size;
-				var box = mStyle.BoxModel;
+        public Point ClientWidgetOffset { get { return Widget.ClientWidgetOffset; } }
+        public Size WidgetSize
+        {
+            get
+            {
+                var widgetSize = ClientRect.Size;
+                var box = mStyle.BoxModel;
 
-				widgetSize.Width += box.Padding.Left + box.Padding.Right + box.Border.Left + box.Border.Right;
-				widgetSize.Height += box.Padding.Top + box.Padding.Bottom + box.Border.Bottom + box.Border.Top;
+                widgetSize.Width += box.Padding.Left + box.Padding.Right + box.Border.Left + box.Border.Right;
+                widgetSize.Height += box.Padding.Top + box.Padding.Bottom + box.Border.Bottom + box.Border.Top;
 
-				return widgetSize;
-			}
-		}
-		public Rectangle ClientRect
-		{
-			get { return mClientRect; }
-			set { mClientRect = value; }
-		}
-		public Rectangle WidgetRect
-		{
-			get
-			{
-				return new Rectangle(
-					mClientRect.X - ClientWidgetOffset.X,
-					mClientRect.Y - ClientWidgetOffset.Y,
-					WidgetSize.Width,
-					WidgetSize.Height);
-			}
-		}
+                return widgetSize;
+            }
+        }
+        public Rectangle ClientRect
+        {
+            get { return mClientRect; }
+            set { mClientRect = value; }
+        }
+        public Rectangle WidgetRect
+        {
+            get
+            {
+                return new Rectangle(
+                    mClientRect.X - ClientWidgetOffset.X,
+                    mClientRect.Y - ClientWidgetOffset.Y,
+                    WidgetSize.Width,
+                    WidgetSize.Height);
+            }
+        }
 
-		public int X
-		{
-			get { return mClientRect.X; }
-			set { mClientRect.X = value; }
-		}
-		public int Y
-		{
-			get { return mClientRect.Y; }
-			set { mClientRect.Y = value; }
-		}
-		public int Width
-		{
-			get { return mClientRect.Width; }
-			set { mClientRect.Width = value; }
-		}
-		public int Height
-		{
-			get { return mClientRect.Height; }
-			set { mClientRect.Height = value; }
-		}
+        public int X
+        {
+            get { return mClientRect.X; }
+            set { mClientRect.X = value; }
+        }
+        public int Y
+        {
+            get { return mClientRect.Y; }
+            set { mClientRect.Y = value; }
+        }
+        public int Width
+        {
+            get { return mClientRect.Width; }
+            set { mClientRect.Width = value; }
+        }
+        public int Height
+        {
+            get { return mClientRect.Height; }
+            set { mClientRect.Height = value; }
+        }
 
-		public Rectangle ClientToScreen(Rectangle value)
-		{
-			Rectangle translated = value;
+        public Rectangle ClientToScreen(Rectangle value, bool translateForScroll = true)
+        {
+            Rectangle translated = value;
 
-			translated.Location = ClientToScreen(value.Location);
+            translated.Location = ClientToScreen(value.Location, translateForScroll);
 
-			return translated;
-		}
-		public Point ClientToScreen(Point clientPoint)
-		{
-			if (Parent == null)
-				return clientPoint;
+            return translated;
+        }
+        public Point ClientToScreen(Point clientPoint, bool translateForScroll = true)
+        {
+            if (Parent == null)
+                return clientPoint;
 
-			Point translated = ClientToParent(clientPoint);
+            Point translated = ClientToParent(clientPoint);
 
-			return ParentCoordinateSystem.ClientToScreen(translated);
-		}
-		public Point ScreenToClient(Point screenPoint)
-		{
-			if (Parent == null)
-				return screenPoint;
+            if (translateForScroll)
+            {
+                translated.X -= ScrollOffset.X;
+                translated.Y -= ScrollOffset.Y;
+            }
 
-			Point translated = ParentToClient(screenPoint);
+            return ParentCoordinateSystem.ClientToScreen(translated);
+        }
+        public Point ScreenToClient(Point screenPoint)
+        {
+            if (Parent == null)
+                return screenPoint;
 
-			return Parent.ScreenToClient(translated);
-		}
-		public Point ClientToParent(Point clientPoint)
-		{
-			Point translated = clientPoint;
+            Point translated = ParentToClient(screenPoint);
 
-			translated.X += X;
-			translated.Y += Y;
+            return Parent.ScreenToClient(translated);
+        }
+        public Point ClientToParent(Point clientPoint)
+        {
+            Point translated = clientPoint;
 
-			return translated;
-		}
-		public Point ParentToClient(Point parentClientPoint)
-		{
-			Point translated = parentClientPoint;
+            translated.X += X;
+            translated.Y += Y;
 
-			translated.X -= X;
-			translated.Y -= Y;
+            return translated;
+        }
+        public Point ParentToClient(Point parentClientPoint)
+        {
+            Point translated = parentClientPoint;
 
-			return translated;
-		}
+            translated.X -= X;
+            translated.Y -= Y;
 
-		public bool IsDead { get; set; }
+            return translated;
+        }
 
-		public bool Active { get; private set; }
-		public bool Visible { get; set; }
+        public bool IsDead { get; set; }
 
-		public Widget Widget { get { return mStyle.Widget; } }
-		public CssStyle Style { get { return mStyle; } }
+        public bool Active { get; private set; }
+        public bool Visible { get; set; }
 
-		CssTransitionType mTransitionType;
-		public IWidgetTransition Transition { get; private set; }
+        public Widget Widget { get { return mStyle.Widget; } }
+        public CssStyle Style { get { return mStyle; } }
 
-		public bool InTransition
-		{
-			get
-			{
-				if (IsDead) return false;
-				if (Transition == null) return false;
+        CssTransitionType mTransitionType;
+        public IWidgetTransition Transition { get; private set; }
 
-				return (Transition != null && (Transition.Active || Transition.NeedTransition));
-			}
-		}
+        public Point ScrollOffset
+        {
+            get
+            {
+                var container = Widget as Container;
+                if (container == null)
+                    return Point.Empty;
+                return container.ScrollOffset;
+            }
+        }
+        public bool InTransition
+        {
+            get
+            {
+                if (IsDead) return false;
+                if (Transition == null) return false;
 
-		public WidgetAnimator(CssStyle style)
-		{
-			mStyle = style;
-			Children = new List<WidgetAnimator>();
-		}
+                return (Transition != null && (Transition.Active || Transition.NeedTransition));
+            }
+        }
 
-		public void Update(double deltaTime)
-		{
-			if (Transition == null || mTransitionType != mStyle.Data.Transition.Type)
-			{
-				mTransitionType = mStyle.Data.Transition.Type;
-				Transition = TransitionFactory.CreateTransition(mTransitionType);
-				Transition.Animator = this;
-				Transition.Style = mStyle;
+        public WidgetAnimator(CssStyle style)
+        {
+            mStyle = style;
+            Children = new List<WidgetAnimator>();
+        }
 
-				Transition.Initialize();
-			}
+        public void Update(double deltaTime)
+        {
+            if (Transition == null || mTransitionType != mStyle.Data.Transition.Type)
+            {
+                mTransitionType = mStyle.Data.Transition.Type;
+                Transition = TransitionFactory.CreateTransition(mTransitionType);
+                Transition.Animator = this;
+                Transition.Style = mStyle;
 
-			if (Transition.NeedTransition && Transition.Active == false)
-			{
-				Transition.ActivateTransition();
-			}
+                Transition.Initialize();
+            }
 
-			if (Transition.Active)
-			{
-				Transition.Update(deltaTime);
-			}
+            if (Transition.NeedTransition && Transition.Active == false)
+            {
+                Transition.ActivateTransition();
+            }
+
+            if (Transition.Active)
+            {
+                Transition.Update(deltaTime);
+            }
 
 
-			if (Transition.AnimationDead)
-				IsDead = true;
+            if (Transition.AnimationDead)
+                IsDead = true;
 
-			if (Gesture != null)
-			{
-				AnimateForGesture();
-			}
-		}
+            if (Gesture != null)
+            {
+                AnimateForGesture();
+            }
+        }
 
-		private void AnimateForGesture()
-		{
-			switch (Gesture.GestureType)
-			{
-				case GestureType.Drag:
-				case GestureType.Swipe:
-				case GestureType.LongPressDrag:
-					AnimateDrag();
-					break;
-			}
+        private void AnimateForGesture()
+        {
+            switch (Gesture.GestureType)
+            {
+                case GestureType.Drag:
+                case GestureType.Swipe:
+                case GestureType.LongPressDrag:
+                    AnimateDrag();
+                    break;
+            }
 
-		}
+        }
 
-		private void AnimateDrag()
-		{
-			if (Gesture.IsValidForTarget == false)
-				return;
+        private void AnimateDrag()
+        {
+            if (Gesture.IsValidForTarget == false)
+                return;
 
-			Vector2 delta = new Vector2(Gesture.CurrentPoint);
-			delta -= new Vector2(Gesture.StartPoint);
+            Vector2 delta = new Vector2(Gesture.CurrentPoint);
+            delta -= new Vector2(Gesture.StartPoint);
 
-			if (Gesture.Axis == AxisType.Horizontal)
-				delta.Y = 0;
-			else if (Gesture.Axis == AxisType.Vertical)
-				delta.X = 0;
+            if (Gesture.Axis == AxisType.Horizontal)
+                delta.Y = 0;
+            else if (Gesture.Axis == AxisType.Vertical)
+                delta.X = 0;
 
-			ClientRect = new Rectangle(
-				Widget.ClientRect.X + (int)delta.X,
-				Widget.ClientRect.Y + (int)delta.Y,
-				Widget.ClientRect.Width,
-				Widget.ClientRect.Height);
-		}
+            ClientRect = new Rectangle(
+                Widget.ClientRect.X + (int)delta.X,
+                Widget.ClientRect.Y + (int)delta.Y,
+                Widget.ClientRect.Width,
+                Widget.ClientRect.Height);
+        }
 
-		public override string ToString()
-		{
-			return "Animator: " + mStyle.Widget.ToString();
-		}
+        public override string ToString()
+        {
+            return "Animator: " + mStyle.Widget.ToString();
+        }
 
-		public Gesture Gesture { get; set; }
-	}
+        public Gesture Gesture { get; set; }
+    }
 }
