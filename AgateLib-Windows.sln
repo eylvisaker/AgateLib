@@ -1,9 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{6AFA2E43-361A-4AA6-83D9-6DE946C1F0B6}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		ChangeLog.txt = ChangeLog.txt
 		ReleaseNotes.txt = ReleaseNotes.txt
 		TODO.txt = TODO.txt
@@ -39,13 +40,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Tests.WindowsMetro", "AgateLib.Tests\Tests.WindowsMetro\AgateLib.Tests.WindowsMetro.csproj", "{25D68687-A724-46B3-9603-74478320807F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Tests.WindowsPhone", "AgateLib.Tests\Tests.WindowsPhone\AgateLib.Tests.WindowsPhone.csproj", "{1AAD3A4C-90CB-403E-93F9-7EC3919E80BB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3C35058B-A7F6-42D7-8B2B-7C4B2E7A0F13}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

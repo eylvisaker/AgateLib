@@ -11,3 +11,6 @@ AgateLib.Platform.WindowsStoreCommon/Resources/*.fxo
 Binaries/*
 AgateLib.sln.ide/
 AgateLib-Windows.sln.ide/
+*.nupkg
+**/packages/*
+!**/packages/build/
