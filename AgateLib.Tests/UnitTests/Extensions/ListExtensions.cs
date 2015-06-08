@@ -21,5 +21,16 @@ namespace AgateLib.UnitTests.Extensions
 			for (int i = 0; i < li.Count; i++)
 				Assert.AreEqual(i + 1, li[i]);
 		}
+
+        [TestMethod]
+        public void InsertionSortTest()
+        {
+            List<int> list = new List<int> { 4, 2, 3, 1, 6, 7, 8, 9 };
+
+            list.InsertionSort();
+
+            Assert.AreEqual(1, list[0]);
+            Assert.AreEqual(9, list[list.Count - 1]);
+        }
 	}
 }
