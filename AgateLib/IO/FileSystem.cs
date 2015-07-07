@@ -28,9 +28,35 @@ namespace AgateLib.IO
     {
         static FileSystemObjects fileSystemObjects;
 
-        public static IFile File { get { return fileSystemObjects.File; } }
-        public static IPath Path { get { return fileSystemObjects.Path; } }
-        public static IDirectory Directory { get { return fileSystemObjects.Directory; } }
+        public static IFile File
+        {
+            get
+            {
+                if (fileSystemObjects == null)
+                    return null;
+                return fileSystemObjects.File;
+            }
+        }
+
+        public static IPath Path
+        {
+            get
+            {
+                if (fileSystemObjects == null)
+                    return null;
+                return fileSystemObjects.Path;
+            }
+        }
+
+        public static IDirectory Directory
+        {
+            get
+            {
+                if (fileSystemObjects == null)
+                    return null;
+                return fileSystemObjects.Directory;
+            }
+        }
 
         internal static void Initialize(Drivers.IPlatformFactory platformFactory)
         {
