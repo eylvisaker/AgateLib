@@ -37,14 +37,12 @@ using AgateLib.Quality;
 
 namespace AgateLib
 {
-
 	/// <summary>
 	/// Used by AgateLib.Core class's error reporting functions
 	/// to indicate how severe an error is.
 	/// </summary>
 	public enum ErrorLevel
 	{
-
 		/// <summary>
 		/// Indicates an message is just a comment, and safe to ignore.
 		/// </summary>
