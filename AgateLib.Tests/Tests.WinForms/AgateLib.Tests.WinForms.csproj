@@ -459,7 +459,6 @@
     <None Include="Assets\settings_list.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\largeimage.png">

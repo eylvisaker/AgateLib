@@ -1,13 +1,16 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{6AFA2E43-361A-4AA6-83D9-6DE946C1F0B6}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		Build.bat = Build.bat
 		ChangeLog.txt = ChangeLog.txt
+		Coverage.bat = Coverage.bat
 		ReleaseNotes.txt = ReleaseNotes.txt
 		TODO.txt = TODO.txt
+		UnitTest.bat = UnitTest.bat
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib", "AgateLib\AgateLib.csproj", "{9490B719-829E-43A7-A5FE-8001F8A81759}"

@@ -113,7 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AgateLib.AgateSDL.dll.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lib64\Readme-SDL.txt">

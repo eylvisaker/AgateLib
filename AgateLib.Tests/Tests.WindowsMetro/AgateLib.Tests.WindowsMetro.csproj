@@ -137,7 +137,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="packages.config" />
     <None Include="Tests.WindowsMetro_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
