@@ -24,7 +24,7 @@ using System.Text;
 using AgateLib.IO;
 using System.Threading.Tasks;
 
-namespace AgateLib.Platform.Test
+namespace AgateLib.Platform.IntegrationTest
 {
 	/// <summary>
 	/// FileSystemProvider implements IFileProvider, providing access to files
@@ -64,7 +64,7 @@ namespace AgateLib.Platform.Test
 			string resolvedName = FindFileName(filename);
 			if (resolvedName == null)
 				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
-					filename, mPath));
+					filename, mPath), filename);
 
 			var result = File.OpenRead(resolvedName);
 			return Task.FromResult<Stream>(result);
@@ -310,6 +310,5 @@ namespace AgateLib.Platform.Test
 			DebugCrossPlatform(folder);
 			Directory.CreateDirectory(Path.Combine(mPath, folder));
 		}
-
 	}
 }

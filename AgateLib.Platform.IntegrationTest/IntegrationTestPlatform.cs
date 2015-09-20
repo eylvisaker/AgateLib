@@ -1,14 +1,14 @@
-﻿using AgateLib.ApplicationModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.ApplicationModels;
 using AgateLib.Platform.Test;
 using AgateLib.Quality;
 
-namespace AgateLib.Platform.Test
+namespace AgateLib.Platform.IntegrationTest
 {
     /// <summary>
     /// Initializes AgateLib for doing integration testing, using the physical file system.

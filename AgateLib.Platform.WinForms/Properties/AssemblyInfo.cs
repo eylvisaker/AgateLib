@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AgateLib.Platform.WinForms")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Provides a complete platform for desktop development of an AgateLib project.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("AgateLib")]
 [assembly: AssemblyProduct("AgateLib.Platform.WinForms")]

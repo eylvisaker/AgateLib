@@ -37,6 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\..\AgateLib.Platform.Test\AgateLib.Platform.Test.csproj">
+      <Project>{8092e103-5700-4d09-b315-192f0e792c45}</Project>
+      <Name>AgateLib.Platform.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{9490b719-829e-43a7-a5fe-8001f8a81759}</Project>
       <Name>AgateLib</Name>
@@ -54,20 +58,8 @@
     <Compile Include="DisplayTests\ParticleTests.cs" />
     <Compile Include="DisplayTests\RotatingSpriteTester.cs" />
     <Compile Include="DisplayTests\Tiling.cs" />
-    <Compile Include="Platform\Test\Audio\FakeAudioImpl.cs" />
-    <Compile Include="Platform\Test\FakeAgateConsole.cs" />
-    <Compile Include="Platform\Test\FakeDisplayDriver.cs" />
-    <Compile Include="Platform\Test\FakeDisplayFactory.cs" />
-    <Compile Include="Platform\Test\FakeDisplayWindow.cs" />
-    <Compile Include="Platform\Test\FakeFontSurface.cs" />
-    <Compile Include="Platform\Test\FakeFrameBuffer.cs" />
-    <Compile Include="Platform\Test\FakeReadOnlyFileProvider.cs" />
-    <Compile Include="Platform\Test\FakeSurface.cs" />
     <Compile Include="Fakes\UserInterface\FakeGuiEngine.cs" />
     <Compile Include="Fakes\UserInterface\FakeLayout.cs" />
-    <Compile Include="Platform\Test\FakePlatformFactory.cs" />
-    <Compile Include="Platform\Test\FakePlatformInfo.cs" />
-    <Compile Include="Platform\Test\FakeRenderTarget.cs" />
     <Compile Include="FontTests\Builtin.cs" />
     <Compile Include="FontTests\FontAlignment.cs" />
     <Compile Include="FontTests\TextLayout.cs" />
@@ -75,12 +67,6 @@
     <Compile Include="IAgateTest.cs" />
     <Compile Include="IDiscreteAgateTest.cs" />
     <Compile Include="ISceneModelTest.cs" />
-    <Compile Include="Platform\Test\FakeAgateFactory.cs" />
-    <Compile Include="Platform\Test\FakeAudioFactory.cs" />
-    <Compile Include="Platform\Test\FakeInputFactory.cs" />
-    <Compile Include="Platform\Test\FakeSurfaceImpl.cs" />
-    <Compile Include="Platform\Test\Input\FakeInputImpl.cs" />
-    <Compile Include="Platform\Test\UnitTestPlatform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ISerialModelTest.cs" />
     <Compile Include="TestInfo.cs" />
@@ -186,24 +172,23 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Platform\Test\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks" Condition="Exists('$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks')" />
   <Target Name="UpdateAssemblyInfo" Condition="$(MajorVersion) != ''">
     <ItemGroup>
       <AssemblyInfoFiles Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
-    <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
-                  AssemblyMajorVersion="$(MajorVersion)"
-                  AssemblyMinorVersion="$(MinorVersion)" 
-                  AssemblyBuildNumber="$(BuildNumber)" 
-                  AssemblyRevisionType="Julian" />
+    <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)" AssemblyMajorVersion="$(MajorVersion)" AssemblyMinorVersion="$(MinorVersion)" AssemblyBuildNumber="$(BuildNumber)" AssemblyRevisionType="Julian" />
   </Target>
   <PropertyGroup>
     <BuildDependsOn>
       UpdateAssemblyInfo;
       $(BuildDependsOn)
     </BuildDependsOn>
-  </PropertyGroup>  
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

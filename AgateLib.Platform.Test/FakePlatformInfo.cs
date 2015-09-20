@@ -1,8 +1,8 @@
-﻿using AgateLib.Platform;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.Platform;
 
 namespace AgateLib.Platform.Test
 {

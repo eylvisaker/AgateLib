@@ -1,11 +1,11 @@
-﻿using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using AgateLib.Geometry.CoordinateSystems;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
+using AgateLib.Geometry.CoordinateSystems;
 
 namespace AgateLib.Platform.Test
 {

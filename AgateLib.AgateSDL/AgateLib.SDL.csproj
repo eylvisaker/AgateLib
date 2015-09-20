@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Binaries\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Binaries\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -113,11 +113,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AgateLib.SDL.dll.config" />
+    <None Include="tools\Install.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="lib64\Readme-SDL.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="AgateLib.SDL.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AgateLib\AgateLib.csproj">
@@ -126,99 +125,74 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib32\libFLAC-8.dll">
+    <None Include="lib32\LICENSE.FLAC.txt" />
+    <None Include="lib32\LICENSE.mikmod.txt" />
+    <None Include="lib32\LICENSE.modplug.txt" />
+    <None Include="lib32\LICENSE.ogg-vorbis.txt" />
+    <None Include="lib32\LICENSE.smpeg.txt" />
+    <None Include="lib32\README-SDL.txt" />
+    <None Include="lib32\README-SDL_mixer.txt" />
+    <None Include="lib64\LICENSE.FLAC.txt" />
+    <None Include="lib64\LICENSE.mikmod.txt" />
+    <None Include="lib64\LICENSE.modplug.txt" />
+    <None Include="lib64\LICENSE.ogg-vorbis.txt" />
+    <None Include="lib64\LICENSE.smpeg.txt" />
+    <None Include="lib64\README-SDL.txt" />
+    <None Include="lib64\README-SDL_mixer.txt" />
+    <None Include="lib32\libFLAC-8.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\libmikmod-2.dll">
+    </None>
+    <None Include="lib32\libmikmod-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\libmodplug-1.dll">
+    </None>
+    <None Include="lib32\libmodplug-1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\libogg-0.dll">
+    </None>
+    <None Include="lib32\libogg-0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\libvorbis-0.dll">
+    </None>
+    <None Include="lib32\libvorbis-0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\libvorbisfile-3.dll">
+    </None>
+    <None Include="lib32\libvorbisfile-3.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\LICENSE.FLAC.txt">
+    </None>
+    <None Include="lib32\SDL2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\LICENSE.mikmod.txt">
+    </None>
+    <None Include="lib32\SDL2_mixer.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\LICENSE.modplug.txt">
+    </None>
+    <None Include="lib32\smpeg2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\LICENSE.ogg-vorbis.txt">
+    </None>
+    <None Include="lib64\libFLAC-8.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\LICENSE.smpeg.txt">
+    </None>
+    <None Include="lib64\libmikmod-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\README-SDL.txt">
+    </None>
+    <None Include="lib64\libmodplug-1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\README.txt">
+    </None>
+    <None Include="lib64\libogg-0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\SDL2.dll">
+    </None>
+    <None Include="lib64\libvorbis-0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\SDL2_mixer.dll">
+    </None>
+    <None Include="lib64\libvorbisfile-3.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib32\smpeg2.dll">
+    </None>
+    <None Include="lib64\SDL2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\libFLAC-8.dll">
+    </None>
+    <None Include="lib64\SDL2_mixer.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\libmikmod-2.dll">
+    </None>
+    <None Include="lib64\smpeg2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\libmodplug-1.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\libogg-0.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\libvorbis-0.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\libvorbisfile-3.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\LICENSE.FLAC.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\LICENSE.mikmod.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\LICENSE.modplug.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\LICENSE.ogg-vorbis.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\LICENSE.smpeg.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\README.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\SDL2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\SDL2_mixer.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib64\smpeg2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,11 +1,11 @@
-﻿using AgateLib.Drivers;
-using AgateLib.Platform.Common.PlatformImplementation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Drivers;
+using AgateLib.Platform.Common.PlatformImplementation;
 using AgateLib.Testing.Platform.Test;
 
 namespace AgateLib.Platform.Test

@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Binaries\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Binaries\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -139,6 +139,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="AgateLib.OpenGL.nuspec" />
     <None Include="packages.config" />
     <None Include="Resources\Basic2D_pixel.txt" />
   </ItemGroup>
@@ -157,18 +158,14 @@
     <ItemGroup>
       <AssemblyInfoFiles Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
-    <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
-                  AssemblyMajorVersion="$(MajorVersion)"
-                  AssemblyMinorVersion="$(MinorVersion)" 
-                  AssemblyBuildNumber="$(BuildNumber)" 
-                  AssemblyRevisionType="Julian" />
+    <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)" AssemblyMajorVersion="$(MajorVersion)" AssemblyMinorVersion="$(MinorVersion)" AssemblyBuildNumber="$(BuildNumber)" AssemblyRevisionType="Julian" />
   </Target>
   <PropertyGroup>
     <BuildDependsOn>
       UpdateAssemblyInfo;
       $(BuildDependsOn)
     </BuildDependsOn>
-  </PropertyGroup>  
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

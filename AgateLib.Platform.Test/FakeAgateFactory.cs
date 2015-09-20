@@ -1,11 +1,11 @@
-﻿using AgateLib.Drivers;
-using AgateLib.Drivers.NullDrivers;
-using AgateLib.Quality;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Drivers;
+using AgateLib.Drivers.NullDrivers;
+using AgateLib.Quality;
 
 namespace AgateLib.Platform.Test
 {
