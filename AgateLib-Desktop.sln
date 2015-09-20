@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib", "AgateLib\AgateLib.csproj", "{9490B719-829E-43A7-A5FE-8001F8A81759}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.AgateSDL", "AgateLib.AgateSDL\AgateLib.AgateSDL.csproj", "{935D67A0-931E-46DE-9F6A-2D6DBC99AFF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.SDL", "AgateLib.AgateSDL\AgateLib.SDL.csproj", "{935D67A0-931E-46DE-9F6A-2D6DBC99AFF3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.OpenGL", "AgateLib.OpenGL\AgateLib.OpenGL.csproj", "{94734E5A-0344-43E8-BB30-E32E3F57F611}"
 EndProject
