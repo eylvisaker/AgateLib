@@ -210,9 +210,9 @@
     <None Include="Resources\Fonts.zip" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AgateLib-mono.ico" />
-    <Content Include="Resources\AgateLib.ico" />
-    <Content Include="Resources\blankcursor.cur" />
+    <None Include="Resources\AgateLib-mono.ico" />
+    <None Include="Resources\AgateLib.ico" />
+    <None Include="Resources\blankcursor.cur" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
