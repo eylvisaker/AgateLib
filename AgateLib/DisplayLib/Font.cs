@@ -1,4 +1,5 @@
 ﻿using AgateLib.Geometry;
+using AgateLib.Quality;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,11 +32,15 @@ namespace AgateLib.DisplayLib
 
 		public void AddFont(FontSurface fontSurface, int size, FontStyles style)
 		{
+            Condition.RequireArgumentNotNull(fontSurface, nameof(fontSurface));
+
 			AddFont(new FontSettings(size, style), fontSurface);
 		}
 		public void AddFont(FontSettings settings, FontSurface fontSurface)
-		{
-			if (Size == 0)
+        {
+            Condition.RequireArgumentNotNull(fontSurface, nameof(fontSurface));
+
+            if (Size == 0)
 				mSettings = settings;
 
 			mFontSurfaces[settings] = fontSurface;

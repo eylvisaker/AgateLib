@@ -41,6 +41,12 @@ namespace AgateLib.Quality
         [DebuggerStepThrough]
         public static void RequireArgumentNotNull<T>(T param, string paramName) where T : class
         {
+            RequireArgumentNotNull(param, paramName, paramName + " must not be null");
+        }
+
+        [DebuggerStepThrough]
+        public static void RequireArgumentNotNull<T>(T param, string paramName, string message) where T : class
+        {
             if (param != null)
                 return;
 
