@@ -58,8 +58,6 @@
     <Compile Include="DisplayTests\ParticleTests.cs" />
     <Compile Include="DisplayTests\RotatingSpriteTester.cs" />
     <Compile Include="DisplayTests\Tiling.cs" />
-    <Compile Include="Fakes\UserInterface\FakeGuiEngine.cs" />
-    <Compile Include="Fakes\UserInterface\FakeLayout.cs" />
     <Compile Include="FontTests\Builtin.cs" />
     <Compile Include="FontTests\FontAlignment.cs" />
     <Compile Include="FontTests\TextLayout.cs" />
