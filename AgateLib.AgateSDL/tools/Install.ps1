@@ -5,7 +5,7 @@ $libfolders = "lib32", "lib64"
 
 ForEach ($libfolder in $libfolders) 
 {
-	$folderItem = $project.ProjectItems.Item($libfolder);
+	$folderItem = $project.ProjectItems.AddFolder($libfolder);
 	
 	if ($folderItem -eq $null) 
 	{
@@ -15,8 +15,8 @@ ForEach ($libfolder in $libfolders)
 	
 	ForEach ($filename in $filenames) 
 	{
-		$path = ("{0}\{1}" -f $libfolder,$filename);
-		$file = $folderItem.ProjectItems.Item($filename);
+		$path = ("{0}\{1}\{2}" -f $toolsPath,$libfolder,$filename);
+		$file = $folderItem.ProjectItems.AddFromFile($filename);
 		
 		if ($file -ne $null)
 		{

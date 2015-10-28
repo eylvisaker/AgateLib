@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AgateLib.UnitTests</RootNamespace>
     <AssemblyName>AgateLib.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -113,6 +113,7 @@
     <Compile Include="Geometry\ColorTests.cs" />
     <Compile Include="Geometry\RectangleTest.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
+    <Compile Include="Platform\IntegrationTest\AgateIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Platform\PlatformTests.cs" />
     <Compile Include="Resources\SerializationTest.cs" />
@@ -129,6 +130,10 @@
     <Compile Include="Utility\RefTester.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib.Platform.IntegrationTest\AgateLib.Platform.IntegrationTest.csproj">
+      <Project>{a2bd2d8f-4afe-4548-80d9-bf73bfcafcf8}</Project>
+      <Name>AgateLib.Platform.IntegrationTest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AgateLib.Platform.Test\AgateLib.Platform.Test.csproj">
       <Project>{8092e103-5700-4d09-b315-192f0e792c45}</Project>
       <Name>AgateLib.Platform.Test</Name>

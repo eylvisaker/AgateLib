@@ -66,6 +66,8 @@ namespace AgateLib.Platform.IntegrationTest
 				throw new FileNotFoundException(string.Format("The file {0} was not found in the path {1}.",
 					filename, mPath), filename);
 
+            Console.WriteLine("Opening {0}", resolvedName);
+
 			var result = File.OpenRead(resolvedName);
 			return Task.FromResult<Stream>(result);
 		}

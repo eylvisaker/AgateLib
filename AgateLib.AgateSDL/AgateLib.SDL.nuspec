@@ -19,8 +19,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="lib32\*" target="content/lib32" />
-    <file src="lib64\*" target="content/lib64" />
+    <file src="lib32\*" target="tools/lib32" />
+    <file src="lib64\*" target="tools/lib64" />
     <file src="tools\Install.ps1" target="tools" />
   </files>
 </package>
