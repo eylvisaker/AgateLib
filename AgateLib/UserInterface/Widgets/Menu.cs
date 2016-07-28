@@ -255,6 +255,7 @@ namespace AgateLib.UserInterface.Widgets
                     break;
             }
         }
+
         protected internal override void OnUpdate(double deltaTime)
         {
             if (mChildCountLastUpdate != Children.Count)

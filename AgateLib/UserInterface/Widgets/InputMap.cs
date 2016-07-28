@@ -27,17 +27,6 @@ namespace AgateLib.UserInterface.Widgets
 {
 	public class InputMap
 	{
-		Dictionary<KeyCode, GuiInput> mKeyMap = new Dictionary<KeyCode, GuiInput>();
-		Dictionary<int, GuiInput> mJoystickButtonMap = new Dictionary<int, GuiInput>();
-
-		public void Clear()
-		{
-			mKeyMap.Clear();
-			mJoystickButtonMap.Clear();
-		}
-
-		public InputMap()
-		{ }
 		public static InputMap CreateDefaultInputMap()
 		{
 			InputMap result = new InputMap();
@@ -64,6 +53,12 @@ namespace AgateLib.UserInterface.Widgets
 			return result;
 		}
 
+		Dictionary<KeyCode, GuiInput> mKeyMap = new Dictionary<KeyCode, GuiInput>();
+		Dictionary<int, GuiInput> mJoystickButtonMap = new Dictionary<int, GuiInput>();
+		
+		public InputMap()
+		{ }
+
 		public void AddKey(KeyCode keyCode, GuiInput guiInput)
 		{
 			mKeyMap[keyCode] = guiInput;
@@ -75,6 +70,12 @@ namespace AgateLib.UserInterface.Widgets
 				return GuiInput.None;
 
 			return mKeyMap[keyCode];
+		}
+
+		public void Clear()
+		{
+			mKeyMap.Clear();
+			mJoystickButtonMap.Clear();
 		}
 	}
 }

@@ -79,7 +79,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
+      <HintPath>..\..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -125,6 +125,7 @@
     <Compile Include="UserInterface\Css\CssLayoutTest.cs" />
     <Compile Include="UserInterface\Css\CssParseTest.cs" />
     <Compile Include="UserInterface\Widgets\ConversionTests.cs" />
+    <Compile Include="UserInterface\Widgets\MenuItemTests.cs" />
     <Compile Include="UserInterface\Widgets\ScrollingTests.cs" />
     <Compile Include="Utility\RefTest.cs" />
     <Compile Include="Utility\RefTester.cs" />
