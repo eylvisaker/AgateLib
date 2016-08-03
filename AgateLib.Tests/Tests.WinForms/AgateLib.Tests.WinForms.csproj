@@ -322,13 +322,14 @@
       <DependentUpon>LightingTestForm.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UserInterfaceTests\frmCssEdit.cs">
+    <Compile Include="UserInterfaceTests\CssTests\frmCssEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserInterfaceTests\frmCssEdit.Designer.cs">
+    <Compile Include="UserInterfaceTests\CssTests\frmCssEdit.Designer.cs">
       <DependentUpon>frmCssEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserInterfaceTests\GuiTest.cs" />
+    <Compile Include="UserInterfaceTests\CssTests\GuiTest.cs" />
+    <Compile Include="UserInterfaceTests\VenusTests\VenusBasicTest.cs" />
     <Compile Include="WinFormsTests\Converters.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -400,7 +401,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>LightingTestForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserInterfaceTests\frmCssEdit.resx">
+    <EmbeddedResource Include="UserInterfaceTests\CssTests\frmCssEdit.resx">
       <DependentUpon>frmCssEdit.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />

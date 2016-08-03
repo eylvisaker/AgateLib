@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Testing
 {
+	/// <summary>
+	/// Test based on a custom application model
+	/// </summary>
 	public interface IDiscreteAgateTest : IAgateTest
 	{
 		void Main(string[] args);

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Testing
 {
+	/// <summary>
+	/// Test based on a serial application model.
+	/// </summary>
 	public interface ISerialModelTest : IAgateTest
 	{
 		void ModifyModelParameters(SerialModelParameters parameters);

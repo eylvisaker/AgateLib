@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Testing
 {
+	/// <summary>
+	/// Test based on a scene application model
+	/// </summary>
 	public interface ISceneModelTest : IAgateTest
 	{
 		void ModifyModelParameters(SceneModelParameters parameters);
