@@ -658,9 +658,10 @@
     <Compile Include="UserInterface\GuiStack.cs" />
     <Compile Include="UserInterface\IAudioPlayer.cs" />
     <Compile Include="UserInterface\ISurfaceProvider.cs" />
-    <Compile Include="UserInterface\Venus\Hierarchy\ContainerInitializer.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\ContainerInitializer.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\WidgetBuilder.cs" />
     <Compile Include="UserInterface\Venus\Hierarchy\LayoutModel.cs" />
-    <Compile Include="UserInterface\Venus\Hierarchy\TypeResolver.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\TypeResolver.cs" />
     <Compile Include="UserInterface\Venus\Hierarchy\WidgetProperties.cs" />
     <Compile Include="UserInterface\Venus\RenderModel\RenderItem.cs" />
     <Compile Include="UserInterface\Venus\VenusLayoutEngine.cs" />

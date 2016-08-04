@@ -6,53 +6,30 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Quality;
+using AgateLib.UserInterface.Venus.Hierarchy;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UserInterface.Venus.Hierarchy
+namespace AgateLib.UserInterface.Venus.Fulfillment
 {
-	class ContainerInitializer
+	public class WidgetBuilder
 	{
 		private readonly ITypeResolver typeResolver;
-		private Dictionary<string, Widget> widgets = new Dictionary<string, Widget>();
-		private IEnumerable<LayoutModel> models;
+		private readonly IEnumerable<LayoutModel> models;
 
-		public ContainerInitializer(ITypeResolver typeResolver, IEnumerable<LayoutModel> models)
+		private readonly Dictionary<string, Widget> widgets = new Dictionary<string, Widget>();
+
+		public WidgetBuilder(ITypeResolver typeResolver, IEnumerable<LayoutModel> models)
 		{
 			Condition.RequireArgumentNotNull(typeResolver, nameof(typeResolver));
 			Condition.RequireArgumentNotNull(models, nameof(models));
 
 			this.typeResolver = typeResolver;
-			this.models = models;
+			this.models = models.ToList();
 		}
 
-		public IEnumerable<Widget> Initialize(IUserInterfaceContainer ui)
-		{
-			BuildWidgets();
+		public IReadOnlyDictionary<string, Widget> Widgets => widgets;
 
-			var type = ui.GetType();
-
-			var fields = type.GetRuntimeFields();
-			var baseType = typeof(Widget).GetTypeInfo();
-
-			foreach (var field in fields)
-			{
-				if (baseType.IsAssignableFrom(field.FieldType.GetTypeInfo()) == false)
-					continue;
-
-				var name = GetWidgetName(field);
-
-				var widget = GetWidget(name);
-
-				if (widget != null)
-				{
-					field.SetValue(ui, widget);
-				}
-			}
-
-			return widgets.Values;
-		}
-
-		private void BuildWidgets()
+		public void BuildWidgets()
 		{
 			foreach (var model in models)
 			{
@@ -63,6 +40,8 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 			}
 		}
 
+		public Widget WidgetOrDefault(string name) => widgets.ContainsKey(name) == false ? null : widgets[name];
+
 		private Widget RealizeWidgetModel(WidgetProperties widgetProperties)
 		{
 			var widget = GetOrCreateWidget(widgetProperties.Name, widgetProperties.Type);
@@ -71,6 +50,7 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 
 			return widget;
 		}
+
 
 		private void ApplyWidgetProperties(Widget widget, WidgetProperties widgetProperties)
 		{
@@ -149,11 +129,5 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 			return result;
 		}
 
-		private Widget GetWidget(string name) => widgets.ContainsKey(name) == false ? null : widgets[name];
-
-		private string GetWidgetName(FieldInfo field)
-		{
-			return field.Name;
-		}
 	}
 }
