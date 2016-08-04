@@ -221,7 +221,7 @@ namespace AgateLib.UserInterface.Widgets
 		public Point ClientToScreen(Point clientPoint)
 		{
 			if (Parent == null)
-				return clientPoint;
+				return ClientToParent(clientPoint);
 
 			Point translated = ClientToParent(clientPoint);
 

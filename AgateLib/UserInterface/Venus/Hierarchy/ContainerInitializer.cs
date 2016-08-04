@@ -12,23 +12,16 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 {
 	class ContainerInitializer
 	{
-		private static Dictionary<string, Type> widgetTypeMap;
-		static ContainerInitializer()
-		{
-			widgetTypeMap = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
-
-			widgetTypeMap.Add("Label", typeof(Label));
-			widgetTypeMap.Add("Panel", typeof(Panel));
-			widgetTypeMap.Add("Window", typeof(Window));
-		}
-
+		private readonly ITypeResolver typeResolver;
 		private Dictionary<string, Widget> widgets = new Dictionary<string, Widget>();
 		private IEnumerable<LayoutModel> models;
 
-		public ContainerInitializer(IEnumerable<LayoutModel> models)
+		public ContainerInitializer(ITypeResolver typeResolver, IEnumerable<LayoutModel> models)
 		{
+			Condition.RequireArgumentNotNull(typeResolver, nameof(typeResolver));
 			Condition.RequireArgumentNotNull(models, nameof(models));
 
+			this.typeResolver = typeResolver;
 			this.models = models;
 		}
 
@@ -72,7 +65,7 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 
 		private Widget RealizeWidgetModel(WidgetProperties widgetProperties)
 		{
-			var widget = GetOrCreateWidget(widgetProperties.Name, TypeOf(widgetProperties.Type));
+			var widget = GetOrCreateWidget(widgetProperties.Name, widgetProperties.Type);
 
 			ApplyWidgetProperties(widget, widgetProperties);
 
@@ -83,6 +76,10 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 		{
 			ApplyProperty(widget, w => w.Name, widgetProperties.Name);
 			ApplyProperty(widget, w => w.Enabled, widgetProperties.Enabled);
+			ApplyProperty(widget, w => w.X, widgetProperties.Location?.X);
+			ApplyProperty(widget, w => w.Y, widgetProperties.Location?.Y);
+			ApplyProperty(widget, w => w.Width, widgetProperties.Size?.Width);
+			ApplyProperty(widget, w => w.Height, widgetProperties.Size?.Height);
 			ApplyProperty(widget, "Text", widgetProperties.Text);
 
 			if (widgetProperties.Children.Count > 0)
@@ -138,24 +135,16 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 			setter.Invoke(widget, new object[] { value.Value });
 		}
 
-		private Type TypeOf(string type)
-		{
-			return widgetTypeMap[type];
-		}
-
-		private Widget GetOrCreateWidget(string name, Type type)
+		private Widget GetOrCreateWidget(string name, string type)
 		{
 			if (widgets.ContainsKey(name) == false)
 			{
-				Widget widget = (Widget)Activator.CreateInstance(type);
+				Widget widget = (Widget)Activator.CreateInstance(typeResolver.Resolve(type));
 
 				widgets[name] = widget;
 			}
 
 			var result = widgets[name];
-
-			if (result.GetType() != type)
-				throw new InvalidOperationException("Widget had wrong type");
 
 			return result;
 		}

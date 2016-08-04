@@ -19,7 +19,7 @@ namespace AgateLib.UserInterface.Venus
 
 		public void InitializeWidgets(string @namespace, IUserInterfaceContainer ui)
 		{
-			ContainerInitializer init = new ContainerInitializer(models.Where(model => model.Namespace == @namespace));
+			ContainerInitializer init = new ContainerInitializer(new TypeResolver(), models.Where(model => model.Namespace == @namespace));
 
 			var widgets = init.Initialize(ui);
 		}
