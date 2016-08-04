@@ -47,15 +47,6 @@ namespace AgateLib.Platform
 		MacOS,
 
 		/// <summary>
-		/// Microsoft's XBox 360 console.
-		/// </summary>
-		XBox360,
-		/// <summary>
-		/// The portable GP2x handheld, or compatible.
-		/// </summary>
-		Gp2x,
-
-		/// <summary>
 		/// An device running the Android operating system.
 		/// </summary>
 		Android,
@@ -83,6 +74,10 @@ namespace AgateLib.Platform
 		/// A handheld device such as a smart phone with a small but possibly high resolution screen.
 		/// </summary>
 		Handheld,
+		/// <summary>
+		/// A console system that primarily uses a gamepad as input
+		/// </summary>
+		Console,
 	}
 
 	/// <summary>

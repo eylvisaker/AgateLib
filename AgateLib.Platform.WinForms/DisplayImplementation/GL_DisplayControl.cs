@@ -244,7 +244,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					return OpenTK.Platform.Utilities.CreateMacOSCarbonWindowInfo(mRenderTarget.Handle, false, true);
 				case PlatformType.Linux:
 					return CreateX11WindowInfo(mode);
-				case PlatformType.Gp2x:
 				default:
 					throw new InvalidOperationException("Platform not implemented.");
 			}

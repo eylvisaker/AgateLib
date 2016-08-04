@@ -104,7 +104,7 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 					case 4: return false;
 					case 8: return true;
 					default:
-						throw new AgateException(string.Format("Size of IntPtr is {0}.", size));
+						throw new AgateException($"Size of IntPtr is {size}.");
 				}
 			}
 		}
@@ -144,10 +144,7 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 		/// <summary>
 		/// Gets the directory where the application should store its configuration data.
 		/// </summary>
-		public override string AppDataDirectory
-		{
-			get { return mAppData; }
-		}
+		public override string AppDataDirectory => mAppData;
 
 		static T GetCustomAttribute<T>(Assembly ass) where T : Attribute 	
 		{
@@ -226,8 +223,7 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 			get
 			{
 				if (PlatformType != PlatformType.Windows)
-					throw new AgateCrossPlatformException(
-						"Current platform is not Windows, but the WindowsVersion property was checked.");
+					return WindowsVersion.Unknown;
 
 				return mWindowsVersion;
 			}
@@ -246,19 +242,14 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 				case PlatformID.Unix:
 					string kernel = DetectUnixKernel();
 
-					if (kernel == "Darwin")
-						return PlatformType.MacOS;
-					else
-						return PlatformType.Linux;
+					return kernel == "Darwin" ? PlatformType.MacOS : PlatformType.Linux;
 
 				case PlatformID.MacOSX:
 					return PlatformType.MacOS;
 
-				case PlatformID.Xbox:
-					return PlatformType.XBox360;
+				default:
+					return PlatformType.Unknown;
 			}
-
-			return PlatformType.Unknown;
 		}
 
 		#region private static string DetectUnixKernel()
@@ -356,7 +347,5 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 
 			return result;
 		}
-
-
 	}
 }
