@@ -12,15 +12,21 @@ namespace AgateLib.UserInterface.Venus
 	public class VenusLayoutEngine : IGuiLayoutEngine
 	{
 		private List<LayoutModel> models = new List<LayoutModel>();
+		private LayoutEnvironment environment = new LayoutEnvironment();
+
+		public LayoutEnvironment Environment
+		{
+			get { return environment; }
+		}
 
 		public void UpdateLayout(Gui gui)
 		{
-			
+
 		}
 
 		public void InitializeWidgets(string @namespace, IUserInterfaceContainer ui)
 		{
-			var currentModels = models.Where(model => model.Namespace == @namespace);
+			var currentModels = SelectModels(@namespace);
 			var typeResolver = new TypeResolver();
 
 			WidgetBuilder builder = new WidgetBuilder(typeResolver, currentModels);
@@ -28,6 +34,16 @@ namespace AgateLib.UserInterface.Venus
 
 			ContainerInitializer init = new ContainerInitializer();
 			init.Initialize(ui, builder);
+		}
+
+		private IEnumerable<LayoutModel> SelectModels(string @namespace)
+		{
+			var result = from model in models
+						 where model.Namespace == @namespace &&
+							   (model.Condition == null || model.Condition.ApplyLayoutModel(Environment, model))
+						 select model;
+
+			return result;
 		}
 
 		public void AddLayoutModel(LayoutModel layoutModel)

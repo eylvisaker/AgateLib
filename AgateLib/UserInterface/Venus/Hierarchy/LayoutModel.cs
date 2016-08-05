@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Platform;
 
 namespace AgateLib.UserInterface.Venus.Hierarchy
 {
@@ -11,6 +12,13 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 		public LayoutModel(string @namespace, params WidgetProperties[] widgets)
 		{
 			Namespace = @namespace;
+			Widgets = widgets.ToList();
+		}
+
+		public LayoutModel(string @namespace, ILayoutCondition condition, params WidgetProperties[] widgets)
+		{
+			Namespace = @namespace;
+			Condition = condition;
 			Widgets = widgets.ToList();
 		}
 
@@ -24,12 +32,11 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 
 	public interface ILayoutCondition
 	{
-		bool ApplyWidgetProperties(LayoutEnvironment environment, WidgetProperties widget);
+		bool ApplyLayoutModel(LayoutEnvironment environment, LayoutModel widget);
 	}
 
 	public class LayoutEnvironment
 	{
-		public LayoutModel LayoutModel { get; set; }
-
+		public DeviceType DeviceType { get; set; }
 	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
+using AgateLib.Platform;
 using AgateLib.UserInterface.Venus;
 using AgateLib.UserInterface.Venus.Hierarchy;
 using AgateLib.UserInterface.Widgets;
@@ -87,6 +88,42 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			Assert.AreEqual(new Point(45, 50), ui.testWindow.ClientToScreen().Location);
 			Assert.AreEqual(new Point(55, 65), ui.testPanel.ClientToScreen().Location);
 			Assert.AreEqual(new Point(85, 90), ui.testLabel.ClientToScreen().Location);
+		}
+
+		[TestMethod]
+		public void InitializeWidgetsWithoutDeviceOverride()
+		{
+			layout.AddLayoutModel(new LayoutModel("test", new LayoutForDevice(DeviceType.Handheld),
+				new WidgetProperties()
+				{
+					Name = "testWindow",
+					Location = new Point(2, 1)
+				}));
+
+			layout.InitializeWidgets("test", ui);
+
+			Assert.AreEqual(new Point(45, 50), ui.testWindow.ClientToScreen().Location);
+			Assert.AreEqual(new Point(55, 65), ui.testPanel.ClientToScreen().Location);
+			Assert.AreEqual(new Point(58, 71), ui.testLabel.ClientToScreen().Location);
+			Assert.AreSame(ui.testLabel, (ui.testWindow.Children.First() as Container).Children.First());
+		}
+
+		[TestMethod]
+		public void InitializeWidgetForDevice()
+		{
+			layout.AddLayoutModel(new LayoutModel("test", new LayoutForDevice(DeviceType.Handheld),
+				new WidgetProperties()
+				{
+					Name = "testWindow",
+					Location = new Point(2, 1)
+				}));
+
+			layout.Environment.DeviceType = DeviceType.Handheld;
+			layout.InitializeWidgets("test", ui);
+
+			Assert.AreEqual(new Point(2, 1), ui.testWindow.ClientToScreen().Location);
+			Assert.AreEqual(new Point(12, 16), ui.testPanel.ClientToScreen().Location);
+			Assert.AreEqual(new Point(15, 22), ui.testLabel.ClientToScreen().Location);
 		}
 
 		class InterfaceContainer : IUserInterfaceContainer
