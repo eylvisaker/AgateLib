@@ -18,8 +18,6 @@
 //
 using AgateLib.UserInterface.Css.Cache;
 using AgateLib.UserInterface.Css.Layout;
-using AgateLib.UserInterface.Css.Rendering;
-using AgateLib.UserInterface.Css.Rendering.Animators;
 using AgateLib.UserInterface.Css.Selectors;
 using AgateLib.UserInterface.Widgets;
 using System;
@@ -27,10 +25,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.Css
 {
-	public class CssStyle
+	public class CssStyle : IWidgetStyle
 	{
 		string mClassValue = string.Empty;
 		List<string> mSplitClasses = new List<string>();

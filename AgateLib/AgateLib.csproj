@@ -640,14 +640,15 @@
     <Compile Include="UserInterface\Css\Parser\Lexer\Token.cs" />
     <Compile Include="UserInterface\Css\Parser\Lexer\Tokenizer.cs" />
     <Compile Include="UserInterface\Css\ReflectionExtensions.cs" />
-    <Compile Include="UserInterface\Css\Rendering\CssDefaultImageProvider.cs" />
-    <Compile Include="UserInterface\Css\Rendering\CssRenderer.cs" />
-    <Compile Include="UserInterface\Css\Rendering\ICssImageProvider.cs" />
-    <Compile Include="UserInterface\Css\Rendering\Transitions\IWidgetTransition.cs" />
-    <Compile Include="UserInterface\Css\Rendering\Transitions\NullTransition.cs" />
-    <Compile Include="UserInterface\Css\Rendering\Transitions\SlideTransition.cs" />
-    <Compile Include="UserInterface\Css\Rendering\Transitions\TransitionFactory.cs" />
-    <Compile Include="UserInterface\Css\Rendering\Animators\WidgetAnimator.cs" />
+    <Compile Include="UserInterface\Rendering\DefaultImageProvider.cs" />
+    <Compile Include="UserInterface\Rendering\AgateUIRenderer.cs" />
+    <Compile Include="UserInterface\IUserInterfaceImageProvider.cs" />
+    <Compile Include="UserInterface\Rendering\IWidgetAnimator.cs" />
+    <Compile Include="UserInterface\Rendering\Transitions\IWidgetTransition.cs" />
+    <Compile Include="UserInterface\Rendering\Transitions\NullTransition.cs" />
+    <Compile Include="UserInterface\Rendering\Transitions\SlideTransition.cs" />
+    <Compile Include="UserInterface\Rendering\Transitions\TransitionFactory.cs" />
+    <Compile Include="UserInterface\Rendering\Animators\WidgetAnimator.cs" />
     <Compile Include="UserInterface\Css\Selectors\CssSelectorIndividual.cs" />
     <Compile Include="UserInterface\Css\Selectors\CssSelectorChain.cs" />
     <Compile Include="UserInterface\Css\Selectors\CssSelector.cs" />
@@ -658,6 +659,8 @@
     <Compile Include="UserInterface\GuiStack.cs" />
     <Compile Include="UserInterface\IAudioPlayer.cs" />
     <Compile Include="UserInterface\ISurfaceProvider.cs" />
+    <Compile Include="UserInterface\IWidgetAdapter.cs" />
+    <Compile Include="UserInterface\Rendering\IWidgetStyle.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\ContainerInitializer.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\WidgetBuilder.cs" />
     <Compile Include="UserInterface\Venus\Hierarchy\LayoutForDevice.cs" />
@@ -709,6 +712,7 @@
   <ItemGroup>
     <None Include="AgateLib.nuspec" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks" Condition="Exists('$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks')" />
   <Target Name="UpdateAssemblyInfo" Condition="$(MajorVersion) != ''">

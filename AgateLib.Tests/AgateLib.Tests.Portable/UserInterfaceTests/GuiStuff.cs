@@ -1,18 +1,17 @@
 ﻿using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.InputLib.Legacy;
 using AgateLib.Resources.Legacy;
 using AgateLib.UserInterface.Css;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Layout;
-using AgateLib.UserInterface.Css.Rendering;
 using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.Testing.UserInterfaceTests
 {
@@ -45,7 +44,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 			doc.Load("Style.css");
 			adapter = new CssAdapter(doc, font);
 
-			gui = new Gui(new CssRenderer(adapter), new CssLayoutEngine(adapter));
+			gui = new Gui(new AgateUIRenderer(adapter), new CssLayoutEngine(adapter));
 
 			var wind = new Window("window 1");
 

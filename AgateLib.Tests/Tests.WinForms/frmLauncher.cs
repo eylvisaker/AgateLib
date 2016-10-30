@@ -46,6 +46,12 @@ namespace AgateLib.Testing
 
 		void HandleFormClosed(object sender, FormClosedEventArgs e)
 		{
+			if (settingsFile == null)
+			{
+				System.Diagnostics.Debug.Print("No settings file to save to.");
+				return;
+			}
+
 			using (StreamWriter w = new StreamWriter(settingsFile))
 			{
 				foreach (var setting in mSettings)

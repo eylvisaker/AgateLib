@@ -37,7 +37,7 @@ namespace AgateLib.UserInterface.Css.Documents
 
 			foreach(var v in values)
 			{
-				CssTransitionType type;
+				WindowTransitionType type;
 				CssTransitionDirection dir;
 				double time;
 
@@ -52,11 +52,11 @@ namespace AgateLib.UserInterface.Css.Documents
 
 		public void Clear()
 		{
-			Type = CssTransitionType.None;
+			Type = WindowTransitionType.None;
 			Time = 0.5;
 		}
 
-		public CssTransitionType Type { get; set; }
+		public WindowTransitionType Type { get; set; }
 		public CssTransitionDirection Direction { get; set; }
 		public double Time { get; set; }
 	}

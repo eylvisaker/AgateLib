@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.Platform.WinForms.GuiDebug
 {
@@ -215,7 +216,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
             var widget = (AgateLib.UserInterface.Widgets.Widget)e.Node.Tag;
             var adapter = GetAdapter(widget);
             var style = adapter.GetStyle(widget);
-            var renderer = (AgateLib.UserInterface.Css.Rendering.CssRenderer)widget.MyGui.Renderer;
+            var renderer = (AgateUIRenderer)widget.MyGui.Renderer;
 
             pgWidget.SelectedObject = widget;
             pgStyle.SelectedObject = style;

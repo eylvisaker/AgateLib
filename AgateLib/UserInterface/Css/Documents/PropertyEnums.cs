@@ -31,7 +31,7 @@ namespace AgateLib.UserInterface.Css.Documents
 		Block,
 	}
 
-	public enum CssTransitionType
+	public enum WindowTransitionType
 	{
 		None,
 		Slide,

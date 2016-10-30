@@ -28,11 +28,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Platform;
-using AgateLib.UserInterface.Css.Rendering.Animators;
+using AgateLib.UserInterface.Css.Rendering;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.Css
 {
-	public class CssAdapter
+	public class CssAdapter : IWidgetAdapter
 	{
 		Dictionary<Widget, CssStyle> mObjectStyles = new Dictionary<Widget, CssStyle>();
 		DefaultStyleCollection mDefaultStyles = new DefaultStyleCollection();
@@ -87,6 +88,11 @@ namespace AgateLib.UserInterface.Css
 			get { return mDefaultStyles; }
 		}
 
+		IWidgetStyle IWidgetAdapter.GetStyle(Widget widget)
+		{
+			return GetStyle(widget);
+		}
+
 		public CssStyle GetStyle(Widget control)
 		{
 			if (mObjectStyles.ContainsKey(control) == false)
@@ -114,7 +120,7 @@ namespace AgateLib.UserInterface.Css
 		{
 			return CssDistanceToPixels(GetStyle(widget), distance, width);
 		}
-		public int CssDistanceToPixels(CssStyle style, CssDistance distance, bool width)
+		public int CssDistanceToPixels(IWidgetStyle style, CssDistance distance, bool width)
 		{
 			int scale = 1;
 			double amount = distance.Amount;
