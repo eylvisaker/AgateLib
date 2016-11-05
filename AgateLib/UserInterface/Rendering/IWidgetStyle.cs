@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface.Css;
-using AgateLib.UserInterface.Css.Layout;
+using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering
@@ -13,8 +13,13 @@ namespace AgateLib.UserInterface.Rendering
 	{
 		Widget Widget { get; }
 
-		CssBoxModel BoxModel { get; }
+		BoxModel BoxModel { get; }
 
-		CssStyleData Data { get; }
+		Overflow Overflow { get; }
+		CssText Text { get; }
+		CssFont Font { get; }
+		CssBackground Background { get; }
+		CssBorder Border { get; }
+		CssTransition Transition { get; }
 	}
 }

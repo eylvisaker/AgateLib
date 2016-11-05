@@ -16,14 +16,14 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
-using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Geometry;
 using AgateLib.UserInterface.Rendering.Transitions;
+using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering.Animators
 {
@@ -187,9 +187,9 @@ namespace AgateLib.UserInterface.Rendering.Animators
 
 		public void Update(double deltaTime)
 		{
-			if (Transition == null || mTransitionType != mStyle.Data.Transition.Type)
+			if (Transition == null || mTransitionType != mStyle.Transition.Type)
 			{
-				mTransitionType = mStyle.Data.Transition.Type;
+				mTransitionType = mStyle.Transition.Type;
 				Transition = TransitionFactory.CreateTransition(mTransitionType);
 				Transition.Animator = this;
 				Transition.Style = mStyle;

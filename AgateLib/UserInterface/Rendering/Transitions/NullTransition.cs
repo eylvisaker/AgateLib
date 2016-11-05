@@ -16,13 +16,12 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering.Transitions
 {

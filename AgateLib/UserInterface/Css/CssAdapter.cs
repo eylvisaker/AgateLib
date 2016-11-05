@@ -172,15 +172,15 @@ namespace AgateLib.UserInterface.Css
 
 		private void UpdateBoxModel(CssStyle style)
 		{
-			CssBoxModel model = style.BoxModel;
+			BoxModel model = style.BoxModel;
 
 			model.Border = GetBox(style, style.Data.Border);
 			model.Padding = GetBox(style, style.Data.Padding);
 			model.Margin = GetBox(style, style.Data.Margin);
 		}
-		private CssBox GetBox(CssStyle style, ICssBoxComponent box)
+		private LayoutBox GetBox(CssStyle style, ICssBoxComponent box)
 		{
-			CssBox result = new CssBox();
+			LayoutBox result = new LayoutBox();
 
 			result.Left = CssDistanceToPixels(style, box.Left, true);
 			result.Right = CssDistanceToPixels(style, box.Right, true);

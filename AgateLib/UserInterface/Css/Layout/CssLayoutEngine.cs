@@ -100,7 +100,7 @@ namespace AgateLib.UserInterface.Css.Layout
             return pos == CssPosition.Absolute || pos == CssPosition.Fixed;
         }
 
-        private void SetFixedCoordinates(CssStyle style, CssBoxModel box, Size sz, Rectangle desktopBounds)
+        private void SetFixedCoordinates(CssStyle style, BoxModel box, Size sz, Rectangle desktopBounds)
         {
             var position = style.Data.PositionData;
             var parentStyle = mAdapter.GetStyle(style.Widget.ParentCoordinateSystem);
@@ -160,7 +160,7 @@ namespace AgateLib.UserInterface.Css.Layout
         private void RedoLayout(Container container, bool forceRefresh = false)
         {
             var containerStyle = mAdapter.GetStyle(container);
-            CssBoxModel containerBox = containerStyle.BoxModel;
+            BoxModel containerBox = containerStyle.BoxModel;
 
             if (forceRefresh == false)
             {

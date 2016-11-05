@@ -18,30 +18,39 @@
 //
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.DisplayLib;
 
 namespace AgateLib.UserInterface.Rendering
 {
-	public class DefaultImageProvider : IUserInterfaceImageProvider
+	public struct LayoutBox
 	{
-		Dictionary<string, Surface> mSurfaces = new Dictionary<string, Surface>();
+		private int top, left, right, bottom;
 
-		public Surface GetImage(string file)
+		public int Bottom
 		{
-			if (file.StartsWith("url(") && file.EndsWith(")"))
-			{
-				file = file.Substring(4, file.Length - 5);
+			get { return bottom; }
+			set { bottom = value; }
+		}
 
-				if (mSurfaces.ContainsKey(file) == false)
-					mSurfaces.Add(file, new Surface(file, AgateLib.IO.FileProvider.UserInterfaceAssets));
+		public int Right
+		{
+			get { return right; }
+			set { right = value; }
+		}
 
-				return mSurfaces[file];
-			}
+		public int Left
+		{
+			get { return left; }
+			set { left = value; }
+		}
 
-			throw new System.IO.FileNotFoundException(file);
+		public int Top
+		{
+			get { return top; }
+			set { top = value; }
 		}
 	}
 }

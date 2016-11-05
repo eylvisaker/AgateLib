@@ -625,8 +625,8 @@
     <Compile Include="UserInterface\Css\Documents\ICssBoxComponent.cs" />
     <Compile Include="UserInterface\Css\ICssCanSelect.cs" />
     <Compile Include="UserInterface\Css\Documents\ICssPropertyFromText.cs" />
-    <Compile Include="UserInterface\Css\Layout\CssBox.cs" />
-    <Compile Include="UserInterface\Css\Layout\CssBoxModel.cs" />
+    <Compile Include="UserInterface\Rendering\LayoutBox.cs" />
+    <Compile Include="UserInterface\Rendering\BoxModel.cs" />
     <Compile Include="UserInterface\Css\Layout\CssLayoutEngine.cs" />
     <Compile Include="UserInterface\Css\Layout\Defaults\BlankDefaultStyle.cs" />
     <Compile Include="UserInterface\Css\Layout\Defaults\DefaultStyleCollection.cs" />

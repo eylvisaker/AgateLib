@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Css.Documents;
 
 namespace AgateLib.UserInterface.Css
 {
@@ -39,7 +40,7 @@ namespace AgateLib.UserInterface.Css
 			Widget = widget;
 
 			Data = new CssStyleData();
-			BoxModel = new CssBoxModel();
+			BoxModel = new BoxModel();
 
 			AppliedBlocks = new List<CssRuleBlock>();
 
@@ -49,9 +50,18 @@ namespace AgateLib.UserInterface.Css
 		}
 
 		public CssStyleData Data { get; set; }
-		public CssBoxModel BoxModel { get; set; }
+		public BoxModel BoxModel { get; set; }
 
 		public Widget Widget { get; set; }
+
+		public Overflow Overflow {  get { return Data.Overflow; } }
+		public CssText Text {  get { return Data.Text; } }
+		CssFont IWidgetStyle.Font {  get { return Data.Font; } }
+		public CssBorder Border {  get { return Data.Border; } }
+
+		public CssBackground Background {  get { return Data.Background; } }
+
+		public CssTransition Transition {  get { return Data.Transition; } }
 
 		public IEnumerable<string> SplitClasses { get { return mSplitClasses; } }
 

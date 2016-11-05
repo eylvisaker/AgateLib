@@ -49,8 +49,8 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 		public override void Initialize()
 		{
-			TransitionType = Style.Data.Transition.Direction;
-			mFinalTime = Style.Data.Transition.Time;
+			TransitionType = Style.Transition.Direction;
+			mFinalTime = Style.Transition.Time;
 
 			mTargetDestination = new Vector2(Widget.ClientRect.X, Widget.ClientRect.Y);
 			mOutsidePosition = mTargetDestination;

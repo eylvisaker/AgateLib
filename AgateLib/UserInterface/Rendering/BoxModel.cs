@@ -18,30 +18,22 @@
 //
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.DisplayLib;
 
 namespace AgateLib.UserInterface.Rendering
 {
-	public class DefaultImageProvider : IUserInterfaceImageProvider
+	public class BoxModel
 	{
-		Dictionary<string, Surface> mSurfaces = new Dictionary<string, Surface>();
+		public LayoutBox Margin { get; set; }
+		public LayoutBox Padding { get; set; }
+		public LayoutBox Border { get; set; }
 
-		public Surface GetImage(string file)
-		{
-			if (file.StartsWith("url(") && file.EndsWith(")"))
-			{
-				file = file.Substring(4, file.Length - 5);
-
-				if (mSurfaces.ContainsKey(file) == false)
-					mSurfaces.Add(file, new Surface(file, AgateLib.IO.FileProvider.UserInterfaceAssets));
-
-				return mSurfaces[file];
-			}
-
-			throw new System.IO.FileNotFoundException(file);
-		}
+		public int Top { get { return Margin.Top + Padding.Top + Border.Top; } }
+		public int Left { get { return Margin.Left + Padding.Left + Border.Left; } }
+		public int Right { get { return Margin.Right + Padding.Right + Border.Right; } }
+		public int Bottom { get { return Margin.Bottom + Padding.Bottom + Border.Bottom; } }
 	}
 }

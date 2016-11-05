@@ -16,10 +16,6 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using AgateLib.UserInterface.Rendering.Animators;
-using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +23,10 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
+using AgateLib.UserInterface.Rendering.Animators;
+using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering
 {
@@ -141,7 +141,6 @@ namespace AgateLib.UserInterface.Rendering
 					mAnimators.Remove(deadAnimator.Widget);
 				}
 
-
 				foreach (var animator in anim.Children)
 				{
 					TreeRemoveDeadAnimators(animator, animator.Widget);
@@ -172,7 +171,7 @@ namespace AgateLib.UserInterface.Rendering
 
 		private bool PushClipRect(IWidgetAnimator anim)
 		{
-			if (anim.Style.Data.Overflow == Overflow.Visible)
+			if (anim.Style.Overflow == Overflow.Visible)
 				return false;
 			if (anim.ClientRect.Width == 0 || anim.ClientRect.Height == 0)
 				return true;
@@ -187,7 +186,7 @@ namespace AgateLib.UserInterface.Rendering
 		{
 			bool clipping = false;
 
-			if (anim.Style.Data.Overflow != Overflow.Visible &&
+			if (anim.Style.Overflow != Overflow.Visible &&
 				 (anim.ClientRect.Width == 0 || anim.ClientRect.Height == 0))
 			{
 				return;
@@ -219,7 +218,7 @@ namespace AgateLib.UserInterface.Rendering
 			{
 				ITextAlignment txa = (ITextAlignment)anim.Widget;
 
-				txa.TextAlign = ConvertTextAlign(style.Data.Text.Align);
+				txa.TextAlign = ConvertTextAlign(style.Text.Align);
 			}
 
 			if (anim.Visible == false)
@@ -232,9 +231,9 @@ namespace AgateLib.UserInterface.Rendering
 			anim.Widget.DrawImpl(anim.ClientToScreen(new Rectangle(Point.Empty, anim.ClientRect.Size)));
 		}
 
-		private OriginAlignment ConvertTextAlign(TextAlign cssTextAlign)
+		private OriginAlignment ConvertTextAlign(TextAlign textAlign)
 		{
-			switch (cssTextAlign)
+			switch (textAlign)
 			{
 				case TextAlign.Right:
 					return OriginAlignment.TopRight;
@@ -249,7 +248,7 @@ namespace AgateLib.UserInterface.Rendering
 
 		private void SetFontProperties(IWidgetStyle style)
 		{
-			style.Widget.FontColor = style.Data.Font.Color;
+			style.Widget.FontColor = style.Font.Color;
 		}
 
 		private void DrawBackground(IWidgetAnimator anim)
@@ -258,7 +257,7 @@ namespace AgateLib.UserInterface.Rendering
 			var style = anim.Style;
 			var control = anim.Widget;
 
-			switch (style.Data.Background.Clip)
+			switch (style.Background.Clip)
 			{
 				case BackgroundClip.Content_Box:
 					clipRect = anim.ClientRect;
@@ -281,20 +280,20 @@ namespace AgateLib.UserInterface.Rendering
 
 			clipRect = anim.ParentCoordinateSystem.ClientToScreen(clipRect);
 
-			if (style.Data.Background.Color.A > 0)
+			if (style.Background.Color.A > 0)
 			{
-				mBlankSurface.Color = style.Data.Background.Color;
+				mBlankSurface.Color = style.Background.Color;
 				mBlankSurface.Draw(clipRect);
 			}
-			if (string.IsNullOrEmpty(style.Data.Background.Image) == false)
+			if (string.IsNullOrEmpty(style.Background.Image) == false)
 			{
-				Surface backgroundImage = mImageProvider.GetImage(style.Data.Background.Image);
+				Surface backgroundImage = mImageProvider.GetImage(style.Background.Image);
 				Point origin = clipRect.Location;
 
-				origin.X += (int)style.Data.Background.Position.Left.Amount;
-				origin.Y += (int)style.Data.Background.Position.Top.Amount;
+				origin.X += (int)style.Background.Position.Left.Amount;
+				origin.Y += (int)style.Background.Position.Top.Amount;
 
-				switch (style.Data.Background.Repeat)
+				switch (style.Background.Repeat)
 				{
 					case BackgroundRepeat.No_Repeat:
 						DrawClipped(backgroundImage, origin, clipRect);
@@ -322,6 +321,7 @@ namespace AgateLib.UserInterface.Rendering
 
 			DrawRepeatedClipped(image, srcRect, startPt, clipRect, repeatX, repeatY);
 		}
+
 		private void DrawRepeatedClipped(Surface image, Rectangle srcRect, Point startPt, Rectangle clipRect, bool repeatX, bool repeatY)
 		{
 			int countX = (int)Math.Ceiling(clipRect.Width / (double)srcRect.Width);
@@ -383,6 +383,7 @@ namespace AgateLib.UserInterface.Rendering
 		{
 			DrawRepeatedClipped(frameSurface, src, dest.Location, dest, true, true);
 		}
+
 		void DrawFrame(Rectangle destOuterRect, Surface frameSurface,
 									   Rectangle frameSourceInner, Rectangle frameSourceOuter)
 		{
@@ -452,7 +453,7 @@ namespace AgateLib.UserInterface.Rendering
 				anim.WidgetRect);
 			var style = anim.Style;
 
-			var border = style.Data.Border;
+			var border = style.Border;
 
 			if (string.IsNullOrEmpty(border.Image.Source))
 			{
@@ -466,21 +467,21 @@ namespace AgateLib.UserInterface.Rendering
 
 		private void DrawImageBorder(IWidgetStyle style, Rectangle borderRect)
 		{
-			Surface image = mImageProvider.GetImage(style.Data.Border.Image.Source);
+			Surface image = mImageProvider.GetImage(style.Border.Image.Source);
 
 			Rectangle outerRect = new Rectangle(0, 0, image.SurfaceWidth, image.SurfaceHeight);
 			Rectangle innerRect = Rectangle.FromLTRB(
-				(int)style.Data.Border.Image.Slice.Left.Amount,
-				(int)style.Data.Border.Image.Slice.Top.Amount,
-				(int)(outerRect.Width - style.Data.Border.Image.Slice.Right.Amount),
-				(int)(outerRect.Height - style.Data.Border.Image.Slice.Bottom.Amount));
+				(int)style.Border.Image.Slice.Left.Amount,
+				(int)style.Border.Image.Slice.Top.Amount,
+				(int)(outerRect.Width - style.Border.Image.Slice.Right.Amount),
+				(int)(outerRect.Height - style.Border.Image.Slice.Bottom.Amount));
 
 			DrawFrame(borderRect, image, innerRect, outerRect);
 		}
 
 		private void DrawOrdinaryBorder(IWidgetStyle style, Rectangle borderRect)
 		{
-			var border = style.Data.Border;
+			var border = style.Border;
 
 			if (border.Top.Color.A == 0 &&
 				border.Left.Color.A == 0 &&
