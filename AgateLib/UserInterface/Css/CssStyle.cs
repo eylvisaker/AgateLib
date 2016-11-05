@@ -74,6 +74,19 @@ namespace AgateLib.UserInterface.Css
 			}
 		}
 
+		public string BorderImage { get { return Data.Border.Image.Source; } }
+
+		public Rectangle BorderImageSlice
+		{
+			get
+			{
+				return Rectangle.FromLTRB(
+					(int)Data.Border.Image.Slice.Left.Amount,
+					(int)Data.Border.Image.Slice.Top.Amount,
+					(int)Data.Border.Image.Slice.Right.Amount,
+					(int)Data.Border.Image.Slice.Bottom.Amount);
+			}
+		}
 		public CssBorder Border { get { return Data.Border; } }
 
 		public CssTransition Transition { get { return Data.Transition; } }

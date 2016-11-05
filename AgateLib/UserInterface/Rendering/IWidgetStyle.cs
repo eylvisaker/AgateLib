@@ -32,6 +32,10 @@ namespace AgateLib.UserInterface.Rendering
 
 		Point BackgroundPosition { get; }
 
+		string BorderImage { get; }
+
+		Rectangle BorderImageSlice { get; }
+
 		CssBorder Border { get; }
 
 		CssTransition Transition { get; }

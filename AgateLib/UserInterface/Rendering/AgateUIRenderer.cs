@@ -454,9 +454,7 @@ namespace AgateLib.UserInterface.Rendering
 				anim.WidgetRect);
 			var style = anim.Style;
 
-			var border = style.Border;
-
-			if (string.IsNullOrEmpty(border.Image.Source))
+			if (string.IsNullOrEmpty(style.BorderImage))
 			{
 				DrawOrdinaryBorder(style, borderRect);
 			}
@@ -468,14 +466,15 @@ namespace AgateLib.UserInterface.Rendering
 
 		private void DrawImageBorder(IWidgetStyle style, Rectangle borderRect)
 		{
-			Surface image = mImageProvider.GetImage(style.Border.Image.Source);
+			Surface image = mImageProvider.GetImage(style.BorderImage);
 
+			Rectangle slice = style.BorderImageSlice;
 			Rectangle outerRect = new Rectangle(0, 0, image.SurfaceWidth, image.SurfaceHeight);
 			Rectangle innerRect = Rectangle.FromLTRB(
-				(int)style.Border.Image.Slice.Left.Amount,
-				(int)style.Border.Image.Slice.Top.Amount,
-				(int)(outerRect.Width - style.Border.Image.Slice.Right.Amount),
-				(int)(outerRect.Height - style.Border.Image.Slice.Bottom.Amount));
+				slice.Left, 
+				slice.Top, 
+				outerRect.Width - slice.Right,
+				outerRect.Height - slice.Bottom);
 
 			DrawFrame(borderRect, image, innerRect, outerRect);
 		}
