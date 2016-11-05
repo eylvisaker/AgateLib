@@ -78,6 +78,8 @@ namespace AgateLib.UserInterface.Css
 
 		IBackgroundStyle IWidgetStyle.Background { get { return Data.Background; } }
 
+		ITransitionStyle IWidgetStyle.Transition { get { return Data.Transition; } }
+
 		public CssBorder Border { get { return Data.Border; } }
 
 		public CssTransition Transition { get { return Data.Transition; } }

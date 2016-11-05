@@ -25,7 +25,7 @@ using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.Css.Documents
 {
-	public class CssTransition : ICssPropertyFromText
+	public class CssTransition : ICssPropertyFromText, ITransitionStyle
 	{
 		public CssTransition()
 		{

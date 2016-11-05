@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
-using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering
@@ -25,6 +24,6 @@ namespace AgateLib.UserInterface.Rendering
 
 		IBorderStyle Border { get; }
 
-		CssTransition Transition { get; }
+		ITransitionStyle Transition { get; }
 	}
 }
