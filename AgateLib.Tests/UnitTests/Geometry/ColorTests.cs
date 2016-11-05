@@ -47,7 +47,7 @@ namespace AgateLib.UnitTests.Geometry
         }
 
         [TestMethod]
-        public void RedFromHsv()
+        public void HsvRed()
         {
             var clr = Color.FromHsv(0, 1, 1);
 
@@ -59,7 +59,7 @@ namespace AgateLib.UnitTests.Geometry
         }
 
         [TestMethod]
-        public void YellowFromhsv()
+        public void HsvYellow()
         {
             var clr1 = Color.FromHsv(60, 1, 1);
             var clr2 = Color.FromHsv(420, 1, 1);
@@ -69,7 +69,7 @@ namespace AgateLib.UnitTests.Geometry
         }
 
         [TestMethod]
-        public void GreenFromhsv()
+        public void HsvGreen()
         {
             var clr1 = Color.FromHsv(120, 1, 1);
 
@@ -77,7 +77,7 @@ namespace AgateLib.UnitTests.Geometry
         }
 
         [TestMethod]
-        public void BlueFromhsv()
+        public void HsvBlue()
         {
             var clr1 = Color.FromHsv(240, 1, 1);
 
@@ -85,7 +85,7 @@ namespace AgateLib.UnitTests.Geometry
         }
 
         [TestMethod]
-        public void CyanFromhsv()
+        public void HsvCyan()
         {
             var clr1 = Color.FromHsv(200, 1, 1);
 
@@ -93,7 +93,7 @@ namespace AgateLib.UnitTests.Geometry
         }
 
         [TestMethod]
-        public void MagentaFromhsv()
+        public void HsvMagenta()
         {
             var clr1 = Color.FromHsv(330, 1, 1);
 

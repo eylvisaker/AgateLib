@@ -26,20 +26,20 @@ namespace AgateLib.UnitTests.Platform.IntegrationTest
             IntegrationTestPlatform.Initialize(parameters, appDirPath);
         }
 
-        [TestMethod, Ignore]
-        public void ReadTextFile()
-        {
-            string filePath = Path.Combine(appDirPath, "hello.txt");
-            string text = "This is a test.";
+        //[TestMethod, Ignore]
+        //public void ReadTextFile()
+        //{
+        //    string filePath = Path.Combine(appDirPath, "hello.txt");
+        //    string text = "This is a test.";
 
-            File.WriteAllText(filePath, text);
+        //    File.WriteAllText(filePath, text);
 
-            using (var fin = new StreamReader(Assets.OpenRead("hello.txt")))
-            {
-                var result = fin.ReadToEnd();
+        //    using (var fin = new StreamReader(Assets.OpenRead("hello.txt")))
+        //    {
+        //        var result = fin.ReadToEnd();
 
-                Assert.AreEqual(text, result);
-            }
-        }
+        //        Assert.AreEqual(text, result);
+        //    }
+        //}
     }
 }

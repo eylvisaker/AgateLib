@@ -16,17 +16,17 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.UserInterface.Css.Cache;
-using AgateLib.UserInterface.Css.Layout;
-using AgateLib.UserInterface.Css.Selectors;
-using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.UserInterface.Rendering;
+using AgateLib.Geometry;
+using AgateLib.UserInterface.Css.Cache;
 using AgateLib.UserInterface.Css.Documents;
+using AgateLib.UserInterface.Css.Selectors;
+using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Css
 {
@@ -54,14 +54,29 @@ namespace AgateLib.UserInterface.Css
 
 		public Widget Widget { get; set; }
 
-		public Overflow Overflow {  get { return Data.Overflow; } }
-		public CssText Text {  get { return Data.Text; } }
-		CssFont IWidgetStyle.Font {  get { return Data.Font; } }
-		public CssBorder Border {  get { return Data.Border; } }
+		public Overflow Overflow { get { return Data.Overflow; } }
+		public TextAlign TextAlign { get { return Data.Text.Align; } }
 
-		public CssBackground Background {  get { return Data.Background; } }
+		public Color FontColor { get { return Data.Font.Color; } }
 
-		public CssTransition Transition {  get { return Data.Transition; } }
+		public BackgroundClip BackgroundClip { get { return Data.Background.Clip; } }
+		public Color BackgroundColor { get { return Data.Background.Color; } }
+		public BackgroundRepeat BackgroundRepeat { get { return Data.Background.Repeat; } }
+		public string BackgroundImage { get { return Data.Background.Image; } }
+
+		public Point BackgroundPosition
+		{
+			get
+			{
+				return new Point(
+					(int)Data.Background.Position.Left.Amount,
+					(int)Data.Background.Position.Top.Amount);
+			}
+		}
+
+		public CssBorder Border { get { return Data.Border; } }
+
+		public CssTransition Transition { get { return Data.Transition; } }
 
 		public IEnumerable<string> SplitClasses { get { return mSplitClasses; } }
 

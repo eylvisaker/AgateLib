@@ -218,7 +218,7 @@ namespace AgateLib.UserInterface.Rendering
 			{
 				ITextAlignment txa = (ITextAlignment)anim.Widget;
 
-				txa.TextAlign = ConvertTextAlign(style.Text.Align);
+				txa.TextAlign = ConvertTextAlign(style.TextAlign);
 			}
 
 			if (anim.Visible == false)
@@ -248,7 +248,7 @@ namespace AgateLib.UserInterface.Rendering
 
 		private void SetFontProperties(IWidgetStyle style)
 		{
-			style.Widget.FontColor = style.Font.Color;
+			style.Widget.FontColor = style.FontColor;
 		}
 
 		private void DrawBackground(IWidgetAnimator anim)
@@ -257,7 +257,7 @@ namespace AgateLib.UserInterface.Rendering
 			var style = anim.Style;
 			var control = anim.Widget;
 
-			switch (style.Background.Clip)
+			switch (style.BackgroundClip)
 			{
 				case BackgroundClip.Content_Box:
 					clipRect = anim.ClientRect;
@@ -280,20 +280,21 @@ namespace AgateLib.UserInterface.Rendering
 
 			clipRect = anim.ParentCoordinateSystem.ClientToScreen(clipRect);
 
-			if (style.Background.Color.A > 0)
+			if (style.BackgroundColor.A > 0)
 			{
-				mBlankSurface.Color = style.Background.Color;
+				mBlankSurface.Color = style.BackgroundColor;
 				mBlankSurface.Draw(clipRect);
 			}
-			if (string.IsNullOrEmpty(style.Background.Image) == false)
+			if (string.IsNullOrEmpty(style.BackgroundImage) == false)
 			{
-				Surface backgroundImage = mImageProvider.GetImage(style.Background.Image);
+				Surface backgroundImage = mImageProvider.GetImage(style.BackgroundImage);
 				Point origin = clipRect.Location;
+				var backgroundPosition = style.BackgroundPosition;
 
-				origin.X += (int)style.Background.Position.Left.Amount;
-				origin.Y += (int)style.Background.Position.Top.Amount;
+				origin.X += backgroundPosition.X;
+				origin.Y += backgroundPosition.Y;
 
-				switch (style.Background.Repeat)
+				switch (style.BackgroundRepeat)
 				{
 					case BackgroundRepeat.No_Repeat:
 						DrawClipped(backgroundImage, origin, clipRect);
