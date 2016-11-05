@@ -26,7 +26,7 @@ using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.Css.Documents
 {
-	public class CssBackground : ICssPropertyFromText
+	public class CssBackground : ICssPropertyFromText, IBackgroundStyle
 	{
 		public CssBackground()
 		{
@@ -47,6 +47,16 @@ namespace AgateLib.UserInterface.Css.Documents
 		public BackgroundRepeat Repeat { get; set; }
 		public BackgroundClip Clip { get; set; }
 		public CssBackgroundPosition Position { get; set; }
+
+		Point IBackgroundStyle.Position
+		{
+			get
+			{
+				return new Point(
+					(int)Position.Left.Amount,
+					(int)Position.Top.Amount);
+			}
+		}
 
 		public void SetValueFromText(string value)
 		{

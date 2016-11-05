@@ -61,11 +61,11 @@ namespace AgateLib.UnitTests.UserInterface.Css
 
 			var style = adapter.GetStyle(wind);
 
-			DistanceAssert(false, 8, DistanceUnit.Pixels, style.Data.Border.Image.Width.Right);
-			DistanceAssert(false, 4, DistanceUnit.Pixels, style.Data.Border.Image.Width.Bottom);
-			DistanceAssert(false, 34, DistanceUnit.Pixels, style.Data.Border.Image.Outset.Left);
+			DistanceAssert(false, 8, DistanceUnit.Pixels, style.Data.Border.BorderImage.Width.Right);
+			DistanceAssert(false, 4, DistanceUnit.Pixels, style.Data.Border.BorderImage.Width.Bottom);
+			DistanceAssert(false, 34, DistanceUnit.Pixels, style.Data.Border.BorderImage.Outset.Left);
 
-			Assert.AreEqual(CssBorderImageRepeat.Stretch, style.Data.Border.Image.Repeat);
+			Assert.AreEqual(CssBorderImageRepeat.Stretch, style.Data.Border.BorderImage.Repeat);
 		}
 
 	}

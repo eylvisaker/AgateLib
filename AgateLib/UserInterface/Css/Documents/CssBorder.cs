@@ -16,18 +16,19 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
-using AgateLib.UserInterface.Css.Parser;
-using AgateLib.UserInterface.Css.Binders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using AgateLib.Geometry;
+using AgateLib.UserInterface.Css.Parser;
+using AgateLib.UserInterface.Css.Binders;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.Css.Documents
 {
-	public class CssBorder : ICssPropertyFromText, ICssBoxComponent
+	public class CssBorder : ICssPropertyFromText, ICssBoxComponent, IBorderStyle
 	{
 		public CssBorder()
 		{
@@ -36,8 +37,13 @@ namespace AgateLib.UserInterface.Css.Documents
 			Right = new CssBorderData();
 			Bottom = new CssBorderData();
 
-			Image = new CssBorderImage();
+			BorderImage = new CssBorderImage();
 		}
+
+		IBorderSideStyle IBorderStyle.Top {  get { return Top; } }
+		IBorderSideStyle IBorderStyle.Right {  get { return Right; } }
+		IBorderSideStyle IBorderStyle.Bottom {  get { return Bottom; } }
+		IBorderSideStyle IBorderStyle.Left {  get { return Left; } }
 
 		public CssBorderData Top { get; set; }
 		public CssBorderData Right { get; set; }
@@ -45,7 +51,21 @@ namespace AgateLib.UserInterface.Css.Documents
 		public CssBorderData Left { get; set; }
 
 		[CssPromoteProperties(prefix: "image")]
-		public CssBorderImage Image { get; set; }
+		public CssBorderImage BorderImage { get; set; }
+
+		public string Image { get { return BorderImage.Source; } }
+
+		public Rectangle ImageSlice
+		{
+			get
+			{
+				return Rectangle.FromLTRB(
+					(int)BorderImage.Slice.Left.Amount,
+					(int)BorderImage.Slice.Top.Amount,
+					(int)BorderImage.Slice.Right.Amount,
+					(int)BorderImage.Slice.Bottom.Amount);
+			}
+		}
 
 		IEnumerable<CssBorderData> AllBorders
 		{
@@ -91,7 +111,7 @@ namespace AgateLib.UserInterface.Css.Documents
 		}
 	}
 
-	public class CssBorderData : ICssPropertyFromText
+	public class CssBorderData : ICssPropertyFromText, IBorderSideStyle
 	{
 		public CssBorderData()
 		{
@@ -108,6 +128,8 @@ namespace AgateLib.UserInterface.Css.Documents
 		public CssBorderStyle Style { get; set; }
 
 		public CssDistance Width { get; set; }
+
+		int IBorderSideStyle.Width {  get { return (int)Width.Amount; } }
 
 		public Color Color { get; set; }
 

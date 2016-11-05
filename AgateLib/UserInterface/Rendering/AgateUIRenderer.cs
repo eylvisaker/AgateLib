@@ -257,7 +257,7 @@ namespace AgateLib.UserInterface.Rendering
 			var style = anim.Style;
 			var control = anim.Widget;
 
-			switch (style.BackgroundClip)
+			switch (style.Background.Clip)
 			{
 				case BackgroundClip.Content_Box:
 					clipRect = anim.ClientRect;
@@ -280,21 +280,21 @@ namespace AgateLib.UserInterface.Rendering
 
 			clipRect = anim.ParentCoordinateSystem.ClientToScreen(clipRect);
 
-			if (style.BackgroundColor.A > 0)
+			if (style.Background.Color.A > 0)
 			{
-				mBlankSurface.Color = style.BackgroundColor;
+				mBlankSurface.Color = style.Background.Color;
 				mBlankSurface.Draw(clipRect);
 			}
-			if (string.IsNullOrEmpty(style.BackgroundImage) == false)
+			if (string.IsNullOrEmpty(style.Background.Image) == false)
 			{
-				Surface backgroundImage = mImageProvider.GetImage(style.BackgroundImage);
+				Surface backgroundImage = mImageProvider.GetImage(style.Background.Image);
 				Point origin = clipRect.Location;
-				var backgroundPosition = style.BackgroundPosition;
+				var backgroundPosition = style.Background.Position;
 
 				origin.X += backgroundPosition.X;
 				origin.Y += backgroundPosition.Y;
 
-				switch (style.BackgroundRepeat)
+				switch (style.Background.Repeat)
 				{
 					case BackgroundRepeat.No_Repeat:
 						DrawClipped(backgroundImage, origin, clipRect);
@@ -454,7 +454,7 @@ namespace AgateLib.UserInterface.Rendering
 				anim.WidgetRect);
 			var style = anim.Style;
 
-			if (string.IsNullOrEmpty(style.BorderImage))
+			if (string.IsNullOrEmpty(style.Border.Image))
 			{
 				DrawOrdinaryBorder(style, borderRect);
 			}
@@ -466,9 +466,9 @@ namespace AgateLib.UserInterface.Rendering
 
 		private void DrawImageBorder(IWidgetStyle style, Rectangle borderRect)
 		{
-			Surface image = mImageProvider.GetImage(style.BorderImage);
+			Surface image = mImageProvider.GetImage(style.Border.Image);
 
-			Rectangle slice = style.BorderImageSlice;
+			Rectangle slice = style.Border.ImageSlice;
 			Rectangle outerRect = new Rectangle(0, 0, image.SurfaceWidth, image.SurfaceHeight);
 			Rectangle innerRect = Rectangle.FromLTRB(
 				slice.Left, 
@@ -492,26 +492,26 @@ namespace AgateLib.UserInterface.Rendering
 			}
 
 			// draw top
-			Rectangle rect = new Rectangle(borderRect.X, borderRect.Y, borderRect.Width, (int)border.Top.Width.Amount);
+			Rectangle rect = new Rectangle(borderRect.X, borderRect.Y, borderRect.Width, border.Top.Width);
 
 			mBlankSurface.Color = border.Top.Color;
 			mBlankSurface.Draw(rect);
 
 			// draw bottom
-			rect = new Rectangle(borderRect.X, borderRect.Bottom - (int)border.Bottom.Width.Amount, borderRect.Width, (int)border.Bottom.Width.Amount);
+			rect = new Rectangle(borderRect.X, borderRect.Bottom - border.Bottom.Width, borderRect.Width, border.Bottom.Width);
 
 			mBlankSurface.Color = border.Bottom.Color;
 			mBlankSurface.Draw(rect);
 
 
 			// draw left
-			rect = new Rectangle(borderRect.X, borderRect.Y, (int)border.Left.Width.Amount, borderRect.Height);
+			rect = new Rectangle(borderRect.X, borderRect.Y, border.Left.Width, borderRect.Height);
 
 			mBlankSurface.Color = border.Left.Color;
 			mBlankSurface.Draw(rect);
 
 			// draw right
-			rect = new Rectangle(borderRect.Right - (int)border.Right.Width.Amount, borderRect.Y, (int)border.Right.Width.Amount, borderRect.Height);
+			rect = new Rectangle(borderRect.Right - border.Right.Width, borderRect.Y, border.Right.Width, borderRect.Height);
 
 			mBlankSurface.Color = border.Right.Color;
 			mBlankSurface.Draw(rect);

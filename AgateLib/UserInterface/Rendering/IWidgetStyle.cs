@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
-using AgateLib.UserInterface.Css;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Widgets;
 
@@ -22,21 +21,9 @@ namespace AgateLib.UserInterface.Rendering
 
 		Color FontColor { get; }
 
-		BackgroundClip BackgroundClip { get; }
+		IBackgroundStyle Background { get; }
 
-		Color BackgroundColor { get; }
-
-		BackgroundRepeat BackgroundRepeat { get; }
-
-		string BackgroundImage { get; }
-
-		Point BackgroundPosition { get; }
-
-		string BorderImage { get; }
-
-		Rectangle BorderImageSlice { get; }
-
-		CssBorder Border { get; }
+		IBorderStyle Border { get; }
 
 		CssTransition Transition { get; }
 	}
