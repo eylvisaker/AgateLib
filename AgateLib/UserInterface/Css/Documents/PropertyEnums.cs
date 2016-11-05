@@ -31,19 +31,6 @@ namespace AgateLib.UserInterface.Css.Documents
 		Block,
 	}
 
-	public enum WindowTransitionType
-	{
-		None,
-		Slide,
-	}
-	public enum CssTransitionDirection
-	{
-		Left,
-		Right,
-		Top,
-		Bottom,
-	}
-
 	public enum CssLayoutKind
 	{
 		Flow,
@@ -80,21 +67,6 @@ namespace AgateLib.UserInterface.Css.Documents
 		Single,
 		Double,
 	}
-	public enum CssBackgroundRepeat
-	{
-		Repeat,
-		Repeat_X,
-		Repeat_Y,
-		Space,
-		Round,
-		No_Repeat,
-	}
-	public enum CssBackgroundClip
-	{
-		Border_Box,
-		Padding_Box,
-		Content_Box,
-	}
 
 	public enum CssPosition
 	{
@@ -103,25 +75,5 @@ namespace AgateLib.UserInterface.Css.Documents
 		Relative,
 		Absolute,
 		Fixed,
-	}
-
-	public enum CssTextAlign
-	{
-		Inherit,
-		Initial,
-		Left,
-		Right,
-		Center,
-	}
-
-	public enum CssOverflow
-	{
-		Visible,
-		Initial = Visible,
-		Hidden,
-		Scroll,
-		Auto,
-		Inherit,
-        Disallow,
 	}
 }

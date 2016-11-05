@@ -16,16 +16,15 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
-using AgateLib.UserInterface.Css.Parser;
-using AgateLib.UserInterface.Css.Documents;
-using AgateLib.UserInterface.Css.Selectors;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface.Css.Parser;
+using AgateLib.UserInterface.Css.Documents;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.Css
 {
@@ -49,11 +48,11 @@ namespace AgateLib.UserInterface.Css
 			Text = new CssText();
 
 			Display = CssDisplay.Initial;
-			Overflow = CssOverflow.Visible;
+			Overflow = Overflow.Visible;
 		}
 
 		public CssDisplay Display { get; set; }
-		public CssOverflow Overflow { get; set; }
+		public Overflow Overflow { get; set; }
 		public CssPosition Position { get; set; }
 
 		[CssPromoteProperties]

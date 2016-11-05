@@ -17,14 +17,12 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using AgateLib.Geometry;
-using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Rendering.Transitions;
 
 namespace AgateLib.UserInterface.Rendering.Animators

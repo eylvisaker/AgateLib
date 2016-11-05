@@ -16,15 +16,16 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using AgateLib.UserInterface.Css.Documents;
-using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
+using AgateLib.UserInterface.Css.Documents;
+using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.Css.Layout
 {
@@ -137,7 +138,7 @@ namespace AgateLib.UserInterface.Css.Layout
 
             widget.ClientRect = clientRect;
 
-            if (parentStyle.Data.Overflow == CssOverflow.Disallow)
+            if (parentStyle.Data.Overflow == Overflow.Disallow)
             {
                 int maxBottom = desktopBounds.Bottom - box.Margin.Bottom;
 
@@ -295,7 +296,7 @@ namespace AgateLib.UserInterface.Css.Layout
 
 
                 // Only apply max container bottom to size of child widget if its overflow is set to disallow.
-                if (containerStyle.Data.Overflow == CssOverflow.Disallow && clientRect.Bottom + bottomMargin > maxContBottom)
+                if (containerStyle.Data.Overflow == Overflow.Disallow && clientRect.Bottom + bottomMargin > maxContBottom)
                 {
                     clientRect.Height -= clientRect.Bottom - maxContBottom - bottomMargin;
                 }
@@ -393,7 +394,7 @@ namespace AgateLib.UserInterface.Css.Layout
 
             switch (style.Data.Overflow)
             {
-                case CssOverflow.Scroll:
+                case Overflow.Scroll:
                     if (container != null)
                         container.AllowScroll = ScrollAxes.Both;
                     break;
@@ -448,7 +449,7 @@ namespace AgateLib.UserInterface.Css.Layout
                 return container.Height;
 
             var parentStyle = mAdapter.GetStyle(container.Parent);
-            if (parentStyle.Data.Overflow != CssOverflow.Disallow)
+            if (parentStyle.Data.Overflow != Overflow.Disallow)
                 return int.MaxValue;
 
             int availableHeight = ComputeMaxHeightForContainer(mAdapter.GetStyle(container.Parent)) - container.Y;

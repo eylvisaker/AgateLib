@@ -16,13 +16,13 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
-using AgateLib.UserInterface.Css.Parser;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using AgateLib.Geometry;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.Css.Documents
 {
@@ -44,8 +44,8 @@ namespace AgateLib.UserInterface.Css.Documents
 
 		public Color Color { get; set; }
 		public string Image { get; set; }
-		public CssBackgroundRepeat Repeat { get; set; }
-		public CssBackgroundClip Clip { get; set; }
+		public BackgroundRepeat Repeat { get; set; }
+		public BackgroundClip Clip { get; set; }
 		public CssBackgroundPosition Position { get; set; }
 
 		public void SetValueFromText(string value)

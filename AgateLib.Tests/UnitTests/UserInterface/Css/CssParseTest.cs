@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
-
 using AgateLib.Geometry;
 using AgateLib.Quality;
 using AgateLib.UserInterface.Css;
 using AgateLib.UserInterface.Css.Binders;
 using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Css.Selectors;
+using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Widgets;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.UserInterface.Css
@@ -182,7 +181,7 @@ namespace AgateLib.UnitTests.UserInterface.Css
 			Window wind = new Window();
 
 			var style = adapter.GetStyle(wind);
-			Assert.AreEqual(CssBackgroundRepeat.No_Repeat, style.Data.Background.Repeat);
+			Assert.AreEqual(BackgroundRepeat.No_Repeat, style.Data.Background.Repeat);
 		}
 
 		[TestMethod]

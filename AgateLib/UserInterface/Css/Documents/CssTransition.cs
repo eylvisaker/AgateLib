@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.Css.Documents
 {
@@ -38,7 +39,7 @@ namespace AgateLib.UserInterface.Css.Documents
 			foreach(var v in values)
 			{
 				WindowTransitionType type;
-				CssTransitionDirection dir;
+				TransitionDirection dir;
 				double time;
 
 				if (double.TryParse(v, out time))
@@ -57,7 +58,7 @@ namespace AgateLib.UserInterface.Css.Documents
 		}
 
 		public WindowTransitionType Type { get; set; }
-		public CssTransitionDirection Direction { get; set; }
+		public TransitionDirection Direction { get; set; }
 		public double Time { get; set; }
 	}
 }

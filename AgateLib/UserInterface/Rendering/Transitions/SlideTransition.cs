@@ -16,14 +16,13 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
-using AgateLib.UserInterface.Css.Documents;
-using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Geometry;
+using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering.Transitions
 {
@@ -31,7 +30,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 	{
 		bool mFirstTransition = true;
 
-		public CssTransitionDirection TransitionType { get; private set; }
+		public TransitionDirection TransitionType { get; private set; }
 
 		Vector2 mOutsidePosition;
 		Vector2 mTargetDestination;
@@ -61,19 +60,19 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 
 			switch (TransitionType)
 			{
-				case CssTransitionDirection.Left:
+				case TransitionDirection.Left:
 					mOutsidePosition.X = -Widget.Width - leeway;
 					break;
 
-				case CssTransitionDirection.Top:
+				case TransitionDirection.Top:
 					mOutsidePosition.Y = -Widget.Height - leeway;
 					break;
 
-				case CssTransitionDirection.Right:
+				case TransitionDirection.Right:
 					mOutsidePosition.X = Widget.Parent.Width + leeway;
 					break;
 
-				case CssTransitionDirection.Bottom:
+				case TransitionDirection.Bottom:
 					mOutsidePosition.Y = Widget.Parent.Height + leeway;
 					break;
 			}

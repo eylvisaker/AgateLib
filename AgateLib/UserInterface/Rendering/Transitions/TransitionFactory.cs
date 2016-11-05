@@ -16,7 +16,6 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.UserInterface.Css.Documents;
 using System;
 using System.Collections.Generic;
 using System.Linq;

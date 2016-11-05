@@ -18,8 +18,6 @@
 //
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.UserInterface.Css.Documents;
-using AgateLib.UserInterface.Css.Rendering;
 using AgateLib.UserInterface.Rendering.Animators;
 using AgateLib.UserInterface.Widgets;
 using System;
@@ -61,7 +59,6 @@ namespace AgateLib.UserInterface.Rendering
 		public void Update(double deltaTime)
 		{
 			UpdateAnimatorTree();
-
 
 			InTransition = false;
 
@@ -175,7 +172,7 @@ namespace AgateLib.UserInterface.Rendering
 
 		private bool PushClipRect(IWidgetAnimator anim)
 		{
-			if (anim.Style.Data.Overflow == CssOverflow.Visible)
+			if (anim.Style.Data.Overflow == Overflow.Visible)
 				return false;
 			if (anim.ClientRect.Width == 0 || anim.ClientRect.Height == 0)
 				return true;
@@ -190,7 +187,7 @@ namespace AgateLib.UserInterface.Rendering
 		{
 			bool clipping = false;
 
-			if (anim.Style.Data.Overflow != CssOverflow.Visible &&
+			if (anim.Style.Data.Overflow != Overflow.Visible &&
 				 (anim.ClientRect.Width == 0 || anim.ClientRect.Height == 0))
 			{
 				return;
@@ -235,14 +232,14 @@ namespace AgateLib.UserInterface.Rendering
 			anim.Widget.DrawImpl(anim.ClientToScreen(new Rectangle(Point.Empty, anim.ClientRect.Size)));
 		}
 
-		private OriginAlignment ConvertTextAlign(CssTextAlign cssTextAlign)
+		private OriginAlignment ConvertTextAlign(TextAlign cssTextAlign)
 		{
 			switch (cssTextAlign)
 			{
-				case CssTextAlign.Right:
+				case TextAlign.Right:
 					return OriginAlignment.TopRight;
 
-				case CssTextAlign.Center:
+				case TextAlign.Center:
 					return OriginAlignment.TopCenter;
 
 				default:
@@ -263,11 +260,11 @@ namespace AgateLib.UserInterface.Rendering
 
 			switch (style.Data.Background.Clip)
 			{
-				case CssBackgroundClip.Content_Box:
+				case BackgroundClip.Content_Box:
 					clipRect = anim.ClientRect;
 					break;
 
-				case CssBackgroundClip.Padding_Box:
+				case BackgroundClip.Padding_Box:
 					clipRect = Rectangle.FromLTRB(
 						anim.WidgetRect.Left + style.BoxModel.Border.Left,
 						anim.WidgetRect.Top + style.BoxModel.Border.Top,
@@ -276,7 +273,7 @@ namespace AgateLib.UserInterface.Rendering
 
 					break;
 
-				case CssBackgroundClip.Border_Box:
+				case BackgroundClip.Border_Box:
 				default:
 					clipRect = anim.WidgetRect;
 					break;
@@ -299,19 +296,19 @@ namespace AgateLib.UserInterface.Rendering
 
 				switch (style.Data.Background.Repeat)
 				{
-					case CssBackgroundRepeat.No_Repeat:
+					case BackgroundRepeat.No_Repeat:
 						DrawClipped(backgroundImage, origin, clipRect);
 						break;
 
-					case CssBackgroundRepeat.Repeat:
+					case BackgroundRepeat.Repeat:
 						DrawRepeatedClipped(backgroundImage, origin, clipRect, true, true);
 						break;
 
-					case CssBackgroundRepeat.Repeat_X:
+					case BackgroundRepeat.Repeat_X:
 						DrawRepeatedClipped(backgroundImage, origin, clipRect, true, false);
 						break;
 
-					case CssBackgroundRepeat.Repeat_Y:
+					case BackgroundRepeat.Repeat_Y:
 						DrawRepeatedClipped(backgroundImage, origin, clipRect, false, true);
 						break;
 				}

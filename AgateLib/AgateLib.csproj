@@ -643,6 +643,7 @@
     <Compile Include="UserInterface\Rendering\DefaultImageProvider.cs" />
     <Compile Include="UserInterface\Rendering\AgateUIRenderer.cs" />
     <Compile Include="UserInterface\IUserInterfaceImageProvider.cs" />
+    <Compile Include="UserInterface\Rendering\RenderingEnums.cs" />
     <Compile Include="UserInterface\Rendering\IWidgetAnimator.cs" />
     <Compile Include="UserInterface\Rendering\Transitions\IWidgetTransition.cs" />
     <Compile Include="UserInterface\Rendering\Transitions\NullTransition.cs" />
@@ -659,7 +660,7 @@
     <Compile Include="UserInterface\GuiStack.cs" />
     <Compile Include="UserInterface\IAudioPlayer.cs" />
     <Compile Include="UserInterface\ISurfaceProvider.cs" />
-    <Compile Include="UserInterface\IWidgetAdapter.cs" />
+    <Compile Include="UserInterface\Rendering\IWidgetAdapter.cs" />
     <Compile Include="UserInterface\Rendering\IWidgetStyle.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\ContainerInitializer.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\WidgetBuilder.cs" />
