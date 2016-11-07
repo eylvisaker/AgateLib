@@ -665,6 +665,9 @@
     <Compile Include="UserInterface\ISurfaceProvider.cs" />
     <Compile Include="UserInterface\Rendering\IWidgetAdapter.cs" />
     <Compile Include="UserInterface\Rendering\IWidgetStyle.cs" />
+    <Compile Include="UserInterface\Venus\BackgroundStyle.cs" />
+    <Compile Include="UserInterface\Venus\BorderSideStyle.cs" />
+    <Compile Include="UserInterface\Venus\BorderStyle.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\ContainerInitializer.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\WidgetBuilder.cs" />
     <Compile Include="UserInterface\Venus\Hierarchy\LayoutForDevice.cs" />
@@ -672,8 +675,10 @@
     <Compile Include="UserInterface\Venus\Fulfillment\TypeResolver.cs" />
     <Compile Include="UserInterface\Venus\Hierarchy\WidgetProperties.cs" />
     <Compile Include="UserInterface\Venus\RenderModel\RenderItem.cs" />
+    <Compile Include="UserInterface\Venus\TransitionStyle.cs" />
     <Compile Include="UserInterface\Venus\VenusLayoutEngine.cs" />
     <Compile Include="UserInterface\Venus\VenusRenderer.cs" />
+    <Compile Include="UserInterface\Venus\WidgetStyle.cs" />
     <Compile Include="UserInterface\Widgets\AxisType.cs" />
     <Compile Include="UserInterface\Widgets\Container.cs" />
     <Compile Include="UserInterface\Widgets\Desktop.cs" />
