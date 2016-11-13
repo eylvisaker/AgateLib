@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AgateLib.Geometry;
 using AgateLib.Platform;
 using AgateLib.UserInterface.Venus;
-using AgateLib.UserInterface.Venus.Hierarchy;
+using AgateLib.UserInterface.Venus.LayoutModel;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,12 +17,15 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 	{
 		const string text = "This is some text";
 
-		private VenusLayoutEngine layout = new VenusLayoutEngine();
+		private VenusWidgetAdapter adapter;
+		private VenusLayoutEngine layout;
 		private InterfaceContainer ui = new InterfaceContainer();
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			List<WidgetLayoutModel> models = new List<WidgetLayoutModel>();
+
 			var labelProperties = new WidgetProperties()
 			{
 				Name = "testLabel",
@@ -45,7 +48,11 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 				Children = { panelProperties }
 			};
 
-			layout.AddLayoutModel(new LayoutModel("test", windowProperties));
+			adapter = new VenusWidgetAdapter(models);
+			adapter.AddLayoutModel(new WidgetLayoutModel("test", windowProperties));
+
+			layout = new VenusLayoutEngine(adapter);
+			
 		}
 
 		[TestMethod]
@@ -77,7 +84,7 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 		[TestMethod]
 		public void InitializeWidgetsWithOverride()
 		{
-			layout.AddLayoutModel(new LayoutModel("test", new WidgetProperties()
+			adapter.AddLayoutModel(new WidgetLayoutModel("test", new WidgetProperties()
 			{
 				Name = "testLabel",
 				Location = new Point(30, 25)
@@ -93,7 +100,7 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 		[TestMethod]
 		public void InitializeWidgetsWithoutDeviceOverride()
 		{
-			layout.AddLayoutModel(new LayoutModel("test", new LayoutForDevice(DeviceType.Handheld),
+			adapter.AddLayoutModel(new WidgetLayoutModel("test", new LayoutForDevice(DeviceType.Handheld),
 				new WidgetProperties()
 				{
 					Name = "testWindow",
@@ -111,14 +118,14 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 		[TestMethod]
 		public void InitializeWidgetForDevice()
 		{
-			layout.AddLayoutModel(new LayoutModel("test", new LayoutForDevice(DeviceType.Handheld),
+			adapter.AddLayoutModel(new WidgetLayoutModel("test", new LayoutForDevice(DeviceType.Handheld),
 				new WidgetProperties()
 				{
 					Name = "testWindow",
 					Location = new Point(2, 1)
 				}));
 
-			layout.Environment.DeviceType = DeviceType.Handheld;
+			adapter.Environment.DeviceType = DeviceType.Handheld;
 			layout.InitializeWidgets("test", ui);
 
 			Assert.AreEqual(new Point(2, 1), ui.testWindow.ClientToScreen().Location);

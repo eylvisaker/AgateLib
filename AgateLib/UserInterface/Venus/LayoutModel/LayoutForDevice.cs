@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Platform;
 
-namespace AgateLib.UserInterface.Venus.Hierarchy
+namespace AgateLib.UserInterface.Venus.LayoutModel
 {
 	public class LayoutForDevice : ILayoutCondition
 	{
@@ -16,7 +16,7 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 
 		public DeviceType DeviceType { get; set; }
 
-		public bool ApplyLayoutModel(LayoutEnvironment environment, LayoutModel model)
+		public bool ApplyLayoutModel(LayoutEnvironment environment, WidgetLayoutModel model)
 		{
 			return environment.DeviceType == DeviceType;
 		}

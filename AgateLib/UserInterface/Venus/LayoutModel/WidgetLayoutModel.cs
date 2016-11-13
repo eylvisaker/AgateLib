@@ -5,17 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Platform;
 
-namespace AgateLib.UserInterface.Venus.Hierarchy
+namespace AgateLib.UserInterface.Venus.LayoutModel
 {
-	public class LayoutModel
+	public class WidgetLayoutModel
 	{
-		public LayoutModel(string @namespace, params WidgetProperties[] widgets)
+		public WidgetLayoutModel(string @namespace, params WidgetProperties[] widgets)
 		{
 			Namespace = @namespace;
 			Widgets = widgets.ToList();
 		}
 
-		public LayoutModel(string @namespace, ILayoutCondition condition, params WidgetProperties[] widgets)
+		public WidgetLayoutModel(string @namespace, ILayoutCondition condition, params WidgetProperties[] widgets)
 		{
 			Namespace = @namespace;
 			Condition = condition;
@@ -32,7 +32,7 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 
 	public interface ILayoutCondition
 	{
-		bool ApplyLayoutModel(LayoutEnvironment environment, LayoutModel widget);
+		bool ApplyLayoutModel(LayoutEnvironment environment, WidgetLayoutModel widget);
 	}
 
 	public class LayoutEnvironment

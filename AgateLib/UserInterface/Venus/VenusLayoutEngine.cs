@@ -4,19 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface.Venus.Fulfillment;
-using AgateLib.UserInterface.Venus.Hierarchy;
+using AgateLib.UserInterface.Venus.LayoutModel;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Venus
 {
 	public class VenusLayoutEngine : IGuiLayoutEngine
 	{
-		private List<LayoutModel> models = new List<LayoutModel>();
-		private LayoutEnvironment environment = new LayoutEnvironment();
+		private VenusWidgetAdapter adapter;
 
-		public LayoutEnvironment Environment
+		public VenusLayoutEngine(VenusWidgetAdapter adapter)
 		{
-			get { return environment; }
+			this.adapter = adapter;
 		}
 
 		public void UpdateLayout(Gui gui)
@@ -26,7 +25,7 @@ namespace AgateLib.UserInterface.Venus
 
 		public void InitializeWidgets(string @namespace, IUserInterfaceContainer ui)
 		{
-			var currentModels = SelectModels(@namespace);
+			var currentModels = adapter.SelectModels(@namespace);
 			var typeResolver = new TypeResolver();
 
 			WidgetBuilder builder = new WidgetBuilder(typeResolver, currentModels);
@@ -34,21 +33,6 @@ namespace AgateLib.UserInterface.Venus
 
 			ContainerInitializer init = new ContainerInitializer();
 			init.Initialize(ui, builder);
-		}
-
-		private IEnumerable<LayoutModel> SelectModels(string @namespace)
-		{
-			var result = from model in models
-						 where model.Namespace == @namespace &&
-							   (model.Condition == null || model.Condition.ApplyLayoutModel(Environment, model))
-						 select model;
-
-			return result;
-		}
-
-		public void AddLayoutModel(LayoutModel layoutModel)
-		{
-			models.Add(layoutModel);
 		}
 	}
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgateLib.ApplicationModels;
+using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Venus;
 using AgateLib.UserInterface.Widgets;
 using Panel = AgateLib.UserInterface.Widgets.Panel;
@@ -23,8 +24,9 @@ namespace AgateLib.Testing.UserInterfaceTests.VenusTests
 
 		public void EntryPoint()
 		{
-			VenusRenderer renderer = new VenusRenderer();
-			VenusLayoutEngine layout = new VenusLayoutEngine();
+			var adapter = new VenusWidgetAdapter();
+			var renderer = new AgateUIRenderer(adapter);
+			VenusLayoutEngine layout = new VenusLayoutEngine(adapter);
 
 			Gui gui = new Gui(renderer, layout);
 

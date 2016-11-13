@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Quality;
-using AgateLib.UserInterface.Venus.Hierarchy;
+using AgateLib.UserInterface.Venus.LayoutModel;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Venus.Fulfillment
@@ -14,11 +14,11 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 	public class WidgetBuilder
 	{
 		private readonly ITypeResolver typeResolver;
-		private readonly IEnumerable<LayoutModel> models;
+		private readonly IEnumerable<WidgetLayoutModel> models;
 
 		private readonly Dictionary<string, Widget> widgets = new Dictionary<string, Widget>();
 
-		public WidgetBuilder(ITypeResolver typeResolver, IEnumerable<LayoutModel> models)
+		public WidgetBuilder(ITypeResolver typeResolver, IEnumerable<WidgetLayoutModel> models)
 		{
 			Condition.RequireArgumentNotNull(typeResolver, nameof(typeResolver));
 			Condition.RequireArgumentNotNull(models, nameof(models));

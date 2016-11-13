@@ -6,7 +6,7 @@ namespace AgateLib.UserInterface.Venus
 {
 	public class BackgroundStyle : IBackgroundStyle
 	{
-		public BackgroundClip Clip		{			get; set;		}
+		public BackgroundClip Clip { get; set; }
 
 		public Color Color { get; set; }
 

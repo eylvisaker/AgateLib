@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
 
-namespace AgateLib.UserInterface.Venus.Hierarchy
+namespace AgateLib.UserInterface.Venus.LayoutModel
 {
 	public class WidgetProperties
 	{
@@ -15,6 +15,8 @@ namespace AgateLib.UserInterface.Venus.Hierarchy
 		public string Text { get; set; }
 
 		public List<WidgetProperties> Children { get; private set; } = new List<WidgetProperties>();
+
+		public StyleProperties Style { get; set; }
 
 		public Point? Location { get; set; }
 		public Size? Size { get; set; }

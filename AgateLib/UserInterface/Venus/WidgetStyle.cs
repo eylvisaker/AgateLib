@@ -11,17 +11,22 @@ namespace AgateLib.UserInterface.Venus
 {
 	public class WidgetStyle : IWidgetStyle
 	{
-		IBackgroundStyle IWidgetStyle.Background { get { return Background; } }
+		public WidgetStyle(Widget widget)
+		{
+			Widget = widget;
+			NeedRefresh = true;
+		}
 
-		IBorderStyle IWidgetStyle.Border { get { return Border; } }
-
-		ITransitionStyle IWidgetStyle.Transition { get { return Transition; } }
+		public Widget Widget { get; set; }
 
 		public BackgroundStyle Background { get; set; }
+		IBackgroundStyle IWidgetStyle.Background { get { return Background; } }
 
 		public BorderStyle Border { get; set; }
+		IBorderStyle IWidgetStyle.Border { get { return Border; } }
 
 		public TransitionStyle Transition { get; set; }
+		ITransitionStyle IWidgetStyle.Transition { get { return Transition; } }
 
 		public BoxModel BoxModel { get; set; }
 
@@ -31,6 +36,7 @@ namespace AgateLib.UserInterface.Venus
 
 		public TextAlign TextAlign { get; set; }
 
-		public Widget Widget { get; set; }
+
+		internal bool NeedRefresh { get; set; }
 	}
 }
