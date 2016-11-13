@@ -9,20 +9,8 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Testing.UserInterfaceTests
 {
-	class ScrollTest : Scene, ISceneModelTest
+	public class BasicGuiTest : Scene, ISceneModelTest
 	{
-		GuiStuff gs;
-
-		public string Name
-		{
-			get { return "Scrolling Test"; }
-		}
-
-		public string Category
-		{
-			get { return "User Interface"; }
-		}
-
 		public void ModifyModelParameters(SceneModelParameters parameters)
 		{
 		}
@@ -32,14 +20,23 @@ namespace AgateLib.Testing.UserInterfaceTests
 			get { return this; }
 		}
 
-		protected override void OnSceneStart()
+		public string Name
 		{
-			gs = new GuiStuff();
-
-			gs.MenuChildCount = 14;
-			gs.CreateGui();
+			get { return "Basic GUI"; }
 		}
 
+		public string Category
+		{
+			get { return "User Interface"; }
+		}
+
+		CssGuiStuff gs;
+
+		protected override void OnSceneStart()
+		{
+			gs = new CssGuiStuff();
+			gs.CreateGui();
+		}
 		public override void Update(double deltaT)
 		{
 			gs.Update();

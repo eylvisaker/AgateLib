@@ -9,13 +9,13 @@ namespace AgateLib.Testing.UserInterfaceTests.CssTests
 	{
 		DisplayWindow wind;
 
-		GuiStuff gui;
+		CssGuiStuff gui;
 
 		public frmCssEdit()
 		{
 			InitializeComponent();
 
-			gui = new GuiStuff();
+			gui = new CssGuiStuff();
 			gui.CreateGui();
 			gui.ItemClicked += gui_ItemClicked;
 
