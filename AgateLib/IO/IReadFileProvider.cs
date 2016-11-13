@@ -97,7 +97,7 @@ namespace AgateLib
 
 			var task = provider.OpenReadAsync(filename);
 
-			return task.Result;
+			return task.GetAwaiter().GetResult();
 		}
 	}
 }

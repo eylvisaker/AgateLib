@@ -1,15 +1,15 @@
-﻿using AgateLib.ApplicationModels;
-using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.ApplicationModels;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
 
 namespace AgateLib.Testing.UserInterfaceTests
 {
-	public class BasicGuiTest : Scene, ISceneModelTest
+	public class BasicNewGuiTest : Scene, ISceneModelTest
 	{
 		public void ModifyModelParameters(SceneModelParameters parameters)
 		{
@@ -22,7 +22,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 		public string Name
 		{
-			get { return "CSS Basic GUI"; }
+			get { return "Venus Basic GUI"; }
 		}
 
 		public string Category
@@ -30,11 +30,11 @@ namespace AgateLib.Testing.UserInterfaceTests
 			get { return "User Interface"; }
 		}
 
-		CssGuiStuff gs;
+		VenusGuiStuff gs;
 
 		protected override void OnSceneStart()
 		{
-			gs = new CssGuiStuff();
+			gs = new VenusGuiStuff();
 			gs.CreateGui();
 		}
 		public override void Update(double deltaT)
