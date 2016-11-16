@@ -25,7 +25,7 @@ font-sources:
 - fonts.yaml";
 		string fontsyaml = @"
 MedievalSharp:
-  name: MedievalSharp18
+- name: MedievalSharp18
   image: Fonts/MedievalSharp18.png
   metrics:
     32:
@@ -58,7 +58,7 @@ MedievalSharp:
 			Assert.AreEqual(1, configModel.Fonts.Count);
 			Assert.AreEqual("MedievalSharp", configModel.Fonts.Keys.First());
 
-			var font = configModel.Fonts["MedievalSharp"];
+			var font = configModel.Fonts["MedievalSharp"].First();
 
 			Assert.AreEqual("Fonts/MedievalSharp18.png", font.Image);
 			Assert.AreEqual(32, font.Metrics.Keys.First());

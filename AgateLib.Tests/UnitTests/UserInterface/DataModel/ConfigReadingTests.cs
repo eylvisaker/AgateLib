@@ -21,7 +21,7 @@ namespace AgateLib.UnitTests.UserInterface.DataModel
 		string yaml = @"
 fonts:
   MedievalSharp:
-    name: MedievalSharp18
+  - name: MedievalSharp18
     image: Fonts/MedievalSharp18.png
     metrics:
       32:
@@ -51,7 +51,7 @@ fonts:
 			Assert.AreEqual(1, configModel.Fonts.Count);
 			Assert.AreEqual("MedievalSharp", configModel.Fonts.Keys.First());
 
-			var font = configModel.Fonts["MedievalSharp"];
+			var font = configModel.Fonts["MedievalSharp"].First();
 
 			Assert.AreEqual("Fonts/MedievalSharp18.png", font.Image);
 			Assert.AreEqual(32, font.Metrics.Keys.First());
@@ -70,7 +70,7 @@ fonts:
 
 			fontModel.Metrics.Add(32, new GlyphMetrics { Y = 2, Width = 8, Height = 30, RightOverhang = 1 });
 
-			configModel.Fonts.Add("MedievalSharp", fontModel);
+			configModel.Fonts.Add("MedievalSharp", new List<FontModel> { fontModel });
 
 			Serializer ser = new Serializer();
 

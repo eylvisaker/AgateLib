@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.DataModel
 {
-	public class FontModelCollection : IDictionary<string, FontModel>
+	public class FontModelCollection : IDictionary<string, List<FontModel>>
 	{
-		Dictionary<string, FontModel> fontModels = new Dictionary<string, FontModel>();
+		Dictionary<string, List<FontModel>> fontModels = new Dictionary<string, List<FontModel>>();
 
-		public FontModel this[string key]
+		public List<FontModel> this[string key]
 		{
 			get
 			{
-				return ((IDictionary<string, FontModel>)fontModels)[key];
+				return ((IDictionary<string, List<FontModel>>)fontModels)[key];
 			}
 
 			set
 			{
-				((IDictionary<string, FontModel>)fontModels)[key] = value;
+				((IDictionary<string, List<FontModel>>)fontModels)[key] = value;
 			}
 		}
 
@@ -24,7 +24,7 @@ namespace AgateLib.UserInterface.DataModel
 		{
 			get
 			{
-				return ((IDictionary<string, FontModel>)fontModels).Count;
+				return ((IDictionary<string, List<FontModel>>)fontModels).Count;
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace AgateLib.UserInterface.DataModel
 		{
 			get
 			{
-				return ((IDictionary<string, FontModel>)fontModels).IsReadOnly;
+				return ((IDictionary<string, List<FontModel>>)fontModels).IsReadOnly;
 			}
 		}
 
@@ -40,71 +40,71 @@ namespace AgateLib.UserInterface.DataModel
 		{
 			get
 			{
-				return ((IDictionary<string, FontModel>)fontModels).Keys;
+				return ((IDictionary<string, List<FontModel>>)fontModels).Keys;
 			}
 		}
 
-		public ICollection<FontModel> Values
+		public ICollection<List<FontModel>> Values
 		{
 			get
 			{
-				return ((IDictionary<string, FontModel>)fontModels).Values;
+				return ((IDictionary<string, List<FontModel>>)fontModels).Values;
 			}
 		}
 
-		public void Add(KeyValuePair<string, FontModel> item)
+		public void Add(KeyValuePair<string, List<FontModel>> item)
 		{
-			((IDictionary<string, FontModel>)fontModels).Add(item);
+			((IDictionary<string, List<FontModel>>)fontModels).Add(item);
 		}
 
-		public void Add(string key, FontModel value)
+		public void Add(string key, List<FontModel> value)
 		{
-			((IDictionary<string, FontModel>)fontModels).Add(key, value);
+			((IDictionary<string, List<FontModel>>)fontModels).Add(key, value);
 		}
 
 		public void Clear()
 		{
-			((IDictionary<string, FontModel>)fontModels).Clear();
+			((IDictionary<string, List<FontModel>>)fontModels).Clear();
 		}
 
-		public bool Contains(KeyValuePair<string, FontModel> item)
+		public bool Contains(KeyValuePair<string, List<FontModel>> item)
 		{
-			return ((IDictionary<string, FontModel>)fontModels).Contains(item);
+			return ((IDictionary<string, List<FontModel>>)fontModels).Contains(item);
 		}
 
 		public bool ContainsKey(string key)
 		{
-			return ((IDictionary<string, FontModel>)fontModels).ContainsKey(key);
+			return ((IDictionary<string, List<FontModel>>)fontModels).ContainsKey(key);
 		}
 
-		public void CopyTo(KeyValuePair<string, FontModel>[] array, int arrayIndex)
+		public void CopyTo(KeyValuePair<string, List<FontModel>>[] array, int arrayIndex)
 		{
-			((IDictionary<string, FontModel>)fontModels).CopyTo(array, arrayIndex);
+			((IDictionary<string, List<FontModel>>)fontModels).CopyTo(array, arrayIndex);
 		}
 
-		public IEnumerator<KeyValuePair<string, FontModel>> GetEnumerator()
+		public IEnumerator<KeyValuePair<string, List<FontModel>>> GetEnumerator()
 		{
-			return ((IDictionary<string, FontModel>)fontModels).GetEnumerator();
+			return ((IDictionary<string, List<FontModel>>)fontModels).GetEnumerator();
 		}
 
-		public bool Remove(KeyValuePair<string, FontModel> item)
+		public bool Remove(KeyValuePair<string, List<FontModel>> item)
 		{
-			return ((IDictionary<string, FontModel>)fontModels).Remove(item);
+			return ((IDictionary<string, List<FontModel>>)fontModels).Remove(item);
 		}
 
 		public bool Remove(string key)
 		{
-			return ((IDictionary<string, FontModel>)fontModels).Remove(key);
+			return ((IDictionary<string, List<FontModel>>)fontModels).Remove(key);
 		}
 
-		public bool TryGetValue(string key, out FontModel value)
+		public bool TryGetValue(string key, out List<FontModel> value)
 		{
-			return ((IDictionary<string, FontModel>)fontModels).TryGetValue(key, out value);
+			return ((IDictionary<string, List<FontModel>>)fontModels).TryGetValue(key, out value);
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return ((IDictionary<string, FontModel>)fontModels).GetEnumerator();
+			return ((IDictionary<string, List<FontModel>>)fontModels).GetEnumerator();
 		}
 	}
 }
