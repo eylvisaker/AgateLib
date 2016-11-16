@@ -83,6 +83,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="YamlDotNet, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\YamlDotNet.4.0.0\lib\net35\YamlDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -124,6 +128,8 @@
     <Compile Include="UserInterface\Css\CssTestBase.cs" />
     <Compile Include="UserInterface\Css\CssLayoutTest.cs" />
     <Compile Include="UserInterface\Css\CssParseTest.cs" />
+    <Compile Include="UserInterface\DataModel\ConfigReferenceReadingTests.cs" />
+    <Compile Include="UserInterface\DataModel\ConfigReadingTests.cs" />
     <Compile Include="UserInterface\Venus\UserInterfaceInitializerTests.cs" />
     <Compile Include="UserInterface\Widgets\ConversionTests.cs" />
     <Compile Include="UserInterface\Widgets\MenuItemTests.cs" />

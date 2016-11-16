@@ -625,6 +625,11 @@
     <Compile Include="UserInterface\Css\Documents\ICssBoxComponent.cs" />
     <Compile Include="UserInterface\Css\ICssCanSelect.cs" />
     <Compile Include="UserInterface\Css\Documents\ICssPropertyFromText.cs" />
+    <Compile Include="UserInterface\DataModel\FacetModelCollection.cs" />
+    <Compile Include="UserInterface\DataModel\FontModel.cs" />
+    <Compile Include="UserInterface\DataModel\FontModelCollection.cs" />
+    <Compile Include="UserInterface\DataModel\ReferenceCollection.cs" />
+    <Compile Include="UserInterface\DataModel\ThemeModelCollection.cs" />
     <Compile Include="UserInterface\Rendering\IBackgroundStyle.cs" />
     <Compile Include="UserInterface\Rendering\IBorderStyle.cs" />
     <Compile Include="UserInterface\Rendering\ITransitionStyle.cs" />
@@ -665,6 +670,8 @@
     <Compile Include="UserInterface\ISurfaceProvider.cs" />
     <Compile Include="UserInterface\Rendering\IWidgetAdapter.cs" />
     <Compile Include="UserInterface\Rendering\IWidgetStyle.cs" />
+    <Compile Include="UserInterface\DataModel\UserInterfaceConfig.cs" />
+    <Compile Include="UserInterface\UserInterfaceDataLoader.cs" />
     <Compile Include="UserInterface\Venus\BackgroundStyle.cs" />
     <Compile Include="UserInterface\Venus\BorderSideStyle.cs" />
     <Compile Include="UserInterface\Venus\BorderStyle.cs" />
@@ -723,8 +730,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AgateLib.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="YamlDotNet, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.4.0.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\YamlDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks" Condition="Exists('$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks')" />
   <Target Name="UpdateAssemblyInfo" Condition="$(MajorVersion) != ''">

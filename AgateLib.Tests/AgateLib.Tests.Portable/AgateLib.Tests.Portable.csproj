@@ -122,9 +122,9 @@
     <Content Include="Assets\jellybean.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Assets\UserInterface\fonts.yaml">
+    <Content Include="Assets\UserInterface\fonts.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="Assets\UserInterface\Fonts\MedievalSharp14.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -189,9 +189,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\UserInterface\VenusTestFacets.yaml" />
-    <None Include="Assets\UserInterface\VenusTest.yaml" />
-    <None Include="Assets\UserInterface\VenusTestTheme.yaml" />
+    <Content Include="Assets\UserInterface\VenusTestFacets.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\UserInterface\VenusTest.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\UserInterface\VenusTestTheme.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

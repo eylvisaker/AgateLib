@@ -22,6 +22,8 @@ using System.Text;
 
 using AgateLib.Geometry;
 using System.Runtime.Serialization;
+using YamlDotNet.Serialization;
+using AgateLib.Quality;
 
 namespace AgateLib.DisplayLib.BitmapFont
 {
@@ -44,6 +46,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		public GlyphMetrics()
 		{
 		}
+
 		/// <summary>
 		/// Constructs a GlyphMetrics object with the specified source rectangle.
 		/// </summary>
@@ -56,12 +59,31 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Source rectangle on the image which supplies the glyph.
 		/// </summary>
+		[YamlIgnore]
 		public Rectangle SourceRect
 		{
 			get { return mSourceRect; }
 			set { mSourceRect = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the x position of the source rectangle.
+		/// </summary>
+		public int X
+		{
+			get { return mSourceRect.X; }
+			set { mSourceRect.X = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the y position of the source rectangle.
+		/// </summary>
+		public int Y
+		{
+			get { return mSourceRect.Y; }
+			set { mSourceRect.Y = value; }
+		}
+		
 		/// <summary>
 		/// Gets or sets the width of the glyph.
 		/// </summary>
@@ -82,11 +104,13 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Gets or sets the size of the glyph.
 		/// </summary>
+		[YamlIgnore]
 		public Size Size
 		{
 			get { return mSourceRect.Size; }
 			set { mSourceRect.Size = value; }
 		}
+
 		/// <summary>
 		/// Number of pixels this character is shifted to the left.
 		/// </summary>
@@ -107,6 +131,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Gets the number of pixels the drawing position is advanced when this glyph is drawn.
 		/// </summary>
+		[YamlIgnore]
 		public int LayoutWidth
 		{
 			get { return mSourceRect.Width - LeftOverhang - RightOverhang; }
@@ -118,6 +143,11 @@ namespace AgateLib.DisplayLib.BitmapFont
 		public Dictionary<char, int> KerningPairs
 		{
 			get { return mKerning; }
+			set
+			{
+				Condition.RequireArgumentNotNull(value, nameof(value));
+				mKerning = value;
+			}
 		}
 
 		/// <summary>

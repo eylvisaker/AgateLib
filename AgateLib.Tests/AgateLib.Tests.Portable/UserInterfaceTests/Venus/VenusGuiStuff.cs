@@ -44,11 +44,11 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 		public void CreateGui()
 		{
-			var uiconfig = UserInterfaceConfig.FromYaml("VenusTest.yaml");
+			var uiconfig = UserInterfaceDataLoader.Config("VenusTest.yaml");
 
 			font = new Font("Medieval Sharp");
-			font.AddFont(new FontSurface(res, "MedievalSharp18"), 18, FontStyles.None);
-			font.AddFont(new FontSurface(res, "MedievalSharp14"), 14, FontStyles.None);
+			//font.AddFont(new FontSurface(res, "MedievalSharp18"), 18, FontStyles.None);
+			//font.AddFont(new FontSurface(res, "MedievalSharp14"), 14, FontStyles.None);
 
 			Deserializer deserializer = new Deserializer();
 			Layout layout = deserializer.Deserialize<Layout>(new StreamReader(Assets.UserInterfaceAssets.OpenRead("VenusTest.yaml")));
