@@ -1,0 +1,27 @@
+﻿
+theme:
+    window:
+        background:
+            image: ui_back_1.png
+            color: blue
+        border:
+            image: ui_border_2.png
+            slice: 10
+        transition:
+            type: slide
+            direction: top
+            time: 2
+        width: 200
+        height: 500
+
+    menuitem:
+        box:
+            padding: 8
+        state:
+            selected:
+                border:
+                    image: ui_border_1.png
+                    slice: 6
+
+    label:
+        textcolor: navy

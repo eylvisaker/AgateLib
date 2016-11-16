@@ -9,6 +9,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.IO;
 using AgateLib.Resources.Legacy;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Venus;
 using AgateLib.UserInterface.Venus.LayoutModel;
@@ -19,6 +20,14 @@ namespace AgateLib.Testing.UserInterfaceTests
 {
 	public class VenusGuiStuff
 	{
+		class UserInterfaceContainer : IUserInterfaceContainer
+		{
+			public Window window_1;
+			public Window window_2;
+			public Menu menu_1;
+		}
+
+		UserInterfaceContainer uicontainer;
 		Gui gui;
 		VenusWidgetAdapter adapter;
 		List<Window> windows = new List<Window>();
@@ -35,7 +44,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 		public void CreateGui()
 		{
-			AgateResourceCollection res = new AgateResourceCollection("Resources/fonts.xml");
+			var uiconfig = UserInterfaceConfig.FromYaml("VenusTest.yaml");
 
 			font = new Font("Medieval Sharp");
 			font.AddFont(new FontSurface(res, "MedievalSharp18"), 18, FontStyles.None);
@@ -45,31 +54,30 @@ namespace AgateLib.Testing.UserInterfaceTests
 			Layout layout = deserializer.Deserialize<Layout>(new StreamReader(Assets.UserInterfaceAssets.OpenRead("VenusTest.yaml")));
 
 			adapter = new VenusWidgetAdapter(layout.Values);
-			
-			gui = new Gui(new AgateUIRenderer(adapter), new VenusLayoutEngine(adapter));
+			var engine = new VenusLayoutEngine(adapter);
+			gui = new Gui(new AgateUIRenderer(adapter), engine);
 
-			var wind = new Window("window 1");
+			uicontainer = new UserInterfaceContainer();
+			engine.InitializeWidgets("VenusGuiStuff", uicontainer);
 
-			BuildWindowChildren(wind);
+			BuildWindowChildren(uicontainer.window_1);
 
 			joy = JoystickInput.Joysticks.FirstOrDefault();
 
-			gui.AddWindow(wind);
-			windows.Add(wind);
+			gui.AddWindow(uicontainer.window_1);
+			windows.Add(uicontainer.window_1);
 
-			wind = new Window("window 2");
-			var menu = new Menu();
+			BuildMenuChildren(uicontainer.menu_1);
+			var menu = uicontainer.menu_1;
 
-			BuildMenuChildren(menu);
-
-			foreach(MenuItem menuItem in menu.Children)
+			foreach (MenuItem menuItem in menu.Children)
 			{
 				menuItem.AllowDiscard = true;
 			}
 
-			wind.Children.Add(menu);
-			gui.AddWindow(wind);
-			windows.Add(wind);
+			uicontainer.window_2.Children.Add(menu);
+			gui.AddWindow(uicontainer.window_2);
+			windows.Add(uicontainer.window_2);
 
 			if (joy != null)
 			{
@@ -85,7 +93,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 		private void BuildWindowChildren(Window wind)
 		{
-			string[] text = new [] { "This is a label", "This is another label" };
+			string[] text = new[] { "This is a label", "This is another label" };
 
 			var labels = CreateLabels(WindowChildCount, text);
 
@@ -104,14 +112,14 @@ namespace AgateLib.Testing.UserInterfaceTests
 				}
 				else
 				{
-					yield return new Label("label" + (i+1).ToString());
+					yield return new Label("label" + (i + 1).ToString());
 				}
 			}
 		}
 
 		private void BuildMenuChildren(Menu menu)
 		{
-			string[] text = new[] { "First Label", "Second Label", "Third Label", "Fourth Label", 
+			string[] text = new[] { "First Label", "Second Label", "Third Label", "Fourth Label",
 					"Fifth Label" };
 
 			menu.Children.AddRange(from label in CreateLabels(MenuChildCount, text)
@@ -120,7 +128,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 		void joy_ButtonReleased(object sender, JoystickEventArgs e)
 		{
-			
+
 		}
 
 		void joy_ButtonPressed(object sender, JoystickEventArgs e)
@@ -134,7 +142,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 		}
 
 		public event EventHandler ItemClicked;
-		
+
 		public void Update()
 		{
 			gui.OnUpdate(Display.DeltaTime, true);

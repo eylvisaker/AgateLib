@@ -110,7 +110,7 @@
     <Content Include="Assets\Images\ui_back_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Images\ui_border_1.png">
+    <Content Include="Assets\UserInterface\ui_border_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Images\ui_border_2.png">
@@ -122,22 +122,22 @@
     <Content Include="Assets\jellybean.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Resources\fonts.xml">
+    <None Include="Assets\UserInterface\fonts.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Assets\UserInterface\Fonts\MedievalSharp14.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Resources\Fonts\MedievalSharp14.png">
+    <Content Include="Assets\UserInterface\Fonts\MedievalSharp18.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Resources\Fonts\MedievalSharp18.png">
+    <Content Include="Assets\UserInterface\Fonts\MedievalSharpBold14.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Resources\Fonts\MedievalSharpBold14.png">
+    <Content Include="Assets\UserInterface\Fonts\MedievalSharpBold18.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Resources\Fonts\MedievalSharpBold18.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Resources\Fonts\MedievalSharpBold22.png">
+    <Content Include="Assets\UserInterface\Fonts\MedievalSharpBold22.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\smoke.png">
@@ -168,11 +168,18 @@
     <Content Include="Assets\tile2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\UserInterface\ui_back_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\UserInterface\ui_border_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\wallpaper.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Resources\" />
     <Folder Include="Platform\Test\" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +189,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\UserInterface\VenusTestFacets.yaml" />
+    <None Include="Assets\UserInterface\VenusTest.yaml" />
+    <None Include="Assets\UserInterface\VenusTestTheme.yaml" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
