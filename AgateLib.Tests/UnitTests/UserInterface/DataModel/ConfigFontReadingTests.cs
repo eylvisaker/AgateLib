@@ -15,7 +15,7 @@ using YamlDotNet.Serialization;
 namespace AgateLib.UnitTests.UserInterface.DataModel
 {
 	[TestClass]
-	public class ConfigReadingTests
+	public class ConfigFontReadingTests
 	{
 		string filename = "test.yaml";
 		string yaml = @"

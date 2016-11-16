@@ -1,9 +1,9 @@
 ﻿
-Fonts: 
-    Source: fonts.yaml
+font-sources: 
+- fonts.yaml
 
-Theme:
-    Source: VenusTestTheme.yaml
+theme-sources:
+- VenusTestTheme.yaml
 
-Facets:
-    Source: VenusTest.yaml
+facet-sources:
+- VenusTest.yaml
