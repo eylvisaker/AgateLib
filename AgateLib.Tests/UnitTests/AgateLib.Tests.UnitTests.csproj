@@ -132,6 +132,7 @@
     <Compile Include="UserInterface\Css\CssTestBase.cs" />
     <Compile Include="UserInterface\Css\CssLayoutTest.cs" />
     <Compile Include="UserInterface\Css\CssParseTest.cs" />
+    <Compile Include="UserInterface\DataModel\ConfigFacetReadingTests.cs" />
     <Compile Include="UserInterface\DataModel\ConfigThemeReadingTests.cs" />
     <Compile Include="UserInterface\DataModel\ConfigReferenceReadingTests.cs" />
     <Compile Include="UserInterface\DataModel\ConfigFontReadingTests.cs" />

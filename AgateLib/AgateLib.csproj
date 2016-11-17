@@ -627,6 +627,7 @@
     <Compile Include="UserInterface\Css\ICssCanSelect.cs" />
     <Compile Include="UserInterface\Css\Documents\ICssPropertyFromText.cs" />
     <Compile Include="UserInterface\DataModel\BoxDataModel.cs" />
+    <Compile Include="UserInterface\DataModel\FacetModel.cs" />
     <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterYaml.cs" />
     <Compile Include="UserInterface\DataModel\FacetModelCollection.cs" />
     <Compile Include="UserInterface\DataModel\FontModel.cs" />
@@ -635,6 +636,7 @@
     <Compile Include="UserInterface\DataModel\ThemeModelCollection.cs" />
     <Compile Include="UserInterface\DataModel\WidgetBackgroundModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetBorderModel.cs" />
+    <Compile Include="UserInterface\DataModel\WidgetModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetStateModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetThemeModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetTransitionModel.cs" />
