@@ -149,6 +149,7 @@
     <Compile Include="Drivers\NullDrivers\NullInputFactory.cs" />
     <Compile Include="Drivers\NullDrivers\NullSoundFactory.cs" />
     <Compile Include="Geometry\CoordinateSystems\SingleFixedDimension.cs" />
+    <Compile Include="Geometry\TypeConverters\ColorConverterYaml.cs" />
     <Compile Include="InputLib\DirectionPad.cs" />
     <Compile Include="InputLib\Gamepad.cs" />
     <Compile Include="InputLib\GamepadButtonEventArgs.cs" />
@@ -625,11 +626,18 @@
     <Compile Include="UserInterface\Css\Documents\ICssBoxComponent.cs" />
     <Compile Include="UserInterface\Css\ICssCanSelect.cs" />
     <Compile Include="UserInterface\Css\Documents\ICssPropertyFromText.cs" />
+    <Compile Include="UserInterface\DataModel\BoxDataModel.cs" />
+    <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterYaml.cs" />
     <Compile Include="UserInterface\DataModel\FacetModelCollection.cs" />
     <Compile Include="UserInterface\DataModel\FontModel.cs" />
     <Compile Include="UserInterface\DataModel\FontModelCollection.cs" />
-    <Compile Include="UserInterface\DataModel\ReferenceCollection.cs" />
+    <Compile Include="UserInterface\DataModel\ThemeModel.cs" />
     <Compile Include="UserInterface\DataModel\ThemeModelCollection.cs" />
+    <Compile Include="UserInterface\DataModel\WidgetBackgroundModel.cs" />
+    <Compile Include="UserInterface\DataModel\WidgetBorderModel.cs" />
+    <Compile Include="UserInterface\DataModel\WidgetStateModel.cs" />
+    <Compile Include="UserInterface\DataModel\WidgetThemeModel.cs" />
+    <Compile Include="UserInterface\DataModel\WidgetTransitionModel.cs" />
     <Compile Include="UserInterface\Rendering\IBackgroundStyle.cs" />
     <Compile Include="UserInterface\Rendering\IBorderStyle.cs" />
     <Compile Include="UserInterface\Rendering\ITransitionStyle.cs" />
@@ -738,6 +746,7 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks" Condition="Exists('$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks')" />
   <Target Name="UpdateAssemblyInfo" Condition="$(MajorVersion) != ''">

@@ -16,7 +16,7 @@ namespace AgateLib.UnitTests.Geometry
             Assert.IsTrue(Color.IsNamedColor("Blue"));
             Assert.IsFalse(Color.IsNamedColor("Atari"));
 
-            Assert.AreEqual(Color.FromArgb(255, 255, 0, 0), Color.Red);
+            Assert.AreEqual(Color.Red, Color.GetNamedColor("Red"));
         }
 
         [TestMethod]
@@ -101,7 +101,7 @@ namespace AgateLib.UnitTests.Geometry
         }
 
         [TestMethod]
-        public void FromArgbTest()
+        public void FromArgbString()
         {
             AssertX.Throws(() => Color.FromArgb("lkdsjflkdsj"));
 
@@ -120,6 +120,23 @@ namespace AgateLib.UnitTests.Geometry
             Assert.AreEqual(0xcc, clr1.B);
         }
 
+		[TestMethod]
+		public void ToArgbString()
+		{
+			string[] colorsToTest = new[]
+			{
+				"ffaabbcc", "20f8f8f8", "ffaabbcc",
+				"ffffffff", "01000000", "01020304"
+			};
+
+			foreach(var color in colorsToTest)
+			{
+				var text = Color.FromArgb(color).ToArgbString();
+				Assert.AreEqual(color, text.ToLowerInvariant(),
+					"Failed to convert color {0} correctly.", color);
+			}
+
+		}
     }
 
 }

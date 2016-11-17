@@ -778,6 +778,25 @@ namespace AgateLib.Geometry
 		}
 
 		/// <summary>
+		/// Returns a string in the format of AARRGGBB
+		/// where AA, RR, GG, BB are each expressed as
+		/// a hexidecimal number (such as "ff" or "8B").
+		/// Default format is lowercase.
+		/// </summary>
+		/// <param name="alphaOptional">Pass true to have the 
+		/// alpha portion be suppressed if its value is FF.</param>
+		/// <returns></returns>
+		public string ToArgbString(bool alphaOptional = false)
+		{
+			if (alphaOptional && A == 255)
+			{
+				return R.ToString("x2") + G.ToString("x2") + B.ToString("x2");
+			}
+
+			return ToArgb().ToString("x8");
+		}
+
+		/// <summary>
 		/// Converts a string like "FF" to a byte value.  Throws an exception if the
 		/// string does not convert to a value which fits into a byte.
 		/// </summary>

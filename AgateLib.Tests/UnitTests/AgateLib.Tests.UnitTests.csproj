@@ -132,8 +132,10 @@
     <Compile Include="UserInterface\Css\CssTestBase.cs" />
     <Compile Include="UserInterface\Css\CssLayoutTest.cs" />
     <Compile Include="UserInterface\Css\CssParseTest.cs" />
-    <Compile Include="UserInterface\DataModel\ConfigFontReferenceReadingTests.cs" />
+    <Compile Include="UserInterface\DataModel\ConfigThemeReadingTests.cs" />
+    <Compile Include="UserInterface\DataModel\ConfigReferenceReadingTests.cs" />
     <Compile Include="UserInterface\DataModel\ConfigFontReadingTests.cs" />
+    <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterTest.cs" />
     <Compile Include="UserInterface\Venus\UserInterfaceInitializerTests.cs" />
     <Compile Include="UserInterface\Widgets\ConversionTests.cs" />
     <Compile Include="UserInterface\Widgets\MenuItemTests.cs" />

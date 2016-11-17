@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Geometry.TypeConverters;
 using AgateLib.IO;
 using AgateLib.UserInterface.DataModel;
+using AgateLib.UserInterface.DataModel.TypeConverters;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -22,6 +24,8 @@ namespace AgateLib.UserInterface
 		{
 			var deserializer = new DeserializerBuilder()
 				.WithNamingConvention(new HyphenatedNamingConvention())
+				.WithTypeConverter(new ColorConverterYaml())
+				.WithTypeConverter(new LayoutBoxConverterYaml())
 				.Build();
 
 			using (var file = new StreamReader(Assets.UserInterfaceAssets.OpenRead(filename)))
@@ -45,6 +49,19 @@ namespace AgateLib.UserInterface
 					foreach (var font_kvp in result)
 					{
 						config.Fonts.Add(font_kvp.Key, font_kvp.Value);
+					}
+				}
+			}
+
+			foreach(var filename in config.ThemeSources)
+			{
+				using (var file = new StreamReader(Assets.UserInterfaceAssets.OpenRead(filename)))
+				{
+					var result = deserializer.Deserialize<ThemeModelCollection>(file);
+
+					foreach (var theme_kvp in result)
+					{
+						config.Themes.Add(theme_kvp.Key, theme_kvp.Value);
 					}
 				}
 			}
