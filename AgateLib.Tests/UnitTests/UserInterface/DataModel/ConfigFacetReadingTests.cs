@@ -20,23 +20,23 @@ namespace AgateLib.UnitTests.UserInterface.DataModel
 		string filename = "test.yaml";
 		string yaml = @"
 facets:
-	TestGui: 
-	    window_1:
-			type: window
-			x: 10
-			y: 10
-			width: 250
-			height: 400
-	    window_2:
-			type: window
-			x: 270
-			y: 10
-			width: 275
-			height: 300
-			children:
-			-   menu_1:
-					type: menu
-					dock: fill
+    TestGui: 
+        window_1:
+            type: window
+            x: 10
+            y: 10
+            width: 250
+            height: 400
+        window_2:
+            type: window
+            x: 270
+            y: 10
+            width: 275
+            height: 300
+            children:
+                menu_1:
+                    type: menu
+                    dock: fill
 ";
 
 		
