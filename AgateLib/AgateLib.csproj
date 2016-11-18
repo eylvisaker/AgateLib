@@ -695,7 +695,6 @@
     <Compile Include="UserInterface\Venus\LayoutModel\StyleProperties.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\TransitionProperties.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\WidgetProperties.cs" />
-    <Compile Include="UserInterface\Venus\RenderModel\RenderItem.cs" />
     <Compile Include="UserInterface\Venus\TransitionStyle.cs" />
     <Compile Include="UserInterface\Venus\VenusLayoutEngine.cs" />
     <Compile Include="UserInterface\Venus\VenusWidgetAdapter.cs" />

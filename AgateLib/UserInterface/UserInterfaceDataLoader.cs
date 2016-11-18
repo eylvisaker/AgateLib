@@ -40,28 +40,28 @@ namespace AgateLib.UserInterface
 
 		private static void ReadExternalFiles(Deserializer deserializer, UserInterfaceConfig config)
 		{
-			foreach(var filename in config.FontSources)
+			ReadSources<FontModelCollection, List<FontModel>>(deserializer, config, config.FontSources, 
+				(key, value) => config.Fonts.Add(key, value));
+
+			ReadSources<ThemeModelCollection, ThemeModel>(deserializer, config, config.ThemeSources,
+				(key, value) => config.Themes.Add(key, value));
+
+			ReadSources<FacetModelCollection, FacetModel>(deserializer, config, config.FacetSources,
+				(key, value) => config.Facets.Add(key, value));
+		}
+
+		private static void ReadSources<T, S>(Deserializer deserializer, UserInterfaceConfig config, IEnumerable<string> sources,
+			Action<string, S> store) where T : IEnumerable<KeyValuePair<string, S>>
+		{
+			foreach (var filename in sources)
 			{
 				using (var file = new StreamReader(Assets.UserInterfaceAssets.OpenRead(filename)))
 				{
-					var result = deserializer.Deserialize<FontModelCollection>(file);
+					var result = deserializer.Deserialize<T>(file);
 
-					foreach (var font_kvp in result)
+					foreach (var kvp in result)
 					{
-						config.Fonts.Add(font_kvp.Key, font_kvp.Value);
-					}
-				}
-			}
-
-			foreach(var filename in config.ThemeSources)
-			{
-				using (var file = new StreamReader(Assets.UserInterfaceAssets.OpenRead(filename)))
-				{
-					var result = deserializer.Deserialize<ThemeModelCollection>(file);
-
-					foreach (var theme_kvp in result)
-					{
-						config.Themes.Add(theme_kvp.Key, theme_kvp.Value);
+						store(kvp.Key, kvp.Value);
 					}
 				}
 			}

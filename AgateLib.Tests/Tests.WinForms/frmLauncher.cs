@@ -284,6 +284,7 @@ namespace AgateLib.Testing
 
 			parameters.Arguments = CommandLineArguments;
 			parameters.AssetLocations.Path = "Assets";
+			parameters.AssetLocations.UserInterface = "UserInterface";
 			parameters.ApplicationName = test.Name + " :: " + test.Category + " test";
 
 			return parameters;

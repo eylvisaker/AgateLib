@@ -17,5 +17,7 @@ namespace AgateLib.UserInterface.DataModel
 		public List<string> FontSources { get; set; } = new List<string>();
 
 		public List<string> ThemeSources { get; set; } = new List<string>();
+
+		public List<string> FacetSources { get; set; } = new List<string>();
 	}
 }

@@ -21,13 +21,17 @@ namespace AgateLib.UnitTests.UserInterface.DataModel
 		string configFilename = "test.yaml";
 		string fontsFilename = "fonts.yaml";
 		string themeFilename = "themes.yaml";
+		string facetFilename = "facets.yaml";
 
 		string configyaml = @"
 font-sources: 
 - fonts.yaml
 
 theme-sources:
-- themes.yaml";
+- themes.yaml
+
+facet-sources:
+- facets.yaml";
 
 		string fontsyaml = @"
 MedievalSharp:
@@ -46,25 +50,37 @@ default:
         background:
             image: ui_back_1.png
             color: blue";
-
+		string facetsyaml = @"
+default_facet: 
+    window_A:
+        type: window
+        x: 270
+        y: 10
+        width: 275
+        height: 300
+        children:
+            menu_1:
+                type: menu
+                dock: fill
+";
 		[TestInitialize]
 		public void Initialize()
 		{
 			var fileProvider = new Mock<IReadFileProvider>();
 
-			fileProvider
-				.Setup(x => x.OpenReadAsync(configFilename))
-				.Returns(() => Task.FromResult((Stream)new MemoryStream(Encoding.UTF8.GetBytes(configyaml))));
-
-			fileProvider
-				.Setup(x => x.OpenReadAsync(fontsFilename))
-				.Returns(() => Task.FromResult((Stream)new MemoryStream(Encoding.UTF8.GetBytes(fontsyaml))));
-
-			fileProvider
-				.Setup(x => x.OpenReadAsync(themeFilename))
-				.Returns(() => Task.FromResult((Stream)new MemoryStream(Encoding.UTF8.GetBytes(themesyaml))));
+			SetupFile(fileProvider, configFilename, configyaml);
+			SetupFile(fileProvider, fontsFilename, fontsyaml);
+			SetupFile(fileProvider, themeFilename, themesyaml);
+			SetupFile(fileProvider, facetFilename, facetsyaml);
 
 			Assets.UserInterfaceAssets = fileProvider.Object;
+		}
+
+		private void SetupFile(Mock<IReadFileProvider> fileProvider, string filename, string contents)
+		{
+			fileProvider
+				.Setup(x => x.OpenReadAsync(filename))
+				.Returns(() => Task.FromResult((Stream)new MemoryStream(Encoding.UTF8.GetBytes(contents))));
 		}
 
 		[TestMethod]
@@ -96,6 +112,23 @@ default:
 
 			Assert.AreEqual("ui_back_1.png", window.Background.Image);
 			Assert.AreEqual(Color.Blue, window.Background.Color);
+		}
+
+
+		[TestMethod]
+		public void ReadFacetModelFromSeparateFile()
+		{
+			var configModel = UserInterfaceDataLoader.Config(configFilename);
+
+			Assert.AreEqual(1, configModel.Facets.Count);
+			Assert.AreEqual("default_facet", configModel.Facets.Keys.First());
+
+			var facet = configModel.Facets["default_facet"];
+			var window = facet["window_A"];
+			var menu = window.Children["menu_1"];
+
+			Assert.AreEqual("window", window.Type);
+			Assert.AreEqual("menu", menu.Type);
 		}
 	}
 }
