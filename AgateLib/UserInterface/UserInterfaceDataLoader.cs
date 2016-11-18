@@ -50,14 +50,15 @@ namespace AgateLib.UserInterface
 				(key, value) => config.Facets.Add(key, value));
 		}
 
-		private static void ReadSources<T, S>(Deserializer deserializer, UserInterfaceConfig config, IEnumerable<string> sources,
-			Action<string, S> store) where T : IEnumerable<KeyValuePair<string, S>>
+		private static void ReadSources<TCollection, TItem>(Deserializer deserializer, UserInterfaceConfig config, 
+			IEnumerable<string> sources, Action<string, TItem> store) 
+			where TCollection : IEnumerable<KeyValuePair<string, TItem>>
 		{
 			foreach (var filename in sources)
 			{
 				using (var file = new StreamReader(Assets.UserInterfaceAssets.OpenRead(filename)))
 				{
-					var result = deserializer.Deserialize<T>(file);
+					var result = deserializer.Deserialize<TCollection>(file);
 
 					foreach (var kvp in result)
 					{
