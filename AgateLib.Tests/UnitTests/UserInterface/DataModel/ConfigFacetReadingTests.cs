@@ -24,7 +24,7 @@ facets:
         window_1:
             type: window
             x: 10
-            y: 10
+            y: 15
             width: 250
             height: 400
         window_2:
@@ -58,11 +58,23 @@ facets:
 
 			Assert.AreEqual(1, configModel.Facets.Count);
 			Assert.AreEqual("TestGui", configModel.Facets.Keys.First());
-			var gui = configModel.Themes["TestGui"];
+			var gui = configModel.Facets["TestGui"];
 
 			var window1 = gui["window_1"];
 			var window2 = gui["window_2"];
 
+			Assert.AreEqual("window", window1.Type);
+			Assert.AreEqual(10, window1.X);
+			Assert.AreEqual(15, window1.Y);
+			Assert.AreEqual(250, window1.Width);
+			Assert.AreEqual(400, window1.Height);
+			Assert.AreEqual(270, window2.X);
+			Assert.AreEqual(10, window2.Y);
+
+			var menu = window2.Children["menu_1"];
+
+			Assert.AreEqual("menu", menu.Type);
+			Assert.AreEqual(WidgetDock.Fill, menu.Dock);
 		}
 	}
 }

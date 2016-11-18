@@ -1,18 +1,18 @@
 ﻿
 VenusGuiStuff: 
--   window_1:
+    window_1:
         type: window
         x: 10
         y: 10
         width: 250
         height: 400
--   window_2:
+    window_2:
         type: window
         x: 270
         y: 10
         width: 275
         height: 300
         children:
-        -   menu_1:
+            menu_1:
                 type: menu
                 dock: fill
