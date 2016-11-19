@@ -8,6 +8,7 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.IO;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.DataModel;
+using AgateLib.UserInterface.Venus.LayoutModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using YamlDotNet.Serialization;

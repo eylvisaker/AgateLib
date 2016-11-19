@@ -54,12 +54,13 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 
 		private void ApplyWidgetProperties(Widget widget, WidgetProperties widgetProperties)
 		{
+			widget.Enabled = widgetProperties.Enabled;
+
 			ApplyProperty(widget, w => w.Name, widgetProperties.Name);
-			ApplyProperty(widget, w => w.Enabled, widgetProperties.Enabled);
-			ApplyProperty(widget, w => w.X, widgetProperties.Location?.X);
-			ApplyProperty(widget, w => w.Y, widgetProperties.Location?.Y);
-			ApplyProperty(widget, w => w.Width, widgetProperties.Size?.Width);
-			ApplyProperty(widget, w => w.Height, widgetProperties.Size?.Height);
+			ApplyProperty(widget, w => w.X, widgetProperties.X);
+			ApplyProperty(widget, w => w.Y, widgetProperties.Y);
+			ApplyProperty(widget, w => w.Width, widgetProperties.Width);
+			ApplyProperty(widget, w => w.Height, widgetProperties.Height);
 			ApplyProperty(widget, "Text", widgetProperties.Text);
 
 			if (widgetProperties.Children.Count > 0)
@@ -73,7 +74,7 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 			if (widget == null)
 				throw new InvalidOperationException("Cannot apply children to a widget which is not a container.");
 
-			foreach (var childProperties in widgetProperties.Children)
+			foreach (var childProperties in widgetProperties.Children.Values)
 			{
 				var child = RealizeWidgetModel(childProperties);
 

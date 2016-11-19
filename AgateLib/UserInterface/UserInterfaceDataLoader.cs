@@ -23,7 +23,7 @@ namespace AgateLib.UserInterface
 		public static UserInterfaceConfig Config(string filename)
 		{
 			var deserializer = new DeserializerBuilder()
-				.WithNamingConvention(new HyphenatedNamingConvention())
+					.WithNamingConvention(new HyphenatedNamingConvention())
 				.WithTypeConverter(new ColorConverterYaml())
 				.WithTypeConverter(new LayoutBoxConverterYaml())
 				.Build();

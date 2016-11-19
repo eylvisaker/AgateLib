@@ -14,13 +14,17 @@ namespace AgateLib.UserInterface.Venus.LayoutModel
 
 		public string Text { get; set; }
 
-		public List<WidgetProperties> Children { get; private set; } = new List<WidgetProperties>();
+		public WidgetChildCollection Children { get; private set; } = new WidgetChildCollection();
 
 		public StyleProperties Style { get; set; }
 
-		public Point? Location { get; set; }
-		public Size? Size { get; set; }
+		public int? X { get; set; }
+		public int? Y { get; set; }
+		public int? Width { get; set; }
+		public int? Height { get; set; }
 
-		public bool? Enabled { get; set; }
+		public WidgetDock? Dock { get; set; }
+
+		public bool Enabled { get; set; } = true;
 	}
 }

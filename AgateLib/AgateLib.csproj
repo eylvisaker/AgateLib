@@ -636,8 +636,7 @@
     <Compile Include="UserInterface\DataModel\ThemeModelCollection.cs" />
     <Compile Include="UserInterface\DataModel\WidgetBackgroundModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetBorderModel.cs" />
-    <Compile Include="UserInterface\DataModel\WidgetDock.cs" />
-    <Compile Include="UserInterface\DataModel\WidgetModel.cs" />
+    <Compile Include="UserInterface\Venus\LayoutModel\Enums.cs" />
     <Compile Include="UserInterface\DataModel\WidgetStateModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetThemeModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetTransitionModel.cs" />
@@ -690,6 +689,7 @@
     <Compile Include="UserInterface\Venus\Fulfillment\WidgetBuilder.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\Layout.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\LayoutForDevice.cs" />
+    <Compile Include="UserInterface\Venus\LayoutModel\WidgetChildCollection.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\WidgetLayoutModel.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\TypeResolver.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\StyleProperties.cs" />

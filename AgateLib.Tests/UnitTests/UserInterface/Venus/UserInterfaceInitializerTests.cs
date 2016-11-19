@@ -31,20 +31,23 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 				Name = "testLabel",
 				Type = "Label",
 				Text = "This is some text",
-				Location = new Point(3, 6)
+				X = 3,
+				Y = 6,
 			};
 
 			var panelProperties = new WidgetProperties();
 			panelProperties.Name = "testPanel";
 			panelProperties.Type = "Panel";
-			panelProperties.Location = new Point(10, 15);
+			panelProperties.X = 10;
+			panelProperties.Y = 15;
 			panelProperties.Children.Add(labelProperties);
 
 			var windowProperties = new WidgetProperties()
 			{
 				Name = "testWindow",
 				Type = "Window",
-				Location = new Point(45, 50),
+				X = 45,
+				Y = 50,
 				Children = { panelProperties }
 			};
 
@@ -87,7 +90,8 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			adapter.AddLayoutModel(new WidgetLayoutModel("test", new WidgetProperties()
 			{
 				Name = "testLabel",
-				Location = new Point(30, 25)
+				X = 30,
+				Y = 25,
 			}));
 
 			layout.InitializeWidgets("test", ui);
@@ -104,7 +108,8 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 				new WidgetProperties()
 				{
 					Name = "testWindow",
-					Location = new Point(2, 1)
+					X = 2,
+					Y = 1,
 				}));
 
 			layout.InitializeWidgets("test", ui);
@@ -122,7 +127,8 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 				new WidgetProperties()
 				{
 					Name = "testWindow",
-					Location = new Point(2, 1)
+					X = 2, 
+					Y = 1,
 				}));
 
 			adapter.Environment.DeviceType = DeviceType.Handheld;

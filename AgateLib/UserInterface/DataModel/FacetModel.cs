@@ -1,22 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AgateLib.UserInterface.Venus.LayoutModel;
 
 namespace AgateLib.UserInterface.DataModel
 {
-	public class FacetModel : IDictionary<string, WidgetModel>
+	public class FacetModel : IDictionary<string, WidgetProperties>
 	{
-		Dictionary<string, WidgetModel> widgets = new Dictionary<string, WidgetModel>();
+		Dictionary<string, WidgetProperties> widgets = new Dictionary<string, WidgetProperties>();
 
-		public WidgetModel this[string key]
+		public WidgetProperties this[string key]
 		{
 			get
 			{
-				return ((IDictionary<string, WidgetModel>)widgets)[key];
+				return ((IDictionary<string, WidgetProperties>)widgets)[key];
 			}
 
 			set
 			{
-				((IDictionary<string, WidgetModel>)widgets)[key] = value;
+				((IDictionary<string, WidgetProperties>)widgets)[key] = value;
 			}
 		}
 
@@ -24,7 +25,7 @@ namespace AgateLib.UserInterface.DataModel
 		{
 			get
 			{
-				return ((IDictionary<string, WidgetModel>)widgets).Count;
+				return ((IDictionary<string, WidgetProperties>)widgets).Count;
 			}
 		}
 
@@ -32,7 +33,7 @@ namespace AgateLib.UserInterface.DataModel
 		{
 			get
 			{
-				return ((IDictionary<string, WidgetModel>)widgets).IsReadOnly;
+				return ((IDictionary<string, WidgetProperties>)widgets).IsReadOnly;
 			}
 		}
 
@@ -40,71 +41,71 @@ namespace AgateLib.UserInterface.DataModel
 		{
 			get
 			{
-				return ((IDictionary<string, WidgetModel>)widgets).Keys;
+				return ((IDictionary<string, WidgetProperties>)widgets).Keys;
 			}
 		}
 
-		public ICollection<WidgetModel> Values
+		public ICollection<WidgetProperties> Values
 		{
 			get
 			{
-				return ((IDictionary<string, WidgetModel>)widgets).Values;
+				return ((IDictionary<string, WidgetProperties>)widgets).Values;
 			}
 		}
 
-		public void Add(KeyValuePair<string, WidgetModel> item)
+		public void Add(KeyValuePair<string, WidgetProperties> item)
 		{
-			((IDictionary<string, WidgetModel>)widgets).Add(item);
+			((IDictionary<string, WidgetProperties>)widgets).Add(item);
 		}
 
-		public void Add(string key, WidgetModel value)
+		public void Add(string key, WidgetProperties value)
 		{
-			((IDictionary<string, WidgetModel>)widgets).Add(key, value);
+			((IDictionary<string, WidgetProperties>)widgets).Add(key, value);
 		}
 
 		public void Clear()
 		{
-			((IDictionary<string, WidgetModel>)widgets).Clear();
+			((IDictionary<string, WidgetProperties>)widgets).Clear();
 		}
 
-		public bool Contains(KeyValuePair<string, WidgetModel> item)
+		public bool Contains(KeyValuePair<string, WidgetProperties> item)
 		{
-			return ((IDictionary<string, WidgetModel>)widgets).Contains(item);
+			return ((IDictionary<string, WidgetProperties>)widgets).Contains(item);
 		}
 
 		public bool ContainsKey(string key)
 		{
-			return ((IDictionary<string, WidgetModel>)widgets).ContainsKey(key);
+			return ((IDictionary<string, WidgetProperties>)widgets).ContainsKey(key);
 		}
 
-		public void CopyTo(KeyValuePair<string, WidgetModel>[] array, int arrayIndex)
+		public void CopyTo(KeyValuePair<string, WidgetProperties>[] array, int arrayIndex)
 		{
-			((IDictionary<string, WidgetModel>)widgets).CopyTo(array, arrayIndex);
+			((IDictionary<string, WidgetProperties>)widgets).CopyTo(array, arrayIndex);
 		}
 
-		public IEnumerator<KeyValuePair<string, WidgetModel>> GetEnumerator()
+		public IEnumerator<KeyValuePair<string, WidgetProperties>> GetEnumerator()
 		{
-			return ((IDictionary<string, WidgetModel>)widgets).GetEnumerator();
+			return ((IDictionary<string, WidgetProperties>)widgets).GetEnumerator();
 		}
 
-		public bool Remove(KeyValuePair<string, WidgetModel> item)
+		public bool Remove(KeyValuePair<string, WidgetProperties> item)
 		{
-			return ((IDictionary<string, WidgetModel>)widgets).Remove(item);
+			return ((IDictionary<string, WidgetProperties>)widgets).Remove(item);
 		}
 
 		public bool Remove(string key)
 		{
-			return ((IDictionary<string, WidgetModel>)widgets).Remove(key);
+			return ((IDictionary<string, WidgetProperties>)widgets).Remove(key);
 		}
 
-		public bool TryGetValue(string key, out WidgetModel value)
+		public bool TryGetValue(string key, out WidgetProperties value)
 		{
-			return ((IDictionary<string, WidgetModel>)widgets).TryGetValue(key, out value);
+			return ((IDictionary<string, WidgetProperties>)widgets).TryGetValue(key, out value);
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return ((IDictionary<string, WidgetModel>)widgets).GetEnumerator();
+			return ((IDictionary<string, WidgetProperties>)widgets).GetEnumerator();
 		}
 	}
 }
