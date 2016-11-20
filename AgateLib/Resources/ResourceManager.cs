@@ -115,11 +115,27 @@ namespace AgateLib.Resources
 		private void RealizeFacetModel(IUserInterfaceFacet facet, Gui gui, FacetModel facetModel)
 		{
 			var propertyMap = facetInspector.BuildPropertyMap(facet);
+			List<FacetWidgetPropertyMapValue> assigned = new List<FacetWidgetPropertyMapValue>();
 
 			widgetFactory.RealizeFacetModel(facetModel, (name, widget) =>
 			{
-				propertyMap[name].Assign(widget);
+				var mapValue = propertyMap[name];
+
+				if (assigned.Contains(mapValue))
+					throw new InvalidOperationException($"Widget {name} has multiple entries in facet data.");
+
+				mapValue.Assign(widget);
+				assigned.Add(mapValue);
 			});
+
+			var missing = propertyMap.Where(x => assigned.Contains(x.Value) == false);
+
+			if (missing.Any())
+			{
+				var missingList = string.Join(",", missing.Select(x => x.Key));
+
+				throw new InvalidOperationException($"While initializing facet {facet.FacetName} the following properties were unfulfilled: {missingList}");
+			}
 		}
 	}
 }

@@ -9,7 +9,6 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 {
 	public class FacetWidgetPropertyMapValue
 	{
-		public string Name { get; set; }
 		public Action<Widget> Assign { get; set; }
 	}
 }

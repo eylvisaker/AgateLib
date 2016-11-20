@@ -10,6 +10,12 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 {
 	public interface IWidgetFactory
 	{
-		void RealizeFacetModel(FacetModel facetModel, Action<string, Widget> widgetCreated);
+		/// <summary>
+		/// Realizes each item and its children in the model.
+		/// </summary>
+		/// <param name="facetModel"></param>
+		/// <param name="widgetCreated"></param>
+		/// <returns>The list of root level widgets created.</returns>
+		IEnumerable<Widget> RealizeFacetModel(FacetModel facetModel, Action<string, Widget> widgetCreated);
 	}
 }

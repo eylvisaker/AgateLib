@@ -51,21 +51,20 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 			return widget;
 		}
 
-
-		private void ApplyWidgetProperties(Widget widget, WidgetProperties widgetProperties)
+		private void ApplyWidgetProperties(Widget widget, WidgetProperties model)
 		{
-			widget.Enabled = widgetProperties.Enabled;
+			widget.Enabled = model.Enabled;
+			widget.Name = model.Name;
+			widget.X = model.X;
+			widget.Y = model.Y;
+			widget.Width = model.Width;
+			widget.Height = model.Height;
+			
+			ApplyProperty(widget, "Text", model.Text);
 
-			ApplyProperty(widget, w => w.Name, widgetProperties.Name);
-			ApplyProperty(widget, w => w.X, widgetProperties.X);
-			ApplyProperty(widget, w => w.Y, widgetProperties.Y);
-			ApplyProperty(widget, w => w.Width, widgetProperties.Width);
-			ApplyProperty(widget, w => w.Height, widgetProperties.Height);
-			ApplyProperty(widget, "Text", widgetProperties.Text);
-
-			if (widgetProperties.Children.Count > 0)
+			if (model.Children.Count > 0)
 			{
-				BuildWidgetChildren(widget as Container, widgetProperties);
+				BuildWidgetChildren(widget as Container, model);
 			}
 		}
 

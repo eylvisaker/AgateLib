@@ -23,6 +23,9 @@ namespace AgateLib.UnitTests.Resources
 
 			[BindTo("window_A")]
 			public Window WindowA { get; set; }
+
+			[BindTo("menu_1")]
+			public Menu MenuB { get; set; }
 		}
 
 		[TestMethod]
@@ -46,5 +49,62 @@ namespace AgateLib.UnitTests.Resources
 			Assert.AreEqual(275, facet.WindowA.Width, "WindowA.Width property was not assigned correctly.");
 			Assert.AreEqual(300, facet.WindowA.Height, "WindowA.Height property was not assigned correctly.");
 		}
+
+		[TestMethod]
+		public void InitializeFacetChildren()
+		{
+			var facet = new TestFacet();
+
+			Manager.InitializeFacet(facet);
+
+			Assert.IsNotNull(facet.WindowA, "WindowA property was not assigned.");
+			Assert.IsNotNull(facet.MenuB, "MenuB property was not assigned.");
+			Assert.AreEqual(facet.WindowA, facet.MenuB.Parent, "WindowA is not the parent of MenuB.");
+		}
+
+		class TestFacetMissingItem : IUserInterfaceFacet
+		{
+			public string FacetName { get; set; } = "default_facet";
+
+			public Gui InterfaceRoot { get; set; }
+
+			[BindTo("window_A")]
+			public Window WindowA { get; set; }
+
+			public Menu MissingItem { get; set; }
+		}
+
+		[TestMethod]
+		public void InitializeFacetMissingItem()
+		{
+			var facet = new TestFacetMissingItem();
+
+			AssertX.Throws<AgateUserInterfaceInitializationException>(() => Manager.InitializeFacet(facet));
+		}
+
+		class TestFacetDuplicateBindings : IUserInterfaceFacet
+		{
+			public string FacetName { get; set; } = "default_facet";
+
+			public Gui InterfaceRoot { get; set; }
+
+			[BindTo("window_A")]
+			public Window WindowA { get; set; }
+
+			[BindTo("menu_1")]
+			public Menu MenuB { get; set; }
+
+			[BindTo("menu_1")]
+			public Menu MenuC { get; set; }
+		}
+
+		[TestMethod]
+		public void InitializeFacetReadOnlyProperties()
+		{
+			var facet = new TestFacetDuplicateBindings();
+
+			AssertX.Throws<AgateUserInterfaceInitializationException>(() => Manager.InitializeFacet(facet));
+		}
+
 	}
 }

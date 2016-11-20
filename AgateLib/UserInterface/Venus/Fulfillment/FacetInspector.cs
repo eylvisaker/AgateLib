@@ -20,28 +20,6 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 			var type = facet.GetType();
 			var info = type.GetTypeInfo();
 
-			var fields = info.DeclaredFields;
-
-			foreach (var field in fields)
-			{
-				if (baseType.IsAssignableFrom(field.FieldType.GetTypeInfo()) == false)
-					continue;
-
-				var name = GetWidgetName(field);
-
-				result.Add(name, new FacetWidgetPropertyMapValue
-				{
-					Assign = (value) => field.SetValue(facet, value)
-				});
-
-				//var widget = builder.WidgetOrDefault(name);
-
-				//if (widget != null)
-				//{
-				//	field.SetValue(ui, widget);
-				//}
-			}
-
 			var properties = info.DeclaredProperties;
 
 			foreach (var property in properties)
@@ -51,24 +29,18 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 
 				var name = GetWidgetName(property);
 
+				if (result.ContainsKey(name))
+					throw new InvalidOperationException($"Multiple items are attempting to bind to \"{name}\".");
+
 				result.Add(name, new FacetWidgetPropertyMapValue
 				{
 					Assign = (value) => property.SetValue(facet, value)
 				});
 			}
+
 			return result;
 		}
-
-		private string GetWidgetName(FieldInfo field)
-		{
-			var bindTo = field.GetCustomAttribute<BindToAttribute>();
-
-			if (bindTo != null && string.IsNullOrWhiteSpace(bindTo.Name))
-				throw new InvalidOperationException("BindTo name is empty.");
-
-			return bindTo?.Name ?? field.Name;
-		}
-
+		
 		private string GetWidgetName(PropertyInfo field)
 		{
 			var bindTo = field.GetCustomAttribute<BindToAttribute>();
