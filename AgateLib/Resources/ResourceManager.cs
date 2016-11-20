@@ -23,22 +23,22 @@ namespace AgateLib.Resources
 		static IGuiRenderer guiRenderer;
 		static IWidgetFactory widgetFactory;
 		static IFacetInspector facetInspector;
-
-		static VenusWidgetAdapter adapter;
+		static IWidgetAdapter adapter;
 
 		static bool initialized;
-
+		
 		private static void Initialize()
 		{
 			if (initialized)
 				return;
 
-			adapter = new VenusWidgetAdapter();
+			var adapter = new VenusWidgetAdapter();
 			layoutEngine = new VenusLayoutEngine(adapter);
 			guiRenderer = new AgateUserInterfaceRenderer(adapter);
 			facetInspector = new FacetInspector();
 			widgetFactory = new WidgetFactory(AssemblyDiscoveryWidgetActivator.ForAgateLib());
 
+			Adapter = adapter;
 			initialized = true;
 		}
 
@@ -56,6 +56,36 @@ namespace AgateLib.Resources
 			return guiRenderer;
 		}
 
+		public static IGuiRenderer Renderer
+		{
+			get { return guiRenderer; }
+			set
+			{
+				Condition.RequireArgumentNotNull(value, nameof(Renderer));
+				guiRenderer = value;
+			}
+		}
+
+		public static IGuiLayoutEngine LayoutEngine
+		{
+			get { return layoutEngine; }
+			set
+			{
+				Condition.RequireArgumentNotNull(value, nameof(LayoutEngine));
+				layoutEngine = value;
+			}
+		}
+
+		public static IWidgetAdapter Adapter
+		{
+			get { return adapter; }
+			set
+			{
+				Condition.RequireArgumentNotNull(value, nameof(Adapter));
+				adapter = value;
+			}
+		}
+
 		#endregion
 
 		ResourceDataModel data;
@@ -68,26 +98,6 @@ namespace AgateLib.Resources
 		public ResourceManager(ResourceDataModel data, IGuiRenderer guiRenderer, IGuiLayoutEngine layoutEngine)
 		{
 			this.data = data;
-		}
-
-		public IGuiRenderer Renderer
-		{
-			get { return guiRenderer; }
-			set
-			{
-				Condition.RequireArgumentNotNull(value, nameof(value));
-				guiRenderer = value;
-			}
-		}
-
-		public IGuiLayoutEngine LayoutEngine
-		{
-			get { return layoutEngine; }
-			set
-			{
-				Condition.RequireArgumentNotNull(value, nameof(value));
-				layoutEngine = value;
-			}
 		}
 
 		public void InitializeFacet(IUserInterfaceFacet facet)

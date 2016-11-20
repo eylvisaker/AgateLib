@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using AgateLib.IO;
 using AgateLib.Resources;
 using AgateLib.Resources.DataModel;
+using AgateLib.UserInterface;
+using AgateLib.UserInterface.Widgets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -40,12 +42,14 @@ MedievalSharp:
       width: 8
       height: 30
       right-overhang: 1";
+
 		string themesyaml = @"
 default:
     window:
         background:
             image: ui_back_1.png
             color: blue";
+
 		string facetsyaml = @"
 default_facet: 
     window_A:
@@ -59,6 +63,20 @@ default_facet:
                 type: menu
                 dock: fill
 ";
+
+
+		public class TestFacet : IUserInterfaceFacet
+		{
+			public string FacetName { get; set; } = "default_facet";
+
+			public Gui InterfaceRoot { get; set; }
+
+			[BindTo("window_A")]
+			public Window WindowA { get; set; }
+
+			[BindTo("menu_1")]
+			public Menu MenuB { get; set; }
+		}
 
 		public ResourceManagerInitializer()
 		{

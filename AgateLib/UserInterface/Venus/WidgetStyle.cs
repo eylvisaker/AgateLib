@@ -28,14 +28,13 @@ namespace AgateLib.UserInterface.Venus
 		public TransitionStyle Transition { get; set; } = new TransitionStyle();
 		ITransitionStyle IWidgetStyle.Transition { get { return Transition; } }
 
-		public BoxModel BoxModel { get; set; }
+		public BoxModel BoxModel { get; set; } = new BoxModel();
 
 		public Color FontColor { get; set; }
 
 		public Overflow Overflow { get; set; }
 
 		public TextAlign TextAlign { get; set; }
-
 
 		internal bool NeedRefresh { get; set; }
 	}

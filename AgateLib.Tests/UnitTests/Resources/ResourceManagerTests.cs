@@ -22,23 +22,10 @@ namespace AgateLib.UnitTests.Resources
 			resources = new ResourceManagerInitializer().Manager;
 		}
 
-		class TestFacet : IUserInterfaceFacet
-		{
-			public string FacetName { get; set; } = "default_facet";
-
-			public Gui InterfaceRoot { get; set; }
-
-			[BindTo("window_A")]
-			public Window WindowA { get; set; }
-
-			[BindTo("menu_1")]
-			public Menu MenuB { get; set; }
-		}
-
 		[TestMethod]
 		public void InitializeFacetNullFacetName()
 		{
-			var facet = new TestFacet { FacetName = null };
+			var facet = new ResourceManagerInitializer.TestFacet { FacetName = null };
 
 			AssertX.Throws<AgateUserInterfaceInitializationException>(() => resources.InitializeFacet(facet));
 		}
@@ -46,7 +33,7 @@ namespace AgateLib.UnitTests.Resources
 		[TestMethod]
 		public void InitializeFacetWithBindToAttribute()
 		{
-			var facet = new TestFacet();
+			var facet = new ResourceManagerInitializer.TestFacet();
 
 			resources.InitializeFacet(facet);
 
@@ -60,7 +47,7 @@ namespace AgateLib.UnitTests.Resources
 		[TestMethod]
 		public void InitializeFacetChildren()
 		{
-			var facet = new TestFacet();
+			var facet = new ResourceManagerInitializer.TestFacet();
 
 			resources.InitializeFacet(facet);
 
