@@ -31,7 +31,7 @@ namespace AgateLib.UnitTests.UserInterface.Css
 		[TestMethod]
 		public void CssBSelectorMatching()
 		{
-			Gui gui = new Gui(new FakeRenderer(), null);
+			Gui gui = new Gui(new FakeRenderer(), new FakeLayoutEngine());
 			Window window = new Window();
 			gui.AddWindow(window);
 
@@ -66,7 +66,7 @@ namespace AgateLib.UnitTests.UserInterface.Css
 		[TestMethod]
 		public void CssBPseudoClassMatching()
 		{
-			Gui gui = new Gui(new FakeRenderer(), null);
+			Gui gui = new Gui(new FakeRenderer(), new FakeLayoutEngine());
 			Window wind = new Window();
 			gui.AddWindow(wind);
 
@@ -82,7 +82,7 @@ namespace AgateLib.UnitTests.UserInterface.Css
 		[TestMethod]
 		public void CssBMenuItemPseudoClassMatching()
 		{
-			Gui gui = new Gui(new FakeRenderer(), null);
+			Gui gui = new Gui(new FakeRenderer(), new FakeLayoutEngine());
 			Window wind = new Window();
 			Menu mnu = new Menu();
 			MenuItem alpha = new MenuItem();

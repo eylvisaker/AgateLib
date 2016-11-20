@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.IO;
+using AgateLib.Resources;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Venus.LayoutModel;
@@ -13,10 +14,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using YamlDotNet.Serialization;
 
-namespace AgateLib.UnitTests.UserInterface.DataModel
+namespace AgateLib.UnitTests.Resources
 {
 	[TestClass]
-	public class ConfigFacetReadingTests
+	public class ResourceDataLoaderFacetReadingTests
 	{
 		string filename = "test.yaml";
 		string yaml = @"
@@ -55,7 +56,7 @@ facets:
 		[TestMethod]
 		public void ReadFacetModel()
 		{
-			var configModel = UserInterfaceDataLoader.Config(filename);
+			var configModel = new ResourceDataLoader().Load(filename);
 
 			Assert.AreEqual(1, configModel.Facets.Count);
 			Assert.AreEqual("TestGui", configModel.Facets.Keys.First());

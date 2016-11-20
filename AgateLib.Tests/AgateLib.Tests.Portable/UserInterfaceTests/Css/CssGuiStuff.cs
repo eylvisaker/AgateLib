@@ -44,7 +44,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 			doc.Load("Style.css");
 			adapter = new CssAdapter(doc, font);
 
-			gui = new Gui(new AgateUIRenderer(adapter), new CssLayoutEngine(adapter));
+			gui = new Gui(new AgateUserInterfaceRenderer(adapter), new CssLayoutEngine(adapter));
 
 			var wind = new Window("window 1");
 

@@ -50,7 +50,7 @@ namespace AgateLib.Quality
             if (param != null)
                 return;
 
-            throw new ArgumentNullException(paramName, paramName + " must not be null");
+            throw new ArgumentNullException(paramName, paramName + " must not be null. " + message);
         }
 
         [DebuggerStepThrough]

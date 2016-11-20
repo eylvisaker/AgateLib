@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AgateLib.DisplayLib.BitmapFont;
 
-namespace AgateLib.UserInterface.DataModel
+namespace AgateLib.Resources.DataModel
 {
 	public class FontModelCollection : IDictionary<string, List<FontModel>>
 	{

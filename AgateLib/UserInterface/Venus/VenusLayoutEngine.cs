@@ -23,7 +23,7 @@ namespace AgateLib.UserInterface.Venus
 
 		}
 
-		public void InitializeWidgets(string @namespace, IUserInterfaceContainer ui)
+		public void InitializeWidgets(string @namespace, IUserInterfaceFacet ui)
 		{
 			var currentModels = adapter.SelectModels(@namespace);
 			var typeResolver = new TypeResolver();
@@ -36,7 +36,4 @@ namespace AgateLib.UserInterface.Venus
 		}
 	}
 
-	public interface IUserInterfaceContainer
-	{
-	}
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.DataModel
+namespace AgateLib.Resources.DataModel
 {
-	public class UserInterfaceConfig
+	public class ResourceDataModel
 	{
 		public FontModelCollection Fonts { get; set; } = new FontModelCollection();
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
 using AgateLib.Platform;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Venus;
 using AgateLib.UserInterface.Venus.LayoutModel;
 using AgateLib.UserInterface.Widgets;
@@ -139,11 +140,21 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			Assert.AreEqual(new Point(15, 22), ui.testLabel.ClientToScreen().Location);
 		}
 
-		class InterfaceContainer : IUserInterfaceContainer
+		class InterfaceContainer : IUserInterfaceFacet
 		{
 			public Window testWindow;
 			public Panel testPanel;
 			public Label testLabel;
+
+			public Gui InterfaceRoot { get; set; }
+
+			public string FacetName
+			{
+				get
+				{
+					throw new NotImplementedException();
+				}
+			}
 		}
 	}
 }

@@ -30,7 +30,7 @@ using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering
 {
-	public class AgateUIRenderer : IGuiRenderer
+	public class AgateUserInterfaceRenderer : IGuiRenderer
 	{
 		private IWidgetAdapter mAdapter;
 		Surface mBlankSurface;
@@ -43,7 +43,7 @@ namespace AgateLib.UserInterface.Rendering
 
 		List<IWidgetAnimator> animsToRemove = new List<IWidgetAnimator>();
 
-		public AgateUIRenderer(IWidgetAdapter adapter)
+		public AgateUserInterfaceRenderer(IWidgetAdapter adapter)
 		{
 			mAdapter = adapter;
 

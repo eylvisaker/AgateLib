@@ -4,23 +4,25 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry.TypeConverters;
 using AgateLib.IO;
+using AgateLib.Resources.DataModel;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.DataModel.TypeConverters;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace AgateLib.UserInterface
+namespace AgateLib.Resources
 {
-	public static class UserInterfaceDataLoader
+	public class ResourceDataLoader
 	{
 		/// <summary>
 		/// Searches Assets.UserInterfaceAssets
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public static UserInterfaceConfig Config(string filename)
+		public ResourceDataModel Load(string filename)
 		{
 			var deserializer = new DeserializerBuilder()
 					.WithNamingConvention(new HyphenatedNamingConvention())
@@ -30,7 +32,7 @@ namespace AgateLib.UserInterface
 
 			using (var file = new StreamReader(Assets.UserInterfaceAssets.OpenRead(filename)))
 			{
-				UserInterfaceConfig result = deserializer.Deserialize<UserInterfaceConfig>(file);
+				ResourceDataModel result = deserializer.Deserialize<ResourceDataModel>(file);
 
 				ReadExternalFiles(deserializer, result);
 
@@ -38,7 +40,7 @@ namespace AgateLib.UserInterface
 			}
 		}
 
-		private static void ReadExternalFiles(Deserializer deserializer, UserInterfaceConfig config)
+		private void ReadExternalFiles(Deserializer deserializer, ResourceDataModel config)
 		{
 			ReadSources<FontModelCollection, List<FontModel>>(deserializer, config, config.FontSources, 
 				(key, value) => config.Fonts.Add(key, value));
@@ -50,7 +52,7 @@ namespace AgateLib.UserInterface
 				(key, value) => config.Facets.Add(key, value));
 		}
 
-		private static void ReadSources<TCollection, TItem>(Deserializer deserializer, UserInterfaceConfig config, 
+		private void ReadSources<TCollection, TItem>(Deserializer deserializer, ResourceDataModel config, 
 			IEnumerable<string> sources, Action<string, TItem> store) 
 			where TCollection : IEnumerable<KeyValuePair<string, TItem>>
 		{

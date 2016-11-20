@@ -6,4 +6,4 @@ theme-sources:
 - VenusTestTheme.yaml
 
 facet-sources:
-- VenusTest.yaml
+- VenusTestFacets.yaml

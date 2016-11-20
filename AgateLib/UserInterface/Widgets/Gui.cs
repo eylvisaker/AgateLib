@@ -47,7 +47,8 @@ namespace AgateLib.UserInterface.Widgets
 		
 		public Gui(IGuiRenderer renderer, IGuiLayoutEngine layout)
 		{
-			if (renderer == null) throw new ArgumentNullException("renderer cannot be null.");
+			Condition.RequireArgumentNotNull(renderer, nameof(renderer));
+			Condition.RequireArgumentNotNull(layout, nameof(layout));
 
 			mRenderer = renderer;
 			mLayout = layout;

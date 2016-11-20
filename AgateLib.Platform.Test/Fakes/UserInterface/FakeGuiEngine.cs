@@ -26,4 +26,11 @@ namespace AgateLib.Testing.Fakes.UserInterface
 
 		public Gui MyGui { get; set; }
 	}
+
+	public class FakeLayoutEngine : IGuiLayoutEngine
+	{
+		public void UpdateLayout(Gui gui)
+		{
+		}
+	}
 }

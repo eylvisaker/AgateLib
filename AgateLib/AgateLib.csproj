@@ -175,6 +175,7 @@
     <Compile Include="Quality\AssertFailedException.cs" />
     <Compile Include="Quality\Condition.cs" />
     <Compile Include="Quality\InvalidConditionException.cs" />
+    <Compile Include="Resources\BindToAttribute.cs" />
     <Compile Include="Resources\DC\AgateResource.cs" />
     <Compile Include="Resources\DC\FontResource.cs" />
     <Compile Include="Resources\DC\FontSurfaceResource.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="Resources\DC\SpriteFrameResource.cs" />
     <Compile Include="Resources\DC\SpriteResource.cs" />
     <Compile Include="Resources\DC\SurfaceResource.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Sprites\CollisionRegion.cs" />
     <Compile Include="Sprites\ISpriteContainer.cs" />
     <Compile Include="Geometry\Polygon.cs" />
@@ -591,6 +593,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Settings\PersistantSettings.cs" />
+    <Compile Include="UserInterface\AgateUserInterfaceInitializationException.cs" />
     <Compile Include="UserInterface\Css\Binders\Binding.cs" />
     <Compile Include="UserInterface\Css\Binders\CssAlias.cs" />
     <Compile Include="UserInterface\Css\Binders\CssBindingMapper.cs" />
@@ -629,13 +632,22 @@
     <Compile Include="UserInterface\DataModel\BoxDataModel.cs" />
     <Compile Include="UserInterface\DataModel\FacetModel.cs" />
     <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterYaml.cs" />
-    <Compile Include="UserInterface\DataModel\FacetModelCollection.cs" />
-    <Compile Include="UserInterface\DataModel\FontModel.cs" />
-    <Compile Include="UserInterface\DataModel\FontModelCollection.cs" />
+    <Compile Include="Resources\DataModel\FacetModelCollection.cs" />
+    <Compile Include="DisplayLib\BitmapFont\FontModel.cs" />
+    <Compile Include="Resources\DataModel\FontModelCollection.cs" />
     <Compile Include="UserInterface\DataModel\ThemeModel.cs" />
-    <Compile Include="UserInterface\DataModel\ThemeModelCollection.cs" />
+    <Compile Include="Resources\DataModel\ThemeModelCollection.cs" />
     <Compile Include="UserInterface\DataModel\WidgetBackgroundModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetBorderModel.cs" />
+    <Compile Include="UserInterface\IUserInterfaceFacet.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\AssemblyDiscoveryWidgetActivator.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\FacetInspector.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\FacetWidgetPropertyMap.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\FacetWidgetPropertyMapValue.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\IFacetInspector.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\IWidgetActivator.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\IWidgetFactory.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\WidgetFactory.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\Enums.cs" />
     <Compile Include="UserInterface\DataModel\WidgetStateModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetThemeModel.cs" />
@@ -659,7 +671,7 @@
     <Compile Include="UserInterface\Css\Parser\Lexer\Tokenizer.cs" />
     <Compile Include="UserInterface\Css\ReflectionExtensions.cs" />
     <Compile Include="UserInterface\Rendering\DefaultImageProvider.cs" />
-    <Compile Include="UserInterface\Rendering\AgateUIRenderer.cs" />
+    <Compile Include="UserInterface\Rendering\AgateUserInterfaceRenderer.cs" />
     <Compile Include="UserInterface\IUserInterfaceImageProvider.cs" />
     <Compile Include="UserInterface\Rendering\RenderingEnums.cs" />
     <Compile Include="UserInterface\Rendering\IWidgetAnimator.cs" />
@@ -680,18 +692,18 @@
     <Compile Include="UserInterface\ISurfaceProvider.cs" />
     <Compile Include="UserInterface\Rendering\IWidgetAdapter.cs" />
     <Compile Include="UserInterface\Rendering\IWidgetStyle.cs" />
-    <Compile Include="UserInterface\DataModel\UserInterfaceConfig.cs" />
-    <Compile Include="UserInterface\UserInterfaceDataLoader.cs" />
+    <Compile Include="Resources\DataModel\ResourceDataModel.cs" />
+    <Compile Include="Resources\ResourceDataLoader.cs" />
     <Compile Include="UserInterface\Venus\BackgroundStyle.cs" />
     <Compile Include="UserInterface\Venus\BorderSideStyle.cs" />
     <Compile Include="UserInterface\Venus\BorderStyle.cs" />
-    <Compile Include="UserInterface\Venus\Fulfillment\ContainerInitializer.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\Old\ContainerInitializer.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\WidgetBuilder.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\Layout.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\LayoutForDevice.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\WidgetChildCollection.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\WidgetLayoutModel.cs" />
-    <Compile Include="UserInterface\Venus\Fulfillment\TypeResolver.cs" />
+    <Compile Include="UserInterface\Venus\Fulfillment\Old\TypeResolver.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\StyleProperties.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\TransitionProperties.cs" />
     <Compile Include="UserInterface\Venus\LayoutModel\WidgetProperties.cs" />

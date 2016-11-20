@@ -216,7 +216,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
             var widget = (AgateLib.UserInterface.Widgets.Widget)e.Node.Tag;
             var adapter = GetAdapter(widget);
             var style = adapter.GetStyle(widget);
-            var renderer = (AgateUIRenderer)widget.MyGui.Renderer;
+            var renderer = (AgateUserInterfaceRenderer)widget.MyGui.Renderer;
 
             pgWidget.SelectedObject = widget;
             pgStyle.SelectedObject = style;

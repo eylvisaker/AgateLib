@@ -6,7 +6,7 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 {
 	public class ContainerInitializer
 	{
-		public void Initialize(IUserInterfaceContainer ui, WidgetBuilder builder)
+		public void Initialize(IUserInterfaceFacet ui, WidgetBuilder builder)
 		{
 			var type = ui.GetType();
 

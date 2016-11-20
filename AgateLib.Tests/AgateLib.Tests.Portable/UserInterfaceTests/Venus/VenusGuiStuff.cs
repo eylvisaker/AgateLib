@@ -8,6 +8,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.IO;
+using AgateLib.Resources;
 using AgateLib.Resources.Legacy;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
@@ -20,14 +21,31 @@ namespace AgateLib.Testing.UserInterfaceTests
 {
 	public class VenusGuiStuff
 	{
-		class UserInterfaceContainer : IUserInterfaceContainer
+		class TestFacet : IUserInterfaceFacet
 		{
-			public Window window_1;
+			public Font Font { get; set; }
+
+			public Window window_1 { get; set; }
 			public Window window_2;
 			public Menu menu_1;
+
+			public Gui InterfaceRoot { get; set; }
+
+			public string FacetName
+			{
+				get
+				{
+					throw new NotImplementedException();
+				}
+
+				set
+				{
+					throw new NotImplementedException();
+				}
+			}
 		}
 
-		UserInterfaceContainer uicontainer;
+		TestFacet uicontainer;
 		Gui gui;
 		VenusWidgetAdapter adapter;
 		List<Window> windows = new List<Window>();
@@ -44,20 +62,19 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 		public void CreateGui()
 		{
-			var uiconfig = UserInterfaceDataLoader.Config("VenusTest.yaml");
+			var resources = new ResourceManager("VenusTest.yaml");
+			var facet = new TestFacet();
+
+			resources.InitializeFacet(facet);
+
 
 			font = new Font("Medieval Sharp");
-			//font.AddFont(new FontSurface(res, "MedievalSharp18"), 18, FontStyles.None);
-			//font.AddFont(new FontSurface(res, "MedievalSharp14"), 14, FontStyles.None);
 
-			Deserializer deserializer = new Deserializer();
-			Layout layout = deserializer.Deserialize<Layout>(new StreamReader(Assets.UserInterfaceAssets.OpenRead("VenusTest.yaml")));
-
-			adapter = new VenusWidgetAdapter(layout.Values);
+			adapter = new VenusWidgetAdapter(null);
 			var engine = new VenusLayoutEngine(adapter);
-			gui = new Gui(new AgateUIRenderer(adapter), engine);
+			gui = new Gui(new AgateUserInterfaceRenderer(adapter), engine);
 
-			uicontainer = new UserInterfaceContainer();
+			uicontainer = new TestFacet();
 			engine.InitializeWidgets("VenusGuiStuff", uicontainer);
 
 			BuildWindowChildren(uicontainer.window_1);

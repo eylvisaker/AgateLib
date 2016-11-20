@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgateLib.ApplicationModels;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Venus;
 using AgateLib.UserInterface.Widgets;
@@ -25,7 +26,7 @@ namespace AgateLib.Testing.UserInterfaceTests.VenusTests
 		public void EntryPoint()
 		{
 			var adapter = new VenusWidgetAdapter();
-			var renderer = new AgateUIRenderer(adapter);
+			var renderer = new AgateUserInterfaceRenderer(adapter);
 			VenusLayoutEngine layout = new VenusLayoutEngine(adapter);
 
 			Gui gui = new Gui(renderer, layout);
@@ -36,11 +37,15 @@ namespace AgateLib.Testing.UserInterfaceTests.VenusTests
 			
 		}
 
-		class InterfaceContainer : IUserInterfaceContainer
+		class InterfaceContainer : IUserInterfaceFacet
 		{
 			public Window testWindow;
 			public Panel testPanel;
 			public TextBox testTextBox;
+
+			public string FacetName { get; set; }
+
+			public Gui InterfaceRoot { get; set; }
 		}
 	}
 }

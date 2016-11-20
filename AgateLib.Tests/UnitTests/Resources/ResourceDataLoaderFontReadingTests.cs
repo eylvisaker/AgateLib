@@ -6,16 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.IO;
+using AgateLib.Resources;
+using AgateLib.Resources.DataModel;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.DataModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using YamlDotNet.Serialization;
 
-namespace AgateLib.UnitTests.UserInterface.DataModel
+namespace AgateLib.UnitTests.Resources
 {
 	[TestClass]
-	public class ConfigFontReadingTests
+	public class ResourceDataLoaderFontReadingTests
 	{
 		string filename = "test.yaml";
 		string yaml = @"
@@ -46,7 +48,7 @@ fonts:
 		[TestMethod]
 		public void ReadFontModel()
 		{
-			var configModel = UserInterfaceDataLoader.Config(filename);
+			var configModel = new ResourceDataLoader().Load(filename);
 
 			Assert.AreEqual(1, configModel.Fonts.Count);
 			Assert.AreEqual("MedievalSharp", configModel.Fonts.Keys.First());
@@ -61,7 +63,7 @@ fonts:
 		[TestMethod]
 		public void WriteFontModel()
 		{
-			var configModel = new UserInterfaceConfig();
+			var configModel = new ResourceDataModel();
 			var fontModel = new FontModel
 			{
 				Name = "MedievalSharp18",

@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AgateLib.UserInterface.DataModel;
 
-namespace AgateLib.UserInterface.DataModel
+namespace AgateLib.Resources.DataModel
 {
 	public class ThemeModelCollection : IDictionary<string, ThemeModel>
 	{

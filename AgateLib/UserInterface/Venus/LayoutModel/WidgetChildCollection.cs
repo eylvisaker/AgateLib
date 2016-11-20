@@ -11,10 +11,7 @@ namespace AgateLib.UserInterface.Venus.LayoutModel
 
 		public WidgetProperties this[string key]
 		{
-			get
-			{
-				return widgets.First(x => x.Key == key).Value;
-			}
+			get { return widgets.First(x => x.Key == key).Value; }
 			set
 			{
 				Remove(key);
@@ -22,30 +19,11 @@ namespace AgateLib.UserInterface.Venus.LayoutModel
 			}
 		}
 
-		public int Count
-		{
-			get
-			{
-				return widgets.Count;
-			}
-		}
+		public int Count => widgets.Count;
 
-		public ICollection<string> Keys
-		{
-			get
-			{
-				return widgets.Select(x => x.Key).ToList();
-			}
-		}
+		public ICollection<string> Keys => widgets.Select(x => x.Key).ToList();
 
-		public ICollection<WidgetProperties> Values
-		{
-			get
-			{
-				return widgets.Select(x => x.Value).ToList();
-			}
-		}
-
+		public ICollection<WidgetProperties> Values => widgets.Select(x => x.Value).ToList();
 
 		bool ICollection<KeyValuePair<string, WidgetProperties>>.IsReadOnly => false;
 
@@ -113,11 +91,11 @@ namespace AgateLib.UserInterface.Venus.LayoutModel
 
 			return result;
 		}
-		
+
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
 		}
-		
+
 	}
 }

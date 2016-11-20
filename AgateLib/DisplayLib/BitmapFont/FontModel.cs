@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.DisplayLib.BitmapFont;
 
-namespace AgateLib.UserInterface.DataModel
+namespace AgateLib.DisplayLib.BitmapFont
 {
 	public class FontModel
 	{

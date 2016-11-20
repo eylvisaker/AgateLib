@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.IO;
+using AgateLib.Resources;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.DataModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,7 +16,7 @@ using YamlDotNet.Serialization;
 namespace AgateLib.UnitTests.UserInterface.DataModel
 {
 	[TestClass]
-	public class ConfigThemeReadingTests
+	public class ResourceDataLoaderThemeReadingTests
 	{
 		string filename = "test.yaml";
 		string yaml = @"
@@ -60,11 +61,11 @@ themes:
 		[TestMethod]
 		public void ReadThemeModel()
 		{
-			var configModel = UserInterfaceDataLoader.Config(filename);
+			var resourceData = new ResourceDataLoader().Load(filename);
 
-			Assert.AreEqual(1, configModel.Themes.Count);
-			Assert.AreEqual("default", configModel.Themes.Keys.First());
-			var theme = configModel.Themes["default"];
+			Assert.AreEqual(1, resourceData.Themes.Count);
+			Assert.AreEqual("default", resourceData.Themes.Keys.First());
+			var theme = resourceData.Themes["default"];
 
 			var window = theme["window"];
 			Assert.AreEqual("ui_back_1.png", window.Background.Image);
