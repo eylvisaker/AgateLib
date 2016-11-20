@@ -8,6 +8,7 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
 using AgateLib.IO;
 using AgateLib.Resources;
+using AgateLib.Resources.DataModel;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.DataModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,15 +18,27 @@ using YamlDotNet.Serialization;
 namespace AgateLib.UnitTests.Resources
 {
 	[TestClass]
-	public class ResourceDataLoaderReferenceReadingTests : ResourceManagerTestHarness
+	public class ResourceDataLoaderReferenceReadingTests : AgateUnitTest
 	{
+		ResourceDataModel dataModel;
+		ResourceManager resources;
+
+		[TestInitialize]
+		public void Initialize()
+		{
+			ResourceManagerInitializer initializer = new ResourceManagerInitializer();
+
+			dataModel = initializer.DataModel;
+			resources = initializer.Manager;
+		}
+
 		[TestMethod]
 		public void ReadFontModelFromSeparateFile()
 		{
-			Assert.AreEqual(1, DataModel.Fonts.Count);
-			Assert.AreEqual("MedievalSharp", DataModel.Fonts.Keys.First());
+			Assert.AreEqual(1, dataModel.Fonts.Count);
+			Assert.AreEqual("MedievalSharp", dataModel.Fonts.Keys.First());
 
-			var font = DataModel.Fonts["MedievalSharp"].First();
+			var font = dataModel.Fonts["MedievalSharp"].First();
 
 			Assert.AreEqual("Fonts/MedievalSharp18.png", font.Image);
 			Assert.AreEqual(32, font.Metrics.Keys.First());
@@ -35,10 +48,10 @@ namespace AgateLib.UnitTests.Resources
 		[TestMethod]
 		public void ReadThemeModelFromSeparateFile()
 		{
-			Assert.AreEqual(1, DataModel.Themes.Count);
-			Assert.AreEqual("default", DataModel.Themes.Keys.First());
+			Assert.AreEqual(1, dataModel.Themes.Count);
+			Assert.AreEqual("default", dataModel.Themes.Keys.First());
 
-			var theme = DataModel.Themes["default"];
+			var theme = dataModel.Themes["default"];
 			var window = theme["window"];
 
 			Assert.AreEqual("ui_back_1.png", window.Background.Image);
@@ -48,10 +61,10 @@ namespace AgateLib.UnitTests.Resources
 		[TestMethod]
 		public void ReadFacetModelFromSeparateFile()
 		{
-			Assert.AreEqual(1, DataModel.Facets.Count);
-			Assert.AreEqual("default_facet", DataModel.Facets.Keys.First());
+			Assert.AreEqual(1, dataModel.Facets.Count);
+			Assert.AreEqual("default_facet", dataModel.Facets.Keys.First());
 
-			var facet = DataModel.Facets["default_facet"];
+			var facet = dataModel.Facets["default_facet"];
 			var window = facet["window_A"];
 			var menu = window.Children["menu_1"];
 

@@ -12,9 +12,9 @@ using Moq;
 
 namespace AgateLib.UnitTests.Resources
 {
-	public class ResourceManagerTestHarness : AgateUnitTest
+	public class ResourceManagerInitializer
 	{
-		protected const string resourceFilename = "test.yaml";
+		const string resourceFilename = "test.yaml";
 		string fontsFilename = "fonts.yaml";
 		string themeFilename = "themes.yaml";
 		string facetFilename = "facets.yaml";
@@ -60,11 +60,7 @@ default_facet:
                 dock: fill
 ";
 
-		protected ResourceDataModel DataModel { get; set; }
-		protected ResourceManager Manager { get; set; }
-
-		[TestInitialize]
-		public virtual void Initialize()
+		public ResourceManagerInitializer()
 		{
 			var fileProvider = new Mock<IReadFileProvider>();
 
@@ -79,6 +75,9 @@ default_facet:
 			Manager = new ResourceManager(DataModel);
 		}
 
+		public ResourceDataModel DataModel { get; set; }
+		public ResourceManager Manager { get; set; }
+		
 		private void SetupFile(Mock<IReadFileProvider> fileProvider, string filename, string contents)
 		{
 			fileProvider
