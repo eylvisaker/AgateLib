@@ -60,7 +60,6 @@ namespace AgateLib.Resources
 
 		ResourceDataModel data;
 
-
 		public ResourceManager(string filename) : this(new ResourceDataLoader().Load(filename))
 		{ }
 		public ResourceManager(ResourceDataModel data) : this(data, CreateRenderer(), CreateLayoutEngine())
@@ -104,7 +103,6 @@ namespace AgateLib.Resources
 				RealizeFacetModel(facet, gui, facetModel);
 
 				facet.InterfaceRoot = gui;
-
 			}
 			catch (Exception e)
 			{
@@ -119,6 +117,9 @@ namespace AgateLib.Resources
 
 			widgetFactory.RealizeFacetModel(facetModel, (name, widget) =>
 			{
+				if (propertyMap.ContainsKey(name) == false)
+					return;
+
 				var mapValue = propertyMap[name];
 
 				if (assigned.Contains(mapValue))

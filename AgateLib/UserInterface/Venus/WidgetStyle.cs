@@ -19,13 +19,13 @@ namespace AgateLib.UserInterface.Venus
 
 		public Widget Widget { get; set; }
 
-		public BackgroundStyle Background { get; set; }
+		public BackgroundStyle Background { get; set; } = new BackgroundStyle();
 		IBackgroundStyle IWidgetStyle.Background { get { return Background; } }
 
-		public BorderStyle Border { get; set; }
+		public BorderStyle Border { get; set; } = new BorderStyle();
 		IBorderStyle IWidgetStyle.Border { get { return Border; } }
 
-		public TransitionStyle Transition { get; set; }
+		public TransitionStyle Transition { get; set; } = new TransitionStyle();
 		ITransitionStyle IWidgetStyle.Transition { get { return Transition; } }
 
 		public BoxModel BoxModel { get; set; }

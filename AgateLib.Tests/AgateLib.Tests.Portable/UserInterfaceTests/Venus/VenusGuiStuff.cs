@@ -26,30 +26,17 @@ namespace AgateLib.Testing.UserInterfaceTests
 			public Font Font { get; set; }
 
 			public Window window_1 { get; set; }
-			public Window window_2;
-			public Menu menu_1;
+			public Window window_2 { get; set; }
+			public Menu menu_1 { get; set; }
 
 			public Gui InterfaceRoot { get; set; }
 
-			public string FacetName
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-
-				set
-				{
-					throw new NotImplementedException();
-				}
-			}
+			public string FacetName {  get { return "VenusGuiStuff"; } }
 		}
 
-		TestFacet uicontainer;
-		Gui gui;
-		VenusWidgetAdapter adapter;
+		ResourceManager resources;
+		TestFacet facet = new TestFacet();
 		List<Window> windows = new List<Window>();
-		Font font;
 		Joystick joy;
 
 		public VenusGuiStuff()
@@ -57,44 +44,18 @@ namespace AgateLib.Testing.UserInterfaceTests
 			WindowChildCount = 2;
 			MenuChildCount = 3;
 		}
+
 		public int WindowChildCount { get; set; }
 		public int MenuChildCount { get; set; }
 
 		public void CreateGui()
 		{
-			var resources = new ResourceManager("VenusTest.yaml");
-			var facet = new TestFacet();
+			resources = new ResourceManager("VenusTest.yaml");
+			facet = new TestFacet();
 
 			resources.InitializeFacet(facet);
 
-
-			font = new Font("Medieval Sharp");
-
-			adapter = new VenusWidgetAdapter(null);
-			var engine = new VenusLayoutEngine(adapter);
-			gui = new Gui(new AgateUserInterfaceRenderer(adapter), engine);
-
-			uicontainer = new TestFacet();
-			engine.InitializeWidgets("VenusGuiStuff", uicontainer);
-
-			BuildWindowChildren(uicontainer.window_1);
-
 			joy = JoystickInput.Joysticks.FirstOrDefault();
-
-			gui.AddWindow(uicontainer.window_1);
-			windows.Add(uicontainer.window_1);
-
-			BuildMenuChildren(uicontainer.menu_1);
-			var menu = uicontainer.menu_1;
-
-			foreach (MenuItem menuItem in menu.Children)
-			{
-				menuItem.AllowDiscard = true;
-			}
-
-			uicontainer.window_2.Children.Add(menu);
-			gui.AddWindow(uicontainer.window_2);
-			windows.Add(uicontainer.window_2);
 
 			if (joy != null)
 			{
@@ -102,21 +63,10 @@ namespace AgateLib.Testing.UserInterfaceTests
 				joy.ButtonReleased += joy_ButtonReleased;
 			}
 
-			AgateLib.InputLib.Input.InputHandlers.Add(gui);
+			Input.InputHandlers.Add(facet.InterfaceRoot);
 
-			foreach (var ctrl in gui.Desktop.Descendants)
+			foreach (var ctrl in facet.InterfaceRoot.Desktop.Descendants)
 				ctrl.MouseDown += ctrl_MouseDown;
-		}
-
-		private void BuildWindowChildren(Window wind)
-		{
-			string[] text = new[] { "This is a label", "This is another label" };
-
-			var labels = CreateLabels(WindowChildCount, text);
-
-			wind.Children.AddRange(labels);
-			wind.Children.Add(new Label("This is a label") { Name = "label1" });
-			wind.Children.Add(new Label("This is another label") { Name = "label2" });
 		}
 
 		private IEnumerable<Label> CreateLabels(int labelCount, string[] text)
@@ -162,16 +112,16 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 		public void Update()
 		{
-			gui.OnUpdate(Display.DeltaTime, true);
+			facet.InterfaceRoot.OnUpdate(Display.DeltaTime, true);
 		}
 		public void Draw()
 		{
-			gui.Draw();
+			facet.InterfaceRoot.Draw();
 		}
 
 		public void Render()
 		{
-			gui.OnUpdate(Display.DeltaTime / 1000.0, true);
+			facet.InterfaceRoot.OnUpdate(Display.DeltaTime / 1000.0, true);
 
 			Display.BeginFrame();
 			Display.Clear(Color.FromArgb(146, 146, 146));
@@ -191,10 +141,10 @@ namespace AgateLib.Testing.UserInterfaceTests
 			}
 			else
 			{
-				if (gui.Desktop.Children.Contains(windows[index]))
-					gui.RemoveWindow(windows[index]);
+				if (facet.InterfaceRoot.Desktop.Children.Contains(windows[index]))
+					facet.InterfaceRoot.RemoveWindow(windows[index]);
 				else
-					gui.AddWindow(windows[index]);
+					facet.InterfaceRoot.AddWindow(windows[index]);
 			}
 
 			index++;

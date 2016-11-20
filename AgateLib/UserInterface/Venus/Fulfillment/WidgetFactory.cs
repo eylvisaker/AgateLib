@@ -73,6 +73,9 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 			for (int i = activators.Count - 1; i >= 0; i--)
 			{
 				var activator = activators[i];
+				var type = widgetModel.Type;
+				Condition.Requires<InvalidOperationException>(!string.IsNullOrWhiteSpace(type),
+					$"The widget {widgetModel.Name} has an invalid type.");
 
 				if (activator.CanCreate(widgetModel.Type) == false)
 					continue;
