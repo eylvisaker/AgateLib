@@ -9,10 +9,9 @@ namespace AgateLib.UserInterface.Rendering
 {
 	public interface IBorderStyle
 	{
-
 		string Image { get; }
 
-		Rectangle ImageSlice { get; }
+		LayoutBox ImageSlice { get; }
 
 		IBorderSideStyle Top { get; }
 		IBorderSideStyle Left { get; }

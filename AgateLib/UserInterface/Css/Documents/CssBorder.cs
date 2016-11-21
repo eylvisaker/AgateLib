@@ -55,15 +55,17 @@ namespace AgateLib.UserInterface.Css.Documents
 
 		public string Image { get { return BorderImage.Source; } }
 
-		public Rectangle ImageSlice
+		public LayoutBox ImageSlice
 		{
 			get
 			{
-				return Rectangle.FromLTRB(
-					(int)BorderImage.Slice.Left.Amount,
-					(int)BorderImage.Slice.Top.Amount,
-					(int)BorderImage.Slice.Right.Amount,
-					(int)BorderImage.Slice.Bottom.Amount);
+				return new LayoutBox
+				{
+					Left = (int)BorderImage.Slice.Left.Amount,
+					Top = (int)BorderImage.Slice.Top.Amount,
+					Right = (int)BorderImage.Slice.Right.Amount,
+					Bottom = (int)BorderImage.Slice.Bottom.Amount
+				};
 			}
 		}
 

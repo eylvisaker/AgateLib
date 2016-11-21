@@ -67,7 +67,13 @@ namespace AgateLib.UserInterface.Venus
 
 			var background = (BackgroundStyle)widget.Background;
 
-			background.Image = theme.Background.Image;
+			background.Image = theme.Background.Image ?? background.Image;
+			background.Color = theme.Background.Color ?? background.Color;
+
+			var border = (BorderStyle)widget.Border;
+
+			border.Image = theme.Border.Image ?? border.Image;
+			border.ImageSlice = theme.Border.Slice ?? border.ImageSlice;
 		}
 
 		private WidgetThemeModel ThemeOf(Widget widget)

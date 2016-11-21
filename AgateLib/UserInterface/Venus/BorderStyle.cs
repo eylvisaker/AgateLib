@@ -6,10 +6,9 @@ namespace AgateLib.UserInterface.Venus
 {
 	public class BorderStyle : IBorderStyle
 	{
-
 		public string Image { get; set; }
 
-		public Rectangle ImageSlice { get; set; }
+		public LayoutBox ImageSlice { get; set; }
 
 		public BorderSideStyle Left { get; set; } = new BorderSideStyle();
 

@@ -468,7 +468,7 @@ namespace AgateLib.UserInterface.Rendering
 		{
 			Surface image = mImageProvider.GetImage(style.Border.Image);
 
-			Rectangle slice = style.Border.ImageSlice;
+			LayoutBox slice = style.Border.ImageSlice;
 			Rectangle outerRect = new Rectangle(0, 0, image.SurfaceWidth, image.SurfaceHeight);
 			Rectangle innerRect = Rectangle.FromLTRB(
 				slice.Left, 
