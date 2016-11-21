@@ -11,13 +11,13 @@ namespace AgateLib.UserInterface.Venus
 
 		public Rectangle ImageSlice { get; set; }
 
-		public BorderSideStyle Left { get; set; }
+		public BorderSideStyle Left { get; set; } = new BorderSideStyle();
 
-		public BorderSideStyle Right { get; set; }
+		public BorderSideStyle Right { get; set; } = new BorderSideStyle();
 
-		public BorderSideStyle Top { get; set; }
+		public BorderSideStyle Top { get; set; } = new BorderSideStyle();
 
-		public BorderSideStyle Bottom { get; set; }
+		public BorderSideStyle Bottom { get; set; } = new BorderSideStyle();
 
 		IBorderSideStyle IBorderStyle.Left { get { return Left; } }
 

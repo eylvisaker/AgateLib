@@ -29,6 +29,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Platform;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.Resources.DataModel;
 
 namespace AgateLib.UserInterface.Css
 {
@@ -87,7 +88,7 @@ namespace AgateLib.UserInterface.Css
 			get { return mDefaultStyles; }
 		}
 
-		IWidgetStyle IWidgetAdapter.GetStyle(Widget widget)
+		IWidgetStyle IWidgetAdapter.StyleOf(Widget widget)
 		{
 			return GetStyle(widget);
 		}
@@ -340,6 +341,32 @@ namespace AgateLib.UserInterface.Css
 			}
 		}
 
+		public FacetModelCollection FacetData
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public ThemeModelCollection ThemeData
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 		private bool MediaSelectorApplies(CssMediaSelector selectorGroup, CssMediumInfo medium)
 		{
 			foreach (var sel in selectorGroup.IndividualSelectors)
@@ -370,6 +397,11 @@ namespace AgateLib.UserInterface.Css
 
 			control.Font = style.Font;
 			control.Font.Style = style.Data.Font.Weight;
+		}
+
+		public void InitializeStyleData(Gui gui)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

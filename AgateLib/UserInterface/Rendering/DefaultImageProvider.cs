@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
+using AgateLib.IO;
 
 namespace AgateLib.UserInterface.Rendering
 {
@@ -41,7 +42,7 @@ namespace AgateLib.UserInterface.Rendering
 				return mSurfaces[file];
 			}
 
-			throw new System.IO.FileNotFoundException(file);
+			return new Surface(file, Assets.UserInterfaceAssets);
 		}
 	}
 }

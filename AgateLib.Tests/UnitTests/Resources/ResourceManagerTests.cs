@@ -14,7 +14,7 @@ namespace AgateLib.UnitTests.Resources
 	[TestClass]
 	public class ResourceManagerTests : AgateUnitTest
 	{
-		ResourceManager resources;
+		AgateResourceManager resources;
 
 		[TestInitialize]
 		public void Initialize()
@@ -27,7 +27,7 @@ namespace AgateLib.UnitTests.Resources
 		{
 			var facet = new ResourceManagerInitializer.TestFacet { FacetName = null };
 
-			AssertX.Throws<AgateUserInterfaceInitializationException>(() => resources.InitializeFacet(facet));
+			AssertX.Throws<AgateUserInterfaceInitializationException>(() => resources.UserInterface.InitializeFacet(facet));
 		}
 
 		[TestMethod]
@@ -35,7 +35,7 @@ namespace AgateLib.UnitTests.Resources
 		{
 			var facet = new ResourceManagerInitializer.TestFacet();
 
-			resources.InitializeFacet(facet);
+			resources.UserInterface.InitializeFacet(facet);
 
 			Assert.IsNotNull(facet.WindowA, "WindowA property was not assigned.");
 			Assert.AreEqual(270, facet.WindowA.X, "WindowA.X property was not assigned correctly.");
@@ -49,11 +49,25 @@ namespace AgateLib.UnitTests.Resources
 		{
 			var facet = new ResourceManagerInitializer.TestFacet();
 
-			resources.InitializeFacet(facet);
+			resources.UserInterface.InitializeFacet(facet);
 
 			Assert.IsNotNull(facet.WindowA, "WindowA property was not assigned.");
 			Assert.IsNotNull(facet.MenuB, "MenuB property was not assigned.");
 			Assert.AreEqual(facet.WindowA, facet.MenuB.Parent, "WindowA is not the parent of MenuB.");
+		}
+
+		[TestMethod]
+		public void InitializeFacetGuiObject()
+		{
+			var facet = new ResourceManagerInitializer.TestFacet();
+
+			resources.UserInterface.InitializeFacet(facet);
+
+			Assert.IsNotNull(facet.WindowA, "WindowA property was not assigned.");
+			Assert.IsNotNull(facet.MenuB, "MenuB property was not assigned.");
+			Assert.AreEqual(facet.WindowA, facet.MenuB.Parent, "WindowA is not the parent of MenuB.");
+
+			Assert.AreSame(facet.WindowA, facet.InterfaceRoot.Desktop.Children.First());
 		}
 
 		class TestFacetMissingItem : IUserInterfaceFacet
@@ -73,7 +87,7 @@ namespace AgateLib.UnitTests.Resources
 		{
 			var facet = new TestFacetMissingItem();
 
-			AssertX.Throws<AgateUserInterfaceInitializationException>(() => resources.InitializeFacet(facet));
+			AssertX.Throws<AgateUserInterfaceInitializationException>(() => resources.UserInterface.InitializeFacet(facet));
 		}
 
 		class TestFacetDuplicateBindings : IUserInterfaceFacet
@@ -97,7 +111,7 @@ namespace AgateLib.UnitTests.Resources
 		{
 			var facet = new TestFacetDuplicateBindings();
 
-			AssertX.Throws<AgateUserInterfaceInitializationException>(() => resources.InitializeFacet(facet));
+			AssertX.Throws<AgateUserInterfaceInitializationException>(() => resources.UserInterface.InitializeFacet(facet));
 		}
 
 	}

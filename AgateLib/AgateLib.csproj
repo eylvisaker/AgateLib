@@ -184,7 +184,9 @@
     <Compile Include="Resources\DC\SpriteFrameResource.cs" />
     <Compile Include="Resources\DC\SpriteResource.cs" />
     <Compile Include="Resources\DC\SurfaceResource.cs" />
-    <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="Resources\AgateResourceManager.cs" />
+    <Compile Include="Resources\Managers\IUserInterfaceResourceManager.cs" />
+    <Compile Include="Resources\Managers\UserInterfaceResourceManager.cs" />
     <Compile Include="Sprites\CollisionRegion.cs" />
     <Compile Include="Sprites\ISpriteContainer.cs" />
     <Compile Include="Geometry\Polygon.cs" />

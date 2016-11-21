@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
+using AgateLib.UserInterface.DataModel;
 
 namespace AgateLib.UserInterface.Venus.LayoutModel
 {
@@ -16,7 +17,7 @@ namespace AgateLib.UserInterface.Venus.LayoutModel
 
 		public WidgetChildCollection Children { get; private set; } = new WidgetChildCollection();
 
-		public StyleProperties Style { get; set; }
+		public WidgetThemeModel Style { get; set; }
 
 		public int X { get; set; }
 		public int Y { get; set; }

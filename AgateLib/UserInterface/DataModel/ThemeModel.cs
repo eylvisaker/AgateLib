@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.DataModel
 {
 	public class ThemeModel : IDictionary<string, WidgetThemeModel>
 	{
-		Dictionary<string, WidgetThemeModel> widgets = new Dictionary<string, WidgetThemeModel>();
+		Dictionary<string, WidgetThemeModel> widgets = 
+			new Dictionary<string, WidgetThemeModel>(StringComparer.OrdinalIgnoreCase);
 
 		public WidgetThemeModel this[string key]
 		{

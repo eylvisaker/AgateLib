@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Resources;
+using AgateLib.Resources.Managers;
 using AgateLib.UnitTests.Resources;
 using AgateLib.UserInterface.Venus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,7 +14,8 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 	[TestClass]
 	public class AdapterTests : AgateUnitTest
 	{
-		private ResourceManager resources;
+		private AgateResourceManager resources;
+		private UserInterfaceResourceManager uiManager;
 		private VenusLayoutEngine layoutEngine;
 		private VenusWidgetAdapter adapter;
 
@@ -23,21 +25,21 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			ResourceManagerInitializer initializer = new ResourceManagerInitializer();
 
 			resources = initializer.Manager;
-
-			layoutEngine = (VenusLayoutEngine)ResourceManager.LayoutEngine;
-			adapter = (VenusWidgetAdapter)ResourceManager.Adapter;
+			uiManager = (UserInterfaceResourceManager)resources.UserInterface;
+			
+			layoutEngine = (VenusLayoutEngine)uiManager.LayoutEngine;
+			adapter = (VenusWidgetAdapter)uiManager.Adapter;
 		}
 
 		[TestMethod]
-		public void AdapterDisplayLocation()
+		public void AdapterBackgroundImage()
 		{
 			var facet = new ResourceManagerInitializer.TestFacet();
-			resources.InitializeFacet(facet);
+			uiManager.InitializeFacet(facet);
 
-			var style = adapter.GetStyle(facet.WindowA);
+			var style = adapter.StyleOf(facet.WindowA);
 
 			Assert.AreEqual("ui_back_1.png", style.Background.Image);
-
 		}
 	}
 }

@@ -90,11 +90,11 @@ default_facet:
 			Assets.UserInterfaceAssets = fileProvider.Object;
 
 			DataModel = new ResourceDataLoader().Load(resourceFilename);
-			Manager = new ResourceManager(DataModel);
+			Manager = new AgateResourceManager(DataModel);
 		}
 
 		public ResourceDataModel DataModel { get; set; }
-		public ResourceManager Manager { get; set; }
+		public AgateResourceManager Manager { get; set; }
 		
 		private void SetupFile(Mock<IReadFileProvider> fileProvider, string filename, string contents)
 		{

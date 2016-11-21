@@ -372,6 +372,8 @@ namespace AgateLib.UserInterface.Widgets
 		public IGuiRenderer Renderer { get { return mRenderer; } }
 		public IGuiLayoutEngine LayoutEngine { get { return mLayout; } }
 
+		public string FacetName { get; internal set; }
+
 		public void AddWindow(Window wind)
 		{
 			if (Desktop.Children.Contains(wind))

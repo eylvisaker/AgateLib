@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Quality;
@@ -13,25 +12,30 @@ using AgateLib.UserInterface.Venus;
 using AgateLib.UserInterface.Venus.Fulfillment;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.Resources
+namespace AgateLib.Resources.Managers
 {
-	public class ResourceManager
+	public class UserInterfaceResourceManager : IUserInterfaceResourceManager
 	{
-		#region --- Static Members ---
+		private IGuiLayoutEngine layoutEngine;
+		private IGuiRenderer guiRenderer;
+		private IWidgetFactory widgetFactory;
+		private IFacetInspector facetInspector;
+		private IWidgetAdapter adapter;
 
-		static IGuiLayoutEngine layoutEngine;
-		static IGuiRenderer guiRenderer;
-		static IWidgetFactory widgetFactory;
-		static IFacetInspector facetInspector;
-		static IWidgetAdapter adapter;
+		private ResourceDataModel data;
 
-		static bool initialized;
-		
-		private static void Initialize()
+		public UserInterfaceResourceManager(ResourceDataModel data)
 		{
-			if (initialized)
-				return;
+			this.data = data;
 
+			Initialize();
+
+			adapter.ThemeData = data.Themes;
+			adapter.FacetData = data.Facets;
+		}
+
+		private void Initialize()
+		{
 			var adapter = new VenusWidgetAdapter();
 			layoutEngine = new VenusLayoutEngine(adapter);
 			guiRenderer = new AgateUserInterfaceRenderer(adapter);
@@ -39,24 +43,23 @@ namespace AgateLib.Resources
 			widgetFactory = new WidgetFactory(AssemblyDiscoveryWidgetActivator.ForAgateLib());
 
 			Adapter = adapter;
-			initialized = true;
 		}
 
-		private static IGuiLayoutEngine CreateLayoutEngine()
+		private IGuiLayoutEngine CreateLayoutEngine()
 		{
 			Initialize();
 
 			return layoutEngine;
 		}
 
-		private static IGuiRenderer CreateRenderer()
+		private IGuiRenderer CreateRenderer()
 		{
 			Initialize();
 
 			return guiRenderer;
 		}
 
-		public static IGuiRenderer Renderer
+		public IGuiRenderer Renderer
 		{
 			get { return guiRenderer; }
 			set
@@ -66,7 +69,7 @@ namespace AgateLib.Resources
 			}
 		}
 
-		public static IGuiLayoutEngine LayoutEngine
+		public IGuiLayoutEngine LayoutEngine
 		{
 			get { return layoutEngine; }
 			set
@@ -76,7 +79,7 @@ namespace AgateLib.Resources
 			}
 		}
 
-		public static IWidgetAdapter Adapter
+		public IWidgetAdapter Adapter
 		{
 			get { return adapter; }
 			set
@@ -84,20 +87,6 @@ namespace AgateLib.Resources
 				Condition.RequireArgumentNotNull(value, nameof(Adapter));
 				adapter = value;
 			}
-		}
-
-		#endregion
-
-		ResourceDataModel data;
-
-		public ResourceManager(string filename) : this(new ResourceDataLoader().Load(filename))
-		{ }
-		public ResourceManager(ResourceDataModel data) : this(data, CreateRenderer(), CreateLayoutEngine())
-		{ }
-
-		public ResourceManager(ResourceDataModel data, IGuiRenderer guiRenderer, IGuiLayoutEngine layoutEngine)
-		{
-			this.data = data;
 		}
 
 		public void InitializeFacet(IUserInterfaceFacet facet)
@@ -113,6 +102,9 @@ namespace AgateLib.Resources
 				RealizeFacetModel(facet, gui, facetModel);
 
 				facet.InterfaceRoot = gui;
+				gui.FacetName = facet.FacetName;
+
+				adapter.InitializeStyleData(gui);
 			}
 			catch (Exception e)
 			{
@@ -125,7 +117,7 @@ namespace AgateLib.Resources
 			var propertyMap = facetInspector.BuildPropertyMap(facet);
 			List<FacetWidgetPropertyMapValue> assigned = new List<FacetWidgetPropertyMapValue>();
 
-			widgetFactory.RealizeFacetModel(facetModel, (name, widget) =>
+			var widgets = widgetFactory.RealizeFacetModel(facetModel, (name, widget) =>
 			{
 				if (propertyMap.ContainsKey(name) == false)
 					return;
@@ -147,6 +139,8 @@ namespace AgateLib.Resources
 
 				throw new InvalidOperationException($"While initializing facet {facet.FacetName} the following properties were unfulfilled: {missingList}");
 			}
+
+			gui.Desktop.Children.AddRange(widgets);
 		}
 	}
 }

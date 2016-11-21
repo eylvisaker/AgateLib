@@ -87,7 +87,7 @@ namespace AgateLib.UserInterface.Rendering
 		{
 			if (mAnimators.ContainsKey(widget) == false)
 			{
-				mAnimators.Add(widget, new WidgetAnimator(mAdapter.GetStyle(widget)));
+				mAnimators.Add(widget, new WidgetAnimator(mAdapter.StyleOf(widget)));
 			}
 
 			return mAnimators[widget];

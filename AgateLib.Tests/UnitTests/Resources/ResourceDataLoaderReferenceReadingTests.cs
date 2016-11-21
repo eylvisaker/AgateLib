@@ -21,7 +21,7 @@ namespace AgateLib.UnitTests.Resources
 	public class ResourceDataLoaderReferenceReadingTests : AgateUnitTest
 	{
 		ResourceDataModel dataModel;
-		ResourceManager resources;
+		AgateResourceManager resources;
 
 		[TestInitialize]
 		public void Initialize()

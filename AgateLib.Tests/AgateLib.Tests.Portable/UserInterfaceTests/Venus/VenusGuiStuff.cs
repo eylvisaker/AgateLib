@@ -34,7 +34,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 			public string FacetName {  get { return "VenusGuiStuff"; } }
 		}
 
-		ResourceManager resources;
+		AgateResourceManager resources;
 		TestFacet facet = new TestFacet();
 		List<Window> windows = new List<Window>();
 		Joystick joy;
@@ -50,10 +50,10 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 		public void CreateGui()
 		{
-			resources = new ResourceManager("VenusTest.yaml");
+			resources = new AgateResourceManager("VenusTest.yaml");
 			facet = new TestFacet();
 
-			resources.InitializeFacet(facet);
+			resources.UserInterface.InitializeFacet(facet);
 
 			joy = JoystickInput.Joysticks.FirstOrDefault();
 
