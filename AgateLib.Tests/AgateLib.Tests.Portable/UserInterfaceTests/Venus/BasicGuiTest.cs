@@ -11,8 +11,11 @@ namespace AgateLib.Testing.UserInterfaceTests
 {
 	public class BasicNewGuiTest : Scene, ISceneModelTest
 	{
+		VenusGuiStuff gs;
+
 		public void ModifyModelParameters(SceneModelParameters parameters)
 		{
+			parameters.Arguments = parameters.Arguments.Where(x => x != "--debuggui").ToArray();
 		}
 
 		public Scene StartScene
@@ -29,8 +32,6 @@ namespace AgateLib.Testing.UserInterfaceTests
 		{
 			get { return "User Interface"; }
 		}
-
-		VenusGuiStuff gs;
 
 		protected override void OnSceneStart()
 		{
