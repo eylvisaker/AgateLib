@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Geometry;
 using AgateLib.Resources.DataModel;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Rendering;
@@ -13,6 +14,17 @@ namespace AgateLib.UserInterface.Venus
 {
 	public class VenusWidgetAdapter : IWidgetAdapter
 	{
+		private static ThemeModel DefaultTheme { get; set; }
+
+		static VenusWidgetAdapter()
+		{
+			DefaultTheme = new ThemeModel();
+
+			var windowTheme = new WidgetThemeModel();
+			windowTheme.TextColor = Color.Black;
+			DefaultTheme["window"] = windowTheme;
+		}
+
 		private LayoutEnvironment environment = new LayoutEnvironment();
 		private Dictionary<Widget, WidgetStyle> styles = new Dictionary<Widget, WidgetStyle>();
 
@@ -54,41 +66,65 @@ namespace AgateLib.UserInterface.Venus
 		private void InitializeStyleDataForWidget(Widget widget, WidgetProperties widgetProperties)
 		{
 			var theme = ThemeOf(widget);
-			var style = StyleOf(widget);
+			var style = (WidgetStyle)StyleOf(widget);
 
+			ApplyStyleProperties(style, DefaultThemeOf(widget));
 			ApplyStyleProperties(style, theme);
 			ApplyStyleProperties(style, widgetProperties.Style);
 		}
-		
-		private void ApplyStyleProperties(IWidgetStyle widget, WidgetThemeModel theme)
+
+		private void ApplyStyleProperties(WidgetStyle widget, WidgetThemeModel theme)
 		{
 			if (theme == null)
 				return;
 
-			var background = (BackgroundStyle)widget.Background;
+			widget.FontColor = theme.TextColor ?? widget.FontColor;
 
-			background.Image = theme.Background.Image ?? background.Image;
-			background.Color = theme.Background.Color ?? background.Color;
+			if (theme.Background != null)
+			{
+				var background = widget.Background;
 
-			var border = (BorderStyle)widget.Border;
+				background.Image = theme.Background.Image ?? background.Image;
+				background.Color = theme.Background.Color ?? background.Color;
+				background.Repeat = theme.Background.Repeat ?? background.Repeat;
+				background.Clip = theme.Background.Clip ?? background.Clip;
+				background.Position = theme.Background.Position ?? background.Position;
+			}
 
-			border.Image = theme.Border.Image ?? border.Image;
-			border.ImageSlice = theme.Border.Slice ?? border.ImageSlice;
+			if (theme.Border != null)
+			{
+				var border = (BorderStyle)widget.Border;
+
+				border.Image = theme.Border.Image ?? border.Image;
+				border.ImageSlice = theme.Border.Slice ?? border.ImageSlice;
+			}
+		}
+
+		private WidgetThemeModel DefaultThemeOf(Widget widget)
+		{
+			return WidgetThemeFromTheme(widget, DefaultTheme);
 		}
 
 		private WidgetThemeModel ThemeOf(Widget widget)
 		{
-			ThemeModel theme = null;
+			ThemeModel theme;
 
 			if (string.IsNullOrWhiteSpace(widget.Style))
 				theme = ThemeData.First().Value;
 			else
 				theme = ThemeData[widget.Style];
 
+			return WidgetThemeFromTheme(widget, theme);
+		}
+
+		private WidgetThemeModel WidgetThemeFromTheme(Widget widget, ThemeModel theme)
+		{
 			var widgetTypename = WidgetTypeNameOf(widget);
 
 			if (theme.ContainsKey(widgetTypename))
+			{
 				return theme[widgetTypename];
+			}
 
 			return null;
 		}

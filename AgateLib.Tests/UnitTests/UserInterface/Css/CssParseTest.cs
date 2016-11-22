@@ -181,7 +181,7 @@ namespace AgateLib.UnitTests.UserInterface.Css
 			Window wind = new Window();
 
 			var style = adapter.GetStyle(wind);
-			Assert.AreEqual(BackgroundRepeat.No_Repeat, style.Data.Background.Repeat);
+			Assert.AreEqual(BackgroundRepeat.None, style.Data.Background.Repeat);
 		}
 
 		[TestMethod]

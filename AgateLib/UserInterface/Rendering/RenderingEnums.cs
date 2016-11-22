@@ -42,18 +42,33 @@ namespace AgateLib.UserInterface.Rendering
 
 	public enum BackgroundClip
 	{
-		Border_Box,
-		Padding_Box,
-		Content_Box,
+		/// <summary>
+		/// Specifies the background should be drawn out to and behind the border.
+		/// </summary>
+		Border,
+		/// <summary>
+		/// Specifies the background should be drawn within the padding box.
+		/// </summary>
+		Padding,
+		/// <summary>
+		/// Specifies the background should only be drawn within the content box.
+		/// </summary>
+		Content,
+		
+		Border_Box = Border,
+		Padding_Box = Padding,
+		Content_Box = Content,
 	}
 
 	public enum BackgroundRepeat
 	{
 		Repeat,
+		Both = Repeat,
 		Repeat_X,
 		Repeat_Y,
 		Space,
 		Round,
 		No_Repeat,
+		None = No_Repeat,
 	}
 }

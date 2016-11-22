@@ -28,6 +28,7 @@ namespace AgateLib.Resources
 					.WithNamingConvention(new HyphenatedNamingConvention())
 				.WithTypeConverter(new ColorConverterYaml())
 				.WithTypeConverter(new LayoutBoxConverterYaml())
+				.WithTypeConverter(new PointConverterYaml())
 				.Build();
 
 			using (var file = new StreamReader(Assets.UserInterfaceAssets.OpenRead(filename)))

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Geometry;
 using AgateLib.Resources;
 using AgateLib.Resources.Managers;
 using AgateLib.UnitTests.Resources;
+using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Venus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -32,7 +34,7 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 		}
 
 		[TestMethod]
-		public void AdapterBackgroundImage()
+		public void AdapterBackgroundProperties()
 		{
 			var facet = new ResourceManagerInitializer.TestFacet();
 			uiManager.InitializeFacet(facet);
@@ -40,6 +42,10 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			var style = adapter.StyleOf(facet.WindowA);
 
 			Assert.AreEqual("ui_back_1.png", style.Background.Image);
+			Assert.AreEqual(Color.Blue, style.Background.Color);
+			Assert.AreEqual(BackgroundRepeat.None, style.Background.Repeat);
+			Assert.AreEqual(BackgroundClip.Content, style.Background.Clip);
+			Assert.AreEqual(new Point(4, 3), style.Background.Position);
 		}
 	}
 }

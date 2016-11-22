@@ -48,7 +48,10 @@ default:
     window:
         background:
             image: ui_back_1.png
-            color: blue";
+            color: blue
+            repeat: none
+            clip: content
+            position: 4 3";
 
 		string facetsyaml = @"
 default_facet: 

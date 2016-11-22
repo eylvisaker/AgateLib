@@ -149,6 +149,7 @@
     <Compile Include="Drivers\NullDrivers\NullInputFactory.cs" />
     <Compile Include="Drivers\NullDrivers\NullSoundFactory.cs" />
     <Compile Include="Geometry\CoordinateSystems\SingleFixedDimension.cs" />
+    <Compile Include="Geometry\TypeConverters\PointConverterYaml.cs" />
     <Compile Include="Geometry\TypeConverters\ColorConverterYaml.cs" />
     <Compile Include="InputLib\DirectionPad.cs" />
     <Compile Include="InputLib\Gamepad.cs" />

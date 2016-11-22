@@ -296,7 +296,7 @@ namespace AgateLib.UserInterface.Rendering
 
 				switch (style.Background.Repeat)
 				{
-					case BackgroundRepeat.No_Repeat:
+					case BackgroundRepeat.None:
 						DrawClipped(backgroundImage, origin, clipRect);
 						break;
 
