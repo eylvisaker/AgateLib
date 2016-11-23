@@ -35,5 +35,12 @@ namespace AgateLib.UserInterface.Rendering
 		public int Left { get { return Margin.Left + Padding.Left + Border.Left; } }
 		public int Right { get { return Margin.Right + Padding.Right + Border.Right; } }
 		public int Bottom { get { return Margin.Bottom + Padding.Bottom + Border.Bottom; } }
+
+		public void Clear()
+		{
+			Margin = new LayoutBox();
+			Padding = new LayoutBox();
+			Border = new LayoutBox();
+		}
 	}
 }

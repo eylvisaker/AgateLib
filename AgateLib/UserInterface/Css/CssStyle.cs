@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.UserInterface.Css.Cache;
 using AgateLib.UserInterface.Css.Documents;
@@ -47,6 +48,8 @@ namespace AgateLib.UserInterface.Css
 			Cache = new StyleCache();
 
 			MatchParameters = new WidgetMatchParameters(widget);
+
+			this.FontProperties = new CssFontProperties(this);
 		}
 
 		public CssStyleData Data { get; set; }
@@ -56,8 +59,6 @@ namespace AgateLib.UserInterface.Css
 
 		public Overflow Overflow { get { return Data.Overflow; } }
 		public TextAlign TextAlign { get { return Data.Text.Align; } }
-
-		public Color FontColor { get { return Data.Font.Color; } }
 
 		public BackgroundClip BackgroundClip { get { return Data.Background.Clip; } }
 		public Color BackgroundColor { get { return Data.Background.Color; } }
@@ -103,5 +104,28 @@ namespace AgateLib.UserInterface.Css
 		public WidgetMatchParameters MatchParameters { get; private set; }
 
 		public bool IncludeInLayout { get; set; }
+
+		public CssFontProperties FontProperties { get; set; }
+		IFontProperties IWidgetStyle.Font{get { return FontProperties; }}
+	}
+
+	public class CssFontProperties : IFontProperties
+	{
+		private CssStyle cssStyle;
+
+		public CssFontProperties(CssStyle cssStyle)
+		{
+			this.cssStyle = cssStyle;
+		}
+
+		public string Family { get { return cssStyle.Data.Font.Family; } }
+
+		public int Size
+		{
+			get { return 14; }
+		}
+
+		public Color Color { get { return cssStyle.Data.Font.Color; } }
+		public FontStyles Style { get { return cssStyle.Data.Font.Weight; } }
 	}
 }

@@ -28,7 +28,7 @@ namespace AgateLib.UserInterface.Venus
 		private LayoutEnvironment environment = new LayoutEnvironment();
 		private Dictionary<Widget, WidgetStyle> styles = new Dictionary<Widget, WidgetStyle>();
 
-		public VenusWidgetAdapter(IEnumerable<WidgetLayoutModel> models =null)
+		public VenusWidgetAdapter(IEnumerable<WidgetLayoutModel> models = null)
 		{
 			models = models ?? new List<WidgetLayoutModel>();
 			WidgetLayoutModels = models.ToList();
@@ -57,7 +57,7 @@ namespace AgateLib.UserInterface.Venus
 
 		private void InitializeStyleData(IEnumerable<Widget> children, FacetModel facetModel, Widget parent)
 		{
-			foreach(var child in children)
+			foreach (var child in children)
 			{
 				InitializeStyleDataForWidget(child, facetModel[child.Name]);
 			}
@@ -67,6 +67,8 @@ namespace AgateLib.UserInterface.Venus
 		{
 			var theme = ThemeOf(widget);
 			var style = (WidgetStyle)StyleOf(widget);
+
+			style.BoxModel.Clear();
 
 			ApplyStyleProperties(style, DefaultThemeOf(widget));
 			ApplyStyleProperties(style, theme);
@@ -78,7 +80,7 @@ namespace AgateLib.UserInterface.Venus
 			if (theme == null)
 				return;
 
-			widget.FontColor = theme.TextColor ?? widget.FontColor;
+			widget.Font.Color = theme.TextColor ?? widget.Font.Color;
 
 			if (theme.Background != null)
 			{
@@ -93,10 +95,24 @@ namespace AgateLib.UserInterface.Venus
 
 			if (theme.Border != null)
 			{
-				var border = (BorderStyle)widget.Border;
+				var border = widget.Border;
 
 				border.Image = theme.Border.Image ?? border.Image;
 				border.ImageSlice = theme.Border.Slice ?? border.ImageSlice;
+
+				if (string.IsNullOrWhiteSpace(border.Image) == false)
+				{
+					widget.BoxModel.Border = border.ImageSlice;
+				}
+			}
+
+			if (theme.Font != null)
+			{
+				var font = widget.Font;
+
+				font.Family = theme.Font.Family ?? font.Family;
+				font.Size = theme.Font.Size ?? font.Size;
+				font.Style = theme.Font.Style ?? font.Style;
 			}
 		}
 
@@ -166,7 +182,7 @@ namespace AgateLib.UserInterface.Venus
 		{
 			var widget = result.Widget;
 
-			
+
 		}
 
 

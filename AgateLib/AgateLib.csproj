@@ -643,6 +643,7 @@
     <Compile Include="UserInterface\DataModel\WidgetBackgroundModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetBorderModel.cs" />
     <Compile Include="UserInterface\IUserInterfaceFacet.cs" />
+    <Compile Include="UserInterface\Venus\FontProperties.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\AssemblyDiscoveryWidgetActivator.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\FacetInspector.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\FacetWidgetPropertyMap.cs" />

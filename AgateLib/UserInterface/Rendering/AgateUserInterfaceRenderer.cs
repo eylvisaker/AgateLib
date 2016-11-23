@@ -248,7 +248,7 @@ namespace AgateLib.UserInterface.Rendering
 
 		private void SetFontProperties(IWidgetStyle style)
 		{
-			style.Widget.FontColor = style.FontColor;
+			style.Widget.FontColor = style.Font.Color;
 		}
 
 		private void DrawBackground(IWidgetAnimator anim)
