@@ -2,10 +2,8 @@
 VenusGuiStuff: 
     window_1:
         type: window
-        x: 10
-        y: 10
-        width: 250
-        height: 400
+        position: 10 10
+        size: 250 400
         children:
             label1:
                 type: label
@@ -15,10 +13,8 @@ VenusGuiStuff:
                 text: This is another label
     window_2:
         type: window
-        x: 270
-        y: 10
-        width: 275
-        height: 300
+        position: 290 10
+        size: 275 300
         children:
             menu_1:
                 type: menu

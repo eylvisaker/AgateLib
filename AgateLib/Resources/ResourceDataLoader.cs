@@ -25,10 +25,11 @@ namespace AgateLib.Resources
 		public ResourceDataModel Load(string filename)
 		{
 			var deserializer = new DeserializerBuilder()
-					.WithNamingConvention(new HyphenatedNamingConvention())
+				.WithNamingConvention(new HyphenatedNamingConvention())
 				.WithTypeConverter(new ColorConverterYaml())
 				.WithTypeConverter(new LayoutBoxConverterYaml())
 				.WithTypeConverter(new PointConverterYaml())
+				.WithTypeConverter(new SizeConverterYaml())
 				.Build();
 
 			using (var file = new StreamReader(Assets.UserInterfaceAssets.OpenRead(filename)))

@@ -151,6 +151,7 @@
     <Compile Include="Geometry\CoordinateSystems\SingleFixedDimension.cs" />
     <Compile Include="Geometry\TypeConverters\PointConverterYaml.cs" />
     <Compile Include="Geometry\TypeConverters\ColorConverterYaml.cs" />
+    <Compile Include="Geometry\TypeConverters\SizeConverterYaml.cs" />
     <Compile Include="InputLib\DirectionPad.cs" />
     <Compile Include="InputLib\Gamepad.cs" />
     <Compile Include="InputLib\GamepadButtonEventArgs.cs" />

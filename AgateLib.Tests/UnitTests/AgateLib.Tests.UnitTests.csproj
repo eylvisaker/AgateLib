@@ -120,6 +120,7 @@
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Geometry\ColorTests.cs" />
     <Compile Include="Geometry\RectangleTest.cs" />
+    <Compile Include="Geometry\TypeConverters\GeometryConverterTests.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
     <Compile Include="Platform\IntegrationTest\AgateIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

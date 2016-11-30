@@ -37,9 +37,9 @@ MedievalSharp:
   image: Fonts/MedievalSharp18.png
   metrics:
     32:
-      x: 0
+      x: 0 
       y: 2
-      width: 8
+      width: 8 
       height: 30
       right-overhang: 1";
 
@@ -57,10 +57,8 @@ default:
 default_facet: 
     window_A:
         type: window
-        x: 270
-        y: 10
-        width: 275
-        height: 300
+        position: 270 10
+        size: 275 300
         children:
             menu_1:
                 type: menu

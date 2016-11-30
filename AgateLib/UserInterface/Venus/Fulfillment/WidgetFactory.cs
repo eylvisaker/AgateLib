@@ -108,10 +108,10 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 		{
 			widget.Enabled = model.Enabled;
 			widget.Name = model.Name;
-			widget.X = model.X;
-			widget.Y = model.Y;
-			widget.Width = model.Width;
-			widget.Height = model.Height;
+			widget.X = model.Position.X;
+			widget.Y = model.Position.Y;
+			widget.Width = model.Size.Width;
+			widget.Height = model.Size.Height;
 
 			ApplyReflectionProperty(widget, "Text", model.Text);
 		}
