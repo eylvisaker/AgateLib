@@ -635,6 +635,7 @@
     <Compile Include="UserInterface\Css\Documents\ICssPropertyFromText.cs" />
     <Compile Include="UserInterface\DataModel\BoxDataModel.cs" />
     <Compile Include="UserInterface\DataModel\FacetModel.cs" />
+    <Compile Include="UserInterface\DataModel\FontStyleProperties.cs" />
     <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterYaml.cs" />
     <Compile Include="Resources\DataModel\FacetModelCollection.cs" />
     <Compile Include="DisplayLib\BitmapFont\FontModel.cs" />

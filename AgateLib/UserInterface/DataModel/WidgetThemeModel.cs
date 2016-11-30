@@ -15,11 +15,4 @@ namespace AgateLib.UserInterface.DataModel
 
 		public FontStyleProperties Font { get; set; } = new FontStyleProperties();
 	}
-
-	public class FontStyleProperties
-	{
-		public string Family { get; set; }
-		public int? Size { get; set; }
-		public FontStyles? Style { get; set; }
-	}
 }
