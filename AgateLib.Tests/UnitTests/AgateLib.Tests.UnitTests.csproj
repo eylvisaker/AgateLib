@@ -140,7 +140,6 @@
     <Compile Include="Resources\ResourceDataLoaderFontReadingTests.cs" />
     <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterTest.cs" />
     <Compile Include="UserInterface\Venus\AdapterTests.cs" />
-    <Compile Include="UserInterface\Venus\UserInterfaceInitializerTests.cs" />
     <Compile Include="UserInterface\Widgets\ConversionTests.cs" />
     <Compile Include="UserInterface\Widgets\MenuItemTests.cs" />
     <Compile Include="UserInterface\Widgets\ScrollingTests.cs" />

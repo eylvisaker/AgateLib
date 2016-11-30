@@ -329,7 +329,6 @@
       <DependentUpon>frmCssEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="UserInterfaceTests\CssTests\GuiTest.cs" />
-    <Compile Include="UserInterfaceTests\VenusTests\VenusBasicTest.cs" />
     <Compile Include="WinFormsTests\Converters.cs">
       <SubType>Code</SubType>
     </Compile>

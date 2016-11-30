@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Platform;
 
-namespace AgateLib.UserInterface.Venus.LayoutModel
+namespace AgateLib.UserInterface.DataModel
 {
 	public class WidgetLayoutModel
 	{

@@ -38,6 +38,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 			gs = new VenusGuiStuff();
 			gs.CreateGui();
 		}
+
 		public override void Update(double deltaT)
 		{
 			gs.Update();

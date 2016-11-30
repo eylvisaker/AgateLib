@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface.Venus.Fulfillment;
-using AgateLib.UserInterface.Venus.LayoutModel;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Venus
@@ -21,18 +20,6 @@ namespace AgateLib.UserInterface.Venus
 		public void UpdateLayout(Gui gui)
 		{
 
-		}
-
-		public void InitializeWidgets(string @namespace, IUserInterfaceFacet ui)
-		{
-			var currentModels = adapter.SelectModels(@namespace);
-			var typeResolver = new TypeResolver();
-
-			WidgetBuilder builder = new WidgetBuilder(typeResolver, currentModels);
-			builder.BuildWidgets();
-
-			ContainerInitializer init = new ContainerInitializer();
-			init.Initialize(ui, builder);
 		}
 	}
 

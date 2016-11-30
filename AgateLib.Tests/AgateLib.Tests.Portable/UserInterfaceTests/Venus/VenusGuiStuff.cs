@@ -13,7 +13,6 @@ using AgateLib.Resources.Legacy;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Venus;
-using AgateLib.UserInterface.Venus.LayoutModel;
 using AgateLib.UserInterface.Widgets;
 using YamlDotNet.Serialization;
 

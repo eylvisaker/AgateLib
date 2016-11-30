@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using AgateLib.UserInterface.Venus.LayoutModel;
 
 namespace AgateLib.UserInterface.DataModel
 {

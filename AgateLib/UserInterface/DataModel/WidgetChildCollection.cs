@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AgateLib.UserInterface.Venus.LayoutModel
+namespace AgateLib.UserInterface.DataModel
 {
 	public class WidgetChildCollection : IDictionary<string, WidgetProperties>
 	{

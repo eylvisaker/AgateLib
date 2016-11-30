@@ -7,7 +7,6 @@ using AgateLib.Geometry;
 using AgateLib.Resources.DataModel;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Rendering;
-using AgateLib.UserInterface.Venus.LayoutModel;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Venus

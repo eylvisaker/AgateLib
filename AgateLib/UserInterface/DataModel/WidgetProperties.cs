@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
-using AgateLib.UserInterface.DataModel;
 
-namespace AgateLib.UserInterface.Venus.LayoutModel
+namespace AgateLib.UserInterface.DataModel
 {
 	public class WidgetProperties
 	{
