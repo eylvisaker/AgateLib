@@ -96,25 +96,6 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 		}
 
 		[TestMethod]
-		public void AdapterIgnoreBorderSliceIfNoImage()
-		{
-			const string image = "";
-			LayoutBox borderSlice = new LayoutBox { Left = 2, Top = 3, Right = 4, Bottom = 5 };
-
-			InitializeBorder(image, borderSlice);
-
-			var facet = new ResourceManagerInitializer.TestFacet();
-			uiManager.InitializeFacet(facet);
-
-			var style = adapter.StyleOf(facet.WindowA);
-			
-			Assert.AreEqual(0, style.BoxModel.Border.Left);
-			Assert.AreEqual(0, style.BoxModel.Border.Top);
-			Assert.AreEqual(0, style.BoxModel.Border.Right);
-			Assert.AreEqual(0, style.BoxModel.Border.Bottom);
-		}
-
-		[TestMethod]
 		public void AdapterFontProperties()
 		{
 			const string fontname = "Times New Roman";
@@ -147,7 +128,7 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			WindowTheme.Border = new WidgetBorderModel
 			{
 				Image = image,
-				Slice = borderSlice
+				Size = borderSlice
 			};
 		}
 

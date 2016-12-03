@@ -61,12 +61,12 @@ facets:
 			var window2 = gui["window_2"];
 
 			Assert.AreEqual("window", window1.Type);
-			Assert.AreEqual(10, window1.Position.X);
-			Assert.AreEqual(15, window1.Position.Y);
-			Assert.AreEqual(250, window1.Size.Width);
-			Assert.AreEqual(400, window1.Size.Height);
-			Assert.AreEqual(270, window2.Position.X);
-			Assert.AreEqual(10, window2.Position.Y);
+			Assert.AreEqual(10, window1.Position?.X);
+			Assert.AreEqual(15, window1.Position?.Y);
+			Assert.AreEqual(250, window1.Size?.Width);
+			Assert.AreEqual(400, window1.Size?.Height);
+			Assert.AreEqual(270, window2.Position?.X);
+			Assert.AreEqual(10, window2.Position?.Y);
 
 			var menu = window2.Children["menu_1"];
 

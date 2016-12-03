@@ -6,5 +6,6 @@ namespace AgateLib.UserInterface.Venus.Layout
 	{
 		void ComputeMetrics(Widget item, WidgetMetrics metrics);
 		bool ComputeNaturalSize(Widget item, WidgetStyle style);
+		bool ComputeBoxSize(WidgetStyle widget, int? maxWidth, int? maxHeight);
 	}
 }

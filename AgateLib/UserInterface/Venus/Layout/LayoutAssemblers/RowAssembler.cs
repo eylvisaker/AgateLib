@@ -21,7 +21,7 @@ namespace AgateLib.UserInterface.Venus.Layout.LayoutAssemblers
 			throw new NotImplementedException();
 		}
 
-		public void DoLayout(ILayoutBuilder layoutBuilder, WidgetStyle container, ICollection<WidgetStyle> layoutChildren)
+		public void DoLayout(ILayoutBuilder layoutBuilder, WidgetStyle container, ICollection<WidgetStyle> layoutChildren, int? maxWidth = null, int? maxHeight = null)
 		{
 			throw new NotImplementedException();
 		}

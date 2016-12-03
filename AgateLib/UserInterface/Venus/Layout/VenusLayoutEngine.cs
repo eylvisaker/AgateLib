@@ -39,25 +39,18 @@ namespace AgateLib.UserInterface.Venus.Layout
 			totalRefresh |= gui.Desktop.Height != renderTargetSize.Height;
 			totalRefresh |= gui.Desktop.LayoutDirty;
 
-			gui.Desktop.Width = renderTargetSize.Width;
-			gui.Desktop.Height = renderTargetSize.Height;
-
-			SetDesktopAnimatorProperties(gui.Desktop);
+			SetDesktopStyleProperties(gui.Desktop, renderTargetSize);
 
 			metricsComputer.ComputeMetrics(gui.Desktop);
 
 			ComputeNaturalSize(gui.Desktop);
 
-			LayoutChildren(gui.Desktop, totalRefresh);
+			LayoutChildren(gui.Desktop, totalRefresh, renderTargetSize.Width, renderTargetSize.Height);
+		}
 
-			//if (totalRefresh || gui.Desktop.Descendants.Any(x => x.LayoutDirty))
-			//{
-			//	RedoFixedLayout(gui.Desktop);
-
-			//	gui.Desktop.LayoutDirty = false;
-			//	foreach (var w in gui.Desktop.Descendants)
-			//		w.LayoutDirty = false;
-			//}
+		public bool ComputeNaturalSize(WidgetStyle style)
+		{
+			return ComputeNaturalSize(style.Widget);
 		}
 
 		public bool ComputeNaturalSize(Widget widget)
@@ -85,30 +78,49 @@ namespace AgateLib.UserInterface.Venus.Layout
 			return assembler.ComputeNaturalSize(this, containerStyle);
 		}
 
-		private void SetDesktopAnimatorProperties(Desktop desktop)
+		private void SetDesktopStyleProperties(Desktop desktop, Size renderTargetSize)
 		{
 			var style = adapter.StyleOf(desktop);
 
-			style.Widget.ClientRect = new Rectangle(0, 0, desktop.Width, desktop.Height);
+			style.Metrics.ContentSize = renderTargetSize;
 		}
 
-		private void LayoutChildren(Container container, bool totalRefresh)
+		private void LayoutChildren(Container container, bool totalRefresh, int? maxWidth = null, int? maxHeight = null)
 		{
 			var containerStyle = adapter.StyleOf(container);
 
 			ILayoutAssembler assembler = FindAssembler(containerStyle);
-			
+
 			var layoutChildren = (from item in container.Children
 								  let style = adapter.StyleOf(item)
-								  where style.WidgetLayout.Type == WidgetLayoutType.Flow
+								  where style.WidgetLayout.PositionType == WidgetLayoutType.Flow
 								  select style).ToList();
 
+			var nonlayoutContainers = (from item in container.Children.OfType<Container>()
+									   let style = adapter.StyleOf(item)
+									   where style.WidgetLayout.PositionType == WidgetLayoutType.Fixed
+									   select item).ToList();
+
 			assembler.DoLayout(this, containerStyle, layoutChildren);
+
+			foreach(var subContainer in nonlayoutContainers)
+			{
+				LayoutChildren(subContainer, totalRefresh);
+			}
+
+			foreach(var style in from item in container.Children
+								let style = adapter.StyleOf(item)
+								where style.WidgetLayout.SizeType == WidgetLayoutType.Flow
+								select style)
+			{
+				style.Widget.Width = style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right;
+				style.Widget.Height = style.Metrics.BoxSize.Height - style.BoxModel.Margin.Top - style.BoxModel.Margin.Right;
+			}
 		}
 
 		private ILayoutAssembler FindAssembler(WidgetStyle containerStyle)
 		{
-			foreach(var assembler in layoutAssemblers)
+			foreach (var assembler in layoutAssemblers)
 			{
 				if (assembler.CanDoLayoutFor(containerStyle))
 					return assembler;
@@ -119,18 +131,23 @@ namespace AgateLib.UserInterface.Venus.Layout
 			return layoutAssemblers.First();
 		}
 
-		public Size ComputeBoxSize(WidgetStyle widget, int? maxWidth = null, int? maxHeight = null)
+		public void ComputeBoxSize(WidgetStyle widget, int? maxWidth = null, int? maxHeight = null)
 		{
-			if (widget.Widget is Container)
+			var container = widget.Widget as Container;
+
+			if (container != null)
 			{
-				widget.Metrics.BoxSize = new Size(maxWidth ?? int.MaxValue, maxHeight ?? int.MaxValue);
-
-				LayoutChildren((Container)widget.Widget, false);
-
-				return widget.Metrics.BoxSize;
+				LayoutChildren(container, false, maxWidth, maxHeight);
 			}
+			else
+			{
+				metricsComputer.ComputeBoxSize(widget, maxWidth, maxHeight);
+			}
+		}
 
-			throw new NotImplementedException();
+		public WidgetStyle StyleOf(Widget widget)
+		{
+			return adapter.StyleOf(widget);
 		}
 	}
 }

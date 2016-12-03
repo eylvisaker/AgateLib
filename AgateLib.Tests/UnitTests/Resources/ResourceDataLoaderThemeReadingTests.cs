@@ -28,7 +28,7 @@ themes:
             color: blue
         border:
             image: ui_border_2.png
-            slice: 10
+            size: 10
         transition:
             type: slide
             direction: top
@@ -41,7 +41,7 @@ themes:
             selected:
                 border:
                     image: ui_border_1.png
-                    slice: 6
+                    size: 6
 
     label:
         text-color: navy";

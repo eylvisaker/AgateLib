@@ -32,5 +32,11 @@ namespace AgateLib.UserInterface.Venus
 		/// The size of the control, including margins, borders and padding.
 		/// </summary>
 		public Size BoxSize { get; set; }
+
+		/// <summary>
+		/// The size of the control, including margins, borders and padding in 
+		/// the absence of any constraints.
+		/// </summary>
+		public Size NaturalBoxSize { get; set; }
 	}
 }

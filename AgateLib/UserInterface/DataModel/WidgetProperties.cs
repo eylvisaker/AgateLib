@@ -18,8 +18,8 @@ namespace AgateLib.UserInterface.DataModel
 
 		public WidgetThemeModel Style { get; set; }
 
-		public Point Position { get; set; }
-		public Size Size { get; set; }
+		public Point? Position { get; set; }
+		public Size? Size { get; set; }
 
 		public WidgetDock? Dock { get; set; }
 

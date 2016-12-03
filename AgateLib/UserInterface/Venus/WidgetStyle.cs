@@ -10,9 +10,6 @@ namespace AgateLib.UserInterface.Venus
 {
 	public class WidgetStyle : IWidgetStyle
 	{
-		private IFontProperties font;
-		private WidgetMetrics metrics;
-
 		public WidgetStyle(Widget widget)
 		{
 			Widget = widget;
@@ -47,5 +44,10 @@ namespace AgateLib.UserInterface.Venus
 		public TextAlign TextAlign { get; set; }
 
 		internal bool NeedRefresh { get; set; }
+
+		public override string ToString()
+		{
+			return $"WidgetStyle: {Widget.Name} ({Widget.GetType().Name})";
+		}
 	}
 }

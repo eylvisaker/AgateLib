@@ -29,7 +29,7 @@ namespace AgateLib.UserInterface.Venus
 		public FacetModelCollection FacetData { get; set; }
 
 		public ThemeModelCollection ThemeData { get; set; }
-		
+
 		public void InitializeStyleData(Gui gui)
 		{
 			var facetModel = FacetData[gui.FacetName];
@@ -43,6 +43,7 @@ namespace AgateLib.UserInterface.Venus
 			{
 				InitializeStyleDataForWidget(child, facetModel[child.Name]);
 			}
+
 		}
 
 		private void InitializeStyleDataForWidget(Widget widget, WidgetProperties widgetProperties)
@@ -55,6 +56,24 @@ namespace AgateLib.UserInterface.Venus
 			ApplyStyleProperties(style, DefaultThemeOf(widget));
 			ApplyStyleProperties(style, theme);
 			ApplyStyleProperties(style, widgetProperties.Style);
+			ApplyWidgetProperties(style, widgetProperties);
+
+			var container = widget as Container;
+			if (container != null)
+			{
+				foreach (var child in container.Children)
+				{
+					InitializeStyleDataForWidget(child, widgetProperties.Children[child.Name]);
+				}
+			}
+		}
+
+		private void ApplyWidgetProperties(WidgetStyle style, WidgetProperties widgetProperties)
+		{
+			if (widgetProperties.Position != null)
+				style.WidgetLayout.PositionType = WidgetLayoutType.Fixed;
+			if (widgetProperties.Size != null)
+				style.WidgetLayout.SizeType = WidgetLayoutType.Fixed;
 		}
 
 		private void ApplyStyleProperties(WidgetStyle widget, WidgetThemeModel theme)
@@ -63,6 +82,12 @@ namespace AgateLib.UserInterface.Venus
 				return;
 
 			widget.Font.Color = theme.TextColor ?? widget.Font.Color;
+
+			if (theme.Box != null)
+			{
+				widget.BoxModel.Margin = theme.Box.Margin ?? widget.BoxModel.Margin;
+				widget.BoxModel.Padding = theme.Box.Padding ?? widget.BoxModel.Padding;
+			}
 
 			if (theme.Background != null)
 			{
@@ -80,12 +105,9 @@ namespace AgateLib.UserInterface.Venus
 				var border = widget.Border;
 
 				border.Image = theme.Border.Image ?? border.Image;
-				border.ImageSlice = theme.Border.Slice ?? border.ImageSlice;
+				border.ImageSlice = theme.Border.Size ?? border.ImageSlice;
 
-				if (string.IsNullOrWhiteSpace(border.Image) == false)
-				{
-					widget.BoxModel.Border = border.ImageSlice;
-				}
+				widget.BoxModel.Border = border.ImageSlice;
 			}
 
 			if (theme.Font != null)
@@ -131,7 +153,7 @@ namespace AgateLib.UserInterface.Venus
 		{
 			return widget.GetType().Name;
 		}
-		
+
 		public WidgetStyle StyleOf(Widget widget)
 		{
 			if (styles.ContainsKey(widget) == false)
@@ -155,8 +177,6 @@ namespace AgateLib.UserInterface.Venus
 		private void BuildStyle(WidgetStyle result)
 		{
 			var widget = result.Widget;
-
-
 		}
 
 

@@ -52,5 +52,10 @@ namespace AgateLib.UserInterface.Rendering
 			get { return top; }
 			set { top = value; }
 		}
+
+		public override string ToString()
+		{
+			return $"LayoutBox: {Left} {Top} {Right} {Bottom}";
+		}
 	}
 }

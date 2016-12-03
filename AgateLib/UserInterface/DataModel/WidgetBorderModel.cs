@@ -5,6 +5,6 @@ namespace AgateLib.UserInterface.DataModel
 	public class WidgetBorderModel
 	{
 		public string Image { get; set; }
-		public LayoutBox? Slice { get; set; }
+		public LayoutBox? Size { get; set; }
 	}
 }

@@ -503,7 +503,6 @@ namespace AgateLib.UserInterface.Rendering
 			mBlankSurface.Color = border.Bottom.Color;
 			mBlankSurface.Draw(rect);
 
-
 			// draw left
 			rect = new Rectangle(borderRect.X, borderRect.Y, border.Left.Width, borderRect.Height);
 

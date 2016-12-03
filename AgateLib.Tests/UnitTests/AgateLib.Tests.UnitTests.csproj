@@ -141,8 +141,11 @@
     <Compile Include="Resources\ResourceDataLoaderReferenceReadingTests.cs" />
     <Compile Include="Resources\ResourceDataLoaderFontReadingTests.cs" />
     <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterTest.cs" />
+    <Compile Include="UserInterface\Venus\AdapterBoxModelTests.cs" />
     <Compile Include="UserInterface\Venus\AdapterTests.cs" />
     <Compile Include="UserInterface\Venus\LayoutEngineTests.cs" />
+    <Compile Include="UserInterface\Venus\TestFacet.cs" />
+    <Compile Include="UserInterface\Venus\TestFacetInitializer.cs" />
     <Compile Include="UserInterface\Widgets\ConversionTests.cs" />
     <Compile Include="UserInterface\Widgets\MenuItemTests.cs" />
     <Compile Include="UserInterface\Widgets\ScrollingTests.cs" />

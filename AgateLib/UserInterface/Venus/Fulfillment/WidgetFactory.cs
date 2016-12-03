@@ -67,12 +67,19 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 			}
 		}
 
+		/// <summary>
+		/// Creates a widget and its children from the specified widget model. The widgetCreated callback is called for the widget.
+		/// </summary>
+		/// <param name="widgetModel"></param>
+		/// <param name="widgetCreated"></param>
+		/// <returns></returns>
 		private Widget RealizeWidget(WidgetProperties widgetModel, Action<string, Widget> widgetCreated)
 		{
 			for (int i = activators.Count - 1; i >= 0; i--)
 			{
 				var activator = activators[i];
 				var type = widgetModel.Type;
+
 				Condition.Requires<InvalidOperationException>(!string.IsNullOrWhiteSpace(type),
 					$"The widget {widgetModel.Name} has an invalid type.");
 
@@ -81,10 +88,10 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 
 				Widget widget = activator.Create(widgetModel.Type);
 
-				ApplyProperties(widget, widgetModel);
-
 				Condition.Requires<InvalidOperationException>(widget != null,
 					$"The activator advertised it could create widget of type {widgetModel.Type} for {widgetModel.Name} but returned null when asked to create it.");
+
+				ApplyProperties(widget, widgetModel);
 
 				var children = RealizeEachWidget(widgetModel.Children, widgetCreated).ToList();
 
@@ -108,11 +115,11 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 		{
 			widget.Enabled = model.Enabled;
 			widget.Name = model.Name;
-			widget.X = model.Position.X;
-			widget.Y = model.Position.Y;
-			widget.Width = model.Size.Width;
-			widget.Height = model.Size.Height;
-
+			widget.X = model.Position?.X ?? 0;
+			widget.Y = model.Position?.Y ?? 0;
+			widget.Width = model.Size?.Width ?? 0;
+			widget.Height = model.Size?.Height ?? 0;
+			
 			ApplyReflectionProperty(widget, "Text", model.Text);
 		}
 

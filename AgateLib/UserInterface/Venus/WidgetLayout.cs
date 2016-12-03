@@ -4,6 +4,13 @@ namespace AgateLib.UserInterface.Venus
 {
 	public class WidgetLayout
 	{
-		public WidgetLayoutType Type { get; set; }
+		public WidgetLayoutType PositionType { get; set; }
+		public WidgetLayoutType SizeType { get; set; }
+		
+		public int? MinWidth { get; set; }
+		public int? MaxWidth { get; set; }
+		public int? MinHeight { get; set; }
+		public int? MaxHeight { get; set; }
+
 	}
 }

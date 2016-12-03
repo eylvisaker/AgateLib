@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
+using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Venus.Layout
 {
@@ -16,6 +17,19 @@ namespace AgateLib.UserInterface.Venus.Layout
 		/// <param name="child"></param>
 		/// <param name="maxWidth"></param>
 		/// <returns></returns>
-		Size ComputeBoxSize(WidgetStyle widget, int? maxWidth = null, int? maxHeight = null);
+		void ComputeBoxSize(WidgetStyle widget, int? maxWidth = null, int? maxHeight = null);
+
+		/// <summary>
+		/// Calculates the size of the widget in the absence of any constraints.
+		/// </summary>
+		/// <param name="widget"></param>
+		bool ComputeNaturalSize(WidgetStyle widget);
+
+		/// <summary>
+		/// Returns the style object of the specified widget.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <returns></returns>
+		WidgetStyle StyleOf(Widget widget);
 	}
 }

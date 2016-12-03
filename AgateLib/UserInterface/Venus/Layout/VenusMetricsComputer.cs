@@ -87,5 +87,12 @@ namespace AgateLib.UserInterface.Venus.Layout
 
 			AddBoxModel(containerStyle);
 		}
+
+		public bool ComputeBoxSize(WidgetStyle widget, int? maxWidth, int? maxHeight)
+		{
+			var calculator = FindCalculator(widget.Widget);
+
+			return calculator.ComputeBoxSize(widget, maxWidth, maxHeight);
+		}
 	}
 }

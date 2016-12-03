@@ -7,6 +7,11 @@ namespace AgateLib.UserInterface.DataModel
 {
 	public class WidgetThemeModel : WidgetStateModel
 	{
+		public int? MaxWidth { get; set; }
+		public int? MaxHeight { get; set; }
+		public int? MinWidth { get; set; }
+		public int? MinHeight { get; set; }
+
 		public BoxDataModel Box { get; set; }
 
 		public WidgetTransitionModel Transition { get; set; } 

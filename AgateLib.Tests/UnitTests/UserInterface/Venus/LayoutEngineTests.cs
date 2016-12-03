@@ -13,94 +13,24 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 	[TestClass]
 	public class LayoutEngineTests : AgateUnitTest
 	{
-		class Facet : IUserInterfaceFacet
-		{
-			public Window window;
-			public Panel container_1;
-			public Panel container_2;
-			public Label label_1, label_2, label_3, label_4, label_5;
-
-			public string FacetName { get { return "main"; } }
-
-			public Gui InterfaceRoot { get; set; }
-		}
-
-		Facet facet;
-		AgateResourceManager resources;
-		IGuiLayoutEngine layoutEngine;
-
 		[TestMethod]
 		public void LayoutNaturalSizes()
 		{
-			InitializeWindow(int.MaxValue, int.MaxValue);
+			const int windowSize = 15000;
+			var initializer = new TestFacetInitializer();
 
-			Assert.AreEqual(-10, facet.window.Width);
+			initializer.InitializeWindow(windowSize, windowSize);
+
+			Assert.AreEqual(windowSize, initializer.Facet.window.Width);
+			Assert.AreEqual(windowSize, initializer.Facet.window.Height);
+
+			Assert.AreEqual(68, initializer.Facet.container_1.Width);
+			Assert.AreEqual(110, initializer.Facet.container_1.Height);
+
+			Assert.AreEqual("hello", initializer.Facet.label_1.Text);
+			Assert.AreEqual(96, initializer.Facet.label_1.Width);
+			Assert.AreEqual(6, initializer.Facet.label_1.Height);
 		}
-
-		private void InitializeWindow(int width, int height)
-		{
-
-			string yaml = $@"
-themes:
-    default:
-        window:
-            box:
-                padding: 256
-                margin: 128
-            border:
-                slice: 64
-        panel:
-            box:
-                padding: 32
-                margin: 16
-            border:
-                slice: 8
-        label:
-            box:
-                padding: 4
-                margin: 2
-            border:
-                slice: 1
-
-facets:
-    main: 
-        window:
-            type: window
-            position: 10 15
-            size: {width} {height}
-            children:
-                container_1:
-                    type: panel
-                    children:
-                        label_1:
-                            type: label
-                            text: hello
-                        label_2:
-                            type: label
-                            text: hello, world
-                        label_3:
-                            type: label
-                            text: hello your face
-                container_2:
-                    type: panel
-                    children:
-                        label_4:
-                            type: label
-                            text: dogs are the best
-                        label_5:
-                            type: label
-                            text: cats suck
-";
-
-			var resourceDataModel = new ResourceDataLoader().LoadFromText(yaml);
-			resources = new AgateResourceManager(resourceDataModel);
-
-			layoutEngine = resources.UserInterface.LayoutEngine;
-
-			facet = new Facet();
-			resources.UserInterface.InitializeFacet(facet);
-
-			layoutEngine.UpdateLayout(facet.InterfaceRoot);
-		}
+		
 	}
 }
