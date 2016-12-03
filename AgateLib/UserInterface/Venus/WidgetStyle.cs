@@ -19,6 +19,8 @@ namespace AgateLib.UserInterface.Venus
 
 		public Widget Widget { get; private set; }
 
+		public WidgetProperties WidgetProperties { get; internal set; }
+
 		public WidgetMetrics Metrics { get; private set; } = new WidgetMetrics();
 
 		public ContainerLayout ContainerLayout { get; private set; } = new ContainerLayout();
@@ -45,11 +47,22 @@ namespace AgateLib.UserInterface.Venus
 		public TextAlign TextAlign { get; set; }
 
 		internal bool NeedRefresh { get; set; }
-		public WidgetProperties WidgetProperties { get; internal set; }
+
+		public void Clear()
+		{
+			Metrics = new WidgetMetrics();
+			ContainerLayout = new ContainerLayout();
+			WidgetLayout = new WidgetLayout();
+			Background = new BackgroundStyle();
+			Border = new BorderStyle();
+			Transition = new TransitionStyle();
+			BoxModel.Clear();
+		}
 
 		public override string ToString()
 		{
 			return $"WidgetStyle: {Widget.Name} ({Widget.GetType().Name})";
 		}
+
 	}
 }

@@ -9,7 +9,10 @@ namespace AgateLib.UserInterface.DataModel
 		public TextAlign? TextAlign { get; set; }
 		public Overflow? Overflow { get; set; }
 
+		public BoxDataModel Box { get; set; }
+
 		public WidgetBackgroundModel Background { get; set; }
+
 		public WidgetBorderModel Border { get; set; } 
 	}
 }

@@ -17,6 +17,8 @@ default:
             padding: 8
         state:
             selected:
+                box:
+                    padding: 2
                 border:
                     image: ui_border_1.png
                     size: 6

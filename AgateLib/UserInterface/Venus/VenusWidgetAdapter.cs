@@ -94,13 +94,7 @@ namespace AgateLib.UserInterface.Venus
 			if (theme == null)
 				return;
 
-			widget.Font.Color = theme.TextColor ?? widget.Font.Color;
-
-			if (theme.Box != null)
-			{
-				widget.BoxModel.Margin = theme.Box.Margin ?? widget.BoxModel.Margin;
-				widget.BoxModel.Padding = theme.Box.Padding ?? widget.BoxModel.Padding;
-			}
+			ApplyStateProperties(widget, theme);
 
 			ApplyBackgroundModel(widget, theme.Background);
 			ApplyBorderModel(widget, theme.Border);
@@ -113,6 +107,23 @@ namespace AgateLib.UserInterface.Venus
 				font.Size = theme.Font.Size ?? font.Size;
 				font.Style = theme.Font.Style ?? font.Style;
 			}
+		}
+
+		private void ApplyStateProperties(WidgetStyle widget, WidgetStateModel stateModel)
+		{
+			if (stateModel == null)
+				return;
+
+			ApplyBackgroundModel(widget, stateModel.Background);
+			ApplyBorderModel(widget, stateModel.Border);
+
+			if (stateModel.Box != null)
+			{
+				widget.BoxModel.Margin = stateModel.Box.Margin ?? widget.BoxModel.Margin;
+				widget.BoxModel.Padding = stateModel.Box.Padding ?? widget.BoxModel.Padding;
+			}
+
+			widget.Font.Color = stateModel.TextColor ?? widget.Font.Color;
 		}
 
 		private void ApplyBackgroundModel(WidgetStyle widget, WidgetBackgroundModel backgroundModel)
@@ -140,17 +151,6 @@ namespace AgateLib.UserInterface.Venus
 
 				widget.BoxModel.Border = border.ImageSlice;
 			}
-		}
-
-		private void ApplyStateProperties(WidgetStyle widget, WidgetStateModel stateModel)
-		{
-			if (stateModel == null)
-				return;
-
-			ApplyBackgroundModel(widget, stateModel.Background);
-			ApplyBorderModel(widget, stateModel.Border);
-
-			widget.Font.Color = stateModel.TextColor ?? widget.Font.Color;
 		}
 
 		private WidgetThemeModel DefaultThemeOf(Widget widget)
@@ -194,7 +194,7 @@ namespace AgateLib.UserInterface.Venus
 			var theme = ThemeOf(style.Widget);
 			var properties = style.WidgetProperties;
 
-			style.BoxModel.Clear();
+			style.Clear();
 
 			ApplyStyleProperties(style, defaultTheme);
 			ApplyStyleProperties(style, theme);

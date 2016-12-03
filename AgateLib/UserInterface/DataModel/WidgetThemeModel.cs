@@ -12,8 +12,6 @@ namespace AgateLib.UserInterface.DataModel
 		public int? MinWidth { get; set; }
 		public int? MinHeight { get; set; }
 
-		public BoxDataModel Box { get; set; }
-
 		public WidgetTransitionModel Transition { get; set; } 
 
 		public Dictionary<string, WidgetStateModel> State { get; set; } = new Dictionary<string, WidgetStateModel>();

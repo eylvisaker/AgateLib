@@ -43,8 +43,8 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 
 			var screenPt = initializer.Facet.label_1.ClientToScreen(Point.Empty);
 
-			Assert.AreEqual(511, screenPt.X);
-			Assert.AreEqual(511, screenPt.Y);
+			Assert.AreEqual(63, screenPt.X);
+			Assert.AreEqual(63, screenPt.Y);
 		}
 
 	}

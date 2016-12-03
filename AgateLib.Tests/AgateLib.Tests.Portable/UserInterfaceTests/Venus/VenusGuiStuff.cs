@@ -28,6 +28,8 @@ namespace AgateLib.Testing.UserInterfaceTests
 			public Window window_2 { get; set; }
 			public Menu menu_1 { get; set; }
 
+			public Label label_1 { get; set; }
+
 			public Gui InterfaceRoot { get; set; }
 
 			public string FacetName {  get { return "VenusGuiStuff"; } }
@@ -53,6 +55,13 @@ namespace AgateLib.Testing.UserInterfaceTests
 			facet = new TestFacet();
 
 			resources.UserInterface.InitializeFacet(facet);
+
+			facet.menu_1.SelectedItemChanged += (sender, args) =>
+			{
+				var pt = facet.label_1.ClientToScreen(Point.Empty);
+
+				facet.label_1.Text = $"Location: {pt.X},{pt.Y}";
+			};
 
 			joy = JoystickInput.Joysticks.FirstOrDefault();
 

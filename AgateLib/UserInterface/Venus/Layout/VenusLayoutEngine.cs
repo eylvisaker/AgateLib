@@ -103,6 +103,10 @@ namespace AgateLib.UserInterface.Venus.Layout
 
 			assembler.DoLayout(this, containerStyle, layoutChildren);
 
+			container.ClientWidgetOffset = new Point(
+				containerStyle.BoxModel.Border.Left + containerStyle.BoxModel.Padding.Left, 
+				containerStyle.BoxModel.Border.Top + containerStyle.BoxModel.Padding.Top);
+
 			foreach(var subContainer in nonlayoutContainers)
 			{
 				LayoutChildren(subContainer, totalRefresh);

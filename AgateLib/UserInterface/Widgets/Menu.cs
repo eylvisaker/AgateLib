@@ -195,16 +195,6 @@ namespace AgateLib.UserInterface.Widgets
 
 				if (mTimeToRepeat < 0)
 				{
-					/*
-                    if (ZodiacPresenter.ButtonState[InputButton.Right] && AcceptLeftRightInput)
-                        IncrementIndex(1, true);
-                    else if (ZodiacPresenter.ButtonState[InputButton.Left] && AcceptLeftRightInput)
-                        DecrementIndex(1, true);
-                    else if (ZodiacPresenter.ButtonState[InputButton.Down])
-                        IncrementIndex(Columns, true);
-                    else if (ZodiacPresenter.ButtonState[InputButton.Up])
-                        DecrementIndex(Columns, true);
-                    */
 					mTimeToRepeat = 0.05;
 				}
 
@@ -439,12 +429,16 @@ namespace AgateLib.UserInterface.Widgets
 					mScrollRow++;
 				}
 			}
+
+			SelectedItemChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		private void UpdateSelectedItem()
 		{
 			foreach (var item in MenuItems)
 				item.Selected = item == SelectedItem;
+
+			
 		}
 
 		public bool DrawPointer { get; set; }
@@ -462,6 +456,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		public event EventHandler MenuCancel;
 		public event EventHandler DualSelect;
+		public event EventHandler SelectedItemChanged;
 
 		protected internal override bool AcceptGestureInput
 		{
