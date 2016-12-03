@@ -29,34 +29,47 @@ namespace AgateLib.UserInterface.Venus
 		public FacetModelCollection FacetData { get; set; }
 
 		public ThemeModelCollection ThemeData { get; set; }
-
+		
 		public void InitializeStyleData(Gui gui)
 		{
 			var facetModel = FacetData[gui.FacetName];
 
-			InitializeStyleData(gui.Desktop.Children, facetModel, null);
+			InitializeStyleData(gui.Desktop.Children, facetModel);
+		}
+		public WidgetStyle StyleOf(Widget widget)
+		{
+			if (styles.ContainsKey(widget) == false)
+				styles.Add(widget, new WidgetStyle(widget));
+
+			var result = styles[widget];
+
+			if (result.NeedRefresh || widget.StyleDirty)
+			{
+				BuildStyle(result);
+			}
+
+			return result;
+		}
+		IWidgetStyle IWidgetAdapter.StyleOf(Widget widget)
+		{
+			return StyleOf(widget);
 		}
 
-		private void InitializeStyleData(IEnumerable<Widget> children, FacetModel facetModel, Widget parent)
+		private void InitializeStyleData(IEnumerable<Widget> children, FacetModel facetModel)
 		{
 			foreach (var child in children)
 			{
 				InitializeStyleDataForWidget(child, facetModel[child.Name]);
 			}
-
 		}
 
 		private void InitializeStyleDataForWidget(Widget widget, WidgetProperties widgetProperties)
 		{
-			var theme = ThemeOf(widget);
 			var style = StyleOf(widget);
 
-			style.BoxModel.Clear();
+			style.WidgetProperties = widgetProperties;
 
-			ApplyStyleProperties(style, DefaultThemeOf(widget));
-			ApplyStyleProperties(style, theme);
-			ApplyStyleProperties(style, widgetProperties.Style);
-			ApplyWidgetProperties(style, widgetProperties);
+			BuildStyle(style);
 
 			var container = widget as Container;
 			if (container != null)
@@ -89,26 +102,8 @@ namespace AgateLib.UserInterface.Venus
 				widget.BoxModel.Padding = theme.Box.Padding ?? widget.BoxModel.Padding;
 			}
 
-			if (theme.Background != null)
-			{
-				var background = widget.Background;
-
-				background.Image = theme.Background.Image ?? background.Image;
-				background.Color = theme.Background.Color ?? background.Color;
-				background.Repeat = theme.Background.Repeat ?? background.Repeat;
-				background.Clip = theme.Background.Clip ?? background.Clip;
-				background.Position = theme.Background.Position ?? background.Position;
-			}
-
-			if (theme.Border != null)
-			{
-				var border = widget.Border;
-
-				border.Image = theme.Border.Image ?? border.Image;
-				border.ImageSlice = theme.Border.Size ?? border.ImageSlice;
-
-				widget.BoxModel.Border = border.ImageSlice;
-			}
+			ApplyBackgroundModel(widget, theme.Background);
+			ApplyBorderModel(widget, theme.Border);
 
 			if (theme.Font != null)
 			{
@@ -118,6 +113,44 @@ namespace AgateLib.UserInterface.Venus
 				font.Size = theme.Font.Size ?? font.Size;
 				font.Style = theme.Font.Style ?? font.Style;
 			}
+		}
+
+		private void ApplyBackgroundModel(WidgetStyle widget, WidgetBackgroundModel backgroundModel)
+		{
+			if (backgroundModel == null)
+				return;
+
+			var background = widget.Background;
+
+			background.Image = backgroundModel.Image ?? background.Image;
+			background.Color = backgroundModel.Color ?? background.Color;
+			background.Repeat = backgroundModel.Repeat ?? background.Repeat;
+			background.Clip = backgroundModel.Clip ?? background.Clip;
+			background.Position = backgroundModel.Position ?? background.Position;
+		}
+
+		private void ApplyBorderModel(WidgetStyle widget, WidgetBorderModel themeBorder)
+		{
+			if (themeBorder != null)
+			{
+				var border = widget.Border;
+
+				border.Image = themeBorder.Image ?? border.Image;
+				border.ImageSlice = themeBorder.Size ?? border.ImageSlice;
+
+				widget.BoxModel.Border = border.ImageSlice;
+			}
+		}
+
+		private void ApplyStateProperties(WidgetStyle widget, WidgetStateModel stateModel)
+		{
+			if (stateModel == null)
+				return;
+
+			ApplyBackgroundModel(widget, stateModel.Background);
+			ApplyBorderModel(widget, stateModel.Border);
+
+			widget.Font.Color = stateModel.TextColor ?? widget.Font.Color;
 		}
 
 		private WidgetThemeModel DefaultThemeOf(Widget widget)
@@ -154,31 +187,47 @@ namespace AgateLib.UserInterface.Venus
 			return widget.GetType().Name;
 		}
 
-		public WidgetStyle StyleOf(Widget widget)
+
+		private void BuildStyle(WidgetStyle style)
 		{
-			if (styles.ContainsKey(widget) == false)
-				styles.Add(widget, new WidgetStyle(widget));
+			var defaultTheme = DefaultThemeOf(style.Widget);
+			var theme = ThemeOf(style.Widget);
+			var properties = style.WidgetProperties;
 
-			var result = styles[widget];
+			style.BoxModel.Clear();
 
-			if (result.NeedRefresh)
+			ApplyStyleProperties(style, defaultTheme);
+			ApplyStyleProperties(style, theme);
+
+			if (style.WidgetProperties != null)
 			{
-				BuildStyle(result);
+				ApplyStyleProperties(style, style.WidgetProperties.Style);
+				ApplyWidgetProperties(style, style.WidgetProperties);
 			}
 
-			return result;
+			var state = StateOf(style.Widget);
+
+			if (string.IsNullOrWhiteSpace(state) == false && theme.State.ContainsKey(state))
+			{
+				ApplyStateProperties(style, theme.State[state]);
+			}
+
+			style.NeedRefresh = false;
+			style.Widget.StyleDirty = false;
 		}
 
-		IWidgetStyle IWidgetAdapter.StyleOf(Widget widget)
+		private string StateOf(Widget widget)
 		{
-			return StyleOf(widget);
-		}
+			var menuItem = widget as MenuItem;
 
-		private void BuildStyle(WidgetStyle result)
-		{
-			var widget = result.Widget;
-		}
+			if (menuItem != null)
+			{
+				if (menuItem.Selected)
+					return "selected";
+			}
 
+			return null;
+		}
 
 		public void SetFont(Widget control)
 		{

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Widgets;
 
@@ -44,6 +45,7 @@ namespace AgateLib.UserInterface.Venus
 		public TextAlign TextAlign { get; set; }
 
 		internal bool NeedRefresh { get; set; }
+		public WidgetProperties WidgetProperties { get; internal set; }
 
 		public override string ToString()
 		{

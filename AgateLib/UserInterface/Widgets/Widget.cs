@@ -71,12 +71,6 @@ namespace AgateLib.UserInterface.Widgets
 					mWidgetSize.Width,
 					mWidgetSize.Height);
 			}
-			//set
-			//{
-			//	mClientRect.X = value.X + mClientWidgetOffset.X;
-			//	mClientRect.Y = value.Y + mClientWidgetOffset.Y;
-			//	mWidgetRect = value; 
-			//}
 		}
 		public Point ClientWidgetOffset
 		{

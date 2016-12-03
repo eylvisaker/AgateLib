@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Geometry;
 using AgateLib.Resources;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Widgets;
@@ -20,6 +21,8 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 		public int LabelPadding { get; set; } = 4;
 		public int LabelMargin { get; set; } = 2;
 		public int LabelBorder { get; set; } = 1;
+
+		public Point WindowPosition { get; set; } = new Point(10, 15);
 
 		public TestFacet Facet { get; private set; }
 		public AgateResourceManager Resources { get; private set; }
@@ -55,7 +58,7 @@ facets:
     main: 
         window:
             type: window
-            position: 10 15
+            position: {WindowPosition.X} {WindowPosition.Y}
             size: {width} {height}
             children:
                 container_1:

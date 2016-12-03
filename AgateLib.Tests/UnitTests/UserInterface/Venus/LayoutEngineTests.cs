@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Geometry;
 using AgateLib.Resources;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
@@ -31,6 +32,20 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			Assert.AreEqual(96, initializer.Facet.label_1.Width);
 			Assert.AreEqual(6, initializer.Facet.label_1.Height);
 		}
-		
+
+		[TestMethod]
+		public void LayoutLabelScreenPosition()
+		{
+			const int windowSize = 15000;
+			var initializer = new TestFacetInitializer() { WindowPosition = Point.Empty };
+
+			initializer.InitializeWindow(windowSize, windowSize);
+
+			var screenPt = initializer.Facet.label_1.ClientToScreen(Point.Empty);
+
+			Assert.AreEqual(511, screenPt.X);
+			Assert.AreEqual(511, screenPt.Y);
+		}
+
 	}
 }

@@ -42,7 +42,10 @@ namespace AgateLib.UserInterface.Rendering
 				return mSurfaces[file];
 			}
 
-			return new Surface(file, Assets.UserInterfaceAssets);
+			if (mSurfaces.ContainsKey(file) == false)
+				mSurfaces.Add(file, new Surface(file, Assets.UserInterfaceAssets));
+
+			return mSurfaces[file];
 		}
 	}
 }

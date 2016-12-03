@@ -54,8 +54,8 @@ namespace AgateLib.UserInterface.Venus.Layout.LayoutAssemblers
 			{
 				layoutBuilder.ComputeBoxSize(child, maxWidth: containerWidth);
 
-				child.Widget.X = 0;
-				child.Widget.Y = y;
+				child.Widget.X = child.BoxModel.Left;
+				child.Widget.Y = y + child.BoxModel.Top;
 
 				y += child.Metrics.BoxSize.Height;
 			}

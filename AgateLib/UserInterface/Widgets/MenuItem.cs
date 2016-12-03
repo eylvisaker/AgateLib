@@ -96,6 +96,8 @@ namespace AgateLib.UserInterface.Widgets
 					OnSelect();
 				else
 					OnDeselect();
+
+				StyleDirty = true;
 			}
 		}
 
