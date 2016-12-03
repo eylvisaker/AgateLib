@@ -53,7 +53,7 @@ namespace AgateLib.UnitTests.ApplicationModels
 	}
 
 	[TestClass]
-	public class ArgumentProcessorTest
+	public class ArgumentProcessorTest : AgateUnitTest
 	{
 		[TestMethod]
 		public void SetWindowSizeTest()

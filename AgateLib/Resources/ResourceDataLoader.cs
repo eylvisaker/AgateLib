@@ -18,7 +18,43 @@ namespace AgateLib.Resources
 	public class ResourceDataLoader
 	{
 		/// <summary>
-		/// Searches Assets.UserInterfaceAssets
+		/// Parses the text directly to a resource data model.
+		/// Throws an exception if external files are referenced.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		public ResourceDataModel LoadFromText(string text)
+		{
+			var deserializer = new DeserializerBuilder()
+				.WithNamingConvention(new HyphenatedNamingConvention())
+				.WithTypeConverter(new ColorConverterYaml())
+				.WithTypeConverter(new LayoutBoxConverterYaml())
+				.WithTypeConverter(new PointConverterYaml())
+				.WithTypeConverter(new SizeConverterYaml())
+				.Build();
+
+			using (var file = new StringReader(text)) 
+			{
+				ResourceDataModel result = deserializer.Deserialize<ResourceDataModel>(text);
+
+				ThrowIfExternalFiles(result);
+
+				return result;
+			}
+		}
+
+		private void ThrowIfExternalFiles(ResourceDataModel config)
+		{
+			if (config.FontSources.Any() ||
+				config.ThemeSources.Any() ||
+				config.FacetSources.Any())
+			{
+				throw new AgateResourceException("The following properties must be empty: font-sources, theme-sources, facet-sources");
+			}
+		}
+
+		/// <summary>
+		/// Searches Assets.UserInterfaceAssets for the file and any peripheral files.
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
@@ -42,9 +78,10 @@ namespace AgateLib.Resources
 			}
 		}
 
+
 		private void ReadExternalFiles(Deserializer deserializer, ResourceDataModel config)
 		{
-			ReadSources<FontModelCollection, List<FontModel>>(deserializer, config, config.FontSources, 
+			ReadSources<FontModelCollection, List<FontModel>>(deserializer, config, config.FontSources,
 				(key, value) => config.Fonts.Add(key, value));
 
 			ReadSources<ThemeModelCollection, ThemeModel>(deserializer, config, config.ThemeSources,

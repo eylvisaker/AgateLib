@@ -11,23 +11,25 @@ using AgateLib.Platform.Test;
 
 namespace AgateLib.UnitTests
 {
-    [TestClass]
-    public class AgateUnitTest
-    {
-        public AgateUnitTest()
-        {
-            Factory = InitializeAgateLib();
-        }
+	[TestClass]
+	public class AgateUnitTest
+	{
+		public AgateUnitTest()
+		{
+			Factory = Initializer.InitializeAgateLib();
 
-        public FakeAgateFactory Factory { get; set; }
+			Initializer.InitializeDisplayWindow(1920, 1080);
+		}
 
-        public static FakeAgateFactory InitializeAgateLib()
-        {
-            var result = new FakeAgateFactory();
+		[TestCleanup]
+		public virtual void Cleanup()
+		{
+			Initializer.InitializeAgateLib();
+		}
 
-            Core.Initialize(result);
+		public AgateLibInitializer Initializer { get; private set; } = new AgateLibInitializer();
+		
+		public FakeAgateFactory Factory { get; set; }
 
-            return result;
-        }
-    }
+	}
 }

@@ -105,6 +105,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AgateLibInitializer.cs" />
     <Compile Include="AgateUnitTest.cs" />
     <Compile Include="Algorithms\PathFinding\AStarTest.cs" />
     <Compile Include="Algorithms\EMathTest.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Resources\ResourceDataLoaderFontReadingTests.cs" />
     <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterTest.cs" />
     <Compile Include="UserInterface\Venus\AdapterTests.cs" />
+    <Compile Include="UserInterface\Venus\LayoutEngineTests.cs" />
     <Compile Include="UserInterface\Widgets\ConversionTests.cs" />
     <Compile Include="UserInterface\Widgets\MenuItemTests.cs" />
     <Compile Include="UserInterface\Widgets\ScrollingTests.cs" />

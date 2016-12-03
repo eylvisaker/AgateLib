@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Geometry;
-using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Widgets;
 
@@ -13,6 +11,7 @@ namespace AgateLib.UserInterface.Venus
 	public class WidgetStyle : IWidgetStyle
 	{
 		private IFontProperties font;
+		private WidgetMetrics metrics;
 
 		public WidgetStyle(Widget widget)
 		{
@@ -20,7 +19,13 @@ namespace AgateLib.UserInterface.Venus
 			NeedRefresh = true;
 		}
 
-		public Widget Widget { get; set; }
+		public Widget Widget { get; private set; }
+
+		public WidgetMetrics Metrics { get; private set; } = new WidgetMetrics();
+
+		public ContainerLayout ContainerLayout { get; private set; } = new ContainerLayout();
+
+		public WidgetLayout WidgetLayout { get; private set; } = new WidgetLayout();
 
 		public BackgroundStyle Background { get; set; } = new BackgroundStyle();
 		IBackgroundStyle IWidgetStyle.Background { get { return Background; } }
@@ -31,7 +36,7 @@ namespace AgateLib.UserInterface.Venus
 		public TransitionStyle Transition { get; set; } = new TransitionStyle();
 
 		public FontProperties Font { get; set; } = new FontProperties();
-		IFontProperties IWidgetStyle.Font {  get { return Font; } }
+		IFontProperties IWidgetStyle.Font { get { return Font; } }
 
 		ITransitionStyle IWidgetStyle.Transition { get { return Transition; } }
 

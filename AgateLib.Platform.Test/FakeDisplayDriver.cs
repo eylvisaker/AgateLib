@@ -10,8 +10,9 @@ using AgateLib.Drivers;
 
 namespace AgateLib.Platform.Test
 {
-	class FakeDisplayDriver : DisplayImpl 
+	public class FakeDisplayDriver : DisplayImpl 
 	{
+		
 		public override bool CapsBool(AgateLib.DisplayLib.DisplayBoolCaps caps)
 		{
 			throw new NotImplementedException();

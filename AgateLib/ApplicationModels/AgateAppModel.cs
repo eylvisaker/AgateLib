@@ -32,12 +32,10 @@ namespace AgateLib.ApplicationModels
 	{
 		#region --- Static Members ---
 
-		static AgateAppModel sInstance;
-
 		public static AgateAppModel Instance
 		{
-			get { return sInstance; }
-			private set { sInstance = value; }
+			get { return Core.State.AppModel.Instance; }
+			internal set { Core.State.AppModel.Instance = value; }
 		}
 
 		public static bool IsAlive

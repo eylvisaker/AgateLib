@@ -34,6 +34,7 @@ using AgateLib.ApplicationModels;
 using System.Threading.Tasks;
 using AgateLib.DefaultAssets;
 using AgateLib.Quality;
+using AgateLib.StaticState;
 
 namespace AgateLib
 {
@@ -94,35 +95,21 @@ namespace AgateLib
 	/// </summary>
 	public static class Core
 	{
-		private static bool sAutoPause = false;
-		private static bool sIsActive = true;
-		private static bool sInititalized = false;
-		private static PlatformInfo mPlatform;
-		private static PersistantSettings sSettings;
-		private static IAgateFactory mFactory;
-
 		#region --- Error Reporting ---
-
-		private static CrossPlatformDebugLevel mCrossPlatform = CrossPlatformDebugLevel.Comment;
-		private static IStopwatch mTime;
 
 		/// <summary>
 		/// Static class which is used to handle all error reports.
 		/// </summary>
 		public static class ErrorReporting
 		{
-			private static string sErrorFile = "errorlog.txt";
-			private static bool sAutoStackTrace = false;
-			private static bool sWroteHeader = false;
-
 			/// <summary>
 			/// Gets or sets the file name to which errors are recorded.  Defaults
 			/// to "errorlog.txt"
 			/// </summary>
 			public static string ErrorFile
 			{
-				get { return sErrorFile; }
-				set { sErrorFile = value; }
+				get { return State.Core.ErrorReporting.ErrorFile; }
+				set { State.Core.ErrorReporting.ErrorFile = value; }
 			}
 
 			/// <summary>
@@ -140,8 +127,8 @@ namespace AgateLib
 			/// </example>
 			public static bool AutoStackTrace
 			{
-				get { return sAutoStackTrace; }
-				set { sAutoStackTrace = value; }
+				get { return State.Core.ErrorReporting.AutoStackTrace; }
+				set { State.Core.ErrorReporting.AutoStackTrace = value; }
 			}
 
 			/// <summary>
@@ -150,8 +137,8 @@ namespace AgateLib
 			/// </summary>
 			public static CrossPlatformDebugLevel CrossPlatformDebugLevel
 			{
-				get { return mCrossPlatform; }
-				set { mCrossPlatform = value; }
+				get { return State.Core.CrossPlatformDebugLevel; }
+				set { State.Core.CrossPlatformDebugLevel = value; }
 			}
 
 			/// <summary>
@@ -262,7 +249,7 @@ namespace AgateLib
 			{
 				try
 				{
-					if (sWroteHeader == true)
+					if (State.Core.ErrorReporting.WroteHeader == true)
 					{
 						Stream stream = FileSystem.File.OpenWrite(ErrorFile, true);
 
@@ -275,7 +262,7 @@ namespace AgateLib
 
 						WriteHeader(writer);
 
-						sWroteHeader = true;
+						State.Core.ErrorReporting.WroteHeader = true;
 
 						return writer;
 					}
@@ -315,6 +302,8 @@ namespace AgateLib
 
 		#endregion
 
+		internal static InternalState State { get; set; } = new InternalState();
+
 		/// <summary>
 		/// Initializes Core class. Also causes the Registrar to probe drivers.
 		/// Can be called multiple times without adverse effects.
@@ -323,12 +312,12 @@ namespace AgateLib
 		{
 			Condition.Requires<ArgumentNullException>(factory != null);
 
-			if (sInititalized)
+			if (State.Core.Inititalized)
 				return;
 
-			mFactory = factory;
-			mPlatform = factory.PlatformFactory.Info;
-			mTime = factory.PlatformFactory.CreateStopwatch();
+			State.Core.Factory = factory;
+			State.Core.Platform = factory.PlatformFactory.Info;
+			State.Core.Time = factory.PlatformFactory.CreateStopwatch();
 
 			FileSystem.Initialize(factory.PlatformFactory);
 
@@ -338,14 +327,14 @@ namespace AgateLib
 
 			InitializeDefaultResources();
 
-			sInititalized = true;
+			State.Core.Inititalized = true;
 		}
 
 		public static void InitializeDefaultResources()
 		{
 			DefaultResources res = new DefaultResources();
 
-			var task = mFactory.DisplayFactory.InitializeDefaultResourcesAsync(res);
+			var task = State.Core.Factory.DisplayFactory.InitializeDefaultResourcesAsync(res);
 			Fonts.Initialize(res);
 
 			Task.WaitAll(task);
@@ -355,12 +344,12 @@ namespace AgateLib
 		{
 			Condition.Requires<ArgumentNullException>(assets != null);
 
-			FileProvider.Initialize(mFactory.PlatformFactory.ApplicationFolderFileProvider, assets);
+			FileProvider.Initialize(State.Core.Factory.PlatformFactory.ApplicationFolderFileProvider, assets);
 		}
 
 		public static IAgateFactory Factory
 		{
-			get { return mFactory; }
+			get { return State.Core.Factory; }
 		}
 
 		/// <summary>
@@ -368,7 +357,7 @@ namespace AgateLib
 		/// </summary>
 		public static PlatformInfo Platform
 		{
-			get { return mPlatform; }
+			get { return State.Core.Platform; }
 		}
 
 		/// <summary>
@@ -378,12 +367,12 @@ namespace AgateLib
 		{
 			get
 			{
-				if (sSettings == null)
+				if (State.Core.Settings == null)
 				{
-					sSettings = new PersistantSettings();
+					State.Core.Settings = new PersistantSettings();
 				}
 
-				return sSettings;
+				return State.Core.Settings;
 			}
 		}
 		/// <summary>
@@ -394,8 +383,8 @@ namespace AgateLib
 		/// </summary>
 		public static bool IsActive
 		{
-			get { return sIsActive; }
-			set { sIsActive = value; }
+			get { return State.Core.IsActive; }
+			set { State.Core.IsActive = value; }
 		}
 		/// <summary>
 		/// Gets or sets a bool value indicating whether or not Agate
@@ -410,8 +399,8 @@ namespace AgateLib
 		/// </summary>
 		public static bool AutoPause
 		{
-			get { return sAutoPause; }
-			set { sAutoPause = value; }
+			get { return State.Core.AutoPause; }
+			set { State.Core.AutoPause = value; }
 		}
 
 		/// <summary>
@@ -454,7 +443,7 @@ namespace AgateLib
 		/// <returns></returns>
 		internal static double GetTime()
 		{
-			return mTime.TotalMilliseconds;
+			return State.Core.Time.TotalMilliseconds;
 		}
 
 

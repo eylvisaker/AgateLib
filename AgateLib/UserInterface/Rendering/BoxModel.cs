@@ -36,6 +36,15 @@ namespace AgateLib.UserInterface.Rendering
 		public int Right { get { return Margin.Right + Padding.Right + Border.Right; } }
 		public int Bottom { get { return Margin.Bottom + Padding.Bottom + Border.Bottom; } }
 
+		/// <summary>
+		/// The total amount the box model adds to the width.
+		/// </summary>
+		public int Width { get { return Left + Right; } }
+		/// <summary>
+		/// The total amount the box model adds to the height;
+		/// </summary>
+		public int Height { get { return Top + Bottom; } }
+
 		public void Clear()
 		{
 			Margin = new LayoutBox();

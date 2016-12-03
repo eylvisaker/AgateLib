@@ -10,6 +10,7 @@ using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Venus;
 using AgateLib.UserInterface.Venus.Fulfillment;
+using AgateLib.UserInterface.Venus.Layout;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.Resources.Managers

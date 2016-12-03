@@ -18,7 +18,9 @@ namespace AgateLib.Platform.Test
 			DisplayImpl = new FakeDisplayDriver();
 		}
 
-		public DisplayImpl DisplayImpl { get; private set; }
+		public FakeDisplayDriver DisplayImpl { get; private set; }
+
+		DisplayImpl IDisplayFactory.DisplayImpl {  get { return DisplayImpl; } }
 
 		public DisplayWindowImpl CreateDisplayWindow(AgateLib.DisplayLib.DisplayWindow owner, AgateLib.DisplayLib.CreateWindowParams windowParams)
 		{

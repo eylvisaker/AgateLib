@@ -135,6 +135,8 @@
     <Compile Include="ApplicationModels\PassiveModelParameters.cs" />
     <Compile Include="ApplicationModels\SceneModelParameters.cs" />
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
+    <Compile Include="StaticState\AppModelState.cs" />
+    <Compile Include="StaticState\CoreState.cs" />
     <Compile Include="DefaultAssets\DefaultResources.cs" />
     <Compile Include="DefaultAssets\Fonts.cs" />
     <Compile Include="DisplayLib\Verify.cs" />
@@ -158,6 +160,7 @@
     <Compile Include="InputLib\GamepadMap.cs" />
     <Compile Include="InputLib\GamepadMapDatabase.cs" />
     <Compile Include="InputLib\GamepadStickEventArgs.cs" />
+    <Compile Include="StaticState\InternalState.cs" />
     <Compile Include="IO\Assets.cs" />
     <Compile Include="IO\FileSystemObjects.cs" />
     <Compile Include="IO\ReadFileProviderList.cs" />
@@ -645,6 +648,7 @@
     <Compile Include="UserInterface\DataModel\WidgetBackgroundModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetBorderModel.cs" />
     <Compile Include="UserInterface\IUserInterfaceFacet.cs" />
+    <Compile Include="UserInterface\Venus\ContainerLayout.cs" />
     <Compile Include="UserInterface\Venus\FontProperties.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\AssemblyDiscoveryWidgetActivator.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\FacetInspector.cs" />
@@ -706,9 +710,18 @@
     <Compile Include="UserInterface\DataModel\WidgetChildCollection.cs" />
     <Compile Include="UserInterface\DataModel\WidgetLayoutModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetProperties.cs" />
+    <Compile Include="UserInterface\Venus\Layout\ILayoutBuilder.cs" />
+    <Compile Include="UserInterface\Venus\Layout\LayoutAssemblers\ColumnAssembler.cs" />
+    <Compile Include="UserInterface\Venus\Layout\ILayoutAssembler.cs" />
+    <Compile Include="UserInterface\Venus\Layout\IWidgetMetricsCalculator.cs" />
+    <Compile Include="UserInterface\Venus\Layout\MetricsCalculators\DefaultMetricsCalculator.cs" />
+    <Compile Include="UserInterface\Venus\Layout\LayoutAssemblers\RowAssembler.cs" />
+    <Compile Include="UserInterface\Venus\Layout\VenusMetricsComputer.cs" />
     <Compile Include="UserInterface\Venus\TransitionStyle.cs" />
-    <Compile Include="UserInterface\Venus\VenusLayoutEngine.cs" />
+    <Compile Include="UserInterface\Venus\Layout\VenusLayoutEngine.cs" />
     <Compile Include="UserInterface\Venus\VenusWidgetAdapter.cs" />
+    <Compile Include="UserInterface\Venus\WidgetLayout.cs" />
+    <Compile Include="UserInterface\Venus\WidgetMetrics.cs" />
     <Compile Include="UserInterface\Venus\WidgetStyle.cs" />
     <Compile Include="UserInterface\Widgets\AxisType.cs" />
     <Compile Include="UserInterface\Widgets\Container.cs" />

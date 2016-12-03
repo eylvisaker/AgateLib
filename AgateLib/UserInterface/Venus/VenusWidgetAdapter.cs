@@ -24,29 +24,12 @@ namespace AgateLib.UserInterface.Venus
 			DefaultTheme["window"] = windowTheme;
 		}
 
-		private LayoutEnvironment environment = new LayoutEnvironment();
 		private Dictionary<Widget, WidgetStyle> styles = new Dictionary<Widget, WidgetStyle>();
-
-		public VenusWidgetAdapter(IEnumerable<WidgetLayoutModel> models = null)
-		{
-			models = models ?? new List<WidgetLayoutModel>();
-			WidgetLayoutModels = models.ToList();
-		}
 
 		public FacetModelCollection FacetData { get; set; }
 
 		public ThemeModelCollection ThemeData { get; set; }
-
-		public LayoutEnvironment Environment
-		{
-			get { return environment; }
-		}
-
-		public void AddLayoutModel(WidgetLayoutModel widgetLayoutModel)
-		{
-			WidgetLayoutModels.Add(widgetLayoutModel);
-		}
-
+		
 		public void InitializeStyleData(Gui gui)
 		{
 			var facetModel = FacetData[gui.FacetName];
@@ -65,7 +48,7 @@ namespace AgateLib.UserInterface.Venus
 		private void InitializeStyleDataForWidget(Widget widget, WidgetProperties widgetProperties)
 		{
 			var theme = ThemeOf(widget);
-			var style = (WidgetStyle)StyleOf(widget);
+			var style = StyleOf(widget);
 
 			style.BoxModel.Clear();
 
@@ -148,21 +131,8 @@ namespace AgateLib.UserInterface.Venus
 		{
 			return widget.GetType().Name;
 		}
-
-		internal List<WidgetLayoutModel> WidgetLayoutModels { get; set; }
-
-
-		internal IEnumerable<WidgetLayoutModel> SelectModels(string @namespace)
-		{
-			var result = from model in WidgetLayoutModels
-						 where model.Namespace == @namespace &&
-							   (model.Condition == null || model.Condition.ApplyLayoutModel(Environment, model))
-						 select model;
-
-			return result;
-		}
-
-		public IWidgetStyle StyleOf(Widget widget)
+		
+		public WidgetStyle StyleOf(Widget widget)
 		{
 			if (styles.ContainsKey(widget) == false)
 				styles.Add(widget, new WidgetStyle(widget));
@@ -175,6 +145,11 @@ namespace AgateLib.UserInterface.Venus
 			}
 
 			return result;
+		}
+
+		IWidgetStyle IWidgetAdapter.StyleOf(Widget widget)
+		{
+			return StyleOf(widget);
 		}
 
 		private void BuildStyle(WidgetStyle result)
