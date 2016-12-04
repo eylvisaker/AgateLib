@@ -106,9 +106,11 @@ namespace AgateLib.UserInterface.Venus.Layout
 
 			assembler.DoLayout(this, containerStyle, layoutChildren);
 
-			foreach (var subContainer in nonlayoutContainers)
+			foreach (var style in nonlayoutContainers.Select(x => adapter.StyleOf(x)))
 			{
-				LayoutChildren(subContainer, totalRefresh);
+				SetDimensions(style);
+
+				LayoutChildren(style.Widget as Container, totalRefresh);
 			}
 
 			foreach (var style in from item in container.Children
@@ -116,18 +118,25 @@ namespace AgateLib.UserInterface.Venus.Layout
 								  where style.WidgetLayout.SizeType == WidgetLayoutType.Flow
 								  select style)
 			{
+				SetDimensions(style);
+			}
+		}
+
+		private static void SetDimensions(WidgetStyle style)
+		{
+			if (style.WidgetLayout.PositionType == WidgetLayoutType.Flow)
+			{
 				style.Widget.Width = style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right;
 				style.Widget.Height = style.Metrics.BoxSize.Height - style.BoxModel.Margin.Top - style.BoxModel.Margin.Right;
-
-				style.Widget.WidgetSize = new Size(
-					style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right,
-					style.Metrics.BoxSize.Height - style.BoxModel.Margin.Top - style.BoxModel.Margin.Bottom);
-
-				style.Widget.ClientWidgetOffset = new Point(
-					containerStyle.BoxModel.Border.Left + containerStyle.BoxModel.Padding.Left,
-					containerStyle.BoxModel.Border.Top + containerStyle.BoxModel.Padding.Top);
-
 			}
+
+			style.Widget.WidgetSize = new Size(
+				style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right,
+				style.Metrics.BoxSize.Height - style.BoxModel.Margin.Top - style.BoxModel.Margin.Bottom);
+
+			style.Widget.ClientWidgetOffset = new Point(
+				style.BoxModel.Border.Left + style.BoxModel.Padding.Left,
+				style.BoxModel.Border.Top + style.BoxModel.Padding.Top);
 		}
 
 		private ILayoutAssembler FindAssembler(WidgetStyle containerStyle)
