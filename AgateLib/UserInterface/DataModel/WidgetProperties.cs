@@ -18,11 +18,26 @@ namespace AgateLib.UserInterface.DataModel
 
 		public WidgetThemeModel Style { get; set; }
 
+		/// <summary>
+		/// Indicates the upper-left point of the widget's client area.
+		/// If specified, the widget will not participate in the flow layout of controls. Instead it
+		/// will be fixed at this position within its parent. 
+		/// </summary><remarks>
+		/// Specifying this value will prevent
+		/// the UI system from touching the position of the widget, so supplying a value
+		/// is a good for controls that will be programmatically moved.
+		/// </remarks>
 		public Point? Position { get; set; }
+		/// <summary>
+		/// Indicates the size of the client area for this widget. 
+		/// If specified, the layout engine will not alter the size
+		/// of the widget.
+		/// </summary>
 		public Size? Size { get; set; }
 
-		public WidgetDock? Dock { get; set; }
 
 		public bool Enabled { get; set; } = true;
+
+		public bool Visible { get; set; } = true;
 	}
 }

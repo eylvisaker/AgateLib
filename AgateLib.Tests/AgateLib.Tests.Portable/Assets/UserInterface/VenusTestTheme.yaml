@@ -1,6 +1,8 @@
 ﻿
 default:
     window:
+        box:
+            padding: 4
         background:
             image: ui_back_1.png
             color: blue

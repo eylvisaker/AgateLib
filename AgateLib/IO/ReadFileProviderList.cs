@@ -297,7 +297,7 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public string ReadAllText(string filename)
 		{
-			Stream s = OpenReadAsync(filename).Result;
+			Stream s = OpenReadAsync(filename).GetAwaiter().GetResult();
 
 			return new StreamReader(s).ReadToEnd();
 		}

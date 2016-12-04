@@ -76,9 +76,35 @@ namespace AgateLib.UserInterface.Venus.Layout
 		{
 			var containerStyle = adapter.StyleOf(container);
 
-			ILayoutAssembler assembler = FindAssembler(containerStyle);
+			if (containerStyle.WidgetLayout.SizeType == WidgetLayoutType.Fixed)
+			{
+				var result = ComputeFixedNaturalSize(container, containerStyle);
 
-			return assembler.ComputeNaturalSize(this, containerStyle);
+				foreach (var child in container.Children)
+					ComputeNaturalSize(child);
+
+				return result;
+			}
+			else
+			{
+				ILayoutAssembler assembler = FindAssembler(containerStyle);
+
+				return assembler.ComputeNaturalSize(this, containerStyle);
+			}
+		}
+
+		private static bool ComputeFixedNaturalSize(Container container, WidgetStyle containerStyle)
+		{
+			var newNaturalBoxSize = new Size(
+				container.Width + containerStyle.BoxModel.Width,
+				container.Height + containerStyle.BoxModel.Height);
+
+			if (containerStyle.Metrics.NaturalBoxSize == newNaturalBoxSize)
+				return false;
+
+			containerStyle.Metrics.NaturalBoxSize = newNaturalBoxSize;
+
+			return true;
 		}
 
 		private void SetDesktopStyleProperties(Desktop desktop, Size renderTargetSize)
@@ -104,7 +130,7 @@ namespace AgateLib.UserInterface.Venus.Layout
 									   where style.WidgetLayout.PositionType == WidgetLayoutType.Fixed
 									   select item).ToList();
 
-			assembler.DoLayout(this, containerStyle, layoutChildren);
+			assembler.DoLayout(this, containerStyle, layoutChildren, maxWidth, maxHeight);
 
 			foreach (var style in nonlayoutContainers.Select(x => adapter.StyleOf(x)))
 			{
@@ -122,17 +148,23 @@ namespace AgateLib.UserInterface.Venus.Layout
 			}
 		}
 
-		private static void SetDimensions(WidgetStyle style)
+		private void SetDimensions(WidgetStyle style)
 		{
 			if (style.WidgetLayout.PositionType == WidgetLayoutType.Flow)
 			{
 				style.Widget.Width = style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right;
 				style.Widget.Height = style.Metrics.BoxSize.Height - style.BoxModel.Margin.Top - style.BoxModel.Margin.Right;
-			}
 
-			style.Widget.WidgetSize = new Size(
-				style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right,
-				style.Metrics.BoxSize.Height - style.BoxModel.Margin.Top - style.BoxModel.Margin.Bottom);
+				style.Widget.WidgetSize = new Size(
+					style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right,
+					style.Metrics.BoxSize.Height - style.BoxModel.Margin.Top - style.BoxModel.Margin.Bottom);
+			}
+			else
+			{
+				style.Widget.WidgetSize = new Size(
+					style.Widget.Width + style.BoxModel.WidgetWidth,
+					style.Widget.Height + style.BoxModel.WidgetHeight);
+			}
 
 			style.Widget.ClientWidgetOffset = new Point(
 				style.BoxModel.Border.Left + style.BoxModel.Padding.Left,

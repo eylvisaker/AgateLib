@@ -33,7 +33,7 @@ facets:
             children:
                 menu_1:
                     type: menu
-                    dock: fill
+                    visible: false
 ";
 
 		
@@ -71,7 +71,7 @@ facets:
 			var menu = window2.Children["menu_1"];
 
 			Assert.AreEqual("menu", menu.Type);
-			Assert.AreEqual(WidgetDock.Fill, menu.Dock);
+			Assert.AreEqual(false, menu.Visible);
 		}
 	}
 }

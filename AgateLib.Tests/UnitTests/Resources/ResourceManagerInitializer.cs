@@ -62,7 +62,6 @@ default_facet:
         children:
             menu_1:
                 type: menu
-                dock: fill
 ";
 
 

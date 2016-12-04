@@ -49,13 +49,14 @@ namespace AgateLib.UserInterface.Rendering.Animators
 		{
 			get
 			{
-				var widgetSize = ClientRect.Size;
-				var box = mStyle.BoxModel;
+				return Widget.WidgetSize;
+				//var widgetSize = ClientRect.Size;
+				//var box = mStyle.BoxModel;
 
-				widgetSize.Width += box.Padding.Left + box.Padding.Right + box.Border.Left + box.Border.Right;
-				widgetSize.Height += box.Padding.Top + box.Padding.Bottom + box.Border.Bottom + box.Border.Top;
+				//widgetSize.Width += box.Padding.Left + box.Padding.Right + box.Border.Left + box.Border.Right;
+				//widgetSize.Height += box.Padding.Top + box.Padding.Bottom + box.Border.Bottom + box.Border.Top;
 
-				return widgetSize;
+				//return widgetSize;
 			}
 		}
 		public Rectangle ClientRect

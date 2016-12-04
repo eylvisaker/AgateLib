@@ -2,7 +2,7 @@
 VenusGuiStuff: 
     window_1:
         type: window
-        position: 300 10
+        position: 330 20
         size: 250 400
         children:
             label1:
@@ -13,12 +13,11 @@ VenusGuiStuff:
                 text: This is another label
     window_2:
         type: window
-        position: 10 10
+        position: 20 20
         size: 275 300
         children:
             menu_1:
                 type: menu
-                dock: fill
                 children:
                     1:
                         type: menuitem
@@ -31,7 +30,7 @@ VenusGuiStuff:
                         children:
                             1: 
                                 type: label
-                                text: Second Label
+                                text: Second Label that is really long and goes on forever
                     3:
                         type: menuitem
                         children:

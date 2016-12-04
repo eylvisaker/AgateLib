@@ -37,13 +37,22 @@ namespace AgateLib.UserInterface.Rendering
 		public int Bottom { get { return Margin.Bottom + Padding.Bottom + Border.Bottom; } }
 
 		/// <summary>
-		/// The total amount the box model adds to the width.
+		/// The total amount the box model adds to the box width.
 		/// </summary>
 		public int Width { get { return Left + Right; } }
 		/// <summary>
-		/// The total amount the box model adds to the height;
+		/// The total amount the box model adds to the box height.
 		/// </summary>
 		public int Height { get { return Top + Bottom; } }
+
+		/// <summary>
+		/// Total amount the box model adds to the widget width.
+		/// </summary>
+		public int WidgetWidth { get { return Padding.Left + Padding.Right + Border.Left + Border.Right; } }
+		/// <summary>
+		/// Total amount the box model adds to the widget height.
+		/// </summary>
+		public int WidgetHeight { get { return Padding.Top + Padding.Bottom + Border.Top + Border.Bottom; } }
 
 		public void Clear()
 		{
