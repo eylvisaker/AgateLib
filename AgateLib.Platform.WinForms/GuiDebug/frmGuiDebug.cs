@@ -13,228 +13,231 @@ using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.Platform.WinForms.GuiDebug
 {
-    public partial class frmGuiDebug : Form
-    {
-        Dictionary<AgateLib.UserInterface.Widgets.Widget, TreeNode> mNodes = new Dictionary<UserInterface.Widgets.Widget, TreeNode>();
-        Dictionary<AgateLib.UserInterface.Widgets.Widget, AgateLib.UserInterface.Widgets.Gui> mGuiMap = new Dictionary<UserInterface.Widgets.Widget, UserInterface.Widgets.Gui>();
+	public partial class frmGuiDebug : Form
+	{
+		Dictionary<AgateLib.UserInterface.Widgets.Widget, TreeNode> mNodes = new Dictionary<UserInterface.Widgets.Widget, TreeNode>();
+		Dictionary<AgateLib.UserInterface.Widgets.Widget, AgateLib.UserInterface.Widgets.Gui> mGuiMap = new Dictionary<UserInterface.Widgets.Widget, UserInterface.Widgets.Gui>();
 
-        TreeNode RootNode { get { return tvWidgets.Nodes[0]; } }
+		TreeNode RootNode { get { return tvWidgets.Nodes[0]; } }
 
-        public frmGuiDebug()
-        {
-            InitializeComponent();
-        }
+		public frmGuiDebug()
+		{
+			InitializeComponent();
+		}
 
-        //protected override CreateParams CreateParams
-        //{
-        //	get
-        //	{
-        //		const int WS_EX_NOACTIVATE = 0x08000000;
+		//protected override CreateParams CreateParams
+		//{
+		//	get
+		//	{
+		//		const int WS_EX_NOACTIVATE = 0x08000000;
 
-        //		CreateParams cp = base.CreateParams;
-        //		cp.ExStyle |= WS_EX_NOACTIVATE;
-        //		return cp;
-        //	}
-        //}
+		//		CreateParams cp = base.CreateParams;
+		//		cp.ExStyle |= WS_EX_NOACTIVATE;
+		//		return cp;
+		//	}
+		//}
 
-        private void frmGuiDebug_Load(object sender, EventArgs e)
-        {
-            var screens = Screen.AllScreens;
-            var targetScreen = Screen.PrimaryScreen;
+		private void frmGuiDebug_Load(object sender, EventArgs e)
+		{
+			var screens = Screen.AllScreens;
+			var targetScreen = Screen.PrimaryScreen;
 
-            Top = targetScreen.WorkingArea.Top;
-            Left = targetScreen.WorkingArea.Left;
-            Height = targetScreen.WorkingArea.Height;
+			Top = targetScreen.WorkingArea.Top;
+			Left = targetScreen.WorkingArea.Left;
+			Height = targetScreen.WorkingArea.Height;
 
-            MarkTypesExpandable();
+			MarkTypesExpandable();
 
-            AgateLib.UserInterface.GuiStack.GuiEvent += GuiStack_GuiEvent;
-        }
+			AgateLib.UserInterface.GuiStack.GuiEvent += GuiStack_GuiEvent;
+		}
 
-        void GuiStack_GuiEvent(object sender, InputLib.AgateInputEventArgs e)
-        {
-            if (InvokeRequired)
-            {
-                BeginInvoke(new EventHandler<InputLib.AgateInputEventArgs>(GuiStack_GuiEvent), sender, e);
-                return;
-            }
+		void GuiStack_GuiEvent(object sender, InputLib.AgateInputEventArgs e)
+		{
+			if (InvokeRequired)
+			{
+				BeginInvoke(new EventHandler<InputLib.AgateInputEventArgs>(GuiStack_GuiEvent), sender, e);
+				return;
+			}
 
-            StringBuilder b = new StringBuilder();
+			StringBuilder b = new StringBuilder();
 
-            b.AppendLine(sender.ToString());
-            b.AppendLine(e.InputEventType.ToString());
-            b.AppendLine("Mouse: " + e.MousePosition.ToString());
+			b.AppendLine(sender.ToString());
+			b.AppendLine(e.InputEventType.ToString());
+			b.AppendLine("Mouse: " + e.MousePosition.ToString());
 
-            txtEvent.Text = b.ToString();
+			txtEvent.Text = b.ToString();
 
-            if (chkSelect.Checked && e.InputEventType == InputLib.InputEventType.MouseDown)
-            {
-                var widget = (AgateLib.UserInterface.Widgets.Widget)sender;
+			if (chkSelect.Checked && e.InputEventType == InputLib.InputEventType.MouseDown)
+			{
+				var widget = (AgateLib.UserInterface.Widgets.Widget)sender;
+				if (widget is Desktop)
+					return;
 
-                EnsureInTree(widget);
+				EnsureInTree(widget);
 
-                tvWidgets.SelectedNode = mNodes[widget];
-            }
-        }
+				tvWidgets.SelectedNode = mNodes[widget];
+			}
+		}
 
-        private void EnsureInTree(UserInterface.Widgets.Widget widget)
-        {
-            if (IsInTree(widget) == false && widget is UserInterface.Widgets.Desktop == false)
-                EnsureInTree(widget.Parent);
+		private void EnsureInTree(UserInterface.Widgets.Widget widget)
+		{
+			if (IsInTree(widget) == false && widget is UserInterface.Widgets.Desktop == false)
+				EnsureInTree(widget.Parent);
 
-            TreeViewAddCheck(widget);
-        }
+			TreeViewAddCheck(widget);
+		}
 
-        private bool IsInTree(UserInterface.Widgets.Widget widget)
-        {
-            return mNodes.ContainsKey(widget);
-        }
+		private bool IsInTree(UserInterface.Widgets.Widget widget)
+		{
+			return mNodes.ContainsKey(widget);
+		}
 
-        private void MarkTypesExpandable()
-        {
-            var types = typeof(CssLayoutEngine).Assembly.DefinedTypes;
+		private void MarkTypesExpandable()
+		{
+			var types = typeof(CssLayoutEngine).Assembly.DefinedTypes;
 
-            foreach (var type in types)
-            {
-                if (type.Namespace == null)
-                    continue;
+			foreach (var type in types)
+			{
+				if (type.Namespace == null)
+					continue;
 
-                if (type.Namespace == "AgateLib.Geometry" ||
-                    type.Namespace.StartsWith("AgateLib.UserInterface"))
-                {
-                    MarkTypeExpandable(type);
-                }
-            }
-        }
+				if (type.Namespace == "AgateLib.Geometry" ||
+					type.Namespace.StartsWith("AgateLib.UserInterface"))
+				{
+					MarkTypeExpandable(type);
+				}
+			}
+		}
 
-        private void MarkTypeExpandable(System.Reflection.TypeInfo type)
-        {
-            var attr = new TypeConverterAttribute(typeof(ExpandableObjectConverter));
-            TypeDescriptor.AddAttributes(type.AsType(), attr);
-        }
+		private void MarkTypeExpandable(System.Reflection.TypeInfo type)
+		{
+			var attr = new TypeConverterAttribute(typeof(ExpandableObjectConverter));
+			TypeDescriptor.AddAttributes(type.AsType(), attr);
+		}
 
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            UpdateTreeView();
-        }
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			UpdateTreeView();
+		}
 
-        List<AgateLib.UserInterface.Widgets.Widget> itemsToRemove = new List<AgateLib.UserInterface.Widgets.Widget>();
-        AgateLib.UserInterface.Widgets.Gui currentGui;
+		List<AgateLib.UserInterface.Widgets.Widget> itemsToRemove = new List<AgateLib.UserInterface.Widgets.Widget>();
+		AgateLib.UserInterface.Widgets.Gui currentGui;
 
-        private void UpdateTreeView()
-        {
-            var list = new List<Gui>(AgateLib.UserInterface.GuiStack.Items.Count());
-            list.AddRange(AgateLib.UserInterface.GuiStack.Items);
+		private void UpdateTreeView()
+		{
+			var list = new List<Gui>(AgateLib.UserInterface.GuiStack.Items.Count());
+			list.AddRange(AgateLib.UserInterface.GuiStack.Items);
 
-            foreach (var gui in list)
-            {
-                var adapter = GetAdapter(gui);
+			foreach (var gui in list)
+			{
+				var adapter = GetAdapter(gui);
 
-                if (adapter == null)
-                    continue;
+				if (adapter == null)
+					continue;
 
-                currentGui = gui;
+				currentGui = gui;
 
-                TreeViewAddCheck(gui.Desktop);
-            }
+				TreeViewAddCheck(gui.Desktop);
+			}
 
-            itemsToRemove.Clear();
+			itemsToRemove.Clear();
 
-            foreach (var item in mNodes.Keys)
-            {
-                if (item is AgateLib.UserInterface.Widgets.Desktop)
-                {
-                    if (list.All(x => x.Desktop != item))
-                        itemsToRemove.Add(item);
-                }
-                else
-                {
-                    if (item.Parent == null)
-                        itemsToRemove.Add(item);
-                }
-            }
+			foreach (var item in mNodes.Keys)
+			{
+				if (item is AgateLib.UserInterface.Widgets.Desktop)
+				{
+					if (list.All(x => x.Desktop != item))
+						itemsToRemove.Add(item);
+				}
+				else
+				{
+					if (item.Parent == null)
+						itemsToRemove.Add(item);
+				}
+			}
 
-            foreach (var item in itemsToRemove)
-            {
-                mNodes[item].Remove();
-                mNodes.Remove(item);
-            }
+			foreach (var item in itemsToRemove)
+			{
+				mNodes[item].Remove();
+				mNodes.Remove(item);
+			}
 
-            UpdateAnimatorProperties();
-        }
+			UpdateAnimatorProperties();
+		}
 
-        private void TreeViewAddCheck(AgateLib.UserInterface.Widgets.Widget widget)
-        {
-            if (mNodes.ContainsKey(widget))
-                return;
-            if (currentGui == null)
-                return;
+		private void TreeViewAddCheck(AgateLib.UserInterface.Widgets.Widget widget)
+		{
+			if (mNodes.ContainsKey(widget))
+				return;
+			if (currentGui == null)
+				return;
 
-            mNodes[widget] = new TreeNode(widget.ToString()) { Tag = widget };
-            mGuiMap[widget] = currentGui;
+			mNodes[widget] = new TreeNode(widget.ToString()) { Tag = widget };
+			mGuiMap[widget] = currentGui;
 
-            if (widget.Parent == null)
-            {
-                RootNode.Nodes.Add(mNodes[widget]);
-            }
-            else
-            {
-                var parentNode = mNodes[widget.Parent];
+			if (widget.Parent == null)
+			{
+				RootNode.Nodes.Add(mNodes[widget]);
+			}
+			else
+			{
+				var parentNode = mNodes[widget.Parent];
 
-                int index = widget.Parent.Children.IndexOf(widget);
+				int index = widget.Parent.Children.IndexOf(widget);
 
-                if (index < mNodes[widget.Parent].Nodes.Count)
-                    parentNode.Nodes.Insert(index, mNodes[widget]);
-                else
-                    parentNode.Nodes.Add(mNodes[widget]);
-            }
+				if (index < mNodes[widget.Parent].Nodes.Count)
+					parentNode.Nodes.Insert(index, mNodes[widget]);
+				else
+					parentNode.Nodes.Add(mNodes[widget]);
+			}
 
-            var container = widget as AgateLib.UserInterface.Widgets.Container;
-            if (container != null)
-            {
-                List<Widget> children = new List<Widget>();
-                children.AddRange(container.Children);
+			var container = widget as AgateLib.UserInterface.Widgets.Container;
+			if (container != null)
+			{
+				List<Widget> children = new List<Widget>();
+				children.AddRange(container.Children);
 
-                foreach (var w in children)
-                {
-                    TreeViewAddCheck(w);
-                }
-            }
-        }
+				foreach (var w in children)
+				{
+					TreeViewAddCheck(w);
+				}
+			}
+		}
 
-        AgateLib.UserInterface.Widgets.Widget SelectedWidget
-        {
-            get { return tvWidgets.SelectedNode.Tag as AgateLib.UserInterface.Widgets.Widget; }
-        }
+		AgateLib.UserInterface.Widgets.Widget SelectedWidget
+		{
+			get { return tvWidgets.SelectedNode.Tag as AgateLib.UserInterface.Widgets.Widget; }
+		}
 
-        private void tvWidgets_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            if (e.Node.Tag == null)
-                return;
+		private void tvWidgets_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			if (e.Node.Tag == null)
+				return;
 
-            var widget = (AgateLib.UserInterface.Widgets.Widget)e.Node.Tag;
-            var adapter = GetAdapter(widget);
-            var style = adapter.StyleOf(widget);
-            var renderer = (AgateUserInterfaceRenderer)widget.MyGui.Renderer;
+			var widget = (AgateLib.UserInterface.Widgets.Widget)e.Node.Tag;
+			var adapter = GetAdapter(widget);
+			var style = adapter.StyleOf(widget);
+			var renderer = (AgateUserInterfaceRenderer)widget.MyGui.Renderer;
 
-            pgWidget.SelectedObject = widget;
-            pgStyle.SelectedObject = style;
-            pgAnimator.SelectedObject = renderer.GetAnimator(widget);
-        }
+			pgWidget.SelectedObject = widget;
+			pgStyle.SelectedObject = style;
+			pgAnimator.SelectedObject = renderer.GetAnimator(widget);
+		}
 
-        private IWidgetAdapter GetAdapter(UserInterface.Widgets.Widget widget)
-        {
-            if (mGuiMap.ContainsKey(widget) == false)
-                return null;
+		private IWidgetAdapter GetAdapter(UserInterface.Widgets.Widget widget)
+		{
+			if (mGuiMap.ContainsKey(widget) == false)
+				return null;
 
-            var gui = mGuiMap[widget];
-            return GetAdapter(gui);
-        }
+			var gui = mGuiMap[widget];
+			return GetAdapter(gui);
+		}
 
-        private static IWidgetAdapter GetAdapter(UserInterface.Widgets.Gui gui)
-        {
-			try {
+		private static IWidgetAdapter GetAdapter(UserInterface.Widgets.Gui gui)
+		{
+			try
+			{
 				var renderer = (CssLayoutEngine)gui.Renderer;
 
 				if (renderer == null)
@@ -247,24 +250,24 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 			{
 				return null;
 			}
-        }
+		}
 
-        private void UpdateAnimatorProperties()
-        {
-            if (SelectedWidget != null)
-            {
-                var adapter = GetAdapter(SelectedWidget);
+		private void UpdateAnimatorProperties()
+		{
+			if (SelectedWidget != null)
+			{
+				var adapter = GetAdapter(SelectedWidget);
 
-                adapter.StyleOf(SelectedWidget);
-                pgStyle.Refresh();
-            }
-            pgAnimator.Refresh();
-        }
+				adapter.StyleOf(SelectedWidget);
+				pgStyle.Refresh();
+			}
+			pgAnimator.Refresh();
+		}
 
-        private void chkSelect_CheckedChanged(object sender, EventArgs e)
-        {
+		private void chkSelect_CheckedChanged(object sender, EventArgs e)
+		{
 
-        }
+		}
 
-    }
+	}
 }

@@ -15,7 +15,6 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 		public void ModifyModelParameters(SceneModelParameters parameters)
 		{
-			parameters.Arguments = parameters.Arguments.Where(x => x != "--debuggui").ToArray();
 		}
 
 		public Scene StartScene
