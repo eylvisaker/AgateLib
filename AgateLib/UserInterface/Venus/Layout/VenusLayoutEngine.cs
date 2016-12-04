@@ -57,6 +57,8 @@ namespace AgateLib.UserInterface.Venus.Layout
 		{
 			var container = widget as Container;
 
+			adapter.SetFont(widget);
+
 			if (container != null)
 			{
 				return ComputeNaturalSize(container);
@@ -64,6 +66,7 @@ namespace AgateLib.UserInterface.Venus.Layout
 			else
 			{
 				var style = adapter.StyleOf(widget);
+				adapter.SetFont(widget);
 
 				return metricsComputer.ComputeNaturalSize(widget, style);
 			}

@@ -61,13 +61,13 @@ namespace AgateLib.UserInterface.Css
 			}
 		}
 
-		public CssAdapter(CssDocument doc, Font defaultFont)
+		public CssAdapter(CssDocument doc, IFont defaultFont)
 			: this(doc)
 		{
 			this.DefaultFont = defaultFont;
 		}
 
-		public Font DefaultFont { get; set; }
+		public IFont DefaultFont { get; set; }
 
 		public CssDocument Document
 		{
@@ -124,7 +124,7 @@ namespace AgateLib.UserInterface.Css
 		{
 			int scale = 1;
 			double amount = distance.Amount;
-			Font font = null;
+			IFont font = null;
 
 			switch (distance.DistanceUnit)
 			{

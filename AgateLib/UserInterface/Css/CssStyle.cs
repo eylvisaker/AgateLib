@@ -99,7 +99,7 @@ namespace AgateLib.UserInterface.Css
 			return "Style: " + Widget.ToString();
 		}
 
-		public AgateLib.DisplayLib.Font Font { get; set; }
+		public AgateLib.DisplayLib.IFont Font { get; set; }
 
 		public WidgetMatchParameters MatchParameters { get; private set; }
 

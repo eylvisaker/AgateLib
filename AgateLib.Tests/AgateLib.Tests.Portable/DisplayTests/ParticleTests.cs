@@ -105,7 +105,7 @@ namespace AgateLib.Testing.DisplayTests.ParticleTest
 		public override void Draw()
 		{
 			Display.Clear(Color.Black);
-			Font font = AgateLib.DefaultAssets.Fonts.AgateSans;
+			IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
 			font.Size = 14;
 
 			font.DrawText("FPS: " + Display.FramesPerSecond);

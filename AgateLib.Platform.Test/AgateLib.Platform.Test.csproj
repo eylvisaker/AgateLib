@@ -57,6 +57,7 @@
     <Compile Include="FakeRenderTarget.cs" />
     <Compile Include="FakeSurface.cs" />
     <Compile Include="FakeSurfaceImpl.cs" />
+    <Compile Include="Fakes\Display\FakeFont.cs" />
     <Compile Include="Fakes\UserInterface\FakeGuiEngine.cs" />
     <Compile Include="Fakes\UserInterface\FakeLayout.cs" />
     <Compile Include="Input\FakeInputImpl.cs" />

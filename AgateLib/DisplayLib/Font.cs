@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.DisplayLib
 {
-	public class Font : IDisposable
+	public class Font : IFont
 	{
 		Dictionary<FontSettings, FontSurface> mFontSurfaces = new Dictionary<FontSettings, FontSurface>();
 		FontSettings mSettings;

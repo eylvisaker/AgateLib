@@ -56,10 +56,10 @@ namespace AgateLib.UserInterface.Venus.Layout.LayoutAssemblers
 
 				child.Widget.X = child.BoxModel.Left;
 				child.Widget.Y = y + child.BoxModel.Top;
-
+				
 				y += child.Metrics.BoxSize.Height;
 			}
-
+			
 			int height = y;
 
 			container.Metrics.BoxSize = new Size(

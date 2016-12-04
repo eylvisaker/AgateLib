@@ -22,7 +22,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 	{
 		class TestFacet : IUserInterfaceFacet
 		{
-			public Font Font { get; set; }
+			public IFont Font { get; set; }
 
 			public Window window_1 { get; set; }
 			public Window window_2 { get; set; }
@@ -60,7 +60,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 			{
 				var pt = facet.label_1.ClientToScreen(Point.Empty);
 
-				facet.label_1.Text = $"Location: {pt.X},{pt.Y}";
+				facet.label_1.Text = $"Client Rect: {pt.X},{pt.Y},{facet.label_1.Width},{facet.label_1.Height}";
 			};
 
 			joy = JoystickInput.Joysticks.FirstOrDefault();

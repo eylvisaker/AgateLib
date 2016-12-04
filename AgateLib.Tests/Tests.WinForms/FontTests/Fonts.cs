@@ -35,7 +35,7 @@ namespace AgateLib.Testing.FontTests
 		Display.BeginFrame();
 		Display.Clear(Color.DarkGray);
 
-		Font font = AgateLib.DefaultAssets.Fonts.AgateSans;
+		IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
 		font.Size = 12;
 
 		// test the color changing

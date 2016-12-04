@@ -22,6 +22,10 @@ default:
                 border:
                     image: ui_border_1.png
                     size: 6
+            hover:
+                background:
+                    color: 00ffff
+           
 
     label:
         text-color: navy

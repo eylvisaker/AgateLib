@@ -123,18 +123,22 @@ namespace AgateLib.Platform.WinForms.Factories
 		{
 			res.Dispose();
 
-			res.AgateSans = new Font("AgateSans");
-			res.AgateSerif = new Font("AgateSerif");
-			res.AgateMono = new Font("AgateMono");
+			var sans = new Font("AgateSans");
+			var serif = new Font("AgateSerif");
+			var mono = new Font("AgateMono");
 
-			res.AgateSans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-10"), 10, FontStyles.None);
-			res.AgateSans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-14"), 14, FontStyles.None);
-			res.AgateSans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-24"), 24, FontStyles.None);
+			res.AgateSans = sans;
+			res.AgateSerif = serif;
+			res.AgateMono = mono;
 
-			res.AgateSerif.AddFont(await BuiltinResources.GetFontAsync("AgateSerif-10"), 10, FontStyles.None);
-			res.AgateSerif.AddFont(await BuiltinResources.GetFontAsync("AgateSerif-14"), 14, FontStyles.None);
+			sans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-10"), 10, FontStyles.None);
+			sans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-14"), 14, FontStyles.None);
+			sans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-24"), 24, FontStyles.None);
 
-			res.AgateMono.AddFont(await BuiltinResources.GetFontAsync("AgateMono-10"), 10, FontStyles.None);
+			serif.AddFont(await BuiltinResources.GetFontAsync("AgateSerif-10"), 10, FontStyles.None);
+			serif.AddFont(await BuiltinResources.GetFontAsync("AgateSerif-14"), 14, FontStyles.None);
+
+			mono.AddFont(await BuiltinResources.GetFontAsync("AgateMono-10"), 10, FontStyles.None);
 		}
 	}
 }

@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DefaultAssets;
+using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
+using AgateLib.Platform.Test.Fakes.Display;
 
 namespace AgateLib.Platform.Test
 {
@@ -62,11 +64,16 @@ namespace AgateLib.Platform.Test
 		{
 			return new FakeSurface(pixels.Size);
 		}
-
-
+		
 		public Task InitializeDefaultResourcesAsync(DefaultResources res)
 		{
-			return Task.Run(() => { });
+			res.Dispose();
+
+			res.AgateSans = new FakeFont("AgateSans");
+			res.AgateSerif = new FakeFont("AgateSerif");
+			res.AgateMono = new FakeFont("AgateMono");
+
+			return Task.FromResult(0);
 		}
 	}
 

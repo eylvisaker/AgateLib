@@ -215,7 +215,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 
             var widget = (AgateLib.UserInterface.Widgets.Widget)e.Node.Tag;
             var adapter = GetAdapter(widget);
-            var style = adapter.GetStyle(widget);
+            var style = adapter.StyleOf(widget);
             var renderer = (AgateUserInterfaceRenderer)widget.MyGui.Renderer;
 
             pgWidget.SelectedObject = widget;
@@ -223,7 +223,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
             pgAnimator.SelectedObject = renderer.GetAnimator(widget);
         }
 
-        private UserInterface.Css.CssAdapter GetAdapter(UserInterface.Widgets.Widget widget)
+        private IWidgetAdapter GetAdapter(UserInterface.Widgets.Widget widget)
         {
             if (mGuiMap.ContainsKey(widget) == false)
                 return null;
@@ -232,15 +232,21 @@ namespace AgateLib.Platform.WinForms.GuiDebug
             return GetAdapter(gui);
         }
 
-        private static UserInterface.Css.CssAdapter GetAdapter(UserInterface.Widgets.Gui gui)
+        private static IWidgetAdapter GetAdapter(UserInterface.Widgets.Gui gui)
         {
-            var layout = (CssLayoutEngine)gui.LayoutEngine;
+			try {
+				var renderer = (CssLayoutEngine)gui.Renderer;
 
-            if (layout == null)
-                return null;
+				if (renderer == null)
+					return null;
 
-            var adapter = layout.Adapter;
-            return adapter;
+				var adapter = renderer.Adapter;
+				return adapter;
+			}
+			catch
+			{
+				return null;
+			}
         }
 
         private void UpdateAnimatorProperties()
@@ -249,7 +255,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
             {
                 var adapter = GetAdapter(SelectedWidget);
 
-                adapter.GetStyle(SelectedWidget);
+                adapter.StyleOf(SelectedWidget);
                 pgStyle.Refresh();
             }
             pgAnimator.Refresh();

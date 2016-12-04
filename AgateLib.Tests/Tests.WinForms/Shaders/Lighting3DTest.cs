@@ -42,7 +42,7 @@ namespace AgateLib.Testing.Shaders
 			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Lighting 3D", 640, 480);
-				Font font = DefaultAssets.Fonts.AgateSans;
+				IFont font = DefaultAssets.Fonts.AgateSans;
 				Surface texture = new Surface("bg-bricks.png");
 
 				AgateLib.Geometry.Builders.CubeBuilder cb = new AgateLib.Geometry.Builders.CubeBuilder();

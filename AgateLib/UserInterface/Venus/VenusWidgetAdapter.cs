@@ -205,28 +205,29 @@ namespace AgateLib.UserInterface.Venus
 				ApplyWidgetProperties(style, style.WidgetProperties);
 			}
 
-			var state = StateOf(style.Widget);
-
-			if (string.IsNullOrWhiteSpace(state) == false && theme.State.ContainsKey(state))
+			foreach (var state in StateOf(style.Widget))
 			{
-				ApplyStateProperties(style, theme.State[state]);
+				if (string.IsNullOrWhiteSpace(state) == false && theme.State.ContainsKey(state))
+				{
+					ApplyStateProperties(style, theme.State[state]);
+				}
 			}
 
 			style.NeedRefresh = false;
 			style.Widget.StyleDirty = false;
 		}
 
-		private string StateOf(Widget widget)
+		private IEnumerable<string> StateOf(Widget widget)
 		{
 			var menuItem = widget as MenuItem;
 
 			if (menuItem != null)
 			{
 				if (menuItem.Selected)
-					return "selected";
+					yield return "selected";
 			}
-
-			return null;
+			if (widget.MouseIn)
+				yield return "hover";
 		}
 
 		public void SetFont(Widget control)

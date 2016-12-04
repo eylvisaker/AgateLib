@@ -31,14 +31,14 @@ namespace AgateLib.DefaultAssets
 		/// <summary>
 		/// Default sans serif font.
 		/// </summary>
-		public static Font AgateSans { get { return mResources.AgateSans; } }
+		public static IFont AgateSans { get { return mResources.AgateSans; } }
 		/// <summary>
 		/// Default serif font.
 		/// </summary>
-		public static Font AgateSerif { get { return mResources.AgateSerif; } }
+		public static IFont AgateSerif { get { return mResources.AgateSerif; } }
 		/// <summary>
 		/// Default monospace font.
 		/// </summary>
-		public static Font AgateMono { get { return mResources.AgateMono; } }
+		public static IFont AgateMono { get { return mResources.AgateMono; } }
 	}
 }

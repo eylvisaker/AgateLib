@@ -22,7 +22,7 @@ namespace AgateLib.Testing.FontTests.TextLayout
 		{
 			Display.Clear(Color.White);
 
-			Font font = AgateLib.DefaultAssets.Fonts.AgateSans;
+			IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
 			font.Color = Color.Black;
 
 			font.TextImageLayout = TextImageLayout.InlineTop;

@@ -36,7 +36,7 @@ namespace AgateLib.UserInterface.Widgets
 		private Size mWidgetSize;
 
 		private Rectangle mClientRect;
-		private Font mFont;
+		private IFont mFont;
 		private Color? mFontColor;
 		private bool mEnabled = true;
 		string mStyle = string.Empty;
@@ -121,7 +121,7 @@ namespace AgateLib.UserInterface.Widgets
 				mParentCoordinateSystem = value;
 			}
 		}
-		public Font Font
+		public IFont Font
 		{
 			get
 			{
@@ -160,7 +160,7 @@ namespace AgateLib.UserInterface.Widgets
 				mFontColor = value;
 			}
 		}
-		private AgateLib.DisplayLib.Font FindParentFont()
+		private IFont FindParentFont()
 		{
 			Widget parent = Parent;
 

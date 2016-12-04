@@ -25,12 +25,12 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			Assert.AreEqual(windowSize, initializer.Facet.window.Width);
 			Assert.AreEqual(windowSize, initializer.Facet.window.Height);
 
-			Assert.AreEqual(68, initializer.Facet.container_1.Width);
-			Assert.AreEqual(110, initializer.Facet.container_1.Height);
+			Assert.AreEqual(57, initializer.Facet.container_1.Width);
+			Assert.AreEqual(152, initializer.Facet.container_1.Height);
 
 			Assert.AreEqual("hello", initializer.Facet.label_1.Text);
-			Assert.AreEqual(96, initializer.Facet.label_1.Width);
-			Assert.AreEqual(6, initializer.Facet.label_1.Height);
+			Assert.AreEqual(35, initializer.Facet.label_1.Width);
+			Assert.AreEqual(20, initializer.Facet.label_1.Height);
 		}
 
 		[TestMethod]

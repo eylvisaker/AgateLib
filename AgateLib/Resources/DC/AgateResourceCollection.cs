@@ -91,7 +91,7 @@ namespace AgateLib.Resources.DC
 			//return ser;
 		}
 
-		public Font CreateFont(string name)
+		public IFont CreateFont(string name)
 		{
 			FontResource fr = (FontResource)mResources[name];
 

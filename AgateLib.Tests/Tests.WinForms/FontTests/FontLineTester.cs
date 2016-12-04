@@ -13,7 +13,7 @@ namespace AgateLib.Testing.FontTests
 {
 	class FontLineTester : IAgateTest
 	{
-		List<Font> fonts = new List<Font>();
+		List<IFont> fonts = new List<IFont>();
 		int currentFont = 0;
 		string text = "This text is a test\nof multiline text.  How\ndid it work?\n\n" +
 			"You can type into this box with the keyboard.\nThe rectangle is drawn by calling " +
@@ -62,7 +62,7 @@ namespace AgateLib.Testing.FontTests
 			});
 		}
 
-		private void FontTests(Font font, out Rectangle drawRect)
+		private void FontTests(IFont font, out Rectangle drawRect)
 		{
 			Point drawPoint = new Point(10, 10);
 			Size fontsize = font.MeasureString(text);

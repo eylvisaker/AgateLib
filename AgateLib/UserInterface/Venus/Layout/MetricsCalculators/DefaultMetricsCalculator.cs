@@ -12,7 +12,10 @@ namespace AgateLib.UserInterface.Venus.Layout.MetricsCalculators
 	{
 		public bool ComputeBoxSize(WidgetStyle widget, int? maxWidth, int? maxHeight)
 		{
-			var newBoxSize = widget.Metrics.NaturalBoxSize;
+			var newContentSize = widget.Widget.ComputeSize(null, null, maxWidth - widget.BoxModel.Width, maxHeight - widget.BoxModel.Height);
+			var newBoxSize = new Size(
+				newContentSize.Width + widget.BoxModel.Width,
+				newContentSize.Height + widget.BoxModel.Height);
 
 			if (newBoxSize.Width > maxWidth)
 				newBoxSize.Width = maxWidth.Value;
@@ -42,7 +45,9 @@ namespace AgateLib.UserInterface.Venus.Layout.MetricsCalculators
 				style.WidgetLayout.MaxWidth ?? int.MaxValue,
 				style.WidgetLayout.MaxHeight ?? int.MaxValue);
 
-			var size = new Size(100, 10);
+			var size = item.ComputeSize(null, null, null, null);
+			size.Width += style.BoxModel.Width;
+			size.Height += style.BoxModel.Height;
 
 			if (style.Metrics.NaturalBoxSize == size)
 				return false;

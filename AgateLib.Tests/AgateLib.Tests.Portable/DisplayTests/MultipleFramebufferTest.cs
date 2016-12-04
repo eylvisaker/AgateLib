@@ -26,7 +26,7 @@ namespace AgateLib.Testing.DisplayTests
 
 		List<Surface> tests = new List<Surface>();
 		bool done;
-		Font font;
+		IFont font;
 		Surface mySurface;
 
 		public void EntryPoint()
