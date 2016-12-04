@@ -60,6 +60,7 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		/// <summary>
 		/// The rectangle in parent client coordinates that contains the widget, including its padding and border.
+		/// This is the area in which the widget has mouse focus.
 		/// </summary>
 		public Rectangle WidgetRect
 		{
@@ -72,6 +73,9 @@ namespace AgateLib.UserInterface.Widgets
 					mWidgetSize.Height);
 			}
 		}
+		/// <summary>
+		/// The amount the client area is shifted inside the widget rectangle.
+		/// </summary>
 		public Point ClientWidgetOffset
 		{
 			get { return mClientWidgetOffset; }

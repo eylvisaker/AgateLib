@@ -41,7 +41,7 @@ namespace AgateLib.UserInterface.Venus.Layout.LayoutAssemblers
 				return false;
 
 			widget.Metrics.NaturalBoxSize = size;
-
+			
 			return true;
 		}
 

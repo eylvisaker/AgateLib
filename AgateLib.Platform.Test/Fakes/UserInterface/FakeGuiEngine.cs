@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.Testing.Fakes.UserInterface
 {
@@ -25,6 +26,8 @@ namespace AgateLib.Testing.Fakes.UserInterface
 		}
 
 		public Gui MyGui { get; set; }
+
+		public IWidgetAdapter Adapter { get; set; }
 	}
 
 	public class FakeLayoutEngine : IGuiLayoutEngine

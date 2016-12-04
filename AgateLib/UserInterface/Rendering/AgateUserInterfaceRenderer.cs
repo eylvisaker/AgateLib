@@ -53,6 +53,7 @@ namespace AgateLib.UserInterface.Rendering
 			mBlankSurface = new Surface(buffer);
 		}
 
+		public IWidgetAdapter Adapter {  get { return mAdapter; } }
 		public Gui MyGui { get { return mGui; } set { mGui = value; } }
 		public Gesture ActiveGesture { get; set; }
 

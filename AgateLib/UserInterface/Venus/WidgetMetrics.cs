@@ -27,7 +27,7 @@ namespace AgateLib.UserInterface.Venus
 		/// The actual size of the content area.
 		/// </summary>
 		public Size ContentSize { get; set; }
-
+		
 		/// <summary>
 		/// The size of the control, including margins, borders and padding.
 		/// </summary>

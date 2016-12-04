@@ -238,7 +238,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 		{
 			try
 			{
-				var renderer = (CssLayoutEngine)gui.Renderer;
+				var renderer = gui.Renderer;
 
 				if (renderer == null)
 					return null;

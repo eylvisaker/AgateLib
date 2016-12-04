@@ -106,22 +106,27 @@ namespace AgateLib.UserInterface.Venus.Layout
 
 			assembler.DoLayout(this, containerStyle, layoutChildren);
 
-			container.ClientWidgetOffset = new Point(
-				containerStyle.BoxModel.Border.Left + containerStyle.BoxModel.Padding.Left, 
-				containerStyle.BoxModel.Border.Top + containerStyle.BoxModel.Padding.Top);
-
-			foreach(var subContainer in nonlayoutContainers)
+			foreach (var subContainer in nonlayoutContainers)
 			{
 				LayoutChildren(subContainer, totalRefresh);
 			}
 
-			foreach(var style in from item in container.Children
-								let style = adapter.StyleOf(item)
-								where style.WidgetLayout.SizeType == WidgetLayoutType.Flow
-								select style)
+			foreach (var style in from item in container.Children
+								  let style = adapter.StyleOf(item)
+								  where style.WidgetLayout.SizeType == WidgetLayoutType.Flow
+								  select style)
 			{
 				style.Widget.Width = style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right;
 				style.Widget.Height = style.Metrics.BoxSize.Height - style.BoxModel.Margin.Top - style.BoxModel.Margin.Right;
+
+				style.Widget.WidgetSize = new Size(
+					style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right,
+					style.Metrics.BoxSize.Height - style.BoxModel.Margin.Top - style.BoxModel.Margin.Bottom);
+
+				style.Widget.ClientWidgetOffset = new Point(
+					containerStyle.BoxModel.Border.Left + containerStyle.BoxModel.Padding.Left,
+					containerStyle.BoxModel.Border.Top + containerStyle.BoxModel.Padding.Top);
+
 			}
 		}
 
