@@ -41,8 +41,6 @@ namespace AgateLib.UserInterface.Venus.Layout
 
 			SetDesktopStyleProperties(gui.Desktop, renderTargetSize);
 
-			metricsComputer.ComputeMetrics(gui.Desktop);
-
 			ComputeNaturalSize(gui.Desktop);
 
 			LayoutChildren(gui.Desktop, totalRefresh, renderTargetSize.Width, renderTargetSize.Height);
