@@ -649,6 +649,7 @@
     <Compile Include="Resources\DataModel\ThemeModelCollection.cs" />
     <Compile Include="UserInterface\DataModel\WidgetBackgroundModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetBorderModel.cs" />
+    <Compile Include="UserInterface\DataModel\WidgetLayoutModel.cs" />
     <Compile Include="UserInterface\IUserInterfaceFacet.cs" />
     <Compile Include="UserInterface\Venus\ContainerLayout.cs" />
     <Compile Include="UserInterface\Venus\FontProperties.cs" />

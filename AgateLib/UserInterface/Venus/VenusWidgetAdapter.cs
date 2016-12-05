@@ -29,7 +29,7 @@ namespace AgateLib.UserInterface.Venus
 		public FacetModelCollection FacetData { get; set; }
 
 		public ThemeModelCollection ThemeData { get; set; }
-		
+
 		public void InitializeStyleData(Gui gui)
 		{
 			var facetModel = FacetData[gui.FacetName];
@@ -87,6 +87,8 @@ namespace AgateLib.UserInterface.Venus
 				style.WidgetLayout.PositionType = WidgetLayoutType.Fixed;
 			if (widgetProperties.Size != null)
 				style.WidgetLayout.SizeType = WidgetLayoutType.Fixed;
+
+			ApplyLayoutProperties(style, widgetProperties.Layout);
 		}
 
 		private void ApplyStyleProperties(WidgetStyle widget, WidgetThemeModel theme)
@@ -98,6 +100,7 @@ namespace AgateLib.UserInterface.Venus
 
 			ApplyBackgroundModel(widget, theme.Background);
 			ApplyBorderModel(widget, theme.Border);
+			ApplyLayoutProperties(widget, theme.Layout);
 
 			if (theme.Font != null)
 			{
@@ -107,6 +110,15 @@ namespace AgateLib.UserInterface.Venus
 				font.Size = theme.Font.Size ?? font.Size;
 				font.Style = theme.Font.Style ?? font.Style;
 			}
+		}
+
+		private void ApplyLayoutProperties(WidgetStyle widget, WidgetLayoutModel layout)
+		{
+			if (layout == null)
+				return;
+
+			widget.ContainerLayout.Direction = layout.Direction ?? widget.ContainerLayout.Direction;
+			widget.ContainerLayout.Wrap = layout.Wrap ?? widget.ContainerLayout.Wrap;
 		}
 
 		private void ApplyStateProperties(WidgetStyle widget, WidgetStateModel stateModel)

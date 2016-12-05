@@ -14,6 +14,8 @@ namespace AgateLib.UserInterface.DataModel
 
 		public string Text { get; set; }
 
+		public WidgetLayoutModel Layout { get; set; } = new WidgetLayoutModel();
+
 		public WidgetChildCollection Children { get; private set; } = new WidgetChildCollection();
 
 		public WidgetThemeModel Style { get; set; }
@@ -28,6 +30,7 @@ namespace AgateLib.UserInterface.DataModel
 		/// is a good for controls that will be programmatically moved.
 		/// </remarks>
 		public Point? Position { get; set; }
+
 		/// <summary>
 		/// Indicates the size of the client area for this widget. 
 		/// If specified, the layout engine will not alter the size
