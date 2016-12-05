@@ -40,7 +40,7 @@ namespace AgateLib.UserInterface.Widgets
 			Image.Draw(screenRect.Location);
 		}
 
-		internal override Size ComputeSize(int? minWidth, int? minHeight, int? maxWidth, int? maxHeight)
+		internal override Size ComputeSize(int? maxWidth, int? maxHeight)
 		{
 			if (Image == null)
 				return new Size(96, 96);

@@ -12,7 +12,7 @@ namespace AgateLib.UserInterface.Venus.Layout.MetricsCalculators
 	{
 		public bool ComputeBoxSize(WidgetStyle widget, int? maxWidth, int? maxHeight)
 		{
-			var newContentSize = widget.Widget.ComputeSize(null, null, maxWidth - widget.BoxModel.Width, maxHeight - widget.BoxModel.Height);
+			var newContentSize = widget.Widget.ComputeSize(maxWidth - widget.BoxModel.Width, maxHeight - widget.BoxModel.Height);
 			var newBoxSize = new Size(
 				newContentSize.Width + widget.BoxModel.Width,
 				newContentSize.Height + widget.BoxModel.Height);
@@ -30,13 +30,7 @@ namespace AgateLib.UserInterface.Venus.Layout.MetricsCalculators
 			return true;
 		}
 
-		public void ComputeMetrics(Widget item, WidgetMetrics metrics)
-		{
-			metrics.MinTotalSize = new Size(10, 10);
-			metrics.MaxTotalSize = new Size(1000, 1000);
-		}
-
-		public bool ComputeNaturalSize(Widget item, WidgetStyle style)
+		public bool ComputeNaturalSize(WidgetStyle style)
 		{
 			style.Metrics.MinTotalSize = new Size(
 				style.WidgetLayout.MinWidth ?? 0 + style.BoxModel.Margin.Left + style.BoxModel.Border.Right,
@@ -45,7 +39,7 @@ namespace AgateLib.UserInterface.Venus.Layout.MetricsCalculators
 				style.WidgetLayout.MaxWidth ?? int.MaxValue,
 				style.WidgetLayout.MaxHeight ?? int.MaxValue);
 
-			var size = item.ComputeSize(null, null, null, null);
+			var size = style.Widget.ComputeSize(null, null);
 			size.Width += style.BoxModel.Width;
 			size.Height += style.BoxModel.Height;
 

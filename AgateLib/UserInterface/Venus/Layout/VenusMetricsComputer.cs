@@ -23,7 +23,7 @@ namespace AgateLib.UserInterface.Venus.Layout
 		{
 			var calculator = FindCalculator(item);
 
-			return calculator.ComputeNaturalSize(item, style);
+			return calculator.ComputeNaturalSize(style);
 		}
 		
 		private IWidgetMetricsCalculator FindCalculator(Widget item)

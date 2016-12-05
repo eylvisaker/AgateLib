@@ -491,7 +491,7 @@ namespace AgateLib.UserInterface.Css.Layout
 			else if (maxHeight != null && styleMaxHeight != null)
 				maxWidth = Math.Min(maxHeight.Value, styleMaxHeight.Value);
 
-			return control.ComputeSize(minWidth, minHeight, maxWidth, maxHeight);
+			return control.ComputeSize(maxWidth, maxHeight);
 		}
 
 		private int? ConvertDistance(Widget control, CssDistance cssDistance, bool width, bool autoIsNull = true)

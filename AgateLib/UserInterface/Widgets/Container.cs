@@ -127,7 +127,7 @@ namespace AgateLib.UserInterface.Widgets
 			}
 		}
 
-		internal override Size ComputeSize(int? minWidth, int? minHeight, int? maxWidth, int? maxHeight)
+		internal override Size ComputeSize(int? maxWidth, int? maxHeight)
 		{
 			if (AutoSize == false)
 				return new Size(Width, Height);
@@ -136,24 +136,13 @@ namespace AgateLib.UserInterface.Widgets
 
 			foreach (var child in Children)
 			{
-				var sz = child.ComputeSize(minWidth, minHeight, maxWidth, maxHeight);
+				var sz = child.ComputeSize(maxWidth, maxHeight);
 
 				result.Width = Math.Max(sz.Width + child.X, result.Width);
 				result.Height = Math.Max(sz.Height + child.Y, result.Height);
 			}
 
 			return result;
-		}
-
-		internal override void DoAutoSize()
-		{
-			if (AutoSize == false)
-				return;
-
-			foreach (var child in Children)
-				child.DoAutoSize();
-
-			base.DoAutoSize();
 		}
 
 		public override void Refresh()

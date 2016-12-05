@@ -279,19 +279,9 @@ namespace AgateLib.UserInterface.Widgets
 		public virtual void DrawImpl(Rectangle screenRect)
 		{ }
 
-		internal virtual Size ComputeSize(int? minWidth, int? minHeight, int? maxWidth, int? maxHeight)
+		internal virtual Size ComputeSize(int? maxWidth, int? maxHeight)
 		{
 			return new Size(0, 0);
-		}
-		internal virtual void DoAutoSize()
-		{
-			if (AutoSize == false)
-				return;
-
-			Size sz = ComputeSize(null, null, null, null);
-
-			Width = sz.Width;
-			Height = sz.Height;
 		}
 
 		public virtual void Refresh()

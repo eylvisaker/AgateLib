@@ -281,7 +281,7 @@ namespace AgateLib.UserInterface.Widgets
 				return base.ToString();
 		}
 
-		internal override Size ComputeSize(int? minWidth, int? minHeight, int? maxWidth, int? maxHeight)
+		internal override Size ComputeSize(int? maxWidth, int? maxHeight)
 		{
 			if (WrapText == false)
 			{

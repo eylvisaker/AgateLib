@@ -35,7 +35,7 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			Gradient = new AgateLib.Geometry.Gradient(Color.White);
 		}
-		internal override Size ComputeSize(int? minWidth, int? minHeight, int? maxWidth, int? maxHeight)
+		internal override Size ComputeSize(int? maxWidth, int? maxHeight)
 		{
 			Size result = new Size();
 
