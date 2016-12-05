@@ -48,11 +48,11 @@ namespace AgateLib.UserInterface.Venus.Layout.LayoutAssemblers
 		public void DoLayout(ILayoutBuilder layoutBuilder, WidgetStyle container, ICollection<WidgetStyle> layoutChildren, int? maxWidth = null, int? maxHeight = null)
 		{
 			int y = 0;
-			int containerWidth = maxWidth ?? (container.Metrics.NaturalBoxSize.Width - container.BoxModel.Width);
+			int contentWidth = maxWidth ?? (container.Metrics.NaturalBoxSize.Width - container.BoxModel.Width);
 			
 			foreach (var child in layoutChildren)
 			{
-				layoutBuilder.ComputeBoxSize(child, maxWidth: containerWidth);
+				layoutBuilder.ComputeBoxSize(child, maxWidth: contentWidth);
 
 				child.Widget.X = child.BoxModel.Left;
 				child.Widget.Y = y + child.BoxModel.Top;
@@ -63,10 +63,10 @@ namespace AgateLib.UserInterface.Venus.Layout.LayoutAssemblers
 			int height = y;
 
 			container.Metrics.BoxSize = new Size(
-				containerWidth, 
+				contentWidth + container.BoxModel.Width, 
 				height + container.BoxModel.Height);
 			container.Metrics.ContentSize = new Size(
-				containerWidth - container.BoxModel.Width,
+				contentWidth,
 				height);
 		}
 	}

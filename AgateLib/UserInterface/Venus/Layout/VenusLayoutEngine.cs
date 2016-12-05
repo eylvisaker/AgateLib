@@ -114,6 +114,14 @@ namespace AgateLib.UserInterface.Venus.Layout
 			style.Metrics.ContentSize = renderTargetSize;
 		}
 
+		/// <summary>
+		/// Performs layout of the child widgets within a container's client area. Max width/height supplied are the constraints on the container's
+		/// client area.
+		/// </summary>
+		/// <param name="container"></param>
+		/// <param name="totalRefresh"></param>
+		/// <param name="maxWidth">The maximum width of any child widget's box</param>
+		/// <param name="maxHeight">The maximum height of any child widget's box</param>
 		private void LayoutChildren(Container container, bool totalRefresh, int? maxWidth = null, int? maxHeight = null)
 		{
 			var containerStyle = adapter.StyleOf(container);
@@ -136,7 +144,14 @@ namespace AgateLib.UserInterface.Venus.Layout
 			{
 				SetDimensions(style);
 
-				LayoutChildren(style.Widget as Container, totalRefresh);
+				if (style.WidgetLayout.SizeType == WidgetLayoutType.Fixed)
+				{
+					LayoutChildren(style.Widget as Container, totalRefresh, style.Widget.Width, style.Widget.Height);
+				}
+				else
+				{
+					LayoutChildren(style.Widget as Container, totalRefresh);
+				}
 			}
 
 			foreach (var style in from item in container.Children
@@ -152,8 +167,8 @@ namespace AgateLib.UserInterface.Venus.Layout
 		{
 			if (style.WidgetLayout.PositionType == WidgetLayoutType.Flow)
 			{
-				style.Widget.Width = style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right;
-				style.Widget.Height = style.Metrics.BoxSize.Height - style.BoxModel.Margin.Top - style.BoxModel.Margin.Right;
+				style.Widget.Width = style.Metrics.BoxSize.Width - style.BoxModel.Width;
+				style.Widget.Height = style.Metrics.BoxSize.Height - style.BoxModel.Height;
 
 				style.Widget.WidgetSize = new Size(
 					style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right,
@@ -190,7 +205,7 @@ namespace AgateLib.UserInterface.Venus.Layout
 
 			if (container != null)
 			{
-				LayoutChildren(container, false, maxWidth, maxHeight);
+				LayoutChildren(container, false, maxWidth - widget.BoxModel.Width, maxHeight - widget.BoxModel.Height);
 			}
 			else
 			{

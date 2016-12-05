@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Diagnostics;
 using AgateLib.Geometry;
 using AgateLib.Resources;
 using AgateLib.UserInterface;
@@ -17,20 +18,23 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 		[TestMethod]
 		public void LayoutNaturalSizes()
 		{
-			const int windowSize = 15000;
+			const int windowSize = 600;
 			var initializer = new TestFacetInitializer();
 
 			initializer.InitializeWindow(windowSize, windowSize);
 
+			initializer.Facet.InterfaceRoot.LogWidgetStructure();
+
 			Assert.AreEqual(windowSize, initializer.Facet.window.Width);
 			Assert.AreEqual(windowSize, initializer.Facet.window.Height);
 
-			Assert.AreEqual(57, initializer.Facet.container_1.Width);
-			Assert.AreEqual(152, initializer.Facet.container_1.Height);
+			Assert.AreEqual(488, initializer.Facet.container_1.Width);
+			Assert.AreEqual(72, initializer.Facet.container_1.Height);
+			Assert.AreEqual(new Size(568, 152), initializer.Facet.container_1.WidgetSize);
 
 			Assert.AreEqual("hello", initializer.Facet.label_1.Text);
-			Assert.AreEqual(35, initializer.Facet.label_1.Width);
-			Assert.AreEqual(20, initializer.Facet.label_1.Height);
+			Assert.AreEqual(25, initializer.Facet.label_1.Width);
+			Assert.AreEqual(10, initializer.Facet.label_1.Height);
 		}
 
 		[TestMethod]

@@ -96,9 +96,21 @@ namespace AgateLib.UserInterface.Widgets
 		}
 
 		public string Name { get; set; }
+		/// <summary>
+		/// Gets or sets the X position of the widget's client rect in its parent's coordinate system.
+		/// </summary>
 		public int X { get { return mClientRect.X; } set { mClientRect.X = value; } }
+		/// <summary>
+		/// Gets or sets the Y position of the widget's client rect in its parent's coordinate system.
+		/// </summary>
 		public int Y { get { return mClientRect.Y; } set { mClientRect.Y = value; } }
+		/// <summary>
+		/// Gets or sets the width of the client rect.
+		/// </summary>
 		public int Width { get { return mClientRect.Width; } set { mClientRect.Width = value; } }
+		/// <summary>
+		/// Gets or sets the height of the client rect.
+		/// </summary>
 		public int Height { get { return mClientRect.Height; } set { mClientRect.Height = value; } }
 		public object Tag { get; set; }
 
