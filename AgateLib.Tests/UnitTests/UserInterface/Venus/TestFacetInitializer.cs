@@ -87,11 +87,11 @@ facets:
 			var resourceDataModel = new ResourceDataLoader().LoadFromText(yaml);
 			Resources = new AgateResourceManager(resourceDataModel);
 
-			LayoutEngine = Resources.UserInterface.LayoutEngine;
-			Adapter = Resources.UserInterface.Adapter;
-
 			Facet = new TestFacet();
 			Resources.UserInterface.InitializeFacet(Facet);
+
+			LayoutEngine = Facet.InterfaceRoot.LayoutEngine;
+			Adapter = Facet.InterfaceRoot.Renderer.Adapter;
 
 			LayoutEngine.UpdateLayout(Facet.InterfaceRoot);
 		}

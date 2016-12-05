@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Resources;
+using AgateLib.Resources.DataModel;
 using AgateLib.Resources.Managers;
 using AgateLib.UnitTests.Resources;
 using AgateLib.UserInterface.DataModel;
@@ -19,21 +20,18 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 	[TestClass]
 	public class AdapterTests : AgateUnitTest
 	{
+		private ResourceDataModel data;
 		private AgateResourceManager resources;
 		private UserInterfaceResourceManager uiManager;
-		private VenusLayoutEngine layoutEngine;
-		private VenusWidgetAdapter adapter;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			ResourceManagerInitializer initializer = new ResourceManagerInitializer();
 
+			data = initializer.DataModel;
 			resources = initializer.Manager;
 			uiManager = (UserInterfaceResourceManager)resources.UserInterface;
-			
-			layoutEngine = (VenusLayoutEngine)uiManager.LayoutEngine;
-			adapter = (VenusWidgetAdapter)uiManager.Adapter;
 		}
 
 		[TestMethod]
@@ -42,6 +40,7 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			var facet = new ResourceManagerInitializer.TestFacet();
 			uiManager.InitializeFacet(facet);
 
+			var adapter = facet.InterfaceRoot.Renderer.Adapter;
 			var style = adapter.StyleOf(facet.WindowA);
 
 			Assert.AreEqual("ui_back_1.png", style.Background.Image);
@@ -62,6 +61,7 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			var facet = new ResourceManagerInitializer.TestFacet();
 			uiManager.InitializeFacet(facet);
 
+			var adapter = facet.InterfaceRoot.Renderer.Adapter;
 			var style = adapter.StyleOf(facet.WindowA);
 			
 			Assert.AreEqual(image, style.Border.Image);
@@ -87,6 +87,7 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			var facet = new ResourceManagerInitializer.TestFacet();
 			uiManager.InitializeFacet(facet);
 
+			var adapter = facet.InterfaceRoot.Renderer.Adapter;
 			var style = adapter.StyleOf(facet.WindowA);
 
 			Assert.AreEqual(2, style.BoxModel.Border.Left);
@@ -107,6 +108,7 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 			var facet = new ResourceManagerInitializer.TestFacet();
 			uiManager.InitializeFacet(facet);
 
+			var adapter = facet.InterfaceRoot.Renderer.Adapter;
 			var style = adapter.StyleOf(facet.WindowA);
 
 			Assert.AreEqual(fontname, style.Font.Family);
@@ -136,7 +138,7 @@ namespace AgateLib.UnitTests.UserInterface.Venus
 		{
 			get
 			{
-				var windowTheme = uiManager.Adapter.ThemeData.First().Value["window"];
+				var windowTheme = data.Themes.First().Value["window"];
 				return windowTheme;
 			}
 		}

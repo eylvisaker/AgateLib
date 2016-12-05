@@ -17,11 +17,8 @@ namespace AgateLib.Resources.Managers
 {
 	public class UserInterfaceResourceManager : IUserInterfaceResourceManager
 	{
-		private IGuiLayoutEngine layoutEngine;
-		private IGuiRenderer guiRenderer;
 		private IWidgetFactory widgetFactory;
 		private IFacetInspector facetInspector;
-		private IWidgetAdapter adapter;
 
 		private ResourceDataModel data;
 
@@ -30,70 +27,25 @@ namespace AgateLib.Resources.Managers
 			this.data = data;
 
 			Initialize();
-
-			adapter.ThemeData = data.Themes;
-			adapter.FacetData = data.Facets;
 		}
 
 		private void Initialize()
 		{
-			var adapter = new VenusWidgetAdapter();
-			layoutEngine = new VenusLayoutEngine(adapter);
-			guiRenderer = new AgateUserInterfaceRenderer(adapter);
 			facetInspector = new FacetInspector();
 			widgetFactory = new WidgetFactory(AssemblyDiscoveryWidgetActivator.ForAgateLib());
-
-			Adapter = adapter;
-		}
-
-		private IGuiLayoutEngine CreateLayoutEngine()
-		{
-			Initialize();
-
-			return layoutEngine;
-		}
-
-		private IGuiRenderer CreateRenderer()
-		{
-			Initialize();
-
-			return guiRenderer;
-		}
-
-		public IGuiRenderer Renderer
-		{
-			get { return guiRenderer; }
-			set
-			{
-				Condition.RequireArgumentNotNull(value, nameof(Renderer));
-				guiRenderer = value;
-			}
-		}
-
-		public IGuiLayoutEngine LayoutEngine
-		{
-			get { return layoutEngine; }
-			set
-			{
-				Condition.RequireArgumentNotNull(value, nameof(LayoutEngine));
-				layoutEngine = value;
-			}
-		}
-
-		public IWidgetAdapter Adapter
-		{
-			get { return adapter; }
-			set
-			{
-				Condition.RequireArgumentNotNull(value, nameof(Adapter));
-				adapter = value;
-			}
 		}
 
 		public void InitializeFacet(IUserInterfaceFacet facet)
 		{
 			try
 			{
+				var adapter = new VenusWidgetAdapter();
+				var layoutEngine = new VenusLayoutEngine(adapter);
+				var guiRenderer = new AgateUserInterfaceRenderer(adapter);
+
+				adapter.FacetData = data.Facets;
+				adapter.ThemeData = data.Themes;
+
 				Condition.RequireArgumentNotNull(facet.FacetName, nameof(facet.FacetName), "The value of the facet's FacetName property must not be null.");
 
 				var facetModel = data.Facets[facet.FacetName];
