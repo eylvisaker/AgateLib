@@ -710,7 +710,6 @@
     <Compile Include="UserInterface\Venus\BorderSideStyle.cs" />
     <Compile Include="UserInterface\Venus\BorderStyle.cs" />
     <Compile Include="UserInterface\DataModel\WidgetChildCollection.cs" />
-    <Compile Include="UserInterface\DataModel\WidgetLayoutModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetProperties.cs" />
     <Compile Include="UserInterface\Venus\Layout\ILayoutBuilder.cs" />
     <Compile Include="UserInterface\Venus\Layout\LayoutAssemblers\ColumnAssembler.cs" />
