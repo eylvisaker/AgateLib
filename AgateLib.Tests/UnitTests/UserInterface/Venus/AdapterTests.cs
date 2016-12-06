@@ -8,6 +8,7 @@ using AgateLib.Geometry;
 using AgateLib.Resources;
 using AgateLib.Resources.DataModel;
 using AgateLib.Resources.Managers;
+using AgateLib.Resources.Managers.UserInterface;
 using AgateLib.UnitTests.Resources;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Rendering;

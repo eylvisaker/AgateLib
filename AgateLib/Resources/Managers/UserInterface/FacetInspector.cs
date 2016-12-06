@@ -5,9 +5,10 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Resources;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UserInterface.Venus.Fulfillment
+namespace AgateLib.Resources.Managers.UserInterface
 {
 	public class FacetInspector : IFacetInspector
 	{

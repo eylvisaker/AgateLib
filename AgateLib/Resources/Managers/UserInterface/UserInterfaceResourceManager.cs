@@ -13,7 +13,7 @@ using AgateLib.UserInterface.Venus.Fulfillment;
 using AgateLib.UserInterface.Venus.Layout;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.Resources.Managers
+namespace AgateLib.Resources.Managers.UserInterface
 {
 	public class UserInterfaceResourceManager : IUserInterfaceResourceManager
 	{

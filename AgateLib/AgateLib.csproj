@@ -137,6 +137,8 @@
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
     <Compile Include="Diagnostics\InterfaceRootLogger.cs" />
     <Compile Include="DisplayLib\IFont.cs" />
+    <Compile Include="Resources\Managers\Display\DisplayResourceManager.cs" />
+    <Compile Include="Resources\Managers\Display\IDisplayResourceManager.cs" />
     <Compile Include="StaticState\AppModelState.cs" />
     <Compile Include="StaticState\CoreState.cs" />
     <Compile Include="DefaultAssets\DefaultResources.cs" />
@@ -192,8 +194,8 @@
     <Compile Include="Resources\DC\SpriteResource.cs" />
     <Compile Include="Resources\DC\SurfaceResource.cs" />
     <Compile Include="Resources\AgateResourceManager.cs" />
-    <Compile Include="Resources\Managers\IUserInterfaceResourceManager.cs" />
-    <Compile Include="Resources\Managers\UserInterfaceResourceManager.cs" />
+    <Compile Include="Resources\Managers\UserInterface\IUserInterfaceResourceManager.cs" />
+    <Compile Include="Resources\Managers\UserInterface\UserInterfaceResourceManager.cs" />
     <Compile Include="Sprites\CollisionRegion.cs" />
     <Compile Include="Sprites\ISpriteContainer.cs" />
     <Compile Include="Geometry\Polygon.cs" />
@@ -654,10 +656,10 @@
     <Compile Include="UserInterface\Venus\ContainerLayout.cs" />
     <Compile Include="UserInterface\Venus\FontProperties.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\AssemblyDiscoveryWidgetActivator.cs" />
-    <Compile Include="UserInterface\Venus\Fulfillment\FacetInspector.cs" />
-    <Compile Include="UserInterface\Venus\Fulfillment\FacetWidgetPropertyMap.cs" />
-    <Compile Include="UserInterface\Venus\Fulfillment\FacetWidgetPropertyMapValue.cs" />
-    <Compile Include="UserInterface\Venus\Fulfillment\IFacetInspector.cs" />
+    <Compile Include="Resources\Managers\UserInterface\FacetInspector.cs" />
+    <Compile Include="Resources\Managers\UserInterface\FacetWidgetPropertyMap.cs" />
+    <Compile Include="Resources\Managers\UserInterface\FacetWidgetPropertyMapValue.cs" />
+    <Compile Include="Resources\Managers\UserInterface\IFacetInspector.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\IWidgetActivator.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\IWidgetFactory.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\WidgetFactory.cs" />

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface;
 
-namespace AgateLib.UserInterface.Venus.Fulfillment
+namespace AgateLib.Resources.Managers.UserInterface
 {
 	public interface IFacetInspector
 	{
