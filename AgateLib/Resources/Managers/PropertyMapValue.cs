@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.Resources.Managers.UserInterface
+namespace AgateLib.Resources.Managers
 {
-	public class FacetWidgetPropertyMapValue
+	public class PropertyMapValue<T>
 	{
-		public Action<Widget> Assign { get; set; }
+		public Action<T> Assign { get; set; }
 	}
 }

@@ -657,8 +657,8 @@
     <Compile Include="UserInterface\Venus\FontProperties.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\AssemblyDiscoveryWidgetActivator.cs" />
     <Compile Include="Resources\Managers\UserInterface\FacetInspector.cs" />
-    <Compile Include="Resources\Managers\UserInterface\FacetWidgetPropertyMap.cs" />
-    <Compile Include="Resources\Managers\UserInterface\FacetWidgetPropertyMapValue.cs" />
+    <Compile Include="Resources\Managers\PropertyMap.cs" />
+    <Compile Include="Resources\Managers\PropertyMapValue.cs" />
     <Compile Include="Resources\Managers\UserInterface\IFacetInspector.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\IWidgetActivator.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\IWidgetFactory.cs" />

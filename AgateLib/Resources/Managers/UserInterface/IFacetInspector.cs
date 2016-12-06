@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface;
+using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.Resources.Managers.UserInterface
 {
-	public interface IFacetInspector
+	public interface IFacetInspector<T>
 	{
-		FacetWidgetPropertyMap BuildPropertyMap(IUserInterfaceFacet facet);
+		PropertyMap<T> BuildPropertyMap(IUserInterfaceFacet facet);
 	}
 }

@@ -10,13 +10,13 @@ using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.Resources.Managers.UserInterface
 {
-	public class FacetInspector : IFacetInspector
+	public class FacetInspector<T> : IFacetInspector<T>
 	{
-		public FacetWidgetPropertyMap BuildPropertyMap(IUserInterfaceFacet facet)
+		public PropertyMap<T> BuildPropertyMap(IUserInterfaceFacet facet)
 		{
-			FacetWidgetPropertyMap result = new FacetWidgetPropertyMap();
+			var result = new PropertyMap<T>();
 
-			var baseType = typeof(Widget).GetTypeInfo();
+			var baseType = typeof(T).GetTypeInfo();
 
 			var type = facet.GetType();
 			var info = type.GetTypeInfo();
@@ -33,7 +33,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 				if (result.ContainsKey(name))
 					throw new InvalidOperationException($"Multiple items are attempting to bind to \"{name}\".");
 
-				result.Add(name, new FacetWidgetPropertyMapValue
+				result.Add(name, new PropertyMapValue<T>
 				{
 					Assign = (value) => property.SetValue(facet, value)
 				});

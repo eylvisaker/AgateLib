@@ -18,7 +18,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 	public class UserInterfaceResourceManager : IUserInterfaceResourceManager
 	{
 		private IWidgetFactory widgetFactory;
-		private IFacetInspector facetInspector;
+		private IFacetInspector<Widget> facetInspector;
 
 		private ResourceDataModel data;
 
@@ -31,7 +31,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 
 		private void Initialize()
 		{
-			facetInspector = new FacetInspector();
+			facetInspector = new FacetInspector<Widget>();
 			widgetFactory = new WidgetFactory(AssemblyDiscoveryWidgetActivator.ForAgateLib());
 		}
 
@@ -68,7 +68,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 		private void RealizeFacetModel(IUserInterfaceFacet facet, Gui gui, FacetModel facetModel)
 		{
 			var propertyMap = facetInspector.BuildPropertyMap(facet);
-			List<FacetWidgetPropertyMapValue> assigned = new List<FacetWidgetPropertyMapValue>();
+			List<PropertyMapValue<Widget>> assigned = new List<PropertyMapValue<Widget>>();
 
 			var widgets = widgetFactory.RealizeFacetModel(facetModel, (name, widget) =>
 			{
