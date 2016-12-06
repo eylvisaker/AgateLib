@@ -175,7 +175,7 @@
     <Compile Include="ApplicationModels\AgateAppModel.cs" />
     <Compile Include="IO\AssetLocations.cs" />
     <Compile Include="Geometry\CoordinateSystems\FixedAspectRatioCoordinates.cs" />
-    <Compile Include="Geometry\ICoordinateSystemCreator.cs" />
+    <Compile Include="Geometry\ICoordinateSystem.cs" />
     <Compile Include="ApplicationModels\ModelParameters.cs" />
     <Compile Include="Platform\DiagnosticsStopwatch.cs" />
     <Compile Include="Platform\PlatformSerialization.cs" />
