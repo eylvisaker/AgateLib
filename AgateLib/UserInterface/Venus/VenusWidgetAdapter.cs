@@ -88,6 +88,8 @@ namespace AgateLib.UserInterface.Venus
 			if (widgetProperties.Size != null)
 				style.WidgetLayout.SizeType = WidgetLayoutType.Fixed;
 
+			style.Overflow = widgetProperties.Overflow ?? style.Overflow;
+
 			ApplyLayoutProperties(style, widgetProperties.Layout);
 		}
 

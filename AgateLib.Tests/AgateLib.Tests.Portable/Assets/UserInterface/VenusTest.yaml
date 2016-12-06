@@ -1,9 +1,0 @@
-﻿
-font-sources: 
-- fonts.yaml
-
-theme-sources:
-- VenusTestTheme.yaml
-
-facet-sources:
-- VenusTestFacets.yaml

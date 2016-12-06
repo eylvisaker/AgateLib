@@ -73,8 +73,8 @@
     <Compile Include="UserInterfaceTests\Css\CssGuiStuff.cs" />
     <Compile Include="UserInterfaceTests\Css\ScrollTest.cs" />
     <Compile Include="UserInterfaceTests\Css\TransitionTest.cs" />
-    <Compile Include="UserInterfaceTests\Venus\BasicGuiTest.cs" />
-    <Compile Include="UserInterfaceTests\Venus\VenusGuiStuff.cs" />
+    <Compile Include="UserInterfaceTests\Venus\MenuScrollTest.cs" />
+    <Compile Include="UserInterfaceTests\Venus\NonWrappingLayoutTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\attacke.png">
@@ -189,13 +189,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\UserInterface\VenusTestFacets.yaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\UserInterface\VenusTest.yaml">
+    <Content Include="Assets\UserInterface\NonWrappingLayout.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\UserInterface\VenusTestTheme.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\UserInterface\MenuScroll.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

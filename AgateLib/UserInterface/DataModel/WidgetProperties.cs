@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
+using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.DataModel
 {
@@ -19,6 +20,8 @@ namespace AgateLib.UserInterface.DataModel
 		public WidgetChildCollection Children { get; private set; } = new WidgetChildCollection();
 
 		public WidgetThemeModel Style { get; set; }
+
+		public Overflow? Overflow { get; set; }
 
 		/// <summary>
 		/// Indicates the upper-left point of the widget's client area.

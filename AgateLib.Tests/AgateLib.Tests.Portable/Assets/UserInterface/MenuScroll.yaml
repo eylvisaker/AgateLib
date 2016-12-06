@@ -1,0 +1,57 @@
+﻿
+font-sources: 
+- fonts.yaml
+
+theme-sources:
+- VenusTestTheme.yaml
+
+facets:
+    MenuScroll: 
+        Window:
+            type: window
+            position: 20 20
+            size: 275 200
+            children:
+                DebugLabel: 
+                    type: label
+                    text: Debug Message
+                Menu:
+                    type: menu
+                    overflow: scroll
+                    children:
+                        1:
+                            type: menuitem
+                            children:
+                                label_1: 
+                                    type: label
+                                    text: First menu item
+                        2:
+                            type: menuitem
+                            children:
+                                1: 
+                                    type: label
+                                    text: Second menu item that is really long and goes on forever
+                        3:
+                            type: menuitem
+                            children:
+                                1:
+                                    type: label
+                                    text: Third menu item. This one is pretty long and has multiple sentences. (Well, one of them is a sentence fragment.)
+                        4:  
+                            type: menuitem
+                            children:
+                                1:
+                                    type: label
+                                    text: Fourth menu item.
+                        5:  
+                            type: menuitem
+                            children:
+                                1:
+                                    type: label
+                                    text: Fifth menu item.
+                        6:  
+                            type: menuitem
+                            children:
+                                1:
+                                    type: label
+                                    text: Fifth menu item.

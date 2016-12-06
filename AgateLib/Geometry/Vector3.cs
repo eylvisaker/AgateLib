@@ -281,7 +281,7 @@ namespace AgateLib.Geometry
 		public override string ToString()
 		{
 			return string.Format(System.Globalization.CultureInfo.CurrentCulture,
-				"{{X={0},Y={1},Z={2}}}", X, Y, Z);
+				"(X={0},Y={1},Z={2})", X, Y, Z);
 		}
 
 		/// <summary>

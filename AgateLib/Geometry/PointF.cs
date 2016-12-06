@@ -147,7 +147,7 @@ namespace AgateLib.Geometry
 		public override string ToString()
 		{
 			return string.Format(System.Globalization.CultureInfo.CurrentCulture,
-				"{0}X={1},Y={2}{3}", "{", x, y, "}");
+				"(X={0},Y={1})", x, y);
 		}
 		/// <summary>
 		/// Gets a hash code.

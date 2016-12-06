@@ -59,7 +59,7 @@ namespace AgateLib.Resources.Managers
 
 				adapter.InitializeStyleData(gui);
 			}
-			catch (Exception e)
+			catch (Exception e) when (!(e is AgateUserInterfaceInitializationException))
 			{
 				throw new AgateUserInterfaceInitializationException("Failed to initialize the facet.", e);
 			}
@@ -78,7 +78,7 @@ namespace AgateLib.Resources.Managers
 				var mapValue = propertyMap[name];
 
 				if (assigned.Contains(mapValue))
-					throw new InvalidOperationException($"Widget {name} has multiple entries in facet data.");
+					throw new AgateUserInterfaceInitializationException($"Widget {name} has multiple entries in facet data.");
 
 				mapValue.Assign(widget);
 				assigned.Add(mapValue);
@@ -90,7 +90,7 @@ namespace AgateLib.Resources.Managers
 			{
 				var missingList = string.Join(",", missing.Select(x => x.Key));
 
-				throw new InvalidOperationException($"While initializing facet {facet.FacetName} the following properties were unfulfilled: {missingList}");
+				throw new AgateUserInterfaceInitializationException($"While initializing facet {facet.FacetName} the following properties were unfulfilled: {missingList}");
 			}
 
 			gui.Desktop.Children.AddRange(widgets);

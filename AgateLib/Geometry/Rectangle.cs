@@ -368,7 +368,7 @@ namespace AgateLib.Geometry
 		public override string ToString()
 		{
 			return string.Format(System.Globalization.CultureInfo.CurrentCulture,
-				"{{X={0},Y={1},Width={2},Height={3}}}", X, Y, Width, Height);
+				"(X={0},Y={1},Width={2},Height={3})", X, Y, Width, Height);
 		}
 		/// <summary>
 		/// Equality test.
