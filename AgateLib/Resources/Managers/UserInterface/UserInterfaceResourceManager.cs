@@ -18,7 +18,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 	public class UserInterfaceResourceManager : IUserInterfaceResourceManager
 	{
 		private IWidgetFactory widgetFactory;
-		private IFacetInspector<Widget> facetInspector;
+		private ITypeInspector<Widget> facetInspector;
 
 		private ResourceDataModel data;
 
@@ -31,7 +31,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 
 		private void Initialize()
 		{
-			facetInspector = new FacetInspector<Widget>();
+			facetInspector = new TypeInspector<Widget>();
 			widgetFactory = new WidgetFactory(AssemblyDiscoveryWidgetActivator.ForAgateLib());
 		}
 

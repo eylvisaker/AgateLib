@@ -10,6 +10,9 @@ namespace AgateLib.DisplayLib.BitmapFont
 	{
 		public string Name { get; set; }
 		public string Image { get; set; }
+		public int Size { get; set; }
+		public FontStyles Style { get; set; }
+
 		public Dictionary<int, GlyphMetrics> Metrics { get; set; } = new Dictionary<int, GlyphMetrics>();
 	}
 }

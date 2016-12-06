@@ -17,6 +17,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 	{
 		class Facet : IUserInterfaceFacet
 		{
+			[BindTo("MedievalSharp")]
 			public IFont Font { get; set; }
 
 			public Window Window { get; set; }
@@ -66,6 +67,10 @@ namespace AgateLib.Testing.UserInterfaceTests
 		{
 			Display.Clear(Color.Purple);
 			facet.InterfaceRoot.Draw();
+
+			facet.Font.Size = 22;
+			facet.Font.Color = Color.Black;
+			facet.Font.DrawText(new Point(0, 400), "Hello!");
 		}
 
 		public void CreateGui()
@@ -73,7 +78,8 @@ namespace AgateLib.Testing.UserInterfaceTests
 			resources = new AgateResourceManager("MenuScroll.yaml");
 			facet = new Facet();
 
-			resources.UserInterface.InitializeFacet(facet);
+			resources.InitializeContainer(facet);
+			//resources.UserInterface.InitializeFacet(facet);
 
 			Input.InputHandlers.Add(facet.InterfaceRoot);
 

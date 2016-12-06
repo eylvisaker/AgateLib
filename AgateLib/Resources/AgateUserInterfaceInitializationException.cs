@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface
+namespace AgateLib.Resources
 {
-	public class AgateUserInterfaceInitializationException : Exception
+	public class AgateUserInterfaceInitializationException : AgateResourceException
 	{
 		public AgateUserInterfaceInitializationException()
 		{

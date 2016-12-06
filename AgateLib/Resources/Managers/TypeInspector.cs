@@ -10,15 +10,19 @@ using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.Resources.Managers.UserInterface
 {
-	public class FacetInspector<T> : IFacetInspector<T>
+	/// <summary>
+	/// Inspects an object's type and builds a map of property setters for that object 
+	/// for properties that derive from T.
+	/// </summary>
+	public class TypeInspector<T> : ITypeInspector<T>
 	{
-		public PropertyMap<T> BuildPropertyMap(IUserInterfaceFacet facet)
+		public PropertyMap<T> BuildPropertyMap(object obj)
 		{
 			var result = new PropertyMap<T>();
 
 			var baseType = typeof(T).GetTypeInfo();
 
-			var type = facet.GetType();
+			var type = obj.GetType();
 			var info = type.GetTypeInfo();
 
 			var properties = info.DeclaredProperties;
@@ -35,7 +39,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 
 				result.Add(name, new PropertyMapValue<T>
 				{
-					Assign = (value) => property.SetValue(facet, value)
+					Assign = (value) => property.SetValue(obj, value)
 				});
 			}
 

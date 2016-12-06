@@ -1,6 +1,7 @@
 MedievalSharp:
 - name: MedievalSharp18
   image: Fonts/MedievalSharp18.png
+  size: 18
   metrics:
     32:
       x: 0
@@ -1295,6 +1296,7 @@ MedievalSharp:
       right-overhang: 2
 - name: MedievalSharp14
   image: Fonts/MedievalSharp14.png
+  size: 14
   metrics:
     32:
       x: 0
@@ -2574,6 +2576,8 @@ MedievalSharp:
       right-overhang: 2
 - name: MedievalSharpBold18
   image: Fonts/MedievalSharpBold18.png
+  size: 18
+  style: bold
   metrics:
     32:
       x: 0
@@ -3865,6 +3869,8 @@ MedievalSharp:
       right-overhang: 2
 - name: MedievalSharpBold14
   image: Fonts/MedievalSharpBold14.png
+  size: 14
+  style: bold
   metrics:
     32:
       x: 0
@@ -5138,6 +5144,8 @@ MedievalSharp:
       right-overhang: 2
 - name: MedievalSharpBold22
   image: Fonts/MedievalSharpBold22.png
+  size: 22
+  style: bold
   metrics:
     32:
       x: 0

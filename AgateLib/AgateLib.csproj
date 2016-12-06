@@ -604,7 +604,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Settings\PersistantSettings.cs" />
-    <Compile Include="UserInterface\AgateUserInterfaceInitializationException.cs" />
+    <Compile Include="Resources\AgateUserInterfaceInitializationException.cs" />
     <Compile Include="UserInterface\Css\Binders\Binding.cs" />
     <Compile Include="UserInterface\Css\Binders\CssAlias.cs" />
     <Compile Include="UserInterface\Css\Binders\CssBindingMapper.cs" />
@@ -656,10 +656,10 @@
     <Compile Include="UserInterface\Venus\ContainerLayout.cs" />
     <Compile Include="UserInterface\Venus\FontProperties.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\AssemblyDiscoveryWidgetActivator.cs" />
-    <Compile Include="Resources\Managers\UserInterface\FacetInspector.cs" />
+    <Compile Include="Resources\Managers\TypeInspector.cs" />
     <Compile Include="Resources\Managers\PropertyMap.cs" />
     <Compile Include="Resources\Managers\PropertyMapValue.cs" />
-    <Compile Include="Resources\Managers\UserInterface\IFacetInspector.cs" />
+    <Compile Include="Resources\Managers\ITypeInspector.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\IWidgetActivator.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\IWidgetFactory.cs" />
     <Compile Include="UserInterface\Venus\Fulfillment\WidgetFactory.cs" />

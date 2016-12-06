@@ -20,6 +20,7 @@ namespace AgateLib.Resources
 
 		public AgateResourceManager(string filename) : this(new ResourceDataLoader().Load(filename))
 		{ }
+
 		public AgateResourceManager(ResourceDataModel data)
 		{
 			UserInterface = new UserInterfaceResourceManager(data);
