@@ -27,15 +27,12 @@ namespace AgateLib.Resources.Managers.UserInterface
 
 			var properties = info.DeclaredProperties;
 
-			foreach (var property in properties)
+			foreach (var property in properties.Where(property => baseType.IsAssignableFrom(property.PropertyType.GetTypeInfo())))
 			{
-				if (baseType.IsAssignableFrom(property.PropertyType.GetTypeInfo()) == false)
-					continue;
-
 				var name = GetWidgetName(property);
 
 				if (result.ContainsKey(name))
-					throw new InvalidOperationException($"Multiple items are attempting to bind to \"{name}\".");
+					throw new InvalidOperationException($"Multiple items are attempting to bind to '{name}'.");
 
 				result.Add(name, new PropertyMapValue<T>
 				{
@@ -43,10 +40,27 @@ namespace AgateLib.Resources.Managers.UserInterface
 				});
 			}
 
+			var fields = info.DeclaredFields
+				.Where(x => x.IsPublic)
+				.Where(field => baseType.IsAssignableFrom(field.FieldType.GetTypeInfo()));
+
+			foreach (var field in fields)
+			{
+				var name = GetWidgetName(field);
+
+				if (result.ContainsKey(name))
+					throw new InvalidOperationException($"Multiple items are attempting to bind to '{name}'.");
+
+				result.Add(name, new PropertyMapValue<T>
+				{
+					Assign = (value) => field.SetValue(obj, value)
+				});
+			}
+
 			return result;
 		}
-		
-		private string GetWidgetName(PropertyInfo field)
+
+		private string GetWidgetName(MemberInfo field)
 		{
 			var bindTo = field.GetCustomAttribute<BindToAttribute>();
 

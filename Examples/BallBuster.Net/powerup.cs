@@ -68,7 +68,7 @@ namespace BallBuster.Net
 		public float x, y, vx, vy;
 		public float extray;
 
-		public Sprite icon;
+		public ISprite icon;
 
 		public CPowerUp(float myx, float myy)
 		{
@@ -238,7 +238,7 @@ namespace BallBuster.Net
 			total = 0;
 		}
 
-		public void addEffect(CPowerUp.PowerupTypes effect, Sprite icon, int weight)
+		public void addEffect(CPowerUp.PowerupTypes effect, ISprite icon, int weight)
 		{
 			PUData pudata = new PUData(effect, icon, weight);
 
@@ -292,7 +292,7 @@ namespace BallBuster.Net
 
 		class PUData
 		{
-			public PUData(CPowerUp.PowerupTypes myeffect, Sprite myicon, int myweight)
+			public PUData(CPowerUp.PowerupTypes myeffect, ISprite myicon, int myweight)
 			{
 				effect = myeffect;
 				icon = myicon;
@@ -300,7 +300,7 @@ namespace BallBuster.Net
 			}
 
 			public CPowerUp.PowerupTypes effect;
-			public Sprite icon;
+			public ISprite icon;
 			public int weight;
 
 		};

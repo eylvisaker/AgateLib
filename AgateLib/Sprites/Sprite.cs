@@ -429,7 +429,7 @@ namespace AgateLib.Sprites
 				return;
 
 			SpriteFrame currentFrame = CurrentFrame;
-			Surface surf = currentFrame.Surface;
+			ISurface surf = currentFrame.Surface;
 
 			surf.InterpolationHint = InterpolationHint;
 			currentFrame.DisplaySize = DisplaySize;
@@ -505,19 +505,7 @@ namespace AgateLib.Sprites
 				return mSpriteSize;
 			}
 		}
-
-		int ISurface.SurfaceWidth
-		{
-			get { return SpriteWidth; }
-		}
-		int ISurface.SurfaceHeight
-		{
-			get { return SpriteHeight; }
-		}
-		Size ISurface.SurfaceSize
-		{
-			get { return SpriteSize; }
-		}
+		
 		/// <summary>
 		/// Gets or sets the amount the width is scaled.
 		/// </summary>
@@ -832,7 +820,6 @@ namespace AgateLib.Sprites
 				throw new AgateException("Error: Frame Index is in the wrong place!");
 		}
 
-
 		/// <summary>
 		/// The amount of time each frame should display, in milliseconds.
 		/// </summary>
@@ -841,8 +828,9 @@ namespace AgateLib.Sprites
 			get { return mTimePerFrame; }
 			set
 			{
-				if (value > 0)
-					mTimePerFrame = value;
+				Condition.Requires<ArgumentOutOfRangeException>(value > 0, nameof(TimePerFrame), $"{nameof(TimePerFrame)} must be positive");
+
+				mTimePerFrame = value;
 			}
 		}
 		/// <summary>

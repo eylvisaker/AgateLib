@@ -24,6 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using AgateLib.IO;
 
 namespace BallBuster.Net
 {
@@ -142,7 +143,7 @@ namespace BallBuster.Net
 		{
 			mFileName = fileName;
 
-			using (StreamReader infile = new StreamReader(fileName))
+			using (StreamReader infile = new StreamReader(Assets.OpenRead(fileName)))
 			{
 
 				mIsValid = false;

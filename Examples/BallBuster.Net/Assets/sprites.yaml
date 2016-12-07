@@ -1,0 +1,186 @@
+
+sprites:
+  paddle:
+    frames:
+    - image: paddle0.png
+    - image: paddle1.png
+  largepaddle:
+    frames:
+    - image: bigpaddle0.png
+    - image: bigpaddle1.png
+  smallpaddle:
+    frames:
+    - image: smallpaddle0.png
+    - image: smallpaddle1.png 
+  ball:
+    frames:
+    - image: ball.png
+  fireball:
+    frames:
+    - image: fireball.png
+  spike:
+    frames:
+    - image: spike.png
+  smash:
+    frames:
+    - image: smash.png
+  block:
+    frames:
+    - image: gblock.png
+      source-rect: 0 0 40 20
+  cblock:
+    frames:
+    - image: cblock.png
+  sblock:
+    frames:
+    - image: sblock.png
+  woodblock:
+    frames:
+    - image: gblock.png
+      source-rect: 0 100 40 20
+  marbleblock1:
+    frames:
+    - image: gblock.png 
+      source-rect: 40 100 40 20
+  marbleblock2:
+    frames:
+    - image: gblock.png
+      source-rect: 40 120 40 20 
+  rubyblock1:
+    frames:
+    - image: gblock.png
+      source-rect: 80 100 40 20 
+  rubyblock2:
+    frames:
+    - image: gblock.png
+      source-rect: 120 100 40 20 
+  rubyblock3:
+    frames:
+    - image: gblock.png
+      source-rect: 160 100 40 20 
+  flash:
+    frames:
+    - image: flash.png
+  crack:
+    frames:
+    - image: crack.png
+    
+  pufastball:
+    frames:
+    - image: powerups.png
+      source-rect: 0 40 40 40
+  puslowball:
+    frames:
+    - image: powerups.png
+      source-rect: 0 0 40 40
+  puregularspeed:
+    frames:
+    - image: powerups.png
+      source-rect: 0 80 40 40
+  pufireball:
+    frames:
+    - image: powerups.png
+      source-rect: 80 120 40 40
+  pusticky:
+    frames:
+    - image: powerups.png
+      source-rect: 160 0 40 40
+  pusupersticky:
+    frames:
+    - image: powerups.png
+      source-rect: 160 40 40 40
+  pupaddleregular:
+    frames:
+    - image: powerups.png
+      source-rect: 40 80 40 40
+  pupaddlelarge:
+    frames:
+    - image: powerups.png
+      source-rect: 40 0 40 40
+  pupaddlesmall:
+    frames:
+    - image: powerups.png
+      source-rect: 40 40 40 40
+  pumultiball:
+    frames:
+    - image: powerups.png
+      source-rect: 120 40 40 40
+  pu3ball:
+    frames:
+    - image: powerups.png
+      source-rect: 120 0 40 40
+  publaster:
+    frames:
+    - image: powerups.png
+      source-rect: 0 120 40 40
+  pu1up:
+    frames:
+    - image: powerups.png
+      source-rect: 40 120 40 40
+  pureset:
+    frames:
+    - image: powerups.png
+      source-rect: 40 160 40 40
+  purandom:
+    frames:
+    - image: powerups.png
+      source-rect: 0 160 40 40
+  pu100:
+    frames:
+    - image: powerups.png
+      source-rect: 200 0 40 40
+  pu250:
+    frames:
+    - image: powerups.png
+      source-rect: 240 0 40 40
+  pu500:
+    frames:
+    - image: powerups.png
+      source-rect: 280 0 40 40
+  pu1000:
+    frames:
+    - image: powerups.png
+      source-rect: 320 0 40 40
+  pucatchblue:
+    frames:
+    - image: powerups.png
+      source-rect: 80 0 40 40
+  pucatchred:
+    frames:
+    - image: powerups.png
+      source-rect: 80 40 40 40
+  pupow:
+    frames:
+    - image: powerups.png
+      source-rect: 120 80 40 40
+  pusmash:
+    frames:
+    - image: powerups.png
+      source-rect: 120 120 40 40
+  pudoor:
+    frames:
+    - image: powerups.png
+      source-rect: 160 120 40 40
+  purbswap:
+    frames:
+    - image: powerups.png
+      source-rect: 160 80 40 40
+  
+  arrow:
+    frames:
+    - image: arrow.png
+  bblogo:
+    frames:
+    - image: bblogo.png
+  palogo:
+    frames:
+    - image: palogo.png
+  xlogo:
+    frames:
+    - image: xlogo1.png
+    - image: xlogo2.png
+    - image: xlogo3.png
+    - image: xlogo4.png
+    animation:
+      type: pingpong
+      speed: 100

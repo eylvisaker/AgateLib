@@ -57,7 +57,7 @@ namespace AgateLib.Resources
 		{
 			var facet = container as IUserInterfaceFacet;
 
-			if (container != null)
+			if (facet != null)
 				UserInterface.InitializeFacet(facet);
 
 			DisplayResourceManager.InitializeContainer(container);

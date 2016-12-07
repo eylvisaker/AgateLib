@@ -100,6 +100,7 @@ namespace AgateLib.Platform.WinForms.IO
 
 			return result;
 		}
+
 		/// <summary>
 		/// Searches through all directories in the SearchPathList object for the specified
 		/// filename.  The search is performed in the order directories have been added,

@@ -39,7 +39,7 @@ namespace AgateLib.Sprites
 		/// <summary>
 		/// Gets the surface object the frame is drawn from
 		/// </summary>
-		Surface Surface { get; }
+		ISurface Surface { get; }
 
 		/// <summary>
 		/// Gets the source rectangle on the surface the frame is drawn from.

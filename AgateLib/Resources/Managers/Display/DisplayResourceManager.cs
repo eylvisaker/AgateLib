@@ -6,25 +6,50 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
+using AgateLib.Geometry;
 using AgateLib.IO;
 using AgateLib.Resources.DataModel;
 using AgateLib.Resources.Managers.UserInterface;
+using AgateLib.Sprites;
 
 namespace AgateLib.Resources.Managers.Display
 {
 	public class DisplayResourceManager : IDisplayResourceManager
 	{
-		private ITypeInspector<IFont> fontInspector;
+		private ITypeInspector<IFont> fontInspector = new TypeInspector<IFont>();
+		private ITypeInspector<ISprite> spriteInspector = new TypeInspector<ISprite>();
 
 		private ResourceDataModel data;
 
 		private Dictionary<string, Font> fonts = new Dictionary<string, Font>();
+		private Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
+		private Dictionary<string, Surface> surfaces = new Dictionary<string, Surface>();
 
 		public DisplayResourceManager(ResourceDataModel data)
 		{
-			fontInspector = new TypeInspector<IFont>();
-
 			this.data = data;
+		}
+
+		public void InitializeContainer(object container)
+		{
+			var fontPropertyMap = fontInspector.BuildPropertyMap(container);
+
+			foreach (var propertyName in fontPropertyMap.Keys)
+			{
+				var dest = fontPropertyMap[propertyName];
+				var font = FindFont(propertyName);
+
+				dest.Assign(font ?? DefaultAssets.Fonts.AgateSans);
+			}
+
+			var spritePropertyMap = spriteInspector.BuildPropertyMap(container);
+
+			foreach(var propertyName in spritePropertyMap.Keys)
+			{
+				var dest = spritePropertyMap[propertyName];
+
+				dest.Assign(GetSprite(propertyName));
+			}
 		}
 
 		public IFont FindFont(string name)
@@ -72,25 +97,65 @@ namespace AgateLib.Resources.Managers.Display
 			return result;
 		}
 
-		private Surface GetSurface(string image, IReadFileProvider fileProvider)
+		private ISurface GetSurface(string image, IReadFileProvider fileProvider)
 		{
-			using (var file = fileProvider.OpenRead(image))
+			if (surfaces.ContainsKey(image) == false)
 			{
-				return new Surface(file);
+				using (var file = fileProvider.OpenRead(image))
+				{
+					surfaces[image] = new Surface(file);
+				}
 			}
+
+			return surfaces[image];
 		}
 
-		public void InitializeContainer(object container)
+		public ISprite GetSprite(string name)
 		{
-			var fontPropertyMap = fontInspector.BuildPropertyMap(container);
+			if (data.Sprites.ContainsKey(name) == false)
+				throw new AgateResourceException($"Could not find sprite named {name}");
 
-			foreach (var propertyName in fontPropertyMap.Keys)
+			var dataModel = data.Sprites[name];
+
+			if (sprites.ContainsKey(name) == false)
 			{
-				var dest = fontPropertyMap[propertyName];
+				Sprite result = null;
 
-				dest.Assign(GetFont(propertyName));
+				foreach(var frame in dataModel.Frames)
+				{
+					var surface = GetSurface(frame.Image, Assets.Images);
+					Size frameSize = surface.SurfaceSize;
+
+					if (frame.SourceRect != null)
+					{
+						frameSize = frame.SourceRect.Value.Size;
+					}
+
+					if (result == null)
+						result = new Sprite(frameSize);
+
+					var spriteFrame = new SpriteFrame(surface);
+
+					if (frame.SourceRect != null)
+					{
+						spriteFrame.SourceRect = frame.SourceRect.Value;
+					}
+
+					result.Frames.Add(spriteFrame);
+				}
+
+				if (result == null)
+					throw new AgateResourceException($"Sprite {name} does not have any frames defined.");
+
+				if (dataModel.Animation != null)
+				{
+					result.AnimationType = dataModel.Animation.Type;
+				}
+
+				sprites[name] = result;
 			}
-		}
 
+			return sprites[name];
+		}
 	}
 }

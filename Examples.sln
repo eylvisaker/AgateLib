@@ -13,8 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib", "AgateLib\AgateL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleUnitTests", "Examples\ExampleUnitTests\ExampleUnitTests.csproj", "{8299274E-05DD-49E0-ACB8-70C2BBAC69D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.AgateSDL", "AgateLib.AgateSDL\AgateLib.AgateSDL.csproj", "{935D67A0-931E-46DE-9F6A-2D6DBC99AFF3}"
-EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.SDL", "AgateLib.AgateSDL\AgateLib.SDL.csproj", "{935D67A0-931E-46DE-9F6A-2D6DBC99AFF3}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.OpenGL", "AgateLib.OpenGL\AgateLib.OpenGL.csproj", "{94734E5A-0344-43E8-BB30-E32E3F57F611}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Platform.WinForms", "AgateLib.Platform.WinForms\AgateLib.Platform.WinForms.csproj", "{4B12561E-D37B-48A1-B6DB-218E94906C22}"

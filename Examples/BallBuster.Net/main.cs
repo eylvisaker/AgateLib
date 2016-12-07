@@ -32,6 +32,7 @@ using AgateLib.InputLib;
 using AgateLib.AudioLib;
 using AgateLib.Platform;
 using AgateLib.InputLib.Legacy;
+using AgateLib.IO;
 
 namespace BallBuster.Net
 {
@@ -241,7 +242,7 @@ namespace BallBuster.Net
 
 		public struct lastPowerup
 		{
-			public Sprite pu;
+			public ISprite pu;
 			public int time;
 		}
 
@@ -614,7 +615,7 @@ namespace BallBuster.Net
 			StreamReader myfile;
 			try
 			{
-				myfile = new StreamReader(file);
+				myfile = new StreamReader(Assets.OpenRead(file));
 			}
 			catch
 			{
@@ -731,7 +732,7 @@ namespace BallBuster.Net
 			img.smallpaddle.Update();
 			img.largepaddle.Update();
 
-			Sprite pad;
+			ISprite pad;
 
 			if (paddlew == 50)
 			{
@@ -757,14 +758,10 @@ namespace BallBuster.Net
 			DrawPowerUps();
 			DrawScoreBytes();
 
-
-
-
 			// Draw the balls
 			DB_EnterSubsection("Drawing balls");
 
-			Sprite ballimg;
-
+			ISprite ballimg;
 
 			for (int j = 0; j < balls.Count; j++)
 			{
@@ -1111,11 +1108,11 @@ namespace BallBuster.Net
 			}
 		}
 
-		private int DrawPowerupInEffect(Sprite sprite)
+		private int DrawPowerupInEffect(ISprite sprite)
 		{
 			return DrawPowerupInEffect(sprite, -1);
 		}
-		int DrawPowerupInEffect(Sprite image, int start)
+		int DrawPowerupInEffect(ISprite image, int start)
 		{
 			int milliseconds = start - (int)Timing.TotalMilliseconds;
 			int seconds = milliseconds / 1000;
@@ -2300,7 +2297,7 @@ namespace BallBuster.Net
 
 		}
 
-		CBlock.BlockType getBlockData(char type, out Sprite spr, out Color clr, out int str)
+		CBlock.BlockType getBlockData(char type, out ISprite spr, out Color clr, out int str)
 		{
 			CBlock.BlockType retval = CBlock.BlockType.Glass;
 
@@ -2513,7 +2510,7 @@ namespace BallBuster.Net
 		}
 		void DrawBlock(int x, int y, char type)
 		{
-			Sprite spr;
+			ISprite spr;
 			Color clr;
 			int str;
 
@@ -2688,7 +2685,7 @@ namespace BallBuster.Net
 
 		}
 
-		void dropBlockParts(float myx, float myy, Sprite myblock, Color clr, float ballvx, float ballvy)
+		void dropBlockParts(float myx, float myy, ISprite myblock, Color clr, float ballvx, float ballvy)
 		{
 
 			if (blockparts.Count > blockPartLimit)
@@ -3421,7 +3418,7 @@ namespace BallBuster.Net
 
 		}
 
-		Sprite GetPUIcon(CPowerUp.PowerupTypes effect)
+		ISprite GetPUIcon(CPowerUp.PowerupTypes effect)
 		{
 
 			switch (effect)

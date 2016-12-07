@@ -11,6 +11,7 @@ namespace AgateLib.DisplayLib
 		FontStyles Style { get; set; }
 		int Size { get; set; }
 		TextImageLayout TextImageLayout { get; set; }
+		double Alpha { get; set; }
 
 		void DrawText(string text);
 		void DrawText(Point dest, string text);

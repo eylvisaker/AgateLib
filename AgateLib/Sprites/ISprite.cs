@@ -26,8 +26,17 @@ namespace AgateLib.Sprites
 	/// <summary>
 	/// Basic interface implemented by different sprite classes.
 	/// </summary>
-	public interface ISprite : ISurface, IDisposable
+	public interface ISprite : IDisposable
 	{
+		/// <summary>
+		/// Draws the sprite at the specified position.
+		/// </summary>
+		/// <param name="destX"></param>
+		/// <param name="destY"></param>
+		void Draw(int destX, int destY);
+
+		void Draw(float destX, float destY);
+
 		/// <summary>
 		/// Shows the next frame in the sequence.  This pays attention
 		/// to whether the animation is playing forwards or reverse.
@@ -90,10 +99,13 @@ namespace AgateLib.Sprites
 		/// </summary>
 		void StartAnimation();
 
+		int DisplayWidth { get; }
+		int DisplayHeight { get; }
+
 		/// <summary>
 		/// Gets the list of SpriteFrame objects in this sprite.
 		/// </summary>
-		Sprites.FrameList<SpriteFrame> Frames { get; }
+		FrameList<SpriteFrame> Frames { get; }
 
 		/// <summary>
 		/// The amount of time each frame should display, in milliseconds.
@@ -103,7 +115,27 @@ namespace AgateLib.Sprites
 		/// If Visible is set to false, all calls to Draw overloads are ignored.
 		/// </summary>
 		bool Visible { get; set; }
-
+		/// <summary>
+		/// Gets or sets the transparency. Valid values are between 0 (transparent) and 1 (opaque).
+		/// </summary>
+		double Alpha { get; set; }
+		/// <summary>
+		/// Rotation center point.
+		/// </summary>
+		OriginAlignment RotationCenter { get; set; }
+		/// <summary>
+		/// The origin of the sprite when drawn.
+		/// </summary>
+		OriginAlignment DisplayAlignment { get; set; }
+		/// <summary>
+		/// Rotation angle in radians.
+		/// </summary>
+		double RotationAngle { get; set; }
+		/// <summary>
+		/// Rotation angle in degrees.
+		/// </summary>
+		double RotationAngleDegrees { get; set; }
+		Color Color { get; set; }
 
 		/// <summary>
 		/// Event which is raised when the animation is started.
@@ -119,6 +151,8 @@ namespace AgateLib.Sprites
 		/// in the PingPong type.
 		/// </summary>
 		event SpriteEventHandler PlayDirectionChanged;
+
+		void SetScale(double scaleX, double scaleY);
 	}
 
 	/// <summary>

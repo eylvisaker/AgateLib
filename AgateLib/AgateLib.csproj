@@ -138,6 +138,10 @@
     <Compile Include="Diagnostics\InterfaceRootLogger.cs" />
     <Compile Include="DisplayLib\IFont.cs" />
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
+    <Compile Include="Resources\DataModel\Sprites\AnimationModel.cs" />
+    <Compile Include="Resources\DataModel\Sprites\SpriteFrameModel.cs" />
+    <Compile Include="Resources\DataModel\Sprites\SpriteModel.cs" />
+    <Compile Include="Resources\DataModel\SpriteModelCollection.cs" />
     <Compile Include="Resources\Managers\Display\DisplayResourceManager.cs" />
     <Compile Include="Resources\Managers\Display\IDisplayResourceManager.cs" />
     <Compile Include="StaticState\AppModelState.cs" />

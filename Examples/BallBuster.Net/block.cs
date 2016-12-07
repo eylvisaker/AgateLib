@@ -47,7 +47,7 @@ namespace BallBuster.Net
 			Invalid = -1,
 		};
 
-		public Sprite block;
+		public ISprite block;
 
 		public CBlock()
 		{

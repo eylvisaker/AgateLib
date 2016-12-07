@@ -38,7 +38,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 	/// </summary>
 	public class BitmapFontImpl : FontSurfaceImpl
 	{
-		Surface mSurface;
+		ISurface mSurface;
 		FontMetrics mFontMetrics;
 
 		int mCharHeight;
@@ -104,7 +104,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <param name="fontMetrics">FontMetrics structure which describes how characters
 		/// are laid out.</param>
 		/// <param name="name">The name of the font.</param>
-		public BitmapFontImpl(Surface surface, FontMetrics fontMetrics, string name)
+		public BitmapFontImpl(ISurface surface, FontMetrics fontMetrics, string name)
 		{
 			FontName = name;
 			mFontMetrics = fontMetrics.Clone();
@@ -139,7 +139,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// Gets the surface containing the glyphs.
 		/// </summary>
 		/// <returns></returns>
-		public Surface Surface
+		public ISurface Surface
 		{
 			get { return mSurface; }
 		}

@@ -46,9 +46,9 @@ namespace BallBuster.Net
 
 		public Color mClr;
 
-		public Sprite block; // which block part to use;
+		public ISprite block; // which block part to use;
 
-		public CBlockPart(float myvx, float myvy, float myx, float myy, Sprite myblock, Color clr)
+		public CBlockPart(float myvx, float myvy, float myx, float myy, ISprite myblock, Color clr)
 		{
 
 			this.vx = myvx;

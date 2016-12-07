@@ -41,14 +41,14 @@ namespace AgateLib.Sprites
 		Point mOffset = new Point(0, 0);
 		//bool mIsBlank = true;
 
-		Surface mSurface;
+		ISurface mSurface;
 
 		Rectangle mSrcRect;
 		Size mDisplaySize;
 		Size mSpriteSize;
 		Dictionary<string, CollisionRegion> mRegions = new Dictionary<string, CollisionRegion>();
 
-		internal SpriteFrame(Surface surface)
+		internal SpriteFrame(ISurface surface)
 		{
 			mSurface = surface;
 		}
@@ -106,15 +106,6 @@ namespace AgateLib.Sprites
 			get { return mDisplaySize; }
 			set { mDisplaySize = value; }
 		}
-		//// <summary>
-		//// Gets the original size of the frame.
-		//// </summary>
-		//public Size OriginalSize
-		//{
-		//    get { return mOriginalSize; }
-		//}
-
-		#region ISpriteFrame Members
 
 		/// <summary>
 		/// Draws the sprite frame at the specified location rotated around the specified point.
@@ -172,21 +163,17 @@ namespace AgateLib.Sprites
 		/// <summary>
 		/// 
 		/// </summary>
-		public Surface Surface
+		public ISurface Surface
 		{
 			get { return mSurface; }
 		}
 
-		#endregion
-
 		internal bool FlipVertical { get; set; }
 		internal bool FlipHorizontal { get; set; }
-
 
 		public Dictionary<string, CollisionRegion> Regions
 		{
 			get { return mRegions; }
 		}
 	}
-
 }

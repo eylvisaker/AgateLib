@@ -1,0 +1,34 @@
+.h { 
+	color: #000000; 
+	text-decoration: none;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 12pt;
+	text-align: justify;
+	margin-left: 10;
+	}
+.t { 
+	color: #000000; 
+	text-decoration: none;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 10pt;
+	text-align: justify;
+	margin-left: 20;
+	
+	}
+body {
+	background-color: #ffffee;
+	}
+
+a { 
+	color: #000000; 
+	text-decoration: none;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 10pt;
+	}
+a:hover { 
+	color: #0000ff; 
+	text-decoration: none;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 10pt;
+	background-color: #ffffff;
+	}

@@ -102,11 +102,12 @@ namespace AgateLib.DisplayLib
         /// </summary>
         /// <param name="degrees"></param>
         void IncrementRotationAngleDegrees(double degrees);
-        /// <summary>
-        /// The amount the surface is rotated when drawn.  The angle is measured
-        /// up from the horizontal axis.
-        /// </summary>
-        double RotationAngle { get; set; }
+
+		/// <summary>
+		/// The amount the surface is rotated when drawn.  The angle is measured
+		/// up from the horizontal axis.
+		/// </summary>
+		double RotationAngle { get; set; }
         /// <summary>
         /// The amount the surface is rotated when drawn.  The angle is measured
         /// up from the horizontal axis.
@@ -159,5 +160,23 @@ namespace AgateLib.DisplayLib
         /// </summary>
         /// <param name="state"></param>
         void Draw(SurfaceState state);
-    }
+
+		/// <summary>
+		/// Draws the surface given the specified source rect and rotation center.
+		/// </summary>
+		/// <param name="mSrcRect"></param>
+		/// <param name="dest"></param>
+		/// <param name="rotationCenter"></param>
+		void Draw(Rectangle mSrcRect, PointF dest, PointF rotationCenter);
+
+		/// <summary>
+		/// Draws the surface using an array of source and destination rectangles.
+		/// This method will throw an exception if the two arrays are not the same size.
+		/// </summary>
+		/// <param name="srcRects"></param>
+		/// <param name="destRects"></param>
+		/// <param name="start">Element in the arrays to start at.</param>
+		/// <param name="length">Number of elements in the arrays to use.</param>
+		void DrawRects(RectangleF[] srcRects, RectangleF[] destRects, int start, int length);
+	}
 }

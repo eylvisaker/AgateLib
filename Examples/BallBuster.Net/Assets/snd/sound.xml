@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<resources>
+  <sample name="bounce" file="bounce.wav" />
+  <sample name="shatter" file="break.wav" />
+  <sample name="powerup" file="powerup.wav" />
+</resources>

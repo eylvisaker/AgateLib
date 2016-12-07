@@ -39,7 +39,7 @@ namespace AgateLib.IO
 		public static IReadFileProvider Assets { get { return AgateLib.IO.Assets.AssetProvider; } }
 
 		[Obsolete("Use AgateLib.IO.Assets.Surfaces instead.")]
-		public static IReadFileProvider SurfaceAssets { get { return AgateLib.IO.Assets.Surfaces; } }
+		public static IReadFileProvider SurfaceAssets { get { return AgateLib.IO.Assets.Images; } }
 		[Obsolete("Use AgateLib.IO.Assets.Resources instead.")]
 		public static IReadFileProvider ResourceAssets { get { return AgateLib.IO.Assets.Resources; } }
 		[Obsolete("Use AgateLib.IO.Assets.Music instead.")]

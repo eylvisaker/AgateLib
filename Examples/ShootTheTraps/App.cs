@@ -41,12 +41,12 @@ namespace ShootTheTraps
 		ShootTraps mGame;
 
 		// graphics declaration
-		Font mFont;
+		IFont mFont;
 		Surface mBackground;
 
 		protected override void OnSceneStart()
 		{
-			mFont = AgateLib.Assets.Fonts.AgateSans;
+			mFont = AgateLib.DefaultAssets.Fonts.AgateSans;
 			mFont.Size = 14;
 
 			mBackground = new Surface("Resources/background.png");
@@ -94,7 +94,7 @@ Click to start.";
 				mIntroLines = mIntroduction.Split('\n');
 			}
 
-			Font font = mFont;
+			IFont font = mFont;
 
 			int largestWidth = 0;
 
@@ -444,7 +444,7 @@ Click to start.";
 			return fontHeight;
 		}
 
-		private void CenterText(Font font, int y, string text, Color color)
+		private void CenterText(IFont font, int y, string text, Color color)
 		{
 			Size size = font.MeasureString(text);
 
@@ -453,7 +453,7 @@ Click to start.";
 			font.Color = color;
 			font.DrawText(x, y, text);
 		}
-		private void CenterText(Font font, int y, string text, Color color, Color borderColor)
+		private void CenterText(IFont font, int y, string text, Color color, Color borderColor)
 		{
 			Size size = font.MeasureString(text);
 
@@ -462,7 +462,7 @@ Click to start.";
 			DrawBorderedText(font, x, y, text, color, borderColor);
 		}
 
-		private static void DrawBorderedText(Font font, int x, int y, string text, Color color, Color borderColor)
+		private static void DrawBorderedText(IFont font, int x, int y, string text, Color color, Color borderColor)
 		{
 			font.Color = borderColor;
 			font.DrawText(x + 1, y, text);

@@ -113,7 +113,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib.AgateSDL\AgateLib.AgateSDL.csproj">
+    <ProjectReference Include="..\..\AgateLib.AgateSDL\AgateLib.SDL.csproj">
       <Project>{935d67a0-931e-46de-9f6a-2d6dbc99aff3}</Project>
       <Name>AgateLib.AgateSDL</Name>
     </ProjectReference>

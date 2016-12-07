@@ -34,15 +34,17 @@ namespace BallBuster.Net
 		{
 			var parameters = new SerialModelParameters(args);
 
+			parameters.AssetLocations.Path = "Assets";
 			parameters.AssetLocations.Surfaces = "imgs";
+
 			var model = new SerialModel(parameters);
 
 			model.Run(() =>
-			 {
-				 BBX bbx = new BBX();
+			{
+				BBX bbx = new BBX();
 
-				 bbx.Main(args);
-			 });
+				bbx.Main(args);
+			});
 		}
 	}
 }

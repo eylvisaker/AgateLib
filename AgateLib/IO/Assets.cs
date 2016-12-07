@@ -12,7 +12,7 @@ namespace AgateLib.IO
 	public static class Assets
 	{
 		static IReadFileProvider mAssetProvider;
-		static IReadFileProvider mSurfaces;
+		static IReadFileProvider mImages;
 		static IReadFileProvider mResources;
 		static IReadFileProvider mMusic;
 		static IReadFileProvider mSounds;
@@ -33,7 +33,7 @@ namespace AgateLib.IO
 			var userInterfaceAssets = NewProviderFromSubdirectory(assetProvider, assetLocations.UserInterface);
 
 			AddOrCombine(ref mAssetProvider, assetProvider);
-			AddOrCombine(ref mSurfaces, surfaces);
+			AddOrCombine(ref mImages, surfaces);
 			AddOrCombine(ref mResources, resources);
 			AddOrCombine(ref mMusic, music);
 			AddOrCombine(ref mSounds, sounds);
@@ -89,7 +89,7 @@ namespace AgateLib.IO
 		}
 
 		internal static IReadFileProvider AssetProvider { get { return mAssetProvider; } set { mAssetProvider = value; } }
-		public static IReadFileProvider Surfaces { get { return mSurfaces; } set { mSurfaces = value; } }
+		public static IReadFileProvider Images { get { return mImages; } set { mImages = value; } }
 		public static IReadFileProvider Resources { get { return mResources; } set { mResources = value; } }
 		public static IReadFileProvider Music { get { return mMusic; } set { mMusic = value; } }
 		public static IReadFileProvider Sounds { get { return mSounds; } set { mSounds = value; } }

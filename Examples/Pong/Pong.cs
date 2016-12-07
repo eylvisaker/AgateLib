@@ -29,7 +29,7 @@ namespace Pong
 			});
 		}
 
-		Font font;
+		IFont font;
 		int[] score = new int[2];
 		string[] names = new string[] { "Player", "CPU" };
 
@@ -50,7 +50,7 @@ namespace Pong
 
 		void Run(string[] args)
 		{
-			font = AgateLib.Assets.Fonts.AgateSans;
+			font = AgateLib.DefaultAssets.Fonts.AgateSans;
 			font.Size = 14;
 
 			paddle[0] = new Vector2(50, displayHeight / 2);
