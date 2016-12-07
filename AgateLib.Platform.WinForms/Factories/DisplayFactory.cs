@@ -119,7 +119,7 @@ namespace AgateLib.Platform.WinForms.Factories
 		}
 
 
-		public async Task InitializeDefaultResourcesAsync(DefaultResources res)
+		public Task InitializeDefaultResourcesAsync(DefaultResources res)
 		{
 			res.Dispose();
 
@@ -130,6 +130,8 @@ namespace AgateLib.Platform.WinForms.Factories
 			res.AgateSans = sans;
 			res.AgateSerif = serif;
 			res.AgateMono = mono;
+
+			return Task.FromResult(0);
 		}
 	}
 }

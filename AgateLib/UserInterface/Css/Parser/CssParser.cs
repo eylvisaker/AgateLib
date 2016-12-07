@@ -56,7 +56,7 @@ namespace AgateLib.UserInterface.Css
 		}
 		public void Load(CssDocument doc, string filename)
 		{
-			string css = AgateLib.IO.FileProvider.UserInterfaceAssets.ReadAllText(filename);
+			string css = AgateLib.IO.Assets.UserInterfaceAssets.ReadAllText(filename);
 
 			ParseCss(doc, css);
 		}
