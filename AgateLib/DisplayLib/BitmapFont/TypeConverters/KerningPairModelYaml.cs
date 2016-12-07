@@ -8,15 +8,15 @@ using AgateLib.Quality;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
-namespace AgateLib.Geometry.TypeConverters
+namespace AgateLib.DisplayLib.BitmapFont.TypeConverters
 {
-	public class RectangleConverterYaml : IYamlTypeConverter
+	public class KerningPairModelYaml : IYamlTypeConverter
 	{
 		private static readonly char[] delimiter = new[] { ' ' };
 
 		public bool Accepts(Type type)
 		{
-			return type == typeof(Rectangle) || type == typeof(Rectangle?);
+			return type == typeof(KerningPairModel);
 		}
 
 		public object ReadYaml(IParser parser, Type type)
@@ -24,7 +24,7 @@ namespace AgateLib.Geometry.TypeConverters
 			var scalar = (YamlDotNet.Core.Events.Scalar)parser.Current;
 			var value = scalar.Value;
 
-			if (string.IsNullOrWhiteSpace(value) && type == typeof(Rectangle?))
+			if (string.IsNullOrWhiteSpace(value))
 			{
 				parser.MoveNext();
 				return null;
@@ -35,10 +35,10 @@ namespace AgateLib.Geometry.TypeConverters
 				.Select(s => int.Parse(s))
 				.ToArray();
 
-			Condition.Requires<InvalidDataException>(values.Length == 4,
-				"Must have exactly four values to convert to a Rectangle object.");
+			Condition.Requires<InvalidDataException>(values.Length == 3,
+				"Must have exactly three values to convert to a KerningPairModel object.");
 
-			var result = new Rectangle(values[0], values[1], values[2], values[3]);
+			var result = new KerningPairModel { First = values[0], Second = values[1], Amount = values[2] };
 
 			parser.MoveNext();
 			return result;
@@ -46,22 +46,12 @@ namespace AgateLib.Geometry.TypeConverters
 
 		public void WriteYaml(IEmitter emitter, object value, Type type)
 		{
-			Rectangle rect;
-
-			if (type == typeof(Rectangle?))
-			{
-				if (value == null)
-					return;
-
-				rect = ((Rectangle?)value).Value;
-			}
-			else
-				rect = (Rectangle)value;
+			KerningPairModel kp = (KerningPairModel)value;
 
 			emitter.Emit(new YamlDotNet.Core.Events.Scalar(
 				null,
 				null,
-				$"{rect.X} {rect.Y} {rect.Width} {rect.Height}",
+				$"{kp.First} {kp.Second} {kp.Amount}",
 				ScalarStyle.Plain,
 				true,
 				false

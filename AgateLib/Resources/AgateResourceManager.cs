@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.IO;
 using AgateLib.Quality;
 using AgateLib.Resources.DataModel;
 using AgateLib.Resources.Managers.Display;
@@ -15,17 +16,27 @@ namespace AgateLib.Resources
 	public class AgateResourceManager
 	{
 		private readonly ResourceDataModel data;
+		private readonly IReadFileProvider imageFileProvider;
+
 		private IUserInterfaceResourceManager uiResourceManager;
 		private IDisplayResourceManager displayResourceManager;
 
 		public AgateResourceManager(string filename) : this(new ResourceDataLoader().Load(filename))
 		{ }
 
-		public AgateResourceManager(ResourceDataModel data)
+		public AgateResourceManager(ResourceDataModel data) : this(data, Assets.Images, Assets.UserInterfaceAssets)
 		{
-			DisplayResourceManager = new DisplayResourceManager(data);
+		}
+
+		public AgateResourceManager(ResourceDataModel dataModel, IReadFileProvider imageFileProvider, IReadFileProvider fontFileProvider)
+		{
+			this.data = dataModel;
+			this.imageFileProvider = imageFileProvider;
+
+			DisplayResourceManager = new DisplayResourceManager(data, imageFileProvider, fontFileProvider);
 			UserInterface = new UserInterfaceResourceManager(data, DisplayResourceManager);
 		}
+
 
 		public IDisplayResourceManager DisplayResourceManager
 		{

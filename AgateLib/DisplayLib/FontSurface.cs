@@ -24,8 +24,6 @@ using System.Text.RegularExpressions;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
-using AgateLib.Resources;
-using AgateLib.Resources.Legacy;
 
 namespace AgateLib.DisplayLib
 {
@@ -85,29 +83,6 @@ namespace AgateLib.DisplayLib
 			throw new InvalidOperationException("Obsolete method.");
 		}
 
-		/// <summary>
-		/// Constructs a FontSurface object from a resource.
-		/// </summary>
-		/// <param name="resources"></param>
-		/// <param name="resourceName"></param>
-		public FontSurface(AgateResourceCollection resources, string resourceName)
-		{
-			AgateResource res = resources[resourceName];
-			BitmapFontResource bmpFont = res as BitmapFontResource;
-
-			if (res is BitmapFontResource)
-			{
-				Surface surf = new Surface(resources.FullFileName(bmpFont.Image), resources.FileProvider);
-
-				mImpl = new BitmapFontImpl(surf, bmpFont.FontMetrics, resourceName);
-			}
-			else
-				throw new AgateResourceException(string.Format(
-					"The resource {0} is of type {1} which cannot be used to construct a font.",
-					resourceName, res.GetType().Name));
-
-			System.Diagnostics.Debug.Assert(mImpl != null);
-		}
 		/// <summary>
 		/// Gets the name of the font.
 		/// </summary>
@@ -268,7 +243,7 @@ namespace AgateLib.DisplayLib
 			x = ScaleWidth;
 			y = ScaleHeight;
 		}
-		
+
 		/// <summary>
 		/// Gets or sets a value indicating how the font should be scaled when drawn.
 		/// </summary>

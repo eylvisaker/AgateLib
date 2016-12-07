@@ -337,7 +337,7 @@ namespace AgateLib
 			var task = State.Core.Factory.DisplayFactory.InitializeDefaultResourcesAsync(res);
 			Fonts.Initialize(res);
 
-			Task.WaitAll(task);
+			task.GetAwaiter().GetResult();
 		}
 
 		public static void InitAssetLocations(AssetLocations assets)

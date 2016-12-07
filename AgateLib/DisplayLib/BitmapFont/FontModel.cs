@@ -14,5 +14,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		public FontStyles Style { get; set; }
 
 		public Dictionary<int, GlyphMetrics> Metrics { get; set; } = new Dictionary<int, GlyphMetrics>();
+		public List<KerningPairModel> Kerning { get; set; } = new List<KerningPairModel>();
+
 	}
 }

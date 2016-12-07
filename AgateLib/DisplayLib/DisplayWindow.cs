@@ -40,38 +40,7 @@ namespace AgateLib.DisplayLib
 		DisplayWindowImpl mImpl;
 		FrameBuffer mFrameBuffer;
 		ICoordinateSystem mCoordinates;
-
-		/// <summary>
-		/// Constructs a DisplayWindow from a resource.
-		/// </summary>
-		/// <param name="resources"></param>
-		/// <param name="name"></param>
-		public DisplayWindow(Resources.Legacy.AgateResourceCollection resources, string name)
-		{
-			Resources.Legacy.AgateResource res = resources[name];
-			Resources.Legacy.DisplayWindowResource disp = res as Resources.Legacy.DisplayWindowResource;
-
-			if (disp == null)
-				throw new Resources.AgateResourceException("Resource " + name + " was found, but was of type " + name.GetType().ToString() + ", not DisplayWindowResource.");
-
-			if (disp.FullScreen)
-			{
-				CreateWindowParams par = CreateWindowParams.FullScreen(
-					disp.Title, disp.Size.Width, disp.Size.Height, disp.Bpp, null);
-
-				mImpl = Core.Factory.DisplayFactory.CreateDisplayWindow(this, par);
-			}
-			else
-			{
-				CreateWindowParams par = CreateWindowParams.Windowed(
-					disp.Title, disp.Size.Width, disp.Size.Height, disp.AllowResize, null, null);
-
-				mImpl = Core.Factory.DisplayFactory.CreateDisplayWindow(this, par);
-			}
-
-			Display.RenderTarget = FrameBuffer;
-			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
-		}
+		
 		/// <summary>
 		/// Creates a DisplayWindow object using the specified CreateWindowParams to create
 		/// the window.

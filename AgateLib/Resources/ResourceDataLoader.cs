@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib.BitmapFont;
+using AgateLib.DisplayLib.BitmapFont.TypeConverters;
 using AgateLib.Geometry.TypeConverters;
 using AgateLib.IO;
 using AgateLib.Resources.DataModel;
@@ -17,6 +18,13 @@ namespace AgateLib.Resources
 {
 	public class ResourceDataLoader
 	{
+		private readonly IReadFileProvider fileProvider;
+
+		public ResourceDataLoader(IReadFileProvider fileProvider = null)
+		{
+			this.fileProvider = fileProvider ?? Assets.UserInterfaceAssets;
+		}
+
 		/// <summary>
 		/// Parses the text directly to a resource data model.
 		/// Throws an exception if external files are referenced.
@@ -67,9 +75,10 @@ namespace AgateLib.Resources
 				.WithTypeConverter(new PointConverterYaml())
 				.WithTypeConverter(new SizeConverterYaml())
 				.WithTypeConverter(new RectangleConverterYaml())
+				.WithTypeConverter(new KerningPairModelYaml())
 				.Build();
 
-			using (var file = new StreamReader(Assets.UserInterfaceAssets.OpenRead(filename)))
+			using (var file = new StreamReader(fileProvider.OpenRead(filename)))
 			{
 				ResourceDataModel result = deserializer.Deserialize<ResourceDataModel>(file);
 
@@ -78,7 +87,6 @@ namespace AgateLib.Resources
 				return result;
 			}
 		}
-
 
 		private void ReadExternalFiles(Deserializer deserializer, ResourceDataModel config)
 		{
@@ -98,7 +106,7 @@ namespace AgateLib.Resources
 		{
 			foreach (var filename in sources)
 			{
-				using (var file = new StreamReader(Assets.UserInterfaceAssets.OpenRead(filename)))
+				using (var file = new StreamReader(fileProvider.OpenRead(filename)))
 				{
 					var result = deserializer.Deserialize<TCollection>(file);
 

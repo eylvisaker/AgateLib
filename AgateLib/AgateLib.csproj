@@ -136,6 +136,8 @@
     <Compile Include="ApplicationModels\SceneModelParameters.cs" />
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
     <Compile Include="Diagnostics\InterfaceRootLogger.cs" />
+    <Compile Include="DisplayLib\BitmapFont\KerningPairModel.cs" />
+    <Compile Include="DisplayLib\BitmapFont\TypeConverters\KerningPairModelYaml.cs" />
     <Compile Include="DisplayLib\IFont.cs" />
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
     <Compile Include="Resources\DataModel\Sprites\AnimationModel.cs" />
@@ -190,14 +192,6 @@
     <Compile Include="Quality\Condition.cs" />
     <Compile Include="Quality\InvalidConditionException.cs" />
     <Compile Include="Resources\BindToAttribute.cs" />
-    <Compile Include="Resources\DC\AgateResource.cs" />
-    <Compile Include="Resources\DC\FontResource.cs" />
-    <Compile Include="Resources\DC\FontSurfaceResource.cs" />
-    <Compile Include="Resources\DC\ResourceCollection.cs" />
-    <Compile Include="Resources\DC\AgateResourceCollection.cs" />
-    <Compile Include="Resources\DC\SpriteFrameResource.cs" />
-    <Compile Include="Resources\DC\SpriteResource.cs" />
-    <Compile Include="Resources\DC\SurfaceResource.cs" />
     <Compile Include="Resources\AgateResourceManager.cs" />
     <Compile Include="Resources\Managers\UserInterface\IUserInterfaceResourceManager.cs" />
     <Compile Include="Resources\Managers\UserInterface\UserInterfaceResourceManager.cs" />
@@ -276,7 +270,6 @@
     <Compile Include="Platform\IStopWatch.cs" />
     <Compile Include="Platform\PlatformInfo.cs" />
     <Compile Include="Platform\PlatformEnums.cs" />
-    <Compile Include="Resources\Legacy\ImageResource.cs" />
     <Compile Include="Serialization\Xle\CompressionMode.cs" />
     <Compile Include="Serialization\Xle\CompressionType.cs" />
     <Compile Include="Serialization\Xle\ITypeBinder.cs" />
@@ -560,34 +553,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\Legacy\AgateResource.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Resources\Legacy\AgateResourceCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Resources\AgateResourceException.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Resources\Legacy\AgateResourceLoader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Resources\Legacy\BitmapFontResource.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Resources\Legacy\DisplayWindowResource.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Resources\Legacy\SpriteResource.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Resources\Legacy\StringTable.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Resources\Legacy\SurfaceResource.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Resources\Legacy\XmlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Sprites\FrameList.cs">

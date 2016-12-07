@@ -123,22 +123,13 @@ namespace AgateLib.Platform.WinForms.Factories
 		{
 			res.Dispose();
 
-			var sans = new Font("AgateSans");
-			var serif = new Font("AgateSerif");
-			var mono = new Font("AgateMono");
+			var sans = BuiltinResources.GetFont("AgateSans");
+			var serif = BuiltinResources.GetFont("AgateSerif");
+			var mono = BuiltinResources.GetFont("AgateMono");
 
 			res.AgateSans = sans;
 			res.AgateSerif = serif;
 			res.AgateMono = mono;
-
-			sans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-10"), 10, FontStyles.None);
-			sans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-14"), 14, FontStyles.None);
-			sans.AddFont(await BuiltinResources.GetFontAsync("AgateSans-24"), 24, FontStyles.None);
-
-			serif.AddFont(await BuiltinResources.GetFontAsync("AgateSerif-10"), 10, FontStyles.None);
-			serif.AddFont(await BuiltinResources.GetFontAsync("AgateSerif-14"), 14, FontStyles.None);
-
-			mono.AddFont(await BuiltinResources.GetFontAsync("AgateMono-10"), 10, FontStyles.None);
 		}
 	}
 }

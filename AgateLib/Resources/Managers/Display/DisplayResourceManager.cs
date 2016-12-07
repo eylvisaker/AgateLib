@@ -16,8 +16,10 @@ namespace AgateLib.Resources.Managers.Display
 {
 	public class DisplayResourceManager : IDisplayResourceManager
 	{
-		private ITypeInspector<IFont> fontInspector = new TypeInspector<IFont>();
-		private ITypeInspector<ISprite> spriteInspector = new TypeInspector<ISprite>();
+		private readonly IReadFileProvider imageFileProvider;
+		private readonly IReadFileProvider fontFileProvider;
+		private readonly ITypeInspector<IFont> fontInspector = new TypeInspector<IFont>();
+		private readonly ITypeInspector<ISprite> spriteInspector = new TypeInspector<ISprite>();
 
 		private ResourceDataModel data;
 
@@ -25,9 +27,11 @@ namespace AgateLib.Resources.Managers.Display
 		private Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
 		private Dictionary<string, Surface> surfaces = new Dictionary<string, Surface>();
 
-		public DisplayResourceManager(ResourceDataModel data)
+		public DisplayResourceManager(ResourceDataModel data, IReadFileProvider imageFileProvider, IReadFileProvider fontFileProvider)
 		{
 			this.data = data;
+			this.imageFileProvider = imageFileProvider;
+			this.fontFileProvider = fontFileProvider;
 		}
 
 		public void InitializeContainer(object container)
@@ -65,7 +69,7 @@ namespace AgateLib.Resources.Managers.Display
 
 			foreach (var fontSurfaceModel in fontModel)
 			{
-				var surface = GetSurface(fontSurfaceModel.Image, Assets.UserInterfaceAssets);
+				var surface = GetSurface(fontSurfaceModel.Image, fontFileProvider);
 
 				FontMetrics metrics = new FontMetrics();
 				foreach (var glyph in fontSurfaceModel.Metrics)
@@ -123,7 +127,7 @@ namespace AgateLib.Resources.Managers.Display
 
 				foreach(var frame in dataModel.Frames)
 				{
-					var surface = GetSurface(frame.Image, Assets.Images);
+					var surface = GetSurface(frame.Image, imageFileProvider);
 					Size frameSize = surface.SurfaceSize;
 
 					if (frame.SourceRect != null)

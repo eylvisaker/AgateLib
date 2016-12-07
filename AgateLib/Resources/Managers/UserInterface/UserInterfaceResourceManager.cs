@@ -49,7 +49,8 @@ namespace AgateLib.Resources.Managers.UserInterface
 				adapter.FacetData = data.Facets;
 				adapter.ThemeData = data.Themes;
 
-				Condition.RequireArgumentNotNull(facet.FacetName, nameof(facet.FacetName), "The value of the facet's FacetName property must not be null.");
+				Condition.RequireArgumentNotNull(facet.FacetName, nameof(facet.FacetName), 
+					"The value of the facet's FacetName property must not be null.");
 
 				var facetModel = data.Facets[facet.FacetName];
 
