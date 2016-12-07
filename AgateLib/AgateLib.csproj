@@ -137,6 +137,7 @@
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
     <Compile Include="Diagnostics\InterfaceRootLogger.cs" />
     <Compile Include="DisplayLib\IFont.cs" />
+    <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
     <Compile Include="Resources\Managers\Display\DisplayResourceManager.cs" />
     <Compile Include="Resources\Managers\Display\IDisplayResourceManager.cs" />
     <Compile Include="StaticState\AppModelState.cs" />

@@ -4,1294 +4,724 @@ MedievalSharp:
   size: 18
   metrics:
     32:
-      x: 0
-      y: 2
-      width: 8
-      height: 30
+      source-rect: 0 2 8 30
       right-overhang: 1
     33:
-      x: 10
-      y: 2
-      width: 8
-      height: 30
+      source-rect: 10 2 8 30
       left-overhang: -1
       right-overhang: 2
     34:
-      x: 20
-      y: 2
-      width: 11
-      height: 30
+      source-rect: 20 2 11 30
       left-overhang: -1
       right-overhang: 2
     35:
-      x: 33
-      y: 2
-      width: 18
-      height: 30
+      source-rect: 33 2 18 30
       left-overhang: -2
       right-overhang: 3
     36:
-      x: 53
-      y: 2
-      width: 15
-      height: 30
+      source-rect: 53 2 15 30
       left-overhang: -1
       right-overhang: 2
     37:
-      x: 70
-      y: 2
-      width: 19
-      height: 30
+      source-rect: 70 2 19 30
       left-overhang: -1
       right-overhang: 2
     38:
-      x: 91
-      y: 2
-      width: 17
-      height: 30
+      source-rect: 91 2 17 30
       left-overhang: -1
       right-overhang: 2
     39:
-      x: 110
-      y: 2
-      width: 7
-      height: 30
+      source-rect: 110 2 7 30
       left-overhang: -1
       right-overhang: 2
     40:
-      x: 119
-      y: 2
-      width: 11
-      height: 30
+      source-rect: 119 2 11 30
       left-overhang: -1
       right-overhang: 2
     41:
-      x: 132
-      y: 2
-      width: 11
-      height: 30
+      source-rect: 132 2 11 30
       right-overhang: 1
     42:
-      x: 145
-      y: 2
-      width: 16
-      height: 30
+      source-rect: 145 2 16 30
       left-overhang: -2
       right-overhang: 3
     43:
-      x: 163
-      y: 2
-      width: 16
-      height: 30
+      source-rect: 163 2 16 30
       left-overhang: -1
       right-overhang: 2
     44:
-      x: 181
-      y: 2
-      width: 8
-      height: 30
+      source-rect: 181 2 8 30
       left-overhang: -1
       right-overhang: 2
     45:
-      x: 191
-      y: 2
-      width: 16
-      height: 30
+      source-rect: 191 2 16 30
       left-overhang: -1
       right-overhang: 2
     46:
-      x: 209
-      y: 2
-      width: 7
-      height: 30
+      source-rect: 209 2 7 30
       right-overhang: 1
     47:
-      x: 218
-      y: 2
-      width: 14
-      height: 30
+      source-rect: 218 2 14 30
       right-overhang: 1
     48:
-      x: 234
-      y: 2
-      width: 17
-      height: 30
+      source-rect: 234 2 17 30
       left-overhang: 1
       right-overhang: 2
     49:
-      x: 0
-      y: 35
-      width: 10
-      height: 30
+      source-rect: 0 35 10 30
       left-overhang: -2
       right-overhang: -2
     50:
-      x: 12
-      y: 35
-      width: 15
-      height: 30
+      source-rect: 12 35 15 30
       right-overhang: 1
     51:
-      x: 29
-      y: 35
-      width: 15
-      height: 30
+      source-rect: 29 35 15 30
       right-overhang: 1
     52:
-      x: 46
-      y: 35
-      width: 16
-      height: 30
+      source-rect: 46 35 16 30
       left-overhang: 1
       right-overhang: 1
     53:
-      x: 64
-      y: 35
-      width: 15
-      height: 30
+      source-rect: 64 35 15 30
       right-overhang: 1
     54:
-      x: 81
-      y: 35
-      width: 16
-      height: 30
+      source-rect: 81 35 16 30
       left-overhang: 1
       right-overhang: 1
     55:
-      x: 99
-      y: 35
-      width: 13
-      height: 30
+      source-rect: 99 35 13 30
       right-overhang: -1
     56:
-      x: 114
-      y: 35
-      width: 15
-      height: 30
+      source-rect: 114 35 15 30
       right-overhang: 1
     57:
-      x: 131
-      y: 35
-      width: 16
-      height: 30
+      source-rect: 131 35 16 30
       left-overhang: 1
       right-overhang: 1
     58:
-      x: 149
-      y: 35
-      width: 7
-      height: 30
+      source-rect: 149 35 7 30
       left-overhang: -1
       right-overhang: 2
     59:
-      x: 158
-      y: 35
-      width: 8
-      height: 30
+      source-rect: 158 35 8 30
       left-overhang: -1
       right-overhang: 2
     60:
-      x: 168
-      y: 35
-      width: 17
-      height: 30
+      source-rect: 168 35 17 30
       left-overhang: -1
       right-overhang: 2
     61:
-      x: 187
-      y: 35
-      width: 16
-      height: 30
+      source-rect: 187 35 16 30
       left-overhang: -1
       right-overhang: 2
     62:
-      x: 205
-      y: 35
-      width: 17
-      height: 30
+      source-rect: 205 35 17 30
       left-overhang: -1
       right-overhang: 2
     63:
-      x: 224
-      y: 35
-      width: 15
-      height: 30
+      source-rect: 224 35 15 30
       left-overhang: -1
       right-overhang: 2
     64:
-      x: 241
-      y: 35
-      width: 15
-      height: 30
+      source-rect: 241 35 15 30
       left-overhang: -1
       right-overhang: 2
     65:
-      x: 0
-      y: 68
-      width: 16
-      height: 30
+      source-rect: 0 68 16 30
       right-overhang: 1
     66:
-      x: 18
-      y: 68
-      width: 17
-      height: 30
+      source-rect: 18 68 17 30
       left-overhang: -1
       right-overhang: 2
     67:
-      x: 37
-      y: 68
-      width: 16
-      height: 30
+      source-rect: 37 68 16 30
       left-overhang: -1
       right-overhang: 2
     68:
-      x: 55
-      y: 68
-      width: 18
-      height: 30
+      source-rect: 55 68 18 30
       left-overhang: -1
       right-overhang: 2
     69:
-      x: 75
-      y: 68
-      width: 14
-      height: 30
+      source-rect: 75 68 14 30
       left-overhang: -2
       right-overhang: 3
     70:
-      x: 91
-      y: 68
-      width: 13
-      height: 30
+      source-rect: 91 68 13 30
       left-overhang: -2
       right-overhang: 3
     71:
-      x: 106
-      y: 68
-      width: 17
-      height: 30
+      source-rect: 106 68 17 30
       left-overhang: -1
       right-overhang: 2
     72:
-      x: 125
-      y: 68
-      width: 17
-      height: 30
+      source-rect: 125 68 17 30
       left-overhang: -2
       right-overhang: 3
     73:
-      x: 144
-      y: 68
-      width: 8
-      height: 30
+      source-rect: 144 68 8 30
       left-overhang: -2
       right-overhang: 3
     74:
-      x: 154
-      y: 68
-      width: 15
-      height: 30
+      source-rect: 154 68 15 30
       right-overhang: 1
     75:
-      x: 171
-      y: 68
-      width: 16
-      height: 30
+      source-rect: 171 68 16 30
       left-overhang: -2
       right-overhang: 3
     76:
-      x: 189
-      y: 68
-      width: 15
-      height: 30
+      source-rect: 189 68 15 30
       left-overhang: -2
       right-overhang: 5
     77:
-      x: 206
-      y: 68
-      width: 21
-      height: 30
+      source-rect: 206 68 21 30
       right-overhang: 1
     78:
-      x: 229
-      y: 68
-      width: 17
-      height: 30
+      source-rect: 229 68 17 30
       left-overhang: -1
       right-overhang: 2
     79:
-      x: 0
-      y: 101
-      width: 17
-      height: 30
+      source-rect: 0 101 17 30
       left-overhang: -1
       right-overhang: 2
     80:
-      x: 19
-      y: 101
-      width: 17
-      height: 30
+      source-rect: 19 101 17 30
       left-overhang: -1
       right-overhang: 2
     81:
-      x: 38
-      y: 101
-      width: 17
-      height: 30
+      source-rect: 38 101 17 30
       left-overhang: -1
       right-overhang: 2
     82:
-      x: 57
-      y: 101
-      width: 17
-      height: 30
+      source-rect: 57 101 17 30
       left-overhang: -1
       right-overhang: 2
     83:
-      x: 76
-      y: 101
-      width: 15
-      height: 30
+      source-rect: 76 101 15 30
       left-overhang: -1
       right-overhang: 2
     84:
-      x: 93
-      y: 101
-      width: 14
-      height: 30
+      source-rect: 93 101 14 30
       right-overhang: 1
     85:
-      x: 109
-      y: 101
-      width: 18
-      height: 30
+      source-rect: 109 101 18 30
       left-overhang: -1
       right-overhang: 2
     86:
-      x: 129
-      y: 101
-      width: 16
-      height: 30
+      source-rect: 129 101 16 30
       right-overhang: 1
     87:
-      x: 147
-      y: 101
-      width: 22
-      height: 30
+      source-rect: 147 101 22 30
       right-overhang: 1
     88:
-      x: 171
-      y: 101
-      width: 15
-      height: 30
+      source-rect: 171 101 15 30
       right-overhang: 1
     89:
-      x: 188
-      y: 101
-      width: 15
-      height: 30
+      source-rect: 188 101 15 30
       right-overhang: 1
     90:
-      x: 205
-      y: 101
-      width: 15
-      height: 30
+      source-rect: 205 101 15 30
       left-overhang: -1
       right-overhang: 2
     91:
-      x: 222
-      y: 101
-      width: 11
-      height: 30
+      source-rect: 222 101 11 30
       left-overhang: -2
       right-overhang: 3
     92:
-      x: 235
-      y: 101
-      width: 14
-      height: 30
+      source-rect: 235 101 14 30
       right-overhang: 1
     93:
-      x: 0
-      y: 134
-      width: 11
-      height: 30
+      source-rect: 0 134 11 30
       right-overhang: 1
     94:
-      x: 13
-      y: 134
-      width: 17
-      height: 30
+      source-rect: 13 134 17 30
       left-overhang: -1
       right-overhang: 2
     95:
-      x: 32
-      y: 134
-      width: 16
-      height: 30
+      source-rect: 32 134 16 30
       left-overhang: -1
       right-overhang: 2
     96:
-      x: 50
-      y: 134
-      width: 9
-      height: 30
+      source-rect: 50 134 9 30
       left-overhang: -1
       right-overhang: 2
     97:
-      x: 61
-      y: 134
-      width: 14
-      height: 30
+      source-rect: 61 134 14 30
       left-overhang: -1
       right-overhang: 2
     98:
-      x: 77
-      y: 134
-      width: 15
-      height: 30
+      source-rect: 77 134 15 30
       left-overhang: -1
       right-overhang: 2
     99:
-      x: 94
-      y: 134
-      width: 13
-      height: 30
+      source-rect: 94 134 13 30
       left-overhang: -1
       right-overhang: 2
     100:
-      x: 109
-      y: 134
-      width: 14
-      height: 30
+      source-rect: 109 134 14 30
       left-overhang: -1
       right-overhang: 2
     101:
-      x: 125
-      y: 134
-      width: 13
-      height: 30
+      source-rect: 125 134 13 30
       left-overhang: -1
       right-overhang: 2
     102:
-      x: 140
-      y: 134
-      width: 13
-      height: 30
+      source-rect: 140 134 13 30
       left-overhang: 1
       right-overhang: 2
     103:
-      x: 155
-      y: 134
-      width: 15
-      height: 30
+      source-rect: 155 134 15 30
       left-overhang: -1
       right-overhang: 2
     104:
-      x: 172
-      y: 134
-      width: 15
-      height: 30
+      source-rect: 172 134 15 30
       left-overhang: -1
       right-overhang: 2
     105:
-      x: 189
-      y: 134
-      width: 7
-      height: 30
+      source-rect: 189 134 7 30
       left-overhang: -1
       right-overhang: 2
     106:
-      x: 198
-      y: 134
-      width: 9
-      height: 30
+      source-rect: 198 134 9 30
       left-overhang: 1
       right-overhang: 2
     107:
-      x: 209
-      y: 134
-      width: 15
-      height: 30
+      source-rect: 209 134 15 30
       left-overhang: -1
       right-overhang: 4
     108:
-      x: 226
-      y: 134
-      width: 7
-      height: 30
+      source-rect: 226 134 7 30
       left-overhang: -1
       right-overhang: 2
     109:
-      x: 0
-      y: 167
-      width: 22
-      height: 30
+      source-rect: 0 167 22 30
       left-overhang: -1
       right-overhang: 2
     110:
-      x: 24
-      y: 167
-      width: 15
-      height: 30
+      source-rect: 24 167 15 30
       left-overhang: -1
       right-overhang: 2
     111:
-      x: 41
-      y: 167
-      width: 14
-      height: 30
+      source-rect: 41 167 14 30
       left-overhang: -1
       right-overhang: 2
     112:
-      x: 57
-      y: 167
-      width: 14
-      height: 30
+      source-rect: 57 167 14 30
       left-overhang: -1
       right-overhang: 2
     113:
-      x: 73
-      y: 167
-      width: 15
-      height: 30
+      source-rect: 73 167 15 30
       left-overhang: -1
       right-overhang: 2
     114:
-      x: 90
-      y: 167
-      width: 13
-      height: 30
+      source-rect: 90 167 13 30
       left-overhang: -1
       right-overhang: 2
     115:
-      x: 105
-      y: 167
-      width: 12
-      height: 30
+      source-rect: 105 167 12 30
       left-overhang: -1
       right-overhang: 2
     116:
-      x: 119
-      y: 167
-      width: 10
-      height: 30
+      source-rect: 119 167 10 30
       right-overhang: 1
     117:
-      x: 131
-      y: 167
-      width: 15
-      height: 30
+      source-rect: 131 167 15 30
       left-overhang: -1
       right-overhang: 2
     118:
-      x: 148
-      y: 167
-      width: 13
-      height: 30
+      source-rect: 148 167 13 30
       right-overhang: 1
     119:
-      x: 163
-      y: 167
-      width: 22
-      height: 30
+      source-rect: 163 167 22 30
       left-overhang: -1
       right-overhang: 2
     120:
-      x: 187
-      y: 167
-      width: 14
-      height: 30
+      source-rect: 187 167 14 30
       right-overhang: 3
     121:
-      x: 203
-      y: 167
-      width: 15
-      height: 30
+      source-rect: 203 167 15 30
       left-overhang: -1
       right-overhang: 2
     122:
-      x: 220
-      y: 167
-      width: 12
-      height: 30
+      source-rect: 220 167 12 30
       right-overhang: 1
     123:
-      x: 234
-      y: 167
-      width: 13
-      height: 30
+      source-rect: 234 167 13 30
       right-overhang: 1
     124:
-      x: 0
-      y: 200
-      width: 8
-      height: 30
+      source-rect: 0 200 8 30
       left-overhang: -2
       right-overhang: 3
     125:
-      x: 10
-      y: 200
-      width: 13
-      height: 30
+      source-rect: 10 200 13 30
       right-overhang: 1
     126:
-      x: 25
-      y: 200
-      width: 15
-      height: 30
+      source-rect: 25 200 15 30
       left-overhang: -1
       right-overhang: 2
     161:
-      x: 42
-      y: 200
-      width: 8
-      height: 30
+      source-rect: 42 200 8 30
       left-overhang: -1
       right-overhang: 2
     162:
-      x: 52
-      y: 200
-      width: 13
-      height: 30
+      source-rect: 52 200 13 30
       left-overhang: -1
       right-overhang: 2
     163:
-      x: 67
-      y: 200
-      width: 15
-      height: 30
+      source-rect: 67 200 15 30
       left-overhang: -1
       right-overhang: 2
     164:
-      x: 84
-      y: 200
-      width: 19
-      height: 30
+      source-rect: 84 200 19 30
       left-overhang: -1
       right-overhang: 2
     165:
-      x: 105
-      y: 200
-      width: 16
-      height: 30
+      source-rect: 105 200 16 30
       right-overhang: 1
     166:
-      x: 123
-      y: 200
-      width: 9
-      height: 30
+      source-rect: 123 200 9 30
       left-overhang: -2
       right-overhang: 3
     167:
-      x: 134
-      y: 200
-      width: 14
-      height: 30
+      source-rect: 134 200 14 30
       left-overhang: -1
       right-overhang: 2
     168:
-      x: 150
-      y: 200
-      width: 11
-      height: 30
+      source-rect: 150 200 11 30
       left-overhang: -1
       right-overhang: 2
     169:
-      x: 163
-      y: 200
-      width: 17
-      height: 30
+      source-rect: 163 200 17 30
       left-overhang: -1
       right-overhang: 2
     170:
-      x: 182
-      y: 200
-      width: 13
-      height: 30
+      source-rect: 182 200 13 30
       left-overhang: -1
       right-overhang: 2
     171:
-      x: 197
-      y: 200
-      width: 19
-      height: 30
+      source-rect: 197 200 19 30
       left-overhang: -1
       right-overhang: 2
     172:
-      x: 218
-      y: 200
-      width: 16
-      height: 30
+      source-rect: 218 200 16 30
       left-overhang: -1
       right-overhang: 2
     173:
-      x: 236
-      y: 200
-      width: 16
-      height: 30
+      source-rect: 236 200 16 30
       left-overhang: -1
       right-overhang: 2
     174:
-      x: 0
-      y: 233
-      width: 17
-      height: 30
+      source-rect: 0 233 17 30
       left-overhang: -1
       right-overhang: 2
     175:
-      x: 19
-      y: 233
-      width: 16
-      height: 30
+      source-rect: 19 233 16 30
       left-overhang: -1
       right-overhang: 2
     176:
-      x: 37
-      y: 233
-      width: 11
-      height: 30
+      source-rect: 37 233 11 30
       left-overhang: -1
       right-overhang: 2
     177:
-      x: 50
-      y: 233
-      width: 16
-      height: 30
+      source-rect: 50 233 16 30
       left-overhang: -1
       right-overhang: 2
     178:
-      x: 68
-      y: 233
-      width: 11
-      height: 30
+      source-rect: 68 233 11 30
       left-overhang: -1
       right-overhang: 2
     179:
-      x: 81
-      y: 233
-      width: 11
-      height: 30
+      source-rect: 81 233 11 30
       left-overhang: -1
       right-overhang: 2
     180:
-      x: 94
-      y: 233
-      width: 9
-      height: 30
+      source-rect: 94 233 9 30
       left-overhang: -1
       right-overhang: 2
     181:
-      x: 105
-      y: 233
-      width: 15
-      height: 30
+      source-rect: 105 233 15 30
       left-overhang: -1
       right-overhang: 2
     182:
-      x: 122
-      y: 233
-      width: 13
-      height: 30
+      source-rect: 122 233 13 30
       left-overhang: -1
       right-overhang: 2
     183:
-      x: 137
-      y: 233
-      width: 7
-      height: 30
+      source-rect: 137 233 7 30
       left-overhang: -1
       right-overhang: 2
     184:
-      x: 146
-      y: 233
-      width: 8
-      height: 30
+      source-rect: 146 233 8 30
       left-overhang: -1
       right-overhang: 2
     185:
-      x: 156
-      y: 233
-      width: 9
-      height: 30
+      source-rect: 156 233 9 30
       left-overhang: -1
       right-overhang: 2
     186:
-      x: 167
-      y: 233
-      width: 13
-      height: 30
+      source-rect: 167 233 13 30
       left-overhang: -1
       right-overhang: 2
     187:
-      x: 182
-      y: 233
-      width: 19
-      height: 30
+      source-rect: 182 233 19 30
       left-overhang: -2
       right-overhang: 3
     188:
-      x: 203
-      y: 233
-      width: 18
-      height: 30
+      source-rect: 203 233 18 30
       left-overhang: -1
       right-overhang: 2
     189:
-      x: 223
-      y: 233
-      width: 19
-      height: 30
+      source-rect: 223 233 19 30
       left-overhang: -1
       right-overhang: 2
     190:
-      x: 0
-      y: 266
-      width: 20
-      height: 30
+      source-rect: 0 266 20 30
       left-overhang: -1
       right-overhang: 2
     191:
-      x: 22
-      y: 266
-      width: 15
-      height: 30
+      source-rect: 22 266 15 30
       left-overhang: -1
       right-overhang: 2
     192:
-      x: 39
-      y: 266
-      width: 16
-      height: 30
+      source-rect: 39 266 16 30
       right-overhang: 1
     193:
-      x: 57
-      y: 266
-      width: 16
-      height: 30
+      source-rect: 57 266 16 30
       right-overhang: 1
     194:
-      x: 75
-      y: 266
-      width: 16
-      height: 30
+      source-rect: 75 266 16 30
       right-overhang: 1
     195:
-      x: 93
-      y: 266
-      width: 16
-      height: 30
+      source-rect: 93 266 16 30
       right-overhang: 1
     196:
-      x: 111
-      y: 266
-      width: 18
-      height: 30
+      source-rect: 111 266 18 30
       right-overhang: 3
     197:
-      x: 131
-      y: 266
-      width: 18
-      height: 30
+      source-rect: 131 266 18 30
       right-overhang: 3
     198:
-      x: 151
-      y: 266
-      width: 22
-      height: 30
+      source-rect: 151 266 22 30
       right-overhang: 1
     199:
-      x: 175
-      y: 266
-      width: 16
-      height: 30
+      source-rect: 175 266 16 30
       left-overhang: -1
       right-overhang: 2
     200:
-      x: 193
-      y: 266
-      width: 14
-      height: 30
+      source-rect: 193 266 14 30
       left-overhang: -2
       right-overhang: 3
     201:
-      x: 209
-      y: 266
-      width: 14
-      height: 30
+      source-rect: 209 266 14 30
       left-overhang: -2
       right-overhang: 3
     202:
-      x: 225
-      y: 266
-      width: 14
-      height: 30
+      source-rect: 225 266 14 30
       left-overhang: -2
       right-overhang: 3
     203:
-      x: 241
-      y: 266
-      width: 14
-      height: 30
+      source-rect: 241 266 14 30
       left-overhang: -2
       right-overhang: 3
     204:
-      x: 0
-      y: 299
-      width: 8
-      height: 30
+      source-rect: 0 299 8 30
       right-overhang: 1
     205:
-      x: 10
-      y: 299
-      width: 8
-      height: 30
+      source-rect: 10 299 8 30
       left-overhang: -2
       right-overhang: 3
     206:
-      x: 20
-      y: 299
-      width: 8
-      height: 30
+      source-rect: 20 299 8 30
       right-overhang: 1
     207:
-      x: 30
-      y: 299
-      width: 8
-      height: 30
+      source-rect: 30 299 8 30
       right-overhang: 1
     208:
-      x: 40
-      y: 299
-      width: 18
-      height: 30
+      source-rect: 40 299 18 30
       left-overhang: -1
       right-overhang: 2
     209:
-      x: 60
-      y: 299
-      width: 17
-      height: 30
+      source-rect: 60 299 17 30
       left-overhang: -1
       right-overhang: 2
     210:
-      x: 79
-      y: 299
-      width: 17
-      height: 30
+      source-rect: 79 299 17 30
       left-overhang: -1
       right-overhang: 2
     211:
-      x: 98
-      y: 299
-      width: 17
-      height: 30
+      source-rect: 98 299 17 30
       left-overhang: -1
       right-overhang: 2
     212:
-      x: 117
-      y: 299
-      width: 17
-      height: 30
+      source-rect: 117 299 17 30
       left-overhang: -1
       right-overhang: 2
     213:
-      x: 136
-      y: 299
-      width: 17
-      height: 30
+      source-rect: 136 299 17 30
       left-overhang: -1
       right-overhang: 2
     214:
-      x: 155
-      y: 299
-      width: 17
-      height: 30
+      source-rect: 155 299 17 30
       left-overhang: -1
       right-overhang: 2
     215:
-      x: 174
-      y: 299
-      width: 14
-      height: 30
+      source-rect: 174 299 14 30
       left-overhang: -1
       right-overhang: 2
     216:
-      x: 190
-      y: 299
-      width: 17
-      height: 30
+      source-rect: 190 299 17 30
       left-overhang: -1
       right-overhang: 2
     217:
-      x: 209
-      y: 299
-      width: 18
-      height: 30
+      source-rect: 209 299 18 30
       left-overhang: -1
       right-overhang: 2
     218:
-      x: 229
-      y: 299
-      width: 18
-      height: 30
+      source-rect: 229 299 18 30
       left-overhang: -1
       right-overhang: 2
     219:
-      x: 0
-      y: 332
-      width: 18
-      height: 30
+      source-rect: 0 332 18 30
       left-overhang: -1
       right-overhang: 2
     220:
-      x: 20
-      y: 332
-      width: 18
-      height: 30
+      source-rect: 20 332 18 30
       left-overhang: -1
       right-overhang: 2
     221:
-      x: 40
-      y: 332
-      width: 15
-      height: 30
+      source-rect: 40 332 15 30
       right-overhang: 1
     222:
-      x: 57
-      y: 332
-      width: 15
-      height: 30
+      source-rect: 57 332 15 30
       left-overhang: -1
       right-overhang: 2
     223:
-      x: 74
-      y: 332
-      width: 15
-      height: 30
+      source-rect: 74 332 15 30
       left-overhang: -1
       right-overhang: 2
     224:
-      x: 91
-      y: 332
-      width: 14
-      height: 30
+      source-rect: 91 332 14 30
       left-overhang: -1
       right-overhang: 2
     225:
-      x: 107
-      y: 332
-      width: 14
-      height: 30
+      source-rect: 107 332 14 30
       left-overhang: -1
       right-overhang: 2
     226:
-      x: 123
-      y: 332
-      width: 14
-      height: 30
+      source-rect: 123 332 14 30
       left-overhang: -1
       right-overhang: 2
     227:
-      x: 139
-      y: 332
-      width: 14
-      height: 30
+      source-rect: 139 332 14 30
       left-overhang: -1
       right-overhang: 2
     228:
-      x: 155
-      y: 332
-      width: 14
-      height: 30
+      source-rect: 155 332 14 30
       left-overhang: -1
       right-overhang: 2
     229:
-      x: 171
-      y: 332
-      width: 14
-      height: 30
+      source-rect: 171 332 14 30
       left-overhang: -1
       right-overhang: 2
     230:
-      x: 187
-      y: 332
-      width: 21
-      height: 30
+      source-rect: 187 332 21 30
       left-overhang: -1
       right-overhang: 2
     231:
-      x: 210
-      y: 332
-      width: 13
-      height: 30
+      source-rect: 210 332 13 30
       left-overhang: -1
       right-overhang: 2
     232:
-      x: 225
-      y: 332
-      width: 13
-      height: 30
+      source-rect: 225 332 13 30
       left-overhang: -1
       right-overhang: 2
     233:
-      x: 240
-      y: 332
-      width: 13
-      height: 30
+      source-rect: 240 332 13 30
       left-overhang: -1
       right-overhang: 2
     234:
-      x: 0
-      y: 365
-      width: 13
-      height: 30
+      source-rect: 0 365 13 30
       left-overhang: -1
       right-overhang: 2
     235:
-      x: 15
-      y: 365
-      width: 13
-      height: 30
+      source-rect: 15 365 13 30
       left-overhang: -1
       right-overhang: 2
     236:
-      x: 30
-      y: 365
-      width: 9
-      height: 30
+      source-rect: 30 365 9 30
       left-overhang: 1
       right-overhang: 2
     237:
-      x: 41
-      y: 365
-      width: 9
-      height: 30
+      source-rect: 41 365 9 30
       left-overhang: -1
       right-overhang: 4
     238:
-      x: 52
-      y: 365
-      width: 7
-      height: 30
+      source-rect: 52 365 7 30
       right-overhang: 1
     239:
-      x: 61
-      y: 365
-      width: 7
-      height: 30
+      source-rect: 61 365 7 30
       right-overhang: 1
     240:
-      x: 70
-      y: 365
-      width: 15
-      height: 30
+      source-rect: 70 365 15 30
       left-overhang: -1
       right-overhang: 2
     241:
-      x: 87
-      y: 365
-      width: 15
-      height: 30
+      source-rect: 87 365 15 30
       left-overhang: -1
       right-overhang: 2
     242:
-      x: 104
-      y: 365
-      width: 14
-      height: 30
+      source-rect: 104 365 14 30
       left-overhang: -1
       right-overhang: 2
     243:
-      x: 120
-      y: 365
-      width: 14
-      height: 30
+      source-rect: 120 365 14 30
       left-overhang: -1
       right-overhang: 2
     244:
-      x: 136
-      y: 365
-      width: 14
-      height: 30
+      source-rect: 136 365 14 30
       left-overhang: -1
       right-overhang: 2
     245:
-      x: 152
-      y: 365
-      width: 14
-      height: 30
+      source-rect: 152 365 14 30
       left-overhang: -1
       right-overhang: 2
     246:
-      x: 168
-      y: 365
-      width: 14
-      height: 30
+      source-rect: 168 365 14 30
       left-overhang: -1
       right-overhang: 2
     247:
-      x: 184
-      y: 365
-      width: 16
-      height: 30
+      source-rect: 184 365 16 30
       left-overhang: -1
       right-overhang: 2
     248:
-      x: 202
-      y: 365
-      width: 14
-      height: 30
+      source-rect: 202 365 14 30
       left-overhang: -1
       right-overhang: 2
     249:
-      x: 218
-      y: 365
-      width: 15
-      height: 30
+      source-rect: 218 365 15 30
       left-overhang: -1
       right-overhang: 2
     250:
-      x: 235
-      y: 365
-      width: 15
-      height: 30
+      source-rect: 235 365 15 30
       left-overhang: -1
       right-overhang: 2
     251:
-      x: 0
-      y: 398
-      width: 15
-      height: 30
+      source-rect: 0 398 15 30
       left-overhang: -1
       right-overhang: 2
     252:
-      x: 17
-      y: 398
-      width: 15
-      height: 30
+      source-rect: 17 398 15 30
       left-overhang: -1
       right-overhang: 2
     253:
-      x: 34
-      y: 398
-      width: 15
-      height: 30
+      source-rect: 34 398 15 30
       left-overhang: -1
       right-overhang: 2
     254:
-      x: 51
-      y: 398
-      width: 14
-      height: 30
+      source-rect: 51 398 14 30
       left-overhang: -1
       right-overhang: 2
     255:
-      x: 67
-      y: 398
-      width: 15
-      height: 30
+      source-rect: 67 398 15 30
       left-overhang: -1
       right-overhang: 2
 - name: MedievalSharp14
@@ -1299,1279 +729,709 @@ MedievalSharp:
   size: 14
   metrics:
     32:
-      x: 0
-      y: 2
-      width: 7
-      height: 24
+      source-rect: 0 2 7 24
       right-overhang: 1
     33:
-      x: 9
-      y: 2
-      width: 7
-      height: 24
+      source-rect: 9 2 7 24
       left-overhang: -1
       right-overhang: 2
     34:
-      x: 18
-      y: 2
-      width: 9
-      height: 24
+      source-rect: 18 2 9 24
       left-overhang: -1
       right-overhang: 2
     35:
-      x: 29
-      y: 2
-      width: 14
-      height: 24
+      source-rect: 29 2 14 24
       left-overhang: -1
       right-overhang: 2
     36:
-      x: 45
-      y: 2
-      width: 12
-      height: 24
+      source-rect: 45 2 12 24
       left-overhang: -1
       right-overhang: 2
     37:
-      x: 59
-      y: 2
-      width: 15
-      height: 24
+      source-rect: 59 2 15 24
       left-overhang: -1
       right-overhang: 2
     38:
-      x: 76
-      y: 2
-      width: 14
-      height: 24
+      source-rect: 76 2 14 24
       left-overhang: -1
       right-overhang: 2
     39:
-      x: 92
-      y: 2
-      width: 6
-      height: 24
+      source-rect: 92 2 6 24
       left-overhang: -1
       right-overhang: 2
     40:
-      x: 100
-      y: 2
-      width: 9
-      height: 24
+      source-rect: 100 2 9 24
       left-overhang: -1
       right-overhang: 2
     41:
-      x: 111
-      y: 2
-      width: 9
-      height: 24
+      source-rect: 111 2 9 24
       right-overhang: 1
     42:
-      x: 122
-      y: 2
-      width: 12
-      height: 24
+      source-rect: 122 2 12 24
       left-overhang: -1
       right-overhang: 2
     43:
-      x: 136
-      y: 2
-      width: 13
-      height: 24
+      source-rect: 136 2 13 24
       left-overhang: -1
       right-overhang: 2
     44:
-      x: 151
-      y: 2
-      width: 7
-      height: 24
+      source-rect: 151 2 7 24
       left-overhang: -1
       right-overhang: 2
     45:
-      x: 160
-      y: 2
-      width: 13
-      height: 24
+      source-rect: 160 2 13 24
       left-overhang: -1
       right-overhang: 2
     46:
-      x: 175
-      y: 2
-      width: 6
-      height: 24
+      source-rect: 175 2 6 24
       right-overhang: 1
     47:
-      x: 183
-      y: 2
-      width: 11
-      height: 24
+      source-rect: 183 2 11 24
       right-overhang: 1
     48:
-      x: 196
-      y: 2
-      width: 14
-      height: 24
+      source-rect: 196 2 14 24
       left-overhang: 1
       right-overhang: 2
     49:
-      x: 212
-      y: 2
-      width: 8
-      height: 24
+      source-rect: 212 2 8 24
       left-overhang: -1
       right-overhang: -2
     50:
-      x: 222
-      y: 2
-      width: 12
-      height: 24
+      source-rect: 222 2 12 24
       right-overhang: 1
     51:
-      x: 236
-      y: 2
-      width: 12
-      height: 24
+      source-rect: 236 2 12 24
       right-overhang: 1
     52:
-      x: 0
-      y: 29
-      width: 12
-      height: 24
+      source-rect: 0 29 12 24
       right-overhang: 1
     53:
-      x: 14
-      y: 29
-      width: 12
-      height: 24
+      source-rect: 14 29 12 24
       right-overhang: 1
     54:
-      x: 28
-      y: 29
-      width: 13
-      height: 24
+      source-rect: 28 29 13 24
       left-overhang: 1
       right-overhang: 1
     55:
-      x: 43
-      y: 29
-      width: 10
-      height: 24
+      source-rect: 43 29 10 24
       right-overhang: -1
     56:
-      x: 55
-      y: 29
-      width: 12
-      height: 24
+      source-rect: 55 29 12 24
       right-overhang: 1
     57:
-      x: 69
-      y: 29
-      width: 13
-      height: 24
+      source-rect: 69 29 13 24
       left-overhang: 1
       right-overhang: 1
     58:
-      x: 84
-      y: 29
-      width: 6
-      height: 24
+      source-rect: 84 29 6 24
       left-overhang: -1
       right-overhang: 2
     59:
-      x: 92
-      y: 29
-      width: 7
-      height: 24
+      source-rect: 92 29 7 24
       left-overhang: -1
       right-overhang: 2
     60:
-      x: 101
-      y: 29
-      width: 14
-      height: 24
+      source-rect: 101 29 14 24
       left-overhang: -1
       right-overhang: 2
     61:
-      x: 117
-      y: 29
-      width: 13
-      height: 24
+      source-rect: 117 29 13 24
       left-overhang: -1
       right-overhang: 2
     62:
-      x: 132
-      y: 29
-      width: 14
-      height: 24
+      source-rect: 132 29 14 24
       left-overhang: -1
       right-overhang: 2
     63:
-      x: 148
-      y: 29
-      width: 12
-      height: 24
+      source-rect: 148 29 12 24
       left-overhang: -1
       right-overhang: 2
     64:
-      x: 162
-      y: 29
-      width: 12
-      height: 24
+      source-rect: 162 29 12 24
       right-overhang: 1
     65:
-      x: 176
-      y: 29
-      width: 13
-      height: 24
+      source-rect: 176 29 13 24
       right-overhang: 1
     66:
-      x: 191
-      y: 29
-      width: 14
-      height: 24
+      source-rect: 191 29 14 24
       left-overhang: -1
       right-overhang: 2
     67:
-      x: 207
-      y: 29
-      width: 13
-      height: 24
+      source-rect: 207 29 13 24
       left-overhang: -1
       right-overhang: 2
     68:
-      x: 222
-      y: 29
-      width: 14
-      height: 24
+      source-rect: 222 29 14 24
       left-overhang: -1
       right-overhang: 2
     69:
-      x: 238
-      y: 29
-      width: 11
-      height: 24
+      source-rect: 238 29 11 24
       left-overhang: -1
       right-overhang: 2
     70:
-      x: 0
-      y: 56
-      width: 11
-      height: 24
+      source-rect: 0 56 11 24
       left-overhang: -1
       right-overhang: 2
     71:
-      x: 13
-      y: 56
-      width: 14
-      height: 24
+      source-rect: 13 56 14 24
       left-overhang: -1
       right-overhang: 2
     72:
-      x: 29
-      y: 56
-      width: 14
-      height: 24
+      source-rect: 29 56 14 24
       left-overhang: -1
       right-overhang: 2
     73:
-      x: 45
-      y: 56
-      width: 7
-      height: 24
+      source-rect: 45 56 7 24
       left-overhang: -1
       right-overhang: 2
     74:
-      x: 54
-      y: 56
-      width: 12
-      height: 24
+      source-rect: 54 56 12 24
       right-overhang: 1
     75:
-      x: 68
-      y: 56
-      width: 13
-      height: 24
+      source-rect: 68 56 13 24
       left-overhang: -1
       right-overhang: 2
     76:
-      x: 83
-      y: 56
-      width: 11
-      height: 24
+      source-rect: 83 56 11 24
       left-overhang: -1
       right-overhang: 2
     77:
-      x: 96
-      y: 56
-      width: 17
-      height: 24
+      source-rect: 96 56 17 24
       right-overhang: 1
     78:
-      x: 115
-      y: 56
-      width: 14
-      height: 24
+      source-rect: 115 56 14 24
       left-overhang: -1
       right-overhang: 2
     79:
-      x: 131
-      y: 56
-      width: 14
-      height: 24
+      source-rect: 131 56 14 24
       left-overhang: -1
       right-overhang: 2
     80:
-      x: 147
-      y: 56
-      width: 13
-      height: 24
+      source-rect: 147 56 13 24
       left-overhang: -1
       right-overhang: 2
     81:
-      x: 162
-      y: 56
-      width: 14
-      height: 24
+      source-rect: 162 56 14 24
       left-overhang: -1
       right-overhang: 2
     82:
-      x: 178
-      y: 56
-      width: 14
-      height: 24
+      source-rect: 178 56 14 24
       left-overhang: -1
       right-overhang: 2
     83:
-      x: 194
-      y: 56
-      width: 12
-      height: 24
+      source-rect: 194 56 12 24
       left-overhang: -1
       right-overhang: 2
     84:
-      x: 208
-      y: 56
-      width: 15
-      height: 24
+      source-rect: 208 56 15 24
       left-overhang: 1
       right-overhang: 4
     85:
-      x: 225
-      y: 56
-      width: 14
-      height: 24
+      source-rect: 225 56 14 24
       left-overhang: -1
       right-overhang: 2
     86:
-      x: 241
-      y: 56
-      width: 13
-      height: 24
+      source-rect: 241 56 13 24
       right-overhang: 1
     87:
-      x: 0
-      y: 83
-      width: 18
-      height: 24
+      source-rect: 0 83 18 24
       right-overhang: 1
     88:
-      x: 20
-      y: 83
-      width: 12
-      height: 24
+      source-rect: 20 83 12 24
       right-overhang: 1
     89:
-      x: 34
-      y: 83
-      width: 12
-      height: 24
+      source-rect: 34 83 12 24
       right-overhang: 1
     90:
-      x: 48
-      y: 83
-      width: 12
-      height: 24
+      source-rect: 48 83 12 24
       right-overhang: 1
     91:
-      x: 62
-      y: 83
-      width: 9
-      height: 24
+      source-rect: 62 83 9 24
       left-overhang: -1
       right-overhang: 2
     92:
-      x: 73
-      y: 83
-      width: 11
-      height: 24
+      source-rect: 73 83 11 24
       right-overhang: 1
     93:
-      x: 86
-      y: 83
-      width: 9
-      height: 24
+      source-rect: 86 83 9 24
       right-overhang: 1
     94:
-      x: 97
-      y: 83
-      width: 14
-      height: 24
+      source-rect: 97 83 14 24
       left-overhang: -1
       right-overhang: 2
     95:
-      x: 113
-      y: 83
-      width: 13
-      height: 24
+      source-rect: 113 83 13 24
       left-overhang: -1
       right-overhang: 2
     96:
-      x: 128
-      y: 83
-      width: 8
-      height: 24
+      source-rect: 128 83 8 24
       left-overhang: -1
       right-overhang: 2
     97:
-      x: 138
-      y: 83
-      width: 11
-      height: 24
+      source-rect: 138 83 11 24
       left-overhang: -1
       right-overhang: 2
     98:
-      x: 151
-      y: 83
-      width: 12
-      height: 24
+      source-rect: 151 83 12 24
       right-overhang: 1
     99:
-      x: 165
-      y: 83
-      width: 10
-      height: 24
+      source-rect: 165 83 10 24
       right-overhang: 1
     100:
-      x: 177
-      y: 83
-      width: 12
-      height: 24
+      source-rect: 177 83 12 24
       left-overhang: -1
       right-overhang: 2
     101:
-      x: 191
-      y: 83
-      width: 11
-      height: 24
+      source-rect: 191 83 11 24
       left-overhang: -1
       right-overhang: 2
     102:
-      x: 204
-      y: 83
-      width: 11
-      height: 24
+      source-rect: 204 83 11 24
       left-overhang: 1
       right-overhang: 2
     103:
-      x: 217
-      y: 83
-      width: 12
-      height: 24
+      source-rect: 217 83 12 24
       left-overhang: -1
       right-overhang: 2
     104:
-      x: 231
-      y: 83
-      width: 12
-      height: 24
+      source-rect: 231 83 12 24
       left-overhang: -1
       right-overhang: 2
     105:
-      x: 245
-      y: 83
-      width: 6
-      height: 24
+      source-rect: 245 83 6 24
       left-overhang: -1
       right-overhang: 2
     106:
-      x: 0
-      y: 110
-      width: 6
-      height: 24
+      source-rect: 0 110 6 24
       right-overhang: 1
     107:
-      x: 8
-      y: 110
-      width: 11
-      height: 24
+      source-rect: 8 110 11 24
       left-overhang: -1
       right-overhang: 2
     108:
-      x: 21
-      y: 110
-      width: 6
-      height: 24
+      source-rect: 21 110 6 24
       left-overhang: -1
       right-overhang: 2
     109:
-      x: 29
-      y: 110
-      width: 18
-      height: 24
+      source-rect: 29 110 18 24
       left-overhang: -1
       right-overhang: 2
     110:
-      x: 49
-      y: 110
-      width: 12
-      height: 24
+      source-rect: 49 110 12 24
       left-overhang: -1
       right-overhang: 2
     111:
-      x: 63
-      y: 110
-      width: 11
-      height: 24
+      source-rect: 63 110 11 24
       left-overhang: -1
       right-overhang: 2
     112:
-      x: 76
-      y: 110
-      width: 12
-      height: 24
+      source-rect: 76 110 12 24
       left-overhang: -1
       right-overhang: 2
     113:
-      x: 90
-      y: 110
-      width: 12
-      height: 24
+      source-rect: 90 110 12 24
       left-overhang: -1
       right-overhang: 2
     114:
-      x: 104
-      y: 110
-      width: 10
-      height: 24
+      source-rect: 104 110 10 24
       left-overhang: -1
       right-overhang: 2
     115:
-      x: 116
-      y: 110
-      width: 10
-      height: 24
+      source-rect: 116 110 10 24
       left-overhang: -1
       right-overhang: 2
     116:
-      x: 128
-      y: 110
-      width: 8
-      height: 24
+      source-rect: 128 110 8 24
       right-overhang: 1
     117:
-      x: 138
-      y: 110
-      width: 12
-      height: 24
+      source-rect: 138 110 12 24
       left-overhang: -1
       right-overhang: 2
     118:
-      x: 152
-      y: 110
-      width: 11
-      height: 24
+      source-rect: 152 110 11 24
       right-overhang: 1
     119:
-      x: 165
-      y: 110
-      width: 18
-      height: 24
+      source-rect: 165 110 18 24
       left-overhang: -1
       right-overhang: 2
     120:
-      x: 185
-      y: 110
-      width: 10
-      height: 24
+      source-rect: 185 110 10 24
       right-overhang: 1
     121:
-      x: 197
-      y: 110
-      width: 12
-      height: 24
+      source-rect: 197 110 12 24
       left-overhang: -1
       right-overhang: 2
     122:
-      x: 211
-      y: 110
-      width: 10
-      height: 24
+      source-rect: 211 110 10 24
       right-overhang: 1
     123:
-      x: 223
-      y: 110
-      width: 10
-      height: 24
+      source-rect: 223 110 10 24
       right-overhang: 1
     124:
-      x: 235
-      y: 110
-      width: 7
-      height: 24
+      source-rect: 235 110 7 24
       left-overhang: -2
       right-overhang: 3
     125:
-      x: 244
-      y: 110
-      width: 10
-      height: 24
+      source-rect: 244 110 10 24
       right-overhang: 1
     126:
-      x: 0
-      y: 137
-      width: 12
-      height: 24
+      source-rect: 0 137 12 24
       left-overhang: -1
       right-overhang: 2
     161:
-      x: 14
-      y: 137
-      width: 7
-      height: 24
+      source-rect: 14 137 7 24
       right-overhang: 1
     162:
-      x: 23
-      y: 137
-      width: 10
-      height: 24
+      source-rect: 23 137 10 24
       right-overhang: 1
     163:
-      x: 35
-      y: 137
-      width: 12
-      height: 24
+      source-rect: 35 137 12 24
       left-overhang: -1
       right-overhang: 2
     164:
-      x: 49
-      y: 137
-      width: 15
-      height: 24
+      source-rect: 49 137 15 24
       left-overhang: -1
       right-overhang: 2
     165:
-      x: 66
-      y: 137
-      width: 13
-      height: 24
+      source-rect: 66 137 13 24
       right-overhang: 1
     166:
-      x: 81
-      y: 137
-      width: 7
-      height: 24
+      source-rect: 81 137 7 24
       left-overhang: -1
       right-overhang: 2
     167:
-      x: 90
-      y: 137
-      width: 11
-      height: 24
+      source-rect: 90 137 11 24
       left-overhang: -1
       right-overhang: 2
     168:
-      x: 103
-      y: 137
-      width: 9
-      height: 24
+      source-rect: 103 137 9 24
       left-overhang: -1
       right-overhang: 2
     169:
-      x: 114
-      y: 137
-      width: 14
-      height: 24
+      source-rect: 114 137 14 24
       left-overhang: -1
       right-overhang: 2
     170:
-      x: 130
-      y: 137
-      width: 10
-      height: 24
+      source-rect: 130 137 10 24
       left-overhang: -1
       right-overhang: 2
     171:
-      x: 142
-      y: 137
-      width: 15
-      height: 24
+      source-rect: 142 137 15 24
       left-overhang: -1
       right-overhang: 2
     172:
-      x: 159
-      y: 137
-      width: 13
-      height: 24
+      source-rect: 159 137 13 24
       left-overhang: -1
       right-overhang: 2
     173:
-      x: 174
-      y: 137
-      width: 13
-      height: 24
+      source-rect: 174 137 13 24
       left-overhang: -1
       right-overhang: 2
     174:
-      x: 189
-      y: 137
-      width: 14
-      height: 24
+      source-rect: 189 137 14 24
       left-overhang: -1
       right-overhang: 2
     175:
-      x: 205
-      y: 137
-      width: 13
-      height: 24
+      source-rect: 205 137 13 24
       left-overhang: -1
       right-overhang: 2
     176:
-      x: 220
-      y: 137
-      width: 9
-      height: 24
+      source-rect: 220 137 9 24
       left-overhang: -1
       right-overhang: 2
     177:
-      x: 231
-      y: 137
-      width: 13
-      height: 24
+      source-rect: 231 137 13 24
       left-overhang: -1
       right-overhang: 2
     178:
-      x: 246
-      y: 137
-      width: 9
-      height: 24
+      source-rect: 246 137 9 24
       left-overhang: -1
       right-overhang: 2
     179:
-      x: 0
-      y: 164
-      width: 9
-      height: 24
+      source-rect: 0 164 9 24
       left-overhang: -1
       right-overhang: 2
     180:
-      x: 11
-      y: 164
-      width: 8
-      height: 24
+      source-rect: 11 164 8 24
       left-overhang: -1
       right-overhang: 2
     181:
-      x: 21
-      y: 164
-      width: 12
-      height: 24
+      source-rect: 21 164 12 24
       left-overhang: -1
       right-overhang: 2
     182:
-      x: 35
-      y: 164
-      width: 11
-      height: 24
+      source-rect: 35 164 11 24
       left-overhang: -1
       right-overhang: 2
     183:
-      x: 48
-      y: 164
-      width: 6
-      height: 24
+      source-rect: 48 164 6 24
       left-overhang: -1
       right-overhang: 2
     184:
-      x: 56
-      y: 164
-      width: 7
-      height: 24
+      source-rect: 56 164 7 24
       left-overhang: -1
       right-overhang: 2
     185:
-      x: 65
-      y: 164
-      width: 7
-      height: 24
+      source-rect: 65 164 7 24
       right-overhang: 1
     186:
-      x: 74
-      y: 164
-      width: 10
-      height: 24
+      source-rect: 74 164 10 24
       left-overhang: -1
       right-overhang: 2
     187:
-      x: 86
-      y: 164
-      width: 15
-      height: 24
+      source-rect: 86 164 15 24
       left-overhang: -1
       right-overhang: 2
     188:
-      x: 103
-      y: 164
-      width: 14
-      height: 24
+      source-rect: 103 164 14 24
       right-overhang: 1
     189:
-      x: 119
-      y: 164
-      width: 15
-      height: 24
+      source-rect: 119 164 15 24
       right-overhang: 1
     190:
-      x: 136
-      y: 164
-      width: 16
-      height: 24
+      source-rect: 136 164 16 24
       left-overhang: -1
       right-overhang: 2
     191:
-      x: 154
-      y: 164
-      width: 12
-      height: 24
+      source-rect: 154 164 12 24
       left-overhang: -1
       right-overhang: 2
     192:
-      x: 168
-      y: 164
-      width: 13
-      height: 24
+      source-rect: 168 164 13 24
       right-overhang: 1
     193:
-      x: 183
-      y: 164
-      width: 13
-      height: 24
+      source-rect: 183 164 13 24
       right-overhang: 1
     194:
-      x: 198
-      y: 164
-      width: 13
-      height: 24
+      source-rect: 198 164 13 24
       right-overhang: 1
     195:
-      x: 213
-      y: 164
-      width: 13
-      height: 24
+      source-rect: 213 164 13 24
       right-overhang: 1
     196:
-      x: 228
-      y: 164
-      width: 13
-      height: 24
+      source-rect: 228 164 13 24
       right-overhang: 1
     197:
-      x: 243
-      y: 164
-      width: 13
-      height: 24
+      source-rect: 243 164 13 24
       right-overhang: 1
     198:
-      x: 0
-      y: 191
-      width: 18
-      height: 24
+      source-rect: 0 191 18 24
       right-overhang: 1
     199:
-      x: 20
-      y: 191
-      width: 13
-      height: 24
+      source-rect: 20 191 13 24
       left-overhang: -1
       right-overhang: 2
     200:
-      x: 35
-      y: 191
-      width: 11
-      height: 24
+      source-rect: 35 191 11 24
       left-overhang: -1
       right-overhang: 2
     201:
-      x: 48
-      y: 191
-      width: 11
-      height: 24
+      source-rect: 48 191 11 24
       left-overhang: -1
       right-overhang: 2
     202:
-      x: 61
-      y: 191
-      width: 11
-      height: 24
+      source-rect: 61 191 11 24
       left-overhang: -1
       right-overhang: 2
     203:
-      x: 74
-      y: 191
-      width: 11
-      height: 24
+      source-rect: 74 191 11 24
       left-overhang: -1
       right-overhang: 2
     204:
-      x: 87
-      y: 191
-      width: 7
-      height: 24
+      source-rect: 87 191 7 24
       right-overhang: 1
     205:
-      x: 96
-      y: 191
-      width: 7
-      height: 24
+      source-rect: 96 191 7 24
       left-overhang: -1
       right-overhang: 2
     206:
-      x: 105
-      y: 191
-      width: 7
-      height: 24
+      source-rect: 105 191 7 24
       right-overhang: 1
     207:
-      x: 114
-      y: 191
-      width: 7
-      height: 24
+      source-rect: 114 191 7 24
       right-overhang: 1
     208:
-      x: 123
-      y: 191
-      width: 14
-      height: 24
+      source-rect: 123 191 14 24
       right-overhang: 1
     209:
-      x: 139
-      y: 191
-      width: 14
-      height: 24
+      source-rect: 139 191 14 24
       left-overhang: -1
       right-overhang: 2
     210:
-      x: 155
-      y: 191
-      width: 14
-      height: 24
+      source-rect: 155 191 14 24
       left-overhang: -1
       right-overhang: 2
     211:
-      x: 171
-      y: 191
-      width: 14
-      height: 24
+      source-rect: 171 191 14 24
       left-overhang: -1
       right-overhang: 2
     212:
-      x: 187
-      y: 191
-      width: 14
-      height: 24
+      source-rect: 187 191 14 24
       left-overhang: -1
       right-overhang: 2
     213:
-      x: 203
-      y: 191
-      width: 14
-      height: 24
+      source-rect: 203 191 14 24
       left-overhang: -1
       right-overhang: 2
     214:
-      x: 219
-      y: 191
-      width: 14
-      height: 24
+      source-rect: 219 191 14 24
       left-overhang: -1
       right-overhang: 2
     215:
-      x: 235
-      y: 191
-      width: 11
-      height: 24
+      source-rect: 235 191 11 24
       left-overhang: -1
       right-overhang: 2
     216:
-      x: 0
-      y: 218
-      width: 14
-      height: 24
+      source-rect: 0 218 14 24
       left-overhang: -1
       right-overhang: 2
     217:
-      x: 16
-      y: 218
-      width: 14
-      height: 24
+      source-rect: 16 218 14 24
       left-overhang: -1
       right-overhang: 2
     218:
-      x: 32
-      y: 218
-      width: 14
-      height: 24
+      source-rect: 32 218 14 24
       left-overhang: -1
       right-overhang: 2
     219:
-      x: 48
-      y: 218
-      width: 14
-      height: 24
+      source-rect: 48 218 14 24
       left-overhang: -1
       right-overhang: 2
     220:
-      x: 64
-      y: 218
-      width: 14
-      height: 24
+      source-rect: 64 218 14 24
       left-overhang: -1
       right-overhang: 2
     221:
-      x: 80
-      y: 218
-      width: 12
-      height: 24
+      source-rect: 80 218 12 24
       right-overhang: 1
     222:
-      x: 94
-      y: 218
-      width: 12
-      height: 24
+      source-rect: 94 218 12 24
       left-overhang: -1
       right-overhang: 2
     223:
-      x: 108
-      y: 218
-      width: 12
-      height: 24
+      source-rect: 108 218 12 24
       right-overhang: 1
     224:
-      x: 122
-      y: 218
-      width: 11
-      height: 24
+      source-rect: 122 218 11 24
       left-overhang: -1
       right-overhang: 2
     225:
-      x: 135
-      y: 218
-      width: 11
-      height: 24
+      source-rect: 135 218 11 24
       left-overhang: -1
       right-overhang: 2
     226:
-      x: 148
-      y: 218
-      width: 11
-      height: 24
+      source-rect: 148 218 11 24
       left-overhang: -1
       right-overhang: 2
     227:
-      x: 161
-      y: 218
-      width: 11
-      height: 24
+      source-rect: 161 218 11 24
       left-overhang: -1
       right-overhang: 2
     228:
-      x: 174
-      y: 218
-      width: 11
-      height: 24
+      source-rect: 174 218 11 24
       left-overhang: -1
       right-overhang: 2
     229:
-      x: 187
-      y: 218
-      width: 11
-      height: 24
+      source-rect: 187 218 11 24
       left-overhang: -1
       right-overhang: 2
     230:
-      x: 200
-      y: 218
-      width: 17
-      height: 24
+      source-rect: 200 218 17 24
       left-overhang: -1
       right-overhang: 2
     231:
-      x: 219
-      y: 218
-      width: 10
-      height: 24
+      source-rect: 219 218 10 24
       right-overhang: 1
     232:
-      x: 231
-      y: 218
-      width: 11
-      height: 24
+      source-rect: 231 218 11 24
       left-overhang: -1
       right-overhang: 2
     233:
-      x: 244
-      y: 218
-      width: 11
-      height: 24
+      source-rect: 244 218 11 24
       left-overhang: -1
       right-overhang: 2
     234:
-      x: 0
-      y: 245
-      width: 11
-      height: 24
+      source-rect: 0 245 11 24
       left-overhang: -1
       right-overhang: 2
     235:
-      x: 13
-      y: 245
-      width: 11
-      height: 24
+      source-rect: 13 245 11 24
       left-overhang: -1
       right-overhang: 2
     236:
-      x: 26
-      y: 245
-      width: 6
-      height: 24
+      source-rect: 26 245 6 24
       right-overhang: 1
     237:
-      x: 34
-      y: 245
-      width: 6
-      height: 24
+      source-rect: 34 245 6 24
       left-overhang: -1
       right-overhang: 2
     238:
-      x: 42
-      y: 245
-      width: 6
-      height: 24
+      source-rect: 42 245 6 24
       right-overhang: 1
     239:
-      x: 50
-      y: 245
-      width: 6
-      height: 24
+      source-rect: 50 245 6 24
       right-overhang: 1
     240:
-      x: 58
-      y: 245
-      width: 12
-      height: 24
+      source-rect: 58 245 12 24
       left-overhang: -1
       right-overhang: 2
     241:
-      x: 72
-      y: 245
-      width: 12
-      height: 24
+      source-rect: 72 245 12 24
       left-overhang: -1
       right-overhang: 2
     242:
-      x: 86
-      y: 245
-      width: 11
-      height: 24
+      source-rect: 86 245 11 24
       left-overhang: -1
       right-overhang: 2
     243:
-      x: 99
-      y: 245
-      width: 11
-      height: 24
+      source-rect: 99 245 11 24
       left-overhang: -1
       right-overhang: 2
     244:
-      x: 112
-      y: 245
-      width: 11
-      height: 24
+      source-rect: 112 245 11 24
       left-overhang: -1
       right-overhang: 2
     245:
-      x: 125
-      y: 245
-      width: 11
-      height: 24
+      source-rect: 125 245 11 24
       left-overhang: -1
       right-overhang: 2
     246:
-      x: 138
-      y: 245
-      width: 11
-      height: 24
+      source-rect: 138 245 11 24
       left-overhang: -1
       right-overhang: 2
     247:
-      x: 151
-      y: 245
-      width: 13
-      height: 24
+      source-rect: 151 245 13 24
       left-overhang: -1
       right-overhang: 2
     248:
-      x: 166
-      y: 245
-      width: 11
-      height: 24
+      source-rect: 166 245 11 24
       right-overhang: 1
     249:
-      x: 179
-      y: 245
-      width: 12
-      height: 24
+      source-rect: 179 245 12 24
       left-overhang: -1
       right-overhang: 2
     250:
-      x: 193
-      y: 245
-      width: 12
-      height: 24
+      source-rect: 193 245 12 24
       left-overhang: -1
       right-overhang: 2
     251:
-      x: 207
-      y: 245
-      width: 12
-      height: 24
+      source-rect: 207 245 12 24
       left-overhang: -1
       right-overhang: 2
     252:
-      x: 221
-      y: 245
-      width: 12
-      height: 24
+      source-rect: 221 245 12 24
       left-overhang: -1
       right-overhang: 2
     253:
-      x: 235
-      y: 245
-      width: 12
-      height: 24
+      source-rect: 235 245 12 24
       left-overhang: -1
       right-overhang: 2
     254:
-      x: 0
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 0 272 12 24
       left-overhang: -1
       right-overhang: 2
     255:
-      x: 14
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 14 272 12 24
       left-overhang: -1
       right-overhang: 2
 - name: MedievalSharpBold18
@@ -2580,1291 +1440,721 @@ MedievalSharp:
   style: bold
   metrics:
     32:
-      x: 0
-      y: 2
-      width: 8
-      height: 30
+      source-rect: 0 2 8 30
       right-overhang: 1
     33:
-      x: 10
-      y: 2
-      width: 10
-      height: 30
+      source-rect: 10 2 10 30
       left-overhang: -1
       right-overhang: 2
     34:
-      x: 22
-      y: 2
-      width: 14
-      height: 30
+      source-rect: 22 2 14 30
       left-overhang: -1
       right-overhang: 2
     35:
-      x: 38
-      y: 2
-      width: 21
-      height: 30
+      source-rect: 38 2 21 30
       left-overhang: -2
       right-overhang: 3
     36:
-      x: 61
-      y: 2
-      width: 17
-      height: 30
+      source-rect: 61 2 17 30
       left-overhang: -1
       right-overhang: 2
     37:
-      x: 80
-      y: 2
-      width: 24
-      height: 30
+      source-rect: 80 2 24 30
       left-overhang: -1
       right-overhang: 2
     38:
-      x: 106
-      y: 2
-      width: 19
-      height: 30
+      source-rect: 106 2 19 30
       left-overhang: -1
       right-overhang: 2
     39:
-      x: 127
-      y: 2
-      width: 9
-      height: 30
+      source-rect: 127 2 9 30
       left-overhang: -1
       right-overhang: 2
     40:
-      x: 138
-      y: 2
-      width: 13
-      height: 30
+      source-rect: 138 2 13 30
       left-overhang: -1
       right-overhang: 2
     41:
-      x: 153
-      y: 2
-      width: 13
-      height: 30
+      source-rect: 153 2 13 30
       right-overhang: 1
     42:
-      x: 168
-      y: 2
-      width: 18
-      height: 30
+      source-rect: 168 2 18 30
       left-overhang: -1
       right-overhang: 2
     43:
-      x: 188
-      y: 2
-      width: 18
-      height: 30
+      source-rect: 188 2 18 30
       left-overhang: -1
       right-overhang: 2
     44:
-      x: 208
-      y: 2
-      width: 10
-      height: 30
+      source-rect: 208 2 10 30
       left-overhang: -1
       right-overhang: 2
     45:
-      x: 220
-      y: 2
-      width: 18
-      height: 30
+      source-rect: 220 2 18 30
       left-overhang: -1
       right-overhang: 2
     46:
-      x: 240
-      y: 2
-      width: 9
-      height: 30
+      source-rect: 240 2 9 30
       left-overhang: -1
       right-overhang: 2
     47:
-      x: 0
-      y: 35
-      width: 16
-      height: 30
+      source-rect: 0 35 16 30
       right-overhang: 1
     48:
-      x: 18
-      y: 35
-      width: 19
-      height: 30
+      source-rect: 18 35 19 30
       left-overhang: 1
       right-overhang: 2
     49:
-      x: 39
-      y: 35
-      width: 13
-      height: 30
+      source-rect: 39 35 13 30
       left-overhang: -1
       right-overhang: -2
     50:
-      x: 54
-      y: 35
-      width: 17
-      height: 30
+      source-rect: 54 35 17 30
       right-overhang: 1
     51:
-      x: 73
-      y: 35
-      width: 18
-      height: 30
+      source-rect: 73 35 18 30
       left-overhang: 1
       right-overhang: 1
     52:
-      x: 93
-      y: 35
-      width: 16
-      height: 30
+      source-rect: 93 35 16 30
     53:
-      x: 111
-      y: 35
-      width: 17
-      height: 30
+      source-rect: 111 35 17 30
       right-overhang: 1
     54:
-      x: 130
-      y: 35
-      width: 18
-      height: 30
+      source-rect: 130 35 18 30
       left-overhang: 1
       right-overhang: 1
     55:
-      x: 150
-      y: 35
-      width: 16
-      height: 30
+      source-rect: 150 35 16 30
     56:
-      x: 168
-      y: 35
-      width: 17
-      height: 30
+      source-rect: 168 35 17 30
       right-overhang: 1
     57:
-      x: 187
-      y: 35
-      width: 18
-      height: 30
+      source-rect: 187 35 18 30
       left-overhang: 1
       right-overhang: 1
     58:
-      x: 207
-      y: 35
-      width: 9
-      height: 30
+      source-rect: 207 35 9 30
       left-overhang: -1
       right-overhang: 2
     59:
-      x: 218
-      y: 35
-      width: 10
-      height: 30
+      source-rect: 218 35 10 30
       left-overhang: -1
       right-overhang: 2
     60:
-      x: 230
-      y: 35
-      width: 18
-      height: 30
+      source-rect: 230 35 18 30
       left-overhang: -1
       right-overhang: 2
     61:
-      x: 0
-      y: 68
-      width: 18
-      height: 30
+      source-rect: 0 68 18 30
       left-overhang: -1
       right-overhang: 2
     62:
-      x: 20
-      y: 68
-      width: 18
-      height: 30
+      source-rect: 20 68 18 30
       left-overhang: -2
       right-overhang: 3
     63:
-      x: 40
-      y: 68
-      width: 17
-      height: 30
+      source-rect: 40 68 17 30
       left-overhang: -1
       right-overhang: 2
     64:
-      x: 59
-      y: 68
-      width: 17
-      height: 30
+      source-rect: 59 68 17 30
       left-overhang: -1
       right-overhang: 2
     65:
-      x: 78
-      y: 68
-      width: 20
-      height: 30
+      source-rect: 78 68 20 30
       right-overhang: 3
     66:
-      x: 100
-      y: 68
-      width: 19
-      height: 30
+      source-rect: 100 68 19 30
       left-overhang: -1
       right-overhang: 2
     67:
-      x: 121
-      y: 68
-      width: 18
-      height: 30
+      source-rect: 121 68 18 30
       left-overhang: -1
       right-overhang: 2
     68:
-      x: 141
-      y: 68
-      width: 19
-      height: 30
+      source-rect: 141 68 19 30
       left-overhang: -1
       right-overhang: 2
     69:
-      x: 162
-      y: 68
-      width: 16
-      height: 30
+      source-rect: 162 68 16 30
       left-overhang: -2
       right-overhang: 3
     70:
-      x: 180
-      y: 68
-      width: 15
-      height: 30
+      source-rect: 180 68 15 30
       left-overhang: -2
       right-overhang: 3
     71:
-      x: 197
-      y: 68
-      width: 19
-      height: 30
+      source-rect: 197 68 19 30
       left-overhang: -1
       right-overhang: 2
     72:
-      x: 218
-      y: 68
-      width: 19
-      height: 30
+      source-rect: 218 68 19 30
       left-overhang: -2
       right-overhang: 3
     73:
-      x: 239
-      y: 68
-      width: 10
-      height: 30
+      source-rect: 239 68 10 30
       left-overhang: -2
       right-overhang: 3
     74:
-      x: 0
-      y: 101
-      width: 17
-      height: 30
+      source-rect: 0 101 17 30
       right-overhang: 1
     75:
-      x: 19
-      y: 101
-      width: 18
-      height: 30
+      source-rect: 19 101 18 30
       left-overhang: -1
       right-overhang: 2
     76:
-      x: 39
-      y: 101
-      width: 15
-      height: 30
+      source-rect: 39 101 15 30
       left-overhang: -1
       right-overhang: 2
     77:
-      x: 56
-      y: 101
-      width: 23
-      height: 30
+      source-rect: 56 101 23 30
       right-overhang: 1
     78:
-      x: 81
-      y: 101
-      width: 20
-      height: 30
+      source-rect: 81 101 20 30
       left-overhang: -1
       right-overhang: 2
     79:
-      x: 103
-      y: 101
-      width: 19
-      height: 30
+      source-rect: 103 101 19 30
       left-overhang: -1
       right-overhang: 2
     80:
-      x: 124
-      y: 101
-      width: 18
-      height: 30
+      source-rect: 124 101 18 30
       left-overhang: -1
       right-overhang: 2
     81:
-      x: 144
-      y: 101
-      width: 19
-      height: 30
+      source-rect: 144 101 19 30
       left-overhang: -1
       right-overhang: 2
     82:
-      x: 165
-      y: 101
-      width: 19
-      height: 30
+      source-rect: 165 101 19 30
       left-overhang: -1
       right-overhang: 2
     83:
-      x: 186
-      y: 101
-      width: 17
-      height: 30
+      source-rect: 186 101 17 30
       left-overhang: -1
       right-overhang: 2
     84:
-      x: 205
-      y: 101
-      width: 16
-      height: 30
+      source-rect: 205 101 16 30
       right-overhang: 1
     85:
-      x: 223
-      y: 101
-      width: 19
-      height: 30
+      source-rect: 223 101 19 30
       left-overhang: -2
       right-overhang: 3
     86:
-      x: 0
-      y: 134
-      width: 20
-      height: 30
+      source-rect: 0 134 20 30
       right-overhang: 3
     87:
-      x: 22
-      y: 134
-      width: 25
-      height: 30
+      source-rect: 22 134 25 30
       right-overhang: 1
     88:
-      x: 49
-      y: 134
-      width: 18
-      height: 30
+      source-rect: 49 134 18 30
       right-overhang: 1
     89:
-      x: 69
-      y: 134
-      width: 17
-      height: 30
+      source-rect: 69 134 17 30
       right-overhang: 1
     90:
-      x: 88
-      y: 134
-      width: 17
-      height: 30
+      source-rect: 88 134 17 30
       left-overhang: -1
       right-overhang: 2
     91:
-      x: 107
-      y: 134
-      width: 13
-      height: 30
+      source-rect: 107 134 13 30
       left-overhang: -2
       right-overhang: 3
     92:
-      x: 122
-      y: 134
-      width: 16
-      height: 30
+      source-rect: 122 134 16 30
       right-overhang: 1
     93:
-      x: 140
-      y: 134
-      width: 13
-      height: 30
+      source-rect: 140 134 13 30
       right-overhang: 1
     94:
-      x: 155
-      y: 134
-      width: 18
-      height: 30
+      source-rect: 155 134 18 30
       left-overhang: -1
       right-overhang: 2
     95:
-      x: 175
-      y: 134
-      width: 18
-      height: 30
+      source-rect: 175 134 18 30
       left-overhang: -1
       right-overhang: 2
     96:
-      x: 195
-      y: 134
-      width: 13
-      height: 30
+      source-rect: 195 134 13 30
       left-overhang: -1
       right-overhang: 2
     97:
-      x: 210
-      y: 134
-      width: 16
-      height: 30
+      source-rect: 210 134 16 30
       left-overhang: -1
       right-overhang: 2
     98:
-      x: 228
-      y: 134
-      width: 16
-      height: 30
+      source-rect: 228 134 16 30
       left-overhang: -1
       right-overhang: 2
     99:
-      x: 0
-      y: 167
-      width: 15
-      height: 30
+      source-rect: 0 167 15 30
       left-overhang: -1
       right-overhang: 2
     100:
-      x: 17
-      y: 167
-      width: 17
-      height: 30
+      source-rect: 17 167 17 30
       left-overhang: -1
       right-overhang: 2
     101:
-      x: 36
-      y: 167
-      width: 15
-      height: 30
+      source-rect: 36 167 15 30
       left-overhang: -1
       right-overhang: 2
     102:
-      x: 53
-      y: 167
-      width: 15
-      height: 30
+      source-rect: 53 167 15 30
       left-overhang: 1
       right-overhang: 2
     103:
-      x: 70
-      y: 167
-      width: 16
-      height: 30
+      source-rect: 70 167 16 30
       left-overhang: -1
       right-overhang: 2
     104:
-      x: 88
-      y: 167
-      width: 17
-      height: 30
+      source-rect: 88 167 17 30
       left-overhang: -1
       right-overhang: 2
     105:
-      x: 107
-      y: 167
-      width: 9
-      height: 30
+      source-rect: 107 167 9 30
       left-overhang: -1
       right-overhang: 2
     106:
-      x: 118
-      y: 167
-      width: 11
-      height: 30
+      source-rect: 118 167 11 30
       left-overhang: 1
       right-overhang: 2
     107:
-      x: 131
-      y: 167
-      width: 17
-      height: 30
+      source-rect: 131 167 17 30
       left-overhang: -1
       right-overhang: 4
     108:
-      x: 150
-      y: 167
-      width: 9
-      height: 30
+      source-rect: 150 167 9 30
       left-overhang: -1
       right-overhang: 2
     109:
-      x: 161
-      y: 167
-      width: 25
-      height: 30
+      source-rect: 161 167 25 30
       left-overhang: -1
       right-overhang: 2
     110:
-      x: 188
-      y: 167
-      width: 17
-      height: 30
+      source-rect: 188 167 17 30
       left-overhang: -1
       right-overhang: 2
     111:
-      x: 207
-      y: 167
-      width: 15
-      height: 30
+      source-rect: 207 167 15 30
       left-overhang: -1
       right-overhang: 2
     112:
-      x: 224
-      y: 167
-      width: 17
-      height: 30
+      source-rect: 224 167 17 30
       left-overhang: -1
       right-overhang: 2
     113:
-      x: 0
-      y: 200
-      width: 16
-      height: 30
+      source-rect: 0 200 16 30
       left-overhang: -1
       right-overhang: 2
     114:
-      x: 18
-      y: 200
-      width: 15
-      height: 30
+      source-rect: 18 200 15 30
       left-overhang: -1
       right-overhang: 2
     115:
-      x: 35
-      y: 200
-      width: 14
-      height: 30
+      source-rect: 35 200 14 30
       left-overhang: -1
       right-overhang: 2
     116:
-      x: 51
-      y: 200
-      width: 12
-      height: 30
+      source-rect: 51 200 12 30
       right-overhang: 1
     117:
-      x: 65
-      y: 200
-      width: 17
-      height: 30
+      source-rect: 65 200 17 30
       left-overhang: -1
       right-overhang: 2
     118:
-      x: 84
-      y: 200
-      width: 15
-      height: 30
+      source-rect: 84 200 15 30
       right-overhang: 1
     119:
-      x: 101
-      y: 200
-      width: 25
-      height: 30
+      source-rect: 101 200 25 30
       left-overhang: -1
       right-overhang: 2
     120:
-      x: 128
-      y: 200
-      width: 15
-      height: 30
+      source-rect: 128 200 15 30
       right-overhang: 1
     121:
-      x: 145
-      y: 200
-      width: 17
-      height: 30
+      source-rect: 145 200 17 30
       left-overhang: -1
       right-overhang: 2
     122:
-      x: 164
-      y: 200
-      width: 15
-      height: 30
+      source-rect: 164 200 15 30
       right-overhang: 1
     123:
-      x: 181
-      y: 200
-      width: 15
-      height: 30
+      source-rect: 181 200 15 30
       right-overhang: 1
     124:
-      x: 198
-      y: 200
-      width: 10
-      height: 30
+      source-rect: 198 200 10 30
       left-overhang: -2
       right-overhang: 3
     125:
-      x: 210
-      y: 200
-      width: 15
-      height: 30
+      source-rect: 210 200 15 30
       right-overhang: 1
     126:
-      x: 227
-      y: 200
-      width: 17
-      height: 30
+      source-rect: 227 200 17 30
       left-overhang: -1
       right-overhang: 2
     161:
-      x: 246
-      y: 200
-      width: 10
-      height: 30
+      source-rect: 246 200 10 30
       left-overhang: -2
       right-overhang: 3
     162:
-      x: 0
-      y: 233
-      width: 15
-      height: 30
+      source-rect: 0 233 15 30
       left-overhang: -1
       right-overhang: 2
     163:
-      x: 17
-      y: 233
-      width: 17
-      height: 30
+      source-rect: 17 233 17 30
       left-overhang: -1
       right-overhang: 2
     164:
-      x: 36
-      y: 233
-      width: 19
-      height: 30
+      source-rect: 36 233 19 30
       left-overhang: -1
       right-overhang: 2
     165:
-      x: 57
-      y: 233
-      width: 18
-      height: 30
+      source-rect: 57 233 18 30
       right-overhang: 1
     166:
-      x: 77
-      y: 233
-      width: 10
-      height: 30
+      source-rect: 77 233 10 30
       left-overhang: -2
       right-overhang: 3
     167:
-      x: 89
-      y: 233
-      width: 15
-      height: 30
+      source-rect: 89 233 15 30
       left-overhang: -1
       right-overhang: 2
     168:
-      x: 106
-      y: 233
-      width: 12
-      height: 30
+      source-rect: 106 233 12 30
       left-overhang: -1
       right-overhang: 2
     169:
-      x: 120
-      y: 233
-      width: 17
-      height: 30
+      source-rect: 120 233 17 30
       left-overhang: -1
       right-overhang: 2
     170:
-      x: 139
-      y: 233
-      width: 15
-      height: 30
+      source-rect: 139 233 15 30
       left-overhang: -1
       right-overhang: 2
     171:
-      x: 156
-      y: 233
-      width: 22
-      height: 30
+      source-rect: 156 233 22 30
       left-overhang: -1
       right-overhang: 2
     172:
-      x: 180
-      y: 233
-      width: 18
-      height: 30
+      source-rect: 180 233 18 30
       left-overhang: -1
       right-overhang: 2
     173:
-      x: 200
-      y: 233
-      width: 18
-      height: 30
+      source-rect: 200 233 18 30
       left-overhang: -1
       right-overhang: 2
     174:
-      x: 220
-      y: 233
-      width: 17
-      height: 30
+      source-rect: 220 233 17 30
       left-overhang: -1
       right-overhang: 2
     175:
-      x: 0
-      y: 266
-      width: 18
-      height: 30
+      source-rect: 0 266 18 30
       left-overhang: -1
       right-overhang: 2
     176:
-      x: 20
-      y: 266
-      width: 13
-      height: 30
+      source-rect: 20 266 13 30
       left-overhang: -1
       right-overhang: 2
     177:
-      x: 35
-      y: 266
-      width: 18
-      height: 30
+      source-rect: 35 266 18 30
       left-overhang: -1
       right-overhang: 2
     178:
-      x: 55
-      y: 266
-      width: 13
-      height: 30
+      source-rect: 55 266 13 30
       left-overhang: -1
       right-overhang: 2
     179:
-      x: 70
-      y: 266
-      width: 13
-      height: 30
+      source-rect: 70 266 13 30
       left-overhang: -1
       right-overhang: 2
     180:
-      x: 85
-      y: 266
-      width: 13
-      height: 30
+      source-rect: 85 266 13 30
       left-overhang: -1
       right-overhang: 2
     181:
-      x: 100
-      y: 266
-      width: 18
-      height: 30
+      source-rect: 100 266 18 30
       left-overhang: -1
       right-overhang: 2
     182:
-      x: 120
-      y: 266
-      width: 16
-      height: 30
+      source-rect: 120 266 16 30
       left-overhang: -1
       right-overhang: 2
     183:
-      x: 138
-      y: 266
-      width: 9
-      height: 30
+      source-rect: 138 266 9 30
       left-overhang: -1
       right-overhang: 2
     184:
-      x: 149
-      y: 266
-      width: 10
-      height: 30
+      source-rect: 149 266 10 30
       left-overhang: -1
       right-overhang: 2
     185:
-      x: 161
-      y: 266
-      width: 11
-      height: 30
+      source-rect: 161 266 11 30
       left-overhang: -1
       right-overhang: 2
     186:
-      x: 174
-      y: 266
-      width: 15
-      height: 30
+      source-rect: 174 266 15 30
       left-overhang: -1
       right-overhang: 2
     187:
-      x: 191
-      y: 266
-      width: 22
-      height: 30
+      source-rect: 191 266 22 30
       left-overhang: -2
       right-overhang: 3
     188:
-      x: 215
-      y: 266
-      width: 21
-      height: 30
+      source-rect: 215 266 21 30
       left-overhang: -1
       right-overhang: 2
     189:
-      x: 0
-      y: 299
-      width: 21
-      height: 30
+      source-rect: 0 299 21 30
       left-overhang: -1
       right-overhang: 2
     190:
-      x: 23
-      y: 299
-      width: 23
-      height: 30
+      source-rect: 23 299 23 30
       left-overhang: -1
       right-overhang: 2
     191:
-      x: 48
-      y: 299
-      width: 17
-      height: 30
+      source-rect: 48 299 17 30
       left-overhang: -1
       right-overhang: 2
     192:
-      x: 67
-      y: 299
-      width: 20
-      height: 30
+      source-rect: 67 299 20 30
       right-overhang: 3
     193:
-      x: 89
-      y: 299
-      width: 20
-      height: 30
+      source-rect: 89 299 20 30
       right-overhang: 3
     194:
-      x: 111
-      y: 299
-      width: 20
-      height: 30
+      source-rect: 111 299 20 30
       right-overhang: 3
     195:
-      x: 133
-      y: 299
-      width: 20
-      height: 30
+      source-rect: 133 299 20 30
       right-overhang: 3
     196:
-      x: 155
-      y: 299
-      width: 20
-      height: 30
+      source-rect: 155 299 20 30
       right-overhang: 3
     197:
-      x: 177
-      y: 299
-      width: 18
-      height: 30
+      source-rect: 177 299 18 30
       right-overhang: 1
     198:
-      x: 197
-      y: 299
-      width: 23
-      height: 30
+      source-rect: 197 299 23 30
       right-overhang: 1
     199:
-      x: 222
-      y: 299
-      width: 18
-      height: 30
+      source-rect: 222 299 18 30
       left-overhang: -1
       right-overhang: 2
     200:
-      x: 0
-      y: 332
-      width: 16
-      height: 30
+      source-rect: 0 332 16 30
       left-overhang: -2
       right-overhang: 3
     201:
-      x: 18
-      y: 332
-      width: 16
-      height: 30
+      source-rect: 18 332 16 30
       left-overhang: -2
       right-overhang: 3
     202:
-      x: 36
-      y: 332
-      width: 16
-      height: 30
+      source-rect: 36 332 16 30
       left-overhang: -2
       right-overhang: 3
     203:
-      x: 54
-      y: 332
-      width: 16
-      height: 30
+      source-rect: 54 332 16 30
       left-overhang: -2
       right-overhang: 3
     204:
-      x: 72
-      y: 332
-      width: 10
-      height: 30
+      source-rect: 72 332 10 30
       right-overhang: 1
     205:
-      x: 84
-      y: 332
-      width: 10
-      height: 30
+      source-rect: 84 332 10 30
       left-overhang: -1
       right-overhang: 2
     206:
-      x: 96
-      y: 332
-      width: 10
-      height: 30
+      source-rect: 96 332 10 30
       right-overhang: 1
     207:
-      x: 108
-      y: 332
-      width: 12
-      height: 30
+      source-rect: 108 332 12 30
       right-overhang: 3
     208:
-      x: 122
-      y: 332
-      width: 19
-      height: 30
+      source-rect: 122 332 19 30
       right-overhang: 1
     209:
-      x: 143
-      y: 332
-      width: 20
-      height: 30
+      source-rect: 143 332 20 30
       left-overhang: -1
       right-overhang: 2
     210:
-      x: 165
-      y: 332
-      width: 19
-      height: 30
+      source-rect: 165 332 19 30
       left-overhang: -1
       right-overhang: 2
     211:
-      x: 186
-      y: 332
-      width: 19
-      height: 30
+      source-rect: 186 332 19 30
       left-overhang: -1
       right-overhang: 2
     212:
-      x: 207
-      y: 332
-      width: 19
-      height: 30
+      source-rect: 207 332 19 30
       left-overhang: -1
       right-overhang: 2
     213:
-      x: 228
-      y: 332
-      width: 19
-      height: 30
+      source-rect: 228 332 19 30
       left-overhang: -1
       right-overhang: 2
     214:
-      x: 0
-      y: 365
-      width: 19
-      height: 30
+      source-rect: 0 365 19 30
       left-overhang: -1
       right-overhang: 2
     215:
-      x: 21
-      y: 365
-      width: 16
-      height: 30
+      source-rect: 21 365 16 30
       left-overhang: -1
       right-overhang: 2
     216:
-      x: 39
-      y: 365
-      width: 19
-      height: 30
+      source-rect: 39 365 19 30
       left-overhang: -1
       right-overhang: 2
     217:
-      x: 60
-      y: 365
-      width: 19
-      height: 30
+      source-rect: 60 365 19 30
       left-overhang: -2
       right-overhang: 3
     218:
-      x: 81
-      y: 365
-      width: 19
-      height: 30
+      source-rect: 81 365 19 30
       left-overhang: -2
       right-overhang: 3
     219:
-      x: 102
-      y: 365
-      width: 19
-      height: 30
+      source-rect: 102 365 19 30
       left-overhang: -2
       right-overhang: 3
     220:
-      x: 123
-      y: 365
-      width: 19
-      height: 30
+      source-rect: 123 365 19 30
       left-overhang: -2
       right-overhang: 3
     221:
-      x: 144
-      y: 365
-      width: 17
-      height: 30
+      source-rect: 144 365 17 30
       right-overhang: 1
     222:
-      x: 163
-      y: 365
-      width: 17
-      height: 30
+      source-rect: 163 365 17 30
       left-overhang: -1
       right-overhang: 2
     223:
-      x: 182
-      y: 365
-      width: 18
-      height: 30
+      source-rect: 182 365 18 30
       left-overhang: -1
       right-overhang: 2
     224:
-      x: 202
-      y: 365
-      width: 16
-      height: 30
+      source-rect: 202 365 16 30
       left-overhang: -1
       right-overhang: 2
     225:
-      x: 220
-      y: 365
-      width: 16
-      height: 30
+      source-rect: 220 365 16 30
       left-overhang: -1
       right-overhang: 2
     226:
-      x: 238
-      y: 365
-      width: 16
-      height: 30
+      source-rect: 238 365 16 30
       left-overhang: -1
       right-overhang: 2
     227:
-      x: 0
-      y: 398
-      width: 16
-      height: 30
+      source-rect: 0 398 16 30
       left-overhang: -1
       right-overhang: 2
     228:
-      x: 18
-      y: 398
-      width: 16
-      height: 30
+      source-rect: 18 398 16 30
       left-overhang: -1
       right-overhang: 2
     229:
-      x: 36
-      y: 398
-      width: 16
-      height: 30
+      source-rect: 36 398 16 30
       left-overhang: -1
       right-overhang: 2
     230:
-      x: 54
-      y: 398
-      width: 23
-      height: 30
+      source-rect: 54 398 23 30
       left-overhang: -1
       right-overhang: 2
     231:
-      x: 79
-      y: 398
-      width: 15
-      height: 30
+      source-rect: 79 398 15 30
       left-overhang: -1
       right-overhang: 2
     232:
-      x: 96
-      y: 398
-      width: 15
-      height: 30
+      source-rect: 96 398 15 30
       left-overhang: -1
       right-overhang: 2
     233:
-      x: 113
-      y: 398
-      width: 15
-      height: 30
+      source-rect: 113 398 15 30
       left-overhang: -1
       right-overhang: 2
     234:
-      x: 130
-      y: 398
-      width: 15
-      height: 30
+      source-rect: 130 398 15 30
       left-overhang: -1
       right-overhang: 2
     235:
-      x: 147
-      y: 398
-      width: 15
-      height: 30
+      source-rect: 147 398 15 30
       left-overhang: -1
       right-overhang: 2
     236:
-      x: 164
-      y: 398
-      width: 11
-      height: 30
+      source-rect: 164 398 11 30
       left-overhang: 1
       right-overhang: 2
     237:
-      x: 177
-      y: 398
-      width: 11
-      height: 30
+      source-rect: 177 398 11 30
       right-overhang: 3
     238:
-      x: 190
-      y: 398
-      width: 13
-      height: 30
+      source-rect: 190 398 13 30
       left-overhang: 1
       right-overhang: 4
     239:
-      x: 205
-      y: 398
-      width: 11
-      height: 30
+      source-rect: 205 398 11 30
       right-overhang: 3
     240:
-      x: 218
-      y: 398
-      width: 17
-      height: 30
+      source-rect: 218 398 17 30
       left-overhang: -1
       right-overhang: 2
     241:
-      x: 237
-      y: 398
-      width: 17
-      height: 30
+      source-rect: 237 398 17 30
       left-overhang: -1
       right-overhang: 2
     242:
-      x: 0
-      y: 431
-      width: 15
-      height: 30
+      source-rect: 0 431 15 30
       left-overhang: -1
       right-overhang: 2
     243:
-      x: 17
-      y: 431
-      width: 15
-      height: 30
+      source-rect: 17 431 15 30
       left-overhang: -1
       right-overhang: 2
     244:
-      x: 34
-      y: 431
-      width: 15
-      height: 30
+      source-rect: 34 431 15 30
       left-overhang: -1
       right-overhang: 2
     245:
-      x: 51
-      y: 431
-      width: 15
-      height: 30
+      source-rect: 51 431 15 30
       left-overhang: -1
       right-overhang: 2
     246:
-      x: 68
-      y: 431
-      width: 15
-      height: 30
+      source-rect: 68 431 15 30
       left-overhang: -1
       right-overhang: 2
     247:
-      x: 85
-      y: 431
-      width: 18
-      height: 30
+      source-rect: 85 431 18 30
       left-overhang: -2
       right-overhang: 3
     248:
-      x: 105
-      y: 431
-      width: 15
-      height: 30
+      source-rect: 105 431 15 30
       right-overhang: 1
     249:
-      x: 122
-      y: 431
-      width: 17
-      height: 30
+      source-rect: 122 431 17 30
       left-overhang: -1
       right-overhang: 2
     250:
-      x: 141
-      y: 431
-      width: 17
-      height: 30
+      source-rect: 141 431 17 30
       left-overhang: -1
       right-overhang: 2
     251:
-      x: 160
-      y: 431
-      width: 17
-      height: 30
+      source-rect: 160 431 17 30
       left-overhang: -1
       right-overhang: 2
     252:
-      x: 179
-      y: 431
-      width: 17
-      height: 30
+      source-rect: 179 431 17 30
       left-overhang: -1
       right-overhang: 2
     253:
-      x: 198
-      y: 431
-      width: 17
-      height: 30
+      source-rect: 198 431 17 30
       left-overhang: -1
       right-overhang: 2
     254:
-      x: 217
-      y: 431
-      width: 17
-      height: 30
+      source-rect: 217 431 17 30
       left-overhang: -1
       right-overhang: 2
     255:
-      x: 236
-      y: 431
-      width: 17
-      height: 30
+      source-rect: 236 431 17 30
       left-overhang: -1
       right-overhang: 2
 - name: MedievalSharpBold14
@@ -3873,1273 +2163,703 @@ MedievalSharp:
   style: bold
   metrics:
     32:
-      x: 0
-      y: 2
-      width: 7
-      height: 24
+      source-rect: 0 2 7 24
       right-overhang: 1
     33:
-      x: 9
-      y: 2
-      width: 8
-      height: 24
+      source-rect: 9 2 8 24
       left-overhang: -1
       right-overhang: 2
     34:
-      x: 19
-      y: 2
-      width: 11
-      height: 24
+      source-rect: 19 2 11 24
       left-overhang: -1
       right-overhang: 2
     35:
-      x: 32
-      y: 2
-      width: 17
-      height: 24
+      source-rect: 32 2 17 24
       left-overhang: -1
       right-overhang: 2
     36:
-      x: 51
-      y: 2
-      width: 14
-      height: 24
+      source-rect: 51 2 14 24
       left-overhang: -1
       right-overhang: 2
     37:
-      x: 67
-      y: 2
-      width: 19
-      height: 24
+      source-rect: 67 2 19 24
       left-overhang: -1
       right-overhang: 2
     38:
-      x: 88
-      y: 2
-      width: 15
-      height: 24
+      source-rect: 88 2 15 24
       left-overhang: -1
       right-overhang: 2
     39:
-      x: 105
-      y: 2
-      width: 8
-      height: 24
+      source-rect: 105 2 8 24
       left-overhang: -1
       right-overhang: 2
     40:
-      x: 115
-      y: 2
-      width: 12
-      height: 24
+      source-rect: 115 2 12 24
       left-overhang: -1
       right-overhang: 4
     41:
-      x: 129
-      y: 2
-      width: 12
-      height: 24
+      source-rect: 129 2 12 24
       left-overhang: 1
       right-overhang: 2
     42:
-      x: 143
-      y: 2
-      width: 14
-      height: 24
+      source-rect: 143 2 14 24
       left-overhang: -1
       right-overhang: 2
     43:
-      x: 159
-      y: 2
-      width: 14
-      height: 24
+      source-rect: 159 2 14 24
       left-overhang: -1
       right-overhang: 2
     44:
-      x: 175
-      y: 2
-      width: 8
-      height: 24
+      source-rect: 175 2 8 24
       left-overhang: -1
       right-overhang: 2
     45:
-      x: 185
-      y: 2
-      width: 14
-      height: 24
+      source-rect: 185 2 14 24
       left-overhang: -1
       right-overhang: 2
     46:
-      x: 201
-      y: 2
-      width: 8
-      height: 24
+      source-rect: 201 2 8 24
       left-overhang: -1
       right-overhang: 2
     47:
-      x: 211
-      y: 2
-      width: 13
-      height: 24
+      source-rect: 211 2 13 24
       right-overhang: 1
     48:
-      x: 226
-      y: 2
-      width: 15
-      height: 24
+      source-rect: 226 2 15 24
       left-overhang: 1
       right-overhang: 2
     49:
-      x: 243
-      y: 2
-      width: 12
-      height: 24
+      source-rect: 243 2 12 24
     50:
-      x: 0
-      y: 29
-      width: 14
-      height: 24
+      source-rect: 0 29 14 24
       left-overhang: 1
       right-overhang: 1
     51:
-      x: 16
-      y: 29
-      width: 14
-      height: 24
+      source-rect: 16 29 14 24
       left-overhang: 1
       right-overhang: 1
     52:
-      x: 32
-      y: 29
-      width: 13
-      height: 24
+      source-rect: 32 29 13 24
       right-overhang: 1
     53:
-      x: 47
-      y: 29
-      width: 14
-      height: 24
+      source-rect: 47 29 14 24
       left-overhang: 1
       right-overhang: 1
     54:
-      x: 63
-      y: 29
-      width: 15
-      height: 24
+      source-rect: 63 29 15 24
       left-overhang: 1
       right-overhang: 2
     55:
-      x: 80
-      y: 29
-      width: 12
-      height: 24
+      source-rect: 80 29 12 24
     56:
-      x: 94
-      y: 29
-      width: 14
-      height: 24
+      source-rect: 94 29 14 24
       left-overhang: 1
       right-overhang: 1
     57:
-      x: 110
-      y: 29
-      width: 15
-      height: 24
+      source-rect: 110 29 15 24
       left-overhang: 1
       right-overhang: 2
     58:
-      x: 127
-      y: 29
-      width: 8
-      height: 24
+      source-rect: 127 29 8 24
       left-overhang: -1
       right-overhang: 2
     59:
-      x: 137
-      y: 29
-      width: 8
-      height: 24
+      source-rect: 137 29 8 24
       left-overhang: -1
       right-overhang: 2
     60:
-      x: 147
-      y: 29
-      width: 15
-      height: 24
+      source-rect: 147 29 15 24
       left-overhang: -1
       right-overhang: 2
     61:
-      x: 164
-      y: 29
-      width: 14
-      height: 24
+      source-rect: 164 29 14 24
       left-overhang: -1
       right-overhang: 2
     62:
-      x: 180
-      y: 29
-      width: 15
-      height: 24
+      source-rect: 180 29 15 24
       left-overhang: -1
       right-overhang: 2
     63:
-      x: 197
-      y: 29
-      width: 14
-      height: 24
+      source-rect: 197 29 14 24
       left-overhang: -1
       right-overhang: 2
     64:
-      x: 213
-      y: 29
-      width: 14
-      height: 24
+      source-rect: 213 29 14 24
       left-overhang: -1
       right-overhang: 2
     65:
-      x: 229
-      y: 29
-      width: 15
-      height: 24
+      source-rect: 229 29 15 24
       right-overhang: 1
     66:
-      x: 0
-      y: 56
-      width: 15
-      height: 24
+      source-rect: 0 56 15 24
       left-overhang: -1
       right-overhang: 2
     67:
-      x: 17
-      y: 56
-      width: 15
-      height: 24
+      source-rect: 17 56 15 24
       left-overhang: -1
       right-overhang: 2
     68:
-      x: 34
-      y: 56
-      width: 15
-      height: 24
+      source-rect: 34 56 15 24
       left-overhang: -1
       right-overhang: 2
     69:
-      x: 51
-      y: 56
-      width: 13
-      height: 24
+      source-rect: 51 56 13 24
       left-overhang: -1
       right-overhang: 2
     70:
-      x: 66
-      y: 56
-      width: 12
-      height: 24
+      source-rect: 66 56 12 24
       left-overhang: -1
       right-overhang: 2
     71:
-      x: 80
-      y: 56
-      width: 15
-      height: 24
+      source-rect: 80 56 15 24
       left-overhang: -1
       right-overhang: 2
     72:
-      x: 97
-      y: 56
-      width: 15
-      height: 24
+      source-rect: 97 56 15 24
       left-overhang: -1
       right-overhang: 2
     73:
-      x: 114
-      y: 56
-      width: 8
-      height: 24
+      source-rect: 114 56 8 24
       left-overhang: -1
       right-overhang: 2
     74:
-      x: 124
-      y: 56
-      width: 14
-      height: 24
+      source-rect: 124 56 14 24
       right-overhang: 1
     75:
-      x: 140
-      y: 56
-      width: 15
-      height: 24
+      source-rect: 140 56 15 24
       left-overhang: -1
       right-overhang: 2
     76:
-      x: 157
-      y: 56
-      width: 14
-      height: 24
+      source-rect: 157 56 14 24
       left-overhang: -1
       right-overhang: 4
     77:
-      x: 173
-      y: 56
-      width: 18
-      height: 24
+      source-rect: 173 56 18 24
       right-overhang: 1
     78:
-      x: 193
-      y: 56
-      width: 16
-      height: 24
+      source-rect: 193 56 16 24
       left-overhang: -1
       right-overhang: 2
     79:
-      x: 211
-      y: 56
-      width: 15
-      height: 24
+      source-rect: 211 56 15 24
       left-overhang: -1
       right-overhang: 2
     80:
-      x: 228
-      y: 56
-      width: 14
-      height: 24
+      source-rect: 228 56 14 24
       left-overhang: -1
       right-overhang: 2
     81:
-      x: 0
-      y: 83
-      width: 15
-      height: 24
+      source-rect: 0 83 15 24
       left-overhang: -1
       right-overhang: 2
     82:
-      x: 17
-      y: 83
-      width: 15
-      height: 24
+      source-rect: 17 83 15 24
       left-overhang: -1
       right-overhang: 2
     83:
-      x: 34
-      y: 83
-      width: 14
-      height: 24
+      source-rect: 34 83 14 24
       left-overhang: -1
       right-overhang: 2
     84:
-      x: 50
-      y: 83
-      width: 13
-      height: 24
+      source-rect: 50 83 13 24
       right-overhang: 1
     85:
-      x: 65
-      y: 83
-      width: 16
-      height: 24
+      source-rect: 65 83 16 24
       left-overhang: -1
       right-overhang: 2
     86:
-      x: 83
-      y: 83
-      width: 15
-      height: 24
+      source-rect: 83 83 15 24
       right-overhang: 1
     87:
-      x: 100
-      y: 83
-      width: 20
-      height: 24
+      source-rect: 100 83 20 24
       right-overhang: 1
     88:
-      x: 122
-      y: 83
-      width: 14
-      height: 24
+      source-rect: 122 83 14 24
       right-overhang: 1
     89:
-      x: 138
-      y: 83
-      width: 14
-      height: 24
+      source-rect: 138 83 14 24
       right-overhang: 1
     90:
-      x: 154
-      y: 83
-      width: 14
-      height: 24
+      source-rect: 154 83 14 24
       right-overhang: 1
     91:
-      x: 170
-      y: 83
-      width: 10
-      height: 24
+      source-rect: 170 83 10 24
       left-overhang: -1
       right-overhang: 2
     92:
-      x: 182
-      y: 83
-      width: 13
-      height: 24
+      source-rect: 182 83 13 24
       right-overhang: 1
     93:
-      x: 197
-      y: 83
-      width: 10
-      height: 24
+      source-rect: 197 83 10 24
       right-overhang: 1
     94:
-      x: 209
-      y: 83
-      width: 15
-      height: 24
+      source-rect: 209 83 15 24
       left-overhang: -1
       right-overhang: 2
     95:
-      x: 226
-      y: 83
-      width: 14
-      height: 24
+      source-rect: 226 83 14 24
       left-overhang: -1
       right-overhang: 2
     96:
-      x: 242
-      y: 83
-      width: 10
-      height: 24
+      source-rect: 242 83 10 24
       left-overhang: -1
       right-overhang: 2
     97:
-      x: 0
-      y: 110
-      width: 13
-      height: 24
+      source-rect: 0 110 13 24
       left-overhang: -1
       right-overhang: 2
     98:
-      x: 15
-      y: 110
-      width: 13
-      height: 24
+      source-rect: 15 110 13 24
       right-overhang: 1
     99:
-      x: 30
-      y: 110
-      width: 12
-      height: 24
+      source-rect: 30 110 12 24
       left-overhang: -1
       right-overhang: 2
     100:
-      x: 44
-      y: 110
-      width: 13
-      height: 24
+      source-rect: 44 110 13 24
       right-overhang: 1
     101:
-      x: 59
-      y: 110
-      width: 12
-      height: 24
+      source-rect: 59 110 12 24
       left-overhang: -1
       right-overhang: 2
     102:
-      x: 73
-      y: 110
-      width: 13
-      height: 24
+      source-rect: 73 110 13 24
       left-overhang: 1
       right-overhang: 2
     103:
-      x: 88
-      y: 110
-      width: 13
-      height: 24
+      source-rect: 88 110 13 24
       left-overhang: -1
       right-overhang: 2
     104:
-      x: 103
-      y: 110
-      width: 14
-      height: 24
+      source-rect: 103 110 14 24
       left-overhang: -1
       right-overhang: 2
     105:
-      x: 119
-      y: 110
-      width: 8
-      height: 24
+      source-rect: 119 110 8 24
       left-overhang: -1
       right-overhang: 2
     106:
-      x: 129
-      y: 110
-      width: 8
-      height: 24
+      source-rect: 129 110 8 24
       right-overhang: 1
     107:
-      x: 139
-      y: 110
-      width: 14
-      height: 24
+      source-rect: 139 110 14 24
       left-overhang: -1
       right-overhang: 4
     108:
-      x: 155
-      y: 110
-      width: 8
-      height: 24
+      source-rect: 155 110 8 24
       left-overhang: -1
       right-overhang: 2
     109:
-      x: 165
-      y: 110
-      width: 20
-      height: 24
+      source-rect: 165 110 20 24
       left-overhang: -1
       right-overhang: 2
     110:
-      x: 187
-      y: 110
-      width: 14
-      height: 24
+      source-rect: 187 110 14 24
       left-overhang: -1
       right-overhang: 2
     111:
-      x: 203
-      y: 110
-      width: 12
-      height: 24
+      source-rect: 203 110 12 24
       right-overhang: 1
     112:
-      x: 217
-      y: 110
-      width: 13
-      height: 24
+      source-rect: 217 110 13 24
       left-overhang: -1
       right-overhang: 2
     113:
-      x: 232
-      y: 110
-      width: 13
-      height: 24
+      source-rect: 232 110 13 24
       right-overhang: 1
     114:
-      x: 0
-      y: 137
-      width: 12
-      height: 24
+      source-rect: 0 137 12 24
       left-overhang: -1
       right-overhang: 2
     115:
-      x: 14
-      y: 137
-      width: 12
-      height: 24
+      source-rect: 14 137 12 24
       left-overhang: -1
       right-overhang: 2
     116:
-      x: 28
-      y: 137
-      width: 10
-      height: 24
+      source-rect: 28 137 10 24
       right-overhang: 1
     117:
-      x: 40
-      y: 137
-      width: 14
-      height: 24
+      source-rect: 40 137 14 24
       left-overhang: -1
       right-overhang: 2
     118:
-      x: 56
-      y: 137
-      width: 12
-      height: 24
+      source-rect: 56 137 12 24
       right-overhang: 1
     119:
-      x: 70
-      y: 137
-      width: 20
-      height: 24
+      source-rect: 70 137 20 24
       right-overhang: 1
     120:
-      x: 92
-      y: 137
-      width: 12
-      height: 24
+      source-rect: 92 137 12 24
       right-overhang: 1
     121:
-      x: 106
-      y: 137
-      width: 14
-      height: 24
+      source-rect: 106 137 14 24
       left-overhang: -1
       right-overhang: 2
     122:
-      x: 122
-      y: 137
-      width: 12
-      height: 24
+      source-rect: 122 137 12 24
       right-overhang: 1
     123:
-      x: 136
-      y: 137
-      width: 12
-      height: 24
+      source-rect: 136 137 12 24
       right-overhang: 1
     124:
-      x: 150
-      y: 137
-      width: 8
-      height: 24
+      source-rect: 150 137 8 24
       left-overhang: -1
       right-overhang: 2
     125:
-      x: 160
-      y: 137
-      width: 12
-      height: 24
+      source-rect: 160 137 12 24
       right-overhang: 1
     126:
-      x: 174
-      y: 137
-      width: 14
-      height: 24
+      source-rect: 174 137 14 24
       left-overhang: -1
       right-overhang: 2
     161:
-      x: 190
-      y: 137
-      width: 8
-      height: 24
+      source-rect: 190 137 8 24
       left-overhang: -1
       right-overhang: 2
     162:
-      x: 200
-      y: 137
-      width: 12
-      height: 24
+      source-rect: 200 137 12 24
       left-overhang: -1
       right-overhang: 2
     163:
-      x: 214
-      y: 137
-      width: 13
-      height: 24
+      source-rect: 214 137 13 24
       right-overhang: 1
     164:
-      x: 229
-      y: 137
-      width: 15
-      height: 24
+      source-rect: 229 137 15 24
       left-overhang: -1
       right-overhang: 2
     165:
-      x: 0
-      y: 164
-      width: 14
-      height: 24
+      source-rect: 0 164 14 24
       right-overhang: 1
     166:
-      x: 16
-      y: 164
-      width: 8
-      height: 24
+      source-rect: 16 164 8 24
       left-overhang: -1
       right-overhang: 2
     167:
-      x: 26
-      y: 164
-      width: 12
-      height: 24
+      source-rect: 26 164 12 24
       left-overhang: -1
       right-overhang: 2
     168:
-      x: 40
-      y: 164
-      width: 10
-      height: 24
+      source-rect: 40 164 10 24
       left-overhang: -1
       right-overhang: 2
     169:
-      x: 52
-      y: 164
-      width: 14
-      height: 24
+      source-rect: 52 164 14 24
       left-overhang: -1
       right-overhang: 2
     170:
-      x: 68
-      y: 164
-      width: 12
-      height: 24
+      source-rect: 68 164 12 24
       left-overhang: -1
       right-overhang: 2
     171:
-      x: 82
-      y: 164
-      width: 18
-      height: 24
+      source-rect: 82 164 18 24
       left-overhang: -1
       right-overhang: 2
     172:
-      x: 102
-      y: 164
-      width: 14
-      height: 24
+      source-rect: 102 164 14 24
       left-overhang: -1
       right-overhang: 2
     173:
-      x: 118
-      y: 164
-      width: 14
-      height: 24
+      source-rect: 118 164 14 24
       left-overhang: -1
       right-overhang: 2
     174:
-      x: 134
-      y: 164
-      width: 14
-      height: 24
+      source-rect: 134 164 14 24
       left-overhang: -1
       right-overhang: 2
     175:
-      x: 150
-      y: 164
-      width: 14
-      height: 24
+      source-rect: 150 164 14 24
       left-overhang: -1
       right-overhang: 2
     176:
-      x: 166
-      y: 164
-      width: 11
-      height: 24
+      source-rect: 166 164 11 24
       left-overhang: -1
       right-overhang: 2
     177:
-      x: 179
-      y: 164
-      width: 14
-      height: 24
+      source-rect: 179 164 14 24
       left-overhang: -1
       right-overhang: 2
     178:
-      x: 195
-      y: 164
-      width: 10
-      height: 24
+      source-rect: 195 164 10 24
       left-overhang: -1
       right-overhang: 2
     179:
-      x: 207
-      y: 164
-      width: 10
-      height: 24
+      source-rect: 207 164 10 24
       right-overhang: 1
     180:
-      x: 219
-      y: 164
-      width: 10
-      height: 24
+      source-rect: 219 164 10 24
       left-overhang: -1
       right-overhang: 2
     181:
-      x: 231
-      y: 164
-      width: 14
-      height: 24
+      source-rect: 231 164 14 24
       left-overhang: -1
       right-overhang: 2
     182:
-      x: 0
-      y: 191
-      width: 13
-      height: 24
+      source-rect: 0 191 13 24
       right-overhang: 1
     183:
-      x: 15
-      y: 191
-      width: 8
-      height: 24
+      source-rect: 15 191 8 24
       left-overhang: -1
       right-overhang: 2
     184:
-      x: 25
-      y: 191
-      width: 8
-      height: 24
+      source-rect: 25 191 8 24
       left-overhang: -1
       right-overhang: 2
     185:
-      x: 35
-      y: 191
-      width: 9
-      height: 24
+      source-rect: 35 191 9 24
       left-overhang: -1
       right-overhang: 2
     186:
-      x: 46
-      y: 191
-      width: 12
-      height: 24
+      source-rect: 46 191 12 24
       left-overhang: -1
       right-overhang: 2
     187:
-      x: 60
-      y: 191
-      width: 18
-      height: 24
+      source-rect: 60 191 18 24
       left-overhang: -1
       right-overhang: 2
     188:
-      x: 80
-      y: 191
-      width: 17
-      height: 24
+      source-rect: 80 191 17 24
       left-overhang: -1
       right-overhang: 2
     189:
-      x: 99
-      y: 191
-      width: 17
-      height: 24
+      source-rect: 99 191 17 24
       left-overhang: -1
       right-overhang: 2
     190:
-      x: 118
-      y: 191
-      width: 19
-      height: 24
+      source-rect: 118 191 19 24
       right-overhang: 1
     191:
-      x: 139
-      y: 191
-      width: 14
-      height: 24
+      source-rect: 139 191 14 24
       left-overhang: -1
       right-overhang: 2
     192:
-      x: 155
-      y: 191
-      width: 15
-      height: 24
+      source-rect: 155 191 15 24
       right-overhang: 1
     193:
-      x: 172
-      y: 191
-      width: 15
-      height: 24
+      source-rect: 172 191 15 24
       right-overhang: 1
     194:
-      x: 189
-      y: 191
-      width: 15
-      height: 24
+      source-rect: 189 191 15 24
       right-overhang: 1
     195:
-      x: 206
-      y: 191
-      width: 15
-      height: 24
+      source-rect: 206 191 15 24
       right-overhang: 1
     196:
-      x: 223
-      y: 191
-      width: 15
-      height: 24
+      source-rect: 223 191 15 24
       right-overhang: 1
     197:
-      x: 240
-      y: 191
-      width: 15
-      height: 24
+      source-rect: 240 191 15 24
       right-overhang: 1
     198:
-      x: 0
-      y: 218
-      width: 20
-      height: 24
+      source-rect: 0 218 20 24
       left-overhang: 1
       right-overhang: 2
     199:
-      x: 22
-      y: 218
-      width: 15
-      height: 24
+      source-rect: 22 218 15 24
       left-overhang: -1
       right-overhang: 2
     200:
-      x: 39
-      y: 218
-      width: 13
-      height: 24
+      source-rect: 39 218 13 24
       left-overhang: -1
       right-overhang: 2
     201:
-      x: 54
-      y: 218
-      width: 13
-      height: 24
+      source-rect: 54 218 13 24
       left-overhang: -1
       right-overhang: 2
     202:
-      x: 69
-      y: 218
-      width: 13
-      height: 24
+      source-rect: 69 218 13 24
       left-overhang: -1
       right-overhang: 2
     203:
-      x: 84
-      y: 218
-      width: 13
-      height: 24
+      source-rect: 84 218 13 24
       left-overhang: -1
       right-overhang: 2
     204:
-      x: 99
-      y: 218
-      width: 8
-      height: 24
+      source-rect: 99 218 8 24
       right-overhang: 1
     205:
-      x: 109
-      y: 218
-      width: 8
-      height: 24
+      source-rect: 109 218 8 24
       left-overhang: -1
       right-overhang: 2
     206:
-      x: 119
-      y: 218
-      width: 8
-      height: 24
+      source-rect: 119 218 8 24
       right-overhang: 1
     207:
-      x: 129
-      y: 218
-      width: 10
-      height: 24
+      source-rect: 129 218 10 24
       right-overhang: 3
     208:
-      x: 141
-      y: 218
-      width: 15
-      height: 24
+      source-rect: 141 218 15 24
       right-overhang: 1
     209:
-      x: 158
-      y: 218
-      width: 16
-      height: 24
+      source-rect: 158 218 16 24
       left-overhang: -1
       right-overhang: 2
     210:
-      x: 176
-      y: 218
-      width: 15
-      height: 24
+      source-rect: 176 218 15 24
       left-overhang: -1
       right-overhang: 2
     211:
-      x: 193
-      y: 218
-      width: 15
-      height: 24
+      source-rect: 193 218 15 24
       left-overhang: -1
       right-overhang: 2
     212:
-      x: 210
-      y: 218
-      width: 15
-      height: 24
+      source-rect: 210 218 15 24
       left-overhang: -1
       right-overhang: 2
     213:
-      x: 227
-      y: 218
-      width: 15
-      height: 24
+      source-rect: 227 218 15 24
       left-overhang: -1
       right-overhang: 2
     214:
-      x: 0
-      y: 245
-      width: 15
-      height: 24
+      source-rect: 0 245 15 24
       left-overhang: -1
       right-overhang: 2
     215:
-      x: 17
-      y: 245
-      width: 13
-      height: 24
+      source-rect: 17 245 13 24
       left-overhang: -1
       right-overhang: 2
     216:
-      x: 32
-      y: 245
-      width: 15
-      height: 24
+      source-rect: 32 245 15 24
       right-overhang: 1
     217:
-      x: 49
-      y: 245
-      width: 16
-      height: 24
+      source-rect: 49 245 16 24
       left-overhang: -1
       right-overhang: 2
     218:
-      x: 67
-      y: 245
-      width: 16
-      height: 24
+      source-rect: 67 245 16 24
       left-overhang: -1
       right-overhang: 2
     219:
-      x: 85
-      y: 245
-      width: 16
-      height: 24
+      source-rect: 85 245 16 24
       left-overhang: -1
       right-overhang: 2
     220:
-      x: 103
-      y: 245
-      width: 16
-      height: 24
+      source-rect: 103 245 16 24
       left-overhang: -1
       right-overhang: 2
     221:
-      x: 121
-      y: 245
-      width: 14
-      height: 24
+      source-rect: 121 245 14 24
       right-overhang: 1
     222:
-      x: 137
-      y: 245
-      width: 13
-      height: 24
+      source-rect: 137 245 13 24
       left-overhang: -1
       right-overhang: 2
     223:
-      x: 152
-      y: 245
-      width: 14
-      height: 24
+      source-rect: 152 245 14 24
       left-overhang: -1
       right-overhang: 2
     224:
-      x: 168
-      y: 245
-      width: 13
-      height: 24
+      source-rect: 168 245 13 24
       right-overhang: 1
     225:
-      x: 183
-      y: 245
-      width: 13
-      height: 24
+      source-rect: 183 245 13 24
       left-overhang: -1
       right-overhang: 2
     226:
-      x: 198
-      y: 245
-      width: 13
-      height: 24
+      source-rect: 198 245 13 24
       left-overhang: -1
       right-overhang: 2
     227:
-      x: 213
-      y: 245
-      width: 13
-      height: 24
+      source-rect: 213 245 13 24
       left-overhang: -1
       right-overhang: 2
     228:
-      x: 228
-      y: 245
-      width: 13
-      height: 24
+      source-rect: 228 245 13 24
       left-overhang: -1
       right-overhang: 2
     229:
-      x: 243
-      y: 245
-      width: 13
-      height: 24
+      source-rect: 243 245 13 24
       left-overhang: -1
       right-overhang: 2
     230:
-      x: 0
-      y: 272
-      width: 19
-      height: 24
+      source-rect: 0 272 19 24
       left-overhang: -1
       right-overhang: 2
     231:
-      x: 21
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 21 272 12 24
       left-overhang: -1
       right-overhang: 2
     232:
-      x: 35
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 35 272 12 24
       right-overhang: 1
     233:
-      x: 49
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 49 272 12 24
       left-overhang: -1
       right-overhang: 2
     234:
-      x: 63
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 63 272 12 24
       left-overhang: -1
       right-overhang: 2
     235:
-      x: 77
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 77 272 12 24
       left-overhang: -1
       right-overhang: 2
     236:
-      x: 91
-      y: 272
-      width: 8
-      height: 24
+      source-rect: 91 272 8 24
       right-overhang: 1
     237:
-      x: 101
-      y: 272
-      width: 8
-      height: 24
+      source-rect: 101 272 8 24
       right-overhang: 1
     238:
-      x: 111
-      y: 272
-      width: 8
-      height: 24
+      source-rect: 111 272 8 24
       right-overhang: 1
     239:
-      x: 121
-      y: 272
-      width: 10
-      height: 24
+      source-rect: 121 272 10 24
       right-overhang: 3
     240:
-      x: 133
-      y: 272
-      width: 14
-      height: 24
+      source-rect: 133 272 14 24
       left-overhang: -1
       right-overhang: 2
     241:
-      x: 149
-      y: 272
-      width: 14
-      height: 24
+      source-rect: 149 272 14 24
       left-overhang: -1
       right-overhang: 2
     242:
-      x: 165
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 165 272 12 24
       right-overhang: 1
     243:
-      x: 179
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 179 272 12 24
       right-overhang: 1
     244:
-      x: 193
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 193 272 12 24
       right-overhang: 1
     245:
-      x: 207
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 207 272 12 24
       right-overhang: 1
     246:
-      x: 221
-      y: 272
-      width: 12
-      height: 24
+      source-rect: 221 272 12 24
       right-overhang: 1
     247:
-      x: 235
-      y: 272
-      width: 14
-      height: 24
+      source-rect: 235 272 14 24
       left-overhang: -1
       right-overhang: 2
     248:
-      x: 0
-      y: 299
-      width: 12
-      height: 24
+      source-rect: 0 299 12 24
       right-overhang: 1
     249:
-      x: 14
-      y: 299
-      width: 14
-      height: 24
+      source-rect: 14 299 14 24
       left-overhang: -1
       right-overhang: 2
     250:
-      x: 30
-      y: 299
-      width: 14
-      height: 24
+      source-rect: 30 299 14 24
       left-overhang: -1
       right-overhang: 2
     251:
-      x: 46
-      y: 299
-      width: 14
-      height: 24
+      source-rect: 46 299 14 24
       left-overhang: -1
       right-overhang: 2
     252:
-      x: 62
-      y: 299
-      width: 14
-      height: 24
+      source-rect: 62 299 14 24
       left-overhang: -1
       right-overhang: 2
     253:
-      x: 78
-      y: 299
-      width: 14
-      height: 24
+      source-rect: 78 299 14 24
       left-overhang: -1
       right-overhang: 2
     254:
-      x: 94
-      y: 299
-      width: 13
-      height: 24
+      source-rect: 94 299 13 24
       right-overhang: 1
     255:
-      x: 109
-      y: 299
-      width: 14
-      height: 24
+      source-rect: 109 299 14 24
       left-overhang: -1
       right-overhang: 2
 - name: MedievalSharpBold22
@@ -5148,1294 +2868,724 @@ MedievalSharp:
   style: bold
   metrics:
     32:
-      x: 0
-      y: 2
-      width: 10
-      height: 37
+      source-rect: 0 2 10 37
       right-overhang: 1
     33:
-      x: 12
-      y: 2
-      width: 12
-      height: 37
+      source-rect: 12 2 12 37
       left-overhang: -2
       right-overhang: 3
     34:
-      x: 26
-      y: 2
-      width: 17
-      height: 37
+      source-rect: 26 2 17 37
       left-overhang: -2
       right-overhang: 3
     35:
-      x: 45
-      y: 2
-      width: 26
-      height: 37
+      source-rect: 45 2 26 37
       left-overhang: -2
       right-overhang: 3
     36:
-      x: 73
-      y: 2
-      width: 20
-      height: 37
+      source-rect: 73 2 20 37
       left-overhang: -1
       right-overhang: 2
     37:
-      x: 95
-      y: 2
-      width: 28
-      height: 37
+      source-rect: 95 2 28 37
       left-overhang: -2
       right-overhang: 3
     38:
-      x: 125
-      y: 2
-      width: 23
-      height: 37
+      source-rect: 125 2 23 37
       left-overhang: -1
       right-overhang: 2
     39:
-      x: 150
-      y: 2
-      width: 11
-      height: 37
+      source-rect: 150 2 11 37
       left-overhang: -2
       right-overhang: 3
     40:
-      x: 163
-      y: 2
-      width: 17
-      height: 37
+      source-rect: 163 2 17 37
       left-overhang: -2
       right-overhang: 5
     41:
-      x: 182
-      y: 2
-      width: 17
-      height: 37
+      source-rect: 182 2 17 37
       left-overhang: 1
       right-overhang: 2
     42:
-      x: 201
-      y: 2
-      width: 21
-      height: 37
+      source-rect: 201 2 21 37
       left-overhang: -2
       right-overhang: 3
     43:
-      x: 224
-      y: 2
-      width: 21
-      height: 37
+      source-rect: 224 2 21 37
       left-overhang: -2
       right-overhang: 3
     44:
-      x: 0
-      y: 42
-      width: 12
-      height: 37
+      source-rect: 0 42 12 37
       left-overhang: -1
       right-overhang: 2
     45:
-      x: 14
-      y: 42
-      width: 21
-      height: 37
+      source-rect: 14 42 21 37
       left-overhang: -2
       right-overhang: 3
     46:
-      x: 37
-      y: 42
-      width: 11
-      height: 37
+      source-rect: 37 42 11 37
       left-overhang: -2
       right-overhang: 3
     47:
-      x: 50
-      y: 42
-      width: 19
-      height: 37
+      source-rect: 50 42 19 37
       right-overhang: 1
     48:
-      x: 71
-      y: 42
-      width: 22
-      height: 37
+      source-rect: 71 42 22 37
       left-overhang: 1
       right-overhang: 2
     49:
-      x: 95
-      y: 42
-      width: 17
-      height: 37
+      source-rect: 95 42 17 37
       left-overhang: -1
       right-overhang: -1
     50:
-      x: 114
-      y: 42
-      width: 21
-      height: 37
+      source-rect: 114 42 21 37
       left-overhang: 1
       right-overhang: 1
     51:
-      x: 137
-      y: 42
-      width: 20
-      height: 37
+      source-rect: 137 42 20 37
       right-overhang: 1
     52:
-      x: 159
-      y: 42
-      width: 21
-      height: 37
+      source-rect: 159 42 21 37
       left-overhang: 1
       right-overhang: 1
     53:
-      x: 182
-      y: 42
-      width: 20
-      height: 37
+      source-rect: 182 42 20 37
       right-overhang: 1
     54:
-      x: 204
-      y: 42
-      width: 22
-      height: 37
+      source-rect: 204 42 22 37
       left-overhang: 1
       right-overhang: 2
     55:
-      x: 228
-      y: 42
-      width: 17
-      height: 37
+      source-rect: 228 42 17 37
       left-overhang: -1
       right-overhang: -1
     56:
-      x: 0
-      y: 82
-      width: 20
-      height: 37
+      source-rect: 0 82 20 37
       right-overhang: 1
     57:
-      x: 22
-      y: 82
-      width: 22
-      height: 37
+      source-rect: 22 82 22 37
       left-overhang: 1
       right-overhang: 2
     58:
-      x: 46
-      y: 82
-      width: 11
-      height: 37
+      source-rect: 46 82 11 37
       left-overhang: -2
       right-overhang: 3
     59:
-      x: 59
-      y: 82
-      width: 12
-      height: 37
+      source-rect: 59 82 12 37
       left-overhang: -1
       right-overhang: 2
     60:
-      x: 73
-      y: 82
-      width: 22
-      height: 37
+      source-rect: 73 82 22 37
       left-overhang: -2
       right-overhang: 3
     61:
-      x: 97
-      y: 82
-      width: 21
-      height: 37
+      source-rect: 97 82 21 37
       left-overhang: -2
       right-overhang: 3
     62:
-      x: 120
-      y: 82
-      width: 22
-      height: 37
+      source-rect: 120 82 22 37
       left-overhang: -2
       right-overhang: 3
     63:
-      x: 144
-      y: 82
-      width: 21
-      height: 37
+      source-rect: 144 82 21 37
       left-overhang: -2
       right-overhang: 3
     64:
-      x: 167
-      y: 82
-      width: 21
-      height: 37
+      source-rect: 167 82 21 37
       left-overhang: -1
       right-overhang: 2
     65:
-      x: 190
-      y: 82
-      width: 22
-      height: 37
+      source-rect: 190 82 22 37
       right-overhang: 1
     66:
-      x: 214
-      y: 82
-      width: 22
-      height: 37
+      source-rect: 214 82 22 37
       left-overhang: -1
       right-overhang: 2
     67:
-      x: 0
-      y: 122
-      width: 22
-      height: 37
+      source-rect: 0 122 22 37
       left-overhang: -1
       right-overhang: 2
     68:
-      x: 24
-      y: 122
-      width: 23
-      height: 37
+      source-rect: 24 122 23 37
       left-overhang: -1
       right-overhang: 2
     69:
-      x: 49
-      y: 122
-      width: 19
-      height: 37
+      source-rect: 49 122 19 37
       left-overhang: -2
       right-overhang: 3
     70:
-      x: 70
-      y: 122
-      width: 18
-      height: 37
+      source-rect: 70 122 18 37
       left-overhang: -2
       right-overhang: 3
     71:
-      x: 90
-      y: 122
-      width: 22
-      height: 37
+      source-rect: 90 122 22 37
       left-overhang: -1
       right-overhang: 2
     72:
-      x: 114
-      y: 122
-      width: 23
-      height: 37
+      source-rect: 114 122 23 37
       left-overhang: -2
       right-overhang: 3
     73:
-      x: 139
-      y: 122
-      width: 12
-      height: 37
+      source-rect: 139 122 12 37
       left-overhang: -2
       right-overhang: 3
     74:
-      x: 153
-      y: 122
-      width: 20
-      height: 37
+      source-rect: 153 122 20 37
       right-overhang: 1
     75:
-      x: 175
-      y: 122
-      width: 22
-      height: 37
+      source-rect: 175 122 22 37
       left-overhang: -2
       right-overhang: 3
     76:
-      x: 199
-      y: 122
-      width: 18
-      height: 37
+      source-rect: 199 122 18 37
       left-overhang: -2
       right-overhang: 3
     77:
-      x: 219
-      y: 122
-      width: 27
-      height: 37
+      source-rect: 219 122 27 37
       right-overhang: 1
     78:
-      x: 0
-      y: 162
-      width: 23
-      height: 37
+      source-rect: 0 162 23 37
       left-overhang: -1
       right-overhang: 2
     79:
-      x: 25
-      y: 162
-      width: 22
-      height: 37
+      source-rect: 25 162 22 37
       left-overhang: -1
       right-overhang: 2
     80:
-      x: 49
-      y: 162
-      width: 21
-      height: 37
+      source-rect: 49 162 21 37
       left-overhang: -1
       right-overhang: 2
     81:
-      x: 72
-      y: 162
-      width: 22
-      height: 37
+      source-rect: 72 162 22 37
       left-overhang: -1
       right-overhang: 2
     82:
-      x: 96
-      y: 162
-      width: 22
-      height: 37
+      source-rect: 96 162 22 37
       left-overhang: -1
       right-overhang: 2
     83:
-      x: 120
-      y: 162
-      width: 20
-      height: 37
+      source-rect: 120 162 20 37
       left-overhang: -1
       right-overhang: 2
     84:
-      x: 142
-      y: 162
-      width: 19
-      height: 37
+      source-rect: 142 162 19 37
       right-overhang: 1
     85:
-      x: 163
-      y: 162
-      width: 23
-      height: 37
+      source-rect: 163 162 23 37
       left-overhang: -2
       right-overhang: 3
     86:
-      x: 188
-      y: 162
-      width: 22
-      height: 37
+      source-rect: 188 162 22 37
       right-overhang: 1
     87:
-      x: 212
-      y: 162
-      width: 30
-      height: 37
+      source-rect: 212 162 30 37
       right-overhang: 1
     88:
-      x: 0
-      y: 202
-      width: 21
-      height: 37
+      source-rect: 0 202 21 37
       right-overhang: 1
     89:
-      x: 23
-      y: 202
-      width: 22
-      height: 37
+      source-rect: 23 202 22 37
       right-overhang: 3
     90:
-      x: 47
-      y: 202
-      width: 20
-      height: 37
+      source-rect: 47 202 20 37
       left-overhang: -1
       right-overhang: 2
     91:
-      x: 69
-      y: 202
-      width: 15
-      height: 37
+      source-rect: 69 202 15 37
       left-overhang: -2
       right-overhang: 3
     92:
-      x: 86
-      y: 202
-      width: 19
-      height: 37
+      source-rect: 86 202 19 37
       right-overhang: 1
     93:
-      x: 107
-      y: 202
-      width: 15
-      height: 37
+      source-rect: 107 202 15 37
       right-overhang: 1
     94:
-      x: 124
-      y: 202
-      width: 22
-      height: 37
+      source-rect: 124 202 22 37
       left-overhang: -2
       right-overhang: 3
     95:
-      x: 148
-      y: 202
-      width: 21
-      height: 37
+      source-rect: 148 202 21 37
       left-overhang: -2
       right-overhang: 3
     96:
-      x: 171
-      y: 202
-      width: 15
-      height: 37
+      source-rect: 171 202 15 37
       left-overhang: -2
       right-overhang: 3
     97:
-      x: 188
-      y: 202
-      width: 19
-      height: 37
+      source-rect: 188 202 19 37
       left-overhang: -1
       right-overhang: 2
     98:
-      x: 209
-      y: 202
-      width: 20
-      height: 37
+      source-rect: 209 202 20 37
       left-overhang: -1
       right-overhang: 2
     99:
-      x: 231
-      y: 202
-      width: 18
-      height: 37
+      source-rect: 231 202 18 37
       left-overhang: -1
       right-overhang: 2
     100:
-      x: 0
-      y: 242
-      width: 20
-      height: 37
+      source-rect: 0 242 20 37
       left-overhang: -1
       right-overhang: 2
     101:
-      x: 22
-      y: 242
-      width: 18
-      height: 37
+      source-rect: 22 242 18 37
       left-overhang: -1
       right-overhang: 2
     102:
-      x: 42
-      y: 242
-      width: 18
-      height: 37
+      source-rect: 42 242 18 37
       left-overhang: 1
       right-overhang: 2
     103:
-      x: 62
-      y: 242
-      width: 19
-      height: 37
+      source-rect: 62 242 19 37
       left-overhang: -1
       right-overhang: 2
     104:
-      x: 83
-      y: 242
-      width: 20
-      height: 37
+      source-rect: 83 242 20 37
       left-overhang: -2
       right-overhang: 3
     105:
-      x: 105
-      y: 242
-      width: 11
-      height: 37
+      source-rect: 105 242 11 37
       left-overhang: -2
       right-overhang: 3
     106:
-      x: 118
-      y: 242
-      width: 13
-      height: 37
+      source-rect: 118 242 13 37
       left-overhang: 1
       right-overhang: 2
     107:
-      x: 133
-      y: 242
-      width: 20
-      height: 37
+      source-rect: 133 242 20 37
       left-overhang: -2
       right-overhang: 5
     108:
-      x: 155
-      y: 242
-      width: 11
-      height: 37
+      source-rect: 155 242 11 37
       left-overhang: -2
       right-overhang: 3
     109:
-      x: 168
-      y: 242
-      width: 30
-      height: 37
+      source-rect: 168 242 30 37
       left-overhang: -2
       right-overhang: 3
     110:
-      x: 200
-      y: 242
-      width: 20
-      height: 37
+      source-rect: 200 242 20 37
       left-overhang: -2
       right-overhang: 3
     111:
-      x: 222
-      y: 242
-      width: 18
-      height: 37
+      source-rect: 222 242 18 37
       left-overhang: -1
       right-overhang: 2
     112:
-      x: 0
-      y: 282
-      width: 20
-      height: 37
+      source-rect: 0 282 20 37
       left-overhang: -2
       right-overhang: 3
     113:
-      x: 22
-      y: 282
-      width: 20
-      height: 37
+      source-rect: 22 282 20 37
       left-overhang: -1
       right-overhang: 2
     114:
-      x: 44
-      y: 282
-      width: 18
-      height: 37
+      source-rect: 44 282 18 37
       left-overhang: -2
       right-overhang: 3
     115:
-      x: 64
-      y: 282
-      width: 17
-      height: 37
+      source-rect: 64 282 17 37
       left-overhang: -1
       right-overhang: 2
     116:
-      x: 83
-      y: 282
-      width: 14
-      height: 37
+      source-rect: 83 282 14 37
       right-overhang: 1
     117:
-      x: 99
-      y: 282
-      width: 20
-      height: 37
+      source-rect: 99 282 20 37
       left-overhang: -1
       right-overhang: 2
     118:
-      x: 121
-      y: 282
-      width: 18
-      height: 37
+      source-rect: 121 282 18 37
       right-overhang: 1
     119:
-      x: 141
-      y: 282
-      width: 30
-      height: 37
+      source-rect: 141 282 30 37
       left-overhang: -1
       right-overhang: 2
     120:
-      x: 173
-      y: 282
-      width: 18
-      height: 37
+      source-rect: 173 282 18 37
       right-overhang: 1
     121:
-      x: 193
-      y: 282
-      width: 20
-      height: 37
+      source-rect: 193 282 20 37
       left-overhang: -1
       right-overhang: 2
     122:
-      x: 215
-      y: 282
-      width: 17
-      height: 37
+      source-rect: 215 282 17 37
       right-overhang: 1
     123:
-      x: 234
-      y: 282
-      width: 18
-      height: 37
+      source-rect: 234 282 18 37
       right-overhang: 1
     124:
-      x: 0
-      y: 322
-      width: 12
-      height: 37
+      source-rect: 0 322 12 37
       left-overhang: -2
       right-overhang: 3
     125:
-      x: 14
-      y: 322
-      width: 18
-      height: 37
+      source-rect: 14 322 18 37
       right-overhang: 1
     126:
-      x: 34
-      y: 322
-      width: 21
-      height: 37
+      source-rect: 34 322 21 37
       left-overhang: -2
       right-overhang: 3
     161:
-      x: 57
-      y: 322
-      width: 12
-      height: 37
+      source-rect: 57 322 12 37
       left-overhang: -2
       right-overhang: 3
     162:
-      x: 71
-      y: 322
-      width: 18
-      height: 37
+      source-rect: 71 322 18 37
       left-overhang: -1
       right-overhang: 2
     163:
-      x: 91
-      y: 322
-      width: 20
-      height: 37
+      source-rect: 91 322 20 37
       left-overhang: -1
       right-overhang: 2
     164:
-      x: 113
-      y: 322
-      width: 23
-      height: 37
+      source-rect: 113 322 23 37
       left-overhang: -2
       right-overhang: 3
     165:
-      x: 138
-      y: 322
-      width: 22
-      height: 37
+      source-rect: 138 322 22 37
       right-overhang: 1
     166:
-      x: 162
-      y: 322
-      width: 12
-      height: 37
+      source-rect: 162 322 12 37
       left-overhang: -2
       right-overhang: 3
     167:
-      x: 176
-      y: 322
-      width: 18
-      height: 37
+      source-rect: 176 322 18 37
       left-overhang: -2
       right-overhang: 3
     168:
-      x: 196
-      y: 322
-      width: 15
-      height: 37
+      source-rect: 196 322 15 37
       left-overhang: -2
       right-overhang: 3
     169:
-      x: 213
-      y: 322
-      width: 21
-      height: 37
+      source-rect: 213 322 21 37
       left-overhang: -2
       right-overhang: 3
     170:
-      x: 236
-      y: 322
-      width: 18
-      height: 37
+      source-rect: 236 322 18 37
       left-overhang: -2
       right-overhang: 3
     171:
-      x: 0
-      y: 362
-      width: 27
-      height: 37
+      source-rect: 0 362 27 37
       left-overhang: -2
       right-overhang: 3
     172:
-      x: 29
-      y: 362
-      width: 21
-      height: 37
+      source-rect: 29 362 21 37
       left-overhang: -2
       right-overhang: 3
     173:
-      x: 52
-      y: 362
-      width: 21
-      height: 37
+      source-rect: 52 362 21 37
       left-overhang: -2
       right-overhang: 3
     174:
-      x: 75
-      y: 362
-      width: 21
-      height: 37
+      source-rect: 75 362 21 37
       left-overhang: -2
       right-overhang: 3
     175:
-      x: 98
-      y: 362
-      width: 21
-      height: 37
+      source-rect: 98 362 21 37
       left-overhang: -2
       right-overhang: 3
     176:
-      x: 121
-      y: 362
-      width: 16
-      height: 37
+      source-rect: 121 362 16 37
       left-overhang: -2
       right-overhang: 3
     177:
-      x: 139
-      y: 362
-      width: 21
-      height: 37
+      source-rect: 139 362 21 37
       left-overhang: -2
       right-overhang: 3
     178:
-      x: 162
-      y: 362
-      width: 15
-      height: 37
+      source-rect: 162 362 15 37
       left-overhang: -2
       right-overhang: 3
     179:
-      x: 179
-      y: 362
-      width: 15
-      height: 37
+      source-rect: 179 362 15 37
       left-overhang: -1
       right-overhang: 2
     180:
-      x: 196
-      y: 362
-      width: 15
-      height: 37
+      source-rect: 196 362 15 37
       left-overhang: -2
       right-overhang: 3
     181:
-      x: 213
-      y: 362
-      width: 21
-      height: 37
+      source-rect: 213 362 21 37
       left-overhang: -2
       right-overhang: 3
     182:
-      x: 236
-      y: 362
-      width: 19
-      height: 37
+      source-rect: 236 362 19 37
       left-overhang: -1
       right-overhang: 2
     183:
-      x: 0
-      y: 402
-      width: 11
-      height: 37
+      source-rect: 0 402 11 37
       left-overhang: -2
       right-overhang: 3
     184:
-      x: 13
-      y: 402
-      width: 12
-      height: 37
+      source-rect: 13 402 12 37
       left-overhang: -1
       right-overhang: 2
     185:
-      x: 27
-      y: 402
-      width: 13
-      height: 37
+      source-rect: 27 402 13 37
       left-overhang: -1
       right-overhang: 2
     186:
-      x: 42
-      y: 402
-      width: 18
-      height: 37
+      source-rect: 42 402 18 37
       left-overhang: -2
       right-overhang: 3
     187:
-      x: 62
-      y: 402
-      width: 27
-      height: 37
+      source-rect: 62 402 27 37
       left-overhang: -2
       right-overhang: 3
     188:
-      x: 91
-      y: 402
-      width: 25
-      height: 37
+      source-rect: 91 402 25 37
       left-overhang: -1
       right-overhang: 2
     189:
-      x: 118
-      y: 402
-      width: 25
-      height: 37
+      source-rect: 118 402 25 37
       left-overhang: -1
       right-overhang: 2
     190:
-      x: 145
-      y: 402
-      width: 28
-      height: 37
+      source-rect: 145 402 28 37
       left-overhang: -1
       right-overhang: 2
     191:
-      x: 175
-      y: 402
-      width: 21
-      height: 37
+      source-rect: 175 402 21 37
       left-overhang: -2
       right-overhang: 3
     192:
-      x: 198
-      y: 402
-      width: 22
-      height: 37
+      source-rect: 198 402 22 37
       right-overhang: 1
     193:
-      x: 222
-      y: 402
-      width: 22
-      height: 37
+      source-rect: 222 402 22 37
       right-overhang: 1
     194:
-      x: 0
-      y: 442
-      width: 22
-      height: 37
+      source-rect: 0 442 22 37
       right-overhang: 1
     195:
-      x: 24
-      y: 442
-      width: 22
-      height: 37
+      source-rect: 24 442 22 37
       right-overhang: 1
     196:
-      x: 48
-      y: 442
-      width: 22
-      height: 37
+      source-rect: 48 442 22 37
       right-overhang: 1
     197:
-      x: 72
-      y: 442
-      width: 22
-      height: 37
+      source-rect: 72 442 22 37
       right-overhang: 1
     198:
-      x: 96
-      y: 442
-      width: 29
-      height: 37
+      source-rect: 96 442 29 37
       left-overhang: 1
       right-overhang: 2
     199:
-      x: 127
-      y: 442
-      width: 22
-      height: 37
+      source-rect: 127 442 22 37
       left-overhang: -1
       right-overhang: 2
     200:
-      x: 151
-      y: 442
-      width: 19
-      height: 37
+      source-rect: 151 442 19 37
       left-overhang: -2
       right-overhang: 3
     201:
-      x: 172
-      y: 442
-      width: 19
-      height: 37
+      source-rect: 172 442 19 37
       left-overhang: -2
       right-overhang: 3
     202:
-      x: 193
-      y: 442
-      width: 19
-      height: 37
+      source-rect: 193 442 19 37
       left-overhang: -2
       right-overhang: 3
     203:
-      x: 214
-      y: 442
-      width: 19
-      height: 37
+      source-rect: 214 442 19 37
       left-overhang: -2
       right-overhang: 3
     204:
-      x: 235
-      y: 442
-      width: 12
-      height: 37
+      source-rect: 235 442 12 37
       right-overhang: 1
     205:
-      x: 0
-      y: 482
-      width: 12
-      height: 37
+      source-rect: 0 482 12 37
       left-overhang: -1
       right-overhang: 2
     206:
-      x: 14
-      y: 482
-      width: 12
-      height: 37
+      source-rect: 14 482 12 37
       right-overhang: 1
     207:
-      x: 28
-      y: 482
-      width: 14
-      height: 37
+      source-rect: 28 482 14 37
       right-overhang: 3
     208:
-      x: 44
-      y: 482
-      width: 23
-      height: 37
+      source-rect: 44 482 23 37
       right-overhang: 1
     209:
-      x: 69
-      y: 482
-      width: 23
-      height: 37
+      source-rect: 69 482 23 37
       left-overhang: -1
       right-overhang: 2
     210:
-      x: 94
-      y: 482
-      width: 22
-      height: 37
+      source-rect: 94 482 22 37
       left-overhang: -1
       right-overhang: 2
     211:
-      x: 118
-      y: 482
-      width: 22
-      height: 37
+      source-rect: 118 482 22 37
       left-overhang: -1
       right-overhang: 2
     212:
-      x: 142
-      y: 482
-      width: 22
-      height: 37
+      source-rect: 142 482 22 37
       left-overhang: -1
       right-overhang: 2
     213:
-      x: 166
-      y: 482
-      width: 22
-      height: 37
+      source-rect: 166 482 22 37
       left-overhang: -1
       right-overhang: 2
     214:
-      x: 190
-      y: 482
-      width: 22
-      height: 37
+      source-rect: 190 482 22 37
       left-overhang: -1
       right-overhang: 2
     215:
-      x: 214
-      y: 482
-      width: 20
-      height: 37
+      source-rect: 214 482 20 37
       left-overhang: -2
       right-overhang: 3
     216:
-      x: 0
-      y: 522
-      width: 22
-      height: 37
+      source-rect: 0 522 22 37
       left-overhang: -1
       right-overhang: 2
     217:
-      x: 24
-      y: 522
-      width: 23
-      height: 37
+      source-rect: 24 522 23 37
       left-overhang: -2
       right-overhang: 3
     218:
-      x: 49
-      y: 522
-      width: 23
-      height: 37
+      source-rect: 49 522 23 37
       left-overhang: -2
       right-overhang: 3
     219:
-      x: 74
-      y: 522
-      width: 23
-      height: 37
+      source-rect: 74 522 23 37
       left-overhang: -2
       right-overhang: 3
     220:
-      x: 99
-      y: 522
-      width: 23
-      height: 37
+      source-rect: 99 522 23 37
       left-overhang: -2
       right-overhang: 3
     221:
-      x: 124
-      y: 522
-      width: 22
-      height: 37
+      source-rect: 124 522 22 37
       right-overhang: 3
     222:
-      x: 148
-      y: 522
-      width: 20
-      height: 37
+      source-rect: 148 522 20 37
       left-overhang: -2
       right-overhang: 3
     223:
-      x: 170
-      y: 522
-      width: 21
-      height: 37
+      source-rect: 170 522 21 37
       left-overhang: -2
       right-overhang: 3
     224:
-      x: 193
-      y: 522
-      width: 19
-      height: 37
+      source-rect: 193 522 19 37
       left-overhang: -1
       right-overhang: 2
     225:
-      x: 214
-      y: 522
-      width: 19
-      height: 37
+      source-rect: 214 522 19 37
       left-overhang: -1
       right-overhang: 2
     226:
-      x: 235
-      y: 522
-      width: 19
-      height: 37
+      source-rect: 235 522 19 37
       left-overhang: -1
       right-overhang: 2
     227:
-      x: 0
-      y: 562
-      width: 19
-      height: 37
+      source-rect: 0 562 19 37
       left-overhang: -1
       right-overhang: 2
     228:
-      x: 21
-      y: 562
-      width: 19
-      height: 37
+      source-rect: 21 562 19 37
       left-overhang: -1
       right-overhang: 2
     229:
-      x: 42
-      y: 562
-      width: 19
-      height: 37
+      source-rect: 42 562 19 37
       left-overhang: -1
       right-overhang: 2
     230:
-      x: 63
-      y: 562
-      width: 28
-      height: 37
+      source-rect: 63 562 28 37
       left-overhang: -1
       right-overhang: 2
     231:
-      x: 93
-      y: 562
-      width: 18
-      height: 37
+      source-rect: 93 562 18 37
       left-overhang: -1
       right-overhang: 2
     232:
-      x: 113
-      y: 562
-      width: 18
-      height: 37
+      source-rect: 113 562 18 37
       left-overhang: -1
       right-overhang: 2
     233:
-      x: 133
-      y: 562
-      width: 18
-      height: 37
+      source-rect: 133 562 18 37
       left-overhang: -1
       right-overhang: 2
     234:
-      x: 153
-      y: 562
-      width: 18
-      height: 37
+      source-rect: 153 562 18 37
       left-overhang: -1
       right-overhang: 2
     235:
-      x: 173
-      y: 562
-      width: 18
-      height: 37
+      source-rect: 173 562 18 37
       left-overhang: -1
       right-overhang: 2
     236:
-      x: 193
-      y: 562
-      width: 11
-      height: 37
+      source-rect: 193 562 11 37
       right-overhang: 1
     237:
-      x: 206
-      y: 562
-      width: 11
-      height: 37
+      source-rect: 206 562 11 37
       right-overhang: 1
     238:
-      x: 219
-      y: 562
-      width: 11
-      height: 37
+      source-rect: 219 562 11 37
       right-overhang: 1
     239:
-      x: 232
-      y: 562
-      width: 13
-      height: 37
+      source-rect: 232 562 13 37
       right-overhang: 3
     240:
-      x: 0
-      y: 602
-      width: 20
-      height: 37
+      source-rect: 0 602 20 37
       left-overhang: -1
       right-overhang: 2
     241:
-      x: 22
-      y: 602
-      width: 20
-      height: 37
+      source-rect: 22 602 20 37
       left-overhang: -2
       right-overhang: 3
     242:
-      x: 44
-      y: 602
-      width: 18
-      height: 37
+      source-rect: 44 602 18 37
       left-overhang: -1
       right-overhang: 2
     243:
-      x: 64
-      y: 602
-      width: 18
-      height: 37
+      source-rect: 64 602 18 37
       left-overhang: -1
       right-overhang: 2
     244:
-      x: 84
-      y: 602
-      width: 18
-      height: 37
+      source-rect: 84 602 18 37
       left-overhang: -1
       right-overhang: 2
     245:
-      x: 104
-      y: 602
-      width: 18
-      height: 37
+      source-rect: 104 602 18 37
       left-overhang: -1
       right-overhang: 2
     246:
-      x: 124
-      y: 602
-      width: 18
-      height: 37
+      source-rect: 124 602 18 37
       left-overhang: -1
       right-overhang: 2
     247:
-      x: 144
-      y: 602
-      width: 21
-      height: 37
+      source-rect: 144 602 21 37
       left-overhang: -2
       right-overhang: 3
     248:
-      x: 167
-      y: 602
-      width: 18
-      height: 37
+      source-rect: 167 602 18 37
       right-overhang: 1
     249:
-      x: 187
-      y: 602
-      width: 20
-      height: 37
+      source-rect: 187 602 20 37
       left-overhang: -1
       right-overhang: 2
     250:
-      x: 209
-      y: 602
-      width: 20
-      height: 37
+      source-rect: 209 602 20 37
       left-overhang: -1
       right-overhang: 2
     251:
-      x: 231
-      y: 602
-      width: 20
-      height: 37
+      source-rect: 231 602 20 37
       left-overhang: -1
       right-overhang: 2
     252:
-      x: 0
-      y: 642
-      width: 20
-      height: 37
+      source-rect: 0 642 20 37
       left-overhang: -1
       right-overhang: 2
     253:
-      x: 22
-      y: 642
-      width: 20
-      height: 37
+      source-rect: 22 642 20 37
       left-overhang: -1
       right-overhang: 2
     254:
-      x: 44
-      y: 642
-      width: 20
-      height: 37
+      source-rect: 44 642 20 37
       left-overhang: -1
       right-overhang: 2
     255:
-      x: 66
-      y: 642
-      width: 20
-      height: 37
+      source-rect: 66 642 20 37
       left-overhang: -1
       right-overhang: 2

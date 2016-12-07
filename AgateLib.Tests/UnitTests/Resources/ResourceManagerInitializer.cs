@@ -37,10 +37,7 @@ MedievalSharp:
   image: Fonts/MedievalSharp18.png
   metrics:
     32:
-      x: 0 
-      y: 2
-      width: 8 
-      height: 30
+      source-rect: 0 2 8 30
       right-overhang: 1";
 
 		string themesyaml = @"

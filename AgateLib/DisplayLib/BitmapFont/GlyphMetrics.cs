@@ -59,7 +59,6 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Source rectangle on the image which supplies the glyph.
 		/// </summary>
-		[YamlIgnore]
 		public Rectangle SourceRect
 		{
 			get { return mSourceRect; }
@@ -69,6 +68,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Gets or sets the x position of the source rectangle.
 		/// </summary>
+		[YamlIgnore]
 		public int X
 		{
 			get { return mSourceRect.X; }
@@ -78,6 +78,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Gets or sets the y position of the source rectangle.
 		/// </summary>
+		[YamlIgnore]
 		public int Y
 		{
 			get { return mSourceRect.Y; }
@@ -87,6 +88,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Gets or sets the width of the glyph.
 		/// </summary>
+		[YamlIgnore]
 		public int Width
 		{
 			get { return mSourceRect.Width; }
@@ -95,6 +97,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Gets or sets the height of the glyph.
 		/// </summary>
+		[YamlIgnore]
 		public int Height
 		{
 			get { return mSourceRect.Height; }

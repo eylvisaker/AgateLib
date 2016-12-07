@@ -66,6 +66,7 @@ namespace AgateLib.Resources
 				.WithTypeConverter(new LayoutBoxConverterYaml())
 				.WithTypeConverter(new PointConverterYaml())
 				.WithTypeConverter(new SizeConverterYaml())
+				.WithTypeConverter(new RectangleConverterYaml())
 				.Build();
 
 			using (var file = new StreamReader(Assets.UserInterfaceAssets.OpenRead(filename)))
