@@ -14,17 +14,17 @@ namespace AgateLib.Resources
 {
 	public class AgateResourceManager
 	{
-		ResourceDataModel data;
-		IUserInterfaceResourceManager uiResourceManager;
-		IDisplayResourceManager displayResourceManager;
+		private readonly ResourceDataModel data;
+		private IUserInterfaceResourceManager uiResourceManager;
+		private IDisplayResourceManager displayResourceManager;
 
 		public AgateResourceManager(string filename) : this(new ResourceDataLoader().Load(filename))
 		{ }
 
 		public AgateResourceManager(ResourceDataModel data)
 		{
-			UserInterface = new UserInterfaceResourceManager(data);
 			DisplayResourceManager = new DisplayResourceManager(data);
+			UserInterface = new UserInterfaceResourceManager(data, DisplayResourceManager);
 		}
 
 		public IDisplayResourceManager DisplayResourceManager
@@ -47,6 +47,12 @@ namespace AgateLib.Resources
 			}
 		}
 
+		/// <summary>
+		/// Initializes an object by setting all its fields that correspond to resource types
+		/// with matching resources.
+		/// </summary>
+		/// <remarks>If the object is a user interface facet, this will initialize the facet.</remarks>
+		/// <param name="container"></param>
 		public void InitializeContainer(object container)
 		{
 			var facet = container as IUserInterfaceFacet;

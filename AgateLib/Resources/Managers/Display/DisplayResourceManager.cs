@@ -27,12 +27,12 @@ namespace AgateLib.Resources.Managers.Display
 			this.data = data;
 		}
 
-		public Font GetFont(string name)
+		public IFont FindFont(string name)
 		{
 			if (fonts.ContainsKey(name))
 				return fonts[name];
 			if (data.Fonts.ContainsKey(name) == false)
-				throw new AgateResourceException($"Could not find font named {name}");
+				return null;
 
 			var fontModel = data.Fonts[name];
 
@@ -59,6 +59,19 @@ namespace AgateLib.Resources.Managers.Display
 			return fonts[name];
 		}
 
+		public IFont GetFont(string name)
+		{
+			if (data.Fonts.ContainsKey(name) == false)
+				throw new AgateResourceException($"Could not find font named {name}");
+
+			var result = FindFont(name);
+
+			if (result == null)
+				throw new AgateResourceException($"Could not find font named {name}");
+
+			return result;
+		}
+
 		private Surface GetSurface(string image, IReadFileProvider fileProvider)
 		{
 			using (var file = fileProvider.OpenRead(image))
@@ -78,5 +91,6 @@ namespace AgateLib.Resources.Managers.Display
 				dest.Assign(GetFont(propertyName));
 			}
 		}
+
 	}
 }

@@ -67,10 +67,6 @@ namespace AgateLib.Testing.UserInterfaceTests
 		{
 			Display.Clear(Color.Purple);
 			facet.InterfaceRoot.Draw();
-
-			facet.Font.Size = 22;
-			facet.Font.Color = Color.Black;
-			facet.Font.DrawText(new Point(0, 400), "Hello!");
 		}
 
 		public void CreateGui()

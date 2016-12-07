@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface.Venus;
 
 namespace AgateLib.Resources.Managers.Display
 {
-	public interface IDisplayResourceManager
+	public interface IDisplayResourceManager : IFontProvider
 	{
 		void InitializeContainer(object container);
 	}

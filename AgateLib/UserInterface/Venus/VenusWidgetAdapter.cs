@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Resources.DataModel;
 using AgateLib.UserInterface.DataModel;
@@ -18,13 +19,18 @@ namespace AgateLib.UserInterface.Venus
 		static VenusWidgetAdapter()
 		{
 			DefaultTheme = new ThemeModel();
-
 			var windowTheme = new WidgetThemeModel();
 			windowTheme.TextColor = Color.Black;
 			DefaultTheme["window"] = windowTheme;
 		}
 
 		private Dictionary<Widget, WidgetStyle> styles = new Dictionary<Widget, WidgetStyle>();
+		private IFontProvider fontProvider;
+
+		public VenusWidgetAdapter(IFontProvider fontProvider)
+		{
+			this.fontProvider = fontProvider;
+		}
 
 		public FacetModelCollection FacetData { get; set; }
 
@@ -246,12 +252,44 @@ namespace AgateLib.UserInterface.Venus
 
 		public void SetFont(Widget control)
 		{
-			var style = StyleOf(control);
+			IFont font = GetFont(control);
 
-			control.Font = DefaultAssets.Fonts.AgateSans;
+			control.Font = font;
+		}
 
-			//control.Font = style.Font;
-			//control.Font.Style = style.Data.Font.Weight;
+		private IFont GetFont(Widget control)
+		{
+			var fontProperties = GetFontProperties(control);
+
+			IFont font = null;
+
+			if (fontProperties != null)
+			{
+				font = fontProvider.FindFont(fontProperties.Family);
+
+				if (font != null)
+				{
+					font.Size = fontProperties.Size;
+					font.Style = fontProperties.Style;
+				}
+			}
+
+			if (font == null)
+				font = DefaultAssets.Fonts.AgateSans;
+
+			control.Font = font;
+
+			return font;
+		}
+
+		private FontProperties GetFontProperties(Widget control)
+		{
+			if (control == null)
+				return null;
+			if (string.IsNullOrWhiteSpace(StyleOf(control).Font.Family))
+				return GetFontProperties(control.Parent);
+
+			return StyleOf(control).Font;
 		}
 	}
 }

@@ -17,13 +17,16 @@ namespace AgateLib.Resources.Managers.UserInterface
 {
 	public class UserInterfaceResourceManager : IUserInterfaceResourceManager
 	{
+		private readonly IFontProvider fontProvider;
 		private IWidgetFactory widgetFactory;
 		private ITypeInspector<Widget> facetInspector;
 
 		private ResourceDataModel data;
 
-		public UserInterfaceResourceManager(ResourceDataModel data)
+		public UserInterfaceResourceManager(ResourceDataModel data, IFontProvider fontProvider)
 		{
+			this.fontProvider = fontProvider;
+
 			this.data = data;
 
 			Initialize();
@@ -39,7 +42,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 		{
 			try
 			{
-				var adapter = new VenusWidgetAdapter();
+				var adapter = new VenusWidgetAdapter(fontProvider);
 				var layoutEngine = new VenusLayoutEngine(adapter);
 				var guiRenderer = new AgateUserInterfaceRenderer(adapter);
 

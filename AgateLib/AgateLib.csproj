@@ -715,6 +715,7 @@
     <Compile Include="UserInterface\Venus\BorderStyle.cs" />
     <Compile Include="UserInterface\DataModel\WidgetChildCollection.cs" />
     <Compile Include="UserInterface\DataModel\WidgetProperties.cs" />
+    <Compile Include="UserInterface\Venus\IFontProvider.cs" />
     <Compile Include="UserInterface\Venus\Layout\ILayoutBuilder.cs" />
     <Compile Include="UserInterface\Venus\Layout\LayoutAssemblers\ColumnAssembler.cs" />
     <Compile Include="UserInterface\Venus\Layout\ILayoutAssembler.cs" />

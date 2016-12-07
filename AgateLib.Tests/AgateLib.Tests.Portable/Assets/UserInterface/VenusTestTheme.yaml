@@ -1,6 +1,9 @@
 ﻿
 default:
     window:
+        font: 
+            family: MedievalSharp
+            size: 14
         box:
             padding: 4
         background:
@@ -27,7 +30,6 @@ default:
             hover:
                 background:
                     color: 00ffff
-           
 
     label:
         text-color: navy
