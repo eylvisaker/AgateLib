@@ -56,7 +56,7 @@ namespace BallBuster.Net
 			w = 40.0f;
 			h = 20.0f;
 
-			this.str = 1;
+			this.str = 100;
 			this.block = null;
 
 			mBlockType = BlockType.Invalid;
@@ -113,18 +113,12 @@ namespace BallBuster.Net
 		{
 			// I want a function that is linear, and it returns 
 			//		0 when str = originalStr
-			//		1 when str = 1
+			//		1 when str = 50
 			// varies linearly with str in between
-			// it would be easier with another variable, altstr = str - 1
-			float altstr = str / 100.0f - 1;
+			var retVal = (originalStr - 50 - str) / (float)originalStr;
 
-			// slope of something like that: 
-			//		rise = -1
-			//		run = originalstr - 1
-			//		intercept = 1
-
-			float retVal = -1 / (originalStr / 100.0f - 1) * altstr + 1.0f;
-
+			if (retVal < 0)
+				retVal = 0;
 			if (retVal > 1.0f)
 				retVal = 1.0f;
 

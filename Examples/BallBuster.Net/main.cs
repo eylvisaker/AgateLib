@@ -287,26 +287,15 @@ namespace BallBuster.Net
 				doLighting = false;
 			}
 
-			bool fulls = true;
-
 			if (args.Length > 0)
 				if (args[0] == "-debug") debugger = true;
 
 			if (debugger)
 			{
-				fulls = false;
 				playmusic = false;
 			}
-			fulls = false;
 
 			// now it gets fun, set up the display mode
-			DisplayWindow mywindow;
-
-			if (fulls)
-				mywindow = DisplayWindow.CreateFullScreen("Ball: Buster Xtreme.NET", 800, 600);
-			else
-				mywindow = DisplayWindow.CreateWindowed("Ball: Buster Xtreme.NET", 800, 600);
-
 			Mouse.Hide();
 
 			// load the images, initiation frame rate counter, and register signals
@@ -711,7 +700,7 @@ namespace BallBuster.Net
 
 			// Draw blocks and Update their animations...
 			DrawBlocks();
-
+			
 			// we Draw the flash right on top of the block
 			DrawFlashes();
 
@@ -722,7 +711,7 @@ namespace BallBuster.Net
 
 			if (doLighting)
 			{
-				AgateBuiltInShaders.Basic2DShader.Activate();
+				//AgateBuiltInShaders.Basic2DShader.Activate();
 			}
 
 			// Draw paddle, other stuff, and lastly the balls.
@@ -847,7 +836,7 @@ namespace BallBuster.Net
 			}
 
 			// Draw powerups that are in effect:
-			DrawPowerupsInEffect();
+			//DrawPowerupsInEffect();
 
 
 			// fade the screen to white if we are transitioning out
@@ -886,7 +875,7 @@ namespace BallBuster.Net
 				if (!attractMode)
 					img.arrow.Draw(Mouse.X, Mouse.Y);
 			}
-
+			
 			DB_ExitSubsection();
 		}
 

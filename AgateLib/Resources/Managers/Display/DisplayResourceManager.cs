@@ -139,6 +139,7 @@ namespace AgateLib.Resources.Managers.Display
 						result = new Sprite(frameSize);
 
 					var spriteFrame = new SpriteFrame(surface);
+					spriteFrame.SpriteSize = result.SpriteSize;
 
 					if (frame.SourceRect != null)
 					{
