@@ -13,13 +13,15 @@ using AgateLib.UserInterface;
 
 namespace AgateLib.Resources
 {
-	public class AgateResourceManager
+	public class AgateResourceManager : IDisposable
 	{
 		private readonly ResourceDataModel data;
 		private readonly IReadFileProvider imageFileProvider;
 
 		private IUserInterfaceResourceManager uiResourceManager;
 		private IDisplayResourceManager displayResourceManager;
+
+		bool disposed = false;
 
 		public AgateResourceManager(string filename) : this(new ResourceDataLoader().Load(filename))
 		{ }
@@ -33,24 +35,43 @@ namespace AgateLib.Resources
 			this.data = dataModel;
 			this.imageFileProvider = imageFileProvider;
 
-			DisplayResourceManager = new DisplayResourceManager(data, imageFileProvider, fontFileProvider);
-			UserInterface = new UserInterfaceResourceManager(data, DisplayResourceManager);
+			Display = new DisplayResourceManager(data, imageFileProvider, fontFileProvider);
+			UserInterface = new UserInterfaceResourceManager(data, Display);
 		}
 
-
-		public IDisplayResourceManager DisplayResourceManager
+		public void Dispose()
 		{
-			get { return displayResourceManager; }
+			displayResourceManager.Dispose();
+			uiResourceManager.Dispose();
+
+			disposed = true;
+		}
+
+		public IDisplayResourceManager Display
+		{
+			get
+			{
+				if (disposed)
+					throw new ObjectDisposedException(nameof(AgateResourceManager));
+
+				return displayResourceManager;
+			}
 			set
 			{
-				Condition.RequireArgumentNotNull(value, nameof(DisplayResourceManager));
+				Condition.RequireArgumentNotNull(value, nameof(Display));
 				displayResourceManager = value;
 			}
 		}
 
 		public IUserInterfaceResourceManager UserInterface
 		{
-			get { return uiResourceManager; }
+			get
+			{
+				if (disposed)
+					throw new ObjectDisposedException(nameof(AgateResourceManager));
+
+				return uiResourceManager;
+			}
 			set
 			{
 				Condition.RequireArgumentNotNull(value, nameof(UserInterface));
@@ -66,12 +87,15 @@ namespace AgateLib.Resources
 		/// <param name="container"></param>
 		public void InitializeContainer(object container)
 		{
+			if (disposed)
+				throw new ObjectDisposedException(nameof(AgateResourceManager));
+
 			var facet = container as IUserInterfaceFacet;
 
 			if (facet != null)
 				UserInterface.InitializeFacet(facet);
 
-			DisplayResourceManager.InitializeContainer(container);
+			Display.InitializeContainer(container);
 		}
 	}
 }

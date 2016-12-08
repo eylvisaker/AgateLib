@@ -8,7 +8,7 @@ using AgateLib.UserInterface.Venus;
 
 namespace AgateLib.Resources.Managers.Display
 {
-	public interface IDisplayResourceManager : IFontProvider
+	public interface IDisplayResourceManager : IFontProvider, IDisposable
 	{
 		void InitializeContainer(object container);
 

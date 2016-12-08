@@ -34,6 +34,14 @@ namespace AgateLib.Resources.Managers.Display
 			this.fontFileProvider = fontFileProvider;
 		}
 
+		public void Dispose()
+		{
+			foreach(var item in fonts.Values.Cast<IDisposable>().Concat(sprites.Values).Concat(surfaces.Values))
+			{
+				item.Dispose();
+			}
+		}
+
 		public void InitializeContainer(object container)
 		{
 			var fontPropertyMap = fontInspector.BuildPropertyMap(container);

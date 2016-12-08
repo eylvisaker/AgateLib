@@ -62,7 +62,7 @@ namespace BallBuster.Net
 		{
 			this.font = AgateLib.DefaultAssets.Fonts.AgateSans;
 
-			this.palogo = resources.DisplayResourceManager.GetSprite("palogo");
+			this.palogo = resources.Display.GetSprite("palogo");
 		}
 
 		public void load()
@@ -78,62 +78,7 @@ namespace BallBuster.Net
 
 		public void unload()
 		{
-			ball.Dispose();
-			fireball.Dispose();
-			leftborder.Dispose();
-			rightborder.Dispose();
-			topborder.Dispose();
-
-			paddle.Dispose();
-			largepaddle.Dispose();
-			smallpaddle.Dispose();
-			block.Dispose();
-
-			cblock.Dispose();
-			sblock.Dispose();
-			woodblock.Dispose();
-			marbleblock1.Dispose();
-			marbleblock2.Dispose();
-
-			rubyblock1.Dispose();
-			rubyblock2.Dispose();
-			rubyblock3.Dispose();
-
-
-			flash.Dispose();
-
-			pupaddleregular.Dispose();
-			pupaddlesmall.Dispose();
-			pupaddlelarge.Dispose();
-			publaster.Dispose();
-			pufastball.Dispose();
-			pufireball.Dispose();
-			pumultiball.Dispose();
-			pu3ball.Dispose();
-			puregularspeed.Dispose();
-			puslowball.Dispose();
-			pu1up.Dispose();
-			pusticky.Dispose();
-			pureset.Dispose();
-			purandom.Dispose();
-			pu100.Dispose();
-			pu250.Dispose();
-			pu500.Dispose();
-			pu1000.Dispose();
-			pucatchblue.Dispose();
-			pucatchred.Dispose();
-			pupow.Dispose();
-			pusmash.Dispose();
-			purbswap.Dispose();
-
-			arrow.Dispose();
-			bblogo.Dispose();
-			palogo.Dispose();
-			xlogo.Dispose();
-
-
-			font.Dispose();
-
+			resources.Dispose();
 		}
 
 	}

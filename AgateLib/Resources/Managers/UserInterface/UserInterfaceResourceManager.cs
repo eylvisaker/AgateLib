@@ -32,6 +32,11 @@ namespace AgateLib.Resources.Managers.UserInterface
 			Initialize();
 		}
 
+		public void Dispose()
+		{
+
+		}
+
 		private void Initialize()
 		{
 			facetInspector = new TypeInspector<Widget>();

@@ -29,7 +29,7 @@ namespace AgateLib.Platform.WinForms.Resources
 					mProvider, mProvider);
 			}
 
-			return mResources.DisplayResourceManager.FindFont(name);
+			return mResources.Display.FindFont(name);
 		}
 	}
 }
