@@ -10,11 +10,11 @@ using System.Text;
 using System.Windows.Forms;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Resources.Legacy;
 using AgateLib.Sprites;
 using AgateLib.Platform.WinForms;
 using AgateLib.Utility;
 using AgateLib.Platform.WinForms.IO;
+using AgateLib.Resources;
 
 namespace AgateLib.Testing.DisplayTests.SpriteTester
 {
@@ -246,16 +246,16 @@ namespace AgateLib.Testing.DisplayTests.SpriteTester
 			else
 			{
 				// since loading the sprite from the file failed, try it as a resource file.
-				AgateResourceCollection resources = new AgateResourceCollection(filename);
+				AgateResourceManager resources = new AgateResourceManager(filename);
 
-				AgateLib.IO.Assets.Surfaces = new FileSystemProvider
+				AgateLib.IO.Assets.Images = new FileSystemProvider
 					(System.IO.Path.GetDirectoryName(filename));
 
 				if (resources.Sprites.ToArray().Length == 1)
 				{
 					var sprites = resources.Sprites.ToArray();
 
-					Sprite sp = new Sprite(resources, sprites[0].Name);
+					Sprite sp = (Sprite)resources.Display.GetSprite(resources.Sprites.First());
 
 					SetSprite(sp);
 				}
@@ -265,7 +265,7 @@ namespace AgateLib.Testing.DisplayTests.SpriteTester
 
 					if (frm.ShowDialog(this, resources) == DialogResult.OK)
 					{
-						Sprite sp = new Sprite(resources, frm.SelectedSprite);
+						Sprite sp = (Sprite)resources.Display.GetSprite(frm.SelectedSprite);
 
 						SetSprite(sp);
 					}

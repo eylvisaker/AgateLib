@@ -79,6 +79,15 @@ namespace AgateLib.Resources
 			}
 		}
 
+		public IEnumerable<string> Sprites
+		{
+			get
+			{
+				foreach (var sprite in data.Sprites)
+					yield return sprite.Key;
+			}
+		}
+
 		/// <summary>
 		/// Initializes an object by setting all its fields that correspond to resource types
 		/// with matching resources.

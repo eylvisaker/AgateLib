@@ -4,9 +4,9 @@ using System.Text;
 using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
-using AgateLib.Resources.Legacy;
 using AgateLib.Sprites;
 using AgateLib.ApplicationModels;
+using AgateLib.Resources;
 
 namespace AgateLib.Testing.FoundationTests
 {
@@ -15,18 +15,15 @@ namespace AgateLib.Testing.FoundationTests
 		public string Name { get { return "Resources"; } }
 		public string Category { get { return "Foundation"; } }
 		
-		Surface surf;
-		ISprite sprite;
-		FontSurface font;
+		public Surface surf;
+		public ISprite sprite;
+		public Font font;
 
 		protected override void OnSceneStart()
 		{
-			AgateResourceCollection resources = new AgateResourceCollection("TestResourceFile.xml");
-
-			surf = new Surface(resources, "sample_surf");
-			sprite = new Sprite(resources, "sample_sprite");
-			font = new FontSurface(resources, "sample_font");
-
+			var resources = new AgateResourceManager("ResourceTester.yaml");
+			resources.InitializeContainer(this);
+			
 			sprite.StartAnimation();
 		}
 

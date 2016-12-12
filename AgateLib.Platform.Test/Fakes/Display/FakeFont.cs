@@ -20,6 +20,12 @@ namespace AgateLib.Platform.Test.Fakes.Display
 
 		public Color Color { get; set; } = Color.Black;
 
+		public double Alpha
+		{
+			get { return Color.A; }
+			set { Color = Color.FromArgb((int)(255 * value), Color); }
+		}
+
 		public OriginAlignment DisplayAlignment { get; set; }
 
 		public int FontHeight { get; set; } = 10;

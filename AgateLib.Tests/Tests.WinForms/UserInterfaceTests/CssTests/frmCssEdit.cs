@@ -9,15 +9,15 @@ namespace AgateLib.Testing.UserInterfaceTests.CssTests
 	{
 		DisplayWindow wind;
 
-		CssGuiStuff gui;
+		//CssGuiStuff gui;
 
 		public frmCssEdit()
 		{
 			InitializeComponent();
 
-			gui = new CssGuiStuff();
-			gui.CreateGui();
-			gui.ItemClicked += gui_ItemClicked;
+			//gui = new CssGuiStuff();
+			//gui.CreateGui();
+			//gui.ItemClicked += gui_ItemClicked;
 
 			txtCss.Text = System.IO.File.ReadAllText("Style.css");
 
@@ -32,7 +32,7 @@ namespace AgateLib.Testing.UserInterfaceTests.CssTests
 
 			while (obj != null)
 			{
-				cboPropertyItems.Items.Add(gui.Adapter.GetStyle(obj));
+				//cboPropertyItems.Items.Add(gui.Adapter.GetStyle(obj));
 				obj = obj.Parent;
 			}
 
@@ -47,13 +47,13 @@ namespace AgateLib.Testing.UserInterfaceTests.CssTests
 
 		public void RenderAgateStuff()
 		{
-			gui.Render();
+			//gui.Render();
 			lblFrames.Text = "Frame: " + Display.FramesPerSecond;
 		}
 
 		private void txtCss_TextChanged(object sender, EventArgs e)
 		{
-			gui.Css = txtCss.Text;
+			//gui.Css = txtCss.Text;
 		}
 
 		private void cboPropertyItems_SelectedIndexChanged(object sender, EventArgs e)
@@ -63,7 +63,7 @@ namespace AgateLib.Testing.UserInterfaceTests.CssTests
 
 		private void btnHideShow_Click(object sender, EventArgs e)
 		{
-			gui.HideShow();
+			//gui.HideShow();
 		}
 	}
 }

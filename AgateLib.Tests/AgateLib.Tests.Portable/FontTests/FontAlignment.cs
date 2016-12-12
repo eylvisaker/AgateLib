@@ -6,8 +6,8 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Resources.Legacy;
 using AgateLib.InputLib.Legacy;
+using AgateLib.Resources;
 
 namespace AgateLib.Testing.FontTests
 {
@@ -25,18 +25,16 @@ namespace AgateLib.Testing.FontTests
 
 		int fontIndex;
 
+		public Font font { get; set; }
 
 		public void EntryPoint()
 		{
-			AgateResourceCollection resources = new AgateResourceCollection("TestResourceFile.xml");
+			var resources = new AgateResourceManager("FontAlignment.yaml");
+			resources.InitializeContainer(this);
 
 			List<FontSurface> fonts = new List<FontSurface>();
 
-			fonts.Add(new FontSurface(resources, "MedievalSharp14"));
-			fonts.Add(new FontSurface(resources, "MedievalSharpBold14"));
-			fonts.Add(new FontSurface(resources, "MedievalSharp18"));
-			fonts.Add(new FontSurface(resources, "MedievalSharpBold18"));
-			fonts.Add(new FontSurface(resources, "MedievalSharpBold22"));
+			fonts.AddRange(font.FontSurfaces);
 
 			Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 

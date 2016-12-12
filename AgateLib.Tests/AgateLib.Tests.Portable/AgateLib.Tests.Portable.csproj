@@ -69,10 +69,6 @@
     <Compile Include="ISerialModelTest.cs" />
     <Compile Include="TestInfo.cs" />
     <Compile Include="TestCollection.cs" />
-    <Compile Include="UserInterfaceTests\Css\BasicGuiTest.cs" />
-    <Compile Include="UserInterfaceTests\Css\CssGuiStuff.cs" />
-    <Compile Include="UserInterfaceTests\Css\ScrollTest.cs" />
-    <Compile Include="UserInterfaceTests\Css\TransitionTest.cs" />
     <Compile Include="UserInterfaceTests\Venus\MenuScrollTest.cs" />
     <Compile Include="UserInterfaceTests\Venus\NonWrappingLayoutTest.cs" />
   </ItemGroup>
@@ -89,22 +85,7 @@
     <Content Include="Assets\CssTest.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\fonts\MedievalSharp14.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\fonts\MedievalSharp18.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\fonts\MedievalSharpBold14.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\fonts\MedievalSharpBold18.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\fonts\MedievalSharpBold22.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\fonts\sample_font.png">
+    <Content Include="Assets\UserInterface\Fonts\sample_font.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Images\ui_back_1.png">
@@ -155,9 +136,6 @@
     <Content Include="Assets\spike.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Style.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\TestResourceFile.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -196,6 +174,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\UserInterface\MenuScroll.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\UserInterface\FontAlignment.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\UserInterface\ResourceTester.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

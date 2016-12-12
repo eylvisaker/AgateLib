@@ -128,7 +128,6 @@
     <Compile Include="Platform\PlatformTests.cs" />
     <Compile Include="Resources\ResourceManagerInitializer.cs" />
     <Compile Include="Resources\ResourceManagerTests.cs" />
-    <Compile Include="Resources\SerializationTest.cs" />
     <Compile Include="Serialization\Xle\TestSerializable.cs" />
     <Compile Include="Serialization\Xle\XSTests.cs" />
     <Compile Include="UserInterface\Css\CssAdapterTest.cs" />

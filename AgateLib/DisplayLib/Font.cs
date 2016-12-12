@@ -30,6 +30,8 @@ namespace AgateLib.DisplayLib
 		public int Size { get { return mSettings.Size; } set { mSettings.Size = value; } }
 		public FontStyles Style { get { return mSettings.Style; } set { mSettings.Style = value; } }
 
+		public IEnumerable<FontSurface> FontSurfaces => mFontSurfaces.Values;
+
 		public void AddFont(FontSurface fontSurface, int size, FontStyles style)
 		{
             Condition.RequireArgumentNotNull(fontSurface, nameof(fontSurface));
