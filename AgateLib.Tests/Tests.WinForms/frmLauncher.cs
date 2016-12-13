@@ -333,8 +333,11 @@ namespace AgateLib.Testing
 
 				size.Width += indent + 5;
 
-				if (lstTests.ColumnWidth < size.Width)
+				if (lstTests.ColumnWidth < (int)size.Width)
 					lstTests.ColumnWidth = (int)size.Width;
+
+				if (lstTests.ItemHeight < (int)size.Height)
+					lstTests.ItemHeight = (int)size.Height;
 			}
 
 			e.DrawFocusRectangle();
