@@ -38,9 +38,19 @@ namespace AgateLib.Platform.WinForms.Factories
 		public SurfaceImpl CreateSurface(IReadFileProvider provider, string filename)
 		{
 			if (provider.IsLogicalFilesystem)
-				return new GL_Surface(provider.OpenReadAsync(filename).Result);
+			{
+				using (var file = provider.OpenReadAsync(filename).Result)
+				{
+					return new GL_Surface(file);
+				}
+			}
 			else
-				return new GL_Surface(provider.ResolveFile(filename));
+			{
+				using (var file = File.OpenRead(provider.ResolveFile(filename)))
+				{
+					return new GL_Surface(provider.ResolveFile(filename));
+				}
+			}
 		}
 
 		public SurfaceImpl CreateSurface(Stream fileStream)

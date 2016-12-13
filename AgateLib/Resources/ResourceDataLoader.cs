@@ -90,7 +90,7 @@ namespace AgateLib.Resources
 
 		private void ReadExternalFiles(Deserializer deserializer, ResourceDataModel config)
 		{
-			ReadSources<FontModelCollection, List<FontModel>>(deserializer, config, config.FontSources,
+			ReadSources<FontResourceCollection, FontResource>(deserializer, config, config.FontSources,
 				(key, value) => config.Fonts.Add(key, value));
 
 			ReadSources<ThemeModelCollection, ThemeModel>(deserializer, config, config.ThemeSources,

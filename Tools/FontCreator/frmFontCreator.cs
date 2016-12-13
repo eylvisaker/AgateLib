@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.Controls;
@@ -48,7 +49,7 @@ namespace FontCreator
 					case 2:
 						string tempImage = Path.GetTempFileName() + ".png";
 
-						((BitmapFontImpl)AgateFont.Impl).Surface.SaveTo(tempImage);
+						((Surface)((BitmapFontImpl)AgateFont.Impl).Surface).SaveTo(tempImage);
 
 						editGlyphs1.SetFont(tempImage, ((BitmapFontImpl)AgateFont.Impl).FontMetrics);
 

@@ -8,7 +8,7 @@ namespace AgateLib.Resources.DataModel
 {
 	public class ResourceDataModel 
 	{
-		public FontModelCollection Fonts { get; set; } = new FontModelCollection();
+		public FontResourceCollection Fonts { get; set; } = new FontResourceCollection();
 
 		public ThemeModelCollection Themes { get; set; } = new ThemeModelCollection();
 

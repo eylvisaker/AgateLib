@@ -37,7 +37,7 @@ namespace AgateLib.UserInterface.Rendering
 				file = file.Substring(4, file.Length - 5);
 
 				if (mSurfaces.ContainsKey(file) == false)
-					mSurfaces.Add(file, new Surface(file, AgateLib.IO.FileProvider.UserInterfaceAssets));
+					mSurfaces.Add(file, new Surface(file, AgateLib.IO.Assets.UserInterfaceAssets));
 
 				return mSurfaces[file];
 			}

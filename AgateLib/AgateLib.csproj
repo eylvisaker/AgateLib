@@ -140,6 +140,7 @@
     <Compile Include="DisplayLib\BitmapFont\TypeConverters\KerningPairModelYaml.cs" />
     <Compile Include="DisplayLib\IFont.cs" />
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
+    <Compile Include="Resources\DataModel\FontResource.cs" />
     <Compile Include="Resources\DataModel\Sprites\AnimationModel.cs" />
     <Compile Include="Resources\DataModel\Sprites\SpriteFrameModel.cs" />
     <Compile Include="Resources\DataModel\Sprites\SpriteModel.cs" />
@@ -618,8 +619,8 @@
     <Compile Include="UserInterface\DataModel\FontStyleProperties.cs" />
     <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterYaml.cs" />
     <Compile Include="Resources\DataModel\FacetModelCollection.cs" />
-    <Compile Include="DisplayLib\BitmapFont\FontModel.cs" />
-    <Compile Include="Resources\DataModel\FontModelCollection.cs" />
+    <Compile Include="Resources\DataModel\FontSurfaceResource.cs" />
+    <Compile Include="Resources\DataModel\FontResourceCollection.cs" />
     <Compile Include="UserInterface\DataModel\ThemeModel.cs" />
     <Compile Include="Resources\DataModel\ThemeModelCollection.cs" />
     <Compile Include="UserInterface\DataModel\WidgetBackgroundModel.cs" />

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AgateDatabaseEditor</RootNamespace>
     <AssemblyName>DatabaseEditor</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -183,9 +183,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AgateLib.Platform.WindowsForms\AgateLib.Platform.WindowsForms.csproj">
+    <ProjectReference Include="..\..\AgateLib.Platform.WinForms\AgateLib.Platform.WinForms.csproj">
       <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
-      <Name>AgateLib.Platform.WindowsForms</Name>
+      <Name>AgateLib.Platform.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\AgateLib\AgateLib.csproj">
       <Project>{9490B719-829E-43A7-A5FE-8001F8A81759}</Project>
@@ -228,18 +228,14 @@
     <ItemGroup>
       <AssemblyInfoFiles Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
-    <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
-                  AssemblyMajorVersion="$(MajorVersion)"
-                  AssemblyMinorVersion="$(MinorVersion)" 
-                  AssemblyBuildNumber="$(BuildNumber)" 
-                  AssemblyRevisionType="Julian" />
+    <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)" AssemblyMajorVersion="$(MajorVersion)" AssemblyMinorVersion="$(MinorVersion)" AssemblyBuildNumber="$(BuildNumber)" AssemblyRevisionType="Julian" />
   </Target>
   <PropertyGroup>
     <BuildDependsOn>
       UpdateAssemblyInfo;
       $(BuildDependsOn)
     </BuildDependsOn>
-  </PropertyGroup>  
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

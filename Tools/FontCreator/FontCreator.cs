@@ -2,19 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Geometry;
-using AgateLib.Resources.Legacy;
+using AgateLib.Resources;
+using AgateLib.Resources.DataModel;
 using AgateLib.Platform.WinForms;
 
 namespace FontCreator
 {
 	public class FontBuilder
 	{
+		private ResourceDataLoader dataLoader = new ResourceDataLoader();
+
 		private string mText;
 		private object mRenderTarget;
 		private object mZoomRenderTarget;
@@ -273,12 +274,12 @@ namespace FontCreator
 
 		internal bool SaveFont(string resourceFile, string fontName, string imageFile)
 		{
-			AgateResourceCollection resources;
+			ResourceDataModel resources;
 
 			if (File.Exists(resourceFile))
-				resources = AgateResourceLoader.LoadResources(resourceFile);
+				resources = dataLoader.Load(resourceFile);
 			else
-				resources = new AgateResourceCollection();
+				resources = new ResourceDataModel();
 
 			if (Path.IsPathRooted(resourceFile) == false)
 			{
@@ -300,11 +301,16 @@ namespace FontCreator
 
 			localImagePath = localImagePath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
 
-			BitmapFontResource res = new BitmapFontResource(fontName);
-			res.Image = localImagePath;
-			res.FontMetrics = ((BitmapFontImpl)Font.Impl).FontMetrics.Clone();
+			System.Windows.Forms.MessageBox.Show("Saving not implemented yet.");
 
-			if (resources.Contains(res.Name))
+			/*
+			FontResource res = new FontResource();
+			
+			res.Name = fontName;
+			res.Image = localImagePath;
+			res.Metrics = ((BitmapFontImpl)Font.Impl).FontMetrics.Clone();
+
+			if (resources.Fonts.ContainsKey(res.Name))
 			{
 				if (System.Windows.Forms.MessageBox.Show(
 					"The specified resource file already contains a resource named \""
@@ -313,25 +319,27 @@ namespace FontCreator
 					System.Windows.Forms.MessageBoxButtons.YesNo,
 					System.Windows.Forms.MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
 				{
-					resources.Remove(res.Name);
+					resources.Fonts.Remove(res.Name);
 				}
 				else
 				{
 					return false;
 				}
 			}
-			resources.Add(res);
+			resources.Fonts.Add(res.Name, res);
 
 			AgateResourceLoader.SaveResources(resources, resourceFile);
-
+			
 			return true;
+			*/
+			return false;
 		}
 
 		private void SaveImage(string imageFile)
 		{
 			EnsureDirectoryExists(Path.GetDirectoryName(imageFile));
 
-			((BitmapFontImpl)Font.Impl).Surface.SaveTo(imageFile);
+			((Surface)((BitmapFontImpl)Font.Impl).Surface).SaveTo(imageFile);
 		}
 
 		private void EnsureDirectoryExists(string dirname)

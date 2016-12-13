@@ -14,7 +14,7 @@
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>
     </AppDesignerFolder>
@@ -104,6 +104,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
       <Name>System</Name>
@@ -126,6 +129,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AgateLib.AgateSDL\AgateLib.SDL.csproj">
+      <Project>{935d67a0-931e-46de-9f6a-2d6dbc99aff3}</Project>
+      <Name>AgateLib.SDL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AgateLib.Platform.WinForms\AgateLib.Platform.WinForms.csproj">
       <Project>{4b12561e-d37b-48a1-b6db-218e94906c22}</Project>
       <Name>AgateLib.Platform.WinForms</Name>
@@ -143,6 +150,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -248,18 +256,14 @@
     <ItemGroup>
       <AssemblyInfoFiles Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
-    <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
-                  AssemblyMajorVersion="$(MajorVersion)"
-                  AssemblyMinorVersion="$(MinorVersion)" 
-                  AssemblyBuildNumber="$(BuildNumber)" 
-                  AssemblyRevisionType="Julian" />
+    <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)" AssemblyMajorVersion="$(MajorVersion)" AssemblyMinorVersion="$(MinorVersion)" AssemblyBuildNumber="$(BuildNumber)" AssemblyRevisionType="Julian" />
   </Target>
   <PropertyGroup>
     <BuildDependsOn>
       UpdateAssemblyInfo;
       $(BuildDependsOn)
     </BuildDependsOn>
-  </PropertyGroup>  
+  </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
