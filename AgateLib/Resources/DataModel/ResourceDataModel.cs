@@ -16,10 +16,14 @@ namespace AgateLib.Resources.DataModel
 
 		public SpriteModelCollection Sprites { get; set; } = new SpriteModelCollection();
 
+		public SurfaceModelCollection Images { get; set; } = new SurfaceModelCollection();
+
 		public List<string> FontSources { get; set; } = new List<string>();
 
 		public List<string> ThemeSources { get; set; } = new List<string>();
 
 		public List<string> FacetSources { get; set; } = new List<string>();
+
+		public List<string> SurfaceSources { get; set; } = new List<string>();
 	}
 }

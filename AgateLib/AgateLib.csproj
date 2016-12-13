@@ -144,6 +144,8 @@
     <Compile Include="Resources\DataModel\Sprites\SpriteFrameModel.cs" />
     <Compile Include="Resources\DataModel\Sprites\SpriteModel.cs" />
     <Compile Include="Resources\DataModel\SpriteModelCollection.cs" />
+    <Compile Include="Resources\DataModel\SurfaceModel.cs" />
+    <Compile Include="Resources\DataModel\SurfaceModelCollection.cs" />
     <Compile Include="Resources\Managers\Display\DisplayResourceManager.cs" />
     <Compile Include="Resources\Managers\Display\IDisplayResourceManager.cs" />
     <Compile Include="StaticState\AppModelState.cs" />

@@ -20,6 +20,7 @@ namespace AgateLib.Resources.Managers.Display
 		private readonly IReadFileProvider fontFileProvider;
 		private readonly ITypeInspector<IFont> fontInspector = new TypeInspector<IFont>();
 		private readonly ITypeInspector<ISprite> spriteInspector = new TypeInspector<ISprite>();
+		private readonly ITypeInspector<ISurface> surfaceInspector = new TypeInspector<ISurface>();
 
 		private ResourceDataModel data;
 
@@ -36,7 +37,9 @@ namespace AgateLib.Resources.Managers.Display
 
 		public void Dispose()
 		{
-			foreach(var item in fonts.Values.Cast<IDisposable>().Concat(sprites.Values).Concat(surfaces.Values))
+			foreach (var item in fonts.Values.Cast<IDisposable>()
+								.Concat(sprites.Values)
+								.Concat(surfaces.Values))
 			{
 				item.Dispose();
 			}
@@ -56,11 +59,20 @@ namespace AgateLib.Resources.Managers.Display
 
 			var spritePropertyMap = spriteInspector.BuildPropertyMap(container);
 
-			foreach(var propertyName in spritePropertyMap.Keys)
+			foreach (var propertyName in spritePropertyMap.Keys)
 			{
 				var dest = spritePropertyMap[propertyName];
 
 				dest.Assign(GetSprite(propertyName));
+			}
+
+			var surfacePropertyMap = surfaceInspector.BuildPropertyMap(container);
+
+			foreach (var propertyName in surfacePropertyMap.Keys)
+			{
+				var dest = surfacePropertyMap[propertyName];
+
+				dest.Assign(GetSurface(propertyName));
 			}
 		}
 
@@ -109,13 +121,27 @@ namespace AgateLib.Resources.Managers.Display
 			return result;
 		}
 
-		private ISurface GetSurface(string image, IReadFileProvider fileProvider)
+		private ISurface GetSurface(string image, IReadFileProvider fileProvider = null)
 		{
+			fileProvider = fileProvider ?? imageFileProvider;
+
 			if (surfaces.ContainsKey(image) == false)
 			{
-				using (var file = fileProvider.OpenRead(image))
+				if (data.Images.ContainsKey(image) == false)
 				{
-					surfaces[image] = new Surface(file);
+					using (var file = fileProvider.OpenRead(image))
+					{
+						surfaces[image] = new Surface(file);
+					}
+				}
+				else
+				{
+					var dataModel = data.Images[image];
+
+					using (var file = fileProvider.OpenRead(dataModel.Image))
+					{
+						surfaces[image] = new Surface(file);
+					}
 				}
 			}
 
@@ -133,9 +159,12 @@ namespace AgateLib.Resources.Managers.Display
 			{
 				Sprite result = null;
 
-				foreach(var frame in dataModel.Frames)
+				var spriteImage = dataModel.Image;
+
+				foreach (var frame in dataModel.Frames)
 				{
-					var surface = GetSurface(frame.Image, imageFileProvider);
+					var frameImage = frame.Image ?? spriteImage;
+					var surface = GetSurface(frameImage, imageFileProvider);
 					Size frameSize = surface.SurfaceSize;
 
 					if (frame.SourceRect != null)

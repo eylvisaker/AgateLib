@@ -15,8 +15,13 @@ namespace AgateLib.Testing.FoundationTests
 		public string Name { get { return "Resources"; } }
 		public string Category { get { return "Foundation"; } }
 		
+		[BindTo("sample_surf")]
 		public Surface surf;
+		
+		[BindTo("sample_sprite")]
 		public ISprite sprite;
+
+		[BindTo("sample_font")]
 		public Font font;
 
 		protected override void OnSceneStart()

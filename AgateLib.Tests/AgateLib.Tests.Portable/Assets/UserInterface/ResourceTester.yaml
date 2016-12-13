@@ -2,13 +2,15 @@
 font-sources:
 -  fonts.yaml
 
-surfaces:
-  sample_surf: jellybean.png
+images:
+  sample_surf: 
+    image: jellybean.png
 
 sprites:
   sample_sprite:
     image: attacke.png
-    animation-time: 60
+    animation:
+        frame-time: 60
     size: 96 96
     frames:
     -  source-rect: 0 0 96 96
@@ -24,6 +26,7 @@ sprites:
     -  source-rect: 384 96 96 96
     -  source-rect: 480 96 96 96
     -  source-rect: 0 192 96 96
+
 fonts:
   sample_font:
   - name: SampleFont
