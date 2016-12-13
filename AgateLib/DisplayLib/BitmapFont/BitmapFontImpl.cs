@@ -110,7 +110,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 			mFontMetrics = fontMetrics.Clone();
 			float maxHeight = 0;
 
-			foreach (KeyValuePair<char, GlyphMetrics> kvp in mFontMetrics)
+			foreach (var kvp in mFontMetrics)
 			{
 				if (kvp.Value.SourceRect.Height > maxHeight)
 					maxHeight = kvp.Value.SourceRect.Height;
@@ -127,6 +127,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		{
 			mSurface.Dispose();
 		}
+
 		/// <summary>
 		/// Gets the font metric information.
 		/// </summary>
@@ -135,6 +136,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		{
 			get { return mFontMetrics; }
 		}
+
 		/// <summary>
 		/// Gets the surface containing the glyphs.
 		/// </summary>

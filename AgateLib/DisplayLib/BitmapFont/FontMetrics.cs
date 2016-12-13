@@ -30,9 +30,9 @@ namespace AgateLib.DisplayLib.BitmapFont
 	/// FontMetrics is a class which describes everything needed to render a font
 	/// from a bitmap image.
 	/// </summary>
-	public sealed class FontMetrics : IDictionary<char, GlyphMetrics>
+	public sealed class FontMetrics : IDictionary<int, GlyphMetrics>
 	{
-		Dictionary<char, GlyphMetrics> mGlyphs = new Dictionary<char, GlyphMetrics>();
+		Dictionary<int, GlyphMetrics> mGlyphs = new Dictionary<int, GlyphMetrics>();
 
 		/// <summary>
 		/// Constructs an empty font metrics object.
@@ -49,7 +49,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		{
 			FontMetrics result = new FontMetrics();
 
-			foreach (KeyValuePair<char, GlyphMetrics> v in this.mGlyphs)
+			foreach (KeyValuePair<int, GlyphMetrics> v in this.mGlyphs)
 			{
 				result.Add(v.Key, v.Value.Clone());
 			}
@@ -57,14 +57,14 @@ namespace AgateLib.DisplayLib.BitmapFont
 			return result;
 		}
 
-		#region IDictionary<char,GlyphMetrics> Members
+		#region IDictionary<int,GlyphMetrics> Members
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="key"></param>
 		/// <param name="value"></param>
-		public void Add(char key, GlyphMetrics value)
+		public void Add(int key, GlyphMetrics value)
 		{
 			mGlyphs.Add(key, value);
 		}
@@ -73,14 +73,14 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		public bool ContainsKey(char key)
+		public bool ContainsKey(int key)
 		{
 			return mGlyphs.ContainsKey(key);
 		}
 		/// <summary>
 		/// 
 		/// </summary>
-		public ICollection<char> Keys
+		public ICollection<int> Keys
 		{
 			get { return mGlyphs.Keys; }
 		}
@@ -89,7 +89,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		public bool Remove(char key)
+		public bool Remove(int key)
 		{
 			return mGlyphs.Remove(key);
 		}
@@ -99,7 +99,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <param name="key"></param>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		public bool TryGetValue(char key, out GlyphMetrics value)
+		public bool TryGetValue(int key, out GlyphMetrics value)
 		{
 			return mGlyphs.TryGetValue(key, out value);
 		}
@@ -117,7 +117,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		public GlyphMetrics this[char key]
+		public GlyphMetrics this[int key]
 		{
 			get
 			{
@@ -134,11 +134,11 @@ namespace AgateLib.DisplayLib.BitmapFont
 		}
 
 		#endregion
-		#region ICollection<KeyValuePair<char,GlyphMetrics>> Members
+		#region ICollection<KeyValuePair<int,GlyphMetrics>> Members
 
-		void ICollection<KeyValuePair<char, GlyphMetrics>>.Add(KeyValuePair<char, GlyphMetrics> item)
+		void ICollection<KeyValuePair<int, GlyphMetrics>>.Add(KeyValuePair<int, GlyphMetrics> item)
 		{
-			((ICollection<KeyValuePair<char, GlyphMetrics>>)mGlyphs).Add(item);
+			((ICollection<KeyValuePair<int, GlyphMetrics>>)mGlyphs).Add(item);
 		}
 		/// <summary>
 		/// Clears the list.
@@ -148,14 +148,14 @@ namespace AgateLib.DisplayLib.BitmapFont
 			mGlyphs.Clear();
 		}
 
-		bool ICollection<KeyValuePair<char, GlyphMetrics>>.Contains(KeyValuePair<char, GlyphMetrics> item)
+		bool ICollection<KeyValuePair<int, GlyphMetrics>>.Contains(KeyValuePair<int, GlyphMetrics> item)
 		{
-			return ((ICollection<KeyValuePair<char, GlyphMetrics>>)mGlyphs).Contains(item);
+			return ((ICollection<KeyValuePair<int, GlyphMetrics>>)mGlyphs).Contains(item);
 		}
 
-		void ICollection<KeyValuePair<char, GlyphMetrics>>.CopyTo(KeyValuePair<char, GlyphMetrics>[] array, int arrayIndex)
+		void ICollection<KeyValuePair<int, GlyphMetrics>>.CopyTo(KeyValuePair<int, GlyphMetrics>[] array, int arrayIndex)
 		{
-			((ICollection<KeyValuePair<char, GlyphMetrics>>)mGlyphs).CopyTo(array, arrayIndex);
+			((ICollection<KeyValuePair<int, GlyphMetrics>>)mGlyphs).CopyTo(array, arrayIndex);
 		}
 		/// <summary>
 		/// Returns the number of glyphs.
@@ -165,24 +165,24 @@ namespace AgateLib.DisplayLib.BitmapFont
 			get { return mGlyphs.Count; }
 		}
 
-		bool ICollection<KeyValuePair<char, GlyphMetrics>>.IsReadOnly
+		bool ICollection<KeyValuePair<int, GlyphMetrics>>.IsReadOnly
 		{
 			get { return false; }
 		}
 
-		bool ICollection<KeyValuePair<char, GlyphMetrics>>.Remove(KeyValuePair<char, GlyphMetrics> item)
+		bool ICollection<KeyValuePair<int, GlyphMetrics>>.Remove(KeyValuePair<int, GlyphMetrics> item)
 		{
-			return ((ICollection<KeyValuePair<char, GlyphMetrics>>)mGlyphs).Remove(item);
+			return ((ICollection<KeyValuePair<int, GlyphMetrics>>)mGlyphs).Remove(item);
 		}
 
 		#endregion
-		#region IEnumerable<KeyValuePair<char,GlyphMetrics>> Members
+		#region IEnumerable<KeyValuePair<int,GlyphMetrics>> Members
 
 		/// <summary>
 		/// Creates an enumerator.
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerator<KeyValuePair<char, GlyphMetrics>> GetEnumerator()
+		public IEnumerator<KeyValuePair<int, GlyphMetrics>> GetEnumerator()
 		{
 			return mGlyphs.GetEnumerator();
 		}

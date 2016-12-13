@@ -34,7 +34,7 @@ namespace AgateLib.Testing.FontTests
 
 			List<FontSurface> fonts = new List<FontSurface>();
 
-			fonts.AddRange(font.FontSurfaces);
+			fonts.AddRange(font.FontItems.Values);
 
 			Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
 

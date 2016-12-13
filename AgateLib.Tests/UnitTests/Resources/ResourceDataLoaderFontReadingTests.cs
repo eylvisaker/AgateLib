@@ -61,7 +61,7 @@ fonts:
 		public void WriteFontModel()
 		{
 			var configModel = new ResourceDataModel();
-			var fontModel = new FontModel
+			var fontModel = new FontSurfaceResource
 			{
 				Name = "MedievalSharp18",
 				Image = "Fonts/MedievalSharp18.png",
@@ -69,7 +69,7 @@ fonts:
 
 			fontModel.Metrics.Add(32, new GlyphMetrics { Y = 2, Width = 8, Height = 30, RightOverhang = 1 });
 
-			configModel.Fonts.Add("MedievalSharp", new List<FontModel> { fontModel });
+			configModel.Fonts.Add("MedievalSharp", new FontResource { fontModel });
 
 			Serializer ser = new Serializer();
 

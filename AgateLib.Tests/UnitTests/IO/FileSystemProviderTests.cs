@@ -1,5 +1,4 @@
 ﻿using AgateLib.Platform.WinForms.IO;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.IO
