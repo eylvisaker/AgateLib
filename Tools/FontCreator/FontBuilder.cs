@@ -73,26 +73,10 @@ namespace FontCreator
 			return (options.FontStyle & fontStyle) == fontStyle;
 		}
 
-		public bool Underline
-		{
-			get { return StyleContains(FontStyles.Underline); }
-			set { SetStyle(FontStyles.Underline, value); }
-		}
-		public bool Strikeout
-		{
-			get { return StyleContains(FontStyles.Strikeout); }
-			set { SetStyle(FontStyles.Strikeout, value); }
-		}
-		public bool Italic
-		{
-			get { return StyleContains(FontStyles.Italic); }
-			set { SetStyle(FontStyles.Italic, value); }
-		}
-		public bool Bold
-		{
-			get { return StyleContains(FontStyles.Bold); }
-			set { SetStyle(FontStyles.Bold, value); }
-		}
+		public bool Underline { get; set; }
+		public bool Strikeout { get; set; }
+		public bool Italic { get; set; }
+		public bool Bold { get; set; } = true;
 
 		public IReadOnlyList<int> FontSizes
 		{
@@ -116,10 +100,6 @@ namespace FontCreator
 
 		public Point ZoomLocation { get; set; }
 
-		public object RenderTarget
-		{
-			get { return mRenderTarget; }
-		}
 		public string FontFamily
 		{
 			get { return options.FontFamily; }

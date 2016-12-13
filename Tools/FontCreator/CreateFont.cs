@@ -14,7 +14,7 @@ namespace FontCreator
 {
 	public partial class CreateFont : UserControl
 	{
-		FontBuilder sample;
+		FontBuilder builder;
 
 		bool AnyDesignMode
 		{
@@ -40,7 +40,7 @@ namespace FontCreator
 			InitializeComponent();
 		}
 
-		public FontBuilder FontBuilder { get { return sample; } }
+		public FontBuilder FontBuilder { get { return builder; } }
 
 		protected override void OnLoad(EventArgs e)
 		{
@@ -49,9 +49,9 @@ namespace FontCreator
 			if (AnyDesignMode)
 				return;
 
-			sample = new FontBuilder();
+			builder = new FontBuilder();
 
-			sample.SetRenderTarget(renderTarget, zoomRenderTarget);
+			builder.SetRenderTarget(renderTarget, zoomRenderTarget);
 
 			int index = 0;
 
@@ -90,85 +90,85 @@ namespace FontCreator
 		{
 			base.OnPaint(e);
 
-			if (sample == null)
+			if (builder == null)
 				return;
 
-			sample.Draw();
+			builder.Draw();
 		}
 
 		private void cboFamily_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (sample == null)
+			if (builder == null)
 				return;
 
-			sample.FontFamily = cboFamily.SelectedItem.ToString();
+			builder.FontFamily = cboFamily.SelectedItem.ToString();
 		}
 
 		private void nudSize_ValueChanged(object sender, EventArgs e)
 		{
-			if (sample == null)
+			if (builder == null)
 				return;
 
-			sample.FontSizes = lstSizes.Items.Cast<string>().Select(int.Parse).ToList();
+			builder.FontSizes = lstSizes.Items.Cast<string>().Select(int.Parse).ToList();
 		}
 
 		private void chkBold_CheckedChanged(object sender, EventArgs e)
 		{
-			if (sample == null)
+			if (builder == null)
 				return;
 
-			sample.Bold = chkBold.Checked;
+			builder.Bold = chkBold.Checked;
 		}
 		private void chkItalic_CheckedChanged(object sender, EventArgs e)
 		{
-			if (sample == null)
+			if (builder == null)
 				return;
 
-			sample.Italic = chkItalic.Checked;
+			builder.Italic = chkItalic.Checked;
 		}
 		private void chkUnderline_CheckedChanged(object sender, EventArgs e)
 		{
-			if (sample == null)
+			if (builder == null)
 				return;
 
-			sample.Underline = chkUnderline.Checked;
+			builder.Underline = chkUnderline.Checked;
 		}
 		private void chkStrikeout_CheckedChanged(object sender, EventArgs e)
 		{
-			if (sample == null)
+			if (builder == null)
 				return;
 
-			sample.Strikeout = chkStrikeout.Checked;
+			builder.Strikeout = chkStrikeout.Checked;
 		}
 		private void txtSampleText_TextChanged(object sender, EventArgs e)
 		{
-			if (sample == null)
+			if (builder == null)
 				return;
 
-			sample.Text = txtSampleText.Text;
+			builder.Text = txtSampleText.Text;
 		}
 
 		private void nudTopMargin_ValueChanged(object sender, EventArgs e)
 		{
-			if (sample == null)
+			if (builder == null)
 				return;
 
-			sample.TopMarginAdjust = (int)nudTopMargin.Value;
+			builder.TopMarginAdjust = (int)nudTopMargin.Value;
 		}
 
 		private void nudBottomMargin_ValueChanged(object sender, EventArgs e)
 		{
-			if (sample == null)
+			if (builder == null)
 				return;
 
-			sample.BottomMarginAdjust = (int)nudBottomMargin.Value;
+			builder.BottomMarginAdjust = (int)nudBottomMargin.Value;
 		}
 		private void renderTarget_Resize(object sender, EventArgs e)
 		{
-			if (sample == null)
+			if (builder == null)
 				return;
 
-			sample.Draw();
+			builder.Draw();
 		}
 
 		private void btnBorderColor_Click(object sender, EventArgs e)
@@ -179,23 +179,23 @@ namespace FontCreator
 			{
 				btnBorderColor.BackColor = colorDialog.Color;
 
-				sample.Options.BorderColor = ConvertColor(colorDialog.Color);
-				sample.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
+				builder.Options.BorderColor = ConvertColor(colorDialog.Color);
+				builder.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, builder.Options.BorderColor);
 
-				sample.Options.CreateBorder = true;
+				builder.Options.CreateBorder = true;
 
 				chkBorder.Checked = true;
 
-				sample.CreateFont();
+				builder.CreateFont();
 			}
 		}
 		private void nudOpacity_ValueChanged(object sender, EventArgs e)
 		{
-			sample.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, sample.Options.BorderColor);
+			builder.Options.BorderColor = AgateLib.Geometry.Color.FromArgb((int)nudOpacity.Value, builder.Options.BorderColor);
 
 			if (chkBorder.Checked)
 			{
-				sample.CreateFont();
+				builder.CreateFont();
 			}
 		}
 
@@ -206,13 +206,13 @@ namespace FontCreator
 
 		private void chkTextRenderer_CheckedChanged(object sender, EventArgs e)
 		{
-			sample.Options.UseTextRenderer = chkTextRenderer.Checked;
-			sample.CreateFont();
+			builder.Options.UseTextRenderer = chkTextRenderer.Checked;
+			builder.CreateFont();
 		}
 
 		private void cboBg_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			sample.LightBackground = cboBg.SelectedIndex == 1;
+			builder.LightBackground = cboBg.SelectedIndex == 1;
 
 		}
 
@@ -224,59 +224,64 @@ namespace FontCreator
 			{
 				btnDisplayColor.BackColor = colorDialog.Color;
 
-				sample.DisplayColor = ConvertColor(colorDialog.Color);
+				builder.DisplayColor = ConvertColor(colorDialog.Color);
 			}
 		}
 
 		private void chkBorder_CheckedChanged(object sender, EventArgs e)
 		{
-			sample.Options.CreateBorder = chkBorder.Checked;
+			builder.Options.CreateBorder = chkBorder.Checked;
 
-			sample.CreateFont();
+			builder.CreateFont();
 		}
 
 		private void cboEdges_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			sample.Options.EdgeOptions = (BitmapFontEdgeOptions)cboEdges.SelectedItem;
+			builder.Options.EdgeOptions = (BitmapFontEdgeOptions)cboEdges.SelectedItem;
 
-			sample.CreateFont();
+			builder.CreateFont();
 		}
 
 		private void chkMonospaceNumbers_CheckedChanged(object sender, EventArgs e)
 		{
-			sample.Options.MonospaceNumbers = chkMonospaceNumbers.Checked;
+			builder.Options.MonospaceNumbers = chkMonospaceNumbers.Checked;
 
-			sample.CreateFont();
+			builder.CreateFont();
 		}
 
 		private void nudNumberWidthAdjust_ValueChanged(object sender, EventArgs e)
 		{
-			sample.Options.NumberWidthAdjust = (int)nudNumberWidthAdjust.Value;
+			builder.Options.NumberWidthAdjust = (int)nudNumberWidthAdjust.Value;
 
-			sample.CreateFont();
+			builder.CreateFont();
 		}
 
 		private void renderTarget_MouseMove(object sender, MouseEventArgs e)
 		{
-			sample.ZoomLocation = e.Location.ToAgatePoint();
-			sample.Draw();
+			builder.ZoomLocation = e.Location.ToAgatePoint();
+			builder.Draw();
 		}
 
 		private void nudDisplaySize_ValueChanged(object sender, EventArgs e)
 		{
-			sample.DisplaySize = (int)nudDisplaySize.Value;
+			builder.DisplaySize = (int)nudDisplaySize.Value;
 		}
 
 		private void chkDisplayBold_CheckedChanged(object sender, EventArgs e)
 		{
 			if (chkDisplayBold.Checked)
 			{
-				sample.DisplayStyle = AgateLib.DisplayLib.FontStyles.Bold;
+				builder.DisplayStyle = AgateLib.DisplayLib.FontStyles.Bold;
 			}
 			else
 			{
-				sample.DisplayStyle = AgateLib.DisplayLib.FontStyles.None;
+				builder.DisplayStyle = AgateLib.DisplayLib.FontStyles.None;
 			}
+		}
+
+		private void btnGenerateFont_Click(object sender, EventArgs e)
+		{
+			builder.CreateFont();
 		}
 	}
 }

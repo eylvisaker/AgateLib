@@ -61,11 +61,12 @@ namespace FontCreator
 			this.btnDisplayColor = new System.Windows.Forms.Button();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
-			this.renderTarget = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
-			this.zoomRenderTarget = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
 			this.label3 = new System.Windows.Forms.Label();
 			this.nudDisplaySize = new System.Windows.Forms.NumericUpDown();
 			this.chkDisplayBold = new System.Windows.Forms.CheckBox();
+			this.renderTarget = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
+			this.zoomRenderTarget = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
+			this.btnGenerateFont = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -202,6 +203,7 @@ namespace FontCreator
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.btnGenerateFont);
 			this.groupBox1.Controls.Add(this.groupBox3);
 			this.groupBox1.Controls.Add(this.label11);
 			this.groupBox1.Controls.Add(this.lstSizes);
@@ -519,29 +521,6 @@ namespace FontCreator
 			this.label7.TabIndex = 16;
 			this.label7.Text = "Scale:";
 			// 
-			// renderTarget
-			// 
-			this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.renderTarget.Location = new System.Drawing.Point(0, 0);
-			this.renderTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.renderTarget.Name = "renderTarget";
-			this.renderTarget.Size = new System.Drawing.Size(509, 273);
-			this.renderTarget.TabIndex = 0;
-			this.renderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderTarget_MouseMove);
-			this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-			// 
-			// zoomRenderTarget
-			// 
-			this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
-			this.zoomRenderTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.zoomRenderTarget.Name = "zoomRenderTarget";
-			this.zoomRenderTarget.Size = new System.Drawing.Size(386, 273);
-			this.zoomRenderTarget.TabIndex = 1;
-			this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
@@ -582,6 +561,39 @@ namespace FontCreator
 			this.chkDisplayBold.Text = "Bold";
 			this.chkDisplayBold.UseVisualStyleBackColor = true;
 			this.chkDisplayBold.CheckedChanged += new System.EventHandler(this.chkDisplayBold_CheckedChanged);
+			// 
+			// renderTarget
+			// 
+			this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.renderTarget.Location = new System.Drawing.Point(0, 0);
+			this.renderTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.renderTarget.Name = "renderTarget";
+			this.renderTarget.Size = new System.Drawing.Size(509, 273);
+			this.renderTarget.TabIndex = 0;
+			this.renderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderTarget_MouseMove);
+			this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+			// 
+			// zoomRenderTarget
+			// 
+			this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
+			this.zoomRenderTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.zoomRenderTarget.Name = "zoomRenderTarget";
+			this.zoomRenderTarget.Size = new System.Drawing.Size(386, 273);
+			this.zoomRenderTarget.TabIndex = 1;
+			this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+			// 
+			// btnGenerateFont
+			// 
+			this.btnGenerateFont.Location = new System.Drawing.Point(324, 210);
+			this.btnGenerateFont.Name = "btnGenerateFont";
+			this.btnGenerateFont.Size = new System.Drawing.Size(134, 38);
+			this.btnGenerateFont.TabIndex = 10;
+			this.btnGenerateFont.Text = "Generate Font";
+			this.btnGenerateFont.UseVisualStyleBackColor = true;
+			this.btnGenerateFont.Click += new System.EventHandler(this.btnGenerateFont_Click);
 			// 
 			// CreateFont
 			// 
@@ -651,6 +663,7 @@ namespace FontCreator
 		private System.Windows.Forms.CheckBox chkDisplayBold;
 		private System.Windows.Forms.NumericUpDown nudDisplaySize;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Button btnGenerateFont;
 	}
 }
 
