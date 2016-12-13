@@ -21,6 +21,8 @@ namespace AgateLib.Testing.DisplayTests
 			get { return "Display"; }
 		}
 
+		int count = 0;
+		string instructionText = "This window responds to resize, closed and closing events. ";
 		string text;
 		bool closedEvent;
 		bool closingEvent;
@@ -40,8 +42,10 @@ namespace AgateLib.Testing.DisplayTests
 					Display.BeginFrame();
 					Display.Clear();
 
-					DefaultAssets.Fonts.AgateSans.DrawText(text);
-					
+					DefaultAssets.Fonts.AgateSans.Size = 12;
+					DefaultAssets.Fonts.AgateSans.DrawText(instructionText + count);
+					DefaultAssets.Fonts.AgateSans.DrawText(0, DefaultAssets.Fonts.AgateSans.FontHeight, text);
+
 					Display.EndFrame();
 					Core.KeepAlive();
 				}
@@ -56,9 +60,10 @@ namespace AgateLib.Testing.DisplayTests
 
 		void wind_Closing(object sender, ref bool cancel)
 		{
+			count++;
 			if (closingEvent == false)
 			{
-				text = "Closing event fired!" + Environment.NewLine + "Press close again to exit test.";
+				text = "Closing event fired!\nPress close again to exit test.";
 
 				closingEvent = true;
 				cancel = true;
@@ -67,11 +72,13 @@ namespace AgateLib.Testing.DisplayTests
 
 		void wind_Closed(object sender, EventArgs e)
 		{
+			count++;
 			closedEvent = true;
 		}
 
 		void wind_Resize(object sender, EventArgs e)
 		{
+			count++;
 			text = "Resize event fired!";
 		}
 
