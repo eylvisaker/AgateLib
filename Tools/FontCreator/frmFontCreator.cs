@@ -10,12 +10,14 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.Controls;
+using AgateLib.Quality;
 
 namespace FontCreator
 {
 	public partial class frmFontCreator : Form
 	{
 		int mCurrentPage;
+		List<FontImageData> tempFontData = new List<FontImageData>();
 
 		public frmFontCreator()
 		{
@@ -48,12 +50,9 @@ namespace FontCreator
 						break;
 
 					case 2:
-						string tempImage = Path.GetTempFileName() + ".png";
+						CreateTempFontData();
 
-						((Surface)((BitmapFontImpl)AgateFont.FontSurface.Impl).Surface).SaveTo(tempImage);
-
-						editGlyphs1.SetFont(tempImage,
-							((BitmapFontImpl)AgateFont.FontSurface.Impl).FontMetrics);
+						editGlyphs1.SetFontData(tempFontData);
 
 						pnl = pnlEditGlyphs;
 						break;
@@ -91,6 +90,29 @@ namespace FontCreator
 			}
 		}
 
+		private void CreateTempFontData()
+		{
+			ClearTempData();
+			Condition.Requires(tempFontData.Count == 0);
+
+			foreach (var fs in AgateFont.FontItems)
+			{
+				string tempImage = Path.GetTempFileName() + ".png";
+				var bfi = ((BitmapFontImpl)fs.Value.Impl);
+
+				((Surface)bfi.Surface).SaveTo(tempImage);
+
+				FontImageData fid = new FontImageData
+				{
+					Filename = tempImage,
+					Metrics = bfi.FontMetrics,
+					Settings = fs.Key,
+				};
+
+				tempFontData.Add(fid);
+			}
+		}
+
 		public bool SaveFont()
 		{
 			return createFont1.FontBuilder.SaveFont(
@@ -113,8 +135,10 @@ namespace FontCreator
 
 				switch (MessageBox.Show(this,
 					"Successfully saved font.  Create a new font?" + Environment.NewLine +
-					"Click yes to start over, no to quit.", "Font Complete", MessageBoxButtons.YesNoCancel,
-					MessageBoxIcon.Information, MessageBoxDefaultButton.Button2))
+					"Click yes to start over, no to quit.", "Font Complete", 
+					MessageBoxButtons.YesNo,
+					MessageBoxIcon.Information, 
+					MessageBoxDefaultButton.Button2))
 				{
 					case DialogResult.Yes:
 						saveFont1.ResetControls();
@@ -147,6 +171,23 @@ namespace FontCreator
 		{
 			btnNext.Enabled = saveFont1.ValidInput;
 			btnNext.Text = "Finish";
+		}
+
+		protected override void OnFormClosed(FormClosedEventArgs e)
+		{
+			base.OnFormClosed(e);
+
+			ClearTempData();
+		}
+
+		private void ClearTempData()
+		{
+			foreach(var item in tempFontData)
+			{
+				File.Delete(item.Filename);
+			}
+
+			tempFontData.Clear();
 		}
 	}
 }

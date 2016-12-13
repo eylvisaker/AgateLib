@@ -179,6 +179,7 @@
     <Compile Include="FontCreatorProgram.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FontImageData.cs" />
     <Compile Include="frmFontCreator.cs">
       <SubType>Form</SubType>
     </Compile>

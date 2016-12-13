@@ -30,19 +30,19 @@ namespace AgateLib.DisplayLib
 		public int Size { get { return mSettings.Size; } set { mSettings.Size = value; } }
 		public FontStyles Style { get { return mSettings.Style; } set { mSettings.Style = value; } }
 
-		public IEnumerable<FontSurface> FontSurfaces => mFontSurfaces.Values;
+		public IReadOnlyDictionary<FontSettings, FontSurface> FontItems => mFontSurfaces;
 
 		public void AddFont(FontSurface fontSurface, int size, FontStyles style)
 		{
-            Condition.RequireArgumentNotNull(fontSurface, nameof(fontSurface));
+			Condition.RequireArgumentNotNull(fontSurface, nameof(fontSurface));
 
 			AddFont(new FontSettings(size, style), fontSurface);
 		}
 		public void AddFont(FontSettings settings, FontSurface fontSurface)
-        {
-            Condition.RequireArgumentNotNull(fontSurface, nameof(fontSurface));
+		{
+			Condition.RequireArgumentNotNull(fontSurface, nameof(fontSurface));
 
-            if (Size == 0)
+			if (Size == 0)
 				mSettings = settings;
 
 			mFontSurfaces[settings] = fontSurface;

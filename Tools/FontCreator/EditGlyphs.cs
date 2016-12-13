@@ -3,24 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Platform.WinForms;
-using AgateLib.Resources;
 
 namespace FontCreator
 {
 	public partial class EditGlyphs : UserControl
 	{
-		public EditGlyphs()
-		{
-			InitializeComponent();
-
-			mouseLabel.Text = "";
-		}
-
 		Image image;
 		FontMetrics font;
 		int zoomTop, zoomLeft;
@@ -28,10 +22,26 @@ namespace FontCreator
 		bool dragSource;
 		bool dragOverhang;
 		int overHangRelative;
+		private List<FontImageData> fontData;
 
-		internal void SetFont(string tempImage, FontMetrics fontMetrics)
+		public EditGlyphs()
 		{
-			image = new Bitmap(tempImage);
+			InitializeComponent();
+
+			mouseLabel.Text = "";
+		}
+
+		private void SetFont(FontImageData item)
+		{
+			SetFont(item.Filename, item.Metrics);
+		}
+
+		private void SetFont(string tempImage, FontMetrics fontMetrics)
+		{
+			using (var stream = File.OpenRead(tempImage))
+			{
+				image = new Bitmap(stream);
+			}
 
 			font = fontMetrics;
 
@@ -41,6 +51,9 @@ namespace FontCreator
 			{
 				lstItems.Items.Add(key);
 			}
+
+			pctImage.Invalidate();
+			pctZoom.Invalidate();
 		}
 
 		private void pctImage_Paint(object sender, PaintEventArgs e)
@@ -63,6 +76,33 @@ namespace FontCreator
 
 			PaintFontImage(e.Graphics);
 		}
+
+		public void SetFontData(List<FontImageData> fontData)
+		{
+			this.fontData = fontData;
+
+			fontDropDown.DropDownItems.Clear();
+
+			foreach(var item in fontData)
+			{
+				var menuItem = new ToolStripMenuItem(item.Settings.ToString());
+				menuItem.Tag = item;
+				menuItem.Click += MenuItem_Click;
+
+				fontDropDown.DropDownItems.Add(menuItem);
+			}
+
+			SetFont(fontData.First());
+		}
+
+		private void MenuItem_Click(object sender, EventArgs e)
+		{
+			var item = (FontImageData)((ToolStripMenuItem)sender).Tag;
+
+			SetFont(item);
+		}
+
+
 		private void PaintFontImage(Graphics g)
 		{
 			g.FillRectangle(Brushes.DarkRed, new Rectangle(0, 0, image.Width, image.Height));
