@@ -10,6 +10,7 @@ using System.Text;
 using System.Windows.Forms;
 using AgateLib.Platform.WinForms.IO;
 using AgateLib.Resources;
+using AgateLib.Platform.WinForms.Controls;
 
 namespace PackedSpriteCreator
 {
@@ -19,13 +20,13 @@ namespace PackedSpriteCreator
 		{
 			InitializeComponent();
 
-			Icon = AgateLib.Platform.WinForms.FormsInterop.AgateLib.Platform.WindowsForms.WinForms.FormUtil.AgateLibIcon;
+			Icon = FormUtil.AgateLibIcon;
 			spriteEditor1.Enabled = false;
 		}
 
 		private void newResourceFileToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			spriteEditor1.ResourceManager = new AgateLib.Resources.Legacy.AgateResourceCollection();
+			spriteEditor1.Resources = new AgateLib.Resources.DataModel.ResourceDataModel();
 		}
 
 		private void openResourceFileToolStripMenuItem_Click(object sender, EventArgs e)

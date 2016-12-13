@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AgateLib.Sprites;
+using AgateLib.Platform.WinForms;
 using AgateLib.Resources;
 using AgateLib.Resources.DataModel;
 
@@ -148,7 +149,8 @@ namespace PackedSpriteCreator
 			if (Parent == null)
 				return;
 
-			wind = new AgateLib.DisplayLib.DisplayWindow(AgateLib.DisplayLib.CreateWindowParams.FromControl(agateRenderTarget1));
+			wind = new AgateLib.DisplayLib.DisplayWindow(AgateLib.DisplayLib.CreateWindowParams.FromControl(agateRenderTarget1,
+			new AgateLib.Geometry.CoordinateSystems.NativeCoordinates()));
 
 		}
 
@@ -229,7 +231,7 @@ namespace PackedSpriteCreator
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
 			frmAddSpriteFrames frm = new frmAddSpriteFrames();
-			frm.SpriteSize = AgateLib.Platform.WindowsForms.WinForms.Interop.Convert(currentSprite.Size);
+			frm.SpriteSize = currentSprite.Size.ToDrawingSize();
 
 			if (frm.ShowDialog(this) == DialogResult.OK)
 			{

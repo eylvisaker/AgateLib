@@ -125,6 +125,7 @@
     <Compile Include="Factories\SysIoDirectory.cs" />
     <Compile Include="Factories\SysIoFile.cs" />
     <Compile Include="Factories\SysIoPath.cs" />
+    <Compile Include="GeometryExtensions.cs" />
     <Compile Include="GuiDebug\frmGuiDebug.cs">
       <SubType>Form</SubType>
     </Compile>
