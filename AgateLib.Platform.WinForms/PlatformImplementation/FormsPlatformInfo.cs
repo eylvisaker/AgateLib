@@ -343,6 +343,9 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 				case 8:
 					result = WindowsVersion.Windows8;
 					break;
+				case 10:
+					result = WindowsVersion.Windows10;
+					break;
 			}
 
 			return result;

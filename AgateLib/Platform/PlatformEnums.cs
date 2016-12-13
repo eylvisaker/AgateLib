@@ -109,7 +109,11 @@ namespace AgateLib.Platform
 		/// <summary>
 		/// Windows 8.
 		/// </summary>
-		Windows8
+		Windows8,
+		/// <summary>
+		/// Windows 10.
+		/// </summary>
+		Windows10,
 	}
 
 	/// <summary>

@@ -6,20 +6,20 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using AgateLib.Resources.Legacy;
+using AgateLib.Resources;
 
 namespace PackedSpriteCreator
 {
     public partial class frmNewSprite : Form
     {
-        AgateResourceCollection resources;
+        AgateResourceManager resources;
 
         public frmNewSprite()
         {
             InitializeComponent();
         }
 
-        public DialogResult ShowDialog(IWin32Window parent, AgateResourceCollection resources)
+        public DialogResult ShowDialog(IWin32Window parent, AgateResourceManager resources)
         {
             this.resources = resources;
 
@@ -45,7 +45,7 @@ namespace PackedSpriteCreator
             bool okEnabled = true;
             int unused;
 
-            if (resources.Contains(txtName.Text)) okEnabled = false;
+            if (resources.Sprites.Contains(txtName.Text)) okEnabled = false;
             if (int.TryParse(txtWidth.Text, out unused) == false) okEnabled = false;
             if (int.TryParse(txtHeight.Text, out unused) == false) okEnabled = false;
 

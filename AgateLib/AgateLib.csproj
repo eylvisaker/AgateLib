@@ -141,10 +141,10 @@
     <Compile Include="DisplayLib\IFont.cs" />
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
     <Compile Include="Resources\DataModel\FontResource.cs" />
-    <Compile Include="Resources\DataModel\Sprites\AnimationModel.cs" />
-    <Compile Include="Resources\DataModel\Sprites\SpriteFrameModel.cs" />
-    <Compile Include="Resources\DataModel\Sprites\SpriteModel.cs" />
-    <Compile Include="Resources\DataModel\SpriteModelCollection.cs" />
+    <Compile Include="Resources\DataModel\SpriteResourceAnimationData.cs" />
+    <Compile Include="Resources\DataModel\SpriteFrameResource.cs" />
+    <Compile Include="Resources\DataModel\SpriteResource.cs" />
+    <Compile Include="Resources\DataModel\SpriteResourceCollection.cs" />
     <Compile Include="Resources\DataModel\SurfaceModel.cs" />
     <Compile Include="Resources\DataModel\SurfaceModelCollection.cs" />
     <Compile Include="Resources\Managers\Display\DisplayResourceManager.cs" />

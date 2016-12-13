@@ -1,8 +1,8 @@
 ﻿using AgateLib.Geometry;
 
-namespace AgateLib.Resources.DataModel.Sprites
+namespace AgateLib.Resources.DataModel
 {
-	public class SpriteFrameModel
+	public class SpriteFrameResource
 	{
 		public string Image { get; set; }
 

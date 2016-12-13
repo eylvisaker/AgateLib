@@ -14,7 +14,7 @@ namespace AgateLib.Resources.DataModel
 
 		public FacetModelCollection Facets { get; set; } = new FacetModelCollection();
 
-		public SpriteModelCollection Sprites { get; set; } = new SpriteModelCollection();
+		public SpriteResourceCollection Sprites { get; set; } = new SpriteResourceCollection();
 
 		public SurfaceModelCollection Images { get; set; } = new SurfaceModelCollection();
 

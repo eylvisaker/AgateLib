@@ -6,47 +6,62 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using AgateLib.Resources.Legacy;
 using AgateLib.Sprites;
+using AgateLib.Resources;
+using AgateLib.Resources.DataModel;
 
 namespace PackedSpriteCreator
 {
 	public partial class SpriteEditor : UserControl
 	{
-		AgateResourceCollection mResources;
-		SpriteResource mCurrentSprite;
+		ResourceDataModel resources;
+		AgateResourceManager resourceManager;
+
+		string spriteName;
+		SpriteResource currentSprite;
 		SpriteRenderer drawer = new SpriteRenderer();
 		AgateLib.DisplayLib.DisplayWindow wind;
-		Sprite mAgateSprite;
+		Sprite agateSprite;
 
 		public SpriteEditor()
 		{
 			InitializeComponent();
 		}
 
-		public AgateResourceCollection Resources
+		public ResourceDataModel Resources
 		{
-			get { return mResources; }
+			get { return resources; }
 			set
 			{
-				mResources = value;
+				resources = value;
 
 				OnResourcesChanged();
 			}
 		}
 
+		public AgateResourceManager ResourceManager => resourceManager;
+
 		private void OnResourcesChanged()
 		{
+			if (resourceManager != null)
+			{
+				resourceManager.Dispose();
+			}
+
 			lstSprites.Items.Clear();
 
-			if (mResources == null)
+			if (resources != null)
+			{
+				resourceManager = new AgateResourceManager(resources);
+			}
+			else
 			{
 				lstSprites.Enabled = false;
 				return;
 			}
 
 			lstSprites.Enabled = true;
-			lstSprites.Items.AddRange(mResources.Sprites.ToArray());
+			lstSprites.Items.AddRange(resourceManager.Sprites.ToArray());
 
 		}
 
@@ -54,9 +69,9 @@ namespace PackedSpriteCreator
 
 		private void lstSprites_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			mCurrentSprite = lstSprites.SelectedItem as SpriteResource;
+			currentSprite = lstSprites.SelectedItem as SpriteResource;
 
-			if (mCurrentSprite == null)
+			if (currentSprite == null)
 			{
 				propertiesPanel.Visible = false;
 				return;
@@ -69,8 +84,8 @@ namespace PackedSpriteCreator
 				changingSprite = true;
 				UpdateSprite();
 
-				txtName.Text = mCurrentSprite.Name;
-				nudTimePerFrame.Value = (decimal)mCurrentSprite.TimePerFrame;
+				txtName.Text = spriteName;
+				nudTimePerFrame.Value = (decimal)currentSprite.Animation.FrameTime;
 
 				FillFrameList(-1);
 			}
@@ -84,22 +99,22 @@ namespace PackedSpriteCreator
 		{
 			try
 			{
-				UpdateSprite(new Sprite(Resources, mCurrentSprite.Name));
+				UpdateSprite((Sprite)ResourceManager.Display.GetSprite(spriteName));
 			}
 			catch (Exception e)
 			{
 				MessageBox.Show(this, string.Format(
-					"Failed to load sprite {0}." + Environment.NewLine + "{1}", mCurrentSprite.Name,
+					"Failed to load sprite {0}." + Environment.NewLine + "{1}", spriteName,
 					e.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 		private void UpdateSprite(Sprite updatedSprite)
 		{
-			if (mAgateSprite != null)
-				mAgateSprite.Dispose();
+			if (agateSprite != null)
+				agateSprite.Dispose();
 
-			mAgateSprite = updatedSprite;
-			mAgateSprite.IsAnimating = chkAnimating.Checked;
+			agateSprite = updatedSprite;
+			agateSprite.IsAnimating = chkAnimating.Checked;
 		}
 
 		private void FillFrameList(int newSelection)
@@ -109,7 +124,7 @@ namespace PackedSpriteCreator
 		private void FillFrameList(IEnumerable<int> selections)
 		{
 			lstFrames.Items.Clear();
-			lstFrames.Items.AddRange(mCurrentSprite.ChildElements.ToArray());
+			lstFrames.Items.AddRange(currentSprite.Frames.ToArray());
 
 			lstFrames.SelectedIndices.Clear();
 			foreach (var index in selections)
@@ -123,7 +138,7 @@ namespace PackedSpriteCreator
 			if (propertiesPanel.Visible == false)
 				return;
 
-			drawer.DrawSprite(wind, mAgateSprite);
+			drawer.DrawSprite(wind, agateSprite);
 		}
 
 		private void SpriteEditor_Load(object sender, EventArgs e)
@@ -141,10 +156,10 @@ namespace PackedSpriteCreator
 		{
 			if (changingSprite) return;
 
-			if (Resources.Contains(txtName.Text) == false)
+			if (resources.Sprites.ContainsKey(txtName.Text) == false)
 				return;
 
-			if (Resources[txtName.Text] == mCurrentSprite)
+			if (resources.Sprites[txtName.Text] == currentSprite)
 				return;
 
 			e.Cancel = true;
@@ -154,15 +169,15 @@ namespace PackedSpriteCreator
 		{
 			if (changingSprite) return;
 
-			Resources.Remove(mCurrentSprite);
+			resources.Sprites.Remove(spriteName);
 
-			mCurrentSprite.Name = txtName.Text;
+			spriteName = txtName.Text;
 
-			Resources.Add(mCurrentSprite);
+			resources.Sprites.Add(spriteName, currentSprite);
 
 			int index = lstSprites.SelectedIndex;
 			lstSprites.Items.RemoveAt(index);
-			lstSprites.Items.Insert(index, mCurrentSprite);
+			lstSprites.Items.Insert(index, currentSprite);
 			lstSprites.SelectedIndex = index;
 		}
 
@@ -170,8 +185,8 @@ namespace PackedSpriteCreator
 		{
 			if (changingSprite) return;
 
-			mCurrentSprite.TimePerFrame = (double)nudTimePerFrame.Value;
-			mAgateSprite.TimePerFrame = (double)nudTimePerFrame.Value;
+			currentSprite.Animation.FrameTime = (int)nudTimePerFrame.Value;
+			agateSprite.TimePerFrame = (double)nudTimePerFrame.Value;
 
 		}
 
@@ -204,17 +219,17 @@ namespace PackedSpriteCreator
 			if (changingSprite)
 				return;
 
-			if (mAgateSprite != null)
+			if (agateSprite != null)
 			{
 				if (chkAnimating.Checked == false)
-					mAgateSprite.CurrentFrameIndex = lstFrames.SelectedIndex;
+					agateSprite.CurrentFrameIndex = lstFrames.SelectedIndex;
 			}
 		}
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
 			frmAddSpriteFrames frm = new frmAddSpriteFrames();
-			frm.SpriteSize = AgateLib.Platform.WindowsForms.WinForms.Interop.Convert(mCurrentSprite.Size);
+			frm.SpriteSize = AgateLib.Platform.WindowsForms.WinForms.Interop.Convert(currentSprite.Size);
 
 			if (frm.ShowDialog(this) == DialogResult.OK)
 			{
@@ -227,9 +242,9 @@ namespace PackedSpriteCreator
 
 			foreach (int index in lstFrames.SelectedIndices)
 			{
-				var frame = mCurrentSprite.ChildElements[index];
-				mCurrentSprite.ChildElements.RemoveAt(index);
-				mCurrentSprite.ChildElements.Insert(index - 1, frame);
+				var frame = currentSprite.Frames[index];
+				currentSprite.Frames.RemoveAt(index);
+				currentSprite.Frames.Insert(index - 1, frame);
 
 				selections.Add(index - 1);
 			}
@@ -244,9 +259,9 @@ namespace PackedSpriteCreator
 
 			foreach (int index in lstFrames.SelectedIndices)
 			{
-				var frame = mCurrentSprite.ChildElements[index];
-				mCurrentSprite.ChildElements.RemoveAt(index);
-				mCurrentSprite.ChildElements.Insert(index + 1, frame);
+				var frame = currentSprite.Frames[index];
+				currentSprite.Frames.RemoveAt(index);
+				currentSprite.Frames.Insert(index + 1, frame);
 
 				selections.Add(index + 1);
 			}
@@ -257,16 +272,16 @@ namespace PackedSpriteCreator
 		}
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
-			var framesToDelete = new List<SpriteResource.SpriteSubResource>();
+			var framesToDelete = new List<SpriteFrameResource>();
 
 			foreach (int index in lstFrames.SelectedIndices)
 			{
-				framesToDelete.Add(mCurrentSprite.ChildElements[index]);
+				framesToDelete.Add(currentSprite.Frames[index]);
 			}
 
-			foreach (SpriteResource.SpriteFrameResource frame in framesToDelete)
+			foreach (SpriteFrameResource frame in framesToDelete)
 			{
-				mCurrentSprite.ChildElements.Remove(frame);
+				currentSprite.Frames.Remove(frame);
 			}
 
 			UpdateSprite();
@@ -276,17 +291,17 @@ namespace PackedSpriteCreator
 
 		private void chkAnimating_CheckedChanged(object sender, EventArgs e)
 		{
-			if (mAgateSprite == null)
+			if (agateSprite == null)
 				return;
 
-			mAgateSprite.IsAnimating = chkAnimating.Checked;
+			agateSprite.IsAnimating = chkAnimating.Checked;
 		}
 
 		private void btnNewSprite_Click(object sender, EventArgs e)
 		{
 			frmNewSprite frm = new frmNewSprite();
 
-			if (frm.ShowDialog(this, Resources) == DialogResult.Cancel)
+			if (frm.ShowDialog(this, ResourceManager) == DialogResult.Cancel)
 				return;
 
 			frmAddSpriteFrames frmAdd = new frmAddSpriteFrames();
@@ -295,11 +310,9 @@ namespace PackedSpriteCreator
 			if (frmAdd.ShowDialog(this) == DialogResult.Cancel)
 				return;
 
-			SpriteResource res = new SpriteResource(frm.SpriteName);
+			SpriteResource res = new SpriteResource();
 
-
-
-			Resources.Add(res);
+			resources.Sprites.Add(frm.SpriteName, res);
 
 			OnResourcesChanged();
 		}

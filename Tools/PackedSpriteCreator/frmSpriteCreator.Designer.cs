@@ -167,7 +167,7 @@
             this.spriteEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.spriteEditor1.Location = new System.Drawing.Point(0, 49);
             this.spriteEditor1.Name = "spriteEditor1";
-            this.spriteEditor1.Resources = null;
+            this.spriteEditor1.ResourceManager = null;
             this.spriteEditor1.Size = new System.Drawing.Size(564, 350);
             this.spriteEditor1.TabIndex = 2;
             // 
