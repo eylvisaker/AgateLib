@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using System.IO;
 using AgateLib;
 using AgateLib.DisplayLib.BitmapFont;
+using AgateLib.Platform.WinForms;
+using System.Linq;
 
 namespace FontCreator
 {
@@ -102,20 +104,14 @@ namespace FontCreator
 			sample.FontFamily = cboFamily.SelectedItem.ToString();
 		}
 
-		private void nudScale_ValueChanged(object sender, EventArgs e)
-		{
-			if (sample == null)
-				return;
-
-			sample.DisplayScale = (double)nudScale.Value;
-		}
 		private void nudSize_ValueChanged(object sender, EventArgs e)
 		{
 			if (sample == null)
 				return;
 
-			sample.FontSize = (float)nudSize.Value;
+			sample.FontSizes = lstSizes.Items.Cast<string>().Select(int.Parse).ToList();
 		}
+
 		private void chkBold_CheckedChanged(object sender, EventArgs e)
 		{
 			if (sample == null)
@@ -260,7 +256,27 @@ namespace FontCreator
 			sample.CreateFont();
 		}
 
+		private void renderTarget_MouseMove(object sender, MouseEventArgs e)
+		{
+			sample.ZoomLocation = e.Location.ToAgatePoint();
+			sample.Draw();
+		}
 
+		private void nudDisplaySize_ValueChanged(object sender, EventArgs e)
+		{
+			sample.DisplaySize = (int)nudDisplaySize.Value;
+		}
 
+		private void chkDisplayBold_CheckedChanged(object sender, EventArgs e)
+		{
+			if (chkDisplayBold.Checked)
+			{
+				sample.DisplayStyle = AgateLib.DisplayLib.FontStyles.Bold;
+			}
+			else
+			{
+				sample.DisplayStyle = AgateLib.DisplayLib.FontStyles.None;
+			}
+		}
 	}
 }

@@ -41,7 +41,7 @@ namespace FontCreator
 
         }
 
-		public FontSurface AgateFont { get; set; }
+		public AgateLib.DisplayLib.Font AgateFont { get; set; }
 
 		string text;
 

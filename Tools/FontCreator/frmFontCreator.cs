@@ -25,10 +25,11 @@ namespace FontCreator
 			CurrentPage = 1;
 		}
 
-		AgateLib.DisplayLib.FontSurface AgateFont
+		AgateLib.DisplayLib.Font AgateFont
 		{
 			get { return this.createFont1.FontBuilder.Font; }
 		}
+
 		int CurrentPage
 		{
 			get { return mCurrentPage; }
@@ -49,9 +50,10 @@ namespace FontCreator
 					case 2:
 						string tempImage = Path.GetTempFileName() + ".png";
 
-						((Surface)((BitmapFontImpl)AgateFont.Impl).Surface).SaveTo(tempImage);
+						((Surface)((BitmapFontImpl)AgateFont.FontSurface.Impl).Surface).SaveTo(tempImage);
 
-						editGlyphs1.SetFont(tempImage, ((BitmapFontImpl)AgateFont.Impl).FontMetrics);
+						editGlyphs1.SetFont(tempImage,
+							((BitmapFontImpl)AgateFont.FontSurface.Impl).FontMetrics);
 
 						pnl = pnlEditGlyphs;
 						break;
@@ -70,7 +72,6 @@ namespace FontCreator
 				pnl.Visible = true;
 
 				mCurrentPage = value;
-
 
 				if (mCurrentPage == 1)
 					btnPrevious.Enabled = false;

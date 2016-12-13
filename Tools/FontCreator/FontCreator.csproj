@@ -173,7 +173,7 @@
       <DependentUpon>EditGlyphs.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FontCreator.cs">
+    <Compile Include="FontBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FontCreatorProgram.cs">

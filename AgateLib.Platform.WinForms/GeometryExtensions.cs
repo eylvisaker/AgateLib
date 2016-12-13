@@ -27,5 +27,16 @@ namespace AgateLib.Platform.WinForms
 		{
 			return new System.Drawing.Size(size.Width, size.Height);
 		}
+
+		/// <summary>
+		/// Converts an System.Drawing point object to a AgateLib point object.
+		/// </summary>
+		/// <param name="point"></param>
+		/// <returns></returns>
+		public static AgateLib.Geometry.Point ToAgatePoint(this System.Drawing.Point point)
+		{
+			return new AgateLib.Geometry.Point(point.X, point.Y);
+		}
+
 	}
 }
