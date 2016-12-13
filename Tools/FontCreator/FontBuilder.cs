@@ -278,15 +278,8 @@ namespace FontCreator
 			font.DrawText(dest, Text);
 		}
 
-		public bool SaveFont(string resourceFile, string fontName, string imageFile)
+		public bool SaveFont(string resourceFile, string fontName, string imageFileRoot)
 		{
-			ResourceDataModel resources;
-
-			if (File.Exists(resourceFile))
-				resources = dataLoader.Load(resourceFile);
-			else
-				resources = new ResourceDataModel();
-
 			if (Path.IsPathRooted(resourceFile) == false)
 			{
 				resourceFile = Path.Combine(Directory.GetCurrentDirectory(), resourceFile);
@@ -295,50 +288,39 @@ namespace FontCreator
 			string localImagePath;
 			string dir = Path.GetDirectoryName(resourceFile);
 
-			if (Path.IsPathRooted(imageFile) == false)
+			if (Path.IsPathRooted(imageFileRoot) == false)
 			{
-				localImagePath = imageFile;
-				imageFile = Path.Combine(Path.GetDirectoryName(resourceFile), imageFile);
+				localImagePath = imageFileRoot;
+				imageFileRoot = Path.Combine(Path.GetDirectoryName(resourceFile), imageFileRoot);
 			}
 			else
-				localImagePath = GetRelativePath(dir, imageFile);
+				localImagePath = GetRelativePath(dir, imageFileRoot);
 
-			SaveImage(imageFile);
+			SaveImage(imageFileRoot);
 
 			localImagePath = localImagePath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
-
-			System.Windows.Forms.MessageBox.Show("Saving not implemented yet.");
-
-			/*
-			FontResource res = new FontResource();
 			
-			res.Name = fontName;
-			res.Image = localImagePath;
-			res.Metrics = ((BitmapFontImpl)Font.Impl).FontMetrics.Clone();
+			FontResource fontResource = new FontResource();
 
-			if (resources.Fonts.ContainsKey(res.Name))
+			foreach (var fs in Font.FontItems)
 			{
-				if (System.Windows.Forms.MessageBox.Show(
-					"The specified resource file already contains a resource named \""
-					+ res.Name + "\"." + Environment.NewLine
-					+ "Would you like to overwrite it?", res.Name + " already exists",
-					System.Windows.Forms.MessageBoxButtons.YesNo,
-					System.Windows.Forms.MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-				{
-					resources.Fonts.Remove(res.Name);
-				}
-				else
-				{
-					return false;
-				}
-			}
-			resources.Fonts.Add(res.Name, res);
+				var res = new FontSurfaceResource();
+				var imagePath = localImagePath + fs.Key.ToString() + ".png";
 
-			AgateResourceLoader.SaveResources(resources, resourceFile);
-			
+				res.Name = fontName;
+				res.Image = imagePath;
+				res.Metrics = ((BitmapFontImpl)fs.Value.Impl).FontMetrics.Clone();
+
+				fontResource.Add(res);
+			}
+
+			var fonts = new FontResourceCollection { { fontName, fontResource } };
+			var resLoader = new ResourceDataSerializer();
+			var result = resLoader.Serialize(fonts);
+
+			File.WriteAllText(resourceFile, result);
+
 			return true;
-			*/
-			return false;
 		}
 
 		private void SaveImage(string imageFile)

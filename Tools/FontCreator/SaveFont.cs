@@ -9,15 +9,18 @@ using AgateLib.DisplayLib;
 
 namespace FontCreator
 {
-    public partial class SaveFont : UserControl 
-    {
+	public partial class SaveFont : UserControl
+	{
 		AgateLib.DisplayLib.DisplayWindow wind;
 
-        public SaveFont()
-        {
-            InitializeComponent();
-            
-            UpdateControls();
+		string text;
+		private List<FontImageData> fontData;
+
+		public SaveFont()
+		{
+			InitializeComponent();
+
+			UpdateControls();
 
 			//abcdefghijklmnopqrstuvwxyz
 			//ABCDEFGHIJKLMNOPQRSTUVWXYZ
@@ -39,11 +42,9 @@ namespace FontCreator
 
 			panel1.Paint += new PaintEventHandler(agateRenderTarget1_Paint);
 
-        }
+		}
 
 		public AgateLib.DisplayLib.Font AgateFont { get; set; }
-
-		string text;
 
 		void agateRenderTarget1_Paint(object sender, PaintEventArgs e)
 		{
@@ -52,7 +53,7 @@ namespace FontCreator
 				wind = AgateLib.DisplayLib.DisplayWindow.CreateFromControl(panel1);
 			}
 
-			
+
 			Display.RenderTarget = wind.FrameBuffer;
 			Display.BeginFrame();
 
@@ -64,84 +65,90 @@ namespace FontCreator
 			Display.EndFrame();
 		}
 
-        public string ResourceFilename
-        {
-            get { return txtResources.Text; }
-        }
-        public string ImageFilename
-        {
-            get { return txtImage.Text; }
-        }
-        public string FontName
-        {
-            get { return txtFontName.Text; }
-        }
-        public bool ValidInput { get; private set; }
+		public void SetFontData(List<FontImageData> tempFontData)
+		{
+			fontData = tempFontData;
+		}
 
-        private void btnBrowseResource_Click(object sender, EventArgs e)
-        {
-            if (dialogResources.ShowDialog(this) != DialogResult.OK)
-                return;
+		public string ResourceFilename
+		{
+			get { return txtResources.Text; }
+		}
+		public string ImageFileRoot
+		{
+			get { return txtImage.Text; }
+		}
+		public string FontName
+		{
+			get { return txtFontName.Text; }
+			set { txtFontName.Text = value; }
+		}
+		public bool ValidInput { get; private set; }
 
-            txtResources.Text = dialogResources.FileName;
-        }
-        private void btnBrowseImage_Click(object sender, EventArgs e)
-        {
-            if (dialogImage.ShowDialog(this) != DialogResult.OK)
-                return;
+		private void btnBrowseResource_Click(object sender, EventArgs e)
+		{
+			if (dialogResources.ShowDialog(this) != DialogResult.OK)
+				return;
 
-            txtImage.Text = dialogImage.FileName;
-        }
+			txtResources.Text = dialogResources.FileName;
+		}
+		private void btnBrowseImage_Click(object sender, EventArgs e)
+		{
+			if (dialogImage.ShowDialog(this) != DialogResult.OK)
+				return;
 
-        private void txtResources_TextChanged(object sender, EventArgs e)
-        {
-            UpdateControls();
-        }
-        private void txtImage_TextChanged(object sender, EventArgs e)
-        {
-            UpdateControls();
-        }
-        private void txtFontName_TextChanged(object sender, EventArgs e)
-        {
-            UpdateControls();
+			txtImage.Text = dialogImage.FileName;
+		}
 
-            txtImage.Text = "Fonts/" + txtFontName.Text + ".png";
-        }
+		private void txtResources_TextChanged(object sender, EventArgs e)
+		{
+			UpdateControls();
+		}
+		private void txtImage_TextChanged(object sender, EventArgs e)
+		{
+			UpdateControls();
+		}
+		private void txtFontName_TextChanged(object sender, EventArgs e)
+		{
+			UpdateControls();
 
-        private void UpdateControls()
-        {
-            bool lastValue = ValidInput;
-            DetemineValidInput();
+			txtImage.Text = "Fonts/" + txtFontName.Text;
+		}
 
-            if (lastValue != ValidInput)
-                OnValidInputChanged();
-        }
+		private void UpdateControls()
+		{
+			bool lastValue = ValidInput;
+			DetemineValidInput();
 
-        private void OnValidInputChanged()
-        {
-            if (ValidInputChanged != null)
-                ValidInputChanged(this, EventArgs.Empty);
-        }
+			if (lastValue != ValidInput)
+				OnValidInputChanged();
+		}
 
-        public event EventHandler ValidInputChanged;
+		private void OnValidInputChanged()
+		{
+			if (ValidInputChanged != null)
+				ValidInputChanged(this, EventArgs.Empty);
+		}
 
-        private void DetemineValidInput()
-        {
+		public event EventHandler ValidInputChanged;
 
-            ValidInput = false;
+		private void DetemineValidInput()
+		{
 
-            if (txtResources.Text == "") return;
-            if (txtImage.Text == "") return;
-            if (txtFontName.Text == "") return;
+			ValidInput = false;
 
-            ValidInput = true;
-        }
+			if (txtResources.Text == "") return;
+			if (txtImage.Text == "") return;
+			if (txtFontName.Text == "") return;
 
-        internal void ResetControls()
-        {
-            txtResources.Text = "";
-            txtImage.Text = "";
-            txtFontName.Text = "";
-        }
-    }
+			ValidInput = true;
+		}
+
+		internal void ResetControls()
+		{
+			txtResources.Text = "";
+			txtImage.Text = "";
+			txtFontName.Text = "";
+		}
+	}
 }

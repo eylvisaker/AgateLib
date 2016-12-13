@@ -59,7 +59,9 @@ namespace FontCreator
 
 					case 3:
 						pnl = pnlSaveFont;
-						saveFont1.AgateFont = AgateFont;
+						saveFont1.AgateFont = createFont1.FontBuilder.Font;
+						saveFont1.SetFontData(tempFontData);
+						saveFont1.FontName = createFont1.FontBuilder.FontFamily;
 
 						break;
 
@@ -118,7 +120,7 @@ namespace FontCreator
 			return createFont1.FontBuilder.SaveFont(
 				saveFont1.ResourceFilename,
 				saveFont1.FontName,
-				saveFont1.ImageFilename);
+				saveFont1.ImageFileRoot);
 		}
 
 		private void btnPrevious_Click(object sender, EventArgs e)
