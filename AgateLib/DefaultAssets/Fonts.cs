@@ -11,19 +11,17 @@ namespace AgateLib.DefaultAssets
 	/// </summary>
 	public static class Fonts
 	{
-		static DefaultResources mResources;
-
 		internal static void Initialize(DefaultResources res)
 		{
-			mResources = res;
+			Core.State.Display.DefaultResources = res;
 
 			Display.DisposeDisplay += Display_DisposeDisplay;
 		}
 
 		static void Display_DisposeDisplay()
 		{
-			mResources.Dispose();
-			mResources = null;
+			Core.State.Display.DefaultResources.Dispose();
+			Core.State.Display.DefaultResources = null;
 
 			Display.DisposeDisplay -= Display_DisposeDisplay;
 		}
@@ -31,14 +29,25 @@ namespace AgateLib.DefaultAssets
 		/// <summary>
 		/// Default sans serif font.
 		/// </summary>
-		public static IFont AgateSans { get { return mResources.AgateSans; } }
+		public static IFont AgateSans
+		{
+			get { return Core.State.Display.DefaultResources.AgateSans; }
+		}
+
 		/// <summary>
 		/// Default serif font.
 		/// </summary>
-		public static IFont AgateSerif { get { return mResources.AgateSerif; } }
+		public static IFont AgateSerif
+		{
+			get { return Core.State.Display.DefaultResources.AgateSerif; }
+		}
+
 		/// <summary>
 		/// Default monospace font.
 		/// </summary>
-		public static IFont AgateMono { get { return mResources.AgateMono; } }
+		public static IFont AgateMono
+		{
+			get { return Core.State.Display.DefaultResources.AgateMono; }
+		}
 	}
 }

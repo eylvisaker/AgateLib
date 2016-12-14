@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DefaultAssets;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
@@ -19,5 +20,7 @@ namespace AgateLib.Configuration.State
 		internal Stack<Rectangle> ClipRects = new Stack<Rectangle>();
 		internal RenderStateAdapter RenderState = new RenderStateAdapter();
 		internal DisplayCapsInfo CapsInfo = new DisplayCapsInfo();
+
+		public DefaultResources DefaultResources { get; internal set; }
 	}
 }
