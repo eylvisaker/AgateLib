@@ -35,22 +35,6 @@ namespace AgateLib.IO
 			AgateLib.IO.Assets.AddAssetLocations(assetProvider, assetLocations);
 		}
 
-		[Obsolete("Use AgateLib.IO.Assets instead.")]
-		public static IReadFileProvider Assets { get { return AgateLib.IO.Assets.AssetProvider; } }
-
-		[Obsolete("Use AgateLib.IO.Assets.Surfaces instead.")]
-		public static IReadFileProvider SurfaceAssets { get { return AgateLib.IO.Assets.Images; } }
-		[Obsolete("Use AgateLib.IO.Assets.Resources instead.")]
-		public static IReadFileProvider ResourceAssets { get { return AgateLib.IO.Assets.Resources; } }
-		[Obsolete("Use AgateLib.IO.Assets.Music instead.")]
-		public static IReadFileProvider MusicAssets { get { return AgateLib.IO.Assets.Music; } }
-		[Obsolete("Use AgateLib.IO.Assets.Sounds instead.")]
-		public static IReadFileProvider SoundAssets { get { return AgateLib.IO.Assets.Sounds; } }
-		[Obsolete("Use AgateLib.IO.Assets.UserInterfaceAssets instead.")]
-		public static IReadFileProvider UserInterfaceAssets { get { return AgateLib.IO.Assets.UserInterfaceAssets; } }
-
 		public static IReadWriteFileProvider UserFiles { get; set; }
-
-
 	}
 }

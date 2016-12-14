@@ -36,7 +36,7 @@ namespace AgateLib.AgateSDL.Audio
 
 		public SDL_Audio()
 		{
-			FileProvider = AgateLib.IO.FileProvider.SoundAssets;
+			FileProvider = AgateLib.IO.Assets.Sounds;
 		}
 		public SDL_Audio(IReadFileProvider fileProvider)
 		{
