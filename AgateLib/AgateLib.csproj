@@ -135,6 +135,7 @@
     <Compile Include="ApplicationModels\PassiveModelParameters.cs" />
     <Compile Include="ApplicationModels\SceneModelParameters.cs" />
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
+    <Compile Include="Configuration\State\AudioState.cs" />
     <Compile Include="Configuration\State\DisplayState.cs" />
     <Compile Include="Diagnostics\InterfaceRootLogger.cs" />
     <Compile Include="DisplayLib\BitmapFont\KerningPairModel.cs" />

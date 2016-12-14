@@ -32,22 +32,19 @@ namespace AgateLib.AudioLib
 	/// </summary>
 	public static class Audio
 	{
-		private static AudioImpl sImpl;
-		private static readonly AudioCapsInfo caps = new AudioCapsInfo();
-
 		/// <summary>
 		/// Gets the capabilities querying object for the audio subsystem.
 		/// </summary>
 		public static AudioCapsInfo Caps
 		{
-			get { return caps; }
+			get { return Core.State.Audio.Caps; }
 		}
 		/// <summary>
 		/// Gets the object which handles all of the actual calls to Audio functions.
 		/// </summary>
 		public static AudioImpl Impl
 		{
-			get { return sImpl; }
+			get { return Core.State.Audio.Impl; }
 		}
 		/// <summary>
 		/// Initializes the audio system by instantiating the driver with the given
@@ -57,8 +54,8 @@ namespace AgateLib.AudioLib
 		/// <param name="audioType"></param>
 		public static void Initialize(AudioImpl audioImpl)
 		{
-			sImpl = audioImpl;
-			sImpl.Initialize();
+			Core.State.Audio.Impl = audioImpl;
+			Core.State.Audio.Impl.Initialize();
 		}
 		/// <summary>
 		/// Disposes of the audio driver.
@@ -67,16 +64,15 @@ namespace AgateLib.AudioLib
 		{
 			OnDispose();
 
-			if (sImpl != null)
+			if (Core.State.Audio.Impl != null)
 			{
-				sImpl.Dispose();
-				sImpl = null;
+				Core.State.Audio.Impl.Dispose();
+				Core.State.Audio.Impl = null;
 			}
 		}
 		private static void OnDispose()
 		{
-			if (DisposeAudio != null)
-				DisposeAudio();
+			DisposeAudio?.Invoke();
 		}
 		/// <summary>
 		/// Stops all sound and music currently playing.
@@ -91,16 +87,14 @@ namespace AgateLib.AudioLib
 		/// </summary>
 		public static void StopAllSounds()
 		{
-			if (EventStopAllSounds != null)
-				EventStopAllSounds();
+			EventStopAllSounds?.Invoke();
 		}
 		/// <summary>
 		/// Stops all music currently playing.  Sound objects will continue playing.
 		/// </summary>
 		public static void StopAllMusic()
 		{
-			if (EventStopAllMusic != null)
-				EventStopAllMusic();
+			EventStopAllMusic?.Invoke();
 		}
 		/// <summary>
 		/// Delegate type for events which are raised by this class.
@@ -153,9 +147,7 @@ namespace AgateLib.AudioLib
 		/// </summary>
 		public static void Update()
 		{
-			if (sImpl == null) return;
-
-			sImpl.Update();
+			Core.State.Audio.Impl?.Update();
 		}
 	}
 
