@@ -16,17 +16,14 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.UserInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AgateLib.UserInterface.Widgets;
-using AgateLib.InputLib;
 using AgateLib.Geometry;
-using AgateLib.InputLib.Legacy;
-using AgateLib.UserInterface.Widgets.Gestures;
+using AgateLib.InputLib;
 using AgateLib.Quality;
+using AgateLib.UserInterface.Widgets.Gestures;
 
 namespace AgateLib.UserInterface.Widgets
 {

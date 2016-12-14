@@ -119,7 +119,7 @@ namespace FontCreator
 			this.cboFamily.Name = "cboFamily";
 			this.cboFamily.Size = new System.Drawing.Size(340, 28);
 			this.cboFamily.TabIndex = 3;
-			this.cboFamily.SelectedIndexChanged += new System.EventHandler(this.cboFamily_SelectedIndexChanged);
+			this.cboFamily.SelectedIndexChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// chkBold
 			// 
@@ -133,7 +133,7 @@ namespace FontCreator
 			this.chkBold.TabIndex = 6;
 			this.chkBold.Text = "Bold";
 			this.chkBold.UseVisualStyleBackColor = true;
-			this.chkBold.CheckedChanged += new System.EventHandler(this.chkBold_CheckedChanged);
+			this.chkBold.CheckedChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// chkItalic
 			// 
@@ -146,7 +146,7 @@ namespace FontCreator
 			this.chkItalic.TabIndex = 7;
 			this.chkItalic.Text = "Italic";
 			this.chkItalic.UseVisualStyleBackColor = true;
-			this.chkItalic.CheckedChanged += new System.EventHandler(this.chkItalic_CheckedChanged);
+			this.chkItalic.CheckedChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// chkUnderline
 			// 
@@ -159,7 +159,7 @@ namespace FontCreator
 			this.chkUnderline.TabIndex = 8;
 			this.chkUnderline.Text = "Underline";
 			this.chkUnderline.UseVisualStyleBackColor = true;
-			this.chkUnderline.CheckedChanged += new System.EventHandler(this.chkUnderline_CheckedChanged);
+			this.chkUnderline.CheckedChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// chkStrikeout
 			// 
@@ -172,7 +172,7 @@ namespace FontCreator
 			this.chkStrikeout.TabIndex = 9;
 			this.chkStrikeout.Text = "Strikeout";
 			this.chkStrikeout.UseVisualStyleBackColor = true;
-			this.chkStrikeout.CheckedChanged += new System.EventHandler(this.chkStrikeout_CheckedChanged);
+			this.chkStrikeout.CheckedChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// txtSampleText
 			// 
@@ -337,7 +337,7 @@ namespace FontCreator
 			this.nudNumberWidthAdjust.Name = "nudNumberWidthAdjust";
 			this.nudNumberWidthAdjust.Size = new System.Drawing.Size(88, 26);
 			this.nudNumberWidthAdjust.TabIndex = 23;
-			this.nudNumberWidthAdjust.ValueChanged += new System.EventHandler(this.nudNumberWidthAdjust_ValueChanged);
+			this.nudNumberWidthAdjust.ValueChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// chkMonospaceNumbers
 			// 
@@ -351,7 +351,7 @@ namespace FontCreator
 			this.chkMonospaceNumbers.TabIndex = 22;
 			this.chkMonospaceNumbers.Text = "Monospace Numbers";
 			this.chkMonospaceNumbers.UseVisualStyleBackColor = true;
-			this.chkMonospaceNumbers.CheckedChanged += new System.EventHandler(this.chkMonospaceNumbers_CheckedChanged);
+			this.chkMonospaceNumbers.CheckedChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// label10
 			// 
@@ -380,7 +380,7 @@ namespace FontCreator
 			this.nudBottomMargin.Name = "nudBottomMargin";
 			this.nudBottomMargin.Size = new System.Drawing.Size(80, 26);
 			this.nudBottomMargin.TabIndex = 20;
-			this.nudBottomMargin.ValueChanged += new System.EventHandler(this.nudBottomMargin_ValueChanged);
+			this.nudBottomMargin.ValueChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// nudTopMargin
 			// 
@@ -399,7 +399,7 @@ namespace FontCreator
 			this.nudTopMargin.Name = "nudTopMargin";
 			this.nudTopMargin.Size = new System.Drawing.Size(80, 26);
 			this.nudTopMargin.TabIndex = 19;
-			this.nudTopMargin.ValueChanged += new System.EventHandler(this.nudTopMargin_ValueChanged);
+			this.nudTopMargin.ValueChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// label9
 			// 
@@ -428,7 +428,7 @@ namespace FontCreator
             0,
             0,
             0});
-			this.nudOpacity.ValueChanged += new System.EventHandler(this.nudOpacity_ValueChanged);
+			this.nudOpacity.ValueChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// label6
 			// 
@@ -450,7 +450,7 @@ namespace FontCreator
 			this.chkBorder.TabIndex = 15;
 			this.chkBorder.Text = "Create Border";
 			this.chkBorder.UseVisualStyleBackColor = true;
-			this.chkBorder.CheckedChanged += new System.EventHandler(this.chkBorder_CheckedChanged);
+			this.chkBorder.CheckedChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// btnBorderColor
 			// 
@@ -475,7 +475,7 @@ namespace FontCreator
 			this.cboEdges.Name = "cboEdges";
 			this.cboEdges.Size = new System.Drawing.Size(216, 28);
 			this.cboEdges.TabIndex = 12;
-			this.cboEdges.SelectedIndexChanged += new System.EventHandler(this.cboEdges_SelectedIndexChanged);
+			this.cboEdges.SelectedIndexChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// label4
 			// 
@@ -499,7 +499,7 @@ namespace FontCreator
 			this.chkTextRenderer.TabIndex = 10;
 			this.chkTextRenderer.Text = "Use TextRenderer instead of Graphics";
 			this.chkTextRenderer.UseVisualStyleBackColor = true;
-			this.chkTextRenderer.CheckedChanged += new System.EventHandler(this.chkTextRenderer_CheckedChanged);
+			this.chkTextRenderer.CheckedChanged += new System.EventHandler(this.SynchronizeParameters);
 			// 
 			// groupBox2
 			// 

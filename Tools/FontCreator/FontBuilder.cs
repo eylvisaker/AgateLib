@@ -25,9 +25,6 @@ namespace FontCreator
 		DisplayWindow zoomWind;
 		Font font;
 		Surface bgDark, bgLight;
-		List<int> fontSizes = new List<int> { 8, 9, 10, 12, 14, 16, 18, 24, 30 };
-
-		BitmapFontOptions options = new BitmapFontOptions();
 
 		private bool mDarkBackground;
 		private const int zoomScale = 4;
@@ -47,48 +44,15 @@ namespace FontCreator
 			b.AppendLine("!@#$%^&*(),<.>/?;:'\"-_=+\\|");
 
 			mText = b.ToString();
-
-			options.UseTextRenderer = true;
 		}
+
+		public FontBuilderParameters Parameters { get; set; } = new FontBuilderParameters();
 
 		public Font Font
 		{
 			get { return font; }
 		}
-
-		private void SetStyle(FontStyles fontStyle, bool value)
-		{
-			if (value)
-			{
-				options.FontStyle = options.FontStyle | fontStyle;
-			}
-			else
-			{
-				options.FontStyle = options.FontStyle & ~fontStyle;
-			}
-
-			CreateFont();
-		}
-		private bool StyleContains(FontStyles fontStyle)
-		{
-			return (options.FontStyle & fontStyle) == fontStyle;
-		}
-
-		public bool Underline { get; set; }
-		public bool Strikeout { get; set; }
-		public bool Italic { get; set; }
-		public bool Bold { get; set; } = true;
-
-		public List<int> FontSizes
-		{
-			get { return fontSizes; }
-			set
-			{
-				fontSizes = value;
-				CreateFont();
-			}
-		}
-
+		
 		public bool LightBackground
 		{
 			get { return mDarkBackground; }
@@ -101,43 +65,10 @@ namespace FontCreator
 
 		public Point ZoomLocation { get; set; }
 
-		public string FontFamily
-		{
-			get { return options.FontFamily; }
-			set
-			{
-				options.FontFamily = value;
-				CreateFont();
-			}
-		}
-		public int BottomMarginAdjust
-		{
-			get { return options.BottomMarginAdjust; }
-			set
-			{
-				options.BottomMarginAdjust = value;
-				CreateFont();
-			}
-		}
-		public int TopMarginAdjust
-		{
-			get { return options.TopMarginAdjust; }
-			set
-			{
-				options.TopMarginAdjust = value;
-				CreateFont();
-			}
-		}
-
 		public Color DisplayColor
 		{
 			get { return mColor; }
 			set { mColor = value; }
-		}
-
-		public BitmapFontOptions Options
-		{
-			get { return options; }
 		}
 
 		public string Text
@@ -154,11 +85,11 @@ namespace FontCreator
 		{
 			get
 			{
-				foreach (var size in FontSizes)
+				foreach (var size in Parameters.FontSizes)
 				{
 					yield return new AgateLib.DisplayLib.FontSettings(size, FontStyles.None);
 
-					if (Bold)
+					if (Parameters.Bold)
 						yield return new AgateLib.DisplayLib.FontSettings(size, FontStyles.Bold);
 				}
 			}
@@ -186,17 +117,16 @@ namespace FontCreator
 
 		public void CreateFont()
 		{
-			if (string.IsNullOrEmpty(FontFamily))
+			if (string.IsNullOrEmpty(Parameters.Family))
 				return;
 			if (font != null)
 				font.Dispose();
 
-			font = new Font(FontFamily);
+			font = new Font(Parameters.Family);
 
 			foreach (var fontSetting in FontSettings)
 			{
-				options.SizeInPoints = fontSetting.Size;
-				options.FontStyle = fontSetting.Style;
+				BitmapFontOptions options = CreateBitmapFontOptions(fontSetting);
 
 				var fontSurface = new FontSurface
 					(AgateLib.Platform.WinForms.Fonts.BitmapFontUtil.ConstructFromOSFont(options));
@@ -207,9 +137,32 @@ namespace FontCreator
 			Draw();
 		}
 
+		private BitmapFontOptions CreateBitmapFontOptions(FontSettings fontSetting)
+		{
+			BitmapFontOptions options = new BitmapFontOptions();
+
+			options.BorderColor = Parameters.BorderColor;
+			options.BottomMarginAdjust = Parameters.BottomMarginAdjust;
+			options.CreateBorder = Parameters.CreateBorder;
+			options.EdgeOptions = Parameters.EdgeOptions;
+			options.FontFamily = Parameters.Family;
+			options.MonospaceNumbers = Parameters.MonospaceNumbers;
+			options.NumberWidthAdjust = Parameters.NumberWidthAdjust;
+			options.TopMarginAdjust = Parameters.TopMarginAdjust;
+			options.BottomMarginAdjust = Parameters.BottomMarginAdjust;
+
+			options.SizeInPoints = fontSetting.Size;
+			options.FontStyle = fontSetting.Style;
+
+			return options;
+		}
+
 		public void Draw()
 		{
 			if (zoomWind == null)
+				return;
+
+			if (font == null)
 				return;
 
 			renderTarget = new FrameBuffer(800, 600);
@@ -219,6 +172,7 @@ namespace FontCreator
 			Display.Clear(Color.FromArgb(0, 0, 0, 0));
 
 			font.Size = displaySize;
+			font.Style = DisplayStyle;
 			((BitmapFontImpl)font.FontSurface.Impl).Surface.InterpolationHint = InterpolationMode.Nicest;
 
 			DrawText();
@@ -257,10 +211,7 @@ namespace FontCreator
 				renderTarget.Width * zoomScale,
 				renderTarget.Height * zoomScale));
 
-
 			Display.EndFrame();
-
-
 
 			Core.KeepAlive();
 		}

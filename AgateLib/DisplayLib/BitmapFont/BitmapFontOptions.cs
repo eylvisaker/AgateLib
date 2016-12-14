@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib.BitmapFont
@@ -91,14 +90,6 @@ namespace AgateLib.DisplayLib.BitmapFont
 			}
 		}
 
-		private string mFamily;
-		private float mSize;
-		private FontStyles mStyle;
-		private bool mUseTextRenderer = true;
-		private bool mCreateBorder;
-		private bool mMonospaceNumbers = true;
-		private Color mBorderColor = Color.FromArgb(128, Color.Black);
-		private BitmapFontEdgeOptions mEdgeOptions;
 		private List<CharacterRange> mRanges = new List<CharacterRange>();
 
 		/// <summary>
@@ -115,9 +106,8 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <param name="sizeInPoints"></param>
 		public BitmapFontOptions(string fontFamily, float sizeInPoints)
 		{
-			mFamily = fontFamily;
-			mSize = sizeInPoints;
-			mEdgeOptions = BitmapFontEdgeOptions.IntensityAlphaColor;
+			FontFamily = fontFamily;
+			SizeInPoints = sizeInPoints;
 
 			// Latin characters used by English.
 			mRanges.Add(new CharacterRange(' ', '~'));
@@ -135,7 +125,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		public BitmapFontOptions(string fontFamily, float sizeInPoints, FontStyles style)
 			: this(fontFamily, sizeInPoints)
 		{
-			mStyle = style;
+			FontStyle = style;
 		}
 
 		/// <summary>
@@ -220,65 +210,41 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Indicates how to treat font edges.
 		/// </summary>
-		public BitmapFontEdgeOptions EdgeOptions
-		{
-			get { return mEdgeOptions; }
-			set { mEdgeOptions = value; }
-		}
+		public BitmapFontEdgeOptions EdgeOptions { get; set; } = BitmapFontEdgeOptions.IntensityAlphaColor;
 		/// <summary>
 		/// Indicates whether to use System.Windows.Forms.TextRenderer instead of
 		/// System.Drawing.Graphics.  TextRenderer on Windows will likely produce 
 		/// nicer-looking characters than Graphics, but it is much slower rendering
 		/// the characters.
 		/// </summary>
-		public bool UseTextRenderer
-		{
-			get { return mUseTextRenderer; }
-			set { mUseTextRenderer = value; }
-		}
+		public bool UseTextRenderer { get; set; } = true;
 
 		/// <summary>
 		/// Style of the font to be generated.
 		/// </summary>
-		public FontStyles FontStyle
-		{
-			get { return mStyle; }
-			set { mStyle = value; }
-		}
+		public FontStyles FontStyle { get; set; }
+		
 		/// <summary>
 		/// Size of the font in points.
 		/// </summary>
-		public float SizeInPoints
-		{
-			get { return mSize; }
-			set { mSize = value; }
-		}
+		public float SizeInPoints { get; set; }
+		
 		/// <summary>
 		/// Name of the font family.
 		/// </summary>
-		public string FontFamily
-		{
-			get { return mFamily; }
-			set { mFamily = value; }
-		}
+		public string FontFamily { get; set; }
+		
 		/// <summary>
 		/// Color of the border on the glyphs.  Colors
 		/// other than black may show up correctly when drawing
 		/// colored text.
 		/// </summary>
-		public Color BorderColor
-		{
-			get { return mBorderColor; }
-			set { mBorderColor = value; }
-		}
+		public Color BorderColor { get; set; } = Color.FromArgb(128, Color.Black);
+
 		/// <summary>
 		/// Indicates whether to create a border around the glyphs.
 		/// </summary>
-		public bool CreateBorder
-		{
-			get { return mCreateBorder; }
-			set { mCreateBorder = value; }
-		}
+		public bool CreateBorder { get; set; }
 
 		/// <summary>
 		/// Indicates how much to increase the top margin of letters.  Can be negative.
@@ -293,11 +259,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Set to true to force the digits 0-9 to be generated at the same width.
 		/// </summary>
-		public bool MonospaceNumbers
-		{
-			get { return mMonospaceNumbers; }
-			set { mMonospaceNumbers = value; }
-		}
+		public bool MonospaceNumbers { get; set; } = true;
 
 		/// <summary>
 		/// Gets or sets the number of pixels the width of numbers is to be increased or decreased.

@@ -61,7 +61,7 @@ namespace FontCreator
 						pnl = pnlSaveFont;
 						saveFont1.AgateFont = createFont1.FontBuilder.Font;
 						saveFont1.SetFontData(tempFontData);
-						saveFont1.FontName = createFont1.FontBuilder.FontFamily;
+						saveFont1.FontName = createFont1.FontBuilder.Parameters.Family;
 
 						break;
 
