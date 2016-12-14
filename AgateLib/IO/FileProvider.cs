@@ -30,11 +30,15 @@ namespace AgateLib.IO
 	{
 		public static void Initialize(IReadFileProvider assetProvider, AssetLocations assetLocations)
 		{
-            Condition.Requires<ArgumentNullException>(assetProvider != null, "assetProvider");
+			Condition.Requires<ArgumentNullException>(assetProvider != null, "assetProvider");
 
 			AgateLib.IO.Assets.AddAssetLocations(assetProvider, assetLocations);
 		}
 
-		public static IReadWriteFileProvider UserFiles { get; set; }
+		public static IReadWriteFileProvider UserFiles
+		{
+			get { return Core.State.IO.UserFiles; }
+			set { Core.State.IO.UserFiles = value; }
+		}
 	}
 }

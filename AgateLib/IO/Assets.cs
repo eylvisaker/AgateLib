@@ -11,13 +11,6 @@ namespace AgateLib.IO
 {
 	public static class Assets
 	{
-		static IReadFileProvider mAssetProvider;
-		static IReadFileProvider mImages;
-		static IReadFileProvider mResources;
-		static IReadFileProvider mMusic;
-		static IReadFileProvider mSounds;
-		static IReadFileProvider mUserInterfaceAssets;
-		
 		public static void AddAssetLocations(IReadFileProvider ap, AssetLocations assetLocations)
 		{
 			Condition.Requires<ArgumentNullException>(ap != null, "ap");
@@ -32,12 +25,12 @@ namespace AgateLib.IO
 			var resources = NewProviderFromSubdirectory(assetProvider, assetLocations.Resources);
 			var userInterfaceAssets = NewProviderFromSubdirectory(assetProvider, assetLocations.UserInterface);
 
-			AddOrCombine(ref mAssetProvider, assetProvider);
-			AddOrCombine(ref mImages, surfaces);
-			AddOrCombine(ref mResources, resources);
-			AddOrCombine(ref mMusic, music);
-			AddOrCombine(ref mSounds, sounds);
-			AddOrCombine(ref mUserInterfaceAssets, userInterfaceAssets);
+			AddOrCombine(ref Core.State.IO.mAssetProvider, assetProvider);
+			AddOrCombine(ref Core.State.IO.mImages, surfaces);
+			AddOrCombine(ref Core.State.IO.mResources, resources);
+			AddOrCombine(ref Core.State.IO.mMusic, music);
+			AddOrCombine(ref Core.State.IO.mSounds, sounds);
+			AddOrCombine(ref Core.State.IO.mUserInterfaceAssets, userInterfaceAssets);
 
 			if (assetLocations.ExtraAssets != null)
 			{
@@ -88,12 +81,41 @@ namespace AgateLib.IO
 			return new SubdirectoryProvider(parent, subdir);
 		}
 
-		internal static IReadFileProvider AssetProvider { get { return mAssetProvider; } set { mAssetProvider = value; } }
-		public static IReadFileProvider Images { get { return mImages; } set { mImages = value; } }
-		public static IReadFileProvider Resources { get { return mResources; } set { mResources = value; } }
-		public static IReadFileProvider Music { get { return mMusic; } set { mMusic = value; } }
-		public static IReadFileProvider Sounds { get { return mSounds; } set { mSounds = value; } }
-		public static IReadFileProvider UserInterfaceAssets { get { return mUserInterfaceAssets; } set { mUserInterfaceAssets = value; } }
+		internal static IReadFileProvider AssetProvider
+		{
+			get { return Core.State.IO.mAssetProvider; }
+			set { Core.State.IO.mAssetProvider = value; }
+		}
+
+		public static IReadFileProvider Images
+		{
+			get { return Core.State.IO.mImages; }
+			set { Core.State.IO.mImages = value; }
+		}
+
+		public static IReadFileProvider Resources
+		{
+			get { return Core.State.IO.mResources; }
+			set { Core.State.IO.mResources = value; }
+		}
+
+		public static IReadFileProvider Music
+		{
+			get { return Core.State.IO.mMusic; }
+			set { Core.State.IO.mMusic = value; }
+		}
+
+		public static IReadFileProvider Sounds
+		{
+			get { return Core.State.IO.mSounds; }
+			set { Core.State.IO.mSounds = value; }
+		}
+
+		public static IReadFileProvider UserInterfaceAssets
+		{
+			get { return Core.State.IO.mUserInterfaceAssets; }
+			set { Core.State.IO.mUserInterfaceAssets = value; }
+		}
 
 		/// <summary>
 		/// Opens the specified file returning a stream.  Throws 
@@ -103,7 +125,7 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public static Task<Stream> OpenReadAsync(string filename)
 		{
-			return mAssetProvider.OpenReadAsync(filename);
+			return Core.State.IO.mAssetProvider.OpenReadAsync(filename);
 		}
 
 		/// <summary>
@@ -114,7 +136,7 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public static Stream OpenRead(string filename)
 		{
-			return mAssetProvider.OpenRead(filename);
+			return Core.State.IO.mAssetProvider.OpenRead(filename);
 		}
 		/// <summary>
 		/// Checks to if the specified file exists in the file provider.
@@ -123,7 +145,7 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public static bool FileExists(string filename)
 		{
-			return mAssetProvider.FileExists(filename);
+			return Core.State.IO.mAssetProvider.FileExists(filename);
 		}
 
 		/// <summary>
@@ -132,7 +154,7 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public static IEnumerable<string> GetAllFiles()
 		{
-			return mAssetProvider.GetAllFiles();
+			return Core.State.IO.mAssetProvider.GetAllFiles();
 		}
 
 		/// <summary>
@@ -145,7 +167,7 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public static IEnumerable<string> GetAllFiles(string searchPattern)
 		{
-			return mAssetProvider.GetAllFiles(searchPattern);
+			return Core.State.IO.mAssetProvider.GetAllFiles(searchPattern);
 		}
 		/// <summary>
 		/// Returns a string containing the entire contents of the specified file.
@@ -154,7 +176,7 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public static string ReadAllText(string filename)
 		{
-			return mAssetProvider.ReadAllText(filename);
+			return Core.State.IO.mAssetProvider.ReadAllText(filename);
 		}
 
 		/// <summary>
@@ -166,7 +188,7 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public static bool IsRealFile(string filename)
 		{
-			return mAssetProvider.IsRealFile(filename);
+			return Core.State.IO.mAssetProvider.IsRealFile(filename);
 		}
 
 		/// <summary>
@@ -176,12 +198,15 @@ namespace AgateLib.IO
 		/// <returns></returns>
 		public static string ResolveFile(string filename)
 		{
-			return mAssetProvider.ResolveFile(filename);
+			return Core.State.IO.mAssetProvider.ResolveFile(filename);
 		}
 
 		/// <summary>
 		/// Returns true if the file system is not a physical file system.
 		/// </summary>
-		public static bool IsLogicalFilesystem { get { return mAssetProvider.IsLogicalFilesystem; } }
+		public static bool IsLogicalFilesystem
+		{
+			get { return Core.State.IO.mAssetProvider.IsLogicalFilesystem; }
+		}
 	}
 }

@@ -15,5 +15,7 @@ namespace AgateLib.Configuration.State
 		public AudioState Audio { get; private set; } = new AudioState();
 		public DisplayState Display { get; private set; } = new DisplayState();
 		public InputState Input { get; private set; } = new InputState();
+
+		public IOState IO { get; private set; } = new IOState();
 	}
 }
