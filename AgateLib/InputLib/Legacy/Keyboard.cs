@@ -22,6 +22,7 @@ using System.Text;
 
 using AgateLib.Geometry;
 using AgateLib.Diagnostics;
+using System.Linq;
 
 namespace AgateLib.InputLib.Legacy
 {
@@ -31,7 +32,8 @@ namespace AgateLib.InputLib.Legacy
 	[CLSCompliant(true)]
 	public static class Keyboard
 	{
-		static KeyState mKeyState = new KeyState();
+		static KeyState mKeyState { get { return Core.State.Input.LegacyKeyState; } }
+			
 
 		static Keyboard()
 		{
@@ -43,15 +45,14 @@ namespace AgateLib.InputLib.Legacy
 			ClearEvents();
 		}
 
-
 		/// <summary>
 		/// Class which represents the state of all keys on the keyboard.
 		/// </summary>
 		[CLSCompliant(true)]
 		public class KeyState
 		{
-			private static int[] mKeyState;
-			private static bool[] mWaitForKeyUp;
+			private int[] mKeyState;
+			private bool[] mWaitForKeyUp;
 
 			internal KeyState()
 			{
@@ -119,21 +120,11 @@ namespace AgateLib.InputLib.Legacy
 			{
 				mKeyState[(int)id] = 0;
 				mWaitForKeyUp[(int)id] = waitKeyUp;
-				//System.Diagnostics.Debug.WriteLine("Set key {0} to {1}.", id, false);
 
 				Input.QueueInputEvent(AgateInputEventArgs.KeyUp(id, CurrentModifiers));
 			}
-			internal bool AnyKeyPressed
-			{
-				get
-				{
-					for (int i = 0; i < mKeyState.Length; i++)
-						if (mKeyState[i] > 0)
-							return true;
 
-					return false;
-				}
-			}
+			internal bool AnyKeyPressed => mKeyState.Any(x => x > 0);
 
 			/// <summary>
 			/// Resets all keys to being in the up state (not pushed).
@@ -223,22 +214,6 @@ namespace AgateLib.InputLib.Legacy
 			{
 				return Keys.AnyKeyPressed;
 			}
-		}
-		[Obsolete("Use Input.QueueInputEvent instead.", true)]
-		private static void OnKeyDown(KeyCode id, KeyModifiers mods, int repeatCount)
-		{
-			var eventArgs = new InputEventArgs(id, mods);
-
-			if (KeyDown != null)
-				KeyDown(eventArgs);
-		}
-		[Obsolete("Use Input.QueueInputEvent instead.", true)]
-		private static void OnKeyUp(KeyCode id, KeyModifiers mods)
-		{
-			var eventArgs = new InputEventArgs(id, mods);
-
-			if (KeyUp != null)
-				KeyUp(eventArgs);
 		}
 
 		/// <summary>
