@@ -25,7 +25,6 @@ using AgateLib.UserInterface.Widgets;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib.Legacy;
-using AgateLib.UserInterface.Css.Documents;
 using AgateLib.UserInterface.Widgets.Gestures;
 using AgateLib.Quality;
 

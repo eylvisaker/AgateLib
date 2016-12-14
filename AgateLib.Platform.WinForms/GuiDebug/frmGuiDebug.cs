@@ -1,5 +1,4 @@
-﻿using AgateLib.UserInterface.Css.Layout;
-using AgateLib.UserInterface.Widgets;
+﻿using AgateLib.UserInterface.Widgets;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.Venus.Layout;
 
 namespace AgateLib.Platform.WinForms.GuiDebug
 {
@@ -94,7 +94,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 
 		private void MarkTypesExpandable()
 		{
-			var types = typeof(CssLayoutEngine).Assembly.DefinedTypes;
+			var types = typeof(VenusLayoutEngine).Assembly.DefinedTypes;
 
 			foreach (var type in types)
 			{

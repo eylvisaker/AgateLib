@@ -130,11 +130,6 @@
     <Compile Include="Resources\ResourceManagerTests.cs" />
     <Compile Include="Serialization\Xle\TestSerializable.cs" />
     <Compile Include="Serialization\Xle\XSTests.cs" />
-    <Compile Include="UserInterface\Css\CssAdapterTest.cs" />
-    <Compile Include="UserInterface\Css\CssBindingTest.cs" />
-    <Compile Include="UserInterface\Css\CssTestBase.cs" />
-    <Compile Include="UserInterface\Css\CssLayoutTest.cs" />
-    <Compile Include="UserInterface\Css\CssParseTest.cs" />
     <Compile Include="Resources\ResourceDataLoaderFacetReadingTests.cs" />
     <Compile Include="Resources\ResourceDataLoaderThemeReadingTests.cs" />
     <Compile Include="Resources\ResourceDataLoaderReferenceReadingTests.cs" />

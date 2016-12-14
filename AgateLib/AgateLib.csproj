@@ -585,41 +585,6 @@
     </Compile>
     <Compile Include="Settings\PersistantSettings.cs" />
     <Compile Include="Resources\AgateUserInterfaceInitializationException.cs" />
-    <Compile Include="UserInterface\Css\Binders\Binding.cs" />
-    <Compile Include="UserInterface\Css\Binders\CssAlias.cs" />
-    <Compile Include="UserInterface\Css\Binders\CssBindingMapper.cs" />
-    <Compile Include="UserInterface\Css\Binders\CssPropertyMap.cs" />
-    <Compile Include="UserInterface\Css\Binders\CssTypeConverter.cs" />
-    <Compile Include="UserInterface\Css\Binders\PropertyChain.cs" />
-    <Compile Include="UserInterface\Css\Binders\ReflectionPropertyBinder.cs" />
-    <Compile Include="UserInterface\Css\Cache\StyleCache.cs" />
-    <Compile Include="UserInterface\Css\CssAdapter.cs" />
-    <Compile Include="UserInterface\Css\CssMediaInfo.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssBackground.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssBackgroundPosition.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssBorder.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssBorderImage.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssBoxComponent.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssText.cs" />
-    <Compile Include="UserInterface\Css\Layout\Defaults\DesktopDefaultStyle.cs" />
-    <Compile Include="UserInterface\Css\Layout\Defaults\ProgressBarDefaultStyle.cs" />
-    <Compile Include="UserInterface\Css\Selectors\CssMediaSelector.cs" />
-    <Compile Include="UserInterface\Css\Documents\PropertyEnums.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssDistance.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssDocument.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssFont.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssLayout.cs" />
-    <Compile Include="UserInterface\Css\Selectors\CssMediaIndividualSelector.cs" />
-    <Compile Include="UserInterface\Css\CssPseudoClass.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssRectangle.cs" />
-    <Compile Include="UserInterface\Css\CssRuleBlock.cs" />
-    <Compile Include="UserInterface\Css\CssStyle.cs" />
-    <Compile Include="UserInterface\Css\CssStyleData.cs" />
-    <Compile Include="UserInterface\Css\Documents\CssTransition.cs" />
-    <Compile Include="UserInterface\Css\Extensions.cs" />
-    <Compile Include="UserInterface\Css\Documents\ICssBoxComponent.cs" />
-    <Compile Include="UserInterface\Css\ICssCanSelect.cs" />
-    <Compile Include="UserInterface\Css\Documents\ICssPropertyFromText.cs" />
     <Compile Include="UserInterface\DataModel\BoxDataModel.cs" />
     <Compile Include="UserInterface\DataModel\FacetModel.cs" />
     <Compile Include="UserInterface\DataModel\FontStyleProperties.cs" />
@@ -652,19 +617,6 @@
     <Compile Include="UserInterface\Rendering\ITransitionStyle.cs" />
     <Compile Include="UserInterface\Rendering\LayoutBox.cs" />
     <Compile Include="UserInterface\Rendering\BoxModel.cs" />
-    <Compile Include="UserInterface\Css\Layout\CssLayoutEngine.cs" />
-    <Compile Include="UserInterface\Css\Layout\Defaults\BlankDefaultStyle.cs" />
-    <Compile Include="UserInterface\Css\Layout\Defaults\DefaultStyleCollection.cs" />
-    <Compile Include="UserInterface\Css\Layout\Defaults\IDefaultStyleSetter.cs" />
-    <Compile Include="UserInterface\Css\Layout\Defaults\MenuDefaultStyle.cs" />
-    <Compile Include="UserInterface\Css\Layout\Defaults\WindowDefaultStyle.cs" />
-    <Compile Include="UserInterface\Css\Parser\CssParser.cs" />
-    <Compile Include="UserInterface\Css\Parser\CssPromoteProperties.cs" />
-    <Compile Include="UserInterface\Css\Parser\Lexer\EnumParser.cs" />
-    <Compile Include="UserInterface\Css\Parser\Lexer\ITokenTypeConverter.cs" />
-    <Compile Include="UserInterface\Css\Parser\Lexer\Token.cs" />
-    <Compile Include="UserInterface\Css\Parser\Lexer\Tokenizer.cs" />
-    <Compile Include="UserInterface\Css\ReflectionExtensions.cs" />
     <Compile Include="UserInterface\Rendering\DefaultImageProvider.cs" />
     <Compile Include="UserInterface\Rendering\AgateUserInterfaceRenderer.cs" />
     <Compile Include="UserInterface\IUserInterfaceImageProvider.cs" />
@@ -675,12 +627,6 @@
     <Compile Include="UserInterface\Rendering\Transitions\SlideTransition.cs" />
     <Compile Include="UserInterface\Rendering\Transitions\TransitionFactory.cs" />
     <Compile Include="UserInterface\Rendering\Animators\WidgetAnimator.cs" />
-    <Compile Include="UserInterface\Css\Selectors\CssSelectorIndividual.cs" />
-    <Compile Include="UserInterface\Css\Selectors\CssSelectorChain.cs" />
-    <Compile Include="UserInterface\Css\Selectors\CssSelector.cs" />
-    <Compile Include="UserInterface\Css\Selectors\ICssMediaSelector.cs" />
-    <Compile Include="UserInterface\Css\Selectors\ICssSelector.cs" />
-    <Compile Include="UserInterface\Css\Selectors\WidgetMatchParameters.cs" />
     <Compile Include="UserInterface\GestureEffect.cs" />
     <Compile Include="UserInterface\GuiStack.cs" />
     <Compile Include="UserInterface\IAudioPlayer.cs" />
@@ -757,9 +703,7 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="StaticState\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks" Condition="Exists('$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks')" />
   <Target Name="UpdateAssemblyInfo" Condition="$(MajorVersion) != ''">
