@@ -31,8 +31,16 @@ namespace AgateLib.InputLib
 	/// </summary>
 	public static class JoystickInput
 	{
-		static InputImpl sImpl;
-		static List<Joystick> mRawJoysticks = new List<Joystick>();
+		static InputImpl Impl
+		{
+			get { return Core.State.Input.Impl; }
+			set { Core.State.Input.Impl = value; }
+		}
+
+		static List<Joystick> mRawJoysticks
+		{
+			get { return Core.State.Input.RawJoysticks; }
+		}
 
 		/// <summary>
 		/// Initializes the input system by instantiating the driver with the given
@@ -42,8 +50,8 @@ namespace AgateLib.InputLib
 		/// <param name="inputType"></param>
 		public static void Initialize(InputImpl impl)
 		{
-			sImpl = impl;
-			sImpl.Initialize();
+			Impl = impl;
+			Impl.Initialize();
 
 			InitializeJoysticks();
 		}
@@ -51,7 +59,7 @@ namespace AgateLib.InputLib
 		private static void InitializeJoysticks()
 		{
 			mRawJoysticks.Clear();
-			mRawJoysticks.AddRange(sImpl.CreateJoysticks().Select(x => new Joystick(x)));
+			mRawJoysticks.AddRange(Impl.CreateJoysticks().Select(x => new Joystick(x)));
 		}
 
 		/// <summary>
@@ -64,7 +72,7 @@ namespace AgateLib.InputLib
 
 		internal static void PollTimer()
 		{
-			sImpl.Poll();
+			Impl.Poll();
 
 			for (int i = 0; i < mRawJoysticks.Count; i++)
 				mRawJoysticks[i].Poll();
@@ -72,8 +80,8 @@ namespace AgateLib.InputLib
 
 		internal static void Dispose()
 		{
-			if (sImpl != null)
-				sImpl.Dispose();
+			if (Impl != null)
+				Impl.Dispose();
 		}
 	}
 }

@@ -25,30 +25,30 @@ namespace AgateLib.InputLib
 {
 	public static class Input
 	{
-		static List<AgateInputEventArgs> mEvents = new List<AgateInputEventArgs>();
-		static InputHandlerList mInputHandlers = new InputHandlerList();
+		static List<AgateInputEventArgs> eventQueue { get { return Core.State.Input.EventQueue; } }
+		static InputHandlerList inputHandlers { get { return Core.State.Input.Handlers; } }
 
 		public static void QueueInputEvent(AgateInputEventArgs args)
 		{
-			lock (mEvents)
+			lock (eventQueue)
 			{
-				mEvents.Add(args);
+				eventQueue.Add(args);
 			}
 		}
 
 		public static void DispatchQueuedEvents()
 		{
-			while (mEvents.Count > 0)
+			while (eventQueue.Count > 0)
 			{
 				AgateInputEventArgs args;
 
-				lock (mEvents)
+				lock (eventQueue)
 				{
-					if (mEvents.Count == 0)
+					if (eventQueue.Count == 0)
 						return;
 
-					args = mEvents[0];
-					mEvents.RemoveAt(0);
+					args = eventQueue[0];
+					eventQueue.RemoveAt(0);
 				}
 			
 				DispatchEvent(args);
@@ -57,10 +57,10 @@ namespace AgateLib.InputLib
 
 		private static void DispatchEvent(AgateInputEventArgs args)
 		{
-			mInputHandlers.Dispatch(args);
+			inputHandlers.Dispatch(args);
 		}
 
-		public static InputHandlerList InputHandlers { get { return mInputHandlers; } }
+		public static InputHandlerList InputHandlers { get { return inputHandlers; } }
 
 		internal static void PollJoysticks()
 		{
