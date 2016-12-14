@@ -79,9 +79,17 @@ namespace AgateLib.InputLib.Legacy
 			}
 		}
 
-		private static MouseState mState = new MouseState();
-		private static bool mIsHidden = false;
-		private static Point mPosition;
+		private static MouseState mState { get { return Core.State.Input.LegacyMouseState; } }
+		private static bool mIsHidden
+		{
+			get { return Core.State.Input.LegacyIsMouseHidden; }
+			set { Core.State.Input.LegacyIsMouseHidden = value; }
+		}
+		private static Point mPosition
+		{
+			get { return Core.State.Input.LegacyMousePosition; }
+			set { Core.State.Input.LegacyMousePosition = value; }
+		}
 
 		static Mouse()
 		{
@@ -127,7 +135,7 @@ namespace AgateLib.InputLib.Legacy
 			get { return mPosition.X; }
 			set
 			{
-				mPosition.X = value;
+				Core.State.Input.LegacyMousePosition.X = value;
 				OnMouseMove();
 			}
 		}
@@ -140,7 +148,7 @@ namespace AgateLib.InputLib.Legacy
 			get { return mPosition.Y; }
 			set
 			{
-				mPosition.Y = value;
+				Core.State.Input.LegacyMousePosition.Y = value;
 				OnMouseMove();
 			}
 		}
