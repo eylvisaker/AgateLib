@@ -15,7 +15,7 @@ namespace AgateLib.UnitTests
 		{
 			var result = new FakeAgateFactory();
 
-			Core.State = new StaticState.InternalState();
+			Core.State = new AgateLib.Configuration.State.AgateLibState();
 			Core.Initialize(result);
 
 			return result;

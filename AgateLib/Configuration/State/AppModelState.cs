@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.StaticState
+namespace AgateLib.Configuration.State
 {
 	class AppModelState
 	{

@@ -21,20 +21,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-
-using AgateLib.AudioLib;
-using AgateLib.DisplayLib;
-using AgateLib.Settings;
-using AgateLib.Platform;
-using AgateLib.Drivers;
-using AgateLib.Diagnostics;
-using AgateLib.IO;
-using AgateLib.InputLib;
-using AgateLib.ApplicationModels;
 using System.Threading.Tasks;
+using AgateLib.ApplicationModels;
+using AgateLib.AudioLib;
+using AgateLib.Configuration.State;
 using AgateLib.DefaultAssets;
+using AgateLib.Diagnostics;
+using AgateLib.DisplayLib;
+using AgateLib.Drivers;
+using AgateLib.InputLib;
+using AgateLib.IO;
+using AgateLib.Platform;
 using AgateLib.Quality;
-using AgateLib.StaticState;
+using AgateLib.Settings;
 
 namespace AgateLib
 {
@@ -302,7 +301,7 @@ namespace AgateLib
 
 		#endregion
 
-		internal static InternalState State { get; set; } = new InternalState();
+		internal static AgateLibState State { get; set; } = new AgateLibState();
 
 		/// <summary>
 		/// Initializes Core class. Also causes the Registrar to probe drivers.

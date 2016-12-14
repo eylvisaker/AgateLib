@@ -135,6 +135,7 @@
     <Compile Include="ApplicationModels\PassiveModelParameters.cs" />
     <Compile Include="ApplicationModels\SceneModelParameters.cs" />
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
+    <Compile Include="Configuration\State\DisplayState.cs" />
     <Compile Include="Diagnostics\InterfaceRootLogger.cs" />
     <Compile Include="DisplayLib\BitmapFont\KerningPairModel.cs" />
     <Compile Include="DisplayLib\BitmapFont\TypeConverters\KerningPairModelYaml.cs" />
@@ -150,8 +151,8 @@
     <Compile Include="Resources\Managers\Display\DisplayResourceManager.cs" />
     <Compile Include="Resources\Managers\Display\IDisplayResourceManager.cs" />
     <Compile Include="Resources\ResourceDataSerializer.cs" />
-    <Compile Include="StaticState\AppModelState.cs" />
-    <Compile Include="StaticState\CoreState.cs" />
+    <Compile Include="Configuration\State\AppModelState.cs" />
+    <Compile Include="Configuration\State\CoreState.cs" />
     <Compile Include="DefaultAssets\DefaultResources.cs" />
     <Compile Include="DefaultAssets\Fonts.cs" />
     <Compile Include="DisplayLib\Verify.cs" />
@@ -175,7 +176,7 @@
     <Compile Include="InputLib\GamepadMap.cs" />
     <Compile Include="InputLib\GamepadMapDatabase.cs" />
     <Compile Include="InputLib\GamepadStickEventArgs.cs" />
-    <Compile Include="StaticState\InternalState.cs" />
+    <Compile Include="Configuration\State\AgateLibState.cs" />
     <Compile Include="IO\Assets.cs" />
     <Compile Include="IO\FileSystemObjects.cs" />
     <Compile Include="IO\ReadFileProviderList.cs" />
@@ -752,7 +753,9 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="StaticState\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks" Condition="Exists('$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks')" />
   <Target Name="UpdateAssemblyInfo" Condition="$(MajorVersion) != ''">

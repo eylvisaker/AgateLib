@@ -2,7 +2,7 @@
 using AgateLib.Platform;
 using AgateLib.Settings;
 
-namespace AgateLib.StaticState
+namespace AgateLib.Configuration.State
 {
 	class CoreState
 	{
