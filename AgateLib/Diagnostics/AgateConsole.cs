@@ -35,12 +35,26 @@ namespace AgateLib.Diagnostics
 	{
 		#region --- Static Members ---
 
-		protected static AgateConsole sInstance;
+		protected static AgateConsole sInstance
+		{
+			get { return Core.State.Console.Instance; }
+			set { Core.State.Console.Instance = value; }
+		}
 
 		public static bool IsInitialized { get { return sInstance != null; } }
 
-		public static IFont Font { get; set; }
-		public static KeyCode VisibleToggleKey { get; set; }
+		public static IFont Font
+		{
+			get { return Core.State.Console.Font; }
+			set { Core.State.Console.Font = value; }
+		}
+
+		public static KeyCode VisibleToggleKey
+		{
+			get { return Core.State.Console.VisibleToggleKey; }
+			set { Core.State.Console.VisibleToggleKey = value; }
+		}
+
 		public static bool IsVisible
 		{
 			get
@@ -64,9 +78,22 @@ namespace AgateLib.Diagnostics
 			}
 		}
 
-		public static Color TextColor { get; set; }
-		public static Color EntryColor { get; set; }
-		public static Color BackgroundColor { get; set; }
+		public static Color TextColor
+		{
+			get { return Core.State.Console.TextColor; }
+			set { Core.State.Console.TextColor = value; }
+		}
+		public static Color EntryColor
+		{
+			get { return Core.State.Console.EntryColor; }
+			set { Core.State.Console.EntryColor = value; }
+		}
+		public static Color BackgroundColor
+		{
+			get { return Core.State.Console.BackgroundColor; }
+			set { Core.State.Console.BackgroundColor = value; }
+		}
+
 		public static AgateConsole Instance { get { return sInstance; } }
 
 		public static ConsoleDictionary Commands { get { return Instance.CommandProcessor.Commands; } }
@@ -93,6 +120,7 @@ namespace AgateLib.Diagnostics
 			EntryColor = Color.Yellow;
 			BackgroundColor = Color.FromArgb(192, Color.Black);
 		}
+
 		/// <summary>
 		/// Draws the console window. Call this right before your Display.EndFrame call.
 		/// </summary>
@@ -112,8 +140,8 @@ namespace AgateLib.Diagnostics
 		/// <param name="text"></param>
 		public static void WriteLine(string text, params object[] args)
 		{
-		    if (sInstance == null)
-		        return;
+			if (sInstance == null)
+				return;
 
 			Instance.WriteLineImpl(string.Format(text, args));
 		}
@@ -122,9 +150,9 @@ namespace AgateLib.Diagnostics
 		/// </summary>
 		/// <param name="text"></param>
 		public static void Write(string text)
-        {
-            if (sInstance == null)
-                return;
+		{
+			if (sInstance == null)
+				return;
 
 			Instance.WriteImpl(text);
 		}
@@ -163,7 +191,6 @@ namespace AgateLib.Diagnostics
 		}
 
 		public List<ConsoleMessage> Messages { get { return mMessages; } }
-
 
 		void DrawImpl()
 		{
@@ -254,7 +281,6 @@ namespace AgateLib.Diagnostics
 
 		#region --- Input Handling ---
 
-
 		void IInputHandler.ProcessEvent(AgateInputEventArgs args)
 		{
 			ProcessEvent(args);
@@ -316,7 +342,7 @@ namespace AgateLib.Diagnostics
 				mInputHistory.Add(input);
 
 				ExecuteCommand();
-			} 
+			}
 			else if (string.IsNullOrEmpty(keystring) == false)
 			{
 				ModifyHistoryLine();
@@ -325,7 +351,7 @@ namespace AgateLib.Diagnostics
 					mCurrentLine += " ";
 				else
 					mCurrentLine += keystring;
-			} 
+			}
 			else if (keyCode == KeyCode.BackSpace)
 			{
 				ModifyHistoryLine();

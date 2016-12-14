@@ -10,6 +10,8 @@ namespace AgateLib.Configuration.State
 	{
 		public AppModelState AppModel { get; private set; } = new AppModelState();
 		public CoreState Core { get; private set; } = new CoreState();
+		public ConsoleState Console { get; private set; } = new ConsoleState();
+
 		public DisplayState Display { get; private set; } = new DisplayState();
 		public AudioState Audio { get; private set; } = new AudioState();
 	}
