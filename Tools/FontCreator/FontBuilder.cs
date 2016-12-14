@@ -20,16 +20,17 @@ namespace FontCreator
 		private object mRenderTarget;
 		private object mZoomRenderTarget;
 
+		FrameBuffer renderTarget;
 		DisplayWindow wind;
 		DisplayWindow zoomWind;
 		Font font;
 		Surface bgDark, bgLight;
-		IReadOnlyList<int> fontSizes = new List<int> { 8, 9, 10, 12, 14, 16, 18, 24, 30 };
+		List<int> fontSizes = new List<int> { 8, 9, 10, 12, 14, 16, 18, 24, 30 };
 
 		BitmapFontOptions options = new BitmapFontOptions();
 
 		private bool mDarkBackground;
-		private const double displayScale = 4.0;
+		private const int zoomScale = 4;
 
 		private Color mColor;
 		private int displaySize = 12;
@@ -78,7 +79,7 @@ namespace FontCreator
 		public bool Italic { get; set; }
 		public bool Bold { get; set; } = true;
 
-		public IReadOnlyList<int> FontSizes
+		public List<int> FontSizes
 		{
 			get { return fontSizes; }
 			set
@@ -87,7 +88,7 @@ namespace FontCreator
 				CreateFont();
 			}
 		}
-		
+
 		public bool LightBackground
 		{
 			get { return mDarkBackground; }
@@ -211,32 +212,54 @@ namespace FontCreator
 			if (zoomWind == null)
 				return;
 
-			Display.RenderTarget = zoomWind;
+			renderTarget = new FrameBuffer(800, 600);
+
+			Display.RenderTarget = renderTarget;
 			Display.BeginFrame();
-			Display.Clear();
+			Display.Clear(Color.FromArgb(0, 0, 0, 0));
 
-			font.Style = displayStyle;
+			font.Size = displaySize;
+			((BitmapFontImpl)font.FontSurface.Impl).Surface.InterpolationHint = InterpolationMode.Nicest;
 
-			font.Size = (int)(displaySize * displayScale);
-			((BitmapFontImpl)font.FontSurface.Impl).Surface.InterpolationHint = InterpolationMode.Fastest;
-
-			DrawBackground();
-			DrawText(true);
+			DrawText();
 
 			Display.EndFrame();
-
 
 			Display.RenderTarget = wind;
 			Display.BeginFrame();
 			Display.Clear();
 
-			font.Size = displaySize;
-			((BitmapFontImpl)font.FontSurface.Impl).Surface.InterpolationHint = InterpolationMode.Nicest;
-
 			DrawBackground();
-			DrawText(false);
+			renderTarget.RenderTarget.Draw();
 
 			Display.EndFrame();
+
+			Display.RenderTarget = zoomWind;
+			Display.BeginFrame();
+			Display.Clear();
+
+			DrawBackground();
+
+			Point dest = Point.Empty;
+
+			var topLeftWindow = new PointF(
+				ZoomLocation.X * (float)zoomScale - zoomWind.Width / 2,
+				ZoomLocation.Y * (float)zoomScale - zoomWind.Height / 2);
+
+			if (topLeftWindow.X < 0) topLeftWindow.X = 0;
+			if (topLeftWindow.Y < 0) topLeftWindow.Y = 0;
+
+			dest = new Point(-(int)topLeftWindow.X, -(int)topLeftWindow.Y);
+
+			renderTarget.RenderTarget.InterpolationHint = InterpolationMode.Fastest;
+			renderTarget.RenderTarget.Draw(
+				new Rectangle(dest.X, dest.Y,
+				renderTarget.Width * zoomScale,
+				renderTarget.Height * zoomScale));
+
+
+			Display.EndFrame();
+
 
 
 			Core.KeepAlive();
@@ -255,27 +278,13 @@ namespace FontCreator
 			}
 		}
 
-		private void DrawText(bool zoom)
+		private void DrawText()
 		{
 			if (font == null)
 				return;
 
-			Point dest = Point.Empty;
-
-			if (zoom)
-			{
-				var topLeftWindow = new PointF(
-					ZoomLocation.X * (float)displayScale - zoomWind.Width / 2,
-					ZoomLocation.Y * (float)displayScale - zoomWind.Height / 2);
-
-				if (topLeftWindow.X < 0) topLeftWindow.X = 0;
-				if (topLeftWindow.Y < 0) topLeftWindow.Y = 0;
-
-				dest = new Point(-(int)topLeftWindow.X, -(int)topLeftWindow.Y);
-			}
-
 			font.Color = DisplayColor;
-			font.DrawText(dest, Text);
+			font.DrawText(Point.Empty, Text);
 		}
 
 		public bool SaveFont(string resourceFile, string fontName, string imageFileRoot)
@@ -299,7 +308,7 @@ namespace FontCreator
 			SaveImage(imageFileRoot);
 
 			localImagePath = localImagePath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
-			
+
 			FontResource fontResource = new FontResource();
 
 			foreach (var fs in Font.FontItems)

@@ -49,10 +49,29 @@ namespace FontCreator
 			if (AnyDesignMode)
 				return;
 
-			builder = new FontBuilder();
+			InitializeBuilder();
+			InitializeSizeList();
+			InitializeFontList();
+			InitializeControls();
+		}
 
-			builder.SetRenderTarget(renderTarget, zoomRenderTarget);
+		private void InitializeControls()
+		{
+			txtSampleText_TextChanged(null, null);
 
+			foreach (BitmapFontEdgeOptions opt in
+				Enum.GetValues(typeof(BitmapFontEdgeOptions)))
+			{
+				cboEdges.Items.Add(opt);
+			}
+
+			cboEdges.SelectedItem = BitmapFontEdgeOptions.IntensityAlphaWhite;
+
+			cboBg.SelectedIndex = 0;
+		}
+
+		private void InitializeFontList()
+		{
 			int index = 0;
 
 			List<string> fonts = new List<string>();
@@ -72,19 +91,20 @@ namespace FontCreator
 
 
 			cboFamily.SelectedIndex = index;
-			txtSampleText_TextChanged(null, null);
-
-			foreach (BitmapFontEdgeOptions opt in
-				Enum.GetValues(typeof(BitmapFontEdgeOptions)))
-			{
-				cboEdges.Items.Add(opt);
-			}
-
-			cboEdges.SelectedItem = BitmapFontEdgeOptions.IntensityAlphaWhite;
-
-			cboBg.SelectedIndex = 0;
 		}
 
+		private void InitializeBuilder()
+		{
+			builder = new FontBuilder();
+
+			builder.SetRenderTarget(renderTarget, zoomRenderTarget);
+		}
+
+		private void InitializeSizeList()
+		{
+			lstSizes.Items.Clear();
+			lstSizes.Items.AddRange(builder.FontSizes.Cast<object>().ToArray());
+		}
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -282,6 +302,39 @@ namespace FontCreator
 		private void btnGenerateFont_Click(object sender, EventArgs e)
 		{
 			builder.CreateFont();
+		}
+
+		private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			int item = (int)lstSizes.SelectedItem;
+
+			builder.FontSizes.Remove(item);
+			InitializeSizeList();
+		}
+
+		private void lstSizes_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			removeToolStripMenuItem.Enabled = lstSizes.SelectedIndex >= 0;
+		}
+
+		private void txtAddSize_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == '\r')
+			{
+				int value;
+				if (int.TryParse(txtAddSize.Text, out value))
+				{
+					builder.FontSizes.Add(value);
+					builder.FontSizes.Sort();
+
+					InitializeSizeList();
+					txtAddSize.Text = "";
+				}
+				else
+				{
+					System.Media.SystemSounds.Beep.Play();
+				}
+			}
 		}
 	}
 }

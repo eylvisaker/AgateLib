@@ -28,6 +28,7 @@ namespace FontCreator
         /// </summary>
         private void InitializeComponent()
         {
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateFont));
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -38,7 +39,10 @@ namespace FontCreator
 			this.chkStrikeout = new System.Windows.Forms.CheckBox();
 			this.txtSampleText = new System.Windows.Forms.TextBox();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.renderTarget = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
+			this.zoomRenderTarget = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.btnGenerateFont = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.label11 = new System.Windows.Forms.Label();
 			this.lstSizes = new System.Windows.Forms.ListBox();
@@ -57,16 +61,17 @@ namespace FontCreator
 			this.chkTextRenderer = new System.Windows.Forms.CheckBox();
 			this.colorDialog = new System.Windows.Forms.ColorDialog();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.chkDisplayBold = new System.Windows.Forms.CheckBox();
+			this.nudDisplaySize = new System.Windows.Forms.NumericUpDown();
+			this.label3 = new System.Windows.Forms.Label();
 			this.cboBg = new System.Windows.Forms.ComboBox();
 			this.btnDisplayColor = new System.Windows.Forms.Button();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.nudDisplaySize = new System.Windows.Forms.NumericUpDown();
-			this.chkDisplayBold = new System.Windows.Forms.CheckBox();
-			this.renderTarget = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
-			this.zoomRenderTarget = new AgateLib.Platform.WinForms.Controls.AgateRenderTarget();
-			this.btnGenerateFont = new System.Windows.Forms.Button();
+			this.mnuSizes = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.txtAddSize = new System.Windows.Forms.ToolStripTextBox();
+			this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -79,6 +84,7 @@ namespace FontCreator
 			((System.ComponentModel.ISupportInitialize)(this.nudOpacity)).BeginInit();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudDisplaySize)).BeginInit();
+			this.mnuSizes.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -201,6 +207,29 @@ namespace FontCreator
 			this.splitContainer1.SplitterWidth = 12;
 			this.splitContainer1.TabIndex = 11;
 			// 
+			// renderTarget
+			// 
+			this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.renderTarget.Location = new System.Drawing.Point(0, 0);
+			this.renderTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.renderTarget.Name = "renderTarget";
+			this.renderTarget.Size = new System.Drawing.Size(509, 273);
+			this.renderTarget.TabIndex = 0;
+			this.renderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderTarget_MouseMove);
+			this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+			// 
+			// zoomRenderTarget
+			// 
+			this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
+			this.zoomRenderTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.zoomRenderTarget.Name = "zoomRenderTarget";
+			this.zoomRenderTarget.Size = new System.Drawing.Size(386, 273);
+			this.zoomRenderTarget.TabIndex = 1;
+			this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
+			// 
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.btnGenerateFont);
@@ -231,6 +260,16 @@ namespace FontCreator
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Font Creation Options";
 			// 
+			// btnGenerateFont
+			// 
+			this.btnGenerateFont.Location = new System.Drawing.Point(324, 210);
+			this.btnGenerateFont.Name = "btnGenerateFont";
+			this.btnGenerateFont.Size = new System.Drawing.Size(134, 38);
+			this.btnGenerateFont.TabIndex = 10;
+			this.btnGenerateFont.Text = "Generate Font";
+			this.btnGenerateFont.UseVisualStyleBackColor = true;
+			this.btnGenerateFont.Click += new System.EventHandler(this.btnGenerateFont_Click);
+			// 
 			// groupBox3
 			// 
 			this.groupBox3.Controls.Add(this.chkBold);
@@ -255,6 +294,8 @@ namespace FontCreator
 			// 
 			// lstSizes
 			// 
+			this.lstSizes.ColumnWidth = 40;
+			this.lstSizes.ContextMenuStrip = this.mnuSizes;
 			this.lstSizes.FormattingEnabled = true;
 			this.lstSizes.ItemHeight = 20;
 			this.lstSizes.Items.AddRange(new object[] {
@@ -272,9 +313,11 @@ namespace FontCreator
             "36",
             "48"});
 			this.lstSizes.Location = new System.Drawing.Point(24, 104);
+			this.lstSizes.MultiColumn = true;
 			this.lstSizes.Name = "lstSizes";
-			this.lstSizes.Size = new System.Drawing.Size(120, 124);
+			this.lstSizes.Size = new System.Drawing.Size(142, 124);
 			this.lstSizes.TabIndex = 24;
+			this.lstSizes.SelectedIndexChanged += new System.EventHandler(this.lstSizes_SelectedIndexChanged);
 			// 
 			// nudNumberWidthAdjust
 			// 
@@ -477,6 +520,47 @@ namespace FontCreator
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Display Options";
 			// 
+			// chkDisplayBold
+			// 
+			this.chkDisplayBold.AutoSize = true;
+			this.chkDisplayBold.Location = new System.Drawing.Point(446, 127);
+			this.chkDisplayBold.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.chkDisplayBold.Name = "chkDisplayBold";
+			this.chkDisplayBold.Size = new System.Drawing.Size(67, 24);
+			this.chkDisplayBold.TabIndex = 10;
+			this.chkDisplayBold.Text = "Bold";
+			this.chkDisplayBold.UseVisualStyleBackColor = true;
+			this.chkDisplayBold.CheckedChanged += new System.EventHandler(this.chkDisplayBold_CheckedChanged);
+			// 
+			// nudDisplaySize
+			// 
+			this.nudDisplaySize.Location = new System.Drawing.Point(525, 74);
+			this.nudDisplaySize.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.nudDisplaySize.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+			this.nudDisplaySize.Name = "nudDisplaySize";
+			this.nudDisplaySize.Size = new System.Drawing.Size(82, 26);
+			this.nudDisplaySize.TabIndex = 17;
+			this.nudDisplaySize.Value = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+			this.nudDisplaySize.ValueChanged += new System.EventHandler(this.nudDisplaySize_ValueChanged);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(433, 76);
+			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(40, 20);
+			this.label3.TabIndex = 16;
+			this.label3.Text = "Size";
+			// 
 			// cboBg
 			// 
 			this.cboBg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -521,79 +605,36 @@ namespace FontCreator
 			this.label7.TabIndex = 16;
 			this.label7.Text = "Scale:";
 			// 
-			// label3
+			// mnuSizes
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(433, 76);
-			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(40, 20);
-			this.label3.TabIndex = 16;
-			this.label3.Text = "Size";
+			this.mnuSizes.ImageScalingSize = new System.Drawing.Size(24, 24);
+			this.mnuSizes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addToolStripMenuItem,
+            this.removeToolStripMenuItem});
+			this.mnuSizes.Name = "mnuSizes";
+			this.mnuSizes.Size = new System.Drawing.Size(212, 97);
 			// 
-			// nudDisplaySize
+			// addToolStripMenuItem
 			// 
-			this.nudDisplaySize.Location = new System.Drawing.Point(525, 74);
-			this.nudDisplaySize.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.nudDisplaySize.Maximum = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
-			this.nudDisplaySize.Name = "nudDisplaySize";
-			this.nudDisplaySize.Size = new System.Drawing.Size(82, 26);
-			this.nudDisplaySize.TabIndex = 17;
-			this.nudDisplaySize.Value = new decimal(new int[] {
-            12,
-            0,
-            0,
-            0});
-			this.nudDisplaySize.ValueChanged += new System.EventHandler(this.nudDisplaySize_ValueChanged);
+			this.addToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.txtAddSize});
+			this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+			this.addToolStripMenuItem.Size = new System.Drawing.Size(211, 30);
+			this.addToolStripMenuItem.Text = "Add";
 			// 
-			// chkDisplayBold
+			// txtAddSize
 			// 
-			this.chkDisplayBold.AutoSize = true;
-			this.chkDisplayBold.Location = new System.Drawing.Point(446, 127);
-			this.chkDisplayBold.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.chkDisplayBold.Name = "chkDisplayBold";
-			this.chkDisplayBold.Size = new System.Drawing.Size(67, 24);
-			this.chkDisplayBold.TabIndex = 10;
-			this.chkDisplayBold.Text = "Bold";
-			this.chkDisplayBold.UseVisualStyleBackColor = true;
-			this.chkDisplayBold.CheckedChanged += new System.EventHandler(this.chkDisplayBold_CheckedChanged);
+			this.txtAddSize.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.txtAddSize.Name = "txtAddSize";
+			this.txtAddSize.Size = new System.Drawing.Size(100, 31);
+			this.txtAddSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAddSize_KeyPress);
 			// 
-			// renderTarget
+			// removeToolStripMenuItem
 			// 
-			this.renderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.renderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.renderTarget.Location = new System.Drawing.Point(0, 0);
-			this.renderTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.renderTarget.Name = "renderTarget";
-			this.renderTarget.Size = new System.Drawing.Size(509, 273);
-			this.renderTarget.TabIndex = 0;
-			this.renderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderTarget_MouseMove);
-			this.renderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-			// 
-			// zoomRenderTarget
-			// 
-			this.zoomRenderTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.zoomRenderTarget.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.zoomRenderTarget.Location = new System.Drawing.Point(0, 0);
-			this.zoomRenderTarget.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.zoomRenderTarget.Name = "zoomRenderTarget";
-			this.zoomRenderTarget.Size = new System.Drawing.Size(386, 273);
-			this.zoomRenderTarget.TabIndex = 1;
-			this.zoomRenderTarget.Resize += new System.EventHandler(this.renderTarget_Resize);
-			// 
-			// btnGenerateFont
-			// 
-			this.btnGenerateFont.Location = new System.Drawing.Point(324, 210);
-			this.btnGenerateFont.Name = "btnGenerateFont";
-			this.btnGenerateFont.Size = new System.Drawing.Size(134, 38);
-			this.btnGenerateFont.TabIndex = 10;
-			this.btnGenerateFont.Text = "Generate Font";
-			this.btnGenerateFont.UseVisualStyleBackColor = true;
-			this.btnGenerateFont.Click += new System.EventHandler(this.btnGenerateFont_Click);
+			this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+			this.removeToolStripMenuItem.Size = new System.Drawing.Size(211, 30);
+			this.removeToolStripMenuItem.Text = "Remove";
+			this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
 			// 
 			// CreateFont
 			// 
@@ -620,6 +661,7 @@ namespace FontCreator
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudDisplaySize)).EndInit();
+			this.mnuSizes.ResumeLayout(false);
 			this.ResumeLayout(false);
 
         }
@@ -664,6 +706,10 @@ namespace FontCreator
 		private System.Windows.Forms.NumericUpDown nudDisplaySize;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Button btnGenerateFont;
+		private System.Windows.Forms.ContextMenuStrip mnuSizes;
+		private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+		private System.Windows.Forms.ToolStripTextBox txtAddSize;
+		private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
 	}
 }
 
