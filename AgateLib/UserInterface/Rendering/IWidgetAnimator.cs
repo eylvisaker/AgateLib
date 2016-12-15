@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
+using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering
@@ -16,7 +17,7 @@ namespace AgateLib.UserInterface.Rendering
 		bool InTransition { get; }
 		bool IsDead { get; set; }
 		IWidgetAnimator Parent { get; set; }
-		IWidgetStyle Style { get; }
+		WidgetStyle Style { get; }
 		bool Visible { get; set; }
 		Widget Widget { get; }
 		Rectangle WidgetRect { get; }

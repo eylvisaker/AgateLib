@@ -2,9 +2,9 @@
 using AgateLib.Geometry;
 using AgateLib.UserInterface.Rendering;
 
-namespace AgateLib.UserInterface.Venus
+namespace AgateLib.UserInterface.StyleModel
 {
-	public class BorderSideStyle : IBorderSideStyle
+	public class BorderSideStyle
 	{
 		public Color Color { get; set; }
 

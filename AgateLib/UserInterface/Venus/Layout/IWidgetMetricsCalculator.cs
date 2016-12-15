@@ -1,4 +1,5 @@
-﻿using AgateLib.UserInterface.Widgets;
+﻿using AgateLib.UserInterface.StyleModel;
+using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Venus.Layout
 {

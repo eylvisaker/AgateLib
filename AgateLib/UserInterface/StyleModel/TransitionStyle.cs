@@ -1,9 +1,9 @@
 ﻿using System;
 using AgateLib.UserInterface.Rendering;
 
-namespace AgateLib.UserInterface.Venus
+namespace AgateLib.UserInterface.StyleModel
 {
-	public class TransitionStyle : ITransitionStyle
+	public class TransitionStyle
 	{
 		public TransitionDirection Direction { get; set; }
 

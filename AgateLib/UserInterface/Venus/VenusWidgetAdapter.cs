@@ -8,6 +8,7 @@ using AgateLib.Geometry;
 using AgateLib.Resources.DataModel;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Venus
@@ -60,10 +61,6 @@ namespace AgateLib.UserInterface.Venus
 			}
 
 			return result;
-		}
-		IWidgetStyle IWidgetAdapter.StyleOf(Widget widget)
-		{
-			return StyleOf(widget);
 		}
 
 		private void InitializeStyleData(IEnumerable<Widget> children, FacetModel facetModel)
@@ -287,7 +284,7 @@ namespace AgateLib.UserInterface.Venus
 			return font;
 		}
 
-		private FontProperties GetFontProperties(Widget control)
+		private WidgetFontStyle GetFontProperties(Widget control)
 		{
 			if (control == null)
 				return null;

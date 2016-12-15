@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface.StyleModel;
 
 namespace AgateLib.UserInterface.Venus.Layout.MetricsCalculators
 {

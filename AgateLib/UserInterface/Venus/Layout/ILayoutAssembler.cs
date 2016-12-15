@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using AgateLib.UserInterface.Widgets;
+using AgateLib.UserInterface.StyleModel;
 
 namespace AgateLib.UserInterface.Venus.Layout
 {
-	internal interface ILayoutAssembler
+	public interface ILayoutAssembler
 	{
 		/// <summary>
 		/// Returns true if this layout assembler can do the layout for the specified widget.

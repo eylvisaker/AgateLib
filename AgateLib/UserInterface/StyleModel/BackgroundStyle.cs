@@ -2,9 +2,9 @@
 using AgateLib.Geometry;
 using AgateLib.UserInterface.Rendering;
 
-namespace AgateLib.UserInterface.Venus
+namespace AgateLib.UserInterface.StyleModel
 {
-	public class BackgroundStyle : IBackgroundStyle
+	public class BackgroundStyle
 	{
 		public BackgroundClip Clip { get; set; }
 

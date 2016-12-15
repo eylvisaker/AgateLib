@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering.Transitions
@@ -29,7 +30,7 @@ namespace AgateLib.UserInterface.Rendering.Transitions
 	{
 		bool mActive;
 
-		public IWidgetStyle Style { get; set; }
+		public WidgetStyle Style { get; set; }
 		public IWidgetAnimator Animator { get; set; }
 		public Widget Widget { get { return Style.Widget; } }
 

@@ -23,13 +23,14 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
 using AgateLib.UserInterface.Rendering.Transitions;
+using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering.Animators
 {
 	public class WidgetAnimator : IWidgetAnimator
 	{
-		IWidgetStyle mStyle;
+		WidgetStyle mStyle;
 		Rectangle mClientRect;
 		IWidgetAnimator mParentCoordinates;
 
@@ -154,7 +155,7 @@ namespace AgateLib.UserInterface.Rendering.Animators
 		public bool Visible { get; set; }
 
 		public Widget Widget { get { return mStyle.Widget; } }
-		public IWidgetStyle Style { get { return mStyle; } }
+		public WidgetStyle Style { get { return mStyle; } }
 
 		WindowTransitionType mTransitionType;
 		public IWidgetTransition Transition { get; private set; }
@@ -180,7 +181,7 @@ namespace AgateLib.UserInterface.Rendering.Animators
 			}
 		}
 
-		public WidgetAnimator(IWidgetStyle style)
+		public WidgetAnimator(WidgetStyle style)
 		{
 			mStyle = style;
 			Children = new List<IWidgetAnimator>();

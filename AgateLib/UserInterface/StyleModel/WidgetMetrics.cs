@@ -1,6 +1,6 @@
 ﻿using AgateLib.Geometry;
 
-namespace AgateLib.UserInterface.Venus
+namespace AgateLib.UserInterface.StyleModel
 {
 	public class WidgetMetrics
 	{

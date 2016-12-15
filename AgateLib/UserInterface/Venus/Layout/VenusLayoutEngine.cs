@@ -7,6 +7,7 @@ using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.UserInterface.DataModel;
+using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Venus.Layout.LayoutAssemblers;
 using AgateLib.UserInterface.Widgets;
 

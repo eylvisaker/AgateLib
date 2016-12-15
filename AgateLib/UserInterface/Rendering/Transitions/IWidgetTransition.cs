@@ -21,12 +21,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface.StyleModel;
 
 namespace AgateLib.UserInterface.Rendering.Transitions
 {
 	public interface IWidgetTransition
 	{
-		IWidgetStyle Style { get; set; }
+		WidgetStyle Style { get; set; }
 
 		bool Active { get; }
 

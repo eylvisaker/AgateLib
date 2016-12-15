@@ -26,6 +26,7 @@ using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.UserInterface.Rendering.Animators;
+using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Rendering
@@ -247,7 +248,7 @@ namespace AgateLib.UserInterface.Rendering
 			}
 		}
 
-		private void SetFontProperties(IWidgetStyle style)
+		private void SetFontProperties(WidgetStyle style)
 		{
 			style.Widget.FontColor = style.Font.Color;
 		}
@@ -465,7 +466,7 @@ namespace AgateLib.UserInterface.Rendering
 			}
 		}
 
-		private void DrawImageBorder(IWidgetStyle style, Rectangle borderRect)
+		private void DrawImageBorder(WidgetStyle style, Rectangle borderRect)
 		{
 			Surface image = mImageProvider.GetImage(style.Border.Image);
 
@@ -480,7 +481,7 @@ namespace AgateLib.UserInterface.Rendering
 			DrawFrame(borderRect, image, innerRect, outerRect);
 		}
 
-		private void DrawOrdinaryBorder(IWidgetStyle style, Rectangle borderRect)
+		private void DrawOrdinaryBorder(WidgetStyle style, Rectangle borderRect)
 		{
 			var border = style.Border;
 
