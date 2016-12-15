@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface.DataModel;
-using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Venus;
 using AgateLib.UserInterface.Widgets;
 

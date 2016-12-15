@@ -25,6 +25,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Rendering.Animators;
 using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;

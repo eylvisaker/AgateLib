@@ -1,5 +1,4 @@
 ﻿using System;
-using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.StyleModel
 {

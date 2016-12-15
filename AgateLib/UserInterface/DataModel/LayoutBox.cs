@@ -23,7 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.UserInterface.Rendering
+namespace AgateLib.UserInterface.DataModel
 {
 	public struct LayoutBox
 	{

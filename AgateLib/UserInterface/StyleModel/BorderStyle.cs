@@ -1,6 +1,6 @@
 ﻿using System;
 using AgateLib.Geometry;
-using AgateLib.UserInterface.Rendering;
+using AgateLib.UserInterface.DataModel;
 
 namespace AgateLib.UserInterface.StyleModel
 {

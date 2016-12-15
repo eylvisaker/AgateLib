@@ -1,6 +1,5 @@
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.UserInterface.Rendering;
 
 namespace AgateLib.UserInterface.StyleModel
 {

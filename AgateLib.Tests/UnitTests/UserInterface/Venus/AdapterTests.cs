@@ -10,6 +10,7 @@ using AgateLib.Resources.DataModel;
 using AgateLib.Resources.Managers;
 using AgateLib.Resources.Managers.UserInterface;
 using AgateLib.UnitTests.Resources;
+using AgateLib.UserInterface;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Venus;

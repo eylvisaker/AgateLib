@@ -614,12 +614,12 @@
     <Compile Include="UserInterface\DataModel\WidgetStateModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetThemeModel.cs" />
     <Compile Include="UserInterface\DataModel\WidgetTransitionModel.cs" />
-    <Compile Include="UserInterface\Rendering\LayoutBox.cs" />
-    <Compile Include="UserInterface\Rendering\BoxModel.cs" />
+    <Compile Include="UserInterface\DataModel\LayoutBox.cs" />
+    <Compile Include="UserInterface\StyleModel\BoxModel.cs" />
     <Compile Include="UserInterface\Rendering\DefaultImageProvider.cs" />
     <Compile Include="UserInterface\Rendering\AgateUserInterfaceRenderer.cs" />
     <Compile Include="UserInterface\IUserInterfaceImageProvider.cs" />
-    <Compile Include="UserInterface\Rendering\RenderingEnums.cs" />
+    <Compile Include="UserInterface\StyleEnums.cs" />
     <Compile Include="UserInterface\Rendering\Transitions\IWidgetTransition.cs" />
     <Compile Include="UserInterface\Rendering\Transitions\NullTransition.cs" />
     <Compile Include="UserInterface\Rendering\Transitions\SlideTransition.cs" />
@@ -647,7 +647,7 @@
     <Compile Include="UserInterface\StyleModel\TransitionStyle.cs" />
     <Compile Include="UserInterface\Venus\Layout\VenusLayoutEngine.cs" />
     <Compile Include="UserInterface\Venus\VenusWidgetAdapter.cs" />
-    <Compile Include="UserInterface\Venus\WidgetLayout.cs" />
+    <Compile Include="UserInterface\StyleModel\WidgetLayout.cs" />
     <Compile Include="UserInterface\StyleModel\WidgetMetrics.cs" />
     <Compile Include="UserInterface\StyleModel\WidgetStyle.cs" />
     <Compile Include="UserInterface\Widgets\AxisType.cs" />

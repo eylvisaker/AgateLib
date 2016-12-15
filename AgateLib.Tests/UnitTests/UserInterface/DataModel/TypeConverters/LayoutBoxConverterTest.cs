@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.DataModel.TypeConverters;
 using AgateLib.UserInterface.Rendering;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
