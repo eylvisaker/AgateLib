@@ -19,9 +19,14 @@ namespace AgateLib.UserInterface.Venus
 		static VenusWidgetAdapter()
 		{
 			DefaultTheme = new ThemeModel();
+
 			var windowTheme = new WidgetThemeModel();
 			windowTheme.TextColor = Color.Black;
 			DefaultTheme["window"] = windowTheme;
+
+			var menuTheme = new WidgetThemeModel();
+			menuTheme.Overflow = Overflow.Scroll;
+			DefaultTheme["menu"] = menuTheme;
 		}
 
 		private Dictionary<Widget, WidgetStyle> styles = new Dictionary<Widget, WidgetStyle>();

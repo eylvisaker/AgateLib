@@ -140,7 +140,7 @@ namespace AgateLib.UserInterface.Venus.Layout
 
 			foreach (var style in nonlayoutContainers.Select(x => adapter.StyleOf(x)))
 			{
-				SetDimensions(style);
+				SetDimensions(style, maxWidth, maxHeight);
 
 				if (style.WidgetLayout.SizeType == WidgetLayoutType.Fixed)
 				{
@@ -157,20 +157,26 @@ namespace AgateLib.UserInterface.Venus.Layout
 								  where style.WidgetLayout.SizeType == WidgetLayoutType.Flow
 								  select style)
 			{
-				SetDimensions(style);
+				SetDimensions(style, maxWidth, maxHeight);
 			}
 		}
 
-		private void SetDimensions(WidgetStyle style)
+		private void SetDimensions(WidgetStyle style, int? maxWidth, int? maxHeight)
 		{
 			if (style.WidgetLayout.PositionType == WidgetLayoutType.Flow)
 			{
-				style.Widget.Width = style.Metrics.BoxSize.Width - style.BoxModel.Width;
-				style.Widget.Height = style.Metrics.BoxSize.Height - style.BoxModel.Height;
+				var widgetBoxWidth = Math.Min(style.Metrics.BoxSize.Width, maxWidth ?? int.MaxValue);
+				var widgetBoxHeight = Math.Min(style.Metrics.BoxSize.Height, maxHeight ?? int.MaxValue);
+
+				var widgetWidth = widgetBoxWidth - style.BoxModel.Width;
+				var widgetHeight = widgetBoxHeight - style.BoxModel.Height;
+
+				style.Widget.Width = widgetWidth;
+				style.Widget.Height = widgetHeight;
 
 				style.Widget.WidgetSize = new Size(
-					style.Metrics.BoxSize.Width - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right,
-					style.Metrics.BoxSize.Height - style.BoxModel.Margin.Top - style.BoxModel.Margin.Bottom);
+					widgetBoxWidth - style.BoxModel.Margin.Left - style.BoxModel.Margin.Right,
+					widgetBoxHeight - style.BoxModel.Margin.Top - style.BoxModel.Margin.Bottom);
 			}
 			else
 			{

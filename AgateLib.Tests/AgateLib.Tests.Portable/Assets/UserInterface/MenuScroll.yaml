@@ -12,9 +12,6 @@ facets:
             position: 20 20
             size: 275 200
             children:
-                DebugLabel: 
-                    type: label
-                    text: Debug Message
                 Menu:
                     type: menu
                     overflow: scroll
@@ -55,3 +52,11 @@ facets:
                                 1:
                                     type: label
                                     text: Fifth menu item.
+        DebugWindow:
+            type: window
+            position: 340 20
+            size: 300 200
+            children:
+                DebugLabel: 
+                    type: label
+                    text: Debug Message
