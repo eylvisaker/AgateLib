@@ -245,31 +245,36 @@ namespace FontCreator
 				resourceFile = Path.Combine(Directory.GetCurrentDirectory(), resourceFile);
 			}
 
-			string localImagePath;
+			string localImagePartialPath;
 			string dir = Path.GetDirectoryName(resourceFile);
 
 			if (Path.IsPathRooted(imageFileRoot) == false)
 			{
-				localImagePath = imageFileRoot;
+				localImagePartialPath = imageFileRoot;
 				imageFileRoot = Path.Combine(Path.GetDirectoryName(resourceFile), imageFileRoot);
 			}
 			else
-				localImagePath = GetRelativePath(dir, imageFileRoot);
+				localImagePartialPath = GetRelativePath(dir, imageFileRoot);
 
 			SaveImage(imageFileRoot);
 
-			localImagePath = localImagePath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
+			localImagePartialPath = localImagePartialPath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
 
 			FontResource fontResource = new FontResource();
 
 			foreach (var fs in Font.FontItems)
 			{
 				var res = new FontSurfaceResource();
-				var imagePath = localImagePath + fs.Key.ToString() + ".png";
+				var localImagePath = localImagePartialPath + fs.Key.ToString() + ".png";
+				var impl = (BitmapFontImpl)fs.Value.Impl;
 
 				res.Name = fontName;
-				res.Image = imagePath;
-				res.Metrics = ((BitmapFontImpl)fs.Value.Impl).FontMetrics.Clone();
+				res.Image = localImagePath;
+				res.Metrics = impl.FontMetrics.Clone();
+
+				var imagePath = Path.Combine(dir, localImagePath);
+				var surface = (Surface)impl.Surface;
+				surface.SaveTo(imagePath);
 
 				fontResource.Add(res);
 			}

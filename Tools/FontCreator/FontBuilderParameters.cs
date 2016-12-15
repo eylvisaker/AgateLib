@@ -29,8 +29,10 @@ namespace FontCreator
 		public Color BorderColor { get; set; }
 		public bool CreateBorder { get; set; }
 		public BitmapFontEdgeOptions EdgeOptions { get; set; }
-		public bool MonospaceNumbers { get; set; }
+		public bool MonospaceNumbers { get; set; } = true;
 		public int NumberWidthAdjust { get; set; }
 		public bool UseTextRenderer { get; set; } = true;
+
+		public string SaveName { get; set; }
 	}
 }

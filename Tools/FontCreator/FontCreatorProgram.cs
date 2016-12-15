@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace FontCreator
 {
@@ -27,6 +30,12 @@ namespace FontCreator
 
 			new PassiveModel(parameters).Run(() =>
 			{
+				if (args.First() == "-build" && args.Length >= 2)
+				{
+					ScriptBuild(args[1]);
+					return;
+				}
+
 				Directory.CreateDirectory("./images");
 
 				frmFontCreator frm = new frmFontCreator();
@@ -65,6 +74,37 @@ namespace FontCreator
 				}
 			});
 		}
+
+		private static void ScriptBuild(string file)
+		{
+			var parameters = ReadParameters(file);
+
+			FontBuilder builder = new FontBuilder();
+			builder.Parameters = parameters;
+
+			builder.CreateFont();
+
+			string saveName = parameters.SaveName;
+			if (string.IsNullOrWhiteSpace(saveName))
+				saveName = parameters.Family;
+
+			builder.SaveFont($"output/{saveName}.yaml",
+				saveName, $"Fonts/{saveName}");
+		}
+
+		private static FontBuilderParameters ReadParameters(string file)
+		{
+			Deserializer deserializer = new DeserializerBuilder()
+				.WithNamingConvention(new HyphenatedNamingConvention())
+				.WithTypeConverter(new AgateLib.Geometry.TypeConverters.ColorConverterYaml())
+				.Build();
+
+			using (var stream = new StreamReader(file))
+			{
+				return deserializer.Deserialize<FontBuilderParameters>(stream);
+			}
+		}
+
 		public static void RegisterTempFile(string file)
 		{
 			tempFiles.Add(file);
