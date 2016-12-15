@@ -150,6 +150,7 @@ namespace FontCreator
 			options.NumberWidthAdjust = Parameters.NumberWidthAdjust;
 			options.TopMarginAdjust = Parameters.TopMarginAdjust;
 			options.BottomMarginAdjust = Parameters.BottomMarginAdjust;
+			options.TextRenderer = Parameters.TextRenderer;
 
 			options.SizeInPoints = fontSetting.Size;
 			options.FontStyle = fontSetting.Style;
@@ -256,8 +257,6 @@ namespace FontCreator
 			else
 				localImagePartialPath = GetRelativePath(dir, imageFileRoot);
 
-			SaveImage(imageFileRoot);
-
 			localImagePartialPath = localImagePartialPath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
 
 			FontResource fontResource = new FontResource();
@@ -271,6 +270,8 @@ namespace FontCreator
 				res.Name = fontName;
 				res.Image = localImagePath;
 				res.Metrics = impl.FontMetrics.Clone();
+				res.Size = fs.Key.Size;
+				res.Style = fs.Key.Style;
 
 				var imagePath = Path.Combine(dir, localImagePath);
 				var surface = (Surface)impl.Surface;
@@ -286,13 +287,6 @@ namespace FontCreator
 			File.WriteAllText(resourceFile, result);
 
 			return true;
-		}
-
-		private void SaveImage(string imageFile)
-		{
-			EnsureDirectoryExists(Path.GetDirectoryName(imageFile));
-
-			((Surface)((BitmapFontImpl)Font.FontSurface.Impl).Surface).SaveTo(imageFile);
 		}
 
 		private void EnsureDirectoryExists(string dirname)

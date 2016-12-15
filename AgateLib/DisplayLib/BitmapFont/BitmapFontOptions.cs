@@ -217,7 +217,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// nicer-looking characters than Graphics, but it is much slower rendering
 		/// the characters.
 		/// </summary>
-		public bool UseTextRenderer { get; set; } = true;
+		public TextRenderEngine TextRenderer { get; set; }
 
 		/// <summary>
 		/// Style of the font to be generated.
@@ -268,4 +268,10 @@ namespace AgateLib.DisplayLib.BitmapFont
 		public int NumberWidthAdjust { get; set; }
 	}
 
+	public enum TextRenderEngine
+	{
+		TextRenderer,
+		Gdi,
+		Graphics,
+	}
 }

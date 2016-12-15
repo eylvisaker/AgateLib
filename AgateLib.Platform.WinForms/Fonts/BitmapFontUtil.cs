@@ -54,18 +54,25 @@ namespace AgateLib.Platform.WinForms.Fonts
 			Drawing.Bitmap bmp;
 			FontMetrics glyphs;
 
-			ICharacterRenderer rend = options.UseTextRenderer ?
-				(ICharacterRenderer)new TextRend(font) :
-				(ICharacterRenderer)new GraphicsRend(font);
+			ICharacterRenderer rend;
 
-			if (Core.Platform.PlatformType == PlatformType.Windows && options.UseTextRenderer)
+			switch (options.TextRenderer)
 			{
-				rend = new GdiWindows(font);
+				case TextRenderEngine.Gdi:
+					rend = new GdiWindows(font);
+					break;
+
+				case TextRenderEngine.TextRenderer:
+					rend = new TextRend(font);
+					break;
+
+				default:
+				case TextRenderEngine.Graphics:
+					rend = new GraphicsRend(font);
+					break;
 			}
 
 			MakeBitmap(options, rend, out bmp, out glyphs);
-
-			//bmp.Save("testfont.png", Drawing.Imaging.ImageFormat.Png);
 
 			string tempFile = System.IO.Path.GetTempFileName() + ".png";
 
@@ -87,11 +94,14 @@ namespace AgateLib.Platform.WinForms.Fonts
 			Size bitmapSize = new Size(256, 64);
 
 			bmp = new System.Drawing.Bitmap(bitmapSize.Width, bitmapSize.Height);
+			// Set DPI for bmp so that font is actually rendered at the right size.
+			bmp.SetResolution(96, 96);
+
 			Drawing.Graphics g = Drawing.Graphics.FromImage(bmp);
 			Drawing.Font font = rend.Font;
 
 			g.TextRenderingHint = Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-
+			
 			glyphs = new FontMetrics();
 
 			const int bitmapPadding = 2;
@@ -146,8 +156,7 @@ namespace AgateLib.Platform.WinForms.Fonts
 
 			if (y > bitmapSize.Height)
 			{
-				while (y > bitmapSize.Height)
-					bitmapSize.Height *= 2;
+				bitmapSize.Height = y;
 
 				g.Dispose();
 				bmp.Dispose();

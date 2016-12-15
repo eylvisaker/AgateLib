@@ -31,7 +31,7 @@ namespace AgateLib.Testing.FontTests
 				Core.KeepAlive();
 
 				BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 18, FontStyles.Bold);
-				fontOptions.UseTextRenderer = true;
+				fontOptions.TextRenderer = TextRenderEngine.TextRenderer;
 
 				FontSurface font = new FontSurface(BitmapFontUtil.ConstructFromOSFont(fontOptions));
 

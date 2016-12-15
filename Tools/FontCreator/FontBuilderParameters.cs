@@ -31,7 +31,7 @@ namespace FontCreator
 		public BitmapFontEdgeOptions EdgeOptions { get; set; }
 		public bool MonospaceNumbers { get; set; } = true;
 		public int NumberWidthAdjust { get; set; }
-		public bool UseTextRenderer { get; set; } = true;
+		public TextRenderEngine TextRenderer { get; set; }
 
 		public string SaveName { get; set; }
 	}

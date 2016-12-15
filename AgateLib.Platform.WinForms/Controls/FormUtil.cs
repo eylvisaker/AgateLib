@@ -181,6 +181,8 @@ namespace AgateLib.Platform.WinForms.Controls
 			Bitmap bmp = buffer.ToBitmap();
 			var dirname = Path.GetDirectoryName(filename);
 
+			Directory.CreateDirectory(dirname);
+
 			if (string.IsNullOrEmpty(dirname) == false && Directory.Exists(dirname) == false)
 				throw new DirectoryNotFoundException("The directory " + dirname + " does not exist.");
 

@@ -32,7 +32,7 @@ namespace FontCreator
 			{
 				if (args.First() == "-build" && args.Length >= 2)
 				{
-					ScriptBuild(args[1]);
+					ScriptBuild(args.Skip(1));
 					return;
 				}
 
@@ -75,21 +75,24 @@ namespace FontCreator
 			});
 		}
 
-		private static void ScriptBuild(string file)
+		private static void ScriptBuild(IEnumerable<string> files)
 		{
-			var parameters = ReadParameters(file);
+			foreach (var file in files)
+			{
+				var parameters = ReadParameters(file);
 
-			FontBuilder builder = new FontBuilder();
-			builder.Parameters = parameters;
+				FontBuilder builder = new FontBuilder();
+				builder.Parameters = parameters;
 
-			builder.CreateFont();
+				builder.CreateFont();
 
-			string saveName = parameters.SaveName;
-			if (string.IsNullOrWhiteSpace(saveName))
-				saveName = parameters.Family;
+				string saveName = parameters.SaveName;
+				if (string.IsNullOrWhiteSpace(saveName))
+					saveName = parameters.Family;
 
-			builder.SaveFont($"output/{saveName}.yaml",
-				saveName, $"Fonts/{saveName}");
+				builder.SaveFont($"output/{saveName}.yaml",
+					saveName, $"Fonts/{saveName}");
+			}
 		}
 
 		private static FontBuilderParameters ReadParameters(string file)

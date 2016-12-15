@@ -26,6 +26,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.Resources;
+using AgateLib.Quality;
 
 namespace AgateLib.Platform.WinForms.Fonts
 {
@@ -316,6 +317,9 @@ namespace AgateLib.Platform.WinForms.Fonts
 
 			public GdiWindows(Drawing.Font font)
 			{
+				Condition.Requires<InvalidOperationException>(Core.Platform.PlatformType == PlatformType.Windows,
+					"Gdi renderer only works on Windows.");
+
 				Font = font;
 			}
 			public System.Drawing.Font Font
@@ -365,7 +369,7 @@ namespace AgateLib.Platform.WinForms.Fonts
 					abc.abcA -= 1;
 				}
 
-				mABCs.Add(c, abc);
+				mABCs[c] = abc;
 
 				int width = abc.AgateWidth;
 

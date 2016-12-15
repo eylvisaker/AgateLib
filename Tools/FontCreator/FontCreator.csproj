@@ -159,7 +159,13 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="app.manifest" />
-    <Content Include="FontParameters\AgateMono.yaml">
+    <Content Include="FontParameters\Build-AgateMono.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FontParameters\Build-AgateSans.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FontParameters\Build-MedievalSharp.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

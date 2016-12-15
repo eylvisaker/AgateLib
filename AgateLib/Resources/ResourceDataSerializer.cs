@@ -23,6 +23,7 @@ namespace AgateLib.Resources
 				.WithTypeConverter(new LayoutBoxConverterYaml())
 				.WithTypeConverter(new PointConverterYaml())
 				.WithTypeConverter(new SizeConverterYaml())
+				.WithTypeConverter(new RectangleConverterYaml())
 				.Build();
 		}
 

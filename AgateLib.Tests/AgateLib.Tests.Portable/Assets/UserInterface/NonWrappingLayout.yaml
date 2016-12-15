@@ -1,6 +1,6 @@
 ﻿
 font-sources: 
-- fonts.yaml
+- MedievalSharp.yaml
 
 theme-sources:
 - VenusTestTheme.yaml

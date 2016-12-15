@@ -137,8 +137,6 @@ namespace FontCreator
 
 			Parameters.NumberWidthAdjust = (int)nudNumberWidthAdjust.Value;
 
-			Parameters.UseTextRenderer = chkTextRenderer.Checked;
-
 			builder?.CreateFont();
 		}
 		protected override void OnPaint(PaintEventArgs e)
