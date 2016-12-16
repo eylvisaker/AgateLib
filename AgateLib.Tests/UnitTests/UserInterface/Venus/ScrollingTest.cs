@@ -65,14 +65,6 @@ facets:
                                 1:
                                     type: label
                                     text: Fifth menu item.
-        DebugWindow:
-            type: window
-            position: 340 20
-            size: 300 200
-            children:
-                DebugLabel: 
-                    type: label
-                    text: Debug Message
 ";
 
 		public string FacetName { get { return "MenuScroll"; } }
@@ -93,6 +85,16 @@ facets:
 		}
 
 		[TestMethod]
+		public void MenuItemSizes()
+		{
+			Assert.AreEqual(new Rectangle(0, 0, 275, 10), Menu.MenuItems.Skip(0).First().WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 10, 275, 20), Menu.MenuItems.Skip(1).First().WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 30, 275, 30), Menu.MenuItems.Skip(2).First().WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 60, 275, 10), Menu.MenuItems.Skip(3).First().WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 70, 275, 10), Menu.MenuItems.Skip(4).First().WidgetRect);
+		}
+
+		[TestMethod]
 		public void OverflowItemSizeRestricted()
 		{
 			Assert.AreEqual(new Rectangle(0, 10, 275, 40),
@@ -105,6 +107,16 @@ facets:
 			Menu.ScrollToWidget(Menu.MenuItems.Last());
 
 			Assert.AreEqual(new Point(0, 50), Menu.ScrollOffset);
+		}
+
+		[TestMethod]
+		public void ScrollToLastItemThenFirst()
+		{
+			Menu.ScrollToWidget(Menu.MenuItems.Last());
+			Assert.AreEqual(new Point(0, 50), Menu.ScrollOffset);
+
+			Menu.ScrollToWidget(Menu.MenuItems.First());
+			Assert.AreEqual(new Point(0, 0), Menu.ScrollOffset);
 		}
 	}
 }
