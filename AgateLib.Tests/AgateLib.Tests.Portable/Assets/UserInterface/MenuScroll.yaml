@@ -12,6 +12,9 @@ facets:
             position: 20 20
             size: 275 200
             children:
+                Header:
+                    type: label
+                    text: Menu Header
                 Menu:
                     type: menu
                     overflow: scroll

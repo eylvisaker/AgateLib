@@ -15,8 +15,9 @@ namespace AgateLib.UserInterface.Venus.Layout
 		/// Calculates the box size of the widget, given the passed constraints.
 		/// The box size includes with margin, padding and border.
 		/// </summary>
-		/// <param name="child"></param>
-		/// <param name="maxWidth"></param>
+		/// <param name="widget">The widget who's box size is to be computed</param>
+		/// <param name="maxWidth">The maximum width of the widget's box</param>
+		/// <param name="maxHeight">The maximum height of the widget's box</param>
 		/// <returns></returns>
 		void ComputeBoxSize(WidgetStyle widget, int? maxWidth = null, int? maxHeight = null);
 

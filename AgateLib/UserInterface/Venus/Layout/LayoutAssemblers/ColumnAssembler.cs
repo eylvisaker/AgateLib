@@ -46,14 +46,22 @@ namespace AgateLib.UserInterface.Venus.Layout.LayoutAssemblers
 			return true;
 		}
 
-		public void DoLayout(ILayoutBuilder layoutBuilder, WidgetStyle container, ICollection<WidgetStyle> layoutChildren, int? maxWidth = null, int? maxHeight = null)
+		public void DoLayout(ILayoutBuilder layoutBuilder, WidgetStyle container, ICollection<WidgetStyle> layoutChildren, 
+			int? maxWidth = null, int? maxHeight = null)
 		{
 			int y = 0;
 			int contentWidth = maxWidth ?? (container.Metrics.NaturalBoxSize.Width - container.BoxModel.Width);
 			
 			foreach (var child in layoutChildren)
 			{
-				layoutBuilder.ComputeBoxSize(child, maxWidth: contentWidth);
+				int? childMaxHeight = maxHeight;
+
+				if (childMaxHeight != null && child.Overflow == Overflow.Scroll)
+				{
+					childMaxHeight = childMaxHeight - y;
+				}
+
+				layoutBuilder.ComputeBoxSize(child, contentWidth, childMaxHeight);
 
 				child.Widget.X = child.BoxModel.Left;
 				child.Widget.Y = y + child.BoxModel.Top;
@@ -62,6 +70,9 @@ namespace AgateLib.UserInterface.Venus.Layout.LayoutAssemblers
 			}
 			
 			int height = y;
+
+			if (container.Overflow == Overflow.Scroll && height > maxHeight)
+				height = maxHeight.Value;
 
 			container.Metrics.BoxSize = new Size(
 				contentWidth + container.BoxModel.Width, 
