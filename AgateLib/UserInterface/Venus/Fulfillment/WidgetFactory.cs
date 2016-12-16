@@ -119,7 +119,16 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 			widget.Y = model.Position?.Y ?? 0;
 			widget.Width = model.Size?.Width ?? 0;
 			widget.Height = model.Size?.Height ?? 0;
-			
+
+			var container = widget as Container;
+			if (container != null)
+			{
+				if (model.Overflow == Overflow.Scroll)
+				{
+					container.AllowScroll = ScrollAxes.Vertical;
+				}
+			}
+
 			ApplyReflectionProperty(widget, "Text", model.Text);
 		}
 

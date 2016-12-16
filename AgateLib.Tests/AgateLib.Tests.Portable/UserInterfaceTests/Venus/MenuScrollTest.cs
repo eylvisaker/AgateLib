@@ -75,11 +75,8 @@ namespace AgateLib.Testing.UserInterfaceTests
 			facet = new Facet();
 
 			resources.InitializeContainer(facet);
-			//resources.UserInterface.InitializeFacet(facet);
 
 			Input.InputHandlers.Add(facet.InterfaceRoot);
-
-			facet.Menu.AllowScroll = ScrollAxes.Vertical;
 
 			facet.Menu.SelectedItemChanged += (sender, args) =>
 			{

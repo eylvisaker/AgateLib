@@ -104,7 +104,7 @@ facets:
 		{
 			Menu.ScrollToWidget(Menu.MenuItems.Last());
 
-			Assert.AreEqual(new Point(-1, -1), Menu.ScrollOffset);
+			Assert.AreEqual(new Point(0, 50), Menu.ScrollOffset);
 		}
 	}
 }
