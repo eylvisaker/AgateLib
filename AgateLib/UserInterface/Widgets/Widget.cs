@@ -24,6 +24,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 using System.ComponentModel;
+using AgateLib.UserInterface.DataModel;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -464,5 +465,7 @@ namespace AgateLib.UserInterface.Widgets
 		/// either the vertical or horizontal axis.
 		/// </summary>
 		protected internal virtual bool AnyDirectionGestures { get { return false; } }
+
+		public WidgetProperties Properties { get; internal set; }
 	}
 }

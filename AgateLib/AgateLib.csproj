@@ -588,6 +588,8 @@
     <Compile Include="UserInterface\DataModel\BoxDataModel.cs" />
     <Compile Include="UserInterface\DataModel\FacetModel.cs" />
     <Compile Include="UserInterface\DataModel\FontStyleProperties.cs" />
+    <Compile Include="UserInterface\DataModel\MenuItemModelCollection.cs" />
+    <Compile Include="UserInterface\DataModel\MenuItemProperties.cs" />
     <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterYaml.cs" />
     <Compile Include="Resources\DataModel\FacetModelCollection.cs" />
     <Compile Include="Resources\DataModel\FontSurfaceResource.cs" />

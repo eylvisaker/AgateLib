@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AgateLib.UserInterface.DataModel;
 
@@ -52,7 +53,7 @@ namespace AgateLib.Resources.DataModel
 				return ((IDictionary<string, FacetModel>)facets).Values;
 			}
 		}
-
+		
 		public void Add(KeyValuePair<string, FacetModel> item)
 		{
 			((IDictionary<string, FacetModel>)facets).Add(item);
@@ -106,6 +107,14 @@ namespace AgateLib.Resources.DataModel
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return ((IDictionary<string, FacetModel>)facets).GetEnumerator();
+		}
+
+		internal void Validate()
+		{
+			foreach(var facet in this.Values)
+			{
+				facet.Validate();
+			}
 		}
 	}
 }

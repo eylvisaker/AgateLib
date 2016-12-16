@@ -84,6 +84,8 @@ namespace AgateLib.Resources
 
 				ReadExternalFiles(deserializer, result);
 
+				result.Validate();
+
 				return result;
 			}
 		}

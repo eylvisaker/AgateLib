@@ -84,7 +84,7 @@ namespace AgateLib.UserInterface.Venus
 			{
 				foreach (var child in container.Children)
 				{
-					InitializeStyleDataForWidget(child, widgetProperties.Children[child.Name]);
+					InitializeStyleDataForWidget(child, child.Properties);
 				}
 			}
 		}

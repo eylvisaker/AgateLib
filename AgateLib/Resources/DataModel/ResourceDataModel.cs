@@ -25,5 +25,10 @@ namespace AgateLib.Resources.DataModel
 		public List<string> FacetSources { get; set; } = new List<string>();
 
 		public List<string> SurfaceSources { get; set; } = new List<string>();
+
+		internal void Validate()
+		{
+			Facets.Validate();
+		}
 	}
 }

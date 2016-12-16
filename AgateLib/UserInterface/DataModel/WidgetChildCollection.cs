@@ -97,5 +97,9 @@ namespace AgateLib.UserInterface.DataModel
 			return GetEnumerator();
 		}
 
+		public override string ToString()
+		{
+			return $"Count = {Count}";
+		}
 	}
 }

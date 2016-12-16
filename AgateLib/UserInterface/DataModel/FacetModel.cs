@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.DataModel
@@ -105,6 +106,14 @@ namespace AgateLib.UserInterface.DataModel
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return ((IDictionary<string, WidgetProperties>)widgets).GetEnumerator();
+		}
+
+		internal void Validate()
+		{
+			foreach(var wp in this.Values)
+			{
+				wp.Validate();
+			}
 		}
 	}
 }

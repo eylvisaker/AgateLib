@@ -81,6 +81,9 @@ namespace AgateLib.Resources.Managers.UserInterface
 
 			var widgets = widgetFactory.RealizeFacetModel(facetModel, (name, widget) =>
 			{
+				if (name == null)
+					return;
+
 				if (propertyMap.ContainsKey(name) == false)
 					return;
 

@@ -19,6 +19,8 @@ namespace AgateLib.UserInterface.DataModel
 
 		public WidgetChildCollection Children { get; private set; } = new WidgetChildCollection();
 
+		public MenuItemModelCollection MenuItems { get; private set; } = new MenuItemModelCollection();
+
 		public WidgetThemeModel Style { get; set; }
 
 		public Overflow? Overflow { get; set; }
@@ -45,5 +47,11 @@ namespace AgateLib.UserInterface.DataModel
 		public bool Enabled { get; set; } = true;
 
 		public bool Visible { get; set; } = true;
+
+		internal void Validate()
+		{
+			if (MenuItems.Count > 0 && !string.Equals(Type, "menu", StringComparison.OrdinalIgnoreCase))
+				throw new AgateException($"Item {Name} has menu items but is type {Type} instead of type menu.");
+		}
 	}
 }
