@@ -86,7 +86,10 @@
       <HintPath>..\..\packages\Moq.4.5.28\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="WindowsBase" />
     <Reference Include="YamlDotNet, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\YamlDotNet.4.0.0\lib\net35\YamlDotNet.dll</HintPath>
       <Private>True</Private>
@@ -135,6 +138,8 @@
     <Compile Include="Resources\ResourceDataLoaderReferenceReadingTests.cs" />
     <Compile Include="Resources\ResourceDataLoaderFontReadingTests.cs" />
     <Compile Include="UserInterface\DataModel\TypeConverters\LayoutBoxConverterTest.cs" />
+    <Compile Include="UserInterface\FacetUnitTest.cs" />
+    <Compile Include="UserInterface\Fulfillment\MenuItemLabelReferenceTest.cs" />
     <Compile Include="UserInterface\Venus\AdapterBoxModelTests.cs" />
     <Compile Include="UserInterface\Venus\AdapterTests.cs" />
     <Compile Include="UserInterface\Venus\LayoutEngineTests.cs" />

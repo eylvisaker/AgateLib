@@ -205,7 +205,7 @@
     <Content Include="Assets\UserInterface\NonWrappingLayout.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\UserInterface\VenusTestTheme.yaml">
+    <Content Include="Assets\UserInterface\PaperTheme.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\UserInterface\MenuScroll.yaml">

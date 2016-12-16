@@ -12,47 +12,32 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AgateLib.UnitTests.UserInterface.Venus
 {
 	[TestClass]
-	public class ScrollingTest : AgateUnitTest, IUserInterfaceFacet
+	public class ScrollingTest : FacetUnitTest, IUserInterfaceFacet
 	{
-		string facetSource = @"
+		protected override string FacetSource { get; } = @"
 facets:
     MenuScroll: 
-        Window:
-            type: window
-            position: 20 20
-            size: 275 50
-            children:
-                Header:
-                    type: label
-                    text: Menu Header
-                Menu:
-                    type: menu
-                    overflow: scroll
-                    menu-items:
-                    -   text: First menu item
-                    -   text: Second menu item that is really long and goes on forever
-                    -   text: Third menu item. This one is pretty long and has multiple sentences. (Well, one of them is a sentence fragment.)
-                    -   text: Fourth menu item.
-                    -   text: Fifth menu item.
-                    -   text: Sixth menu item.
+    -   name: Window
+        type: window
+        position: 20 20
+        size: 275 50
+        children:
+        -   name: Header
+            type: label
+            text: Menu Header
+        -   name: Menu
+            type: menu
+            overflow: scroll
+            menu-items:
+            -   text: First menu item
+            -   text: Second menu item that is really long and goes on forever
+            -   text: Third menu item. This one is pretty long and has multiple sentences. (Well, one of them is a sentence fragment.)
+            -   text: Fourth menu item.
+            -   text: Fifth menu item.
+            -   text: Sixth menu item.
 ";
 
-		public string FacetName { get { return "MenuScroll"; } }
-
-		public Gui InterfaceRoot { get; set; }
-
 		public Menu Menu { get; set; }
-
-		[TestInitialize]
-		public void Initialize()
-		{
-			var resourceManager = new AgateResourceManager(
-				new ResourceDataLoader().LoadFromText(facetSource));
-
-			resourceManager.InitializeContainer(this);
-
-			InterfaceRoot.LayoutEngine.UpdateLayout(InterfaceRoot);
-		}
 
 		[TestMethod]
 		public void MenuItemSizes()

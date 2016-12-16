@@ -65,15 +65,13 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 			return RealizeEachWidget(facetModel, widgetCreated).ToList();
 		}
 
-		private IEnumerable<Widget> RealizeEachWidget(IEnumerable<KeyValuePair<string, WidgetProperties>> facetModel,
+		private IEnumerable<Widget> RealizeEachWidget(
+			IEnumerable<WidgetProperties> facetModel,
 			Action<string, Widget> widgetCreated)
 		{
 			foreach (var uiElement in facetModel)
 			{
-				Widget widget = RealizeWidget(uiElement.Value, widgetCreated);
-				widget.Name = uiElement.Key;
-
-				widgetCreated(widget.Name, widget);
+				Widget widget = RealizeWidget(uiElement, widgetCreated);
 
 				yield return widget;
 			}
@@ -123,11 +121,14 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 					continue;
 
 				Widget widget = activator.Create(type);
+				widget.Name = name;
 
 				Condition.Requires<InvalidOperationException>(widget != null,
 					$"The activator advertised it could create widget of type {type} for {name} but returned null when asked to create it.");
 
 				ApplyProperties(widget, widgetModel, defaults);
+
+				widgetCreated(widget.Name, widget);
 
 				RealizeChildren(widgetModel, widgetCreated, widget);
 

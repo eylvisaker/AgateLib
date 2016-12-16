@@ -65,8 +65,8 @@ namespace AgateLib.UnitTests.Resources
 			Assert.AreEqual("default_facet", dataModel.Facets.Keys.First());
 
 			var facet = dataModel.Facets["default_facet"];
-			var window = facet["window_A"];
-			var menu = window.Children["menu_1"];
+			var window = facet.First(x => x.Name == "window_A");
+			var menu = window.Children.First(x => x.Name == "menu_1");
 
 			Assert.AreEqual("window", window.Type);
 			Assert.AreEqual("menu", menu.Type);

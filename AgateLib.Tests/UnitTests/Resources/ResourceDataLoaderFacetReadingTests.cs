@@ -22,18 +22,18 @@ namespace AgateLib.UnitTests.Resources
 		string yaml = @"
 facets:
     TestGui: 
-        window_1:
-            type: window
-            position: 10 15
-            size: 250 400
-        window_2:
-            type: window
-            position: 270 10
-            size: 275 300
-            children:
-                menu_1:
-                    type: menu
-                    visible: false
+    -   name: window_1
+        type: window
+        position: 10 15
+        size: 250 400
+    -   name: window_2
+        type: window
+        position: 270 10
+        size: 275 300
+        children:
+        -   name: menu_1
+            type: menu
+            visible: false
 ";
 
 		
@@ -57,8 +57,8 @@ facets:
 			Assert.AreEqual("TestGui", configModel.Facets.Keys.First());
 			var gui = configModel.Facets["TestGui"];
 
-			var window1 = gui["window_1"];
-			var window2 = gui["window_2"];
+			var window1 = gui.First(x => x.Name == "window_1");
+			var window2 = gui.First(x => x.Name == "window_2");
 
 			Assert.AreEqual("window", window1.Type);
 			Assert.AreEqual(10, window1.Position?.X);
@@ -68,7 +68,7 @@ facets:
 			Assert.AreEqual(270, window2.Position?.X);
 			Assert.AreEqual(10, window2.Position?.Y);
 
-			var menu = window2.Children["menu_1"];
+			var menu = window2.Children.First(x => x.Name == "menu_1");
 
 			Assert.AreEqual("menu", menu.Type);
 			Assert.AreEqual(false, menu.Visible);

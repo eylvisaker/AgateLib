@@ -47,6 +47,8 @@ namespace AgateLib.Resources
 			disposed = true;
 		}
 
+		public ResourceDataModel Data { get { return data; } }
+
 		public IDisplayResourceManager Display
 		{
 			get

@@ -4,20 +4,20 @@ using System.Collections.Generic;
 
 namespace AgateLib.UserInterface.DataModel
 {
-	public class FacetModel : IDictionary<string, WidgetProperties>
+	public class FacetModel : IList<WidgetProperties>
 	{
-		Dictionary<string, WidgetProperties> widgets = new Dictionary<string, WidgetProperties>();
+		List<WidgetProperties> widgets = new List<WidgetProperties>();
 
-		public WidgetProperties this[string key]
+		public WidgetProperties this[int index]
 		{
 			get
 			{
-				return ((IDictionary<string, WidgetProperties>)widgets)[key];
+				return ((IList<WidgetProperties>)widgets)[index];
 			}
 
 			set
 			{
-				((IDictionary<string, WidgetProperties>)widgets)[key] = value;
+				((IList<WidgetProperties>)widgets)[index] = value;
 			}
 		}
 
@@ -25,7 +25,7 @@ namespace AgateLib.UserInterface.DataModel
 		{
 			get
 			{
-				return ((IDictionary<string, WidgetProperties>)widgets).Count;
+				return ((IList<WidgetProperties>)widgets).Count;
 			}
 		}
 
@@ -33,87 +33,71 @@ namespace AgateLib.UserInterface.DataModel
 		{
 			get
 			{
-				return ((IDictionary<string, WidgetProperties>)widgets).IsReadOnly;
+				return ((IList<WidgetProperties>)widgets).IsReadOnly;
 			}
 		}
 
-		public ICollection<string> Keys
+		public void Add(WidgetProperties item)
 		{
-			get
-			{
-				return ((IDictionary<string, WidgetProperties>)widgets).Keys;
-			}
-		}
-
-		public ICollection<WidgetProperties> Values
-		{
-			get
-			{
-				return ((IDictionary<string, WidgetProperties>)widgets).Values;
-			}
-		}
-
-		public void Add(KeyValuePair<string, WidgetProperties> item)
-		{
-			((IDictionary<string, WidgetProperties>)widgets).Add(item);
-		}
-
-		public void Add(string key, WidgetProperties value)
-		{
-			((IDictionary<string, WidgetProperties>)widgets).Add(key, value);
+			((IList<WidgetProperties>)widgets).Add(item);
 		}
 
 		public void Clear()
 		{
-			((IDictionary<string, WidgetProperties>)widgets).Clear();
+			((IList<WidgetProperties>)widgets).Clear();
 		}
 
-		public bool Contains(KeyValuePair<string, WidgetProperties> item)
+		public bool Contains(WidgetProperties item)
 		{
-			return ((IDictionary<string, WidgetProperties>)widgets).Contains(item);
+			return ((IList<WidgetProperties>)widgets).Contains(item);
 		}
 
-		public bool ContainsKey(string key)
+		public void CopyTo(WidgetProperties[] array, int arrayIndex)
 		{
-			return ((IDictionary<string, WidgetProperties>)widgets).ContainsKey(key);
+			((IList<WidgetProperties>)widgets).CopyTo(array, arrayIndex);
 		}
 
-		public void CopyTo(KeyValuePair<string, WidgetProperties>[] array, int arrayIndex)
+		public IEnumerator<WidgetProperties> GetEnumerator()
 		{
-			((IDictionary<string, WidgetProperties>)widgets).CopyTo(array, arrayIndex);
+			return ((IList<WidgetProperties>)widgets).GetEnumerator();
 		}
 
-		public IEnumerator<KeyValuePair<string, WidgetProperties>> GetEnumerator()
+		public int IndexOf(WidgetProperties item)
 		{
-			return ((IDictionary<string, WidgetProperties>)widgets).GetEnumerator();
+			return ((IList<WidgetProperties>)widgets).IndexOf(item);
 		}
 
-		public bool Remove(KeyValuePair<string, WidgetProperties> item)
+		public void Insert(int index, WidgetProperties item)
 		{
-			return ((IDictionary<string, WidgetProperties>)widgets).Remove(item);
+			((IList<WidgetProperties>)widgets).Insert(index, item);
 		}
 
-		public bool Remove(string key)
+		public bool Remove(WidgetProperties item)
 		{
-			return ((IDictionary<string, WidgetProperties>)widgets).Remove(key);
+			return ((IList<WidgetProperties>)widgets).Remove(item);
 		}
 
-		public bool TryGetValue(string key, out WidgetProperties value)
+		public void RemoveAt(int index)
 		{
-			return ((IDictionary<string, WidgetProperties>)widgets).TryGetValue(key, out value);
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return ((IDictionary<string, WidgetProperties>)widgets).GetEnumerator();
+			((IList<WidgetProperties>)widgets).RemoveAt(index);
 		}
 
 		internal void Validate()
 		{
-			foreach(var wp in this.Values)
+			foreach(var wp in this)
 			{
 				wp.Validate();
 			}
+		}
+
+		public override string ToString()
+		{
+			return $"Count: {Count}";
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return ((IList<WidgetProperties>)widgets).GetEnumerator();
 		}
 	}
 }

@@ -68,7 +68,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 
 				adapter.InitializeStyleData(gui);
 			}
-			catch (Exception e) when (!(e is AgateUserInterfaceInitializationException))
+			catch (Exception e) when (!(e is AgateException))
 			{
 				throw new AgateUserInterfaceInitializationException("Failed to initialize the facet.", e);
 			}

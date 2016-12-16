@@ -52,13 +52,13 @@ default:
 
 		string facetsyaml = @"
 default_facet: 
-    window_A:
-        type: window
-        position: 270 10
-        size: 275 300
-        children:
-            menu_1:
-                type: menu
+-   name: window_A
+    type: window
+    position: 270 10
+    size: 275 300
+    children:
+    -   name: menu_1
+        type: menu
 ";
 
 

@@ -1,10 +1,19 @@
-﻿
-font-sources: 
-- MedievalSharp.yaml
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AgateLib.Resources;
+using AgateLib.UserInterface;
+using AgateLib.UserInterface.Widgets;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-theme-sources:
-- PaperTheme.yaml
-
+namespace AgateLib.UnitTests.UserInterface.Fulfillment
+{
+	[TestClass]
+	public class MenuItemLabelReferenceTest : FacetUnitTest, IUserInterfaceFacet
+	{
+		protected override string FacetSource { get; } = @"
 facets:
     NonWrappingLayout: 
     -   name: window_1
@@ -33,3 +42,15 @@ facets:
             menu-items:
             -   text: This is a long message that should wrap around.
             -   text: This is another, even longer message that should also wrap around, even further than the first!
+";
+
+		[BindTo("label_1")]
+		public Label Label_1 { get; set; }
+
+		[TestMethod]
+		public void LabelReferenceAssigned()
+		{
+			Assert.IsNotNull(Label_1);
+		}
+	}
+}

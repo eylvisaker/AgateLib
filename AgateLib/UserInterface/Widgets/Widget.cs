@@ -466,6 +466,7 @@ namespace AgateLib.UserInterface.Widgets
 		/// </summary>
 		protected internal virtual bool AnyDirectionGestures { get { return false; } }
 
+		[Obsolete("Move this to the WidgetStyle object")]
 		public WidgetProperties Properties { get; internal set; }
 	}
 }

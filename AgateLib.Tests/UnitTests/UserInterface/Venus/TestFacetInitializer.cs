@@ -56,32 +56,32 @@ themes:
 
 facets:
     main: 
-        window:
-            type: window
-            position: {WindowPosition.X} {WindowPosition.Y}
-            size: {width} {height}
+    -   name: window
+        type: window
+        position: {WindowPosition.X} {WindowPosition.Y}
+        size: {width} {height}
+        children:
+        -   name: container_1
+            type: panel
             children:
-                container_1:
-                    type: panel
-                    children:
-                        label_1:
-                            type: label
-                            text: hello
-                        label_2:
-                            type: label
-                            text: hello, world
-                        label_3:
-                            type: label
-                            text: hello your face
-                container_2:
-                    type: panel
-                    children:
-                        label_4:
-                            type: label
-                            text: dogs are the best
-                        label_5:
-                            type: label
-                            text: cats suck
+            -   name: label_1
+                type: label
+                text: hello
+            -   name: label_2
+                type: label
+                text: hello, world
+            -   name: label_3
+                type: label
+                text: hello your face
+        -   name: container_2
+            type: panel
+            children:
+            -   name: label_4
+                type: label
+                text: dogs are the best
+            -   name: label_5
+                type: label
+                text: cats suck
 ";
 
 			var resourceDataModel = new ResourceDataLoader().LoadFromText(yaml);

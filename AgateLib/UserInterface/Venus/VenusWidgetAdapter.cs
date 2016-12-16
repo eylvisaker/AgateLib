@@ -67,7 +67,7 @@ namespace AgateLib.UserInterface.Venus
 		{
 			foreach (var child in children)
 			{
-				InitializeStyleDataForWidget(child, facetModel[child.Name]);
+				InitializeStyleDataForWidget(child, child.Properties);
 			}
 		}
 

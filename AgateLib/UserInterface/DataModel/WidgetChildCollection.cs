@@ -5,101 +5,92 @@ using System.Linq;
 
 namespace AgateLib.UserInterface.DataModel
 {
-	public class WidgetChildCollection : IDictionary<string, WidgetProperties>
+	public class WidgetChildCollection : IList<WidgetProperties>
 	{
-		List<KeyValuePair<string, WidgetProperties>> widgets = new List<KeyValuePair<string, WidgetProperties>>();
+		List<WidgetProperties> widgets = new List<WidgetProperties>();
 
-		public WidgetProperties this[string key]
+		public WidgetProperties this[int index]
 		{
-			get { return widgets.First(x => x.Key == key).Value; }
+			get
+			{
+				return ((IList<WidgetProperties>)widgets)[index];
+			}
+
 			set
 			{
-				Remove(key);
-				Add(new KeyValuePair<string, WidgetProperties>(key, value));
+				((IList<WidgetProperties>)widgets)[index] = value;
 			}
 		}
 
-		public int Count => widgets.Count;
-
-		public ICollection<string> Keys => widgets.Select(x => x.Key).ToList();
-
-		public ICollection<WidgetProperties> Values => widgets.Select(x => x.Value).ToList();
-
-		bool ICollection<KeyValuePair<string, WidgetProperties>>.IsReadOnly => false;
-
-		public void Add(KeyValuePair<string, WidgetProperties> item)
+		public int Count
 		{
-			item.Value.Name = item.Key;
-			widgets.Add(item);
+			get
+			{
+				return ((IList<WidgetProperties>)widgets).Count;
+			}
 		}
 
-		public void Add(string name, WidgetProperties widget)
+		public bool IsReadOnly
 		{
-			Add(new KeyValuePair<string, WidgetProperties>(name, widget));
+			get
+			{
+				return ((IList<WidgetProperties>)widgets).IsReadOnly;
+			}
 		}
 
-		public void Add(WidgetProperties widget)
+		public void Add(WidgetProperties item)
 		{
-			Add(widget.Name, widget);
+			((IList<WidgetProperties>)widgets).Add(item);
 		}
 
 		public void Clear()
 		{
-			widgets.Clear();
+			((IList<WidgetProperties>)widgets).Clear();
 		}
 
-		public bool Contains(KeyValuePair<string, WidgetProperties> item)
+		public bool Contains(WidgetProperties item)
 		{
-			return widgets.Contains(item);
+			return ((IList<WidgetProperties>)widgets).Contains(item);
 		}
 
-		public bool ContainsKey(string key)
+		public void CopyTo(WidgetProperties[] array, int arrayIndex)
 		{
-			return widgets.Any(x => x.Key == key);
+			((IList<WidgetProperties>)widgets).CopyTo(array, arrayIndex);
 		}
 
-		public void CopyTo(KeyValuePair<string, WidgetProperties>[] array, int arrayIndex)
+		public IEnumerator<WidgetProperties> GetEnumerator()
 		{
-			widgets.CopyTo(array, arrayIndex);
+			return ((IList<WidgetProperties>)widgets).GetEnumerator();
 		}
 
-		public IEnumerator<KeyValuePair<string, WidgetProperties>> GetEnumerator()
+		public int IndexOf(WidgetProperties item)
 		{
-			return widgets.GetEnumerator();
+			return ((IList<WidgetProperties>)widgets).IndexOf(item);
 		}
 
-		public bool Remove(KeyValuePair<string, WidgetProperties> item)
+		public void Insert(int index, WidgetProperties item)
 		{
-			return widgets.Remove(item);
+			((IList<WidgetProperties>)widgets).Insert(index, item);
 		}
 
-		public bool Remove(string key)
+		public bool Remove(WidgetProperties item)
 		{
-			return widgets.RemoveAll(x => x.Key == key) != 0;
+			return ((IList<WidgetProperties>)widgets).Remove(item);
 		}
 
-		public bool TryGetValue(string key, out WidgetProperties value)
+		public void RemoveAt(int index)
 		{
-			var result = widgets.Any(x => x.Key == key);
-
-			if (result)
-			{
-				value = widgets.First(x => x.Key == key).Value;
-			}
-			else
-				value = null;
-
-			return result;
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
+			((IList<WidgetProperties>)widgets).RemoveAt(index);
 		}
 
 		public override string ToString()
 		{
 			return $"Count = {Count}";
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return ((IList<WidgetProperties>)widgets).GetEnumerator();
 		}
 	}
 }
