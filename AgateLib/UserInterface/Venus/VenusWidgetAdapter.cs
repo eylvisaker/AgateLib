@@ -185,7 +185,7 @@ namespace AgateLib.UserInterface.Venus
 			ThemeModel theme;
 
 			if (string.IsNullOrWhiteSpace(widget.Style))
-				theme = ThemeData.First().Value;
+				theme = ThemeData.FirstOrDefault().Value;
 			else
 				theme = ThemeData[widget.Style];
 
@@ -196,7 +196,7 @@ namespace AgateLib.UserInterface.Venus
 		{
 			var widgetTypename = WidgetTypeNameOf(widget);
 
-			if (theme.ContainsKey(widgetTypename))
+			if (theme?.ContainsKey(widgetTypename) ?? false)
 			{
 				return theme[widgetTypename];
 			}
