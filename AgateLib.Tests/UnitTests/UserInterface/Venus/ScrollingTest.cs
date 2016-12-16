@@ -34,7 +34,7 @@ facets:
                     -   text: Third menu item. This one is pretty long and has multiple sentences. (Well, one of them is a sentence fragment.)
                     -   text: Fourth menu item.
                     -   text: Fifth menu item.
-                    -   text: Fifth menu item.
+                    -   text: Sixth menu item.
 ";
 
 		public string FacetName { get { return "MenuScroll"; } }
