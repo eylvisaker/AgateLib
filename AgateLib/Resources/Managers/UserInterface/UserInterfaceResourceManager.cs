@@ -46,8 +46,8 @@ namespace AgateLib.Resources.Managers.UserInterface
 		{
 			try
 			{
-				var adapter = new VenusWidgetAdapter(fontProvider);
-				var layoutEngine = new VenusLayoutEngine(adapter);
+				var adapter = new AgateWidgetAdapter(fontProvider);
+				var layoutEngine = new AgateLayoutEngine(adapter);
 				var guiRenderer = new AgateUserInterfaceRenderer(adapter);
 
 				adapter.FacetData = data.Facets;

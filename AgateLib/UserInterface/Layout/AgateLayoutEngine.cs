@@ -13,16 +13,16 @@ using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Layout
 {
-	public class VenusLayoutEngine : IGuiLayoutEngine, ILayoutBuilder
+	public class AgateLayoutEngine : IGuiLayoutEngine, ILayoutBuilder
 	{
-		private VenusWidgetAdapter adapter;
-		private VenusMetricsComputer metricsComputer;
+		private AgateWidgetAdapter adapter;
+		private MetricsComputer metricsComputer;
 		private List<ILayoutAssembler> layoutAssemblers = new List<ILayoutAssembler>();
 
-		public VenusLayoutEngine(VenusWidgetAdapter adapter)
+		public AgateLayoutEngine(AgateWidgetAdapter adapter)
 		{
 			this.adapter = adapter;
-			metricsComputer = new VenusMetricsComputer(adapter);
+			metricsComputer = new MetricsComputer(adapter);
 
 			layoutAssemblers.Add(new RowAssembler());
 			layoutAssemblers.Add(new ColumnAssembler());

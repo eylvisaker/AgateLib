@@ -633,10 +633,10 @@
     <Compile Include="UserInterface\Layout\IWidgetMetricsCalculator.cs" />
     <Compile Include="UserInterface\Layout\MetricsCalculators\DefaultMetricsCalculator.cs" />
     <Compile Include="UserInterface\Layout\LayoutAssemblers\RowAssembler.cs" />
-    <Compile Include="UserInterface\Layout\VenusMetricsComputer.cs" />
+    <Compile Include="UserInterface\Layout\MetricsComputer.cs" />
     <Compile Include="UserInterface\StyleModel\TransitionStyle.cs" />
-    <Compile Include="UserInterface\Layout\VenusLayoutEngine.cs" />
-    <Compile Include="UserInterface\Layout\VenusWidgetAdapter.cs" />
+    <Compile Include="UserInterface\Layout\AgateLayoutEngine.cs" />
+    <Compile Include="UserInterface\Layout\AgateWidgetAdapter.cs" />
     <Compile Include="UserInterface\StyleModel\WidgetLayout.cs" />
     <Compile Include="UserInterface\StyleModel\WidgetMetrics.cs" />
     <Compile Include="UserInterface\StyleModel\WidgetStyle.cs" />
@@ -689,9 +689,7 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UserInterface\Venus\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks" Condition="Exists('$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks')" />
   <Target Name="UpdateAssemblyInfo" Condition="$(MajorVersion) != ''">

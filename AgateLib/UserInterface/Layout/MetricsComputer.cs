@@ -10,12 +10,12 @@ using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Layout
 {
-	public class VenusMetricsComputer
+	public class MetricsComputer
 	{
-		private VenusWidgetAdapter adapter;
+		private AgateWidgetAdapter adapter;
 		IWidgetMetricsCalculator defaultCalculator = new DefaultMetricsCalculator();
 
-		public VenusMetricsComputer(VenusWidgetAdapter adapter)
+		public MetricsComputer(AgateWidgetAdapter adapter)
 		{
 			this.adapter = adapter;
 		}

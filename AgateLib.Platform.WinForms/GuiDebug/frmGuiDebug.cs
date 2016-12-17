@@ -94,7 +94,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 
 		private void MarkTypesExpandable()
 		{
-			var types = typeof(VenusLayoutEngine).Assembly.DefinedTypes;
+			var types = typeof(AgateLayoutEngine).Assembly.DefinedTypes;
 
 			foreach (var type in types)
 			{

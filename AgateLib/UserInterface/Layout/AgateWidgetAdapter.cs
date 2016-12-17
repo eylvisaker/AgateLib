@@ -13,11 +13,11 @@ using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.UserInterface.Layout
 {
-	public class VenusWidgetAdapter : IWidgetAdapter
+	public class AgateWidgetAdapter : IWidgetAdapter
 	{
 		private static ThemeModel DefaultTheme { get; set; }
 
-		static VenusWidgetAdapter()
+		static AgateWidgetAdapter()
 		{
 			DefaultTheme = new ThemeModel();
 
@@ -32,7 +32,7 @@ namespace AgateLib.UserInterface.Layout
 
 		private IFontProvider fontProvider;
 
-		public VenusWidgetAdapter(IFontProvider fontProvider)
+		public AgateWidgetAdapter(IFontProvider fontProvider)
 		{
 			this.fontProvider = fontProvider;
 		}
