@@ -30,7 +30,6 @@ namespace AgateLib.UserInterface.Venus
 			DefaultTheme["menu"] = menuTheme;
 		}
 
-		private Dictionary<Widget, WidgetStyle> styles = new Dictionary<Widget, WidgetStyle>();
 		private IFontProvider fontProvider;
 
 		public VenusWidgetAdapter(IFontProvider fontProvider)
@@ -50,10 +49,7 @@ namespace AgateLib.UserInterface.Venus
 		}
 		public WidgetStyle StyleOf(Widget widget)
 		{
-			if (styles.ContainsKey(widget) == false)
-				styles.Add(widget, new WidgetStyle(widget));
-
-			var result = styles[widget];
+			var result = widget.WidgetStyle; 
 
 			if (result.NeedRefresh || widget.StyleDirty)
 			{
@@ -67,7 +63,8 @@ namespace AgateLib.UserInterface.Venus
 		{
 			foreach (var child in children)
 			{
-				InitializeStyleDataForWidget(child, child.Properties);
+				InitializeStyleDataForWidget(child, 
+					child.WidgetStyle.WidgetProperties);
 			}
 		}
 
@@ -84,7 +81,7 @@ namespace AgateLib.UserInterface.Venus
 			{
 				foreach (var child in container.Children)
 				{
-					InitializeStyleDataForWidget(child, child.Properties);
+					InitializeStyleDataForWidget(child, child.WidgetStyle.WidgetProperties);
 				}
 			}
 		}
@@ -208,7 +205,6 @@ namespace AgateLib.UserInterface.Venus
 		{
 			return widget.GetType().Name;
 		}
-
 
 		private void BuildStyle(WidgetStyle style)
 		{

@@ -165,7 +165,7 @@ namespace AgateLib.UserInterface.Venus.Fulfillment
 
 		private void ApplyProperties(Widget widget, WidgetProperties model, ActivationDefaults defaults)
 		{
-			widget.Properties = model;
+			widget.WidgetStyle.WidgetProperties = model;
 			widget.Enabled = model.Enabled;
 			widget.Name = model.Name ?? defaults?.Name;
 			widget.X = model.Position?.X ?? 0;

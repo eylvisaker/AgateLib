@@ -23,8 +23,8 @@ using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using System.ComponentModel;
 using AgateLib.UserInterface.DataModel;
+using AgateLib.UserInterface.StyleModel;
 
 namespace AgateLib.UserInterface.Widgets
 {
@@ -46,6 +46,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		public Widget()
 		{
+			WidgetStyle = new StyleModel.WidgetStyle(this);
 			Visible = true;
 			AutoSize = true;
 			LayoutDirty = true;
@@ -209,18 +210,18 @@ namespace AgateLib.UserInterface.Widgets
 				return AgateLib.Geometry.Color.Magenta;
 		}
 
-        /// <summary>
-        /// Converts the client rectangle into screen coordinates.
-        /// </summary>
-        /// <returns></returns>
-        public Rectangle ClientToScreen()
-        {
-            Rectangle translated = ClientRect;
-            
-            translated.Location = ClientToScreen(Point.Empty);
+		/// <summary>
+		/// Converts the client rectangle into screen coordinates.
+		/// </summary>
+		/// <returns></returns>
+		public Rectangle ClientToScreen()
+		{
+			Rectangle translated = ClientRect;
 
-            return translated;
-        }
+			translated.Location = ClientToScreen(Point.Empty);
+
+			return translated;
+		}
 		public Rectangle ClientToScreen(Rectangle value)
 		{
 			Rectangle translated = value;
@@ -466,7 +467,6 @@ namespace AgateLib.UserInterface.Widgets
 		/// </summary>
 		protected internal virtual bool AnyDirectionGestures { get { return false; } }
 
-		[Obsolete("Move this to the WidgetStyle object")]
-		public WidgetProperties Properties { get; internal set; }
+		internal WidgetStyle WidgetStyle { get; set; }
 	}
 }
