@@ -200,13 +200,6 @@ namespace AgateLib.UserInterface.Widgets
 
 			ParentMenu.SelectedItem = this;
 		}
-		protected internal override void OnMouseLeave()
-		{
-			if (ParentMenu.SelectedItem == this)
-				ParentMenu.SelectedItem = null;
-
-			base.OnMouseLeave();
-		}
 
 		internal void OnSelect()
 		{

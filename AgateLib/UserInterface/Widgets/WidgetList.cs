@@ -219,15 +219,13 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			widget.LayoutDirty = true;
 
-			if (WidgetAdded != null)
-				WidgetAdded(this, new WidgetEventArgs(widget));
+			WidgetAdded?.Invoke(this, new WidgetEventArgs(widget));
 		}
 		protected virtual void OnWidgetRemoved(Widget widget)
 		{
 			mParent.LayoutDirty = true;
 
-			if (WidgetRemoved != null)
-				WidgetRemoved(this, new WidgetEventArgs(widget));
+			WidgetRemoved?.Invoke(this, new WidgetEventArgs(widget));
 		}
 		public event EventHandler<WidgetEventArgs> WidgetAdded;
 		public event EventHandler<WidgetEventArgs> WidgetRemoved;
