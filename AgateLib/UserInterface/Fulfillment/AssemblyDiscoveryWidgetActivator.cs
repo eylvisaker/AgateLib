@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UserInterface.Venus.Fulfillment
+namespace AgateLib.UserInterface.Fulfillment
 {
 	public class AssemblyDiscoveryWidgetActivator : IWidgetActivator
 	{

@@ -1,6 +1,6 @@
 ﻿using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UserInterface.Venus.Fulfillment
+namespace AgateLib.UserInterface.Fulfillment
 {
 	public interface IWidgetActivator
 	{

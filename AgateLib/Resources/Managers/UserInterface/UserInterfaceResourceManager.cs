@@ -7,9 +7,9 @@ using AgateLib.Quality;
 using AgateLib.Resources.DataModel;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.DataModel;
+using AgateLib.UserInterface.Fulfillment;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Venus;
-using AgateLib.UserInterface.Venus.Fulfillment;
 using AgateLib.UserInterface.Venus.Layout;
 using AgateLib.UserInterface.Widgets;
 

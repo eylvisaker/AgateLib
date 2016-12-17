@@ -8,7 +8,7 @@ using AgateLib.Quality;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UserInterface.Venus.Fulfillment
+namespace AgateLib.UserInterface.Fulfillment
 {
 	public class WidgetFactory : IWidgetFactory
 	{
