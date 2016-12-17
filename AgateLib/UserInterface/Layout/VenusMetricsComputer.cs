@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
 using AgateLib.UserInterface.StyleModel;
-using AgateLib.UserInterface.Venus.Layout.MetricsCalculators;
+using AgateLib.UserInterface.Layout.MetricsCalculators;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UserInterface.Venus.Layout
+namespace AgateLib.UserInterface.Layout
 {
 	public class VenusMetricsComputer
 	{

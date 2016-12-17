@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Sprites;
-using AgateLib.UserInterface.Venus;
+using AgateLib.UserInterface.Layout;
 
 namespace AgateLib.Resources.Managers.Display
 {

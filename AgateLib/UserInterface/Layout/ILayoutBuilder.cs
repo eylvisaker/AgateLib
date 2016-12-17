@@ -7,7 +7,7 @@ using AgateLib.Geometry;
 using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UserInterface.Venus.Layout
+namespace AgateLib.UserInterface.Layout
 {
 	public interface ILayoutBuilder
 	{

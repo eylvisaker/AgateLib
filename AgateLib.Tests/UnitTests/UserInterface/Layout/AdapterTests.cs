@@ -13,11 +13,10 @@ using AgateLib.UnitTests.Resources;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.Rendering;
-using AgateLib.UserInterface.Venus;
-using AgateLib.UserInterface.Venus.Layout;
+using AgateLib.UserInterface.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgateLib.UnitTests.UserInterface.Venus
+namespace AgateLib.UnitTests.UserInterface.Layout
 {
 	[TestClass]
 	public class AdapterTests : AgateUnitTest

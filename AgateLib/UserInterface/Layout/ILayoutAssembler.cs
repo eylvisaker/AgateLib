@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AgateLib.UserInterface.StyleModel;
 
-namespace AgateLib.UserInterface.Venus.Layout
+namespace AgateLib.UserInterface.Layout
 {
 	public interface ILayoutAssembler
 	{

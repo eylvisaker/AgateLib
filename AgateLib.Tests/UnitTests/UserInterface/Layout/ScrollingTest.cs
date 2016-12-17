@@ -9,7 +9,7 @@ using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgateLib.UnitTests.UserInterface.Venus
+namespace AgateLib.UnitTests.UserInterface.Layout
 {
 	[TestClass]
 	public class ScrollingTest : FacetUnitTest, IUserInterfaceFacet

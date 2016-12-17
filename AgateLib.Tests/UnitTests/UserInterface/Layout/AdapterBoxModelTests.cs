@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Resources;
 using AgateLib.UserInterface.Rendering;
-using AgateLib.UserInterface.Venus;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgateLib.UnitTests.UserInterface.Venus
+namespace AgateLib.UnitTests.UserInterface.Layout
 {
 	[TestClass]
 	public class AdapterBoxModelTests : AgateUnitTest

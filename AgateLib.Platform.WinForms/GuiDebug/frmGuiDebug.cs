@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgateLib.UserInterface.Rendering;
-using AgateLib.UserInterface.Venus.Layout;
+using AgateLib.UserInterface.Layout;
 
 namespace AgateLib.Platform.WinForms.GuiDebug
 {

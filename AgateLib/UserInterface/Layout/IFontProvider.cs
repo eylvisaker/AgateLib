@@ -1,6 +1,6 @@
 ﻿using AgateLib.DisplayLib;
 
-namespace AgateLib.UserInterface.Venus
+namespace AgateLib.UserInterface.Layout
 {
 	public interface IFontProvider
 	{

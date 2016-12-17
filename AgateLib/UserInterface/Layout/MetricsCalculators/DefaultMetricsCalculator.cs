@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AgateLib.Geometry;
 using AgateLib.UserInterface.StyleModel;
 
-namespace AgateLib.UserInterface.Venus.Layout.MetricsCalculators
+namespace AgateLib.UserInterface.Layout.MetricsCalculators
 {
 	public class DefaultMetricsCalculator : IWidgetMetricsCalculator
 	{

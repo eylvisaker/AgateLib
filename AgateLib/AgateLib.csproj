@@ -590,7 +590,7 @@
     <Compile Include="UserInterface\IUserInterfaceFacet.cs" />
     <Compile Include="UserInterface\Rendering\IWidgetAdapter.cs" />
     <Compile Include="UserInterface\Rendering\IWidgetAnimator.cs" />
-    <Compile Include="UserInterface\Venus\ContainerLayout.cs" />
+    <Compile Include="UserInterface\StyleModel\ContainerLayout.cs" />
     <Compile Include="UserInterface\StyleModel\WidgetFontStyle.cs" />
     <Compile Include="UserInterface\Fulfillment\AssemblyDiscoveryWidgetActivator.cs" />
     <Compile Include="Resources\Managers\TypeInspector.cs" />
@@ -626,17 +626,17 @@
     <Compile Include="UserInterface\StyleModel\BorderStyle.cs" />
     <Compile Include="UserInterface\DataModel\WidgetChildCollection.cs" />
     <Compile Include="UserInterface\DataModel\WidgetProperties.cs" />
-    <Compile Include="UserInterface\Venus\IFontProvider.cs" />
-    <Compile Include="UserInterface\Venus\Layout\ILayoutBuilder.cs" />
-    <Compile Include="UserInterface\Venus\Layout\LayoutAssemblers\ColumnAssembler.cs" />
-    <Compile Include="UserInterface\Venus\Layout\ILayoutAssembler.cs" />
-    <Compile Include="UserInterface\Venus\Layout\IWidgetMetricsCalculator.cs" />
-    <Compile Include="UserInterface\Venus\Layout\MetricsCalculators\DefaultMetricsCalculator.cs" />
-    <Compile Include="UserInterface\Venus\Layout\LayoutAssemblers\RowAssembler.cs" />
-    <Compile Include="UserInterface\Venus\Layout\VenusMetricsComputer.cs" />
+    <Compile Include="UserInterface\Layout\IFontProvider.cs" />
+    <Compile Include="UserInterface\Layout\ILayoutBuilder.cs" />
+    <Compile Include="UserInterface\Layout\LayoutAssemblers\ColumnAssembler.cs" />
+    <Compile Include="UserInterface\Layout\ILayoutAssembler.cs" />
+    <Compile Include="UserInterface\Layout\IWidgetMetricsCalculator.cs" />
+    <Compile Include="UserInterface\Layout\MetricsCalculators\DefaultMetricsCalculator.cs" />
+    <Compile Include="UserInterface\Layout\LayoutAssemblers\RowAssembler.cs" />
+    <Compile Include="UserInterface\Layout\VenusMetricsComputer.cs" />
     <Compile Include="UserInterface\StyleModel\TransitionStyle.cs" />
-    <Compile Include="UserInterface\Venus\Layout\VenusLayoutEngine.cs" />
-    <Compile Include="UserInterface\Venus\VenusWidgetAdapter.cs" />
+    <Compile Include="UserInterface\Layout\VenusLayoutEngine.cs" />
+    <Compile Include="UserInterface\Layout\VenusWidgetAdapter.cs" />
     <Compile Include="UserInterface\StyleModel\WidgetLayout.cs" />
     <Compile Include="UserInterface\StyleModel\WidgetMetrics.cs" />
     <Compile Include="UserInterface\StyleModel\WidgetStyle.cs" />
@@ -689,7 +689,9 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UserInterface\Venus\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks" Condition="Exists('$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.Tasks')" />
   <Target Name="UpdateAssemblyInfo" Condition="$(MajorVersion) != ''">

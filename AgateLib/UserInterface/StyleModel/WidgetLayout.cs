@@ -1,6 +1,6 @@
 ﻿using AgateLib.UserInterface.DataModel;
 
-namespace AgateLib.UserInterface.Venus
+namespace AgateLib.UserInterface.StyleModel
 {
 	public class WidgetLayout
 	{

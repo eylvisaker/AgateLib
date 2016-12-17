@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UnitTests.UserInterface.Venus
+namespace AgateLib.UnitTests.UserInterface.Layout
 {
 
 	class TestFacet : IUserInterfaceFacet

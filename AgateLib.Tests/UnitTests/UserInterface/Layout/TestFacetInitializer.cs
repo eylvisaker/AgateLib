@@ -8,7 +8,7 @@ using AgateLib.Resources;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UnitTests.UserInterface.Venus
+namespace AgateLib.UnitTests.UserInterface.Layout
 {
 	class TestFacetInitializer
 	{

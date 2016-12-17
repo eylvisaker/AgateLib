@@ -11,7 +11,7 @@ using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UserInterface.Venus
+namespace AgateLib.UserInterface.Layout
 {
 	public class VenusWidgetAdapter : IWidgetAdapter
 	{

@@ -6,7 +6,7 @@ using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UserInterface.Venus.Layout.LayoutAssemblers
+namespace AgateLib.UserInterface.Layout.LayoutAssemblers
 {
 	internal class ColumnAssembler : ILayoutAssembler
 	{

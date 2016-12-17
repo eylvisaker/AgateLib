@@ -8,10 +8,10 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.StyleModel;
-using AgateLib.UserInterface.Venus.Layout.LayoutAssemblers;
+using AgateLib.UserInterface.Layout.LayoutAssemblers;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.UserInterface.Venus.Layout
+namespace AgateLib.UserInterface.Layout
 {
 	public class VenusLayoutEngine : IGuiLayoutEngine, ILayoutBuilder
 	{
