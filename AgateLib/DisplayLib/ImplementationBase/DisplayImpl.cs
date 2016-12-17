@@ -270,13 +270,6 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		}
 
 		#endregion
-
-		/// <summary>
-		/// Obsolete.  Use Display.Caps.MaxSurfaceSize instead.
-		/// </summary>
-		[Obsolete("Use Display.Caps instead.", true)]
-		public virtual Size MaxSurfaceSize { get { return Display.Caps.MaxSurfaceSize; } }
-
 		#region --- SetClipRect ---
 
 		/// <summary>
@@ -537,15 +530,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// Flushes the 2D draw buffer, if applicable.
 		/// </summary>
 		public abstract void FlushDrawBuffer();
-
-		/// <summary>
-		/// Sets the boundary coordinates of the window.
-		/// </summary>
-		/// <param name="region"></param>
-		[Obsolete]
-		public virtual void SetOrthoProjection(Rectangle region)
-		{ }
-
+		
 		/// <summary>
 		/// Returns true if the application is idle and processing of events can be skipped.
 		/// Base method just returns false to force processing of events at every frame.

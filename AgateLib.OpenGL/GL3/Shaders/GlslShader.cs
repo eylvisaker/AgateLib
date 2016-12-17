@@ -257,11 +257,5 @@ namespace AgateLib.OpenGL.GL3.Shaders
 				GL.UniformMatrix4(loc, 16, true, (float*)&matrix);
 			}
 		}
-
-
-		public void Render<T>(RenderHandler<T> handler, T obj)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

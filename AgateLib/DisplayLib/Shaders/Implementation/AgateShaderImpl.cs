@@ -29,7 +29,6 @@ namespace AgateLib.DisplayLib.Shaders.Implementation
 	/// </summary>
 	public abstract class AgateShaderImpl
 	{
-		public abstract void SetTexture(EffectTexture tex, string variableName);
 		public abstract void SetVariable(string name, params float[] v);
 		public abstract void SetVariable(string name, params int[] v);
 		public abstract void SetVariable(string name, Matrix4x4 matrix);

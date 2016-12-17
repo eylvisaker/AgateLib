@@ -216,30 +216,6 @@ namespace AgateLib.DisplayLib
 			return FontSurface.MeasureString(text);
 		}
 
-		[Obsolete("This needs to be thought through more carefully.")]
-		internal static Font Create(string name, int minSize, int maxSize, FontStyles styles)
-		{
-			Font result = new Font(name);
-
-			int inc = FontSizeStep(minSize);
-			bool bold = (styles & FontStyles.Bold) == FontStyles.Bold;
-			bool italic = (styles & FontStyles.Italic) == FontStyles.Italic;
-
-			for (int size = minSize; size <= maxSize; size += inc)
-			{
-				result.AddFont(new FontSurface(name, size, FontStyles.None), size, FontStyles.None);
-
-				if (bold)
-					result.AddFont(new FontSurface(name, size, FontStyles.Bold), size, FontStyles.Bold);
-				if (italic)
-					result.AddFont(new FontSurface(name, size, FontStyles.Italic), size, FontStyles.Italic);
-				if (bold && italic)
-					result.AddFont(new FontSurface(name, size, FontStyles.Bold | FontStyles.Italic), size, FontStyles.Bold | FontStyles.Italic);
-			}
-
-			return result;
-		}
-
 		private static int FontSizeStep(int minSize)
 		{
 			if (minSize < 18)

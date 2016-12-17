@@ -181,11 +181,6 @@ namespace AgateLib.OpenGL.Legacy.FixedFunction
 			get { return 1; }
 		}
 
-		public override void SetTexture(EffectTexture tex, string variableName)
-		{
-			throw new NotImplementedException();
-		}
-
 		public override void SetVariable(string name, Color color)
 		{
 			throw new NotImplementedException();

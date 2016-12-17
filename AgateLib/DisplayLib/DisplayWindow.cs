@@ -160,17 +160,6 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Compatibility conversion.  Read from the FrameBuffer property instead.
-		/// </summary>
-		/// <param name="wind"></param>
-		/// <returns></returns>
-		[Obsolete("Read from wind.FrameBuffer instead.")]
-		public static implicit operator FrameBuffer(DisplayWindow wind)
-		{
-			return wind.FrameBuffer;
-		}
-
-		/// <summary>
 		/// Disposes of unmanaged resources.
 		/// </summary>
 		public void Dispose()

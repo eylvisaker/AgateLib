@@ -391,12 +391,6 @@
     <Compile Include="DisplayLib\Cache\SurfaceStateCache.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DisplayLib\Shaders\Implementation\Effect.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayLib\Shaders\Implementation\ShaderCompiler.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DisplayLib\Shaders\Implementation\ShaderLanguage.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -494,9 +488,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputLib\ImplementationBase\JoystickImpl.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayLib\ImplementationBase\ShaderCompilerImpl.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\ImplementationBase\SurfaceImpl.cs">

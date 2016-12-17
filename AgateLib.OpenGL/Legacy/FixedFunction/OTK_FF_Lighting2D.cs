@@ -151,10 +151,6 @@ namespace AgateLib.OpenGL.Legacy.FixedFunction
 			get { return 1; }
 		}
 
-		public override void SetTexture(EffectTexture tex, string variableName)
-		{
-		}
-
 		public override void SetVariable(string name, AgateLib.Geometry.Color color)
 		{
 		}

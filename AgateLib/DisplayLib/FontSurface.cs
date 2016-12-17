@@ -40,50 +40,6 @@ namespace AgateLib.DisplayLib
 		FontState mState = new FontState();
 
 		/// <summary>
-		/// Creates a FontSurface object from the given fontFamily.  Appearance
-		/// of the font will likely be platform-dependent.
-		/// </summary>
-		/// <param name="fontFamily">Name of the font familty to use.</param>
-		/// <param name="sizeInPoints">Size of the font in points.</param>
-		/// <remarks>It is not recommended that you use this method 
-		/// if any cross-platform support is concerned.  For cross-platform
-		/// support, either create a bitmap font, or use one of the built-in
-		/// ones, like FontSurface.AgateSans14.
-		/// </remarks>
-		[Obsolete("Do not use this.", true)]
-		public FontSurface(string fontFamily, float sizeInPoints)
-			: this(fontFamily, sizeInPoints, FontStyles.None)
-		{ }
-
-		/// <summary>
-		/// Creates a FontSurface object from the given fontFamily.  Appearance
-		/// of the font will likely be platform-dependent.
-		/// </summary>
-		/// <param name="fontFamily">Name of the font familty to use.</param>
-		/// <param name="sizeInPoints">Size of the font in points.</param>
-		/// <param name="style">Style of the font, such as bold or italic.</param>
-		/// <remarks>It is not recommended that you use this method 
-		/// if any cross-platform support is concerned.  For cross-platform
-		/// support, either create a bitmap font, or use one of the built-in
-		/// ones, like FontSurface.AgateSans14.
-		/// </remarks>
-		[Obsolete("Do not use this.", true)]
-		public FontSurface(string fontFamily, float sizeInPoints, FontStyles style)
-		{
-			throw new InvalidOperationException("Obsolete method.");
-		}
-		/// <summary>
-		/// Creates a bitmap font using the options passed in.  The Display driver
-		/// must be capable of this, which is indicated in Display.Caps.CanCreateBitmapFont.
-		/// </summary>
-		/// <param name="bitmapOptions"></param>
-		[Obsolete("Do not use this.", true)]
-		public FontSurface(BitmapFontOptions bitmapOptions)
-		{
-			throw new InvalidOperationException("Obsolete method.");
-		}
-
-		/// <summary>
 		/// Gets the name of the font.
 		/// </summary>
 		public string FontName

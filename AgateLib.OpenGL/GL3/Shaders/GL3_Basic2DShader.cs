@@ -72,13 +72,7 @@ namespace AgateLib.OpenGL.GL3.Shaders
 		public override void End()
 		{
 		}
-
-
-		public override void SetTexture(AgateLib.DisplayLib.Shaders.EffectTexture tex, string variableName)
-		{
-			throw new NotImplementedException();
-		}
-
+		
 		public override void SetVariable(string name, params float[] v)
 		{
 			throw new NotImplementedException();

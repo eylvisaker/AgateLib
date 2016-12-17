@@ -127,7 +127,7 @@ namespace AgateLib.Testing.FontTests
 			else
 			{
 				fullWind.Dispose();
-				Display.RenderTarget = wind;
+				Display.RenderTarget = wind.FrameBuffer;
 			}
 
 			Keyboard.ReleaseAllKeys();

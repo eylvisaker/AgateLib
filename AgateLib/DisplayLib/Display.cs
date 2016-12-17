@@ -421,18 +421,6 @@ namespace AgateLib.DisplayLib
 			result.ShouldBePacked = false;
 
 			return result;
-
-		}
-
-		/// <summary>
-		/// Gets or sets the VSync flag.  If VSync is off, tearing might occur.
-		/// If VSync is on, the framerate will be capped at the monitor's refresh rate.
-		/// </summary>
-		[Obsolete("Use Display.RenderState.WaitForVerticalBlank instead.", true)]
-		public static bool VSync
-		{
-			get { return RenderState.WaitForVerticalBlank; }
-			set { RenderState.WaitForVerticalBlank = value; }
 		}
 
 		/// <summary>
@@ -447,51 +435,6 @@ namespace AgateLib.DisplayLib
 		public static void FlushDrawBuffer()
 		{
 			Impl.FlushDrawBuffer();
-		}
-
-		/// <summary>
-		/// Sets the orthogonal projection for rendering.  This allows redefinition of the
-		/// coordinates used to address pixels in the window.  
-		/// </summary>
-		/// <remarks>
-		/// [Experimental - This member is not fully tested and may have bugs.
-		/// The API is also likely to change in the future.]
-		/// <para>Normally, the orthogonal projection used is 
-		/// set to (left, top) = (0,0), (right,bottom) = (RenderTarget.Width, RenderTarget.Height).
-		/// This function provides a handy way to program an application for multiple resolutions.
-		/// For example, if you set the OrthoProjection to (0,0,640,480), then all drawing calls
-		/// can be made as if you were drawing to a 640x480 window, but they would be scaled to fill
-		/// the entire window.</para>
-		/// </remarks>
-		/// <param name="left"></param>
-		/// <param name="top"></param>
-		/// <param name="right"></param>
-		/// <param name="bottom"></param>
-		[Obsolete("Use a AgateBuiltInShaders.Basic2DShader.CoordinateSystem instead.", true)]
-		public static void SetOrthoProjection(int left, int top, int right, int bottom)
-		{
-			SetOrthoProjection(Rectangle.FromLTRB(left, top, right, bottom));
-		}
-
-		/// <summary>
-		/// Sets the orthogonal projection for rendering.  This allows redefinition of the
-		/// coordinates used to address pixels in the window.  
-		/// </summary>
-		/// <remarks>
-		/// [Experimental - This member is not fully tested and may have bugs.
-		/// The API is also likely to change in the future.]
-		/// <para>Normally, the orthogonal projection used is 
-		/// set to (left, top) = (0,0), (right,bottom) = (RenderTarget.Width, RenderTarget.Height).
-		/// This function provides a handy way to program an application for multiple resolutions.
-		/// For example, if you set the OrthoProjection to (0,0,640,480), then all drawing calls
-		/// can be made as if you were drawing to a 640x480 window, but they would be scaled to fill
-		/// the entire window.</para>
-		/// </remarks>
-		/// <param name="region"></param>
-		[Obsolete("Use a AgateBuiltInShaders.Basic2DShader.CoordinateSystem instead.", true)]
-		public static void SetOrthoProjection(Rectangle region)
-		{
-			throw new NotImplementedException();
 		}
 
 		#region --- Drawing Functions ---
