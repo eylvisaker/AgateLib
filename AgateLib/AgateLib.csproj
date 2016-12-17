@@ -397,9 +397,6 @@
     <Compile Include="DisplayLib\Shaders\Implementation\ShaderProgram.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DisplayLib\Shaders\Implementation\Technique.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DisplayLib\Shaders\Implementation\UniformState.cs">
       <SubType>Code</SubType>
     </Compile>

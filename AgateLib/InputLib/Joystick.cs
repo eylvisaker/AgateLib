@@ -67,18 +67,7 @@ namespace AgateLib.InputLib
 		/// Returns the number of POV hats this joystick has.
 		/// </summary>
 		public int HatCount { get { return impl.HatCount; } }
-
-
-		/// <summary>
-		/// Gets the state of the specified POV hat.
-		/// </summary>
-		/// <param name="hatIndex"></param>
-		/// <returns></returns>
-		[Obsolete("Use HatState property instead.")]
-		public HatState GetHatState(int hatIndex)
-		{
-			return GetHatStateImpl(hatIndex);
-		}
+		
 		private HatState GetHatStateImpl(int hatIndex)
 		{
 			return impl.GetHatState(hatIndex);
@@ -102,16 +91,7 @@ namespace AgateLib.InputLib
 		{
 			return impl.GetAxisValue(axisIndex);
 		}
-		/// <summary>
-		/// Gets whether or not the specified button is pushed.
-		/// </summary>
-		/// <param name="buttonIndex"></param>
-		/// <returns></returns>
-		[Obsolete("Use ButtonState property instead.")]
-		public bool GetButtonState(int buttonIndex)
-		{
-			return GetButtonStateImpl(buttonIndex);
-		}
+
 		private bool GetButtonStateImpl(int buttonIndex)
 		{
 			return impl.GetButtonState(buttonIndex);

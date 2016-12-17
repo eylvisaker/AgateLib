@@ -532,23 +532,6 @@ namespace AgateLib.Sprites
 			get { return mState.ColorGradient; }
 			set { mState.ColorGradient = value; }
 		}
-		/// <summary>
-		/// Increments the rotation angle by the specified number of radians.
-		/// </summary>
-		/// <param name="radians"></param>
-		[Obsolete("Use RotationAngle += *value*")]
-		public void IncrementRotationAngle(double radians)
-		{
-			mState.RotationAngle += radians;
-		}
-		/// <summary>
-		/// Increments the rotation angle by the specified number of degrees.
-		/// </summary>
-		/// <param name="degrees"></param>
-		public void IncrementRotationAngleDegrees(double degrees)
-		{
-			mState.IncrementRotationAngleDegrees(degrees);
-		}
 
 		/// <summary>
 		/// Gets or sets whether or not the sprite should be drawn when Draw is called.

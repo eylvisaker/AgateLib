@@ -563,11 +563,6 @@ namespace AgateLib.InputLib
 		/// </summary>
 		Semicolon = 186,
 		/// <summary>
-		/// 
-		/// </summary>
-		[Obsolete]
-		Oem1 = 186,
-		/// <summary>
 		/// Plus and equals key
 		/// </summary>
 		Plus = 187,
@@ -607,11 +602,6 @@ namespace AgateLib.InputLib
 		/// Single and double quotes key.
 		/// </summary>
 		Quotes = 222,
-		/// <summary>
-		/// ???
-		/// </summary>
-		[Obsolete]
-		Oem8 = 223,
 
 
 		// These values are different than the .NET key values.
