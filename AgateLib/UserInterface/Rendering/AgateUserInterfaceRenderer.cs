@@ -262,11 +262,11 @@ namespace AgateLib.UserInterface.Rendering
 
 			switch (style.Background.Clip)
 			{
-				case BackgroundClip.Content_Box:
+				case BackgroundClip.Content:
 					clipRect = anim.ClientRect;
 					break;
 
-				case BackgroundClip.Padding_Box:
+				case BackgroundClip.Padding:
 					clipRect = Rectangle.FromLTRB(
 						anim.WidgetRect.Left + style.BoxModel.Border.Left,
 						anim.WidgetRect.Top + style.BoxModel.Border.Top,
@@ -275,7 +275,7 @@ namespace AgateLib.UserInterface.Rendering
 
 					break;
 
-				case BackgroundClip.Border_Box:
+				case BackgroundClip.Border:
 				default:
 					clipRect = anim.WidgetRect;
 					break;

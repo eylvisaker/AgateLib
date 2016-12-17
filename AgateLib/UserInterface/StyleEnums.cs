@@ -22,8 +22,6 @@ namespace AgateLib.UserInterface
 
 	public enum TextAlign
 	{
-		Inherit,
-		Initial,
 		Left,
 		Right,
 		Center,
@@ -32,12 +30,8 @@ namespace AgateLib.UserInterface
 	public enum Overflow
 	{
 		Visible,
-		Initial = Visible,
 		Hidden,
 		Scroll,
-		Auto,
-		Inherit,
-		Disallow,
 	}
 
 	public enum BackgroundClip
@@ -54,10 +48,6 @@ namespace AgateLib.UserInterface
 		/// Specifies the background should only be drawn within the content box.
 		/// </summary>
 		Content,
-		
-		Border_Box = Border,
-		Padding_Box = Padding,
-		Content_Box = Content,
 	}
 
 	public enum BackgroundRepeat
