@@ -10,7 +10,7 @@ using AgateLib.Geometry;
 using AgateLib.IO;
 using AgateLib.Resources.DataModel;
 using AgateLib.Resources.Managers.UserInterface;
-using AgateLib.Sprites;
+using AgateLib.DisplayLib.Sprites;
 
 namespace AgateLib.Resources.Managers.Display
 {

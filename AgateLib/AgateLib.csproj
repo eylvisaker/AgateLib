@@ -204,10 +204,10 @@
     <Compile Include="Resources\AgateResourceManager.cs" />
     <Compile Include="Resources\Managers\UserInterface\IUserInterfaceResourceManager.cs" />
     <Compile Include="Resources\Managers\UserInterface\UserInterfaceResourceManager.cs" />
-    <Compile Include="Sprites\CollisionRegion.cs" />
-    <Compile Include="Sprites\ISpriteContainer.cs" />
+    <Compile Include="DisplayLib\Sprites\CollisionRegion.cs" />
+    <Compile Include="DisplayLib\Sprites\ISpriteContainer.cs" />
     <Compile Include="Geometry\Polygon.cs" />
-    <Compile Include="Sprites\SpriteContainer.cs" />
+    <Compile Include="DisplayLib\Sprites\SpriteContainer.cs" />
     <Compile Include="Quality\AssertX.cs" />
     <Compile Include="AudioLib\AudioCapsInfo.cs" />
     <Compile Include="AudioLib\ImplementationBase\MusicImpl.cs" />
@@ -553,22 +553,22 @@
     <Compile Include="Resources\AgateResourceException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Sprites\FrameList.cs">
+    <Compile Include="DisplayLib\Sprites\FrameList.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Sprites\IFrameList.cs">
+    <Compile Include="DisplayLib\Sprites\IFrameList.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Sprites\ISprite.cs">
+    <Compile Include="DisplayLib\Sprites\ISprite.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Sprites\ISpriteFrame.cs">
+    <Compile Include="DisplayLib\Sprites\ISpriteFrame.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Sprites\Sprite.cs">
+    <Compile Include="DisplayLib\Sprites\Sprite.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Sprites\SpriteFrame.cs">
+    <Compile Include="DisplayLib\Sprites\SpriteFrame.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Settings\PersistantSettings.cs" />

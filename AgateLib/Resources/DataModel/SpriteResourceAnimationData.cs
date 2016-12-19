@@ -1,4 +1,4 @@
-﻿using AgateLib.Sprites;
+﻿using AgateLib.DisplayLib.Sprites;
 
 namespace AgateLib.Resources.DataModel
 {

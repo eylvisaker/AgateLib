@@ -5,7 +5,7 @@ using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Sprites;
+using AgateLib.DisplayLib.Sprites;
 using AgateLib.ApplicationModels;
 
 namespace AgateLib.Testing.DisplayTests
