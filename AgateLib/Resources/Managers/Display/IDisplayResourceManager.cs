@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.Sprites;
+using AgateLib.DisplayLib.Sprites;
 using AgateLib.UserInterface.Layout;
 
 namespace AgateLib.Resources.Managers.Display

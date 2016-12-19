@@ -22,7 +22,7 @@ using System.Collections.Generic;
 
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Sprites;
+using AgateLib.DisplayLib.Sprites;
 
 namespace AgateLib.Particles
 {

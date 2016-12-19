@@ -10,7 +10,7 @@ using System.Text;
 using System.Windows.Forms;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Sprites;
+using AgateLib.DisplayLib.Sprites;
 using AgateLib.Platform.WinForms;
 using AgateLib.Utility;
 using AgateLib.Platform.WinForms.IO;

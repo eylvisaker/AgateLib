@@ -7,7 +7,7 @@ using System.Diagnostics;
 using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
-using AgateLib.Sprites;
+using AgateLib.DisplayLib.Sprites;
 using AgateLib.InputLib;
 using AgateLib.InputLib.Legacy;
 using AgateLib.ApplicationModels;
