@@ -25,7 +25,7 @@ using AgateLib.Geometry;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public class Menu : Container
+	public class Menu : Widget
 	{
 		int mColumns = 1;
 		int mSelIndex;
@@ -37,6 +37,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		Dictionary<int, int> mRowY = new Dictionary<int, int>();
 		Dictionary<int, int> mRowHeight = new Dictionary<int, int>();
+		NewWidgetList<MenuItem> menuItems = new NewWidgetList<MenuItem>();
 
 		public Menu()
 		{
@@ -48,14 +49,21 @@ namespace AgateLib.UserInterface.Widgets
 
 			AcceptFocus = true;
 
-			Children = new WidgetListOf<MenuItem>(this);
+			menuItems = new NewWidgetList<MenuItem>();
+			menuItems.WidgetAdded += MenuItems_WidgetAdded;
+			menuItems.WidgetRemoved += MenuItems_WidgetRemoved;
 		}
+
 
 		public Menu(string name)
 			: this()
 		{
+			Name = name;
 			mSecondSelIndex = -1;
 		}
+
+		protected internal override IEnumerable<Widget> LayoutChildren => menuItems;
+		protected internal override IEnumerable<Widget> RenderChildren => menuItems;
 
 		public bool AllowDualSelection { get; set; }
 		public bool DisplayCursorInBackground { get; set; }
@@ -76,10 +84,7 @@ namespace AgateLib.UserInterface.Widgets
 			}
 		}
 
-		public IEnumerable<MenuItem> MenuItems
-		{
-			get { return base.Children.Cast<MenuItem>(); }
-		}
+		public NewWidgetList<MenuItem> Items => menuItems;
 
 		public int SelectedIndex
 		{
@@ -89,15 +94,15 @@ namespace AgateLib.UserInterface.Widgets
 				if (PreferredInputMode == InputMode.Mouse)
 				{
 					if (value < 0) value = -1;
-					if (value >= Children.Count) value = -1;
+					if (value >= Items.Count) value = -1;
 				}
 				else
 				{
 					if (value < 0)
 						value = 0;
 
-					if (value >= Children.Count)
-						value = Children.Count - 1;
+					if (value >= Items.Count)
+						value = Items.Count - 1;
 				}
 
 				mSelIndex = value;
@@ -113,8 +118,8 @@ namespace AgateLib.UserInterface.Widgets
 				if (value < 0)
 					value = 0;
 
-				if (value >= Children.Count)
-					value = Children.Count - 1;
+				if (value >= Items.Count)
+					value = Items.Count - 1;
 
 				mSelIndex = value;
 			}
@@ -123,17 +128,14 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			get
 			{
-				if (mSelIndex >= Children.Count) return null;
+				if (mSelIndex >= Items.Count) return null;
 				if (mSelIndex < 0) return null;
 
-				if (Children[mSelIndex] is MenuItem)
-					return (MenuItem)Children[mSelIndex];
-				else
-					return null;
+					return (MenuItem)Items[mSelIndex];
 			}
 			set
 			{
-				int index = Children.IndexOf(value);
+				int index = Items.IndexOf(value);
 
 				if (index == -1 && value != null)
 					throw new ArgumentException("MenuItem " + value.Name + " is not part of this menu!");
@@ -145,13 +147,10 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			get
 			{
-				if (mSecondSelIndex >= Children.Count) return null;
+				if (mSecondSelIndex >= Items.Count) return null;
 				if (mSecondSelIndex < 0) return null;
 
-				if (Children[mSecondSelIndex] is MenuItem)
-					return (MenuItem)Children[mSecondSelIndex];
-				else
-					return null;
+					return (MenuItem)Items[mSecondSelIndex];
 			}
 		}
 		public int ScrollRow
@@ -248,10 +247,10 @@ namespace AgateLib.UserInterface.Widgets
 
 		protected internal override void OnUpdate(double deltaTime)
 		{
-			if (mChildCountLastUpdate != Children.Count)
+			if (mChildCountLastUpdate != Items.Count)
 			{
 				UpdateSelectedItem();
-				mChildCountLastUpdate = Children.Count;
+				mChildCountLastUpdate = Items.Count;
 			}
 		}
 
@@ -319,7 +318,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		private bool NoSelectableItems
 		{
-			get { return MenuItems.All(child => !child.Enabled); }
+			get { return Items.All(child => !child.Enabled); }
 		}
 
 		private void DecrementIndex(int amount, bool sound)
@@ -328,7 +327,7 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		private void DecrementIndex(int amount, bool sound, int initialIndex)
 		{
-			if (Children.Count < 2) return;
+			if (Items.Count < 2) return;
 			if (NoSelectableItems) return;
 
 			do
@@ -345,7 +344,7 @@ namespace AgateLib.UserInterface.Widgets
 				{
 					if (WrapTopBottom)
 					{
-						mSelIndex += Children.Count;
+						mSelIndex += Items.Count;
 					}
 					else
 					{
@@ -370,7 +369,7 @@ namespace AgateLib.UserInterface.Widgets
 		}
 		private void IncrementIndex(int amount, bool sound, int initialIndex)
 		{
-			if (Children.Count < 2) return;
+			if (Items.Count < 2) return;
 			if (NoSelectableItems) return;
 
 			do
@@ -383,15 +382,15 @@ namespace AgateLib.UserInterface.Widgets
 
 				mSelIndex += amount;
 
-				if (mSelIndex >= Children.Count)
+				if (mSelIndex >= Items.Count)
 				{
 					if (WrapTopBottom)
 					{
-						mSelIndex -= Children.Count;
+						mSelIndex -= Items.Count;
 					}
 					else
 					{
-						mSelIndex = Children.Count;
+						mSelIndex = Items.Count;
 						DecrementIndex(1, sound, initialIndex);
 						break;
 					}
@@ -435,17 +434,16 @@ namespace AgateLib.UserInterface.Widgets
 
 		private void UpdateSelectedItem()
 		{
-			foreach (var item in MenuItems)
+			foreach (var item in Items)
 				item.Selected = item == SelectedItem;
-
-			
 		}
 
 		public bool DrawPointer { get; set; }
 
+		[Obsolete("Use Items.FirstOrDefault(x => x.Name == name) instead.", true)]
 		public MenuItem FindMenuItem(string name)
 		{
-			foreach (var c in Children)
+			foreach (var c in Items)
 			{
 				if (c is MenuItem && c.Name == name)
 					return (MenuItem)c;
@@ -467,7 +465,7 @@ namespace AgateLib.UserInterface.Widgets
 
 		protected internal override void OnGestureBegin(Gesture gesture)
 		{
-			mGestureItem = (MenuItem)Children.WidgetAt(ScreenToClient(gesture.StartPoint));
+			mGestureItem = Items.WidgetAt(ScreenToClient(gesture.StartPoint));
 			SelectedItem = mGestureItem;
 
 			gesture.TargetWidget = mGestureItem;
@@ -527,5 +525,18 @@ namespace AgateLib.UserInterface.Widgets
 					break;
 			}
 		}
+
+		private void MenuItems_WidgetAdded(object sender, WidgetEventArgs e)
+		{
+			e.Widget.Parent = this;
+			LayoutDirty = true;
+		}
+
+		private void MenuItems_WidgetRemoved(object sender, WidgetEventArgs e)
+		{
+			e.Widget.Parent = null;
+			LayoutDirty = true;
+		}
+
 	}
 }

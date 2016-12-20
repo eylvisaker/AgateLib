@@ -147,7 +147,7 @@ namespace AgateLib.UserInterface.Fulfillment
 			{
 				var menuItems = RealizeMenuItems(widgetModel.MenuItems, widgetCreated).ToList();
 
-				menu.Children.AddRange(menuItems);
+				menu.Items.AddRange(menuItems);
 			}
 			if (container != null)
 			{

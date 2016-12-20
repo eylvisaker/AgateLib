@@ -50,11 +50,11 @@ facets:
 		[TestMethod]
 		public void MenuItemSizes()
 		{
-			Assert.AreEqual(new Rectangle(0, 0, 275, 10), Menu.MenuItems.Skip(0).First().WidgetRect);
-			Assert.AreEqual(new Rectangle(0, 10, 275, 20), Menu.MenuItems.Skip(1).First().WidgetRect);
-			Assert.AreEqual(new Rectangle(0, 30, 275, 30), Menu.MenuItems.Skip(2).First().WidgetRect);
-			Assert.AreEqual(new Rectangle(0, 60, 275, 10), Menu.MenuItems.Skip(3).First().WidgetRect);
-			Assert.AreEqual(new Rectangle(0, 70, 275, 10), Menu.MenuItems.Skip(4).First().WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 0, 275, 10), Menu.Items.Skip(0).First().WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 10, 275, 20), Menu.Items.Skip(1).First().WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 30, 275, 30), Menu.Items.Skip(2).First().WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 60, 275, 10), Menu.Items.Skip(3).First().WidgetRect);
+			Assert.AreEqual(new Rectangle(0, 70, 275, 10), Menu.Items.Skip(4).First().WidgetRect);
 		}
 
 		[TestMethod]
@@ -67,7 +67,7 @@ facets:
 		[TestMethod]
 		public void ScrollToLastItem()
 		{
-			MenuStyle.ScrollToWidget(Menu.MenuItems.Last());
+			MenuStyle.ScrollToWidget(Menu.Items.Last());
 
 			Assert.AreEqual(new Point(0, 50), MenuStyle.View.ScrollOffset);
 		}
@@ -75,10 +75,10 @@ facets:
 		[TestMethod]
 		public void ScrollToLastItemThenFirst()
 		{
-			MenuStyle.ScrollToWidget(Menu.MenuItems.Last());
+			MenuStyle.ScrollToWidget(Menu.Items.Last());
 			Assert.AreEqual(new Point(0, 50), MenuStyle.View.ScrollOffset);
 
-			MenuStyle.ScrollToWidget(Menu.MenuItems.First());
+			MenuStyle.ScrollToWidget(Menu.Items.First());
 			Assert.AreEqual(new Point(0, 0), MenuStyle.View.ScrollOffset);
 		}
 	}
