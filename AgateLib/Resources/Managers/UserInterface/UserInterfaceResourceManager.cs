@@ -104,7 +104,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 				throw new AgateUserInterfaceInitializationException($"While initializing facet {facet.FacetName} the following properties were unfulfilled: {missingList}");
 			}
 
-			gui.Desktop.Children.AddRange(widgets);
+			gui.Desktop.Windows.AddRange(widgets.Cast<Window>());
 		}
 	}
 }

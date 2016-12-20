@@ -66,7 +66,7 @@ namespace AgateLib.UserInterface.Widgets
 			Children.Add(child);
 		}
 
-		public override Container Parent
+		public override Widget Parent
 		{
 			get { return base.Parent; }
 			set
@@ -77,6 +77,7 @@ namespace AgateLib.UserInterface.Widgets
 				base.Parent = value;
 			}
 		}
+
 		Menu ParentMenu
 		{
 			get { return (Menu)Parent; }
@@ -101,15 +102,15 @@ namespace AgateLib.UserInterface.Widgets
 			}
 		}
 
-        /// <summary>
-        /// Event raised when an accept event (button, mouse click) occurs on this menu item.
-        /// </summary>
+		/// <summary>
+		/// Event raised when an accept event (button, mouse click) occurs on this menu item.
+		/// </summary>
 		public event EventHandler PressAccept;
 		public event EventHandler PressToggle;
 		public event EventHandler PressMenu;
-        /// <summary>
-        /// Event raised when the menu item is selected (gains focus).
-        /// </summary>
+		/// <summary>
+		/// Event raised when the menu item is selected (gains focus).
+		/// </summary>
 		public event EventHandler Select;
 		public event EventHandler Deselect;
 		public event EventHandler Discard;
@@ -203,36 +204,34 @@ namespace AgateLib.UserInterface.Widgets
 
 		internal void OnSelect()
 		{
-            if (Parent != null)
-            {
-                Parent.ScrollToWidget(this);
-            }
+			var parentContainer = Parent as Container;
 
-			if (Select != null)
-				Select(this, EventArgs.Empty);
+			if (parentContainer != null)
+			{
+				parentContainer.ScrollToWidget(this);
+			}
+
+			Select?.Invoke(this, EventArgs.Empty);
 		}
+
 		void OnDeselect()
 		{
-			if (Deselect != null)
-				Deselect(this, EventArgs.Empty);
+			Deselect?.Invoke(this, EventArgs.Empty);
 		}
 
 		internal void OnPressAccept()
 		{
-			if (PressAccept != null)
-				PressAccept(this, EventArgs.Empty);
-			else
-				System.Diagnostics.Debug.Assert(false, "A menu item was selected, but it has no event handler attached.");
+			PressAccept?.Invoke(this, EventArgs.Empty);
 		}
+
 		internal void OnPressToggle()
 		{
-			if (PressToggle != null)
-				PressToggle(this, EventArgs.Empty);
+			PressToggle?.Invoke(this, EventArgs.Empty);
 		}
+
 		internal void OnPressMenu()
 		{
-			if (PressMenu != null)
-				PressMenu(this, EventArgs.Empty);
+			PressMenu?.Invoke(this, EventArgs.Empty);
 		}
 
 		public Point Pointer { get; set; }

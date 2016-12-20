@@ -23,10 +23,9 @@ namespace AgateLib.UserInterface.Layout.LayoutAssemblers
 
 		public bool ComputeNaturalSize(ILayoutBuilder layoutBuilder, WidgetStyle widget)
 		{
-			var container = widget.Widget as Container;
 			Size size = new Size();
 
-			foreach (var child in container.Children.Select(x => layoutBuilder.StyleOf(x)))
+			foreach (var child in widget.Widget.LayoutChildren.Select(x => layoutBuilder.StyleOf(x)))
 			{
 				layoutBuilder.ComputeNaturalSize(child);
 

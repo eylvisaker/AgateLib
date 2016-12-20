@@ -39,6 +39,10 @@ namespace AgateLib.UserInterface.Widgets
 
 		public WidgetList Children { get; protected set; }
 
+		protected internal override IEnumerable<Widget> RenderChildren => Children;
+
+		protected internal override IEnumerable<Widget> LayoutChildren => Children;
+
 		/// <summary>
 		/// Enumerates all descendants of this container.
 		/// </summary>
@@ -171,12 +175,6 @@ namespace AgateLib.UserInterface.Widgets
 
 			return null;
 		}
-
-		internal void OnBeforeDraw()
-		{
-			throw new NotImplementedException();
-		}
-
 
 		/// <summary>
 		/// If this is set to true, then the layout engine will not determine the

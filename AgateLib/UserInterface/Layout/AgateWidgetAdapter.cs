@@ -45,11 +45,11 @@ namespace AgateLib.UserInterface.Layout
 		{
 			var facetModel = FacetData[gui.FacetName];
 
-			InitializeStyleData(gui.Desktop.Children, facetModel);
+			InitializeStyleData(gui.Desktop.LayoutChildren, facetModel);
 		}
 		public WidgetStyle StyleOf(Widget widget)
 		{
-			var result = widget.WidgetStyle; 
+			var result = widget.WidgetStyle;
 
 			if (result.NeedRefresh || widget.StyleDirty)
 			{
@@ -63,7 +63,7 @@ namespace AgateLib.UserInterface.Layout
 		{
 			foreach (var child in children)
 			{
-				InitializeStyleDataForWidget(child, 
+				InitializeStyleDataForWidget(child,
 					child.WidgetStyle.WidgetProperties);
 			}
 		}
@@ -76,13 +76,9 @@ namespace AgateLib.UserInterface.Layout
 
 			BuildStyle(style);
 
-			var container = widget as Container;
-			if (container != null)
+			foreach (var child in widget.LayoutChildren)
 			{
-				foreach (var child in container.Children)
-				{
-					InitializeStyleDataForWidget(child, child.WidgetStyle.WidgetProperties);
-				}
+				InitializeStyleDataForWidget(child, child.WidgetStyle.WidgetProperties);
 			}
 		}
 

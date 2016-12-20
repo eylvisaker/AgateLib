@@ -24,38 +24,29 @@ using System.Threading.Tasks;
 
 namespace AgateLib.UserInterface.Widgets
 {
-	public class Desktop : Container
+	public class Desktop : Widget
 	{
 		private Gui gui;
 		Widget mFocusWidget;
-
-		class WindowList : WidgetList
-		{
-			public WindowList(Desktop owner)
-				: base(owner)
-			{ }
-
-			protected override void ValidateItem(Widget item)
-			{
-				if (item is Window == false)
-					throw new InvalidOperationException();
-			}
-		}
+		NewWidgetList<Window> windows;
 
 		internal Desktop(Gui gui)
 		{
 			this.gui = gui;
 
-			Children = new WindowList(this);
-			Children.WidgetAdded += Children_WidgetAdded;
-			Children.WidgetRemoved += Children_WidgetRemoved;
+			windows = new NewWidgetList<Window>();
+			windows.WidgetAdded += Children_WidgetAdded;
+			windows.WidgetRemoved += Children_WidgetRemoved;
 		}
-
 
 		void Children_WidgetAdded(object sender, WidgetEventArgs e)
 		{
+			LayoutDirty = true;
+			e.Widget.Parent = this;
+
 			UpdateFocusWidget();
 		}
+
 		void Children_WidgetRemoved(object sender, WidgetEventArgs e)
 		{
 			UpdateFocusWidget();
@@ -77,17 +68,27 @@ namespace AgateLib.UserInterface.Widgets
 			get { return mFocusWidget; }
 			set { mFocusWidget = value; }
 		}
+
 		public Window TopWindow
 		{
 			get
 			{
-				if (Children.Count == 0)
-					return null; return (Window)Children[Children.Count - 1];
+				if (Windows.Count == 0)
+					return null;
+
+				return Windows.Last();
 			}
 		}
 
-		public IEnumerable<Window> Windows { get { return Children.OfType<Window>(); } }
+		public NewWidgetList<Window> Windows { get { return windows; } }
+
+		public IEnumerable<Widget> Descendants => Windows.SelectMany(window => window.Descendants);
+
+		protected internal override IEnumerable<Widget> LayoutChildren => Windows;
+
+		protected internal override IEnumerable<Widget> RenderChildren => Windows;
 
 		protected internal override Gui MyGui { get { return gui; } }
+
 	}
 }

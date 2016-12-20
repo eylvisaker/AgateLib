@@ -108,9 +108,9 @@ namespace AgateLib.UserInterface.Rendering
 			TreeRemoveDeadAnimators(rootAnimator, MyGui.Desktop);
 		}
 
-		private void TreeAddMissingAnimators(IWidgetAnimator anim, Container container)
+		private void TreeAddMissingAnimators(IWidgetAnimator anim, Widget container)
 		{
-			foreach (var widget in container.Children)
+			foreach (var widget in container.RenderChildren)
 			{
 				var childAnim = GetOrCreateAnimator(widget);
 
@@ -120,10 +120,7 @@ namespace AgateLib.UserInterface.Rendering
 					childAnim.Parent = anim;
 				}
 
-				if (widget is Container)
-				{
-					TreeAddMissingAnimators(childAnim, (Container)widget);
-				}
+				TreeAddMissingAnimators(childAnim, widget);
 			}
 		}
 		private void TreeRemoveDeadAnimators(IWidgetAnimator anim, Widget widget)

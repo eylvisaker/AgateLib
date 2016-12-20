@@ -22,7 +22,7 @@ namespace AgateLib.UnitTests.UserInterface.Widgets
 		public void Initialize()
 		{
 			gui = new Gui(new FakeRenderer(), new FakeLayout());
-			gui.Desktop.Children.Add(window = new Window { X = 40, Y = 50 });
+			gui.Desktop.Windows.Add(window = new Window { X = 40, Y = 50 });
 
 			panel1 = new Panel() { X = 15, Y = 80, Width = 140, Height = 150 };
 

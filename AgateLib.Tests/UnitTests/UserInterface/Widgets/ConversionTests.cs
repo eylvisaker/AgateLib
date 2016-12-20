@@ -25,7 +25,7 @@ namespace AgateLib.UnitTests.UserInterface.Widgets
 		public void initialize()
 		{
 			gui = new Gui(new FakeRenderer(), new FakeLayout());
-			gui.Desktop.Children.Add(new Window { X = 40, Y = 50 });
+			gui.Desktop.Windows.Add(new Window { X = 40, Y = 50 });
 
 			window = gui.Desktop.Windows.First();
 

@@ -114,18 +114,20 @@ namespace AgateLib.UserInterface.Widgets
 		{
 			return WidgetAt(Desktop, screenPoint);
 		}
-		private Widget WidgetAt(Container container, Point point)
+		private Widget WidgetAt(Widget container, Point point)
 		{
-			foreach (var child in container.Children.Reverse())
+			foreach (var child in container.LayoutChildren.Reverse())
 			{
 				if (child.WidgetRect.Contains(point))
 				{
-					if (child is Container)
+					if (child.LayoutChildren.Any())
 					{
-						return WidgetAt((Container)child, child.ParentToClient(point));
+						return WidgetAt(child, child.ParentToClient(point));
 					}
 					else
+					{
 						return child;
+					}
 				}
 			}
 
@@ -372,111 +374,16 @@ namespace AgateLib.UserInterface.Widgets
 
 		public void AddWindow(Window wind)
 		{
-			if (Desktop.Children.Contains(wind))
+			if (Desktop.Windows.Contains(wind))
 				return;
 
-			Desktop.Children.Add(wind);
+			Desktop.Windows.Add(wind);
 		}
 
 
 		public void RemoveWindow(Window wind)
 		{
-			Desktop.Children.Remove(wind);
-		}
-	}
-
-	class WindowList : IList<Window>
-	{
-		Gui mOwner;
-		List<Window> mWindows = new List<Window>();
-
-		internal WindowList(Gui owner)
-		{
-			mOwner = owner;
-		}
-
-		private void OnWindowAdded(int index)
-		{
-		}
-
-		public int IndexOf(Window item)
-		{
-			return mWindows.IndexOf(item);
-		}
-
-		public void Insert(int index, Window item)
-		{
-			mWindows.Insert(index, item);
-
-			OnWindowAdded(index);
-		}
-
-		public void RemoveAt(int index)
-		{
-			mWindows.RemoveAt(index);
-		}
-
-		public Window this[int index]
-		{
-			get
-			{
-				return mWindows[index];
-			}
-			set
-			{
-				mWindows[index] = value;
-				OnWindowAdded(index);
-			}
-		}
-
-		public void Add(Window item)
-		{
-			if (mWindows.Contains(item))
-				throw new InvalidOperationException();
-
-			mWindows.Add(item);
-
-			OnWindowAdded(mWindows.Count - 1);
-		}
-
-		public void Clear()
-		{
-			mWindows.Clear();
-		}
-
-		public bool Contains(Window item)
-		{
-			return mWindows.Contains(item);
-		}
-
-		public void CopyTo(Window[] array, int arrayIndex)
-		{
-			mWindows.CopyTo(array, arrayIndex);
-		}
-
-		public int Count
-		{
-			get { return mWindows.Count; }
-		}
-
-		bool ICollection<Window>.IsReadOnly
-		{
-			get { return false; }
-		}
-
-		public bool Remove(Window item)
-		{
-			return mWindows.Remove(item);
-		}
-
-		public IEnumerator<Window> GetEnumerator()
-		{
-			return mWindows.GetEnumerator();
-		}
-
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
+			Desktop.Windows.Remove(wind);
 		}
 	}
 }

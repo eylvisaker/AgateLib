@@ -184,7 +184,7 @@ namespace AgateLib.Platform.WinForms.GuiDebug
 			{
 				var parentNode = mNodes[widget.Parent];
 
-				int index = widget.Parent.Children.IndexOf(widget);
+				int index = widget.Parent.LayoutChildren.ToList().IndexOf(widget);
 
 				if (index < mNodes[widget.Parent].Nodes.Count)
 					parentNode.Nodes.Insert(index, mNodes[widget]);

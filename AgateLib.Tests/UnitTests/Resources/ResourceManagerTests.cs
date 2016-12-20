@@ -67,7 +67,7 @@ namespace AgateLib.UnitTests.Resources
 			Assert.IsNotNull(facet.MenuB, "MenuB property was not assigned.");
 			Assert.AreEqual(facet.WindowA, facet.MenuB.Parent, "WindowA is not the parent of MenuB.");
 
-			Assert.AreSame(facet.WindowA, facet.InterfaceRoot.Desktop.Children.First());
+			Assert.AreSame(facet.WindowA, facet.InterfaceRoot.Desktop.Windows.First());
 		}
 
 		class TestFacetMissingItem : IUserInterfaceFacet

@@ -32,7 +32,7 @@ namespace AgateLib.UserInterface.Widgets
 	{
 		static internal InputMode PreferredInputMode { get; set; }
 
-		Container mParentCoordinateSystem;
+		Widget mParentCoordinateSystem;
 		private Point mClientWidgetOffset;
 		private Size mWidgetSize;
 
@@ -51,6 +51,9 @@ namespace AgateLib.UserInterface.Widgets
 			AutoSize = true;
 			LayoutDirty = true;
 		}
+
+		protected internal virtual IEnumerable<Widget> RenderChildren => Enumerable.Empty<Widget>();
+		protected internal virtual IEnumerable<Widget> LayoutChildren => Enumerable.Empty<Widget>();
 
 		/// <summary>
 		/// The rectangle in parent client coordinates that contains the client area of the widget.
@@ -124,8 +127,9 @@ namespace AgateLib.UserInterface.Widgets
 
 		public bool AutoSize { get; set; }
 
-		public virtual Container Parent { get; set; }
-		protected internal Container ParentCoordinateSystem
+		public virtual Widget Parent { get; set; }
+
+		protected internal Widget ParentCoordinateSystem
 		{
 			get
 			{
@@ -139,6 +143,7 @@ namespace AgateLib.UserInterface.Widgets
 				mParentCoordinateSystem = value;
 			}
 		}
+
 		public IFont Font
 		{
 			get

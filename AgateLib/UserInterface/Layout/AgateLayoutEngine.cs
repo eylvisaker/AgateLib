@@ -54,13 +54,27 @@ namespace AgateLib.UserInterface.Layout
 
 		public bool ComputeNaturalSize(Widget widget)
 		{
-			var container = widget as Container;
-
 			adapter.SetFont(widget);
 
-			if (container != null)
+			if (widget.LayoutChildren.Any())
 			{
-				return ComputeNaturalSize(container);
+				var containerStyle = adapter.StyleOf(widget);
+
+				if (containerStyle.WidgetLayout.SizeType == WidgetLayoutType.Fixed)
+				{
+					var result = ComputeFixedNaturalSize(widget, containerStyle);
+
+					foreach (var child in widget.LayoutChildren)
+						ComputeNaturalSize(child);
+
+					return result;
+				}
+				else
+				{
+					ILayoutAssembler assembler = FindAssembler(containerStyle);
+
+					return assembler.ComputeNaturalSize(this, containerStyle);
+				}
 			}
 			else
 			{
@@ -70,33 +84,12 @@ namespace AgateLib.UserInterface.Layout
 				return metricsComputer.ComputeNaturalSize(widget, style);
 			}
 		}
-
-		private bool ComputeNaturalSize(Container container)
-		{
-			var containerStyle = adapter.StyleOf(container);
-
-			if (containerStyle.WidgetLayout.SizeType == WidgetLayoutType.Fixed)
-			{
-				var result = ComputeFixedNaturalSize(container, containerStyle);
-
-				foreach (var child in container.Children)
-					ComputeNaturalSize(child);
-
-				return result;
-			}
-			else
-			{
-				ILayoutAssembler assembler = FindAssembler(containerStyle);
-
-				return assembler.ComputeNaturalSize(this, containerStyle);
-			}
-		}
-
-		private static bool ComputeFixedNaturalSize(Container container, WidgetStyle containerStyle)
+		
+		private static bool ComputeFixedNaturalSize(Widget widget, WidgetStyle containerStyle)
 		{
 			var newNaturalBoxSize = new Size(
-				container.Width + containerStyle.BoxModel.Width,
-				container.Height + containerStyle.BoxModel.Height);
+				widget.Width + containerStyle.BoxModel.Width,
+				widget.Height + containerStyle.BoxModel.Height);
 
 			if (containerStyle.Metrics.NaturalBoxSize == newNaturalBoxSize)
 				return false;
@@ -121,39 +114,39 @@ namespace AgateLib.UserInterface.Layout
 		/// <param name="totalRefresh"></param>
 		/// <param name="maxWidth">The maximum width of any child widget's box</param>
 		/// <param name="maxHeight">The maximum height of any child widget's box</param>
-		private void LayoutChildren(Container container, bool totalRefresh, int? maxWidth = null, int? maxHeight = null)
+		private void LayoutChildren(Widget container, bool totalRefresh, int? maxWidth = null, int? maxHeight = null)
 		{
 			var containerStyle = adapter.StyleOf(container);
 
 			ILayoutAssembler assembler = FindAssembler(containerStyle);
 
-			var layoutChildren = (from item in container.Children
+			var layoutChildren = (from item in container.LayoutChildren
 								  let style = adapter.StyleOf(item)
 								  where style.WidgetLayout.PositionType == WidgetLayoutType.Flow
 								  select style).ToList();
 
-			var nonlayoutContainers = (from item in container.Children.OfType<Container>()
+			var nonlayoutChildren = (from item in container.LayoutChildren
 									   let style = adapter.StyleOf(item)
 									   where style.WidgetLayout.PositionType == WidgetLayoutType.Fixed
 									   select item).ToList();
 
 			assembler.DoLayout(this, containerStyle, layoutChildren, maxWidth, maxHeight);
 
-			foreach (var style in nonlayoutContainers.Select(x => adapter.StyleOf(x)))
+			foreach (var style in nonlayoutChildren.Select(x => adapter.StyleOf(x)))
 			{
 				SetDimensions(style, maxWidth, maxHeight);
 
 				if (style.WidgetLayout.SizeType == WidgetLayoutType.Fixed)
 				{
-					LayoutChildren(style.Widget as Container, totalRefresh, style.Widget.Width, style.Widget.Height);
+					LayoutChildren(style.Widget, totalRefresh, style.Widget.Width, style.Widget.Height);
 				}
 				else
 				{
-					LayoutChildren(style.Widget as Container, totalRefresh);
+					LayoutChildren(style.Widget, totalRefresh);
 				}
 			}
 
-			foreach (var style in from item in container.Children
+			foreach (var style in from item in container.LayoutChildren
 								  let style = adapter.StyleOf(item)
 								  where style.WidgetLayout.SizeType == WidgetLayoutType.Flow
 								  select style)
@@ -204,17 +197,15 @@ namespace AgateLib.UserInterface.Layout
 			return layoutAssemblers.First();
 		}
 
-		public void ComputeBoxSize(WidgetStyle widget, int? maxWidth = null, int? maxHeight = null)
+		public void ComputeBoxSize(WidgetStyle style, int? maxWidth = null, int? maxHeight = null)
 		{
-			var container = widget.Widget as Container;
-
-			if (container != null)
+			if (style.Widget.LayoutChildren.Any())
 			{
-				LayoutChildren(container, false, maxWidth - widget.BoxModel.Width, maxHeight - widget.BoxModel.Height);
+				LayoutChildren(style.Widget, false, maxWidth - style.BoxModel.Width, maxHeight - style.BoxModel.Height);
 			}
 			else
 			{
-				metricsComputer.ComputeBoxSize(widget, maxWidth, maxHeight);
+				metricsComputer.ComputeBoxSize(style, maxWidth, maxHeight);
 			}
 		}
 

@@ -23,24 +23,22 @@ namespace AgateLib.Diagnostics
 			LogUserInterfaceChildren(ui.Desktop);
 		}
 
-		private static void LogUserInterfaceChildren(Container container)
+		private static void LogUserInterfaceChildren(Widget container)
 		{
 			Log.Indent();
 
-			foreach (var child in container.Children)
+			foreach (var child in container.LayoutChildren)
 			{
 				Log.WriteLine($"{child.GetType().Name}: {child.Name}");
 
 				Log.Indent();
 				Log.WriteLine($"ClientRect: {child.Parent.ClientToScreen(child.ClientRect)}");
 				Log.WriteLine($"WidgetRect: {child.Parent.ClientToScreen(child.WidgetRect)}");
-
-				Container childContainer = child as Container;
-
-				if (childContainer != null && childContainer.Children.Count > 0)
+				
+				if (child.LayoutChildren.Any())
 				{
 					Log.WriteLine("Children:");
-					LogUserInterfaceChildren(childContainer);
+					LogUserInterfaceChildren(child);
 				}
 				Log.Unindent();
 			}
