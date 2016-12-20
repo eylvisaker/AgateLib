@@ -40,11 +40,6 @@ namespace AgateLib.InputLib.Legacy
 			DisplayLib.Display.DisposeDisplay += new AgateLib.DisplayLib.Display.DisposeDisplayHandler(Display_DisposeDisplay);
 		}
 
-		static void Display_DisposeDisplay()
-		{
-			ClearEvents();
-		}
-
 		/// <summary>
 		/// Class which represents the state of all keys on the keyboard.
 		/// </summary>
@@ -141,9 +136,17 @@ namespace AgateLib.InputLib.Legacy
 						ReleaseKey((KeyCode)i, waitForKeyUp);
 				}
 			}
-
-
 		}
+
+
+		/// <summary>
+		/// Event which occurs when a key is pressed.
+		/// </summary>
+		public static event InputEventHandler KeyDown;
+		/// <summary>
+		/// Event which occurs when a key is released.
+		/// </summary>
+		public static event InputEventHandler KeyUp;
 
 		/// <summary>
 		/// Gets an object representing the state of all keys on the keyboard.
@@ -419,25 +422,18 @@ namespace AgateLib.InputLib.Legacy
 
 		internal static void OnKeyDown(AgateInputEventArgs args)
 		{
-			if (KeyDown != null)
-				KeyDown(new InputEventArgs(args));
+			KeyDown?.Invoke(new InputEventArgs(args));
 		}
 
 		internal static void OnKeyUp(AgateInputEventArgs args)
 		{
-			if (KeyUp != null)
-				KeyUp(new InputEventArgs(args));
+			KeyUp?.Invoke(new InputEventArgs(args));
 		}
 
-		/// <summary>
-		/// Event which occurs when a key is pressed.
-		/// </summary>
-		public static event InputEventHandler KeyDown;
-		/// <summary>
-		/// Event which occurs when a key is released.
-		/// </summary>
-		public static event InputEventHandler KeyUp;
-
+		static void Display_DisposeDisplay()
+		{
+			ClearEvents();
+		}
 
 		private static void ClearEvents()
 		{

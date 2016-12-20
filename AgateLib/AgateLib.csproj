@@ -145,6 +145,7 @@
     <Compile Include="DisplayLib\BitmapFont\TypeConverters\KerningPairModelYaml.cs" />
     <Compile Include="DisplayLib\IFont.cs" />
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
+    <Compile Include="InputLib\SimpleInputHandler.cs" />
     <Compile Include="Resources\DataModel\FontResource.cs" />
     <Compile Include="Resources\DataModel\SpriteResourceAnimationData.cs" />
     <Compile Include="Resources\DataModel\SpriteFrameResource.cs" />

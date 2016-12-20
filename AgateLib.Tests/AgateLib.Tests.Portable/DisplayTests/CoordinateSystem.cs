@@ -19,8 +19,10 @@ namespace AgateLib.Testing.DisplayTests
 
 		public void EntryPoint()
 		{
-			Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
-			Mouse.MouseDown += Mouse_MouseDown;
+			SimpleInputHandler inputHandler = new SimpleInputHandler();
+
+			inputHandler.KeyDown += Keyboard_KeyDown;
+			inputHandler.MouseDown += Mouse_MouseDown;
 			Surface surf = new Surface("jellybean.png");
 			surf.Color = Color.Cyan;
 
@@ -45,8 +47,14 @@ namespace AgateLib.Testing.DisplayTests
 				AgateBuiltInShaders.Basic2DShader.Activate();
 
 				Display.FillRect(-2, -2, 4, 4, Color.Red);
-
 				surf.Draw();
+
+				Display.FlushDrawBuffer();
+				AgateBuiltInShaders.Basic2DShader.CoordinateSystem =
+					new Rectangle(Point.Empty, Display.CurrentWindow.Size);
+				AgateBuiltInShaders.Basic2DShader.Activate();
+
+				DefaultAssets.Fonts.AgateSans.DrawText("Press space to cycle through coordinate systems.");
 
 				Display.EndFrame();
 
@@ -54,12 +62,12 @@ namespace AgateLib.Testing.DisplayTests
 			}
 		}
 
-		void Mouse_MouseDown(InputEventArgs e)
+		void Mouse_MouseDown(object sender, AgateInputEventArgs e)
 		{
 			IncrementCounter();
 		}
 
-		void Keyboard_KeyDown(InputEventArgs e)
+		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
 			if (e.KeyCode == KeyCode.Space)
 			{

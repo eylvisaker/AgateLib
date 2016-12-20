@@ -72,9 +72,9 @@ namespace AgateLib.Diagnostics
 				sInstance.mVisible = value;
 
 				if (sInstance.mVisible)
-					Input.InputHandlers.BringToTop(sInstance);
+					Input.Handlers.BringToTop(sInstance);
 				else
-					Input.InputHandlers.SendToBack(sInstance);
+					Input.Handlers.SendToBack(sInstance);
 			}
 		}
 
@@ -104,7 +104,7 @@ namespace AgateLib.Diagnostics
 				return;
 
 			sInstance = Core.Factory.PlatformFactory.CreateConsole();
-			Input.InputHandlers.Add(sInstance);
+			Input.Handlers.Add(sInstance);
 
 			PrivateInitialize();
 		}

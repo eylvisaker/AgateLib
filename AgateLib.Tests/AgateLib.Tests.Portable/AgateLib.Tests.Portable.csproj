@@ -191,10 +191,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Resources\" />
-    <Folder Include="Platform\Test\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Reference Include="YamlDotNet, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\YamlDotNet.4.0.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\YamlDotNet.dll</HintPath>

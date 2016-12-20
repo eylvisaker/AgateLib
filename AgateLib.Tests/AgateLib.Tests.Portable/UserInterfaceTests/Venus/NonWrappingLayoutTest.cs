@@ -82,7 +82,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 				facet.label_1.Text = $"Client Rect: {pt.X},{pt.Y},{facet.label_1.Width},{facet.label_1.Height}";
 			};
 
-			Input.InputHandlers.Add(facet.InterfaceRoot);
+			Input.Handlers.Add(facet.InterfaceRoot);
 		}
 	}
 }

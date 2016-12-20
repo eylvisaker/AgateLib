@@ -76,7 +76,7 @@ namespace AgateLib.Testing.UserInterfaceTests
 
 			resources.InitializeContainer(facet);
 
-			Input.InputHandlers.Add(facet.InterfaceRoot);
+			Input.Handlers.Add(facet.InterfaceRoot);
 		}
 	}
 }

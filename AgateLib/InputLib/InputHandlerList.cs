@@ -31,6 +31,7 @@ namespace AgateLib.InputLib
 		{
 			Add(new AgateLib.InputLib.Legacy.LegacyInputHandler());
 		}
+
 		public void Add(IInputHandler handler)
 		{
 			if (handler == null)

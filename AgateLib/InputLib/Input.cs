@@ -60,7 +60,7 @@ namespace AgateLib.InputLib
 			inputHandlers.Dispatch(args);
 		}
 
-		public static InputHandlerList InputHandlers { get { return inputHandlers; } }
+		public static InputHandlerList Handlers { get { return inputHandlers; } }
 
 		internal static void PollJoysticks()
 		{
