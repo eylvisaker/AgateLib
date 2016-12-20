@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using AgateLib.Geometry;
 using AgateLib.Resources;
 using AgateLib.UserInterface;
+using AgateLib.UserInterface.StyleModel;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.UserInterface.Layout
 {
 	[TestClass]
-	public class ScrollingTest : FacetUnitTest, IUserInterfaceFacet
+	public class MenuScrollingTests : FacetUnitTest, IUserInterfaceFacet
 	{
 		protected override string FacetSource { get; } = @"
 facets:
@@ -39,6 +40,13 @@ facets:
 
 		public Menu Menu { get; set; }
 
+		WidgetStyle MenuStyle { get; set; }
+
+		public override void InitializeTest()
+		{
+			MenuStyle = Adapter.StyleOf(Menu);
+		}
+
 		[TestMethod]
 		public void MenuItemSizes()
 		{
@@ -59,19 +67,19 @@ facets:
 		[TestMethod]
 		public void ScrollToLastItem()
 		{
-			Menu.ScrollToWidget(Menu.MenuItems.Last());
+			MenuStyle.ScrollToWidget(Menu.MenuItems.Last());
 
-			Assert.AreEqual(new Point(0, 50), Menu.ScrollOffset);
+			Assert.AreEqual(new Point(0, 50), MenuStyle.View.ScrollOffset);
 		}
 
 		[TestMethod]
 		public void ScrollToLastItemThenFirst()
 		{
-			Menu.ScrollToWidget(Menu.MenuItems.Last());
-			Assert.AreEqual(new Point(0, 50), Menu.ScrollOffset);
+			MenuStyle.ScrollToWidget(Menu.MenuItems.Last());
+			Assert.AreEqual(new Point(0, 50), MenuStyle.View.ScrollOffset);
 
-			Menu.ScrollToWidget(Menu.MenuItems.First());
-			Assert.AreEqual(new Point(0, 0), Menu.ScrollOffset);
+			MenuStyle.ScrollToWidget(Menu.MenuItems.First());
+			Assert.AreEqual(new Point(0, 0), MenuStyle.View.ScrollOffset);
 		}
 	}
 }

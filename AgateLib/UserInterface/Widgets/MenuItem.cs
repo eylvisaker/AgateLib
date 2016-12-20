@@ -204,11 +204,11 @@ namespace AgateLib.UserInterface.Widgets
 
 		internal void OnSelect()
 		{
-			var parentContainer = Parent as Container;
+			var parentContainer = Parent as Menu;
 
 			if (parentContainer != null)
 			{
-				parentContainer.ScrollToWidget(this);
+				parentContainer.WidgetStyle.ScrollToWidget(this);
 			}
 
 			Select?.Invoke(this, EventArgs.Empty);

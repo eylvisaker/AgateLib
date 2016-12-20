@@ -4,10 +4,10 @@ using AgateLib.Testing.Fakes.UserInterface;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgateLib.UnitTests.UserInterface.Widgets
+namespace AgateLib.UnitTests.UserInterface.Layout
 {
 	[TestClass]
-	public class ScrollingTests
+	public class BasicScrollingTests
 	{
 		Gui gui;
 		Window window;
@@ -35,47 +35,46 @@ namespace AgateLib.UnitTests.UserInterface.Widgets
 			window.Children.Add(panel1);
 
 			panel1.Children.Add(label0, label1, label2, label3, label4);
-			panel1.AllowScroll = ScrollAxes.Both;
+			panel1.WidgetStyle.View.AllowScroll = ScrollAxes.Both;
 
 			foreach (var widget in gui.Desktop.Descendants)
 				widget.WidgetSize = widget.ClientRect.Size;
-
 		}
 
 		[TestMethod]
 		public void ScrollToWidgetAlreadyVisible()
 		{
-			panel1.ScrollToWidget(label0);
+			panel1.WidgetStyle.ScrollToWidget(label0);
 
-			Assert.AreEqual(new Point(), panel1.ScrollOffset);
+			Assert.AreEqual(new Point(), panel1.WidgetStyle.View.ScrollOffset);
 		}
 
 		[TestMethod]
 		public void ScrollToWidgetAtRight()
 		{
-			panel1.ScrollToWidget(label1);
-			Assert.AreEqual(new Point(5048+48-140,0), panel1.ScrollOffset, "Failed to scroll right.");
+			panel1.WidgetStyle.ScrollToWidget(label1);
+			Assert.AreEqual(new Point(5048+48-140,0), panel1.WidgetStyle.View.ScrollOffset, "Failed to scroll right.");
 
-			panel1.ScrollToWidget(label0);
-			Assert.AreEqual(new Point(10, 0), panel1.ScrollOffset, "Failed to scroll left.");
+			panel1.WidgetStyle.ScrollToWidget(label0);
+			Assert.AreEqual(new Point(10, 0), panel1.WidgetStyle.View.ScrollOffset, "Failed to scroll left.");
 		}
 
 		[TestMethod]
 		public void ScrollToWidgetAtLeft()
 		{
-			panel1.ScrollToWidget(label2);
+			panel1.WidgetStyle.ScrollToWidget(label2);
 
-			Assert.AreEqual(new Point(-50, 0), panel1.ScrollOffset);
+			Assert.AreEqual(new Point(-50, 0), panel1.WidgetStyle.View.ScrollOffset);
 		}
 
 		[TestMethod]
 		public void ScrollToWidgetAtBottom()
 		{
-			panel1.ScrollToWidget(label3);
-			Assert.AreEqual(new Point(0, 608-150), panel1.ScrollOffset, "Failed to scroll down.");
+			panel1.WidgetStyle.ScrollToWidget(label3);
+			Assert.AreEqual(new Point(0, 608-150), panel1.WidgetStyle.View.ScrollOffset, "Failed to scroll down.");
 
-			panel1.ScrollToWidget(label0);
-			Assert.AreEqual(new Point(0, 15), panel1.ScrollOffset, "Failed to scroll up.");
+			panel1.WidgetStyle.ScrollToWidget(label0);
+			Assert.AreEqual(new Point(0, 15), panel1.WidgetStyle.View.ScrollOffset, "Failed to scroll up.");
 		}
 	}
 }

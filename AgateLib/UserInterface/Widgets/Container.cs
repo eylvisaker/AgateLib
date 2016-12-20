@@ -38,7 +38,7 @@ namespace AgateLib.UserInterface.Widgets
 		}
 
 		public WidgetList Children { get; protected set; }
-
+		
 		protected internal override IEnumerable<Widget> RenderChildren => Children;
 
 		protected internal override IEnumerable<Widget> LayoutChildren => Children;
@@ -175,55 +175,11 @@ namespace AgateLib.UserInterface.Widgets
 
 			return null;
 		}
-
-		/// <summary>
-		/// If this is set to true, then the layout engine will not determine the
-		/// size of this control, or the size or positions of any child controls.
-		/// Grandchildren of this control will have layout performed as normal.
-		/// </summary>
-		public bool ManualLayout { get; set; }
-
-
-		public ScrollAxes AllowScroll { get; set; }
-		public Point ScrollOffset { get; set; }
-
+		
+		[Obsolete("Use WidgetStyle.ScrollToWidget instead.")]
 		public void ScrollToWidget(Widget widget)
 		{
-			Condition.Requires(IsDescendant(widget));
-
-			Point location = ClientLocationOf(widget);
-			var newOffset = ScrollOffset;
-
-			if ((AllowScroll & ScrollAxes.Vertical) != 0)
-			{
-				int bottom = widget.WidgetRect.Bottom;
-
-				if (bottom - newOffset.Y > ClientRect.Height)
-				{
-					newOffset.Y = bottom - ClientRect.Height;
-				}
-				if (widget.WidgetRect.Top < newOffset.Y)
-				{
-					newOffset.Y = widget.WidgetRect.Top;
-				}
-			}
-			if ((AllowScroll & ScrollAxes.Horizontal) != 0)
-			{
-				int right = widget.WidgetRect.Right;
-
-				if (right - newOffset.X > ClientRect.Width)
-				{
-					int diff = right - ClientRect.Width;
-					newOffset.X = diff;
-				}
-
-				if (widget.WidgetRect.Left < newOffset.X)
-				{
-					newOffset.X = widget.WidgetRect.Left;
-				}
-			}
-
-			ScrollOffset = newOffset;
+			WidgetStyle.ScrollToWidget(widget);
 		}
 
 		public bool IsDescendant(Widget widget)
@@ -242,36 +198,6 @@ namespace AgateLib.UserInterface.Widgets
 			}
 
 			return false;
-		}
-
-		private bool InOverflow(Widget widget)
-		{
-			var bounds = ClientRect;
-			var wr = widget.WidgetRect;
-			bounds.Location = ScrollOffset;
-
-			if (wr.Left < bounds.Left) return true;
-			if (wr.Top < bounds.Top) return true;
-			if (wr.Right > bounds.Right) return true;
-			if (wr.Bottom > bounds.Bottom) return true;
-
-			return false;
-		}
-
-		public Point ClientLocationOf(Widget widget)
-		{
-			Condition.Requires<ArgumentException>(Descendants.Contains(widget));
-
-			var w = widget;
-			Point pt = Point.Empty;
-
-			while (w != null && w != this)
-			{
-				pt = w.ClientToParent(pt);
-				w = w.Parent;
-			}
-
-			return pt;
 		}
 	}
 

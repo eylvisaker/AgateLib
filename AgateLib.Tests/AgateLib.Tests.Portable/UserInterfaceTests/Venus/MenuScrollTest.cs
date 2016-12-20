@@ -77,12 +77,6 @@ namespace AgateLib.Testing.UserInterfaceTests
 			resources.InitializeContainer(facet);
 
 			Input.InputHandlers.Add(facet.InterfaceRoot);
-
-			facet.Menu.SelectedItemChanged += (sender, args) =>
-			{
-				facet.DebugLabel.Text = $"Menu.ScrollRow: {facet.Menu.ScrollRow}\nMenu.ScrollOffset: {facet.Menu.ScrollOffset}";
-			};
-
 		}
 	}
 }

@@ -154,22 +154,14 @@ namespace AgateLib.UserInterface.Rendering.Animators
 		public bool Active { get; private set; }
 		public bool Visible { get; set; }
 
-		public Widget Widget { get { return mStyle.Widget; } }
-		public WidgetStyle Style { get { return mStyle; } }
+		public Widget Widget => mStyle.Widget;
+		public WidgetStyle Style => mStyle; 
 
 		WindowTransitionType mTransitionType;
 		public IWidgetTransition Transition { get; private set; }
 
-		public Point ScrollOffset
-		{
-			get
-			{
-				var container = Widget as Container;
-				if (container == null)
-					return Point.Empty;
-				return container.ScrollOffset;
-			}
-		}
+		public Point ScrollOffset => Style.View.ScrollOffset;
+
 		public bool InTransition
 		{
 			get

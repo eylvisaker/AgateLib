@@ -143,12 +143,12 @@
     <Compile Include="UserInterface\Layout\AdapterBoxModelTests.cs" />
     <Compile Include="UserInterface\Layout\AdapterTests.cs" />
     <Compile Include="UserInterface\Layout\LayoutEngineTests.cs" />
-    <Compile Include="UserInterface\Layout\ScrollingTest.cs" />
+    <Compile Include="UserInterface\Layout\MenuScrollingTests.cs" />
     <Compile Include="UserInterface\Layout\TestFacet.cs" />
     <Compile Include="UserInterface\Layout\TestFacetInitializer.cs" />
     <Compile Include="UserInterface\Widgets\ConversionTests.cs" />
     <Compile Include="UserInterface\Widgets\MenuItemTests.cs" />
-    <Compile Include="UserInterface\Widgets\ScrollingTests.cs" />
+    <Compile Include="UserInterface\Layout\BasicScrollingTests.cs" />
     <Compile Include="Utility\RefTest.cs" />
     <Compile Include="Utility\RefTester.cs" />
   </ItemGroup>

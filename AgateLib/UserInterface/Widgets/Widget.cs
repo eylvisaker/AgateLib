@@ -23,6 +23,7 @@ using System.Text;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Quality;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.StyleModel;
 
@@ -473,5 +474,21 @@ namespace AgateLib.UserInterface.Widgets
 		protected internal virtual bool AnyDirectionGestures { get { return false; } }
 
 		internal WidgetStyle WidgetStyle { get; set; }
+
+		public Point ClientLocationOf(Widget widget)
+		{
+			//Condition.Requires<ArgumentException>(Descendants.Contains(widget));
+
+			var w = widget;
+			Point pt = Point.Empty;
+
+			while (w != null && w != this)
+			{
+				pt = w.ClientToParent(pt);
+				w = w.Parent;
+			}
+
+			return pt;
+		}
 	}
 }

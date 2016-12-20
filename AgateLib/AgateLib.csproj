@@ -640,6 +640,7 @@
     <Compile Include="UserInterface\StyleModel\WidgetLayout.cs" />
     <Compile Include="UserInterface\StyleModel\WidgetMetrics.cs" />
     <Compile Include="UserInterface\StyleModel\WidgetStyle.cs" />
+    <Compile Include="UserInterface\StyleModel\WidgetViewStyle.cs" />
     <Compile Include="UserInterface\Widgets\AxisType.cs" />
     <Compile Include="UserInterface\Widgets\Container.cs" />
     <Compile Include="UserInterface\Widgets\Desktop.cs" />
