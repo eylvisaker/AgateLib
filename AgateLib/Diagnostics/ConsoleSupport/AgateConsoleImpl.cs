@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AgateLib.ApplicationModels;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
+using AgateLib.Quality;
 
 namespace AgateLib.Diagnostics
 {
@@ -22,7 +24,19 @@ namespace AgateLib.Diagnostics
 		int mHeight;
 		int mHistoryIndex;
 
-		ICommandProcessor mCommandProcessor = new AgateConsoleCommandProcessor();
+		private IList<ICommandLibrary> commandLibraries = new List<ICommandLibrary>();
+
+		private long CurrentTime => Core.State.Core.MasterTime.ElapsedMilliseconds;
+
+		public IList<ICommandLibrary> CommandLibraries
+		{
+			get { return commandLibraries; }
+			set
+			{
+				Condition.RequireArgumentNotNull(value, nameof(CommandLibraries));
+				commandLibraries = value;
+			}
+		}
 
 		public KeyCode VisibleToggleKey
 		{
@@ -61,12 +75,6 @@ namespace AgateLib.Diagnostics
 		}
 
 		public IFont Font { get { return Core.State.Console.Font; } }
-
-		public ICommandProcessor CommandProcessor
-		{
-			get { return mCommandProcessor; }
-			set { mCommandProcessor = value; }
-		}
 
 		public List<ConsoleMessage> Messages { get { return mMessages; } }
 
@@ -233,7 +241,14 @@ namespace AgateLib.Diagnostics
 				mMessages.Add(input);
 				mInputHistory.Add(input);
 
-				ExecuteCommand();
+				try
+				{
+					Execute(mCurrentLine);
+				}
+				finally
+				{
+					mCurrentLine = "";
+				}
 			}
 			else if (string.IsNullOrEmpty(keystring) == false)
 			{
@@ -286,37 +301,110 @@ namespace AgateLib.Diagnostics
 
 		#endregion
 
-		private void ExecuteCommand()
+		public void Execute(string command)
 		{
 			if (string.IsNullOrEmpty(mCurrentLine))
 				return;
 			if (mCurrentLine.Trim() == string.Empty)
 				return;
 
-			// regular expression obtained from 
-			// http://stackoverflow.com/questions/554013/regular-expression-to-split-on-spaces-unless-in-quotes
-			//
-			var regexMatches = Regex.Matches(mCurrentLine, @"((""((?<token>.*?)(?<!\\)"")|(?<token>[\w]+))(\s)*)");
+			if (Help(command))
+				return;
 
-			string[] tokens = (from Match m in regexMatches
-							   where m.Groups["token"].Success
-							   select m.Groups["token"].Value).ToArray();
+			Debug(command);
+			Quit(command);
 
-			tokens[0] = tokens[0].ToLowerInvariant();
-
-			mCurrentLine = string.Empty;
-
-			try
+			foreach (var commandProcessor in commandLibraries)
 			{
-				CommandProcessor.ExecuteCommand(tokens);
-			}
-			catch (System.Reflection.TargetInvocationException ex)
-			{
-				var e = ex.InnerException;
+				try
+				{
+					if (commandProcessor.Execute(command))
+					{
+						return;
+					}
+				}
+				catch (Exception e)
+				{
+					WriteLine("Failed to execute command.");
+					WriteLine(e.ToString());
 
-				WriteLineFormat("Caught exception: {0}", e.GetType());
-				WriteLine(e.Message);
+					return;
+				}
 			}
+
+			WriteLine("Unknown command.");
+		}
+
+		private void Quit(string command)
+		{
+			if (command == "quit")
+			{
+				AgateAppModel.Instance.Exit();
+			}
+		}
+
+		private void Debug(string command)
+		{
+			if (command == "debug")
+			{
+				AgateConsole.WriteLine("Type 'debug on' to enable debug information.");
+				AgateConsole.WriteLine("Type 'debug off' to disable debug information.");
+			}
+
+			if (command == "debug off")
+			{
+				AgateConsole.WriteLine("Disabling debug information.");
+			}
+			else if (command == "debug on")
+			{
+				AgateConsole.WriteLine("Enabling debug information. Type 'debug off' to turn it off.");
+			}
+		}
+
+		private bool Help(string command)
+		{
+			const string helpCommand = "help";
+
+			if (command.ToLowerInvariant().StartsWith(helpCommand) == false)
+			{
+				return false;
+			}
+
+			command = command.Trim();
+
+			if (commandLibraries.Any())
+			{
+				if (command.Length == 4)
+				{
+					WriteLine("Available Commands:");
+					foreach (var commandProcessor in commandLibraries)
+					{
+						commandProcessor.Help();
+					}
+
+				}
+				else
+				{
+					var subcommand = command.Substring(helpCommand.Length).TrimStart();
+
+					foreach (var commandProcessor in commandLibraries)
+					{
+						commandProcessor.Help(subcommand);
+					}
+
+					return true;
+				}
+			}
+			else
+			{
+				WriteLine("No command processors installed.");
+				WriteLine("Available Commands:");
+			}
+
+			WriteLine("    debug [on|off]");
+			WriteLine("    quit");
+
+			return true;
 		}
 
 		private void WriteLineFormat(string format, params object[] args)
@@ -324,8 +412,7 @@ namespace AgateLib.Diagnostics
 			WriteLine(string.Format(format, args));
 		}
 
-
-		public string CurrentLine { get { return mCurrentLine; } }
+		public string InputText { get { return mCurrentLine; } }
 
 		private void ModifyHistoryLine()
 		{
@@ -335,8 +422,5 @@ namespace AgateLib.Diagnostics
 				mHistoryIndex = 0;
 			}
 		}
-
-		protected long CurrentTime => Core.State.Core.MasterTime.ElapsedMilliseconds;
-
 	}
 }

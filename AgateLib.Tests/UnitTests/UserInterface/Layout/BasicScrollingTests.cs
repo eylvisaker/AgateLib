@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AgateLib.UnitTests.UserInterface.Layout
 {
 	[TestClass]
-	public class BasicScrollingTests
+	public class BasicScrollingTests : AgateUnitTest
 	{
 		Gui gui;
 		Window window;

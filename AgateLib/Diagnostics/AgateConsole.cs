@@ -17,6 +17,7 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System;
+using System.Collections.Generic;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
@@ -25,6 +26,10 @@ using AgateLib.Quality;
 
 namespace AgateLib.Diagnostics
 {
+	/// <summary>
+	/// Provides and interface to a command console the user can use 
+	/// to issue commands to AgateLib and the application.
+	/// </summary>
 	public static class AgateConsole
 	{
 		public static IAgateConsole Instance
@@ -100,6 +105,11 @@ namespace AgateLib.Diagnostics
 			PrivateInitialize();
 		}
 
+		public static void Execute(string command)
+		{
+			Instance.Execute(command);
+		}
+
 		private static void PrivateInitialize()
 		{
 			if (Instance == null)
@@ -120,7 +130,7 @@ namespace AgateLib.Diagnostics
 			if (Instance == null) return;
 
 			if (Font == null)
-				Font = DefaultAssets.Fonts.AgateMono;
+				Font = DisplayLib.Font.AgateMono;
 
 			Instance.Draw();
 		}
@@ -129,14 +139,34 @@ namespace AgateLib.Diagnostics
 		/// Writes a line to the output part of the console window.
 		/// </summary>
 		/// <param name="text"></param>
-		public static void WriteLine(string text, params object[] args)
+		public static void WriteLineFormat(string text, params object[] args)
 		{
 			Instance?.WriteLine(string.Format(text, args));
+		}
+
+		/// <summary>
+		/// Writes text to the output console window.
+		/// </summary>
+		/// <param name="text"></param>
+		public static void WriteLine(string text)
+		{
+			Instance?.WriteLine(text);
 		}
 
 		public static void WriteMessage(ConsoleMessage message)
 		{
 			Instance?.WriteMessage(message);
+		}
+
+		public static IList<ICommandLibrary> CommandProcessors
+		{
+			get { return Instance?.CommandLibraries; }
+			set
+			{
+				if (Instance == null)
+					return;
+				Instance.CommandLibraries = value;
+			}
 		}
 	}
 }

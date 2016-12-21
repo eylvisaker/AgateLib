@@ -21,6 +21,12 @@ namespace AgateLib.UnitTests
 			Initializer.InitializeDisplayWindow(1920, 1080);
 		}
 
+		[TestCleanup]
+		public void ClearAgateLibState()
+		{
+			Core.State = null;
+		}
+
 		public AgateLibInitializer Initializer { get; private set; } = new AgateLibInitializer();
 		
 		public FakeAgateFactory Factory { get; set; }

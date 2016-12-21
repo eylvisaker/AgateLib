@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AgateLib.UnitTests.Serialization.Xle
 {
 	[TestClass]
-	public class XSTests
+	public class XSTests : AgateUnitTest
 	{
 		class Initializer : IPlatformSerialization
 		{

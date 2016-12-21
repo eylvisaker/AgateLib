@@ -86,8 +86,8 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 			}
 			finally
 			{
-				var primaryWindow = AutoCreatedWindow.Impl as IPrimaryWindow;
-				primaryWindow.ExitMessageLoop();
+				var primaryWindow = AutoCreatedWindow?.Impl as IPrimaryWindow;
+				primaryWindow?.ExitMessageLoop();
 
 				threadRunning = false;
 			}

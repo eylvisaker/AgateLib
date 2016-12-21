@@ -116,6 +116,7 @@
     <Compile Include="ApplicationModels\CoordinateSystemTest.cs" />
     <Compile Include="Diagnostics\ConsoleTests.cs" />
     <Compile Include="AgateUninitializedUnitTest.cs" />
+    <Compile Include="Diagnostics\CommandLibraryTests.cs" />
     <Compile Include="DisplayLib\DisplayTests.cs" />
     <Compile Include="DisplayLib\DisplayWindowTest.cs" />
     <Compile Include="DisplayLib\FontTests.cs" />

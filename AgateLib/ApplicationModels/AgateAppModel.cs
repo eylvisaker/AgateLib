@@ -108,7 +108,6 @@ namespace AgateLib.ApplicationModels
 			GC.SuppressFinalize(this);
 		}
 
-
 		protected void DisposeAutoCreatedWindow()
 		{
 			if (window != null)

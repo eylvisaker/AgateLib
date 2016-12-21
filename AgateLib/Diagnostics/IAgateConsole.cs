@@ -10,12 +10,18 @@ namespace AgateLib.Diagnostics
 {
 	public interface IAgateConsole : IInputHandler
 	{
-		ICommandProcessor CommandProcessor { get; set; }
-
 		bool IsVisible { get; set; }
 
+		IList<ICommandLibrary> CommandLibraries { get; set; }
+
 		void Draw();
-		void WriteLine(string v);
+		void WriteLine(string text);
 		void WriteMessage(ConsoleMessage message);
+
+		/// <summary>
+		/// Executes the command as if the user had typed it in.
+		/// </summary>
+		/// <param name="command"></param>
+		void Execute(string command);
 	}
 }

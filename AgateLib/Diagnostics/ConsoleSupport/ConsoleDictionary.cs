@@ -27,6 +27,11 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 
 	public class ConsoleDictionary : Dictionary<string, Delegate>
 	{
+		public ConsoleDictionary() : base(StringComparer.OrdinalIgnoreCase)
+		{
+
+		}
+
 		public void Add<T>(string key, Action<T> value)
 		{
 			base.Add(key, value);

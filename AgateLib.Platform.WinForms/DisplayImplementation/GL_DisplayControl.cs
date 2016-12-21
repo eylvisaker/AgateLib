@@ -350,6 +350,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override void Dispose()
 		{
+			ExitMessageLoop();
+
 			if (mFrameBuffer != null)
 			{
 				mFrameBuffer.Dispose();
@@ -358,10 +360,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			if (frm != null)
 			{
-				frm.Close();
+				if (frm.InvokeRequired)
+				{
+					frm.BeginInvoke(new Action(frm.Close));
+				}
 				frm = null;
 			}
-
 		}
 
 		private void AttachEvents()
