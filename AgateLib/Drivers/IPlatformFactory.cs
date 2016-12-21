@@ -21,26 +21,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.Diagnostics;
 
 namespace AgateLib.Drivers
 {
-    public interface IPlatformFactory
-    {
-        PlatformInfo Info { get; }
+	public interface IPlatformFactory
+	{
+		PlatformInfo Info { get; }
 
-        void Initialize(IO.FileSystemObjects fileSystemObjects);
+		void Initialize(IO.FileSystemObjects fileSystemObjects);
 
-        IStopwatch CreateStopwatch();
+		IStopwatch CreateStopwatch();
 
-        Diagnostics.AgateConsole CreateConsole();
+		IEnumerable<System.Reflection.Assembly> GetSerializationSearchAssemblies(Type objectType);
 
-        IEnumerable<System.Reflection.Assembly> GetSerializationSearchAssemblies(Type objectType);
+		/// <summary>
+		/// Gets a file provider which points to the application directory.
+		/// </summary>
+		IReadFileProvider ApplicationFolderFileProvider { get; }
 
-        /// <summary>
-        /// Gets a file provider which points to the application directory.
-        /// </summary>
-        IReadFileProvider ApplicationFolderFileProvider { get; }
-
-        IPlatformSerialization CreateDefaultSerializationConstructor();
-    }
+		IPlatformSerialization CreateDefaultSerializationConstructor();
+	}
 }

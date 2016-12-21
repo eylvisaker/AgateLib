@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\FakeAudioImpl.cs" />
-    <Compile Include="FakeAgateConsole.cs" />
     <Compile Include="FakeAgateFactory.cs" />
     <Compile Include="FakeAudioFactory.cs" />
     <Compile Include="FakeDisplayDriver.cs" />

@@ -129,22 +129,25 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 			{
 				Delegate d = mCommands[command];
 				var method = d.GetMethodInfo();
-				Write("Usage: ");
-				Write(command + " ");
+				StringBuilder b = new StringBuilder();
+
+				b.Append("Usage: ");
+				b.Append(command + " ");
 
 				var parameters = method.GetParameters();
 				for (int i = 0; i < parameters.Length; i++)
 				{
 					if (parameters[i].IsOptional)
-						Write("[");
+						b.Append("[");
 
-					Write(parameters[i].Name);
+					b.Append(parameters[i].Name);
 
 					if (parameters[i].IsOptional)
-						Write("]");
+						b.Append("]");
 				}
 
-				WriteLine("");
+				b.AppendLine("");
+				WriteLine(b.ToString());
 
 				string description = "";
 
@@ -171,10 +174,6 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 		void WriteLine(string text)
 		{
 			AgateConsole.WriteLine(text);
-		}
-		void Write(string text)
-		{
-			AgateConsole.Write(text);
 		}
 
 		public event DescribeCommandHandler DescribeCommand;

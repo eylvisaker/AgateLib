@@ -105,7 +105,6 @@
     <Compile Include="Data\AgateTable.cs" />
     <Compile Include="Data\AgateTableDictionary.cs" />
     <Compile Include="Data\FieldType.cs" />
-    <Compile Include="Diagnostics\AgateConsoleImpl.cs" />
     <Compile Include="Diagnostics\AgateConsoleTraceListener.cs" />
     <Compile Include="DisplayImplementation\ContextInfo.cs" />
     <Compile Include="DisplayImplementation\frmFullScreen.cs">

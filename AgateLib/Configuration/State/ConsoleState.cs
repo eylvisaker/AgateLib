@@ -12,7 +12,7 @@ namespace AgateLib.Configuration.State
 {
 	class ConsoleState
 	{
-		internal AgateConsole Instance;
+		internal IAgateConsole Instance;
 		internal Color BackgroundColor;
 		internal Color EntryColor;
 		internal Color TextColor;

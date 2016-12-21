@@ -9,13 +9,11 @@ namespace AgateLib.Diagnostics
 {
 	class AgateConsoleTraceListener : TraceListener
 	{
-		AgateConsole mOwner;
 		ConsoleMessage current;
 		Stopwatch watch = new Stopwatch();
 
-		public AgateConsoleTraceListener(AgateConsole owner)
+		public AgateConsoleTraceListener()
 		{
-			mOwner = owner;
 			Trace.Listeners.Add(this);
 
 			watch.Start();
@@ -26,7 +24,7 @@ namespace AgateLib.Diagnostics
 			if (current == null)
 			{
 				current = new ConsoleMessage();
-				mOwner.Messages.Add(current);
+				AgateConsole.WriteMessage(current);
 			}
 
 			current.Time = watch.ElapsedMilliseconds;
@@ -37,7 +35,7 @@ namespace AgateLib.Diagnostics
 			if (current == null)
 			{
 				current = new ConsoleMessage();
-				mOwner.Messages.Add(current);
+				AgateConsole.WriteMessage(current);
 			}
 
 			current.Text += message;

@@ -8,20 +8,16 @@ namespace AgateLib.UnitTests.Diagnostics
 	[TestClass]
 	public class ConsoleTests
 	{
-		AgateConsole console;
+		AgateConsoleImpl console;
 		int describeCallCount = 0;
 
 		[TestInitialize]
 		public void Init()
 		{
 			console = new AgateConsoleImpl();
+			AgateConsole.Initialize(console);
 
 			console.CommandProcessor.DescribeCommand += (cmd) => { describeCallCount++; return string.Empty; };
-		}
-		[TestCleanup]
-		public void Cleanup()
-		{
-			console.Dispose();
 		}
 
 		[TestMethod]

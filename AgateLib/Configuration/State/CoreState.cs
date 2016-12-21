@@ -22,6 +22,7 @@ namespace AgateLib.Configuration.State
 		public PersistantSettings Settings { get; set; }
 		public IAgateFactory Factory { get; set; }
 
+		public System.Diagnostics.Stopwatch MasterTime { get; private set; } = new System.Diagnostics.Stopwatch();
 		/// <summary>
 		/// 
 		/// </summary>

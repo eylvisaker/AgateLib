@@ -11,6 +11,18 @@ namespace AgateLib.DisplayLib
 {
 	public class Font : IFont
 	{
+		private static int FontSizeStep(int minSize)
+		{
+			if (minSize < 18)
+				return 2;
+			else
+				return 4;
+		}
+
+		public static IFont AgateSans => DefaultAssets.Fonts.AgateSans;
+		public static IFont AgateSerif => DefaultAssets.Fonts.AgateSerif;
+		public static IFont AgateMono => DefaultAssets.Fonts.AgateMono;
+		
 		Dictionary<FontSettings, FontSurface> mFontSurfaces = new Dictionary<FontSettings, FontSurface>();
 		FontSettings mSettings;
 		FontState mState = new FontState();
@@ -216,13 +228,6 @@ namespace AgateLib.DisplayLib
 			return FontSurface.MeasureString(text);
 		}
 
-		private static int FontSizeStep(int minSize)
-		{
-			if (minSize < 18)
-				return 2;
-			else
-				return 4;
-		}
 	}
 
 }

@@ -140,6 +140,8 @@
     <Compile Include="Configuration\State\DisplayState.cs" />
     <Compile Include="Configuration\State\InputState.cs" />
     <Compile Include="Configuration\State\IOState.cs" />
+    <Compile Include="Diagnostics\ConsoleSupport\AgateConsoleImpl.cs" />
+    <Compile Include="Diagnostics\IAgateConsole.cs" />
     <Compile Include="Diagnostics\InterfaceRootLogger.cs" />
     <Compile Include="DisplayLib\BitmapFont\KerningPairModel.cs" />
     <Compile Include="DisplayLib\BitmapFont\TypeConverters\KerningPairModelYaml.cs" />
@@ -226,7 +228,7 @@
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleMessage.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleMessageType.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\DescriptionAttribute.cs" />
-    <Compile Include="Diagnostics\ConsoleSupport\ICommandProcessor.cs" />
+    <Compile Include="Diagnostics\ICommandProcessor.cs" />
     <Compile Include="Diagnostics\Log.cs" />
     <Compile Include="DisplayLib\Font.cs" />
     <Compile Include="DisplayLib\FrameBuffer.cs" />

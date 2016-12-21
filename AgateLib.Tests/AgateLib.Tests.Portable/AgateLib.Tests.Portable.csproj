@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Audio\SoundbufferStopTester.cs" />
     <Compile Include="Audio\StreamAudio.cs" />
+    <Compile Include="ConsoleTests\BasicConsoleTest.cs" />
     <Compile Include="DisplayTests\BasicSprite.cs" />
     <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="DisplayTests\ColorTest.cs" />
