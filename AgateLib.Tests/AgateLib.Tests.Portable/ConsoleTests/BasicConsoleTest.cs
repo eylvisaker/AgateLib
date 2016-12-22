@@ -20,7 +20,7 @@ namespace AgateLib.Testing.ConsoleTests
 		public void EntryPoint()
 		{
 			AgateConsole.Initialize();
-			AgateConsole.CommandProcessors.Add(new LibraryVocabulary(this));
+			AgateConsole.CommandLibraries.Add(new LibraryVocabulary(this));
 
 			while (Display.CurrentWindow.IsClosed == false)
 			{
@@ -39,16 +39,14 @@ namespace AgateLib.Testing.ConsoleTests
 		{
 		}
 
-		[ConsoleCommand]
-		[Description("This is the apple() method.")]
+		[ConsoleCommand("This is the apple() method.")]
 		public void Apple()
 		{
 			AgateConsole.WriteLine("Apple() called");
 		}
 
 
-		[ConsoleCommand]
-		[Description("Type 'remove library' to remove the command library.")]
+		[ConsoleCommand("Type 'remove library' to remove the command library.")]
 		public void Remove(string library)
 		{
 			if (library != "library")
@@ -57,7 +55,7 @@ namespace AgateLib.Testing.ConsoleTests
 			}
 			else
 			{
-				AgateConsole.CommandProcessors.Clear();
+				AgateConsole.CommandLibraries.Clear();
 			}
 		}
 	}

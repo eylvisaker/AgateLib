@@ -158,13 +158,18 @@ namespace AgateLib.Diagnostics
 			Instance?.WriteMessage(message);
 		}
 
-		public static IList<ICommandLibrary> CommandProcessors
+		/// <summary>
+		/// Gets or sets the list of command libraries that are available
+		/// for the user to call upon in the console window.
+		/// </summary>
+		public static IList<ICommandLibrary> CommandLibraries
 		{
 			get { return Instance?.CommandLibraries; }
 			set
 			{
 				if (Instance == null)
 					return;
+
 				Instance.CommandLibraries = value;
 			}
 		}

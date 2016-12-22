@@ -42,7 +42,7 @@ namespace AgateLib.UnitTests.Diagnostics
 			console = new AgateConsoleImpl();
 
 			AgateConsole.Initialize(console);
-			AgateConsole.CommandProcessors.Add(probe);
+			AgateConsole.CommandLibraries.Add(probe);
 		}
 
 		[TestMethod]

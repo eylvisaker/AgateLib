@@ -17,7 +17,7 @@ namespace AgateLib.UnitTests.Diagnostics
 			public string Callme_parameter1 { get; private set; }
 			public string Callme_parameter2 { get; private set; }
 
-			[ConsoleCommand]
+			[ConsoleCommand("Test method.")]
 			public void Callme(string parameter1, string parameter2)
 			{
 				Callme_Count++;
@@ -39,7 +39,7 @@ namespace AgateLib.UnitTests.Diagnostics
 		[TestMethod]
 		public void CallLibraryCommand()
 		{
-			AgateConsole.CommandProcessors.Add(new LibraryVocabulary(library));
+			AgateConsole.CommandLibraries.Add(new LibraryVocabulary(library));
 
 			console.ProcessKeys("callme p1 p2\n");
 

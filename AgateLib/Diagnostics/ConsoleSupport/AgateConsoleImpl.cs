@@ -25,6 +25,12 @@ namespace AgateLib.Diagnostics
 		int mHistoryIndex;
 
 		private IList<ICommandLibrary> commandLibraries = new List<ICommandLibrary>();
+		private LibraryVocabulary emergencyVocab;
+
+		public AgateConsoleImpl()
+		{
+			emergencyVocab = new LibraryVocabulary(new AgateEmergencyVocabulary(this));
+		}
 
 		private long CurrentTime => Core.State.Core.MasterTime.ElapsedMilliseconds;
 
@@ -35,6 +41,17 @@ namespace AgateLib.Diagnostics
 			{
 				Condition.RequireArgumentNotNull(value, nameof(CommandLibraries));
 				commandLibraries = value;
+			}
+		}
+
+		internal IEnumerable<ICommandLibrary> CommandLibrarySet
+		{
+			get
+			{
+				yield return emergencyVocab;
+
+				foreach (var library in commandLibraries)
+					yield return library;
 			}
 		}
 
@@ -307,18 +324,16 @@ namespace AgateLib.Diagnostics
 				return;
 			if (mCurrentLine.Trim() == string.Empty)
 				return;
+			
+			bool isDebugCommand = IsDebugCommand(command);
 
-			if (Help(command))
-				return;
-
-			Debug(command);
-			Quit(command);
-
-			foreach (var commandProcessor in commandLibraries)
+			foreach (var commandProcessor in CommandLibrarySet)
 			{
 				try
 				{
-					if (commandProcessor.Execute(command))
+					bool execStatus = commandProcessor.Execute(command);
+
+					if (execStatus && !isDebugCommand)
 					{
 						return;
 					}
@@ -332,80 +347,17 @@ namespace AgateLib.Diagnostics
 				}
 			}
 
-			WriteLine("Unknown command.");
+			if (!isDebugCommand)
+			{
+				WriteLine("Unknown command.");
+			}
 		}
 
-		private void Quit(string command)
+		private bool IsDebugCommand(string command)
 		{
-			if (command == "quit")
-			{
-				AgateAppModel.Instance.Exit();
-			}
+			return command == "debug" || command.StartsWith("debug ");
 		}
 
-		private void Debug(string command)
-		{
-			if (command == "debug")
-			{
-				AgateConsole.WriteLine("Type 'debug on' to enable debug information.");
-				AgateConsole.WriteLine("Type 'debug off' to disable debug information.");
-			}
-
-			if (command == "debug off")
-			{
-				AgateConsole.WriteLine("Disabling debug information.");
-			}
-			else if (command == "debug on")
-			{
-				AgateConsole.WriteLine("Enabling debug information. Type 'debug off' to turn it off.");
-			}
-		}
-
-		private bool Help(string command)
-		{
-			const string helpCommand = "help";
-
-			if (command.ToLowerInvariant().StartsWith(helpCommand) == false)
-			{
-				return false;
-			}
-
-			command = command.Trim();
-
-			if (commandLibraries.Any())
-			{
-				if (command.Length == 4)
-				{
-					WriteLine("Available Commands:");
-					foreach (var commandProcessor in commandLibraries)
-					{
-						commandProcessor.Help();
-					}
-
-				}
-				else
-				{
-					var subcommand = command.Substring(helpCommand.Length).TrimStart();
-
-					foreach (var commandProcessor in commandLibraries)
-					{
-						commandProcessor.Help(subcommand);
-					}
-
-					return true;
-				}
-			}
-			else
-			{
-				WriteLine("No command processors installed.");
-				WriteLine("Available Commands:");
-			}
-
-			WriteLine("    debug [on|off]");
-			WriteLine("    quit");
-
-			return true;
-		}
 
 		private void WriteLineFormat(string format, params object[] args)
 		{

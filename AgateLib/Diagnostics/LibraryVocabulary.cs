@@ -15,7 +15,13 @@ namespace AgateLib.Diagnostics
 	/// </summary>
 	public class LibraryVocabulary : ICommandLibrary
 	{
-		ConsoleDictionary commands = new ConsoleDictionary();
+		class CommandInfo
+		{
+			public Delegate Delegate { get; set; }
+			public ConsoleCommandAttribute CommandAttribute { get; set; }
+		}
+
+		Dictionary<string, CommandInfo> commands = new Dictionary<string, CommandInfo>();
 
 		private ICommandVocabulary vocabulary;
 
@@ -33,35 +39,48 @@ namespace AgateLib.Diagnostics
 			int i = 0;
 			foreach (var key in commands.Keys)
 			{
+				var info = commands[key];
+				if (info.CommandAttribute.Hidden)
+					continue;
+
 				builder.Append("    ");
-				builder.Append((key + new string(' ', 20)).Substring(0, Math.Max(20, key.Length)));
 				i++;
 
-				if (i % 2 == 0)
+				if (i % 3 == 0)
 				{
-					builder.AppendLine();
+					builder.AppendLine(key);
+				}
+				else
+				{
+					builder.Append((key + new string(' ', 30)).Substring(0, Math.Max(30, key.Length)));
 				}
 			}
 
-			AgateConsole.WriteLine(builder.ToString());
+			if (builder.Length > 0)
+			{
+				AgateConsole.WriteLine(builder.ToString());
+			}
 		}
 
 		public void Help(string command)
 		{
-			var methodInfo = commands[command].GetMethodInfo();
-			
-			var description = methodInfo?.GetCustomAttribute<DescriptionAttribute>();
+			if (commands.ContainsKey(command) == false)
+				return;
 
-			AgateConsole.WriteLine(description?.Description ?? "No description found.");
+			var methodInfo = commands[command].Delegate.GetMethodInfo();
+
+			var commandAttribute = methodInfo?.GetCustomAttribute<ConsoleCommandAttribute>();
+
+			AgateConsole.WriteLine(commandAttribute?.Description ?? "No description found.");
 		}
-		
+
 		public bool Execute(string command)
 		{
 			string[] tokens = ConsoleTokenizer.Tokenize(command);
 
 			if (commands.ContainsKey(tokens[0]))
 			{
-				ExecuteDelegate(commands[tokens[0]], tokens);
+				ExecuteDelegate(commands[tokens[0]].Delegate, tokens);
 				return true;
 			}
 
@@ -89,12 +108,17 @@ namespace AgateLib.Diagnostics
 				if (!string.IsNullOrWhiteSpace(attrib.Name))
 					name = attrib.Name;
 
-				commands.Add(name, method.CreateDelegate(Expression.GetDelegateType(
-					(from parameter in method.GetParameters() select parameter.ParameterType)
-					.Concat(new[] { method.ReturnType })
-					.ToArray()), vocabulary));
+				commands.Add(name, new CommandInfo
+				{
+					CommandAttribute = attrib,
+					Delegate = method.CreateDelegate(Expression.GetDelegateType(method.GetParameters()
+						.Select(x => x.ParameterType)
+						.Concat(new[] { method.ReturnType })
+						.ToArray()), vocabulary)
+				});
 			}
 		}
+
 		private void ExecuteDelegate(Delegate p, string[] tokens)
 		{
 			var method = p.GetMethodInfo();
@@ -103,18 +127,22 @@ namespace AgateLib.Diagnostics
 			bool notEnoughArgs = false;
 			bool badArgs = false;
 
-			for (int i = 0; i < parameters.Length || i < tokens.Length - 1; i++)
+			for (int i = 0, j = 1; i < parameters.Length || j < tokens.Length; i++, j++)
 			{
-				if (i < args.Length && i < tokens.Length - 1)
+				if (parameters[i].GetCustomAttribute<JoinArgsAttribute>() != null && parameters[i].ParameterType == typeof(string))
+				{
+					args[i] = string.Join(" ", tokens.Skip(1));
+				}
+				else if (i < args.Length && j < tokens.Length)
 				{
 					try
 					{
-						args[i] = Convert.ChangeType(tokens[i + 1], parameters[i].ParameterType, System.Globalization.CultureInfo.InvariantCulture);
+						args[i] = Convert.ChangeType(tokens[j], parameters[i].ParameterType, System.Globalization.CultureInfo.InvariantCulture);
 					}
 					catch
 					{
-						WriteLine("Argument #" + (i + 1).ToString() + " invalid: \"" +
-							tokens[i + 1] + "\" not convertable to " + parameters[i].ParameterType.Name);
+						WriteLine("Argument #" + j.ToString() + " invalid: \"" +
+							tokens[j] + "\" not convertable to " + parameters[i].ParameterType.Name);
 						badArgs = true;
 					}
 				}
@@ -137,7 +165,7 @@ namespace AgateLib.Diagnostics
 				}
 				else
 				{
-					WriteLine("[Ignoring extra argument: " + tokens[i + 1] + "]");
+					WriteLine("[Ignoring extra argument: " + tokens[j] + "]");
 				}
 			}
 
