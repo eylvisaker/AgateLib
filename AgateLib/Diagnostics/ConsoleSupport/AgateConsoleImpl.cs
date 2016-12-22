@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -151,19 +152,23 @@ namespace AgateLib.Diagnostics
 
 				for (int i = mMessages.Count - 1; i >= 0; i--)
 				{
-					y -= Font.FontHeight;
 					var message = mMessages[i];
+					var text = message.Text;
 
 					if (message.MessageType == ConsoleMessageType.UserInput)
 					{
 						Font.Color = EntryColor;
-						Font.DrawText(0, y, "> " + EscapeText(message.Text));
+						text = "> " + message.Text;
 					}
 					else
 					{
 						Font.Color = TextColor;
-						Font.DrawText(0, y, EscapeText(message.Text));
 					}
+
+					var size = Font.MeasureString(text);
+
+					y -= size.Height;
+					Font.DrawText(0, y, text);
 
 					if (y < 0)
 						break;
@@ -324,7 +329,7 @@ namespace AgateLib.Diagnostics
 				return;
 			if (mCurrentLine.Trim() == string.Empty)
 				return;
-			
+
 			bool isDebugCommand = IsDebugCommand(command);
 
 			foreach (var commandProcessor in CommandLibrarySet)
@@ -337,6 +342,13 @@ namespace AgateLib.Diagnostics
 					{
 						return;
 					}
+				}
+				catch (TargetInvocationException e)
+				{
+					WriteLine("Failed to exeute command.");
+					WriteLine(e.InnerException.ToString());
+
+					return;
 				}
 				catch (Exception e)
 				{

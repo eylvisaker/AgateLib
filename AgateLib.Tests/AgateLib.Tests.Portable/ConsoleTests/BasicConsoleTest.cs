@@ -25,7 +25,7 @@ namespace AgateLib.Testing.ConsoleTests
 			while (Display.CurrentWindow.IsClosed == false)
 			{
 				Display.BeginFrame();
-				Display.Clear(Color.White);
+				Display.Clear(Color.LightBlue);
 
 				Font.AgateSans.Color = Color.Black;
 				Font.AgateSans.DrawText("Press ~ key to open console.");
@@ -39,10 +39,10 @@ namespace AgateLib.Testing.ConsoleTests
 		{
 		}
 
-		[ConsoleCommand("This is the apple() method.")]
-		public void Apple()
+		[ConsoleCommand("This method throws an exception.")]
+		public int Throw()
 		{
-			AgateConsole.WriteLine("Apple() called");
+			return int.Parse("abc");
 		}
 
 
