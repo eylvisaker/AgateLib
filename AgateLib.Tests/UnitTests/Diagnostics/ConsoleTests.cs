@@ -99,5 +99,76 @@ namespace AgateLib.UnitTests.Diagnostics
 			Assert.AreEqual("help hel", console.InputText);
 
 		}
+
+		[TestMethod]
+		public void CursorEditingBackspace()
+		{
+			console.ProcessKeys("123456789");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.BackSpace, "");
+
+			Assert.AreEqual("12345789", console.InputText);
+		}
+
+		[TestMethod]
+		public void CursorEditingBackspaceAtEnd()
+		{
+			console.ProcessKeys("123456789");
+			console.ProcessKeyDown(KeyCode.BackSpace, "");
+
+			Assert.AreEqual("12345678", console.InputText);
+		}
+
+		[TestMethod]
+		public void CursorEditingBackspaceAtBegin()
+		{
+			console.ProcessKeys("12");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.BackSpace, "");
+
+			Assert.AreEqual("12", console.InputText);
+		}
+
+		[TestMethod]
+		public void CursorEditingDelete()
+		{
+			console.ProcessKeys("123456789");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Delete, "");
+
+			Assert.AreEqual("12345689", console.InputText);
+		}
+
+		[TestMethod]
+		public void CursorEditingDeleteAtEnd()
+		{
+			console.ProcessKeys("123456789");
+			console.ProcessKeyDown(KeyCode.Delete, "");
+			Assert.AreEqual("123456789", console.InputText);
+
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Delete, "");
+			
+			Assert.AreEqual("12345678", console.InputText);
+		}
+
+		[TestMethod]
+		public void CursorEditingDeleteAtBegin()
+		{
+			console.ProcessKeys("123");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Left, "");
+			console.ProcessKeyDown(KeyCode.Delete, "");
+
+			Assert.AreEqual("23", console.InputText);
+		}
 	}
 }

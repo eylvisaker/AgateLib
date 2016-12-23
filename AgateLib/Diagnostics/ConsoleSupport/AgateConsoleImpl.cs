@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AgateLib.ApplicationModels;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
@@ -17,13 +16,15 @@ namespace AgateLib.Diagnostics
 {
 	public class AgateConsoleImpl : IAgateConsole
 	{
-		protected bool mVisible = false;
-		protected List<ConsoleMessage> mInputHistory = new List<ConsoleMessage>();
-		List<ConsoleMessage> mMessages = new List<ConsoleMessage>();
+		private bool visible = false;
+		private List<ConsoleMessage> inputHistory = new List<ConsoleMessage>();
+		private List<ConsoleMessage> messages = new List<ConsoleMessage>();
 
-		string mCurrentLine;
-		int mHeight;
-		int mHistoryIndex;
+		private string inputText = "";
+		private int height;
+		private int historyIndex;
+		private int insertionPoint;
+		private long timeOffset;
 
 		private IList<ICommandLibrary> commandLibraries = new List<ICommandLibrary>();
 		private LibraryVocabulary emergencyVocab;
@@ -64,12 +65,12 @@ namespace AgateLib.Diagnostics
 
 		public bool IsVisible
 		{
-			get { return mVisible; }
+			get { return visible; }
 			set
 			{
-				mVisible = value;
+				visible = value;
 
-				if (mVisible)
+				if (visible)
 					Input.Handlers.BringToTop(this);
 				else
 					Input.Handlers.SendToBack(this);
@@ -92,16 +93,18 @@ namespace AgateLib.Diagnostics
 			set { Core.State.Console.BackgroundColor = value; }
 		}
 
+		public string InputText { get { return inputText; } }
+
 		public IFont Font { get { return Core.State.Console.Font; } }
 
-		public List<ConsoleMessage> Messages { get { return mMessages; } }
+		public List<ConsoleMessage> Messages { get { return messages; } }
 
 		public void Draw()
 		{
 			Display.Shader = AgateBuiltInShaders.Basic2DShader;
 			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(0, 0, Display.CurrentWindow.Width, Display.CurrentWindow.Height);
 
-			if (mVisible == false)
+			if (visible == false)
 			{
 				DrawRecentMessages();
 			}
@@ -118,42 +121,40 @@ namespace AgateLib.Diagnostics
 			Font.DisplayAlignment = OriginAlignment.TopLeft;
 			Font.Color = TextColor;
 
-			for (int i = 0; i < mMessages.Count; i++)
+			for (int i = 0; i < messages.Count; i++)
 			{
-				if (time - mMessages[i].Time > 5000)
+				if (time - messages[i].Time > 5000)
 					continue;
-				if (mMessages[i].MessageType != ConsoleMessageType.Text)
+				if (messages[i].MessageType != ConsoleMessageType.Text)
 					continue;
 
-				Font.DrawText(new Point(0, y), mMessages[i].Text);
+				Font.DrawText(new Point(0, y), messages[i].Text);
 				y += Font.FontHeight;
 			}
 
-			while (mMessages.Count > 100)
-				mMessages.RemoveAt(0);
+			while (messages.Count > 100)
+				messages.RemoveAt(0);
 		}
 
 		private void DrawConsoleWindow()
 		{
-			Display.FillRect(new Rectangle(0, 0, Display.RenderTarget.Width, mHeight), BackgroundColor);
+			Display.FillRect(new Rectangle(0, 0, Display.RenderTarget.Width, height), BackgroundColor);
 
-			int y = mHeight;
+			int y = height;
 			Font.DisplayAlignment = OriginAlignment.BottomLeft;
 
-			string currentLineText = "> ";
+			const string entryPrefix = "> ";
+			string currentLineText = entryPrefix;
 
-			if (mHistoryIndex != 0)
-				currentLineText += EscapeText(mInputHistory[mInputHistory.Count - mHistoryIndex].Text);
-			else
-				currentLineText += EscapeText(mCurrentLine);
+			currentLineText += EscapeText(inputText);
 
 			Font.Color = EntryColor;
 			Font.DrawText(0, y, currentLineText);
 
 			// draw insertion point
-			if (CurrentTime % 1000 < 500)
+			if ((CurrentTime - timeOffset) % 1000 < 500)
 			{
-				int x = Font.MeasureString(currentLineText).Width;
+				int x = Font.MeasureString(currentLineText.Substring(0, entryPrefix.Length + insertionPoint)).Width;
 
 				Display.DrawLine(
 					new Point(x, y - Font.FontHeight),
@@ -161,9 +162,9 @@ namespace AgateLib.Diagnostics
 					EntryColor);
 			}
 
-			for (int i = mMessages.Count - 1; i >= 0; i--)
+			for (int i = messages.Count - 1; i >= 0; i--)
 			{
-				var message = mMessages[i];
+				var message = messages[i];
 
 				if (message.Layout == null)
 				{
@@ -172,7 +173,7 @@ namespace AgateLib.Diagnostics
 					if (message.MessageType == ConsoleMessageType.UserInput)
 					{
 						Font.Color = EntryColor;
-						text = "> " + message.Text;
+						text = entryPrefix + message.Text;
 					}
 					else
 					{
@@ -234,7 +235,7 @@ namespace AgateLib.Diagnostics
 				IsVisible = !IsVisible;
 				args.Handled = true;
 
-				mHeight = Display.Coordinates.Height * 5 / 12;
+				height = Display.Coordinates.Height * 5 / 12;
 			}
 			else if (IsVisible)
 			{
@@ -249,61 +250,164 @@ namespace AgateLib.Diagnostics
 
 		public void ProcessKeyDown(KeyCode keyCode, string keystring)
 		{
+			timeOffset = CurrentTime;
+
 			if (keyCode == KeyCode.Up)
 			{
-				mHistoryIndex++;
-
-				if (mHistoryIndex > mInputHistory.Count)
-					mHistoryIndex = mInputHistory.Count;
+				IncrementHistoryIndex();
 			}
 			else if (keyCode == KeyCode.Down)
 			{
-				mHistoryIndex--;
-
-				if (mHistoryIndex < 0)
-					mHistoryIndex = 0;
+				DecrementHistoryIndex();
+			}
+			else if (keyCode == KeyCode.Left)
+			{
+				DecrementInsertionPoint();
+			}
+			else if (keyCode == KeyCode.Right)
+			{
+				IncrementInsertionPoint();
 			}
 			else if (keyCode == KeyCode.Enter || keyCode == KeyCode.Return)
 			{
-				ModifyHistoryLine();
-
-				ConsoleMessage input = new ConsoleMessage
-				{
-					Text = mCurrentLine,
-					MessageType = ConsoleMessageType.UserInput,
-					Time = CurrentTime
-				};
-
-				mMessages.Add(input);
-				mInputHistory.Add(input);
-
-				try
-				{
-					Execute(mCurrentLine);
-				}
-				finally
-				{
-					mCurrentLine = "";
-				}
+				AcceptEntry();
 			}
 			else if (string.IsNullOrEmpty(keystring) == false)
 			{
-				ModifyHistoryLine();
-
-				if (keyCode == KeyCode.Tab)
-					mCurrentLine += " ";
-				else
-					mCurrentLine += keystring;
+				InsertKey(keyCode, keystring);
 			}
 			else if (keyCode == KeyCode.BackSpace)
 			{
-				ModifyHistoryLine();
+				Backspace();
+			}
+			else if (keyCode == KeyCode.Delete)
+			{
+				Delete();
+			}
+		}
 
-				if (mCurrentLine.Length > 0)
+		private void IncrementHistoryIndex()
+		{
+			historyIndex++;
+
+			if (historyIndex > inputHistory.Count)
+				historyIndex = inputHistory.Count;
+
+			LoadHistoryToInput();
+		}
+
+		private void DecrementHistoryIndex()
+		{
+			historyIndex--;
+
+			if (historyIndex < 0)
+				historyIndex = 0;
+
+			LoadHistoryToInput();
+		}
+
+		private void LoadHistoryToInput()
+		{
+			if (historyIndex == 0)
+				inputText = "";
+			else
+			{
+				inputText = inputHistory[inputHistory.Count - historyIndex].Text;
+			}
+			insertionPoint = inputText.Length;
+		}
+
+		private void AcceptEntry()
+		{
+			ConsoleMessage input = new ConsoleMessage
+			{
+				Text = inputText,
+				MessageType = ConsoleMessageType.UserInput,
+				Time = CurrentTime
+			};
+
+			messages.Add(input);
+			inputHistory.Add(input);
+
+			try
+			{
+				Execute(inputText);
+			}
+			finally
+			{
+				inputText = "";
+				insertionPoint = 0;
+				historyIndex = 0;
+			}
+		}
+
+		private void IncrementInsertionPoint()
+		{
+			insertionPoint++;
+
+			if (insertionPoint > inputText.Length)
+				insertionPoint = inputText.Length;
+		}
+
+		private void DecrementInsertionPoint()
+		{
+			insertionPoint--;
+
+			if (insertionPoint < 0)
+				insertionPoint = 0;
+		}
+
+		private void Backspace()
+		{
+			if (inputText.Length > 0 && insertionPoint > 0)
+			{
+				if (insertionPoint == inputText.Length)
 				{
-					mCurrentLine = mCurrentLine.Substring(0, mCurrentLine.Length - 1);
+					inputText = inputText.Substring(0, inputText.Length - 1);
+					insertionPoint--;
+				}
+				else
+				{
+					inputText = inputText.Substring(0, insertionPoint - 1) + inputText.Substring(insertionPoint);
+					insertionPoint--;
 				}
 			}
+		}
+
+		private void Delete()
+		{
+			if (insertionPoint < inputText.Length - 1)
+			{
+				inputText = inputText.Substring(0, insertionPoint) + inputText.Substring(insertionPoint + 1);
+			}
+			else if (insertionPoint == inputText.Length - 1)
+			{
+				inputText = inputText.Substring(0, insertionPoint);
+			}
+		}
+
+		private void InsertKey(KeyCode keyCode, string keystring)
+		{
+			string insertString = keystring;
+
+			if (keyCode == KeyCode.Tab)
+				insertString = " ";
+
+			InsertText(insertString);
+		}
+
+		private void InsertText(string insertString)
+		{
+			if (insertionPoint == inputText.Length)
+			{
+				inputText += insertString;
+			}
+			else
+			{
+				inputText = inputText.Substring(0, insertionPoint) + insertString + inputText.Substring(insertionPoint);
+			}
+
+			insertionPoint += insertString.Length;
 		}
 
 		/// <summary>
@@ -320,28 +424,26 @@ namespace AgateLib.Diagnostics
 			keys = keys.Replace('\t', ' ');
 			keys = keys.Replace("\r", "");
 
-			ModifyHistoryLine();
-
 			int index = keys.IndexOf('\n');
 			while (index > -1)
 			{
-				mCurrentLine += keys.Substring(0, index);
+				InsertText(keys.Substring(0, index));
 				ProcessKeyDown(KeyCode.Enter, "\n");
 
 				keys = keys.Substring(index + 1);
 				index = keys.IndexOf('\n');
 			}
 
-			mCurrentLine += keys;
+			InsertText(keys);
 		}
 
 		#endregion
 
 		public void Execute(string command)
 		{
-			if (string.IsNullOrEmpty(mCurrentLine))
+			if (string.IsNullOrEmpty(inputText))
 				return;
-			if (mCurrentLine.Trim() == string.Empty)
+			if (inputText.Trim() == string.Empty)
 				return;
 
 			bool isDebugCommand = IsDebugCommand(command);
@@ -387,17 +489,6 @@ namespace AgateLib.Diagnostics
 		private void WriteLineFormat(string format, params object[] args)
 		{
 			WriteLine(string.Format(format, args));
-		}
-
-		public string InputText { get { return mCurrentLine; } }
-
-		private void ModifyHistoryLine()
-		{
-			if (mHistoryIndex > 0)
-			{
-				mCurrentLine = mInputHistory[mInputHistory.Count - mHistoryIndex].Text;
-				mHistoryIndex = 0;
-			}
 		}
 	}
 }
