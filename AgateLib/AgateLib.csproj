@@ -152,6 +152,8 @@
     <Compile Include="DisplayLib\BitmapFont\KerningPairModel.cs" />
     <Compile Include="DisplayLib\BitmapFont\TypeConverters\KerningPairModelYaml.cs" />
     <Compile Include="DisplayLib\IFont.cs" />
+    <Compile Include="DisplayLib\ContentLayout.cs" />
+    <Compile Include="DisplayLib\FontExtensions.cs" />
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
     <Compile Include="InputLib\SimpleInputHandler.cs" />
     <Compile Include="Resources\DataModel\FontResource.cs" />
@@ -386,7 +388,7 @@
     <Compile Include="DisplayLib\SurfaceState.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DisplayLib\TextLayout.cs">
+    <Compile Include="DisplayLib\TextLayoutCache.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayLib\VertexBuffer.cs">

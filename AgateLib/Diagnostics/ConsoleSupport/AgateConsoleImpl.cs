@@ -98,61 +98,75 @@ namespace AgateLib.Diagnostics
 
 		public void Draw()
 		{
+			Display.Shader = AgateBuiltInShaders.Basic2DShader;
+			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(0, 0, Display.CurrentWindow.Width, Display.CurrentWindow.Height);
+
 			if (mVisible == false)
 			{
-				long time = CurrentTime;
-				int y = 0;
-				Font.DisplayAlignment = OriginAlignment.TopLeft;
-				Font.Color = TextColor;
-
-				for (int i = 0; i < mMessages.Count; i++)
-				{
-					if (time - mMessages[i].Time > 5000)
-						continue;
-					if (mMessages[i].MessageType != ConsoleMessageType.Text)
-						continue;
-
-					Font.DrawText(new Point(0, y), mMessages[i].Text);
-					y += Font.FontHeight;
-				}
-
-				while (mMessages.Count > 100)
-					mMessages.RemoveAt(0);
+				DrawRecentMessages();
 			}
 			else
 			{
-				Display.Shader = AgateBuiltInShaders.Basic2DShader;
-				AgateBuiltInShaders.Basic2DShader.CoordinateSystem = new Rectangle(0, 0, Display.CurrentWindow.Width, Display.CurrentWindow.Height);
+				DrawConsoleWindow();
+			}
+		}
 
-				Display.FillRect(new Rectangle(0, 0, Display.RenderTarget.Width, mHeight), BackgroundColor);
+		private void DrawRecentMessages()
+		{
+			long time = CurrentTime;
+			int y = 0;
+			Font.DisplayAlignment = OriginAlignment.TopLeft;
+			Font.Color = TextColor;
 
-				int y = mHeight;
-				Font.DisplayAlignment = OriginAlignment.BottomLeft;
+			for (int i = 0; i < mMessages.Count; i++)
+			{
+				if (time - mMessages[i].Time > 5000)
+					continue;
+				if (mMessages[i].MessageType != ConsoleMessageType.Text)
+					continue;
 
-				string currentLineText = "> ";
+				Font.DrawText(new Point(0, y), mMessages[i].Text);
+				y += Font.FontHeight;
+			}
 
-				if (mHistoryIndex != 0)
-					currentLineText += EscapeText(mInputHistory[mInputHistory.Count - mHistoryIndex].Text);
-				else
-					currentLineText += EscapeText(mCurrentLine);
+			while (mMessages.Count > 100)
+				mMessages.RemoveAt(0);
+		}
 
-				Font.Color = EntryColor;
-				Font.DrawText(0, y, currentLineText);
+		private void DrawConsoleWindow()
+		{
+			Display.FillRect(new Rectangle(0, 0, Display.RenderTarget.Width, mHeight), BackgroundColor);
 
-				// draw insertion point
-				if (CurrentTime % 1000 < 500)
+			int y = mHeight;
+			Font.DisplayAlignment = OriginAlignment.BottomLeft;
+
+			string currentLineText = "> ";
+
+			if (mHistoryIndex != 0)
+				currentLineText += EscapeText(mInputHistory[mInputHistory.Count - mHistoryIndex].Text);
+			else
+				currentLineText += EscapeText(mCurrentLine);
+
+			Font.Color = EntryColor;
+			Font.DrawText(0, y, currentLineText);
+
+			// draw insertion point
+			if (CurrentTime % 1000 < 500)
+			{
+				int x = Font.MeasureString(currentLineText).Width;
+
+				Display.DrawLine(
+					new Point(x, y - Font.FontHeight),
+					new Point(x, y),
+					EntryColor);
+			}
+
+			for (int i = mMessages.Count - 1; i >= 0; i--)
+			{
+				var message = mMessages[i];
+
+				if (message.Layout == null)
 				{
-					int x = Font.MeasureString(currentLineText).Width;
-
-					Display.DrawLine(
-						new Point(x, y - Font.FontHeight),
-						new Point(x, y),
-						EntryColor);
-				}
-
-				for (int i = mMessages.Count - 1; i >= 0; i--)
-				{
-					var message = mMessages[i];
 					var text = message.Text;
 
 					if (message.MessageType == ConsoleMessageType.UserInput)
@@ -165,14 +179,14 @@ namespace AgateLib.Diagnostics
 						Font.Color = TextColor;
 					}
 
-					var size = Font.MeasureString(text);
-
-					y -= size.Height;
-					Font.DrawText(0, y, text);
-
-					if (y < 0)
-						break;
+					message.Layout = Font.LayoutText(text, Display.RenderTarget.Width);
 				}
+
+				y -= message.Layout.Height;
+				message.Layout.Draw(new Point(0, y));
+
+				if (y < 0)
+					break;
 			}
 		}
 
@@ -369,7 +383,6 @@ namespace AgateLib.Diagnostics
 		{
 			return command == "debug" || command.StartsWith("debug ");
 		}
-
 
 		private void WriteLineFormat(string format, params object[] args)
 		{

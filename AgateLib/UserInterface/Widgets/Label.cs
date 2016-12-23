@@ -34,12 +34,12 @@ namespace AgateLib.UserInterface.Widgets
 		double mSlowReadTime;
 		const double mSlowReadTextPeriod = 0.05;
 
-
 		public Label()
 		{
 			TextAlign = OriginAlignment.TopLeft;
 			WrapText = true;
 		}
+
 		public Label(string text)
 			: this()
 		{

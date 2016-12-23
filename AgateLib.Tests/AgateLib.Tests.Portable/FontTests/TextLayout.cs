@@ -39,8 +39,8 @@ namespace AgateLib.Testing.FontTests.TextLayout
 
 			font.DrawText(0, 450, "This is a test of the {0}AlterText{1} stuff." +
 				"The last word here should appear really {2}Large{3}.",
-				AlterFont.Color(Color.Green), AlterFont.Color(Color.Black),
-				AlterFont.Scale(3.0, 3.0), AlterFont.Scale(1.0, 1.0));
+				LayoutCacheAlterFont.Color(Color.Green), LayoutCacheAlterFont.Color(Color.Black),
+				LayoutCacheAlterFont.Scale(3.0, 3.0), LayoutCacheAlterFont.Scale(1.0, 1.0));
 
 			font.DrawText(0, 530, "Test of escape sequences: {{}Escaped{}}");
 		}

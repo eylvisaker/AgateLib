@@ -21,14 +21,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
 
 namespace AgateLib.Diagnostics.ConsoleSupport
 {
 	public class ConsoleMessage
 	{
-		public string Text;
-		public long Time;
-		public ConsoleMessageType MessageType;
+		string text;
+
+		public string Text
+		{
+			get { return text; }
+			set
+			{
+				text = value;
+				Layout = null;
+			}
+		}
+
+		public long Time { get; set; }
+
+		public ConsoleMessageType MessageType { get; set; }
+
+		internal Color TextColor { get; set; }
+
+		internal ContentLayout Layout { get; set; }
 	}
 
 }

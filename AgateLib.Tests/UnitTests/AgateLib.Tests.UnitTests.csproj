@@ -120,6 +120,7 @@
     <Compile Include="DisplayLib\DisplayTests.cs" />
     <Compile Include="DisplayLib\DisplayWindowTest.cs" />
     <Compile Include="DisplayLib\FontTests.cs" />
+    <Compile Include="DisplayLib\LayoutTextTests.cs" />
     <Compile Include="DisplayLib\PixelBufferTest.cs" />
     <Compile Include="DisplayLib\SurfaceTest.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />

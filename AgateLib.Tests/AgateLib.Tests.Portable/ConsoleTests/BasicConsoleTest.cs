@@ -45,8 +45,7 @@ namespace AgateLib.Testing.ConsoleTests
 			return int.Parse("abc");
 		}
 
-
-		[ConsoleCommand("Type 'remove library' to remove the command library.")]
+		[ConsoleCommand("Type 'remove library' to remove the command library.\nThis method will completely remove the throw/remove commands and there is no way to get them back.")]
 		public void Remove(string library)
 		{
 			if (library != "library")

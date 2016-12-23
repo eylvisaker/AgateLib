@@ -325,7 +325,7 @@ namespace AgateLib.DisplayLib
 			if (string.IsNullOrEmpty(formatString))
 				return;
 
-			TextLayout layout = CreateLayout(formatString, args);
+			TextLayoutCache layout = CreateLayout(formatString, args);
 
 			layout.Translate(new Point(destX, destY));
 			layout.DrawAll();
@@ -342,7 +342,7 @@ namespace AgateLib.DisplayLib
 		/// are laid out according to the TextImageLayout member.</param>
 		/// <returns>Returns a TextLayout object which contains all the layout information needed to draw
 		/// the text/images on screen.</returns>
-		public TextLayout CreateLayout(string formatString, params object[] args)
+		public TextLayoutCache CreateLayout(string formatString, params object[] args)
 		{
 			var matches = substituteMatch.Matches(formatString);
 
@@ -358,7 +358,7 @@ namespace AgateLib.DisplayLib
 
 				singleLayout.State.Location = PointF.Empty;
 
-				return new TextLayout { singleLayout };
+				return new TextLayoutCache { singleLayout };
 			}
 
 			for (int i = 0; i < args.Length; i++)
@@ -372,11 +372,11 @@ namespace AgateLib.DisplayLib
 
 			PointF dest = PointF.Empty;
 
-			TextLayout layout = new TextLayout();
+			TextLayoutCache layout = new TextLayoutCache();
 			int lineHeight = FontHeight;
 			int spaceAboveLine = 0;
 			int lineIndex = 0;
-			AlterFont currentAlterText = null;
+			LayoutCacheAlterFont currentAlterText = null;
 
 			for (int i = 0; i < matches.Count; i++)
 			{
@@ -423,14 +423,14 @@ namespace AgateLib.DisplayLib
 
 						result = string.Empty;
 					}
-					else if (obj is AlterFont)
+					else if (obj is LayoutCacheAlterFont)
 					{
 						// push text with the old state
 						PushLayoutText(lineIndex, layout, ref dest, ref lineHeight, ref spaceAboveLine,
 							result, currentAlterText);
 
 						// store the new alter object to affect the state of the next block.
-						currentAlterText = (AlterFont)obj;
+						currentAlterText = (LayoutCacheAlterFont)obj;
 						result = string.Empty;
 					}
 					else
@@ -458,7 +458,7 @@ namespace AgateLib.DisplayLib
 			return layout;
 		}
 
-		private static void ShiftLine(IEnumerable<LayoutItem> layout, int lineShift, int lineIndex)
+		private static void ShiftLine(IEnumerable<LayoutCacheItem> layout, int lineShift, int lineIndex)
 		{
 			foreach (var item in layout.Where(x => x.LineIndex == lineIndex))
 			{
@@ -467,7 +467,7 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
-		private void PushLayoutImage(int lineIndex, TextLayout layout,
+		private void PushLayoutImage(int lineIndex, TextLayoutCache layout,
 			ref PointF dest, ref int lineHeight, ref int spaceAboveLine,
 			ISurface surface)
 		{
@@ -475,7 +475,7 @@ namespace AgateLib.DisplayLib
 				throw new ArgumentNullException("layout");
 
 			int newSpaceAbove;
-			LayoutSurface t = new LayoutSurface { Location = dest, Surface = surface, LineIndex = lineIndex };
+			LayoutCacheSurface t = new LayoutCacheSurface { Location = dest, Surface = surface, LineIndex = lineIndex };
 			t.State = surface.State.Clone();
 
 			var update = Origin.Calc(DisplayAlignment, surface.SurfaceSize);
@@ -505,9 +505,9 @@ namespace AgateLib.DisplayLib
 			layout.Add(t);
 		}
 
-		private void PushLayoutText(int lineIndex, TextLayout layout,
+		private void PushLayoutText(int lineIndex, TextLayoutCache layout,
 			ref PointF dest, ref int lineHeight, ref int spaceAboveLine,
-			string text, AlterFont alter)
+			string text, LayoutCacheAlterFont alter)
 		{
 			if (string.IsNullOrEmpty(text))
 				return;
