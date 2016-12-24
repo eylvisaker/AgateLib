@@ -39,6 +39,7 @@ namespace AgateLib.DisplayLib
 			this.font = font;
 			MaxWidth = maxWidth;
 		}
+
 		public int? MaxWidth { get; private set; }
 
 		public int Height

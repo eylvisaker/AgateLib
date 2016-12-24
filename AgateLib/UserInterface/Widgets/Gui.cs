@@ -58,7 +58,7 @@ namespace AgateLib.UserInterface.Widgets
 
 			GuiStack.Add(this);
 
-			if (JoystickInput.Joysticks.Count > 0)
+			if (JoystickInput.Joysticks?.Count > 0)
 			{
 				CreateGamepad();
 			}

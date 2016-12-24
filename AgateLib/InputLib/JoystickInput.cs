@@ -39,7 +39,7 @@ namespace AgateLib.InputLib
 
 		static List<Joystick> mRawJoysticks
 		{
-			get { return Core.State.Input.RawJoysticks; }
+			get { return Core.State?.Input?.RawJoysticks; }
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Gets the list of joysticks.
 		/// </summary>
-		public static IList<Joystick> Joysticks
+		public static IReadOnlyList<Joystick> Joysticks
 		{
 			get { return mRawJoysticks; }
 		}
