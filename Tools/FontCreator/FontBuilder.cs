@@ -180,7 +180,7 @@ namespace FontCreator
 
 			Display.EndFrame();
 
-			Display.RenderTarget = wind;
+			Display.RenderTarget = wind.FrameBuffer;
 			Display.BeginFrame();
 			Display.Clear();
 
@@ -189,7 +189,7 @@ namespace FontCreator
 
 			Display.EndFrame();
 
-			Display.RenderTarget = zoomWind;
+			Display.RenderTarget = zoomWind.FrameBuffer;
 			Display.BeginFrame();
 			Display.Clear();
 

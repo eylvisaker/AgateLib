@@ -26,6 +26,7 @@ namespace AgateLib.Serialization.Xle
 	/// Interface that must be implemented in order to make an object serializable with
 	/// the XleSerializer.
 	/// </summary>
+	[Obsolete("Don't use Xle serializer.")]
 	public interface IXleSerializable
 	{
 		/// <summary>

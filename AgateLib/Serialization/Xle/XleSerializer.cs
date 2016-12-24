@@ -31,6 +31,7 @@ namespace AgateLib.Serialization.Xle
 	/// <summary>
 	/// Class used to serialize data to a compact XML format.
 	/// </summary>
+	[Obsolete("Use Yaml serialization instead.", true)]
 	public class XleSerializer
 	{
 		Type objectType;

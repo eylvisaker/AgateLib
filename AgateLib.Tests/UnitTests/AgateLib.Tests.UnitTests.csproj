@@ -133,8 +133,6 @@
     <Compile Include="Platform\PlatformTests.cs" />
     <Compile Include="Resources\ResourceManagerInitializer.cs" />
     <Compile Include="Resources\ResourceManagerTests.cs" />
-    <Compile Include="Serialization\Xle\TestSerializable.cs" />
-    <Compile Include="Serialization\Xle\XSTests.cs" />
     <Compile Include="Resources\ResourceDataLoaderFacetReadingTests.cs" />
     <Compile Include="Resources\ResourceDataLoaderThemeReadingTests.cs" />
     <Compile Include="Resources\ResourceDataLoaderReferenceReadingTests.cs" />

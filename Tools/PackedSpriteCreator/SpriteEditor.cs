@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using AgateLib.Sprites;
+using AgateLib.DisplayLib.Sprites;
 using AgateLib.Platform.WinForms;
 using AgateLib.Resources;
 using AgateLib.Resources.DataModel;
@@ -139,7 +139,7 @@ namespace PackedSpriteCreator
 			if (propertiesPanel.Visible == false)
 				return;
 
-			drawer.DrawSprite(wind, agateSprite);
+			drawer.DrawSprite(wind.FrameBuffer, agateSprite);
 		}
 
 		private void SpriteEditor_Load(object sender, EventArgs e)

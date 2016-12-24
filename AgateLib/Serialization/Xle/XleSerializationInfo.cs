@@ -33,6 +33,7 @@ namespace AgateLib.Serialization.Xle
 	/// The XleSerializationInfo class contains the XML data that is read from 
 	/// or written to when doing XLE serialization.
 	/// </summary>
+	[Obsolete("Don't use Xle serializer any more.")]
 	public class XleSerializationInfo
 	{
 		XDocument doc;
