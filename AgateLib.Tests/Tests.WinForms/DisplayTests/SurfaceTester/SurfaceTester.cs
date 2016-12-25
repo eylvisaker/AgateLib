@@ -20,6 +20,8 @@ namespace AgateLib.Testing.DisplayTests.SurfaceTester
 		{
 			using (var model = new PassiveModel(args))
 			{
+				model.Parameters.AssetLocations.Path = "Assets";
+
 				model.Run(() =>
 				{
 					frmSurfaceTester form = new frmSurfaceTester();
