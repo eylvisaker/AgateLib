@@ -166,7 +166,7 @@ namespace AgateLib.Testing.InputTests.InputTester
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			Keyboard.ReleaseAllKeys();
+			Input.Unhandled.Keys.ReleaseAll();
 		}
 
 		private void numericUpDown1_ValueChanged(object sender, EventArgs e)

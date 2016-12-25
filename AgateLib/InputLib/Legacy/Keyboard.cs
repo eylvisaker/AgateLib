@@ -29,12 +29,9 @@ namespace AgateLib.InputLib.Legacy
 	/// <summary>
 	/// Static class which represents Keyboard input.
 	/// </summary>
-	[CLSCompliant(true)]
+	[Obsolete("Use Input.Unhandled instead.", true)]
 	public static class Keyboard
 	{
-		static KeyState mKeyState { get { return Core.State.Input.LegacyKeyState; } }
-			
-
 		static Keyboard()
 		{
 			DisplayLib.Display.DisposeDisplay += new AgateLib.DisplayLib.Display.DisposeDisplayHandler(Display_DisposeDisplay);
@@ -142,18 +139,21 @@ namespace AgateLib.InputLib.Legacy
 		/// <summary>
 		/// Event which occurs when a key is pressed.
 		/// </summary>
+		[Obsolete("Use Input.Unhandled.KeyDown instead", true)]
 		public static event InputEventHandler KeyDown;
 		/// <summary>
 		/// Event which occurs when a key is released.
 		/// </summary>
+		[Obsolete("Use Input.Unhandled.KeyUp instead", true)]
 		public static event InputEventHandler KeyUp;
 
 		/// <summary>
 		/// Gets an object representing the state of all keys on the keyboard.
 		/// </summary>
+		[Obsolete("Use Input.Unhandled.Keys instead", true)]
 		public static KeyState Keys
 		{
-			get { return mKeyState; }
+			get { throw new NotSupportedException(); }
 		}
 
 		/// <summary>
@@ -163,9 +163,10 @@ namespace AgateLib.InputLib.Legacy
 		/// This also makes it so any keys which were depressed must be released
 		/// before KeyDown events are raised again.
 		/// </summary>
+		[Obsolete("Use Input.Unhandled.Keys.ReleaseAll instead", true)]
 		public static void ReleaseAllKeys()
 		{
-			mKeyState.ReleaseAllKeys(true);
+			throw new NotSupportedException();
 		}
 		/// <summary>
 		/// Resets all keys to being in the up state (not pushed).
@@ -177,9 +178,10 @@ namespace AgateLib.InputLib.Legacy
 		/// </summary>
 		/// <param name="waitForKeyUp">If true, then keys currently depressed will 
 		/// not generate KeyDown events until they are released.</param>
+		[Obsolete("Use Input.Unhandled.Keys.ReleaseAll instead", true)]
 		public static void ReleaseAllKeys(bool waitForKeyUp)
 		{
-			mKeyState.ReleaseAllKeys(waitForKeyUp);
+			throw new NotSupportedException();
 		}
 
 		/// <summary>
@@ -192,9 +194,10 @@ namespace AgateLib.InputLib.Legacy
 		/// </para>
 		/// </summary>
 		/// <param name="key"></param>
+		[Obsolete("Use Input.Unhandled.Keys.Release instead", true)]
 		public static void ReleaseKey(KeyCode key)
 		{
-			mKeyState.ReleaseKey(key, true);
+			throw new NotSupportedException();
 		}
 		/// <summary>
 		/// Resets a particular key to being in the up state (not pushed).  
@@ -203,20 +206,19 @@ namespace AgateLib.InputLib.Legacy
 		/// <param name="key">The key to be released.</param>
 		/// <param name="waitForKeyUp">If true, then keys currently depressed will 
 		/// not generate KeyDown events until they are released.</param>
+		[Obsolete("Use Input.Unhandled.Keys.Release instead", true)]
 		public static void ReleaseKey(KeyCode key, bool waitForKeyUp)
 		{
-			mKeyState.ReleaseKey(key, waitForKeyUp);
+			throw new NotSupportedException();
 		}
 
 		/// <summary>
 		/// Checks to see if the user pressed the "Any" key.
 		/// </summary>
+		[Obsolete("Use Input.Unhandled.Keys.AnyKeyPressed instead", true)]
 		public static bool AnyKeyPressed
 		{
-			get
-			{
-				return Keys.AnyKeyPressed;
-			}
+			get { return false; }
 		}
 
 		/// <summary>

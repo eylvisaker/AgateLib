@@ -26,7 +26,7 @@ namespace AgateLib.InputLib.Legacy
 	/// <summary>
 	/// Class which describes details about an input event.
 	/// </summary>
-	[Obsolete("Use AgateInputEventArgs instead.")]
+	[Obsolete("Use AgateInputEventArgs instead.", true)]
 	public class InputEventArgs
 	{
 		private AgateInputEventArgs args;

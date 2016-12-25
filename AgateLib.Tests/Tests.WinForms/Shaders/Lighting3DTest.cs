@@ -50,7 +50,7 @@ namespace AgateLib.Testing.Shaders
 				cb.Length = 1;
 				cb.CreateVertexBuffer();
 
-				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
+				Input.Unhandled.KeyDown += Keyboard_KeyDown;
 
 				int frameCount = 0;
 
@@ -142,7 +142,7 @@ namespace AgateLib.Testing.Shaders
 			}
 		}
 
-		void Keyboard_KeyDown(InputEventArgs e)
+		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
 			const float speed = 3f;
 

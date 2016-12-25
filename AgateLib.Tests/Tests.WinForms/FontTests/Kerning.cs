@@ -31,7 +31,7 @@ namespace AgateLib.Testing.FontTests
 		{
 			new PassiveModel(args).Run( () =>
 			{
-				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
+				Input.Unhandled.KeyDown += Keyboard_KeyDown;
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Kerning test", 800, 600);
 
 				FontSurface font = ((Font)DefaultAssets.Fonts.AgateSans).GetFontSurface(14, FontStyles.None);
@@ -60,7 +60,7 @@ namespace AgateLib.Testing.FontTests
 			});
 		}
 
-		void Keyboard_KeyDown(InputEventArgs e)
+		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
 			if (e.KeyCode == KeyCode.Space)
 				useKerning = !useKerning;

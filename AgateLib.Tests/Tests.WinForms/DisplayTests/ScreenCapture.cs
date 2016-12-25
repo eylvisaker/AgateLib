@@ -28,10 +28,10 @@ namespace AgateLib.Testing.DisplayTests
 
 				while (wind.IsClosed == false)
 				{
-					if (Keyboard.Keys[KeyCode.C])
+					if (Input.Unhandled.Keys[KeyCode.C])
 					{
 						capturing = true;
-						Keyboard.ReleaseKey(KeyCode.C);
+						Input.Unhandled.Keys.Release(KeyCode.C);
 					}
 					if (capturing)
 					{

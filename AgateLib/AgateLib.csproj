@@ -268,7 +268,6 @@
     <Compile Include="InputLib\IInputHandler.cs" />
     <Compile Include="InputLib\InputHandlerList.cs" />
     <Compile Include="InputLib\Input.cs" />
-    <Compile Include="InputLib\Legacy\LegacyInputHandler.cs" />
     <Compile Include="InputLib\MouseButton.cs" />
     <Compile Include="IO\FileProvider.cs" />
     <Compile Include="IO\IReadFileProvider.cs">

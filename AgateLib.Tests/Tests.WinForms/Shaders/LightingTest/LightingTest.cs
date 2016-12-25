@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
 using AgateLib.Platform.WinForms.ApplicationModels;
-using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Testing.Shaders.LightingTest
 {
@@ -59,7 +57,7 @@ namespace AgateLib.Testing.Shaders.LightingTest
 
 				Display.RenderState.WaitForVerticalBlank = false;
 
-				Mouse.MouseMove += e =>
+				Input.Unhandled.MouseMove += (sender, e) =>
 					{
 						lt2.Position = new Vector3(e.MousePosition.X, e.MousePosition.Y, -1);
 					};

@@ -13,13 +13,14 @@ namespace AgateLib.Testing.DisplayTests.PixelBufferTest
 {
 	class PixelBufferTest : IDiscreteAgateTest
 	{
-		public string Name { get { return "Pixel Buffer"; } }
-		public string Category { get { return "Display"; } }
-
 		Surface image;
 		Point imageLocation = new Point(50, 50);
 		PixelBuffer buffer;
 		PixelBufferForm frm;
+		bool mouseDown;
+
+		public string Name { get { return "Pixel Buffer"; } }
+		public string Category { get { return "Display"; } }
 
 		public void Main(string[] args)
 		{
@@ -39,8 +40,9 @@ namespace AgateLib.Testing.DisplayTests.PixelBufferTest
 					image = new Surface("9ball.png");
 					buffer = image.ReadPixels(PixelFormat.Any);
 
-					Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
-					Mouse.MouseMove += new InputEventHandler(Mouse_MouseMove);
+					Input.Unhandled.MouseDown += Mouse_MouseDown;
+					Input.Unhandled.MouseMove += Mouse_MouseMove;
+					Input.Unhandled.MouseUp += (sender, e) => mouseDown = false; 
 
 					while (wind.IsClosed == false)
 					{
@@ -57,7 +59,7 @@ namespace AgateLib.Testing.DisplayTests.PixelBufferTest
 			}
 		}
 
-		void Mouse_MouseMove(InputEventArgs e)
+		void Mouse_MouseMove(object sender, AgateInputEventArgs e)
 		{
 			Color clr;
 			Point pt = new Point(e.MousePosition.X - imageLocation.X,
@@ -69,7 +71,7 @@ namespace AgateLib.Testing.DisplayTests.PixelBufferTest
 				return;
 			}
 
-			if (Mouse.Buttons[MouseButton.Primary])
+			if (mouseDown)
 			{
 				// do a circle of radius 3
 				for (int y = -3; y <= 3; y++)
@@ -98,7 +100,6 @@ namespace AgateLib.Testing.DisplayTests.PixelBufferTest
 				string.Format("R: {0}  G: {1}\r\nB: {2}  A: {3}",
 				FormatComponent(clr.R), FormatComponent(clr.G),
 				FormatComponent(clr.B), FormatComponent(clr.A));
-
 		}
 
 		private string FormatComponent(byte p)
@@ -106,9 +107,10 @@ namespace AgateLib.Testing.DisplayTests.PixelBufferTest
 			return (p / 255.0).ToString("0.00");
 		}
 
-		void Mouse_MouseDown(InputEventArgs e)
+		void Mouse_MouseDown(object sender, AgateInputEventArgs e)
 		{
-			Mouse_MouseMove(e);
+			mouseDown = true;
+			Mouse_MouseMove(sender, e);
 		}
 	}
 }

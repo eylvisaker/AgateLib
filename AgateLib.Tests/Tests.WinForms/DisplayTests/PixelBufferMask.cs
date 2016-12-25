@@ -13,6 +13,7 @@ namespace AgateLib.Testing.DisplayTests
 {
 	class PixelBufferMask : IAgateTest
 	{
+		Point mouse;
 		public string Name
 		{
 			get { return "Pixel Buffer Masking"; }
@@ -47,18 +48,32 @@ namespace AgateLib.Testing.DisplayTests
 
 				surfRealBg.WritePixels(pbBg);
 
+				bool mouseDown = false;
+
+				Input.Unhandled.MouseDown += (sender, e) =>
+				{
+					if (e.MouseButton == MouseButton.Primary)
+						mouseDown = true;
+				};
+				Input.Unhandled.MouseUp += (sender, e) =>
+				{
+					if (e.MouseButton == MouseButton.Primary)
+						mouseDown = false;
+				};
+				Input.Unhandled.MouseMove += (sender, e) => mouse = e.MousePosition;
+
 				while (Display.CurrentWindow.IsClosed == false)
 				{
 					Display.CurrentWindow.Title = Display.FramesPerSecond.ToString();
 					Display.BeginFrame();
 
-					if (Keyboard.Keys[KeyCode.Escape])
+					if (Input.Unhandled.Keys[KeyCode.Escape])
 						return;
 
-					if (Mouse.Buttons[MouseButton.Primary])
+					if (mouseDown)
 					{
-						int mX = Mouse.X;
-						int mY = Mouse.Y;
+						int mX = mouse.X;
+						int mY = mouse.Y;
 
 						Rectangle rect = new Rectangle(mX, mY, pbMaskCircle.Width, pbMaskCircle.Height);
 						Point p = new Point(mX, mY);

@@ -53,6 +53,10 @@ namespace AgateLib.InputLib
 
 		private static IInputHandler FirstInputHandler { get { return Core.State.Input.FirstHandler; } }
 
+		/// <summary>
+		/// Last chance input handler for events which are not handled by any of the handlers on the 
+		/// input stack. This can also be useful for small applications that don't need input handlers.
+		/// </summary>
 		public static SimpleInputHandler Unhandled { get { return Core.State.Input.Unhandled; } }
 
 		/// <summary>

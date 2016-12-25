@@ -239,10 +239,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		}
 
 		bool done = false;
+		bool escapeState = false;
 
 		void Keyboard_KeyDown(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
 		{
 			KeyCode code = TransformKey(e.Key);
+
+			if (code == KeyCode.Escape)
+				escapeState = true;
 
 			OnInputEvent(AgateInputEventArgs.KeyDown(code, KeyModifiersOf(e)));
 		}
@@ -252,9 +256,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			KeyCode code = TransformKey(e.Key);
 
 			// Hack because sometimes escape key does not get a keydown event on windows?
-			if (code == KeyCode.Escape && Keyboard.Keys[code] == false)
+			if (code == KeyCode.Escape && escapeState == false)
 			{
-				base.OnInputEvent(AgateInputEventArgs.KeyDown(code, KeyModifiersOf(e)));
+				base.OnInputEvent(AgateInputEventArgs.KeyDown(KeyCode.Escape, KeyModifiersOf(e)));
 			}
 
 			OnInputEvent(AgateInputEventArgs.KeyUp(code, KeyModifiersOf(e)));

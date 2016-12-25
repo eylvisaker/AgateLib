@@ -19,17 +19,17 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
 namespace AgateLib.InputLib.Legacy
 {
-	using AgateLib.DisplayLib;
 
 	/// <summary>
 	/// Class which encapsulates input from the mouse. The information provided by the Mouse
 	/// class is only accurate for applications which have a single DisplayWindow.
 	/// </summary>
+	[Obsolete("Use Input.Unhandled instead.", true)]
 	public static class Mouse
 	{
 		/// <summary>
@@ -79,7 +79,6 @@ namespace AgateLib.InputLib.Legacy
 			}
 		}
 
-		private static MouseState mState { get { return Core.State.Input.LegacyMouseState; } }
 		private static bool mIsHidden
 		{
 			get { return Core.State.Input.LegacyIsMouseHidden; }
@@ -165,9 +164,10 @@ namespace AgateLib.InputLib.Legacy
 		/// Gets the MouseState structure which indicates which buttons
 		/// are pressed.
 		/// </summary>
+		[Obsolete("Track mouse button state yourself.", true)]
 		public static MouseState Buttons
 		{
-			get { return mState; }
+			get { throw new NotSupportedException(); }
 		}
 		/// <summary>
 		/// Shows the OS cursor.

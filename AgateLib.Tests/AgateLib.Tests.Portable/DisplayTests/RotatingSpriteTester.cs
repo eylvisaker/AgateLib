@@ -42,7 +42,7 @@ namespace AgateLib.Testing.DisplayTests.RotatingSpriteTester
 		}
 		public override void Update(double deltaT)
 		{
-			if (Keyboard.Keys[KeyCode.Escape])
+			if (Input.Unhandled.Keys[KeyCode.Escape])
 				SceneFinished = true;
 		}
 

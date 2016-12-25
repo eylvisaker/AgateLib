@@ -36,7 +36,7 @@ namespace AgateLib.Testing.FontTests
 
 			fonts.AddRange(font.FontItems.Values);
 
-			Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
+			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 
 			int[] numbers = new int[] { 0, 0, 1, 11, 22, 33, 44, 99, 100, 111, 222, 333, 444, 555, 666, 777, 888, 999 };
 
@@ -74,7 +74,7 @@ namespace AgateLib.Testing.FontTests
 			}
 		}
 
-		void Keyboard_KeyDown(InputEventArgs e)
+		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
 			if (e.KeyCode == KeyCode.NumPadPlus)
 				fontIndex++;

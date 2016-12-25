@@ -27,7 +27,7 @@ namespace AgateLib.Testing.FontTests
 			new PassiveModel(args).Run( () =>
 			{
 				DisplayWindow wind = DisplayWindow.CreateWindowed("Font Line Tester", 640, 480);
-				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
+				Input.Unhandled.KeyDown += Keyboard_KeyDown;
 				Core.AutoPause = true;
 
 				// TODO: Fix this
@@ -56,7 +56,7 @@ namespace AgateLib.Testing.FontTests
 					Display.EndFrame();
 					Core.KeepAlive();
 
-					if (Keyboard.Keys[KeyCode.Escape])
+					if (Input.Unhandled.Keys[KeyCode.Escape])
 						return;
 				}
 			});
@@ -71,7 +71,7 @@ namespace AgateLib.Testing.FontTests
 			font.DrawText(drawPoint, text);
 		}
 
-		void Keyboard_KeyDown(InputEventArgs e)
+		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
 			if (e.KeyCode >= KeyCode.NumPad0 && e.KeyCode <= KeyCode.NumPad9)
 			{

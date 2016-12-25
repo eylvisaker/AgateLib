@@ -57,7 +57,7 @@ namespace AgateLib.InputLib
 					// value is false here:
 					else if (mKeyState[(int)id] > 0)
 					{
-						ReleaseKey(id, false);
+						Release(id, false);
 					}
 					else
 					{
@@ -77,12 +77,12 @@ namespace AgateLib.InputLib
 			/// it has been physically released by the user.
 			/// </summary>
 			/// <param name="id">KeyCode identifier of key to release.</param>
-			/// <param name="waitKeyUp">Boolean flag indicating whether or not
+			/// <param name="waitForKeyUp">Boolean flag indicating whether or not
 			/// keydown events should be suppressed until the key is physically released.</param>
-			internal void ReleaseKey(KeyCode id, bool waitKeyUp)
+			public void Release(KeyCode id, bool waitForKeyUp = true)
 			{
 				mKeyState[(int)id] = 0;
-				mWaitForKeyUp[(int)id] = waitKeyUp;
+				mWaitForKeyUp[(int)id] = waitForKeyUp;
 
 				Input.QueueInputEvent(AgateInputEventArgs.KeyUp(id, CurrentModifiers));
 			}
@@ -93,15 +93,17 @@ namespace AgateLib.InputLib
 			/// Resets all keys to being in the up state (not pushed).
 			/// Does generate KeyUp events.
 			/// 
-			/// This also makes it so any keys which were depressed must be released
-			/// before KeyDown events are raised again.
+			/// This also makes it so any keys which are still physically depressed 
+			/// must be released before KeyDown events are raised again.
 			/// </summary>
-			internal void ReleaseAllKeys(bool waitForKeyUp)
+			/// <param name="waitKeyUp">Boolean flag indicating whether or not
+			/// keydown events should be suppressed until the key is physically released.</param>
+			public void ReleaseAll(bool waitForKeyUp = true)
 			{
 				for (int i = 0; i < mKeyState.Length; i++)
 				{
 					if (mKeyState[i] > 0)
-						ReleaseKey((KeyCode)i, waitForKeyUp);
+						Release((KeyCode)i, waitForKeyUp);
 				}
 			}
 		}

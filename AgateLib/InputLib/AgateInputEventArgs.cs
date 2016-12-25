@@ -28,27 +28,7 @@ namespace AgateLib.InputLib
 {
 	public class AgateInputEventArgs : EventArgs
 	{
-		/// <summary>
-		/// Set this to true to indicate that this event was handled 
-		/// and should not be passed to any lower event handlers.
-		/// </summary>
-		public bool Handled { get; set; }
-
-		public InputEventType InputEventType { get; set; }
-
-		public KeyCode KeyCode { get; set; }
-		public string KeyString { get; set; }
-		public KeyModifiers KeyModifiers { get; set; }
-
-		public Point MousePosition { get; set; }
-		public MouseButton MouseButton { get; set; }
-		public int MouseWheelDelta { get; set; }
-
-		/// <summary>
-		/// Gets the DisplayWindow this event occurred in. This property is null for 
-		/// all events except mouse events.
-		/// </summary>
-		public DisplayWindow Window { get; internal set; }
+		#region --- Static Members ---
 
 		/// <summary>
 		/// Constructs an AgateInputEventArgs for a mouse down event.
@@ -141,7 +121,7 @@ namespace AgateLib.InputLib
 			{
 				InputEventType = InputEventType.KeyDown,
 				KeyCode = code,
-				KeyString = Keyboard.GetKeyString(code, modifiers),
+				KeyString = GetKeyString(code, modifiers),
 				KeyModifiers = modifiers,
 			};
 		}
@@ -158,10 +138,235 @@ namespace AgateLib.InputLib
 			{
 				InputEventType = InputEventType.KeyUp,
 				KeyCode = code,
-				KeyString = Keyboard.GetKeyString(code, modifiers),
+				KeyString = GetKeyString(code, modifiers),
 				KeyModifiers = modifiers,
 			};
 		}
+		/// <summary>
+		/// Creates a string from the specified KeyCode and KeyModifiers.
+		/// Unfortunately this is tied to the US English keyboard, so it needs a better solution.
+		/// </summary>
+		/// <param name="keyID"></param>
+		/// <param name="mods"></param>
+		/// <returns></returns>
+		public static string GetKeyString(KeyCode keyID, KeyModifiers mods)
+		{
+			if ((int)keyID >= 'A' && (int)keyID <= 'Z')
+			{
+				char result;
+
+				if (mods.Shift)
+					result = (char)keyID;
+				else
+					result = (char)((int)keyID + 'a' - 'A');
+
+				return result.ToString();
+			}
+
+
+			switch (keyID)
+			{
+				case KeyCode.Tab:
+					return "\t";
+
+				case KeyCode.Return:
+					//case KeyCode.Enter:
+					return "\n";
+
+				case KeyCode.Space:
+					return " ";
+
+				// I'd love a better way of doing this:
+				// likely, this is not very friendly to non US keyboard layouts.
+				case KeyCode.D0:
+					if (mods.Shift)
+						return ")";
+					else
+						return "0";
+
+				case KeyCode.NumPad0:
+					return "0";
+
+				case KeyCode.D1:
+					if (mods.Shift)
+						return "!";
+					else return "1";
+
+
+				case KeyCode.NumPad1:
+					return "1";
+
+				case KeyCode.D2:
+					if (mods.Shift)
+						return "@";
+					else return "2";
+
+				case KeyCode.NumPad2:
+					return "2";
+
+				case KeyCode.D3:
+					if (mods.Shift)
+						return "#";
+					else return "3";
+
+				case KeyCode.NumPad3:
+					return "3";
+
+				case KeyCode.D4:
+					if (mods.Shift)
+						return "$";
+					else return "4";
+
+				case KeyCode.NumPad4:
+					return "4";
+
+				case KeyCode.D5:
+					if (mods.Shift)
+						return "%";
+					else return "5";
+
+				case KeyCode.NumPad5:
+					return "5";
+
+				case KeyCode.D6:
+					if (mods.Shift)
+						return "^";
+					else return "6";
+
+				case KeyCode.NumPad6:
+					return "6";
+
+				case KeyCode.D7:
+					if (mods.Shift)
+						return "&";
+					else return "7";
+
+				case KeyCode.NumPad7:
+					return "7";
+
+				case KeyCode.D8:
+					if (mods.Shift)
+						return "*";
+					else return "8";
+
+
+				case KeyCode.NumPad8:
+					return "8";
+
+				case KeyCode.D9:
+					if (mods.Shift)
+						return "(";
+					else return "9";
+
+				case KeyCode.NumPad9:
+					return "9";
+
+				case KeyCode.NumPadMinus:
+					return "-";
+				case KeyCode.NumPadMultiply:
+					return "*";
+				case KeyCode.NumPadPeriod:
+					return ".";
+				case KeyCode.NumPadPlus:
+					return "+";
+				case KeyCode.NumPadSlash:
+					return "/";
+
+				case KeyCode.Semicolon:
+					if (mods.Shift)
+						return ":";
+					else
+						return ";";
+
+				case KeyCode.Plus:
+					if (mods.Shift)
+						return "+";
+					else
+						return "=";
+
+				case KeyCode.Comma:
+					if (mods.Shift)
+						return "<";
+					else
+						return ",";
+
+				case KeyCode.Minus:
+					if (mods.Shift)
+						return "_";
+					else
+						return "-";
+
+				case KeyCode.Period:
+					if (mods.Shift)
+						return ">";
+					else
+						return ".";
+
+				case KeyCode.Slash:
+					if (mods.Shift)
+						return "?";
+					else
+						return "/";
+
+				case KeyCode.Tilde:
+					if (mods.Shift)
+						return "~";
+					else
+						return "`";
+
+				case KeyCode.OpenBracket:
+					if (mods.Shift)
+						return "{";
+					else
+						return "[";
+
+				case KeyCode.BackSlash:
+					if (mods.Shift)
+						return "|";
+					else
+						return @"\";
+
+				case KeyCode.CloseBracket:
+					if (mods.Shift)
+						return "}";
+					else
+						return "]";
+
+				case KeyCode.Quotes:
+					if (mods.Shift)
+						return "\"";
+					else
+						return "'";
+
+			}
+
+			return "";
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Set this to true to indicate that this event was handled 
+		/// and should not be passed to any lower event handlers.
+		/// </summary>
+		public bool Handled { get; set; }
+
+		public InputEventType InputEventType { get; set; }
+
+		public KeyCode KeyCode { get; set; }
+		public string KeyString { get; set; }
+		public KeyModifiers KeyModifiers { get; set; }
+
+		public Point MousePosition { get; set; }
+		public MouseButton MouseButton { get; set; }
+		public int MouseWheelDelta { get; set; }
+
+		/// <summary>
+		/// Gets the DisplayWindow this event occurred in. This property is null for 
+		/// all events except mouse events.
+		/// </summary>
+		public DisplayWindow Window { get; internal set; }
+
 	}
 
 	public enum InputEventType

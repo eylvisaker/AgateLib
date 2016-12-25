@@ -115,7 +115,7 @@ namespace AgateLib.Testing.FontTests
 					frame++;
 
 					// toggle full screen if the user pressed F5;
-					if (Keyboard.Keys[KeyCode.F5])
+					if (Input.Unhandled.Keys[KeyCode.F5])
 					{
 						System.Diagnostics.Debug.Print("IsFullscreen: {0}", Display.CurrentWindow.IsFullScreen);
 
@@ -129,15 +129,15 @@ namespace AgateLib.Testing.FontTests
 							Display.RenderTarget = wind.FrameBuffer;
 						}
 
-						Keyboard.ReleaseAllKeys();
+						Input.Unhandled.Keys.ReleaseAll();
 						System.Diagnostics.Debug.Print("IsFullscreen: {0}", Display.CurrentWindow.IsFullScreen);
 					}
-					else if (Keyboard.Keys[KeyCode.F2])
+					else if (Input.Unhandled.Keys[KeyCode.F2])
 					{
 						Display.RenderState.WaitForVerticalBlank = !Display.RenderState.WaitForVerticalBlank;
-						Keyboard.ReleaseKey(KeyCode.F2);
+						Input.Unhandled.Keys.Release(KeyCode.F2);
 					}
-					else if (Keyboard.Keys[KeyCode.Escape])
+					else if (Input.Unhandled.Keys[KeyCode.Escape])
 					{
 						Display.Dispose();
 						return;

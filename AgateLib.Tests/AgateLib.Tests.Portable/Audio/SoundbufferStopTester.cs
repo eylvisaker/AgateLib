@@ -33,8 +33,8 @@ namespace AgateLib.Testing.AudioTests
 
 			IFont font = DefaultAssets.Fonts.AgateSans;
 
-			Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
-			Mouse.MouseDown += Mouse_MouseDown;
+			Input.Unhandled.KeyDown += Keyboard_KeyDown;
+			Input.Unhandled.MouseDown += Mouse_MouseDown;
 			while (Display.CurrentWindow.IsClosed == false)
 			{
 				Display.BeginFrame();
@@ -52,12 +52,9 @@ namespace AgateLib.Testing.AudioTests
 				Display.EndFrame();
 				Core.KeepAlive();
 			}
-
-			Keyboard.KeyDown -= Keyboard_KeyDown;
-			Mouse.MouseDown -= Mouse_MouseDown;
 		}
 
-		void Mouse_MouseDown(InputEventArgs e)
+		void Mouse_MouseDown(object sender, AgateInputEventArgs e)
 		{
 			if (last == snda)
 				last = sndb;
@@ -67,7 +64,7 @@ namespace AgateLib.Testing.AudioTests
 			last.Play();
 		}
 
-		void Keyboard_KeyDown(InputEventArgs e)
+		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
 			if (e.KeyCode == KeyCode.A)
 				snda.Play();

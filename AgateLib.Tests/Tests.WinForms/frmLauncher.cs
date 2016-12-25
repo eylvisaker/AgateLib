@@ -1,21 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using System.Reflection;
-using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.ApplicationModels;
+using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Testing
 {
 	public partial class frmLauncher : Form, AgateLib.Settings.ISettingsTracer
 	{
-
 		IList<TestInfo> tests { get { return TestCollection.Tests; } }
 
 		Font bold;

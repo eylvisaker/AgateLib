@@ -19,10 +19,9 @@ namespace AgateLib.Testing.DisplayTests
 
 		public void EntryPoint()
 		{
-			SimpleInputHandler inputHandler = new SimpleInputHandler();
+			Input.Unhandled.KeyDown += Keyboard_KeyDown;
+			Input.Unhandled.MouseDown += Mouse_MouseDown;
 
-			inputHandler.KeyDown += Keyboard_KeyDown;
-			inputHandler.MouseDown += Mouse_MouseDown;
 			Surface surf = new Surface("jellybean.png");
 			surf.Color = Color.Cyan;
 
@@ -73,7 +72,7 @@ namespace AgateLib.Testing.DisplayTests
 			{
 				IncrementCounter();
 
-				Keyboard.ReleaseKey(KeyCode.Space);
+				Input.Unhandled.Keys.Release(KeyCode.Space);
 			}
 			else if (e.KeyCode == KeyCode.Escape)
 				Display.CurrentWindow.Dispose();

@@ -12,6 +12,9 @@ namespace AgateLib.Testing.DisplayTests
 {
 	class FullscreenTest : IAgateTest
 	{
+		string text = "Press Esc or Tilde to exit.\nStarting Text";
+		Point mousePosition;
+
 		public string Name
 		{
 			get { return "Full Screen"; }
@@ -22,8 +25,6 @@ namespace AgateLib.Testing.DisplayTests
 			get { return "Display"; }
 		}
 
-		string text = "Press Esc or Tilde to exit." + Environment.NewLine + "Starting Text";
-
 		public void Main(string[] args)
 		{
 			new PassiveModel(args).Run( () =>
@@ -31,15 +32,17 @@ namespace AgateLib.Testing.DisplayTests
 				DisplayWindow wind = DisplayWindow.CreateFullScreen("Hello World", 640, 480);
 				Surface mySurface = new Surface("jellybean.png");
 
-				Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
-				IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
+				Input.Unhandled.KeyDown += Keyboard_KeyDown;
+				Input.Unhandled.MouseMove += (sender, e) => mousePosition = e.MousePosition;
+
+				IFont font = Font.AgateSans;
 
 				int frames = 1;
 
 				// Run the program while the window is open.
 				while (Display.CurrentWindow.IsClosed == false &&
-					Keyboard.Keys[KeyCode.Escape] == false &&
-					Keyboard.Keys[KeyCode.Tilde] == false)
+					Input.Unhandled.Keys[KeyCode.Escape] == false &&
+					Input.Unhandled.Keys[KeyCode.Tilde] == false)
 				{
 					Display.BeginFrame();
 					Display.Clear(Color.DarkGreen);
@@ -48,7 +51,7 @@ namespace AgateLib.Testing.DisplayTests
 
 					font.DrawText(0, 480 - font.FontHeight, "Frames: {0}", frames);
 
-					mySurface.Draw(Mouse.X, Mouse.Y);
+					mySurface.Draw(mousePosition.X, mousePosition.Y);
 
 					Display.EndFrame();
 					Core.KeepAlive();
@@ -57,10 +60,9 @@ namespace AgateLib.Testing.DisplayTests
 			});
 		}
 
-		void Keyboard_KeyDown(InputEventArgs e)
+		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
 			text += e.KeyString;
 		}
-
 	}
 }

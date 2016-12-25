@@ -34,7 +34,7 @@ namespace AgateLib.Testing.DisplayTests
 			font = DefaultAssets.Fonts.AgateSans;
 			font.Size = 14;
 
-			Mouse.MouseDown += Mouse_MouseDown;
+			Input.Unhandled.MouseDown += Mouse_MouseDown;
 
 			mySurface = new Surface("9ball.png");
 
@@ -67,9 +67,9 @@ namespace AgateLib.Testing.DisplayTests
 			}
 		}
 
-		void Mouse_MouseDown(InputEventArgs e)
+		void Mouse_MouseDown(object sender, AgateInputEventArgs e)
 		{
-			if (e.MouseButtons == MouseButton.Primary)
+			if (e.MouseButton == MouseButton.Primary)
 				CreateTests();
 			else
 				done = true;
