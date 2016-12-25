@@ -13,6 +13,10 @@ namespace AgateLib.Tests.DisplayTests
 	class MultipleFramebufferTest : ISerialModelTest
 	{
 		List<Surface> mRegionColors = new List<Surface>();
+		List<Surface> tests = new List<Surface>();
+		bool done;
+		IFont font;
+		Surface mySurface;
 
 		public string Name
 		{
@@ -23,11 +27,6 @@ namespace AgateLib.Tests.DisplayTests
 		{
 			get { return "Display"; }
 		}
-
-		List<Surface> tests = new List<Surface>();
-		bool done;
-		IFont font;
-		Surface mySurface;
 
 		public void EntryPoint()
 		{
