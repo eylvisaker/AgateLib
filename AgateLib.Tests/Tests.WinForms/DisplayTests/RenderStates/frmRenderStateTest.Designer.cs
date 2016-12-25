@@ -1,4 +1,4 @@
-﻿namespace AgateLib.Testing.DisplayTests.RenderStates
+﻿namespace AgateLib.Tests.DisplayTests.RenderStates
 {
 	partial class frmRenderStateTest
 	{

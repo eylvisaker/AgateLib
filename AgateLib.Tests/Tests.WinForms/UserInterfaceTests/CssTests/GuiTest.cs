@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AgateLib.Testing.UserInterfaceTests.CssTests
+namespace AgateLib.Tests.UserInterfaceTests.CssTests
 {
 	class GuiTest : IAgateTest
 	{

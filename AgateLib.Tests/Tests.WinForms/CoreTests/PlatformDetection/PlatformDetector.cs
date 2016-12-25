@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.Testing.CoreTests.PlatformDetection
+namespace AgateLib.Tests.CoreTests.PlatformDetection
 {
 	class PlatformDetector: IDiscreteAgateTest
 	{

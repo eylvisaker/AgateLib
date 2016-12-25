@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Testing
+namespace AgateLib.Tests
 {
 	public static class TestCollection
 	{

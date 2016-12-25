@@ -6,10 +6,10 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ApplicationModels;
-using AgateLib.Testing;
+using AgateLib.Tests;
 using AgateLib.Platform.WinForms;
 
-namespace AgateLib.Testing.WinFormsTests
+namespace AgateLib.Tests.WinFormsTests
 {
 	class Converters : Scene, ISceneModelTest 
 	{
@@ -23,7 +23,7 @@ namespace AgateLib.Testing.WinFormsTests
 			get { return "WinForms"; }
 		}
 
-		protected override void OnSceneStart()
+		protected override internal void OnSceneStart()
 		{
 			Surface surf = new Surface("attacke.png");
 

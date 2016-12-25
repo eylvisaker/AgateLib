@@ -9,7 +9,7 @@ using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests.PixelBufferTest
+namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 {
 	class PixelBufferTest : IDiscreteAgateTest
 	{

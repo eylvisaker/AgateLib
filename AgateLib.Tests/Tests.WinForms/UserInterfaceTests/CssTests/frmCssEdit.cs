@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using AgateLib.DisplayLib;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.Testing.UserInterfaceTests.CssTests
+namespace AgateLib.Tests.UserInterfaceTests.CssTests
 {
 	public partial class frmCssEdit : Form
 	{

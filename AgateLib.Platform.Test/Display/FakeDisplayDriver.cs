@@ -8,11 +8,11 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 
-namespace AgateLib.Platform.Test
+namespace AgateLib.Platform.Test.Display
 {
-	public class FakeDisplayDriver : DisplayImpl 
+	public class FakeDisplayDriver : DisplayImpl
 	{
-		
+
 		public override bool CapsBool(AgateLib.DisplayLib.DisplayBoolCaps caps)
 		{
 			throw new NotImplementedException();

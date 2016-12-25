@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Drivers;
 using AgateLib.Platform.Common.PlatformImplementation;
-using AgateLib.Testing.Platform.Test;
 
 namespace AgateLib.Platform.Test
 {

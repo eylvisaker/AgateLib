@@ -8,7 +8,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests
+namespace AgateLib.Tests.DisplayTests
 {
 	class LargeImageTest : Scene, ISceneModelTest
 	{
@@ -18,7 +18,7 @@ namespace AgateLib.Testing.DisplayTests
 		Surface mSomeSurface;
 		private double mLoadTime;
 
-		protected override void OnSceneStart()
+		protected internal override void OnSceneStart()
 		{
 			var watch = new Stopwatch();
 			watch.Start();

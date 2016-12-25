@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using AgateLib.ApplicationModels;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace AgateLib.Testing
+namespace AgateLib.Tests
 {
 	public partial class frmLauncher : Form, AgateLib.Settings.ISettingsTracer
 	{
@@ -240,13 +240,15 @@ namespace AgateLib.Testing
 
 		private void LaunchTestModel(IAgateTest test)
 		{
+			Core.State = new Configuration.State.AgateLibState();
+
 			try
 			{
 				if (test is ISerialModelTest) LaunchTestModel((ISerialModelTest)test);
 				else if (test is ISceneModelTest) LaunchTestModel((ISceneModelTest)test);
 				else if (test is IDiscreteAgateTest) LaunchTestModel((IDiscreteAgateTest)test);
 				else
-					MessageBox.Show(this, "The test " + test.Name + " does not have a model defined.", "AgateLib Test can't run", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+					MessageBox.Show(this, $"The test {test.Name} does not have a model defined.", "AgateLib Test can't run", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 			}
 			catch (ExitGameException)
 			{ }

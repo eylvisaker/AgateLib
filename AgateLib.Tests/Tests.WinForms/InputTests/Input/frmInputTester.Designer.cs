@@ -1,7 +1,7 @@
 // The contents of this file are public domain.
 // You may use them as you wish.
 //
-namespace AgateLib.Testing.InputTests.InputTester
+namespace AgateLib.Tests.InputTests.InputTester
 {
 	partial class frmInputTester
 	{

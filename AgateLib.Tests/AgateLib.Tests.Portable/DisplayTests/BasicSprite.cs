@@ -8,7 +8,7 @@ using AgateLib.Geometry;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests
+namespace AgateLib.Tests.DisplayTests
 {
 	class BasicSprite : Scene, ISceneModelTest
 	{

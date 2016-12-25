@@ -4,63 +4,64 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Drivers;
-using AgateLib.Drivers.NullDrivers;
-using AgateLib.Quality;
+using AgateLib.Platform.Test.Audio;
+using AgateLib.Platform.Test.Display;
+using AgateLib.Platform.Test.Input;
 
 namespace AgateLib.Platform.Test
 {
-    public class FakeAgateFactory : IAgateFactory
-    {
-        private bool useRealFilesystem;
+	public class FakeAgateFactory : IAgateFactory
+	{
+		private bool useRealFilesystem;
 
-        public FakeAgateFactory() : this(new FakePlatformFactory())
-        {
+		public FakeAgateFactory() : this(new FakePlatformFactory())
+		{
 
-        }
+		}
 
-        public FakeAgateFactory(FakePlatformFactory platformFactory)
-        {
-            DisplayFactory = new FakeDisplayFactory();
-            AudioFactory = new FakeAudioFactory();
-            InputFactory = new FakeInputFactory();
-            PlatformFactory = platformFactory;
-        }
+		public FakeAgateFactory(FakePlatformFactory platformFactory)
+		{
+			DisplayFactory = new FakeDisplayFactory();
+			AudioFactory = new FakeAudioFactory();
+			InputFactory = new FakeInputFactory();
+			PlatformFactory = platformFactory;
+		}
 
-        public FakeDisplayFactory DisplayFactory { get; private set; }
-        public FakeAudioFactory AudioFactory { get; private set; }
-        public FakeInputFactory InputFactory { get; private set; }
-        public FakePlatformFactory PlatformFactory { get; private set; }
+		public FakeDisplayFactory DisplayFactory { get; private set; }
+		public FakeAudioFactory AudioFactory { get; private set; }
+		public FakeInputFactory InputFactory { get; private set; }
+		public FakePlatformFactory PlatformFactory { get; private set; }
 
-        public DisplayLib.FontSurface DefaultFont
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+		public DisplayLib.FontSurface DefaultFont
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        IDisplayFactory IAgateFactory.DisplayFactory
-        {
-            get { return DisplayFactory; }
-        }
+		IDisplayFactory IAgateFactory.DisplayFactory
+		{
+			get { return DisplayFactory; }
+		}
 
-        IAudioFactory IAgateFactory.AudioFactory
-        {
-            get { return AudioFactory; }
-        }
+		IAudioFactory IAgateFactory.AudioFactory
+		{
+			get { return AudioFactory; }
+		}
 
-        IInputFactory IAgateFactory.InputFactory
-        {
-            get { return InputFactory; }
-        }
+		IInputFactory IAgateFactory.InputFactory
+		{
+			get { return InputFactory; }
+		}
 
-        IPlatformFactory IAgateFactory.PlatformFactory
-        {
-            get { return PlatformFactory; }
-        }
-    }
+		IPlatformFactory IAgateFactory.PlatformFactory
+		{
+			get { return PlatformFactory; }
+		}
+	}
 }

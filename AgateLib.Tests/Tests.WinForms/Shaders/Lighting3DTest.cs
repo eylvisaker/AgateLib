@@ -11,7 +11,7 @@ using AgateLib.Platform.WinForms.Resources;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace AgateLib.Testing.Shaders
+namespace AgateLib.Tests.Shaders
 {
 	class Lighting3DTest : IAgateTest 
 	{

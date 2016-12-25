@@ -14,7 +14,7 @@ using AgateLib.DisplayLib;
 using AgateLib.InputLib;
 using AgateLib.InputLib.Legacy;
 
-namespace AgateLib.Testing.InputTests.InputTester
+namespace AgateLib.Tests.InputTests.InputTester
 {
 	public partial class frmInputTester : Form
 	{

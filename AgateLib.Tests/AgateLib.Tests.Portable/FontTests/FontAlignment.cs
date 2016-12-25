@@ -9,7 +9,7 @@ using AgateLib.InputLib;
 using AgateLib.InputLib.Legacy;
 using AgateLib.Resources;
 
-namespace AgateLib.Testing.FontTests
+namespace AgateLib.Tests.FontTests
 {
 	class FontAlignment : ISerialModelTest
 	{

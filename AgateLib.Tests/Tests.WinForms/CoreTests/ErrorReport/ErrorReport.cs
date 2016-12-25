@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace AgateLib.Testing.CoreTests.ErrorReport
+namespace AgateLib.Tests.CoreTests.ErrorReport
 {
 	class ErrorReportTester : IDiscreteAgateTest
 	{

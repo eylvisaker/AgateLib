@@ -8,7 +8,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests.BasicDrawing
+namespace AgateLib.Tests.DisplayTests.BasicDrawing
 {
 	class BasicDrawing : IDiscreteAgateTest
 	{

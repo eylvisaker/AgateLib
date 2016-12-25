@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests.SpriteTester
+namespace AgateLib.Tests.DisplayTests.SpriteTester
 {
 	class SpriteTester : IAgateTest
 	{

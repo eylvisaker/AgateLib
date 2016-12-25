@@ -7,7 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry;
 
-namespace AgateLib.Platform.Test
+namespace AgateLib.Platform.Test.Display
 {
 	public class FakeFontSurface : FontSurfaceImpl
 	{

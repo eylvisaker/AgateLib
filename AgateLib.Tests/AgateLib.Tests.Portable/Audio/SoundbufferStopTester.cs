@@ -9,7 +9,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.InputLib.Legacy;
 
-namespace AgateLib.Testing.AudioTests
+namespace AgateLib.Tests.AudioTests
 {
 	class SoundbufferStopTester : ISerialModelTest
 	{

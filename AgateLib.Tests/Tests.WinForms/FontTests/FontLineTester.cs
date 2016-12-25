@@ -9,7 +9,7 @@ using AgateLib.Utility;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace AgateLib.Testing.FontTests
+namespace AgateLib.Tests.FontTests
 {
 	class FontLineTester : IAgateTest
 	{

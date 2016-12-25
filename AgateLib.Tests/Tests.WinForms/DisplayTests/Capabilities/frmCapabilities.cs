@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace AgateLib.Testing.DisplayTests.Capabilities
+namespace AgateLib.Tests.DisplayTests.Capabilities
 {
 	public partial class frmCapabilities : Form
 	{

@@ -7,7 +7,7 @@ using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests
+namespace AgateLib.Tests.DisplayTests
 {
 	class ColorTest : Scene, ISceneModelTest
 	{

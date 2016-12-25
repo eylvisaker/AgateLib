@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace AgateLib.Testing.DisplayTests.PixelBufferTest
+namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 {
 	public partial class PixelBufferForm : Form
 	{

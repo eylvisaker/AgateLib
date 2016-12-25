@@ -7,7 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests
+namespace AgateLib.Tests.DisplayTests
 {
 	class Interpolation : Scene, ISceneModelTest
 	{

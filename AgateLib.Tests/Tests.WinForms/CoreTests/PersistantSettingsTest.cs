@@ -6,7 +6,7 @@ using AgateLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.CoreTests
+namespace AgateLib.Tests.CoreTests
 {
 	class PersistantSettingsTest : IDiscreteAgateTest 
 	{

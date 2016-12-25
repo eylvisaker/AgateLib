@@ -13,7 +13,7 @@ using AgateLib.Utility;
 using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.Controls;
 
-namespace AgateLib.Testing.DisplayTests.TestPacker
+namespace AgateLib.Tests.DisplayTests.TestPacker
 {
 
 	public partial class frmTestPacker : Form

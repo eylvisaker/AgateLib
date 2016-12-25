@@ -9,7 +9,7 @@ using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace AgateLib.Testing.ConsoleTests
+namespace AgateLib.Tests.ConsoleTests
 {
 	public class BasicConsoleTest : ISerialModelTest, ICommandVocabulary
 	{

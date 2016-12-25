@@ -1,4 +1,4 @@
-namespace AgateLib.Testing.Shaders.LightingTest
+namespace AgateLib.Tests.Shaders.LightingTest
 {
 	partial class LightingTestForm
 	{

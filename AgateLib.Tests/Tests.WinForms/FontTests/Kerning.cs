@@ -11,7 +11,7 @@ using AgateLib.Platform.WinForms.Resources;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace AgateLib.Testing.FontTests
+namespace AgateLib.Tests.FontTests
 {
 	class Kerning : IAgateTest 
 	{

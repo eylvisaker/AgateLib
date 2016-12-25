@@ -16,7 +16,7 @@ using AgateLib.Utility;
 using AgateLib.Platform.WinForms.IO;
 using AgateLib.Resources;
 
-namespace AgateLib.Testing.DisplayTests.SpriteTester
+namespace AgateLib.Tests.DisplayTests.SpriteTester
 {
 	public partial class frmSpriteTester : Form
 	{

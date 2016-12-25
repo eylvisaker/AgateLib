@@ -8,7 +8,7 @@ using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Platform.WinForms;
 using System.IO;
 
-namespace AgateLib.Testing
+namespace AgateLib.Tests
 {
 	class TestLauncher
 	{

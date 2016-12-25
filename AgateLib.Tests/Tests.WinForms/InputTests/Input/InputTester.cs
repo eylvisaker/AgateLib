@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace AgateLib.Testing.InputTests.InputTester
+namespace AgateLib.Tests.InputTests.InputTester
 {
 	class InputTester : IDiscreteAgateTest
 	{

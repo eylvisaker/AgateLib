@@ -6,7 +6,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests
+namespace AgateLib.Tests.DisplayTests
 {
 	class PrerenderedTest : IAgateTest
 	{

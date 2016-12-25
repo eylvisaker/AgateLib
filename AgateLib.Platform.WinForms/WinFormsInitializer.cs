@@ -14,11 +14,11 @@ namespace AgateLib.Platform.WinForms
     /// <summary>
     /// Initializes AgateLib to use the Windows Forms platform.
     /// </summary>
-    public static class WinFormsInitializer
+    public class WinFormsInitializer
     {
-        static FormsFactory factory;
+        FormsFactory factory;
 
-        public static void Initialize(ModelParameters parameters)
+        public void Initialize(ModelParameters parameters)
         {
             var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
 
@@ -29,7 +29,7 @@ namespace AgateLib.Platform.WinForms
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="assemblyPath">Path to the folder where the application files reside in.</param>
-        public static void Initialize(ModelParameters parameters, string appRootPath)
+        public void Initialize(ModelParameters parameters, string appRootPath)
         {
             Condition.Requires<ArgumentNullException>(parameters != null, "parameters");
             Condition.Requires<ArgumentNullException>(appRootPath != null, "appRootPath");

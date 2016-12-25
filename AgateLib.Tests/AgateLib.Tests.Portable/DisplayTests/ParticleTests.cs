@@ -6,10 +6,10 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Particles;
 using AgateLib.DisplayLib.Sprites;
-using AgateLib.Testing;
+using AgateLib.Tests;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests.ParticleTest
+namespace AgateLib.Tests.DisplayTests.ParticleTest
 {
 	public class PixelParticleTest : Scene, ISceneModelTest
 	{

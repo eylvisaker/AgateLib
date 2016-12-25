@@ -1,6 +1,5 @@
 ﻿using AgateLib.Geometry;
-using AgateLib.Testing.Fakes;
-using AgateLib.Testing.Fakes.UserInterface;
+using AgateLib.Platform.Test.UserInterface;
 using AgateLib.UserInterface.Widgets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

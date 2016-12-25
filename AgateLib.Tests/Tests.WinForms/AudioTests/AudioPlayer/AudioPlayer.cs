@@ -8,7 +8,7 @@ using AgateLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.AudioTests.AudioPlayer
+namespace AgateLib.Tests.AudioTests.AudioPlayer
 {
 	class AudioPlayer : IDiscreteAgateTest
 	{

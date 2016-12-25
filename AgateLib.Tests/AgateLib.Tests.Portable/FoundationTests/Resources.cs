@@ -8,7 +8,7 @@ using AgateLib.DisplayLib.Sprites;
 using AgateLib.ApplicationModels;
 using AgateLib.Resources;
 
-namespace AgateLib.Testing.FoundationTests
+namespace AgateLib.Tests.FoundationTests
 {
 	class ResourceTester : Scene, ISceneModelTest
 	{

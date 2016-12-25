@@ -7,7 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.FontTests
+namespace AgateLib.Tests.FontTests
 {
 	class Builtin : Scene, ISceneModelTest
 	{

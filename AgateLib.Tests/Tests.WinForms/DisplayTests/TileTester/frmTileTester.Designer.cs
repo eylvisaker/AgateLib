@@ -1,4 +1,4 @@
-namespace AgateLib.Testing.DisplayTests.TileTester
+namespace AgateLib.Tests.DisplayTests.TileTester
 {
 	partial class frmTileTester
 	{

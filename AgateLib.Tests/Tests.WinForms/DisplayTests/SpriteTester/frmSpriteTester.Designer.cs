@@ -1,7 +1,7 @@
 // The contents of this file are public domain.
 // You may use them as you wish.
 //
-namespace AgateLib.Testing.DisplayTests.SpriteTester
+namespace AgateLib.Tests.DisplayTests.SpriteTester
 {
 	partial class frmSpriteTester
 	{

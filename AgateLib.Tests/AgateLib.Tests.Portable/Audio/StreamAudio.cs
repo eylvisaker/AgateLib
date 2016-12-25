@@ -8,7 +8,7 @@ using AgateLib;
 using AgateLib.AudioLib;
 using AgateLib.DisplayLib;
 
-namespace AgateLib.Testing.AudioTests
+namespace AgateLib.Tests.AudioTests
 {
 	class StreamAudio : ISerialModelTest
 	{

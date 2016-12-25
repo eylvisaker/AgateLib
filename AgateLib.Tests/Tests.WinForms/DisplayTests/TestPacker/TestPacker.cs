@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace AgateLib.Testing.DisplayTests.TestPacker
+namespace AgateLib.Tests.DisplayTests.TestPacker
 {
 	class TestPacker : IAgateTest
 	{

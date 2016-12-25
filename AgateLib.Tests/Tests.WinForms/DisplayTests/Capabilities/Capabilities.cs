@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AgateLib.Testing.DisplayTests.Capabilities
+namespace AgateLib.Tests.DisplayTests.Capabilities
 {
 	class Capabilities : IDiscreteAgateTest
 	{

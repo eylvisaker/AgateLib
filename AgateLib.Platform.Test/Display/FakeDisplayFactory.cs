@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DefaultAssets;
-using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
 using AgateLib.Geometry;
-using AgateLib.Platform.Test.Fakes.Display;
 
-namespace AgateLib.Platform.Test
+namespace AgateLib.Platform.Test.Display
 {
 	public class FakeDisplayFactory : IDisplayFactory
 	{

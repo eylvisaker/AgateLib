@@ -10,7 +10,7 @@ using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.ApplicationModels;
 using AgateLib.Platform.WinForms.Fonts;
 
-namespace AgateLib.Testing.FontTests
+namespace AgateLib.Tests.FontTests
 {
 	class BitmapFonts : IAgateTest
 	{

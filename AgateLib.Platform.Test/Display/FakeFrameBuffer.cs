@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Geometry.CoordinateSystems;
 
-namespace AgateLib.Platform.Test
+namespace AgateLib.Platform.Test.Display
 {
 	public class FakeFrameBuffer : FrameBufferImpl
 	{

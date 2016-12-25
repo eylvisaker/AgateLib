@@ -34,7 +34,7 @@ namespace AgateLib.ApplicationModels
 
 		public static AgateAppModel Instance
 		{
-			get { return Core.State.AppModel.Instance; }
+			get { return Core.State?.AppModel?.Instance; }
 			internal set { Core.State.AppModel.Instance = value; }
 		}
 

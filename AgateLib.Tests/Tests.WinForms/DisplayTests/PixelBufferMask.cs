@@ -9,7 +9,7 @@ using AgateLib.InputLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 
-namespace AgateLib.Testing.DisplayTests
+namespace AgateLib.Tests.DisplayTests
 {
 	class PixelBufferMask : IAgateTest
 	{

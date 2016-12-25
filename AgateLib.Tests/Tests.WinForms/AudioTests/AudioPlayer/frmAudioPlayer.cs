@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.AudioTests.AudioPlayer
+namespace AgateLib.Tests.AudioTests.AudioPlayer
 {
 	public partial class frmAudioTester : Form
 	{

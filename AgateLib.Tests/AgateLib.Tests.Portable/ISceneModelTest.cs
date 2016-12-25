@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.Testing
+namespace AgateLib.Tests
 {
 	/// <summary>
 	/// Test based on a scene application model

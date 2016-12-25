@@ -7,7 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Platform.WinForms.Resources;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests
+namespace AgateLib.Tests.DisplayTests
 {
 	class DisplayWindowEvents : IDiscreteAgateTest
 	{

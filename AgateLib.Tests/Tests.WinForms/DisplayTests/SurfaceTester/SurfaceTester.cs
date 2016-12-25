@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests.SurfaceTester
+namespace AgateLib.Tests.DisplayTests.SurfaceTester
 {
 	class SurfaceTester : IDiscreteAgateTest
 	{
@@ -35,7 +35,6 @@ namespace AgateLib.Testing.DisplayTests.SurfaceTester
 						form.UpdateDisplay();
 
 						frame++;
-
 					}
 				});
 			}

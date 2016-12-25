@@ -6,7 +6,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.FontTests.TextLayout
+namespace AgateLib.Tests.FontTests.TextLayout
 {
 	class TextLayout : Scene, ISceneModelTest
 	{

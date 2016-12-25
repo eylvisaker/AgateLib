@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 using AgateLib.DisplayLib;
 
-namespace AgateLib.Testing.DisplayTests.TileTester
+namespace AgateLib.Tests.DisplayTests.TileTester
 {
 	public partial class frmTileTester : Form
 	{

@@ -1,6 +1,5 @@
 ﻿using AgateLib.DisplayLib;
-using AgateLib.Platform.Test;
-using AgateLib.Testing.Fakes;
+using AgateLib.Platform.Test.Display;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.DisplayLib
@@ -27,6 +26,7 @@ namespace AgateLib.UnitTests.DisplayLib
 			ff.AddFont(new FontSettings(10, FontStyles.Bold),
 				FontSurface.FromImpl(new FakeFontSurface { Height = 10 }));
 		}
+
 		[TestCleanup]
 		public void Terminate()
 		{

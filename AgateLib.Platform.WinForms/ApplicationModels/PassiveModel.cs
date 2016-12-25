@@ -42,7 +42,7 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 
 		protected override void InitializeImpl()
 		{
-			WinFormsInitializer.Initialize(Parameters);
+			new WinFormsInitializer().Initialize(Parameters);
 		}
 
 		public new PassiveModelParameters Parameters

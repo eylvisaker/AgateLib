@@ -7,7 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests.TileTester
+namespace AgateLib.Tests.DisplayTests.TileTester
 {
 	class TileTester : IDiscreteAgateTest
 	{
@@ -21,6 +21,8 @@ namespace AgateLib.Testing.DisplayTests.TileTester
 		{
 			using (var model = new PassiveModel(args))
 			{
+				model.Parameters.AssetLocations.Path = "Assets";
+
 				model.Run(() =>
 				{
 					frmTileTester frm = new frmTileTester();

@@ -1,4 +1,4 @@
-﻿namespace AgateLib.Testing.UserInterfaceTests.CssTests
+﻿namespace AgateLib.Tests.UserInterfaceTests.CssTests
 {
 	partial class frmCssEdit
 	{

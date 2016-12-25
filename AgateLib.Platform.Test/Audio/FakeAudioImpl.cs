@@ -7,15 +7,15 @@ using AgateLib.AudioLib.ImplementationBase;
 
 namespace AgateLib.Platform.Test.Audio
 {
-    public class FakeAudioImpl : AudioImpl
-    {
-        protected override bool CapsBool(AudioLib.AudioBoolCaps audioBoolCaps)
-        {
-            throw new NotImplementedException();
-        }
+	public class FakeAudioImpl : AudioImpl
+	{
+		protected override bool CapsBool(AudioLib.AudioBoolCaps audioBoolCaps)
+		{
+			throw new NotImplementedException();
+		}
 
-        public override void Initialize()
-        {
-        }
-    }
+		public override void Initialize()
+		{
+		}
+	}
 }

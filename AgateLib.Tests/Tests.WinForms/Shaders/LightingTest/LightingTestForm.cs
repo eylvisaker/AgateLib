@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace AgateLib.Testing.Shaders.LightingTest
+namespace AgateLib.Tests.Shaders.LightingTest
 {
 	public partial class LightingTestForm : Form
 	{

@@ -8,7 +8,7 @@ using AgateLib.Geometry;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Platform;
 
-namespace AgateLib.Testing.DisplayTests
+namespace AgateLib.Tests.DisplayTests
 {
 	class RenderTargetContinuous : IAgateTest
 	{

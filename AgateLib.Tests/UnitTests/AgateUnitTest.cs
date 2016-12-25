@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using AgateLib.Testing.Fakes;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AgateLib.Platform.Test;
 

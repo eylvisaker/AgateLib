@@ -7,7 +7,7 @@ using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace AgateLib.Platform.Test.Fakes.Display
+namespace AgateLib.Platform.Test.Display
 {
 	public class FakeFont : IFont
 	{

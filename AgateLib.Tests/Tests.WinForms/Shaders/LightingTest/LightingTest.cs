@@ -8,7 +8,7 @@ using AgateLib.InputLib;
 using AgateLib.Geometry;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace AgateLib.Testing.Shaders.LightingTest
+namespace AgateLib.Tests.Shaders.LightingTest
 {
 	class LightingTest : IAgateTest
 	{

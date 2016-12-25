@@ -11,7 +11,7 @@ using AgateLib.Resources;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Widgets;
 
-namespace AgateLib.Testing.UserInterfaceTests
+namespace AgateLib.Tests.UserInterfaceTests
 {
 	public class MenuScroll : Scene, ISceneModelTest
 	{

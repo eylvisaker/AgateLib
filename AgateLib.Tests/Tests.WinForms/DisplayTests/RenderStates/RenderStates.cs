@@ -5,7 +5,7 @@ using System.Text;
 using AgateLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests.RenderStates
+namespace AgateLib.Tests.DisplayTests.RenderStates
 {
 	class RenderStates : IDiscreteAgateTest
 	{

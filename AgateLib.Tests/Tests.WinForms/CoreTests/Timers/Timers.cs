@@ -8,7 +8,7 @@ using AgateLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Platform;
 
-namespace AgateLib.Testing.CoreTests.Timers
+namespace AgateLib.Tests.CoreTests.Timers
 {
 	class TimerTester : IDiscreteAgateTest
 	{

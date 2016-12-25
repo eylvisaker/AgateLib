@@ -8,7 +8,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.InputLib.Legacy;
 
-namespace AgateLib.Testing.DisplayTests
+namespace AgateLib.Tests.DisplayTests
 {
 	class CoordinateSystem : ISerialModelTest 
 	{

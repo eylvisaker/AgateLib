@@ -35,6 +35,7 @@ using System.Resources;
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleTo("AgateLib.UnitTests")]
 [assembly: InternalsVisibleTo("AgateLib.Platform.WinForms")]
+[assembly: InternalsVisibleTo("AgateLib.Tests.WinForms")]
 
 [assembly: CLSCompliant(true)]
 

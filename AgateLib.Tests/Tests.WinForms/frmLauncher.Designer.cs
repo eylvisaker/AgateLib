@@ -1,4 +1,4 @@
-﻿namespace AgateLib.Testing
+﻿namespace AgateLib.Tests
 {
 	partial class frmLauncher
 	{

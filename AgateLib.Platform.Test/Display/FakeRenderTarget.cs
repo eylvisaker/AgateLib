@@ -7,7 +7,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Geometry.CoordinateSystems;
 
-namespace AgateLib.Platform.Test
+namespace AgateLib.Platform.Test.Display
 {
 	public class FakeRenderTarget : IFrameBuffer
 	{

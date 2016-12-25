@@ -12,7 +12,7 @@ using AgateLib.InputLib;
 using AgateLib.InputLib.Legacy;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Testing.DisplayTests.RotatingSpriteTester
+namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 {
 	class RotatingSprite : Scene, ISceneModelTest
 	{
