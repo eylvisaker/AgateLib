@@ -58,8 +58,5 @@ namespace AgateLib.Platform.Test
 		public override Size Size { get;set;}
 
 		public override string Title { get;set;}
-
-		[Obsolete]
-		public override Point MousePosition { get;set;}
 	}
 }

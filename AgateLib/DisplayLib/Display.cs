@@ -182,7 +182,6 @@ namespace AgateLib.DisplayLib
 
 				if (value.AttachedWindow != null)
 					CurrentWindow = value.AttachedWindow;
-
 			}
 		}
 

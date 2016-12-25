@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using AgateLib.Geometry;
+using AgateLib.InputLib;
 using AgateLib.Utility;
 
 namespace AgateLib.DisplayLib.ImplementationBase
@@ -31,14 +32,36 @@ namespace AgateLib.DisplayLib.ImplementationBase
 	public abstract class DisplayWindowImpl : IDisposable
 	{
 		/// <summary>
+		/// Event raised when the window is resized by the user.
+		/// </summary>
+		public event EventHandler Resize;
+
+		/// <summary>
+		/// Event raised when the window is closed by the user.
+		/// </summary>
+		public event EventHandler Closed;
+
+		/// <summary>
+		/// Event raised when the user clicks the close box but before the window is closed.
+		/// </summary>
+		public event CancelEventHandler Closing;
+
+		/// <summary>
+		/// Event raised when there is an input event.
+		/// </summary>
+		public event EventHandler<AgateInputEventArgs> InputEvent;
+
+		/// <summary>
 		/// Disposes of unmanaged resources.
 		/// </summary>
 		public abstract void Dispose();
+
 		/// <summary>
 		/// Returns true if the DisplayWindowImpl has been closed.
 		/// This happens if the user clicks the close box, or Dispose is called.
 		/// </summary>
 		public abstract bool IsClosed { get; }
+
 		/// <summary>
 		/// Returns true if this DisplayWindowImpl is being used as a full-screen
 		/// device.
@@ -62,10 +85,6 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		public int Width
 		{
 			get { return Size.Width; }
-			set
-			{
-				Size = new Size(value, Size.Height);
-			}
 		}
 		/// <summary>
 		/// Gets or sets the height of the render area.
@@ -73,26 +92,11 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		public int Height
 		{
 			get { return Size.Height; }
-			set
-			{
-				Size = new Size(Size.Width, value);
-			}
 		}
 		/// <summary>
 		/// Gets or sets the window title.
 		/// </summary>
 		public abstract string Title { get; set; }
-		/// <summary>
-		/// Gets or sets the mouse position within the render area.
-		/// </summary>
-		[Obsolete("This is probably obsolete.")]
-		public abstract Point MousePosition { get; set; }
-
-		[Obsolete("This is probably obsolete.")]
-		protected void SetInternalMousePosition(AgateLib.Geometry.Point pt)
-		{
-			AgateLib.InputLib.Legacy.Mouse.SetStoredPosition(PixelToLogicalCoords(pt));
-		}
 
 		/// <summary>
 		/// Event raised when the window is resized by the user.
@@ -100,8 +104,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		protected virtual void OnResize()
 		{
-			if (Resize != null)
-				Resize(this, EventArgs.Empty);
+			Resize?.Invoke(this, EventArgs.Empty);
 		}
 
 		/// <summary>
@@ -110,8 +113,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		protected virtual void OnClosed()
 		{
-			if (Closed != null)
-				Closed(this, EventArgs.Empty);
+			Closed?.Invoke(this, EventArgs.Empty);
 		}
 
 		/// <summary>
@@ -120,26 +122,17 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		protected virtual void OnClosing(ref bool cancel)
 		{
-			if (Closing != null)
-			{
-				Closing(this, ref cancel);
-			}
+			Closing?.Invoke(this, ref cancel);
 		}
 
 		/// <summary>
-		/// Event raised when the window is resized by the user.
+		/// Event raised when there is any mouse/keyboard input from the user.
 		/// </summary>
-		public event EventHandler Resize;
-
-		/// <summary>
-		/// Event raised when the window is closed by the user.
-		/// </summary>
-		public event EventHandler Closed;
-
-		/// <summary>
-		/// Event raised when the user clicks the close box but before the window is closed.
-		/// </summary>
-		public event CancelEventHandler Closing;
+		/// <param name="args"></param>
+		protected virtual void OnInputEvent(AgateInputEventArgs args)
+		{
+			InputEvent?.Invoke(this, args);
+		}
 
 		/// <summary>
 		/// Converts a pixel location on screen to the logical coordinate system used by AgateLib.
@@ -150,10 +143,10 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		public Point PixelToLogicalCoords(Point point)
 		{
 			var coords = FrameBuffer.CoordinateSystem.Coordinates;
-			
+
 			double x = point.X / (double)Width;
 			double y = point.Y / (double)Height;
-			
+
 			Point result = new Point(
 				(int)(x * coords.Width),
 				(int)(y * coords.Height));
@@ -174,7 +167,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 
 			point.X -= coords.X;
 			point.Y -= coords.Y;
-			
+
 			double x = point.X / (double)coords.Width;
 			double y = point.Y / (double)coords.Height;
 

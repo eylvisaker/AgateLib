@@ -309,9 +309,6 @@
     <Compile Include="InputTests\Input\InputTester.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InputTests\InputStateTester.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -16,18 +16,22 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Geometry;
-using AgateLib.InputLib.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
+using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.InputLib
 {
 	public class AgateInputEventArgs : EventArgs
 	{
-		public object Sender { get; set; }
+		/// <summary>
+		/// Set this to true to indicate that this event was handled 
+		/// and should not be passed to any lower event handlers.
+		/// </summary>
 		public bool Handled { get; set; }
 
 		public InputEventType InputEventType { get; set; }
@@ -40,7 +44,19 @@ namespace AgateLib.InputLib
 		public MouseButton MouseButton { get; set; }
 		public int MouseWheelDelta { get; set; }
 
-		public static AgateInputEventArgs MouseDown(object sender, Point mousePosition, MouseButton button)
+		/// <summary>
+		/// Gets the DisplayWindow this event occurred in. This property is null for 
+		/// all events except mouse events.
+		/// </summary>
+		public DisplayWindow Window { get; internal set; }
+
+		/// <summary>
+		/// Constructs an AgateInputEventArgs for a mouse down event.
+		/// </summary>
+		/// <param name="code"></param>
+		/// <param name="modifiers"></param>
+		/// <returns></returns>
+		public static AgateInputEventArgs MouseDown(Point mousePosition, MouseButton button)
 		{
 			return new AgateInputEventArgs
 			{
@@ -49,7 +65,14 @@ namespace AgateLib.InputLib
 				MouseButton = button,
 			};
 		}
-		public static AgateInputEventArgs MouseUp(object sender, Point mousePosition, MouseButton button)
+
+		/// <summary>
+		/// Constructs an AgateInputEventArgs for a mouse upevent.
+		/// </summary>
+		/// <param name="code"></param>
+		/// <param name="modifiers"></param>
+		/// <returns></returns>
+		public static AgateInputEventArgs MouseUp(Point mousePosition, MouseButton button)
 		{
 			return new AgateInputEventArgs
 			{
@@ -58,7 +81,14 @@ namespace AgateLib.InputLib
 				MouseButton = button,
 			};
 		}
-		public static AgateInputEventArgs MouseMove(object sender, Point mousePosition)
+
+		/// <summary>
+		/// Constructs an AgateInputEventArgs for a mouse move event.
+		/// </summary>
+		/// <param name="code"></param>
+		/// <param name="modifiers"></param>
+		/// <returns></returns>
+		public static AgateInputEventArgs MouseMove(Point mousePosition)
 		{
 			return new AgateInputEventArgs
 			{
@@ -67,6 +97,44 @@ namespace AgateLib.InputLib
 			};
 		}
 
+		/// <summary>
+		/// Constructs an AgateInputEventArgs for a double click event.
+		/// </summary>
+		/// <param name="code"></param>
+		/// <param name="modifiers"></param>
+		/// <returns></returns>
+		public static AgateInputEventArgs MouseDoubleClick(Point mousePosition, MouseButton mouseButton)
+		{
+			return new AgateInputEventArgs
+			{
+				InputEventType = InputEventType.MouseDoubleClick,
+				MousePosition = mousePosition,
+				MouseButton = mouseButton,
+			};
+		}
+
+		/// <summary>
+		/// Constructs an AgateInputEventArgs for a mouse wheel event.
+		/// </summary>
+		/// <param name="code"></param>
+		/// <param name="modifiers"></param>
+		/// <returns></returns>
+		public static AgateInputEventArgs MouseWheel(Point mousePosition, int wheelDelta)
+		{
+			return new AgateInputEventArgs
+			{
+				InputEventType = InputEventType.MouseWheel,
+				MousePosition = mousePosition,
+				MouseWheelDelta = wheelDelta,
+			};
+		}
+		
+		/// <summary>
+		/// Constructs an AgateInputEventArgs for a key down event.
+		/// </summary>
+		/// <param name="code"></param>
+		/// <param name="modifiers"></param>
+		/// <returns></returns>
 		public static AgateInputEventArgs KeyDown(KeyCode code, KeyModifiers modifiers)
 		{
 			return new AgateInputEventArgs
@@ -77,6 +145,13 @@ namespace AgateLib.InputLib
 				KeyModifiers = modifiers,
 			};
 		}
+
+		/// <summary>
+		/// Constructs an AgateInputEventArgs for a key up event.
+		/// </summary>
+		/// <param name="code"></param>
+		/// <param name="modifiers"></param>
+		/// <returns></returns>
 		public static AgateInputEventArgs KeyUp(KeyCode code, KeyModifiers modifiers)
 		{
 			return new AgateInputEventArgs
@@ -97,10 +172,11 @@ namespace AgateLib.InputLib
 		MouseDown,
 		MouseMove,
 		MouseUp,
+		MouseDoubleClick,
+		MouseWheel,
 
 		JoystickAxisChanged,
 		JoystickButton,
 		JoystickPovHat,
-		MouseWheel,
 	}
 }

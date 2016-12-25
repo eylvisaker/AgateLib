@@ -169,34 +169,36 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		#endregion
 
-		DesktopGLDisplay mDisplay;
-		System.Drawing.Icon mIcon;
-		GameWindow mWindow;
-		string mTitle;
-		int mWidth;
-		int mHeight;
-		bool mAllowResize;
-		bool mHasFrame;
-		WindowPosition mCreatePosition;
-		GLDrawBuffer mDrawBuffer;
-		ContextFB mFrameBuffer;
-		DisplayWindow mOwner;
+		DesktopGLDisplay display;
+		System.Drawing.Icon icon;
+		GameWindow window;
+		string title;
+		int width;
+		int height;
+		bool allowResize;
+		bool hasFrame;
+		WindowPosition createPosition;
+		GLDrawBuffer drawBuffer;
+		ContextFB frameBuffer;
+		DisplayWindow owner;
+		Point lastMouse;
+
 
 		public GL_GameWindow(DisplayWindow owner, CreateWindowParams windowParams)
 		{
-			mOwner = owner;
-			mCreatePosition = windowParams.WindowPosition;
+			this.owner = owner;
+			createPosition = windowParams.WindowPosition;
 
 			if (string.IsNullOrEmpty(windowParams.IconFile) == false)
-				mIcon = new System.Drawing.Icon(windowParams.IconFile);
+				icon = new System.Drawing.Icon(windowParams.IconFile);
 			else
-				mIcon = AgateLib.Platform.WinForms.Controls.Icons.AgateLib;
+				icon = AgateLib.Platform.WinForms.Controls.Icons.AgateLib;
 
-			mTitle = windowParams.Title;
-			mWidth = windowParams.Width;
-			mHeight = windowParams.Height;
-			mAllowResize = windowParams.IsResizable;
-			mHasFrame = windowParams.HasFrame;
+			title = windowParams.Title;
+			width = windowParams.Width;
+			height = windowParams.Height;
+			allowResize = windowParams.IsResizable;
+			hasFrame = windowParams.HasFrame;
 
 			if (windowParams.IsFullScreen)
 				CreateFullScreenDisplay();
@@ -205,45 +207,44 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			CreateFrameBuffer(windowParams.Coordinates);
 
-			mDisplay = Display.Impl as DesktopGLDisplay;
+			display = Display.Impl as DesktopGLDisplay;
 
-			mDisplay.InitializeCurrentContext();
+			display.InitializeCurrentContext();
 
-			mDrawBuffer = mDisplay.CreateDrawBuffer();
+			drawBuffer = display.CreateDrawBuffer();
 		}
 
 		private void CreateFrameBuffer(ICoordinateSystem coords)
 		{
-			mFrameBuffer = new ContextFB(mOwner, 
-				mWindow.Context.GraphicsMode, mWindow.WindowInfo,
-				new Size(mWindow.ClientSize.Width, mWindow.ClientSize.Height), true, false,
+			frameBuffer = new ContextFB(owner, 
+				window.Context.GraphicsMode, window.WindowInfo,
+				new Size(window.ClientSize.Width, window.ClientSize.Height), true, false,
 				coords);
 
-			if (mOwner.Impl != null)
+			if (owner.Impl != null)
 			{
 				// force recreation of the parent FrameBuffer object which wraps mFrameBuffer.
-				Display.RenderTarget = mOwner.FrameBuffer;
+				Display.RenderTarget = owner.FrameBuffer;
 			}
 		}
 
 		public override FrameBufferImpl FrameBuffer
 		{
-			get { return mFrameBuffer; }
+			get { return frameBuffer; }
 		}
 
 		public GLDrawBuffer DrawBuffer
 		{
-			get { return mDrawBuffer; }
+			get { return drawBuffer; }
 		}
 
 		bool done = false;
-
 
 		void Keyboard_KeyDown(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
 		{
 			KeyCode code = TransformKey(e.Key);
 
-			Keyboard.Keys[code] = true;
+			OnInputEvent(AgateInputEventArgs.KeyDown(code, KeyModifiersOf(e)));
 		}
 
 		void Keyboard_KeyUp(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
@@ -253,32 +254,30 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			// Hack because sometimes escape key does not get a keydown event on windows?
 			if (code == KeyCode.Escape && Keyboard.Keys[code] == false)
 			{
-				Keyboard.Keys[code] = true;
+				base.OnInputEvent(AgateInputEventArgs.KeyDown(code, KeyModifiersOf(e)));
 			}
 
-			Keyboard.Keys[code] = false;
+			OnInputEvent(AgateInputEventArgs.KeyUp(code, KeyModifiersOf(e)));
 		}
 
 		void Mouse_ButtonUp(object sender, OpenTK.Input.MouseButtonEventArgs e)
 		{
 			var agatebutton = TransformButton(e.Button);
-			//Mouse.Buttons[agatebutton] = false;
+			lastMouse = PixelToLogicalCoords(new Point(e.X, e.Y));
 
-			Input.QueueInputEvent(AgateInputEventArgs.MouseUp(
-				this, PixelToLogicalCoords(new Point(e.X, e.Y)), agatebutton));
+			OnInputEvent(AgateInputEventArgs.MouseUp(lastMouse, agatebutton));
 		}
 		void Mouse_ButtonDown(object sender, OpenTK.Input.MouseButtonEventArgs e)
 		{
 			var agatebutton = TransformButton(e.Button);
+			lastMouse = PixelToLogicalCoords(new Point(e.X, e.Y));
 
-			Input.QueueInputEvent(AgateInputEventArgs.MouseDown(
-				this, PixelToLogicalCoords(new Point(e.X, e.Y)), agatebutton));
-
-			//Mouse.Buttons[agatebutton] = true;
+			OnInputEvent(AgateInputEventArgs.MouseDown(lastMouse, agatebutton));
 		}
 		void Mouse_Move(object sender, OpenTK.Input.MouseMoveEventArgs e)
 		{
-			SetInternalMousePosition(new Point(e.X, e.Y));
+			OnInputEvent(AgateInputEventArgs.MouseMove(lastMouse));
+			lastMouse = PixelToLogicalCoords(new Point(e.X, e.Y));
 		}
 
 		private static KeyCode TransformKey(OpenTK.Input.Key key)
@@ -306,19 +305,29 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			return agatebutton;
 		}
 
+		private static KeyModifiers KeyModifiersOf(OpenTK.Input.KeyboardKeyEventArgs e)
+		{
+			return new KeyModifiers
+			{
+				Alt = e.Alt,
+				Control = e.Control,
+				Shift = e.Shift
+			};
+		}
+
 		private void AttachEvents()
 		{
-			mWindow.Closed += new EventHandler<EventArgs>(mWindow_Closed);
-			mWindow.Closing += new EventHandler<System.ComponentModel.CancelEventArgs>(mWindow_Closing);
-			mWindow.Resize += new EventHandler<EventArgs>(mWindow_Resize);
+			window.Closed += new EventHandler<EventArgs>(mWindow_Closed);
+			window.Closing += new EventHandler<System.ComponentModel.CancelEventArgs>(mWindow_Closing);
+			window.Resize += new EventHandler<EventArgs>(mWindow_Resize);
 
-			mWindow.Keyboard.KeyRepeat = true;
-			mWindow.Keyboard.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(Keyboard_KeyDown);
-			mWindow.Keyboard.KeyUp += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(Keyboard_KeyUp);
+			window.Keyboard.KeyRepeat = true;
+			window.Keyboard.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(Keyboard_KeyDown);
+			window.Keyboard.KeyUp += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(Keyboard_KeyUp);
 			
-			mWindow.Mouse.ButtonDown += new EventHandler<OpenTK.Input.MouseButtonEventArgs>(Mouse_ButtonDown);
-			mWindow.Mouse.ButtonUp += new EventHandler<OpenTK.Input.MouseButtonEventArgs>(Mouse_ButtonUp);
-			mWindow.Mouse.Move += new EventHandler<OpenTK.Input.MouseMoveEventArgs>(Mouse_Move);
+			window.Mouse.ButtonDown += new EventHandler<OpenTK.Input.MouseButtonEventArgs>(Mouse_ButtonDown);
+			window.Mouse.ButtonUp += new EventHandler<OpenTK.Input.MouseButtonEventArgs>(Mouse_ButtonUp);
+			window.Mouse.Move += new EventHandler<OpenTK.Input.MouseMoveEventArgs>(Mouse_Move);
 		}
 
 		void mWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -338,24 +347,24 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		void mWindow_Resize(object sender, EventArgs e)
 		{
-			Debug.Print("Reseting viewport to {0}x{1}", mWindow.Width, mWindow.Height);
+			Debug.Print("Reseting viewport to {0}x{1}", window.Width, window.Height);
 
-			GL.Viewport(0, 0, mWindow.Width, mWindow.Height);
+			GL.Viewport(0, 0, window.Width, window.Height);
 
 			OnResize();
 		}
 
 		private void CreateWindowedDisplay()
 		{
-			mWindow = new GameWindow(mWidth, mHeight,
-				CreateGraphicsMode(), mTitle);
+			window = new GameWindow(width, height,
+				CreateGraphicsMode(), title);
 
 			AttachEvents();
 		}
 		private void CreateFullScreenDisplay()
 		{
-			mWindow = new GameWindow(mWidth, mHeight,
-			   CreateGraphicsMode(), mTitle, GameWindowFlags.Fullscreen);
+			window = new GameWindow(width, height,
+			   CreateGraphicsMode(), title, GameWindowFlags.Fullscreen);
 
 			AttachEvents();
 		}
@@ -365,39 +374,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			return new GraphicsMode(32, 16);
 		}
 
-		Point lastMouse;
-		[Obsolete]
-		void mDisplay_ProcessEventsEvent(object sender, EventArgs e)
-		{
-			try
-			{
-				mWindow.ProcessEvents();
-
-				// TODO: Hacky fix for exception when window is closed.
-				if (done)
-				{
-					Dispose();
-					return;
-				}
-
-				// simulate mouse move events
-				if (Mouse.Position != lastMouse)
-					Mouse.OnMouseMove();
-
-				lastMouse = Mouse.Position;
-			}
-			catch (ApplicationException)
-			{
-				Dispose();
-			}
-		}
-
 		public override void Dispose()
 		{
-			if (mWindow != null)
+			if (window != null)
 			{
-				mWindow.Dispose();
-				mWindow = null;
+				window.Dispose();
+				window = null;
 			}
 		}
 
@@ -405,7 +387,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			get
 			{
-				if (mWindow == null)
+				if (window == null)
 					return true;
 
 				return false;
@@ -413,19 +395,19 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		}
 		public override bool IsFullScreen
 		{
-			get { return mWindow.WindowState == WindowState.Fullscreen; }
+			get { return window.WindowState == WindowState.Fullscreen; }
 		}
 
 		public override Size Size
 		{
 			get
 			{
-				return new Size(mWindow.Width, mWindow.Height);
+				return new Size(window.Width, window.Height);
 			}
 			set
 			{
-				mWindow.Width = value.Width;
-				mWindow.Height = value.Height;
+				window.Width = value.Width;
+				window.Height = value.Height;
 			}
 		}
 
@@ -433,52 +415,36 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			get
 			{
-				return mWindow.Title;
+				return window.Title;
 			}
 			set
 			{
-				mWindow.Title = value;
-			}
-		}
-
-		[Obsolete]
-		public override Point MousePosition
-		{
-			get
-			{
-				if (mWindow == null)
-					return Point.Empty;
-
-				return new Point(mWindow.Mouse.X, mWindow.Mouse.Y);
-			}
-			set
-			{
-				//mWindow.Mouse.Position = new System.Drawing.Point(value.X, value.Y);
+				window.Title = value;
 			}
 		}
 
 		public void BeginRender()
 		{
 			if (Display.RenderState.WaitForVerticalBlank)
-				mWindow.Context.SwapInterval = -1;
+				window.Context.SwapInterval = -1;
 			else
-				mWindow.Context.SwapInterval = 0;
+				window.Context.SwapInterval = 0;
 
 			MakeCurrent();
 		}
 
 		public void EndRender()
 		{
-			mWindow.SwapBuffers();
+			window.SwapBuffers();
 		}
 
 		#region GL_IRenderTarget Members
 
 		public void MakeCurrent()
 		{
-			if (mWindow.Context.IsCurrent == false)
+			if (window.Context.IsCurrent == false)
 			{
-				mWindow.Context.MakeCurrent(mWindow.WindowInfo);
+				window.Context.MakeCurrent(window.WindowInfo);
 			}
 		}
 
@@ -493,24 +459,24 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public void RunApplication()
 		{
-			mWindow.Run();
+			window.Run();
 		}
 
 
 		void IPrimaryWindow.RunApplication()
 		{
-			mWindow.Run();
+			window.Run();
 		}
 
 		public void ExitMessageLoop()
 		{
-			mWindow.Exit();
+			window.Exit();
 		}
 
 
 		public void CreateContextForThread()
 		{
-			mFrameBuffer.CreateContextForThread();
+			frameBuffer.CreateContextForThread();
 		}
 
 	}

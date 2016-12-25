@@ -46,38 +46,37 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 	/// </summary>
 	public sealed class GL_DisplayControl : DisplayWindowImpl, IPrimaryWindow
 	{
-		DisplayWindow mOwner;
+		DisplayWindow owner;
 		Form frm;
-		Control mRenderTarget;
-		IWindowInfo mWindowInfo;
+		Control renderTarget;
+		IWindowInfo windowInfo;
 
-		DesktopGLDisplay mDisplay;
-		Drawing.Icon mIcon;
-		bool mIsClosed = false;
-		bool mIsFullScreen = false;
+		DesktopGLDisplay display;
+		Drawing.Icon icon;
+		bool isClosed = false;
+		bool isFullScreen = false;
 
-		string mTitle;
-		bool mChooseFullscreen;
-		int mChooseWidth;
-		int mChooseHeight;
-		int mChooseBitDepth = 32;
-		bool mChooseResize;
-		WindowPosition mChoosePosition;
+		string title;
+		bool chooseFullscreen;
+		int chooseWidth;
+		int chooseHeight;
+		int chooseBitDepth = 32;
+		bool chooseResize;
+		WindowPosition choosePosition;
+		Point lastMousePoint;
 
-		bool mHasFrame = true;
+		bool hasFrame = true;
 
-		ContextFB mFrameBuffer;
-		ICoordinateSystem mCoords;
+		ContextFB frameBuffer;
+		ICoordinateSystem coords;
 
-		public override FrameBufferImpl FrameBuffer
-		{
-			get { return mFrameBuffer; }
-		}
+		bool customMessageLoop;
+
 		public GL_DisplayControl(DisplayWindow owner, CreateWindowParams windowParams)
 		{
-			mOwner = owner;
-			mChoosePosition = windowParams.WindowPosition;
-			mCoords = windowParams.Coordinates;
+			this.owner = owner;
+			choosePosition = windowParams.WindowPosition;
+			coords = windowParams.Coordinates;
 
 			if (windowParams.RenderToControl)
 			{
@@ -85,77 +84,79 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					throw new AgateException(string.Format("The specified render target is of type {0}, " +
 						"which does not derive from System.Windows.Forms.Control.", windowParams.RenderTarget.GetType().Name));
 
-				mRenderTarget = (Control)windowParams.RenderTarget;
-				mWindowInfo = CreateWindowInfo(CreateGraphicsMode());
+				renderTarget = (Control)windowParams.RenderTarget;
+				windowInfo = CreateWindowInfo(CreateGraphicsMode());
 
-				if (mRenderTarget.TopLevelControl == null)
+				if (renderTarget.TopLevelControl == null)
 					throw new ArgumentException("The specified render target has not been added to a Form yet.  " +
 						"Check to make sure that you are creating the DisplayWindow after all controls are added " +
 						"to the Form.  Do not create a DisplayWindow in a constructor for a UserControl, for example.");
 
-				mChooseFullscreen = false;
-				mChooseWidth = mRenderTarget.ClientSize.Width;
-				mChooseHeight = mRenderTarget.ClientSize.Height;
+				chooseFullscreen = false;
+				chooseWidth = renderTarget.ClientSize.Width;
+				chooseHeight = renderTarget.ClientSize.Height;
 
-				mDisplay = Display.Impl as DesktopGLDisplay;
+				display = Display.Impl as DesktopGLDisplay;
 
-				CreateFrameBuffer(mCoords);
+				CreateFrameBuffer(coords);
 
 				AttachEvents();
 			}
 			else
 			{
 				if (string.IsNullOrEmpty(windowParams.IconFile) == false)
-					mIcon = new Drawing.Icon(windowParams.IconFile);
+					icon = new Drawing.Icon(windowParams.IconFile);
 
-				mTitle = windowParams.Title;
-				mChooseFullscreen = windowParams.IsFullScreen;
-				mChooseWidth = windowParams.Width;
-				mChooseHeight = windowParams.Height;
-				mChooseResize = windowParams.IsResizable;
-				mHasFrame = windowParams.HasFrame;
+				title = windowParams.Title;
+				chooseFullscreen = windowParams.IsFullScreen;
+				chooseWidth = windowParams.Width;
+				chooseHeight = windowParams.Height;
+				chooseResize = windowParams.IsResizable;
+				hasFrame = windowParams.HasFrame;
 
-				if (mChooseFullscreen)
+				if (chooseFullscreen)
 					CreateFullScreenDisplay();
 				else
 					CreateWindowedDisplay();
 
-				mDisplay = Display.Impl as DesktopGLDisplay;
+				display = Display.Impl as DesktopGLDisplay;
 			}
 
-			mDisplay.InitializeCurrentContext();
+			display.InitializeCurrentContext();
 		}
+
+		public override FrameBufferImpl FrameBuffer => frameBuffer;
 
 		private void CreateFullScreenDisplay()
 		{
 			DetachEvents();
 
 			Form oldForm = frm;
-			IWindowInfo oldWindowInfo = mWindowInfo;
+			IWindowInfo oldWindowInfo = windowInfo;
 
 			frm = new frmFullScreen();
 			frm.Show();
 
-			frm.Text = mTitle;
-			frm.Icon = mIcon;
+			frm.Text = title;
+			frm.Icon = icon;
 			frm.TopLevel = true;
 
-			mRenderTarget = frm;
-			mWindowInfo = CreateWindowInfo(CreateGraphicsMode());
+			renderTarget = frm;
+			windowInfo = CreateWindowInfo(CreateGraphicsMode());
 
 			AttachEvents();
-			CreateFrameBuffer(mCoords);
+			CreateFrameBuffer(coords);
 
 			OpenTK.DisplayResolution resolution = OpenTK.DisplayDevice.Default.SelectResolution(
-				mChooseWidth, mChooseHeight, 32, 0);
+				chooseWidth, chooseHeight, 32, 0);
 			OpenTK.DisplayDevice.Default.ChangeResolution(resolution);
 
 			frm.Location = System.Drawing.Point.Empty;
-			frm.ClientSize = new System.Drawing.Size(mChooseWidth, mChooseHeight);
+			frm.ClientSize = new System.Drawing.Size(chooseWidth, chooseHeight);
 			frm.Activate();
 
 			System.Threading.Thread.Sleep(1000);
-			mIsFullScreen = true;
+			isFullScreen = true;
 
 			if (oldWindowInfo != null) oldWindowInfo.Dispose();
 			if (oldForm != null) oldForm.Dispose();
@@ -168,9 +169,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			DetachEvents();
 
 			Form oldForm = frm;
-			IWindowInfo oldWindowInfo = mWindowInfo;
+			IWindowInfo oldWindowInfo = windowInfo;
 
-			mIsFullScreen = false;
+			isFullScreen = false;
 
 			Form myform;
 			Control myRenderTarget;
@@ -178,18 +179,18 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			OpenTK.DisplayDevice.Default.RestoreResolution();
 
 			AgateLib.Platform.WinForms.Controls.FormUtil.InitializeWindowsForm(
-				out myform, out myRenderTarget, mChoosePosition,
-				mTitle, mChooseWidth, mChooseHeight, mChooseFullscreen, mChooseResize, mHasFrame);
+				out myform, out myRenderTarget, choosePosition,
+				title, chooseWidth, chooseHeight, chooseFullscreen, chooseResize, hasFrame);
 
 			frm = myform;
-			mRenderTarget = myRenderTarget;
-			mWindowInfo = CreateWindowInfo(CreateGraphicsMode());
+			renderTarget = myRenderTarget;
+			windowInfo = CreateWindowInfo(CreateGraphicsMode());
 
-			if (mIcon != null)
-				frm.Icon = mIcon;
+			if (icon != null)
+				frm.Icon = icon;
 
 			frm.Show();
-			CreateFrameBuffer(mCoords);
+			CreateFrameBuffer(coords);
 
 			AttachEvents();
 
@@ -209,8 +210,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 #if DEBUG
 			//flags = GraphicsContextFlags.ForwardCompatible;
 #endif
-			var context = new OpenTK.Graphics.GraphicsContext(newMode, mWindowInfo, 3, 1, flags);
-			context.MakeCurrent(mWindowInfo);
+			var context = new OpenTK.Graphics.GraphicsContext(newMode, windowInfo, 3, 1, flags);
+			context.MakeCurrent(windowInfo);
 			(context as IGraphicsContextInternal).LoadAll();
 
 			return context;
@@ -226,9 +227,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private void CreateFrameBuffer(ICoordinateSystem coords)
 		{
-			var old = mFrameBuffer;
+			var old = frameBuffer;
 
-			mFrameBuffer = new ContextFB(mOwner, CreateGraphicsMode(), mWindowInfo, this.Size, true, false, coords);
+			frameBuffer = new ContextFB(owner, CreateGraphicsMode(), windowInfo, this.Size, true, false, coords);
 
 			if (old != null)
 				old.Dispose();
@@ -239,9 +240,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			switch (AgateLib.Core.Platform.PlatformType)
 			{
 				case PlatformType.Windows:
-					return OpenTK.Platform.Utilities.CreateWindowsWindowInfo(mRenderTarget.Handle);
+					return OpenTK.Platform.Utilities.CreateWindowsWindowInfo(renderTarget.Handle);
 				case PlatformType.MacOS:
-					return OpenTK.Platform.Utilities.CreateMacOSCarbonWindowInfo(mRenderTarget.Handle, false, true);
+					return OpenTK.Platform.Utilities.CreateMacOSCarbonWindowInfo(renderTarget.Handle, false, true);
 				case PlatformType.Linux:
 					return CreateX11WindowInfo(mode);
 				default:
@@ -276,7 +277,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			Marshal.StructureToPtr(info, infoPtr, false);
 
 			IWindowInfo window = OpenTK.Platform.Utilities.CreateX11WindowInfo(
-				display, screen, mRenderTarget.Handle, rootWindow, infoPtr);
+				display, screen, renderTarget.Handle, rootWindow, infoPtr);
 
 			return window;
 
@@ -352,10 +353,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			ExitMessageLoop();
 
-			if (mFrameBuffer != null)
+			if (frameBuffer != null)
 			{
-				mFrameBuffer.Dispose();
-				mFrameBuffer = null;
+				frameBuffer.Dispose();
+				frameBuffer = null;
 			}
 
 			if (frm != null)
@@ -370,19 +371,19 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private void AttachEvents()
 		{
-			if (mRenderTarget == null)
+			if (renderTarget == null)
 				return;
 
-			mRenderTarget.Resize += new EventHandler(mRenderTarget_Resize);
-			mRenderTarget.Disposed += new EventHandler(mRenderTarget_Disposed);
+			renderTarget.Resize += new EventHandler(mRenderTarget_Resize);
+			renderTarget.Disposed += new EventHandler(mRenderTarget_Disposed);
 
-			mRenderTarget.MouseWheel += new MouseEventHandler(mRenderTarget_MouseWheel);
-			mRenderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
-			mRenderTarget.MouseDown += new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
-			mRenderTarget.MouseUp += new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
-			mRenderTarget.DoubleClick += new EventHandler(mRenderTarget_DoubleClick);
+			renderTarget.MouseWheel += new MouseEventHandler(mRenderTarget_MouseWheel);
+			renderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
+			renderTarget.MouseDown += new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
+			renderTarget.MouseUp += new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
+			renderTarget.DoubleClick += new EventHandler(mRenderTarget_DoubleClick);
 
-			System.Windows.Forms.Form form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
+			System.Windows.Forms.Form form = (renderTarget.TopLevelControl as System.Windows.Forms.Form);
 			form.KeyPreview = true;
 
 			form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
@@ -394,19 +395,19 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private void DetachEvents()
 		{
-			if (mRenderTarget == null)
+			if (renderTarget == null)
 				return;
 
-			mRenderTarget.Resize -= new EventHandler(mRenderTarget_Resize);
-			mRenderTarget.Disposed -= new EventHandler(mRenderTarget_Disposed);
+			renderTarget.Resize -= new EventHandler(mRenderTarget_Resize);
+			renderTarget.Disposed -= new EventHandler(mRenderTarget_Disposed);
 
-			mRenderTarget.MouseWheel -= mRenderTarget_MouseWheel;
-			mRenderTarget.MouseMove -= new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
-			mRenderTarget.MouseDown -= new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
-			mRenderTarget.MouseUp -= new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
-			mRenderTarget.DoubleClick -= new EventHandler(mRenderTarget_DoubleClick);
+			renderTarget.MouseWheel -= mRenderTarget_MouseWheel;
+			renderTarget.MouseMove -= new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
+			renderTarget.MouseDown -= new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
+			renderTarget.MouseUp -= new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
+			renderTarget.DoubleClick -= new EventHandler(mRenderTarget_DoubleClick);
 
-			System.Windows.Forms.Form form = (mRenderTarget.TopLevelControl as System.Windows.Forms.Form);
+			System.Windows.Forms.Form form = (renderTarget.TopLevelControl as System.Windows.Forms.Form);
 
 			form.KeyDown -= new System.Windows.Forms.KeyEventHandler(form_KeyDown);
 			form.KeyUp -= new System.Windows.Forms.KeyEventHandler(form_KeyUp);
@@ -428,105 +429,74 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			e.Cancel = cancel;
 		}
 
-		InputLib.MouseButton GetButtons(System.Windows.Forms.MouseButtons buttons)
-		{
-			var result = InputLib.MouseButton.None;
-
-			if ((buttons & System.Windows.Forms.MouseButtons.Left) != 0)
-				result |= InputLib.MouseButton.Primary;
-			if ((buttons & System.Windows.Forms.MouseButtons.Right) != 0)
-				result |= InputLib.MouseButton.Secondary;
-			if ((buttons & System.Windows.Forms.MouseButtons.Middle) != 0)
-				result |= InputLib.MouseButton.Middle;
-			if ((buttons & System.Windows.Forms.MouseButtons.XButton1) != 0)
-				result |= InputLib.MouseButton.ExtraButton1;
-			if ((buttons & System.Windows.Forms.MouseButtons.XButton2) != 0)
-				result |= InputLib.MouseButton.ExtraButton2;
-
-			return result;
-		}
-
 		void mRenderTarget_Disposed(object sender, EventArgs e)
 		{
-			mIsClosed = true;
+			isClosed = true;
 		}
+
 		void mRenderTarget_Resize(object sender, EventArgs e)
 		{
-			mFrameBuffer.SetSize(new Size(mRenderTarget.Width, mRenderTarget.Height));
+			frameBuffer.SetSize(new Size(renderTarget.Width, renderTarget.Height));
 
 			OnResize();
 		}
 
 		void mRenderTarget_DoubleClick(object sender, EventArgs e)
 		{
-			Mouse.OnMouseDoubleClick(InputLib.MouseButton.Primary);
+			OnInputEvent(AgateInputEventArgs.MouseDoubleClick(lastMousePoint, MouseButton.Primary));
 		}
+
 		void mRenderTarget_MouseWheel(object sender, MouseEventArgs e)
 		{
-			Mouse.OnMouseWheel(-(e.Delta * 100) / 120);
+			OnInputEvent(AgateInputEventArgs.MouseWheel(lastMousePoint, -(e.Delta * 100) / 120));
 		}
+
 		void pct_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			var btn = GetButtons(e.Button);
+			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
-			//Mouse.Buttons[btn] = false;
-
-			Input.QueueInputEvent(AgateInputEventArgs.MouseUp(
-				this, PixelToLogicalCoords(new Point(e.X, e.Y)), btn));
+			OnInputEvent(AgateInputEventArgs.MouseUp(lastMousePoint, e.AgateMousebutton()));
 		}
+
 		void pct_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			var btn = GetButtons(e.Button);
+			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
 
-			//Mouse.Buttons[btn] = true;
-			Input.QueueInputEvent(AgateInputEventArgs.MouseDown(
-				this, PixelToLogicalCoords(new Point(e.X, e.Y)), btn));
+			OnInputEvent(AgateInputEventArgs.MouseDown(lastMousePoint, e.AgateMousebutton()));
 		}
+
 		void pct_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			//SetInternalMousePosition(e.Location));
-			Input.QueueInputEvent(AgateInputEventArgs.MouseMove(
-				this, PixelToLogicalCoords(new Point(e.X, e.Y))));
-		}
-		void renderTarget_Disposed(object sender, EventArgs e)
-		{
-			mIsClosed = true;
+			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
+
+			OnInputEvent(AgateInputEventArgs.MouseMove(lastMousePoint));
 		}
 
 		void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			Keyboard.Keys[FormUtil.TransformWinFormsKey(e.KeyCode)] = false;
+			OnInputEvent(AgateInputEventArgs.KeyUp(e.AgateKeyCode(), e.AgateKeyModifiers()));
 		}
+
 		void form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			var key = FormUtil.TransformWinFormsKey(e.KeyCode);
-
-			Keyboard.Keys[key] = true;
+			OnInputEvent(AgateInputEventArgs.KeyDown(e.AgateKeyCode(), e.AgateKeyModifiers()));
 		}
 
-		public override bool IsClosed
+		void renderTarget_Disposed(object sender, EventArgs e)
 		{
-			get { return mIsClosed; }
+			isClosed = true;
 		}
 
-		public override bool IsFullScreen
-		{
-			get
-			{
-				return mIsFullScreen;
-			}
-		}
+		public override bool IsClosed => isClosed;
 
+		public override bool IsFullScreen => isFullScreen;
 
 		public override Size Size
 		{
-			get
-			{
-				return mRenderTarget.ClientSize.ToGeometry();
-			}
+			get { return renderTarget.ClientSize.ToGeometry(); }
 			set
 			{
-				mRenderTarget.ClientSize = value.ToDrawing();
+				renderTarget.ClientSize = value.ToDrawing();
 
 				if (frm != null)
 					frm.ClientSize = value.ToDrawing();
@@ -535,48 +505,27 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override string Title
 		{
-			get
-			{
-				if (frm != null)
-					return frm.Text;
-				else
-					return null;
-			}
+			get { return frm?.Text; }
 			set
 			{
 				if (frm != null)
 					frm.Text = value;
 			}
 		}
-		[Obsolete]
-		public override Point MousePosition
-		{
-			get
-			{
-				return mRenderTarget.PointToClient(Cursor.Position).ToGeometry();
-			}
-			set
-			{
-				Cursor.Position = mRenderTarget.PointToScreen(value.ToDrawing());
-			}
-		}
-
 
 		#region GL_IRenderTarget Members
 
 
 		public void HideCursor()
 		{
-			mRenderTarget.Cursor = FormUtil.BlankCursor;
+			renderTarget.Cursor = FormUtil.BlankCursor;
 		}
 		public void ShowCursor()
 		{
-			mRenderTarget.Cursor = Cursors.Arrow;
+			renderTarget.Cursor = Cursors.Arrow;
 		}
 
 		#endregion
-
-		bool customMessageLoop;
 
 		void IPrimaryWindow.RunApplication()
 		{
@@ -606,13 +555,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public void CreateContextForThread()
 		{
-			mFrameBuffer.CreateContextForThread();
+			frameBuffer.CreateContextForThread();
 		}
 
 
 		public Control TopLevelForm
 		{
-			get { return mRenderTarget.TopLevelControl; }
+			get { return renderTarget.TopLevelControl; }
 		}
 	}
 }

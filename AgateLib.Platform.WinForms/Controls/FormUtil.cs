@@ -204,5 +204,39 @@ namespace AgateLib.Platform.WinForms.Controls
 
 			bmp.Dispose();
 		}
+
+		public static KeyCode AgateKeyCode(this KeyEventArgs e)
+		{
+			return TransformWinFormsKey(e.KeyCode);
+		}
+
+		public static KeyModifiers AgateKeyModifiers(this KeyEventArgs e)
+		{
+			return new KeyModifiers
+			{
+				Alt = e.Alt,
+				Control = e.Control,
+				Shift = e.Shift,
+			};
+		}
+
+		public static MouseButton AgateMousebutton(this MouseEventArgs e)
+		{
+			var result = InputLib.MouseButton.None;
+			var buttons = e.Button;
+
+			if ((buttons & System.Windows.Forms.MouseButtons.Left) != 0)
+				result |= InputLib.MouseButton.Primary;
+			if ((buttons & System.Windows.Forms.MouseButtons.Right) != 0)
+				result |= InputLib.MouseButton.Secondary;
+			if ((buttons & System.Windows.Forms.MouseButtons.Middle) != 0)
+				result |= InputLib.MouseButton.Middle;
+			if ((buttons & System.Windows.Forms.MouseButtons.XButton1) != 0)
+				result |= InputLib.MouseButton.ExtraButton1;
+			if ((buttons & System.Windows.Forms.MouseButtons.XButton2) != 0)
+				result |= InputLib.MouseButton.ExtraButton2;
+
+			return result;
+		}
 	}
 }

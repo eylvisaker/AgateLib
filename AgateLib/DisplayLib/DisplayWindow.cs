@@ -19,9 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using AgateLib.Geometry;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.ApplicationModels;
+using AgateLib.Geometry;
+using AgateLib.InputLib;
 
 namespace AgateLib.DisplayLib
 {
@@ -40,7 +40,7 @@ namespace AgateLib.DisplayLib
 		DisplayWindowImpl mImpl;
 		FrameBuffer mFrameBuffer;
 		ICoordinateSystem mCoordinates;
-		
+
 		/// <summary>
 		/// Creates a DisplayWindow object using the specified CreateWindowParams to create
 		/// the window.
@@ -54,6 +54,7 @@ namespace AgateLib.DisplayLib
 					"Did you forget to call AgateSetup.Initialize or Display.Initialize?");
 
 			mImpl = Core.Factory.DisplayFactory.CreateDisplayWindow(this, windowParams);
+			mImpl.InputEvent += InputEvent;
 
 			Display.RenderTarget = FrameBuffer;
 			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
@@ -218,19 +219,6 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Gets or sets the position of the cursor, in the 
-		/// client coordinates of the window.
-		/// </summary>
-		[Obsolete("Don't use this", true)]
-		public Point MousePosition
-		{
-			get { return mImpl.MousePosition; }
-			set
-			{
-				mImpl.MousePosition = value;
-			}
-		}
-		/// <summary>
 		/// Returns the DisplayWindowImpl object.
 		/// </summary>
 		public DisplayWindowImpl Impl
@@ -289,6 +277,22 @@ namespace AgateLib.DisplayLib
 			add { mImpl.Closing += value; }
 			remove { mImpl.Closing -= value; }
 		}
+
+		private void InputEvent(object sender, AgateInputEventArgs e)
+		{
+			switch (e.InputEventType)
+			{
+				case InputEventType.MouseDown:
+				case InputEventType.MouseMove:
+				case InputEventType.MouseUp:
+				case InputEventType.MouseWheel:
+					e.Window = this;
+					break;
+			}
+
+			Input.QueueInputEvent(e);
+		}
+
 	}
 
 	public delegate void CancelEventHandler(object sender, ref bool cancel);
