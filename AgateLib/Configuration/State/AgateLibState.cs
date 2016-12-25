@@ -8,6 +8,11 @@ namespace AgateLib.Configuration.State
 {
 	class AgateLibState
 	{
+		public AgateLibState()
+		{
+			Input.FirstHandler = Console.Instance;
+		}
+
 		public AppModelState AppModel { get; private set; } = new AppModelState();
 		public CoreState Core { get; private set; } = new CoreState();
 		public ConsoleState Console { get; private set; } = new ConsoleState();
@@ -17,5 +22,6 @@ namespace AgateLib.Configuration.State
 		public InputState Input { get; private set; } = new InputState();
 
 		public IOState IO { get; private set; } = new IOState();
+		public bool Debug { get; internal set; }
 	}
 }

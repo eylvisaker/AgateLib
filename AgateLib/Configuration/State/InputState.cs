@@ -22,5 +22,8 @@ namespace AgateLib.Configuration.State
 		public Mouse.MouseState LegacyMouseState = new Mouse.MouseState();
 		internal bool LegacyIsMouseHidden;
 		internal Point LegacyMousePosition;
+
+		internal SimpleInputHandler Unhandled = new SimpleInputHandler();
+		internal IInputHandler FirstHandler;
 	}
 }

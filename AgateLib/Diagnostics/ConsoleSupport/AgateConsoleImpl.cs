@@ -36,16 +36,6 @@ namespace AgateLib.Diagnostics
 
 		private long CurrentTime => Core.State.Core.MasterTime.ElapsedMilliseconds;
 
-		public IList<ICommandLibrary> CommandLibraries
-		{
-			get { return commandLibraries; }
-			set
-			{
-				Condition.RequireArgumentNotNull(value, nameof(CommandLibraries));
-				commandLibraries = value;
-			}
-		}
-
 		internal IEnumerable<ICommandLibrary> CommandLibrarySet
 		{
 			get
@@ -54,6 +44,16 @@ namespace AgateLib.Diagnostics
 
 				foreach (var library in commandLibraries)
 					yield return library;
+			}
+		}
+
+		public IList<ICommandLibrary> CommandLibraries
+		{
+			get { return commandLibraries; }
+			set
+			{
+				Condition.RequireArgumentNotNull(value, nameof(CommandLibraries));
+				commandLibraries = value;
 			}
 		}
 
@@ -66,15 +66,7 @@ namespace AgateLib.Diagnostics
 		public bool IsVisible
 		{
 			get { return visible; }
-			set
-			{
-				visible = value;
-
-				if (visible)
-					Input.Handlers.BringToTop(this);
-				else
-					Input.Handlers.SendToBack(this);
-			}
+			set { visible = value; }
 		}
 
 		public Color TextColor
@@ -461,15 +453,13 @@ namespace AgateLib.Diagnostics
 				}
 				catch (TargetInvocationException e)
 				{
-					WriteLine("Failed to exeute command.");
-					WriteLine(e.InnerException.ToString());
+					ExecuteFailure(e.InnerException);
 
 					return;
 				}
 				catch (Exception e)
 				{
-					WriteLine("Failed to execute command.");
-					WriteLine(e.ToString());
+					ExecuteFailure(e);
 
 					return;
 				}
@@ -478,6 +468,20 @@ namespace AgateLib.Diagnostics
 			if (!isDebugCommand)
 			{
 				WriteLine("Unknown command.");
+			}
+		}
+
+		private void ExecuteFailure(Exception e)
+		{
+			if (Core.State.Debug)
+			{
+				WriteLine("Failed to execute command.");
+				WriteLine(e.ToString());
+			}
+			else
+			{
+				WriteLine(e.Message);
+				WriteLine("(Type 'help <command>' to get more information.)");
 			}
 		}
 

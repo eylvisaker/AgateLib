@@ -23,48 +23,97 @@ using System.Text;
 
 namespace AgateLib.InputLib
 {
+	/// <summary>
+	/// Static API for processing user input events. This works by having a stack of 
+	/// IInputHandler objects which are called in a last first fashion. Each input handler
+	/// has the opporunity to process an event or pass it to the next input handler.
+	/// </summary>
 	public static class Input
 	{
-		static List<AgateInputEventArgs> eventQueue { get { return Core.State.Input.EventQueue; } }
-		static InputHandlerList inputHandlers { get { return Core.State.Input.Handlers; } }
+		private static List<AgateInputEventArgs> EventQueue { get { return Core.State.Input.EventQueue; } }
 
-		public static void QueueInputEvent(AgateInputEventArgs args)
+		/// <summary>
+		/// Enumerates the input handlers in the order they should process an event.
+		/// </summary>
+		private static IEnumerable<IInputHandler> AllInputHandlers
 		{
-			lock (eventQueue)
+			get
 			{
-				eventQueue.Add(args);
+				if (FirstInputHandler != null)
+					yield return FirstInputHandler;
+
+				for (int i = Handlers.Count - 1; i >= 0; i--)
+				{
+					yield return Handlers[i];
+				}
+
+				yield return Unhandled;
 			}
 		}
 
-		public static void DispatchQueuedEvents()
+		private static IInputHandler FirstInputHandler { get { return Core.State.Input.FirstHandler; } }
+
+		public static SimpleInputHandler Unhandled { get { return Core.State.Input.Unhandled; } }
+
+		/// <summary>
+		/// A stack of handlers for processing user input events. The handlers are applied in order
+		/// from last to first in the list, ie. Handlers[0] is the last one to process an
+		/// event.
+		/// </summary>
+		public static IList<IInputHandler> Handlers { get { return Core.State.Input.Handlers; } }
+
+		/// <summary>
+		/// Adds an input event to the list of queued events that will be processed 
+		/// at the next Core.KeepAlive call.
+		/// </summary>
+		/// <param name="args"></param>
+		public static void QueueInputEvent(AgateInputEventArgs args)
 		{
-			while (eventQueue.Count > 0)
+			lock (EventQueue)
+			{
+				EventQueue.Add(args);
+			}
+		}
+
+		/// <summary>
+		/// Dispatches every event in the queue to the event handlers.
+		/// </summary>
+		internal static void DispatchQueuedEvents()
+		{
+			while (EventQueue.Count > 0)
 			{
 				AgateInputEventArgs args;
 
-				lock (eventQueue)
+				lock (EventQueue)
 				{
-					if (eventQueue.Count == 0)
+					if (EventQueue.Count == 0)
 						return;
 
-					args = eventQueue[0];
-					eventQueue.RemoveAt(0);
+					args = EventQueue[0];
+					EventQueue.RemoveAt(0);
 				}
-			
+
 				DispatchEvent(args);
 			}
 		}
 
-		private static void DispatchEvent(AgateInputEventArgs args)
-		{
-			inputHandlers.Dispatch(args);
-		}
-
-		public static InputHandlerList Handlers { get { return inputHandlers; } }
-
 		internal static void PollJoysticks()
 		{
 			JoystickInput.PollTimer();
+		}
+
+		private static void DispatchEvent(AgateInputEventArgs args)
+		{
+			foreach (var handler in AllInputHandlers)
+			{
+				handler.ProcessEvent(args);
+
+				if (args.Handled)
+					break;
+
+				if (handler.ForwardUnhandledEvents == false)
+					break;
+			}
 		}
 	}
 }

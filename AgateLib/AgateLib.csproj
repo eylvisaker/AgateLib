@@ -140,7 +140,7 @@
     <Compile Include="Configuration\State\DisplayState.cs" />
     <Compile Include="Configuration\State\InputState.cs" />
     <Compile Include="Configuration\State\IOState.cs" />
-    <Compile Include="Diagnostics\AgateEmergencyVocabulary.cs" />
+    <Compile Include="Diagnostics\ConsoleSupport\AgateEmergencyVocabulary.cs" />
     <Compile Include="Diagnostics\ConsoleCommandAttribute.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateConsoleImpl.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleTokenizer.cs" />

@@ -14,7 +14,6 @@ namespace AgateLib.InputLib
 		/// <summary>
 		/// Class which represents the state of all keys on the keyboard.
 		/// </summary>
-		[CLSCompliant(true)]
 		public class KeyState
 		{
 			private int[] mKeyState;
@@ -54,8 +53,6 @@ namespace AgateLib.InputLib
 
 						//System.Diagnostics.Debug.WriteLine("Set key {0} to {1}, repeat count {2}.",
 						//    id, value, mKeyState[(int)id] - 1);
-
-						Input.QueueInputEvent(AgateInputEventArgs.KeyDown(id, CurrentModifiers));
 					}
 					// value is false here:
 					else if (mKeyState[(int)id] > 0)
@@ -110,18 +107,14 @@ namespace AgateLib.InputLib
 		}
 
 		KeyState keys = new KeyState();
-
-		public SimpleInputHandler()
-		{
-			Input.Handlers.Add(this);
-		}
-
+		
 		public event EventHandler<AgateInputEventArgs> KeyDown;
 		public event EventHandler<AgateInputEventArgs> KeyUp;
 		public event EventHandler<AgateInputEventArgs> MouseDown;
 		public event EventHandler<AgateInputEventArgs> MouseMove;
 		public event EventHandler<AgateInputEventArgs> MouseUp;
 		public event EventHandler<AgateInputEventArgs> MouseWheel;
+		public event EventHandler<AgateInputEventArgs> MouseDoubleClick;
 		public event EventHandler<AgateInputEventArgs> JoystickAxisChanged;
 		public event EventHandler<AgateInputEventArgs> JoystickButton;
 		public event EventHandler<AgateInputEventArgs> JoystickPovHat;
@@ -165,6 +158,10 @@ namespace AgateLib.InputLib
 					MouseWheel?.Invoke(this, args);
 					break;
 
+				case InputEventType.MouseDoubleClick:
+					MouseDoubleClick?.Invoke(this, args);
+					break;
+
 				case InputEventType.JoystickAxisChanged:
 					JoystickAxisChanged?.Invoke(this, args);
 					break;
@@ -178,6 +175,7 @@ namespace AgateLib.InputLib
 					break;
 
 				default:
+					args.Handled = false;
 					return;
 			}
 		}

@@ -24,14 +24,14 @@ namespace AgateLib.Testing.InputTests.InputTester
 		{
 			InitializeComponent();
 
-			Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
-			Keyboard.KeyUp += new InputEventHandler(Keyboard_KeyUp);
+			Input.Unhandled.KeyDown += Keyboard_KeyDown;
+			Input.Unhandled.KeyUp += Keyboard_KeyUp;
 
-			Mouse.MouseWheel += new InputEventHandler(Mouse_MouseWheel);
-			Mouse.MouseMove += new InputEventHandler(Mouse_MouseMove);
-			Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
-			Mouse.MouseUp += new InputEventHandler(Mouse_MouseUp);
-			Mouse.MouseDoubleClick += new InputEventHandler(Mouse_MouseDoubleClickEvent);
+			Input.Unhandled.MouseWheel += Mouse_MouseWheel;
+			Input.Unhandled.MouseMove += Mouse_MouseMove;
+			Input.Unhandled.MouseDown += Mouse_MouseDown;
+			Input.Unhandled.MouseUp += Mouse_MouseUp;
+			Input.Unhandled.MouseDoubleClick += Mouse_MouseDoubleClickEvent;
 
 			DisplayWindow.CreateFromControl(agateRenderTarget1);
 
@@ -119,32 +119,32 @@ namespace AgateLib.Testing.InputTests.InputTester
 			label.Text = b.ToString();
 		}
 
-		void Mouse_MouseDoubleClickEvent(InputEventArgs e)
+		void Mouse_MouseDoubleClickEvent(object sender, AgateInputEventArgs e)
 		{
-			lblMouseButton.Text = "Mouse Double Click " + e.MouseButtons.ToString();
+			lblMouseButton.Text = "Mouse Double Click " + e.MouseButton.ToString();
 		}
-		void Mouse_MouseUp(InputEventArgs e)
+		void Mouse_MouseUp(object sender, AgateInputEventArgs e)
 		{
-			lblMouseButton.Text = "Mouse Button Up " + e.MouseButtons.ToString();
+			lblMouseButton.Text = "Mouse Button Up " + e.MouseButton.ToString();
 		}
-		void Mouse_MouseDown(InputEventArgs e)
+		void Mouse_MouseDown(object sender, AgateInputEventArgs e)
 		{
-			lblMouseButton.Text = "Mouse Button Down " + e.MouseButtons.ToString();
+			lblMouseButton.Text = "Mouse Button Down " + e.MouseButton.ToString();
 		}
-		void Mouse_MouseMove(InputEventArgs e)
+		void Mouse_MouseMove(object sender, AgateInputEventArgs e)
 		{
 			lblMouseMove.Text = "Mouse Moved " + e.MousePosition.ToString();
 		}
-		void Mouse_MouseWheel(InputEventArgs e)
+		void Mouse_MouseWheel(object sender, AgateInputEventArgs e)
 		{
-			lblMouseButton.Text = "Mouse Wheel " + e.WheelDelta.ToString();
+			lblMouseButton.Text = "Mouse Wheel " + e.MouseWheelDelta.ToString();
 		}
 
-		void Keyboard_KeyUp(InputEventArgs e)
+		void Keyboard_KeyUp(object sender, AgateInputEventArgs e)
 		{
 			this.lblKeyPress.Text = "Released key " + e.KeyCode;
 		}
-		void Keyboard_KeyDown(InputEventArgs e)
+		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
 			this.lblKeyPress.Text = "Pressed key " + e.KeyCode;
 			this.lblKeyString.Text = "Pressed key string [" + e.KeyString + "]";

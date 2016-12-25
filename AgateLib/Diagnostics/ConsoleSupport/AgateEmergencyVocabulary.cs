@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.ApplicationModels;
 
-namespace AgateLib.Diagnostics
+namespace AgateLib.Diagnostics.ConsoleSupport
 {
 	class AgateEmergencyVocabulary : ICommandVocabulary
 	{
@@ -65,11 +65,13 @@ namespace AgateLib.Diagnostics
 			if (mode == "off")
 			{
 				AgateConsole.WriteLine("Disabling debug information.");
+				Core.State.Debug = false;
 				return;
 			}
 			if (mode == "on")
 			{
 				AgateConsole.WriteLine("Enabling debug information. Type 'debug off' to turn it off.");
+				Core.State.Debug = true;
 				return;
 			}
 

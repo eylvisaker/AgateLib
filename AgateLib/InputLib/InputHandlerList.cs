@@ -17,19 +17,48 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace AgateLib.InputLib
 {
-	public class InputHandlerList
+	internal class InputHandlerList : IList<IInputHandler>
 	{
 		List<IInputHandler> mHandlers = new List<IInputHandler>();
 
+		public int Count
+		{
+			get
+			{
+				return ((IList<IInputHandler>)mHandlers).Count;
+			}
+		}
+
+		public bool IsReadOnly
+		{
+			get
+			{
+				return ((IList<IInputHandler>)mHandlers).IsReadOnly;
+			}
+		}
+
+		public IInputHandler this[int index]
+		{
+			get
+			{
+				return ((IList<IInputHandler>)mHandlers)[index];
+			}
+
+			set
+			{
+				((IList<IInputHandler>)mHandlers)[index] = value;
+			}
+		}
+
 		public InputHandlerList()
 		{
-			Add(new AgateLib.InputLib.Legacy.LegacyInputHandler());
 		}
 
 		public void Add(IInputHandler handler)
@@ -44,22 +73,6 @@ namespace AgateLib.InputLib
 		public bool Remove(IInputHandler handler)
 		{
 			return mHandlers.Remove(handler);
-		}
-
-		public void Dispatch(AgateInputEventArgs args)
-		{
-			for (int i = mHandlers.Count - 1; i >= 0; i--)
-			{
-				var handler = mHandlers[i];
-
-				handler.ProcessEvent(args);
-
-				if (args.Handled)
-					break;
-
-				if (handler.ForwardUnhandledEvents == false)
-					break;
-			}
 		}
 
 		internal void BringToTop(IInputHandler handler)
@@ -78,6 +91,46 @@ namespace AgateLib.InputLib
 
 			mHandlers.Remove(handler);
 			mHandlers.Insert(0, handler);
+		}
+
+		public int IndexOf(IInputHandler item)
+		{
+			return ((IList<IInputHandler>)mHandlers).IndexOf(item);
+		}
+
+		public void Insert(int index, IInputHandler item)
+		{
+			((IList<IInputHandler>)mHandlers).Insert(index, item);
+		}
+
+		public void RemoveAt(int index)
+		{
+			((IList<IInputHandler>)mHandlers).RemoveAt(index);
+		}
+
+		public void Clear()
+		{
+			((IList<IInputHandler>)mHandlers).Clear();
+		}
+
+		public bool Contains(IInputHandler item)
+		{
+			return ((IList<IInputHandler>)mHandlers).Contains(item);
+		}
+
+		public void CopyTo(IInputHandler[] array, int arrayIndex)
+		{
+			((IList<IInputHandler>)mHandlers).CopyTo(array, arrayIndex);
+		}
+
+		public IEnumerator<IInputHandler> GetEnumerator()
+		{
+			return ((IList<IInputHandler>)mHandlers).GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return ((IList<IInputHandler>)mHandlers).GetEnumerator();
 		}
 	}
 }
