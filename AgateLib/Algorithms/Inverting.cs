@@ -25,6 +25,14 @@ namespace AgateLib.Algorithms
 {
 	public class Inverting
 	{
+		/// <summary>
+		/// Uses binary search to find x such that func(x) == targetVal
+		/// </summary>
+		/// <param name="func"></param>
+		/// <param name="targetVal"></param>
+		/// <param name="initialPt"></param>
+		/// <param name="itermax"></param>
+		/// <returns></returns>
 		public static double IterateInvert(Func<double, double> func, double targetVal, double initialPt = 0, int itermax = 500)
 		{
 			bool hasLower = false;
