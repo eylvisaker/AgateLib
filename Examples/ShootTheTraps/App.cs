@@ -51,9 +51,9 @@ namespace ShootTheTraps
 
 			mBackground = new Surface("Resources/background.png");
 
-			Mouse.MouseDown += new InputEventHandler(Mouse_MouseDown);
-			Mouse.MouseMove += Mouse_MouseMove;
-			Keyboard.KeyDown += Keyboard_KeyDown;
+			Input.Unhandled.MouseDown += Mouse_MouseDown;
+			Input.Unhandled.MouseMove += Mouse_MouseMove;
+			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 
 			NewGame();
 		}
@@ -117,10 +117,10 @@ Click to start.";
 			{
 				font.DrawText(textPt.X, textPt.Y, mIntroLines[i],
 					Trap.Image,
-					AlterFont.Scale(2, 2),
-					AlterFont.Scale(1, 1),
-					AlterFont.Color(Color.White),
-					AlterFont.Color(Color.Yellow));
+					LayoutCacheAlterFont.Scale(2, 2),
+					LayoutCacheAlterFont.Scale(1, 1),
+					LayoutCacheAlterFont.Color(Color.White),
+					LayoutCacheAlterFont.Color(Color.Yellow));
 
 				textPt.Y += font.FontHeight;
 			}
@@ -128,8 +128,12 @@ Click to start.";
 
 		#endregion
 
-		void Keyboard_KeyDown(InputEventArgs e)
+		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
+			if (e.KeyCode == KeyCode.Escape)
+			{
+				SceneFinished = true;
+			}
 			if (e.KeyCode == KeyCode.NumPadPlus)
 			{
 				mGame.SkipToNextLevel();
@@ -159,11 +163,11 @@ Click to start.";
 			DrawInformation();
 		}
 
-		void Mouse_MouseMove(InputEventArgs e)
+		void Mouse_MouseMove(object sender, AgateInputEventArgs e)
 		{
 			mGame.MouseMove(e.MousePosition.X, e.MousePosition.Y);
 		}
-		void Mouse_MouseDown(InputEventArgs e)
+		void Mouse_MouseDown(object sender, AgateInputEventArgs e)
 		{
 			if (mShowIntro)
 			{
@@ -183,12 +187,12 @@ Click to start.";
 				return;
 
 			// left click
-			if ((e.MouseButtons & MouseButton.Primary) != 0)
+			if ((e.MouseButton & MouseButton.Primary) != 0)
 			{
 				mGame.FireBullet(e.MousePosition.X, e.MousePosition.Y);
 			}
 			// right click
-			if ((e.MouseButtons & MouseButton.Secondary) != 0)
+			if ((e.MouseButton & MouseButton.Secondary) != 0)
 			{
 				// make sure that the score is done updating.
 				if (mGame.Score == mDisplayedScore)

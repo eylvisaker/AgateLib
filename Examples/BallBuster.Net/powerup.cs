@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Sprites;
+using AgateLib.DisplayLib.Sprites;
 using AgateLib.Platform;
 
 namespace BallBuster.Net

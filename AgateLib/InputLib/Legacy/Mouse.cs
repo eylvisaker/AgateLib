@@ -111,6 +111,7 @@ namespace AgateLib.InputLib.Legacy
 		/// Gets or sets the position of the cursor, in client coordinates
 		/// of the current display window.
 		/// </summary>
+		[Obsolete("Use Input.Unhandled.MouseMove to track mouse position yourself.", true)]
 		public static Point Position
 		{
 			get { return mPosition; }
@@ -129,6 +130,7 @@ namespace AgateLib.InputLib.Legacy
 		/// Gets or sets the X position of the cursor, in client coordinates 
 		/// of the current display window.
 		/// </summary>
+		[Obsolete("Use Input.Unhandled.MouseMove to track mouse position yourself.", true)]
 		public static int X
 		{
 			get { return mPosition.X; }
@@ -142,6 +144,7 @@ namespace AgateLib.InputLib.Legacy
 		/// Gets or sets the Y position of the cursor, in client coordinates
 		/// of the current display window.
 		/// </summary>
+		[Obsolete("Use Input.Unhandled.MouseMove to track mouse position yourself.", true)]
 		public static int Y
 		{
 			get { return mPosition.Y; }

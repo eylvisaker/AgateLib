@@ -45,6 +45,10 @@ namespace AgateLib.Resources.Managers.Display
 			}
 		}
 
+		/// <summary>
+		/// Initializes the resources in the resource container.
+		/// </summary>
+		/// <param name="container"></param>
 		public void InitializeContainer(object container)
 		{
 			var fontPropertyMap = fontInspector.BuildPropertyMap(container);
@@ -54,7 +58,7 @@ namespace AgateLib.Resources.Managers.Display
 				var dest = fontPropertyMap[propertyName];
 				var font = FindFont(propertyName);
 
-				dest.Assign(font ?? DefaultAssets.Fonts.AgateSans);
+				dest.Assign(font ?? Font.AgateSans);
 			}
 
 			var spritePropertyMap = spriteInspector.BuildPropertyMap(container);

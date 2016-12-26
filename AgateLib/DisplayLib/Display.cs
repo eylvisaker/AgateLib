@@ -631,15 +631,20 @@ namespace AgateLib.DisplayLib
 			Impl.SavePixelBuffer(pixelBuffer, filename, format);
 		}
 
-		internal static void HideCursor()
+		/// <summary>
+		/// Hides the OS mouse cursor.
+		/// </summary>
+		public static void HideCursor()
 		{
 			Impl.HideCursor();
 		}
-		internal static void ShowCursor()
+
+		/// <summary>
+		/// Shows the OS mouse cursor.
+		/// </summary>
+		public static void ShowCursor()
 		{
 			Impl.ShowCursor();
 		}
-
 	}
-
 }

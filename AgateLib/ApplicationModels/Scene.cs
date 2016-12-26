@@ -9,6 +9,9 @@ namespace AgateLib.ApplicationModels
 {
 	public abstract class Scene
 	{
+		/// <summary>
+		/// Set to true to terminate this scene.
+		/// </summary>
 		public bool SceneFinished { get; set; }
 
 		public bool UpdateBelow { get; set; }

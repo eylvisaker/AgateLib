@@ -19,7 +19,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 using System;
-using AgateLib.Sprites;
+using AgateLib.DisplayLib.Sprites;
 using AgateLib.DisplayLib;
 using AgateLib.Resources;
 
@@ -68,12 +68,6 @@ namespace BallBuster.Net
 		public void load()
 		{
 			resources.InitializeContainer(this);
-
-			this.leftborder = new Surface("leftborder.png");
-			this.rightborder = new Surface("rightborder.png");
-			this.topborder = new Surface("topborder.png");
-
-			//Display.PackAllSurfaces();
 		}
 
 		public void unload()

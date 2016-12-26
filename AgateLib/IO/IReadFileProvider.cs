@@ -92,8 +92,8 @@ namespace AgateLib
 	{
 		public static Stream OpenRead(this IReadFileProvider provider, string filename)
 		{
-            Condition.Requires<ArgumentNullException>(provider != null, "provider");
-            Condition.Requires<ArgumentNullException>(filename != null, "filename");
+			Condition.Requires<ArgumentNullException>(provider != null, "provider");
+			Condition.Requires<ArgumentNullException>(filename != null, "filename");
 
 			var task = provider.OpenReadAsync(filename);
 

@@ -121,6 +121,11 @@ namespace AgateLib.InputLib
 		public event EventHandler<AgateInputEventArgs> JoystickButton;
 		public event EventHandler<AgateInputEventArgs> JoystickPovHat;
 
+		/// <summary>
+		/// Tracks the state of keys (true for depressed, false otherwise).
+		/// This tracks key state only via keydown/keyup events that are handled
+		/// by this input handler. 
+		/// </summary>
 		public KeyState Keys => keys;
 
 		public void Dispose()

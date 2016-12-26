@@ -1,4 +1,12 @@
 
+images:
+  leftborder: 
+    image: leftborder.png
+  rightborder: 
+    image: rightborder.png
+  topborder: 
+    image: topborder.png
+
 sprites:
   paddle:
     frames:
@@ -183,4 +191,4 @@ sprites:
     - image: xlogo4.png
     animation:
       type: pingpong
-      speed: 100
+      frame-time: 100

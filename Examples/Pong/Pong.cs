@@ -50,7 +50,7 @@ namespace Pong
 
 		void Run(string[] args)
 		{
-			font = AgateLib.DefaultAssets.Fonts.AgateSans;
+			font = Font.AgateSans;
 			font.Size = 14;
 
 			paddle[0] = new Vector2(50, displayHeight / 2);
@@ -71,7 +71,7 @@ namespace Pong
 				Display.EndFrame();
 				Core.KeepAlive();
 
-				if (Keyboard.Keys[KeyCode.Escape])
+				if (Input.Unhandled.Keys[KeyCode.Escape])
 					return;
 
 				float time_s = (float)Display.DeltaTime / 1000.0f;
@@ -162,8 +162,8 @@ namespace Pong
 		{
 			float paddleMove = paddleSpeed * time_s;
 
-			if (Keyboard.Keys[KeyCode.Down]) paddle[0].Y += paddleMove;
-			if (Keyboard.Keys[KeyCode.Up]) paddle[0].Y -= paddleMove;
+			if (Input.Unhandled.Keys[KeyCode.Down]) paddle[0].Y += paddleMove;
+			if (Input.Unhandled.Keys[KeyCode.Up]) paddle[0].Y -= paddleMove;
 
 			// do AI
 			if (ballvelocity.X > 0)
@@ -205,13 +205,9 @@ namespace Pong
 
 		}
 
-		void Mouse_MouseMove(InputEventArgs e)
+		void Mouse_MouseMove(object sender, AgateInputEventArgs e)
 		{
-			int deltaY = e.MousePosition.Y - displayHeight / 2;
-
-			paddle[0].Y += deltaY;
-
-			Mouse.Position = new Point(displayWidth / 2, displayHeight / 2);
+			paddle[0].Y = e.MousePosition.Y;
 		}
 	}
 }

@@ -27,7 +27,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
-using AgateLib.Sprites;
+using AgateLib.DisplayLib.Sprites;
 using AgateLib.InputLib;
 using AgateLib.AudioLib;
 using AgateLib.Platform;
@@ -296,7 +296,7 @@ namespace BallBuster.Net
 			}
 
 			// now it gets fun, set up the display mode
-			Mouse.Hide();
+			Display.HideCursor();
 
 			// load the images, initiation frame rate counter, and register signals
 			splash();
@@ -304,10 +304,10 @@ namespace BallBuster.Net
 			img.load();
 			snd.load();
 
-			Mouse.MouseMove += new InputEventHandler(Mouse_MouseMoveEvent);
-			Mouse.MouseUp += new InputEventHandler(Mouse_MouseUpEvent);
-			Mouse.MouseDown += new InputEventHandler(Mouse_MouseDownEvent);
-			Keyboard.KeyDown += new InputEventHandler(Keyboard_KeyDown);
+			Input.Unhandled.MouseMove += Mouse_MouseMoveEvent;
+			Input.Unhandled.MouseUp += Mouse_MouseUpEvent;
+			Input.Unhandled.MouseDown += Mouse_MouseDownEvent;
+			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 
 			loadHighscores();
 			loadWorlds();
@@ -324,7 +324,7 @@ namespace BallBuster.Net
 			return 0;
 		}
 
-		void Keyboard_KeyDown(InputEventArgs e)
+		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
 			hitkey = e.KeyCode;
 			hitkeystring = e.KeyString;
@@ -393,9 +393,8 @@ namespace BallBuster.Net
 			}
 		}
 
-		void Mouse_MouseDownEvent(InputEventArgs e)
+		void Mouse_MouseDownEvent(object sender, AgateInputEventArgs e)
 		{
-
 			if (gamemode == "level")
 			{
 				for (int i = 0; i < balls.Count; i++)
@@ -423,7 +422,7 @@ namespace BallBuster.Net
 			hideTitle = false;
 			lastMouseMove = (int)Timing.TotalMilliseconds;
 		}
-		void Mouse_MouseUpEvent(InputEventArgs e)
+		void Mouse_MouseUpEvent(object sender, AgateInputEventArgs e)
 		{
 			if (gamemode == "level")
 			{
@@ -518,29 +517,27 @@ namespace BallBuster.Net
 
 		}
 
-		void Mouse_MouseMoveEvent(InputEventArgs e)
+		void Mouse_MouseMoveEvent(object sender, AgateInputEventArgs e)
 		{
-			if (mousex == Mouse.X && mousey == Mouse.Y)
+			if (mousex == e.MousePosition.X && mousey == e.MousePosition.Y)
 				return;
 
 			lastMouseMove = (int)Timing.TotalMilliseconds;
 			hideTitle = false;
 
+			mousex = e.MousePosition.X;
+			mousey = e.MousePosition.Y;
+
 			if (!attractMode && !paused)
 			{
-				paddleVelocity = ((float)Mouse.X - (paddlex + paddlew / 2)) / time_s;
+				paddleVelocity = ((float)mousex - (paddlex + paddlew / 2)) / time_s;
 
-				paddlex = (float)Mouse.X - paddlew / 2;
+				paddlex = (float)mousex - paddlew / 2;
 				paddleCheckEdge();
 
-				Mouse.X = (int)(paddlex + paddlew / 2);
-				Mouse.Y = 400;
+				mousex = (int)(paddlex + paddlew / 2);
+				mousey = 400;
 			}
-
-			mousex = Mouse.X;
-			mousey = Mouse.Y;
-
-
 		}
 
 		void run()
@@ -873,7 +870,7 @@ namespace BallBuster.Net
 				}
 
 				if (!attractMode)
-					img.arrow.Draw(Mouse.X, Mouse.Y);
+					img.arrow.Draw(mousex, mousey);
 			}
 			
 			DB_ExitSubsection();
@@ -1354,7 +1351,7 @@ namespace BallBuster.Net
 					}
 
 					// Check for D-key self-destruct
-					if (Keyboard.Keys[KeyCode.D])
+					if (Input.Unhandled.Keys[KeyCode.D])
 					{
 						while (balls.Count > 0)
 							deleteBall(0);
@@ -1408,7 +1405,7 @@ namespace BallBuster.Net
 
 					// if escape is pressed, the boss is coming!
 
-					if (Keyboard.Keys[KeyCode.Escape] || Keyboard.Keys[KeyCode.End])
+					if (Input.Unhandled.Keys[KeyCode.Escape] || Input.Unhandled.Keys[KeyCode.End])
 					{
 						if (music != null && music.IsPlaying) music.Stop();
 						return "title";
@@ -3827,7 +3824,7 @@ namespace BallBuster.Net
 
 				DB_EndFrame();
 
-			} while (Keyboard.Keys[KeyCode.Escape] == false && Display.CurrentWindow.IsClosed == false);
+			} while (Input.Unhandled.Keys[KeyCode.Escape] == false && Display.CurrentWindow.IsClosed == false);
 
 			//if (session.is_playing()) session.stop();
 			return "quit";
@@ -4080,7 +4077,7 @@ namespace BallBuster.Net
 
 			editorState.brush = 'r';
 
-			while (Keyboard.Keys[KeyCode.Escape] == false && Display.CurrentWindow.IsClosed == false)
+			while (Input.Unhandled.Keys[KeyCode.Escape] == false && Display.CurrentWindow.IsClosed == false)
 			{
 				UpdateEditor();
 				DrawEditor();
