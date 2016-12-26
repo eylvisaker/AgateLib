@@ -11,7 +11,7 @@ using AgateLib.ApplicationModels;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class Tiling : ISerialModelTest
+	class Tiling : INewModelTest
 	{
 		/// <summary>
 		/// The main entry point for the application.

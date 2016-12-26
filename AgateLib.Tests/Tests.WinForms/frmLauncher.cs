@@ -12,10 +12,8 @@ using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests
 {
-	public partial class frmLauncher : Form, AgateLib.Settings.ISettingsTracer
+	public partial class frmLauncher : Form
 	{
-		IList<TestInfo> tests { get { return TestCollection.Tests; } }
-
 		Font bold;
 
 		public frmLauncher()
@@ -24,122 +22,48 @@ namespace AgateLib.Tests
 
 			Icon = AgateLib.Platform.WinForms.Controls.FormUtil.AgateLibIcon;
 
-			LoadTests();
-
 			bold = new Font(lstTests.Font, FontStyle.Bold | FontStyle.Italic);
-
-			ReadSettingsNames();
-
-			AgateLib.Settings.PersistantSettings.SettingsTracer = this;
-			AgateLib.Settings.PersistantSettings.Debug = true;
-
-			this.FormClosed += HandleFormClosed;
-
-			ResetCommandLine();
 		}
 
-		private void frmLauncher_Load(object sender, EventArgs e)
+		public event EventHandler<TestEventArgs> LaunchTest;
+
+		public IList<TestInfo> Tests { get; set; }
+
+		public string CommandLine
 		{
+			get { return txtCommandLine.Text; }
+			set { txtCommandLine.Text = value; }
 		}
 
-		void HandleFormClosed(object sender, FormClosedEventArgs e)
+		public void HideBeforeTest()
 		{
-			if (settingsFile == null)
-			{
-				System.Diagnostics.Debug.Print("No settings file to save to.");
-				return;
-			}
-
-			using (StreamWriter w = new StreamWriter(settingsFile))
-			{
-				foreach (var setting in mSettings)
-				{
-					string text = setting.Key + "\t" + setting.Value;
-
-					System.Diagnostics.Debug.Print(text);
-					w.WriteLine(text);
-				}
-			}
+			Hide();
 		}
 
-		#region --- ISettingsTracer implementation ---
-
-		Dictionary<string, string> mSettings = new Dictionary<string, string>();
-		string settingsFile;
-
-		void AgateLib.Settings.ISettingsTracer.OnReadSetting(string groupName, string key, string value)
+		public void ShowAfterTest()
 		{
-			if (string.IsNullOrEmpty(groupName))
-				throw new ArgumentException();
-
-			string name = groupName + "." + key;
-
-			StoreSetting(name, value);
+			this.Show();
+			Cursor.Show();
+			this.TopMost = true;
+			this.TopMost = false;
+			this.Activate();
 		}
 
-		void AgateLib.Settings.ISettingsTracer.OnWriteSetting(string groupName, string key, string value)
+		public void TestExceptionMessage(string message, string caption)
 		{
-			if (string.IsNullOrEmpty(groupName))
-				throw new ArgumentException();
-
-			string name = groupName + "." + key;
-
-			StoreSetting(name, value);
+			MessageBox.Show(this, message, caption, MessageBoxButtons.OK, MessageBoxIcon.Stop);
 		}
 
-		void ReadSettingsNames()
+		public void TestFailedToRun(string message, string caption)
 		{
-			//StreamReader r = null;
-			//string targetDirectory = "../../../Tests/Assets/";
-			//string filename = "settings_list.txt";
-
-			//try
-			//{
-			//	settingsFile = System.IO.Path.GetFullPath(targetDirectory + filename);
-			//	r = new StreamReader(targetDirectory + filename);
-			//}
-			//catch (DirectoryNotFoundException)
-			//{
-			//	settingsFile = filename;
-			//	r = new StreamReader(filename);
-			//}
-
-			//using (r)
-			//{
-			//	while (r.EndOfStream == false)
-			//	{
-			//		string x = r.ReadLine().Trim();
-
-			//		if (string.IsNullOrEmpty(x))
-			//			continue;
-
-			//		int index = x.IndexOf('\t');
-
-			//		if (index == -1)
-			//		{
-			//			mSettings[x] = null;
-			//		}
-			//		else
-			//			mSettings[x.Substring(0, index)] = x.Substring(index + 1);
-			//	}
-			//}
+			MessageBox.Show(this, message, caption, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 		}
-		void StoreSetting(string name, string value)
-		{
-			if (mSettings.ContainsKey(name)) return;
-
-			System.Diagnostics.Debug.Print("Storing setting " + name);
-
-			mSettings.Add(name, value);
-		}
-
-		#endregion
 
 		private void FillList()
 		{
 			string lastCategory = null;
 
-			foreach (var test in tests)
+			foreach (var test in Tests)
 			{
 				if (test.Category != lastCategory)
 				{
@@ -151,14 +75,6 @@ namespace AgateLib.Tests
 			}
 		}
 
-		private void LoadTests()
-		{
-			TestCollection.AddTests(Assembly.GetAssembly(GetType()));
-
-			FillList();
-		}
-
-
 		private void AddTest(Type t)
 		{
 		}
@@ -169,7 +85,7 @@ namespace AgateLib.Tests
 			if (t == null)
 				return;
 
-			LaunchTest(t);
+			OnLaunchTest(t);
 		}
 
 		private void lstTests_KeyUp(object sender, KeyEventArgs e)
@@ -180,133 +96,18 @@ namespace AgateLib.Tests
 				if (t == null)
 					return;
 
-				LaunchTest(t);
+				OnLaunchTest(t);
 			}
 		}
 
-		bool runningTest = false;
-
-		private void LaunchTest(TestInfo m)
+		private void OnLaunchTest(TestInfo t)
 		{
-			IAgateTest obj = (IAgateTest)Activator.CreateInstance(m.Class);
-			if (runningTest)
-			{
-				System.Diagnostics.Debug.Print("Bug in mono? A second test was launched while the first was still running.");
-				return;
-			}
-
-
-			string[] args = { };
-
-			this.Hide();
-			foreach (var kvp in mSettings.ToArray())
-			{
-				if (kvp.Value == null)
-					continue;
-
-				string group, key;
-				SplitName(kvp.Key, out group, out key);
-
-				AgateLib.Core.Settings[group][key] = kvp.Value;
-			}
-
-			try
-			{
-				runningTest = true;
-				LaunchTestModel(obj);
-			}
-			catch (TargetInvocationException e)
-			{
-				Exception ex_relevant = e.InnerException ?? e;
-				string info = ex_relevant.Message;
-
-				MessageBox.Show(
-					ex_relevant.GetType().Name + Environment.NewLine + info,
-					"AgateLib Test " + m.Name + " threw an exception.",
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Stop);
-
-			}
-			finally
-			{
-				runningTest = false;
-				this.Show();
-				Cursor.Show();
-				this.TopMost = true;
-				this.TopMost = false;
-				this.Activate();
-			}
+			LaunchTest?.Invoke(this, new Tests.TestEventArgs { Info = t });
 		}
-
-		private void LaunchTestModel(IAgateTest test)
-		{
-			Core.State = new Configuration.State.AgateLibState();
-
-			try
-			{
-				if (test is ISerialModelTest) LaunchTestModel((ISerialModelTest)test);
-				else if (test is ISceneModelTest) LaunchTestModel((ISceneModelTest)test);
-				else if (test is IDiscreteAgateTest) LaunchTestModel((IDiscreteAgateTest)test);
-				else
-					MessageBox.Show(this, $"The test {test.Name} does not have a model defined.", "AgateLib Test can't run", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-			}
-			catch (ExitGameException)
-			{ }
-		}
-		private void LaunchTestModel(ISerialModelTest test)
-		{
-			var parameters = CreateParameters<SerialModelParameters>(test);
-			test.ModifyModelParameters(parameters);
-
-			using (var model = new SerialModel(parameters))
-			{
-				model.Run(new Action(test.EntryPoint));
-			}
-		}
-		private void LaunchTestModel(ISceneModelTest test)
-		{
-			var parameters = CreateParameters<SceneModelParameters>(test);
-			test.ModifyModelParameters(parameters);
-
-			using (var model = new SceneModel(parameters))
-			{
-				model.Run(test.StartScene);
-			}
-		}
-		private void LaunchTestModel(IDiscreteAgateTest test)
-		{
-			test.Main(CommandLineArguments);
-		}
-
-		private T CreateParameters<T>(IAgateTest test) where T : ModelParameters, new()
-		{
-			var parameters = new T();
-
-			parameters.Arguments = CommandLineArguments;
-			parameters.AssetLocations.Path = "Assets";
-			parameters.AssetLocations.UserInterface = "UserInterface";
-			parameters.ApplicationName = test.Name + " :: " + test.Category + " test";
-
-			return parameters;
-		}
-
-		private void SplitName(string p, out string group, out string key)
-		{
-			int period = p.LastIndexOf('.');
-
-			if (period == -1)
-				throw new DataException("Invalid key name");
-
-			group = p.Substring(0, period);
-			key = p.Substring(period + 1);
-
-		}
-
-
 
 		private void lstTests_DrawItem(object sender, DrawItemEventArgs e)
 		{
-			object item = lstTests.Items[e.Index];
+			object item = e.Index >= 0 ? lstTests.Items[e.Index] : null;
 			const int indent = 15;
 
 			e.DrawBackground();
@@ -342,21 +143,7 @@ namespace AgateLib.Tests
 
 			e.DrawFocusRectangle();
 		}
-
-		readonly char[] separator = new char[] { ' ' };
-
-		private void txtCommandLine_TextChanged(object sender, EventArgs e)
-		{
-			ResetCommandLine();
-		}
-
-		private void ResetCommandLine()
-		{
-			CommandLineArguments = txtCommandLine.Text.Split(separator,
-						 StringSplitOptions.RemoveEmptyEntries);
-		}
-
-		string[] CommandLineArguments { get; set; }
+		
 		Type[] interfaces = new Type[] { typeof(ISceneModelTest), typeof(ISerialModelTest), typeof(IDiscreteAgateTest) };
 
 		private void lstTests_SelectedIndexChanged(object sender, EventArgs e)
@@ -391,6 +178,11 @@ namespace AgateLib.Tests
 			}
 
 			return null;
+		}
+
+		private void frmLauncher_Shown(object sender, EventArgs e)
+		{
+			FillList();
 		}
 	}
 }

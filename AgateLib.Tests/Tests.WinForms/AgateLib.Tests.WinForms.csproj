@@ -19,7 +19,7 @@
     <AppDesignerFolder>
     </AppDesignerFolder>
     <RootNamespace>AgateLib.Tests</RootNamespace>
-    <StartupObject>AgateLib.Tests.TestLauncher</StartupObject>
+    <StartupObject>AgateLib.Tests.Program</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -164,7 +164,7 @@
       <DependentUpon>frmLauncher.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestLauncher.cs">
+    <Compile Include="Program.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AudioTests\AudioPlayer\AudioPlayer.cs">
@@ -323,6 +323,8 @@
       <DependentUpon>LightingTestForm.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestEventArgs.cs" />
+    <Compile Include="TestLauncherPresenter.cs" />
     <Compile Include="UserInterfaceTests\CssTests\frmCssEdit.cs">
       <SubType>Form</SubType>
     </Compile>
