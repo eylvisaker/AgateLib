@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.AudioLib;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.AudioTests
 {
-	class SoundbufferStopTester : ISerialModelTest
+	class SoundbufferStopTester : IAgateTest
 	{
+		SoundBuffer snda, sndb;
+		SoundBuffer last;
+
 		public string Name
 		{
 			get { return "SoundBuffer Stop"; }
@@ -23,18 +26,23 @@ namespace AgateLib.Tests.AudioTests
 			get { return "Audio"; }
 		}
 
-		SoundBuffer snda, sndb;
-		SoundBuffer last;
+		public AgateConfig Configuration { get; set; }
 
-		public void EntryPoint()
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
+		}
+
+		public void Run()
 		{
 			snda = new SoundBuffer("snda.wav");
 			sndb = new SoundBuffer("sndb.wav");
 
-			IFont font = DefaultAssets.Fonts.AgateSans;
+			IFont font = Font.AgateSans;
 
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			Input.Unhandled.MouseDown += Mouse_MouseDown;
+
 			while (Display.CurrentWindow.IsClosed == false)
 			{
 				Display.BeginFrame();
@@ -72,10 +80,6 @@ namespace AgateLib.Tests.AudioTests
 			if (e.KeyCode == KeyCode.B)
 				sndb.Play();
 		}
-
-
-		public void ModifyModelParameters(ApplicationModels.SerialModelParameters parameters)
-		{
-		}
+		
 	}
 }

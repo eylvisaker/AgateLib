@@ -6,10 +6,11 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class ClipRect : Scene, ISceneModelTest
+	class ClipRect : Scene, IAgateTest
 	{
 		Surface surf;
 
@@ -33,14 +34,7 @@ namespace AgateLib.Tests.DisplayTests
 			surf = new Surface("wallpaper.png");
 		}
 
-		public void ModifyModelParameters(ApplicationModels.SceneModelParameters parameters)
-		{
-		}
-
-		public ApplicationModels.Scene StartScene
-		{
-			get { return this; }
-		}
+		public AgateConfig Configuration { get; set; }
 
 		public override void Update(double deltaT)
 		{
@@ -69,6 +63,16 @@ namespace AgateLib.Tests.DisplayTests
 				index++;
 				index %= colors.Length;
 			}
+		}
+
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
+		}
+
+		public void Run()
+		{
+			SceneStack.Begin(this);
 		}
 	}
 }

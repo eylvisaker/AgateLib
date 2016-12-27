@@ -6,22 +6,14 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.AudioLib;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
+using AgateLib.Geometry;
 
 namespace AgateLib.Tests.AudioTests
 {
-	class StreamAudio : ISerialModelTest
+	class StreamAudio : IAgateTest
 	{
-		public string Name
-		{
-			get { return "Streaming Audio"; }
-		}
-
-		public string Category
-		{
-			get { return "Audio"; }
-		}
-
 		class LoopingStream : Stream
 		{
 			public double Frequency { get; set; }
@@ -104,7 +96,19 @@ namespace AgateLib.Tests.AudioTests
 			}
 		}
 
-		public void EntryPoint()
+		public string Name
+		{
+			get { return "Streaming Audio"; }
+		}
+
+		public string Category
+		{
+			get { return "Audio"; }
+		}
+
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
 		{
 			LoopingStream sa = new LoopingStream();
 			sa.Frequency = 100;
@@ -116,14 +120,14 @@ namespace AgateLib.Tests.AudioTests
 			Stopwatch w = new Stopwatch();
 			w.Start();
 
-			var font = DefaultAssets.Fonts.AgateSans;
+			var font = Font.AgateSans;
 
 			while (Display.CurrentWindow.IsClosed == false)
 			{
 				Display.BeginFrame();
 				Display.Clear();
 
-				font.Color = AgateLib.Geometry.Color.White;
+				font.Color = Color.White;
 				font.DrawText(0, 0, string.Format("Frequency: {0}", sa.Frequency));
 
 				Display.EndFrame();
@@ -136,10 +140,13 @@ namespace AgateLib.Tests.AudioTests
 					w.Start();
 				}
 			}
+
+			buf.Stop();
 		}
 
-		public void ModifyModelParameters(ApplicationModels.SerialModelParameters parameters)
+		public void ModifySetup(IAgateSetup setup)
 		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 	}
 }
