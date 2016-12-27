@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgateLib.ApplicationModels;
+using AgateLib.Geometry;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Settings;
 
@@ -118,6 +119,8 @@ namespace AgateLib.Tests
 		{
 			using (var setup = new AgateLib.Platform.WinForms.AgateSetupWinForms(CommandLineArguments))
 			{
+				setup.AssetLocations.UserInterface = "UserInterface";
+				setup.DesiredDisplayWindowResolution = new Size(800, 600);
 				test.ModifySetup(setup);
 
 				setup.AgateLibInitialize();

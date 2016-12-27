@@ -38,6 +38,12 @@ namespace AgateLib.Configuration
 		WindowExpansionType DisplayWindowExpansionType { get; set; }
 
 		/// <summary>
+		/// Set to true to ignore desktop scaling when creating a window. 
+		/// Use this if you want to provide your own scaling logic.
+		/// </summary>
+		bool IgnoreDesktopScaling { get; set; }
+
+		/// <summary>
 		/// Set to true to force video refreshes to wait for the vertical blank.
 		/// Defaults to true. This can be set to false by the user 
 		/// via a command line argument of -novsync.

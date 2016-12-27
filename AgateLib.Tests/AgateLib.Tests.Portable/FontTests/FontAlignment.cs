@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
@@ -11,8 +12,10 @@ using AgateLib.Resources;
 
 namespace AgateLib.Tests.FontTests
 {
-	class FontAlignment : ISerialModelTest
+	class FontAlignment : IAgateTest
 	{
+		int fontIndex;
+
 		public string Name
 		{
 			get { return "Font Alignment"; }
@@ -23,18 +26,16 @@ namespace AgateLib.Tests.FontTests
 			get { return "Fonts"; }
 		}
 
-		int fontIndex;
-
 		public Font font { get; set; }
 
-		public void EntryPoint()
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
 		{
 			var resources = new AgateResourceManager("FontAlignment.yaml");
 			resources.InitializeContainer(this);
 
-			List<FontSurface> fonts = new List<FontSurface>();
-
-			fonts.AddRange(font.FontItems.Values);
+			var fonts = new List<IFont> { Font.AgateSans, Font.AgateSerif, Font.AgateMono, };
 
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 
@@ -42,53 +43,56 @@ namespace AgateLib.Tests.FontTests
 
 			while (Display.CurrentWindow.IsClosed == false)
 			{
-				FontSurface f = fonts[fontIndex];
+				IFont f = fonts[fontIndex];
 
 				Display.BeginFrame();
 				Display.Clear(Color.Black);
-				Display.FillRect(new Rectangle(0, 0, 300, 600), Color.DarkSlateGray);
 
+				var firstLineFont = fonts.First();
+				var firstLineHeight = firstLineFont.FontHeight;
+
+				Display.FillRect(new Rectangle(0, firstLineHeight, 300, 600), Color.DarkSlateGray);
+				Display.FillRect(new Rectangle(300, firstLineHeight, 300, 600), Color.DarkBlue);
+
+				firstLineFont.DisplayAlignment = OriginAlignment.TopLeft;
+				firstLineFont.Color = Color.White;
+				firstLineFont.DrawText(0, 0 ,"Press space to cycle fonts.");
+				
 				f.Color = Color.White;
 				f.DisplayAlignment = OriginAlignment.TopLeft;
-				f.DrawText("Left-aligned numbers");
+				f.DrawText(0, firstLineHeight, "Left-aligned numbers");
 
 				for (int i = 1; i < numbers.Length; i++)
 				{
-					f.DrawText(0, i * f.FontHeight, numbers[i].ToString());
+					f.DrawText(0, firstLineHeight + i * f.FontHeight, numbers[i].ToString());
 				}
 
-				f.DrawText(300, 0, "Right-aligned numbers");
 				f.DisplayAlignment = OriginAlignment.TopRight;
+				f.DrawText(600, firstLineHeight, "Right-aligned numbers");
 
 				for (int i = 1; i < numbers.Length; i++)
 				{
-					f.DrawText(300.0, i * f.FontHeight, numbers[i].ToString());
+					f.DrawText(600.0, firstLineHeight + i * f.FontHeight, numbers[i].ToString());
 				}
-
 
 				Display.EndFrame();
 				Core.KeepAlive();
 
 				if (fontIndex >= fonts.Count)
-					fontIndex = fonts.Count - 1;
+					fontIndex = 0;
 			}
 		}
 
 		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
-			if (e.KeyCode == KeyCode.NumPadPlus)
+			if (e.KeyCode == KeyCode.Space)
 				fontIndex++;
-			else if (e.KeyCode == KeyCode.NumPadMinus)
-			{
-				fontIndex--;
-				if (fontIndex < 0)
-					fontIndex = 0;
-			}
+
+			Input.Unhandled.Keys.Release(KeyCode.Space);
 		}
 
-		public void ModifyModelParameters(ApplicationModels.SerialModelParameters parameters)
+		public void ModifySetup(IAgateSetup setup)
 		{
 		}
-
 	}
 }
