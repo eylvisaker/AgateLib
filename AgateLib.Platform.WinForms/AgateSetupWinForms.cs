@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AgateLib.ApplicationModels;
 using AgateLib.Configuration;
+using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Geometry.CoordinateSystems;
@@ -100,6 +101,11 @@ namespace AgateLib.Platform.WinForms
 			}
 
 			CreateContextForThread(Configuration.DisplayWindows.First());
+
+			if (InitializeConsole)
+			{
+				AgateConsole.Initialize();
+			}
 		}
 
 		private void AgateThread()

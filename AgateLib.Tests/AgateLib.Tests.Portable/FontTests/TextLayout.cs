@@ -5,12 +5,24 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.FontTests.TextLayout
 {
-	class TextLayout : Scene, ISceneModelTest
+	class TextLayout : Scene, IAgateTest
 	{
 		Surface image;
+		public string Name
+		{
+			get { return "Text Layout Test"; }
+		}
+
+		public string Category
+		{
+			get { return "Fonts"; }
+		}
+
+		public AgateConfig Configuration { get; set; }
 
 		protected override void OnSceneStart()
 		{
@@ -22,7 +34,7 @@ namespace AgateLib.Tests.FontTests.TextLayout
 		{
 			Display.Clear(Color.White);
 
-			IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
+			IFont font = Font.AgateSans;
 			font.Color = Color.Black;
 
 			font.TextImageLayout = TextImageLayout.InlineTop;
@@ -45,29 +57,18 @@ namespace AgateLib.Tests.FontTests.TextLayout
 			font.DrawText(0, 530, "Test of escape sequences: {{}Escaped{}}");
 		}
 
-
-		public string Name
-		{
-			get { return "Text Layout Test"; }
-		}
-
-		public string Category
-		{
-			get { return "Fonts"; }
-		}
-
-
 		public override void Update(double deltaT)
 		{
 		}
 
-		public void ModifyModelParameters(SceneModelParameters parameters)
+		public void ModifySetup(IAgateSetup setup)
 		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 
-		public Scene StartScene
+		public void Run()
 		{
-			get { return this; }
+			SceneStack.Start(this);
 		}
 	}
 }

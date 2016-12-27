@@ -46,9 +46,14 @@ namespace AgateLib.Configuration
 
 		/// <summary>
 		/// Set to true to ignore desktop scaling when creating a window. 
-		/// This is not recommended.
+		/// Use this if you want to provide your own scaling logic.
 		/// </summary>
 		public bool IgnoreDesktopScaling { get; set; }
+
+		/// <summary>
+		/// Set to false to disable the user from accessing the console.
+		/// </summary>
+		public bool InitializeConsole { get; set; } = true;
 
 		/// <summary>
 		/// Set to true to force video refreshes to wait for the vertical blank.

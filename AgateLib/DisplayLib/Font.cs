@@ -24,7 +24,7 @@ namespace AgateLib.DisplayLib
 		public static IFont AgateMono => DefaultAssets.Fonts.AgateMono;
 		
 		Dictionary<FontSettings, FontSurface> mFontSurfaces = new Dictionary<FontSettings, FontSurface>();
-		FontSettings mSettings;
+		FontSettings mSettings = new FontSettings(12, FontStyles.None);
 		FontState mState = new FontState();
 
 		public Font(string name)
@@ -53,9 +53,6 @@ namespace AgateLib.DisplayLib
 		public void AddFont(FontSettings settings, FontSurface fontSurface)
 		{
 			Condition.RequireArgumentNotNull(fontSurface, nameof(fontSurface));
-
-			if (Size == 0)
-				mSettings = settings;
 
 			mFontSurfaces[settings] = fontSurface;
 		}
