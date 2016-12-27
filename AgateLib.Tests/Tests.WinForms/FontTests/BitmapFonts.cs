@@ -12,7 +12,7 @@ using AgateLib.Platform.WinForms.Fonts;
 
 namespace AgateLib.Tests.FontTests
 {
-	class BitmapFonts : IAgateTest
+	class BitmapFonts : ILegacyAgateTest
 	{
 		public string Name { get { return "Bitmap Fonts"; } }
 		public string Category { get { return "Fonts"; } }

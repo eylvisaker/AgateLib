@@ -10,7 +10,7 @@ using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class FullscreenTest : IAgateTest
+	class FullscreenTest : ILegacyAgateTest
 	{
 		string text = "Press Esc or Tilde to exit.\nStarting Text";
 		Point mousePosition;

@@ -22,7 +22,7 @@ namespace AgateLib.Tests
 		{
 			foreach (var typeinfo in assembly.DefinedTypes)
 			{
-				if (typeinfo.ImplementedInterfaces.Contains(typeof(IAgateTest)) && 
+				if (typeinfo.ImplementedInterfaces.Contains(typeof(ILegacyAgateTest)) && 
 					typeinfo.IsAbstract == false)
 				{
 					Add(typeinfo);
@@ -45,7 +45,7 @@ namespace AgateLib.Tests
 			if (mTests.Any(x => x.Class == type))
 				return;
 
-			IAgateTest obj = (IAgateTest)Activator.CreateInstance(type);
+			ILegacyAgateTest obj = (ILegacyAgateTest)Activator.CreateInstance(type);
 
 			mTests.Add(new TestInfo { Name = obj.Name, Category = obj.Category, Class = type });
 		}

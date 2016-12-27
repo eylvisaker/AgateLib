@@ -10,7 +10,7 @@ namespace AgateLib.Tests
 	/// <summary>
 	/// Test based on a serial application model.
 	/// </summary>
-	public interface ISerialModelTest : IAgateTest
+	public interface ISerialModelTest : ILegacyAgateTest
 	{
 		void ModifyModelParameters(SerialModelParameters parameters);
 		void EntryPoint();

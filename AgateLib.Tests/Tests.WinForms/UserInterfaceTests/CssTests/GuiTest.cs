@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace AgateLib.Tests.UserInterfaceTests.CssTests
 {
-	class GuiTest : IAgateTest
+	class GuiTest : ILegacyAgateTest
 	{
 		/// <summary>
 		/// The main entry point for the application.

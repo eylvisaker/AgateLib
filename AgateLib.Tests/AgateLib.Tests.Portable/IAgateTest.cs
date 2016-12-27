@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests
 {
-	/// <summary>
-	/// Interface for a test class. Do not implement this interface directly, instead
-	/// implement ISceneModelTest, ISerialModelTest or IDiscreteAgateTest
-	/// </summary>
-	public interface IAgateTest
+	public interface INewModelTest : ILegacyAgateTest
 	{
-		string Name { get; }
-		string Category { get; }
+		AgateConfig Configuration { get; set; }
+
+		void ModifySetup(IAgateSetup setup);
+
+		void Run();
 	}
 }

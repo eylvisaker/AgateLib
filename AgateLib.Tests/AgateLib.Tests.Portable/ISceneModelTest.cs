@@ -10,7 +10,7 @@ namespace AgateLib.Tests
 	/// <summary>
 	/// Test based on a scene application model
 	/// </summary>
-	public interface ISceneModelTest : IAgateTest
+	public interface ISceneModelTest : ILegacyAgateTest
 	{
 		void ModifyModelParameters(SceneModelParameters parameters);
 		Scene StartScene { get; }

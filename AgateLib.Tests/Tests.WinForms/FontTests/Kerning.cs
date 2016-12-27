@@ -13,7 +13,7 @@ using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.FontTests
 {
-	class Kerning : IAgateTest 
+	class Kerning : ILegacyAgateTest 
 	{
 		public string Name
 		{

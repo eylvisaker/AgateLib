@@ -11,7 +11,7 @@ using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class PixelBufferMask : IAgateTest
+	class PixelBufferMask : ILegacyAgateTest
 	{
 		Point mouse;
 		public string Name

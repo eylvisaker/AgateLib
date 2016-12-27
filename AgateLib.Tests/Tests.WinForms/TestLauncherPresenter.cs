@@ -55,7 +55,7 @@ namespace AgateLib.Tests
 
 		private void LaunchTest(TestInfo m)
 		{
-			IAgateTest obj = (IAgateTest)Activator.CreateInstance(m.Class);
+			ILegacyAgateTest obj = (ILegacyAgateTest)Activator.CreateInstance(m.Class);
 
 			if (runningTest)
 			{
@@ -98,7 +98,7 @@ namespace AgateLib.Tests
 			}
 		}
 		
-		private void LaunchTestModel(IAgateTest test)
+		private void LaunchTestModel(ILegacyAgateTest test)
 		{
 			Core.State = new Configuration.State.AgateLibState();
 
@@ -153,7 +153,7 @@ namespace AgateLib.Tests
 			test.Main(CommandLineArguments);
 		}
 
-		private T CreateParameters<T>(IAgateTest test) where T : ModelParameters, new()
+		private T CreateParameters<T>(ILegacyAgateTest test) where T : ModelParameters, new()
 		{
 			var parameters = new T();
 

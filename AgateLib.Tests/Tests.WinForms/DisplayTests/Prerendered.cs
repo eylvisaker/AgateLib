@@ -8,7 +8,7 @@ using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class PrerenderedTest : IAgateTest
+	class PrerenderedTest : ILegacyAgateTest
 	{
 		public string Name
 		{

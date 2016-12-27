@@ -9,7 +9,7 @@ namespace AgateLib.Tests
 	/// <summary>
 	/// Test based on a custom application model
 	/// </summary>
-	public interface IDiscreteAgateTest : IAgateTest
+	public interface IDiscreteAgateTest : ILegacyAgateTest
 	{
 		void Main(string[] args);
 	}

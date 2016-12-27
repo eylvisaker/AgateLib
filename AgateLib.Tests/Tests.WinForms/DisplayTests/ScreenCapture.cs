@@ -11,7 +11,7 @@ using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class ScreenCaptureTest : IAgateTest
+	class ScreenCaptureTest : ILegacyAgateTest
 	{
 		public string Name { get { return "Screen Capture"; } }
 		public string Category { get { return "Display"; } }

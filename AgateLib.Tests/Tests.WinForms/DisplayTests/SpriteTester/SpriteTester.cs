@@ -9,7 +9,7 @@ using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.DisplayTests.SpriteTester
 {
-	class SpriteTester : IAgateTest
+	class SpriteTester : ILegacyAgateTest
 	{
 		public string Name { get { return "Sprite Tester"; } }
 		public string Category { get { return "Display"; } }

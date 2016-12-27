@@ -10,7 +10,7 @@ using AgateLib.Platform;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class RenderTargetContinuous : IAgateTest
+	class RenderTargetContinuous : ILegacyAgateTest
 	{
 		public string Name
 		{

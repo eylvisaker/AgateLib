@@ -13,7 +13,7 @@ using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.FontTests
 {
-	class Fonts : IAgateTest
+	class Fonts : ILegacyAgateTest
 	{
 		public string Name { get { return "Fonts"; } }
 		public string Category { get { return "Fonts"; } }

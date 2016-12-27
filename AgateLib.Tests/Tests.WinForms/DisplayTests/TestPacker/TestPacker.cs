@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace AgateLib.Tests.DisplayTests.TestPacker
 {
-	class TestPacker : IAgateTest
+	class TestPacker : ILegacyAgateTest
 	{
 		public string Name { get { return "Packing"; } }
 		public string Category { get { return "Display"; } }

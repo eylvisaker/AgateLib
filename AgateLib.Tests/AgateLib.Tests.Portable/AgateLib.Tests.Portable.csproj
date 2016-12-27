@@ -63,9 +63,9 @@
     <Compile Include="FontTests\FontAlignment.cs" />
     <Compile Include="FontTests\TextLayout.cs" />
     <Compile Include="FoundationTests\Resources.cs" />
-    <Compile Include="IAgateTest.cs" />
+    <Compile Include="ILegacyAgateTest.cs" />
     <Compile Include="IDiscreteAgateTest.cs" />
-    <Compile Include="INewModelTest.cs" />
+    <Compile Include="IAgateTest.cs" />
     <Compile Include="ISceneModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ISerialModelTest.cs" />

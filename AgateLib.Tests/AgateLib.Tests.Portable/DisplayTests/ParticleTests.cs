@@ -1,21 +1,16 @@
-
 using System;
-
-using AgateLib;
+using System.Linq;
+using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.Sprites;
 using AgateLib.Geometry;
 using AgateLib.Particles;
-using AgateLib.DisplayLib.Sprites;
-using AgateLib.Tests;
-using AgateLib.ApplicationModels;
 
 namespace AgateLib.Tests.DisplayTests.ParticleTest
 {
-	public class PixelParticleTest : Scene, ISceneModelTest
+	public class PixelParticleTest : INewModelTest
 	{
-		public string Name { get { return "Particles"; } }
-		public string Category { get { return "Display"; } }
-
 		Random ran = new Random();
 
 		// PixelParticle
@@ -33,8 +28,30 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 		FadeOutManipulator fom2;
 		
 		GravityPointManipulator gpm;
-		
-		protected override void OnSceneStart()
+
+		public string Name { get { return "Particles"; } }
+
+		public string Category { get { return "Display"; } }
+
+		public AgateConfig Configuration { get; set; }
+
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
+		}
+
+		public void Run()
+		{
+			Initialize();
+
+			while(Configuration.DisplayWindows.First().IsClosed == false)
+			{
+				Update(Display.DeltaTime);
+				Draw();
+			}
+		}
+
+		private void Initialize()
 		{
 			//PixelParticle
 			pe = new PixelEmitter(new Vector2(400f, 550f) ,Color.Blue, 2000);
@@ -86,7 +103,7 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 			gpm.SubscribeToEmitter(pe);
 		}		
 
-		public override void Update(double deltaT)
+		public void Update(double deltaT)
 		{
 			gm2.Gravity = new Vector2((float)ran.Next(-300, 300), 0f);
 			
@@ -102,8 +119,9 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 			se.GetSpriteByKey(0).TimePerFrame = ran.NextDouble() * 3 + 1.5d;
 		}
 		
-		public override void Draw()
+		public void Draw()
 		{
+			Display.BeginFrame();
 			Display.Clear(Color.Black);
 			IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
 			font.Size = 14;
@@ -118,15 +136,9 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 			
 			se.Draw();
 			font.DrawText((int)se.Position.X, (int)se.Position.Y, "Particles: " + se.Particles.Count + "/" + se.Particles.Capacity);
-		}
 
-		public void ModifyModelParameters(SceneModelParameters parameters)
-		{
+			Display.EndFrame();
+			Core.KeepAlive();
 		}
-		public Scene StartScene
-		{
-			get { return this; }
-		}
-
 	}
 }

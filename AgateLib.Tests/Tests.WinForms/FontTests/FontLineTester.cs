@@ -11,7 +11,7 @@ using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.FontTests
 {
-	class FontLineTester : IAgateTest
+	class FontLineTester : ILegacyAgateTest
 	{
 		List<IFont> fonts = new List<IFont>();
 		int currentFont = 0;

@@ -13,7 +13,7 @@ using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.Shaders
 {
-	class Lighting3DTest : IAgateTest 
+	class Lighting3DTest : ILegacyAgateTest 
 	{
 
 		public string Name

@@ -10,7 +10,7 @@ using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.Shaders.LightingTest
 {
-	class LightingTest : IAgateTest
+	class LightingTest : ILegacyAgateTest
 	{
 		public string Name { get { return "Lighting"; } }
 		public string Category { get { return "Shaders"; } }
