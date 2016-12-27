@@ -6,11 +6,14 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class Interpolation : Scene, ISceneModelTest
+	class Interpolation : Scene, IAgateTest
 	{
+		Surface surf, surf2;
+
 		public string Name
 		{
 			get { return "Interpolation Mode"; }
@@ -21,15 +24,20 @@ namespace AgateLib.Tests.DisplayTests
 			get { return "Display"; }
 		}
 
-		Surface surf, surf2;
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
+		{
+			SceneStack.Start(this);
+		}
 
 		protected override void OnSceneStart()
 		{
 			surf = new Surface("jellybean.png");
 			surf2 = new Surface("jellybean.png");
 
-			surf.SetScale(6.0, 6.0);
-			surf2.SetScale(6.0, 6.0);
+			surf.SetScale(5.0, 5.0);
+			surf2.SetScale(5.0, 5.0);
 		}
 
 		public override void Draw()
@@ -39,25 +47,21 @@ namespace AgateLib.Tests.DisplayTests
 			surf.InterpolationHint = InterpolationMode.Fastest;
 			surf.Draw(10, 10);
 
-			IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
+			IFont font = Font.AgateSans;
 			font.Size = 30;
 			font.DrawText(10, 500, "Chonky chonk chonk");
 
-			surf2.InterpolationHint = InterpolationMode.Fastest;
-			surf2.Draw(500, 10);
+			surf2.InterpolationHint = InterpolationMode.Nicest;
+			surf2.Draw(420, 10);
 		}
 
 		public override void Update(double deltaT)
 		{
 		}
 
-		public void ModifyModelParameters(SceneModelParameters parameters)
+		public void ModifySetup(IAgateSetup setup)
 		{
-		}
-
-		public Scene StartScene
-		{
-			get { return this; }
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 	}
 }

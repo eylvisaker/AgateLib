@@ -47,7 +47,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run()
 		{
-			SceneStack.Begin(this);
+			SceneStack.Start(this);
 		}
 
 		public Scene StartScene

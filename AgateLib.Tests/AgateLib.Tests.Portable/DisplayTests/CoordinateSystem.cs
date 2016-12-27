@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
@@ -10,14 +11,17 @@ using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class CoordinateSystem : ISerialModelTest 
+	class CoordinateSystem : IAgateTest 
 	{
 		int ortho = 0;
 
 		public string Name { get { return "Coordinate System"; } }
-		public string Category { get { return "Shaders"; } }
 
-		public void EntryPoint()
+		public string Category { get { return "Display"; } }
+
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
 		{
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			Input.Unhandled.MouseDown += Mouse_MouseDown;
@@ -86,8 +90,9 @@ namespace AgateLib.Tests.DisplayTests
 				ortho = 0;
 		}
 
-		public void ModifyModelParameters(ApplicationModels.SerialModelParameters parameters)
+		public void ModifySetup(IAgateSetup setup)
 		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 	}
 }

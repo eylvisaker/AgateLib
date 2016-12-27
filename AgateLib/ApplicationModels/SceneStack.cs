@@ -82,7 +82,7 @@ namespace AgateLib.ApplicationModels
 			mScenes.Clear();
 		}
 
-		public static void Begin(Scene sceneToStartWith)
+		public static void Start(Scene sceneToStartWith)
 		{
 			Condition.RequireArgumentNotNull(sceneToStartWith, nameof(sceneToStartWith));
 
