@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 using AgateLib.Diagnostics;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
@@ -11,13 +12,20 @@ using AgateLib.Geometry;
 
 namespace AgateLib.Tests.ConsoleTests
 {
-	public class BasicConsoleTest : ISerialModelTest, ICommandVocabulary
+	public class BasicConsoleTest : IAgateTest, ICommandVocabulary
 	{
 		public string Category => "Console";
 
 		public string Name => "Basic Console Test";
 
-		public void EntryPoint()
+		public AgateConfig Configuration { get; set; }
+
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
+		}
+
+		public void Run()
 		{
 			AgateConsole.Initialize();
 			AgateConsole.CommandLibraries.Add(new LibraryVocabulary(this));
@@ -33,10 +41,6 @@ namespace AgateLib.Tests.ConsoleTests
 				Display.EndFrame();
 				Core.KeepAlive();
 			}
-		}
-
-		public void ModifyModelParameters(SerialModelParameters parameters)
-		{
 		}
 
 		[ConsoleCommand("This method throws an exception.")]

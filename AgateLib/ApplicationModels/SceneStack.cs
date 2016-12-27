@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
+using AgateLib.Quality;
 
 namespace AgateLib.ApplicationModels
 {
 	public static class SceneStack
 	{
-		static List<Scene> mScenes = new List<Scene>();
+		static List<Scene> mScenes => Core.State.Scenes;
 
 		public static void Add(Scene scene)
 		{
@@ -79,5 +81,37 @@ namespace AgateLib.ApplicationModels
 		{
 			mScenes.Clear();
 		}
+
+		public static void Begin(Scene sceneToStartWith)
+		{
+			Condition.RequireArgumentNotNull(sceneToStartWith, nameof(sceneToStartWith));
+
+			if (sceneToStartWith != null)
+				Add(sceneToStartWith);
+
+			while (Count > 0)
+			{
+				RunSingleFrame();
+
+				if (Display.CurrentWindow.IsClosed)
+					throw new ExitGameException();
+			}
+		}
+
+		private static void RunSingleFrame()
+		{
+			foreach (var sc in UpdateScenes)
+				sc.Update(Display.DeltaTime);
+
+			CheckForFinishedScenes();
+			Display.BeginFrame();
+
+			foreach (var sc in DrawScenes)
+				sc.Draw();
+
+			Display.EndFrame();
+			Core.KeepAlive();
+		}
+
 	}
 }

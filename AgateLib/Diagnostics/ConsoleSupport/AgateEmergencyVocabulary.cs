@@ -56,7 +56,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 		[ConsoleCommand("Quits the application. No option to save is given.", Hidden = true)]
 		public void Quit()
 		{
-			AgateAppModel.Instance.Exit();
+			throw new ExitGameException();
 		}
 
 		[ConsoleCommand("Enable or disable debug info with 'debug on' or 'debug off'", Hidden = true)]

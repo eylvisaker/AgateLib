@@ -63,7 +63,6 @@ namespace AgateLib.Tests
 				return;
 			}
 
-
 			string[] args = { };
 
 			frm.HideBeforeTest();

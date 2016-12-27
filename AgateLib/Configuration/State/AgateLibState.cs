@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.ApplicationModels;
 
 namespace AgateLib.Configuration.State
 {
@@ -22,6 +23,9 @@ namespace AgateLib.Configuration.State
 		public InputState Input { get; private set; } = new InputState();
 
 		public IOState IO { get; private set; } = new IOState();
+
 		public bool Debug { get; internal set; }
+
+		internal List<Scene> Scenes { get; private set; } = new List<Scene>();
 	}
 }

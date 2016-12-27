@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using AgateLib.DisplayLib.Sprites;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
+using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.Sprites;
+using AgateLib.Geometry;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class BasicSprite : Scene, ISceneModelTest
+	class BasicSprite : Scene, IAgateTest
 	{
 		Sprite p;
 
@@ -24,6 +25,8 @@ namespace AgateLib.Tests.DisplayTests
 			get { return "Display"; }
 		}
 		
+		public AgateConfig Configuration { get; set; }
+
 		protected override void OnSceneStart()
 		{
 			p = new Sprite("boxsprite.png", new Size(96, 96));
@@ -31,6 +34,7 @@ namespace AgateLib.Tests.DisplayTests
 			p.TimePerFrame = 250;
 			p.StartAnimation();
 		}
+
 		protected override void OnSceneEnd()
 		{
 			p.Dispose();
@@ -48,13 +52,14 @@ namespace AgateLib.Tests.DisplayTests
 			p.Draw(0, 0);
 		}
 
-		public void ModifyModelParameters(SceneModelParameters parameters)
+		public void ModifySetup(IAgateSetup setup)
 		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 
-		public Scene StartScene
+		public void Run()
 		{
-			get { return this; }
+			SceneStack.Begin(this);
 		}
 	}
 }
