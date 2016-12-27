@@ -21,6 +21,27 @@ namespace AgateLib.Platform.WinForms
 {
 	public class AgateSetupWinForms : AgateSetup
 	{
+		static double desktopScale;
+
+		private static double DesktopScaling
+		{
+			get
+			{
+				if (desktopScale == 0)
+				{
+					using (var form = new System.Windows.Forms.Form())
+					{
+						using (var graphics = form.CreateGraphics())
+						{
+							desktopScale = graphics.DpiY / 96.0;
+						}
+					}
+				}
+
+				return desktopScale;
+			}
+		}
+
 		Thread agateThread;
 		FormsFactory factory;
 		Assembly entryAssembly;
@@ -40,7 +61,7 @@ namespace AgateLib.Platform.WinForms
 		protected override void Dispose(bool disposing)
 		{
 			primaryWindow.ExitMessageLoop();
-				
+
 			while (agateThread?.ThreadState == ThreadState.Running)
 			{
 				Thread.Sleep(0);
@@ -161,11 +182,11 @@ namespace AgateLib.Platform.WinForms
 			{
 				var size = DesiredDisplayWindowResolution;
 
-				var desktopScaling = GetDesktopScaling();
+				var scale = IgnoreDesktopScaling ? 1.0 : DesktopScaling;
 
 				var windowSize = new Size(
-					(int)(size.Width * desktopScaling),
-					(int)(size.Height * desktopScaling));
+					(int)(size.Width * scale),
+					(int)(size.Height * scale));
 
 				window = DisplayWindow.CreateWindowed(
 					ApplicationName,
@@ -194,16 +215,6 @@ namespace AgateLib.Platform.WinForms
 		{
 			windowClosed = true;
 			primaryWindow.ExitMessageLoop();
-		}
-
-		private double GetDesktopScaling()
-		{
-			var form = new System.Windows.Forms.Form();
-			var graphics = form.CreateGraphics();
-
-			var scale = graphics.DpiY / 96.0;
-
-			return scale;
 		}
 
 		private ICoordinateSystem CreateFullScreenCoords(Size fullScreenSize)
