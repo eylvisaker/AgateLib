@@ -1,4 +1,5 @@
-﻿using AgateLib.Drivers;
+﻿using System;
+using AgateLib.Drivers;
 using AgateLib.Platform;
 using AgateLib.Settings;
 
@@ -28,6 +29,6 @@ namespace AgateLib.Configuration.State
 		/// </summary>
 		public CrossPlatformDebugLevel CrossPlatformDebugLevel { get; set; } = CrossPlatformDebugLevel.Comment;
 		public IStopwatch Time { get; set; }
-
+		public Action KeepAlive { get; set; }
 	}
 }

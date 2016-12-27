@@ -11,40 +11,40 @@ using System.Reflection;
 
 namespace AgateLib.Platform.WinForms
 {
-    /// <summary>
-    /// Initializes AgateLib to use the Windows Forms platform.
-    /// </summary>
-    public class WinFormsInitializer
-    {
-        FormsFactory factory;
+	/// <summary>
+	/// Initializes AgateLib to use the Windows Forms platform.
+	/// </summary>
+	public class WinFormsInitializer
+	{
+		FormsFactory factory;
 
-        public void Initialize(ModelParameters parameters)
-        {
-            var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
+		public void Initialize(ModelParameters parameters)
+		{
+			var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
 
-            Initialize(parameters, Path.GetDirectoryName(Path.GetFullPath(assembly.Location)));
-        }
-        /// <summary>
-        /// Initializes AgateLib.
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <param name="assemblyPath">Path to the folder where the application files reside in.</param>
-        public void Initialize(ModelParameters parameters, string appRootPath)
-        {
-            Condition.Requires<ArgumentNullException>(parameters != null, "parameters");
-            Condition.Requires<ArgumentNullException>(appRootPath != null, "appRootPath");
+			Initialize(parameters, Path.GetDirectoryName(Path.GetFullPath(assembly.Location)));
+		}
+		/// <summary>
+		/// Initializes AgateLib.
+		/// </summary>
+		/// <param name="parameters"></param>
+		/// <param name="assemblyPath">Path to the folder where the application files reside in.</param>
+		public void Initialize(ModelParameters parameters, string appRootPath)
+		{
+			Condition.Requires<ArgumentNullException>(parameters != null, "parameters");
+			Condition.Requires<ArgumentNullException>(appRootPath != null, "appRootPath");
 
-            if (factory == null)
-            {
-                factory = new FormsFactory(appRootPath);
-                Core.Initialize(factory);
-            }
+			if (factory == null)
+			{
+				factory = new FormsFactory(appRootPath);
+				Core.Initialize(factory);
+			}
 
-            Core.InitAssetLocations(parameters.AssetLocations);
+			Core.InitAssetLocations(parameters.AssetLocations);
 
-            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-            FileProvider.UserFiles = new FileSystemProvider(Path.Combine(appData, parameters.ApplicationName));
-        }
-    }
+			FileProvider.UserFiles = new FileSystemProvider(Path.Combine(appData, parameters.ApplicationName));
+		}
+	}
 }

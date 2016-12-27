@@ -409,16 +409,11 @@ namespace AgateLib
 		/// </summary>
 		public static void KeepAlive()
 		{
-			var appmodel = AgateAppModel.Instance;
-
-			if (appmodel == null)
-				return;
-
-			appmodel.KeepAlive();
+			State.Core.KeepAlive?.Invoke();
 
 			while (IsActive == false && AutoPause)
 			{
-				appmodel.KeepAlive();
+				State.Core.KeepAlive?.Invoke();
 
 				AudioLib.Audio.Update();
 
@@ -433,6 +428,10 @@ namespace AgateLib
 
 			// Poll for joystick input.
 			InputLib.JoystickInput.PollTimer();
+
+			Input.PollJoysticks();
+
+			Input.DispatchQueuedEvents();
 		}
 
 

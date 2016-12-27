@@ -5,7 +5,6 @@ using System.Text;
 
 using AgateLib.Drivers;
 using AgateLib.InputLib.ImplementationBase;
-using AgateLib.Platform.Test.Input;
 
 namespace AgateLib.Platform.Test.Input
 {

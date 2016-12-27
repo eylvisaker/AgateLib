@@ -71,6 +71,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		ICoordinateSystem coords;
 
 		bool customMessageLoop;
+		static DisplayControlContext applicationContext;
 
 		public GL_DisplayControl(DisplayWindow owner, CreateWindowParams windowParams)
 		{
@@ -120,6 +121,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					CreateWindowedDisplay();
 
 				display = Display.Impl as DesktopGLDisplay;
+
+				if (applicationContext == null)
+				{
+					applicationContext = new DisplayImplementation.DisplayControlContext();
+				}
+
+				applicationContext.AddForm(frm);
 			}
 
 			display.InitializeCurrentContext();
@@ -529,27 +537,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		void IPrimaryWindow.RunApplication()
 		{
-			if (Application.MessageLoop == false)
-			{
-				Application.Run(frm);
-			}
-			else
-			{
-				customMessageLoop = true;
-				while (customMessageLoop)
-				{
-					Application.DoEvents();
-				}
-			}
+			applicationContext.RunMessageLoop();
 		}
 
 
 		public void ExitMessageLoop()
 		{
-			if (customMessageLoop)
-				customMessageLoop = false;
-			else
-				Application.Exit();
+			applicationContext.ExitThread();
 		}
 
 

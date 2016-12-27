@@ -135,11 +135,14 @@
     <Compile Include="ApplicationModels\PassiveModelParameters.cs" />
     <Compile Include="ApplicationModels\SceneModelParameters.cs" />
     <Compile Include="ApplicationModels\SerialModelParameters.cs" />
+    <Compile Include="Configuration\AgateConfig.cs" />
+    <Compile Include="Configuration\AgateSetup.cs" />
     <Compile Include="Configuration\State\AudioState.cs" />
     <Compile Include="Configuration\State\ConsoleState.cs" />
     <Compile Include="Configuration\State\DisplayState.cs" />
     <Compile Include="Configuration\State\InputState.cs" />
     <Compile Include="Configuration\State\IOState.cs" />
+    <Compile Include="Configuration\WindowExpansionType.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateEmergencyVocabulary.cs" />
     <Compile Include="Diagnostics\ConsoleCommandAttribute.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\AgateConsoleImpl.cs" />
@@ -155,6 +158,7 @@
     <Compile Include="DisplayLib\ContentLayout.cs" />
     <Compile Include="DisplayLib\FontExtensions.cs" />
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
+    <Compile Include="Configuration\IAgateSetup.cs" />
     <Compile Include="InputLib\SimpleInputHandler.cs" />
     <Compile Include="Resources\DataModel\FontResource.cs" />
     <Compile Include="Resources\DataModel\SpriteResourceAnimationData.cs" />

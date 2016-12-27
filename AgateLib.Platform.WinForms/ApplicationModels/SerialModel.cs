@@ -48,8 +48,6 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 				CreateGuiDebug();	
 				return;
 			}
-
-
 			
 			base.ProcessArgument(arg, parm);
 		}

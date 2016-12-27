@@ -14,6 +14,8 @@ namespace AgateLib.Tests
 {
 	public partial class frmLauncher : Form
 	{
+		readonly Type[] interfaces = new Type[] { typeof(INewModelTest), typeof(ISceneModelTest), typeof(ISerialModelTest), typeof(IDiscreteAgateTest) };
+
 		Font bold;
 
 		public frmLauncher()
@@ -54,7 +56,7 @@ namespace AgateLib.Tests
 			MessageBox.Show(this, message, caption, MessageBoxButtons.OK, MessageBoxIcon.Stop);
 		}
 
-		public void TestFailedToRun(string message, string caption)
+		public void TestCantRun(string message, string caption)
 		{
 			MessageBox.Show(this, message, caption, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 		}
@@ -144,8 +146,6 @@ namespace AgateLib.Tests
 			e.DrawFocusRectangle();
 		}
 		
-		Type[] interfaces = new Type[] { typeof(ISceneModelTest), typeof(ISerialModelTest), typeof(IDiscreteAgateTest) };
-
 		private void lstTests_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			StringBuilder b = new StringBuilder();

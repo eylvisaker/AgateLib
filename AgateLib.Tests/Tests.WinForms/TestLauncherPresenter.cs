@@ -107,12 +107,27 @@ namespace AgateLib.Tests
 				if (test is ISerialModelTest) LaunchTestModel((ISerialModelTest)test);
 				else if (test is ISceneModelTest) LaunchTestModel((ISceneModelTest)test);
 				else if (test is IDiscreteAgateTest) LaunchTestModel((IDiscreteAgateTest)test);
+				else if (test is INewModelTest) LaunchTestModel((INewModelTest)test);
 				else
-					frm.TestFailedToRun($"The test {test.Name} does not have a model defined.", "AgateLib Test can't run");
+					frm.TestCantRun($"The test {test.Name} does not have a model defined.", "AgateLib Test can't run");
 			}
 			catch (ExitGameException)
 			{ }
 		}
+
+		private void LaunchTestModel(INewModelTest test)
+		{
+			using (var setup = new AgateLib.Platform.WinForms.AgateSetupWinForms(CommandLineArguments))
+			{
+				test.ModifySetup(setup);
+
+				setup.AgateLibInitialize();
+
+				test.Configuration = setup.Configuration;
+				test.Run();
+			}
+		}
+
 		private void LaunchTestModel(ISerialModelTest test)
 		{
 			var parameters = CreateParameters<SerialModelParameters>(test);
@@ -159,7 +174,6 @@ namespace AgateLib.Tests
 
 			group = p.Substring(0, period);
 			key = p.Substring(period + 1);
-
 		}
 
 		private void LoadTests()
@@ -168,7 +182,6 @@ namespace AgateLib.Tests
 
 			frm.Tests = TestCollection.Tests;
 		}
-
 
 		void HandleFormClosed(object sender, FormClosedEventArgs e)
 		{

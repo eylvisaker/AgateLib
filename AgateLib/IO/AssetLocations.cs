@@ -29,11 +29,6 @@ namespace AgateLib.IO
 	/// </summary>
 	public class AssetLocations
 	{
-		public AssetLocations()
-		{
-			Path = ".";
-		}
-
 		/// <summary>
 		/// Path prefix to load surfaces from.
 		/// </summary>
@@ -58,7 +53,7 @@ namespace AgateLib.IO
 		/// <summary>
 		/// Root path used to load all assets.
 		/// </summary>
-		public string Path { get; set; }
+		public string Path { get; set; } = "Assets";
 
 		public AssetLocations ExtraAssets { get; set; }
 	}

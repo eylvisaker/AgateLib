@@ -45,7 +45,7 @@
 			this.lstTests.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.lstTests.FormattingEnabled = true;
 			this.lstTests.Location = new System.Drawing.Point(16, 44);
-			this.lstTests.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.lstTests.Margin = new System.Windows.Forms.Padding(4);
 			this.lstTests.MultiColumn = true;
 			this.lstTests.Name = "lstTests";
 			this.lstTests.Size = new System.Drawing.Size(860, 355);
@@ -70,11 +70,11 @@
 			// 
 			this.txtCommandLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtCommandLine.Location = new System.Drawing.Point(513, 15);
-			this.txtCommandLine.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.txtCommandLine.Margin = new System.Windows.Forms.Padding(4);
 			this.txtCommandLine.Name = "txtCommandLine";
 			this.txtCommandLine.Size = new System.Drawing.Size(363, 22);
 			this.txtCommandLine.TabIndex = 2;
-			this.txtCommandLine.Text = "--window 800x600 --debuggui";
+			this.txtCommandLine.Text = "-window 800x600 -debuggui";
 			// 
 			// txtTestInfo
 			// 
@@ -82,7 +82,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtTestInfo.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtTestInfo.Location = new System.Drawing.Point(16, 415);
-			this.txtTestInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.txtTestInfo.Margin = new System.Windows.Forms.Padding(4);
 			this.txtTestInfo.Multiline = true;
 			this.txtTestInfo.Name = "txtTestInfo";
 			this.txtTestInfo.ReadOnly = true;
@@ -99,7 +99,7 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.lstTests);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.MinimumSize = new System.Drawing.Size(594, 481);
 			this.Name = "frmLauncher";
 			this.Text = "AgateLib Test Launcher";

@@ -92,11 +92,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgateSetupWinForms.cs" />
     <Compile Include="ApplicationModels\PassiveModel.cs" />
     <Compile Include="ApplicationModels\SceneModel.cs" />
     <Compile Include="ApplicationModels\SerialModel.cs" />
     <Compile Include="Diagnostics\AgateConsoleTraceListener.cs" />
     <Compile Include="DisplayImplementation\ContextInfo.cs" />
+    <Compile Include="DisplayImplementation\DisplayControlContext.cs" />
     <Compile Include="DisplayImplementation\frmFullScreen.cs">
       <SubType>Form</SubType>
     </Compile>

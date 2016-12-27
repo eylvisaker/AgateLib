@@ -8,15 +8,23 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests
 {
 	class Tiling : INewModelTest
 	{
+		public AgateConfig Configuration { get; set; }
+
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
+		}
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		public void EntryPoint()
+		public void Run()
 		{
 			double time = 0;
 
@@ -26,7 +34,7 @@ namespace AgateLib.Tests.DisplayTests
 			tiles[1] = tiles[0];
 			tiles[2] = new Surface("tile2.png");
 
-			var wnd = AgateAppModel.Instance.AutoCreatedWindow;
+			var wnd = Configuration.DisplayWindows.First();
 
 			while(tiles.Any(x => x.IsLoaded == false))
 			{
@@ -104,9 +112,5 @@ namespace AgateLib.Tests.DisplayTests
 			get { return "Display"; }
 		}
 
-
-		public void ModifyModelParameters(SerialModelParameters parameters)
-		{
-		}
 	}
 }
