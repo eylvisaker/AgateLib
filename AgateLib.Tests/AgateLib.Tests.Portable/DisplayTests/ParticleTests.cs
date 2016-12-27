@@ -9,7 +9,7 @@ using AgateLib.Particles;
 
 namespace AgateLib.Tests.DisplayTests.ParticleTest
 {
-	public class PixelParticleTest : INewModelTest
+	public class PixelParticleTest : IAgateTest
 	{
 		Random ran = new Random();
 

@@ -12,7 +12,7 @@ using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class Tiling : INewModelTest
+	class Tiling : IAgateTest
 	{
 		public AgateConfig Configuration { get; set; }
 

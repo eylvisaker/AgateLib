@@ -7,7 +7,7 @@ using AgateLib.Configuration;
 
 namespace AgateLib.Tests
 {
-	public interface INewModelTest : ILegacyAgateTest
+	public interface IAgateTest : ILegacyAgateTest
 	{
 		AgateConfig Configuration { get; set; }
 

@@ -14,7 +14,7 @@ namespace AgateLib.Tests
 {
 	public partial class frmLauncher : Form
 	{
-		readonly Type[] interfaces = new Type[] { typeof(INewModelTest), typeof(ISceneModelTest), typeof(ISerialModelTest), typeof(IDiscreteAgateTest) };
+		readonly Type[] interfaces = new Type[] { typeof(IAgateTest), typeof(ISceneModelTest), typeof(ISerialModelTest), typeof(IDiscreteAgateTest) };
 
 		Font bold;
 
