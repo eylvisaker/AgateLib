@@ -11,24 +11,24 @@ using AgateLib.DisplayLib.Sprites;
 using AgateLib.InputLib;
 using AgateLib.InputLib.Legacy;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 {
-	class RotatingSprite : Scene, ISceneModelTest
+	class RotatingSprite : Scene, IAgateTest
 	{
-		public string Name { get { return "Rotating Sprite"; } }
-		public string Category { get { return "Display"; } }
-
 		Point location = new Point(150, 100);
 		Sprite sp;
 
-		public void ModifyModelParameters(SceneModelParameters parameters)
-		{
-		}
+		public string Name { get { return "Rotating Sprite"; } }
+		public string Category { get { return "Display"; } }
+
 		public Scene StartScene
 		{
 			get { return this; }
 		}
+
+		public AgateConfig Configuration { get; set; }
 
 		protected override void OnSceneStart()
 		{
@@ -52,6 +52,16 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 
 			sp.RotationAngleDegrees += 180 * Display.DeltaTime / 1000.0;
 			sp.Draw(location);
+		}
+
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
+		}
+
+		public void Run()
+		{
+			SceneStack.Start(this);
 		}
 	}
 }

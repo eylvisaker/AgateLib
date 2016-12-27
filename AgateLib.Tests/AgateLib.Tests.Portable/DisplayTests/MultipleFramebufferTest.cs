@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
@@ -10,7 +11,7 @@ using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class MultipleFramebufferTest : ISerialModelTest
+	class MultipleFramebufferTest : IAgateTest
 	{
 		List<Surface> mRegionColors = new List<Surface>();
 		List<Surface> tests = new List<Surface>();
@@ -28,9 +29,11 @@ namespace AgateLib.Tests.DisplayTests
 			get { return "Display"; }
 		}
 
-		public void EntryPoint()
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
 		{
-			font = DefaultAssets.Fonts.AgateSans;
+			font = Font.AgateSans;
 			font.Size = 14;
 
 			Input.Unhandled.MouseDown += Mouse_MouseDown;
@@ -109,8 +112,9 @@ namespace AgateLib.Tests.DisplayTests
 			hueAngle += angleIncrement;
 		}
 
-		public void ModifyModelParameters(ApplicationModels.SerialModelParameters parameters)
+		public void ModifySetup(IAgateSetup setup)
 		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 	}
 }

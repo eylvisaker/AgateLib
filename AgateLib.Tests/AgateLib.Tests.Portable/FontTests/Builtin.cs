@@ -6,12 +6,13 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.FontTests
 {
-	class Builtin : Scene, ISceneModelTest
+	class Builtin : Scene, IAgateTest
 	{
-		List<FontSurface> fonts = new List<FontSurface>();
+		List<IFont> fonts = new List<IFont>();
 		string nonenglish;
 
 		public string Name
@@ -24,27 +25,18 @@ namespace AgateLib.Tests.FontTests
 			get { return "Fonts"; }
 		}
 
+		public AgateConfig Configuration { get; set; }
+
 		protected override void OnSceneStart()
 		{
-			//fonts.Add(BuiltinResources.AgateSans10);
-			//fonts.Add(BuiltinResources.AgateSans14);
-			//fonts.Add(BuiltinResources.AgateSerif10);
-			//fonts.Add(BuiltinResources.AgateSerif14);
-			//fonts.Add(BuiltinResources.AgateMono10);
+			fonts.Add(Font.AgateMono);
+			fonts.Add(Font.AgateSans);
+			fonts.Add(Font.AgateSerif);
 
 			for (char i = (char)128; i < 255; i++)
 			{
 				nonenglish += i;
 			}
-		}
-
-		public void ModifyModelParameters(SceneModelParameters parameters)
-		{
-		}
-
-		public Scene StartScene
-		{
-			get { return this; }
 		}
 
 		public override void Update(double deltaT)
@@ -60,7 +52,7 @@ namespace AgateLib.Tests.FontTests
 			{
 				font.Color = Color.White;
 
-				font.DrawText(0, y, font.FontName);
+				font.DrawText(0, y, font.Name);
 				int x = 20;
 				y += font.FontHeight;
 
@@ -78,6 +70,16 @@ namespace AgateLib.Tests.FontTests
 
 				y += font.FontHeight;
 			}
+		}
+
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
+		}
+
+		public void Run()
+		{
+			SceneStack.Start(this);
 		}
 	}
 }
