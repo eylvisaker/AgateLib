@@ -104,8 +104,7 @@ namespace AgateLib.Tests
 
 			try
 			{
-				if (test is ISceneModelTest) LaunchTestModel((ISceneModelTest)test);
-				else if (test is IDiscreteAgateTest) LaunchTestModel((IDiscreteAgateTest)test);
+				if (test is IDiscreteAgateTest) LaunchTestModel((IDiscreteAgateTest)test);
 				else if (test is IAgateTest) LaunchTestModel((IAgateTest)test);
 				else
 					frm.TestCantRun($"The test {test.Name} does not have a model defined.", "AgateLib Test can't run");
@@ -129,16 +128,6 @@ namespace AgateLib.Tests
 			}
 		}
 		
-		private void LaunchTestModel(ISceneModelTest test)
-		{
-			var parameters = CreateParameters<SceneModelParameters>(test);
-			test.ModifyModelParameters(parameters);
-
-			using (var model = new SceneModel(parameters))
-			{
-				model.Run(test.StartScene);
-			}
-		}
 		private void LaunchTestModel(IDiscreteAgateTest test)
 		{
 			test.Main(CommandLineArguments);
