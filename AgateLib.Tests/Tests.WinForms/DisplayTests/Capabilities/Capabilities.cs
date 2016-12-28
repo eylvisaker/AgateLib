@@ -4,30 +4,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.Capabilities
 {
-	class Capabilities : IDiscreteAgateTest
+	class Capabilities : IAgateTest
 	{
-		public string Name
+		public string Name => "Capabilities";
+
+		public string Category => "Display";
+
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
 		{
-			get { return "Capabilities"; }
+			new frmCapabilities().ShowDialog();
 		}
 
-		public string Category
+		public void ModifySetup(IAgateSetup setup)
 		{
-			get { return "Display"; }
-		}
-
-		public void Main(string[] args)
-		{
-			using (var model = new PassiveModel(args))
-			{
-				model.Run(() =>
-				{
-					new frmCapabilities().ShowDialog();
-				});
-			}
+			setup.CreateDisplayWindow = false;
 		}
 	}
 }

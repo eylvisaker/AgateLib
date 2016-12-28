@@ -4,72 +4,75 @@
 using System;
 using System.Collections.Generic;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.DisplayTests.BasicDrawing
 {
-	class BasicDrawing : IDiscreteAgateTest
+	class BasicDrawing : IAgateTest
 	{
 		List<Shape> shapes = new List<Shape>();
 		Random random = new Random();
 		DrawingTester frm;
 
+		public string Name => "Basic Drawing";
+
+		public string Category => "Display";
+
+		public AgateConfig Configuration { get; set; }
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		public void Main(string[] args)
+		public void Run()
 		{
-			new PassiveModel(args).Run( () =>
+			// create a random number generation object 
+			// so that we can make pretty colors.
+			Random rand = new Random();
+
+			frm = new DrawingTester();
+
+			frm.btnClear.Click += new EventHandler(btnClear_Click);
+			frm.btnDrawLine.Click += new EventHandler(btnDrawLine_Click);
+			frm.btnDrawRect.Click += new EventHandler(btnDrawRect_Click);
+			frm.btnFillRect.Click += new EventHandler(btnFillRect_Click);
+			frm.btnDrawCircle.Click += new EventHandler(btnDrawCircle_Click);
+			frm.btnFillCircle.Click += new EventHandler(btnFillCircle_Click);
+			frm.Show();
+
+			// This creates the window that we will be drawing in.
+			// 640x480 are the dimensions of the screen area that we will write to
+			DisplayWindow wind = DisplayWindow.CreateFromControl(frm.panel1);
+
+			while (wind.IsClosed == false)
 			{
-				// create a random number generation object 
-				// so that we can make pretty colors.
-				Random rand = new Random();
+				// Display.BeginFrame must be called before any rendering takes place.
+				Display.BeginFrame();
 
-				frm = new DrawingTester();
+				// Clear back buffer
+				Display.Clear();
 
-				frm.btnClear.Click += new EventHandler(btnClear_Click);
-				frm.btnDrawLine.Click += new EventHandler(btnDrawLine_Click);
-				frm.btnDrawRect.Click += new EventHandler(btnDrawRect_Click);
-				frm.btnFillRect.Click += new EventHandler(btnFillRect_Click);
-				frm.btnDrawCircle.Click += new EventHandler(btnDrawCircle_Click);
-				frm.btnFillCircle.Click += new EventHandler(btnFillCircle_Click);
-				frm.Show();
+				// draw shapes
+				foreach (Shape s in shapes)
+					s.Draw();
 
-				// This creates the window that we will be drawing in.
-				// 640x480 are the dimensions of the screen area that we will write to
-				DisplayWindow wind = DisplayWindow.CreateFromControl(frm.panel1);
+				// Display.EndFrame must be called after rendering is done
+				// in order to actually update the display.
+				Display.EndFrame();
 
-				while (wind.IsClosed == false)
-				{
-					// Display.BeginFrame must be called before any rendering takes place.
-					Display.BeginFrame();
+				// Core.KeepAlive is where we play nice window the OS, 
+				// allowing events to be processed and such.
+				// This is also required to process events that happen in our OWN 
+				// code (ie. user input), so be sure to call this once a frame.
+				Core.KeepAlive();
 
-					// Clear back buffer
-					Display.Clear();
-
-					// draw shapes
-					foreach (Shape s in shapes)
-						s.Draw();
-
-					// Display.EndFrame must be called after rendering is done
-					// in order to actually update the display.
-					Display.EndFrame();
-
-					// Core.KeepAlive is where we play nice window the OS, 
-					// allowing events to be processed and such.
-					// This is also required to process events that happen in our OWN 
-					// code (ie. user input), so be sure to call this once a frame.
-					Core.KeepAlive();
-
-					// This gives a nice 1 second delay between each frame.
-					// Using the Sleep() call causes this application to
-					// relinquish CPU time.
-					System.Threading.Thread.Sleep(10);
-				}
-
-			});
+				// This gives a nice 1 second delay between each frame.
+				// Using the Sleep() call causes this application to
+				// relinquish CPU time.
+				System.Threading.Thread.Sleep(10);
+			}
 		}
 
 		void btnFillCircle_Click(object sender, EventArgs e)
@@ -132,18 +135,10 @@ namespace AgateLib.Tests.DisplayTests.BasicDrawing
 
 		}
 
-		
-
-		public string Name
+		public void ModifySetup(IAgateSetup setup)
 		{
-			get { return "Basic Drawing"; }
+			setup.CreateDisplayWindow = false;
 		}
-
-		public string Category
-		{
-			get { return "Display"; }
-		}
-
 	}
 	enum ShapeType
 	{

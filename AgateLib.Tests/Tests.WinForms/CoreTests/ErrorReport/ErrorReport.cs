@@ -2,21 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.CoreTests.ErrorReport
 {
-	class ErrorReportTester : IDiscreteAgateTest
+	class ErrorReportTester : IAgateTest
 	{
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		public void Main(string[] args)
+		public string Name { get { return "Error Reporting"; } }
+		public string Category { get { return "Core"; } }
+
+		public AgateConfig Configuration { get; set; }
+		
+		public void ModifySetup(IAgateSetup setup)
 		{
-			new PassiveModel(args).Run( () => new frmErrorReportTester().ShowDialog());
+			setup.CreateDisplayWindow = false;
 		}
 
-		public string Name { get { return "Error Report Tester"; } }
-		public string Category { get { return "Core"; } }
+		public void Run()
+		{
+			new frmErrorReportTester().ShowDialog();
+		}
+
 	}
 }

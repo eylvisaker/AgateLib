@@ -81,7 +81,7 @@ namespace AgateLib.Configuration
 		/// Set to false to prevent the setup system from automatically creating display
 		/// windows. In this case you must manage your own DisplayWindow objects.
 		/// </summary>
-		public bool AutoCreateDisplayWindow { get; set; } = true;
+		public bool CreateDisplayWindow { get; set; } = true;
 
 		/// <summary>
 		/// Set to indicate whether the window created will be full screen. This

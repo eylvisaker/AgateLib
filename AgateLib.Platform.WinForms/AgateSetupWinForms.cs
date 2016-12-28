@@ -61,7 +61,7 @@ namespace AgateLib.Platform.WinForms
 
 		protected override void Dispose(bool disposing)
 		{
-			primaryWindow.ExitMessageLoop();
+			primaryWindow?.ExitMessageLoop();
 
 			while (agateThread?.ThreadState == ThreadState.Running)
 			{
@@ -100,19 +100,21 @@ namespace AgateLib.Platform.WinForms
 				}
 			}
 
-			CreateContextForThread(Configuration.DisplayWindows.First());
-
-			if (InitializeConsole)
+			if (base.CreateDisplayWindow)
 			{
-				AgateConsole.Initialize();
-			}
-		}
+				CreateContextForThread(Configuration.DisplayWindows.First());
+
+				if (InitializeConsole)
+				{
+					AgateConsole.Initialize();
+				}
+			}		}
 
 		private void AgateThread()
 		{
 			Initialize(Path.GetDirectoryName(Path.GetFullPath(entryAssembly.Location)));
 
-			primaryWindow.RunApplication();
+			primaryWindow?.RunApplication();
 		}
 
 		private void FillMissingProperties(Assembly assembly)
@@ -164,7 +166,7 @@ namespace AgateLib.Platform.WinForms
 
 		private void CreateDisplayWindow(AgateConfig config)
 		{
-			if (AutoCreateDisplayWindow == false)
+			if (base.CreateDisplayWindow == false)
 				return;
 
 			if (DesiredDisplayWindowResolution.Height == 0 || DesiredDisplayWindowResolution.Width == 0)
