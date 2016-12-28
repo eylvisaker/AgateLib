@@ -543,7 +543,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public void ExitMessageLoop()
 		{
-			applicationContext.ExitThread();
+			applicationContext?.ExitThread();
 		}
 
 

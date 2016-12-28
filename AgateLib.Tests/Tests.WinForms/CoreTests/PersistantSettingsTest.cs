@@ -5,48 +5,44 @@ using System.Text;
 using AgateLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
+using System.Windows.Forms;
 
 namespace AgateLib.Tests.CoreTests
 {
-	class PersistantSettingsTest : IDiscreteAgateTest 
+	class PersistantSettingsTest : IAgateTest
 	{
+		public string Name => "Persistant Settings";
 
-		public string Name
-		{
-			get { return "Persistant Settings"; }
-		}
+		public string Category => "Core";
 
-		public string Category
-		{
-			get { return "Core"; }
-		}
+		public AgateConfig Configuration { get; set; }
 
-		public void Main(string[] args)
+		public void Run()
 		{
-			new PassiveModel(new PassiveModelParameters()
-				{
-					ApplicationName = "Testing",
-				}).Run(args, () =>
+			if (Core.Settings["Testy"].IsEmpty)
 			{
-				if (Core.Settings["Testy"].IsEmpty)
-				{
-					InitializeSettings();
-				}
+				InitializeSettings();
+			}
 
-				int runcount = int.Parse(Core.Settings["Testy"]["RunCount"]);
-				runcount++;
-				Core.Settings["Testy"]["RunCount"] = runcount.ToString();
+			int runcount = int.Parse(Core.Settings["Testy"]["RunCount"]);
+			runcount++;
+			Core.Settings["Testy"]["RunCount"] = runcount.ToString();
 
-				Core.Settings.SaveSettings();
-			});
+			Core.Settings.SaveSettings();
+
+			MessageBox.Show($"RunCount = {runcount}.");
 		}
 
 		private void InitializeSettings()
 		{
 			Core.Settings["Testy"]["MyTest"] = "true";
 			Core.Settings["Testy"]["RunCount"] = "0";
-			
 		}
 
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.CreateDisplayWindow = false;
+		}
 	}
 }

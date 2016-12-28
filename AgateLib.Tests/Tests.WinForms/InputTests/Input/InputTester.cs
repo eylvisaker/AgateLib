@@ -5,21 +5,26 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.InputTests.InputTester
 {
-	class InputTester : IDiscreteAgateTest
+	class InputTester : IAgateTest
 	{
-		public string Name { get { return "Input Tester"; } }
-		public string Category { get { return "Input"; } }
+		public string Name => "Input Tester";
+		public string Category => "Input";
 
-		public void Main(string[] args)
+		public AgateConfig Configuration { get; set; }
+
+		public void ModifySetup(IAgateSetup setup)
 		{
-			new PassiveModel(args).Run( () =>
-			{
-				new frmInputTester().ShowDialog();
-			});
+			setup.CreateDisplayWindow = false;
+		}
+
+		public void Run()
+		{
+			new frmInputTester().ShowDialog();
 		}
 	}
 }

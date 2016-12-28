@@ -3,46 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.DisplayTests.RenderStates
 {
-	class RenderStates : IDiscreteAgateTest
+	class RenderStates : IAgateTest
 	{
-		public string Name
+		public string Name => "Render States";
+
+		public string Category => "Display";
+
+		public AgateConfig Configuration { get; set; }
+
+		public void ModifySetup(IAgateSetup setup)
 		{
-			get { return "Render States"; }
+			setup.CreateDisplayWindow = false;
 		}
 
-		public string Category
+		public void Run()
 		{
-			get { return "Display"; }
-		}
+			frmRenderStateTest frm = new frmRenderStateTest();
+			frm.Show();
 
-		public void Main(string[] args)
-		{
-			using (var model = new PassiveModel(args))
+			int count = 0;
+
+			while (frm.Visible)
 			{
-				model.Run(() =>
-				{
-					frmRenderStateTest frm = new frmRenderStateTest();
-					frm.Show();
+				frm.UpdateFrame();
 
-					int count = 0;
+				count++;
+				if (count > 60)
+					frm.Text = string.Format("Render States - {0:0.00} FPS", AgateLib.DisplayLib.Display.FramesPerSecond);
 
-					while (frm.Visible)
-					{
-						frm.UpdateFrame();
-
-						count++;
-						if (count > 60)
-							frm.Text = string.Format("Render States - {0:0.00} FPS", AgateLib.DisplayLib.Display.FramesPerSecond);
-
-						Core.KeepAlive();
-
-
-					}
-				});
+				Core.KeepAlive();
 			}
 		}
 	}

@@ -6,50 +6,49 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Platform.WinForms.Resources;
 using AgateLib.Platform.WinForms.ApplicationModels;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class DisplayWindowEvents : IDiscreteAgateTest
+	class DisplayWindowEvents : IAgateTest
 	{
-		public string Name
-		{
-			get { return "Display Window Events"; }
-		}
-
-		public string Category
-		{
-			get { return "Display"; }
-		}
-
 		int count = 0;
 		string instructionText = "This window responds to resize, closed and closing events. ";
 		string text;
 		bool closedEvent;
 		bool closingEvent;
 
-		public void Main(string[] args)
+		public string Name => "Display Window Events";
+
+		public string Category => "Display";
+
+		public AgateConfig Configuration { get; set; }
+
+		public void ModifySetup(IAgateSetup setup)
 		{
-			new PassiveModel(args).Run( () =>
+			setup.CreateDisplayWindow = false;
+		}
+
+		public void Run()
+		{
+			DisplayWindow wind = DisplayWindow.CreateWindowed("Display Window Events", 640, 480, true);
+
+			wind.Resize += new EventHandler(wind_Resize);
+			wind.Closed += new EventHandler(wind_Closed);
+			wind.Closing += new CancelEventHandler(wind_Closing);
+
+			while (wind.IsClosed == false)
 			{
-				DisplayWindow wind = DisplayWindow.CreateWindowed("Display Window Events", 640, 480, true);
+				Display.BeginFrame();
+				Display.Clear();
 
-				wind.Resize += new EventHandler(wind_Resize);
-				wind.Closed += new EventHandler(wind_Closed);
-				wind.Closing += new CancelEventHandler(wind_Closing);
+				DefaultAssets.Fonts.AgateSans.Size = 12;
+				DefaultAssets.Fonts.AgateSans.DrawText(instructionText + count);
+				DefaultAssets.Fonts.AgateSans.DrawText(0, DefaultAssets.Fonts.AgateSans.FontHeight, text);
 
-				while (wind.IsClosed == false)
-				{
-					Display.BeginFrame();
-					Display.Clear();
-
-					DefaultAssets.Fonts.AgateSans.Size = 12;
-					DefaultAssets.Fonts.AgateSans.DrawText(instructionText + count);
-					DefaultAssets.Fonts.AgateSans.DrawText(0, DefaultAssets.Fonts.AgateSans.FontHeight, text);
-
-					Display.EndFrame();
-					Core.KeepAlive();
-				}
-			});
+				Display.EndFrame();
+				Core.KeepAlive();
+			}
 
 			if (closedEvent == false)
 			{
@@ -81,6 +80,5 @@ namespace AgateLib.Tests.DisplayTests
 			count++;
 			text = "Resize event fired!";
 		}
-
 	}
 }

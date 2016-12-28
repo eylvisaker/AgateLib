@@ -104,8 +104,7 @@ namespace AgateLib.Tests
 
 			try
 			{
-				if (test is IDiscreteAgateTest) LaunchTestModel((IDiscreteAgateTest)test);
-				else if (test is IAgateTest) LaunchTestModel((IAgateTest)test);
+				if (test is IAgateTest) LaunchTestModel((IAgateTest)test);
 				else
 					frm.TestCantRun($"The test {test.Name} does not have a model defined.", "AgateLib Test can't run");
 			}
@@ -117,6 +116,7 @@ namespace AgateLib.Tests
 		{
 			using (var setup = new AgateLib.Platform.WinForms.AgateSetupWinForms(CommandLineArguments))
 			{
+				setup.ApplicationName = $"{test.Category} :: {test.Name}";
 				setup.AssetLocations.UserInterface = "UserInterface";
 				setup.DesiredDisplayWindowResolution = new Size(800, 600);
 				test.ModifySetup(setup);
@@ -126,11 +126,6 @@ namespace AgateLib.Tests
 				test.Configuration = setup.Configuration;
 				test.Run();
 			}
-		}
-		
-		private void LaunchTestModel(IDiscreteAgateTest test)
-		{
-			test.Main(CommandLineArguments);
 		}
 
 		private T CreateParameters<T>(ILegacyAgateTest test) where T : ModelParameters, new()

@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.CoreTests.PlatformDetection
 {
-	class PlatformDetector: IDiscreteAgateTest
+	class PlatformDetector : IAgateTest
 	{
-		public string Name
-		{
-			get { return "Platform Detection"; }
-		}
+		public string Name => "Platform Detection";
 
-		public string Category
-		{
-			get { return "Core"; }
-		}
+		public string Category => "Core";
 
-		public void Main(string[] args)
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
 		{
 			new PlatformDetection().ShowDialog();
+		}
+
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.CreateDisplayWindow = false;
 		}
 	}
 }

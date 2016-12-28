@@ -7,34 +7,40 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Platform;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.CoreTests.Timers
 {
-	class TimerTester : IDiscreteAgateTest
+	class TimerTester : IAgateTest
 	{
-		public void Main(string[] args)
+		public string Name => "Timers";
+
+		public string Category => "Core";
+
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
 		{
-			new PassiveModel(args).Run( () =>
+			frmTimerTester frm = new frmTimerTester();
+			frm.Show();
+
+			Application.DoEvents();
+			System.Threading.Thread.Sleep(0);
+
+			double startTime = Timing.TotalMilliseconds;
+
+			while (frm.Visible)
 			{
-				frmTimerTester frm = new frmTimerTester();
-				frm.Show();
+				frm.UpdateControls(Timing.TotalMilliseconds - startTime);
 
 				Application.DoEvents();
 				System.Threading.Thread.Sleep(0);
-
-				double startTime = Timing.TotalMilliseconds;
-
-				while (frm.Visible)
-				{
-					frm.UpdateControls(Timing.TotalMilliseconds - startTime);
-
-					Application.DoEvents();
-					System.Threading.Thread.Sleep(0);
-				}
-			});
+			}
 		}
 
-		public string Name { get { return "Timers"; } }
-		public string Category { get { return "Core"; } }
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.CreateDisplayWindow = false;
+		}
 	}
 }

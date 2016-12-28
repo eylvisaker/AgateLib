@@ -8,10 +8,11 @@ using AgateLib.InputLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 {
-	class PixelBufferTest : IDiscreteAgateTest
+	class PixelBufferTest : IAgateTest
 	{
 		Surface image;
 		Point imageLocation = new Point(50, 50);
@@ -19,43 +20,39 @@ namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 		PixelBufferForm frm;
 		bool mouseDown;
 
-		public string Name { get { return "Pixel Buffer"; } }
-		public string Category { get { return "Display"; } }
+		public string Name => "Pixel Buffer";
+		public string Category => "Display";
 
-		public void Main(string[] args)
+		public AgateConfig Configuration { get; set; }
+
+		public void ModifySetup(IAgateSetup setup)
 		{
-			var p = new PassiveModelParameters();
-			p.ApplicationName = "Pixel Buffer Test";
-			p.AssetLocations.Path = "Assets";
+			setup.CreateDisplayWindow = false;
+		}
 
-			using (var model = new PassiveModel(p))
+		public void Run()
+		{
+			frm = new PixelBufferForm();
+			frm.Show();
+
+			DisplayWindow wind = DisplayWindow.CreateFromControl(frm.panel1);
+
+			image = new Surface("9ball.png");
+			buffer = image.ReadPixels(PixelFormat.Any);
+
+			Input.Unhandled.MouseDown += Mouse_MouseDown;
+			Input.Unhandled.MouseMove += Mouse_MouseMove;
+			Input.Unhandled.MouseUp += (sender, e) => mouseDown = false;
+
+			while (wind.IsClosed == false)
 			{
-				model.Run(() =>
-				{
-					frm = new PixelBufferForm();
-					frm.Show();
+				Display.BeginFrame();
+				Display.Clear();
 
-					DisplayWindow wind = DisplayWindow.CreateFromControl(frm.panel1);
+				image.Draw(imageLocation);
 
-					image = new Surface("9ball.png");
-					buffer = image.ReadPixels(PixelFormat.Any);
-
-					Input.Unhandled.MouseDown += Mouse_MouseDown;
-					Input.Unhandled.MouseMove += Mouse_MouseMove;
-					Input.Unhandled.MouseUp += (sender, e) => mouseDown = false; 
-
-					while (wind.IsClosed == false)
-					{
-						Display.BeginFrame();
-						Display.Clear();
-
-						image.Draw(imageLocation);
-
-						Display.EndFrame();
-						Core.KeepAlive();
-					}
-
-				});
+				Display.EndFrame();
+				Core.KeepAlive();
 			}
 		}
 
@@ -112,5 +109,6 @@ namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 			mouseDown = true;
 			Mouse_MouseMove(sender, e);
 		}
+
 	}
 }

@@ -11,37 +11,28 @@ using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.Resources;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.MultipleWindows
 {
-	class MultipleWindowTest : IDiscreteAgateTest 
+	class MultipleWindowTest : IAgateTest 
 	{
 		Surface surf;
 		Random rand = new Random();
 		FrameBuffer frameBuffer;
 
-		public string Name
+		public string Name =>"Multiple Render Targets";
+
+		public string Category => "Display";
+
+		public AgateConfig Configuration { get; set; }
+
+		public void ModifySetup(IAgateSetup setup)
 		{
-			get { return "Multiple Render Targets"; }
+			setup.CreateDisplayWindow = false;
 		}
 
-		public string Category
-		{
-			get { return "Display"; }
-		}
-
-		public void Main(string[] args)
-		{
-			var parameters = new PassiveModelParameters(args);
-			parameters.AssetLocations.Path = "Assets";
-
-			new PassiveModel(parameters).Run( () =>
-			{
-				EntryPoint();
-			});
-		}
-
-		private void EntryPoint()
+		public void Run()
 		{
 			MultipleRenderTargetExample myForm = new MultipleRenderTargetExample();
 			myForm.Show();
@@ -189,7 +180,5 @@ namespace AgateLib.Tests.DisplayTests.MultipleWindows
 			System.Diagnostics.Debug.Print("Wrote rectangle to {0} with color {1}.", rect, clr);
 			System.Diagnostics.Debug.Flush();
 		}
-
-
 	}
 }
