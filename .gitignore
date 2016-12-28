@@ -17,3 +17,4 @@ AgateLib-Windows.sln.ide/
 *.suo
 .vs/*
 TestResults/*
+/Examples/BallBuster.Net/out
