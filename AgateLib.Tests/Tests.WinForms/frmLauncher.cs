@@ -126,12 +126,6 @@ namespace AgateLib.Tests
 				TestInfo t = item as TestInfo;
 				loc.X += indent;
 				string text = t.Name;
-				var testType = GetTestType(t.Class);
-
-				if (testType == null)
-					text += " *INVALID";
-				else if (testType != typeof(IAgateTest))
-					text += " *LEGACY";
 
 				e.Graphics.DrawString(text, lstTests.Font, b, loc);
 

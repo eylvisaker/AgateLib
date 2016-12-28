@@ -56,7 +56,7 @@ namespace AgateLib.Tests
 
 		private void LaunchTest(TestInfo m)
 		{
-			ILegacyAgateTest obj = (ILegacyAgateTest)Activator.CreateInstance(m.Class);
+			IAgateTest obj = (IAgateTest)Activator.CreateInstance(m.Class);
 
 			if (runningTest)
 			{
@@ -98,46 +98,27 @@ namespace AgateLib.Tests
 			}
 		}
 		
-		private void LaunchTestModel(ILegacyAgateTest test)
+		private void LaunchTestModel(IAgateTest test)
 		{
 			Core.State = new Configuration.State.AgateLibState();
 
 			try
 			{
-				if (test is IAgateTest) LaunchTestModel((IAgateTest)test);
-				else
-					frm.TestCantRun($"The test {test.Name} does not have a model defined.", "AgateLib Test can't run");
+				using (var setup = new AgateLib.Platform.WinForms.AgateSetupWinForms(CommandLineArguments))
+				{
+					setup.ApplicationName = $"{test.Category} :: {test.Name}";
+					setup.AssetLocations.UserInterface = "UserInterface";
+					setup.DesiredDisplayWindowResolution = new Size(800, 600);
+					test.ModifySetup(setup);
+
+					setup.AgateLibInitialize();
+
+					test.Configuration = setup.Configuration;
+					test.Run();
+				}
 			}
 			catch (ExitGameException)
 			{ }
-		}
-
-		private void LaunchTestModel(IAgateTest test)
-		{
-			using (var setup = new AgateLib.Platform.WinForms.AgateSetupWinForms(CommandLineArguments))
-			{
-				setup.ApplicationName = $"{test.Category} :: {test.Name}";
-				setup.AssetLocations.UserInterface = "UserInterface";
-				setup.DesiredDisplayWindowResolution = new Size(800, 600);
-				test.ModifySetup(setup);
-
-				setup.AgateLibInitialize();
-
-				test.Configuration = setup.Configuration;
-				test.Run();
-			}
-		}
-
-		private T CreateParameters<T>(ILegacyAgateTest test) where T : ModelParameters, new()
-		{
-			var parameters = new T();
-
-			parameters.Arguments = CommandLineArguments;
-			parameters.AssetLocations.Path = "Assets";
-			parameters.AssetLocations.UserInterface = "UserInterface";
-			parameters.ApplicationName = test.Name + " :: " + test.Category + " test";
-
-			return parameters;
 		}
 
 		private void SplitName(string p, out string group, out string key)

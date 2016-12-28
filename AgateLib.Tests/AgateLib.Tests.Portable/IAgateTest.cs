@@ -7,8 +7,12 @@ using AgateLib.Configuration;
 
 namespace AgateLib.Tests
 {
-	public interface IAgateTest : ILegacyAgateTest
+	public interface IAgateTest
 	{
+		string Name { get; }
+
+		string Category { get; }
+
 		AgateConfig Configuration { get; set; }
 
 		void ModifySetup(IAgateSetup setup);
