@@ -8,10 +8,11 @@ using AgateLib.Geometry;
 using AgateLib.ApplicationModels;
 using AgateLib.Tests;
 using AgateLib.Platform.WinForms;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.WinFormsTests
 {
-	class Converters : Scene, ISceneModelTest 
+	class Converters : Scene, IAgateTest 
 	{
 		public string Name
 		{
@@ -23,6 +24,17 @@ namespace AgateLib.Tests.WinFormsTests
 			get { return "WinForms"; }
 		}
 
+		public AgateConfig Configuration { get; set; }
+
+		public override void Update(double deltaT)
+		{
+		}
+
+		public override void Draw()
+		{
+			SceneFinished = true;
+		}
+
 		protected override internal void OnSceneStart()
 		{
 			Surface surf = new Surface("attacke.png");
@@ -32,22 +44,13 @@ namespace AgateLib.Tests.WinFormsTests
 			bmp.Save("test.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
 		}
 
-		public void ModifyModelParameters(SceneModelParameters parameters)
+		public void ModifySetup(IAgateSetup setup)
 		{
 		}
 
-		public Scene StartScene
+		public void Run()
 		{
-			get { return this; }
-		}
-
-		public override void Update(double deltaT)
-		{
-		}
-
-		public override void Draw()
-		{
-			SceneFinished = true;
+			SceneStack.Start(this);
 		}
 	}
 }

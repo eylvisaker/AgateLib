@@ -7,14 +7,17 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.ApplicationModels;
 using AgateLib.Resources;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.FoundationTests
 {
-	class ResourceTester : Scene, ISceneModelTest
+	class ResourceTester : Scene, IAgateTest
 	{
 		public string Name { get { return "Resources"; } }
 		public string Category { get { return "Foundation"; } }
-		
+
+		public AgateConfig Configuration { get; set; }
+
 		[BindTo("sample_surf")]
 		public Surface surf;
 		
@@ -48,13 +51,13 @@ namespace AgateLib.Tests.FoundationTests
 			sprite.Draw(100, 150);
 		}
 
-		public void ModifyModelParameters(SceneModelParameters parameters)
+		public void ModifySetup(IAgateSetup setup)
 		{
 		}
 
-		public Scene StartScene
+		public void Run()
 		{
-			get { return this; }
+			SceneStack.Start(this);
 		}
 	}
 }

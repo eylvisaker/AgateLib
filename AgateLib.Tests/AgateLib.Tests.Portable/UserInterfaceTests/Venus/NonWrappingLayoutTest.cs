@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
@@ -13,7 +14,7 @@ using AgateLib.UserInterface.Widgets;
 
 namespace AgateLib.Tests.UserInterfaceTests
 {
-	public class NonWrappingLayoutTest : Scene, ISceneModelTest
+	public class NonWrappingLayoutTest : Scene, IAgateTest
 	{
 		class Facet : IUserInterfaceFacet
 		{
@@ -33,15 +34,6 @@ namespace AgateLib.Tests.UserInterfaceTests
 		AgateResourceManager resources;
 		Facet facet = new Facet();
 
-		public void ModifyModelParameters(SceneModelParameters parameters)
-		{
-		}
-
-		public Scene StartScene
-		{
-			get { return this; }
-		}
-
 		public string Name
 		{
 			get { return "Non Wrapping Layout"; }
@@ -52,10 +44,7 @@ namespace AgateLib.Tests.UserInterfaceTests
 			get { return "User Interface"; }
 		}
 
-		protected override void OnSceneStart()
-		{
-			CreateGui();
-		}
+		public AgateConfig Configuration { get; set; }
 
 		public override void Update(double deltaT)
 		{
@@ -83,6 +72,20 @@ namespace AgateLib.Tests.UserInterfaceTests
 			};
 
 			Input.Handlers.Add(facet.InterfaceRoot);
+		}
+
+		public void ModifySetup(IAgateSetup setup)
+		{
+		}
+
+		public void Run()
+		{
+			SceneStack.Start(this);
+		}
+
+		protected override void OnSceneStart()
+		{
+			CreateGui();
 		}
 	}
 }

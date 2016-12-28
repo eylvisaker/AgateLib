@@ -104,8 +104,7 @@ namespace AgateLib.Tests
 
 			try
 			{
-				if (test is ISerialModelTest) LaunchTestModel((ISerialModelTest)test);
-				else if (test is ISceneModelTest) LaunchTestModel((ISceneModelTest)test);
+				if (test is ISceneModelTest) LaunchTestModel((ISceneModelTest)test);
 				else if (test is IDiscreteAgateTest) LaunchTestModel((IDiscreteAgateTest)test);
 				else if (test is IAgateTest) LaunchTestModel((IAgateTest)test);
 				else
@@ -129,17 +128,7 @@ namespace AgateLib.Tests
 				test.Run();
 			}
 		}
-
-		private void LaunchTestModel(ISerialModelTest test)
-		{
-			var parameters = CreateParameters<SerialModelParameters>(test);
-			test.ModifyModelParameters(parameters);
-
-			using (var model = new SerialModel(parameters))
-			{
-				model.Run(new Action(test.EntryPoint));
-			}
-		}
+		
 		private void LaunchTestModel(ISceneModelTest test)
 		{
 			var parameters = CreateParameters<SceneModelParameters>(test);
