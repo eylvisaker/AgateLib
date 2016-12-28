@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-
-using AgateLib;
-using AgateLib.DisplayLib.BitmapFont;
-using AgateLib.DisplayLib;
-using AgateLib.Geometry;
-using AgateLib.InputLib;
-using AgateLib.Platform.WinForms.ApplicationModels;
-using AgateLib.ApplicationModels;
-using AgateLib.Platform.WinForms.Fonts;
 using AgateLib.Configuration;
+using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.BitmapFont;
+using AgateLib.Geometry;
+using AgateLib.Platform.WinForms.Fonts;
 
 namespace AgateLib.Tests.FontTests
 {
@@ -37,12 +30,12 @@ namespace AgateLib.Tests.FontTests
 
 			//FontSurface second = FontSurface.LoadBitmapFont("testfont.png", "testfont.xml");
 
-			while (PassiveModel.IsAlive)
+			while (Display.CurrentWindow.IsClosed == false)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Navy);
 
-				font.DrawText("The quick brown fox jumps over the lazy dog.");
+				font.DrawText("The quick brown fox jumped over the lazy dogs.");
 
 				//second.DrawText(0, font.StringDisplayHeight("M"), "The quick brown fox jumps over the lazy dog.");
 
@@ -53,7 +46,6 @@ namespace AgateLib.Tests.FontTests
 
 		public void ModifySetup(IAgateSetup setup)
 		{
-			setup.CreateDisplayWindow = false;
 		}
 	}
 }

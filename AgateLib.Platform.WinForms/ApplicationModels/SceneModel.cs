@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Platform.WinForms.ApplicationModels
 {
+	[Obsolete("Use new AgateSetup object instead.", true)]
 	public class SceneModel : SceneAppModelBase
 	{
 		public SceneModel(SceneModelParameters parameters)

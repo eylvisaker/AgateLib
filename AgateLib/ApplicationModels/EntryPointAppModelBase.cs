@@ -9,6 +9,7 @@ namespace AgateLib.ApplicationModels
 	/// Provides a base class for application models that use a function
 	/// as an entry point.
 	/// </summary>
+	[Obsolete("Use new AgateSetup object instead.", true)]
 	public abstract class EntryPointAppModelBase : AgateAppModel
 	{
 

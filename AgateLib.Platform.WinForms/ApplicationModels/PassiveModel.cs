@@ -12,6 +12,7 @@ namespace AgateLib.Platform.WinForms.ApplicationModels
 	/// program exits. The passive model is suitable for applications which provide their own message
 	/// pump and render loop logic. 
 	/// </summary>
+	[Obsolete("Use new AgateSetup object instead.", true)]
 	public class PassiveModel : EntryPointAppModelBase
 	{
 		#region --- Static Members ---
