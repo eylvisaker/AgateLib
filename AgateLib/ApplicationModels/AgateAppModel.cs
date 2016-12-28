@@ -38,6 +38,7 @@ namespace AgateLib.ApplicationModels
 			internal set { Core.State.AppModel.Instance = value; }
 		}
 
+		[Obsolete("Use Display.CurrentWindow.IsClosed == false instead.", true)]
 		public static bool IsAlive
 		{
 			get
@@ -61,6 +62,7 @@ namespace AgateLib.ApplicationModels
 		DisplayWindow window;
 		protected bool QuitModel { get; private set; }
 
+		[Obsolete()]
 		public AgateAppModel(ModelParameters parameters)
 		{
 			Parameters = parameters;

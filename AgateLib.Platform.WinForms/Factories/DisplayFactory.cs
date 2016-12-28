@@ -39,7 +39,7 @@ namespace AgateLib.Platform.WinForms.Factories
 		{
 			if (provider.IsLogicalFilesystem)
 			{
-				using (var file = provider.OpenReadAsync(filename).Result)
+				using (var file = provider.OpenReadAsync(filename).GetAwaiter().GetResult())
 				{
 					return new GL_Surface(file);
 				}

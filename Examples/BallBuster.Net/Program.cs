@@ -21,6 +21,8 @@ using AgateLib.ApplicationModels;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using System;
 using System.Collections.Generic;
+using AgateLib.Platform.WinForms;
+using AgateLib.Geometry;
 
 namespace BallBuster.Net
 {
@@ -32,19 +34,19 @@ namespace BallBuster.Net
 		[STAThread]
 		static void Main(string[] args)
 		{
-			var parameters = new SerialModelParameters(args);
-
-			parameters.AssetLocations.Path = "Assets";
-			parameters.AssetLocations.Surfaces = "imgs";
-
-			var model = new SerialModel(parameters);
-
-			model.Run(() =>
+			using (var setup = new AgateSetupWinForms(args))
 			{
+				setup.DesiredDisplayWindowResolution = new Size(800, 600);
+				setup.DisplayWindowExpansionType = AgateLib.Configuration.WindowExpansionType.Scale;
+				setup.AssetLocations.Path = "Assets";
+				setup.AssetLocations.Surfaces = "imgs";
+
+				setup.AgateLibInitialize();
+
 				BBX bbx = new BBX();
 
 				bbx.Main(args);
-			});
+			}
 		}
 	}
 }

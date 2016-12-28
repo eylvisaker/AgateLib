@@ -7,6 +7,7 @@ using AgateLib.InputLib;
 using AgateLib.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 using AgateLib.Platform.WinForms.ApplicationModels;
+using AgateLib.Platform.WinForms;
 
 namespace Pong
 {
@@ -19,14 +20,13 @@ namespace Pong
 		[STAThread]
 		static void Main(string[] args)
 		{
-			new SerialModel(new SerialModelParameters
-				{
-					Arguments = args,
-					ApplicationName = "Pong Example",
-				}).Run(() =>
+			using (var setup = new AgateSetupWinForms(args))
 			{
+				setup.DesiredDisplayWindowResolution = new Size(800, 600);
+				setup.AgateLibInitialize();
+
 				new Program().Run(args);
-			});
+			}
 		}
 
 		IFont font;
@@ -58,11 +58,11 @@ namespace Pong
 			ball = new Vector2(playAreaWidth / 2, displayHeight / 2);
 			ballvelocity = new Vector2(-70, 70);
 
-			while (AgateAppModel.IsAlive)
+			while (Display.CurrentWindow.IsClosed == false)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.DarkGray);
-				
+
 				DrawBorder();
 				DrawPaddles();
 				DrawBall();

@@ -10,6 +10,7 @@ using AgateLib.Platform;
 using AgateLib.InputLib.Legacy;
 using AgateLib.ApplicationModels;
 using AgateLib.Platform.WinForms.ApplicationModels;
+using AgateLib.Platform.WinForms;
 
 namespace ShootTheTraps
 {
@@ -21,13 +22,15 @@ namespace ShootTheTraps
 		[STAThread]
 		static void Main(string[] args)
 		{
-			SceneModelParameters p = new SceneModelParameters(args);
+			using (var setup = new AgateSetupWinForms(args))
+			{
+				setup.DesiredDisplayWindowResolution = new Size(800, 600);
+				setup.AssetLocations.Path = "";
 
-			p.ApplicationName = "Shoot the Traps";
-			p.CoordinateSystem = new AgateLib.Geometry.CoordinateSystems.SingleFixedDimension();
+				setup.AgateLibInitialize();
 
-			SceneModel model = new SceneModel(p);
-			model.Run(new App());
+				SceneStack.Start(new App());
+			}
 		}
 
 		// Game declarations
