@@ -8,10 +8,11 @@ using AgateLib.InputLib;
 using AgateLib.Utility;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.FontTests
 {
-	class FontLineTester : ILegacyAgateTest
+	class FontLineTester : IAgateTest
 	{
 		List<IFont> fonts = new List<IFont>();
 		int currentFont = 0;
@@ -19,47 +20,49 @@ namespace AgateLib.Tests.FontTests
 			"You can type into this box with the keyboard.\nThe rectangle is drawn by calling " +
 			"the\nStringDisplaySize function to get the size of the text.";
 
-		public string Name { get { return "Font Lines"; } }
-		public string Category { get { return "Fonts"; } }
+		public string Name => "Font Lines";
+		public string Category => "Fonts";
 
-		public void Main(string[] args)
+		public AgateConfig Configuration { get; set; }
+
+		public void ModifySetup(IAgateSetup setup)
 		{
-			new PassiveModel(args).Run( () =>
+		}
+
+		public void Run()
+		{
+			Input.Unhandled.KeyDown += Keyboard_KeyDown;
+			Core.AutoPause = true;
+
+			// TODO: Fix this
+			//FontSurface bmpFont = FontSurface.LoadBitmapFont("bitmapfont.png", "bitmapfont.xml");
+
+			//fonts.Add(bmpFont);
+			fonts.Add(Font.AgateSans);
+			fonts.Add(Font.AgateSerif);
+			fonts.Add(Font.AgateMono);
+
+			while (Display.CurrentWindow.IsClosed == false)
 			{
-				DisplayWindow wind = DisplayWindow.CreateWindowed("Font Line Tester", 640, 480);
-				Input.Unhandled.KeyDown += Keyboard_KeyDown;
-				Core.AutoPause = true;
+				Display.BeginFrame();
+				Display.Clear(Color.Navy);
 
-				// TODO: Fix this
-				//FontSurface bmpFont = FontSurface.LoadBitmapFont("bitmapfont.png", "bitmapfont.xml");
+				Rectangle drawRect;
 
-				//fonts.Add(bmpFont);
-				fonts.Add(AgateLib.DefaultAssets.Fonts.AgateSans);
-				fonts.Add(AgateLib.DefaultAssets.Fonts.AgateSerif);
-				fonts.Add(AgateLib.DefaultAssets.Fonts.AgateMono);
+				FontTests(fonts[currentFont], out drawRect);
 
-				while (wind.IsClosed == false)
-				{
-					Display.BeginFrame();
-					Display.Clear(Color.Navy);
+				Display.DrawRect(drawRect, Color.Red);
 
-					Rectangle drawRect;
+				//bmpFont.DrawText(0, 370, "Use numeric keypad to switch fonts.");
+				//bmpFont.DrawText(0, 400,
+				//    "Measured size was: " + drawRect.Size.ToString());
 
-					FontTests(fonts[currentFont], out drawRect);
+				Display.EndFrame();
+				Core.KeepAlive();
 
-					Display.DrawRect(drawRect, Color.Red);
-
-					//bmpFont.DrawText(0, 370, "Use numeric keypad to switch fonts.");
-					//bmpFont.DrawText(0, 400,
-					//    "Measured size was: " + drawRect.Size.ToString());
-
-					Display.EndFrame();
-					Core.KeepAlive();
-
-					if (Input.Unhandled.Keys[KeyCode.Escape])
-						return;
-				}
-			});
+				if (Input.Unhandled.Keys[KeyCode.Escape])
+					return;
+			}
 		}
 
 		private void FontTests(IFont font, out Rectangle drawRect)

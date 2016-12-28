@@ -5,34 +5,35 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.DisplayTests.SpriteTester
 {
-	class SpriteTester : ILegacyAgateTest
+	class SpriteTester : IAgateTest
 	{
-		public string Name { get { return "Sprite Tester"; } }
-		public string Category { get { return "Display"; } }
+		public string Name => "Sprite Tester";
+		public string Category => "Display";
 
-		public void Main(string[] args)
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
 		{
-			using (var model = new PassiveModel(args))
+			frmSpriteTester form = new frmSpriteTester();
+
+			form.Show();
+
+			while (form.Visible)
 			{
-				model.Run(() =>
-				{
-					frmSpriteTester form = new frmSpriteTester();
+				form.UpdateDisplay();
 
-					form.Show();
-
-					while (form.Visible)
-					{
-						form.UpdateDisplay();
-
-						//System.Threading.Thread.Sleep(10);
-						Core.KeepAlive();
-					}
-				});
+				Core.KeepAlive();
 			}
+		}
+
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.CreateDisplayWindow = false;
 		}
 	}
 }

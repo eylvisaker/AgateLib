@@ -4,17 +4,25 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.TestPacker
 {
-	class TestPacker : ILegacyAgateTest
+	class TestPacker : IAgateTest
 	{
-		public string Name { get { return "Packing"; } }
-		public string Category { get { return "Display"; } }
+		public string Name => "Packing";
+		public string Category => "Display";
 
-		public void Main(string[] args)
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
 		{
 			new frmTestPacker().ShowDialog();
+		}
+
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.CreateDisplayWindow = false;
 		}
 	}
 }

@@ -7,42 +7,36 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.UserInterfaceTests.CssTests
 {
-	class GuiTest : ILegacyAgateTest
+	class GuiTest : IAgateTest
 	{
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		public void Main(string[] args)
+		public string Name => "Gui Test";
+
+		public string Category => "User Interface";
+
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
 		{
-			new PassiveModel(args).Run(() =>
+			var f1 = new frmCssEdit();
+			f1.Show();
+
+			Display.RenderState.WaitForVerticalBlank = false;
+
+			while (f1.IsDisposed == false)
 			{
-				var f1 = new frmCssEdit();
-				f1.Show();
-
-				Display.RenderState.WaitForVerticalBlank = false;
-
-				while (f1.IsDisposed == false)
-				{
-					f1.RenderAgateStuff();
-					Core.KeepAlive();
-					Thread.Sleep(5);
-				}
-			});
+				f1.RenderAgateStuff();
+				Core.KeepAlive();
+				Thread.Sleep(5);
+			}
 		}
 
-		public string Name
+		public void ModifySetup(IAgateSetup setup)
 		{
-			get { return "Gui Test"; }
+			setup.CreateDisplayWindow = false;
 		}
-
-		public string Category
-		{
-			get { return "User Interface"; }
-		}
-
 	}
 }

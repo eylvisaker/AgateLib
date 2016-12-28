@@ -10,143 +10,146 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
+using AgateLib.Configuration;
 
 namespace AgateLib.Tests.FontTests
 {
-	class Fonts : ILegacyAgateTest
+	class Fonts : IAgateTest
 	{
-		public string Name { get { return "Fonts"; } }
-		public string Category { get { return "Fonts"; } }
+		public string Name => "Fonts";
+		public string Category => "Fonts";
 
-		public void Main(string[] args)
+		public AgateConfig Configuration { get; set; }
+
+		public void ModifySetup(IAgateSetup setup)
 		{
-			new PassiveModel(args).Run(() =>
+			setup.CreateDisplayWindow = false;
+		}
+
+		public void Run()
+		{
+			DisplayWindow wind = DisplayWindow.CreateWindowed("Font Tester", 800, 600);
+			DisplayWindow fullWind = null;
+
+			FontSurface bitmapFont = FontSurface.BitmapMonospace("lotafont.png", new Size(16, 16));
+
+			int frame = 0;
+
+			while (wind.IsClosed == false)
 			{
-				DisplayWindow wind = DisplayWindow.CreateWindowed("Font Tester", 800, 600);
-				DisplayWindow fullWind = null;
+				Display.BeginFrame();
+				Display.Clear(Color.DarkGray);
 
-				FontSurface bitmapFont = FontSurface.BitmapMonospace("lotafont.png", new Size(16, 16));
+				IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
+				font.Size = 12;
 
-				int frame = 0;
+				// test the color changing
+				font.Color = Color.LightGreen;
+				font.DrawText(20, 150, "This is regular green text.");
+				font.Color = Color.White;
 
-				while (wind.IsClosed == false)
+				// test display alignment property
+				Point textPoint = new Point(100, 50);
+				string text = string.Format("This text is centered on {0},{1}.", textPoint.X, textPoint.Y);
+				Size textSize = font.MeasureString(text);
+
+				// draw a box around where the text should be displayed.
+				Display.DrawRect(new Rectangle(textPoint.X - textSize.Width / 2, textPoint.Y - textSize.Height / 2,
+					textSize.Width, textSize.Height), Color.Gray);
+
+				font.DisplayAlignment = OriginAlignment.Center;
+				font.DrawText(textPoint, text);
+				font.DisplayAlignment = OriginAlignment.TopLeft;
+
+				// test text scaling
+				font.Size = 24;
+				text = "This text is twice as big.";
+				textPoint = new Point(50, 75);
+				textSize = font.MeasureString(text);
+
+				// draw a box with the same size the text should appear as
+				Display.DrawRect(new Rectangle(textPoint, textSize), Color.White);
+
+				font.DrawText(textPoint, text);
+				font.Size = 12;
+
+				// this draws a white background behind the text we want to Display.
+				text = "F2: Toggle VSync   F5:  Toggle Windowed / Fullscreen      ";
+				text += "FPS: " + Display.FramesPerSecond.ToString("0.00") + "    ";
+
+				if (Core.IsActive)
+					text += "Active";
+				else
+					text += "Not Active";
+
+				// figure out how big the displayed text will be
+				textSize = font.MeasureString(text);
+
+				// draw the white background
+				Display.FillRect(new Rectangle(new Point(0, 0), textSize), Color.White);
+
+				// draw the text on top of the background
+				font.Color = Color.Black;
+				font.DrawText(text);  // supplying no position arguments defaults to (0, 0)
+
+				// draw something which moves to let us know the program is running
+				Display.FillRect(new Rectangle(
+					10, 200, 70 + (int)(50 * Math.Cos(frame / 10.0)), 50), Color.Red);
+
+				// do some bitmap font stuff
+				bitmapFont.DrawText(10, 350, "THIS IS BITMAP FONT TEXT.");
+
+				bitmapFont.Color = Color.Red;
+				bitmapFont.DrawText(10, 366, "THIS IS RED TEXT.");
+				bitmapFont.Color = Color.White;
+
+				bitmapFont.SetScale(3, 2);
+				bitmapFont.DrawText(10, 382, "THIS IS BIGG.");
+				bitmapFont.SetScale(1, 1);
+
+				Display.FillRect(new Rectangle(95, 425, 10, 10), Color.Blue);
+				bitmapFont.DisplayAlignment = OriginAlignment.Center;
+				bitmapFont.DrawText(100, 430, "CHECK");
+				bitmapFont.DisplayAlignment = OriginAlignment.TopLeft;
+
+				Display.FillRect(new Rectangle(-10, -10, 20, 20), Color.Green);
+
+				// and we're done.
+				Display.EndFrame();
+				Core.KeepAlive();
+
+				frame++;
+
+				// toggle full screen if the user pressed F5;
+				if (Input.Unhandled.Keys[KeyCode.F5])
 				{
-					Display.BeginFrame();
-					Display.Clear(Color.DarkGray);
+					System.Diagnostics.Debug.Print("IsFullscreen: {0}", Display.CurrentWindow.IsFullScreen);
 
-					IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
-					font.Size = 12;
-
-					// test the color changing
-					font.Color = Color.LightGreen;
-					font.DrawText(20, 150, "This is regular green text.");
-					font.Color = Color.White;
-
-					// test display alignment property
-					Point textPoint = new Point(100, 50);
-					string text = string.Format("This text is centered on {0},{1}.", textPoint.X, textPoint.Y);
-					Size textSize = font.MeasureString(text);
-
-					// draw a box around where the text should be displayed.
-					Display.DrawRect(new Rectangle(textPoint.X - textSize.Width / 2, textPoint.Y - textSize.Height / 2,
-						textSize.Width, textSize.Height), Color.Gray);
-
-					font.DisplayAlignment = OriginAlignment.Center;
-					font.DrawText(textPoint, text);
-					font.DisplayAlignment = OriginAlignment.TopLeft;
-
-					// test text scaling
-					font.Size = 24;
-					text = "This text is twice as big.";
-					textPoint = new Point(50, 75);
-					textSize = font.MeasureString(text);
-
-					// draw a box with the same size the text should appear as
-					Display.DrawRect(new Rectangle(textPoint, textSize), Color.White);
-
-					font.DrawText(textPoint, text);
-					font.Size = 12;
-
-					// this draws a white background behind the text we want to Display.
-					text = "F2: Toggle VSync   F5:  Toggle Windowed / Fullscreen      ";
-					text += "FPS: " + Display.FramesPerSecond.ToString("0.00") + "    ";
-
-					if (Core.IsActive)
-						text += "Active";
+					if (Display.CurrentWindow.IsFullScreen == false)
+					{
+						fullWind = DisplayWindow.CreateFullScreen("Font Tester", 800, 600);
+					}
 					else
-						text += "Not Active";
-
-					// figure out how big the displayed text will be
-					textSize = font.MeasureString(text);
-
-					// draw the white background
-					Display.FillRect(new Rectangle(new Point(0, 0), textSize), Color.White);
-
-					// draw the text on top of the background
-					font.Color = Color.Black;
-					font.DrawText(text);  // supplying no position arguments defaults to (0, 0)
-
-					// draw something which moves to let us know the program is running
-					Display.FillRect(new Rectangle(
-						10, 200, 70 + (int)(50 * Math.Cos(frame / 10.0)), 50), Color.Red);
-
-					// do some bitmap font stuff
-					bitmapFont.DrawText(10, 350, "THIS IS BITMAP FONT TEXT.");
-
-					bitmapFont.Color = Color.Red;
-					bitmapFont.DrawText(10, 366, "THIS IS RED TEXT.");
-					bitmapFont.Color = Color.White;
-
-					bitmapFont.SetScale(3, 2);
-					bitmapFont.DrawText(10, 382, "THIS IS BIGG.");
-					bitmapFont.SetScale(1, 1);
-
-					Display.FillRect(new Rectangle(95, 425, 10, 10), Color.Blue);
-					bitmapFont.DisplayAlignment = OriginAlignment.Center;
-					bitmapFont.DrawText(100, 430, "CHECK");
-					bitmapFont.DisplayAlignment = OriginAlignment.TopLeft;
-
-					Display.FillRect(new Rectangle(-10, -10, 20, 20), Color.Green);
-
-					// and we're done.
-					Display.EndFrame();
-					Core.KeepAlive();
-
-					frame++;
-
-					// toggle full screen if the user pressed F5;
-					if (Input.Unhandled.Keys[KeyCode.F5])
 					{
-						System.Diagnostics.Debug.Print("IsFullscreen: {0}", Display.CurrentWindow.IsFullScreen);
-
-						if (Display.CurrentWindow.IsFullScreen == false)
-						{
-							fullWind = DisplayWindow.CreateFullScreen("Font Tester", 800, 600);
-						}
-						else
-						{
-							fullWind.Dispose();
-							Display.RenderTarget = wind.FrameBuffer;
-						}
-
-						Input.Unhandled.Keys.ReleaseAll();
-						System.Diagnostics.Debug.Print("IsFullscreen: {0}", Display.CurrentWindow.IsFullScreen);
-					}
-					else if (Input.Unhandled.Keys[KeyCode.F2])
-					{
-						Display.RenderState.WaitForVerticalBlank = !Display.RenderState.WaitForVerticalBlank;
-						Input.Unhandled.Keys.Release(KeyCode.F2);
-					}
-					else if (Input.Unhandled.Keys[KeyCode.Escape])
-					{
-						Display.Dispose();
-						return;
+						fullWind.Dispose();
+						Display.RenderTarget = wind.FrameBuffer;
 					}
 
+					Input.Unhandled.Keys.ReleaseAll();
+					System.Diagnostics.Debug.Print("IsFullscreen: {0}", Display.CurrentWindow.IsFullScreen);
+				}
+				else if (Input.Unhandled.Keys[KeyCode.F2])
+				{
+					Display.RenderState.WaitForVerticalBlank = !Display.RenderState.WaitForVerticalBlank;
+					Input.Unhandled.Keys.Release(KeyCode.F2);
+				}
+				else if (Input.Unhandled.Keys[KeyCode.Escape])
+				{
+					Display.Dispose();
+					return;
 				}
 
-			});
-
+			}
 		}
 	}
 }

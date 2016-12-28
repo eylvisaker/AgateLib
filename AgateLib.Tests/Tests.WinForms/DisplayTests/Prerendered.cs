@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
@@ -8,52 +9,45 @@ using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.DisplayTests
 {
-	class PrerenderedTest : ILegacyAgateTest
+	class PrerenderedTest : IAgateTest
 	{
-		public string Name
-		{
-			get { return "Prerendering"; }
-		}
+		public string Name => "Prerendering";
 
-		public string Category
-		{
-			get { return "Display"; }
-		}
+		public string Category => "Display";
 
-		public void Main(string[] args)
+		public AgateConfig Configuration { get; set; }
+
+		public void Run()
 		{
-			new PassiveModel(args).Run( () =>
+			DisplayWindow MainWindow = DisplayWindow.CreateWindowed("Test", 800, 600);
+			FrameBuffer myBuffer = new FrameBuffer(200, 35);
+
+			IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
+			RenderToFrameBuffer(myBuffer, font);
+
+			System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+			watch.Start();
+
+			while (MainWindow.IsClosed == false)
 			{
-				DisplayWindow MainWindow = DisplayWindow.CreateWindowed("Test", 800, 600);
-				FrameBuffer myBuffer = new FrameBuffer(200, 35);
+				Display.BeginFrame();
+				Display.Clear(Color.Black);
 
-				IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
-				RenderToFrameBuffer(myBuffer, font);
+				myBuffer.RenderTarget.Draw(35, 35);
+				font.DrawText(38, 73, "HELLO WORLD");
 
-				System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-				watch.Start();
+				Display.EndFrame();
 
-				while (MainWindow.IsClosed == false)
+				Core.KeepAlive();
+
+				if (watch.ElapsedMilliseconds > 3000)
 				{
-					Display.BeginFrame();
-					Display.Clear(Color.Black);
+					RenderToFrameBuffer(myBuffer, font);
 
-					myBuffer.RenderTarget.Draw(35, 35);
-					font.DrawText(38, 73, "HELLO WORLD");
-
-					Display.EndFrame();
-
-					Core.KeepAlive();
-
-					if (watch.ElapsedMilliseconds > 3000)
-					{
-						RenderToFrameBuffer(myBuffer, font);
-
-						watch.Reset();
-						watch.Start();
-					}
+					watch.Reset();
+					watch.Start();
 				}
-			});
+			}
 		}
 
 		private static void RenderToFrameBuffer(FrameBuffer myBuffer, IFont font)
@@ -72,6 +66,11 @@ namespace AgateLib.Tests.DisplayTests
 			Display.EndFrame();
 
 			Display.RenderTarget = save;
+		}
+
+		public void ModifySetup(IAgateSetup setup)
+		{
+			setup.CreateDisplayWindow = false;
 		}
 	}
 }
