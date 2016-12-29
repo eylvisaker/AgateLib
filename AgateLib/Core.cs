@@ -444,6 +444,10 @@ namespace AgateLib
 			return State.Core.Time.TotalMilliseconds;
 		}
 
-
+		public static void Dispose()
+		{
+			Display.Dispose();
+			Audio.Dispose();
+		}
 	}
 }

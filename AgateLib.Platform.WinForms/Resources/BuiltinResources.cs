@@ -10,16 +10,12 @@ using AgateLib.Resources;
 
 namespace AgateLib.Platform.WinForms.Resources
 {
-	public static class BuiltinResources
+	public class BuiltinResources
 	{
-		static ZipFileProvider mProvider;
-		static AgateResourceManager mResources;
+		ZipFileProvider mProvider;
+		AgateResourceManager mResources;
 
-		static BuiltinResources()
-		{
-		}
-
-		public static IFont GetFont(string name)
+		public IFont GetFont(string name)
 		{
 			if (mProvider == null)
 			{

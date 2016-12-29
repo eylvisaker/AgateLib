@@ -90,8 +90,8 @@ namespace AgateLib.DisplayLib
 
 			mImpl = Core.Factory.DisplayFactory.CreateSurface(st);
 
-			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
-			Display.PackAllSurfacesEvent += new EventHandler(Display_PackAllSurfacesEvent);
+			Display.DisposeDisplay += Dispose;
+			Display.PackAllSurfacesEvent += Display_PackAllSurfacesEvent;
 		}
 
 		/// <summary>

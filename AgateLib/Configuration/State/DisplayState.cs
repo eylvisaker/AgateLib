@@ -13,6 +13,9 @@ namespace AgateLib.Configuration.State
 {
 	class DisplayState
 	{
+		internal EventHandler PackAllSurfacesEvent;
+		internal Action DisposeDisplay;
+
 		internal DisplayImpl Impl;
 		internal DisplayWindow CurrentWindow;
 		internal SurfacePacker SurfacePacker;
@@ -20,7 +23,6 @@ namespace AgateLib.Configuration.State
 		internal Stack<Rectangle> ClipRects = new Stack<Rectangle>();
 		internal RenderStateAdapter RenderState = new RenderStateAdapter();
 		internal DisplayCapsInfo CapsInfo = new DisplayCapsInfo();
-
-		public DefaultResources DefaultResources { get; internal set; }
+		internal DefaultResources DefaultResources;
 	}
 }

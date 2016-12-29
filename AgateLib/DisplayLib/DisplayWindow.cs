@@ -57,7 +57,7 @@ namespace AgateLib.DisplayLib
 			mImpl.InputEvent += InputEvent;
 
 			Display.RenderTarget = FrameBuffer;
-			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Dispose);
+			Display.DisposeDisplay += Dispose;
 
 			// TODO: Fix this hack
 			Display.CurrentWindow = this;

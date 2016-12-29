@@ -34,7 +34,7 @@ namespace AgateLib.InputLib.Legacy
 	{
 		static Keyboard()
 		{
-			DisplayLib.Display.DisposeDisplay += new AgateLib.DisplayLib.Display.DisposeDisplayHandler(Display_DisposeDisplay);
+			DisplayLib.Display.DisposeDisplay += Display_DisposeDisplay;
 		}
 
 		/// <summary>

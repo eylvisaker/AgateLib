@@ -19,9 +19,12 @@ namespace AgateLib.Platform.WinForms.Factories
 {
 	class DisplayFactory : IDisplayFactory
 	{
+		BuiltinResources builtIn;
+
 		public DisplayFactory()
 		{
 			FullDisplayImpl = new DesktopGLDisplay();
+			builtIn = new Resources.BuiltinResources();
 		}
 
 		public DisplayImpl DisplayImpl { get { return FullDisplayImpl; } }
@@ -133,9 +136,9 @@ namespace AgateLib.Platform.WinForms.Factories
 		{
 			res.Dispose();
 
-			var sans = BuiltinResources.GetFont("AgateSans");
-			var serif = BuiltinResources.GetFont("AgateSerif");
-			var mono = BuiltinResources.GetFont("AgateMono");
+			var sans = builtIn.GetFont("AgateSans");
+			var serif = builtIn.GetFont("AgateSerif");
+			var mono = builtIn.GetFont("AgateMono");
 
 			res.AgateSans = sans;
 			res.AgateSerif = serif;

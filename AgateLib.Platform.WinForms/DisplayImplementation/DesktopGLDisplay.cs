@@ -40,7 +40,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 	/// OpenGL 3.1 compatible.  
 	/// </summary>
 	public sealed class DesktopGLDisplay : DisplayImpl, AgateLib.OpenGL.IGL_Display
-	{ 
+	{
 		GL_FrameBuffer mRenderTarget;
 		Stack<Rectangle> mClipRects = new Stack<Rectangle>();
 		Rectangle mCurrentClip = Rectangle.Empty;
@@ -67,7 +67,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public bool GL3 { get; private set; }
 		public bool SupportsFramebufferExt { get; internal set; }
-		public bool SupportsFramebufferArb { get; private set;}
+		public bool SupportsFramebufferArb { get; private set; }
 
 		protected override void OnRenderTargetChange(FrameBuffer oldRenderTarget)
 		{
@@ -323,14 +323,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				mNonPowerOf2Textures = true;
 				mSupportsShaders = true;
 			}
-            if (mGLVersion < 1.2m)
-            {
-                System.Windows.Forms.MessageBox.Show(
-                    "Error: OpenGL 1.2 or higher is required, but your system only supports OpenGL " + mGLVersion.ToString(),
-                    "OpenGL 1.2 not aviable", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Stop);
+			if (mGLVersion < 1.2m)
+			{
+				System.Windows.Forms.MessageBox.Show(
+					"Error: OpenGL 1.2 or higher is required, but your system only supports OpenGL " + mGLVersion.ToString(),
+					"OpenGL 1.2 not aviable", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Stop);
 
-                throw new AgateLib.AgateException("OpenGL 1.2 or higher is required, but this system only supports OpenGL " + mGLVersion.ToString() + ".");
-            }
+				throw new AgateLib.AgateException("OpenGL 1.2 or higher is required, but this system only supports OpenGL " + mGLVersion.ToString() + ".");
+			}
 
 			if (GL3)
 				mPrimitives = new AgateLib.OpenGL.GL3.GLPrimitiveRenderer();
@@ -430,16 +430,20 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		#region --- Shaders ---
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                mFakeDisplayWindow.Dispose();
-                mFakeWindow.Dispose();
-            }
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				mFakeDisplayWindow.Dispose();
 
-            base.Dispose(disposing);
-        }
+				if (mFakeWindow.InvokeRequired)
+				{
+					mFakeWindow.Invoke(new Action(mFakeWindow.Dispose));
+				}
+			}
+
+			base.Dispose(disposing);
+		}
 
 
 		private void SetArray(float[] array, Vector3 vec)
@@ -512,7 +516,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			switch (caps)
 			{
 				case DisplaySizeCaps.NativeScreenResolution:
-					return 
+					return
 						System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size.ToGeometry();
 
 				case DisplaySizeCaps.MaxSurfaceSize:
@@ -526,7 +530,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		}
 		public override double CapsDouble(DisplayDoubleCaps caps)
 		{
-			switch(caps)
+			switch (caps)
 			{
 				case DisplayDoubleCaps.AspectRatio:
 					return AspectRatio(CapsSize(DisplaySizeCaps.NativeScreenResolution));

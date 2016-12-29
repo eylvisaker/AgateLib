@@ -74,6 +74,20 @@ namespace AgateLib.Platform.WinForms
 			{
 				Thread.Sleep(0);
 			}
+
+			hiddenDisplayWindow?.Dispose();
+
+			if (hiddenForm?.InvokeRequired ?? false)
+			{
+				hiddenForm.Invoke(new Action(hiddenForm.Dispose));
+			}
+
+			foreach(var displayWindow in Configuration.DisplayWindows)
+			{
+				displayWindow.Dispose();
+			}
+
+			Core.Dispose();
 		}
 
 		[Obsolete("Use InitializeAgateLib instead.", true)]
@@ -162,7 +176,7 @@ namespace AgateLib.Platform.WinForms
 
 			FileProvider.UserFiles = new FileSystemProvider(Path.Combine(appData, ApplicationName));
 
-			CreateDisplayWindow(result);
+			InitializeDisplayWindow(result);
 
 			Configuration = result;
 		}
@@ -174,7 +188,7 @@ namespace AgateLib.Platform.WinForms
 			primaryWindow.CreateContextForThread();
 		}
 
-		private void CreateDisplayWindow(AgateConfig config)
+		private void InitializeDisplayWindow(AgateConfig config)
 		{
 			if (base.CreateDisplayWindow == false)
 			{

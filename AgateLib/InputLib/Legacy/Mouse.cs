@@ -92,7 +92,7 @@ namespace AgateLib.InputLib.Legacy
 
 		static Mouse()
 		{
-			Display.DisposeDisplay += new Display.DisposeDisplayHandler(Display_DisposeDisplay);
+			Display.DisposeDisplay += Display_DisposeDisplay;
 		}
 
 		static void Display_DisposeDisplay()

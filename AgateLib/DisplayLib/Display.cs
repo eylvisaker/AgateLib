@@ -61,6 +61,25 @@ namespace AgateLib.DisplayLib
 	public static class Display
 	{
 		/// <summary>
+		/// Event that is called when Display.Dispose() is invoked, to shut down the
+		/// display system and release all resources.
+		/// </summary>
+		public static event Action DisposeDisplay
+		{
+			add { Core.State.Display.DisposeDisplay += value; }
+			remove { Core.State.Display.DisposeDisplay -= value; }
+		}
+
+		/// <summary>
+		/// Event fired when PackAllSurfacesEvent
+		/// </summary>
+		internal static event EventHandler PackAllSurfacesEvent
+		{
+			add { Core.State.Display.PackAllSurfacesEvent += value; }
+			remove { Core.State.Display.PackAllSurfacesEvent -= value; }
+		}
+
+		/// <summary>
 		/// Gets the object which handles all of the actual calls to Display functions.
 		/// This may be cast to a surface object in whatever rendering library
 		/// is being used (eg. if using the MDX_1_1 library, this can be cast
@@ -104,7 +123,12 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static void Dispose()
 		{
-			OnDispose();
+			Core.State.Display.DisposeDisplay?.Invoke();
+
+			// Release any items which are subscribed to events, so that they are
+			// eligible for garbage collection.
+			Core.State.Display.DisposeDisplay = null;
+			Core.State.Display.PackAllSurfacesEvent = null;
 
 			if (Impl != null)
 			{
@@ -133,23 +157,6 @@ namespace AgateLib.DisplayLib
 		{
 			get { return Impl.Shader; }
 			internal set { Impl.Shader = value; }
-		}
-
-		/// <summary>
-		/// Delegate type for functions which are called when Display.Dispose is called
-		/// at the end of execution of the program.
-		/// </summary>
-		public delegate void DisposeDisplayHandler();
-		/// <summary>
-		/// Event that is called when Display.Dispose() is invoked, to shut down the
-		/// display system and release all resources.
-		/// </summary>
-		public static event DisposeDisplayHandler DisposeDisplay;
-
-		private static void OnDispose()
-		{
-			if (DisposeDisplay != null)
-				DisposeDisplay();
 		}
 
 		/// <summary>
@@ -390,8 +397,7 @@ namespace AgateLib.DisplayLib
 		{
 			SurfacePacker.ClearQueue();
 
-			if (PackAllSurfacesEvent != null)
-				PackAllSurfacesEvent(null, EventArgs.Empty);
+			Core.State.Display.PackAllSurfacesEvent?.Invoke(null, EventArgs.Empty);
 
 			SurfacePacker.PackQueue();
 
@@ -408,11 +414,6 @@ namespace AgateLib.DisplayLib
 		{
 			return Impl.EnumScreenModes();
 		}
-
-		/// <summary>
-		/// Event fired when PackAllSurfacesEvent
-		/// </summary>
-		internal static event EventHandler PackAllSurfacesEvent;
 
 		internal static Surface BuildPackedSurface(Size size, SurfacePacker.RectPacker<Surface> packedRects)
 		{

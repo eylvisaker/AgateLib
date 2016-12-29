@@ -97,7 +97,7 @@ namespace AgateLib.Tests
 				frm.ShowAfterTest();
 			}
 		}
-		
+
 		private void LaunchTestModel(IAgateTest test)
 		{
 			Core.State = new Configuration.State.AgateLibState();
@@ -107,11 +107,12 @@ namespace AgateLib.Tests
 				using (var setup = new AgateLib.Platform.WinForms.AgateSetupWinForms(CommandLineArguments))
 				{
 					setup.ApplicationName = $"{test.Category} :: {test.Name}";
+					setup.AssetLocations.Path = "Assets";
 					setup.AssetLocations.UserInterface = "UserInterface";
 					setup.DesiredDisplayWindowResolution = new Size(800, 600);
 					test.ModifySetup(setup);
 
-					setup.AgateLibInitialize();
+					setup.InitializeAgateLib();
 
 					test.Configuration = setup.Configuration;
 					test.Run();
