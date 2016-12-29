@@ -40,7 +40,7 @@ namespace AgateLib.UserInterface.Widgets
 		Gesture mCurrentGesture = new Gesture();
 		IGestureController mGestureController;
 
-		
+
 		public Gui(IGuiRenderer renderer, IGuiLayoutEngine layout)
 		{
 			Condition.RequireArgumentNotNull(renderer, nameof(renderer));
@@ -307,12 +307,12 @@ namespace AgateLib.UserInterface.Widgets
 
 		private Widget GetGestureWidget(Widget targetWidget)
 		{
-            var testWidget = targetWidget;
+			var testWidget = targetWidget;
 
-            while (testWidget is Desktop == false && testWidget.AcceptGestureInput == false)
-                testWidget = testWidget.Parent;
+			while (testWidget is Desktop == false && testWidget.AcceptGestureInput == false)
+				testWidget = testWidget.Parent;
 
-            return testWidget;
+			return testWidget;
 		}
 
 		void mGamepad_ButtonReleased(object sender, GamepadButtonEventArgs e)
@@ -366,8 +366,10 @@ namespace AgateLib.UserInterface.Widgets
 			AudioPlayer.PlaySound(sound);
 		}
 
-		public IAudioPlayer AudioPlayer { get;set; }
+		public IAudioPlayer AudioPlayer { get; set; }
+
 		public IGuiRenderer Renderer { get { return mRenderer; } }
+
 		public IGuiLayoutEngine LayoutEngine { get { return mLayout; } }
 
 		public string FacetName { get; internal set; }
@@ -379,7 +381,6 @@ namespace AgateLib.UserInterface.Widgets
 
 			Desktop.Windows.Add(wind);
 		}
-
 
 		public void RemoveWindow(Window wind)
 		{

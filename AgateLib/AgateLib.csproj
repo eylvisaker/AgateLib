@@ -235,7 +235,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Diagnostics\AgateConsole.cs" />
-    <Compile Include="Diagnostics\ConsoleSupport\ConsoleDictionary.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleMessage.cs" />
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleMessageType.cs" />
     <Compile Include="Diagnostics\ICommandLibrary.cs" />

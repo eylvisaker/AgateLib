@@ -24,9 +24,6 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Diagnostics.ConsoleSupport
 {
-
-	public delegate string DescribeCommandHandler(string command);
-
 	public enum ConsoleMessageType
 	{
 		Text,
