@@ -79,6 +79,11 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			choosePosition = windowParams.WindowPosition;
 			coords = windowParams.Coordinates;
 
+			if (applicationContext == null)
+			{
+				applicationContext = new DisplayImplementation.DisplayControlContext();
+			}
+
 			if (windowParams.RenderToControl)
 			{
 				if (windowParams.RenderTarget is Control == false)
@@ -121,11 +126,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					CreateWindowedDisplay();
 
 				display = Display.Impl as DesktopGLDisplay;
-
-				if (applicationContext == null)
-				{
-					applicationContext = new DisplayImplementation.DisplayControlContext();
-				}
 
 				applicationContext.AddForm(frm);
 			}

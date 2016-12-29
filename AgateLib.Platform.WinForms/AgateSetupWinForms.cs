@@ -22,6 +22,8 @@ namespace AgateLib.Platform.WinForms
 {
 	public class AgateSetupWinForms : AgateSetup
 	{
+		#region --- Static Members ---
+
 		static double desktopScale;
 
 		private static double DesktopScaling
@@ -43,11 +45,16 @@ namespace AgateLib.Platform.WinForms
 			}
 		}
 
+		#endregion
+
 		Thread agateThread;
 		FormsFactory factory;
 		Assembly entryAssembly;
 		IPrimaryWindow primaryWindow;
 		bool windowClosed;
+
+		System.Windows.Forms.Form hiddenForm;
+		DisplayWindow hiddenDisplayWindow;
 
 		public AgateSetupWinForms()
 		{
@@ -69,7 +76,13 @@ namespace AgateLib.Platform.WinForms
 			}
 		}
 
-		public override void AgateLibInitialize()
+		[Obsolete("Use InitializeAgateLib instead.", true)]
+		public void AgateLibInitialize()
+		{
+			InitializeAgateLib();
+		}
+
+		public override void InitializeAgateLib()
 		{
 			entryAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
 
@@ -100,15 +113,13 @@ namespace AgateLib.Platform.WinForms
 				}
 			}
 
-			if (base.CreateDisplayWindow)
-			{
-				CreateContextForThread(Configuration.DisplayWindows.First());
+			CreateContextForThread();
 
-				if (InitializeConsole)
-				{
-					AgateConsole.Initialize();
-				}
-			}		}
+			if (InitializeConsole)
+			{
+				AgateConsole.Initialize();
+			}
+		}
 
 		private void AgateThread()
 		{
@@ -126,7 +137,7 @@ namespace AgateLib.Platform.WinForms
 				var version = assembly.GetCustomAttribute<AssemblyVersionAttribute>();
 				var fileVersion = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>();
 
-				ApplicationName = title?.Title ?? product.Product + (" " + fileVersion?.Version + version?.Version).Trim();
+				ApplicationName = ((title?.Title ?? product.Product) + (" " + fileVersion?.Version ?? version?.Version)).Trim();
 			}
 		}
 
@@ -156,10 +167,9 @@ namespace AgateLib.Platform.WinForms
 			Configuration = result;
 		}
 
-		private static void CreateContextForThread(DisplayWindow window)
+		private void CreateContextForThread()
 		{
 			OpenTK.Graphics.GraphicsContext.ShareContexts = true;
-			var primaryWindow = window.Impl as IPrimaryWindow;
 
 			primaryWindow.CreateContextForThread();
 		}
@@ -167,50 +177,62 @@ namespace AgateLib.Platform.WinForms
 		private void CreateDisplayWindow(AgateConfig config)
 		{
 			if (base.CreateDisplayWindow == false)
-				return;
-
-			if (DesiredDisplayWindowResolution.Height == 0 || DesiredDisplayWindowResolution.Width == 0)
 			{
-				throw new AgateException("DesiredDisplayWindowResolution must be set to a non-zero value.");
-			}
-
-			DisplayWindow window;
-
-			if (CreateFullScreenWindow)
-			{
-				var fullScreenSize = Display.Caps.NativeScreenResolution;
-				var coords = CreateFullScreenCoords(fullScreenSize);
-
-				window = DisplayWindow.CreateFullScreen(
-					ApplicationName,
-					fullScreenSize,
-					coords);
+				CreateHiddenDisplayWindow(config);
 			}
 			else
 			{
-				var size = DesiredDisplayWindowResolution;
+				if (DesiredDisplayWindowResolution.Height == 0 || DesiredDisplayWindowResolution.Width == 0)
+				{
+					throw new AgateException("DesiredDisplayWindowResolution must be set to a non-zero value.");
+				}
 
-				var scale = IgnoreDesktopScaling ? 1.0 : DesktopScaling;
+				DisplayWindow window;
 
-				var windowSize = new Size(
-					(int)(size.Width * scale),
-					(int)(size.Height * scale));
+				if (CreateFullScreenWindow)
+				{
+					var fullScreenSize = Display.Caps.NativeScreenResolution;
+					var coords = CreateFullScreenCoords(fullScreenSize);
 
-				window = DisplayWindow.CreateWindowed(
-					ApplicationName,
-					windowSize,
-					new FixedCoordinateSystem(new Rectangle(Point.Empty, size)));
+					window = DisplayWindow.CreateFullScreen(
+						ApplicationName,
+						fullScreenSize,
+						coords);
+				}
+				else
+				{
+					var size = DesiredDisplayWindowResolution;
+
+					var scale = IgnoreDesktopScaling ? 1.0 : DesktopScaling;
+
+					var windowSize = new Size(
+						(int)(size.Width * scale),
+						(int)(size.Height * scale));
+
+					window = DisplayWindow.CreateWindowed(
+						ApplicationName,
+						windowSize,
+						new FixedCoordinateSystem(new Rectangle(Point.Empty, size)));
+				}
+
+				Display.RenderState.WaitForVerticalBlank = VerticalSync;
+
+				window.Closing += window_Closing;
+
+				config.DisplayWindows = new List<DisplayWindow> { window };
+
+				primaryWindow = window.Impl as IPrimaryWindow;
 			}
 
-			Display.RenderState.WaitForVerticalBlank = VerticalSync;
-
-			window.Closing += window_Closing;
-
-			config.DisplayWindows = new List<DisplayWindow> { window };
-
-			primaryWindow = window.Impl as IPrimaryWindow;
-
 			Core.State.Core.KeepAlive += KeepAlive;
+		}
+
+		private void CreateHiddenDisplayWindow(AgateConfig config)
+		{
+			hiddenForm = new System.Windows.Forms.Form();
+			hiddenDisplayWindow = DisplayWindow.CreateFromControl(hiddenForm);
+
+			primaryWindow = hiddenDisplayWindow.Impl as IPrimaryWindow;
 		}
 
 		private void KeepAlive()

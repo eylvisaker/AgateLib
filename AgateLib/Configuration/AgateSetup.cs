@@ -97,7 +97,7 @@ namespace AgateLib.Configuration
 		/// <summary>
 		/// Call this to execute initialiation of AgateLib.
 		/// </summary>
-		public abstract void AgateLibInitialize();
+		public abstract void InitializeAgateLib();
 
 		/// <summary>
 		/// Gets the configuration of AgateLib that resulted from the

@@ -24,13 +24,13 @@ namespace FontCreator
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			var parameters = new PassiveModelParameters(args);
-
-			parameters.AssetLocations.Surfaces = "images";
-
-			new PassiveModel(parameters).Run(() =>
+			using (var setup = new AgateSetupWinForms(args))
 			{
-				if (args.First() == "-build" && args.Length >= 2)
+				setup.CreateDisplayWindow = false;
+				setup.AssetLocations.Surfaces = "images";
+				setup.InitializeAgateLib();
+
+				if (args.FirstOrDefault() == "-build" && args.Length >= 2)
 				{
 					ScriptBuild(args.Skip(1));
 					return;
@@ -67,12 +67,11 @@ namespace FontCreator
 
 				Application.Run(frm);
 
-
 				foreach (string file in tempFiles)
 				{
 					File.Delete(file);
 				}
-			});
+			}
 		}
 
 		private static void ScriptBuild(IEnumerable<string> files)

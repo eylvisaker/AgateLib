@@ -53,7 +53,7 @@ namespace AgateLib.IO
 		/// <summary>
 		/// Root path used to load all assets.
 		/// </summary>
-		public string Path { get; set; } = "Assets";
+		public string Path { get; set; } = ".";
 
 		public AssetLocations ExtraAssets { get; set; }
 	}

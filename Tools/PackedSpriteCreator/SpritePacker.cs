@@ -8,6 +8,7 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Resources;
 using AgateLib.Platform.WinForms.ApplicationModels;
+using AgateLib.Platform.WinForms;
 
 namespace PackedSpriteCreator
 {
@@ -16,10 +17,13 @@ namespace PackedSpriteCreator
 		[STAThread]
 		static void Main(string[] args)
 		{
-			new PassiveModel(args).Run(() =>
+			using (var setup = new AgateSetupWinForms(args))
 			{
+				setup.CreateDisplayWindow = false;
+				setup.InitializeAgateLib();
+
 				System.Windows.Forms.Application.Run(new frmSpriteCreator());
-			});
+			}
 		}
 	}
 }
