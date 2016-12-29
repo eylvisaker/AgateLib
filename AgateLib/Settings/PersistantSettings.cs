@@ -13,7 +13,7 @@ using AgateLib.IO;
 //     The Original Code is AgateLib.
 //
 //     The Initial Developer of the Original Code is Erik Ylvisaker.
-//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2014.
+//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2017.
 //     All Rights Reserved.
 //
 //     Contributor(s): Erik Ylvisaker
