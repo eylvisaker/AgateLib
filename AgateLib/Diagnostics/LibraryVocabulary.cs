@@ -147,7 +147,9 @@ namespace AgateLib.Diagnostics
 
 			for (int i = 0, j = 1; i < parameters.Length || j < tokens.Length; i++, j++)
 			{
-				if (parameters[i].GetCustomAttribute<JoinArgsAttribute>() != null && parameters[i].ParameterType == typeof(string))
+				if (i < parameters.Length && 
+					parameters[i].GetCustomAttribute<JoinArgsAttribute>() != null && 
+					parameters[i].ParameterType == typeof(string))
 				{
 					args[i] = string.Join(" ", tokens.Skip(1));
 				}
