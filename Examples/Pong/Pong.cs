@@ -23,7 +23,7 @@ namespace Pong
 			using (var setup = new AgateSetupWinForms(args))
 			{
 				setup.DesiredDisplayWindowResolution = new Size(800, 600);
-				setup.AgateLibInitialize();
+				setup.InitializeAgateLib();
 
 				new Program().Run(args);
 			}

@@ -27,7 +27,7 @@ namespace ShootTheTraps
 				setup.DesiredDisplayWindowResolution = new Size(800, 600);
 				setup.AssetLocations.Path = "";
 
-				setup.AgateLibInitialize();
+				setup.InitializeAgateLib();
 
 				SceneStack.Start(new App());
 			}

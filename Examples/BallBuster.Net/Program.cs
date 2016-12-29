@@ -41,7 +41,7 @@ namespace BallBuster.Net
 				setup.AssetLocations.Path = "Assets";
 				setup.AssetLocations.Surfaces = "imgs";
 
-				setup.AgateLibInitialize();
+				setup.InitializeAgateLib();
 
 				BBX bbx = new BBX();
 
