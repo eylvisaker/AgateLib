@@ -29,8 +29,6 @@ namespace AgateLib.Algorithms.PathFinding
 	{
 		const int maxSteps = 200;
 		IAStarMap<T> mMap;
-		bool mAbort;
-		int mActiveTasks;
 
 		Func<T, T, bool> mEquals;
 
@@ -126,8 +124,6 @@ namespace AgateLib.Algorithms.PathFinding
 
 				foreach (T test in mMap.GetAvailableSteps(state, node.Location))
 				{
-					if (mAbort)
-						return;
 					if (state.AbortOperation)
 						return;
 
@@ -192,9 +188,6 @@ namespace AgateLib.Algorithms.PathFinding
 
 			while (node.Parent != null && node.Parent != node)
 			{
-				if (mAbort)
-					return;
-
 				node = node.Parent;
 				path.Add(node.Location);
 			}

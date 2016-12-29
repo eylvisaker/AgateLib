@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Serialization.Xle.TypeSerializers
 {
+	[Obsolete]
 	class PointSerializer : XleTypeSerializerBase<Point>
 	{
 		public override void Serialize(XleSerializationInfo info, Point value)

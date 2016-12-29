@@ -26,6 +26,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Serialization.Xle
 {
+	[Obsolete]
 	public class XleTypeSerializerCollection
 	{
 		Dictionary<Type, IXleTypeSerializer> mInherited = new Dictionary<Type, IXleTypeSerializer>();

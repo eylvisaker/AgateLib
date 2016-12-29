@@ -48,7 +48,7 @@ namespace AgateLib.OpenGL.GL3.Shaders
 			GL.ValidateProgram(program);
 
 			int status;
-			GL.GetProgram(program, ProgramParameter.ValidateStatus, out status);
+			GL.GetProgram(program, GetProgramParameterName.ValidateStatus, out status);
 
 			if (status == 0)
 			{

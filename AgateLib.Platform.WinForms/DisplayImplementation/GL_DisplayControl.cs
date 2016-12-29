@@ -60,7 +60,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		bool chooseFullscreen;
 		int chooseWidth;
 		int chooseHeight;
-		int chooseBitDepth = 32;
 		bool chooseResize;
 		WindowPosition choosePosition;
 		Point lastMousePoint;
@@ -70,7 +69,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		ContextFB frameBuffer;
 		ICoordinateSystem coords;
 
-		bool customMessageLoop;
 		static DisplayControlContext applicationContext;
 
 		public GL_DisplayControl(DisplayWindow owner, CreateWindowParams windowParams)

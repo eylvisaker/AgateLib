@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Serialization.Xle.TypeSerializers
 {
+	[Obsolete]
 	class SizeSerializer : XleTypeSerializerBase<Size>
 	{
 		public override void Serialize(XleSerializationInfo info, Size value)

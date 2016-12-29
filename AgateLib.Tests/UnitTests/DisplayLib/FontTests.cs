@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AgateLib.UnitTests.DisplayLib
 {
 	[TestClass]
-	public class FontTests
+	public class FontTests : AgateUnitTest
 	{
 		Font ff;
 

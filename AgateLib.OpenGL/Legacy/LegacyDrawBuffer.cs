@@ -86,7 +86,6 @@ namespace AgateLib.OpenGL.Legacy
 
 		int mIndex;
 		int mCurrentTexture;
-		bool mValid = true;
 
 		InterpolationMode lastInterpolation = (InterpolationMode)(-1);
 		PointF[] cachePts = new PointF[4];
@@ -104,12 +103,9 @@ namespace AgateLib.OpenGL.Legacy
 			}
 			catch (EntryPointNotFoundException)
 			{
-				mValid = false;
-
 				Trace.WriteLine("ERROR: Failed to create draw buffer.");
 				Trace.WriteLine("\tEntry point for glGenBuffers was not found.");
 				Trace.WriteLine("\tIt is likely that only a very old OpenGL is available.");
-
 			}
 		}
 

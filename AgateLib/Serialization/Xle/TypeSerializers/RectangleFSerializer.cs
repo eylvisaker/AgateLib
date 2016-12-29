@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Serialization.Xle.TypeSerializers
 {
+	[Obsolete]
 	class RectangleFSerializer : XleTypeSerializerBase<RectangleF>
 	{
 		public override void Serialize(XleSerializationInfo info, RectangleF value)

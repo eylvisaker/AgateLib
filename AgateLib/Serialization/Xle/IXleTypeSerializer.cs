@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Serialization.Xle
 {
+	[Obsolete("Don't use Xle serialization any more.")]
 	public interface IXleTypeSerializer
 	{
 		IEnumerable<Type> AllowedTypes { get; }

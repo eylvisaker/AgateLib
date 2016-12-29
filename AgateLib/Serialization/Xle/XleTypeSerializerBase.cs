@@ -28,6 +28,7 @@ namespace AgateLib.Serialization.Xle
 	/// Slightly easier because it provides strongly typed methods.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
+	[Obsolete]
 	public abstract class XleTypeSerializerBase<T> : IXleTypeSerializer
 	{
 		void IXleTypeSerializer.Serialize(XleSerializationInfo info, object value)

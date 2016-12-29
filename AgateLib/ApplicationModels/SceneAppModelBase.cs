@@ -6,6 +6,7 @@ using System.Text;
 
 namespace AgateLib.ApplicationModels
 {
+	[Obsolete]
 	public abstract class SceneAppModelBase : AgateAppModel
 	{
 		public SceneAppModelBase(ModelParameters parameters)

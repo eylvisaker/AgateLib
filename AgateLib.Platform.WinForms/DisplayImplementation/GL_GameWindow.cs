@@ -182,7 +182,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		ContextFB frameBuffer;
 		DisplayWindow owner;
 		Point lastMouse;
-
+		bool escapeState = false;
 
 		public GL_GameWindow(DisplayWindow owner, CreateWindowParams windowParams)
 		{
@@ -237,9 +237,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			get { return drawBuffer; }
 		}
-
-		bool done = false;
-		bool escapeState = false;
 
 		void Keyboard_KeyDown(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
 		{
@@ -344,8 +341,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		}
 		void mWindow_Closed(object sender, EventArgs e)
 		{
-			done = true;
-
 			OnClosed(); 
 		}
 
