@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{6AFA2E43-361A-4AA6-83D9-6DE946C1F0B6}"
 	ProjectSection(SolutionItems) = preProject
@@ -8,7 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		Build.bat = Build.bat
 		ChangeLog.txt = ChangeLog.txt
 		Coverage.bat = Coverage.bat
-		Package-Deploy.bat = Package-Deploy.bat
 		Package.bat = Package.bat
 		ReleaseNotes.txt = ReleaseNotes.txt
 		sonar-project.properties = sonar-project.properties
