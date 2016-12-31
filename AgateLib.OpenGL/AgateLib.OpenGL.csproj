@@ -139,7 +139,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AgateLib.OpenGL.nuspec" />
+    <None Include="AgateLib.OpenGL.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Resources\Basic2D_pixel.txt" />

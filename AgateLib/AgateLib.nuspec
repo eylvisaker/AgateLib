@@ -14,5 +14,8 @@
     <releaseNotes>To be entered.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Game</tags>
+    <dependencies>
+      <dependency id="YamlDotNet" version="4.0.0" />
+    </dependencies>
   </metadata>
 </package>
