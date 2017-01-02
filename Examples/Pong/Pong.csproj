@@ -115,7 +115,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\AgateLib.AgateSDL\AgateLib.SDL.csproj">
       <Project>{935d67a0-931e-46de-9f6a-2d6dbc99aff3}</Project>
-      <Name>AgateLib.AgateSDL</Name>
+      <Name>AgateLib.SDL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\AgateLib.OpenGL\AgateLib.OpenGL.csproj">
       <Project>{94734e5a-0344-43e8-bb30-e32e3f57f611}</Project>

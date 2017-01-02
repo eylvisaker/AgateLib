@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallBuster.Net", "Examples\BallBuster.Net\BallBuster.Net.csproj", "{DD3CF4AA-02CC-4881-AFB1-6F10DFA1F8AF}"
 EndProject
@@ -14,9 +14,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleUnitTests", "Examples\ExampleUnitTests\ExampleUnitTests.csproj", "{8299274E-05DD-49E0-ACB8-70C2BBAC69D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.SDL", "AgateLib.AgateSDL\AgateLib.SDL.csproj", "{935D67A0-931E-46DE-9F6A-2D6DBC99AFF3}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.OpenGL", "AgateLib.OpenGL\AgateLib.OpenGL.csproj", "{94734E5A-0344-43E8-BB30-E32E3F57F611}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgateLib.Platform.WinForms", "AgateLib.Platform.WinForms\AgateLib.Platform.WinForms.csproj", "{4B12561E-D37B-48A1-B6DB-218E94906C22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Agate", "Agate", "{206A9B6E-C560-4CA3-9730-04996E6A00F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Initialization", "Initialization", "{E5D7D5BF-74B5-407F-9DD5-4DF197620E8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicInitialization", "Examples\Initialization\BasicInitialization\BasicInitialization.csproj", "{8A117B4C-393D-42E0-833E-FC9E420FEB10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,8 +127,27 @@ Global
 		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Release|x64.Build.0 = Release|x64
 		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Release|x86.ActiveCfg = Release|x86
 		{4B12561E-D37B-48A1-B6DB-218E94906C22}.Release|x86.Build.0 = Release|x86
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Debug|x64.Build.0 = Debug|Any CPU
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Debug|x86.Build.0 = Debug|Any CPU
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Release|x64.ActiveCfg = Release|Any CPU
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Release|x64.Build.0 = Release|Any CPU
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Release|x86.ActiveCfg = Release|Any CPU
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9490B719-829E-43A7-A5FE-8001F8A81759} = {206A9B6E-C560-4CA3-9730-04996E6A00F2}
+		{935D67A0-931E-46DE-9F6A-2D6DBC99AFF3} = {206A9B6E-C560-4CA3-9730-04996E6A00F2}
+		{94734E5A-0344-43E8-BB30-E32E3F57F611} = {206A9B6E-C560-4CA3-9730-04996E6A00F2}
+		{4B12561E-D37B-48A1-B6DB-218E94906C22} = {206A9B6E-C560-4CA3-9730-04996E6A00F2}
+		{8A117B4C-393D-42E0-833E-FC9E420FEB10} = {E5D7D5BF-74B5-407F-9DD5-4DF197620E8D}
 	EndGlobalSection
 EndGlobal
