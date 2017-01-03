@@ -1,0 +1,18 @@
+{
+    "Initialization": {
+        "Basic": {
+            "name": "Basic Initialization",
+            "path": "Initialization/BasicInitialization",
+            "desc": "instructions.md",
+            "code": ["BasicInitializationProgram.cs"],
+            "images": ["Screencap.png"]
+        },
+        "WindowsForms": {
+            "name": "Windows Forms",
+            "path": "Initialization/WindowsFormsInitialization",
+            "desc": "instructions.md",
+            "code": ["Program.cs", "Form1.cs"],
+            "images": ["Screencap.png"]
+        }
+    }
+}
