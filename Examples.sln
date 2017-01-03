@@ -27,6 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicInitialization", "Exam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsInitialization", "Examples\Initialization\WindowsFormsInitialization\WindowsFormsInitialization.csproj", "{67B22596-A0F6-48E2-B5D7-CCFF3C8EBEC3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{475E07F2-961B-4DBC-8066-91BA4D987002}"
+	ProjectSection(SolutionItems) = preProject
+		Examples\example-list.json = Examples\example-list.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
