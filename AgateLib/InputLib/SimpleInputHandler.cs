@@ -84,6 +84,11 @@ namespace AgateLib.InputLib
 				}
 			}
 
+			/// <summary>
+			/// Returns true if any key is pressed.
+			/// </summary>
+			public bool Any => mKeyState.Any(x => x > 0);
+
 			public KeyModifiers CurrentModifiers
 			{
 				get { return new KeyModifiers(this[KeyCode.Alt], this[KeyCode.Control], this[KeyCode.Shift]); }
