@@ -29,7 +29,7 @@ namespace AgateLib.Tests.DisplayTests
 			Surface surf = new Surface("jellybean.png");
 			surf.Color = Color.Cyan;
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear();

@@ -21,10 +21,10 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run()
 		{
-			DisplayWindow wind = DisplayWindow.CreateWindowed(Name, 300, 300);
+			DisplayWindow wind = Configuration.DisplayWindows.First();
 			FrameBuffer buffer = new FrameBuffer(300, 300);
 
-			while (wind.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				IFont font = Font.AgateSans;
 				font.Size = 24;
@@ -51,7 +51,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void ModifySetup(IAgateSetup setup)
 		{
-			setup.CreateDisplayWindow = false;
+			setup.DesiredDisplayWindowResolution = new Size(300, 300);
 		}
 	}
 }

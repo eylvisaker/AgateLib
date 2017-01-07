@@ -20,7 +20,7 @@ namespace Pong
 		[STAThread]
 		static void Main(string[] args)
 		{
-			using (var setup = new AgateSetupWinForms(args))
+			using (var setup = new AgateSetup(args))
 			{
 				setup.DesiredDisplayWindowResolution = new Size(800, 600);
 				setup.InitializeAgateLib();
@@ -58,7 +58,7 @@ namespace Pong
 			ball = new Vector2(playAreaWidth / 2, displayHeight / 2);
 			ballvelocity = new Vector2(-70, 70);
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.DarkGray);

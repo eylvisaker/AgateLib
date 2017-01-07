@@ -19,16 +19,14 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run()
 		{
-			DisplayWindow MainWindow = DisplayWindow.CreateWindowed("Test", 800, 600);
 			FrameBuffer myBuffer = new FrameBuffer(200, 35);
 
-			IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
+			IFont font = Font.AgateSans;
 			RenderToFrameBuffer(myBuffer, font);
 
-			System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-			watch.Start();
+			var watch = System.Diagnostics.Stopwatch.StartNew();
 
-			while (MainWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Black);
@@ -70,7 +68,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void ModifySetup(IAgateSetup setup)
 		{
-			setup.CreateDisplayWindow = false;
+			setup.DesiredDisplayWindowResolution = new Size(800, 600);
 		}
 	}
 }

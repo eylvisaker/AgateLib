@@ -1317,7 +1317,7 @@ namespace BallBuster.Net
 					EndFrame();
 					frames++;
 
-					if (Display.CurrentWindow.IsClosed)
+					if (Core.IsAlive == false)
 						return "quit";
 
 					DB_EnterSubsection("End of level checks");
@@ -1633,7 +1633,7 @@ namespace BallBuster.Net
 			start = (int)Timing.TotalMilliseconds;
 			end = start + 10000;
 
-			while ((int)Timing.TotalMilliseconds < end && Display.CurrentWindow.IsClosed == false)
+			while ((int)Timing.TotalMilliseconds < end && Core.IsAlive)
 			{
 				Display.BeginFrame();
 
@@ -3824,7 +3824,7 @@ namespace BallBuster.Net
 
 				DB_EndFrame();
 
-			} while (Input.Unhandled.Keys[KeyCode.Escape] == false && Display.CurrentWindow.IsClosed == false);
+			} while (Input.Unhandled.Keys[KeyCode.Escape] == false && Core.IsAlive);
 
 			//if (session.is_playing()) session.stop();
 			return "quit";
@@ -4077,7 +4077,7 @@ namespace BallBuster.Net
 
 			editorState.brush = 'r';
 
-			while (Input.Unhandled.Keys[KeyCode.Escape] == false && Display.CurrentWindow.IsClosed == false)
+			while (Input.Unhandled.Keys[KeyCode.Escape] == false && Core.IsAlive)
 			{
 				UpdateEditor();
 				DrawEditor();
@@ -4279,7 +4279,7 @@ namespace BallBuster.Net
 			if (debugger)
 				wait = 500;
 
-			while (start + wait > (int)Timing.TotalMilliseconds && Display.CurrentWindow.IsClosed == false)
+			while (start + wait > (int)Timing.TotalMilliseconds && Core.IsAlive)
 			{
 				Display.BeginFrame();
 

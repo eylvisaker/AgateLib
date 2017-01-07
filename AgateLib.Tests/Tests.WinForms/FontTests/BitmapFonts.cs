@@ -30,7 +30,7 @@ namespace AgateLib.Tests.FontTests
 
 			//FontSurface second = FontSurface.LoadBitmapFont("testfont.png", "testfont.xml");
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Navy);

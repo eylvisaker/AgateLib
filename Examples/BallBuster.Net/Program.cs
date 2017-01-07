@@ -34,7 +34,7 @@ namespace BallBuster.Net
 		[STAThread]
 		static void Main(string[] args)
 		{
-			using (var setup = new AgateSetupWinForms(args))
+			using (var setup = new AgateSetup(args))
 			{
 				setup.DesiredDisplayWindowResolution = new Size(800, 600);
 				setup.DisplayWindowExpansionType = AgateLib.Configuration.WindowExpansionType.Scale;

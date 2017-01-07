@@ -47,6 +47,6 @@ namespace AgateLib.Configuration.State
 		/// </summary>
 		public CrossPlatformDebugLevel CrossPlatformDebugLevel { get; set; } = CrossPlatformDebugLevel.Comment;
 		public IStopwatch Time { get; set; }
-		public Action KeepAlive { get; set; }
+		public bool IsAlive { get; set; } = true;
 	}
 }

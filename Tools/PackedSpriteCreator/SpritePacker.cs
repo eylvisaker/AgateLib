@@ -17,7 +17,7 @@ namespace PackedSpriteCreator
 		[STAThread]
 		static void Main(string[] args)
 		{
-			using (var setup = new AgateSetupWinForms(args))
+			using (var setup = new AgateSetup(args))
 			{
 				setup.CreateDisplayWindow = false;
 				setup.InitializeAgateLib();

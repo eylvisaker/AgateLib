@@ -8,15 +8,13 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.Platform.WinForms.ApplicationModels;
-using AgateLib.InputLib.Legacy;
 using AgateLib.Configuration;
 
 namespace AgateLib.Tests.FontTests
 {
 	class Fonts : IAgateTest
 	{
-		public string Name => "Fonts";
+		public string Name => "Font Tester";
 		public string Category => "Fonts";
 
 		public AgateConfig Configuration { get; set; }
@@ -40,7 +38,7 @@ namespace AgateLib.Tests.FontTests
 				Display.BeginFrame();
 				Display.Clear(Color.DarkGray);
 
-				IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
+				IFont font = Font.AgateSans;
 				font.Size = 12;
 
 				// test the color changing
@@ -148,7 +146,6 @@ namespace AgateLib.Tests.FontTests
 					Display.Dispose();
 					return;
 				}
-
 			}
 		}
 	}

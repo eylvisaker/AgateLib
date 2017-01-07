@@ -42,7 +42,7 @@ namespace AgateLib.Tests.FontTests
 			fonts.Add(Font.AgateSerif);
 			fonts.Add(Font.AgateMono);
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Navy);

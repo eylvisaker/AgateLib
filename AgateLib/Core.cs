@@ -403,31 +403,42 @@ namespace AgateLib
 		}
 
 		/// <summary>
+		/// The application is alive. When this value returns false, all application loops should terminate.
+		/// </summary>
+		public static bool IsAlive
+		{
+			get { return State.Core.IsAlive; }
+			set
+			{
+				if (!value)
+					State.Core.IsAlive = false;
+			}
+		}
+
+		/// <summary>
 		/// Plays nice with the OS, by allowing events to be handled.
 		/// This also handles user input events associated with the application,
 		/// and polls joysticks if needed.
 		/// </summary>
 		public static void KeepAlive()
 		{
-			State.Core.KeepAlive?.Invoke();
-
 			while (IsActive == false && AutoPause)
 			{
-				State.Core.KeepAlive?.Invoke();
-
 				AudioLib.Audio.Update();
 
 				if (Display.CurrentWindow == null)
 					break;
 				else if (Display.CurrentWindow.IsClosed)
 					break;
+				else if (IsAlive == false)
+					break;
 			}
 
 			// Update Audio Engine.
-			AudioLib.Audio.Update();
+			Audio.Update();
 
 			// Poll for joystick input.
-			InputLib.JoystickInput.PollTimer();
+			JoystickInput.PollTimer();
 
 			Input.PollJoysticks();
 

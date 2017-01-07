@@ -38,7 +38,7 @@ namespace AgateLib.ApplicationModels
 			internal set { Core.State.AppModel.Instance = value; }
 		}
 
-		[Obsolete("Use Display.CurrentWindow.IsClosed == false instead.", true)]
+		[Obsolete("Use Core.IsAlive instead.", true)]
 		public static bool IsAlive
 		{
 			get

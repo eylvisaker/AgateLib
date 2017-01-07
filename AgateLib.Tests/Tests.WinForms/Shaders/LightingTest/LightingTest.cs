@@ -66,7 +66,7 @@ namespace AgateLib.Tests.Shaders.LightingTest
 					lt2.Position = new Vector3(e.MousePosition.X, e.MousePosition.Y, -1);
 				};
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				//if (frm.chkMoveLight.Checked)
 				time += Display.DeltaTime / 1000.0;

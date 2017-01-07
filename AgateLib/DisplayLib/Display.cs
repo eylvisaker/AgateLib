@@ -291,7 +291,9 @@ namespace AgateLib.DisplayLib
 			if (RenderTarget == null)
 				throw new AgateException("A render target must be set before beginning to render.");
 			if (CurrentWindow.IsClosed)
-				throw new ExitGameException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
+				throw new AgateException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
+			if (Core.IsAlive == false)
+				throw new AgateException("The user has closed the game window - all game loops should check Core.IsAlive and terminate immediately.");
 
 			Impl.BeginFrame();
 

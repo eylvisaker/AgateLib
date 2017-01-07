@@ -26,7 +26,7 @@ using AgateLib.IO;
 
 namespace AgateLib.Configuration
 {
-	public abstract class AgateSetup : IAgateSetup
+	public abstract class AgateSetupCore : IAgateSetup
 	{
 		public void Dispose()
 		{

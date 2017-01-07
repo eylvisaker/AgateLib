@@ -58,7 +58,7 @@ namespace AgateLib.Tests.DisplayTests
 			};
 			Input.Unhandled.MouseMove += (sender, e) => mouse = e.MousePosition;
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				Display.CurrentWindow.Title = Display.FramesPerSecond.ToString();
 				Display.BeginFrame();

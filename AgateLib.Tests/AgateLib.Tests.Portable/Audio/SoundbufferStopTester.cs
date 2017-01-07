@@ -43,7 +43,7 @@ namespace AgateLib.Tests.AudioTests
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			Input.Unhandled.MouseDown += Mouse_MouseDown;
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear();

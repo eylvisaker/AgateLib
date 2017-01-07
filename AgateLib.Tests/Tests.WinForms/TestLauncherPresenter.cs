@@ -104,7 +104,7 @@ namespace AgateLib.Tests
 
 			try
 			{
-				using (var setup = new AgateLib.Platform.WinForms.AgateSetupWinForms(CommandLineArguments))
+				using (var setup = new AgateLib.Platform.WinForms.AgateSetup(CommandLineArguments))
 				{
 					setup.ApplicationName = $"{test.Category} :: {test.Name}";
 					setup.AssetLocations.Path = "Assets";

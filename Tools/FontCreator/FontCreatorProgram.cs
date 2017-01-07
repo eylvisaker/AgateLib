@@ -24,7 +24,7 @@ namespace FontCreator
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			using (var setup = new AgateSetupWinForms(args))
+			using (var setup = new AgateSetup(args))
 			{
 				setup.CreateDisplayWindow = false;
 				setup.AssetLocations.Surfaces = "images";

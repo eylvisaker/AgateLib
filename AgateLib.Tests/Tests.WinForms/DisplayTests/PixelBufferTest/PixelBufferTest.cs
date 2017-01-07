@@ -32,27 +32,29 @@ namespace AgateLib.Tests.DisplayTests.PixelBufferTest
 
 		public void Run()
 		{
-			frm = new PixelBufferForm();
-			frm.Show();
-
-			DisplayWindow wind = DisplayWindow.CreateFromControl(frm.panel1);
-
-			image = new Surface("9ball.png");
-			buffer = image.ReadPixels(PixelFormat.Any);
-
-			Input.Unhandled.MouseDown += Mouse_MouseDown;
-			Input.Unhandled.MouseMove += Mouse_MouseMove;
-			Input.Unhandled.MouseUp += (sender, e) => mouseDown = false;
-
-			while (wind.IsClosed == false)
+			using (frm = new PixelBufferForm())
 			{
-				Display.BeginFrame();
-				Display.Clear();
+				frm.Show();
 
-				image.Draw(imageLocation);
+				DisplayWindow wind = DisplayWindow.CreateFromControl(frm.panel1);
 
-				Display.EndFrame();
-				Core.KeepAlive();
+				image = new Surface("9ball.png");
+				buffer = image.ReadPixels(PixelFormat.Any);
+
+				Input.Unhandled.MouseDown += Mouse_MouseDown;
+				Input.Unhandled.MouseMove += Mouse_MouseMove;
+				Input.Unhandled.MouseUp += (sender, e) => mouseDown = false;
+
+				while (Core.IsAlive && frm.IsDisposed == false)
+				{
+					Display.BeginFrame();
+					Display.Clear();
+
+					image.Draw(imageLocation);
+
+					Display.EndFrame();
+					Core.KeepAlive();
+				}
 			}
 		}
 

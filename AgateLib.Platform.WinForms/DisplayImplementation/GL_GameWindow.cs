@@ -377,6 +377,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			if (window != null)
 			{
+				ExitMessageLoop();
 				window.Dispose();
 				window = null;
 			}
@@ -469,7 +470,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public void ExitMessageLoop()
 		{
-			window.Exit();
+			window?.Exit();
 		}
 
 

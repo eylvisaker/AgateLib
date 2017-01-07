@@ -18,7 +18,7 @@ namespace BasicInitialization
 		[STAThread]
 		static void Main(string[] args)
 		{
-			using (var setup = new AgateSetupWinForms(args))
+			using (var setup = new AgateSetup(args))
 			{
 				// At minimum, we must specify to the setup object what the desired size of the display window is.
 				setup.DesiredDisplayWindowResolution = new Size(500, 400);

@@ -41,7 +41,7 @@ namespace AgateLib.Tests.FontTests
 
 			int[] numbers = new int[] { 0, 0, 1, 11, 22, 33, 44, 99, 100, 111, 222, 333, 444, 555, 666, 777, 888, 999 };
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				IFont f = fonts[fontIndex];
 

@@ -107,12 +107,9 @@ namespace AgateLib.ApplicationModels
 			if (sceneToStartWith != null)
 				Add(sceneToStartWith);
 
-			while (Count > 0)
+			while (Count > 0 && Core.IsAlive)
 			{
 				RunSingleFrame();
-
-				if (Display.CurrentWindow.IsClosed)
-					throw new ExitGameException();
 			}
 		}
 
@@ -130,6 +127,5 @@ namespace AgateLib.ApplicationModels
 			Display.EndFrame();
 			Core.KeepAlive();
 		}
-
 	}
 }

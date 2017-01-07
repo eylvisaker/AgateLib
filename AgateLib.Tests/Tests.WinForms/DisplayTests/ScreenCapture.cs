@@ -27,7 +27,7 @@ namespace AgateLib.Tests.DisplayTests
 
 			FrameBuffer capture = new FrameBuffer(1600, 1200);
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				if (Input.Unhandled.Keys[KeyCode.C])
 				{

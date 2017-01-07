@@ -40,7 +40,7 @@ namespace AgateLib.Tests.DisplayTests
 
 			mySurface = new Surface("9ball.png");
 
-			while (Display.CurrentWindow.IsClosed == false && done == false)
+			while (Core.IsAlive && done == false)
 			{
 				Display.RenderTarget = Display.CurrentWindow.FrameBuffer;
 				Display.BeginFrame();

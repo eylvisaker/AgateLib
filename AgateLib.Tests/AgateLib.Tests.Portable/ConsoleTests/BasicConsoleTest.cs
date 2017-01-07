@@ -30,7 +30,7 @@ namespace AgateLib.Tests.ConsoleTests
 			AgateConsole.Initialize();
 			AgateConsole.CommandLibraries.Add(new LibraryVocabulary(this));
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.LightBlue);

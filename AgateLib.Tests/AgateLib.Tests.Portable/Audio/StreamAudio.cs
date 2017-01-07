@@ -122,7 +122,7 @@ namespace AgateLib.Tests.AudioTests
 
 			var font = Font.AgateSans;
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear();

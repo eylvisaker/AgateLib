@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
-using AgateLib.Platform.WinForms.Resources;
-using AgateLib.Platform.WinForms.ApplicationModels;
-using AgateLib.InputLib.Legacy;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.Shaders
 {
@@ -57,7 +54,7 @@ namespace AgateLib.Tests.Shaders
 			lightMesh.Length = 0.02f;
 			lightMesh.CreateVertexBuffer();
 
-			while (Display.CurrentWindow.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Blue);
@@ -119,7 +116,7 @@ namespace AgateLib.Tests.Shaders
 
 				if (paused)
 				{
-					while (paused && advance == false && done == false && Display.CurrentWindow.IsClosed == false)
+					while (paused && advance == false && done == false && Core.IsAlive)
 						Core.KeepAlive();
 
 					advance = false;

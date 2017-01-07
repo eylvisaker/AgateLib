@@ -38,7 +38,10 @@ using AgateLib.Quality;
 
 namespace AgateLib.Platform.WinForms
 {
-	public class AgateSetupWinForms : AgateSetup
+	/// <summary>
+	/// Provides initialization of the AgateLib WinForms platform.
+	/// </summary>
+	public class AgateSetup : AgateSetupCore
 	{
 		#region --- Static Members ---
 
@@ -74,12 +77,12 @@ namespace AgateLib.Platform.WinForms
 		System.Windows.Forms.Form hiddenForm;
 		DisplayWindow hiddenDisplayWindow;
 
-		public AgateSetupWinForms()
+		public AgateSetup()
 		{
 
 		}
 
-		public AgateSetupWinForms(string[] commandLineArguments) : this()
+		public AgateSetup(string[] commandLineArguments) : this()
 		{
 			ParseCommandLineArgs(commandLineArguments);
 		}
@@ -249,14 +252,12 @@ namespace AgateLib.Platform.WinForms
 
 				Display.RenderState.WaitForVerticalBlank = VerticalSync;
 
-				window.Closing += window_Closing;
+				window.Closed += window_Closed;
 
 				config.DisplayWindows = new List<DisplayWindow> { window };
 
 				primaryWindow = window.Impl as IPrimaryWindow;
 			}
-
-			Core.State.Core.KeepAlive += KeepAlive;
 		}
 
 		private void CreateHiddenDisplayWindow(AgateConfig config)
@@ -267,16 +268,12 @@ namespace AgateLib.Platform.WinForms
 			primaryWindow = hiddenDisplayWindow.Impl as IPrimaryWindow;
 		}
 
-		private void KeepAlive()
-		{
-			if (windowClosed)
-				throw new ExitGameException();
-		}
-
-		private void window_Closing(object sender, ref bool cancel)
+		private void window_Closed(object sender, EventArgs args)
 		{
 			windowClosed = true;
 			primaryWindow.ExitMessageLoop();
+
+			Core.IsAlive = false;
 		}
 
 		private ICoordinateSystem CreateFullScreenCoords(Size fullScreenSize)
@@ -307,6 +304,12 @@ namespace AgateLib.Platform.WinForms
 					throw new NotImplementedException();
 			}
 		}
+
+	}
+
+	[Obsolete("Just use AgateSetup type instead.", true)]
+	public class AgateSetupWinForms : AgateSetup
+	{
 
 	}
 }
