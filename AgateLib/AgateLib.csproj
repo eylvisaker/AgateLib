@@ -287,24 +287,6 @@
     <Compile Include="Platform\IStopWatch.cs" />
     <Compile Include="Platform\PlatformInfo.cs" />
     <Compile Include="Platform\PlatformEnums.cs" />
-    <Compile Include="Serialization\Xle\CompressionMode.cs" />
-    <Compile Include="Serialization\Xle\CompressionType.cs" />
-    <Compile Include="Serialization\Xle\ITypeBinder.cs" />
-    <Compile Include="Serialization\Xle\IXleSerializable.cs" />
-    <Compile Include="Serialization\Xle\IXleTypeSerializer.cs" />
-    <Compile Include="Serialization\Xle\NumericEncoding.cs" />
-    <Compile Include="Serialization\Xle\TypeBinder.cs" />
-    <Compile Include="Serialization\Xle\TypeSerializers\PointFSerializer.cs" />
-    <Compile Include="Serialization\Xle\TypeSerializers\PointSerializer.cs" />
-    <Compile Include="Serialization\Xle\TypeSerializers\RectangleFSerializer.cs" />
-    <Compile Include="Serialization\Xle\TypeSerializers\RectangleSerializer.cs" />
-    <Compile Include="Serialization\Xle\TypeSerializers\SizeFSerializer.cs" />
-    <Compile Include="Serialization\Xle\TypeSerializers\SizeSerializer.cs" />
-    <Compile Include="Serialization\Xle\XleSerializationException.cs" />
-    <Compile Include="Serialization\Xle\XleSerializationInfo.cs" />
-    <Compile Include="Serialization\Xle\XleSerializer.cs" />
-    <Compile Include="Serialization\Xle\XleTypeSerializerBase.cs" />
-    <Compile Include="Serialization\Xle\XleTypeSerializerCollection.cs" />
     <Compile Include="Settings\SettingsGroup.cs" />
     <Compile Include="Platform\Timing.cs">
       <SubType>Code</SubType>
