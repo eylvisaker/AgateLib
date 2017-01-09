@@ -99,6 +99,7 @@ namespace AgateLib.Resources
 			using (var file = new StreamReader(fileProvider.OpenRead(filename)))
 			{
 				ResourceDataModel result = deserializer.Deserialize<ResourceDataModel>(file);
+				result.Path = Path.GetDirectoryName(filename);
 
 				ReadExternalFiles(deserializer, result);
 
@@ -129,7 +130,7 @@ namespace AgateLib.Resources
 				using (var file = new StreamReader(fileProvider.OpenRead(filename)))
 				{
 					var result = deserializer.Deserialize<TCollection>(file);
-
+					
 					foreach (var kvp in result)
 					{
 						store(kvp.Key, kvp.Value);

@@ -147,6 +147,11 @@ namespace AgateLib.Resources.Managers.Display
 		{
 			fileProvider = fileProvider ?? imageFileProvider;
 
+			if (!string.IsNullOrWhiteSpace(data.Path))
+			{
+				image = $"{data.Path}/{image}";
+			}
+
 			if (surfaces.ContainsKey(image) == false)
 			{
 				if (data.Images.ContainsKey(image) == false)

@@ -26,7 +26,7 @@ namespace AgateLib.UserInterface.DataModel
 	{
 		Dictionary<string, WidgetThemeModel> widgets = 
 			new Dictionary<string, WidgetThemeModel>(StringComparer.OrdinalIgnoreCase);
-
+		
 		public WidgetThemeModel this[string key]
 		{
 			get

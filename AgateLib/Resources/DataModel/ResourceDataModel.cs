@@ -44,6 +44,8 @@ namespace AgateLib.Resources.DataModel
 
 		public List<string> SurfaceSources { get; set; } = new List<string>();
 
+		public string Path { get; set; }
+
 		internal void Validate()
 		{
 			Facets.Validate();
