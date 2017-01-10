@@ -39,7 +39,7 @@ fonts:
 				.Setup(x => x.OpenReadAsync(filename))
 				.Returns(() => Task.FromResult((Stream)new MemoryStream(Encoding.UTF8.GetBytes(yaml))));
 
-			Assets.UserInterfaceAssets = fileProvider.Object;
+			Assets.AssetProvider = fileProvider.Object;
 		}
 
 		[TestMethod]

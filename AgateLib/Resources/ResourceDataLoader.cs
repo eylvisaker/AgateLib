@@ -40,7 +40,7 @@ namespace AgateLib.Resources
 
 		public ResourceDataLoader(IReadFileProvider fileProvider = null)
 		{
-			this.fileProvider = fileProvider ?? Assets.UserInterfaceAssets;
+			this.fileProvider = fileProvider ?? Assets.AssetProvider;
 		}
 
 		/// <summary>
