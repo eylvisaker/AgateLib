@@ -1,31 +1,31 @@
 ﻿
 font-sources:
--  MedievalSharp.yaml
+-   MedievalSharp.yaml
 
 images:
-  sample_surf: 
-    image: jellybean.png
+    sample_surf: 
+        image: jellybean.png
 
 sprites:
-  sample_sprite:
-    image: attacke.png
-    animation:
-        frame-time: 60
-    size: 96 96
-    frames:
-    -  source-rect: 0 0 96 96
-    -  source-rect: 96 0 96 96
-    -  source-rect: 192 0 96 96
-    -  source-rect: 288 0 96 96
-    -  source-rect: 384 0 96 96
-    -  source-rect: 480 0 96 96
-    -  source-rect: 0 96 96 96
-    -  source-rect: 96 96 96 96
-    -  source-rect: 192 96 96 96
-    -  source-rect: 288 96 96 96
-    -  source-rect: 384 96 96 96
-    -  source-rect: 480 96 96 96
-    -  source-rect: 0 192 96 96
+    sample_sprite:
+        image: attacke.png
+        animation:
+            frame-time: 60
+        size: 96 96
+        frames:
+        -   source-rect: 0 0 96 96
+        -   source-rect: 96 0 96 96
+        -   source-rect: 192 0 96 96
+        -   source-rect: 288 0 96 96
+        -   source-rect: 384 0 96 96
+        -   source-rect: 480 0 96 96
+        -   source-rect: 0 96 96 96
+        -   source-rect: 96 96 96 96
+        -   source-rect: 192 96 96 96
+        -   source-rect: 288 96 96 96
+        -   source-rect: 384 96 96 96
+        -   source-rect: 480 96 96 96
+        -   source-rect: 0 192 96 96
 
 fonts:
   sample_font:

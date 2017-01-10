@@ -62,7 +62,7 @@ namespace AgateLib.UserInterface.DataModel
 			if (stateModel.Background != null && !string.IsNullOrWhiteSpace(stateModel.Background.Image))
 				stateModel.Background.Image = $"{path}/{stateModel.Background.Image}";
 
-			if (stateModel.Border != null && !string.IsNullOrWhiteSpace(stateModel.Background.Image))
+			if (stateModel.Border != null && !string.IsNullOrWhiteSpace(stateModel.Border.Image))
 				stateModel.Border.Image = $"{path}/{stateModel.Border.Image}";
 		}
 
