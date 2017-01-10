@@ -24,52 +24,46 @@ namespace AgateLib.UserInterface.DataModel
 {
 	public class ThemeModel : IDictionary<string, WidgetThemeModel>
 	{
-		Dictionary<string, WidgetThemeModel> widgets = 
+		Dictionary<string, WidgetThemeModel> widgets =
 			new Dictionary<string, WidgetThemeModel>(StringComparer.OrdinalIgnoreCase);
-		
+
 		public WidgetThemeModel this[string key]
 		{
-			get
-			{
-				return ((IDictionary<string, WidgetThemeModel>)widgets)[key];
-			}
+			get { return ((IDictionary<string, WidgetThemeModel>)widgets)[key]; }
+			set { ((IDictionary<string, WidgetThemeModel>)widgets)[key] = value; }
+		}
 
-			set
+		public int Count => widgets.Count;
+
+		public bool IsReadOnly => false;
+
+		public ICollection<string> Keys => widgets.Keys;
+
+		public ICollection<WidgetThemeModel> Values => widgets.Values;
+
+		public void ApplyPath(string path)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+				return;
+
+			foreach(var themeModel in widgets.Values)
 			{
-				((IDictionary<string, WidgetThemeModel>)widgets)[key] = value;
+				ApplyPathToState(path, themeModel);
+
+				foreach (var state in themeModel.State.Values)
+				{
+					ApplyPathToState(path, state);
+				}
 			}
 		}
 
-		public int Count
+		private void ApplyPathToState(string path, WidgetStateModel stateModel)
 		{
-			get
-			{
-				return ((IDictionary<string, WidgetThemeModel>)widgets).Count;
-			}
-		}
+			if (stateModel.Background != null && !string.IsNullOrWhiteSpace(stateModel.Background.Image))
+				stateModel.Background.Image = $"{path}/{stateModel.Background.Image}";
 
-		public bool IsReadOnly
-		{
-			get
-			{
-				return ((IDictionary<string, WidgetThemeModel>)widgets).IsReadOnly;
-			}
-		}
-
-		public ICollection<string> Keys
-		{
-			get
-			{
-				return ((IDictionary<string, WidgetThemeModel>)widgets).Keys;
-			}
-		}
-
-		public ICollection<WidgetThemeModel> Values
-		{
-			get
-			{
-				return ((IDictionary<string, WidgetThemeModel>)widgets).Values;
-			}
+			if (stateModel.Border != null && !string.IsNullOrWhiteSpace(stateModel.Background.Image))
+				stateModel.Border.Image = $"{path}/{stateModel.Border.Image}";
 		}
 
 		public void Add(KeyValuePair<string, WidgetThemeModel> item)

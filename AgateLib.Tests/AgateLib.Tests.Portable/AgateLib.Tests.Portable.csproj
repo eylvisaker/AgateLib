@@ -203,7 +203,7 @@
     <Content Include="Assets\UserInterface\PaperTheme.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\UserInterface\MenuScroll.yaml">
+    <Content Include="Assets\MenuScroll.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\UserInterface\FontAlignment.yaml">

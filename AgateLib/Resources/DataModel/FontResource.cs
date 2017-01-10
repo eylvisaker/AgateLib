@@ -31,32 +31,15 @@ namespace AgateLib.Resources.DataModel
 
 		public FontSurfaceResource this[int index]
 		{
-			get
-			{
-				return ((IList<FontSurfaceResource>)fontSurfaces)[index];
-			}
-
-			set
-			{
-				((IList<FontSurfaceResource>)fontSurfaces)[index] = value;
-			}
+			get { return ((IList<FontSurfaceResource>)fontSurfaces)[index]; }
+			set { ((IList<FontSurfaceResource>)fontSurfaces)[index] = value; }
 		}
 
-		public int Count
-		{
-			get
-			{
-				return ((IList<FontSurfaceResource>)fontSurfaces).Count;
-			}
-		}
+		public int Count => ((IList<FontSurfaceResource>)fontSurfaces).Count;
 
-		public bool IsReadOnly
-		{
-			get
-			{
-				return ((IList<FontSurfaceResource>)fontSurfaces).IsReadOnly;
-			}
-		}
+		public bool IsReadOnly => false;
+
+		public string Path { get; set; }
 
 		public void Add(FontSurfaceResource item)
 		{

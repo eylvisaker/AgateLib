@@ -1,9 +1,9 @@
 ﻿
 font-sources: 
-- MedievalSharp.yaml
+- UserInterface/MedievalSharp.yaml
 
 theme-sources:
-- PaperTheme.yaml
+- UserInterface/PaperTheme.yaml
 
 facets:
     MenuScroll: 

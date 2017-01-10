@@ -59,7 +59,7 @@ namespace AgateLib.Resources
 				.WithTypeConverter(new SizeConverterYaml())
 				.Build();
 
-			using (var file = new StringReader(text)) 
+			using (var file = new StringReader(text))
 			{
 				ResourceDataModel result = deserializer.Deserialize<ResourceDataModel>(text);
 
@@ -111,30 +111,70 @@ namespace AgateLib.Resources
 
 		private void ReadExternalFiles(Deserializer deserializer, ResourceDataModel config)
 		{
-			ReadSources<FontResourceCollection, FontResource>(deserializer, config, config.FontSources,
-				(key, value) => config.Fonts.Add(key, value));
+			foreach (var fontSource in config.FontSources)
+			{
+				var path = ResourcePath(config, fontSource);
 
-			ReadSources<ThemeModelCollection, ThemeModel>(deserializer, config, config.ThemeSources,
-				(key, value) => config.Themes.Add(key, value));
+				ReadSources<FontResourceCollection, FontResource>(deserializer, config, fontSource,
+					(key, value) =>
+					{
+						value.Path = path;
+						config.Fonts.Add(key, value);
+					});
+			}
 
-			ReadSources<FacetModelCollection, FacetModel>(deserializer, config, config.FacetSources,
-				(key, value) => config.Facets.Add(key, value));
+			foreach (var themeSource in config.ThemeSources)
+			{
+				var path = ResourcePath(config, themeSource);
+
+				ReadSources<ThemeModelCollection, ThemeModel>(deserializer, config, themeSource,
+					(key, value) =>
+					{
+						value.ApplyPath(path);
+						config.Themes.Add(key, value);
+					});
+			}
+
+			foreach (var facetSource in config.FacetSources)
+			{
+				ReadSources<FacetModelCollection, FacetModel>(deserializer, config, facetSource,
+					(key, value) => config.Facets.Add(key, value));
+			}
 		}
 
-		private void ReadSources<TCollection, TItem>(Deserializer deserializer, ResourceDataModel config, 
-			IEnumerable<string> sources, Action<string, TItem> store) 
+		private string ResourcePath(ResourceDataModel config, string localFile)
+		{
+			var localPath = Path.GetDirectoryName(localFile);
+			var validPath = !string.IsNullOrWhiteSpace(config.Path);
+			var validLocal = !string.IsNullOrWhiteSpace(localPath);
+
+			if (validPath && validLocal)
+			{
+				return config.Path + "/" + localPath;
+			}
+			else if (validPath)
+			{
+				return config.Path;
+			}
+			else if (validLocal)
+			{
+				return localPath;
+			}
+
+			return "";
+		}
+
+		private void ReadSources<TCollection, TItem>(Deserializer deserializer, ResourceDataModel config,
+			string filename, Action<string, TItem> store)
 			where TCollection : IEnumerable<KeyValuePair<string, TItem>>
 		{
-			foreach (var filename in sources)
+			using (var file = new StreamReader(fileProvider.OpenRead(filename)))
 			{
-				using (var file = new StreamReader(fileProvider.OpenRead(filename)))
+				var result = deserializer.Deserialize<TCollection>(file);
+
+				foreach (var kvp in result)
 				{
-					var result = deserializer.Deserialize<TCollection>(file);
-					
-					foreach (var kvp in result)
-					{
-						store(kvp.Key, kvp.Value);
-					}
+					store(kvp.Key, kvp.Value);
 				}
 			}
 		}

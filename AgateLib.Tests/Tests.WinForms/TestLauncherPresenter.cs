@@ -108,7 +108,6 @@ namespace AgateLib.Tests
 				{
 					setup.ApplicationName = $"{test.Category} :: {test.Name}";
 					setup.AssetLocations.Path = "Assets";
-					setup.AssetLocations.UserInterface = "UserInterface";
 					setup.DesiredDisplayWindowResolution = new Size(800, 600);
 					test.ModifySetup(setup);
 

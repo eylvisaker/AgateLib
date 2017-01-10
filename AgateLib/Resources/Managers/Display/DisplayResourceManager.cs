@@ -111,7 +111,11 @@ namespace AgateLib.Resources.Managers.Display
 
 			foreach (var fontSurfaceModel in fontModel)
 			{
-				var surface = GetSurface(fontSurfaceModel.Image, fontFileProvider);
+				var image = fontSurfaceModel.Image;
+				if (!string.IsNullOrWhiteSpace(fontModel.Path))
+					image = $"{fontModel.Path}/{fontSurfaceModel.Image}";
+
+				var surface = GetSurface(image, fontFileProvider);
 
 				FontMetrics metrics = new FontMetrics();
 				foreach (var glyph in fontSurfaceModel.Metrics)
