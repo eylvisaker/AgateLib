@@ -49,6 +49,7 @@ namespace AgateLib.Resources
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
+		[Obsolete("Use a fileprovider object instead.")]
 		public ResourceDataModel LoadFromText(string text)
 		{
 			var deserializer = new DeserializerBuilder()
@@ -99,6 +100,7 @@ namespace AgateLib.Resources
 			using (var file = new StreamReader(fileProvider.OpenRead(filename)))
 			{
 				ResourceDataModel result = deserializer.Deserialize<ResourceDataModel>(file);
+				result.FileProvider = fileProvider;
 				result.Path = Path.GetDirectoryName(filename);
 
 				ReadExternalFiles(deserializer, result);
@@ -113,9 +115,13 @@ namespace AgateLib.Resources
 		{
 			foreach (var fontSource in config.FontSources)
 			{
-				var path = ResourcePath(config, fontSource);
+				var filePath = CombinePath(config.Path, fontSource);
+				var path = GetDirectoryName(filePath);
 
-				ReadSources<FontResourceCollection, FontResource>(deserializer, config, fontSource,
+				ReadSources<FontResourceCollection, FontResource>(
+					deserializer,
+					config,
+					filePath,
 					(key, value) =>
 					{
 						value.Path = path;
@@ -125,7 +131,7 @@ namespace AgateLib.Resources
 
 			foreach (var themeSource in config.ThemeSources)
 			{
-				var path = ResourcePath(config, themeSource);
+				var path = CombinePath(config.Path, Path.GetDirectoryName(themeSource));
 
 				ReadSources<ThemeModelCollection, ThemeModel>(deserializer, config, themeSource,
 					(key, value) =>
@@ -142,23 +148,38 @@ namespace AgateLib.Resources
 			}
 		}
 
-		private string ResourcePath(ResourceDataModel config, string localFile)
+		private string GetDirectoryName(string filePath)
 		{
-			var localPath = Path.GetDirectoryName(localFile);
-			var validPath = !string.IsNullOrWhiteSpace(config.Path);
-			var validLocal = !string.IsNullOrWhiteSpace(localPath);
+			if (filePath.Contains("/") || filePath.Contains("\\"))
+			{
+				var lastSlash = filePath.LastIndexOf("/");
+				var lastBackslash = filePath.LastIndexOf("\\");
+				var lastIndex = Math.Max(lastSlash, lastBackslash);
 
-			if (validPath && validLocal)
-			{
-				return config.Path + "/" + localPath;
+				return filePath.Substring(0, lastIndex);
 			}
-			else if (validPath)
+			else
 			{
-				return config.Path;
+				return "";
+			}
+		}
+
+		private string CombinePath(string rootPath, string localFile)
+		{
+			var validRoot = !string.IsNullOrWhiteSpace(rootPath);
+			var validLocal = !string.IsNullOrWhiteSpace(localFile);
+
+			if (validRoot && validLocal)
+			{
+				return rootPath + "/" + localFile;
+			}
+			else if (validRoot)
+			{
+				return rootPath;
 			}
 			else if (validLocal)
 			{
-				return localPath;
+				return localFile;
 			}
 
 			return "";

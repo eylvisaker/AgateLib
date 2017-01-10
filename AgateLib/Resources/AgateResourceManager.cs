@@ -34,7 +34,6 @@ namespace AgateLib.Resources
 	public class AgateResourceManager : IAgateResourceManager
 	{
 		private readonly ResourceDataModel data;
-		private readonly IReadFileProvider imageFileProvider;
 
 		private IUserInterfaceResourceManager uiResourceManager;
 		private IDisplayResourceManager displayResourceManager;
@@ -51,9 +50,8 @@ namespace AgateLib.Resources
 		public AgateResourceManager(ResourceDataModel dataModel, IReadFileProvider imageFileProvider, IReadFileProvider fontFileProvider)
 		{
 			this.data = dataModel;
-			this.imageFileProvider = imageFileProvider;
 
-			Display = new DisplayResourceManager(data, imageFileProvider, fontFileProvider);
+			Display = new DisplayResourceManager(data);
 			UserInterface = new UserInterfaceResourceManager(data, Display);
 		}
 

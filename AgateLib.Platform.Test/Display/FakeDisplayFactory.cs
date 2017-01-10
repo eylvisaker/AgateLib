@@ -52,7 +52,7 @@ namespace AgateLib.Platform.Test.Display
 
 		public SurfaceImpl CreateSurface(System.IO.Stream fileStream)
 		{
-			throw new NotImplementedException();
+			return new FakeSurface(new Size(10, 10));
 		}
 
 		public SurfaceImpl CreateSurface(Size surfaceSize)

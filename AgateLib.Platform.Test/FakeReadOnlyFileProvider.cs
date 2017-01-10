@@ -27,29 +27,62 @@ namespace AgateLib.Platform.Test
 {
 	public class FakeReadOnlyFileProvider : IReadFileProvider
 	{
+		class FileInfo
+		{
+			public FileInfo(byte[] contents)
+			{
+				Contents = contents;
+			}
+
+			public byte[] Contents { get; set; }
+			public int ReadCount { get; set; }
+		}
+
+		Dictionary<string, FileInfo> files = new Dictionary<string, FileInfo>();
+
+		public int ReadCount(string filename)
+		{
+			return files[filename].ReadCount;
+		}
+
+		public void Add(string filename, string fileContents)
+		{
+			Add(filename, Encoding.UTF8.GetBytes(fileContents));
+		}
+
+		private void Add(string filename, byte[] fileContents)
+		{
+			files.Add(filename, new FileInfo(fileContents));
+		}
+
 		public Task<Stream> OpenReadAsync(string filename)
 		{
-			throw new NotImplementedException();
+			VerifyFileExists(filename);
+
+			return Task.FromResult<Stream>(new MemoryStream(files[filename].Contents));
 		}
 
 		public bool FileExists(string filename)
 		{
-			return false;
+			return files.ContainsKey(filename);
 		}
 
 		public IEnumerable<string> GetAllFiles()
 		{
-			yield break;
+			return files.Keys;
 		}
 
 		public IEnumerable<string> GetAllFiles(string searchPattern)
 		{
-			yield break;
+			return files.Keys.Where(file => SearchPatternMatches(searchPattern, file));
 		}
 
 		public string ReadAllText(string filename)
 		{
-			return "";
+			VerifyFileExists(filename);
+			var data = files[filename].Contents;
+
+			return Encoding.UTF8.GetString(data, 0, data.Length);
 		}
 
 		public bool IsRealFile(string filename)
@@ -65,6 +98,19 @@ namespace AgateLib.Platform.Test
 		public bool IsLogicalFilesystem
 		{
 			get { return true; }
+		}
+
+		private void VerifyFileExists(string filename)
+		{
+			if (files.ContainsKey(filename) == false)
+				throw new FileNotFoundException($"Could not find file {filename} in {nameof(FakeReadOnlyFileProvider)}.");
+
+			files[filename].ReadCount++;
+		}
+
+		private bool SearchPatternMatches(string searchPattern, string file)
+		{
+			return true;
 		}
 	}
 }

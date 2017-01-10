@@ -24,8 +24,19 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Resources.DataModel
 {
-	public class ResourceDataModel 
+	public class ResourceDataModel
 	{
+		/// <summary>
+		/// The IReadFileProvider object that is used to load resources.
+		/// </summary>
+		internal IReadFileProvider FileProvider { get; set; }
+
+		/// <summary>
+		/// The root path of files referred to from this file.
+		/// </summary>
+		internal string Path { get; set; }
+
+
 		public FontResourceCollection Fonts { get; set; } = new FontResourceCollection();
 
 		public ThemeModelCollection Themes { get; set; } = new ThemeModelCollection();
@@ -43,8 +54,6 @@ namespace AgateLib.Resources.DataModel
 		public List<string> FacetSources { get; set; } = new List<string>();
 
 		public List<string> SurfaceSources { get; set; } = new List<string>();
-
-		public string Path { get; set; }
 
 		internal void Validate()
 		{
