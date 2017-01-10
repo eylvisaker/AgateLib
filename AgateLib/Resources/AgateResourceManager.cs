@@ -31,7 +31,7 @@ using AgateLib.UserInterface;
 
 namespace AgateLib.Resources
 {
-	public class AgateResourceManager : IDisposable
+	public class AgateResourceManager : IAgateResourceManager
 	{
 		private readonly ResourceDataModel data;
 		private readonly IReadFileProvider imageFileProvider;

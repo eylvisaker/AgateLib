@@ -167,6 +167,7 @@
     <Compile Include="Resources\DataModel\SpriteResourceCollection.cs" />
     <Compile Include="Resources\DataModel\SurfaceModel.cs" />
     <Compile Include="Resources\DataModel\SurfaceModelCollection.cs" />
+    <Compile Include="Resources\IAgateResourceManager.cs" />
     <Compile Include="Resources\Managers\Display\DisplayResourceManager.cs" />
     <Compile Include="Resources\Managers\Display\IDisplayResourceManager.cs" />
     <Compile Include="Resources\ResourceDataSerializer.cs" />
