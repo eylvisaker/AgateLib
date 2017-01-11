@@ -160,14 +160,21 @@ namespace AgateLib.Resources
 			string filename, Action<string, TItem> store)
 			where TCollection : IEnumerable<KeyValuePair<string, TItem>>
 		{
-			using (var file = new StreamReader(fileProvider.OpenRead(filename)))
+			try
 			{
-				var result = deserializer.Deserialize<TCollection>(file);
-
-				foreach (var kvp in result)
+				using (var file = new StreamReader(fileProvider.OpenRead(filename)))
 				{
-					store(kvp.Key, kvp.Value);
+					var result = deserializer.Deserialize<TCollection>(file);
+
+					foreach (var kvp in result)
+					{
+						store(kvp.Key, kvp.Value);
+					}
 				}
+			}
+			catch(Exception e)
+			{
+				throw new AgateResourceException($"Exception while reading {filename}.", e);
 			}
 		}
 	}
