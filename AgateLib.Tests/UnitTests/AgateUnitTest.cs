@@ -5,28 +5,36 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AgateLib.Platform.Test;
+using AgateLib.DisplayLib;
+using AgateLib.Geometry;
 
 namespace AgateLib.UnitTests
 {
 	[TestClass]
-	public class AgateUnitTest
+	public class AgateUnitTest : IDisposable
 	{
+		UnitTestPlatform platform;
+		DisplayWindow window;
+
 		public AgateUnitTest()
 		{
-			Factory = Initializer.InitializeAgateLib();
+			platform = new UnitTestPlatform();
+			platform.DesiredDisplayWindowResolution = new Size(1920, 1080);
+			platform.InitializeAgateLib();
 
-			Initializer.InitializeDisplayWindow(1920, 1080);
+			window = DisplayWindow.CreateWindowed("AgateLib", new Size(1920, 1080));
 		}
 
-		[TestCleanup]
-		public void ClearAgateLibState()
+		public void Dispose()
 		{
+			Dispose(true);
+
+			platform.Dispose();
 			Core.State = null;
 		}
 
-		public AgateLibInitializer Initializer { get; private set; } = new AgateLibInitializer();
-		
-		public FakeAgateFactory Factory { get; set; }
-
+		protected virtual void Dispose(bool disposing)
+		{
+		}
 	}
 }

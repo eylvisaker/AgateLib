@@ -108,7 +108,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AgateLibInitializer.cs" />
     <Compile Include="AgateUnitTest.cs" />
     <Compile Include="Algorithms\PathFinding\AStarTest.cs" />
     <Compile Include="Algorithms\EMathTest.cs" />

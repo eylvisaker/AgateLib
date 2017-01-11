@@ -29,10 +29,10 @@ namespace AgateLib.Platform.Test
 {
 	public class UnitTestPlatform : AgateSetupCore
 	{
-		public void Initialize(ModelParameters parameters, bool useRealFilesystem, string appDirPath)
+		public void InitializeAgateLib()
 		{
 			Core.Initialize(new FakeAgateFactory());
-			Core.InitAssetLocations(parameters.AssetLocations);
+			Core.InitAssetLocations(AssetLocations);
 		}
 
 		protected override void Dispose(bool disposing)
