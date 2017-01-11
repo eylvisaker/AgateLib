@@ -62,8 +62,19 @@ namespace AgateLib.Resources.Managers.UserInterface
 
 		public void InitializeFacet(IUserInterfaceFacet facet)
 		{
+			string facetName = "unknown";
+
 			try
 			{
+				facetName = facet.FacetName;
+
+				Condition.RequireArgumentNotNull(facetName, nameof(facet.FacetName),
+					"The value of the facet's FacetName property must not be null.");
+
+				if (data.Facets.ContainsKey(facetName) == false)
+					throw new AgateUserInterfaceInitializationException(
+						$"The facet '{facetName}' was not found.");
+
 				var adapter = new AgateWidgetAdapter(fontProvider);
 				var layoutEngine = new AgateLayoutEngine(adapter);
 				var guiRenderer = new AgateUserInterfaceRenderer(adapter, 
@@ -71,9 +82,6 @@ namespace AgateLib.Resources.Managers.UserInterface
 
 				adapter.FacetData = data.Facets;
 				adapter.ThemeData = data.Themes;
-
-				Condition.RequireArgumentNotNull(facet.FacetName, nameof(facet.FacetName), 
-					"The value of the facet's FacetName property must not be null.");
 
 				var facetModel = data.Facets[facet.FacetName];
 
@@ -88,7 +96,8 @@ namespace AgateLib.Resources.Managers.UserInterface
 			}
 			catch (Exception e) when (!(e is AgateException))
 			{
-				throw new AgateUserInterfaceInitializationException("Failed to initialize the facet.", e);
+				throw new AgateUserInterfaceInitializationException(
+					$"Failed to initialize the facet {facetName}.", e);
 			}
 		}
 
