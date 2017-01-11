@@ -117,7 +117,7 @@ namespace AgateLib.Platform.WinForms
 			InitializeAgateLib();
 		}
 
-		public override void InitializeAgateLib()
+		public void InitializeAgateLib()
 		{
 			entryAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
 

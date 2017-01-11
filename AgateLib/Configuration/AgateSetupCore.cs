@@ -111,12 +111,7 @@ namespace AgateLib.Configuration
 		/// Set to true to create a display window for each monitor.
 		/// </summary>
 		public bool CreateWindowForEachMonitor { get; set; } = false;
-
-		/// <summary>
-		/// Call this to execute initialiation of AgateLib.
-		/// </summary>
-		public abstract void InitializeAgateLib();
-
+		
 		/// <summary>
 		/// Gets the configuration of AgateLib that resulted from the
 		/// call to AgateLibInitialize.

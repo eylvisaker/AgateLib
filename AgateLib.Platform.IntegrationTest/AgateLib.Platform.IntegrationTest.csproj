@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="FileSystemProvider.cs" />
     <Compile Include="IntegrationTestPlatform.cs" />
+    <Compile Include="IntegrationTestFactory.cs" />
     <Compile Include="IntegrationTestPlatformFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

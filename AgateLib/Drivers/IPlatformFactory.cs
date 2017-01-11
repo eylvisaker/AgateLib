@@ -27,19 +27,15 @@ namespace AgateLib.Drivers
 {
 	public interface IPlatformFactory
 	{
-		PlatformInfo Info { get; }
+		IPlatformInfo Info { get; }
 
 		void Initialize(IO.FileSystemObjects fileSystemObjects);
 
 		IStopwatch CreateStopwatch();
 
-		IEnumerable<System.Reflection.Assembly> GetSerializationSearchAssemblies(Type objectType);
-
 		/// <summary>
 		/// Gets a file provider which points to the application directory.
 		/// </summary>
 		IReadFileProvider ApplicationFolderFileProvider { get; }
-
-		IPlatformSerialization CreateDefaultSerializationConstructor();
 	}
 }

@@ -18,27 +18,46 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.ApplicationModels;
+using AgateLib.Configuration;
 using AgateLib.Platform.Test;
 using AgateLib.Quality;
 
 namespace AgateLib.Platform.IntegrationTest
 {
-    /// <summary>
-    /// Initializes AgateLib for doing integration testing, using the physical file system.
-    /// </summary>
-    public static class IntegrationTestPlatform
-    {
-        public static void Initialize(ModelParameters parameters, string appDirPath)
-        {
-            Condition.Requires<ArgumentException>(string.IsNullOrWhiteSpace(appDirPath) == false, "appDirPath");
+	/// <summary>
+	/// Initializes AgateLib for doing integration testing, using the physical file system.
+	/// </summary>
+	public class IntegrationTestPlatform : AgateSetupCore
+	{
+		IntegrationTestFactory factory;
 
-            Core.Initialize(new FakeAgateFactory(new IntegrationTestPlatformFactory(appDirPath)));
-            Core.InitAssetLocations(parameters.AssetLocations);
-        }
-    }
+		public void Initialize(ModelParameters parameters, string appDirPath)
+		{
+			Condition.Requires<ArgumentException>(string.IsNullOrWhiteSpace(appDirPath) == false, "appDirPath");
+
+			Core.Initialize(new IntegrationTestFactory(appDirPath));
+			Core.InitAssetLocations(parameters.AssetLocations);
+		}
+
+		public void InitializeAgateLib()
+		{
+			var entryAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
+			var appPath = Path.GetDirectoryName(Path.GetFullPath(entryAssembly.Location));
+
+			factory = new IntegrationTestFactory(appPath);
+
+			Core.Initialize(factory);
+			Core.InitAssetLocations(AssetLocations);
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+		}
+	}
 }

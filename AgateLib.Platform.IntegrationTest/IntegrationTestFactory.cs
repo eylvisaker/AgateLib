@@ -16,27 +16,36 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+using AgateLib.Platform.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using AgateLib.ApplicationModels;
-using AgateLib.Configuration;
+using AgateLib.Drivers;
+using AgateLib.Platform.Test.Audio;
+using AgateLib.Platform.Test.Display;
+using AgateLib.Platform.Test.Input;
 
-namespace AgateLib.Platform.Test
+namespace AgateLib.Platform.IntegrationTest
 {
-	public class UnitTestPlatform : AgateSetupCore
+	class IntegrationTestFactory : IAgateFactory
 	{
-		public void Initialize(ModelParameters parameters, bool useRealFilesystem, string appDirPath)
+		IAudioFactory audioFactory = new FakeAudioFactory();
+		IDisplayFactory displayFactory = new FakeDisplayFactory();
+		IInputFactory inputFactory = new FakeInputFactory();
+		IntegrationTestPlatformFactory platformFactory;
+
+		public IntegrationTestFactory(string appDirPath)
 		{
-			Core.Initialize(new FakeAgateFactory());
-			Core.InitAssetLocations(parameters.AssetLocations);
+			platformFactory = new IntegrationTestPlatformFactory(appDirPath);
 		}
 
-		protected override void Dispose(bool disposing)
-		{
-		}
+		public IAudioFactory AudioFactory => audioFactory;
+
+		public IDisplayFactory DisplayFactory => displayFactory;
+
+		public IInputFactory InputFactory => inputFactory;
+
+		public IPlatformFactory PlatformFactory => platformFactory;
 	}
 }

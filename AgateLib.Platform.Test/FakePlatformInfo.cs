@@ -24,22 +24,14 @@ using AgateLib.Platform;
 
 namespace AgateLib.Platform.Test
 {
-	class FakePlatformInfo : PlatformInfo
+	public class FakePlatformInfo : IPlatformInfo
 	{
-		public override string AppDataDirectory
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public string AppDataDirectory { get; set; }
 
+		public PlatformType PlatformType { get; set; }
 
-		protected override void SetFolderPaths(string mCompanyName, string mAppName)
-		{
-			throw new NotImplementedException();
-		}
+		public DeviceType DeviceType { get; set; }
 
-		protected override void EnsureAppDataDirectoryExists()
-		{
-			throw new NotImplementedException();
-		}
+		public DotNetRuntime Runtime { get; set; }
 	}
 }

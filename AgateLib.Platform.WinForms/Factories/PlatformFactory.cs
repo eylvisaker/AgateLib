@@ -42,7 +42,7 @@ namespace AgateLib.Platform.WinForms.Factories
 			ApplicationFolderFileProvider = new FileSystemProvider(appRootPath);
 		}
 
-		public PlatformInfo Info { get; private set; }
+		public IPlatformInfo Info { get; private set; }
 		public IReadFileProvider ApplicationFolderFileProvider { get; private set; }
 
 		public IStopwatch CreateStopwatch()
@@ -85,12 +85,6 @@ namespace AgateLib.Platform.WinForms.Factories
 				if (ass != null)
 					yield return ass;
 			}
-		}
-
-
-		public IPlatformSerialization CreateDefaultSerializationConstructor()
-		{
-			return new PlatformSerialization();
 		}
 	}
 }

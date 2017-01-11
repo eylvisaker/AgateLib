@@ -35,7 +35,7 @@ namespace AgateLib.Platform.Test
 			ApplicationFolderFileProvider = new FakeReadFileProvider();
 		}
 
-		public Platform.PlatformInfo Info { get; private set; }
+		public Platform.IPlatformInfo Info { get; private set; }
 		public IReadFileProvider ApplicationFolderFileProvider { get; protected set; }
 
 		public Platform.IStopwatch CreateStopwatch()
@@ -45,16 +45,6 @@ namespace AgateLib.Platform.Test
 
 		public virtual void Initialize(IO.FileSystemObjects fileSystemObjects)
 		{
-		}
-
-		public IEnumerable<Assembly> GetSerializationSearchAssemblies(Type objectType)
-		{
-			yield break;
-		}
-
-		public IPlatformSerialization CreateDefaultSerializationConstructor()
-		{
-			return new PlatformSerialization();
 		}
 	}
 

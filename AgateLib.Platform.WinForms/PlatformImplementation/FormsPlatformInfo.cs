@@ -33,7 +33,7 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 	/// which are automatically created from the AssemblyCompanhy and AssemblyProduct
 	/// attributes for the assembly where the entry point for the application is.
 	/// </summary>
-	public class FormsPlatformInfo : PlatformInfo
+	internal class FormsPlatformInfo : IPlatformInfo
 	{
 		WindowsVersion mWindowsVersion;
 		string mDocuments;
@@ -93,6 +93,27 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 
 		}
 
+		/// <summary>
+		/// Returns the version of windows being used, if the current platform is Windows.
+		/// An exception is thrown if this property is checked when the platform is not Windows.
+		/// </summary>
+		public WindowsVersion WindowsVersion
+		{
+			get
+			{
+				if (PlatformType != PlatformType.Windows)
+					return WindowsVersion.Unknown;
+
+				return mWindowsVersion;
+			}
+		}
+
+		public PlatformType PlatformType { get; private set; }
+
+		public DeviceType DeviceType { get; private set; }
+
+		public DotNetRuntime Runtime { get; private set; }
+
 		private bool Detect64Bit()
 		{
 			unsafe
@@ -136,7 +157,7 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 			}*/
 		}
 
-		protected internal override void EnsureAppDataDirectoryExists()
+		private void EnsureAppDataDirectoryExists()
 		{
 			Directory.CreateDirectory(AppDataDirectory);
 		}
@@ -144,7 +165,7 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 		/// <summary>
 		/// Gets the directory where the application should store its configuration data.
 		/// </summary>
-		public override string AppDataDirectory => mAppData;
+		public string AppDataDirectory => mAppData;
 
 		static T GetCustomAttribute<T>(Assembly ass) where T : Attribute 	
 		{
@@ -182,7 +203,7 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 		/// </summary>
 		/// <param name="companyName"></param>
 		/// <param name="appName"></param>
-		protected internal override void SetFolderPaths(string companyName, string appName)
+		private void SetFolderPaths(string companyName, string appName)
 		{
 			string combDir = Path.Combine(companyName, appName);
 
@@ -212,21 +233,6 @@ namespace AgateLib.Platform.WinForms.PlatformImplementation
 				runtime = DotNetRuntime.Mono;
 
 			return runtime;
-		}
-
-		/// <summary>
-		/// Returns the version of windows being used, if the current platform is Windows.
-		/// An exception is thrown if this property is checked when the platform is not Windows.
-		/// </summary>
-		public WindowsVersion WindowsVersion
-		{
-			get
-			{
-				if (PlatformType != PlatformType.Windows)
-					return WindowsVersion.Unknown;
-
-				return mWindowsVersion;
-			}
 		}
 
 		PlatformType DetectPlatformType()

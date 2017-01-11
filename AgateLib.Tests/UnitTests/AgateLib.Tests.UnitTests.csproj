@@ -128,7 +128,8 @@
     <Compile Include="Geometry\RectangleTest.cs" />
     <Compile Include="Geometry\TypeConverters\GeometryConverterTests.cs" />
     <Compile Include="IO\FileSystemProviderTests.cs" />
-    <Compile Include="Platform\IntegrationTest\AgateIntegrationTest.cs" />
+    <Compile Include="AgateIntegrationTest.cs" />
+    <Compile Include="Platform\IntegrationTest\IntegrationTestPlatformTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Platform\PlatformTests.cs" />
     <Compile Include="Resources\ThemeResourcePathTests.cs" />
@@ -179,6 +180,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

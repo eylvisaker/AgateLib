@@ -311,9 +311,10 @@ namespace AgateLib
 		{
 			Condition.Requires<ArgumentNullException>(factory != null);
 
-			if (State.Core.Inititalized)
+			if (State?.Core.Inititalized ?? false)
 				return;
 
+			State = new AgateLibState();
 			State.Core.Factory = factory;
 			State.Core.Platform = factory.PlatformFactory.Info;
 			State.Core.Time = factory.PlatformFactory.CreateStopwatch();
@@ -354,7 +355,7 @@ namespace AgateLib
 		/// <summary>
 		/// Gets an object which describes details about the current platform.
 		/// </summary>
-		public static PlatformInfo Platform
+		public static IPlatformInfo Platform
 		{
 			get { return State.Core.Platform; }
 		}

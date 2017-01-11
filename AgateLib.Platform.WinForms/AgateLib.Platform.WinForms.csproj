@@ -92,7 +92,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgateSetupWinForms.cs" />
+    <Compile Include="AgateSetup.cs" />
     <Compile Include="ApplicationModels\PassiveModel.cs" />
     <Compile Include="ApplicationModels\SceneModel.cs" />
     <Compile Include="ApplicationModels\SerialModel.cs" />

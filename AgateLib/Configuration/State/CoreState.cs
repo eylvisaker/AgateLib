@@ -37,7 +37,7 @@ namespace AgateLib.Configuration.State
 		public bool AutoPause { get; set; }
 		public bool IsActive { get; set; } = true;
 		public bool Inititalized { get; set; }
-		public PlatformInfo Platform { get; set; }
+		public IPlatformInfo Platform { get; set; }
 		public PersistantSettings Settings { get; set; }
 		public IAgateFactory Factory { get; set; }
 

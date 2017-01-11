@@ -1,34 +1,36 @@
-﻿//     The contents of this file are subject to the Mozilla Public License
-//     Version 1.1 (the "License"); you may not use this file except in
-//     compliance with the License. You may obtain a copy of the License at
-//     http://www.mozilla.org/MPL/
-//
-//     Software distributed under the License is distributed on an "AS IS"
-//     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-//     License for the specific language governing rights and limitations
-//     under the License.
-//
-//     The Original Code is AgateLib.
-//
-//     The Initial Developer of the Original Code is Erik Ylvisaker.
-//     Portions created by Erik Ylvisaker are Copyright (C) 2006-2017.
-//     All Rights Reserved.
-//
-//     Contributor(s): Erik Ylvisaker
-//
-using AgateLib.Platform.Test;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
+using AgateLib.Drivers;
+using AgateLib.IO;
+using AgateLib.Platform.Common.PlatformImplementation;
+using AgateLib.Platform.Test;
 
 namespace AgateLib.Platform.IntegrationTest
 {
-    class IntegrationTestPlatformFactory : FakePlatformFactory
-    {
-        public IntegrationTestPlatformFactory(string appDirPath)
-        {
-            ApplicationFolderFileProvider = new FileSystemProvider(appDirPath);
-        }
-    }
+	class IntegrationTestPlatformFactory : IPlatformFactory
+	{
+		FakePlatformInfo info = new FakePlatformInfo();
+
+		public IntegrationTestPlatformFactory(string appDirPath)
+		{
+			ApplicationFolderFileProvider = new FileSystemProvider(appDirPath);
+		}
+
+		public IReadFileProvider ApplicationFolderFileProvider { get; private set; }
+
+		public IPlatformInfo Info => info;
+		
+		public IStopwatch CreateStopwatch()
+		{
+			return new DiagnosticsStopwatch();
+		}
+
+		public void Initialize(FileSystemObjects fileSystemObjects)
+		{
+		}
+	}
 }

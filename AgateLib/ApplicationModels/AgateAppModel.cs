@@ -246,15 +246,7 @@ namespace AgateLib.ApplicationModels
 
 		protected void PrerunInitialization()
 		{
-			SetPlatformEmulation();
-		}
-
-		private void SetPlatformEmulation()
-		{
-			if (Parameters.EmulateDeviceType != DeviceType.Unknown)
-			{
-				Core.Platform.DeviceType = Parameters.EmulateDeviceType;
-			}
+			//SetPlatformEmulation();
 		}
 
 		protected void AutoCreateDisplayWindow()
