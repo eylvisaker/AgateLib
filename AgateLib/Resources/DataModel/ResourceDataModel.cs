@@ -36,7 +36,6 @@ namespace AgateLib.Resources.DataModel
 		/// </summary>
 		internal string Path { get; set; }
 
-
 		public FontResourceCollection Fonts { get; set; } = new FontResourceCollection();
 
 		public ThemeModelCollection Themes { get; set; } = new ThemeModelCollection();

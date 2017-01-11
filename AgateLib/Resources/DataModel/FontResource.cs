@@ -39,8 +39,6 @@ namespace AgateLib.Resources.DataModel
 
 		public bool IsReadOnly => false;
 
-		public string Path { get; set; }
-
 		public void Add(FontSurfaceResource item)
 		{
 			((IList<FontSurfaceResource>)fontSurfaces).Add(item);
@@ -90,5 +88,17 @@ namespace AgateLib.Resources.DataModel
 		{
 			return ((IList<FontSurfaceResource>)fontSurfaces).GetEnumerator();
 		}
+
+		internal void ApplyPath(string path)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+				return;
+
+			foreach(var fontSurface in this)
+			{
+				fontSurface.Image = $"{path}/{fontSurface.Image}";
+			}
+		}
+
 	}
 }

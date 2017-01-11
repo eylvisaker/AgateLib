@@ -108,8 +108,6 @@ namespace AgateLib.Resources.Managers.Display
 			foreach (var fontSurfaceModel in fontModel)
 			{
 				var image = fontSurfaceModel.Image;
-				if (!string.IsNullOrWhiteSpace(fontModel.Path))
-					image = $"{fontModel.Path}/{fontSurfaceModel.Image}";
 
 				var surface = GetSurface(image);
 

@@ -91,7 +91,7 @@ namespace AgateLib.Resources
 					filePath,
 					(key, value) =>
 					{
-						value.Path = path;
+						value.ApplyPath(path);
 						config.Fonts.Add(key, value);
 					});
 			}
