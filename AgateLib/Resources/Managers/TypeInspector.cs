@@ -54,7 +54,18 @@ namespace AgateLib.Resources.Managers.UserInterface
 
 				result.Add(name, new PropertyMapValue<T>
 				{
-					Assign = (value) => property.SetValue(obj, value)
+					Assign = (value) =>
+					{
+						try
+						{
+							property.SetValue(obj, value);
+						}
+						catch(Exception e)
+						{
+							throw new AgateUserInterfaceInitializationException(
+								$"Property '{name}' is a '{value.GetType().Name}' but expected '{property.PropertyType.Name}' instead.");
+						}
+					}
 				});
 			}
 
@@ -71,7 +82,15 @@ namespace AgateLib.Resources.Managers.UserInterface
 
 				result.Add(name, new PropertyMapValue<T>
 				{
-					Assign = (value) => field.SetValue(obj, value)
+					Assign = (value) =>
+					{
+						try { field.SetValue(obj, value); }
+						catch(Exception e)
+						{
+							throw new AgateUserInterfaceInitializationException(
+								$"Field '{name}' is a '{value.GetType().Name}' but expected '{field.FieldType.Name}' instead.");
+						}
+					}
 				});
 			}
 
