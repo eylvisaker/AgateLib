@@ -26,7 +26,7 @@ namespace AgateLib.UnitTests.UserInterface
 		[TestInitialize]
 		public void Initialize()
 		{
-			var fakeFileProvider = new FakeReadOnlyFileProvider();
+			var fakeFileProvider = new FakeReadFileProvider();
 			fakeFileProvider.Add("resources.yaml", FacetSource);
 
 			var resourceManager = new AgateResourceManager(

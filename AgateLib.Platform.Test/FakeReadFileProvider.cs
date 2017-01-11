@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace AgateLib.Platform.Test
 {
-	public class FakeReadOnlyFileProvider : IReadFileProvider
+	public class FakeReadFileProvider : IReadFileProvider
 	{
 		class FileInfo
 		{
@@ -103,7 +103,7 @@ namespace AgateLib.Platform.Test
 		private void VerifyFileExists(string filename)
 		{
 			if (files.ContainsKey(filename) == false)
-				throw new FileNotFoundException($"Could not find file {filename} in {nameof(FakeReadOnlyFileProvider)}.");
+				throw new FileNotFoundException($"Could not find file {filename} in {nameof(FakeReadFileProvider)}.");
 
 			files[filename].ReadCount++;
 		}

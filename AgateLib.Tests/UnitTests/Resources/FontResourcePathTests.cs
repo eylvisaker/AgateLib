@@ -32,7 +32,7 @@ AgateFont:
     image: image.png
     size: 8";
 
-			var fileProvider = new FakeReadOnlyFileProvider();
+			var fileProvider = new FakeReadFileProvider();
 			fileProvider.Add("resources.yaml", rootFile);
 			fileProvider.Add("fontfile.yaml", fontfile);
 			fileProvider.Add("image.png", "");
@@ -61,7 +61,7 @@ AgateFont:
     image: Fonts/image.png
     size: 8";
 
-			var fileProvider = new FakeReadOnlyFileProvider();
+			var fileProvider = new FakeReadFileProvider();
 			fileProvider.Add("resources.yaml", rootFile);
 			fileProvider.Add("fontfile.yaml", fontfile);
 			fileProvider.Add("Fonts/image.png", "");
@@ -90,7 +90,7 @@ AgateFont:
     image: Fonts/image.png
     size: 8";
 
-			var fileProvider = new FakeReadOnlyFileProvider();
+			var fileProvider = new FakeReadFileProvider();
 			fileProvider.Add("resources.yaml", rootFile);
 			fileProvider.Add("UserInterface/fontfile.yaml", fontfile);
 			fileProvider.Add("UserInterface/Fonts/image.png", "");
@@ -119,7 +119,7 @@ AgateFont:
     image: Fonts/image.png
     size: 8";
 
-			var fileProvider = new FakeReadOnlyFileProvider();
+			var fileProvider = new FakeReadFileProvider();
 			fileProvider.Add("Assets/resources.yaml", rootFile);
 			fileProvider.Add("Assets/UserInterface/fontfile.yaml", fontfile);
 			fileProvider.Add("Assets/UserInterface/Fonts/image.png", "");

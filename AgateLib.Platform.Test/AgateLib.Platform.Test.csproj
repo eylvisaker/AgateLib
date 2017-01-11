@@ -53,7 +53,7 @@
     <Compile Include="Input\FakeInputFactory.cs" />
     <Compile Include="FakePlatformFactory.cs" />
     <Compile Include="FakePlatformInfo.cs" />
-    <Compile Include="FakeReadOnlyFileProvider.cs" />
+    <Compile Include="FakeReadFileProvider.cs" />
     <Compile Include="Display\FakeRenderTarget.cs" />
     <Compile Include="Display\FakeSurface.cs" />
     <Compile Include="Display\FakeFont.cs" />

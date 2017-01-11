@@ -32,7 +32,7 @@ namespace AgateLib.Platform.Test
 		public FakePlatformFactory()
 		{
 			Info = new FakePlatformInfo();
-			ApplicationFolderFileProvider = new FakeReadOnlyFileProvider();
+			ApplicationFolderFileProvider = new FakeReadFileProvider();
 		}
 
 		public Platform.PlatformInfo Info { get; private set; }

@@ -85,7 +85,7 @@ facets:
                 text: cats suck
 ";
 
-			var fileProvider = new FakeReadOnlyFileProvider();
+			var fileProvider = new FakeReadFileProvider();
 			fileProvider.Add("resources.yaml", yaml);
 
 			var resourceDataModel = new ResourceDataLoader(fileProvider)
