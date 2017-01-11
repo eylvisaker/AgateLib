@@ -36,7 +36,7 @@ namespace AgateLib.UserInterface.Rendering
 	{
 		private IWidgetAdapter mAdapter;
 		Surface mBlankSurface;
-		IUserInterfaceImageProvider mImageProvider = new DefaultImageProvider();
+		IUserInterfaceImageProvider mImageProvider;
 		Gui mGui;
 
 		Dictionary<Widget, IWidgetAnimator> mAnimators = new Dictionary<Widget, IWidgetAnimator>();
@@ -45,9 +45,10 @@ namespace AgateLib.UserInterface.Rendering
 
 		List<IWidgetAnimator> animsToRemove = new List<IWidgetAnimator>();
 
-		public AgateUserInterfaceRenderer(IWidgetAdapter adapter)
+		public AgateUserInterfaceRenderer(IWidgetAdapter adapter, IUserInterfaceImageProvider imageProvider)
 		{
 			mAdapter = adapter;
+			mImageProvider = imageProvider;
 
 			PixelBuffer buffer = new PixelBuffer(PixelFormat.ARGB8888, new Size(10, 10));
 			buffer.Clear(Color.White);

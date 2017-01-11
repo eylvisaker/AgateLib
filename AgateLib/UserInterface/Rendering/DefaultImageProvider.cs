@@ -28,7 +28,14 @@ namespace AgateLib.UserInterface.Rendering
 {
 	public class DefaultImageProvider : IUserInterfaceImageProvider
 	{
+		private readonly IReadFileProvider fileProvider;
+
 		Dictionary<string, Surface> mSurfaces = new Dictionary<string, Surface>();
+
+		public DefaultImageProvider(IReadFileProvider fileProvider)
+		{
+			this.fileProvider = fileProvider ?? Assets.UserInterfaceAssets;
+		}
 
 		public Surface GetImage(string file)
 		{
@@ -37,13 +44,13 @@ namespace AgateLib.UserInterface.Rendering
 				file = file.Substring(4, file.Length - 5);
 
 				if (mSurfaces.ContainsKey(file) == false)
-					mSurfaces.Add(file, new Surface(file, AgateLib.IO.Assets.UserInterfaceAssets));
+					mSurfaces.Add(file, new Surface(file, fileProvider));
 
 				return mSurfaces[file];
 			}
 
 			if (mSurfaces.ContainsKey(file) == false)
-				mSurfaces.Add(file, new Surface(file, Assets.UserInterfaceAssets));
+				mSurfaces.Add(file, new Surface(file, fileProvider));
 
 			return mSurfaces[file];
 		}

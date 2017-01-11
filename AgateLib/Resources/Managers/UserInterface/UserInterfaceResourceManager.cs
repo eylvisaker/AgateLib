@@ -66,7 +66,8 @@ namespace AgateLib.Resources.Managers.UserInterface
 			{
 				var adapter = new AgateWidgetAdapter(fontProvider);
 				var layoutEngine = new AgateLayoutEngine(adapter);
-				var guiRenderer = new AgateUserInterfaceRenderer(adapter);
+				var guiRenderer = new AgateUserInterfaceRenderer(adapter, 
+					new DefaultImageProvider(data.FileProvider));
 
 				adapter.FacetData = data.Facets;
 				adapter.ThemeData = data.Themes;

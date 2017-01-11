@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
+using AgateLib.IO;
+using AgateLib.Platform.Test;
 using AgateLib.Platform.Test.Display;
 using AgateLib.Quality;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -105,9 +107,19 @@ namespace AgateLib.UnitTests.DisplayLib
 		[TestMethod]
 		public void SurfaceConstruction()
 		{
-			AssertX.Throws<ArgumentException>(() => new Surface((string)null));
-			surface = new Surface("test");
+			var fileProvider = new FakeReadFileProvider();
+			fileProvider.Add("test.png", "");
+
+			Assets.Images = fileProvider;
+			surface = new Surface("test.png");
+
+			Assert.AreEqual(1, fileProvider.ReadCount("test.png"));
 		}
 
+		[TestMethod]
+		public void SurfaceRequiresFilename()
+		{
+			AssertX.Throws<ArgumentException>(() => new Surface((string)null));
+		}
 	}
 }

@@ -82,13 +82,13 @@ namespace AgateLib.Resources
 		{
 			foreach (var fontSource in config.FontSources)
 			{
-				var filePath = CombinePath(config.Path, fontSource);
-				var path = GetDirectoryName(filePath);
+				var fontSourcePath = CombinePath(config.Path, fontSource);
+				var path = GetDirectoryName(fontSourcePath);
 
 				ReadSources<FontResourceCollection, FontResource>(
 					deserializer,
 					config,
-					filePath,
+					fontSourcePath,
 					(key, value) =>
 					{
 						value.ApplyPath(path);
@@ -98,9 +98,10 @@ namespace AgateLib.Resources
 
 			foreach (var themeSource in config.ThemeSources)
 			{
-				var path = CombinePath(config.Path, Path.GetDirectoryName(themeSource));
+				var themeSourcePath = CombinePath(config.Path, themeSource);
+				var path = GetDirectoryName(themeSourcePath);
 
-				ReadSources<ThemeModelCollection, ThemeModel>(deserializer, config, themeSource,
+				ReadSources<ThemeModelCollection, ThemeModel>(deserializer, config, themeSourcePath,
 					(key, value) =>
 					{
 						value.ApplyPath(path);
@@ -110,7 +111,10 @@ namespace AgateLib.Resources
 
 			foreach (var facetSource in config.FacetSources)
 			{
-				ReadSources<FacetModelCollection, FacetModel>(deserializer, config, facetSource,
+				var facetSourcePath = CombinePath(config.Path, facetSource);
+				var path = GetDirectoryName(facetSourcePath);
+
+				ReadSources<FacetModelCollection, FacetModel>(deserializer, config, facetSourcePath,
 					(key, value) => config.Facets.Add(key, value));
 			}
 		}

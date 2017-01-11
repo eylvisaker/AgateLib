@@ -47,7 +47,10 @@ namespace AgateLib.Platform.Test.Display
 
 		public SurfaceImpl CreateSurface(IReadFileProvider fileProvider, string fileName)
 		{
-			return new FakeSurface(new Size(10, 10));
+			using (var fileStream = fileProvider.OpenRead(fileName))
+			{
+				return new FakeSurface(new Size(10, 10));
+			}
 		}
 
 		public SurfaceImpl CreateSurface(System.IO.Stream fileStream)
