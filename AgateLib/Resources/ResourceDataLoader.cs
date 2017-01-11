@@ -26,6 +26,7 @@ using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.BitmapFont.TypeConverters;
 using AgateLib.Geometry.TypeConverters;
 using AgateLib.IO;
+using AgateLib.Quality;
 using AgateLib.Resources.DataModel;
 using AgateLib.UserInterface.DataModel;
 using AgateLib.UserInterface.DataModel.TypeConverters;
@@ -41,43 +42,9 @@ namespace AgateLib.Resources
 		public ResourceDataLoader(IReadFileProvider fileProvider = null)
 		{
 			this.fileProvider = fileProvider ?? Assets.AssetProvider;
-		}
 
-		/// <summary>
-		/// Parses the text directly to a resource data model.
-		/// Throws an exception if external files are referenced.
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		[Obsolete("Use a fileprovider object instead.")]
-		public ResourceDataModel LoadFromText(string text)
-		{
-			var deserializer = new DeserializerBuilder()
-				.WithNamingConvention(new HyphenatedNamingConvention())
-				.WithTypeConverter(new ColorConverterYaml())
-				.WithTypeConverter(new LayoutBoxConverterYaml())
-				.WithTypeConverter(new PointConverterYaml())
-				.WithTypeConverter(new SizeConverterYaml())
-				.Build();
-
-			using (var file = new StringReader(text))
-			{
-				ResourceDataModel result = deserializer.Deserialize<ResourceDataModel>(text);
-
-				ThrowIfExternalFiles(result);
-
-				return result;
-			}
-		}
-
-		private void ThrowIfExternalFiles(ResourceDataModel config)
-		{
-			if (config.FontSources.Any() ||
-				config.ThemeSources.Any() ||
-				config.FacetSources.Any())
-			{
-				throw new AgateResourceException("The following properties must be empty: font-sources, theme-sources, facet-sources");
-			}
+			Condition.RequireArgumentNotNull(this.fileProvider, nameof(fileProvider),
+				$"Either {nameof(fileProvider)} or {nameof(Assets)}.{nameof(Assets.AssetProvider)} should not be null.");
 		}
 
 		/// <summary>

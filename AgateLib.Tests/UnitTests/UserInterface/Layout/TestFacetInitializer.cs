@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgateLib.Geometry;
+using AgateLib.Platform.Test;
 using AgateLib.Resources;
 using AgateLib.UserInterface.Rendering;
 using AgateLib.UserInterface.Widgets;
@@ -84,7 +85,12 @@ facets:
                 text: cats suck
 ";
 
-			var resourceDataModel = new ResourceDataLoader().LoadFromText(yaml);
+			var fileProvider = new FakeReadOnlyFileProvider();
+			fileProvider.Add("resources.yaml", yaml);
+
+			var resourceDataModel = new ResourceDataLoader(fileProvider)
+				.Load("resources.yaml");
+
 			Resources = new AgateResourceManager(resourceDataModel);
 
 			Facet = new TestFacet();

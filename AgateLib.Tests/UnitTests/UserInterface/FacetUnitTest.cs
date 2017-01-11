@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Platform.Test;
 using AgateLib.Resources;
 using AgateLib.UserInterface;
 using AgateLib.UserInterface.Layout;
@@ -25,8 +26,11 @@ namespace AgateLib.UnitTests.UserInterface
 		[TestInitialize]
 		public void Initialize()
 		{
+			var fakeFileProvider = new FakeReadOnlyFileProvider();
+			fakeFileProvider.Add("resources.yaml", FacetSource);
+
 			var resourceManager = new AgateResourceManager(
-				new ResourceDataLoader().LoadFromText(FacetSource));
+				new ResourceDataLoader(fakeFileProvider).Load("resources.yaml"));
 
 			FacetName = resourceManager.Data.Facets.First().Key;
 
