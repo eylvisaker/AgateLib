@@ -63,7 +63,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 						catch(Exception e)
 						{
 							throw new AgateUserInterfaceInitializationException(
-								$"Property '{name}' is a '{value.GetType().Name}' but expected '{property.PropertyType.Name}' instead.");
+								$"Widget named '{name}' is a {value.GetType().Name} but the container expects a {property.PropertyType.Name} instead.");
 						}
 					}
 				});
@@ -88,7 +88,7 @@ namespace AgateLib.Resources.Managers.UserInterface
 						catch(Exception e)
 						{
 							throw new AgateUserInterfaceInitializationException(
-								$"Field '{name}' is a '{value.GetType().Name}' but expected '{field.FieldType.Name}' instead.");
+								$"Widget named '{name}' is a {value.GetType().Name} but the container expects a {field.FieldType.Name} instead.");
 						}
 					}
 				});
