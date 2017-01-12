@@ -40,9 +40,9 @@ namespace AgateLib.Tests.DisplayTests
 				Display.BeginFrame();
 				Display.Clear();
 
-				DefaultAssets.Fonts.AgateSans.Size = 12;
-				DefaultAssets.Fonts.AgateSans.DrawText(instructionText + count);
-				DefaultAssets.Fonts.AgateSans.DrawText(0, DefaultAssets.Fonts.AgateSans.FontHeight, text);
+				Font.AgateSans.Size = 12;
+				Font.AgateSans.DrawText(instructionText + count);
+				Font.AgateSans.DrawText(0, Font.AgateSans.FontHeight, text);
 
 				Display.EndFrame();
 				Core.KeepAlive();

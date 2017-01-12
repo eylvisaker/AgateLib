@@ -168,8 +168,8 @@
     <Compile Include="Resources\Managers\Display\IDisplayResourceManager.cs" />
     <Compile Include="Resources\ResourceDataSerializer.cs" />
     <Compile Include="Configuration\State\CoreState.cs" />
-    <Compile Include="DefaultAssets\DefaultResources.cs" />
-    <Compile Include="DefaultAssets\Fonts.cs" />
+    <Compile Include="DisplayLib\DefaultAssets\DefaultResources.cs" />
+    <Compile Include="DisplayLib\DefaultAssets\Fonts.cs" />
     <Compile Include="DisplayLib\Verify.cs" />
     <Compile Include="Geometry\CoordinateSystems\FixedCoordinateSystem.cs" />
     <Compile Include="Geometry\CoordinateSystems\NativeCoordinates.cs" />

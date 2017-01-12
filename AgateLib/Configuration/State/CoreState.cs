@@ -39,7 +39,6 @@ namespace AgateLib.Configuration.State
 		public bool Inititalized { get; set; }
 		public IPlatformInfo Platform { get; set; }
 		public PersistantSettings Settings { get; set; }
-		public IAgateFactory Factory { get; set; }
 
 		public System.Diagnostics.Stopwatch MasterTime { get; private set; } = System.Diagnostics.Stopwatch.StartNew();
 		/// <summary>

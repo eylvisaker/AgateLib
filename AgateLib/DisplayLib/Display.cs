@@ -26,6 +26,7 @@ using AgateLib.Geometry;
 using AgateLib.Quality;
 using AgateLib.Utility;
 using AgateLib.Diagnostics;
+using AgateLib.DisplayLib.DefaultAssets;
 
 namespace AgateLib.DisplayLib
 {
@@ -106,6 +107,18 @@ namespace AgateLib.DisplayLib
 			SurfacePacker = new SurfacePacker();
 
 			Shaders.AgateBuiltInShaders.InitializeShaders();
+
+			InitializeDefaultResources();
+		}
+
+		static void InitializeDefaultResources()
+		{
+			DefaultResources res = new DefaultResources();
+
+			var task = Core.State.Factory.DisplayFactory.InitializeDefaultResourcesAsync(res);
+			Core.State.Display.DefaultResources = res;
+
+			task.GetAwaiter().GetResult();
 		}
 
 		/// <summary>
@@ -128,12 +141,15 @@ namespace AgateLib.DisplayLib
 			// eligible for garbage collection.
 			Core.State.Display.DisposeDisplay = null;
 			Core.State.Display.PackAllSurfacesEvent = null;
-
+			
 			if (Impl != null)
 			{
 				Impl.Dispose();
 				Impl = null;
 			}
+
+			Core.State.Display.DefaultResources.Dispose();
+			Core.State.Display.DefaultResources = null;
 
 			Shaders.AgateBuiltInShaders.DisposeShaders();
 		}

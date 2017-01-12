@@ -23,7 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgateLib.DefaultAssets
+namespace AgateLib.DisplayLib.DefaultAssets
 {
 	public class DefaultResources : IDisposable
 	{

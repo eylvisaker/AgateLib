@@ -122,7 +122,7 @@ namespace AgateLib.Tests.DisplayTests.ParticleTest
 		{
 			Display.BeginFrame();
 			Display.Clear(Color.Black);
-			IFont font = AgateLib.DefaultAssets.Fonts.AgateSans;
+			IFont font = Font.AgateSans;
 			font.Size = 14;
 
 			font.DrawText("FPS: " + Display.FramesPerSecond);

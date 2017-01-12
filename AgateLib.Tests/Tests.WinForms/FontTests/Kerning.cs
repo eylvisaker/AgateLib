@@ -32,7 +32,7 @@ namespace AgateLib.Tests.FontTests
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			DisplayWindow wind = DisplayWindow.CreateWindowed("Kerning test", 800, 600);
 
-			FontSurface font = ((Font)DefaultAssets.Fonts.AgateSans).GetFontSurface(14, FontStyles.None);
+			FontSurface font = ((Font)Font.AgateSans).GetFontSurface(14, FontStyles.None);
 			FontSurface unkerned = ConstructUnkernedFont(font);
 
 			string text = ConstructKerningText(wind, font);

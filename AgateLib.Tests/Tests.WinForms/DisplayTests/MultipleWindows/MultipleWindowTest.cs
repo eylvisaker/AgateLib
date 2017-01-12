@@ -108,7 +108,7 @@ namespace AgateLib.Tests.DisplayTests.MultipleWindows
 
 			Color clr = Color.White;
 
-			DefaultAssets.Fonts.AgateSans.DrawText(x, y, "Sample Text");
+			Font.AgateSans.DrawText(x, y, "Sample Text");
 
 			Display.EndFrame();
 

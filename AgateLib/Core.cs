@@ -24,7 +24,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AgateLib.AudioLib;
 using AgateLib.Configuration.State;
-using AgateLib.DefaultAssets;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
 using AgateLib.Drivers;
@@ -314,7 +313,7 @@ namespace AgateLib
 				return;
 
 			State = new AgateLibState();
-			State.Core.Factory = factory;
+			State.Factory = factory;
 			State.Core.Platform = factory.PlatformFactory.Info;
 			State.Core.Time = factory.PlatformFactory.CreateStopwatch();
 
@@ -324,31 +323,14 @@ namespace AgateLib
 			Audio.Initialize(factory.AudioFactory.AudioImpl);
 			JoystickInput.Initialize(factory.InputFactory.CreateJoystickInputImpl());
 
-			InitializeDefaultResources();
-
 			State.Core.Inititalized = true;
-		}
-
-		public static void InitializeDefaultResources()
-		{
-			DefaultResources res = new DefaultResources();
-
-			var task = State.Core.Factory.DisplayFactory.InitializeDefaultResourcesAsync(res);
-			Fonts.Initialize(res);
-
-			task.GetAwaiter().GetResult();
 		}
 
 		public static void InitAssetLocations(AssetLocations assets)
 		{
 			Condition.Requires<ArgumentNullException>(assets != null);
 
-			FileProvider.Initialize(State.Core.Factory.PlatformFactory.ApplicationFolderFileProvider, assets);
-		}
-
-		public static IAgateFactory Factory
-		{
-			get { return State.Core.Factory; }
+			FileProvider.Initialize(State.Factory.PlatformFactory.ApplicationFolderFileProvider, assets);
 		}
 
 		/// <summary>

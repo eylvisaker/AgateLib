@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.Drivers;
 
 namespace AgateLib.Configuration.State
 {
@@ -31,6 +32,7 @@ namespace AgateLib.Configuration.State
 			Input.FirstHandler = Console.Instance;
 		}
 
+		public IAgateFactory Factory { get; set; }
 		public CoreState Core { get; private set; } = new CoreState();
 		public ConsoleState Console { get; private set; } = new ConsoleState();
 

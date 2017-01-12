@@ -16,22 +16,22 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.Diagnostics;
-using AgateLib.DisplayLib;
-using AgateLib.DisplayLib.BitmapFont;
-using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Drivers;
-using AgateLib.Geometry;
-using AgateLib.OpenGL;
-using AgateLib.Platform.WinForms.DisplayImplementation;
-using AgateLib.Platform.WinForms.Resources;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.DefaultAssets;
+using AgateLib.Diagnostics;
+using AgateLib.DisplayLib;
+using AgateLib.DisplayLib.BitmapFont;
+using AgateLib.DisplayLib.DefaultAssets;
+using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.Drivers;
+using AgateLib.Geometry;
+using AgateLib.OpenGL;
+using AgateLib.Platform.WinForms.DisplayImplementation;
+using AgateLib.Platform.WinForms.Resources;
 
 namespace AgateLib.Platform.WinForms.Factories
 {

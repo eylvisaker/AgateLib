@@ -37,9 +37,9 @@ namespace AgateLib.DisplayLib
 				return 4;
 		}
 
-		public static IFont AgateSans => DefaultAssets.Fonts.AgateSans;
-		public static IFont AgateSerif => DefaultAssets.Fonts.AgateSerif;
-		public static IFont AgateMono => DefaultAssets.Fonts.AgateMono;
+		public static IFont AgateSans => Core.State.Display.DefaultResources.AgateSans;
+		public static IFont AgateSerif => Core.State.Display.DefaultResources.AgateSerif;
+		public static IFont AgateMono => Core.State.Display.DefaultResources.AgateMono;
 		
 		Dictionary<FontSettings, FontSurface> mFontSurfaces = new Dictionary<FontSettings, FontSurface>();
 		FontSettings mSettings = new FontSettings(12, FontStyles.None);

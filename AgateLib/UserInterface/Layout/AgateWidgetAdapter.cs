@@ -287,7 +287,7 @@ namespace AgateLib.UserInterface.Layout
 			}
 
 			if (font == null)
-				font = DefaultAssets.Fonts.AgateSans;
+				font = Font.AgateSans;
 
 			control.Font = font;
 
