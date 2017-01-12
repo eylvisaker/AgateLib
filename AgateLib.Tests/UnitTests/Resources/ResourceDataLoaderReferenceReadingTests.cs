@@ -20,16 +20,22 @@ namespace AgateLib.UnitTests.Resources
 	[TestClass]
 	public class ResourceDataLoaderReferenceReadingTests : AgateUnitTest
 	{
+		ResourceManagerInitializer initializer;
 		ResourceDataModel dataModel;
 		AgateResourceManager resources;
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			ResourceManagerInitializer initializer = new ResourceManagerInitializer();
+			initializer = new ResourceManagerInitializer();
 
 			dataModel = initializer.DataModel;
 			resources = initializer.Manager;
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			initializer.Dispose();
 		}
 
 		[TestMethod]

@@ -14,7 +14,7 @@ using Moq;
 
 namespace AgateLib.UnitTests.Resources
 {
-	public class ResourceManagerInitializer
+	public class ResourceManagerInitializer : IDisposable
 	{
 		const string resourceFilename = "test.yaml";
 		string fontsFilename = "fonts.yaml";
@@ -88,6 +88,11 @@ default_facet:
 
 			DataModel = new ResourceDataLoader().Load(resourceFilename);
 			Manager = new AgateResourceManager(DataModel);
+		}
+
+		public void Dispose()
+		{
+			Manager.Dispose();
 		}
 
 		public ResourceDataModel DataModel { get; set; }
