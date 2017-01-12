@@ -31,7 +31,7 @@ namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester
 
 		protected override void OnSceneStart()
 		{
-			sp = new Sprite("spike.png", 16, 16);
+			sp = new Sprite("Images/spike.png", 16, 16);
 
 			sp.RotationCenter = OriginAlignment.Center;
 			sp.DisplayAlignment = OriginAlignment.Center;

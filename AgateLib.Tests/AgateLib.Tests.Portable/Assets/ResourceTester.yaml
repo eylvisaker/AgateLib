@@ -1,14 +1,14 @@
 ﻿
 font-sources:
--   MedievalSharp.yaml
+-   UserInterface/MedievalSharp.yaml
 
 images:
     sample_surf: 
-        image: jellybean.png
+        image: Images/jellybean.png
 
 sprites:
     sample_sprite:
-        image: attacke.png
+        image: Images/attacke.png
         animation:
             frame-time: 60
         size: 96 96

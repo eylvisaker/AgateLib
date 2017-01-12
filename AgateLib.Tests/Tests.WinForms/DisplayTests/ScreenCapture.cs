@@ -21,7 +21,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run()
 		{
-			Surface someSurface = new Surface("wallpaper.png");
+			Surface someSurface = new Surface("Images/wallpaper.png");
 			bool capturing = false;
 
 			FrameBuffer capture = new FrameBuffer(1600, 1200);

@@ -29,13 +29,13 @@ namespace AgateLib.Tests.DisplayTests
 
 			Surface[] tiles = new Surface[3];
 
-			tiles[0] = new Surface("tile1.png");
+			tiles[0] = new Surface("Images/tile1.png");
 			tiles[1] = tiles[0];
-			tiles[2] = new Surface("tile2.png");
+			tiles[2] = new Surface("Images/tile2.png");
 
 			var wnd = Configuration.DisplayWindows.First();
 
-			while(tiles.Any(x => x.IsLoaded == false))
+			while (Core.IsAlive && tiles.Any(x => x.IsLoaded == false))
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.Blue);
@@ -43,7 +43,7 @@ namespace AgateLib.Tests.DisplayTests
 				Core.KeepAlive();
 			}
 
-			while (wnd.IsClosed == false)
+			while (Core.IsAlive)
 			{
 				Display.BeginFrame();
 				Display.Clear(Color.FromArgb(

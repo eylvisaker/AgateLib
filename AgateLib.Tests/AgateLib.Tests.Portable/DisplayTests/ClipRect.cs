@@ -30,7 +30,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		protected override void OnSceneStart()
 		{
-			surf = new Surface("wallpaper.png");
+			surf = new Surface("Images/wallpaper.png");
 		}
 
 		public AgateConfig Configuration { get; set; }

@@ -502,10 +502,18 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			get { return renderTarget.ClientSize.ToGeometry(); }
 			set
 			{
+				if (renderTarget.InvokeRequired)
+				{
+					renderTarget.Invoke(new Action(() => Size = value));
+					return;
+				}
+
 				renderTarget.ClientSize = value.ToDrawing();
 
 				if (frm != null)
+				{
 					frm.ClientSize = value.ToDrawing();
+				}
 			}
 		}
 
@@ -515,19 +523,39 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			set
 			{
 				if (frm != null)
+				{
+					if (frm.InvokeRequired)
+					{
+						frm.BeginInvoke(new Action(() => Title = value));
+						return;
+					}
+
 					frm.Text = value;
+				}
 			}
 		}
 
 		#region GL_IRenderTarget Members
 
-
 		public void HideCursor()
 		{
+			if (renderTarget.InvokeRequired)
+			{
+				renderTarget.BeginInvoke(new Action(HideCursor));
+				return;
+			}
+
 			renderTarget.Cursor = FormUtil.BlankCursor;
 		}
+
 		public void ShowCursor()
 		{
+			if (renderTarget.InvokeRequired)
+			{
+				renderTarget.BeginInvoke(new Action(ShowCursor));
+				return;
+			}
+
 			renderTarget.Cursor = Cursors.Arrow;
 		}
 

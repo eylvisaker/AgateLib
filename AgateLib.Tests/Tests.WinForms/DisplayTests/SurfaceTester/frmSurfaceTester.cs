@@ -57,7 +57,7 @@ namespace AgateLib.Tests.DisplayTests.SurfaceTester
             DisplayWindow wind = DisplayWindow.CreateFromControl(pctGraphics);
 
             // load an image
-            string fileName = @"jellybean.png";
+            string fileName = @"Images/jellybean.png";
 
 
             mSurface = new Surface(fileName);

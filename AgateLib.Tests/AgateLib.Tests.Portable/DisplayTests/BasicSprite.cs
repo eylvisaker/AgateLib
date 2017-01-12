@@ -28,7 +28,7 @@ namespace AgateLib.Tests.DisplayTests
 
 		protected override void OnSceneStart()
 		{
-			p = new Sprite("boxsprite.png", new Size(96, 96));
+			p = new Sprite("Images/boxsprite.png", new Size(96, 96));
 			p.AnimationType = SpriteAnimType.PingPong;
 			p.TimePerFrame = 250;
 			p.StartAnimation();

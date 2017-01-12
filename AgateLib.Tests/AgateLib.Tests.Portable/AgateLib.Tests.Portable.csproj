@@ -67,21 +67,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestInfo.cs" />
     <Compile Include="TestCollection.cs" />
-    <Compile Include="UserInterfaceTests\Venus\MenuScrollTest.cs" />
-    <Compile Include="UserInterfaceTests\Venus\NonWrappingLayoutTest.cs" />
+    <Compile Include="UserInterfaceTests\MenuScrollTest.cs" />
+    <Compile Include="UserInterfaceTests\NonWrappingLayoutTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\attacke.png">
+    <Content Include="Assets\Images\attacke.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\9ball.png">
+    <Content Include="Assets\Images\9ball.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\boxsprite.png">
+    <Content Include="Assets\Images\boxsprite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\CssTest.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\UserInterface\Fonts\MedievalSharp10-Bold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -134,19 +131,10 @@
     <Content Include="Assets\UserInterface\Fonts\sample_font.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Images\ui_back_1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\UserInterface\ui_border_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Images\ui_border_2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Images\ui_widget.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\jellybean.png">
+    <Content Include="Assets\Images\jellybean.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\UserInterface\MedievalSharp.yaml">
@@ -158,10 +146,10 @@
     <Content Include="Assets\UserInterface\Fonts\MedievalSharp18.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\smoke.png">
+    <Content Include="Assets\Images\smoke.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\smoke2.png">
+    <Content Include="Assets\Images\smoke2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\snda.wav">
@@ -170,13 +158,13 @@
     <Content Include="Assets\sndb.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\spike.png">
+    <Content Include="Assets\Images\spike.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\tile1.png">
+    <Content Include="Assets\Images\tile1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\tile2.png">
+    <Content Include="Assets\Images\tile2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\UserInterface\ui_back_1.png">
@@ -185,7 +173,7 @@
     <Content Include="Assets\UserInterface\ui_border_2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\wallpaper.png">
+    <Content Include="Assets\Images\wallpaper.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -203,13 +191,13 @@
     <Content Include="Assets\UserInterface\PaperTheme.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\MenuScroll.yaml">
+    <Content Include="Assets\UserInterface\MenuScroll.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\UserInterface\FontAlignment.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\UserInterface\ResourceTester.yaml">
+    <Content Include="Assets\ResourceTester.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

@@ -32,7 +32,7 @@ namespace AgateLib.Tests.FontTests
 
 		public void Run()
 		{
-			var resources = new AgateResourceManager("FontAlignment.yaml");
+			var resources = new AgateResourceManager("UserInterface/FontAlignment.yaml");
 			resources.InitializeContainer(this);
 
 			var fonts = new List<IFont> { Font.AgateSans, Font.AgateSerif, Font.AgateMono, };

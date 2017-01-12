@@ -26,7 +26,7 @@ namespace AgateLib.Tests.DisplayTests
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			Input.Unhandled.MouseDown += Mouse_MouseDown;
 
-			Surface surf = new Surface("jellybean.png");
+			Surface surf = new Surface("Images/jellybean.png");
 			surf.Color = Color.Cyan;
 
 			while (Core.IsAlive)

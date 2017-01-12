@@ -32,8 +32,8 @@ namespace AgateLib.Tests.DisplayTests
 
 		protected override void OnSceneStart()
 		{
-			surf = new Surface("jellybean.png");
-			surf2 = new Surface("jellybean.png");
+			surf = new Surface("Images/jellybean.png");
+			surf2 = new Surface("Images/jellybean.png");
 
 			surf.SetScale(5.0, 5.0);
 			surf2.SetScale(5.0, 5.0);

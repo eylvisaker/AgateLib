@@ -46,8 +46,8 @@ namespace AgateLib.Tests.DisplayTests.MultipleWindows
 			myForm.btnDraw.Click += new EventHandler(btnDraw_Click);
 			myForm.btnClearSurface.Click += new EventHandler(btnClear_Click);
 			myForm.btnDrawText.Click += new EventHandler(btnDrawText_Click);
-			Surface image1 = new Surface("jellybean.png");
-			Surface image2 = new Surface("9ball.png");
+			Surface image1 = new Surface("Images/jellybean.png");
+			Surface image2 = new Surface("Images/9ball.png");
 			image1.DisplayWidth = 40;
 			image1.DisplayHeight = (int)(image1.DisplayWidth * image1.SurfaceHeight / (double)image1.SurfaceWidth);
 			image2.DisplayWidth = 40;

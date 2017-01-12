@@ -36,7 +36,7 @@ namespace AgateLib.Tests.WinFormsTests
 
 		protected override internal void OnSceneStart()
 		{
-			Surface surf = new Surface("attacke.png");
+			Surface surf = new Surface("Images/attacke.png");
 
 			System.Drawing.Bitmap bmp = surf.ToBitmap();
 

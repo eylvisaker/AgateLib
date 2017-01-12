@@ -24,7 +24,7 @@ namespace AgateLib.Tests.DisplayTests
 		public void Run()
 		{
 			DisplayWindow wind = DisplayWindow.CreateFullScreen("Hello World", 640, 480);
-			Surface mySurface = new Surface("jellybean.png");
+			Surface mySurface = new Surface("Images/jellybean.png");
 
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			Input.Unhandled.MouseMove += (sender, e) => mousePosition = e.MousePosition;

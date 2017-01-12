@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
-using AgateLib.InputLib.Legacy;
-using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -23,8 +22,6 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run()
 		{
-			DisplayWindow window = DisplayWindow.CreateWindowed("Test", 800, 600);
-
 			PixelBuffer pbMaskBg = PixelBuffer.FromFile("mask_bg-bricks.png");
 			PixelBuffer pbBg = PixelBuffer.FromFile("bg-bricks.png");
 			PixelBuffer pbMaskCircle = PixelBuffer.FromFile("mask_circle.png");
@@ -101,7 +98,6 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void ModifySetup(IAgateSetup setup)
 		{
-			setup.CreateDisplayWindow = false;
 		}
 	}
 }

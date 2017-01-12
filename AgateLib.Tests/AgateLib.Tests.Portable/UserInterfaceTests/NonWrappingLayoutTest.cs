@@ -58,7 +58,7 @@ namespace AgateLib.Tests.UserInterfaceTests
 
 		public void CreateGui()
 		{
-			resources = new AgateResourceManager("NonWrappingLayout.yaml");
+			resources = new AgateResourceManager("UserInterface/NonWrappingLayout.yaml");
 			facet = new Facet();
 
 			resources.UserInterface.InitializeFacet(facet);

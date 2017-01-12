@@ -59,7 +59,7 @@ namespace AgateLib.Tests.UserInterfaceTests
 
 		public void CreateGui()
 		{
-			resources = new AgateResourceManager("MenuScroll.yaml");
+			resources = new AgateResourceManager("UserInterface/MenuScroll.yaml");
 			facet = new Facet();
 
 			resources.InitializeContainer(facet);

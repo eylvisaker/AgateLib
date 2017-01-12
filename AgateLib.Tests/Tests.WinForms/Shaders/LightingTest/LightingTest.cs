@@ -28,7 +28,7 @@ namespace AgateLib.Tests.Shaders.LightingTest
 
 			//DisplayWindow wnd = new DisplayWindow(CreateWindowParams.FromControl(frm.agateRenderTarget1));
 
-			Surface image = new Surface("jellybean.png");
+			Surface image = new Surface("Images/jellybean.png");
 			Surface ball = new Surface("ball.png");
 			Point ballPt;
 			double time = 0;
