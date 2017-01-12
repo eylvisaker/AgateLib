@@ -1,114 +1,34 @@
-﻿using System.Collections.Generic;
-
-using AgateLib.ApplicationModels;
+﻿using System;
+using System.Collections.Generic;
 using AgateLib.Geometry;
-using AgateLib.Platform;
-
+using AgateLib.Platform.WinForms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.ApplicationModels
 {
-	public class ArgumentProcessing : AgateAppModel
-	{
-		List<string> expected = new List<string>();
-
-		public ArgumentProcessing(ModelParameters param)
-			: base(param)
-		{
-
-		}
-		//protected override int BeginModel(Func<int> entryPoint)
-		//{
-		//	return 0;
-		//}
-
-		public List<string> Expected { get { return expected; } }
-
-		protected override void InitializeImpl()
-		{
-		}
-
-		public override void KeepAlive()
-		{
-		}
-
-		protected override void ProcessArgument(string arg, IList<string> parm)
-		{
-			if (Expected.Count > 0)
-			{
-				Assert.AreEqual(expected[0], arg);
-				Assert.IsTrue(arg.StartsWith("--"));
-
-				expected.RemoveAt(0);
-
-				if (parm.Count > 0)
-				{
-					Assert.AreEqual(expected[0], parm[0]);
-					expected.RemoveAt(0);
-				}
-			}
-
-			base.ProcessArgument(arg, parm);
-		}
-	}
-
 	[TestClass]
 	public class ArgumentProcessorTest : AgateUnitTest
 	{
 		[TestMethod]
 		public void SetWindowSizeTest()
 		{
-			ArgumentProcessing p = new ArgumentProcessing(new ModelParameters
-			{
-				Arguments =
-					"--window 640x480".Split(' ')
-			});
+			var setup = new AgateSetup(Args("-window 640x480"));
 
-			p.Initialize();
-
-			Assert.IsFalse(p.Parameters.CreateFullScreenWindow);
-			Assert.AreEqual(new Size(640, 480), p.Parameters.DisplayWindowSize);
+			Assert.IsFalse(setup.CreateFullScreenWindow);
+			Assert.AreEqual(new Size(640, 480), setup.DisplayWindowPhysicalSize);
 		}
 
 		[TestMethod]
 		public void ExtraArguments()
 		{
-			ArgumentProcessing p = new ArgumentProcessing(new ModelParameters
-			{
-				Arguments =
-					"--window 640x480 --something --else 14 --nothing".Split(' ')
-			});
+			var setup = new AgateSetup(Args("-window 640x480 -something -else 14 -nothing"));
 
-			p.Expected.Add("--window");
-			p.Expected.Add("640x480");
-			p.Expected.Add("--something");
-			p.Expected.Add("--else");
-			p.Expected.Add("14");
-			p.Expected.Add("--nothing");
-
-			p.Initialize();
-
-			Assert.IsFalse(p.Parameters.CreateFullScreenWindow);
-			Assert.AreEqual(new Size(640, 480), p.Parameters.DisplayWindowSize);
+			Assert.AreEqual(new Size(640, 480), setup.DisplayWindowPhysicalSize);
 		}
 
-
-		[TestMethod]
-		public void DeviceEmulation()
+		private string[] Args(string v)
 		{
-			ArgumentProcessing p = EmulationArgument(DeviceType.Handheld);
-			Assert.AreEqual(DeviceType.Handheld, p.Parameters.EmulateDeviceType);
-		}
-
-		private static ArgumentProcessing EmulationArgument(DeviceType type)
-		{
-			ArgumentProcessing p = new ArgumentProcessing(new ModelParameters
-			{
-				Arguments = ("--emulate-device " + type.ToString()).Split(' '),
-			});
-
-			p.Initialize();
-			return p;
+			return v.Split(' ');
 		}
 	}
 }

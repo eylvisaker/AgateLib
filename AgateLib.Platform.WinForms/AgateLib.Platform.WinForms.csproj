@@ -131,7 +131,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Builtin.resx</DependentUpon>
     </Compile>
-    <Compile Include="WinFormsInitializer.cs" />
     <Compile Include="Resources\BuiltinResources.cs" />
     <Compile Include="SurfaceExtensions.cs" />
     <Compile Include="Controls\AgateRenderTarget.cs">

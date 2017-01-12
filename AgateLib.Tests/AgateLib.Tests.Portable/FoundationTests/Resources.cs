@@ -5,7 +5,6 @@ using AgateLib;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
-using AgateLib.ApplicationModels;
 using AgateLib.Resources;
 using AgateLib.Configuration;
 

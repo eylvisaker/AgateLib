@@ -17,7 +17,6 @@
 //     Contributor(s): Erik Ylvisaker
 //
 using AgateLib.AgateSDL;
-using AgateLib.ApplicationModels;
 using AgateLib.DisplayLib;
 using AgateLib.Drivers;
 using AgateLib.IO;

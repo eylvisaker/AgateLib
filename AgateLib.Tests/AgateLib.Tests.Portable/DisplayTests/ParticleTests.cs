@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using AgateLib.ApplicationModels;
 using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;

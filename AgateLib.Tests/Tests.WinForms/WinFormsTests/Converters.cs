@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
+using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.ApplicationModels;
-using AgateLib.Tests;
 using AgateLib.Platform.WinForms;
-using AgateLib.Configuration;
+using AgateLib.Tests;
 
 namespace AgateLib.Tests.WinFormsTests
 {

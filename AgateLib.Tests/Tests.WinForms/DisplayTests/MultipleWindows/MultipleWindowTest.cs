@@ -9,7 +9,6 @@ using AgateLib.Geometry;
 using AgateLib.Platform;
 using AgateLib.Platform.WinForms;
 using AgateLib.Platform.WinForms.Resources;
-using AgateLib.ApplicationModels;
 using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.MultipleWindows

@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.ApplicationModels;
 
 namespace AgateLib.Configuration.State
 {
@@ -32,7 +31,6 @@ namespace AgateLib.Configuration.State
 			Input.FirstHandler = Console.Instance;
 		}
 
-		public AppModelState AppModel { get; private set; } = new AppModelState();
 		public CoreState Core { get; private set; } = new CoreState();
 		public ConsoleState Console { get; private set; } = new ConsoleState();
 

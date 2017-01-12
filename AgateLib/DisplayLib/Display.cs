@@ -26,7 +26,6 @@ using AgateLib.Geometry;
 using AgateLib.Quality;
 using AgateLib.Utility;
 using AgateLib.Diagnostics;
-using AgateLib.ApplicationModels;
 
 namespace AgateLib.DisplayLib
 {

@@ -16,7 +16,6 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.ApplicationModels;
 using AgateLib.Quality;
 using System;
 using System.Collections.Generic;

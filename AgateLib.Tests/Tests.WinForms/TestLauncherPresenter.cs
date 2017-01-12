@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AgateLib.ApplicationModels;
 using AgateLib.Geometry;
 using AgateLib.Settings;
 
@@ -116,8 +115,10 @@ namespace AgateLib.Tests
 					test.Run();
 				}
 			}
-			catch (ExitGameException)
-			{ }
+			catch(Exception e)
+			{
+				MessageBox.Show("Test exited with exception:\n" + e.ToString());
+			}
 		}
 
 		private void SplitName(string p, out string group, out string key)

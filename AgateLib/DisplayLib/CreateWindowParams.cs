@@ -19,11 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using AgateLib.Geometry;
-using AgateLib.Utility;
-using AgateLib.ApplicationModels;
 using AgateLib.Geometry.CoordinateSystems;
+using AgateLib.Utility;
 
 namespace AgateLib.DisplayLib
 {

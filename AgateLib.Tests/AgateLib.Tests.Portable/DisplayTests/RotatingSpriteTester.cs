@@ -10,7 +10,6 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.InputLib;
 using AgateLib.InputLib.Legacy;
-using AgateLib.ApplicationModels;
 using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.RotatingSpriteTester

@@ -1,18 +1,16 @@
-﻿using AgateLib.ApplicationModels;
-using AgateLib.IO;
-using AgateLib.Platform.IntegrationTest;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.IO;
+using AgateLib.Platform.IntegrationTest;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgateLib.UnitTests.Platform.IntegrationTest
 {
-	[TestClass]
 	public class AgateIntegrationTest : IDisposable
 	{
 		IntegrationTestPlatform platform;
@@ -22,8 +20,6 @@ namespace AgateLib.UnitTests.Platform.IntegrationTest
 		public AgateIntegrationTest()
 		{
 			appDirPath = Path.GetDirectoryName(Assembly.GetAssembly(typeof(AgateIntegrationTest)).Location);
-
-			var parameters = new SerialModelParameters();
 
 			platform = new IntegrationTestPlatform();
 			platform.InitializeAgateLib();

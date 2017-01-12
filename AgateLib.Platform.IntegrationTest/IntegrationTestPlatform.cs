@@ -23,7 +23,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.ApplicationModels;
 using AgateLib.Configuration;
 using AgateLib.Platform.Test;
 using AgateLib.Quality;
@@ -36,14 +35,6 @@ namespace AgateLib.Platform.IntegrationTest
 	public class IntegrationTestPlatform : AgateSetupCore
 	{
 		IntegrationTestFactory factory;
-
-		public void Initialize(ModelParameters parameters, string appDirPath)
-		{
-			Condition.Requires<ArgumentException>(string.IsNullOrWhiteSpace(appDirPath) == false, "appDirPath");
-
-			Core.Initialize(new IntegrationTestFactory(appDirPath));
-			Core.InitAssetLocations(parameters.AssetLocations);
-		}
 
 		public void InitializeAgateLib()
 		{

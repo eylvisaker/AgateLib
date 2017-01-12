@@ -16,9 +16,8 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using AgateLib.ApplicationModels;
-using AgateLib.Geometry;
 using System;
+using AgateLib.Geometry;
 
 namespace AgateLib.DisplayLib
 {

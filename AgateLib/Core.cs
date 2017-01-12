@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.ApplicationModels;
 using AgateLib.AudioLib;
 using AgateLib.Configuration.State;
 using AgateLib.DefaultAssets;

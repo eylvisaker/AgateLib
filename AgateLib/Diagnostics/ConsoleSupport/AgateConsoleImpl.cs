@@ -23,7 +23,6 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AgateLib.ApplicationModels;
 using AgateLib.Diagnostics.ConsoleSupport;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
@@ -470,15 +469,8 @@ namespace AgateLib.Diagnostics
 						return;
 					}
 				}
-				catch(ExitGameException)
-				{
-					throw;
-				}
 				catch (TargetInvocationException e)
 				{
-					if (e.InnerException is ExitGameException)
-						throw e.InnerException;
-
 					ExecuteFailure(e.InnerException);
 
 					return;

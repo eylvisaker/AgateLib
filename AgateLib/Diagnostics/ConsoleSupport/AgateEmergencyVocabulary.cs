@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgateLib.ApplicationModels;
 
 namespace AgateLib.Diagnostics.ConsoleSupport
 {
@@ -74,7 +73,7 @@ namespace AgateLib.Diagnostics.ConsoleSupport
 		[ConsoleCommand("Quits the application. No option to save is given.", Hidden = true)]
 		public void Quit()
 		{
-			throw new ExitGameException();
+			Core.IsAlive = false;
 		}
 
 		[ConsoleCommand("Enable or disable debug info with 'debug on' or 'debug off'", Hidden = true)]

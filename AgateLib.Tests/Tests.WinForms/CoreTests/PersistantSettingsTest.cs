@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AgateLib;
-using AgateLib.ApplicationModels;
 using AgateLib.Configuration;
 using System.Windows.Forms;
 

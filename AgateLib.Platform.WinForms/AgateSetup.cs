@@ -24,7 +24,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using AgateLib.ApplicationModels;
 using AgateLib.Configuration;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib;
@@ -142,7 +141,10 @@ namespace AgateLib.Platform.WinForms
 						System.Windows.Forms.MessageBoxIcon.Stop);
 
 					if (choice == System.Windows.Forms.DialogResult.Cancel)
-						throw new ExitGameException();
+					{
+						Core.IsAlive = false;
+						return;
+					}
 					else
 						watch = System.Diagnostics.Stopwatch.StartNew();
 				}
