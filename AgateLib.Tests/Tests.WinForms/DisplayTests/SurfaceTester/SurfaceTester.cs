@@ -5,10 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
-
 using AgateLib;
 using AgateLib.Configuration;
-using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.DisplayTests.SurfaceTester
 {

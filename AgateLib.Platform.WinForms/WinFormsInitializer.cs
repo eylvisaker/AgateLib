@@ -18,11 +18,9 @@
 //
 using AgateLib.ApplicationModels;
 using AgateLib.IO;
-using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Platform.WinForms.Factories;
 using AgateLib.Platform.WinForms.IO;
 using AgateLib.Quality;
-using AgateLib.Utility;
 using System;
 using System.IO;
 using System.Reflection;

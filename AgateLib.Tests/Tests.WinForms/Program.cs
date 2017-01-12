@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Platform.WinForms;
 using System.IO;
 

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
 using AgateLib;
 using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
-using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.DisplayTests.TileTester
 {

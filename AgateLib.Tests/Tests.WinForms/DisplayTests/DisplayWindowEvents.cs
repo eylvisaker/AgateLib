@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.DisplayLib;
-using AgateLib.Platform.WinForms.Resources;
-using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests

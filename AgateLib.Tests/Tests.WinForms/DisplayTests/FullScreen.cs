@@ -5,7 +5,6 @@ using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform.WinForms.Resources;
-using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.InputLib.Legacy;
 using AgateLib.Configuration;
 

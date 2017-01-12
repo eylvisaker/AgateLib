@@ -7,8 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using AgateLib.ApplicationModels;
-using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests
 {

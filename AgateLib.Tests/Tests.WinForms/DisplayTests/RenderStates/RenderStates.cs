@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using AgateLib;
 using AgateLib.Configuration;
-using AgateLib.Platform.WinForms.ApplicationModels;
 
 namespace AgateLib.Tests.DisplayTests.RenderStates
 {

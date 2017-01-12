@@ -30,11 +30,5 @@ namespace AgateLib.ApplicationModels
 		public SerialModelParameters()
 		{
 		}
-
-		public SerialModelParameters(string[] args)
-			: this()
-		{
-			Arguments = args;
-		}
 	}
 }

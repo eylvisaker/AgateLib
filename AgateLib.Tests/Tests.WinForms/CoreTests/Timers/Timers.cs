@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AgateLib;
-using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Platform;
 using AgateLib.Configuration;
 

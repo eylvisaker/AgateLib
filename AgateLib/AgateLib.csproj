@@ -180,7 +180,6 @@
     <Compile Include="Geometry\CoordinateSystems\NativeCoordinates.cs" />
     <Compile Include="ApplicationModels\EntryPointAppModelBase.cs" />
     <Compile Include="ApplicationModels\Scene.cs" />
-    <Compile Include="ApplicationModels\SceneAppModelBase.cs" />
     <Compile Include="ApplicationModels\SceneStack.cs" />
     <Compile Include="DisplayLib\FontSettings.cs" />
     <Compile Include="DisplayLib\FontStyles.cs" />

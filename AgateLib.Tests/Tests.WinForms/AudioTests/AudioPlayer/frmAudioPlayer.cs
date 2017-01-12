@@ -174,10 +174,7 @@ namespace AgateLib.Tests.AudioTests.AudioPlayer
 			if (AgateAppModel.Instance == null)
 				return;
 
-			AgateLib.Core.KeepAlive();
+			Core.KeepAlive();
 		}
-
-
-
 	}
 }

@@ -6,7 +6,6 @@ using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.InputLib;
 using AgateLib.Geometry;
-using AgateLib.Platform.WinForms.ApplicationModels;
 using AgateLib.Configuration;
 
 namespace AgateLib.Tests.Shaders.LightingTest

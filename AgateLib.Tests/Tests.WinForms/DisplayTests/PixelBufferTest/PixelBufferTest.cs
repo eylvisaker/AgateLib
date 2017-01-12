@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
-
 using AgateLib;
+using AgateLib.ApplicationModels;
 using AgateLib.Geometry;
 using AgateLib.DisplayLib;
 using AgateLib.InputLib;
-using AgateLib.Platform.WinForms.ApplicationModels;
-using AgateLib.InputLib.Legacy;
-using AgateLib.ApplicationModels;
 using AgateLib.Configuration;
 
 namespace AgateLib.Tests.DisplayTests.PixelBufferTest

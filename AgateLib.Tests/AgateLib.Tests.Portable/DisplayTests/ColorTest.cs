@@ -36,10 +36,6 @@ namespace AgateLib.Tests.DisplayTests
 			}
 		}
 
-		public void ModifyModelParameters(SceneModelParameters parameters)
-		{
-		}
-
 		public void ModifySetup(IAgateSetup setup)
 		{
 			setup.DesiredDisplayWindowResolution = new Size(800, 600);
