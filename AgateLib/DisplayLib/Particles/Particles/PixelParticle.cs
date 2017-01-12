@@ -8,7 +8,7 @@
 //		License for the specific language governing rights and limitations
 //		under the License.
 //		
-//		The Original Code is AgateLib.Particles.
+//		The Original Code is AgateLib.DisplayLib.Particles.
 //		
 //		The Initial Developer of the Original Code is Marcel Hauf
 //		Portions created by Marcel Hauf are Copyright (C) 2009.
@@ -21,7 +21,7 @@ using System;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 
-namespace AgateLib.Particles
+namespace AgateLib.DisplayLib.Particles
 {
 	/// <summary>
 	/// A particle class which represents a particle with one colored pixels.

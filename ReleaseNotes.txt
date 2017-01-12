@@ -29,7 +29,7 @@ SlimDX has much better community support, and AgateSDX will eventually be
 developed to include Direct3D 10/11 support.
 
 A particles system has been developed by Marcel Hauf and is included in the
-AgateLib.Particles namespace.
+AgateLib.DisplayLib.Particles namespace.
 
 A simple mechanism for saving/loading user perferences has been implemented
 in the AgateLib.Settings namespace, and is accessed through Core.Settings.

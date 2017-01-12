@@ -4,7 +4,7 @@ using AgateLib.Configuration;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.Sprites;
 using AgateLib.Geometry;
-using AgateLib.Particles;
+using AgateLib.DisplayLib.Particles;
 
 namespace AgateLib.Tests.DisplayTests.ParticleTest
 {

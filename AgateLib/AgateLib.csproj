@@ -493,37 +493,37 @@
     <Compile Include="InputLib\Legacy\Mouse.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Particles\Particle.cs">
+    <Compile Include="DisplayLib\Particles\Particle.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Particles\ParticleEmitter.cs">
+    <Compile Include="DisplayLib\Particles\ParticleEmitter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Particles\Emitters\PixelEmitter.cs">
+    <Compile Include="DisplayLib\Particles\Emitters\PixelEmitter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Particles\Emitters\SpriteEmitter.cs">
+    <Compile Include="DisplayLib\Particles\Emitters\SpriteEmitter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Particles\Emitters\SurfaceEmitter.cs">
+    <Compile Include="DisplayLib\Particles\Emitters\SurfaceEmitter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Particles\Manipulators\FadeOutManipulator.cs">
+    <Compile Include="DisplayLib\Particles\Manipulators\FadeOutManipulator.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Particles\Manipulators\GravityManipulator.cs">
+    <Compile Include="DisplayLib\Particles\Manipulators\GravityManipulator.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Particles\Manipulators\GravityPointManipulator.cs">
+    <Compile Include="DisplayLib\Particles\Manipulators\GravityPointManipulator.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Particles\Particles\PixelParticle.cs">
+    <Compile Include="DisplayLib\Particles\Particles\PixelParticle.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Particles\Particles\SpriteParticle.cs">
+    <Compile Include="DisplayLib\Particles\Particles\SpriteParticle.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Particles\Particles\SurfaceParticle.cs">
+    <Compile Include="DisplayLib\Particles\Particles\SurfaceParticle.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">

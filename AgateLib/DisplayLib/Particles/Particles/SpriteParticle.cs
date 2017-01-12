@@ -8,7 +8,7 @@
 //		License for the specific language governing rights and limitations
 //		under the License.
 //		
-//		The Original Code is AgateLib.Particles.
+//		The Original Code is AgateLib.DisplayLib.Particles.
 //		
 //		The Initial Developer of the Original Code is Marcel Hauf
 //		Portions created by Marcel Hauf are Copyright (C) 2009.
@@ -18,7 +18,7 @@
 //
 using System;
 
-namespace AgateLib.Particles
+namespace AgateLib.DisplayLib.Particles
 {
 	/// <summary>
 	/// A particle implementation for <see cref="AgateLib.Sprites.Sprite"/>s.
