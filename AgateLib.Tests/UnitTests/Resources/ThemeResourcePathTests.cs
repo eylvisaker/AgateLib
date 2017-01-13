@@ -26,6 +26,12 @@ namespace AgateLib.UnitTests.Resources
 		}
 
 		FakeReadFileProvider fileProvider = new FakeReadFileProvider();
+		AgateResourceManager resources;
+
+		protected override void Dispose(bool disposing)
+		{
+			resources?.Dispose();
+		}
 
 		[TestMethod]
 		public void ThemeResourcePathsAllRoot()
@@ -130,7 +136,7 @@ default:
 
 			var container = new InterfaceContainer();
 
-			var resources = new AgateResourceManager(dataModel);
+			resources = new AgateResourceManager(dataModel);
 			resources.InitializeContainer(container);
 
 			container.InterfaceRoot.OnUpdate(0, false);
@@ -141,94 +147,6 @@ default:
 		{
 			return string.Join("/", pathItems.Where(x => !string.IsNullOrWhiteSpace(x)));
 		}
-
-		/*
-[TestMethod]
-public void ThemeResourcePathsThemeSubFolder()
-{
-string rootFile = @"
-Theme-sources:
--   Themefile.yaml";
-
-string Themefile = @"
-AgateTheme:
--   name: AgateTheme-8
-image: Themes/image.png
-size: 8";
-
-var fileProvider = new FakeReadFileProvider();
-fileProvider.Add("resources.yaml", rootFile);
-fileProvider.Add("Themefile.yaml", Themefile);
-fileProvider.Add("Themes/image.png", "");
-
-var dataLoader = new ResourceDataLoader(fileProvider);
-var dataModel = dataLoader.Load("resources.yaml");
-
-var container = new ThemeContainer();
-
-var resources = new AgateResourceManager(dataModel);
-resources.InitializeContainer(container);
-
-Assert.AreEqual(1, fileProvider.ReadCount("Themes/image.png"));
-}
-
-[TestMethod]
-public void ThemeResourcePathsSourceFileInSubFolder()
-{
-string rootFile = @"
-Theme-sources:
--   UserInterface/Themefile.yaml";
-
-string Themefile = @"
-AgateTheme:
--   name: AgateTheme-8
-image: Themes/image.png
-size: 8";
-
-var fileProvider = new FakeReadFileProvider();
-fileProvider.Add("resources.yaml", rootFile);
-fileProvider.Add("UserInterface/Themefile.yaml", Themefile);
-fileProvider.Add("UserInterface/Themes/image.png", "");
-
-var dataLoader = new ResourceDataLoader(fileProvider);
-var dataModel = dataLoader.Load("resources.yaml");
-
-var container = new Interface();
-
-var resources = new AgateResourceManager(dataModel);
-resources.InitializeContainer(container);
-
-Assert.AreEqual(1, fileProvider.ReadCount("UserInterface/Themes/image.png"));
-}
-
-[TestMethod]
-public void ThemeResourcePathsNonRootFile()
-{
-string rootFile = @"
-Theme-sources:
--   UserInterface/Themefile.yaml";
-
-string Themefile = @"
-AgateTheme:
--   name: AgateTheme-8
-image: Themes/image.png
-size: 8";
-
-var fileProvider = new FakeReadFileProvider();
-fileProvider.Add("Assets/resources.yaml", rootFile);
-fileProvider.Add("Assets/UserInterface/Themefile.yaml", Themefile);
-fileProvider.Add("Assets/UserInterface/Themes/image.png", "");
-
-var dataLoader = new ResourceDataLoader(fileProvider);
-var dataModel = dataLoader.Load("Assets/resources.yaml");
-
-var container = new ThemeContainer();
-
-var resources = new AgateResourceManager(dataModel);
-resources.InitializeContainer(container);
-
-Assert.AreEqual(1, fileProvider.ReadCount("Assets/UserInterface/Themes/image.png"));
-}
-*/
+		
 	}
 }

@@ -70,7 +70,7 @@ namespace AgateLib.Resources
 			get
 			{
 				if (disposed)
-					throw new ObjectDisposedException(nameof(AgateResourceManager));
+					return null;
 
 				return displayResourceManager;
 			}
@@ -86,7 +86,7 @@ namespace AgateLib.Resources
 			get
 			{
 				if (disposed)
-					throw new ObjectDisposedException(nameof(AgateResourceManager));
+					return null;
 
 				return uiResourceManager;
 			}

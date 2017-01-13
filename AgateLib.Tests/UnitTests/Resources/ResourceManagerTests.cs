@@ -22,6 +22,11 @@ namespace AgateLib.UnitTests.Resources
 			resources = new ResourceManagerInitializer().Manager;
 		}
 
+		protected override void Dispose(bool disposing)
+		{
+			resources.Dispose();
+		}
+
 		[TestMethod]
 		public void InitializeFacetNullFacetName()
 		{
