@@ -299,7 +299,7 @@ namespace AgateLib
 
 		#endregion
 
-		internal static AgateLibState State { get; set; } = new AgateLibState();
+		internal static AgateLibState State { get; private set; } = new AgateLibState();
 
 		/// <summary>
 		/// Initializes Core class. Also causes the Registrar to probe drivers.
@@ -321,9 +321,17 @@ namespace AgateLib
 
 			Display.Initialize(factory.DisplayFactory.DisplayImpl);
 			Audio.Initialize(factory.AudioFactory.AudioImpl);
-			JoystickInput.Initialize(factory.InputFactory.CreateJoystickInputImpl());
+			Input.Initialize(factory.InputFactory.CreateJoystickInputImpl());
 
 			State.Core.Inititalized = true;
+		}
+
+		public static void Dispose()
+		{
+			Display.Dispose();
+			Audio.Dispose();
+
+			State = null;
 		}
 
 		public static void InitAssetLocations(AssetLocations assets)
@@ -348,6 +356,9 @@ namespace AgateLib
 		{
 			get
 			{
+				if (State == null)
+					return null;
+
 				if (State.Core.Settings == null)
 				{
 					State.Core.Settings = new PersistantSettings();
@@ -356,6 +367,7 @@ namespace AgateLib
 				return State.Core.Settings;
 			}
 		}
+
 		/// <summary>
 		/// Gets or sets a bool value which indicates whether or not your
 		/// app is the focused window.  This will be automatically set if
@@ -367,6 +379,7 @@ namespace AgateLib
 			get { return State.Core.IsActive; }
 			set { State.Core.IsActive = value; }
 		}
+
 		/// <summary>
 		/// Gets or sets a bool value indicating whether or not Agate
 		/// should automatically pause execution when the application
@@ -435,12 +448,6 @@ namespace AgateLib
 		internal static double GetTime()
 		{
 			return State.Core.Time.TotalMilliseconds;
-		}
-
-		public static void Dispose()
-		{
-			Display.Dispose();
-			Audio.Dispose();
 		}
 	}
 }

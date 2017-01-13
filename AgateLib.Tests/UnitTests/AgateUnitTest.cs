@@ -30,7 +30,7 @@ namespace AgateLib.UnitTests
 			Dispose(true);
 
 			platform.Dispose();
-			Core.State = null;
+			Core.Dispose();
 		}
 
 		protected virtual void Dispose(bool disposing)

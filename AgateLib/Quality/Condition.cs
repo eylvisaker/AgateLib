@@ -56,6 +56,7 @@ namespace AgateLib.Quality
 			throw exception;
 		}
 
+		[Obsolete("Use Require.ArgumentNotNull instead.")]
 		[DebuggerStepThrough]
 		public static void RequireArgumentNotNull<T>(T param, string paramName) where T : class
 		{
@@ -63,6 +64,7 @@ namespace AgateLib.Quality
 		}
 
 		[DebuggerStepThrough]
+		[Obsolete("Use Require.ArgumentNotNull instead.")]
 		public static void RequireArgumentNotNull<T>(T param, string paramName, string message) where T : class
 		{
 			if (param != null)
@@ -94,6 +96,7 @@ namespace AgateLib.Quality
 			throw ex;
 		}
 
+		[Obsolete("Use Require.ForAll instead.")]
 		[DebuggerStepThrough]
 		public static bool ForAll<T>(IEnumerable<T> collection, Func<T, bool> predicate)
 		{

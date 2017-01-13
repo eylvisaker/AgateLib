@@ -108,7 +108,7 @@ namespace AgateLib.InputLib
 				MouseWheelDelta = wheelDelta,
 			};
 		}
-		
+
 		/// <summary>
 		/// Constructs an AgateInputEventArgs for a key down event.
 		/// </summary>
@@ -367,6 +367,40 @@ namespace AgateLib.InputLib
 		/// </summary>
 		public DisplayWindow Window { get; internal set; }
 
+		public bool IsMouseEvent
+		{
+			get
+			{
+				switch (InputEventType)
+				{
+					case InputEventType.MouseDown:
+					case InputEventType.MouseUp:
+					case InputEventType.MouseWheel:
+					case InputEventType.MouseDoubleClick:
+					case InputEventType.MouseMove:
+						return true;
+
+					default:
+						return false;
+				}
+			}
+		}
+
+		public bool IsKeyboardEvent
+		{
+			get
+			{
+				switch(InputEventType)
+				{
+					case InputEventType.KeyDown:
+					case InputEventType.KeyUp:
+						return true;
+
+					default:
+						return false;
+				}
+			}
+		}
 	}
 
 	public enum InputEventType

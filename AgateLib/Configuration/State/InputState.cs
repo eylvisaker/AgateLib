@@ -41,5 +41,10 @@ namespace AgateLib.Configuration.State
 
 		internal SimpleInputHandler Unhandled = new SimpleInputHandler();
 		internal IInputHandler FirstHandler;
+
+		internal IInputHandler MouseInputOwner;
+		internal HashSet<KeyCode> KeysPressed = new HashSet<KeyCode>();
+
+		internal Dictionary<IInputHandler, HandlerState> HandlerStates = new Dictionary<IInputHandler, HandlerState>();
 	}
 }

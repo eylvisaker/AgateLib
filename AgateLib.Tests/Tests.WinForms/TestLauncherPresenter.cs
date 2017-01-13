@@ -98,8 +98,6 @@ namespace AgateLib.Tests
 
 		private void LaunchTestModel(IAgateTest test)
 		{
-			Core.State = new Configuration.State.AgateLibState();
-
 			try
 			{
 				using (var setup = new AgateLib.Platform.WinForms.AgateSetup(CommandLineArguments))

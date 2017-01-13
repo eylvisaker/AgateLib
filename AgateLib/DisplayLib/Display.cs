@@ -27,6 +27,7 @@ using AgateLib.Quality;
 using AgateLib.Utility;
 using AgateLib.Diagnostics;
 using AgateLib.DisplayLib.DefaultAssets;
+using AgateLib.Configuration.State;
 
 namespace AgateLib.DisplayLib
 {
@@ -60,6 +61,8 @@ namespace AgateLib.DisplayLib
 	/// </example>
 	public static class Display
 	{
+		private static DisplayState State => Core.State?.Display;
+
 		/// <summary>
 		/// Event that is called when Display.Dispose() is invoked, to shut down the
 		/// display system and release all resources.
@@ -135,23 +138,26 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		public static void Dispose()
 		{
-			Core.State.Display.DisposeDisplay?.Invoke();
+			if (State == null)
+				return;
+
+			State.DisposeDisplay?.Invoke();
 
 			// Release any items which are subscribed to events, so that they are
 			// eligible for garbage collection.
-			Core.State.Display.DisposeDisplay = null;
-			Core.State.Display.PackAllSurfacesEvent = null;
+			State.DisposeDisplay = null;
+			State.PackAllSurfacesEvent = null;
 			
+			State.DefaultResources?.Dispose();
+			State.DefaultResources = null;
+
+			Shaders.AgateBuiltInShaders.DisposeShaders();
+
 			if (Impl != null)
 			{
 				Impl.Dispose();
 				Impl = null;
 			}
-
-			Core.State.Display.DefaultResources.Dispose();
-			Core.State.Display.DefaultResources = null;
-
-			Shaders.AgateBuiltInShaders.DisposeShaders();
 		}
 
 		internal static bool IsAppIdle

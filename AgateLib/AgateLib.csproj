@@ -155,7 +155,9 @@
     <Compile Include="DisplayLib\FontExtensions.cs" />
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
     <Compile Include="Configuration\IAgateSetup.cs" />
+    <Compile Include="InputLib\HandlerState.cs" />
     <Compile Include="InputLib\SimpleInputHandler.cs" />
+    <Compile Include="Quality\Require.cs" />
     <Compile Include="Resources\DataModel\FontResource.cs" />
     <Compile Include="Resources\DataModel\SpriteResourceAnimationData.cs" />
     <Compile Include="Resources\DataModel\SpriteFrameResource.cs" />

@@ -45,5 +45,10 @@ namespace AgateLib.Configuration.State
 		public bool Debug { get; internal set; }
 
 		internal List<Scene> Scenes { get; private set; } = new List<Scene>();
+
+		internal void Dispose()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

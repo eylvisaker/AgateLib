@@ -26,111 +26,124 @@ namespace AgateLib.InputLib
 {
 	internal class InputHandlerList : IList<IInputHandler>
 	{
-		List<IInputHandler> mHandlers = new List<IInputHandler>();
+		List<IInputHandler> handlers = new List<IInputHandler>();
 
-		public int Count
-		{
-			get
-			{
-				return ((IList<IInputHandler>)mHandlers).Count;
-			}
-		}
+		public event EventHandler<InputHandlerEventArgs> HandlerAdded;
+		public event EventHandler<InputHandlerEventArgs> HandlerRemoved;
 
-		public bool IsReadOnly
-		{
-			get
-			{
-				return ((IList<IInputHandler>)mHandlers).IsReadOnly;
-			}
-		}
+		public int Count => handlers.Count;
+
+		public bool IsReadOnly => false;
 
 		public IInputHandler this[int index]
 		{
-			get
-			{
-				return ((IList<IInputHandler>)mHandlers)[index];
-			}
-
+			get { return handlers[index]; }
 			set
 			{
-				((IList<IInputHandler>)mHandlers)[index] = value;
-			}
-		}
+				HandlerRemoved?.Invoke(this, new InputHandlerEventArgs(handlers[index]));
 
-		public InputHandlerList()
-		{
+				handlers[index] = value;
+
+				HandlerAdded?.Invoke(this, new InputHandlerEventArgs(handlers[index]));
+			}
 		}
 
 		public void Add(IInputHandler handler)
 		{
 			if (handler == null)
 				throw new ArgumentNullException("Cannot add a null input handler.");
-			if (mHandlers.Contains(handler))
+			if (handlers.Contains(handler))
 				throw new InvalidOperationException("Cannot add the same input handler twice.");
 
-			mHandlers.Add(handler);
+			handlers.Add(handler);
+			HandlerAdded?.Invoke(this, new InputHandlerEventArgs(handler));
 		}
+
 		public bool Remove(IInputHandler handler)
 		{
-			return mHandlers.Remove(handler);
+			var result = handlers.Remove(handler);
+
+			if (result)
+				HandlerRemoved?.Invoke(this, new InputHandlerEventArgs(handler));
+
+			return result;
 		}
 
 		internal void BringToTop(IInputHandler handler)
 		{
-			if (mHandlers.Contains(handler) == false)
+			if (handlers.Contains(handler) == false)
 				throw new InvalidOperationException("Cannot move a handler which is not registered.");
 
-			mHandlers.Remove(handler);
-			mHandlers.Add(handler);
+			handlers.Remove(handler);
+			handlers.Add(handler);
 		}
 
 		internal void SendToBack(IInputHandler handler)
 		{
-			if (mHandlers.Contains(handler) == false)
+			if (handlers.Contains(handler) == false)
 				throw new InvalidOperationException("Cannot move a handler which is not registered.");
 
-			mHandlers.Remove(handler);
-			mHandlers.Insert(0, handler);
+			handlers.Remove(handler);
+			handlers.Insert(0, handler);
 		}
 
 		public int IndexOf(IInputHandler item)
 		{
-			return ((IList<IInputHandler>)mHandlers).IndexOf(item);
+			return handlers.IndexOf(item);
 		}
 
 		public void Insert(int index, IInputHandler item)
 		{
-			((IList<IInputHandler>)mHandlers).Insert(index, item);
+			handlers.Insert(index, item);
+
+			HandlerAdded?.Invoke(this, new InputHandlerEventArgs(item));
 		}
 
 		public void RemoveAt(int index)
 		{
-			((IList<IInputHandler>)mHandlers).RemoveAt(index);
+			HandlerRemoved?.Invoke(this, new InputHandlerEventArgs(this[index]));
+
+			handlers.RemoveAt(index);
 		}
 
 		public void Clear()
 		{
-			((IList<IInputHandler>)mHandlers).Clear();
+			foreach(var handler in handlers)
+			{
+				HandlerRemoved?.Invoke(this, new InputHandlerEventArgs(handler));
+			}
+
+			handlers.Clear();
 		}
 
 		public bool Contains(IInputHandler item)
 		{
-			return ((IList<IInputHandler>)mHandlers).Contains(item);
+			return handlers.Contains(item);
 		}
 
 		public void CopyTo(IInputHandler[] array, int arrayIndex)
 		{
-			((IList<IInputHandler>)mHandlers).CopyTo(array, arrayIndex);
+			handlers.CopyTo(array, arrayIndex);
 		}
 
 		public IEnumerator<IInputHandler> GetEnumerator()
 		{
-			return ((IList<IInputHandler>)mHandlers).GetEnumerator();
+			return handlers.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return ((IList<IInputHandler>)mHandlers).GetEnumerator();
+			return handlers.GetEnumerator();
 		}
+	}
+
+	internal class InputHandlerEventArgs : EventArgs
+	{
+		public InputHandlerEventArgs(IInputHandler handler)
+		{
+			this.Handler = handler;
+		}
+
+		public IInputHandler Handler { get; private set; }
 	}
 }
