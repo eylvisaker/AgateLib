@@ -23,7 +23,7 @@ namespace WindowsFormsInitialization
 			window = DisplayWindow.CreateFromControl(renderTarget);
 		}
 
-		private void Paint()
+		private void Draw()
 		{
 			Display.BeginFrame();
 			Display.Clear(AgateLib.Geometry.Color.Green);
@@ -36,7 +36,7 @@ namespace WindowsFormsInitialization
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			Paint();
+			Draw();
 		}
 	}
 }
