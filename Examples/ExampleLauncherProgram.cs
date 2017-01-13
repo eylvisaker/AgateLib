@@ -15,13 +15,13 @@ namespace Examples
 		[STAThread]
 		static void Main()
 		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
+			System.Windows.Forms.Application.EnableVisualStyles();
+			System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
 			var view = new LauncherView();
 			var presenter = new LauncherPresenter(view);
 
-			Application.Run(view);
+			System.Windows.Forms.Application.Run(view);
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -24,6 +25,7 @@ namespace Examples.Launcher
 			view.Categories = model;
 
 			view.SelectedExampleChanged += View_SelectedExampleChanged;
+			view.LaunchExample += (sender, args) => LaunchExample(args.Example);
 		}
 
 		private void View_SelectedExampleChanged(object sender, ExampleEventArgs e)
@@ -40,6 +42,25 @@ namespace Examples.Launcher
 			image = e.Example.Path + "/" + image;
 
 			view.Image = Image.FromFile(image);
+		}
+
+		private void LaunchExample(ExampleItem example)
+		{
+			MethodInfo exampleMain = FindExampleMain(example);
+			var args = new string[] { "-window" };
+
+			exampleMain.Invoke(null, new object[] { args });
+		}
+
+		private MethodInfo FindExampleMain(ExampleItem example)
+		{
+			var ns = "Examples." + example.Path.Replace("/", ".");
+
+			var types = Assembly.GetAssembly(GetType()).DefinedTypes.Where(x => x.Namespace == ns);
+
+			return types
+				.SelectMany(x => x.DeclaredMethods)
+				.Single(x => x.Name == "Main" && x.IsStatic);
 		}
 	}
 }

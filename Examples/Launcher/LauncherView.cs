@@ -30,6 +30,7 @@ namespace Examples.Launcher
 		}
 
 		public event EventHandler<ExampleEventArgs> SelectedExampleChanged;
+		public event EventHandler<ExampleEventArgs> LaunchExample;
 
 		public ExampleCategories Categories
 		{
@@ -107,6 +108,8 @@ namespace Examples.Launcher
 		{
 			if (lstExamples.SelectedIndex == -1)
 			{
+				btnLaunch.Enabled = false;
+
 				SelectedExampleChanged?.Invoke(this, new ExampleEventArgs(null));
 				return;
 			}
@@ -114,6 +117,31 @@ namespace Examples.Launcher
 			var item = ListBoxItemAt(lstExamples.SelectedIndex);
 
 			SelectedExampleChanged?.Invoke(this, new ExampleEventArgs(item.Example));
+
+			btnLaunch.Enabled = item.Example != null;
+		}
+
+		private void btnLaunch_Click(object sender, EventArgs e)
+		{
+			LaunchSelectedExample();
+		}
+
+		private void lstExamples_DoubleClick(object sender, EventArgs e)
+		{
+			LaunchSelectedExample();
+		}
+
+		private void LaunchSelectedExample()
+		{
+			if (lstExamples.SelectedIndex == -1)
+				return;
+
+			var item = ListBoxItemAt(lstExamples.SelectedIndex);
+
+			if (item.Example == null)
+				return;
+
+			LaunchExample?.Invoke(this, new ExampleEventArgs(item.Example));
 		}
 	}
 }

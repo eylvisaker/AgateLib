@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgateLib.Platform.WinForms;
 
-namespace WindowsFormsInitialization
+namespace Examples.Initialization.WindowsFormsInitialization
 {
 	static class Program
 	{

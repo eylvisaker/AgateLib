@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using AgateLib;
 using AgateLib.DisplayLib;
 
-namespace WindowsFormsInitialization
+namespace Examples.Initialization.WindowsFormsInitialization
 {
 	public partial class Form1 : Form
 	{

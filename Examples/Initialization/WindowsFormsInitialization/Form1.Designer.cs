@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsInitialization
+﻿namespace Examples.Initialization.WindowsFormsInitialization
 {
 	partial class Form1
 	{

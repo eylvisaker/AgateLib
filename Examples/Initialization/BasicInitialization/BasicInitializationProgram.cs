@@ -8,7 +8,7 @@ using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.Platform.WinForms;
 
-namespace BasicInitialization
+namespace Examples.Initialization.BasicInitialization
 {
 	static class BasicInitializationProgram
 	{

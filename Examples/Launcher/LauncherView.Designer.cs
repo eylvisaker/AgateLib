@@ -30,6 +30,7 @@
 		{
 			this.lstExamples = new System.Windows.Forms.ListBox();
 			this.pctImage = new System.Windows.Forms.PictureBox();
+			this.btnLaunch = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pctImage)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -49,23 +50,38 @@
 			this.lstExamples.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstExamples_DrawItem);
 			this.lstExamples.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.lstExamples_MeasureItem);
 			this.lstExamples.SelectedIndexChanged += new System.EventHandler(this.lstExamples_SelectedIndexChanged);
+			this.lstExamples.DoubleClick += new System.EventHandler(this.lstExamples_DoubleClick);
 			// 
 			// pctImage
 			// 
 			this.pctImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.pctImage.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.pctImage.Location = new System.Drawing.Point(270, 15);
 			this.pctImage.Name = "pctImage";
 			this.pctImage.Size = new System.Drawing.Size(622, 484);
+			this.pctImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
 			this.pctImage.TabIndex = 1;
 			this.pctImage.TabStop = false;
+			// 
+			// btnLaunch
+			// 
+			this.btnLaunch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnLaunch.Location = new System.Drawing.Point(787, 517);
+			this.btnLaunch.Name = "btnLaunch";
+			this.btnLaunch.Size = new System.Drawing.Size(105, 37);
+			this.btnLaunch.TabIndex = 2;
+			this.btnLaunch.Text = "Launch";
+			this.btnLaunch.UseVisualStyleBackColor = true;
+			this.btnLaunch.Click += new System.EventHandler(this.btnLaunch_Click);
 			// 
 			// LauncherView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(904, 566);
+			this.Controls.Add(this.btnLaunch);
 			this.Controls.Add(this.pctImage);
 			this.Controls.Add(this.lstExamples);
 			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -80,6 +96,7 @@
 
 		private System.Windows.Forms.ListBox lstExamples;
 		private System.Windows.Forms.PictureBox pctImage;
+		private System.Windows.Forms.Button btnLaunch;
 	}
 }
 
