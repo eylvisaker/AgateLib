@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,24 @@ namespace Examples.Launcher
 				File.ReadAllText("example-list.json"));
 
 			view.Categories = model;
+
+			view.SelectedExampleChanged += View_SelectedExampleChanged;
+		}
+
+		private void View_SelectedExampleChanged(object sender, ExampleEventArgs e)
+		{
+			string image = e.Example?.Images?.FirstOrDefault();
+
+			if (image == null)
+			{
+				view.Image?.Dispose();
+				view.Image = null;
+				return;
+			}
+
+			image = e.Example.Path + "/" + image;
+
+			view.Image = Image.FromFile(image);
 		}
 	}
 }

@@ -29,6 +29,8 @@ namespace Examples.Launcher
 			boldFont = new Font(lstExamples.Font, FontStyle.Bold);
 		}
 
+		public event EventHandler<ExampleEventArgs> SelectedExampleChanged;
+
 		public ExampleCategories Categories
 		{
 			get { return categories; }
@@ -37,6 +39,15 @@ namespace Examples.Launcher
 				categories = value;
 
 				UpdateCategoryListBox();
+			}
+		}
+
+		public Image Image
+		{
+			get { return pctImage.Image; }
+			set
+			{
+				pctImage.Image = value;
 			}
 		}
 
@@ -90,6 +101,19 @@ namespace Examples.Launcher
 
 			e.ItemHeight = (int)size.Height;
 			e.ItemWidth = (int)size.Width;
+		}
+
+		private void lstExamples_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (lstExamples.SelectedIndex == -1)
+			{
+				SelectedExampleChanged?.Invoke(this, new ExampleEventArgs(null));
+				return;
+			}
+
+			var item = ListBoxItemAt(lstExamples.SelectedIndex);
+
+			SelectedExampleChanged?.Invoke(this, new ExampleEventArgs(item.Example));
 		}
 	}
 }
