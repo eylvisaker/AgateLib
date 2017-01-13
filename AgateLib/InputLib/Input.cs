@@ -107,7 +107,10 @@ namespace AgateLib.InputLib
 					{
 						if (!State.KeysPressed.Contains(key))
 						{
-							DispatchEvent(AgateInputEventArgs.KeyUp(key, new KeyModifiers()));
+							lock (EventQueue)
+							{
+								EventQueue.Insert(0, AgateInputEventArgs.KeyUp(key, new KeyModifiers()));
+							}
 						}
 					}
 				}
@@ -197,7 +200,7 @@ namespace AgateLib.InputLib
 			if (evt.InputEventType == InputEventType.KeyDown)
 				State.KeysPressed.Add(evt.KeyCode);
 			else if (evt.InputEventType == InputEventType.KeyUp)
-				State.KeysPressed.Add(evt.KeyCode);
+				State.KeysPressed.Remove(evt.KeyCode);
 		}
 
 		private static HandlerState GetOrCreateHandlerState(IInputHandler handler)
