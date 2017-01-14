@@ -153,10 +153,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			AttachEvents();
 			CreateFrameBuffer(coords);
 
-			OpenTK.DisplayResolution resolution = OpenTK.DisplayDevice.Default.SelectResolution(
-				chooseWidth, chooseHeight, 32, 0);
-			OpenTK.DisplayDevice.Default.ChangeResolution(resolution);
-
 			frm.Location = System.Drawing.Point.Empty;
 			frm.ClientSize = new System.Drawing.Size(chooseWidth, chooseHeight);
 			frm.Activate();

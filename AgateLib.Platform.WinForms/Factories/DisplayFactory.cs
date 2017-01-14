@@ -50,10 +50,7 @@ namespace AgateLib.Platform.WinForms.Factories
 
 		public DisplayWindowImpl CreateDisplayWindow(DisplayWindow owner, DisplayLib.CreateWindowParams windowParams)
 		{
-			if (windowParams.IsFullScreen && windowParams.RenderToControl == false)
-				return new GL_GameWindow(owner, windowParams);
-			else
-				return new GL_DisplayControl(owner, windowParams);
+			return new GL_DisplayControl(owner, windowParams);
 		}
 
 		public SurfaceImpl CreateSurface(IReadFileProvider provider, string filename)
@@ -111,7 +108,7 @@ namespace AgateLib.Platform.WinForms.Factories
 		{
 			if (FullDisplayImpl.GL3)
 				return new AgateLib.OpenGL.GL3.FrameBuffer((IGL_Surface)new Surface(size).Impl);
-			
+
 			if (SupportsFramebufferArb && ReadSettingsBool("DisableFramebufferArb") == false)
 				return new AgateLib.OpenGL.GL3.FrameBuffer((IGL_Surface)new Surface(size).Impl);
 

@@ -23,6 +23,9 @@ namespace Examples.Initialization.BasicInitialization
 				// At minimum, we must specify to the setup object what the desired size of the display window is.
 				setup.DesiredDisplayWindowResolution = new Size(500, 400);
 
+				// Tells AgateLib what to title the window.
+				setup.ApplicationName = "Basic AgateLib Initialization";
+
 				// This call completes initialization of AgateLib and allows us to begin drawing.
 				setup.InitializeAgateLib();
 
@@ -30,7 +33,7 @@ namespace Examples.Initialization.BasicInitialization
 				Input.Unhandled.KeyDown += (sender, e) =>
 				{
 					if (e.KeyCode == KeyCode.Escape)
-						Display.CurrentWindow.Dispose();
+						Core.IsAlive = false;
 				};
 
 				// Run the game loop
