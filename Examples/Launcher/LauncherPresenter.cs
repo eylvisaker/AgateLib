@@ -49,7 +49,16 @@ namespace Examples.Launcher
 			MethodInfo exampleMain = FindExampleMain(example);
 			var args = new string[] { "-window" };
 
-			exampleMain.Invoke(null, new object[] { args });
+			try
+			{
+				view.Hide();
+
+				exampleMain.Invoke(null, new object[] { args });
+			}
+			finally
+			{
+				view.Show();
+			}
 		}
 
 		private MethodInfo FindExampleMain(ExampleItem example)

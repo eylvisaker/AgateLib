@@ -34,7 +34,7 @@ namespace Examples.Initialization.BasicInitialization
 				};
 
 				// Run the game loop
-				while (Display.CurrentWindow.IsClosed == false)
+				while (Core.IsAlive)
 				{
 					// All drawing calls must be contained between Display.BeginFrame and Display.EndFrame calls.
 					Display.BeginFrame();

@@ -11,5 +11,8 @@ namespace Examples.Launcher
 		ExampleCategories Categories { get; set; }
 
 		Image Image { get; set; }
+
+		void Show();
+		void Hide();
 	}
 }
