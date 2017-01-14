@@ -19,13 +19,13 @@ namespace Examples.Launcher
 		{
 			this.view = view;
 
+			view.SelectedExampleChanged += View_SelectedExampleChanged;
+			view.LaunchExample += (sender, args) => LaunchExample(args.Example);
+
 			this.model = JsonConvert.DeserializeObject<ExampleCategories>(
 				File.ReadAllText("example-list.json"));
 
 			view.Categories = model;
-
-			view.SelectedExampleChanged += View_SelectedExampleChanged;
-			view.LaunchExample += (sender, args) => LaunchExample(args.Example);
 		}
 
 		private void View_SelectedExampleChanged(object sender, ExampleEventArgs e)
@@ -47,7 +47,7 @@ namespace Examples.Launcher
 		private void LaunchExample(ExampleItem example)
 		{
 			MethodInfo exampleMain = FindExampleMain(example);
-			var args = new string[] { "-window" };
+			var args = view.Arguments.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
 			try
 			{

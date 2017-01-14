@@ -8,6 +8,8 @@ namespace Examples.Launcher
 		event EventHandler<ExampleEventArgs> LaunchExample;
 		event EventHandler<ExampleEventArgs> SelectedExampleChanged;
 
+		string Arguments { get; }
+
 		ExampleCategories Categories { get; set; }
 
 		Image Image { get; set; }

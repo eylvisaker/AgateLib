@@ -32,6 +32,8 @@ namespace Examples.Launcher
 		public event EventHandler<ExampleEventArgs> SelectedExampleChanged;
 		public event EventHandler<ExampleEventArgs> LaunchExample;
 
+		public string Arguments => cboArgs.Text;
+
 		public ExampleCategories Categories
 		{
 			get { return categories; }
@@ -59,6 +61,10 @@ namespace Examples.Launcher
 
 		private void UpdateCategoryListBox()
 		{
+			int selection = -1;
+
+			lstExamples.Items.Clear();
+
 			foreach (var category in categories.Keys)
 			{
 				lstExamples.Items.Add(new ListBoxItem { Name = category });
@@ -70,8 +76,13 @@ namespace Examples.Launcher
 						Name = example,
 						Example = categories[category][example]
 					});
+
+					if (selection == -1)
+						selection = lstExamples.Items.Count - 1;
 				}
 			}
+
+			lstExamples.SelectedIndex = selection;
 		}
 
 		private void lstExamples_DrawItem(object sender, DrawItemEventArgs e)
