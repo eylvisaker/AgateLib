@@ -28,16 +28,13 @@ namespace AgateLib.AgateSDL.Input
 {
 	public class SDL_Input : InputImpl
 	{
-		ISDL sdl;
+		private readonly ISDL sdl;
 
 		public SDL_Input()
 		{
 			sdl = SdlFactory.CreateSDL();
 		}
-		public override int JoystickCount
-		{
-			get { return sdl.SDL_NumJoysticks(); }
-		}
+		public override int JoystickCount => sdl.SDL_NumJoysticks();
 
 		public override IEnumerable<JoystickImpl> CreateJoysticks()
 		{

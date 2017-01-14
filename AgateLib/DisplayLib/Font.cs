@@ -61,24 +61,11 @@ namespace AgateLib.DisplayLib
 
 		public OriginAlignment DisplayAlignment
 		{
-			get
-			{
-				return state.DisplayAlignment;
-			}
-
-			set
-			{
-				state.DisplayAlignment = value;
-			}
+			get{return state.DisplayAlignment;}
+			set{state.DisplayAlignment = value;}
 		}
 
-		public int FontHeight
-		{
-			get
-			{
-				return impl.FontHeight(state);
-			}
-		}
+		public int FontHeight => impl.FontHeight(state);
 
 		public int Size
 		{
