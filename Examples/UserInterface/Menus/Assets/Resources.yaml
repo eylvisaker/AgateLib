@@ -1,0 +1,15 @@
+﻿
+facets:
+    MainMenu:
+    -   type: window
+        position: 20 20
+        size: 300 200
+        children:
+        -   type: menu
+            name: MainMenu
+            menu-items:
+            -   text: Start
+                name: StartLabel
+                menu-item-name: StartItem
+            -   text: Quit
+                menu-item-name: QuitItem

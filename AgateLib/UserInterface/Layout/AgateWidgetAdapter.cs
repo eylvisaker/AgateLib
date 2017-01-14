@@ -237,11 +237,14 @@ namespace AgateLib.UserInterface.Layout
 				ApplyWidgetProperties(style, style.WidgetProperties);
 			}
 
-			foreach (var state in StateOf(style.Widget))
+			if (theme != null)
 			{
-				if (string.IsNullOrWhiteSpace(state) == false && theme.State.ContainsKey(state))
+				foreach (var state in StateOf(style.Widget))
 				{
-					ApplyStateProperties(style, theme.State[state]);
+					if (string.IsNullOrWhiteSpace(state) == false && theme.State.ContainsKey(state))
+					{
+						ApplyStateProperties(style, theme.State[state]);
+					}
 				}
 			}
 
