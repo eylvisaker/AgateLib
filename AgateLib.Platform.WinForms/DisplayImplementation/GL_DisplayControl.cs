@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Drawing = System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -119,7 +120,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				hasFrame = windowParams.HasFrame;
 
 				if (chooseFullscreen)
-					CreateFullScreenDisplay();
+					CreateFullScreenDisplay(Array.IndexOf(Screen.AllScreens, Screen.PrimaryScreen));
 				else
 					CreateWindowedDisplay();
 
@@ -133,7 +134,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public override FrameBufferImpl FrameBuffer => frameBuffer;
 
-		private void CreateFullScreenDisplay()
+		private void CreateFullScreenDisplay(int targetScreenIndex)
 		{
 			DetachEvents();
 
@@ -153,8 +154,10 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			AttachEvents();
 			CreateFrameBuffer(coords);
 
-			frm.Location = System.Drawing.Point.Empty;
-			frm.ClientSize = new System.Drawing.Size(chooseWidth, chooseHeight);
+			var targetScreen = Screen.AllScreens[targetScreenIndex];
+
+			frm.ClientSize = targetScreen.Bounds.Size;
+			frm.Location = targetScreen.Bounds.Location;
 			frm.Activate();
 
 			System.Threading.Thread.Sleep(1000);
@@ -177,8 +180,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			Form myform;
 			Control myRenderTarget;
-
-			OpenTK.DisplayDevice.Default.RestoreResolution();
 
 			AgateLib.Platform.WinForms.Controls.FormUtil.InitializeWindowsForm(
 				out myform, out myRenderTarget, choosePosition,
@@ -239,7 +240,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private IWindowInfo CreateWindowInfo(GraphicsMode mode)
 		{
-			switch (AgateLib.Core.Platform.PlatformType)
+			switch (Core.Platform.PlatformType)
 			{
 				case PlatformType.Windows:
 					return OpenTK.Platform.Utilities.CreateWindowsWindowInfo(renderTarget.Handle);
@@ -419,6 +420,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		void form_FormClosed(object sender, FormClosedEventArgs e)
 		{
+			DetachEvents();
 			OnClosed();
 		}
 

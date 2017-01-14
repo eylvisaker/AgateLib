@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.DefaultAssets;
 using AgateLib.DisplayLib.ImplementationBase;
@@ -65,7 +66,7 @@ namespace AgateLib.Platform.Test.Display
 
 		public FontSurfaceImpl CreateFont(string fontFamily, float sizeInPoints, AgateLib.DisplayLib.FontStyles style)
 		{
-			throw new NotImplementedException();
+			return new FakeFontSurface(fontFamily, sizeInPoints, style);
 		}
 
 		public FontSurfaceImpl CreateFont(BitmapFontOptions bitmapOptions)
@@ -88,12 +89,28 @@ namespace AgateLib.Platform.Test.Display
 		{
 			res.Dispose();
 
-			res.AgateSans = new FakeFont("AgateSans");
-			res.AgateSerif = new FakeFont("AgateSerif");
-			res.AgateMono = new FakeFont("AgateMono");
+			res.AgateSans = BuildFont("AgateSans");
+			res.AgateSerif = BuildFont("AgateSerif");
+			res.AgateMono = BuildFont("AgateMono");
 
 			return Task.FromResult(0);
 		}
-	}
 
+		private Font BuildFont(string name)
+		{
+			var builder = new FontBuilder(name);
+
+			builder.AddFontSurface(
+				new FontSettings(6, FontStyles.None),
+				FontSurface.FromImpl(CreateFont(name, 6, FontStyles.None)));
+			builder.AddFontSurface(
+				new FontSettings(10, FontStyles.None),
+				FontSurface.FromImpl(CreateFont(name, 10, FontStyles.None)));
+			builder.AddFontSurface(
+				new FontSettings(22, FontStyles.None),
+				FontSurface.FromImpl(CreateFont(name, 22, FontStyles.None)));
+
+			return builder.Build();
+		}
+	}
 }

@@ -33,7 +33,7 @@ namespace AgateLib.Platform.WinForms.Resources
 		ZipFileProvider mProvider;
 		AgateResourceManager mResources;
 
-		public IFont GetFont(string name)
+		public Font GetFont(string name)
 		{
 			if (mProvider == null)
 			{

@@ -69,5 +69,14 @@ namespace AgateLib.DisplayLib.Cache
 		protected internal virtual void OnScaleChanged(FontState fontState)
 		{
 		}
+
+		protected internal virtual void OnSizeChanged(FontState fontState)
+		{
+		}
+
+		protected internal void OnStyleChanged(FontState fontState)
+		{
+		}
+
 	}
 }

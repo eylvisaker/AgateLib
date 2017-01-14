@@ -24,7 +24,6 @@ using System.Threading.Tasks;
 using AgateLib.Geometry;
 using AgateLib.InputLib;
 using AgateLib.InputLib.ImplementationBase;
-using AgateLib.InputLib.Legacy;
 
 namespace AgateLib.Configuration.State
 {

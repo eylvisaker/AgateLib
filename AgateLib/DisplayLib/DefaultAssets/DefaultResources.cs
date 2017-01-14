@@ -30,9 +30,9 @@ namespace AgateLib.DisplayLib.DefaultAssets
 		internal DefaultResources()
 		{ }
 
-		public IFont AgateSans { get; set; }
-		public IFont AgateSerif { get; set; }
-		public IFont AgateMono { get; set; }
+		public Font AgateSans { get; set; }
+		public Font AgateSerif { get; set; }
+		public Font AgateMono { get; set; }
 
 		public void Dispose()
 		{

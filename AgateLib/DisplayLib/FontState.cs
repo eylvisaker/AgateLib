@@ -28,7 +28,7 @@ namespace AgateLib.DisplayLib
 	/// <summary>
 	/// Class which represents the state information used to draw texdt on the screen.
 	/// </summary>
-	public class FontState 
+	public class FontState
 	{
 		private OriginAlignment mAlignment = OriginAlignment.TopLeft;
 		private Color mColor = Color.White;
@@ -38,6 +38,13 @@ namespace AgateLib.DisplayLib
 		private string mText = string.Empty;
 		private FontStateCache mCache;
 		private string mTransformedText;
+		private int size;
+		private FontStyles style;
+
+		/// <summary>
+		/// Indicates how images are laid out inline with text.
+		/// </summary>
+		public TextImageLayout TextImageLayout { get; set; }
 
 		/// <summary>
 		/// Gets or sets the text that is displayed when drawn.
@@ -54,14 +61,7 @@ namespace AgateLib.DisplayLib
 					Cache.OnTextChanged(this);
 			}
 		}
-		/// <summary>
-		/// Gets the text which was transformed by the string transformer.
-		/// </summary>
-		public string TransformedText
-		{
-			get { return mTransformedText; }
-			internal set { mTransformedText = value; }
-		}
+
 		/// <summary>
 		/// Gets or sets the location where text is drawn.
 		/// </summary>
@@ -86,8 +86,7 @@ namespace AgateLib.DisplayLib
 			{
 				mAlignment = value;
 
-				if (Cache != null)
-					Cache.OnDisplayAlignmentChanged(this);
+				Cache?.OnDisplayAlignmentChanged(this);
 			}
 		}
 		/// <summary>
@@ -121,11 +120,33 @@ namespace AgateLib.DisplayLib
 					Cache.OnColorChanged(this);
 			}
 		}
+
+		public int Size
+		{
+			get { return size; }
+			set
+			{
+				size = value;
+
+				Cache?.OnSizeChanged(this);
+			}
+		}
+
+		public FontStyles Style
+		{
+			get{return style;}
+			set
+			{
+				style = value;
+
+				Cache?.OnStyleChanged(this);
+			}
+		}
 		/// <summary>
 		/// Gets or sets the amount the width is scaled when the text is drawn.
 		/// 1.0 is no scaling.
 		/// </summary>
-		public double ScaleWidth
+		internal double ScaleWidth
 		{
 			get { return mScaleWidth; }
 			set
@@ -140,7 +161,7 @@ namespace AgateLib.DisplayLib
 		/// Gets or sets the amount the height is scaled when the text is drawn.
 		/// 1.0 is no scaling.
 		/// </summary>
-		public double ScaleHeight
+		internal double ScaleHeight
 		{
 			get { return mScaleHeight; }
 			set
@@ -166,6 +187,9 @@ namespace AgateLib.DisplayLib
 		/// Gets or sets a value indicating how the font should be scaled when drawn.
 		/// </summary>
 		public InterpolationMode InterpolationHint { get; set; }
+
+		public FontSettings Settings => new FontSettings(Size, style);
+
 		#region --- ICloneable Members ---
 
 		/// <summary>

@@ -44,7 +44,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// <summary>
 		/// Gets the height of a single line of text.
 		/// </summary>
-		public abstract int FontHeight { get; }
+		public abstract int FontHeight(FontState state);
 
 		/// <summary>
 		/// Draws text to the screen.

@@ -243,9 +243,9 @@ namespace AgateLib.DisplayLib.BitmapFont
 		/// <summary>
 		/// Returns the height of characters in the font.
 		/// </summary>
-		public override int FontHeight
+		public override int FontHeight(FontState state)
 		{
-			get { return mCharHeight; }
+			return (int)(mCharHeight * state.ScaleHeight);
 		}
 
 		private void GetRects(RectangleF[] srcRects, RectangleF[] destRects, out int rectCount,
@@ -355,7 +355,7 @@ namespace AgateLib.DisplayLib.BitmapFont
 			// It may be less then text.Length because carriage return characters 
 			// don't need any rects.
 			GetRects(cache.SrcRects, cache.DestRects, out cache.DisplayTextLength,
-				state.TransformedText, state.ScaleHeight, state.ScaleWidth);
+				state.Text, state.ScaleHeight, state.ScaleWidth);
 
 			PointF dest = state.Location;
 

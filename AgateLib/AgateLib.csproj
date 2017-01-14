@@ -150,9 +150,11 @@
     <Compile Include="Diagnostics\LibraryVocabulary.cs" />
     <Compile Include="DisplayLib\BitmapFont\KerningPairModel.cs" />
     <Compile Include="DisplayLib\BitmapFont\TypeConverters\KerningPairModelYaml.cs" />
-    <Compile Include="DisplayLib\IFont.cs" />
+    <Compile Include="DisplayLib\Font.cs" />
     <Compile Include="DisplayLib\ContentLayout.cs" />
     <Compile Include="DisplayLib\FontExtensions.cs" />
+    <Compile Include="DisplayLib\RenderMode.cs" />
+    <Compile Include="DisplayLib\Resolution.cs" />
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
     <Compile Include="Configuration\IAgateSetup.cs" />
     <Compile Include="InputLib\HandlerState.cs" />
@@ -178,7 +180,7 @@
     <Compile Include="Scene.cs" />
     <Compile Include="SceneStack.cs" />
     <Compile Include="DisplayLib\FontSettings.cs" />
-    <Compile Include="DisplayLib\FontStyles.cs" />
+    <Compile Include="DisplayLib\_Enums.cs" />
     <Compile Include="Drivers\NullDrivers\NullInputFactory.cs" />
     <Compile Include="Drivers\NullDrivers\NullSoundFactory.cs" />
     <Compile Include="Geometry\CoordinateSystems\SingleFixedDimension.cs" />
@@ -229,7 +231,6 @@
     <Compile Include="Diagnostics\ConsoleSupport\ConsoleMessageType.cs" />
     <Compile Include="Diagnostics\ICommandLibrary.cs" />
     <Compile Include="Diagnostics\Log.cs" />
-    <Compile Include="DisplayLib\Font.cs" />
     <Compile Include="DisplayLib\FrameBuffer.cs" />
     <Compile Include="DisplayLib\IFrameBuffer.cs" />
     <Compile Include="DisplayLib\Shaders\AgateBuiltInShaders.cs" />
@@ -668,6 +669,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\PresentationCore.dll</HintPath>
+    </Reference>
     <Reference Include="YamlDotNet, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\YamlDotNet.4.0.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\YamlDotNet.dll</HintPath>
       <Private>True</Private>

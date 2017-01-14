@@ -31,8 +31,14 @@ namespace AgateLib.Tests.FontTests
 		{
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			DisplayWindow wind = DisplayWindow.CreateWindowed("Kerning test", 800, 600);
+			FontState state = new FontState
+			{
+				Size = 14,
+				Style = FontStyles.None,
+			};
 
-			FontSurface font = ((Font)Font.AgateSans).GetFontSurface(14, FontStyles.None);
+			FontSurface font = Font.AgateSans.Impl.FontSurface(state);
+
 			FontSurface unkerned = ConstructUnkernedFont(font);
 
 			string text = ConstructKerningText(wind, font);
@@ -45,12 +51,12 @@ namespace AgateLib.Tests.FontTests
 				FontSurface thisFont = useKerning ? font : unkerned;
 
 				if (useKerning)
-					thisFont.DrawText("Using kerning. (space to toggle)");
+					thisFont.DrawText(state,"Using kerning. (space to toggle)");
 				else
-					thisFont.DrawText("No kerning used. (space to toggle)");
+					thisFont.DrawText(state, "No kerning used. (space to toggle)");
 
-				thisFont.Color = Color.White;
-				thisFont.DrawText(0, thisFont.FontHeight, text);
+				state.Color = Color.White;
+				thisFont.DrawText(state, 0, thisFont.FontHeight(state), text);
 
 				Display.EndFrame();
 				Core.KeepAlive();
@@ -79,35 +85,37 @@ namespace AgateLib.Tests.FontTests
 
 		private static string ConstructKerningText(DisplayWindow wind, FontSurface font)
 		{
-			var bmp = font.Impl as AgateLib.DisplayLib.BitmapFont.BitmapFontImpl;
+			return "THIS IMPLEMENTATION NEEDS FIXING";
 
-			FontMetrics metrics = bmp.FontMetrics.Clone();
+			//	var bmp = font.Impl as AgateLib.DisplayLib.BitmapFont.BitmapFontImpl;
 
-			StringBuilder text = new StringBuilder();
+			//	FontMetrics metrics = bmp.FontMetrics.Clone();
 
-			int count = 0;
-			int maxLine = wind.Width / font.FontHeight;
+			//	StringBuilder text = new StringBuilder();
 
-			foreach (char first in metrics.Keys)
-			{
-				foreach (var kern in metrics[first].KerningPairs)
-				{
-					text.Append(first);
-					text.Append(kern.Key);
-					text.Append(" ");
+			//	int count = 0;
+			//	int maxLine = wind.Width / font.FontHeight();
 
-					count += 2;
+			//	foreach (char first in metrics.Keys)
+			//	{
+			//		foreach (var kern in metrics[first].KerningPairs)
+			//		{
+			//			text.Append(first);
+			//			text.Append(kern.Key);
+			//			text.Append(" ");
 
-					if (count > maxLine)
-					{
-						text.AppendLine();
-						count = 0;
-					}
-				}
-			}
+			//			count += 2;
 
-			string displayText = text.ToString();
-			return displayText;
+			//			if (count > maxLine)
+			//			{
+			//				text.AppendLine();
+			//				count = 0;
+			//			}
+			//		}
+			//	}
+
+			//	string displayText = text.ToString();
+			//	return displayText;
 		}
-	}
+}
 }

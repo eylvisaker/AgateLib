@@ -29,11 +29,25 @@ namespace AgateLib.Platform.Test.Display
 {
 	public class FakeFontSurface : FontSurfaceImpl
 	{
+		public FakeFontSurface()
+		{ }
+
+		public FakeFontSurface(string fontFamily, float sizeInPoints, FontStyles style)
+		{
+			this.FontName = fontFamily;
+			this.Size = Size;
+			this.Style = style;
+		}
+
+		public int Size { get; set; }
+
+		public FontStyles Style { get; set; }
+
 		public int Height { get; set; }
 
-		public override int FontHeight
+		public override int FontHeight(FontState state)
 		{
-			get { return Height; }
+			return (int)(state.Size / (double)Size * Height);
 		}
 
 		public override void DrawText(FontState state)

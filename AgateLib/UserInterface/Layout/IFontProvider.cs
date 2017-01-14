@@ -27,6 +27,6 @@ namespace AgateLib.UserInterface.Layout
 		/// </summary>
 		/// <param name="family"></param>
 		/// <returns></returns>
-		IFont FindFont(string family);
+		Font FindFont(string family);
 	}
 }

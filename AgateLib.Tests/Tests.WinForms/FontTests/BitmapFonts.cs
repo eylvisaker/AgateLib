@@ -23,7 +23,10 @@ namespace AgateLib.Tests.FontTests
 			BitmapFontOptions fontOptions = new BitmapFontOptions("Times", 18, FontStyles.Bold);
 			fontOptions.TextRenderer = TextRenderEngine.TextRenderer;
 
-			FontSurface font = new FontSurface(BitmapFontUtil.ConstructFromOSFont(fontOptions));
+			FontSurface surface = new FontSurface(BitmapFontUtil.ConstructFromOSFont(fontOptions));
+			Font font = new FontBuilder("Times")
+				.AddFontSurface(new FontSettings(18, FontStyles.Bold), surface)
+				.Build();
 
 			// TODO: Fix this
 			//font.Save("testfont.xml");

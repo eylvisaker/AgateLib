@@ -29,6 +29,188 @@ namespace AgateLib.DisplayLib
 {
 	public class Font : IFont
 	{
+		public static Font AgateSans => Core.State.Display.DefaultResources.AgateSans;
+		public static Font AgateSerif => Core.State.Display.DefaultResources.AgateSerif;
+		public static Font AgateMono => Core.State.Display.DefaultResources.AgateMono;
+
+		IFontImpl impl;
+		FontState state = new FontState();
+
+		public Font(string name)
+		{
+			impl = new FontImplementation(name);
+
+			state.Size = 14;
+		}
+
+		internal IFontImpl Impl { get { return impl; } }
+
+		public string Name => impl.Name;
+
+		public double Alpha
+		{
+			get { return state.Alpha; }
+			set { state.Alpha = value; }
+		}
+
+		public Color Color
+		{
+			get { return state.Color; }
+			set { state.Color = value; }
+		}
+
+		public OriginAlignment DisplayAlignment
+		{
+			get
+			{
+				return state.DisplayAlignment;
+			}
+
+			set
+			{
+				state.DisplayAlignment = value;
+			}
+		}
+
+		public int FontHeight
+		{
+			get
+			{
+				return impl.FontHeight(state);
+			}
+		}
+
+		public int Size
+		{
+			get { return state.Size; }
+			set { state.Size = value; }
+		}
+
+		public FontStyles Style
+		{
+			get { return state.Style; }
+			set { state.Style = value; }
+		}
+
+		public TextImageLayout TextImageLayout
+		{
+			get { return state.TextImageLayout; }
+			set { state.TextImageLayout = value; }
+		}
+
+		public void Dispose()
+		{
+			impl.Dispose();
+		}
+
+		public void DrawText(string text)
+		{
+			impl.DrawText(state, text);
+		}
+
+		public void DrawText(PointF dest, string text)
+		{
+			impl.DrawText(state, dest, text);
+		}
+
+		public void DrawText(Point dest, string text)
+		{
+			impl.DrawText(state, dest, text);
+		}
+
+		public void DrawText(double x, double y, string text)
+		{
+			impl.DrawText(state, x, y, text);
+		}
+
+		public void DrawText(int x, int y, string text)
+		{
+			impl.DrawText(state, x, y, text);
+		}
+
+		public void DrawText(int x, int y, string text, params object[] Parameters)
+		{
+			impl.DrawText(state, x, y, text, Parameters);
+		}
+
+		public Size MeasureString(string text)
+		{
+			return impl.MeasureString(state, text);
+		}
+
+		internal void AddFontSurface(FontSettings settings, FontSurface fontSurface)
+		{
+			impl.AddFontSurface(settings, fontSurface);
+		}
+	}
+
+	/// <summary>
+	/// Constructs a font from a set of font surfaces.
+	/// </summary>
+	public class FontBuilder
+	{
+		private Font font;
+
+		public FontBuilder(string name)
+		{
+			font = new Font(name);
+		}
+
+		/// <summary>
+		/// Adds a font surface to the font.
+		/// </summary>
+		/// <param name="settings"></param>
+		/// <param name="surface"></param>
+		/// <returns></returns>
+		public FontBuilder AddFontSurface(FontSettings settings, FontSurface surface)
+		{
+			Condition.Requires<InvalidOperationException>(font != null,
+				"FontBuilder objects cannot be reused.");
+
+			font.AddFontSurface(settings, surface);
+
+			return this;
+		}
+
+		/// <summary>
+		/// Builds the resulting Font object.
+		/// </summary>
+		/// <returns></returns>
+		public Font Build()
+		{
+			var result = font;
+
+			font = null;
+
+			return result;
+		}
+	}
+
+	internal interface IFontImpl : IDisposable
+	{
+		string Name { get; }
+
+		int FontHeight(FontState state);
+
+		void DrawText(FontState state, string text);
+		void DrawText(FontState state, Point dest, string text);
+		void DrawText(FontState state, int x, int y, string text);
+		void DrawText(FontState state, int x, int y, string text, params object[] parameters);
+		void DrawText(FontState state, double x, double y, string text);
+		void DrawText(FontState state, PointF dest, string text);
+
+		Size MeasureString(FontState state, string text);
+
+		void AddFontSurface(FontSettings settings, FontSurface fontSurface);
+
+		FontSettings GetClosestFontSettings(FontSettings settings);
+
+		FontSurface FontSurface(FontState fontState);
+	}
+
+	internal class FontImplementation : IFontImpl
+	{
+		// TODO: Move this to somewhere so this knowledge doesn't get lost.
 		private static int FontSizeStep(int minSize)
 		{
 			if (minSize < 18)
@@ -37,42 +219,28 @@ namespace AgateLib.DisplayLib
 				return 4;
 		}
 
-		public static IFont AgateSans => Core.State.Display.DefaultResources.AgateSans;
-		public static IFont AgateSerif => Core.State.Display.DefaultResources.AgateSerif;
-		public static IFont AgateMono => Core.State.Display.DefaultResources.AgateMono;
-		
-		Dictionary<FontSettings, FontSurface> mFontSurfaces = new Dictionary<FontSettings, FontSurface>();
-		FontSettings mSettings = new FontSettings(12, FontStyles.None);
-		FontState mState = new FontState();
+		Dictionary<FontSettings, FontSurface> fontSurfaces = new Dictionary<FontSettings, FontSurface>();
 
-		public Font(string name)
+		public FontImplementation(string name)
 		{
 			Name = name;
 		}
 
 		public void Dispose()
 		{
-			foreach (var fs in mFontSurfaces.Values)
+			foreach (var fs in fontSurfaces.Values)
 				fs.Dispose();
 		}
 
 		public string Name { get; set; }
-		public int Size { get { return mSettings.Size; } set { mSettings.Size = value; } }
-		public FontStyles Style { get { return mSettings.Style; } set { mSettings.Style = value; } }
 
-		public IReadOnlyDictionary<FontSettings, FontSurface> FontItems => mFontSurfaces;
+		public IReadOnlyDictionary<FontSettings, FontSurface> FontItems => fontSurfaces;
 
-		public void AddFont(FontSurface fontSurface, int size, FontStyles style)
+		public void AddFontSurface(FontSettings settings, FontSurface fontSurface)
 		{
-			Condition.RequireArgumentNotNull(fontSurface, nameof(fontSurface));
+			Require.ArgumentNotNull(fontSurface, nameof(fontSurface));
 
-			AddFont(new FontSettings(size, style), fontSurface);
-		}
-		public void AddFont(FontSettings settings, FontSurface fontSurface)
-		{
-			Condition.RequireArgumentNotNull(fontSurface, nameof(fontSurface));
-
-			mFontSurfaces[settings] = fontSurface;
+			fontSurfaces[settings] = fontSurface;
 		}
 
 		public FontSurface GetFontSurface(int size, FontStyles fontStyles)
@@ -81,45 +249,35 @@ namespace AgateLib.DisplayLib
 		}
 		public FontSurface GetFontSurface(FontSettings settings)
 		{
-			return mFontSurfaces[settings];
+			return fontSurfaces[settings];
 		}
 
-
-		public int FontHeight { get { return FontSurface.FontHeight; } }
+		public int FontHeight(FontState state)
+		{
+			var surface = FontSurface(state);
+			return surface.FontHeight(state);
+		}
 
 		int MaxSize(FontStyles style)
 		{
-			var keys = mFontSurfaces.Keys.Where(x => x.Style == style);
+			var keys = fontSurfaces.Keys.Where(x => x.Style == style);
 			if (keys.Any())
 				return keys.Max(x => x.Size);
 			else
 				return -1;
 		}
 
-		public FontSurface FontSurface
-		{
-			get
-			{
-				var font = GetClosestFont(mSettings);
-				font.State = mState;
-				return font;
-			}
-		}
-
 		#region --- Finding correctly sized font ---
 
-		public FontSurface GetClosestFont(int size, FontStyles style)
+		public FontSurface FontSurface(FontState state)
 		{
-			return GetClosestFont(new FontSettings(size, style));
-		}
-		public FontSurface GetClosestFont(FontSettings fontSettings)
-		{
-			var settings = GetClosestFontSettings(fontSettings);
-			var result = mFontSurfaces[settings];
+			var settings = GetClosestFontSettings(state.Settings);
+			var result = fontSurfaces[settings];
 
-			var ratio = fontSettings.Size / (double)settings.Size;
+			var ratio = state.Settings.Size / (double)settings.Size;
 
-			result.SetScale(ratio, ratio);
+			state.ScaleHeight = ratio;
+			state.ScaleWidth = ratio;
 
 			return result;
 		}
@@ -128,9 +286,9 @@ namespace AgateLib.DisplayLib
 		{
 			return GetClosestFontSettings(new FontSettings(size, style));
 		}
-		internal FontSettings GetClosestFontSettings(FontSettings settings)
+		public FontSettings GetClosestFontSettings(FontSettings settings)
 		{
-			if (mFontSurfaces.ContainsKey(settings))
+			if (fontSurfaces.ContainsKey(settings))
 				return settings;
 
 			int maxSize = MaxSize(settings.Style);
@@ -151,7 +309,7 @@ namespace AgateLib.DisplayLib
 					return GetClosestFontSettings(settings.Size, newStyle);
 				else
 				{
-					Debug.Assert(mFontSurfaces.Count == 0);
+					Debug.Assert(fontSurfaces.Count == 0);
 					throw new AgateException("There are no font styles defined.");
 				}
 			}
@@ -163,12 +321,13 @@ namespace AgateLib.DisplayLib
 			{
 				settings.Size = i;
 
-				if (mFontSurfaces.ContainsKey(settings))
+				if (fontSurfaces.ContainsKey(settings))
 					return settings;
 			}
 
 			throw new AgateException("Could not find a valid font.");
 		}
+
 
 		#endregion
 
@@ -186,63 +345,56 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
-
-
-		public double Alpha
+		public void DrawText(FontState state, string text)
 		{
-			get { return mState.Alpha; }
-			set { mState.Alpha = value; }
+			FontSurface(state).DrawText(state, text);
 		}
-		public Color Color
+		public void DrawText(FontState state, Point dest, string text)
 		{
-			get { return mState.Color; }
-			set { mState.Color = value; }
+			FontSurface(state).DrawText(state, dest, text);
 		}
-		public OriginAlignment DisplayAlignment
+		public void DrawText(FontState state, int x, int y, string text)
 		{
-			get { return mState.DisplayAlignment; }
-			set { mState.DisplayAlignment = value; }
+			FontSurface(state).DrawText(state, x, y, text);
 		}
-		public TextImageLayout TextImageLayout
+		public void DrawText(FontState state, int x, int y, string text, params object[] parameters)
 		{
-			get { return mFontSurfaces.Values.First().TextImageLayout; }
-			set
-			{
-				foreach (var fs in mFontSurfaces.Values)
-					fs.TextImageLayout = value;
-			}
+			FontSurface(state).DrawText(state, x, y, text, parameters);
+		}
+		public void DrawText(FontState state, double x, double y, string text)
+		{
+			FontSurface(state).DrawText(state, x, y, text);
+		}
+		public void DrawText(FontState state, PointF dest, string text)
+		{
+			FontSurface(state).DrawText(state, dest, text);
 		}
 
-		public void DrawText(string text)
+		public Size MeasureString(FontState state, string text)
 		{
-			FontSurface.DrawText(text);
-		}
-		public void DrawText(Point dest, string text)
-		{
-			FontSurface.DrawText(dest, text);
-		}
-		public void DrawText(int x, int y, string text)
-		{
-			FontSurface.DrawText(x, y, text);
-		}
-		public void DrawText(int x, int y, string text, params object[] Parameters)
-		{
-			FontSurface.DrawText(x, y, text, Parameters);
-		}
-		public void DrawText(double x, double y, string text)
-		{
-			FontSurface.DrawText(x, y, text);
-		}
-		public void DrawText(PointF dest, string text)
-		{
-			FontSurface.DrawText(dest, text);
-		}
-
-		public Size MeasureString(string text)
-		{
-			return FontSurface.MeasureString(text);
+			return FontSurface(state).MeasureString(state, text);
 		}
 
 	}
 
+	public interface IFont : IDisposable
+	{
+		Color Color { get; set; }
+		OriginAlignment DisplayAlignment { get; set; }
+		int FontHeight { get; }
+		FontStyles Style { get; set; }
+		int Size { get; set; }
+		TextImageLayout TextImageLayout { get; set; }
+		double Alpha { get; set; }
+		string Name { get; }
+
+		void DrawText(string text);
+		void DrawText(Point dest, string text);
+		void DrawText(int x, int y, string text);
+		void DrawText(int x, int y, string text, params object[] Parameters);
+		void DrawText(double x, double y, string text);
+		void DrawText(PointF dest, string text);
+
+		Size MeasureString(string text);
+	}
 }

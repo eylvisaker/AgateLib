@@ -29,7 +29,9 @@ namespace AgateLib.Tests.FontTests
 			DisplayWindow wind = DisplayWindow.CreateWindowed("Font Tester", 800, 600);
 			DisplayWindow fullWind = null;
 
-			FontSurface bitmapFont = FontSurface.BitmapMonospace("lotafont.png", new Size(16, 16));
+			FontSurface bitmapFontSurface = FontSurface.BitmapMonospace("lotafont.png", new Size(16, 16));
+			Font bitmapFont = new FontBuilder("lotafont").AddFontSurface(
+				new FontSettings(16, FontStyles.None), bitmapFontSurface).Build();
 
 			int frame = 0;
 
@@ -101,9 +103,8 @@ namespace AgateLib.Tests.FontTests
 				bitmapFont.DrawText(10, 366, "THIS IS RED TEXT.");
 				bitmapFont.Color = Color.White;
 
-				bitmapFont.SetScale(3, 2);
+				bitmapFont.Size = 32;
 				bitmapFont.DrawText(10, 382, "THIS IS BIGG.");
-				bitmapFont.SetScale(1, 1);
 
 				Display.FillRect(new Rectangle(95, 425, 10, 10), Color.Blue);
 				bitmapFont.DisplayAlignment = OriginAlignment.Center;

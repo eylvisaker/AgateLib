@@ -94,7 +94,12 @@ namespace AgateLib.Resources.Managers.Display
 			}
 		}
 
-		public IFont FindFont(string name)
+		/// <summary>
+		/// Searches for a font. Returns null if not found.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public Font FindFont(string name)
 		{
 			if (fonts.ContainsKey(name))
 				return fonts[name];
@@ -120,7 +125,7 @@ namespace AgateLib.Resources.Managers.Display
 				var impl = new BitmapFontImpl(surface, metrics, name);
 				var fontSurface = new FontSurface(impl);
 
-				result.AddFont(fontSurface, fontSurfaceModel.Size, fontSurfaceModel.Style);
+				result.Impl.AddFontSurface(new FontSettings(fontSurfaceModel.Size, fontSurfaceModel.Style), fontSurface);
 			}
 
 			fonts[name] = result;
@@ -128,7 +133,12 @@ namespace AgateLib.Resources.Managers.Display
 			return fonts[name];
 		}
 
-		public IFont GetFont(string name)
+		/// <summary>
+		/// Returns the font matching the name or throws an exception.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public Font GetFont(string name)
 		{
 			if (data.Fonts.ContainsKey(name) == false)
 				throw new AgateResourceException($"Could not find font named {name}");
