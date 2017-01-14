@@ -38,5 +38,10 @@ namespace Examples.Initialization.WindowsFormsInitialization
 		{
 			Draw();
 		}
+
+		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			timer1.Enabled = false;
+		}
 	}
 }

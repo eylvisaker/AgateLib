@@ -38,9 +38,10 @@
 			this.renderTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.renderTarget.Location = new System.Drawing.Point(12, 12);
+			this.renderTarget.Location = new System.Drawing.Point(16, 15);
+			this.renderTarget.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.renderTarget.Name = "renderTarget";
-			this.renderTarget.Size = new System.Drawing.Size(278, 257);
+			this.renderTarget.Size = new System.Drawing.Size(371, 316);
 			this.renderTarget.TabIndex = 0;
 			// 
 			// timer1
@@ -50,12 +51,14 @@
 			// 
 			// Form1
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(302, 281);
+			this.ClientSize = new System.Drawing.Size(403, 346);
 			this.Controls.Add(this.renderTarget);
+			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.Name = "Form1";
 			this.Text = "Windows Forms Initialization";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
 			this.ResumeLayout(false);
 
 		}
