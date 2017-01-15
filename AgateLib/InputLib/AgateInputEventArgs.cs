@@ -365,7 +365,7 @@ namespace AgateLib.InputLib
 		/// Gets the DisplayWindow this event occurred in. This property is null for 
 		/// all events except mouse events.
 		/// </summary>
-		public DisplayWindow Window { get; internal set; }
+		public DisplayWindow MouseWindow { get; internal set; }
 
 		public bool IsMouseEvent
 		{

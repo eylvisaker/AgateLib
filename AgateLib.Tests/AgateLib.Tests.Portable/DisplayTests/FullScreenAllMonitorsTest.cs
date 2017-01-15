@@ -46,6 +46,7 @@ Press arrow keys to adjust resolution
 
 		private DisplayWindow wind;
 		private Point mousePosition;
+		private DisplayWindow mouseWindow;
 		private IResolution currentResolution;
 
 		public string Name => "Full Screen All Monitors";
@@ -62,10 +63,10 @@ Press arrow keys to adjust resolution
 				return;
 			}
 
-			Surface mySurface = new Surface("Images/pointer.png");
+			Surface mousePointerSurface = new Surface("Images/pointer.png");
 
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
-			Input.Unhandled.MouseMove += (sender, e) => mousePosition = e.MousePosition;
+			Input.Unhandled.MouseMove += Mouse_MouseMove;
 
 			IFont font = Font.AgateSans;
 
@@ -89,7 +90,7 @@ Press arrow keys to adjust resolution
 
 				font.DrawText(mouseText);
 
-				mySurface.Draw(mousePosition.X, mousePosition.Y);
+				DrawMousePointer(Display.Screens.PrimaryScreen.DisplayWindow, mousePointerSurface);
 
 				Display.EndFrame();
 
@@ -101,13 +102,29 @@ Press arrow keys to adjust resolution
 
 					font.DrawText(0, 0, $"Screen {screen.Bounds}");
 
+					DrawMousePointer(screen.DisplayWindow, mousePointerSurface);
+
 					Display.EndFrame();
 				}
 
 				Core.KeepAlive();
 			}
 
-			mySurface.Dispose();
+			mousePointerSurface.Dispose();
+		}
+
+		private void DrawMousePointer(DisplayWindow targetWindow, Surface mousePointerSurface)
+		{
+			if (mouseWindow == targetWindow)
+			{
+				mousePointerSurface.Draw(mousePosition.X, mousePosition.Y);
+			}
+		}
+
+		private void Mouse_MouseMove(object sender, AgateInputEventArgs e)
+		{
+			mousePosition = e.MousePosition;
+			mouseWindow = e.MouseWindow;
 		}
 
 		private void ShowInvalidRunMessage()
@@ -117,8 +134,6 @@ Press arrow keys to adjust resolution
 
 			var font = new Font(Font.AgateSans, 16) { Color = Color.Black };
 			font.DisplayAlignment = OriginAlignment.Center;
-
-			var size = font.MeasureString(message);
 
 			while (Core.IsAlive)
 			{

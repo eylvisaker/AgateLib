@@ -309,7 +309,7 @@ namespace AgateLib.DisplayLib
 				case InputEventType.MouseMove:
 				case InputEventType.MouseUp:
 				case InputEventType.MouseWheel:
-					e.Window = this;
+					e.MouseWindow = this;
 					break;
 			}
 
