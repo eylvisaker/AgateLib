@@ -146,7 +146,7 @@ namespace AgateLib.Platform.WinForms
 				}
 			}
 
-			CreateContextForThread();
+			CreateContextForCurrentThread();
 
 			if (InitializeConsole)
 			{
@@ -170,15 +170,15 @@ namespace AgateLib.Platform.WinForms
 				var version = assembly.GetCustomAttribute<AssemblyVersionAttribute>();
 				var fileVersion = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>();
 
-				ApplicationName = ((title?.Title ?? product.Product) + (" " + fileVersion?.Version ?? version?.Version)).Trim();
+				ApplicationName = $"{title?.Title ?? product.Product} {fileVersion?.Version ?? version?.Version}"
+					.Trim();
 			}
 		}
 
 		/// <summary>
 		/// Initializes AgateLib.
 		/// </summary>
-		/// <param name="parameters"></param>
-		/// <param name="assemblyPath">Path to the folder where the application files reside in.</param>
+		/// <param name="appRootPath">Path to the folder where the application files reside in.</param>
 		private void Initialize(string appRootPath)
 		{
 			Condition.Requires<ArgumentNullException>(appRootPath != null, "appRootPath");
@@ -200,11 +200,16 @@ namespace AgateLib.Platform.WinForms
 			Configuration = result;
 		}
 
-		private void CreateContextForThread()
+		private void CreateContextForCurrentThread()
 		{
 			OpenTK.Graphics.GraphicsContext.ShareContexts = true;
 
-			primaryWindow.CreateContextForThread();
+			foreach (var window in Configuration.DisplayWindows.Select(x => x.Impl as GL_DisplayControl))
+			{
+				window.CreateContextForCurrentThread();
+			}
+
+			//primaryWindow.CreateContextForCurrentThread();
 		}
 
 		private void InitializeDisplayWindow(AgateConfig config)
@@ -219,23 +224,42 @@ namespace AgateLib.Platform.WinForms
 				throw new AgateException("DesiredDisplayWindowResolution must be set to a non-zero value.");
 			}
 
-			DisplayWindow window;
+			DisplayWindow primaryDisplayWindow = null;
 
 			if (CreateFullScreenWindow)
 			{
 				switch (FullScreenCaptureMode)
 				{
 					case FullScreenCaptureMode.PrimaryScreenOnly:
-						var fullScreenSize = DesiredDisplayWindowResolution;
-
-						window = DisplayWindow.CreateFullScreen(
+						primaryDisplayWindow = DisplayWindow.CreateFullScreen(
 							ApplicationName,
-							new Resolution(fullScreenSize, FullScreenRenderMode));
+							new Resolution(DesiredDisplayWindowResolution, FullScreenRenderMode));
+
+						config.DisplayWindows = new List<DisplayWindow> { primaryDisplayWindow };
 
 						break;
 
 					default:
-						throw new NotImplementedException();
+						var results = new List<DisplayWindow>();
+
+						foreach (var screen in Display.Screens.AllScreens)
+						{
+							var windowParams = CreateWindowParams.FullScreen(ApplicationName,
+								new Resolution(DesiredDisplayWindowResolution, FullScreenRenderMode), null);
+
+							windowParams.TargetScreen = screen;
+
+							var displayWindow = new DisplayWindow(windowParams);
+
+							if (screen.IsPrimary)
+								primaryDisplayWindow = displayWindow;
+
+							results.Add(displayWindow);
+						}
+
+						config.DisplayWindows = results;
+
+						break;
 				}
 			}
 			else
@@ -248,19 +272,19 @@ namespace AgateLib.Platform.WinForms
 					(int) (size.Width * scale),
 					(int) (size.Height * scale));
 
-				window = DisplayWindow.CreateWindowed(
+				primaryDisplayWindow = DisplayWindow.CreateWindowed(
 					ApplicationName,
 					windowSize,
 					new FixedCoordinateSystem(new Rectangle(Point.Empty, size)));
+
+				config.DisplayWindows = new List<DisplayWindow> {primaryDisplayWindow};
 			}
 
 			Display.RenderState.WaitForVerticalBlank = VerticalSync;
 
-			window.Closed += window_Closed;
+			primaryDisplayWindow.Closed += window_Closed;
 
-			config.DisplayWindows = new List<DisplayWindow> { window };
-
-			primaryWindow = window.Impl as IPrimaryWindow;
+			primaryWindow = primaryDisplayWindow.Impl as IPrimaryWindow;
 		}
 
 		private void CreateHiddenDisplayWindow(AgateConfig config)

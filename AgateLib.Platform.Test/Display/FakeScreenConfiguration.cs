@@ -10,7 +10,7 @@ namespace AgateLib.Platform.Test.Display
 
 		public ScreenInfo PrimaryScreen { get; set; }
 
-		IReadOnlyList<ScreenInfo> IScreenConfiguration.Screens => Screens;
+		IReadOnlyList<ScreenInfo> IScreenConfiguration.AllScreens => Screens;
 
 		ScreenInfo IScreenConfiguration.PrimaryScreen => PrimaryScreen;
 	}

@@ -166,7 +166,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			_applicationContext?.ExitThread();
 		}
 
-		public void CreateContextForThread()
+		public void CreateContextForCurrentThread()
 		{
 			ctxFrameBuffer.CreateContextForThread();
 		}

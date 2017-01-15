@@ -15,6 +15,8 @@ namespace AgateLib.DisplayLib
 
 		public bool IsPrimary { get; set; }
 
-		public IntPtr SystemIndex { get; set; }
+		protected internal IntPtr SystemIndex { get; set; }
+
+		public DisplayWindow DisplayWindow { get; set; }
 	}
 }

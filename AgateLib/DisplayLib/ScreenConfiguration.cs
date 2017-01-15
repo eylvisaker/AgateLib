@@ -8,7 +8,7 @@ namespace AgateLib.DisplayLib
 {
 	public interface IScreenConfiguration
 	{
-		IReadOnlyList<ScreenInfo> Screens { get; }
+		IReadOnlyList<ScreenInfo> AllScreens { get; }
 
 		ScreenInfo PrimaryScreen { get; }
 	}

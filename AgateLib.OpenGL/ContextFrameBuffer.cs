@@ -89,6 +89,7 @@ namespace AgateLib.OpenGL
 				return mContexts[Thread.CurrentThread];
 			}
 		}
+
 		public override void Dispose()
 		{
 			if (mIsDisposed)

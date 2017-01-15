@@ -34,7 +34,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			return result;
 		}
 
-		public IReadOnlyList<ScreenInfo> Screens => screens;
+		public IReadOnlyList<ScreenInfo> AllScreens => screens;
 
 		public ScreenInfo PrimaryScreen { get; private set; }
 	}

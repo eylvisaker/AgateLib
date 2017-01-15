@@ -26,6 +26,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		void ExitMessageLoop();
 
-		void CreateContextForThread();
+		void CreateContextForCurrentThread();
 	}
 }

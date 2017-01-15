@@ -102,7 +102,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					return;
 				}
 
-				chooseResolution = value;
+				chooseResolution = value.Clone();
 
 				wfRenderTarget.ClientSize = chooseResolution.Size.ToDrawing();
 

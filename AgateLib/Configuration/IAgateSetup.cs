@@ -95,8 +95,9 @@ namespace AgateLib.Configuration
 		bool CreateFullScreenWindow { get; set; }
 
 		/// <summary>
-		/// Set to true to create a display window for each monitor.
+		/// Sets whether AgateLib should create a separate DisplayWindow
+		/// for each monitor the user has. This is ignored unless CreateFullScreenWindow is true.
 		/// </summary>
-		bool CreateWindowForEachMonitor { get; set; }
+		FullScreenCaptureMode FullScreenCaptureMode { get; set; }
 	}
 }

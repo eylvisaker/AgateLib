@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
@@ -55,7 +56,11 @@ Press arrow keys to adjust resolution
 
 		public void Run()
 		{
-			ChangeDisplayWindow(3);
+			if (Display.Screens.PrimaryScreen.DisplayWindow == null)
+			{
+				ShowInvalidRunMessage();
+				return;
+			}
 
 			Surface mySurface = new Surface("Images/pointer.png");
 
@@ -73,6 +78,7 @@ Press arrow keys to adjust resolution
 				var mouseText = topText +
 					$"Resolution: {currentResolution}\nMouse: {mousePosition}";
 
+				Display.RenderTarget = Display.Screens.PrimaryScreen.DisplayWindow.FrameBuffer;
 				Display.BeginFrame();
 				Display.Clear(Color.DarkGreen);
 
@@ -86,12 +92,46 @@ Press arrow keys to adjust resolution
 				mySurface.Draw(mousePosition.X, mousePosition.Y);
 
 				Display.EndFrame();
+
+				foreach (var screen in Display.Screens.AllScreens.Where(screen => !screen.IsPrimary))
+				{
+					Display.RenderTarget = screen.DisplayWindow.FrameBuffer;
+					Display.BeginFrame();
+					Display.Clear(Color.Gray);
+
+					font.DrawText(0, 0, $"Screen {screen.Bounds}");
+
+					Display.EndFrame();
+				}
+
 				Core.KeepAlive();
 			}
 
 			mySurface.Dispose();
-			wind.Dispose();
 		}
+
+		private void ShowInvalidRunMessage()
+		{
+			Input.Unhandled.KeyDown += (sender, e) => Core.IsAlive = false;
+			var message = "This test cannot be run with the -window switch.\nRemove that switch and rerun the test.";
+
+			var font = new Font(Font.AgateSans, 16) { Color = Color.Black };
+			font.DisplayAlignment = OriginAlignment.Center;
+
+			var size = font.MeasureString(message);
+
+			while (Core.IsAlive)
+			{
+				Display.BeginFrame();
+				Display.Clear(Color.White);
+
+				font.DrawText(Display.CurrentWindow.Width / 2, Display.CurrentWindow.Height / 2, message);
+
+				Display.EndFrame();
+				Core.KeepAlive();
+			}
+		}
+
 
 		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
@@ -174,12 +214,15 @@ Press arrow keys to adjust resolution
 		{
 			currentResolution = resolution;
 
-			wind.Resolution = resolution;
+			foreach (var window in Display.Screens.AllScreens.Select(x => x.DisplayWindow))
+			{
+				window.Resolution = resolution;
+			}
 		}
 
 		public void ModifySetup(IAgateSetup setup)
 		{
-			setup.CreateDisplayWindow = false;
+			setup.FullScreenCaptureMode = FullScreenCaptureMode.AllScreens;
 		}
 	}
 }

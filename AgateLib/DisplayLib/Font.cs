@@ -36,14 +36,68 @@ namespace AgateLib.DisplayLib
 		IFontImpl impl;
 		FontState state = new FontState();
 
+		/// <summary>
+		/// Creates a new, empty font object.
+		/// </summary>
+		/// <param name="name"></param>
 		public Font(string name)
 		{
 			impl = new FontImplementation(name);
-
-			state.Size = 10;
 		}
 
-		internal IFontImpl Impl { get { return impl; } }
+		/// <summary>
+		/// Creates a copy of another font with its own state.
+		/// </summary>
+		/// <param name="prototypeFont"></param>
+		public Font(Font prototypeFont)
+		{
+			impl = prototypeFont.Impl;
+
+			state = prototypeFont.state.Clone();
+		}
+
+		/// <summary>
+		/// Creates a copy of a another font with its own state and size.
+		/// </summary>
+		/// <param name="prototypeFont"></param>
+		/// <param name="size"></param>
+		public Font(Font prototypeFont, int size)
+		{
+			impl = prototypeFont.Impl;
+
+			state = prototypeFont.state.Clone();
+			state.Size = size;
+		}
+
+		/// <summary>
+		/// Creates a copy of a another font with its own state and style.
+		/// </summary>
+		/// <param name="prototypeFont"></param>
+		/// <param name="style"></param>
+		public Font(Font prototypeFont, FontStyles style)
+		{
+			impl = prototypeFont.Impl;
+
+			state = prototypeFont.state.Clone();
+			state.Style = style;
+		}
+
+		/// <summary>
+		/// Creates a copy of a another font with its own state, size and style.
+		/// </summary>
+		/// <param name="prototypeFont"></param>
+		/// <param name="size"></param>
+		/// <param name="style"></param>
+		public Font(Font prototypeFont, int size, FontStyles style)
+		{
+			impl = prototypeFont.Impl;
+
+			state = prototypeFont.state.Clone();
+			state.Size = size;
+			state.Style = style;
+		}
+
+		internal IFontImpl Impl => impl;
 
 		public string Name => impl.Name;
 

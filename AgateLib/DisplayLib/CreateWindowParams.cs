@@ -38,11 +38,12 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static CreateWindowParams FromControl(object control, ICoordinateSystem coordinates)
 		{
-			var result = new CreateWindowParams();
-
-			result.RenderToControl = true;
-			result.RenderTarget = control;
-			result.Coordinates = coordinates ?? new NativeCoordinates();
+			var result = new CreateWindowParams
+			{
+				RenderToControl = true,
+				RenderTarget = control,
+				Coordinates = coordinates ?? new NativeCoordinates()
+			};
 
 			return result;
 		}
@@ -58,12 +59,13 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static CreateWindowParams FullScreen(string title, IResolution resolution, ICoordinateSystem coordinates)
 		{
-			var result = new CreateWindowParams();
-
-			result.IsFullScreen = true;
-			result.Title = title;
-			result.Resolution = resolution;
-			result.Coordinates = coordinates ?? new NativeCoordinates();
+			var result = new CreateWindowParams
+			{
+				IsFullScreen = true,
+				Title = title,
+				Resolution = resolution,
+				Coordinates = coordinates ?? new NativeCoordinates()
+			};
 
 			return result;
 		}
@@ -80,12 +82,13 @@ namespace AgateLib.DisplayLib
 		public static CreateWindowParams FullScreen(string title, int width, int height, int bpp,
 			ICoordinateSystem coordinates)
 		{
-			var result = new CreateWindowParams();
-
-			result.IsFullScreen = true;
-			result.Title = title;
-			result.Resolution = new Resolution(width, height, null);
-			result.Coordinates = coordinates ?? new NativeCoordinates();
+			var result = new CreateWindowParams
+			{
+				IsFullScreen = true,
+				Title = title,
+				Resolution = new Resolution(width, height, null),
+				Coordinates = coordinates ?? new NativeCoordinates()
+			};
 
 			return result;
 		}
@@ -103,14 +106,15 @@ namespace AgateLib.DisplayLib
 		public static CreateWindowParams Windowed(string title, int width, int height, bool allowResize, string iconFile,
 			ICoordinateSystem coordinates)
 		{
-			var result = new CreateWindowParams();
-
-			result.Title = title;
-			result.Resolution = new Resolution(width, height, null);
-			result.IconFile = iconFile;
-			result.IsResizable = allowResize;
-			result.HasMaximize = allowResize;
-			result.Coordinates = coordinates ?? new NativeCoordinates();
+			var result = new CreateWindowParams
+			{
+				Title = title,
+				Resolution = new Resolution(width, height, null),
+				IconFile = iconFile,
+				IsResizable = allowResize,
+				HasMaximize = allowResize,
+				Coordinates = coordinates ?? new NativeCoordinates()
+			};
 
 			return result;
 		}
@@ -126,27 +130,20 @@ namespace AgateLib.DisplayLib
 		/// <returns></returns>
 		public static CreateWindowParams NoFrame(string title, int width, int height, ICoordinateSystem coordinates)
 		{
-			var result = new CreateWindowParams();
-
-			result.Title = title;
-			result.Resolution = new Resolution(width, height);
-			result.IsResizable = false;
-			result.HasFrame = false;
-			result.Coordinates = coordinates ?? new NativeCoordinates();
+			var result = new CreateWindowParams
+			{
+				Title = title,
+				Resolution = new Resolution(width, height),
+				IsResizable = false,
+				HasFrame = false,
+				Coordinates = coordinates ?? new NativeCoordinates()
+			};
 
 			return result;
 		}
 
 		#endregion
-
-		#region --- Private Fields ---
-
-		private Size mSize = new Size(1024, 768);
-
-		#endregion
-
-		#region --- Properties ---
-
+		
 		/// <summary>
 		///     Title of the window.
 		/// </summary>
@@ -158,9 +155,9 @@ namespace AgateLib.DisplayLib
 		public bool IsFullScreen { get; set; }
 
 		/// <summary>
-		/// Indicates 
+		/// Indicates which screen the display winodw should be created on.
 		/// </summary>
-		public int? FullScreenMonitorIndex { get; set; }
+		public ScreenInfo TargetScreen { get; set; } = Display.Screens?.PrimaryScreen;
 
 		/// <summary>
 		///     The information about the window resolution.
@@ -216,7 +213,5 @@ namespace AgateLib.DisplayLib
 		///     at the beginning of each frame.
 		/// </summary>
 		public ICoordinateSystem Coordinates { get; set; }
-
-		#endregion
 	}
 }

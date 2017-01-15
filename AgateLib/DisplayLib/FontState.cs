@@ -38,7 +38,7 @@ namespace AgateLib.DisplayLib
 		private string mText = string.Empty;
 		private FontStateCache mCache;
 		private string mTransformedText;
-		private int size;
+		private int size = 10;
 		private FontStyles style;
 
 		/// <summary>

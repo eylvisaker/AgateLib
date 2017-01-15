@@ -60,8 +60,11 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			Require.False<ArgumentException>(windowParams.RenderToControl, invalidMessage);
 			Require.True<ArgumentException>(windowParams.IsFullScreen, invalidMessage);
+			Require.True<InvalidOperationException>(windowParams.TargetScreen.DisplayWindow == null, 
+				$"A full screen window already exists for {windowParams.TargetScreen.DeviceName}.");
 
-			CreateFullScreenDisplay(Array.IndexOf(Screen.AllScreens, Screen.PrimaryScreen));
+			CreateFullScreenDisplay((int) windowParams.TargetScreen.SystemIndex);
+			windowParams.TargetScreen.DisplayWindow = owner;
 
 			_applicationContext.AddForm(wfForm);
 
@@ -74,6 +77,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		{
 			SafeDispose(ref rtFrameBuffer);
 			SafeDispose(ref rtSurface);
+
+			foreach (var screen in display.Screens.AllScreens)
+			{
+				if (screen.DisplayWindow == owner)
+					screen.DisplayWindow = null;
+			}
 
 			base.Dispose(disposing);
 		}
