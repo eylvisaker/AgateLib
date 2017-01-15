@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
+using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.Geometry.CoordinateSystems;
 using AgateLib.InputLib;
@@ -66,6 +67,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			display.InitializeCurrentContext();
 		}
 
+		protected override Size ContextSize => targetScreen.Bounds.Size.ToGeometry();
+
 		public override void Dispose()
 		{
 			ExitMessageLoop();
@@ -87,8 +90,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				wfForm = null;
 			}
 		}
-
-		Form TopLevelForm => (Form)wfRenderTarget.TopLevelControl;
 
 		public override FrameBufferImpl FrameBuffer =>
 			rtFrameBuffer ?? (FrameBufferImpl)ctxFrameBuffer;
@@ -131,39 +132,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				}
 			}
 		}
-
-		public void HideCursor()
-		{
-			if (wfRenderTarget.InvokeRequired)
-			{
-				wfRenderTarget.BeginInvoke(new Action(HideCursor));
-				return;
-			}
-
-			wfRenderTarget.Cursor = FormUtil.BlankCursor;
-		}
-
-		public void ShowCursor()
-		{
-			if (wfRenderTarget.InvokeRequired)
-			{
-				wfRenderTarget.BeginInvoke(new Action(ShowCursor));
-				return;
-			}
-
-			wfRenderTarget.Cursor = Cursors.Arrow;
-		}
-
-		public void ExitMessageLoop()
-		{
-			_applicationContext?.ExitThread();
-		}
-
-		public void CreateContextForThread()
-		{
-			ctxFrameBuffer.CreateContextForThread();
-		}
-
+		
 		private void CreateFullScreenDisplay(int targetScreenIndex)
 		{
 			DetachEvents();
@@ -210,12 +179,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		private void RtFrameBuffer_RenderComplete(object sender, EventArgs e)
 		{
-			DrawBuffer();
+			BlitBufferImage();
 		}
 
-		private void DrawBuffer()
+		private void BlitBufferImage()
 		{
-			ctxFrameBuffer.MakeCurrent();
+			AgateBuiltInShaders.Basic2DShader.CoordinateSystem = ctxFrameBuffer.CoordinateSystem.Coordinates;
+			AgateBuiltInShaders.Basic2DShader.Activate();
+
 			ctxFrameBuffer.BeginRender();
 
 			var destRect = new Rectangle(Point.Empty, ctxFrameBuffer.Size);
@@ -242,14 +213,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 						 0, 0, new ColorFormat(0), 2, false);
 
 			return newMode;
-		}
-
-		private void CreateContextFrameBuffer(ICoordinateSystem fbCoords)
-		{
-			using (new ResourceDisposer(ctxFrameBuffer))
-			{
-				ctxFrameBuffer = new ContextFrameBuffer(owner, CreateGraphicsMode(), windowInfo, targetScreen.Bounds.Size.ToGeometry(), true, false, fbCoords);
-			}
 		}
 	}
 }

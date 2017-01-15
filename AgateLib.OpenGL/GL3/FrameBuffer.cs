@@ -76,13 +76,11 @@ namespace AgateLib.OpenGL.GL3
 			if (code != FramebufferErrorCode.FramebufferComplete)
 			{
 				throw new AgateException(
-					"Could not complete framebuffer object.  Received error code "
-					+ code.ToString());
+					$"Could not complete framebuffer object.  Received error code {code}");
 			}
 
 			hasDepth = true;
 			hasStencil = true;
-
 
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 
@@ -99,6 +97,14 @@ namespace AgateLib.OpenGL.GL3
 
 		public event EventHandler RenderComplete;
 
+		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow => null;
+
+		public override bool CanAccessRenderTarget => true;
+
+		public override bool HasDepthBuffer => hasDepth;
+
+		public override bool HasStencilBuffer => hasStencil;
+
 		public override SurfaceImpl RenderTarget => (SurfaceImpl)mTexture;
 
 		public override AgateLib.Geometry.Size Size => mSize;
@@ -108,13 +114,10 @@ namespace AgateLib.OpenGL.GL3
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, mFramebufferID);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 			GL.Viewport(0, 0, Width, Height);
-
-			//GL.PushAttrib(AttribMask.ViewportBit);
 		}
 
 		public override void EndRender()
 		{
-			//GL.PopAttrib();
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 
 			GL.BindTexture(TextureTarget.Texture2D, mTexture.GLTextureID);
@@ -127,12 +130,5 @@ namespace AgateLib.OpenGL.GL3
 		{
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, mFramebufferID);
 		}
-
-		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow => null;
-
-		public override bool CanAccessRenderTarget => true;
-
-		public override bool HasDepthBuffer => hasDepth;
-		public override bool HasStencilBuffer => hasStencil;
 	}
 }

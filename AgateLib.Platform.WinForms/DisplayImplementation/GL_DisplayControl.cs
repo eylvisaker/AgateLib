@@ -111,7 +111,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 
-		Form TopLevelForm => (Form)wfRenderTarget.TopLevelControl;
+		private Form TopLevelForm => (Form)wfRenderTarget.TopLevelControl;
+
+		protected abstract Size ContextSize { get; }
 
 		public override FrameBufferImpl FrameBuffer => ctxFrameBuffer;
 
@@ -213,13 +215,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			return newMode;
 		}
 
-		private void CreateContextFrameBuffer(ICoordinateSystem fbCoords)
+		protected void CreateContextFrameBuffer(ICoordinateSystem fbCoords)
 		{
 			using (new ResourceDisposer(ctxFrameBuffer))
 			{
-				ctxFrameBuffer = new ContextFrameBuffer(owner, CreateGraphicsMode(), windowInfo, Size, true, false, fbCoords);
+				ctxFrameBuffer = new ContextFrameBuffer(owner, CreateGraphicsMode(), windowInfo, ContextSize, true, false, fbCoords);
 			}
 		}
+
 
 		protected IWindowInfo CreateWindowInfo(GraphicsMode mode)
 		{
@@ -415,6 +418,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					VisualID, Screen, Depth, Class);
 			}
 		}
+
 		[DllImport("libX11")]
 		public static extern IntPtr XCreateColormap(IntPtr display, IntPtr window, IntPtr visual, int alloc);
 

@@ -105,6 +105,8 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			}
 		}
 
+		protected override Size ContextSize => Size;
+
 		public override bool IsClosed => isClosed;
 
 		public override bool IsFullScreen => false;
@@ -183,14 +185,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 						 0, 0, new ColorFormat(0), 2, false);
 
 			return newMode;
-		}
-
-		private void CreateContextFrameBuffer(ICoordinateSystem fbCoords)
-		{
-			using (new ResourceDisposer(ctxFrameBuffer))
-			{
-				ctxFrameBuffer = new ContextFrameBuffer(owner, CreateGraphicsMode(), windowInfo, Size, true, false, fbCoords);
-			}
 		}
 	}
 }

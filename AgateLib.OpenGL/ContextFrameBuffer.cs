@@ -51,6 +51,8 @@ namespace AgateLib.OpenGL
 			mWindowInfo = window;
 			mSize = size;
 
+			CoordinateSystem.RenderTargetSize = mSize;
+			
 			hasDepth = depthBuffer;
 			hasStencil = stencilBuffer;
 
@@ -109,6 +111,8 @@ namespace AgateLib.OpenGL
 
 			foreach (var context in mContexts.Values)
 				context.Update(mWindowInfo);
+
+			CoordinateSystem.RenderTargetSize = mSize;
 		}
 
 		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow => mAttachedWindow;

@@ -48,6 +48,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private bool mNonPowerOf2Textures;
 		private bool mSupportsShaders;
 		private decimal mGLVersion;
+		List<int> mTexturesToDelete = new List<int>();
 
 		System.Windows.Forms.Form mFakeWindow;
 		DisplayWindow mFakeDisplayWindow;
@@ -59,6 +60,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			get;
 			private set;
 		}
+
 		public bool SupportsNonPowerOf2Textures
 		{
 			get { return mNonPowerOf2Textures; }
@@ -76,15 +78,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			OnRenderTargetResize();
 		}
+
 		protected override void OnRenderTargetResize()
 		{
 
 		}
 
-		public override PixelFormat DefaultSurfaceFormat
-		{
-			get { return PixelFormat.RGBA8888; }
-		}
+		public override PixelFormat DefaultSurfaceFormat => PixelFormat.RGBA8888;
 
 		#region --- Object Factory ---
 
@@ -472,7 +472,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			if (Display.CurrentWindow != null)
 			{
 				DisplayWindowImpl impl = Display.CurrentWindow.Impl;
-				//((GL_DisplayW)impl).HideCursor();
+				((GL_DisplayControl)impl).HideCursor();
 			}
 		}
 		protected internal override void ShowCursor()
@@ -483,7 +483,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			{
 				DisplayWindowImpl impl = Display.CurrentWindow.Impl;
 
-				//((GL_FrameBufferExt)impl).ShowCursor();
+				((GL_DisplayControl)impl).ShowCursor();
 			}
 		}
 
@@ -563,8 +563,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 				case RenderStateBool.ZBufferWrite: return false;
 
 				default:
-					throw new NotSupportedException(string.Format(
-						"The specified render state, {0}, is not supported by this driver.", renderStateBool));
+					throw new NotSupportedException($"The specified render state, {renderStateBool}, is not supported by this driver.");
 			}
 		}
 		protected internal override void SetRenderState(RenderStateBool renderStateBool, bool value)
@@ -585,16 +584,13 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 				default:
 					throw new NotSupportedException(string.Format(
-						"The specified render state, {0}, is not supported by this driver."));
+						$"The specified render state, {value}, is not supported by this driver."));
 			}
 		}
 
 		#endregion
 
 		#region --- Deletion queuing ---
-
-		List<int> mTexturesToDelete = new List<int>();
-
 
 		private void FlushDeleteQueue()
 		{
