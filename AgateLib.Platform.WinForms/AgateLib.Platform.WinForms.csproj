@@ -103,7 +103,9 @@
       <DependentUpon>frmFullScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="DisplayImplementation\DesktopGLDisplay.cs" />
+    <Compile Include="DisplayImplementation\GL_DisplayControlWindowed.cs" />
     <Compile Include="DisplayImplementation\GL_DisplayControl.cs" />
+    <Compile Include="DisplayImplementation\GL_DisplayControlFull.cs" />
     <Compile Include="DisplayImplementation\GL_Surface.cs" />
     <Compile Include="DisplayImplementation\IPrimaryWindow.cs" />
     <Compile Include="Factories\DisplayFactory.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="IO\TgzFileProvider.cs" />
     <Compile Include="IO\ZipFileProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceDisposer.cs" />
     <Compile Include="Resources\Builtin.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -88,6 +88,7 @@ namespace AgateLib.OpenGL.GL3
 
 			InitializeDrawBuffer();
 		}
+
 		public override void Dispose()
 		{
 			GL.DeleteFramebuffers(1, ref mFramebufferID);
@@ -96,15 +97,11 @@ namespace AgateLib.OpenGL.GL3
 			// TODO: Should we delete the surface also?
 		}
 
-		public override SurfaceImpl RenderTarget
-		{
-			get { return (SurfaceImpl)mTexture; }
-		}
-		
-		public override AgateLib.Geometry.Size Size
-		{
-			get { return mSize; }
-		}
+		public event EventHandler RenderComplete;
+
+		public override SurfaceImpl RenderTarget => (SurfaceImpl)mTexture;
+
+		public override AgateLib.Geometry.Size Size => mSize;
 
 		public override void BeginRender()
 		{
@@ -119,6 +116,8 @@ namespace AgateLib.OpenGL.GL3
 
 			GL.BindTexture(TextureTarget.Texture2D, mTexture.GLTextureID);
 			GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+			RenderComplete?.Invoke(this, EventArgs.Empty);
 		}
 
 		public override void MakeCurrent()
@@ -126,28 +125,11 @@ namespace AgateLib.OpenGL.GL3
 			GL.BindFramebuffer(FramebufferTarget.Framebuffer, mFramebufferID);
 		}
 
-		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow
-		{
-			get { return null; }
-		}
-		public override bool CanAccessRenderTarget
-		{
-			get { return true; }
-		}
+		public override AgateLib.DisplayLib.DisplayWindow AttachedWindow => null;
 
-		public override bool HasDepthBuffer
-		{
-			get
-			{
-				return mHasDepth;
-			}
-		}
-		public override bool HasStencilBuffer
-		{
-			get
-			{
-				return mHasStencil;
-			}
-		}
+		public override bool CanAccessRenderTarget => true;
+
+		public override bool HasDepthBuffer => mHasDepth;
+		public override bool HasStencilBuffer => mHasStencil;
 	}
 }

@@ -16,6 +16,10 @@ namespace AgateLib.DisplayLib
 		}
 
 		public Size Size { get; set; }
+		
+		public int Width => Size.Width;
+		public int Height => Size.Height;
+
 		public IRenderMode RenderMode { get; set; }
 
 		public override string ToString()

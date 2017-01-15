@@ -30,7 +30,6 @@ namespace AgateLib.DisplayLib
 	/// </summary>
 	public class SurfaceState
 	{
-		private SurfaceStateCache mCache;
 		private double mScaleWidth = 1.0;
 		private double mScaleHeight = 1.0;
 		private OriginAlignment mAlignment = OriginAlignment.TopLeft;
@@ -198,23 +197,19 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
+		/// The cache is used by the display implementation to store data to improve performance
+		/// when drawing with this state object.  Do not set this value unless you are writing 
+		/// a driver or otherwise know what you are doing.
+		/// </summary>
+		public SurfaceStateCache Cache { get; set; }
+
+		/// <summary>
 		/// Increments the rotation angle of this surface.  Value supplied is in degrees.
 		/// </summary>
 		/// <param name="degrees"></param>
 		public void IncrementRotationAngleDegrees(double degrees)
 		{
 			mRotation += degrees * Math.PI / 180.0;
-		}
-
-		/// <summary>
-		/// The cache is used by the display implementation to store data to improve performance
-		/// when drawing with this state object.  Do not set this value unless you are writing 
-		/// a driver or otherwise know what you are doing.
-		/// </summary>
-		public SurfaceStateCache Cache
-		{
-			get { return mCache; }
-			set { mCache = value; }
 		}
 
 		/// <summary>
@@ -256,6 +251,15 @@ namespace AgateLib.DisplayLib
 		public SurfaceDrawInstance(PointF location) : this()
 		{
 			DestLocation = location;
+		}
+
+		/// <summary>
+		/// Constructs a SurfaceDrawInstance object.
+		/// </summary>
+		/// <param name="location"></param>
+		public SurfaceDrawInstance(Point location) : this()
+		{
+			DestLocation = (PointF)location;
 		}
 		/// <summary>
 		/// Constructs a SurfaceDrawInstance object.

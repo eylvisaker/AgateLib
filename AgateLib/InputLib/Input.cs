@@ -39,11 +39,11 @@ namespace AgateLib.InputLib
 			State.Handlers.HandlerRemoved += Handlers_HandlerRemoved;
 		}
 
-		private static InputState State => Core.State.Input;
+		private static InputState State => Core.State?.Input;
 
-		private static List<AgateInputEventArgs> EventQueue => Core.State.Input.EventQueue;
+		private static List<AgateInputEventArgs> EventQueue => State?.EventQueue;
 
-		private static Dictionary<IInputHandler, HandlerState> HandlerStates => Core.State.Input.HandlerStates;
+		private static Dictionary<IInputHandler, HandlerState> HandlerStates => State?.HandlerStates;
 
 		/// <summary>
 		/// Enumerates the input handlers in the order they should process an event.
@@ -86,6 +86,9 @@ namespace AgateLib.InputLib
 		/// <param name="args"></param>
 		public static void QueueInputEvent(AgateInputEventArgs args)
 		{
+			if (State == null)
+				return;
+
 			lock (EventQueue)
 			{
 				EventQueue.Add(args);
@@ -97,6 +100,9 @@ namespace AgateLib.InputLib
 		/// </summary>
 		internal static void DispatchQueuedEvents()
 		{
+			if (State == null)
+				return;
+
 			foreach (var handler in AllInputHandlers)
 			{
 				var handlerState = GetOrCreateHandlerState(handler);
@@ -138,6 +144,9 @@ namespace AgateLib.InputLib
 
 		internal static void PollJoysticks()
 		{
+			if (State == null)
+				return;
+
 			JoystickInput.PollTimer();
 		}
 

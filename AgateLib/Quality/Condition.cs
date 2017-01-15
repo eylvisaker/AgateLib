@@ -28,6 +28,7 @@ namespace AgateLib.Quality
 {
 	public static class Condition
 	{
+		[Obsolete("Use Requires.True instead.")]
 		[DebuggerStepThrough]
 		public static void Requires<TE>(bool state) where TE : Exception, new()
 		{
@@ -37,6 +38,12 @@ namespace AgateLib.Quality
 			throw new TE();
 		}
 
+		/// <summary>
+		/// Use Requires.True instead.
+		/// </summary>
+		/// <typeparam name="TE"></typeparam>
+		/// <param name="state"></param>
+		[Obsolete("Use Requires.True instead.")]
 		[DebuggerStepThrough]
 		public static void Requires(bool state)
 		{

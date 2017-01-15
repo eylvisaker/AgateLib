@@ -16,194 +16,271 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Drawing = System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows.Forms;
 
-using AgateLib;
+using System;
+using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.ImplementationBase;
-using AgateLib.Drivers;
 using AgateLib.Geometry;
+using AgateLib.Geometry.CoordinateSystems;
 using AgateLib.InputLib;
-
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-using GL = OpenTK.Graphics.OpenGL.GL;
-using OpenTK.Platform;
 using AgateLib.OpenGL;
-using AgateLib.InputLib.Legacy;
 using AgateLib.Platform.WinForms.Controls;
+using OpenTK.Graphics;
+using OpenTK.Platform;
+using OpenTK.Platform.X11;
+using FrameBuffer = AgateLib.OpenGL.GL3.FrameBuffer;
+using Point = AgateLib.Geometry.Point;
+using PointF = AgateLib.Geometry.PointF;
+using Size = AgateLib.Geometry.Size;
 
 namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	/// <summary>
 	/// No OpenGL code here.
 	/// </summary>
-	public sealed class GL_DisplayControl : DisplayWindowImpl, IPrimaryWindow
+	public abstract class GL_DisplayControl : DisplayWindowImpl, IPrimaryWindow
 	{
-		DisplayWindow owner;
-		Form frm;
-		Control renderTarget;
-		IWindowInfo windowInfo;
+		private readonly DisplayWindow owner;
+		private Form wfForm;
+		private Control wfRenderTarget;
+		private IWindowInfo windowInfo;
 
-		DesktopGLDisplay display;
-		Drawing.Icon icon;
-		bool isClosed = false;
-		bool isFullScreen = false;
+		private DesktopGLDisplay display;
+		private readonly System.Drawing.Icon icon;
+		private bool isClosed;
+		private bool isFullScreen;
 
-		string title;
-		bool chooseFullscreen;
-		int chooseWidth;
-		int chooseHeight;
-		bool chooseResize;
-		WindowPosition choosePosition;
-		Point lastMousePoint;
+		private readonly string title;
+		private readonly bool chooseFullscreen;
+		private readonly int chooseWidth;
+		private readonly int chooseHeight;
+		private readonly bool chooseResize;
+		private readonly WindowPosition choosePosition;
+		private Point lastMousePoint;
 
-		bool hasFrame = true;
+		private readonly bool hasFrame = true;
 
-		ContextFB frameBuffer;
-		ICoordinateSystem coords;
+		private ContextFrameBuffer ctxFrameBuffer;
+		private FrameBuffer rtFrameBuffer;
+		private GL_Surface rtSurface;
+		private SurfaceState rtSurfaceState = new SurfaceState();
 
-		static DisplayControlContext applicationContext;
+		private readonly ICoordinateSystem coords;
 
-		public GL_DisplayControl(DisplayWindow owner, CreateWindowParams windowParams)
+		static DisplayControlContext _applicationContext;
+
+		public GL_DisplayControl(DesktopGLDisplay display, DisplayWindow owner, CreateWindowParams windowParams)
 		{
 			this.owner = owner;
 			choosePosition = windowParams.WindowPosition;
 			coords = windowParams.Coordinates;
 
-			if (applicationContext == null)
+			this.display = display;
+
+			if (_applicationContext == null)
 			{
-				applicationContext = new DisplayImplementation.DisplayControlContext();
+				_applicationContext = new DisplayControlContext();
 			}
-
-			if (windowParams.RenderToControl)
-			{
-				if (windowParams.RenderTarget is Control == false)
-					throw new AgateException(string.Format("The specified render target is of type {0}, " +
-						"which does not derive from System.Windows.Forms.Control.", windowParams.RenderTarget.GetType().Name));
-
-				renderTarget = (Control)windowParams.RenderTarget;
-				windowInfo = CreateWindowInfo(CreateGraphicsMode());
-
-				if (renderTarget.TopLevelControl == null)
-					throw new ArgumentException("The specified render target has not been added to a Form yet.  " +
-						"Check to make sure that you are creating the DisplayWindow after all controls are added " +
-						"to the Form.  Do not create a DisplayWindow in a constructor for a UserControl, for example.");
-
-				chooseFullscreen = false;
-				chooseWidth = renderTarget.ClientSize.Width;
-				chooseHeight = renderTarget.ClientSize.Height;
-
-				display = Display.Impl as DesktopGLDisplay;
-
-				CreateFrameBuffer(coords);
-
-				AttachEvents();
-			}
-			else
-			{
-				if (string.IsNullOrEmpty(windowParams.IconFile) == false)
-					icon = new Drawing.Icon(windowParams.IconFile);
-
-				title = windowParams.Title;
-				chooseFullscreen = windowParams.IsFullScreen;
-				chooseWidth = windowParams.Width;
-				chooseHeight = windowParams.Height;
-				chooseResize = windowParams.IsResizable;
-				hasFrame = windowParams.HasFrame;
-
-				if (chooseFullscreen)
-					CreateFullScreenDisplay(Array.IndexOf(Screen.AllScreens, Screen.PrimaryScreen));
-				else
-					CreateWindowedDisplay();
-
-				display = Display.Impl as DesktopGLDisplay;
-
-				applicationContext.AddForm(frm);
-			}
-
-			display.InitializeCurrentContext();
 		}
 
-		public override FrameBufferImpl FrameBuffer => frameBuffer;
+		public override void Dispose()
+		{
+			ExitMessageLoop();
+
+			if (ctxFrameBuffer != null)
+			{
+				ctxFrameBuffer.Dispose();
+				ctxFrameBuffer = null;
+			}
+
+			if (wfForm != null)
+			{
+				if (wfForm.InvokeRequired)
+				{
+					wfForm.BeginInvoke(new Action(() => wfForm?.Dispose()));
+				}
+
+				wfForm.Dispose();
+				wfForm = null;
+			}
+		}
+
+		Form TopLevelForm => (Form)wfRenderTarget.TopLevelControl;
+
+		public override FrameBufferImpl FrameBuffer => 
+			rtFrameBuffer ?? (FrameBufferImpl)ctxFrameBuffer;
+
+		public override bool IsClosed => isClosed;
+
+		public override bool IsFullScreen => isFullScreen;
+
+		public override Size Size
+		{
+			get { return wfRenderTarget.ClientSize.ToGeometry(); }
+			set
+			{
+				if (wfRenderTarget.InvokeRequired)
+				{
+					wfRenderTarget.Invoke(new Action(() => Size = value));
+					return;
+				}
+
+				wfRenderTarget.ClientSize = value.ToDrawing();
+
+				if (wfForm != null)
+				{
+					wfForm.ClientSize = value.ToDrawing();
+				}
+			}
+		}
+
+		public override string Title
+		{
+			get { return wfForm?.Text; }
+			set
+			{
+				if (wfForm != null)
+				{
+					if (wfForm.InvokeRequired)
+					{
+						wfForm.BeginInvoke(new Action(() => Title = value));
+						return;
+					}
+
+					wfForm.Text = value;
+				}
+			}
+		}
+
+		public void HideCursor()
+		{
+			if (wfRenderTarget.InvokeRequired)
+			{
+				wfRenderTarget.BeginInvoke(new Action(HideCursor));
+				return;
+			}
+
+			wfRenderTarget.Cursor = FormUtil.BlankCursor;
+		}
+
+		public void ShowCursor()
+		{
+			if (wfRenderTarget.InvokeRequired)
+			{
+				wfRenderTarget.BeginInvoke(new Action(ShowCursor));
+				return;
+			}
+
+			wfRenderTarget.Cursor = Cursors.Arrow;
+		}
+
+		public void ExitMessageLoop()
+		{
+			_applicationContext?.ExitThread();
+		}
+
+		public void CreateContextForThread()
+		{
+			ctxFrameBuffer.CreateContextForThread();
+		}
 
 		private void CreateFullScreenDisplay(int targetScreenIndex)
 		{
 			DetachEvents();
 
-			Form oldForm = frm;
-			IWindowInfo oldWindowInfo = windowInfo;
+			using (new ResourceDisposer(windowInfo, wfForm, rtSurface, rtFrameBuffer))
+			{
+				var targetScreen = Screen.AllScreens[targetScreenIndex];
 
-			frm = new frmFullScreen();
-			frm.Show();
+				wfForm = new frmFullScreen
+				{
+					ClientSize = targetScreen.Bounds.Size,
+					Location = targetScreen.Bounds.Location,
+					Text = title,
+					Icon = icon,
+					TopLevel = true
+				};
 
-			frm.Text = title;
-			frm.Icon = icon;
-			frm.TopLevel = true;
+				wfRenderTarget = wfForm;
+				windowInfo = CreateWindowInfo(CreateGraphicsMode());
 
-			renderTarget = frm;
-			windowInfo = CreateWindowInfo(CreateGraphicsMode());
+				AttachEvents();
 
-			AttachEvents();
-			CreateFrameBuffer(coords);
+				CreateContextFrameBuffer(new NativeCoordinates());
+				CreateTargetFrameBuffer(new Size(chooseWidth, chooseHeight));
 
-			var targetScreen = Screen.AllScreens[targetScreenIndex];
+				wfForm.Show();
+				wfForm.Activate();
 
-			frm.ClientSize = targetScreen.Bounds.Size;
-			frm.Location = targetScreen.Bounds.Location;
-			frm.Activate();
-
-			System.Threading.Thread.Sleep(1000);
-			isFullScreen = true;
-
-			if (oldWindowInfo != null) oldWindowInfo.Dispose();
-			if (oldForm != null) oldForm.Dispose();
+				isFullScreen = true;
+			}
 
 			Core.IsActive = true;
+		}
+
+		private void CreateTargetFrameBuffer(Size size)
+		{
+			rtSurface = new GL_Surface(size);
+
+			rtFrameBuffer = new FrameBuffer(rtSurface);
+			rtFrameBuffer.RenderComplete += RtFrameBuffer_RenderComplete;
+		}
+
+		private void RtFrameBuffer_RenderComplete(object sender, EventArgs e)
+		{
+			ctxFrameBuffer.MakeCurrent();
+			ctxFrameBuffer.BeginRender();
+
+			var destRect = new Rectangle(Point.Empty, ctxFrameBuffer.Size);
+
+			rtSurfaceState.ScaleWidth = destRect.Width / (double) rtSurface.SurfaceWidth;
+			rtSurfaceState.ScaleHeight = destRect.Height / (double) rtSurface.SurfaceHeight;
+
+			rtSurfaceState.DrawInstances.Clear();
+			rtSurfaceState.DrawInstances.Add(
+				new SurfaceDrawInstance(destRect.Location));
+			rtSurface.Draw(rtSurfaceState);
+
+			display.DrawBuffer.Flush();
+			ctxFrameBuffer.EndRender();
 		}
 
 		private void CreateWindowedDisplay()
 		{
 			DetachEvents();
+			
+			using (new ResourceDisposer(windowInfo, wfForm, rtSurface, rtFrameBuffer))
+			{
+				isFullScreen = false;
 
-			Form oldForm = frm;
-			IWindowInfo oldWindowInfo = windowInfo;
+				Form myform;
+				Control myRenderTarget;
 
-			isFullScreen = false;
+				FormUtil.InitializeWindowsForm(
+					out myform, out myRenderTarget, choosePosition,
+					title, chooseWidth, chooseHeight, chooseFullscreen, chooseResize, hasFrame);
 
-			Form myform;
-			Control myRenderTarget;
+				wfForm = myform;
+				wfRenderTarget = myRenderTarget;
+				windowInfo = CreateWindowInfo(CreateGraphicsMode());
 
-			AgateLib.Platform.WinForms.Controls.FormUtil.InitializeWindowsForm(
-				out myform, out myRenderTarget, choosePosition,
-				title, chooseWidth, chooseHeight, chooseFullscreen, chooseResize, hasFrame);
+				if (icon != null)
+					wfForm.Icon = icon;
 
-			frm = myform;
-			renderTarget = myRenderTarget;
-			windowInfo = CreateWindowInfo(CreateGraphicsMode());
+				wfForm.Show();
+				CreateContextFrameBuffer(coords);
 
-			if (icon != null)
-				frm.Icon = icon;
-
-			frm.Show();
-			CreateFrameBuffer(coords);
-
-			AttachEvents();
-
-			if (oldWindowInfo != null) oldWindowInfo.Dispose();
-			if (oldForm != null) oldForm.Dispose();
+				AttachEvents();
+			}
 
 			Core.IsActive = true;
 		}
 
-		public OpenTK.Graphics.GraphicsContext CreateContext()
+		public GraphicsContext CreateContext()
 		{
 			GraphicsMode newMode = CreateGraphicsMode();
 
@@ -213,9 +290,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 #if DEBUG
 			//flags = GraphicsContextFlags.ForwardCompatible;
 #endif
-			var context = new OpenTK.Graphics.GraphicsContext(newMode, windowInfo, 3, 1, flags);
+			var context = new GraphicsContext(newMode, windowInfo, 3, 1, flags);
 			context.MakeCurrent(windowInfo);
-			(context as IGraphicsContextInternal).LoadAll();
+			context.LoadAll();
 
 			return context;
 		}
@@ -225,17 +302,16 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			GraphicsMode newMode = new GraphicsMode(
 						 GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth,
 						 0, 0, new ColorFormat(0), 2, false);
+
 			return newMode;
 		}
 
-		private void CreateFrameBuffer(ICoordinateSystem coords)
+		private void CreateContextFrameBuffer(ICoordinateSystem fbCoords)
 		{
-			var old = frameBuffer;
-
-			frameBuffer = new ContextFB(owner, CreateGraphicsMode(), windowInfo, this.Size, true, false, coords);
-
-			if (old != null)
-				old.Dispose();
+			using (new ResourceDisposer(ctxFrameBuffer))
+			{
+				ctxFrameBuffer = new ContextFrameBuffer(owner, CreateGraphicsMode(), windowInfo, Size, true, false, fbCoords);
+			}
 		}
 
 		private IWindowInfo CreateWindowInfo(GraphicsMode mode)
@@ -243,9 +319,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			switch (Core.Platform.PlatformType)
 			{
 				case PlatformType.Windows:
-					return OpenTK.Platform.Utilities.CreateWindowsWindowInfo(renderTarget.Handle);
+					return Utilities.CreateWindowsWindowInfo(wfRenderTarget.Handle);
 				case PlatformType.MacOS:
-					return OpenTK.Platform.Utilities.CreateMacOSCarbonWindowInfo(renderTarget.Handle, false, true);
+					return Utilities.CreateMacOSCarbonWindowInfo(wfRenderTarget.Handle, false, true);
 				case PlatformType.Linux:
 					return CreateX11WindowInfo(mode);
 				default:
@@ -279,11 +355,135 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			IntPtr infoPtr = Marshal.AllocHGlobal(Marshal.SizeOf(info));
 			Marshal.StructureToPtr(info, infoPtr, false);
 
-			IWindowInfo window = OpenTK.Platform.Utilities.CreateX11WindowInfo(
-				display, screen, renderTarget.Handle, rootWindow, infoPtr);
+			IWindowInfo window = Utilities.CreateX11WindowInfo(
+				display, screen, wfRenderTarget.Handle, rootWindow, infoPtr);
 
 			return window;
 
+		}
+
+		private void AttachEvents()
+		{
+			if (wfRenderTarget == null)
+				return;
+
+			wfRenderTarget.Resize += mRenderTarget_Resize;
+			wfRenderTarget.Disposed += mRenderTarget_Disposed;
+
+			wfRenderTarget.MouseWheel += mRenderTarget_MouseWheel;
+			wfRenderTarget.MouseMove += pct_MouseMove;
+			wfRenderTarget.MouseDown += pct_MouseDown;
+			wfRenderTarget.MouseUp += pct_MouseUp;
+			wfRenderTarget.DoubleClick += mRenderTarget_DoubleClick;
+
+			Form form = (wfRenderTarget.TopLevelControl as Form);
+			form.KeyPreview = true;
+
+			form.KeyDown += form_KeyDown;
+			form.KeyUp += form_KeyUp;
+
+			form.FormClosing += form_FormClosing;
+			form.FormClosed += form_FormClosed;
+		}
+
+		private void DetachEvents()
+		{
+			if (wfRenderTarget == null)
+				return;
+
+			wfRenderTarget.Resize -= mRenderTarget_Resize;
+			wfRenderTarget.Disposed -= mRenderTarget_Disposed;
+
+			wfRenderTarget.MouseWheel -= mRenderTarget_MouseWheel;
+			wfRenderTarget.MouseMove -= pct_MouseMove;
+			wfRenderTarget.MouseDown -= pct_MouseDown;
+			wfRenderTarget.MouseUp -= pct_MouseUp;
+			wfRenderTarget.DoubleClick -= mRenderTarget_DoubleClick;
+
+			Form form = TopLevelForm as Form;
+
+			form.KeyDown -= form_KeyDown;
+			form.KeyUp -= form_KeyUp;
+			form.FormClosing -= form_FormClosing;
+			form.FormClosed -= form_FormClosed;
+		}
+
+		void form_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			DetachEvents();
+			OnClosed();
+		}
+
+		void form_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			bool cancel = false;
+
+			OnClosing(ref cancel);
+
+			e.Cancel = cancel;
+		}
+
+		void mRenderTarget_Disposed(object sender, EventArgs e)
+		{
+			isClosed = true;
+		}
+
+		void mRenderTarget_Resize(object sender, EventArgs e)
+		{
+			ctxFrameBuffer.SetSize(new Size(wfRenderTarget.Width, wfRenderTarget.Height));
+
+			OnResize();
+		}
+
+		void mRenderTarget_DoubleClick(object sender, EventArgs e)
+		{
+			OnInputEvent(AgateInputEventArgs.MouseDoubleClick(lastMousePoint, MouseButton.Primary));
+		}
+
+		void mRenderTarget_MouseWheel(object sender, MouseEventArgs e)
+		{
+			OnInputEvent(AgateInputEventArgs.MouseWheel(lastMousePoint, -(e.Delta * 100) / 120));
+		}
+
+		void pct_MouseUp(object sender, MouseEventArgs e)
+		{
+			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
+
+			OnInputEvent(AgateInputEventArgs.MouseUp(lastMousePoint, e.AgateMousebutton()));
+		}
+
+		void pct_MouseDown(object sender, MouseEventArgs e)
+		{
+			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
+
+			OnInputEvent(AgateInputEventArgs.MouseDown(lastMousePoint, e.AgateMousebutton()));
+		}
+
+		void pct_MouseMove(object sender, MouseEventArgs e)
+		{
+			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
+
+			OnInputEvent(AgateInputEventArgs.MouseMove(lastMousePoint));
+		}
+
+		void form_KeyUp(object sender, KeyEventArgs e)
+		{
+			OnInputEvent(AgateInputEventArgs.KeyUp(e.AgateKeyCode(), e.AgateKeyModifiers()));
+		}
+
+		void form_KeyDown(object sender, KeyEventArgs e)
+		{
+			OnInputEvent(AgateInputEventArgs.KeyDown(e.AgateKeyCode(), e.AgateKeyModifiers()));
+		}
+
+		void renderTarget_Disposed(object sender, EventArgs e)
+		{
+			isClosed = true;
+		}
+
+		void IPrimaryWindow.RunApplication()
+		{
+			_applicationContext.RunMessageLoop();
 		}
 
 		#region --- X11 imports ---
@@ -295,7 +495,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			public IntPtr VisualID;
 			public int Screen;
 			public int Depth;
-			public OpenTK.Platform.X11.XVisualClass Class;
+			public XVisualClass Class;
 			public long RedMask;
 			public long GreenMask;
 			public long blueMask;
@@ -332,7 +532,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			Blue = 0x40,
 			ColormapSize = 0x80,
 			BitsPerRGB = 0x100,
-			All = 0x1FF,
+			All = 0x1FF
 		}
 
 
@@ -342,244 +542,15 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private static object GetStaticFieldValue(Type type, string fieldName)
 		{
 			return type.GetField(fieldName,
-				System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(null);
+				BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
 		}
 		private static void SetStaticFieldValue(Type type, string fieldName, object value)
 		{
 			type.GetField(fieldName,
-				System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).SetValue(null, value);
+				BindingFlags.Static | BindingFlags.NonPublic).SetValue(null, value);
 		}
 
 		#endregion
 
-		public override void Dispose()
-		{
-			ExitMessageLoop();
-
-			if (frameBuffer != null)
-			{
-				frameBuffer.Dispose();
-				frameBuffer = null;
-			}
-
-			if (frm != null)
-			{
-				if (frm.InvokeRequired)
-				{
-					frm.BeginInvoke(new Action(frm.Close));
-				}
-				frm = null;
-			}
-		}
-
-		private void AttachEvents()
-		{
-			if (renderTarget == null)
-				return;
-
-			renderTarget.Resize += new EventHandler(mRenderTarget_Resize);
-			renderTarget.Disposed += new EventHandler(mRenderTarget_Disposed);
-
-			renderTarget.MouseWheel += new MouseEventHandler(mRenderTarget_MouseWheel);
-			renderTarget.MouseMove += new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
-			renderTarget.MouseDown += new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
-			renderTarget.MouseUp += new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
-			renderTarget.DoubleClick += new EventHandler(mRenderTarget_DoubleClick);
-
-			System.Windows.Forms.Form form = (renderTarget.TopLevelControl as System.Windows.Forms.Form);
-			form.KeyPreview = true;
-
-			form.KeyDown += new System.Windows.Forms.KeyEventHandler(form_KeyDown);
-			form.KeyUp += new System.Windows.Forms.KeyEventHandler(form_KeyUp);
-
-			form.FormClosing += new FormClosingEventHandler(form_FormClosing);
-			form.FormClosed += new FormClosedEventHandler(form_FormClosed);
-		}
-
-		private void DetachEvents()
-		{
-			if (renderTarget == null)
-				return;
-
-			renderTarget.Resize -= new EventHandler(mRenderTarget_Resize);
-			renderTarget.Disposed -= new EventHandler(mRenderTarget_Disposed);
-
-			renderTarget.MouseWheel -= mRenderTarget_MouseWheel;
-			renderTarget.MouseMove -= new System.Windows.Forms.MouseEventHandler(pct_MouseMove);
-			renderTarget.MouseDown -= new System.Windows.Forms.MouseEventHandler(pct_MouseDown);
-			renderTarget.MouseUp -= new System.Windows.Forms.MouseEventHandler(pct_MouseUp);
-			renderTarget.DoubleClick -= new EventHandler(mRenderTarget_DoubleClick);
-
-			System.Windows.Forms.Form form = (renderTarget.TopLevelControl as System.Windows.Forms.Form);
-
-			form.KeyDown -= new System.Windows.Forms.KeyEventHandler(form_KeyDown);
-			form.KeyUp -= new System.Windows.Forms.KeyEventHandler(form_KeyUp);
-			form.FormClosing -= new FormClosingEventHandler(form_FormClosing);
-			form.FormClosed -= new FormClosedEventHandler(form_FormClosed);
-		}
-
-		void form_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			DetachEvents();
-			OnClosed();
-		}
-
-		void form_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			bool cancel = false;
-
-			OnClosing(ref cancel);
-
-			e.Cancel = cancel;
-		}
-
-		void mRenderTarget_Disposed(object sender, EventArgs e)
-		{
-			isClosed = true;
-		}
-
-		void mRenderTarget_Resize(object sender, EventArgs e)
-		{
-			frameBuffer.SetSize(new Size(renderTarget.Width, renderTarget.Height));
-
-			OnResize();
-		}
-
-		void mRenderTarget_DoubleClick(object sender, EventArgs e)
-		{
-			OnInputEvent(AgateInputEventArgs.MouseDoubleClick(lastMousePoint, MouseButton.Primary));
-		}
-
-		void mRenderTarget_MouseWheel(object sender, MouseEventArgs e)
-		{
-			OnInputEvent(AgateInputEventArgs.MouseWheel(lastMousePoint, -(e.Delta * 100) / 120));
-		}
-
-		void pct_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
-
-			OnInputEvent(AgateInputEventArgs.MouseUp(lastMousePoint, e.AgateMousebutton()));
-		}
-
-		void pct_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
-
-			OnInputEvent(AgateInputEventArgs.MouseDown(lastMousePoint, e.AgateMousebutton()));
-		}
-
-		void pct_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			lastMousePoint = PixelToLogicalCoords(new Point(e.X, e.Y));
-
-			OnInputEvent(AgateInputEventArgs.MouseMove(lastMousePoint));
-		}
-
-		void form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-		{
-			OnInputEvent(AgateInputEventArgs.KeyUp(e.AgateKeyCode(), e.AgateKeyModifiers()));
-		}
-
-		void form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-		{
-			OnInputEvent(AgateInputEventArgs.KeyDown(e.AgateKeyCode(), e.AgateKeyModifiers()));
-		}
-
-		void renderTarget_Disposed(object sender, EventArgs e)
-		{
-			isClosed = true;
-		}
-
-		public override bool IsClosed => isClosed;
-
-		public override bool IsFullScreen => isFullScreen;
-
-		public override Size Size
-		{
-			get { return renderTarget.ClientSize.ToGeometry(); }
-			set
-			{
-				if (renderTarget.InvokeRequired)
-				{
-					renderTarget.Invoke(new Action(() => Size = value));
-					return;
-				}
-
-				renderTarget.ClientSize = value.ToDrawing();
-
-				if (frm != null)
-				{
-					frm.ClientSize = value.ToDrawing();
-				}
-			}
-		}
-
-		public override string Title
-		{
-			get { return frm?.Text; }
-			set
-			{
-				if (frm != null)
-				{
-					if (frm.InvokeRequired)
-					{
-						frm.BeginInvoke(new Action(() => Title = value));
-						return;
-					}
-
-					frm.Text = value;
-				}
-			}
-		}
-
-		#region GL_IRenderTarget Members
-
-		public void HideCursor()
-		{
-			if (renderTarget.InvokeRequired)
-			{
-				renderTarget.BeginInvoke(new Action(HideCursor));
-				return;
-			}
-
-			renderTarget.Cursor = FormUtil.BlankCursor;
-		}
-
-		public void ShowCursor()
-		{
-			if (renderTarget.InvokeRequired)
-			{
-				renderTarget.BeginInvoke(new Action(ShowCursor));
-				return;
-			}
-
-			renderTarget.Cursor = Cursors.Arrow;
-		}
-
-		#endregion
-
-		void IPrimaryWindow.RunApplication()
-		{
-			applicationContext.RunMessageLoop();
-		}
-
-
-		public void ExitMessageLoop()
-		{
-			applicationContext?.ExitThread();
-		}
-
-
-		public void CreateContextForThread()
-		{
-			frameBuffer.CreateContextForThread();
-		}
-
-
-		public Control TopLevelForm
-		{
-			get { return renderTarget.TopLevelControl; }
-		}
 	}
 }

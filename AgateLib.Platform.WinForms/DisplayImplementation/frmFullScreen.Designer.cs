@@ -55,6 +55,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			this.ClientSize = new System.Drawing.Size(292, 266);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "frmFullScreen";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "frmFullScreen";
 			this.ResumeLayout(false);
 

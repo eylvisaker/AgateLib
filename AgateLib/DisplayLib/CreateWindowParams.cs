@@ -26,47 +26,124 @@ using AgateLib.Utility;
 namespace AgateLib.DisplayLib
 {
 	/// <summary>
-	/// Enum which describes what position the window should be created at on screen.
-	/// </summary>
-	public enum WindowPosition
-	{
-		/// <summary>
-		/// Lets AgateLib choose where to position the window.  
-		/// </summary>
-		DefaultAgate,
-
-		/// <summary>
-		/// Let the runtime decide where the window is placed.
-		/// </summary>
-		DefaultOS,
-
-		/// <summary>
-		/// Center the window horizontally on screen, but vertically above center.
-		/// This often looks better because the vertical center of the monitor is usually 
-		/// positioned below eye-level.
-		/// </summary>
-		AboveCenter,
-
-		/// <summary>
-		/// Center the window on the screen.
-		/// </summary>
-		CenterScreen,
-
-
-
-	}
-	/// <summary>
 	/// Class which describes how a DisplayWindow should be created.
 	/// Several static methods exist to allow 
 	/// </summary>
 	public sealed class CreateWindowParams
 	{
+		#region --- Static creation methods ---
+
+		/// <summary>
+		/// Creates a CreateWindowParams object which describes rendering into a WinForms control.
+		/// </summary>
+		/// <param name="control"></param>
+		/// <param name="coordinates">Coordinate system creator object. May be null</param>
+		/// <returns></returns>
+		public static CreateWindowParams FromControl(object control, ICoordinateSystem coordinates)
+		{
+			CreateWindowParams result = new CreateWindowParams();
+
+			result.RenderToControl = true;
+			result.RenderTarget = control;
+			result.Coordinates = coordinates ?? new NativeCoordinates();
+
+			return result;
+		}
+
+		/// <summary>
+		/// Creates a CreateWindowParams object which describes a fullscreen window.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="bpp"></param>
+		/// <param name="coordinates">Coordinate system creator object. May be null</param>
+		/// <returns></returns>
+		public static CreateWindowParams FullScreen(string title, Resolution resolution, ICoordinateSystem coordinates)
+		{
+			CreateWindowParams result = new CreateWindowParams();
+
+			result.IsFullScreen = true;
+			result.Title = title;
+			result.Resolution = resolution;
+			result.Coordinates = coordinates ?? new NativeCoordinates();
+
+			return result;
+		}
+
+		/// <summary>
+		/// Creates a CreateWindowParams object which describes a fullscreen window.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="bpp"></param>
+		/// <param name="coordinates">Coordinate system creator object. May be null</param>
+		/// <returns></returns>
+		public static CreateWindowParams FullScreen(string title, int width, int height, int bpp, ICoordinateSystem coordinates)
+		{
+			CreateWindowParams result = new CreateWindowParams();
+
+			result.IsFullScreen = true;
+			result.Title = title;
+			result.Resolution = new Resolution(width, height, null);
+			result.Coordinates = coordinates ?? new NativeCoordinates();
+
+			return result;
+		}
+		/// <summary>
+		/// Creates a CreateWindowParams object which describes a typical window for non-fullscreen use.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="iconFile"></param>
+		/// <param name="allowResize"></param>
+		/// <param name="coordinates">Coordinate system creator object. May be null</param>
+		/// <returns></returns>
+		public static CreateWindowParams Windowed(string title, int width, int height, bool allowResize, string iconFile, ICoordinateSystem coordinates)
+		{
+			CreateWindowParams result = new CreateWindowParams();
+
+			result.Title = title;
+			result.Resolution = new Resolution(width, height, null);
+			result.IconFile = iconFile;
+			result.IsResizable = allowResize;
+			result.HasMaximize = allowResize;
+			result.Coordinates = coordinates ?? new NativeCoordinates();
+
+			return result;
+		}
+
+		/// <summary>
+		/// Creates a CreateWindowParams object which describes a desktop window with no frame or
+		/// titlebar.  This might be used for showing a splashscreen as the application loads.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="coordinates">Coordinate system creator object. May be null</param>
+		/// <returns></returns>
+		public static CreateWindowParams NoFrame(string title, int width, int height, ICoordinateSystem coordinates)
+		{
+			CreateWindowParams result = new CreateWindowParams();
+
+			result.Title = title;
+			result.Resolution = new Resolution(width, height);
+			result.IsResizable = false;
+			result.HasFrame = false;
+			result.Coordinates = coordinates ?? new NativeCoordinates();
+
+			return result;
+		}
+
+		#endregion
+
 		#region --- Private Fields ---
 
 		private bool mIsFullScreen = false;
 		private Size mSize = new Size(1024, 768);
 		private WindowPosition mPosition;
-		private int mBpp = 32;
 		private bool mIsResizable = false;
 
 		private bool mHasFrame = true;
@@ -99,30 +176,12 @@ namespace AgateLib.DisplayLib
 			get { return mIsFullScreen; }
 			set { mIsFullScreen = value; }
 		}
+
 		/// <summary>
-		/// Size of the window.  Defaults to 1024x768.
+		/// The information about the window resolution.
 		/// </summary>
-		public Size Size
-		{
-			get { return mSize; }
-			set { mSize = value; }
-		}
-		/// <summary>
-		/// Width of the window
-		/// </summary>
-		public int Width
-		{
-			get { return mSize.Width; }
-			set { mSize.Width = value; }
-		}
-		/// <summary>
-		/// Height of the window
-		/// </summary>
-		public int Height
-		{
-			get { return mSize.Height; }
-			set { mSize.Height = value; }
-		}
+		public Resolution Resolution { get; set; }
+
 		/// <summary>
 		/// Sets the initial position of the window.
 		/// </summary>
@@ -130,17 +189,6 @@ namespace AgateLib.DisplayLib
 		{
 			get { return mPosition; }
 			set { mPosition = value; }
-		}
-
-
-		/// <summary>
-		/// Bit depth for the framebuffer for the window.  This defaults to 32.  This
-		/// field is (usually) ignored if we are not creating a full-screen window.
-		/// </summary>
-		public int Bpp
-		{
-			get { return mBpp; }
-			set { mBpp = value; }
 		}
 
 		/// <summary>
@@ -218,97 +266,6 @@ namespace AgateLib.DisplayLib
 		/// at the beginning of each frame.
 		/// </summary>
 		public ICoordinateSystem Coordinates { get; set; }
-
-		#endregion
-
-		#region --- Static creation methods ---
-
-		/// <summary>
-		/// Creates a CreateWindowParams object which describes rendering into a WinForms control.
-		/// </summary>
-		/// <param name="control"></param>
-		/// <param name="coordinates">Coordinate system creator object. May be null</param>
-		/// <returns></returns>
-		public static CreateWindowParams FromControl(object control, ICoordinateSystem coordinates)
-		{
-			CreateWindowParams result = new CreateWindowParams();
-
-			result.RenderToControl = true;
-			result.RenderTarget = control;
-			result.Coordinates = coordinates ?? new NativeCoordinates();
-
-			return result;
-		}
-
-		/// <summary>
-		/// Creates a CreateWindowParams object which describes a fullscreen window.
-		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		/// <param name="bpp"></param>
-		/// <param name="coordinates">Coordinate system creator object. May be null</param>
-		/// <returns></returns>
-		public static CreateWindowParams FullScreen(string title, int width, int height, int bpp, ICoordinateSystem coordinates)
-		{
-			CreateWindowParams result = new CreateWindowParams();
-
-			result.IsFullScreen = true;
-			result.Title = title;
-			result.Width = width;
-			result.Height = height;
-			result.mBpp = bpp;
-			result.Coordinates = coordinates ?? new NativeCoordinates();
-
-			return result;
-		}
-		/// <summary>
-		/// Creates a CreateWindowParams object which describes a typical window for non-fullscreen use.
-		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		/// <param name="iconFile"></param>
-		/// <param name="allowResize"></param>
-		/// <param name="coordinates">Coordinate system creator object. May be null</param>
-		/// <returns></returns>
-		public static CreateWindowParams Windowed(string title, int width, int height, bool allowResize, string iconFile, ICoordinateSystem coordinates)
-		{
-			CreateWindowParams result = new CreateWindowParams();
-
-			result.Title = title;
-			result.Width = width;
-			result.Height = height;
-			result.IconFile = iconFile;
-			result.IsResizable = allowResize;
-			result.HasMaximize = allowResize;
-			result.Coordinates = coordinates ?? new NativeCoordinates();
-
-			return result;
-		}
-
-		/// <summary>
-		/// Creates a CreateWindowParams object which describes a desktop window with no frame or
-		/// titlebar.  This might be used for showing a splashscreen as the application loads.
-		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		/// <param name="coordinates">Coordinate system creator object. May be null</param>
-		/// <returns></returns>
-		public static CreateWindowParams NoFrame(string title, int width, int height, ICoordinateSystem coordinates)
-		{
-			CreateWindowParams result = new CreateWindowParams();
-
-			result.Title = title;
-			result.Width = width;
-			result.Height = height;
-			result.IsResizable = false;
-			result.HasFrame = false;
-			result.Coordinates = coordinates ?? new NativeCoordinates();
-
-			return result;
-		}
 
 		#endregion
 

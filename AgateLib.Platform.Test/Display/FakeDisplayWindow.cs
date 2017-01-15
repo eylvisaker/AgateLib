@@ -41,7 +41,7 @@ namespace AgateLib.Platform.Test.Display
 			this.Size = size;
 		}
 		public FakeDisplayWindow(DisplayWindow owner, CreateWindowParams windowParams)
-			:this(windowParams.Size)
+			:this(windowParams.Resolution.Size)
 		{
 			// TODO: Complete member initialization
 			this.owner = owner;

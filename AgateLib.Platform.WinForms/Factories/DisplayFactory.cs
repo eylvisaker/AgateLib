@@ -45,12 +45,19 @@ namespace AgateLib.Platform.WinForms.Factories
 			builtIn = new Resources.BuiltinResources();
 		}
 
-		public DisplayImpl DisplayImpl { get { return FullDisplayImpl; } }
-		public DesktopGLDisplay FullDisplayImpl { get; private set; }
+		public DisplayImpl DisplayImpl => FullDisplayImpl;
+		public DesktopGLDisplay FullDisplayImpl { get; }
 
-		public DisplayWindowImpl CreateDisplayWindow(DisplayWindow owner, DisplayLib.CreateWindowParams windowParams)
+		public DisplayWindowImpl CreateDisplayWindow(
+			DisplayWindow owner, CreateWindowParams windowParams)
 		{
-			return new GL_DisplayControl(owner, windowParams);
+			if (windowParams.IsFullScreen)
+				return new GL_DisplayControlFull(FullDisplayImpl, owner, 
+					windowParams);
+			else
+				return new GL_DisplayControlWindowed(FullDisplayImpl, owner, 
+					windowParams);
+
 		}
 
 		public SurfaceImpl CreateSurface(IReadFileProvider provider, string filename)
@@ -66,7 +73,7 @@ namespace AgateLib.Platform.WinForms.Factories
 			{
 				using (var file = File.OpenRead(provider.ResolveFile(filename)))
 				{
-					return new GL_Surface(provider.ResolveFile(filename));
+					return new GL_Surface(file);
 				}
 			}
 		}

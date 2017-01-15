@@ -72,4 +72,33 @@ namespace AgateLib.DisplayLib
 		/// </summary>
 		InlineBottom,
 	}
+
+	/// <summary>
+	/// Enum which describes what position the window should be created at on screen.
+	/// </summary>
+	public enum WindowPosition
+	{
+		/// <summary>
+		/// Lets AgateLib choose where to position the window.  
+		/// </summary>
+		DefaultAgate,
+
+		/// <summary>
+		/// Let the runtime decide where the window is placed.
+		/// </summary>
+		DefaultOS,
+
+		/// <summary>
+		/// Center the window horizontally on screen, but vertically above center.
+		/// This often looks better because the vertical center of the monitor is usually 
+		/// positioned below eye-level.
+		/// </summary>
+		AboveCenter,
+
+		/// <summary>
+		/// Center the window on the screen.
+		/// </summary>
+		CenterScreen,
+	}
+
 }

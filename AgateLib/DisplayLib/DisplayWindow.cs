@@ -105,6 +105,20 @@ namespace AgateLib.DisplayLib
 		{
 			return new DisplayWindow(CreateWindowParams.FullScreen(title, width, height, 32, null));
 		}
+
+		/// <summary>
+		/// Creates a DisplayWindow object which renders to the entire screen, setting
+		/// the resolution to the value specified.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="resolution"></param>
+		/// <returns></returns>
+		public static DisplayWindow CreateFullScreen(string title, Resolution resolution,
+			ICoordinateSystem coordinates = null)
+		{
+			return new DisplayWindow(CreateWindowParams.FullScreen(title, resolution, coordinates));
+		}
+
 		/// <summary>
 		/// Creates a DisplayWindow object which generates a desktop window to render into.
 		/// This overload creates a window which has the default icon and is not resizeable.
@@ -116,6 +130,7 @@ namespace AgateLib.DisplayLib
 		{
 			return DisplayWindow.CreateWindowed(title, size.Width, size.Height, false, null, coordinates);
 		}
+
 		/// <summary>
 		/// Creates a DisplayWindow object which generates a desktop window to render into.
 		/// </summary>
@@ -129,6 +144,7 @@ namespace AgateLib.DisplayLib
 		{
 			return new DisplayWindow(CreateWindowParams.Windowed(title, width, height, allowResize, iconFile, coordinates));
 		}
+
 		/// <summary>
 		/// Creates a DisplayWindow object which is a desktop window with no frame or
 		/// titlebar.

@@ -36,21 +36,17 @@ namespace AgateLib.OpenGL
 		{
 		}
 
+		public override bool HasDepthBuffer => mHasDepth;
+
+		public override bool HasStencilBuffer => mHasStencil;
+
+		public GLDrawBuffer DrawBuffer => mDrawBuffer;
+
+		public abstract void MakeCurrent();
+
 		protected void InitializeDrawBuffer()
 		{
 			mDrawBuffer = ((IGL_Display)Display.Impl).CreateDrawBuffer();
-		}
-
-		public GLDrawBuffer DrawBuffer { get { return mDrawBuffer; } }
-		public abstract void MakeCurrent();
-
-		public override bool HasDepthBuffer
-		{
-			get { return mHasDepth; }
-		}
-		public override bool HasStencilBuffer
-		{
-			get { return mHasStencil; }
 		}
 
 	}

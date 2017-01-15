@@ -91,7 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AL_Audio.cs" />
-    <Compile Include="ContextFB.cs" />
+    <Compile Include="ContextFrameBuffer.cs" />
     <Compile Include="GeoHelper.cs" />
     <Compile Include="GL3\DrawBuffer.cs" />
     <Compile Include="GL3\FrameBuffer.cs" />

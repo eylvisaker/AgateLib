@@ -25,7 +25,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 {
 	class ContextInfo : IDisposable
 	{
-		public OpenGL.ContextFB FrameBuffer { get; set; }
+		public OpenGL.ContextFrameBuffer FrameBuffer { get; set; }
 
 		public OpenTK.Graphics.GraphicsContext Context { get; set; }
 

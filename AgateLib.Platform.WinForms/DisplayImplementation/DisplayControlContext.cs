@@ -28,11 +28,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 	class DisplayControlContext : ApplicationContext
 	{
 		private List<Form> forms = new List<Form>();
-
-		public DisplayControlContext()
-		{
-		}
-
+		
 		public void AddForm(Form frm)
 		{
 			forms.Add(frm);

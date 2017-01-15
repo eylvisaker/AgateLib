@@ -88,6 +88,8 @@ namespace AgateLib.Platform.WinForms
 
 		protected override void Dispose(bool disposing)
 		{
+			Core.IsAlive = false;
+
 			primaryWindow?.ExitMessageLoop();
 
 			while (agateThread?.ThreadState == ThreadState.Running)

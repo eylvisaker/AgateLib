@@ -37,6 +37,7 @@ Press arrow keys to adjust resolution
     F11 - {resolutions[10 % resolutions.Count]} - Stretch
     F12 - {resolutions[11 % resolutions.Count]} - Stretch";
 
+		private DisplayWindow wind;
 		Point mousePosition;
 
 		public string Name => "Full Screen";
@@ -47,7 +48,8 @@ Press arrow keys to adjust resolution
 
 		public void Run()
 		{
-			DisplayWindow wind = DisplayWindow.CreateFullScreen("Hello World", 640, 480);
+			wind = DisplayWindow.CreateFullScreen(Name, resolutions[3]);
+
 			Surface mySurface = new Surface("Images/jellybean.png");
 
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
@@ -55,15 +57,11 @@ Press arrow keys to adjust resolution
 
 			IFont font = Font.AgateSans;
 
-			int frames = 1;
-
 			Size bottomSize = font.MeasureString(bottomText);
 			Size topSize = font.MeasureString(topText + "abc");
 
 			// Run the program while the window is open.
-			while (Core.IsAlive &&
-				Input.Unhandled.Keys[KeyCode.Escape] == false &&
-				Input.Unhandled.Keys[KeyCode.Tilde] == false)
+			while (Core.IsAlive)
 			{
 				var mouseText = topText + $"Mouse: {mousePosition}";
 
@@ -74,22 +72,46 @@ Press arrow keys to adjust resolution
 
 				Display.FillRect(new Rectangle(0, 0, Display.CurrentWindow.Width, topSize.Height),
 					Color.Maroon);
-					
+
 				font.DrawText(mouseText);
 
 				mySurface.Draw(mousePosition.X, mousePosition.Y);
 
 				Display.EndFrame();
 				Core.KeepAlive();
-				frames++;
 			}
+
+			mySurface.Dispose();
+			wind.Dispose();
 		}
 
 		void Keyboard_KeyDown(object sender, AgateInputEventArgs e)
 		{
-			switch(e.KeyCode)
+			switch (e.KeyCode)
 			{
+				case KeyCode.Escape:
+					Core.IsAlive = false;
+					break;
 
+				case KeyCode.F1:
+				case KeyCode.F2:
+				case KeyCode.F3:
+				case KeyCode.F4:
+				case KeyCode.F5:
+				case KeyCode.F6:
+				case KeyCode.F7:
+				case KeyCode.F8:
+				case KeyCode.F9:
+				case KeyCode.F10:
+				case KeyCode.F11:
+				case KeyCode.F12:
+					var index = e.KeyCode - KeyCode.F1;
+
+					wind.Dispose();
+					wind = DisplayWindow.CreateFullScreen(Name,
+						resolutions[index % resolutions.Count]);
+
+					break;
 			}
 		}
 

@@ -13,7 +13,7 @@ namespace AgateLib.Tests.DisplayTests
 		string text = "Press Esc or Tilde to exit.\nStarting Text";
 		Point mousePosition;
 
-		public string Name => "Full Screen";
+		public string Name => "Full Screen All Monitors";
 
 		public string Category => "Display";
 
