@@ -579,6 +579,8 @@ namespace AgateLib.DisplayLib.ImplementationBase
 			}
 		}
 
+		public abstract IScreenConfiguration Screens { get; }
+
 		private void TransferShader2DSettings(IShader2D target, IShader2D src)
 		{
 			if (target.CoordinateSystem.IsEmpty)

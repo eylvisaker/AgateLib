@@ -21,14 +21,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgateLib.DisplayLib;
 using AgateLib.DisplayLib.BitmapFont;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.Drivers;
+using AgateLib.Quality;
 
 namespace AgateLib.Platform.Test.Display
 {
 	public class FakeDisplayDriver : DisplayImpl
 	{
+		private FakeScreenConfiguration screens;
+
+		public FakeDisplayDriver()
+		{
+			screens = new FakeScreenConfiguration();
+		}
+
+		public override IScreenConfiguration Screens => screens;
+
+		public FakeScreenConfiguration ScreenConfiguration
+		{
+			get { return screens; }
+			set
+			{
+				Require.ArgumentNotNull(value, nameof(ScreenConfiguration));
+
+				screens = value;
+			}
+		}
 
 		public override bool CapsBool(AgateLib.DisplayLib.DisplayBoolCaps caps)
 		{

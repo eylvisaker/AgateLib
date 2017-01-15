@@ -38,8 +38,6 @@ namespace AgateLib.UnitTests.UserInterface
 
 			Adapter = InterfaceRoot.Renderer.Adapter;
 
-			InterfaceRoot.LayoutEngine.UpdateLayout(InterfaceRoot);
-
 			InitializeTest();
 		}
 

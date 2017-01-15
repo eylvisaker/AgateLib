@@ -112,12 +112,6 @@ namespace AgateLib.Platform.WinForms
 			Core.Dispose();
 		}
 
-		[Obsolete("Use InitializeAgateLib instead.", true)]
-		public void AgateLibInitialize()
-		{
-			InitializeAgateLib();
-		}
-
 		public void InitializeAgateLib()
 		{
 			entryAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
@@ -229,11 +223,20 @@ namespace AgateLib.Platform.WinForms
 
 			if (CreateFullScreenWindow)
 			{
-				var fullScreenSize = DesiredDisplayWindowResolution;
+				switch (FullScreenCaptureMode)
+				{
+					case FullScreenCaptureMode.PrimaryScreenOnly:
+						var fullScreenSize = DesiredDisplayWindowResolution;
 
-				window = DisplayWindow.CreateFullScreen(
-					ApplicationName,
-					new Resolution(fullScreenSize, FullScreenRenderMode));
+						window = DisplayWindow.CreateFullScreen(
+							ApplicationName,
+							new Resolution(fullScreenSize, FullScreenRenderMode));
+
+						break;
+
+					default:
+						throw new NotImplementedException();
+				}
 			}
 			else
 			{
@@ -242,8 +245,8 @@ namespace AgateLib.Platform.WinForms
 				var scale = IgnoreDesktopScaling ? 1.0 : DesktopScaling;
 
 				var windowSize = new Size(
-					(int)(size.Width * scale),
-					(int)(size.Height * scale));
+					(int) (size.Width * scale),
+					(int) (size.Height * scale));
 
 				window = DisplayWindow.CreateWindowed(
 					ApplicationName,

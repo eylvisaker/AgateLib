@@ -93,6 +93,8 @@ namespace AgateLib.Resources.Managers.UserInterface
 				gui.FacetName = facet.FacetName;
 
 				adapter.InitializeStyleData(gui);
+
+				layoutEngine.UpdateLayout(gui);
 			}
 			catch (Exception e) when (!(e is AgateException))
 			{

@@ -155,6 +155,8 @@
     <Compile Include="DisplayLib\FontExtensions.cs" />
     <Compile Include="DisplayLib\RenderMode.cs" />
     <Compile Include="DisplayLib\Resolution.cs" />
+    <Compile Include="DisplayLib\ScreenConfiguration.cs" />
+    <Compile Include="DisplayLib\ScreenInfo.cs" />
     <Compile Include="Geometry\TypeConverters\RectangleConverterYaml.cs" />
     <Compile Include="Configuration\IAgateSetup.cs" />
     <Compile Include="InputLib\HandlerState.cs" />

@@ -28,81 +28,63 @@ namespace AgateLib
 {
 	public static class SceneStack
 	{
-		static List<Scene> mScenes => Core.State.Scenes;
+		private static List<Scene> Scenes => Core.State.Scenes;
 
-		public static void Add(Scene scene)
-		{
-			if (mScenes.Contains(scene))
-				throw new InvalidOperationException();
-
-			mScenes.Add(scene);
-
-			scene.OnSceneStart();
-		}
-		public static void Remove(Scene scene)
-		{
-			if (mScenes.Contains(scene) == false)
-				throw new InvalidOperationException();
-
-			scene.OnSceneEnd();
-
-			mScenes.Remove(scene);
-		}
-
-		public static Scene CurrentScene
-		{
-			get { return mScenes[mScenes.Count - 1]; }
-		}
-
-		static IEnumerable<Scene> ScenesAbove(Func<Scene, bool> pred)
-		{
-			if (mScenes.Count == 0)
-				yield break;
-
-			int bottomIndex = 0;
-
-			for (int i = mScenes.Count - 1; i >= 0; i--)
-			{
-				if (mScenes[i].UpdateBelow == false)
-					bottomIndex = i;
-			}
-
-			for (int i = bottomIndex; i < mScenes.Count; i++)
-				yield return mScenes[i];
-		}
+		public static Scene CurrentScene => Scenes[Scenes.Count - 1];
 
 		public static IEnumerable<Scene> UpdateScenes
 		{
 			get { return ScenesAbove(x => x.UpdateBelow == false); }
 		}
+
 		public static IEnumerable<Scene> DrawScenes
 		{
 			get { return ScenesAbove(x => x.DrawBelow == false); }
 		}
 
-		public static int Count { get { return mScenes.Count; } }
+		public static int Count => Scenes.Count;
 
+		public static void Add(Scene scene)
+		{
+			if (Scenes.Contains(scene))
+				throw new InvalidOperationException();
+
+			Scenes.Add(scene);
+
+			scene.OnSceneStart();
+		}
+
+		public static void Remove(Scene scene)
+		{
+			if (Scenes.Contains(scene) == false)
+				throw new InvalidOperationException();
+
+			scene.OnSceneEnd();
+
+			Scenes.Remove(scene);
+		}
+		
 		public static bool Contains(Scene scene)
 		{
-			return mScenes.Contains(scene);
+			return Scenes.Contains(scene);
 		}
 
 		public static void CheckForFinishedScenes()
 		{
-			while (mScenes.Count > 0 && CurrentScene.SceneFinished)
+			while (Scenes.Count > 0 && CurrentScene.SceneFinished)
 			{
-				mScenes.Remove(CurrentScene);
+				Scenes.Remove(CurrentScene);
 			}
 		}
 
 		public static void Clear()
 		{
-			mScenes.Clear();
+			Scenes.Clear();
 		}
 
 		public static void Start(Scene sceneToStartWith)
 		{
-			Condition.RequireArgumentNotNull(sceneToStartWith, nameof(sceneToStartWith));
+			Require.ArgumentNotNull(sceneToStartWith, nameof(sceneToStartWith));
 
 			if (sceneToStartWith != null)
 				Add(sceneToStartWith);
@@ -126,6 +108,23 @@ namespace AgateLib
 
 			Display.EndFrame();
 			Core.KeepAlive();
+		}
+
+		private static IEnumerable<Scene> ScenesAbove(Func<Scene, bool> pred)
+		{
+			if (Scenes.Count == 0)
+				yield break;
+
+			int bottomIndex = 0;
+
+			for (int i = Scenes.Count - 1; i >= 0; i--)
+			{
+				if (Scenes[i].UpdateBelow == false)
+					bottomIndex = i;
+			}
+
+			for (int i = bottomIndex; i < Scenes.Count; i++)
+				yield return Scenes[i];
 		}
 	}
 }

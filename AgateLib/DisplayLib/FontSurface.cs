@@ -119,6 +119,7 @@ namespace AgateLib.DisplayLib
 		{
 			return mImpl.MeasureString(state, text);
 		}
+
 		/// <summary>
 		/// Gets the height in pixels of a single line of text.
 		/// </summary>

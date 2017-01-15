@@ -32,14 +32,15 @@ namespace AgateLib.Platform.Test.Display
 		public FakeFontSurface()
 		{ }
 
-		public FakeFontSurface(string fontFamily, float sizeInPoints, FontStyles style)
+		public FakeFontSurface(string fontFamily, float sizeInPointsInPoints, FontStyles style)
 		{
 			this.FontName = fontFamily;
-			this.Size = Size;
+			this.SizeInPoints = sizeInPointsInPoints;
+			this.Height = (int)SizeInPoints;
 			this.Style = style;
 		}
 
-		public int Size { get; set; }
+		public float SizeInPoints { get; set; }
 
 		public FontStyles Style { get; set; }
 
@@ -47,7 +48,7 @@ namespace AgateLib.Platform.Test.Display
 
 		public override int FontHeight(FontState state)
 		{
-			return (int)(state.Size / (double)Size * Height);
+			return (int)(state.Size / (double)SizeInPoints * Height);
 		}
 
 		public override void DrawText(FontState state)
@@ -60,7 +61,7 @@ namespace AgateLib.Platform.Test.Display
 
 		public override Size MeasureString(FontState state, string text)
 		{
-			return new Size(Height * text.Length, Height);
+			return new Size(Height * text.Length / 2, Height);
 		}
 	}
 

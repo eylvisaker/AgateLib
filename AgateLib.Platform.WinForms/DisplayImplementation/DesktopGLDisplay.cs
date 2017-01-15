@@ -54,6 +54,9 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		DisplayWindow mFakeDisplayWindow;
 
 		PrimitiveRenderer mPrimitives;
+		private IScreenConfiguration screens = new WinFormsScreenConfiguration();
+
+		public override IScreenConfiguration Screens => screens;
 
 		public Surface WhiteSurface
 		{

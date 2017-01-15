@@ -57,42 +57,6 @@ namespace AgateLib.DisplayLib
 	/// </example>
 	public static class Display
 	{
-		private static DisplayState State => Core.State?.Display;
-
-
-		/// <summary>
-		///     Event fired when PackAllSurfacesEvent
-		/// </summary>
-		internal static event EventHandler PackAllSurfacesEvent
-		{
-			add { State.PackAllSurfacesEvent += value; }
-			remove { State.PackAllSurfacesEvent -= value; }
-		}
-
-		/// <summary>
-		///     Event that is called when Display.Dispose() is invoked, to shut down the
-		///     display system and release all resources.
-		/// </summary>
-		public static event Action DisposeDisplay
-		{
-			add { State.DisposeDisplay += value; }
-			remove { State.DisposeDisplay -= value; }
-		}
-
-		/// <summary>
-		///     Gets the object which handles all of the actual calls to Display functions.
-		///     This may be cast to a surface object in whatever rendering library
-		///     is being used (eg. if using the MDX_1_1 library, this can be cast
-		///     to an MDX1_Display object).  You only need to use this if you
-		///     want to access features which are specific to the graphics library
-		///     you're using.
-		/// </summary>
-		public static DisplayImpl Impl
-		{
-			get { return Core.State.Display.Impl; }
-			private set { Core.State.Display.Impl = value; }
-		}
-
 		/// <summary>
 		///     Initializes the display with the passed object implementing DisplayImpl.
 		/// </summary>
@@ -110,22 +74,6 @@ namespace AgateLib.DisplayLib
 
 			InitializeDefaultResources();
 		}
-
-		private static void InitializeDefaultResources()
-		{
-			var res = new DefaultResources();
-
-			var task = Core.State.Factory.DisplayFactory.InitializeDefaultResourcesAsync(res);
-			Core.State.Display.DefaultResources = res;
-
-			task.GetAwaiter().GetResult();
-		}
-
-		/// <summary>
-		///     Gets the RenderStateAdapter object which is used to set and retrieve render
-		///     states for the display device.
-		/// </summary>
-		public static RenderStateAdapter RenderState => State?.RenderState;
 
 		/// <summary>
 		///     Disposes of the Display.
@@ -153,6 +101,57 @@ namespace AgateLib.DisplayLib
 				Impl = null;
 			}
 		}
+
+		/// <summary>
+		///     Event fired when PackAllSurfacesEvent
+		/// </summary>
+		internal static event EventHandler PackAllSurfacesEvent
+		{
+			add { State.PackAllSurfacesEvent += value; }
+			remove { State.PackAllSurfacesEvent -= value; }
+		}
+
+		/// <summary>
+		///     Event that is called when Display.Dispose() is invoked, to shut down the
+		///     display system and release all resources.
+		/// </summary>
+		public static event Action DisposeDisplay
+		{
+			add { State.DisposeDisplay += value; }
+			remove { State.DisposeDisplay -= value; }
+		}
+
+		private static DisplayState State => Core.State?.Display;
+
+		/// <summary>
+		///     Gets the object which handles all of the actual calls to Display functions.
+		///     This may be cast to a surface object in whatever rendering library
+		///     is being used (eg. if using the MDX_1_1 library, this can be cast
+		///     to an MDX1_Display object).  You only need to use this if you
+		///     want to access features which are specific to the graphics library
+		///     you're using.
+		/// </summary>
+		public static DisplayImpl Impl
+		{
+			get { return State.Impl; }
+			private set { State.Impl = value; }
+		}
+
+		/// <summary>
+		/// Gets information about the display screens on the system.
+		/// </summary>
+		public static IScreenConfiguration Screens => Impl.Screens;
+
+		/// <summary>
+		///     Gets the RenderStateAdapter object which is used to set and retrieve render
+		///     states for the display device.
+		/// </summary>
+		public static RenderStateAdapter RenderState => State?.RenderState;
+
+		/// <summary>
+		///     Gets the capabilities of the Display object.
+		/// </summary>
+		public static DisplayCapsInfo Caps => State.CapsInfo;
 
 		/// <summary>
 		///     Gets the shader that is currently in use.
@@ -217,6 +216,35 @@ namespace AgateLib.DisplayLib
 		{
 			get { return Impl.AlphaThreshold; }
 			set { Impl.AlphaThreshold = value; }
+		}
+
+		/// <summary>
+		///     Gets the amount of time in milliseconds that has passed between this frame
+		///     and the last one.
+		/// </summary>
+		public static double DeltaTime => Impl.DeltaTime;
+
+		/// <summary>
+		///     Returns the maximum size a surface object can be.
+		/// </summary>
+		[Obsolete("Use Display.Caps.MaxSurfaceSize instead.", true)]
+		public static Size MaxSurfaceSize => Caps.MaxSurfaceSize;
+
+		/// <summary>
+		///     Gets the object which handles packing of all surfaces.
+		/// </summary>
+		public static SurfacePacker SurfacePacker
+		{
+			get { return Core.State.Display.SurfacePacker; }
+			private set { Core.State.Display.SurfacePacker = value; }
+		}
+
+		/// <summary>
+		///     Gets the framerate
+		/// </summary>
+		public static double FramesPerSecond
+		{
+			get { return Impl.FramesPerSecond; }
 		}
 
 		/// <summary>
@@ -323,29 +351,12 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		///     Gets the amount of time in milliseconds that has passed between this frame
-		///     and the last one.
-		/// </summary>
-		public static double DeltaTime
-		{
-			get { return Impl.DeltaTime; }
-		}
-
-		/// <summary>
 		///     Provides a means to set the value returned by DeltaTime.
 		/// </summary>
 		/// <param name="deltaTime"></param>
 		public static void SetDeltaTime(double deltaTime)
 		{
 			Impl.SetDeltaTime(deltaTime);
-		}
-
-		/// <summary>
-		///     Gets the framerate
-		/// </summary>
-		public static double FramesPerSecond
-		{
-			get { return Impl.FramesPerSecond; }
 		}
 
 		/// <summary>
@@ -377,24 +388,7 @@ namespace AgateLib.DisplayLib
 				throw new AgateException("You have popped the cliprect too many times.");
 			SetClipRect(Core.State.Display.ClipRects.Pop());
 		}
-
-		/// <summary>
-		///     Returns the maximum size a surface object can be.
-		/// </summary>
-		public static Size MaxSurfaceSize
-		{
-			get { return Caps.MaxSurfaceSize; }
-		}
-
-		/// <summary>
-		///     Gets the object which handles packing of all surfaces.
-		/// </summary>
-		public static SurfacePacker SurfacePacker
-		{
-			get { return Core.State.Display.SurfacePacker; }
-			private set { Core.State.Display.SurfacePacker = value; }
-		}
-
+		
 		/// <summary>
 		///     Takes all surfaces and packs them into a large surface.
 		///     This should minimize swapping of surfaces, and may result in a performance
@@ -644,14 +638,6 @@ namespace AgateLib.DisplayLib
 
 		#endregion
 
-		/// <summary>
-		///     Gets the capabilities of the Display object.
-		/// </summary>
-		public static DisplayCapsInfo Caps
-		{
-			get { return Core.State.Display.CapsInfo; }
-		}
-
 		internal static void SavePixelBuffer(PixelBuffer pixelBuffer, string filename, ImageFileFormat format)
 		{
 			Impl.SavePixelBuffer(pixelBuffer, filename, format);
@@ -672,5 +658,16 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.ShowCursor();
 		}
+
+		private static void InitializeDefaultResources()
+		{
+			var res = new DefaultResources();
+
+			var task = Core.State.Factory.DisplayFactory.InitializeDefaultResourcesAsync(res);
+			Core.State.Display.DefaultResources = res;
+
+			task.GetAwaiter().GetResult();
+		}
+
 	}
 }

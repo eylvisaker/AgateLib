@@ -32,7 +32,7 @@ namespace AgateLib.Platform.Test.Display
 		{
 			FrameBuffer = new FakeFrameBuffer(this);
 
-			Size = size;
+			Resolution = new Resolution(size);
 		}
 
 		public FakeDisplayWindow(DisplayWindow owner, CreateWindowParams windowParams)
@@ -40,6 +40,7 @@ namespace AgateLib.Platform.Test.Display
 		{
 			// TODO: Complete member initialization
 			Owner = owner;
+			Resolution = windowParams.Resolution?.Clone();
 			this.windowParams = windowParams;
 		}
 
@@ -58,7 +59,7 @@ namespace AgateLib.Platform.Test.Display
 
 		public override FrameBufferImpl FrameBuffer { get; }
 
-		public override IResolution Resolution { get; set; }
+		public sealed override IResolution Resolution { get; set; }
 
 		public override string Title { get; set; }
 	}

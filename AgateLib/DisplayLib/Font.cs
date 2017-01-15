@@ -40,7 +40,7 @@ namespace AgateLib.DisplayLib
 		{
 			impl = new FontImplementation(name);
 
-			state.Size = 14;
+			state.Size = 10;
 		}
 
 		internal IFontImpl Impl { get { return impl; } }

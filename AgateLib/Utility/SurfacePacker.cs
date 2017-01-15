@@ -399,7 +399,7 @@ namespace AgateLib.Utility
 		/// </summary>
 		public void PackQueue()
 		{
-			Size size = Display.MaxSurfaceSize;
+			Size size = Display.Caps.MaxSurfaceSize;
 
 			// Cap the size to avoid running out of memory. 
 			// An ATI Radeon 7850 will apparently report a max surface size of 16384x16384, which would take
