@@ -307,7 +307,7 @@ namespace AgateLib
 		/// </summary>
 		public static void Initialize(IAgateFactory factory)
 		{
-			Condition.Requires<ArgumentNullException>(factory != null);
+			Require.ArgumentNotNull(factory, nameof(factory));
 
 			if (State?.Core.Inititalized ?? false)
 				return;
@@ -336,7 +336,7 @@ namespace AgateLib
 
 		public static void InitAssetLocations(AssetLocations assets)
 		{
-			Condition.Requires<ArgumentNullException>(assets != null);
+			Require.ArgumentNotNull(assets, nameof(assets));
 
 			FileProvider.Initialize(State.Factory.PlatformFactory.ApplicationFolderFileProvider, assets);
 		}
@@ -423,9 +423,9 @@ namespace AgateLib
 
 				if (Display.CurrentWindow == null)
 					break;
-				else if (Display.CurrentWindow.IsClosed)
+				if (Display.CurrentWindow.IsClosed)
 					break;
-				else if (IsAlive == false)
+				if (IsAlive == false)
 					break;
 			}
 
