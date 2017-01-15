@@ -85,27 +85,35 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			hasFrame = windowParams.HasFrame;
 		}
 
-		public override void Dispose()
+		protected override void Dispose(bool disposing)
 		{
-			ExitMessageLoop();
-
-			if (ctxFrameBuffer != null)
-			{
-				ctxFrameBuffer.Dispose();
-				ctxFrameBuffer = null;
-			}
+			SafeDispose(ref ctxFrameBuffer);
 
 			if (wfForm != null)
 			{
 				if (wfForm.InvokeRequired)
-					wfForm.BeginInvoke(new Action(() => wfForm?.Dispose()));
+					wfForm.Invoke(new Action(() => wfForm?.Dispose()));
+				else
+					wfForm.Dispose();
 
-				wfForm.Dispose();
 				wfForm = null;
 			}
+
+			ExitMessageLoop();
+
+			base.Dispose(disposing);
 		}
 
-		private Form TopLevelForm => (Form) wfRenderTarget.TopLevelControl;
+		protected void SafeDispose<T>(ref T disposable) where T : class, IDisposable
+		{
+			if (disposable == null)
+				return;
+
+			disposable.Dispose();
+			disposable = null;
+		}
+
+		private Form TopLevelForm => (Form)wfRenderTarget.TopLevelControl;
 
 		protected abstract Size ContextSize { get; }
 
@@ -220,15 +228,15 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 					"System.Windows.Forms.XplatUIX11 missing. Unsupported platform or Mono runtime version, aborting.");
 
 			// get the required handles from the X11 API.
-			var display = (IntPtr) GetStaticFieldValue(xplatui, "DisplayHandle");
-			var rootWindow = (IntPtr) GetStaticFieldValue(xplatui, "RootWindow");
-			var screen = (int) GetStaticFieldValue(xplatui, "ScreenNo");
+			var display = (IntPtr)GetStaticFieldValue(xplatui, "DisplayHandle");
+			var rootWindow = (IntPtr)GetStaticFieldValue(xplatui, "RootWindow");
+			var screen = (int)GetStaticFieldValue(xplatui, "ScreenNo");
 
 			// get the X11 Visual info for the display.
 			var info = new XVisualInfo();
 			info.VisualID = mode.Index.Value;
 			int dummy;
-			info = (XVisualInfo) Marshal.PtrToStructure(
+			info = (XVisualInfo)Marshal.PtrToStructure(
 				XGetVisualInfo(display, XVisualInfoMask.ID, ref info, out dummy), typeof(XVisualInfo));
 
 			// set the X11 colormap.
@@ -402,7 +410,7 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 		private static IntPtr XGetVisualInfo(IntPtr display, XVisualInfoMask vinfo_mask, ref XVisualInfo template,
 			out int nitems)
 		{
-			return XGetVisualInfoInternal(display, (IntPtr) (int) vinfo_mask, ref template, out nitems);
+			return XGetVisualInfoInternal(display, (IntPtr)(int)vinfo_mask, ref template, out nitems);
 		}
 
 		[Flags]

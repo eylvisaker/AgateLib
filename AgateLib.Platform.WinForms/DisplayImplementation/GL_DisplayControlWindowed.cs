@@ -85,28 +85,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			display.InitializeCurrentContext();
 		}
 
-		public override void Dispose()
-		{
-			ExitMessageLoop();
-
-			if (ctxFrameBuffer != null)
-			{
-				ctxFrameBuffer.Dispose();
-				ctxFrameBuffer = null;
-			}
-
-			if (wfForm != null)
-			{
-				if (wfForm.InvokeRequired)
-				{
-					wfForm.BeginInvoke(new Action(() => wfForm?.Dispose()));
-				}
-
-				wfForm.Dispose();
-				wfForm = null;
-			}
-		}
-
 		protected override Size ContextSize => Size;
 
 		public override bool IsClosed => isClosed;

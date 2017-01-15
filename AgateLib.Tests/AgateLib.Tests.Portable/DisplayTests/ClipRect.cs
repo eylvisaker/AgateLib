@@ -6,6 +6,7 @@ using AgateLib;
 using AgateLib.DisplayLib;
 using AgateLib.Geometry;
 using AgateLib.Configuration;
+using AgateLib.InputLib;
 
 namespace AgateLib.Tests.DisplayTests
 {
@@ -71,6 +72,12 @@ namespace AgateLib.Tests.DisplayTests
 
 		public void Run()
 		{
+			Input.Unhandled.KeyDown += (sender, e) =>
+			{
+				if (e.KeyCode == KeyCode.Escape)
+					Core.IsAlive = false;
+			};
+
 			SceneStack.Start(this);
 		}
 	}

@@ -144,7 +144,6 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		public GLDrawBuffer DrawBuffer => ((GL_FrameBuffer)RenderTarget.Impl).DrawBuffer;
 
-		// TODO: Test clip rect stuff.
 		public override void SetClipRect(Rectangle newClipRect)
 		{
 			GL.Viewport(newClipRect.X, mRenderTarget.Height - newClipRect.Bottom,

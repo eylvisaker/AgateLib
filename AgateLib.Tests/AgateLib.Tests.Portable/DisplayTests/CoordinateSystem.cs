@@ -79,7 +79,6 @@ namespace AgateLib.Tests.DisplayTests
 			}
 			else if (e.KeyCode == KeyCode.Escape)
 				Display.CurrentWindow.Dispose();
-
 		}
 
 		private void IncrementCounter()

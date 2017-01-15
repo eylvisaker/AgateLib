@@ -177,7 +177,7 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Disposes of unmanaged resources.
+		/// Disposes of the DisplayWindow.
 		/// </summary>
 		public void Dispose()
 		{
@@ -187,6 +187,7 @@ namespace AgateLib.DisplayLib
 				mImpl = null;
 			}
 		}
+
 		/// <summary>
 		/// Returns true if this DisplayWindow has been closed, either
 		/// by a call to Dispose(), or perhaps the user clicked the close

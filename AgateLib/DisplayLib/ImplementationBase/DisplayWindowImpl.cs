@@ -50,9 +50,24 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		public event EventHandler<AgateInputEventArgs> InputEvent;
 
 		/// <summary>
-		/// Disposes of unmanaged resources.
+		/// Disposes of the DisplayWindowImpl object.
 		/// </summary>
-		public abstract void Dispose();
+		public void Dispose()
+		{
+			Dispose(true);
+		}
+
+		/// <summary>
+		/// Override to clean up resources.
+		/// </summary>
+		/// <param name="disposing"></param>
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				Closed?.Invoke(this, EventArgs.Empty);
+			}
+		}
 
 		/// <summary>
 		/// Returns true if the DisplayWindowImpl has been closed.

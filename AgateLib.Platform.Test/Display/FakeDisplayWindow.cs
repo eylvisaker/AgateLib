@@ -43,9 +43,11 @@ namespace AgateLib.Platform.Test.Display
 			this.windowParams = windowParams;
 		}
 
-		public override void Dispose()
+		protected override void Dispose(bool disposing)
 		{
 			isDisposed = true;
+
+			base.Dispose(disposing);
 		}
 
 		public DisplayWindow Owner { get; set; }

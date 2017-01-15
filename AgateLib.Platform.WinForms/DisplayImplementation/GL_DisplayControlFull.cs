@@ -70,26 +70,12 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 		protected override Size ContextSize => targetScreen.Bounds.Size.ToGeometry();
 
-		public override void Dispose()
+		protected override void Dispose(bool disposing)
 		{
-			if (ctxFrameBuffer != null)
-			{
-				ctxFrameBuffer.Dispose();
-				ctxFrameBuffer = null;
-			}
+			SafeDispose(ref rtFrameBuffer);
+			SafeDispose(ref rtSurface);
 
-			if (wfForm != null)
-			{
-				if (wfForm.InvokeRequired)
-				{
-					wfForm.BeginInvoke(new Action(() => wfForm?.Dispose()));
-				}
-
-				wfForm.Dispose();
-				wfForm = null;
-			}
-
-			ExitMessageLoop();   
+			base.Dispose(disposing);
 		}
 
 		public override FrameBufferImpl FrameBuffer =>
