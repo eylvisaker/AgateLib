@@ -13,9 +13,9 @@ namespace AgateLib.Quality
 		/// Throws an ArgumentNull Exception if the specified
 		/// argument is null.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="param"></param>
-		/// <param name="paramName"></param>
+		/// <typeparam name="T">The type of the argument.</typeparam>
+		/// <param name="param">The argument which should not be null.</param>
+		/// <param name="paramName">The nameof(param).</param>
 		[DebuggerStepThrough]
 		public static void ArgumentNotNull<T>(T param, string paramName) where T : class
 		{
@@ -26,11 +26,42 @@ namespace AgateLib.Quality
 		/// Throws an ArgumentNull Exception if the specified
 		/// argument is null.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="param"></param>
-		/// <param name="paramName"></param>
+		/// <typeparam name="T">The type of the argument.</typeparam>
+		/// <param name="param">The argument which should not be null.</param>
+		/// <param name="paramName">The nameof(param).</param>
+		/// <param name="message">Message of the exception should param be null.</param>
 		[DebuggerStepThrough]
 		public static void ArgumentNotNull<T>(T param, string paramName, string message) where T : class
+		{
+			if (param != null)
+				return;
+
+			throw new ArgumentNullException(paramName, message);
+		}
+
+		/// <summary>
+		/// Throws an ArgumentNull Exception if the specified
+		/// argument is null.
+		/// </summary>
+		/// <typeparam name="T">The type of the argument.</typeparam>
+		/// <param name="param">The argument which should not be null.</param>
+		/// <param name="paramName">The nameof(param).</param>
+		[DebuggerStepThrough]
+		public static void ArgumentNotNull<T>(T? param, string paramName) where T : struct
+		{
+			ArgumentNotNull(param, paramName, paramName + " must not be null");
+		}
+
+		/// <summary>
+		/// Throws an ArgumentNull Exception if the specified
+		/// argument is null.
+		/// </summary>
+		/// <typeparam name="T">The type of the argument.</typeparam>
+		/// <param name="param">The argument which should not be null.</param>
+		/// <param name="paramName">The nameof(param).</param>
+		/// <param name="message">Message of the exception should param be null.</param>
+		[DebuggerStepThrough]
+		public static void ArgumentNotNull<T>(T? param, string paramName, string message) where T : struct
 		{
 			if (param != null)
 				return;

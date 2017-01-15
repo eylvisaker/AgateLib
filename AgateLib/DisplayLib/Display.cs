@@ -16,33 +16,29 @@
 //
 //     Contributor(s): Erik Ylvisaker
 //
+
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using AgateLib.Configuration.State;
+using AgateLib.Diagnostics;
+using AgateLib.DisplayLib.DefaultAssets;
 using AgateLib.DisplayLib.ImplementationBase;
 using AgateLib.DisplayLib.Shaders;
 using AgateLib.Geometry;
 using AgateLib.Quality;
 using AgateLib.Utility;
-using AgateLib.Diagnostics;
-using AgateLib.DisplayLib.DefaultAssets;
-using AgateLib.Configuration.State;
 
 namespace AgateLib.DisplayLib
 {
 	/// <summary>
-	/// Static class which contains all basic functions for drawing onto the Display.
-	/// This class is most central to game rendering.  At the beginning and end of each frame
-	/// Display.BeginFrame() and Display.EndFrame() must be called.  All drawing calls must
-	/// occur between BeginFrame and EndFrame.
-	/// 
-	/// Display.Dispose() must be called before the program exits.
-	/// 
+	///     Static class which contains all basic functions for drawing onto the Display.
+	///     This class is most central to game rendering.  At the beginning and end of each frame
+	///     Display.BeginFrame() and Display.EndFrame() must be called.  All drawing calls must
+	///     occur between BeginFrame and EndFrame.
+	///     Display.Dispose() must be called before the program exits.
 	/// </summary>
-	/// 
-	/// <example> This example shows how a basic render loop works.
-	/// <code>
+	/// <example>
+	///     This example shows how a basic render loop works.
+	///     <code>
 	/// // These usings should be at the top.
 	/// using AgateLib;
 	/// using AgateLib.DisplayLib;
@@ -63,32 +59,33 @@ namespace AgateLib.DisplayLib
 	{
 		private static DisplayState State => Core.State?.Display;
 
-		/// <summary>
-		/// Event that is called when Display.Dispose() is invoked, to shut down the
-		/// display system and release all resources.
-		/// </summary>
-		public static event Action DisposeDisplay
-		{
-			add { Core.State.Display.DisposeDisplay += value; }
-			remove { Core.State.Display.DisposeDisplay -= value; }
-		}
 
 		/// <summary>
-		/// Event fired when PackAllSurfacesEvent
+		///     Event fired when PackAllSurfacesEvent
 		/// </summary>
 		internal static event EventHandler PackAllSurfacesEvent
 		{
-			add { Core.State.Display.PackAllSurfacesEvent += value; }
-			remove { Core.State.Display.PackAllSurfacesEvent -= value; }
+			add { State.PackAllSurfacesEvent += value; }
+			remove { State.PackAllSurfacesEvent -= value; }
 		}
 
 		/// <summary>
-		/// Gets the object which handles all of the actual calls to Display functions.
-		/// This may be cast to a surface object in whatever rendering library
-		/// is being used (eg. if using the MDX_1_1 library, this can be cast
-		/// to an MDX1_Display object).  You only need to use this if you
-		/// want to access features which are specific to the graphics library
-		/// you're using.
+		///     Event that is called when Display.Dispose() is invoked, to shut down the
+		///     display system and release all resources.
+		/// </summary>
+		public static event Action DisposeDisplay
+		{
+			add { State.DisposeDisplay += value; }
+			remove { State.DisposeDisplay -= value; }
+		}
+
+		/// <summary>
+		///     Gets the object which handles all of the actual calls to Display functions.
+		///     This may be cast to a surface object in whatever rendering library
+		///     is being used (eg. if using the MDX_1_1 library, this can be cast
+		///     to an MDX1_Display object).  You only need to use this if you
+		///     want to access features which are specific to the graphics library
+		///     you're using.
 		/// </summary>
 		public static DisplayImpl Impl
 		{
@@ -97,26 +94,26 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Initializes the display with the passed object implementing DisplayImpl.
+		///     Initializes the display with the passed object implementing DisplayImpl.
 		/// </summary>
-		/// <param name="displayType"></param>
+		/// <param name="impl"></param>
 		public static void Initialize(DisplayImpl impl)
 		{
-			Condition.Requires<ArgumentNullException>(impl != null, "Cannot initialize Display with a null object.");
+			Require.ArgumentNotNull(impl, nameof(impl), "Cannot initialize Display with a null object.");
 
 			Impl = impl;
 			Impl.Initialize();
 
 			SurfacePacker = new SurfacePacker();
 
-			Shaders.AgateBuiltInShaders.InitializeShaders();
+			AgateBuiltInShaders.InitializeShaders();
 
 			InitializeDefaultResources();
 		}
 
-		static void InitializeDefaultResources()
+		private static void InitializeDefaultResources()
 		{
-			DefaultResources res = new DefaultResources();
+			var res = new DefaultResources();
 
 			var task = Core.State.Factory.DisplayFactory.InitializeDefaultResourcesAsync(res);
 			Core.State.Display.DefaultResources = res;
@@ -125,16 +122,13 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Gets the RenderStateAdapter object which is used to set and retrieve render
-		/// states for the display device.
+		///     Gets the RenderStateAdapter object which is used to set and retrieve render
+		///     states for the display device.
 		/// </summary>
-		public static RenderStateAdapter RenderState
-		{
-			get { return Core.State.Display.RenderState; }
-		}
+		public static RenderStateAdapter RenderState => State?.RenderState;
 
 		/// <summary>
-		/// Disposes of the Display.
+		///     Disposes of the Display.
 		/// </summary>
 		public static void Dispose()
 		{
@@ -147,11 +141,11 @@ namespace AgateLib.DisplayLib
 			// eligible for garbage collection.
 			State.DisposeDisplay = null;
 			State.PackAllSurfacesEvent = null;
-			
+
 			State.DefaultResources?.Dispose();
 			State.DefaultResources = null;
 
-			Shaders.AgateBuiltInShaders.DisposeShaders();
+			AgateBuiltInShaders.DisposeShaders();
 
 			if (Impl != null)
 			{
@@ -160,51 +154,34 @@ namespace AgateLib.DisplayLib
 			}
 		}
 
-		internal static bool IsAppIdle
-		{
-			get
-			{
-				if (Impl == null)
-					return false;
-
-				return Impl.IsAppIdle;
-			}
-		}
-
 		/// <summary>
-		/// Gets the shader that is currently in use.
+		///     Gets the shader that is currently in use.
 		/// </summary>
-		public static Shaders.AgateShader Shader
+		public static AgateShader Shader
 		{
 			get { return Impl.Shader; }
 			internal set { Impl.Shader = value; }
 		}
 
 		/// <summary>
-		/// Returns the PixelFormat of Surfaces which are created to be compatible
-		/// with the display mode.  If you want to create a PixelBuffer which does
-		/// not require a conversion when written to a Surface, use this format.
+		///     Returns the PixelFormat of Surfaces which are created to be compatible
+		///     with the display mode.  If you want to create a PixelBuffer which does
+		///     not require a conversion when written to a Surface, use this format.
 		/// </summary>
-		public static PixelFormat DefaultSurfaceFormat
-		{
-			get { return Impl.DefaultSurfaceFormat; }
-		}
+		public static PixelFormat DefaultSurfaceFormat => Impl.DefaultSurfaceFormat;
 
 		/// <summary>
-		/// Gets or sets the current render target.
-		/// Must be called outside of BeginFrame..EndFrame blocks
-		/// (usually just before BeginFrame).
+		///     Gets or sets the current render target.
+		///     Must be called outside of BeginFrame..EndFrame blocks
+		///     (usually just before BeginFrame).
 		/// </summary>
 		public static FrameBuffer RenderTarget
 		{
-			get
-			{
-				return Impl.RenderTarget;
-			}
+			get { return Impl.RenderTarget; }
 			set
 			{
-				if (value == null)
-					throw new ArgumentNullException("RenderTarget", "RenderTarget cannot be null.");
+				Require.ArgumentNotNull(value, nameof(RenderTarget),
+					"RenderTarget cannot be set to null.");
 
 				Impl.RenderTarget = value;
 
@@ -214,15 +191,12 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Gets the coordinate system for the current render target. 
+		///     Gets the coordinate system for the current render target.
 		/// </summary>
-		public static Rectangle Coordinates
-		{
-			get { return RenderTarget.CoordinateSystem.Coordinates; }
-		}
+		public static Rectangle Coordinates => RenderTarget.CoordinateSystem.Coordinates;
 
 		/// <summary>
-		/// Gets the last render target used which was a DisplayWindow.
+		///     Gets the last render target used which was a DisplayWindow.
 		/// </summary>
 		public static DisplayWindow CurrentWindow
 		{
@@ -235,9 +209,9 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Gets or sets the threshold value for alpha transparency below which
-		/// pixels are considered completely transparent, and may not be drawn.
-		/// Acceptable values are within the range of 0 to 1.
+		///     Gets or sets the threshold value for alpha transparency below which
+		///     pixels are considered completely transparent, and may not be drawn.
+		///     Acceptable values are within the range of 0 to 1.
 		/// </summary>
 		public static double AlphaThreshold
 		{
@@ -246,14 +220,15 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Clears the buffer to black.
+		///     Clears the buffer to black.
 		/// </summary>
 		public static void Clear()
 		{
 			Clear(Color.Black);
 		}
+
 		/// <summary>
-		/// Clears the buffer to the specified color.
+		///     Clears the buffer to the specified color.
 		/// </summary>
 		/// <param name="a">Alpha value, between 0 and 255.</param>
 		/// <param name="b">Blue value, between 0 and 255.</param>
@@ -263,26 +238,29 @@ namespace AgateLib.DisplayLib
 		{
 			Clear(Color.FromArgb(a, r, g, b));
 		}
+
 		/// <summary>
-		/// Clears the buffer to the specified color.
+		///     Clears the buffer to the specified color.
 		/// </summary>
 		/// <param name="color"></param>
 		public static void Clear(Color color)
 		{
 			Impl.Clear(color);
 		}
+
 		/// <summary>
-		/// Clears the buffer to the specified color.
+		///     Clears the buffer to the specified color.
 		/// </summary>
 		/// <param name="color">32-bit integer indicating the color.  The color will be constructed from Color.FromArgb.</param>
 		public static void Clear(int color)
 		{
 			Impl.Clear(Color.FromArgb(color));
 		}
+
 		/// <summary>
-		/// Clears a region of the buffer to the specified color.
-		/// Should be essentially the same as DrawRect(dest, color), except
-		/// that alpha is not significant in the use of Clear.
+		///     Clears a region of the buffer to the specified color.
+		///     Should be essentially the same as DrawRect(dest, color), except
+		///     that alpha is not significant in the use of Clear.
 		/// </summary>
 		/// <param name="color">Color to clear to.</param>
 		/// <param name="dest">Destination rectangle to clear.</param>
@@ -290,10 +268,11 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.Clear(color, dest);
 		}
+
 		/// <summary>
-		/// Clears a region of the buffer to the specified color.
-		/// Should be essentially the same as DrawRect(dest, color), except
-		/// that alpha is not significant in the use of Clear.
+		///     Clears a region of the buffer to the specified color.
+		///     Should be essentially the same as DrawRect(dest, color), except
+		///     that alpha is not significant in the use of Clear.
 		/// </summary>
 		/// <param name="color"></param>
 		/// <param name="dest"></param>
@@ -301,9 +280,10 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.Clear(Color.FromArgb(color), dest);
 		}
+
 		// BeginFrame and EndFrame must be called at the start and end of each frame.
 		/// <summary>
-		/// Must be called at the start of each frame.
+		///     Must be called at the start of each frame.
 		/// </summary>
 		public static void BeginFrame()
 		{
@@ -312,9 +292,11 @@ namespace AgateLib.DisplayLib
 			if (RenderTarget == null)
 				throw new AgateException("A render target must be set before beginning to render.");
 			if (CurrentWindow.IsClosed)
-				throw new AgateException("The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
+				throw new AgateException(
+					"The current window has been closed, and a new render target has not been set.  A render target must be set to continue rendering.");
 			if (Core.IsAlive == false)
-				throw new AgateException("The user has closed the game window - all game loops should check Core.IsAlive and terminate immediately.");
+				throw new AgateException(
+					"The user has closed the game window - all game loops should check Core.IsAlive and terminate immediately.");
 
 			Impl.BeginFrame();
 
@@ -326,10 +308,11 @@ namespace AgateLib.DisplayLib
 
 			RenderState.AlphaBlend = true;
 		}
+
 		/// <summary>
-		/// EndFrame must be called at the end of each frame.
-		/// By default, this waits for the vertical blank before rendering.
-		/// However, some renderers (ie. System.Drawing) may not support that. 
+		///     EndFrame must be called at the end of each frame.
+		///     By default, this waits for the vertical blank before rendering.
+		///     However, some renderers (ie. System.Drawing) may not support that.
 		/// </summary>
 		public static void EndFrame()
 		{
@@ -340,12 +323,16 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Gets the amount of time in milliseconds that has passed between this frame
-		/// and the last one.
+		///     Gets the amount of time in milliseconds that has passed between this frame
+		///     and the last one.
 		/// </summary>
-		public static double DeltaTime { get { return Impl.DeltaTime; } }
+		public static double DeltaTime
+		{
+			get { return Impl.DeltaTime; }
+		}
+
 		/// <summary>
-		/// Provides a means to set the value returned by DeltaTime.
+		///     Provides a means to set the value returned by DeltaTime.
 		/// </summary>
 		/// <param name="deltaTime"></param>
 		public static void SetDeltaTime(double deltaTime)
@@ -354,12 +341,15 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Gets the framerate
+		///     Gets the framerate
 		/// </summary>
-		public static double FramesPerSecond { get { return Impl.FramesPerSecond; } }
+		public static double FramesPerSecond
+		{
+			get { return Impl.FramesPerSecond; }
+		}
 
 		/// <summary>
-		/// Set the current clipping rect.
+		///     Set the current clipping rect.
 		/// </summary>
 		/// <param name="newClipRect"></param>
 		public static void SetClipRect(Rectangle newClipRect)
@@ -367,8 +357,9 @@ namespace AgateLib.DisplayLib
 			FlushDrawBuffer();
 			Impl.SetClipRect(newClipRect);
 		}
+
 		/// <summary>
-		/// Pushes a clip rect onto the clip rect stack.
+		///     Pushes a clip rect onto the clip rect stack.
 		/// </summary>
 		/// <param name="newClipRect"></param>
 		public static void PushClipRect(Rectangle newClipRect)
@@ -376,30 +367,27 @@ namespace AgateLib.DisplayLib
 			Core.State.Display.ClipRects.Push(Core.State.Display.CurrentClipRect);
 			SetClipRect(newClipRect);
 		}
+
 		/// <summary>
-		/// Pops the clip rect and restores the previous clip rect.
+		///     Pops the clip rect and restores the previous clip rect.
 		/// </summary>
 		public static void PopClipRect()
 		{
 			if (Core.State.Display.ClipRects.Count == 0)
-			{
 				throw new AgateException("You have popped the cliprect too many times.");
-			}
-			else
-			{
-				SetClipRect(Core.State.Display.ClipRects.Pop());
-			}
+			SetClipRect(Core.State.Display.ClipRects.Pop());
 		}
 
 		/// <summary>
-		/// Returns the maximum size a surface object can be.
+		///     Returns the maximum size a surface object can be.
 		/// </summary>
 		public static Size MaxSurfaceSize
 		{
 			get { return Caps.MaxSurfaceSize; }
 		}
+
 		/// <summary>
-		/// Gets the object which handles packing of all surfaces.
+		///     Gets the object which handles packing of all surfaces.
 		/// </summary>
 		public static SurfacePacker SurfacePacker
 		{
@@ -408,13 +396,12 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Takes all surfaces and packs them into a large surface.
-		/// This should minimize swapping of surfaces, and may result in a performance
-		/// increase when using Direct3D or OpenGL.  
-		/// 
-		/// If you use this, it is best to load all your surfaces into memory, 
-		/// mark any you don't want packed (surfaces which may be used as render targets,
-		/// for example), then call Display.PackAllSurfaces().
+		///     Takes all surfaces and packs them into a large surface.
+		///     This should minimize swapping of surfaces, and may result in a performance
+		///     increase when using Direct3D or OpenGL.
+		///     If you use this, it is best to load all your surfaces into memory,
+		///     mark any you don't want packed (surfaces which may be used as render targets,
+		///     for example), then call Display.PackAllSurfaces().
 		/// </summary>
 		public static void PackAllSurfaces()
 		{
@@ -428,9 +415,9 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Returns an array containing information about all available full-screen modes.
-		/// If full screen mode switching is not supported, the array returned has a
-		/// Length of zero.
+		///     Returns an array containing information about all available full-screen modes.
+		///     If full screen mode switching is not supported, the array returned has a
+		///     Length of zero.
 		/// </summary>
 		/// <returns>An array of available full-screen modes.</returns>
 		public static ScreenMode[] EnumScreenModes()
@@ -440,20 +427,20 @@ namespace AgateLib.DisplayLib
 
 		internal static Surface BuildPackedSurface(Size size, SurfacePacker.RectPacker<Surface> packedRects)
 		{
-			Surface result = Impl.BuildPackedSurface(size, packedRects);
+			var result = Impl.BuildPackedSurface(size, packedRects);
 			result.ShouldBePacked = false;
 
 			return result;
 		}
 
 		/// <summary>
-		/// When using Direct3D or OpenGL, calls to Surface.Draw are cached to be sent to 
-		/// the 3D API all as a batch.  Calling Display.FlushDrawBuffer forces all cached
-		/// vertices to be sent to the rendering system.  This method should only be called
-		/// between BeginFrame..EndFrame.  You should not need to call this
-		/// function in normal operation of your application.  If you find that this is necessary
-		/// for proper functioning of your program, there is probably a bug in AgateLib somewhere,
-		/// and please report it at http://www.agatelib.org/
+		///     When using Direct3D or OpenGL, calls to Surface.Draw are cached to be sent to
+		///     the 3D API all as a batch.  Calling Display.FlushDrawBuffer forces all cached
+		///     vertices to be sent to the rendering system.  This method should only be called
+		///     between BeginFrame..EndFrame.  You should not need to call this
+		///     function in normal operation of your application.  If you find that this is necessary
+		///     for proper functioning of your program, there is probably a bug in AgateLib somewhere,
+		///     and please report it at http://www.agatelib.org/
 		/// </summary>
 		public static void FlushDrawBuffer()
 		{
@@ -463,7 +450,7 @@ namespace AgateLib.DisplayLib
 		#region --- Drawing Functions ---
 
 		/// <summary>
-		/// Draws an ellispe within the specified rectangle.
+		///     Draws an ellispe within the specified rectangle.
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
@@ -471,8 +458,9 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.DrawEllipse(rect, color);
 		}
+
 		/// <summary>
-		/// Draws a line between the two points specified.
+		///     Draws a line between the two points specified.
 		/// </summary>
 		/// <param name="x1"></param>
 		/// <param name="y1"></param>
@@ -483,8 +471,9 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.DrawLine(new Point(x1, y1), new Point(x2, y2), color);
 		}
+
 		/// <summary>
-		/// Draws a line between the two points specified.
+		///     Draws a line between the two points specified.
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
@@ -493,9 +482,10 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.DrawLine(a, b, color);
 		}
+
 		/// <summary>
-		/// Draws a bunch of connected lines.  The last point and the
-		/// first point are not connected.
+		///     Draws a bunch of connected lines.  The last point and the
+		///     first point are not connected.
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <param name="color"></param>
@@ -503,14 +493,16 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.DrawLines(pts, color);
 		}
+
 		public static void DrawLines(Color color, params Point[] pts)
 		{
 			Impl.DrawLines(pts, color);
 		}
+
 		/// <summary>
-		/// Draws a bunch of line segments.  Each pair of points represents
-		/// a line segment which is drawn.  No connections between the line segments
-		/// are made, so there must be an even number of points.
+		///     Draws a bunch of line segments.  Each pair of points represents
+		///     a line segment which is drawn.  No connections between the line segments
+		///     are made, so there must be an even number of points.
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <param name="color"></param>
@@ -520,8 +512,9 @@ namespace AgateLib.DisplayLib
 				throw new ArgumentException("pts argument is not an even number of points!");
 			Impl.DrawLineSegments(pts, color);
 		}
+
 		/// <summary>
-		/// Draws the outline of a rectangle.
+		///     Draws the outline of a rectangle.
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
@@ -529,8 +522,9 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.DrawRect(rect, color);
 		}
+
 		/// <summary>
-		/// Draws the outline of a rectangle.
+		///     Draws the outline of a rectangle.
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
@@ -538,8 +532,9 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.DrawRect(rect, color);
 		}
+
 		/// <summary>
-		/// Draws the outline of a rectangle
+		///     Draws the outline of a rectangle
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
@@ -552,16 +547,17 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Draws a filled ellipse inscribed in the specified rectangle.
+		///     Draws a filled ellipse inscribed in the specified rectangle.
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
 		public static void FillEllipse(Rectangle rect, Color color)
 		{
-			Impl.FillEllipse((RectangleF)rect, color);
+			Impl.FillEllipse((RectangleF) rect, color);
 		}
+
 		/// <summary>
-		/// Draws a filled ellipse inscribed in the specified rectangle.
+		///     Draws a filled ellipse inscribed in the specified rectangle.
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
@@ -569,8 +565,9 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.FillEllipse(rect, color);
 		}
+
 		/// <summary>
-		/// Draws a filled polygon.  The last point will be connected to the first point.
+		///     Draws a filled polygon.  The last point will be connected to the first point.
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <param name="color"></param>
@@ -578,8 +575,9 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.FillPolygon(pts, color);
 		}
+
 		/// <summary>
-		/// Draws a filled rectangle.
+		///     Draws a filled rectangle.
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
@@ -587,8 +585,9 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.FillRect(rect, color);
 		}
+
 		/// <summary>
-		/// Draws a filled rectangle.
+		///     Draws a filled rectangle.
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
@@ -599,8 +598,9 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.FillRect(new Rectangle(x, y, width, height), color);
 		}
+
 		/// <summary>
-		/// Draws a filled rectangle with a gradient.
+		///     Draws a filled rectangle with a gradient.
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
@@ -608,8 +608,9 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.FillRect(rect, color);
 		}
+
 		/// <summary>
-		/// Draws a filled rectangle with a gradient.
+		///     Draws a filled rectangle with a gradient.
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
@@ -620,8 +621,9 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.FillRect(new Rectangle(x, y, width, height), color);
 		}
+
 		/// <summary>
-		/// Draws a filled rectangle.
+		///     Draws a filled rectangle.
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
@@ -629,8 +631,9 @@ namespace AgateLib.DisplayLib
 		{
 			Impl.FillRect(rect, color);
 		}
+
 		/// <summary>
-		/// Draws a filled rectangle with a gradient.
+		///     Draws a filled rectangle with a gradient.
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <param name="color"></param>
@@ -639,11 +642,10 @@ namespace AgateLib.DisplayLib
 			Impl.FillRect(rect, color);
 		}
 
-
 		#endregion
 
 		/// <summary>
-		/// Gets the capabilities of the Display object.
+		///     Gets the capabilities of the Display object.
 		/// </summary>
 		public static DisplayCapsInfo Caps
 		{
@@ -656,7 +658,7 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Hides the OS mouse cursor.
+		///     Hides the OS mouse cursor.
 		/// </summary>
 		public static void HideCursor()
 		{
@@ -664,7 +666,7 @@ namespace AgateLib.DisplayLib
 		}
 
 		/// <summary>
-		/// Shows the OS mouse cursor.
+		///     Shows the OS mouse cursor.
 		/// </summary>
 		public static void ShowCursor()
 		{

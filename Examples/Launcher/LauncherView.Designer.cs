@@ -48,7 +48,7 @@
 			this.lstExamples.FormattingEnabled = true;
 			this.lstExamples.Location = new System.Drawing.Point(12, 12);
 			this.lstExamples.Name = "lstExamples";
-			this.lstExamples.Size = new System.Drawing.Size(178, 433);
+			this.lstExamples.Size = new System.Drawing.Size(178, 549);
 			this.lstExamples.TabIndex = 0;
 			this.lstExamples.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstExamples_DrawItem);
 			this.lstExamples.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.lstExamples_MeasureItem);
@@ -62,9 +62,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.pctImage.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.pctImage.Location = new System.Drawing.Point(202, 12);
-			this.pctImage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.pctImage.Margin = new System.Windows.Forms.Padding(2);
 			this.pctImage.Name = "pctImage";
-			this.pctImage.Size = new System.Drawing.Size(466, 393);
+			this.pctImage.Size = new System.Drawing.Size(589, 509);
 			this.pctImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
 			this.pctImage.TabIndex = 1;
 			this.pctImage.TabStop = false;
@@ -73,8 +73,8 @@
 			// 
 			this.btnLaunch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnLaunch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnLaunch.Location = new System.Drawing.Point(388, 0);
-			this.btnLaunch.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.btnLaunch.Location = new System.Drawing.Point(511, 0);
+			this.btnLaunch.Margin = new System.Windows.Forms.Padding(2);
 			this.btnLaunch.Name = "btnLaunch";
 			this.btnLaunch.Size = new System.Drawing.Size(79, 30);
 			this.btnLaunch.TabIndex = 2;
@@ -93,11 +93,10 @@
             "-window 640x480",
             "-window 800x600"});
 			this.cboArgs.Location = new System.Drawing.Point(64, 6);
-			this.cboArgs.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.cboArgs.Margin = new System.Windows.Forms.Padding(2);
 			this.cboArgs.Name = "cboArgs";
-			this.cboArgs.Size = new System.Drawing.Size(307, 21);
+			this.cboArgs.Size = new System.Drawing.Size(430, 21);
 			this.cboArgs.TabIndex = 3;
-			this.cboArgs.Text = "-window";
 			// 
 			// label1
 			// 
@@ -116,17 +115,17 @@
 			this.panel1.Controls.Add(this.btnLaunch);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Controls.Add(this.cboArgs);
-			this.panel1.Location = new System.Drawing.Point(202, 420);
-			this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.panel1.Location = new System.Drawing.Point(202, 536);
+			this.panel1.Margin = new System.Windows.Forms.Padding(2);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(466, 30);
+			this.panel1.Size = new System.Drawing.Size(589, 30);
 			this.panel1.TabIndex = 5;
 			// 
 			// LauncherView
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(678, 460);
+			this.ClientSize = new System.Drawing.Size(801, 576);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.pctImage);
 			this.Controls.Add(this.lstExamples);
