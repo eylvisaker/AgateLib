@@ -57,7 +57,7 @@ Press arrow keys to adjust resolution
 		{
 			ChangeResolution(3);
 
-			Surface mySurface = new Surface("Images/jellybean.png");
+			Surface mySurface = new Surface("Images/pointer.png");
 
 			Input.Unhandled.KeyDown += Keyboard_KeyDown;
 			Input.Unhandled.MouseMove += (sender, e) => mousePosition = e.MousePosition;
@@ -156,12 +156,10 @@ Press arrow keys to adjust resolution
 		{
 			currentResolution = resolution;
 
-			var oldWind = wind;
+			wind?.Dispose();
 
 			wind = DisplayWindow.CreateFullScreen(Name, resolution);
-			Display.CurrentWindow = wind;
-
-			oldWind?.Dispose();
+			Display.RenderTarget = wind.FrameBuffer;
 		}
 
 		private void ChangeResolutionSimple(Resolution resolution)

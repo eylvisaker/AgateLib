@@ -151,7 +151,6 @@
     <Compile Include="DisplayTests\Capabilities\frmCapabilities.Designer.cs">
       <DependentUpon>frmCapabilities.cs</DependentUpon>
     </Compile>
-    <Compile Include="DisplayTests\FullScreenAllMonitorsTest.cs" />
     <Compile Include="DisplayTests\LargeImage.cs" />
     <Compile Include="DisplayTests\DisplayWindowEvents.cs" />
     <Compile Include="DisplayTests\PixelBufferMask.cs" />
@@ -196,9 +195,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CoreTests\Timers\Timers.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DisplayTests\FullScreenTest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayTests\ScreenCapture.cs">

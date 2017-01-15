@@ -54,6 +54,8 @@
     <Compile Include="DisplayTests\ClipRect.cs" />
     <Compile Include="DisplayTests\ColorTest.cs" />
     <Compile Include="DisplayTests\CoordinateSystem.cs" />
+    <Compile Include="DisplayTests\FullScreenAllMonitorsTest.cs" />
+    <Compile Include="DisplayTests\FullScreenTest.cs" />
     <Compile Include="DisplayTests\Interpolation.cs" />
     <Compile Include="DisplayTests\MultipleFramebufferTest.cs" />
     <Compile Include="DisplayTests\ParticleTests.cs" />
@@ -78,6 +80,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Images\boxsprite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\pointer.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\UserInterface\Fonts\MedievalSharp10-Bold.png">
