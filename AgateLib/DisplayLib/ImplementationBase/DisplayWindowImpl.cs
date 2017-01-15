@@ -140,7 +140,7 @@ namespace AgateLib.DisplayLib.ImplementationBase
 		/// </summary>
 		/// <param name="point"></param>
 		/// <returns></returns>
-		public Point PixelToLogicalCoords(Point point)
+		public virtual Point PixelToLogicalCoords(Point point)
 		{
 			var coords = FrameBuffer.CoordinateSystem.Coordinates;
 

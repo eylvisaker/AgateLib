@@ -188,14 +188,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 			AgateBuiltInShaders.Basic2DShader.Activate();
 
 			ctxFrameBuffer.BeginRender();
+			display.Clear(Color.Black);
 
-			var destRect = new Rectangle(Point.Empty, ctxFrameBuffer.Size);
+			var destRect = chooseResolution.RenderMode?.DestRect(
+				rtSurface.SurfaceSize, ctxFrameBuffer.Size) ??
+				new Rectangle(Point.Empty, rtSurface.SurfaceSize);
 
 			rtSurfaceState.ScaleWidth = destRect.Width / (double) rtSurface.SurfaceWidth;
 			rtSurfaceState.ScaleHeight = destRect.Height / (double) rtSurface.SurfaceHeight;
-
-			rtSurfaceState.ScaleWidth = 1;
-			rtSurfaceState.ScaleHeight = 1;
 
 			rtSurfaceState.DrawInstances.Clear();
 			rtSurfaceState.DrawInstances.Add(
@@ -204,6 +204,14 @@ namespace AgateLib.Platform.WinForms.DisplayImplementation
 
 			display.DrawBuffer.Flush();
 			ctxFrameBuffer.EndRender();
+		}
+
+		public override Point PixelToLogicalCoords(Point point)
+		{
+			var bufferPoint = chooseResolution.RenderMode
+				?.MousePoint(point, rtSurface.SurfaceSize, ctxFrameBuffer.Size) ?? point;
+
+			return base.PixelToLogicalCoords(bufferPoint);
 		}
 
 		private static GraphicsMode CreateGraphicsMode()

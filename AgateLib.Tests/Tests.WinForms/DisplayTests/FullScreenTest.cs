@@ -10,32 +10,38 @@ namespace AgateLib.Tests.DisplayTests
 {
 	class FullScreenTest : IAgateTest
 	{
-		static List<Resolution> resolutions = new List<Resolution>
+		private static readonly List<Resolution> resolutions = new List<Resolution>
 		{
-			new Resolution(640, 480),
-			new Resolution(800, 600),
-			new Resolution(1024, 768),
-			new Resolution(1280, 720),
-			new Resolution(1920, 1080),
-			new Resolution(3840, 1960)
+			new Resolution(640, 480, RenderMode.RetainAspectRatio),
+			new Resolution(800, 600, RenderMode.RetainAspectRatio),
+			new Resolution(1024, 768, RenderMode.RetainAspectRatio),
+			new Resolution(1280, 720, RenderMode.RetainAspectRatio),
+			new Resolution(1920, 1080, RenderMode.RetainAspectRatio),
+			new Resolution(3840, 2160, RenderMode.RetainAspectRatio),
+			new Resolution(640, 480, RenderMode.Stretch),
+			new Resolution(800, 600, RenderMode.Stretch),
+			new Resolution(1024, 768, RenderMode.Stretch),
+			new Resolution(1280, 720, RenderMode.Stretch),
+			new Resolution(1920, 1080, RenderMode.Stretch),
+			new Resolution(3840, 2160, RenderMode.Stretch),
 		};
 
-		string topText = @"Press Esc or Enter to exit.
+		private string topText = @"Press Esc or Enter to exit.
 Press arrow keys to adjust resolution
 ";
-		string bottomText = $@"Press F1-F12 to change resolution
-    F1 - {resolutions[0 % resolutions.Count]} - Retain Aspect Ratio
-    F2 - {resolutions[1 % resolutions.Count]} - Retain Aspect Ratio
-    F3 - {resolutions[2 % resolutions.Count]} - Retain Aspect Ratio
-    F4 - {resolutions[3 % resolutions.Count]}- Retain Aspect Ratio
-    F5 - {resolutions[4 % resolutions.Count]} - Retain Aspect Ratio
-    F6 - {resolutions[5 % resolutions.Count]} - Retain Aspect Ratio
-    F7 - {resolutions[6 % resolutions.Count]} - Stretch
-    F8 - {resolutions[7 % resolutions.Count]} - Stretch
-    F9 - {resolutions[8 % resolutions.Count]} - Stretch
-    F10 - {resolutions[9 % resolutions.Count]} - Stretch
-    F11 - {resolutions[10 % resolutions.Count]} - Stretch
-    F12 - {resolutions[11 % resolutions.Count]} - Stretch";
+		private string bottomText = $@"Press F1-F12 to change resolution
+    F1 - {resolutions[0 % resolutions.Count]}
+    F2 - {resolutions[1 % resolutions.Count]}
+    F3 - {resolutions[2 % resolutions.Count]}
+    F4 - {resolutions[3 % resolutions.Count]}
+    F5 - {resolutions[4 % resolutions.Count]}
+    F6 - {resolutions[5 % resolutions.Count]}
+    F7 - {resolutions[6 % resolutions.Count]}
+    F8 - {resolutions[7 % resolutions.Count]}
+    F9 - {resolutions[8 % resolutions.Count]}
+    F10 - {resolutions[9 % resolutions.Count]}
+    F11 - {resolutions[10 % resolutions.Count]}
+    F12 - {resolutions[11 % resolutions.Count]}";
 
 		private DisplayWindow wind;
 		private Point mousePosition;
